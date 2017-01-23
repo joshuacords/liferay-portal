@@ -17,6 +17,12 @@
 <%@ include file="/init.jsp" %>
 
 <%
+String tabs1 = ParamUtil.getString(request, "tabs1", "current");
+
+if (!tabs1.equals("available") && !tabs1.equals("current")) {
+	tabs1 = "current";
+}
+
 String tabs2 = ParamUtil.getString(request, "tabs2", "regular-roles");
 
 int cur = ParamUtil.getInteger(request, SearchContainer.DEFAULT_CUR_PARAM);
@@ -37,9 +43,10 @@ if (Validator.isNull(resourcePrimKey)) {
 
 String selResource = modelResource;
 String selResourceDescription = modelResourceDescription;
+Portlet portlet = null;
 
 if (Validator.isNull(modelResource)) {
-	Portlet portlet = PortletLocalServiceUtil.getPortletById(company.getCompanyId(), portletResource);
+	portlet = PortletLocalServiceUtil.getPortletById(company.getCompanyId(), portletResource);
 
 	selResource = portlet.getRootPortletId();
 	selResourceDescription = PortalUtil.getPortletTitle(portlet, application, locale);
@@ -111,6 +118,7 @@ iteratorURL.setParameter("returnToFullPageURL", returnToFullPageURL);
 iteratorURL.setParameter("portletConfiguration", Boolean.TRUE.toString());
 iteratorURL.setParameter("portletResource", portletResource);
 iteratorURL.setParameter("resourcePrimKey", resourcePrimKey);
+iteratorURL.setParameter("tabs1", tabs1);
 iteratorURL.setWindowState(LiferayWindowState.POP_UP);
 
 SearchContainer roleSearchContainer = new RoleSearch(renderRequest, iteratorURL);
@@ -122,7 +130,22 @@ RoleSearchTerms searchTerms = (RoleSearchTerms)roleSearchContainer.getSearchTerm
 	<div class="portlet-configuration-body-content">
 		<aui:nav-bar cssClass="collapse-basic-search" markupView="lexicon">
 			<aui:nav cssClass="navbar-nav">
-				<aui:nav-item label="permissions" selected="<%= true %>" />
+
+				<%
+				PortletURL currentPermissionsURL = PortletURLUtil.clone(iteratorURL, renderResponse);
+
+				currentPermissionsURL.setParameter("tabs1", "current");
+				%>
+
+				<aui:nav-item href="<%= currentPermissionsURL.toString() %>" id="currentPermissions" label="current" selected='<%= tabs1.equals("current") %>' />
+
+				<%
+				PortletURL availablePermissionsURL = PortletURLUtil.clone(iteratorURL, renderResponse);
+
+				availablePermissionsURL.setParameter("tabs1", "available");
+				%>
+
+				<aui:nav-item href="<%= availablePermissionsURL.toString() %>" id="availablePermissions" label="available" selected='<%= tabs1.equals("available") %>' />
 			</aui:nav>
 
 			<aui:nav-bar-search>
@@ -134,6 +157,7 @@ RoleSearchTerms searchTerms = (RoleSearchTerms)roleSearchContainer.getSearchTerm
 
 		<portlet:actionURL name="updateRolePermissions" var="updateRolePermissionsURL">
 			<portlet:param name="mvcPath" value="/edit_permissions.jsp" />
+			<portlet:param name="tabs1" value="<%= tabs1 %>" />
 			<portlet:param name="tabs2" value="<%= tabs2 %>" />
 			<portlet:param name="cur" value="<%= String.valueOf(cur) %>" />
 			<portlet:param name="delta" value="<%= String.valueOf(delta) %>" />
@@ -299,7 +323,22 @@ RoleSearchTerms searchTerms = (RoleSearchTerms)roleSearchContainer.getSearchTerm
 
 			roleSearchContainer.setTotal(count);
 
-			List<Role> roles = RoleLocalServiceUtil.getGroupRolesAndTeamRoles(company.getCompanyId(), searchTerms.getKeywords(), excludedRoleNames, roleTypes, modelResourceRoleId, teamGroupId, roleSearchContainer.getStart(), roleSearchContainer.getResultEnd());
+			List<Role> roles = null;
+
+			if (tabs1.equals("current") && !Validator.isNull(portlet)) {
+				List<ResourcePermission> resourcePermissions = ResourcePermissionUtil.getActiveResourcePermissions(portlet.getCompanyId(), portlet.getPortletName(), PortletKeys.PREFS_OWNER_TYPE_USER, themeDisplay.getPlid() + "_LAYOUT_" + portlet.getPortletId());
+
+				long[] resourcePermissionIds = new long[resourcePermissions.size()];
+				int i = 0;
+
+				for (ResourcePermission resourcePermission : resourcePermissions) {
+					resourcePermissionIds[i++] = resourcePermission.getRoleId();
+				}
+
+				roles = RoleLocalServiceUtil.getGroupRolesAndTeamRolesAndRoleIds(company.getCompanyId(), searchTerms.getKeywords(), excludedRoleNames, roleTypes, modelResourceRoleId, teamGroupId, resourcePermissionIds, roleSearchContainer.getStart(), roleSearchContainer.getResultEnd());
+			} else {
+				roles = RoleLocalServiceUtil.getGroupRolesAndTeamRoles(company.getCompanyId(), searchTerms.getKeywords(), excludedRoleNames, roleTypes, modelResourceRoleId, teamGroupId, roleSearchContainer.getStart(), roleSearchContainer.getResultEnd());
+			}
 
 			roleSearchContainer.setResults(roles);
 			%>
