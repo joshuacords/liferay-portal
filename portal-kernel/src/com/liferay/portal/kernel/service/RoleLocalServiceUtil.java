@@ -14,12 +14,10 @@
 
 package com.liferay.portal.kernel.service;
 
-import com.liferay.portal.kernel.bean.PortalBeanLocatorUtil;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.model.RoleConstants;
-import com.liferay.portal.kernel.util.ReferenceRegistry;
-
 import aQute.bnd.annotation.ProviderType;
+
+import com.liferay.portal.kernel.bean.PortalBeanLocatorUtil;
+import com.liferay.portal.kernel.util.ReferenceRegistry;
 
 /**
  * Provides the local service utility for Role. This utility wraps
@@ -384,17 +382,6 @@ public class RoleLocalServiceUtil {
 		return getService().getAssigneesTotal(roleId);
 	}
 
-	public static int getGroupRolesAndTeamRolesAndRoleIdsCount(long companyId,
-		java.lang.String keywords,
-		java.util.List<java.lang.String> excludedNames, int[] types,
-		long excludedTeamRoleId, long teamGroupId, long[] roleIds)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		return getService()
-				   .getGroupRolesAndTeamRolesAndRoleIdsCount(companyId,
-			keywords, excludedNames, types, excludedTeamRoleId, teamGroupId,
-			roleIds);
-	}
-
 	public static int getGroupRolesAndTeamRolesCount(long companyId,
 		java.lang.String keywords,
 		java.util.List<java.lang.String> excludedNames, int[] types,
@@ -598,17 +585,6 @@ public class RoleLocalServiceUtil {
 		return getService()
 				   .getGroupRolesAndTeamRoles(companyId, keywords,
 			excludedNames, types, excludedTeamRoleId, teamGroupId, start, end);
-	}
-
-	public static java.util.List<com.liferay.portal.kernel.model.Role> getGroupRolesAndTeamRolesAndRoleIds(
-		long companyId, java.lang.String keywords,
-		java.util.List<java.lang.String> excludedNames, int[] types,
-		long excludedTeamRoleId, long teamGroupId, long[] roleIds, int start,
-		int end) throws com.liferay.portal.kernel.exception.PortalException {
-		return getService()
-				   .getGroupRolesAndTeamRolesAndRoleIds(companyId, keywords,
-			excludedNames, types, excludedTeamRoleId, teamGroupId, roleIds,
-			start, end);
 	}
 
 	public static java.util.List<com.liferay.portal.kernel.model.Role> getResourceBlockRoles(

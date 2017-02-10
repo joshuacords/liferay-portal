@@ -24,7 +24,6 @@ import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.model.PortletConstants;
 import com.liferay.portal.kernel.model.Resource;
 import com.liferay.portal.kernel.model.ResourceConstants;
-import com.liferay.portal.kernel.model.ResourcePermission;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.RoleConstants;
 import com.liferay.portal.kernel.model.User;
@@ -47,12 +46,10 @@ import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.PortletKeys;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.util.PropsValues;
-import com.liferay.portal.util.ResourcePermissionUtil;
 import com.liferay.portlet.configuration.web.internal.constants.PortletConfigurationPortletKeys;
 import com.liferay.portlet.rolesadmin.search.RoleSearch;
 import com.liferay.portlet.rolesadmin.search.RoleSearchTerms;
@@ -164,17 +161,6 @@ public class PortletConfigurationPermissionsDisplayContext {
 		return _actions;
 	}
 
-	public String getCurrentTab() throws Exception {
-		String tabs1 = ParamUtil.getString(_request, "tabs1", _defaultTab);
-
-		if (tabs1 != null) {
-			return tabs1;
-		}
-		else {
-			return _defaultTab;
-		}
-	}
-
 	public PortletURL getDefinePermissionsURL() throws Exception {
 		ThemeDisplay themeDisplay = (ThemeDisplay)_request.getAttribute(
 			WebKeys.THEME_DISPLAY);
@@ -234,7 +220,6 @@ public class PortletConfigurationPermissionsDisplayContext {
 		PortletURL portletURL = PortletURLFactoryUtil.create(
 			_request, PortletConfigurationPortletKeys.PORTLET_CONFIGURATION,
 			PortletRequest.RENDER_PHASE);
-		String tabs1 = ParamUtil.getString(_request, "tabs1", _defaultTab);
 
 		portletURL.setParameter("mvcPath", "/edit_permissions.jsp");
 		portletURL.setParameter(
@@ -247,7 +232,6 @@ public class PortletConfigurationPermissionsDisplayContext {
 			"resourceGroupId", String.valueOf(_getResourceGroupId()));
 		portletURL.setParameter("resourcePrimKey", getResourcePrimKey());
 		portletURL.setParameter("roleTypes", _getRoleTypesParam());
-		portletURL.setParameter("tabs1", tabs1);
 
 		portletURL.setWindowState(LiferayWindowState.POP_UP);
 
@@ -332,8 +316,6 @@ public class PortletConfigurationPermissionsDisplayContext {
 
 		ThemeDisplay themeDisplay = (ThemeDisplay)_request.getAttribute(
 			WebKeys.THEME_DISPLAY);
-
-		String tabs1 = ParamUtil.getString(_request, "tabs1", _defaultTab);
 
 		SearchContainer roleSearchContainer = new RoleSearch(
 			_renderRequest, getIteratorURL());
@@ -427,57 +409,17 @@ public class PortletConfigurationPermissionsDisplayContext {
 			teamGroupId = _group.getParentGroupId();
 		}
 
-		int count = 0;
-		List<Role> roles = null;
+		int count = RoleLocalServiceUtil.getGroupRolesAndTeamRolesCount(
+			themeDisplay.getCompanyId(), searchTerms.getKeywords(),
+			excludedRoleNames, getRoleTypes(), modelResourceRoleId,
+			teamGroupId);
 
-		if (StringUtil.equals(tabs1, _defaultTab)) {
-			Portlet portlet = PortletLocalServiceUtil.getPortletById(
-				themeDisplay.getCompanyId(), _getPortletResource());
+		roleSearchContainer.setTotal(count);
 
-			List<ResourcePermission> resourcePermissions =
-				ResourcePermissionUtil.getActiveResourcePermissions(
-					portlet.getCompanyId(), portlet.getPortletName(),
-					PortletKeys.PREFS_OWNER_TYPE_USER,
-					themeDisplay.getPlid() + "_LAYOUT_" +
-						portlet.getPortletId());
-
-			long[] resourcePermissionIds = new long[resourcePermissions.size()];
-
-			int i = 0;
-
-			for (ResourcePermission resourcePermission : resourcePermissions) {
-				resourcePermissionIds[i++] = resourcePermission.getRoleId();
-			}
-
-			count =
-				RoleLocalServiceUtil.getGroupRolesAndTeamRolesAndRoleIdsCount(
-					themeDisplay.getCompanyId(), searchTerms.getKeywords(),
-					excludedRoleNames, getRoleTypes(), modelResourceRoleId,
-					teamGroupId, resourcePermissionIds);
-
-			roleSearchContainer.setTotal(count);
-
-			roles = RoleLocalServiceUtil.getGroupRolesAndTeamRolesAndRoleIds(
-				themeDisplay.getCompanyId(), searchTerms.getKeywords(),
-				excludedRoleNames, getRoleTypes(), modelResourceRoleId,
-				teamGroupId, resourcePermissionIds,
-				roleSearchContainer.getStart(),
-				roleSearchContainer.getResultEnd());
-		}
-		else {
-			count = RoleLocalServiceUtil.getGroupRolesAndTeamRolesCount(
-				themeDisplay.getCompanyId(), searchTerms.getKeywords(),
-				excludedRoleNames, getRoleTypes(), modelResourceRoleId,
-				teamGroupId);
-
-			roleSearchContainer.setTotal(count);
-
-			roles = RoleLocalServiceUtil.getGroupRolesAndTeamRoles(
-				themeDisplay.getCompanyId(), searchTerms.getKeywords(),
-				excludedRoleNames, getRoleTypes(), modelResourceRoleId,
-				teamGroupId, roleSearchContainer.getStart(),
-				roleSearchContainer.getResultEnd());
-		}
+		List<Role> roles = RoleLocalServiceUtil.getGroupRolesAndTeamRoles(
+			themeDisplay.getCompanyId(), searchTerms.getKeywords(),
+			excludedRoleNames, getRoleTypes(), modelResourceRoleId, teamGroupId,
+			roleSearchContainer.getStart(), roleSearchContainer.getResultEnd());
 
 		roleSearchContainer.setResults(roles);
 
@@ -597,7 +539,6 @@ public class PortletConfigurationPermissionsDisplayContext {
 			_request, SearchContainer.DEFAULT_CUR_PARAM);
 		int delta = ParamUtil.getInteger(
 			_request, SearchContainer.DEFAULT_DELTA_PARAM);
-		String tabs1 = ParamUtil.getString(_request, "tabs1", _defaultTab);
 
 		PortletURL portletURL = PortletURLFactoryUtil.create(
 			_request, PortletConfigurationPortletKeys.PORTLET_CONFIGURATION,
@@ -620,7 +561,6 @@ public class PortletConfigurationPermissionsDisplayContext {
 			"resourceGroupId", String.valueOf(_getResourceGroupId()));
 		portletURL.setParameter("resourcePrimKey", getResourcePrimKey());
 		portletURL.setParameter("roleTypes", _getRoleTypesParam());
-		portletURL.setParameter("tabs1", tabs1);
 
 		portletURL.setWindowState(LiferayWindowState.POP_UP);
 
@@ -674,8 +614,6 @@ public class PortletConfigurationPermissionsDisplayContext {
 
 		return _roleTypesParam;
 	}
-
-	private static final String _defaultTab = "current";
 
 	private List<String> _actions;
 	private Group _group;
