@@ -39,23 +39,23 @@ public class ResourcePermissionUtil {
 	public static List<ResourcePermission> getActiveResourcePermissions(
 		long companyId, String name, int scope, String primKey) {
 
-		DynamicQuery resoucePermissionQuery = DynamicQueryFactoryUtil.forClass(
+		DynamicQuery resourcePermissionQuery = DynamicQueryFactoryUtil.forClass(
 			ResourcePermission.class, PortalClassLoaderUtil.getClassLoader());
 
-		resoucePermissionQuery.add(
+		resourcePermissionQuery.add(
 			PropertyFactoryUtil.forName("companyId").eq(companyId));
-		resoucePermissionQuery.add(
+		resourcePermissionQuery.add(
 			PropertyFactoryUtil.forName("scope").eq(scope));
-		resoucePermissionQuery.add(
+		resourcePermissionQuery.add(
 			PropertyFactoryUtil.forName("name").eq(name));
-		resoucePermissionQuery.add(
+		resourcePermissionQuery.add(
 			PropertyFactoryUtil.forName("primKey").eq(primKey));
-		resoucePermissionQuery.add(
+		resourcePermissionQuery.add(
 			PropertyFactoryUtil.forName("actionIds").ne(Long.valueOf("0")));
 
 		List<ResourcePermission> results =
 			ResourcePermissionLocalServiceUtil.dynamicQuery(
-				resoucePermissionQuery);
+				resourcePermissionQuery);
 
 		return results;
 	}
