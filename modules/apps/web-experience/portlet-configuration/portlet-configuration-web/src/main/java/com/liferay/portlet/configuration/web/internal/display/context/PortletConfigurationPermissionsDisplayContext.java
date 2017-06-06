@@ -45,6 +45,7 @@ import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.PortletKeys;
@@ -57,6 +58,7 @@ import com.liferay.portlet.configuration.web.internal.constants.PortletConfigura
 import com.liferay.portlet.rolesadmin.search.RoleSearch;
 import com.liferay.portlet.rolesadmin.search.RoleSearchTerms;
 import com.liferay.sites.kernel.util.SitesUtil;
+import com.liferay.users.admin.kernel.util.UsersAdminUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -457,12 +459,14 @@ public class PortletConfigurationPermissionsDisplayContext {
 
 			roleSearchContainer.setTotal(count);
 
-			roles = RoleLocalServiceUtil.getGroupRolesAndTeamRolesAndRoleIds(
-				themeDisplay.getCompanyId(), searchTerms.getKeywords(),
-				excludedRoleNames, getRoleTypes(), modelResourceRoleId,
-				teamGroupId, resourcePermissionIds,
-				roleSearchContainer.getStart(),
-				roleSearchContainer.getResultEnd());
+			roles = newGetRoles(portlet, searchTerms, excludedRoleNames,
+			modelResourceRoleId, teamGroupId, themeDisplay, roleSearchContainer);
+//				RoleLocalServiceUtil.getGroupRolesAndTeamRolesAndRoleIds(
+//				themeDisplay.getCompanyId(), searchTerms.getKeywords(),
+//				excludedRoleNames, getRoleTypes(), modelResourceRoleId,
+//				teamGroupId, resourcePermissionIds,
+//				roleSearchContainer.getStart(),
+//				roleSearchContainer.getResultEnd());
 		}
 		else {
 			count = RoleLocalServiceUtil.getGroupRolesAndTeamRolesCount(
@@ -484,6 +488,25 @@ public class PortletConfigurationPermissionsDisplayContext {
 		_roleSearchContainer = roleSearchContainer;
 
 		return _roleSearchContainer;
+	}
+
+	public List<Role> newGetRoles(Portlet portlet, RoleSearchTerms searchTerms,
+  		List<String> excludedRoleNames, long modelResourceRoleId, long teamGroupId,
+	  	ThemeDisplay themeDisplay, SearchContainer roleSearchContainer)
+		throws PortalException {
+
+		OrderByComparator<Role> orderByComparator =
+			UsersAdminUtil.getRoleOrderByComparator(
+				"title", "asc");
+
+		return RoleLocalServiceUtil.getGroupRolesAndTeamRolesByPortlet(
+			portlet.getCompanyId(), portlet.getPortletName(),
+			PortletKeys.PREFS_OWNER_TYPE_USER,
+			themeDisplay.getPlid() + "_LAYOUT_" +
+			portlet.getPortletId(), searchTerms.getKeywords(),
+			excludedRoleNames, getRoleTypes(),
+			modelResourceRoleId, teamGroupId, roleSearchContainer.getStart(),
+			roleSearchContainer.getResultEnd(), orderByComparator);
 	}
 
 	public int[] getRoleTypes() {
