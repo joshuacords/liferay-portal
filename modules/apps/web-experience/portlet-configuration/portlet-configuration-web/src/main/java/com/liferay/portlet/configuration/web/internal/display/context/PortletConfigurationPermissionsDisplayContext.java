@@ -451,11 +451,12 @@ public class PortletConfigurationPermissionsDisplayContext {
 				resourcePermissionIds[i++] = resourcePermission.getRoleId();
 			}
 
-			count =
-				RoleLocalServiceUtil.getGroupRolesAndTeamRolesAndRoleIdsCount(
-					themeDisplay.getCompanyId(), searchTerms.getKeywords(),
-					excludedRoleNames, getRoleTypes(), modelResourceRoleId,
-					teamGroupId, resourcePermissionIds);
+			count = newGetRolesCount(portlet, searchTerms, excludedRoleNames,
+				modelResourceRoleId, teamGroupId, themeDisplay);
+//				RoleLocalServiceUtil.getGroupRolesAndTeamRolesAndRoleIdsCount(
+//					themeDisplay.getCompanyId(), searchTerms.getKeywords(),
+//					excludedRoleNames, getRoleTypes(), modelResourceRoleId,
+//					teamGroupId, resourcePermissionIds);
 
 			roleSearchContainer.setTotal(count);
 
@@ -491,8 +492,8 @@ public class PortletConfigurationPermissionsDisplayContext {
 	}
 
 	public List<Role> newGetRoles(Portlet portlet, RoleSearchTerms searchTerms,
-  		List<String> excludedRoleNames, long modelResourceRoleId, long teamGroupId,
-	  	ThemeDisplay themeDisplay, SearchContainer roleSearchContainer)
+		List<String> excludedRoleNames, long modelResourceRoleId, long teamGroupId,
+		ThemeDisplay themeDisplay, SearchContainer roleSearchContainer)
 		throws PortalException {
 
 		OrderByComparator<Role> orderByComparator =
@@ -507,6 +508,20 @@ public class PortletConfigurationPermissionsDisplayContext {
 			excludedRoleNames, getRoleTypes(),
 			modelResourceRoleId, teamGroupId, roleSearchContainer.getStart(),
 			roleSearchContainer.getResultEnd(), orderByComparator);
+	}
+
+	public int newGetRolesCount(Portlet portlet, RoleSearchTerms searchTerms,
+			List<String> excludedRoleNames, long modelResourceRoleId, long teamGroupId,
+			ThemeDisplay themeDisplay)
+		throws PortalException {
+
+		return RoleLocalServiceUtil.getGroupRolesAndTeamRolesByPortletCount(
+			portlet.getCompanyId(), portlet.getPortletName(),
+			PortletKeys.PREFS_OWNER_TYPE_USER,
+			themeDisplay.getPlid() + "_LAYOUT_" +
+			portlet.getPortletId(), searchTerms.getKeywords(),
+			excludedRoleNames, getRoleTypes(),
+			modelResourceRoleId, teamGroupId);
 	}
 
 	public int[] getRoleTypes() {
