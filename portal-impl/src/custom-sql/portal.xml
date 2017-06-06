@@ -1058,6 +1058,7 @@
 							AND (name = ?)
 							AND (primKey = ?)
 							AND (actionIds != ?)
+						)
 					)
 				) AND
 				(
@@ -1325,6 +1326,7 @@
 							AND (name = ?)
 							AND (primKey = ?)
 							AND (actionIds != ?)
+						)
 					)
 				) AND
 				(
