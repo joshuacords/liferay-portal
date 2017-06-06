@@ -737,15 +737,40 @@ public class RoleLocalServiceImpl extends RoleLocalServiceBaseImpl {
 	}
 
 	@Override
+	public List<Role> getGroupRolesAndTeamRolesByPortlet(
+			long companyId, String portletName, int scope, String primKey,
+			String keywords, List<String> excludedNames, int[] types,
+			long excludedTeamRoleId, long teamGroupId, int start, int end,
+			OrderByComparator<Role> obc)
+		throws PortalException {
+
+		return roleFinder.findByGroupRoleAndTeamRoleByPortlet(
+			companyId, portletName, scope, primKey, keywords, excludedNames,
+			types, excludedTeamRoleId, teamGroupId, start, end, obc);
+	}
+
+	@Override
 	public List<Role> getGroupRolesAndTeamRolesAndRoleIds(
-			long companyId, String keywords, List<String> excludedNames,
-			int[] types, long excludedTeamRoleId, long teamGroupId,
-			long[] roleIds, int start, int end)
+		long companyId, String keywords, List<String> excludedNames,
+		int[] types, long excludedTeamRoleId, long teamGroupId,
+		long[] roleIds, int start, int end)
 		throws PortalException {
 
 		return roleFinder.findByGroupRoleAndTeamRoleAndRoleIds(
 			companyId, keywords, excludedNames, types, excludedTeamRoleId,
 			teamGroupId, roleIds, start, end);
+	}
+
+	@Override
+	public int getGroupRolesAndTeamRolesByPortletCount(
+		long companyId, String portletName, int scope, String primKey,
+		String keywords, List<String> excludedNames, int[] types,
+		long excludedTeamRoleId, long teamGroupId)
+		throws PortalException {
+
+		return roleFinder.countByGroupRoleAndTeamRoleByPortlet(
+			companyId, portletName, scope, primKey, keywords, excludedNames,
+			types, excludedTeamRoleId, teamGroupId);
 	}
 
 	@Override
