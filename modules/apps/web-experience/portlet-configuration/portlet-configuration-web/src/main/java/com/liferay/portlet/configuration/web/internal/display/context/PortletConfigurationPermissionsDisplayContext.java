@@ -432,7 +432,8 @@ public class PortletConfigurationPermissionsDisplayContext {
 		int count = 0;
 		List<Role> roles = null;
 
-		if (StringUtil.equals(tabs1, _defaultTab)) {
+		if (StringUtil.equals(tabs1, "current") ||
+			StringUtil.equals(tabs1, "available")) {
 			Portlet portlet = PortletLocalServiceUtil.getPortletById(
 				themeDisplay.getCompanyId(), _getPortletResource());
 
@@ -713,7 +714,7 @@ public class PortletConfigurationPermissionsDisplayContext {
 		return _roleTypesParam;
 	}
 
-	private static final String _defaultTab = "current";
+	private static final String _defaultTab = "all";
 
 	private List<String> _actions;
 	private Group _group;

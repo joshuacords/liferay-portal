@@ -26,7 +26,7 @@ if (Validator.isNotNull(portletConfigurationPermissionsDisplayContext.getModelRe
 
 Resource resource = portletConfigurationPermissionsDisplayContext.getResource();
 
-String tabs1 = portletConfigurationPermissionsDisplayContext.getCurrentTab();
+//String tabs1 = portletConfigurationPermissionsDisplayContext.getCurrentTab();
 %>
 
 <div class="edit-permissions portlet-configuration-edit-permissions">
@@ -106,21 +106,19 @@ String tabs1 = portletConfigurationPermissionsDisplayContext.getCurrentTab();
 
 		<liferay-frontend:management-bar
 			disabled="<%= portletConfigurationPermissionsDisplayContext.getRoleSearchContainer().getTotal() <= 0 %>"
-			includeCheckBox="<%= true %>"
-			searchContainerId="blogEntries"
 		>
-			<liferay-frontend:management-bar-buttons>
+<%--			<liferay-frontend:management-bar-buttons>
 				<liferay-frontend:management-bar-display-buttons
 					displayViews='<%= new String[] {"icon", "descriptive", "list"} %>'
 					portletURL="<%= portletConfigurationPermissionsDisplayContext.getIteratorURL() %>"
 					selectedDisplayStyle="<%= "list" %>"
 				/>
-			</liferay-frontend:management-bar-buttons>
+			</liferay-frontend:management-bar-buttons>--%>
 
 			<liferay-frontend:management-bar-filters>
 				<liferay-frontend:management-bar-navigation
-					navigationKeys='<%= new String[] {"all", "mine"} %>'
-					navigationParam="entriesNavigation"
+					navigationKeys='<%= new String[] {"all", "current", "available"} %>'
+					navigationParam="tabs1"
 					portletURL="<%= portletConfigurationPermissionsDisplayContext.getIteratorURL() %>"
 				/>
 
