@@ -36,7 +36,7 @@ public interface RoleFinder {
 		java.lang.String portletName, int scope, java.lang.String primKey,
 		java.lang.String keywords,
 		java.util.List<java.lang.String> excludedNames, int[] types,
-		long excludedTeamRoleId, long teamGroupId);
+		long excludedTeamRoleId, long teamGroupId, boolean activeRoles);
 
 	public int countByKeywords(long companyId, java.lang.String keywords,
 		java.lang.Integer[] types);
@@ -75,7 +75,7 @@ public interface RoleFinder {
 		java.lang.String portletName, int scope, java.lang.String primKey,
 		java.lang.String keywords,
 		java.util.List<java.lang.String> excludedNames, int[] types,
-		long excludedTeamRoleId, long teamGroupId);
+		long excludedTeamRoleId, long teamGroupId, boolean activeRoles);
 
 	public int filterCountByKeywords(long companyId, java.lang.String keywords,
 		java.lang.Integer[] types,
@@ -106,7 +106,8 @@ public interface RoleFinder {
 		long companyId, java.lang.String portletName, int scope,
 		java.lang.String primKey, java.lang.String keywords,
 		java.util.List<java.lang.String> excludedNames, int[] types,
-		long excludedTeamRoleId, long teamGroupId, int start, int end,
+		long excludedTeamRoleId, long teamGroupId, boolean activeRoles,
+		int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<com.liferay.portal.kernel.model.Role> obc);
 
 	public java.util.List<com.liferay.portal.kernel.model.Role> filterFindByKeywords(
@@ -144,7 +145,8 @@ public interface RoleFinder {
 		long companyId, java.lang.String portletName, int scope,
 		java.lang.String primKey, java.lang.String keywords,
 		java.util.List<java.lang.String> excludedNames, int[] types,
-		long excludedTeamRoleId, long teamGroupId, int start, int end,
+		long excludedTeamRoleId, long teamGroupId, boolean activeRoles,
+		int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<com.liferay.portal.kernel.model.Role> obc);
 
 	public java.util.List<com.liferay.portal.kernel.model.Role> findByKeywords(

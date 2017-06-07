@@ -47,11 +47,11 @@ public class RoleFinderUtil {
 		java.lang.String portletName, int scope, java.lang.String primKey,
 		java.lang.String keywords,
 		java.util.List<java.lang.String> excludedNames, int[] types,
-		long excludedTeamRoleId, long teamGroupId) {
+		long excludedTeamRoleId, long teamGroupId, boolean activeRoles) {
 		return getFinder()
 				   .countByGroupRoleAndTeamRoleByPortlet(companyId,
 			portletName, scope, primKey, keywords, excludedNames, types,
-			excludedTeamRoleId, teamGroupId);
+			excludedTeamRoleId, teamGroupId, activeRoles);
 	}
 
 	public static int countByKeywords(long companyId,
@@ -118,11 +118,11 @@ public class RoleFinderUtil {
 		long companyId, java.lang.String portletName, int scope,
 		java.lang.String primKey, java.lang.String keywords,
 		java.util.List<java.lang.String> excludedNames, int[] types,
-		long excludedTeamRoleId, long teamGroupId) {
+		long excludedTeamRoleId, long teamGroupId, boolean activeRoles) {
 		return getFinder()
 				   .filterCountByGroupRoleAndTeamRoleByPortlet(companyId,
 			portletName, scope, primKey, keywords, excludedNames, types,
-			excludedTeamRoleId, teamGroupId);
+			excludedTeamRoleId, teamGroupId, activeRoles);
 	}
 
 	public static int filterCountByKeywords(long companyId,
@@ -176,12 +176,13 @@ public class RoleFinderUtil {
 		long companyId, java.lang.String portletName, int scope,
 		java.lang.String primKey, java.lang.String keywords,
 		java.util.List<java.lang.String> excludedNames, int[] types,
-		long excludedTeamRoleId, long teamGroupId, int start, int end,
+		long excludedTeamRoleId, long teamGroupId, boolean activeRoles,
+		int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<com.liferay.portal.kernel.model.Role> obc) {
 		return getFinder()
 				   .filterFindByGroupRoleAndTeamRoleByPortlet(companyId,
 			portletName, scope, primKey, keywords, excludedNames, types,
-			excludedTeamRoleId, teamGroupId, start, end, obc);
+			excludedTeamRoleId, teamGroupId, activeRoles, start, end, obc);
 	}
 
 	public static java.util.List<com.liferay.portal.kernel.model.Role> filterFindByKeywords(
@@ -240,12 +241,13 @@ public class RoleFinderUtil {
 		long companyId, java.lang.String portletName, int scope,
 		java.lang.String primKey, java.lang.String keywords,
 		java.util.List<java.lang.String> excludedNames, int[] types,
-		long excludedTeamRoleId, long teamGroupId, int start, int end,
+		long excludedTeamRoleId, long teamGroupId, boolean activeRoles,
+		int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<com.liferay.portal.kernel.model.Role> obc) {
 		return getFinder()
 				   .findByGroupRoleAndTeamRoleByPortlet(companyId, portletName,
 			scope, primKey, keywords, excludedNames, types, excludedTeamRoleId,
-			teamGroupId, start, end, obc);
+			teamGroupId, activeRoles, start, end, obc);
 	}
 
 	public static java.util.List<com.liferay.portal.kernel.model.Role> findByKeywords(

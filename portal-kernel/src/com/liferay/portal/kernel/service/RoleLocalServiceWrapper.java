@@ -416,11 +416,11 @@ public class RoleLocalServiceWrapper implements RoleLocalService,
 		java.lang.String portletName, int scope, java.lang.String primKey,
 		java.lang.String keywords,
 		java.util.List<java.lang.String> excludedNames, int[] types,
-		long excludedTeamRoleId, long teamGroupId)
+		long excludedTeamRoleId, long teamGroupId, boolean activeRoles)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return _roleLocalService.getGroupRolesAndTeamRolesByPortletCount(companyId,
 			portletName, scope, primKey, keywords, excludedNames, types,
-			excludedTeamRoleId, teamGroupId);
+			excludedTeamRoleId, teamGroupId, activeRoles);
 	}
 
 	@Override
@@ -663,12 +663,13 @@ public class RoleLocalServiceWrapper implements RoleLocalService,
 		long companyId, java.lang.String portletName, int scope,
 		java.lang.String primKey, java.lang.String keywords,
 		java.util.List<java.lang.String> excludedNames, int[] types,
-		long excludedTeamRoleId, long teamGroupId, int start, int end,
+		long excludedTeamRoleId, long teamGroupId, boolean activeRoles,
+		int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<com.liferay.portal.kernel.model.Role> obc)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return _roleLocalService.getGroupRolesAndTeamRolesByPortlet(companyId,
 			portletName, scope, primKey, keywords, excludedNames, types,
-			excludedTeamRoleId, teamGroupId, start, end, obc);
+			excludedTeamRoleId, teamGroupId, activeRoles, start, end, obc);
 	}
 
 	@Override

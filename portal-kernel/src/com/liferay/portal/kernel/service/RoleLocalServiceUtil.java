@@ -397,12 +397,12 @@ public class RoleLocalServiceUtil {
 		java.lang.String portletName, int scope, java.lang.String primKey,
 		java.lang.String keywords,
 		java.util.List<java.lang.String> excludedNames, int[] types,
-		long excludedTeamRoleId, long teamGroupId)
+		long excludedTeamRoleId, long teamGroupId, boolean activeRoles)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .getGroupRolesAndTeamRolesByPortletCount(companyId,
 			portletName, scope, primKey, keywords, excludedNames, types,
-			excludedTeamRoleId, teamGroupId);
+			excludedTeamRoleId, teamGroupId, activeRoles);
 	}
 
 	public static int getGroupRolesAndTeamRolesCount(long companyId,
@@ -625,13 +625,14 @@ public class RoleLocalServiceUtil {
 		long companyId, java.lang.String portletName, int scope,
 		java.lang.String primKey, java.lang.String keywords,
 		java.util.List<java.lang.String> excludedNames, int[] types,
-		long excludedTeamRoleId, long teamGroupId, int start, int end,
+		long excludedTeamRoleId, long teamGroupId, boolean activeRoles,
+		int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator<com.liferay.portal.kernel.model.Role> obc)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		return getService()
 				   .getGroupRolesAndTeamRolesByPortlet(companyId, portletName,
 			scope, primKey, keywords, excludedNames, types, excludedTeamRoleId,
-			teamGroupId, start, end, obc);
+			teamGroupId, activeRoles, start, end, obc);
 	}
 
 	public static java.util.List<com.liferay.portal.kernel.model.Role> getResourceBlockRoles(
