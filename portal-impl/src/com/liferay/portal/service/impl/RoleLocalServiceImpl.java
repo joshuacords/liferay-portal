@@ -740,13 +740,14 @@ public class RoleLocalServiceImpl extends RoleLocalServiceBaseImpl {
 	public List<Role> getGroupRolesAndTeamRolesByPortlet(
 			long companyId, String portletName, int scope, String primKey,
 			String keywords, List<String> excludedNames, int[] types,
-			long excludedTeamRoleId, long teamGroupId, int start, int end,
-			OrderByComparator<Role> obc)
+			long excludedTeamRoleId, long teamGroupId, boolean activeRoles,
+			int start, int end, OrderByComparator<Role> obc)
 		throws PortalException {
 
 		return roleFinder.findByGroupRoleAndTeamRoleByPortlet(
 			companyId, portletName, scope, primKey, keywords, excludedNames,
-			types, excludedTeamRoleId, teamGroupId, start, end, obc);
+			types, excludedTeamRoleId, teamGroupId, activeRoles, start, end,
+			obc);
 	}
 
 	@Override
@@ -765,12 +766,12 @@ public class RoleLocalServiceImpl extends RoleLocalServiceBaseImpl {
 	public int getGroupRolesAndTeamRolesByPortletCount(
 		long companyId, String portletName, int scope, String primKey,
 		String keywords, List<String> excludedNames, int[] types,
-		long excludedTeamRoleId, long teamGroupId)
+		long excludedTeamRoleId, long teamGroupId, boolean activeRoles)
 		throws PortalException {
 
 		return roleFinder.countByGroupRoleAndTeamRoleByPortlet(
 			companyId, portletName, scope, primKey, keywords, excludedNames,
-			types, excludedTeamRoleId, teamGroupId);
+			types, excludedTeamRoleId, teamGroupId, activeRoles);
 	}
 
 	@Override

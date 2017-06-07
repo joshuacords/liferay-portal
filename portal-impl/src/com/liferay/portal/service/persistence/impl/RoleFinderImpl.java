@@ -155,11 +155,11 @@ public class RoleFinderImpl extends RoleFinderBaseImpl implements RoleFinder {
 	public int countByGroupRoleAndTeamRoleByPortlet(
 		long companyId, String portletName, int scope, String primKey,
 		String keywords, List<String> excludedNames, int[] types,
-		long excludedTeamRoleId, long teamGroupId) {
+		long excludedTeamRoleId, long teamGroupId, boolean activeRoles) {
 
 		return doCountByGroupRoleAndTeamRoleByPortlet(
 			companyId, portletName, scope, primKey, keywords, excludedNames,
-			types, excludedTeamRoleId, teamGroupId, false);
+			types, excludedTeamRoleId, teamGroupId, activeRoles, false);
 	}
 
 	@Override
@@ -341,11 +341,11 @@ public class RoleFinderImpl extends RoleFinderBaseImpl implements RoleFinder {
 	public int filterCountByGroupRoleAndTeamRoleByPortlet(
 		long companyId, String portletName, int scope, String primKey,
 		String keywords, List<String> excludedNames, int[] types,
-		long excludedTeamRoleId, long teamGroupId) {
+		long excludedTeamRoleId, long teamGroupId, boolean activeRoles) {
 
 		return doCountByGroupRoleAndTeamRoleByPortlet(
 			companyId, portletName, scope, primKey, keywords, excludedNames,
-			types, excludedTeamRoleId, teamGroupId, true);
+			types, excludedTeamRoleId, teamGroupId, activeRoles, true);
 	}
 
 	@Override
@@ -416,12 +416,13 @@ public class RoleFinderImpl extends RoleFinderBaseImpl implements RoleFinder {
 	public List<Role> filterFindByGroupRoleAndTeamRoleByPortlet(
 		long companyId, String portletName, int scope, String primKey,
 		String keywords, List<String> excludedNames, int[] types,
-		long excludedTeamRoleId, long teamGroupId, int start, int end,
-		OrderByComparator<Role> obc) {
+		long excludedTeamRoleId, long teamGroupId, boolean activeRoles,
+		int start, int end,	OrderByComparator<Role> obc) {
 
 		return doFindByGroupRoleAndTeamRoleByPortlet(
 			companyId, portletName, scope, primKey, keywords, excludedNames,
-			types, excludedTeamRoleId, teamGroupId, start, end, obc, true);
+			types, excludedTeamRoleId, teamGroupId, activeRoles, start, end,
+			obc, true);
 	}
 
 	@Override
@@ -498,12 +499,13 @@ public class RoleFinderImpl extends RoleFinderBaseImpl implements RoleFinder {
 	public List<Role> findByGroupRoleAndTeamRoleByPortlet(
 		long companyId, String portletName, int scope, String primKey,
 		String keywords, List<String> excludedNames, int[] types,
-		long excludedTeamRoleId, long teamGroupId, int start, int end,
-		OrderByComparator<Role> obc) {
+		long excludedTeamRoleId, long teamGroupId, boolean activeRoles,
+		int start, int end, OrderByComparator<Role> obc) {
 
 		return doFindByGroupRoleAndTeamRoleByPortlet(
 			companyId, portletName, scope, primKey, keywords, excludedNames,
-			types, excludedTeamRoleId, teamGroupId, start, end, obc, false);
+			types, excludedTeamRoleId, teamGroupId, activeRoles, start, end,
+			obc, false);
 	}
 
 	@Override
@@ -1089,7 +1091,8 @@ public class RoleFinderImpl extends RoleFinderBaseImpl implements RoleFinder {
 	protected int doCountByGroupRoleAndTeamRoleByPortlet(
 		long companyId, String portletName, int scope, String primKey,
 		String keywords, List<String> excludedNames, int[] types,
-		long excludedTeamRoleId, long teamGroupId, boolean inlineSQLHelper) {
+		long excludedTeamRoleId, long teamGroupId, boolean activeRoles,
+		boolean inlineSQLHelper) {
 
 		if ((types == null) || (types.length == 0)) {
 			return 0;
@@ -1123,6 +1126,8 @@ public class RoleFinderImpl extends RoleFinderBaseImpl implements RoleFinder {
 				sql, "lower(Team.description)", StringPool.LIKE, true,
 				keywordsArray);
 			sql = StringUtil.replace(
+				sql, "[$ACTION_ID$]", getActionId(activeRoles));
+			sql = StringUtil.replace(
 				sql, "[$EXCLUDED_NAMES$]", getExcludedNames(excludedNames));
 			sql = StringUtil.replace(sql, "[$TYPE$]", getTypes(types.length));
 			sql = CustomSQLUtil.replaceAndOperator(sql, andOperator);
@@ -1144,7 +1149,7 @@ public class RoleFinderImpl extends RoleFinderBaseImpl implements RoleFinder {
 			qPos.add(scope);
 			qPos.add(portletName);
 			qPos.add(primKey);
-			qPos.add(0);	//actionId != 0
+			qPos.add(0);	//actionId != 0 or actionId = 0
 			qPos.add(keywordsArray, 2);
 			qPos.add(keywordsArray, 2);
 
@@ -1409,8 +1414,9 @@ public class RoleFinderImpl extends RoleFinderBaseImpl implements RoleFinder {
 	protected List<Role> doFindByGroupRoleAndTeamRoleByPortlet(
 		long companyId, String portletName, int scope, String primKey,
 		String keywords, List<String> excludedNames, int[] types,
-		long excludedTeamRoleId, long teamGroupId, int start, int end,
-		OrderByComparator<Role> obc, boolean inlineSQLHelper) {
+		long excludedTeamRoleId, long teamGroupId, boolean activeRoles,
+		int start, int end,	OrderByComparator<Role> obc,
+		boolean inlineSQLHelper) {
 
 		if ((types == null) || (types.length == 0)) {
 			return Collections.emptyList();
@@ -1443,6 +1449,8 @@ public class RoleFinderImpl extends RoleFinderBaseImpl implements RoleFinder {
 			sql = CustomSQLUtil.replaceKeywords(
 				sql, "lower(Team.description)", StringPool.LIKE, true,
 				keywordsArray);
+			sql = StringUtil.replace(
+				sql, "[$ACTION_ID$]", getActionId(activeRoles));
 			sql = StringUtil.replace(
 				sql, "[$EXCLUDED_NAMES$]", getExcludedNames(excludedNames));
 			sql = StringUtil.replace(sql, "[$TYPE$]", getTypes(types.length));
@@ -1549,6 +1557,13 @@ public class RoleFinderImpl extends RoleFinderBaseImpl implements RoleFinder {
 		finally {
 			closeSession(session);
 		}
+	}
+
+	protected String getActionId(boolean activeRoles){
+		if (activeRoles) {
+			return " AND (actionIds != ?)";
+		}
+		return " AND (actionIds = ?)";
 	}
 
 	protected String getCountByR_U_SQL() {

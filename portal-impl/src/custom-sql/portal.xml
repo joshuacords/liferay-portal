@@ -1057,7 +1057,7 @@
 							AND (scope = ?)
 							AND (name = ?)
 							AND (primKey = ?)
-							AND (actionIds != ?)
+							[$ACTION_ID$]
 						)
 					)
 				) AND
@@ -1325,7 +1325,7 @@
 							AND (scope = ?)
 							AND (name = ?)
 							AND (primKey = ?)
-							AND (actionIds != ?)
+							[$ACTION_ID$]
 						)
 					)
 				) AND
