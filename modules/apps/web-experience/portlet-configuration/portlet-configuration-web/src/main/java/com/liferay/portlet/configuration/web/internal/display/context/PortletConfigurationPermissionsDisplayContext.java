@@ -24,7 +24,6 @@ import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.model.PortletConstants;
 import com.liferay.portal.kernel.model.Resource;
 import com.liferay.portal.kernel.model.ResourceConstants;
-import com.liferay.portal.kernel.model.ResourcePermission;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.RoleConstants;
 import com.liferay.portal.kernel.model.User;
@@ -53,7 +52,6 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.util.PropsValues;
-import com.liferay.portal.util.ResourcePermissionUtil;
 import com.liferay.portlet.configuration.web.internal.constants.PortletConfigurationPortletKeys;
 import com.liferay.portlet.rolesadmin.search.RoleSearch;
 import com.liferay.portlet.rolesadmin.search.RoleSearchTerms;
@@ -166,14 +164,15 @@ public class PortletConfigurationPermissionsDisplayContext {
 		return _actions;
 	}
 
-	public String getCurrentTab() throws Exception {
-		String tabs1 = ParamUtil.getString(_request, "tabs1", _defaultTab);
+	public String getCurrentCategory() throws Exception {
+		String category = ParamUtil.getString(_request, "category",
+			_defaultCategory);
 
-		if (tabs1 != null) {
-			return tabs1;
+		if (category != null) {
+			return category;
 		}
 		else {
-			return _defaultTab;
+			return _defaultCategory;
 		}
 	}
 
@@ -236,7 +235,8 @@ public class PortletConfigurationPermissionsDisplayContext {
 		PortletURL portletURL = PortletURLFactoryUtil.create(
 			_request, PortletConfigurationPortletKeys.PORTLET_CONFIGURATION,
 			PortletRequest.RENDER_PHASE);
-		String tabs1 = ParamUtil.getString(_request, "tabs1", _defaultTab);
+		String category = ParamUtil.getString(_request, "category",
+			_defaultCategory);
 
 		portletURL.setParameter("mvcPath", "/edit_permissions.jsp");
 		portletURL.setParameter(
@@ -249,7 +249,7 @@ public class PortletConfigurationPermissionsDisplayContext {
 			"resourceGroupId", String.valueOf(_getResourceGroupId()));
 		portletURL.setParameter("resourcePrimKey", getResourcePrimKey());
 		portletURL.setParameter("roleTypes", _getRoleTypesParam());
-		portletURL.setParameter("tabs1", tabs1);
+		portletURL.setParameter("category", category);
 
 		portletURL.setWindowState(LiferayWindowState.POP_UP);
 
@@ -335,7 +335,8 @@ public class PortletConfigurationPermissionsDisplayContext {
 		ThemeDisplay themeDisplay = (ThemeDisplay)_request.getAttribute(
 			WebKeys.THEME_DISPLAY);
 
-		String tabs1 = ParamUtil.getString(_request, "tabs1", _defaultTab);
+		String category = ParamUtil.getString(_request, "category",
+			_defaultCategory);
 
 		SearchContainer roleSearchContainer = new RoleSearch(
 			_renderRequest, getIteratorURL());
@@ -432,8 +433,8 @@ public class PortletConfigurationPermissionsDisplayContext {
 		int count = 0;
 		List<Role> roles = null;
 
-		if (StringUtil.equals(tabs1, "current") ||
-			StringUtil.equals(tabs1, "available")) {
+		if (StringUtil.equals(category, "current") ||
+			StringUtil.equals(category, "available")) {
 			Portlet portlet = PortletLocalServiceUtil.getPortletById(
 				themeDisplay.getCompanyId(), _getPortletResource());
 
@@ -454,7 +455,7 @@ public class PortletConfigurationPermissionsDisplayContext {
 
 			boolean activeRoles = true;
 
-			if (StringUtil.equals(tabs1, "available")){
+			if (StringUtil.equals(category, "available")){
 				activeRoles = false;
 			}
 
@@ -644,7 +645,8 @@ public class PortletConfigurationPermissionsDisplayContext {
 			_request, SearchContainer.DEFAULT_CUR_PARAM);
 		int delta = ParamUtil.getInteger(
 			_request, SearchContainer.DEFAULT_DELTA_PARAM);
-		String tabs1 = ParamUtil.getString(_request, "tabs1", _defaultTab);
+		String category = ParamUtil.getString(_request, "category",
+			_defaultCategory);
 
 		PortletURL portletURL = PortletURLFactoryUtil.create(
 			_request, PortletConfigurationPortletKeys.PORTLET_CONFIGURATION,
@@ -667,7 +669,7 @@ public class PortletConfigurationPermissionsDisplayContext {
 			"resourceGroupId", String.valueOf(_getResourceGroupId()));
 		portletURL.setParameter("resourcePrimKey", getResourcePrimKey());
 		portletURL.setParameter("roleTypes", _getRoleTypesParam());
-		portletURL.setParameter("tabs1", tabs1);
+		portletURL.setParameter("category", category);
 
 		portletURL.setWindowState(LiferayWindowState.POP_UP);
 
@@ -722,7 +724,7 @@ public class PortletConfigurationPermissionsDisplayContext {
 		return _roleTypesParam;
 	}
 
-	private static final String _defaultTab = "all";
+	private static final String _defaultCategory = "all";
 
 	private List<String> _actions;
 	private Group _group;

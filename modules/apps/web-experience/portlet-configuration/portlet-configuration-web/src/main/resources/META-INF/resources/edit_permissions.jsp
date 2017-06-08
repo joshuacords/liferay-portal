@@ -104,9 +104,7 @@ Resource resource = portletConfigurationPermissionsDisplayContext.getResource();
 			</aui:nav-bar-search>--%>
 		<%--</div>--%>
 
-		<liferay-frontend:management-bar
-			disabled="<%= portletConfigurationPermissionsDisplayContext.getRoleSearchContainer().getTotal() <= 0 %>"
-		>
+		<liferay-frontend:management-bar >
 <%--			<liferay-frontend:management-bar-buttons>
 				<liferay-frontend:management-bar-display-buttons
 					displayViews='<%= new String[] {"icon", "descriptive", "list"} %>'
@@ -118,7 +116,7 @@ Resource resource = portletConfigurationPermissionsDisplayContext.getResource();
 			<liferay-frontend:management-bar-filters>
 				<liferay-frontend:management-bar-navigation
 					navigationKeys='<%= new String[] {"all", "current", "available"} %>'
-					navigationParam="tabs1"
+					navigationParam="category"
 					portletURL="<%= portletConfigurationPermissionsDisplayContext.getIteratorURL() %>"
 				/>
 
