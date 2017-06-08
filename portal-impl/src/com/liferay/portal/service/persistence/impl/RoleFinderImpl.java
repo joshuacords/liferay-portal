@@ -1155,9 +1155,13 @@ public class RoleFinderImpl extends RoleFinderBaseImpl implements RoleFinder {
 
 			qPos.add(companyId);
 			qPos.add(companyId);
-			//qPos.add(scope);
+			qPos.add(scope);
 			qPos.add(portletName);
-			//qPos.add(primKey);
+			qPos.add(primKey);
+			qPos.add(0);	//actionId != 0 or actionId = 0
+			qPos.add(companyId);
+			qPos.add(scope);
+			qPos.add(portletName);
 			qPos.add(0);	//actionId != 0 or actionId = 0
 			qPos.add(keywordsArray, 2);
 			qPos.add(keywordsArray, 2);
@@ -1488,9 +1492,13 @@ public class RoleFinderImpl extends RoleFinderBaseImpl implements RoleFinder {
 
 			qPos.add(companyId);
 			qPos.add(companyId);
-			//qPos.add(scope);
+			qPos.add(scope);
 			qPos.add(portletName);
-			//qPos.add(primKey);
+			qPos.add(primKey);
+			qPos.add(0);	//actionId != 0qPos.add(keywordsArray, 2);
+			qPos.add(companyId);
+			qPos.add(scope);
+			qPos.add(portletName);
 			qPos.add(0);	//actionId != 0qPos.add(keywordsArray, 2);
 			qPos.add(keywordsArray, 2);
 			qPos.add(keywordsArray, 2);
