@@ -437,23 +437,29 @@ public class PortletConfigurationPermissionsDisplayContext {
 			Portlet portlet = PortletLocalServiceUtil.getPortletById(
 				themeDisplay.getCompanyId(), _getPortletResource());
 
-			List<ResourcePermission> resourcePermissions =
-				ResourcePermissionUtil.getActiveResourcePermissions(
-					portlet.getCompanyId(), portlet.getPortletName(),
-					PortletKeys.PREFS_OWNER_TYPE_USER,
-					themeDisplay.getPlid() + "_LAYOUT_" +
-						portlet.getPortletId());
+//			List<ResourcePermission> resourcePermissions =
+//				ResourcePermissionUtil.getActiveResourcePermissions(
+//					portlet.getCompanyId(), portlet.getPortletName(),
+//					PortletKeys.PREFS_OWNER_TYPE_USER,
+//					themeDisplay.getPlid() + "_LAYOUT_" +
+//						portlet.getPortletId());
+//
+//			long[] resourcePermissionIds = new long[resourcePermissions.size()];
+//
+//			int i = 0;
+//
+//			for (ResourcePermission resourcePermission : resourcePermissions) {
+//				resourcePermissionIds[i++] = resourcePermission.getRoleId();
+//			}
 
-			long[] resourcePermissionIds = new long[resourcePermissions.size()];
+			boolean activeRoles = true;
 
-			int i = 0;
-
-			for (ResourcePermission resourcePermission : resourcePermissions) {
-				resourcePermissionIds[i++] = resourcePermission.getRoleId();
+			if (StringUtil.equals(tabs1, "available")){
+				activeRoles = false;
 			}
 
 			count = newGetRolesCount(portlet, searchTerms, excludedRoleNames,
-				modelResourceRoleId, teamGroupId, themeDisplay);
+				modelResourceRoleId, teamGroupId, themeDisplay, activeRoles);
 //				RoleLocalServiceUtil.getGroupRolesAndTeamRolesAndRoleIdsCount(
 //					themeDisplay.getCompanyId(), searchTerms.getKeywords(),
 //					excludedRoleNames, getRoleTypes(), modelResourceRoleId,
@@ -462,7 +468,8 @@ public class PortletConfigurationPermissionsDisplayContext {
 			roleSearchContainer.setTotal(count);
 
 			roles = newGetRoles(portlet, searchTerms, excludedRoleNames,
-			modelResourceRoleId, teamGroupId, themeDisplay, roleSearchContainer);
+			modelResourceRoleId, teamGroupId, themeDisplay, roleSearchContainer,
+				activeRoles);
 //				RoleLocalServiceUtil.getGroupRolesAndTeamRolesAndRoleIds(
 //				themeDisplay.getCompanyId(), searchTerms.getKeywords(),
 //				excludedRoleNames, getRoleTypes(), modelResourceRoleId,
@@ -494,8 +501,8 @@ public class PortletConfigurationPermissionsDisplayContext {
 
 	public List<Role> newGetRoles(Portlet portlet, RoleSearchTerms searchTerms,
 		List<String> excludedRoleNames, long modelResourceRoleId, long teamGroupId,
-		ThemeDisplay themeDisplay, SearchContainer roleSearchContainer)
-		throws PortalException {
+		ThemeDisplay themeDisplay, SearchContainer roleSearchContainer,
+	  	boolean activeRoles) throws PortalException {
 
 		OrderByComparator<Role> orderByComparator =
 			UsersAdminUtil.getRoleOrderByComparator(
@@ -507,13 +514,14 @@ public class PortletConfigurationPermissionsDisplayContext {
 			themeDisplay.getPlid() + "_LAYOUT_" +
 			portlet.getPortletId(), searchTerms.getKeywords(),
 			excludedRoleNames, getRoleTypes(),
-			modelResourceRoleId, teamGroupId, roleSearchContainer.getStart(),
-			roleSearchContainer.getResultEnd(), orderByComparator);
+			modelResourceRoleId, teamGroupId, activeRoles,
+			roleSearchContainer.getStart(), roleSearchContainer.getResultEnd(),
+			orderByComparator);
 	}
 
 	public int newGetRolesCount(Portlet portlet, RoleSearchTerms searchTerms,
 			List<String> excludedRoleNames, long modelResourceRoleId, long teamGroupId,
-			ThemeDisplay themeDisplay)
+			ThemeDisplay themeDisplay, boolean activeRoles)
 		throws PortalException {
 
 		return RoleLocalServiceUtil.getGroupRolesAndTeamRolesByPortletCount(
@@ -522,7 +530,7 @@ public class PortletConfigurationPermissionsDisplayContext {
 			themeDisplay.getPlid() + "_LAYOUT_" +
 			portlet.getPortletId(), searchTerms.getKeywords(),
 			excludedRoleNames, getRoleTypes(),
-			modelResourceRoleId, teamGroupId);
+			modelResourceRoleId, teamGroupId, activeRoles);
 	}
 
 	public int[] getRoleTypes() {

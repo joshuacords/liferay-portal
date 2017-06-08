@@ -1049,15 +1049,13 @@
 				Role_
 			WHERE
 				(Role_.companyId = ?)
-				AND ( Role_.roleId IN (
+				AND ( Role_.roleId [$IN$] (
 					SELECT ResourcePermission.roleId
 					FROM ResourcePermission
 					WHERE (
 							(companyId = ?)
-							AND (scope = ?)
 							AND (name = ?)
-							AND (primKey = ?)
-							[$ACTION_ID$]
+							AND (actionIds != ?)
 						)
 					)
 				) AND
@@ -1317,15 +1315,13 @@
 				Role_
 			WHERE
 				(Role_.companyId = ?)
-				AND ( Role_.roleId IN (
+				AND ( Role_.roleId [$IN$] (
 					SELECT ResourcePermission.roleId
 					FROM ResourcePermission
 					WHERE (
 							(companyId = ?)
-							AND (scope = ?)
 							AND (name = ?)
-							AND (primKey = ?)
-							[$ACTION_ID$]
+							AND (actionIds != ?)
 						)
 					)
 				) AND
