@@ -46,6 +46,12 @@ request.setAttribute("edit_role_permissions.jsp-role", role);
 
 request.setAttribute("edit_role_permissions.jsp-portletResource", portletResource);
 
+//List<String> resourceBlockSelected = new ArrayList<>();
+//List<String> resourceBlockUnselected = new ArrayList<>();
+//
+//request.setAttribute("edit_role_permissions.jsp-resourceBlockSelected", resourceBlockSelected);
+//request.setAttribute("edit_role_permissions.jsp-resourceBlockUnselected", resourceBlockUnselected);
+
 if (!portletName.equals(PortletKeys.SERVER_ADMIN)) {
 	portletDisplay.setShowBackIcon(true);
 	portletDisplay.setURLBack(backURL);
@@ -414,11 +420,43 @@ if (!portletName.equals(PortletKeys.SERVER_ADMIN)) {
 <aui:script>
 	function <portlet:namespace />updateActions() {
 		var form = AUI.$(document.<portlet:namespace />fm);
-
+		var confirmed = confirm("are-you-sure-you-want-to-remove-this-component");
+	<%--<%--%>
+		<%--String taglibDeactivateBundlesURL =	"javascript:if (confirm(\'" + UnicodeLanguageUtil.get(request, "are-you-sure-you-want-to-deactivate-this") + "\')) " +--%>
+			<%--"{submitForm(document.hrefFm, \'" + HtmlUtil.escapeJS(portletURL.toString()) + "\');};";--%>
+	<%--%>--%>
+		<%--var confirmed = confirm( <%= UnicodeLanguageUtil.get(request, "are-you-sure-you-want-to-deactivate-this").toString() %>));--%>
 		form.fm('redirect').val('<%= HtmlUtil.escapeJS(portletURL.toString()) %>');
+		<%--form.fm('redirect').val('<%= taglibDeactivateBundlesURL %>');--%>
 		form.fm('selectedTargets').val(Liferay.Util.listCheckedExcept(form, '<portlet:namespace />allRowIds'));
 		form.fm('unselectedTargets').val(Liferay.Util.listUncheckedExcept(form, '<portlet:namespace />allRowIds'));
 
+		<%--getNotice().show();--%>
+
 		submitForm(form);
 	}
+
+	function getWarning(){
+
+	}
+
+	var notice;
+
+	function getNotice() {
+		if (!notice) {
+				notice = new Liferay.Notice(
+				{
+					closeText: false,
+					content: '<liferay-ui:message key="an-unexpected-error-occurred"/><button class="close" type="button">&times;</button>',
+					timeout: 5000,
+					toggleText: false,
+					type: 'warning',
+					useAnimation: false
+				}
+			);
+		}
+
+		return notice;
+	}
+
 </aui:script>
