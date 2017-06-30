@@ -210,13 +210,33 @@ List<String> resourceBlockUnselected = (List<String>)request.getAttribute("edit_
 	</c:if>
 
 	<%
-		StringBuilder resourceBlockSelectedString = new StringBuilder(resourceBlockSelected.toString());
-		resourceBlockSelectedString.deleteCharAt(resourceBlockSelectedString.length()-1);
-		resourceBlockSelectedString.deleteCharAt(0);
+//		StringBuilder resourceBlockSelectedString = new StringBuilder(resourceBlockSelected.toString());
+//		resourceBlockSelectedString.deleteCharAt(resourceBlockSelectedString.length()-1);
+//		resourceBlockSelectedString.deleteCharAt(0);
+//
+//
+//		StringBuilder resourceBlockUnselectedString = new StringBuilder(resourceBlockUnselected.toString());
+//		resourceBlockUnselectedString.deleteCharAt(resourceBlockUnselectedString.length()-1);
+//		resourceBlockUnselectedString.deleteCharAt(0);
 
-		StringBuilder resourceBlockUnselectedString = new StringBuilder(resourceBlockUnselected.toString());
-		resourceBlockUnselectedString.deleteCharAt(resourceBlockUnselectedString.length()-1);
-		resourceBlockUnselectedString.deleteCharAt(0);
+		StringBuilder resourceBlockSelectedString = new StringBuilder();
+
+		for(int i = 0; i < resourceBlockSelected.size(); i++){
+			resourceBlockSelectedString.append(resourceBlockSelected.get(i));
+			if((i + 1) < resourceBlockSelected.size()){
+				resourceBlockSelectedString.append(",");
+			}
+		}
+
+
+		StringBuilder resourceBlockUnselectedString = new StringBuilder();
+
+		for(int i = 0; i < resourceBlockUnselected.size(); i++){
+			resourceBlockUnselectedString.append(resourceBlockUnselected.get(i));
+			if((i + 1) < resourceBlockUnselected.size()){
+				resourceBlockUnselectedString.append(",");
+			}
+		}
 
 	%>
 

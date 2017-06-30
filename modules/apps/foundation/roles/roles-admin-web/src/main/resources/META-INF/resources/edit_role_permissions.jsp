@@ -420,13 +420,17 @@ if (!portletName.equals(PortletKeys.SERVER_ADMIN)) {
 <aui:script>
 	function <portlet:namespace />updateActions(selected, unselected) {
 
-		alert(selected);
+		<%--alert(selected);--%>
 		<%--alert(unselected);--%>
 
 		var selectedArray = selected.split(",");
+		var unselectedArray = unselected.split(",");
+
+		var resourceBlockChange = Boolean(false);
+
 		var i = 0;
 		<%--for(i = 0; i < selectedArray.length; i++){--%>
-			<%--alert(selectedArray[i]);--%>
+			<%--alert("selectedArray: |" + selectedArray[i] + "|");--%>
 		<%--}--%>
 
 		var form = AUI.$(document.<portlet:namespace />fm);
@@ -441,32 +445,49 @@ if (!portletName.equals(PortletKeys.SERVER_ADMIN)) {
 		var unselectedTargets = form.fm('unselectedTargets').val(Liferay.Util.listUncheckedExcept(form, '<portlet:namespace />allRowIds'));
 
 		<%--alert("Selected targets: " + selectedTargets.val());--%>
+		<%--alert("Unselected targets: " + unselectedTargets.val());--%>
+		<%--var selectedTargetsString = String(selectedTargets.val());--%>
 
-		var selectedTargetsString = String(selectedTargets.val());
-		var selectedTargetsStringArray = selectedTargetsString.split(",");
+		var selectedTargets = String(selectedTargets.val()).split(",");
+		var unselectedTargets = String(unselectedTargets.val()).split(",");
+		<%--var selectedTargets = selectedTargets.split(",");--%>
 
-		<%--for(i = 0; i < selectedTargetsStringArray.length; i++){--%>
-			<%--alert(selectedTargetsStringArray[i]);--%>
+		<%--for(i = 0; i < selectedTargets.length; i++){--%>
+			<%--alert("selectedTargets: |" + selectedTargets[i] + "|");--%>
 		<%--}--%>
 
-		for(i = 0; i < selectedTargetsStringArray.length; i++){
-			for(var j = 0; j < selectedArray.length; j++){
-				if( selectedTargetsStringArray[i] === selectedArray[j] ){
-					alert(selectedTargetsStringArray[i] + " = " + selectedArray[j]);
-				} else {
-					alert(selectedTargetsStringArray[i] + " != " + selectedArray[j]);
+
+		for(i = 0; i < selectedTargets.length; i++){
+			for(var j = 0; (j < unselectedArray.length) && !(resourceBlockChange); j++){
+				if( selectedTargets[i] === unselectedArray[j] ){
+					<%--alert(selectedTargets[i] + " = " + unselectedArray[j] + " !!!!!");--%>
+					resourceBlockChange = true;
 				}
+				<%--else {--%>
+					<%--alert(selectedTargets[i] + " != " + unselectedArray[j]);--%>
+				<%--}--%>
 			}
 		}
 
-
-
-		alert("Unselected targets: " + unselectedTargets.val());
-		var confirmed = confirm("are-you-sure-you-want-to-remove-this-component");
-
-		if(confirmed){
-			submitForm(form);
+		for(i = 0; (i < unselectedTargets.length) && !(resourceBlockChange); i++){
+			for(var j = 0; (j < selectedArray.length) && !(resourceBlockChange); j++){
+				if( unselectedTargets[i] === selectedArray[j] ){
+					<%--alert(unselectedTargets[i] + " = " + selectedArray[j]);--%>
+					resourceBlockChange = true;
+				}
+				<%--else {--%>
+					<%--alert(unselectedTargets[i] + " != " + selectedArray[j]);--%>
+				<%--}--%>
+			}
 		}
+
+		if(resourceBlockChange){
+			if(!confirm("are-you-sure-you-want-to-remove-this-component")){
+				return;
+			}
+		}
+
+		submitForm(form);
 	}
 
 	function getWarning(){
