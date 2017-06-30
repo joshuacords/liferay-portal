@@ -418,22 +418,55 @@ if (!portletName.equals(PortletKeys.SERVER_ADMIN)) {
 </aui:script>
 
 <aui:script>
-	function <portlet:namespace />updateActions() {
+	function <portlet:namespace />updateActions(selected, unselected) {
+
+		alert(selected);
+		<%--alert(unselected);--%>
+
+		var selectedArray = selected.split(",");
+		var i = 0;
+		<%--for(i = 0; i < selectedArray.length; i++){--%>
+			<%--alert(selectedArray[i]);--%>
+		<%--}--%>
+
 		var form = AUI.$(document.<portlet:namespace />fm);
-		var confirmed = confirm("are-you-sure-you-want-to-remove-this-component");
+
 	<%--<%--%>
 		<%--String taglibDeactivateBundlesURL =	"javascript:if (confirm(\'" + UnicodeLanguageUtil.get(request, "are-you-sure-you-want-to-deactivate-this") + "\')) " +--%>
 			<%--"{submitForm(document.hrefFm, \'" + HtmlUtil.escapeJS(portletURL.toString()) + "\');};";--%>
 	<%--%>--%>
 		<%--var confirmed = confirm( <%= UnicodeLanguageUtil.get(request, "are-you-sure-you-want-to-deactivate-this").toString() %>));--%>
 		form.fm('redirect').val('<%= HtmlUtil.escapeJS(portletURL.toString()) %>');
-		<%--form.fm('redirect').val('<%= taglibDeactivateBundlesURL %>');--%>
-		form.fm('selectedTargets').val(Liferay.Util.listCheckedExcept(form, '<portlet:namespace />allRowIds'));
-		form.fm('unselectedTargets').val(Liferay.Util.listUncheckedExcept(form, '<portlet:namespace />allRowIds'));
+		var selectedTargets = form.fm('selectedTargets').val(Liferay.Util.listCheckedExcept(form, '<portlet:namespace />allRowIds'));
+		var unselectedTargets = form.fm('unselectedTargets').val(Liferay.Util.listUncheckedExcept(form, '<portlet:namespace />allRowIds'));
 
-		<%--getNotice().show();--%>
+		<%--alert("Selected targets: " + selectedTargets.val());--%>
 
-		submitForm(form);
+		var selectedTargetsString = String(selectedTargets.val());
+		var selectedTargetsStringArray = selectedTargetsString.split(",");
+
+		<%--for(i = 0; i < selectedTargetsStringArray.length; i++){--%>
+			<%--alert(selectedTargetsStringArray[i]);--%>
+		<%--}--%>
+
+		for(i = 0; i < selectedTargetsStringArray.length; i++){
+			for(var j = 0; j < selectedArray.length; j++){
+				if( selectedTargetsStringArray[i] === selectedArray[j] ){
+					alert(selectedTargetsStringArray[i] + " = " + selectedArray[j]);
+				} else {
+					alert(selectedTargetsStringArray[i] + " != " + selectedArray[j]);
+				}
+			}
+		}
+
+
+
+		alert("Unselected targets: " + unselectedTargets.val());
+		var confirmed = confirm("are-you-sure-you-want-to-remove-this-component");
+
+		if(confirmed){
+			submitForm(form);
+		}
 	}
 
 	function getWarning(){
