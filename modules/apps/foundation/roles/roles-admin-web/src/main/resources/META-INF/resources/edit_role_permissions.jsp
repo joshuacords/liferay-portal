@@ -482,7 +482,7 @@ if (!portletName.equals(PortletKeys.SERVER_ADMIN)) {
 		}
 
 		if(resourceBlockChange){
-			if(!confirm("are-you-sure-you-want-to-remove-this-component")){
+			if(!confirm('<liferay-ui:message key="changing-permissions-will-overwrite-all-permissions-of-that-type-previously-configured-on-this-entity" />')){
 				return;
 			}
 		}
