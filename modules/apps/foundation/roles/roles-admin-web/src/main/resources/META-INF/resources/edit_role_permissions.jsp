@@ -482,7 +482,7 @@ if (!portletName.equals(PortletKeys.SERVER_ADMIN)) {
 		}
 
 		if(resourceBlockChange){
-			if(!confirm('<liferay-ui:message key="changing-permissions-will-overwrite-all-permissions-of-that-type-previously-configured-on-this-entity" />')){
+			if(!confirm('<liferay-ui:message key="changing-these-permissions-will-overwrite-all-permissions-of-that-type-previously-configured-on-this-entity" />')){
 				return;
 			}
 		}
