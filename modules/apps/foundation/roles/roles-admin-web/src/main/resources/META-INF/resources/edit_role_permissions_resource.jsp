@@ -102,7 +102,6 @@ for (int i = 0; i < results.size(); i++) {
 	long[] groupIdsArray = StringUtil.split(groupIds, 0L);
 	List<String> groupNames = new ArrayList<String>();
 
-	//save resource block current state
 	if(ResourceBlockLocalServiceUtil.isSupported(curResource)){
 		if(ResourceTypePermissionLocalServiceUtil.hasEitherScopePermission(
 			role.getCompanyId(), curModelResource, role.getRoleId(), actionId)){
