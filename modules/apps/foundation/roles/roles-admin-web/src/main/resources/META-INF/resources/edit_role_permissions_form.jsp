@@ -213,23 +213,25 @@ request.setAttribute("edit_role_permissions_form.jsp-resourceBlockUnselected", r
 	</c:if>
 
 	<%
-		StringBuilder resourceBlockSelectedString = new StringBuilder();
+	StringBuilder resourceBlockSelectedString = new StringBuilder();
 
-		for(int i = 0; i < resourceBlockSelected.size(); i++){
-			resourceBlockSelectedString.append(resourceBlockSelected.get(i));
-			if((i + 1) < resourceBlockSelected.size()){
-				resourceBlockSelectedString.append(",");
-			}
+	for (int i = 0; i < resourceBlockSelected.size(); i++) {
+		resourceBlockSelectedString.append(resourceBlockSelected.get(i));
+
+		if ((i + 1) < resourceBlockSelected.size()) {
+			resourceBlockSelectedString.append(",");
 		}
+	}
 
-		StringBuilder resourceBlockUnselectedString = new StringBuilder();
+	StringBuilder resourceBlockUnselectedString = new StringBuilder();
 
-		for(int i = 0; i < resourceBlockUnselected.size(); i++){
-			resourceBlockUnselectedString.append(resourceBlockUnselected.get(i));
-			if((i + 1) < resourceBlockUnselected.size()){
-				resourceBlockUnselectedString.append(",");
-			}
+	for (int i = 0; i < resourceBlockUnselected.size(); i++) {
+		resourceBlockUnselectedString.append(resourceBlockUnselected.get(i));
+
+		if ((i + 1) < resourceBlockUnselected.size()) {
+			resourceBlockUnselectedString.append(",");
 		}
+	}
 	%>
 
 	<div class="form-group">

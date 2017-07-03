@@ -26,13 +26,13 @@ Role role = (Role)objArray[1];
 
 String languageKey = "";
 
-if(ResourceBlockLocalServiceUtil.isSupported(permission.getName()))
+if (ResourceBlockLocalServiceUtil.isSupported(permission.getName()))
 {
 	languageKey = "removing-this-permission-will-remove-all-permissions-of-this-type-from-the-entity.-are-your-sure-you-want-to-remove-this-permission";
-} else {
+}
+else {
 	languageKey = "are-you-sure-you-want-to-remove-this-permission";
 }
-
 %>
 
 <liferay-ui:icon-menu icon="<%= StringPool.BLANK %>" message="<%= StringPool.BLANK %>">
