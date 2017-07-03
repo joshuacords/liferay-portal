@@ -27,12 +27,6 @@ String portletResource = ParamUtil.getString(request, "portletResource");
 
 request.setAttribute("edit_role_permissions.jsp-portletResource", portletResource);
 request.setAttribute("edit_role_permissions.jsp-role", role);
-
-List<String> resourceBlockSelected = new ArrayList<>();
-List<String> resourceBlockUnselected = new ArrayList<>();
-
-request.setAttribute("edit_role_permissions.jsp-resourceBlockSelected", resourceBlockSelected);
-request.setAttribute("edit_role_permissions.jsp-resourceBlockUnselected", resourceBlockUnselected);
 %>
 
 <c:choose>

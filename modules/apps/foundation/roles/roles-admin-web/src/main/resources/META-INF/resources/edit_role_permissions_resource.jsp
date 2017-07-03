@@ -25,8 +25,8 @@ String curPortletResource = (String)request.getAttribute("edit_role_permissions.
 String curModelResource = (String)request.getAttribute("edit_role_permissions.jsp-curModelResource");
 String curModelResourceName = (String)request.getAttribute("edit_role_permissions.jsp-curModelResourceName");
 
-List<String> resourceBlockSelected = (List<String>)request.getAttribute("edit_role_permissions.jsp-resourceBlockSelected");
-List<String> resourceBlockUnselected = (List<String>)request.getAttribute("edit_role_permissions.jsp-resourceBlockUnselected");
+List<String> resourceBlockSelected = (List<String>)request.getAttribute("edit_role_permissions_form.jsp-resourceBlockSelected");
+List<String> resourceBlockUnselected = (List<String>)request.getAttribute("edit_role_permissions_form.jsp-resourceBlockUnselected");
 
 Portlet curPortlet = null;
 String curPortletId = StringPool.BLANK;
