@@ -28,7 +28,7 @@ String languageKey = "";
 
 if(ResourceBlockLocalServiceUtil.isSupported(permission.getName()))
 {
-	languageKey = "Removing this permission will remove all permissions of this type from the entity. Are your sure you want to remove this permission?";
+	languageKey = "removing-this-permission-will-remove-all-permissions-of-this-type-from-the-entity.-are-your-sure-you-want-to-remove-this-permission";
 } else {
 	languageKey = "are-you-sure-you-want-to-remove-this-permission";
 }
