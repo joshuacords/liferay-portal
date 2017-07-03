@@ -46,12 +46,6 @@ request.setAttribute("edit_role_permissions.jsp-role", role);
 
 request.setAttribute("edit_role_permissions.jsp-portletResource", portletResource);
 
-//List<String> resourceBlockSelected = new ArrayList<>();
-//List<String> resourceBlockUnselected = new ArrayList<>();
-//
-//request.setAttribute("edit_role_permissions.jsp-resourceBlockSelected", resourceBlockSelected);
-//request.setAttribute("edit_role_permissions.jsp-resourceBlockUnselected", resourceBlockUnselected);
-
 if (!portletName.equals(PortletKeys.SERVER_ADMIN)) {
 	portletDisplay.setShowBackIcon(true);
 	portletDisplay.setURLBack(backURL);
@@ -420,64 +414,35 @@ if (!portletName.equals(PortletKeys.SERVER_ADMIN)) {
 <aui:script>
 	function <portlet:namespace />updateActions(selected, unselected) {
 
-		<%--alert(selected);--%>
-		<%--alert(unselected);--%>
-
 		var selectedArray = selected.split(",");
 		var unselectedArray = unselected.split(",");
 
 		var resourceBlockChange = Boolean(false);
 
 		var i = 0;
-		<%--for(i = 0; i < selectedArray.length; i++){--%>
-			<%--alert("selectedArray: |" + selectedArray[i] + "|");--%>
-		<%--}--%>
 
 		var form = AUI.$(document.<portlet:namespace />fm);
 
-	<%--<%--%>
-		<%--String taglibDeactivateBundlesURL =	"javascript:if (confirm(\'" + UnicodeLanguageUtil.get(request, "are-you-sure-you-want-to-deactivate-this") + "\')) " +--%>
-			<%--"{submitForm(document.hrefFm, \'" + HtmlUtil.escapeJS(portletURL.toString()) + "\');};";--%>
-	<%--%>--%>
-		<%--var confirmed = confirm( <%= UnicodeLanguageUtil.get(request, "are-you-sure-you-want-to-deactivate-this").toString() %>));--%>
 		form.fm('redirect').val('<%= HtmlUtil.escapeJS(portletURL.toString()) %>');
 		var selectedTargets = form.fm('selectedTargets').val(Liferay.Util.listCheckedExcept(form, '<portlet:namespace />allRowIds'));
 		var unselectedTargets = form.fm('unselectedTargets').val(Liferay.Util.listUncheckedExcept(form, '<portlet:namespace />allRowIds'));
 
-		<%--alert("Selected targets: " + selectedTargets.val());--%>
-		<%--alert("Unselected targets: " + unselectedTargets.val());--%>
-		<%--var selectedTargetsString = String(selectedTargets.val());--%>
-
 		var selectedTargets = String(selectedTargets.val()).split(",");
 		var unselectedTargets = String(unselectedTargets.val()).split(",");
-		<%--var selectedTargets = selectedTargets.split(",");--%>
-
-		<%--for(i = 0; i < selectedTargets.length; i++){--%>
-			<%--alert("selectedTargets: |" + selectedTargets[i] + "|");--%>
-		<%--}--%>
-
 
 		for(i = 0; i < selectedTargets.length; i++){
 			for(var j = 0; (j < unselectedArray.length) && !(resourceBlockChange); j++){
 				if( selectedTargets[i] === unselectedArray[j] ){
-					<%--alert(selectedTargets[i] + " = " + unselectedArray[j] + " !!!!!");--%>
 					resourceBlockChange = true;
 				}
-				<%--else {--%>
-					<%--alert(selectedTargets[i] + " != " + unselectedArray[j]);--%>
-				<%--}--%>
 			}
 		}
 
 		for(i = 0; (i < unselectedTargets.length) && !(resourceBlockChange); i++){
 			for(var j = 0; (j < selectedArray.length) && !(resourceBlockChange); j++){
 				if( unselectedTargets[i] === selectedArray[j] ){
-					<%--alert(unselectedTargets[i] + " = " + selectedArray[j]);--%>
 					resourceBlockChange = true;
 				}
-				<%--else {--%>
-					<%--alert(unselectedTargets[i] + " != " + selectedArray[j]);--%>
-				<%--}--%>
 			}
 		}
 
@@ -489,28 +454,4 @@ if (!portletName.equals(PortletKeys.SERVER_ADMIN)) {
 
 		submitForm(form);
 	}
-
-	function getWarning(){
-
-	}
-
-	var notice;
-
-	function getNotice() {
-		if (!notice) {
-				notice = new Liferay.Notice(
-				{
-					closeText: false,
-					content: '<liferay-ui:message key="an-unexpected-error-occurred"/><button class="close" type="button">&times;</button>',
-					timeout: 5000,
-					toggleText: false,
-					type: 'warning',
-					useAnimation: false
-				}
-			);
-		}
-
-		return notice;
-	}
-
 </aui:script>
