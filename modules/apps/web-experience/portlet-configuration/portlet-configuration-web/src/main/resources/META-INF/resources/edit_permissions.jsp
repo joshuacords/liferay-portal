@@ -121,9 +121,9 @@ Resource resource = portletConfigurationPermissionsDisplayContext.getResource();
 				/>
 
 				<liferay-frontend:management-bar-sort
-					orderByCol="<%= "title" %>"
-					orderByType="<%= "asc" %>"
-					orderColumns='<%= new String[] {"title", "display-date"} %>'
+					orderByCol="<%= portletConfigurationPermissionsDisplayContext.getRoleSearchContainer().getOrderByCol() %>"
+					orderByType="<%= portletConfigurationPermissionsDisplayContext.getRoleSearchContainer().getOrderByType() %>"
+					orderColumns='<%= new String[] {"title", "view"} %>'
 					portletURL="<%= portletConfigurationPermissionsDisplayContext.getIteratorURL() %>"
 				/>
 			</liferay-frontend:management-bar-filters>

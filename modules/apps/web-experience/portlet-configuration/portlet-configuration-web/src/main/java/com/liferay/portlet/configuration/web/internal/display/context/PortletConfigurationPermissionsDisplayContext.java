@@ -505,9 +505,12 @@ public class PortletConfigurationPermissionsDisplayContext {
 		ThemeDisplay themeDisplay, SearchContainer roleSearchContainer,
 	  	boolean activeRoles) throws PortalException {
 
+		String orderByCol = roleSearchContainer.getOrderByCol();
+		String orderByType = roleSearchContainer.getOrderByType();
+
 		OrderByComparator<Role> orderByComparator =
 			UsersAdminUtil.getRoleOrderByComparator(
-				"title", "asc");
+				orderByCol, orderByType);
 
 		return RoleLocalServiceUtil.getGroupRolesAndTeamRolesByPortlet(
 			portlet.getCompanyId(), portlet.getPortletName(),

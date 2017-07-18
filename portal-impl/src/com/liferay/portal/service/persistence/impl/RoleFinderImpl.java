@@ -1477,6 +1477,7 @@ public class RoleFinderImpl extends RoleFinderBaseImpl implements RoleFinder {
 				sql, "[$EXCLUDED_NAMES$]", getExcludedNames(excludedNames));
 			sql = StringUtil.replace(sql, "[$TYPE$]", getTypes(types.length));
 			sql = CustomSQLUtil.replaceAndOperator(sql, andOperator);
+			sql = CustomSQLUtil.replaceOrderBy(sql, obc);
 
 			if (inlineSQLHelper && InlineSQLHelperUtil.isEnabled()) {
 				sql = InlineSQLHelperUtil.replacePermissionCheck(
