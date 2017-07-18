@@ -115,7 +115,7 @@ Resource resource = portletConfigurationPermissionsDisplayContext.getResource();
 
 			<liferay-frontend:management-bar-filters>
 				<liferay-frontend:management-bar-navigation
-					navigationKeys='<%= new String[] {"all", "current", "available"} %>'
+					navigationKeys='<%= new String[] {"all", "with-permissions", "without-permissions"} %>'
 					navigationParam="category"
 					portletURL="<%= portletConfigurationPermissionsDisplayContext.getIteratorURL() %>"
 				/>

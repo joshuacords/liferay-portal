@@ -433,8 +433,8 @@ public class PortletConfigurationPermissionsDisplayContext {
 		int count = 0;
 		List<Role> roles = null;
 
-		if (StringUtil.equals(category, "current") ||
-			StringUtil.equals(category, "available")) {
+		if (StringUtil.equals(category, "with-permissions") ||
+			StringUtil.equals(category, "without-permissions")) {
 			Portlet portlet = PortletLocalServiceUtil.getPortletById(
 				themeDisplay.getCompanyId(), _getPortletResource());
 
@@ -455,7 +455,7 @@ public class PortletConfigurationPermissionsDisplayContext {
 
 			boolean activeRoles = true;
 
-			if (StringUtil.equals(category, "available")){
+			if (StringUtil.equals(category, "without-permissions")){
 				activeRoles = false;
 			}
 
