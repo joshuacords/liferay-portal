@@ -808,6 +808,20 @@ public class JournalUtil {
 					WorkflowConstants.STATUS_PENDING
 				});
 
+		if(latestArticle.isPending() || latestArticle.isDraft()){
+			JournalArticle latestArticle2 =
+				JournalArticleLocalServiceUtil.fetchLatestArticle(
+					article.getResourcePrimKey(),
+					new int[] {
+						WorkflowConstants.STATUS_APPROVED,
+						WorkflowConstants.STATUS_IN_TRASH
+					});
+
+			if(latestArticle2 != null){
+				latestArticle = latestArticle2;
+			}
+		}
+
 		if ((latestArticle != null) && !latestArticle.isIndexable()) {
 			return false;
 		}
@@ -826,8 +840,10 @@ public class JournalUtil {
 				article.getResourcePrimKey(),
 				new int[] {
 					WorkflowConstants.STATUS_APPROVED,
+//					WorkflowConstants.STATUS_DRAFT,
 					WorkflowConstants.STATUS_IN_TRASH,
-					WorkflowConstants.STATUS_SCHEDULED
+					WorkflowConstants.STATUS_SCHEDULED//,
+//					WorkflowConstants.STATUS_PENDING
 				});
 
 		if ((latestArticle != null) &&
