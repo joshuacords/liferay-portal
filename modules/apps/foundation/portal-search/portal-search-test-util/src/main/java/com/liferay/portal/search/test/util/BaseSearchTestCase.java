@@ -901,7 +901,7 @@ public abstract class BaseSearchTestCase {
 		assertGroupEntriesCount(initialSearchGroupEntriesCount + 5);
 	}
 
-	protected void searchStatus() throws Exception {
+	protected void searchStatus() throws Exception {	//I understand that this tests as a non-Content Reviewer
 		ServiceContext serviceContext =
 			ServiceContextTestUtil.getServiceContext(group.getGroupId());
 
@@ -910,36 +910,36 @@ public abstract class BaseSearchTestCase {
 
 		int initialBaseModelsCount = 0;
 
-		assertBaseModelsCount(initialBaseModelsCount, "1.0", searchContext);
+		assertBaseModelsCount(initialBaseModelsCount, "1.0", searchContext);	//no models currently
 
 		BaseModel<?> parentBaseModel = getParentBaseModel(
 			group, serviceContext);
 
 		baseModel = addBaseModel(
-			parentBaseModel, false, "Version 1.0", serviceContext);
+			parentBaseModel, false, "Version 1.0", serviceContext);	//add pending model, before pending articles are not listed in search, now they are (only for admin)
 
-		assertBaseModelsCount(initialBaseModelsCount, searchContext);
+		assertBaseModelsCount(initialBaseModelsCount, searchContext);	//I think this should be 1 now unless it's a non-content review; once when testing it took a minute for the new article to show up
 
 		serviceContext.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
 
-		baseModel = updateBaseModel(baseModel, "Version 1.1", serviceContext);
+		baseModel = updateBaseModel(baseModel, "Version 1.1", serviceContext);	//new version 1.1 approved (appears in non-Content and Content Reviewers)
 
-		assertBaseModelsCount(initialBaseModelsCount, "1.0", searchContext);
-		assertBaseModelsCount(initialBaseModelsCount + 1, "1.1", searchContext);
+		assertBaseModelsCount(initialBaseModelsCount, "1.0", searchContext);	//the old version shouldn't show in search and doesn't for non-Reviewers and Reviewers
+		assertBaseModelsCount(initialBaseModelsCount + 1, "1.1", searchContext);	//the new version shows for both non-Reviewers and Reviewers
 
 		serviceContext.setWorkflowAction(WorkflowConstants.ACTION_SAVE_DRAFT);
 
-		baseModel = updateBaseModel(baseModel, "Version 1.2", serviceContext);
+		baseModel = updateBaseModel(baseModel, "Version 1.2", serviceContext); //saves version 1.2 as a draft
 
-		assertBaseModelsCount(initialBaseModelsCount + 1, "1.1", searchContext);
-		assertBaseModelsCount(initialBaseModelsCount, "1.2", searchContext);
+		assertBaseModelsCount(initialBaseModelsCount + 1, "1.1", searchContext);	//Returns the draft version for Reviewers, but RETURNS NO VERSIONS FOR NON-REVIEWER!!! should return latest approved version
+		assertBaseModelsCount(initialBaseModelsCount, "1.2", searchContext);	//Search now returns the latest version instead of the older approved version for Reviewer, but nothing for non-Reviewer
 
 		serviceContext.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
 
-		baseModel = updateBaseModel(baseModel, "Version 1.3", serviceContext);
+		baseModel = updateBaseModel(baseModel, "Version 1.3", serviceContext);	//update draft to "version 1.3" as approved (is actually version 1.2 still)
 
-		assertBaseModelsCount(initialBaseModelsCount, "1.2", searchContext);
-		assertBaseModelsCount(initialBaseModelsCount + 1, "1.3", searchContext);
+		assertBaseModelsCount(initialBaseModelsCount, "1.2", searchContext);	//old one does not appear
+		assertBaseModelsCount(initialBaseModelsCount + 1, "1.3", searchContext);	//new version appears for both non-Reviewers and Reviewers
 	}
 
 	protected void searchVersions() throws Exception {

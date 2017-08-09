@@ -510,52 +510,52 @@ public class JournalIndexerTest {
 		SearchContext searchContext1 = SearchContextTestUtil.getSearchContext(
 			_group.getGroupId());
 
-		searchContext1.setKeywords("Architectural");
+		searchContext1.setKeywords("Architectural");	//searchContext1 is for "architectural" and groupId
 
-		assertSearchCount(0, _group.getGroupId(), searchContext1);
+		assertSearchCount(0, _group.getGroupId(), searchContext1);	//there are no articles for "architectural" and groupId
 
 		SearchContext searchContext2 = SearchContextTestUtil.getSearchContext(
 			_group.getGroupId());
 
-		searchContext2.setKeywords("Apple");
+		searchContext2.setKeywords("Apple");	//searchContext2 is for "apple" and groupId
 
-		assertSearchCount(0, _group.getGroupId(), searchContext2);
+		assertSearchCount(0, _group.getGroupId(), searchContext2);	//there are no articles for "apple" and groupId
 
-		JournalFolder folder = JournalTestUtil.addFolder(
+		JournalFolder folder = JournalTestUtil.addFolder(		//create Folder with random name
 			_group.getGroupId(), RandomTestUtil.randomString());
 
-		JournalArticle article = JournalTestUtil.addArticleWithWorkflow(
+		JournalArticle article = JournalTestUtil.addArticleWithWorkflow(	//adds approved article: "title", "Liferay Architectural Approach", groupId to the folder
 			_group.getGroupId(), folder.getFolderId(), "title",
 			"Liferay Architectural Approach", true);
 
-		assertSearchCount(1, _group.getGroupId(), searchContext1);
+		assertSearchCount(1, _group.getGroupId(), searchContext1);	//there is 1 article for "architectural" and groupId
 
 		String content = DDMStructureTestUtil.getSampleStructuredContent(
 			"Apple tablet");
 
 		serviceContext.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
 
-		article = JournalTestUtil.updateArticle(
+		article = JournalTestUtil.updateArticle(								//publishes approved article with content "apple tablet"
 			article, article.getTitleMap(), content, false, true,
 			serviceContext);
 
-		assertSearchCount(0, _group.getGroupId(), searchContext1);
-		assertSearchCount(1, _group.getGroupId(), searchContext2);
+		assertSearchCount(0, _group.getGroupId(), searchContext1);	//no longer finds article with content "Architectural"
+		assertSearchCount(1, _group.getGroupId(), searchContext2);	//finds article with "Apple"
 
-		if (all) {
-			if (delete) {
+		if (all) {					//true
+			if (delete) {			//false
 				JournalArticleLocalServiceUtil.deleteArticle(
 					_group.getGroupId(), article.getArticleId(),
 					serviceContext);
 			}
 			else {
-				JournalArticleLocalServiceUtil.expireArticle(
+				JournalArticleLocalServiceUtil.expireArticle(				//Expires article
 					TestPropsValues.getUserId(), _group.getGroupId(),
 					article.getArticleId(), article.getUrlTitle(),
 					serviceContext);
 			}
 
-			assertSearchCount(0, _group.getGroupId(), searchContext1);
+			assertSearchCount(0, _group.getGroupId(), searchContext1);		//still doesn't find article w/content "Architectural"
 		}
 		else {
 			if (delete) {
@@ -571,7 +571,7 @@ public class JournalIndexerTest {
 			assertSearchCount(1, _group.getGroupId(), searchContext1);
 		}
 
-		assertSearchCount(0, _group.getGroupId(), searchContext2);
+		assertSearchCount(0, _group.getGroupId(), searchContext2);	//shouldn't find article that is expired
 	}
 
 	protected void assertSearchCount(
@@ -742,25 +742,25 @@ public class JournalIndexerTest {
 		SearchContext searchContext1 = SearchContextTestUtil.getSearchContext(
 			_group.getGroupId());
 
-		searchContext1.setKeywords("Architectural");
+		searchContext1.setKeywords("Architectural");	//searchContext1 is for "architectural" and groupId
 
-		assertSearchCount(0, _group.getGroupId(), searchContext1);
+		assertSearchCount(0, _group.getGroupId(), searchContext1);	//there are no articles for "architectural" and groupId
 
 		SearchContext searchContext2 = SearchContextTestUtil.getSearchContext(
 			_group.getGroupId());
 
-		searchContext2.setKeywords("Apple");
+		searchContext2.setKeywords("Apple");	//searchContext2 is for "apple" and groupId
 
-		assertSearchCount(0, _group.getGroupId(), searchContext2);
+		assertSearchCount(0, _group.getGroupId(), searchContext2);	//there are no articles for "apple" and groupId
 
-		JournalFolder folder = JournalTestUtil.addFolder(
+		JournalFolder folder = JournalTestUtil.addFolder(			//adds a folder with groupId and random name
 			_group.getGroupId(), RandomTestUtil.randomString());
 
-		JournalArticle article = JournalTestUtil.addArticleWithWorkflow(
+		JournalArticle article = JournalTestUtil.addArticleWithWorkflow(	//adds approved article: "title", "Liferay Architectural Approach", groupId to the folder
 			_group.getGroupId(), folder.getFolderId(), "title",
 			"Liferay Architectural Approach", true);
 
-		assertSearchCount(1, _group.getGroupId(), searchContext1);
+		assertSearchCount(1, _group.getGroupId(), searchContext1);	//searching for groupId and "architectural" will find article for both Reviewer and non-Reviewer
 
 		String content = DDMStructureTestUtil.getSampleStructuredContent(
 			"Apple tablet");
@@ -769,15 +769,15 @@ public class JournalIndexerTest {
 			ServiceContextTestUtil.getServiceContext(_group.getGroupId());
 
 		if (!approve) {
-			serviceContext.setWorkflowAction(
+			serviceContext.setWorkflowAction(		//will save as draft
 				WorkflowConstants.ACTION_SAVE_DRAFT);
 		}
 		else {
 			serviceContext.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
 		}
 
-		JournalTestUtil.updateArticle(
-			article, article.getTitleMap(), content, false, true,
+		JournalTestUtil.updateArticle(		//updated the article, now a draft
+			article, article.getTitleMap(), content, false, true,		//because workflow!Enabled, approved doesn't matter
 			serviceContext);
 
 		if (approve) {
@@ -785,7 +785,7 @@ public class JournalIndexerTest {
 			assertSearchCount(1, _group.getGroupId(), searchContext2);
 		}
 		else {
-			assertSearchCount(1, _group.getGroupId(), searchContext1);
+			assertSearchCount(1, _group.getGroupId(), searchContext1);	//are 1 if admin, but 0 if non-content reviewer - but non-Reviewer should still see old approved version
 			assertSearchCount(0, _group.getGroupId(), searchContext2);
 		}
 	}

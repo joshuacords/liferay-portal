@@ -3245,9 +3245,9 @@ public abstract class BaseTrashHandlerTestCase {
 		BaseModel<?> parentBaseModel = getParentBaseModel(
 			group, serviceContext);
 
-		baseModel = addBaseModel(parentBaseModel, serviceContext);
+		baseModel = addBaseModel(parentBaseModel, serviceContext);	//create a baseModel
 
-		baseModel = whenIsVersionableBaseModel.expireBaseModel(
+		baseModel = whenIsVersionableBaseModel.expireBaseModel(		//expires baseModel
 			baseModel, serviceContext);
 
 		WhenIsUpdatableBaseModel whenIsUpdatableBaseModel =
@@ -3261,7 +3261,7 @@ public abstract class BaseTrashHandlerTestCase {
 
 		serviceContext.setWorkflowAction(WorkflowConstants.ACTION_PUBLISH);
 
-		baseModel = whenIsUpdatableBaseModel.updateBaseModel(
+		baseModel = whenIsUpdatableBaseModel.updateBaseModel(		//publishes expired baseModel
 			(Long)baseModel.getPrimaryKeyObj(), serviceContext);
 
 		workflowedModel = getWorkflowedModel(baseModel);
@@ -3270,7 +3270,7 @@ public abstract class BaseTrashHandlerTestCase {
 
 		serviceContext.setWorkflowAction(WorkflowConstants.ACTION_SAVE_DRAFT);
 
-		baseModel = whenIsUpdatableBaseModel.updateBaseModel(
+		baseModel = whenIsUpdatableBaseModel.updateBaseModel(		//saves expired baseModel as draft
 			(Long)baseModel.getPrimaryKeyObj(), serviceContext);
 
 		workflowedModel = getWorkflowedModel(baseModel);
@@ -3278,9 +3278,10 @@ public abstract class BaseTrashHandlerTestCase {
 		originalStatuses.add(workflowedModel.getStatus());
 
 		Assert.assertEquals(
-			initialBaseModelsSearchCount + 1,
-			whenIsIndexableBaseModel.searchBaseModelsCount(
-				getBaseModelClass(), group.getGroupId()));
+			initialBaseModelsSearchCount + 1,	//just a guess //the draft appears only to Content Reviewer
+			whenIsIndexableBaseModel.searchBaseModelsCount(			//there should be an unexpired base model?
+				getBaseModelClass(), group.getGroupId()));			//in 70x with an expired versions and a draft versions, searching for test will not show either for Content Reviewer! (will show without search)
+																		//non-Content Reviewer sees nothing in either search or non-search
 		Assert.assertEquals(
 			initialTrashEntriesSearchCount,
 			whenIsIndexableBaseModel.searchTrashEntriesCount(
