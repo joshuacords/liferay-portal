@@ -34,6 +34,26 @@ public class RoleFinderUtil {
 			excludedNames, types, excludedTeamRoleId, teamGroupId);
 	}
 
+	public static int countByGroupRoleAndTeamRoleAndRoleIds(long companyId,
+		java.lang.String keywords,
+		java.util.List<java.lang.String> excludedNames, int[] types,
+		long excludedTeamRoleId, long teamGroupId, long[] roleIds) {
+		return getFinder()
+				   .countByGroupRoleAndTeamRoleAndRoleIds(companyId, keywords,
+			excludedNames, types, excludedTeamRoleId, teamGroupId, roleIds);
+	}
+
+	public static int countByGroupRoleAndTeamRoleByPortlet(long companyId,
+		java.lang.String portletName, int scope, java.lang.String primKey,
+		java.lang.String keywords,
+		java.util.List<java.lang.String> excludedNames, int[] types,
+		long excludedTeamRoleId, long teamGroupId, boolean activeRoles) {
+		return getFinder()
+				   .countByGroupRoleAndTeamRoleByPortlet(companyId,
+			portletName, scope, primKey, keywords, excludedNames, types,
+			excludedTeamRoleId, teamGroupId, activeRoles);
+	}
+
 	public static int countByKeywords(long companyId,
 		java.lang.String keywords, java.lang.Integer[] types) {
 		return getFinder().countByKeywords(companyId, keywords, types);
@@ -84,6 +104,27 @@ public class RoleFinderUtil {
 			excludedNames, types, excludedTeamRoleId, teamGroupId);
 	}
 
+	public static int filterCountByGroupRoleAndTeamRoleAndRoleIds(
+		long companyId, java.lang.String keywords,
+		java.util.List<java.lang.String> excludedNames, int[] types,
+		long excludedTeamRoleId, long teamGroupId, long[] roleIds) {
+		return getFinder()
+				   .filterCountByGroupRoleAndTeamRoleAndRoleIds(companyId,
+			keywords, excludedNames, types, excludedTeamRoleId, teamGroupId,
+			roleIds);
+	}
+
+	public static int filterCountByGroupRoleAndTeamRoleByPortlet(
+		long companyId, java.lang.String portletName, int scope,
+		java.lang.String primKey, java.lang.String keywords,
+		java.util.List<java.lang.String> excludedNames, int[] types,
+		long excludedTeamRoleId, long teamGroupId, boolean activeRoles) {
+		return getFinder()
+				   .filterCountByGroupRoleAndTeamRoleByPortlet(companyId,
+			portletName, scope, primKey, keywords, excludedNames, types,
+			excludedTeamRoleId, teamGroupId, activeRoles);
+	}
+
 	public static int filterCountByKeywords(long companyId,
 		java.lang.String keywords, java.lang.Integer[] types,
 		java.util.LinkedHashMap<java.lang.String, java.lang.Object> params) {
@@ -118,6 +159,30 @@ public class RoleFinderUtil {
 		return getFinder()
 				   .filterFindByGroupRoleAndTeamRole(companyId, keywords,
 			excludedNames, types, excludedTeamRoleId, teamGroupId, start, end);
+	}
+
+	public static java.util.List<com.liferay.portal.kernel.model.Role> filterFindByGroupRoleAndTeamRoleAndRoleIds(
+		long companyId, java.lang.String keywords,
+		java.util.List<java.lang.String> excludedNames, int[] types,
+		long excludedTeamRoleId, long teamGroupId, long[] roleIds, int start,
+		int end) {
+		return getFinder()
+				   .filterFindByGroupRoleAndTeamRoleAndRoleIds(companyId,
+			keywords, excludedNames, types, excludedTeamRoleId, teamGroupId,
+			roleIds, start, end);
+	}
+
+	public static java.util.List<com.liferay.portal.kernel.model.Role> filterFindByGroupRoleAndTeamRoleByPortlet(
+		long companyId, java.lang.String portletName, int scope,
+		java.lang.String primKey, java.lang.String keywords,
+		java.util.List<java.lang.String> excludedNames, int[] types,
+		long excludedTeamRoleId, long teamGroupId, boolean activeRoles,
+		int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<com.liferay.portal.kernel.model.Role> obc) {
+		return getFinder()
+				   .filterFindByGroupRoleAndTeamRoleByPortlet(companyId,
+			portletName, scope, primKey, keywords, excludedNames, types,
+			excludedTeamRoleId, teamGroupId, activeRoles, start, end, obc);
 	}
 
 	public static java.util.List<com.liferay.portal.kernel.model.Role> filterFindByKeywords(
@@ -159,6 +224,30 @@ public class RoleFinderUtil {
 		return getFinder()
 				   .findByGroupRoleAndTeamRole(companyId, keywords,
 			excludedNames, types, excludedTeamRoleId, teamGroupId, start, end);
+	}
+
+	public static java.util.List<com.liferay.portal.kernel.model.Role> findByGroupRoleAndTeamRoleAndRoleIds(
+		long companyId, java.lang.String keywords,
+		java.util.List<java.lang.String> excludedNames, int[] types,
+		long excludedTeamRoleId, long teamGroupId, long[] roleIds, int start,
+		int end) {
+		return getFinder()
+				   .findByGroupRoleAndTeamRoleAndRoleIds(companyId, keywords,
+			excludedNames, types, excludedTeamRoleId, teamGroupId, roleIds,
+			start, end);
+	}
+
+	public static java.util.List<com.liferay.portal.kernel.model.Role> findByGroupRoleAndTeamRoleByPortlet(
+		long companyId, java.lang.String portletName, int scope,
+		java.lang.String primKey, java.lang.String keywords,
+		java.util.List<java.lang.String> excludedNames, int[] types,
+		long excludedTeamRoleId, long teamGroupId, boolean activeRoles,
+		int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<com.liferay.portal.kernel.model.Role> obc) {
+		return getFinder()
+				   .findByGroupRoleAndTeamRoleByPortlet(companyId, portletName,
+			scope, primKey, keywords, excludedNames, types, excludedTeamRoleId,
+			teamGroupId, activeRoles, start, end, obc);
 	}
 
 	public static java.util.List<com.liferay.portal.kernel.model.Role> findByKeywords(

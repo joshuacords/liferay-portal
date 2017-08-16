@@ -44,8 +44,10 @@ import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.PortletKeys;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -54,6 +56,7 @@ import com.liferay.portlet.configuration.web.internal.constants.PortletConfigura
 import com.liferay.portlet.rolesadmin.search.RoleSearch;
 import com.liferay.portlet.rolesadmin.search.RoleSearchTerms;
 import com.liferay.sites.kernel.util.SitesUtil;
+import com.liferay.users.admin.kernel.util.UsersAdminUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -161,6 +164,18 @@ public class PortletConfigurationPermissionsDisplayContext {
 		return _actions;
 	}
 
+	public String getCurrentCategory() throws Exception {
+		String category = ParamUtil.getString(_request, "category",
+			_defaultCategory);
+
+		if (category != null) {
+			return category;
+		}
+		else {
+			return _defaultCategory;
+		}
+	}
+
 	public PortletURL getDefinePermissionsURL() throws Exception {
 		ThemeDisplay themeDisplay = (ThemeDisplay)_request.getAttribute(
 			WebKeys.THEME_DISPLAY);
@@ -220,6 +235,8 @@ public class PortletConfigurationPermissionsDisplayContext {
 		PortletURL portletURL = PortletURLFactoryUtil.create(
 			_request, PortletConfigurationPortletKeys.PORTLET_CONFIGURATION,
 			PortletRequest.RENDER_PHASE);
+		String category = ParamUtil.getString(_request, "category",
+			_defaultCategory);
 
 		portletURL.setParameter("mvcPath", "/edit_permissions.jsp");
 		portletURL.setParameter(
@@ -232,6 +249,7 @@ public class PortletConfigurationPermissionsDisplayContext {
 			"resourceGroupId", String.valueOf(_getResourceGroupId()));
 		portletURL.setParameter("resourcePrimKey", getResourcePrimKey());
 		portletURL.setParameter("roleTypes", _getRoleTypesParam());
+		portletURL.setParameter("category", category);
 
 		portletURL.setWindowState(LiferayWindowState.POP_UP);
 
@@ -316,6 +334,9 @@ public class PortletConfigurationPermissionsDisplayContext {
 
 		ThemeDisplay themeDisplay = (ThemeDisplay)_request.getAttribute(
 			WebKeys.THEME_DISPLAY);
+
+		String category = ParamUtil.getString(_request, "category",
+			_defaultCategory);
 
 		SearchContainer roleSearchContainer = new RoleSearch(
 			_renderRequest, getIteratorURL());
@@ -409,23 +430,111 @@ public class PortletConfigurationPermissionsDisplayContext {
 			teamGroupId = _group.getParentGroupId();
 		}
 
-		int count = RoleLocalServiceUtil.getGroupRolesAndTeamRolesCount(
-			themeDisplay.getCompanyId(), searchTerms.getKeywords(),
-			excludedRoleNames, getRoleTypes(), modelResourceRoleId,
-			teamGroupId);
+		int count = 0;
+		List<Role> roles = null;
 
-		roleSearchContainer.setTotal(count);
+		if (StringUtil.equals(category, "with-permissions") ||
+			StringUtil.equals(category, "without-permissions")) {
+			Portlet portlet = PortletLocalServiceUtil.getPortletById(
+				themeDisplay.getCompanyId(), _getPortletResource());
 
-		List<Role> roles = RoleLocalServiceUtil.getGroupRolesAndTeamRoles(
-			themeDisplay.getCompanyId(), searchTerms.getKeywords(),
-			excludedRoleNames, getRoleTypes(), modelResourceRoleId, teamGroupId,
-			roleSearchContainer.getStart(), roleSearchContainer.getResultEnd());
+//			List<ResourcePermission> resourcePermissions =
+//				ResourcePermissionUtil.getActiveResourcePermissions(
+//					portlet.getCompanyId(), portlet.getPortletName(),
+//					PortletKeys.PREFS_OWNER_TYPE_USER,
+//					themeDisplay.getPlid() + "_LAYOUT_" +
+//						portlet.getPortletId());
+//
+//			long[] resourcePermissionIds = new long[resourcePermissions.size()];
+//
+//			int i = 0;
+//
+//			for (ResourcePermission resourcePermission : resourcePermissions) {
+//				resourcePermissionIds[i++] = resourcePermission.getRoleId();
+//			}
+
+			boolean activeRoles = true;
+
+			if (StringUtil.equals(category, "without-permissions")){
+				activeRoles = false;
+			}
+
+			count = newGetRolesCount(portlet, searchTerms, excludedRoleNames,
+				modelResourceRoleId, teamGroupId, themeDisplay, activeRoles);
+//				RoleLocalServiceUtil.getGroupRolesAndTeamRolesAndRoleIdsCount(
+//					themeDisplay.getCompanyId(), searchTerms.getKeywords(),
+//					excludedRoleNames, getRoleTypes(), modelResourceRoleId,
+//					teamGroupId, resourcePermissionIds);
+
+			roleSearchContainer.setTotal(count);
+
+			roles = newGetRoles(portlet, searchTerms, excludedRoleNames,
+			modelResourceRoleId, teamGroupId, themeDisplay, roleSearchContainer,
+				activeRoles);
+//				RoleLocalServiceUtil.getGroupRolesAndTeamRolesAndRoleIds(
+//				themeDisplay.getCompanyId(), searchTerms.getKeywords(),
+//				excludedRoleNames, getRoleTypes(), modelResourceRoleId,
+//				teamGroupId, resourcePermissionIds,
+//				roleSearchContainer.getStart(),
+//				roleSearchContainer.getResultEnd());
+		}
+		else {
+			count = RoleLocalServiceUtil.getGroupRolesAndTeamRolesCount(
+				themeDisplay.getCompanyId(), searchTerms.getKeywords(),
+				excludedRoleNames, getRoleTypes(), modelResourceRoleId,
+				teamGroupId);
+
+			roleSearchContainer.setTotal(count);
+
+			roles = RoleLocalServiceUtil.getGroupRolesAndTeamRoles(
+				themeDisplay.getCompanyId(), searchTerms.getKeywords(),
+				excludedRoleNames, getRoleTypes(), modelResourceRoleId,
+				teamGroupId, roleSearchContainer.getStart(),
+				roleSearchContainer.getResultEnd());
+		}
 
 		roleSearchContainer.setResults(roles);
 
 		_roleSearchContainer = roleSearchContainer;
 
 		return _roleSearchContainer;
+	}
+
+	public List<Role> newGetRoles(Portlet portlet, RoleSearchTerms searchTerms,
+		List<String> excludedRoleNames, long modelResourceRoleId, long teamGroupId,
+		ThemeDisplay themeDisplay, SearchContainer roleSearchContainer,
+	  	boolean activeRoles) throws PortalException {
+
+		String orderByCol = roleSearchContainer.getOrderByCol();
+		String orderByType = roleSearchContainer.getOrderByType();
+
+		OrderByComparator<Role> orderByComparator =
+			UsersAdminUtil.getRoleOrderByComparator(
+				orderByCol, orderByType);
+
+		return RoleLocalServiceUtil.getGroupRolesAndTeamRolesByPortlet(
+			portlet.getCompanyId(), portlet.getPortletName(),
+			PortletKeys.PREFS_OWNER_TYPE_USER,
+			themeDisplay.getPlid() + "_LAYOUT_" +
+			portlet.getPortletId(), searchTerms.getKeywords(),
+			excludedRoleNames, getRoleTypes(),
+			modelResourceRoleId, teamGroupId, activeRoles,
+			roleSearchContainer.getStart(), roleSearchContainer.getResultEnd(),
+			orderByComparator);
+	}
+
+	public int newGetRolesCount(Portlet portlet, RoleSearchTerms searchTerms,
+			List<String> excludedRoleNames, long modelResourceRoleId, long teamGroupId,
+			ThemeDisplay themeDisplay, boolean activeRoles)
+		throws PortalException {
+
+		return RoleLocalServiceUtil.getGroupRolesAndTeamRolesByPortletCount(
+			portlet.getCompanyId(), portlet.getPortletName(),
+			PortletKeys.PREFS_OWNER_TYPE_USER,
+			themeDisplay.getPlid() + "_LAYOUT_" +
+			portlet.getPortletId(), searchTerms.getKeywords(),
+			excludedRoleNames, getRoleTypes(),
+			modelResourceRoleId, teamGroupId, activeRoles);
 	}
 
 	public int[] getRoleTypes() {
@@ -539,6 +648,8 @@ public class PortletConfigurationPermissionsDisplayContext {
 			_request, SearchContainer.DEFAULT_CUR_PARAM);
 		int delta = ParamUtil.getInteger(
 			_request, SearchContainer.DEFAULT_DELTA_PARAM);
+		String category = ParamUtil.getString(_request, "category",
+			_defaultCategory);
 
 		PortletURL portletURL = PortletURLFactoryUtil.create(
 			_request, PortletConfigurationPortletKeys.PORTLET_CONFIGURATION,
@@ -561,6 +672,7 @@ public class PortletConfigurationPermissionsDisplayContext {
 			"resourceGroupId", String.valueOf(_getResourceGroupId()));
 		portletURL.setParameter("resourcePrimKey", getResourcePrimKey());
 		portletURL.setParameter("roleTypes", _getRoleTypesParam());
+		portletURL.setParameter("category", category);
 
 		portletURL.setWindowState(LiferayWindowState.POP_UP);
 
@@ -614,6 +726,8 @@ public class PortletConfigurationPermissionsDisplayContext {
 
 		return _roleTypesParam;
 	}
+
+	private static final String _defaultCategory = "all";
 
 	private List<String> _actions;
 	private Group _group;

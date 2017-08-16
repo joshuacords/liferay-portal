@@ -357,6 +357,19 @@ public interface RoleLocalService extends BaseLocalService,
 	public int getAssigneesTotal(long roleId) throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getGroupRolesAndTeamRolesAndRoleIdsCount(long companyId,
+		java.lang.String keywords, List<java.lang.String> excludedNames,
+		int[] types, long excludedTeamRoleId, long teamGroupId, long[] roleIds)
+		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public int getGroupRolesAndTeamRolesByPortletCount(long companyId,
+		java.lang.String portletName, int scope, java.lang.String primKey,
+		java.lang.String keywords, List<java.lang.String> excludedNames,
+		int[] types, long excludedTeamRoleId, long teamGroupId,
+		boolean activeRoles) throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getGroupRolesAndTeamRolesCount(long companyId,
 		java.lang.String keywords, List<java.lang.String> excludedNames,
 		int[] types, long excludedTeamRoleId, long teamGroupId);
@@ -521,6 +534,20 @@ public interface RoleLocalService extends BaseLocalService,
 		java.lang.String keywords, List<java.lang.String> excludedNames,
 		int[] types, long excludedTeamRoleId, long teamGroupId, int start,
 		int end);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Role> getGroupRolesAndTeamRolesAndRoleIds(long companyId,
+		java.lang.String keywords, List<java.lang.String> excludedNames,
+		int[] types, long excludedTeamRoleId, long teamGroupId, long[] roleIds,
+		int start, int end) throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Role> getGroupRolesAndTeamRolesByPortlet(long companyId,
+		java.lang.String portletName, int scope, java.lang.String primKey,
+		java.lang.String keywords, List<java.lang.String> excludedNames,
+		int[] types, long excludedTeamRoleId, long teamGroupId,
+		boolean activeRoles, int start, int end, OrderByComparator<Role> obc)
+		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Role> getResourceBlockRoles(long resourceBlockId,

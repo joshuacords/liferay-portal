@@ -25,21 +25,111 @@ if (Validator.isNotNull(portletConfigurationPermissionsDisplayContext.getModelRe
 }
 
 Resource resource = portletConfigurationPermissionsDisplayContext.getResource();
+
+//String tabs1 = portletConfigurationPermissionsDisplayContext.getCurrentTab();
 %>
 
 <div class="edit-permissions portlet-configuration-edit-permissions">
 	<div class="portlet-configuration-body-content">
 		<aui:nav-bar cssClass="collapse-basic-search" markupView="lexicon">
 			<aui:nav cssClass="navbar-nav">
-				<aui:nav-item label="permissions" selected="<%= true %>" />
+				<aui:nav-item label="permissions" selected="true" />
+			</aui:nav>
+			<ul class="nav navbar-nav navbar-right">
+				<aui:nav-bar-search>
+					<aui:form action="<%= portletConfigurationPermissionsDisplayContext.getIteratorURL() %>" name="searchFm">
+						<liferay-ui:input-search markupView="lexicon" />
+					</aui:form>
+				</aui:nav-bar-search>
+			</ul>
+		</aui:nav-bar>
+		<%--<aui:nav-bar cssClass="collapse-basic-search" markupView="lexicon">--%>
+		<%--<div class="management-bar management-bar-default">
+			&lt;%&ndash;<nav class="navbar navbar-default">&ndash;%&gt;
+			<div class="management-bar-header">
+				<%
+					PortletURL currentPermissionsURL = portletConfigurationPermissionsDisplayContext.getIteratorURL();
+					PortletURL availablePermissionsURL = portletConfigurationPermissionsDisplayContext.getIteratorURL();
+					currentPermissionsURL.setParameter("tabs1", "current");
+					availablePermissionsURL.setParameter("tabs1", "available");
+				%>
+
+				<div aria-expanded="false" class="collapse navbar-collapse" id="navbar-collapse-0">
+					<ul class="nav management-bar-nav">
+						<li class="dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#1">
+								<span class="management-bar-item-title"><%= tabs1.equals("current") ? "current" : "available" %></span>
+								<span class="icon-sort"></span>
+							</a>
+							<ul class="dropdown-menu">
+								<li class="<%= tabs1.equals("available") ? "active" : "" %>"><a href="<%= availablePermissionsURL.toString() %>">All</a></li>
+								<li class="<%= tabs1.equals("current") ? "active" : "" %>"><a href="<%= currentPermissionsURL.toString() %>">Current</a></li>
+							</ul>
+						</li>
+						<li class="dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#1">
+								<span class="management-bar-item-title">Order By: Modified Date</span>
+								<span class="icon-sort"></span>
+							</a>
+							<ul class="dropdown-menu">
+								<li><a href="#1">Name</a></li>
+								<li><a href="#1">Create Date</a></li>
+								<li class="active"><a href="#1">Modified Date</a></li>
+								<li><a href="#1">Downloads</a></li>
+								<li><a href="#1">Size</a></li>
+							</ul>
+						</li>
+						<li>
+							<a class="btn hidden-xs" href="#1"><span class="icon-caret-up icon-monospaced"></span></a>
+						</li>
+						<li>
+							<a class="btn hidden-xs" href="#1"><span class="icon-caret-down icon-monospaced"></span></a>
+						</li>
+					</ul>
+
+				</div>
+			</div>--%>
+			<%--<aui:nav cssClass="navbar-nav">
+
+
+
+				<aui:nav-item href="<%= currentPermissionsURL.toString() %>" label="current-A" selected='<%= tabs1.equals("current") %>' />
+				<aui:nav-item href="<%= availablePermissionsURL.toString() %>" label="available" selected='<%= tabs1.equals("available") %>' />
 			</aui:nav>
 
 			<aui:nav-bar-search>
 				<aui:form action="<%= portletConfigurationPermissionsDisplayContext.getIteratorURL() %>" name="searchFm">
 					<liferay-ui:input-search markupView="lexicon" />
 				</aui:form>
-			</aui:nav-bar-search>
-		</aui:nav-bar>
+			</aui:nav-bar-search>--%>
+		<%--</div>--%>
+
+		<liferay-frontend:management-bar >
+<%--			<liferay-frontend:management-bar-buttons>
+				<liferay-frontend:management-bar-display-buttons
+					displayViews='<%= new String[] {"icon", "descriptive", "list"} %>'
+					portletURL="<%= portletConfigurationPermissionsDisplayContext.getIteratorURL() %>"
+					selectedDisplayStyle="<%= "list" %>"
+				/>
+			</liferay-frontend:management-bar-buttons>--%>
+
+			<liferay-frontend:management-bar-filters>
+				<liferay-frontend:management-bar-navigation
+					navigationKeys='<%= new String[] {"all", "with-permissions", "without-permissions"} %>'
+					navigationParam="category"
+					portletURL="<%= portletConfigurationPermissionsDisplayContext.getIteratorURL() %>"
+				/>
+
+				<liferay-frontend:management-bar-sort
+					orderByCol="<%= portletConfigurationPermissionsDisplayContext.getRoleSearchContainer().getOrderByCol() %>"
+					orderByType="<%= portletConfigurationPermissionsDisplayContext.getRoleSearchContainer().getOrderByType() %>"
+					orderColumns='<%= new String[] {"title", "view"} %>'
+					portletURL="<%= portletConfigurationPermissionsDisplayContext.getIteratorURL() %>"
+				/>
+			</liferay-frontend:management-bar-filters>
+		</liferay-frontend:management-bar>
+
+
 
 		<aui:form action="<%= portletConfigurationPermissionsDisplayContext.getUpdateRolePermissionsURL() %>" cssClass="container-fluid-1280" method="post" name="fm">
 			<aui:input name="resourceId" type="hidden" value="<%= resource.getResourceId() %>" />

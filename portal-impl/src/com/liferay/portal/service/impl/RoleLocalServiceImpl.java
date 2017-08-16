@@ -737,6 +737,56 @@ public class RoleLocalServiceImpl extends RoleLocalServiceBaseImpl {
 	}
 
 	@Override
+	public List<Role> getGroupRolesAndTeamRolesByPortlet(
+			long companyId, String portletName, int scope, String primKey,
+			String keywords, List<String> excludedNames, int[] types,
+			long excludedTeamRoleId, long teamGroupId, boolean activeRoles,
+			int start, int end, OrderByComparator<Role> obc)
+		throws PortalException {
+
+		return roleFinder.findByGroupRoleAndTeamRoleByPortlet(
+			companyId, portletName, scope, primKey, keywords, excludedNames,
+			types, excludedTeamRoleId, teamGroupId, activeRoles, start, end,
+			obc);
+	}
+
+	@Override
+	public List<Role> getGroupRolesAndTeamRolesAndRoleIds(
+		long companyId, String keywords, List<String> excludedNames,
+		int[] types, long excludedTeamRoleId, long teamGroupId,
+		long[] roleIds, int start, int end)
+		throws PortalException {
+
+		return roleFinder.findByGroupRoleAndTeamRoleAndRoleIds(
+			companyId, keywords, excludedNames, types, excludedTeamRoleId,
+			teamGroupId, roleIds, start, end);
+	}
+
+	@Override
+	public int getGroupRolesAndTeamRolesByPortletCount(
+		long companyId, String portletName, int scope, String primKey,
+		String keywords, List<String> excludedNames, int[] types,
+		long excludedTeamRoleId, long teamGroupId, boolean activeRoles)
+		throws PortalException {
+
+		return roleFinder.countByGroupRoleAndTeamRoleByPortlet(
+			companyId, portletName, scope, primKey, keywords, excludedNames,
+			types, excludedTeamRoleId, teamGroupId, activeRoles);
+	}
+
+	@Override
+	public int getGroupRolesAndTeamRolesAndRoleIdsCount(
+			long companyId, String keywords, List<String> excludedNames,
+			int[] types, long excludedTeamRoleId, long teamGroupId,
+			long[] roleIds)
+		throws PortalException {
+
+		return roleFinder.countByGroupRoleAndTeamRoleAndRoleIds(
+			companyId, keywords, excludedNames, types, excludedTeamRoleId,
+			teamGroupId, roleIds);
+	}
+
+	@Override
 	public int getGroupRolesAndTeamRolesCount(
 		long companyId, String keywords, List<String> excludedNames,
 		int[] types, long excludedTeamRoleId, long teamGroupId) {
