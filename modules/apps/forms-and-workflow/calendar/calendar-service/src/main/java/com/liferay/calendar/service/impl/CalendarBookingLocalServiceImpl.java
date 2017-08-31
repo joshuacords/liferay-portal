@@ -541,6 +541,9 @@ public class CalendarBookingLocalServiceImpl
 		throws PortalException {
 
 		Date now = new Date();
+		ServiceContext serviceContext = new ServiceContext();
+
+		serviceContext.setUserId(userId);
 
 		java.util.Calendar startTimeJCalendar = JCalendarUtil.getJCalendar(
 			startTime, calendarBooking.getTimeZone());
@@ -561,6 +564,10 @@ public class CalendarBookingLocalServiceImpl
 			}
 
 			if (startTime == calendarBooking.getStartTime()) {
+				_sendChildrenNotifications(
+					calendarBooking, NotificationTemplateType.MOVED_TO_TRASH,
+					serviceContext);
+
 				calendarBookingLocalService.deleteCalendarBooking(
 					calendarBooking, false);
 
@@ -580,6 +587,10 @@ public class CalendarBookingLocalServiceImpl
 				RecurrenceUtil.getCalendarBookingInstance(calendarBooking, 1);
 
 			if (calendarBookingInstance == null) {
+				_sendChildrenNotifications(
+					calendarBooking, NotificationTemplateType.MOVED_TO_TRASH,
+					serviceContext);
+
 				calendarBookingLocalService.deleteCalendarBooking(
 					calendarBooking, false);
 
@@ -592,6 +603,10 @@ public class CalendarBookingLocalServiceImpl
 		String recurrence = RecurrenceSerializer.serialize(recurrenceObj);
 
 		updateChildCalendarBookings(calendarBooking, now, recurrence);
+
+		_sendChildrenNotifications(
+			calendarBooking, NotificationTemplateType.MOVED_TO_TRASH,
+			serviceContext);
 	}
 
 	/**
@@ -2311,6 +2326,27 @@ public class CalendarBookingLocalServiceImpl
 
 	@ServiceReference(type = TrashEntryLocalService.class)
 	protected TrashEntryLocalService trashEntryLocalService;
+
+	private void _sendChildrenNotifications(
+		CalendarBooking calendarBooking,
+		NotificationTemplateType notificationType,
+		ServiceContext serviceContext) {
+
+		List<CalendarBooking> childCalendarBookings =
+			calendarBooking.getChildCalendarBookings();
+
+		for (CalendarBooking childCalendarBooking : childCalendarBookings) {
+			if (childCalendarBooking.equals(calendarBooking)) {
+				continue;
+			}
+
+			sendNotification(
+				childCalendarBooking, notificationType, serviceContext);
+
+			_sendChildrenNotifications(
+				childCalendarBooking, notificationType, serviceContext);
+		}
+	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		CalendarBookingLocalServiceImpl.class);
