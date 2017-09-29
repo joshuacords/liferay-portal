@@ -597,18 +597,14 @@ public class CalendarBookingLocalServiceImpl
 				return;
 			}
 
-//			int instanceIndex = RecurrenceUtil.getIndexOfInstance(
-//				calendarBooking.getRecurrence(), calendarBooking.getStartTime(),
-//				startTime);
-
-			serviceContext.setAttribute("instanceStartTime", startTime);
-
 			recurrenceObj.addExceptionJCalendar(startTimeJCalendar);
 		}
 
 		String recurrence = RecurrenceSerializer.serialize(recurrenceObj);
 
 		updateChildCalendarBookings(calendarBooking, now, recurrence);
+
+		serviceContext.setAttribute("instanceStartTime", startTime);
 
 		_sendChildrenNotifications(
 			calendarBooking, NotificationTemplateType.INSTANCE_DELETED,
