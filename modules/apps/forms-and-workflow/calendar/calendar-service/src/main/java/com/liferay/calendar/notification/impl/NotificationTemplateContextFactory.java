@@ -154,8 +154,7 @@ public class NotificationTemplateContextFactory {
 					dateFormatDateTime.format(instanceStartTimeL) +
 					StringPool.SPACE + userTimezoneDisplayName;
 
-					attributes.put("instanceStartTime",
-						" starting on " + instanceStartTime);
+					attributes.put("instanceStartTime", instanceStartTime);
 			}
 		}
 

@@ -611,7 +611,7 @@ public class CalendarBookingLocalServiceImpl
 		updateChildCalendarBookings(calendarBooking, now, recurrence);
 
 		_sendChildrenNotifications(
-			calendarBooking, NotificationTemplateType.MOVED_TO_TRASH,
+			calendarBooking, NotificationTemplateType.INSTANCE_DELETED,
 			serviceContext);
 	}
 
