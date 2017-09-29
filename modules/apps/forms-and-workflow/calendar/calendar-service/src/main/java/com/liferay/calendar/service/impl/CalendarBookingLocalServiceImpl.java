@@ -580,10 +580,9 @@ public class CalendarBookingLocalServiceImpl
 				recurrenceObj.setCount(0);
 			}
 
-			int instanceIndex =
-				RecurrenceUtil.getIndexOfInstance(
-					calendarBooking.getRecurrence(),
-					calendarBooking.getStartTime(), startTime);
+			int instanceIndex = RecurrenceUtil.getIndexOfInstance(
+				calendarBooking.getRecurrence(), calendarBooking.getStartTime(),
+				startTime);
 
 			CalendarBooking calendarBookingInstance =
 				RecurrenceUtil.getCalendarBookingInstance(
@@ -2077,7 +2076,8 @@ public class CalendarBookingLocalServiceImpl
 		boolean sendNotification = ParamUtil.getBoolean(
 			serviceContext, "sendNotification", true);
 
-		int instanceIndex = ParamUtil.getInteger(serviceContext, "instanceIndex", 0);
+		int instanceIndex = ParamUtil.getInteger(
+			serviceContext, "instanceIndex", 0);
 
 		calendarBooking.setInstanceIndex(instanceIndex);
 

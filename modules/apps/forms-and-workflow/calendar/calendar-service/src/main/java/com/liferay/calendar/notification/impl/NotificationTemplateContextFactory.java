@@ -22,7 +22,6 @@ import com.liferay.calendar.notification.NotificationTemplateType;
 import com.liferay.calendar.notification.NotificationType;
 import com.liferay.calendar.service.CalendarNotificationTemplateLocalServiceUtil;
 import com.liferay.calendar.util.CalendarUtil;
-import com.liferay.calendar.util.RecurrenceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Company;
@@ -143,18 +142,18 @@ public class NotificationTemplateContextFactory {
 
 		attributes.put("url", calendarBookingURL);
 
-		if (!Validator.isNull(serviceContext)) {
-			if (!Validator.isNull(
-				serviceContext.getAttribute("instanceStartTime"))) {
+		if (Validator.isNotNull(serviceContext)) {
+			if (Validator.isNotNull(
+					serviceContext.getAttribute("instanceStartTime"))) {
 
-				long instanceStartTimeL =
-					(long)serviceContext.getAttribute("instanceStartTime");
+				long instanceStartTimeL = (long)serviceContext.getAttribute(
+					"instanceStartTime");
 
 				String instanceStartTime =
 					dateFormatDateTime.format(instanceStartTimeL) +
-					StringPool.SPACE + userTimezoneDisplayName;
+						StringPool.SPACE + userTimezoneDisplayName;
 
-					attributes.put("instanceStartTime", instanceStartTime);
+				attributes.put("instanceStartTime", instanceStartTime);
 			}
 		}
 
