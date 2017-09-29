@@ -597,6 +597,12 @@ public class CalendarBookingLocalServiceImpl
 				return;
 			}
 
+//			int instanceIndex = RecurrenceUtil.getIndexOfInstance(
+//				calendarBooking.getRecurrence(), calendarBooking.getStartTime(),
+//				startTime);
+
+			serviceContext.setAttribute("instanceStartTime", startTime);
+
 			recurrenceObj.addExceptionJCalendar(startTimeJCalendar);
 		}
 
@@ -2061,6 +2067,10 @@ public class CalendarBookingLocalServiceImpl
 		boolean sendNotification = ParamUtil.getBoolean(
 			serviceContext, "sendNotification", true);
 
+		int instanceIndex = ParamUtil.getInteger(serviceContext, "instanceIndex", 0);
+
+		calendarBooking.setInstanceIndex(instanceIndex);
+
 		try {
 			CalendarBooking parentCalendarBooking =
 				calendarBooking.getParentCalendarBooking();
@@ -2084,7 +2094,7 @@ public class CalendarBookingLocalServiceImpl
 
 			NotificationUtil.notifyCalendarBookingRecipients(
 				calendarBooking, notificationType, notificationTemplateType,
-				sender);
+				sender, serviceContext);
 		}
 		catch (Exception e) {
 			if (_log.isWarnEnabled()) {
