@@ -541,6 +541,8 @@ public class CalendarBookingLocalServiceImpl
 		throws PortalException {
 
 		Date now = new Date();
+		NotificationTemplateType notificationTemplateType =
+			NotificationTemplateType.INSTANCE_DELETED;
 		ServiceContext serviceContext = new ServiceContext();
 
 		serviceContext.setUserId(userId);
@@ -604,9 +606,10 @@ public class CalendarBookingLocalServiceImpl
 
 		updateChildCalendarBookings(calendarBooking, now, recurrence);
 
+		serviceContext.setAttribute("instanceStartTime", startTime);
+
 		_sendChildrenNotifications(
-			calendarBooking, NotificationTemplateType.MOVED_TO_TRASH,
-			serviceContext);
+			calendarBooking, notificationTemplateType, serviceContext);
 	}
 
 	/**
@@ -2084,7 +2087,7 @@ public class CalendarBookingLocalServiceImpl
 
 			NotificationUtil.notifyCalendarBookingRecipients(
 				calendarBooking, notificationType, notificationTemplateType,
-				sender);
+				sender, serviceContext);
 		}
 		catch (Exception e) {
 			if (_log.isWarnEnabled()) {
