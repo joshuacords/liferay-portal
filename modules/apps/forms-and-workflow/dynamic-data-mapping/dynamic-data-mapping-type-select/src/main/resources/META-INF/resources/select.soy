@@ -244,24 +244,45 @@
 					{param value: $value /}
 				{/call}
 			</div>
-		{/if}
-		{if $fixedOptions}
-			{if length($options) > 0 and length($fixedOptions) > 0}
-				<div class="dropdown-divider"></div>
+			{if $fixedOptions}
+				{if length($fixedOptions) > 0}
+					<div class="dropdown-divider"></div>
+				{else}
+					<li class="no-results-list">
+						<span>
+							{$strings.emptyList}
+						</span>
+					</li>
+				{/if}
+				{call .plot_dropdown_rows}
+					{param fixed: true /}
+					{param multiple: $multiple /}
+					{param options: $fixedOptions /}
+					{param value: $value /}
+				{/call}
 			{/if}
-			{call .plot_dropdown_rows}
-				{param fixed: true /}
-				{param multiple: $multiple /}
-				{param options: $fixedOptions /}
-				{param value: $value /}
-			{/call}
-		{/if}
-		{if length($options) == 0}
-			<li class="no-results-list">
-				<span>
-					{$strings.emptyList}
-				</span>
-			</li>
+		{else}
+			{if $fixedOptions}
+				{if length($fixedOptions) == 0}
+					<li class="no-results-list">
+						<span>
+							{$strings.emptyList}
+						</span>
+					</li>
+				{/if}
+				{call .plot_dropdown_rows}
+					{param fixed: true /}
+					{param multiple: $multiple /}
+					{param options: $fixedOptions /}
+					{param value: $value /}
+				{/call}
+			{else}
+				<li class="no-results-list">
+					<span>
+						{$strings.emptyList}
+					</span>
+				</li>
+			{/if}
 		{/if}
 	</ul>
 {/template}
