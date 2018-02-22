@@ -1317,15 +1317,6 @@ public class CalendarPortlet extends MVCPortlet {
 				endTimeJCalendar.getTimeInMillis(), true, statuses,
 				QueryUtil.ALL_POS, QueryUtil.ALL_POS,
 				new CalendarBookingStartTimeComparator(true));
-
-			int eventsPerPage = ParamUtil.getInteger(
-				resourceRequest, "eventsPerPage");
-
-			if ((eventsPerPage > 0) &&
-				(eventsPerPage < calendarBookings.size())) {
-
-				calendarBookings = calendarBookings.subList(0, eventsPerPage);
-			}
 		}
 
 		JSONArray jsonArray = CalendarUtil.toCalendarBookingsJSONArray(
