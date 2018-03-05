@@ -51,7 +51,6 @@ public class SingleVMEhcachePortalCacheManager<K extends Serializable, V>
 	extends EhcachePortalCacheManager<K, V> {
 
 	@Activate
-	@Modified
 	protected void activate(
 		BundleContext bundleContext, Map<String, Object> properties) {
 

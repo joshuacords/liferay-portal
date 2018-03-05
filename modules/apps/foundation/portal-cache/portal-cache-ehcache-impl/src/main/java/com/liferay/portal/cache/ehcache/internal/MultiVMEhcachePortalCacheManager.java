@@ -55,7 +55,6 @@ public class MultiVMEhcachePortalCacheManager
 		extends EhcachePortalCacheManager<K, V> {
 
 	@Activate
-	@Modified
 	protected void activate(
 		BundleContext bundleContext, Map<String, Object> properties) {
 
