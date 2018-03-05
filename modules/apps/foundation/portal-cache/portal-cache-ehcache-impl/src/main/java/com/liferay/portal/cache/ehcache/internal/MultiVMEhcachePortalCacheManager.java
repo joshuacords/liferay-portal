@@ -55,8 +55,7 @@ public class MultiVMEhcachePortalCacheManager
 		extends EhcachePortalCacheManager<K, V> {
 
 	@Activate
-	protected void activate(
-		BundleContext bundleContext, Map<String, Object> properties) {
+	protected void activate(BundleContext bundleContext) {
 
 		setClusterAware(true);
 		setConfigFile(props.get(PropsKeys.EHCACHE_MULTI_VM_CONFIG_LOCATION));

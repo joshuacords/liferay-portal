@@ -51,8 +51,7 @@ public class SingleVMEhcachePortalCacheManager<K extends Serializable, V>
 	extends EhcachePortalCacheManager<K, V> {
 
 	@Activate
-	protected void activate(
-		BundleContext bundleContext, Map<String, Object> properties) {
+	protected void activate(BundleContext bundleContext) {
 
 		setConfigFile(props.get(PropsKeys.EHCACHE_SINGLE_VM_CONFIG_LOCATION));
 		setDefaultConfigFile(_DEFAULT_CONFIG_FILE_NAME);
