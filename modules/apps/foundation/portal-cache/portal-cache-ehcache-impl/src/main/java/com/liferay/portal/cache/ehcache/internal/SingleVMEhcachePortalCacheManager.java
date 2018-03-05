@@ -26,15 +26,12 @@ import com.liferay.portal.kernel.util.PropsKeys;
 
 import java.io.Serializable;
 
-import java.util.Map;
-
 import javax.management.MBeanServer;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
-import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
 /**
@@ -52,7 +49,6 @@ public class SingleVMEhcachePortalCacheManager<K extends Serializable, V>
 
 	@Activate
 	protected void activate(BundleContext bundleContext) {
-
 		setConfigFile(props.get(PropsKeys.EHCACHE_SINGLE_VM_CONFIG_LOCATION));
 		setDefaultConfigFile(_DEFAULT_CONFIG_FILE_NAME);
 		setPortalCacheManagerName(PortalCacheManagerNames.SINGLE_VM);
