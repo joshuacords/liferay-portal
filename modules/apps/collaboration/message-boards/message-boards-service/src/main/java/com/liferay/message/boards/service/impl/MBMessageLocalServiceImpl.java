@@ -578,6 +578,20 @@ public class MBMessageLocalServiceImpl extends MBMessageLocalServiceBaseImpl {
 
 		MBMessage message = mbMessagePersistence.findByPrimaryKey(messageId);
 
+		List<MBMessage> childrenMessages = mbMessagePersistence.findByT_P(
+			message.getThreadId(), message.getMessageId());
+
+		if (childrenMessages.isEmpty()) {
+			SocialActivityManagerUtil.deleteActivities(message);
+
+			return mbMessageLocalService.deleteMessage(messageId);
+		}
+		else {
+			for (int i = 0; i < childrenMessages.size(); i++) {
+				deleteDiscussionMessage(childrenMessages.get(i).getMessageId());
+			}
+		}
+
 		SocialActivityManagerUtil.deleteActivities(message);
 
 		return mbMessageLocalService.deleteMessage(messageId);
