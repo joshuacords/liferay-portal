@@ -65,7 +65,11 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.model.LayoutBranch;
 import com.liferay.portal.kernel.model.LayoutConstants;
+import com.liferay.portal.kernel.model.LayoutRevision;
+import com.liferay.portal.kernel.model.LayoutSet;
+import com.liferay.portal.kernel.model.LayoutSetBranch;
 import com.liferay.portal.kernel.model.LayoutTypePortlet;
 import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.model.PortletConstants;
@@ -75,7 +79,10 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.adapter.ModelAdapterUtil;
 import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
 import com.liferay.portal.kernel.service.GroupLocalService;
+import com.liferay.portal.kernel.service.LayoutBranchLocalService;
 import com.liferay.portal.kernel.service.LayoutLocalService;
+import com.liferay.portal.kernel.service.LayoutRevisionLocalService;
+import com.liferay.portal.kernel.service.LayoutSetBranchLocalService;
 import com.liferay.portal.kernel.service.PortletItemLocalService;
 import com.liferay.portal.kernel.service.PortletLocalService;
 import com.liferay.portal.kernel.service.PortletPreferencesLocalService;
@@ -86,6 +93,7 @@ import com.liferay.portal.kernel.util.DateRange;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.MapUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PortletKeys;
 import com.liferay.portal.kernel.util.ReleaseInfo;
@@ -488,6 +496,19 @@ public class PortletExportControllerImpl implements PortletExportController {
 				portletElement);
 
 			// Layout
+
+			try {
+				LayoutRevision layoutRevision = _getHeadLayoutRevision(layout);
+
+				if (layoutRevision != null) {
+					plid = layoutRevision.getLayoutRevisionId();
+				}
+			}
+			catch (PortalException pe) {
+				_log.debug(
+					"Cannot find head layoutRevision for layout plid " + plid,
+					pe);
+			}
 
 			exportPortletPreferences(
 				portletDataContext, PortletKeys.PREFS_OWNER_ID_DEFAULT,
@@ -1350,10 +1371,31 @@ public class PortletExportControllerImpl implements PortletExportController {
 	}
 
 	@Reference(unbind = "-")
+	protected void setLayoutBranchLocalService(
+		LayoutBranchLocalService layoutBranchLocalService) {
+
+		_layoutBranchLocalService = layoutBranchLocalService;
+	}
+
+	@Reference(unbind = "-")
 	protected void setLayoutLocalService(
 		LayoutLocalService layoutLocalService) {
 
 		_layoutLocalService = layoutLocalService;
+	}
+
+	@Reference(unbind = "-")
+	protected void setLayoutRevisionLocalService(
+		LayoutRevisionLocalService layoutRevisionLocalService) {
+
+		_layoutRevisionLocalService = layoutRevisionLocalService;
+	}
+
+	@Reference(unbind = "-")
+	protected void setLayoutSetBranchLocalService(
+		LayoutSetBranchLocalService layoutSetBranchLocalService) {
+
+		_layoutSetBranchLocalService = layoutSetBranchLocalService;
 	}
 
 	@Reference(unbind = "-")
@@ -1382,6 +1424,55 @@ public class PortletExportControllerImpl implements PortletExportController {
 		_userLocalService = userLocalService;
 	}
 
+	private LayoutRevision _getHeadLayoutRevision(Layout layout)
+		throws PortalException {
+
+		LayoutRevision layoutRevision = null;
+
+		ServiceContext serviceContext =
+			ServiceContextThreadLocal.getServiceContext();
+
+		if ((serviceContext == null) || !serviceContext.isSignedIn() ||
+			(layout == null)) {
+
+			return null;
+		}
+
+		long layoutRevisionId = ParamUtil.getLong(
+			serviceContext, "layoutRevisionId");
+
+		if (layoutRevisionId > 0) {
+			layoutRevision = _layoutRevisionLocalService.fetchLayoutRevision(
+				layoutRevisionId);
+
+			if (layoutRevision != null) {
+				return layoutRevision;
+			}
+		}
+
+		LayoutSet layoutSet = layout.getLayoutSet();
+
+		long layoutSetBranchId = 0;
+
+		LayoutSetBranch layoutSetBranch =
+			_layoutSetBranchLocalService.getUserLayoutSetBranch(
+				serviceContext.getUserId(), layout.getGroupId(),
+				layout.isPrivateLayout(), layoutSet.getLayoutSetId(),
+				layoutSetBranchId);
+
+		layoutSetBranchId = layoutSetBranch.getLayoutSetBranchId();
+
+		LayoutBranch layoutBranch =
+			_layoutBranchLocalService.getMasterLayoutBranch(
+				layoutSetBranchId, layout.getPlid(), serviceContext);
+
+		layoutRevision = _layoutRevisionLocalService.fetchLayoutRevision(
+			layoutSetBranchId, layoutBranch.getLayoutBranchId(), true,
+			layout.getPlid());
+
+		return layoutRevision;
+	}
+
 	private static final Log _log = LogFactoryUtil.getLog(
 		PortletExportControllerImpl.class);
 
@@ -1400,7 +1491,10 @@ public class PortletExportControllerImpl implements PortletExportController {
 		_exportImportProcessCallbackRegistry;
 
 	private GroupLocalService _groupLocalService;
+	private LayoutBranchLocalService _layoutBranchLocalService;
 	private LayoutLocalService _layoutLocalService;
+	private LayoutRevisionLocalService _layoutRevisionLocalService;
+	private LayoutSetBranchLocalService _layoutSetBranchLocalService;
 	private final PermissionExporter _permissionExporter =
 		PermissionExporter.getInstance();
 
