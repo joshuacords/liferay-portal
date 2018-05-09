@@ -1306,8 +1306,9 @@ public class PortletExportControllerImpl implements PortletExportController {
 		}
 		else {
 			portletPreferences =
-				_portletPreferencesLocalService.getPortletPreferences(
-					ownerId, ownerType, plid, portletId);
+				_portletPreferencesLocalService.
+					getPortletPreferencesOfHeadRevision(
+						ownerId, ownerType, plid, portletId);
 		}
 
 		return portletPreferences;

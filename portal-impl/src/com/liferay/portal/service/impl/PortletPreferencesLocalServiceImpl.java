@@ -24,6 +24,8 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutRevision;
+import com.liferay.portal.kernel.model.LayoutSet;
+import com.liferay.portal.kernel.model.LayoutSetBranch;
 import com.liferay.portal.kernel.model.LayoutStagingHandler;
 import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.model.PortletConstants;
@@ -34,12 +36,14 @@ import com.liferay.portal.kernel.portlet.PortletIdCodec;
 import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
 import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
 import com.liferay.portal.kernel.service.ExceptionRetryAcceptor;
+import com.liferay.portal.kernel.service.LayoutSetBranchLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.settings.PortletInstanceSettingsLocator;
 import com.liferay.portal.kernel.settings.PortletPreferencesSettings;
 import com.liferay.portal.kernel.settings.Settings;
 import com.liferay.portal.kernel.settings.SettingsLocatorHelperUtil;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.spring.aop.Property;
 import com.liferay.portal.kernel.spring.aop.Retry;
 import com.liferay.portal.kernel.spring.aop.Skip;
@@ -389,6 +393,16 @@ public class PortletPreferencesLocalServiceImpl
 	}
 
 	@Override
+	public PortletPreferences getPortletPreferencesOfHeadRevision(
+			long ownerId, int ownerType, long plid, String portletId)
+		throws PortalException {
+
+		return portletPreferencesPersistence.findByO_O_P_P(
+			ownerId, ownerType,
+			_swapPlidForPortletPreferencesOfHeadRevision(plid), portletId);
+	}
+
+	@Override
 	@Retry(
 		acceptor = ExceptionRetryAcceptor.class,
 		properties = {
@@ -619,6 +633,59 @@ public class PortletPreferencesLocalServiceImpl
 		return portletPreferences;
 	}
 
+	private long _getHeadLayoutRevisionId(long plid) {
+		if (plid <= 0) {
+			return plid;
+		}
+
+		LayoutRevision layoutRevision =
+			layoutRevisionPersistence.fetchByPrimaryKey(plid);
+
+		if (layoutRevision != null) {
+			return plid;
+		}
+
+		Layout layout = layoutPersistence.fetchByPrimaryKey(plid);
+
+		if (layout == null) {
+			return plid;
+		}
+
+		if (LayoutStagingUtil.isBranchingLayout(layout)) {
+			try {
+				ServiceContext serviceContext =
+					ServiceContextThreadLocal.getServiceContext();
+
+				if ((serviceContext == null) || !serviceContext.isSignedIn()) {
+					throw new PortalException();
+				}
+
+				LayoutSet layoutSet = layout.getLayoutSet();
+
+				long layoutSetBranchId = 0;
+
+				long userId = serviceContext.getUserId();
+
+				User user = UserLocalServiceUtil.getUser(userId);
+
+				LayoutSetBranch layoutSetBranch =
+					LayoutSetBranchLocalServiceUtil.getUserLayoutSetBranch(
+						userId, layout.getGroupId(), layout.isPrivateLayout(),
+						layoutSet.getLayoutSetId(), layoutSetBranchId);
+
+				layoutSetBranchId = layoutSetBranch.getLayoutSetBranchId();
+
+				return StagingUtil.getRecentLayoutRevisionId(
+					user, layoutSetBranchId, true, plid);
+			}
+			catch (PortalException pe) {
+				_log.error("No layout revision for plid " + plid, pe);
+			}
+		}
+
+		return plid;
+	}
+
 	private LayoutRevision _getLayoutRevision(long plid) {
 		if (plid <= 0) {
 			return null;
@@ -678,6 +745,14 @@ public class PortletPreferencesLocalServiceImpl
 		}
 
 		return layoutRevision.getLayoutRevisionId();
+	}
+
+	private long _swapPlidForPortletPreferencesOfHeadRevision(long plid) {
+		if (!StagingAdvicesThreadLocal.isEnabled()) {
+			return plid;
+		}
+
+		return _getHeadLayoutRevisionId(plid);
 	}
 
 	private long _swapPlidForPreferences(long plid) {

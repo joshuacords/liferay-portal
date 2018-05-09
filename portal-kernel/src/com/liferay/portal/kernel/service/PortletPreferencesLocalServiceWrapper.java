@@ -347,6 +347,14 @@ public class PortletPreferencesLocalServiceWrapper
 	}
 
 	@Override
+	public com.liferay.portal.kernel.model.PortletPreferences getPortletPreferencesOfHeadRevision(
+		long ownerId, int ownerType, long plid, String portletId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _portletPreferencesLocalService.getPortletPreferences(ownerId,
+			ownerType, plid, portletId);
+	}
+
+	@Override
 	public long getPortletPreferencesCount(int ownerType, long plid,
 		String portletId) {
 		return _portletPreferencesLocalService.getPortletPreferencesCount(ownerType,

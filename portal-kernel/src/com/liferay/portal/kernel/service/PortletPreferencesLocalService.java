@@ -272,6 +272,10 @@ public interface PortletPreferencesLocalService extends BaseLocalService,
 	public List<PortletPreferences> getPortletPreferencesByPlid(long plid);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public PortletPreferences getPortletPreferencesOfHeadRevision(long ownerId,
+		int ownerType, long plid, String portletId) throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public long getPortletPreferencesCount(int ownerType, long plid,
 		String portletId);
 
