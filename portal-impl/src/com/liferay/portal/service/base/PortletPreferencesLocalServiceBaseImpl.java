@@ -40,6 +40,7 @@ import com.liferay.portal.kernel.service.PortletPreferencesLocalService;
 import com.liferay.portal.kernel.service.persistence.LayoutFinder;
 import com.liferay.portal.kernel.service.persistence.LayoutPersistence;
 import com.liferay.portal.kernel.service.persistence.LayoutRevisionPersistence;
+import com.liferay.portal.kernel.service.persistence.LayoutSetBranchPersistence;
 import com.liferay.portal.kernel.service.persistence.PortletItemPersistence;
 import com.liferay.portal.kernel.service.persistence.PortletPersistence;
 import com.liferay.portal.kernel.service.persistence.PortletPreferencesFinder;
@@ -494,6 +495,44 @@ public abstract class PortletPreferencesLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the layout set branch local service.
+	 *
+	 * @return the layout set branch local service
+	 */
+	public com.liferay.portal.kernel.service.LayoutSetBranchLocalService getLayoutSetBranchLocalService() {
+		return layoutSetBranchLocalService;
+	}
+
+	/**
+	 * Sets the layout set branch local service.
+	 *
+	 * @param layoutSetBranchLocalService the layout set branch local service
+	 */
+	public void setLayoutSetBranchLocalService(
+		com.liferay.portal.kernel.service.LayoutSetBranchLocalService layoutSetBranchLocalService) {
+		this.layoutSetBranchLocalService = layoutSetBranchLocalService;
+	}
+
+	/**
+	 * Returns the layout set branch persistence.
+	 *
+	 * @return the layout set branch persistence
+	 */
+	public LayoutSetBranchPersistence getLayoutSetBranchPersistence() {
+		return layoutSetBranchPersistence;
+	}
+
+	/**
+	 * Sets the layout set branch persistence.
+	 *
+	 * @param layoutSetBranchPersistence the layout set branch persistence
+	 */
+	public void setLayoutSetBranchPersistence(
+		LayoutSetBranchPersistence layoutSetBranchPersistence) {
+		this.layoutSetBranchPersistence = layoutSetBranchPersistence;
+	}
+
+	/**
 	 * Returns the portlet local service.
 	 *
 	 * @return the portlet local service
@@ -693,6 +732,10 @@ public abstract class PortletPreferencesLocalServiceBaseImpl
 	protected com.liferay.portal.kernel.service.LayoutRevisionLocalService layoutRevisionLocalService;
 	@BeanReference(type = LayoutRevisionPersistence.class)
 	protected LayoutRevisionPersistence layoutRevisionPersistence;
+	@BeanReference(type = com.liferay.portal.kernel.service.LayoutSetBranchLocalService.class)
+	protected com.liferay.portal.kernel.service.LayoutSetBranchLocalService layoutSetBranchLocalService;
+	@BeanReference(type = LayoutSetBranchPersistence.class)
+	protected LayoutSetBranchPersistence layoutSetBranchPersistence;
 	@BeanReference(type = com.liferay.portal.kernel.service.PortletLocalService.class)
 	protected com.liferay.portal.kernel.service.PortletLocalService portletLocalService;
 	@BeanReference(type = PortletPersistence.class)

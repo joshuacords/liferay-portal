@@ -272,10 +272,6 @@ public interface PortletPreferencesLocalService extends BaseLocalService,
 	public List<PortletPreferences> getPortletPreferencesByPlid(long plid);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public PortletPreferences getPortletPreferencesOfHeadRevision(long ownerId,
-		int ownerType, long plid, String portletId) throws PortalException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public long getPortletPreferencesCount(int ownerType, long plid,
 		String portletId);
 
@@ -311,6 +307,11 @@ public interface PortletPreferencesLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getPortletPreferencesesCount();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public PortletPreferences getPortletPreferencesOfHeadRevision(
+		long ownerId, int ownerType, long plid, String portletId)
+		throws PortalException;
 
 	@Retry(acceptor = ExceptionRetryAcceptor.class, properties =  {
 		@Property(name = ExceptionRetryAcceptor.EXCEPTION_NAME, value = "org.springframework.dao.DataIntegrityViolationException")
