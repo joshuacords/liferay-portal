@@ -36,14 +36,12 @@ import com.liferay.portal.kernel.portlet.PortletIdCodec;
 import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
 import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
 import com.liferay.portal.kernel.service.ExceptionRetryAcceptor;
-import com.liferay.portal.kernel.service.LayoutSetBranchLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.settings.PortletInstanceSettingsLocator;
 import com.liferay.portal.kernel.settings.PortletPreferencesSettings;
 import com.liferay.portal.kernel.settings.Settings;
 import com.liferay.portal.kernel.settings.SettingsLocatorHelperUtil;
-import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.spring.aop.Property;
 import com.liferay.portal.kernel.spring.aop.Retry;
 import com.liferay.portal.kernel.spring.aop.Skip;
@@ -666,10 +664,10 @@ public class PortletPreferencesLocalServiceImpl
 
 				long userId = serviceContext.getUserId();
 
-				User user = UserLocalServiceUtil.getUser(userId);
+				User user = userLocalService.getUser(userId);
 
 				LayoutSetBranch layoutSetBranch =
-					LayoutSetBranchLocalServiceUtil.getUserLayoutSetBranch(
+					layoutSetBranchLocalService.getUserLayoutSetBranch(
 						userId, layout.getGroupId(), layout.isPrivateLayout(),
 						layoutSet.getLayoutSetId(), layoutSetBranchId);
 
