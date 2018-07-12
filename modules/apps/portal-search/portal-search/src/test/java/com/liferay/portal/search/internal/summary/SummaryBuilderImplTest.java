@@ -15,6 +15,7 @@
 package com.liferay.portal.search.internal.summary;
 
 import com.liferay.portal.kernel.search.highlight.HighlightUtil;
+import com.liferay.portal.kernel.search.util.HighlightUtilTest;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.search.summary.Summary;
@@ -110,17 +111,67 @@ public class SummaryBuilderImplTest {
 	}
 
 	@Test
-	public void testMaxContentLengthIgnoredWhenHighlight() {
-		String content = RandomTestUtil.randomString(8);
+	public void testMaxHighlightedContentLength() {
+		StringBundler contentBuilder = new StringBundler();
 
+		contentBuilder.append(RandomTestUtil.randomString(8));
+		contentBuilder.append(" ");
+		contentBuilder.append(HighlightUtil.HIGHLIGHT_TAG_OPEN);
+		contentBuilder.append(RandomTestUtil.randomString(8));
+		contentBuilder.append(HighlightUtil.HIGHLIGHT_TAG_CLOSE);
+
+		String content = contentBuilder.toString();
+
+		//Test before highlight tag
 		_summaryBuilder.setContent(content);
 
 		_summaryBuilder.setHighlight(true);
 
-		_summaryBuilder.setMaxContentLength(1);
+		_summaryBuilder.setMaxContentLength(8);
 
 		Summary summary = _summaryBuilder.build();
 
+		//Should only return word before test
+		Assert.assertEquals(content.substring(8), summary.getContent());
+
+		//Test split on opening highlight tag
+		_summaryBuilder.setContent(content);
+
+		_summaryBuilder.setMaxContentLength(10);
+
+		//Should only return word before highlighted portion
+		Assert.assertEquals(content.substring(8), summary.getContent());
+
+		//Test split on highlighted portion
+		_summaryBuilder.setContent(content);
+
+		_summaryBuilder.setMaxContentLength(10 + HighlightUtil.HIGHLIGHT_TAG_OPEN.length());
+
+		//Should only return word before highlighted portion
+		Assert.assertEquals(content.substring(8), summary.getContent());
+
+		//Test split after highlighted portion but before closing highlight tag
+		_summaryBuilder.setContent(content);
+
+		_summaryBuilder.setMaxContentLength(18 + HighlightUtil.HIGHLIGHT_TAG_OPEN.length());
+
+		//Should return word before highlighted portion and highlighted portion
+		Assert.assertEquals(content, summary.getContent());
+
+		//Test split on closing highlight tag
+		_summaryBuilder.setContent(content);
+
+		_summaryBuilder.setMaxContentLength(18 + HighlightUtil.HIGHLIGHT_TAG_OPEN.length());
+
+		//Should return word before highlighted portion and highlighted portion
+		Assert.assertEquals(content, summary.getContent());
+
+		//Test where content fits in max content
+		_summaryBuilder.setContent(content);
+
+		_summaryBuilder.setMaxContentLength(200);
+
+		//Should return word before highlighted portion and highlighted portion
 		Assert.assertEquals(content, summary.getContent());
 	}
 
