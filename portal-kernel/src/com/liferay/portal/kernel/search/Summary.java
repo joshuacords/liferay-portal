@@ -65,6 +65,10 @@ public class Summary {
 		return _content;
 	}
 
+	public String getFullContent() {
+		return _content;
+	}
+
 	public String getHighlightedContent() {
 		return _escapeAndHighlight(_content);
 	}

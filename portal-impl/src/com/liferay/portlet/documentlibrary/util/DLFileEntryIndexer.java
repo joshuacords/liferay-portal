@@ -535,7 +535,7 @@ public class DLFileEntryIndexer
 		Summary summary = createSummary(
 			locale, document, Field.TITLE, Field.CONTENT);
 
-		if (Validator.isNull(summary.getContent())) {
+		if (Validator.isNull(summary.getFullContent())) {
 			summary = createSummary(document, Field.TITLE, Field.DESCRIPTION);
 		}
 

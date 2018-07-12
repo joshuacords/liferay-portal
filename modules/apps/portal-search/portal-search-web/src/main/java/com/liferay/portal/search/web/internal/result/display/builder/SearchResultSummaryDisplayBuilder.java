@@ -583,7 +583,7 @@ public class SearchResultSummaryDisplayBuilder {
 					_document, snippet, _renderRequest, _renderResponse);
 
 			if (summary != null) {
-				summaryBuilder.setContent(summary.getContent());
+				summaryBuilder.setContent(summary.getFullContent());
 				summaryBuilder.setLocale(summary.getLocale());
 				summaryBuilder.setMaxContentLength(
 					summary.getMaxContentLength());
