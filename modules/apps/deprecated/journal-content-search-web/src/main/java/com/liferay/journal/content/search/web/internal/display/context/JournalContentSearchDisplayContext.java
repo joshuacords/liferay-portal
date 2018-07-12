@@ -162,7 +162,7 @@ public class JournalContentSearchDisplayContext {
 
 		SummaryBuilder summaryBuilder = _summaryBuilderFactory.newInstance();
 
-		summaryBuilder.setContent(summary.getContent());
+		summaryBuilder.setContent(summary.getFullContent());
 		summaryBuilder.setHighlight(
 			_journalContentSearchPortletInstanceConfiguration.
 				enableHighlighting());

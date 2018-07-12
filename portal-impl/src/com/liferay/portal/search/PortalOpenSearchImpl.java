@@ -146,7 +146,7 @@ public class PortalOpenSearchImpl extends BaseOpenSearchImpl {
 
 					title = summary.getTitle();
 					url = portletURL.toString();
-					content = summary.getContent();
+					content = summary.getFullContent();
 				}
 
 				double score = results.score(i);
