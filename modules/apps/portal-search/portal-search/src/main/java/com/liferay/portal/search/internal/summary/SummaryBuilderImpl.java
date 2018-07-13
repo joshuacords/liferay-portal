@@ -83,6 +83,24 @@ public class SummaryBuilderImpl implements SummaryBuilder {
 	protected String buildContentHighlighted() {
 		_shortenHighlightedContent();
 
+		if (_content.lastIndexOf(HighlightUtil.HIGHLIGHT_TAG_CLOSE) <
+				_content.lastIndexOf(HighlightUtil.HIGHLIGHT_TAG_OPEN)) {
+
+			if (_content.endsWith("...")) {
+				StringBuilder sb = new StringBuilder(
+					_maxContentLength +
+						HighlightUtil.HIGHLIGHT_TAG_CLOSE.length());
+
+				sb.append(_content.substring(0, _content.lastIndexOf("...")));
+				sb.append(HighlightUtil.HIGHLIGHT_TAG_CLOSE);
+				sb.append("...");
+
+				_content = sb.toString();
+			}
+			else {
+				_content.concat(HighlightUtil.HIGHLIGHT_TAG_CLOSE);
+			}
+		}
 		return _escapeAndHighlight(_content);
 	}
 
