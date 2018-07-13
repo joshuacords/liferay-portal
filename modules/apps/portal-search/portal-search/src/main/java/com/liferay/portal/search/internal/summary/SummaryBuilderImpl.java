@@ -81,6 +81,8 @@ public class SummaryBuilderImpl implements SummaryBuilder {
 	}
 
 	protected String buildContentHighlighted() {
+		_shortenHighlightedContent();
+
 		return _escapeAndHighlight(_content);
 	}
 
@@ -126,6 +128,46 @@ public class SummaryBuilderImpl implements SummaryBuilder {
 			text, _ESCAPE_SAFE_HIGHLIGHTS, HighlightUtil.HIGHLIGHTS);
 
 		return text;
+	}
+
+	private void _shortenHighlightedContent() {
+		if (_content.length() > _maxContentLength) {
+			String shortenedContent = StringUtil.shorten(
+				_content, _maxContentLength - 3, "");
+
+			int indexLastTagOpen = shortenedContent.lastIndexOf("<");
+
+			if ((indexLastTagOpen > -1) &&
+				(indexLastTagOpen >
+					(_maxContentLength - HighlightUtil.
+						HIGHLIGHT_TAG_CLOSE.length()))) {
+
+				int endIndex =
+					indexLastTagOpen +
+						HighlightUtil.HIGHLIGHT_TAG_CLOSE.length();
+
+				if (endIndex > _content.length()) {
+					endIndex = _content.length();
+				}
+
+				String ending = _content.substring(indexLastTagOpen, endIndex);
+
+				if (ending.contains(HighlightUtil.HIGHLIGHT_TAG_CLOSE)) {
+					shortenedContent = shortenedContent.substring(
+						0, indexLastTagOpen);
+					shortenedContent = shortenedContent.concat(
+						HighlightUtil.HIGHLIGHT_TAG_CLOSE);
+				}
+				else if (ending.contains(HighlightUtil.HIGHLIGHT_TAG_OPEN)) {
+					shortenedContent = shortenedContent.substring(
+						0, indexLastTagOpen);
+				}
+			}
+
+			shortenedContent = shortenedContent.concat("...");
+
+			_content = shortenedContent;
+		}
 	}
 
 	private static final String[] _ESCAPE_SAFE_HIGHLIGHTS =
