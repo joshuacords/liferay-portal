@@ -98,24 +98,26 @@ public class SummaryBuilderImpl implements SummaryBuilder {
 			}
 		}
 
-		if (_content.length() > _maxContentLength) {
-			int lenghtOfTag = HighlightUtil.HIGHLIGHT_TAG_CLOSE.length() - 1;
+		_shortenHighlightedContent();
 
-			String ending = _content.substring(
-				_maxContentLength - lenghtOfTag,
-				_maxContentLength + lenghtOfTag);
+		if (_content.lastIndexOf(HighlightUtil.HIGHLIGHT_TAG_CLOSE) <
+				_content.lastIndexOf(HighlightUtil.HIGHLIGHT_TAG_OPEN)) {
 
-			int indexTagStart = ending.lastIndexOf("<");
-			int indexTagEnd = ending.lastIndexOf(">");
+			if (_content.endsWith("...")) {
+				StringBuilder sb = new StringBuilder(
+					_maxContentLength +
+						HighlightUtil.HIGHLIGHT_TAG_CLOSE.length());
 
-			if ((indexTagStart > 0) && (indexTagEnd > 0) &&
-				(indexTagEnd <= HighlightUtil.HIGHLIGHT_TAG_CLOSE.length())) {
+				sb.append(_content.substring(0, _content.lastIndexOf("...")));
+				sb.append(HighlightUtil.HIGHLIGHT_TAG_CLOSE);
+				sb.append("...");
 
-				_maxContentLength += indexTagEnd - lenghtOfTag;
+				_content = sb.toString();
+			}
+			else {
+				_content.concat(HighlightUtil.HIGHLIGHT_TAG_CLOSE);
 			}
 		}
-
-		_content = StringUtil.shorten(_content, _maxContentLength);
 
 		return _escapeAndHighlight(_content);
 	}
@@ -162,6 +164,46 @@ public class SummaryBuilderImpl implements SummaryBuilder {
 			text, _ESCAPE_SAFE_HIGHLIGHTS, HighlightUtil.HIGHLIGHTS);
 
 		return text;
+	}
+
+	private void _shortenHighlightedContent() {
+		if (_content.length() > _maxContentLength) {
+			String shortenedContent = StringUtil.shorten(
+				_content, _maxContentLength - 3, "");
+
+			int indexLastTagOpen = shortenedContent.lastIndexOf("<");
+
+			if ((indexLastTagOpen > -1) &&
+				(indexLastTagOpen >
+					(_maxContentLength - HighlightUtil.
+						HIGHLIGHT_TAG_CLOSE.length()))) {
+
+				int endIndex =
+					indexLastTagOpen +
+						HighlightUtil.HIGHLIGHT_TAG_CLOSE.length();
+
+				if (endIndex > _content.length()) {
+					endIndex = _content.length();
+				}
+
+				String ending = _content.substring(indexLastTagOpen, endIndex);
+
+				if (ending.contains(HighlightUtil.HIGHLIGHT_TAG_CLOSE)) {
+					shortenedContent = shortenedContent.substring(
+						0, indexLastTagOpen);
+					shortenedContent = shortenedContent.concat(
+						HighlightUtil.HIGHLIGHT_TAG_CLOSE);
+				}
+				else if (ending.contains(HighlightUtil.HIGHLIGHT_TAG_OPEN)) {
+					shortenedContent = shortenedContent.substring(
+						0, indexLastTagOpen);
+				}
+			}
+
+			shortenedContent = shortenedContent.concat("...");
+
+			_content = shortenedContent;
+		}
 	}
 
 	private static final String[] _ESCAPE_SAFE_HIGHLIGHTS =
