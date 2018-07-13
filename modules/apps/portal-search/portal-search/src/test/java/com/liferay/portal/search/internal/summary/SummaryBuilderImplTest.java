@@ -15,7 +15,6 @@
 package com.liferay.portal.search.internal.summary;
 
 import com.liferay.portal.kernel.search.highlight.HighlightUtil;
-import com.liferay.portal.kernel.search.util.HighlightUtilTest;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.search.summary.Summary;
@@ -112,15 +111,15 @@ public class SummaryBuilderImplTest {
 
 	@Test
 	public void testMaxHighlightedContentLength() {
-		StringBundler contentBuilder = new StringBundler();
+		StringBundler sb = new StringBundler();
 
-		contentBuilder.append(RandomTestUtil.randomString(8));
-		contentBuilder.append(" ");
-		contentBuilder.append(HighlightUtil.HIGHLIGHT_TAG_OPEN);
-		contentBuilder.append(RandomTestUtil.randomString(8));
-		contentBuilder.append(HighlightUtil.HIGHLIGHT_TAG_CLOSE);
+		sb.append(RandomTestUtil.randomString(8));
+		sb.append(" ");
+		sb.append(HighlightUtil.HIGHLIGHT_TAG_OPEN);
+		sb.append(RandomTestUtil.randomString(8));
+		sb.append(HighlightUtil.HIGHLIGHT_TAG_CLOSE);
 
-		String content = contentBuilder.toString();
+		String content = sb.toString();
 
 		//Test before highlight tag
 		_summaryBuilder.setContent(content);
