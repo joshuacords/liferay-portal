@@ -87,7 +87,7 @@ public class SummaryBuilderImpl implements SummaryBuilder {
 			virtualMaxContentLength = _recalculateHighlightMaxLength();
 		}
 
-		_shortenHighlightedContent();
+		_shortenHighlightedContent(virtualMaxContentLength);
 
 		if (_content.lastIndexOf(HighlightUtil.HIGHLIGHT_TAG_CLOSE) <
 				_content.lastIndexOf(HighlightUtil.HIGHLIGHT_TAG_OPEN)) {
@@ -205,17 +205,32 @@ public class SummaryBuilderImpl implements SummaryBuilder {
 		return _maxContentLength + highlightLength;
 	}
 
-	private void _shortenHighlightedContent() {
+	private void _shortenHighlightedContent(int virtualMaxContentLength) {
 		if (_content.length() > _maxContentLength) {
+			if (_maxContentLength < 4) {
+				if (_maxContentLength < 0) {
+					_maxContentLength = 0;
+				}
+
+				if (_maxContentLength == 3) {
+					_content = "...";
+				}
+				else {
+					_content = _content.substring(0, _maxContentLength);
+				}
+
+				return;
+			}
+
 			String shortenedContent = StringUtil.shorten(
-				_content, _maxContentLength - 3, "");
+				_content, virtualMaxContentLength - 3, "");
 
 			int indexLastTagOpen = shortenedContent.lastIndexOf("<");
 
 			if ((indexLastTagOpen > -1) &&
 				(indexLastTagOpen >
-					(_maxContentLength - HighlightUtil.
-						HIGHLIGHT_TAG_CLOSE.length()))) {
+					(virtualMaxContentLength - HighlightUtil.
+						HIGHLIGHT_TAG_CLOSE.length() - 3))) {
 
 				int endIndex =
 					indexLastTagOpen +
@@ -226,16 +241,23 @@ public class SummaryBuilderImpl implements SummaryBuilder {
 				}
 
 				String ending = _content.substring(indexLastTagOpen, endIndex);
+				int cutLength = 3;
 
 				if (ending.contains(HighlightUtil.HIGHLIGHT_TAG_CLOSE)) {
-					shortenedContent = shortenedContent.substring(
-						0, indexLastTagOpen);
-					shortenedContent = shortenedContent.concat(
-						HighlightUtil.HIGHLIGHT_TAG_CLOSE);
+					cutLength -= virtualMaxContentLength - indexLastTagOpen -
+						HighlightUtil.HIGHLIGHT_TAG_CLOSE.length();
+					shortenedContent = _content.substring(
+						0, indexLastTagOpen - cutLength);
+
+					shortenedContent += HighlightUtil.HIGHLIGHT_TAG_CLOSE;
 				}
 				else if (ending.contains(HighlightUtil.HIGHLIGHT_TAG_OPEN)) {
-					shortenedContent = shortenedContent.substring(
-						0, indexLastTagOpen);
+					cutLength -= virtualMaxContentLength - indexLastTagOpen -
+						HighlightUtil.HIGHLIGHT_TAG_OPEN.length();
+					shortenedContent = _content.substring(
+						0, indexLastTagOpen - cutLength);
+
+					shortenedContent += HighlightUtil.HIGHLIGHT_TAG_OPEN;
 				}
 			}
 
