@@ -81,24 +81,13 @@ public class SummaryBuilderImpl implements SummaryBuilder {
 	}
 
 	protected String buildContentHighlighted() {
+		int virtualMaxContentLength = _maxContentLength;
+
 		if (_maxContentLength < _content.length()) {
-			String strippedContent = _html.stripHtml(_content);
-
-			int strippedLength = strippedContent.length();
-
-			if (strippedLength < _maxContentLength) {
-				_maxContentLength = _content.length();
-			}
-			else if (strippedLength < _content.length()) {
-				String strippedBeginning = _html.stripHtml(
-					_content.substring(0, _maxContentLength));
-
-				_maxContentLength =
-					_maxContentLength * 2 - strippedBeginning.length();
-			}
+			virtualMaxContentLength = _recalculateMaxLength();
 		}
 
-		_shortenHighlightedContent();
+		_shortenHighlightedContent(virtualMaxContentLength);
 
 		if (_content.lastIndexOf(HighlightUtil.HIGHLIGHT_TAG_CLOSE) <
 				_content.lastIndexOf(HighlightUtil.HIGHLIGHT_TAG_OPEN)) {
@@ -119,7 +108,53 @@ public class SummaryBuilderImpl implements SummaryBuilder {
 			}
 		}
 
+		//System.out.println("From SummaryBuilder:" + _escapeAndHighlight(_content));
+
 		return _escapeAndHighlight(_content);
+	}
+
+	private int _recalculateMaxLength() {
+		//System.out.println("_recalculateMaxLength()");
+		String extractedContent = _html.extractText(_content);
+
+		if (extractedContent.length() <= _maxContentLength) {
+			_maxContentLength = _content.length();
+			return _maxContentLength;
+		}
+
+		int currentLength = 0;
+		int highlightLength = 0;
+		int indexClose = _content.indexOf(HighlightUtil.HIGHLIGHT_TAG_CLOSE, currentLength);
+		int indexOpen = _content.indexOf(HighlightUtil.HIGHLIGHT_TAG_OPEN, currentLength);
+		int i = 0;
+
+		while ((indexClose > 0) || (indexOpen > 0)) {
+			if ((indexOpen > -1) && ((indexOpen < indexClose) || (indexClose < 0))) {
+				currentLength = indexOpen - highlightLength;
+				if (currentLength >= _maxContentLength) break;
+				highlightLength += HighlightUtil.HIGHLIGHT_TAG_OPEN.length();
+				indexOpen = _content.indexOf(HighlightUtil.HIGHLIGHT_TAG_OPEN, currentLength + highlightLength);
+			}
+			else if ((indexClose > -1) && ((indexClose < indexOpen) || (indexOpen < 0))) {
+				currentLength = indexClose - highlightLength;
+				if (currentLength >= _maxContentLength) break;
+				highlightLength += HighlightUtil.HIGHLIGHT_TAG_CLOSE.length();
+				indexClose = _content.indexOf(HighlightUtil.HIGHLIGHT_TAG_CLOSE, currentLength + highlightLength);
+			}
+//			System.out.println("Loop currentLength: " + currentLength);
+//			System.out.println("Loop indexOpen: " + indexOpen);
+//			System.out.println("Loop indexClose: " + indexClose);
+//			System.out.println("Loop highlightLength: " + highlightLength);
+
+//			if (i > 20) break;
+//			i++;
+
+		}
+
+		//System.out.println("Content:" + _content);
+		//System.out.println("Old Max Length: " + _maxContentLength);
+		return _maxContentLength + highlightLength;
+		//System.out.println("New Max Length: " + _maxContentLength);
 	}
 
 	protected String buildContentPlain() {
@@ -166,17 +201,32 @@ public class SummaryBuilderImpl implements SummaryBuilder {
 		return text;
 	}
 
-	private void _shortenHighlightedContent() {
+	private void _shortenHighlightedContent(int virtualMaxContentLength) {
 		if (_content.length() > _maxContentLength) {
+			if (_maxContentLength < 4) {
+				if ( _maxContentLength < 0) {
+					_maxContentLength = 0;
+				}
+
+				if (_maxContentLength == 3) {
+					_content = "...";
+				}
+				else {
+					_content = _content.substring(0, _maxContentLength);
+				}
+
+				return;
+			}
+
 			String shortenedContent = StringUtil.shorten(
-				_content, _maxContentLength - 3, "");
+				_content, virtualMaxContentLength - 3, "");
 
 			int indexLastTagOpen = shortenedContent.lastIndexOf("<");
 
 			if ((indexLastTagOpen > -1) &&
 				(indexLastTagOpen >
-					(_maxContentLength - HighlightUtil.
-						HIGHLIGHT_TAG_CLOSE.length()))) {
+					(virtualMaxContentLength - HighlightUtil.
+						HIGHLIGHT_TAG_CLOSE.length() - 3))) {
 
 				int endIndex =
 					indexLastTagOpen +
@@ -187,16 +237,17 @@ public class SummaryBuilderImpl implements SummaryBuilder {
 				}
 
 				String ending = _content.substring(indexLastTagOpen, endIndex);
+				int cutLength = 3;
 
 				if (ending.contains(HighlightUtil.HIGHLIGHT_TAG_CLOSE)) {
-					shortenedContent = shortenedContent.substring(
-						0, indexLastTagOpen);
-					shortenedContent = shortenedContent.concat(
-						HighlightUtil.HIGHLIGHT_TAG_CLOSE);
+					cutLength -= virtualMaxContentLength - indexLastTagOpen - HighlightUtil.HIGHLIGHT_TAG_CLOSE.length();
+					shortenedContent = _content.substring(0, indexLastTagOpen - cutLength);
+					shortenedContent += HighlightUtil.HIGHLIGHT_TAG_CLOSE;
 				}
 				else if (ending.contains(HighlightUtil.HIGHLIGHT_TAG_OPEN)) {
-					shortenedContent = shortenedContent.substring(
-						0, indexLastTagOpen);
+					cutLength -= virtualMaxContentLength - indexLastTagOpen - HighlightUtil.HIGHLIGHT_TAG_OPEN.length();
+					shortenedContent = _content.substring(0, indexLastTagOpen - cutLength);
+					shortenedContent += HighlightUtil.HIGHLIGHT_TAG_OPEN;
 				}
 			}
 
