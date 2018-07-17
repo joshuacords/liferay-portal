@@ -232,16 +232,12 @@ public class SummaryBuilderImpl implements SummaryBuilder {
 					(virtualMaxContentLength - HighlightUtil.
 						HIGHLIGHT_TAG_CLOSE.length() - 3))) {
 
+				int cutLength = 3;
 				int endIndex =
 					indexLastTagOpen +
 						HighlightUtil.HIGHLIGHT_TAG_CLOSE.length();
 
-				if (endIndex > _content.length()) {
-					endIndex = _content.length();
-				}
-
 				String ending = _content.substring(indexLastTagOpen, endIndex);
-				int cutLength = 3;
 
 				if (ending.contains(HighlightUtil.HIGHLIGHT_TAG_CLOSE)) {
 					cutLength -= virtualMaxContentLength - indexLastTagOpen -
