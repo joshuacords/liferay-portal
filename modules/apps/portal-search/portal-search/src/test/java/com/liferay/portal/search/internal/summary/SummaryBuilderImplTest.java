@@ -17,6 +17,7 @@ package com.liferay.portal.search.internal.summary;
 import com.liferay.portal.kernel.search.highlight.HighlightUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.search.summary.Summary;
 import com.liferay.portal.search.summary.SummaryBuilder;
 
@@ -48,17 +49,126 @@ public class SummaryBuilderImplTest {
 				"GGG<strong>HHH</strong>III"));
 
 		_summaryBuilder.setHighlight(true);
+		_summaryBuilder.setMaxContentLength(200);
 
 		Summary summary = _summaryBuilder.build();
 
-		Assert.assertEquals(
-			StringBundler.concat(
-				"AAA&lt;strong&gt;BBB&lt;/strong&gt;CCC",
-				HighlightUtil.HIGHLIGHTS[0],
-				"DDD&lt;strong&gt;EEE&lt;/strong&gt;FFF",
-				HighlightUtil.HIGHLIGHTS[1],
-				"GGG&lt;strong&gt;HHH&lt;/strong&gt;III"),
+		assertHighlightEquals(
+			"AAA&lt;strong&gt;BBB&lt;/strong&gt;CCC[[DDD&lt;strong&gt;EEE" +
+				"&lt;/strong&gt;FFF]]GGG&lt;strong&gt;HHH&lt;/strong&gt;III",
 			summary.getContent());
+	}
+
+	@Test
+	public void testContentHighlightCuttingNoSpaces() {
+		StringBundler sb = new StringBundler(4);
+		String content = "";
+		String actualContent = "";
+		String highlightedContent = RandomTestUtil.randomString(9);
+		String normalContent = RandomTestUtil.randomString(10);
+
+		sb.append(HighlightUtil.HIGHLIGHT_TAG_OPEN);
+		sb.append(highlightedContent);
+		sb.append(HighlightUtil.HIGHLIGHT_TAG_CLOSE);
+		sb.append(normalContent);
+
+		_summaryBuilder.setHighlight(true);
+
+		content = sb.toString();
+
+		for (int i = 0; i < 21; i++) {
+			_summaryBuilder.setContent(content);
+			_summaryBuilder.setMaxContentLength(i);
+
+			Summary summary = _summaryBuilder.build();
+
+			actualContent = summary.getContent();
+
+			if (i == 0) {
+				assertHighlightEquals("", actualContent);
+			}
+			else if (i == 1) {
+				assertHighlightEquals("&lt;", actualContent);
+			}
+			else if (i == 2) {
+				assertHighlightEquals("&lt;l", actualContent);
+			}
+			else if (i == 3) {
+				assertHighlightEquals("...", actualContent);
+			}
+			else if (i == 20) {
+				assertHighlightEquals(
+					"[[" + highlightedContent + "]]" + normalContent,
+					actualContent);
+			}
+			else {
+				_assertNoSpaceResult(
+					highlightedContent, normalContent, i, actualContent);
+			}
+		}
+	}
+
+	@Test
+	public void testContentHighlightCuttingSpaces() {
+		StringBundler sb = new StringBundler();
+		String content;
+		String actualContent;
+		String highlightedContent = RandomTestUtil.randomString(4);
+		String normalContent = RandomTestUtil.randomString(4);
+
+		sb.append(HighlightUtil.HIGHLIGHT_TAG_OPEN);
+		sb.append(highlightedContent);
+		sb.append(" ");
+		sb.append(highlightedContent);
+		sb.append(HighlightUtil.HIGHLIGHT_TAG_CLOSE);
+		sb.append(" ");
+		sb.append(normalContent);
+		sb.append(" ");
+		sb.append(normalContent);
+
+		_summaryBuilder.setHighlight(true);
+
+		content = sb.toString();
+
+		for (int i = 0; i < 20; i++) {
+			_summaryBuilder.setContent(content);
+			_summaryBuilder.setMaxContentLength(i);
+
+			Summary summary = _summaryBuilder.build();
+
+			actualContent = summary.getContent();
+
+			if (i == 0) {
+				assertHighlightEquals("", actualContent);
+			}
+			else if (i == 1) {
+				assertHighlightEquals("&lt;", actualContent);
+			}
+			else if (i == 2) {
+				assertHighlightEquals("&lt;l", actualContent);
+			}
+			else if (i == 3) {
+				assertHighlightEquals("...", actualContent);
+			}
+			else if (i == 19) {
+				sb = new StringBundler(23);
+
+				sb.append("[[");
+				sb.append(highlightedContent);
+				sb.append(" ");
+				sb.append(highlightedContent);
+				sb.append("]] ");
+				sb.append(normalContent);
+				sb.append(" ");
+				sb.append(normalContent);
+
+				assertHighlightEquals(sb.toString(), actualContent);
+			}
+			else {
+				_assertSpaceResult(
+					highlightedContent, normalContent, i, actualContent);
+			}
+		}
 	}
 
 	@Test
@@ -71,15 +181,37 @@ public class SummaryBuilderImplTest {
 
 		_summaryBuilder.setEscape(false);
 		_summaryBuilder.setHighlight(true);
+		_summaryBuilder.setMaxContentLength(200);
 
 		Summary summary = _summaryBuilder.build();
 
-		Assert.assertEquals(
-			StringBundler.concat(
-				"AAA<strong>BBB</strong>CCC", HighlightUtil.HIGHLIGHTS[0],
-				"DDD<strong>EEE</strong>FFF", HighlightUtil.HIGHLIGHTS[1],
-				"GGG<strong>HHH</strong>III"),
+		assertHighlightEquals(
+			"AAA<strong>BBB</strong>CCC[[DDD<strong>EEE</strong>FFF" +
+				"]]GGG<strong>HHH</strong>III",
 			summary.getContent());
+	}
+
+	@Test
+	public void testHighlightWithCarrot() {
+		StringBundler sb = new StringBundler(3);
+		String normalContent = RandomTestUtil.randomString(11);
+
+		sb.append(normalContent);
+
+		sb.append("<");
+		sb.append(normalContent);
+
+		String content = sb.toString();
+
+		_summaryBuilder.setContent(content);
+
+		_summaryBuilder.setMaxContentLength(8);
+
+		Summary summary = _summaryBuilder.build();
+
+		String expectedContent = content.substring(0, 5) + "...";
+
+		assertHighlightEquals(expectedContent, summary.getContent());
 	}
 
 	@Test
@@ -110,21 +242,6 @@ public class SummaryBuilderImplTest {
 	}
 
 	@Test
-	public void testMaxContentLengthIgnoredWhenHighlight() {
-		String content = RandomTestUtil.randomString(8);
-
-		_summaryBuilder.setContent(content);
-
-		_summaryBuilder.setHighlight(true);
-
-		_summaryBuilder.setMaxContentLength(1);
-
-		Summary summary = _summaryBuilder.build();
-
-		Assert.assertEquals(content, summary.getContent());
-	}
-
-	@Test
 	public void testTitle() {
 		String title = RandomTestUtil.randomString();
 
@@ -147,13 +264,10 @@ public class SummaryBuilderImplTest {
 
 		Summary summary = _summaryBuilder.build();
 
-		Assert.assertEquals(
-			StringBundler.concat(
-				"AAA&lt;strong&gt;BBB&lt;/strong&gt;CCC",
-				HighlightUtil.HIGHLIGHTS[0],
-				"DDD&lt;strong&gt;EEE&lt;/strong&gt;FFF",
-				HighlightUtil.HIGHLIGHTS[1],
-				"GGG&lt;strong&gt;HHH&lt;/strong&gt;III"),
+		assertHighlightEquals(
+			"AAA&lt;strong&gt;BBB&lt;/strong&gt;CCC[[DDD&lt;strong" +
+				"&gt;EEE&lt;/strong&gt;FFF]]GGG&lt;strong&gt;HHH&lt;" +
+					"/strong&gt;III",
 			summary.getTitle());
 	}
 
@@ -170,12 +284,17 @@ public class SummaryBuilderImplTest {
 
 		Summary summary = _summaryBuilder.build();
 
-		Assert.assertEquals(
-			StringBundler.concat(
-				"AAA<strong>BBB</strong>CCC", HighlightUtil.HIGHLIGHTS[0],
-				"DDD<strong>EEE</strong>FFF", HighlightUtil.HIGHLIGHTS[1],
-				"GGG<strong>HHH</strong>III"),
+		assertHighlightEquals(
+			"AAA<strong>BBB</strong>CCC[[DDD<strong>EEE</strong>FFF" +
+				"]]GGG<strong>HHH</strong>III",
 			summary.getTitle());
+	}
+
+	protected void assertHighlightEquals(String expected, String s) {
+		expected = StringUtil.replace(
+			expected, new String[] {"[[", "]]"}, HighlightUtil.HIGHLIGHTS);
+
+		Assert.assertEquals(expected, s);
 	}
 
 	protected void testMaxContentLength(
@@ -189,6 +308,69 @@ public class SummaryBuilderImplTest {
 		Summary summary = summaryBuilder.build();
 
 		Assert.assertEquals(expected, summary.getContent());
+	}
+
+	private void _assertNoSpaceResult(
+		String highlightedContent, String normalContent, int maxLength,
+		String result) {
+
+		StringBundler sb = new StringBundler(5);
+
+		sb.append("[[");
+
+		if (maxLength < (highlightedContent.length() + 3)) {
+			sb.append(highlightedContent.substring(0, maxLength - 3));
+		}
+		else {
+			sb.append(highlightedContent);
+		}
+
+		sb.append("]]");
+
+		if (maxLength > (highlightedContent.length() + 3)) {
+			sb.append(
+				normalContent.substring(
+					0, maxLength - highlightedContent.length() - 3));
+		}
+
+		sb.append("...");
+
+		assertHighlightEquals(sb.toString(), result);
+	}
+
+	private void _assertSpaceResult(
+		String highlightedContent, String normalContent, int maxLength,
+		String result) {
+
+		StringBundler sb = new StringBundler(8);
+
+		sb.append("[[");
+
+		if (maxLength < (highlightedContent.length() + 3)) {
+			sb.append(highlightedContent.substring(0, maxLength - 3));
+		}
+		else {
+			sb.append(highlightedContent);
+		}
+
+		if (maxLength > (highlightedContent.length() * 2 + 3)) {
+			sb.append(" ");
+			sb.append(highlightedContent);
+		}
+
+		sb.append("]]");
+
+		if (maxLength >
+				(highlightedContent.
+					length() * 2 + normalContent.length() + 4)) {
+
+			sb.append(" ");
+			sb.append(normalContent);
+		}
+
+		sb.append("...");
+
+		assertHighlightEquals(sb.toString(), result);
 	}
 
 	private final SummaryBuilder _summaryBuilder = new SummaryBuilderImpl();
