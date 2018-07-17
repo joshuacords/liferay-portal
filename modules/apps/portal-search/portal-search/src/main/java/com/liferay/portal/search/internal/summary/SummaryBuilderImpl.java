@@ -81,6 +81,12 @@ public class SummaryBuilderImpl implements SummaryBuilder {
 	}
 
 	protected String buildContentHighlighted() {
+		int virtualMaxContentLength = _maxContentLength;
+
+		if (_maxContentLength < _content.length()) {
+			virtualMaxContentLength = _recalculateHighlightMaxLength();
+		}
+
 		_shortenHighlightedContent();
 
 		if (_content.lastIndexOf(HighlightUtil.HIGHLIGHT_TAG_CLOSE) <
@@ -101,6 +107,7 @@ public class SummaryBuilderImpl implements SummaryBuilder {
 				_content.concat(HighlightUtil.HIGHLIGHT_TAG_CLOSE);
 			}
 		}
+
 		return _escapeAndHighlight(_content);
 	}
 
@@ -146,6 +153,56 @@ public class SummaryBuilderImpl implements SummaryBuilder {
 			text, _ESCAPE_SAFE_HIGHLIGHTS, HighlightUtil.HIGHLIGHTS);
 
 		return text;
+	}
+
+	private int _recalculateHighlightMaxLength() {
+		String extractedContent = _html.extractText(_content);
+
+		if (extractedContent.length() <= _maxContentLength) {
+			_maxContentLength = _content.length();
+
+			return _maxContentLength;
+		}
+
+		int currentLength = 0;
+		int highlightLength = 0;
+		int indexClose = _content.indexOf(
+			HighlightUtil.HIGHLIGHT_TAG_CLOSE, currentLength);
+		int indexOpen = _content.indexOf(
+			HighlightUtil.HIGHLIGHT_TAG_OPEN, currentLength);
+
+		while ((indexClose > 0) || (indexOpen > 0)) {
+			if ((indexOpen > -1) &&
+				((indexOpen < indexClose) || (indexClose < 0))) {
+
+				currentLength = indexOpen - highlightLength;
+
+				if (currentLength >= _maxContentLength) {
+					break;
+				}
+
+				highlightLength += HighlightUtil.HIGHLIGHT_TAG_OPEN.length();
+				indexOpen = _content.indexOf(
+					HighlightUtil.HIGHLIGHT_TAG_OPEN,
+					currentLength + highlightLength);
+			}
+			else if ((indexClose > -1) &&
+					 ((indexClose < indexOpen) || (indexOpen < 0))) {
+
+				currentLength = indexClose - highlightLength;
+
+				if (currentLength >= _maxContentLength) {
+					break;
+				}
+
+				highlightLength += HighlightUtil.HIGHLIGHT_TAG_CLOSE.length();
+				indexClose = _content.indexOf(
+					HighlightUtil.HIGHLIGHT_TAG_CLOSE,
+					currentLength + highlightLength);
+			}
+		}
+
+		return _maxContentLength + highlightLength;
 	}
 
 	private void _shortenHighlightedContent() {
