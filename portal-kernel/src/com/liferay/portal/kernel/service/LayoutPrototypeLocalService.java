@@ -209,7 +209,7 @@ public interface LayoutPrototypeLocalService extends BaseLocalService,
 		long companyId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public LayoutPrototype fetchLayoutProtoype(long companyId, String name);
+	public LayoutPrototype fetchLayoutPrototype(long companyId, String name);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();

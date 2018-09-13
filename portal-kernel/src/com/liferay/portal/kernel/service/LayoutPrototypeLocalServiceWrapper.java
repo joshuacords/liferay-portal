@@ -241,9 +241,9 @@ public class LayoutPrototypeLocalServiceWrapper
 	}
 
 	@Override
-	public com.liferay.portal.kernel.model.LayoutPrototype fetchLayoutProtoype(
+	public com.liferay.portal.kernel.model.LayoutPrototype fetchLayoutPrototype(
 		long companyId, String name) {
-		return _layoutPrototypeLocalService.fetchLayoutProtoype(companyId, name);
+		return _layoutPrototypeLocalService.fetchLayoutPrototype(companyId, name);
 	}
 
 	@Override

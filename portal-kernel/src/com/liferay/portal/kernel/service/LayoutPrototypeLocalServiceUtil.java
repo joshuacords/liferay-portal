@@ -231,9 +231,9 @@ public class LayoutPrototypeLocalServiceUtil {
 				   .fetchLayoutPrototypeByUuidAndCompanyId(uuid, companyId);
 	}
 
-	public static com.liferay.portal.kernel.model.LayoutPrototype fetchLayoutProtoype(
+	public static com.liferay.portal.kernel.model.LayoutPrototype fetchLayoutPrototype(
 		long companyId, String name) {
-		return getService().fetchLayoutProtoype(companyId, name);
+		return getService().fetchLayoutPrototype(companyId, name);
 	}
 
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery getActionableDynamicQuery() {

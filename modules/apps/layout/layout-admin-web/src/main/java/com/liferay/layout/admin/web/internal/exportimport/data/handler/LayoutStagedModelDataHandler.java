@@ -1908,7 +1908,7 @@ public class LayoutStagedModelDataHandler
 				layoutElement.attributeValue("layout-prototype-name"));
 
 			LayoutPrototype layoutPrototype =
-				_layoutPrototypeLocalService.fetchLayoutProtoype(
+				_layoutPrototypeLocalService.fetchLayoutPrototype(
 					companyId, layoutPrototypeName);
 
 			if (layoutPrototype != null) {

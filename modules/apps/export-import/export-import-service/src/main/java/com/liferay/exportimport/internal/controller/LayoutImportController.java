@@ -1392,7 +1392,7 @@ public class LayoutImportController implements ImportController {
 				}
 				else {
 					LayoutPrototype layoutPrototype =
-						_layoutPrototypeLocalService.fetchLayoutProtoype(
+						_layoutPrototypeLocalService.fetchLayoutPrototype(
 							companyId, layoutPrototypeName);
 
 					if (layoutPrototype == null) {

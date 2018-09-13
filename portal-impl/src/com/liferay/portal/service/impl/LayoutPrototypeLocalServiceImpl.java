@@ -218,7 +218,7 @@ public class LayoutPrototypeLocalServiceImpl
 	}
 
 	@Override
-	public LayoutPrototype fetchLayoutProtoype(long companyId, String name) {
+	public LayoutPrototype fetchLayoutPrototype(long companyId, String name) {
 		return layoutPrototypeLocalService.fetchLayoutPrototype(
 			companyId, name, LocaleUtil.getDefault());
 	}
