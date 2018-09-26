@@ -56,6 +56,8 @@ public class CompleteTaskMVCActionCommand
 			actionRequest, "transitionName");
 		String comment = ParamUtil.getString(actionRequest, "comment");
 
+		String doNothing = "This commit does nothing.";
+
 		workflowTaskManager.completeWorkflowTask(
 			themeDisplay.getCompanyId(), themeDisplay.getUserId(),
 			workflowTaskId, transitionName, comment, null);
