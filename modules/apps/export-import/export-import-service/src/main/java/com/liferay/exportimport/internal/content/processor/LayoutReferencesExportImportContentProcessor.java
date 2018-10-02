@@ -213,6 +213,7 @@ public class LayoutReferencesExportImportContentProcessor
 		StringBuilder sb = new StringBuilder(content);
 
 		String[] patterns = {"href=", "[["};
+		boolean relativeURLFlag = false;
 
 		int beginPos = -1;
 		int endPos = content.length();
@@ -263,10 +264,15 @@ public class LayoutReferencesExportImportContentProcessor
 				url = url.substring(0, url.length() - 1);
 			}
 
+			String cleanURL = url;
 			StringBundler urlSB = new StringBundler(6);
 
 			try {
 				url = replaceExportHostname(group, url, urlSB);
+
+				if (url != cleanURL) {
+					relativeURLFlag = true;
+				}
 
 				if (!url.startsWith(StringPool.SLASH)) {
 					continue;
@@ -302,6 +308,8 @@ public class LayoutReferencesExportImportContentProcessor
 				}
 
 				if (locale != null) {
+					relativeURLFlag = true;
+
 					String urlWithoutLocale = url.substring(
 						localePath.length());
 
@@ -522,6 +530,10 @@ public class LayoutReferencesExportImportContentProcessor
 					urlSB.append(url);
 
 					url = urlSB.toString();
+				}
+
+				if (!relativeURLFlag) {
+					url = cleanURL;
 				}
 
 				sb.replace(beginPos + offset, endPos, url);
