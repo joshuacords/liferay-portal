@@ -122,6 +122,8 @@ public class DDMFormInstanceRecordStagedModelDataHandler
 			PortletDataContext portletDataContext, DDMFormInstanceRecord record)
 		throws Exception {
 
+		int test = 0;
+
 		Map<Long, Long> recordSetIds =
 			(Map<Long, Long>)portletDataContext.getNewPrimaryKeysMap(
 				DDMFormInstance.class);

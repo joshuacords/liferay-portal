@@ -71,6 +71,8 @@ public class AddFormInstanceRecordMVCActionCommand
 			ActionRequest actionRequest, ActionResponse actionResponse)
 		throws Exception {
 
+		int test = 0;
+
 		PortletSession portletSession = actionRequest.getPortletSession();
 
 		long groupId = ParamUtil.getLong(actionRequest, "groupId");

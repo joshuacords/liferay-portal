@@ -61,6 +61,8 @@ public class AddFormInstanceRecordMVCCommandHelper {
 			DDMFormValues ddmFormValues, Locale locale)
 		throws Exception {
 
+		int test = 0;
+
 		List<DDMFormField> requiredFields = getRequiredFields(ddmForm);
 
 		if (requiredFields.isEmpty()) {
