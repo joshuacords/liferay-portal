@@ -16,6 +16,8 @@ package com.liferay.portal.dao.orm.hibernate;
 
 import com.liferay.portal.kernel.dao.orm.ORMException;
 import com.liferay.portal.kernel.dao.orm.ObjectNotFoundException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.BaseModel;
 
 import com.liferay.portal.kernel.model.User;
@@ -40,7 +42,7 @@ public class ExceptionTranslator {
 	public static ORMException translate(
 		Exception e, Session session, Object object) {
 
-		if (e instanceof StaleObjectStateException) {
+		if (e instanceof StaleObjectStateException && _log.isDebugEnabled()) {
 			BaseModel<?> baseModel = (BaseModel<?>)object;
 
 			Object currentObject = session.get(
@@ -85,4 +87,5 @@ public class ExceptionTranslator {
 			tempUser + " is stale in comparison to " + tempCurrUser, e);
 	}
 
+	private static final Log _log = LogFactoryUtil.getLog(ExceptionTranslator.class);
 }
