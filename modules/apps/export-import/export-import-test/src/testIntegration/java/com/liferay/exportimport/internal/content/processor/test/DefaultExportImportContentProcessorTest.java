@@ -525,6 +525,25 @@ public class DefaultExportImportContentProcessorTest {
 	}
 
 	@Test
+	public void testExportLinksToURLSWithStopCharacters() throws Exception {
+		String path = RandomTestUtil.randomString();
+
+		String content = getContent("url_links.txt").replaceAll("PATH", path);
+
+		content = replaceLinksToLayoutsParameters(
+			content, _stagingPrivateLayout,
+			_stagingPublicLayout);
+
+		content = _exportImportContentProcessor.replaceExportContentReferences(
+			_portletDataContextExport, _referrerStagedModel, content, true,
+			true);
+
+		for (char stopChar: _LAYOUT_REFERENCE_STOP_CHARS) {
+			assertLinksToURLWithStopCharacters(content, path, stopChar);
+		}
+	}
+
+	@Test
 	public void testExportLinksToUserLayouts() throws Exception {
 		User user = TestPropsValues.getUser();
 
@@ -838,6 +857,19 @@ public class DefaultExportImportContentProcessorTest {
 		}
 
 		sb.append(StringPool.CLOSE_BRACKET);
+
+		Assert.assertTrue(content, content.contains(sb.toString()));
+	}
+
+	protected void assertLinksToURLWithStopCharacters(
+		String content, String path, char stopChar) {
+
+		StringBundler sb = new StringBundler();
+
+		sb.append(path);
+		sb.append(StringPool.SLASH);
+		sb.append(stopChar);
+		sb.append(StringPool.SLASH);
 
 		Assert.assertTrue(content, content.contains(sb.toString()));
 	}
@@ -1181,6 +1213,13 @@ public class DefaultExportImportContentProcessorTest {
 	private static final String[] _GROUP_FRIENDLY_URL_VARIABLES = {
 		"[$GROUP_FRIENDLY_URL$]", "[$PRIVATE_LAYOUT_FRIENDLY_URL$]",
 		"[$PUBLIC_LAYOUT_FRIENDLY_URL$]"
+	};
+
+	private static final char[] _LAYOUT_REFERENCE_STOP_CHARS = {
+		CharPool.APOSTROPHE, CharPool.CLOSE_BRACKET, CharPool.CLOSE_CURLY_BRACE,
+		CharPool.CLOSE_PARENTHESIS, CharPool.GREATER_THAN, CharPool.LESS_THAN,
+		CharPool.PIPE, CharPool.POUND, CharPool.QUESTION, CharPool.QUOTE,
+		CharPool.SPACE
 	};
 
 	private static final String[] _MULTI_LOCALE_LAYOUT_VARIABLES = {
