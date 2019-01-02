@@ -187,7 +187,7 @@ if (portletTitleBasedNavigation) {
 						<div class="entry-title form-group">
 							<h1>
 								<liferay-ui:input-editor
-									contents="<%= HtmlUtil.escape(title) %>"
+									contents="<%= title %>"
 									editorName="alloyeditor"
 									name="titleEditor"
 									onChangeMethod="OnChangeTitle"

@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactoryUtil;
 import com.liferay.portal.kernel.servlet.BrowserSnifferUtil;
 import com.liferay.portal.kernel.servlet.PortalWebResourcesUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.JavaConstants;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.PropsKeys;
@@ -104,7 +105,7 @@ public class InputEditorTag extends BaseValidatorTagSupport {
 	}
 
 	public void setContents(String contents) {
-		_contents = contents;
+		_contents = HtmlUtil.escapeAttribute(contents);
 	}
 
 	public void setContentsLanguageId(String contentsLanguageId) {

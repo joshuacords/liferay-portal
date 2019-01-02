@@ -93,7 +93,7 @@ renderResponse.setTitle((formInstance == null) ? LanguageUtil.get(request, "new-
 				<h1>
 					<liferay-ui:input-editor
 						autoCreate="<%= false %>"
-						contents="<%= HtmlUtil.escape(ddmFormAdminDisplayContext.getFormName(), HtmlImpl.ESCAPE_MODE_ATTRIBUTE) %>"
+						contents="<%= ddmFormAdminDisplayContext.getFormName() %>"
 						cssClass="ddm-form-name"
 						editorName="alloyeditor"
 						name="nameEditor"
