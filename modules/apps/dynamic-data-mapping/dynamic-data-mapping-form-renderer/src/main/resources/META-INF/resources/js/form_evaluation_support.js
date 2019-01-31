@@ -95,9 +95,6 @@ AUI.add(
 
 							var currentContext = field.get('context');
 
-							currentContext.errorMessage = '';
-							currentContext.valid = true;
-
 							fieldContext = A.merge(
 								currentContext,
 								fieldContext,

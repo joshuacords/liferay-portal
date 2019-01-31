@@ -82,8 +82,6 @@ AUI.add(
 
 			_afterFocus: function() {
 				var instance = this;
-
-				instance.hideErrorMessage();
 			},
 
 			_afterValidChange: function(event) {
