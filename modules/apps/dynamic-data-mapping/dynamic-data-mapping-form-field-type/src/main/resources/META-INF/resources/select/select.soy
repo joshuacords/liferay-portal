@@ -62,7 +62,7 @@
 					{/if}
 				{/if}
 
-				<div class="form-control select-field-trigger" {if $dir}dir="{$dir}"{/if} id="{$name}" name="{$name}" {if $readOnly} disabled{/if}>
+				<div class="form-control select-field-trigger" {if $dir}dir="{$dir}"{/if} id="{$name}" name="{$name}" tabindex="0" {if $readOnly} disabled{/if}>
 					{if $multiple}
 						{if $displayValues}
 							<ul class="multiple-label-list">
