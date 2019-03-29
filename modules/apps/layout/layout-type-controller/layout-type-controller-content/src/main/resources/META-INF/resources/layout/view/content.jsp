@@ -124,11 +124,20 @@ String ppid = ParamUtil.getString(request, "p_p_id");
 													if (fragmentEntryLink == null) {
 														continue;
 													}
+
+													try {
 												%>
 
 													<%= FragmentEntryRenderUtil.renderFragmentEntryLink(fragmentEntryLink, FragmentEntryLinkConstants.VIEW, Collections.emptyMap(), locale, segmentsExperienceIds, request, response) %>
 
 												<%
+													} catch (Exception e) {
+												%>
+
+													<div>ERROR</div>
+
+												<%
+													}
 												}
 												%>
 
