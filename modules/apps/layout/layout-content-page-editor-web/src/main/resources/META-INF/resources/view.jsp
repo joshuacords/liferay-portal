@@ -35,6 +35,8 @@ ContentPageEditorDisplayContext contentPageEditorDisplayContext = (ContentPageEd
 	templateNamespace="com.liferay.layout.content.page.editor.web.FragmentsEditor.render"
 />
 
+<liferay-ui:error key="fragmentError" message="please-enter-the-number-of-minutes" />
+
 <%
 StringBundler sb = new StringBundler(8);
 

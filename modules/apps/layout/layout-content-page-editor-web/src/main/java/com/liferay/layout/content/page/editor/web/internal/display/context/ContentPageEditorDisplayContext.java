@@ -65,6 +65,7 @@ import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.service.PortletLocalServiceUtil;
 import com.liferay.portal.kernel.service.PortletPreferencesLocalServiceUtil;
 import com.liferay.portal.kernel.service.permission.PortletPermissionUtil;
+import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.template.TemplateException;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.Constants;
@@ -950,6 +951,7 @@ public class ContentPageEditorDisplayContext {
 							PortalUtil.getHttpServletResponse(_renderResponse));
 				} catch (TemplateException te) {
 					content = "<div>Error: This fragment could not be rendered.</div>";
+					SessionErrors.add(request, "fragmentError");
 				}
 
 				JSONObject editableValuesJSONObject =
