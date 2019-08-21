@@ -843,6 +843,8 @@ public class JournalArticleStagedModelDataHandler
 
 			JournalArticle importedArticle = null;
 
+			boolean articleRestored = false;
+
 			// Used when importing LARs with journal schemas under 1.1.0
 
 			_setLegacyValues(article);
@@ -900,31 +902,46 @@ public class JournalArticleStagedModelDataHandler
 						serviceContext);
 				}
 				else {
-					importedArticle = _journalArticleLocalService.updateArticle(
-						userId, existingArticle.getGroupId(), folderId,
-						existingArticle.getArticleId(), article.getVersion(),
-						article.getTitleMap(), article.getDescriptionMap(),
-						friendlyURLMap, article.getContent(),
-						parentDDMStructureKey, parentDDMTemplateKey,
-						article.getLayoutUuid(), displayDateMonth,
-						displayDateDay, displayDateYear, displayDateHour,
-						displayDateMinute, expirationDateMonth,
-						expirationDateDay, expirationDateYear,
-						expirationDateHour, expirationDateMinute, neverExpire,
-						reviewDateMonth, reviewDateDay, reviewDateYear,
-						reviewDateHour, reviewDateMinute, neverReview,
-						article.isIndexable(), article.isSmallImage(),
-						article.getSmallImageURL(), smallFile, null, articleURL,
-						serviceContext);
-
 					String articleUuid = article.getUuid();
-					String importedArticleUuid = importedArticle.getUuid();
+					String existingArticleUuid = existingArticle.getUuid();
 
-					if (!articleUuid.equals(importedArticleUuid)) {
-						importedArticle.setUuid(articleUuid);
+					articleRestored = articleUuid.equals(existingArticleUuid);
 
-						_journalArticleLocalService.updateJournalArticle(
-							importedArticle);
+					if(articleRestored) {
+						importedArticle = existingArticle;
+					}
+					else {
+						importedArticle =
+							_journalArticleLocalService.updateArticle(
+								userId, existingArticle.getGroupId(), folderId,
+								existingArticle.getArticleId(),
+								article.getVersion(),
+								article.getTitleMap(),
+								article.getDescriptionMap(),
+								friendlyURLMap, article.getContent(),
+								parentDDMStructureKey, parentDDMTemplateKey,
+								article.getLayoutUuid(), displayDateMonth,
+								displayDateDay, displayDateYear,
+								displayDateHour,
+								displayDateMinute, expirationDateMonth,
+								expirationDateDay, expirationDateYear,
+								expirationDateHour, expirationDateMinute,
+								neverExpire,
+								reviewDateMonth, reviewDateDay, reviewDateYear,
+								reviewDateHour, reviewDateMinute, neverReview,
+								article.isIndexable(), article.isSmallImage(),
+								article.getSmallImageURL(), smallFile, null,
+								articleURL,
+								serviceContext);
+
+						String importedArticleUuid = importedArticle.getUuid();
+
+						if (!articleUuid.equals(importedArticleUuid)) {
+							importedArticle.setUuid(articleUuid);
+
+							_journalArticleLocalService.updateJournalArticle(
+								importedArticle);
+						}
 					}
 				}
 			}
@@ -946,11 +963,14 @@ public class JournalArticleStagedModelDataHandler
 					smallFile, null, articleURL, serviceContext);
 			}
 
-			_journalArticleLocalService.updateAsset(
-				userId, importedArticle, serviceContext.getAssetCategoryIds(),
-				serviceContext.getAssetTagNames(),
-				serviceContext.getAssetLinkEntryIds(),
-				serviceContext.getAssetPriority());
+			if(!articleRestored) {
+				_journalArticleLocalService.updateAsset(
+					userId, importedArticle,
+					serviceContext.getAssetCategoryIds(),
+					serviceContext.getAssetTagNames(),
+					serviceContext.getAssetLinkEntryIds(),
+					serviceContext.getAssetPriority());
+			}
 
 			serviceContext.setModifiedDate(importedArticle.getModifiedDate());
 
