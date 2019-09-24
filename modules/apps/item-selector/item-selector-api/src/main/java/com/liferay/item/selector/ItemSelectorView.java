@@ -65,6 +65,13 @@ public interface ItemSelectorView<T extends ItemSelectorCriterion> {
 	public String getTitle(Locale locale);
 
 	/**
+	 * Returns the title key of the tab to display in the Item Selector dialog.
+	 *
+	 * @return the title key of the tab
+	 */
+	public String getTitleKey();
+
+	/**
 	 * Returns whether the item selector view should show the search field. If
 	 * the view supports search, this method should return <code>true</code>.
 	 *

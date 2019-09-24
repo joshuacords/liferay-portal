@@ -58,8 +58,9 @@ public class LocalizedItemSelectorRendering {
 			itemSelectorViewRenderer.getItemSelectorView();
 
 		String title = itemSelectorView.getTitle(_locale);
+		String titleKey = itemSelectorView.getTitleKey();
 
-		_itemSelectorViewRenderers.put(title, itemSelectorViewRenderer);
+		_itemSelectorViewRenderers.put(titleKey, itemSelectorViewRenderer);
 
 		_navigationItems.add(
 			navigationItem -> {
@@ -81,7 +82,7 @@ public class LocalizedItemSelectorRendering {
 			});
 	}
 
-	public String getItemSelectedEventName() {
+	public String getItemSelectedEventName() {-b JCO
 		return _itemSelectorRendering.getItemSelectedEventName();
 	}
 

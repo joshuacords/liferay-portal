@@ -73,6 +73,11 @@ public abstract class BaseDLItemSelectorView<T extends ItemSelectorCriterion>
 	}
 
 	@Override
+	public String getTitleKey() {
+		return "documents-and-media";
+	}
+
+	@Override
 	public boolean isVisible(ThemeDisplay themeDisplay) {
 		return true;
 	}

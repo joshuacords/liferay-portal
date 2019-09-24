@@ -175,7 +175,7 @@ public class ItemSelectorImpl implements ItemSelector {
 				PortletURL portletURL = getPortletURL(
 					requestBackedPortletURLFactory,
 					itemSelectorView.getTitle(themeDisplay.getLocale()),
-					selectedTab, itemSelectedEventName,
+					selectedTab, itemSelectorView.getTitleKey(), itemSelectedEventName,
 					itemSelectorCriteriaArray, themeDisplay);
 
 				itemSelectorViewRenderers.add(
@@ -310,7 +310,7 @@ public class ItemSelectorImpl implements ItemSelector {
 
 	protected PortletURL getPortletURL(
 		RequestBackedPortletURLFactory requestBackedPortletURLFactory,
-		String title, String selectedTab, String itemSelectedEventName,
+		String title, String selectedTab, String selectedTabKey, String itemSelectedEventName,
 		ItemSelectorCriterion[] itemSelectorCriteriaArray,
 		ThemeDisplay themeDisplay) {
 
@@ -335,6 +335,7 @@ public class ItemSelectorImpl implements ItemSelector {
 		}
 
 		portletURL.setParameter(PARAMETER_SELECTED_TAB, title);
+		portletURL.setParameter("selectedTabKey", selectedTabKey);
 
 		return portletURL;
 	}
