@@ -47,4 +47,10 @@ public interface ItemSelectorRendering {
 	 */
 	public String getSelectedTab();
 
+	/**
+	 * Returns the selected tab key of the Item Selector dialog to be rendered.
+	 *
+	 * @return the selected tab
+	 */
+	public String getSelectedTabKey();
 }

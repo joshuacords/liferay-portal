@@ -74,6 +74,11 @@ public class ItemSelectorUploadView
 	}
 
 	@Override
+	public String getTitleKey() {
+		return "upload-image";
+	}
+
+	@Override
 	public boolean isVisible(ThemeDisplay themeDisplay) {
 		return true;
 	}

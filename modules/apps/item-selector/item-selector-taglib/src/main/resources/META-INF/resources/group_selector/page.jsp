@@ -57,6 +57,8 @@ SearchContainer searchContainer = new GroupSearch(liferayPortletRequest, iterato
 
 			viewGroupURL.setParameter("selectedTab", ParamUtil.getString(request, "selectedTab"));
 
+			viewGroupURL.setParameter("selectedTabKey", ParamUtil.getString(request, "selectedTabKey"));
+
 			row.setCssClass("entry-card lfr-asset-item");
 			%>
 

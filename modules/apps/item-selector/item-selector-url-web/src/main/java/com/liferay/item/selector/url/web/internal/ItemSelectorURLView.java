@@ -70,6 +70,11 @@ public class ItemSelectorURLView
 	}
 
 	@Override
+	public String getTitleKey() {
+		return "url";
+	}
+
+	@Override
 	public boolean isVisible(ThemeDisplay themeDisplay) {
 		return true;
 	}

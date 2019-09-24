@@ -69,6 +69,8 @@ public class ItemSelectorImpl implements ItemSelector {
 
 	public static final String PARAMETER_SELECTED_TAB = "selectedTab";
 
+	public static final String PARAMETER_SELECTED_TAB_KEY = "selectedTabKey";
+
 	@Override
 	public String getItemSelectedEventName(String itemSelectorURL) {
 		String namespace = _portal.getPortletNamespace(
@@ -140,6 +142,7 @@ public class ItemSelectorImpl implements ItemSelector {
 		String itemSelectedEventName = getValue(
 			parameters, PARAMETER_ITEM_SELECTED_EVENT_NAME);
 		String selectedTab = getValue(parameters, PARAMETER_SELECTED_TAB);
+		String selectedTabKey = getValue(parameters, PARAMETER_SELECTED_TAB_KEY);
 
 		List<ItemSelectorViewRenderer> itemSelectorViewRenderers =
 			new ArrayList<>();
@@ -186,7 +189,8 @@ public class ItemSelectorImpl implements ItemSelector {
 		}
 
 		return new ItemSelectorRenderingImpl(
-			itemSelectedEventName, selectedTab, itemSelectorViewRenderers);
+			itemSelectedEventName, selectedTab, selectedTabKey,
+			itemSelectorViewRenderers);
 	}
 
 	@Override

@@ -67,22 +67,25 @@ public class LocalizedItemSelectorRendering {
 				navigationItem.setHref(
 					itemSelectorViewRenderer.getPortletURL());
 
-				navigationItem.setLabel(title);
-
 				String selectedTab = _itemSelectorRendering.getSelectedTab();
 
-				if (selectedTab.equals(title) ||
+				navigationItem.setLabel(selectedTab);
+
+				String selectedTabKey =
+					_itemSelectorRendering.getSelectedTabKey();
+
+				if (selectedTabKey.equals(titleKey) ||
 					(Validator.isNull(selectedTab) &&
 					 _navigationItems.isEmpty())) {
 
 					navigationItem.setActive(true);
 
-					_selectedNavigationItemLabel = title;
+					_selectedNavigationItemLabel = titleKey;
 				}
 			});
 	}
 
-	public String getItemSelectedEventName() {-b JCO
+	public String getItemSelectedEventName() {
 		return _itemSelectorRendering.getItemSelectedEventName();
 	}
 
