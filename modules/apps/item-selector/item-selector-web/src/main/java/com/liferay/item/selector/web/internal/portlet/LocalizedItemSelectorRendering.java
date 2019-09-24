@@ -69,13 +69,17 @@ public class LocalizedItemSelectorRendering {
 
 				String selectedTab = _itemSelectorRendering.getSelectedTab();
 
+				if (Validator.isNull(selectedTab)) {
+					selectedTab = title;
+				}
+
 				navigationItem.setLabel(selectedTab);
 
 				String selectedTabKey =
 					_itemSelectorRendering.getSelectedTabKey();
 
 				if (selectedTabKey.equals(titleKey) ||
-					(Validator.isNull(selectedTab) &&
+					(Validator.isNull(selectedTabKey) &&
 					 _navigationItems.isEmpty())) {
 
 					navigationItem.setActive(true);

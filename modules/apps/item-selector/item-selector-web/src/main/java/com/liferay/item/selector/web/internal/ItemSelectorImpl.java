@@ -178,8 +178,8 @@ public class ItemSelectorImpl implements ItemSelector {
 				PortletURL portletURL = getPortletURL(
 					requestBackedPortletURLFactory,
 					itemSelectorView.getTitle(themeDisplay.getLocale()),
-					selectedTab, itemSelectorView.getTitleKey(), itemSelectedEventName,
-					itemSelectorCriteriaArray, themeDisplay);
+					selectedTab, selectedTabKey, itemSelectorView.getTitleKey(),
+					itemSelectedEventName, itemSelectorCriteriaArray, themeDisplay);
 
 				itemSelectorViewRenderers.add(
 					new ItemSelectorViewRendererImpl(
@@ -314,13 +314,15 @@ public class ItemSelectorImpl implements ItemSelector {
 
 	protected PortletURL getPortletURL(
 		RequestBackedPortletURLFactory requestBackedPortletURLFactory,
-		String title, String selectedTab, String selectedTabKey, String itemSelectedEventName,
+		String title, String selectedTab, String selectedTabKey,
+		String titleKey, String itemSelectedEventName,
 		ItemSelectorCriterion[] itemSelectorCriteriaArray,
 		ThemeDisplay themeDisplay) {
 
 		PortletURL portletURL = null;
 
-		if (Validator.isNotNull(selectedTab) && selectedTab.equals(title)) {
+		if (Validator.isNotNull(selectedTab) && Validator.isNotNull(selectedTabKey)
+			&& titleKey.equals(selectedTabKey)) {
 			portletURL = getItemSelectorURL(
 				requestBackedPortletURLFactory, themeDisplay.getScopeGroup(),
 				themeDisplay.getRefererGroupId(), itemSelectedEventName,
@@ -338,8 +340,12 @@ public class ItemSelectorImpl implements ItemSelector {
 				itemSelectorCriteriaArray);
 		}
 
-		portletURL.setParameter(PARAMETER_SELECTED_TAB, title);
-		portletURL.setParameter("selectedTabKey", selectedTabKey);
+		if (Validator.isNull(selectedTab)) {
+			selectedTab = title;
+		}
+
+		portletURL.setParameter(PARAMETER_SELECTED_TAB, selectedTab);
+		portletURL.setParameter("selectedTabKey", titleKey);
 
 		return portletURL;
 	}
