@@ -74,6 +74,8 @@ page import="java.util.Set" %>
 
 <%@ page import="javax.portlet.PortletURL" %>
 
+<%@ page buffer="none" %>
+
 <liferay-frontend:defineObjects />
 
 <liferay-theme:defineObjects />
