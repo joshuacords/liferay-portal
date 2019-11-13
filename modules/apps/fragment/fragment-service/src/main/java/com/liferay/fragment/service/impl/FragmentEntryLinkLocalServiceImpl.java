@@ -688,10 +688,6 @@ public class FragmentEntryLinkLocalServiceImpl
 				fragmentEntry.getConfiguration());
 			fragmentEntryLink.setLastPropagationDate(new Date());
 
-			updateClassedModel(
-				fragmentEntryLink.getClassNameId(),
-				fragmentEntryLink.getClassPK());
-
 			fragmentEntryLinkPersistence.update(fragmentEntryLink);
 		}
 	}
