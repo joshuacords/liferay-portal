@@ -103,6 +103,7 @@ import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.module.configuration.ConfigurationProvider;
 import com.liferay.portal.kernel.notifications.UserNotificationDefinition;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
+import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.PortletProvider;
 import com.liferay.portal.kernel.portlet.PortletProviderUtil;
 import com.liferay.portal.kernel.portlet.PortletRequestModel;
@@ -191,6 +192,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+
+import javax.portlet.PortletURL;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -7711,6 +7714,36 @@ public class JournalArticleLocalServiceImpl
 			groupId, articleId, status, orderByComparator);
 	}
 
+	protected String getFolderURLViewInContext(
+			JournalArticle article, String portletId,
+			ServiceContext serviceContext)
+		throws PortalException {
+
+		String articleURL = null;
+
+		LiferayPortletResponse liferayPortletResponse =
+			serviceContext.getLiferayPortletResponse();
+
+		PortletURL portletURL = liferayPortletResponse.createRenderURL();
+
+		if (portletURL != null) {
+			JournalFolder folder = article.getFolder();
+
+			portletURL.setParameter(
+				"groupId", String.valueOf(folder.getGroupId()));
+			portletURL.setParameter(
+				"folderId", String.valueOf(folder.getFolderId()));
+
+			articleURL = portletURL.toString();
+		}
+		else {
+			articleURL = getURLViewInContext(
+				article, portletId, serviceContext);
+		}
+
+		return articleURL;
+	}
+
 	protected JournalGroupServiceConfiguration
 			getJournalGroupServiceConfiguration(long groupId)
 		throws ConfigurationException {
@@ -8111,7 +8144,7 @@ public class JournalArticleLocalServiceImpl
 		String portletId = PortletProviderUtil.getPortletId(
 			JournalArticle.class.getName(), PortletProvider.Action.EDIT);
 
-		String articleURL = getURLViewInContext(
+		String articleURL = getFolderURLViewInContext(
 			article, portletId, serviceContext);
 
 		String articleStatus = LanguageUtil.get(
