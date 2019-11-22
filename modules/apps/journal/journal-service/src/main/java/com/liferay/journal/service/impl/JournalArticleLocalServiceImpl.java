@@ -3144,6 +3144,58 @@ public class JournalArticleLocalServiceImpl
 		return articles.get(0);
 	}
 
+	public String getFolderURLViewInContext(
+			JournalArticle article, String portletId,
+			ServiceContext serviceContext)
+		throws PortalException {
+
+		String articleURL = StringPool.BLANK;
+
+		try {
+			articleURL = _portal.getControlPanelFullURL(
+				article.getGroupId(), portletId, null);
+
+			StringBundler sb = new StringBundler(5);
+			JournalFolder folder = article.getFolder();
+
+			sb.append(articleURL);
+			sb.append("&_com_liferay_journal_web_portlet_JournalPortlet_groupId=");
+			sb.append(folder.getGroupId());
+			sb.append("&_com_liferay_journal_web_portlet_JournalPortlet_folderId=");
+			sb.append(folder.getFolderId());
+
+			articleURL = sb.toString();
+		}
+		catch (PortalException pe) {
+			_log.error(pe, pe);
+		}
+
+
+
+//		LiferayPortletResponse liferayPortletResponse =
+//			serviceContext.getLiferayPortletResponse();
+//
+//		PortletURL portletURL = liferayPortletResponse.createRenderURL();
+//
+//		if (portletURL != null) {
+//			JournalFolder folder = article.getFolder();
+//
+//			portletURL.setParameter(
+//				"groupId", String.valueOf(folder.getGroupId()));
+//			portletURL.setParameter(
+//			portletURL.setParameter(
+//				"folderId", String.valueOf(folder.getFolderId()));
+//
+//			articleURL = portletURL.toString();
+//		}
+//		else {
+//			articleURL = getURLViewInContext(
+//				article, portletId, serviceContext);
+//		}
+
+		return articleURL;
+	}
+
 	@Override
 	public List<JournalArticle> getIndexableArticlesByDDMStructureKey(
 		String[] ddmStructureKeys) {
@@ -7712,36 +7764,6 @@ public class JournalArticleLocalServiceImpl
 
 		return journalArticlePersistence.findByG_A_ST_First(
 			groupId, articleId, status, orderByComparator);
-	}
-
-	protected String getFolderURLViewInContext(
-			JournalArticle article, String portletId,
-			ServiceContext serviceContext)
-		throws PortalException {
-
-		String articleURL = null;
-
-		LiferayPortletResponse liferayPortletResponse =
-			serviceContext.getLiferayPortletResponse();
-
-		PortletURL portletURL = liferayPortletResponse.createRenderURL();
-
-		if (portletURL != null) {
-			JournalFolder folder = article.getFolder();
-
-			portletURL.setParameter(
-				"groupId", String.valueOf(folder.getGroupId()));
-			portletURL.setParameter(
-				"folderId", String.valueOf(folder.getFolderId()));
-
-			articleURL = portletURL.toString();
-		}
-		else {
-			articleURL = getURLViewInContext(
-				article, portletId, serviceContext);
-		}
-
-		return articleURL;
 	}
 
 	protected JournalGroupServiceConfiguration

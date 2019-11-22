@@ -67,6 +67,8 @@ import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.UserNotificationEvent;
 import com.liferay.portal.kernel.module.configuration.ConfigurationProvider;
+import com.liferay.portal.kernel.portlet.PortletProvider;
+import com.liferay.portal.kernel.portlet.PortletProviderUtil;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.service.ClassNameLocalService;
 import com.liferay.portal.kernel.service.GroupLocalService;
@@ -78,9 +80,11 @@ import com.liferay.portal.kernel.service.UserNotificationEventLocalService;
 import com.liferay.portal.kernel.settings.GroupServiceSettingsLocator;
 import com.liferay.portal.kernel.trash.TrashHandler;
 import com.liferay.portal.kernel.util.CalendarFactoryUtil;
+import com.liferay.portal.kernel.util.EscapableObject;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
+import com.liferay.portal.kernel.util.HtmlEscapableObject;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
@@ -1043,7 +1047,8 @@ public class JournalArticleStagedModelDataHandler
 				_importFriendlyURLEntries(
 					portletDataContext, article, importedArticle);
 
-				_sendUndeliveredUserNotificationEvents(article);
+				_sendUndeliveredUserNotificationEvents(
+					article, importedArticle);
 			}
 			finally {
 				ServiceContextThreadLocal.popServiceContext();
@@ -1465,7 +1470,7 @@ public class JournalArticleStagedModelDataHandler
 	}
 
 	private void _sendUndeliveredUserNotificationEvents(
-		JournalArticle article) {
+		JournalArticle article, JournalArticle importedArticle) {
 
 		ActionableDynamicQuery actionableDynamicQuery =
 			_userNotificationEventLocalService.getActionableDynamicQuery();
@@ -1489,9 +1494,6 @@ public class JournalArticleStagedModelDataHandler
 				userNotificationEvent -> {
 					userNotificationEvent.setDelivered(true);
 
-					_userNotificationEventLocalService.
-						updateUserNotificationEvent(userNotificationEvent);
-
 					JSONObject jsonObject = JSONFactoryUtil.createJSONObject(
 						userNotificationEvent.getPayload());
 
@@ -1509,9 +1511,32 @@ public class JournalArticleStagedModelDataHandler
 						(Map)JSONFactoryUtil.looseDeserialize(
 							String.valueOf(jsonObject.get("context")));
 
-					contextMap.forEach(
-						(key, value) -> subscriptionSender.setContextAttribute(
-							key, value.get("originalValue")));
+					String portletId = PortletProviderUtil.getPortletId(
+						JournalArticle.class.getName(),
+						PortletProvider.Action.EDIT);
+
+					ServiceContext serviceContext =
+						ServiceContextThreadLocal.getServiceContext();
+
+					String articleURL = _journalArticleLocalService.getFolderURLViewInContext(
+						importedArticle, portletId, serviceContext);
+
+//					HashMap<String, Object> articleURLMap = new HashMap<>();
+//
+//					articleURLMap.put("originalValue", articleURL);
+//
+//					contextMap.put("[$ARTICLE_URL$]", articleURLMap);
+//
+//					contextMap.forEach(
+//						(key, value) -> subscriptionSender.setContextAttribute(
+//							key, value.get("originalValue")));
+
+					jsonObject.put("entryURL", articleURL);
+
+					userNotificationEvent.setPayload(jsonObject.toString());
+
+					_userNotificationEventLocalService.
+						updateUserNotificationEvent(userNotificationEvent);
 
 					JournalGroupServiceConfiguration
 						journalGroupServiceConfiguration =
