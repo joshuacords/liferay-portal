@@ -80,7 +80,6 @@ import com.liferay.portal.kernel.service.UserNotificationEventLocalService;
 import com.liferay.portal.kernel.settings.GroupServiceSettingsLocator;
 import com.liferay.portal.kernel.trash.TrashHandler;
 import com.liferay.portal.kernel.util.CalendarFactoryUtil;
-import com.liferay.portal.kernel.util.EscapableObject;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
@@ -1048,7 +1047,7 @@ public class JournalArticleStagedModelDataHandler
 					portletDataContext, article, importedArticle);
 
 				_sendUndeliveredUserNotificationEvents(
-					article, importedArticle);
+					article, importedArticle, serviceContext);
 			}
 			finally {
 				ServiceContextThreadLocal.popServiceContext();
@@ -1470,7 +1469,8 @@ public class JournalArticleStagedModelDataHandler
 	}
 
 	private void _sendUndeliveredUserNotificationEvents(
-		JournalArticle article, JournalArticle importedArticle) {
+		JournalArticle article, JournalArticle importedArticle,
+		ServiceContext serviceContext) {
 
 		ActionableDynamicQuery actionableDynamicQuery =
 			_userNotificationEventLocalService.getActionableDynamicQuery();
@@ -1515,25 +1515,38 @@ public class JournalArticleStagedModelDataHandler
 						JournalArticle.class.getName(),
 						PortletProvider.Action.EDIT);
 
-					ServiceContext serviceContext =
-						ServiceContextThreadLocal.getServiceContext();
+					String articleURL =
+						_journalArticleLocalService.getFolderURLViewInContext(
+							importedArticle, portletId, serviceContext);
 
-					String articleURL = _journalArticleLocalService.getFolderURLViewInContext(
-						importedArticle, portletId, serviceContext);
+					HtmlEscapableObject escapedObject =
+						new HtmlEscapableObject<>(articleURL, true);
 
-//					HashMap<String, Object> articleURLMap = new HashMap<>();
-//
-//					articleURLMap.put("originalValue", articleURL);
-//
-//					contextMap.put("[$ARTICLE_URL$]", articleURLMap);
-//
-//					contextMap.forEach(
-//						(key, value) -> subscriptionSender.setContextAttribute(
-//							key, value.get("originalValue")));
+					HashMap<String, Object> articleURLMap =
+						HashMapBuilder.<String, Object>put(
+							"escape", true
+						).put(
+							"escapedValue", escapedObject.getEscapedValue()
+						).put(
+							"originalValue", articleURL
+						).build();
 
-					jsonObject.put("entryURL", articleURL);
+					contextMap.put("[$ARTICLE_URL$]", articleURLMap);
+
+					contextMap.forEach(
+						(key, value) -> subscriptionSender.setContextAttribute(
+							key, value.get("originalValue")));
+
+					jsonObject.put(
+						"context", contextMap
+					).put(
+						"entryURL", articleURL
+					);
 
 					userNotificationEvent.setPayload(jsonObject.toString());
+
+					userNotificationEvent.setTimestamp(
+						System.currentTimeMillis());
 
 					_userNotificationEventLocalService.
 						updateUserNotificationEvent(userNotificationEvent);
