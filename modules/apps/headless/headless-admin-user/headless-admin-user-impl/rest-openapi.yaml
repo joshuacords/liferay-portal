@@ -147,7 +147,6 @@ components:
                     description:
                         The organization's ID.
                     format: int64
-                    readOnly: true
                     type: integer
                 image:
                     description:
@@ -1020,6 +1019,24 @@ paths:
                                 type: array
             tags: ["Organization"]
     "/organizations/{organizationId}":
+        delete:
+            description:
+                Deletes an organization
+            operationId: deleteOrganization
+            parameters:
+                - in: path
+                  name: organizationId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+            responses:
+                204:
+                    content:
+                        application/json: {}
+                    description:
+                        ""
+            tags: ["Organization"]
         get:
             description:
                 Retrieves the organization.
