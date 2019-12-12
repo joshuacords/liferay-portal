@@ -1018,6 +1018,30 @@ paths:
                                     $ref: "#/components/schemas/Organization"
                                 type: array
             tags: ["Organization"]
+        post:
+            description:
+                Creates a new organization
+            operationId: postOrganization
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/Organization"
+                    application/xml:
+                        schema:
+                            $ref: "#/components/schemas/Organization"
+            responses:
+                201:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Organization"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/Organization"
+                    description:
+                        "Organizations successfully created"
+            tags: ["Organization"]
     "/organizations/{organizationId}":
         delete:
             # @review
