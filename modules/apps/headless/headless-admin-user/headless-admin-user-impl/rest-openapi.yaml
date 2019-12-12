@@ -125,7 +125,6 @@ components:
                 comment:
                     description:
                         The text of a comment associated with the organization.
-                    readOnly: true
                     type: string
                 customFields:
                     items:
@@ -169,7 +168,6 @@ components:
                             description:
                                 The organization's country. This follows the
                                 [`addressCountry`](https://schema.org/addressCountry) specification.
-                            readOnly: true
                             type: string
                         addressCountry_i18n:
                             additionalProperties:
@@ -179,7 +177,6 @@ components:
                             description:
                                 The organization's region. This follows the
                                 [`addressRegion`](https://schema.org/addressRegion) specification.
-                            readOnly: true
                             type: string
                         id:
                             description:
@@ -187,12 +184,10 @@ components:
                             format: int64
                             readOnly: true
                             type: integer
-                    readOnly: true
                     type: object
                 name:
                     description:
                         The organization's name.
-                    readOnly: true
                     type: string
                 numberOfOrganizations:
                     description:
@@ -239,7 +234,6 @@ components:
                         - $ref: "#/components/schemas/Organization"
                     description:
                         The organization's parent organization.
-                    readOnly: true
                 services:
                     description:
                         A list of services the organization provides. This follows the
