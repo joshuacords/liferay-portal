@@ -151,7 +151,7 @@ public class OrganizationResourceImpl
 				organization.getName(), OrganizationConstants.TYPE_ORGANIZATION,
 				_getRegionId(organization, countryId), countryId,
 				ListTypeConstants.ORGANIZATION_STATUS_DEFAULT,
-				organization.getComment(), false, _getAddresses(organization),
+				organization.getComment(), false, Collections.emptyList(),
 				Collections.emptyList(), Collections.emptyList(),
 				Collections.emptyList(), Collections.emptyList(),
 				new ServiceContext()));
@@ -189,19 +189,29 @@ public class OrganizationResourceImpl
 		return decimalFormat.format(hour);
 	}
 
-	private List<Address> _getAddresses(Organization organization) {
-		return Optional.ofNullable(
-			organization.getOrganizationContactInformation()
-		).map(
-			OrganizationContactInformation::getPostalAddresses
-		).map(
-			postalAddresses -> ListUtil.filter(
-				TransformUtil.transformToList(
-					postalAddresses, this::_toAddress),
-				Objects::nonNull)
-		).orElse(
-			Collections.emptyList()
-		);
+	private Country _getCountry(String addressCountry) {
+		try {
+			Country country = _countryService.fetchCountryByA2(addressCountry);
+
+			if (country != null) {
+				return country;
+			}
+
+			country = _countryService.fetchCountryByA3(addressCountry);
+
+			if (country != null) {
+				return country;
+			}
+
+			return _countryService.getCountryByName(addressCountry);
+		}
+		catch (Exception e) {
+			if (_log.isInfoEnabled()) {
+				_log.info(e, e);
+			}
+		}
+
+		return null;
 	}
 
 	private long _getCountryId(Organization organization) {
@@ -210,8 +220,12 @@ public class OrganizationResourceImpl
 		).map(
 			Location::getAddressCountry
 		).map(
-			this::_toCountryId
-		).get();
+			this::_getCountry
+		).map(
+			Country::getCountryId
+		).orElse(
+			(long)0
+		);
 	}
 
 	private long _getDefaultParentOrganizationId(Organization organization) {
@@ -273,114 +287,30 @@ public class OrganizationResourceImpl
 		).map(
 			Location::getAddressRegion
 		).map(
-			addressRegion -> _getRegionId(addressRegion, countryId)
-		).orElse(
-			(long)0
-		);
-	}
+			addressRegion -> {
+				if (countryId <= 0) {
+					return null;
+				}
 
-	private long _getRegionId(String addressRegion, long countryId) {
-		if (Validator.isNull(addressRegion) || (countryId <= 0)) {
-			return 0;
-		}
+				Region region = _regionService.fetchRegion(
+					countryId, addressRegion);
 
-		Region region = _regionService.fetchRegion(countryId, addressRegion);
+				if (region != null) {
+					return region;
+				}
 
-		if (region != null) {
-			return region.getRegionId();
-		}
+				List<Region> regions = _regionService.getRegions(countryId);
 
-		List<Region> regions = _regionService.getRegions(countryId);
+				for (Region curRegion : regions) {
+					if (addressRegion.equalsIgnoreCase(curRegion.getName())) {
+						return curRegion;
+					}
+				}
 
-		for (Region curRegion : regions) {
-			if (StringUtil.equalsIgnoreCase(
-					addressRegion, curRegion.getName())) {
-
-				return curRegion.getRegionId();
+				return null;
 			}
-		}
-
-		return 0;
-	}
-
-	private Address _toAddress(PostalAddress postalAddress) {
-		String street1 = postalAddress.getStreetAddressLine1();
-		String street2 = postalAddress.getStreetAddressLine2();
-		String street3 = postalAddress.getStreetAddressLine3();
-		String city = postalAddress.getAddressLocality();
-		String zip = postalAddress.getPostalCode();
-		long countryId = _toCountryId(postalAddress.getAddressCountry());
-
-		if (Validator.isNull(street1) && Validator.isNull(street2) &&
-			Validator.isNull(street3) && Validator.isNull(city) &&
-			Validator.isNull(zip) && (countryId == 0)) {
-
-			return null;
-		}
-
-		Address address = _addressLocalService.createAddress(
-			GetterUtil.getLong(postalAddress.getId()));
-
-		address.setStreet1(street1);
-		address.setStreet2(street2);
-		address.setStreet3(street3);
-		address.setCity(city);
-		address.setZip(zip);
-		address.setRegionId(
-			_getRegionId(postalAddress.getAddressRegion(), countryId));
-		address.setCountryId(countryId);
-		address.setTypeId(
-			_toAddressTypeId(
-				Optional.ofNullable(
-					postalAddress.getAddressType()
-				).orElse(
-					PostalAddress.AddressType.OTHER
-				)));
-		address.setMailing(true);
-		address.setPrimary(GetterUtil.getBoolean(postalAddress.getPrimary()));
-
-		return address;
-	}
-
-	private long _toAddressTypeId(PostalAddress.AddressType addressType) {
-		ListType listType = _listTypeLocalService.getListType(
-			addressType.getValue(), ListTypeConstants.ORGANIZATION_ADDRESS);
-
-		return listType.getListTypeId();
-	}
-
-	private Country _toCountry(String addressCountry) {
-		try {
-			Country country = _countryService.fetchCountryByA2(addressCountry);
-
-			if (country != null) {
-				return country;
-			}
-
-			country = _countryService.fetchCountryByA3(addressCountry);
-
-			if (country != null) {
-				return country;
-			}
-
-			return _countryService.getCountryByName(addressCountry);
-		}
-		catch (Exception e) {
-			if (_log.isWarnEnabled()) {
-				_log.warn(e, e);
-			}
-		}
-
-		return null;
-	}
-
-	private long _toCountryId(String addressCountry) {
-		return Optional.ofNullable(
-			addressCountry
 		).map(
-			this::_toCountry
-		).map(
-			Country::getCountryId
+			Region::getRegionId
 		).orElse(
 			(long)0
 		);
