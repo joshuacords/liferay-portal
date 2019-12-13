@@ -180,7 +180,6 @@ public abstract class BasePostalAddressResourceTestCase {
 		postalAddress.setAddressCountry(regex);
 		postalAddress.setAddressLocality(regex);
 		postalAddress.setAddressRegion(regex);
-		postalAddress.setAddressType(regex);
 		postalAddress.setPostalCode(regex);
 		postalAddress.setStreetAddressLine1(regex);
 		postalAddress.setStreetAddressLine2(regex);
@@ -195,7 +194,6 @@ public abstract class BasePostalAddressResourceTestCase {
 		Assert.assertEquals(regex, postalAddress.getAddressCountry());
 		Assert.assertEquals(regex, postalAddress.getAddressLocality());
 		Assert.assertEquals(regex, postalAddress.getAddressRegion());
-		Assert.assertEquals(regex, postalAddress.getAddressType());
 		Assert.assertEquals(regex, postalAddress.getPostalCode());
 		Assert.assertEquals(regex, postalAddress.getStreetAddressLine1());
 		Assert.assertEquals(regex, postalAddress.getStreetAddressLine2());
@@ -932,11 +930,8 @@ public abstract class BasePostalAddressResourceTestCase {
 		}
 
 		if (entityFieldName.equals("addressType")) {
-			sb.append("'");
-			sb.append(String.valueOf(postalAddress.getAddressType()));
-			sb.append("'");
-
-			return sb.toString();
+			throw new IllegalArgumentException(
+				"Invalid entity field " + entityFieldName);
 		}
 
 		if (entityFieldName.equals("id")) {

@@ -63,6 +63,9 @@ public interface OrganizationResource {
 			Pagination pagination, Sort[] sorts)
 		throws Exception;
 
+	public Organization postOrganization(Organization organization)
+		throws Exception;
+
 	public void deleteOrganization(Long organizationId) throws Exception;
 
 	public Response deleteOrganizationBatch(String callbackURL, Object object)

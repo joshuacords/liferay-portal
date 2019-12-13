@@ -90,7 +90,7 @@ public class Location implements Serializable {
 	@GraphQLField(
 		description = "The organization's country. This follows the [`addressCountry`](https://schema.org/addressCountry) specification."
 	)
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String addressCountry;
 
 	@Schema
@@ -154,7 +154,7 @@ public class Location implements Serializable {
 	@GraphQLField(
 		description = "The organization's region. This follows the [`addressRegion`](https://schema.org/addressRegion) specification."
 	)
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String addressRegion;
 
 	@Schema(description = "The location's ID.")
