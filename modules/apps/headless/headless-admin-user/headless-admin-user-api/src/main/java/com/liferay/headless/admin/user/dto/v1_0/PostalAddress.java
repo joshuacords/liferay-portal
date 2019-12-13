@@ -250,7 +250,7 @@ public class PostalAddress implements Serializable {
 
 	@GraphQLField(description = "The address's type.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
-	protected AddressType addressType;
+	protected String addressType;
 
 	@Schema(description = "The address's ID.")
 	public Long getId() {
