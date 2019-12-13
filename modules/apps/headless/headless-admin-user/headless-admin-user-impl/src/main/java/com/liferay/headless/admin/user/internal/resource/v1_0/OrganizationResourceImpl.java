@@ -33,6 +33,7 @@ import com.liferay.headless.admin.user.internal.dto.v1_0.util.WebUrlUtil;
 import com.liferay.headless.admin.user.internal.odata.entity.v1_0.OrganizationEntityModel;
 import com.liferay.headless.admin.user.resource.v1_0.OrganizationResource;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -87,6 +88,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.core.MultivaluedMap;
 
 import org.osgi.service.component.annotations.Component;
@@ -143,18 +145,27 @@ public class OrganizationResourceImpl
 	public Organization postOrganization(Organization organization)
 		throws Exception {
 
-		long countryId = _getCountryId(organization);
+		try {
+			long countryId = _getCountryId(organization);
 
-		return _toOrganization(
-			_organizationService.addOrganization(
-				_getDefaultParentOrganizationId(organization),
-				organization.getName(), OrganizationConstants.TYPE_ORGANIZATION,
-				_getRegionId(organization, countryId), countryId,
-				ListTypeConstants.ORGANIZATION_STATUS_DEFAULT,
-				organization.getComment(), false, Collections.emptyList(),
-				Collections.emptyList(), Collections.emptyList(),
-				Collections.emptyList(), Collections.emptyList(),
-				new ServiceContext()));
+			return _toOrganization(
+				_organizationService.addOrganization(
+					_getDefaultParentOrganizationId(organization),
+					organization.getName(),
+					OrganizationConstants.TYPE_ORGANIZATION,
+					_getRegionId(organization, countryId), countryId,
+					ListTypeConstants.ORGANIZATION_STATUS_DEFAULT,
+					organization.getComment(), false,
+					_getAddresses(organization), Collections.emptyList(),
+					Collections.emptyList(), Collections.emptyList(),
+					Collections.emptyList(), new ServiceContext()));
+		}
+		catch (PortalException pe) {
+			Class<?> clazz = pe.getClass();
+
+			throw new BadRequestException(
+				"Could not add organization: " + clazz.getSimpleName());
+		}
 	}
 
 	private HoursAvailable _createHoursAvailable(
@@ -189,6 +200,71 @@ public class OrganizationResourceImpl
 		return decimalFormat.format(hour);
 	}
 
+	private Address _getAddress(PostalAddress postalAddress) {
+		String street1 = postalAddress.getStreetAddressLine1();
+		String street2 = postalAddress.getStreetAddressLine2();
+		String street3 = postalAddress.getStreetAddressLine3();
+		String city = postalAddress.getAddressLocality();
+		String zip = postalAddress.getPostalCode();
+		long countryId = _getCountryId(postalAddress.getAddressCountry());
+
+		if (Validator.isNull(street1) && Validator.isNull(street2) &&
+			Validator.isNull(street3) && Validator.isNull(city) &&
+			Validator.isNull(zip) && (countryId == 0)) {
+
+			return null;
+		}
+
+		long addressId = GetterUtil.getLong(postalAddress.getId());
+		long regionId = _getRegionId(
+			postalAddress.getAddressRegion(), countryId);
+		long typeId = _getAddressTypeId(
+			Optional.ofNullable(
+				postalAddress.getAddressType()
+			).orElse(
+				PostalAddress.AddressType.OTHER
+			));
+
+		boolean primary = GetterUtil.getBoolean(postalAddress.getPrimary());
+
+		Address address = _addressLocalService.createAddress(addressId);
+
+		address.setStreet1(street1);
+		address.setStreet2(street2);
+		address.setStreet3(street3);
+		address.setCity(city);
+		address.setZip(zip);
+		address.setRegionId(regionId);
+		address.setCountryId(countryId);
+		address.setTypeId(typeId);
+		address.setMailing(true);
+		address.setPrimary(primary);
+
+		return address;
+	}
+
+	private List<Address> _getAddresses(Organization organization) {
+		return Optional.ofNullable(
+			organization.getOrganizationContactInformation()
+		).map(
+			OrganizationContactInformation::getPostalAddresses
+		).map(
+			postalAddresses -> ListUtil.filter(
+				TransformUtil.transformToList(
+					postalAddresses, this::_getAddress),
+				Objects::nonNull)
+		).orElse(
+			Collections.emptyList()
+		);
+	}
+
+	private long _getAddressTypeId(PostalAddress.AddressType addressType) {
+		ListType listType = _listTypeLocalService.getListType(
+			addressType.getValue(), ListTypeConstants.ORGANIZATION_ADDRESS);
+
+		return listType.getListTypeId();
+	}
+
 	private Country _getCountry(String addressCountry) {
 		try {
 			Country country = _countryService.fetchCountryByA2(addressCountry);
@@ -219,6 +295,14 @@ public class OrganizationResourceImpl
 			organization.getLocation()
 		).map(
 			Location::getAddressCountry
+		).map(
+			this::_getCountryId
+		).get();
+	}
+
+	private long _getCountryId(String addressCountry) {
+		return Optional.ofNullable(
+			addressCountry
 		).map(
 			this::_getCountry
 		).map(
@@ -287,33 +371,34 @@ public class OrganizationResourceImpl
 		).map(
 			Location::getAddressRegion
 		).map(
-			addressRegion -> {
-				if (countryId <= 0) {
-					return null;
-				}
-
-				Region region = _regionService.fetchRegion(
-					countryId, addressRegion);
-
-				if (region != null) {
-					return region;
-				}
-
-				List<Region> regions = _regionService.getRegions(countryId);
-
-				for (Region curRegion : regions) {
-					if (addressRegion.equalsIgnoreCase(curRegion.getName())) {
-						return curRegion;
-					}
-				}
-
-				return null;
-			}
-		).map(
-			Region::getRegionId
+			addressRegion -> _getRegionId(addressRegion, countryId)
 		).orElse(
 			(long)0
 		);
+	}
+
+	private long _getRegionId(String addressRegion, long countryId) {
+		if ((countryId <= 0) || Validator.isNull(addressRegion)) {
+			return 0;
+		}
+
+		Region region = _regionService.fetchRegion(countryId, addressRegion);
+
+		if (region != null) {
+			return region.getRegionId();
+		}
+
+		List<Region> regions = _regionService.getRegions(countryId);
+
+		for (Region curRegion : regions) {
+			if (StringUtil.equalsIgnoreCase(
+					addressRegion, curRegion.getName())) {
+
+				return curRegion.getRegionId();
+			}
+		}
+
+		return 0;
 	}
 
 	private Organization _toOrganization(
