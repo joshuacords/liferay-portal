@@ -617,14 +617,7 @@ public class JournalArticleIndexer extends BaseIndexer<JournalArticle> {
 
 	@Override
 	protected void doReindex(JournalArticle article) throws Exception {
-		if (_portal.getClassNameId(DDMStructure.class) ==
-				article.getClassNameId()) {
-
-			_indexWriterHelper.deleteDocument(
-				getSearchEngineId(), article.getCompanyId(),
-				uidStamper.getUIDM(getDocument(article)),
-				isCommitImmediately());
-
+		if (deleteDDMStructureDocument(article)) {
 			return;
 		}
 
@@ -1027,6 +1020,7 @@ public class JournalArticleIndexer extends BaseIndexer<JournalArticle> {
 
 	private void _reindexEveryVersionOfResourcePrimKey(long resourcePrimKey)
 		throws Exception {
+
 		List<JournalArticle> journalArticles =
 			_journalArticleLocalService.getArticlesByResourcePrimKey(
 				resourcePrimKey);
@@ -1037,14 +1031,7 @@ public class JournalArticleIndexer extends BaseIndexer<JournalArticle> {
 
 		JournalArticle article = journalArticles.get(0);
 
-		if (_portal.getClassNameId(DDMStructure.class) ==
-			article.getClassNameId()) {
-
-			_indexWriterHelper.deleteDocument(
-				getSearchEngineId(), article.getCompanyId(),
-				uidStamper.getUIDM(getDocument(article)),
-				isCommitImmediately());
-
+		if (deleteDDMStructureDocument(article)) {
 			return;
 		}
 
@@ -1106,6 +1093,23 @@ public class JournalArticleIndexer extends BaseIndexer<JournalArticle> {
 		catch (SearchException se) {
 			throw new RuntimeException(se);
 		}
+	}
+
+	private boolean deleteDDMStructureDocument(JournalArticle article)
+		throws Exception {
+
+		if (_portal.getClassNameId(DDMStructure.class) ==
+				article.getClassNameId()) {
+
+			_indexWriterHelper.deleteDocument(
+				getSearchEngineId(), article.getCompanyId(),
+				uidStamper.getUIDM(getDocument(article)),
+				isCommitImmediately());
+
+			return true;
+		}
+
+		return false;
 	}
 
 	private static final String[] _ESCAPE_SAFE_HIGHLIGHTS = {
