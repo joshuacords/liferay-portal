@@ -1025,7 +1025,8 @@ public class JournalArticleIndexer extends BaseIndexer<JournalArticle> {
 		return true;
 	}
 
-	private void _reindexEveryVersionOfResourcePrimKey(long resourcePrimKey) {
+	private void _reindexEveryVersionOfResourcePrimKey(long resourcePrimKey)
+		throws Exception {
 		List<JournalArticle> journalArticles =
 			_journalArticleLocalService.getArticlesByResourcePrimKey(
 				resourcePrimKey);
@@ -1034,13 +1035,24 @@ public class JournalArticleIndexer extends BaseIndexer<JournalArticle> {
 			return;
 		}
 
-		if (isIndexAllArticleVersions()) {
-			JournalArticle journalArticle = journalArticles.get(0);
+		JournalArticle article = journalArticles.get(0);
 
+		if (_portal.getClassNameId(DDMStructure.class) ==
+			article.getClassNameId()) {
+
+			_indexWriterHelper.deleteDocument(
+				getSearchEngineId(), article.getCompanyId(),
+				uidStamper.getUIDM(getDocument(article)),
+				isCommitImmediately());
+
+			return;
+		}
+
+		if (isIndexAllArticleVersions()) {
 			Stream<JournalArticle> stream = journalArticles.stream();
 
 			_updateDocuments(
-				journalArticle.getCompanyId(),
+				article.getCompanyId(),
 				stream.map(
 					this::_getDocument
 				).collect(
