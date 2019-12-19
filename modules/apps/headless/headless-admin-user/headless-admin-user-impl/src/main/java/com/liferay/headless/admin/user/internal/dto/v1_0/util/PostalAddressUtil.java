@@ -41,7 +41,7 @@ public class PostalAddressUtil {
 		return new PostalAddress() {
 			{
 				addressLocality = address.getCity();
-				addressType = AddressType.create(listType.getName());
+				addressType = listType.getName();
 				id = address.getAddressId();
 				postalCode = address.getZip();
 				primary = address.isPrimary();
