@@ -88,7 +88,7 @@ public class HoursAvailable implements Serializable {
 	@GraphQLField(
 		description = "The organization's closing time (in `HH:MM` format)."
 	)
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String closes;
 
 	@Schema(description = "The day of the week.")
@@ -116,7 +116,7 @@ public class HoursAvailable implements Serializable {
 	}
 
 	@GraphQLField(description = "The day of the week.")
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String dayOfWeek;
 
 	@Schema(
@@ -148,7 +148,7 @@ public class HoursAvailable implements Serializable {
 	@GraphQLField(
 		description = "The organization's opening time (in `HH:MM` format)."
 	)
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String opens;
 
 	@Override
