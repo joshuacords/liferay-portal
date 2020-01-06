@@ -38,6 +38,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Address;
 import com.liferay.portal.kernel.model.Country;
+import com.liferay.portal.kernel.model.CountryConstants;
 import com.liferay.portal.kernel.model.ListType;
 import com.liferay.portal.kernel.model.ListTypeConstants;
 import com.liferay.portal.kernel.model.OrgLabor;
@@ -218,7 +219,9 @@ public class OrganizationResourceImpl
 			Location::getAddressCountry
 		).map(
 			this::_toCountryId
-		).get();
+		).orElse(
+			0L
+		);
 	}
 
 	private long _getDefaultParentOrganizationId(Organization organization) {
