@@ -84,7 +84,7 @@ public class EmailAddress implements Serializable {
 	}
 
 	@GraphQLField(description = "The email address.")
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String emailAddress;
 
 	@Schema(description = "The email address's ID.")
@@ -110,7 +110,7 @@ public class EmailAddress implements Serializable {
 	}
 
 	@GraphQLField(description = "The email address's ID.")
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long id;
 
 	@Schema(
@@ -142,7 +142,7 @@ public class EmailAddress implements Serializable {
 	@GraphQLField(
 		description = "A flag that indicates whether this is the main email address of the user/organization."
 	)
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Boolean primary;
 
 	@Schema(description = "The email address's type.")
@@ -168,7 +168,7 @@ public class EmailAddress implements Serializable {
 	}
 
 	@GraphQLField(description = "The email address's type.")
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String type;
 
 	@Override
