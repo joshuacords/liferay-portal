@@ -59,6 +59,7 @@ import com.liferay.portal.kernel.service.ListTypeLocalService;
 import com.liferay.portal.kernel.service.OrgLaborLocalService;
 import com.liferay.portal.kernel.service.OrgLaborService;
 import com.liferay.portal.kernel.service.OrganizationService;
+import com.liferay.portal.kernel.service.PhoneLocalService;
 import com.liferay.portal.kernel.service.PhoneService;
 import com.liferay.portal.kernel.service.RegionService;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -162,7 +163,7 @@ public class OrganizationResourceImpl
 				ListTypeConstants.ORGANIZATION_STATUS_DEFAULT,
 				organization.getComment(), false, _getAddresses(organization),
 				_getEmailAddresses(organization), _getOrgLabors(organization),
-				Collections.emptyList(), Collections.emptyList(),
+				_getPhones(organization), Collections.emptyList(),
 				new ServiceContext()));
 	}
 
@@ -301,6 +302,23 @@ public class OrganizationResourceImpl
 		).map(
 			services -> ListUtil.filter(
 				TransformUtil.transformToList(services, this::_toOrgLabor),
+				Objects::nonNull)
+		).orElse(
+			Collections.emptyList()
+		);
+	}
+
+	private List<com.liferay.portal.kernel.model.Phone> _getPhones(
+		Organization organization) {
+
+		return Optional.ofNullable(
+			organization.getOrganizationContactInformation()
+		).map(
+			OrganizationContactInformation::getTelephones
+		).map(
+			telephones -> ListUtil.filter(
+				TransformUtil.transformToList(
+					telephones, this::_toServiceBuilderPhone),
 				Objects::nonNull)
 		).orElse(
 			Collections.emptyList()
@@ -697,6 +715,31 @@ public class OrganizationResourceImpl
 		return serviceBuilderEmailAddress;
 	}
 
+	private com.liferay.portal.kernel.model.Phone _toServiceBuilderPhone(
+		Phone phone) {
+
+		String number = phone.getPhoneNumber();
+		String extension = phone.getExtension();
+
+		if (Validator.isNull(number) && Validator.isNull(extension)) {
+			return null;
+		}
+
+		com.liferay.portal.kernel.model.Phone serviceBuilderPhone =
+			_phoneLocalService.createPhone(GetterUtil.getLong(phone.getId()));
+
+		serviceBuilderPhone.setNumber(number);
+		serviceBuilderPhone.setExtension(extension);
+		serviceBuilderPhone.setTypeId(
+			_toListTypeId(
+				"other", phone.getPhoneType(),
+				ListTypeConstants.ORGANIZATION_PHONE));
+		serviceBuilderPhone.setPrimary(
+			GetterUtil.getBoolean(phone.getPrimary()));
+
+		return serviceBuilderPhone;
+	}
+
 	private int _toTime(String timeString) {
 		if (Validator.isNull(timeString)) {
 			return -1;
@@ -755,6 +798,9 @@ public class OrganizationResourceImpl
 
 	@Reference
 	private OrgLaborService _orgLaborService;
+
+	@Reference
+	private PhoneLocalService _phoneLocalService;
 
 	@Reference
 	private PhoneService _phoneService;
