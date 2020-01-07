@@ -161,7 +161,7 @@ public class OrganizationContactInformation implements Serializable {
 	@GraphQLField(
 		description = "The organization's phones numbers, with one optionally marked as primary."
 	)
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Phone[] telephones;
 
 	@Schema(
