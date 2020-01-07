@@ -64,6 +64,8 @@ import com.liferay.portal.kernel.service.RegionService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.WebsiteService;
 import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
+import com.liferay.portal.kernel.util.FastDateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
@@ -81,8 +83,8 @@ import com.liferay.portal.vulcan.util.TransformUtil;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.Format;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 import java.util.Collections;
 import java.util.Date;
@@ -700,11 +702,13 @@ public class OrganizationResourceImpl
 			return -1;
 		}
 
-		Date date;
-		DateFormat inputDateFormat = new SimpleDateFormat("HH:mm");
+		Date date = null;
+
+		DateFormat dateFormat = DateFormatFactoryUtil.getSimpleDateFormat(
+			"HH:mm");
 
 		try {
-			date = inputDateFormat.parse(timeString);
+			date = dateFormat.parse(timeString);
 		}
 		catch (ParseException pe) {
 			if (_log.isWarnEnabled()) {
@@ -714,9 +718,9 @@ public class OrganizationResourceImpl
 			return -1;
 		}
 
-		DateFormat outputDateFormat = new SimpleDateFormat("HHmm");
+		Format format = FastDateFormatFactoryUtil.getSimpleDateFormat("HHmm");
 
-		return GetterUtil.getInteger(outputDateFormat.format(date));
+		return GetterUtil.getInteger(format.format(date));
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
