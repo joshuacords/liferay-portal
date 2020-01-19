@@ -273,6 +273,9 @@ components:
                         The number of child comments on this comment.
                     readOnly: true
                     type: integer
+                parentCommentId:
+                    format: int64
+                    type: integer
                 text:
                     description:
                         The comment's text content.
@@ -1001,6 +1004,9 @@ components:
                         The number of documents in this folder.
                     readOnly: true
                     type: integer
+                parentDocumentFolderId:
+                    format: int64
+                    type: integer
                 siteId:
                     description:
                         The ID of the site to which this folder is scoped.
@@ -1446,6 +1452,9 @@ components:
                         The number of the message's child messages.
                     readOnly: true
                     type: integer
+                parentMessageBoardMessageId:
+                    format: int64
+                    type: integer
                 relatedContents:
                     items:
                         $ref: "#/components/schemas/RelatedContent"
@@ -1523,6 +1532,9 @@ components:
                     description:
                         The number of message board threads in this section.
                     readOnly: true
+                    type: integer
+                parentMessageBoardSectionId:
+                    format: int64
                     type: integer
                 siteId:
                     description:
@@ -1980,6 +1992,9 @@ components:
                         The number of structured content objects inside this folder.
                     readOnly: true
                     type: integer
+                parentStructuredContentFolderId:
+                    format: int64
+                    type: integer
                 siteId:
                     description:
                         The ID of the site to which this folder is scoped.
@@ -2165,6 +2180,9 @@ components:
                     description:
                         The number of child wiki page on this wiki page.
                     readOnly: true
+                    type: integer
+                parentWikiPageId:
+                    format: int64
                     type: integer
                 relatedContents:
                     items:

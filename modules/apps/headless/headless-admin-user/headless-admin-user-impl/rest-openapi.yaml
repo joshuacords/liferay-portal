@@ -581,6 +581,9 @@ components:
                     additionalProperties:
                         type: string
                     type: object
+                parentSiteId:
+                    format: int64
+                    type: integer
                 sites:
                     items:
                         $ref: "#/components/schemas/Site"
