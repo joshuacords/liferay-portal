@@ -421,6 +421,20 @@ public class WikiPageResourceImpl
 								contextAcceptLanguage.getPreferredLocale(),
 								contextUriInfo, contextUser)),
 					TaxonomyCategoryBrief.class);
+
+				setParentWikiPageId(
+					() -> {
+						com.liferay.wiki.model.WikiPage parentWikiPage =
+							wikiPage.getParentPage();
+
+						if ((parentWikiPage == null) ||
+							(parentWikiPage.getPageId() == 0L)) {
+
+							return null;
+						}
+
+						return parentWikiPage.getPageId();
+					});
 			}
 		};
 	}

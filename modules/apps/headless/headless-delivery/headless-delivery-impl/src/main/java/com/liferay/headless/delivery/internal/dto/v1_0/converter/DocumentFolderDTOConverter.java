@@ -73,6 +73,15 @@ public class DocumentFolderDTOConverter
 				subscribed = _subscriptionLocalService.isSubscribed(
 					folder.getCompanyId(), dtoConverterContext.getUserId(),
 					DLFolder.class.getName(), folder.getFolderId());
+
+				setParentDocumentFolderId(
+					() -> {
+						if (folder.getParentFolderId() == 0L) {
+							return null;
+						}
+
+						return folder.getParentFolderId();
+					});
 			}
 		};
 	}

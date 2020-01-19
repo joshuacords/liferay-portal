@@ -110,6 +110,7 @@ public class SiteResourceImpl extends BaseSiteResourceImpl {
 				name_i18n = LocalizedMapUtil.getI18nMap(
 					contextAcceptLanguage.isAcceptAllLanguages(),
 					group.getNameMap());
+				parentSiteId = group.getParentGroupId();
 				sites = transformToArray(
 					_groupService.getGroups(
 						group.getCompanyId(), group.getGroupId(), true),

@@ -109,6 +109,14 @@ public class MessageBoardMessageDTOConverter
 							_portal, dtoConverterContext.getUriInfoOptional(),
 							_userLocalService.fetchUser(mbMessage.getUserId()));
 					});
+				setParentMessageBoardMessageId(
+					() -> {
+						if (mbMessage.getParentMessageId() == 0L) {
+							return null;
+						}
+
+						return mbMessage.getParentMessageId();
+					});
 			}
 		};
 	}
