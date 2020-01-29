@@ -564,7 +564,8 @@ class Sidebar extends Component {
 						editable: true
 					}
 				});
-			} else {
+			}
+			else {
 				const addedToPlaceholder = data.target.parentElement.parentElement.classList.contains(
 					'placeholder'
 				);
