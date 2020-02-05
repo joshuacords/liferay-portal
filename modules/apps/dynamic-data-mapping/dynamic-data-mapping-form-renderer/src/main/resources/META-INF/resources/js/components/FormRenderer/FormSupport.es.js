@@ -209,6 +209,16 @@ export const removeRow = (pages, pageIndex, rowIndex) => {
 	return pages;
 };
 
+export const visitNestedFields = ({nestedFields}, fn) => {
+	if (Array.isArray(nestedFields)) {
+		nestedFields.forEach(nestedField => {
+			fn(nestedField);
+
+			visitNestedFields(nestedField, fn);
+		});
+	}
+};
+
 export const findFieldByName = (pages, name) => {
 	let field = null;
 	const visitor = new PagesVisitor(pages);
@@ -216,6 +226,12 @@ export const findFieldByName = (pages, name) => {
 	visitor.mapFields(currentField => {
 		if (currentField.fieldName === name) {
 			field = currentField;
+		} else if (currentField.nestedFields) {
+			visitNestedFields(currentField, nestedField => {
+				if (nestedField.fieldName === name) {
+					field = nestedField;
+				}
+			});
 		}
 	});
 
@@ -299,14 +315,11 @@ export const getNestedIndexes = node => {
 	}
 
 	if (!node.parentElement.classList.contains('ddm-form-page')) {
-		indexes = [
-			...getNestedIndexes(node.parentElement),
-			...indexes
-		];
+		indexes = [...getNestedIndexes(node.parentElement), ...indexes];
 	}
 
 	return indexes;
-}
+};
 
 export const updateField = (pages, fieldName, properties) => {
 	const visitor = new PagesVisitor(pages);
