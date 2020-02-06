@@ -262,6 +262,7 @@ name = HtmlUtil.escapeJS(name);
 
 			var defaultConfig = {
 				file_picker_callback: window['<%= name %>'].filePickerCallback,
+				height: 400,
 				init_instance_callback: window['<%= name %>'].initInstanceCallback
 			};
 
