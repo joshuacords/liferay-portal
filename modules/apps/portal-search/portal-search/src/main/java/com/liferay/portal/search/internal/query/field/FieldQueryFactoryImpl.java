@@ -14,6 +14,7 @@
 
 package com.liferay.portal.search.internal.query.field;
 
+import com.liferay.portal.search.engine.SearchEngineInformation;
 import com.liferay.portal.search.query.Query;
 import com.liferay.portal.search.query.field.FieldQueryBuilder;
 import com.liferay.portal.search.query.field.FieldQueryBuilderFactory;
@@ -25,6 +26,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
+import org.osgi.service.component.annotations.ReferencePolicyOption;
 
 /**
  * @author Michael C. Han
@@ -53,6 +55,18 @@ public class FieldQueryFactoryImpl implements FieldQueryFactory {
 	}
 
 	protected FieldQueryBuilder getDefaultQueryBuilder() {
+		if (_searchEngineInformation != null) {
+			String vendor = _searchEngineInformation.getVendorString();
+			String version = _searchEngineInformation.getClientVersionString();
+
+			if ((vendor.startsWith("Elasticsearch") &&
+				 version.startsWith("6")) ||
+				vendor.startsWith("Solr")) {
+
+				return titleFieldQueryBuilder;
+			}
+		}
+
 		return descriptionFieldQueryBuilder;
 	}
 
@@ -80,7 +94,17 @@ public class FieldQueryFactoryImpl implements FieldQueryFactory {
 	@Reference
 	protected DescriptionFieldQueryBuilder descriptionFieldQueryBuilder;
 
+	@Reference
+	protected TitleFieldQueryBuilder titleFieldQueryBuilder;
+
 	private final HashSet<FieldQueryBuilderFactory>
 		_fieldQueryBuilderFactories = new HashSet<>();
+
+	@Reference(
+		cardinality = ReferenceCardinality.OPTIONAL,
+		policy = ReferencePolicy.DYNAMIC,
+		policyOption = ReferencePolicyOption.GREEDY
+	)
+	private volatile SearchEngineInformation _searchEngineInformation;
 
 }
