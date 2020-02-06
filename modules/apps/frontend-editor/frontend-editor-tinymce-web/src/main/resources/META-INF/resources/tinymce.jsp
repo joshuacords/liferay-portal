@@ -146,10 +146,17 @@ name = HtmlUtil.escapeJS(name);
 				var openItemSelectorDialog = function(itemSelectorDialog) {
 					itemSelectorDialog.set('eventName', '<%= name %>selectItem');
 					itemSelectorDialog.set('url', url);
-					itemSelectorDialog.set(
-						'zIndex',
-						tinymce.activeEditor.windowManager.windows[0].zIndex + 10
+
+					var tinymceDialogContainer = document.querySelector(
+						'.tox-tinymce-aux'
 					);
+
+					if (tinymceDialogContainer) {
+						var zIndex = window.getComputedStyle(tinymceDialogContainer)
+							.zIndex;
+
+						itemSelectorDialog.set('zIndex', parseInt(zIndex) + 10);
+					}
 
 					itemSelectorDialog.once('selectedItemChange', function(event) {
 						var selectedItem = event.newVal ? event.newVal : value;
