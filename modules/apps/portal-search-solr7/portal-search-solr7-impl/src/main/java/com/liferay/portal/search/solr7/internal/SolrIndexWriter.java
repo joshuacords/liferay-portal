@@ -219,7 +219,7 @@ public class SolrIndexWriter extends BaseIndexWriter {
 
 		try {
 			BooleanQuery booleanQuery = new BooleanQueryImpl();
-
+			//empty comment
 			booleanQuery.add(new MatchAllQuery(), BooleanClauseOccur.MUST);
 
 			BooleanFilter booleanFilter = new BooleanFilter();
