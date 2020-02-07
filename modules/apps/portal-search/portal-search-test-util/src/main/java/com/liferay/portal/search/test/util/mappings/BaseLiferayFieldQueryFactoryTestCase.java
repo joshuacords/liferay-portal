@@ -15,19 +15,41 @@
 package com.liferay.portal.search.test.util.mappings;
 
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.search.analysis.FieldQueryBuilder;
+import com.liferay.portal.search.engine.SearchEngineInformation;
+import com.liferay.portal.search.internal.analysis.DescriptionFieldQueryBuilder;
+import com.liferay.portal.search.internal.query.FieldQueryFactoryImpl;
 import com.liferay.portal.search.query.Query;
 import com.liferay.portal.search.query.field.FieldQueryFactory;
 import com.liferay.portal.search.test.util.DocumentsAssert;
 import com.liferay.portal.search.test.util.indexing.BaseIndexingTestCase;
 import com.liferay.portal.search.test.util.indexing.DocumentCreationHelpers;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 /**
  * @author André de Oliveira
  */
 public abstract class BaseLiferayFieldQueryFactoryTestCase
 	extends BaseIndexingTestCase {
+
+	@Before
+	public void setUp() throws Exception {
+		//_searchEngineInformation =
+		Mockito.when(
+			_searchEngineInformation.getVendorString()
+		).thenReturn(
+			"Elasticsearch"
+		);
+
+		Mockito.when(
+			_searchEngineInformation.getClientVersionString()
+		).thenReturn(
+			"6"
+		);
+	}
 
 	@Test
 	public void testContentField() {
@@ -63,6 +85,18 @@ public abstract class BaseLiferayFieldQueryFactoryTestCase
 					wordPrefix2 = false;
 				}
 			});
+	}
+
+	@Test
+	public void testDefaultQueryBuilder() {
+
+		FieldQueryBuilder fieldQueryBuilder = new FieldQueryFactoryImpl(){
+			public FieldQueryBuilder publicGetDefaultQueryBuilder() {
+				return getDefaultQueryBuilder();
+			}
+		}.publicGetDefaultQueryBuilder();
+
+		assert(fieldQueryBuilder instanceof DescriptionFieldQueryBuilder);
 	}
 
 	@Test
@@ -344,5 +378,5 @@ public abstract class BaseLiferayFieldQueryFactoryTestCase
 	private final LiferayFieldQueryFactoryFixture
 		_liferayFieldQueryFactoryFixture =
 			new LiferayFieldQueryFactoryFixture();
-
+	private final SearchEngineInformation _searchEngineInformation;
 }
