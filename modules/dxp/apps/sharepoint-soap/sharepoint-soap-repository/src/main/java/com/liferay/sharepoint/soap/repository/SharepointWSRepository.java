@@ -44,14 +44,14 @@ import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.sharepoint.connector.SharepointConnection;
-import com.liferay.sharepoint.connector.SharepointConnectionFactory;
-import com.liferay.sharepoint.connector.SharepointException;
-import com.liferay.sharepoint.connector.SharepointObject;
-import com.liferay.sharepoint.connector.SharepointRuntimeException;
-import com.liferay.sharepoint.connector.SharepointVersion;
-import com.liferay.sharepoint.connector.operation.PathHelper;
-import com.liferay.sharepoint.connector.operation.URLHelper;
+import com.liferay.sharepoint.soap.repository.connector.SharepointConnection;
+import com.liferay.sharepoint.soap.repository.connector.SharepointConnectionFactory;
+import com.liferay.sharepoint.soap.repository.connector.SharepointException;
+import com.liferay.sharepoint.soap.repository.connector.SharepointObject;
+import com.liferay.sharepoint.soap.repository.connector.SharepointRuntimeException;
+import com.liferay.sharepoint.soap.repository.connector.SharepointVersion;
+import com.liferay.sharepoint.soap.repository.connector.operation.PathUtil;
+import com.liferay.sharepoint.soap.repository.connector.operation.URLUtil;
 import com.liferay.sharepoint.soap.repository.model.SharepointWSFileEntry;
 import com.liferay.sharepoint.soap.repository.model.SharepointWSFileVersion;
 import com.liferay.sharepoint.soap.repository.model.SharepointWSFolder;
@@ -96,7 +96,7 @@ public class SharepointWSRepository
 
 			String parentFolderPath = parentFolderSharepointObject.getPath();
 
-			filePath = pathHelper.buildPath(parentFolderPath, title);
+			filePath = PathUtil.buildPath(parentFolderPath, title);
 
 			sharepointConnection.addFile(
 				parentFolderPath, title, changeLog, inputStream);
@@ -135,7 +135,7 @@ public class SharepointWSRepository
 
 			String parentFolderPath = parentFolderSharepointObject.getPath();
 
-			folderPath = pathHelper.buildPath(parentFolderPath, name);
+			folderPath = PathUtil.buildPath(parentFolderPath, name);
 
 			sharepointConnection.addFolder(parentFolderPath, name);
 
@@ -279,7 +279,7 @@ public class SharepointWSRepository
 
 			String folderPath = folderSharepointObject.getPath();
 
-			String newFilePath = pathHelper.buildPath(folderPath, newTitle);
+			String newFilePath = PathUtil.buildPath(folderPath, newTitle);
 
 			sharepointConnection.copySharepointObject(filePath, newFilePath);
 
@@ -739,7 +739,7 @@ public class SharepointWSRepository
 
 			String siteURL = typeSettingsProperties.getProperty(_SITE_URL);
 
-			URL url = urlHelper.toURL(siteURL);
+			URL url = URLUtil.toURL(siteURL);
 
 			_host = url.getHost();
 			_protocol = url.getProtocol();
@@ -788,7 +788,7 @@ public class SharepointWSRepository
 
 			String folderPath = folderSharepointObject.getPath();
 
-			String newPath = pathHelper.buildPath(folderPath, newTitle);
+			String newPath = PathUtil.buildPath(folderPath, newTitle);
 
 			validateExtension(path, newPath);
 
@@ -1032,9 +1032,9 @@ public class SharepointWSRepository
 	protected void validateExtension(String oldPath, String newPath)
 		throws PortalException {
 
-		String oldExtension = pathHelper.getExtension(oldPath);
+		String oldExtension = PathUtil.getExtension(oldPath);
 
-		String newExtension = pathHelper.getExtension(newPath);
+		String newExtension = PathUtil.getExtension(newPath);
 
 		if (!newExtension.equals(oldExtension)) {
 			throw new SourceFileNameException(
@@ -1042,9 +1042,6 @@ public class SharepointWSRepository
 					"extension");
 		}
 	}
-
-	protected static PathHelper pathHelper = new PathHelper();
-	protected static URLHelper urlHelper = new URLHelper();
 
 	private static final String _CONFIGURATION_WS = "SHAREPOINT_WS";
 

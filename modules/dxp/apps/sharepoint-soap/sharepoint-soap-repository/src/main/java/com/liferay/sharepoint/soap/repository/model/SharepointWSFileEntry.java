@@ -15,7 +15,7 @@
 package com.liferay.sharepoint.soap.repository.model;
 
 import com.liferay.document.library.repository.external.ExtRepositoryFileEntry;
-import com.liferay.sharepoint.connector.SharepointObject;
+import com.liferay.sharepoint.soap.repository.connector.SharepointObject;
 
 /**
  * @author Iván Zaera

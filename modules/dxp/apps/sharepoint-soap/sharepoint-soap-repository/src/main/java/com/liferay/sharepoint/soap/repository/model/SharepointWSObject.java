@@ -17,7 +17,7 @@ package com.liferay.sharepoint.soap.repository.model;
 import com.liferay.document.library.repository.external.ExtRepositoryModel;
 import com.liferay.document.library.repository.external.ExtRepositoryObject;
 import com.liferay.petra.string.StringPool;
-import com.liferay.sharepoint.connector.SharepointObject;
+import com.liferay.sharepoint.soap.repository.connector.SharepointObject;
 
 import java.util.Date;
 import java.util.EnumMap;

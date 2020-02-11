@@ -36,34 +36,34 @@ import com.liferay.portal.kernel.search.TermRangeQuery;
 import com.liferay.portal.kernel.search.WildcardQuery;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.sharepoint.connector.SharepointConnection;
-import com.liferay.sharepoint.connector.SharepointConnectionInfo;
-import com.liferay.sharepoint.connector.SharepointObject;
-import com.liferay.sharepoint.connector.schema.query.QueryClause;
-import com.liferay.sharepoint.connector.schema.query.QueryField;
-import com.liferay.sharepoint.connector.schema.query.QueryOptionsList;
-import com.liferay.sharepoint.connector.schema.query.QueryValue;
-import com.liferay.sharepoint.connector.schema.query.join.AndJoin;
-import com.liferay.sharepoint.connector.schema.query.join.BaseJoin;
-import com.liferay.sharepoint.connector.schema.query.join.OrJoin;
-import com.liferay.sharepoint.connector.schema.query.operator.BaseMultiValueOperator;
-import com.liferay.sharepoint.connector.schema.query.operator.BaseNoValueOperator;
-import com.liferay.sharepoint.connector.schema.query.operator.BaseSingleValueOperator;
-import com.liferay.sharepoint.connector.schema.query.operator.BeginsWithOperator;
-import com.liferay.sharepoint.connector.schema.query.operator.ContainsOperator;
-import com.liferay.sharepoint.connector.schema.query.operator.EqOperator;
-import com.liferay.sharepoint.connector.schema.query.operator.GeqOperator;
-import com.liferay.sharepoint.connector.schema.query.operator.GtOperator;
-import com.liferay.sharepoint.connector.schema.query.operator.IncludesOperator;
-import com.liferay.sharepoint.connector.schema.query.operator.IsNotNullOperator;
-import com.liferay.sharepoint.connector.schema.query.operator.IsNullOperator;
-import com.liferay.sharepoint.connector.schema.query.operator.LeqOperator;
-import com.liferay.sharepoint.connector.schema.query.operator.LtOperator;
-import com.liferay.sharepoint.connector.schema.query.operator.NeqOperator;
-import com.liferay.sharepoint.connector.schema.query.operator.NotIncludesOperator;
-import com.liferay.sharepoint.connector.schema.query.option.FolderQueryOption;
-import com.liferay.sharepoint.connector.schema.query.option.ViewAttributesQueryOption;
 import com.liferay.sharepoint.soap.repository.SharepointWSRepository;
+import com.liferay.sharepoint.soap.repository.connector.SharepointConnection;
+import com.liferay.sharepoint.soap.repository.connector.SharepointConnectionInfo;
+import com.liferay.sharepoint.soap.repository.connector.SharepointObject;
+import com.liferay.sharepoint.soap.repository.connector.schema.query.QueryClause;
+import com.liferay.sharepoint.soap.repository.connector.schema.query.QueryField;
+import com.liferay.sharepoint.soap.repository.connector.schema.query.QueryOptionsList;
+import com.liferay.sharepoint.soap.repository.connector.schema.query.QueryValue;
+import com.liferay.sharepoint.soap.repository.connector.schema.query.join.AndJoin;
+import com.liferay.sharepoint.soap.repository.connector.schema.query.join.BaseJoin;
+import com.liferay.sharepoint.soap.repository.connector.schema.query.join.OrJoin;
+import com.liferay.sharepoint.soap.repository.connector.schema.query.operator.BaseMultiValueOperator;
+import com.liferay.sharepoint.soap.repository.connector.schema.query.operator.BaseNoValueOperator;
+import com.liferay.sharepoint.soap.repository.connector.schema.query.operator.BaseSingleValueOperator;
+import com.liferay.sharepoint.soap.repository.connector.schema.query.operator.BeginsWithOperator;
+import com.liferay.sharepoint.soap.repository.connector.schema.query.operator.ContainsOperator;
+import com.liferay.sharepoint.soap.repository.connector.schema.query.operator.EqOperator;
+import com.liferay.sharepoint.soap.repository.connector.schema.query.operator.GeqOperator;
+import com.liferay.sharepoint.soap.repository.connector.schema.query.operator.GtOperator;
+import com.liferay.sharepoint.soap.repository.connector.schema.query.operator.IncludesOperator;
+import com.liferay.sharepoint.soap.repository.connector.schema.query.operator.IsNotNullOperator;
+import com.liferay.sharepoint.soap.repository.connector.schema.query.operator.IsNullOperator;
+import com.liferay.sharepoint.soap.repository.connector.schema.query.operator.LeqOperator;
+import com.liferay.sharepoint.soap.repository.connector.schema.query.operator.LtOperator;
+import com.liferay.sharepoint.soap.repository.connector.schema.query.operator.NeqOperator;
+import com.liferay.sharepoint.soap.repository.connector.schema.query.operator.NotIncludesOperator;
+import com.liferay.sharepoint.soap.repository.connector.schema.query.option.FolderQueryOption;
+import com.liferay.sharepoint.soap.repository.connector.schema.query.option.ViewAttributesQueryOption;
 import com.liferay.sharepoint.soap.repository.model.SharepointWSFolder;
 
 import java.text.DateFormat;
@@ -97,8 +97,9 @@ public class SharepointQueryBuilder {
 		_sharepointConnectionInfo =
 			sharepointConnection.getSharepointConnectionInfo();
 
-		_query = new com.liferay.sharepoint.connector.schema.query.Query(
-			traverseQuery(query));
+		_query =
+			new com.liferay.sharepoint.soap.repository.connector.schema.query.
+				Query(traverseQuery(query));
 
 		QueryConfig queryConfig = searchContext.getQueryConfig();
 
@@ -122,7 +123,9 @@ public class SharepointQueryBuilder {
 		log(query);
 	}
 
-	public com.liferay.sharepoint.connector.schema.query.Query getQuery() {
+	public com.liferay.sharepoint.soap.repository.connector.schema.query.Query
+		getQuery() {
+
 		return _query;
 	}
 
@@ -682,7 +685,9 @@ public class SharepointQueryBuilder {
 			Field.TITLE, Field.USER_ID, Field.USER_NAME));
 
 	private final ExtRepositoryQueryMapper _extRepositoryQueryMapper;
-	private final com.liferay.sharepoint.connector.schema.query.Query _query;
+	private final
+		com.liferay.sharepoint.soap.repository.connector.schema.query.Query
+			_query;
 	private final QueryOptionsList _queryOptionsList;
 	private final SharepointConnectionInfo _sharepointConnectionInfo;
 	private final SharepointWSRepository _sharepointWSRepository;

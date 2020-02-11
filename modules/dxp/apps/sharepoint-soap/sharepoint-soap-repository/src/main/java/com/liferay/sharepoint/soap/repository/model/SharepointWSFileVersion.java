@@ -15,7 +15,7 @@
 package com.liferay.sharepoint.soap.repository.model;
 
 import com.liferay.document.library.repository.external.ExtRepositoryFileVersion;
-import com.liferay.sharepoint.connector.SharepointVersion;
+import com.liferay.sharepoint.soap.repository.connector.SharepointVersion;
 
 import java.util.Date;
 
