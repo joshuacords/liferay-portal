@@ -57,7 +57,8 @@ class PagesVisitor {
 						...field,
 						...mapper(field, fieldIndex, ...args)
 					};
-				} else {
+				}
+				else {
 					mappedField = mapper(field, fieldIndex, ...args);
 				}
 
@@ -68,9 +69,15 @@ class PagesVisitor {
 						if (merge) {
 							nestedFields.push({
 								...nestedField,
-								...mapper(nestedField, fieldIndex, ...args)
+								...mapper(
+									nestedField,
+									fieldIndex,
+									...args,
+									mappedField
+								)
 							});
-						} else {
+						}
+						else {
 							nestedFields.push(
 								mapper(nestedField, fieldIndex, ...args)
 							);
