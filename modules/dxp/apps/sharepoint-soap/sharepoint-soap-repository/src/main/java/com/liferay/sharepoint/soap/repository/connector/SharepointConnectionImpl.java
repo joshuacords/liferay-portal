@@ -351,13 +351,13 @@ public class SharepointConnectionImpl implements SharepointConnection {
 		HttpTransportPropertiesImpl.Authenticator authenticator =
 			new HttpTransportPropertiesImpl.Authenticator();
 
-		authenticator.setUsername(_sharepointConnectionInfo.getUsername());
-		authenticator.setPassword(_sharepointConnectionInfo.getPassword());
-		authenticator.setPort(url.getPort());
-		authenticator.setHost(url.getHost());
 		authenticator.setAuthSchemes(
 			Collections.singletonList(AuthPolicy.NTLM));
+		authenticator.setHost(url.getHost());
+		authenticator.setPassword(_sharepointConnectionInfo.getPassword());
+		authenticator.setPort(url.getPort());
 		authenticator.setPreemptiveAuthentication(true);
+		authenticator.setUsername(_sharepointConnectionInfo.getUsername());
 
 		options.setProperty(HTTPConstants.AUTHENTICATE, authenticator);
 	}
