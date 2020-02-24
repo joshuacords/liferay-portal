@@ -501,20 +501,19 @@ public class HttpImpl implements Http {
 			return url;
 		}
 
-		try {
-			URI uri = _getURI(url);
+		URI uri = getURI(url);
 
-			String host = uri.getHost();
-
-			if (host == null) {
-				return StringPool.BLANK;
-			}
-
-			return host;
-		}
-		catch (URISyntaxException uriSyntaxException) {
+		if (uri == null) {
 			return StringPool.BLANK;
 		}
+
+		String host = uri.getHost();
+
+		if (host == null) {
+			return StringPool.BLANK;
+		}
+
+		return host;
 	}
 
 	/**
@@ -592,20 +591,19 @@ public class HttpImpl implements Http {
 			return url;
 		}
 
-		try {
-			URI uri = _getURI(url);
+		URI uri = getURI(url);
 
-			String path = uri.getPath();
-
-			if (path == null) {
-				return StringPool.BLANK;
-			}
-
-			return path;
-		}
-		catch (URISyntaxException uriSyntaxException) {
+		if (uri == null) {
 			return StringPool.BLANK;
 		}
+
+		String path = uri.getPath();
+
+		if (path == null) {
+			return StringPool.BLANK;
+		}
+
+		return path;
 	}
 
 	@Override
@@ -638,20 +636,19 @@ public class HttpImpl implements Http {
 			return url;
 		}
 
-		try {
-			URI uri = _getURI(url);
+		URI uri = getURI(url);
 
-			String scheme = uri.getScheme();
-
-			if (scheme == null) {
-				return StringPool.BLANK;
-			}
-
-			return scheme;
-		}
-		catch (URISyntaxException uriSyntaxException) {
+		if (uri == null) {
 			return StringPool.BLANK;
 		}
+
+		String scheme = uri.getScheme();
+
+		if (scheme == null) {
+			return StringPool.BLANK;
+		}
+
+		return scheme;
 	}
 
 	@Override
@@ -671,25 +668,34 @@ public class HttpImpl implements Http {
 			return url;
 		}
 
-		try {
-			URI uri = _getURI(url);
+		URI uri = getURI(url);
 
-			String queryString = uri.getRawQuery();
-
-			if (queryString == null) {
-				return StringPool.BLANK;
-			}
-
-			return queryString;
-		}
-		catch (URISyntaxException uriSyntaxException) {
+		if (uri == null) {
 			return StringPool.BLANK;
 		}
+
+		String queryString = uri.getRawQuery();
+
+		if (queryString == null) {
+			return StringPool.BLANK;
+		}
+
+		return queryString;
 	}
 
 	@Override
 	public String getRequestURL(HttpServletRequest httpServletRequest) {
 		return String.valueOf(httpServletRequest.getRequestURL());
+	}
+
+	@Override
+	public URI getURI(String uriString) {
+		try {
+			return _getURI(uriString);
+		}
+		catch (URISyntaxException uriSyntaxException) {
+			return null;
+		}
 	}
 
 	@Override
