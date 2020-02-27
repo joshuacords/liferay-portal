@@ -15,8 +15,11 @@
 package com.liferay.document.library.search.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.model.DLFileEntryConstants;
+import com.liferay.document.library.kernel.model.DLFolderConstants;
 import com.liferay.document.library.kernel.service.DLAppLocalService;
+import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
 import com.liferay.document.library.test.util.search.FileEntryBlueprint;
 import com.liferay.document.library.test.util.search.FileEntrySearchFixture;
 import com.liferay.petra.string.StringPool;
@@ -27,20 +30,27 @@ import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistry;
+import com.liferay.portal.kernel.search.IndexerRegistryUtil;
 import com.liferay.portal.kernel.search.QueryConfig;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.GroupLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.SearchContextTestUtil;
+import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.test.util.UserTestUtil;
+import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.MimeTypesUtil;
+import com.liferay.portal.search.test.util.IndexerFixture;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -76,6 +86,8 @@ public class DLFileEntryIndexerLocalizedContentTest {
 		fileEntrySearchFixture.setUp();
 
 		_group = GroupTestUtil.addGroup();
+
+		_indexer = IndexerRegistryUtil.getIndexer(DLFileEntry.class);
 
 		UserTestUtil.setUser(TestPropsValues.getUser());
 
@@ -165,28 +177,125 @@ public class DLFileEntryIndexerLocalizedContentTest {
 		}
 	}
 
-	protected FileEntry addFileEntry(String fileName) throws Exception {
-		return addFileEntry(fileName, _group.getGroupId());
+	@Test
+	public void testJapaneseTitle() throws Exception {
+
+		GroupTestUtil.updateDisplaySettings(
+			_group.getGroupId(), null, LocaleUtil.JAPAN);
+
+		String title = "平家物語";
+		String description = "諸行無常";
+
+		addFileEntry("title_desc_test1.txt", _group.getGroupId(), title, description );
+
+		String word1 = "平家";
+		String word2 = "諸行";
+
+		Stream<String> searchTerms = Stream.of(word1, word2);
+
+		searchTerms.forEach(
+			searchTerm -> {
+				Document document = _search(searchTerm, LocaleUtil.JAPAN);
+
+				List<String> fields = _getFieldValues("description", document);
+
+				Assert.assertTrue(fields.contains("description_ja_JP"));
+			});
 	}
 
-	protected FileEntry addFileEntry(String fileName, long groupId)
-		throws IOException {
+	@Test
+	public void testJapaneseFileCount() throws Exception {
+		GroupTestUtil.updateDisplaySettings(
+			_group.getGroupId(), null, LocaleUtil.JAPAN);
+	//original
+//		addFileEntry("title_desc_test1.txt", _group.getGroupId(), "平家物語", "諸行無常" );
+//		addFileEntry("title_desc_test2.txt", _group.getGroupId(), "方丈記", "鴨長明" );
 
-		Class<?> clazz = getClass();
+		addFileEntry("title_desc_test1.txt", _group.getGroupId(), "坂下", "諸行無常" );
+		addFileEntry("title_desc_test2.txt", _group.getGroupId(), "下坂", "鴨長明" );
 
-		try (InputStream inputStream = clazz.getResourceAsStream(
-				"dependencies/" + fileName)) {
+		String searchTerm = "下坂";
 
-			return fileEntrySearchFixture.addFileEntry(
-				new FileEntryBlueprint() {
-					{
-						setFileName(fileName);
-						setGroupId(groupId);
-						setInputStream(inputStream);
-						setTitle(fileName);
-					}
-				});
+		try {
+			SearchContext searchContext = _getSearchContext(
+				searchTerm, LocaleUtil.JAPAN, _group.getGroupId());
+
+			Hits hits = _indexer.search(searchContext);
+
+			List<Document> documents = hits.toList();
+
+			Assert.assertEquals(1,documents.size());
+
 		}
+		catch (RuntimeException re) {
+			throw re;
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+//	protected FileEntry addFileEntry(String fileName) throws Exception {
+//		return addFileEntry(fileName, _group.getGroupId());
+//	}
+//
+//	protected FileEntry addFileEntry(String fileName, long groupId)
+//		throws IOException {
+//
+//		Class<?> clazz = getClass();
+//
+//		try (InputStream inputStream = clazz.getResourceAsStream(
+//				"dependencies/" + fileName)) {
+//
+//			return fileEntrySearchFixture.addFileEntry(
+//				new FileEntryBlueprint() {
+//					{
+//						setFileName(fileName);
+//						setGroupId(groupId);
+//						setInputStream(inputStream);
+//						setTitle(fileName);
+//					}
+//				});
+//		}
+//	}
+
+	protected FileEntry addFileEntry(String fileName) throws Exception {
+		return addFileEntry(fileName, _group.getGroupId(), fileName, StringPool.BLANK);
+	}
+
+	protected FileEntry addFileEntry(String fileName, long groupId) throws Exception {
+		return addFileEntry(fileName, groupId, fileName, StringPool.BLANK);
+	}
+
+	protected FileEntry addFileEntry(
+		String fileName, long groupId, String title, String description)
+		throws Exception {
+
+		ServiceContext serviceContext =
+			ServiceContextTestUtil.getServiceContext(groupId);
+
+		File file = null;
+		FileEntry fileEntry = null;
+
+		try (InputStream inputStream =
+				 DLFileEntryIndexerLocalizedContentTest.class.getResourceAsStream(
+					 "dependencies/" + fileName)) {
+
+			String mimeType = MimeTypesUtil.getContentType(file, fileName);
+
+			file = FileUtil.createTempFile(inputStream);
+
+			fileEntry = DLAppLocalServiceUtil.addFileEntry(
+				serviceContext.getUserId(), serviceContext.getScopeGroupId(),
+				DLFolderConstants.DEFAULT_PARENT_FOLDER_ID, fileName, mimeType,
+				title, description, StringPool.BLANK, file,
+				serviceContext);
+		}
+		finally {
+			FileUtil.delete(file);
+		}
+
+		return fileEntry;
 	}
 
 	protected void assertLocalization(
@@ -277,5 +386,6 @@ public class DLFileEntryIndexerLocalizedContentTest {
 
 	@DeleteAfterTestRun
 	private Group _group;
+	private Indexer<DLFileEntry> _indexer;
 
 }
