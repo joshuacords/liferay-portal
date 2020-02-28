@@ -74,7 +74,7 @@ class PagesVisitor {
 									fieldIndex,
 									...args,
 									mappedField
-								)
+								),
 							});
 						}
 						else {
@@ -86,7 +86,7 @@ class PagesVisitor {
 
 					mappedField = {
 						...mappedField,
-						nestedFields
+						nestedFields,
 					};
 				}
 

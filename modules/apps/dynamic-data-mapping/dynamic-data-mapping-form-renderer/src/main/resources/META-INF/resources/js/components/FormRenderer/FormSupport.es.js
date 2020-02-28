@@ -145,7 +145,7 @@ export const getFieldIndexes = (pages, fieldName) => {
 				columnIndex,
 				fieldIndex,
 				pageIndex,
-				rowIndex
+				rowIndex,
 			};
 		}
 	});
@@ -381,7 +381,7 @@ export const updateField = (pages, fieldName, properties) => {
 			if (fieldName === field.fieldName) {
 				return {
 					...field,
-					...properties
+					...properties,
 				};
 			}
 
