@@ -20,7 +20,6 @@ import com.liferay.document.library.kernel.model.DLFileEntryConstants;
 import com.liferay.document.library.kernel.model.DLFolderConstants;
 import com.liferay.document.library.kernel.service.DLAppLocalService;
 import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
-import com.liferay.document.library.test.util.search.FileEntryBlueprint;
 import com.liferay.document.library.test.util.search.FileEntrySearchFixture;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.model.Group;
@@ -46,12 +45,10 @@ import com.liferay.portal.kernel.test.util.UserTestUtil;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.MimeTypesUtil;
-import com.liferay.portal.search.test.util.IndexerFixture;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 
 import java.util.ArrayList;
@@ -92,6 +89,58 @@ public class DLFileEntryIndexerLocalizedContentTest {
 		UserTestUtil.setUser(TestPropsValues.getUser());
 
 		CompanyThreadLocal.setCompanyId(TestPropsValues.getCompanyId());
+
+		_addTestFiles();
+	}
+
+	@Test
+	public void testCase1() throws Exception {
+		_testCasesCounts("坂下", LocaleUtil.JAPAN, 1);
+	}
+
+	@Test
+	public void testCase2() throws Exception {
+		_testCasesCounts("下坂", LocaleUtil.JAPAN, 1);
+	}
+
+	@Test
+	public void testCase3() throws Exception {
+		_testCasesCounts("欢迎", LocaleUtil.CHINA, 1);
+	}
+
+	@Test
+	public void testCase4() throws Exception {
+		_testCasesCounts("迎欢", LocaleUtil.CHINA, 0);
+	}
+
+	@Test
+	public void testCase5_1() throws Exception {
+		_testCasesCounts("下坂", LocaleUtil.US, 2);
+	}
+
+	@Test
+	public void testCase5_2() throws Exception {
+		_testCasesCounts("坂下", LocaleUtil.CHINA, 2);
+	}
+
+	@Test
+	public void testCase6_1() throws Exception {
+		_testCasesCounts("迎欢", LocaleUtil.US, 1);
+	}
+
+	@Test
+	public void testCase6_2() throws Exception {
+		_testCasesCounts("欢迎", LocaleUtil.JAPAN, 1);
+	}
+
+	@Test
+	public void testCase7_1() throws Exception {
+		_testCasesCounts("hello world", LocaleUtil.US, 1);
+	}
+
+	@Test
+	public void testCase7_2() throws Exception {
+		_testCasesCounts("hello world", LocaleUtil.JAPAN, 1);
 	}
 
 	@Test
@@ -177,98 +226,19 @@ public class DLFileEntryIndexerLocalizedContentTest {
 		}
 	}
 
-	@Test
-	public void testJapaneseTitle() throws Exception {
-
-		GroupTestUtil.updateDisplaySettings(
-			_group.getGroupId(), null, LocaleUtil.JAPAN);
-
-		String title = "平家物語";
-		String description = "諸行無常";
-
-		addFileEntry("title_desc_test1.txt", _group.getGroupId(), title, description );
-
-		String word1 = "平家";
-		String word2 = "諸行";
-
-		Stream<String> searchTerms = Stream.of(word1, word2);
-
-		searchTerms.forEach(
-			searchTerm -> {
-				Document document = _search(searchTerm, LocaleUtil.JAPAN);
-
-				List<String> fields = _getFieldValues("description", document);
-
-				Assert.assertTrue(fields.contains("description_ja_JP"));
-			});
-	}
-
-	@Test
-	public void testJapaneseFileCount() throws Exception {
-		GroupTestUtil.updateDisplaySettings(
-			_group.getGroupId(), null, LocaleUtil.JAPAN);
-	//original
-//		addFileEntry("title_desc_test1.txt", _group.getGroupId(), "平家物語", "諸行無常" );
-//		addFileEntry("title_desc_test2.txt", _group.getGroupId(), "方丈記", "鴨長明" );
-
-		addFileEntry("title_desc_test1.txt", _group.getGroupId(), "坂下", "諸行無常" );
-		addFileEntry("title_desc_test2.txt", _group.getGroupId(), "下坂", "鴨長明" );
-
-		String searchTerm = "下坂";
-
-		try {
-			SearchContext searchContext = _getSearchContext(
-				searchTerm, LocaleUtil.JAPAN, _group.getGroupId());
-
-			Hits hits = _indexer.search(searchContext);
-
-			List<Document> documents = hits.toList();
-
-			Assert.assertEquals(1,documents.size());
-
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-//	protected FileEntry addFileEntry(String fileName) throws Exception {
-//		return addFileEntry(fileName, _group.getGroupId());
-//	}
-//
-//	protected FileEntry addFileEntry(String fileName, long groupId)
-//		throws IOException {
-//
-//		Class<?> clazz = getClass();
-//
-//		try (InputStream inputStream = clazz.getResourceAsStream(
-//				"dependencies/" + fileName)) {
-//
-//			return fileEntrySearchFixture.addFileEntry(
-//				new FileEntryBlueprint() {
-//					{
-//						setFileName(fileName);
-//						setGroupId(groupId);
-//						setInputStream(inputStream);
-//						setTitle(fileName);
-//					}
-//				});
-//		}
-//	}
-
 	protected FileEntry addFileEntry(String fileName) throws Exception {
-		return addFileEntry(fileName, _group.getGroupId(), fileName, StringPool.BLANK);
+		return addFileEntry(
+			fileName, _group.getGroupId(), fileName, StringPool.BLANK);
 	}
 
-	protected FileEntry addFileEntry(String fileName, long groupId) throws Exception {
+	protected FileEntry addFileEntry(String fileName, long groupId)
+		throws Exception {
+
 		return addFileEntry(fileName, groupId, fileName, StringPool.BLANK);
 	}
 
 	protected FileEntry addFileEntry(
-		String fileName, long groupId, String title, String description)
+			String fileName, long groupId, String title, String description)
 		throws Exception {
 
 		ServiceContext serviceContext =
@@ -278,8 +248,8 @@ public class DLFileEntryIndexerLocalizedContentTest {
 		FileEntry fileEntry = null;
 
 		try (InputStream inputStream =
-				 DLFileEntryIndexerLocalizedContentTest.class.getResourceAsStream(
-					 "dependencies/" + fileName)) {
+				DLFileEntryIndexerLocalizedContentTest.class.
+					getResourceAsStream("dependencies/" + fileName)) {
 
 			String mimeType = MimeTypesUtil.getContentType(file, fileName);
 
@@ -288,8 +258,7 @@ public class DLFileEntryIndexerLocalizedContentTest {
 			fileEntry = DLAppLocalServiceUtil.addFileEntry(
 				serviceContext.getUserId(), serviceContext.getScopeGroupId(),
 				DLFolderConstants.DEFAULT_PARENT_FOLDER_ID, fileName, mimeType,
-				title, description, StringPool.BLANK, file,
-				serviceContext);
+				title, description, StringPool.BLANK, file, serviceContext);
 		}
 		finally {
 			FileUtil.delete(file);
@@ -331,6 +300,18 @@ public class DLFileEntryIndexerLocalizedContentTest {
 		}
 
 		return filteredFields;
+	}
+
+	private void _addTestFiles() throws Exception {
+		addFileEntry(
+			"title_desc_test1.txt", _group.getGroupId(), "坂下", "PDF A");
+		addFileEntry(
+			"title_desc_test2.txt", _group.getGroupId(), "下坂", "PDF B");
+		addFileEntry(
+			"title_desc_test2.txt", _group.getGroupId(), "欢迎光临", "PDF C");
+		addFileEntry(
+			"title_desc_test2.txt", _group.getGroupId(), "hello world",
+			"PDF D");
 	}
 
 	private SearchContext _getSearchContext(
@@ -384,8 +365,37 @@ public class DLFileEntryIndexerLocalizedContentTest {
 		}
 	}
 
+	private List<Document> _testCasesCounts(
+			String searchTerm, Locale searchLocale, int expected)
+		throws Exception {
+
+		GroupTestUtil.updateDisplaySettings(
+			_group.getGroupId(), null, searchLocale);
+
+		try {
+			SearchContext searchContext = _getSearchContext(
+				searchTerm, searchLocale, _group.getGroupId());
+
+			Hits hits = _indexer.search(searchContext);
+
+			List<Document> documents = hits.toList();
+
+			Assert.assertEquals(
+				documents.toString(), expected, documents.size());
+
+			return documents;
+		}
+		catch (RuntimeException runtimeException) {
+			throw runtimeException;
+		}
+		catch (Exception exception) {
+			throw new RuntimeException(exception);
+		}
+	}
+
 	@DeleteAfterTestRun
 	private Group _group;
+
 	private Indexer<DLFileEntry> _indexer;
 
 }
