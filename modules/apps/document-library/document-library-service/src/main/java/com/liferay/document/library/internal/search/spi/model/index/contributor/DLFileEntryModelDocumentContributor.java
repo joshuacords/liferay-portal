@@ -27,6 +27,7 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.Document;
@@ -128,22 +129,32 @@ public class DLFileEntryModelDocumentContributor
 				}
 			}
 
+			String[] languageIds = LocaleUtil.toLanguageIds(
+				LanguageUtil.getSupportedLocales());
+
+			for (String languageId : languageIds) {
+				document.addText(
+					Field.getLocalizedName(Field.DESCRIPTION, languageId),
+					dlFileEntry.getDescription());
+
+				String title = dlFileEntry.getTitle();
+
+				if (dlFileEntry.isInTrash()) {
+					title = trashHelper.getOriginalTitle(title);
+				}
+
+				document.addText(
+					Field.getLocalizedName(Field.TITLE, languageId), title);
+
+			}
+
 			document.addKeyword(
 				Field.CLASS_TYPE_ID, dlFileEntry.getFileEntryTypeId());
-			document.addText(Field.DESCRIPTION, dlFileEntry.getDescription());
 			document.addKeyword(Field.FOLDER_ID, dlFileEntry.getFolderId());
 			document.addKeyword(Field.HIDDEN, dlFileEntry.isInHiddenFolder());
 			document.addText(
 				Field.PROPERTIES, dlFileEntry.getLuceneProperties());
 			document.addKeyword(Field.STATUS, dlFileVersion.getStatus());
-
-			String title = dlFileEntry.getTitle();
-
-			if (dlFileEntry.isInTrash()) {
-				title = trashHelper.getOriginalTitle(title);
-			}
-
-			document.addText(Field.TITLE, title);
 
 			document.addKeyword(
 				Field.TREE_PATH,
