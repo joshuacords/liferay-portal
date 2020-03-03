@@ -42,14 +42,18 @@ public class DLFileEntryModelSummaryContributor
 		String prefix = Field.SNIPPET + StringPool.UNDERLINE;
 
 		String content = document.get(
-			locale, prefix + Field.getLocalizedName(locale, Field.CONTENT), Field.CONTENT);
+			prefix + Field.getLocalizedName(locale, Field.CONTENT),
+			Field.getLocalizedName(locale, Field.CONTENT));
 
 		if (Validator.isNull(content)) {
 			content = document.get(
-				prefix + Field.getLocalizedName(locale, Field.DESCRIPTION), Field.DESCRIPTION);
+				prefix + Field.getLocalizedName(locale, Field.DESCRIPTION),
+				Field.getLocalizedName(locale, Field.DESCRIPTION));
 		}
 
-		String title = document.get(prefix + Field.getLocalizedName(locale, Field.TITLE), Field.TITLE);
+		String title = document.get(
+			prefix + Field.getLocalizedName(locale, Field.TITLE),
+			Field.getLocalizedName(locale, Field.TITLE));
 
 		Summary summary = new Summary(title, content);
 
@@ -57,29 +61,5 @@ public class DLFileEntryModelSummaryContributor
 
 		return summary;
 	}
-
-//	protected Locale getSnippetLocale(Document document, Locale locale) {
-//		String prefix = Field.SNIPPET + StringPool.UNDERLINE;
-//
-//		String localizedAssetCategoryTitlesName =
-//			prefix +
-//			Field.getLocalizedName(locale, Field.ASSET_CATEGORY_TITLES);
-//		String localizedContentName =
-//			prefix + Field.getLocalizedName(locale, Field.CONTENT);
-//		String localizedDescriptionName =
-//			prefix + Field.getLocalizedName(locale, Field.DESCRIPTION);
-//		String localizedTitleName =
-//			prefix + Field.getLocalizedName(locale, Field.TITLE);
-//
-//		if ((document.getField(localizedAssetCategoryTitlesName) != null) ||
-//			(document.getField(localizedContentName) != null) ||
-//			(document.getField(localizedDescriptionName) != null) ||
-//			(document.getField(localizedTitleName) != null)) {
-//
-//			return locale;
-//		}
-//
-//		return null;
-//	}
 
 }

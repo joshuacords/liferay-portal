@@ -129,12 +129,9 @@ public class DLFileEntryModelDocumentContributor
 				}
 			}
 
-			String[] languageIds = LocaleUtil.toLanguageIds(
-				LanguageUtil.getSupportedLocales());
-
-			for (String languageId : languageIds) {
+			for (Locale locale : LanguageUtil.getSupportedLocales()) {
 				document.addText(
-					Field.getLocalizedName(Field.DESCRIPTION, languageId),
+					Field.getLocalizedName(locale, Field.DESCRIPTION),
 					dlFileEntry.getDescription());
 
 				String title = dlFileEntry.getTitle();
@@ -144,7 +141,7 @@ public class DLFileEntryModelDocumentContributor
 				}
 
 				document.addText(
-					Field.getLocalizedName(Field.TITLE, languageId), title);
+					Field.getLocalizedName(locale, Field.TITLE), title);
 
 			}
 
