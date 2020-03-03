@@ -42,14 +42,18 @@ public class DLFileEntryModelSummaryContributor
 		String prefix = Field.SNIPPET + StringPool.UNDERLINE;
 
 		String content = document.get(
-			locale, prefix + Field.CONTENT, Field.CONTENT);
+			prefix + Field.getLocalizedName(locale, Field.CONTENT),
+			Field.getLocalizedName(locale, Field.CONTENT));
 
 		if (Validator.isNull(content)) {
 			content = document.get(
-				prefix + Field.DESCRIPTION, Field.DESCRIPTION);
+				prefix + Field.getLocalizedName(locale, Field.DESCRIPTION),
+				Field.getLocalizedName(locale, Field.DESCRIPTION));
 		}
 
-		String title = document.get(prefix + Field.TITLE, Field.TITLE);
+		String title = document.get(
+			prefix + Field.getLocalizedName(locale, Field.TITLE),
+			Field.getLocalizedName(locale, Field.TITLE));
 
 		Summary summary = new Summary(title, content);
 
