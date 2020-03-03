@@ -112,17 +112,45 @@ public class DLFileEntryIndexerLocalizedContentTest {
 
 	@Test
 	public void testCase1() throws Exception {
-		_testCasesCounts("坂下", LocaleUtil.JAPAN, 1);
+		Locale searchLocale = LocaleUtil.JAPAN;
+
+		List<Document> docs =
+			_testCasesCounts("坂下", searchLocale, 1);
+
+		String expectedTitle = "[[坂下]]";
+
+		Document doc = docs.get(0);
+
+		_assertHighlight(expectedTitle, "PDF A", searchLocale, doc);
 	}
 
 	@Test
 	public void testCase2() throws Exception {
-		_testCasesCounts("下坂", LocaleUtil.JAPAN, 1);
+		Locale searchLocale = LocaleUtil.JAPAN;
+
+		List<Document> docs =
+			_testCasesCounts("下坂", searchLocale, 1);
+
+		String expectedTitle = "[[下坂]]";
+
+		Document doc = docs.get(0);
+
+		_assertHighlight(expectedTitle, "PDF B", searchLocale, doc);
 	}
 
 	@Test
 	public void testCase3() throws Exception {
-		_testCasesCounts("欢迎", LocaleUtil.CHINA, 1);
+		Locale searchLocale = LocaleUtil.CHINA;
+
+		List<Document> docs =
+			_testCasesCounts("欢迎", searchLocale, 1);
+
+		//String expectedTitle = "[[欢迎]]光临";
+		String expectedTitle = "[[欢]][[迎]]光临";
+
+		Document doc = docs.get(0);
+
+		_assertHighlight(expectedTitle, "PDF C", searchLocale, doc);
 	}
 
 	@Test
@@ -132,44 +160,116 @@ public class DLFileEntryIndexerLocalizedContentTest {
 
 	@Test
 	public void testCase5_1() throws Exception {
-		_testCasesCounts("下坂", LocaleUtil.US, 2);
+		Locale searchLocale = LocaleUtil.US;
+
+		List<Document> docs =
+			_testCasesCounts("下坂", searchLocale, 2);
+
+		//String expectedTitle = "[[下]] [[坂]]";
+		String expectedTitle = "[[下]][[坂]]";
+
+		Document doc = docs.get(0);
+
+		_assertHighlight(expectedTitle, _test2Content, searchLocale, doc);
+
+		//expectedTitle = "[[坂]] [[下]]";
+		expectedTitle = "[[坂]][[下]]";
+
+		doc = docs.get(1);
+
+		_assertHighlight(expectedTitle, _test1Content, searchLocale, doc);
 	}
 
 	@Test
 	public void testCase5_2() throws Exception {
-		_testCasesCounts("坂下", LocaleUtil.CHINA, 2);
+		Locale searchLocale = LocaleUtil.CHINA;
+
+		List<Document> docs =
+			_testCasesCounts("坂下", searchLocale, 2);
+
+		//String expectedTitle = "[[坂]] [[下]]";
+		String expectedTitle = "[[坂]][[下]]";
+
+		Document doc = docs.get(0);
+
+		_assertHighlight(expectedTitle, "PDF A", searchLocale, doc);
+
+		//expectedTitle = "[[下]] [[坂]]";
+		expectedTitle = "[[下]][[坂]]";
+
+		doc = docs.get(1);
+
+		_assertHighlight(expectedTitle, "PDF B", searchLocale, doc);
 	}
 
 	@Test
 	public void testCase6_1() throws Exception {
-		_testCasesCounts("迎欢", LocaleUtil.US, 1);
+		Locale searchLocale = LocaleUtil.US;
+
+		List<Document> docs =
+			_testCasesCounts("迎欢", searchLocale, 1);
+
+		//String expectedTitle = "[[欢]] [[迎]]光临";
+		String expectedTitle = "[[欢]][[迎]]光临";
+
+		Document doc = docs.get(0);
+
+		_assertHighlight(expectedTitle, _test2Content, searchLocale, doc);
 	}
 
 	@Test
 	public void testCase6_2() throws Exception {
-		_testCasesCounts("欢迎", LocaleUtil.JAPAN, 1);
+		Locale searchLocale = LocaleUtil.JAPAN;
+
+		List<Document> docs =
+			_testCasesCounts("欢迎", searchLocale, 1);
+
+		//String expectedTitle = "[[欢]] [迎]光临";
+		String expectedTitle = "[[欢]][[迎]]光临";
+
+		Document doc = docs.get(0);
+
+		_assertHighlight(expectedTitle, "PDF C", searchLocale, doc);
 	}
 
 	@Test
 	public void testCase7_1() throws Exception {
+		Locale searchLocale = LocaleUtil.US;
+
 		List<Document> docs =
-			_testCasesCounts("hello world", LocaleUtil.US, 1);
+			_testCasesCounts("hello world", searchLocale, 1);
 
-		String expectedTitle = "[[hello world]]";
-
-		expectedTitle = StringUtil.replace(
-			expectedTitle, new String[] {"[[", "]]"}, HighlightUtil.HIGHLIGHTS);
+		String expectedTitle = "[[hello]] [[world]]";
 
 		Document doc = docs.get(0);
 
-		_summaryFixture.assertSummary(expectedTitle, _test2Content, LocaleUtil.US, doc);
-		//_assertHighlight("", "[[hello world]]","hello world");
+		_assertHighlight(expectedTitle, _test2Content, searchLocale, doc);
 	}
 
 	@Test
 	public void testCase7_2() throws Exception {
-		_testCasesCounts("hello world", LocaleUtil.JAPAN, 1);
+		Locale searchLocale = LocaleUtil.JAPAN;
+
+		List<Document> docs =
+			_testCasesCounts("hello world", searchLocale, 1);
+
+		String expectedTitle = "[[hello]] [[world]]";
+
+		Document doc = docs.get(0);
+
+		_assertHighlight(expectedTitle, "PDF D", searchLocale, doc);
 	}
+
+	private void _assertHighlight(
+		String title, String content, Locale locale, Document document)
+		throws Exception {
+
+		String expectedTitle = StringUtil.replace(
+			title, _highlightBrackets, _highlightTags);
+
+		_summaryFixture.assertSummary(expectedTitle, content, locale, document);
+	}
+
 
 //	@Test
 //	public void testJapaneseContent() throws Exception {
@@ -393,17 +493,6 @@ public class DLFileEntryIndexerLocalizedContentTest {
 		}
 	}
 
-	private void _assertHighlight(
-		String s, String expected, String... queryTerms) {
-
-		expected = StringUtil.replace(
-			expected, new String[] {"[[", "]]"}, HighlightUtil.HIGHLIGHTS);
-
-		Assert.assertEquals(
-			Arrays.toString(queryTerms), expected,
-			HighlightUtil.highlight(s, queryTerms));
-	}
-
 	private List<Document> _testCasesCounts(
 			String searchTerm, Locale searchLocale, int expected)
 		throws Exception {
@@ -414,6 +503,10 @@ public class DLFileEntryIndexerLocalizedContentTest {
 		try {
 			SearchContext searchContext = _getSearchContext(
 				searchTerm, searchLocale, _group.getGroupId());
+
+			QueryConfig queryConfig = searchContext.getQueryConfig();
+
+			queryConfig.setHighlightEnabled(true);
 
 			Hits hits = _indexer.search(searchContext);
 
@@ -440,6 +533,10 @@ public class DLFileEntryIndexerLocalizedContentTest {
 	private SummaryFixture<DLFileEntry> _summaryFixture;
 	private UserSearchFixture _userSearchFixture;
 
+	private String _test1Content = "いろはにおえどちりぬるを";
 	private String _test2Content = "行く川のながれは絶えずして、しかも本の水にあらず。";
+
+	private final String[] _highlightTags = new String[] {"<liferay-hl>", "</liferay-hl>"};
+	private final String[] _highlightBrackets = new String[] {"[[", "]]"};
 
 }
