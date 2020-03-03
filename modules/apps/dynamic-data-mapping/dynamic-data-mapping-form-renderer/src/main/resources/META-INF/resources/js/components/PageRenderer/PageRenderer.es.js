@@ -132,6 +132,7 @@ class PageRenderer extends Component {
 		this.emit('fieldClicked', {
 			...FormSupport.getIndexes(dom.closest(delegateTarget, '.col-ddm')),
 			fieldName,
+			originalEvent: event,
 		});
 	}
 

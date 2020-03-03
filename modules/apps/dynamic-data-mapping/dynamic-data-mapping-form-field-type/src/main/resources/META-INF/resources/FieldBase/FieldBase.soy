@@ -3,6 +3,7 @@
 {template .render}
 	{@param name: string}
 	{@param? _handleAddRepeatedFieldButtonClicked: any}
+	{@param? _handleFieldClicked: any}
 	{@param? _handleRemoveRepeatedFieldButtonClicked: any}
 	{@param? addDuplicateField: string}
 	{@param? contentRenderer: any}
@@ -50,6 +51,8 @@
 		class="{$fieldCssClassAttribute}"
 
 		data-field-name="{$name}"
+
+		data-onclick="{$_handleFieldClicked}"
 	{/let}
 
 	<div {$divAttributes}>
