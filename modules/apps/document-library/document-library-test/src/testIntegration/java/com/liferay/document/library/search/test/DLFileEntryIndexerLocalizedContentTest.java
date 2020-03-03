@@ -49,6 +49,7 @@ import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.MimeTypesUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.search.localization.SearchLocalizationHelper;
 import com.liferay.portal.search.test.util.SummaryFixture;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
@@ -145,8 +146,7 @@ public class DLFileEntryIndexerLocalizedContentTest {
 		List<Document> docs =
 			_testCasesCounts("欢迎", searchLocale, 1);
 
-		//String expectedTitle = "[[欢迎]]光临";
-		String expectedTitle = "[[欢]][[迎]]光临";
+		String expectedTitle = "[[欢迎]]光临";
 
 		Document doc = docs.get(0);
 
@@ -507,6 +507,15 @@ public class DLFileEntryIndexerLocalizedContentTest {
 			QueryConfig queryConfig = searchContext.getQueryConfig();
 
 			queryConfig.setHighlightEnabled(true);
+//			queryConfig.addHighlightFieldNames(fieldName);
+//			queryConfig.addSelectedFieldNames(fieldName);
+
+			String[] localizedFieldNames =
+				searchLocalizationHelper.getLocalizedFieldNames(
+					new String[] {Field.CONTENT, Field.DESCRIPTION, Field.TITLE},
+					searchContext);
+
+			queryConfig.addHighlightFieldNames(localizedFieldNames);
 
 			Hits hits = _indexer.search(searchContext);
 
@@ -527,6 +536,9 @@ public class DLFileEntryIndexerLocalizedContentTest {
 
 	@DeleteAfterTestRun
 	private Group _group;
+
+	@Inject
+	protected SearchLocalizationHelper searchLocalizationHelper;
 
 	private Indexer<DLFileEntry> _indexer;
 
