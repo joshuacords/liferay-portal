@@ -43,11 +43,13 @@ public class DLFileEntryKeywordQueryContributor
 		SearchContext searchContext =
 			keywordQueryContributorHelper.getSearchContext();
 
+		queryHelper.addSearchLocalizedTerm(
+			booleanQuery, searchContext, Field.DESCRIPTION, false);
+		queryHelper.addSearchLocalizedTerm(
+			booleanQuery, searchContext, Field.TITLE, false);
+
+		//necessary?
 		if (Validator.isNull(keywords)) {
-			queryHelper.addSearchTerm(
-				booleanQuery, searchContext, Field.DESCRIPTION, false);
-			queryHelper.addSearchTerm(
-				booleanQuery, searchContext, Field.TITLE, false);
 			queryHelper.addSearchTerm(
 				booleanQuery, searchContext, Field.USER_NAME, false);
 		}
