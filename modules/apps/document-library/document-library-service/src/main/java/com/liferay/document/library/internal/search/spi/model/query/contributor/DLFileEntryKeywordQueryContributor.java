@@ -16,8 +16,10 @@ package com.liferay.document.library.internal.search.spi.model.query.contributor
 
 import com.liferay.portal.kernel.search.BooleanQuery;
 import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.QueryConfig;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.search.localization.SearchLocalizationHelper;
 import com.liferay.portal.search.query.QueryHelper;
 import com.liferay.portal.search.spi.model.query.contributor.KeywordQueryContributor;
 import com.liferay.portal.search.spi.model.query.contributor.helper.KeywordQueryContributorHelper;
@@ -49,10 +51,20 @@ public class DLFileEntryKeywordQueryContributor
 			booleanQuery, searchContext, Field.TITLE, false);
 
 		//necessary?
+
 		if (Validator.isNull(keywords)) {
 			queryHelper.addSearchTerm(
 				booleanQuery, searchContext, Field.USER_NAME, false);
 		}
+
+		QueryConfig queryConfig = searchContext.getQueryConfig();
+
+		String[] localizedFieldNames =
+			_searchLocalizationHelper.getLocalizedFieldNames(
+				new String[] {Field.CONTENT, Field.DESCRIPTION, Field.TITLE},
+				searchContext);
+
+		queryConfig.addHighlightFieldNames(localizedFieldNames);
 
 		queryHelper.addSearchTerm(
 			booleanQuery, searchContext, "ddmContent", false);
@@ -67,5 +79,8 @@ public class DLFileEntryKeywordQueryContributor
 
 	@Reference
 	protected QueryHelper queryHelper;
+
+	@Reference
+	private SearchLocalizationHelper _searchLocalizationHelper;
 
 }
