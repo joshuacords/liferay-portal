@@ -142,7 +142,6 @@ public class DLFileEntryModelDocumentContributor
 
 				document.addText(
 					Field.getLocalizedName(locale, Field.TITLE), title);
-
 			}
 
 			document.addKeyword(
