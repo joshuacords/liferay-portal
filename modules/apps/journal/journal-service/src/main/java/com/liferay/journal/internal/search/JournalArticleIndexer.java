@@ -53,8 +53,8 @@ import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.search.filter.BooleanFilter;
 import com.liferay.portal.kernel.search.filter.QueryFilter;
-import com.liferay.portal.kernel.search.filter.TermFilter;
 import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
+import com.liferay.portal.kernel.search.generic.TermQueryImpl;
 import com.liferay.portal.kernel.search.highlight.HighlightUtil;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
@@ -271,15 +271,6 @@ public class JournalArticleIndexer extends BaseIndexer<JournalArticle> {
 
 		BooleanQuery booleanQuery = new BooleanQueryImpl();
 
-		BooleanFilter booleanFilter = new BooleanFilter();
-
-		booleanFilter.add(
-			new TermFilter(
-				Field.ENTRY_CLASS_NAME, JournalArticle.class.getName()),
-			BooleanClauseOccur.MUST);
-
-		booleanQuery.setPreBooleanFilter(booleanFilter);
-
 		addSearchTerm(booleanQuery, searchContext, Field.ARTICLE_ID, false);
 		addSearchTerm(booleanQuery, searchContext, Field.CLASS_PK, false);
 		addSearchLocalizedTerm(
@@ -290,7 +281,15 @@ public class JournalArticleIndexer extends BaseIndexer<JournalArticle> {
 		addSearchLocalizedTerm(booleanQuery, searchContext, Field.TITLE, false);
 		addSearchTerm(booleanQuery, searchContext, Field.USER_NAME, false);
 
-		searchQuery.add(booleanQuery, BooleanClauseOccur.SHOULD);
+		BooleanQuery entryClassQuery = new BooleanQueryImpl();
+
+		entryClassQuery.add(
+			new TermQueryImpl(
+				Field.ENTRY_CLASS_NAME, JournalArticle.class.getName()),
+			BooleanClauseOccur.MUST);
+		entryClassQuery.add(booleanQuery, BooleanClauseOccur.MUST);
+
+		searchQuery.add(entryClassQuery, BooleanClauseOccur.SHOULD);
 
 		LinkedHashMap<String, Object> params =
 			(LinkedHashMap<String, Object>)searchContext.getAttribute("params");
