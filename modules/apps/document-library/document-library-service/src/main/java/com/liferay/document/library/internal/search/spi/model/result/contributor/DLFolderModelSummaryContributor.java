@@ -40,9 +40,12 @@ public class DLFolderModelSummaryContributor
 
 		String prefix = Field.SNIPPET + StringPool.UNDERLINE;
 
-		String title = document.get(prefix + Field.TITLE, Field.TITLE);
+		String title = document.get(
+			prefix + Field.getLocalizedName(locale, Field.TITLE),
+			Field.getLocalizedName(locale, Field.TITLE));
 		String content = document.get(
-			prefix + Field.DESCRIPTION, Field.DESCRIPTION);
+			prefix + Field.getLocalizedName(locale, Field.DESCRIPTION),
+			Field.getLocalizedName(locale, Field.DESCRIPTION));
 
 		Summary summary = new Summary(title, content);
 
