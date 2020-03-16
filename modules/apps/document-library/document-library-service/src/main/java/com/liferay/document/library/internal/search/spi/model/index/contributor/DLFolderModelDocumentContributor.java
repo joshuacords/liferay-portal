@@ -16,16 +16,22 @@ package com.liferay.document.library.internal.search.spi.model.index.contributor
 
 import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.petra.string.CharPool;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.search.BooleanQuery;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.SearchContext;
+import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.search.spi.model.index.contributor.ModelDocumentContributor;
 import com.liferay.trash.TrashHelper;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+
+import java.util.Locale;
 
 /**
  * @author Michael C. Han
@@ -43,18 +49,24 @@ public class DLFolderModelDocumentContributor
 			_log.debug("Indexing folder " + dlFolder);
 		}
 
-		document.addText(Field.DESCRIPTION, dlFolder.getDescription());
 		document.addKeyword(Field.FOLDER_ID, dlFolder.getParentFolderId());
 		document.addKeyword(
 			Field.HIDDEN, dlFolder.isHidden() || dlFolder.isInHiddenFolder());
 
-		String title = dlFolder.getName();
+		for (Locale locale : LanguageUtil.getSupportedLocales()) {
+			document.addText(
+				Field.getLocalizedName(locale, Field.DESCRIPTION),
+				dlFolder.getDescription());
 
-		if (dlFolder.isInTrash()) {
-			title = trashHelper.getOriginalTitle(title);
+			String title = dlFolder.getName();
+
+			if (dlFolder.isInTrash()) {
+				title = trashHelper.getOriginalTitle(title);
+			}
+
+			document.addText(
+				Field.getLocalizedName(locale, Field.TITLE), title);
 		}
-
-		document.addText(Field.TITLE, title);
 
 		document.addKeyword(Field.TREE_PATH, dlFolder.getTreePath());
 		document.addKeyword(
