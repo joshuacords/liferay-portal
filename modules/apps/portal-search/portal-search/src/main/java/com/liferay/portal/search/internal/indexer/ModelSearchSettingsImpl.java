@@ -14,15 +14,8 @@
 
 package com.liferay.portal.search.internal.indexer;
 
-import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.search.SearchEngineHelper;
-import com.liferay.portal.search.configuration.IndexWriterHelperConfiguration;
 import com.liferay.portal.search.spi.model.registrar.ModelSearchSettings;
-
-import java.util.Map;
-
-import org.osgi.service.component.annotations.Activate;
-import org.osgi.service.component.annotations.Modified;
 
 /**
  * @author Michael C. Han
@@ -117,16 +110,6 @@ public class ModelSearchSettingsImpl implements ModelSearchSettings {
 
 	public void setStagingAware(boolean stagingAware) {
 		_stagingAware = stagingAware;
-	}
-
-	@Activate
-	@Modified
-	protected void activate(Map<String, Object> properties) {
-		IndexWriterHelperConfiguration indexWriterHelperConfiguration =
-			ConfigurableUtil.createConfigurable(
-				IndexWriterHelperConfiguration.class, properties);
-
-		_searchEngineId = indexWriterHelperConfiguration.indexSearchEngineId();
 	}
 
 	private final String _className;

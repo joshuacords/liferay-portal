@@ -14,7 +14,10 @@
 
 package com.liferay.portal.search.internal.indexer;
 
+import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.model.BaseModel;
+import com.liferay.portal.kernel.search.SearchEngineHelper;
+import com.liferay.portal.search.configuration.IndexWriterHelperConfiguration;
 import com.liferay.portal.search.spi.model.index.contributor.ModelIndexerWriterContributor;
 import com.liferay.portal.search.spi.model.registrar.ModelSearchConfigurator;
 import com.liferay.portal.search.spi.model.registrar.ModelSearchDefinition;
@@ -25,15 +28,22 @@ import com.liferay.portal.search.spi.model.result.contributor.ModelVisibilityCon
 
 import java.util.Collections;
 import java.util.Hashtable;
+import java.util.Map;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ConfigurationPolicy;
+import org.osgi.service.component.annotations.Modified;
 
 /**
  * @author André de Oliveira
  */
-@Component(immediate = true, service = ModelSearchRegistrarHelper.class)
+@Component(
+	configurationPid = "com.liferay.portal.search.configuration.IndexWriterHelperConfiguration",
+	configurationPolicy = ConfigurationPolicy.OPTIONAL, immediate = true,
+	service = ModelSearchRegistrarHelper.class)
 public class ModelSearchRegistrarHelperImpl
 	implements ModelSearchRegistrarHelper {
 
@@ -46,6 +56,8 @@ public class ModelSearchRegistrarHelperImpl
 
 		ModelSearchDefinitionImpl modelSearchDefinitionImpl =
 			new ModelSearchDefinitionImpl(className);
+
+		modelSearchDefinitionImpl.setSearchEngineId(_searchEngineId);
 
 		modelSearchDefinitionContributor.contribute(modelSearchDefinitionImpl);
 
@@ -60,6 +72,18 @@ public class ModelSearchRegistrarHelperImpl
 			new Hashtable<>(
 				Collections.singletonMap("indexer.class.name", className)));
 	}
+
+	@Activate
+	@Modified
+	protected void activate(Map<String, Object> properties) {
+		IndexWriterHelperConfiguration indexWriterHelperConfiguration =
+			ConfigurableUtil.createConfigurable(
+				IndexWriterHelperConfiguration.class, properties);
+
+		_searchEngineId = indexWriterHelperConfiguration.indexSearchEngineId();
+	}
+
+	private String _searchEngineId = SearchEngineHelper.SYSTEM_ENGINE_ID;
 
 	private class ModelSearchDefinitionImpl implements ModelSearchDefinition {
 
@@ -102,6 +126,10 @@ public class ModelSearchRegistrarHelperImpl
 			ModelVisibilityContributor modelVisibilityContributor) {
 
 			_modelVisibilityContributor = modelVisibilityContributor;
+		}
+
+		public void setSearchEngineId(String searchEngineId) {
+			_modelSearchSettingsImpl.setSearchEngineId(searchEngineId);
 		}
 
 		@Override

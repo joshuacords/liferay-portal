@@ -170,6 +170,8 @@ public class PreFilterContributorHelperImpl
 
 		modelSearchSettingsImpl.setStagingAware(indexer.isStagingAware());
 
+		modelSearchSettingsImpl.setSearchEngineId(indexer.getSearchEngineId());
+
 		return modelSearchSettingsImpl;
 	}
 
