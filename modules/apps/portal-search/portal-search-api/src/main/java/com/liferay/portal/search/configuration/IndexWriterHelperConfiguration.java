@@ -17,6 +17,7 @@ package com.liferay.portal.search.configuration;
 import aQute.bnd.annotation.metatype.Meta;
 
 import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClassDefinition;
+import com.liferay.portal.kernel.search.SearchEngineHelper;
 
 import org.osgi.annotation.versioning.ProviderType;
 
@@ -37,5 +38,11 @@ public interface IndexWriterHelperConfiguration {
 		name = "index-commit-immediately", required = false
 	)
 	public boolean indexCommitImmediately();
+
+	@Meta.AD(
+		deflt = SearchEngineHelper.SYSTEM_ENGINE_ID,
+		name = "index-search-engine-id", required = false
+	)
+	public String indexSearchEngineId();
 
 }
