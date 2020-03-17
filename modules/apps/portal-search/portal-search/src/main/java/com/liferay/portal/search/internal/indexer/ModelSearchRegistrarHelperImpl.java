@@ -16,6 +16,8 @@ package com.liferay.portal.search.internal.indexer;
 
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.model.BaseModel;
+import com.liferay.portal.kernel.search.Indexer;
+import com.liferay.portal.kernel.search.IndexerRegistry;
 import com.liferay.portal.kernel.search.SearchEngineHelper;
 import com.liferay.portal.search.configuration.IndexWriterHelperConfiguration;
 import com.liferay.portal.search.spi.model.index.contributor.ModelIndexerWriterContributor;
@@ -28,6 +30,8 @@ import com.liferay.portal.search.spi.model.result.contributor.ModelVisibilityCon
 
 import java.util.Collections;
 import java.util.Hashtable;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import org.osgi.framework.BundleContext;
@@ -36,6 +40,7 @@ import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Modified;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author André de Oliveira
@@ -57,7 +62,9 @@ public class ModelSearchRegistrarHelperImpl
 		ModelSearchDefinitionImpl modelSearchDefinitionImpl =
 			new ModelSearchDefinitionImpl(className);
 
-		modelSearchDefinitionImpl.setSearchEngineId(_searchEngineId);
+		_modelSearchDefinitionImpls.add(modelSearchDefinitionImpl);
+
+//		_modelSearchDefinitionImpl.setSearchEngineId(_searchEngineId);
 
 		modelSearchDefinitionContributor.contribute(modelSearchDefinitionImpl);
 
@@ -80,10 +87,25 @@ public class ModelSearchRegistrarHelperImpl
 			ConfigurableUtil.createConfigurable(
 				IndexWriterHelperConfiguration.class, properties);
 
-		_searchEngineId = indexWriterHelperConfiguration.indexSearchEngineId();
+		String _searchEngineId =
+			indexWriterHelperConfiguration.indexSearchEngineId();
+
+//		for (ModelSearchDefinitionImpl modelSearchDefinitionImpl : _modelSearchDefinitionImpls) {
+//			modelSearchDefinitionImpl.setSearchEngineId(_searchEngineId);
+//		}
+
+		for (Indexer indexer : indexerRegistry.getIndexers()) {
+			indexer.getSearchEngineId()
+		}
 	}
 
-	private String _searchEngineId = SearchEngineHelper.SYSTEM_ENGINE_ID;
+	@Reference
+	protected IndexerRegistry indexerRegistry;
+
+	private List<ModelSearchDefinitionImpl> _modelSearchDefinitionImpls =
+		new LinkedList<>();
+
+	//private String _searchEngineId = SearchEngineHelper.SYSTEM_ENGINE_ID;
 
 	private class ModelSearchDefinitionImpl implements ModelSearchDefinition {
 
