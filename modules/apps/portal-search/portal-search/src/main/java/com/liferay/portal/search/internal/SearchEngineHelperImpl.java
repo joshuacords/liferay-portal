@@ -40,12 +40,15 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.liferay.portal.search.internal.engine.SearchEngineIdProvider;
+import org.osgi.service.component.annotations.Reference;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Modified;
+import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.util.tracker.ServiceTracker;
 import org.osgi.util.tracker.ServiceTrackerCustomizer;
 
@@ -91,11 +94,7 @@ public class SearchEngineHelperImpl implements SearchEngineHelper {
 
 	@Override
 	public String getDefaultSearchEngineId() {
-		if (_defaultSearchEngineId == null) {
-			return SYSTEM_ENGINE_ID;
-		}
-
-		return _defaultSearchEngineId;
+		return _searchEngineIdProvider.getSearchEngineId();
 	}
 
 	@Override
@@ -234,7 +233,7 @@ public class SearchEngineHelperImpl implements SearchEngineHelper {
 
 	@Override
 	public void setDefaultSearchEngineId(String defaultSearchEngineId) {
-		_defaultSearchEngineId = defaultSearchEngineId;
+		//?_defaultSearchEngineId = defaultSearchEngineId;
 	}
 
 	@Override
@@ -339,8 +338,11 @@ public class SearchEngineHelperImpl implements SearchEngineHelper {
 	private static final Log _log = LogFactoryUtil.getLog(
 		SearchEngineHelperImpl.class);
 
+	@Reference(cardinality = ReferenceCardinality.MANDATORY)
+	private SearchEngineIdProvider _searchEngineIdProvider;
+
 	private final Map<Long, Long> _companyIds = new ConcurrentHashMap<>();
-	private String _defaultSearchEngineId;
+	//private String _defaultSearchEngineId;
 	private final Set<String> _excludedEntryClassNames = new HashSet<>();
 	private int _queueCapacity = 200;
 	private final Map<String, QueuingSearchEngine> _queuingSearchEngines =
