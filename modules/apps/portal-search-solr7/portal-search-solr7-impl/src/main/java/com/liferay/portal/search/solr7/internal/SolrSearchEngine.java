@@ -32,7 +32,7 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(
 	immediate = true,
-	property = {"search.engine.id=SYSTEM_ENGINE", "search.engine.impl=Solr"},
+	property = {"search.engine.id=SOLR_ENGINE", "search.engine.impl=Solr"},
 	service = {SearchEngine.class, SolrSearchEngine.class}
 )
 public class SolrSearchEngine extends BaseSearchEngine {

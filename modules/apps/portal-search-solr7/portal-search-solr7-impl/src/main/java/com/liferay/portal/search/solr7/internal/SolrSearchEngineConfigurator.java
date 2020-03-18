@@ -89,7 +89,7 @@ public class SolrSearchEngineConfigurator extends BaseSearchEngineConfigurator {
 	}
 
 	@Reference(
-		target = "(&(search.engine.id=SYSTEM_ENGINE)(search.engine.impl=Solr))"
+		target = "(&(search.engine.id=SOLR_ENGINE)(search.engine.impl=Solr))"
 	)
 	protected void setSearchEngine(
 		SearchEngine searchEngine, Map<String, Object> properties) {
