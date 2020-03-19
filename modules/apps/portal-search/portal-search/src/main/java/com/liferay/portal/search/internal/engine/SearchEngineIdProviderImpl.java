@@ -14,16 +14,25 @@
 
 package com.liferay.portal.search.internal.engine;
 
+//import com.liferay.petra.string.StringPool;
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
+//import com.liferay.portal.kernel.configuration.Configuration;
+//import com.liferay.portal.kernel.configuration.ConfigurationFactoryUtil;
+//import com.liferay.portal.kernel.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.search.SearchEngineHelper;
+//import com.liferay.portal.kernel.settings.GroupServiceSettingsLocator;
 import com.liferay.portal.search.configuration.SearchEngineIdConfiguration;
 
+//import java.util.Dictionary;
+//import java.util.Hashtable;
 import java.util.Map;
+//import java.util.Properties;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Modified;
+//import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Joshua Cords
@@ -36,8 +45,40 @@ import org.osgi.service.component.annotations.Modified;
 public class SearchEngineIdProviderImpl implements SearchEngineIdProvider {
 
 	public String getSearchEngineId() {
+	//	setSearchEngineId("Test");
+
 		return _searchEngineId;
 	}
+
+//	public void setSearchEngineId(String searchEngineId) {
+//
+//		try {
+//			SearchEngineIdConfiguration configuration =
+//				ConfigurationProviderUtil.getConfiguration(
+//					SearchEngineIdConfiguration.class,
+//					new GroupServiceSettingsLocator(
+//						20097, "com.liferay.portal.search.configuration.SearchEngineIdConfiguration"));
+//		}
+//		catch (Exception e) {
+//
+//		}
+//
+////		Configuration configuration = ConfigurationFactoryUtil.getConfiguration(
+////			SearchEngineIdProviderImpl.class.getClassLoader(),
+////			"portlet");
+////
+//////		Dictionary<String, Object> properties = configuration.getProperties();
+////
+////		Properties properties = configuration.getProperties();
+////
+//////		if (properties == null) {
+//////			properties = new Hashtable<String, Object>();
+//////		}
+////
+////		properties.put("search-engine-id", searchEngineId);
+//
+//		//configuration.update(properties);
+//	}
 
 	@Activate
 	@Modified
@@ -49,6 +90,8 @@ public class SearchEngineIdProviderImpl implements SearchEngineIdProvider {
 		_searchEngineId = searchEngineIdConfiguration.indexSearchEngineId();
 	}
 
+//	@Reference
+//	private ConfigurationAdmin _configurationAdmin;
 	private String _searchEngineId = SearchEngineHelper.SYSTEM_ENGINE_ID;
 
 }
