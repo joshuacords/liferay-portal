@@ -21,6 +21,7 @@ import com.liferay.portal.search.configuration.SearchEngineIdConfiguration;
 
 import java.util.Map;
 
+import com.liferay.portal.search.engine.SearchEngineIdProvider;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
