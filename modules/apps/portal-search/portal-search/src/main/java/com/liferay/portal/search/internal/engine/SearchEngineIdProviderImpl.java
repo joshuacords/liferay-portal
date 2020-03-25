@@ -18,10 +18,10 @@ import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.search.SearchEngineHelper;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.search.configuration.SearchEngineIdConfiguration;
+import com.liferay.portal.search.engine.SearchEngineIdProvider;
 
 import java.util.Map;
 
-import com.liferay.portal.search.engine.SearchEngineIdProvider;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ConfigurationPolicy;
