@@ -57,6 +57,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.function.Function;
 
@@ -114,30 +115,6 @@ public class UserAccountResourceTest extends BaseUserAccountResourceTestCase {
 			indexer.reindex(
 				new String[] {String.valueOf(company.getCompanyId())});
 		}
-	}
-
-	@Override
-	@Test
-	public void testGetMyUserAccount() throws Exception {
-		User user = UserTestUtil.getAdminUser(PortalUtil.getDefaultCompanyId());
-
-		UserAccount userAccount = new UserAccount() {
-			{
-				additionalName = user.getMiddleName();
-				alternateName = user.getScreenName();
-				birthDate = user.getBirthday();
-				emailAddress = user.getEmailAddress();
-				familyName = user.getFirstName();
-				givenName = user.getLastName();
-				id = user.getUserId();
-				jobTitle = user.getJobTitle();
-			}
-		};
-
-		UserAccount getUserAccount = userAccountResource.getMyUserAccount();
-
-		assertEquals(userAccount, getUserAccount);
-		assertValid(getUserAccount);
 	}
 
 	@Ignore
@@ -261,6 +238,7 @@ public class UserAccountResourceTest extends BaseUserAccountResourceTestCase {
 	}
 
 	@Override
+	@Test
 	public void testGraphQLGetMyUserAccount() throws Exception {
 		UserAccount userAccount = userAccountResource.getUserAccount(
 			_testUser.getUserId());
@@ -391,8 +369,7 @@ public class UserAccountResourceTest extends BaseUserAccountResourceTestCase {
 	protected UserAccount testGetMyUserAccount_addUserAccount()
 		throws Exception {
 
-		return _addUserAccount(
-			testGetSiteUserAccountsPage_getSiteId(), randomUserAccount());
+		return userAccountResource.getUserAccount(_testUser.getUserId());
 	}
 
 	@Override
@@ -445,7 +422,8 @@ public class UserAccountResourceTest extends BaseUserAccountResourceTestCase {
 	protected UserAccount testGraphQLUserAccount_addUserAccount()
 		throws Exception {
 
-		return testGetMyUserAccount_addUserAccount();
+		return _addUserAccount(
+			testGetSiteUserAccountsPage_getSiteId(), randomUserAccount());
 	}
 
 	@Override
