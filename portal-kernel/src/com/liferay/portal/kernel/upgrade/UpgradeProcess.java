@@ -278,8 +278,20 @@ public abstract class UpgradeProcess
 
 	public class AlterTableAddColumn implements Alterable {
 
+		/**
+		 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+		 *             #AlterTableAddColumn(String, String)}
+		 */
+		@Deprecated
 		public AlterTableAddColumn(String columnName) {
 			_columnName = columnName;
+
+			_columnType = StringPool.BLANK;
+		}
+
+		public AlterTableAddColumn(String columnName, String columnType) {
+			_columnName = columnName;
+			_columnType = columnType;
 		}
 
 		/**
@@ -293,14 +305,16 @@ public abstract class UpgradeProcess
 
 		@Override
 		public String getSQL(String tableName) {
-			StringBundler sb = new StringBundler(4);
+			StringBundler sb = new StringBundler(6);
 
 			sb.append("alter table ");
 			sb.append(tableName);
 			sb.append(" add ");
 			sb.append(_columnName);
+			sb.append(StringPool.SPACE);
+			sb.append(_columnType);
 
-			return sb.toString();
+			return StringUtil.trim(sb.toString());
 		}
 
 		@Override
@@ -314,6 +328,7 @@ public abstract class UpgradeProcess
 		}
 
 		private final String _columnName;
+		private final String _columnType;
 
 	}
 
