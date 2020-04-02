@@ -12,26 +12,13 @@
  * details.
  */
 
-package com.liferay.portal.search.engine;
-
-import java.util.List;
-
-import org.osgi.annotation.versioning.ProviderType;
+package com.liferay.portal.search.internal.indexer;
 
 /**
- * @author Adam Brandizzi
+ * @author Joshua Cords
  */
-@ProviderType
-public interface SearchEngineInformation {
+public interface ModelSearchSettingsFactory {
 
-	public String getClientVersionString();
-
-	public List<ConnectionInformation> getConnectionInformationList();
-
-	public String getNodesString();
-
-	public String getSearchEngineId();
-
-	public String getVendorString();
+	public ModelSearchSettingsImpl getModelSearchSettingsImpl(String className);
 
 }

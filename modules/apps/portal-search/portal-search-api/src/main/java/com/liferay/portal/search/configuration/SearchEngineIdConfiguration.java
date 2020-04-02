@@ -12,26 +12,27 @@
  * details.
  */
 
-package com.liferay.portal.search.engine;
+package com.liferay.portal.search.configuration;
 
-import java.util.List;
+import aQute.bnd.annotation.metatype.Meta;
+
+import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClassDefinition;
 
 import org.osgi.annotation.versioning.ProviderType;
 
 /**
- * @author Adam Brandizzi
+ * @author Joshua Cords
  */
+@ExtendedObjectClassDefinition(category = "search")
+@Meta.OCD(
+	id = "com.liferay.portal.search.configuration.SearchEngineIdConfiguration",
+	localization = "content/Language",
+	name = "search-engine-id-configuration-name"
+)
 @ProviderType
-public interface SearchEngineInformation {
+public interface SearchEngineIdConfiguration {
 
-	public String getClientVersionString();
-
-	public List<ConnectionInformation> getConnectionInformationList();
-
-	public String getNodesString();
-
-	public String getSearchEngineId();
-
-	public String getVendorString();
+	@Meta.AD(name = "search-engine-id", required = false)
+	public String indexSearchEngineId();
 
 }

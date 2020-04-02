@@ -14,24 +14,11 @@
 
 package com.liferay.portal.search.engine;
 
-import java.util.List;
-
-import org.osgi.annotation.versioning.ProviderType;
-
 /**
- * @author Adam Brandizzi
+ * @author Joshua Cords
  */
-@ProviderType
-public interface SearchEngineInformation {
-
-	public String getClientVersionString();
-
-	public List<ConnectionInformation> getConnectionInformationList();
-
-	public String getNodesString();
+public interface SearchEngineIdProvider {
 
 	public String getSearchEngineId();
-
-	public String getVendorString();
 
 }
