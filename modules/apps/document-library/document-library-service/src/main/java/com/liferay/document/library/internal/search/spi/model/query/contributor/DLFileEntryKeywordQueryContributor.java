@@ -80,7 +80,8 @@ public class DLFileEntryKeywordQueryContributor
 			searchTermQuery, searchContext, "extension", false);
 		queryHelper.addSearchTerm(
 			searchTermQuery, searchContext, "fileEntryTypeId", false);
-		queryHelper.addSearchTerm(searchTermQuery, searchContext, "path", false);
+		queryHelper.addSearchTerm(
+			searchTermQuery, searchContext, "path", false);
 		queryHelper.addSearchLocalizedTerm(
 			searchTermQuery, searchContext, Field.CONTENT, false);
 
