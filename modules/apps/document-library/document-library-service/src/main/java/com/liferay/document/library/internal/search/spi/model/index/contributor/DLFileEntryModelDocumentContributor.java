@@ -36,11 +36,13 @@ import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.RelatedEntryIndexer;
 import com.liferay.portal.kernel.search.RelatedEntryIndexerRegistry;
 import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.repository.liferayrepository.model.LiferayFileEntry;
 import com.liferay.portal.search.spi.model.index.contributor.ModelDocumentContributor;
 import com.liferay.portal.util.PrefsPropsUtil;
@@ -52,6 +54,7 @@ import java.io.InputStream;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -106,15 +109,9 @@ public class DLFileEntryModelDocumentContributor
 			if (indexContent) {
 				if (is != null) {
 					try {
-						Locale defaultLocale = portal.getSiteDefaultLocale(
-							dlFileEntry.getGroupId());
-
-						String localizedField = Field.getLocalizedName(
-							defaultLocale.toString(), Field.CONTENT);
-
-						document.addFile(
-							localizedField, is, dlFileEntry.getTitle(),
-							PropsValues.DL_FILE_INDEXING_MAX_SIZE);
+						_addLocalizedFile(
+							document, is, LanguageUtil.getSupportedLocales(),
+							dlFileEntry.getTitle());
 					}
 					catch (IOException ioException) {
 						if (_log.isWarnEnabled()) {
@@ -296,6 +293,26 @@ public class DLFileEntryModelDocumentContributor
 
 	@Reference
 	protected TrashHelper trashHelper;
+
+	private void _addLocalizedFile(
+			Document document, InputStream is, Set<Locale> locales,
+			String title)
+		throws IOException {
+
+		String fileContents = FileUtil.extractText(
+			is, title, PropsValues.DL_FILE_INDEXING_MAX_SIZE);
+
+		if (Validator.isNull(fileContents)) {
+			return;
+		}
+
+		for (Locale locale : locales) {
+			String localizedField = Field.getLocalizedName(
+				locale.toString(), Field.CONTENT);
+
+			document.addText(localizedField, fileContents);
+		}
+	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		DLFileEntryModelDocumentContributor.class);
