@@ -16,7 +16,6 @@ package com.liferay.document.library.search.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.document.library.kernel.model.DLFileEntry;
-import com.liferay.document.library.kernel.model.DLFileEntryConstants;
 import com.liferay.document.library.kernel.model.DLFolderConstants;
 import com.liferay.document.library.kernel.service.DLAppLocalService;
 import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
@@ -62,7 +61,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.stream.Stream;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -247,18 +245,16 @@ public class DLFileEntryIndexerLocalizedContentTest {
 		List<String> contentStrings = new ArrayList<>(
 			Collections.singletonList("content_ja_JP"));
 
-		String word1 = "新規";
-		String word2 = "作成";
+		String[] searchTerms = {"新規", "作成"};
 
-		Stream.of(
-			word1, word2
-		).forEach(
-			searchTerm -> {
-				Document document = _search(searchTerm, LocaleUtil.JAPAN);
+		for (String searchTerm : searchTerms) {
+			List<Document> docs = _testCasesCounts(
+				searchTerm, LocaleUtil.JAPAN, 1);
 
-				assertLocalization(contentStrings, document);
-			}
-		);
+			Document doc = docs.get(0);
+
+			assertLocalization(contentStrings, doc);
+		}
 	}
 
 	@Test
@@ -273,18 +269,16 @@ public class DLFileEntryIndexerLocalizedContentTest {
 		List<String> contentStrings = new ArrayList<>(
 			Collections.singletonList("content_ja_JP"));
 
-		String word1 = "新規";
-		String word2 = "作成";
+		String[] searchTerms = {"新規", "作成"};
 
-		Stream.of(
-			word1, word2
-		).forEach(
-			searchTerm -> {
-				Document document = _search(searchTerm, LocaleUtil.JAPAN);
+		for (String searchTerm : searchTerms) {
+			List<Document> docs = _testCasesCounts(
+				searchTerm, LocaleUtil.JAPAN, 1);
 
-				assertLocalization(contentStrings, document);
-			}
-		);
+			Document doc = docs.get(0);
+
+			assertLocalization(contentStrings, doc);
+		}
 	}
 
 	@Test
@@ -305,15 +299,19 @@ public class DLFileEntryIndexerLocalizedContentTest {
 			addFileEntry("locale_ja.txt", _group.getGroupId());
 			addFileEntry("locale_en.txt", testGroup.getGroupId());
 
-			Document japenseDocument = _search(
-				"新規", LocaleUtil.JAPAN, _group.getGroupId());
+			List<Document> japaneseDocs = _testCasesCounts(
+				"新規", LocaleUtil.JAPAN, 1);
 
-			assertLocalization(japaneseContentStrings, japenseDocument);
+			Document japaneseDoc = japaneseDocs.get(0);
 
-			Document englishDocument = _search(
-				"Locale Test", LocaleUtil.ENGLISH, testGroup.getGroupId());
+			assertLocalization(japaneseContentStrings, japaneseDoc);
 
-			assertLocalization(englishContentStrings, englishDocument);
+			List<Document> englishDocs = _testCasesCounts(
+				"Locale Test", LocaleUtil.ENGLISH, 1, testGroup.getGroupId());
+
+			Document englishDoc = englishDocs.get(0);
+
+			assertLocalization(englishContentStrings, englishDoc);
 		}
 		finally {
 			groupLocalService.deleteGroup(testGroup);
@@ -366,7 +364,9 @@ public class DLFileEntryIndexerLocalizedContentTest {
 
 		List<String> fields = _getFieldValues("content", document);
 
-		Assert.assertEquals(contentStrings.toString(), fields.toString());
+		for (String content : contentStrings) {
+			Assert.assertTrue(fields.contains(content));
+		}
 	}
 
 	@Inject
@@ -434,50 +434,23 @@ public class DLFileEntryIndexerLocalizedContentTest {
 		return searchContext;
 	}
 
-	private Document _getSingleDocument(String searchTerm, Hits hits) {
-		List<Document> documents = hits.toList();
-
-		if (documents.size() == 1) {
-			return documents.get(0);
-		}
-
-		throw new AssertionError(searchTerm + "->" + documents);
-	}
-
-	private Document _search(String searchTerm, Locale locale) {
-		return _search(searchTerm, locale, _group.getGroupId());
-	}
-
-	private Document _search(String searchTerm, Locale locale, long groupId) {
-		try {
-			SearchContext searchContext = _getSearchContext(
-				searchTerm, locale, groupId);
-
-			Indexer indexer = indexerRegistry.getIndexer(
-				DLFileEntryConstants.getClassName());
-
-			Hits hits = indexer.search(searchContext);
-
-			return _getSingleDocument(searchTerm, hits);
-		}
-		catch (RuntimeException runtimeException) {
-			throw runtimeException;
-		}
-		catch (Exception exception) {
-			throw new RuntimeException(exception);
-		}
-	}
-
 	private List<Document> _testCasesCounts(
 			String searchTerm, Locale searchLocale, int expected)
 		throws Exception {
 
-		GroupTestUtil.updateDisplaySettings(
-			_group.getGroupId(), null, searchLocale);
+		return _testCasesCounts(
+			searchTerm, searchLocale, expected, _group.getGroupId());
+	}
+
+	private List<Document> _testCasesCounts(
+			String searchTerm, Locale searchLocale, int expected, long groupId)
+		throws Exception {
+
+		GroupTestUtil.updateDisplaySettings(groupId, null, searchLocale);
 
 		try {
 			SearchContext searchContext = _getSearchContext(
-				searchTerm, searchLocale, _group.getGroupId());
+				searchTerm, searchLocale, groupId);
 
 			QueryConfig queryConfig = searchContext.getQueryConfig();
 
