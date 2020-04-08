@@ -33,7 +33,6 @@ import com.liferay.portal.kernel.search.IndexerRegistry;
 import com.liferay.portal.kernel.search.IndexerRegistryUtil;
 import com.liferay.portal.kernel.search.QueryConfig;
 import com.liferay.portal.kernel.search.SearchContext;
-import com.liferay.portal.kernel.search.highlight.HighlightUtil;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -53,19 +52,18 @@ import com.liferay.portal.search.localization.SearchLocalizationHelper;
 import com.liferay.portal.search.test.util.SummaryFixture;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
+import com.liferay.users.admin.test.util.search.UserSearchFixture;
 
 import java.io.File;
 import java.io.InputStream;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Stream;
 
-import com.liferay.users.admin.test.util.search.UserSearchFixture;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.ClassRule;
@@ -115,42 +113,39 @@ public class DLFileEntryIndexerLocalizedContentTest {
 	public void testCase1() throws Exception {
 		Locale searchLocale = LocaleUtil.JAPAN;
 
-		List<Document> docs =
-			_testCasesCounts("坂下", searchLocale, 1);
+		List<Document> docs = _testCasesCounts("坂下", searchLocale, 1);
 
 		String expectedTitle = "[[坂下]]";
 
 		Document doc = docs.get(0);
 
-		_assertHighlight(expectedTitle, "PDF A", searchLocale, doc);
+		_assertHighlight(expectedTitle, _JAPANESE_CONTENT_1, searchLocale, doc);
 	}
 
 	@Test
 	public void testCase2() throws Exception {
 		Locale searchLocale = LocaleUtil.JAPAN;
 
-		List<Document> docs =
-			_testCasesCounts("下坂", searchLocale, 1);
+		List<Document> docs = _testCasesCounts("下坂", searchLocale, 1);
 
 		String expectedTitle = "[[下坂]]";
 
 		Document doc = docs.get(0);
 
-		_assertHighlight(expectedTitle, "PDF B", searchLocale, doc);
+		_assertHighlight(expectedTitle, _JAPANESE_CONTENT_2, searchLocale, doc);
 	}
 
 	@Test
 	public void testCase3() throws Exception {
 		Locale searchLocale = LocaleUtil.CHINA;
 
-		List<Document> docs =
-			_testCasesCounts("欢迎", searchLocale, 1);
+		List<Document> docs = _testCasesCounts("欢迎", searchLocale, 1);
 
 		String expectedTitle = "[[欢迎]]光临";
 
 		Document doc = docs.get(0);
 
-		_assertHighlight(expectedTitle, "PDF C", searchLocale, doc);
+		_assertHighlight(expectedTitle, _CHINESE_CONTENT, searchLocale, doc);
 	}
 
 	@Test
@@ -162,102 +157,85 @@ public class DLFileEntryIndexerLocalizedContentTest {
 	public void testCase5_1() throws Exception {
 		Locale searchLocale = LocaleUtil.US;
 
-		List<Document> docs =
-			_testCasesCounts("下坂", searchLocale, 2);
+		List<Document> docs = _testCasesCounts("下坂", searchLocale, 2);
 
 		String expectedTitle = "[[下]][[坂]]";
 
 		Document doc = docs.get(0);
 
-		_assertHighlight(expectedTitle, _test2Content, searchLocale, doc);
+		_assertHighlight(expectedTitle, _JAPANESE_CONTENT_2, searchLocale, doc);
 
 		expectedTitle = "[[坂]][[下]]";
 
 		doc = docs.get(1);
 
-		_assertHighlight(expectedTitle, _test1Content, searchLocale, doc);
+		_assertHighlight(expectedTitle, _JAPANESE_CONTENT_1, searchLocale, doc);
 	}
 
 	@Test
 	public void testCase5_2() throws Exception {
 		Locale searchLocale = LocaleUtil.CHINA;
 
-		List<Document> docs =
-			_testCasesCounts("坂下", searchLocale, 1);
+		List<Document> docs = _testCasesCounts("坂下", searchLocale, 1);
 
 		String expectedTitle = "[[坂下]]";
 
 		Document doc = docs.get(0);
 
-		_assertHighlight(expectedTitle, "PDF A", searchLocale, doc);
+		_assertHighlight(expectedTitle, _JAPANESE_CONTENT_1, searchLocale, doc);
 	}
 
 	@Test
 	public void testCase6_1() throws Exception {
 		Locale searchLocale = LocaleUtil.US;
 
-		List<Document> docs =
-			_testCasesCounts("迎欢", searchLocale, 1);
+		List<Document> docs = _testCasesCounts("迎欢", searchLocale, 1);
 
 		String expectedTitle = "[[欢]][[迎]]光临";
 
 		Document doc = docs.get(0);
 
-		_assertHighlight(expectedTitle, _test2Content, searchLocale, doc);
+		_assertHighlight(expectedTitle, _CHINESE_CONTENT, searchLocale, doc);
 	}
 
 	@Test
 	public void testCase6_2() throws Exception {
 		Locale searchLocale = LocaleUtil.JAPAN;
 
-		List<Document> docs =
-			_testCasesCounts("欢迎", searchLocale, 1);
+		List<Document> docs = _testCasesCounts("欢迎", searchLocale, 1);
 
 		String expectedTitle = "[[欢]][[迎]]光临";
 
 		Document doc = docs.get(0);
 
-		_assertHighlight(expectedTitle, "PDF C", searchLocale, doc);
+		_assertHighlight(expectedTitle, _CHINESE_CONTENT, searchLocale, doc);
 	}
 
 	@Test
 	public void testCase7_1() throws Exception {
 		Locale searchLocale = LocaleUtil.US;
 
-		List<Document> docs =
-			_testCasesCounts("hello world", searchLocale, 1);
+		List<Document> docs = _testCasesCounts("hello world", searchLocale, 1);
 
 		String expectedTitle = "[[hello]] [[world]]";
 
 		Document doc = docs.get(0);
 
-		_assertHighlight(expectedTitle, _test2Content, searchLocale, doc);
+		_assertHighlight(expectedTitle, _ENGLISH_CONTENT, searchLocale, doc);
 	}
 
 	@Test
 	public void testCase7_2() throws Exception {
 		Locale searchLocale = LocaleUtil.JAPAN;
 
-		List<Document> docs =
-			_testCasesCounts("hello world", searchLocale, 1);
+		List<Document> docs = _testCasesCounts("hello world", searchLocale, 1);
 
 		String expectedTitle = "[[hello]] [[world]]";
 
 		Document doc = docs.get(0);
 
-		_assertHighlight(expectedTitle, "PDF D", searchLocale, doc);
+		_assertHighlight(expectedTitle, _ENGLISH_CONTENT, searchLocale, doc);
 	}
-
-	private void _assertHighlight(
-		String title, String content, Locale locale, Document document)
-		throws Exception {
-
-		String expectedTitle = StringUtil.replace(
-			title, _highlightBrackets, _highlightTags);
-
-		_summaryFixture.assertSummary(expectedTitle, content, locale, document);
-	}
-
 
 	@Test
 	public void testJapaneseContent() throws Exception {
@@ -402,6 +380,9 @@ public class DLFileEntryIndexerLocalizedContentTest {
 	@Inject
 	protected IndexerRegistry indexerRegistry;
 
+	@Inject
+	protected SearchLocalizationHelper searchLocalizationHelper;
+
 	private static List<String> _getFieldValues(
 		String prefix, Document document) {
 
@@ -419,15 +400,21 @@ public class DLFileEntryIndexerLocalizedContentTest {
 	}
 
 	private void _addTestFiles() throws Exception {
+		addFileEntry("japanese_doc_1.txt", _group.getGroupId(), "坂下", "PDF A");
+		addFileEntry("japanese_doc_2.txt", _group.getGroupId(), "下坂", "PDF B");
+		addFileEntry("chinese_doc.txt", _group.getGroupId(), "欢迎光临", "PDF C");
 		addFileEntry(
-			"title_desc_test1.txt", _group.getGroupId(), "坂下", "PDF A");
-		addFileEntry(
-			"title_desc_test2.txt", _group.getGroupId(), "下坂", "PDF B");
-		addFileEntry(
-			"title_desc_test2.txt", _group.getGroupId(), "欢迎光临", "PDF C");
-		addFileEntry(
-			"title_desc_test2.txt", _group.getGroupId(), "hello world",
-			"PDF D");
+			"english_doc.txt", _group.getGroupId(), "hello world", "PDF D");
+	}
+
+	private void _assertHighlight(
+			String title, String content, Locale locale, Document document)
+		throws Exception {
+
+		String expectedTitle = StringUtil.replace(
+			title, _HIGHLIGHT_BRACKETS, _HIGHLIGHT_TAGS);
+
+		_summaryFixture.assertSummary(expectedTitle, content, locale, document);
 	}
 
 	private SearchContext _getSearchContext(
@@ -498,7 +485,9 @@ public class DLFileEntryIndexerLocalizedContentTest {
 
 			String[] localizedFieldNames =
 				searchLocalizationHelper.getLocalizedFieldNames(
-					new String[] {Field.CONTENT, Field.DESCRIPTION, Field.TITLE},
+					new String[] {
+						Field.CONTENT, Field.DESCRIPTION, Field.TITLE
+					},
 					searchContext);
 
 			queryConfig.addHighlightFieldNames(localizedFieldNames);
@@ -520,21 +509,25 @@ public class DLFileEntryIndexerLocalizedContentTest {
 		}
 	}
 
+	private static final String _CHINESE_CONTENT = "Chinese Content";
+
+	private static final String _ENGLISH_CONTENT = "English Content";
+
+	private static final String[] _HIGHLIGHT_BRACKETS = {"[[", "]]"};
+
+	private static final String[] _HIGHLIGHT_TAGS = {
+		"<liferay-hl>", "</liferay-hl>"
+	};
+
+	private static final String _JAPANESE_CONTENT_1 = "Japanese Content 1";
+
+	private static final String _JAPANESE_CONTENT_2 = "Japanese Content 2";
+
 	@DeleteAfterTestRun
 	private Group _group;
 
-	@Inject
-	protected SearchLocalizationHelper searchLocalizationHelper;
-
 	private Indexer<DLFileEntry> _indexer;
-
 	private SummaryFixture<DLFileEntry> _summaryFixture;
 	private UserSearchFixture _userSearchFixture;
-
-	private String _test1Content = "いろはにおえどちりぬるを";
-	private String _test2Content = "行く川のながれは絶えずして、しかも本の水にあらず。";
-
-	private final String[] _highlightTags = new String[] {"<liferay-hl>", "</liferay-hl>"};
-	private final String[] _highlightBrackets = new String[] {"[[", "]]"};
 
 }
