@@ -15,17 +15,12 @@
 package com.liferay.document.library.search.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
-import com.liferay.document.library.kernel.model.DLFileEntry;
-import com.liferay.document.library.kernel.model.DLFileEntryConstants;
 import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.document.library.kernel.model.DLFolderConstants;
-import com.liferay.document.library.kernel.service.DLAppLocalService;
 import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
-import com.liferay.document.library.test.util.search.FileEntrySearchFixture;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
@@ -34,9 +29,7 @@ import com.liferay.portal.kernel.search.IndexerRegistry;
 import com.liferay.portal.kernel.search.IndexerRegistryUtil;
 import com.liferay.portal.kernel.search.QueryConfig;
 import com.liferay.portal.kernel.search.SearchContext;
-import com.liferay.portal.kernel.search.highlight.HighlightUtil;
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
-import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
@@ -46,27 +39,17 @@ import com.liferay.portal.kernel.test.util.SearchContextTestUtil;
 import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.test.util.UserTestUtil;
-import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
-import com.liferay.portal.kernel.util.MimeTypesUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.search.localization.SearchLocalizationHelper;
 import com.liferay.portal.search.test.util.SummaryFixture;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
+import com.liferay.users.admin.test.util.search.UserSearchFixture;
 
-import java.io.File;
-import java.io.InputStream;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.stream.Stream;
 
-import com.liferay.users.admin.test.util.search.UserSearchFixture;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.ClassRule;
@@ -87,9 +70,9 @@ public class DLFolderIndexerLocalizedContentTest {
 
 	@Before
 	public void setUp() throws Exception {
-//		fileEntrySearchFixture = new FileEntrySearchFixture(dlAppLocalService);
-//
-//		fileEntrySearchFixture.setUp();
+		//		fileEntrySearchFixture = new FileEntrySearchFixture(dlAppLocalService);
+		//
+		//		fileEntrySearchFixture.setUp();
 
 		_group = GroupTestUtil.addGroup();
 
@@ -116,8 +99,7 @@ public class DLFolderIndexerLocalizedContentTest {
 	public void testCase1() throws Exception {
 		Locale searchLocale = LocaleUtil.JAPAN;
 
-		List<Document> docs =
-			_testCasesCounts("坂下", searchLocale, 1);
+		List<Document> docs = _testCasesCounts("坂下", searchLocale, 1);
 
 		String expectedTitle = "[[坂下]]";
 
@@ -130,8 +112,7 @@ public class DLFolderIndexerLocalizedContentTest {
 	public void testCase2() throws Exception {
 		Locale searchLocale = LocaleUtil.JAPAN;
 
-		List<Document> docs =
-			_testCasesCounts("下坂", searchLocale, 1);
+		List<Document> docs = _testCasesCounts("下坂", searchLocale, 1);
 
 		String expectedTitle = "[[下坂]]";
 
@@ -144,8 +125,7 @@ public class DLFolderIndexerLocalizedContentTest {
 	public void testCase3() throws Exception {
 		Locale searchLocale = LocaleUtil.CHINA;
 
-		List<Document> docs =
-			_testCasesCounts("欢迎", searchLocale, 1);
+		List<Document> docs = _testCasesCounts("欢迎", searchLocale, 1);
 
 		String expectedTitle = "[[欢迎]]光临";
 
@@ -163,8 +143,7 @@ public class DLFolderIndexerLocalizedContentTest {
 	public void testCase5_1() throws Exception {
 		Locale searchLocale = LocaleUtil.US;
 
-		List<Document> docs =
-			_testCasesCounts("下坂", searchLocale, 2);
+		List<Document> docs = _testCasesCounts("下坂", searchLocale, 2);
 
 		String expectedTitle = "[[下]][[坂]]";
 
@@ -183,8 +162,7 @@ public class DLFolderIndexerLocalizedContentTest {
 	public void testCase5_2() throws Exception {
 		Locale searchLocale = LocaleUtil.CHINA;
 
-		List<Document> docs =
-			_testCasesCounts("坂下", searchLocale, 1);
+		List<Document> docs = _testCasesCounts("坂下", searchLocale, 1);
 
 		String expectedTitle = "[[坂下]]";
 
@@ -197,8 +175,7 @@ public class DLFolderIndexerLocalizedContentTest {
 	public void testCase6_1() throws Exception {
 		Locale searchLocale = LocaleUtil.US;
 
-		List<Document> docs =
-			_testCasesCounts("迎欢", searchLocale, 1);
+		List<Document> docs = _testCasesCounts("迎欢", searchLocale, 1);
 
 		String expectedTitle = "[[欢]][[迎]]光临";
 
@@ -211,8 +188,7 @@ public class DLFolderIndexerLocalizedContentTest {
 	public void testCase6_2() throws Exception {
 		Locale searchLocale = LocaleUtil.JAPAN;
 
-		List<Document> docs =
-			_testCasesCounts("欢迎", searchLocale, 1);
+		List<Document> docs = _testCasesCounts("欢迎", searchLocale, 1);
 
 		String expectedTitle = "[[欢]][[迎]]光临";
 
@@ -225,8 +201,7 @@ public class DLFolderIndexerLocalizedContentTest {
 	public void testCase7_1() throws Exception {
 		Locale searchLocale = LocaleUtil.US;
 
-		List<Document> docs =
-			_testCasesCounts("hello world", searchLocale, 1);
+		List<Document> docs = _testCasesCounts("hello world", searchLocale, 1);
 
 		String expectedTitle = "[[hello]] [[world]]";
 
@@ -239,8 +214,7 @@ public class DLFolderIndexerLocalizedContentTest {
 	public void testCase7_2() throws Exception {
 		Locale searchLocale = LocaleUtil.JAPAN;
 
-		List<Document> docs =
-			_testCasesCounts("hello world", searchLocale, 1);
+		List<Document> docs = _testCasesCounts("hello world", searchLocale, 1);
 
 		String expectedTitle = "[[hello]] [[world]]";
 
@@ -248,17 +222,6 @@ public class DLFolderIndexerLocalizedContentTest {
 
 		_assertHighlight(expectedTitle, "Folder D", searchLocale, doc);
 	}
-
-	private void _assertHighlight(
-		String title, String content, Locale locale, Document document)
-		throws Exception {
-
-		String expectedTitle = StringUtil.replace(
-			title, _highlightBrackets, _highlightTags);
-
-		_summaryFixture.assertSummary(expectedTitle, content, locale, document);
-	}
-
 
 	protected void addFolder(long groupId, String title, String description)
 		throws Exception {
@@ -269,30 +232,42 @@ public class DLFolderIndexerLocalizedContentTest {
 		DLAppLocalServiceUtil.addFolder(
 			serviceContext.getUserId(), serviceContext.getScopeGroupId(),
 			DLFolderConstants.DEFAULT_PARENT_FOLDER_ID, title, description,
-			serviceContext
-		);
+			serviceContext);
 	}
-
-//	@Inject
-//	protected DLAppLocalService dlAppLocalService;
-
-//	protected FileEntrySearchFixture fileEntrySearchFixture;
-
-//	@Inject
-//	protected GroupLocalService groupLocalService;
 
 	@Inject
 	protected IndexerRegistry indexerRegistry;
+
+	//	@Inject
+	//	protected DLAppLocalService dlAppLocalService;
+
+	//	protected FileEntrySearchFixture fileEntrySearchFixture;
+
+	//	@Inject
+	//	protected GroupLocalService groupLocalService;
+
+	@Inject
+	protected SearchLocalizationHelper searchLocalizationHelper;
 
 	private void _addTestFolders() throws Exception {
 		addFolder(_group.getGroupId(), "坂下", "Folder A");
 		addFolder(_group.getGroupId(), "下坂", "Folder B");
 		addFolder(_group.getGroupId(), "欢迎光临", "Folder C");
-		addFolder(_group.getGroupId(), "hello world","Folder D");
+		addFolder(_group.getGroupId(), "hello world", "Folder D");
+	}
+
+	private void _assertHighlight(
+			String title, String content, Locale locale, Document document)
+		throws Exception {
+
+		String expectedTitle = StringUtil.replace(
+			title, _highlightBrackets, _highlightTags);
+
+		_summaryFixture.assertSummary(expectedTitle, content, locale, document);
 	}
 
 	private SearchContext _getSearchContext(
-		String searchTerm, Locale locale, long groupId)
+			String searchTerm, Locale locale, long groupId)
 		throws Exception {
 
 		SearchContext searchContext = SearchContextTestUtil.getSearchContext(
@@ -343,7 +318,7 @@ public class DLFolderIndexerLocalizedContentTest {
 	}
 
 	private List<Document> _testCasesCounts(
-		String searchTerm, Locale searchLocale, int expected)
+			String searchTerm, Locale searchLocale, int expected)
 		throws Exception {
 
 		GroupTestUtil.updateDisplaySettings(
@@ -359,7 +334,9 @@ public class DLFolderIndexerLocalizedContentTest {
 
 			String[] localizedFieldNames =
 				searchLocalizationHelper.getLocalizedFieldNames(
-					new String[] {Field.CONTENT, Field.DESCRIPTION, Field.TITLE},
+					new String[] {
+						Field.CONTENT, Field.DESCRIPTION, Field.TITLE
+					},
 					searchContext);
 
 			queryConfig.addHighlightFieldNames(localizedFieldNames);
@@ -381,21 +358,18 @@ public class DLFolderIndexerLocalizedContentTest {
 		}
 	}
 
+	private static final String[] _highlightBrackets = {"[[", "]]"};
+	private static final String[] _highlightTags = {
+		"<liferay-hl>", "</liferay-hl>"
+	};
+	private static final String _test1Content = "いろはにおえどちりぬるを";
+	private static final String _test2Content = "行く川のながれは絶えずして、しかも本の水にあらず。";
+
 	@DeleteAfterTestRun
 	private Group _group;
 
-	@Inject
-	protected SearchLocalizationHelper searchLocalizationHelper;
-
 	private Indexer<DLFolder> _indexer;
-
 	private SummaryFixture<DLFolder> _summaryFixture;
 	private UserSearchFixture _userSearchFixture;
-
-	private String _test1Content = "いろはにおえどちりぬるを";
-	private String _test2Content = "行く川のながれは絶えずして、しかも本の水にあらず。";
-
-	private final String[] _highlightTags = new String[] {"<liferay-hl>", "</liferay-hl>"};
-	private final String[] _highlightBrackets = new String[] {"[[", "]]"};
 
 }
