@@ -35,6 +35,7 @@ import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.rule.Sync;
 import com.liferay.portal.kernel.test.rule.SynchronousDestinationTestRule;
 import com.liferay.portal.kernel.test.util.UserTestUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.workflow.WorkflowThreadLocal;
 import com.liferay.portal.search.test.util.DocumentsAssert;
 import com.liferay.portal.test.rule.Inject;
@@ -180,7 +181,10 @@ public class DLFileEntryFileNameSearchTest {
 
 		Document topHit = docs[0];
 
-		String actualTitle = topHit.get(Field.TITLE);
+		String localizedTitleField = Field.getLocalizedName(
+			LocaleUtil.getSiteDefault(), Field.TITLE);
+
+		String actualTitle = topHit.get(localizedTitleField);
 
 		Assert.assertEquals(
 			(String)searchContext.getAttribute("queryString"), keyword,
@@ -242,9 +246,12 @@ public class DLFileEntryFileNameSearchTest {
 
 		Hits hits = indexer.search(searchContext);
 
+		String localizedTitleField = Field.getLocalizedName(
+			LocaleUtil.getSiteDefault(), Field.TITLE);
+
 		DocumentsAssert.assertValuesIgnoreRelevance(
 			(String)searchContext.getAttribute("queryString"), hits.getDocs(),
-			Field.TITLE, titles);
+			localizedTitleField, titles);
 	}
 
 	protected long getAdminUserId(Group group) throws Exception {
