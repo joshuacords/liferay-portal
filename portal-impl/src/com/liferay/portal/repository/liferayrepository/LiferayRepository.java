@@ -40,6 +40,10 @@ import com.liferay.portal.kernel.repository.model.FileShortcut;
 import com.liferay.portal.kernel.repository.model.FileVersion;
 import com.liferay.portal.kernel.repository.model.Folder;
 import com.liferay.portal.kernel.repository.model.RepositoryEntry;
+import com.liferay.portal.kernel.search.RelatedEntryIndexer;
+import com.liferay.portal.kernel.search.RelatedEntryIndexerRegistryUtil;
+import com.liferay.portal.kernel.search.facet.faceted.searcher.FacetedSearcher;
+import com.liferay.portal.kernel.search.facet.faceted.searcher.FacetedSearcherManagerUtil;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.IndexSearcherHelperUtil;
 import com.liferay.portal.kernel.search.Indexer;
@@ -67,8 +71,13 @@ import com.liferay.portlet.documentlibrary.util.comparator.DLFolderOrderByCompar
 import java.io.File;
 import java.io.InputStream;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * @author Alexander Chow
@@ -818,8 +827,48 @@ public class LiferayRepository
 			indexer = IndexerRegistryUtil.getIndexer(DLFileEntry.class);
 		}
 
+//		List<String> entryClassNames =
+//			Arrays.asList(DLSearcher.CLASS_NAMES);
+
+		Set<String> entryClassNames = new HashSet<>();
+
+		for (RelatedEntryIndexer relatedEntryIndexer :
+			RelatedEntryIndexerRegistryUtil.getRelatedEntryIndexers()) {
+
+			relatedEntryIndexer.updateFullQuery(searchContext);
+		}
+
+		for(String entryClassName : searchContext.getFullQueryEntryClassNames()) {
+			entryClassNames.add(entryClassName);
+		}
+
+		for(String entryClassName : DLSearcher.CLASS_NAMES) {
+			entryClassNames.add(entryClassName);
+		}
+
+		String[] entryClassNamesArray = entryClassNames.toArray(new String[0]);
+
+		searchContext.setEntryClassNames(entryClassNamesArray);
+
+		FacetedSearcher facetedSearcher =
+			FacetedSearcherManagerUtil.createFacetedSearcher();
+
+//		contribute Related classes, both from
+//		for (RelatedEntryIndexer relatedEntryIndexer :
+//
+//			RelatedEntryIndexerRegistryUtil.getRelatedEntryIndexers()) {
+//
+//			relatedEntryIndexer.updateFullQuery(searchContext);
+//		}
+//
+//		and DLSearcherFile name, then use FacetedSearcher instead of this indexer
+
 		searchContext.setSearchEngineId(indexer.getSearchEngineId());
 
+		boolean test = true;
+		if(test) {
+			return facetedSearcher.search(searchContext);
+		}
 		return indexer.search(searchContext);
 	}
 
