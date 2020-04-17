@@ -13,7 +13,14 @@
  * details.
  */
 --%>
-
+<%@ page
+	import="com.liferay.portal.kernel.search.facet.faceted.searcher.FacetedSearcherManagerUtil" %>
+<%@ page
+	import="com.liferay.portal.kernel.search.facet.faceted.searcher.FacetedSearcher" %>
+<%@ page import="com.liferay.portal.kernel.search.RelatedEntryIndexer" %>
+<%@ page
+	import="com.liferay.portal.kernel.search.RelatedEntryIndexerRegistryUtil" %>
+<%@ page import="java.util.HashSet" %>
 <%@ include file="/wiki/init.jsp" %>
 
 <%
@@ -83,7 +90,31 @@ portletURL.setParameter("keywords", keywords);
 		searchContext.setNodeIds(nodeIds);
 		searchContext.setStart(searchContainer.getStart());
 
-		Hits hits = indexer.search(searchContext);
+		HashSet<String> entryClassNames = new HashSet<String>();
+
+		for (RelatedEntryIndexer relatedEntryIndexer :
+			RelatedEntryIndexerRegistryUtil.getRelatedEntryIndexers()) {
+
+			relatedEntryIndexer.updateFullQuery(searchContext);
+		}
+
+		for(String entryClassName : searchContext.getFullQueryEntryClassNames()) {
+			entryClassNames.add(entryClassName);
+		}
+
+		entryClassNames.add(WikiPage.class.getName());
+
+		String[] entryClassNamesArray = entryClassNames.toArray(new String[0]);
+
+		searchContext.setEntryClassNames(entryClassNamesArray);
+
+		FacetedSearcher facetedSearcher =
+			FacetedSearcherManagerUtil.createFacetedSearcher();
+
+		//indexer.search(searchContext);
+
+		Hits hits = facetedSearcher.search(searchContext);
+		//hits = indexer.search(searchContext);
 
 		searchContainer.setTotal(hits.getLength());
 		%>

@@ -1,4 +1,11 @@
-<%--
+<%@ page
+	import="com.liferay.portal.kernel.search.facet.faceted.searcher.FacetedSearcherManagerUtil" %>
+<%@ page
+	import="com.liferay.portal.kernel.search.facet.faceted.searcher.FacetedSearcher" %>
+<%@ page import="com.liferay.portal.kernel.search.RelatedEntryIndexer" %>
+<%@ page
+	import="com.liferay.portal.kernel.search.RelatedEntryIndexerRegistryUtil" %>
+<%@ page import="java.util.HashSet" %><%--
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
  *
@@ -36,7 +43,30 @@ if (wikiPageItemSelectorViewDisplayContext.isSearch()) {
 	searchContext.setNodeIds(new long[] {node.getNodeId()});
 	searchContext.setStart(wikiPagesSearchContainer.getStart());
 
-	Hits hits = indexer.search(searchContext);
+
+	HashSet<String> entryClassNames = new HashSet<String>();
+
+	for (RelatedEntryIndexer relatedEntryIndexer :
+		RelatedEntryIndexerRegistryUtil.getRelatedEntryIndexers()) {
+
+		relatedEntryIndexer.updateFullQuery(searchContext);
+	}
+
+	for(String entryClassName : searchContext.getFullQueryEntryClassNames()) {
+		entryClassNames.add(entryClassName);
+	}
+
+	entryClassNames.add(WikiPage.class.getName());
+
+	String[] entryClassNamesArray = entryClassNames.toArray(new String[0]);
+
+	searchContext.setEntryClassNames(entryClassNamesArray);
+
+	FacetedSearcher facetedSearcher =
+		FacetedSearcherManagerUtil.createFacetedSearcher();
+
+	Hits hits = facetedSearcher.search(searchContext);
+	//Hits hits = indexer.search(searchContext);
 
 	wikiPagesSearchContainer.setTotal(hits.getLength());
 
