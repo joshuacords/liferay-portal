@@ -39,9 +39,9 @@ public class BooleanFilterTranslatorImpl implements BooleanFilterTranslator {
 		for (BooleanClause<Filter> booleanClause :
 				booleanFilter.getMustBooleanClauses()) {
 
-			builder.add(
+			addClause(
 				translate(booleanClause, filterVisitor),
-				org.apache.lucene.search.BooleanClause.Occur.MUST);
+				org.apache.lucene.search.BooleanClause.Occur.MUST, builder);
 		}
 
 		for (BooleanClause<Filter> booleanClause :
@@ -61,6 +61,20 @@ public class BooleanFilterTranslatorImpl implements BooleanFilterTranslator {
 		}
 
 		return builder.build();
+	}
+
+	protected void addClause(
+		Query query, org.apache.lucene.search.BooleanClause.Occur occur,
+		BooleanQuery.Builder builder) {
+
+		String queryString = query.toString();
+
+		if (queryString.length() > 0) {
+			builder.add(query, occur);
+		}
+		else {
+			System.out.println("SKIPPING EMPTY CLAUSE");
+		}
 	}
 
 	protected Query translate(
