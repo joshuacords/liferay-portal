@@ -33,8 +33,6 @@ import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.AuthCache;
-import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.AuthSchemes;
 import org.apache.http.client.methods.HttpGet;
@@ -111,25 +109,26 @@ public final class GetInputStreamOperation extends BaseOperation {
 	private HttpClientContext _getHttpClientContext(URL url) {
 		HttpClientContext httpClientContext = HttpClientContext.create();
 
-		AuthCache authCache = new BasicAuthCache();
-
 		HttpHost httpHost = new HttpHost(
 			url.getHost(), url.getPort(), url.getProtocol());
 
-		authCache.put(httpHost, new BasicScheme());
-
-		httpClientContext.setAuthCache(authCache);
-
-		CredentialsProvider credentialsProvider =
-			new BasicCredentialsProvider();
-
-		credentialsProvider.setCredentials(
-			new AuthScope(httpHost, url.getHost(), AuthSchemes.BASIC),
-			new UsernamePasswordCredentials(
-				sharepointConnectionInfo.getUsername(),
-				sharepointConnectionInfo.getPassword()));
-
-		httpClientContext.setCredentialsProvider(credentialsProvider);
+		httpClientContext.setAuthCache(
+			new BasicAuthCache() {
+				{
+					put(httpHost, new BasicScheme());
+				}
+			});
+		httpClientContext.setCredentialsProvider(
+			new BasicCredentialsProvider() {
+				{
+					setCredentials(
+						new AuthScope(
+							httpHost, url.getHost(), AuthSchemes.BASIC),
+						new UsernamePasswordCredentials(
+							sharepointConnectionInfo.getUsername(),
+							sharepointConnectionInfo.getPassword()));
+				}
+			});
 
 		return httpClientContext;
 	}
