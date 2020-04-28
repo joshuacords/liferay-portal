@@ -14,26 +14,31 @@
 
 package com.liferay.headless.admin.user.internal.resource.v1_0;
 
-import com.liferay.headless.admin.user.dto.v1_0.EmailAddress;
 import com.liferay.headless.admin.user.dto.v1_0.HoursAvailable;
 import com.liferay.headless.admin.user.dto.v1_0.Location;
 import com.liferay.headless.admin.user.dto.v1_0.Organization;
 import com.liferay.headless.admin.user.dto.v1_0.OrganizationContactInformation;
-import com.liferay.headless.admin.user.dto.v1_0.Phone;
 import com.liferay.headless.admin.user.dto.v1_0.Service;
 import com.liferay.headless.admin.user.dto.v1_0.WebUrl;
 import com.liferay.headless.admin.user.internal.dto.v1_0.helper.OrganizationResourceDTOConverter;
 import com.liferay.headless.admin.user.internal.odata.entity.v1_0.OrganizationEntityModel;
+import com.liferay.headless.admin.user.internal.service.builder.ServiceBuilderAddressHelper;
+import com.liferay.headless.admin.user.internal.service.builder.ServiceBuilderCountryHelper;
+import com.liferay.headless.admin.user.internal.service.builder.ServiceBuilderEmailAddressHelper;
+import com.liferay.headless.admin.user.internal.service.builder.ServiceBuilderListTypeHelper;
+import com.liferay.headless.admin.user.internal.service.builder.ServiceBuilderPhoneHelper;
+import com.liferay.headless.admin.user.internal.service.builder.ServiceBuilderRegionHelper;
+import com.liferay.headless.admin.user.internal.service.builder.ServiceBuilderWebsiteHelper;
 import com.liferay.headless.admin.user.resource.v1_0.OrganizationResource;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Address;
+import com.liferay.portal.kernel.model.EmailAddress;
 import com.liferay.portal.kernel.model.Group;
-import com.liferay.portal.kernel.model.ListType;
 import com.liferay.portal.kernel.model.ListTypeConstants;
 import com.liferay.portal.kernel.model.OrgLabor;
 import com.liferay.portal.kernel.model.OrganizationConstants;
-import com.liferay.portal.kernel.model.Region;
+import com.liferay.portal.kernel.model.Phone;
 import com.liferay.portal.kernel.model.Website;
 import com.liferay.portal.kernel.search.BooleanClauseOccur;
 import com.liferay.portal.kernel.search.Field;
@@ -43,15 +48,17 @@ import com.liferay.portal.kernel.search.filter.Filter;
 import com.liferay.portal.kernel.search.filter.QueryFilter;
 import com.liferay.portal.kernel.search.filter.TermFilter;
 import com.liferay.portal.kernel.search.generic.WildcardQueryImpl;
+<<<<<<< HEAD
 import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.AddressLocalService;
 import com.liferay.portal.kernel.service.CountryService;
 import com.liferay.portal.kernel.service.EmailAddressLocalService;
 import com.liferay.portal.kernel.service.ListTypeLocalService;
+=======
+>>>>>>> 2ca647960dedc (LPS-111626 headless-admin-user-impl - updates usages to use new helpers)
 import com.liferay.portal.kernel.service.OrgLaborLocalService;
 import com.liferay.portal.kernel.service.OrganizationLocalService;
 import com.liferay.portal.kernel.service.OrganizationService;
-import com.liferay.portal.kernel.service.RegionService;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
@@ -92,7 +99,7 @@ public class OrganizationResourceImpl
 
 	@Override
 	public void deleteOrganization(String organizationId) throws Exception {
-		long id = _getOrganizationId(organizationId);
+		long id = _getServiceBuilderOrganizationId(organizationId);
 
 		_organizationService.deleteOrganization(id);
 	}
@@ -226,9 +233,10 @@ public class OrganizationResourceImpl
 			postalAddresses -> ListUtil.filter(
 				transformToList(
 					postalAddresses,
-					_postalAddress -> _contactInformationHelper.toAddress(
-						_postalAddress,
-						ListTypeConstants.ORGANIZATION_ADDRESS)),
+					_postalAddress ->
+						_serviceBuilderAddressHelper.toServiceBuilderAddress(
+							_postalAddress,
+							ListTypeConstants.ORGANIZATION_ADDRESS)),
 				Objects::nonNull)
 		).orElse(
 			Collections.emptyList()
@@ -241,7 +249,7 @@ public class OrganizationResourceImpl
 		).map(
 			Location::getAddressCountry
 		).map(
-			_contactInformationHelper::toCountryId
+			_serviceBuilderCountryHelper::toServiceBuilderCountryId
 		).orElse(
 			0L
 		);
@@ -267,9 +275,7 @@ public class OrganizationResourceImpl
 			contextUriInfo, contextUser);
 	}
 
-	private List<com.liferay.portal.kernel.model.EmailAddress>
-		_getEmailAddresses(Organization organization) {
-
+	private List<EmailAddress> _getEmailAddresses(Organization organization) {
 		return Optional.ofNullable(
 			organization.getOrganizationContactInformation()
 		).map(
@@ -279,29 +285,14 @@ public class OrganizationResourceImpl
 				transformToList(
 					emailAddresses,
 					emailAddress ->
-						_contactInformationHelper.toServiceBuilderEmailAddress(
-							emailAddress,
-							ListTypeConstants.ORGANIZATION_EMAIL_ADDRESS)),
+						_serviceBuilderEmailAddressHelper.
+							toServiceBuilderEmailAddress(
+								emailAddress,
+								ListTypeConstants.ORGANIZATION_EMAIL_ADDRESS)),
 				Objects::nonNull)
 		).orElse(
 			Collections.emptyList()
 		);
-	}
-
-	private long _getOrganizationId(String organizationId) {
-		if (organizationId == null) {
-			return 0;
-		}
-
-		com.liferay.portal.kernel.model.Organization organization =
-			_organizationLocalService.fetchOrganizationByReferenceCode(
-				CompanyThreadLocal.getCompanyId(), organizationId);
-
-		if (organization == null) {
-			return GetterUtil.getLong(organizationId);
-		}
-
-		return GetterUtil.getLong(organization.getOrganizationId());
 	}
 
 	private Page<Organization> _getOrganizationsPage(
@@ -309,7 +300,7 @@ public class OrganizationResourceImpl
 			Filter filter, Pagination pagination, Sort[] sorts)
 		throws Exception {
 
-		long id = _getOrganizationId(organizationId);
+		long id = _getServiceBuilderOrganizationId(organizationId);
 
 		return SearchUtil.search(
 			booleanQuery -> {
@@ -358,9 +349,7 @@ public class OrganizationResourceImpl
 		);
 	}
 
-	private List<com.liferay.portal.kernel.model.Phone> _getPhones(
-		Organization organization) {
-
+	private List<Phone> _getPhones(Organization organization) {
 		return Optional.ofNullable(
 			organization.getOrganizationContactInformation()
 		).map(
@@ -370,7 +359,7 @@ public class OrganizationResourceImpl
 				transformToList(
 					telephones,
 					telephone ->
-						_contactInformationHelper.toServiceBuilderPhone(
+						_serviceBuilderPhoneHelper.toServiceBuilderPhone(
 							telephone, ListTypeConstants.ORGANIZATION_PHONE)),
 				Objects::nonNull)
 		).orElse(
@@ -384,34 +373,30 @@ public class OrganizationResourceImpl
 		).map(
 			Location::getAddressRegion
 		).map(
-			addressRegion -> _getRegionId(addressRegion, countryId)
+			addressRegion ->
+				_serviceBuilderRegionHelper.getServiceBuilderRegionId(
+					addressRegion, countryId)
 		).orElse(
 			(long)0
 		);
 	}
 
-	private long _getRegionId(String addressRegion, long countryId) {
-		if (Validator.isNull(addressRegion) || (countryId <= 0)) {
+	private long _getServiceBuilderOrganizationId(String organizationId)
+		throws Exception {
+
+		if (organizationId == null) {
 			return 0;
 		}
 
-		Region region = _regionService.fetchRegion(countryId, addressRegion);
+		com.liferay.portal.kernel.model.Organization
+			serviceBuilderOrganization =
+				_organizationResourceDTOConverter.getObject(organizationId);
 
-		if (region != null) {
-			return region.getRegionId();
+		if (serviceBuilderOrganization == null) {
+			return GetterUtil.getLong(organizationId);
 		}
 
-		List<Region> regions = _regionService.getRegions(countryId);
-
-		for (Region curRegion : regions) {
-			if (StringUtil.equalsIgnoreCase(
-					addressRegion, curRegion.getName())) {
-
-				return curRegion.getRegionId();
-			}
-		}
-
-		return 0;
+		return serviceBuilderOrganization.getOrganizationId();
 	}
 
 	private List<Website> _getWebsites(Organization organization) {
@@ -423,29 +408,16 @@ public class OrganizationResourceImpl
 			webUrls -> ListUtil.filter(
 				transformToList(
 					webUrls,
-					webUrl -> _contactInformationHelper.toWebsite(
-						webUrl, ListTypeConstants.ORGANIZATION_WEBSITE)),
+					webUrl ->
+						_serviceBuilderWebsiteHelper.toServiceBuilderWebsite(
+							webUrl, ListTypeConstants.ORGANIZATION_WEBSITE)),
 				Objects::nonNull)
 		).orElse(
 			Collections.emptyList()
 		);
 	}
 
-	private long _toListTypeId(String defaultName, String name, String type) {
-		ListType listType = _listTypeLocalService.getListType(name, type);
-
-		if (listType == null) {
-			listType = _listTypeLocalService.getListType(defaultName, type);
-		}
-
-		if (listType != null) {
-			return listType.getListTypeId();
-		}
-
-		return 0;
-	}
-
-	private Organization _toOrganization(Object organizationId)
+	private Organization _toOrganization(String organizationId)
 		throws Exception {
 
 		return _organizationResourceDTOConverter.toDTO(
@@ -453,7 +425,7 @@ public class OrganizationResourceImpl
 	}
 
 	private OrgLabor _toOrgLabor(Service service) {
-		long typeId = _toListTypeId(
+		long typeId = _serviceBuilderListTypeHelper.toServiceBuilderListTypeId(
 			"administrative", service.getServiceType(),
 			ListTypeConstants.ORGANIZATION_SERVICE);
 
@@ -564,24 +536,33 @@ public class OrganizationResourceImpl
 		new OrganizationEntityModel();
 
 	@Reference
-	private ContactInformationHelper _contactInformationHelper;
-
-	@Reference
-	private ListTypeLocalService _listTypeLocalService;
-
-	@Reference
 	private OrganizationResourceDTOConverter _organizationResourceDTOConverter;
 
 	@Reference
 	private OrganizationService _organizationService;
 
 	@Reference
-	private OrganizationLocalService _organizationLocalService;
-
-	@Reference
 	private OrgLaborLocalService _orgLaborLocalService;
 
 	@Reference
-	private RegionService _regionService;
+	private ServiceBuilderAddressHelper _serviceBuilderAddressHelper;
+
+	@Reference
+	private ServiceBuilderCountryHelper _serviceBuilderCountryHelper;
+
+	@Reference
+	private ServiceBuilderEmailAddressHelper _serviceBuilderEmailAddressHelper;
+
+	@Reference
+	private ServiceBuilderListTypeHelper _serviceBuilderListTypeHelper;
+
+	@Reference
+	private ServiceBuilderPhoneHelper _serviceBuilderPhoneHelper;
+
+	@Reference
+	private ServiceBuilderRegionHelper _serviceBuilderRegionHelper;
+
+	@Reference
+	private ServiceBuilderWebsiteHelper _serviceBuilderWebsiteHelper;
 
 }
