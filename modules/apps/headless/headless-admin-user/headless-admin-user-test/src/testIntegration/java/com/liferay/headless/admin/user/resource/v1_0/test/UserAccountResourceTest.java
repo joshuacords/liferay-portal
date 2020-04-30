@@ -359,7 +359,7 @@ public class UserAccountResourceTest extends BaseUserAccountResourceTestCase {
 
 	@Override
 	protected String[] getIgnoredEntityFieldNames() {
-		return new String[] {"emailAddress"};
+		return new String[] {"alternateName", "emailAddress"};
 	}
 
 	@Override
