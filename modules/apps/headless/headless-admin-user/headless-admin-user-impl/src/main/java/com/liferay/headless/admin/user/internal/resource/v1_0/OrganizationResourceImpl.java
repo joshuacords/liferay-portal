@@ -397,7 +397,7 @@ public class OrganizationResourceImpl
 				transformToList(
 					webUrls,
 					webUrl -> ServiceBuilderWebsiteUtil.toServiceBuilderWebsite(
-						webUrl, ListTypeConstants.ORGANIZATION_WEBSITE)),
+						ListTypeConstants.ORGANIZATION_WEBSITE, webUrl)),
 				Objects::nonNull)
 		).orElse(
 			Collections.emptyList()
