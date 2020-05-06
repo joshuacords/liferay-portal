@@ -476,10 +476,10 @@ public class UserAccountResourceTest extends BaseUserAccountResourceTestCase {
 				Arrays.toString(array1), array1.length, array2.length);
 
 			Comparator<String> comparator = Comparator.comparing(
-				s -> {
+				json -> {
 					try {
 						return BeanUtils.getProperty(
-							deserializerFunction.apply(s), subfieldName);
+							deserializerFunction.apply(json), subfieldName);
 					}
 					catch (Exception exception) {
 						return null;
