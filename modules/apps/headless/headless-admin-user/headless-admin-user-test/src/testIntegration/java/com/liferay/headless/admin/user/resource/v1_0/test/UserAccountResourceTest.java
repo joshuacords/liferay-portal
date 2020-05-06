@@ -467,13 +467,13 @@ public class UserAccountResourceTest extends BaseUserAccountResourceTestCase {
 		Function<String, ?> deserializerFunction) {
 
 		try {
-			String[] array1 = BeanUtils.getArrayProperty(
+			String[] jsons1 = BeanUtils.getArrayProperty(
 				userAccountContactInformation1, fieldName);
-			String[] array2 = BeanUtils.getArrayProperty(
+			String[] jsons2 = BeanUtils.getArrayProperty(
 				userAccountContactInformation2, fieldName);
 
 			Assert.assertEquals(
-				Arrays.toString(array1), array1.length, array2.length);
+				Arrays.toString(jsons1), jsons1.length, jsons2.length);
 
 			Comparator<String> comparator = Comparator.comparing(
 				json -> {
@@ -486,15 +486,15 @@ public class UserAccountResourceTest extends BaseUserAccountResourceTestCase {
 					}
 				});
 
-			Arrays.sort(array1, comparator);
-			Arrays.sort(array2, comparator);
+			Arrays.sort(jsons1, comparator);
+			Arrays.sort(jsons2, comparator);
 
-			for (int i = 0; i < array1.length; i++) {
+			for (int i = 0; i < jsons1.length; i++) {
 				Assert.assertEquals(
 					BeanUtils.getProperty(
-						deserializerFunction.apply(array1[i]), subfieldName),
+						deserializerFunction.apply(jsons1[i]), subfieldName),
 					BeanUtils.getProperty(
-						deserializerFunction.apply(array2[i]), subfieldName));
+						deserializerFunction.apply(jsons2[i]), subfieldName));
 			}
 		}
 		catch (Exception exception) {
