@@ -99,6 +99,11 @@ public class UserAccountResourceImpl
 	extends BaseUserAccountResourceImpl implements EntityModelResource {
 
 	@Override
+	public void deleteUserAccount(Long userAccountId) throws Exception {
+		_userService.deleteUser(userAccountId);
+	}
+
+	@Override
 	public EntityModel getEntityModel(MultivaluedMap multivaluedMap) {
 		return _entityModel;
 	}
