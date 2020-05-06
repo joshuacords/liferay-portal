@@ -490,14 +490,11 @@ public class UserAccountResourceTest extends BaseUserAccountResourceTestCase {
 			Arrays.sort(array2, comparator);
 
 			for (int i = 0; i < array1.length; i++) {
-				String bean1 = array1[i];
-				String bean2 = array2[i];
-
 				Assert.assertEquals(
 					BeanUtils.getProperty(
-						deserializerFunction.apply(bean1), subfieldName),
+						deserializerFunction.apply(array1[i]), subfieldName),
 					BeanUtils.getProperty(
-						deserializerFunction.apply(bean2), subfieldName));
+						deserializerFunction.apply(array2[i]), subfieldName));
 			}
 		}
 		catch (Exception exception) {
