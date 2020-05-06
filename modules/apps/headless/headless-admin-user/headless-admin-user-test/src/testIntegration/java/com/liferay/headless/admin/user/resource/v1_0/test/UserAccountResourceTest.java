@@ -316,20 +316,6 @@ public class UserAccountResourceTest extends BaseUserAccountResourceTestCase {
 		UserAccountContactInformation userAccountContactInformation2 =
 			userAccount2.getUserAccountContactInformation();
 
-		_assertUserAccountContactInformation(
-			userAccountContactInformation1, userAccountContactInformation2,
-			"emailAddresses", "emailAddress", EmailAddressSerDes::toDTO);
-		_assertUserAccountContactInformation(
-			userAccountContactInformation1, userAccountContactInformation2,
-			"postalAddresses", "streetAddressLine1",
-			PostalAddressSerDes::toDTO);
-		_assertUserAccountContactInformation(
-			userAccountContactInformation1, userAccountContactInformation2,
-			"telephones", "phoneNumber", PhoneSerDes::toDTO);
-		_assertUserAccountContactInformation(
-			userAccountContactInformation1, userAccountContactInformation2,
-			"webUrls", "url", WebUrlSerDes::toDTO);
-
 		Assert.assertEquals(
 			userAccountContactInformation1.getFacebook(),
 			userAccountContactInformation2.getFacebook());
@@ -345,6 +331,20 @@ public class UserAccountResourceTest extends BaseUserAccountResourceTestCase {
 		Assert.assertEquals(
 			userAccountContactInformation1.getTwitter(),
 			userAccountContactInformation2.getTwitter());
+
+		_assertUserAccountContactInformation(
+			userAccountContactInformation1, userAccountContactInformation2,
+			"emailAddresses", "emailAddress", EmailAddressSerDes::toDTO);
+		_assertUserAccountContactInformation(
+			userAccountContactInformation1, userAccountContactInformation2,
+			"postalAddresses", "streetAddressLine1",
+			PostalAddressSerDes::toDTO);
+		_assertUserAccountContactInformation(
+			userAccountContactInformation1, userAccountContactInformation2,
+			"telephones", "phoneNumber", PhoneSerDes::toDTO);
+		_assertUserAccountContactInformation(
+			userAccountContactInformation1, userAccountContactInformation2,
+			"webUrls", "url", WebUrlSerDes::toDTO);
 	}
 
 	@Override
