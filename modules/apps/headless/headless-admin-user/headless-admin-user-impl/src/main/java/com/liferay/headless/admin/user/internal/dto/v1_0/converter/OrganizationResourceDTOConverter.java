@@ -101,6 +101,9 @@ public class OrganizationResourceDTOConverter
 			return null;
 		}
 
+		OrganizationResourceDTOConverter organizationResourceDTOConverter =
+			this;
+
 		return new Organization() {
 			{
 				comment = organization.getComments();
@@ -179,7 +182,7 @@ public class OrganizationResourceDTOConverter
 								WebUrlUtil::toWebUrl, WebUrl.class);
 						}
 					};
-				parentOrganization = toDTO(
+				parentOrganization = organizationResourceDTOConverter.toDTO(
 					dtoConverterContext, organization.getParentOrganization());
 				services = TransformUtil.transformToArray(
 					_orgLaborService.getOrgLabors(
