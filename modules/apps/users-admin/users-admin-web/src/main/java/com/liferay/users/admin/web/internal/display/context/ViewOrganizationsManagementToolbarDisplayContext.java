@@ -233,7 +233,8 @@ public class ViewOrganizationsManagementToolbarDisplayContext {
 				OrganizationLocalServiceUtil.searchOrganizations(
 					themeDisplay.getCompanyId(), parentOrganizationId, keywords,
 					organizationParams, organizationSearch.getStart(),
-					organizationSearch.getEnd(), sort);
+					organizationSearch.getEnd(),
+					organizationSearch.getOrderByComparator());
 
 			results = baseModelSearchResult.getBaseModels();
 			total = baseModelSearchResult.getLength();
