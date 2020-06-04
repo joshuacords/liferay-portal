@@ -1445,6 +1445,19 @@ public class OrganizationLocalServiceUtil {
 		<com.liferay.portal.kernel.model.Organization> searchOrganizations(
 				long companyId, long parentOrganizationId, String keywords,
 				java.util.LinkedHashMap<String, Object> params, int start,
+				int end,
+				com.liferay.portal.kernel.util.OrderByComparator
+					<com.liferay.portal.kernel.model.Organization> obc)
+			throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().searchOrganizations(
+			companyId, parentOrganizationId, keywords, params, start, end, obc);
+	}
+
+	public static com.liferay.portal.kernel.search.BaseModelSearchResult
+		<com.liferay.portal.kernel.model.Organization> searchOrganizations(
+				long companyId, long parentOrganizationId, String keywords,
+				java.util.LinkedHashMap<String, Object> params, int start,
 				int end, com.liferay.portal.kernel.search.Sort sort)
 			throws com.liferay.portal.kernel.exception.PortalException {
 
@@ -1463,22 +1476,6 @@ public class OrganizationLocalServiceUtil {
 		return getService().searchOrganizations(
 			companyId, parentOrganizationId, keywords, params, start, end,
 			sorts);
-	}
-
-	public static com.liferay.portal.kernel.search.BaseModelSearchResult
-		<com.liferay.portal.kernel.model.Organization> searchOrganizations(
-				long companyId, long parentOrganizationId, String name,
-				String type, String street, String city, String zip,
-				String region, String country,
-				java.util.LinkedHashMap<String, Object> params,
-				boolean andSearch, int start, int end,
-				com.liferay.portal.kernel.util.OrderByComparator
-					<com.liferay.portal.kernel.model.Organization> obc)
-			throws com.liferay.portal.kernel.exception.PortalException {
-
-		return getService().searchOrganizations(
-			companyId, parentOrganizationId, name, type, street, city, zip,
-			region, country, params, andSearch, start, end, obc);
 	}
 
 	public static com.liferay.portal.kernel.search.BaseModelSearchResult

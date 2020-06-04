@@ -27,7 +27,7 @@ public class OrganizationTypeComparator
 
 	public static final String ORDER_BY_DESC = "orgType DESC, orgName DESC";
 
-	public static final String[] ORDER_BY_FIELDS = {"type", "name"};
+	public static final String[] ORDER_BY_FIELDS = {"type_String_sortable", "name"};
 
 	public OrganizationTypeComparator() {
 		this(false);
