@@ -225,10 +225,6 @@ public class ViewOrganizationsManagementToolbarDisplayContext {
 
 			organizationParams.put("expandoAttributes", keywords);
 
-			Sort sort = SortFactoryUtil.getSort(
-				Organization.class, organizationSearch.getOrderByCol(),
-				organizationSearch.getOrderByType());
-
 			BaseModelSearchResult<Organization> baseModelSearchResult =
 				OrganizationLocalServiceUtil.searchOrganizations(
 					themeDisplay.getCompanyId(), parentOrganizationId, keywords,
