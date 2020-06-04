@@ -166,13 +166,11 @@ public class SQLServerLimitStringUtil {
 				if (orderByColumnName.endsWith("ASC")) {
 					orderByColumnName = orderByColumnName.substring(
 						0, orderByColumnName.lastIndexOf("ASC"));
-
 					orderByType = "ASC";
 				}
 				else if (orderByColumnName.endsWith("DESC")) {
 					orderByColumnName = orderByColumnName.substring(
 						0, orderByColumnName.lastIndexOf("DESC"));
-
 					orderByType = "DESC";
 				}
 
