@@ -1650,6 +1650,18 @@ public class OrganizationLocalServiceImpl
 	@Override
 	public BaseModelSearchResult<Organization> searchOrganizations(
 			long companyId, long parentOrganizationId, String keywords,
+			LinkedHashMap<String, Object> params, int start, int end,
+			OrderByComparator<Organization> obc)
+		throws PortalException {
+
+		return searchOrganizations(
+			companyId, parentOrganizationId, keywords, params, start, end,
+			getSorts(obc));
+	}
+
+	@Override
+	public BaseModelSearchResult<Organization> searchOrganizations(
+			long companyId, long parentOrganizationId, String keywords,
 			LinkedHashMap<String, Object> params, int start, int end, Sort sort)
 		throws PortalException {
 
@@ -1696,22 +1708,6 @@ public class OrganizationLocalServiceImpl
 		return searchOrganizations(
 			companyId, parentOrganizationId, name, type, street, city, zip,
 			region, country, params, andOperator, start, end, sorts);
-	}
-
-	@Override
-	public BaseModelSearchResult<Organization> searchOrganizations(
-			long companyId, long parentOrganizationId, String name, String type,
-			String street, String city, String zip, String region,
-			String country, LinkedHashMap<String, Object> params,
-			boolean andSearch, int start, int end,
-			OrderByComparator<Organization> obc)
-		throws PortalException {
-
-		Sort[] sorts = getSorts(obc);
-
-		return searchOrganizations(
-			companyId, parentOrganizationId, name, type, street, city, zip,
-			region, country, params, andSearch, start, end, sorts);
 	}
 
 	@Override
