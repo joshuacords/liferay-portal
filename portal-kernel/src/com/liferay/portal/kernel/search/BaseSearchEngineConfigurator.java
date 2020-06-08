@@ -205,15 +205,19 @@ public abstract class BaseSearchEngineConfigurator
 	protected void destroySearchEngine(
 		SearchEngineRegistration searchEngineRegistration) {
 
-		Destination searchReaderDestination = getSearchReaderDestination(
-			_messageBus, searchEngineRegistration.getSearchEngineId());
+		Destination searchReaderDestination = _getSearchReaderDestination(
+			_messageBus, searchEngineRegistration.getSearchEngineId(), false);
 
-		searchReaderDestination.unregisterMessageListeners();
+		if (searchReaderDestination != null) {
+			searchReaderDestination.unregisterMessageListeners();
+		}
 
-		Destination searchWriterDestination = getSearchWriterDestination(
-			_messageBus, searchEngineRegistration.getSearchEngineId());
+		Destination searchWriterDestination = _getSearchWriterDestination(
+			_messageBus, searchEngineRegistration.getSearchEngineId(), false);
 
-		searchWriterDestination.unregisterMessageListeners();
+		if (searchWriterDestination != null) {
+			searchWriterDestination.unregisterMessageListeners();
+		}
 
 		SearchEngineHelper searchEngineHelper = getSearchEngineHelper();
 
@@ -235,13 +239,19 @@ public abstract class BaseSearchEngineConfigurator
 		SearchEngineProxyWrapper originalSearchEngineProxy =
 			searchEngineRegistration.getOriginalSearchEngineProxyWrapper();
 
-		registerInvokerMessageListener(
-			searchReaderDestination,
-			searchEngineRegistration.getOriginalSearchReaderMessageListeners());
+		if (searchReaderDestination != null) {
+			registerInvokerMessageListener(
+				searchReaderDestination,
+				searchEngineRegistration.
+					getOriginalSearchReaderMessageListeners());
+		}
 
-		registerInvokerMessageListener(
-			searchWriterDestination,
-			searchEngineRegistration.getOriginalSearchWriterMessageListeners());
+		if (searchWriterDestination != null) {
+			registerInvokerMessageListener(
+				searchWriterDestination,
+				searchEngineRegistration.
+					getOriginalSearchWriterMessageListeners());
+		}
 
 		setSearchEngine(
 			searchEngineRegistration.getSearchEngineId(),
@@ -274,45 +284,13 @@ public abstract class BaseSearchEngineConfigurator
 	protected Destination getSearchReaderDestination(
 		MessageBus messageBus, String searchEngineId) {
 
-		SearchEngineHelper searchEngineHelper = getSearchEngineHelper();
-
-		String searchReaderDestinationName =
-			searchEngineHelper.getSearchReaderDestinationName(searchEngineId);
-
-		Destination searchReaderDestination = messageBus.getDestination(
-			searchReaderDestinationName);
-
-		if (searchReaderDestination == null) {
-			searchReaderDestination = createSearchReaderDestination(
-				searchReaderDestinationName);
-
-			_registerSearchEngineDestination(
-				searchEngineId, searchReaderDestination);
-		}
-
-		return searchReaderDestination;
+		return _getSearchReaderDestination(messageBus, searchEngineId, true);
 	}
 
 	protected Destination getSearchWriterDestination(
 		MessageBus messageBus, String searchEngineId) {
 
-		SearchEngineHelper searchEngineHelper = getSearchEngineHelper();
-
-		String searchWriterDestinationName =
-			searchEngineHelper.getSearchWriterDestinationName(searchEngineId);
-
-		Destination searchWriterDestination = messageBus.getDestination(
-			searchWriterDestinationName);
-
-		if (searchWriterDestination == null) {
-			searchWriterDestination = createSearchWriterDestination(
-				searchWriterDestinationName);
-
-			_registerSearchEngineDestination(
-				searchEngineId, searchWriterDestination);
-		}
-
-		return searchWriterDestination;
+		return _getSearchWriterDestination(messageBus, searchEngineId, true);
 	}
 
 	protected void initialize() {
@@ -345,14 +323,14 @@ public abstract class BaseSearchEngineConfigurator
 
 		_searchEngineRegistrations.add(searchEngineRegistration);
 
-		Destination searchReaderDestination = getSearchReaderDestination(
-			_messageBus, searchEngineId);
+		Destination searchReaderDestination = _getSearchReaderDestination(
+			_messageBus, searchEngineId, true);
 
 		searchEngineRegistration.setSearchReaderDestinationName(
 			searchReaderDestination.getName());
 
-		Destination searchWriterDestination = getSearchWriterDestination(
-			_messageBus, searchEngineId);
+		Destination searchWriterDestination = _getSearchWriterDestination(
+			_messageBus, searchEngineId, true);
 
 		searchEngineRegistration.setSearchWriterDestinationName(
 			searchWriterDestination.getName());
@@ -455,6 +433,50 @@ public abstract class BaseSearchEngineConfigurator
 		searchEngineHelper.setSearchEngine(searchEngineId, searchEngine);
 
 		searchEngine.initialize(CompanyConstants.SYSTEM);
+	}
+
+	private Destination _getSearchReaderDestination(
+		MessageBus messageBus, String searchEngineId, boolean createIfAbsent) {
+
+		SearchEngineHelper searchEngineHelper = getSearchEngineHelper();
+
+		String searchReaderDestinationName =
+			searchEngineHelper.getSearchReaderDestinationName(searchEngineId);
+
+		Destination searchReaderDestination = messageBus.getDestination(
+			searchReaderDestinationName);
+
+		if (createIfAbsent && (searchReaderDestination == null)) {
+			searchReaderDestination = createSearchReaderDestination(
+				searchReaderDestinationName);
+
+			_registerSearchEngineDestination(
+				searchEngineId, searchReaderDestination);
+		}
+
+		return searchReaderDestination;
+	}
+
+	private Destination _getSearchWriterDestination(
+		MessageBus messageBus, String searchEngineId, boolean createIfAbsent) {
+
+		SearchEngineHelper searchEngineHelper = getSearchEngineHelper();
+
+		String searchWriterDestinationName =
+			searchEngineHelper.getSearchWriterDestinationName(searchEngineId);
+
+		Destination searchWriterDestination = messageBus.getDestination(
+			searchWriterDestinationName);
+
+		if (createIfAbsent && (searchWriterDestination == null)) {
+			searchWriterDestination = createSearchWriterDestination(
+				searchWriterDestinationName);
+
+			_registerSearchEngineDestination(
+				searchEngineId, searchWriterDestination);
+		}
+
+		return searchWriterDestination;
 	}
 
 	private void _registerSearchEngineDestination(
