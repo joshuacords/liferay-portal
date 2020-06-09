@@ -58,12 +58,15 @@ public class OrganizationModelDocumentContributor
 	@Override
 	public void contribute(Document document, Organization organization) {
 		try {
+			document.setSortableTextFields(_SORTABLE_TEXT_FIELDS);
+
 			document.addKeyword(Field.COMPANY_ID, organization.getCompanyId());
 			document.addText(Field.NAME, organization.getName());
 			document.addKeyword(
 				Field.ORGANIZATION_ID, organization.getOrganizationId());
 			document.addKeyword(Field.TREE_PATH, organization.buildTreePath());
 			document.addKeyword(Field.TYPE, organization.getType());
+			document.addTextSortable(Field.TYPE, organization.getType());
 			document.addTextSortable(
 				"nameTreePath", _buildNameTreePath(organization));
 			document.addKeyword(
@@ -184,6 +187,8 @@ public class OrganizationModelDocumentContributor
 		document.addText("street", streets.toArray(new String[0]));
 		document.addText("zip", zips.toArray(new String[0]));
 	}
+
+	private static final String[] _SORTABLE_TEXT_FIELDS = {"name", "type"};
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		OrganizationModelDocumentContributor.class);
