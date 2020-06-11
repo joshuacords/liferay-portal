@@ -41,13 +41,20 @@ import com.liferay.portal.kernel.test.util.OrganizationTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.test.util.UserTestUtil;
+import com.liferay.portal.kernel.util.HashMapDictionary;
+import com.liferay.portal.kernel.util.MapUtil;
+import com.liferay.portal.kernel.util.ServiceProxyFactory;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.search.test.util.SearchTestRule;
+import com.liferay.portal.service.impl.OrganizationLocalServiceImpl;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
+import com.liferay.portal.configuration.test.util.ConfigurationTestUtil;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
 import java.util.List;
 
+import com.liferay.users.admin.kernel.organization.types.OrganizationTypesSettings;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -55,6 +62,8 @@ import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import org.osgi.service.cm.Configuration;
 
 /**
  * @author Jorge Ferrer
@@ -712,6 +721,60 @@ public class OrganizationLocalServiceTest {
 
 		Assert.assertEquals(shallowTreePath, organizationBBB.getTreePath());
 	}
+
+	@Test
+	public void testSearchOrganizationsByType() throws Exception {
+		//create new org type
+	//	_organizationTypesSettings.getTypes();
+
+		//new type
+		//":org.apache.felix.configadmin.revision:=L"1"
+		//felix.fileinstall.filename="com.liferay.organizations.internal.configuration.OrganizationTypeConfiguration-6463abd7-7a0d-4343-8a77-5070b13fa1f8.config"
+		//service.pid="com.liferay.organizations.internal.configuration.OrganizationTypeConfiguration.6463abd7-7a0d-4343-8a77-5070b13fa1f8"
+
+		Dictionary<String, Object> properties;
+//		properties = MapUtil.singletonDictionary(
+//			"felix.fileinstall.filename", uri.toString());
+
+		properties = new HashMapDictionary<>();
+
+		String [] childTypes = {"organization"};
+
+		properties.put("childrenTypes",childTypes);
+		properties.put("configuration.cleaner.ignore","true");
+		properties.put("countryEnabled",true);
+		properties.put("countryRequired",false);
+		properties.put("name","New org");
+		properties.put("rootable",true);
+		properties.put("service.bundleLocation","?");
+		properties.put("service.factoryPid","com.liferay.organizations.internal.configuration.OrganizationTypeConfiguration");
+
+//		ConfigurationTestUtil.saveConfiguration(
+//			_configurationAdmin.getConfiguration(_TEST_PID_OLD),
+//			properties);
+
+		String pid = ConfigurationTestUtil.createFactoryConfiguration(
+			"com.liferay.organizations.internal.configuration.OrganizationTypeConfigurationTest",
+			properties);
+
+		ConfigurationTestUtil.deleteConfiguration((String)pid);
+
+		//add organization of that type
+		//create sort
+
+		//search public Hits search(
+		//		long companyId, long parentOrganizationId, String name, String type,
+		//		String street, String city, String zip, String region, String country,
+		//		LinkedHashMap<String, Object> params, boolean andSearch, int start,
+		//		int end, Sort sort) {
+		//ensure results are in correct order
+		//reverse sort
+		//search
+		//ensure results are in correct order
+
+
+	}
+
 
 	@Test
 	public void testSearchOrganizationsAndUsers() throws Exception {
