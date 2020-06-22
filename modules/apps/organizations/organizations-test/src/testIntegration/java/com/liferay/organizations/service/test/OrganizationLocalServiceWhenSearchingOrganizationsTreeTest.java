@@ -82,13 +82,20 @@ public class OrganizationLocalServiceWhenSearchingOrganizationsTreeTest {
 
 		Organization rootOrganization = OrganizationTestUtil.addOrganization();
 
+		String orgName = RandomTestUtil.randomString();
+
 		_organization = OrganizationTestUtil.addOrganization(
-			rootOrganization.getOrganizationId(), RandomTestUtil.randomString(),
+			rootOrganization.getOrganizationId(), orgName,
 			false);
 
+		String subOrgName = RandomTestUtil.randomString();
+
 		Organization suborganization = OrganizationTestUtil.addOrganization(
-			_organization.getOrganizationId(), RandomTestUtil.randomString(),
+			_organization.getOrganizationId(), subOrgName,
 			false);
+		
+		System.out.println("orgName: " + orgName);
+		System.out.println("subOrgName: " + subOrgName);
 
 		_organizations.add(suborganization);
 
@@ -264,6 +271,9 @@ public class OrganizationLocalServiceWhenSearchingOrganizationsTreeTest {
 				OrganizationConstants.ANY_PARENT_ORGANIZATION_ID, null, null,
 				null, null, organizationParams, QueryUtil.ALL_POS,
 				QueryUtil.ALL_POS, new OrganizationNameComparator(true));
+
+		System.out.println("indexedResults: " + toStringList(indexerSearchResults));
+		System.out.println("finderResults: " + toStringList(finderSearchResults));
 
 		AssertUtils.assertEquals(
 			String.valueOf(organizationParams),
