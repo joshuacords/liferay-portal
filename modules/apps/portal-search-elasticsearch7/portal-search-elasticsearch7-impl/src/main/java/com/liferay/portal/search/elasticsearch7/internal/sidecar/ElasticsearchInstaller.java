@@ -15,6 +15,8 @@
 package com.liferay.portal.search.elasticsearch7.internal.sidecar;
 
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.util.PropsKeys;
+import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.SystemProperties;
 
 import java.io.IOException;
@@ -130,7 +132,14 @@ public class ElasticsearchInstaller {
 		Path downloadedFilePath = _temporaryDownloadDirectoryPath.resolve(
 			fileName);
 
-		PathUtil.download(new URL(downloadURLString), downloadedFilePath);
+		Path liferayHomeFilePath = _getLiferayHomeFilePath(fileName);
+
+		if (liferayHomeFilePath != null) {
+			downloadedFilePath = liferayHomeFilePath;
+		}
+		else {
+			PathUtil.download(new URL(downloadURLString), downloadedFilePath);
+		}
 
 		guardChecksum(downloadedFilePath, distributable.getChecksum());
 
@@ -163,7 +172,14 @@ public class ElasticsearchInstaller {
 		Path downloadedFilePath = _temporaryDownloadDirectoryPath.resolve(
 			fileName);
 
-		PathUtil.download(new URL(downloadURLString), downloadedFilePath);
+		Path liferayHomeFilePath = _getLiferayHomeFilePath(fileName);
+
+		if (liferayHomeFilePath != null) {
+			downloadedFilePath = liferayHomeFilePath;
+		}
+		else {
+			PathUtil.download(new URL(downloadURLString), downloadedFilePath);
+		}
 
 		guardChecksum(downloadedFilePath, distributable.getChecksum());
 
@@ -208,6 +224,18 @@ public class ElasticsearchInstaller {
 
 	protected boolean isAlreadyInstalled() {
 		return Files.exists(_destinationDirectoryPath);
+	}
+
+	private Path _getLiferayHomeFilePath(String fileName) {
+		Path path = Paths.get(PropsUtil.get(PropsKeys.LIFERAY_HOME));
+
+		path = path.resolve(fileName);
+
+		if (Files.exists(path)) {
+			return path;
+		}
+
+		return null;
 	}
 
 	private static final Path _temporaryDownloadDirectoryPath =
