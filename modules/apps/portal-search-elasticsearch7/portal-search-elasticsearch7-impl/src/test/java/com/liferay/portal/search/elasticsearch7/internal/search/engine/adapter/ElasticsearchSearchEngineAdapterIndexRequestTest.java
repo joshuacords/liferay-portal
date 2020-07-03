@@ -81,7 +81,7 @@ import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.cluster.metadata.IndexMetaData;
-import org.elasticsearch.cluster.metadata.MappingMetaData;
+import org.elasticsearch.cluster.metadata.MappingMetadata;
 import org.elasticsearch.common.collect.ImmutableOpenMap;
 import org.elasticsearch.common.xcontent.XContentType;
 
@@ -520,13 +520,13 @@ public class ElasticsearchSearchEngineAdapterIndexRequestTest {
 		GetMappingsResponse getMappingsResponse = _getGetMappingsResponse(
 			_INDEX_NAME, mappingName);
 
-		ImmutableOpenMap<String, ImmutableOpenMap<String, MappingMetaData>>
+		ImmutableOpenMap<String, ImmutableOpenMap<String, MappingMetadata>>
 			immutableOpenMap1 = getMappingsResponse.getMappings();
 
-		ImmutableOpenMap<String, MappingMetaData> immutableOpenMap2 =
+		ImmutableOpenMap<String, MappingMetadata> immutableOpenMap2 =
 			immutableOpenMap1.get(_INDEX_NAME);
 
-		MappingMetaData mappingMetaData = immutableOpenMap2.get(mappingName);
+		MappingMetadata mappingMetaData = immutableOpenMap2.get(mappingName);
 
 		String mappingMetaDataSource = String.valueOf(mappingMetaData.source());
 

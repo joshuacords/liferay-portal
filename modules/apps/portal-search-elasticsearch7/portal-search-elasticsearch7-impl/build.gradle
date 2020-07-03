@@ -4,7 +4,7 @@ import com.liferay.gradle.util.StringUtil
 task cleanSidecar
 task deploySidecar(type: Copy)
 
-String elasticsearchVersion = "7.7.0"
+String elasticsearchVersion = "7.8.0"
 String luceneVersion = "8.5.1"
 
 String elasticsearchDownloadURL = "https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-oss-${elasticsearchVersion}-no-jdk-linux-x86_64.tar.gz"

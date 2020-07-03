@@ -28,7 +28,7 @@ import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.GetMappingsRequest;
 import org.elasticsearch.client.indices.GetMappingsResponse;
-import org.elasticsearch.cluster.metadata.MappingMetaData;
+import org.elasticsearch.cluster.metadata.MappingMetadata;
 import org.elasticsearch.common.compress.CompressedXContent;
 
 import org.osgi.service.component.annotations.Component;
@@ -51,12 +51,12 @@ public class GetMappingIndexRequestExecutorImpl
 		GetMappingsResponse getMappingsResponse = getGetMappingsResponse(
 			getMappingsRequest, getMappingIndexRequest);
 
-		Map<String, MappingMetaData> mappings = getMappingsResponse.mappings();
+		Map<String, MappingMetadata> mappings = getMappingsResponse.mappings();
 
 		Map<String, String> indexMappings = new HashMap<>();
 
 		for (String indexName : getMappingIndexRequest.getIndexNames()) {
-			MappingMetaData mappingMetaData = mappings.get(indexName);
+			MappingMetadata mappingMetaData = mappings.get(indexName);
 
 			CompressedXContent mappingContent = mappingMetaData.source();
 

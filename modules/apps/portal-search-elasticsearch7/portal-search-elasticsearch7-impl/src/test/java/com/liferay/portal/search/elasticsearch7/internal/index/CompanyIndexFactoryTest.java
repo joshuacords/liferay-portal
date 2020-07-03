@@ -40,7 +40,7 @@ import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.client.indices.GetIndexResponse;
-import org.elasticsearch.cluster.metadata.MappingMetaData;
+import org.elasticsearch.cluster.metadata.MappingMetadata;
 import org.elasticsearch.common.settings.Settings;
 
 import org.hamcrest.CoreMatchers;
@@ -488,9 +488,9 @@ public class CompanyIndexFactoryTest {
 		GetIndexResponse getIndexResponse = _elasticsearchFixture.getIndex(
 			indexName);
 
-		Map<String, MappingMetaData> mappings = getIndexResponse.getMappings();
+		Map<String, MappingMetadata> mappings = getIndexResponse.getMappings();
 
-		MappingMetaData mappingMetaData = mappings.get(indexName);
+		MappingMetadata mappingMetaData = mappings.get(indexName);
 
 		Map<String, Object> map = getPropertiesMap(mappingMetaData);
 
@@ -550,7 +550,7 @@ public class CompanyIndexFactoryTest {
 	}
 
 	protected Map<String, Object> getPropertiesMap(
-		MappingMetaData mappingMetaData) {
+		MappingMetadata mappingMetaData) {
 
 		Map<String, Object> map = mappingMetaData.getSourceAsMap();
 
