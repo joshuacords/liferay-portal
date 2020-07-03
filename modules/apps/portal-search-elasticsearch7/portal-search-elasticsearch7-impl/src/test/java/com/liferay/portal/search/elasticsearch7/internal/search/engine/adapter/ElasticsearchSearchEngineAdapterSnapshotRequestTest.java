@@ -51,7 +51,7 @@ import org.elasticsearch.client.IndicesClient;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.SnapshotClient;
-import org.elasticsearch.cluster.metadata.RepositoryMetaData;
+import org.elasticsearch.cluster.metadata.RepositoryMetadata;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.repositories.fs.FsRepository;
 import org.elasticsearch.snapshots.SnapshotInfo;
@@ -159,13 +159,13 @@ public class ElasticsearchSearchEngineAdapterSnapshotRequestTest {
 			_getGetRepositoriesResponse(
 				new String[] {"testCreateSnapshotRepository"});
 
-		List<RepositoryMetaData> repositoryMetaDatas =
+		List<RepositoryMetadata> repositoryMetaDatas =
 			getRepositoriesResponse.repositories();
 
 		Assert.assertEquals(
 			"Expected 1 RepositoryMetaData", 1, repositoryMetaDatas.size());
 
-		RepositoryMetaData repositoryMetaData = repositoryMetaDatas.get(0);
+		RepositoryMetadata repositoryMetaData = repositoryMetaDatas.get(0);
 
 		Assert.assertEquals(
 			"testCreateSnapshotRepository", repositoryMetaData.name());
