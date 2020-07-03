@@ -25,7 +25,7 @@ import org.elasticsearch.client.IndicesClient;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.indices.GetFieldMappingsRequest;
 import org.elasticsearch.client.indices.GetFieldMappingsResponse;
-import org.elasticsearch.client.indices.GetFieldMappingsResponse.FieldMappingMetaData;
+import org.elasticsearch.client.indices.GetFieldMappingsResponse.FieldMappingMetadata;
 
 import org.junit.Assert;
 
@@ -69,7 +69,7 @@ public class FieldMappingAssert {
 		String expectedValue, String key, String field, String type,
 		String index, IndicesClient indicesClient) {
 
-		FieldMappingMetaData fieldMappingMetaData = getFieldMapping(
+		FieldMappingMetadata fieldMappingMetaData = getFieldMapping(
 			field, type, index, indicesClient);
 
 		String value = getFieldMappingMetaDataValue(
@@ -78,7 +78,7 @@ public class FieldMappingAssert {
 		Assert.assertEquals(expectedValue, value);
 	}
 
-	protected static FieldMappingMetaData getFieldMapping(
+	protected static FieldMappingMetadata getFieldMapping(
 		String field, String type, String index, IndicesClient indicesClient) {
 
 		GetFieldMappingsRequest getFieldMappingsRequest =
@@ -100,7 +100,7 @@ public class FieldMappingAssert {
 	}
 
 	protected static String getFieldMappingMetaDataValue(
-		FieldMappingMetaData fieldMappingMetaData, String field, String key) {
+		FieldMappingMetadata fieldMappingMetaData, String field, String key) {
 
 		Map<String, Object> mappings = fieldMappingMetaData.sourceAsMap();
 

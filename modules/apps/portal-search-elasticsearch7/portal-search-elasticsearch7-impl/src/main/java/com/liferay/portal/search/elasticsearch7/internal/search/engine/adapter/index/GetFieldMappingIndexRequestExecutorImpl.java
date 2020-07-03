@@ -58,7 +58,7 @@ public class GetFieldMappingIndexRequestExecutorImpl
 			<String,
 			 Map
 				 <String,
-				  Map<String, GetFieldMappingsResponse.FieldMappingMetaData>>>
+				  Map<String, GetFieldMappingsResponse.FieldMappingMetadata>>>
 					mappings = getFieldMappingsResponse.mappings();
 
 		Map<String, String> fieldMappings = new HashMap<>();
@@ -66,16 +66,16 @@ public class GetFieldMappingIndexRequestExecutorImpl
 		for (String indexName : getFieldMappingIndexRequest.getIndexNames()) {
 			Map
 				<String,
-				 Map<String, GetFieldMappingsResponse.FieldMappingMetaData>>
+				 Map<String, GetFieldMappingsResponse.FieldMappingMetadata>>
 					map1 = mappings.get(indexName);
 
-			Map<String, GetFieldMappingsResponse.FieldMappingMetaData> map2 =
+			Map<String, GetFieldMappingsResponse.FieldMappingMetadata> map2 =
 				map1.get(getFieldMappingIndexRequest.getMappingName());
 
 			JSONObject jsonObject = JSONFactoryUtil.createJSONObject();
 
 			for (String fieldName : getFieldMappingIndexRequest.getFields()) {
-				GetFieldMappingsResponse.FieldMappingMetaData
+				GetFieldMappingsResponse.FieldMappingMetadata
 					fieldMappingMetaData = map2.get(fieldName);
 
 				Map<String, Object> source = fieldMappingMetaData.sourceAsMap();
