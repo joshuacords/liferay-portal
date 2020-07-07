@@ -80,7 +80,7 @@ import org.elasticsearch.client.Response;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.GetIndexRequest;
-import org.elasticsearch.cluster.metadata.IndexMetaData;
+import org.elasticsearch.cluster.metadata.IndexMetadata;
 import org.elasticsearch.cluster.metadata.MappingMetadata;
 import org.elasticsearch.common.collect.ImmutableOpenMap;
 import org.elasticsearch.common.xcontent.XContentType;
@@ -316,7 +316,7 @@ public class ElasticsearchSearchEngineAdapterIndexRequestTest {
 			"Close request not acknowledged",
 			closeIndexResponse.isAcknowledged());
 
-		assertIndexMetaDataState(_INDEX_NAME, IndexMetaData.State.CLOSE);
+		assertIndexMetadataState(_INDEX_NAME, IndexMetadata.State.CLOSE);
 	}
 
 	@Test
@@ -482,7 +482,7 @@ public class ElasticsearchSearchEngineAdapterIndexRequestTest {
 	public void testExecuteOpenIndexRequest() {
 		_closeIndex(_INDEX_NAME);
 
-		assertIndexMetaDataState(_INDEX_NAME, IndexMetaData.State.CLOSE);
+		assertIndexMetadataState(_INDEX_NAME, IndexMetadata.State.CLOSE);
 
 		OpenIndexRequest openIndexRequest = new OpenIndexRequest(_INDEX_NAME);
 
@@ -499,7 +499,7 @@ public class ElasticsearchSearchEngineAdapterIndexRequestTest {
 			"Open request not acknowledged",
 			openIndexResponse.isAcknowledged());
 
-		assertIndexMetaDataState(_INDEX_NAME, IndexMetaData.State.OPEN);
+		assertIndexMetadataState(_INDEX_NAME, IndexMetadata.State.OPEN);
 	}
 
 	@Test
@@ -642,8 +642,8 @@ public class ElasticsearchSearchEngineAdapterIndexRequestTest {
 			expectedTokens);
 	}
 
-	protected void assertIndexMetaDataState(
-		String indexName, IndexMetaData.State indexMetaDataState) {
+	protected void assertIndexMetadataState(
+		String indexName, IndexMetadata.State indexMetadataState) {
 
 		RestHighLevelClient restHighLevelClient =
 			_elasticsearchFixture.getRestHighLevelClient();
@@ -672,19 +672,19 @@ public class ElasticsearchSearchEngineAdapterIndexRequestTest {
 
 			String state = GetterUtil.getString(indexJSONObject.get("state"));
 
-			Assert.assertEquals(translateState(indexMetaDataState), state);
+			Assert.assertEquals(translateState(indexMetadataState), state);
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
 		}
 	}
 
-	protected String translateState(IndexMetaData.State state) {
-		if (state == IndexMetaData.State.OPEN) {
+	protected String translateState(IndexMetadata.State state) {
+		if (state == IndexMetadata.State.OPEN) {
 			return "open";
 		}
 
-		if (state == IndexMetaData.State.CLOSE) {
+		if (state == IndexMetadata.State.CLOSE) {
 			return "close";
 		}
 
