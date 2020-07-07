@@ -159,19 +159,19 @@ public class ElasticsearchSearchEngineAdapterSnapshotRequestTest {
 			_getGetRepositoriesResponse(
 				new String[] {"testCreateSnapshotRepository"});
 
-		List<RepositoryMetadata> repositoryMetaDatas =
+		List<RepositoryMetadata> repositoryMetadatas =
 			getRepositoriesResponse.repositories();
 
 		Assert.assertEquals(
-			"Expected 1 RepositoryMetaData", 1, repositoryMetaDatas.size());
+			"Expected 1 RepositoryMetadata", 1, repositoryMetadatas.size());
 
-		RepositoryMetadata repositoryMetaData = repositoryMetaDatas.get(0);
+		RepositoryMetadata repositoryMetadata = repositoryMetadatas.get(0);
 
 		Assert.assertEquals(
-			"testCreateSnapshotRepository", repositoryMetaData.name());
+			"testCreateSnapshotRepository", repositoryMetadata.name());
 		Assert.assertEquals(
 			SnapshotRepositoryDetails.FS_REPOSITORY_TYPE,
-			repositoryMetaData.type());
+			repositoryMetadata.type());
 
 		_deleteRepository("testCreateSnapshotRepository");
 	}

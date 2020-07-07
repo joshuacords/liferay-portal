@@ -59,18 +59,18 @@ public class GetSnapshotRepositoriesRequestExecutorImpl
 				getGetRepositoriesResponse(
 					getRepositoriesRequest, getSnapshotRepositoriesRequest);
 
-			List<RepositoryMetadata> repositoriesMetaDatas =
+			List<RepositoryMetadata> repositoriesMetadatas =
 				elasticsearchGetRepositoriesResponse.repositories();
 
-			repositoriesMetaDatas.forEach(
-				repositoryMetaData -> {
+			repositoriesMetadatas.forEach(
+				repositoryMetadata -> {
 					Settings repositoryMetadataSettings =
-						repositoryMetaData.settings();
+						repositoryMetadata.settings();
 
 					SnapshotRepositoryDetails snapshotRepositoryDetails =
 						new SnapshotRepositoryDetails(
-							repositoryMetaData.name(),
-							repositoryMetaData.type(),
+							repositoryMetadata.name(),
+							repositoryMetadata.type(),
 							repositoryMetadataSettings.toString());
 
 					getSnapshotRepositoriesResponse.
