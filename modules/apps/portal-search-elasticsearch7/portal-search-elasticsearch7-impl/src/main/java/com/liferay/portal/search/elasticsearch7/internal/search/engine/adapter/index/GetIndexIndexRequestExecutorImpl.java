@@ -105,10 +105,10 @@ public class GetIndexIndexRequestExecutorImpl
 					typeMappingsObjectObjectCursor =
 						typeMappingsIterator.next();
 
-				MappingMetadata mappingMetaData =
+				MappingMetadata mappingMetadata =
 					typeMappingsObjectObjectCursor.value;
 
-				CompressedXContent mappingContent = mappingMetaData.source();
+				CompressedXContent mappingContent = mappingMetadata.source();
 
 				indiceTypeMappings.put(
 					typeMappingsObjectObjectCursor.key,

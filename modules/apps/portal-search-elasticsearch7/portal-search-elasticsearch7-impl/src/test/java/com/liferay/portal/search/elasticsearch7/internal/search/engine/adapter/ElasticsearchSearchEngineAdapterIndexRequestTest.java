@@ -526,11 +526,11 @@ public class ElasticsearchSearchEngineAdapterIndexRequestTest {
 		ImmutableOpenMap<String, MappingMetadata> immutableOpenMap2 =
 			immutableOpenMap1.get(_INDEX_NAME);
 
-		MappingMetadata mappingMetaData = immutableOpenMap2.get(mappingName);
+		MappingMetadata mappingMetadata = immutableOpenMap2.get(mappingName);
 
-		String mappingMetaDataSource = String.valueOf(mappingMetaData.source());
+		String mappingMetadataSource = String.valueOf(mappingMetadata.source());
 
-		Assert.assertTrue(mappingMetaDataSource.contains(mappingSource));
+		Assert.assertTrue(mappingMetadataSource.contains(mappingSource));
 	}
 
 	@Test

@@ -76,9 +76,9 @@ public class GetFieldMappingIndexRequestExecutorImpl
 
 			for (String fieldName : getFieldMappingIndexRequest.getFields()) {
 				GetFieldMappingsResponse.FieldMappingMetadata
-					fieldMappingMetaData = map2.get(fieldName);
+					fieldMappingMetadata = map2.get(fieldName);
 
-				Map<String, Object> source = fieldMappingMetaData.sourceAsMap();
+				Map<String, Object> source = fieldMappingMetadata.sourceAsMap();
 
 				jsonObject.put(fieldName, source);
 			}

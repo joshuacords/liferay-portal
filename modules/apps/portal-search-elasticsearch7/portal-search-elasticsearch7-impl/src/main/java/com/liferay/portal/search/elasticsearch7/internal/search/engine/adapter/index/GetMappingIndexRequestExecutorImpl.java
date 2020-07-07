@@ -56,9 +56,9 @@ public class GetMappingIndexRequestExecutorImpl
 		Map<String, String> indexMappings = new HashMap<>();
 
 		for (String indexName : getMappingIndexRequest.getIndexNames()) {
-			MappingMetadata mappingMetaData = mappings.get(indexName);
+			MappingMetadata mappingMetadata = mappings.get(indexName);
 
-			CompressedXContent mappingContent = mappingMetaData.source();
+			CompressedXContent mappingContent = mappingMetadata.source();
 
 			indexMappings.put(indexName, mappingContent.toString());
 		}

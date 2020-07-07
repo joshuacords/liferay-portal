@@ -490,9 +490,9 @@ public class CompanyIndexFactoryTest {
 
 		Map<String, MappingMetadata> mappings = getIndexResponse.getMappings();
 
-		MappingMetadata mappingMetaData = mappings.get(indexName);
+		MappingMetadata mappingMetadata = mappings.get(indexName);
 
-		Map<String, Object> map = getPropertiesMap(mappingMetaData);
+		Map<String, Object> map = getPropertiesMap(mappingMetadata);
 
 		Set<String> set = map.keySet();
 
@@ -550,9 +550,9 @@ public class CompanyIndexFactoryTest {
 	}
 
 	protected Map<String, Object> getPropertiesMap(
-		MappingMetadata mappingMetaData) {
+		MappingMetadata mappingMetadata) {
 
-		Map<String, Object> map = mappingMetaData.getSourceAsMap();
+		Map<String, Object> map = mappingMetadata.getSourceAsMap();
 
 		return (Map<String, Object>)map.get("properties");
 	}

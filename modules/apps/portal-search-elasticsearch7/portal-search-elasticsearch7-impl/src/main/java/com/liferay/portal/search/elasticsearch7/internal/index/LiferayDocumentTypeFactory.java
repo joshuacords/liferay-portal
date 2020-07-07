@@ -145,9 +145,9 @@ public class LiferayDocumentTypeFactory implements TypeMappingsHelper {
 
 		Map<String, MappingMetadata> mappings = getMappingsResponse.mappings();
 
-		MappingMetadata mappingMetaData = mappings.get(indexName);
+		MappingMetadata mappingMetadata = mappings.get(indexName);
 
-		CompressedXContent compressedXContent = mappingMetaData.source();
+		CompressedXContent compressedXContent = mappingMetadata.source();
 
 		return compressedXContent.toString();
 	}
