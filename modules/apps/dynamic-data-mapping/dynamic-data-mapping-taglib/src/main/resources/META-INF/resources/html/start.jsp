@@ -76,10 +76,6 @@
 
 							Locale curLocale = LocaleUtil.fromLanguageId(curLanguageId);
 
-							Map<String, Object> data = new HashMap<String, Object>();
-
-							data.put("languageid", curLanguageId);
-
 							String translationStatus = LanguageUtil.get(request, "untranslated");
 							String translationStatusCssClass = "warning";
 
