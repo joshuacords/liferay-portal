@@ -63,7 +63,7 @@ public class DeleteSnapshotRequestExecutorImplTest {
 			elasticDeleteSnapshotRequest.repository());
 		Assert.assertEquals(
 			deleteSnapshotRequest.getSnapshotName(),
-			elasticDeleteSnapshotRequest.snapshot());
+			elasticDeleteSnapshotRequest.snapshots());
 	}
 
 	private ElasticsearchFixture _elasticsearchFixture;
