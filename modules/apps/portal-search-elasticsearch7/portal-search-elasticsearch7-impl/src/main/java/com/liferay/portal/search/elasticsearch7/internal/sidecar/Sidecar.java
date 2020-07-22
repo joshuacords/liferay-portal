@@ -35,6 +35,7 @@ import com.liferay.portal.search.elasticsearch7.internal.configuration.Elasticse
 import com.liferay.portal.search.elasticsearch7.internal.connection.ElasticsearchInstancePaths;
 import com.liferay.portal.search.elasticsearch7.internal.connection.ElasticsearchInstanceSettingsBuilder;
 import com.liferay.portal.search.elasticsearch7.internal.connection.HttpPortRange;
+import com.liferay.portal.search.elasticsearch7.internal.index.constants.SidecarVersionContants;
 import com.liferay.portal.search.elasticsearch7.internal.util.ResourceUtil;
 import com.liferay.portal.search.elasticsearch7.settings.SettingsContributor;
 
@@ -405,6 +406,38 @@ public class Sidecar {
 		).build();
 	}
 
+	private Distribution _getElasticsearchDistribution() throws Exception {
+		String versionNumber = ResourceUtil.getResourceAsString(
+			getClass(), SidecarVersionContants.SIDECAR_VERSION_FILE_NAME);
+
+		if (versionNumber.equals("7.3.0")) {
+			return new Elasticsearch730Distribution();
+		}
+
+		if (versionNumber.equals("7.7.0")) {
+			return new Elasticsearch770Distribution();
+		}
+
+		StringBuilder sb = new StringBuilder();
+
+		String[] version = StringUtil.split(versionNumber, StringPool.PERIOD);
+
+		if (version.length != 3) {
+			sb.append(SidecarVersionContants.SIDECAR_VERSION_FILE_NAME);
+			sb.append(" expected version format of *.*.*");
+		}
+		else {
+			sb.append("Elasticsearch");
+			sb.append(version[0]);
+			sb.append(version[1]);
+			sb.append(version[2]);
+			sb.append("Distribution has not been implemented. Liferay cannot ");
+			sb.append("download Sidecar Elasticsearch.");
+		}
+
+		throw new Exception(sb.toString());
+	}
+
 	private List<String> _getJVMArguments(URL bundleURL) {
 		List<String> arguments = new ArrayList<>();
 
@@ -545,15 +578,20 @@ public class Sidecar {
 	}
 
 	private void _installElasticsearchIfNeeded() {
-		ElasticsearchInstaller.builder(
-		).distributablesDirectoryPath(
-			_elasticsearchInstancePaths.getWorkPath()
-		).distribution(
-			new Elasticsearch730Distribution()
-		).installationDirectoryPath(
-			_sidecarHomePath
-		).build(
-		).install();
+		try {
+			ElasticsearchInstaller.builder(
+			).distributablesDirectoryPath(
+				_elasticsearchInstancePaths.getWorkPath()
+			).distribution(
+				_getElasticsearchDistribution()
+			).installationDirectoryPath(
+				_sidecarHomePath
+			).build(
+			).install();
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+		}
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(Sidecar.class);
