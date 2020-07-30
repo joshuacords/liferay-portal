@@ -69,14 +69,12 @@ public class DefaultSortTranslator implements SortTranslator {
 
 			SortOrder sortOrder = SortOrder.ASC;
 
-			if (sort.isReverse() || sortFieldName.equals("_score")) {
-				sortOrder = SortOrder.DESC;
-			}
-
 			SortBuilder<?> sortBuilder = null;
 
 			if (sortFieldName.equals("_score")) {
 				sortBuilder = SortBuilders.scoreSort();
+
+				sortOrder = SortOrder.DESC;
 			}
 			else if (sort.getType() == Sort.GEO_DISTANCE_TYPE) {
 				GeoDistanceSort geoDistanceSort = (GeoDistanceSort)sort;
@@ -116,6 +114,10 @@ public class DefaultSortTranslator implements SortTranslator {
 				sortBuilder = fieldSortBuilder;
 			}
 
+			if (sort.isReverse()) {
+				sortOrder = reverseSortOrder(sortOrder);
+			}
+
 			sortBuilder.order(sortOrder);
 
 			searchSourceBuilder.sort(sortBuilder);
@@ -129,7 +131,19 @@ public class DefaultSortTranslator implements SortTranslator {
 			return sortFieldName;
 		}
 
+		if (Objects.equals(sortFieldName, "_score")) {
+			return sortFieldName;
+		}
+
 		return Field.getSortFieldName(sort, scoreFieldName);
+	}
+
+	protected SortOrder reverseSortOrder(SortOrder sortOrder) {
+		if (Objects.equals(sortOrder, SortOrder.ASC)) {
+			return SortOrder.DESC;
+		}
+
+		return SortOrder.ASC;
 	}
 
 }
