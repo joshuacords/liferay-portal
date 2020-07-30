@@ -86,7 +86,19 @@ public class SearchSolrQueryAssemblerImpl implements SearchSolrQueryAssembler {
 			return sortFieldName;
 		}
 
+		if (Objects.equals(sortFieldName, "score")) {
+			return sortFieldName;
+		}
+
 		return Field.getSortFieldName(sort, scoreFieldName);
+	}
+
+	protected SolrQuery.ORDER reverseSortOrder(SolrQuery.ORDER sortOrder) {
+		if (Objects.equals(sortOrder, SolrQuery.ORDER.asc)) {
+			return SolrQuery.ORDER.desc;
+		}
+
+		return SolrQuery.ORDER.asc;
 	}
 
 	@Reference(unbind = "-")
@@ -251,10 +263,12 @@ public class SearchSolrQueryAssemblerImpl implements SearchSolrQueryAssembler {
 
 			sortFieldNames.add(sortFieldName);
 
-			SolrQuery.ORDER order = SolrQuery.ORDER.asc;
+			SolrQuery.ORDER order =
+				!Objects.equals(sortFieldName, "score") ? SolrQuery.ORDER.asc :
+					SolrQuery.ORDER.desc;
 
-			if (sort.isReverse() || sortFieldName.equals("score")) {
-				order = SolrQuery.ORDER.desc;
+			if (sort.isReverse()) {
+				order = reverseSortOrder(order);
 			}
 
 			solrQuery.addSort(new SolrQuery.SortClause(sortFieldName, order));
