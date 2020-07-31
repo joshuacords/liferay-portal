@@ -14,16 +14,21 @@
 
 package com.liferay.portal.search.test.util.sort;
 
+import com.liferay.portal.kernel.search.BooleanClauseOccur;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.search.SortFactory;
+import com.liferay.portal.kernel.search.generic.BooleanQueryImpl;
 import com.liferay.portal.search.internal.SortFactoryImpl;
 import com.liferay.portal.search.test.util.DocumentsAssert;
 import com.liferay.portal.search.test.util.indexing.BaseIndexingTestCase;
 import com.liferay.portal.search.test.util.indexing.DocumentCreationHelper;
 import com.liferay.portal.search.test.util.indexing.DocumentCreationHelpers;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.function.Function;
 
 import org.junit.Test;
@@ -33,6 +38,32 @@ import org.junit.Test;
  * @author André de Oliveira
  */
 public abstract class BaseSortTestCase extends BaseIndexingTestCase {
+
+	@Test
+	public void testCustomScoreSorting() throws Exception {
+		List<String> stringValues = new ArrayList<>();
+
+		stringValues.add("value");
+		stringValues.add("no matches");
+
+		String fieldName = "testField";
+
+		addDocuments(
+			value -> DocumentCreationHelpers.singleText(fieldName, value),
+			stringValues.stream());
+
+		assertKeywordSearchOrder(
+			fieldName,
+			new Sort[] {new Sort(getScoreParameter(), Sort.CUSTOM_TYPE, false)},
+			stringValues);
+
+		Collections.reverse(stringValues);
+
+		assertKeywordSearchOrder(
+			fieldName,
+			new Sort[] {new Sort(getScoreParameter(), Sort.SCORE_TYPE, true)},
+			stringValues);
+	}
 
 	@Test
 	public void testDefaultSorts() throws Exception {
@@ -71,6 +102,32 @@ public abstract class BaseSortTestCase extends BaseIndexingTestCase {
 		}
 	}
 
+	protected void assertKeywordSearchOrder(
+		String fieldName, Sort[] sorts, List<String> expectedValues) {
+
+		assertSearch(
+			indexingTestHelper -> {
+				indexingTestHelper.define(
+					searchContext -> searchContext.setSorts(sorts));
+
+				BooleanQueryImpl booleanQueryImpl = new BooleanQueryImpl();
+
+				booleanQueryImpl.addExactTerm(fieldName, "value");
+
+				booleanQueryImpl.add(
+					getDefaultQuery(), BooleanClauseOccur.SHOULD);
+
+				indexingTestHelper.setQuery(booleanQueryImpl);
+
+				indexingTestHelper.search();
+
+				indexingTestHelper.verify(
+					hits -> DocumentsAssert.assertValues(
+						indexingTestHelper.getRequestString(), hits.getDocs(),
+						fieldName, expectedValues));
+			});
+	}
+
 	protected void assertOrder(Sort[] sorts, String fieldName, String expected)
 		throws Exception {
 
@@ -95,6 +152,8 @@ public abstract class BaseSortTestCase extends BaseIndexingTestCase {
 			new Sort[] {new Sort(fieldName, sortType, false)}, fieldName,
 			expected);
 	}
+
+	protected abstract String getScoreParameter();
 
 	protected void testDoubleField(String fieldName) throws Exception {
 		testDoubleField(
