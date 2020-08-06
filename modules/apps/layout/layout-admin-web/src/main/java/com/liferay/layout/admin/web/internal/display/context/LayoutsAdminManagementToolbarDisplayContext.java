@@ -162,6 +162,12 @@ public class LayoutsAdminManagementToolbarDisplayContext
 	@Override
 	public Boolean isShowCreationMenu() {
 		try {
+			CreationMenu creationMenu = getCreationMenu();
+
+			if (creationMenu.isEmpty()) {
+				return false;
+			}
+
 			return _layoutsAdminDisplayContext.isShowAddRootLayoutButton();
 		}
 		catch (PortalException portalException) {
@@ -193,8 +199,11 @@ public class LayoutsAdminManagementToolbarDisplayContext
 					_layoutsAdminDisplayContext.
 						getFirstLayoutPageTemplateCollectionId();
 				long selPlid = _layoutsAdminDisplayContext.getSelPlid();
+				Layout selLayout = _layoutsAdminDisplayContext.getSelLayout();
 
 				if (_layoutsAdminDisplayContext.isShowPublicPages() &&
+					_layoutsAdminDisplayContext.isShowAddChildPageAction(
+						selLayout) &&
 					(!_layoutsAdminDisplayContext.isPrivateLayout() ||
 					 _layoutsAdminDisplayContext.isFirstColumn() ||
 					 !_layoutsAdminDisplayContext.hasLayouts())) {
@@ -211,7 +220,9 @@ public class LayoutsAdminManagementToolbarDisplayContext
 				}
 
 				if (_layoutsAdminDisplayContext.isShowPrivatePages() &&
-					(_layoutsAdminDisplayContext.isPrivateLayout() ||
+					((_layoutsAdminDisplayContext.isShowAddChildPageAction(
+						selLayout) &&
+					  _layoutsAdminDisplayContext.isPrivateLayout()) ||
 					 _layoutsAdminDisplayContext.isFirstColumn() ||
 					 !_layoutsAdminDisplayContext.hasLayouts())) {
 
