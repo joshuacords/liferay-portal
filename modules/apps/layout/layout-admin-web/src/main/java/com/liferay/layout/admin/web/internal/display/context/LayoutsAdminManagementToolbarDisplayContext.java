@@ -198,8 +198,9 @@ public class LayoutsAdminManagementToolbarDisplayContext
 				long firstLayoutPageTemplateCollectionId =
 					_layoutsAdminDisplayContext.
 						getFirstLayoutPageTemplateCollectionId();
-				long selPlid = _layoutsAdminDisplayContext.getSelPlid();
+
 				Layout selLayout = _layoutsAdminDisplayContext.getSelLayout();
+				long selPlid = _layoutsAdminDisplayContext.getSelPlid();
 
 				if (_layoutsAdminDisplayContext.isShowPublicPages() &&
 					_layoutsAdminDisplayContext.isShowAddChildPageAction(
