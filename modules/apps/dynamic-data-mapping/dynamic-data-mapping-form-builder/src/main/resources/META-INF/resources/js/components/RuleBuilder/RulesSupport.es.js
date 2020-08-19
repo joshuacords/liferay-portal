@@ -56,6 +56,55 @@ const clearAllConditionFieldValues = condition => {
 	return condition;
 };
 
+const formatRules = (pages, rules) => {
+	const visitor = new PagesVisitor(pages);
+
+	const formattedRules = (rules || []).map(rule => {
+		const {actions, conditions} = rule;
+
+		conditions.forEach(condition => {
+			let firstOperandFieldExists = false;
+			let secondOperandFieldExists = false;
+
+			const secondOperand = condition.operands[1];
+
+			visitor.mapFields(({fieldName}) => {
+				if (condition.operands[0].value === fieldName) {
+					firstOperandFieldExists = true;
+				}
+
+				if (secondOperand && secondOperand.value === fieldName) {
+					secondOperandFieldExists = true;
+				}
+			});
+
+			if (condition.operands[0].value === 'user') {
+				firstOperandFieldExists = true;
+			}
+
+			if (!firstOperandFieldExists) {
+				clearAllConditionFieldValues(condition);
+			}
+
+			if (
+				!secondOperandFieldExists &&
+				secondOperand &&
+				secondOperand.type == 'field'
+			) {
+				clearSecondOperandValue(condition);
+			}
+		});
+
+		return {
+			...rule,
+			actions: syncActions(pages, actions),
+			conditions
+		};
+	});
+
+	return formattedRules;
+};
+
 const syncActions = (pages, actions) => {
 	actions.forEach(action => {
 		if (action.action === 'auto-fill') {
@@ -104,5 +153,6 @@ export default {
 	clearOperatorValue,
 	clearSecondOperandValue,
 	clearTargetValue,
+	formatRules,
 	syncActions
 };

@@ -13,58 +13,8 @@
  */
 
 import * as FormSupport from 'dynamic-data-mapping-form-renderer/js/components/FormRenderer/FormSupport.es';
-import {PagesVisitor} from 'dynamic-data-mapping-form-renderer/js/util/visitors.es';
 
 import RulesSupport from '../../RuleBuilder/RulesSupport.es';
-
-const formatRules = (state, pages) => {
-	const visitor = new PagesVisitor(pages);
-
-	const rules = (state.rules || []).map(rule => {
-		const {actions, conditions} = rule;
-
-		conditions.forEach(condition => {
-			let firstOperandFieldExists = false;
-			let secondOperandFieldExists = false;
-
-			const secondOperand = condition.operands[1];
-
-			visitor.mapFields(({fieldName}) => {
-				if (condition.operands[0].value === fieldName) {
-					firstOperandFieldExists = true;
-				}
-
-				if (secondOperand && secondOperand.value === fieldName) {
-					secondOperandFieldExists = true;
-				}
-			});
-
-			if (condition.operands[0].value === 'user') {
-				firstOperandFieldExists = true;
-			}
-
-			if (!firstOperandFieldExists) {
-				RulesSupport.clearAllConditionFieldValues(condition);
-			}
-
-			if (
-				!secondOperandFieldExists &&
-				secondOperand &&
-				secondOperand.type == 'field'
-			) {
-				RulesSupport.clearSecondOperandValue(condition);
-			}
-		});
-
-		return {
-			...rule,
-			actions: RulesSupport.syncActions(pages, actions),
-			conditions
-		};
-	});
-
-	return rules;
-};
 
 const removeEmptyRow = (pages, source) => {
 	const {pageIndex, rowIndex} = source;
@@ -95,7 +45,7 @@ export const handleFieldDeleted = (state, {indexes}) => {
 	return {
 		focusedField: {},
 		pages: newContext,
-		rules: formatRules(state, newContext)
+		rules: RulesSupport.formatRules(newContext, state.rules)
 	};
 };
 
