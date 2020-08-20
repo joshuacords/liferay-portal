@@ -15,6 +15,7 @@
 package com.liferay.dynamic.data.mapping.form.builder.internal.converter.serializer;
 
 import com.liferay.dynamic.data.mapping.form.builder.internal.converter.model.action.JumpToPageDDMFormRuleAction;
+import com.liferay.portal.kernel.util.Validator;
 
 /**
  * @author Leonardo Barros
@@ -31,6 +32,10 @@ public class JumpToPageDDMFormRuleActionSerializer
 	@Override
 	public String serialize(
 		DDMFormRuleSerializerContext ddmFormRuleSerializerContext) {
+
+		if (Validator.isNull(_jumpToPageDDMFormRuleAction.getTarget())) {
+			return null;
+		}
 
 		return String.format(
 			_FUNCTION_CALL_BINARY_EXPRESSION_FORMAT, "jumpPage",
