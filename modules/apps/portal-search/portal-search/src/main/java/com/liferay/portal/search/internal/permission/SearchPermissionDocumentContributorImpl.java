@@ -17,6 +17,7 @@ package com.liferay.portal.search.internal.permission;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.NoSuchResourceException;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.ResourceConstants;
@@ -124,6 +125,25 @@ public class SearchPermissionDocumentContributorImpl
 			searchPermissionFieldContributor);
 	}
 
+	private List<Role> _getFolderRoles(
+		long companyId, long groupId, String className, long classPK,
+	   	String viewActionId, Document document) throws PortalException {
+
+		//needs to be recursive??
+
+		List<Role> folderViewRoles = _resourcePermissionLocalService.getRoles(
+			companyId, "com.liferay.document.library.kernel.model.DLFolder", ResourceConstants.SCOPE_INDIVIDUAL,
+			document.get("folderId"), viewActionId);
+
+		List<Role> folderAccessRoles = _resourcePermissionLocalService.getRoles(
+			companyId, "com.liferay.document.library.kernel.model.DLFolder", ResourceConstants.SCOPE_INDIVIDUAL,
+			document.get("folderId"), "ACCESS");
+
+		folderViewRoles.addAll(folderAccessRoles);
+
+		return folderViewRoles;
+	}
+
 	private void _addPermissionFields(
 		long companyId, long groupId, String className, long classPK,
 		String viewActionId, Document document) {
@@ -141,6 +161,11 @@ public class SearchPermissionDocumentContributorImpl
 			List<Role> roles = _resourcePermissionLocalService.getRoles(
 				companyId, permissionName, ResourceConstants.SCOPE_INDIVIDUAL,
 				String.valueOf(classPK), viewActionId);
+
+			if (permissionName.contains("DLFile")) {
+				roles.retainAll(_getFolderRoles(companyId, groupId, className, classPK,
+				viewActionId, document));
+			}
 
 			if (roles.isEmpty()) {
 				return;
