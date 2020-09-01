@@ -64,14 +64,18 @@
 		}
 	}
 
-	document.addEventListener('DOMContentLoaded', function() {
+
+	var onPortletReady = function() {
 		document.body.addEventListener('click', handleDownloadClick);
-	});
+	};
 
 	var onDestroyPortlet = function() {
 		document.body.removeEventListener('click', handleDownloadClick);
+
+		Liferay.detach('portletReady', onPortletReady);
 		Liferay.detach('destroyPortlet', onDestroyPortlet);
 	};
 
+	Liferay.on('portletReady', onPortletReady);
 	Liferay.on('destroyPortlet', onDestroyPortlet);
 </aui:script>
