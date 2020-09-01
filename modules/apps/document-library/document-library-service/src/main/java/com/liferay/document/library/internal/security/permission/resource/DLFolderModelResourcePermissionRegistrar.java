@@ -86,7 +86,7 @@ public class DLFolderModelResourcePermissionRegistrar {
 		_serviceRegistration.unregister();
 	}
 
-	private UnsafeFunction<DLFolder, DLFolder, PortalException>
+	public UnsafeFunction<DLFolder, DLFolder, PortalException>
 		_getFetchParentFunction() {
 
 		return folder -> {

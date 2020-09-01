@@ -14,8 +14,14 @@
 
 package com.liferay.portal.service.impl;
 
+import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.document.library.kernel.model.DLFolder;
+import com.liferay.document.library.kernel.model.DLFolderConstants;
+import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
+import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
 import com.liferay.exportimport.kernel.lar.ExportImportThreadLocal;
 import com.liferay.exportimport.kernel.staging.MergeLayoutPrototypesThreadLocal;
+import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.BeanPropertiesUtil;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
@@ -40,13 +46,19 @@ import com.liferay.portal.kernel.model.ResourcePermission;
 import com.liferay.portal.kernel.model.ResourcePermissionConstants;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.role.RoleConstants;
+import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
+import com.liferay.portal.kernel.search.Indexer;
+import com.liferay.portal.kernel.search.IndexerPostProcessor;
+import com.liferay.portal.kernel.search.IndexerRegistry;
+import com.liferay.portal.kernel.search.RelatedEntryIndexerRegistry;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
 import com.liferay.portal.kernel.security.permission.PermissionUpdateHandler;
 import com.liferay.portal.kernel.security.permission.PermissionUpdateHandlerRegistryUtil;
 import com.liferay.portal.kernel.security.permission.ResourceActionsUtil;
+import com.liferay.portal.kernel.service.ResourcePermissionLocalServiceUtil;
 import com.liferay.portal.kernel.service.SQLStateAcceptor;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.permission.ModelPermissions;
@@ -63,6 +75,7 @@ import com.liferay.portal.security.permission.PermissionCacheUtil;
 import com.liferay.portal.service.base.ResourcePermissionLocalServiceBaseImpl;
 import com.liferay.portal.util.PropsValues;
 import com.liferay.util.dao.orm.CustomSQLUtil;
+import org.osgi.service.component.annotations.Reference;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -920,6 +933,151 @@ public class ResourcePermissionLocalServiceImpl
 		}
 
 		return roles;
+	}
+
+	@Override
+	public List<Role> getCompositeRoles(
+			long companyId, String name, int scope, String primKey,
+			String actionId)
+		throws PortalException {
+
+		List<Role> roles = getRoles(companyId, name, scope, primKey, actionId);
+
+		roles.retainAll(
+			getInheritedRoles(companyId, name, scope, primKey, actionId));
+
+		return roles;
+	}
+
+	@Override
+	public List<Role> getInheritedRoles(
+			long companyId, String name, int scope, String primKey,
+			String actionId)
+		throws PortalException {
+
+		//String parentClass = _getParentClass(name, primKey);
+
+		List<Role> parentRoles = null;
+
+		parentRoles = _getParentRoles(name, primKey);
+
+		return parentRoles;
+	}
+
+//	private void test(String entryClassName, String primKey) {
+//		Indexer<?> indexer = indexerRegistry.getIndexer(entryClassName);
+//
+//		indexer.
+
+
+//		IndexerPostProcessor[] indexerPostProcessors = indexer.getIndexerPostProcessors();
+//
+//		for(IndexerPostProcessor indexerPostProcessor : indexerPostProcessors) {
+//			indexerPostProcessor.
+//		}
+
+		// from ModelSearchConfiguratorServiceTrackerCustomizer
+//		_modelResourcePermissionServiceTrackerMap.getService(
+//			modelSearchConfigurator.getClassName())
+	//}
+
+//	@Reference
+//	protected IndexerRegistry indexerRegistry;
+
+	private List<Role> _getParentRoles(String name, String primKey) {
+
+		try {
+			if (name.equals(
+				"com.liferay.document.library.kernel.model.DLFile")) {
+
+				DLFileEntry dlFileEntry = DLFileEntryLocalServiceUtil.getFileEntry(Long.parseLong(primKey));
+
+				long dlFolderId = dlFileEntry.getFolderId();
+
+				DLFolder dlFolder = DLFolderLocalServiceUtil.getDLFolder(dlFolderId);
+
+				return _getDLFolderRoles(dlFolder);
+
+			}
+
+		}
+		catch (Exception e) {
+
+		}
+
+		return null;
+	}
+
+	private List<Role> _getDLFolderRoles(DLFolder dlFolder) throws PortalException {
+
+		//needs to be recursive??
+
+		List<Role> folderViewRoles = ResourcePermissionLocalServiceUtil.getRoles(
+			dlFolder.getCompanyId(),
+			"com.liferay.document.library.kernel.model.DLFolder",
+			ResourceConstants.SCOPE_INDIVIDUAL,
+			Long.toString(dlFolder.getFolderId()), "VIEW");
+
+		List<Role> folderAccessRoles = ResourcePermissionLocalServiceUtil.getRoles(
+			dlFolder.getCompanyId(),
+			"com.liferay.document.library.kernel.model.DLFolder",
+			ResourceConstants.SCOPE_INDIVIDUAL,
+			Long.toString(dlFolder.getFolderId()), "ACCESS");
+
+		folderViewRoles.addAll(folderAccessRoles);
+
+		return folderViewRoles;
+	}
+
+//	private Set<Role> _getParentRoles(long companyId, String parentClass, String primKey, Set<Role> roles) {
+//
+//		try {
+//			if (parentClass.equals(
+//				"com.liferay.document.library.kernel.model.DLFolder")) {
+//				List<Role> parentRoles = getRoles(
+//					companyId,
+//					"com.liferay.document.library.kernel.model.DLFolder",
+//					ResourceConstants.SCOPE_INDIVIDUAL,
+//					primKey, "VIEW");
+//
+//				roles.addAll(parentRoles);
+//
+//				List<Role> folderAccessRoles = getRoles(
+//					companyId,
+//					"com.liferay.document.library.kernel.model.DLFolder",
+//					ResourceConstants.SCOPE_INDIVIDUAL,
+//					primKey, "ACCESS");
+//
+//				roles.addAll(folderAccessRoles);
+//			}
+//		}
+//		catch (PortalException pe) {
+//
+//		}
+//
+//		return roles;
+//	}
+//
+//	private String _getParentClass(String name, String primKey) {
+//
+//	}
+
+	private UnsafeFunction<DLFolder, DLFolder, PortalException>
+		_getFetchParentFunction() {
+
+		return folder -> {
+			long folderId = folder.getParentFolderId();
+
+			if (DLFolderConstants.DEFAULT_PARENT_FOLDER_ID == folderId) {
+				return null;
+			}
+
+			if (folder.isInTrash()) {
+				return _dlFolderLocalService.fetchFolder(folderId);
+			}
+
+			return _dlFolderLocalService.getFolder(folderId);
+		};
 	}
 
 	/**

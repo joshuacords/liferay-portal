@@ -14,20 +14,27 @@
 
 package com.liferay.portal.search.internal.permission;
 
+import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.NoSuchResourceException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.GroupedModel;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.role.RoleConstants;
+import com.liferay.portal.kernel.repository.model.FileEntry;
+import com.liferay.portal.kernel.repository.model.Folder;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistry;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
+import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermissionFactory;
 import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Portal;
@@ -40,6 +47,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import com.liferay.portlet.documentlibrary.service.impl.DLFileEntryServiceImpl;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
@@ -144,6 +152,43 @@ public class SearchPermissionDocumentContributorImpl
 		return folderViewRoles;
 	}
 
+//	private <C extends GroupedModel, P extends GroupedModel> List<Role> _getFolderRoles2(
+//		PermissionChecker permissionChecker, String name, C child,
+//		String actionId)
+//		throws PortalException {
+//
+//		if (!actionId.equals(ActionKeys.VIEW)) {
+//			return null;
+//		}
+//
+//		P parent = _fetchParentUnsafeFunction.apply(child);
+//
+//		if (parent == null) {
+//			if (_portletResourcePermission.contains(
+//				permissionChecker, child.getGroupId(), ActionKeys.VIEW)) {
+//
+//				return null;
+//			}
+//
+//			return false;
+//		}
+//
+//		if (_checkParentAccess &&
+//			_parentModelResourcePermission.contains(
+//				permissionChecker, parent, ActionKeys.ACCESS)) {
+//
+//			return null;
+//		}
+//
+//		if (_parentModelResourcePermission.contains(
+//			permissionChecker, parent, ActionKeys.VIEW)) {
+//
+//			return null;
+//		}
+//
+//		return false;
+//	}
+
 	private void _addPermissionFields(
 		long companyId, long groupId, String className, long classPK,
 		String viewActionId, Document document) {
@@ -230,5 +275,23 @@ public class SearchPermissionDocumentContributorImpl
 
 	private final Collection<SearchPermissionFieldContributor>
 		_searchPermissionFieldContributors = new CopyOnWriteArrayList<>();
+
+
+	private static volatile ModelResourcePermission<DLFileEntry>
+		_dlFileEntryModelResourcePermission =
+		ModelResourcePermissionFactory.getInstance(
+			DLFileEntryServiceImpl.class,
+			"_dlFileEntryModelResourcePermission", DLFileEntry.class);
+	private static volatile ModelResourcePermission<FileEntry>
+		_fileEntryModelResourcePermission =
+		ModelResourcePermissionFactory.getInstance(
+			DLFileEntryServiceImpl.class,
+			"_fileEntryModelResourcePermission", FileEntry.class);
+	private static volatile ModelResourcePermission<Folder>
+		_folderModelResourcePermission =
+		ModelResourcePermissionFactory.getInstance(
+			DLFileEntryServiceImpl.class, "_folderModelResourcePermission",
+			Folder.class);
+
 
 }
