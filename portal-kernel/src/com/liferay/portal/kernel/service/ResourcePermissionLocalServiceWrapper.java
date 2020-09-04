@@ -704,6 +704,26 @@ public class ResourcePermissionLocalServiceWrapper
 			companyId, name, scope, primKey, actionId);
 	}
 
+	@Override
+	public java.util.List<com.liferay.portal.kernel.model.Role> getCompositeRoles(
+		long companyId, String name, int scope, String primKey,
+		String actionId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _resourcePermissionLocalService.getCompositeRoles(
+			companyId, name, scope, primKey, actionId);
+	}
+
+	@Override
+	public java.util.List<com.liferay.portal.kernel.model.Role> getInheritedRoles(
+		long companyId, String name, int scope, String primKey,
+		String actionId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _resourcePermissionLocalService.getInheritedRoles(
+			companyId, name, scope, primKey, actionId);
+	}
+
 	/**
 	 * Returns all the resource permissions where scope = any &#63;.
 	 *

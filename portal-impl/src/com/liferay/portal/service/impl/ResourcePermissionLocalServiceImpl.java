@@ -1062,23 +1062,23 @@ public class ResourcePermissionLocalServiceImpl
 //
 //	}
 
-	private UnsafeFunction<DLFolder, DLFolder, PortalException>
-		_getFetchParentFunction() {
-
-		return folder -> {
-			long folderId = folder.getParentFolderId();
-
-			if (DLFolderConstants.DEFAULT_PARENT_FOLDER_ID == folderId) {
-				return null;
-			}
-
-			if (folder.isInTrash()) {
-				return _dlFolderLocalService.fetchFolder(folderId);
-			}
-
-			return _dlFolderLocalService.getFolder(folderId);
-		};
-	}
+//	private UnsafeFunction<DLFolder, DLFolder, PortalException>
+//		_getFetchParentFunction() {
+//
+//		return folder -> {
+//			long folderId = folder.getParentFolderId();
+//
+//			if (DLFolderConstants.DEFAULT_PARENT_FOLDER_ID == folderId) {
+//				return null;
+//			}
+//
+//			if (folder.isInTrash()) {
+//				return _dlFolderLocalService.fetchFolder(folderId);
+//			}
+//
+//			return _dlFolderLocalService.getFolder(folderId);
+//		};
+//	}
 
 	/**
 	 * Returns all the resource permissions where scope = any &#63;.

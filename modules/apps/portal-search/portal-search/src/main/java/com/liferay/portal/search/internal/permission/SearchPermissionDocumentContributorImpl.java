@@ -208,8 +208,11 @@ public class SearchPermissionDocumentContributorImpl
 				String.valueOf(classPK), viewActionId);
 
 			if (permissionName.contains("DLFile")) {
-				roles.retainAll(_getFolderRoles(companyId, groupId, className, classPK,
-				viewActionId, document));
+//				roles.retainAll(_getFolderRoles(companyId, groupId, className, classPK,
+//				viewActionId, document));
+
+				roles = _resourcePermissionLocalService.getCompositeRoles(companyId, permissionName, ResourceConstants.SCOPE_INDIVIDUAL,
+					String.valueOf(classPK), viewActionId);
 			}
 
 			if (roles.isEmpty()) {
