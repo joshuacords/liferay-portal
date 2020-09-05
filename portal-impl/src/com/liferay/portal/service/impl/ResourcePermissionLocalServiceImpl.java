@@ -988,7 +988,7 @@ public class ResourcePermissionLocalServiceImpl
 
 		try {
 			if (name.equals(
-				"com.liferay.document.library.kernel.model.DLFile")) {
+				"com.liferay.document.library.kernel.model.DLFileEntry")) {
 
 				DLFileEntry dlFileEntry = DLFileEntryLocalServiceUtil.getFileEntry(Long.parseLong(primKey));
 
