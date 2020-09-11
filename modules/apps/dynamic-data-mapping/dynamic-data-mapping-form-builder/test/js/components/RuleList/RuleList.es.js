@@ -218,4 +218,10 @@ describe('RuleList', () => {
 			'value1:value2'
 		);
 	});
+
+	it('shows the label broken rule when a rule is incomplete', () => {
+		component = new RuleList(brokenRuleConfig);
+
+		expect(component).toMatchSnapshot();
+	});
 });
