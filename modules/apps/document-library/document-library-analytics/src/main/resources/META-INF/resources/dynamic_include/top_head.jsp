@@ -71,11 +71,8 @@
 
 	var onDestroyPortlet = function() {
 		document.body.removeEventListener('click', handleDownloadClick);
-
-		Liferay.detach('portletReady', onPortletReady);
-		Liferay.detach('destroyPortlet', onDestroyPortlet);
 	};
 
-	Liferay.on('portletReady', onPortletReady);
-	Liferay.on('destroyPortlet', onDestroyPortlet);
+	Liferay.once('portletReady', onPortletReady);
+	Liferay.once('destroyPortlet', onDestroyPortlet);
 </aui:script>
