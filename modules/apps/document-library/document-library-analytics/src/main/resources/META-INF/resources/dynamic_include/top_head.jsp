@@ -64,8 +64,7 @@
 		}
 	}
 
-
-	var onPortletReady = function() {
+	var onPortletReady = function () {
 		document.body.addEventListener('click', handleDownloadClick);
 	};
 
