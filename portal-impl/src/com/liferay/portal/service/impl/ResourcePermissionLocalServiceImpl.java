@@ -16,12 +16,10 @@ package com.liferay.portal.service.impl;
 
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.model.DLFolder;
-import com.liferay.document.library.kernel.model.DLFolderConstants;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
 import com.liferay.exportimport.kernel.lar.ExportImportThreadLocal;
 import com.liferay.exportimport.kernel.staging.MergeLayoutPrototypesThreadLocal;
-import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.BeanPropertiesUtil;
 import com.liferay.portal.kernel.dao.orm.QueryPos;
@@ -46,12 +44,7 @@ import com.liferay.portal.kernel.model.ResourcePermission;
 import com.liferay.portal.kernel.model.ResourcePermissionConstants;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.role.RoleConstants;
-import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
-import com.liferay.portal.kernel.search.Indexer;
-import com.liferay.portal.kernel.search.IndexerPostProcessor;
-import com.liferay.portal.kernel.search.IndexerRegistry;
-import com.liferay.portal.kernel.search.RelatedEntryIndexerRegistry;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
@@ -75,7 +68,6 @@ import com.liferay.portal.security.permission.PermissionCacheUtil;
 import com.liferay.portal.service.base.ResourcePermissionLocalServiceBaseImpl;
 import com.liferay.portal.util.PropsValues;
 import com.liferay.util.dao.orm.CustomSQLUtil;
-import org.osgi.service.component.annotations.Reference;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -996,8 +988,9 @@ public class ResourcePermissionLocalServiceImpl
 
 				DLFolder dlFolder = DLFolderLocalServiceUtil.getDLFolder(dlFolderId);
 
-				return _getDLFolderRoles(dlFolder);
+				//List<Role> roles = new LinkedList<>();
 
+				return _getDLFolderRolesPrepare(dlFolder);
 			}
 
 		}
@@ -1010,7 +1003,7 @@ public class ResourcePermissionLocalServiceImpl
 
 	private List<Role> _getDLFolderRoles(DLFolder dlFolder) throws PortalException {
 
-		//needs to be recursive??
+		//needs to be recursive?? - it does if not ACCESS
 
 		List<Role> folderViewRoles = ResourcePermissionLocalServiceUtil.getRoles(
 			dlFolder.getCompanyId(),
@@ -1027,6 +1020,59 @@ public class ResourcePermissionLocalServiceImpl
 		folderViewRoles.addAll(folderAccessRoles);
 
 		return folderViewRoles;
+	}
+
+	private List<Role> _getDLFolderRolesPrepare(DLFolder dlFolder) throws PortalException {
+
+		List<Role> accessRoles = getRoles(
+			dlFolder.getCompanyId(),
+			"com.liferay.document.library.kernel.model.DLFolder",
+			ResourceConstants.SCOPE_INDIVIDUAL,
+			Long.toString(dlFolder.getFolderId()), "ACCESS");
+
+		List<Role> viewRoles = getRoles(
+			dlFolder.getCompanyId(),
+			"com.liferay.document.library.kernel.model.DLFolder",
+			ResourceConstants.SCOPE_INDIVIDUAL,
+			Long.toString(dlFolder.getFolderId()), "VIEW");
+
+		_filterDLFolderRoles(dlFolder, viewRoles);
+
+		List<Role> allRoles = new ArrayList<>();
+
+		allRoles.addAll(accessRoles);
+
+		for (Role role : viewRoles) {
+			if (allRoles.contains(role)) {
+				continue;
+			}
+
+			allRoles.add(role);
+		}
+
+		return allRoles;
+	}
+
+	private List<Role> _filterDLFolderRoles(DLFolder dlFolder, List<Role> roles) throws PortalException {
+
+		DLFolder dlParentFolder = dlFolder.getParentFolder();
+
+		if (dlParentFolder == null || roles.isEmpty()) {
+			return roles;
+		}
+
+		List<Role> folderViewRoles = getRoles(
+			dlParentFolder.getCompanyId(),
+			"com.liferay.document.library.kernel.model.DLFolder",
+			ResourceConstants.SCOPE_INDIVIDUAL,
+			Long.toString(dlParentFolder.getFolderId()), "VIEW");
+
+		roles.retainAll(folderViewRoles);
+
+		List<Role> parentFolderRoles = _filterDLFolderRoles(dlParentFolder, roles);
+
+		return roles;
+
 	}
 
 //	private Set<Role> _getParentRoles(long companyId, String parentClass, String primKey, Set<Role> roles) {
