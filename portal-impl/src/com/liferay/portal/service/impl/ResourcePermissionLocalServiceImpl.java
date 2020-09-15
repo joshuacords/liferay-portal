@@ -16,6 +16,7 @@ package com.liferay.portal.service.impl;
 
 import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.model.DLFolder;
+import com.liferay.document.library.kernel.model.DLFolderConstants;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
 import com.liferay.exportimport.kernel.lar.ExportImportThreadLocal;
@@ -69,6 +70,7 @@ import com.liferay.portal.service.base.ResourcePermissionLocalServiceBaseImpl;
 import com.liferay.portal.util.PropsValues;
 import com.liferay.util.dao.orm.CustomSQLUtil;
 
+import javax.sound.sampled.Port;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -935,8 +937,11 @@ public class ResourcePermissionLocalServiceImpl
 
 		List<Role> roles = getRoles(companyId, name, scope, primKey, actionId);
 
+//		roles.retainAll(
+//			getInheritedRoles(companyId, name, scope, primKey, actionId));
+
 		roles.retainAll(
-			getInheritedRoles(companyId, name, scope, primKey, actionId));
+			_getDLFolderRolesPrepare2(companyId, name, scope, primKey, actionId));
 
 		return roles;
 	}
@@ -1051,6 +1056,172 @@ public class ResourcePermissionLocalServiceImpl
 		}
 
 		return allRoles;
+	}
+
+	private interface ParentObject {
+		public ParentObject getParent() throws PortalException ;
+		//public void setParent(long companyId, String name, String primKey);
+		public String getClassName();
+		public String getPrimKey();
+	}
+
+	private class DLFileParent implements ParentObject {
+
+		DLFileParent(DLFileEntry dlFileEntry) {
+			_dlFileEntry = dlFileEntry;
+
+			_dlFileEntryId = dlFileEntry.getFileEntryId();
+		}
+
+		DLFileParent(String primKey) throws PortalException {
+			this(DLFileEntryLocalServiceUtil.getDLFileEntry(Long.parseLong(primKey)));
+		}
+
+		public String getClassName() {
+			return "com.liferay.document.library.kernel.model.DLFileEntry";
+		}
+
+		public ParentObject getParent() throws PortalException {
+			long folderId = _dlFileEntry.getFolderId();
+
+			if (DLFolderConstants.DEFAULT_PARENT_FOLDER_ID == folderId) {
+				return null;
+			}
+
+			if (_dlFileEntry.isInTrash()) {
+				DLFolder parentFolder = DLFolderLocalServiceUtil.fetchFolder(folderId);
+
+				return new DLFolderParent(parentFolder);
+			}
+
+			DLFolder parentFolder = DLFolderLocalServiceUtil.getFolder(folderId);
+
+			return new DLFolderParent(parentFolder);
+		}
+
+		public String getPrimKey() {
+			return Long.toString(_dlFileEntryId);
+		}
+
+		private DLFileEntry _dlFileEntry;
+		private long _dlFileEntryId;
+
+	}
+
+	private class DLFolderParent implements ParentObject {
+
+		DLFolderParent(DLFolder dlFolder) {
+			_dlFolderId = dlFolder.getFolderId();
+
+			_dlFolder = dlFolder;
+		}
+
+		DLFolderParent(String primKey) throws PortalException {
+			this(DLFolderLocalServiceUtil.getDLFolder(Long.parseLong(primKey)));
+		}
+
+		public String getClassName() {
+			return "com.liferay.document.library.kernel.model.DLFolder";
+		}
+
+		public ParentObject getParent() throws PortalException {
+
+			long folderId = _dlFolder.getParentFolderId();
+
+			if (DLFolderConstants.DEFAULT_PARENT_FOLDER_ID == folderId) {
+				return null;
+			}
+
+			if (_dlFolder.isInTrash()) {
+				DLFolder parentFolder = DLFolderLocalServiceUtil.fetchFolder(folderId);
+
+				return new DLFolderParent(parentFolder);
+			}
+
+			DLFolder parentFolder = DLFolderLocalServiceUtil.getFolder(folderId);
+
+			return new DLFolderParent(parentFolder);
+		}
+
+		public String getPrimKey() {
+			return Long.toString(_dlFolderId);
+		}
+
+		private DLFolder _dlFolder;
+		private long _dlFolderId;
+	}
+
+	private ParentObject _getParentObject(String name, String primKey) {
+
+		try {
+			if (name.equals(
+				"com.liferay.document.library.kernel.model.DLFileEntry")) {
+				return new DLFileParent(primKey);
+			}
+
+			if (name.equals(
+				"com.liferay.document.library.kernel.model.DLFolder")) {
+				return new DLFolderParent(primKey);
+			}
+		}
+		catch (PortalException pe) {
+
+		}
+
+		return null;
+	}
+
+	private List<Role> _getDLFolderRolesPrepare2(
+		long companyId, String name, int scope, String primKey,
+		String actionId) throws PortalException {
+
+		ParentObject object = _getParentObject(name, primKey);
+
+		ParentObject parentObject = object.getParent();
+
+		List<Role> accessRoles = getRoles(
+			companyId, parentObject.getClassName(), ResourceConstants.SCOPE_INDIVIDUAL,
+			parentObject.getPrimKey(), "ACCESS");
+
+		List<Role> viewRoles = getRoles(
+			companyId, parentObject.getClassName(), ResourceConstants.SCOPE_INDIVIDUAL,
+			parentObject.getPrimKey(), "VIEW");
+
+		_filterDLFolderRoles(companyId, parentObject, viewRoles);
+
+		List<Role> allRoles = new ArrayList<>();
+
+		allRoles.addAll(accessRoles);
+
+		for (Role role : viewRoles) {
+			if (allRoles.contains(role)) {
+				continue;
+			}
+
+			allRoles.add(role);
+		}
+
+		return allRoles;
+	}
+
+	private List<Role> _filterDLFolderRoles(long companyId, ParentObject object, List<Role> roles) throws PortalException {
+
+		ParentObject parentObject = object.getParent();
+
+		if (parentObject == null || roles.isEmpty()) {
+			return roles;
+		}
+
+		List<Role> folderViewRoles = getRoles(
+			companyId, parentObject.getClassName(),
+			ResourceConstants.SCOPE_INDIVIDUAL,	parentObject.getPrimKey(),
+			"VIEW");
+
+		roles.retainAll(folderViewRoles);
+
+		List<Role> parentFolderRoles = _filterDLFolderRoles(companyId, parentObject, roles);
+
+		return roles;
 	}
 
 	private List<Role> _filterDLFolderRoles(DLFolder dlFolder, List<Role> roles) throws PortalException {
