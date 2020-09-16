@@ -1627,6 +1627,10 @@ public class PortalUtil {
 		return getPortal().getPreferencesValidator(portlet);
 	}
 
+	public static String getQueryString(HttpServletRequest httpServletRequest) {
+		return getPortal().getQueryString(httpServletRequest);
+	}
+
 	public static String getRelativeHomeURL(
 			HttpServletRequest httpServletRequest)
 		throws PortalException {
