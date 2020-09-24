@@ -1627,10 +1627,6 @@ public class PortalUtil {
 		return getPortal().getPreferencesValidator(portlet);
 	}
 
-	public static String getQueryString(HttpServletRequest httpServletRequest) {
-		return getPortal().getQueryString(httpServletRequest);
-	}
-
 	public static String getRelativeHomeURL(
 			HttpServletRequest httpServletRequest)
 		throws PortalException {
@@ -2036,10 +2032,6 @@ public class PortalUtil {
 
 	public static boolean isCustomPortletMode(PortletMode portletMode) {
 		return getPortal().isCustomPortletMode(portletMode);
-	}
-
-	public static boolean isForwarded(HttpServletRequest httpServletRequest) {
-		return getPortal().isForwarded(httpServletRequest);
 	}
 
 	public static boolean isForwardedSecure(

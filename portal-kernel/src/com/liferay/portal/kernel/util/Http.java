@@ -119,6 +119,8 @@ public interface Http {
 
 	public String getProtocol(String url);
 
+	public String getQueryString(HttpServletRequest httpServletRequest);
+
 	public String getQueryString(String url);
 
 	public String getRequestURL(HttpServletRequest httpServletRequest);
@@ -128,6 +130,8 @@ public interface Http {
 	public boolean hasProtocol(String url);
 
 	public boolean hasProxyConfig();
+
+	public boolean isForwarded(HttpServletRequest httpServletRequest);
 
 	public boolean isNonProxyHost(String host);
 

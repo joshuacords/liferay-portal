@@ -32,6 +32,7 @@ import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.InetAddressUtil;
+import com.liferay.portal.kernel.util.JavaConstants;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -654,6 +655,17 @@ public class HttpImpl implements Http {
 	}
 
 	@Override
+	public String getQueryString(HttpServletRequest httpServletRequest) {
+		if (isForwarded(httpServletRequest)) {
+			return GetterUtil.getString(
+				httpServletRequest.getAttribute(
+					JavaConstants.JAVAX_SERVLET_FORWARD_QUERY_STRING));
+		}
+
+		return httpServletRequest.getQueryString();
+	}
+
+	@Override
 	public String getQueryString(String url) {
 		if (Validator.isNull(url)) {
 			return url;
@@ -701,6 +713,18 @@ public class HttpImpl implements Http {
 	@Override
 	public boolean hasProxyConfig() {
 		if (Validator.isNotNull(_PROXY_HOST) && (_PROXY_PORT > 0)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	@Override
+	public boolean isForwarded(HttpServletRequest httpServletRequest) {
+		String forwardedRequestURI = (String)httpServletRequest.getAttribute(
+			JavaConstants.JAVAX_SERVLET_FORWARD_REQUEST_URI);
+
+		if (forwardedRequestURI != null) {
 			return true;
 		}
 
