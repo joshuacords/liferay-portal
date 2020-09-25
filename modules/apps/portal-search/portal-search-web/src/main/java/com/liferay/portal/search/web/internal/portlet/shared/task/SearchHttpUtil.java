@@ -40,7 +40,7 @@ public class SearchHttpUtil {
 		String requestURL = null;
 		String queryString = null;
 
-		if (_portal.isForwarded(httpServletRequest)) {
+		if (_http.isForwarded(httpServletRequest)) {
 			requestURL = _portal.getAbsoluteURL(
 				httpServletRequest,
 				(String)httpServletRequest.getAttribute(
