@@ -313,10 +313,9 @@ public class HttpImplTest {
 		MockHttpServletRequest mockHttpServletRequest =
 			new MockHttpServletRequest();
 
-		mockHttpServletRequest.setQueryString("a=1");
-
 		mockHttpServletRequest.setAttribute(
 			JavaConstants.JAVAX_SERVLET_FORWARD_QUERY_STRING, "b=2");
+		mockHttpServletRequest.setQueryString("a=1");
 
 		Assert.assertEquals(
 			"a=1", _httpImpl.getQueryString(mockHttpServletRequest));
@@ -327,12 +326,11 @@ public class HttpImplTest {
 		MockHttpServletRequest mockHttpServletRequest =
 			new MockHttpServletRequest();
 
-		mockHttpServletRequest.setQueryString("a=1");
-
 		mockHttpServletRequest.setAttribute(
 			JavaConstants.JAVAX_SERVLET_FORWARD_QUERY_STRING, "b=2");
 		mockHttpServletRequest.setAttribute(
 			JavaConstants.JAVAX_SERVLET_FORWARD_REQUEST_URI, "https://foo.com");
+		mockHttpServletRequest.setQueryString("a=1");
 
 		Assert.assertEquals(
 			"b=2", _httpImpl.getQueryString(mockHttpServletRequest));
