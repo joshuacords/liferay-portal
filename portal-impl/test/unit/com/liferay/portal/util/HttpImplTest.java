@@ -331,12 +331,6 @@ public class HttpImplTest {
 
 		mockHttpServletRequest.setAttribute(
 			JavaConstants.JAVAX_SERVLET_FORWARD_QUERY_STRING, "b=2");
-
-		// Simulate a forwarded request
-		// attribute: javax.servlet.forward.request_uri is present
-		// attribute: javax.servlet.forward.query_string provides the original
-		//            query string of the request
-
 		mockHttpServletRequest.setAttribute(
 			JavaConstants.JAVAX_SERVLET_FORWARD_REQUEST_URI, "https://foo.com");
 
@@ -356,9 +350,6 @@ public class HttpImplTest {
 	public void testIsForwardedWithHttpServletRequestForwarded() {
 		MockHttpServletRequest mockHttpServletRequest =
 			new MockHttpServletRequest();
-
-		// Simulate a forwarded request
-		// attribute: javax.servlet.forward.request_uri is present
 
 		mockHttpServletRequest.setAttribute(
 			JavaConstants.JAVAX_SERVLET_FORWARD_REQUEST_URI, "https://foo.com");
