@@ -285,7 +285,7 @@ public class SearchPermissionCheckerImpl implements SearchPermissionChecker {
 				document, className, classPK);
 		}
 
-		List<Role> roles = resourcePermissionLocalService.getRoles(
+		List<Role> roles = resourcePermissionLocalService.getCompositeRoles(
 			companyId, className, ResourceConstants.SCOPE_INDIVIDUAL,
 			String.valueOf(classPK), viewActionId);
 
