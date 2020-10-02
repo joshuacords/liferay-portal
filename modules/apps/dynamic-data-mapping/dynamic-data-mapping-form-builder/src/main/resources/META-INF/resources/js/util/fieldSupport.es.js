@@ -131,3 +131,43 @@ export const getFieldProperties = (
 
 	return properties;
 };
+
+export const localizeField = (field, defaultLanguageId, editingLanguageId) => {
+	let value = field.value;
+
+	if (field.dataType === 'json' && typeof value === 'object') {
+		value = JSON.stringify(value);
+	}
+
+	if (field.localizable && field.localizedValue) {
+		let localizedValue = field.localizedValue[editingLanguageId];
+
+		if (localizedValue === undefined) {
+			localizedValue = field.localizedValue[defaultLanguageId];
+		}
+
+		if (localizedValue !== undefined) {
+			value = localizedValue;
+		}
+	}
+	else if (
+		field.dataType === 'ddm-options' &&
+		value[editingLanguageId] === undefined
+	) {
+		value = {
+			...value,
+			[editingLanguageId]: value[defaultLanguageId],
+		};
+	}
+
+	return {
+		...field,
+		defaultLanguageId,
+		editingLanguageId,
+		localizedValue: {
+			...(field.localizedValue || {}),
+			[editingLanguageId]: value,
+		},
+		value,
+	};
+};
