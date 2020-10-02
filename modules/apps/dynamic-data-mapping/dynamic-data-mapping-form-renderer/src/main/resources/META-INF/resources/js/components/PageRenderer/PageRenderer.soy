@@ -95,7 +95,7 @@
 
 		{if $empty and $editable and $activePage == $pageIndex}
 			{let $attributes kind="attributes"}
-				class="col col-empty col-md-12 last-col lfr-initial-col mt-5 mb-4"
+				class="col col-ddm col-empty col-md-12 last-col lfr-initial-col mt-5 mb-4"
 				data-ddm-field-column="0"
 				data-ddm-field-page="{$pageIndex}"
 				data-ddm-field-row="0"
@@ -234,22 +234,24 @@
 			{foreach $field in $column.fields}
 				{let $fieldType: $field.type /}
 
-				{delcall PageRenderer.RegisterFieldType variant="$fieldType" data="$field" allowemptydefault="true"}
-					{param _handleFieldBlurred: $_handleFieldBlurred /}
-					{param _handleFieldClicked: $_handleFieldClicked /}
-					{param _handleFieldEdited: $_handleFieldEdited /}
-					{param _handleFieldFocused: $_handleFieldFocused /}
-					{param activePage: $activePage /}
-					{param editable: $editable /}
-					{param events: [
-						'fieldBlurred': $_handleFieldBlurred,
-						'fieldEdited': $_handleFieldEdited,
-						'fieldFocused': $_handleFieldFocused
-					] /}
-					{param pageIndex: $pageIndex /}
-					{param ref: $field.type + $field.fieldName + $field.name + $field.label + $rowIndex + $columnIndex + $pageIndex /}
-					{param spritemap: $spritemap /}
-				{/delcall}
+				<div class="ddm-field ddm-target" data-field-name="{$field.fieldName}">
+					{delcall PageRenderer.RegisterFieldType variant="$fieldType" data="$field" allowemptydefault="true"}
+						{param _handleFieldBlurred: $_handleFieldBlurred /}
+						{param _handleFieldClicked: $_handleFieldClicked /}
+						{param _handleFieldEdited: $_handleFieldEdited /}
+						{param _handleFieldFocused: $_handleFieldFocused /}
+						{param activePage: $activePage /}
+						{param editable: $editable /}
+						{param events: [
+							'fieldBlurred': $_handleFieldBlurred,
+							'fieldEdited': $_handleFieldEdited,
+							'fieldFocused': $_handleFieldFocused
+						] /}
+						{param pageIndex: $pageIndex /}
+						{param ref: $field.type + $field.fieldName + $field.name + $field.label + $rowIndex + $columnIndex + $pageIndex /}
+						{param spritemap: $spritemap /}
+					{/delcall}
+				</div>
 			{/foreach}
 		{/let}
 
@@ -306,7 +308,7 @@
 	{@param? rowIndex: number}
 
 	{let $attributes kind="attributes"}
-		class="col col-empty col-md-{$size}"
+		class="col col-ddm col-empty col-md-{$size}"
 
 		{if $rowIndex != 'undefined'}
 			data-ddm-field-row="{$rowIndex}"
