@@ -539,7 +539,11 @@ class Sidebar extends Component {
 
 		const {fieldTypes} = this.props;
 		const {fieldSetId} = data.source.dataset;
-		const indexes = FormSupport.getIndexes(data.target.parentElement);
+		let indexes = FormSupport.getNestedIndexes(data.target.parentElement);
+		
+		if (!indexes.length) {
+			indexes = FormSupport.getIndexes(data.target.parentElement);
+		}
 
 		if (fieldSetId) {
 			this._fetchFieldSet(fieldSetId).then(pages => {
@@ -556,6 +560,10 @@ class Sidebar extends Component {
 				return name === data.source.dataset.fieldTypeName;
 			});
 
+			const addedToPlaceholder = data.target.parentElement.parentElement.classList.contains(
+				'placeholder'
+			);
+
 			if (!data.target.parentElement.classList.contains('col-empty')) {
 				dispatch('sectionAdded', {
 					data,
@@ -566,10 +574,6 @@ class Sidebar extends Component {
 				});
 			}
 			else {
-				const addedToPlaceholder = data.target.parentElement.parentElement.classList.contains(
-					'placeholder'
-				);
-
 				dispatch('fieldAdded', {
 					addedToPlaceholder,
 					data,

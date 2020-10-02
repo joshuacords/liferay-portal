@@ -20,6 +20,32 @@ import {
 	getFieldProperties,
 	normalizeSettingsContextPages
 } from '../../../util/fieldSupport.es';
+import {updateFocusedField} from '../util/focusedField.es';
+
+const getContext = (context, nestedIndexes = []) => {
+	if (nestedIndexes.length) {
+		nestedIndexes.forEach((indexes, i) => {
+			const {columnIndex, pageIndex, rowIndex} = indexes;
+
+			let fields =
+				context[i > 0 ? 0 : pageIndex].rows[rowIndex].columns[
+					columnIndex
+				].fields;
+
+			if (context[0].nestedFields) {
+				fields = fields.map(field =>
+					context[0].nestedFields.find(
+						nestedField => nestedField.fieldName === field
+					)
+				);
+			}
+
+			context = fields;
+		});
+	}
+
+	return context;
+};
 
 const handleFieldAdded = (props, state, event) => {
 	const {
@@ -65,10 +91,8 @@ const handleFieldAdded = (props, state, event) => {
 		}
 	};
 
-	const {fieldName, name, settingsContext} = focusedField;
-	const {pageIndex, rowIndex} = indexes;
 	let {pages} = state;
-	let {columnIndex} = indexes;
+	const {fieldName, name, settingsContext} = focusedField;
 
 	const fieldProperties = {
 		...getFieldProperties(
@@ -84,28 +108,69 @@ const handleFieldAdded = (props, state, event) => {
 		type: fieldType.name
 	};
 
-	if (addedToPlaceholder) {
-		pages = FormSupport.addRow(pages, rowIndex, pageIndex);
+	if (!indexes.length || indexes.length === 1) {
+		const {columnIndex, pageIndex, rowIndex} = indexes.length
+			? indexes[0]
+			: indexes;
 
-		columnIndex = 0;
-	}
+		return {
+			focusedField: {
+				...fieldProperties,
+				columnIndex,
+				pageIndex,
+				rowIndex
+			},
+			pages: FormSupport.addFieldToColumn(
+				pages,
+				pageIndex,
+				rowIndex,
+				columnIndex,
+				fieldProperties
+			),
+			previousFocusedField: fieldProperties
+		};
+	} else {
+		const currentContext = getContext(pages, indexes.slice(0, -1));
 
-	return {
-		focusedField: {
-			...fieldProperties,
-			columnIndex,
-			pageIndex,
-			rowIndex
-		},
-		pages: FormSupport.addFieldToColumn(
-			pages,
-			pageIndex,
+		const {columnIndex, rowIndex} = indexes[indexes.length - 1];
+
+		let newContext = FormSupport.addFieldToColumn(
+			currentContext,
+			0,
 			rowIndex,
 			columnIndex,
-			fieldProperties
-		),
-		previousFocusedField: fieldProperties
-	};
+			fieldProperties.fieldName
+		)[0];
+
+		newContext = updateFocusedField(
+			props,
+			{focusedField: newContext},
+			'nestedFields',
+			[...newContext.nestedFields, fieldProperties]
+		);
+
+		newContext = updateFocusedField(
+			props,
+			{focusedField: newContext},
+			'rows',
+			newContext.rows
+		);
+
+		currentContext[0].rows = newContext.rows;
+		currentContext[0].settingsContext = newContext.settingsContext;
+		currentContext[0].nestedFields = newContext.nestedFields;
+
+		return {
+			focusedField: {
+				...fieldProperties,
+				columnIndex,
+				pageIndes: 0,
+				rowIndex
+			},
+			pages,
+			previousFocusedField: fieldProperties
+		};
+	}
 };
 
 export default handleFieldAdded;
