@@ -15,7 +15,7 @@
 import * as FormSupport from 'dynamic-data-mapping-form-renderer/js/components/FormRenderer/FormSupport.es';
 
 import {createField} from '../../../util/fieldSupport.es';
-import {updateFocusedField} from '../util/focusedField.es';
+import {updateFocusedField} from '../util/settingsContext.es';
 
 const getContext = (context, nestedIndexes = []) => {
 	if (nestedIndexes.length) {

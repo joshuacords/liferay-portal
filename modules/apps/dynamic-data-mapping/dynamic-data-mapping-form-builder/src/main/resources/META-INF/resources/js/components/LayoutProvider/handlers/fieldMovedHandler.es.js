@@ -14,7 +14,7 @@
 
 import * as FormSupport from 'dynamic-data-mapping-form-renderer/js/components/FormRenderer/FormSupport.es';
 
-import {updateFocusedField} from '../util/focusedField.es';
+import {updateFocusedField} from '../util/settingsContext.es';
 import createSection from './sectionAddedHandler.es';
 
 const addRow = (props, targetContext, indexes, fields) => {
