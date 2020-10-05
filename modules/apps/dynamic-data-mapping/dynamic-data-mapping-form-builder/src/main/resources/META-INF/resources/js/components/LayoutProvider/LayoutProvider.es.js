@@ -209,7 +209,10 @@ class LayoutProvider extends Component {
 			}
 
 			return newField;
-		});
+		},
+		true,
+		true
+	);
 
 		visitor.setPages(pages);
 
