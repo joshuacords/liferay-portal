@@ -126,6 +126,51 @@ export const emptyPages = pages => {
 	return empty;
 };
 
+export const getFieldIndexes = (pages, fieldName) => {
+	let indexes = {};
+	const visitor = new PagesVisitor(pages);
+
+	visitor.mapFields((field, fieldIndex, columnIndex, rowIndex, pageIndex) => {
+		if (
+			(typeof field === 'string' && field === fieldName) ||
+			(typeof field === 'object' && field.fieldName === fieldName)
+		) {
+			indexes = {
+				columnIndex,
+				fieldIndex,
+				pageIndex,
+				rowIndex
+			};
+		}
+	});
+
+	return indexes;
+};
+
+export const getParentField = (pages, fieldName) => {
+	let parentField;
+	const visitor = new PagesVisitor(pages);
+
+	visitor.mapFields(
+		(
+			field,
+			fieldIndex,
+			columnIndex,
+			rowIndex,
+			pageIndex,
+			currentParentField
+		) => {
+			if (field.fieldName === fieldName) {
+				parentField = currentParentField;
+			}
+		},
+		true,
+		true
+	);
+
+	return parentField;
+};
+
 export const setColumnFields = (
 	pages,
 	pageIndex,
