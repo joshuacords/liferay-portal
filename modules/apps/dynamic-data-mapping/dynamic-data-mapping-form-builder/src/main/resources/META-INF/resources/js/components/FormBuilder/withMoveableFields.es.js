@@ -12,6 +12,8 @@
  * details.
  */
 
+import {FormSupport} from 'dynamic-data-mapping-form-renderer';
+import dom from 'metal-dom';
 import {DragDrop} from 'metal-drag-drop';
 import Component from 'metal-jsx';
 
@@ -71,6 +73,10 @@ const withMoveableFields = ChildComponent => {
 			this._refreshDragAndDrop();
 		}
 
+		_getClosestParent(node) {
+			return dom.closest(node.parentElement, `.ddm-field-container`);
+		}
+
 		_handleDragAndDropEnd({source, target}) {
 			const lastParent = document.querySelector('.dragging');
 
@@ -88,16 +94,30 @@ const withMoveableFields = ChildComponent => {
 			if (target) {
 				source.innerHTML = '';
 
-				const targetColumn = target.parentElement;
-
-				const addedToPlaceholder = targetColumn.parentElement.classList.contains(
-					'placeholder'
+				const sourceFieldNode = dom.closest(
+					source,
+					'.ddm-field-container'
 				);
 
+				let targetFieldName;
+
+				if (target.classList.contains('ddm-field-container')) {
+					targetFieldName = target.dataset.fieldName;
+				}
+
+				let targetParentFieldName;
+				const targetParentFieldNode = this._getClosestParent(target);
+
+				if (targetParentFieldNode) {
+					targetParentFieldName =
+						targetParentFieldNode.dataset.fieldName;
+				}
+
 				this._handleFieldMoved({
-					addedToPlaceholder,
-					source: source.parentElement.parentElement,
-					target: targetColumn,
+					sourceFieldName: sourceFieldNode.dataset.fieldName,
+					targetFieldName,
+					targetIndexes: FormSupport.getIndexes(target.parentElement),
+					targetParentFieldName,
 				});
 			}
 
@@ -116,9 +136,9 @@ const withMoveableFields = ChildComponent => {
 		}
 
 		_handleFieldMoved(event) {
-			const {store} = this.context;
+			const {dispatch} = this.context;
 
-			store.emit('fieldMoved', event);
+			dispatch('fieldMoved', event);
 		}
 
 		_refreshDragAndDrop() {

@@ -90,7 +90,13 @@ export const addFieldToColumn = (
 	const numberOfRows = pages[pageIndex].rows.length;
 
 	if (rowIndex >= numberOfRows) {
-		pages = addRow(pages, numberOfRows, pageIndex);
+		const newRow = implAddRow(12, [field]);
+
+		return addRow(pages, numberOfRows, pageIndex, newRow);
+	}
+
+	if (!isEmptyColumn(pages, pageIndex, rowIndex, columnIndex)) {
+		pages = addRow(pages, rowIndex, pageIndex);
 	}
 
 	const visitor = new PagesVisitor(pages);
