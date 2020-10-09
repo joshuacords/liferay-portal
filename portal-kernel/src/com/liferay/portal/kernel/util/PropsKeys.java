@@ -3778,7 +3778,7 @@ public interface PropsKeys {
 		"users.reminder.queries.custom.question.enabled";
 
 	public static final String USERS_REMINDER_QUERIES_DISPLAY_PLAIN_TEXT =
-		"users.reminder.queries.display.answer.plain.text";
+		"users.reminder.queries.display.answer.in.plain.text";
 
 	public static final String USERS_REMINDER_QUERIES_ENABLED =
 		"users.reminder.queries.enabled";
