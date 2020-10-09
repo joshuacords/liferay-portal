@@ -435,6 +435,27 @@ describe('LayoutProvider', () => {
 				expect(provider.state.pages).toMatchSnapshot();
 				expect(child.props.pages).toEqual(provider.state.pages);
 			});
+
+			it('does not delete field that belongs to rules', () => {
+				component = new Parent();
+
+				const {child, provider} = component.refs;
+
+				expect(
+					provider.state.pages[0].rows[1].columns[0].fields.length
+				).toEqual(2);
+
+				const mockEvent = {
+					activePage: 0,
+					fieldName: 'text1',
+				};
+				
+				child.emit('fieldDeleted', mockEvent);
+
+				expect(
+					provider.state.pages[0].rows[1].columns[0].fields.length
+				).toEqual(2);
+			});
 		});
 
 		describe('fieldDuplicated', () => {
