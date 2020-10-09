@@ -3330,9 +3330,9 @@ public class PropsValues {
 			PropsUtil.get(
 				PropsKeys.USERS_REMINDER_QUERIES_CUSTOM_QUESTION_ENABLED));
 
-	public static final boolean USERS_REMINDER_QUERIES_DISPLAY_PLAIN_TEXT =
+	public static final boolean USERS_REMINDER_QUERIES_DISPLAY_IN_PLAIN_TEXT =
 		GetterUtil.getBoolean(
-			PropsUtil.get(PropsKeys.USERS_REMINDER_QUERIES_DISPLAY_PLAIN_TEXT));
+			PropsUtil.get(PropsKeys.USERS_REMINDER_QUERIES_DISPLAY_IN_PLAIN_TEXT));
 
 	public static final boolean USERS_REMINDER_QUERIES_ENABLED =
 		GetterUtil.getBoolean(
