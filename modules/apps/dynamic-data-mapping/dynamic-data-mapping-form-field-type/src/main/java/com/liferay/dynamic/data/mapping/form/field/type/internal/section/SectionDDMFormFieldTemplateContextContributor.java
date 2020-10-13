@@ -15,9 +15,10 @@
 package com.liferay.dynamic.data.mapping.form.field.type.internal.section;
 
 import com.liferay.dynamic.data.mapping.form.field.type.DDMFormFieldTemplateContextContributor;
-import com.liferay.dynamic.data.mapping.form.field.type.internal.util.DDMFormFieldTypeUtil;
 import com.liferay.dynamic.data.mapping.model.DDMFormField;
+import com.liferay.dynamic.data.mapping.model.LocalizedValue;
 import com.liferay.dynamic.data.mapping.render.DDMFormFieldRenderingContext;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactory;
@@ -31,6 +32,7 @@ import com.liferay.portal.kernel.util.Validator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -73,19 +75,29 @@ public class SectionDDMFormFieldTemplateContextContributor
 					nestedFieldsMap.keySet()))
 		).put(
 			"predefinedValue",
-			DDMFormFieldTypeUtil.getPropertyValue(
-				ddmFormField, ddmFormFieldRenderingContext.getLocale(),
-				"predefinedValue")
+			_getPredefinedValue(
+				ddmFormField, ddmFormFieldRenderingContext.getLocale())
 		).put(
 			"rows",
 			getJSONArray(GetterUtil.getString(ddmFormField.getProperty("rows")))
 		).put(
 			"value",
-			DDMFormFieldTypeUtil.getPropertyValue(
-				ddmFormFieldRenderingContext, "value")
+			 GetterUtil.getString(ddmFormFieldRenderingContext.getProperty("value"))
 		).build();
 	}
 
+	private String _getPredefinedValue(
+		DDMFormField ddmFormField, Locale locale) {
+
+		LocalizedValue predefinedValue = ddmFormField.getPredefinedValue();
+
+		if (predefinedValue == null) {
+			return StringPool.BLANK;
+		}
+
+		return GetterUtil.getString(predefinedValue.getString(locale));
+	}
+	
 	protected JSONArray getJSONArray(String rows) {
 		try {
 			return jsonFactory.createJSONArray(rows);
