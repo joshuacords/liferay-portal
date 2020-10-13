@@ -177,6 +177,12 @@ export const getParentField = (pages, fieldName) => {
 	return parentField;
 };
 
+export const isEmptyColumn = (pages, pageIndex, rowIndex, columnIndex) => {
+	return (
+		pages[pageIndex].rows[rowIndex].columns[columnIndex].fields.length === 0
+	);
+};
+
 export const setColumnFields = (
 	pages,
 	pageIndex,
