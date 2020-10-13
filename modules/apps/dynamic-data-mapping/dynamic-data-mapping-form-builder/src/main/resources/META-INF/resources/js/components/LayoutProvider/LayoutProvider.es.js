@@ -397,7 +397,7 @@ class LayoutProvider extends Component {
 	}
 
 	_handleFieldClicked(event) {
-		this.setState(handleFieldClicked(this.state, event));
+		this.setState(handleFieldClicked(this.props, this.state, event));
 	}
 
 	_handleFieldDeleted(event) {
