@@ -12,7 +12,7 @@
  * details.
  */
 
-import {FormSupport} from 'dynamic-data-mapping-form-renderer';
+import * as FormSupport from 'dynamic-data-mapping-form-renderer/js/components/FormRenderer/FormSupport.es';
 import dom from 'metal-dom';
 import {DragDrop} from 'metal-drag-drop';
 import Component from 'metal-jsx';

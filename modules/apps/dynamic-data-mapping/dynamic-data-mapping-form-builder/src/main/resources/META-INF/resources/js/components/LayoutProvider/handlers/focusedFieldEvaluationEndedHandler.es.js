@@ -12,7 +12,7 @@
  * details.
  */
 
-import {PagesVisitor} from 'dynamic-data-mapping-form-renderer';
+import {PagesVisitor} from 'dynamic-data-mapping-form-renderer/js/util/visitors.es';
 
 import handleFieldEdited from './fieldEditedHandler.es';
 

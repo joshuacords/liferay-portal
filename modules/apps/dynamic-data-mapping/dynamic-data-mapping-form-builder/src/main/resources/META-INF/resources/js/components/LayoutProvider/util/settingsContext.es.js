@@ -13,7 +13,7 @@
  */
 
 import {normalizeFieldName} from 'dynamic-data-mapping-form-renderer/js/util/fields.es';
-import {PagesVisitor} from 'dynamic-data-mapping-form-renderer';
+import {PagesVisitor} from 'dynamic-data-mapping-form-renderer/js/util/visitors.es';
 
 import {updateFieldValidationProperty} from './fields.es';
 

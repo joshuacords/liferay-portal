@@ -12,7 +12,7 @@
  * details.
  */
 
-import {normalizeFieldName} from 'dynamic-data-mapping-form-renderer';
+import {normalizeFieldName} from 'dynamic-data-mapping-form-renderer/js/util/fields.es';
 
 export const shouldAutoGenerateName = (
 	defaultLanguageId,
