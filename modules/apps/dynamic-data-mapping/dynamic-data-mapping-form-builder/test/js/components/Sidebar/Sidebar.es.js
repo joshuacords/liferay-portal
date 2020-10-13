@@ -307,30 +307,6 @@ describe('Sidebar', () => {
 		expect(spy).toHaveBeenCalledWith('fieldDuplicated', expect.anything());
 	});
 
-	it('emits the fieldDeleted event when the delete field option is clicked on the sidebar settings', () => {
-		component = new Sidebar({
-			fieldTypes,
-			focusedField,
-			spritemap
-		});
-
-		const spy = jest.spyOn(component, 'emit');
-
-		const data = {
-			item: {
-				settingsItem: 'delete-field'
-			}
-		};
-
-		jest.runAllTimers();
-
-		component.open();
-
-		component._handleFieldSettingsClicked({data});
-
-		expect(spy).toHaveBeenCalled();
-	});
-
 	it('emits the fieldChangesCanceled event when the cancel field chages option is clicked on the sidebar settings', () => {
 		component = new Sidebar({
 			fieldTypes,
