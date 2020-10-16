@@ -61,6 +61,7 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 import javax.portlet.PortletException;
@@ -477,7 +478,10 @@ public class DDMFormViewFormInstanceRecordsDisplayContext {
 	protected List<DDMFormField> getNontransientFormFields(DDMForm form) {
 		List<DDMFormField> formFields = new ArrayList<>();
 
-		for (DDMFormField formField : form.getDDMFormFields()) {
+		Map<String, DDMFormField> ddmFormFieldsMap =
+				form.getDDMFormFieldsMap(true);
+		
+		for (DDMFormField formField : ddmFormFieldsMap.values()) {
 			if (formField.isTransient()) {
 				continue;
 			}

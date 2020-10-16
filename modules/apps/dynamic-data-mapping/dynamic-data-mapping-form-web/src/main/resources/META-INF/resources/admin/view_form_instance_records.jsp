@@ -69,7 +69,7 @@ renderResponse.setTitle(LanguageUtil.get(request, "form-entries"));
 				<%
 				DDMFormValues ddmFormValues = ddmFormViewFormInstanceRecordsDisplayContext.getDDMFormValues(formInstanceRecord);
 
-				Map<String, List<DDMFormFieldValue>> ddmFormFieldValuesMap = ddmFormValues.getDDMFormFieldValuesMap();
+				Map<String, List<DDMFormFieldValue>> ddmFormFieldValuesMap = ddmFormValues.getDDMFormFieldValuesMap(true);
 
 				DDMForm ddmForm = ddmFormValues.getDDMForm();
 
