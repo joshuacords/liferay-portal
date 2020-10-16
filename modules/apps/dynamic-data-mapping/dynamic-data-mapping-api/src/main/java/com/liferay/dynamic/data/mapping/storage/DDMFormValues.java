@@ -85,6 +85,12 @@ public class DDMFormValues implements Serializable {
 	}
 
 	public Map<String, List<DDMFormFieldValue>> getDDMFormFieldValuesMap() {
+		return getDDMFormFieldValuesMap(false);
+	}
+
+	public Map<String, List<DDMFormFieldValue>> getDDMFormFieldValuesMap(
+			boolean includeNestedDDMFormFieldValues) {
+
 		Map<String, List<DDMFormFieldValue>> ddmFormFieldValuesMap =
 			new LinkedHashMap<>();
 
@@ -100,6 +106,11 @@ public class DDMFormValues implements Serializable {
 			}
 
 			ddmFormFieldValues.add(ddmFormFieldValue);
+			
+			if (includeNestedDDMFormFieldValues) {
+				ddmFormFieldValuesMap.putAll(
+					ddmFormFieldValue.getNestedDDMFormFieldValuesMap());
+			}
 		}
 
 		return ddmFormFieldValuesMap;
