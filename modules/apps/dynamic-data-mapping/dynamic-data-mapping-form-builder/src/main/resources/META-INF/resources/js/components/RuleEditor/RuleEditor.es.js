@@ -433,7 +433,8 @@ class RuleEditor extends Component {
 			calculatorResultOptions: this._calculatorResultOptionsValueFn(),
 			conditions,
 			conditionsFieldOptions: this._conditionsFieldOptionsValueFn([
-				'paragraph'
+				'section',
+				'paragraph',
 			]),
 			deletedFields: this._getDeletedFields(visitor),
 			pageOptions: pageOptions(pages, maxPage),
@@ -605,7 +606,9 @@ class RuleEditor extends Component {
 					value: field.fieldName
 				});
 			}
-		});
+		}, 
+		true,
+		true);
 
 		return fields;
 	}
