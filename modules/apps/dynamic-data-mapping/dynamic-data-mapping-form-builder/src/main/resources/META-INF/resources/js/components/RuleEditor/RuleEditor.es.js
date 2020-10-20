@@ -398,15 +398,19 @@ class RuleEditor extends Component {
 			const secondOperand = condition.operands[1];
 			let secondOperandFieldExists = false;
 
-			visitor.mapFields(({fieldName}) => {
-				if (condition.operands[0].value === fieldName) {
-					firstOperandFieldExists = true;
-				}
+			visitor.mapFields(
+				({fieldName}) => {
+					if (condition.operands[0].value === fieldName) {
+						firstOperandFieldExists = true;
+					}
 
-				if (secondOperand && secondOperand.value === fieldName) {
-					secondOperandFieldExists = true;
-				}
-			});
+					if (secondOperand && secondOperand.value === fieldName) {
+						secondOperandFieldExists = true;
+					}
+				},
+				true,
+				true
+			);
 
 			if (condition.operands[0].value === 'user') {
 				firstOperandFieldExists = true;
@@ -455,16 +459,20 @@ class RuleEditor extends Component {
 		const fields = [];
 		const visitor = new PagesVisitor(pages);
 
-		visitor.mapFields(field => {
-			if (field.type == 'numeric') {
-				fields.push({
-					...field,
-					label: field.label || field.fieldName,
-					options: field.options ? field.options : [],
-					value: field.fieldName
-				});
-			}
-		});
+		visitor.mapFields(
+			field => {
+				if (field.type == 'numeric') {
+					fields.push({
+						...field,
+						label: field.label || field.fieldName,
+						options: field.options ? field.options : [],
+						value: field.fieldName
+					});
+				}
+			},
+			true,
+			true
+		);
 
 		return fields;
 	}
@@ -576,11 +584,15 @@ class RuleEditor extends Component {
 		let deletedFields = [];
 
 		actionsFieldOptions.forEach(field => {
-			visitor.mapFields(({fieldName}) => {
-				if (field.fieldName === fieldName) {
-					existentFields.push(fieldName);
-				}
-			});
+			visitor.mapFields(
+				({fieldName}) => {
+					if (field.fieldName === fieldName) {
+						existentFields.push(fieldName);
+					}
+				},
+				true,
+				true
+			);
 		});
 
 		const oldFields = actionsFieldOptions.map(field => field.fieldName);
@@ -611,41 +623,6 @@ class RuleEditor extends Component {
 		true);
 
 		return fields;
-	}
-
-	_getFieldLabel(fieldName) {
-		const pages = this.pages;
-
-		let fieldLabel;
-
-		if (pages) {
-			for (let page = 0; page < pages.length; page++) {
-				const rows = pages[page].rows;
-
-				for (let row = 0; row < rows.length; row++) {
-					const cols = rows[row].columns;
-
-					for (let col = 0; col < cols.length; col++) {
-						const fields = cols[col].fields;
-
-						for (let field = 0; field < fields.length; field++) {
-							if (
-								pages[page].rows[row].columns[col].fields[field]
-									.fieldName === fieldName
-							) {
-								fieldLabel =
-									pages[page].rows[row].columns[col].fields[
-										field
-									].label;
-								break;
-							}
-						}
-					}
-				}
-			}
-		}
-
-		return fieldLabel;
 	}
 
 	_getFieldTypeByFieldName(fieldName) {
@@ -865,7 +842,7 @@ class RuleEditor extends Component {
 			);
 
 			const firstOperand = {
-				label: this._getFieldLabel(fieldName),
+				label: getFieldProperty(this.pages, fieldName, 'label'),
 				repeatable,
 				type: dataType == 'user' ? 'user' : 'field',
 				value: fieldName
@@ -903,7 +880,9 @@ class RuleEditor extends Component {
 
 						conditions[index].operands[0].source = pageIndex;
 					}
-				}
+				},
+				true,
+				true
 			);
 		}
 
@@ -1411,11 +1390,15 @@ class RuleEditor extends Component {
 		actions.forEach(action => {
 			let targetFieldExists = false;
 
-			visitor.mapFields(({fieldName}) => {
-				if (action.target === fieldName) {
-					targetFieldExists = true;
-				}
-			});
+			visitor.mapFields(
+				({fieldName}) => {
+					if (action.target === fieldName) {
+						targetFieldExists = true;
+					}
+				},
+				true,
+				true
+			);
 
 			action.calculatorFields = this._updateCalculatorFields(
 				action,
