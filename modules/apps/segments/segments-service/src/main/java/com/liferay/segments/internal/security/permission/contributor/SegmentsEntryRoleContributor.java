@@ -19,6 +19,9 @@ import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.security.permission.PermissionCheckerFactory;
+import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
 import com.liferay.portal.kernel.security.permission.contributor.RoleCollection;
 import com.liferay.portal.kernel.security.permission.contributor.RoleContributor;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -54,14 +57,28 @@ public class SegmentsEntryRoleContributor implements RoleContributor {
 
 	@Override
 	public void contribute(RoleCollection roleCollection) {
-		for (long segmentsEntryId : _getSegmentsEntryIds(roleCollection)) {
-			List<SegmentsEntryRole> segmentsEntryRoles =
-				_segmentsEntryRoleLocalService.getSegmentsEntryRoles(
-					segmentsEntryId);
+		PermissionChecker permissionChecker =
+			PermissionThreadLocal.getPermissionChecker();
 
-			for (SegmentsEntryRole segmentsEntryRole : segmentsEntryRoles) {
-				roleCollection.addRoleId(segmentsEntryRole.getRoleId());
+		try {
+			if (permissionChecker != null) {
+				PermissionThreadLocal.setPermissionChecker(
+					_liberalPermissionCheckerFactory.create(
+						permissionChecker.getUser()));
 			}
+
+			for (long segmentsEntryId : _getSegmentsEntryIds(roleCollection)) {
+				List<SegmentsEntryRole> segmentsEntryRoles =
+					_segmentsEntryRoleLocalService.getSegmentsEntryRoles(
+						segmentsEntryId);
+
+				for (SegmentsEntryRole segmentsEntryRole : segmentsEntryRoles) {
+					roleCollection.addRoleId(segmentsEntryRole.getRoleId());
+				}
+			}
+		}
+		finally {
+			PermissionThreadLocal.setPermissionChecker(permissionChecker);
 		}
 	}
 
@@ -119,6 +136,9 @@ public class SegmentsEntryRoleContributor implements RoleContributor {
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		SegmentsEntryRoleContributor.class);
+
+	@Reference(target = "(permission.checker.type=liberal)")
+	private PermissionCheckerFactory _liberalPermissionCheckerFactory;
 
 	@Reference
 	private RequestContextMapper _requestContextMapper;
