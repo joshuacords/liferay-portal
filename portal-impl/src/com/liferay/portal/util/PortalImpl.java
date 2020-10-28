@@ -130,7 +130,6 @@ import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.service.LayoutSetLocalServiceUtil;
 import com.liferay.portal.kernel.service.OrganizationLocalServiceUtil;
 import com.liferay.portal.kernel.service.PortletLocalServiceUtil;
-import com.liferay.portal.kernel.service.PortletPreferencesLocalServiceUtil;
 import com.liferay.portal.kernel.service.ResourceLocalServiceUtil;
 import com.liferay.portal.kernel.service.ResourcePermissionLocalServiceUtil;
 import com.liferay.portal.kernel.service.TicketLocalServiceUtil;
@@ -8037,28 +8036,10 @@ public class PortalImpl implements Portal {
 			}
 
 			for (Portlet portlet : layoutTypePortlet.getAllPortlets()) {
-				if (portletId.equals(portlet.getPortletId()) ||
-					portletId.equals(portlet.getRootPortletId())) {
-
-					long count1 =
-						PortletPreferencesLocalServiceUtil.
-							getPortletPreferencesCount(
-								PortletKeys.PREFS_OWNER_TYPE_LAYOUT,
-								layout.getPlid(), portletId);
-
-					if (count1 > 0) {
-						continue;
-					}
-
-					long count2 =
-						PortletPreferencesLocalServiceUtil.
-							getPortletPreferencesCount(
-								PortletKeys.PREFS_OWNER_TYPE_USER,
-								layout.getPlid(), portletId);
-
-					if (count2 > 0) {
-						continue;
-					}
+				if ((portletId.equals(portlet.getPortletId()) ||
+					 portletId.equals(portlet.getRootPortletId())) &&
+					!layout.isPortletEmbedded(portletId, layout.getGroupId()) &&
+					!layoutTypePortlet.isPortletCustomizable(portletId)) {
 
 					return layout.getPlid();
 				}
