@@ -63,7 +63,7 @@ public class PortletJSONUtil {
 
 	public static void populatePortletJSONObject(
 			HttpServletRequest httpServletRequest, String portletHTML,
-			Portlet portlet, JSONObject jsonObject, List<Portlet> allPortlets)
+			Portlet portlet, List<Portlet> allPortlets, JSONObject jsonObject)
 		throws Exception {
 
 		Set<String> footerCssSet = new LinkedHashSet<>();
