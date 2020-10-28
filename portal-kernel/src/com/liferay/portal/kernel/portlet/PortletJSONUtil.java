@@ -57,8 +57,8 @@ public class PortletJSONUtil {
 			themeDisplay.getLayoutTypePortlet();
 
 		populatePortletJSONObject(
-			httpServletRequest, portletHTML, portlet, jsonObject,
-			layoutTypePortlet.getAllPortlets());
+			httpServletRequest, portletHTML, portlet,
+			layoutTypePortlet.getAllPortlets(), jsonObject);
 	}
 
 	public static void populatePortletJSONObject(
