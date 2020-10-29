@@ -471,7 +471,7 @@ public class ElasticsearchSearchEngineAdapterDocumentRequestTest {
 		Document document = new DocumentImpl();
 
 		document.addKeyword(Field.UID, id);
-		document.addKeyword(_FIELD_NAME, false);
+		document.addKeyword(_FIELD_NAME, (String) null);
 
 		UpdateDocumentResponse updateDocumentResponse =
 			_updateDocumentWithAdapter(id, document);

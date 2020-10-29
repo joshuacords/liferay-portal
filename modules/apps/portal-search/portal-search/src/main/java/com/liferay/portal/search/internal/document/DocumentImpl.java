@@ -175,9 +175,16 @@ public class DocumentImpl implements Document {
 	}
 
 	public void setFieldValues(String name, Collection<Object> values) {
+//		if ((values == null)) { //|| values.isEmpty()) {
 		if ((values == null) || values.isEmpty()) {
 			values = Arrays.asList(StringPool.BLANK);
+//			removeField(name);
+//			return;
 		}
+
+//		if (values.isEmpty()) {
+//			values = Collections.EMPTY_LIST;
+//		}
 
 		putField(name, values);
 	}

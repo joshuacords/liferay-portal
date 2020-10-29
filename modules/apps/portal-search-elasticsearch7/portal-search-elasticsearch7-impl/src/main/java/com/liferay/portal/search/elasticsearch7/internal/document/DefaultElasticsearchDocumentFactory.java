@@ -184,6 +184,8 @@ public class DefaultElasticsearchDocumentFactory
 		}
 	}
 
+	//tests: number and object case
+	//exists query in ES to find out if field is empty or absent
 	protected void addField(
 			XContentBuilder xContentBuilder,
 			com.liferay.portal.kernel.search.Field field, String fieldName,
@@ -211,7 +213,7 @@ public class DefaultElasticsearchDocumentFactory
 		}
 		else {
 			if (values.length < 1) {
-				xContentBuilder.value(translateValue(field, StringPool.BLANK));
+				xContentBuilder.value(translateValue(field, null));
 			}
 			else {
 				for (String value : values) {
