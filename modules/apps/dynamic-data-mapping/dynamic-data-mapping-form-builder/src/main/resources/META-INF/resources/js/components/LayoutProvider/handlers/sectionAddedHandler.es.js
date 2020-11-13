@@ -85,7 +85,7 @@ const addNestedFields = ({field, indexes, nestedFields, props}) => {
 const createSection = (props, event, nestedFields) => {
 	const {fieldTypes} = props;
 	const fieldType = fieldTypes.find(fieldType => {
-		return fieldType.name === 'section';
+		return fieldType.name === 'fieldset';
 	});
 	const sectionField = createField(props, {...event, fieldType});
 

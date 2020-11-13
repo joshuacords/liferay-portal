@@ -356,7 +356,7 @@ public class DDMFormTemplateContextProcessor {
 		if (type.equals("grid")) {
 			setDDMFormFieldOptionsProperty(jsonObject, ddmFormField, "rows");
 		}
-		else if (type.equals("section")) {
+		else if (type.equals("fieldset")) {
 			setdDDMFormFieldSetRowsProperty(jsonObject, ddmFormField);
 		}
 	}

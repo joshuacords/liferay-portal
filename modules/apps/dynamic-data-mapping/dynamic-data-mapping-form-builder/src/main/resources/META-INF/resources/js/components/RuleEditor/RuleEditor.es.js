@@ -437,7 +437,7 @@ class RuleEditor extends Component {
 			calculatorResultOptions: this._calculatorResultOptionsValueFn(),
 			conditions,
 			conditionsFieldOptions: this._conditionsFieldOptionsValueFn([
-				'section',
+				'fieldset',
 				'paragraph',
 			]),
 			deletedFields: this._getDeletedFields(visitor),
