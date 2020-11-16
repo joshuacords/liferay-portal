@@ -53,6 +53,7 @@ import com.liferay.portal.kernel.repository.event.RepositoryEventTrigger;
 import com.liferay.portal.kernel.repository.event.RepositoryEventType;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.repository.model.Folder;
+import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
 import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.search.Indexer;
@@ -892,6 +893,46 @@ public class DLFolderLocalServiceImpl extends DLFolderLocalServiceBaseImpl {
 
 				unlockFolder(folderId, lock.getUuid());
 			}
+		}
+	}
+
+	private void _updateChildrenPermissions(DLFolder parentFolder) {
+
+		List<DLFileEntry> dlFileEntries =
+			dlFileEntryLocalService.getFileEntries(
+				parentFolder.getGroupId(), parentFolder.getFolderId());
+
+		for (DLFileEntry dlFileEntry : dlFileEntries) {
+			IndexWriterHelperUtil.updatePermissionFields(
+				dlFileEntry.getClassName(),
+				String.valueOf(dlFileEntry.getFileEntryId()));
+
+//			dLFileEntryIndexerWriter.updatePermissionFields(dlFileEntry);
+
+//			if (_log.isDebugEnabled()) {
+//				_log.debug(
+//					"Document " + dlFileEntry +
+//					" permissions indexed successfully");
+//			}
+		}
+
+		List<DLFolder> dlFolders = dlFolderLocalService.getFolders(
+			parentFolder.getGroupId(), parentFolder.getFolderId());
+
+		for (DLFolder dlFolder : dlFolders) {
+			IndexWriterHelperUtil.updatePermissionFields(
+				dlFolder.getModelClassName(),
+				String.valueOf(dlFolder.getFolderId()));
+
+//			dLFolderIndexerWriter.updatePermissionFields(dlFolder);
+
+//			if (_log.isDebugEnabled()) {
+//				_log.debug(
+//					"Document " + dlFolder +
+//					" permissions indexed successfully");
+//			}
+
+			_updateChildrenPermissions(dlFolder);
 		}
 	}
 

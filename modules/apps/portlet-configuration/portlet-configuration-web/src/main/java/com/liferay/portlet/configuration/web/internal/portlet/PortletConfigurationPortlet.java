@@ -549,7 +549,7 @@ public class PortletConfigurationPortlet extends MVCPortlet {
 			roleIdsToActionIds.put(
 				roleId, getActionIds(actionRequest, roleId, false));
 		}
-
+//entry
 		_resourcePermissionService.setIndividualResourcePermissions(
 			resourceGroupId, themeDisplay.getCompanyId(), selResource,
 			resourcePrimKey, roleIdsToActionIds);

@@ -14,6 +14,8 @@
 
 package com.liferay.portal.service.impl;
 
+import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.exportimport.kernel.lar.ExportImportThreadLocal;
 import com.liferay.exportimport.kernel.staging.MergeLayoutPrototypesThreadLocal;
 import com.liferay.petra.sql.dsl.DSLQueryFactoryUtil;
@@ -46,6 +48,7 @@ import com.liferay.portal.kernel.model.ResourcePermissionConstants;
 import com.liferay.portal.kernel.model.ResourcePermissionTable;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.role.RoleConstants;
+import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.IndexWriterHelperUtil;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
@@ -1894,6 +1897,9 @@ public class ResourcePermissionLocalServiceImpl
 
 		PermissionThreadLocal.setFlushResourcePermissionEnabled(
 			name, primKey, false);
+//maybe check old permissions here and only cascade if changed in finally
+		boolean cascadeReindex = false;
+		boolean parentModel = _isParentModel(name);
 
 		try {
 			long[] roleIds = ArrayUtil.toLongArray(roleIdsToActionIds.keySet());
@@ -1924,11 +1930,14 @@ public class ResourcePermissionLocalServiceImpl
 				long roleId = resourcePermission.getRoleId();
 
 				String[] actionIds = roleIdsToActionIds.remove(roleId);
+//if any return true need to update BaseChildModels
 
-				_updateResourcePermission(
-					companyId, name, scope, primKey, ownerId, roleId, null,
-					actionIds, ResourcePermissionConstants.OPERATOR_SET, true,
-					null);
+				if (_updateResourcePermission(
+						companyId, name, scope, primKey, ownerId, roleId, null,
+						actionIds, ResourcePermissionConstants.OPERATOR_SET, true,
+						null) && parentModel) {
+					cascadeReindex = true;
+				}
 			}
 
 			if (roleIdsToActionIds.isEmpty()) {
@@ -1967,6 +1976,11 @@ public class ResourcePermissionLocalServiceImpl
 				scope, name, primKey);
 
 			IndexWriterHelperUtil.updatePermissionFields(name, primKey);
+
+			//update cascade reindex
+			if (cascadeReindex) {
+				_cascadeReindexPermissions(name, primKey);
+			}
 		}
 	}
 
@@ -1997,6 +2011,57 @@ public class ResourcePermissionLocalServiceImpl
 						name);
 			}
 		}
+	}
+
+	private boolean _isParentModel(String name) {
+		if (name.contains("DLFolder")) {
+			return true;
+		}
+
+		return false;
+	}
+
+	private void _cascadeReindexPermissions(String name, String primKey) {
+		Long classPK = Long.parseLong(primKey);
+
+		BaseParentModel baseParentModel = _getParentModel(name, classPK);
+
+		List<BaseChildModel> baseChildModels = baseParentModel.getChildrenModels();
+
+		for (BaseChildModel baseChildModel : baseChildModels) {
+			if (baseChildModel instanceof BaseParentModel) {
+				//IndexWriterHelperUtil.updatePermissionFields(//classname, primaryKey);
+				//_cascadeReindexPermissions(//classname, primaryKey);
+			} else {
+				//IndexWriterHelperUtil.updatePermissionFields(//classname, primaryKey);
+			}
+		}
+	}
+
+	private BaseParentModel _getParentModel(String className, Long classPK) {
+		PersistedModelLocalService persistedModelLocalService =
+			_getPersistedModelLocalService(className);
+
+		PersistedModel persistedModel;
+
+		try {
+			persistedModel = persistedModelLocalService.getPersistedModel(
+				classPK);
+
+			if (persistedModel instanceof BaseParentModel) {
+				return (BaseParentModel)persistedModel;
+			}
+		}
+		catch (PortalException portalException) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(
+					StringBundler.concat(
+						"No ", className, " found for class PK ", classPK),
+					portalException);
+			}
+		}
+
+		return null;
 	}
 
 	private BaseChildModel _getChildModel(String className, Long classPK) {
@@ -2253,7 +2318,7 @@ public class ResourcePermissionLocalServiceImpl
 			resourcePermission = resourcePermissionPersistence.fetchByC_N_S_P_R(
 				companyId, name, scope, primKey, roleId);
 		}
-
+//logic makes me unsure if changes will always be true
 		if (resourcePermission == null) {
 			if (((operator == ResourcePermissionConstants.OPERATOR_ADD) ||
 				 (operator == ResourcePermissionConstants.OPERATOR_SET)) &&
