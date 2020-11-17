@@ -95,7 +95,7 @@ const withActionableFields = ChildComponent => {
 			if (Object.keys(focusedField).length > 0) {
 				const {fieldName} = focusedField;
 
-				this.showActions(selectedFieldActions, fieldName);
+				this.showActions(selectedFieldActions, null, fieldName);
 			}
 			else {
 				selectedFieldActions.props.visible = false;
@@ -104,13 +104,14 @@ const withActionableFields = ChildComponent => {
 			if (hoveredFieldActions.state.fieldName) {
 				this.showActions(
 					hoveredFieldActions,
+					null,
 					hoveredFieldActions.state.fieldName
 				);
 			}
 		}
 
-		showActions(actions, fieldName, field) {
-			actions.props.label = this._getFieldType(fieldName, field);
+		showActions(actions, field, fieldName) {
+			actions.props.label = this._getFieldType(field, fieldName);
 			actions.props.visible = true;
 
 			if (fieldName !== actions.state.fieldName) {
@@ -135,7 +136,7 @@ const withActionableFields = ChildComponent => {
 			return dom.closest(node.parentElement, `.ddm-field-container`);
 		}
 
-		_getFieldType(fieldName, field) {
+		_getFieldType(field, fieldName) {
 			const {fieldTypes, pages} = this.props;
 
 			if (!field) {
@@ -179,7 +180,7 @@ const withActionableFields = ChildComponent => {
 				const field = FormSupport.findFieldByName(pages, fieldName);
 
 				if (field) {
-					this.showActions(hoveredFieldActions, fieldName, field);
+					this.showActions(hoveredFieldActions, field, fieldName);
 				}
 			}
 		}
@@ -198,7 +199,7 @@ const withActionableFields = ChildComponent => {
 				const field = FormSupport.findFieldByName(pages, fieldName);
 
 				if (field) {
-					this.showActions(hoveredFieldActions, fieldName, field);
+					this.showActions(hoveredFieldActions, field, fieldName);
 				}
 			}
 		}
