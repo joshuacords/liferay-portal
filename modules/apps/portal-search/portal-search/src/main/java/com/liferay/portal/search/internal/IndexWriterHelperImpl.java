@@ -652,7 +652,34 @@ public class IndexWriterHelperImpl implements IndexWriterHelper {
 
 			_searchPermissionChecker.updatePermissionFields(
 				_getIndexerModelName(name), primKey);
+
+			_cascadeReindexChildren(name, primkey);
 		}
+	}
+
+	private void _cascadeReindexChildren(String name, String primKey) {
+		Long classPK = Long.parseLong(primKey);
+
+		BaseParentModel baseParentModel = _getParentModel(name, classPK);
+
+		//get flattened list of all children - getting uid or Class
+
+		//for each child, new doc with uid only, then invoke partiallyUpdateDocument
+		//UIDFactory
+
+		List<BaseChildModel> baseChildModels = baseParentModel.getChildrenModels();
+
+		for (BaseChildModel baseChildModel : baseChildModels) {
+			if (baseChildModel instanceof BaseParentModel) {
+				//IndexWriterHelperUtil.updatePermissionFields(//classname, primaryKey);
+				//_cascadeReindexPermissions(//classname, primaryKey);
+			} else {
+				//IndexWriterHelperUtil.updatePermissionFields(//classname, primaryKey);
+			}
+		}
+
+		//Wed afternoon to meet Adam with Andre
+		partiallyUpdateDocument();
 	}
 
 	@Activate
