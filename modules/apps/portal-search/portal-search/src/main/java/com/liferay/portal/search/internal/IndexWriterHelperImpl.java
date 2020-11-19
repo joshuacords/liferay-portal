@@ -14,15 +14,20 @@
 
 package com.liferay.portal.search.internal;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.background.task.constants.BackgroundTaskContextMapConstants;
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTask;
 import com.liferay.portal.kernel.backgroundtask.BackgroundTaskManager;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.messaging.proxy.ProxyModeThreadLocal;
+import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.CompanyConstants;
+import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.model.change.tracking.CTModel;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.IndexWriter;
 import com.liferay.portal.kernel.search.IndexWriterHelper;
@@ -34,7 +39,10 @@ import com.liferay.portal.kernel.search.SearchPermissionChecker;
 import com.liferay.portal.kernel.search.background.task.ReindexBackgroundTaskConstants;
 import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
 import com.liferay.portal.kernel.security.permission.ResourceActionsUtil;
+import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.PersistedModelLocalServiceRegistryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.search.configuration.IndexWriterHelperConfiguration;
@@ -47,6 +55,7 @@ import java.io.Serializable;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
@@ -653,33 +662,106 @@ public class IndexWriterHelperImpl implements IndexWriterHelper {
 			_searchPermissionChecker.updatePermissionFields(
 				_getIndexerModelName(name), primKey);
 
-			_cascadeReindexChildren(name, primkey);
+			_cascadeReindexChildren(name, primKey);
 		}
 	}
 
-	private void _cascadeReindexChildren(String name, String primKey) {
-		Long classPK = Long.parseLong(primKey);
-
-		BaseParentModel baseParentModel = _getParentModel(name, classPK);
+	//Andre's idea with string list return
+	private void _cascadeReindexChildren(String name, String parentPrimKey) {
 
 		//get flattened list of all children - getting uid or Class
+		Map<String, String> childModelIds = XUtil.getAllChildren(name, parentPrimKey);
+		//id, classname
+		//for each child, new doc with uid only, then invoke partiallyUpdateDocument
+		//UIDFactory
+
+		for (List<String> childModelId : childModelIds) {
+			_searchPermissionChecker.updatePermissionFields(
+				_getIndexerModelName(
+					childModelId.get(0)), childModelId.get(1));
+		}
+	}
+
+	//search treePaths for the parent's
+
+	//Andre's idea with model return
+	private void _cascadeReindexChildren(String name, String parentPrimKey) {
+
+		//get flattened list of all children - getting uid or Class
+		List<CTModel> childModels = XUtil.getAllChildren(name, parentPrimKey);
 
 		//for each child, new doc with uid only, then invoke partiallyUpdateDocument
 		//UIDFactory
 
-		List<BaseChildModel> baseChildModels = baseParentModel.getChildrenModels();
+		for (CTModel childModel : childModels) {
+			_searchPermissionChecker.updatePermissionFields(
+				_getIndexerModelName(
+					PortalUtil.getClassnameId(childModel)), childModel.getPrimaryKey());
+		}
+	}
 
-		for (BaseChildModel baseChildModel : baseChildModels) {
+	//my idea
+	private void _cascadeReindexChildren(String name, String parentPrimKey) {
+		Long parentClassPK = Long.parseLong(parentPrimKey);
+
+		BaseParentModel parentModel = _getParentModel(name, parentClassPK);
+
+		if (parentModel == null) {
+			return;
+		}
+
+		List<Model> childModels = parentModel.getChildren();
+
+		for (Model childModel : childModels) {
 			if (baseChildModel instanceof BaseParentModel) {
-				//IndexWriterHelperUtil.updatePermissionFields(//classname, primaryKey);
-				//_cascadeReindexPermissions(//classname, primaryKey);
-			} else {
-				//IndexWriterHelperUtil.updatePermissionFields(//classname, primaryKey);
+				_cascadeReindexChildren(childModel.getClassname(), childModel.getPrimaryKey());
+			}
+
+			_searchPermissionChecker.updatePermissionFields(
+				_getIndexerModelName(childModel.getClassname()), childModel.getPrimaryKey());
+		}
+	}
+
+	private BaseParentModel _getParentModel(String className, Long classPK) {
+		PersistedModelLocalService persistedModelLocalService =
+			_getPersistedModelLocalService(className);
+
+		PersistedModel persistedModel;
+
+		try {
+			persistedModel = persistedModelLocalService.getPersistedModel(
+				classPK);
+
+			if (persistedModel instanceof BaseParentModel) {
+				return (BaseParentModel)persistedModel;
+			}
+		}
+		catch (PortalException portalException) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(
+					StringBundler.concat(
+						"No ", className, " found for class PK ", classPK),
+					portalException);
 			}
 		}
 
-		//Wed afternoon to meet Adam with Andre
-		partiallyUpdateDocument();
+		return null;
+	}
+
+	private PersistedModelLocalService _getPersistedModelLocalService(
+		String className) {
+
+		PersistedModelLocalService persistedModelLocalService =
+			PersistedModelLocalServiceRegistryUtil.
+				getPersistedModelLocalService(className);
+
+		if (persistedModelLocalService == null) {
+			throw new SystemException(
+				"No persisted model local service found for class " +
+				className);
+		}
+
+		return persistedModelLocalService;
 	}
 
 	@Activate

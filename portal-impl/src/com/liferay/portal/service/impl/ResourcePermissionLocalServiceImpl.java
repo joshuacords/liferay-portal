@@ -1978,9 +1978,9 @@ public class ResourcePermissionLocalServiceImpl
 			IndexWriterHelperUtil.updatePermissionFields(name, primKey);
 
 			//update cascade reindex
-			if (cascadeReindex) {
-				_cascadeReindexPermissions(name, primKey);
-			}
+//			if (cascadeReindex) {
+//				_cascadeReindexPermissions(name, primKey);
+//			}
 		}
 	}
 
