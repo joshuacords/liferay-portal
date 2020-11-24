@@ -339,6 +339,10 @@ public class DLFolderLocalServiceUtil {
 		return getService().fetchDLFolder(folderId);
 	}
 
+	public static java.util.Map<String, String> getChildren(long folderId) {
+		return getService().getChildren(folderId);
+	}
+
 	/**
 	 * Returns the document library folder matching the UUID and group.
 	 *

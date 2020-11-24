@@ -297,6 +297,9 @@ public interface DLFolderLocalService
 	public ActionableDynamicQuery getActionableDynamicQuery();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Map<String, String> getChildren(long folderId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<DLFolder> getCompanyFolders(long companyId, int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

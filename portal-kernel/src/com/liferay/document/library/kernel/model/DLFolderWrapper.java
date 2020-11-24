@@ -249,6 +249,11 @@ public class DLFolderWrapper
 		return model.getAncestors();
 	}
 
+	@Override
+	public Map<String, String> getChildren() {
+		return model.getChildren();
+	}
+
 	/**
 	 * Returns the company ID of this document library folder.
 	 *
