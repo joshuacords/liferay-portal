@@ -82,9 +82,9 @@ public class DLFolderModelDocumentContributor
 			_log.debug("Document " + dlFolder + " indexed successfully");
 		}
 
-		if (_changingPermissions(document, dlFolder)) {
-			_updateChildrenPermissions(document, dlFolder);
-		}
+//		if (_changingPermissions(document, dlFolder)) {
+//			_updateChildrenPermissions(document, dlFolder);
+//		}
 	}
 
 	@Reference(unbind = "-")
