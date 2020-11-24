@@ -2021,48 +2021,48 @@ public class ResourcePermissionLocalServiceImpl
 		return false;
 	}
 
-	private void _cascadeReindexPermissions(String name, String primKey) {
-		Long classPK = Long.parseLong(primKey);
-
-		BaseParentModel baseParentModel = _getParentModel(name, classPK);
-
-		List<BaseChildModel> baseChildModels = baseParentModel.getChildrenModels();
-
-		for (BaseChildModel baseChildModel : baseChildModels) {
-			if (baseChildModel instanceof BaseParentModel) {
-				//IndexWriterHelperUtil.updatePermissionFields(//classname, primaryKey);
-				//_cascadeReindexPermissions(//classname, primaryKey);
-			} else {
-				//IndexWriterHelperUtil.updatePermissionFields(//classname, primaryKey);
-			}
-		}
-	}
-
-	private BaseParentModel _getParentModel(String className, Long classPK) {
-		PersistedModelLocalService persistedModelLocalService =
-			_getPersistedModelLocalService(className);
-
-		PersistedModel persistedModel;
-
-		try {
-			persistedModel = persistedModelLocalService.getPersistedModel(
-				classPK);
-
-			if (persistedModel instanceof BaseParentModel) {
-				return (BaseParentModel)persistedModel;
-			}
-		}
-		catch (PortalException portalException) {
-			if (_log.isWarnEnabled()) {
-				_log.warn(
-					StringBundler.concat(
-						"No ", className, " found for class PK ", classPK),
-					portalException);
-			}
-		}
-
-		return null;
-	}
+//	private void _cascadeReindexPermissions(String name, String primKey) {
+//		Long classPK = Long.parseLong(primKey);
+//
+//		BaseParentModel baseParentModel = _getParentModel(name, classPK);
+//
+//		List<BaseChildModel> baseChildModels = baseParentModel.getChildrenModels();
+//
+//		for (BaseChildModel baseChildModel : baseChildModels) {
+//			if (baseChildModel instanceof BaseParentModel) {
+//				//IndexWriterHelperUtil.updatePermissionFields(//classname, primaryKey);
+//				//_cascadeReindexPermissions(//classname, primaryKey);
+//			} else {
+//				//IndexWriterHelperUtil.updatePermissionFields(//classname, primaryKey);
+//			}
+//		}
+//	}
+//
+//	private BaseParentModel _getParentModel(String className, Long classPK) {
+//		PersistedModelLocalService persistedModelLocalService =
+//			_getPersistedModelLocalService(className);
+//
+//		PersistedModel persistedModel;
+//
+//		try {
+//			persistedModel = persistedModelLocalService.getPersistedModel(
+//				classPK);
+//
+//			if (persistedModel instanceof BaseParentModel) {
+//				return (BaseParentModel)persistedModel;
+//			}
+//		}
+//		catch (PortalException portalException) {
+//			if (_log.isWarnEnabled()) {
+//				_log.warn(
+//					StringBundler.concat(
+//						"No ", className, " found for class PK ", classPK),
+//					portalException);
+//			}
+//		}
+//
+//		return null;
+//	}
 
 	private BaseChildModel _getChildModel(String className, Long classPK) {
 		PersistedModelLocalService persistedModelLocalService =

@@ -14,6 +14,8 @@
 
 package com.liferay.portal.search.internal;
 
+import com.liferay.document.library.kernel.service.DLFolderLocalService;
+import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.background.task.constants.BackgroundTaskContextMapConstants;
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
@@ -670,99 +672,107 @@ public class IndexWriterHelperImpl implements IndexWriterHelper {
 	private void _cascadeReindexChildren(String name, String parentPrimKey) {
 
 		//get flattened list of all children - getting uid or Class
-		Map<String, String> childModelIds = XUtil.getAllChildren(name, parentPrimKey);
+		//Map<String, String> childModelIds = XUtil.getAllChildren(name, parentPrimKey);
+
+		Map<String, String> childModelIds = null;
+
+		if(name.contains("DLFolder")) {
+			childModelIds = DLFolderLocalServiceUtil.getChildren(Long.parseLong(parentPrimKey));
+		}
+
 		//id, classname
 		//for each child, new doc with uid only, then invoke partiallyUpdateDocument
 		//UIDFactory
 
-		for (List<String> childModelId : childModelIds) {
+		//String indexerModelName = _getIndexerModelName(entry.getValue());
+
+		for (Map.Entry<String,String> entry : childModelIds.entrySet()) {
 			_searchPermissionChecker.updatePermissionFields(
-				_getIndexerModelName(
-					childModelId.get(0)), childModelId.get(1));
+				_getIndexerModelName(entry.getValue()), entry.getKey());
 		}
 	}
 
 	//search treePaths for the parent's
 
 	//Andre's idea with model return
-	private void _cascadeReindexChildren(String name, String parentPrimKey) {
+//	private void _cascadeReindexChildren(String name, String parentPrimKey) {
+//
+//		//get flattened list of all children - getting uid or Class
+//		List<CTModel> childModels = XUtil.getAllChildren(name, parentPrimKey);
+//
+//		//for each child, new doc with uid only, then invoke partiallyUpdateDocument
+//		//UIDFactory
+//
+//		for (CTModel childModel : childModels) {
+//			_searchPermissionChecker.updatePermissionFields(
+//				_getIndexerModelName(
+//					PortalUtil.getClassnameId(childModel)), childModel.getPrimaryKey());
+//		}
+//	}
+//
+//	//my idea
+//	private void _cascadeReindexChildren(String name, String parentPrimKey) {
+//		Long parentClassPK = Long.parseLong(parentPrimKey);
+//
+//		BaseParentModel parentModel = _getParentModel(name, parentClassPK);
+//
+//		if (parentModel == null) {
+//			return;
+//		}
+//
+//		List<Model> childModels = parentModel.getChildren();
+//
+//		for (Model childModel : childModels) {
+//			if (baseChildModel instanceof BaseParentModel) {
+//				_cascadeReindexChildren(childModel.getClassname(), childModel.getPrimaryKey());
+//			}
+//
+//			_searchPermissionChecker.updatePermissionFields(
+//				_getIndexerModelName(childModel.getClassname()), childModel.getPrimaryKey());
+//		}
+//	}
 
-		//get flattened list of all children - getting uid or Class
-		List<CTModel> childModels = XUtil.getAllChildren(name, parentPrimKey);
-
-		//for each child, new doc with uid only, then invoke partiallyUpdateDocument
-		//UIDFactory
-
-		for (CTModel childModel : childModels) {
-			_searchPermissionChecker.updatePermissionFields(
-				_getIndexerModelName(
-					PortalUtil.getClassnameId(childModel)), childModel.getPrimaryKey());
-		}
-	}
-
-	//my idea
-	private void _cascadeReindexChildren(String name, String parentPrimKey) {
-		Long parentClassPK = Long.parseLong(parentPrimKey);
-
-		BaseParentModel parentModel = _getParentModel(name, parentClassPK);
-
-		if (parentModel == null) {
-			return;
-		}
-
-		List<Model> childModels = parentModel.getChildren();
-
-		for (Model childModel : childModels) {
-			if (baseChildModel instanceof BaseParentModel) {
-				_cascadeReindexChildren(childModel.getClassname(), childModel.getPrimaryKey());
-			}
-
-			_searchPermissionChecker.updatePermissionFields(
-				_getIndexerModelName(childModel.getClassname()), childModel.getPrimaryKey());
-		}
-	}
-
-	private BaseParentModel _getParentModel(String className, Long classPK) {
-		PersistedModelLocalService persistedModelLocalService =
-			_getPersistedModelLocalService(className);
-
-		PersistedModel persistedModel;
-
-		try {
-			persistedModel = persistedModelLocalService.getPersistedModel(
-				classPK);
-
-			if (persistedModel instanceof BaseParentModel) {
-				return (BaseParentModel)persistedModel;
-			}
-		}
-		catch (PortalException portalException) {
-			if (_log.isWarnEnabled()) {
-				_log.warn(
-					StringBundler.concat(
-						"No ", className, " found for class PK ", classPK),
-					portalException);
-			}
-		}
-
-		return null;
-	}
-
-	private PersistedModelLocalService _getPersistedModelLocalService(
-		String className) {
-
-		PersistedModelLocalService persistedModelLocalService =
-			PersistedModelLocalServiceRegistryUtil.
-				getPersistedModelLocalService(className);
-
-		if (persistedModelLocalService == null) {
-			throw new SystemException(
-				"No persisted model local service found for class " +
-				className);
-		}
-
-		return persistedModelLocalService;
-	}
+//	private BaseParentModel _getParentModel(String className, Long classPK) {
+//		PersistedModelLocalService persistedModelLocalService =
+//			_getPersistedModelLocalService(className);
+//
+//		PersistedModel persistedModel;
+//
+//		try {
+//			persistedModel = persistedModelLocalService.getPersistedModel(
+//				classPK);
+//
+//			if (persistedModel instanceof BaseParentModel) {
+//				return (BaseParentModel)persistedModel;
+//			}
+//		}
+//		catch (PortalException portalException) {
+//			if (_log.isWarnEnabled()) {
+//				_log.warn(
+//					StringBundler.concat(
+//						"No ", className, " found for class PK ", classPK),
+//					portalException);
+//			}
+//		}
+//
+//		return null;
+//	}
+//
+//	private PersistedModelLocalService _getPersistedModelLocalService(
+//		String className) {
+//
+//		PersistedModelLocalService persistedModelLocalService =
+//			PersistedModelLocalServiceRegistryUtil.
+//				getPersistedModelLocalService(className);
+//
+//		if (persistedModelLocalService == null) {
+//			throw new SystemException(
+//				"No persisted model local service found for class " +
+//				className);
+//		}
+//
+//		return persistedModelLocalService;
+//	}
 
 	@Activate
 	@Modified
