@@ -77,7 +77,7 @@ import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
-import com.liferay.portal.search.indexer.IndexerWriter;
+//import com.liferay.portal.search.indexer.IndexerWriter;
 import com.liferay.ratings.kernel.service.persistence.RatingsStatsPersistence;
 
 import java.io.Serializable;
@@ -1659,10 +1659,10 @@ public abstract class DLFolderLocalServiceBaseImpl
 		com.liferay.document.library.kernel.service.DLFileEntryLocalService
 			dlFileEntryLocalService;
 
-	@BeanReference(
-		type = com.liferay.document.library.kernel.model.DLFileEntry.class
-	)
-	protected IndexerWriter<DLFileEntry> dLFileEntryIndexerWriter;
+//	@BeanReference(
+//		type = com.liferay.document.library.kernel.model.DLFileEntry.class
+//	)
+//	protected IndexerWriter<DLFileEntry> dLFileEntryIndexerWriter;
 
 	@BeanReference(type = DLFileEntryPersistence.class)
 	protected DLFileEntryPersistence dlFileEntryPersistence;

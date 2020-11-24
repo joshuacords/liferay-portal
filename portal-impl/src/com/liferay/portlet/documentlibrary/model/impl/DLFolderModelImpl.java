@@ -17,11 +17,18 @@ package com.liferay.portlet.documentlibrary.model.impl;
 import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.document.library.kernel.model.DLFolderModel;
 import com.liferay.document.library.kernel.model.DLFolderSoap;
+import com.liferay.document.library.kernel.service.DLFolderLocalService;
+import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
 import com.liferay.expando.kernel.model.ExpandoBridge;
 import com.liferay.expando.kernel.util.ExpandoBridgeFactoryUtil;
 import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.bean.AutoEscapeBeanHandler;
+import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.NoSuchModelException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSON;
@@ -31,6 +38,8 @@ import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.TrashedModel;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
+import com.liferay.portal.kernel.search.Indexer;
+import com.liferay.portal.kernel.search.IndexerRegistryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -318,6 +327,54 @@ public class DLFolderModelImpl
 			"lock.expiration.time.com.liferay.document.library.kernel.model.DLFolder"));
 
 	public DLFolderModelImpl() {
+	}
+
+	@Override
+	public Map<String, String> getChildren() {
+
+		try {
+			Indexer<DLFolder> indexer =
+				IndexerRegistryUtil.nullSafeGetIndexer(DLFolder.class);
+
+			String dlFolderId = Long.toString(getFolderId());
+
+			ActionableDynamicQuery actionableDynamicQuery =
+				DLFolderLocalServiceUtil.getActionableDynamicQuery();
+
+			actionableDynamicQuery.setAddCriteriaMethod(
+				dynamicQuery -> {
+					Class<?> clazz = getClass();
+
+					DynamicQuery dlFolderDynamicQuery =
+						DynamicQueryFactoryUtil.forClass(
+							DLFolder.class, "dlFolder",
+							clazz.getClassLoader());
+
+					dlFolderDynamicQuery.setProjection(
+						ProjectionFactoryUtil.property("folderId"));
+
+					dlFolderDynamicQuery.add(
+						RestrictionsFactoryUtil.like("treePath", dlFolderId));
+				});
+			actionableDynamicQuery.setPerformActionMethod(
+				(DLFolder dlFolder) -> {
+					try {
+						indexer.reindex(
+							indexer.getClassName(),
+							dlFolder.getFolderId());
+					}
+					catch (Exception exception) {
+						throw new PortalException(exception);
+					}
+				});
+
+			actionableDynamicQuery.performActions();
+		}
+		catch (Exception exception) {
+			throw new RuntimeException(exception);
+		}
+
+		return null;
 	}
 
 	@Override

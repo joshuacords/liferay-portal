@@ -25,6 +25,8 @@ import com.liferay.document.library.kernel.model.DLFileEntryType;
 import com.liferay.document.library.kernel.model.DLFileEntryTypeConstants;
 import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.document.library.kernel.model.DLFolderConstants;
+import com.liferay.document.library.kernel.service.DLFolderLocalService;
+import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
 import com.liferay.document.library.kernel.service.persistence.DLFolderPersistence;
 import com.liferay.document.library.kernel.store.DLStoreUtil;
 import com.liferay.document.library.kernel.util.DLValidatorUtil;
@@ -32,8 +34,13 @@ import com.liferay.document.library.kernel.util.comparator.FolderIdComparator;
 import com.liferay.exportimport.kernel.lar.ExportImportThreadLocal;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.QueryDefinition;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.increment.BufferedIncrement;
 import com.liferay.portal.kernel.increment.DateOverrideIncrement;
@@ -80,6 +87,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -308,6 +316,96 @@ public class DLFolderLocalServiceImpl extends DLFolderLocalServiceBaseImpl {
 	public DLFolder fetchFolder(String uuid, long groupId) {
 		return dlFolderPersistence.fetchByUUID_G(uuid, groupId);
 	}
+
+	@Override
+	public Map<String, String> getChildren(long folderId) {
+
+		List<Long> dlFolderIds = null;
+
+		try {
+			Indexer<DLFolder> indexer =
+				IndexerRegistryUtil.nullSafeGetIndexer(DLFolder.class);
+
+			String dlFolderId = "%" + Long.toString(folderId) + "%";
+
+			DynamicQuery dynamicQuery =
+				DLFolderLocalServiceUtil.dynamicQuery();
+
+			dynamicQuery.setProjection(
+				ProjectionFactoryUtil.property("folderId"));
+
+			dynamicQuery.add(
+				RestrictionsFactoryUtil.like("treePath", dlFolderId));
+
+			dlFolderIds = DLFolderLocalServiceUtil.dynamicQuery(dynamicQuery);
+		}
+		catch (Exception exception) {
+			throw new RuntimeException(exception);
+		}
+
+		if (dlFolderIds == null) {
+			return null;
+		}
+
+		Map<String, String> dlFolderIdMap = new HashMap<>();
+
+		for (Long dlFolderId : dlFolderIds) {
+			dlFolderIdMap.put(
+				Long.toString(dlFolderId), DLFolder.class.getName());
+		}
+
+		dlFolderIdMap.remove(Long.toString(folderId));
+
+		return dlFolderIdMap;
+	}
+
+//	@Override
+//	public Map<String, String> getChildren(long folderId) {
+//
+//		try {
+//			Indexer<DLFolder> indexer =
+//				IndexerRegistryUtil.nullSafeGetIndexer(DLFolder.class);
+//
+//			String dlFolderId = Long.toString(folderId);
+//
+//			ActionableDynamicQuery actionableDynamicQuery =
+//				DLFolderLocalServiceUtil.getActionableDynamicQuery();
+//
+//			actionableDynamicQuery.setAddCriteriaMethod(
+//				dynamicQuery -> {
+//					Class<?> clazz = getClass();
+//
+//					DynamicQuery dlFolderDynamicQuery =
+//						DynamicQueryFactoryUtil.forClass(
+//							DLFolder.class, "dlFolder",
+//							clazz.getClassLoader());
+//
+//					dlFolderDynamicQuery.setProjection(
+//						ProjectionFactoryUtil.property("folderId"));
+//
+//					dlFolderDynamicQuery.add(
+//						RestrictionsFactoryUtil.like("treePath", dlFolderId));
+//				});
+//			actionableDynamicQuery.setPerformActionMethod(
+//				(DLFolder dlFolder) -> {
+//					try {
+//						indexer.reindex(
+//							indexer.getClassName(),
+//							dlFolder.getFolderId());
+//					}
+//					catch (Exception exception) {
+//						throw new PortalException(exception);
+//					}
+//				});
+//
+//			actionableDynamicQuery.performActions();
+//		}
+//		catch (Exception exception) {
+//			throw new RuntimeException(exception);
+//		}
+//
+//		return null;
+//	}
 
 	@Override
 	public List<DLFolder> getCompanyFolders(

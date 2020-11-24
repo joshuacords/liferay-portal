@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Brian Wing Shun Chan
@@ -84,6 +85,13 @@ public class DLFolderImpl extends DLFolderBaseImpl {
 
 		return ancestors;
 	}
+
+//	@Override
+//	public Map<String, String> getChildren() {
+//
+//
+//		return null;
+//	}
 
 	@Override
 	public String getParentClassName() {
