@@ -678,18 +678,19 @@ public class IndexWriterHelperImpl implements IndexWriterHelper {
 
 		if(name.contains("DLFolder")) {
 			childModelIds = DLFolderLocalServiceUtil.getChildren(Long.parseLong(parentPrimKey));
-		}
 
+			if (!childModelIds.isEmpty()) {
+				for (Map.Entry<String, String> entry : childModelIds.entrySet()) {
+					_searchPermissionChecker.updatePermissionFields(
+						_getIndexerModelName(entry.getValue()), entry.getKey());
+				}
+			}
+		}
 		//id, classname
 		//for each child, new doc with uid only, then invoke partiallyUpdateDocument
 		//UIDFactory
 
 		//String indexerModelName = _getIndexerModelName(entry.getValue());
-
-		for (Map.Entry<String,String> entry : childModelIds.entrySet()) {
-			_searchPermissionChecker.updatePermissionFields(
-				_getIndexerModelName(entry.getValue()), entry.getKey());
-		}
 	}
 
 	//search treePaths for the parent's
