@@ -16,7 +16,6 @@ package com.liferay.exportimport.internal.lar;
 
 import com.liferay.exportimport.kernel.lar.ExportImportDateUtil;
 import com.liferay.exportimport.kernel.lar.ExportImportPathUtil;
-import com.liferay.exportimport.kernel.lar.ExportImportThreadLocal;
 import com.liferay.exportimport.kernel.lar.ManifestSummary;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
 import com.liferay.exportimport.kernel.lar.PortletDataHandlerKeys;
@@ -32,8 +31,6 @@ import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.SystemEvent;
 import com.liferay.portal.kernel.model.SystemEventConstants;
@@ -266,28 +263,10 @@ public class DeletionSystemEventExporter {
 			new StagedModelType(
 				systemEvent.getClassNameId(),
 				systemEvent.getReferrerClassNameId()));
-
-		if (ExportImportThreadLocal.isStagingInProcess()) {
-			try {
-				SystemEventLocalServiceUtil.deleteSystemEvent(
-					systemEvent.getSystemEventId());
-			}
-			catch (PortalException portalException) {
-				if (_log.isWarnEnabled()) {
-					_log.warn(
-						"Unable to delete system event. The events are being " +
-							"cleaned up reagularly by a scheduled process.",
-						portalException);
-				}
-			}
-		}
 	}
 
 	private DeletionSystemEventExporter() {
 	}
-
-	private static final Log _log = LogFactoryUtil.getLog(
-		DeletionSystemEventExporter.class);
 
 	private static final DeletionSystemEventExporter
 		_deletionSystemEventExporter = new DeletionSystemEventExporter();
