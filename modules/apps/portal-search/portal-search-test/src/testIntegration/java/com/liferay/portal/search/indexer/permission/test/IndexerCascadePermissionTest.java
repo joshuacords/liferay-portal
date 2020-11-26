@@ -15,19 +15,30 @@
 package com.liferay.portal.search.indexer.permission.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.document.library.kernel.model.DLFileEntry;
 import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.document.library.kernel.model.DLFolderConstants;
 import com.liferay.document.library.kernel.service.DLAppLocalService;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalService;
 import com.liferay.document.library.kernel.service.DLFolderLocalService;
 import com.liferay.document.library.test.util.search.DLFolderSearchFixture;
+import com.liferay.journal.model.JournalArticle;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerPostProcessor;
 import com.liferay.portal.kernel.search.IndexerRegistry;
+import com.liferay.portal.kernel.search.QueryConfig;
+import com.liferay.portal.kernel.search.SearchContext;
+import com.liferay.portal.kernel.search.SearchException;
+import com.liferay.portal.kernel.search.facet.faceted.searcher.FacetedSearcher;
+import com.liferay.portal.kernel.search.facet.faceted.searcher.FacetedSearcherManager;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.security.permission.PermissionCheckerFactoryUtil;
+import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.test.randomizerbumpers.NumericStringRandomizerBumper;
 import com.liferay.portal.kernel.test.randomizerbumpers.UniqueStringRandomizerBumper;
@@ -45,6 +56,7 @@ import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.users.admin.test.util.search.UserSearchFixture;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
@@ -53,6 +65,7 @@ import org.junit.runner.RunWith;
 import org.osgi.service.component.annotations.Reference;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * @author Joshua Cords
@@ -68,13 +81,11 @@ public class IndexerCascadePermissionTest {
 
 	@After
 	public void tearDown() throws Exception {
-		//dlFolderSearchFixture.tearDown();
+		dlFolderSearchFixture.tearDown();
 	}
 
 	@Before
 	public void setUp() throws Exception {
-
-		//setUpUserSearchFixture();
 
 		_user = UserTestUtil.addUser(
 			RandomTestUtil.randomString(
@@ -88,6 +99,13 @@ public class IndexerCascadePermissionTest {
 		setUpDLFolderSearchFixture();
 
 		_indexer = indexerRegistry.getIndexer(DLFolder.class);
+
+		PermissionChecker permissionChecker =
+			PermissionCheckerFactoryUtil.create(TestPropsValues.getUser());
+
+		PermissionThreadLocal.setPermissionChecker(permissionChecker);
+
+		//setUpUserSearchFixture();
 	}
 
 	protected void setUpUserSearchFixture() throws Exception {
@@ -95,12 +113,12 @@ public class IndexerCascadePermissionTest {
 
 		_userSearchFixture.setUp();
 
-		_group = _userSearchFixture.addGroup();
+		//_group = _userSearchFixture.addGroup();
 
 		//_groups = _userSearchFixture.getGroups();
 
-		_user = _userSearchFixture.addUser(
-			RandomTestUtil.randomString(), _group);
+		//_user = _userSearchFixture.addUser(
+		//	RandomTestUtil.randomString(), _group);
 
 		//_users = _userSearchFixture.getUsers();
 	}
@@ -111,15 +129,81 @@ public class IndexerCascadePermissionTest {
 	}
 
 	private void _createDLFolderTree() throws Exception {
-		DLFolder parentFolder = _createDLFolder(DLFolderConstants.DEFAULT_PARENT_FOLDER_ID);
-		DLFolder childFolder = _createDLFolder(parentFolder.getFolderId());
 
-		dlFolderSearchFixture.tearDown();
+		int originalCount = searchCount();
+
+		DLFolder parentFolder = _createDLFolder("permissioned folder", DLFolderConstants.DEFAULT_PARENT_FOLDER_ID);
+		DLFolder childFolder = _createDLFolder("permissioned subfolder", parentFolder.getFolderId());
+
+		Assert.assertEquals(
+			"Expected " + originalCount , originalCount+2, searchCount());
+
+
 	}
 
-	private DLFolder _createDLFolder(long parentFolderId) throws Exception {
+	protected int searchCount() {
+		SearchContext searchContext = getSearchContext(LocaleUtil.US, "permissioned");
+		Hits hits = search(searchContext);
+
+		return hits.getLength();
+	}
+
+	protected SearchContext getSearchContext(Locale locale, String searchTerm) {
+		SearchContext searchContext = getSearchContext(locale);
+
+		searchContext.setKeywords(searchTerm);
+
+		return searchContext;
+	}
+
+	protected SearchContext getSearchContext(Locale locale) {
+		SearchContext searchContext = getSearchContext();
+
+		searchContext.setEntryClassNames(
+			new String[] {
+				DLFileEntry.class.getName(), DLFolder.class.getName(), JournalArticle.class.getName()
+			});
+
+		searchContext.setLocale(locale);
+
+		QueryConfig queryConfig = searchContext.getQueryConfig();
+
+		queryConfig.setLocale(locale);
+		queryConfig.setSelectedFieldNames(StringPool.STAR);
+
+		return searchContext;
+	}
+
+	protected SearchContext getSearchContext() {
+		SearchContext searchContext = new SearchContext();
+
+		try {
+			searchContext.setCompanyId(TestPropsValues.getCompanyId());
+			searchContext.setGroupIds(new long[] {_group.getGroupId()});
+			searchContext.setUserId(TestPropsValues.getUserId());
+		}
+		catch (PortalException portalException) {
+			throw new RuntimeException(portalException);
+		}
+
+		return searchContext;
+	}
+
+	protected Hits search(SearchContext searchContext) {
+		FacetedSearcher facetedSearcher =
+			facetedSearcherManager.createFacetedSearcher();
+
+		try {
+			return facetedSearcher.search(searchContext);
+		}
+		catch (SearchException searchException) {
+			throw new RuntimeException(searchException);
+		}
+	}
+
+	private DLFolder _createDLFolder(String name, long parentFolderId) throws Exception {
 		return dlFolderSearchFixture.addFolder(
-			parentFolderId, "permissioned folder", StringPool.BLANK,
+			parentFolderId, name, StringPool.BLANK,
 			getServiceContext());
 	}
 
@@ -158,11 +242,11 @@ public class IndexerCascadePermissionTest {
 	@Inject
 	protected DLFileEntryLocalService dlFileEntryLocalService;
 
-	//@DeleteAfterTestRun
-	private Group _group;
+	@Inject
+	protected static FacetedSearcherManager facetedSearcherManager;
 
-//	@DeleteAfterTestRun
-//	private List<User> _users;
+	@DeleteAfterTestRun
+	private Group _group;
 
 	private User _user;
 
