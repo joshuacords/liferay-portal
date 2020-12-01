@@ -676,7 +676,7 @@ public class IndexWriterHelperImpl implements IndexWriterHelper {
 
 		Map<String, String> childModelIds = null;
 
-		if(name.contains("DLFolder")) {
+		if(name.contains("DLFolder") && parentPrimKey != null) {
 			childModelIds = DLFolderLocalServiceUtil.getChildren(Long.parseLong(parentPrimKey));
 
 			if (!childModelIds.isEmpty()) {
