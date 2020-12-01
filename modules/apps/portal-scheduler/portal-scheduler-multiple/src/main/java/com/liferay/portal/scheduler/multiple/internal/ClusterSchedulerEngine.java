@@ -360,7 +360,7 @@ public class ClusterSchedulerEngine
 										StringBundler.concat(
 											"Memory clustered job ",
 											getFullName(jobName, groupName),
-											" is not yet deployed on master",
+											" is not deployed on master yet",
 											", notify master to add it"));
 								}
 
