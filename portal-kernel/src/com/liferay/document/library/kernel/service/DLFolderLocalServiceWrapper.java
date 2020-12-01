@@ -19,6 +19,8 @@ import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.portal.kernel.service.ServiceWrapper;
 import com.liferay.portal.kernel.service.persistence.change.tracking.CTPersistence;
 
+import java.util.Map;
+
 /**
  * Provides a wrapper for {@link DLFolderLocalService}.
  *
@@ -387,6 +389,11 @@ public class DLFolderLocalServiceWrapper
 		getActionableDynamicQuery() {
 
 		return _dlFolderLocalService.getActionableDynamicQuery();
+	}
+
+	@Override
+	public Map<String, String> getChildren(long folderId) {
+		return _dlFolderLocalService.getChildren(folderId);
 	}
 
 	@Override
