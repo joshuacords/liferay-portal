@@ -36,6 +36,7 @@ import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.role.RoleConstants;
 import com.liferay.portal.kernel.repository.model.FileEntry;
+import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistry;
@@ -65,12 +66,17 @@ import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.test.util.UserTestUtil;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.repository.liferayrepository.model.LiferayFileEntry;
+import com.liferay.portal.search.facet.folder.FolderFacetFactory;
+import com.liferay.portal.search.facet.type.AssetEntriesFacetFactory;
 import com.liferay.portal.search.test.util.AssertUtils;
+import com.liferay.portal.search.test.util.DocumentsAssert;
+import com.liferay.portal.search.test.util.FacetsAssert;
 import com.liferay.portal.search.test.util.TermCollectorUtil;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
@@ -83,6 +89,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -185,14 +192,43 @@ public class IndexerCascadePermissionTest {
 		Assert.assertEquals(
 			"Expected " + originalCount , originalCount+3, searchCount(_user));
 
+		checkFacets();
+
 		//Select document type facet as Document, see FolderFacetTest
 		//check to see DLFolders available
 
 	}
 
-	private byte[] _getBytes() throws Exception {
-		//return FileUtil.getBytes(IndexerCascadePermissionTest.class, "image.jpg");
-		return new byte[0];
+	private void checkFacets() {
+		SearchContext searchContext = getSearchContext(_guestUser);
+
+		com.liferay.portal.search.facet.Facet facet =
+			assetEntriesFacetFactory.newInstance(searchContext);
+
+		facet.select(DLFolder.class.getName());
+
+		searchContext.addFacet(facet);
+
+		Hits hits = search(searchContext);
+
+		assertEntryClassNames(
+			Arrays.asList(DLFileEntry.class.getName()), hits, facet,
+			searchContext);
+
+//		List<String> dlFolderIds = Arrays.asList(
+//			ArrayUtil.append(getFolderIds(_dlFolders), "0"));
+
+//		FacetsAssert.assertFrequencies(
+//			facet.getFieldName(), searchContext, hits, toMap(dlFolderIds, 1));
+	}
+
+	protected void assertEntryClassNames(
+		List<String> entryClassNames, Hits hits, com.liferay.portal.search.facet.Facet facet,
+		SearchContext searchContext) {
+
+		DocumentsAssert.assertValuesIgnoreRelevance(
+			(String)searchContext.getAttribute("queryString"), hits.getDocs(),
+			Field.ENTRY_CLASS_NAME, entryClassNames);
 	}
 
 	private DLFileEntry _addFileEntry(
@@ -328,6 +364,9 @@ public class IndexerCascadePermissionTest {
 
 	@Inject
 	private ResourcePermissionLocalService _resourcePermissionLocalService;
+
+	@Inject
+	protected AssetEntriesFacetFactory assetEntriesFacetFactory;
 
 	@DeleteAfterTestRun
 	private Group _group;
