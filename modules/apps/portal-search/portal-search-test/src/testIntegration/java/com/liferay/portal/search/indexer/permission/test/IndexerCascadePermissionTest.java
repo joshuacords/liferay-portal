@@ -15,25 +15,34 @@
 package com.liferay.portal.search.indexer.permission.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.document.library.kernel.model.DLFileEntryTypeConstants;
 import com.liferay.document.library.kernel.model.DLFolder;
 import com.liferay.document.library.kernel.model.DLFolderConstants;
 import com.liferay.document.library.kernel.service.DLAppLocalService;
+import com.liferay.document.library.kernel.service.DLAppLocalServiceUtil;
 import com.liferay.document.library.kernel.service.DLFileEntryLocalService;
+import com.liferay.document.library.kernel.service.DLFileEntryLocalServiceUtil;
 import com.liferay.document.library.kernel.service.DLFolderLocalService;
 import com.liferay.document.library.kernel.service.DLFolderLocalServiceUtil;
 import com.liferay.document.library.test.util.search.DLFolderSearchFixture;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.io.unsync.UnsyncByteArrayInputStream;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.role.RoleConstants;
+import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistry;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchException;
+import com.liferay.portal.kernel.search.facet.Facet;
+import com.liferay.portal.kernel.search.facet.collector.FacetCollector;
 import com.liferay.portal.kernel.search.facet.faceted.searcher.FacetedSearcher;
 import com.liferay.portal.kernel.search.facet.faceted.searcher.FacetedSearcherManager;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
@@ -45,6 +54,7 @@ import com.liferay.portal.kernel.service.ResourcePermissionLocalServiceUtil;
 import com.liferay.portal.kernel.service.RoleLocalServiceUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.test.constants.TestDataConstants;
 import com.liferay.portal.kernel.test.randomizerbumpers.NumericStringRandomizerBumper;
 import com.liferay.portal.kernel.test.randomizerbumpers.UniqueStringRandomizerBumper;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
@@ -55,7 +65,13 @@ import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.test.util.UserTestUtil;
+import com.liferay.portal.kernel.util.ContentTypes;
+import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.repository.liferayrepository.model.LiferayFileEntry;
+import com.liferay.portal.search.test.util.AssertUtils;
+import com.liferay.portal.search.test.util.TermCollectorUtil;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.users.admin.test.util.search.UserSearchFixture;
@@ -67,7 +83,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Joshua Cords
@@ -149,21 +168,66 @@ public class IndexerCascadePermissionTest {
 
 		DLFolder parentFolder = _createDLFolder("permissioned folder", DLFolderConstants.DEFAULT_PARENT_FOLDER_ID);
 		DLFolder childFolder = _createDLFolder("permissioned subfolder", parentFolder.getFolderId());
+		DLFolder genericFolder = _createDLFolder("folder", DLFolderConstants.DEFAULT_PARENT_FOLDER_ID);
+
 
 		Assert.assertEquals(
 			"Expected " + originalCount , originalCount+2, searchCount(_user));
 
 		//Need to set permissions on the DLFolder new String[] {ActionKeys.VIEW}
-		_resourcePermissionLocalService.setResourcePermissions(
-			TestPropsValues.getCompanyId(), DLFolder.class.getName(), ResourceConstants.SCOPE_INDIVIDUAL,
-			String.valueOf(parentFolder.getFolderId()), _guestRole.getRoleId(), new String[] {});
+
+		FileEntry fileEntry = DLAppLocalServiceUtil.addFileEntry(
+			TestPropsValues.getUserId(), _group.getGroupId(),
+			DLFolderConstants.DEFAULT_PARENT_FOLDER_ID, "Non permissioned File",
+			ContentTypes.TEXT_PLAIN, TestDataConstants.TEST_BYTE_ARRAY,
+			getServiceContext());
 
 		Assert.assertEquals(
-			"Expected " + originalCount , originalCount, searchCount(_guestUser));
+			"Expected " + originalCount , originalCount+3, searchCount(_user));
 
-		//Need to be able to select a facet, see FolderFacetTest
+		//Select document type facet as Document, see FolderFacetTest
+		//check to see DLFolders available
 
+	}
 
+	private byte[] _getBytes() throws Exception {
+		//return FileUtil.getBytes(IndexerCascadePermissionTest.class, "image.jpg");
+		return new byte[0];
+	}
+
+	private DLFileEntry _addFileEntry(
+		long userId, long groupId, byte[] bytes,
+		ServiceContext serviceContext)
+		throws PortalException {
+
+		DLFileEntry dlFileEntry = DLFileEntryLocalServiceUtil.addFileEntry(
+			userId, groupId, groupId,
+			DLFolderConstants.DEFAULT_PARENT_FOLDER_ID,
+			"Non permissioned File", ContentTypes.IMAGE_JPEG,
+			"Non permissioned File", StringPool.BLANK, StringPool.BLANK,
+			DLFileEntryTypeConstants.COMPANY_ID_BASIC_DOCUMENT,
+			Collections.emptyMap(), null, new UnsyncByteArrayInputStream(bytes),
+			bytes.length, serviceContext);
+
+		return dlFileEntry;
+	}
+
+	public static void assertFrequencies(
+		String facetName, SearchContext searchContext, Hits hits,
+		Map<String, Integer> expected) {
+
+		Map<String, Facet> facets = searchContext.getFacets();
+
+		Facet facet = facets.get(facetName);
+
+		FacetCollector facetCollector = facet.getFacetCollector();
+
+		AssertUtils.assertEquals(
+			StringBundler.concat(
+				searchContext.getAttribute("queryString"), "->",
+				StringUtil.merge(hits.getDocs())),
+			expected,
+			TermCollectorUtil.toMap(facetCollector.getTermCollectors()));
 	}
 
 	protected User getUser(String roleName) throws Exception {
