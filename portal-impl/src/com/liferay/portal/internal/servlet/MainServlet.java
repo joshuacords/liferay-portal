@@ -420,18 +420,6 @@ public class MainServlet extends HttpServlet {
 			_log.error(exception, exception);
 		}
 
-		if (StartupHelperUtil.isDBNew() &&
-			PropsValues.SETUP_WIZARD_ADD_SAMPLE_DATA) {
-
-			try {
-				SetupWizardSampleDataUtil.addSampleData(
-					PortalInstances.getDefaultCompanyId());
-			}
-			catch (Exception exception) {
-				_log.error(exception, exception);
-			}
-		}
-
 		if (_log.isDebugEnabled()) {
 			_log.debug("Initialize plugins");
 		}
@@ -450,6 +438,18 @@ public class MainServlet extends HttpServlet {
 		StartupHelperUtil.setStartupFinished(true);
 
 		_registerPortalInitialized();
+
+		if (StartupHelperUtil.isDBNew() &&
+			PropsValues.SETUP_WIZARD_ADD_SAMPLE_DATA) {
+
+			try {
+				SetupWizardSampleDataUtil.addSampleData(
+					PortalInstances.getDefaultCompanyId());
+			}
+			catch (Exception exception) {
+				_log.error(exception, exception);
+			}
+		}
 
 		ThreadLocalCacheManager.clearAll(Lifecycle.REQUEST);
 	}
