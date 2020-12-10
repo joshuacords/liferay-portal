@@ -29,6 +29,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -206,6 +207,29 @@ public class DBInspector {
 		}
 
 		return name;
+	}
+
+	protected boolean hasIndex(String tableName, String indexName)
+		throws Exception {
+
+		DatabaseMetaData metadata = _connection.getMetaData();
+
+		try (ResultSet rs = metadata.getIndexInfo(
+				null, null, tableName, false, false)) {
+
+			while (rs.next()) {
+				String curIndexName = rs.getString("index_name");
+
+				if (Objects.equals(indexName, curIndexName)) {
+					return true;
+				}
+			}
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+		}
+
+		return false;
 	}
 
 	private Integer _getColumnDataType(String columnType) {
