@@ -198,8 +198,9 @@ public class DLFolderModelDocumentContributor
 		GetDocumentRequest getDocumentRequest = new GetDocumentRequest(
 			indexName, uidField.getValue());
 
-		String permissionFieldNames =
-			Field.ROLE_ID + StringPool.COMMA + Field.GROUP_ROLE_ID;
+		String[] permissionFieldNames = new String[2];
+		permissionFieldNames[0] = Field.ROLE_ID;
+		permissionFieldNames[1] = Field.GROUP_ROLE_ID;
 
 		getDocumentRequest.setFetchSource(true);
 		getDocumentRequest.setFetchSourceInclude(permissionFieldNames);
