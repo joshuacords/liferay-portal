@@ -212,15 +212,13 @@ public class DBInspector {
 	protected boolean hasIndex(String tableName, String indexName)
 		throws Exception {
 
-		DatabaseMetaData metadata = _connection.getMetaData();
+		DatabaseMetaData databaseMetaData = _connection.getMetaData();
 
-		try (ResultSet rs = metadata.getIndexInfo(
+		try (ResultSet rs = databaseMetaData.getIndexInfo(
 				null, null, tableName, false, false)) {
 
 			while (rs.next()) {
-				String curIndexName = rs.getString("index_name");
-
-				if (Objects.equals(indexName, curIndexName)) {
+				if (Objects.equals(indexName, rs.getString("index_name"))) {
 					return true;
 				}
 			}
