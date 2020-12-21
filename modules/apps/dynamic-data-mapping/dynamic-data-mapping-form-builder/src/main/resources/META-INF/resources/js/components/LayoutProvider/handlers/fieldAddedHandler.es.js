@@ -15,7 +15,7 @@
 import * as FormSupport from 'dynamic-data-mapping-form-renderer/js/components/FormRenderer/FormSupport.es';
 
 import {createField} from '../../../util/fieldSupport.es';
-import {updateFocusedField} from '../util/settingsContext.es';
+import {updateField} from '../util/settingsContext.es';
 
 const getContext = (context, nestedIndexes = []) => {
 	if (nestedIndexes.length) {
@@ -83,16 +83,16 @@ const handleFieldAdded = (props, state, event) => {
 			newField.fieldName
 		)[0];
 
-		newContext = updateFocusedField(
+		newContext = updateField(
 			props,
-			{focusedField: newContext},
+			newContext,
 			'nestedFields',
 			[...newContext.nestedFields, newField]
 		);
 
-		newContext = updateFocusedField(
+		newContext = updateField(
 			props,
-			{focusedField: newContext},
+			newContext,
 			'rows',
 			newContext.rows
 		);
