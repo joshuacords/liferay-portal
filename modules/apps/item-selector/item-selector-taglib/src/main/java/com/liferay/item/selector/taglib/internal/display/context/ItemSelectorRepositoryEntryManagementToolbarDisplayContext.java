@@ -14,9 +14,12 @@
 
 package com.liferay.item.selector.taglib.internal.display.context;
 
+import com.liferay.document.library.portlet.toolbar.contributor.DLPortletToolbarContributor;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenu;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemList;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.ViewTypeItemList;
+import com.liferay.item.selector.taglib.internal.util.DLPortletToolbarContributorRegistryUtil;
 import com.liferay.item.selector.taglib.servlet.taglib.RepositoryEntryBrowserTag;
 import com.liferay.item.selector.taglib.servlet.taglib.util.RepositoryEntryBrowserTagUtil;
 import com.liferay.portal.kernel.language.LanguageUtil;
@@ -25,6 +28,8 @@ import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.PortalPreferences;
 import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
 import com.liferay.portal.kernel.portlet.PortletURLUtil;
+import com.liferay.portal.kernel.servlet.taglib.ui.Menu;
+import com.liferay.portal.kernel.servlet.taglib.ui.URLMenuItem;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
@@ -57,6 +62,41 @@ public class ItemSelectorRepositoryEntryManagementToolbarDisplayContext {
 
 		_portalPreferences = PortletPreferencesFactoryUtil.getPortalPreferences(
 			liferayPortletRequest);
+	}
+
+	public CreationMenu getCreationMenu() {
+		DLPortletToolbarContributor dlPortletToolbarContributor =
+			DLPortletToolbarContributorRegistryUtil.
+				getDLPortletToolbarContributor();
+
+		List<Menu> menus = dlPortletToolbarContributor.getPortletTitleMenus(
+			_liferayPortletRequest, _liferayPortletResponse);
+
+		if (menus.isEmpty()) {
+			return null;
+		}
+
+		CreationMenu creationMenu = new CreationMenu();
+
+		creationMenu.setItemsIconAlignment("left");
+
+		for (Menu menu : menus) {
+			List<URLMenuItem> urlMenuItems =
+				(List<URLMenuItem>)(List<?>)menu.getMenuItems();
+
+			for (URLMenuItem urlMenuItem : urlMenuItems) {
+				creationMenu.addDropdownItem(
+					dropdownItem -> {
+						dropdownItem.setData(urlMenuItem.getData());
+						dropdownItem.setHref(urlMenuItem.getURL());
+						dropdownItem.setIcon(urlMenuItem.getIcon());
+						dropdownItem.setLabel(urlMenuItem.getLabel());
+						dropdownItem.setSeparator(urlMenuItem.hasSeparator());
+					});
+			}
+		}
+
+		return creationMenu;
 	}
 
 	public List<DropdownItem> getFilterDropdownItems() {

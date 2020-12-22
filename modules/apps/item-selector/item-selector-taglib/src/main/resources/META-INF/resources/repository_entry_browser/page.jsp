@@ -56,6 +56,7 @@ ItemSelectorRepositoryEntryManagementToolbarDisplayContext itemSelectorRepositor
 
 <clay:management-toolbar
 	clearResultsURL="<%= String.valueOf(itemSelectorRepositoryEntryManagementToolbarDisplayContext.getSearchURL()) %>"
+	creationMenu="<%= itemSelectorRepositoryEntryManagementToolbarDisplayContext.getCreationMenu() %>"
 	disabled="<%= itemSelectorRepositoryEntryManagementToolbarDisplayContext.isDisabled() %>"
 	filterDropdownItems="<%= itemSelectorRepositoryEntryManagementToolbarDisplayContext.getFilterDropdownItems() %>"
 	itemsTotal="<%= repositoryEntriesCount %>"
@@ -63,6 +64,7 @@ ItemSelectorRepositoryEntryManagementToolbarDisplayContext itemSelectorRepositor
 	searchFormMethod="POST"
 	searchFormName="searchFm"
 	selectable="<%= false %>"
+	showCreationMenu="<%= true %>"
 	showInfoButton="<%= false %>"
 	showSearch="<%= showSearch %>"
 	sortingOrder="<%= itemSelectorRepositoryEntryManagementToolbarDisplayContext.getOrderByType() %>"
