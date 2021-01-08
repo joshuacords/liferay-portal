@@ -95,13 +95,16 @@ public class ContentLayoutTypeController extends BaseLayoutTypeControllerImpl {
 			(ThemeDisplay)httpServletRequest.getAttribute(
 				WebKeys.THEME_DISPLAY);
 
+		Boolean hasUpdatePermissions = null;
+
 		if (layout.getClassNameId() == _portal.getClassNameId(Layout.class)) {
 			Layout curLayout = _layoutLocalService.fetchLayout(
 				layout.getClassPK());
 
-			if (!_hasUpdatePermissions(
-					themeDisplay.getPermissionChecker(), curLayout)) {
+			hasUpdatePermissions = _hasUpdatePermissions(
+				themeDisplay.getPermissionChecker(), curLayout);
 
+			if (!hasUpdatePermissions) {
 				throw new PrincipalException.MustHavePermission(
 					themeDisplay.getPermissionChecker(), Layout.class.getName(),
 					layout.getLayoutId(), ActionKeys.UPDATE);
@@ -111,11 +114,15 @@ public class ContentLayoutTypeController extends BaseLayoutTypeControllerImpl {
 		String layoutMode = ParamUtil.getString(
 			httpServletRequest, "p_l_mode", Constants.VIEW);
 
-		if (layoutMode.equals(Constants.EDIT) &&
-			!_hasUpdatePermissions(
-				themeDisplay.getPermissionChecker(), layout)) {
+		if (layoutMode.equals(Constants.EDIT)) {
+			if (hasUpdatePermissions == null) {
+				hasUpdatePermissions = _hasUpdatePermissions(
+					themeDisplay.getPermissionChecker(), layout);
+			}
 
-			layoutMode = Constants.VIEW;
+			if (!hasUpdatePermissions) {
+				layoutMode = Constants.VIEW;
+			}
 		}
 
 		if (layoutMode.equals(Constants.EDIT)) {
