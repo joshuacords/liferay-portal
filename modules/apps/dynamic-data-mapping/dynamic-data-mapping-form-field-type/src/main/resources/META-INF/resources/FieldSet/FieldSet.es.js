@@ -33,15 +33,15 @@ class FieldSet extends Component {
 					return nestedFields.find(
 						nestedField => nestedField.fieldName === fieldName
 					);
-				}),
-			})),
+				})
+			}))
 		}));
 	}
 
 	prepareStateForRender(state) {
 		return {
 			...state,
-			nestedRows: this.prepareNestedRows(state),
+			nestedRows: this.prepareNestedRows(state)
 		};
 	}
 
@@ -224,7 +224,7 @@ FieldSet.STATE = {
 	 * @type {?(string|undefined)}
 	 */
 
-	value: Config.string(),
+	value: Config.string()
 };
 
 Soy.register(FieldSet, templates);

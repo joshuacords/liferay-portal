@@ -15,7 +15,6 @@
 import {PagesVisitor} from 'dynamic-data-mapping-form-renderer/js/util/visitors.es';
 
 import {updateRulesReferences} from '../util/rules.es';
-
 import {
 	updateField,
 	updateSettingsContextProperty
@@ -95,7 +94,6 @@ export const updateState = (
 	propertyValue,
 	optionIndex
 ) => {
-
 	const {focusedField, pages, rules} = state;
 	const {fieldName: previousFocusedFieldName} = focusedField;
 	const newFocusedField = updateField(

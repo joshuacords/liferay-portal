@@ -45,7 +45,7 @@ public class FieldSetDDMFormFieldType extends BaseDDMFormFieldType {
 
 		return FieldSetDDMFormFieldTypeSettings.class;
 	}
-	
+
 	@Override
 	public String getModuleName() {
 		return "dynamic-data-mapping-form-field-type/FieldSet/FieldSet.es";

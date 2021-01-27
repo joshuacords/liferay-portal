@@ -15,8 +15,6 @@
 import * as FormSupport from 'dynamic-data-mapping-form-renderer/js/components/FormRenderer/FormSupport.es';
 import {PagesVisitor} from 'dynamic-data-mapping-form-renderer/js/util/visitors.es';
 
-import {localizeField} from '../../../util/fieldSupport.es';
-
 const handleFieldClicked = (props, state, event) => {
 	const {fieldName} = event;
 	const {pages} = state;

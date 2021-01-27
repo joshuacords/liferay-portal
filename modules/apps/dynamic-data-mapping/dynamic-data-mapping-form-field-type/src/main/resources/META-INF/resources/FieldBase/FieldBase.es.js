@@ -53,7 +53,7 @@ class FieldBase extends Component {
 
 		this.dispatch('fieldClicked', {
 			fieldName,
-			originalEvent: event,
+			originalEvent: event
 		});
 	}
 }

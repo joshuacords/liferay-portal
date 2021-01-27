@@ -76,13 +76,13 @@ class PagesVisitor {
 									if (merge) {
 										mappedNestedField = {
 											...nestedField,
-											...mappedNestedField,
+											...mappedNestedField
 										};
 									}
 
 									return mapNestedFields(mappedNestedField);
 								}
-							),
+							)
 						};
 					};
 

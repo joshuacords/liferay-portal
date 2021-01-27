@@ -120,11 +120,7 @@ export const updateFieldName = (
 	return focusedField;
 };
 
-export const updateFieldDataType = (
-	editingLanguageId,
-	focusedField,
-	value
-) => {
+export const updateFieldDataType = (editingLanguageId, focusedField, value) => {
 	let {settingsContext} = focusedField;
 
 	settingsContext = {
@@ -207,11 +203,7 @@ export const updateFieldProperty = (
 	};
 };
 
-export const updateFieldOptions = (
-	editingLanguageId,
-	focusedField,
-	value
-) => {
+export const updateFieldOptions = (editingLanguageId, focusedField, value) => {
 	const options = value[editingLanguageId];
 
 	return {
@@ -227,11 +219,7 @@ export const updateFieldOptions = (
 };
 
 export const updateField = (
-	{
-		defaultLanguageId,
-		editingLanguageId,
-		fieldNameGenerator,
-	},
+	{defaultLanguageId, editingLanguageId, fieldNameGenerator},
 	field,
 	propertyName,
 	propertyValue
@@ -239,7 +227,7 @@ export const updateField = (
 	if (propertyName === 'dataType') {
 		field = {
 			...field,
-			...updateFieldDataType(editingLanguageId, field, propertyValue),
+			...updateFieldDataType(editingLanguageId, field, propertyValue)
 		};
 	}
 	else if (propertyName === 'label') {
@@ -268,7 +256,7 @@ export const updateField = (
 	else if (propertyName === 'options') {
 		field = {
 			...field,
-			...updateFieldOptions(editingLanguageId, field, propertyValue),
+			...updateFieldOptions(editingLanguageId, field, propertyValue)
 		};
 	}
 	else {

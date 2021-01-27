@@ -70,9 +70,9 @@ public class FieldSetDDMFormFieldTemplateContextContributor
 		if (nestedFieldsMap == null) {
 			nestedFieldsMap = new HashMap<>();
 		}
-		
+
 		List<Object> nestedFields = getNestedFields(
-			nestedFieldsMap, 
+			nestedFieldsMap,
 			getNestedFieldNames(
 				GetterUtil.getString(
 					ddmFormField.getProperty("nestedFieldNames")),
@@ -83,12 +83,13 @@ public class FieldSetDDMFormFieldTemplateContextContributor
 		).put(
 			"predefinedValue",
 			_getPredefinedValue(
-					ddmFormField, ddmFormFieldRenderingContext.getLocale())
+				ddmFormField, ddmFormFieldRenderingContext.getLocale())
 		).put(
 			"rows", getRowsJSONArray(ddmFormField, nestedFields)
 		).put(
 			"value",
-			GetterUtil.getString(ddmFormFieldRenderingContext.getProperty("value"))
+			GetterUtil.getString(
+				ddmFormFieldRenderingContext.getProperty("value"))
 		).build();
 
 		LocalizedValue label = ddmFormField.getLabel();
@@ -104,16 +105,13 @@ public class FieldSetDDMFormFieldTemplateContextContributor
 		return parameters;
 	}
 
-	private String _getPredefinedValue(
-		DDMFormField ddmFormField, Locale locale) {
+	protected int countVisibleNestedFields(List<Object> nestedFields) {
+		Stream<Object> stream = nestedFields.stream();
 
-		LocalizedValue predefinedValue = ddmFormField.getPredefinedValue();
-
-		if (predefinedValue == null) {
-			return StringPool.BLANK;
-		}
-
-		return GetterUtil.getString(predefinedValue.getString(locale));
+		return GetterUtil.getInteger(
+			stream.filter(
+				this::_isNestedFieldVisible
+			).count());
 	}
 
 	protected JSONObject createRowJSONObject(List<Object> nestedFields) {
@@ -138,33 +136,12 @@ public class FieldSetDDMFormFieldTemplateContextContributor
 
 			columnsJSONArray.put(columnJSONObject);
 		}
-	
+
 		JSONObject rowJSONObject = jsonFactory.createJSONObject();
 
 		rowJSONObject.put("columns", columnsJSONArray);
 
 		return rowJSONObject;
-	}
-
-	protected JSONArray getJSONArray(String rows) {
-		try {
-			return jsonFactory.createJSONArray(rows);
-		}
-		catch (JSONException jsonException) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(jsonException, jsonException);
-			}
-		}
-		return jsonFactory.createJSONArray();
-	}
-
-	protected int countVisibleNestedFields(List<Object> nestedFields) {
-		Stream<Object> stream = nestedFields.stream();
-
-		return GetterUtil.getInteger(
-			stream.filter(
-				this::_isNestedFieldVisible
-			).count());
 	}
 
 	protected int getColumnSize(int nestedFieldsSize, String orientation) {
@@ -177,6 +154,19 @@ public class FieldSetDDMFormFieldTemplateContextContributor
 		}
 
 		return 12 / nestedFieldsSize;
+	}
+
+	protected JSONArray getJSONArray(String rows) {
+		try {
+			return jsonFactory.createJSONArray(rows);
+		}
+		catch (JSONException jsonException) {
+			if (_log.isDebugEnabled()) {
+				_log.debug(jsonException, jsonException);
+			}
+		}
+
+		return jsonFactory.createJSONArray();
 	}
 
 	protected String[] getNestedFieldNames(
@@ -201,52 +191,65 @@ public class FieldSetDDMFormFieldTemplateContextContributor
 		return nestedFields;
 	}
 
+	protected JSONArray getRowsJSONArray(
+		DDMFormField ddmFormField, List<Object> nestedFields) {
+
+		String rows = GetterUtil.getString(ddmFormField.getProperty("rows"));
+
+		if (Validator.isNotNull(rows) || nestedFields.isEmpty()) {
+			return getJSONArray(rows);
+		}
+
+		JSONArray rowsJSONArray = jsonFactory.createJSONArray();
+
+		Stream<Object> visibleFieldsStream = nestedFields.stream();
+
+		List<Object> visibleNestedFields = visibleFieldsStream.filter(
+			this::_isNestedFieldVisible
+		).collect(
+			Collectors.toList()
+		);
+
+		if (!visibleNestedFields.isEmpty()) {
+			rowsJSONArray.put(createRowJSONObject(visibleNestedFields));
+		}
+
+		Stream<Object> invisibleFieldsStream = nestedFields.stream();
+
+		List<Object> invisibleNestedFields = invisibleFieldsStream.filter(
+			nestedFieldContext -> !_isNestedFieldVisible(nestedFieldContext)
+		).collect(
+			Collectors.toList()
+		);
+
+		if (!invisibleNestedFields.isEmpty()) {
+			rowsJSONArray.put(createRowJSONObject(invisibleNestedFields));
+		}
+
+		return rowsJSONArray;
+	}
+
+	@Reference
+	protected JSONFactory jsonFactory;
+
+	private String _getPredefinedValue(
+		DDMFormField ddmFormField, Locale locale) {
+
+		LocalizedValue predefinedValue = ddmFormField.getPredefinedValue();
+
+		if (predefinedValue == null) {
+			return StringPool.BLANK;
+		}
+
+		return GetterUtil.getString(predefinedValue.getString(locale));
+	}
+
 	private boolean _isNestedFieldVisible(Object nestedFieldContext) {
 		return MapUtil.getBoolean(
 			(Map<String, ?>)nestedFieldContext, "visible", true);
 	}
 
-	protected JSONArray getRowsJSONArray(
-			DDMFormField ddmFormField, List<Object> nestedFields) {
+	private static final Log _log = LogFactoryUtil.getLog(
+		FieldSetDDMFormFieldTemplateContextContributor.class);
 
-			String rows = GetterUtil.getString(ddmFormField.getProperty("rows"));
-
-			if (Validator.isNotNull(rows) || nestedFields.isEmpty()) {
-				return getJSONArray(rows);
-			}
-
-			JSONArray rowsJSONArray = jsonFactory.createJSONArray();
-
-			Stream<Object> visibleFieldsStream = nestedFields.stream();
-
-			List<Object> visibleNestedFields = visibleFieldsStream.filter(
-				this::_isNestedFieldVisible
-			).collect(
-				Collectors.toList()
-			);
-
-			if (!visibleNestedFields.isEmpty()) {
-				rowsJSONArray.put(createRowJSONObject(visibleNestedFields));
-			}
-
-			Stream<Object> invisibleFieldsStream = nestedFields.stream();
-
-			List<Object> invisibleNestedFields = invisibleFieldsStream.filter(
-				nestedFieldContext -> !_isNestedFieldVisible(nestedFieldContext)
-			).collect(
-				Collectors.toList()
-			);
-
-			if (!invisibleNestedFields.isEmpty()) {
-				rowsJSONArray.put(createRowJSONObject(invisibleNestedFields));
-			}
-
-			return rowsJSONArray;
-		}
-
-		@Reference
-		protected JSONFactory jsonFactory;
-		
-		private static final Log _log = LogFactoryUtil.getLog(
-				FieldSetDDMFormFieldTemplateContextContributor.class);
 }

@@ -72,7 +72,7 @@ const addNestedFields = ({field, indexes, nestedFields, props}) => {
 	});
 
 	field = updateField(props, field, 'nestedFields', nestedFields);
-	
+
 	const {rows} = layout[indexes.pageIndex];
 
 	return {
@@ -123,7 +123,7 @@ export default (props, state, event) => {
 				if (field.fieldName === parentFieldName) {
 					const updatedParentField = FormSupport.findFieldByName(
 						handleFieldDeleted(props, state, {
-							fieldName,
+							fieldName
 						}).pages,
 						parentFieldName
 					);
@@ -154,9 +154,9 @@ export default (props, state, event) => {
 
 	return {
 		focusedField: {
-			...newField,
+			...newField
 		},
 		pages: newPages,
-		previousFocusedField: sectionField,
+		previousFocusedField: sectionField
 	};
 };

@@ -214,7 +214,7 @@ export const localizeField = (field, defaultLanguageId, editingLanguageId) => {
 	) {
 		value = {
 			...value,
-			[editingLanguageId]: value[defaultLanguageId],
+			[editingLanguageId]: value[defaultLanguageId]
 		};
 	}
 
@@ -224,8 +224,8 @@ export const localizeField = (field, defaultLanguageId, editingLanguageId) => {
 		editingLanguageId,
 		localizedValue: {
 			...(field.localizedValue || {}),
-			[editingLanguageId]: value,
+			[editingLanguageId]: value
 		},
-		value,
+		value
 	};
 };

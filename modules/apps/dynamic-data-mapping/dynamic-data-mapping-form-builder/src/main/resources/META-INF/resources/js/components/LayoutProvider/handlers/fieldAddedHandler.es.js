@@ -42,7 +42,7 @@ export const addField = (
 						'nestedFields',
 						nestedFields
 					);
-					
+
 					const pages = FormSupport.addFieldToColumn(
 						[{rows: field.rows}],
 						pageIndex,
@@ -50,7 +50,6 @@ export const addField = (
 						columnIndex,
 						newField.fieldName
 					);
-
 
 					return updateField(props, field, 'rows', pages[0].rows);
 				}
@@ -68,15 +67,16 @@ export const addField = (
 			rowIndex,
 			columnIndex,
 			newField
-		);		
+		);
 	}
+
 	return {
 		focusedField: {
-			...newField,
+			...newField
 		},
 		pages: newPages,
-		previousFocusedField: newField,
-	};	
+		previousFocusedField: newField
+	};
 };
 
 const handleFieldAdded = (props, state, event) => {
@@ -90,7 +90,7 @@ const handleFieldAdded = (props, state, event) => {
 		indexes,
 		newField,
 		pages,
-		parentFieldName,
+		parentFieldName
 	});
 };
 

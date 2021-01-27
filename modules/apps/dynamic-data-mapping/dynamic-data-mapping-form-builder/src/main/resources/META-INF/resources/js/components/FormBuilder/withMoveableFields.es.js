@@ -117,7 +117,7 @@ const withMoveableFields = ChildComponent => {
 					sourceFieldName: sourceFieldNode.dataset.fieldName,
 					targetFieldName,
 					targetIndexes: FormSupport.getIndexes(target.parentElement),
-					targetParentFieldName,
+					targetParentFieldName
 				});
 			}
 

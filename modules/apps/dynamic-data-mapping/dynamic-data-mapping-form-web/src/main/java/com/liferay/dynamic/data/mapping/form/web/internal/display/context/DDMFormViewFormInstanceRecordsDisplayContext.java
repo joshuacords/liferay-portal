@@ -478,9 +478,9 @@ public class DDMFormViewFormInstanceRecordsDisplayContext {
 	protected List<DDMFormField> getNontransientFormFields(DDMForm form) {
 		List<DDMFormField> formFields = new ArrayList<>();
 
-		Map<String, DDMFormField> ddmFormFieldsMap =
-				form.getDDMFormFieldsMap(true);
-		
+		Map<String, DDMFormField> ddmFormFieldsMap = form.getDDMFormFieldsMap(
+			true);
+
 		for (DDMFormField formField : ddmFormFieldsMap.values()) {
 			if (formField.isTransient()) {
 				continue;

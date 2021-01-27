@@ -23,10 +23,10 @@ export default (props, state, event) => {
 		sourceFieldName,
 		targetFieldName,
 		targetIndexes,
-		targetParentFieldName,
+		targetParentFieldName
 	} = event;
 	const deletedState = handleFieldDeleted(props, state, {
-		fieldName: sourceFieldName,
+		fieldName: sourceFieldName
 	});
 	const sourceField = FormSupport.findFieldByName(
 		state.pages,
@@ -39,17 +39,17 @@ export default (props, state, event) => {
 				props,
 				{
 					...state,
-					pages: deletedState.pages,
+					pages: deletedState.pages
 				},
 				{
 					data: {
 						fieldName: targetFieldName,
-						parentFieldName: targetParentFieldName,
+						parentFieldName: targetParentFieldName
 					},
 					indexes: targetIndexes,
-					newField: sourceField,
+					newField: sourceField
 				}
-			),
+			)
 		};
 	}
 
@@ -58,7 +58,7 @@ export default (props, state, event) => {
 			indexes: targetIndexes,
 			newField: sourceField,
 			pages: deletedState.pages,
-			parentFieldName: targetParentFieldName,
-		}),
+			parentFieldName: targetParentFieldName
+		})
 	};
 };

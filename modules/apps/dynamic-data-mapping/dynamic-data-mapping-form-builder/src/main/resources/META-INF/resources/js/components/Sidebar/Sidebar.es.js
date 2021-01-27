@@ -582,13 +582,13 @@ class Sidebar extends Component {
 				data: {
 					...data,
 					fieldName: data.target.dataset.fieldName,
-					parentFieldName,
+					parentFieldName
 				},
 				fieldType: {
 					...fieldType,
-					editable: true,
+					editable: true
 				},
-				indexes,
+				indexes
 			};
 
 			if (dom.closest(data.target, '.col-empty')) {
@@ -599,7 +599,7 @@ class Sidebar extends Component {
 
 				dispatch('fieldAdded', {
 					...payload,
-					addedToPlaceholder,
+					addedToPlaceholder
 				});
 			}
 			else {

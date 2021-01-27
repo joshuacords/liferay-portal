@@ -23,12 +23,12 @@ const handleFocusedFieldEvaluationEnded = (props, state, settingsContext) => {
 		state = handleFieldEdited(
 			{
 				...props,
-				shouldAutoGenerateName: () => false,
+				shouldAutoGenerateName: () => false
 			},
 			state,
 			{
 				propertyName: fieldName,
-				propertyValue: value,
+				propertyValue: value
 			}
 		);
 	});

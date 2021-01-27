@@ -438,7 +438,7 @@ class RuleEditor extends Component {
 			conditions,
 			conditionsFieldOptions: this._conditionsFieldOptionsValueFn([
 				'fieldset',
-				'paragraph',
+				'paragraph'
 			]),
 			deletedFields: this._getDeletedFields(visitor),
 			pageOptions: pageOptions(pages, maxPage),
@@ -609,18 +609,20 @@ class RuleEditor extends Component {
 		const fields = [];
 		const visitor = new PagesVisitor(pages);
 
-		visitor.mapFields(field => {
-			if (omittedFieldsList.indexOf(field.type) < 0) {
-				fields.push({
-					...field,
-					label: field.label || field.fieldName,
-					options: field.options ? field.options : [],
-					value: field.fieldName
-				});
-			}
-		}, 
-		true,
-		true);
+		visitor.mapFields(
+			field => {
+				if (omittedFieldsList.indexOf(field.type) < 0) {
+					fields.push({
+						...field,
+						label: field.label || field.fieldName,
+						options: field.options ? field.options : [],
+						value: field.fieldName
+					});
+				}
+			},
+			true,
+			true
+		);
 
 		return fields;
 	}
