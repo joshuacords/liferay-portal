@@ -1165,18 +1165,18 @@ public class LayoutReferencesExportImportContentProcessor
 		throws PortalException {
 
 		try {
-			URI uriObject = new URI(url);
+			URI uri = new URI(url);
 
 			if (InetAddressUtil.isLocalInetAddress(
-					InetAddress.getByName(uriObject.getHost()))) {
+					InetAddress.getByName(uri.getHost()))) {
 
 				StringBundler sb = new StringBundler(5);
 
-				sb.append(uriObject.getScheme());
+				sb.append(uri.getScheme());
 				sb.append("://");
-				sb.append(uriObject.getHost());
+				sb.append(uri.getHost());
 				sb.append(StringPool.COLON);
-				sb.append(uriObject.getPort());
+				sb.append(uri.getPort());
 
 				return sb.toString();
 			}
