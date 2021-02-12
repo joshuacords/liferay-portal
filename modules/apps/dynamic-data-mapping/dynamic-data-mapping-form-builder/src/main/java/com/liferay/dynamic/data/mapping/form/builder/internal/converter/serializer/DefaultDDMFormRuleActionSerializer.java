@@ -15,6 +15,7 @@
 package com.liferay.dynamic.data.mapping.form.builder.internal.converter.serializer;
 
 import com.liferay.dynamic.data.mapping.form.builder.internal.converter.model.action.DefaultDDMFormRuleAction;
+import com.liferay.portal.kernel.util.Validator;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,6 +35,10 @@ public class DefaultDDMFormRuleActionSerializer
 	@Override
 	public String serialize(
 		DDMFormRuleSerializerContext ddmFormRuleSerializerContext) {
+
+		if (Validator.isNull(_defaultDefaultDDMFormRuleAction.getTarget())) {
+			return null;
+		}
 
 		String functionName = _actionBooleanFunctionNameMap.get(
 			_defaultDefaultDDMFormRuleAction.getAction());

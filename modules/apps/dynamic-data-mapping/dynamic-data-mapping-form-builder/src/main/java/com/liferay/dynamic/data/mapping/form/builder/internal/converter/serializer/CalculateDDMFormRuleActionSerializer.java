@@ -19,6 +19,7 @@ import com.liferay.dynamic.data.mapping.model.DDMForm;
 import com.liferay.dynamic.data.mapping.model.DDMFormField;
 import com.liferay.petra.string.CharPool;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 
 import java.util.Map;
 import java.util.Set;
@@ -40,6 +41,10 @@ public class CalculateDDMFormRuleActionSerializer
 	@Override
 	public String serialize(
 		DDMFormRuleSerializerContext ddmFormRuleSerializerContext) {
+
+		if (Validator.isNull(_calculateDDMFormRuleAction.getTarget())) {
+			return null;
+		}
 
 		DDMForm ddmForm = ddmFormRuleSerializerContext.getAttribute("form");
 
