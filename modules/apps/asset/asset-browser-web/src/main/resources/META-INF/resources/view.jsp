@@ -36,135 +36,153 @@
 
 			<%
 			AssetRenderer assetRenderer = assetEntry.getAssetRenderer();
-
-			AssetRendererFactory assetRendererFactory = assetRenderer.getAssetRendererFactory();
-
-			Group group = GroupLocalServiceUtil.getGroup(assetEntry.getGroupId());
-
-			String cssClass = StringPool.BLANK;
-
-			Map<String, Object> data = new HashMap<String, Object>();
-
-			if (assetEntry.getEntryId() != assetBrowserDisplayContext.getRefererAssetEntryId()) {
-				data.put("assetclassname", assetEntry.getClassName());
-				data.put("assetclassnameid", assetEntry.getClassNameId());
-				data.put("assetclasspk", assetEntry.getClassPK());
-				data.put("assettitle", assetRenderer.getTitle(locale));
-				data.put("assettitlemap", JSONFactoryUtil.looseSerialize(LocalizationUtil.getLocalizationMap(assetEntry.getTitle())));
-				data.put("assettype", assetRendererFactory.getTypeName(locale, assetBrowserDisplayContext.getSubtypeSelectionId()));
-				data.put("entityid", assetEntry.getEntryId());
-				data.put("groupdescriptivename", group.getDescriptiveName(locale));
-
-				if (assetBrowserDisplayContext.isMultipleSelection()) {
-					row.setData(data);
-				}
-
-				cssClass = "selector-button";
-			}
 			%>
 
 			<c:choose>
-				<c:when test='<%= Objects.equals(assetBrowserDisplayContext.getDisplayStyle(), "descriptive") %>'>
-					<liferay-ui:search-container-column-text>
-						<liferay-ui:user-portrait
-							userId="<%= assetEntry.getUserId() %>"
-						/>
-					</liferay-ui:search-container-column-text>
-
-					<liferay-ui:search-container-column-text
-						colspan="<%= 2 %>"
-					>
-
-						<%
-						Date modifiedDate = assetEntry.getModifiedDate();
-						%>
-
-						<h6 class="text-default">
-							<span><liferay-ui:message arguments="<%= LanguageUtil.getTimeDescription(request, System.currentTimeMillis() - modifiedDate.getTime(), true) %>" key="modified-x-ago" /></span>
-						</h6>
-
-						<h5>
-							<c:choose>
-								<c:when test="<%= (assetEntry.getEntryId() != assetBrowserDisplayContext.getRefererAssetEntryId()) && !assetBrowserDisplayContext.isMultipleSelection() %>">
-									<aui:a cssClass="<%= cssClass %>" data="<%= data %>" href="javascript:;">
-										<%= HtmlUtil.escape(assetRenderer.getTitle(locale)) %>
-									</aui:a>
-								</c:when>
-								<c:otherwise>
-									<%= HtmlUtil.escape(assetRenderer.getTitle(locale)) %>
-								</c:otherwise>
-							</c:choose>
-						</h5>
-
-						<c:if test="<%= Validator.isNull(assetBrowserDisplayContext.getTypeSelection()) %>">
-							<h6 class="text-muted">
-								<%= HtmlUtil.escape(assetRendererFactory.getTypeName(locale, assetBrowserDisplayContext.getSubtypeSelectionId())) %>
-							</h6>
-						</c:if>
-
-						<h6 class="text-default">
-							<%= HtmlUtil.escape(group.getDescriptiveName(locale)) %>
-						</h6>
-					</liferay-ui:search-container-column-text>
-				</c:when>
-				<c:when test='<%= Objects.equals(assetBrowserDisplayContext.getDisplayStyle(), "icon") %>'>
+				<c:when test="<%= (assetRenderer != null) && (assetEntry.getEntryId() != assetBrowserDisplayContext.getRefererAssetEntryId()) %>">
 
 					<%
-					row.setCssClass("entry-card lfr-asset-item");
+					AssetRendererFactory assetRendererFactory = assetRenderer.getAssetRendererFactory();
+
+					Group group = GroupLocalServiceUtil.getGroup(assetEntry.getGroupId());
+
+					String cssClass = StringPool.BLANK;
+
+					Map<String, Object> data = new HashMap<String, Object>();
+
+					if (assetEntry.getEntryId() != assetBrowserDisplayContext.getRefererAssetEntryId()) {
+						data.put("assetclassname", assetEntry.getClassName());
+						data.put("assetclassnameid", assetEntry.getClassNameId());
+						data.put("assetclasspk", assetEntry.getClassPK());
+						data.put("assettitle", assetRenderer.getTitle(locale));
+						data.put("assettitlemap", JSONFactoryUtil.looseSerialize(LocalizationUtil.getLocalizationMap(assetEntry.getTitle())));
+						data.put("assettype", assetRendererFactory.getTypeName(locale, assetBrowserDisplayContext.getSubtypeSelectionId()));
+						data.put("entityid", assetEntry.getEntryId());
+						data.put("groupdescriptivename", group.getDescriptiveName(locale));
+
+						if (assetBrowserDisplayContext.isMultipleSelection()) {
+							row.setData(data);
+						}
+
+						cssClass = "selector-button";
+					}
 					%>
 
-					<liferay-ui:search-container-column-text>
-						<clay:vertical-card
-							verticalCard="<%= new AssetEntryVerticalCard(assetEntry, renderRequest, assetBrowserDisplayContext) %>"
-						/>
-					</liferay-ui:search-container-column-text>
+					<c:choose>
+						<c:when test='<%= Objects.equals(assetBrowserDisplayContext.getDisplayStyle(), "descriptive") %>'>
+							<liferay-ui:search-container-column-text>
+								<liferay-ui:user-portrait
+									userId="<%= assetEntry.getUserId() %>"
+								/>
+							</liferay-ui:search-container-column-text>
+
+							<liferay-ui:search-container-column-text
+								colspan="<%= 2 %>"
+							>
+
+								<%
+								Date modifiedDate = assetEntry.getModifiedDate();
+								%>
+
+								<h6 class="text-default">
+									<span><liferay-ui:message arguments="<%= LanguageUtil.getTimeDescription(request, System.currentTimeMillis() - modifiedDate.getTime(), true) %>" key="modified-x-ago" /></span>
+								</h6>
+
+								<h5>
+									<c:choose>
+										<c:when test="<%= (assetEntry.getEntryId() != assetBrowserDisplayContext.getRefererAssetEntryId()) && !assetBrowserDisplayContext.isMultipleSelection() %>">
+											<aui:a cssClass="<%= cssClass %>" data="<%= data %>" href="javascript:;">
+												<%= HtmlUtil.escape(assetRenderer.getTitle(locale)) %>
+											</aui:a>
+										</c:when>
+										<c:otherwise>
+											<%= HtmlUtil.escape(assetRenderer.getTitle(locale)) %>
+										</c:otherwise>
+									</c:choose>
+								</h5>
+
+								<c:if test="<%= Validator.isNull(assetBrowserDisplayContext.getTypeSelection()) %>">
+									<h6 class="text-muted">
+										<%= HtmlUtil.escape(assetRendererFactory.getTypeName(locale, assetBrowserDisplayContext.getSubtypeSelectionId())) %>
+									</h6>
+								</c:if>
+
+								<h6 class="text-default">
+									<%= HtmlUtil.escape(group.getDescriptiveName(locale)) %>
+								</h6>
+							</liferay-ui:search-container-column-text>
+						</c:when>
+						<c:when test='<%= Objects.equals(assetBrowserDisplayContext.getDisplayStyle(), "icon") %>'>
+
+							<%
+							row.setCssClass("entry-card lfr-asset-item");
+							%>
+
+							<liferay-ui:search-container-column-text>
+								<clay:vertical-card
+									verticalCard="<%= new AssetEntryVerticalCard(assetEntry, renderRequest, assetBrowserDisplayContext) %>"
+								/>
+							</liferay-ui:search-container-column-text>
+						</c:when>
+						<c:when test='<%= Objects.equals(assetBrowserDisplayContext.getDisplayStyle(), "list") %>'>
+							<liferay-ui:search-container-column-text
+								name="title"
+								truncate="<%= true %>"
+							>
+								<c:choose>
+									<c:when test="<%= (assetEntry.getEntryId() != assetBrowserDisplayContext.getRefererAssetEntryId()) && !assetBrowserDisplayContext.isMultipleSelection() %>">
+										<aui:a cssClass="<%= cssClass %>" data="<%= data %>" href="javascript:;">
+											<%= HtmlUtil.escape(assetRenderer.getTitle(locale)) %>
+										</aui:a>
+									</c:when>
+									<c:otherwise>
+										<%= HtmlUtil.escape(assetRenderer.getTitle(locale)) %>
+									</c:otherwise>
+								</c:choose>
+							</liferay-ui:search-container-column-text>
+
+							<c:if test="<%= Validator.isNull(assetBrowserDisplayContext.getTypeSelection()) %>">
+								<liferay-ui:search-container-column-text
+									name="type"
+									truncate="<%= true %>"
+									value="<%= HtmlUtil.escape(assetRendererFactory.getTypeName(locale, assetBrowserDisplayContext.getSubtypeSelectionId())) %>"
+								/>
+							</c:if>
+
+							<liferay-ui:search-container-column-text
+								name="description"
+								truncate="<%= true %>"
+								value="<%= HtmlUtil.escape(assetRenderer.getSummary(renderRequest, renderResponse)) %>"
+							/>
+
+							<liferay-ui:search-container-column-text
+								name="author"
+								value="<%= PortalUtil.getUserName(assetEntry) %>"
+							/>
+
+							<liferay-ui:search-container-column-date
+								name="modified-date"
+								value="<%= assetEntry.getModifiedDate() %>"
+							/>
+
+							<liferay-ui:search-container-column-text
+								name="site"
+								value="<%= HtmlUtil.escape(group.getDescriptiveName(locale)) %>"
+							/>
+						</c:when>
+					</c:choose>
 				</c:when>
-				<c:when test='<%= Objects.equals(assetBrowserDisplayContext.getDisplayStyle(), "list") %>'>
-					<liferay-ui:search-container-column-text
-						name="title"
-						truncate="<%= true %>"
-					>
-						<c:choose>
-							<c:when test="<%= (assetEntry.getEntryId() != assetBrowserDisplayContext.getRefererAssetEntryId()) && !assetBrowserDisplayContext.isMultipleSelection() %>">
-								<aui:a cssClass="<%= cssClass %>" data="<%= data %>" href="javascript:;">
-									<%= HtmlUtil.escape(assetRenderer.getTitle(locale)) %>
-								</aui:a>
-							</c:when>
-							<c:otherwise>
-								<%= HtmlUtil.escape(assetRenderer.getTitle(locale)) %>
-							</c:otherwise>
-						</c:choose>
-					</liferay-ui:search-container-column-text>
+				<c:otherwise>
 
-					<c:if test="<%= Validator.isNull(assetBrowserDisplayContext.getTypeSelection()) %>">
-						<liferay-ui:search-container-column-text
-							name="type"
-							truncate="<%= true %>"
-							value="<%= HtmlUtil.escape(assetRendererFactory.getTypeName(locale, assetBrowserDisplayContext.getSubtypeSelectionId())) %>"
-						/>
-					</c:if>
+					<%
+					if (assetRenderer == null) {
+						_log.error("Unable to get asset renderer for assetEntry with primary key " + assetEntry.getEntryId());
+					}
 
-					<liferay-ui:search-container-column-text
-						name="description"
-						truncate="<%= true %>"
-						value="<%= HtmlUtil.escape(assetRenderer.getSummary(renderRequest, renderResponse)) %>"
-					/>
+					row.setSkip(true);
+					%>
 
-					<liferay-ui:search-container-column-text
-						name="author"
-						value="<%= PortalUtil.getUserName(assetEntry) %>"
-					/>
-
-					<liferay-ui:search-container-column-date
-						name="modified-date"
-						value="<%= assetEntry.getModifiedDate() %>"
-					/>
-
-					<liferay-ui:search-container-column-text
-						name="site"
-						value="<%= HtmlUtil.escape(group.getDescriptiveName(locale)) %>"
-					/>
-				</c:when>
+				</c:otherwise>
 			</c:choose>
 		</liferay-ui:search-container-row>
 
