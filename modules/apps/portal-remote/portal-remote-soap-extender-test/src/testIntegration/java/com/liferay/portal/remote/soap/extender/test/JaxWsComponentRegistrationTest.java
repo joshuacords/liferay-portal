@@ -49,7 +49,7 @@ public class JaxWsComponentRegistrationTest extends BaseJaxWsTestCase {
 	}
 
 	@Test(expected = Exception.class)
-	public void testServiceListIsNotAvailable() throws Exception {
+	public void testServiceListIsUnavailable() throws Exception {
 		URL url = new URL("http://localhost:8080/o/soap-test/services");
 
 		StringUtil.read(url.openStream());
