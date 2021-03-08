@@ -28,7 +28,8 @@ public class Elasticsearch7110Distribution implements Distribution {
 			"https://artifacts.elastic.co/downloads/elasticsearch" +
 				"/elasticsearch-7.11.0-no-jdk-linux-x86_64.tar.gz",
 			"478e3313f806cba8b25dbc960443f2e62ffc9f374ddfdad7c2204970e2b60a85" +
-					"1efc84eb50baa5e0c5afd7303cadc4e5d45b39011088e1165fe516c57aa188bf");
+				"1efc84eb50baa5e0c5afd7303cadc4e5d45b39011088e1165fe516c57aa1" +
+					"88bf");
 	}
 
 	@Override
