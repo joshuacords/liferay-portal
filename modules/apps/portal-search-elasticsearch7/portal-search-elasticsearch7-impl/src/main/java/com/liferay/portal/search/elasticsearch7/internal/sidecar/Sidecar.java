@@ -334,7 +334,7 @@ public class Sidecar {
 			new StartSidecarProcessCallable(_getSidecarArguments()));
 
 		try {
-			return waitForPublishedAddress(noticeableFuture);
+			return waitForPublishedAddress(noticeableFuture);//ES7.11 fails here
 		}
 		catch (IOException ioException) {
 			if (Objects.equals("Stream closed", ioException.getMessage())) {
@@ -428,6 +428,10 @@ public class Sidecar {
 
 		if (versionNumber.equals("7.10.0")) {
 			return new Elasticsearch7100Distribution();
+		}
+
+		if (versionNumber.equals("7.11.0")) {
+			return new Elasticsearch7110Distribution();
 		}
 
 		throw new IllegalArgumentException(
