@@ -222,7 +222,8 @@ public class ElasticsearchInstanceSettingsBuilder {
 			put("transport.port", transportTcpPort);
 		}
 
-		put("transport.type", "netty4");
+		//put("transport.type", "netty4");
+		put("transport.type", "security4");
 	}
 
 	protected void configurePaths() {
@@ -282,7 +283,7 @@ public class ElasticsearchInstanceSettingsBuilder {
 
 		_settingsBuilder.loadFromSource(defaultConfigurations);
 
-		put("action.auto_create_index", false);
+		//put("action.auto_create_index", false);
 		put(
 			"bootstrap.memory_lock",
 			_elasticsearchConfigurationWrapper.bootstrapMlockAll());
