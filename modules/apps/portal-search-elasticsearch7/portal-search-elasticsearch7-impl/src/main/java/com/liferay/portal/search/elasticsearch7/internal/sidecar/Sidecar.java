@@ -187,7 +187,7 @@ public class Sidecar {
 			return true;
 		}
 
-		return false;
+		return true;
 	}
 
 	protected static String waitForPublishedAddress(
