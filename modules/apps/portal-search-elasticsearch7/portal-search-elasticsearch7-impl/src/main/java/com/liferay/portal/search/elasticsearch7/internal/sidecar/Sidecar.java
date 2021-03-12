@@ -50,6 +50,7 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import java.nio.file.Paths;
 import java.security.CodeSource;
 import java.security.ProtectionDomain;
 
@@ -92,6 +93,7 @@ public class Sidecar {
 
 		_dataHomePath = elasticsearchInstancePaths.getDataPath();
 		_sidecarHomePath = elasticsearchInstancePaths.getHomePath();
+		_sidecarLibraryPath = elasticsearchInstancePaths.getLibraryPath();
 	}
 
 	public String getNetworkHostAddress() {
@@ -187,7 +189,7 @@ public class Sidecar {
 			return true;
 		}
 
-		return true;
+		return false;
 	}
 
 	protected static String waitForPublishedAddress(
@@ -252,9 +254,13 @@ public class Sidecar {
 	}
 
 	protected String getBootstrapClassPath() {
-		return _createClasspath(
+		String bootstrapClassPath = _createClasspath(
 			_processExecutorPaths.getLibPath(),
 			path -> fileNameContains(path, "petra"));
+
+		String sidecarLibraryPath = _createClasspath(_sidecarLibraryPath);
+
+		return bootstrapClassPath + File.pathSeparator + sidecarLibraryPath;
 	}
 
 	protected URL getBundleURL() {
@@ -359,6 +365,31 @@ public class Sidecar {
 			}
 
 			throw new RuntimeException(exception);
+		}
+	}
+
+	private String _createClasspath(Path dirPath) {
+
+		try (DirectoryStream<Path> directoryStream = Files.newDirectoryStream(
+			dirPath)) {
+
+			StringBundler sb = new StringBundler();
+
+			directoryStream.forEach(
+				path -> {
+					sb.append(path);
+					sb.append(File.pathSeparator);
+				});
+
+			if (sb.index() > 0) {
+				sb.setIndex(sb.index() - 1);
+			}
+
+			return sb.toString();
+		}
+		catch (IOException ioException) {
+			throw new RuntimeException(
+				"Unable to iterate " + dirPath, ioException);
 		}
 	}
 
@@ -612,6 +643,7 @@ public class Sidecar {
 	private FutureListener<Serializable> _restartFutureListener;
 	private final Collection<SettingsContributor> _settingsContributors;
 	private final Path _sidecarHomePath;
+	private final Path _sidecarLibraryPath;
 	private SidecarManager _sidecarManager;
 	private Path _sidecarTempDirPath;
 

@@ -163,6 +163,8 @@ public class SidecarManager implements ElasticsearchConfigurationObserver {
 			dataPath
 		).homePath(
 			resolveHomePath(workPath)
+		).libraryPath(
+			resolveLibraryPath(workPath)
 		).workPath(
 			workPath
 		).build();
@@ -183,8 +185,22 @@ public class SidecarManager implements ElasticsearchConfigurationObserver {
 
 		Path relativeSidecarHomePath = path.resolve(sidecarHome);
 
+		return _createAbsolutePath(path, sidecarHome);
+	}
+
+	protected Path resolveLibraryPath(Path path) {
+		String sidecarHome = elasticsearchConfigurationWrapper.sidecarHome();
+
+		String sidecarLibraryHome = sidecarHome + "/lib";
+
+		return _createAbsolutePath(path, sidecarLibraryHome);
+	}
+
+	private Path _createAbsolutePath(Path path, String home) {
+		Path relativeSidecarHomePath = path.resolve(home);
+
 		if (!Files.isDirectory(relativeSidecarHomePath)) {
-			Path absoluteSidecarHomePath = Paths.get(sidecarHome);
+			Path absoluteSidecarHomePath = Paths.get(home);
 
 			if (Files.isDirectory(absoluteSidecarHomePath)) {
 				return absoluteSidecarHomePath;
