@@ -223,7 +223,7 @@ public class ElasticsearchInstanceSettingsBuilder {
 		}
 
 		//put("transport.type", "netty4");
-		put("transport.type", "security4");
+		put("transport.type", "security-nio");
 	}
 
 	protected void configurePaths() {

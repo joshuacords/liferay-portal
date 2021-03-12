@@ -163,6 +163,8 @@ public class SidecarManager implements ElasticsearchConfigurationObserver {
 			dataPath
 		).homePath(
 			resolveHomePath(workPath)
+		).libraryPath(
+			resolveLibraryPath(workPath)
 		).workPath(
 			workPath
 		).build();
@@ -181,17 +183,15 @@ public class SidecarManager implements ElasticsearchConfigurationObserver {
 	protected Path resolveHomePath(Path path) {
 		String sidecarHome = elasticsearchConfigurationWrapper.sidecarHome();
 
-		Path relativeSidecarHomePath = path.resolve(sidecarHome);
+		return _createAbsolutePath(path, sidecarHome);
+	}
 
-		if (!Files.isDirectory(relativeSidecarHomePath)) {
-			Path absoluteSidecarHomePath = Paths.get(sidecarHome);
+	protected Path resolveLibraryPath(Path path) {
+		String sidecarHome = elasticsearchConfigurationWrapper.sidecarHome();
 
-			if (Files.isDirectory(absoluteSidecarHomePath)) {
-				return absoluteSidecarHomePath;
-			}
-		}
+		String sidecarLibraryHome = sidecarHome + "/lib";
 
-		return relativeSidecarHomePath;
+		return _createAbsolutePath(path, sidecarLibraryHome);
 	}
 
 	@Reference
@@ -212,6 +212,20 @@ public class SidecarManager implements ElasticsearchConfigurationObserver {
 
 	@Reference
 	protected Props props;
+
+	private Path _createAbsolutePath(Path path, String home) {
+		Path relativeSidecarHomePath = path.resolve(home);
+
+		if (!Files.isDirectory(relativeSidecarHomePath)) {
+			Path absoluteSidecarHomePath = Paths.get(home);
+
+			if (Files.isDirectory(absoluteSidecarHomePath)) {
+				return absoluteSidecarHomePath;
+			}
+		}
+
+		return relativeSidecarHomePath;
+	}
 
 	private static final Log _log = LogFactoryUtil.getLog(SidecarManager.class);
 
