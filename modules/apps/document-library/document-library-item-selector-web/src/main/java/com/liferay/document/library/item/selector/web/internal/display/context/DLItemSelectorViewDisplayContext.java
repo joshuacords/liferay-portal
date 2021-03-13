@@ -18,6 +18,7 @@ import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetVocabularyService;
 import com.liferay.document.library.constants.DLPortletKeys;
 import com.liferay.document.library.item.selector.web.internal.DLItemSelectorView;
+import com.liferay.document.library.item.selector.web.internal.criterion.DLItemSelectorCriterionCreationMenuRestrictionUtil;
 import com.liferay.document.library.kernel.model.DLFileEntryConstants;
 import com.liferay.document.library.kernel.model.DLFileEntryTypeConstants;
 import com.liferay.document.library.kernel.model.DLFolderConstants;
@@ -45,6 +46,7 @@ import com.liferay.staging.StagingGroupHelper;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.PortletException;
@@ -81,6 +83,11 @@ public class DLItemSelectorViewDisplayContext<T extends ItemSelectorCriterion> {
 
 		_portalPreferences = PortletPreferencesFactoryUtil.getPortalPreferences(
 			_httpServletRequest);
+	}
+
+	public Set<String> getAllowedCreationMenuUIItemKeys() {
+		return DLItemSelectorCriterionCreationMenuRestrictionUtil.
+			getAllowedCreationMenuUIItemKeys(_itemSelectorCriterion);
 	}
 
 	public String[] getExtensions() {
