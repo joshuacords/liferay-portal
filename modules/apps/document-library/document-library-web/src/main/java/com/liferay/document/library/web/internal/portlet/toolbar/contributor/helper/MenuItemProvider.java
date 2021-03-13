@@ -307,6 +307,10 @@ public class MenuItemProvider {
 
 		URLMenuItem urlMenuItem = new URLMenuItem();
 
+		urlMenuItem.setKey(
+			DLFileEntryType.class.getSimpleName() +
+				fileEntryType.getFileEntryTypeKey());
+
 		String label = LanguageUtil.get(
 			PortalUtil.getHttpServletRequest(portletRequest),
 			fileEntryType.getUnambiguousName(
