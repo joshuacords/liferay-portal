@@ -67,6 +67,10 @@ public class DDMValueUtil {
 			contentField.getContentFieldValue();
 
 		if (contentFieldValue == null) {
+			if (Validator.isNull(ddmFormField.getDataType())) {
+				return null;
+			}
+
 			throw new BadRequestException(
 				"No value is specified for field " + ddmFormField.getName());
 		}
