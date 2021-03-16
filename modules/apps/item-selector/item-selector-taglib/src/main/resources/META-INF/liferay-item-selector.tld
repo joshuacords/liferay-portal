@@ -88,7 +88,7 @@
 		<tag-class>com.liferay.item.selector.taglib.servlet.taglib.RepositoryEntryBrowserTag</tag-class>
 		<body-content>JSP</body-content>
 		<attribute>
-			<description>Set of menu items that will be displayed in the creation menu.</description>
+			<description>The set of menu items that will be displayed in the creation menu.</description>
 			<name>allowedCreationMenuUIItemKeys</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
