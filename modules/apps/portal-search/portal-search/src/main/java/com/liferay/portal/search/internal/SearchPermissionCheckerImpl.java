@@ -177,6 +177,66 @@ public class SearchPermissionCheckerImpl implements SearchPermissionChecker {
 		}
 	}
 
+	public final Collection<SearchPermissionFilterContributor>
+		_searchPermissionFilterContributors = new CopyOnWriteArrayList<>();
+
+	public static class SearchPermissionContext implements Serializable {
+
+		public boolean containsGroupId(long groupId) {
+			for (UsersGroupIdRoles usersGroupIdRoles : _usersGroupIdsRoles) {
+				if (groupId == usersGroupIdRoles._groupId) {
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		public final TermsFilter _rolesTermsFilter = new TermsFilter(
+			Field.ROLE_ID);
+
+		private SearchPermissionContext(
+			Set<Role> roles, List<UsersGroupIdRoles> usersGroupIdsRoles) {
+
+			_usersGroupIdsRoles = usersGroupIdsRoles;
+
+			List<Long> roleIds = new ArrayList<>(roles.size());
+			List<Long> regularRoleIds = new ArrayList<>();
+
+			for (Role role : roles) {
+				roleIds.add(role.getRoleId());
+
+				if (role.getType() == RoleConstants.TYPE_REGULAR) {
+					regularRoleIds.add(role.getRoleId());
+				}
+
+				_rolesTermsFilter.addValue(String.valueOf(role.getRoleId()));
+			}
+
+			_roleIds = ArrayUtil.toLongArray(roleIds);
+			_regularRoleIds = ArrayUtil.toLongArray(regularRoleIds);
+
+			for (UsersGroupIdRoles usersGroupIdRoles : _usersGroupIdsRoles) {
+				long groupId = usersGroupIdRoles._groupId;
+				List<Role> groupRoles = usersGroupIdRoles._groupRoles;
+
+				for (Role groupRole : groupRoles) {
+					_groupRolesTermsFilter.addValue(
+						groupId + StringPool.DASH + groupRole.getRoleId());
+				}
+			}
+		}
+
+		private static final long serialVersionUID = 1L;
+
+		public final TermsFilter _groupRolesTermsFilter = new TermsFilter(
+			Field.GROUP_ROLE_ID);
+		private final long[] _regularRoleIds;
+		private final long[] _roleIds;
+		private final List<UsersGroupIdRoles> _usersGroupIdsRoles;
+
+	}
+
 	@Activate
 	@Modified
 	protected void activate(Map<String, Object> properties) {
@@ -501,7 +561,7 @@ public class SearchPermissionCheckerImpl implements SearchPermissionChecker {
 
 		searchContext.setAttribute(
 			"searchPermissionContext", searchPermissionContext);
-		
+
 		return _getPermissionFilter(
 			companyId, searchGroupIds, userId, permissionChecker,
 			_getPermissionName(searchContext, className),
@@ -520,11 +580,11 @@ public class SearchPermissionCheckerImpl implements SearchPermissionChecker {
 
 		BooleanFilter booleanFilter = new BooleanFilter();
 
-		if (userId > 0) {
-			booleanFilter.add(
-				new TermFilter(Field.USER_ID, String.valueOf(userId)),
-				BooleanClauseOccur.SHOULD);
-		}
+		//		if (userId > 0) {
+		//			booleanFilter.add(
+		//				new TermFilter(Field.USER_ID, String.valueOf(userId)),
+		//				BooleanClauseOccur.SHOULD);
+		//		}
 
 		TermsFilter groupRolesTermsFilter =
 			searchPermissionContext._groupRolesTermsFilter;
@@ -584,22 +644,28 @@ public class SearchPermissionCheckerImpl implements SearchPermissionChecker {
 			}
 		}
 
-		_add(booleanFilter, groupRolesTermsFilter);
-		_add(booleanFilter, groupsTermsFilter);
-		
-		if (searchContext.getAttribute("testMoveupRolesTermsFilter") == null)  {
+		if (searchContext.getAttribute("testMoveupRolesTermsFilter") == null) {
+			if (userId > 0) {
+				booleanFilter.add(
+					new TermFilter(Field.USER_ID, String.valueOf(userId)),
+					BooleanClauseOccur.SHOULD);
+			}
+			_add(booleanFilter, groupRolesTermsFilter);
 			_add(booleanFilter, rolesTermsFilter);
+
+			for (SearchPermissionFilterContributor
+					searchPermissionFilterContributor :
+						_searchPermissionFilterContributors) {
+
+				searchPermissionFilterContributor.contribute(
+					booleanFilter, companyId, groupIds, userId,
+					permissionChecker, className);
+			}
 		}
+
+		_add(booleanFilter, groupsTermsFilter);
+		//_add(booleanFilter, groupRolesTermsFilter);
 		//_add(booleanFilter, rolesTermsFilter);
-
-		for (SearchPermissionFilterContributor
-				searchPermissionFilterContributor :
-					_searchPermissionFilterContributors) {
-
-			searchPermissionFilterContributor.contribute(
-				booleanFilter, companyId, groupIds, userId, permissionChecker,
-				className);
-		}
 
 		if (!booleanFilter.hasClauses()) {
 			return null;
@@ -623,64 +689,6 @@ public class SearchPermissionCheckerImpl implements SearchPermissionChecker {
 
 	private final Collection<SearchPermissionFieldContributor>
 		_searchPermissionFieldContributors = new CopyOnWriteArrayList<>();
-	private final Collection<SearchPermissionFilterContributor>
-		_searchPermissionFilterContributors = new CopyOnWriteArrayList<>();
-
-	public static class SearchPermissionContext implements Serializable {
-
-		public boolean containsGroupId(long groupId) {
-			for (UsersGroupIdRoles usersGroupIdRoles : _usersGroupIdsRoles) {
-				if (groupId == usersGroupIdRoles._groupId) {
-					return true;
-				}
-			}
-
-			return false;
-		}
-
-		private SearchPermissionContext(
-			Set<Role> roles, List<UsersGroupIdRoles> usersGroupIdsRoles) {
-
-			_usersGroupIdsRoles = usersGroupIdsRoles;
-
-			List<Long> roleIds = new ArrayList<>(roles.size());
-			List<Long> regularRoleIds = new ArrayList<>();
-
-			for (Role role : roles) {
-				roleIds.add(role.getRoleId());
-
-				if (role.getType() == RoleConstants.TYPE_REGULAR) {
-					regularRoleIds.add(role.getRoleId());
-				}
-
-				_rolesTermsFilter.addValue(String.valueOf(role.getRoleId()));
-			}
-
-			_roleIds = ArrayUtil.toLongArray(roleIds);
-			_regularRoleIds = ArrayUtil.toLongArray(regularRoleIds);
-
-			for (UsersGroupIdRoles usersGroupIdRoles : _usersGroupIdsRoles) {
-				long groupId = usersGroupIdRoles._groupId;
-				List<Role> groupRoles = usersGroupIdRoles._groupRoles;
-
-				for (Role groupRole : groupRoles) {
-					_groupRolesTermsFilter.addValue(
-						groupId + StringPool.DASH + groupRole.getRoleId());
-				}
-			}
-		}
-
-		private static final long serialVersionUID = 1L;
-
-		private final TermsFilter _groupRolesTermsFilter = new TermsFilter(
-			Field.GROUP_ROLE_ID);
-		private final long[] _regularRoleIds;
-		private final long[] _roleIds;
-		public final TermsFilter _rolesTermsFilter = new TermsFilter(
-			Field.ROLE_ID);
-		private final List<UsersGroupIdRoles> _usersGroupIdsRoles;
-
-	}
 
 	private static class UsersGroupIdRoles implements Serializable {
 

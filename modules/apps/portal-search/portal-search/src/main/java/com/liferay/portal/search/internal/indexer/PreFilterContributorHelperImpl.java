@@ -15,6 +15,7 @@
 package com.liferay.portal.search.internal.indexer;
 
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.search.BooleanClause;
 import com.liferay.portal.kernel.search.BooleanClauseOccur;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Indexer;
@@ -23,6 +24,7 @@ import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchPermissionChecker;
 import com.liferay.portal.kernel.search.filter.BooleanFilter;
 import com.liferay.portal.kernel.search.filter.Filter;
+import com.liferay.portal.kernel.search.filter.TermFilter;
 import com.liferay.portal.kernel.search.filter.TermsFilter;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.search.internal.SearchPermissionCheckerImpl.SearchPermissionContext;
@@ -66,11 +68,12 @@ public class PreFilterContributorHelperImpl
 					entryClassName, indexer, searchContext),
 				BooleanClauseOccur.SHOULD);
 		}
-		
-		if (searchContext.getAttribute("testMoveupRolesTermsFilter") != null)  {
-			_addRolesTermsFilter(preFilterBooleanFilter, searchContext);
+
+		if (searchContext.getAttribute("testMoveupRolesTermsFilter") != null) {
+			//need to add permissions clause at higher level alongside companyId
+			_addRolesTermsFilter(booleanFilter, searchContext);
 		}
-	
+
 		if (preFilterBooleanFilter.hasClauses()) {
 			booleanFilter.add(preFilterBooleanFilter, BooleanClauseOccur.MUST);
 		}
@@ -174,6 +177,90 @@ public class PreFilterContributorHelperImpl
 				booleanFilter, searchContext));
 	}
 
+	private void _addRolesTermsFilter(
+		BooleanFilter booleanFilter, SearchContext searchContext) {
+
+		long userId = searchContext.getUserId();
+
+		if (userId == 0) {
+			return;
+		}
+
+		SearchPermissionContext searchPermissionContext = null;
+
+		try {
+			searchPermissionContext =
+				(SearchPermissionContext)searchContext.getAttribute(
+					"searchPermissionContext");
+		}
+		catch (Exception exception) {
+			return;
+		}
+
+		TermsFilter groupRolesTermsFilter =
+			searchPermissionContext._groupRolesTermsFilter;
+
+		TermsFilter rolesTermsFilter =
+			searchPermissionContext._rolesTermsFilter;
+
+		if (!rolesTermsFilter.isEmpty()) {
+			BooleanFilter permissionClauseFilter = new BooleanFilter();
+
+			if (userId > 0) {
+				//From SearchPermissionCheckerImpl._getPermissionFilter
+				permissionClauseFilter.add(
+					new TermFilter(Field.USER_ID, String.valueOf(userId)),
+					BooleanClauseOccur.SHOULD);
+
+				//From SharingEntrySearchPermissionFilterContributor
+				TermsFilter termsFilter = new TermsFilter("sharedToUserId");
+
+				termsFilter.addValue(String.valueOf(userId));
+
+				_add(permissionClauseFilter, termsFilter);
+			}
+
+			_add(permissionClauseFilter, groupRolesTermsFilter);
+			_add(permissionClauseFilter, rolesTermsFilter);
+
+			_contributeUserSearchPermissionFilters(booleanFilter);
+
+			booleanFilter.add(permissionClauseFilter, BooleanClauseOccur.MUST);
+		}
+	}
+
+	private void _add(BooleanFilter booleanFilter, TermsFilter termsFilter) {
+		if (!termsFilter.isEmpty()) {
+			booleanFilter.add(termsFilter, BooleanClauseOccur.SHOULD);
+		}
+	}
+
+	private void _contributeUserSearchPermissionFilters(
+		BooleanFilter booleanFilter) {
+
+		for (BooleanClause<Filter> clause :
+				booleanFilter.getShouldBooleanClauses()) {
+
+			if (clause.getClause() instanceof TermsFilter) {
+				TermsFilter termsFilter = (TermsFilter)clause.getClause();
+
+				String field = termsFilter.getField();
+
+				if (field.equals(Field.ROLE_ID)) {
+					TermsFilter roleIdsTermsFilter = new TermsFilter(
+						Field.ROLE_IDS);
+
+					roleIdsTermsFilter.addValues(termsFilter.getValues());
+
+					booleanFilter.add(roleIdsTermsFilter);
+
+					break;
+				}
+			}
+		}
+	}
+
+	// From UserSearchPermissionFilterContributor
 	private Filter _createPreFilterForEntryClassName(
 		String entryClassName, Indexer<?> indexer,
 		SearchContext searchContext) {
@@ -184,42 +271,13 @@ public class PreFilterContributorHelperImpl
 			Field.ENTRY_CLASS_NAME, entryClassName, BooleanClauseOccur.MUST);
 
 		_addPermissionFilter(booleanFilter, entryClassName, searchContext);
-		
+
 		_addIndexerProvidedPreFilters(booleanFilter, indexer, searchContext);
 
 		_addModelProvidedPreFilters(
 			booleanFilter, _getModelSearchSettings(indexer), searchContext);
 
 		return booleanFilter;
-	}
-
-	private void _addRolesTermsFilter(
-		BooleanFilter booleanFilter, SearchContext searchContext) {
-		if (searchContext.getUserId() == 0) {
-			return;
-		}
-		
-		SearchPermissionContext searchPermissionContext = null;
-		
-		try {
-			searchPermissionContext = 
-				(SearchPermissionContext)searchContext.getAttribute(
-					"searchPermissionContext");
-		} catch (Exception exception) {
-			return;
-		}
-				
-		TermsFilter rolesTermsFilter =
-			searchPermissionContext._rolesTermsFilter;
-		
-		if (!rolesTermsFilter.isEmpty()) {
-			BooleanFilter roleBooleanFilter = new BooleanFilter();
-			
-			roleBooleanFilter.add(rolesTermsFilter, BooleanClauseOccur.SHOULD);
-			
-			booleanFilter.add(roleBooleanFilter);
-		}
-		
 	}
 
 	private ModelSearchSettings _getModelSearchSettings(Indexer<?> indexer) {
