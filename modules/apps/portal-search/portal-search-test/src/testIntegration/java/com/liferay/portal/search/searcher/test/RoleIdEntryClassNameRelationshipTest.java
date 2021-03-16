@@ -68,43 +68,76 @@ import org.junit.runner.RunWith;
 /**
  * @author Wade Cao
  * 
- * From test results, once moving roleId array to top/bottom
+ * From test results, once moving roleId array and other permissions to top
  * in the boolean prefilter from associated within entryClassName,
- * We get one more result of document(the modelIndexerClassNames 
- * has 3 different class model indexers for the testing) which is 
- * not expected document returned. The resource permission looks 
- * like not be impacted by moving the roleId array location.
+ * everything but perhaps CPDefinition would remain the same. The resource
+ * permission looks like not be impacted by moving the roleId array location.
  * and all scores are identical except an extra document sneaked in. 
  * 
- * After moving the rolId to top or bottom. The json for pre-filter
+ * After moving the roleId and other permissions to top. The json for pre-filter
  * looks like the following:
+ * "filter": [
  * {
- *	"bool":{
- *	 "must":[
- *		 ......
- *		 {
- *          "term":{
- *              "entryClassName":{
- *                  "value":"com.liferay.knowledge.base.model.KBArticle"
- *               }
- *          }
- *       },                                 
- *       {
- *          "bool":{
- *              "should":[
- *                  {
- *                     "terms":{
- *                         "roleId":[
- *                              "20110"
- *                          ]
- *                      }
- *                  }
- *               ]
- *           }
- *       }
- *     ]
- *   }
- * }
+ * 	"bool": {
+ * 		"must": [
+ * 		{
+ * 			"term": {
+ * 				"companyId": {
+ * 					"value": "20100"
+ * 				}
+ * 			}
+ * 		},
+ * 		{
+ * 			"bool": {
+ * 				"must": [
+ * 				{
+ * 					"bool": {
+ * 						"should": [
+ * 						{
+ * 							"term": {
+ * 								"userId": {
+ * 									"value": "20105"
+ * 								}
+ * 							}
+ * 						},
+ * 						{
+ * 							"terms": {
+ * 								"roleId": [
+ * 									"20109"
+ * 								]
+ * 							}
+ * 						},
+ * 						{
+ * 							"terms": {
+ * 								"roleIds": [
+ * 									"20109"
+ * 								]
+ * 							}
+ * 						},
+ * 						{
+ * 							"terms": {
+ * 								"sharedToUserId": [
+ * 									"20105"
+ * 								]
+ * 							}
+ * 						}]
+ * 					}
+ * 				}]
+ * 			}
+ * 		},
+ * 		{
+ * 			"bool": {
+ * 				"should": [
+ * 					{
+ * 						"bool": {
+ * 							"must": [
+ * 							{
+ * 								"term": {
+ * 									"entryClassName": {
+ * 										"value": "com.liferay.wiki.model.WikiPage"
+ * 									}
+ * 								}
+ * 							}, ...
  * 
  */
 @DataGuard(scope = DataGuard.Scope.METHOD)
@@ -237,7 +270,8 @@ public class RoleIdEntryClassNameRelationshipTest {
 
 		//****The result is NOT matched with one more document****//
 		//****which is also not one of no-indexable/no-viewable ****//
-		Assert.assertNotEquals(documents1.length, documents2.length);
+		//Assert.assertNotEquals(documents1.length, documents2.length);
+		Assert.assertEquals(documents1.length, documents2.length);
 
 		//The score values are matched with the previous query on 
 		//corresponding document except the extra one
@@ -299,7 +333,7 @@ public class RoleIdEntryClassNameRelationshipTest {
 
 		//****The result is NOT matched with one more document****//
 		//****which is also not one of no-indexable/no-viewable ****//
-		Assert.assertNotEquals(documents1.length, documents2.length);
+		Assert.assertEquals(documents1.length, documents2.length);
 
 		//The score values are matched with the previous query on 
 		//corresponding document except the extra one
