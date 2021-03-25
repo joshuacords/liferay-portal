@@ -17,8 +17,10 @@ package com.liferay.portal.kernel.search;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.search.facet.Facet;
+import com.liferay.portal.kernel.search.query.DefaultKeywordQueryContributorBridge;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.ServiceProxyFactory;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.io.Serializable;
@@ -366,7 +368,13 @@ public class SearchContext implements Serializable {
 	}
 
 	public void setKeywords(String keywords) {
-		_keywords = keywords;
+		if (_defaultKeywordQueryContributorBridge != null) {
+			_keywords = _defaultKeywordQueryContributorBridge.trimKeywords(
+				keywords);
+		}
+		else {
+			_keywords = keywords;
+		}
 	}
 
 	public void setLayout(Layout layout) {
@@ -428,6 +436,12 @@ public class SearchContext implements Serializable {
 			_attributes.remove("searchPermissionContext");
 		}
 	}
+
+	private static volatile DefaultKeywordQueryContributorBridge
+		_defaultKeywordQueryContributorBridge =
+			ServiceProxyFactory.newServiceTrackedInstance(
+				DefaultKeywordQueryContributorBridge.class, SearchContext.class,
+				"_defaultKeywordQueryContributorBridge", false);
 
 	private boolean _andSearch;
 	private long[] _assetCategoryIds;
