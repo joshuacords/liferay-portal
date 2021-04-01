@@ -16,10 +16,14 @@ package com.liferay.users.admin.internal.search.spi.model.permission.contributor
 
 import com.liferay.portal.kernel.search.BooleanClause;
 import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.filter.BooleanFilter;
 import com.liferay.portal.kernel.search.filter.Filter;
 import com.liferay.portal.kernel.search.filter.TermsFilter;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.search.spi.model.permission.SearchPermissionFilterContributor;
 
 import org.osgi.service.component.annotations.Component;
@@ -40,23 +44,39 @@ public class UserSearchPermissionFilterContributor
 		BooleanFilter booleanFilter, long companyId, long[] groupIds,
 		long userId, PermissionChecker permissionChecker, String className) {
 
-		for (BooleanClause<Filter> clause :
+		boolean testing = false;
+
+		ServiceContext serviceContext =
+			ServiceContextThreadLocal.getServiceContext();
+
+		String toolbarSetting = (String)serviceContext.getAttribute(
+			"_com_liferay_site_memberships_web_portlet_SiteMembershipsPortlet_mvcPath");
+
+		if(Validator.isNotNull(toolbarSetting)) {
+			if(toolbarSetting.equals("/select_users.jsp")) {
+				testing = true;
+			}
+		}
+
+		if(testing) {
+			for (BooleanClause<Filter> clause :
 				booleanFilter.getShouldBooleanClauses()) {
 
-			if (clause.getClause() instanceof TermsFilter) {
-				TermsFilter termsFilter = (TermsFilter)clause.getClause();
+				if (clause.getClause() instanceof TermsFilter) {
+					TermsFilter termsFilter = (TermsFilter)clause.getClause();
 
-				String field = termsFilter.getField();
+					String field = termsFilter.getField();
 
-				if (field.equals(Field.ROLE_ID)) {
-					TermsFilter roleIdsTermsFilter = new TermsFilter(
-						Field.ROLE_IDS);
+					if (field.equals(Field.ROLE_ID)) {
+						TermsFilter roleIdsTermsFilter = new TermsFilter(
+							Field.ROLE_IDS);
 
-					roleIdsTermsFilter.addValues(termsFilter.getValues());
+						roleIdsTermsFilter.addValues(termsFilter.getValues());
 
-					booleanFilter.add(roleIdsTermsFilter);
+						booleanFilter.add(roleIdsTermsFilter);
 
-					break;
+						break;
+					}
 				}
 			}
 		}
