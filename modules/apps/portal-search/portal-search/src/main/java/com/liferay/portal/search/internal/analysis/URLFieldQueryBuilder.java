@@ -43,10 +43,6 @@ public class URLFieldQueryBuilder implements FieldQueryBuilder {
 			BooleanClauseOccur.SHOULD);
 
 		booleanQueryImpl.add(
-			substringFieldQueryBuilder.build(field, keywords),
-			BooleanClauseOccur.SHOULD);
-
-		booleanQueryImpl.add(
 			fullTextQueryBuilder.createAutocompleteQuery(field, keywords),
 			BooleanClauseOccur.SHOULD);
 
