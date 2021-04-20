@@ -108,6 +108,7 @@ public class UserActionDropdownItemsProvider {
 				"assignSiteRolesURL", assignSiteRolesURL.toString());
 			dropdownItem.putData(
 				"editUserGroupRoleURL", editUserGroupRoleURL.toString());
+			dropdownItem.putData("namespace", _renderResponse.getNamespace());
 			dropdownItem.setLabel(
 				LanguageUtil.get(_httpServletRequest, "assign-site-roles"));
 		};

@@ -60,7 +60,10 @@ UserRolesDisplayContext userRolesDisplayContext = new UserRolesDisplayContext(re
 		Liferay.Util.getOpener().Liferay.fire(
 			'<%= HtmlUtil.escapeJS(userRolesDisplayContext.getEventName()) %>',
 			{
-				data: event.elements.allSelectedElements.getDOMNodes()
+				data: {
+					available: event.elements.allElements.getDOMNodes(),
+					current: event.elements.allSelectedElements.getDOMNodes()
+				}
 			}
 		);
 	});
