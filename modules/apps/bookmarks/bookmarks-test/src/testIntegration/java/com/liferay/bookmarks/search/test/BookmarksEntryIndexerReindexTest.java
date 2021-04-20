@@ -30,6 +30,7 @@ import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.test.rule.PermissionCheckerMethodTestRule;
 import com.liferay.users.admin.test.util.search.UserSearchFixture;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -151,15 +152,21 @@ public class BookmarksEntryIndexerReindexTest {
 
 		bookmarksFixture.createBookmarksEntry(folderId);
 
-		String searchTerm = _user.getFullName();
+		List<String> searchTerms = new ArrayList<>(2);
 
-		Document[] documents = searchAndAssertLength(searchTerm, 2);
+		for (BookmarksEntry bookmark : _bookmarksEntries) {
+			searchTerms.add(bookmark.getName());
+		}
+
+		searchAndAssertLength(searchTerms.toString(), 2);
+
+		Document[] documents = searchAndAssertLength(searchTerms.toString(), 2);
 
 		bookmarksEntryIndexerFixture.deleteDocuments(documents);
 
 		bookmarksEntryIndexerFixture.reindex(bookmarksEntry.getCompanyId());
 
-		searchAndAssertLength(searchTerm, 2);
+		searchAndAssertLength(searchTerms.toString(), 2);
 	}
 
 	protected IndexerFixture<BookmarksEntry> bookmarksEntryIndexerFixture;
