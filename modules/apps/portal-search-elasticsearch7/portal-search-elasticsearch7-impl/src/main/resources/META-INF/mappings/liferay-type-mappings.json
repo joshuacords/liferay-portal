@@ -751,7 +751,7 @@
 			},
 			"path": {
 				"store": true,
-				"type": "keyword"
+				"type": "text"
 			},
 			"priority": {
 				"store": true,

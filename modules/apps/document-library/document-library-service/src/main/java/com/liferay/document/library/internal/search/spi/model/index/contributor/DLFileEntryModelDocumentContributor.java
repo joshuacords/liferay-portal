@@ -164,7 +164,10 @@ public class DLFileEntryModelDocumentContributor
 				StringUtil.replace(
 					dlFileEntry.getMimeType(), CharPool.FORWARD_SLASH,
 					CharPool.UNDERLINE));
-			document.addKeyword("path", dlFileEntry.getTitle());
+			//document.addKeyword("path", dlFileEntry.getTitle());
+
+			document.addKeyword("path", getPathArray(dlFileEntry));
+
 			document.addKeyword("readCount", dlFileEntry.getReadCount());
 			document.addNumber("size", dlFileEntry.getSize());
 
@@ -213,6 +216,16 @@ public class DLFileEntryModelDocumentContributor
 				}
 			}
 		}
+	}
+
+	protected String[] getPathArray(DLFileEntry dlFileEntry) {
+		String title = dlFileEntry.getTitle();
+
+		String delimiters = "[, ./\\_]+";
+
+		String[] pathArray = title.split(delimiters);
+
+		return pathArray;
 	}
 
 	protected void addFileEntryTypeAttributes(
