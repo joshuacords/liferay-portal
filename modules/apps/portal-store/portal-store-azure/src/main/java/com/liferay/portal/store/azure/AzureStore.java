@@ -303,11 +303,10 @@ public class AzureStore implements Store {
 		BlobContainerClientBuilder blobContainerClientBuilder =
 			new BlobContainerClientBuilder();
 
-		blobContainerClientBuilder.connectionString(
-			azureStoreConfiguration.connectionString());
-
 		blobContainerClientBuilder.containerName(
 			azureStoreConfiguration.containerName());
+		blobContainerClientBuilder.connectionString(
+			azureStoreConfiguration.connectionString());
 
 		if (azureStoreConfiguration.httpLoggingEnabled()) {
 			HttpLogOptions defaultHttpLogOptions =
