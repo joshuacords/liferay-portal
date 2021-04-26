@@ -296,23 +296,17 @@ public class AzureStore implements Store {
 	@Activate
 	@Modified
 	protected void activate(Map<String, Object> properties) {
+		BlobContainerClientBuilder blobContainerClientBuilder =
+			new BlobContainerClientBuilder();
+
 		AzureStoreConfiguration azureStoreConfiguration =
 			ConfigurableUtil.createConfigurable(
 				AzureStoreConfiguration.class, properties);
 
-		BlobContainerClientBuilder blobContainerClientBuilder =
-			new BlobContainerClientBuilder();
-
-		blobContainerClientBuilder.containerName(
-			azureStoreConfiguration.containerName());
-		blobContainerClientBuilder.connectionString(
-			azureStoreConfiguration.connectionString());
-
-		HttpLogOptions httpLogOptions =
-			BlobServiceClientBuilder.getDefaultHttpLogOptions();
-
 		Configuration globalConfiguration =
 			Configuration.getGlobalConfiguration();
+		HttpLogOptions httpLogOptions =
+			BlobServiceClientBuilder.getDefaultHttpLogOptions();
 
 		if (azureStoreConfiguration.httpLoggingEnabled()) {
 			blobContainerClientBuilder.configuration(
@@ -332,6 +326,11 @@ public class AzureStore implements Store {
 				httpLogOptions.setLogLevel(HttpLogDetailLevel.NONE)
 			);
 		}
+
+		blobContainerClientBuilder.connectionString(
+			azureStoreConfiguration.connectionString());
+		blobContainerClientBuilder.containerName(
+			azureStoreConfiguration.containerName());
 
 		if (Validator.isNotNull(azureStoreConfiguration.encryptionScope())) {
 			blobContainerClientBuilder.encryptionScope(
