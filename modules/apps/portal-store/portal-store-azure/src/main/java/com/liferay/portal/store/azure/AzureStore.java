@@ -121,7 +121,7 @@ public class AzureStore implements Store {
 
 		listBlobsOptions.setMaxResultsPerPage(256);
 		listBlobsOptions.setPrefix(
-			_getBlobPrefix(companyId, repositoryId, dirName));
+			_getPrefix(companyId, repositoryId, dirName));
 
 		PagedIterable<BlobItem> pagedIterable = _blobContainerClient.listBlobs(
 			listBlobsOptions, null);
@@ -201,7 +201,7 @@ public class AzureStore implements Store {
 		ListBlobsOptions listBlobsOptions = new ListBlobsOptions();
 
 		listBlobsOptions.setPrefix(
-			_getBlobPrefix(companyId, repositoryId, dirName));
+			_getPrefix(companyId, repositoryId, dirName));
 
 		PagedIterable<BlobItem> pagedIterable = _blobContainerClient.listBlobs(
 			listBlobsOptions, null);
@@ -246,9 +246,9 @@ public class AzureStore implements Store {
 
 		ListBlobsOptions listBlobsOptions = new ListBlobsOptions();
 
-		String blobPrefix = _getBlobPrefix(companyId, repositoryId, fileName);
+		String prefix = _getPrefix(companyId, repositoryId, fileName);
 
-		listBlobsOptions.setPrefix(blobPrefix);
+		listBlobsOptions.setPrefix(prefix);
 
 		PagedIterable<BlobItem> pagedIterable =
 			_blobContainerClient.listBlobsByHierarchy(
@@ -262,7 +262,7 @@ public class AzureStore implements Store {
 			blobItem -> {
 				String blobItemName = blobItem.getName();
 
-				return blobItemName.substring(blobPrefix.length());
+				return blobItemName.substring(prefix.length());
 			}
 		).sorted(
 			DLUtil::compareVersions
@@ -405,7 +405,7 @@ public class AzureStore implements Store {
 			_getAzurePath(companyId, repositoryId, fileName, versionLabel));
 	}
 
-	private String _getBlobPrefix(
+	private String _getPrefix(
 		long companyId, long repositoryId, String dirName) {
 
 		return _getAzurePath(companyId, repositoryId, dirName, null) +
@@ -417,11 +417,11 @@ public class AzureStore implements Store {
 
 		Objects.requireNonNull(blobItemName);
 
-		String rootPrefix =
+		String prefix =
 			_getAzurePath(companyId, repositoryId, StringPool.BLANK, null) +
 				StringPool.SLASH;
 
-		if (!blobItemName.startsWith(rootPrefix)) {
+		if (!blobItemName.startsWith(prefix)) {
 			throw new IllegalArgumentException(
 				StringBundler.concat(
 					"It looks like blob '", blobItemName,
@@ -430,7 +430,7 @@ public class AzureStore implements Store {
 		}
 
 		String fileNamePathWithVersion = blobItemName.substring(
-			rootPrefix.length());
+			prefix.length());
 
 		if (fileNamePathWithVersion.isEmpty() ||
 			!fileNamePathWithVersion.contains(StringPool.SLASH)) {
