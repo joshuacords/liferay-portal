@@ -308,15 +308,15 @@ public class AzureStore implements Store {
 		blobContainerClientBuilder.connectionString(
 			azureStoreConfiguration.connectionString());
 
+		HttpLogOptions httpLogOptions =
+			BlobServiceClientBuilder.getDefaultHttpLogOptions();
+
+		Configuration globalConfiguration =
+			Configuration.getGlobalConfiguration();
+
 		if (azureStoreConfiguration.httpLoggingEnabled()) {
-			HttpLogOptions defaultHttpLogOptions =
-				BlobServiceClientBuilder.getDefaultHttpLogOptions();
-
-			Configuration globalConfiguration =
-				Configuration.getGlobalConfiguration();
-
 			blobContainerClientBuilder.httpLogOptions(
-				defaultHttpLogOptions.setLogLevel(
+				httpLogOptions.setLogLevel(
 					HttpLogDetailLevel.BODY_AND_HEADERS)
 			).configuration(
 				globalConfiguration.put(
@@ -325,14 +325,8 @@ public class AzureStore implements Store {
 			);
 		}
 		else {
-			HttpLogOptions defaultHttpLogOptions =
-				BlobServiceClientBuilder.getDefaultHttpLogOptions();
-
-			Configuration globalConfiguration =
-				Configuration.getGlobalConfiguration();
-
 			blobContainerClientBuilder.httpLogOptions(
-				defaultHttpLogOptions.setLogLevel(HttpLogDetailLevel.NONE)
+				httpLogOptions.setLogLevel(HttpLogDetailLevel.NONE)
 			).configuration(
 				globalConfiguration.put(
 					Configuration.PROPERTY_AZURE_LOG_LEVEL,
