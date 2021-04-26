@@ -113,6 +113,10 @@ public class AzureStore implements Store {
 	public void deleteDirectory(
 		long companyId, long repositoryId, String dirName) {
 
+		BlobBatchClient blobBatchClient = new BlobBatchClientBuilder(
+			_blobContainerClient.getServiceClient()
+		).buildClient();
+
 		ListBlobsOptions listBlobsOptions = new ListBlobsOptions();
 
 		listBlobsOptions.setMaxResultsPerPage(256);
@@ -122,16 +126,12 @@ public class AzureStore implements Store {
 		PagedIterable<BlobItem> pagedIterable = _blobContainerClient.listBlobs(
 			listBlobsOptions, null);
 
-		BlobBatchClient blobBatchClient = new BlobBatchClientBuilder(
-			_blobContainerClient.getServiceClient()
-		).buildClient();
-
 		for (PagedResponse<BlobItem> pagedResponse :
 				pagedIterable.iterableByPage()) {
 
-			List<BlobItem> blobItems = pagedResponse.getValue();
-
 			BlobBatch blobBatch = blobBatchClient.getBlobBatch();
+
+			List<BlobItem> blobItems = pagedResponse.getValue();
 
 			List<Response<Void>> responses = new ArrayList<>(blobItems.size());
 
@@ -198,11 +198,10 @@ public class AzureStore implements Store {
 	public String[] getFileNames(
 		long companyId, long repositoryId, String dirName) {
 
-		String blobPrefix = _getBlobPrefix(companyId, repositoryId, dirName);
-
 		ListBlobsOptions listBlobsOptions = new ListBlobsOptions();
 
-		listBlobsOptions.setPrefix(blobPrefix);
+		listBlobsOptions.setPrefix(
+			_getBlobPrefix(companyId, repositoryId, dirName));
 
 		PagedIterable<BlobItem> pagedIterable = _blobContainerClient.listBlobs(
 			listBlobsOptions, null);
@@ -245,9 +244,9 @@ public class AzureStore implements Store {
 	public String[] getFileVersions(
 		long companyId, long repositoryId, String fileName) {
 
-		String blobPrefix = _getBlobPrefix(companyId, repositoryId, fileName);
-
 		ListBlobsOptions listBlobsOptions = new ListBlobsOptions();
+
+		String blobPrefix = _getBlobPrefix(companyId, repositoryId, fileName);
 
 		listBlobsOptions.setPrefix(blobPrefix);
 
