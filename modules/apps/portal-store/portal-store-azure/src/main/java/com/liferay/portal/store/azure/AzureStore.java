@@ -352,20 +352,6 @@ public class AzureStore implements Store {
 		_blobContainerClient = null;
 	}
 
-	private String _getFirstFileVersion(
-			long companyId, long repositoryId, String fileName)
-		throws NoSuchFileException {
-
-		String[] fileVersions = getFileVersions(
-			companyId, repositoryId, fileName);
-
-		if (ArrayUtil.isEmpty(fileVersions)) {
-			throw new NoSuchFileException(companyId, repositoryId, fileName);
-		}
-
-		return fileVersions[0];
-	}
-
 	private String _getAzurePath(
 		long companyId, long repositoryId, String liferayPath,
 		String versionLabel) {
@@ -405,13 +391,6 @@ public class AzureStore implements Store {
 			_getAzurePath(companyId, repositoryId, fileName, versionLabel));
 	}
 
-	private String _getPrefix(
-		long companyId, long repositoryId, String dirName) {
-
-		return _getAzurePath(companyId, repositoryId, dirName, null) +
-			StringPool.SLASH;
-	}
-
 	private String _getFileName(
 		long companyId, long repositoryId, String blobItemName) {
 
@@ -424,9 +403,8 @@ public class AzureStore implements Store {
 		if (!blobItemName.startsWith(prefix)) {
 			throw new IllegalArgumentException(
 				StringBundler.concat(
-					"Blob ", blobItemName,
-					" does not belong to company ", companyId,
-					" and repository ", repositoryId));
+					"Blob ", blobItemName, " does not belong to company ",
+					companyId, " and repository ", repositoryId));
 		}
 
 		String fileNameAndVersionLabel = blobItemName.substring(
@@ -437,13 +415,34 @@ public class AzureStore implements Store {
 
 			throw new IllegalArgumentException(
 				StringBundler.concat(
-					"Blob ", blobItemName, " does not conform to the ",
-					"pattern ${companyId}/${repositoryId}/${fileName}",
+					"Blob ", blobItemName, " does not conform to the pattern ",
+					"${companyId}/${repositoryId}/${fileName}",
 					"/${versionLabel}"));
 		}
 
 		return fileNameAndVersionLabel.substring(
 			0, fileNameAndVersionLabel.lastIndexOf(StringPool.SLASH));
+	}
+
+	private String _getFirstFileVersion(
+			long companyId, long repositoryId, String fileName)
+		throws NoSuchFileException {
+
+		String[] fileVersions = getFileVersions(
+			companyId, repositoryId, fileName);
+
+		if (ArrayUtil.isEmpty(fileVersions)) {
+			throw new NoSuchFileException(companyId, repositoryId, fileName);
+		}
+
+		return fileVersions[0];
+	}
+
+	private String _getPrefix(
+		long companyId, long repositoryId, String dirName) {
+
+		return _getAzurePath(companyId, repositoryId, dirName, null) +
+			StringPool.SLASH;
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(AzureStore.class);
