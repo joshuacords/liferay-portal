@@ -315,22 +315,21 @@ public class AzureStore implements Store {
 			Configuration.getGlobalConfiguration();
 
 		if (azureStoreConfiguration.httpLoggingEnabled()) {
-			blobContainerClientBuilder.httpLogOptions(
-				httpLogOptions.setLogLevel(
-					HttpLogDetailLevel.BODY_AND_HEADERS)
-			).configuration(
+			blobContainerClientBuilder.configuration(
 				globalConfiguration.put(
 					Configuration.PROPERTY_AZURE_LOG_LEVEL,
 					String.valueOf(LogLevel.VERBOSE.getLogLevel()))
+			).httpLogOptions(
+				httpLogOptions.setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS)
 			);
 		}
 		else {
-			blobContainerClientBuilder.httpLogOptions(
-				httpLogOptions.setLogLevel(HttpLogDetailLevel.NONE)
-			).configuration(
+			blobContainerClientBuilder.configuration(
 				globalConfiguration.put(
 					Configuration.PROPERTY_AZURE_LOG_LEVEL,
 					String.valueOf(LogLevel.NOT_SET.getLogLevel()))
+			).httpLogOptions(
+				httpLogOptions.setLogLevel(HttpLogDetailLevel.NONE)
 			);
 		}
 
