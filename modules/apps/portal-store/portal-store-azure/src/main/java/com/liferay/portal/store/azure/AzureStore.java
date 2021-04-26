@@ -424,29 +424,26 @@ public class AzureStore implements Store {
 		if (!blobItemName.startsWith(prefix)) {
 			throw new IllegalArgumentException(
 				StringBundler.concat(
-					"It looks like blob '", blobItemName,
-					"' does not belong to company: ", companyId,
-					"and repository: ", repositoryId));
+					"Blob ", blobItemName,
+					" does not belong to company ", companyId,
+					" and repository ", repositoryId));
 		}
 
-		String fileNamePathWithVersion = blobItemName.substring(
+		String fileNameAndVersionLabel = blobItemName.substring(
 			prefix.length());
 
-		if (fileNamePathWithVersion.isEmpty() ||
-			!fileNamePathWithVersion.contains(StringPool.SLASH)) {
+		if (fileNameAndVersionLabel.isEmpty() ||
+			!fileNameAndVersionLabel.contains(StringPool.SLASH)) {
 
 			throw new IllegalArgumentException(
 				StringBundler.concat(
-					"The blob '", blobItemName, "' does not conform to the ",
+					"Blob ", blobItemName, " does not conform to the ",
 					"pattern ${companyId}/${repositoryId}/${fileName}",
-					"/${versionLabel} -- missing the '/${versionLabel}' part. ",
-					"Delete the blob in Azure to fix this (there should be no ",
-					"blobs directly under ${companyId}/${repositoryId}, only ",
-					"subfolders."));
+					"/${versionLabel}"));
 		}
 
-		return fileNamePathWithVersion.substring(
-			0, fileNamePathWithVersion.lastIndexOf(StringPool.SLASH));
+		return fileNameAndVersionLabel.substring(
+			0, fileNameAndVersionLabel.lastIndexOf(StringPool.SLASH));
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(AzureStore.class);
