@@ -87,7 +87,7 @@ public class AzureStore implements Store {
 		throws PortalException {
 
 		BlobClient blobClient = _blobContainerClient.getBlobClient(
-			_getBlobName(companyId, repositoryId, fileName, versionLabel));
+			_getBlobItemName(companyId, repositoryId, fileName, versionLabel));
 
 		File tempFile = null;
 
@@ -165,7 +165,7 @@ public class AzureStore implements Store {
 		String versionLabel) {
 
 		BlobClient blobClient = _blobContainerClient.getBlobClient(
-			_getBlobName(companyId, repositoryId, fileName, versionLabel));
+			_getBlobItemName(companyId, repositoryId, fileName, versionLabel));
 
 		if (blobClient.exists()) {
 			blobClient.delete();
@@ -179,12 +179,12 @@ public class AzureStore implements Store {
 		throws PortalException {
 
 		if (Validator.isNull(versionLabel)) {
-			versionLabel = _fetchFirstVersion(
+			versionLabel = _getFirstFileVersion(
 				companyId, repositoryId, fileName);
 		}
 
 		BlobClient blobClient = _blobContainerClient.getBlobClient(
-			_getBlobName(companyId, repositoryId, fileName, versionLabel));
+			_getBlobItemName(companyId, repositoryId, fileName, versionLabel));
 
 		if (!blobClient.exists()) {
 			throw new NoSuchFileException(
@@ -223,12 +223,12 @@ public class AzureStore implements Store {
 		throws PortalException {
 
 		if (Validator.isNull(versionLabel)) {
-			versionLabel = _fetchFirstVersion(
+			versionLabel = _getFirstFileVersion(
 				companyId, repositoryId, fileName);
 		}
 
 		BlobClient blobClient = _blobContainerClient.getBlobClient(
-			_getBlobName(companyId, repositoryId, fileName, versionLabel));
+			_getBlobItemName(companyId, repositoryId, fileName, versionLabel));
 
 		if (!blobClient.exists()) {
 			throw new NoSuchFileException(
@@ -288,7 +288,7 @@ public class AzureStore implements Store {
 		}
 
 		BlobClient blobClient = _blobContainerClient.getBlobClient(
-			_getBlobName(companyId, repositoryId, fileName, versionLabel));
+			_getBlobItemName(companyId, repositoryId, fileName, versionLabel));
 
 		return blobClient.exists();
 	}
@@ -342,12 +342,8 @@ public class AzureStore implements Store {
 
 		if (!_blobContainerClient.exists()) {
 			throw new SystemException(
-				StringBundler.concat(
-					"Azure store was configured to store files in container '",
-					_blobContainerClient.getBlobContainerName(),
-					"' (as blobs), but it does not exist. Please make sure ",
-					"the container exists and the used credentials are ",
-					"sufficient to access it."));
+				"Azure store " + _blobContainerClient.getBlobContainerName() +
+					" does not exist");
 		}
 	}
 
@@ -356,7 +352,7 @@ public class AzureStore implements Store {
 		_blobContainerClient = null;
 	}
 
-	private String _fetchFirstVersion(
+	private String _getFirstFileVersion(
 			long companyId, long repositoryId, String fileName)
 		throws NoSuchFileException {
 
@@ -401,7 +397,7 @@ public class AzureStore implements Store {
 		return sb.toString();
 	}
 
-	private String _getBlobName(
+	private String _getBlobItemName(
 		long companyId, long repositoryId, String fileName,
 		String versionLabel) {
 
@@ -417,23 +413,23 @@ public class AzureStore implements Store {
 	}
 
 	private String _getFileName(
-		long companyId, long repositoryId, String azureBlobName) {
+		long companyId, long repositoryId, String blobItemName) {
 
-		Objects.requireNonNull(azureBlobName);
+		Objects.requireNonNull(blobItemName);
 
 		String rootPrefix =
 			_getAzurePath(companyId, repositoryId, StringPool.BLANK, null) +
 				StringPool.SLASH;
 
-		if (!azureBlobName.startsWith(rootPrefix)) {
+		if (!blobItemName.startsWith(rootPrefix)) {
 			throw new IllegalArgumentException(
 				StringBundler.concat(
-					"It looks like blob '", azureBlobName,
+					"It looks like blob '", blobItemName,
 					"' does not belong to company: ", companyId,
 					"and repository: ", repositoryId));
 		}
 
-		String fileNamePathWithVersion = azureBlobName.substring(
+		String fileNamePathWithVersion = blobItemName.substring(
 			rootPrefix.length());
 
 		if (fileNamePathWithVersion.isEmpty() ||
@@ -441,7 +437,7 @@ public class AzureStore implements Store {
 
 			throw new IllegalArgumentException(
 				StringBundler.concat(
-					"The blob '", azureBlobName, "' does not conform to the ",
+					"The blob '", blobItemName, "' does not conform to the ",
 					"pattern ${companyId}/${repositoryId}/${fileName}",
 					"/${versionLabel} -- missing the '/${versionLabel}' part. ",
 					"Delete the blob in Azure to fix this (there should be no ",
