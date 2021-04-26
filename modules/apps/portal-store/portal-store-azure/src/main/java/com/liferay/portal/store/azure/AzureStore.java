@@ -57,8 +57,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
 
-import java.net.URL;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -88,11 +86,8 @@ public class AzureStore implements Store {
 			String versionLabel, InputStream inputStream)
 		throws PortalException {
 
-		String blobName = _getBlobName(
-			companyId, repositoryId, fileName, versionLabel);
-
 		BlobClient blobClient = _blobContainerClient.getBlobClient(
-			Utility.urlEncode(blobName));
+			_getBlobName(companyId, repositoryId, fileName, versionLabel));
 
 		File tempFile = null;
 
@@ -103,11 +98,11 @@ public class AzureStore implements Store {
 		}
 		catch (IOException ioException) {
 			throw new PortalException(
-				"Cannot create temp file for upload to Azure", ioException);
+				"Unable to create temp file", ioException);
 		}
 		catch (UncheckedIOException uncheckedIOException) {
 			throw new PortalException(
-				"Failed to upload to Azure from file", uncheckedIOException);
+				"Unable to add file", uncheckedIOException);
 		}
 		finally {
 			FileUtil.delete(tempFile);
@@ -118,12 +113,11 @@ public class AzureStore implements Store {
 	public void deleteDirectory(
 		long companyId, long repositoryId, String dirName) {
 
-		String blobPrefix = _getBlobPrefix(companyId, repositoryId, dirName);
-
 		ListBlobsOptions listBlobsOptions = new ListBlobsOptions();
 
 		listBlobsOptions.setMaxResultsPerPage(256);
-		listBlobsOptions.setPrefix(blobPrefix);
+		listBlobsOptions.setPrefix(
+			_getBlobPrefix(companyId, repositoryId, dirName));
 
 		PagedIterable<BlobItem> pagedIterable = _blobContainerClient.listBlobs(
 			listBlobsOptions, null);
@@ -131,8 +125,6 @@ public class AzureStore implements Store {
 		BlobBatchClient blobBatchClient = new BlobBatchClientBuilder(
 			_blobContainerClient.getServiceClient()
 		).buildClient();
-
-		String blobContainerName = _blobContainerClient.getBlobContainerName();
 
 		for (PagedResponse<BlobItem> pagedResponse :
 				pagedIterable.iterableByPage()) {
@@ -146,23 +138,23 @@ public class AzureStore implements Store {
 			blobItems.forEach(
 				blobItem -> responses.add(
 					blobBatch.deleteBlob(
-						blobContainerName, blobItem.getName())));
+						_blobContainerClient.getBlobContainerName(),
+						blobItem.getName())));
 
 			blobBatchClient.submitBatchWithResponse(
 				blobBatch, false, null, Context.NONE);
 
 			for (Response<Void> response : responses) {
-				if (response.getStatusCode() >= 400) {
-					HttpRequest httpRequest = response.getRequest();
-
-					URL url = httpRequest.getUrl();
-
-					_log.error(
-						StringBundler.concat(
-							"The blob '", url.getPath(),
-							"' could not be deleted using a batch, got status ",
-							"code ", response.getStatusCode(), "."));
+				if (response.getStatusCode() < 400) {
+					continue;
 				}
+
+				HttpRequest httpRequest = response.getRequest();
+
+				_log.error(
+					StringBundler.concat(
+						"Unable to delete ", httpRequest.getUrl(),
+						", received status code ", response.getStatusCode()));
 			}
 		}
 	}
@@ -172,11 +164,8 @@ public class AzureStore implements Store {
 		long companyId, long repositoryId, String fileName,
 		String versionLabel) {
 
-		String blobName = _getBlobName(
-			companyId, repositoryId, fileName, versionLabel);
-
 		BlobClient blobClient = _blobContainerClient.getBlobClient(
-			Utility.urlEncode(blobName));
+			_getBlobName(companyId, repositoryId, fileName, versionLabel));
 
 		if (blobClient.exists()) {
 			blobClient.delete();
@@ -194,11 +183,8 @@ public class AzureStore implements Store {
 				companyId, repositoryId, fileName);
 		}
 
-		String blobName = _getBlobName(
-			companyId, repositoryId, fileName, versionLabel);
-
 		BlobClient blobClient = _blobContainerClient.getBlobClient(
-			Utility.urlEncode(blobName));
+			_getBlobName(companyId, repositoryId, fileName, versionLabel));
 
 		if (!blobClient.exists()) {
 			throw new NoSuchFileException(
@@ -242,11 +228,8 @@ public class AzureStore implements Store {
 				companyId, repositoryId, fileName);
 		}
 
-		String blobName = _getBlobName(
-			companyId, repositoryId, fileName, versionLabel);
-
 		BlobClient blobClient = _blobContainerClient.getBlobClient(
-			Utility.urlEncode(blobName));
+			_getBlobName(companyId, repositoryId, fileName, versionLabel));
 
 		if (!blobClient.exists()) {
 			throw new NoSuchFileException(
@@ -305,11 +288,8 @@ public class AzureStore implements Store {
 			return false;
 		}
 
-		String blobName = _getBlobName(
-			companyId, repositoryId, fileName, versionLabel);
-
 		BlobClient blobClient = _blobContainerClient.getBlobClient(
-			Utility.urlEncode(blobName));
+			_getBlobName(companyId, repositoryId, fileName, versionLabel));
 
 		return blobClient.exists();
 	}
@@ -434,7 +414,8 @@ public class AzureStore implements Store {
 		long companyId, long repositoryId, String fileName,
 		String versionLabel) {
 
-		return _getAzurePath(companyId, repositoryId, fileName, versionLabel);
+		return Utility.urlEncode(
+			_getAzurePath(companyId, repositoryId, fileName, versionLabel));
 	}
 
 	private String _getBlobPrefix(
