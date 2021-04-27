@@ -48,8 +48,6 @@ public class DLFileEntryKeywordQueryContributor
 			queryHelper.addSearchTerm(
 				booleanQuery, searchContext, Field.DESCRIPTION, false);
 			queryHelper.addSearchTerm(
-				booleanQuery, searchContext, Field.TITLE, false);
-			queryHelper.addSearchTerm(
 				booleanQuery, searchContext, Field.USER_NAME, false);
 		}
 
@@ -59,9 +57,11 @@ public class DLFileEntryKeywordQueryContributor
 			booleanQuery, searchContext, "extension", false);
 		queryHelper.addSearchTerm(
 			booleanQuery, searchContext, "fileEntryTypeId", false);
-		queryHelper.addSearchTerm(booleanQuery, searchContext, "path", false);
 		queryHelper.addSearchLocalizedTerm(
 			booleanQuery, searchContext, Field.CONTENT, false);
+		queryHelper.addSearchTerm(
+			booleanQuery, searchContext, Field.TITLE, false);
+
 	}
 
 	@Reference
