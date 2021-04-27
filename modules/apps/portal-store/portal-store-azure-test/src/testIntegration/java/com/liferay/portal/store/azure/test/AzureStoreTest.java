@@ -53,10 +53,9 @@ public class AzureStoreTest extends BaseStoreTestCase {
 			new AssumeTestRule("assume"), new LiferayIntegrationTestRule());
 
 	public static void assume() {
-		String dlStoreImpl = PropsUtil.get(PropsKeys.DL_STORE_IMPL);
-
 		String azureStoreClassName =
 			"com.liferay.portal.store.azure.AzureStore";
+		String dlStoreImpl = PropsUtil.get(PropsKeys.DL_STORE_IMPL);
 
 		Assume.assumeTrue(
 			StringBundler.concat(
