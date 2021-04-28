@@ -32,12 +32,12 @@ import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.OrganizationTestUtil;
-import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.RoleTestUtil;
 import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.test.util.UserTestUtil;
 import com.liferay.portal.kernel.util.HashMapDictionary;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.segments.model.SegmentsEntry;
@@ -78,7 +78,14 @@ public class SegmentsEntryRoleContributorTest {
 		ServiceContext serviceContext =
 			ServiceContextTestUtil.getServiceContext();
 
-		serviceContext.setRequest(new MockHttpServletRequest());
+		MockHttpServletRequest mockHttpServletRequest =
+			new MockHttpServletRequest();
+
+		_user = UserTestUtil.addUser();
+
+		mockHttpServletRequest.setAttribute(WebKeys.USER, _user);
+
+		serviceContext.setRequest(mockHttpServletRequest);
 
 		ServiceContextThreadLocal.pushServiceContext(serviceContext);
 	}
@@ -104,13 +111,7 @@ public class SegmentsEntryRoleContributorTest {
 			String.valueOf(TestPropsValues.getCompanyId()), _role.getRoleId(),
 			actionKey);
 
-		_user = UserTestUtil.addUser();
-
-		_user.setLastName(RandomTestUtil.randomString());
-
-		_user = _userLocalService.updateUser(_user);
-
-		_segmentsEntry = _addSegmentsEntry(_user.getLastName());
+		_segmentsEntry = _addSegmentsEntry(_user);
 
 		_assertHasPermission(actionKey, false);
 
@@ -147,13 +148,7 @@ public class SegmentsEntryRoleContributorTest {
 				String.valueOf(TestPropsValues.getCompanyId()),
 				_role.getRoleId(), actionKey);
 
-			_user = UserTestUtil.addUser();
-
-			_user.setLastName(RandomTestUtil.randomString());
-
-			_user = _userLocalService.updateUser(_user);
-
-			_segmentsEntry = _addSegmentsEntry(_user.getLastName());
+			_segmentsEntry = _addSegmentsEntry(_user);
 
 			_segmentsEntryRoleLocalService.addSegmentsEntryRole(
 				_segmentsEntry.getSegmentsEntryId(), _role.getRoleId(),
@@ -169,9 +164,7 @@ public class SegmentsEntryRoleContributorTest {
 		}
 	}
 
-	private SegmentsEntry _addSegmentsEntry(String userLastName)
-		throws Exception {
-
+	private SegmentsEntry _addSegmentsEntry(User user) throws Exception {
 		return SegmentsTestUtil.addSegmentsEntry(
 			TestPropsValues.getGroupId(),
 			JSONUtil.put(
@@ -182,7 +175,7 @@ public class SegmentsEntryRoleContributorTest {
 						"conjunction", "and"
 					).put(
 						"filterString",
-						String.format("(lastName eq '%s')", userLastName)
+						String.format("(lastName eq '%s')", user.getLastName())
 					).put(
 						"typeValue", "model"
 					))
