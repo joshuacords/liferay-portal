@@ -14,9 +14,13 @@
 
 package com.liferay.document.library.internal.search.spi.model.query.contributor;
 
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.search.BooleanClauseOccur;
 import com.liferay.portal.kernel.search.BooleanQuery;
 import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.ParseException;
 import com.liferay.portal.kernel.search.SearchContext;
+import com.liferay.portal.kernel.search.generic.MatchQuery;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.search.query.QueryHelper;
 import com.liferay.portal.search.spi.model.query.contributor.KeywordQueryContributor;
@@ -54,17 +58,36 @@ public class DLFileEntryKeywordQueryContributor
 		queryHelper.addSearchTerm(
 			booleanQuery, searchContext, "ddmContent", false);
 		queryHelper.addSearchTerm(
-			booleanQuery, searchContext, "extension", false);
-		queryHelper.addSearchTerm(
 			booleanQuery, searchContext, "fileEntryTypeId", false);
 		queryHelper.addSearchLocalizedTerm(
 			booleanQuery, searchContext, Field.CONTENT, false);
 		queryHelper.addSearchTerm(
 			booleanQuery, searchContext, Field.TITLE, false);
 
+		if (Validator.isNotNull(keywords)) {
+			try {
+				booleanQuery.add(
+					_getMatchQuery(
+						"extension", keywords, MatchQuery.Type.PHRASE_PREFIX),
+					BooleanClauseOccur.SHOULD);
+			}
+			catch (ParseException parseException) {
+				throw new SystemException(parseException);
+			}
+		}
 	}
 
 	@Reference
 	protected QueryHelper queryHelper;
+
+	private MatchQuery _getMatchQuery(
+		String field, String keywords, MatchQuery.Type phrase) {
+
+		MatchQuery matchPhraseQuery = new MatchQuery(field, keywords);
+
+		matchPhraseQuery.setType(phrase);
+
+		return matchPhraseQuery;
+	}
 
 }
