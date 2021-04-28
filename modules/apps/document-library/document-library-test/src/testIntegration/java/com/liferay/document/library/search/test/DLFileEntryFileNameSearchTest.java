@@ -108,7 +108,7 @@ public class DLFileEntryFileNameSearchTest {
 		}
 
 		if (isSearchEngine("Elasticsearch", "7")) {
-			assertSearch("jp", Arrays.asList("One.jpg"));
+			assertSearch("jp", Arrays.asList("One.jpg", "Two.JPG"));
 		}
 
 		if (isSearchEngine("Solr", null)) {
