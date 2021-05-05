@@ -184,7 +184,6 @@ public class UserModelPreFilterContributor
 			new QueryFilter(
 				new WildcardQueryImpl(
 					"emailAddress", emailAddress + StringPool.STAR)));
-
 		emailAddressBooleanFilter.add(
 			new QueryFilter(
 				new WildcardQueryImpl(
