@@ -3650,9 +3650,19 @@ AUI.add(
 
 					var editor = instance.getEditor();
 
-					return isNode(editor)
-						? A.one(editor).val()
-						: editor.getHTML();
+					var editorValue = editor.getHTML();
+
+					var localizationMap = instance.get('localizationMap');
+
+					if (
+						!editor.instanceReady &&
+						localizationMap[instance.get('displayLocale')]
+					) {
+						editorValue =
+							localizationMap[instance.get('displayLocale')];
+					}
+
+					return isNode(editor) ? A.one(editor).val() : editorValue;
 				},
 
 				initializer() {
