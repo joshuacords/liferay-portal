@@ -92,9 +92,9 @@ public class ItemSelectorRepositoryEntryManagementToolbarDisplayContext {
 				(List<URLMenuItem>)(List<?>)menu.getMenuItems();
 
 			for (URLMenuItem urlMenuItem : urlMenuItems) {
-				if (Objects.equals(urlMenuItem.getKey(), DLUIItemKeys.UPLOAD) ||
-					Objects.equals(
+				if (Objects.equals(
 						urlMenuItem.getKey(), DLUIItemKeys.ADD_FOLDER) ||
+					Objects.equals(urlMenuItem.getKey(), DLUIItemKeys.UPLOAD) ||
 					allowedCreationMenuUIItemKeys.contains(
 						urlMenuItem.getKey())) {
 
