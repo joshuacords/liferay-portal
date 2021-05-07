@@ -238,8 +238,6 @@ public class PortalImplLocalizedFriendlyURLTest {
 		MockHttpServletRequest mockHttpServletRequest =
 			new MockHttpServletRequest();
 
-		mockHttpServletRequest.setServerName(_VIRTUAL_HOSTNAME);
-
 		String layoutFriendlyURL = "/home";
 
 		mockHttpServletRequest.setPathInfo(layoutFriendlyURL);
@@ -252,6 +250,8 @@ public class PortalImplLocalizedFriendlyURLTest {
 		String i18nPath = StringPool.SLASH + i18nPathLanguageId;
 
 		mockHttpServletRequest.setRequestURI(i18nPath + layoutFriendlyURL);
+
+		mockHttpServletRequest.setServerName(_VIRTUAL_HOSTNAME);
 
 		Assert.assertEquals(
 			i18nPath.concat("/inicio"),
