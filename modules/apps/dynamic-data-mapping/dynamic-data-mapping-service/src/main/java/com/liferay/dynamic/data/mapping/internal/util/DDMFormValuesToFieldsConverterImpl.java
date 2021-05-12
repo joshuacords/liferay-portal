@@ -23,6 +23,7 @@ import com.liferay.dynamic.data.mapping.storage.Field;
 import com.liferay.dynamic.data.mapping.storage.FieldConstants;
 import com.liferay.dynamic.data.mapping.storage.Fields;
 import com.liferay.dynamic.data.mapping.util.DDMFormValuesToFieldsConverter;
+import com.liferay.dynamic.data.mapping.util.NumericDDMFormFieldUtil;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.util.ArrayUtil;
@@ -219,10 +220,11 @@ public class DDMFormValuesToFieldsConverterImpl
 			NumberFormat numberFormat = null;
 
 			if (locale.equals(LocaleUtil.ROOT)) {
-				numberFormat = NumberFormat.getInstance(defaultLocale);
+				numberFormat = NumericDDMFormFieldUtil.getNumberFormat(
+					defaultLocale);
 			}
 			else {
-				numberFormat = NumberFormat.getInstance(locale);
+				numberFormat = NumericDDMFormFieldUtil.getNumberFormat(locale);
 			}
 
 			if (type.equals(FieldConstants.DOUBLE) ||
