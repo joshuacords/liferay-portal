@@ -42,7 +42,7 @@ public class NumericDDMFormFieldValueLocalizer
 	public String localize(String value, Locale locale) {
 		try {
 			DecimalFormat decimalFormat =
-				NumericDDMFormFieldUtil.getNumberFormat(locale);
+				NumericDDMFormFieldUtil.getDecimalFormat(locale);
 
 			Number number = GetterUtil.getNumber(decimalFormat.parse(value));
 
@@ -50,7 +50,7 @@ public class NumericDDMFormFieldValueLocalizer
 
 			if (!value.equals(formattedNumber)) {
 				DecimalFormat defaultDecimalFormat =
-					NumericDDMFormFieldUtil.getNumberFormat(LocaleUtil.US);
+					NumericDDMFormFieldUtil.getDecimalFormat(LocaleUtil.US);
 
 				number = defaultDecimalFormat.parse(value);
 

@@ -220,11 +220,11 @@ public class DDMFormValuesToFieldsConverterImpl
 			NumberFormat numberFormat = null;
 
 			if (locale.equals(LocaleUtil.ROOT)) {
-				numberFormat = NumericDDMFormFieldUtil.getNumberFormat(
+				numberFormat = NumericDDMFormFieldUtil.getDecimalFormat(
 					defaultLocale);
 			}
 			else {
-				numberFormat = NumericDDMFormFieldUtil.getNumberFormat(locale);
+				numberFormat = NumericDDMFormFieldUtil.getDecimalFormat(locale);
 			}
 
 			if (type.equals(FieldConstants.DOUBLE) ||

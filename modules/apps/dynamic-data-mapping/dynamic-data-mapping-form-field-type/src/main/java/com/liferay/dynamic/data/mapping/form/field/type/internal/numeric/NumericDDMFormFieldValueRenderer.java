@@ -43,8 +43,8 @@ public class NumericDDMFormFieldValueRenderer
 		Number number = getNumber(ddmFormFieldValue);
 
 		if (number != null) {
-			NumberFormat numberFormat = NumericDDMFormFieldUtil.getNumberFormat(
-				locale);
+			NumberFormat numberFormat =
+				NumericDDMFormFieldUtil.getDecimalFormat(locale);
 
 			return numberFormat.format(number);
 		}
@@ -62,7 +62,7 @@ public class NumericDDMFormFieldValueRenderer
 		if (Validator.isNotNull(valueString)) {
 			try {
 				NumberFormat formatter =
-					NumericDDMFormFieldUtil.getNumberFormat(locale);
+					NumericDDMFormFieldUtil.getDecimalFormat(locale);
 
 				return formatter.parse(valueString);
 			}
