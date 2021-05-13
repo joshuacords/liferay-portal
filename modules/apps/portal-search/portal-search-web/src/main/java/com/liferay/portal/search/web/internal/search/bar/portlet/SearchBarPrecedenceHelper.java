@@ -14,6 +14,7 @@
 
 package com.liferay.portal.search.web.internal.search.bar.portlet;
 
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutTypePortlet;
 import com.liferay.portal.kernel.model.Portlet;
@@ -22,6 +23,8 @@ import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.service.PortletLocalService;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.search.web.constants.SearchBarPortletKeys;
 import com.liferay.portal.search.web.internal.portlet.preferences.PortletPreferencesLookup;
 
@@ -29,6 +32,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
+
+import javax.portlet.PortletPreferences;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -88,9 +93,17 @@ public class SearchBarPrecedenceHelper {
 			return false;
 		}
 
+		SearchBarPortletPreferences searchBarPortletPreferences =
+			getSearchBarPortletPreferences(portlet, themeDisplay);
+
 		if (!SearchBarPortletDestinationUtil.isSameDestination(
-				getSearchBarPortletPreferences(portlet, themeDisplay),
-				themeDisplay)) {
+				searchBarPortletPreferences, themeDisplay)) {
+
+			return false;
+		}
+
+		if (!isSameFederatedSearchKey(
+				searchBarPortletPreferences, portletId, themeDisplay)) {
 
 			return false;
 		}
@@ -131,6 +144,47 @@ public class SearchBarPrecedenceHelper {
 			Objects.equals(
 				portlet.getPortletName(), SearchBarPortletKeys.SEARCH_BAR)) {
 
+			return true;
+		}
+
+		return false;
+	}
+
+	protected boolean isSameFederatedSearchKey(
+		SearchBarPortletPreferences searchBarPortletPreferences,
+		String portletId, ThemeDisplay themeDisplay) {
+
+		Portlet portlet = _portletLocalService.getPortletById(
+			themeDisplay.getCompanyId(), portletId);
+
+		String searchBarFederatedSearchKey =
+			searchBarPortletPreferences.getFederatedSearchKeyString();
+
+		if (portlet == null) {
+			if (Validator.isNotNull(searchBarFederatedSearchKey)) {
+				return false;
+			}
+
+			return true;
+		}
+
+		Optional<PortletPreferences> portletPreferencesOptional =
+			_portletPreferencesLookup.fetchPreferences(portlet, themeDisplay);
+
+		String federatedSearchKey = "";
+
+		if (portletPreferencesOptional.isPresent()) {
+			PortletPreferences portletPreferences =
+				portletPreferencesOptional.get();
+
+			federatedSearchKey = GetterUtil.getString(
+				portletPreferences.getValue(
+					SearchBarPortletPreferences.
+						PREFERENCE_KEY_FEDERATED_SEARCH_KEY,
+					StringPool.BLANK));
+		}
+
+		if (searchBarFederatedSearchKey.equals(federatedSearchKey)) {
 			return true;
 		}
 
