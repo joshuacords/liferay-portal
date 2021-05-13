@@ -23,7 +23,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 import java.math.BigDecimal;
 
-import java.text.NumberFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 
 import java.util.Locale;
@@ -55,10 +55,10 @@ public class NumericDDMFormFieldValueAccessor
 		Value value = ddmFormFieldValue.getValue();
 
 		try {
-			NumberFormat formatter = NumericDDMFormFieldUtil.getDecimalFormat(
-				locale);
+			DecimalFormat decimalFormat =
+				NumericDDMFormFieldUtil.getDecimalFormat(locale);
 
-			return (BigDecimal)formatter.parse(value.getString(locale));
+			return (BigDecimal)decimalFormat.parse(value.getString(locale));
 		}
 		catch (ParseException parseException) {
 			if (_log.isDebugEnabled()) {
