@@ -277,11 +277,17 @@ public class DLFileEntryModelDocumentContributor
 		return sb.toString();
 	}
 
+	private static final Log _log = LogFactoryUtil.getLog(
+		DLFileEntryModelDocumentContributor.class);
+
 	@Reference
 	private DDMStructureManager _ddmStructureManager;
 
 	@Reference
 	private DLFileEntryMetadataLocalService _dlFileEntryMetadataLocalService;
+
+	@Reference
+	private InputStreamSanitizer _inputStreamSanitizer;
 
 	@Reference
 	private Portal _portal;
@@ -294,11 +300,5 @@ public class DLFileEntryModelDocumentContributor
 
 	@Reference
 	private TrashHelper _trashHelper;
-
-	private static final Log _log = LogFactoryUtil.getLog(
-		DLFileEntryModelDocumentContributor.class);
-
-	@Reference
-	private InputStreamSanitizer _inputStreamSanitizer;
 
 }
