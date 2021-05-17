@@ -49,6 +49,7 @@ import com.liferay.portal.kernel.servlet.HttpMethods;
 import com.liferay.portal.kernel.servlet.ServletContextPool;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ConcurrentHashMapBuilder;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.LocaleUtil;
@@ -57,6 +58,7 @@ import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.search.spi.model.index.contributor.ModelDocumentContributor;
 import com.liferay.portal.theme.ThemeDisplayFactory;
 import com.liferay.segments.constants.SegmentsExperienceConstants;
@@ -120,6 +122,7 @@ public class LayoutModelDocumentContributor
 		document.addLocalizedText(Field.NAME, layout.getNameMap());
 		document.addText(
 			"privateLayout", String.valueOf(layout.isPrivateLayout()));
+		document.addKeyword(Field.STATUS, _getStatus(layout));
 		document.addText(Field.TYPE, layout.getType());
 
 		for (String languageId : layout.getAvailableLanguageIds()) {
@@ -328,6 +331,27 @@ public class LayoutModelDocumentContributor
 				ServiceContextThreadLocal.pushServiceContext(serviceContext);
 			}
 		}
+	}
+
+	private int _getStatus(Layout layout) {
+		if (!layout.isTypeContent()) {
+			return WorkflowConstants.STATUS_APPROVED;
+		}
+
+		Layout draftLayout = layout.fetchDraftLayout();
+
+		boolean published = false;
+
+		if (draftLayout != null) {
+			published = GetterUtil.getBoolean(
+				draftLayout.getTypeSettingsProperty("published"));
+		}
+
+		if (published) {
+			return WorkflowConstants.STATUS_APPROVED;
+		}
+
+		return WorkflowConstants.STATUS_DRAFT;
 	}
 
 	private String _getWrapper(String layoutContent) {
