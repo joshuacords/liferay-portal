@@ -648,11 +648,15 @@
 			},
 			"extension": {
 				"store": true,
-				"type": "text"
+				"type": "keyword"
 			},
 			"fileEntryTypeId": {
 				"store": true,
 				"type": "keyword"
+			},
+			"fileExtension": {
+				"store": true,
+				"type": "text"
 			},
 			"folderId": {
 				"store": true,
