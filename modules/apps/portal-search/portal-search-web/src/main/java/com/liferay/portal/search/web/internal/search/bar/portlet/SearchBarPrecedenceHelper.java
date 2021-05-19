@@ -14,10 +14,10 @@
 
 package com.liferay.portal.search.web.internal.search.bar.portlet;
 
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutTypePortlet;
 import com.liferay.portal.kernel.model.Portlet;
-import com.liferay.portal.kernel.model.PortletPreferences;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.service.PortletLocalService;
@@ -32,6 +32,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
+
+import javax.portlet.PortletPreferences;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -134,7 +136,7 @@ public class SearchBarPrecedenceHelper {
 		Portlet portlet, ThemeDisplay themeDisplay) {
 
 		return new SearchBarPortletPreferencesImpl(
-			portletPreferencesLookup.fetchPreferences(portlet, themeDisplay));
+			_portletPreferencesLookup.fetchPreferences(portlet, themeDisplay));
 	}
 
 	protected boolean isHeaderSearchBar(Portlet portlet) {
@@ -152,7 +154,7 @@ public class SearchBarPrecedenceHelper {
 		SearchBarPortletPreferences searchBarPortletPreferences,
 		String portletId, ThemeDisplay themeDisplay) {
 
-		Portlet portlet = portletLocalService.getPortletById(
+		Portlet portlet = _portletLocalService.getPortletById(
 			themeDisplay.getCompanyId(), portletId);
 
 		String searchBarFederatedSearchKey =
@@ -166,17 +168,20 @@ public class SearchBarPrecedenceHelper {
 			return true;
 		}
 
-		Optional<javax.portlet.PortletPreferences> portletPreferencesOptional =
-			portletPreferencesLookup.fetchPreferences(portlet, themeDisplay);
+		Optional<PortletPreferences> portletPreferencesOptional =
+			_portletPreferencesLookup.fetchPreferences(portlet, themeDisplay);
 
 		String federatedSearchKey = "";
 
 		if (portletPreferencesOptional.isPresent()) {
-			javax.portlet.PortletPreferences portletPreferences =
+			PortletPreferences portletPreferences =
 				portletPreferencesOptional.get();
 
 			federatedSearchKey = GetterUtil.getString(
-				portletPreferences.getValue("federatedSearchKey", null));
+				portletPreferences.getValue(
+					SearchBarPortletPreferences.
+						PREFERENCE_KEY_FEDERATED_SEARCH_KEY,
+					StringPool.BLANK));
 		}
 
 		if (searchBarFederatedSearchKey.equals(federatedSearchKey)) {
@@ -194,10 +199,24 @@ public class SearchBarPrecedenceHelper {
 		return false;
 	}
 
-	@Reference
-	protected PortletLocalService portletLocalService;
+	@Reference(unbind = "-")
+	protected void setPortletLocalService(
+		PortletLocalService portletLocalService) {
+
+		_portletLocalService = portletLocalService;
+	}
+
+	@Reference(unbind = "-")
+	protected void setPortletPreferencesLookup(
+		PortletPreferencesLookup portletPreferencesLookup) {
+
+		_portletPreferencesLookup = portletPreferencesLookup;
+	}
 
 	@Reference
-	protected PortletPreferencesLookup portletPreferencesLookup;
+	private PortletLocalService _portletLocalService;
+
+	@Reference
+	private PortletPreferencesLookup _portletPreferencesLookup;
 
 }
