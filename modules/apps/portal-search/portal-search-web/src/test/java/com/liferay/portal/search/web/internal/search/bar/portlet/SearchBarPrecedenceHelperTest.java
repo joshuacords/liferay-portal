@@ -20,6 +20,7 @@ import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutTypePortlet;
 import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.service.PortletLocalService;
+import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.search.web.constants.SearchBarPortletKeys;
@@ -29,11 +30,9 @@ import com.liferay.portal.test.rule.LiferayUnitTestRule;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import javax.portlet.PortletException;
 import javax.portlet.PortletPreferences;
 
 import org.junit.Assert;
@@ -60,63 +59,95 @@ public class SearchBarPrecedenceHelperTest {
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 
-		setUpPortletList();
+		setUpPrivateVariables();
 
 		setUpLayout();
-		setUpLayoutType();
 		setUpThemeDisplay();
 	}
 
 	@Test
-	public void testSearchBarAlreadyPresentWithDifferentFederatedKey()
-		throws PortletException {
-
-		SearchBarPrecedenceHelper searchBarPrecedenceHelper =
-			new SearchBarPrecedenceHelper();
-
-		searchBarPrecedenceHelper.setPortletLocalService(_portletLocalService);
-
-		searchBarPrecedenceHelper.setPortletPreferencesLookup(
-			_portletPreferencesLookup);
-
+	public void testSearchBarAlreadyPresentWithDifferentDestinationDifferentFederatedKey() {
 		setUpPortlet(
 			SearchBarPortletKeys.SEARCH_BAR, "headerSearchBarPortletId",
 			"headerFedKey", true);
 
 		Portlet searchBarPortlet = setUpPortlet(
 			"searchBar", "searchBarPortletId", "FedKey", false);
-		setUpPortletPreferencesLookup();
 
-		Assert.assertFalse(
-			searchBarPrecedenceHelper.
-				isSearchBarInBodyWithHeaderSearchBarAlreadyPresent(
-					_themeDisplay, searchBarPortlet.getPortletId()));
+		assertIsSearchBarInBodyWithHeaderSearchBarAlreadyPresent(
+			searchBarPortlet, true, false);
 	}
 
 	@Test
-	public void testSearchBarAlreadyPresentWithSameFederatedKey()
-		throws PortletException {
-
-		SearchBarPrecedenceHelper searchBarPrecedenceHelper =
-			new SearchBarPrecedenceHelper();
-
-		searchBarPrecedenceHelper.setPortletLocalService(_portletLocalService);
-
-		searchBarPrecedenceHelper.setPortletPreferencesLookup(
-			_portletPreferencesLookup);
-
+	public void testSearchBarAlreadyPresentWithDifferentDestinationSameFederatedKey() {
 		setUpPortlet(
 			SearchBarPortletKeys.SEARCH_BAR, "headerSearchBarPortletId",
 			"FedKey", true);
 
 		Portlet searchBarPortlet = setUpPortlet(
 			"searchBar", "searchBarPortletId", "FedKey", false);
+
+		assertIsSearchBarInBodyWithHeaderSearchBarAlreadyPresent(
+			searchBarPortlet, true, false);
+	}
+
+	@Test
+	public void testSearchBarAlreadyPresentWithSameDestinationDifferentFederatedKey() {
+		setUpPortlet(
+			SearchBarPortletKeys.SEARCH_BAR, "headerSearchBarPortletId",
+			"headerFedKey", true);
+
+		Portlet searchBarPortlet = setUpPortlet(
+			"searchBar", "searchBarPortletId", "FedKey", false);
+
+		assertIsSearchBarInBodyWithHeaderSearchBarAlreadyPresent(
+			searchBarPortlet, false, false);
+	}
+
+	@Test
+	public void testSearchBarAlreadyPresentWithSameDestinationSameFederatedKey() {
+		setUpPortlet(
+			SearchBarPortletKeys.SEARCH_BAR, "headerSearchBarPortletId",
+			"FedKey", true);
+
+		Portlet searchBarPortlet = setUpPortlet(
+			"searchBar", "searchBarPortletId", "FedKey", false);
+
+		assertIsSearchBarInBodyWithHeaderSearchBarAlreadyPresent(
+			searchBarPortlet, false, true);
+	}
+
+	protected void assertIsSearchBarInBodyWithHeaderSearchBarAlreadyPresent(
+		Portlet searchBarPortlet, boolean differentDestination,
+		boolean expected) {
+
+		String destination = _destination;
+
+		if (differentDestination) {
+			destination = _destination + "1";
+		}
+
+		setThemeDisplayDestination(destination);
+
+		setUpLayoutType();
 		setUpPortletPreferencesLookup();
 
-		Assert.assertTrue(
+		SearchBarPrecedenceHelper searchBarPrecedenceHelper =
+			_createSearchBarPrecedenceHelper();
+
+		Assert.assertEquals(
+			expected,
 			searchBarPrecedenceHelper.
 				isSearchBarInBodyWithHeaderSearchBarAlreadyPresent(
 					_themeDisplay, searchBarPortlet.getPortletId()));
+	}
+
+	protected void setThemeDisplayDestination(String destination) {
+		Mockito.when(
+			_themeDisplay.getLayoutFriendlyURL(_layout)
+		).thenReturn(
+			"/" + destination
+		);
 	}
 
 	protected void setUpLayout() {
@@ -131,7 +162,7 @@ public class SearchBarPrecedenceHelperTest {
 		Mockito.when(
 			_layoutTypePortlet.getAllPortlets(false)
 		).thenReturn(
-			_portlets
+			new ArrayList<Portlet>(_portletPreferencesMap.keySet())
 		);
 	}
 
@@ -171,6 +202,14 @@ public class SearchBarPrecedenceHelperTest {
 		);
 
 		Mockito.when(
+			portletPreferences.getValue(
+				SearchBarPortletPreferences.PREFERENCE_KEY_DESTINATION,
+				StringPool.BLANK)
+		).thenReturn(
+			_destination
+		);
+
+		Mockito.when(
 			_portletLocalService.getPortletById(0, portlet.getPortletId())
 		).thenReturn(
 			portlet
@@ -178,16 +217,7 @@ public class SearchBarPrecedenceHelperTest {
 
 		_portletPreferencesMap.put(portlet, portletPreferences);
 
-		_portlets.add(portlet);
-
 		return portlet;
-
-		//_portletPreferencesMap.keySet()  keySet -> List<Portlet>
-	}
-
-	protected void setUpPortletList() {
-		_portlets = new ArrayList<>();
-		_portletPreferencesMap = new HashMap<>();
 	}
 
 	protected void setUpPortletPreferencesLookup() {
@@ -201,6 +231,11 @@ public class SearchBarPrecedenceHelperTest {
 				Optional.ofNullable(entry.getValue())
 			);
 		}
+	}
+
+	protected void setUpPrivateVariables() {
+		_destination = RandomTestUtil.randomString();
+		_portletPreferencesMap = new HashMap<>();
 	}
 
 	protected void setUpThemeDisplay() {
@@ -233,6 +268,20 @@ public class SearchBarPrecedenceHelperTest {
 		);
 	}
 
+	private SearchBarPrecedenceHelper _createSearchBarPrecedenceHelper() {
+		SearchBarPrecedenceHelper searchBarPrecedenceHelper =
+			new SearchBarPrecedenceHelper();
+
+		searchBarPrecedenceHelper.setPortletLocalService(_portletLocalService);
+
+		searchBarPrecedenceHelper.setPortletPreferencesLookup(
+			_portletPreferencesLookup);
+
+		return searchBarPrecedenceHelper;
+	}
+
+	private String _destination;
+
 	@Mock
 	private Group _group;
 
@@ -255,7 +304,6 @@ public class SearchBarPrecedenceHelperTest {
 	private PortletPreferencesLookup _portletPreferencesLookup;
 
 	private Map<Portlet, PortletPreferences> _portletPreferencesMap;
-	private List<Portlet> _portlets;
 
 	@Mock
 	private PortletPreferences _searchBarPortletPreferences;
