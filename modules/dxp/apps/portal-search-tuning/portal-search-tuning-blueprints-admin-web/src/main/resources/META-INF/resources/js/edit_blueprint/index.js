@@ -531,7 +531,7 @@ function EditBlueprintForm({
 								'no-query-elements-found'
 							)}
 							onAddElement={_handleAddElement}
-							onClose={() => setShowSidebar(false)}
+							onToggle={setShowSidebar}
 							title={Liferay.Language.get('add-query-elements')}
 							visible={showSidebar}
 						/>
@@ -584,7 +584,7 @@ function EditBlueprintForm({
 				initialTitle={initialTitle}
 				isSubmitting={formik.isSubmitting}
 				onCancel={redirectURL}
-				onChangeTab={(tab) => setTab(tab)}
+				onChangeTab={setTab}
 				onSubmit={(event) => {
 					event.preventDefault();
 
@@ -616,26 +616,23 @@ function EditBlueprintForm({
 					>
 						{Liferay.Language.get('preview')}
 
-						{previewInfo.results.errors &&
-							!!previewInfo.results.errors.length && (
-								<span className="inline-item inline-item-after">
-									<ClayBadge
-										displayType="danger"
-										label={
-											previewInfo.results.errors.length
-										}
-									/>
-								</span>
-							)}
+						{!!previewInfo.results.errors?.length && (
+							<span className="inline-item inline-item-after">
+								<ClayBadge
+									displayType="danger"
+									label={previewInfo.results.errors.length}
+								/>
+							</span>
+						)}
 					</ClayButton>
 				</ClayToolbar.Item>
 			</PageToolbar>
 
 			<PreviewSidebar
 				loading={previewInfo.loading}
-				onClose={() => setShowPreview(false)}
 				onFetchResults={_handleFetchPreviewSearch}
 				onFocusElement={_handleFocusElement}
+				onToggle={setShowPreview}
 				results={previewInfo.results}
 				visible={showPreview}
 			/>
