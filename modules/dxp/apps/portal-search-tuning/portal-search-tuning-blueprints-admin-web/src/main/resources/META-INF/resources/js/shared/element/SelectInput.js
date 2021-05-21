@@ -16,37 +16,36 @@ function SelectInput({
 	disabled,
 	label,
 	name,
-	options,
-	setFieldTouched,
-	setFieldValue,
+	nullable,
+	onBlur,
+	onChange,
+	options = [],
 	value,
 }) {
 	return (
-		<ClaySelect
-			aria-label={label}
-			className="form-control-sm"
-			disabled={disabled}
-			onBlur={() => setFieldTouched(name)}
-			onChange={(event) => {
-				const value =
-					typeof options[0].value == 'boolean' ||
-					typeof options[0].value == 'number'
-						? JSON.parse(event.target.value)
-						: event.target.value;
+		<>
+			<ClaySelect
+				aria-label={label}
+				className="form-control-sm"
+				disabled={disabled}
+				name={name}
+				onBlur={onBlur}
+				onChange={onChange}
+				value={value}
+			>
+				{(nullable || value === '') && (
+					<ClaySelect.Option key="nullableOption" label="" value="" />
+				)}
 
-				setFieldValue(name, value);
-			}}
-			value={value}
-		>
-			{options &&
-				options.map((item) => (
+				{options.map((item) => (
 					<ClaySelect.Option
 						key={item.value}
 						label={item.label}
 						value={item.value}
 					/>
 				))}
-		</ClaySelect>
+			</ClaySelect>
+		</>
 	);
 }
 

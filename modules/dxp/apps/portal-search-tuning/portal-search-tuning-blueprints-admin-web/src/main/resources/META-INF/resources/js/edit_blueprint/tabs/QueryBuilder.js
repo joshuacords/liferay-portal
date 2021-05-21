@@ -61,6 +61,7 @@ function QueryBuilder({
 	errors = [],
 	frameworkConfig,
 	indexFields,
+	isSubmitting,
 	onBlur,
 	onChange,
 	onDeleteElement,
@@ -81,10 +82,7 @@ function QueryBuilder({
 			const elementOutput = getElementOutput(element);
 
 			return (
-				elementOutput.clauses &&
-				elementOutput.clauses[0] &&
-				elementOutput.clauses[0].occur &&
-				elementOutput.clauses[0].occur === 'must' &&
+				elementOutput.clauses?.[0]?.occur === 'must' &&
 				elementOutput.enabled
 			);
 		});
@@ -113,6 +111,7 @@ function QueryBuilder({
 							id={element.id}
 							index={index}
 							indexFields={indexFields}
+							isSubmitting={isSubmitting}
 							key={element.id}
 							onBlur={onBlur}
 							onChange={onChange}
@@ -133,6 +132,7 @@ function QueryBuilder({
 							error={errors[index]}
 							id={element.id}
 							index={index}
+							isSubmitting={isSubmitting}
 							key={element.id}
 							onDeleteElement={onDeleteElement}
 							prefixedId={`${ELEMENT_PREFIX.QUERY}-${index}`}
@@ -312,6 +312,7 @@ QueryBuilder.propTypes = {
 	errors: PropTypes.arrayOf(PropTypes.object),
 	frameworkConfig: PropTypes.object,
 	indexFields: PropTypes.arrayOf(PropTypes.object),
+	isSubmitting: PropTypes.bool,
 	onBlur: PropTypes.func,
 	onChange: PropTypes.func,
 	onDeleteElement: PropTypes.func,

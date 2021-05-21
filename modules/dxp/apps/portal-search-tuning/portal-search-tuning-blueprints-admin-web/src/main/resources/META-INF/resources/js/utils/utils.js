@@ -34,7 +34,7 @@ export const openSuccessToast = (config) => {
 };
 
 /**
- * Function used to identify whether a required value is not null or undefined
+ * Function used to identify whether a required value is not undefined
  *
  * Examples:
  * isDefined(false)
@@ -44,12 +44,12 @@ export const openSuccessToast = (config) => {
  * isDefined('')
  * => true
  * isDefined(null)
- * => false
+ * => true
  *
  * @param {String|object} item Item to check
  * @return {boolean}
  */
-export const isDefined = (item) => item !== null && typeof item !== 'undefined';
+export const isDefined = (item) => typeof item !== 'undefined';
 
 /**
  * Checks if a value is blank. For example: `''` or `{}`.
@@ -203,7 +203,10 @@ export const toNumber = (str) => {
  */
 export const getDefaultValue = (item) => {
 	const itemValue = item.defaultValue;
-	const itemTypeOptions = item.typeOptions || {};
+
+	if (itemValue === null) {
+		return itemValue;
+	}
 
 	switch (item.type) {
 		case INPUT_TYPES.DATE:
@@ -242,14 +245,10 @@ export const getDefaultValue = (item) => {
 				? toNumber(itemValue)
 				: '';
 		case INPUT_TYPES.SELECT:
-
-			// use isDefined in case of false or 0
-
-			return isDefined(itemValue)
+			return typeof itemValue === 'string'
 				? itemValue
-				: itemTypeOptions.options &&
-				  isDefined(itemTypeOptions.options[0].value)
-				? itemTypeOptions.options[0].value
+				: item.typeOptions?.options?.[0]?.value
+				? item.typeOptions.options[0].value
 				: '';
 		case INPUT_TYPES.SLIDER:
 			return typeof itemValue == 'number'
@@ -296,15 +295,16 @@ export const getDefaultValue = (item) => {
  * @return {object}
  */
 export const getUIConfigurationValues = (uiConfigurationJSON) => {
-	if (uiConfigurationJSON && uiConfigurationJSON.fieldSets) {
+	if (Array.isArray(uiConfigurationJSON?.fieldSets)) {
 		return uiConfigurationJSON.fieldSets.reduce((allValues, fieldSet) => {
-			const uiConfigurationValues = fieldSet.fields
-				? fieldSet.fields.reduce((acc, curr) => {
-						return {
+			const uiConfigurationValues = Array.isArray(fieldSet.fields)
+				? fieldSet.fields.reduce(
+						(acc, curr) => ({
 							...acc,
 							[`${curr.name}`]: getDefaultValue(curr),
-						};
-				  }, {})
+						}),
+						{}
+				  )
 				: {};
 
 			// gets uiConfigurationValues within each fields array
@@ -329,24 +329,52 @@ export const getElementOutput = ({
 	uiConfigurationJSON,
 	uiConfigurationValues,
 }) => {
-	if (uiConfigurationJSON && uiConfigurationJSON.fieldSets) {
+	if (Array.isArray(uiConfigurationJSON?.fieldSets)) {
 		let flattenJSON = JSON.stringify(elementTemplateJSON);
 
 		uiConfigurationJSON.fieldSets.map((fieldSet) => {
-			if (fieldSet.fields) {
+			if (Array.isArray(fieldSet.fields)) {
 				fieldSet.fields.map((config) => {
 					let configValue = '';
 					const initialConfigValue =
 						uiConfigurationValues[config.name];
-					const configTypeOptions = config.typeOptions || {};
 
-					if (config.type === INPUT_TYPES.DATE) {
+					if (
+						initialConfigValue === null ||
+						(config.type === INPUT_TYPES.SELECT &&
+							initialConfigValue === '')
+					) {
+
+						// Remove property entirely if null (or blank for a select inputs).
+						// Check for regex with leading and trailing commas first.
+
+						const nullRegex = `\\"[\\w\\._]+\\"\\:\\"\\$\\{${CONFIG_PREFIX}\\.${config.name}}\\"`;
+
+						flattenJSON = replaceStr(
+							flattenJSON,
+							new RegExp(nullRegex + `,`),
+							''
+						);
+
+						flattenJSON = replaceStr(
+							flattenJSON,
+							new RegExp(`,` + nullRegex),
+							''
+						);
+
+						flattenJSON = replaceStr(
+							flattenJSON,
+							new RegExp(nullRegex),
+							''
+						);
+					}
+					else if (config.type === INPUT_TYPES.DATE) {
 						configValue = initialConfigValue
 							? JSON.parse(
 									moment
 										.unix(initialConfigValue)
 										.format(
-											configTypeOptions.format ||
+											config.typeOptions?.format ||
 												'YYYYMMDDHHMMSS'
 										)
 							  )
@@ -381,6 +409,12 @@ export const getElementOutput = ({
 						else {
 							localizedField = field + transformedLocale;
 						}
+
+						localizedField = replaceStr(
+							localizedField,
+							/[\\"]+/,
+							''
+						);
 
 						configValue =
 							boost && boost > 0
@@ -418,6 +452,12 @@ export const getElementOutput = ({
 											field + transformedLocale;
 									}
 
+									localizedField = replaceStr(
+										localizedField,
+										/[\\"]+/,
+										''
+									);
+
 									return boost && boost > 0
 										? `${localizedField}^${boost}`
 										: localizedField;
@@ -442,25 +482,31 @@ export const getElementOutput = ({
 					}
 					else if (config.type === INPUT_TYPES.NUMBER) {
 						configValue =
-							typeof configTypeOptions.unitSuffix == 'string'
+							typeof config.typeOptions?.unitSuffix == 'string'
 								? typeof initialConfigValue == 'string'
 									? initialConfigValue.concat(
-											configTypeOptions.unitSuffix
+											config.typeOptions?.unitSuffix
 									  )
 									: JSON.stringify(initialConfigValue).concat(
-											configTypeOptions.unitSuffix
+											config.typeOptions?.unitSuffix
 									  )
 								: initialConfigValue;
 					}
-					else {
+					else if (config.type === INPUT_TYPES.SLIDER) {
 						configValue = initialConfigValue;
+					}
+					else {
+						configValue = replaceStr(
+							initialConfigValue,
+							/[\\"]+/,
+							''
+						);
 					}
 
 					// Check whether to add quotes around output
 
 					const key =
 						typeof configValue === 'number' ||
-						typeof configValue === 'boolean' ||
 						config.type === INPUT_TYPES.ITEM_SELECTOR ||
 						config.type === INPUT_TYPES.FIELD_MAPPING_LIST ||
 						config.type === INPUT_TYPES.JSON ||

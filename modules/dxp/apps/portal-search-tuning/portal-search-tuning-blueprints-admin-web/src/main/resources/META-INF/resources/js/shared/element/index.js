@@ -44,6 +44,7 @@ function Element({
 	id,
 	index,
 	indexFields = [],
+	isSubmitting,
 	onBlur = () => {},
 	onChange = () => {},
 	onDeleteElement,
@@ -86,23 +87,21 @@ function Element({
 		!isEmpty(elementTemplateJSON.description[locale]);
 
 	const _hasConfigurationValues =
-		!!uiConfigurationJSON &&
-		uiConfigurationJSON.fieldSets &&
-		uiConfigurationJSON.fieldSets.some(
-			(item) => item.fields && item.fields.length > 0
-		);
+		Array.isArray(uiConfigurationJSON?.fieldSets) &&
+		uiConfigurationJSON.fieldSets.some((item) => item.fields?.length > 0);
 
 	const _hasError = (config) =>
-		touched.uiConfigurationValues &&
-		touched.uiConfigurationValues[config.name] &&
-		error.uiConfigurationValues &&
-		!!error.uiConfigurationValues[config.name];
+		touched.uiConfigurationValues?.[config.name] &&
+		!!error.uiConfigurationValues?.[config.name];
 
 	const _renderInput = (config) => {
-		const disabled = !elementTemplateJSON.enabled;
+		const disabled = !elementTemplateJSON.enabled || isSubmitting;
 		const inputId = _getInputId(id, config.name);
 		const inputName = _getInputName(config.name);
 		const typeOptions = config.typeOptions || {};
+
+		const nullable =
+			typeOptions.nullable || uiConfigurationValues[config.name] === null;
 
 		switch (config.type) {
 			case INPUT_TYPES.DATE:
@@ -111,6 +110,7 @@ function Element({
 						configKey={config.name}
 						disabled={disabled}
 						name={inputName}
+						nullable={nullable}
 						setFieldTouched={setFieldTouched}
 						setFieldValue={setFieldValue}
 						value={uiConfigurationValues[config.name]}
@@ -123,6 +123,7 @@ function Element({
 						id={inputId}
 						indexFields={indexFields}
 						name={inputName}
+						nullable={nullable}
 						setFieldTouched={setFieldTouched}
 						setFieldValue={setFieldValue}
 						showBoost={typeOptions.boost}
@@ -136,6 +137,7 @@ function Element({
 						id={inputId}
 						indexFields={indexFields}
 						name={inputName}
+						nullable={nullable}
 						onBlur={onBlur}
 						setFieldTouched={setFieldTouched}
 						setFieldValue={setFieldValue}
@@ -151,6 +153,7 @@ function Element({
 						itemType={typeOptions.itemType}
 						label={config.label}
 						name={inputName}
+						nullable={nullable}
 						setFieldTouched={setFieldTouched}
 						setFieldValue={setFieldValue}
 						value={uiConfigurationValues[config.name]}
@@ -162,6 +165,7 @@ function Element({
 						disabled={disabled}
 						label={config.label}
 						name={inputName}
+						nullable={nullable}
 						setFieldTouched={setFieldTouched}
 						setFieldValue={setFieldValue}
 						value={uiConfigurationValues[config.name]}
@@ -173,6 +177,7 @@ function Element({
 						disabled={disabled}
 						label={config.label}
 						name={inputName}
+						nullable={nullable}
 						setFieldTouched={setFieldTouched}
 						setFieldValue={setFieldValue}
 						value={uiConfigurationValues[config.name]}
@@ -188,8 +193,10 @@ function Element({
 						max={typeOptions.max}
 						min={typeOptions.min}
 						name={inputName}
+						nullable={nullable}
 						onBlur={onBlur}
 						onChange={onChange}
+						setFieldValue={setFieldValue}
 						step={typeOptions.step}
 						unit={typeOptions.unit}
 						value={uiConfigurationValues[config.name]}
@@ -202,8 +209,10 @@ function Element({
 						disabled={disabled}
 						label={config.label}
 						name={inputName}
+						nullable={nullable}
+						onBlur={onBlur}
+						onChange={onChange}
 						options={typeOptions.options}
-						setFieldTouched={setFieldTouched}
 						setFieldValue={setFieldValue}
 						value={uiConfigurationValues[config.name]}
 					/>
@@ -216,6 +225,7 @@ function Element({
 						max={typeOptions.max}
 						min={typeOptions.min}
 						name={inputName}
+						nullable={nullable}
 						onBlur={onBlur}
 						onChange={onChange}
 						setFieldTouched={setFieldTouched}
@@ -230,8 +240,10 @@ function Element({
 						disabled={disabled}
 						label={config.label}
 						name={inputName}
+						nullable={nullable}
 						onBlur={onBlur}
 						onChange={onChange}
+						setFieldValue={setFieldValue}
 						value={uiConfigurationValues[config.name]}
 					/>
 				);
@@ -367,7 +379,7 @@ function Element({
 			{!collapse && _hasConfigurationValues && (
 				<ClayList className="configuration-form-list">
 					{uiConfigurationJSON.fieldSets.map((fieldSet) => {
-						if (fieldSet.fields) {
+						if (Array.isArray(fieldSet.fields)) {
 							return fieldSet.fields.map((config) => (
 								<ClayList.Item
 									className={config.type}
@@ -384,11 +396,9 @@ function Element({
 											>
 												{config.label}
 
-												{config.typeOptions &&
-													isDefined(
-														config.typeOptions
-															.required
-													) &&
+												{isDefined(
+													config.typeOptions?.required
+												) &&
 													!config.typeOptions
 														.required && (
 														<span className="optional-text">
@@ -458,6 +468,7 @@ Element.propTypes = {
 	id: PropTypes.number,
 	index: PropTypes.number,
 	indexFields: PropTypes.arrayOf(PropTypes.object),
+	isSubmitting: PropTypes.bool,
 	onBlur: PropTypes.func,
 	onChange: PropTypes.func,
 	onDeleteElement: PropTypes.func,

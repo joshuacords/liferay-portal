@@ -87,6 +87,23 @@ function EditBlueprintForm({
 	);
 
 	/**
+	 * Abstracts title and description from the existing form, as
+	 * query builder has several inputs that should not be included in
+	 * submission.
+	 * @param {FormData} formData
+	 */
+	const _appendTitleAndDescription = (formData) => {
+		for (const pair of new FormData(form.current).entries()) {
+			if (
+				pair[0].includes(`${namespace}title`) ||
+				pair[0].includes(`${namespace}description`)
+			) {
+				formData.append(pair[0], pair[1]);
+			}
+		}
+	};
+
+	/**
 	 * Formats the form values for the "configuration" parameter to send to
 	 * the server. Sets defaults so the JSON.parse calls don't break.
 	 * @param {Object} values Form values
@@ -123,7 +140,9 @@ function EditBlueprintForm({
 	};
 
 	const _handleFormikSubmit = (values) => {
-		const formData = new FormData(form.current);
+		const formData = new FormData();
+
+		_appendTitleAndDescription(formData);
 
 		try {
 			formData.append(
@@ -218,7 +237,7 @@ function EditBlueprintForm({
 
 				const configErrors = {};
 
-				if (uiConfigurationJSON && uiConfigurationJSON.fieldSets) {
+				if (Array.isArray(uiConfigurationJSON?.fieldSets)) {
 					uiConfigurationJSON.fieldSets.map(({fields = []}) => {
 						fields.map(({name, type, typeOptions = {}}) => {
 							const configValue = uiConfigurationValues[name];
@@ -245,7 +264,7 @@ function EditBlueprintForm({
 				}
 				else if (!uiConfigurationJSON) {
 					const configValue =
-						uiConfigurationValues.elementTemplateJSON;
+						uiConfigurationValues?.elementTemplateJSON;
 
 					const configError =
 						validateRequired(configValue, INPUT_TYPES.JSON) ||
@@ -336,7 +355,7 @@ function EditBlueprintForm({
 	});
 
 	const _handleAddElement = (element) => {
-		if (formik.touched && formik.touched.selectedQueryElements) {
+		if (formik.touched?.selectedQueryElements) {
 			formik.setTouched({
 				...formik.touched,
 				selectedQueryElements: [
@@ -363,7 +382,7 @@ function EditBlueprintForm({
 			(item) => item.id == id
 		);
 
-		if (formik.touched && formik.touched.selectedQueryElements) {
+		if (formik.touched?.selectedQueryElements) {
 			formik.setTouched({
 				...formik.touched,
 				selectedQueryElements: formik.touched.selectedQueryElements.filter(
@@ -388,7 +407,9 @@ function EditBlueprintForm({
 			loading: true,
 		}));
 
-		const formData = new FormData(form.current);
+		const formData = new FormData();
+
+		_appendTitleAndDescription(formData);
 
 		try {
 			formData.append(
@@ -526,6 +547,9 @@ function EditBlueprintForm({
 								errors={formik.errors.selectedQueryElements}
 								frameworkConfig={formik.values.frameworkConfig}
 								indexFields={indexFields}
+								isSubmitting={
+									formik.isSubmitting || previewInfo.loading
+								}
 								onBlur={formik.handleBlur}
 								onChange={formik.handleChange}
 								onDeleteElement={_handleDeleteElement}
