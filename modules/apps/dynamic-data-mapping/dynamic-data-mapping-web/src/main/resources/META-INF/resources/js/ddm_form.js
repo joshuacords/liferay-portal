@@ -83,7 +83,7 @@ AUI.add(
 			'</div>';
 
 		var TPL_REPEATABLE_DELETE =
-			'<a class="hide lfr-ddm-repeatable-delete-button" href="javascript:;">' +
+			'<a class="lfr-ddm-repeatable-delete-button" href="javascript:;">' +
 			Liferay.Util.getLexiconIconTpl('hr') +
 			'</a>';
 
@@ -563,9 +563,9 @@ AUI.add(
 						)
 					) {
 						instance.remove();
-
-						instance.syncRepeatablelUI();
 					}
+
+					instance.syncRepeatablelUI();
 
 					event.stopPropagation();
 				},
@@ -1189,21 +1189,13 @@ AUI.add(
 				syncRepeatablelUI() {
 					var instance = this;
 
-					var container = instance.get('container');
-
 					var siblings = instance.getRepeatedSiblings();
 
-					var parentField = siblings[0];
+					var container = siblings[0].get('container');
 
 					container
 						.one('.lfr-ddm-repeatable-delete-button')
-						.toggle(
-							siblings.length > 1 &&
-								siblings.includes(instance) &&
-								!parentField
-									.get('container')
-									.compareTo(container)
-						);
+						.toggle(siblings.length > 1);
 				},
 
 				syncTranslatedLabelsUI(locale) {
