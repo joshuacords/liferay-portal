@@ -204,6 +204,7 @@ public class ElementLocalServiceImpl extends ElementLocalServiceBaseImpl {
 
 		element.setDescriptionMap(descriptionMap);
 		element.setModifiedDate(serviceContext.getModifiedDate(new Date()));
+		element.setHidden(hidden);
 		element.setTitleMap(titleMap);
 
 		element.setConfiguration(configuration);
