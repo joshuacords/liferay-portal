@@ -16,6 +16,8 @@ package com.liferay.portal.search.tuning.blueprints.admin.web.internal.display.c
 
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenu;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenuBuilder;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
+import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemListBuilder;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
@@ -27,6 +29,8 @@ import com.liferay.portal.search.tuning.blueprints.admin.web.internal.security.p
 import com.liferay.portal.search.tuning.blueprints.constants.BlueprintsActionKeys;
 import com.liferay.portal.search.tuning.blueprints.constants.ElementTypes;
 import com.liferay.portal.search.tuning.blueprints.model.Element;
+
+import java.util.List;
 
 /**
  * @author Petteri Karttunen
@@ -43,6 +47,38 @@ public class ViewElementsManagementToolbarDisplayContext
 			liferayPortletRequest.getHttpServletRequest(),
 			liferayPortletRequest, liferayPortletResponse, searchContainer,
 			displayStyle);
+	}
+
+	@Override
+	public List<DropdownItem> getActionDropdownItems() {
+		return DropdownItemListBuilder.add(
+			dropdownItem -> {
+				dropdownItem.putData("action", "deleteEntries");
+
+				dropdownItem.setLabel(
+					LanguageUtil.get(httpServletRequest, "delete"));
+
+				dropdownItem.setQuickAction(true);
+			}
+		).add(
+			dropdownItem -> {
+				dropdownItem.putData("action", "hideEntries");
+
+				dropdownItem.setLabel(
+					LanguageUtil.get(httpServletRequest, "hide"));
+
+				dropdownItem.setQuickAction(true);
+			}
+		).add(
+			dropdownItem -> {
+				dropdownItem.putData("action", "showEntries");
+
+				dropdownItem.setLabel(
+					LanguageUtil.get(httpServletRequest, "show"));
+
+				dropdownItem.setQuickAction(true);
+			}
+		).build();
 	}
 
 	@Override

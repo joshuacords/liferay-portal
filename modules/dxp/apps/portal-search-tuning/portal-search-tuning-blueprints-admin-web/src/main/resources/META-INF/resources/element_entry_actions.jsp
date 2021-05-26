@@ -87,6 +87,20 @@ long companyGroupId = themeDisplay.getCompanyGroupId();
 		/>
 	</c:if>
 
+	<c:if test="<%= ElementEntryPermission.contains(permissionChecker, element, ActionKeys.UPDATE) %>">
+		<portlet:actionURL name="<%= BlueprintsAdminMVCCommandNames.EDIT_ELEMENT %>" var="hideEntryURL">
+			<portlet:param name="redirect" value="<%= currentURL %>" />
+			<portlet:param name="<%= BlueprintsAdminWebKeys.ELEMENT_ID %>" value="<%= String.valueOf(elementId) %>" />
+			<portlet:param name="<%= Constants.CMD %>" value="<%= BlueprintsAdminWebKeys.HIDE %>" />
+			<portlet:param name="hidden" value="<%= String.valueOf(!element.getHidden()) %>" />
+		</portlet:actionURL>
+
+		<liferay-ui:icon
+			message='<%= element.getHidden() ? "show" : "hide" %>'
+			url="<%= hideEntryURL %>"
+		/>
+	</c:if>
+
 	<c:if test="<%= ElementEntryPermission.contains(permissionChecker, element, ActionKeys.DELETE) %>">
 		<portlet:actionURL name="<%= BlueprintsAdminMVCCommandNames.DELETE_ELEMENT %>" var="deleteEntryURL">
 			<portlet:param name="redirect" value="<%= currentURL %>" />

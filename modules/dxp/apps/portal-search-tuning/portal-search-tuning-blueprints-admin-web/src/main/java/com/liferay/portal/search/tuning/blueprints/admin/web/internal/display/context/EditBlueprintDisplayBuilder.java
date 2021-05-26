@@ -181,10 +181,12 @@ public class EditBlueprintDisplayBuilder extends EditEntryDisplayBuilder {
 
 		for (Element element : queryElements) {
 			try {
-				JSONObject jsonObject = jsonFactory.createJSONObject(
-					element.getConfiguration());
+				if (!element.getHidden()) {
+					JSONObject jsonObject = jsonFactory.createJSONObject(
+						element.getConfiguration());
 
-				queryElementsJSONArray.put(jsonObject);
+					queryElementsJSONArray.put(jsonObject);
+				}
 			}
 			catch (Exception exception) {
 				_log.error(exception, exception);

@@ -95,16 +95,35 @@ public class EditElementMVCActionCommand extends BaseMVCActionCommand {
 					"redirectURL",
 					_getRedirectURL(
 						actionRequest, actionResponse, element.getElementId()));
+
+				JSONPortletResponseUtil.writeJSON(
+					actionRequest, actionResponse, jsonObject);
+			}
+			else if (BlueprintsAdminWebKeys.HIDE.equals(cmd)) {
+				long[] hideConfigurationIds = _getElementIds(actionRequest);
+
+				for (long elementId : hideConfigurationIds) {
+					Element element = _elementService.getElement(elementId);
+
+					_elementService.updateElement(
+						element.getElementId(), element.getTitleMap(),
+						element.getDescriptionMap(), element.getConfiguration(),
+						hidden, serviceContext);
+				}
+
+				sendRedirect(
+					actionRequest, actionResponse,
+					ParamUtil.getString(actionRequest, "redirect"));
 			}
 			else {
 				_elementService.updateElement(
 					BlueprintsAdminRequestUtil.getElementId(actionRequest),
 					titleMap, descriptionMap, configuration, hidden,
 					serviceContext);
-			}
 
-			JSONPortletResponseUtil.writeJSON(
-				actionRequest, actionResponse, jsonObject);
+				JSONPortletResponseUtil.writeJSON(
+					actionRequest, actionResponse, jsonObject);
+			}
 		}
 		catch (ElementValidationException elementValidationException) {
 			_log.error(
@@ -139,6 +158,22 @@ public class EditElementMVCActionCommand extends BaseMVCActionCommand {
 		serviceContext.setAttribute("skip.element.validation", Boolean.TRUE);
 
 		return serviceContext;
+	}
+
+	private long[] _getElementIds(ActionRequest actionRequest) {
+		long[] elementIds = null;
+
+		long elementId = BlueprintsAdminRequestUtil.getElementId(actionRequest);
+
+		if (elementId > 0) {
+			elementIds = new long[] {elementId};
+		}
+		else {
+			elementIds = ParamUtil.getLongValues(
+				actionRequest, BlueprintsAdminWebKeys.ROW_IDS);
+		}
+
+		return elementIds;
 	}
 
 	private String _getRedirectURL(

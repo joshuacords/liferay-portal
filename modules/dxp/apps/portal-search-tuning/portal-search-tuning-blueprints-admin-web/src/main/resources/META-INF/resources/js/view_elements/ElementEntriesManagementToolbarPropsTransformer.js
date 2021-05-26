@@ -14,7 +14,7 @@ import {postForm} from 'frontend-js-web';
 import openAddElementModal from './OpenAddElementModalCommand';
 
 export default function propsTransformer({
-	additionalProps: {deleteElementURL},
+	additionalProps: {deleteElementURL, hideElementURL, showElementURL},
 	portletNamespace,
 	...otherProps
 }) {
@@ -54,6 +54,26 @@ export default function propsTransformer({
 		}
 	};
 
+	var showHideEntries = function (url) {
+		const form = document.getElementById(`${portletNamespace}fm`);
+
+		const searchContainer = document.getElementById(
+			`${portletNamespace}elementEntries`
+		);
+
+		if (form && searchContainer) {
+			postForm(form, {
+				data: {
+					actionFormInstanceIds: Liferay.Util.listCheckedExcept(
+						searchContainer,
+						`${portletNamespace}allRowIds`
+					),
+				},
+				url,
+			});
+		}
+	};
+
 	return {
 		...otherProps,
 		onActionButtonClick: (event, {item}) => {
@@ -61,6 +81,14 @@ export default function propsTransformer({
 
 			if (action === 'deleteEntries') {
 				deleteEntries();
+			}
+
+			if (action === 'hideEntries') {
+				showHideEntries(hideElementURL);
+			}
+
+			if (action === 'showEntries') {
+				showHideEntries(showElementURL);
 			}
 		},
 		onCreateButtonClick: (event, {item}) => {

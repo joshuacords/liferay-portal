@@ -35,6 +35,8 @@ public class BlueprintsAdminWebKeys {
 
 	public static final String HIDDEN = "hidden";
 
+	public static final String HIDE = "hide";
+
 	public static final String KEYWORDS = "keywords";
 
 	public static final String PAGE_TITLE_KEY = "pageTitleKey";

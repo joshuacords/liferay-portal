@@ -24,10 +24,26 @@ ViewElementsDisplayContext viewElementsDisplayContext = (ViewElementsDisplayCont
 	<portlet:param name="redirect" value="<%= currentURL %>" />
 </portlet:actionURL>
 
+<portlet:actionURL name="<%= BlueprintsAdminMVCCommandNames.EDIT_ELEMENT %>" var="hideElementURL">
+	<portlet:param name="redirect" value="<%= currentURL %>" />
+	<portlet:param name="<%= Constants.CMD %>" value="<%= BlueprintsAdminWebKeys.HIDE %>" />
+	<portlet:param name="hidden" value="<%= Boolean.TRUE.toString() %>" />
+</portlet:actionURL>
+
+<portlet:actionURL name="<%= BlueprintsAdminMVCCommandNames.EDIT_ELEMENT %>" var="showElementURL">
+	<portlet:param name="redirect" value="<%= currentURL %>" />
+	<portlet:param name="<%= Constants.CMD %>" value="<%= BlueprintsAdminWebKeys.HIDE %>" />
+	<portlet:param name="hidden" value="<%= Boolean.FALSE.toString() %>" />
+</portlet:actionURL>
+
 <clay:management-toolbar
 	additionalProps='<%=
 		HashMapBuilder.<String, Object>put(
 			"deleteElementURL", deleteElementURL
+		).put(
+			"hideElementURL", hideElementURL
+		).put(
+			"showElementURL", showElementURL
 		).build()
 	%>'
 	managementToolbarDisplayContext="<%= (ViewElementsManagementToolbarDisplayContext)request.getAttribute(BlueprintsAdminWebKeys.VIEW_ELEMENTS_MANAGEMENT_TOOLBAR_DISPLAY_CONTEXT) %>"
