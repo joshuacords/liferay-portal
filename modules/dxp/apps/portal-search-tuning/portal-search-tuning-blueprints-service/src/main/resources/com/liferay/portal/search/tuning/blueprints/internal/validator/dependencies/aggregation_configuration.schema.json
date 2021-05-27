@@ -565,7 +565,11 @@
 						"path": {
 							"type": "string"
 						}
-					}
+					},
+					"required": [
+						"path"
+					]
+					
 				},
 				"sampler": {
 					"allOf": [
