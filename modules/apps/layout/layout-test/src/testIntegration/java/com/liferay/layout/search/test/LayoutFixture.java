@@ -51,11 +51,6 @@ public class LayoutFixture {
 			LocalizedValuesMap nameMap, LocalizedValuesMap titleMap)
 		throws PortalException {
 
-		UnicodeProperties typeSettingsUnicodeProperties =
-			new UnicodeProperties();
-
-		typeSettingsUnicodeProperties.put("published", "true");
-
 		LocalizedValuesMap friendlyUrlMap = new LocalizedValuesMap() {
 			{
 				String randomString = FriendlyURLNormalizerUtil.normalize(
@@ -64,6 +59,11 @@ public class LayoutFixture {
 				put(LocaleUtil.US, StringPool.SLASH + randomString);
 			}
 		};
+
+		UnicodeProperties typeSettingsUnicodeProperties =
+			new UnicodeProperties();
+
+		typeSettingsUnicodeProperties.put("published", "true");
 
 		Layout layout = LayoutLocalServiceUtil.addLayout(
 			TestPropsValues.getUserId(), _group.getGroupId(), false,
