@@ -40,7 +40,7 @@ PortletURL renderURL = renderResponse.createRenderURL();
 				add(
 					navigationItem -> {
 						navigationItem.setActive(tab.equals(BlueprintsAdminTabNames.ELEMENTS));
-						navigationItem.setHref(renderURL, BlueprintsAdminWebKeys.TAB, BlueprintsAdminTabNames.ELEMENTS, "mvcRenderCommandName", BlueprintsAdminMVCCommandNames.VIEW_ELEMENTS);
+						navigationItem.setHref(renderURL, BlueprintsAdminWebKeys.TAB, BlueprintsAdminTabNames.ELEMENTS, "mvcRenderCommandName", BlueprintsAdminMVCCommandNames.VIEW_ELEMENTS, BlueprintsAdminWebKeys.HIDDEN, Boolean.FALSE);
 						navigationItem.setLabel(LanguageUtil.get(request, "elements"));
 					});
 			}

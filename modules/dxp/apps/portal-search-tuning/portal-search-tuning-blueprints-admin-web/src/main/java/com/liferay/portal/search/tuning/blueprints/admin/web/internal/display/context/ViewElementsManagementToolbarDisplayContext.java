@@ -18,19 +18,24 @@ import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenu;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenuBuilder;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemListBuilder;
+import com.liferay.petra.portlet.url.builder.PortletURLBuilder;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.search.tuning.blueprints.admin.web.internal.constants.BlueprintsAdminMVCCommandNames;
+import com.liferay.portal.search.tuning.blueprints.admin.web.internal.constants.BlueprintsAdminWebKeys;
 import com.liferay.portal.search.tuning.blueprints.admin.web.internal.security.permission.resource.BlueprintsAdminPermission;
 import com.liferay.portal.search.tuning.blueprints.constants.BlueprintsActionKeys;
 import com.liferay.portal.search.tuning.blueprints.constants.ElementTypes;
 import com.liferay.portal.search.tuning.blueprints.model.Element;
 
 import java.util.List;
+
+import javax.portlet.PortletURL;
 
 /**
  * @author Petteri Karttunen
@@ -110,6 +115,57 @@ public class ViewElementsManagementToolbarDisplayContext
 					LanguageUtil.get(httpServletRequest, "add-element"));
 			}
 		).build();
+	}
+
+	@Override
+	public List<DropdownItem> getFilterDropdownItems() {
+		return DropdownItemListBuilder.addGroup(
+			dropdownGroupItem -> {
+				dropdownGroupItem.setDropdownItems(
+					_getFilterVisibilityDropdownItems());
+				dropdownGroupItem.setLabel(
+					LanguageUtil.get(
+						httpServletRequest, "filter-by-visibility"));
+			}
+		).addGroup(
+			dropdownGroupItem -> {
+				dropdownGroupItem.setDropdownItems(getOrderByDropdownItems());
+				dropdownGroupItem.setLabel(
+					LanguageUtil.get(httpServletRequest, "order-by"));
+			}
+		).build();
+	}
+
+	private PortletURL _getFilterURL(Boolean hidden) {
+		return PortletURLBuilder.create(
+			getPortletURL()
+		).setParameter(
+			BlueprintsAdminWebKeys.HIDDEN, hidden
+		).build();
+	}
+
+	private List<DropdownItem> _getFilterVisibilityDropdownItems() {
+		return DropdownItemListBuilder.add(
+			dropdownItem -> {
+				dropdownItem.setActive(!_getHidden());
+				dropdownItem.setHref(_getFilterURL(Boolean.FALSE));
+				dropdownItem.setLabel(
+					LanguageUtil.get(httpServletRequest, "visible"));
+			}
+		).add(
+			dropdownItem -> {
+				dropdownItem.setActive(_getHidden());
+				dropdownItem.setHref(_getFilterURL(Boolean.TRUE));
+				dropdownItem.setLabel(
+					LanguageUtil.get(httpServletRequest, "hidden"));
+			}
+		).build();
+	}
+
+	private Boolean _getHidden() {
+		return ParamUtil.getBoolean(
+			liferayPortletRequest, BlueprintsAdminWebKeys.HIDDEN,
+			Boolean.FALSE);
 	}
 
 }
