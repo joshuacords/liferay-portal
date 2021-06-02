@@ -157,7 +157,7 @@ public class EditBlueprintMVCActionCommand extends BaseMVCActionCommand {
 			ParamUtil.getString(actionRequest, "redirect")
 		).setParameter(
 			BlueprintsAdminWebKeys.BLUEPRINT_ID, String.valueOf(blueprintId)
-		).toString();
+		).buildString();
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(

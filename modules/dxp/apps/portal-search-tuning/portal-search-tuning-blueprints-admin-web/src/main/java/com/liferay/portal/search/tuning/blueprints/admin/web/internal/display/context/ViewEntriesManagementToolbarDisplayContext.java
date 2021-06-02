@@ -170,7 +170,7 @@ public abstract class ViewEntriesManagementToolbarDisplayContext
 		).build();
 
 		if (!Validator.isBlank(cmd)) {
-			portletURL.setProperty(Constants.CMD, Constants.ADD);
+			portletURL.setParameter(Constants.CMD, Constants.ADD);
 		}
 
 		return portletURL.toString();
