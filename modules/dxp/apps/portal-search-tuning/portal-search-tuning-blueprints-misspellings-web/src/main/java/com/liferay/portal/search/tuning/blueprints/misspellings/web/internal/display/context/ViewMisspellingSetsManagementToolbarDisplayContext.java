@@ -105,10 +105,11 @@ public class ViewMisspellingSetsManagementToolbarDisplayContext
 			liferayPortletResponse
 		).setMVCRenderCommandName(
 			MisspellingsMVCCommandNames.VIEW_MISSPELLING_SETS
+		).setParameter(
+			"orderByCol", getOrderByCol()
+		).setParameter(
+			"orderByType", getOrderByCol()
 		).build();
-
-		searchURL.setProperty("orderByCol", getOrderByCol());
-		searchURL.setProperty("orderByType", getOrderByType());
 
 		return searchURL.toString();
 	}
@@ -119,6 +120,10 @@ public class ViewMisspellingSetsManagementToolbarDisplayContext
 			liferayPortletResponse
 		).setMVCRenderCommandName(
 			MisspellingsMVCCommandNames.VIEW_MISSPELLING_SETS
+		).setParameter(
+			"orderByCol", getOrderByCol()
+		).setParameter(
+			"orderByType", getOrderByCol()
 		).build();
 
 		if (searchContainer.getDelta() > 0) {
@@ -126,15 +131,15 @@ public class ViewMisspellingSetsManagementToolbarDisplayContext
 				"delta", String.valueOf(searchContainer.getDelta()));
 		}
 
-		portletURL.setProperty("orderByCol", searchContainer.getOrderByCol());
-		portletURL.setProperty("orderByType", searchContainer.getOrderByType());
-
 		if (searchContainer.getCur() > 0) {
 			portletURL.setProperty(
 				"cur", String.valueOf(searchContainer.getCur()));
 		}
 
 		return new ViewTypeItemList(portletURL, _displayStyle) {
+
+			private static final long serialVersionUID = 1L;
+
 			{
 				addListViewTypeItem();
 
@@ -197,9 +202,9 @@ public class ViewMisspellingSetsManagementToolbarDisplayContext
 			getPortletURL()
 		).setMVCRenderCommandName(
 			MisspellingsMVCCommandNames.VIEW_MISSPELLING_SETS
+		).setParameter(
+			SearchContainer.DEFAULT_CUR_PARAM, "0"
 		).build();
-
-		sortingURL.setProperty(SearchContainer.DEFAULT_CUR_PARAM, "0");
 
 		String keywords = ParamUtil.getString(
 			liferayPortletRequest, "keywords");
