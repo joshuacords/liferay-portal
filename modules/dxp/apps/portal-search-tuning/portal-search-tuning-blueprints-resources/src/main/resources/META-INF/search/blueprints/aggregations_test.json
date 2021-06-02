@@ -490,20 +490,20 @@
         },
         "extended_stats_bucket-test": {
           "date_histogram": {
-            "date_histogram_interval": "minute",
+            "description": "Pipeline: Extended stats",
+            "enabled": true,
             "field": "modified",
-            "description": "Pipeline: Extended stats bucket",
-            "enabled": true
+            "date_histogram_interval": "minute"
           },
           "aggs": {
-            "extended_length_stats": {
-              "extended_stats_bucket": {
-                "buckets_path": "extended_stats-test>content_lengths"
-              }
-            },
             "content_lengths": {
               "sum": {
                 "field": "content_en_US_length_sortable"
+              }
+            },
+            "extended_length_stats": {
+              "extended_stats": {
+                "buckets_path": "extended_stats-test>content_lengths"
               }
             }
           }
