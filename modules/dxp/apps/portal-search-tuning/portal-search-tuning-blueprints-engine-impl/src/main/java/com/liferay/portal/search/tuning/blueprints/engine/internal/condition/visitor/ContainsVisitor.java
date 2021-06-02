@@ -164,7 +164,7 @@ public class ContainsVisitor
 
 				Stream<String> stream = Arrays.stream(parameterValue);
 
-				if (stream.anyMatch(value::equals)) {
+				if (stream.anyMatch(value::equalsIgnoreCase)) {
 					match = true;
 
 					break;
@@ -176,7 +176,7 @@ public class ContainsVisitor
 
 			Stream<String> stream = Arrays.stream(parameterValue);
 
-			match = stream.anyMatch(value::equals);
+			match = stream.anyMatch(value::equalsIgnoreCase);
 		}
 
 		return match;
@@ -186,24 +186,44 @@ public class ContainsVisitor
 	public boolean visit(StringParameter parameter)
 		throws ParameterEvaluationException {
 
-		String value = conditionJSONObject.getString(
+		Object object = conditionJSONObject.get(
 			ConditionConfigurationKeys.VALUE.getJsonKey());
 
-		if (Validator.isBlank(value)) {
+		if (Validator.isNull(object)) {
 			throw new ParameterEvaluationException(
 				MessagesUtil.toErrorMessage(
-					getClass().getName(),
-					new Throwable("Value must be a string"),
+					getClass().getName(), new Throwable("Value cannot be null"),
 					conditionJSONObject,
 					ConditionConfigurationKeys.VALUE.getJsonKey(), null,
 					"core.error.illegal-match-value-type"));
 		}
 
-		value = StringUtil.toLowerCase(value);
-
 		String parameterValue = StringUtil.toLowerCase(parameter.getValue());
 
-		return parameterValue.contains(value);
+		boolean match = false;
+
+		if (object instanceof JSONArray) {
+			JSONArray jsonArray = (JSONArray)object;
+
+			for (int i = 0; i < jsonArray.length(); i++) {
+				String value = jsonArray.getString(i);
+
+				if (parameterValue.contains(StringUtil.toLowerCase(value))) {
+					match = true;
+
+					break;
+				}
+			}
+		}
+		else {
+			String value = String.valueOf(object);
+
+			if (parameterValue.contains(StringUtil.toLowerCase(value))) {
+				match = true;
+			}
+		}
+
+		return match;
 	}
 
 }
