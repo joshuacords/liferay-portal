@@ -91,11 +91,12 @@ public abstract class ViewEntriesManagementToolbarDisplayContext
 		).setMVCRenderCommandName(
 			KeywordIndexMVCCommandNames.VIEW_KEYWORD_ENTRIES
 		).setParameter(
+			"orderByCol", getOrderByCol()
+		).setParameter(
+			"orderByType", getOrderByType()
+		).setParameter(
 			"tabs", getTab()
 		).build();
-
-		searchURL.setProperty("orderByCol", getOrderByCol());
-		searchURL.setProperty("orderByType", getOrderByType());
 
 		return searchURL.toString();
 	}
@@ -107,6 +108,10 @@ public abstract class ViewEntriesManagementToolbarDisplayContext
 		).setMVCRenderCommandName(
 			KeywordIndexMVCCommandNames.VIEW_KEYWORD_ENTRIES
 		).setParameter(
+			"orderByCol", getOrderByCol()
+		).setParameter(
+			"orderByType", getOrderByType()
+		).setParameter(
 			"tabs", getTab()
 		).build();
 
@@ -115,15 +120,15 @@ public abstract class ViewEntriesManagementToolbarDisplayContext
 				"delta", String.valueOf(searchContainer.getDelta()));
 		}
 
-		portletURL.setProperty("orderByCol", searchContainer.getOrderByCol());
-		portletURL.setProperty("orderByType", searchContainer.getOrderByType());
-
 		if (searchContainer.getCur() > 0) {
 			portletURL.setProperty(
 				"cur", String.valueOf(searchContainer.getCur()));
 		}
 
 		return new ViewTypeItemList(portletURL, displayStyle) {
+
+			private static final long serialVersionUID = 1L;
+
 			{
 				addListViewTypeItem();
 
@@ -138,10 +143,10 @@ public abstract class ViewEntriesManagementToolbarDisplayContext
 		).setMVCRenderCommandName(
 			KeywordIndexMVCCommandNames.VIEW_KEYWORD_ENTRIES
 		).setParameter(
+			SearchContainer.DEFAULT_CUR_PARAM, "0"
+		).setParameter(
 			"tabs", getTab()
 		).build();
-
-		sortingURL.setProperty(SearchContainer.DEFAULT_CUR_PARAM, "0");
 
 		String keywords = ParamUtil.getString(
 			liferayPortletRequest, "keywords");
