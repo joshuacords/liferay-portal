@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -167,6 +168,17 @@ public class BlueprintsAdminIndexUtil {
 		booleanQuery.addFilterQueryClauses(_queries.term(Field.STATUS, status));
 	}
 
+	private static void _addVisibilityFilterClause(
+		BooleanQuery booleanQuery, PortletRequest portletRequest) {
+
+		if (ParamUtil.getString(portletRequest, "hidden") != null) {
+			booleanQuery.addFilterQueryClauses(
+				_queries.term(
+					"hidden",
+					BlueprintsAdminRequestUtil.getHidden(portletRequest)));
+		}
+	}
+
 	private static SearchRequest _createBlueprintSearchRequest(
 		PortletRequest portletRequest, long groupId, int status, int start,
 		int size, String orderByCol, String orderByType) {
@@ -212,8 +224,7 @@ public class BlueprintsAdminIndexUtil {
 			Element.class
 		).query(
 			_getElementSearchQuery(
-				BlueprintsAdminRequestUtil.getKeywords(portletRequest), type,
-				groupId, status, languageId)
+				portletRequest, type, groupId, status, languageId)
 		).size(
 			size
 		).addSort(
@@ -236,7 +247,7 @@ public class BlueprintsAdminIndexUtil {
 	}
 
 	private static Query _getElementSearchQuery(
-		String keywords, long type, long groupId, int status,
+		PortletRequest portletRequest, long type, long groupId, int status,
 		String languageId) {
 
 		BooleanQuery booleanQuery = _queries.booleanQuery();
@@ -251,7 +262,11 @@ public class BlueprintsAdminIndexUtil {
 			_addStatusFilterClause(booleanQuery, status);
 		}
 
-		_addSearchClauses(booleanQuery, keywords, languageId);
+		_addVisibilityFilterClause(booleanQuery, portletRequest);
+
+		_addSearchClauses(
+			booleanQuery,
+			BlueprintsAdminRequestUtil.getKeywords(portletRequest), languageId);
 
 		return booleanQuery;
 	}
