@@ -48,7 +48,7 @@ public class BoostContentsInCategoryByKeywordMatchTest
 			PermissionCheckerMethodTestRule.INSTANCE);
 
 	@Test
-	public void testAnyWordInCondition() throws Exception {
+	public void testContainsCondition() throws Exception {
 		_assetCategory = getAssetCategory("Promoted", "employee");
 
 		addJournalArticle("Coca Cola", "cola cola");

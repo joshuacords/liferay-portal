@@ -55,7 +55,7 @@ public class BoostPhraseMatchTest extends BaseQueryElementsTestCase {
 			Collections.singletonMap(LocaleUtil.US, ""),
 			getConfigurationString(
 				getMultiMatchQueryElementJSONObject(
-					1, "AUTO", "or", "most_fields")),
+					10, "AUTO", "or", "most_fields")),
 			getSelectedElementString(
 				getTextMatchOverMultipleFieldUIConfigValuesJSONObject(
 					2, 1, "AUTO", 1, "or", "most_fields")));
@@ -154,7 +154,7 @@ public class BoostPhraseMatchTest extends BaseQueryElementsTestCase {
 							JSONUtil.put(
 								"multi_match",
 								getMultiMatchJSONObject(
-									100, null, "and", "phrase"))))
+									100, null, null, "and", "phrase"))))
 				))
 		).put(
 			"conditions", JSONUtil.put(null, null)

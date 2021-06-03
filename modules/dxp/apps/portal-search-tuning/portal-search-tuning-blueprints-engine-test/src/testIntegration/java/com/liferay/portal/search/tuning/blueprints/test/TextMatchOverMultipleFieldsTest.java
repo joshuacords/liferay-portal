@@ -156,9 +156,8 @@ public class TextMatchOverMultipleFieldsTest extends BaseQueryElementsTestCase {
 				1, 1, null, 2, "and", "bool_prefix"));
 
 		assertSearch(
-			blueprint, configurationString,
-			"[drink carbonated pepsi, drink carbonated coca]",
-			"drink carbonated", selectedElementString);
+			blueprint, configurationString, "[drink carbonated coca]",
+			"drink carbonated co", selectedElementString);
 	}
 
 	private void _testSearchMostFieldsWithOperator(Blueprint blueprint)
@@ -166,7 +165,7 @@ public class TextMatchOverMultipleFieldsTest extends BaseQueryElementsTestCase {
 
 		String configurationString = getConfigurationString(
 			getMultiMatchQueryElementJSONObject(
-				1, "AUTO", "or", "most_fields"));
+				10, "AUTO", "or", "most_fields"));
 
 		String selectedElementString = getSelectedElementString(
 			getTextMatchOverMultipleFieldJSONObject(
@@ -180,7 +179,7 @@ public class TextMatchOverMultipleFieldsTest extends BaseQueryElementsTestCase {
 
 		configurationString = getConfigurationString(
 			getMultiMatchQueryElementJSONObject(
-				1, "AUTO", "and", "most_fields"));
+				10, "AUTO", "and", "most_fields"));
 
 		selectedElementString = getSelectedElementString(
 			getTextMatchOverMultipleFieldJSONObject(

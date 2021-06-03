@@ -110,7 +110,8 @@ public abstract class BaseQueryElementsTestCase extends BaseBlueprintsTestCase {
 	}
 
 	protected JSONObject getMultiMatchJSONObject(
-		int boost, String fuzziness, String operator, String type) {
+		int boost, String fuzziness, Integer minimumShouldMatch,
+		String operator, String type) {
 
 		JSONArray fieldsJSONArray = createJSONArray();
 
@@ -124,14 +125,16 @@ public abstract class BaseQueryElementsTestCase extends BaseBlueprintsTestCase {
 				"content${context.language_id}^1"
 			)
 		).put(
-			"minimum_should_match", 1
-		).put(
 			"operator", operator
 		).put(
 			"query", "${keywords}"
 		).put(
 			"type", type
 		);
+
+		if (minimumShouldMatch != null) {
+			jsonObject.put("minimum_should_match", minimumShouldMatch);
+		}
 
 		if (fuzziness != null) {
 			jsonObject.put("fuzziness", fuzziness);
@@ -141,14 +144,8 @@ public abstract class BaseQueryElementsTestCase extends BaseBlueprintsTestCase {
 	}
 
 	protected JSONObject getMultiMatchQueryElementJSONObject(
-		int boost, String fuzziness, String operator) {
-
-		return getMultiMatchQueryElementJSONObject(
-			boost, fuzziness, operator, "best_fields");
-	}
-
-	protected JSONObject getMultiMatchQueryElementJSONObject(
-		int boost, String fuzziness, String operator, String type) {
+		int boost, String fuzziness, Integer minimumShouldMatch,
+		String operator, String type) {
 
 		return JSONUtil.put(
 			"category", "match"
@@ -168,7 +165,8 @@ public abstract class BaseQueryElementsTestCase extends BaseBlueprintsTestCase {
 							JSONUtil.put(
 								"multi_match",
 								getMultiMatchJSONObject(
-									boost, fuzziness, operator, type))))
+									boost, fuzziness, minimumShouldMatch,
+									operator, type))))
 				))
 		).put(
 			"conditions", JSONUtil.put(null, null)
@@ -183,6 +181,20 @@ public abstract class BaseQueryElementsTestCase extends BaseBlueprintsTestCase {
 		).put(
 			"title", JSONUtil.put("en_US", "Text Match Over Multiple Fields")
 		);
+	}
+
+	protected JSONObject getMultiMatchQueryElementJSONObject(
+		int boost, String fuzziness, String operator) {
+
+		return getMultiMatchQueryElementJSONObject(
+			boost, fuzziness, operator, "best_fields");
+	}
+
+	protected JSONObject getMultiMatchQueryElementJSONObject(
+		int boost, String fuzziness, String operator, String type) {
+
+		return getMultiMatchQueryElementJSONObject(
+			boost, fuzziness, null, operator, type);
 	}
 
 	protected JSONObject getPasteESQueryJSONObject(

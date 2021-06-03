@@ -46,7 +46,7 @@ public class BoostWebContentByKeywordMatchTest extends BaseBlueprintsTestCase {
 			PermissionCheckerMethodTestRule.INSTANCE);
 
 	@Test
-	public void testAnyWordInCondition() throws Exception {
+	public void testContainsCondition() throws Exception {
 		addJournalArticle("Coca Cola", "cola cola");
 		JournalArticle journalArticle = addJournalArticle("Pepsi Cola", "");
 
