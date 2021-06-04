@@ -50,7 +50,7 @@ public class SelectOrganizationsManagementToolbarDisplayContext
 			getPortletURL()
 		).setKeywords(
 			StringPool.BLANK
-		).toString();
+		).buildString();
 	}
 
 	@Override

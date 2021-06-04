@@ -70,7 +70,7 @@ public class SelectOrganizationsDisplayContext {
 			getPortletURL()
 		).setKeywords(
 			StringPool.BLANK
-		).toString();
+		).buildString();
 	}
 
 	public String getDisplayStyle() {
@@ -262,7 +262,7 @@ public class SelectOrganizationsDisplayContext {
 		).setParameter(
 			"orderByType",
 			Objects.equals(getOrderByType(), "asc") ? "desc" : "asc"
-		).toString();
+		).buildString();
 	}
 
 	public int getTotalItems() throws PortalException {

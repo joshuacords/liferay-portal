@@ -191,7 +191,7 @@ public class EditElementMVCActionCommand extends BaseMVCActionCommand {
 			ParamUtil.getString(actionRequest, "redirect")
 		).setParameter(
 			BlueprintsAdminWebKeys.ELEMENT_ID, String.valueOf(elementId)
-		).toString();
+		).buildString();
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(

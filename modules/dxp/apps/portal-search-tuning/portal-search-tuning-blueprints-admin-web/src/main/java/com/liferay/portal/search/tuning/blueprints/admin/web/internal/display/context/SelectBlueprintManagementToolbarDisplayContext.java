@@ -46,7 +46,7 @@ public class SelectBlueprintManagementToolbarDisplayContext
 			getPortletURL()
 		).setKeywords(
 			StringPool.BLANK
-		).toString();
+		).buildString();
 	}
 
 	@Override

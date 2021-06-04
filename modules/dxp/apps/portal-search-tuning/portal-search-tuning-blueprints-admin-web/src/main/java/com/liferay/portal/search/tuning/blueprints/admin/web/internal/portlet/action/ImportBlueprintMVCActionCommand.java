@@ -157,7 +157,7 @@ public class ImportBlueprintMVCActionCommand extends BaseMVCActionCommand {
 			liferayActionResponse
 		).setWindowState(
 			WindowState.MAXIMIZED
-		).toString();
+		).buildString();
 	}
 
 	private void _import(
