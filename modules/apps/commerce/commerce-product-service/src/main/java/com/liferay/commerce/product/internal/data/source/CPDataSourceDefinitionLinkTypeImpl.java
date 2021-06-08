@@ -26,6 +26,10 @@ import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.SearchContext;
+<<<<<<< HEAD
+=======
+import com.liferay.portal.kernel.util.HashMapBuilder;
+>>>>>>> 7e4fa32 (COMMERCE-6695 Fixed data sources implementation)
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
@@ -81,27 +85,19 @@ public class CPDataSourceDefinitionLinkTypeImpl implements CPDataSource {
 
 		SearchContext searchContext = new SearchContext();
 
-		Map<String, Serializable> attributes = new HashMap<>();
-
-		attributes.put(Field.STATUS, WorkflowConstants.STATUS_APPROVED);
-		attributes.put(
-			"definitionLinkCPDefinitionId", cpCatalogEntry.getCPDefinitionId());
-		attributes.put(
-			"definitionLinkType", _cpDefinitionLinkTypeConfiguration.type());
-		attributes.put(
-			"excludedCPDefinitionId", cpCatalogEntry.getCPDefinitionId());
-
-		LinkedHashMap<String, Object> params = new LinkedHashMap<>();
-
-		params.put("keywords", StringPool.STAR);
-
-		attributes.put("params", params);
-
-		searchContext.setAttributes(attributes);
+		searchContext.setAttributes(
+			HashMapBuilder.<String, Serializable>put(
+				Field.STATUS, WorkflowConstants.STATUS_APPROVED
+			).put(
+				"definitionLinkCPDefinitionId",
+				cpCatalogEntry.getCPDefinitionId()
+			).put(
+				"definitionLinkType", _cpDefinitionLinkTypeConfiguration.type()
+			).put(
+				"excludedCPDefinitionId", cpCatalogEntry.getCPDefinitionId()
+			).build());
 
 		searchContext.setCompanyId(_portal.getCompanyId(httpServletRequest));
-
-		searchContext.setKeywords(StringPool.STAR);
 
 		return _cpDefinitionHelper.search(
 			_portal.getScopeGroupId(httpServletRequest), searchContext,

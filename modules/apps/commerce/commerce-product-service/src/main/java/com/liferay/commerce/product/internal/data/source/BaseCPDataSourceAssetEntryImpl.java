@@ -20,10 +20,10 @@ import com.liferay.commerce.product.constants.CPWebKeys;
 import com.liferay.commerce.product.data.source.CPDataSource;
 import com.liferay.commerce.product.data.source.CPDataSourceResult;
 import com.liferay.commerce.product.util.CPDefinitionHelper;
-import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.SearchContext;
+import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -57,32 +57,20 @@ public abstract class BaseCPDataSourceAssetEntryImpl implements CPDataSource {
 			return new CPDataSourceResult(new ArrayList<>(), 0);
 		}
 
-		long groupId = portal.getScopeGroupId(httpServletRequest);
-
 		SearchContext searchContext = new SearchContext();
 
-		Map<String, Serializable> attributes = new HashMap<>();
-
-		attributes.put(Field.STATUS, WorkflowConstants.STATUS_APPROVED);
-		attributes.put(
-			"excludedCPDefinitionId", cpCatalogEntry.getCPDefinitionId());
-
-		LinkedHashMap<String, Object> params = new LinkedHashMap<>();
-
-		params.put("keywords", StringPool.STAR);
-
-		attributes.put("params", params);
-
-		searchContext.setAttributes(attributes);
+		searchContext.setAttributes(
+			HashMapBuilder.<String, Serializable>put(
+				Field.STATUS, WorkflowConstants.STATUS_APPROVED
+			).put(
+				"excludedCPDefinitionId", cpCatalogEntry.getCPDefinitionId()
+			).build());
 
 		searchContext.setCompanyId(portal.getCompanyId(httpServletRequest));
 
-		searchContext.setKeywords(StringPool.STAR);
-
-		CPQuery cpQuery = getCPQuery(cpCatalogEntry.getCPDefinitionId());
-
 		return cpDefinitionHelper.search(
-			groupId, searchContext, cpQuery, start, end);
+			portal.getScopeGroupId(httpServletRequest), searchContext,
+			getCPQuery(cpCatalogEntry.getCPDefinitionId()), start, end);
 	}
 
 	protected abstract CPQuery getCPQuery(long cpDefinitionId)
