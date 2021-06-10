@@ -33,8 +33,6 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import java.io.Serializable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -93,7 +91,6 @@ public class CPDataSourceDefinitionLinkTypeImpl implements CPDataSource {
 			).put(
 				"excludedCPDefinitionId", cpCatalogEntry.getCPDefinitionId()
 			).build());
-
 		searchContext.setCompanyId(_portal.getCompanyId(httpServletRequest));
 
 		return _cpDefinitionHelper.search(
