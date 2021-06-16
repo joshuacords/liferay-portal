@@ -35,7 +35,9 @@ import com.azure.storage.blob.models.BlobProperties;
 import com.azure.storage.blob.models.ListBlobsOptions;
 import com.azure.storage.common.Utility;
 
+import com.liferay.document.library.kernel.exception.DuplicateFileException;
 import com.liferay.document.library.kernel.exception.NoSuchFileException;
+import com.liferay.document.library.kernel.store.BaseStore;
 import com.liferay.document.library.kernel.store.Store;
 import com.liferay.document.library.kernel.util.DLUtil;
 import com.liferay.petra.string.StringBundler;
@@ -61,6 +63,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import org.osgi.service.component.annotations.Activate;
@@ -78,7 +81,20 @@ import org.osgi.service.component.annotations.Modified;
 	property = "store.type=com.liferay.portal.store.azure.AzureStore",
 	service = Store.class
 )
-public class AzureStore implements Store {
+public class AzureStore extends BaseStore {
+
+	@Override
+	public void addDirectory(
+		long companyId, long repositoryId, String dirName) {
+	}
+
+	@Override
+	public void addFile(
+			long companyId, long repositoryId, String fileName, InputStream is)
+		throws PortalException {
+
+		addFile(companyId, repositoryId, fileName, Store.VERSION_DEFAULT, is);
+	}
 
 	@Override
 	public void addFile(
@@ -107,6 +123,10 @@ public class AzureStore implements Store {
 		finally {
 			FileUtil.delete(tempFile);
 		}
+	}
+
+	@Override
+	public void checkRoot(long companyId) {
 	}
 
 	@Override
@@ -162,6 +182,15 @@ public class AzureStore implements Store {
 	}
 
 	@Override
+	public void deleteFile(long companyId, long repositoryId, String fileName) {
+		for (String fileVersion :
+				getFileVersions(companyId, repositoryId, fileName)) {
+
+			deleteFile(companyId, repositoryId, fileName, fileVersion);
+		}
+	}
+
+	@Override
 	public void deleteFile(
 		long companyId, long repositoryId, String fileName,
 		String versionLabel) {
@@ -197,6 +226,11 @@ public class AzureStore implements Store {
 	}
 
 	@Override
+	public String[] getFileNames(long companyId, long repositoryId) {
+		return getFileNames(companyId, repositoryId, StringPool.BLANK);
+	}
+
+	@Override
 	public String[] getFileNames(
 		long companyId, long repositoryId, String dirName) {
 
@@ -219,15 +253,11 @@ public class AzureStore implements Store {
 	}
 
 	@Override
-	public long getFileSize(
-			long companyId, long repositoryId, String fileName,
-			String versionLabel)
+	public long getFileSize(long companyId, long repositoryId, String fileName)
 		throws PortalException {
 
-		if (Validator.isNull(versionLabel)) {
-			versionLabel = _getFirstFileVersion(
-				companyId, repositoryId, fileName);
-		}
+		String versionLabel = _getFirstFileVersion(
+			companyId, repositoryId, fileName);
 
 		BlobClient blobClient = _blobContainerClient.getBlobClient(
 			_getBlobItemName(companyId, repositoryId, fileName, versionLabel));
@@ -274,6 +304,26 @@ public class AzureStore implements Store {
 	}
 
 	@Override
+	public boolean hasDirectory(
+		long companyId, long repositoryId, String dirName) {
+
+		PagedIterable<BlobItem> pagedIterable =
+			_blobContainerClient.listBlobsByHierarchy(
+				_getBlobItemName(
+					companyId, repositoryId, dirName, StringPool.BLANK));
+
+		Stream<BlobItem> stream = pagedIterable.stream();
+
+		Optional<BlobItem> optional = stream.findFirst();
+
+		if (optional.isPresent()) {
+			return true;
+		}
+
+		return false;
+	}
+
+	@Override
 	public boolean hasFile(
 		long companyId, long repositoryId, String fileName,
 		String versionLabel) {
@@ -293,6 +343,78 @@ public class AzureStore implements Store {
 			_getBlobItemName(companyId, repositoryId, fileName, versionLabel));
 
 		return blobClient.exists();
+	}
+
+	@Override
+	public void updateFile(
+			long companyId, long repositoryId, long newRepositoryId,
+			String fileName)
+		throws PortalException {
+
+		if (repositoryId == newRepositoryId) {
+			throw new DuplicateFileException(
+				companyId, newRepositoryId, fileName);
+		}
+
+		try (InputStream inputStream = getFileAsStream(
+				companyId, repositoryId, fileName)) {
+
+			addFile(companyId, newRepositoryId, fileName, inputStream);
+		}
+		catch (IOException ioException) {
+			throw new PortalException(ioException);
+		}
+
+		deleteFile(companyId, repositoryId, fileName);
+	}
+
+	@Override
+	public void updateFile(
+			long companyId, long repositoryId, String fileName,
+			String newFileName)
+		throws PortalException {
+
+		if (fileName.equals(newFileName) ||
+			hasFile(companyId, repositoryId, newFileName)) {
+
+			throw new DuplicateFileException(
+				companyId, repositoryId, newFileName);
+		}
+
+		if (!hasFile(companyId, repositoryId, fileName)) {
+			throw new NoSuchFileException(companyId, repositoryId, fileName);
+		}
+
+		for (String fileVersion :
+				getFileVersions(companyId, repositoryId, fileName)) {
+
+			try (InputStream inputStream = getFileAsStream(
+					companyId, repositoryId, fileName, fileVersion)) {
+
+				addFile(
+					companyId, repositoryId, newFileName, fileVersion,
+					inputStream);
+			}
+			catch (IOException ioException) {
+				throw new PortalException(ioException);
+			}
+		}
+
+		deleteFile(companyId, repositoryId, fileName);
+	}
+
+	@Override
+	public void updateFile(
+			long companyId, long repositoryId, String fileName,
+			String versionLabel, InputStream is)
+		throws PortalException {
+
+		if (hasFile(companyId, repositoryId, fileName, versionLabel)) {
+			throw new DuplicateFileException(
+				companyId, repositoryId, fileName, versionLabel);
+		}
+
+		addFile(companyId, repositoryId, fileName, versionLabel, is);
 	}
 
 	@Activate
@@ -436,7 +558,7 @@ public class AzureStore implements Store {
 			throw new NoSuchFileException(companyId, repositoryId, fileName);
 		}
 
-		return fileVersions[0];
+		return fileVersions[fileVersions.length - 1];
 	}
 
 	private String _getPrefix(
