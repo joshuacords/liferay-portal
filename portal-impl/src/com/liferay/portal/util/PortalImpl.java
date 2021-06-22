@@ -6918,13 +6918,17 @@ public class PortalImpl implements Portal {
 			Validator.isNotNull(
 				PropsValues.SITES_FRIENDLY_URL_PAGE_NOT_FOUND)) {
 
-			redirect = PropsValues.SITES_FRIENDLY_URL_PAGE_NOT_FOUND;
+			redirect = _get18nErrorRedirect(
+				httpServletRequest,
+				PropsValues.SITES_FRIENDLY_URL_PAGE_NOT_FOUND);
 		}
 		else if ((exception instanceof NoSuchLayoutException) &&
 				 Validator.isNotNull(
 					 PropsValues.LAYOUT_FRIENDLY_URL_PAGE_NOT_FOUND)) {
 
-			redirect = PropsValues.LAYOUT_FRIENDLY_URL_PAGE_NOT_FOUND;
+			redirect = _get18nErrorRedirect(
+				httpServletRequest,
+				PropsValues.LAYOUT_FRIENDLY_URL_PAGE_NOT_FOUND);
 		}
 		else if (PropsValues.LAYOUT_SHOW_HTTP_STATUS) {
 			DynamicServletRequest dynamicRequest = new DynamicServletRequest(
@@ -8465,6 +8469,19 @@ public class PortalImpl implements Portal {
 		}
 
 		return virtualHostnames.containsKey(portalDomain);
+	}
+
+	private String _get18nErrorRedirect(
+		HttpServletRequest httpServletRequest, String redirect) {
+
+		String i18nErrorPath = GetterUtil.getString(
+			httpServletRequest.getAttribute(WebKeys.I18N_ERROR_PATH));
+
+		if (Validator.isNull(i18nErrorPath)) {
+			return redirect;
+		}
+
+		return i18nErrorPath.concat(redirect);
 	}
 
 	private Map<Locale, String> _getAlternateURLs(
