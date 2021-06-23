@@ -285,21 +285,20 @@ public class I18nServletTest extends I18nServlet {
 			PropsValues.class, "LAYOUT_FRIENDLY_URL_PAGE_NOT_FOUND",
 			layoutFriendlyUrlPageNotFound);
 
-		String expectedI18nErrorPath =
-			StringPool.SLASH + LocaleUtil.SPAIN.getLanguage();
-
 		MockHttpServletRequest mockHttpServletRequest =
 			new MockHttpServletRequest();
 
-		mockHttpServletRequest.setServletPath(expectedI18nErrorPath);
-
 		mockHttpServletRequest.setAttribute(
 			WebKeys.COMPANY_ID, _group.getCompanyId());
-
 		mockHttpServletRequest.setPathInfo(
 			StringBundler.concat(
 				PropsValues.LAYOUT_FRIENDLY_URL_PRIVATE_USER_SERVLET_MAPPING,
 				"/nonexistingfriendlyurl", RandomTestUtil.randomString()));
+
+		String expectedI18nErrorPath =
+			StringPool.SLASH + LocaleUtil.SPAIN.getLanguage();
+
+		mockHttpServletRequest.setServletPath(expectedI18nErrorPath);
 
 		MockHttpServletResponse mockHttpServletResponse =
 			new MockHttpServletResponse();
