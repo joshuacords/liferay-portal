@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.search.suggest.SuggesterResults;
 import com.liferay.portal.kernel.search.suggest.TermSuggester;
 import com.liferay.portal.kernel.util.Localization;
 import com.liferay.portal.kernel.util.LocalizationUtil;
+import com.liferay.portal.kernel.util.StringComparator;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.search.engine.adapter.SearchEngineAdapter;
 import com.liferay.portal.search.engine.adapter.search.SuggestSearchRequest;
@@ -248,6 +249,27 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 		}
 	}
 
+	protected List<String> getParsedKeywords(
+		SuggestSearchResult suggestSearchResult) {
+
+		List<String> suggestionText = new ArrayList<>();
+
+		List<SuggestSearchResult.Entry> suggestSearchResultEntries =
+			suggestSearchResult.getEntries();
+
+		suggestSearchResultEntries.forEach(
+			suggestSearchResultEntry -> {
+				List<SuggestSearchResult.Entry.Option>
+					suggestSearchResultEntryOptions =
+					suggestSearchResultEntry.getOptions();
+
+					suggestionText.add(suggestSearchResultEntry.getText());
+
+			});
+
+		return suggestionText;
+	}
+
 	protected List<String> getHighestRankedSuggestResults(
 		SuggestSearchResult suggestSearchResult) {
 
@@ -273,6 +295,14 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 					suggestionText.add(suggestSearchResultEntryOption.getText());
 				}
 			});
+
+		String originalSpellings = StringUtil.merge(getParsedKeywords(suggestSearchResult), StringPool.SPACE);
+
+		String suggestedSpellings = StringUtil.merge(suggestionText, StringPool.SPACE);
+
+		if (StringUtil.equals(originalSpellings, suggestedSpellings)) {
+			return new ArrayList<>();
+		}
 
 		return suggestionText;
 	}
