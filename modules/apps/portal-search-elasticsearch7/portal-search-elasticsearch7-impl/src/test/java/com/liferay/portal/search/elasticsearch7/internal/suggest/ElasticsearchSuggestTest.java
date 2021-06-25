@@ -38,7 +38,7 @@ public class ElasticsearchSuggestTest extends BaseSuggestTestCase {
 
 	@Override
 	@Test
-	public void testMultipleWords() throws Exception {
+	public void testMultipleWordsSuggestion() throws Exception {
 		indexSuccessfulQuery("indexed this phrase");
 
 		assertSuggest(
