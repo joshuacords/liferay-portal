@@ -270,35 +270,44 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 		return suggestionText;
 	}
 
-	protected List<String> getHighestRankedSuggestResults(
-		SuggestSearchResult suggestSearchResult) {
+	protected List<String> createSpellingSuggestion(
+		List<SuggestSearchResult.Entry> suggestSearchResultEntries) {
 
 		List<String> suggestionText = new ArrayList<>();
-
-		List<SuggestSearchResult.Entry> suggestSearchResultEntries =
-			suggestSearchResult.getEntries();
 
 		suggestSearchResultEntries.forEach(
 			suggestSearchResultEntry -> {
 				List<SuggestSearchResult.Entry.Option>
 					suggestSearchResultEntryOptions =
-						suggestSearchResultEntry.getOptions();
+					suggestSearchResultEntry.getOptions();
 
 				if (suggestSearchResultEntryOptions.isEmpty()) {
 					suggestionText.add(suggestSearchResultEntry.getText());
 				}
 
 				for (SuggestSearchResult.Entry.Option
-						suggestSearchResultEntryOption :
-							suggestSearchResultEntryOptions) {
+					suggestSearchResultEntryOption :
+					suggestSearchResultEntryOptions) {
 
 					suggestionText.add(suggestSearchResultEntryOption.getText());
 				}
 			});
 
+		return suggestionText;
+	}
+
+	protected List<String> getHighestRankedSuggestResults(
+		SuggestSearchResult suggestSearchResult) {
+
+		List<SuggestSearchResult.Entry> suggestSearchResultEntries =
+			suggestSearchResult.getEntries();
+
+		List<String> suggestionText = createSpellingSuggestion(suggestSearchResultEntries);
+
 		String originalSpellings = StringUtil.merge(getParsedKeywords(suggestSearchResult), StringPool.SPACE);
 
-		String suggestedSpellings = StringUtil.merge(suggestionText, StringPool.SPACE);
+		String suggestedSpellings = StringUtil.merge(
+			suggestionText, StringPool.SPACE);
 
 		if (StringUtil.equals(originalSpellings, suggestedSpellings)) {
 			return new ArrayList<>();
