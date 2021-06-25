@@ -42,6 +42,14 @@ public abstract class BaseSuggestTestCase extends BaseIndexingTestCase {
 	}
 
 	@Test
+	public void testMultipleWordsSpellCheck() throws Exception {
+//		indexSpellChecker("indexed this spellcheck");
+		indexSpellChecker("spellcheck index");
+
+		assertSpellCheck("[spellcheck index test]", "spellchck indexef test");
+	}
+
+	@Test
 	public void testMultipleWordsSuggestion() throws Exception {
 		indexSuccessfulQuery("indexed this phrase");
 
