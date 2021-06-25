@@ -34,7 +34,7 @@ import org.junit.Test;
 public abstract class BaseSuggestTestCase extends BaseIndexingTestCase {
 
 	@Test
-	public void testMultipleWords() throws Exception {
+	public void testMultipleWordsSuggestion() throws Exception {
 		indexSuccessfulQuery("indexed this phrase");
 
 		assertSuggest("[indexed this phrase]", "indexef   this   phrasd");
