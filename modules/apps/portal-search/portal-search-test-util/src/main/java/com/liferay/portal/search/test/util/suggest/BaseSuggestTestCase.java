@@ -35,9 +35,10 @@ public abstract class BaseSuggestTestCase extends BaseIndexingTestCase {
 
 	@Test
 	public void testSpellCheck() throws Exception {
-		indexSpellChecker("indexed this spellcheck");
+//		indexSpellChecker("indexed this spellcheck");
+		indexSpellChecker("spellcheck index");
 
-		assertSpellCheck("[indexed this phrase]", "indexef   this   spellcheck");
+		assertSpellCheck("[spellcheck index]", "spellcheck indexef");
 	}
 
 	@Test
