@@ -34,6 +34,13 @@ import org.junit.Test;
 public abstract class BaseSuggestTestCase extends BaseIndexingTestCase {
 
 	@Test
+	public void testSpellCheck() throws Exception {
+		indexSpellChecker("indexed this spellcheck");
+
+		assertSpellCheck("[indexed this phrase]", "indexef   this   spellcheck");
+	}
+
+	@Test
 	public void testMultipleWordsSuggestion() throws Exception {
 		indexSuccessfulQuery("indexed this phrase");
 
@@ -100,6 +107,14 @@ public abstract class BaseSuggestTestCase extends BaseIndexingTestCase {
 		searchContext.setKeywords(keywords);
 
 		return searchContext;
+	}
+
+	protected void indexSpellChecker(String value) throws Exception {
+		SpellCheckIndexWriter spellCheckIndexWriter = getIndexWriter();
+
+		spellCheckIndexWriter.indexKeyword(
+			createSearchContext(value), 0,
+			SuggestionConstants.TYPE_SPELL_CHECKER);
 	}
 
 	protected void indexSuccessfulQuery(String value) throws Exception {
