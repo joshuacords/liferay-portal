@@ -50,10 +50,32 @@ public abstract class BaseSuggestTestCase extends BaseIndexingTestCase {
 		assertSuggest("[]", null);
 	}
 
+	protected void assertSpellCheck(String expectedSuggestions, String keywords)
+		throws Exception {
+
+		assertSpellCheck(expectedSuggestions, keywords, 1);
+	}
+
 	protected void assertSuggest(String expectedSuggestions, String keywords)
 		throws Exception {
 
 		assertSuggest(expectedSuggestions, keywords, 1);
+	}
+
+	protected void assertSpellCheck(
+			String expectedSuggestions, String keywords, int max)
+		throws Exception {
+
+		IdempotentRetryAssert.retryAssert(
+			3, TimeUnit.SECONDS,
+			() -> {
+				String actualSuggestions = String.valueOf(
+					Arrays.asList(suggestSpellCheckQueries(keywords, max)));
+
+				Assert.assertEquals(expectedSuggestions, actualSuggestions);
+
+				return null;
+			});
 	}
 
 	protected void assertSuggest(
@@ -95,6 +117,16 @@ public abstract class BaseSuggestTestCase extends BaseIndexingTestCase {
 
 		return querySuggester.suggestKeywordQueries(
 			createSearchContext(keywords), max);
+	}
+
+	protected String suggestSpellCheckQueries(String keywords, int max)
+		throws Exception {
+
+		QuerySuggester querySuggester = getIndexSearcher();
+
+		//check both max = 1 and max is more
+		return querySuggester.spellCheckKeywords(
+			createSearchContext(keywords));
 	}
 
 }
