@@ -262,6 +262,10 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 					suggestSearchResultEntryOptions =
 						suggestSearchResultEntry.getOptions();
 
+				if (suggestSearchResultEntryOptions.isEmpty()) {
+					texts.add(suggestSearchResultEntry.getText());
+				}
+
 				for (SuggestSearchResult.Entry.Option
 						suggestSearchResultEntryOption :
 							suggestSearchResultEntryOptions) {
