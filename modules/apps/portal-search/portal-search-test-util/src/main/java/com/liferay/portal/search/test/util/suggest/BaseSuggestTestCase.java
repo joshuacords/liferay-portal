@@ -35,15 +35,20 @@ public abstract class BaseSuggestTestCase extends BaseIndexingTestCase {
 
 	@Test
 	public void testSpellCheck() throws Exception {
-//		indexSpellChecker("indexed this spellcheck");
 		indexSpellChecker("spellcheck index");
 
 		assertSpellCheck("[spellcheck index]", "spellcheck indexef");
 	}
 
 	@Test
+	public void testRetainingAnalyzerWordSpellCheck() throws Exception {
+		indexSpellChecker("spellcheck index");
+
+		assertSpellCheck("[spellcheck this index]", "spellcheck this indexef");
+	}
+
+	@Test
 	public void testMultipleWordsSpellCheck() throws Exception {
-//		indexSpellChecker("indexed this spellcheck");
 		indexSpellChecker("spellcheck index");
 
 		assertSpellCheck("[spellcheck index test]", "spellchck indexef test");
