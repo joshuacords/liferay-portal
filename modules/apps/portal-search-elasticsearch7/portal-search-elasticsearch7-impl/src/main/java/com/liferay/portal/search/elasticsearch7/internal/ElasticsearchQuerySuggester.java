@@ -249,27 +249,6 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 		}
 	}
 
-	protected List<String> getParsedKeywords(
-		SuggestSearchResult suggestSearchResult) {
-
-		List<String> suggestionText = new ArrayList<>();
-
-		List<SuggestSearchResult.Entry> suggestSearchResultEntries =
-			suggestSearchResult.getEntries();
-
-		suggestSearchResultEntries.forEach(
-			suggestSearchResultEntry -> {
-				List<SuggestSearchResult.Entry.Option>
-					suggestSearchResultEntryOptions =
-					suggestSearchResultEntry.getOptions();
-
-					suggestionText.add(suggestSearchResultEntry.getText());
-
-			});
-
-		return suggestionText;
-	}
-
 	protected List<String> createSpellingSuggestion(
 		List<SuggestSearchResult.Entry> suggestSearchResultEntries) {
 
@@ -284,6 +263,7 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 
 			if (suggestSearchResultEntryOptions.isEmpty()) {
 				suggestionText.add(suggestSearchResultEntry.getText());
+				continue;
 			}
 
 			if (!newSuggestion) {
@@ -312,15 +292,6 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 			suggestSearchResult.getEntries();
 
 		List<String> suggestionText = createSpellingSuggestion(suggestSearchResultEntries);
-
-		String originalSpellings = StringUtil.merge(getParsedKeywords(suggestSearchResult), StringPool.SPACE);
-
-		String suggestedSpellings = StringUtil.merge(
-			suggestionText, StringPool.SPACE);
-
-		if (StringUtil.equals(originalSpellings, suggestedSpellings)) {
-			return new ArrayList<>();
-		}
 
 		return suggestionText;
 	}
