@@ -249,12 +249,15 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 		}
 	}
 
-	protected List<String> createSpellingSuggestion(
-		List<SuggestSearchResult.Entry> suggestSearchResultEntries) {
+	protected List<String> getHighestRankedSuggestResults(
+		SuggestSearchResult suggestSearchResult) {
 
 		List<String> suggestionText = new ArrayList<>();
 
-		boolean newSuggestion = false;
+		List<SuggestSearchResult.Entry> suggestSearchResultEntries =
+			suggestSearchResult.getEntries();
+
+		boolean differentFromOriginal = false;
 
 		for (SuggestSearchResult.Entry suggestSearchResultEntry : suggestSearchResultEntries) {
 			List<SuggestSearchResult.Entry.Option>
@@ -266,8 +269,8 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 				continue;
 			}
 
-			if (!newSuggestion) {
-				newSuggestion = true;
+			if (!differentFromOriginal) {
+				differentFromOriginal = true;
 			}
 
 			for (SuggestSearchResult.Entry.Option
@@ -278,20 +281,9 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 			}
 		}
 
-		if (!newSuggestion) {
+		if (!differentFromOriginal) {
 			return new ArrayList<>();
 		}
-
-		return suggestionText;
-	}
-
-	protected List<String> getHighestRankedSuggestResults(
-		SuggestSearchResult suggestSearchResult) {
-
-		List<SuggestSearchResult.Entry> suggestSearchResultEntries =
-			suggestSearchResult.getEntries();
-
-		List<String> suggestionText = createSpellingSuggestion(suggestSearchResultEntries);
 
 		return suggestionText;
 	}
