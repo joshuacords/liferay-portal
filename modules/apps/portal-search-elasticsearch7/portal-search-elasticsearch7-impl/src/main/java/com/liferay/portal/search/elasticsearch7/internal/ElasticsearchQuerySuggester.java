@@ -275,6 +275,8 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 
 		List<String> suggestionText = new ArrayList<>();
 
+		boolean newSuggestion = false;
+
 		for (SuggestSearchResult.Entry suggestSearchResultEntry : suggestSearchResultEntries) {
 			List<SuggestSearchResult.Entry.Option>
 				suggestSearchResultEntryOptions =
@@ -284,12 +286,20 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 				suggestionText.add(suggestSearchResultEntry.getText());
 			}
 
+			if (!newSuggestion) {
+				newSuggestion = true;
+			}
+
 			for (SuggestSearchResult.Entry.Option
 				suggestSearchResultEntryOption :
 				suggestSearchResultEntryOptions) {
 
 				suggestionText.add(suggestSearchResultEntryOption.getText());
 			}
+		}
+
+		if (!newSuggestion) {
+			return new ArrayList<>();
 		}
 
 		return suggestionText;
