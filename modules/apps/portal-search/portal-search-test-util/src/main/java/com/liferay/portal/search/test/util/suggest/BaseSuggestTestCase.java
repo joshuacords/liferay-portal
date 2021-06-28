@@ -34,20 +34,6 @@ import org.junit.Test;
 public abstract class BaseSuggestTestCase extends BaseIndexingTestCase {
 
 	@Test
-	public void testSpellCheck() throws Exception {
-		indexSpellChecker("spellcheck index");
-
-		assertSpellCheck("[spellcheck index]", "spellcheck indexef");
-	}
-
-	@Test
-	public void testRetainingAnalyzerWordSpellCheck() throws Exception {
-		indexSpellChecker("spellcheck index");
-
-		assertSpellCheck("[spellcheck this index]", "spellcheck this indexef");
-	}
-
-	@Test
 	public void testMultipleWordsSpellCheck() throws Exception {
 		indexSpellChecker("spellcheck index");
 
@@ -71,16 +57,24 @@ public abstract class BaseSuggestTestCase extends BaseIndexingTestCase {
 		assertSuggest("[]", null);
 	}
 
+	@Test
+	public void testRetainingAnalyzerWordSpellCheck() throws Exception {
+		indexSpellChecker("spellcheck index");
+
+		assertSpellCheck("[spellcheck this index]", "spellcheck this indexef");
+	}
+
+	@Test
+	public void testSpellCheck() throws Exception {
+		indexSpellChecker("spellcheck index");
+
+		assertSpellCheck("[spellcheck index]", "spellcheck indexef");
+	}
+
 	protected void assertSpellCheck(String expectedSuggestions, String keywords)
 		throws Exception {
 
 		assertSpellCheck(expectedSuggestions, keywords, 1);
-	}
-
-	protected void assertSuggest(String expectedSuggestions, String keywords)
-		throws Exception {
-
-		assertSuggest(expectedSuggestions, keywords, 1);
 	}
 
 	protected void assertSpellCheck(
@@ -97,6 +91,12 @@ public abstract class BaseSuggestTestCase extends BaseIndexingTestCase {
 
 				return null;
 			});
+	}
+
+	protected void assertSuggest(String expectedSuggestions, String keywords)
+		throws Exception {
+
+		assertSuggest(expectedSuggestions, keywords, 1);
 	}
 
 	protected void assertSuggest(
@@ -154,8 +154,8 @@ public abstract class BaseSuggestTestCase extends BaseIndexingTestCase {
 		QuerySuggester querySuggester = getIndexSearcher();
 
 		//check both max = 1 and max is more
-		return querySuggester.spellCheckKeywords(
-			createSearchContext(keywords));
+
+		return querySuggester.spellCheckKeywords(createSearchContext(keywords));
 	}
 
 }
