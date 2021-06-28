@@ -253,13 +253,10 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 
 		List<String> suggestionText = new ArrayList<>();
 
-		List<SuggestSearchResult.Entry> suggestSearchResultEntries =
-			suggestSearchResult.getEntries();
-
 		boolean differentFromOriginal = false;
 
 		for (SuggestSearchResult.Entry suggestSearchResultEntry :
-				suggestSearchResultEntries) {
+				suggestSearchResult.getEntries()) {
 
 			List<SuggestSearchResult.Entry.Option>
 				suggestSearchResultEntryOptions =
