@@ -27,7 +27,6 @@ import com.liferay.portal.kernel.search.suggest.SuggesterResults;
 import com.liferay.portal.kernel.search.suggest.TermSuggester;
 import com.liferay.portal.kernel.util.Localization;
 import com.liferay.portal.kernel.util.LocalizationUtil;
-import com.liferay.portal.kernel.util.StringComparator;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.search.engine.adapter.SearchEngineAdapter;
 import com.liferay.portal.search.engine.adapter.search.SuggestSearchRequest;
@@ -73,7 +72,7 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 		if (suggestSearchResult == null) {
 			return StringPool.BLANK;
 		}
-//Spell check
+		//Spell check
 		List<String> words = getHighestRankedSuggestResults(
 			suggestSearchResult);
 
@@ -162,7 +161,7 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 		if (suggestSearchResult == null) {
 			return StringPool.EMPTY_ARRAY;
 		}
-//unit test
+		//unit test
 		List<String> keywordQueries = getHighestRankedSuggestResults(
 			suggestSearchResult);
 
@@ -259,13 +258,16 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 
 		boolean differentFromOriginal = false;
 
-		for (SuggestSearchResult.Entry suggestSearchResultEntry : suggestSearchResultEntries) {
+		for (SuggestSearchResult.Entry suggestSearchResultEntry :
+				suggestSearchResultEntries) {
+
 			List<SuggestSearchResult.Entry.Option>
 				suggestSearchResultEntryOptions =
-				suggestSearchResultEntry.getOptions();
+					suggestSearchResultEntry.getOptions();
 
 			if (suggestSearchResultEntryOptions.isEmpty()) {
 				suggestionText.add(suggestSearchResultEntry.getText());
+
 				continue;
 			}
 
@@ -274,8 +276,8 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 			}
 
 			for (SuggestSearchResult.Entry.Option
-				suggestSearchResultEntryOption :
-				suggestSearchResultEntryOptions) {
+					suggestSearchResultEntryOption :
+						suggestSearchResultEntryOptions) {
 
 				suggestionText.add(suggestSearchResultEntryOption.getText());
 			}
