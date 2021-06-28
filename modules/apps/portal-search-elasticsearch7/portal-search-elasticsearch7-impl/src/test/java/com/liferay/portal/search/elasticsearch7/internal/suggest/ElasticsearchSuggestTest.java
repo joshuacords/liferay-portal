@@ -47,10 +47,6 @@ public class ElasticsearchSuggestTest extends BaseSuggestTestCase {
 
 	@Override
 	@Test
-	public void testRetainingAnalyzerWordSpellCheck() throws Exception {}
-
-	@Override
-	@Test
 	public void testNothingToSuggest() throws Exception {
 		indexSuccessfulQuery("creating the keywordSearch mapping");
 
@@ -66,6 +62,11 @@ public class ElasticsearchSuggestTest extends BaseSuggestTestCase {
 		indexSuccessfulQuery("creating the keywordSearch mapping");
 
 		assertSuggest("[]", null);
+	}
+
+	@Override
+	@Test
+	public void testRetainingAnalyzerWordSpellCheck() throws Exception {
 	}
 
 	@Rule
