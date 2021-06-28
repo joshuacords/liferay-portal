@@ -73,7 +73,7 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 			return StringPool.BLANK;
 		}
 		//Spell check
-		List<String> words = getHighestRankedSuggestResults(
+		List<String> words = getHighestRankedSuggestedPhrase(
 			suggestSearchResult);
 
 		return StringUtil.merge(words, StringPool.SPACE);
@@ -162,7 +162,7 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 			return StringPool.EMPTY_ARRAY;
 		}
 		//unit test
-		List<String> keywordQueries = getHighestRankedSuggestResults(
+		List<String> keywordQueries = getHighestRankedSuggestedPhrase(
 			suggestSearchResult);
 
 		return keywordQueries.toArray(new String[0]);
@@ -248,10 +248,10 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 		}
 	}
 
-	protected List<String> getHighestRankedSuggestResults(
+	protected List<String> getHighestRankedSuggestedPhrase(
 		SuggestSearchResult suggestSearchResult) {
 
-		List<String> suggestionText = new ArrayList<>();
+		List<String> suggestedPhrase = new ArrayList<>();
 
 		boolean differentFromOriginal = false;
 
@@ -263,7 +263,7 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 					suggestSearchResultEntry.getOptions();
 
 			if (suggestSearchResultEntryOptions.isEmpty()) {
-				suggestionText.add(suggestSearchResultEntry.getText());
+				suggestedPhrase.add(suggestSearchResultEntry.getText());
 
 				continue;
 			}
@@ -276,7 +276,7 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 					suggestSearchResultEntryOption :
 						suggestSearchResultEntryOptions) {
 
-				suggestionText.add(suggestSearchResultEntryOption.getText());
+				suggestedPhrase.add(suggestSearchResultEntryOption.getText());
 			}
 		}
 
@@ -284,7 +284,7 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 			return new ArrayList<>();
 		}
 
-		return suggestionText;
+		return suggestedPhrase;
 	}
 
 	protected Localization getLocalization() {
