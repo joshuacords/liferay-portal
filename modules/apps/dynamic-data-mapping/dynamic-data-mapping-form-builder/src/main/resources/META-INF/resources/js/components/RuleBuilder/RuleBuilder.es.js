@@ -43,10 +43,11 @@ class RuleBuilder extends Component {
 			functionsMetadata,
 			functionsURL,
 			pages,
+			rules,
 			spritemap
 		} = this.props;
 
-		const {dataProvider, index, mode, roles, rules} = this.state;
+		const {dataProvider, index, mode, roles} = this.state;
 
 		return (
 			<div class="container">
