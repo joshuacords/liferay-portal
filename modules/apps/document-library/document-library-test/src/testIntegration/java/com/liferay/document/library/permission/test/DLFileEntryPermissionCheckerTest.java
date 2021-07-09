@@ -80,6 +80,44 @@ public class DLFileEntryPermissionCheckerTest extends BasePermissionTestCase {
 				permissionChecker, _subfileEntry, ActionKeys.VIEW));
 	}
 
+	@Test
+	public void testContains1() throws Exception {
+		Assert.assertTrue(
+			_fileEntryModelResourcePermission.contains(
+				permissionChecker, _fileEntry, ActionKeys.VIEW));
+		Assert.assertTrue(
+			_fileEntryModelResourcePermission.contains(
+				permissionChecker, _subfileEntry, ActionKeys.VIEW));
+
+		removePortletModelViewPermission();
+
+		Assert.assertFalse(
+			_fileEntryModelResourcePermission.contains(
+				permissionChecker, _fileEntry, ActionKeys.VIEW));
+		Assert.assertFalse(
+			_fileEntryModelResourcePermission.contains(
+				permissionChecker, _subfileEntry, ActionKeys.VIEW));
+	}
+
+	protected void doSetUp1() throws Exception {
+		String name = RandomTestUtil.randomString();
+
+		ServiceContext serviceContext =
+			ServiceContextTestUtil.getServiceContext(
+				group.getGroupId(), TestPropsValues.getUserId());
+
+		Folder permissionedFolder = DLAppServiceUtil.addFolder(
+			group.getGroupId(), DLFolderConstants.DEFAULT_PARENT_FOLDER_ID,
+			name, RandomTestUtil.randomString(), serviceContext);
+
+		resourceLocalService.addResources(user.getCompanyId(),
+			group.getGroupId(), TestPropsValues.getUserId(),
+			Folder.class.getName(), permissionedFolder.getFolderId(),
+			false, true, true);
+
+		_subfileEntry = addFileEntry(folder.getFolderId());
+	}
+
 	protected FileEntry addFileEntry(long folderId) throws Exception {
 		ServiceContext serviceContext =
 			ServiceContextTestUtil.getServiceContext(
@@ -137,6 +175,10 @@ public class DLFileEntryPermissionCheckerTest extends BasePermissionTestCase {
 	private static final Log _log = LogFactoryUtil.getLog(
 		DLFileEntryPermissionCheckerTest.class);
 
+	@Inject
+	protected com.liferay.portal.kernel.service.ResourceLocalService
+		resourceLocalService;
+
 	@Inject(
 		filter = "model.class.name=com.liferay.portal.kernel.repository.model.FileEntry"
 	)
@@ -145,5 +187,6 @@ public class DLFileEntryPermissionCheckerTest extends BasePermissionTestCase {
 
 	private FileEntry _fileEntry;
 	private FileEntry _subfileEntry;
+	private FileEntry _subfileEntry1;
 
 }
