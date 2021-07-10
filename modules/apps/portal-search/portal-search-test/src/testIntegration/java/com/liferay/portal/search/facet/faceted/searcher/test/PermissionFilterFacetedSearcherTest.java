@@ -23,6 +23,7 @@ import com.liferay.journal.service.JournalArticleLocalService;
 import com.liferay.journal.service.JournalFolderLocalService;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.role.RoleConstants;
 import com.liferay.portal.kernel.search.Hits;
@@ -41,7 +42,9 @@ import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
 import com.liferay.portal.kernel.util.HashMapDictionaryBuilder;
 import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.search.facet.type.AssetEntriesFacetFactory;
+import com.liferay.portal.search.facet.user.UserFacetFactory;
 import com.liferay.portal.search.test.util.FacetsAssert;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
@@ -128,6 +131,60 @@ public class PermissionFilterFacetedSearcherTest
 			facet.getFieldName(), searchContext, hits, expected);
 	}
 
+	@Test
+	public void testPermissionFilteredAtSearchEngine() throws Exception {
+		Group group = userSearchFixture.addGroup();
+
+		User createrUser1 = addUser(group);
+
+		User createrUser2 = addUser(group);
+
+		String title = RandomTestUtil.randomString();
+
+		JournalFolder siteMemberFolder = addJournalFolderWithExtraPermission(createrUser1, group, RoleConstants.SITE_MEMBER);
+
+		addJournalArticle(createrUser1, group, title, siteMemberFolder.getFolderId());
+
+		JournalFolder permissionedFolder = addJournalFolder(createrUser1, group);
+
+		addJournalArticle(createrUser2, group, title, permissionedFolder.getFolderId());
+
+		User searchingSiteMember = addUser(group);
+
+		PermissionThreadLocal.setPermissionChecker(
+			permissionCheckerFactory.create(searchingSiteMember));
+
+		SearchContext searchContext = getSearchContext(title);
+
+		//Facet assetEntryFacet = assetEntriesFacetFactory.newInstance(searchContext);
+
+		//searchContext.addFacet(assetEntryFacet);
+
+		com.liferay.portal.search.facet.Facet userFacet = userFacetFactory.newInstance(searchContext);
+
+		searchContext.addFacet(userFacet);
+
+		Hits hits = search(searchContext);
+
+		Map<String, Integer> expected = Collections.singletonMap(
+			StringUtil.toLowerCase(createrUser1.getFullName()), 1);
+
+		FacetsAssert.assertFrequencies(
+			userFacet.getFieldName(), searchContext, hits, expected);
+
+		//Ghost facet issue
+		userFacet.select(userFacet.getFieldName());
+
+		searchContext.addFacet(userFacet);
+
+		hits = search(searchContext);
+
+		FacetsAssert.assertFrequencies(
+			userFacet.getFieldName(), searchContext, hits, expected);
+
+		//Combo facet issue
+	}
+
 	protected void addJournalArticle(
 			User user, Group group, String title, long folderId)
 		throws Exception {
@@ -144,6 +201,20 @@ public class PermissionFilterFacetedSearcherTest
 		_articles.add(article);
 	}
 
+	protected JournalFolder addJournalFolderWithExtraPermission(User user, Group group, String roleName)
+		throws Exception {
+
+		ServiceContext serviceContext = createServiceContextWithRole(group, user, roleName);
+
+		JournalFolder folder = journalFolderLocalService.addFolder(
+			user.getUserId(), group.getGroupId(), 0,
+			RandomTestUtil.randomString(), StringPool.BLANK, serviceContext);
+
+		_folders.add(folder);
+
+		return folder;
+	}
+
 	protected JournalFolder addJournalFolder(User user, Group group)
 		throws Exception {
 
@@ -156,6 +227,28 @@ public class PermissionFilterFacetedSearcherTest
 		_folders.add(folder);
 
 		return folder;
+	}
+
+	protected ServiceContext createServiceContextWithRole(Group group, User user, String roleName)
+		throws Exception {
+
+		ServiceContext serviceContext =
+			ServiceContextTestUtil.getServiceContext(
+				group.getCompanyId(), group.getGroupId(), user.getUserId());
+
+		serviceContext.setAddGuestPermissions(false);
+
+		ModelPermissions modelPermissions =
+			ModelPermissionsFactory.createForAllResources();
+
+		modelPermissions.addRolePermissions(
+			RoleConstants.OWNER, ActionKeys.VIEW);
+
+		modelPermissions.addRolePermissions(roleName, ActionKeys.VIEW);
+
+		serviceContext.setModelPermissions(modelPermissions);
+
+		return serviceContext;
 	}
 
 	protected ServiceContext createServiceContext(Group group, User user)
@@ -172,7 +265,6 @@ public class PermissionFilterFacetedSearcherTest
 
 		modelPermissions.addRolePermissions(
 			RoleConstants.OWNER, ActionKeys.VIEW);
-
 		serviceContext.setModelPermissions(modelPermissions);
 
 		return serviceContext;
@@ -206,6 +298,9 @@ public class PermissionFilterFacetedSearcherTest
 
 	@Inject
 	protected static PermissionCheckerFactory permissionCheckerFactory;
+
+	@Inject
+	protected static UserFacetFactory userFacetFactory;
 
 	@DeleteAfterTestRun
 	private final List<JournalArticle> _articles = new ArrayList<>();
