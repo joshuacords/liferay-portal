@@ -409,6 +409,16 @@ public class DLFolderWrapper
 		return model.getName();
 	}
 
+	@Override
+	public String getParentClassName() {
+		return model.getParentClassName();
+	}
+
+	@Override
+	public String getParentClassPK() {
+		return model.getParentClassPK();
+	}
+
 	/**
 	 * Returns the parent container model ID of this document library folder.
 	 *

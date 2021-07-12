@@ -663,6 +663,16 @@ public class DLFileEntryWrapper
 		return model.getName();
 	}
 
+	@Override
+	public String getParentClassName() {
+		return model.getParentClassName();
+	}
+
+	@Override
+	public String getParentClassPK() {
+		return model.getParentClassPK();
+	}
+
 	/**
 	 * Returns the primary key of this document library file entry.
 	 *

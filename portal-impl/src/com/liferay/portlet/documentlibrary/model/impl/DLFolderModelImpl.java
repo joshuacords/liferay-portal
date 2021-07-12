@@ -322,6 +322,16 @@ public class DLFolderModelImpl
 	}
 
 	@Override
+	public String getParentClassName() {
+		return "com.liferay.document.library.kernel.model.DLFolder";
+	}
+
+	@Override
+	public String getParentClassPK() {
+		return String.valueOf(getParentFolderId());
+	}
+
+	@Override
 	public long getPrimaryKey() {
 		return _folderId;
 	}
