@@ -55,6 +55,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
@@ -212,7 +213,7 @@ public class PermissionFilterFacetedSearcherTest
 
 		Hits hits = search(searchContext);
 
-
+		Assert.assertEquals(hits.toString(), 1, hits.getLength());
 	}
 
 	protected void addJournalArticle(
