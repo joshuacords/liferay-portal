@@ -132,7 +132,7 @@ public class PermissionFilterFacetedSearcherTest
 	}
 
 	@Test
-	public void testDynamicPermissionAtSearchEngine() throws Exception {
+	public void testInheritedPermissionExcludesFacets() throws Exception {
 		Group group = userSearchFixture.addGroup();
 
 		String title = RandomTestUtil.randomString();
@@ -185,6 +185,36 @@ public class PermissionFilterFacetedSearcherTest
 		//Combo facet issue
 	}
 
+	@Test
+	public void testInheritedPermissionRetainsDocuments() throws Exception {
+		Group group = userSearchFixture.addGroup();
+
+		String title = RandomTestUtil.randomString();
+
+		User creatingUser1 = addUser(group);
+
+		JournalFolder siteMemberFolder = addJournalFolderWithExtraPermission(
+			creatingUser1, group, RoleConstants.SITE_MEMBER);
+
+		JournalFolder userFolder = addJournalFolderWithExtraPermission(
+			creatingUser1, group, siteMemberFolder.getFolderId(),
+			RoleConstants.USER);
+
+		addJournalArticle(
+			creatingUser1, group, title, userFolder.getFolderId());
+
+		User searchingSiteMember = addUser(group);
+
+		PermissionThreadLocal.setPermissionChecker(
+			permissionCheckerFactory.create(searchingSiteMember));
+
+		SearchContext searchContext = getSearchContext(title);
+
+		Hits hits = search(searchContext);
+
+
+	}
+
 	protected void addJournalArticle(
 			User user, Group group, String title, long folderId)
 		throws Exception {
@@ -204,10 +234,18 @@ public class PermissionFilterFacetedSearcherTest
 	protected JournalFolder addJournalFolderWithExtraPermission(User user, Group group, String roleName)
 		throws Exception {
 
-		ServiceContext serviceContext = createServiceContextWithRole(group, user, roleName);
+		return addJournalFolderWithExtraPermission(user, group, 0, roleName);
+	}
+
+	protected JournalFolder addJournalFolderWithExtraPermission(
+			User user, Group group, long parentFolderId, String roleName)
+		throws Exception {
+
+		ServiceContext serviceContext = createServiceContextWithRole(
+			group, user, roleName);
 
 		JournalFolder folder = journalFolderLocalService.addFolder(
-			user.getUserId(), group.getGroupId(), 0,
+			user.getUserId(), group.getGroupId(), parentFolderId,
 			RandomTestUtil.randomString(), StringPool.BLANK, serviceContext);
 
 		_folders.add(folder);
