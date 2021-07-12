@@ -276,6 +276,16 @@ public class DLFileEntryImpl extends DLFileEntryBaseImpl {
 	}
 
 	@Override
+	public String getParentClassName() {
+		return "com.liferay.document.library.kernel.model.DLFolder";
+	}
+
+	@Override
+	public String getParentClassPK() {
+		return String.valueOf(getFolderId());
+	}
+
+	@Override
 	public long getReadCount() {
 		return ViewCountManagerUtil.getViewCount(
 			getCompanyId(),

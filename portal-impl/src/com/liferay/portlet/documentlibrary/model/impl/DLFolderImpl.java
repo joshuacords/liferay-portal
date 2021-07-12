@@ -86,6 +86,16 @@ public class DLFolderImpl extends DLFolderBaseImpl {
 	}
 
 	@Override
+	public String getParentClassName() {
+		return "com.liferay.document.library.kernel.model.DLFolder";
+	}
+
+	@Override
+	public String getParentClassPK() {
+		return String.valueOf(getParentFolderId());
+	}
+
+	@Override
 	public DLFolder getParentFolder() throws PortalException {
 		if (getParentFolderId() == DLFolderConstants.DEFAULT_PARENT_FOLDER_ID) {
 			return null;
