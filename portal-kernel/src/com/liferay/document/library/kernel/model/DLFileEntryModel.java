@@ -17,6 +17,7 @@ package com.liferay.document.library.kernel.model;
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.AttachedModel;
+import com.liferay.portal.kernel.model.BaseChildModel;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.MVCCModel;
 import com.liferay.portal.kernel.model.ShardedModel;
@@ -41,8 +42,9 @@ import org.osgi.annotation.versioning.ProviderType;
  */
 @ProviderType
 public interface DLFileEntryModel
-	extends AttachedModel, BaseModel<DLFileEntry>, CTModel<DLFileEntry>,
-			MVCCModel, ShardedModel, StagedGroupedModel, TrashedModel {
+	extends AttachedModel, BaseModel<DLFileEntry>, BaseChildModel,
+			CTModel<DLFileEntry>, MVCCModel, ShardedModel, StagedGroupedModel,
+			TrashedModel {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
