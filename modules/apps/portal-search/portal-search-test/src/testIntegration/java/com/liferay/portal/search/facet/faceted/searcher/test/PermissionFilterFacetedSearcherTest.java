@@ -132,22 +132,26 @@ public class PermissionFilterFacetedSearcherTest
 	}
 
 	@Test
-	public void testPermissionFilteredAtSearchEngine() throws Exception {
+	public void testDynamicPermissionAtSearchEngine() throws Exception {
 		Group group = userSearchFixture.addGroup();
-
-		User createrUser1 = addUser(group);
-
-		User createrUser2 = addUser(group);
 
 		String title = RandomTestUtil.randomString();
 
-		JournalFolder siteMemberFolder = addJournalFolderWithExtraPermission(createrUser1, group, RoleConstants.SITE_MEMBER);
+		User creatingUser1 = addUser(group);
 
-		addJournalArticle(createrUser1, group, title, siteMemberFolder.getFolderId());
+		JournalFolder siteMemberFolder = addJournalFolderWithExtraPermission(
+			creatingUser1, group, RoleConstants.SITE_MEMBER);
 
-		JournalFolder permissionedFolder = addJournalFolder(createrUser1, group);
+		addJournalArticle(
+			creatingUser1, group, title, siteMemberFolder.getFolderId());
 
-		addJournalArticle(createrUser2, group, title, permissionedFolder.getFolderId());
+		User creatingUser2 = addUser(group);
+
+		JournalFolder ownerOnlyFolder = addJournalFolder(
+			creatingUser2, group);
+
+		addJournalArticle(
+			creatingUser2, group, title, ownerOnlyFolder.getFolderId());
 
 		User searchingSiteMember = addUser(group);
 
@@ -156,21 +160,17 @@ public class PermissionFilterFacetedSearcherTest
 
 		SearchContext searchContext = getSearchContext(title);
 
-		//Facet assetEntryFacet = assetEntriesFacetFactory.newInstance(searchContext);
-
-		//searchContext.addFacet(assetEntryFacet);
-
 		com.liferay.portal.search.facet.Facet userFacet = userFacetFactory.newInstance(searchContext);
 
 		searchContext.addFacet(userFacet);
 
 		Hits hits = search(searchContext);
 
-		Map<String, Integer> expected = Collections.singletonMap(
-			StringUtil.toLowerCase(createrUser1.getFullName()), 1);
+		Map<String, Integer> expectedSingleFacet = Collections.singletonMap(
+			StringUtil.toLowerCase(creatingUser1.getFullName()), 1);
 
 		FacetsAssert.assertFrequencies(
-			userFacet.getFieldName(), searchContext, hits, expected);
+			userFacet.getFieldName(), searchContext, hits, expectedSingleFacet);
 
 		//Ghost facet issue
 		userFacet.select(userFacet.getFieldName());
@@ -180,7 +180,7 @@ public class PermissionFilterFacetedSearcherTest
 		hits = search(searchContext);
 
 		FacetsAssert.assertFrequencies(
-			userFacet.getFieldName(), searchContext, hits, expected);
+			userFacet.getFieldName(), searchContext, hits, expectedSingleFacet);
 
 		//Combo facet issue
 	}
