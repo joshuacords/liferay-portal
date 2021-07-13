@@ -344,6 +344,16 @@ public class JournalFolderWrapper
 	}
 
 	@Override
+	public String getParentClassName() {
+		return model.getParentClassName();
+	}
+
+	@Override
+	public String getParentClassPK() {
+		return model.getParentClassPK();
+	}
+
+	@Override
 	public JournalFolder getParentFolder()
 		throws com.liferay.portal.kernel.exception.PortalException {
 
