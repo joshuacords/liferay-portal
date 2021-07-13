@@ -696,6 +696,16 @@ public class JournalFolderModelImpl
 		_modifiedDate = modifiedDate;
 	}
 
+	@Override
+	public String getParentClassName() {
+		return "com.liferay.journal.model.JournalFolder";
+	}
+
+	@Override
+	public String getParentClassPK() {
+		return String.valueOf(getParentFolderId());
+	}
+
 	@JSON
 	@Override
 	public long getParentFolderId() {
