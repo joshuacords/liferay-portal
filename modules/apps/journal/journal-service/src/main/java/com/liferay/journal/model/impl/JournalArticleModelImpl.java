@@ -369,6 +369,16 @@ public class JournalArticleModelImpl
 	}
 
 	@Override
+	public String getParentClassName() {
+		return "com.liferay.journal.model.JournalFolder";
+	}
+
+	@Override
+	public String getParentClassPK() {
+		return String.valueOf(getFolderId());
+	}
+
+	@Override
 	public long getPrimaryKey() {
 		return _id;
 	}
