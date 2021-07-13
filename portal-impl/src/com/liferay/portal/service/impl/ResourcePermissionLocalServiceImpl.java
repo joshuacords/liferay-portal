@@ -785,34 +785,42 @@ public class ResourcePermissionLocalServiceImpl
 
 	@Override
 	public List<Role> getDynamicInheritanceRoles(
-		long companyId, String name, int scope, String primKey,
-		String actionId)
+			long companyId, String name, int scope, String primKey,
+			String actionId)
 		throws PortalException {
 
-		List<Role> roles = getRoles(companyId, name, scope, primKey, actionId);
+		List<Role> baseRoles = getRoles(
+			companyId, name, scope, primKey, actionId);
+
+		Set<Role> baseRoleSet = new HashSet<>(baseRoles);
 
 		Long classPK = GetterUtil.getLong(primKey);
 
 		BaseChildModel baseChildModel = _getChildModel(name, classPK);
 
 		if (baseChildModel == null) {
-			return roles;
+			return baseRoles;
 		}
 
 		String parentClassPK = baseChildModel.getParentClassPK();
 
 		if (Validator.isNull(parentClassPK) || parentClassPK.equals("0")) {
-			return roles;
+			return baseRoles;
 		}
 
 		List<Role> parentAccessRoles = getRoles(
 			companyId, baseChildModel.getParentClassName(),
 			ResourceConstants.SCOPE_INDIVIDUAL, parentClassPK, "ACCESS");
 
-		parentAccessRoles.retainAll(roles);
+		Role guestRole = roleLocalService.getRole(
+			companyId, RoleConstants.GUEST);
 
-		List<Role> parentViewRoles = _getTreePathRoles(
-			baseChildModel, companyId, roles);
+		if (!baseRoleSet.contains(guestRole)) {
+			parentAccessRoles.retainAll(baseRoles);
+		}
+
+		Set<Role> parentViewRoles = _getTreePathRoles(
+			baseChildModel, companyId, baseRoleSet, guestRole);
 
 		Set<Role> rolesSet = new HashSet<>();
 
@@ -2019,7 +2027,7 @@ public class ResourcePermissionLocalServiceImpl
 			if (_log.isWarnEnabled()) {
 				_log.warn(
 					"No PersistedModelLocalService found for class " +
-					className,
+						className,
 					systemException);
 			}
 		}
@@ -2045,7 +2053,7 @@ public class ResourcePermissionLocalServiceImpl
 		if (persistedModelLocalService == null) {
 			throw new SystemException(
 				"No persisted model local service found for class " +
-				className);
+					className);
 		}
 
 		return persistedModelLocalService;
@@ -2064,12 +2072,19 @@ public class ResourcePermissionLocalServiceImpl
 		return resourcePermissionsMap;
 	}
 
-	private List<Role> _getTreePathRoles(
-		BaseChildModel baseChildModel, long companyId, List<Role> roles)
+	private Set<Role> _getTreePathRoles(
+			BaseChildModel baseChildModel, long companyId, Set<Role> roles,
+			Role guestRole)
 		throws PortalException {
 
 		String[] parentFolderIds = StringUtil.split(
 			baseChildModel.getTreePath(), StringPool.SLASH);
+
+		boolean guest = false;
+
+		if (roles.contains(guestRole)) {
+			guest = true;
+		}
 
 		List<Role> folderRoles;
 
@@ -2080,7 +2095,17 @@ public class ResourcePermissionLocalServiceImpl
 				companyId, baseChildModel.getParentClassName(),
 				ResourceConstants.SCOPE_INDIVIDUAL, parentFolderIds[i], "VIEW");
 
-			roles.retainAll(folderRoles);
+			if (guest) {
+				roles.addAll(folderRoles);
+
+				if (!folderRoles.contains(guestRole)) {
+					guest = false;
+				}
+			}
+
+			if (!folderRoles.contains(guestRole)) {
+				roles.retainAll(folderRoles);
+			}
 		}
 
 		return roles;
