@@ -17,6 +17,7 @@ package com.liferay.journal.model;
 import com.liferay.portal.kernel.bean.AutoEscape;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.AttachedModel;
+import com.liferay.portal.kernel.model.BaseChildModel;
 import com.liferay.portal.kernel.model.BaseModel;
 import com.liferay.portal.kernel.model.MVCCModel;
 import com.liferay.portal.kernel.model.ResourcedModel;
@@ -43,9 +44,9 @@ import org.osgi.annotation.versioning.ProviderType;
  */
 @ProviderType
 public interface JournalArticleModel
-	extends AttachedModel, BaseModel<JournalArticle>, CTModel<JournalArticle>,
-			MVCCModel, ResourcedModel, ShardedModel, StagedGroupedModel,
-			TrashedModel, WorkflowedModel {
+	extends AttachedModel, BaseChildModel, BaseModel<JournalArticle>,
+			CTModel<JournalArticle>, MVCCModel, ResourcedModel, ShardedModel,
+			StagedGroupedModel, TrashedModel, WorkflowedModel {
 
 	/*
 	 * NOTE FOR DEVELOPERS:
