@@ -791,7 +791,7 @@ public class ResourcePermissionLocalServiceImpl
 
 		List<Role> roles = getRoles(companyId, name, scope, primKey, actionId);
 
-		Long classPK = Long.parseLong(primKey);
+		Long classPK = GetterUtil.getLong(primKey);
 
 		BaseChildModel baseChildModel = _getChildModel(name, classPK);
 
@@ -2004,17 +2004,23 @@ public class ResourcePermissionLocalServiceImpl
 	}
 
 	private BaseChildModel _getChildModel(String className, Long classPK) {
-		PersistedModelLocalService persistedModelLocalService =
-			_getPersistedModelLocalService(className);
-
-		PersistedModel persistedModel;
-
 		try {
-			persistedModel = persistedModelLocalService.getPersistedModel(
-				classPK);
+			PersistedModelLocalService persistedModelLocalService =
+				_getPersistedModelLocalService(className);
+
+			PersistedModel persistedModel =
+				persistedModelLocalService.getPersistedModel(classPK);
 
 			if (persistedModel instanceof BaseChildModel) {
 				return (BaseChildModel)persistedModel;
+			}
+		}
+		catch (SystemException systemException) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(
+					"No PersistedModelLocalService found for class " +
+					className,
+					systemException);
 			}
 		}
 		catch (PortalException portalException) {
