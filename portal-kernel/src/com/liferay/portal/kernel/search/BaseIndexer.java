@@ -1223,6 +1223,8 @@ public abstract class BaseIndexer<T> implements Indexer<T> {
 
 		documentHelper.setEntryKey(className, classPK);
 
+		document.addKeyword("primaryKey", (Long)baseModel.getPrimaryKeyObj());
+
 		document.addUID(className, classPK);
 
 		if (resourcePrimKey > 0) {
