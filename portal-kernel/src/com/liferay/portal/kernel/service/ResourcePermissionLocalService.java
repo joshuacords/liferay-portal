@@ -431,6 +431,12 @@ public interface ResourcePermissionLocalService
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Role> getDynamicInheritanceRoles(
+		long companyId, String name, int scope, String resourcePrimKey,
+		String primKey, String actionId)
+		throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Role> getDynamicInheritanceRoles(
 		long companyId, String name, int scope, String primKey,
 		String actionId)
 		throws PortalException;
