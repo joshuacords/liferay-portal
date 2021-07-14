@@ -287,14 +287,14 @@ public class SearchPermissionCheckerImpl implements SearchPermissionChecker {
 
 		String classPKString = String.valueOf(classPK);
 
-		if(className.equals("com.liferay.journal.model.JournalArticle")) {
+		if (className.equals("com.liferay.journal.model.JournalArticle")) {
 			classPKString = document.get("primaryKey");
 		}
 
 		List<Role> roles =
 			resourcePermissionLocalService.getDynamicInheritanceRoles(
 				companyId, className, ResourceConstants.SCOPE_INDIVIDUAL,
-				classPKString, viewActionId);
+				String.valueOf(classPK), classPKString, viewActionId);
 
 		if (roles.isEmpty()) {
 			return;
