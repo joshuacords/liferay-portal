@@ -785,12 +785,22 @@ public class ResourcePermissionLocalServiceImpl
 
 	@Override
 	public List<Role> getDynamicInheritanceRoles(
-			long companyId, String name, int scope, String primKey,
+			long companyId, String name, int scope, String resourcePrimKey,
 			String actionId)
 		throws PortalException {
 
+		return getDynamicInheritanceRoles(
+			companyId, name, scope, resourcePrimKey, resourcePrimKey, actionId);
+	}
+
+	@Override
+	public List<Role> getDynamicInheritanceRoles(
+			long companyId, String name, int scope, String resourcePrimKey,
+			String primKey, String actionId)
+		throws PortalException {
+
 		List<Role> baseRoles = getRoles(
-			companyId, name, scope, primKey, actionId);
+			companyId, name, scope, resourcePrimKey, actionId);
 
 		Set<Role> baseRoleSet = new HashSet<>(baseRoles);
 
