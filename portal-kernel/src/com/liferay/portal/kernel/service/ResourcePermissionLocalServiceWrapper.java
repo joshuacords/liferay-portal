@@ -512,6 +512,16 @@ public class ResourcePermissionLocalServiceWrapper
 
 	@Override
 	public java.util.List<com.liferay.portal.kernel.model.Role> getDynamicInheritanceRoles(
+		long companyId, String name, int scope, String resourcePrimKey,
+		String primKey,	String actionId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _resourcePermissionLocalService.getDynamicInheritanceRoles(
+			companyId, name, scope, resourcePrimKey, primKey, actionId);
+	}
+
+	@Override
+	public java.util.List<com.liferay.portal.kernel.model.Role> getDynamicInheritanceRoles(
 		long companyId, String name, int scope, String primKey,
 		String actionId)
 		throws com.liferay.portal.kernel.exception.PortalException {
