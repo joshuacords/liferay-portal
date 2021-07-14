@@ -51,6 +51,7 @@ import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.junit.After;
@@ -135,22 +136,29 @@ public class PermissionFilterFacetedSearcherTest
 	public void testInheritedPermissionExcludesFacets() throws Exception {
 		Group group = userSearchFixture.addGroup();
 
-		String title = RandomTestUtil.randomString();
+		String title = "Web Content";//RandomTestUtil.randomString();
 
-		User creatingUser1 = addUser(group);
+//		String screenName, String firstName, String lastName, Locale locale,
+//			Group group, String... assetTagNames
+
+		//User creatingUser1 = addUser(group);
+		User creatingUser1 = userSearchFixture.addUser(
+			"creatingUser1", "creating", "user1", Locale.US, group);
 
 		JournalFolder siteMemberFolder = addJournalFolderWithExtraPermission(
 			creatingUser1, group, RoleConstants.SITE_MEMBER);
 
 		addJournalArticle(
-			creatingUser1, group, title, siteMemberFolder.getFolderId());
+			creatingUser1, group, title + " 1", siteMemberFolder.getFolderId());
 
-		User creatingUser2 = addUser(group);
+		//User creatingUser2 = addUser(group);
+		User creatingUser2 = userSearchFixture.addUser(
+			"creatingUser2", "creating", "user2", Locale.US, group);
 
 		JournalFolder ownerOnlyFolder = addJournalFolder(creatingUser2, group);
 
 		addJournalArticle(
-			creatingUser2, group, title, ownerOnlyFolder.getFolderId());
+			creatingUser2, group, title + " 2", ownerOnlyFolder.getFolderId());
 
 		User searchingSiteMember = addUser(group);
 

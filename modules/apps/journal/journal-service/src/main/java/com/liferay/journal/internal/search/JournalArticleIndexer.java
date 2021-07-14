@@ -543,6 +543,8 @@ public class JournalArticleIndexer extends BaseIndexer<JournalArticle> {
 			_log.debug("Document " + journalArticle + " indexed successfully");
 		}
 
+		//cascade reindex all child folders and child articles with new permissions as necessary
+
 		return document;
 	}
 
