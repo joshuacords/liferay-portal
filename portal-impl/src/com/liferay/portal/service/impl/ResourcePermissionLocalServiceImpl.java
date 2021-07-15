@@ -832,6 +832,8 @@ public class ResourcePermissionLocalServiceImpl
 		Set<Role> parentViewRoles = _getTreePathRoles(
 			baseChildModel, companyId, baseRoleSet, guestRole);
 
+		_getTreePathRoles2(baseChildModel, companyId, baseRoles, guestRole);
+
 		Set<Role> rolesSet = new HashSet<>();
 
 		rolesSet.addAll(parentAccessRoles);
