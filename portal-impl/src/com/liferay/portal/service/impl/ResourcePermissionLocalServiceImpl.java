@@ -2121,29 +2121,24 @@ public class ResourcePermissionLocalServiceImpl
 		return roles;
 	}
 
-	private Set<Role> _getTreePathRoles2(
-		BaseChildModel baseChildModel, long companyId, Set<Role> roles,
+	private List<Set<Role>> _getTreePathRoles2(
+		BaseChildModel baseChildModel, long companyId, List<Role> roles,
 		Role guestRole)
 		throws PortalException {
 
 		String[] parentFolderIds = StringUtil.split(
 			baseChildModel.getTreePath(), StringPool.SLASH);
 
-		List<Set<Role>> roleSetsWithAccessPreviously = new ArrayList<>();
-
-		List<Set<Role>> roleSetsWithAccess = new ArrayList<>();
-
-		boolean baseRolesAssigned = !roles.contains(guestRole);
-		
-		if (baseRolesAssigned) {
-			roleSetsWithAccess.add(roles);
-		}
+		List<Role> folderRoles;
 
 		List<Role> rolesToCombine = new ArrayList<>();
 
-		//what if guest role is in roles??
+		List<Set<Role>> roleSetsWithAccess = new ArrayList<>();
 
-		List<Role> folderRoles;
+		List<Set<Role>> roleSetsWithAccessPreviously = new ArrayList<>();
+
+		boolean startingRolesAssigned = _tryAssigningStartingRoles(
+			roles, roleSetsWithAccess, guestRole);
 
 		for (int i = parentFolderIds.length - 1; !roles.isEmpty() && (i > 0);
 			 i--) {
@@ -2158,22 +2153,20 @@ public class ResourcePermissionLocalServiceImpl
 
 			// if we haven't assigned base roles yet, this folder's roles become
 			// the base roles
-			if(!baseRolesAssigned) {
-				for (Role folderRole : folderRoles) {
-					Set<Role> baseRoles = new HashSet<>();
-					baseRoles.add(folderRole);
-					roleSetsWithAccess.add(baseRoles);
-				}
-				baseRolesAssigned = true;
+			if(!startingRolesAssigned) {
+				_assignStartingRoles(folderRoles, roleSetsWithAccess);
+				startingRolesAssigned = true;
 				continue;
 			}
 
+			// move RoleSetsWithAccess into RoleSetsWithAccessPreviously
 			roleSetsWithAccessPreviously.clear();
 
 			_moveRoleSetsWithAccessToRoleSetsWithAccessPreviously(
 				roleSetsWithAccess, roleSetsWithAccessPreviously);
 
 			roleSetsWithAccess.clear();
+
 
 			for (Role folderRole : folderRoles) {
 
@@ -2211,7 +2204,39 @@ public class ResourcePermissionLocalServiceImpl
 
 		}
 
-		return roles;
+		return roleSetsWithAccess;
+	}
+
+	private boolean _tryAssigningStartingRoles(
+		List<Role> roles, List<Set<Role>> roleSetsWithAccess, Role guestRole) {
+
+		if(roles.contains(guestRole)) {
+			return false;
+		}
+
+		_assignStartingRoles(roles, roleSetsWithAccess);
+
+		return true;
+	}
+
+	private void _assignStartingRoles(
+		List<Role> roles, List<Set<Role>> roleSetsWithAccess) {
+
+		for (Role role : roles) {
+			Set<Role> baseRoles = new HashSet<>();
+			baseRoles.add(role);
+			roleSetsWithAccess.add(baseRoles);
+		}
+	}
+
+	private void _folderRolesSetAsBaseRoles(
+		List<Role> folderRoles, List<Set<Role>> roleSetsWithAccess) {
+
+		for (Role folderRole : folderRoles) {
+			Set<Role> baseRoles = new HashSet<>();
+			baseRoles.add(folderRole);
+			roleSetsWithAccess.add(baseRoles);
+		}
 	}
 
 	private List<Set<Role>> _crossCombineRolesWithAccessPreviouslyWithRolesToCombine(
