@@ -2222,6 +2222,7 @@ public class ResourcePermissionLocalServiceImpl
 				roleSetsWithAccessPreviously, rolesToCombine)
 			).ifPresent(roleSetsWithAccess::addAll);
 
+			rolesToCombine.clear();
 		}
 
 		return roleSetsWithAccess;
