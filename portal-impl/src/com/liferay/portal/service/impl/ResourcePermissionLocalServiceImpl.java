@@ -2121,6 +2121,162 @@ public class ResourcePermissionLocalServiceImpl
 		return roles;
 	}
 
+	private Set<Role> _getTreePathRoles2(
+		BaseChildModel baseChildModel, long companyId, Set<Role> roles,
+		Role guestRole)
+		throws PortalException {
+
+		String[] parentFolderIds = StringUtil.split(
+			baseChildModel.getTreePath(), StringPool.SLASH);
+
+		boolean guest = false;
+
+		List<Role> folderRoles;
+
+		List<List<Role>> listOfRequiredRolesByFolder = new ArrayList<>();
+
+		for (int i = parentFolderIds.length - 1; !roles.isEmpty() && (i > 0);
+			 i--) {
+
+			folderRoles = getRoles(
+				companyId, baseChildModel.getParentClassName(),
+				ResourceConstants.SCOPE_INDIVIDUAL, parentFolderIds[i], "VIEW");
+
+			if (!folderRoles.contains(guestRole)) {
+				listOfRequiredRolesByFolder.add(folderRoles, guestRole);
+			}
+		}
+
+
+
+		return roles;
+	}
+
+	private void _flattenPermissions2(List<List<Role>> listOfRequiredRolesByFolder, Role guestRole) {
+
+		//create structure for tracking role combination booleans
+		//(Set<Role>, Boolean, Boolean)
+		List<RoleTracker> rolesTracker = null;
+
+		for (List<Role> roles : listOfRequiredRolesByFolder) {
+
+			_iterateThroughFolderRoles(rolesTracker, roles, guestRole);
+
+		}
+
+	}
+
+	private void _iterateThroughFolderRoles(
+			List<RoleTracker> rolesTracker, List<Role> roles, Role guestRole) {
+
+		if (roles.contains(guestRole)) {
+			return;
+		}
+
+		if (rolesTracker == null) {
+			rolesTracker = _rolesToRoleTrackers(roles);
+			return;
+		}
+
+		for(Role role : roles) {
+			if (_roleTrackerContains(rolesTracker, role)) {
+				continue;
+			}
+
+			//add any new role to role tracker as a role without access
+			rolesTracker.add(_roleToRoleTracker(role, false));
+
+			//need to try new combos with the role
+
+			//move out??
+			//any true roles/role combinations with no role present in the roles
+			//first needs to create new possible combinations and then needs to become
+
+		}
+
+		_resetRoleTrackerCheck(rolesTracker);
+
+	}
+
+	private List<RoleTracker> _rolesToRoleTrackers(List<Role> roles) {
+		List<RoleTracker> roleTrackers = new ArrayList<>();
+
+		for (Role role : roles) {
+			roleTrackers.add(_roleToRoleTracker(role));
+		}
+
+		return roleTrackers;
+	}
+
+	private RoleTracker _roleToRoleTracker(Role role) {
+		return _roleToRoleTracker(role, true);
+	}
+
+	private RoleTracker _roleToRoleTracker(Role role, boolean allowedAccess) {
+		Set<Role> roleSet = new HashSet<>();
+		roleSet.add(role);
+		return new RoleTracker(roleSet, allowedAccess);
+	}
+
+	private boolean _roleTrackerContains(List<RoleTracker> rolesTracker, Role role) {
+		// if role is already true in trackedRoles, nothing to do,
+		// adding the role won't help and we'll deal with excluded trackedRoles
+		// later, continue
+		for (RoleTracker roleTracker : rolesTracker) {
+			if (roleTracker.contains(role)) {
+				roleTracker.setAccessVerified(true);
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private void _resetRoleTrackerCheck(List<RoleTracker> rolesTracker) {
+		for(RoleTracker roleTracker : rolesTracker) {
+			roleTracker.setAccessVerified(false);
+		}
+	}
+
+	class RoleTracker{
+		private final Set<Role> _roles;
+		private boolean _accessVerified = false;
+		private boolean _allowedAccess;
+
+		RoleTracker(Set<Role> roles, boolean allowedAccess) {
+			_roles = roles;
+			_allowedAccess = allowedAccess;
+		}
+
+		boolean contains(Role role) {
+			//_checked = true;
+			return _roles.contains(role);
+		}
+
+		boolean accessVerified() {
+			return _accessVerified;
+		}
+
+		void setAccessVerified(boolean verified) {
+			_accessVerified = verified;
+		}
+
+		boolean allowedAccess() {
+			return _allowedAccess;
+		}
+
+		void setAllowedAccess(boolean allowedAccess) {
+			_allowedAccess = allowedAccess;
+		}
+
+		Set<Role> getRoles() {
+			Set<Role> copy = new HashSet<>();
+			copy.addAll(_roles);
+			return copy;
+		}
+	}
+
+
 	private void _initPortletDefaultPermissions(
 			long companyId, String name, Role guestRole, Role ownerRole,
 			Role siteMemberRole, List<String> guestActionIds,
