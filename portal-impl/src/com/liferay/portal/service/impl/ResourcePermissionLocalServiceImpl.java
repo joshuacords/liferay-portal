@@ -2190,13 +2190,14 @@ public class ResourcePermissionLocalServiceImpl
 //					}
 //				}
 
-				Iterator<Set<Role>> iterator = roleSetsWithAccessPreviously.iterator();
-				while(iterator.hasNext()) {
-					Set<Role> currentRoleSet = iterator.next();
+				Iterator<Set<Role>> accessPreviouslyIterator = roleSetsWithAccessPreviously.iterator();
+				while(accessPreviouslyIterator.hasNext()) {
+					Set<Role> currentRoleSet = accessPreviouslyIterator.next();
 					if(currentRoleSet.contains(folderRole)) {
-						_moveRoleSetFromRoleSetsWithAccessPreviouslyToRoleSetsWithAccess(
-							roleSetsWithAccessPreviously, roleSetsWithAccess,
-							currentRoleSet);
+
+						roleSetsWithAccess.add(currentRoleSet);
+
+						accessPreviouslyIterator.remove();
 
 						roleHasAccess = true;
 					}
@@ -2282,14 +2283,6 @@ public class ResourcePermissionLocalServiceImpl
 		}
 
 		return false;
-	}
-
-	private void _moveRoleSetFromRoleSetsWithAccessPreviouslyToRoleSetsWithAccess(
-		List<Set<Role>> roleSetsWithAccessPreviously,
-		List<Set<Role>> roleSetsWithAccess, Set<Role> movingRoleSet) {
-
-		roleSetsWithAccess.add(movingRoleSet);
-		roleSetsWithAccessPreviously.remove(movingRoleSet);
 	}
 
 	private void _moveRoleSetsWithAccessToRoleSetsWithAccessPreviously(
