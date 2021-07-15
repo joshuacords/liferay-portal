@@ -78,6 +78,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -2176,13 +2177,26 @@ public class ResourcePermissionLocalServiceImpl
 
 				// if role exists in roleSetsWithAccessPreviously, move all
 				// roleSetsWithAccessPreviously to roleSetsWithAccess
-				for (Set<Role> roleSetWithAccessPreviously :
-					roleSetsWithAccessPreviously) {
 
-					if(roleSetWithAccessPreviously.contains(folderRole)) {
+//				for (Set<Role> roleSetWithAccessPreviously :
+//					roleSetsWithAccessPreviously) {
+//
+//					if(roleSetWithAccessPreviously.contains(folderRole)) {
+//						_moveRoleSetFromRoleSetsWithAccessPreviouslyToRoleSetsWithAccess(
+//							roleSetsWithAccessPreviously, roleSetsWithAccess,
+//							roleSetWithAccessPreviously);
+//
+//						roleHasAccess = true;
+//					}
+//				}
+
+				Iterator<Set<Role>> iterator = roleSetsWithAccessPreviously.iterator();
+				while(iterator.hasNext()) {
+					Set<Role> currentRoleSet = iterator.next();
+					if(currentRoleSet.contains(folderRole)) {
 						_moveRoleSetFromRoleSetsWithAccessPreviouslyToRoleSetsWithAccess(
 							roleSetsWithAccessPreviously, roleSetsWithAccess,
-							roleSetWithAccessPreviously);
+							currentRoleSet);
 
 						roleHasAccess = true;
 					}
