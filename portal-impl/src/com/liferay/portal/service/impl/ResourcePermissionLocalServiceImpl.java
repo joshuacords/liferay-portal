@@ -82,6 +82,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -2216,8 +2217,10 @@ public class ResourcePermissionLocalServiceImpl
 
 			// Cross combine all RolesWithAccessPreviously With RolesToCombine
 			// and add to RolesWithAccess
-			roleSetsWithAccess.addAll(_crossCombineRolesWithAccessPreviouslyWithRolesToCombine(
-				roleSetsWithAccessPreviously, rolesToCombine));
+			Optional.ofNullable(
+				_crossCombineRolesWithAccessPreviouslyWithRolesToCombine(
+				roleSetsWithAccessPreviously, rolesToCombine)
+			).ifPresent(roleSetsWithAccess::addAll);
 
 		}
 
