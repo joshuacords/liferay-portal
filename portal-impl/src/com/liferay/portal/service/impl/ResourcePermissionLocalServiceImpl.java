@@ -2121,6 +2121,143 @@ public class ResourcePermissionLocalServiceImpl
 		return roles;
 	}
 
+	private Set<Role> _getTreePathRoles2(
+		BaseChildModel baseChildModel, long companyId, Set<Role> roles,
+		Role guestRole)
+		throws PortalException {
+
+		String[] parentFolderIds = StringUtil.split(
+			baseChildModel.getTreePath(), StringPool.SLASH);
+
+		List<Set<Role>> roleSetsWithAccessPreviously = new ArrayList<>();
+
+		List<Set<Role>> roleSetsWithAccess = new ArrayList<>();
+
+		boolean baseRolesAssigned = !roles.contains(guestRole);
+		
+		if (baseRolesAssigned) {
+			roleSetsWithAccess.add(roles);
+		}
+
+		List<Role> rolesToCombine = new ArrayList<>();
+
+		//what if guest role is in roles??
+
+		List<Role> folderRoles;
+
+		for (int i = parentFolderIds.length - 1; !roles.isEmpty() && (i > 0);
+			 i--) {
+
+			folderRoles = getRoles(
+				companyId, baseChildModel.getParentClassName(),
+				ResourceConstants.SCOPE_INDIVIDUAL, parentFolderIds[i], "VIEW");
+
+			if(folderRoles.contains(guestRole)) {
+				continue;
+			}
+
+			// if we haven't assigned base roles yet, this folder's roles become
+			// the base roles
+			if(!baseRolesAssigned) {
+				for (Role folderRole : folderRoles) {
+					Set<Role> baseRoles = new HashSet<>();
+					baseRoles.add(folderRole);
+					roleSetsWithAccess.add(baseRoles);
+				}
+				baseRolesAssigned = true;
+				continue;
+			}
+
+			roleSetsWithAccessPreviously.clear();
+
+			_moveRoleSetsWithAccessToRoleSetsWithAccessPreviously(
+				roleSetsWithAccess, roleSetsWithAccessPreviously);
+
+			roleSetsWithAccess.clear();
+
+			for (Role folderRole : folderRoles) {
+
+				boolean roleHasAccess = false;
+
+				// if role exists in roleSetsWithAccessPreviously, move all
+				// roleSetsWithAccessPreviously to roleSetsWithAccess
+				for (Set<Role> roleSetWithAccessPreviously :
+					roleSetsWithAccessPreviously) {
+
+					if(roleSetWithAccessPreviously.contains(folderRole)) {
+						_moveRoleSetFromRoleSetsWithAccessPreviouslyToRoleSetsWithAccess(
+							roleSetsWithAccessPreviously, roleSetsWithAccess,
+							roleSetWithAccessPreviously);
+
+						roleHasAccess = true;
+					}
+				}
+
+				//if roles is not yet found, check roleSetsWithAccess
+				if(!roleHasAccess) {
+					roleHasAccess = _roleExistsInRoleSetsWithAccess(
+						roleSetsWithAccess, folderRole);
+				}
+
+				if(!roleHasAccess) {
+					rolesToCombine.add(folderRole);
+				}
+			}
+
+			// Cross combine all RolesWithAccessPreviously With RolesToCombine
+			// and add to RolesWithAccess
+			roleSetsWithAccess.addAll(_crossCombineRolesWithAccessPreviouslyWithRolesToCombine(
+				roleSetsWithAccessPreviously, rolesToCombine));
+
+		}
+
+		return roles;
+	}
+
+	private List<Set<Role>> _crossCombineRolesWithAccessPreviouslyWithRolesToCombine(
+		List<Set<Role>> roleSetsWithAccessPreviously, List<Role> rolesToCombine) {
+
+		if(roleSetsWithAccessPreviously.isEmpty() || rolesToCombine.isEmpty()) {
+			return null;
+		}
+
+		for (Set<Role> roleSetWithAccessPreviously : roleSetsWithAccessPreviously) {
+			for (Role roleToCombine : rolesToCombine) {
+				roleSetWithAccessPreviously.add(roleToCombine);
+			}
+		}
+
+		return roleSetsWithAccessPreviously;
+	}
+
+	private boolean _roleExistsInRoleSetsWithAccess(
+		List<Set<Role>> roleSetsWithAccess, Role role) {
+
+		for (Set<Role> roleSetWithAccess : roleSetsWithAccess) {
+
+			if(roleSetWithAccess.contains(role)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private void _moveRoleSetFromRoleSetsWithAccessPreviouslyToRoleSetsWithAccess(
+		List<Set<Role>> roleSetsWithAccessPreviously,
+		List<Set<Role>> roleSetsWithAccess, Set<Role> movingRoleSet) {
+
+		roleSetsWithAccess.add(movingRoleSet);
+		roleSetsWithAccessPreviously.remove(movingRoleSet);
+	}
+
+	private void _moveRoleSetsWithAccessToRoleSetsWithAccessPreviously(
+		List<Set<Role>> rolesWithAccess,
+		List<Set<Role>> rolesWithAccessPreviously) {
+
+		rolesWithAccessPreviously.addAll(rolesWithAccess);
+	}
+
 	private void _initPortletDefaultPermissions(
 			long companyId, String name, Role guestRole, Role ownerRole,
 			Role siteMemberRole, List<String> guestActionIds,
