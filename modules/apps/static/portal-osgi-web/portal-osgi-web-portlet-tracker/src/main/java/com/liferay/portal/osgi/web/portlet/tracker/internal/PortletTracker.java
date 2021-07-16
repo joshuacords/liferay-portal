@@ -1243,8 +1243,15 @@ public class PortletTracker
 			categoryNames.add("category.undefined");
 		}
 
-		_portletLocalService.deployRemotePortlet(
-			portletModel, ArrayUtil.toStringArray(categoryNames), false);
+		List<Company> companies = _companyLocalService.getCompanies(false);
+
+		_portletLocalService.clearCache();
+
+		for (Company company : companies) {
+			_portletLocalService.deployRemotePortlet(
+				portletModel, ArrayUtil.toStringArray(categoryNames), false,
+				false, new long[] {company.getCompanyId()});
+		}
 	}
 
 	protected Object get(
