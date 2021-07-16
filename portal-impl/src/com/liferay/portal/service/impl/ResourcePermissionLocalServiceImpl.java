@@ -786,7 +786,7 @@ public class ResourcePermissionLocalServiceImpl
 	}
 
 	@Override
-	public List<Set<Role>> getDynamicInheritanceRoles(
+	public Set<Set<Role>> getDynamicInheritanceRoles(
 			long companyId, String name, int scope, String resourcePrimKey,
 			String actionId)
 		throws PortalException {
@@ -844,8 +844,8 @@ public class ResourcePermissionLocalServiceImpl
 //		return new ArrayList<>(rolesSet);
 //	}
 
-	private List<Set<Role>> _listToSetList(List<Role> roles) {
-		List<Set<Role>> roleSets = new ArrayList<>();
+	private Set<Set<Role>> _listToSetSet(List<Role> roles) {
+		Set<Set<Role>> roleSets = new HashSet<>();
 
 		for(Role role :roles) {
 			Set<Role> roleSet = new HashSet<>();
@@ -857,7 +857,7 @@ public class ResourcePermissionLocalServiceImpl
 	}
 
 	@Override
-	public List<Set<Role>> getDynamicInheritanceRoles(
+	public Set<Set<Role>> getDynamicInheritanceRoles(
 		long companyId, String name, int scope, String resourcePrimKey,
 		String primKey, String actionId)
 		throws PortalException {
@@ -872,13 +872,13 @@ public class ResourcePermissionLocalServiceImpl
 		BaseChildModel baseChildModel = _getChildModel(name, classPK);
 
 		if (baseChildModel == null) {
-			return _listToSetList(baseRoles);
+			return _listToSetSet(baseRoles);
 		}
 
 		String parentClassPK = baseChildModel.getParentClassPK();
 
 		if (Validator.isNull(parentClassPK) || parentClassPK.equals("0")) {
-			return _listToSetList(baseRoles);
+			return _listToSetSet(baseRoles);
 		}
 
 		List<Role> parentAccessRoles = getRoles(
@@ -895,14 +895,13 @@ public class ResourcePermissionLocalServiceImpl
 		List<Set<Role>> parentViewRoles = _getTreePathRoles(
 			baseChildModel, companyId, baseRoles, guestRole);
 
-		Set<Role> rolesSet = new HashSet<>();
+		//Set<Role> rolesSet = new HashSet<>();
+		Set<Set<Role>> rolesSet = new HashSet<>();
 
-		rolesSet.addAll(parentAccessRoles);
+		rolesSet.addAll(_listToSetSet(parentAccessRoles));
 		rolesSet.addAll(parentViewRoles);
 
-		List<Set<Role>>  new ArrayList<Set<Role>>(rolesSet)
-
-		return new ArrayList<Set<Role>>(rolesSet);
+		return rolesSet;
 	}
 
 	@Override
