@@ -786,7 +786,7 @@ public class ResourcePermissionLocalServiceImpl
 	}
 
 	@Override
-	public List<Role> getDynamicInheritanceRoles(
+	public List<Set<Role>> getDynamicInheritanceRoles(
 			long companyId, String name, int scope, String resourcePrimKey,
 			String actionId)
 		throws PortalException {
@@ -795,10 +795,71 @@ public class ResourcePermissionLocalServiceImpl
 			companyId, name, scope, resourcePrimKey, resourcePrimKey, actionId);
 	}
 
+//	@Override
+//	public List<Role> getDynamicInheritanceRoles(
+//			long companyId, String name, int scope, String resourcePrimKey,
+//			String primKey, String actionId)
+//		throws PortalException {
+//
+//		List<Role> baseRoles = getRoles(
+//			companyId, name, scope, resourcePrimKey, actionId);
+//
+//		Set<Role> baseRoleSet = new HashSet<>(baseRoles);
+//
+//		Long classPK = GetterUtil.getLong(primKey);
+//
+//		BaseChildModel baseChildModel = _getChildModel(name, classPK);
+//
+//		if (baseChildModel == null) {
+//			return baseRoles;
+//		}
+//
+//		String parentClassPK = baseChildModel.getParentClassPK();
+//
+//		if (Validator.isNull(parentClassPK) || parentClassPK.equals("0")) {
+//			return baseRoles;
+//		}
+//
+//		List<Role> parentAccessRoles = getRoles(
+//			companyId, baseChildModel.getParentClassName(),
+//			ResourceConstants.SCOPE_INDIVIDUAL, parentClassPK, "ACCESS");
+//
+//		Role guestRole = roleLocalService.getRole(
+//			companyId, RoleConstants.GUEST);
+//
+//		if (!baseRoleSet.contains(guestRole)) {
+//			parentAccessRoles.retainAll(baseRoles);
+//		}
+//
+//		Set<Role> parentViewRoles = _getTreePathRoles(
+//			baseChildModel, companyId, baseRoleSet, guestRole);
+//
+//		_getTreePathRoles2(baseChildModel, companyId, baseRoles, guestRole);
+//
+//		Set<Role> rolesSet = new HashSet<>();
+//
+//		rolesSet.addAll(parentAccessRoles);
+//		rolesSet.addAll(parentViewRoles);
+//
+//		return new ArrayList<>(rolesSet);
+//	}
+
+	private List<Set<Role>> _listToSetList(List<Role> roles) {
+		List<Set<Role>> roleSets = new ArrayList<>();
+
+		for(Role role :roles) {
+			Set<Role> roleSet = new HashSet<>();
+			roleSet.add(role);
+			roleSets.add(roleSet);
+		}
+
+		return roleSets;
+	}
+
 	@Override
-	public List<Role> getDynamicInheritanceRoles(
-			long companyId, String name, int scope, String resourcePrimKey,
-			String primKey, String actionId)
+	public List<Set<Role>> getDynamicInheritanceRoles(
+		long companyId, String name, int scope, String resourcePrimKey,
+		String primKey, String actionId)
 		throws PortalException {
 
 		List<Role> baseRoles = getRoles(
@@ -811,13 +872,13 @@ public class ResourcePermissionLocalServiceImpl
 		BaseChildModel baseChildModel = _getChildModel(name, classPK);
 
 		if (baseChildModel == null) {
-			return baseRoles;
+			return _listToSetList(baseRoles);
 		}
 
 		String parentClassPK = baseChildModel.getParentClassPK();
 
 		if (Validator.isNull(parentClassPK) || parentClassPK.equals("0")) {
-			return baseRoles;
+			return _listToSetList(baseRoles);
 		}
 
 		List<Role> parentAccessRoles = getRoles(
@@ -827,21 +888,21 @@ public class ResourcePermissionLocalServiceImpl
 		Role guestRole = roleLocalService.getRole(
 			companyId, RoleConstants.GUEST);
 
-		if (!baseRoleSet.contains(guestRole)) {
+		if (!baseRoles.contains(guestRole)) {
 			parentAccessRoles.retainAll(baseRoles);
 		}
 
-		Set<Role> parentViewRoles = _getTreePathRoles(
-			baseChildModel, companyId, baseRoleSet, guestRole);
-
-		_getTreePathRoles2(baseChildModel, companyId, baseRoles, guestRole);
+		List<Set<Role>> parentViewRoles = _getTreePathRoles(
+			baseChildModel, companyId, baseRoles, guestRole);
 
 		Set<Role> rolesSet = new HashSet<>();
 
 		rolesSet.addAll(parentAccessRoles);
 		rolesSet.addAll(parentViewRoles);
 
-		return new ArrayList<>(rolesSet);
+		List<Set<Role>>  new ArrayList<Set<Role>>(rolesSet)
+
+		return new ArrayList<Set<Role>>(rolesSet);
 	}
 
 	@Override
@@ -2086,46 +2147,46 @@ public class ResourcePermissionLocalServiceImpl
 		return resourcePermissionsMap;
 	}
 
-	private Set<Role> _getTreePathRoles(
-			BaseChildModel baseChildModel, long companyId, Set<Role> roles,
-			Role guestRole)
-		throws PortalException {
+//	private Set<Role> _getTreePathRoles(
+//			BaseChildModel baseChildModel, long companyId, Set<Role> roles,
+//			Role guestRole)
+//		throws PortalException {
+//
+//		String[] parentFolderIds = StringUtil.split(
+//			baseChildModel.getTreePath(), StringPool.SLASH);
+//
+//		boolean guest = false;
+//
+//		if (roles.contains(guestRole)) {
+//			guest = true;
+//		}
+//
+//		List<Role> folderRoles;
+//
+//		for (int i = parentFolderIds.length - 1; !roles.isEmpty() && (i > 0);
+//			 i--) {
+//
+//			folderRoles = getRoles(
+//				companyId, baseChildModel.getParentClassName(),
+//				ResourceConstants.SCOPE_INDIVIDUAL, parentFolderIds[i], "VIEW");
+//
+//			if (guest) {
+//				roles.addAll(folderRoles);
+//
+//				if (!folderRoles.contains(guestRole)) {
+//					guest = false;
+//				}
+//			}
+//
+//			if (!folderRoles.contains(guestRole)) {
+//				roles.retainAll(folderRoles);
+//			}
+//		}
+//
+//		return roles;
+//	}
 
-		String[] parentFolderIds = StringUtil.split(
-			baseChildModel.getTreePath(), StringPool.SLASH);
-
-		boolean guest = false;
-
-		if (roles.contains(guestRole)) {
-			guest = true;
-		}
-
-		List<Role> folderRoles;
-
-		for (int i = parentFolderIds.length - 1; !roles.isEmpty() && (i > 0);
-			 i--) {
-
-			folderRoles = getRoles(
-				companyId, baseChildModel.getParentClassName(),
-				ResourceConstants.SCOPE_INDIVIDUAL, parentFolderIds[i], "VIEW");
-
-			if (guest) {
-				roles.addAll(folderRoles);
-
-				if (!folderRoles.contains(guestRole)) {
-					guest = false;
-				}
-			}
-
-			if (!folderRoles.contains(guestRole)) {
-				roles.retainAll(folderRoles);
-			}
-		}
-
-		return roles;
-	}
-
-	private List<Set<Role>> _getTreePathRoles2(
+	private List<Set<Role>> _getTreePathRoles(
 		BaseChildModel baseChildModel, long companyId, List<Role> roles,
 		Role guestRole)
 		throws PortalException {
