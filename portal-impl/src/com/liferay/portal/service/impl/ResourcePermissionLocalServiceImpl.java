@@ -892,6 +892,7 @@ public class ResourcePermissionLocalServiceImpl
 			parentAccessRoles.retainAll(baseRoles);
 		}
 
+		// we might be able to pass in access roles for faster processing
 		List<Set<Role>> parentViewRoles = _getTreePathRoles(
 			baseChildModel, companyId, baseRoles, guestRole);
 
@@ -901,6 +902,7 @@ public class ResourcePermissionLocalServiceImpl
 		rolesSet.addAll(_listToSetSet(parentAccessRoles));
 		rolesSet.addAll(parentViewRoles);
 
+		//need to use combine logic to simplify roles between Access and View
 		return rolesSet;
 	}
 
@@ -2238,18 +2240,6 @@ public class ResourcePermissionLocalServiceImpl
 
 				// if role exists in roleSetsWithAccessPreviously, move all
 				// roleSetsWithAccessPreviously to roleSetsWithAccess
-
-//				for (Set<Role> roleSetWithAccessPreviously :
-//					roleSetsWithAccessPreviously) {
-//
-//					if(roleSetWithAccessPreviously.contains(folderRole)) {
-//						_moveRoleSetFromRoleSetsWithAccessPreviouslyToRoleSetsWithAccess(
-//							roleSetsWithAccessPreviously, roleSetsWithAccess,
-//							roleSetWithAccessPreviously);
-//
-//						roleHasAccess = true;
-//					}
-//				}
 
 				Iterator<Set<Role>> accessPreviouslyIterator = roleSetsWithAccessPreviously.iterator();
 				while(accessPreviouslyIterator.hasNext()) {
