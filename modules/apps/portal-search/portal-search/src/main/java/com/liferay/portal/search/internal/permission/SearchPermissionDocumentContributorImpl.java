@@ -138,11 +138,11 @@ public class SearchPermissionDocumentContributorImpl
 		String permissionName = _getPermissionName(document, className);
 
 		try {
-			List<Role> roles =
-				_resourcePermissionLocalService.getDynamicInheritanceRoles(
-					companyId, permissionName,
-					ResourceConstants.SCOPE_INDIVIDUAL, String.valueOf(classPK),
-					viewActionId);
+			List<Role> roles = new ArrayList<>();
+//				_resourcePermissionLocalService.getDynamicInheritanceRoles(
+//					companyId, permissionName,
+//					ResourceConstants.SCOPE_INDIVIDUAL, String.valueOf(classPK),
+//					viewActionId);
 
 			if (roles.isEmpty()) {
 				return;
@@ -167,11 +167,11 @@ public class SearchPermissionDocumentContributorImpl
 			document.addKeyword(
 				Field.GROUP_ROLE_ID, groupRoleIds.toArray(new String[0]));
 		}
-		catch (NoSuchResourceException noSuchResourceException) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(noSuchResourceException, noSuchResourceException);
-			}
-		}
+//		catch (NoSuchResourceException noSuchResourceException) {
+//			if (_log.isDebugEnabled()) {
+//				_log.debug(noSuchResourceException, noSuchResourceException);
+//			}
+//		}
 		catch (Exception exception) {
 			if (_log.isWarnEnabled()) {
 				_log.warn(

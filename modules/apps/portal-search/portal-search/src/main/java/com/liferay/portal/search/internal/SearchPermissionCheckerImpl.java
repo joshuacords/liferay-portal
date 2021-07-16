@@ -291,7 +291,12 @@ public class SearchPermissionCheckerImpl implements SearchPermissionChecker {
 			classPKString = document.get("primaryKey");
 		}
 
-		List<Role> roles =
+		List<Role> roles = new ArrayList<>();
+//			resourcePermissionLocalService.getDynamicInheritanceRoles(
+//				companyId, className, ResourceConstants.SCOPE_INDIVIDUAL,
+//				String.valueOf(classPK), classPKString, viewActionId);
+
+		Set<Set<Role>> rolesSet =
 			resourcePermissionLocalService.getDynamicInheritanceRoles(
 				companyId, className, ResourceConstants.SCOPE_INDIVIDUAL,
 				String.valueOf(classPK), classPKString, viewActionId);
