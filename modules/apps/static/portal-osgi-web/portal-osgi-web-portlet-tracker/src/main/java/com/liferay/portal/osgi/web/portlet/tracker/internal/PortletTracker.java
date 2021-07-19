@@ -1230,8 +1230,9 @@ public class PortletTracker
 
 	@Deactivate
 	protected void deactivate() {
-		_executorService.shutdownNow();
 		_serviceTracker.close();
+
+		_executorService.shutdownNow();
 
 		if (_log.isInfoEnabled()) {
 			_log.info("Deactivated");
