@@ -1263,9 +1263,9 @@ public class PortletTracker
 				_executorService.submit(
 					() -> {
 						_portletLocalService.deployRemotePortlet(
-							portletModel,
+							new long[] {company.getCompanyId()}, portletModel,
 							ArrayUtil.toStringArray(categoryNames), false,
-							false, new long[] {company.getCompanyId()});
+							false);
 
 						return null;
 					}));
