@@ -40,6 +40,7 @@ public class ResourcePermissionImplTest {
 
 		RegistryUtil.setRegistry(new BasicRegistryImpl());
 
+		_resourcePermissionPersistence = Mockito.mock(ResourcePermissionPersistence.class);
 		_resourcePermissionLocalService = new ResourcePermissionLocalServiceImpl();
 		_journalArticleFolderProxyFactory = new JournalArticleFolderProxyFactory(_companyId);
 
