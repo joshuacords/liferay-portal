@@ -81,6 +81,20 @@ public class ResourcePermissionImplTest {
 		).when(
 			_persistedModelLocalServiceRegistry
 		).getPersistedModelLocalService(_journalFolderClassName);
+
+
+		//need to implement mock roles instead of just role names
+
+		try {
+			Mockito.doReturn(
+				_guestRole
+			).when(
+				_roleLocalService
+			).getRole(
+				_companyId, RoleConstants.GUEST);
+		} catch (Exception exception) {
+			System.out.println("Failed to mock fetching Guest role");
+		}
 	}
 
 	private void _initializeBasicVariables() {
@@ -291,6 +305,35 @@ public class ResourcePermissionImplTest {
 			_companyId, className, _scope, primKey, classRoles);
 
 		return classRoles;
+	}
+
+	class RoleProxy{
+		RoleProxy(String roleName) {
+			_role = Mockito.mock(Role.class);
+			_roleId = StringUtil.toString(RandomTestUtil.randomLong());
+			_roleName = roleName;
+			_mockRole();
+		}
+
+		private void _mockRole() {
+			try {
+				Mockito.doReturn(
+					_role
+				).when(
+					_roleLocalService
+				).getRole(_companyId, _roleId);
+			} catch (Exception exception) {
+				System.out.println("Failed to mock role " + _roleName);
+			}
+		}
+
+		public Role getRole() {
+			return _role;
+		}
+
+		private String _roleId;
+		private String _roleName;
+		private Role _role;
 	}
 
 	private Role _mockRole(String roleString) throws Exception {
