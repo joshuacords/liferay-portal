@@ -333,11 +333,17 @@ public class ResourcePermissionImplTest {
 	private void _addRolesToRoleLocalService(List<Role> roles) throws Exception {
 		for(Role role : roles) {
 
-			Mockito.doReturn(
+//			Mockito.doReturn(
+//				role
+//			).when(
+//				_roleLocalService
+//			).getRole(role.getRoleId());
+
+			Mockito.when(
+				_roleLocalService.getRole(role.getRoleId())
+			).thenReturn(
 				role
-			).when(
-				_roleLocalService
-			).getRole(role.getRoleId());
+			);
 		}
 	}
 
