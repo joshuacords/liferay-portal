@@ -9,6 +9,7 @@ import com.liferay.portal.kernel.service.ResourceActionLocalService;
 import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.service.persistence.ResourcePermissionPersistence;
+import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.service.impl.ResourcePermissionLocalServiceImpl;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
@@ -44,6 +45,20 @@ public class ResourcePermissionImplTest {
 		_journalArticleFolderProxyFactory = new JournalArticleFolderProxyFactory(_companyId);
 
 		MockitoAnnotations.initMocks(this);
+
+		_initializeReflections();
+	}
+
+	private void _initializeReflections() {
+		ReflectionTestUtil.setFieldValue(
+			_resourcePermissionLocalService, "resourcePermissionPersistence",
+			_resourcePermissionPersistence);
+		ReflectionTestUtil.setFieldValue(
+			_resourcePermissionLocalService, "resourceActionLocalService",
+			_resourceActionLocalService);
+		ReflectionTestUtil.setFieldValue(
+			_resourcePermissionLocalService, "roleLocalService",
+			_roleLocalService);
 	}
 
 	private void _initializeBasicVariables() {
@@ -77,9 +92,9 @@ public class ResourcePermissionImplTest {
 				innerJournalFolderProxy, RoleConstants.GUEST, RoleConstants.OWNER);
 
 		Set<Set<Role>> roleSets =  _resourcePermissionLocalService.getDynamicInheritanceRoles(
-		_companyId, _journalArticleClassName, _scope, _resourcePrimKey,
-			_primKey, _actionId);
-
+		_companyId, _journalArticleClassName, _scope,
+			journalArticleProxy.getResourcePrimKey(),
+			journalArticleProxy.getPrimKey(), _actionId);
 
 	}
 
@@ -126,7 +141,7 @@ public class ResourcePermissionImplTest {
 		private void _mockRoles() {
 			try {
 				_roles = _mockRolesForClass(
-					_journalArticleClassName, _primKey, _roleNames);
+					_journalArticleClassName, _resourcePrimKey, _roleNames);
 			} catch (Exception exception) {
 				_roles = null;
 			}
