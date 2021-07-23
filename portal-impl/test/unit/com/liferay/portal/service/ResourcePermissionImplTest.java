@@ -75,13 +75,9 @@ public class ResourcePermissionImplTest {
 	@Test
 	public void getDynamicInheritanceRolesOnlyGuest() throws Exception {
 
-		//_mockRolesForClass(_journalArticleClassName, RoleConstants.GUEST, RoleConstants.OWNER);
-
 		JournalFolderProxy journalFolderProxy =
 			_journalArticleFolderProxyFactory.createJournalFolderProxy(
 				RoleConstants.GUEST, RoleConstants.OWNER);
-
-//		System.out.println("journalFolderProxy.treePath " + journalFolderProxy.getTreePath());
 
 		JournalFolderProxy innerJournalFolderProxy =
 			_journalArticleFolderProxyFactory.createJournalFolderProxy(
@@ -137,7 +133,7 @@ public class ResourcePermissionImplTest {
 			_mockRoles();
 		}
 
-		//journalArticle uses different primKey
+		//journalArticle uses different primKey? needed to switch back to resource
 		private void _mockRoles() {
 			try {
 				_roles = _mockRolesForClass(
@@ -190,7 +186,6 @@ public class ResourcePermissionImplTest {
 			//_primKey = StringUtil.toString(RandomTestUtil.randomLong());
 			_roleNames = roleNames;
 			_createTreePath(journalFolderProxy);
-//			System.out.println("constructor treePath " + _treePath);
 			_mockRoles();
 		}
 
@@ -207,32 +202,23 @@ public class ResourcePermissionImplTest {
 
 		private void _createTreePath(JournalFolderProxy journalFolderProxy) {
 			_treePath = journalFolderProxy != null ? journalFolderProxy.getTreePath() : "0/";
-//			System.out.println("treePath " + _treePath);
-//			System.out.println("ResourcePrimKey " + _resourcePrimKey);
 			_treePath = _treePath.concat(_resourcePrimKey);
-//			System.out.println("new treePath " + _treePath);
 		}
 
 		public String getResourcePrimKey() {
 			return _resourcePrimKey;
 		}
 
-//		public String getPrimKey() {
-//			return _primKey;
-//		}
-
 		public String[] getRoleNames() {
 			return _roleNames;
 		}
 
 		public String getTreePath() {
-//			System.out.println("getTreePath " + _treePath);
 			return _treePath;
 		}
 
 		private List<Role> _roles;
 		private String _resourcePrimKey;
-		//private String _primKey;
 		private String _treePath;
 		private String[] _roleNames;
 	}
@@ -281,13 +267,6 @@ public class ResourcePermissionImplTest {
 
 		_addRolesToRoleLocalService(roles);
 
-//		Mockito.when(
-//			_resourcePermissionPersistence.findByC_N_S_P(
-//				companyId, className, scope, resourcePrimKey)
-//		).thenReturn(
-//			resourcePermissions
-//		);
-
 		Mockito.doReturn(
 			resourcePermissions
 		).when(
@@ -298,11 +277,6 @@ public class ResourcePermissionImplTest {
 
 	private void _addRolesToRoleLocalService(List<Role> roles) throws Exception {
 		for(Role role : roles) {
-//			Mockito.when(
-//				_roleLocalService.getRole(role.getRoleId())
-//			).thenReturn(
-//				role
-//			);
 
 			Mockito.doReturn(
 				role
@@ -321,23 +295,11 @@ public class ResourcePermissionImplTest {
 			ResourcePermission resourcePermission =
 				Mockito.mock(ResourcePermission.class);
 
-//			Mockito.when(
-//				resourcePermission.hasAction(resourceAction)
-//			).thenReturn(
-//				true
-//			);
-
 			Mockito.doReturn(
 				true
 			).when(
 				resourcePermission
 			).hasAction(resourceAction);
-
-//			Mockito.when(
-//				resourcePermission.getRoleId()
-//			).thenReturn(
-//				role.getRoleId()
-//			);
 
 			Mockito.doReturn(
 				role.getRoleId()
@@ -371,5 +333,4 @@ public class ResourcePermissionImplTest {
 	private String _primKey;
 	private String _actionId;
 	private ResourcePermissionLocalService _resourcePermissionLocalService;
-	//=		new ResourcePermissionLocalServiceImpl();
 }
