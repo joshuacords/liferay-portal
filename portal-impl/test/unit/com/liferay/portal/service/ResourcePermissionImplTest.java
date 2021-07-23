@@ -29,7 +29,9 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class ResourcePermissionImplTest {
@@ -305,6 +307,30 @@ public class ResourcePermissionImplTest {
 			_companyId, className, _scope, primKey, classRoles);
 
 		return classRoles;
+	}
+
+	class RoleProxyFactory {
+		Map<String, RoleProxy> _roleProxies = new HashMap<>();
+
+		public Role getRole(String roleName) {
+			if (_roleProxies.containsKey(roleName)) {
+				return _roleProxies.get(roleName).getRole();
+			}
+
+			RoleProxy roleProxy = new RoleProxy(roleName);
+			_roleProxies.put(roleName, roleProxy);
+			return roleProxy.getRole();
+		}
+
+		public RoleProxy getRoleProxy(String roleName) {
+			if (_roleProxies.containsKey(roleName)) {
+				return _roleProxies.get(roleName);
+			}
+
+			RoleProxy roleProxy = new RoleProxy(roleName);
+			_roleProxies.put(roleName, roleProxy);
+			return roleProxy;
+		}
 	}
 
 	class RoleProxy{
