@@ -2123,7 +2123,7 @@ public class ResourcePermissionLocalServiceImpl
 		String className) {
 
 		PersistedModelLocalService persistedModelLocalService =
-			PersistedModelLocalServiceRegistryUtil.
+			persistedModelLocalServiceRegistry.
 				getPersistedModelLocalService(className);
 
 		if (persistedModelLocalService == null) {
