@@ -1,10 +1,14 @@
 package com.liferay.portal.service;
 
+import com.liferay.portal.kernel.model.BaseChildModel;
+import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.model.ResourceAction;
 import com.liferay.portal.kernel.model.ResourcePermission;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.role.RoleConstants;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.PersistedModelLocalServiceRegistry;
 import com.liferay.portal.kernel.service.ResourceActionLocalService;
 import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.service.RoleLocalService;
@@ -47,6 +51,7 @@ public class ResourcePermissionImplTest {
 		MockitoAnnotations.initMocks(this);
 
 		_initializeReflections();
+		_mockPersistedModelLocalServices();
 	}
 
 	private void _initializeReflections() {
@@ -59,6 +64,23 @@ public class ResourcePermissionImplTest {
 		ReflectionTestUtil.setFieldValue(
 			_resourcePermissionLocalService, "roleLocalService",
 			_roleLocalService);
+		ReflectionTestUtil.setFieldValue(
+			_resourcePermissionLocalService, "persistedModelLocalServiceRegistry",
+			_persistedModelLocalServiceRegistry);
+	}
+
+	private void _mockPersistedModelLocalServices() {
+		Mockito.doReturn(
+			_journalArticlePersistedModelLocalService
+		).when(
+			_persistedModelLocalServiceRegistry
+		).getPersistedModelLocalService(_journalArticleClassName);
+
+		Mockito.doReturn(
+			_journalFolderPersistedModelLocalService
+		).when(
+			_persistedModelLocalServiceRegistry
+		).getPersistedModelLocalService(_journalFolderClassName);
 	}
 
 	private void _initializeBasicVariables() {
@@ -129,8 +151,37 @@ public class ResourcePermissionImplTest {
 			_resourcePrimKey = StringUtil.toString(RandomTestUtil.randomLong());
 			_primKey = StringUtil.toString(RandomTestUtil.randomLong());
 			_roleNames = roleNames;
+			_parentClassPK = journalFolderProxy.getResourcePrimKey();
 			_createTreePath(journalFolderProxy);
 			_mockRoles();
+			_mockPersistedModel();
+		}
+
+		private void _mockPersistedModel() {
+
+			_journalArticlePersistedBaseChildModel = Mockito.mock(PersistenceBaseChild.class);
+
+			Mockito.doReturn(
+				_parentClassPK
+			).when(
+				_journalArticlePersistedBaseChildModel
+			).getParentClassPK();
+
+			Mockito.doReturn(
+				_journalFolderClassName
+			).when(
+				_journalArticlePersistedBaseChildModel
+			).getParentClassName();
+
+			try {
+				Mockito.doReturn(
+					_journalArticlePersistedBaseChildModel
+				).when(
+					_journalArticlePersistedModelLocalService
+				).getPersistedModel(Long.valueOf(_primKey));
+			} catch (Exception exception) {
+				System.out.println("_mockPersistedModel failed");
+			}
 		}
 
 		//journalArticle uses different primKey? needed to switch back to resource
@@ -162,12 +213,16 @@ public class ResourcePermissionImplTest {
 			return _treePath;
 		}
 
+		private String _parentClassPK;
 		private List<Role> _roles;
 		private String _resourcePrimKey;
 		private String _primKey;
 		private String _treePath;
 		private String[] _roleNames;
+		private PersistenceBaseChild _journalArticlePersistedBaseChildModel;
 	}
+
+	public abstract class PersistenceBaseChild implements BaseChildModel, PersistedModel {}
 
 	class JournalFolderProxy {
 		JournalFolderProxy(String[] roleNames) {
@@ -176,7 +231,6 @@ public class ResourcePermissionImplTest {
 			//_primKey = StringUtil.toString(RandomTestUtil.randomLong());
 			_roleNames = roleNames;
 			_treePath = "0/";
-			System.out.println("constructor treePath " + _treePath);
 			_mockRoles();
 		}
 
@@ -319,10 +373,20 @@ public class ResourcePermissionImplTest {
 	private ResourceActionLocalService _resourceActionLocalService;
 
 	@Mock
-	protected ResourcePermissionPersistence _resourcePermissionPersistence;
+	private ResourcePermissionPersistence _resourcePermissionPersistence;
 
 	@Mock
 	private RoleLocalService _roleLocalService;
+
+	@Mock
+	private PersistedModelLocalServiceRegistry
+		_persistedModelLocalServiceRegistry;
+
+	@Mock
+	private PersistedModelLocalService _journalArticlePersistedModelLocalService;
+
+	@Mock
+	private PersistedModelLocalService _journalFolderPersistedModelLocalService;
 
 	private JournalArticleFolderProxyFactory _journalArticleFolderProxyFactory;
 	private long _companyId;
