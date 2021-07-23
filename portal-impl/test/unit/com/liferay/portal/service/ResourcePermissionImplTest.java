@@ -191,6 +191,7 @@ public class ResourcePermissionImplTest {
 					_journalArticleClassName, _resourcePrimKey, _roleNames);
 			} catch (Exception exception) {
 				_roles = null;
+				System.out.println("Failed to mock JournalArticle roles");
 			}
 		}
 
@@ -249,7 +250,7 @@ public class ResourcePermissionImplTest {
 				_roles = _mockRolesForClass(
 					_journalFolderClassName, _resourcePrimKey, _roleNames);
 			} catch (Exception exception) {
-				System.out.println("Failed to mock roles");
+				System.out.println("Failed to mock JournalFolder roles");
 				_roles = null;
 			}
 		}
