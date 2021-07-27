@@ -110,6 +110,10 @@ String tempImageFileName = ParamUtil.getString(request, "tempImageFileName");
 									<aui:validator name="acceptFiles">
 										'<%= StringUtil.merge(dlConfiguration.fileExtensions()) %>'
 									</aui:validator>
+
+									<aui:validator name="maxFileSize">
+										'<%= String.valueOf(maxFileSize) %>'
+									</aui:validator>
 								</aui:input>
 							</div>
 						</aui:fieldset>
