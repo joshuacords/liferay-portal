@@ -191,7 +191,7 @@ public class OpenIdConnectServiceHandlerImpl
 		openIdConnectSessionImpl.setOpenIdConnectFlowState(
 			OpenIdConnectFlowState.AUTH_COMPLETE);
 
-		_openIdConnectSessionProviderImpl.setOpenIdConnectSession(
+		OpenIdConnectSessionProviderImpl.setOpenIdConnectSession(
 			httpSession, openIdConnectSessionImpl);
 	}
 
@@ -231,7 +231,7 @@ public class OpenIdConnectServiceHandlerImpl
 			openIdConnectSessionImpl.setOpenIdConnectFlowState(
 				OpenIdConnectFlowState.AUTH_REQUESTED);
 
-			_openIdConnectSessionProviderImpl.setOpenIdConnectSession(
+			OpenIdConnectSessionProviderImpl.setOpenIdConnectSession(
 				httpSession, openIdConnectSessionImpl);
 		}
 		catch (IOException ioException) {
