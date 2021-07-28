@@ -191,6 +191,8 @@ public class ResourcePermissionImplTest {
 				_journalArticlePersistedBaseChildModel
 			).getParentClassName();
 
+			_mockTreePath();
+
 			try {
 				Mockito.doReturn(
 					_journalArticlePersistedBaseChildModel
@@ -200,6 +202,14 @@ public class ResourcePermissionImplTest {
 			} catch (Exception exception) {
 				System.out.println("_mockPersistedModel failed");
 			}
+		}
+
+		private void _mockTreePath() {
+			Mockito.doReturn(
+				_treePath
+			).when(
+				_journalArticlePersistedBaseChildModel
+			).getTreePath();
 		}
 
 		private void _mockRoles(String[] roleNames) {
@@ -234,6 +244,7 @@ public class ResourcePermissionImplTest {
 		private void _createTreePath(JournalFolderProxy journalFolderProxy) {
 			_treePath = journalFolderProxy != null ? journalFolderProxy.getTreePath() : "0/";
 		}
+
 		public String getResourcePrimKey() {
 			return _resourcePrimKey;
 		}
