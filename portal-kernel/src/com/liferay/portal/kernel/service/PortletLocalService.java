@@ -151,6 +151,11 @@ public interface PortletLocalService
 	@Transactional(enabled = false)
 	public void deployPortlet(Portlet portlet) throws Exception;
 
+	public Portlet deployRemotePortlet(
+			long[] companyIds, Portlet portlet, String[] categoryNames,
+			boolean eagerDestroy, boolean clearCache)
+		throws PortalException;
+
 	public Portlet deployRemotePortlet(Portlet portlet, String categoryName)
 		throws PortalException;
 
@@ -159,11 +164,6 @@ public interface PortletLocalService
 
 	public Portlet deployRemotePortlet(
 			Portlet portlet, String[] categoryNames, boolean eagerDestroy)
-		throws PortalException;
-
-	public Portlet deployRemotePortlet(
-			Portlet portlet, String[] categoryNames, boolean eagerDestroy,
-			boolean clearCache, long[] companyIds)
 		throws PortalException;
 
 	@Transactional(enabled = false)
