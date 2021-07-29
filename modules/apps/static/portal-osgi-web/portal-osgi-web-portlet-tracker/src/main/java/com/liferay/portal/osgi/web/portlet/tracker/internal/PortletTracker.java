@@ -16,6 +16,7 @@ package com.liferay.portal.osgi.web.portlet.tracker.internal;
 
 import com.liferay.osgi.util.ServiceTrackerFactory;
 import com.liferay.osgi.util.StringPlus;
+import com.liferay.petra.executor.PortalExecutorManager;
 import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
@@ -87,6 +88,8 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 
 import javax.portlet.Portlet;
 import javax.portlet.PortletMode;
@@ -250,6 +253,9 @@ public class PortletTracker
 		}
 
 		_bundleContext = bundleContext;
+
+		_executorService = _portalExecutorManager.getPortalExecutor(
+			PortletTracker.class.getName());
 
 		_serviceTracker = ServiceTrackerFactory.open(
 			_bundleContext, Portlet.class, this);
@@ -1224,6 +1230,7 @@ public class PortletTracker
 
 	@Deactivate
 	protected void deactivate() {
+		_executorService.shutdownNow();
 		_serviceTracker.close();
 
 		if (_log.isInfoEnabled()) {
@@ -1243,14 +1250,32 @@ public class PortletTracker
 			categoryNames.add("category.undefined");
 		}
 
+		List<Future<Void>> futures = new ArrayList<>();
+
 		List<Company> companies = _companyLocalService.getCompanies(false);
 
 		_portletLocalService.clearCache();
 
 		for (Company company : companies) {
-			_portletLocalService.deployRemotePortlet(
-				portletModel, ArrayUtil.toStringArray(categoryNames), false,
-				false, new long[] {company.getCompanyId()});
+			futures.add(
+				_executorService.submit(
+					() -> {
+						_portletLocalService.deployRemotePortlet(
+							portletModel,
+							ArrayUtil.toStringArray(categoryNames), false,
+							false, new long[] {company.getCompanyId()});
+
+						return null;
+					}));
+		}
+
+		for (Future<Void> future : futures) {
+			try {
+				future.get();
+			}
+			catch (Exception exception) {
+				throw new PortalException(exception);
+			}
 		}
 	}
 
@@ -1373,6 +1398,7 @@ public class PortletTracker
 	@Reference
 	private CompanyLocalService _companyLocalService;
 
+	private ExecutorService _executorService;
 	private String _httpServiceEndpoint = StringPool.BLANK;
 
 	@Reference(
@@ -1382,6 +1408,9 @@ public class PortletTracker
 
 	@Reference
 	private Portal _portal;
+
+	@Reference
+	private PortalExecutorManager _portalExecutorManager;
 
 	@Reference
 	private PortletDependencyFactory _portletDependencyFactory;
