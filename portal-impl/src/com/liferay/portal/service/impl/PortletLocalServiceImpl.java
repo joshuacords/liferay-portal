@@ -343,6 +343,21 @@ public class PortletLocalServiceImpl extends PortletLocalServiceBaseImpl {
 			Portlet portlet, String[] categoryNames, boolean eagerDestroy)
 		throws PortalException {
 
+		long[] companyIds = ListUtil.toLongArray(
+			companyLocalService.getCompanies(false), Company::getCompanyId);
+
+		deployRemotePortlet(
+			portlet, categoryNames, eagerDestroy, true, companyIds);
+
+		return portlet;
+	}
+
+	@Override
+	public Portlet deployRemotePortlet(
+			Portlet portlet, String[] categoryNames, boolean eagerDestroy,
+			boolean clearCache, long[] companyIds)
+		throws PortalException {
+
 		ResourceActionsUtil.check(portlet);
 
 		_portletsMap.put(portlet.getPortletId(), portlet);
@@ -353,12 +368,14 @@ public class PortletLocalServiceImpl extends PortletLocalServiceBaseImpl {
 			PortletConfigFactoryUtil.destroy(portlet);
 		}
 
-		clearCache();
+		if (clearCache) {
+			clearCache();
+		}
 
-		for (Company company : companyLocalService.getCompanies()) {
+		for (long companyId : companyIds) {
 			Portlet companyPortletModel = (Portlet)portlet.clone();
 
-			companyPortletModel.setCompanyId(company.getCompanyId());
+			companyPortletModel.setCompanyId(companyId);
 
 			PortletCategory portletCategory = (PortletCategory)WebAppPool.get(
 				companyPortletModel.getCompanyId(), WebKeys.PORTLET_CATEGORY);
