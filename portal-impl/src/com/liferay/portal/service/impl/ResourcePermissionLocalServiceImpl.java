@@ -2246,6 +2246,10 @@ public class ResourcePermissionLocalServiceImpl
 
 
 			for (Role folderRole : folderRoles) {
+				//skip guest role
+				if(folderRole == guestRole) {
+					continue;
+				}
 
 				boolean roleHasAccess = false;
 
