@@ -60,12 +60,33 @@ public class UserLocalServiceWrapper
 	 * <code>admin.default.group.names</code>.
 	 *
 	 * @param userId the primary key of the user
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
 	 */
+	@Deprecated
 	@Override
 	public void addDefaultGroups(long userId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		_userLocalService.addDefaultGroups(userId);
+	}
+
+	/**
+	 * Adds the user to the default groups, unless the user is already in these
+	 * groups. The default groups can be specified in
+	 * <code>portal.properties</code> with the key
+	 * <code>admin.default.group.names</code>.
+	 *
+	 * @param user the user
+	 * @return <code>true</code> if user was added to default groups;
+	 <code>false</code> if user was already a member
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	@Override
+	public boolean addDefaultGroups(com.liferay.portal.kernel.model.User user)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _userLocalService.addDefaultGroups(user);
 	}
 
 	/**
@@ -75,12 +96,33 @@ public class UserLocalServiceWrapper
 	 * <code>admin.default.role.names</code>.
 	 *
 	 * @param userId the primary key of the user
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
 	 */
+	@Deprecated
 	@Override
 	public void addDefaultRoles(long userId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		_userLocalService.addDefaultRoles(userId);
+	}
+
+	/**
+	 * Adds the user to the default regular roles, unless the user already has
+	 * these regular roles. The default regular roles can be specified in
+	 * <code>portal.properties</code> with the key
+	 * <code>admin.default.role.names</code>.
+	 *
+	 * @param user the user
+	 * @return <code>true</code> if user was given default roles;
+	 <code>false</code> if user already has default roles
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	@Override
+	public boolean addDefaultRoles(com.liferay.portal.kernel.model.User user)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _userLocalService.addDefaultRoles(user);
 	}
 
 	/**
@@ -90,12 +132,34 @@ public class UserLocalServiceWrapper
 	 * <code>admin.default.user.group.names</code>.
 	 *
 	 * @param userId the primary key of the user
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
 	 */
+	@Deprecated
 	@Override
 	public void addDefaultUserGroups(long userId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		_userLocalService.addDefaultUserGroups(userId);
+	}
+
+	/**
+	 * Adds the user to the default user groups, unless the user is already in
+	 * these user groups. The default user groups can be specified in
+	 * <code>portal.properties</code> with the property
+	 * <code>admin.default.user.group.names</code>.
+	 *
+	 * @param user the user
+	 * @return <code>true</code> if user was added to default user groups;
+	 <code>false</code> if user is already a user group member
+	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
+	 */
+	@Deprecated
+	@Override
+	public boolean addDefaultUserGroups(
+			com.liferay.portal.kernel.model.User user)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _userLocalService.addDefaultUserGroups(user);
 	}
 
 	@Override
