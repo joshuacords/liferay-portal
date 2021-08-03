@@ -3401,6 +3401,14 @@ AUI.add(
 					}
 				},
 
+				getAltRuleInputName() {
+					var instance = this;
+
+					var inputName = instance.getInputName();
+
+					return inputName + 'Alt';
+				},
+
 				getDocumentLibrarySelectorURL() {
 					var instance = this;
 
@@ -4105,6 +4113,19 @@ AUI.add(
 								validatorRules[
 									field.getRuleInputName()
 								] = originalFieldRules;
+							}
+
+							if (field.get('dataType') === 'image') {
+								var originalAltRuleInputName = originalField.getAltRuleInputName();
+
+								originalFieldRules =
+									validatorRules[originalAltRuleInputName];
+
+								if (originalFieldRules) {
+									validatorRules[
+										field.getAltRuleInputName()
+									] = originalFieldRules;
+								}
 							}
 						}
 						else if (event.type === 'liferay-ddm-field:remove') {
