@@ -117,15 +117,17 @@ public class LoginPostAction extends Action {
 
 				boolean reindexRequired = false;
 
-				if (UserLocalServiceUtil.addDefaultGroups(userId)) {
+				User user = UserLocalServiceUtil.fetchUser(userId);
+
+				if (UserLocalServiceUtil.addDefaultGroups(user)) {
 					reindexRequired = true;
 				}
 
-				if (UserLocalServiceUtil.addDefaultRoles(userId)) {
+				if (UserLocalServiceUtil.addDefaultRoles(user)) {
 					reindexRequired = true;
 				}
 
-				if (UserLocalServiceUtil.addDefaultUserGroups(userId)) {
+				if (UserLocalServiceUtil.addDefaultUserGroups(user)) {
 					reindexRequired = true;
 				}
 
