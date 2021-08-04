@@ -17,7 +17,7 @@
 <%@ include file="/portlet_list/init.jsp" %>
 
 <liferay-util:buffer
-	var="portletList"
+	var="html"
 >
 
 	<%
@@ -222,11 +222,11 @@
 </liferay-util:buffer>
 
 <%
-portletList = portletList.trim();
+html = html.trim();
 %>
 
-<ul class="portlet-list <%= portletList.isEmpty() ? "hide" : "" %>">
-	<%= portletList %>
+<ul class="portlet-list <%= html.isEmpty() ? "hide" : "" %>">
+	<%= html %>
 </ul>
 
 <c:if test="<%= type.equals(Constants.EXPORT) %>">
