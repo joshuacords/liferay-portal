@@ -190,14 +190,12 @@ public class PortalImplCanonicalURLTest {
 	public void testCanonicalURLPartialCollisionWIthPublicGroupServletMapping()
 		throws Exception {
 
-		String portalDomain = "localhost";
-
 		LayoutSet layoutSet = _layout4.getLayoutSet();
 
 		layoutSet.setVirtualHostname("test.com");
 
 		ThemeDisplay themeDisplay = _createThemeDisplay(
-			portalDomain, _group, 8080, false);
+			"localhost", _group, 8080, false);
 
 		themeDisplay.setLayoutSet(layoutSet);
 
