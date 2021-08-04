@@ -190,12 +190,12 @@ public class PortalImplCanonicalURLTest {
 	public void testCanonicalURLPartialCollisionWIthPublicGroupServletMapping()
 		throws Exception {
 
+		ThemeDisplay themeDisplay = _createThemeDisplay(
+			"localhost", _group, 8080, false);
+
 		LayoutSet layoutSet = _layout4.getLayoutSet();
 
 		layoutSet.setVirtualHostname("test.com");
-
-		ThemeDisplay themeDisplay = _createThemeDisplay(
-			"localhost", _group, 8080, false);
 
 		themeDisplay.setLayoutSet(layoutSet);
 
