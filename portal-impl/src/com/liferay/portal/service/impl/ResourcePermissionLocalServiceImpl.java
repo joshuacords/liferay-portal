@@ -2210,7 +2210,7 @@ public class ResourcePermissionLocalServiceImpl
 
 		boolean guestRoleHasPermission = roles.contains(guestRole);
 
-		for (int i = parentFolderIds.length - 1; !roles.isEmpty() && (i >= 0);
+		for (int i = parentFolderIds.length - 1; !roles.isEmpty() && (i > 0);
 			 i--) {
 
 			folderRoles = getRoles(
