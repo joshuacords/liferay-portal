@@ -135,8 +135,8 @@ public class ResourcePermissionImplTest {
 	@Test
 	public void getDynamicInheritanceRolesOnlyGuest() throws Exception {
 
-		_journalArticleFolderProxyFactory.createJournalRootFolderProxy(
-			RoleConstants.GUEST, RoleConstants.OWNER);
+//		_journalArticleFolderProxyFactory.createJournalRootFolderProxy(
+//			RoleConstants.GUEST, RoleConstants.OWNER);
 
 		JournalFolderProxy journalFolderProxy =
 			_journalArticleFolderProxyFactory.createJournalFolderProxy(
@@ -206,9 +206,9 @@ public class ResourcePermissionImplTest {
 			return new JournalArticleProxy(journalFolderProxy, roleNames);
 		}
 
-		JournalFolderProxy createJournalRootFolderProxy(String ... roleNames) {
-			return new JournalFolderProxy("0", roleNames);
-		}
+//		JournalFolderProxy createJournalRootFolderProxy(String ... roleNames) {
+//			return new JournalFolderProxy("0", roleNames);
+//		}
 
 		JournalFolderProxy createJournalFolderProxy(String ... roleNames) {
 			return new JournalFolderProxy(roleNames);
@@ -337,14 +337,14 @@ public class ResourcePermissionImplTest {
 	public abstract class PersistenceBaseChild implements BaseChildModel, PersistedModel {}
 
 	class JournalFolderProxy {
-		JournalFolderProxy(String resourcePrimKey, String[] roleNames) {
-			_resourcePrimKey = resourcePrimKey;
-			//primKey may be the same with a JournalFolder
-			//_primKey = StringUtil.toString(RandomTestUtil.randomLong());
-			_roleNames = roleNames;
-			_treePath = _resourcePrimKey + "/";
-			_mockRoles(roleNames);
-		}
+//		JournalFolderProxy(String resourcePrimKey, String[] roleNames) {
+//			_resourcePrimKey = resourcePrimKey;
+//			//primKey may be the same with a JournalFolder
+//			//_primKey = StringUtil.toString(RandomTestUtil.randomLong());
+//			_roleNames = roleNames;
+//			_treePath = _resourcePrimKey + "/";
+//			_mockRoles(roleNames);
+//		}
 
 		JournalFolderProxy(String[] roleNames) {
 			_resourcePrimKey = StringUtil.toString(RandomTestUtil.randomLong());
