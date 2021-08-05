@@ -2244,7 +2244,7 @@ public class ResourcePermissionLocalServiceImpl
 
 			roleSetsWithPermission.clear();
 
-
+			//what if folder has no roles, seems to work
 			for (Role folderRole : folderRoles) {
 				//skip guest role
 				if(folderRole == guestRole) {
@@ -2314,7 +2314,7 @@ public class ResourcePermissionLocalServiceImpl
 	private void _assignStartingRoles(
 		List<Role> roles, List<Set<Role>> roleSetsWithAccess, Role guestRole) {
 
-		for (Role role : roles) {
+		for (Role role : roles) { //guest role wasn't detected
 			if(role == guestRole) {
 				continue;
 			}
