@@ -2228,7 +2228,7 @@ public class ResourcePermissionLocalServiceImpl
 //				startingRolesAssigned = true;
 //				continue;
 //			}
-
+			//is this still necessary?
 			if(guestRoleHasPermission && roleSetsWithPermission.isEmpty()) {
 				_assignStartingRoles(
 					folderRoles, roleSetsWithPermission, guestRole);
