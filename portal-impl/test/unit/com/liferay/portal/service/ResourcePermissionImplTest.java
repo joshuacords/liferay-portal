@@ -306,7 +306,7 @@ public class ResourcePermissionImplTest {
 //		}
 
 		private void _createTreePath(JournalFolderProxy journalFolderProxy) {
-			_treePath = journalFolderProxy != null ? journalFolderProxy.getTreePath() : "0/";
+			_treePath = journalFolderProxy != null ? journalFolderProxy.getTreePath() : "/";
 		}
 
 		public String getResourcePrimKey() {
@@ -351,7 +351,7 @@ public class ResourcePermissionImplTest {
 			//primKey may be the same with a JournalFolder
 			//_primKey = StringUtil.toString(RandomTestUtil.randomLong());
 			_roleNames = roleNames;
-			_treePath = "0/" + _resourcePrimKey + "/";
+			_treePath = "/" + _resourcePrimKey + "/";
 			_mockRoles(roleNames);
 		}
 
@@ -401,7 +401,7 @@ public class ResourcePermissionImplTest {
 			if(journalFolderProxy != null) {
 				_treePath = journalFolderProxy.getTreePath();
 			} else {
-				_treePath = "0/";
+				_treePath = "/";
 			}
 
 			_treePath = _treePath.concat(_resourcePrimKey + "/");
