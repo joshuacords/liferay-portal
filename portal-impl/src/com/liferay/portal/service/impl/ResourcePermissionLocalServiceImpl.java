@@ -2247,7 +2247,7 @@ public class ResourcePermissionLocalServiceImpl
 			//what if folder has no roles, seems to work
 			for (Role folderRole : folderRoles) {
 				//skip guest role
-				if(folderRole == guestRole) {
+				if(folderRole.getRoleId() == guestRole.getRoleId()) {
 					continue;
 				}
 
@@ -2315,7 +2315,7 @@ public class ResourcePermissionLocalServiceImpl
 		List<Role> roles, List<Set<Role>> roleSetsWithAccess, Role guestRole) {
 
 		for (Role role : roles) { //guest role wasn't detected
-			if(role == guestRole) {
+			if(role.getRoleId() == guestRole.getRoleId()) {
 				continue;
 			}
 
