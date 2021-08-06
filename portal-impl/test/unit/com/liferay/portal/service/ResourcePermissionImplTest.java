@@ -89,8 +89,6 @@ public class ResourcePermissionImplTest {
 		).getPersistedModelLocalService(_journalFolderClassName);
 
 
-		//need to implement mock roles instead of just role names
-
 		try {
 			Mockito.doReturn(
 				_roleProxyFactory.getRole(RoleConstants.GUEST)
@@ -135,16 +133,9 @@ public class ResourcePermissionImplTest {
 	@Test
 	public void getDynamicInheritanceRolesOnlyGuest() throws Exception {
 
-//		_journalArticleFolderProxyFactory.createJournalRootFolderProxy(
-//			RoleConstants.GUEST, RoleConstants.OWNER);
-
 		JournalFolderProxy journalFolderProxy =
 			_journalArticleFolderProxyFactory.createJournalFolderProxy(
 				RoleConstants.GUEST, RoleConstants.OWNER);
-
-//		JournalFolderProxy innerJournalFolderProxy =
-//			_journalArticleFolderProxyFactory.createJournalFolderProxy(
-//				journalFolderProxy, RoleConstants.GUEST, RoleConstants.OWNER);
 
 		JournalArticleProxy journalArticleProxy =
 			_journalArticleFolderProxyFactory.createJournalArticleProxy(
@@ -248,10 +239,6 @@ public class ResourcePermissionImplTest {
 			return new JournalArticleProxy(journalFolderProxy, roleNames);
 		}
 
-//		JournalFolderProxy createJournalRootFolderProxy(String ... roleNames) {
-//			return new JournalFolderProxy("0", roleNames);
-//		}
-
 		JournalFolderProxy createJournalFolderProxy(String ... roleNames) {
 			return new JournalFolderProxy(roleNames);
 		}
@@ -318,7 +305,6 @@ public class ResourcePermissionImplTest {
 
 		private void _mockRoles(String[] roleNames) {
 			try {
-				//need to add all roles at once
 				List<Role> roles = new ArrayList<>();
 
 				for(String roleName : roleNames) {
@@ -337,15 +323,6 @@ public class ResourcePermissionImplTest {
 
 
 		//journalArticle uses different primKey? needed to switch back to resource
-//		private void _mockRoles2() {
-//			try {
-//				_roles = _mockRolesForClass(
-//					_journalArticleClassName, _resourcePrimKey, _roleNames);
-//			} catch (Exception exception) {
-//				_roles = null;
-//				System.out.println("Failed to mock JournalArticle roles");
-//			}
-//		}
 
 		private void _createTreePath(JournalFolderProxy journalFolderProxy) {
 			_treePath = journalFolderProxy != null ? journalFolderProxy.getTreePath() : "/";
@@ -379,15 +356,6 @@ public class ResourcePermissionImplTest {
 	public abstract class PersistenceBaseChild implements BaseChildModel, PersistedModel {}
 
 	class JournalFolderProxy {
-//		JournalFolderProxy(String resourcePrimKey, String[] roleNames) {
-//			_resourcePrimKey = resourcePrimKey;
-//			//primKey may be the same with a JournalFolder
-//			//_primKey = StringUtil.toString(RandomTestUtil.randomLong());
-//			_roleNames = roleNames;
-//			_treePath = _resourcePrimKey + "/";
-//			_mockRoles(roleNames);
-//		}
-
 		JournalFolderProxy(String[] roleNames) {
 			_resourcePrimKey = StringUtil.toString(RandomTestUtil.randomLong());
 			//primKey may be the same with a JournalFolder
@@ -408,11 +376,6 @@ public class ResourcePermissionImplTest {
 
 		private void _mockRoles(String[] roleNames) {
 			try {
-//				for(String roleName : roleNames) {
-//					_roles.add(_roleProxyFactory.getRole(roleName));
-//					_roleProxyFactory.setRoleToAsset(_journalArticleClassName, _resourcePrimKey, roleName);
-//				}
-
 				List<Role> roles = new ArrayList<>();
 
 				for(String roleName : roleNames) {
@@ -428,15 +391,6 @@ public class ResourcePermissionImplTest {
 		}
 
 		//journalFolder uses different primKey
-//		private void _mockRoles() {
-//			try {
-//				_roles = _mockRolesForClass(
-//					_journalFolderClassName, _resourcePrimKey, _roleNames);
-//			} catch (Exception exception) {
-//				System.out.println("Failed to mock JournalFolder roles");
-//				_roles = null;
-//			}
-//		}
 
 		private void _createTreePath(JournalFolderProxy journalFolderProxy) {
 
@@ -467,21 +421,6 @@ public class ResourcePermissionImplTest {
 		private String _treePath;
 		private String[] _roleNames;
 	}
-
-//	private List<Role> _mockRolesForClass(
-//		String className, String primKey, String ... roles) throws Exception {
-//
-//		List<Role> classRoles = new ArrayList<>();
-//
-//		for(String role : roles) {
-//			classRoles.add(_mockRole(role));
-//		}
-//
-//		_mockResourcePermissionLocalServiceGetRoles(
-//			_companyId, className, _scope, primKey, classRoles);
-//
-//		return classRoles;
-//	}
 
 	class RoleProxyFactory {
 		Map<String, RoleProxy> _roleProxies = new HashMap<>();
@@ -524,20 +463,6 @@ public class ResourcePermissionImplTest {
 		private void _mockResourcePermissionLocalServiceGetRolesInside(
 			long companyId, String className, int scope, String resourcePrimKey,
 			List<Role> roles, ResourceAction resourceAction) throws Exception {
-
-//			ResourceAction resourceAction = Mockito.mock(ResourceAction.class);
-
-//			Mockito.when(
-//				_resourceActionLocalService.getResourceAction(className, _actionId)
-//			).thenReturn(
-//				resourceAction
-//			);
-
-//			Mockito.doReturn(
-//				resourceAction
-//			).when(
-//				_resourceActionLocalService
-//			).getResourceAction(className, _viewActionId);
 
 			List<ResourcePermission> resourcePermissions =
 				_createResourcePermissionMocksInside(resourceAction, roles);
@@ -601,11 +526,6 @@ public class ResourcePermissionImplTest {
 
 		private void _mockRole() {
 			try {
-//				Mockito.when(
-//					_roleLocalService.getRole(Long.parseLong(_roleId))
-//				).thenReturn(
-//					_role
-//				);
 
 				Mockito.doReturn(
 					_role
@@ -657,39 +577,8 @@ public class ResourcePermissionImplTest {
 		return role;
 	}
 
-	//_mockResourcePermissionPersistenceFindByC_N_S_P
-//	private void _mockResourcePermissionLocalServiceGetRoles(
-//		long companyId, String className, int scope, String resourcePrimKey, List<Role> roles) throws Exception {
-//
-//		ResourceAction resourceAction = Mockito.mock(ResourceAction.class);
-//
-//		Mockito.when(
-//			_resourceActionLocalService.getResourceAction(className, _actionId)
-//		).thenReturn(
-//			resourceAction
-//		);
-//
-//		List<ResourcePermission> resourcePermissions =
-//			_createResourcePermissionMocks(resourceAction, roles);
-//
-//		_addRolesToRoleLocalService(roles);
-//
-//		Mockito.doReturn(
-//			resourcePermissions
-//		).when(
-//			_resourcePermissionPersistence
-//		).findByC_N_S_P(companyId, className, scope, resourcePrimKey);
-//
-//	}
-
 	private void _addRolesToRoleLocalService(List<Role> roles) throws Exception {
 		for(Role role : roles) {
-
-//			Mockito.doReturn(
-//				role
-//			).when(
-//				_roleLocalService
-//			).getRole(role.getRoleId());
 
 			Mockito.when(
 				_roleLocalService.getRole(role.getRoleId())
@@ -698,33 +587,6 @@ public class ResourcePermissionImplTest {
 			);
 		}
 	}
-
-//	private List<ResourcePermission> _createResourcePermissionMocks(
-//		ResourceAction resourceAction, List<Role> roles) {
-//
-//		List<ResourcePermission> resourcePermissions = new ArrayList<>();
-//
-//		for(Role role : roles) {
-//			ResourcePermission resourcePermission =
-//				Mockito.mock(ResourcePermission.class);
-//
-//			Mockito.doReturn(
-//				true
-//			).when(
-//				resourcePermission
-//			).hasAction(resourceAction);
-//
-//			Mockito.doReturn(
-//				role.getRoleId()
-//			).when(
-//				resourcePermission
-//			).getRoleId();
-//
-//			resourcePermissions.add(resourcePermission);
-//		}
-//
-//		return resourcePermissions;
-//	}
 
 	List<List<ResourcePermission>> resourcePermissionsList = new ArrayList<>();
 
