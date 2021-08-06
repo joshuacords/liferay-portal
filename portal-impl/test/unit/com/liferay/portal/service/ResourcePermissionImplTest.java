@@ -159,7 +159,7 @@ public class ResourcePermissionImplTest {
 			_roleProxyFactory.getRole(RoleConstants.GUEST),
 			_roleProxyFactory.getRole(RoleConstants.OWNER));
 
-		assertContainsRoles(roleSets, expectedRoleSets);
+		assertContainsRoleSets(roleSets, expectedRoleSets);
 	}
 
 	private Set<Set<Role>> _rolesToSetSet(Role ... roles) {
@@ -175,21 +175,63 @@ public class ResourcePermissionImplTest {
 		return roleSets;
 	}
 
-	protected void assertContainsRoles(
-		Set<Set<Role>> expectedRoleSets, Set<Set<Role>> actualRoleSets) {
+	protected void assertContainsRoleSets(
+		Set<Set<Role>> expectedRoleSets, Set<Set<Role>> actualRoleSets)
+		throws Exception {
 
 		if (expectedRoleSets.size() != actualRoleSets.size()) {
-			System.out.println(
-				"ASSERT ERROR: expectedRoleSets size " + expectedRoleSets.size()
-			+ " is not actualRoleSets size " + actualRoleSets.size());
+			StringBuilder sb = new StringBuilder(4);
+			sb.append("expectedRoleSets size ");
+			sb.append(expectedRoleSets.size());
+			sb.append(" is not actualRoleSets size ");
+			sb.append(actualRoleSets.size());
+
+			throw new Exception(sb.toString());
 		}
 
 		for (Set<Role> expectedRoleSet : expectedRoleSets) {
 			if (!actualRoleSets.contains(expectedRoleSet)) {
-				System.out.println(
-					"ASSERT ERROR: expectedRoleSet was not found in actualRoleSets");
+
+				StringBuilder sb = new StringBuilder();
+				sb.append("expectedRoleSet [");
+				_appendRoleSet(expectedRoleSet, sb);
+				sb.append("] from expectedRoleSets [");
+				_appendRoleSets(expectedRoleSets, sb);
+				sb.append("] was not found in actualRoleSets [");
+				_appendRoleSets(actualRoleSets, sb);
+				sb.append("]");
+
+				throw new Exception(sb.toString());
 			}
 		}
+	}
+
+	private StringBuilder _appendRoleSets(Set<Set<Role>> roleSets, StringBuilder sb) {
+
+		try {
+			for(Set<Role> roleSet : roleSets) {
+				sb.append("[");
+				_appendRoleSet(roleSet, sb);
+				sb.append("], ");
+			}
+		} catch (Exception exception) {
+
+		}
+
+		return sb;
+	}
+
+	private StringBuilder _appendRoleSet(Set<Role> roleSet, StringBuilder sb) {
+		try {
+			for (Role role : roleSet) {
+				sb.append(role.getDescriptiveName());
+				sb.append(", ");
+			}
+		} catch (Exception exception) {
+
+		}
+
+		return sb;
 	}
 
 	class JournalArticleFolderProxyFactory {
@@ -582,6 +624,12 @@ public class ResourcePermissionImplTest {
 				).when(
 					_role
 				).getRoleId();
+
+				Mockito.doReturn(
+					_roleName
+				).when(
+					_role
+				).getDescriptiveName();
 
 			} catch (Exception exception) {
 				System.out.println("Failed to mock role " + _roleName);
