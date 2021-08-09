@@ -59,17 +59,12 @@ public class RoleProxyFactory {
 			return roleProxy.getRole();
 		}
 
-		RoleProxy roleProxy = _createRoleProxy(roleName);
+		RoleProxy roleProxy = new RoleProxy(
+			_roleLocalService, _companyId, roleName);
+
+		_roleProxies.put(roleName, roleProxy);
 
 		return roleProxy.getRole();
-	}
-
-	public RoleProxy getRoleProxy(String roleName) throws Exception {
-		if (_roleProxies.containsKey(roleName)) {
-			return _roleProxies.get(roleName);
-		}
-
-		return _createRoleProxy(roleName);
 	}
 
 	public void setResourceActionToRolesOnAsset(
@@ -77,21 +72,13 @@ public class RoleProxyFactory {
 		String className, String primKey)
 		throws Exception {
 
-		List<ResourcePermission> resourcePermissions =
-			_createResourcePermissionMocksInside(resourceAction, rolesWithResourceAction);
+		_mockResourcePermissionsForRolesWithResourceAction(
+			resourceAction, rolesWithResourceAction, className, primKey);
 
-		_addRolesToRoleLocalServiceInside(rolesWithResourceAction);
-
-		Mockito.doReturn(
-			resourcePermissions
-		).when(
-			_resourcePermissionPersistence
-		).findByC_N_S_P(
-			_companyId, className, _scope, primKey
-		);
+		_mockRoleLocalServiceForRoles(rolesWithResourceAction);
 	}
 
-	private void _addRolesToRoleLocalServiceInside(List<Role> roles)
+	private void _mockRoleLocalServiceForRoles(List<Role> roles)
 		throws Exception {
 
 		for (Role role : roles) {
@@ -103,8 +90,9 @@ public class RoleProxyFactory {
 		}
 	}
 
-	private List<ResourcePermission> _createResourcePermissionMocksInside(
-		ResourceAction resourceAction, List<Role> roles) {
+	private void _mockResourcePermissionsForRolesWithResourceAction(
+		ResourceAction resourceAction, List<Role> roles,
+		String className, String primKey) {
 
 		List<ResourcePermission> resourcePermissions = new ArrayList<>();
 
@@ -129,16 +117,13 @@ public class RoleProxyFactory {
 			resourcePermissions.add(resourcePermission);
 		}
 
-		return resourcePermissions;
-	}
-
-	private RoleProxy _createRoleProxy(String roleName) throws Exception {
-		RoleProxy roleProxy = new RoleProxy(
-			_roleLocalService, _companyId, roleName);
-
-		_roleProxies.put(roleName, roleProxy);
-
-		return roleProxy;
+		Mockito.doReturn(
+			resourcePermissions
+		).when(
+			_resourcePermissionPersistence
+		).findByC_N_S_P(
+			_companyId, className, _scope, primKey
+		);
 	}
 
 	private final long _companyId;
