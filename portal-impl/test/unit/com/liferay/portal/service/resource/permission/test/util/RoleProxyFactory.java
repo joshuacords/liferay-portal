@@ -1,3 +1,17 @@
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
 package com.liferay.portal.service.resource.permission.test.util;
 
 import com.liferay.portal.kernel.model.ResourceAction;
@@ -7,41 +21,46 @@ import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.service.persistence.ResourcePermissionPersistence;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.mockito.Mockito;
+
+/**
+ * @author Joshua Cords
+ */
 public class RoleProxyFactory {
 
-	public RoleProxyFactory(RoleLocalService roleLocalService,
-		 ResourcePermissionLocalService resourcePermissionLocalService,
-		 long companyId) {
+	public RoleProxyFactory(
+		ResourcePermissionLocalService resourcePermissionLocalService,
+		RoleLocalService roleLocalService, long companyId) {
 
 		_resourcePermissionLocalService = resourcePermissionLocalService;
+		_roleLocalService = roleLocalService;
+		_companyId = companyId;
 
-		MockitoAnnotations.initMocks(this);
+		_scope = 4;
+
+		_resourcePermissionPersistence = Mockito.mock(
+			ResourcePermissionPersistence.class);
 
 		ReflectionTestUtil.setFieldValue(
 			_resourcePermissionLocalService, "resourcePermissionPersistence",
 			_resourcePermissionPersistence);
-
-		_roleLocalService = roleLocalService;
-		_companyId = companyId;
-		_scope = 4;
 	}
 
 	public Role getRole(String roleName) throws Exception {
 		if (_roleProxies.containsKey(roleName)) {
-			return _roleProxies.get(roleName).getRole();
+			RoleProxy roleProxy = _roleProxies.get(roleName);
+
+			return roleProxy.getRole();
 		}
 
-		RoleProxy roleProxy = new RoleProxy(_roleLocalService, _companyId, roleName);
-		_roleProxies.put(roleName, roleProxy);
+		RoleProxy roleProxy = _createRoleProxy(roleName);
+
 		return roleProxy.getRole();
 	}
 
@@ -50,41 +69,28 @@ public class RoleProxyFactory {
 			return _roleProxies.get(roleName);
 		}
 
-		RoleProxy roleProxy = new RoleProxy(_roleLocalService, _companyId, roleName);
-		_roleProxies.put(roleName, roleProxy);
-		return roleProxy;
+		return _createRoleProxy(roleName);
 	}
 
-	public void setRoleToAsset(String className, String primKey, ResourceAction resourceAction, String ... roleNames) throws Exception {
-		List<Role> classRoles = new ArrayList<>();
+	public void setResourceActionToRolesOnAsset(
+		ResourceAction resourceAction, List<Role> rolesWithResourceAction,
+		String className, String primKey)
+		throws Exception {
 
-		for(String roleName : roleNames) {
-			classRoles.add(getRole(roleName));
+		_mockResourcePermissionLocalServiceGetRolesInside(
+			_companyId, className, _scope, primKey, rolesWithResourceAction, resourceAction);
+	}
+
+	private void _addRolesToRoleLocalServiceInside(List<Role> roles)
+		throws Exception {
+
+		for (Role role : roles) {
+			Mockito.when(
+				_roleLocalService.getRole(role.getRoleId())
+			).thenReturn(
+				role
+			);
 		}
-
-		//try {
-			_mockResourcePermissionLocalServiceGetRolesInside(
-				_companyId, className, _scope, primKey, classRoles, resourceAction);
-//		} catch (Exception exception) {
-//			System.out.println("Failed to mock ResourcePermissionLocalService roles");
-//		}
-	}
-
-	private void _mockResourcePermissionLocalServiceGetRolesInside(
-		long companyId, String className, int scope, String resourcePrimKey,
-		List<Role> roles, ResourceAction resourceAction) throws Exception {
-
-		List<ResourcePermission> resourcePermissions =
-			_createResourcePermissionMocksInside(resourceAction, roles);
-
-		_addRolesToRoleLocalServiceInside(roles);
-
-		Mockito.doReturn(
-			resourcePermissions
-		).when(
-			_resourcePermissionPersistence
-		).findByC_N_S_P(companyId, className, scope, resourcePrimKey);
-
 	}
 
 	private List<ResourcePermission> _createResourcePermissionMocksInside(
@@ -92,15 +98,17 @@ public class RoleProxyFactory {
 
 		List<ResourcePermission> resourcePermissions = new ArrayList<>();
 
-		for(Role role : roles) {
-			ResourcePermission resourcePermission =
-				Mockito.mock(ResourcePermission.class);
+		for (Role role : roles) {
+			ResourcePermission resourcePermission = Mockito.mock(
+				ResourcePermission.class);
 
 			Mockito.doReturn(
 				true
 			).when(
 				resourcePermission
-			).hasAction(resourceAction);
+			).hasAction(
+				resourceAction
+			);
 
 			Mockito.doReturn(
 				role.getRoleId()
@@ -114,24 +122,40 @@ public class RoleProxyFactory {
 		return resourcePermissions;
 	}
 
-	private void _addRolesToRoleLocalServiceInside(List<Role> roles) throws Exception {
-		for(Role role : roles) {
+	private RoleProxy _createRoleProxy(String roleName) throws Exception {
+		RoleProxy roleProxy = new RoleProxy(
+			_roleLocalService, _companyId, roleName);
 
-			Mockito.when(
-				_roleLocalService.getRole(role.getRoleId())
-			).thenReturn(
-				role
-			);
-		}
+		_roleProxies.put(roleName, roleProxy);
+
+		return roleProxy;
 	}
 
-	@Mock
-	private ResourcePermissionPersistence _resourcePermissionPersistence;
+	private void _mockResourcePermissionLocalServiceGetRolesInside(
+			long companyId, String className, int scope, String resourcePrimKey,
+			List<Role> roles, ResourceAction resourceAction)
+		throws Exception {
 
-	private ResourcePermissionLocalService _resourcePermissionLocalService;
-	private long _companyId;
-	private int _scope;
-	private Map<String, RoleProxy> _roleProxies = new HashMap<>();
-	private RoleLocalService _roleLocalService;
+		List<ResourcePermission> resourcePermissions =
+			_createResourcePermissionMocksInside(resourceAction, roles);
+
+		_addRolesToRoleLocalServiceInside(roles);
+
+		Mockito.doReturn(
+			resourcePermissions
+		).when(
+			_resourcePermissionPersistence
+		).findByC_N_S_P(
+			companyId, className, scope, resourcePrimKey
+		);
+	}
+
+	private final long _companyId;
+	private final ResourcePermissionLocalService
+		_resourcePermissionLocalService;
+	private final ResourcePermissionPersistence _resourcePermissionPersistence;
+	private final RoleLocalService _roleLocalService;
+	private final Map<String, RoleProxy> _roleProxies = new HashMap<>();
+	private final int _scope;
 
 }
