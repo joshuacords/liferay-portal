@@ -142,21 +142,17 @@ public class JournalArticleProxy {
 		).getTreePath();
 	}
 
-	private void _setUpMocks() {
+	private void _setUpMocks() throws Exception {
 		_viewArticleResourceAction = Mockito.mock(ResourceAction.class);
 
-		try {
-			Mockito.doReturn(
-				_viewArticleResourceAction
-			).when(
-				_resourceActionLocalService
-			).getResourceAction(
-				_journalArticleClassName, _viewActionId
-			);
-		}
-		catch (Exception exception) {
-			System.out.println("_viewFolder/ArticleResourceAction mock failed");
-		}
+		Mockito.doReturn(
+			_viewArticleResourceAction
+		).when(
+			_resourceActionLocalService
+		).getResourceAction(
+			_journalArticleClassName, _viewActionId
+		);
+
 	}
 
 	private static final String _journalArticleClassName =
@@ -177,7 +173,6 @@ public class JournalArticleProxy {
 	private List<Role> _roles = new ArrayList<>();
 	private String _treePath;
 
-	@Mock
 	private ResourceAction _viewArticleResourceAction;
 
 }
