@@ -33,80 +33,57 @@ import org.mockito.Mockito;
 public class JournalFolderProxy {
 
 	public JournalFolderProxy(
-			ResourceActionLocalService resourceActionLocalService,
-			RoleProxyFactory roleProxyFactory,
-			JournalFolderProxy journalFolderProxy, String[] roleNames)
+		ResourceActionLocalService resourceActionLocalService,
+		RoleProxyFactory roleProxyFactory,
+		String[] roleNamesWithViewPermission,
+		JournalFolderProxy journalFolderProxy)
 		throws Exception {
 
 		_resourceActionLocalService = resourceActionLocalService;
 		_roleProxyFactory = roleProxyFactory;
-
-		_resourcePrimKey = StringUtil.toString(RandomTestUtil.randomLong());
-		//primKey may be the same with a JournalFolder
-		_roleNames = roleNames;
+		_roleNamesWithViewPermission = roleNamesWithViewPermission;
 
 		_createTreePath(journalFolderProxy);
-		_mockRoles(roleNames);
-	}
-
-	public JournalFolderProxy(
-			ResourceActionLocalService resourceActionLocalService,
-			RoleProxyFactory roleProxyFactory, String[] roleNames)
-		throws Exception {
-
-		_resourceActionLocalService = resourceActionLocalService;
-		_roleProxyFactory = roleProxyFactory;
-
-		_resourcePrimKey = StringUtil.toString(RandomTestUtil.randomLong());
-		//primKey may be the same with a JournalFolder
-		_roleNames = roleNames;
-
-		_treePath = "/" + _resourcePrimKey + "/";
-
-		_mockRoles(roleNames);
+		_mockRoleViewPermissions();
 	}
 
 	public String getResourcePrimKey() {
-		return _resourcePrimKey;
+		return _RESOURCE_PRIM_KEY;
 	}
-
-	public String[] getRoleNames() {
-		return _roleNames;
-	}
-
-	//journalFolder uses different primKey
 
 	public String getTreePath() {
 		return _treePath;
 	}
 
 	private void _createTreePath(JournalFolderProxy journalFolderProxy) {
+		StringBuilder sb = new StringBuilder(3);
+
 		if (journalFolderProxy != null) {
-			_treePath = journalFolderProxy.getTreePath();
+			sb.append(journalFolderProxy.getTreePath());
 		}
 		else {
-			_treePath = "/";
+			sb.append("/");
 		}
 
-		_treePath = _treePath.concat(_resourcePrimKey + "/");
+		sb.append(_RESOURCE_PRIM_KEY);
+		sb.append("/");
+
+		_treePath = sb.toString();
 	}
 
-	private void _mockRoles(String[] roleNames) throws Exception {
-		_setUpMocks();
+	private void _mockRoleViewPermissions() throws Exception {
+		_mockViewFolderResourceAction();
 
-		List<Role> roles = new ArrayList<>();
-
-		for (String roleName : roleNames) {
-			roles.add(_roleProxyFactory.getRole(roleName));
+		for (String roleName : _roleNamesWithViewPermission) {
+			_rolesWithViewPermission.add(_roleProxyFactory.getRole(roleName));
 		}
 
-		_roles.addAll(roles);
-		_roleProxyFactory.setResourceActionToRolesOnAsset(
-			_viewFolderResourceAction, roles, _CLASS_NAME_JOURNAL_FOLDER,
-			_resourcePrimKey);
+		_roleProxyFactory.mockResourceActionWithRolesOnAsset(
+			_viewFolderResourceAction, _rolesWithViewPermission,
+			_CLASS_NAME_JOURNAL_FOLDER, _RESOURCE_PRIM_KEY);
 	}
 
-	private void _setUpMocks() throws Exception {
+	private void _mockViewFolderResourceAction() throws Exception {
 		_viewFolderResourceAction = Mockito.mock(ResourceAction.class);
 
 		Mockito.doReturn(
@@ -121,13 +98,15 @@ public class JournalFolderProxy {
 	private static final String _CLASS_NAME_JOURNAL_FOLDER =
 		"com.liferay.journal.model.JournalFolder";
 
+	private static final String _RESOURCE_PRIM_KEY = StringUtil.toString(
+		RandomTestUtil.randomLong());
+
 	private static final String _VIEW_ACTION_ID = ActionKeys.VIEW;
 
 	private final ResourceActionLocalService _resourceActionLocalService;
-	private final String _resourcePrimKey;
-	private final String[] _roleNames;
+	private final String[] _roleNamesWithViewPermission;
 	private final RoleProxyFactory _roleProxyFactory;
-	private final List<Role> _roles = new ArrayList<>();
+	private final List<Role> _rolesWithViewPermission = new ArrayList<>();
 	private String _treePath;
 	private ResourceAction _viewFolderResourceAction;
 
