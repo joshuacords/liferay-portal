@@ -77,8 +77,18 @@ public class RoleProxyFactory {
 		String className, String primKey)
 		throws Exception {
 
-		_mockResourcePermissionLocalServiceGetRolesInside(
-			_companyId, className, _scope, primKey, rolesWithResourceAction, resourceAction);
+		List<ResourcePermission> resourcePermissions =
+			_createResourcePermissionMocksInside(resourceAction, rolesWithResourceAction);
+
+		_addRolesToRoleLocalServiceInside(rolesWithResourceAction);
+
+		Mockito.doReturn(
+			resourcePermissions
+		).when(
+			_resourcePermissionPersistence
+		).findByC_N_S_P(
+			_companyId, className, _scope, primKey
+		);
 	}
 
 	private void _addRolesToRoleLocalServiceInside(List<Role> roles)
@@ -129,25 +139,6 @@ public class RoleProxyFactory {
 		_roleProxies.put(roleName, roleProxy);
 
 		return roleProxy;
-	}
-
-	private void _mockResourcePermissionLocalServiceGetRolesInside(
-			long companyId, String className, int scope, String resourcePrimKey,
-			List<Role> roles, ResourceAction resourceAction)
-		throws Exception {
-
-		List<ResourcePermission> resourcePermissions =
-			_createResourcePermissionMocksInside(resourceAction, roles);
-
-		_addRolesToRoleLocalServiceInside(roles);
-
-		Mockito.doReturn(
-			resourcePermissions
-		).when(
-			_resourcePermissionPersistence
-		).findByC_N_S_P(
-			companyId, className, scope, resourcePrimKey
-		);
 	}
 
 	private final long _companyId;
