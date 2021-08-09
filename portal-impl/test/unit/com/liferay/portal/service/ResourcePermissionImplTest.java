@@ -1,7 +1,5 @@
 package com.liferay.portal.service;
 
-import com.liferay.portal.kernel.model.BaseChildModel;
-import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.model.ResourceAction;
 import com.liferay.portal.kernel.model.ResourcePermission;
 import com.liferay.portal.kernel.model.Role;
@@ -16,6 +14,10 @@ import com.liferay.portal.kernel.service.persistence.ResourcePermissionPersisten
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.service.impl.ResourcePermissionLocalServiceImpl;
+import com.liferay.portal.service.resource.permission.test.util.JournalArticleProxy;
+import com.liferay.portal.service.resource.permission.test.util.JournalFolderProxy;
+import com.liferay.portal.service.resource.permission.test.util.JournalProxyFactory;
+import com.liferay.portal.service.resource.permission.test.util.RoleProxyFactory;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
 import com.liferay.registry.BasicRegistryImpl;
 import com.liferay.registry.RegistryUtil;
@@ -29,10 +31,8 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 
@@ -51,19 +51,24 @@ public class ResourcePermissionImplTest {
 		RegistryUtil.setRegistry(new BasicRegistryImpl());
 
 		_resourcePermissionLocalService = new ResourcePermissionLocalServiceImpl();
-		_journalArticleFolderProxyFactory = new JournalArticleFolderProxyFactory(_companyId);
 
 		MockitoAnnotations.initMocks(this);
+
+		_roleProxyFactory = new RoleProxyFactory(
+			_roleLocalService, _resourcePermissionLocalService, _companyId);
 
 		_initializeReflections();
 		_mockResourceActions();
 		_mockPersistedModelLocalServices();
+
+
+		_journalProxyFactory = new JournalProxyFactory(
+			_journalArticlePersistedModelLocalService, _roleProxyFactory,
+			_resourceActionLocalService, _companyId);
+
 	}
 
 	private void _initializeReflections() {
-		ReflectionTestUtil.setFieldValue(
-			_resourcePermissionLocalService, "resourcePermissionPersistence",
-			_resourcePermissionPersistence);
 		ReflectionTestUtil.setFieldValue(
 			_resourcePermissionLocalService, "resourceActionLocalService",
 			_resourceActionLocalService);
@@ -134,11 +139,11 @@ public class ResourcePermissionImplTest {
 	public void getDynamicInheritanceRolesOnlyGuest() throws Exception {
 
 		JournalFolderProxy journalFolderProxy =
-			_journalArticleFolderProxyFactory.createJournalFolderProxy(
+			_journalProxyFactory.createJournalFolderProxy(
 				RoleConstants.GUEST, RoleConstants.OWNER);
 
 		JournalArticleProxy journalArticleProxy =
-			_journalArticleFolderProxyFactory.createJournalArticleProxy(
+			_journalProxyFactory.createJournalArticleProxy(
 				journalFolderProxy, RoleConstants.GUEST, RoleConstants.OWNER);
 
 		Set<Set<Role>> roleSets =  _resourcePermissionLocalService.getDynamicInheritanceRoles(
@@ -176,6 +181,8 @@ public class ResourcePermissionImplTest {
 			sb.append(expectedRoleSets.size());
 			sb.append(" is not actualRoleSets size ");
 			sb.append(actualRoleSets.size());
+			sb.append(" ");
+			_appendRoleSets(actualRoleSets, sb);
 
 			throw new Exception(sb.toString());
 		}
@@ -225,345 +232,345 @@ public class ResourcePermissionImplTest {
 		return sb;
 	}
 
-	class JournalArticleFolderProxyFactory {
-		JournalArticleFolderProxyFactory(long companyId) {
-			_companyId = companyId;
-		}
-
-		JournalArticleProxy createJournalArticleProxy(String ... roleNames) {
-			return new JournalArticleProxy(roleNames);
-		}
-
-		JournalArticleProxy createJournalArticleProxy(
-			JournalFolderProxy journalFolderProxy, String ... roleNames) {
-			return new JournalArticleProxy(journalFolderProxy, roleNames);
-		}
-
-		JournalFolderProxy createJournalFolderProxy(String ... roleNames) {
-			return new JournalFolderProxy(roleNames);
-		}
-
-		JournalFolderProxy createJournalFolderProxy(
-			JournalFolderProxy journalFolderProxy, String ... roleNames) {
-			return new JournalFolderProxy(journalFolderProxy, roleNames);
-		}
-
-		private long _companyId;
-	}
-
-	class JournalArticleProxy {
-		JournalArticleProxy(String[] roleNames) {
-			new JournalArticleProxy(null, roleNames);
-		}
-
-		JournalArticleProxy(JournalFolderProxy journalFolderProxy, String[] roleNames) {
-			_resourcePrimKey = StringUtil.toString(RandomTestUtil.randomLong());
-			_primKey = StringUtil.toString(RandomTestUtil.randomLong());
-			_roleNames = roleNames;
-			_parentClassPK = journalFolderProxy.getResourcePrimKey();
-			_createTreePath(journalFolderProxy);
-			_mockRoles(roleNames);
-			_mockPersistedModel();
-		}
-
-		private void _mockPersistedModel() {
-
-			_journalArticlePersistedBaseChildModel = Mockito.mock(PersistenceBaseChild.class);
-
-			Mockito.doReturn(
-				_parentClassPK
-			).when(
-				_journalArticlePersistedBaseChildModel
-			).getParentClassPK();
-
-			Mockito.doReturn(
-				_journalFolderClassName
-			).when(
-				_journalArticlePersistedBaseChildModel
-			).getParentClassName();
-
-			_mockTreePath();
-
-			try {
-				Mockito.doReturn(
-					_journalArticlePersistedBaseChildModel
-				).when(
-					_journalArticlePersistedModelLocalService
-				).getPersistedModel(Long.valueOf(_primKey));
-			} catch (Exception exception) {
-				System.out.println("_mockPersistedModel failed");
-			}
-		}
-
-		private void _mockTreePath() {
-			Mockito.doReturn(
-				_treePath
-			).when(
-				_journalArticlePersistedBaseChildModel
-			).getTreePath();
-		}
-
-		private void _mockRoles(String[] roleNames) {
-			try {
-				List<Role> roles = new ArrayList<>();
-
-				for(String roleName : roleNames) {
-					roles.add(_roleProxyFactory.getRole(roleName));
-				}
-
-				_roles.addAll(roles);
-				_roleProxyFactory.setRoleToAsset(
-					_journalArticleClassName, _resourcePrimKey,
-					_viewArticleResourceAction, roleNames);
-			} catch (Exception exception) {
-				_roles = null;
-				System.out.println("Failed to mock JournalArticle roles");
-			}
-		}
-
-
-		//journalArticle uses different primKey? needed to switch back to resource
-
-		private void _createTreePath(JournalFolderProxy journalFolderProxy) {
-			_treePath = journalFolderProxy != null ? journalFolderProxy.getTreePath() : "/";
-		}
-
-		public String getResourcePrimKey() {
-			return _resourcePrimKey;
-		}
-
-		public String getPrimKey() {
-			return _primKey;
-		}
-
-		public String[] getRoleNames() {
-			return _roleNames;
-		}
-
-		public String getTreePath() {
-			return _treePath;
-		}
-
-		private String _parentClassPK;
-		private List<Role> _roles = new ArrayList<>();
-		private String _resourcePrimKey;
-		private String _primKey;
-		private String _treePath;
-		private String[] _roleNames;
-		private PersistenceBaseChild _journalArticlePersistedBaseChildModel;
-	}
-
-	public abstract class PersistenceBaseChild implements BaseChildModel, PersistedModel {}
-
-	class JournalFolderProxy {
-		JournalFolderProxy(String[] roleNames) {
-			_resourcePrimKey = StringUtil.toString(RandomTestUtil.randomLong());
-			//primKey may be the same with a JournalFolder
-			//_primKey = StringUtil.toString(RandomTestUtil.randomLong());
-			_roleNames = roleNames;
-			_treePath = "/" + _resourcePrimKey + "/";
-			_mockRoles(roleNames);
-		}
-
-		JournalFolderProxy(JournalFolderProxy journalFolderProxy, String[] roleNames) {
-			_resourcePrimKey = StringUtil.toString(RandomTestUtil.randomLong());
-			//primKey may be the same with a JournalFolder
-			//_primKey = StringUtil.toString(RandomTestUtil.randomLong());
-			_roleNames = roleNames;
-			_createTreePath(journalFolderProxy);
-			_mockRoles(roleNames);
-		}
-
-		private void _mockRoles(String[] roleNames) {
-			try {
-				List<Role> roles = new ArrayList<>();
-
-				for(String roleName : roleNames) {
-					roles.add(_roleProxyFactory.getRole(roleName));
-				}
-
-				_roles.addAll(roles);
-				_roleProxyFactory.setRoleToAsset(_journalFolderClassName, _resourcePrimKey, _viewFolderResourceAction, roleNames);
-			} catch (Exception exception) {
-				_roles = null;
-				System.out.println("Failed to mock JournalFolder roles");
-			}
-		}
-
-		//journalFolder uses different primKey
-
-		private void _createTreePath(JournalFolderProxy journalFolderProxy) {
-
-			if(journalFolderProxy != null) {
-				_treePath = journalFolderProxy.getTreePath();
-			} else {
-				_treePath = "/";
-			}
-
-			_treePath = _treePath.concat(_resourcePrimKey + "/");
-
-		}
-
-		public String getResourcePrimKey() {
-			return _resourcePrimKey;
-		}
-
-		public String[] getRoleNames() {
-			return _roleNames;
-		}
-
-		public String getTreePath() {
-			return _treePath;
-		}
-
-		private List<Role> _roles = new ArrayList<>();
-		private String _resourcePrimKey;
-		private String _treePath;
-		private String[] _roleNames;
-	}
-
-	class RoleProxyFactory {
-		Map<String, RoleProxy> _roleProxies = new HashMap<>();
-
-		public Role getRole(String roleName) {
-			if (_roleProxies.containsKey(roleName)) {
-				return _roleProxies.get(roleName).getRole();
-			}
-
-			RoleProxy roleProxy = new RoleProxy(roleName);
-			_roleProxies.put(roleName, roleProxy);
-			return roleProxy.getRole();
-		}
-
-		public RoleProxy getRoleProxy(String roleName) {
-			if (_roleProxies.containsKey(roleName)) {
-				return _roleProxies.get(roleName);
-			}
-
-			RoleProxy roleProxy = new RoleProxy(roleName);
-			_roleProxies.put(roleName, roleProxy);
-			return roleProxy;
-		}
-
-		public void setRoleToAsset(String className, String primKey, ResourceAction resourceAction, String ... roleNames) {
-			List<Role> classRoles = new ArrayList<>();
-
-			for(String roleName : roleNames) {
-				classRoles.add(getRole(roleName));
-			}
-
-			try {
-				_mockResourcePermissionLocalServiceGetRolesInside(
-					_companyId, className, _scope, primKey, classRoles, resourceAction);
-			} catch (Exception exception) {
-				System.out.println("Failed to mock ResourcePermissionLocalService roles");
-			}
-		}
-
-		private void _mockResourcePermissionLocalServiceGetRolesInside(
-			long companyId, String className, int scope, String resourcePrimKey,
-			List<Role> roles, ResourceAction resourceAction) throws Exception {
-
-			List<ResourcePermission> resourcePermissions =
-				_createResourcePermissionMocksInside(resourceAction, roles);
-
-			_addRolesToRoleLocalServiceInside(roles);
-
-			Mockito.doReturn(
-				resourcePermissions
-			).when(
-				_resourcePermissionPersistence
-			).findByC_N_S_P(companyId, className, scope, resourcePrimKey);
-
-		}
-
-		private List<ResourcePermission> _createResourcePermissionMocksInside(
-			ResourceAction resourceAction, List<Role> roles) {
-
-			List<ResourcePermission> resourcePermissions = new ArrayList<>();
-
-			for(Role role : roles) {
-				ResourcePermission resourcePermission =
-					Mockito.mock(ResourcePermission.class);
-
-				Mockito.doReturn(
-					true
-				).when(
-					resourcePermission
-				).hasAction(resourceAction);
-
-				Mockito.doReturn(
-					role.getRoleId()
-				).when(
-					resourcePermission
-				).getRoleId();
-
-				resourcePermissions.add(resourcePermission);
-			}
-
-			return resourcePermissions;
-		}
-
-		private void _addRolesToRoleLocalServiceInside(List<Role> roles) throws Exception {
-			for(Role role : roles) {
-
-				Mockito.when(
-					_roleLocalService.getRole(role.getRoleId())
-				).thenReturn(
-					role
-				);
-			}
-		}
-	}
-
-	class RoleProxy{
-		RoleProxy(String roleName) {
-			_role = Mockito.mock(Role.class);
-			_roleId = RandomTestUtil.randomLong();
-			_roleName = roleName;
-			_mockRole();
-		}
-
-		private void _mockRole() {
-			try {
-
-				Mockito.doReturn(
-					_role
-				).when(
-					_roleLocalService
-				).getRole(_roleId);
-
-				Mockito.doReturn(
-					_role
-				).when(
-					_roleLocalService
-				).getRole(_companyId, _roleName);
-
-				Mockito.doReturn(
-					_roleId
-				).when(
-					_role
-				).getRoleId();
-
-				Mockito.doReturn(
-					_roleName
-				).when(
-					_role
-				).getDescriptiveName();
-
-			} catch (Exception exception) {
-				System.out.println("Failed to mock role " + _roleName);
-			}
-		}
-
-		public Role getRole() {
-			return _role;
-		}
-
-		private long _roleId;
-		private String _roleName;
-		private Role _role;
-	}
+//	class JournalArticleFolderProxyFactory {
+//		JournalArticleFolderProxyFactory(long companyId) {
+//			_companyId = companyId;
+//		}
+//
+//		JournalArticleProxy createJournalArticleProxy(String ... roleNames) {
+//			return new JournalArticleProxy(roleNames);
+//		}
+//
+//		JournalArticleProxy createJournalArticleProxy(
+//			JournalFolderProxy journalFolderProxy, String ... roleNames) {
+//			return new JournalArticleProxy(journalFolderProxy, roleNames);
+//		}
+//
+//		JournalFolderProxy createJournalFolderProxy(String ... roleNames) {
+//			return new JournalFolderProxy(roleNames);
+//		}
+//
+//		JournalFolderProxy createJournalFolderProxy(
+//			JournalFolderProxy journalFolderProxy, String ... roleNames) {
+//			return new JournalFolderProxy(journalFolderProxy, roleNames);
+//		}
+//
+//		private long _companyId;
+//	}
+
+//	class JournalArticleProxy {
+//		JournalArticleProxy(String[] roleNames) {
+//			new JournalArticleProxy(null, roleNames);
+//		}
+//
+//		JournalArticleProxy(JournalFolderProxy journalFolderProxy, String[] roleNames) {
+//			_resourcePrimKey = StringUtil.toString(RandomTestUtil.randomLong());
+//			_primKey = StringUtil.toString(RandomTestUtil.randomLong());
+//			_roleNames = roleNames;
+//			_parentClassPK = journalFolderProxy.getResourcePrimKey();
+//			_createTreePath(journalFolderProxy);
+//			_mockRoles(roleNames);
+//			_mockPersistedModel();
+//		}
+//
+//		private void _mockPersistedModel() {
+//
+//			_journalArticlePersistedBaseChildModel = Mockito.mock(PersistenceBaseChild.class);
+//
+//			Mockito.doReturn(
+//				_parentClassPK
+//			).when(
+//				_journalArticlePersistedBaseChildModel
+//			).getParentClassPK();
+//
+//			Mockito.doReturn(
+//				_journalFolderClassName
+//			).when(
+//				_journalArticlePersistedBaseChildModel
+//			).getParentClassName();
+//
+//			_mockTreePath();
+//
+//			try {
+//				Mockito.doReturn(
+//					_journalArticlePersistedBaseChildModel
+//				).when(
+//					_journalArticlePersistedModelLocalService
+//				).getPersistedModel(Long.valueOf(_primKey));
+//			} catch (Exception exception) {
+//				System.out.println("_mockPersistedModel failed");
+//			}
+//		}
+//
+//		private void _mockTreePath() {
+//			Mockito.doReturn(
+//				_treePath
+//			).when(
+//				_journalArticlePersistedBaseChildModel
+//			).getTreePath();
+//		}
+//
+//		private void _mockRoles(String[] roleNames) {
+//			try {
+//				List<Role> roles = new ArrayList<>();
+//
+//				for(String roleName : roleNames) {
+//					roles.add(_roleProxyFactory.getRole(roleName));
+//				}
+//
+//				_roles.addAll(roles);
+//				_roleProxyFactory.setRoleToAsset(
+//					_journalArticleClassName, _resourcePrimKey,
+//					_viewArticleResourceAction, roleNames);
+//			} catch (Exception exception) {
+//				_roles = null;
+//				System.out.println("Failed to mock JournalArticle roles");
+//			}
+//		}
+//
+//
+//		//journalArticle uses different primKey? needed to switch back to resource
+//
+//		private void _createTreePath(JournalFolderProxy journalFolderProxy) {
+//			_treePath = journalFolderProxy != null ? journalFolderProxy.getTreePath() : "/";
+//		}
+//
+//		public String getResourcePrimKey() {
+//			return _resourcePrimKey;
+//		}
+//
+//		public String getPrimKey() {
+//			return _primKey;
+//		}
+//
+//		public String[] getRoleNames() {
+//			return _roleNames;
+//		}
+//
+//		public String getTreePath() {
+//			return _treePath;
+//		}
+//
+//		private String _parentClassPK;
+//		private List<Role> _roles = new ArrayList<>();
+//		private String _resourcePrimKey;
+//		private String _primKey;
+//		private String _treePath;
+//		private String[] _roleNames;
+//		private PersistenceBaseChild _journalArticlePersistedBaseChildModel;
+//	}
+
+//	public abstract class PersistenceBaseChild implements BaseChildModel, PersistedModel {}
+
+//	class JournalFolderProxy {
+//		JournalFolderProxy(String[] roleNames) {
+//			_resourcePrimKey = StringUtil.toString(RandomTestUtil.randomLong());
+//			//primKey may be the same with a JournalFolder
+//			//_primKey = StringUtil.toString(RandomTestUtil.randomLong());
+//			_roleNames = roleNames;
+//			_treePath = "/" + _resourcePrimKey + "/";
+//			_mockRoles(roleNames);
+//		}
+//
+//		JournalFolderProxy(JournalFolderProxy journalFolderProxy, String[] roleNames) {
+//			_resourcePrimKey = StringUtil.toString(RandomTestUtil.randomLong());
+//			//primKey may be the same with a JournalFolder
+//			//_primKey = StringUtil.toString(RandomTestUtil.randomLong());
+//			_roleNames = roleNames;
+//			_createTreePath(journalFolderProxy);
+//			_mockRoles(roleNames);
+//		}
+//
+//		private void _mockRoles(String[] roleNames) {
+//			try {
+//				List<Role> roles = new ArrayList<>();
+//
+//				for(String roleName : roleNames) {
+//					roles.add(_roleProxyFactory.getRole(roleName));
+//				}
+//
+//				_roles.addAll(roles);
+//				_roleProxyFactory.setRoleToAsset(_journalFolderClassName, _resourcePrimKey, _viewFolderResourceAction, roleNames);
+//			} catch (Exception exception) {
+//				_roles = null;
+//				System.out.println("Failed to mock JournalFolder roles");
+//			}
+//		}
+//
+//		//journalFolder uses different primKey
+//
+//		private void _createTreePath(JournalFolderProxy journalFolderProxy) {
+//
+//			if(journalFolderProxy != null) {
+//				_treePath = journalFolderProxy.getTreePath();
+//			} else {
+//				_treePath = "/";
+//			}
+//
+//			_treePath = _treePath.concat(_resourcePrimKey + "/");
+//
+//		}
+//
+//		public String getResourcePrimKey() {
+//			return _resourcePrimKey;
+//		}
+//
+//		public String[] getRoleNames() {
+//			return _roleNames;
+//		}
+//
+//		public String getTreePath() {
+//			return _treePath;
+//		}
+//
+//		private List<Role> _roles = new ArrayList<>();
+//		private String _resourcePrimKey;
+//		private String _treePath;
+//		private String[] _roleNames;
+//	}
+
+//	class RoleProxyFactory {
+//		Map<String, RoleProxy> _roleProxies = new HashMap<>();
+//
+//		public Role getRole(String roleName) {
+//			if (_roleProxies.containsKey(roleName)) {
+//				return _roleProxies.get(roleName).getRole();
+//			}
+//
+//			RoleProxy roleProxy = new RoleProxy(roleName);
+//			_roleProxies.put(roleName, roleProxy);
+//			return roleProxy.getRole();
+//		}
+//
+//		public RoleProxy getRoleProxy(String roleName) {
+//			if (_roleProxies.containsKey(roleName)) {
+//				return _roleProxies.get(roleName);
+//			}
+//
+//			RoleProxy roleProxy = new RoleProxy(roleName);
+//			_roleProxies.put(roleName, roleProxy);
+//			return roleProxy;
+//		}
+//
+//		public void setRoleToAsset(String className, String primKey, ResourceAction resourceAction, String ... roleNames) {
+//			List<Role> classRoles = new ArrayList<>();
+//
+//			for(String roleName : roleNames) {
+//				classRoles.add(getRole(roleName));
+//			}
+//
+//			try {
+//				_mockResourcePermissionLocalServiceGetRolesInside(
+//					_companyId, className, _scope, primKey, classRoles, resourceAction);
+//			} catch (Exception exception) {
+//				System.out.println("Failed to mock ResourcePermissionLocalService roles");
+//			}
+//		}
+//
+//		private void _mockResourcePermissionLocalServiceGetRolesInside(
+//			long companyId, String className, int scope, String resourcePrimKey,
+//			List<Role> roles, ResourceAction resourceAction) throws Exception {
+//
+//			List<ResourcePermission> resourcePermissions =
+//				_createResourcePermissionMocksInside(resourceAction, roles);
+//
+//			_addRolesToRoleLocalServiceInside(roles);
+//
+//			Mockito.doReturn(
+//				resourcePermissions
+//			).when(
+//				_resourcePermissionPersistence
+//			).findByC_N_S_P(companyId, className, scope, resourcePrimKey);
+//
+//		}
+//
+//		private List<ResourcePermission> _createResourcePermissionMocksInside(
+//			ResourceAction resourceAction, List<Role> roles) {
+//
+//			List<ResourcePermission> resourcePermissions = new ArrayList<>();
+//
+//			for(Role role : roles) {
+//				ResourcePermission resourcePermission =
+//					Mockito.mock(ResourcePermission.class);
+//
+//				Mockito.doReturn(
+//					true
+//				).when(
+//					resourcePermission
+//				).hasAction(resourceAction);
+//
+//				Mockito.doReturn(
+//					role.getRoleId()
+//				).when(
+//					resourcePermission
+//				).getRoleId();
+//
+//				resourcePermissions.add(resourcePermission);
+//			}
+//
+//			return resourcePermissions;
+//		}
+//
+//		private void _addRolesToRoleLocalServiceInside(List<Role> roles) throws Exception {
+//			for(Role role : roles) {
+//
+//				Mockito.when(
+//					_roleLocalService.getRole(role.getRoleId())
+//				).thenReturn(
+//					role
+//				);
+//			}
+//		}
+//	}
+
+//	class RoleProxy{
+//		RoleProxy(String roleName) {
+//			_role = Mockito.mock(Role.class);
+//			_roleId = RandomTestUtil.randomLong();
+//			_roleName = roleName;
+//			_mockRole();
+//		}
+//
+//		private void _mockRole() {
+//			try {
+//
+//				Mockito.doReturn(
+//					_role
+//				).when(
+//					_roleLocalService
+//				).getRole(_roleId);
+//
+//				Mockito.doReturn(
+//					_role
+//				).when(
+//					_roleLocalService
+//				).getRole(_companyId, _roleName);
+//
+//				Mockito.doReturn(
+//					_roleId
+//				).when(
+//					_role
+//				).getRoleId();
+//
+//				Mockito.doReturn(
+//					_roleName
+//				).when(
+//					_role
+//				).getDescriptiveName();
+//
+//			} catch (Exception exception) {
+//				System.out.println("Failed to mock role " + _roleName);
+//			}
+//		}
+//
+//		public Role getRole() {
+//			return _role;
+//		}
+//
+//		private long _roleId;
+//		private String _roleName;
+//		private Role _role;
+//	}
 
 	private Role _mockRole(String roleString) throws Exception {
 		Role role = Mockito.mock(Role.class);
@@ -618,8 +625,8 @@ public class ResourcePermissionImplTest {
 	@Mock
 	private ResourceAction _accessFolderResourceAction;
 
-	private RoleProxyFactory _roleProxyFactory = new RoleProxyFactory();
-	private JournalArticleFolderProxyFactory _journalArticleFolderProxyFactory;
+	private RoleProxyFactory _roleProxyFactory;// = new RoleProxyFactory();
+	private JournalProxyFactory _journalProxyFactory;
 	private long _companyId;
 	private String _journalArticleClassName;
 	private String _journalFolderClassName;
