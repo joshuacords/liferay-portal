@@ -80,7 +80,7 @@ public class ResourcePermissionImplTest {
 			_persistedModelLocalServiceRegistry);
 	}
 
-	private void _mockPersistedModelLocalServices() {
+	private void _mockPersistedModelLocalServices() throws Exception {
 		Mockito.doReturn(
 			_journalArticlePersistedModelLocalService
 		).when(
@@ -94,16 +94,16 @@ public class ResourcePermissionImplTest {
 		).getPersistedModelLocalService(_journalFolderClassName);
 
 
-		try {
+//		try {
 			Mockito.doReturn(
 				_roleProxyFactory.getRole(RoleConstants.GUEST)
 			).when(
 				_roleLocalService
 			).getRole(
 				_companyId, RoleConstants.GUEST);
-		} catch (Exception exception) {
-			System.out.println("Failed to mock fetching Guest role");
-		}
+//		} catch (Exception exception) {
+//			System.out.println("Failed to mock fetching Guest role");
+//		}
 	}
 
 	private void _initializeBasicVariables() {
@@ -116,8 +116,8 @@ public class ResourcePermissionImplTest {
 		_viewActionId = ActionKeys.VIEW;
 	}
 
-	private void _mockResourceActions() {
-		try {
+	private void _mockResourceActions() throws Exception {
+//		try {
 			Mockito.doReturn(
 				_viewFolderResourceAction
 			).when(
@@ -130,9 +130,9 @@ public class ResourcePermissionImplTest {
 				_resourceActionLocalService
 			).getResourceAction(_journalArticleClassName, _viewActionId);
 
-		} catch (Exception exception) {
-			System.out.println("_viewFolder/ArticleResourceAction mock failed");
-		}
+//		} catch (Exception exception) {
+//			System.out.println("_viewFolder/ArticleResourceAction mock failed");
+//		}
 	}
 
 	@Test
@@ -204,30 +204,30 @@ public class ResourcePermissionImplTest {
 		}
 	}
 
-	private StringBuilder _appendRoleSets(Set<Set<Role>> roleSets, StringBuilder sb) {
+	private StringBuilder _appendRoleSets(Set<Set<Role>> roleSets, StringBuilder sb) throws Exception {
 
-		try {
+//		try {
 			for(Set<Role> roleSet : roleSets) {
 				sb.append("[");
 				_appendRoleSet(roleSet, sb);
 				sb.append("], ");
 			}
-		} catch (Exception exception) {
-
-		}
+//		} catch (Exception exception) {
+//
+//		}
 
 		return sb;
 	}
 
-	private StringBuilder _appendRoleSet(Set<Role> roleSet, StringBuilder sb) {
-		try {
+	private StringBuilder _appendRoleSet(Set<Role> roleSet, StringBuilder sb) throws Exception {
+//		try {
 			for (Role role : roleSet) {
 				sb.append(role.getDescriptiveName());
 				sb.append(", ");
 			}
-		} catch (Exception exception) {
-
-		}
+//		} catch (Exception exception) {
+//
+//		}
 
 		return sb;
 	}
