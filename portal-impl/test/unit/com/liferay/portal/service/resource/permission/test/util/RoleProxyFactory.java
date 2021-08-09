@@ -42,8 +42,6 @@ public class RoleProxyFactory {
 		_roleLocalService = roleLocalService;
 		_companyId = companyId;
 
-		_scope = 4;
-
 		_resourcePermissionPersistence = Mockito.mock(
 			ResourcePermissionPersistence.class);
 
@@ -68,8 +66,8 @@ public class RoleProxyFactory {
 	}
 
 	public void setResourceActionToRolesOnAsset(
-		ResourceAction resourceAction, List<Role> rolesWithResourceAction,
-		String className, String primKey)
+			ResourceAction resourceAction, List<Role> rolesWithResourceAction,
+			String className, String primKey)
 		throws Exception {
 
 		_mockResourcePermissionsForRolesWithResourceAction(
@@ -78,21 +76,9 @@ public class RoleProxyFactory {
 		_mockRoleLocalServiceForRoles(rolesWithResourceAction);
 	}
 
-	private void _mockRoleLocalServiceForRoles(List<Role> roles)
-		throws Exception {
-
-		for (Role role : roles) {
-			Mockito.when(
-				_roleLocalService.getRole(role.getRoleId())
-			).thenReturn(
-				role
-			);
-		}
-	}
-
 	private void _mockResourcePermissionsForRolesWithResourceAction(
-		ResourceAction resourceAction, List<Role> roles,
-		String className, String primKey) {
+		ResourceAction resourceAction, List<Role> roles, String className,
+		String primKey) {
 
 		List<ResourcePermission> resourcePermissions = new ArrayList<>();
 
@@ -122,9 +108,23 @@ public class RoleProxyFactory {
 		).when(
 			_resourcePermissionPersistence
 		).findByC_N_S_P(
-			_companyId, className, _scope, primKey
+			_companyId, className, _SCOPE, primKey
 		);
 	}
+
+	private void _mockRoleLocalServiceForRoles(List<Role> roles)
+		throws Exception {
+
+		for (Role role : roles) {
+			Mockito.when(
+				_roleLocalService.getRole(role.getRoleId())
+			).thenReturn(
+				role
+			);
+		}
+	}
+
+	private static final int _SCOPE = 4;
 
 	private final long _companyId;
 	private final ResourcePermissionLocalService
@@ -132,6 +132,5 @@ public class RoleProxyFactory {
 	private final ResourcePermissionPersistence _resourcePermissionPersistence;
 	private final RoleLocalService _roleLocalService;
 	private final Map<String, RoleProxy> _roleProxies = new HashMap<>();
-	private final int _scope;
 
 }
