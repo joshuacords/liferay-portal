@@ -1,25 +1,49 @@
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
 package com.liferay.portal.service.resource.permission.test.util;
 
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
+
 import org.mockito.Mockito;
 
-public class RoleProxy{
+/**
+ * @author Joshua Cords
+ */
+public class RoleProxy {
 
-	RoleProxy(
-		RoleLocalService roleLocalService, long companyId, String roleName)
+	public RoleProxy(
+			RoleLocalService roleLocalService, long companyId, String roleName)
 		throws Exception {
-		_companyId = companyId;
-		_role = Mockito.mock(Role.class);
+
 		_roleLocalService = roleLocalService;
-		_roleId = RandomTestUtil.randomLong();
+		_companyId = companyId;
 		_roleName = roleName;
+
+		_role = Mockito.mock(Role.class);
+		_roleId = RandomTestUtil.randomLong();
+
 		_mockRole();
 	}
 
+	public Role getRole() {
+		return _role;
+	}
+
 	private void _mockRole() throws Exception {
-//		try {
 		Mockito.doReturn(
 			_roleId
 		).when(
@@ -30,32 +54,29 @@ public class RoleProxy{
 			_role
 		).when(
 			_roleLocalService
-		).getRole(_roleId);
+		).getRole(
+			_roleId
+		);
 
 		Mockito.doReturn(
 			_role
 		).when(
 			_roleLocalService
-		).getRole(_companyId, _roleName);
+		).getRole(
+			_companyId, _roleName
+		);
 
 		Mockito.doReturn(
 			_roleName
 		).when(
 			_role
 		).getDescriptiveName();
-
-//		} catch (Exception exception) {
-//			System.out.println("Failed to mock role " + _roleName);
-//		}
 	}
 
-	public Role getRole() {
-		return _role;
-	}
+	private final long _companyId;
+	private final Role _role;
+	private final long _roleId;
+	private final RoleLocalService _roleLocalService;
+	private final String _roleName;
 
-	private long _companyId;
-	private RoleLocalService _roleLocalService;
-	private long _roleId;
-	private String _roleName;
-	private Role _role;
 }
