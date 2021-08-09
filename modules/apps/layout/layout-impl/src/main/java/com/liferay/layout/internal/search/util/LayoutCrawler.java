@@ -64,7 +64,8 @@ public class LayoutCrawler {
 		).build();
 
 		try {
-			InetAddress inetAddress = _portal.getPortalServerInetAddress(false);
+			InetAddress inetAddress = _portal.getPortalServerInetAddress(
+				_isHttpsEnabled());
 
 			ThemeDisplay themeDisplay = new ThemeDisplay();
 
