@@ -36,21 +36,23 @@ import org.mockito.Mockito;
 public class JournalArticleProxy {
 
 	public JournalArticleProxy(
-		PersistedModelLocalService journalArticlePersistedModelLocalService,
-		ResourceActionLocalService resourceActionLocalService,
-		RoleProxyFactory roleProxyFactory, String[] roleNames,
-		JournalFolderProxy journalFolderProxy)
+			PersistedModelLocalService journalArticlePersistedModelLocalService,
+			ResourceActionLocalService resourceActionLocalService,
+			RoleProxyFactory roleProxyFactory, String[] roleNames,
+			JournalFolderProxy journalFolderProxy)
 		throws Exception {
 
 		_journalArticlePersistedModelLocalService =
 			journalArticlePersistedModelLocalService;
 		_resourceActionLocalService = resourceActionLocalService;
 		_roleProxyFactory = roleProxyFactory;
+
 		_roleNamesWithViewPermission = roleNames;
 
-		if(journalFolderProxy != null) {
+		if (journalFolderProxy != null) {
 			_parentClassPK = journalFolderProxy.getResourcePrimKey();
-		} else {
+		}
+		else {
 			_parentClassPK = "";
 		}
 
@@ -61,11 +63,11 @@ public class JournalArticleProxy {
 	}
 
 	public String getPrimKey() {
-		return _primKey;
+		return _PRIM_KEY;
 	}
 
 	public String getResourcePrimKey() {
-		return _resourcePrimKey;
+		return _RESOURCE_PRIM_KEY;
 	}
 
 	public abstract class PersistenceBaseChild
@@ -74,7 +76,8 @@ public class JournalArticleProxy {
 
 	private void _createTreePath(JournalFolderProxy journalFolderProxy) {
 		_treePath =
-			journalFolderProxy != null ? journalFolderProxy.getTreePath() : "/";
+			(journalFolderProxy != null) ? journalFolderProxy.getTreePath() :
+				"/";
 	}
 
 	private void _mockPersistedModel() throws Exception {
@@ -104,11 +107,13 @@ public class JournalArticleProxy {
 		).when(
 			_journalArticlePersistedModelLocalService
 		).getPersistedModel(
-			Long.valueOf(_primKey)
+			Long.valueOf(_PRIM_KEY)
 		);
 	}
 
-	private void _mockRolesWithViewPermissions(String[] roleNames) throws Exception {
+	private void _mockRolesWithViewPermissions(String[] roleNames)
+		throws Exception {
+
 		_mockViewArticleResourceAction();
 
 		for (String roleName : roleNames) {
@@ -117,7 +122,7 @@ public class JournalArticleProxy {
 
 		_roleProxyFactory.mockResourceActionWithRolesOnAsset(
 			_viewArticleResourceAction, _rolesWithViewPermission,
-			_CLASS_NAME_JOURNAL_ARTICLE, _resourcePrimKey);
+			_CLASS_NAME_JOURNAL_ARTICLE, _RESOURCE_PRIM_KEY);
 	}
 
 	private void _mockViewArticleResourceAction() throws Exception {
@@ -130,27 +135,31 @@ public class JournalArticleProxy {
 		).getResourceAction(
 			_CLASS_NAME_JOURNAL_ARTICLE, _VIEW_ACTION_ID
 		);
-
 	}
 
 	private static final String _CLASS_NAME_JOURNAL_ARTICLE =
 		"com.liferay.journal.model.JournalArticle";
+
 	private static final String _CLASS_NAME_JOURNAL_FOLDER =
 		"com.liferay.journal.model.JournalFolder";
+
+	private static final String _PRIM_KEY = StringUtil.toString(
+		RandomTestUtil.randomLong());
+
+	private static final String _RESOURCE_PRIM_KEY = StringUtil.toString(
+		RandomTestUtil.randomLong());
+
 	private static final String _VIEW_ACTION_ID = ActionKeys.VIEW;
 
 	private PersistenceBaseChild _journalArticlePersistedBaseChildModel;
-	private PersistedModelLocalService
+	private final PersistedModelLocalService
 		_journalArticlePersistedModelLocalService;
-	private String _parentClassPK;
-	private String _primKey = StringUtil.toString(RandomTestUtil.randomLong());
-	private ResourceActionLocalService _resourceActionLocalService;
-	private String _resourcePrimKey = StringUtil.toString(RandomTestUtil.randomLong());
-	private String[] _roleNamesWithViewPermission;
-	private RoleProxyFactory _roleProxyFactory;
-	private List<Role> _rolesWithViewPermission = new ArrayList<>();
+	private final String _parentClassPK;
+	private final ResourceActionLocalService _resourceActionLocalService;
+	private final String[] _roleNamesWithViewPermission;
+	private final RoleProxyFactory _roleProxyFactory;
+	private final List<Role> _rolesWithViewPermission = new ArrayList<>();
 	private String _treePath;
-
 	private ResourceAction _viewArticleResourceAction;
 
 }
