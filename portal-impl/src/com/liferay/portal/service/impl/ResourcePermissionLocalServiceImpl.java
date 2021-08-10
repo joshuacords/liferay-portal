@@ -794,58 +794,6 @@ public class ResourcePermissionLocalServiceImpl
 			companyId, name, scope, resourcePrimKey, resourcePrimKey, actionId);
 	}
 
-	//	@Override
-	//	public List<Role> getDynamicInheritanceRoles(
-	//			long companyId, String name, int scope, String resourcePrimKey,
-	//			String primKey, String actionId)
-	//		throws PortalException {
-	//
-	//		List<Role> baseRoles = getRoles(
-	//			companyId, name, scope, resourcePrimKey, actionId);
-
-	//
-	//		Set<Role> baseRoleSet = new HashSet<>(baseRoles);
-	//
-	//		Long classPK = GetterUtil.getLong(primKey);
-
-	//
-	//		BaseChildModel baseChildModel = _getChildModel(name, classPK);
-	//
-	//		if (baseChildModel == null) {
-	//			return baseRoles;
-	//		}
-	//
-	//		String parentClassPK = baseChildModel.getParentClassPK();
-	//
-	//		if (Validator.isNull(parentClassPK) || parentClassPK.equals("0")) {
-	//			return baseRoles;
-	//		}
-	//
-	//		List<Role> parentAccessRoles = getRoles(
-	//			companyId, baseChildModel.getParentClassName(),
-	//			ResourceConstants.SCOPE_INDIVIDUAL, parentClassPK, "ACCESS");
-	//
-	//		Role guestRole = roleLocalService.getRole(
-	//			companyId, RoleConstants.GUEST);
-	//
-	//		if (!baseRoleSet.contains(guestRole)) {
-	//			parentAccessRoles.retainAll(baseRoles);
-	//		}
-	//
-	//		Set<Role> parentViewRoles = _getTreePathRoles(
-	//			baseChildModel, companyId, baseRoleSet, guestRole);
-	//
-	//		_getTreePathRoles2(baseChildModel, companyId, baseRoles, guestRole);
-	//
-	//		Set<Role> rolesSet = new HashSet<>();
-
-	//
-	//		rolesSet.addAll(parentAccessRoles);
-	//		rolesSet.addAll(parentViewRoles);
-	//
-	//		return new ArrayList<>(rolesSet);
-	//	}
-
 	@Override
 	public Set<Set<Role>> getDynamicInheritanceRoles(
 			long companyId, String name, int scope, String resourcePrimKey,
@@ -2117,17 +2065,6 @@ public class ResourcePermissionLocalServiceImpl
 		return roleSetsWithAccessPreviously;
 	}
 
-	private void _folderRolesSetAsBaseRoles(
-		List<Role> folderRoles, List<Set<Role>> roleSetsWithAccess) {
-
-		for (Role folderRole : folderRoles) {
-			Set<Role> baseRoles = new HashSet<>();
-
-			baseRoles.add(folderRole);
-			roleSetsWithAccess.add(baseRoles);
-		}
-	}
-
 	private BaseChildModel _getChildModel(String className, Long classPK) {
 		try {
 			PersistedModelLocalService persistedModelLocalService =
@@ -2160,45 +2097,6 @@ public class ResourcePermissionLocalServiceImpl
 		return null;
 	}
 
-	//	private Set<Role> _getTreePathRoles(
-	//			BaseChildModel baseChildModel, long companyId, Set<Role> roles,
-	//			Role guestRole)
-	//		throws PortalException {
-	//
-	//		String[] parentFolderIds = StringUtil.split(
-	//			baseChildModel.getTreePath(), StringPool.SLASH);
-	//
-	//		boolean guest = false;
-	//
-	//		if (roles.contains(guestRole)) {
-	//			guest = true;
-	//		}
-	//
-	//		List<Role> folderRoles;
-	//
-	//		for (int i = parentFolderIds.length - 1; !roles.isEmpty() && (i > 0);
-	//			 i--) {
-	//
-	//			folderRoles = getRoles(
-	//				companyId, baseChildModel.getParentClassName(),
-	//				ResourceConstants.SCOPE_INDIVIDUAL, parentFolderIds[i], "VIEW");
-	//
-	//			if (guest) {
-	//				roles.addAll(folderRoles);
-	//
-	//				if (!folderRoles.contains(guestRole)) {
-	//					guest = false;
-	//				}
-	//			}
-	//
-	//			if (!folderRoles.contains(guestRole)) {
-	//				roles.retainAll(folderRoles);
-	//			}
-	//		}
-	//
-	//		return roles;
-	//	}
-
 	private PersistedModelLocalService _getPersistedModelLocalService(
 		String className) {
 
@@ -2214,18 +2112,6 @@ public class ResourcePermissionLocalServiceImpl
 
 		return persistedModelLocalService;
 	}
-
-	//	private boolean _tryAssigningStartingRoles(
-	//		List<Role> roles, List<Set<Role>> roleSetsWithAccess, Role guestRole) {
-	//
-	//		if(roles.contains(guestRole)) {
-	//			return false;
-	//		}
-	//
-	//		_assignStartingRoles(roles, roleSetsWithAccess);
-	//
-	//		return true;
-	//	}
 
 	private Map<Long, ResourcePermission> _getResourcePermissionsMap(
 		List<ResourcePermission> resourcePermissions) {
@@ -2256,9 +2142,6 @@ public class ResourcePermissionLocalServiceImpl
 
 		List<Set<Role>> roleSetsWithPermissionPreviously = new ArrayList<>();
 
-		//		boolean startingRolesAssigned = _tryAssigningStartingRoles(
-		//			roles, roleSetsWithAccess, guestRole);
-
 		_assignStartingRoles(roles, roleSetsWithPermission, guestRole);
 
 		boolean guestRoleHasPermission = roles.contains(guestRole);
@@ -2274,21 +2157,11 @@ public class ResourcePermissionLocalServiceImpl
 				guestRoleHasPermission = false;
 			}
 
-			// if we haven't assigned base roles yet, this folder's roles become
-			// the base roles
-
-			//			if(!startingRolesAssigned) {
-			//				_assignStartingRoles(folderRoles, roleSetsWithAccess);
-			//				startingRolesAssigned = true;
-			//				continue;
-			//			}
-
 			//is this still necessary?
 
 			if (guestRoleHasPermission && roleSetsWithPermission.isEmpty()) {
 				_assignStartingRoles(
 					folderRoles, roleSetsWithPermission, guestRole);
-				//				startingRolesAssigned = true;
 
 				continue;
 			}
@@ -2305,7 +2178,6 @@ public class ResourcePermissionLocalServiceImpl
 			//what if folder has no roles, seems to work
 
 			for (Role folderRole : folderRoles) {
-				//skip guest role
 
 				if (folderRole.getRoleId() == guestRole.getRoleId()) {
 					continue;
@@ -2342,9 +2214,6 @@ public class ResourcePermissionLocalServiceImpl
 					rolesToCombine.add(folderRole);
 				}
 			}
-
-			// Cross combine all RolesWithAccessPreviously With RolesToCombine
-			// and add to RolesWithAccess
 
 			Optional.ofNullable(
 				_crossCombineRolesWithAccessPreviouslyWithRolesToCombine(
