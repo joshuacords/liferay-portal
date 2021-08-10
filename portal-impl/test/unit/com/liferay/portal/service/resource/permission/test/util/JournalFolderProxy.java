@@ -33,10 +33,10 @@ import org.mockito.Mockito;
 public class JournalFolderProxy {
 
 	public JournalFolderProxy(
-		ResourceActionLocalService resourceActionLocalService,
-		RoleProxyFactory roleProxyFactory,
-		String[] roleNamesWithViewPermission,
-		JournalFolderProxy journalFolderProxy)
+			ResourceActionLocalService resourceActionLocalService,
+			RoleProxyFactory roleProxyFactory,
+			String[] roleNamesWithViewPermission,
+			JournalFolderProxy journalFolderProxy)
 		throws Exception {
 
 		_resourceActionLocalService = resourceActionLocalService;
