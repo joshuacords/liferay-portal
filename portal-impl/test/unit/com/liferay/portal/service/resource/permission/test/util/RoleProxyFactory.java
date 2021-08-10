@@ -65,7 +65,7 @@ public class RoleProxyFactory {
 		return roleProxy.getRole();
 	}
 
-	public void setResourceActionToRolesOnAsset(
+	public void mockResourceActionWithRolesOnAsset(
 			ResourceAction resourceAction, List<Role> rolesWithResourceAction,
 			String className, String primKey)
 		throws Exception {
