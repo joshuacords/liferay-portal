@@ -42,12 +42,14 @@ public class JournalFolderProxy {
 		_roleProxyFactory = roleProxyFactory;
 		_roleNamesWithViewPermission = roleNamesWithViewPermission;
 
+		_resourcePrimKey = StringUtil.toString(RandomTestUtil.randomLong());
+
 		_createTreePath(journalFolderProxy);
 		_mockRolesWithViewPermissions();
 	}
 
 	public String getResourcePrimKey() {
-		return _RESOURCE_PRIM_KEY;
+		return _resourcePrimKey;
 	}
 
 	public String getTreePath() {
@@ -64,7 +66,7 @@ public class JournalFolderProxy {
 			sb.append("/");
 		}
 
-		sb.append(_RESOURCE_PRIM_KEY);
+		sb.append(_resourcePrimKey);
 		sb.append("/");
 
 		_treePath = sb.toString();
@@ -77,16 +79,14 @@ public class JournalFolderProxy {
 
 		_roleProxyFactory.mockResourceActionWithRolesOnAsset(
 			_viewFolderResourceAction, _rolesWithViewPermission,
-			_CLASS_NAME_JOURNAL_FOLDER, _RESOURCE_PRIM_KEY);
+			_CLASS_NAME_JOURNAL_FOLDER, _resourcePrimKey);
 	}
 
 	private static final String _CLASS_NAME_JOURNAL_FOLDER =
 		"com.liferay.journal.model.JournalFolder";
 
-	private static final String _RESOURCE_PRIM_KEY = StringUtil.toString(
-		RandomTestUtil.randomLong());
-
 	private final ResourceActionLocalService _resourceActionLocalService;
+	private final String _resourcePrimKey;
 	private final String[] _roleNamesWithViewPermission;
 	private final RoleProxyFactory _roleProxyFactory;
 	private final List<Role> _rolesWithViewPermission = new ArrayList<>();
