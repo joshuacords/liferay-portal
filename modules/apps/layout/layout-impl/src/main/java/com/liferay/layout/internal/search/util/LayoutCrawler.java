@@ -136,10 +136,10 @@ public class LayoutCrawler {
 
 	private boolean _isHttpsEnabled() {
 		if (Objects.equals(
-				Http.HTTPS, PropsUtil.get(PropsKeys.WEB_SERVER_PROTOCOL)) ||
-			Objects.equals(
 				Http.HTTPS,
-				PropsUtil.get(PropsKeys.PORTAL_INSTANCE_PROTOCOL))) {
+				PropsUtil.get(PropsKeys.PORTAL_INSTANCE_PROTOCOL)) ||
+			Objects.equals(
+				Http.HTTPS, PropsUtil.get(PropsKeys.WEB_SERVER_PROTOCOL))) {
 
 			return true;
 		}
