@@ -1,55 +1,77 @@
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
 package com.liferay.portal.service.resource.permission.test.util;
 
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
 import com.liferay.portal.kernel.service.ResourceActionLocalService;
 
+/**
+ * @author Joshua Cords
+ */
 public class JournalProxyFactory {
+
 	public JournalProxyFactory(
 		PersistedModelLocalService journalArticlePersistedModelLocalService,
-//		PersistedModelLocalService journalFolderPersistedModelLocalService,
-		RoleProxyFactory roleProxyFactory,
-		ResourceActionLocalService resourceActionLocalService, long companyId) {
+		ResourceActionLocalService resourceActionLocalService,
+		RoleProxyFactory roleProxyFactory, long companyId) {
+
 		_journalArticlePersistedModelLocalService =
 			journalArticlePersistedModelLocalService;
-//		_journalFolderPersistedModelLocalService =
-//			journalFolderPersistedModelLocalService;
+		_resourceActionLocalService = resourceActionLocalService;
 		_roleProxyFactory = roleProxyFactory;
-		_resourceActionLocalService =
-			resourceActionLocalService;
 		_companyId = companyId;
 	}
 
-	public JournalArticleProxy createJournalArticleProxy(String ... roleNames) throws Exception {
-		return new JournalArticleProxy(
-			_roleProxyFactory,
-			_journalArticlePersistedModelLocalService,
-			_resourceActionLocalService, roleNames);
-	}
-
 	public JournalArticleProxy createJournalArticleProxy(
-		JournalFolderProxy journalFolderProxy, String ... roleNames) throws Exception {
+			JournalFolderProxy journalFolderProxy, String... roleNames)
+		throws Exception {
+
 		return new JournalArticleProxy(
-			_roleProxyFactory,
 			_journalArticlePersistedModelLocalService,
-			_resourceActionLocalService, journalFolderProxy, roleNames);
+			_resourceActionLocalService, _roleProxyFactory, roleNames,
+			journalFolderProxy);
 	}
 
-	public JournalFolderProxy createJournalFolderProxy(String ... roleNames) throws Exception {
-		return new JournalFolderProxy(
-			_resourceActionLocalService, _roleProxyFactory, roleNames);
+	public JournalArticleProxy createJournalArticleProxy(String... roleNames)
+		throws Exception {
+
+		return new JournalArticleProxy(
+			_journalArticlePersistedModelLocalService,
+			_resourceActionLocalService, _roleProxyFactory, roleNames, null);
 	}
 
 	public JournalFolderProxy createJournalFolderProxy(
-		JournalFolderProxy journalFolderProxy, String ... roleNames) throws Exception {
+			JournalFolderProxy journalFolderProxy, String... roleNames)
+		throws Exception {
+
 		return new JournalFolderProxy(
-			_resourceActionLocalService, _roleProxyFactory, journalFolderProxy,
-			roleNames);
+			_resourceActionLocalService, _roleProxyFactory, roleNames,
+			journalFolderProxy);
 	}
 
-	RoleProxyFactory _roleProxyFactory;
-	PersistedModelLocalService _journalArticlePersistedModelLocalService;
-	PersistedModelLocalService _journalFolderPersistedModelLocalService;
-	ResourceActionLocalService _resourceActionLocalService;
-	private long _companyId;
-}
+	public JournalFolderProxy createJournalFolderProxy(String... roleNames)
+		throws Exception {
 
+		return new JournalFolderProxy(
+			_resourceActionLocalService, _roleProxyFactory, roleNames, null);
+	}
+
+	private final long _companyId;
+	private final PersistedModelLocalService
+		_journalArticlePersistedModelLocalService;
+	private final ResourceActionLocalService _resourceActionLocalService;
+	private final RoleProxyFactory _roleProxyFactory;
+
+}
