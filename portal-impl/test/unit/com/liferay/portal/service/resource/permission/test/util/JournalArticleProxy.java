@@ -57,6 +57,10 @@ public class JournalArticleProxy {
 			_parentClassPK = "";
 		}
 
+		_primKey = StringUtil.toString(RandomTestUtil.randomLong());
+
+		_resourcePrimKey = StringUtil.toString(RandomTestUtil.randomLong());
+
 		_createTreePath(journalFolderProxy);
 
 		_mockPersistedModel();
@@ -64,11 +68,11 @@ public class JournalArticleProxy {
 	}
 
 	public String getPrimKey() {
-		return _PRIM_KEY;
+		return _primKey;
 	}
 
 	public String getResourcePrimKey() {
-		return _RESOURCE_PRIM_KEY;
+		return _resourcePrimKey;
 	}
 
 	public abstract class PersistenceBaseChild
@@ -108,7 +112,7 @@ public class JournalArticleProxy {
 		).when(
 			_journalArticlePersistedModelLocalService
 		).getPersistedModel(
-			Long.valueOf(_PRIM_KEY)
+			Long.valueOf(_primKey)
 		);
 	}
 
@@ -121,7 +125,7 @@ public class JournalArticleProxy {
 
 		_roleProxyFactory.mockResourceActionWithRolesOnAsset(
 			_viewArticleResourceAction, _rolesWithViewPermission,
-			_CLASS_NAME_JOURNAL_ARTICLE, _RESOURCE_PRIM_KEY);
+			_CLASS_NAME_JOURNAL_ARTICLE, _resourcePrimKey);
 	}
 
 	private static final String _CLASS_NAME_JOURNAL_ARTICLE =
@@ -130,17 +134,13 @@ public class JournalArticleProxy {
 	private static final String _CLASS_NAME_JOURNAL_FOLDER =
 		"com.liferay.journal.model.JournalFolder";
 
-	private static final String _PRIM_KEY = StringUtil.toString(
-		RandomTestUtil.randomLong());
-
-	private static final String _RESOURCE_PRIM_KEY = StringUtil.toString(
-		RandomTestUtil.randomLong());
-
 	private PersistenceBaseChild _journalArticlePersistedBaseChildModel;
 	private final PersistedModelLocalService
 		_journalArticlePersistedModelLocalService;
 	private final String _parentClassPK;
+	private final String _primKey;
 	private final ResourceActionLocalService _resourceActionLocalService;
+	private final String _resourcePrimKey;
 	private final String[] _roleNamesWithViewPermission;
 	private final RoleProxyFactory _roleProxyFactory;
 	private final List<Role> _rolesWithViewPermission = new ArrayList<>();
