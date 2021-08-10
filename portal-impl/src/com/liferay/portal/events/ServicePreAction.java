@@ -916,10 +916,6 @@ public class ServicePreAction extends Action {
 			return null;
 		}
 
-		// Portal URL
-
-		String portalURL = PortalUtil.getPortalURL(httpServletRequest);
-
 		boolean signedIn = !user.isDefaultUser();
 
 		if (PropsValues.BROWSER_CACHE_DISABLED ||
@@ -944,15 +940,6 @@ public class ServicePreAction extends Action {
 
 			realUser = UserLocalServiceUtil.getUserById(realUserId.longValue());
 		}
-
-		String doAsUserId = ParamUtil.getString(
-			httpServletRequest, "doAsUserId");
-		String doAsUserLanguageId = ParamUtil.getString(
-			httpServletRequest, "doAsUserLanguageId");
-		long doAsGroupId = ParamUtil.getLong(httpServletRequest, "doAsGroupId");
-
-		long refererGroupId = ParamUtil.getLong(
-			httpServletRequest, "refererGroupId");
 
 		long refererPlid = ParamUtil.getLong(httpServletRequest, "refererPlid");
 
@@ -1003,7 +990,6 @@ public class ServicePreAction extends Action {
 		}
 
 		Layout layout = null;
-		List<Layout> layouts = null;
 
 		long plid = ParamUtil.getLong(httpServletRequest, "p_l_id");
 
@@ -1081,6 +1067,21 @@ public class ServicePreAction extends Action {
 				}
 			}
 		}
+
+		// Portal URL
+
+		String portalURL = PortalUtil.getPortalURL(httpServletRequest);
+
+		String doAsUserId = ParamUtil.getString(
+			httpServletRequest, "doAsUserId");
+		String doAsUserLanguageId = ParamUtil.getString(
+			httpServletRequest, "doAsUserLanguageId");
+		long doAsGroupId = ParamUtil.getLong(httpServletRequest, "doAsGroupId");
+
+		long refererGroupId = ParamUtil.getLong(
+			httpServletRequest, "refererGroupId");
+
+		List<Layout> layouts = null;
 
 		String ppid = ParamUtil.getString(httpServletRequest, "p_p_id");
 
