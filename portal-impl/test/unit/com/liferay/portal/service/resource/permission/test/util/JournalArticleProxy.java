@@ -18,7 +18,6 @@ import com.liferay.portal.kernel.model.BaseChildModel;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.model.ResourceAction;
 import com.liferay.portal.kernel.model.Role;
-import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
 import com.liferay.portal.kernel.service.ResourceActionLocalService;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
@@ -38,6 +37,7 @@ public class JournalArticleProxy {
 	public JournalArticleProxy(
 			PersistedModelLocalService journalArticlePersistedModelLocalService,
 			ResourceActionLocalService resourceActionLocalService,
+			ResourceAction viewArticleResourceAction,
 			RoleProxyFactory roleProxyFactory, String[] roleNames,
 			JournalFolderProxy journalFolderProxy)
 		throws Exception {
@@ -45,6 +45,7 @@ public class JournalArticleProxy {
 		_journalArticlePersistedModelLocalService =
 			journalArticlePersistedModelLocalService;
 		_resourceActionLocalService = resourceActionLocalService;
+		_viewArticleResourceAction = viewArticleResourceAction;
 		_roleProxyFactory = roleProxyFactory;
 
 		_roleNamesWithViewPermission = roleNames;
@@ -114,8 +115,6 @@ public class JournalArticleProxy {
 	private void _mockRolesWithViewPermissions(String[] roleNames)
 		throws Exception {
 
-		_mockViewArticleResourceAction();
-
 		for (String roleName : roleNames) {
 			_rolesWithViewPermission.add(_roleProxyFactory.getRole(roleName));
 		}
@@ -123,18 +122,6 @@ public class JournalArticleProxy {
 		_roleProxyFactory.mockResourceActionWithRolesOnAsset(
 			_viewArticleResourceAction, _rolesWithViewPermission,
 			_CLASS_NAME_JOURNAL_ARTICLE, _RESOURCE_PRIM_KEY);
-	}
-
-	private void _mockViewArticleResourceAction() throws Exception {
-		_viewArticleResourceAction = Mockito.mock(ResourceAction.class);
-
-		Mockito.doReturn(
-			_viewArticleResourceAction
-		).when(
-			_resourceActionLocalService
-		).getResourceAction(
-			_CLASS_NAME_JOURNAL_ARTICLE, _VIEW_ACTION_ID
-		);
 	}
 
 	private static final String _CLASS_NAME_JOURNAL_ARTICLE =
@@ -149,8 +136,6 @@ public class JournalArticleProxy {
 	private static final String _RESOURCE_PRIM_KEY = StringUtil.toString(
 		RandomTestUtil.randomLong());
 
-	private static final String _VIEW_ACTION_ID = ActionKeys.VIEW;
-
 	private PersistenceBaseChild _journalArticlePersistedBaseChildModel;
 	private final PersistedModelLocalService
 		_journalArticlePersistedModelLocalService;
@@ -160,6 +145,6 @@ public class JournalArticleProxy {
 	private final RoleProxyFactory _roleProxyFactory;
 	private final List<Role> _rolesWithViewPermission = new ArrayList<>();
 	private String _treePath;
-	private ResourceAction _viewArticleResourceAction;
+	private final ResourceAction _viewArticleResourceAction;
 
 }
