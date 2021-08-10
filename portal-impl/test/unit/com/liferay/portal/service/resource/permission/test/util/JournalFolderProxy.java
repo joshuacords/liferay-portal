@@ -44,7 +44,7 @@ public class JournalFolderProxy {
 		_roleNamesWithViewPermission = roleNamesWithViewPermission;
 
 		_createTreePath(journalFolderProxy);
-		_mockRoleViewPermissions();
+		_mockRolesWithViewPermissions();
 	}
 
 	public String getResourcePrimKey() {
@@ -71,7 +71,7 @@ public class JournalFolderProxy {
 		_treePath = sb.toString();
 	}
 
-	private void _mockRoleViewPermissions() throws Exception {
+	private void _mockRolesWithViewPermissions() throws Exception {
 		_mockViewFolderResourceAction();
 
 		for (String roleName : _roleNamesWithViewPermission) {
