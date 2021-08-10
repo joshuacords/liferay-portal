@@ -101,7 +101,6 @@ public class ResourcePermissionImplTest {
 			_resourcePermissionLocalService, _roleLocalService, _companyId);
 
 		_initializeReflections();
-		_mockResourceActions();
 		_mockPersistedModelLocalServices();
 
 		_journalProxyFactory = new JournalProxyFactory(
@@ -140,18 +139,6 @@ public class ResourcePermissionImplTest {
 
 				throw new Exception(sb.toString());
 			}
-		}
-	}
-
-	private void _addRolesToRoleLocalService(List<Role> roles)
-		throws Exception {
-
-		for (Role role : roles) {
-			Mockito.when(
-				_roleLocalService.getRole(role.getRoleId())
-			).thenReturn(
-				role
-			);
 		}
 	}
 
@@ -225,36 +212,6 @@ public class ResourcePermissionImplTest {
 		).getRole(
 			_companyId, RoleConstants.GUEST
 		);
-	}
-
-	private void _mockResourceActions() throws Exception {
-		Mockito.doReturn(
-			_viewFolderResourceAction
-		).when(
-			_resourceActionLocalService
-		).getResourceAction(
-			_journalFolderClassName, _viewActionId
-		);
-
-		Mockito.doReturn(
-			_viewArticleResourceAction
-		).when(
-			_resourceActionLocalService
-		).getResourceAction(
-			_journalArticleClassName, _viewActionId
-		);
-	}
-
-	private Role _mockRole(String roleString) throws Exception {
-		Role role = Mockito.mock(Role.class);
-
-		Mockito.when(
-			role.getDescriptiveName()
-		).thenReturn(
-			roleString
-		);
-
-		return role;
 	}
 
 	private Set<Set<Role>> _rolesToSetSet(Role... roles) {
