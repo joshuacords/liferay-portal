@@ -471,20 +471,22 @@ public class ResourcePermissionLocalServiceUtil {
 			companyId, name, scope, primKey, roleId, actionIds);
 	}
 
-	public static java.util.List<com.liferay.portal.kernel.model.Role>
-	getDynamicInheritanceRoles(
-		long companyId, String name, int scope, String resourcePrimKey,
-		String primKey, String actionId)
+	public static
+		java.util.Set<java.util.Set<com.liferay.portal.kernel.model.Role>>
+			getDynamicInheritanceRoles(
+				long companyId, String name, int scope, String resourcePrimKey,
+				String primKey, String actionId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().getDynamicInheritanceRoles(
 			companyId, name, scope, resourcePrimKey, primKey, actionId);
 	}
 
-	public static java.util.List<com.liferay.portal.kernel.model.Role>
-	getDynamicInheritanceRoles(
-		long companyId, String name, int scope, String primKey,
-		String actionId)
+	public static
+		java.util.Set<java.util.Set<com.liferay.portal.kernel.model.Role>>
+			getDynamicInheritanceRoles(
+				long companyId, String name, int scope, String primKey,
+				String actionId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return getService().getDynamicInheritanceRoles(
