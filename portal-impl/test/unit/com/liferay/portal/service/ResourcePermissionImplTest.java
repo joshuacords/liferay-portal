@@ -124,10 +124,10 @@ public class ResourcePermissionImplTest {
 	}
 
 	@Test
-	public void testDynamicInheritanceRolesGuest() throws Exception {
+	public void testDynamicInheritanceRolesGuestAsWildcard() throws Exception {
 		JournalFolderProxy journalFolderProxy =
 			_journalProxyFactory.createJournalFolderProxy(
-				RoleConstants.GUEST, RoleConstants.OWNER);
+				RoleConstants.GUEST, RoleConstants.USER);
 
 		JournalArticleProxy journalArticleProxy =
 			_journalProxyFactory.createJournalArticleProxy(
@@ -141,7 +141,8 @@ public class ResourcePermissionImplTest {
 
 		Set<Set<Role>> expectedRoleSets = _rolesToSetSet(
 			_roleProxyFactory.getRole(RoleConstants.GUEST),
-			_roleProxyFactory.getRole(RoleConstants.OWNER));
+			_roleProxyFactory.getRole(RoleConstants.OWNER),
+			_roleProxyFactory.getRole(RoleConstants.USER));
 
 		assertContainsRoleSets(expectedRoleSets, roleSets);
 	}
