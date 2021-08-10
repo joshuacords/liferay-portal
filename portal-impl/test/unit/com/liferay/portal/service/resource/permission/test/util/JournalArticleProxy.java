@@ -46,8 +46,7 @@ public class JournalArticleProxy {
 			journalArticlePersistedModelLocalService;
 		_resourceActionLocalService = resourceActionLocalService;
 		_roleProxyFactory = roleProxyFactory;
-		_roleNames = roleNames;
-
+		_roleNamesWithViewPermission = roleNames;
 
 		if(journalFolderProxy != null) {
 			_parentClassPK = journalFolderProxy.getResourcePrimKey();
@@ -56,9 +55,9 @@ public class JournalArticleProxy {
 		}
 
 		_createTreePath(journalFolderProxy);
-		_setUpMocks();
-		_mockRoles(roleNames);
+
 		_mockPersistedModel();
+		_mockRolesWithViewPermissions(roleNames);
 	}
 
 	public String getPrimKey() {
@@ -67,14 +66,6 @@ public class JournalArticleProxy {
 
 	public String getResourcePrimKey() {
 		return _resourcePrimKey;
-	}
-
-	public String[] getRoleNames() {
-		return _roleNames;
-	}
-
-	public String getTreePath() {
-		return _treePath;
 	}
 
 	public abstract class PersistenceBaseChild
@@ -91,18 +82,22 @@ public class JournalArticleProxy {
 			PersistenceBaseChild.class);
 
 		Mockito.doReturn(
-			_parentClassPK
+			_treePath
 		).when(
 			_journalArticlePersistedBaseChildModel
-		).getParentClassPK();
+		).getTreePath();
 
 		Mockito.doReturn(
-			_journalFolderClassName
+			_CLASS_NAME_JOURNAL_FOLDER
 		).when(
 			_journalArticlePersistedBaseChildModel
 		).getParentClassName();
 
-		_mockTreePath();
+		Mockito.doReturn(
+			_parentClassPK
+		).when(
+			_journalArticlePersistedBaseChildModel
+		).getParentClassPK();
 
 		Mockito.doReturn(
 			_journalArticlePersistedBaseChildModel
@@ -113,28 +108,19 @@ public class JournalArticleProxy {
 		);
 	}
 
-	private void _mockRoles(String[] roleNames) throws Exception {
-		List<Role> roles = new ArrayList<>();
+	private void _mockRolesWithViewPermissions(String[] roleNames) throws Exception {
+		_mockViewArticleResourceAction();
 
 		for (String roleName : roleNames) {
-			roles.add(_roleProxyFactory.getRole(roleName));
+			_rolesWithViewPermission.add(_roleProxyFactory.getRole(roleName));
 		}
 
-		_roles.addAll(roles);
 		_roleProxyFactory.mockResourceActionWithRolesOnAsset(
-			_viewArticleResourceAction, roles, _journalArticleClassName,
-			_resourcePrimKey);
+			_viewArticleResourceAction, _rolesWithViewPermission,
+			_CLASS_NAME_JOURNAL_ARTICLE, _resourcePrimKey);
 	}
 
-	private void _mockTreePath() {
-		Mockito.doReturn(
-			_treePath
-		).when(
-			_journalArticlePersistedBaseChildModel
-		).getTreePath();
-	}
-
-	private void _setUpMocks() throws Exception {
+	private void _mockViewArticleResourceAction() throws Exception {
 		_viewArticleResourceAction = Mockito.mock(ResourceAction.class);
 
 		Mockito.doReturn(
@@ -142,16 +128,16 @@ public class JournalArticleProxy {
 		).when(
 			_resourceActionLocalService
 		).getResourceAction(
-			_journalArticleClassName, _viewActionId
+			_CLASS_NAME_JOURNAL_ARTICLE, _VIEW_ACTION_ID
 		);
 
 	}
 
-	private static final String _journalArticleClassName =
+	private static final String _CLASS_NAME_JOURNAL_ARTICLE =
 		"com.liferay.journal.model.JournalArticle";
-	private static final String _journalFolderClassName =
+	private static final String _CLASS_NAME_JOURNAL_FOLDER =
 		"com.liferay.journal.model.JournalFolder";
-	private static final String _viewActionId = ActionKeys.VIEW;
+	private static final String _VIEW_ACTION_ID = ActionKeys.VIEW;
 
 	private PersistenceBaseChild _journalArticlePersistedBaseChildModel;
 	private PersistedModelLocalService
@@ -160,9 +146,9 @@ public class JournalArticleProxy {
 	private String _primKey = StringUtil.toString(RandomTestUtil.randomLong());
 	private ResourceActionLocalService _resourceActionLocalService;
 	private String _resourcePrimKey = StringUtil.toString(RandomTestUtil.randomLong());
-	private String[] _roleNames;
+	private String[] _roleNamesWithViewPermission;
 	private RoleProxyFactory _roleProxyFactory;
-	private List<Role> _roles = new ArrayList<>();
+	private List<Role> _rolesWithViewPermission = new ArrayList<>();
 	private String _treePath;
 
 	private ResourceAction _viewArticleResourceAction;
