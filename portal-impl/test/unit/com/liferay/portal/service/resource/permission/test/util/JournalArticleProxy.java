@@ -28,7 +28,6 @@ import java.util.List;
 
 import jodd.util.StringUtil;
 
-import org.mockito.Mock;
 import org.mockito.Mockito;
 
 /**
@@ -36,33 +35,26 @@ import org.mockito.Mockito;
  */
 public class JournalArticleProxy {
 
-	JournalArticleProxy(
-			RoleProxyFactory roleProxyFactory,
-			PersistedModelLocalService journalArticlePersistedModelLocalService,
-			ResourceActionLocalService resourceActionLocalService,
-			String[] roleNames)
+	public JournalArticleProxy(
+		PersistedModelLocalService journalArticlePersistedModelLocalService,
+		ResourceActionLocalService resourceActionLocalService,
+		RoleProxyFactory roleProxyFactory, String[] roleNames,
+		JournalFolderProxy journalFolderProxy)
 		throws Exception {
 
-		new JournalArticleProxy(
-			roleProxyFactory, journalArticlePersistedModelLocalService,
-			resourceActionLocalService, null, roleNames);
-	}
-
-	JournalArticleProxy(
-			RoleProxyFactory roleProxyFactory,
-			PersistedModelLocalService journalArticlePersistedModelLocalService,
-			ResourceActionLocalService resourceActionLocalService,
-			JournalFolderProxy journalFolderProxy, String[] roleNames)
-		throws Exception {
-
-		_roleProxyFactory = roleProxyFactory;
-		_resourceActionLocalService = resourceActionLocalService;
 		_journalArticlePersistedModelLocalService =
 			journalArticlePersistedModelLocalService;
-		_resourcePrimKey = StringUtil.toString(RandomTestUtil.randomLong());
-		_primKey = StringUtil.toString(RandomTestUtil.randomLong());
+		_resourceActionLocalService = resourceActionLocalService;
+		_roleProxyFactory = roleProxyFactory;
 		_roleNames = roleNames;
-		_parentClassPK = journalFolderProxy.getResourcePrimKey();
+
+
+		if(journalFolderProxy != null) {
+			_parentClassPK = journalFolderProxy.getResourcePrimKey();
+		} else {
+			_parentClassPK = "";
+		}
+
 		_createTreePath(journalFolderProxy);
 		_setUpMocks();
 		_mockRoles(roleNames);
@@ -165,9 +157,9 @@ public class JournalArticleProxy {
 	private PersistedModelLocalService
 		_journalArticlePersistedModelLocalService;
 	private String _parentClassPK;
-	private String _primKey;
+	private String _primKey = StringUtil.toString(RandomTestUtil.randomLong());
 	private ResourceActionLocalService _resourceActionLocalService;
-	private String _resourcePrimKey;
+	private String _resourcePrimKey = StringUtil.toString(RandomTestUtil.randomLong());
 	private String[] _roleNames;
 	private RoleProxyFactory _roleProxyFactory;
 	private List<Role> _roles = new ArrayList<>();
