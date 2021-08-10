@@ -15,7 +15,6 @@
 package com.liferay.portal.service;
 
 import com.liferay.portal.kernel.model.ResourceAction;
-import com.liferay.portal.kernel.model.ResourcePermission;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.role.RoleConstants;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
@@ -36,9 +35,7 @@ import com.liferay.portal.test.rule.LiferayUnitTestRule;
 import com.liferay.registry.BasicRegistryImpl;
 import com.liferay.registry.RegistryUtil;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import jodd.util.StringUtil;
@@ -52,7 +49,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-//test command: ant test-class -Dtest.class=ResourcePermissionImplTest -Djvm.debug=true
+//test: ant test-class -Dtest.class=ResourcePermissionImplTest -Djvm.debug=true
 /**
  * @author Joshua Cords
  */
@@ -62,29 +59,6 @@ public class ResourcePermissionImplTest {
 	@Rule
 	public static final LiferayUnitTestRule liferayUnitTestRule =
 		LiferayUnitTestRule.INSTANCE;
-
-	@Test
-	public void getDynamicInheritanceRolesOnlyGuest() throws Exception {
-		JournalFolderProxy journalFolderProxy =
-			_journalProxyFactory.createJournalFolderProxy(
-				RoleConstants.GUEST, RoleConstants.OWNER);
-
-		JournalArticleProxy journalArticleProxy =
-			_journalProxyFactory.createJournalArticleProxy(
-				journalFolderProxy, RoleConstants.GUEST, RoleConstants.OWNER);
-
-		Set<Set<Role>> roleSets =
-			_resourcePermissionLocalService.getDynamicInheritanceRoles(
-				_companyId, _journalArticleClassName, _scope,
-				journalArticleProxy.getResourcePrimKey(),
-				journalArticleProxy.getPrimKey(), _viewActionId);
-
-		Set<Set<Role>> expectedRoleSets = _rolesToSetSet(
-			_roleProxyFactory.getRole(RoleConstants.GUEST),
-			_roleProxyFactory.getRole(RoleConstants.OWNER));
-
-		assertContainsRoleSets(roleSets, expectedRoleSets);
-	}
 
 	@Before
 	public void setUp() throws Exception {
@@ -108,6 +82,29 @@ public class ResourcePermissionImplTest {
 			_resourceActionLocalService, _roleProxyFactory, _companyId);
 	}
 
+	@Test
+	public void testDynamicInheritanceRolesGuest() throws Exception {
+		JournalFolderProxy journalFolderProxy =
+			_journalProxyFactory.createJournalFolderProxy(
+				RoleConstants.GUEST, RoleConstants.OWNER);
+
+		JournalArticleProxy journalArticleProxy =
+			_journalProxyFactory.createJournalArticleProxy(
+				journalFolderProxy, RoleConstants.GUEST, RoleConstants.OWNER);
+
+		Set<Set<Role>> roleSets =
+			_resourcePermissionLocalService.getDynamicInheritanceRoles(
+				_companyId, _journalArticleClassName, _scope,
+				journalArticleProxy.getResourcePrimKey(),
+				journalArticleProxy.getPrimKey(), _viewActionId);
+
+		Set<Set<Role>> expectedRoleSets = _rolesToSetSet(
+			_roleProxyFactory.getRole(RoleConstants.GUEST),
+			_roleProxyFactory.getRole(RoleConstants.OWNER));
+
+		assertContainsRoleSets(roleSets, expectedRoleSets);
+	}
+
 	protected void assertContainsRoleSets(
 			Set<Set<Role>> expectedRoleSets, Set<Set<Role>> actualRoleSets)
 		throws Exception {
@@ -120,6 +117,7 @@ public class ResourcePermissionImplTest {
 			sb.append(" is not actualRoleSets size ");
 			sb.append(actualRoleSets.size());
 			sb.append(" ");
+
 			_appendRoleSets(actualRoleSets, sb);
 
 			throw new Exception(sb.toString());
@@ -130,11 +128,17 @@ public class ResourcePermissionImplTest {
 				StringBuilder sb = new StringBuilder();
 
 				sb.append("expectedRoleSet [");
+
 				_appendRoleSet(expectedRoleSet, sb);
+
 				sb.append("] from expectedRoleSets [");
+
 				_appendRoleSets(expectedRoleSets, sb);
+
 				sb.append("] was not found in actualRoleSets [");
+
 				_appendRoleSets(actualRoleSets, sb);
+
 				sb.append("]");
 
 				throw new Exception(sb.toString());
@@ -144,6 +148,7 @@ public class ResourcePermissionImplTest {
 
 	private StringBuilder _appendRoleSet(Set<Role> roleSet, StringBuilder sb)
 		throws Exception {
+
 		for (Role role : roleSet) {
 			sb.append(role.getDescriptiveName());
 			sb.append(", ");
@@ -158,6 +163,7 @@ public class ResourcePermissionImplTest {
 
 		for (Set<Role> roleSet : roleSets) {
 			sb.append("[");
+
 			_appendRoleSet(roleSet, sb);
 			sb.append("], ");
 		}
@@ -221,13 +227,12 @@ public class ResourcePermissionImplTest {
 			Set<Role> roleSet = new HashSet<>();
 
 			roleSet.add(role);
+
 			roleSets.add(roleSet);
 		}
 
 		return roleSets;
 	}
-
-	List<List<ResourcePermission>> resourcePermissionsList = new ArrayList<>();
 
 	@Mock
 	private ResourceAction _accessFolderResourceAction;
