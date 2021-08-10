@@ -16,7 +16,6 @@ package com.liferay.portal.service.resource.permission.test.util;
 
 import com.liferay.portal.kernel.model.ResourceAction;
 import com.liferay.portal.kernel.model.Role;
-import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.service.ResourceActionLocalService;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 
@@ -25,8 +24,6 @@ import java.util.List;
 
 import jodd.util.StringUtil;
 
-import org.mockito.Mockito;
-
 /**
  * @author Joshua Cords
  */
@@ -34,12 +31,14 @@ public class JournalFolderProxy {
 
 	public JournalFolderProxy(
 			ResourceActionLocalService resourceActionLocalService,
+			ResourceAction viewFolderResourceAction,
 			RoleProxyFactory roleProxyFactory,
 			String[] roleNamesWithViewPermission,
 			JournalFolderProxy journalFolderProxy)
 		throws Exception {
 
 		_resourceActionLocalService = resourceActionLocalService;
+		_viewFolderResourceAction = viewFolderResourceAction;
 		_roleProxyFactory = roleProxyFactory;
 		_roleNamesWithViewPermission = roleNamesWithViewPermission;
 
@@ -72,8 +71,6 @@ public class JournalFolderProxy {
 	}
 
 	private void _mockRolesWithViewPermissions() throws Exception {
-		_mockViewFolderResourceAction();
-
 		for (String roleName : _roleNamesWithViewPermission) {
 			_rolesWithViewPermission.add(_roleProxyFactory.getRole(roleName));
 		}
@@ -83,31 +80,17 @@ public class JournalFolderProxy {
 			_CLASS_NAME_JOURNAL_FOLDER, _RESOURCE_PRIM_KEY);
 	}
 
-	private void _mockViewFolderResourceAction() throws Exception {
-		_viewFolderResourceAction = Mockito.mock(ResourceAction.class);
-
-		Mockito.doReturn(
-			_viewFolderResourceAction
-		).when(
-			_resourceActionLocalService
-		).getResourceAction(
-			_CLASS_NAME_JOURNAL_FOLDER, _VIEW_ACTION_ID
-		);
-	}
-
 	private static final String _CLASS_NAME_JOURNAL_FOLDER =
 		"com.liferay.journal.model.JournalFolder";
 
 	private static final String _RESOURCE_PRIM_KEY = StringUtil.toString(
 		RandomTestUtil.randomLong());
 
-	private static final String _VIEW_ACTION_ID = ActionKeys.VIEW;
-
 	private final ResourceActionLocalService _resourceActionLocalService;
 	private final String[] _roleNamesWithViewPermission;
 	private final RoleProxyFactory _roleProxyFactory;
 	private final List<Role> _rolesWithViewPermission = new ArrayList<>();
 	private String _treePath;
-	private ResourceAction _viewFolderResourceAction;
+	private final ResourceAction _viewFolderResourceAction;
 
 }
