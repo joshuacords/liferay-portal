@@ -83,6 +83,47 @@ public class ResourcePermissionImplTest {
 	}
 
 	@Test
+	public void testDynamicInheritanceRolesCombinations() throws Exception {
+		JournalFolderProxy journalFolderProxy1 =
+			_journalProxyFactory.createJournalFolderProxy(
+				RoleConstants.OWNER, RoleConstants.USER);
+
+		JournalFolderProxy journalFolderProxy2 =
+			_journalProxyFactory.createJournalFolderProxy(
+				journalFolderProxy1, RoleConstants.OWNER,
+				RoleConstants.SITE_MEMBER);
+
+		JournalArticleProxy journalArticleProxy =
+			_journalProxyFactory.createJournalArticleProxy(
+				journalFolderProxy2, RoleConstants.OWNER,
+				RoleConstants.POWER_USER);
+
+		Set<Set<Role>> roleSets =
+			_resourcePermissionLocalService.getDynamicInheritanceRoles(
+				_companyId, _journalArticleClassName, _scope,
+				journalArticleProxy.getResourcePrimKey(),
+				journalArticleProxy.getPrimKey(), _viewActionId);
+
+		Set<Set<Role>> expectedRoleSets = new HashSet<>();
+
+		Set<Role> ownerRoleSet = new HashSet<>();
+
+		ownerRoleSet.add(_roleProxyFactory.getRole(RoleConstants.OWNER));
+
+		expectedRoleSets.add(ownerRoleSet);
+
+		Set<Role> comboRoleSet = new HashSet<>();
+
+		comboRoleSet.add(_roleProxyFactory.getRole(RoleConstants.POWER_USER));
+		comboRoleSet.add(_roleProxyFactory.getRole(RoleConstants.SITE_MEMBER));
+		comboRoleSet.add(_roleProxyFactory.getRole(RoleConstants.USER));
+
+		expectedRoleSets.add(comboRoleSet);
+
+		assertContainsRoleSets(expectedRoleSets, roleSets);
+	}
+
+	@Test
 	public void testDynamicInheritanceRolesGuest() throws Exception {
 		JournalFolderProxy journalFolderProxy =
 			_journalProxyFactory.createJournalFolderProxy(
@@ -102,7 +143,7 @@ public class ResourcePermissionImplTest {
 			_roleProxyFactory.getRole(RoleConstants.GUEST),
 			_roleProxyFactory.getRole(RoleConstants.OWNER));
 
-		assertContainsRoleSets(roleSets, expectedRoleSets);
+		assertContainsRoleSets(expectedRoleSets, roleSets);
 	}
 
 	protected void assertContainsRoleSets(
