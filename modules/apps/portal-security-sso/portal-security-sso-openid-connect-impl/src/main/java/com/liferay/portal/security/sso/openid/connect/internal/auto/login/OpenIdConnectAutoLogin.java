@@ -37,7 +37,8 @@ import org.osgi.service.component.annotations.Reference;
 @Component(immediate = true, service = AutoLogin.class)
 public class OpenIdConnectAutoLogin extends BaseAutoLogin {
 
-	public static final String USER_ID = "OPEN_ID_CONNECT_AUTO_LOGIN_USER_ID";
+	public static final String USER_ID =
+		OpenIdConnectAutoLogin.class.getName() + "#USER_ID";
 
 	@Override
 	protected String[] doLogin(

@@ -20,14 +20,12 @@ import com.nimbusds.openid.connect.sdk.Nonce;
 import java.io.Serializable;
 
 /**
- * Short lived session during OIDC authentication
- *
  * @author Arthur Chan
  */
 public class OpenIdConnectAuthenticationSession implements Serializable {
 
 	public static final String SESSION =
-		"OPEN_ID_CONNECT_AUTHENTICATION_SESSION";
+		OpenIdConnectAuthenticationSession.class.getName() + "#SESSION";
 
 	public OpenIdConnectAuthenticationSession(
 		String providerName, Nonce nonce, State state) {
