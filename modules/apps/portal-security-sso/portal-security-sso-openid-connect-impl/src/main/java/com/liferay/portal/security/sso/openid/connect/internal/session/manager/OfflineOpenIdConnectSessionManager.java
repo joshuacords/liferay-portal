@@ -57,10 +57,8 @@ public class OfflineOpenIdConnectSessionManager {
 		UserInfo userInfo) {
 
 		openIdConnectSessionImpl.setLoginUserId(userId);
-
 		openIdConnectSessionImpl.setOpenIdConnectFlowState(
 			OpenIdConnectFlowState.AUTH_COMPLETE);
-
 		openIdConnectSessionImpl.setUserInfoJSONObject(userInfo.toJSONObject());
 
 		extendOpenIdConnectSession(
