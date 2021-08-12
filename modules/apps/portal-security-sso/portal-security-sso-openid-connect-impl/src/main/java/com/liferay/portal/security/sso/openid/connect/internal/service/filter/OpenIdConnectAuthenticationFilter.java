@@ -84,8 +84,8 @@ public class OpenIdConnectAuthenticationFilter extends BaseFilter {
 		if (openIdConnectSession != null) {
 			if (_log.isInfoEnabled()) {
 				_log.info(
-					"There is another OIDC authentication request after " +
-						"session established");
+					"There is another OpenID Connect authentication request " +
+						"after session established");
 			}
 
 			return;
