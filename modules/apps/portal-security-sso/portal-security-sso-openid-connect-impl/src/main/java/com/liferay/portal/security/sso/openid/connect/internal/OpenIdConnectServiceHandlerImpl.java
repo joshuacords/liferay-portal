@@ -341,11 +341,8 @@ public class OpenIdConnectServiceHandlerImpl
 			_openIdConnectSessionProviderImpl.getOpenIdConnectSession(
 				httpSession);
 
-		if (!(openIdConnectSession instanceof OpenIdConnectSessionImpl)) {
-			return null;
-		}
-
-		if (!expectedProviderName.equals(
+		if (!(openIdConnectSession instanceof OpenIdConnectSessionImpl) ||
+			!expectedProviderName.equals(
 				openIdConnectSession.getOpenIdProviderName())) {
 
 			return null;
