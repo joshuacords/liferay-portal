@@ -134,7 +134,7 @@ public class OpenIdConnectTokenRefreshScheduler {
 
 		if (openIdConnectConfiguration.tokenRefreshOffset() < 30) {
 			throw new IllegalArgumentException(
-				"Token refresh offset needs at least 30 seconds");
+				"Token refresh offset needs to be at least 30 seconds");
 		}
 
 		if (_tokenRefreshOffset ==
