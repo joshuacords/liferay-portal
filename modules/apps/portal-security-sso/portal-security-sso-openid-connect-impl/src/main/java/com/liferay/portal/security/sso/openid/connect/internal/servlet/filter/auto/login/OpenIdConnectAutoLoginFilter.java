@@ -150,10 +150,7 @@ public class OpenIdConnectAutoLoginFilter extends AutoLoginFilter {
 				}
 
 				throw new ServletException(
-					StringBundler.concat(
-						"Expected user ", userId,
-						" to be authenticated, but user ", authenticatedUserId,
-						" was authenticated instead"));
+					"Expected user " + userId + " to be authenticated");
 			});
 	}
 
