@@ -47,7 +47,7 @@ public class OpenIdConnectHttpSessionListener implements HttpSessionListener {
 			return;
 		}
 
-		Long openIdConnectSessionId = (Long)httpSession.getAttribute(
+		long openIdConnectSessionId = (Long)httpSession.getAttribute(
 			OpenIdConnectWebKeys.OPEN_ID_CONNECT_SESSION_ID);
 
 		_offlineOpenIdConnectSessionManager.endOpenIdConnectSession(
