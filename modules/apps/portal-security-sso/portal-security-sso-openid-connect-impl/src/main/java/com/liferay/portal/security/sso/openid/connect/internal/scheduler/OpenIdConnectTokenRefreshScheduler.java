@@ -55,7 +55,7 @@ public class OpenIdConnectTokenRefreshScheduler {
 		if (_tokenRefreshOffset > lifeTime) {
 			if (_log.isWarnEnabled()) {
 				_log.warn(
-					"The configured token refresh offset is larger than " +
+					"The configured token refresh offset is larger than the " +
 						"newly issued access token life time");
 			}
 
