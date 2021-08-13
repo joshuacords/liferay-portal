@@ -85,7 +85,7 @@ public class OpenIdConnectAutoLoginFilter extends AutoLoginFilter {
 				httpSession)) {
 
 			if (_log.isDebugEnabled()) {
-				_log.debug("User has already been logged in");
+				_log.debug("User is already authenticated");
 			}
 
 			return;
