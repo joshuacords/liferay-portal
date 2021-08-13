@@ -41,7 +41,6 @@ public class OpenIdConnectSessionImpl
 		_nonce = nonce;
 		_state = state;
 
-		_loginTime = System.currentTimeMillis();
 		_loginUserId = userId;
 	}
 
@@ -69,7 +68,7 @@ public class OpenIdConnectSessionImpl
 
 	@Override
 	public long getLoginTime() {
-		return _loginTime;
+		return _LOGIN_TIME;
 	}
 
 	@Override
@@ -118,7 +117,8 @@ public class OpenIdConnectSessionImpl
 		_openIdConnectFlowState = openIdConnectFlowState;
 	}
 
-	private final long _loginTime;
+	private static final long _LOGIN_TIME = System.currentTimeMillis();
+
 	private final long _loginUserId;
 	private final Nonce _nonce;
 	private OpenIdConnectFlowState _openIdConnectFlowState =
