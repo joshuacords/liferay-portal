@@ -146,16 +146,15 @@ public class OpenIdConnectAuthenticationHandlerImpl
 				openIdConnectAuthenticationSession.getProviderName());
 
 		httpSession.setAttribute(
-			OpenIdConnectWebKeys.OPEN_ID_CONNECT_SESSION_ID,
-			openIdConnectSessionId);
-
-		httpSession.setAttribute(
 			OpenIdConnectWebKeys.OPEN_ID_CONNECT_SESSION,
 			new OpenIdConnectSessionImpl(
 				openIdConnectSessionId,
 				openIdConnectAuthenticationSession.getProviderName(),
 				openIdConnectAuthenticationSession.getNonce(),
 				openIdConnectAuthenticationSession.getState(), userId));
+		httpSession.setAttribute(
+			OpenIdConnectWebKeys.OPEN_ID_CONNECT_SESSION_ID,
+			openIdConnectSessionId);
 	}
 
 	@Override
