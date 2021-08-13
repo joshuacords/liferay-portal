@@ -14,7 +14,6 @@
 
 package com.liferay.portal.security.sso.openid.connect.internal.servlet.filter.auto.login;
 
-import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.exception.UserEmailAddressException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;

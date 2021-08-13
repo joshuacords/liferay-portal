@@ -293,7 +293,6 @@ public class OfflineOpenIdConnectSessionManager {
 		String providerName) {
 
 		openIdConnectSession.setIdToken(idTokenString);
-
 		openIdConnectSession.setProviderName(providerName);
 
 		_updateOpenIdConnectSession(
@@ -340,7 +339,7 @@ public class OfflineOpenIdConnectSessionManager {
 			catch (PortalException portalException) {
 				if (_log.isDebugEnabled()) {
 					_log.debug(
-						"Unable to find OpenId Connect session " +
+						"Unable to get OpenId Connect session " +
 							openIdConnectSessionId,
 						portalException);
 				}

@@ -29,7 +29,6 @@ import com.nimbusds.oauth2.sdk.RefreshTokenGrant;
 import com.nimbusds.oauth2.sdk.TokenErrorResponse;
 import com.nimbusds.oauth2.sdk.TokenRequest;
 import com.nimbusds.oauth2.sdk.TokenResponse;
-import com.nimbusds.oauth2.sdk.auth.ClientAuthentication;
 import com.nimbusds.oauth2.sdk.auth.ClientSecretBasic;
 import com.nimbusds.oauth2.sdk.auth.Secret;
 import com.nimbusds.oauth2.sdk.http.HTTPRequest;
@@ -96,20 +95,17 @@ public class OpenIdConnectTokenRequestUtil {
 		throws OpenIdConnectServiceException.ProviderException,
 			   OpenIdConnectServiceException.TokenException {
 
-		ClientID clientID = new ClientID(openIdConnectProvider.getClientId());
-
-		Secret secret = new Secret(openIdConnectProvider.getClientSecret());
-
-		ClientAuthentication clientAuthentication = new ClientSecretBasic(
-			clientID, secret);
-
 		OIDCProviderMetadata oidcProviderMetadata =
 			openIdConnectProvider.getOIDCProviderMetadata();
 
-		URI tokenEndpoint = oidcProviderMetadata.getTokenEndpointURI();
+		URI uri = oidcProviderMetadata.getTokenEndpointURI();
+
+		ClientID clientID = new ClientID(openIdConnectProvider.getClientId());
+		Secret secret = new Secret(openIdConnectProvider.getClientSecret());
 
 		TokenRequest tokenRequest = new TokenRequest(
-			tokenEndpoint, clientAuthentication, authorizationCodeGrant);
+			uri, new ClientSecretBasic(clientID, secret),
+			authorizationCodeGrant);
 
 		HTTPRequest httpRequest = tokenRequest.toHTTPRequest();
 
@@ -136,7 +132,7 @@ public class OpenIdConnectTokenRequestUtil {
 
 			OIDCTokens oidcTokens = oidcTokenResponse.getOIDCTokens();
 
-			_validateToken(
+			_validate(
 				clientID, nonce, openIdConnectProvider.getOIDCClientMetadata(),
 				oidcProviderMetadata, oidcTokens,
 				openIdConnectProvider.geTokenConnectionTimeout());
@@ -146,20 +142,20 @@ public class OpenIdConnectTokenRequestUtil {
 		catch (IOException ioException) {
 			throw new OpenIdConnectServiceException.TokenException(
 				StringBundler.concat(
-					"Unable to get tokens from ", tokenEndpoint, ": ",
+					"Unable to get tokens from ", uri, ": ",
 					ioException.getMessage()),
 				ioException);
 		}
 		catch (ParseException parseException) {
 			throw new OpenIdConnectServiceException.TokenException(
 				StringBundler.concat(
-					"Unable to parse tokens response from ", tokenEndpoint,
-					": ", parseException.getMessage()),
+					"Unable to parse tokens response from ", uri, ": ",
+					parseException.getMessage()),
 				parseException);
 		}
 	}
 
-	private static IDTokenClaimsSet _validateToken(
+	private static IDTokenClaimsSet _validate(
 			ClientID clientID, Nonce nonce,
 			OIDCClientMetadata oidcClientMetadata,
 			OIDCProviderMetadata oidcProviderMetadata, OIDCTokens oidcTokens,
@@ -167,11 +163,11 @@ public class OpenIdConnectTokenRequestUtil {
 		throws OpenIdConnectServiceException.TokenException {
 
 		try {
-			URI jwkSetURI = oidcProviderMetadata.getJWKSetURI();
+			URI uri = oidcProviderMetadata.getJWKSetURI();
 
 			IDTokenValidator idTokenValidator = new IDTokenValidator(
 				oidcProviderMetadata.getIssuer(), clientID,
-				oidcClientMetadata.getIDTokenJWSAlg(), jwkSetURI.toURL(),
+				oidcClientMetadata.getIDTokenJWSAlg(), uri.toURL(),
 				new DefaultResourceRetriever(
 					tokenConnectionTimeout, tokenConnectionTimeout));
 
