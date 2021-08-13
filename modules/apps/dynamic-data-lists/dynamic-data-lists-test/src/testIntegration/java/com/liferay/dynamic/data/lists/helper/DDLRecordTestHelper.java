@@ -40,18 +40,18 @@ public class DDLRecordTestHelper {
 	public DDLRecordTestHelper(Group group, DDLRecordSet recordSet)
 		throws Exception {
 
-		_userId = TestPropsValues.getUserId();
-
 		_group = group;
 		_recordSet = recordSet;
+
+		_userId = TestPropsValues.getUserId();
 	}
 
-	public DDLRecordTestHelper(long userId, Group group, DDLRecordSet recordSet)
+	public DDLRecordTestHelper(Group group, DDLRecordSet recordSet, long userId)
 		throws Exception {
 
-		_userId = userId;
 		_group = group;
 		_recordSet = recordSet;
+		_userId = userId;
 	}
 
 	public DDLRecord addRecord() throws Exception {

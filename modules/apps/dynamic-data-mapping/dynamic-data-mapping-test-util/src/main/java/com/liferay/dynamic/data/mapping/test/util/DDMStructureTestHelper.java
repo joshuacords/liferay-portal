@@ -49,18 +49,18 @@ public class DDMStructureTestHelper {
 	public DDMStructureTestHelper(long classNameId, Group group)
 		throws Exception {
 
-		_userId = TestPropsValues.getUserId();
-
 		_classNameId = classNameId;
 		_group = group;
+
+		_userId = TestPropsValues.getUserId();
 	}
 
-	public DDMStructureTestHelper(long userId, long classNameId, Group group)
+	public DDMStructureTestHelper(long classNameId, Group group, long userId)
 		throws Exception {
 
-		_userId = userId;
 		_classNameId = classNameId;
 		_group = group;
+		_userId = userId;
 	}
 
 	public DDMStructure addStructure(

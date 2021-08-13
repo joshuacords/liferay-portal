@@ -43,9 +43,9 @@ public class DDLRecordSetTestHelper {
 		_group = group;
 	}
 
-	public DDLRecordSetTestHelper(long userId, Group group) throws Exception {
-		_userId = userId;
+	public DDLRecordSetTestHelper(Group group, long userId) throws Exception {
 		_group = group;
+		_userId = userId;
 	}
 
 	public DDLRecordSet addRecordSet(DDMForm ddmForm) throws Exception {
