@@ -49,20 +49,20 @@ import org.osgi.service.component.annotations.Reference;
 public class OpenIdConnectTokenRefreshScheduler {
 
 	public void reschedule(
-			long lifeTime, long openIdConnectSessionId, Date refreshDate)
+			long lifetime, long openIdConnectSessionId, Date refreshDate)
 		throws SchedulerException {
 
-		if (_tokenRefreshOffset > lifeTime) {
+		if (_tokenRefreshOffset > lifetime) {
 			if (_log.isWarnEnabled()) {
 				_log.warn(
 					"The configured token refresh offset is larger than the " +
-						"newly issued access token life time");
+						"newly issued access token lifetime");
 			}
 
 			return;
 		}
 
-		long startTimeOffset = lifeTime - _tokenRefreshOffset;
+		long startTimeOffset = lifetime - _tokenRefreshOffset;
 
 		SchedulerResponse schedulerResponse =
 			_schedulerEngineHelper.getScheduledJob(
@@ -80,26 +80,26 @@ public class OpenIdConnectTokenRefreshScheduler {
 	}
 
 	public void schedule(
-			long lifeTime, long openIdConnectSessionId, Date refreshDate)
+			long lifetime, long openIdConnectSessionId, Date refreshDate)
 		throws SchedulerException {
 
-		if (_tokenRefreshOffset > lifeTime) {
+		if (_tokenRefreshOffset > lifetime) {
 			if (_log.isWarnEnabled()) {
 				_log.warn(
 					"The configured token refresh offset is larger than " +
-						"newly issued access token life time");
+						"newly issued access token lifetime");
 			}
 
 			return;
 		}
 
-		long startTimeOffset = lifeTime - _tokenRefreshOffset;
+		long startTimeOffset = lifetime - _tokenRefreshOffset;
 
 		Trigger trigger = _triggerFactory.createTrigger(
 			String.valueOf(openIdConnectSessionId),
 			OpenIdConnectConstants.SERVICE_NAME,
 			new Date(refreshDate.getTime() + (startTimeOffset * 1000)), null,
-			(int)lifeTime, TimeUnit.SECOND);
+			(int)lifetime, TimeUnit.SECOND);
 
 		_schedulerEngineHelper.schedule(
 			trigger, StorageType.MEMORY_CLUSTERED, null,

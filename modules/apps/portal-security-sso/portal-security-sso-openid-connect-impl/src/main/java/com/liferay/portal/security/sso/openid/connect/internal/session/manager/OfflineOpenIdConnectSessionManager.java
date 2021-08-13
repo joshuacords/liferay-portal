@@ -123,10 +123,10 @@ public class OfflineOpenIdConnectSessionManager {
 		AccessToken accessToken = _getAccessToken(openIdConnectSession);
 
 		long currentTime = System.currentTimeMillis();
-		long lifeTime = accessToken.getLifetime() * Time.SECOND;
+		long lifetime = accessToken.getLifetime() * Time.SECOND;
 		Date modifiedDate = openIdConnectSession.getModifiedDate();
 
-		if ((currentTime - modifiedDate.getTime()) < lifeTime) {
+		if ((currentTime - modifiedDate.getTime()) < lifetime) {
 			return false;
 		}
 
