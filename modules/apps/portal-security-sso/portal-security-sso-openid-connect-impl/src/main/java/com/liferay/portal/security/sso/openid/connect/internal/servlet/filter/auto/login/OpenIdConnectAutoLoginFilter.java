@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.portal.security.sso.openid.connect.internal.service.filter;
+package com.liferay.portal.security.sso.openid.connect.internal.servlet.filter.auto.login;
 
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.exception.UserEmailAddressException;
@@ -48,12 +48,12 @@ import org.osgi.service.component.annotations.Reference;
 	immediate = true,
 	property = {
 		"after-filter=Virtual Host Filter", "servlet-context-name=",
-		"servlet-filter-name=SSO OpenId Connect Authentication Filter",
+		"servlet-filter-name=SSO OpenId Connect Auto Login Filter",
 		"url-pattern=" + OpenIdConnectConstants.REDIRECT_URL_PATTERN
 	},
-	service = {Filter.class, OpenIdConnectAuthenticationFilter.class}
+	service = {Filter.class, OpenIdConnectAutoLoginFilter.class}
 )
-public class OpenIdConnectAuthenticationFilter extends AutoLoginFilter {
+public class OpenIdConnectAutoLoginFilter extends AutoLoginFilter {
 
 	@Override
 	public boolean isFilterEnabled(
@@ -125,8 +125,8 @@ public class OpenIdConnectAuthenticationFilter extends AutoLoginFilter {
 		}
 
 		processFilter(
-			OpenIdConnectAuthenticationFilter.class.getName(),
-			httpServletRequest, httpServletResponse, filterChain);
+			OpenIdConnectAutoLoginFilter.class.getName(), httpServletRequest,
+			httpServletResponse, filterChain);
 	}
 
 	private void _autoLoginUser(
@@ -165,7 +165,7 @@ public class OpenIdConnectAuthenticationFilter extends AutoLoginFilter {
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		OpenIdConnectAuthenticationFilter.class);
+		OpenIdConnectAutoLoginFilter.class);
 
 	@Reference
 	private Http _http;
