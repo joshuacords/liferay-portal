@@ -364,7 +364,8 @@ public class OpenIdConnectAuthenticationHandlerImpl
 	}
 
 	private static final String _OPEN_ID_CONNECT_AUTHENTICATION_SESSION =
-		"OPEN_ID_CONNECT_AUTHENTICATION_SESSION";
+		OpenIdConnectAuthenticationHandlerImpl.class.getName() +
+			"#OPEN_ID_CONNECT_AUTHENTICATION_SESSION";
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		OpenIdConnectAuthenticationHandlerImpl.class);
