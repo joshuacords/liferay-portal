@@ -37,6 +37,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -157,6 +158,14 @@ public class SearchRequestBuilderImpl implements SearchRequestBuilder {
 	}
 
 	@Override
+	public SearchRequestBuilder companyId(Long companyId) {
+		withSearchRequestImpl(
+			searchRequestImpl -> searchRequestImpl.setCompanyId(companyId));
+
+		return this;
+	}
+
+	@Override
 	public SearchRequestBuilder emptySearchEnabled(boolean allowEmptySearches) {
 		withSearchRequestImpl(
 			searchRequestImpl -> searchRequestImpl.setEmptySearchEnabled(
@@ -270,6 +279,14 @@ public class SearchRequestBuilderImpl implements SearchRequestBuilder {
 	}
 
 	@Override
+	public SearchRequestBuilder groupIds(long... groupIds) {
+		withSearchRequestImpl(
+			searchRequestImpl -> searchRequestImpl.setGroupIds(groupIds));
+
+		return this;
+	}
+
+	@Override
 	public SearchRequestBuilder highlightEnabled(boolean highlightEnabled) {
 		withSearchRequestImpl(
 			searchRequestImpl -> searchRequestImpl.setHighlightEnabled(
@@ -315,10 +332,26 @@ public class SearchRequestBuilderImpl implements SearchRequestBuilder {
 	}
 
 	@Override
+	public SearchRequestBuilder locale(Locale locale) {
+		withSearchRequestImpl(
+			searchRequestImpl -> searchRequestImpl.setLocale(locale));
+
+		return this;
+	}
+
+	@Override
 	public SearchRequestBuilder modelIndexerClasses(Class<?>... classes) {
 		withSearchRequestImpl(
 			searchRequestImpl -> searchRequestImpl.setModelIndexerClasses(
 				classes));
+
+		return this;
+	}
+
+	@Override
+	public SearchRequestBuilder ownerUserId(Long userId) {
+		withSearchRequestImpl(
+			searchRequestImpl -> searchRequestImpl.setOwnerUserId(userId));
 
 		return this;
 	}
@@ -420,9 +453,9 @@ public class SearchRequestBuilderImpl implements SearchRequestBuilder {
 
 	@Override
 	public SearchRequestBuilder withSearchContext(
-		Consumer<SearchContext> consumer) {
+		Consumer<SearchContext> searchContextConsumer) {
 
-		consumer.accept(_searchContext);
+		searchContextConsumer.accept(_searchContext);
 
 		return this;
 	}
