@@ -430,14 +430,14 @@ public interface ResourcePermissionLocalService
 		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Set<Set<Role>> getDynamicInheritanceRoles(
-		long companyId, String name, int scope, String resourcePrimKey,
-		String primKey, String actionId)
+	public Set<Set<String>> getFlattenedInheritanceRoleIds(
+		long companyId, long groupId, String name, int scope,
+		String resourcePrimKey, String primKey, String actionId)
 		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Set<Set<Role>> getDynamicInheritanceRoles(
-		long companyId, String name, int scope, String primKey,
+	public Set<Set<String>> getFlattenedInheritanceRoleIds(
+		long companyId, long groupId, String name, int scope, String primKey,
 		String actionId)
 		throws PortalException;
 

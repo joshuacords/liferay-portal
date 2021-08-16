@@ -18,6 +18,8 @@ import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.portal.kernel.model.ResourcePermission;
 import com.liferay.portal.kernel.service.persistence.change.tracking.CTPersistence;
 
+import java.util.Set;
+
 /**
  * Provides a wrapper for {@link ResourcePermissionLocalService}.
  *
@@ -511,23 +513,24 @@ public class ResourcePermissionLocalServiceWrapper
 	}
 
 	@Override
-	public java.util.Set<java.util.Set<com.liferay.portal.kernel.model.Role>> getDynamicInheritanceRoles(
-		long companyId, String name, int scope, String resourcePrimKey,
-		String primKey,	String actionId)
+	public Set<Set<String>> getFlattenedInheritanceRoleIds(
+		long companyId, long groupId, String name, int scope,
+		String resourcePrimKey, String primKey,	String actionId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _resourcePermissionLocalService.getDynamicInheritanceRoles(
-			companyId, name, scope, resourcePrimKey, primKey, actionId);
+		return _resourcePermissionLocalService.getFlattenedInheritanceRoleIds(
+			companyId, groupId, name, scope, resourcePrimKey, primKey,
+			actionId);
 	}
 
 	@Override
-	public java.util.Set<java.util.Set<com.liferay.portal.kernel.model.Role>> getDynamicInheritanceRoles(
-		long companyId, String name, int scope, String primKey,
+	public Set<Set<String>> getFlattenedInheritanceRoleIds(
+		long companyId, long groupId, String name, int scope, String primKey,
 		String actionId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _resourcePermissionLocalService.getDynamicInheritanceRoles(
-			companyId, name, scope, primKey, actionId);
+		return _resourcePermissionLocalService.getFlattenedInheritanceRoleIds(
+			companyId, groupId, name, scope, primKey, actionId);
 	}
 
 	@Override
