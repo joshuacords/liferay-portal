@@ -25,6 +25,7 @@ import com.liferay.portal.search.sort.Sort;
 import com.liferay.portal.search.stats.StatsRequest;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -70,6 +71,8 @@ public interface SearchRequestBuilder {
 	 */
 	public SearchRequest build();
 
+	public SearchRequestBuilder companyId(Long companyId);
+
 	public SearchRequestBuilder emptySearchEnabled(boolean emptySearchEnabled);
 
 	public SearchRequestBuilder entryClassNames(String... entryClassNames);
@@ -111,6 +114,8 @@ public interface SearchRequestBuilder {
 	public SearchRequestBuilder groupByRequests(
 		GroupByRequest... groupByRequests);
 
+	public SearchRequestBuilder groupIds(long... groupIds);
+
 	public SearchRequestBuilder highlightEnabled(boolean highlightEnabled);
 
 	public SearchRequestBuilder highlightFields(String... highlightFields);
@@ -129,7 +134,11 @@ public interface SearchRequestBuilder {
 
 	public SearchRequestBuilder indexes(String... indexes);
 
+	public SearchRequestBuilder locale(Locale locale);
+
 	public SearchRequestBuilder modelIndexerClasses(Class<?>... classes);
+
+	public SearchRequestBuilder ownerUserId(Long userId);
 
 	public void paginationStartParameterName(
 		String paginationStartParameterName);
