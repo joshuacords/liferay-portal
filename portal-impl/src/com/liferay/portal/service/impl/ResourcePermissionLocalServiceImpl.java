@@ -811,13 +811,13 @@ public class ResourcePermissionLocalServiceImpl
 		BaseChildModel baseChildModel = _getChildModel(name, classPK);
 
 		if (baseChildModel == null) {
-			return _listToSetSet(baseRoles);
+			return _listToSetSetRoleIds(groupId, baseRoles);
 		}
 
 		String parentClassPK = baseChildModel.getParentClassPK();
 
 		if (Validator.isNull(parentClassPK) || parentClassPK.equals("0")) {
-			return _listToSetSet(baseRoles);
+			return _listToSetSetRoleIds(groupId, baseRoles);
 		}
 
 		List<Role> parentAccessRoles = getRoles(
@@ -839,7 +839,7 @@ public class ResourcePermissionLocalServiceImpl
 		//Set<Role> rolesSet = new HashSet<>();
 		Set<Set<Role>> rolesSet = new HashSet<>();
 
-		rolesSet.addAll(_listToSetSet(parentAccessRoles));
+		rolesSet.addAll(_listToSetSetRoleIds(groupId, parentAccessRoles));
 		rolesSet.addAll(parentViewRoles);
 
 		//need to use combine logic to simplify roles between Access and View
@@ -2316,14 +2316,23 @@ public class ResourcePermissionLocalServiceImpl
 		}
 	}
 
-	private Set<Set<Role>> _listToSetSet(List<Role> roles) {
-		Set<Set<Role>> roleSets = new HashSet<>();
+	private Set<Set<String>> _listToSetSetRoleIds(
+		long groupId, List<Role> roles) {
+		Set<Set<String>> roleSets = new HashSet<>();
+
+		List<String> roleIds = new ArrayList<>();
 
 		for (Role role : roles) {
-			Set<Role> roleSet = new HashSet<>();
+			if ((role.getType() == RoleConstants.TYPE_ORGANIZATION) ||
+				(role.getType() == RoleConstants.TYPE_SITE)) {
 
-			roleSet.add(role);
-			roleSets.add(roleSet);
+				roleIds.add(
+					groupId + StringPool.DASH + role.getRoleId());
+			}
+			else {
+				long roleId = role.getRoleId();
+				roleIds.add(Long.toString(roleId));
+			}
 		}
 
 		return roleSets;
