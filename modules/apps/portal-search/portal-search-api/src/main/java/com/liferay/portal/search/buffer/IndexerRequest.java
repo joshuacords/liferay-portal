@@ -21,6 +21,8 @@ import com.liferay.portal.kernel.messaging.proxy.ProxyModeThreadLocalCloseable;
 import com.liferay.portal.kernel.model.ClassedModel;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.util.ClassUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.PropsUtil;
 
 import java.lang.reflect.Method;
 
@@ -39,7 +41,7 @@ public class IndexerRequest {
 
 		_indexer = new NoAutoCommitIndexer<>(indexer);
 
-		_forceSync = ProxyModeThreadLocal.isForceSync();
+		_forceSync = _getForceSync();
 		_modelClassName = classedModel.getModelClassName();
 		_modelPrimaryKey = (Long)_classedModel.getPrimaryKeyObj();
 	}
@@ -55,7 +57,7 @@ public class IndexerRequest {
 		_indexer = new NoAutoCommitIndexer<>(indexer);
 
 		_classedModel = null;
-		_forceSync = ProxyModeThreadLocal.isForceSync();
+		_forceSync = _getForceSync();
 	}
 
 	@Override
@@ -134,6 +136,14 @@ public class IndexerRequest {
 		sb.append("}");
 
 		return sb.toString();
+	}
+
+	private boolean _getForceSync() {
+		if (GetterUtil.getBoolean(PropsUtil.get("index.async.indexing"))) {
+			return false;
+		}
+
+		return ProxyModeThreadLocal.isForceSync();
 	}
 
 	private final ClassedModel _classedModel;
