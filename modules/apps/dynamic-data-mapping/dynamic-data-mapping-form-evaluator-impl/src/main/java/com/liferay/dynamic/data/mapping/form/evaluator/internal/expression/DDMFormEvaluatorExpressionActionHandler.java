@@ -50,7 +50,27 @@ public class DDMFormEvaluatorExpressionActionHandler
 		return builder.build();
 	}
 
-	protected boolean hasIntervalOnPageFlow(
+	protected ExecuteActionResponse jumpPage(
+		ExecuteActionRequest executeActionRequest) {
+
+		Optional<Integer> fromOptional =
+			executeActionRequest.getParameterOptional("from");
+		Optional<Integer> toOptional =
+			executeActionRequest.getParameterOptional("to");
+
+		if (fromOptional.isPresent() && toOptional.isPresent() &&
+			!_hasIntervalOnPageFlow(fromOptional.get(), toOptional.get())) {
+
+			_pageFlow.put(fromOptional.get(), toOptional.get());
+		}
+
+		ExecuteActionResponse.Builder builder =
+			ExecuteActionResponse.Builder.newBuilder(true);
+
+		return builder.build();
+	}
+
+	private boolean _hasIntervalOnPageFlow(
 		Integer fromPageIndex, Integer toPageIndex) {
 
 		for (Map.Entry<Integer, Integer> entry : _pageFlow.entrySet()) {
@@ -67,26 +87,6 @@ public class DDMFormEvaluatorExpressionActionHandler
 		}
 
 		return false;
-	}
-
-	protected ExecuteActionResponse jumpPage(
-		ExecuteActionRequest executeActionRequest) {
-
-		Optional<Integer> fromOptional =
-			executeActionRequest.getParameterOptional("from");
-		Optional<Integer> toOptional =
-			executeActionRequest.getParameterOptional("to");
-
-		if (fromOptional.isPresent() && toOptional.isPresent() &&
-			!hasIntervalOnPageFlow(fromOptional.get(), toOptional.get())) {
-
-			_pageFlow.put(fromOptional.get(), toOptional.get());
-		}
-
-		ExecuteActionResponse.Builder builder =
-			ExecuteActionResponse.Builder.newBuilder(true);
-
-		return builder.build();
 	}
 
 	private final Map<Integer, Integer> _pageFlow;
