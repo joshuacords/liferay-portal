@@ -811,13 +811,15 @@ public class ResourcePermissionLocalServiceImpl
 		BaseChildModel baseChildModel = _getChildModel(name, classPK);
 
 		if (baseChildModel == null) {
-			return _listToSetSetRoleIds(groupId, baseRoles);
+			return _listToSetSetRoleIds(
+				companyId, groupId, name, classPK, baseRoles);
 		}
 
 		String parentClassPK = baseChildModel.getParentClassPK();
 
 		if (Validator.isNull(parentClassPK) || parentClassPK.equals("0")) {
-			return _listToSetSetRoleIds(groupId, baseRoles);
+			return _listToSetSetRoleIds(
+				companyId, groupId, name, classPK, baseRoles);
 		}
 
 		List<Role> parentAccessRoles = getRoles(
@@ -833,18 +835,20 @@ public class ResourcePermissionLocalServiceImpl
 
 		// we might be able to pass in access roles for faster processing
 
-		List<Set<Role>> parentViewRoles = _getTreePathRoles(
-			baseChildModel, companyId, baseRoles, guestRole);
-
-		//Set<Role> rolesSet = new HashSet<>();
-		Set<Set<Role>> rolesSet = new HashSet<>();
-
-		rolesSet.addAll(_listToSetSetRoleIds(groupId, parentAccessRoles));
-		rolesSet.addAll(parentViewRoles);
+//		List<Set<Role>> parentViewRoles = _getTreePathRoles(
+//			baseChildModel, companyId, baseRoles, guestRole);
+//
+//		//Set<Role> rolesSet = new HashSet<>();
+//		Set<Set<Role>> rolesSet = new HashSet<>();
+//
+//		rolesSet.addAll(_listToSetSetRoleIds(
+//			companyId, groupId, name, classPK, parentAccessRoles));
+//		rolesSet.addAll(parentViewRoles);
 
 		//need to use combine logic to simplify roles between Access and View
 
-		return rolesSet;
+//		return rolesSet;
+		return null;
 	}
 
 	@Override
@@ -1857,6 +1861,17 @@ public class ResourcePermissionLocalServiceImpl
 		return false;
 	}
 
+	protected boolean isOwnerRoleId(long companyId, long roleId) {
+
+		Role role = roleLocalService.fetchRole(companyId, RoleConstants.OWNER);
+
+		if ((role != null) && (roleId == role.getRoleId())) {
+			return true;
+		}
+
+		return false;
+	}
+
 	/**
 	 * Updates the role's permissions at the scope, either adding to, removing
 	 * from, or setting the actions that can be performed on resources of the
@@ -2098,6 +2113,46 @@ public class ResourcePermissionLocalServiceImpl
 		return null;
 	}
 
+	private PersistedModel _getPersistedModel(String className, Long classPK)
+		throws PortalException {
+		try {
+			PersistedModelLocalService persistedModelLocalService =
+				_getPersistedModelLocalService(className);
+
+			PersistedModel persistedModel =
+				persistedModelLocalService.getPersistedModel(classPK);
+
+			return persistedModel;
+		}
+		catch (SystemException systemException) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(
+					"No PersistedModelLocalService found for class " +
+					className,
+					systemException);
+			}
+
+			throw new SystemException(
+				"No PersistedModelLocalService found for class " +
+				className + systemException);
+		}
+		catch (PortalException portalException) {
+			StringBuilder sb = new StringBuilder(5);
+
+			sb.append("No ");
+			sb.append(className);
+			sb.append(" found for class PK ");
+			sb.append(classPK);
+			sb.append(portalException);
+
+			if (_log.isWarnEnabled()) {
+				_log.warn(sb.toString());
+			}
+
+			throw new PortalException(sb.toString());
+		}
+	}
+
 	private PersistedModelLocalService _getPersistedModelLocalService(
 		String className) {
 
@@ -2317,22 +2372,41 @@ public class ResourcePermissionLocalServiceImpl
 	}
 
 	private Set<Set<String>> _listToSetSetRoleIds(
-		long groupId, List<Role> roles) {
+		long companyId, long groupId, String className, long classPK,
+		List<Role> roles) throws PortalException {
+
+		Role ownerRole = roleLocalService.getRole(
+			companyId, RoleConstants.OWNER);
+
 		Set<Set<String>> roleSets = new HashSet<>();
 
-		List<String> roleIds = new ArrayList<>();
-
 		for (Role role : roles) {
+			Set<String> roleIds = new HashSet<>();
+
 			if ((role.getType() == RoleConstants.TYPE_ORGANIZATION) ||
 				(role.getType() == RoleConstants.TYPE_SITE)) {
 
 				roleIds.add(
 					groupId + StringPool.DASH + role.getRoleId());
 			}
+			else if (isOwnerRoleId(companyId, role.getRoleId())){
+
+				ResourcePermission resourcePermission =
+					getResourcePermission(
+						companyId, className,
+						ResourceConstants.SCOPE_INDIVIDUAL,
+						String.valueOf(classPK), ownerRole.getRoleId());
+
+				roleIds.add(
+					resourcePermission.getOwnerId() + StringPool.DASH +
+					role.getRoleId());
+			}
 			else {
 				long roleId = role.getRoleId();
 				roleIds.add(Long.toString(roleId));
 			}
+
+			roleSets.add(roleIds);
 		}
 
 		return roleSets;
