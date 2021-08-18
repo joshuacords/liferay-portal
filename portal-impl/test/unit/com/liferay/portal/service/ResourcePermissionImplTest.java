@@ -211,6 +211,10 @@ public class ResourcePermissionImplTest {
 
 			sb.append("expectedRoleIdSets size ");
 			sb.append(expectedRoleIdSets.size());
+			sb.append(" ");
+
+			_appendRoleSets(expectedRoleIdSets, sb);
+
 			sb.append(" is not actualRoleIdSets size ");
 			sb.append(actualRoleIdSets.size());
 			sb.append(" ");
@@ -247,7 +251,8 @@ public class ResourcePermissionImplTest {
 		throws Exception {
 
 		for (String roleId : roleIdSet) {
-			sb.append(roleId);
+			Role role = _roleProxyFactory.getRoleById(roleId);
+			sb.append(role.getDescriptiveName());
 			sb.append(", ");
 		}
 

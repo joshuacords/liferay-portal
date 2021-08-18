@@ -14,6 +14,7 @@
 
 package com.liferay.portal.service.resource.permission.test.util;
 
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.model.ResourceAction;
 import com.liferay.portal.kernel.model.ResourcePermission;
 import com.liferay.portal.kernel.model.Role;
@@ -28,6 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.liferay.portal.kernel.util.StringUtil;
 import org.mockito.Mockito;
 
 /**
@@ -64,6 +66,33 @@ public class RoleProxyFactory {
 		_roleProxies.put(roleName, roleProxy);
 
 		return roleProxy.getRole();
+	}
+
+	public Role getRoleById(String roleIdString) throws Exception {
+		String[] roleIdComponents =
+			StringUtil.split(roleIdString, StringPool.DASH);
+
+		if(roleIdComponents.length == 1) {
+			long roleId = Long.parseLong(roleIdComponents[0]);
+			for (RoleProxy roleProxy : _roleProxies.values()) {
+				Role role = roleProxy.getRole();
+				if(role.getRoleId() == roleId) {
+					return role;
+				}
+			}
+		}
+
+		if(roleIdComponents.length == 2) {
+			long roleId = Long.parseLong(roleIdComponents[1]);
+			for (RoleProxy roleProxy : _roleProxies.values()) {
+				Role role = roleProxy.getRole();
+				if(role.getRoleId() == roleId) {
+					return role;
+				}
+			}
+		}
+
+		return null;
 	}
 
 	public void mockResourceActionWithRolesOnAsset(
