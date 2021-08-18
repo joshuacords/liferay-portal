@@ -139,18 +139,17 @@ public class ResourcePermissionImplTest {
 				journalFolderProxy, creatorUserId, RoleConstants.GUEST,
 				RoleConstants.OWNER);
 
-		Set<Set<String>> roleSets =
+		Set<Set<String>> roleIdSets =
 			_resourcePermissionLocalService.getFlattenedInheritanceRoleIds(
 				_companyId, _groupId, _journalArticleClassName, _scope,
 				journalArticleProxy.getResourcePrimKey(),
 				journalArticleProxy.getPrimKey(), _viewActionId);
 
-		Set<Set<Role>> expectedRoleSets = _rolesToSetSet(
-			_roleProxyFactory.getRole(RoleConstants.GUEST),
-			_roleProxyFactory.getRole(RoleConstants.OWNER),
-			_roleProxyFactory.getRole(RoleConstants.USER));
+		Set<Set<String>> expectedRoleIdSets = getExpectedRoleIdSets(
+			creatorUserId, RoleConstants.GUEST, RoleConstants.OWNER,
+			RoleConstants.USER);
 
-//		assertContainsRoleSets(expectedRoleSets, roleSets);
+		assertContainsRoleSets(expectedRoleIdSets, roleIdSets);
 	}
 
 	@Test
@@ -252,7 +251,14 @@ public class ResourcePermissionImplTest {
 
 		for (String roleId : roleIdSet) {
 			Role role = _roleProxyFactory.getRoleById(roleId);
-			sb.append(role.getDescriptiveName());
+
+			if(role != null) {
+				sb.append(role.getDescriptiveName());
+			}
+			else {
+				sb.append(roleId);
+			}
+
 			sb.append(", ");
 		}
 

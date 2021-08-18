@@ -72,23 +72,19 @@ public class RoleProxyFactory {
 		String[] roleIdComponents =
 			StringUtil.split(roleIdString, StringPool.DASH);
 
-		if(roleIdComponents.length == 1) {
-			long roleId = Long.parseLong(roleIdComponents[0]);
-			for (RoleProxy roleProxy : _roleProxies.values()) {
-				Role role = roleProxy.getRole();
-				if(role.getRoleId() == roleId) {
-					return role;
-				}
-			}
-		}
+		long roleId;
 
 		if(roleIdComponents.length == 2) {
-			long roleId = Long.parseLong(roleIdComponents[1]);
-			for (RoleProxy roleProxy : _roleProxies.values()) {
-				Role role = roleProxy.getRole();
-				if(role.getRoleId() == roleId) {
-					return role;
-				}
+			roleId = Long.parseLong(roleIdComponents[1]);
+		}
+		else {
+			roleId = Long.parseLong(roleIdComponents[0]);
+		}
+
+		for (RoleProxy roleProxy : _roleProxies.values()) {
+			Role role = roleProxy.getRole();
+			if(role.getRoleId() == roleId) {
+				return role;
 			}
 		}
 
