@@ -17,6 +17,7 @@ package com.liferay.portal.service.resource.permission.test.util;
 import com.liferay.portal.kernel.model.ResourceAction;
 import com.liferay.portal.kernel.model.ResourcePermission;
 import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.model.role.RoleConstants;
 import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.service.persistence.ResourcePermissionPersistence;
@@ -66,19 +67,21 @@ public class RoleProxyFactory {
 	}
 
 	public void mockResourceActionWithRolesOnAsset(
-			ResourceAction resourceAction, List<Role> rolesWithResourceAction,
-			String className, String primKey)
+		ResourceAction resourceAction, List<Role> rolesWithResourceAction,
+		String className, String resourcePrimKey, String primKey,
+		long userId)
 		throws Exception {
 
 		_mockResourcePermissionsForRolesWithResourceAction(
-			resourceAction, rolesWithResourceAction, className, primKey);
+			resourceAction, rolesWithResourceAction, className, resourcePrimKey,
+			primKey, userId);
 
 		_mockRoleLocalServiceForRoles(rolesWithResourceAction);
 	}
 
 	private void _mockResourcePermissionsForRolesWithResourceAction(
 		ResourceAction resourceAction, List<Role> roles, String className,
-		String primKey) {
+		String resourcePrimKey, String primKey, long userId) throws Exception {
 
 		List<ResourcePermission> resourcePermissions = new ArrayList<>();
 
@@ -100,6 +103,34 @@ public class RoleProxyFactory {
 				resourcePermission
 			).getRoleId();
 
+			Role ownerRole = getRole(RoleConstants.OWNER);
+
+			if (role.getRoleId() == ownerRole.getRoleId()) {
+				Mockito.doReturn(
+					userId
+				).when(
+					resourcePermission
+				).getOwnerId();
+
+				Mockito.when(
+					_resourcePermissionPersistence.findByC_N_S_P_R(
+						_companyId, className, _SCOPE, primKey,
+						ownerRole.getRoleId()
+					)
+				).thenReturn(
+					resourcePermission
+				);
+
+//				Mockito.doReturn(
+//					resourcePermission
+//				).when(
+//					_resourcePermissionPersistence
+//				).findByC_N_S_P_R(
+//					_companyId, className, _SCOPE, primKey,
+//					ownerRole.getRoleId()
+//				);
+			}
+
 			resourcePermissions.add(resourcePermission);
 		}
 
@@ -108,9 +139,33 @@ public class RoleProxyFactory {
 		).when(
 			_resourcePermissionPersistence
 		).findByC_N_S_P(
-			_companyId, className, _SCOPE, primKey
+			_companyId, className, _SCOPE, resourcePrimKey
 		);
 	}
+
+//	private void _ownerIdInResourcePermission(
+//		ResourceAction resourceAction, List<Role> roles, String className,
+//		String primKey, long ownerUserId) throws Exception {
+//
+//		ResourcePermission ownerResourcePermission =
+//			Mockito.mock(ResourcePermission.class);
+//
+//		Mockito.doReturn(
+//			ownerUserId
+//		).when(
+//			ownerResourcePermission
+//		).getOwnerId();
+//
+//		Role ownerRole = getRole(RoleConstants.OWNER);
+//
+//		Mockito.doReturn(
+//			ownerResourcePermission
+//		).when(
+//			_resourcePermissionPersistence
+//		).findByC_N_S_P_R(
+//			_companyId, className, _SCOPE, primKey, ownerRole.getRoleId()
+//		);
+//	}
 
 	private void _mockRoleLocalServiceForRoles(List<Role> roles)
 		throws Exception {

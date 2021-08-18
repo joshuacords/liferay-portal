@@ -34,13 +34,14 @@ public class JournalFolderProxy {
 			ResourceAction viewFolderResourceAction,
 			RoleProxyFactory roleProxyFactory,
 			String[] roleNamesWithViewPermission,
-			JournalFolderProxy journalFolderProxy)
+			long ownerUserId, JournalFolderProxy journalFolderProxy)
 		throws Exception {
 
 		_resourceActionLocalService = resourceActionLocalService;
 		_viewFolderResourceAction = viewFolderResourceAction;
 		_roleProxyFactory = roleProxyFactory;
 		_roleNamesWithViewPermission = roleNamesWithViewPermission;
+		_userId = ownerUserId;
 
 		_resourcePrimKey = StringUtil.toString(RandomTestUtil.randomLong());
 
@@ -79,7 +80,8 @@ public class JournalFolderProxy {
 
 		_roleProxyFactory.mockResourceActionWithRolesOnAsset(
 			_viewFolderResourceAction, _rolesWithViewPermission,
-			_CLASS_NAME_JOURNAL_FOLDER, _resourcePrimKey);
+			_CLASS_NAME_JOURNAL_FOLDER, _resourcePrimKey, _resourcePrimKey,
+			_userId);
 	}
 
 	private static final String _CLASS_NAME_JOURNAL_FOLDER =
@@ -90,6 +92,7 @@ public class JournalFolderProxy {
 	private final String[] _roleNamesWithViewPermission;
 	private final RoleProxyFactory _roleProxyFactory;
 	private final List<Role> _rolesWithViewPermission = new ArrayList<>();
+	private final long _userId;
 	private String _treePath;
 	private final ResourceAction _viewFolderResourceAction;
 

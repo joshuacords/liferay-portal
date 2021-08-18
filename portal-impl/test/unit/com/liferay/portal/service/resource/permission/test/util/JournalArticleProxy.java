@@ -39,7 +39,7 @@ public class JournalArticleProxy {
 			ResourceActionLocalService resourceActionLocalService,
 			ResourceAction viewArticleResourceAction,
 			RoleProxyFactory roleProxyFactory, String[] roleNames,
-			JournalFolderProxy journalFolderProxy)
+			long ownerUserId, JournalFolderProxy journalFolderProxy)
 		throws Exception {
 
 		_journalArticlePersistedModelLocalService =
@@ -47,6 +47,7 @@ public class JournalArticleProxy {
 		_resourceActionLocalService = resourceActionLocalService;
 		_viewArticleResourceAction = viewArticleResourceAction;
 		_roleProxyFactory = roleProxyFactory;
+		_userId = ownerUserId;
 
 		_roleNamesWithViewPermission = roleNames;
 
@@ -125,7 +126,7 @@ public class JournalArticleProxy {
 
 		_roleProxyFactory.mockResourceActionWithRolesOnAsset(
 			_viewArticleResourceAction, _rolesWithViewPermission,
-			_CLASS_NAME_JOURNAL_ARTICLE, _resourcePrimKey);
+			_CLASS_NAME_JOURNAL_ARTICLE, _resourcePrimKey, _primKey, _userId);
 	}
 
 	private static final String _CLASS_NAME_JOURNAL_ARTICLE =
@@ -145,6 +146,7 @@ public class JournalArticleProxy {
 	private final RoleProxyFactory _roleProxyFactory;
 	private final List<Role> _rolesWithViewPermission = new ArrayList<>();
 	private String _treePath;
+	private final long _userId;
 	private final ResourceAction _viewArticleResourceAction;
 
 }

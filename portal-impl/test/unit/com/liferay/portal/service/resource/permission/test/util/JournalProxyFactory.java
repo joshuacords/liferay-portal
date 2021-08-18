@@ -42,39 +42,43 @@ public class JournalProxyFactory {
 	}
 
 	public JournalArticleProxy createJournalArticleProxy(
-			JournalFolderProxy journalFolderProxy, String... roleNames)
+			JournalFolderProxy journalFolderProxy, long ownerUserId,
+			String... roleNames)
 		throws Exception {
 
 		return new JournalArticleProxy(
 			_journalArticlePersistedModelLocalService,
 			_resourceActionLocalService, _viewArticleResourceAction,
-			_roleProxyFactory, roleNames, journalFolderProxy);
+			_roleProxyFactory, roleNames, ownerUserId, journalFolderProxy);
 	}
 
-	public JournalArticleProxy createJournalArticleProxy(String... roleNames)
+	public JournalArticleProxy createJournalArticleProxy(
+			long ownerUserId, String... roleNames)
 		throws Exception {
 
 		return new JournalArticleProxy(
 			_journalArticlePersistedModelLocalService,
 			_resourceActionLocalService, _viewArticleResourceAction,
-			_roleProxyFactory, roleNames, null);
+			_roleProxyFactory, roleNames, ownerUserId, null);
 	}
 
 	public JournalFolderProxy createJournalFolderProxy(
-			JournalFolderProxy journalFolderProxy, String... roleNames)
+			JournalFolderProxy journalFolderProxy, long ownerUserId,
+			String... roleNames)
 		throws Exception {
 
 		return new JournalFolderProxy(
 			_resourceActionLocalService, _viewFolderResourceAction,
-			_roleProxyFactory, roleNames, journalFolderProxy);
+			_roleProxyFactory, roleNames, ownerUserId, journalFolderProxy);
 	}
 
-	public JournalFolderProxy createJournalFolderProxy(String... roleNames)
+	public JournalFolderProxy createJournalFolderProxy(
+			long ownerUserId, String... roleNames)
 		throws Exception {
 
 		return new JournalFolderProxy(
 			_resourceActionLocalService, _viewFolderResourceAction,
-			_roleProxyFactory, roleNames, null);
+			_roleProxyFactory, roleNames, ownerUserId, null);
 	}
 
 	private void _mockViewResourceActions() throws Exception {
