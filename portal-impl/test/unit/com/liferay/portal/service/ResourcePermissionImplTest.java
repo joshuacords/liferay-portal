@@ -14,6 +14,7 @@
 
 package com.liferay.portal.service;
 
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.model.ResourceAction;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.role.RoleConstants;
@@ -160,53 +161,80 @@ public class ResourcePermissionImplTest {
 			_journalProxyFactory.createJournalArticleProxy(
 				creatorUserId, RoleConstants.GUEST, RoleConstants.OWNER);
 
-		Set<Set<String>> roleSets =
+		Set<Set<String>> roleIdSets =
 			_resourcePermissionLocalService.getFlattenedInheritanceRoleIds(
 				_companyId, _groupId, _journalArticleClassName, _scope,
 				journalArticleProxy.getResourcePrimKey(),
 				journalArticleProxy.getPrimKey(), _viewActionId);
 
-		Set<Set<Role>> expectedRoleSets = _rolesToSetSet(
-			_roleProxyFactory.getRole(RoleConstants.GUEST),
-			_roleProxyFactory.getRole(RoleConstants.OWNER),
-			_roleProxyFactory.getRole(RoleConstants.USER));
+		Set<Set<String>> expectedRoleIdSets = getExpectedRoleIdSets(
+			creatorUserId, RoleConstants.GUEST, RoleConstants.OWNER);
 
-//		assertContainsRoleSets(expectedRoleSets, roleSets);
+		assertContainsRoleSets(expectedRoleIdSets, roleIdSets);
+	}
+
+	protected Set<Set<String>> getExpectedRoleIdSets(
+		long userId, String ... roleNames) throws Exception {
+
+		Set<Set<String>> roleIdSets = new HashSet<>();
+
+		for (String roleName : roleNames) {
+			Role role = _roleProxyFactory.getRole(roleName);
+
+			Set<String> roleIdSet = new HashSet<>();
+
+			if(roleName.equals(RoleConstants.OWNER)) {
+				roleIdSet.add(Long.toString(userId) + StringPool.DASH +
+					role.getRoleId());
+			}
+			else if(roleName.equals(RoleConstants.SITE_MEMBER)) {
+				roleIdSet.add(Long.toString(_groupId) + StringPool.DASH +
+			  		role.getRoleId());
+			}
+			else {
+				roleIdSet.add(Long.toString(role.getRoleId()));
+			}
+
+			roleIdSets.add(roleIdSet);
+		}
+
+		return roleIdSets;
 	}
 
 	protected void assertContainsRoleSets(
-			Set<Set<Role>> expectedRoleSets, Set<Set<Role>> actualRoleSets)
+			Set<Set<String>> expectedRoleIdSets,
+			Set<Set<String>> actualRoleIdSets)
 		throws Exception {
 
-		if (expectedRoleSets.size() != actualRoleSets.size()) {
+		if (expectedRoleIdSets.size() != actualRoleIdSets.size()) {
 			StringBuilder sb = new StringBuilder(4);
 
-			sb.append("expectedRoleSets size ");
-			sb.append(expectedRoleSets.size());
-			sb.append(" is not actualRoleSets size ");
-			sb.append(actualRoleSets.size());
+			sb.append("expectedRoleIdSets size ");
+			sb.append(expectedRoleIdSets.size());
+			sb.append(" is not actualRoleIdSets size ");
+			sb.append(actualRoleIdSets.size());
 			sb.append(" ");
 
-			_appendRoleSets(actualRoleSets, sb);
+			_appendRoleSets(actualRoleIdSets, sb);
 
 			throw new Exception(sb.toString());
 		}
 
-		for (Set<Role> expectedRoleSet : expectedRoleSets) {
-			if (!actualRoleSets.contains(expectedRoleSet)) {
+		for (Set<String> expectedRoleIdSet : expectedRoleIdSets) {
+			if (!actualRoleIdSets.contains(expectedRoleIdSet)) {
 				StringBuilder sb = new StringBuilder();
 
-				sb.append("expectedRoleSet [");
+				sb.append("expectedRoleIdSet [");
 
-				_appendRoleSet(expectedRoleSet, sb);
+				_appendRoleSet(expectedRoleIdSet, sb);
 
-				sb.append("] from expectedRoleSets [");
+				sb.append("] from expectedRoleIdSets [");
 
-				_appendRoleSets(expectedRoleSets, sb);
+				_appendRoleSets(expectedRoleIdSets, sb);
 
-				sb.append("] was not found in actualRoleSets [");
+				sb.append("] was not found in actualRoleIdSets [");
 
-				_appendRoleSets(actualRoleSets, sb);
+				_appendRoleSets(actualRoleIdSets, sb);
 
 				sb.append("]");
 
@@ -215,11 +243,11 @@ public class ResourcePermissionImplTest {
 		}
 	}
 
-	private StringBuilder _appendRoleSet(Set<Role> roleSet, StringBuilder sb)
+	private StringBuilder _appendRoleSet(Set<String> roleIdSet, StringBuilder sb)
 		throws Exception {
 
-		for (Role role : roleSet) {
-			sb.append(role.getDescriptiveName());
+		for (String roleId : roleIdSet) {
+			sb.append(roleId);
 			sb.append(", ");
 		}
 
@@ -227,10 +255,10 @@ public class ResourcePermissionImplTest {
 	}
 
 	private StringBuilder _appendRoleSets(
-			Set<Set<Role>> roleSets, StringBuilder sb)
+			Set<Set<String>> roleIdSets, StringBuilder sb)
 		throws Exception {
 
-		for (Set<Role> roleSet : roleSets) {
+		for (Set<String> roleSet : roleIdSets) {
 			sb.append("[");
 
 			_appendRoleSet(roleSet, sb);
