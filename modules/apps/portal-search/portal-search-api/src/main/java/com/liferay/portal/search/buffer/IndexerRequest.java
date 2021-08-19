@@ -147,7 +147,8 @@ public class IndexerRequest {
 	}
 
 	private static final boolean _FORCE_SYNC_DISABLED =
-		GetterUtil.getBoolean(PropsUtil.get("index.force.sync.disabled"));
+		GetterUtil.getBoolean(
+			PropsUtil.get("index.search.request.force.sync.disabled"));
 
 	private final ClassedModel _classedModel;
 	private final boolean _forceSync;
