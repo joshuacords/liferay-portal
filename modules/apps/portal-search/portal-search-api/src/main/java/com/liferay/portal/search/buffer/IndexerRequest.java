@@ -139,15 +139,15 @@ public class IndexerRequest {
 	}
 
 	private boolean _isForceSync() {
-		if (_INDEX_ASYNC_INDEXING) {
+		if (_FORCE_SYNC_DISABLED) {
 			return false;
 		}
 
 		return ProxyModeThreadLocal.isForceSync();
 	}
 
-	private static final boolean _INDEX_ASYNC_INDEXING =
-		GetterUtil.getBoolean(PropsUtil.get("index.async.indexing"));
+	private static final boolean _FORCE_SYNC_DISABLED =
+		GetterUtil.getBoolean(PropsUtil.get("index.force.sync.disabled"));
 
 	private final ClassedModel _classedModel;
 	private final boolean _forceSync;
