@@ -833,10 +833,15 @@ public class ResourcePermissionLocalServiceImpl
 			parentAccessRoles.retainAll(baseRoles);
 		}
 
+		Set<Set<String>> parentAccessRoleIds = _listToSetSetRoleIds(
+			companyId, groupId, baseChildModel.getParentClassName(),
+			GetterUtil.getLong(parentClassPK), parentAccessRoles);
+
 		// we might be able to pass in access roles for faster processing
 
-//		List<Set<Role>> parentViewRoles = _getTreePathRoles(
-//			baseChildModel, companyId, baseRoles, guestRole);
+		List<Set<Role>> parentViewRoles = _getTreePathRoles(
+			baseChildModel, companyId, groupId,
+			name, Long.parseLong(primKey), baseRoles, guestRole);
 //
 //		//Set<Role> rolesSet = new HashSet<>();
 //		Set<Set<Role>> rolesSet = new HashSet<>();
@@ -2046,7 +2051,7 @@ public class ResourcePermissionLocalServiceImpl
 	private void _assignStartingRoles(
 		List<Role> roles, List<Set<Role>> roleSetsWithAccess, Role guestRole) {
 
-		for (Role role : roles) { //guest role wasn't detected
+		for (Role role : roles) {
 
 			if (role.getRoleId() == guestRole.getRoleId()) {
 				continue;
@@ -2056,6 +2061,26 @@ public class ResourcePermissionLocalServiceImpl
 
 			baseRoles.add(role);
 			roleSetsWithAccess.add(baseRoles);
+		}
+	}
+
+	private void _assignStartingRoleIds(
+		long companyId, long groupId, String className, long classPK,
+		List<Role> roles, List<Set<String>> roleIdSetsWithAccess, Role guestRole)
+	throws PortalException {
+
+		for (Role role : roles) {
+
+			if (role.getRoleId() == guestRole.getRoleId()) {
+				continue;
+			}
+
+			Set<String> baseRoleIds = new HashSet<>();
+
+			baseRoleIds.add(
+				_roleToRoleId(companyId, groupId, className, classPK, role));
+
+			roleIdSetsWithAccess.add(baseRoleIds);
 		}
 	}
 
@@ -2183,8 +2208,9 @@ public class ResourcePermissionLocalServiceImpl
 	}
 
 	private List<Set<Role>> _getTreePathRoles(
-			BaseChildModel baseChildModel, long companyId, List<Role> roles,
-			Role guestRole)
+		BaseChildModel baseChildModel, long companyId, long groupId,
+		String className, long classPK, List<Role> roles,
+		Role guestRole)
 		throws PortalException {
 
 		String[] parentFolderIds = StringUtil.split(
@@ -2192,13 +2218,29 @@ public class ResourcePermissionLocalServiceImpl
 
 		List<Role> folderRoles;
 
+		//old
 		List<Role> rolesToCombine = new ArrayList<>();
 
 		List<Set<Role>> roleSetsWithPermission = new ArrayList<>();
 
 		List<Set<Role>> roleSetsWithPermissionPreviously = new ArrayList<>();
+		//old end
+		//new
+		List<Role> roleIdsToCombine = new ArrayList<>();
 
+		List<Set<String>> roleIdSetsWithPermission = new ArrayList<>();
+
+		List<Set<String>> roleIdSetsWithPermissionPreviously = new ArrayList<>();
+		//end new
+
+		//old
 		_assignStartingRoles(roles, roleSetsWithPermission, guestRole);
+		//old end
+		//new
+		_assignStartingRoleIds(
+			companyId, groupId, className, classPK, roles,
+			roleIdSetsWithPermission, guestRole);
+		//new end
 
 		boolean guestRoleHasPermission = roles.contains(guestRole);
 
@@ -2383,33 +2425,43 @@ public class ResourcePermissionLocalServiceImpl
 		for (Role role : roles) {
 			Set<String> roleIds = new HashSet<>();
 
-			if ((role.getType() == RoleConstants.TYPE_ORGANIZATION) ||
-				(role.getType() == RoleConstants.TYPE_SITE)) {
-
-				roleIds.add(
-					groupId + StringPool.DASH + role.getRoleId());
-			}
-			else if (isOwnerRoleId(companyId, role.getRoleId())){
-
-				ResourcePermission resourcePermission =
-					getResourcePermission(
-						companyId, className,
-						ResourceConstants.SCOPE_INDIVIDUAL,
-						String.valueOf(classPK), ownerRole.getRoleId());
-
-				roleIds.add(
-					resourcePermission.getOwnerId() + StringPool.DASH +
-					role.getRoleId());
-			}
-			else {
-				long roleId = role.getRoleId();
-				roleIds.add(Long.toString(roleId));
-			}
+			roleIds.add(
+				_roleToRoleId(companyId, groupId, className, classPK, role));
 
 			roleSets.add(roleIds);
 		}
 
 		return roleSets;
+	}
+
+	private String _roleToRoleId(
+		long companyId, long groupId, String className, long classPK, Role role
+	) throws PortalException {
+
+		Role ownerRole = roleLocalService.getRole(
+			companyId, RoleConstants.OWNER);
+
+		if ((role.getType() == RoleConstants.TYPE_ORGANIZATION) ||
+			(role.getType() == RoleConstants.TYPE_SITE)) {
+
+			return groupId + StringPool.DASH + role.getRoleId();
+		}
+		else if (isOwnerRoleId(companyId, role.getRoleId())){
+
+			ResourcePermission resourcePermission =
+				getResourcePermission(
+					companyId, className,
+					ResourceConstants.SCOPE_INDIVIDUAL,
+					String.valueOf(classPK), ownerRole.getRoleId());
+
+			return resourcePermission.getOwnerId() + StringPool.DASH +
+				role.getRoleId();
+		}
+		else {
+			long roleId = role.getRoleId();
+
+			return Long.toString(roleId);
+		}
 	}
 
 	private boolean _matches(
