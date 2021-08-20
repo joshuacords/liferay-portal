@@ -2106,6 +2106,28 @@ public class ResourcePermissionLocalServiceImpl
 		return roleSetsWithAccessPreviously;
 	}
 
+	private List<Set<String>>
+	_crossCombineRoleIdsWithAccessPreviouslyWithRoleIdsToCombine(
+		List<Set<String>> roleIdSetsWithAccessPreviously,
+		List<String> roleIdsToCombine) {
+
+		if (roleIdSetsWithAccessPreviously.isEmpty() ||
+			roleIdsToCombine.isEmpty()) {
+
+			return null;
+		}
+
+		for (Set<String> roleIdSetWithAccessPreviously :
+			roleIdSetsWithAccessPreviously) {
+
+			for (String roleIdToCombine : roleIdsToCombine) {
+				roleIdSetWithAccessPreviously.add(roleIdToCombine);
+			}
+		}
+
+		return roleIdSetsWithAccessPreviously;
+	}
+
 	private BaseChildModel _getChildModel(String className, Long classPK) {
 		try {
 			PersistedModelLocalService persistedModelLocalService =
@@ -2226,7 +2248,7 @@ public class ResourcePermissionLocalServiceImpl
 		List<Set<Role>> roleSetsWithPermissionPreviously = new ArrayList<>();
 		//old end
 		//new
-		List<Role> roleIdsToCombine = new ArrayList<>();
+		List<String> roleIdsToCombine = new ArrayList<>();
 
 		List<Set<String>> roleIdSetsWithPermission = new ArrayList<>();
 
@@ -2261,17 +2283,31 @@ public class ResourcePermissionLocalServiceImpl
 				_assignStartingRoles(
 					folderRoles, roleSetsWithPermission, guestRole);
 
+				_assignStartingRoleIds(
+					companyId, groupId, className, classPK, folderRoles,
+					roleIdSetsWithPermission, guestRole);
+
 				continue;
 			}
 
 			// move RoleSetsWithAccess into RoleSetsWithAccessPreviously
-
+			//old
 			roleSetsWithPermissionPreviously.clear();
 
 			_moveRoleSetsWithAccessToRoleSetsWithAccessPreviously(
 				roleSetsWithPermission, roleSetsWithPermissionPreviously);
 
 			roleSetsWithPermission.clear();
+			//old end
+
+			//new
+			roleIdSetsWithPermissionPreviously.clear();
+
+			_moveRoleIdSetsWithAccessToRoleIdSetsWithAccessPreviously(
+				roleIdSetsWithPermission, roleIdSetsWithPermissionPreviously);
+
+			roleIdSetsWithPermission.clear();
+			//new end
 
 			//what if folder has no roles, seems to work
 
@@ -2281,11 +2317,16 @@ public class ResourcePermissionLocalServiceImpl
 					continue;
 				}
 
+				String folderRoleId = _roleToRoleId(
+					companyId, groupId, className, classPK, folderRole);
+
 				boolean roleHasAccess = false;
 
 				// if role exists in roleSetsWithAccessPreviously, move all
 				// roleSetsWithAccessPreviously to roleSetsWithAccess
 
+
+				//old
 				Iterator<Set<Role>> accessPreviouslyIterator =
 					roleSetsWithPermissionPreviously.iterator();
 
@@ -2300,19 +2341,49 @@ public class ResourcePermissionLocalServiceImpl
 						roleHasAccess = true;
 					}
 				}
+				//old END
+
+				//new
+				Iterator<Set<String>> accessPreviouslyIdIterator =
+					roleIdSetsWithPermissionPreviously.iterator();
+
+				while (accessPreviouslyIdIterator.hasNext()) {
+					Set<String> currentRoleIdSet = accessPreviouslyIdIterator.next();
+
+					if (currentRoleIdSet.contains(folderRoleId)) {
+						roleIdSetsWithPermission.add(currentRoleIdSet);
+
+						accessPreviouslyIdIterator.remove();
+
+						roleHasAccess = true;
+					}
+				}
+				//new END
 
 				//if roles is not yet found, check roleSetsWithAccess
 
 				if (!roleHasAccess) {
+					//old
 					roleHasAccess = _roleExistsInRoleSetsWithAccess(
 						roleSetsWithPermission, folderRole);
+					//old END
+					//new
+					roleHasAccess = _roleIdExistsInRoleIdSetsWithAccess(
+						roleIdSetsWithPermission, folderRoleId);
+					//new END
 				}
 
 				if (!roleHasAccess) {
+					//old
 					rolesToCombine.add(folderRole);
+					//old END
+					//new
+					roleIdsToCombine.add(folderRoleId);
+					//new END
 				}
 			}
 
+			//old
 			Optional.ofNullable(
 				_crossCombineRolesWithAccessPreviouslyWithRolesToCombine(
 					roleSetsWithPermissionPreviously, rolesToCombine)
@@ -2321,13 +2392,32 @@ public class ResourcePermissionLocalServiceImpl
 			);
 
 			rolesToCombine.clear();
+			//old END
+			//new
+			Optional.ofNullable(
+				_crossCombineRoleIdsWithAccessPreviouslyWithRoleIdsToCombine(
+					roleIdSetsWithPermissionPreviously, roleIdsToCombine)
+			).ifPresent(
+				roleIdSetsWithPermission::addAll
+			);
+
+			roleIdsToCombine.clear();
+			//new END
 		}
 
 		if (guestRoleHasPermission) {
+			//old
 			Set<Role> guestRoleSet = new HashSet<>();
 
 			guestRoleSet.add(guestRole);
 			roleSetsWithPermission.add(guestRoleSet);
+			//old END
+			//new
+			Set<String> guestRoleIdSet = new HashSet<>();
+
+			guestRoleIdSet.add(Long.toString(guestRole.getRoleId()));
+			roleIdSetsWithPermission.add(guestRoleIdSet);
+			//new END
 		}
 
 		return roleSetsWithPermission;
@@ -2548,11 +2638,30 @@ public class ResourcePermissionLocalServiceImpl
 		rolesWithAccessPreviously.addAll(rolesWithAccess);
 	}
 
+	private void _moveRoleIdSetsWithAccessToRoleIdSetsWithAccessPreviously(
+		List<Set<String>> roleIdsWithAccess,
+		List<Set<String>> roleIdsWithAccessPreviously) {
+
+		roleIdsWithAccessPreviously.addAll(roleIdsWithAccess);
+	}
+
 	private boolean _roleExistsInRoleSetsWithAccess(
 		List<Set<Role>> roleSetsWithAccess, Role role) {
 
 		for (Set<Role> roleSetWithAccess : roleSetsWithAccess) {
 			if (roleSetWithAccess.contains(role)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private boolean _roleIdExistsInRoleIdSetsWithAccess(
+		List<Set<String>> roleIdSetsWithAccess, String roleId) {
+
+		for (Set<String> roleIdSetWithAccess : roleIdSetsWithAccess) {
+			if (roleIdSetWithAccess.contains(roleId)) {
 				return true;
 			}
 		}
