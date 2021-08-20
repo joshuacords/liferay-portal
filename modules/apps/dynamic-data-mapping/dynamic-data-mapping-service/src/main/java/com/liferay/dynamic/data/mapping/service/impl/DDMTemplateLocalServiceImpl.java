@@ -440,11 +440,6 @@ public class DDMTemplateLocalServiceImpl
 
 		ddmTemplatePersistence.remove(template);
 
-		// Template versions
-
-		_ddmTemplateVersionLocalService.deleteTemplateVersions(
-			template.getTemplateId());
-
 		// Resources
 
 		String resourceName =
@@ -454,6 +449,11 @@ public class DDMTemplateLocalServiceImpl
 		resourceLocalService.deleteResource(
 			template.getCompanyId(), resourceName,
 			ResourceConstants.SCOPE_INDIVIDUAL, template.getTemplateId());
+
+		// Template versions
+
+		_ddmTemplateVersionLocalService.deleteTemplateVersions(
+			template.getTemplateId());
 
 		return template;
 	}
