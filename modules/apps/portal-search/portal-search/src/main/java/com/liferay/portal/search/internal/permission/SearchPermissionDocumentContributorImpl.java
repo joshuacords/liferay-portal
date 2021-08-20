@@ -138,9 +138,15 @@ public class SearchPermissionDocumentContributorImpl
 		String permissionName = _getPermissionName(document, className);
 
 		try {
-			List<Role> roles = _resourcePermissionLocalService.getRoles(
-				companyId, permissionName, ResourceConstants.SCOPE_INDIVIDUAL,
-				String.valueOf(classPK), viewActionId);
+			List<Role> roles = new ArrayList<>();
+//				_resourcePermissionLocalService.getRoles(
+//				companyId, permissionName, ResourceConstants.SCOPE_INDIVIDUAL,
+//				String.valueOf(classPK), viewActionId);
+
+			_resourcePermissionLocalService.getFlattenedInheritanceRoleIds(
+				companyId, groupId, permissionName,
+				ResourceConstants.SCOPE_INDIVIDUAL, String.valueOf(classPK),
+				viewActionId);
 
 			if (roles.isEmpty()) {
 				return;

@@ -285,6 +285,19 @@ public class SearchPermissionCheckerImpl implements SearchPermissionChecker {
 				document, className, classPK);
 		}
 
+		String classPKString = String.valueOf(classPK);
+
+		if (className.equals("com.liferay.journal.model.JournalArticle")) {
+			classPKString = document.get("primaryKey");
+		}
+
+		String permissionName = _getPermissionName(document, className);
+
+		resourcePermissionLocalService.getFlattenedInheritanceRoleIds(
+			companyId, groupId, permissionName,
+			ResourceConstants.SCOPE_INDIVIDUAL, String.valueOf(classPK),
+			classPKString, viewActionId);
+
 		List<Role> roles = resourcePermissionLocalService.getRoles(
 			companyId, className, ResourceConstants.SCOPE_INDIVIDUAL,
 			String.valueOf(classPK), viewActionId);
@@ -608,6 +621,16 @@ public class SearchPermissionCheckerImpl implements SearchPermissionChecker {
 
 		return GetterUtil.getString(
 			searchContext.getAttribute("resourcePermissionName"), defaultValue);
+	}
+
+	private String _getPermissionName(Document document, String defaultValue) {
+		String resourcePermissionName = document.get("resourcePermissionName");
+
+		if (Validator.isNull(resourcePermissionName)) {
+			return defaultValue;
+		}
+
+		return resourcePermissionName;
 	}
 
 	private static final String _NULL_SEARCH_PERMISSION_CONTEXT =
