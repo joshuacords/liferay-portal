@@ -23,13 +23,14 @@ import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.service.persistence.ResourcePermissionPersistence;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.liferay.portal.kernel.util.StringUtil;
 import org.mockito.Mockito;
 
 /**
@@ -69,21 +70,22 @@ public class RoleProxyFactory {
 	}
 
 	public Role getRoleById(String roleIdString) throws Exception {
-		String[] roleIdComponents =
-			StringUtil.split(roleIdString, StringPool.DASH);
+		String[] roleIdComponents = StringUtil.split(
+			roleIdString, StringPool.DASH);
 
 		long roleId;
 
-		if(roleIdComponents.length == 2) {
-			roleId = Long.parseLong(roleIdComponents[1]);
+		if (roleIdComponents.length == 2) {
+			roleId = GetterUtil.getLong(roleIdComponents[1]);
 		}
 		else {
-			roleId = Long.parseLong(roleIdComponents[0]);
+			roleId = GetterUtil.getLong(roleIdComponents[0]);
 		}
 
 		for (RoleProxy roleProxy : _roleProxies.values()) {
 			Role role = roleProxy.getRole();
-			if(role.getRoleId() == roleId) {
+
+			if (role.getRoleId() == roleId) {
 				return role;
 			}
 		}
@@ -92,9 +94,9 @@ public class RoleProxyFactory {
 	}
 
 	public void mockResourceActionWithRolesOnAsset(
-		ResourceAction resourceAction, List<Role> rolesWithResourceAction,
-		String className, String resourcePrimKey, String primKey,
-		long userId)
+			ResourceAction resourceAction, List<Role> rolesWithResourceAction,
+			String className, String resourcePrimKey, String primKey,
+			long userId)
 		throws Exception {
 
 		_mockResourcePermissionsForRolesWithResourceAction(
@@ -105,8 +107,9 @@ public class RoleProxyFactory {
 	}
 
 	private void _mockResourcePermissionsForRolesWithResourceAction(
-		ResourceAction resourceAction, List<Role> roles, String className,
-		String resourcePrimKey, String primKey, long userId) throws Exception {
+			ResourceAction resourceAction, List<Role> roles, String className,
+			String resourcePrimKey, String primKey, long userId)
+		throws Exception {
 
 		List<ResourcePermission> resourcePermissions = new ArrayList<>();
 
@@ -140,20 +143,10 @@ public class RoleProxyFactory {
 				Mockito.when(
 					_resourcePermissionPersistence.findByC_N_S_P_R(
 						_companyId, className, _SCOPE, primKey,
-						ownerRole.getRoleId()
-					)
+						ownerRole.getRoleId())
 				).thenReturn(
 					resourcePermission
 				);
-
-//				Mockito.doReturn(
-//					resourcePermission
-//				).when(
-//					_resourcePermissionPersistence
-//				).findByC_N_S_P_R(
-//					_companyId, className, _SCOPE, primKey,
-//					ownerRole.getRoleId()
-//				);
 			}
 
 			resourcePermissions.add(resourcePermission);
@@ -168,29 +161,31 @@ public class RoleProxyFactory {
 		);
 	}
 
-//	private void _ownerIdInResourcePermission(
-//		ResourceAction resourceAction, List<Role> roles, String className,
-//		String primKey, long ownerUserId) throws Exception {
-//
-//		ResourcePermission ownerResourcePermission =
-//			Mockito.mock(ResourcePermission.class);
-//
-//		Mockito.doReturn(
-//			ownerUserId
-//		).when(
-//			ownerResourcePermission
-//		).getOwnerId();
-//
-//		Role ownerRole = getRole(RoleConstants.OWNER);
-//
-//		Mockito.doReturn(
-//			ownerResourcePermission
-//		).when(
-//			_resourcePermissionPersistence
-//		).findByC_N_S_P_R(
-//			_companyId, className, _SCOPE, primKey, ownerRole.getRoleId()
-//		);
-//	}
+	//	private void _ownerIdInResourcePermission(
+	//		ResourceAction resourceAction, List<Role> roles, String className,
+	//		String primKey, long ownerUserId) throws Exception {
+	//
+	//		ResourcePermission ownerResourcePermission =
+	//			Mockito.mock(ResourcePermission.class);
+
+	//
+	//		Mockito.doReturn(
+	//			ownerUserId
+	//		).when(
+	//			ownerResourcePermission
+	//		).getOwnerId();
+	//
+	//		Role ownerRole = getRole(RoleConstants.OWNER);
+
+	//
+	//		Mockito.doReturn(
+	//			ownerResourcePermission
+	//		).when(
+	//			_resourcePermissionPersistence
+	//		).findByC_N_S_P_R(
+	//			_companyId, className, _SCOPE, primKey, ownerRole.getRoleId()
+	//		);
+	//	}
 
 	private void _mockRoleLocalServiceForRoles(List<Role> roles)
 		throws Exception {

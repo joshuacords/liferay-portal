@@ -98,8 +98,8 @@ public class ResourcePermissionImplTest {
 
 		JournalArticleProxy journalArticleProxy =
 			_journalProxyFactory.createJournalArticleProxy(
-				journalFolderProxy2, creatorUserId,
-				RoleConstants.OWNER, RoleConstants.POWER_USER);
+				journalFolderProxy2, creatorUserId, RoleConstants.OWNER,
+				RoleConstants.POWER_USER);
 
 		Set<Set<String>> roleIdSets =
 			_resourcePermissionLocalService.getFlattenedInheritanceRoleIds(
@@ -109,12 +109,13 @@ public class ResourcePermissionImplTest {
 
 		Set<Set<String>> expectedRoleIdSets = new HashSet<>();
 
-		expectedRoleIdSets.add(getExpectedRoleIdSet(
-			creatorUserId, RoleConstants.POWER_USER, RoleConstants.SITE_MEMBER,
-			RoleConstants.USER));
+		expectedRoleIdSets.add(
+			getExpectedRoleIdSet(
+				creatorUserId, RoleConstants.POWER_USER,
+				RoleConstants.SITE_MEMBER, RoleConstants.USER));
 
-		expectedRoleIdSets.add(getExpectedRoleIdSet(
-			creatorUserId, RoleConstants.OWNER));
+		expectedRoleIdSets.add(
+			getExpectedRoleIdSet(creatorUserId, RoleConstants.OWNER));
 
 		assertContainsRoleSets(expectedRoleIdSets, roleIdSets);
 	}
@@ -170,8 +171,9 @@ public class ResourcePermissionImplTest {
 
 		Set<Set<String>> expectedRoleIdSets = new HashSet<>();
 
-		expectedRoleIdSets.add(getExpectedRoleIdSet(
-			creatorUserId, RoleConstants.OWNER, RoleConstants.USER));
+		expectedRoleIdSets.add(
+			getExpectedRoleIdSet(
+				creatorUserId, RoleConstants.OWNER, RoleConstants.USER));
 
 		assertContainsRoleSets(expectedRoleIdSets, roleIdSets);
 	}
@@ -194,42 +196,6 @@ public class ResourcePermissionImplTest {
 			creatorUserId, RoleConstants.GUEST, RoleConstants.OWNER);
 
 		assertContainsRoleSets(expectedRoleIdSets, roleIdSets);
-	}
-
-	protected Set<Set<String>> getExpectedRoleIdSets(
-		long userId, String ... roleNames) throws Exception {
-
-		Set<Set<String>> roleIdSets = new HashSet<>();
-
-		for (String roleName : roleNames) {
-			roleIdSets.add(getExpectedRoleIdSet(userId, roleName));
-		}
-
-		return roleIdSets;
-	}
-
-	protected Set<String> getExpectedRoleIdSet(
-		long userId, String ... roleNames) throws Exception {
-
-		Set<String> roleIdSet = new HashSet<>();
-
-		for (String roleName : roleNames) {
-			Role role = _roleProxyFactory.getRole(roleName);
-
-			if(roleName.equals(RoleConstants.OWNER)) {
-				roleIdSet.add(Long.toString(userId) + StringPool.DASH +
-							  role.getRoleId());
-			}
-			else if(roleName.equals(RoleConstants.SITE_MEMBER)) {
-				roleIdSet.add(Long.toString(_groupId) + StringPool.DASH +
-							  role.getRoleId());
-			}
-			else {
-				roleIdSet.add(Long.toString(role.getRoleId()));
-			}
-		}
-
-		return roleIdSet;
 	}
 
 	protected void assertContainsRoleSets(
@@ -278,13 +244,53 @@ public class ResourcePermissionImplTest {
 		}
 	}
 
-	private StringBuilder _appendRoleSet(Set<String> roleIdSet, StringBuilder sb)
+	protected Set<String> getExpectedRoleIdSet(long userId, String... roleNames)
+		throws Exception {
+
+		Set<String> roleIdSet = new HashSet<>();
+
+		for (String roleName : roleNames) {
+			Role role = _roleProxyFactory.getRole(roleName);
+
+			if (roleName.equals(RoleConstants.OWNER)) {
+				roleIdSet.add(
+					String.valueOf(userId) + StringPool.DASH +
+						role.getRoleId());
+			}
+			else if (roleName.equals(RoleConstants.SITE_MEMBER)) {
+				roleIdSet.add(
+					String.valueOf(_groupId) + StringPool.DASH +
+						role.getRoleId());
+			}
+			else {
+				roleIdSet.add(String.valueOf(role.getRoleId()));
+			}
+		}
+
+		return roleIdSet;
+	}
+
+	protected Set<Set<String>> getExpectedRoleIdSets(
+			long userId, String... roleNames)
+		throws Exception {
+
+		Set<Set<String>> roleIdSets = new HashSet<>();
+
+		for (String roleName : roleNames) {
+			roleIdSets.add(getExpectedRoleIdSet(userId, roleName));
+		}
+
+		return roleIdSets;
+	}
+
+	private StringBuilder _appendRoleSet(
+			Set<String> roleIdSet, StringBuilder sb)
 		throws Exception {
 
 		for (String roleId : roleIdSet) {
 			Role role = _roleProxyFactory.getRoleById(roleId);
 
-			if(role != null) {
+			if (role != null) {
 				sb.append(role.getDescriptiveName());
 			}
 			else {
@@ -367,20 +373,6 @@ public class ResourcePermissionImplTest {
 		).fetchRole(
 			_companyId, RoleConstants.OWNER
 		);
-	}
-
-	private Set<Set<Role>> _rolesToSetSet(Role... roles) {
-		Set<Set<Role>> roleSets = new HashSet<>();
-
-		for (Role role : roles) {
-			Set<Role> roleSet = new HashSet<>();
-
-			roleSet.add(role);
-
-			roleSets.add(roleSet);
-		}
-
-		return roleSets;
 	}
 
 	@Mock

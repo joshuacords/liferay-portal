@@ -47,6 +47,7 @@ public class JournalArticleProxy {
 		_resourceActionLocalService = resourceActionLocalService;
 		_viewArticleResourceAction = viewArticleResourceAction;
 		_roleProxyFactory = roleProxyFactory;
+
 		_userId = ownerUserId;
 
 		_roleNamesWithViewPermission = roleNames;
