@@ -82,7 +82,7 @@ public class ResourcePermissionImplTest {
 			_journalArticlePersistedModelLocalService,
 			_resourceActionLocalService, _roleProxyFactory, _companyId);
 	}
-
+	//test Access Roles
 	@Test
 	public void testDynamicInheritanceRolesCombinations() throws Exception {
 		long creatorUserId = RandomTestUtil.randomLong();

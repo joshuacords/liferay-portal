@@ -161,32 +161,6 @@ public class RoleProxyFactory {
 		);
 	}
 
-	//	private void _ownerIdInResourcePermission(
-	//		ResourceAction resourceAction, List<Role> roles, String className,
-	//		String primKey, long ownerUserId) throws Exception {
-	//
-	//		ResourcePermission ownerResourcePermission =
-	//			Mockito.mock(ResourcePermission.class);
-
-	//
-	//		Mockito.doReturn(
-	//			ownerUserId
-	//		).when(
-	//			ownerResourcePermission
-	//		).getOwnerId();
-	//
-	//		Role ownerRole = getRole(RoleConstants.OWNER);
-
-	//
-	//		Mockito.doReturn(
-	//			ownerResourcePermission
-	//		).when(
-	//			_resourcePermissionPersistence
-	//		).findByC_N_S_P_R(
-	//			_companyId, className, _SCOPE, primKey, ownerRole.getRoleId()
-	//		);
-	//	}
-
 	private void _mockRoleLocalServiceForRoles(List<Role> roles)
 		throws Exception {
 
