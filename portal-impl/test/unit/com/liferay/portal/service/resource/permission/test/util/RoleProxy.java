@@ -15,6 +15,7 @@
 package com.liferay.portal.service.resource.permission.test.util;
 
 import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.model.role.RoleConstants;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 
@@ -71,6 +72,14 @@ public class RoleProxy {
 		).when(
 			_role
 		).getDescriptiveName();
+
+		if (_roleName.equals(RoleConstants.SITE_MEMBER)) {
+			Mockito.doReturn(
+				RoleConstants.TYPE_SITE
+			).when(
+				_role
+			).getType();
+		}
 	}
 
 	private final long _companyId;
