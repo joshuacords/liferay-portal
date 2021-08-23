@@ -101,33 +101,26 @@ public class ResourcePermissionImplTest {
 				journalFolderProxy2, creatorUserId,
 				RoleConstants.OWNER, RoleConstants.POWER_USER);
 
-		Set<Set<String>> roleSets =
+		Set<Set<String>> roleIdSets =
 			_resourcePermissionLocalService.getFlattenedInheritanceRoleIds(
 				_companyId, _groupId, _journalArticleClassName, _scope,
 				journalArticleProxy.getResourcePrimKey(),
 				journalArticleProxy.getPrimKey(), _viewActionId);
 
-		Set<Set<Role>> expectedRoleSets = new HashSet<>();
+		Set<Set<String>> expectedRoleIdSets = new HashSet<>();
 
-		Set<Role> ownerRoleSet = new HashSet<>();
+		expectedRoleIdSets.add(getExpectedRoleIdSet(
+			creatorUserId, RoleConstants.POWER_USER, RoleConstants.SITE_MEMBER,
+			RoleConstants.USER));
 
-		ownerRoleSet.add(_roleProxyFactory.getRole(RoleConstants.OWNER));
+		expectedRoleIdSets.add(getExpectedRoleIdSet(
+			creatorUserId, RoleConstants.OWNER));
 
-		expectedRoleSets.add(ownerRoleSet);
-
-		Set<Role> comboRoleSet = new HashSet<>();
-
-		comboRoleSet.add(_roleProxyFactory.getRole(RoleConstants.POWER_USER));
-		comboRoleSet.add(_roleProxyFactory.getRole(RoleConstants.SITE_MEMBER));
-		comboRoleSet.add(_roleProxyFactory.getRole(RoleConstants.USER));
-
-		expectedRoleSets.add(comboRoleSet);
-
-//		assertContainsRoleSets(expectedRoleSets, roleSets);
+		assertContainsRoleSets(expectedRoleIdSets, roleIdSets);
 	}
 
 	@Test
-	public void testDynamicInheritanceRolesGuestAsWildcard() throws Exception {
+	public void testDynamicInheritanceRolesGuestAsWildcard1() throws Exception {
 		long creatorUserId = RandomTestUtil.randomLong();
 
 		JournalFolderProxy journalFolderProxy =
@@ -148,6 +141,37 @@ public class ResourcePermissionImplTest {
 		Set<Set<String>> expectedRoleIdSets = getExpectedRoleIdSets(
 			creatorUserId, RoleConstants.GUEST, RoleConstants.OWNER,
 			RoleConstants.USER);
+
+		assertContainsRoleSets(expectedRoleIdSets, roleIdSets);
+	}
+
+	@Test
+	public void testDynamicInheritanceRolesGuestAsWildcard2() throws Exception {
+		long creatorUserId = RandomTestUtil.randomLong();
+
+		JournalFolderProxy journalFolderProxy1 =
+			_journalProxyFactory.createJournalFolderProxy(
+				creatorUserId, RoleConstants.GUEST, RoleConstants.USER);
+
+		JournalFolderProxy journalFolderProxy2 =
+			_journalProxyFactory.createJournalFolderProxy(
+				journalFolderProxy1, creatorUserId, RoleConstants.USER);
+
+		JournalArticleProxy journalArticleProxy =
+			_journalProxyFactory.createJournalArticleProxy(
+				journalFolderProxy2, creatorUserId, RoleConstants.GUEST,
+				RoleConstants.OWNER);
+
+		Set<Set<String>> roleIdSets =
+			_resourcePermissionLocalService.getFlattenedInheritanceRoleIds(
+				_companyId, _groupId, _journalArticleClassName, _scope,
+				journalArticleProxy.getResourcePrimKey(),
+				journalArticleProxy.getPrimKey(), _viewActionId);
+
+		Set<Set<String>> expectedRoleIdSets = new HashSet<>();
+
+		expectedRoleIdSets.add(getExpectedRoleIdSet(
+			creatorUserId, RoleConstants.OWNER, RoleConstants.USER));
 
 		assertContainsRoleSets(expectedRoleIdSets, roleIdSets);
 	}
@@ -178,26 +202,34 @@ public class ResourcePermissionImplTest {
 		Set<Set<String>> roleIdSets = new HashSet<>();
 
 		for (String roleName : roleNames) {
-			Role role = _roleProxyFactory.getRole(roleName);
+			roleIdSets.add(getExpectedRoleIdSet(userId, roleName));
+		}
 
-			Set<String> roleIdSet = new HashSet<>();
+		return roleIdSets;
+	}
+
+	protected Set<String> getExpectedRoleIdSet(
+		long userId, String ... roleNames) throws Exception {
+
+		Set<String> roleIdSet = new HashSet<>();
+
+		for (String roleName : roleNames) {
+			Role role = _roleProxyFactory.getRole(roleName);
 
 			if(roleName.equals(RoleConstants.OWNER)) {
 				roleIdSet.add(Long.toString(userId) + StringPool.DASH +
-					role.getRoleId());
+							  role.getRoleId());
 			}
 			else if(roleName.equals(RoleConstants.SITE_MEMBER)) {
 				roleIdSet.add(Long.toString(_groupId) + StringPool.DASH +
-			  		role.getRoleId());
+							  role.getRoleId());
 			}
 			else {
 				roleIdSet.add(Long.toString(role.getRoleId()));
 			}
-
-			roleIdSets.add(roleIdSet);
 		}
 
-		return roleIdSets;
+		return roleIdSet;
 	}
 
 	protected void assertContainsRoleSets(
