@@ -59,11 +59,11 @@ public class AccessControlAdvisorImpl implements AccessControlAdvisor {
 					_log.debug(securityException, securityException);
 				}
 
-				if (PropsValues.ACCESS_CONTROL_SHOW_SECURITY_EXCEPTION_DETAIL) {
-					throw securityException;
+				if (PropsValues.ACCESS_CONTROL_SANITIZE_SECURITY_EXCEPTION) {
+					throw new SecurityException();
 				}
 
-				throw new SecurityException();
+				throw securityException;
 			}
 		}
 		else {

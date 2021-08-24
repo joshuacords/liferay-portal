@@ -19,8 +19,8 @@ package com.liferay.portal.kernel.util;
  */
 public interface PropsKeys {
 
-	public static final String ACCESS_CONTROL_SHOW_SECURITY_EXCEPTION_DETAIL =
-		"access.control.show.security.exception.detail";
+	public static final String ACCESS_CONTROL_SANITIZE_SECURITY_EXCEPTION =
+		"access.control.sanitize.security.exception";
 
 	public static final String ADMIN_ANALYTICS_TYPES = "admin.analytics.types";
 
