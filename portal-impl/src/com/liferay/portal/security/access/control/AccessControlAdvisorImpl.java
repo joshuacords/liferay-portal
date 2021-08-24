@@ -63,7 +63,7 @@ public class AccessControlAdvisorImpl implements AccessControlAdvisor {
 					throw securityException;
 				}
 
-				throw new SecurityException("Access Denied");
+				throw new SecurityException();
 			}
 		}
 		else {
