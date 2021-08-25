@@ -122,27 +122,24 @@ public class ActionUtil {
 			ActionRequest actionRequest, Group liveGroup)
 		throws PortalException {
 
-		long groupId = liveGroup.getGroupId();
-		long companyId = liveGroup.getCompanyId();
-		long userId = liveGroup.getCreatorUserId();
-
 		long layoutSetPrototypeId = ParamUtil.getLong(
 			actionRequest, "layoutSetPrototypeId");
 
 		Group layoutSetPrototypeGroup =
 			GroupLocalServiceUtil.getLayoutSetPrototypeGroup(
-				companyId, layoutSetPrototypeId);
+				liveGroup.getCompanyId(), layoutSetPrototypeId);
 
 		List<WorkflowDefinitionLink> workflowDefinitionLinks =
 			WorkflowDefinitionLinkLocalServiceUtil.getWorkflowDefinitionLinks(
-				companyId, layoutSetPrototypeGroup.getGroupId(), 0);
+				liveGroup.getCompanyId(), layoutSetPrototypeGroup.getGroupId(),
+				0);
 
 		for (WorkflowDefinitionLink workflowDefinitionLink :
 				workflowDefinitionLinks) {
 
 			WorkflowDefinitionLinkLocalServiceUtil.addWorkflowDefinitionLink(
-				userId, companyId, groupId,
-				workflowDefinitionLink.getClassName(),
+				liveGroup.getCreatorUserId(), liveGroup.getCompanyId(),
+				liveGroup.getGroupId(), workflowDefinitionLink.getClassName(),
 				workflowDefinitionLink.getClassPK(),
 				workflowDefinitionLink.getTypePK(),
 				workflowDefinitionLink.getWorkflowDefinitionName(),
