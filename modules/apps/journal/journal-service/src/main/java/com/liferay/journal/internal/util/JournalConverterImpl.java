@@ -908,7 +908,7 @@ public class JournalConverterImpl implements JournalConverter {
 
 				Serializable fieldValue = ddmField.getValue(locale, count);
 
-				if (fieldValue == null) {
+				if ((fieldValue == null) || fieldValue.equals(_EMPTY_VALUE)) {
 					fieldValue = ddmField.getValue(
 						ddmField.getDefaultLocale(), count);
 				}
@@ -1286,6 +1286,8 @@ public class JournalConverterImpl implements JournalConverter {
 		return new AggregateResourceBundle(
 			classResourceBundle, _portal.getResourceBundle(locale));
 	}
+
+	private static final String _EMPTY_VALUE = "_EMPTY_VALUE_";
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		JournalConverterImpl.class);

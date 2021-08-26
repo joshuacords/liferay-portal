@@ -23,6 +23,8 @@ AUI.add(
 
 		var DateMath = A.DataType.DateMath;
 
+		var EMPTY_VALUE = '_EMPTY_VALUE_';
+
 		var Lang = A.Lang;
 
 		var INSTANCE_ID_PREFIX = '_INSTANCE_';
@@ -1346,17 +1348,13 @@ AUI.add(
 
 						if (
 							locale === defaultLocale ||
-							(localizationMap[defaultLocale] !== undefined &&
-								value !== localizationMap[defaultLocale]) ||
+							value !== localizationMap[defaultLocale] ||
 							localizationMap[locale] !== undefined
 						) {
 							localizationMap[locale] = value;
 						}
-
-						for (var key in localizationMap) {
-							if (!localizationMap[key]) {
-								localizationMap[key] = '';
-							}
+						if (!localizationMap[defaultLocale]) {
+							localizationMap[defaultLocale] = '';
 						}
 					}
 					else {
@@ -4366,12 +4364,9 @@ AUI.add(
 						if (field.get('localizable')) {
 							var localizationMap = field.get('localizationMap');
 
-							var defaultLocale = field.getDefaultLocale();
-
 							availableLanguageIds.forEach(locale => {
 								if (localizationMap[locale] === undefined) {
-									localizationMap[locale] =
-										localizationMap[defaultLocale];
+									localizationMap[locale] = EMPTY_VALUE;
 								}
 							});
 
@@ -4458,19 +4453,26 @@ AUI.add(
 					localizations.push(currentLocale);
 
 					localizations.forEach(localization => {
-						if (!newFieldLocalizations[localization]) {
-							var localizationValue = '';
+						if (
+							!newFieldLocalizations[localization] &&
+							newFieldLocalizations[localization] !== ''
+						) {
+							var localizationValue = EMPTY_VALUE;
 
-							if (newFieldLocalizations[defaultLocale]) {
-								localizationValue =
-									newFieldLocalizations[defaultLocale];
-							}
-							else if (
-								defaultLocale ===
+							if (
+								localization ===
 									repeatedField.get('displayLocale') &&
 								repeatedField.getValue()
 							) {
 								localizationValue = repeatedField.getValue();
+							}
+
+							if (
+								defaultLocale === localization &&
+								newFieldLocalizations[localization] ===
+									EMPTY_VALUE
+							) {
+								localizationValue = '';
 							}
 
 							newFieldLocalizations[
