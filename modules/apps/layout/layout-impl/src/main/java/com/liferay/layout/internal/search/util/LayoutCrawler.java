@@ -16,8 +16,6 @@ package com.liferay.layout.internal.search.util;
 
 import com.liferay.fragment.constants.FragmentEntryLinkConstants;
 import com.liferay.petra.string.StringPool;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.service.CompanyLocalService;
@@ -60,94 +58,84 @@ import org.osgi.service.component.annotations.Reference;
 @Component(immediate = true, service = LayoutCrawler.class)
 public class LayoutCrawler {
 
-	public String getLayoutContent(Layout layout, Locale locale) {
-		try {
-			InetAddress inetAddress = _portal.getPortalServerInetAddress(
-				_isHttpsEnabled());
+	public String getLayoutContent(Layout layout, Locale locale)
+		throws Exception {
 
-			if (inetAddress == null) {
-				return StringPool.BLANK;
-			}
+		InetAddress inetAddress = _portal.getPortalServerInetAddress(
+			_isHttpsEnabled());
 
-			RequestConfig.Builder requestConfigBuilder = RequestConfig.custom();
-
-			RequestConfig requestConfig =
-				requestConfigBuilder.setConnectTimeout(
-					_TIMEOUT
-				).setConnectionRequestTimeout(
-					_TIMEOUT
-				).setSocketTimeout(
-					_TIMEOUT
-				).setCookieSpec(
-					CookieSpecs.STANDARD
-				).build();
-
-			HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
-
-			HttpClient httpClient = httpClientBuilder.setDefaultRequestConfig(
-				requestConfig
-			).setUserAgent(
-				_USER_AGENT
-			).build();
-
-			ThemeDisplay themeDisplay = new ThemeDisplay();
-
-			Company company = _companyLocalService.getCompany(
-				layout.getCompanyId());
-
-			themeDisplay.setCompany(company);
-
-			themeDisplay.setLanguageId(LocaleUtil.toLanguageId(locale));
-			themeDisplay.setLayout(layout);
-			themeDisplay.setLayoutSet(layout.getLayoutSet());
-			themeDisplay.setLocale(locale);
-			themeDisplay.setScopeGroupId(layout.getGroupId());
-			themeDisplay.setServerName(inetAddress.getHostName());
-			themeDisplay.setServerPort(
-				_portal.getPortalServerPort(_isHttpsEnabled()));
-			themeDisplay.setSiteGroupId(layout.getGroupId());
-
-			URIBuilder uriBuilder = new URIBuilder(
-				_portal.getLayoutFullURL(layout, themeDisplay));
-
-			uriBuilder.setParameter(
-				"liferay-layout:render-fragment-layout:mode",
-				FragmentEntryLinkConstants.SEARCH);
-
-			HttpGet httpGet = new HttpGet(uriBuilder.build());
-
-			httpGet.setHeader("Host", company.getVirtualHostname());
-
-			HttpClientContext httpClientContext = new HttpClientContext();
-
-			CookieStore cookieStore = new BasicCookieStore();
-
-			BasicClientCookie basicClientCookie = new BasicClientCookie(
-				CookieKeys.GUEST_LANGUAGE_ID, LocaleUtil.toLanguageId(locale));
-
-			basicClientCookie.setDomain(inetAddress.getHostName());
-
-			cookieStore.addCookie(basicClientCookie);
-
-			httpClientContext.setCookieStore(cookieStore);
-
-			HttpResponse httpResponse = httpClient.execute(
-				httpGet, httpClientContext);
-
-			StatusLine statusLine = httpResponse.getStatusLine();
-
-			if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
-				return EntityUtils.toString(httpResponse.getEntity());
-			}
-
-			if (_log.isWarnEnabled()) {
-				_log.warn("Unable to get layout content");
-			}
+		if (inetAddress == null) {
+			return StringPool.BLANK;
 		}
-		catch (Exception exception) {
-			if (_log.isWarnEnabled()) {
-				_log.warn("Unable to get layout content", exception);
-			}
+
+		RequestConfig.Builder requestConfigBuilder = RequestConfig.custom();
+
+		RequestConfig requestConfig = requestConfigBuilder.setConnectTimeout(
+			_TIMEOUT
+		).setConnectionRequestTimeout(
+			_TIMEOUT
+		).setSocketTimeout(
+			_TIMEOUT
+		).setCookieSpec(
+			CookieSpecs.STANDARD
+		).build();
+
+		HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
+
+		HttpClient httpClient = httpClientBuilder.setDefaultRequestConfig(
+			requestConfig
+		).setUserAgent(
+			_USER_AGENT
+		).build();
+
+		ThemeDisplay themeDisplay = new ThemeDisplay();
+
+		Company company = _companyLocalService.getCompany(
+			layout.getCompanyId());
+
+		themeDisplay.setCompany(company);
+
+		themeDisplay.setLanguageId(LocaleUtil.toLanguageId(locale));
+		themeDisplay.setLayout(layout);
+		themeDisplay.setLayoutSet(layout.getLayoutSet());
+		themeDisplay.setLocale(locale);
+		themeDisplay.setScopeGroupId(layout.getGroupId());
+		themeDisplay.setServerName(inetAddress.getHostName());
+		themeDisplay.setServerPort(
+			_portal.getPortalServerPort(_isHttpsEnabled()));
+		themeDisplay.setSiteGroupId(layout.getGroupId());
+
+		URIBuilder uriBuilder = new URIBuilder(
+			_portal.getLayoutFullURL(layout, themeDisplay));
+
+		uriBuilder.setParameter(
+			"liferay-layout:render-fragment-layout:mode",
+			FragmentEntryLinkConstants.SEARCH);
+
+		HttpGet httpGet = new HttpGet(uriBuilder.build());
+
+		httpGet.setHeader("Host", company.getVirtualHostname());
+
+		HttpClientContext httpClientContext = new HttpClientContext();
+
+		CookieStore cookieStore = new BasicCookieStore();
+
+		BasicClientCookie basicClientCookie = new BasicClientCookie(
+			CookieKeys.GUEST_LANGUAGE_ID, LocaleUtil.toLanguageId(locale));
+
+		basicClientCookie.setDomain(inetAddress.getHostName());
+
+		cookieStore.addCookie(basicClientCookie);
+
+		httpClientContext.setCookieStore(cookieStore);
+
+		HttpResponse httpResponse = httpClient.execute(
+			httpGet, httpClientContext);
+
+		StatusLine statusLine = httpResponse.getStatusLine();
+
+		if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
+			return EntityUtils.toString(httpResponse.getEntity());
 		}
 
 		return StringPool.BLANK;
@@ -172,8 +160,6 @@ public class LayoutCrawler {
 		5000);
 
 	private static final String _USER_AGENT = "Liferay Page Crawler";
-
-	private static final Log _log = LogFactoryUtil.getLog(LayoutCrawler.class);
 
 	@Reference
 	private CompanyLocalService _companyLocalService;
