@@ -38,6 +38,7 @@ public class JournalProxyFactory {
 		_roleProxyFactory = roleProxyFactory;
 		_companyId = companyId;
 
+		_mockAccessResourceActions();
 		_mockViewResourceActions();
 	}
 
@@ -68,8 +69,9 @@ public class JournalProxyFactory {
 		throws Exception {
 
 		return new JournalFolderProxy(
-			_resourceActionLocalService, _viewFolderResourceAction,
-			_roleProxyFactory, roleNames, ownerUserId, journalFolderProxy);
+			_resourceActionLocalService, _roleProxyFactory,
+			_viewFolderResourceAction,
+			roleNames, ownerUserId, journalFolderProxy);
 	}
 
 	public JournalFolderProxy createJournalFolderProxy(
@@ -77,8 +79,43 @@ public class JournalProxyFactory {
 		throws Exception {
 
 		return new JournalFolderProxy(
-			_resourceActionLocalService, _viewFolderResourceAction,
-			_roleProxyFactory, roleNames, ownerUserId, null);
+			_resourceActionLocalService, _roleProxyFactory,
+			_viewFolderResourceAction,
+			roleNames, ownerUserId, null);
+	}
+
+	public JournalFolderProxy createJournalFolderProxy(
+		JournalFolderProxy journalFolderProxy, long ownerUserId,
+		String[] accessRoleNames, String[] viewRoleNames)
+		throws Exception {
+
+		return new JournalFolderProxy(
+			_resourceActionLocalService, _roleProxyFactory,
+			_accessFolderResourceAction, _viewFolderResourceAction,
+			accessRoleNames, viewRoleNames, ownerUserId,
+			journalFolderProxy);
+	}
+
+	public JournalFolderProxy createJournalFolderProxy(
+		long ownerUserId, String[] accessRoleNames, String[] viewRoleNames)
+		throws Exception {
+
+		return new JournalFolderProxy(
+			_resourceActionLocalService, _roleProxyFactory,
+			_accessFolderResourceAction, _viewFolderResourceAction,
+			accessRoleNames, viewRoleNames, ownerUserId, null);
+	}
+
+	private void _mockAccessResourceActions() throws Exception {
+		_accessFolderResourceAction = Mockito.mock(ResourceAction.class);
+
+		Mockito.doReturn(
+			_accessFolderResourceAction
+		).when(
+			_resourceActionLocalService
+		).getResourceAction(
+			_CLASS_NAME_JOURNAL_FOLDER, _ACCESS_ACTION_ID
+		);
 	}
 
 	private void _mockViewResourceActions() throws Exception {
@@ -109,6 +146,7 @@ public class JournalProxyFactory {
 	private static final String _CLASS_NAME_JOURNAL_FOLDER =
 		"com.liferay.journal.model.JournalFolder";
 
+	private static final String _ACCESS_ACTION_ID = ActionKeys.ACCESS;
 	private static final String _VIEW_ACTION_ID = ActionKeys.VIEW;
 
 	private final long _companyId;
@@ -116,6 +154,7 @@ public class JournalProxyFactory {
 		_journalArticlePersistedModelLocalService;
 	private final ResourceActionLocalService _resourceActionLocalService;
 	private final RoleProxyFactory _roleProxyFactory;
+	private ResourceAction _accessFolderResourceAction;
 	private ResourceAction _viewArticleResourceAction;
 	private ResourceAction _viewFolderResourceAction;
 
