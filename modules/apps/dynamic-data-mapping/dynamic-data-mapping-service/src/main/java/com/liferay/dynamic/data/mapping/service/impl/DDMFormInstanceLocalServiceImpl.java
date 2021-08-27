@@ -452,6 +452,7 @@ public class DDMFormInstanceLocalServiceImpl
 		ddmFormInstanceVersion.setStructureVersionId(ddmStructureVersionId);
 		ddmFormInstanceVersion.setName(ddmFormInstance.getName());
 		ddmFormInstanceVersion.setDescription(ddmFormInstance.getDescription());
+		ddmFormInstanceVersion.setSettings(ddmFormInstance.getSettings());
 		ddmFormInstanceVersion.setVersion(version);
 
 		int status = GetterUtil.getInteger(
@@ -517,8 +518,10 @@ public class DDMFormInstanceLocalServiceImpl
 		DDMFormInstance updatedDDMFormInstance =
 			ddmFormInstancePersistence.update(ddmFormInstance);
 
-		updateWorkflowDefinitionLink(
-			ddmFormInstance, settingsDDMFormValues, serviceContext);
+		if (status != WorkflowConstants.STATUS_DRAFT) {
+			updateWorkflowDefinitionLink(
+				ddmFormInstance, settingsDDMFormValues, serviceContext);
+		}
 
 		long ddmStructureVersionId = getStructureVersionId(ddmStructureId);
 
@@ -648,6 +651,7 @@ public class DDMFormInstanceLocalServiceImpl
 		ddmFormInstanceVersion.setStructureVersionId(ddmStructureVersionId);
 		ddmFormInstanceVersion.setName(ddmFormInstance.getName());
 		ddmFormInstanceVersion.setDescription(ddmFormInstance.getDescription());
+		ddmFormInstanceVersion.setSettings(ddmFormInstance.getSettings());
 		ddmFormInstanceVersion.setStatusByUserId(user.getUserId());
 		ddmFormInstanceVersion.setStatusByUserName(user.getFullName());
 		ddmFormInstanceVersion.setStatusDate(ddmFormInstance.getModifiedDate());
