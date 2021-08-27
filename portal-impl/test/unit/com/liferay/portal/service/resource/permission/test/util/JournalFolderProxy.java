@@ -38,7 +38,7 @@ public class JournalFolderProxy {
 		throws Exception {
 
 		this(resourceActionLocalService, roleProxyFactory, null,
-			viewFolderResourceAction,null, roleNamesWithViewPermission,
+			viewFolderResourceAction, new String[0], roleNamesWithViewPermission,
 			ownerUserId, journalFolderProxy);
 	}
 
@@ -62,12 +62,8 @@ public class JournalFolderProxy {
 
 		_resourcePrimKey = StringUtil.toString(RandomTestUtil.randomLong());
 
-		if(_roleNamesWithAccessPermission != null) {
-			_mockRolesWithAccessPermissions();
-		}
-
 		_createTreePath(journalFolderProxy);
-		_mockRolesWithViewPermissions();
+		_mockRolesPermissions();
 	}
 
 	public String getResourcePrimKey() {
@@ -94,24 +90,18 @@ public class JournalFolderProxy {
 		_treePath = sb.toString();
 	}
 
-	private void _mockRolesWithAccessPermissions() throws Exception {
+	private void _mockRolesPermissions() throws Exception {
 		for (String roleName : _roleNamesWithAccessPermission) {
 			_rolesWithAccessPermission.add(_roleProxyFactory.getRole(roleName));
 		}
 
-		_roleProxyFactory.mockResourceActionWithRolesOnAsset(
-			_accessFolderResourceAction, _rolesWithAccessPermission,
-			_CLASS_NAME_JOURNAL_FOLDER, _resourcePrimKey, _resourcePrimKey,
-			_userId);
-	}
-
-	private void _mockRolesWithViewPermissions() throws Exception {
 		for (String roleName : _roleNamesWithViewPermission) {
 			_rolesWithViewPermission.add(_roleProxyFactory.getRole(roleName));
 		}
 
 		_roleProxyFactory.mockResourceActionWithRolesOnAsset(
-			_viewFolderResourceAction, _rolesWithViewPermission,
+			_accessFolderResourceAction, _viewFolderResourceAction,
+			_rolesWithAccessPermission, _rolesWithViewPermission,
 			_CLASS_NAME_JOURNAL_FOLDER, _resourcePrimKey, _resourcePrimKey,
 			_userId);
 	}

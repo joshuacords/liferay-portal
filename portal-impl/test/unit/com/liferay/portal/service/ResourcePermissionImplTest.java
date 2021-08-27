@@ -82,7 +82,39 @@ public class ResourcePermissionImplTest {
 			_journalArticlePersistedModelLocalService,
 			_resourceActionLocalService, _roleProxyFactory, _companyId);
 	}
-	//test Access Roles
+
+//	need to also test Folder > Access Folder > Article
+	@Test
+	public void testDynamicInheritanceRolesAccess() throws Exception {
+		long creatorUserId = RandomTestUtil.randomLong();
+
+		String[] journalFolderAccessRoleNames =
+			{RoleConstants.OWNER, RoleConstants.SITE_MEMBER};
+//test if not having view cancels access
+		String[] journalFolderViewRoleNames = {RoleConstants.OWNER};
+
+		JournalFolderProxy journalFolderProxy =
+			_journalProxyFactory.createJournalFolderProxy(
+				creatorUserId, journalFolderAccessRoleNames,
+				journalFolderViewRoleNames);
+
+		JournalArticleProxy journalArticleProxy =
+			_journalProxyFactory.createJournalArticleProxy(
+				journalFolderProxy, creatorUserId, RoleConstants.GUEST,
+				RoleConstants.OWNER);
+
+		Set<Set<String>> roleIdSets =
+			_resourcePermissionLocalService.getFlattenedInheritanceRoleIds(
+				_companyId, _groupId, _journalArticleClassName, _scope,
+				journalArticleProxy.getResourcePrimKey(),
+				journalArticleProxy.getPrimKey(), _viewActionId);
+
+		Set<Set<String>> expectedRoleIdSets = getExpectedRoleIdSets(
+			creatorUserId, RoleConstants.OWNER, RoleConstants.SITE_MEMBER);
+
+		assertContainsRoleSets(expectedRoleIdSets, roleIdSets);
+	}
+
 	@Test
 	public void testDynamicInheritanceRolesCombinations() throws Exception {
 		long creatorUserId = RandomTestUtil.randomLong();
