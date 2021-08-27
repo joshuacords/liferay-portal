@@ -14,9 +14,13 @@
 
 package com.liferay.site.admin.web.internal.portlet.action;
 
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.LayoutSet;
+import com.liferay.portal.kernel.model.WorkflowDefinitionLink;
+import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.GroupServiceUtil;
+import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.sites.kernel.util.SitesUtil;
 
@@ -112,6 +116,38 @@ public class ActionUtil {
 			group, publicLayoutSetPrototypeId, privateLayoutSetPrototypeId,
 			publicLayoutSetPrototypeLinkEnabled,
 			privateLayoutSetPrototypeLinkEnabled);
+	}
+
+	public static void updateWorkflowDefinitionLinks(
+			ActionRequest actionRequest, Group liveGroup)
+		throws PortalException {
+
+		long groupId = liveGroup.getGroupId();
+		long companyId = liveGroup.getCompanyId();
+		long userId = liveGroup.getCreatorUserId();
+
+		long layoutSetPrototypeId = ParamUtil.getLong(
+			actionRequest, "layoutSetPrototypeId");
+
+		Group layoutSetPrototypeGroup =
+			GroupLocalServiceUtil.getLayoutSetPrototypeGroup(
+				companyId, layoutSetPrototypeId);
+
+		List<WorkflowDefinitionLink> workflowDefinitionLinks =
+			WorkflowDefinitionLinkLocalServiceUtil.getWorkflowDefinitionLinks(
+				companyId, layoutSetPrototypeGroup.getGroupId(), 0);
+
+		for (WorkflowDefinitionLink workflowDefinitionLink :
+				workflowDefinitionLinks) {
+
+			WorkflowDefinitionLinkLocalServiceUtil.addWorkflowDefinitionLink(
+				userId, companyId, groupId,
+				workflowDefinitionLink.getClassName(),
+				workflowDefinitionLink.getClassPK(),
+				workflowDefinitionLink.getTypePK(),
+				workflowDefinitionLink.getWorkflowDefinitionName(),
+				workflowDefinitionLink.getWorkflowDefinitionVersion());
+		}
 	}
 
 	private static final int _LAYOUT_SET_VISIBILITY_PRIVATE = 1;
