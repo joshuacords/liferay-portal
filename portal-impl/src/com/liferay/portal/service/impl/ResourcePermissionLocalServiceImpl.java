@@ -831,22 +831,20 @@ public class ResourcePermissionLocalServiceImpl
 			parentAccessRoles.retainAll(baseRoles);
 		}
 
-		Set<Set<String>> parentAccessRoleIds = _listToSetSetRoleIds(
+		Set<Set<String>> accessRoleIds = _listToSetSetRoleIds(
 			companyId, groupId, baseChildModel.getParentClassName(),
 			GetterUtil.getLong(parentClassPK), parentAccessRoles);
 
 		// we might be able to pass in access roles for faster processing
 
-		List<Set<String>> parentViewRoleIds = _getTreePathRoleIds(
+		List<Set<String>> dynamicInheritanceViewRoleIds = _getTreePathRoleIds(
 			baseChildModel, companyId, groupId, name,
 			GetterUtil.getLong(primKey), baseRoles, guestRole);
 
 		Set<Set<String>> roleIdsSet = new HashSet<>();
 
-		roleIdsSet.addAll(
-			_listToSetSetRoleIds(
-				companyId, groupId, name, classPK, parentAccessRoles));
-		roleIdsSet.addAll(parentViewRoleIds);
+		roleIdsSet.addAll(accessRoleIds);
+		roleIdsSet.addAll(dynamicInheritanceViewRoleIds);
 
 		return roleIdsSet;
 	}
@@ -2175,14 +2173,16 @@ public class ResourcePermissionLocalServiceImpl
 				companyId, baseChildModel.getParentClassName(),
 				ResourceConstants.SCOPE_INDIVIDUAL, parentFolderIds[i], "VIEW");
 
-			if (!folderRoles.contains(guestRole)) {
-				guestRoleHasPermission = false;
-			}
-
 			if (guestRoleHasPermission) {
+
+				if (!folderRoles.contains(guestRole)) {
+					guestRoleHasPermission = false;
+				}
+
 				for (Role folderRole : folderRoles) {
 					String folderRoleId = _roleToRoleId(
-						companyId, groupId, className, classPK, folderRole);
+						companyId, groupId, baseChildModel.getParentClassName(),
+						GetterUtil.getLong(parentFolderIds[i]), folderRole);
 
 					Set<String> folderRoleIdSet = new HashSet<>();
 
@@ -2194,6 +2194,10 @@ public class ResourcePermissionLocalServiceImpl
 				continue;
 			}
 
+			if (!folderRoles.contains(guestRole)) {
+				guestRoleHasPermission = false;
+			}
+
 			roleIdSetsWithPermissionPreviously.clear();
 
 			_moveRoleIdSetsWithAccessToRoleIdSetsWithAccessPreviously(
@@ -2201,7 +2205,8 @@ public class ResourcePermissionLocalServiceImpl
 
 			roleIdSetsWithPermission.clear();
 
-			//what if folder has no roles, seems to work
+			//what if folder has only guest role - it fails because new roles
+			//are added to combine and then disappear
 
 			for (Role folderRole : folderRoles) {
 				if (folderRole.getRoleId() == guestRole.getRoleId()) {
@@ -2209,7 +2214,8 @@ public class ResourcePermissionLocalServiceImpl
 				}
 
 				String folderRoleId = _roleToRoleId(
-					companyId, groupId, className, classPK, folderRole);
+					companyId, groupId,  baseChildModel.getParentClassName(),
+					GetterUtil.getLong(parentFolderIds[i]), folderRole);
 
 				boolean roleHasAccess = false;
 
