@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
 import com.liferay.portal.kernel.service.GroupServiceUtil;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalServiceUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.site.admin.web.internal.constants.SiteAdminConstants;
 import com.liferay.sites.kernel.util.SitesUtil;
 
 import java.util.ArrayList;
@@ -121,6 +122,15 @@ public class ActionUtil {
 	public static void updateWorkflowDefinitionLinks(
 			ActionRequest actionRequest, Group liveGroup)
 		throws PortalException {
+
+		String creationType = ParamUtil.getString(
+			actionRequest, "creationType");
+
+		if (!creationType.equals(
+				SiteAdminConstants.CREATION_TYPE_SITE_TEMPLATE)) {
+
+			return;
+		}
 
 		long layoutSetPrototypeId = ParamUtil.getLong(
 			actionRequest, "layoutSetPrototypeId");
