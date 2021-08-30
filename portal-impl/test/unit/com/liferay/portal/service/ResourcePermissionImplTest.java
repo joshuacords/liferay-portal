@@ -90,7 +90,7 @@ public class ResourcePermissionImplTest {
 
 		String[] journalFolderAccessRoleNames =
 			{RoleConstants.OWNER, RoleConstants.SITE_MEMBER};
-//test if not having view cancels access
+
 		String[] journalFolderViewRoleNames = {RoleConstants.OWNER};
 
 		JournalFolderProxy journalFolderProxy =
@@ -102,6 +102,41 @@ public class ResourcePermissionImplTest {
 			_journalProxyFactory.createJournalArticleProxy(
 				journalFolderProxy, creatorUserId, RoleConstants.GUEST,
 				RoleConstants.OWNER);
+
+		Set<Set<String>> roleIdSets =
+			_resourcePermissionLocalService.getFlattenedInheritanceRoleIds(
+				_companyId, _groupId, _journalArticleClassName, _scope,
+				journalArticleProxy.getResourcePrimKey(),
+				journalArticleProxy.getPrimKey(), _viewActionId);
+
+		Set<Set<String>> expectedRoleIdSets = getExpectedRoleIdSets(
+			creatorUserId, RoleConstants.OWNER, RoleConstants.SITE_MEMBER);
+
+		assertContainsRoleSets(expectedRoleIdSets, roleIdSets);
+	}
+
+	//test Guest as bridge: Owner > Guest > Sitemember
+
+	@Test
+	public void testDynamicInheritanceRolesAccess2() throws Exception {
+		long creatorUserId = RandomTestUtil.randomLong();
+
+		JournalFolderProxy journalFolderProxy1 =
+			_journalProxyFactory.createJournalFolderProxy(
+				creatorUserId, RoleConstants.OWNER);
+
+		String[] journalFolderAccessRoleNames ={RoleConstants.SITE_MEMBER};
+
+		String[] journalFolderViewRoleNames = {RoleConstants.OWNER};
+
+		JournalFolderProxy journalFolderProxy2 =
+			_journalProxyFactory.createJournalFolderProxy(
+				journalFolderProxy1, creatorUserId,
+				journalFolderAccessRoleNames, journalFolderViewRoleNames);
+
+		JournalArticleProxy journalArticleProxy =
+			_journalProxyFactory.createJournalArticleProxy(
+				journalFolderProxy2, creatorUserId, RoleConstants.GUEST);
 
 		Set<Set<String>> roleIdSets =
 			_resourcePermissionLocalService.getFlattenedInheritanceRoleIds(
@@ -201,11 +236,8 @@ public class ResourcePermissionImplTest {
 				journalArticleProxy.getResourcePrimKey(),
 				journalArticleProxy.getPrimKey(), _viewActionId);
 
-		Set<Set<String>> expectedRoleIdSets = new HashSet<>();
-
-		expectedRoleIdSets.add(
-			getExpectedRoleIdSet(
-				creatorUserId, RoleConstants.OWNER, RoleConstants.USER));
+		Set<Set<String>> expectedRoleIdSets =
+			getExpectedRoleIdSets(creatorUserId, RoleConstants.USER);
 
 		assertContainsRoleSets(expectedRoleIdSets, roleIdSets);
 	}
