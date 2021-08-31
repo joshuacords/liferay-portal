@@ -654,6 +654,10 @@
 				"store": true,
 				"type": "keyword"
 			},
+			"fileExtension": {
+				"store": true,
+				"type": "text"
+			},
 			"folderId": {
 				"store": true,
 				"type": "keyword"
