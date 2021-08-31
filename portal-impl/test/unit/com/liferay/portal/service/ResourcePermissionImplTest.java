@@ -83,7 +83,6 @@ public class ResourcePermissionImplTest {
 			_resourceActionLocalService, _roleProxyFactory, _companyId);
 	}
 
-//	need to also test Folder > Access Folder > Article
 	@Test
 	public void testDynamicInheritanceRolesAccess() throws Exception {
 		long creatorUserId = RandomTestUtil.randomLong();
@@ -207,8 +206,7 @@ public class ResourcePermissionImplTest {
 				journalArticleProxy.getPrimKey(), _viewActionId);
 
 		Set<Set<String>> expectedRoleIdSets = getExpectedRoleIdSets(
-			creatorUserId, RoleConstants.GUEST, RoleConstants.OWNER,
-			RoleConstants.USER);
+			creatorUserId, RoleConstants.GUEST);
 
 		assertContainsRoleSets(expectedRoleIdSets, roleIdSets);
 	}
@@ -243,6 +241,39 @@ public class ResourcePermissionImplTest {
 	}
 
 	@Test
+	public void testDynamicInheritanceRolesGuestAsWildcardBridge()
+		throws Exception {
+
+		long creatorUserId = RandomTestUtil.randomLong();
+
+		JournalFolderProxy journalFolderProxy1 =
+			_journalProxyFactory.createJournalFolderProxy(
+				creatorUserId, RoleConstants.USER);
+
+		JournalFolderProxy journalFolderProxy2 =
+			_journalProxyFactory.createJournalFolderProxy(
+				journalFolderProxy1, creatorUserId, RoleConstants.GUEST);
+
+		JournalArticleProxy journalArticleProxy =
+			_journalProxyFactory.createJournalArticleProxy(
+				journalFolderProxy2, creatorUserId, RoleConstants.OWNER);
+
+		Set<Set<String>> roleIdSets =
+			_resourcePermissionLocalService.getFlattenedInheritanceRoleIds(
+				_companyId, _groupId, _journalArticleClassName, _scope,
+				journalArticleProxy.getResourcePrimKey(),
+				journalArticleProxy.getPrimKey(), _viewActionId);
+
+		Set<Set<String>> expectedRoleIdSets = new HashSet<>();
+
+		expectedRoleIdSets.add(
+			getExpectedRoleIdSet(
+				creatorUserId, RoleConstants.OWNER, RoleConstants.USER));
+
+		assertContainsRoleSets(expectedRoleIdSets, roleIdSets);
+	}
+
+	@Test
 	public void testDynamicInheritanceRolesNoFolders() throws Exception {
 		long creatorUserId = RandomTestUtil.randomLong();
 
@@ -257,7 +288,7 @@ public class ResourcePermissionImplTest {
 				journalArticleProxy.getPrimKey(), _viewActionId);
 
 		Set<Set<String>> expectedRoleIdSets = getExpectedRoleIdSets(
-			creatorUserId, RoleConstants.GUEST, RoleConstants.OWNER);
+			creatorUserId, RoleConstants.GUEST);
 
 		assertContainsRoleSets(expectedRoleIdSets, roleIdSets);
 	}
