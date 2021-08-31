@@ -808,7 +808,22 @@ public class ResourcePermissionLocalServiceImpl
 
 		BaseChildModel baseChildModel = _getChildModel(name, classPK);
 
+		Role guestRole = roleLocalService.getRole(
+			companyId, RoleConstants.GUEST);
+
 		if (baseChildModel == null) {
+			if (baseRoles.contains(guestRole)) {
+				Set<Set<String>> roleIdSets = new HashSet<>();
+				Set<String> roleIds = new HashSet<>();
+
+				roleIds.add(
+					_roleToRoleId(companyId, groupId, name, classPK, guestRole));
+
+				roleIdSets.add(roleIds);
+
+				return roleIdSets;
+			}
+
 			return _listToSetSetRoleIds(
 				companyId, groupId, name, classPK, baseRoles);
 		}
@@ -816,6 +831,18 @@ public class ResourcePermissionLocalServiceImpl
 		String parentClassPK = baseChildModel.getParentClassPK();
 
 		if (Validator.isNull(parentClassPK) || parentClassPK.equals("0")) {
+			if (baseRoles.contains(guestRole)) {
+				Set<Set<String>> roleIdSets = new HashSet<>();
+				Set<String> roleIds = new HashSet<>();
+
+				roleIds.add(
+					_roleToRoleId(companyId, groupId, name, classPK, guestRole));
+
+				roleIdSets.add(roleIds);
+
+				return roleIdSets;
+			}
+
 			return _listToSetSetRoleIds(
 				companyId, groupId, name, classPK, baseRoles);
 		}
@@ -824,8 +851,17 @@ public class ResourcePermissionLocalServiceImpl
 			companyId, baseChildModel.getParentClassName(),
 			ResourceConstants.SCOPE_INDIVIDUAL, parentClassPK, "ACCESS");
 
-		Role guestRole = roleLocalService.getRole(
-			companyId, RoleConstants.GUEST);
+		if (parentAccessRoles.contains(guestRole)) {
+			Set<Set<String>> roleIdSets = new HashSet<>();
+			Set<String> roleIds = new HashSet<>();
+
+			roleIds.add(
+				_roleToRoleId(companyId, groupId, name, classPK, guestRole));
+
+			roleIdSets.add(roleIds);
+
+			return roleIdSets;
+		}
 
 		if (!baseRoles.contains(guestRole)) {
 			parentAccessRoles.retainAll(baseRoles);
@@ -840,6 +876,18 @@ public class ResourcePermissionLocalServiceImpl
 		List<Set<String>> dynamicInheritanceViewRoleIds = _getTreePathRoleIds(
 			baseChildModel, companyId, groupId, name,
 			GetterUtil.getLong(primKey), baseRoles, guestRole);
+
+		Set<String> roleIds = new HashSet<>();
+
+		roleIds.add(
+			_roleToRoleId(companyId, groupId, name, classPK, guestRole));
+
+		if (dynamicInheritanceViewRoleIds.contains(roleIds)) {
+			Set<Set<String>> roleIdSets = new HashSet<>();
+			roleIdSets.add(roleIds);
+
+			return roleIdSets;
+		}
 
 		Set<Set<String>> roleIdsSet = new HashSet<>();
 
@@ -2179,7 +2227,14 @@ public class ResourcePermissionLocalServiceImpl
 					guestRoleHasPermission = false;
 				}
 
+				roleIdSetsWithPermission.clear();
+
 				for (Role folderRole : folderRoles) {
+
+					if (folderRole.getRoleId() == guestRole.getRoleId()) {
+						continue;
+					}
+
 					String folderRoleId = _roleToRoleId(
 						companyId, groupId, baseChildModel.getParentClassName(),
 						GetterUtil.getLong(parentFolderIds[i]), folderRole);
@@ -2194,7 +2249,10 @@ public class ResourcePermissionLocalServiceImpl
 				continue;
 			}
 
-			if (!folderRoles.contains(guestRole)) {
+			if (folderRoles.contains(guestRole)) {
+				continue;
+			}
+			else {
 				guestRoleHasPermission = false;
 			}
 
