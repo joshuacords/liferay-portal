@@ -839,7 +839,9 @@ public class ResourcePermissionLocalServiceImpl
 			return _guestRoleIdSet(companyId);
 		}
 
-		parentAccessRoles.retainAll(baseRoles);
+		if (!baseRoles.contains(guestRole)) {
+			parentAccessRoles.retainAll(baseRoles);
+		}
 
 		Set<Set<String>> accessRoleIds = _listToSetSetRoleIds(
 			companyId, groupId, baseChildModel.getParentClassName(),
