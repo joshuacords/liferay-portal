@@ -801,15 +801,15 @@ public class ResourcePermissionLocalServiceImpl
 			String resourcePrimKey, String primKey, String actionId)
 		throws PortalException {
 
-		List<Role> baseRoles = getRoles(
-			companyId, name, scope, resourcePrimKey, actionId);
+		Role guestRole = roleLocalService.getRole(
+			companyId, RoleConstants.GUEST);
 
 		Long classPK = GetterUtil.getLong(primKey);
 
 		BaseChildModel baseChildModel = _getChildModel(name, classPK);
 
-		Role guestRole = roleLocalService.getRole(
-			companyId, RoleConstants.GUEST);
+		List<Role> baseRoles = getRoles(
+			companyId, name, scope, resourcePrimKey, actionId);
 
 		if (baseChildModel == null) {
 			if (baseRoles.contains(guestRole)) {
@@ -835,12 +835,12 @@ public class ResourcePermissionLocalServiceImpl
 			companyId, baseChildModel.getParentClassName(),
 			ResourceConstants.SCOPE_INDIVIDUAL, parentClassPK, "ACCESS");
 
-		if (parentAccessRoles.contains(guestRole)) {
-			return _guestRoleIdSet(companyId);
-		}
-
 		if (!baseRoles.contains(guestRole)) {
 			parentAccessRoles.retainAll(baseRoles);
+		}
+
+		if (parentAccessRoles.contains(guestRole)) {
+			return _guestRoleIdSet(companyId);
 		}
 
 		Set<Set<String>> accessRoleIds = _listToSetSetRoleIds(
@@ -853,12 +853,7 @@ public class ResourcePermissionLocalServiceImpl
 			baseChildModel, companyId, groupId, name,
 			GetterUtil.getLong(primKey), baseRoles, guestRole);
 
-		Set<String> roleIds = new HashSet<>();
-
-		roleIds.add(
-			_roleToRoleId(companyId, groupId, name, classPK, guestRole));
-
-		if (dynamicInheritanceViewRoleIds.contains(roleIds)) {
+		if (_containsGuestRoleId(dynamicInheritanceViewRoleIds, companyId)) {
 			return _guestRoleIdSet(companyId);
 		}
 
@@ -868,6 +863,23 @@ public class ResourcePermissionLocalServiceImpl
 		roleIdsSet.addAll(dynamicInheritanceViewRoleIds);
 
 		return roleIdsSet;
+	}
+
+	private boolean _containsGuestRoleId(
+		List<Set<String>> roleIdSets, long companyId) throws PortalException {
+
+		Role guestRole = roleLocalService.getRole(
+			companyId, RoleConstants.GUEST);
+
+		Set<String> guestRoleIds = new HashSet<>();
+
+		guestRoleIds.add(String.valueOf(guestRole.getRoleId()));
+
+		if (roleIdSets.contains(guestRoleIds)) {
+			return true;
+		}
+
+		return false;
 	}
 
 	private Set<Set<String>> _guestRoleIdSet(long companyId)
