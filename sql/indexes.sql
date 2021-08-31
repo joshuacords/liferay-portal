@@ -515,5 +515,6 @@ create index IX_712BCD35 on Website (uuid_[$COLUMN_LENGTH:75$], companyId);
 
 create index IX_A4DB1F0F on WorkflowDefinitionLink (companyId, workflowDefinitionName[$COLUMN_LENGTH:75$], workflowDefinitionVersion);
 create index IX_705B40EE on WorkflowDefinitionLink (groupId, companyId, classNameId, classPK, typePK);
+create index IX_407C8F33 on WorkflowDefinitionLink (groupId, companyId, classPK);
 
 create index IX_415A7007 on WorkflowInstanceLink (groupId, companyId, classNameId, classPK);
