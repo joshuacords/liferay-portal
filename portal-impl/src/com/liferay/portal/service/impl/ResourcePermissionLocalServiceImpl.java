@@ -813,15 +813,7 @@ public class ResourcePermissionLocalServiceImpl
 
 		if (baseChildModel == null) {
 			if (baseRoles.contains(guestRole)) {
-				Set<Set<String>> roleIdSets = new HashSet<>();
-				Set<String> roleIds = new HashSet<>();
-
-				roleIds.add(
-					_roleToRoleId(companyId, groupId, name, classPK, guestRole));
-
-				roleIdSets.add(roleIds);
-
-				return roleIdSets;
+				return _guestRoleIdSet(companyId);
 			}
 
 			return _listToSetSetRoleIds(
@@ -832,15 +824,7 @@ public class ResourcePermissionLocalServiceImpl
 
 		if (Validator.isNull(parentClassPK) || parentClassPK.equals("0")) {
 			if (baseRoles.contains(guestRole)) {
-				Set<Set<String>> roleIdSets = new HashSet<>();
-				Set<String> roleIds = new HashSet<>();
-
-				roleIds.add(
-					_roleToRoleId(companyId, groupId, name, classPK, guestRole));
-
-				roleIdSets.add(roleIds);
-
-				return roleIdSets;
+				return _guestRoleIdSet(companyId);
 			}
 
 			return _listToSetSetRoleIds(
@@ -852,15 +836,7 @@ public class ResourcePermissionLocalServiceImpl
 			ResourceConstants.SCOPE_INDIVIDUAL, parentClassPK, "ACCESS");
 
 		if (parentAccessRoles.contains(guestRole)) {
-			Set<Set<String>> roleIdSets = new HashSet<>();
-			Set<String> roleIds = new HashSet<>();
-
-			roleIds.add(
-				_roleToRoleId(companyId, groupId, name, classPK, guestRole));
-
-			roleIdSets.add(roleIds);
-
-			return roleIdSets;
+			return _guestRoleIdSet(companyId);
 		}
 
 		if (!baseRoles.contains(guestRole)) {
@@ -883,10 +859,7 @@ public class ResourcePermissionLocalServiceImpl
 			_roleToRoleId(companyId, groupId, name, classPK, guestRole));
 
 		if (dynamicInheritanceViewRoleIds.contains(roleIds)) {
-			Set<Set<String>> roleIdSets = new HashSet<>();
-			roleIdSets.add(roleIds);
-
-			return roleIdSets;
+			return _guestRoleIdSet(companyId);
 		}
 
 		Set<Set<String>> roleIdsSet = new HashSet<>();
@@ -895,6 +868,20 @@ public class ResourcePermissionLocalServiceImpl
 		roleIdsSet.addAll(dynamicInheritanceViewRoleIds);
 
 		return roleIdsSet;
+	}
+
+	private Set<Set<String>> _guestRoleIdSet(long companyId)
+			throws PortalException {
+		Set<Set<String>> roleIdSets = new HashSet<>();
+		Set<String> roleIds = new HashSet<>();
+		Role guestRole = roleLocalService.getRole(
+			companyId, RoleConstants.GUEST);
+
+		roleIds.add(String.valueOf(guestRole.getRoleId()));
+
+		roleIdSets.add(roleIds);
+
+		return roleIdSets;
 	}
 
 	@Override
