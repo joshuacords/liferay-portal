@@ -88,7 +88,7 @@ public class ResourcePermissionImplTest {
 		long creatorUserId = RandomTestUtil.randomLong();
 
 		String[] journalFolderAccessRoleNames =
-			{RoleConstants.OWNER, RoleConstants.SITE_MEMBER};
+			{RoleConstants.SITE_MEMBER};
 
 		String[] journalFolderViewRoleNames = {RoleConstants.OWNER};
 
@@ -99,8 +99,7 @@ public class ResourcePermissionImplTest {
 
 		JournalArticleProxy journalArticleProxy =
 			_journalProxyFactory.createJournalArticleProxy(
-				journalFolderProxy, creatorUserId, RoleConstants.GUEST,
-				RoleConstants.OWNER);
+				journalFolderProxy, creatorUserId, RoleConstants.SITE_MEMBER);
 
 		Set<Set<String>> roleIdSets =
 			_resourcePermissionLocalService.getFlattenedInheritanceRoleIds(
@@ -109,7 +108,7 @@ public class ResourcePermissionImplTest {
 				journalArticleProxy.getPrimKey(), _viewActionId);
 
 		Set<Set<String>> expectedRoleIdSets = getExpectedRoleIdSets(
-			creatorUserId, RoleConstants.OWNER, RoleConstants.SITE_MEMBER);
+			creatorUserId, RoleConstants.SITE_MEMBER);
 
 		assertContainsRoleSets(expectedRoleIdSets, roleIdSets);
 	}
@@ -117,7 +116,7 @@ public class ResourcePermissionImplTest {
 	//test Guest as bridge: Owner > Guest > Sitemember
 
 	@Test
-	public void testDynamicInheritanceRolesAccess2() throws Exception {
+	public void testDynamicInheritanceRolesAccessAndView() throws Exception {
 		long creatorUserId = RandomTestUtil.randomLong();
 
 		JournalFolderProxy journalFolderProxy1 =
@@ -145,6 +144,80 @@ public class ResourcePermissionImplTest {
 
 		Set<Set<String>> expectedRoleIdSets = getExpectedRoleIdSets(
 			creatorUserId, RoleConstants.OWNER, RoleConstants.SITE_MEMBER);
+
+		assertContainsRoleSets(expectedRoleIdSets, roleIdSets);
+	}
+
+	public void testDynamicInheritanceRolesAccess2() throws Exception {
+		long creatorUserId = RandomTestUtil.randomLong();
+
+		JournalFolderProxy journalFolderProxy1 =
+			_journalProxyFactory.createJournalFolderProxy(
+				creatorUserId, RoleConstants.OWNER);
+
+		String[] journalFolderAccessRoleNames ={RoleConstants.SITE_MEMBER};
+
+		String[] journalFolderViewRoleNames = {RoleConstants.OWNER};
+
+		JournalFolderProxy journalFolderProxy2 =
+			_journalProxyFactory.createJournalFolderProxy(
+				journalFolderProxy1, creatorUserId,
+				journalFolderAccessRoleNames, journalFolderViewRoleNames);
+
+		JournalArticleProxy journalArticleProxy =
+			_journalProxyFactory.createJournalArticleProxy(
+				journalFolderProxy2, creatorUserId, RoleConstants.USER);
+
+		Set<Set<String>> roleIdSets =
+			_resourcePermissionLocalService.getFlattenedInheritanceRoleIds(
+				_companyId, _groupId, _journalArticleClassName, _scope,
+				journalArticleProxy.getResourcePrimKey(),
+				journalArticleProxy.getPrimKey(), _viewActionId);
+
+		Set<Set<String>> expectedRoleIdSets = new HashSet<>();
+
+		expectedRoleIdSets.add(
+			getExpectedRoleIdSet(
+				creatorUserId, RoleConstants.SITE_MEMBER, RoleConstants.USER));
+
+		expectedRoleIdSets.add(
+			getExpectedRoleIdSet(
+				creatorUserId, RoleConstants.OWNER, RoleConstants.USER));
+
+		assertContainsRoleSets(expectedRoleIdSets, roleIdSets);
+	}
+
+	public void testDynamicInheritanceRolesAccessNoView() throws Exception {
+		long creatorUserId = RandomTestUtil.randomLong();
+
+		JournalFolderProxy journalFolderProxy1 =
+			_journalProxyFactory.createJournalFolderProxy(
+				creatorUserId, RoleConstants.OWNER);
+
+		String[] journalFolderAccessRoleNames ={RoleConstants.SITE_MEMBER};
+
+		String[] journalFolderViewRoleNames = {};
+
+		JournalFolderProxy journalFolderProxy2 =
+			_journalProxyFactory.createJournalFolderProxy(
+				journalFolderProxy1, creatorUserId,
+				journalFolderAccessRoleNames, journalFolderViewRoleNames);
+
+		JournalArticleProxy journalArticleProxy =
+			_journalProxyFactory.createJournalArticleProxy(
+				journalFolderProxy2, creatorUserId, RoleConstants.USER);
+
+		Set<Set<String>> roleIdSets =
+			_resourcePermissionLocalService.getFlattenedInheritanceRoleIds(
+				_companyId, _groupId, _journalArticleClassName, _scope,
+				journalArticleProxy.getResourcePrimKey(),
+				journalArticleProxy.getPrimKey(), _viewActionId);
+
+		Set<Set<String>> expectedRoleIdSets = new HashSet<>();
+
+		expectedRoleIdSets.add(
+			getExpectedRoleIdSet(
+				creatorUserId, RoleConstants.SITE_MEMBER, RoleConstants.USER));
 
 		assertContainsRoleSets(expectedRoleIdSets, roleIdSets);
 	}
@@ -182,6 +255,59 @@ public class ResourcePermissionImplTest {
 
 		expectedRoleIdSets.add(
 			getExpectedRoleIdSet(creatorUserId, RoleConstants.OWNER));
+
+		assertContainsRoleSets(expectedRoleIdSets, roleIdSets);
+	}
+
+	@Test
+	public void testDynamicInheritanceRolesGuestAccess() throws Exception {
+		long creatorUserId = RandomTestUtil.randomLong();
+
+		String[] journalFolderAccessRoleNames ={RoleConstants.GUEST};
+
+		String[] journalFolderViewRoleNames = {RoleConstants.OWNER};
+
+		JournalFolderProxy journalFolderProxy =
+			_journalProxyFactory.createJournalFolderProxy(
+				creatorUserId, journalFolderAccessRoleNames,
+				journalFolderViewRoleNames);
+
+		JournalArticleProxy journalArticleProxy =
+			_journalProxyFactory.createJournalArticleProxy(
+				journalFolderProxy, creatorUserId, RoleConstants.GUEST);
+
+		Set<Set<String>> roleIdSets =
+			_resourcePermissionLocalService.getFlattenedInheritanceRoleIds(
+				_companyId, _groupId, _journalArticleClassName, _scope,
+				journalArticleProxy.getResourcePrimKey(),
+				journalArticleProxy.getPrimKey(), _viewActionId);
+
+		Set<Set<String>> expectedRoleIdSets = getExpectedRoleIdSets(
+			creatorUserId, RoleConstants.GUEST);
+
+		assertContainsRoleSets(expectedRoleIdSets, roleIdSets);
+	}
+
+	@Test
+	public void testDynamicInheritanceRolesDifferentOwners() throws Exception {
+		long creatorUserId1 = RandomTestUtil.randomLong();
+		long creatorUserId2 = RandomTestUtil.randomLong();
+
+		JournalFolderProxy journalFolderProxy =
+			_journalProxyFactory.createJournalFolderProxy(
+				creatorUserId1, RoleConstants.OWNER);
+
+		JournalArticleProxy journalArticleProxy =
+			_journalProxyFactory.createJournalArticleProxy(
+				journalFolderProxy, creatorUserId2, RoleConstants.OWNER);
+
+		Set<Set<String>> roleIdSets =
+			_resourcePermissionLocalService.getFlattenedInheritanceRoleIds(
+				_companyId, _groupId, _journalArticleClassName, _scope,
+				journalArticleProxy.getResourcePrimKey(),
+				journalArticleProxy.getPrimKey(), _viewActionId);
+
+		Set<Set<String>> expectedRoleIdSets = new HashSet<>();
 
 		assertContainsRoleSets(expectedRoleIdSets, roleIdSets);
 	}
@@ -236,6 +362,36 @@ public class ResourcePermissionImplTest {
 
 		Set<Set<String>> expectedRoleIdSets =
 			getExpectedRoleIdSets(creatorUserId, RoleConstants.USER);
+
+		assertContainsRoleSets(expectedRoleIdSets, roleIdSets);
+	}
+
+	@Test
+	public void testDynamicInheritanceRolesGuestAsWildcard3() throws Exception {
+		long creatorUserId = RandomTestUtil.randomLong();
+
+		JournalFolderProxy journalFolderProxy1 =
+			_journalProxyFactory.createJournalFolderProxy(
+				creatorUserId, RoleConstants.OWNER);
+
+		JournalFolderProxy journalFolderProxy2 =
+			_journalProxyFactory.createJournalFolderProxy(
+				journalFolderProxy1, creatorUserId, RoleConstants.GUEST,
+				RoleConstants.SITE_MEMBER);
+
+		JournalArticleProxy journalArticleProxy =
+			_journalProxyFactory.createJournalArticleProxy(
+				journalFolderProxy2, creatorUserId, RoleConstants.GUEST,
+				RoleConstants.SITE_MEMBER);
+
+		Set<Set<String>> roleIdSets =
+			_resourcePermissionLocalService.getFlattenedInheritanceRoleIds(
+				_companyId, _groupId, _journalArticleClassName, _scope,
+				journalArticleProxy.getResourcePrimKey(),
+				journalArticleProxy.getPrimKey(), _viewActionId);
+
+		Set<Set<String>> expectedRoleIdSets =
+			getExpectedRoleIdSets(creatorUserId, RoleConstants.OWNER);
 
 		assertContainsRoleSets(expectedRoleIdSets, roleIdSets);
 	}
