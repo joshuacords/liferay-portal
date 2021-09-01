@@ -2087,11 +2087,12 @@ public class ResourcePermissionLocalServiceImpl
 		}
 	}
 
-	private void _assignStartingRoleIds(
+	private List<Set<String>> _assignStartingRoleIds(
 			long companyId, long groupId, String className, long classPK,
-			List<Role> roles, List<Set<String>> roleIdSetsWithAccess,
-			Role guestRole)
+			List<Role> roles, Role guestRole)
 		throws PortalException {
+
+		List<Set<String>> roleIdSets = new ArrayList<>();
 
 		for (Role role : roles) {
 			if (role.getRoleId() == guestRole.getRoleId()) {
@@ -2103,8 +2104,10 @@ public class ResourcePermissionLocalServiceImpl
 			baseRoleIds.add(
 				_roleToRoleId(companyId, groupId, className, classPK, role));
 
-			roleIdSetsWithAccess.add(baseRoleIds);
+			roleIdSets.add(baseRoleIds);
 		}
+
+		return roleIdSets;
 	}
 
 	private List<Set<String>> _crossCombinePreviousRoleIdSetWithNewRoleIds(
@@ -2219,14 +2222,11 @@ public class ResourcePermissionLocalServiceImpl
 
 		List<Role> folderRoles;
 
-		List<Set<String>> roleIdSetsWithPermission = new ArrayList<>();
-
 		List<Set<String>> roleIdSetsWithPermissionPreviously =
 			new ArrayList<>();
 
-		_assignStartingRoleIds(
-			companyId, groupId, className, classPK, roles,
-			roleIdSetsWithPermission, guestRole);
+		List<Set<String>> roleIdSetsWithPermission = _assignStartingRoleIds(
+			companyId, groupId, className, classPK, roles, guestRole);
 
 		Role ownerRole =
 			roleLocalService.fetchRole(companyId, RoleConstants.OWNER);
@@ -2275,6 +2275,9 @@ public class ResourcePermissionLocalServiceImpl
 				GetterUtil.getLong(parentFolderIds[i]));
 		}
 
+		_removeConflictingOwnerRoleCombos(
+			roleIdSetsWithPermission, ownerRoleIds);
+
 		if (guestRoleHasPermission) {
 			Set<String> guestRoleIdSet = new HashSet<>();
 
@@ -2282,9 +2285,6 @@ public class ResourcePermissionLocalServiceImpl
 
 			roleIdSetsWithPermission.add(guestRoleIdSet);
 		}
-
-		_removeConflictingOwnerRoleCombos(
-			roleIdSetsWithPermission, ownerRoleIds);
 
 		return roleIdSetsWithPermission;
 	}
