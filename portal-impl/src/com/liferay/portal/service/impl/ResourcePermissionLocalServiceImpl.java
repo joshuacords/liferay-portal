@@ -849,18 +849,16 @@ public class ResourcePermissionLocalServiceImpl
 
 		// we might be able to pass in access roles for faster processing
 
-		List<Set<String>> dynamicInheritanceViewRoleIds = _getTreePathRoleIds(
-			baseChildModel, companyId, groupId, name,
-			GetterUtil.getLong(primKey), baseRoles);
+		Set<Set<String>> dynamicInheritanceViewRoleIds = _getTreePathRoleIds(
+				baseChildModel, companyId, groupId, name,
+				GetterUtil.getLong(primKey), baseRoles);
 
 		if (_containsGuestRoleId(dynamicInheritanceViewRoleIds, companyId)) {
 			return _guestRoleIdSet(companyId);
 		}
 
-		List<Set<String>> accessRoleIdsList = new ArrayList<>(accessRoleIds);
-
-		_removeRedundantSets(accessRoleIdsList, dynamicInheritanceViewRoleIds);
-		_removeRedundantSets(dynamicInheritanceViewRoleIds, accessRoleIdsList);
+		_removeRedundantSets(accessRoleIds, dynamicInheritanceViewRoleIds);
+		_removeRedundantSets(dynamicInheritanceViewRoleIds, accessRoleIds);
 
 		Set<Set<String>> roleIdsSet = new HashSet<>();
 
@@ -871,7 +869,7 @@ public class ResourcePermissionLocalServiceImpl
 	}
 
 	private void _removeRedundantSets(
-		List<Set<String>> roleIdSets1, List<Set<String>> roleIdSets2) {
+		Set<Set<String>> roleIdSets1, Set<Set<String>> roleIdSets2) {
 
 		for (Set<String> roleIdSet1: roleIdSets1) {
 
@@ -887,11 +885,10 @@ public class ResourcePermissionLocalServiceImpl
 				}
 			}
 		}
-
 	}
 
 	private boolean _containsGuestRoleId(
-		List<Set<String>> roleIdSets, long companyId) throws PortalException {
+		Set<Set<String>> roleIdSets, long companyId) throws PortalException {
 
 		Role guestRole = roleLocalService.getRole(
 			companyId, RoleConstants.GUEST);
@@ -2112,15 +2109,15 @@ public class ResourcePermissionLocalServiceImpl
 		}
 	}
 
-	private List<Set<String>> _assignStartingRoleIds(
-			long companyId, long groupId, String className, long classPK,
-			List<Role> roles)
+	private Set<Set<String>> _assignStartingRoleIds(
+		long companyId, long groupId, String className, long classPK,
+		List<Role> roles)
 		throws PortalException {
 
 		Role guestRole = roleLocalService.getRole(
 			companyId, RoleConstants.GUEST);
 
-		List<Set<String>> roleIdSets = new ArrayList<>();
+		Set<Set<String>> roleIdSets = new HashSet<>();
 
 		for (Role role : roles) {
 			if (role.getRoleId() == guestRole.getRoleId()) {
@@ -2138,8 +2135,8 @@ public class ResourcePermissionLocalServiceImpl
 		return roleIdSets;
 	}
 
-	private List<Set<String>> _crossCombinePreviousRoleIdSetWithNewRoleIds(
-			List<Set<String>> previousRoleIdSets, List<String> newRoleIds) {
+	private Set<Set<String>> _crossCombinePreviousRoleIdSetWithNewRoleIds(
+		Set<Set<String>> previousRoleIdSets, Set<String> newRoleIds) {
 
 		if (previousRoleIdSets.isEmpty() ||
 			newRoleIds.isEmpty()) {
@@ -2147,7 +2144,7 @@ public class ResourcePermissionLocalServiceImpl
 			return null;
 		}
 
-		List<Set<String>> newRoleIdSetCombinations = new ArrayList<>();
+		Set<Set<String>> newRoleIdSetCombinations = new HashSet<>();
 
 		Iterator<Set<String>> previousRoleIdSetIterator =
 			previousRoleIdSets.iterator();
@@ -2156,8 +2153,8 @@ public class ResourcePermissionLocalServiceImpl
 			Set<String> currentRoleIdSet =
 				previousRoleIdSetIterator.next();
 
-			List<Set<String>> previousRoleIdSetsCopies =
-				new ArrayList<>(newRoleIds.size());
+			Set<Set<String>> previousRoleIdSetsCopies =
+				new HashSet<>(newRoleIds.size());
 
 			for (String newRoleId : newRoleIds) {
 				Set<String> previousRoleIdSetCopy =
@@ -2240,9 +2237,9 @@ public class ResourcePermissionLocalServiceImpl
 		return resourcePermissionsMap;
 	}
 
-	private List<Set<String>> _getTreePathRoleIds(
-			BaseChildModel baseChildModel, long companyId, long groupId,
-			String className, long classPK, List<Role> roles)
+	private Set<Set<String>> _getTreePathRoleIds(
+		BaseChildModel baseChildModel, long companyId, long groupId,
+		String className, long classPK, List<Role> roles)
 		throws PortalException {
 
 		String[] parentFolderIds = StringUtil.split(
@@ -2250,10 +2247,10 @@ public class ResourcePermissionLocalServiceImpl
 
 		List<Role> folderRoles;
 
-		List<Set<String>> roleIdSetsWithPermissionPreviously =
-			new ArrayList<>();
+		Set<Set<String>> roleIdSetsWithPermissionPreviously =
+			new HashSet<>();
 
-		List<Set<String>> roleIdSetsWithPermission = _assignStartingRoleIds(
+		Set<Set<String>> roleIdSetsWithPermission = _assignStartingRoleIds(
 			companyId, groupId, className, classPK, roles);
 
 		Role ownerRole =
@@ -2320,15 +2317,15 @@ public class ResourcePermissionLocalServiceImpl
 	}
 
 	private void _combineNewRolesWithPreviousRoles(
-		List<Set<String>> roleIdSetsWithPermission, List<Role> roles,
+		Set<Set<String>> roleIdSetsWithPermission, List<Role> roles,
 		Set<String> ownerRoleIds, long companyId, long groupId,
 		String className, long classPK)
 		throws PortalException {
 
-		List<String> roleIdsToCombine = new ArrayList<>();
+		Set<String> roleIdsToCombine = new HashSet<>();
 
-		List<Set<String>> roleIdSetsWithPermissionPreviously =
-			new ArrayList<>(roleIdSetsWithPermission);
+		Set<Set<String>> roleIdSetsWithPermissionPreviously =
+			new HashSet<>(roleIdSetsWithPermission);
 
 		roleIdSetsWithPermission.clear();
 
@@ -2394,7 +2391,7 @@ public class ResourcePermissionLocalServiceImpl
 	}
 
 	private void _setRoleIdsToRoleIdPermissionSet(
-		List<Set<String>> roleIdSetsWithPermission, List<Role> roles,
+		Set<Set<String>> roleIdSetsWithPermission, List<Role> roles,
 		Set<String> ownerRoleIds, long companyId, long groupId,
 		String className, long classPK)
 		throws PortalException {
@@ -2429,7 +2426,7 @@ public class ResourcePermissionLocalServiceImpl
 	}
 
 	private void _removeConflictingOwnerRoleCombos(
-		List<Set<String>> roleIdSets, Set<String> ownerRoleIds) {
+		Set<Set<String>> roleIdSets, Set<String> ownerRoleIds) {
 
 		String[] ownerRoleIdsArray = ownerRoleIds.toArray(new String[0]);
 
@@ -2442,7 +2439,7 @@ public class ResourcePermissionLocalServiceImpl
 	}
 
 	private void _removeConflictingOwnerRoleCombo(
-		List<Set<String>> roleIdSets, String ownerRoleId1,
+		Set<Set<String>> roleIdSets, String ownerRoleId1,
 		String ownerRoleId2) {
 
 		Iterator<Set<String>> roleIdSetsIterator =
@@ -2647,7 +2644,7 @@ public class ResourcePermissionLocalServiceImpl
 	}
 
 	private boolean _roleIdExistsInRoleIdSetsWithAccess(
-		List<Set<String>> roleIdSetsWithAccess, String roleId) {
+		Set<Set<String>> roleIdSetsWithAccess, String roleId) {
 
 		for (Set<String> roleIdSetWithAccess : roleIdSetsWithAccess) {
 			if (roleIdSetWithAccess.contains(roleId)) {
