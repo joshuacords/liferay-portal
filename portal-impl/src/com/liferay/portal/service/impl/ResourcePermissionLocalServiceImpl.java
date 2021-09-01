@@ -835,12 +835,14 @@ public class ResourcePermissionLocalServiceImpl
 			companyId, baseChildModel.getParentClassName(),
 			ResourceConstants.SCOPE_INDIVIDUAL, parentClassPK, "ACCESS");
 
-		if (!baseRoles.contains(guestRole)) {
-			parentAccessRoles.retainAll(baseRoles);
+		if (parentAccessRoles.contains(guestRole)) {
+			return _listToSetSetRoleIds(
+				companyId, groupId, name, classPK, baseRoles);
 		}
 
-		if (parentAccessRoles.contains(guestRole)) {
-			return _guestRoleIdSet(companyId);
+		if (!baseRoles.contains(guestRole) &&
+			!parentAccessRoles.contains(guestRole)) {
+			parentAccessRoles.retainAll(baseRoles);
 		}
 
 		Set<Set<String>> accessRoleIds = _listToSetSetRoleIds(
