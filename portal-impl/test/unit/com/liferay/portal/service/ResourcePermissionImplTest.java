@@ -16,6 +16,7 @@ package com.liferay.portal.service;
 
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.model.ResourceAction;
+import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.role.RoleConstants;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
@@ -101,7 +102,7 @@ public class ResourcePermissionImplTest {
 				journalFolderProxy, creatorUserId, RoleConstants.SITE_MEMBER);
 
 		Set<Set<String>> roleIdSets =
-			_resourcePermissionLocalService.getFlattenedInheritanceRoleIds(
+			_resourcePermissionLocalService.getInheritedRoleIdCombinations(
 				_companyId, _groupId, _journalArticleClassName, _scope,
 				journalArticleProxy.getResourcePrimKey(),
 				journalArticleProxy.getPrimKey(), _viewActionId);
@@ -134,7 +135,7 @@ public class ResourcePermissionImplTest {
 				journalFolderProxy2, creatorUserId, RoleConstants.USER);
 
 		Set<Set<String>> roleIdSets =
-			_resourcePermissionLocalService.getFlattenedInheritanceRoleIds(
+			_resourcePermissionLocalService.getInheritedRoleIdCombinations(
 				_companyId, _groupId, _journalArticleClassName, _scope,
 				journalArticleProxy.getResourcePrimKey(),
 				journalArticleProxy.getPrimKey(), _viewActionId);
@@ -176,7 +177,7 @@ public class ResourcePermissionImplTest {
 				journalFolderProxy2, creatorUserId, RoleConstants.GUEST);
 
 		Set<Set<String>> roleIdSets =
-			_resourcePermissionLocalService.getFlattenedInheritanceRoleIds(
+			_resourcePermissionLocalService.getInheritedRoleIdCombinations(
 				_companyId, _groupId, _journalArticleClassName, _scope,
 				journalArticleProxy.getResourcePrimKey(),
 				journalArticleProxy.getPrimKey(), _viewActionId);
@@ -209,7 +210,7 @@ public class ResourcePermissionImplTest {
 				journalFolderProxy2, creatorUserId, RoleConstants.USER);
 
 		Set<Set<String>> roleIdSets =
-			_resourcePermissionLocalService.getFlattenedInheritanceRoleIds(
+			_resourcePermissionLocalService.getInheritedRoleIdCombinations(
 				_companyId, _groupId, _journalArticleClassName, _scope,
 				journalArticleProxy.getResourcePrimKey(),
 				journalArticleProxy.getPrimKey(), _viewActionId);
@@ -237,7 +238,7 @@ public class ResourcePermissionImplTest {
 				journalFolderProxy, creatorUserId2, RoleConstants.OWNER);
 
 		Set<Set<String>> roleIdSets =
-			_resourcePermissionLocalService.getFlattenedInheritanceRoleIds(
+			_resourcePermissionLocalService.getInheritedRoleIdCombinations(
 				_companyId, _groupId, _journalArticleClassName, _scope,
 				journalArticleProxy.getResourcePrimKey(),
 				journalArticleProxy.getPrimKey(), _viewActionId);
@@ -268,7 +269,7 @@ public class ResourcePermissionImplTest {
 				journalFolderProxy2, creatorUserId2, RoleConstants.GUEST);
 
 		Set<Set<String>> roleIdSets =
-			_resourcePermissionLocalService.getFlattenedInheritanceRoleIds(
+			_resourcePermissionLocalService.getInheritedRoleIdCombinations(
 				_companyId, _groupId, _journalArticleClassName, _scope,
 				journalArticleProxy.getResourcePrimKey(),
 				journalArticleProxy.getPrimKey(), _viewActionId);
@@ -307,7 +308,7 @@ public class ResourcePermissionImplTest {
 				RoleConstants.POWER_USER);
 
 		Set<Set<String>> roleIdSets =
-			_resourcePermissionLocalService.getFlattenedInheritanceRoleIds(
+			_resourcePermissionLocalService.getInheritedRoleIdCombinations(
 				_companyId, _groupId, _journalArticleClassName, _scope,
 				journalArticleProxy.getResourcePrimKey(),
 				journalArticleProxy.getPrimKey(), _viewActionId);
@@ -351,7 +352,7 @@ public class ResourcePermissionImplTest {
 				journalFolderProxy, creatorUserId, RoleConstants.GUEST);
 
 		Set<Set<String>> roleIdSets =
-			_resourcePermissionLocalService.getFlattenedInheritanceRoleIds(
+			_resourcePermissionLocalService.getInheritedRoleIdCombinations(
 				_companyId, _groupId, _journalArticleClassName, _scope,
 				journalArticleProxy.getResourcePrimKey(),
 				journalArticleProxy.getPrimKey(), _viewActionId);
@@ -382,7 +383,7 @@ public class ResourcePermissionImplTest {
 				journalFolderProxy, creatorUserId, RoleConstants.USER);
 
 		Set<Set<String>> roleIdSets =
-			_resourcePermissionLocalService.getFlattenedInheritanceRoleIds(
+			_resourcePermissionLocalService.getInheritedRoleIdCombinations(
 				_companyId, _groupId, _journalArticleClassName, _scope,
 				journalArticleProxy.getResourcePrimKey(),
 				journalArticleProxy.getPrimKey(), _viewActionId);
@@ -411,7 +412,7 @@ public class ResourcePermissionImplTest {
 				RoleConstants.OWNER);
 
 		Set<Set<String>> roleIdSets =
-			_resourcePermissionLocalService.getFlattenedInheritanceRoleIds(
+			_resourcePermissionLocalService.getInheritedRoleIdCombinations(
 				_companyId, _groupId, _journalArticleClassName, _scope,
 				journalArticleProxy.getResourcePrimKey(),
 				journalArticleProxy.getPrimKey(), _viewActionId);
@@ -441,7 +442,7 @@ public class ResourcePermissionImplTest {
 				journalFolderProxy2, creatorUserId, RoleConstants.OWNER);
 
 		Set<Set<String>> roleIdSets =
-			_resourcePermissionLocalService.getFlattenedInheritanceRoleIds(
+			_resourcePermissionLocalService.getInheritedRoleIdCombinations(
 				_companyId, _groupId, _journalArticleClassName, _scope,
 				journalArticleProxy.getResourcePrimKey(),
 				journalArticleProxy.getPrimKey(), _viewActionId);
@@ -464,7 +465,7 @@ public class ResourcePermissionImplTest {
 				creatorUserId, RoleConstants.GUEST, RoleConstants.OWNER);
 
 		Set<Set<String>> roleIdSets =
-			_resourcePermissionLocalService.getFlattenedInheritanceRoleIds(
+			_resourcePermissionLocalService.getInheritedRoleIdCombinations(
 				_companyId, _groupId, _journalArticleClassName, _scope,
 				journalArticleProxy.getResourcePrimKey(),
 				journalArticleProxy.getPrimKey(), _viewActionId);
@@ -491,7 +492,7 @@ public class ResourcePermissionImplTest {
 				RoleConstants.OWNER);
 
 		Set<Set<String>> roleIdSets =
-			_resourcePermissionLocalService.getFlattenedInheritanceRoleIds(
+			_resourcePermissionLocalService.getInheritedRoleIdCombinations(
 				_companyId, _groupId, _journalArticleClassName, _scope,
 				journalArticleProxy.getResourcePrimKey(),
 				journalArticleProxy.getPrimKey(), _viewActionId);
@@ -523,7 +524,7 @@ public class ResourcePermissionImplTest {
 				RoleConstants.POWER_USER);
 
 		Set<Set<String>> roleIdSets =
-			_resourcePermissionLocalService.getFlattenedInheritanceRoleIds(
+			_resourcePermissionLocalService.getInheritedRoleIdCombinations(
 				_companyId, _groupId, _journalArticleClassName, _scope,
 				journalArticleProxy.getResourcePrimKey(),
 				journalArticleProxy.getPrimKey(), _viewActionId);
@@ -562,7 +563,7 @@ public class ResourcePermissionImplTest {
 				RoleConstants.SITE_MEMBER);
 
 		Set<Set<String>> roleIdSets =
-			_resourcePermissionLocalService.getFlattenedInheritanceRoleIds(
+			_resourcePermissionLocalService.getInheritedRoleIdCombinations(
 				_companyId, _groupId, _journalArticleClassName, _scope,
 				journalArticleProxy.getResourcePrimKey(),
 				journalArticleProxy.getPrimKey(), _viewActionId);
@@ -697,7 +698,7 @@ public class ResourcePermissionImplTest {
 		_groupId = RandomTestUtil.randomLong();
 		_journalArticleClassName = "com.liferay.journal.model.JournalArticle";
 		_journalFolderClassName = "com.liferay.journal.model.JournalFolder";
-		_scope = 4;
+		_scope = ResourceConstants.SCOPE_INDIVIDUAL;
 		_resourcePrimKey = StringUtil.toString(RandomTestUtil.randomLong());
 		_primKey = StringUtil.toString(RandomTestUtil.randomLong());
 		_viewActionId = ActionKeys.VIEW;
