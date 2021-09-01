@@ -785,6 +785,43 @@ public class ResourcePermissionLocalServiceImpl
 	}
 
 	@Override
+	public Map<String, List<ResourcePermission>>
+		getIndividualPortletResourcePermissions(long companyId) {
+
+		DSLQuery dslQuery = DSLQueryFactoryUtil.select(
+			ResourcePermissionTable.INSTANCE
+		).from(
+			ResourcePermissionTable.INSTANCE
+		).where(
+			ResourcePermissionTable.INSTANCE.companyId.eq(
+				companyId
+			).and(
+				ResourcePermissionTable.INSTANCE.scope.eq(
+					ResourceConstants.SCOPE_INDIVIDUAL)
+			).and(
+				ResourcePermissionTable.INSTANCE.name.eq(
+					ResourcePermissionTable.INSTANCE.primKey)
+			)
+		);
+
+		Map<String, List<ResourcePermission>> resourcePermissionsMap =
+			new HashMap<>();
+
+		for (ResourcePermission resourcePermission :
+				resourcePermissionPersistence.
+					<List<ResourcePermission>>dslQuery(dslQuery)) {
+
+			List<ResourcePermission> resourcePermissions =
+				resourcePermissionsMap.computeIfAbsent(
+					resourcePermission.getName(), key -> new ArrayList<>());
+
+			resourcePermissions.add(resourcePermission);
+		}
+
+		return resourcePermissionsMap;
+	}
+
+	@Override
 	public Set<Set<String>> getInheritedRoleIdCombinations(
 			long companyId, long groupId, String name, int scope,
 			String resourcePrimKey, String actionId)
@@ -828,7 +865,8 @@ public class ResourcePermissionLocalServiceImpl
 
 		List<Role> parentAccessRoles = getRoles(
 			companyId, baseChildModel.getParentClassName(),
-			ResourceConstants.SCOPE_INDIVIDUAL, parentClassPK, ActionKeys.ACCESS);
+			ResourceConstants.SCOPE_INDIVIDUAL, parentClassPK,
+			ActionKeys.ACCESS);
 
 		if (parentAccessRoles.contains(guestRole)) {
 			return _listToRoleIdCombinations(
@@ -861,12 +899,16 @@ public class ResourcePermissionLocalServiceImpl
 				baseChildModel, companyId, groupId, className,
 				GetterUtil.getLong(primKey), baseRoles);
 
-		if (_containsGuestRoleId(inheritanceViewRoleIdCombinations, companyId)) {
+		if (_containsGuestRoleId(
+				inheritanceViewRoleIdCombinations, companyId)) {
+
 			return _guestRoleIdSet(companyId);
 		}
 
-		_removeRedundantSets(accessRoleIdCombinations, inheritanceViewRoleIdCombinations);
-		_removeRedundantSets(inheritanceViewRoleIdCombinations, accessRoleIdCombinations);
+		_removeRedundantSets(
+			accessRoleIdCombinations, inheritanceViewRoleIdCombinations);
+		_removeRedundantSets(
+			inheritanceViewRoleIdCombinations, accessRoleIdCombinations);
 
 		Set<Set<String>> roleIdsCombinations = new HashSet<>();
 
@@ -874,43 +916,6 @@ public class ResourcePermissionLocalServiceImpl
 		roleIdsCombinations.addAll(inheritanceViewRoleIdCombinations);
 
 		return roleIdsCombinations;
-	}
-
-	@Override
-	public Map<String, List<ResourcePermission>>
-		getIndividualPortletResourcePermissions(long companyId) {
-
-		DSLQuery dslQuery = DSLQueryFactoryUtil.select(
-			ResourcePermissionTable.INSTANCE
-		).from(
-			ResourcePermissionTable.INSTANCE
-		).where(
-			ResourcePermissionTable.INSTANCE.companyId.eq(
-				companyId
-			).and(
-				ResourcePermissionTable.INSTANCE.scope.eq(
-					ResourceConstants.SCOPE_INDIVIDUAL)
-			).and(
-				ResourcePermissionTable.INSTANCE.name.eq(
-					ResourcePermissionTable.INSTANCE.primKey)
-			)
-		);
-
-		Map<String, List<ResourcePermission>> resourcePermissionsMap =
-			new HashMap<>();
-
-		for (ResourcePermission resourcePermission :
-				resourcePermissionPersistence.
-					<List<ResourcePermission>>dslQuery(dslQuery)) {
-
-			List<ResourcePermission> resourcePermissions =
-				resourcePermissionsMap.computeIfAbsent(
-					resourcePermission.getName(), key -> new ArrayList<>());
-
-			resourcePermissions.add(resourcePermission);
-		}
-
-		return resourcePermissionsMap;
 	}
 
 	/**
@@ -2203,8 +2208,7 @@ public class ResourcePermissionLocalServiceImpl
 				individualRoleIds.size());
 
 			for (String roleId : individualRoleIds) {
-				Set<String> roleIdSetCopy = new HashSet<>(
-					currentRoleIdSet);
+				Set<String> roleIdSetCopy = new HashSet<>(currentRoleIdSet);
 
 				roleIdSetCopy.add(roleId);
 
@@ -2251,35 +2255,6 @@ public class ResourcePermissionLocalServiceImpl
 		}
 
 		return null;
-	}
-
-	private PersistedModelLocalService _getPersistedModelLocalService(
-		String className) {
-
-		PersistedModelLocalService persistedModelLocalService =
-			persistedModelLocalServiceRegistry.getPersistedModelLocalService(
-				className);
-
-		if (persistedModelLocalService == null) {
-			throw new SystemException(
-				"No persisted model local service found for class " +
-					className);
-		}
-
-		return persistedModelLocalService;
-	}
-
-	private Map<Long, ResourcePermission> _getResourcePermissionsMap(
-		List<ResourcePermission> resourcePermissions) {
-
-		Map<Long, ResourcePermission> resourcePermissionsMap = new HashMap<>();
-
-		for (ResourcePermission resourcePermission : resourcePermissions) {
-			resourcePermissionsMap.put(
-				resourcePermission.getRoleId(), resourcePermission);
-		}
-
-		return resourcePermissionsMap;
 	}
 
 	private Set<Set<String>> _getInheritedViewRoleIdCombinations(
@@ -2356,6 +2331,35 @@ public class ResourcePermissionLocalServiceImpl
 		}
 
 		return roleIdSetsWithPermission;
+	}
+
+	private PersistedModelLocalService _getPersistedModelLocalService(
+		String className) {
+
+		PersistedModelLocalService persistedModelLocalService =
+			persistedModelLocalServiceRegistry.getPersistedModelLocalService(
+				className);
+
+		if (persistedModelLocalService == null) {
+			throw new SystemException(
+				"No persisted model local service found for class " +
+					className);
+		}
+
+		return persistedModelLocalService;
+	}
+
+	private Map<Long, ResourcePermission> _getResourcePermissionsMap(
+		List<ResourcePermission> resourcePermissions) {
+
+		Map<Long, ResourcePermission> resourcePermissionsMap = new HashMap<>();
+
+		for (ResourcePermission resourcePermission : resourcePermissions) {
+			resourcePermissionsMap.put(
+				resourcePermission.getRoleId(), resourcePermission);
+		}
+
+		return resourcePermissionsMap;
 	}
 
 	private Set<Set<String>> _guestRoleIdSet(long companyId)
