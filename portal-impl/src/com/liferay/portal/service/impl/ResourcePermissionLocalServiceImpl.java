@@ -851,7 +851,7 @@ public class ResourcePermissionLocalServiceImpl
 
 		List<Set<String>> dynamicInheritanceViewRoleIds = _getTreePathRoleIds(
 			baseChildModel, companyId, groupId, name,
-			GetterUtil.getLong(primKey), baseRoles, guestRole);
+			GetterUtil.getLong(primKey), baseRoles);
 
 		if (_containsGuestRoleId(dynamicInheritanceViewRoleIds, companyId)) {
 			return _guestRoleIdSet(companyId);
@@ -2089,8 +2089,11 @@ public class ResourcePermissionLocalServiceImpl
 
 	private List<Set<String>> _assignStartingRoleIds(
 			long companyId, long groupId, String className, long classPK,
-			List<Role> roles, Role guestRole)
+			List<Role> roles)
 		throws PortalException {
+
+		Role guestRole = roleLocalService.getRole(
+			companyId, RoleConstants.GUEST);
 
 		List<Set<String>> roleIdSets = new ArrayList<>();
 
@@ -2214,7 +2217,7 @@ public class ResourcePermissionLocalServiceImpl
 
 	private List<Set<String>> _getTreePathRoleIds(
 			BaseChildModel baseChildModel, long companyId, long groupId,
-			String className, long classPK, List<Role> roles, Role guestRole)
+			String className, long classPK, List<Role> roles)
 		throws PortalException {
 
 		String[] parentFolderIds = StringUtil.split(
@@ -2226,7 +2229,7 @@ public class ResourcePermissionLocalServiceImpl
 			new ArrayList<>();
 
 		List<Set<String>> roleIdSetsWithPermission = _assignStartingRoleIds(
-			companyId, groupId, className, classPK, roles, guestRole);
+			companyId, groupId, className, classPK, roles);
 
 		Role ownerRole =
 			roleLocalService.fetchRole(companyId, RoleConstants.OWNER);
@@ -2237,6 +2240,9 @@ public class ResourcePermissionLocalServiceImpl
 			ownerRoleIds.add(_roleToRoleId(companyId, groupId, className,
 				classPK, ownerRole));
 		}
+
+		Role guestRole = roleLocalService.getRole(
+			companyId, RoleConstants.GUEST);
 
 		boolean guestRoleHasPermission = roles.contains(guestRole);
 
@@ -2268,10 +2274,9 @@ public class ResourcePermissionLocalServiceImpl
 				guestRoleHasPermission = false;
 			}
 
-			_combineNewRolesWithPerviousRoles(
-				roleIdSetsWithPermissionPreviously, roleIdSetsWithPermission,
-				folderRoles,  ownerRoleIds, companyId, groupId,
-				baseChildModel.getParentClassName(),
+			_combineNewRolesWithPreviousRoles(
+				roleIdSetsWithPermission, folderRoles,  ownerRoleIds, companyId,
+				groupId, baseChildModel.getParentClassName(),
 				GetterUtil.getLong(parentFolderIds[i]));
 		}
 
@@ -2289,8 +2294,7 @@ public class ResourcePermissionLocalServiceImpl
 		return roleIdSetsWithPermission;
 	}
 
-	private void _combineNewRolesWithPerviousRoles(
-		List<Set<String>> roleIdSetsWithPermissionPreviously,
+	private void _combineNewRolesWithPreviousRoles(
 		List<Set<String>> roleIdSetsWithPermission, List<Role> roles,
 		Set<String> ownerRoleIds, long companyId, long groupId,
 		String className, long classPK)
@@ -2298,8 +2302,8 @@ public class ResourcePermissionLocalServiceImpl
 
 		List<String> roleIdsToCombine = new ArrayList<>();
 
-		roleIdSetsWithPermissionPreviously.clear();
-		roleIdSetsWithPermissionPreviously.addAll(roleIdSetsWithPermission);
+		List<Set<String>> roleIdSetsWithPermissionPreviously =
+			new ArrayList<>(roleIdSetsWithPermission);
 
 		roleIdSetsWithPermission.clear();
 
