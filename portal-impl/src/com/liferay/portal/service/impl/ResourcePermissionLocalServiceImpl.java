@@ -857,12 +857,37 @@ public class ResourcePermissionLocalServiceImpl
 			return _guestRoleIdSet(companyId);
 		}
 
+		List<Set<String>> accessRoleIdsList = new ArrayList<>(accessRoleIds);
+
+		_removeRedundantSets(accessRoleIdsList, dynamicInheritanceViewRoleIds);
+		_removeRedundantSets(dynamicInheritanceViewRoleIds, accessRoleIdsList);
+
 		Set<Set<String>> roleIdsSet = new HashSet<>();
 
 		roleIdsSet.addAll(accessRoleIds);
 		roleIdsSet.addAll(dynamicInheritanceViewRoleIds);
 
 		return roleIdsSet;
+	}
+
+	private void _removeRedundantSets(
+		List<Set<String>> roleIdSets1, List<Set<String>> roleIdSets2) {
+
+		for (Set<String> roleIdSet1: roleIdSets1) {
+
+			Iterator<Set<String>> roleIdSets2Iterator =
+				roleIdSets2.iterator();
+
+			while (roleIdSets2Iterator.hasNext()) {
+				Set<String> roleIdSet2 =
+					roleIdSets2Iterator.next();
+
+				if (roleIdSet2.containsAll(roleIdSet1)) {
+					roleIdSets2Iterator.remove();
+				}
+			}
+		}
+
 	}
 
 	private boolean _containsGuestRoleId(
