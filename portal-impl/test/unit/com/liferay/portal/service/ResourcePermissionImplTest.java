@@ -426,7 +426,7 @@ public class ResourcePermissionImplTest {
 	}
 
 	@Test
-	public void testDynamicInheritanceRolesGuestAsWildcard1() throws Exception {
+	public void testDynamicInheritanceRolesOnlyGuestIsNecessary() throws Exception {
 		long creatorUserId = RandomTestUtil.randomLong();
 
 		JournalFolderProxy journalFolderProxy =
@@ -451,7 +451,7 @@ public class ResourcePermissionImplTest {
 	}
 
 	@Test
-	public void testDynamicInheritanceRolesGuestAsWildcard2() throws Exception {
+	public void testDynamicInheritanceRolesGuestAsWildcard() throws Exception {
 		long creatorUserId = RandomTestUtil.randomLong();
 
 		JournalFolderProxy journalFolderProxy1 =
@@ -480,7 +480,7 @@ public class ResourcePermissionImplTest {
 	}
 
 	@Test
-	public void testDynamicInheritanceRolesGuestAsWildcard3() throws Exception {
+	public void testDynamicInheritanceRolesTwoGuestAsWildcard() throws Exception {
 		long creatorUserId = RandomTestUtil.randomLong();
 
 		JournalFolderProxy journalFolderProxy1 =
