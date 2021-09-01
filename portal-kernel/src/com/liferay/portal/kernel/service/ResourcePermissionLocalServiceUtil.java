@@ -477,7 +477,7 @@ public class ResourcePermissionLocalServiceUtil {
 			String resourcePrimKey, String primKey, String actionId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return getService().getFlattenedInheritanceRoleIds(
+		return getService().getInheritedRoleIdCombinations(
 			companyId, groupId, name, scope, resourcePrimKey, primKey,
 			actionId);
 	}
@@ -488,7 +488,7 @@ public class ResourcePermissionLocalServiceUtil {
 			String primKey, String actionId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return getService().getFlattenedInheritanceRoleIds(
+		return getService().getInheritedRoleIdCombinations(
 			companyId, groupId, name, scope, primKey, actionId);
 	}
 

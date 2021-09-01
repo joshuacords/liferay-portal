@@ -430,13 +430,13 @@ public interface ResourcePermissionLocalService
 		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Set<Set<String>> getFlattenedInheritanceRoleIds(
+	public Set<Set<String>> getInheritedRoleIdCombinations(
 		long companyId, long groupId, String name, int scope,
 		String resourcePrimKey, String primKey, String actionId)
 		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public Set<Set<String>> getFlattenedInheritanceRoleIds(
+	public Set<Set<String>> getInheritedRoleIdCombinations(
 		long companyId, long groupId, String name, int scope, String primKey,
 		String actionId)
 		throws PortalException;

@@ -513,23 +513,23 @@ public class ResourcePermissionLocalServiceWrapper
 	}
 
 	@Override
-	public Set<Set<String>> getFlattenedInheritanceRoleIds(
+	public Set<Set<String>> getInheritedRoleIdCombinations(
 		long companyId, long groupId, String name, int scope,
 		String resourcePrimKey, String primKey,	String actionId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _resourcePermissionLocalService.getFlattenedInheritanceRoleIds(
+		return _resourcePermissionLocalService.getInheritedRoleIdCombinations(
 			companyId, groupId, name, scope, resourcePrimKey, primKey,
 			actionId);
 	}
 
 	@Override
-	public Set<Set<String>> getFlattenedInheritanceRoleIds(
+	public Set<Set<String>> getInheritedRoleIdCombinations(
 		long companyId, long groupId, String name, int scope, String primKey,
 		String actionId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _resourcePermissionLocalService.getFlattenedInheritanceRoleIds(
+		return _resourcePermissionLocalService.getInheritedRoleIdCombinations(
 			companyId, groupId, name, scope, primKey, actionId);
 	}
 
