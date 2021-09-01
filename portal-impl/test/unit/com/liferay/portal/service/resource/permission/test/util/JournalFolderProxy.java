@@ -30,40 +30,42 @@ import jodd.util.StringUtil;
 public class JournalFolderProxy {
 
 	public JournalFolderProxy(
-		ResourceActionLocalService resourceActionLocalService,
-		RoleProxyFactory roleProxyFactory,
-		ResourceAction viewFolderResourceAction,
-		String[] roleNamesWithViewPermission, long ownerUserId,
-		JournalFolderProxy journalFolderProxy)
-		throws Exception {
-
-		this(resourceActionLocalService, roleProxyFactory, null,
-			viewFolderResourceAction, new String[0], roleNamesWithViewPermission,
-			ownerUserId, journalFolderProxy);
-	}
-
-	public JournalFolderProxy(
-		ResourceActionLocalService resourceActionLocalService,
-		RoleProxyFactory roleProxyFactory,
-		ResourceAction accessFolderResourceAction,
-		ResourceAction viewFolderResourceAction,
-		String[] roleNamesWithAccessPermission,
-		String[] roleNamesWithViewPermission, long ownerUserId,
-		JournalFolderProxy journalFolderProxy)
+			ResourceActionLocalService resourceActionLocalService,
+			RoleProxyFactory roleProxyFactory,
+			ResourceAction accessFolderResourceAction,
+			ResourceAction viewFolderResourceAction,
+			String[] roleNamesWithAccessPermission,
+			String[] roleNamesWithViewPermission, long ownerUserId,
+			JournalFolderProxy journalFolderProxy)
 		throws Exception {
 
 		_resourceActionLocalService = resourceActionLocalService;
+		_roleProxyFactory = roleProxyFactory;
 		_accessFolderResourceAction = accessFolderResourceAction;
 		_viewFolderResourceAction = viewFolderResourceAction;
-		_roleProxyFactory = roleProxyFactory;
 		_roleNamesWithAccessPermission = roleNamesWithAccessPermission;
 		_roleNamesWithViewPermission = roleNamesWithViewPermission;
+
 		_userId = ownerUserId;
 
 		_resourcePrimKey = StringUtil.toString(RandomTestUtil.randomLong());
 
 		_createTreePath(journalFolderProxy);
 		_mockRolesPermissions();
+	}
+
+	public JournalFolderProxy(
+			ResourceActionLocalService resourceActionLocalService,
+			RoleProxyFactory roleProxyFactory,
+			ResourceAction viewFolderResourceAction,
+			String[] roleNamesWithViewPermission, long ownerUserId,
+			JournalFolderProxy journalFolderProxy)
+		throws Exception {
+
+		this(
+			resourceActionLocalService, roleProxyFactory, null,
+			viewFolderResourceAction, new String[0],
+			roleNamesWithViewPermission, ownerUserId, journalFolderProxy);
 	}
 
 	public String getResourcePrimKey() {
@@ -109,6 +111,7 @@ public class JournalFolderProxy {
 	private static final String _CLASS_NAME_JOURNAL_FOLDER =
 		"com.liferay.journal.model.JournalFolder";
 
+	private final ResourceAction _accessFolderResourceAction;
 	private final ResourceActionLocalService _resourceActionLocalService;
 	private final String _resourcePrimKey;
 	private final String[] _roleNamesWithAccessPermission;
@@ -118,7 +121,6 @@ public class JournalFolderProxy {
 	private final List<Role> _rolesWithViewPermission = new ArrayList<>();
 	private String _treePath;
 	private final long _userId;
-	private final ResourceAction _accessFolderResourceAction;
 	private final ResourceAction _viewFolderResourceAction;
 
 }

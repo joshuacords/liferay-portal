@@ -70,8 +70,19 @@ public class JournalProxyFactory {
 
 		return new JournalFolderProxy(
 			_resourceActionLocalService, _roleProxyFactory,
-			_viewFolderResourceAction,
-			roleNames, ownerUserId, journalFolderProxy);
+			_viewFolderResourceAction, roleNames, ownerUserId,
+			journalFolderProxy);
+	}
+
+	public JournalFolderProxy createJournalFolderProxy(
+			JournalFolderProxy journalFolderProxy, long ownerUserId,
+			String[] accessRoleNames, String[] viewRoleNames)
+		throws Exception {
+
+		return new JournalFolderProxy(
+			_resourceActionLocalService, _roleProxyFactory,
+			_accessFolderResourceAction, _viewFolderResourceAction,
+			accessRoleNames, viewRoleNames, ownerUserId, journalFolderProxy);
 	}
 
 	public JournalFolderProxy createJournalFolderProxy(
@@ -80,24 +91,11 @@ public class JournalProxyFactory {
 
 		return new JournalFolderProxy(
 			_resourceActionLocalService, _roleProxyFactory,
-			_viewFolderResourceAction,
-			roleNames, ownerUserId, null);
+			_viewFolderResourceAction, roleNames, ownerUserId, null);
 	}
 
 	public JournalFolderProxy createJournalFolderProxy(
-		JournalFolderProxy journalFolderProxy, long ownerUserId,
-		String[] accessRoleNames, String[] viewRoleNames)
-		throws Exception {
-
-		return new JournalFolderProxy(
-			_resourceActionLocalService, _roleProxyFactory,
-			_accessFolderResourceAction, _viewFolderResourceAction,
-			accessRoleNames, viewRoleNames, ownerUserId,
-			journalFolderProxy);
-	}
-
-	public JournalFolderProxy createJournalFolderProxy(
-		long ownerUserId, String[] accessRoleNames, String[] viewRoleNames)
+			long ownerUserId, String[] accessRoleNames, String[] viewRoleNames)
 		throws Exception {
 
 		return new JournalFolderProxy(
@@ -140,21 +138,22 @@ public class JournalProxyFactory {
 		);
 	}
 
+	private static final String _ACCESS_ACTION_ID = ActionKeys.ACCESS;
+
 	private static final String _CLASS_NAME_JOURNAL_ARTICLE =
 		"com.liferay.journal.model.JournalArticle";
 
 	private static final String _CLASS_NAME_JOURNAL_FOLDER =
 		"com.liferay.journal.model.JournalFolder";
 
-	private static final String _ACCESS_ACTION_ID = ActionKeys.ACCESS;
 	private static final String _VIEW_ACTION_ID = ActionKeys.VIEW;
 
+	private ResourceAction _accessFolderResourceAction;
 	private final long _companyId;
 	private final PersistedModelLocalService
 		_journalArticlePersistedModelLocalService;
 	private final ResourceActionLocalService _resourceActionLocalService;
 	private final RoleProxyFactory _roleProxyFactory;
-	private ResourceAction _accessFolderResourceAction;
 	private ResourceAction _viewArticleResourceAction;
 	private ResourceAction _viewFolderResourceAction;
 

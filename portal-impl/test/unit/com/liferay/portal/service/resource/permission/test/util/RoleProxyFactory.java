@@ -94,23 +94,25 @@ public class RoleProxyFactory {
 	}
 
 	public void mockResourceActionWithRolesOnAsset(
-		ResourceAction viewResourceAction, List<Role> roles, String className,
-		String resourcePrimKey, String primKey,
-		long userId)
+			ResourceAction viewResourceAction, List<Role> roles,
+			String className, String resourcePrimKey, String primKey,
+			long userId)
 		throws Exception {
 
 		_mockResourcePermissionsForRoles(
-			null, viewResourceAction, new ArrayList<>(), roles,
-			className, resourcePrimKey, primKey, userId);
+			null, viewResourceAction, new ArrayList<>(), roles, className,
+			resourcePrimKey, primKey, userId);
 
 		_mockRoleLocalServiceForRoles(roles);
 	}
 
 	public void mockResourceActionWithRolesOnAsset(
-		ResourceAction accessResourceAction, ResourceAction viewResourceAction,
-		List<Role> rolesWithAccessResourceAction,
-		List<Role> rolesWithViewResourceAction, String className,
-		String resourcePrimKey, String primKey, long userId) throws Exception {
+			ResourceAction accessResourceAction,
+			ResourceAction viewResourceAction,
+			List<Role> rolesWithAccessResourceAction,
+			List<Role> rolesWithViewResourceAction, String className,
+			String resourcePrimKey, String primKey, long userId)
+		throws Exception {
 
 		_mockResourcePermissionsForRoles(
 			accessResourceAction, viewResourceAction,
@@ -122,25 +124,23 @@ public class RoleProxyFactory {
 	}
 
 	private void _mockResourcePermissionsForRoles(
-		ResourceAction accessResourceAction,
-		ResourceAction viewResourceAction,
-		List<Role> accessRoles,
-		List<Role> viewRoles,
-		String className,
-		String resourcePrimKey, String primKey, long userId)
+			ResourceAction accessResourceAction,
+			ResourceAction viewResourceAction, List<Role> accessRoles,
+			List<Role> viewRoles, String className, String resourcePrimKey,
+			String primKey, long userId)
 		throws Exception {
 
 		List<ResourcePermission> resourcePermissions = new ArrayList<>();
 
 		resourcePermissions.addAll(
 			_mockResourcePermissionsForRolesWithResourceAction(
-				accessResourceAction, accessRoles, className, resourcePrimKey, primKey,
-				userId));
+				accessResourceAction, accessRoles, className, resourcePrimKey,
+				primKey, userId));
 
 		resourcePermissions.addAll(
 			_mockResourcePermissionsForRolesWithResourceAction(
-				viewResourceAction, viewRoles, className, resourcePrimKey, primKey,
-				userId));
+				viewResourceAction, viewRoles, className, resourcePrimKey,
+				primKey, userId));
 
 		Mockito.doReturn(
 			resourcePermissions
@@ -151,9 +151,11 @@ public class RoleProxyFactory {
 		);
 	}
 
-	private List<ResourcePermission> _mockResourcePermissionsForRolesWithResourceAction(
-		ResourceAction resourceAction, List<Role> roles, String className,
-		String resourcePrimKey, String primKey, long userId)
+	private List<ResourcePermission>
+			_mockResourcePermissionsForRolesWithResourceAction(
+				ResourceAction resourceAction, List<Role> roles,
+				String className, String resourcePrimKey, String primKey,
+				long userId)
 		throws Exception {
 
 		List<ResourcePermission> resourcePermissions = new ArrayList<>();
