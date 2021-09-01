@@ -2118,13 +2118,35 @@ public class ResourcePermissionLocalServiceImpl
 			return null;
 		}
 
-		for (Set<String> roleIdSetWithAccessPreviously :
-				roleIdSetsWithAccessPreviously) {
+		List<Set<String>> newCombinations = new ArrayList<>();
+
+		Iterator<Set<String>> accessPreviouslyIterator =
+			roleIdSetsWithAccessPreviously.iterator();
+
+		while (accessPreviouslyIterator.hasNext()) {
+			Set<String> currentRoleIdSet =
+				accessPreviouslyIterator.next();
+
+			List<Set<String>> roleIdSetWithAccessPreviouslyCopies =
+				new ArrayList<>(roleIdsToCombine.size());
 
 			for (String roleIdToCombine : roleIdsToCombine) {
-				roleIdSetWithAccessPreviously.add(roleIdToCombine);
+				Set<String> roleIdSetWithAccessPreviouslyCopy =
+					new HashSet<>(currentRoleIdSet);
+
+				roleIdSetWithAccessPreviouslyCopy.add(roleIdToCombine);
+
+				roleIdSetWithAccessPreviouslyCopies.add(
+					roleIdSetWithAccessPreviouslyCopy);
 			}
+
+			newCombinations.addAll(
+				roleIdSetWithAccessPreviouslyCopies);
+
+			accessPreviouslyIterator.remove();
 		}
+
+		roleIdSetsWithAccessPreviously.addAll(newCombinations);
 
 		return roleIdSetsWithAccessPreviously;
 	}
@@ -2211,6 +2233,16 @@ public class ResourcePermissionLocalServiceImpl
 			companyId, groupId, className, classPK, roles,
 			roleIdSetsWithPermission, guestRole);
 
+		Role ownerRole =
+			roleLocalService.fetchRole(companyId, RoleConstants.OWNER);
+
+		Set<String> ownerRoleIds = new HashSet<>();
+
+		if (roles.contains(ownerRole)) {
+			ownerRoleIds.add(_roleToRoleId(companyId, groupId, className,
+				classPK, ownerRole));
+		}
+
 		boolean guestRoleHasPermission = roles.contains(guestRole);
 
 		for (int i = parentFolderIds.length - 1; !roles.isEmpty() && (i > 0);
@@ -2238,6 +2270,10 @@ public class ResourcePermissionLocalServiceImpl
 						companyId, groupId, baseChildModel.getParentClassName(),
 						GetterUtil.getLong(parentFolderIds[i]), folderRole);
 
+					if (folderRole.getRoleId() == ownerRole.getRoleId()) {
+						ownerRoleIds.add(folderRoleId);
+					}
+
 					Set<String> folderRoleIdSet = new HashSet<>();
 
 					folderRoleIdSet.add(folderRoleId);
@@ -2262,9 +2298,6 @@ public class ResourcePermissionLocalServiceImpl
 
 			roleIdSetsWithPermission.clear();
 
-			//what if folder has only guest role - it fails because new roles
-			//are added to combine and then disappear
-
 			for (Role folderRole : folderRoles) {
 				if (folderRole.getRoleId() == guestRole.getRoleId()) {
 					continue;
@@ -2273,6 +2306,10 @@ public class ResourcePermissionLocalServiceImpl
 				String folderRoleId = _roleToRoleId(
 					companyId, groupId,  baseChildModel.getParentClassName(),
 					GetterUtil.getLong(parentFolderIds[i]), folderRole);
+
+				if (folderRole.getRoleId() == ownerRole.getRoleId()) {
+					ownerRoleIds.add(folderRoleId);
+				}
 
 				boolean roleHasAccess = false;
 
@@ -2325,7 +2362,42 @@ public class ResourcePermissionLocalServiceImpl
 			roleIdSetsWithPermission.add(guestRoleIdSet);
 		}
 
+		_removeConflictingOwnerRoleCombos(
+			roleIdSetsWithPermission, ownerRoleIds);
+
 		return roleIdSetsWithPermission;
+	}
+
+	private void _removeConflictingOwnerRoleCombos(
+		List<Set<String>> roleIdSets, Set<String> ownerRoleIds) {
+
+		String[] ownerRoleIdsArray = ownerRoleIds.toArray(new String[0]);
+
+		for (int i = 0; i < ownerRoleIdsArray.length; i++) {
+			for (int j = i + 1; j < ownerRoleIdsArray.length; j++) {
+				_removeConflictingOwnerRoleCombo(
+					roleIdSets, ownerRoleIdsArray[i], ownerRoleIdsArray[j]);
+			}
+		}
+	}
+
+	private void _removeConflictingOwnerRoleCombo(
+		List<Set<String>> roleIdSets, String ownerRoleId1,
+		String ownerRoleId2) {
+
+		Iterator<Set<String>> roleIdSetsIterator =
+			roleIdSets.iterator();
+
+		while (roleIdSetsIterator.hasNext()) {
+			Set<String> roleIdSet =
+				roleIdSetsIterator.next();
+
+			if (roleIdSet.contains(ownerRoleId1) &&
+				roleIdSet.contains(ownerRoleId2)) {
+
+				roleIdSetsIterator.remove();
+			}
+		}
 	}
 
 	private void _initPortletDefaultPermissions(
