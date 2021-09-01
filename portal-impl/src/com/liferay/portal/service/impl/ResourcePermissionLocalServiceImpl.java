@@ -2107,48 +2107,45 @@ public class ResourcePermissionLocalServiceImpl
 		}
 	}
 
-	private List<Set<String>>
-		_crossCombineRoleIdsWithAccessPreviouslyWithRoleIdsToCombine(
-			List<Set<String>> roleIdSetsWithAccessPreviously,
-			List<String> roleIdsToCombine) {
+	private List<Set<String>> _crossCombinePreviousRoleIdSetWithNewRoleIds(
+			List<Set<String>> previousRoleIdSets, List<String> newRoleIds) {
 
-		if (roleIdSetsWithAccessPreviously.isEmpty() ||
-			roleIdsToCombine.isEmpty()) {
+		if (previousRoleIdSets.isEmpty() ||
+			newRoleIds.isEmpty()) {
 
 			return null;
 		}
 
-		List<Set<String>> newCombinations = new ArrayList<>();
+		List<Set<String>> newRoleIdSetCombinations = new ArrayList<>();
 
-		Iterator<Set<String>> accessPreviouslyIterator =
-			roleIdSetsWithAccessPreviously.iterator();
+		Iterator<Set<String>> previousRoleIdSetIterator =
+			previousRoleIdSets.iterator();
 
-		while (accessPreviouslyIterator.hasNext()) {
+		while (previousRoleIdSetIterator.hasNext()) {
 			Set<String> currentRoleIdSet =
-				accessPreviouslyIterator.next();
+				previousRoleIdSetIterator.next();
 
-			List<Set<String>> roleIdSetWithAccessPreviouslyCopies =
-				new ArrayList<>(roleIdsToCombine.size());
+			List<Set<String>> previousRoleIdSetsCopies =
+				new ArrayList<>(newRoleIds.size());
 
-			for (String roleIdToCombine : roleIdsToCombine) {
-				Set<String> roleIdSetWithAccessPreviouslyCopy =
+			for (String newRoleId : newRoleIds) {
+				Set<String> previousRoleIdSetCopy =
 					new HashSet<>(currentRoleIdSet);
 
-				roleIdSetWithAccessPreviouslyCopy.add(roleIdToCombine);
+				previousRoleIdSetCopy.add(newRoleId);
 
-				roleIdSetWithAccessPreviouslyCopies.add(
-					roleIdSetWithAccessPreviouslyCopy);
+				previousRoleIdSetsCopies.add(
+					previousRoleIdSetCopy);
 			}
 
-			newCombinations.addAll(
-				roleIdSetWithAccessPreviouslyCopies);
+			newRoleIdSetCombinations.addAll(previousRoleIdSetsCopies);
 
-			accessPreviouslyIterator.remove();
+			previousRoleIdSetIterator.remove();
 		}
 
-		roleIdSetsWithAccessPreviously.addAll(newCombinations);
+		previousRoleIdSets.addAll(newRoleIdSetCombinations);
 
-		return roleIdSetsWithAccessPreviously;
+		return previousRoleIdSets;
 	}
 
 	private BaseChildModel _getChildModel(String className, Long classPK) {
@@ -2345,7 +2342,7 @@ public class ResourcePermissionLocalServiceImpl
 			}
 
 			Optional.ofNullable(
-				_crossCombineRoleIdsWithAccessPreviouslyWithRoleIdsToCombine(
+				_crossCombinePreviousRoleIdSetWithNewRoleIds(
 					roleIdSetsWithPermissionPreviously, roleIdsToCombine)
 			).ifPresent(
 				roleIdSetsWithPermission::addAll
