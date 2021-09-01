@@ -134,13 +134,11 @@ public class RoleProxyFactory {
 
 		resourcePermissions.addAll(
 			_mockResourcePermissionsForRolesWithResourceAction(
-				accessResourceAction, accessRoles, className, resourcePrimKey,
-				primKey, userId));
+				accessResourceAction, accessRoles, className, primKey, userId));
 
 		resourcePermissions.addAll(
 			_mockResourcePermissionsForRolesWithResourceAction(
-				viewResourceAction, viewRoles, className, resourcePrimKey,
-				primKey, userId));
+				viewResourceAction, viewRoles, className, primKey, userId));
 
 		Mockito.doReturn(
 			resourcePermissions
@@ -154,8 +152,7 @@ public class RoleProxyFactory {
 	private List<ResourcePermission>
 			_mockResourcePermissionsForRolesWithResourceAction(
 				ResourceAction resourceAction, List<Role> roles,
-				String className, String resourcePrimKey, String primKey,
-				long userId)
+				String className, String primKey, long userId)
 		throws Exception {
 
 		List<ResourcePermission> resourcePermissions = new ArrayList<>();
