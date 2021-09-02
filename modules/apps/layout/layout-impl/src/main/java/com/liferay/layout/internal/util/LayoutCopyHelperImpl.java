@@ -139,6 +139,12 @@ public class LayoutCopyHelperImpl implements LayoutCopyHelper {
 			Layout sourceLayout, Layout targetLayout)
 		throws Exception {
 
+		if (Objects.equals(
+				sourceLayout.getType(), LayoutConstants.TYPE_PORTLET)) {
+
+			return;
+		}
+
 		long classNameId = _portal.getClassNameId(Layout.class);
 
 		LayoutPageTemplateStructure layoutPageTemplateStructure =
