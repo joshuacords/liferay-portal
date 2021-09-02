@@ -484,6 +484,27 @@ public class ResourcePermissionLocalServiceUtil {
 		return getService().getIndividualPortletResourcePermissions(companyId);
 	}
 
+	public static
+	java.util.Set<java.util.Set<String>> getFlattenedInheritanceRoleIds(
+		long companyId, long groupId, String name, int scope,
+		String resourcePrimKey, String primKey, String actionId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().getInheritedRoleIdCombinations(
+			companyId, groupId, name, scope, resourcePrimKey, primKey,
+			actionId);
+	}
+
+	public static
+	java.util.Set<java.util.Set<String>> getFlattenedInheritanceRoleIds(
+		long companyId, long groupId, String name, int scope,
+		String primKey, String actionId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return getService().getInheritedRoleIdCombinations(
+			companyId, groupId, name, scope, primKey, actionId);
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *
