@@ -224,6 +224,10 @@ export const updateField = (
 	propertyName,
 	propertyValue
 ) => {
+	if (field[propertyName] === propertyValue) {
+		return field;
+	}
+
 	if (propertyName === 'dataType') {
 		field = {
 			...field,
