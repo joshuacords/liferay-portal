@@ -594,7 +594,7 @@ public class ResourcePermissionImplTest {
 
 			_appendRoleSets(actualRoleIdSets, sb);
 
-			throw new Exception(sb.toString());
+			throw new AssertionError(sb.toString());
 		}
 
 		for (Set<String> expectedRoleIdSet : expectedRoleIdSets) {
@@ -615,7 +615,7 @@ public class ResourcePermissionImplTest {
 
 				sb.append("]");
 
-				throw new Exception(sb.toString());
+				throw new AssertionError(sb.toString());
 			}
 		}
 	}
