@@ -823,8 +823,8 @@ public class ResourcePermissionLocalServiceImpl
 
 	@Override
 	public Set<Set<String>> getInheritedRoleIdCombinations(
-		long companyId, long groupId, String name, int scope,
-		String resourcePrimKey, String actionId)
+			long companyId, long groupId, String name, int scope,
+			String resourcePrimKey, String actionId)
 		throws PortalException {
 
 		return getInheritedRoleIdCombinations(
@@ -834,8 +834,8 @@ public class ResourcePermissionLocalServiceImpl
 
 	@Override
 	public Set<Set<String>> getInheritedRoleIdCombinations(
-		long companyId, long groupId, String className, int scope,
-		String resourcePrimKey, String primKey, String actionId)
+			long companyId, long groupId, String className, int scope,
+			String resourcePrimKey, String primKey, String actionId)
 		throws PortalException {
 
 		Long classPK = GetterUtil.getLong(primKey);
@@ -902,7 +902,7 @@ public class ResourcePermissionLocalServiceImpl
 				GetterUtil.getLong(primKey), baseRoles);
 
 		if (_containsGuestRoleId(
-			inheritanceViewRoleIdCombinations, companyId)) {
+				inheritanceViewRoleIdCombinations, companyId)) {
 
 			return _guestRoleIdSet(companyId);
 		}
@@ -1885,8 +1885,8 @@ public class ResourcePermissionLocalServiceImpl
 	}
 
 	protected boolean isOwnerRoleId(long companyId, long roleId) {
-		Role ownerRole =
-			roleLocalService.fetchRole(companyId, RoleConstants.OWNER);
+		Role ownerRole = roleLocalService.fetchRole(
+			companyId, RoleConstants.OWNER);
 
 		if ((ownerRole != null) && (roleId == ownerRole.getRoleId())) {
 			return true;
@@ -2067,8 +2067,8 @@ public class ResourcePermissionLocalServiceImpl
 	}
 
 	private Set<Set<String>> _assignStartingRoleIds(
-		long companyId, long groupId, String className, long classPK,
-		List<Role> roles)
+			long companyId, long groupId, String className, long classPK,
+			List<Role> roles)
 		throws PortalException {
 
 		Role guestRole = roleLocalService.getRole(
@@ -2092,18 +2092,15 @@ public class ResourcePermissionLocalServiceImpl
 		return roleIdSets;
 	}
 
-	private void _combineNewRolesWithPreviousRoles(
-		Set<Set<String>> roleIdSetsWithPermission, List<Role> roles,
-		Set<String> ownerRoleIds, long companyId, long groupId,
-		String className, long classPK)
+	private Set<Set<String>> _combineNewRolesWithPreviousRoles(
+			Set<Set<String>> roleIdSetsWithPermission, List<Role> roles,
+			Set<String> ownerRoleIds, long companyId, long groupId,
+			String className, long classPK)
 		throws PortalException {
 
 		Set<String> roleIdsToCombine = new HashSet<>();
 
-		Set<Set<String>> roleIdSetsWithPermissionPreviously = new HashSet<>(
-			roleIdSetsWithPermission);
-
-		roleIdSetsWithPermission.clear();
+		Set<Set<String>> newRoleIdSetsWithPermission = new HashSet<>();
 
 		Role guestRole = roleLocalService.getRole(
 			companyId, RoleConstants.GUEST);
@@ -2125,17 +2122,16 @@ public class ResourcePermissionLocalServiceImpl
 
 			boolean roleHasPermission = false;
 
-			Iterator<Set<String>> permissionPreviouslyIdIterator =
-				roleIdSetsWithPermissionPreviously.iterator();
+			Iterator<Set<String>> roleIdPermissionIterator =
+				roleIdSetsWithPermission.iterator();
 
-			while (permissionPreviouslyIdIterator.hasNext()) {
-				Set<String> currentRoleIdSet =
-					permissionPreviouslyIdIterator.next();
+			while (roleIdPermissionIterator.hasNext()) {
+				Set<String> currentRoleIdSet = roleIdPermissionIterator.next();
 
 				if (currentRoleIdSet.contains(folderRoleId)) {
-					roleIdSetsWithPermission.add(currentRoleIdSet);
+					newRoleIdSetsWithPermission.add(currentRoleIdSet);
 
-					permissionPreviouslyIdIterator.remove();
+					roleIdPermissionIterator.remove();
 
 					roleHasPermission = true;
 				}
@@ -2143,7 +2139,7 @@ public class ResourcePermissionLocalServiceImpl
 
 			if (!roleHasPermission) {
 				roleHasPermission = _roleIdExistsInRoleIdSetsWithPermission(
-					roleIdSetsWithPermission, folderRoleId);
+					newRoleIdSetsWithPermission, folderRoleId);
 			}
 
 			if (!roleHasPermission) {
@@ -2153,17 +2149,16 @@ public class ResourcePermissionLocalServiceImpl
 
 		Optional.ofNullable(
 			_crossCombineRoleIdSetWithNewRoleIds(
-				roleIdSetsWithPermissionPreviously, roleIdsToCombine)
+				roleIdSetsWithPermission, roleIdsToCombine)
 		).ifPresent(
-			roleIdSetsWithPermission::addAll
+			newRoleIdSetsWithPermission::addAll
 		);
 
-		roleIdsToCombine.clear();
+		return newRoleIdSetsWithPermission;
 	}
 
-
 	private boolean _containsGuestRoleId(
-		Set<Set<String>> roleIdSets, long companyId)
+			Set<Set<String>> roleIdSets, long companyId)
 		throws PortalException {
 
 		Role guestRole = roleLocalService.getRole(
@@ -2215,7 +2210,6 @@ public class ResourcePermissionLocalServiceImpl
 		return roleIdSets;
 	}
 
-
 	private BaseChildModel _getChildModel(String className, Long classPK) {
 		try {
 			PersistedModelLocalService persistedModelLocalService =
@@ -2232,7 +2226,7 @@ public class ResourcePermissionLocalServiceImpl
 			if (_log.isWarnEnabled()) {
 				_log.warn(
 					"No PersistedModelLocalService found for class " +
-					className,
+						className,
 					systemException);
 			}
 		}
@@ -2249,8 +2243,8 @@ public class ResourcePermissionLocalServiceImpl
 	}
 
 	private Set<Set<String>> _getInheritedViewRoleIdCombinations(
-		BaseChildModel baseChildModel, long companyId, long groupId,
-		String className, long classPK, List<Role> roles)
+			BaseChildModel baseChildModel, long companyId, long groupId,
+			String className, long classPK, List<Role> roles)
 		throws PortalException {
 
 		String[] parentFolderIds = StringUtil.split(
@@ -2304,9 +2298,9 @@ public class ResourcePermissionLocalServiceImpl
 
 			guestRoleHasPermission = false;
 
-			_combineNewRolesWithPreviousRoles(
-				roleIdSetsWithPermission, folderRoles, ownerRoleIds,
-				companyId, groupId, baseChildModel.getParentClassName(),
+			roleIdSetsWithPermission = _combineNewRolesWithPreviousRoles(
+				roleIdSetsWithPermission, folderRoles, ownerRoleIds, companyId,
+				groupId, baseChildModel.getParentClassName(),
 				GetterUtil.getLong(parentFolderIds[i]));
 		}
 
@@ -2330,7 +2324,7 @@ public class ResourcePermissionLocalServiceImpl
 		if (persistedModelLocalService == null) {
 			throw new SystemException(
 				"No persisted model local service found for class " +
-				className);
+					className);
 		}
 
 		return persistedModelLocalService;
@@ -2446,8 +2440,8 @@ public class ResourcePermissionLocalServiceImpl
 	}
 
 	private Set<Set<String>> _listToRoleIdCombinations(
-		long companyId, long groupId, String className, long classPK,
-		List<Role> roles)
+			long companyId, long groupId, String className, long classPK,
+			List<Role> roles)
 		throws PortalException {
 
 		Set<Set<String>> roleIdCombinationSet = new HashSet<>();
@@ -2599,8 +2593,8 @@ public class ResourcePermissionLocalServiceImpl
 	}
 
 	private String _roleToRoleId(
-		long companyId, long groupId, String className, long classPK,
-		Role role)
+			long companyId, long groupId, String className, long classPK,
+			Role role)
 		throws PortalException {
 
 		Role ownerRole = roleLocalService.getRole(
@@ -2617,7 +2611,7 @@ public class ResourcePermissionLocalServiceImpl
 				String.valueOf(classPK), ownerRole.getRoleId());
 
 			return resourcePermission.getOwnerId() + StringPool.DASH +
-				   role.getRoleId();
+				role.getRoleId();
 		}
 		else {
 			return String.valueOf(role.getRoleId());
@@ -2625,9 +2619,9 @@ public class ResourcePermissionLocalServiceImpl
 	}
 
 	private void _setRoleIdsToRoleIdPermissionSet(
-		Set<Set<String>> roleIdSetsWithPermission, List<Role> roles,
-		Set<String> ownerRoleIds, long companyId, long groupId,
-		String className, long classPK)
+			Set<Set<String>> roleIdSetsWithPermission, List<Role> roles,
+			Set<String> ownerRoleIds, long companyId, long groupId,
+			String className, long classPK)
 		throws PortalException {
 
 		roleIdSetsWithPermission.clear();
