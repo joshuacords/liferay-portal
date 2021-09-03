@@ -2309,16 +2309,13 @@ public class ResourcePermissionLocalServiceImpl
 				companyId, groupId, baseChildModel.getParentClassName(),
 				GetterUtil.getLong(parentFolderIds[i]));
 		}
-		_removeConflictingOwnerRoleCombos(
-			roleIdSetsWithPermission, ownerRoleIds);
 
 		if (guestRoleHasPermission) {
-			Set<String> guestRoleIdSet = new HashSet<>();
-
-			guestRoleIdSet.add(String.valueOf(guestRole.getRoleId()));
-
-			roleIdSetsWithPermission.add(guestRoleIdSet);
+			return _guestRoleIdSet(companyId);
 		}
+
+		_removeConflictingOwnerRoleCombos(
+			roleIdSetsWithPermission, ownerRoleIds);
 
 		return roleIdSetsWithPermission;
 	}
