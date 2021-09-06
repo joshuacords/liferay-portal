@@ -438,14 +438,14 @@ public interface ResourcePermissionLocalService
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Set<Set<String>> getInheritedRoleIdCombinations(
-		long companyId, long groupId, String name, int scope,
-		String resourcePrimKey, String primKey, String actionId)
+			long companyId, long groupId, String name, int scope,
+			String resourcePrimKey, String actionId)
 		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Set<Set<String>> getInheritedRoleIdCombinations(
-		long companyId, long groupId, String name, int scope, String primKey,
-		String actionId)
+			long companyId, long groupId, String className, int scope,
+			String resourcePrimKey, String primKey, String actionId)
 		throws PortalException;
 
 	/**

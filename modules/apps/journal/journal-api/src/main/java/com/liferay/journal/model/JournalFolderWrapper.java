@@ -338,16 +338,6 @@ public class JournalFolderWrapper
 		return model.getName();
 	}
 
-	/**
-	 * Returns the parent container model ID of this journal folder.
-	 *
-	 * @return the parent container model ID of this journal folder
-	 */
-	@Override
-	public long getParentContainerModelId() {
-		return model.getParentContainerModelId();
-	}
-
 	@Override
 	public String getParentClassName() {
 		return model.getParentClassName();
@@ -356,6 +346,16 @@ public class JournalFolderWrapper
 	@Override
 	public String getParentClassPK() {
 		return model.getParentClassPK();
+	}
+
+	/**
+	 * Returns the parent container model ID of this journal folder.
+	 *
+	 * @return the parent container model ID of this journal folder
+	 */
+	@Override
+	public long getParentContainerModelId() {
+		return model.getParentContainerModelId();
 	}
 
 	@Override

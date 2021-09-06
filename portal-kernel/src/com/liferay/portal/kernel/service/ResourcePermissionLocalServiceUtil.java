@@ -484,25 +484,23 @@ public class ResourcePermissionLocalServiceUtil {
 		return getService().getIndividualPortletResourcePermissions(companyId);
 	}
 
-	public static
-	java.util.Set<java.util.Set<String>> getFlattenedInheritanceRoleIds(
-		long companyId, long groupId, String name, int scope,
-		String resourcePrimKey, String primKey, String actionId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Set<Set<String>> getInheritedRoleIdCombinations(
+			long companyId, long groupId, String name, int scope,
+			String resourcePrimKey, String actionId)
+		throws PortalException {
 
 		return getService().getInheritedRoleIdCombinations(
-			companyId, groupId, name, scope, resourcePrimKey, primKey,
-			actionId);
+			companyId, groupId, name, scope, resourcePrimKey, actionId);
 	}
 
-	public static
-	java.util.Set<java.util.Set<String>> getFlattenedInheritanceRoleIds(
-		long companyId, long groupId, String name, int scope,
-		String primKey, String actionId)
-		throws com.liferay.portal.kernel.exception.PortalException {
+	public static Set<Set<String>> getInheritedRoleIdCombinations(
+			long companyId, long groupId, String className, int scope,
+			String resourcePrimKey, String primKey, String actionId)
+		throws PortalException {
 
 		return getService().getInheritedRoleIdCombinations(
-			companyId, groupId, name, scope, primKey, actionId);
+			companyId, groupId, className, scope, resourcePrimKey, primKey,
+			actionId);
 	}
 
 	/**

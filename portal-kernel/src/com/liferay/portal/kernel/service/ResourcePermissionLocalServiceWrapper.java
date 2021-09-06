@@ -18,8 +18,6 @@ import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.portal.kernel.model.ResourcePermission;
 import com.liferay.portal.kernel.service.persistence.change.tracking.CTPersistence;
 
-import java.util.Set;
-
 /**
  * Provides a wrapper for {@link ResourcePermissionLocalService}.
  *
@@ -529,24 +527,24 @@ public class ResourcePermissionLocalServiceWrapper
 	}
 
 	@Override
-	public Set<Set<String>> getInheritedRoleIdCombinations(
-		long companyId, long groupId, String name, int scope,
-		String resourcePrimKey, String primKey,	String actionId)
+	public java.util.Set<java.util.Set<String>> getInheritedRoleIdCombinations(
+			long companyId, long groupId, String name, int scope,
+			String resourcePrimKey, String actionId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _resourcePermissionLocalService.getInheritedRoleIdCombinations(
-			companyId, groupId, name, scope, resourcePrimKey, primKey,
-			actionId);
+			companyId, groupId, name, scope, resourcePrimKey, actionId);
 	}
 
 	@Override
-	public Set<Set<String>> getInheritedRoleIdCombinations(
-		long companyId, long groupId, String name, int scope, String primKey,
-		String actionId)
+	public java.util.Set<java.util.Set<String>> getInheritedRoleIdCombinations(
+			long companyId, long groupId, String className, int scope,
+			String resourcePrimKey, String primKey, String actionId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _resourcePermissionLocalService.getInheritedRoleIdCombinations(
-			companyId, groupId, name, scope, primKey, actionId);
+			companyId, groupId, className, scope, resourcePrimKey, primKey,
+			actionId);
 	}
 
 	/**
