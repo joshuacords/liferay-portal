@@ -56,67 +56,25 @@ public class SiteWorkflowTest {
 
 	@Before
 	public void setUp() throws Exception {
+		_companyId = TestPropsValues.getCompanyId();
+
 		_user = TestPropsValues.getUser();
 
 		UserTestUtil.setUser(TestPropsValues.getUser());
-
-		_companyId = TestPropsValues.getCompanyId();
 	}
 
 	@Test
 	public void testWorkflowPropagatedFromSiteTemplateOnPrivateSite()
 		throws Exception {
 
-		_layoutSetPrototype = LayoutTestUtil.addLayoutSetPrototype(
-			RandomTestUtil.randomString());
-
-		Group layoutSetPrototypeGroup =
-			_groupLocalService.getLayoutSetPrototypeGroup(
-				_companyId, _layoutSetPrototype.getLayoutSetPrototypeId());
-
-		_addWorkflowDefinitionLinkToSiteTemplate(
-			layoutSetPrototypeGroup.getGroupId());
-
-		Group privateGroup = GroupTestUtil.addGroup();
-
-		_updateGroupFromSiteTemplate(
-			privateGroup, String.valueOf(Boolean.TRUE));
-
-		Assert.assertEquals(
-			1, _getWorkflowDefinitionLinkCount(privateGroup.getGroupId()));
-
-		GroupTestUtil.deleteGroup(privateGroup);
-
-		Assert.assertEquals(
-			0, _getWorkflowDefinitionLinkCount(privateGroup.getGroupId()));
+		_assertWorkflowPropagatedFromSiteTemplate(true);
 	}
 
 	@Test
 	public void testWorkflowPropagatedFromSiteTemplateOnPublicSite()
 		throws Exception {
 
-		_layoutSetPrototype = LayoutTestUtil.addLayoutSetPrototype(
-			RandomTestUtil.randomString());
-
-		Group layoutSetPrototypeGroup =
-			_groupLocalService.getLayoutSetPrototypeGroup(
-				_companyId, _layoutSetPrototype.getLayoutSetPrototypeId());
-
-		_addWorkflowDefinitionLinkToSiteTemplate(
-			layoutSetPrototypeGroup.getGroupId());
-
-		Group publicGroup = GroupTestUtil.addGroup();
-
-		_updateGroupFromSiteTemplate(
-			publicGroup, String.valueOf(Boolean.FALSE));
-
-		Assert.assertEquals(
-			1, _getWorkflowDefinitionLinkCount(publicGroup.getGroupId()));
-
-		GroupTestUtil.deleteGroup(publicGroup);
-
-		Assert.assertEquals(
-			0, _getWorkflowDefinitionLinkCount(publicGroup.getGroupId()));
+		_assertWorkflowPropagatedFromSiteTemplate(false);
 	}
 
 	private void _addWorkflowDefinitionLinkToSiteTemplate(long groupId)
@@ -127,13 +85,40 @@ public class SiteWorkflowTest {
 			RandomTestUtil.randomString(), 0);
 	}
 
+	private void _assertWorkflowPropagatedFromSiteTemplate(
+			boolean layoutSetVisibilityPrivate)
+		throws Exception {
+
+		_layoutSetPrototype = LayoutTestUtil.addLayoutSetPrototype(
+			RandomTestUtil.randomString());
+
+		Group layoutSetPrototypeGroup =
+			_groupLocalService.getLayoutSetPrototypeGroup(
+				_companyId, _layoutSetPrototype.getLayoutSetPrototypeId());
+
+		_addWorkflowDefinitionLinkToSiteTemplate(
+			layoutSetPrototypeGroup.getGroupId());
+
+		Group group = GroupTestUtil.addGroup();
+
+		_updateGroupFromSiteTemplate(group, layoutSetVisibilityPrivate);
+
+		Assert.assertEquals(
+			1, _getWorkflowDefinitionLinkCount(group.getGroupId()));
+
+		GroupTestUtil.deleteGroup(group);
+
+		Assert.assertEquals(
+			0, _getWorkflowDefinitionLinkCount(group.getGroupId()));
+	}
+
 	private int _getWorkflowDefinitionLinkCount(long groupId) {
 		return _workflowDefinitionLinkLocalService.
 			getWorkflowDefinitionLinksCount(_companyId, groupId, null);
 	}
 
 	private void _updateGroupFromSiteTemplate(
-		Group group, String layoutSetVisibilityPrivate) {
+		Group group, boolean layoutSetVisibilityPrivate) {
 
 		MockLiferayPortletActionRequest actionRequest =
 			new MockLiferayPortletActionRequest();
@@ -144,7 +129,8 @@ public class SiteWorkflowTest {
 			"layoutSetPrototypeId",
 			String.valueOf(_layoutSetPrototype.getLayoutSetPrototypeId()));
 		actionRequest.addParameter(
-			"layoutSetVisibilityPrivate", layoutSetVisibilityPrivate);
+			"layoutSetVisibilityPrivate",
+			String.valueOf(layoutSetVisibilityPrivate));
 
 		MVCPortlet mvcPortlet = (MVCPortlet)_portlet;
 
@@ -154,8 +140,7 @@ public class SiteWorkflowTest {
 			group);
 	}
 
-	private static long _companyId;
-	private static User _user;
+	private long _companyId;
 
 	@Inject
 	private GroupLocalService _groupLocalService;
@@ -167,6 +152,8 @@ public class SiteWorkflowTest {
 		filter = "javax.portlet.name=com_liferay_site_admin_web_portlet_SiteAdminPortlet"
 	)
 	private Portlet _portlet;
+
+	private User _user;
 
 	@Inject
 	private WorkflowDefinitionLinkLocalService
