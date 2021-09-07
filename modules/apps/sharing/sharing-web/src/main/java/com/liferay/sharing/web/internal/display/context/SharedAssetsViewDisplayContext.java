@@ -276,7 +276,7 @@ public class SharedAssetsViewDisplayContext {
 			return StringPool.BLANK;
 		}
 
-		return sharingEntryInterpreter.getTitle(sharingEntry);
+		return HtmlUtil.escape(sharingEntryInterpreter.getTitle(sharingEntry));
 	}
 
 	public boolean isVisible(SharingEntry sharingEntry) throws PortalException {
