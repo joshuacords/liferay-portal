@@ -19,7 +19,6 @@ import com.liferay.osgi.service.tracker.collections.list.ServiceTrackerListFacto
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
-import com.liferay.portal.kernel.exception.NoSuchResourceException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
@@ -50,9 +49,8 @@ import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.Portal;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.search.configuration.SearchPermissionCheckerConfiguration;
-import com.liferay.portal.search.spi.model.permission.SearchPermissionFieldContributor;
+import com.liferay.portal.search.permission.SearchPermissionDocumentContributor;
 import com.liferay.portal.search.spi.model.permission.SearchPermissionFilterContributor;
 
 import java.io.Serializable;
@@ -87,61 +85,8 @@ public class SearchPermissionCheckerImpl implements SearchPermissionChecker {
 
 	@Override
 	public void addPermissionFields(long companyId, Document document) {
-		try {
-			long groupId = GetterUtil.getLong(document.get(Field.GROUP_ID));
-
-			String className = document.get(Field.ENTRY_CLASS_NAME);
-			String classPK = document.get(Field.ENTRY_CLASS_PK);
-
-			if (Validator.isNull(className) && Validator.isNull(classPK)) {
-				className = document.get(Field.ROOT_ENTRY_CLASS_NAME);
-				classPK = document.get(Field.ROOT_ENTRY_CLASS_PK);
-			}
-
-			boolean relatedEntry = GetterUtil.getBoolean(
-				document.get(Field.RELATED_ENTRY));
-
-			if (relatedEntry) {
-				long classNameId = GetterUtil.getLong(
-					document.get(Field.CLASS_NAME_ID));
-
-				if (classNameId == 0) {
-					return;
-				}
-
-				className = _portal.getClassName(classNameId);
-
-				classPK = document.get(Field.CLASS_PK);
-			}
-
-			if (Validator.isNull(className) || Validator.isNull(classPK)) {
-				return;
-			}
-
-			Indexer<?> indexer = _indexerRegistry.nullSafeGetIndexer(className);
-
-			if (!indexer.isPermissionAware()) {
-				return;
-			}
-
-			String viewActionId = document.get(Field.VIEW_ACTION_ID);
-
-			if (Validator.isNull(viewActionId)) {
-				viewActionId = ActionKeys.VIEW;
-			}
-
-			_addPermissionFields(
-				companyId, groupId, className, GetterUtil.getLong(classPK),
-				viewActionId, document);
-		}
-		catch (NoSuchResourceException noSuchResourceException) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(noSuchResourceException);
-			}
-		}
-		catch (Exception exception) {
-			_log.error(exception);
-		}
+		searchPermissionDocumentContributor.addPermissionFields(
+			companyId, document);
 	}
 
 	@Override
@@ -198,6 +143,20 @@ public class SearchPermissionCheckerImpl implements SearchPermissionChecker {
 				SearchPermissionCheckerConfiguration.class, properties);
 	}
 
+	protected PermissionChecker getPermissionChecker() {
+		if (permissionChecker != null) {
+			return permissionChecker;
+		}
+
+		return PermissionThreadLocal.getPermissionChecker();
+	}
+
+	protected PermissionChecker permissionChecker;
+
+	@Reference
+	protected SearchPermissionDocumentContributor
+		searchPermissionDocumentContributor;
+
 	private void _add(BooleanFilter booleanFilter, TermsFilter termsFilter) {
 		if (!termsFilter.isEmpty()) {
 			booleanFilter.add(termsFilter, BooleanClauseOccur.SHOULD);
@@ -212,46 +171,6 @@ public class SearchPermissionCheckerImpl implements SearchPermissionChecker {
 			usersGroupIdsRoles.add(
 				new UsersGroupIdRoles(group.getGroupId(), groupRoles));
 		}
-	}
-
-	private void _addPermissionFields(
-			long companyId, long groupId, String className, long classPK,
-			String viewActionId, Document document)
-		throws Exception {
-
-		for (SearchPermissionFieldContributor searchPermissionFieldContributor :
-				_searchPermissionFieldContributorRegistry.
-					getSearchPermissionFieldContributors()) {
-
-			searchPermissionFieldContributor.contribute(
-				document, className, classPK);
-		}
-
-		List<Role> roles = _resourcePermissionLocalService.getRoles(
-			companyId, className, ResourceConstants.SCOPE_INDIVIDUAL,
-			String.valueOf(classPK), viewActionId);
-
-		if (roles.isEmpty()) {
-			return;
-		}
-
-		List<Long> roleIds = new ArrayList<>();
-		List<String> groupRoleIds = new ArrayList<>();
-
-		for (Role role : roles) {
-			if ((role.getType() == RoleConstants.TYPE_ORGANIZATION) ||
-				(role.getType() == RoleConstants.TYPE_SITE)) {
-
-				groupRoleIds.add(groupId + StringPool.DASH + role.getRoleId());
-			}
-			else {
-				roleIds.add(role.getRoleId());
-			}
-		}
-
-		document.addKeyword(Field.ROLE_ID, roleIds.toArray(new Long[0]));
-		document.addKeyword(
-			Field.GROUP_ROLE_ID, groupRoleIds.toArray(new String[0]));
 	}
 
 	private SearchPermissionContext _createSearchPermissionContext(
@@ -580,9 +499,6 @@ public class SearchPermissionCheckerImpl implements SearchPermissionChecker {
 	private PermissionCheckerFactory _permissionCheckerFactory;
 
 	@Reference
-	private Portal _portal;
-
-	@Reference
 	private ResourcePermissionLocalService _resourcePermissionLocalService;
 
 	@Reference
@@ -590,11 +506,6 @@ public class SearchPermissionCheckerImpl implements SearchPermissionChecker {
 
 	private volatile SearchPermissionCheckerConfiguration
 		_searchPermissionCheckerConfiguration;
-
-	@Reference
-	private SearchPermissionFieldContributorRegistry
-		_searchPermissionFieldContributorRegistry;
-
 	private ServiceTrackerList<SearchPermissionFilterContributor>
 		_serviceTrackerList;
 
