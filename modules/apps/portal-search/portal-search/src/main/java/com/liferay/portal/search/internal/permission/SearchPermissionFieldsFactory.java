@@ -14,6 +14,8 @@
 
 package com.liferay.portal.search.internal.permission;
 
+import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
+import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapFactory;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.NoSuchResourceException;
@@ -27,7 +29,11 @@ import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.liferay.portal.search.spi.model.permission.SearchPermissionDefinition;
+import org.osgi.framework.BundleContext;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 
 /**
@@ -40,33 +46,48 @@ public class SearchPermissionFieldsFactory {
 		long companyId, long groupId, String className, long classPK,
 		String permissionName, String viewActionId) {
 
+		SearchPermissionFields searchPermissionFields = null;
+
+		SearchPermissionDefinition searchPermissionDefinition =
+			_serviceTrackerMap.getService(className);
+
+		if (searchPermissionDefinition != null) {
+			for (SearchPermissionDefinition.RoleContributor roleProvider :
+					searchPermissionDefinition.getRoleContributors()) {
+
+				searchPermissionFields = null;
+			}
+		}
+
+		if (searchPermissionFields != null) {
+			return searchPermissionFields;
+		}
+
 		try {
 			List<Role> roles = _resourcePermissionLocalService.getRoles(
 				companyId, permissionName, ResourceConstants.SCOPE_INDIVIDUAL,
 				String.valueOf(classPK), viewActionId);
 
-			if (roles.isEmpty()) {
-				return null;
-			}
+			if (!roles.isEmpty()) {
+				List<Long> roleIds = new ArrayList<>();
+				List<String> groupRoleIds = new ArrayList<>();
 
-			List<Long> roleIds = new ArrayList<>();
-			List<String> groupRoleIds = new ArrayList<>();
+				for (Role role : roles) {
+					if ((role.getType() == RoleConstants.TYPE_ORGANIZATION) ||
+						(role.getType() == RoleConstants.TYPE_SITE)) {
 
-			for (Role role : roles) {
-				if ((role.getType() == RoleConstants.TYPE_ORGANIZATION) ||
-					(role.getType() == RoleConstants.TYPE_SITE)) {
-
-					groupRoleIds.add(
-						groupId + StringPool.DASH + role.getRoleId());
+						groupRoleIds.add(
+							groupId + StringPool.DASH + role.getRoleId());
+					}
+					else {
+						roleIds.add(role.getRoleId());
+					}
 				}
-				else {
-					roleIds.add(role.getRoleId());
-				}
-			}
 
-			return new SearchPermissionFields(
-				roleIds.toArray(new Long[0]),
-				groupRoleIds.toArray(new String[0]));
+				searchPermissionFields = new SearchPermissionFields(
+					roleIds.toArray(new Long[0]),
+					groupRoleIds.toArray(new String[0]));
+			}
 		}
 		catch (NoSuchResourceException noSuchResourceException) {
 			if (_log.isDebugEnabled()) {
@@ -83,8 +104,28 @@ public class SearchPermissionFieldsFactory {
 			}
 		}
 
-		return null;
+		return searchPermissionFields;
 	}
+
+	@Activate
+	protected void activate(BundleContext bundleContext) {
+		_serviceTrackerMap = ServiceTrackerMapFactory.openSingleValueMap(
+			bundleContext, SearchPermissionDefinition.class, null,
+			(serviceReference, emitter) -> {
+				SearchPermissionDefinition searchPermissionDefinition =
+					bundleContext.getService(serviceReference);
+
+				emitter.emit(searchPermissionDefinition.getClassName());
+			});
+	}
+
+	@Deactivate
+	protected void deactivate() {
+		_serviceTrackerMap.close();
+	}
+
+	private ServiceTrackerMap<String, SearchPermissionDefinition>
+		_serviceTrackerMap;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		SearchPermissionFieldsFactory.class);
