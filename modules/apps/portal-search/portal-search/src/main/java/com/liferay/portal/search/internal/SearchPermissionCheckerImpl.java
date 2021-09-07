@@ -17,7 +17,6 @@ package com.liferay.portal.search.internal;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
-import com.liferay.portal.kernel.exception.NoSuchResourceException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
@@ -49,9 +48,8 @@ import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.Portal;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.search.configuration.SearchPermissionCheckerConfiguration;
-import com.liferay.portal.search.spi.model.permission.SearchPermissionFieldContributor;
+import com.liferay.portal.search.permission.SearchPermissionDocumentContributor;
 import com.liferay.portal.search.spi.model.permission.SearchPermissionFilterContributor;
 
 import java.io.Serializable;
@@ -88,61 +86,8 @@ public class SearchPermissionCheckerImpl implements SearchPermissionChecker {
 
 	@Override
 	public void addPermissionFields(long companyId, Document document) {
-		try {
-			long groupId = GetterUtil.getLong(document.get(Field.GROUP_ID));
-
-			String className = document.get(Field.ENTRY_CLASS_NAME);
-			String classPK = document.get(Field.ENTRY_CLASS_PK);
-
-			if (Validator.isNull(className) && Validator.isNull(classPK)) {
-				className = document.get(Field.ROOT_ENTRY_CLASS_NAME);
-				classPK = document.get(Field.ROOT_ENTRY_CLASS_PK);
-			}
-
-			boolean relatedEntry = GetterUtil.getBoolean(
-				document.get(Field.RELATED_ENTRY));
-
-			if (relatedEntry) {
-				long classNameId = GetterUtil.getLong(
-					document.get(Field.CLASS_NAME_ID));
-
-				if (classNameId == 0) {
-					return;
-				}
-
-				className = portal.getClassName(classNameId);
-
-				classPK = document.get(Field.CLASS_PK);
-			}
-
-			if (Validator.isNull(className) || Validator.isNull(classPK)) {
-				return;
-			}
-
-			Indexer<?> indexer = indexerRegistry.nullSafeGetIndexer(className);
-
-			if (!indexer.isPermissionAware()) {
-				return;
-			}
-
-			String viewActionId = document.get(Field.VIEW_ACTION_ID);
-
-			if (Validator.isNull(viewActionId)) {
-				viewActionId = ActionKeys.VIEW;
-			}
-
-			_addPermissionFields(
-				companyId, groupId, className, GetterUtil.getLong(classPK),
-				viewActionId, document);
-		}
-		catch (NoSuchResourceException noSuchResourceException) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(noSuchResourceException, noSuchResourceException);
-			}
-		}
-		catch (Exception exception) {
-			_log.error(exception, exception);
-		}
+		searchPermissionDocumentContributor.addPermissionFields(
+			companyId, document);
 	}
 
 	@Override
@@ -190,18 +135,6 @@ public class SearchPermissionCheckerImpl implements SearchPermissionChecker {
 		policy = ReferencePolicy.DYNAMIC,
 		policyOption = ReferencePolicyOption.GREEDY
 	)
-	protected void addSearchPermissionFieldContributor(
-		SearchPermissionFieldContributor searchPermissionFieldContributor) {
-
-		_searchPermissionFieldContributors.add(
-			searchPermissionFieldContributor);
-	}
-
-	@Reference(
-		cardinality = ReferenceCardinality.MULTIPLE,
-		policy = ReferencePolicy.DYNAMIC,
-		policyOption = ReferencePolicyOption.GREEDY
-	)
 	protected void addSearchPermissionFilterContributor(
 		SearchPermissionFilterContributor searchPermissionFilterContributor) {
 
@@ -215,13 +148,6 @@ public class SearchPermissionCheckerImpl implements SearchPermissionChecker {
 		}
 
 		return PermissionThreadLocal.getPermissionChecker();
-	}
-
-	protected void removeSearchPermissionFieldContributor(
-		SearchPermissionFieldContributor searchPermissionFieldContributor) {
-
-		_searchPermissionFieldContributors.remove(
-			searchPermissionFieldContributor);
 	}
 
 	protected void removeSearchPermissionFilterContributor(
@@ -255,6 +181,10 @@ public class SearchPermissionCheckerImpl implements SearchPermissionChecker {
 		searchPermissionCheckerConfiguration;
 
 	@Reference
+	protected SearchPermissionDocumentContributor
+		searchPermissionDocumentContributor;
+
+	@Reference
 	protected UserLocalService userLocalService;
 
 	private void _add(BooleanFilter booleanFilter, TermsFilter termsFilter) {
@@ -271,45 +201,6 @@ public class SearchPermissionCheckerImpl implements SearchPermissionChecker {
 			usersGroupIdsRoles.add(
 				new UsersGroupIdRoles(group.getGroupId(), groupRoles));
 		}
-	}
-
-	private void _addPermissionFields(
-			long companyId, long groupId, String className, long classPK,
-			String viewActionId, Document document)
-		throws Exception {
-
-		for (SearchPermissionFieldContributor searchPermissionFieldContributor :
-				_searchPermissionFieldContributors) {
-
-			searchPermissionFieldContributor.contribute(
-				document, className, classPK);
-		}
-
-		List<Role> roles = resourcePermissionLocalService.getRoles(
-			companyId, className, ResourceConstants.SCOPE_INDIVIDUAL,
-			String.valueOf(classPK), viewActionId);
-
-		if (roles.isEmpty()) {
-			return;
-		}
-
-		List<Long> roleIds = new ArrayList<>();
-		List<String> groupRoleIds = new ArrayList<>();
-
-		for (Role role : roles) {
-			if ((role.getType() == RoleConstants.TYPE_ORGANIZATION) ||
-				(role.getType() == RoleConstants.TYPE_SITE)) {
-
-				groupRoleIds.add(groupId + StringPool.DASH + role.getRoleId());
-			}
-			else {
-				roleIds.add(role.getRoleId());
-			}
-		}
-
-		document.addKeyword(Field.ROLE_ID, roleIds.toArray(new Long[0]));
-		document.addKeyword(
-			Field.GROUP_ROLE_ID, groupRoleIds.toArray(new String[0]));
 	}
 
 	private SearchPermissionContext _createSearchPermissionContext(
@@ -616,8 +507,6 @@ public class SearchPermissionCheckerImpl implements SearchPermissionChecker {
 	private static final Log _log = LogFactoryUtil.getLog(
 		SearchPermissionCheckerImpl.class);
 
-	private final Collection<SearchPermissionFieldContributor>
-		_searchPermissionFieldContributors = new CopyOnWriteArrayList<>();
 	private final Collection<SearchPermissionFilterContributor>
 		_searchPermissionFilterContributors = new CopyOnWriteArrayList<>();
 
