@@ -14,29 +14,17 @@
 
 package com.liferay.portal.search.internal.permission;
 
-import com.liferay.petra.string.StringBundler;
-import com.liferay.petra.string.StringPool;
-import com.liferay.portal.kernel.exception.NoSuchResourceException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.model.ResourceConstants;
-import com.liferay.portal.kernel.model.Role;
-import com.liferay.portal.kernel.model.role.RoleConstants;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistry;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
-import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.search.internal.SearchPermissionFieldContributorRegistry;
 import com.liferay.portal.search.permission.SearchPermissionDocumentContributor;
 import com.liferay.portal.search.spi.model.permission.SearchPermissionFieldContributor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -111,49 +99,16 @@ public class SearchPermissionDocumentContributorImpl
 				document, className, classPK);
 		}
 
-		String permissionName = _getPermissionName(document, className);
+		SearchPermissionFields searchPermissionFields =
+			_searchPermissionFieldsFactory.createSearchPermissionFields(
+				companyId, groupId, className, classPK,
+				_getPermissionName(document, className), viewActionId);
 
-		try {
-			List<Role> roles = _resourcePermissionLocalService.getRoles(
-				companyId, permissionName, ResourceConstants.SCOPE_INDIVIDUAL,
-				String.valueOf(classPK), viewActionId);
-
-			if (roles.isEmpty()) {
-				return;
-			}
-
-			List<Long> roleIds = new ArrayList<>();
-			List<String> groupRoleIds = new ArrayList<>();
-
-			for (Role role : roles) {
-				if ((role.getType() == RoleConstants.TYPE_ORGANIZATION) ||
-					(role.getType() == RoleConstants.TYPE_SITE)) {
-
-					groupRoleIds.add(
-						groupId + StringPool.DASH + role.getRoleId());
-				}
-				else {
-					roleIds.add(role.getRoleId());
-				}
-			}
-
-			document.addKeyword(Field.ROLE_ID, roleIds.toArray(new Long[0]));
+		if (searchPermissionFields != null) {
 			document.addKeyword(
-				Field.GROUP_ROLE_ID, groupRoleIds.toArray(new String[0]));
-		}
-		catch (NoSuchResourceException noSuchResourceException) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(noSuchResourceException);
-			}
-		}
-		catch (Exception exception) {
-			if (_log.isWarnEnabled()) {
-				_log.warn(
-					StringBundler.concat(
-						"Unable to get permission fields for class name ",
-						permissionName, " and class PK ", classPK),
-					exception);
-			}
+				Field.ROLE_ID, searchPermissionFields.getRoleIds());
+			document.addKeyword(
+				Field.GROUP_ROLE_ID, searchPermissionFields.getGroupRolesIds());
 		}
 	}
 
@@ -167,9 +122,6 @@ public class SearchPermissionDocumentContributorImpl
 		return resourcePermissionName;
 	}
 
-	private static final Log _log = LogFactoryUtil.getLog(
-		SearchPermissionDocumentContributorImpl.class);
-
 	@Reference
 	private IndexerRegistry _indexerRegistry;
 
@@ -177,10 +129,10 @@ public class SearchPermissionDocumentContributorImpl
 	private Portal _portal;
 
 	@Reference
-	private ResourcePermissionLocalService _resourcePermissionLocalService;
-
-	@Reference
 	private SearchPermissionFieldContributorRegistry
 		_searchPermissionFieldContributorRegistry;
+
+	@Reference
+	private SearchPermissionFieldsFactory _searchPermissionFieldsFactory;
 
 }
