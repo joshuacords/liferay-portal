@@ -237,6 +237,9 @@ AUI.add(
 						),
 						propertyName: Liferay.Language.get('property-name'),
 						required: Liferay.Language.get('required'),
+						requiredDescription: Liferay.Language.get(
+							'required-description'
+						),
 						reset: Liferay.Language.get('reset'),
 						save: Liferay.Language.get('save'),
 						settings: Liferay.Language.get('settings'),
@@ -309,6 +312,7 @@ AUI.add(
 				'readOnly',
 				'repeatable',
 				'required',
+				'requiredDescription',
 				'showLabel',
 				'type'
 			],
@@ -649,14 +653,28 @@ AUI.add(
 								}
 							}
 						}
-						else if (attributeName === 'required') {
-							var state = changed.value.newVal === 'true';
-							var requiredNode = editingField
-								._getFieldNode()
-								.one('.lexicon-icon-asterisk');
+						else if (editingField.get('type') === 'ddm-image') {
+							if (attributeName === 'required') {
+								if (editingField.get('requiredDescription')) {
+									instance._toggleImageDescriptionAsterisk(
+										editingField,
+										changed.value.newVal === 'true'
+									);
+								}
 
-							if (requiredNode) {
-								requiredNode.toggle(state);
+								instance._toggleRequiredDescriptionPropertyModel(
+									editingField,
+									changed.value.newVal === 'true'
+								);
+							}
+							else if (
+								attributeName === 'requiredDescription' &&
+								editingField.get('required')
+							) {
+								instance._toggleImageDescriptionAsterisk(
+									editingField,
+									changed.value.newVal === 'true'
+								);
 							}
 						}
 					}
@@ -772,6 +790,16 @@ AUI.add(
 					});
 				},
 
+				_toggleImageDescriptionAsterisk(field, state) {
+					var requiredNode = field
+						._getFieldNode()
+						.one('.lexicon-icon-asterisk');
+
+					if (requiredNode) {
+						requiredNode.toggle(state);
+					}
+				},
+
 				_toggleInputDirection(locale) {
 					var rtl = Liferay.Language.direction[locale] === 'rtl';
 
@@ -799,6 +827,32 @@ AUI.add(
 						Liferay.Util.toggleDisabled(
 							inputs,
 							defaultLocale !== editingLocale
+						);
+					}
+				},
+
+				_toggleRequiredDescriptionPropertyModel(field, state) {
+					var instance = this;
+
+					var modelList = instance.propertyList.get('data');
+
+					if (state) {
+						modelList.add(
+							{
+								...field.getRequiredDescriptionPropertyModel(),
+								value: field.get('requiredDescription')
+							},
+							{
+								index:
+									modelList.indexOf(
+										modelList.getById('required')
+									) + 1
+							}
+						);
+					}
+					else {
+						modelList.remove(
+							modelList.getById('requiredDescription')
 						);
 					}
 				},
@@ -869,13 +923,22 @@ AUI.add(
 						arguments
 					);
 
-					if (field.name === 'ddm-image' && !field.get('required')) {
-						var requiredNode = field
-							._getFieldNode()
-							.one('.lexicon-icon-asterisk');
+					if (field.name === 'ddm-image') {
+						if (!field.get('required')) {
+							instance._toggleImageDescriptionAsterisk(
+								field,
+								false
+							);
 
-						if (requiredNode) {
-							requiredNode.toggle(false);
+							instance.MAP_HIDDEN_FIELD_ATTRS.DEFAULT.push(
+								'requiredDescription'
+							);
+						}
+						else if (field.get('requiredDescription') === false) {
+							instance._toggleImageDescriptionAsterisk(
+								field,
+								false
+							);
 						}
 					}
 
