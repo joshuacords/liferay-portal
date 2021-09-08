@@ -31,6 +31,7 @@ import com.liferay.dynamic.data.mapping.io.DDMFormValuesSerializerSerializeRespo
 import com.liferay.dynamic.data.mapping.model.DDMForm;
 import com.liferay.dynamic.data.mapping.model.DDMFormField;
 import com.liferay.dynamic.data.mapping.model.DDMFormFieldOptions;
+import com.liferay.dynamic.data.mapping.model.DDMFormFieldType;
 import com.liferay.dynamic.data.mapping.model.DDMFormLayout;
 import com.liferay.dynamic.data.mapping.model.DDMFormLayoutColumn;
 import com.liferay.dynamic.data.mapping.model.DDMFormLayoutPage;
@@ -847,6 +848,14 @@ public class DDMImpl implements DDM {
 			).put(
 				"localizationMap", localizationMapJSONObject
 			);
+
+			if (Objects.equals(
+					ddmFormField.getType(), DDMFormFieldType.IMAGE)) {
+
+				jsonObject.put(
+					"requiredDescription",
+					ddmFormField.getProperty("requiredDescription"));
+			}
 
 			ddmFormFieldsJSONArray.put(jsonObject);
 		}
