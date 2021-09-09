@@ -19,6 +19,7 @@ import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleLocalService;
 import com.liferay.journal.test.util.search.JournalArticleBlueprint;
 import com.liferay.journal.test.util.search.JournalArticleContent;
+import com.liferay.journal.test.util.search.JournalArticleDescription;
 import com.liferay.journal.test.util.search.JournalArticleSearchFixture;
 import com.liferay.journal.test.util.search.JournalArticleTitle;
 import com.liferay.petra.string.StringBundler;
@@ -96,8 +97,10 @@ public class JournalArticleIndexerSummaryTest {
 		String content = "test content";
 		String title = "test title";
 
+		String content2 = "test content "; //see DDMIndexerImpl adds a space line 421
+
 		_summaryFixture.assertSummary(
-			title, content, getDocument(title, content));
+			title, content2, getDocument(title, content));
 	}
 
 	@Test
