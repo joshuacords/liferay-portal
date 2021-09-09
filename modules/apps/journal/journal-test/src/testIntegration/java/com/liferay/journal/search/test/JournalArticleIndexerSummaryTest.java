@@ -19,7 +19,6 @@ import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.service.JournalArticleLocalService;
 import com.liferay.journal.test.util.search.JournalArticleBlueprint;
 import com.liferay.journal.test.util.search.JournalArticleContent;
-import com.liferay.journal.test.util.search.JournalArticleDescription;
 import com.liferay.journal.test.util.search.JournalArticleSearchFixture;
 import com.liferay.journal.test.util.search.JournalArticleTitle;
 import com.liferay.petra.string.StringBundler;
@@ -97,10 +96,8 @@ public class JournalArticleIndexerSummaryTest {
 		String content = "test content";
 		String title = "test title";
 
-		String content2 = "test content "; //see DDMIndexerImpl adds a space line 421
-
 		_summaryFixture.assertSummary(
-			title, content2, getDocument(title, content));
+			title, content, getDocument(title, content));
 	}
 
 	@Test
@@ -121,45 +118,6 @@ public class JournalArticleIndexerSummaryTest {
 
 		_summaryFixture.assertSummary(
 			highlightedTitle, highlightedContent, document);
-	}
-
-	@Test
-	public void testStaleTitleFreshContent() throws Exception {
-		String content = "test content";
-		String title = "test title";
-
-		Document document = getDocument(title, content);
-
-		String staleContent = "stale content";
-		String staleTitle = "stale title";
-
-		setFields(staleTitle, staleContent, document);
-
-		_summaryFixture.assertSummary(staleTitle, content, document);
-	}
-
-	@Test
-	public void testStaleTitleFreshContentHighlighted() throws Exception {
-		String content = "test content";
-		String title = "test title";
-
-		Document document = getDocument(title, content);
-
-		String staleHighlightedContent = StringBundler.concat(
-			HighlightUtil.HIGHLIGHT_TAG_OPEN, "test",
-			HighlightUtil.HIGHLIGHT_TAG_CLOSE, " stale content");
-		String staleHighlightedTitle = StringBundler.concat(
-			HighlightUtil.HIGHLIGHT_TAG_OPEN, "test",
-			HighlightUtil.HIGHLIGHT_TAG_CLOSE, " stale title");
-
-		setSnippets(staleHighlightedTitle, staleHighlightedContent, document);
-
-		String highlightedContent = StringBundler.concat(
-			HighlightUtil.HIGHLIGHT_TAG_OPEN, "test",
-			HighlightUtil.HIGHLIGHT_TAG_CLOSE, " content");
-
-		_summaryFixture.assertSummary(
-			staleHighlightedTitle, highlightedContent, document);
 	}
 
 	@Rule
