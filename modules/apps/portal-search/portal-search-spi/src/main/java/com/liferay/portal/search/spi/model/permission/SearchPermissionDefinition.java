@@ -14,7 +14,7 @@
 
 package com.liferay.portal.search.spi.model.permission;
 
-import com.liferay.portal.search.spi.model.permission.context.RoleContributorContext;
+import com.liferay.portal.search.spi.model.permission.context.RoleSetContributorContext;
 
 import java.util.List;
 
@@ -23,14 +23,14 @@ import java.util.List;
  */
 public interface SearchPermissionDefinition {
 
-	public interface RoleContributor {
+	public interface RoleSetContributor {
 
-		public void apply(RoleContributorContext roleContributorContext);
+		public void apply(RoleSetContributorContext roleSetContributorContext);
 
 	}
 
 	public String getClassName();
 
-	public List<RoleContributor> getRoleContributors();
+	public List<RoleSetContributor> getRoleSetContributors();
 
 }
