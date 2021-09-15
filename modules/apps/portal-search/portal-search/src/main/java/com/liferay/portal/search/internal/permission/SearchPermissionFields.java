@@ -24,7 +24,7 @@ public class SearchPermissionFields {
 		_groupRoleIds = groupRoleIds;
 	}
 
-	public String[] getGroupRolesIds() {
+	public String[] getGroupRoleIds() {
 		return _groupRoleIds;
 	}
 
