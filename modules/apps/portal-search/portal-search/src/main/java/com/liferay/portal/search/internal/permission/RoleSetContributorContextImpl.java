@@ -29,6 +29,18 @@ public class RoleSetContributorContextImpl implements
 	}
 
 	@Override
+	public void setAccessPermissionRoleIdSets(
+		Set<Set<String>> accessPermissionRoleIdSets) {
+		_accessPermissionRoleIdSets = accessPermissionRoleIdSets;
+	}
+
+	@Override
+	public void setViewPermissionRoleIdSets(
+		Set<Set<String>> viewPermissionRoleIdSets) {
+		_viewPermissionRoleIdSets = viewPermissionRoleIdSets;
+	}
+
+	@Override
 	public long getCompanyId() {
 		return _companyId;
 	}
