@@ -108,7 +108,7 @@ public class SearchPermissionDocumentContributorImpl
 			document.addKeyword(
 				Field.ROLE_ID, searchPermissionFields.getRoleIds());
 			document.addKeyword(
-				Field.GROUP_ROLE_ID, searchPermissionFields.getGroupRolesIds());
+				Field.GROUP_ROLE_ID, searchPermissionFields.getGroupRoleIds());
 		}
 	}
 
