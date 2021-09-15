@@ -14,10 +14,19 @@
 
 package com.liferay.journal.internal.search;
 
+import com.liferay.journal.constants.JournalFolderConstants;
 import com.liferay.journal.model.JournalArticle;
+import com.liferay.journal.model.JournalFolder;
+import com.liferay.journal.service.JournalFolderLocalService;
+import com.liferay.petra.function.UnsafeFunction;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.security.permission.resource.DynamicInheritancePermissionLogic;
+import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
+import com.liferay.portal.search.internal.permission.DynamicInheritanceRoleSetContributor;
 import com.liferay.portal.search.spi.model.permission.SearchPermissionDefinition;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import java.util.Arrays;
 import java.util.List;
@@ -37,8 +46,36 @@ public class JournalArticleSearchPermissionDefinition
 	@Override
 	public List<RoleSetContributor> getRoleSetContributors() {
 		return Arrays.asList(
-			new DynamicInheritanceRoleSetContributor(),
-			new WorkflowedModelRoleSetContributor());
+			new DynamicInheritanceRoleSetContributor<>(
+			_journalFolderModelResourcePermission,
+			_getFetchParentFunction(), true));
+//			new WorkflowedModelRoleSetContributor());
 	}
 
+	private UnsafeFunction<JournalArticle, JournalFolder, PortalException>
+	_getFetchParentFunction() {
+
+		return article -> {
+			long folderId = article.getFolderId();
+
+			if (JournalFolderConstants.DEFAULT_PARENT_FOLDER_ID == folderId) {
+				return null;
+			}
+
+			if (article.isInTrash()) {
+				return _journalFolderLocalService.fetchFolder(folderId);
+			}
+
+			return _journalFolderLocalService.getFolder(folderId);
+		};
+	}
+
+	@Reference
+	private JournalFolderLocalService _journalFolderLocalService;
+
+	@Reference(
+		target = "(model.class.name=com.liferay.journal.model.JournalFolder)"
+	)
+	private ModelResourcePermission<JournalFolder>
+		_journalFolderModelResourcePermission;
 }
