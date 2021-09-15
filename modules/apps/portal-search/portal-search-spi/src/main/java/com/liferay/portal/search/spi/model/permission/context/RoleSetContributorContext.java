@@ -14,8 +14,18 @@
 
 package com.liferay.portal.search.spi.model.permission.context;
 
+import java.util.Set;
+
 /**
  * @author Preston Crary
  */
 public interface RoleSetContributorContext {
+
+	public Set<Set<String>> getAccessPermissionRoleIdSets();
+
+	public Set<Set<String>> getViewPermissionRoleIdSets();
+
+	public long getCompanyId();
+
+	public long getGroupId();
 }
