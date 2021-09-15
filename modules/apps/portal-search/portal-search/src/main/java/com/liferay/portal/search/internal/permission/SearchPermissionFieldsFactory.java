@@ -52,8 +52,8 @@ public class SearchPermissionFieldsFactory {
 			_serviceTrackerMap.getService(className);
 
 		if (searchPermissionDefinition != null) {
-			for (SearchPermissionDefinition.RoleContributor roleProvider :
-					searchPermissionDefinition.getRoleContributors()) {
+			for (SearchPermissionDefinition.RoleSetContributor roleProvider :
+					searchPermissionDefinition.getRoleSetContributors()) {
 
 				searchPermissionFields = null;
 			}
