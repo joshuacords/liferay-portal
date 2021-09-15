@@ -17,5 +17,5 @@ package com.liferay.portal.search.spi.model.permission.context;
 /**
  * @author Preston Crary
  */
-public interface RoleContributorContext {
+public interface RoleSetContributorContext {
 }
