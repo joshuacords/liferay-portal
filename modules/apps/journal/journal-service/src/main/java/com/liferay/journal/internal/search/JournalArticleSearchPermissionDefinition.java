@@ -35,10 +35,10 @@ public class JournalArticleSearchPermissionDefinition
 	}
 
 	@Override
-	public List<RoleContributor> getRoleContributors() {
+	public List<RoleSetContributor> getRoleSetContributors() {
 		return Arrays.asList(
-			new DynamicInheritanceRoleContributor(),
-			new WorkflowedModelRoleContributor());
+			new DynamicInheritanceRoleSetContributor(),
+			new WorkflowedModelRoleSetContributor());
 	}
 
 }
