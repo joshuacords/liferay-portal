@@ -1,6 +1,6 @@
 package com.liferay.portal.search.internal.permission;
 
-import com.liferay.portal.search.spi.model.permission.context.RoleSetContributorContext;
+import com.liferay.portal.search.spi.model.permission.RoleSetContributorContext;
 
 import java.util.Set;
 
