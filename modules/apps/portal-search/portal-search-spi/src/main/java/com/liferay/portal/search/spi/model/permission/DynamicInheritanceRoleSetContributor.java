@@ -15,7 +15,7 @@ import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.search.spi.model.permission.SearchPermissionDefinition;
-import com.liferay.portal.search.spi.model.permission.context.RoleSetContributorContext;
+import com.liferay.portal.search.spi.model.permission.RoleSetContributorContext;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -25,7 +25,6 @@ import java.util.Objects;
 import java.util.Set;
 
 
-@Component(service = DynamicInheritanceRoleSetContributor.class)
 public class DynamicInheritanceRoleSetContributor
 	<C extends GroupedModel, P extends GroupedModel> implements
 	SearchPermissionDefinition.RoleSetContributor<C>{
