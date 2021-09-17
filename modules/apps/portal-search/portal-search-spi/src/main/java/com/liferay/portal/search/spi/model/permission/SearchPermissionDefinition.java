@@ -14,7 +14,8 @@
 
 package com.liferay.portal.search.spi.model.permission;
 
-import com.liferay.portal.search.spi.model.permission.context.RoleSetContributorContext;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.GroupedModel;
 
 import java.util.List;
 
@@ -23,9 +24,11 @@ import java.util.List;
  */
 public interface SearchPermissionDefinition {
 
-	public interface RoleSetContributor {
+	public interface RoleSetContributor<C extends GroupedModel> {
 
-		public void apply(RoleSetContributorContext roleSetContributorContext);
+		public void apply(
+			RoleSetContributorContext roleSetContributorContext, C child)
+			throws PortalException;
 
 	}
 
