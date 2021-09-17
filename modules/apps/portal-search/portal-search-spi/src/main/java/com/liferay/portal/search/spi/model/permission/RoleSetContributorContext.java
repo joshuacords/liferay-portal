@@ -12,7 +12,7 @@
  * details.
  */
 
-package com.liferay.portal.search.spi.model.permission.context;
+package com.liferay.portal.search.spi.model.permission;
 
 import java.util.Set;
 
