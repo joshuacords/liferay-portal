@@ -19,6 +19,7 @@ import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapFactory
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.NoSuchResourceException;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.ResourceConstants;
@@ -27,9 +28,12 @@ import com.liferay.portal.kernel.model.role.RoleConstants;
 import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.liferay.portal.search.spi.model.permission.SearchPermissionDefinition;
+import com.liferay.portal.search.spi.model.permission.RoleSetContributorContext;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -51,11 +55,25 @@ public class SearchPermissionFieldsFactory {
 		SearchPermissionDefinition searchPermissionDefinition =
 			_serviceTrackerMap.getService(className);
 
+		RoleSetContributorContext roleSetContributorContext =
+			new RoleSetContributorContextImpl(
+				new HashSet<Set<String>>(), new HashSet<Set<String>>(),
+				companyId, groupId);
+
 		if (searchPermissionDefinition != null) {
-			for (SearchPermissionDefinition.RoleSetContributor roleProvider :
+			try {
+				for (SearchPermissionDefinition.RoleSetContributor roleProvider :
 					searchPermissionDefinition.getRoleSetContributors()) {
 
-				searchPermissionFields = null;
+					roleProvider.apply(roleSetContributorContext, null);
+
+					searchPermissionFields = null;
+				}
+			}
+			catch (PortalException portalException) {
+				if (_log.isDebugEnabled()) {
+					_log.debug(portalException, portalException);
+				}
 			}
 		}
 
