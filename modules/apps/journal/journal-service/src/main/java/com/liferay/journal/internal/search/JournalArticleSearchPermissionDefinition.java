@@ -20,10 +20,9 @@ import com.liferay.journal.model.JournalFolder;
 import com.liferay.journal.service.JournalFolderLocalService;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.security.permission.resource.DynamicInheritancePermissionLogic;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
-import com.liferay.portal.search.internal.permission.DynamicInheritanceRoleSetContributor;
 import com.liferay.portal.search.spi.model.permission.SearchPermissionDefinition;
+import com.liferay.portal.search.spi.model.permission.DynamicInheritanceRoleSetContributor;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -46,7 +45,7 @@ public class JournalArticleSearchPermissionDefinition
 	@Override
 	public List<RoleSetContributor> getRoleSetContributors() {
 		return Arrays.asList(
-			new DynamicInheritanceRoleSetContributor<>(
+			new DynamicInheritanceRoleSetContributor(
 			_journalFolderModelResourcePermission,
 			_getFetchParentFunction(), true));
 //			new WorkflowedModelRoleSetContributor());
@@ -78,4 +77,10 @@ public class JournalArticleSearchPermissionDefinition
 	)
 	private ModelResourcePermission<JournalFolder>
 		_journalFolderModelResourcePermission;
+
+//	@Reference(
+//		target = "(service=com.liferay.portal.search.internal.permission.RoleSetContributorFactory)"
+//	)
+//	private RoleSetContributorFactory
+//		_roleSetContributorFactory;
 }
