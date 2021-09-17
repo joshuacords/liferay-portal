@@ -115,7 +115,7 @@ public class SearchInsightsPortlet extends MVCPortlet {
 				searchInsightsPortletPreferences.
 					getFederatedSearchKeyOptional());
 
-		if (isOmniadmin() && isRequestStringPresent(searchResponse)) {
+		if (isCompanyAdmin() && isRequestStringPresent(searchResponse)) {
 			searchInsightsDisplayContext.setRequestString(
 				buildRequestString(searchResponse));
 
@@ -151,11 +151,11 @@ public class SearchInsightsPortlet extends MVCPortlet {
 		return language.get(resourceBundle, "search-insights-help");
 	}
 
-	protected boolean isOmniadmin() {
+	protected boolean isCompanyAdmin() {
 		PermissionChecker permissionChecker =
 			PermissionThreadLocal.getPermissionChecker();
 
-		return permissionChecker.isOmniadmin();
+		return permissionChecker.isCompanyAdmin();
 	}
 
 	protected boolean isRequestStringPresent(SearchResponse searchResponse) {
