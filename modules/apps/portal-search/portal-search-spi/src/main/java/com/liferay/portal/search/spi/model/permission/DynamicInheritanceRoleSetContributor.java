@@ -1,4 +1,4 @@
-package com.liferay.portal.search.internal.permission;
+package com.liferay.portal.search.spi.model.permission;
 
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.string.StringPool;
