@@ -22,18 +22,21 @@ import java.util.List;
 /**
  * @author Preston Crary
  */
-public interface SearchPermissionDefinition {
+public interface SearchPermissionDefinition<T> {
 
-	public interface RoleSetContributor<C extends GroupedModel> {
+	public interface RoleSetContributor<T> {
 
 		public void apply(
-			RoleSetContributorContext roleSetContributorContext, C child)
+				RoleSetContributorContext roleSetContributorContext,
+				T model)
 			throws PortalException;
 
 	}
 
+	public T getModel(long classPK);
+
 	public String getClassName();
 
-	public List<RoleSetContributor> getRoleSetContributors();
+	public List<RoleSetContributor<T>> getRoleSetContributors();
 
 }

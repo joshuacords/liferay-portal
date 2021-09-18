@@ -16,6 +16,7 @@ package com.liferay.portal.search.internal.permission;
 
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapFactory;
+import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.NoSuchResourceException;
@@ -25,12 +26,17 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.role.RoleConstants;
+import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermissionFactory;
+import com.liferay.portal.kernel.security.permission.resource.PortletResourcePermission;
+import com.liferay.portal.kernel.security.permission.resource.definition.ModelResourcePermissionDefinition;
 import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.ToLongFunction;
+import java.util.function.UnaryOperator;
 
 import com.liferay.portal.search.spi.model.permission.SearchPermissionDefinition;
 import com.liferay.portal.search.spi.model.permission.RoleSetContributorContext;
@@ -52,30 +58,12 @@ public class SearchPermissionFieldsFactory {
 
 		SearchPermissionFields searchPermissionFields = null;
 
-		SearchPermissionDefinition searchPermissionDefinition =
+		SearchPermissionDefinition<?> searchPermissionDefinition =
 			_serviceTrackerMap.getService(className);
 
-		RoleSetContributorContext roleSetContributorContext =
-			new RoleSetContributorContextImpl(
-				new HashSet<Set<String>>(), new HashSet<Set<String>>(),
-				companyId, groupId);
-
-		if (searchPermissionDefinition != null) {
-			try {
-				for (SearchPermissionDefinition.RoleSetContributor roleProvider :
-					searchPermissionDefinition.getRoleSetContributors()) {
-
-					roleProvider.apply(roleSetContributorContext, null);
-
-					searchPermissionFields = null;
-				}
-			}
-			catch (PortalException portalException) {
-				if (_log.isDebugEnabled()) {
-					_log.debug(portalException, portalException);
-				}
-			}
-		}
+		RoleSetContributorContextImpl roleSetContributorContextImpl =
+			_getRoleSetContributorContextImpl(
+				companyId, groupId, classPK, searchPermissionDefinition);
 
 		if (searchPermissionFields != null) {
 			return searchPermissionFields;
@@ -125,12 +113,44 @@ public class SearchPermissionFieldsFactory {
 		return searchPermissionFields;
 	}
 
+	private <T> RoleSetContributorContextImpl _getRoleSetContributorContextImpl(
+		long companyId, long groupId, long classPK,
+		SearchPermissionDefinition<T> searchPermissionDefinition) {
+
+		RoleSetContributorContextImpl roleSetContributorContextImpl =
+			new RoleSetContributorContextImpl(companyId, groupId);
+
+		if (searchPermissionDefinition != null) {
+			T model = searchPermissionDefinition.getModel(classPK);
+
+			try {
+				for (SearchPermissionDefinition.RoleSetContributor<T> roleProvider :
+					searchPermissionDefinition.getRoleSetContributors()) {
+
+					roleProvider.apply(roleSetContributorContextImpl, model);
+
+					//searchPermissionFields = null;
+				}
+			}
+			catch (PortalException portalException) {
+				if (_log.isDebugEnabled()) {
+					_log.debug(portalException, portalException);
+				}
+			}
+		}
+
+		return roleSetContributorContextImpl;
+	}
+
 	@Activate
+	@SuppressWarnings("unchecked")
 	protected void activate(BundleContext bundleContext) {
 		_serviceTrackerMap = ServiceTrackerMapFactory.openSingleValueMap(
-			bundleContext, SearchPermissionDefinition.class, null,
+			bundleContext,
+			(Class<SearchPermissionDefinition<?>>)(Class<?>)SearchPermissionDefinition.class,
+			null,
 			(serviceReference, emitter) -> {
-				SearchPermissionDefinition searchPermissionDefinition =
+				SearchPermissionDefinition<?> searchPermissionDefinition =
 					bundleContext.getService(serviceReference);
 
 				emitter.emit(searchPermissionDefinition.getClassName());
@@ -142,7 +162,7 @@ public class SearchPermissionFieldsFactory {
 		_serviceTrackerMap.close();
 	}
 
-	private ServiceTrackerMap<String, SearchPermissionDefinition>
+	private ServiceTrackerMap<String, SearchPermissionDefinition<?>>
 		_serviceTrackerMap;
 
 	private static final Log _log = LogFactoryUtil.getLog(
