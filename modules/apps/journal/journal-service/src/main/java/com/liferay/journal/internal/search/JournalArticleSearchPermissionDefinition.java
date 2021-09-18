@@ -17,10 +17,13 @@ package com.liferay.journal.internal.search;
 import com.liferay.journal.constants.JournalFolderConstants;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.model.JournalFolder;
+import com.liferay.journal.service.JournalArticleLocalService;
 import com.liferay.journal.service.JournalFolderLocalService;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
+import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
+import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.search.spi.model.permission.SearchPermissionDefinition;
 import com.liferay.portal.search.spi.model.permission.DynamicInheritanceRoleSetContributor;
 
@@ -35,7 +38,12 @@ import java.util.List;
  */
 @Component(service = SearchPermissionDefinition.class)
 public class JournalArticleSearchPermissionDefinition
-	implements SearchPermissionDefinition {
+	implements SearchPermissionDefinition<JournalArticle> {
+
+	@Override
+	public JournalArticle getModel(long classPK) {
+		return _journalArticleLocalService.fetchArticle(classPK);
+	}
 
 	@Override
 	public String getClassName() {
@@ -43,11 +51,12 @@ public class JournalArticleSearchPermissionDefinition
 	}
 
 	@Override
-	public List<RoleSetContributor> getRoleSetContributors() {
+	public List<RoleSetContributor<JournalArticle>> getRoleSetContributors() {
 		return Arrays.asList(
-			new DynamicInheritanceRoleSetContributor(
+			new DynamicInheritanceRoleSetContributor<>(
 			_journalFolderModelResourcePermission,
-			_getFetchParentFunction(), true));
+			_getFetchParentFunction(), true,
+				_resourcePermissionLocalService, _roleLocalService));
 //			new WorkflowedModelRoleSetContributor());
 	}
 
@@ -78,9 +87,13 @@ public class JournalArticleSearchPermissionDefinition
 	private ModelResourcePermission<JournalFolder>
 		_journalFolderModelResourcePermission;
 
-//	@Reference(
-//		target = "(service=com.liferay.portal.search.internal.permission.RoleSetContributorFactory)"
-//	)
-//	private RoleSetContributorFactory
-//		_roleSetContributorFactory;
+	@Reference
+	private JournalArticleLocalService _journalArticleLocalService;
+
+	@Reference
+	private ResourcePermissionLocalService _resourcePermissionLocalService;
+
+	@Reference
+	private RoleLocalService _roleLocalService;
+
 }
