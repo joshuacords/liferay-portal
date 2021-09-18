@@ -2,42 +2,29 @@ package com.liferay.portal.search.internal.permission;
 
 import com.liferay.portal.search.spi.model.permission.RoleSetContributorContext;
 
+import java.util.HashSet;
 import java.util.Set;
 
-public class RoleSetContributorContextImpl implements
-	RoleSetContributorContext {
+public class RoleSetContributorContextImpl
+	implements RoleSetContributorContext {
 
-	RoleSetContributorContextImpl(
-		Set<Set<String>> viewPermissionRoleIdSets,
-		Set<Set<String>> accessPermissionRoleIdSets, long companyId,
-		long groupId) {
-
-		_viewPermissionRoleIdSets = viewPermissionRoleIdSets;
-		_accessPermissionRoleIdSets = accessPermissionRoleIdSets;
+	public RoleSetContributorContextImpl(long companyId, long groupId) {
 		_companyId = companyId;
 		_groupId = groupId;
 	}
 
 	@Override
+	public void addAccessPermissionRoleIdSet(Set<String> set) {
+		_accessPermissionRoleIdSets.add(set);
+	}
+
+	@Override
+	public void addViewPermissionRoleIdSet(Set<String> set) {
+		_viewPermissionRoleIdSets.add(set);
+	}
+
 	public Set<Set<String>> getAccessPermissionRoleIdSets() {
 		return _accessPermissionRoleIdSets;
-	}
-
-	@Override
-	public Set<Set<String>> getViewPermissionRoleIdSets() {
-		return _viewPermissionRoleIdSets;
-	}
-
-	@Override
-	public void setAccessPermissionRoleIdSets(
-		Set<Set<String>> accessPermissionRoleIdSets) {
-		_accessPermissionRoleIdSets = accessPermissionRoleIdSets;
-	}
-
-	@Override
-	public void setViewPermissionRoleIdSets(
-		Set<Set<String>> viewPermissionRoleIdSets) {
-		_viewPermissionRoleIdSets = viewPermissionRoleIdSets;
 	}
 
 	@Override
@@ -50,8 +37,13 @@ public class RoleSetContributorContextImpl implements
 		return _groupId;
 	}
 
-	private Set<Set<String>> _viewPermissionRoleIdSets;
-	private Set<Set<String>> _accessPermissionRoleIdSets;
-	private long _companyId;
-	private long _groupId;
+	public Set<Set<String>> getViewPermissionRoleIdSets() {
+		return _viewPermissionRoleIdSets;
+	}
+
+	private final Set<Set<String>> _viewPermissionRoleIdSets = new HashSet<>();
+	private final Set<Set<String>> _accessPermissionRoleIdSets =
+		new HashSet<>();
+	private final long _companyId;
+	private final long _groupId;
 }

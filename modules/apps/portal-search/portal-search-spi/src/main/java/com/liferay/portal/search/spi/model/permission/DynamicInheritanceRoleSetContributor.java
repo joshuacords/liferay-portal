@@ -14,10 +14,6 @@ import com.liferay.portal.kernel.security.permission.resource.PortletResourcePer
 import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.search.spi.model.permission.SearchPermissionDefinition;
-import com.liferay.portal.search.spi.model.permission.RoleSetContributorContext;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
 import java.util.HashSet;
 import java.util.List;
@@ -26,45 +22,16 @@ import java.util.Set;
 
 
 public class DynamicInheritanceRoleSetContributor
-	<C extends GroupedModel, P extends GroupedModel> implements
-	SearchPermissionDefinition.RoleSetContributor<C>{
-
-	@Override
-	public void apply(
-		RoleSetContributorContext roleSetContributorContext, C child)
-		throws PortalException {
-
-		P parent = _fetchParentUnsafeFunction.apply(child);
-
-		List<Role> baseRoles = _resourcePermissionLocalService.getRoles(
-			roleSetContributorContext.getCompanyId(), child.getModelClassName(),
-			ResourceConstants.SCOPE_INDIVIDUAL,
-			GetterUtil.getString(child.getPrimaryKeyObj()), ActionKeys.VIEW);
-
-		Role guestRole = _roleLocalService.getRole(
-			roleSetContributorContext.getCompanyId(), RoleConstants.GUEST);
-
-		if (parent == null) {
-			if (baseRoles.contains(guestRole)) {
-				_assignGuestRoleIdSet(roleSetContributorContext);
-
-				return;
-			}
-
-			_assignListAsIndividualRoleIdSets(roleSetContributorContext,
-				child.getModelClassName(),
-				GetterUtil.getLong(child.getPrimaryKeyObj()), baseRoles);
-
-			return;
-		}
-
-	}
+		<C extends GroupedModel, P extends GroupedModel>
+	implements SearchPermissionDefinition.RoleSetContributor<C> {
 
 	public DynamicInheritanceRoleSetContributor(
 		ModelResourcePermission<P> parentModelResourcePermission,
 		UnsafeFunction<C, P, ? extends PortalException>
 			fetchParentUnsafeFunction,
-		boolean checkParentAccess) {
+		boolean checkParentAccess,
+		ResourcePermissionLocalService resourcePermissionLocalService,
+		RoleLocalService roleLocalService) {
 
 		_parentModelResourcePermission = Objects.requireNonNull(
 			parentModelResourcePermission);
@@ -74,6 +41,39 @@ public class DynamicInheritanceRoleSetContributor
 
 		_portletResourcePermission = Objects.requireNonNull(
 			parentModelResourcePermission.getPortletResourcePermission());
+		_resourcePermissionLocalService = resourcePermissionLocalService;
+		_roleLocalService = roleLocalService;
+	}
+
+	@Override
+	public void apply(
+			RoleSetContributorContext roleSetContributorContext, C child)
+		throws PortalException {
+
+		P parent = _fetchParentUnsafeFunction.apply(child);
+
+		List<Role> roles = _resourcePermissionLocalService.getRoles(
+			roleSetContributorContext.getCompanyId(), child.getModelClassName(),
+			ResourceConstants.SCOPE_INDIVIDUAL,
+			GetterUtil.getString(child.getPrimaryKeyObj()), ActionKeys.VIEW);
+
+		Role guestRole = _roleLocalService.getRole(
+			roleSetContributorContext.getCompanyId(), RoleConstants.GUEST);
+
+		if (parent == null) {
+			if (roles.contains(guestRole)) {
+				_assignGuestRoleIdSet(roleSetContributorContext);
+
+				return;
+			}
+
+			_assignListAsIndividualRoleIdSets(
+				roleSetContributorContext, child.getModelClassName(),
+				GetterUtil.getLong(child.getPrimaryKeyObj()), roles);
+
+			return;
+		}
+
 	}
 
 	private void _assignGuestRoleIdSet(
@@ -112,8 +112,10 @@ public class DynamicInheritanceRoleSetContributor
 			roleIdSets.add(roleIds);
 		}
 
-		roleSetContributorContext.setViewPermissionRoleIdSets(
-			roleIdSets);
+		roleSetContributorContext.addViewPermissionRoleIdSet(_roleToRoleId(
+			roleSetContributorContext.getCompanyId(),
+			roleSetContributorContext.getGroupId(), className, classPK,
+			role));
 	}
 
 	private String _roleToRoleId(
@@ -160,10 +162,7 @@ public class DynamicInheritanceRoleSetContributor
 	private final ModelResourcePermission<P> _parentModelResourcePermission;
 	private final PortletResourcePermission _portletResourcePermission;
 
-	@Reference
-	private ResourcePermissionLocalService _resourcePermissionLocalService;
-
-	@Reference
-	private RoleLocalService _roleLocalService;
+	private final ResourcePermissionLocalService _resourcePermissionLocalService;
+	private final RoleLocalService _roleLocalService;
 
 }
