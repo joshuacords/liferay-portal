@@ -47,15 +47,16 @@ public class DynamicInheritanceRoleSetContributor
 
 	@Override
 	public void apply(
-			RoleSetContributorContext roleSetContributorContext, C child)
+		RoleSetContributorContext roleSetContributorContext, C child,
+		long resourcePrimKey)
 		throws PortalException {
 
 		P parent = _fetchParentUnsafeFunction.apply(child);
 
 		List<Role> roles = _resourcePermissionLocalService.getRoles(
 			roleSetContributorContext.getCompanyId(), child.getModelClassName(),
-			ResourceConstants.SCOPE_INDIVIDUAL,
-			GetterUtil.getString(child.getPrimaryKeyObj()), ActionKeys.VIEW);
+			ResourceConstants.SCOPE_INDIVIDUAL,	Long.toString(resourcePrimKey),
+			ActionKeys.VIEW);
 
 		Role guestRole = _roleLocalService.getRole(
 			roleSetContributorContext.getCompanyId(), RoleConstants.GUEST);
