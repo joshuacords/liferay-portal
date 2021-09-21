@@ -3,7 +3,7 @@ Bundle-SymbolicName: com.liferay.layout.api
 Bundle-Version: 5.1.3
 Export-Package:\
 	com.liferay.layout.configuration,\
-	com.liferay.layout.search.util,\
+	com.liferay.layout.crawler,\
 	com.liferay.layout.set.model.adapter,\
 	com.liferay.layout.util,\
 	com.liferay.layout.util.comparator,\
