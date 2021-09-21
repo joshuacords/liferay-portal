@@ -27,7 +27,7 @@ public interface SearchPermissionDocumentContributor {
 	public void addPermissionFields(long companyId, Document document);
 
 	public void addPermissionFields(
-		long companyId, long groupId, String className, long classPK,
-		Document document);
+		long companyId, long groupId, String className, long entryClassPK,
+		long id, Document document);
 
 }
