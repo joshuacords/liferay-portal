@@ -48,11 +48,12 @@ public class SearchPermissionDocumentContributorImpl
 		long groupId = GetterUtil.getLong(document.get(Field.GROUP_ID));
 
 		String className = document.get(Field.ENTRY_CLASS_NAME);
-		String classPK = document.get(Field.ENTRY_CLASS_PK);
+		String entryClassPK = document.get(Field.ENTRY_CLASS_PK);
+		String id = document.get("id");
 
-		if (Validator.isNull(className) && Validator.isNull(classPK)) {
+		if (Validator.isNull(className) && Validator.isNull(entryClassPK)) {
 			className = document.get(Field.ROOT_ENTRY_CLASS_NAME);
-			classPK = document.get(Field.ROOT_ENTRY_CLASS_PK);
+			entryClassPK = document.get(Field.ROOT_ENTRY_CLASS_PK);
 		}
 
 		boolean relatedEntry = GetterUtil.getBoolean(
@@ -64,19 +65,19 @@ public class SearchPermissionDocumentContributorImpl
 
 			if (classNameId > 0) {
 				className = _portal.getClassName(classNameId);
-				classPK = document.get(Field.CLASS_PK);
+				entryClassPK = document.get(Field.CLASS_PK);
 			}
 		}
 
 		addPermissionFields(
-			companyId, groupId, className, GetterUtil.getLong(classPK),
-			document);
+			companyId, groupId, className, GetterUtil.getLong(entryClassPK),
+			GetterUtil.getLong(id), document);
 	}
 
 	@Override
 	public void addPermissionFields(
-		long companyId, long groupId, String className, long classPK,
-		Document document) {
+		long companyId, long groupId, String className, long entryClassPK,
+		long id, Document document) {
 
 		Indexer<?> indexer = _indexerRegistry.nullSafeGetIndexer(className);
 
@@ -91,7 +92,8 @@ public class SearchPermissionDocumentContributorImpl
 		}
 
 		_addPermissionFields(
-			companyId, groupId, className, classPK, viewActionId, document);
+			companyId, groupId, className, entryClassPK, id, viewActionId,
+			document);
 	}
 
 	@Reference(
@@ -114,19 +116,19 @@ public class SearchPermissionDocumentContributorImpl
 	}
 
 	private void _addPermissionFields(
-		long companyId, long groupId, String className, long classPK,
-		String viewActionId, Document document) {
+		long companyId, long groupId, String className, long entryClassPK,
+		long id, String viewActionId, Document document) {
 
 		for (SearchPermissionFieldContributor searchPermissionFieldContributor :
 				_searchPermissionFieldContributors) {
 
 			searchPermissionFieldContributor.contribute(
-				document, className, classPK);
+				document, className, entryClassPK);
 		}
 
 		SearchPermissionFields searchPermissionFields =
 			_searchPermissionFieldsFactory.createSearchPermissionFields(
-				companyId, groupId, className, classPK,
+				companyId, groupId, className, entryClassPK, id,
 				_getPermissionName(document, className), viewActionId);
 
 		if (searchPermissionFields != null) {

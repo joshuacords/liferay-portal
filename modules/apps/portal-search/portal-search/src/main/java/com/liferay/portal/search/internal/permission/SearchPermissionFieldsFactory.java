@@ -16,7 +16,6 @@ package com.liferay.portal.search.internal.permission;
 
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapFactory;
-import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.NoSuchResourceException;
@@ -26,20 +25,12 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.role.RoleConstants;
-import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermissionFactory;
-import com.liferay.portal.kernel.security.permission.resource.PortletResourcePermission;
-import com.liferay.portal.kernel.security.permission.resource.definition.ModelResourcePermissionDefinition;
 import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.function.ToLongFunction;
-import java.util.function.UnaryOperator;
 
 import com.liferay.portal.search.spi.model.permission.SearchPermissionDefinition;
-import com.liferay.portal.search.spi.model.permission.RoleSetContributorContext;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -53,8 +44,8 @@ import org.osgi.service.component.annotations.Reference;
 public class SearchPermissionFieldsFactory {
 
 	public SearchPermissionFields createSearchPermissionFields(
-		long companyId, long groupId, String className, long classPK,
-		String permissionName, String viewActionId) {
+		long companyId, long groupId, String className, long entryClassPK,
+		long id, String permissionName, String viewActionId) {
 
 		SearchPermissionFields searchPermissionFields = null;
 
@@ -63,7 +54,8 @@ public class SearchPermissionFieldsFactory {
 
 		RoleSetContributorContextImpl roleSetContributorContextImpl =
 			_getRoleSetContributorContextImpl(
-				companyId, groupId, classPK, searchPermissionDefinition);
+				companyId, groupId, entryClassPK, id,
+				searchPermissionDefinition);
 
 		if (searchPermissionFields != null) {
 			return searchPermissionFields;
@@ -72,7 +64,7 @@ public class SearchPermissionFieldsFactory {
 		try {
 			List<Role> roles = _resourcePermissionLocalService.getRoles(
 				companyId, permissionName, ResourceConstants.SCOPE_INDIVIDUAL,
-				String.valueOf(classPK), viewActionId);
+				String.valueOf(entryClassPK), viewActionId);
 
 			if (!roles.isEmpty()) {
 				List<Long> roleIds = new ArrayList<>();
@@ -105,7 +97,7 @@ public class SearchPermissionFieldsFactory {
 				_log.warn(
 					StringBundler.concat(
 						"Unable to get permission fields for class name ",
-						permissionName, " and class PK ", classPK),
+						permissionName, " and class PK ", id),
 					exception);
 			}
 		}
@@ -114,20 +106,25 @@ public class SearchPermissionFieldsFactory {
 	}
 
 	private <T> RoleSetContributorContextImpl _getRoleSetContributorContextImpl(
-		long companyId, long groupId, long classPK,
+		long companyId, long groupId, long entryClassPK, long id,
 		SearchPermissionDefinition<T> searchPermissionDefinition) {
 
 		RoleSetContributorContextImpl roleSetContributorContextImpl =
 			new RoleSetContributorContextImpl(companyId, groupId);
 
 		if (searchPermissionDefinition != null) {
-			T model = searchPermissionDefinition.getModel(classPK);
+			T model = searchPermissionDefinition.getModel(entryClassPK);
+
+			if (model == null) {
+				model = searchPermissionDefinition.getModel(id);
+			}
 
 			try {
 				for (SearchPermissionDefinition.RoleSetContributor<T> roleProvider :
 					searchPermissionDefinition.getRoleSetContributors()) {
 
-					roleProvider.apply(roleSetContributorContextImpl, model);
+					roleProvider.apply(
+						roleSetContributorContextImpl, model, entryClassPK);
 
 					//searchPermissionFields = null;
 				}
