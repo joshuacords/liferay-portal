@@ -80,7 +80,6 @@ public class DynamicInheritanceRoleSetContributor
 		RoleSetContributorContext roleSetContributorContext)
 		throws PortalException {
 
-		Set<Set<String>> roleIdSets = new HashSet<>();
 		Set<String> roleIds = new HashSet<>();
 
 		Role guestRole = _roleLocalService.getRole(
@@ -88,9 +87,7 @@ public class DynamicInheritanceRoleSetContributor
 
 		roleIds.add(String.valueOf(guestRole.getRoleId()));
 
-		roleIdSets.add(roleIds);
-
-		roleSetContributorContext.setViewPermissionRoleIdSets(roleIdSets);
+		roleSetContributorContext.addViewPermissionRoleIdSet(roleIds);
 	}
 
 	private void _assignListAsIndividualRoleIdSets(
@@ -101,21 +98,25 @@ public class DynamicInheritanceRoleSetContributor
 		Set<Set<String>> roleIdSets = new HashSet<>();
 
 		for (Role role : roles) {
-			Set<String> roleIds = new HashSet<>();
-
-			roleIds.add(
-				_roleToRoleId(
-					roleSetContributorContext.getCompanyId(),
-					roleSetContributorContext.getGroupId(), className, classPK,
+			roleSetContributorContext.addViewPermissionRoleIdSet(
+				_roleToRoleIdSet(roleSetContributorContext, className, classPK,
 					role));
-
-			roleIdSets.add(roleIds);
 		}
+	}
 
-		roleSetContributorContext.addViewPermissionRoleIdSet(_roleToRoleId(
-			roleSetContributorContext.getCompanyId(),
-			roleSetContributorContext.getGroupId(), className, classPK,
-			role));
+	private Set<String> _roleToRoleIdSet(
+		RoleSetContributorContext roleSetContributorContext, String className,
+		long classPK, Role role) throws PortalException {
+
+		Set<String> roleIds = new HashSet<>();
+
+		roleIds.add(
+			_roleToRoleId(
+				roleSetContributorContext.getCompanyId(),
+				roleSetContributorContext.getGroupId(), className, classPK,
+				role));
+
+		return roleIds;
 	}
 
 	private String _roleToRoleId(
