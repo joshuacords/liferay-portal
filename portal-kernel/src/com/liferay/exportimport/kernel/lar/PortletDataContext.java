@@ -633,7 +633,8 @@ public interface PortletDataContext extends Serializable {
 
 	public void setGroupId(long groupId);
 
-	public void setImportDataElementCacheEnabled(boolean enabled);
+	public void setImportDataElementCacheEnabled(
+		boolean importDataElementCacheEnabled);
 
 	public void setImportDataRootElement(Element importDataRootElement);
 

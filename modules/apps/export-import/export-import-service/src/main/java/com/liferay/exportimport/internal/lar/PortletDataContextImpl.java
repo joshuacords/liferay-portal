@@ -43,6 +43,8 @@ import com.liferay.exportimport.kernel.lar.UserIdStrategy;
 import com.liferay.exportimport.kernel.xstream.XStreamAlias;
 import com.liferay.exportimport.kernel.xstream.XStreamConverter;
 import com.liferay.exportimport.kernel.xstream.XStreamType;
+import com.liferay.petra.string.CharPool;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.dao.orm.Conjunction;
 import com.liferay.portal.kernel.dao.orm.Criterion;
@@ -986,17 +988,16 @@ public class PortletDataContextImpl implements PortletDataContext {
 	public Element getImportDataElement(
 		String name, String attribute, String value) {
 
-		ImportDataElementCache importDataElementCache =
-			ImportDataElementCache.getImportDataElementCache();
-
 		Element importDataElement = null;
 		String key = StringPool.BLANK;
 
-		if (importDataElementCache.isEnabled()) {
-			key = ImportDataElementCache.getKey(
-				_importDataRootElement, name, attribute, value);
+		if (_importDataElements != null) {
+			key = StringBundler.concat(
+				_importDataRootElement.attributeValue("self-path"),
+				CharPool.POUND, name, CharPool.POUND, attribute, CharPool.POUND,
+				value);
 
-			importDataElement = importDataElementCache.getElement(key);
+			importDataElement = _importDataElements.get(key);
 
 			if (importDataElement != null) {
 				return importDataElement;
@@ -1007,8 +1008,8 @@ public class PortletDataContextImpl implements PortletDataContext {
 
 		importDataElement = getDataElement(groupElement, attribute, value);
 
-		if (importDataElementCache.isEnabled()) {
-			importDataElementCache.put(key, importDataElement);
+		if (_importDataElements != null) {
+			_importDataElements.put(key, importDataElement);
 		}
 
 		return importDataElement;
@@ -2017,14 +2018,14 @@ public class PortletDataContextImpl implements PortletDataContext {
 	}
 
 	@Override
-	public void setImportDataElementCacheEnabled(boolean enabled) {
-		ImportDataElementCache importDataElementCache =
-			ImportDataElementCache.getImportDataElementCache();
+	public void setImportDataElementCacheEnabled(
+		boolean importDataElementCacheEnabled) {
 
-		importDataElementCache.setEnabled(enabled);
-
-		if (!enabled) {
-			importDataElementCache.clear();
+		if (importDataElementCacheEnabled) {
+			_importDataElements = new HashMap<>();
+		}
+		else {
+			_importDataElements = null;
 		}
 	}
 
@@ -2551,13 +2552,12 @@ public class PortletDataContextImpl implements PortletDataContext {
 		Element groupElement = null;
 		String key = StringPool.BLANK;
 
-		ImportDataElementCache importDataElementCache =
-			ImportDataElementCache.getImportDataElementCache();
+		if (_importDataElements != null) {
+			key = StringBundler.concat(
+				_importDataRootElement.attributeValue("self-path"),
+				CharPool.POUND, name);
 
-		if (importDataElementCache.isEnabled()) {
-			key = ImportDataElementCache.getKey(_importDataRootElement, name);
-
-			groupElement = importDataElementCache.getElement(key);
+			groupElement = _importDataElements.get(key);
 
 			if (groupElement != null) {
 				return groupElement;
@@ -2571,8 +2571,8 @@ public class PortletDataContextImpl implements PortletDataContext {
 			groupElement = SAXReaderUtil.createElement("EMPTY-ELEMENT");
 		}
 
-		if (importDataElementCache.isEnabled()) {
-			importDataElementCache.put(key, groupElement);
+		if (_importDataElements != null) {
+			_importDataElements.put(key, groupElement);
 		}
 
 		return groupElement;
@@ -3120,6 +3120,7 @@ public class PortletDataContextImpl implements PortletDataContext {
 	private transient Element _exportDataRootElement;
 	private String _exportImportProcessId;
 	private long _groupId;
+	private Map<String, Element> _importDataElements;
 	private transient Element _importDataRootElement;
 	private transient long[] _layoutIds;
 	private String _layoutSetPrototypeUuid;
