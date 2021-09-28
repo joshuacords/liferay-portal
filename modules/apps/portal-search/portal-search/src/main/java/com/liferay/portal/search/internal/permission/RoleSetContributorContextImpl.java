@@ -2,16 +2,12 @@ package com.liferay.portal.search.internal.permission;
 
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.role.RoleConstants;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.search.spi.model.permission.RoleSetContributorContext;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 
 public class RoleSetContributorContextImpl
@@ -37,14 +33,21 @@ public class RoleSetContributorContextImpl
 	//must be called exactly once per level
 	@Override
 	public void addViewPermissionRoleIdSet(Set<String> roleIdSet) {
-		if(_firstSet) {
-			_firstSet = false;
-			_assignFirstSet(roleIdSet);
+
+		if(_firstViewSet) {
+			_firstViewSet = false;
+			_assignFirstSet(_viewPermissionRoleIdSets, roleIdSet);
 			return;
 		}
 
-		if(_viewPermissionRoleIdSets.isEmpty() || roleIdSet.isEmpty()) {
-			_viewPermissionRoleIdSets.clear();
+		_combineRoleIdSet(_viewPermissionRoleIdSets, roleIdSet);
+	}
+
+	private void _combineRoleIdSet(
+		Set<Set<String>> permissionRoleIdSets, Set<String> roleIdSet) {
+
+		if(permissionRoleIdSets.isEmpty() || roleIdSet.isEmpty()) {
+			permissionRoleIdSets.clear();
 			return;
 		}
 
@@ -52,20 +55,22 @@ public class RoleSetContributorContextImpl
 			return;
 		}
 
-		if(_viewSetContainsGuest()) {
-			_addIndividuallyToViewSet(roleIdSet);
+		if(_setsContainsGuest(permissionRoleIdSets)) {
+			_addIndividuallyToViewSet(permissionRoleIdSets, roleIdSet);
 			return;
 		}
 
 		_combineWithViewSet(roleIdSet);
 		_crossCombineViewPermissions();
-		_viewPermissionRoleIdSets.clear();
-		_viewPermissionRoleIdSets.addAll(_updatedViewPermissionRoleIdSets);
+		permissionRoleIdSets.clear();
+		permissionRoleIdSets.addAll(_updatedViewPermissionRoleIdSets);
 		_updatedViewPermissionRoleIdSets.clear();
 	}
 
-	private boolean _viewSetContainsGuest() {
-		for(Set<String> viewPermissionSet : _viewPermissionRoleIdSets) {
+	private boolean _setsContainsGuest(Set<Set<String>> roleIdSets) {
+		//if roleIdSets.size > 1, shouldn't have guest
+
+		for(Set<String> viewPermissionSet : roleIdSets) {
 			if(viewPermissionSet.contains(_guestRoleId)) {
 				return true;
 			}
@@ -159,25 +164,28 @@ public class RoleSetContributorContextImpl
 		return false;
 	}
 
-	private void _assignFirstSet(Set<String> roleIdSet) {
+	private void _assignFirstSet(
+		Set<Set<String>> roleIdSets, Set<String> roleIdSet) {
 		if(roleIdSet.contains(_guestRoleId)) {
 			Set<String> set = new HashSet<String>();
 
 			set.add(_guestRoleId);
 
-			_viewPermissionRoleIdSets.add(set);
+			roleIdSets.add(set);
 
 			return;
 		}
 
-		_addIndividuallyToViewSet(roleIdSet);
+		_addIndividuallyToViewSet(_viewPermissionRoleIdSets, roleIdSet);
 	}
 
-	private void _addIndividuallyToViewSet(Set<String> roleIdSet) {
+	private void _addIndividuallyToViewSet(
+		Set<Set<String>> roleIdSets,
+		Set<String> roleIdSet) {
 		for(String roleId : roleIdSet) {
 			Set<String> set = new HashSet<String>();
 			set.add(roleId);
-			_viewPermissionRoleIdSets.add(set);
+			roleIdSets.add(set);
 		}
 	}
 
@@ -299,7 +307,8 @@ public class RoleSetContributorContextImpl
 	private final RoleLocalService _roleLocalService;
 	private final String _guestRoleId;
 	private final String _ownerRoleId;
-	private boolean _firstSet = true;
+	private boolean _firstAccessSet = true;
+	private boolean _firstViewSet = true;
 	private Set<Set<String>> _viewPermissionRoleIdSets = new HashSet<>();
 	private Set<Set<String>> _updatedViewPermissionRoleIdSets = new HashSet<>();
 	private final Set<Set<String>> _accessPermissionRoleIdSets =
