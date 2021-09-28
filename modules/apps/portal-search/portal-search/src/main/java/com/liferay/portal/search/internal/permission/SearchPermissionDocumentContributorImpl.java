@@ -14,6 +14,7 @@
 
 package com.liferay.portal.search.internal.permission;
 
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Indexer;
@@ -101,10 +102,17 @@ public class SearchPermissionDocumentContributorImpl
 				document, className, entryClassPK);
 		}
 
-		SearchPermissionFields searchPermissionFields =
-			_searchPermissionFieldsFactory.createSearchPermissionFields(
-				companyId, groupId, className, entryClassPK, id,
-				_getPermissionName(document, className), viewActionId);
+		SearchPermissionFields searchPermissionFields = null;
+
+		try {
+			searchPermissionFields =
+				_searchPermissionFieldsFactory.createSearchPermissionFields(
+					companyId, groupId, className, entryClassPK, id,
+					_getPermissionName(document, className), viewActionId);
+		}
+		catch (PortalException pe) {
+			//log
+		}
 
 		if (searchPermissionFields != null) {
 			document.addKeyword(
