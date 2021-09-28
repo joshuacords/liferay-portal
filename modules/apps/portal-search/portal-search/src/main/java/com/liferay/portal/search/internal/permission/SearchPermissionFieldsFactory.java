@@ -26,12 +26,12 @@ import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.role.RoleConstants;
 import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
+import com.liferay.portal.kernel.service.RoleLocalService;
+import com.liferay.portal.search.spi.model.permission.SearchPermissionDefinition;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.liferay.portal.kernel.service.RoleLocalService;
-import com.liferay.portal.search.spi.model.permission.SearchPermissionDefinition;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -45,8 +45,9 @@ import org.osgi.service.component.annotations.Reference;
 public class SearchPermissionFieldsFactory {
 
 	public SearchPermissionFields createSearchPermissionFields(
-		long companyId, long groupId, String className, long entryClassPK,
-		long id, String permissionName, String viewActionId) throws PortalException {
+			long companyId, long groupId, String className, long entryClassPK,
+			long id, String permissionName, String viewActionId)
+		throws PortalException {
 
 		SearchPermissionFields searchPermissionFields = null;
 
@@ -106,12 +107,35 @@ public class SearchPermissionFieldsFactory {
 		return searchPermissionFields;
 	}
 
+	@Activate
+	@SuppressWarnings("unchecked")
+	protected void activate(BundleContext bundleContext) {
+		_serviceTrackerMap = ServiceTrackerMapFactory.openSingleValueMap(
+			bundleContext,
+			(Class<SearchPermissionDefinition<?>>)
+				(Class<?>)SearchPermissionDefinition.class,
+			null,
+			(serviceReference, emitter) -> {
+				SearchPermissionDefinition<?> searchPermissionDefinition =
+					bundleContext.getService(serviceReference);
+
+				emitter.emit(searchPermissionDefinition.getClassName());
+			});
+	}
+
+	@Deactivate
+	protected void deactivate() {
+		_serviceTrackerMap.close();
+	}
+
 	private <T> RoleSetContributorContextImpl _getRoleSetContributorContextImpl(
-		long companyId, long groupId, long entryClassPK, long id,
-		SearchPermissionDefinition<T> searchPermissionDefinition) throws PortalException {
+			long companyId, long groupId, long entryClassPK, long id,
+			SearchPermissionDefinition<T> searchPermissionDefinition)
+		throws PortalException {
 
 		RoleSetContributorContextImpl roleSetContributorContextImpl =
-			new RoleSetContributorContextImpl(companyId, groupId, _roleLocalService);
+			new RoleSetContributorContextImpl(
+				companyId, groupId, _roleLocalService);
 
 		if (searchPermissionDefinition != null) {
 			T model = searchPermissionDefinition.getModel(entryClassPK);
@@ -121,8 +145,10 @@ public class SearchPermissionFieldsFactory {
 			}
 
 			try {
-				for (SearchPermissionDefinition.RoleSetContributor<T> roleProvider :
-					searchPermissionDefinition.getRoleSetContributors()) {
+				for (SearchPermissionDefinition.RoleSetContributor<T>
+						roleProvider :
+							searchPermissionDefinition.
+								getRoleSetContributors()) {
 
 					roleProvider.apply(
 						roleSetContributorContextImpl, model, entryClassPK);
@@ -140,36 +166,16 @@ public class SearchPermissionFieldsFactory {
 		return roleSetContributorContextImpl;
 	}
 
-	@Activate
-	@SuppressWarnings("unchecked")
-	protected void activate(BundleContext bundleContext) {
-		_serviceTrackerMap = ServiceTrackerMapFactory.openSingleValueMap(
-			bundleContext,
-			(Class<SearchPermissionDefinition<?>>)(Class<?>)SearchPermissionDefinition.class,
-			null,
-			(serviceReference, emitter) -> {
-				SearchPermissionDefinition<?> searchPermissionDefinition =
-					bundleContext.getService(serviceReference);
-
-				emitter.emit(searchPermissionDefinition.getClassName());
-			});
-	}
-
-	@Deactivate
-	protected void deactivate() {
-		_serviceTrackerMap.close();
-	}
-
-	private ServiceTrackerMap<String, SearchPermissionDefinition<?>>
-		_serviceTrackerMap;
-
 	private static final Log _log = LogFactoryUtil.getLog(
 		SearchPermissionFieldsFactory.class);
 
 	@Reference
-	private RoleLocalService _roleLocalService;
+	private ResourcePermissionLocalService _resourcePermissionLocalService;
 
 	@Reference
-	private ResourcePermissionLocalService _resourcePermissionLocalService;
+	private RoleLocalService _roleLocalService;
+
+	private ServiceTrackerMap<String, SearchPermissionDefinition<?>>
+		_serviceTrackerMap;
 
 }

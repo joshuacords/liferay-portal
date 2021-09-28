@@ -135,7 +135,7 @@ public class SearchPermissionDocumentContributorImpl
 					companyId, groupId, className, entryClassPK, id,
 					_getPermissionName(document, className), viewActionId);
 		}
-		catch (PortalException pe) {
+		catch (PortalException portalException) {
 			//log
 		}
 
