@@ -30,6 +30,7 @@ import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.search.spi.model.permission.SearchPermissionDefinition;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.component.annotations.Activate;
@@ -45,7 +46,7 @@ public class SearchPermissionFieldsFactory {
 
 	public SearchPermissionFields createSearchPermissionFields(
 		long companyId, long groupId, String className, long entryClassPK,
-		long id, String permissionName, String viewActionId) {
+		long id, String permissionName, String viewActionId) throws PortalException {
 
 		SearchPermissionFields searchPermissionFields = null;
 
@@ -107,10 +108,10 @@ public class SearchPermissionFieldsFactory {
 
 	private <T> RoleSetContributorContextImpl _getRoleSetContributorContextImpl(
 		long companyId, long groupId, long entryClassPK, long id,
-		SearchPermissionDefinition<T> searchPermissionDefinition) {
+		SearchPermissionDefinition<T> searchPermissionDefinition) throws PortalException {
 
 		RoleSetContributorContextImpl roleSetContributorContextImpl =
-			new RoleSetContributorContextImpl(companyId, groupId);
+			new RoleSetContributorContextImpl(companyId, groupId, _roleLocalService);
 
 		if (searchPermissionDefinition != null) {
 			T model = searchPermissionDefinition.getModel(entryClassPK);
@@ -164,6 +165,9 @@ public class SearchPermissionFieldsFactory {
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		SearchPermissionFieldsFactory.class);
+
+	@Reference
+	private RoleLocalService _roleLocalService;
 
 	@Reference
 	private ResourcePermissionLocalService _resourcePermissionLocalService;
