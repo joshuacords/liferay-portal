@@ -57,7 +57,7 @@ public class RoleSetContributorContextImpl
 			return;
 		}
 
-		Set<String> newRoleIdsSet =  _newRoleIdsSet(permissionRoleIdSets, roleIdSet);
+		_combineWithViewSet(roleIdSet);
 		_crossCombineViewPermissions();
 		_viewPermissionRoleIdSets.clear();
 		_viewPermissionRoleIdSets.addAll(_updatedViewPermissionRoleIdSets);
@@ -74,30 +74,24 @@ public class RoleSetContributorContextImpl
 		return false;
 	}
 
-	private Set<String> _newRoleIdsSet(
-		Set<Set<String>> roleIdSets,
-		Set<String> roleIdSet) {
-		Set<String> newRoleIdsSet = new HashSet<>();
-
+	private void _combineWithViewSet(Set<String> roleIdSet) {
 		for(String roleId : roleIdSet) {
-			if(!_matchFoundInSets(roleIdSets, roleId)) {
-				newRoleIdsSet.add(roleId);
+			if(!_findMatchingViewSets(roleId)) {
+				_roleIdsToCombine.add(roleId);
 			}
 		}
-
-		return newRoleIdsSet;
 	}
 
-	private boolean _matchFoundInSets(
-		Set<Set<String>> roleIdSets, String roleId) {
+	private boolean _findMatchingViewSets(String roleId) {
 		boolean roleHasPermission = false;
 
-		Iterator<Set<String>> roleIdSetsIterator = roleIdSets.iterator();
+		Iterator<Set<String>> viewPermissionIterator =
+			_viewPermissionRoleIdSets.iterator();
 
 		boolean isOwnerRole = _isOwnerRole(roleId);
 
-		while (roleIdSetsIterator.hasNext()) {
-			Set<String> currentRoleIdSet = roleIdSetsIterator.next();
+		while (viewPermissionIterator.hasNext()) {
+			Set<String> currentRoleIdSet = viewPermissionIterator.next();
 
 			if (currentRoleIdSet.contains(roleId)) {
 				if (isOwnerRole &&
@@ -107,7 +101,7 @@ public class RoleSetContributorContextImpl
 
 				_updatedViewPermissionRoleIdSets.add(currentRoleIdSet);
 
-				roleIdSetsIterator.remove();
+				viewPermissionIterator.remove();
 
 				roleHasPermission = true;
 			}
