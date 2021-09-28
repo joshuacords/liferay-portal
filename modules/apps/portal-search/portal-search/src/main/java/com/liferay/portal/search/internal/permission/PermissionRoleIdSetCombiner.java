@@ -37,8 +37,8 @@ public class PermissionRoleIdSetCombiner {
 			return;
 		}
 
-		_parseNewRoleIds(roleIdSet);
-		_crossCombineNewRoleIdsWithRoleIdSets();
+		Set<String> newRoleIds = _parseNewRoleIds(roleIdSet);
+		_crossCombineNewRoleIdsWithRoleIdSets(newRoleIds);
 		_roleIdSets.clear();
 		_roleIdSets.addAll(_updatedRoleIdSets);
 		_updatedRoleIdSets.clear();
@@ -78,13 +78,16 @@ public class PermissionRoleIdSetCombiner {
 		return false;
 	}
 
-	//return _newRoleIds
-	private void _parseNewRoleIds(Set<String> roleIdSet) {
+	private Set<String> _parseNewRoleIds(Set<String> roleIdSet) {
+		Set<String> newRoleIds = new HashSet<>();
+
 		for(String roleId : roleIdSet) {
 			if(!_foundRoleIdInRoleIdSets(roleId)) {
-				_newRoleIds.add(roleId);
+				newRoleIds.add(roleId);
 			}
 		}
+
+		return newRoleIds;
 	}
 
 	private boolean _foundRoleIdInRoleIdSets(String roleId) {
@@ -163,11 +166,10 @@ public class PermissionRoleIdSetCombiner {
 		return false;
 	}
 
-	private void _crossCombineNewRoleIdsWithRoleIdSets() {
+	private void _crossCombineNewRoleIdsWithRoleIdSets(Set<String> newRoleIds) {
 		if (_roleIdSets.isEmpty() ||
-			_newRoleIds.isEmpty()) {
+			newRoleIds.isEmpty()) {
 
-			_newRoleIds.clear();
 			_roleIdSets.clear();
 
 			return;
@@ -182,9 +184,9 @@ public class PermissionRoleIdSetCombiner {
 			Set<String> currentRoleIdSet = _roleIdSetsIterator.next();
 
 			Set<Set<String>> roleIdSetCopies = new HashSet<>(
-				_newRoleIds.size());
+				newRoleIds.size());
 
-			for (String roleId : _newRoleIds) {
+			for (String roleId : newRoleIds) {
 				if (_isOwnerRole(roleId) &&
 					_containsDifferentOwnerRole(currentRoleIdSet, roleId)) {
 					continue;
@@ -203,12 +205,10 @@ public class PermissionRoleIdSetCombiner {
 		}
 
 		_updatedRoleIdSets.addAll(newRoleIdSetCombinations);
-		_newRoleIds.clear();
 	}
 
 	private Set<Set<String>> _updatedRoleIdSets = new HashSet<>();
 	private Set<String> _ownerRoleIds = new HashSet<>();
-	private Set<String> _newRoleIds = new HashSet<>();
 	private Set<Set<String>> _roleIdSets = new HashSet<>();
 	private boolean _firstSet = true;
 	private final long _companyId;
