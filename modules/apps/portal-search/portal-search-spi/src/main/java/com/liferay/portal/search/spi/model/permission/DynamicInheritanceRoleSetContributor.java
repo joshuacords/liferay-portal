@@ -38,6 +38,32 @@ public class DynamicInheritanceRoleSetContributor
 		_fetchParentUnsafeFunction = Objects.requireNonNull(
 			fetchParentUnsafeFunction);
 		_checkParentAccess = checkParentAccess;
+		_parentDynamicInheritanceRoleSetContributor = this;
+
+
+		_portletResourcePermission = Objects.requireNonNull(
+			parentModelResourcePermission.getPortletResourcePermission());
+		_resourcePermissionLocalService = resourcePermissionLocalService;
+		_roleLocalService = roleLocalService;
+	}
+
+	public DynamicInheritanceRoleSetContributor(
+		ModelResourcePermission<P> parentModelResourcePermission,
+		UnsafeFunction<C, P, ? extends PortalException>
+			fetchParentUnsafeFunction,
+		boolean checkParentAccess,
+		ResourcePermissionLocalService resourcePermissionLocalService,
+		RoleLocalService roleLocalService, DynamicInheritanceRoleSetContributor
+		parentDynamicInheritanceRoleSetContributor) {
+
+		_parentModelResourcePermission = Objects.requireNonNull(
+			parentModelResourcePermission);
+		_fetchParentUnsafeFunction = Objects.requireNonNull(
+			fetchParentUnsafeFunction);
+		_checkParentAccess = checkParentAccess;
+
+		_parentDynamicInheritanceRoleSetContributor =
+			parentDynamicInheritanceRoleSetContributor;
 
 		_portletResourcePermission = Objects.requireNonNull(
 			parentModelResourcePermission.getPortletResourcePermission());
@@ -58,40 +84,21 @@ public class DynamicInheritanceRoleSetContributor
 			ResourceConstants.SCOPE_INDIVIDUAL,	Long.toString(resourcePrimKey),
 			ActionKeys.VIEW);
 
-		Role guestRole = _roleLocalService.getRole(
-			roleSetContributorContext.getCompanyId(), RoleConstants.GUEST);
-
 		_assignRolesAsIndividualViewRoleIdSets(
 			roleSetContributorContext, child.getModelClassName(),
 			GetterUtil.getLong(child.getPrimaryKeyObj()), roles);
 
 		if (parent == null) {
-			if (roles.contains(guestRole)) {
-				_assignGuestRoleIdSet(roleSetContributorContext);
-
-				return;
-			}
-
-
-
 			return;
 		}
 
 		if (_checkParentAccess) {
 			_applyAccessRoles(parent, roleSetContributorContext);
+
+			_parentDynamicInheritanceRoleSetContributor.apply(
+				roleSetContributorContext, parent,
+				Long.parseLong(String.valueOf(parent.getPrimaryKeyObj())));
 		}
-
-
-
-
-//		if ((_checkParentAccess &&
-//			 _parentModelResourcePermission.contains(
-//				 permissionChecker, parent, ActionKeys.ACCESS)) ||
-//			_parentModelResourcePermission.contains(
-//				permissionChecker, parent, ActionKeys.VIEW)) {
-//
-//			return;
-//		}
 	}
 
 	private void _applyAccessRoles(
@@ -207,6 +214,8 @@ public class DynamicInheritanceRoleSetContributor
 		return false;
 	}
 
+	private final DynamicInheritanceRoleSetContributor
+		_parentDynamicInheritanceRoleSetContributor;
 	private final boolean _checkParentAccess;
 	private final UnsafeFunction<C, P, ? extends PortalException>
 		_fetchParentUnsafeFunction;
