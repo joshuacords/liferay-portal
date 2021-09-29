@@ -53,6 +53,7 @@ public class PermissionRoleIdSetCombiner {
 		}
 
 		if (_roleIdSetsContainGuest()) { //make into flag
+			_roleIdSets.clear();
 			_addIndividuallyToRoleIdSets(roleIdSet);
 
 			return;
