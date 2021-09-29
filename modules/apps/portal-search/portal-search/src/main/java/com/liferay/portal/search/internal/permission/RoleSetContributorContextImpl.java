@@ -51,6 +51,7 @@ public class RoleSetContributorContextImpl
 			_companyId, _groupId, guestRoleId, ownerRoleId);
 	}
 
+	//this might be strictly additive? I believe the lowest level access can never be removed
 	@Override
 	public void addAccessPermissionRoleIdSet(Set<String> roleIdSet) {
 		_accessPermissionRoleIdSetCombiner.addRoleIdSet(roleIdSet);
