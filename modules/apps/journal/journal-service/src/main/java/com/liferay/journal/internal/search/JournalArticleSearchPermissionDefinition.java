@@ -52,16 +52,23 @@ public class JournalArticleSearchPermissionDefinition
 
 	@Override
 	public List<RoleSetContributor<JournalArticle>> getRoleSetContributors() {
+		DynamicInheritanceRoleSetContributor journalFolderContributor =
+			new DynamicInheritanceRoleSetContributor<>(
+			_journalFolderModelResourcePermission,
+			_getFetchJournalFolderParentFunction(), true,
+			_resourcePermissionLocalService, _roleLocalService);
+
 		return Arrays.asList(
 			new DynamicInheritanceRoleSetContributor<>(
 			_journalFolderModelResourcePermission,
-			_getFetchParentFunction(), true,
-				_resourcePermissionLocalService, _roleLocalService));
+				_getFetchJournalArticleParentFunction(), true,
+				_resourcePermissionLocalService, _roleLocalService,
+				journalFolderContributor));
 //			new WorkflowedModelRoleSetContributor());
 	}
 
 	private UnsafeFunction<JournalArticle, JournalFolder, PortalException>
-	_getFetchParentFunction() {
+	_getFetchJournalArticleParentFunction() {
 
 		return article -> {
 			long folderId = article.getFolderId();
@@ -72,6 +79,24 @@ public class JournalArticleSearchPermissionDefinition
 
 			if (article.isInTrash()) {
 				return _journalFolderLocalService.fetchFolder(folderId);
+			}
+
+			return _journalFolderLocalService.getFolder(folderId);
+		};
+	}
+
+	private UnsafeFunction<JournalFolder, JournalFolder, PortalException>
+	_getFetchJournalFolderParentFunction() {
+
+		return folder -> {
+			long folderId = folder.getParentFolderId();
+
+			if (JournalFolderConstants.DEFAULT_PARENT_FOLDER_ID == folderId) {
+				return null;
+			}
+
+			if (folder.isInTrash()) {
+				return _journalFolderLocalService.fetchJournalFolder(folderId);
 			}
 
 			return _journalFolderLocalService.getFolder(folderId);
