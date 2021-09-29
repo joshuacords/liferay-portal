@@ -86,7 +86,7 @@ public class DynamicInheritanceRoleSetContributor
 
 		_assignRolesAsIndividualViewRoleIdSets(
 			roleSetContributorContext, child.getModelClassName(),
-			GetterUtil.getLong(child.getPrimaryKeyObj()), roles);
+			resourcePrimKey, roles);
 
 		if (parent == null) {
 			return;
@@ -97,7 +97,7 @@ public class DynamicInheritanceRoleSetContributor
 
 			_parentDynamicInheritanceRoleSetContributor.apply(
 				roleSetContributorContext, parent,
-				Long.parseLong(String.valueOf(parent.getPrimaryKeyObj())));
+				Long.parseLong(String.valueOf(parent.getPrimaryKeyObj()))); //make sure PrimaryKeyObj works for all asset parents
 		}
 	}
 
