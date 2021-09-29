@@ -45,15 +45,13 @@ MBCategoryDisplay categoryDisplay = new MBCategoryDisplay(scopeGroupId, category
 		<liferay-ui:search-container-column-text
 			colspan="<%= 2 %>"
 		>
-			<h4>
-				<aui:a href="<%= rowURL.toString() %>">
-					<%= curCategory.getName() %>
-				</aui:a>
-			</h4>
+			<aui:a href="<%= rowURL.toString() %>">
+				<%= curCategory.getName() %>
+			</aui:a>
 
-			<h5 class="text-default">
+			<span class="text-default">
 				<%= curCategory.getDescription() %>
-			</h5>
+			</span>
 
 			<%
 			int subcategoriesCount = categoryDisplay.getSubcategoriesCount(curCategory);

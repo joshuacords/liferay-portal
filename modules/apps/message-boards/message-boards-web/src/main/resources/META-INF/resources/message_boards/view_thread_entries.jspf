@@ -56,7 +56,7 @@
 		<liferay-ui:search-container-column-text
 			colspan="<%= 2 %>"
 		>
-			<h2 class="h5">
+			<div class="h5">
 				<aui:a href="<%= rowURL.toString() %>">
 					<c:if test="<%= message != null %>">
 						<c:choose>
@@ -81,7 +81,7 @@
 				<c:if test="<%= thread.isQuestion() %>">
 					<aui:icon cssClass="icon-monospaced" image="question-circle" markupView="lexicon" message="question" />
 				</c:if>
-			</h2>
+			</div>
 
 			<c:choose>
 				<c:when test="<%= (message != null) && (thread.getMessageCount() == 1) %>">
