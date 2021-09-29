@@ -31,6 +31,7 @@ import com.liferay.portal.search.spi.model.permission.SearchPermissionDefinition
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.service.component.annotations.Activate;
@@ -58,6 +59,10 @@ public class SearchPermissionFieldsFactory {
 			_getRoleSetContributorContextImpl(
 				companyId, groupId, entryClassPK, id,
 				searchPermissionDefinition);
+
+		Set<Set<String>> roleIdSet =
+			_permissionRoleIdSetCombinerUtil.combineRoleIdSets(
+				roleSetContributorContextImpl);
 
 		if (searchPermissionFields != null) {
 			return searchPermissionFields;
@@ -168,6 +173,9 @@ public class SearchPermissionFieldsFactory {
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		SearchPermissionFieldsFactory.class);
+
+	@Reference
+	private PermissionRoleIdSetCombinerUtil _permissionRoleIdSetCombinerUtil;
 
 	@Reference
 	private ResourcePermissionLocalService _resourcePermissionLocalService;
