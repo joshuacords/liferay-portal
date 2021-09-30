@@ -52,12 +52,18 @@ public class JournalArticleSearchPermissionDefinition
 
 	@Override
 	public List<RoleSetContributor<JournalArticle>> getRoleSetContributors() {
+		DynamicInheritanceRoleSetContributor journalFolderContributor =
+			new DynamicInheritanceRoleSetContributor<>(
+			_journalFolderModelResourcePermission,
+			_getFetchJournalFolderParentFunction(), true,
+			_resourcePermissionLocalService, _roleLocalService);
+
 		return Arrays.asList(
 			new DynamicInheritanceRoleSetContributor<>(
 			_journalFolderModelResourcePermission,
 				_getFetchJournalArticleParentFunction(), true,
 				_resourcePermissionLocalService, _roleLocalService,
-				_journalFolderSearchPermissionDefinition.getDynamicInheritanceRoleSetContributor()));
+				journalFolderContributor));
 //			new WorkflowedModelRoleSetContributor());
 	}
 
@@ -114,9 +120,5 @@ public class JournalArticleSearchPermissionDefinition
 
 	@Reference
 	private RoleLocalService _roleLocalService;
-
-	@Reference
-	private JournalFolderSearchPermissionDefinition
-		_journalFolderSearchPermissionDefinition;
 
 }
