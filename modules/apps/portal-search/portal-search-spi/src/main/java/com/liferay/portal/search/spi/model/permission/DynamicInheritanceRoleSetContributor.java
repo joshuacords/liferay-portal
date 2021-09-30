@@ -94,11 +94,12 @@ public class DynamicInheritanceRoleSetContributor
 
 		if (_checkParentAccess) {
 			_applyAccessRoles(parent, roleSetContributorContext);
-
-			_parentDynamicInheritanceRoleSetContributor.apply(
-				roleSetContributorContext, parent,
-				Long.parseLong(String.valueOf(parent.getPrimaryKeyObj()))); //make sure PrimaryKeyObj works for all asset parents
 		}
+
+		_parentDynamicInheritanceRoleSetContributor.apply(
+			roleSetContributorContext, parent,
+			Long.parseLong(String.valueOf(parent.getPrimaryKeyObj()))); //make sure PrimaryKeyObj works for all asset parents
+
 	}
 
 	private void _applyAccessRoles(
