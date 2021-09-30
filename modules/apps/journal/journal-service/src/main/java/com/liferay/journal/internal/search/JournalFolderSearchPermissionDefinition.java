@@ -55,7 +55,7 @@ public class JournalFolderSearchPermissionDefinition
 		return Arrays.asList(
 			new DynamicInheritanceRoleSetContributor<>(
 				_journalFolderModelResourcePermission,
-				_getFetchParentFunction(), true,
+				_getFetchParentFunction(), false,
 				_resourcePermissionLocalService, _roleLocalService));
 //			new WorkflowedModelRoleSetContributor());
 	}
