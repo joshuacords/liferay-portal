@@ -61,8 +61,7 @@ public class SearchPermissionFieldsFactory {
 				searchPermissionDefinition);
 
 		Set<Set<String>> roleIdSets =
-			PermissionRoleIdSetCombinerUtil.combineRoleIdSets(
-				roleSetContributorContextImpl);
+			roleSetContributorContextImpl.getCombinedPermissionRoleIdSets();
 
 		if (searchPermissionFields != null) {
 			return searchPermissionFields;
