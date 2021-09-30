@@ -55,7 +55,7 @@ public class JournalArticleSearchPermissionDefinition
 		DynamicInheritanceRoleSetContributor journalFolderContributor =
 			new DynamicInheritanceRoleSetContributor<>(
 			_journalFolderModelResourcePermission,
-			_getFetchJournalFolderParentFunction(), true,
+			_getFetchJournalFolderParentFunction(), false,
 			_resourcePermissionLocalService, _roleLocalService);
 
 		return Arrays.asList(
