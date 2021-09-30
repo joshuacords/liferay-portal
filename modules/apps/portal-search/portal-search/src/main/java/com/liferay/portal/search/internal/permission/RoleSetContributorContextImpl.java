@@ -20,6 +20,8 @@ import com.liferay.portal.kernel.model.role.RoleConstants;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.search.spi.model.permission.RoleSetContributorContext;
 
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -81,6 +83,60 @@ public class RoleSetContributorContextImpl
 		return _viewPermissionRoleIdSetCombiner.getRoleIdSets();
 	}
 
+	public Set<Set<String>> getCombinedPermissionRoleIdSets() {
+		return _permissionRoleIdSetCombinerUtil.combineRoleIdSets(this);
+	}
+
+	private class PermissionRoleIdSetCombinerUtil {
+
+		public Set<Set<String>> combineRoleIdSets(
+			RoleSetContributorContextImpl roleSetContributorContextImpl) {
+
+			return combineRoleIdSets(
+				roleSetContributorContextImpl.getAccessPermissionRoleIdSets(),
+				roleSetContributorContextImpl.getViewPermissionRoleIdSets());
+		}
+
+		public Set<Set<String>> combineRoleIdSets(
+			Set<Set<String>> roleIdSets1, Set<Set<String>> roleIdSets2) {
+
+			Set<Set<String>> roleIdsCombinations = new HashSet<>();
+
+			roleIdsCombinations.addAll(roleIdSets1);
+			roleIdsCombinations.addAll(roleIdSets2);
+
+			_removeRedundantSets(roleIdsCombinations);
+
+			return roleIdsCombinations;
+		}
+
+		private void _removeRedundantSets(Set<Set<String>> roleIdSets) {
+			Iterator<Set<String>> comparingIterator = roleIdSets.iterator();
+
+			while (comparingIterator.hasNext()) {
+				Set<String> comparingSet = comparingIterator.next();
+
+				Iterator<Set<String>> searchingIterator = roleIdSets.iterator();
+
+				while (searchingIterator.hasNext()) {
+					Set<String> searchedSet = searchingIterator.next();
+
+					if (comparingSet == searchedSet) {
+						continue;
+					}
+
+					if (comparingSet.containsAll(searchedSet)) {
+						comparingIterator.remove();
+
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	private final PermissionRoleIdSetCombinerUtil _permissionRoleIdSetCombinerUtil =
+		new PermissionRoleIdSetCombinerUtil();
 	private final PermissionRoleIdSetCombiner
 		_accessPermissionRoleIdSetCombiner;
 	private final long _companyId;
