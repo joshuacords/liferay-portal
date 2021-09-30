@@ -75,7 +75,7 @@ public abstract class BaseJournalFormNavigatorEntry
 		return false;
 	}
 
-	protected boolean isGlobalSiteOrDepot(JournalArticle article) {
+	protected boolean isDepotOrGlobalSite(JournalArticle article) {
 		Group group = null;
 
 		if ((article != null) && (article.getId() > 0)) {
