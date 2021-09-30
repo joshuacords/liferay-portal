@@ -415,7 +415,7 @@ public class DDMFormEmailNotificationSender {
 	}
 
 	protected String getViewFormEntriesURL(
-			ServiceContext serviceContex, DDMFormInstance ddmFormInstance)
+			ServiceContext serviceContext, DDMFormInstance ddmFormInstance)
 		throws PortalException {
 
 		String portletNamespace = _portal.getPortletNamespace(
