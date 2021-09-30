@@ -21,6 +21,7 @@ import com.liferay.journal.service.JournalArticleLocalService;
 import com.liferay.journal.service.JournalFolderLocalService;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.security.permission.resource.DynamicInheritancePermissionLogic;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
 import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.service.RoleLocalService;
@@ -53,11 +54,12 @@ public class JournalFolderSearchPermissionDefinition
 	@Override
 	public List<RoleSetContributor<JournalFolder>> getRoleSetContributors() {
 		return Arrays.asList(
-			new DynamicInheritanceRoleSetContributor<>(
-				_journalFolderModelResourcePermission,
-				_getFetchParentFunction(), true,
-				_resourcePermissionLocalService, _roleLocalService));
+			_dynamicInheritanceRoleSetContributor);
 //			new WorkflowedModelRoleSetContributor());
+	}
+
+	protected DynamicInheritanceRoleSetContributor getDynamicInheritanceRoleSetContributor() {
+		return _dynamicInheritanceRoleSetContributor;
 	}
 
 	private UnsafeFunction<JournalFolder, JournalFolder, PortalException>
@@ -92,5 +94,11 @@ public class JournalFolderSearchPermissionDefinition
 
 	@Reference
 	private RoleLocalService _roleLocalService;
+
+	private DynamicInheritanceRoleSetContributor<JournalFolder, JournalFolder>
+		_dynamicInheritanceRoleSetContributor =
+		new DynamicInheritanceRoleSetContributor<>(
+			_journalFolderModelResourcePermission, _getFetchParentFunction(),
+			false, _resourcePermissionLocalService, _roleLocalService);
 
 }
