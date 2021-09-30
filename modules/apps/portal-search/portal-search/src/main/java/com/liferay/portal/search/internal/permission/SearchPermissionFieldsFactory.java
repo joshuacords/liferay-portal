@@ -60,8 +60,8 @@ public class SearchPermissionFieldsFactory {
 				companyId, groupId, entryClassPK, id,
 				searchPermissionDefinition);
 
-		Set<Set<String>> roleIdSet =
-			_permissionRoleIdSetCombinerUtil.combineRoleIdSets(
+		Set<Set<String>> roleIdSets =
+			PermissionRoleIdSetCombinerUtil.combineRoleIdSets(
 				roleSetContributorContextImpl);
 
 		if (searchPermissionFields != null) {
@@ -173,9 +173,6 @@ public class SearchPermissionFieldsFactory {
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		SearchPermissionFieldsFactory.class);
-
-	@Reference
-	private PermissionRoleIdSetCombinerUtil _permissionRoleIdSetCombinerUtil;
 
 	@Reference
 	private ResourcePermissionLocalService _resourcePermissionLocalService;

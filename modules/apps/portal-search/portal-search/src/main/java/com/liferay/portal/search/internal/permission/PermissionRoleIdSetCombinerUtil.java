@@ -14,17 +14,25 @@
 
 package com.liferay.portal.search.internal.permission;
 
-import org.osgi.service.component.annotations.Component;
-
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+
+import org.osgi.service.component.annotations.Component;
 
 /**
  * @author Joshua Cords
  */
 @Component(immediate = true, service = {})
 public class PermissionRoleIdSetCombinerUtil {
+
+	public static Set<Set<String>> combineRoleIdSets(
+		RoleSetContributorContextImpl roleSetContributorContextImpl) {
+
+		return combineRoleIdSets(
+			roleSetContributorContextImpl.getAccessPermissionRoleIdSets(),
+			roleSetContributorContextImpl.getViewPermissionRoleIdSets());
+	}
 
 	public static Set<Set<String>> combineRoleIdSets(
 		Set<Set<String>> roleIdSets1, Set<Set<String>> roleIdSets2) {
@@ -39,42 +47,28 @@ public class PermissionRoleIdSetCombinerUtil {
 		return roleIdsCombinations;
 	}
 
-	public static Set<Set<String>> combineRoleIdSets(
-		RoleSetContributorContextImpl roleSetContributorContextImpl) {
-		return combineRoleIdSets(
-			roleSetContributorContextImpl.getAccessPermissionRoleIdSets(),
-			roleSetContributorContextImpl.getViewPermissionRoleIdSets());
-	}
-
 	private static void _removeRedundantSets(Set<Set<String>> roleIdSets) {
-
-		//for each Set1 in sets
 		Iterator<Set<String>> comparingIterator = roleIdSets.iterator();
 
 		while (comparingIterator.hasNext()) {
 			Set<String> comparingSet = comparingIterator.next();
-			//for each other sets
+
 			Iterator<Set<String>> searchingIterator = roleIdSets.iterator();
 
 			while (searchingIterator.hasNext()) {
 				Set<String> searchedSet = searchingIterator.next();
 
-				if(comparingSet == searchedSet) {
+				if (comparingSet == searchedSet) {
 					continue;
 				}
 
-				//if Set1 containsAll otherSet
-				//delete Set1 and break
-				if(comparingSet.containsAll(searchedSet)) {
+				if (comparingSet.containsAll(searchedSet)) {
 					comparingIterator.remove();
+
 					break;
 				}
-
-				if(searchedSet.containsAll(comparingSet)) {
-					searchingIterator.remove();
-				}
-
 			}
 		}
 	}
+
 }
