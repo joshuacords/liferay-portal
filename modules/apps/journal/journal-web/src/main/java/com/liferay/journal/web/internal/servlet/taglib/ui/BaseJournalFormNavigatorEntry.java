@@ -55,26 +55,6 @@ public abstract class BaseJournalFormNavigatorEntry
 		return LanguageUtil.get(locale, getKey());
 	}
 
-	protected boolean isEditDefaultValues(JournalArticle article) {
-		ServiceContext serviceContext =
-			ServiceContextThreadLocal.getServiceContext();
-
-		HttpServletRequest httpServletRequest = serviceContext.getRequest();
-
-		PortletRequest portletRequest =
-			(PortletRequest)httpServletRequest.getAttribute(
-				JavaConstants.JAVAX_PORTLET_REQUEST);
-
-		long classNameId = BeanParamUtil.getLong(
-			article, portletRequest, "classNameId");
-
-		if (classNameId > JournalArticleConstants.CLASSNAME_ID_DEFAULT) {
-			return true;
-		}
-
-		return false;
-	}
-
 	protected boolean isDepotOrGlobalSite(JournalArticle article) {
 		Group group = null;
 
@@ -91,6 +71,26 @@ public abstract class BaseJournalFormNavigatorEntry
 		}
 
 		if ((group != null) && (group.isCompany() || group.isDepot())) {
+			return true;
+		}
+
+		return false;
+	}
+
+	protected boolean isEditDefaultValues(JournalArticle article) {
+		ServiceContext serviceContext =
+			ServiceContextThreadLocal.getServiceContext();
+
+		HttpServletRequest httpServletRequest = serviceContext.getRequest();
+
+		PortletRequest portletRequest =
+			(PortletRequest)httpServletRequest.getAttribute(
+				JavaConstants.JAVAX_PORTLET_REQUEST);
+
+		long classNameId = BeanParamUtil.getLong(
+			article, portletRequest, "classNameId");
+
+		if (classNameId > JournalArticleConstants.CLASSNAME_ID_DEFAULT) {
 			return true;
 		}
 
