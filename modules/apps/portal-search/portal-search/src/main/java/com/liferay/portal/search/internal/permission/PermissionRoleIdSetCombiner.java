@@ -72,6 +72,10 @@ public class PermissionRoleIdSetCombiner {
 		return _roleIdSets;
 	}
 
+	public boolean isFirstSet() {
+		return _firstSet;
+	}
+
 	private void _addIndividuallyToRoleIdSets(Set<String> roleIdSet) {
 		for (String roleId : roleIdSet) {
 			Set<String> set = new HashSet<>();
