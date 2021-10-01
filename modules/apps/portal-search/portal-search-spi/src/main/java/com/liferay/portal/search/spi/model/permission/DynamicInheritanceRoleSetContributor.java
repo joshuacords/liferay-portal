@@ -1,3 +1,17 @@
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ */
+
 package com.liferay.portal.search.spi.model.permission;
 
 import com.liferay.petra.function.UnsafeFunction;
@@ -20,10 +34,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
-
+/**
+ * @author Joshua Cords
+ */
 public class DynamicInheritanceRoleSetContributor
-		<C extends GroupedModel, P extends GroupedModel>
-	implements SearchPermissionDefinition.RoleSetContributor<C> {
+	<C extends GroupedModel, P extends GroupedModel>
+		implements SearchPermissionDefinition.RoleSetContributor<C> {
 
 	public DynamicInheritanceRoleSetContributor(
 		ModelResourcePermission<P> parentModelResourcePermission,
@@ -38,13 +54,14 @@ public class DynamicInheritanceRoleSetContributor
 		_fetchParentUnsafeFunction = Objects.requireNonNull(
 			fetchParentUnsafeFunction);
 		_checkParentAccess = checkParentAccess;
-		_parentDynamicInheritanceRoleSetContributor = this;
 
+		_resourcePermissionLocalService = resourcePermissionLocalService;
+		_roleLocalService = roleLocalService;
+
+		_parentDynamicInheritanceRoleSetContributor = this;
 
 		_portletResourcePermission = Objects.requireNonNull(
 			parentModelResourcePermission.getPortletResourcePermission());
-		_resourcePermissionLocalService = resourcePermissionLocalService;
-		_roleLocalService = roleLocalService;
 	}
 
 	public DynamicInheritanceRoleSetContributor(
@@ -53,35 +70,35 @@ public class DynamicInheritanceRoleSetContributor
 			fetchParentUnsafeFunction,
 		boolean checkParentAccess,
 		ResourcePermissionLocalService resourcePermissionLocalService,
-		RoleLocalService roleLocalService, DynamicInheritanceRoleSetContributor
-		parentDynamicInheritanceRoleSetContributor) {
+		RoleLocalService roleLocalService,
+		DynamicInheritanceRoleSetContributor
+			parentDynamicInheritanceRoleSetContributor) {
 
 		_parentModelResourcePermission = Objects.requireNonNull(
 			parentModelResourcePermission);
 		_fetchParentUnsafeFunction = Objects.requireNonNull(
 			fetchParentUnsafeFunction);
 		_checkParentAccess = checkParentAccess;
+		_parentDynamicInheritanceRoleSetContributor =			parentDynamicInheritanceRoleSetContributor;
 
-		_parentDynamicInheritanceRoleSetContributor =
-			parentDynamicInheritanceRoleSetContributor;
+		_resourcePermissionLocalService = resourcePermissionLocalService;
+		_roleLocalService = roleLocalService;
 
 		_portletResourcePermission = Objects.requireNonNull(
 			parentModelResourcePermission.getPortletResourcePermission());
-		_resourcePermissionLocalService = resourcePermissionLocalService;
-		_roleLocalService = roleLocalService;
 	}
 
 	@Override
 	public void apply(
-		RoleSetContributorContext roleSetContributorContext, C child,
-		long resourcePrimKey)
+			RoleSetContributorContext roleSetContributorContext, C child,
+			long resourcePrimKey)
 		throws PortalException {
 
 		P parent = _fetchParentUnsafeFunction.apply(child);
 
 		List<Role> roles = _resourcePermissionLocalService.getRoles(
 			roleSetContributorContext.getCompanyId(), child.getModelClassName(),
-			ResourceConstants.SCOPE_INDIVIDUAL,	Long.toString(resourcePrimKey),
+			ResourceConstants.SCOPE_INDIVIDUAL, Long.toString(resourcePrimKey),
 			ActionKeys.VIEW);
 
 		_assignRolesAsIndividualViewRoleIdSets(
@@ -93,7 +110,7 @@ public class DynamicInheritanceRoleSetContributor
 		}
 
 		if (_checkParentAccess) {
-			_applyAccessRoles(parent, roleSetContributorContext);
+			_applyAccessRoles(parent, roles, roleSetContributorContext);
 		}
 
 		_parentDynamicInheritanceRoleSetContributor.apply(
@@ -103,68 +120,69 @@ public class DynamicInheritanceRoleSetContributor
 	}
 
 	private void _applyAccessRoles(
-		P parent, RoleSetContributorContext roleSetContributorContext)
+			P parent, List<Role> viewRoles,
+			RoleSetContributorContext roleSetContributorContext)
 		throws PortalException {
 
-		List<Role> roles = _resourcePermissionLocalService.getRoles(
-			roleSetContributorContext.getCompanyId(), parent.getModelClassName(),
-			ResourceConstants.SCOPE_INDIVIDUAL,
+		List<Role> accessRoles = _resourcePermissionLocalService.getRoles(
+			roleSetContributorContext.getCompanyId(),
+			parent.getModelClassName(), ResourceConstants.SCOPE_INDIVIDUAL,
 			String.valueOf(parent.getPrimaryKeyObj()), ActionKeys.ACCESS);
 
 		_assignRolesAsIndividualAccessRoleIdSets(
 			roleSetContributorContext, parent.getModelClassName(),
-			GetterUtil.getLong(parent.getPrimaryKeyObj()), roles);
-
-	}
-
-	private void _assignGuestRoleIdSet(
-		RoleSetContributorContext roleSetContributorContext)
-		throws PortalException {
-
-		Set<String> roleIds = new HashSet<>();
-
-		Role guestRole = _roleLocalService.getRole(
-			roleSetContributorContext.getCompanyId(), RoleConstants.GUEST);
-
-		roleIds.add(String.valueOf(guestRole.getRoleId()));
-
-		roleSetContributorContext.addViewPermissionRoleIdSet(roleIds);
+			GetterUtil.getLong(parent.getPrimaryKeyObj()), accessRoles,
+			viewRoles);
 	}
 
 	private void _assignRolesAsIndividualViewRoleIdSets(
-		RoleSetContributorContext roleSetContributorContext, String className,
-		long classPK, List<Role> roles)
+			RoleSetContributorContext roleSetContributorContext,
+			String className, long classPK, List<Role> roles)
+		throws PortalException {
+
+		roleSetContributorContext.addViewPermissionRoleIdSet(
+			_createRoleIdSet(
+				roleSetContributorContext, className, classPK, roles));
+	}
+
+	private void _assignRolesAsIndividualAccessRoleIdSets(
+			RoleSetContributorContext roleSetContributorContext,
+			String className, long classPK, List<Role> accessRoles,
+			List<Role> viewRoles)
+		throws PortalException {
+
+		Set<String> accessRoleIdSet = _createRoleIdSet(
+			roleSetContributorContext, className, classPK, accessRoles);
+
+		Set<String> viewRoleIdSet = _createRoleIdSet(
+			roleSetContributorContext, className, classPK, viewRoles);
+
+		roleSetContributorContext.addAccessPermissionRoleIdSet(
+			accessRoleIdSet, viewRoleIdSet);
+	}
+
+	private Set<String> _createRoleIdSet(
+			RoleSetContributorContext roleSetContributorContext,
+			String className, long classPK, List<Role> roles)
 		throws PortalException {
 
 		Set<String> roleIdSet = new HashSet<>();
 
 		for (Role role : roles) {
-			roleIdSet.add(_roleToRoleId(
-				roleSetContributorContext.getCompanyId(),
-				roleSetContributorContext.getGroupId(), className, classPK,
-				role));
-		}
-
-		roleSetContributorContext.addViewPermissionRoleIdSet(roleIdSet);
-	}
-
-	private void _assignRolesAsIndividualAccessRoleIdSets(
-		RoleSetContributorContext roleSetContributorContext, String className,
-		long classPK, List<Role> roles)
-		throws PortalException {
-
-		Set<Set<String>> roleIdSets = new HashSet<>();
-
-		for (Role role : roles) {
-			roleSetContributorContext.addAccessPermissionRoleIdSet(
-				_roleToRoleIdSet(roleSetContributorContext, className, classPK,
+			roleIdSet.add(
+				_roleToRoleId(
+					roleSetContributorContext.getCompanyId(),
+					roleSetContributorContext.getGroupId(), className, classPK,
 					role));
 		}
+
+		return roleIdSet;
 	}
 
 	private Set<String> _roleToRoleIdSet(
-		RoleSetContributorContext roleSetContributorContext, String className,
-		long classPK, Role role) throws PortalException {
+			RoleSetContributorContext roleSetContributorContext,
+			String className, long classPK, Role role)
+		throws PortalException {
 
 		Set<String> roleIds = new HashSet<>();
 
@@ -178,8 +196,8 @@ public class DynamicInheritanceRoleSetContributor
 	}
 
 	private String _roleToRoleId(
-		long companyId, long groupId, String className, long classPK,
-		Role role)
+			long companyId, long groupId, String className, long classPK,
+			Role role)
 		throws PortalException {
 
 		Role ownerRole = _roleLocalService.getRole(
@@ -197,7 +215,7 @@ public class DynamicInheritanceRoleSetContributor
 					String.valueOf(classPK), ownerRole.getRoleId());
 
 			return resourcePermission.getOwnerId() + StringPool.DASH +
-				   role.getRoleId();
+				role.getRoleId();
 		}
 		else {
 			return String.valueOf(role.getRoleId());
@@ -222,8 +240,8 @@ public class DynamicInheritanceRoleSetContributor
 		_fetchParentUnsafeFunction;
 	private final ModelResourcePermission<P> _parentModelResourcePermission;
 	private final PortletResourcePermission _portletResourcePermission;
-
-	private final ResourcePermissionLocalService _resourcePermissionLocalService;
+	private final ResourcePermissionLocalService
+		_resourcePermissionLocalService;
 	private final RoleLocalService _roleLocalService;
 
 }

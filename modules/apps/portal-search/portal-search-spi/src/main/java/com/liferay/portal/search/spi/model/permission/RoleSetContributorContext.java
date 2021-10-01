@@ -21,11 +21,13 @@ import java.util.Set;
  */
 public interface RoleSetContributorContext {
 
-	public void addAccessPermissionRoleIdSet(Set<String> set);
+	public void addAccessPermissionRoleIdSet(
+		Set<String> accessRoleIdSet, Set<String> viewRoleIdSet);
 
 	public void addViewPermissionRoleIdSet(Set<String> set);
 
 	public long getCompanyId();
 
 	public long getGroupId();
+
 }
