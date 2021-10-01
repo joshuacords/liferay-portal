@@ -35,8 +35,8 @@ public class PermissionRoleIdSetCombiner {
 	}
 
 	public void addRoleIdSet(Set<String> roleIdSet) {
-		if (_firstSet) {
-			_firstSet = false;
+		if (!_assigned) {
+			_assigned = true;
 			_assignFirstSet(roleIdSet);
 
 			return;
@@ -72,8 +72,8 @@ public class PermissionRoleIdSetCombiner {
 		return _roleIdSets;
 	}
 
-	public boolean isFirstSet() {
-		return _firstSet;
+	public boolean isAssigned() {
+		return _assigned;
 	}
 
 	private void _addIndividuallyToRoleIdSets(Set<String> roleIdSet) {
@@ -238,8 +238,8 @@ public class PermissionRoleIdSetCombiner {
 		return false;
 	}
 
+	private boolean _assigned = false;
 	private final long _companyId;
-	private boolean _firstSet = true;
 	private final long _groupId;
 	private final String _guestRoleId;
 	private final String _ownerRoleId;

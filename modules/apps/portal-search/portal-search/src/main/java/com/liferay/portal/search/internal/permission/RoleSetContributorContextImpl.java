@@ -54,16 +54,16 @@ public class RoleSetContributorContextImpl
 	}
 
 	@Override
-	public void addAccessPermissionRoleIdSet(
-		Set<String> accessRoleIdSet, Set<String> viewRoleIdSet) {
-
-		if (_accessPermissionRoleIdSetCombiner.isFirstSet()) {
-			_accessPermissionRoleIdSetCombiner.addRoleIdSet(accessRoleIdSet);
-			_accessPermissionRoleIdSetCombiner.addRoleIdSet(viewRoleIdSet);
-		}
+	public boolean accessAssigned() {
+		return _accessPermissionRoleIdSetCombiner.isAssigned();
 	}
 
 	//must be called exactly once per level
+	@Override
+	public void addAccessPermissionRoleIdSet(Set<String> roleIdSet) {
+		_accessPermissionRoleIdSetCombiner.addRoleIdSet(roleIdSet);
+	}
+
 	@Override
 	public void addViewPermissionRoleIdSet(Set<String> roleIdSet) {
 		_viewPermissionRoleIdSetCombiner.addRoleIdSet(roleIdSet);
