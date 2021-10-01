@@ -54,9 +54,12 @@ public class RoleSetContributorContextImpl
 	}
 
 	@Override
-	public void addAccessPermissionRoleIdSet(Set<String> roleIdSet) {
-		if(_accessPermissionRoleIdSetCombiner.isFirstSet()) {
-			_accessPermissionRoleIdSetCombiner.addRoleIdSet(roleIdSet);
+	public void addAccessPermissionRoleIdSet(
+		Set<String> accessRoleIdSet, Set<String> viewRoleIdSet) {
+
+		if (_accessPermissionRoleIdSetCombiner.isFirstSet()) {
+			_accessPermissionRoleIdSetCombiner.addRoleIdSet(accessRoleIdSet);
+			_accessPermissionRoleIdSetCombiner.addRoleIdSet(viewRoleIdSet);
 		}
 	}
 
@@ -68,6 +71,10 @@ public class RoleSetContributorContextImpl
 
 	public Set<Set<String>> getAccessPermissionRoleIdSets() {
 		return _accessPermissionRoleIdSetCombiner.getRoleIdSets();
+	}
+
+	public Set<Set<String>> getCombinedPermissionRoleIdSets() {
+		return _permissionRoleIdSetCombinerUtil.combineRoleIdSets(this);
 	}
 
 	@Override
@@ -84,9 +91,14 @@ public class RoleSetContributorContextImpl
 		return _viewPermissionRoleIdSetCombiner.getRoleIdSets();
 	}
 
-	public Set<Set<String>> getCombinedPermissionRoleIdSets() {
-		return _permissionRoleIdSetCombinerUtil.combineRoleIdSets(this);
-	}
+	private final PermissionRoleIdSetCombiner
+		_accessPermissionRoleIdSetCombiner;
+	private final long _companyId;
+	private final long _groupId;
+	private final PermissionRoleIdSetCombinerUtil
+		_permissionRoleIdSetCombinerUtil =
+			new PermissionRoleIdSetCombinerUtil();
+	private final PermissionRoleIdSetCombiner _viewPermissionRoleIdSetCombiner;
 
 	private class PermissionRoleIdSetCombinerUtil {
 
@@ -134,14 +146,7 @@ public class RoleSetContributorContextImpl
 				}
 			}
 		}
-	}
 
-	private final PermissionRoleIdSetCombinerUtil _permissionRoleIdSetCombinerUtil =
-		new PermissionRoleIdSetCombinerUtil();
-	private final PermissionRoleIdSetCombiner
-		_accessPermissionRoleIdSetCombiner;
-	private final long _companyId;
-	private final long _groupId;
-	private final PermissionRoleIdSetCombiner _viewPermissionRoleIdSetCombiner;
+	}
 
 }
