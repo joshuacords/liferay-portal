@@ -440,7 +440,7 @@ if (message.isAnonymous() || thread.isInTrash()) {
 
 			<c:if test="<%= attachmentsFileEntriesCount > 0 %>">
 				<div class="card-row card-row-padded message-attachments">
-					<h3><liferay-ui:message key="attachments" />:</h3>
+					<p><liferay-ui:message key="attachments" />:</p>
 
 					<ul>
 
