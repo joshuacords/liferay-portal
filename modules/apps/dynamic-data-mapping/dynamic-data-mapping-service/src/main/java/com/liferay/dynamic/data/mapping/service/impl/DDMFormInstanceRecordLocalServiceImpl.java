@@ -163,7 +163,7 @@ public class DDMFormInstanceRecordLocalServiceImpl
 
 			if (isEmailNotificationEnabled(ddmFormInstance)) {
 				_ddmFormEmailNotificationSender.sendEmailNotification(
-					serviceContext, ddmFormInstanceRecord);
+					ddmFormInstanceRecord, serviceContext);
 			}
 		}
 
@@ -469,7 +469,7 @@ public class DDMFormInstanceRecordLocalServiceImpl
 
 			if (isEmailNotificationEnabled(ddmFormInstance)) {
 				_ddmFormEmailNotificationSender.sendEmailNotification(
-					serviceContext, ddmFormInstanceRecord);
+					ddmFormInstanceRecord, serviceContext);
 			}
 		}
 
