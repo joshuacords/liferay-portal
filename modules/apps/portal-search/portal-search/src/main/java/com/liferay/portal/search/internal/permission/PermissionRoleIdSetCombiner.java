@@ -197,7 +197,7 @@ public class PermissionRoleIdSetCombiner {
 			return false;
 		}
 
-		if (roleIdArray.equals(_ownerRoleId)) {
+		if (roleIdArray[1].equals(_ownerRoleId)) {
 			return true;
 		}
 
