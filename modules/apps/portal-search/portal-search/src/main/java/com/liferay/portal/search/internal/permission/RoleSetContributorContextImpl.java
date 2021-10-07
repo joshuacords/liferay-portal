@@ -51,6 +51,9 @@ public class RoleSetContributorContextImpl
 
 		_viewPermissionRoleIdSetCombiner = new PermissionRoleIdSetCombiner(
 			_companyId, _groupId, guestRoleId, ownerRoleId);
+
+		_permissionRoleIdSetCombinerUtil = new PermissionRoleIdSetCombinerUtil(
+			guestRoleId);
 	}
 
 	@Override
@@ -96,11 +99,14 @@ public class RoleSetContributorContextImpl
 	private final long _companyId;
 	private final long _groupId;
 	private final PermissionRoleIdSetCombinerUtil
-		_permissionRoleIdSetCombinerUtil =
-			new PermissionRoleIdSetCombinerUtil();
+		_permissionRoleIdSetCombinerUtil;
 	private final PermissionRoleIdSetCombiner _viewPermissionRoleIdSetCombiner;
 
 	private class PermissionRoleIdSetCombinerUtil {
+
+		public PermissionRoleIdSetCombinerUtil(String guestRoleId) {
+			_guestRoleId = guestRoleId;
+		}
 
 		public Set<Set<String>> combineRoleIdSets(
 			RoleSetContributorContextImpl roleSetContributorContextImpl) {
@@ -115,12 +121,36 @@ public class RoleSetContributorContextImpl
 
 			Set<Set<String>> roleIdsCombinations = new HashSet<>();
 
+			if (_guestRolePresent(roleIdSets1)) {
+				roleIdsCombinations.addAll(roleIdSets1);
+
+				return roleIdsCombinations;
+			}
+
+			if (_guestRolePresent(roleIdSets2)) {
+				roleIdsCombinations.addAll(roleIdSets2);
+
+				return roleIdsCombinations;
+			}
+
 			roleIdsCombinations.addAll(roleIdSets1);
 			roleIdsCombinations.addAll(roleIdSets2);
 
 			_removeRedundantSets(roleIdsCombinations);
 
 			return roleIdsCombinations;
+		}
+
+		private boolean _guestRolePresent(Set<Set<String>> roleIdSets) {
+			if (roleIdSets.size() == 1) {
+				for (Set<String> roleIdSet : roleIdSets) {
+					if (roleIdSet.contains(_guestRoleId)) {
+						return true;
+					}
+				}
+			}
+
+			return false;
 		}
 
 		private void _removeRedundantSets(Set<Set<String>> roleIdSets) {
@@ -146,6 +176,8 @@ public class RoleSetContributorContextImpl
 				}
 			}
 		}
+
+		private final String _guestRoleId;
 
 	}
 
