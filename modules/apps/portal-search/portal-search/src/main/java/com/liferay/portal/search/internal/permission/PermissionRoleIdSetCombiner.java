@@ -109,11 +109,11 @@ public class PermissionRoleIdSetCombiner {
 			}
 
 			if (roleIdSet.contains(ownerRoleId)) {
-				return false;
+				return true;
 			}
 		}
 
-		return true;
+		return false;
 	}
 
 	private void _crossCombineNewRoleIdsWithRoleIdSets(Set<String> newRoleIds) {
