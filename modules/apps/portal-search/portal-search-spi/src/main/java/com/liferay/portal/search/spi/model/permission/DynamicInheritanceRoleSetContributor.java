@@ -57,10 +57,10 @@ public class DynamicInheritanceRoleSetContributor
 		_roleSetContributorHelper = new RoleSetContributorHelper(
 			_resourcePermissionLocalService, _roleLocalService);
 
-		_parentDynamicInheritanceRoleSetContributor = this;
-
 		_portletResourcePermission = Objects.requireNonNull(
 			parentModelResourcePermission.getPortletResourcePermission());
+
+		_setParentContributor(this);
 	}
 
 	public DynamicInheritanceRoleSetContributor(
@@ -73,22 +73,12 @@ public class DynamicInheritanceRoleSetContributor
 		DynamicInheritanceRoleSetContributor
 			parentDynamicInheritanceRoleSetContributor) {
 
-		_parentModelResourcePermission = Objects.requireNonNull(
-			parentModelResourcePermission);
-		_fetchParentUnsafeFunction = Objects.requireNonNull(
-			fetchParentUnsafeFunction);
-		_checkParentAccess = checkParentAccess;
-		_parentDynamicInheritanceRoleSetContributor =
-			parentDynamicInheritanceRoleSetContributor;
+		this(
+			parentModelResourcePermission, fetchParentUnsafeFunction,
+			checkParentAccess, resourcePermissionLocalService,
+			roleLocalService);
 
-		_resourcePermissionLocalService = resourcePermissionLocalService;
-		_roleLocalService = roleLocalService;
-
-		_portletResourcePermission = Objects.requireNonNull(
-			parentModelResourcePermission.getPortletResourcePermission());
-
-		_roleSetContributorHelper = new RoleSetContributorHelper(
-			_resourcePermissionLocalService, _roleLocalService);
+		_setParentContributor(parentDynamicInheritanceRoleSetContributor);
 	}
 
 	@Override
@@ -155,10 +145,18 @@ public class DynamicInheritanceRoleSetContributor
 			GetterUtil.getLong(parent.getPrimaryKeyObj()), accessRoles);
 	}
 
+	private void _setParentContributor(
+		DynamicInheritanceRoleSetContributor
+			dynamicInheritanceRoleSetContributor) {
+
+		_parentDynamicInheritanceRoleSetContributor =
+			dynamicInheritanceRoleSetContributor;
+	}
+
 	private final boolean _checkParentAccess;
 	private final UnsafeFunction<C, P, ? extends PortalException>
 		_fetchParentUnsafeFunction;
-	private final DynamicInheritanceRoleSetContributor
+	private DynamicInheritanceRoleSetContributor
 		_parentDynamicInheritanceRoleSetContributor;
 	private final ModelResourcePermission<P> _parentModelResourcePermission;
 	private final PortletResourcePermission _portletResourcePermission;
