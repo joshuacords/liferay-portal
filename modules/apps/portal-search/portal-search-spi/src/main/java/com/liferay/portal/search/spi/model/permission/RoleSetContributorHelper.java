@@ -22,8 +22,6 @@ import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.role.RoleConstants;
 import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.service.RoleLocalService;
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
 import java.util.HashSet;
 import java.util.List;
@@ -43,8 +41,8 @@ public class RoleSetContributorHelper {
 	}
 
 	public void assignRolesAsIndividualAccessRoleIdSets(
-		RoleSetContributorContext roleSetContributorContext,
-		String className, long classPK, List<Role> roles)
+			RoleSetContributorContext roleSetContributorContext,
+			String className, long classPK, List<Role> roles)
 		throws PortalException {
 
 		roleSetContributorContext.addAccessPermissionRoleIdSet(
@@ -53,8 +51,8 @@ public class RoleSetContributorHelper {
 	}
 
 	public void assignRolesAsIndividualViewRoleIdSets(
-		RoleSetContributorContext roleSetContributorContext,
-		String className, long classPK, List<Role> roles)
+			RoleSetContributorContext roleSetContributorContext,
+			String className, long classPK, List<Role> roles)
 		throws PortalException {
 
 		roleSetContributorContext.addViewPermissionRoleIdSet(
@@ -63,8 +61,8 @@ public class RoleSetContributorHelper {
 	}
 
 	private Set<String> _createRoleIdSet(
-		RoleSetContributorContext roleSetContributorContext,
-		String className, long classPK, List<Role> roles)
+			RoleSetContributorContext roleSetContributorContext,
+			String className, long classPK, List<Role> roles)
 		throws PortalException {
 
 		Set<String> roleIdSet = new HashSet<>();
@@ -80,9 +78,20 @@ public class RoleSetContributorHelper {
 		return roleIdSet;
 	}
 
+	private boolean _isOwnerRoleId(long companyId, long roleId) {
+		Role ownerRole = _roleLocalService.fetchRole(
+			companyId, RoleConstants.OWNER);
+
+		if ((ownerRole != null) && (roleId == ownerRole.getRoleId())) {
+			return true;
+		}
+
+		return false;
+	}
+
 	private String _roleToRoleId(
-		long companyId, long groupId, String className, long classPK,
-		Role role)
+			long companyId, long groupId, String className, long classPK,
+			Role role)
 		throws PortalException {
 
 		Role ownerRole = _roleLocalService.getRole(
@@ -100,25 +109,15 @@ public class RoleSetContributorHelper {
 					String.valueOf(classPK), ownerRole.getRoleId());
 
 			return resourcePermission.getOwnerId() + StringPool.DASH +
-				   role.getRoleId();
+				role.getRoleId();
 		}
 		else {
 			return String.valueOf(role.getRoleId());
 		}
 	}
 
-	private boolean _isOwnerRoleId(long companyId, long roleId) {
-		Role ownerRole = _roleLocalService.fetchRole(
-			companyId, RoleConstants.OWNER);
-
-		if ((ownerRole != null) && (roleId == ownerRole.getRoleId())) {
-			return true;
-		}
-
-		return false;
-	}
-
-	private final ResourcePermissionLocalService _resourcePermissionLocalService;
-
+	private final ResourcePermissionLocalService
+		_resourcePermissionLocalService;
 	private final RoleLocalService _roleLocalService;
+
 }
