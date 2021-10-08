@@ -48,7 +48,8 @@ public class DynamicInheritanceRoleSetContributor
 			fetchParentUnsafeFunction,
 		boolean checkParentAccess,
 		ResourcePermissionLocalService resourcePermissionLocalService,
-		RoleLocalService roleLocalService) {
+		RoleLocalService roleLocalService,
+		RoleSetContributorHelper roleSetContributorHelper) {
 
 		_parentModelResourcePermission = Objects.requireNonNull(
 			parentModelResourcePermission);
@@ -57,6 +58,7 @@ public class DynamicInheritanceRoleSetContributor
 		_checkParentAccess = checkParentAccess;
 		_resourcePermissionLocalService = resourcePermissionLocalService;
 		_roleLocalService = roleLocalService;
+		_roleSetContributorHelper = roleSetContributorHelper;
 
 		_parentDynamicInheritanceRoleSetContributor = this;
 
@@ -71,6 +73,7 @@ public class DynamicInheritanceRoleSetContributor
 		boolean checkParentAccess,
 		ResourcePermissionLocalService resourcePermissionLocalService,
 		RoleLocalService roleLocalService,
+		RoleSetContributorHelper roleSetContributorHelper,
 		DynamicInheritanceRoleSetContributor
 			parentDynamicInheritanceRoleSetContributor) {
 
@@ -79,10 +82,12 @@ public class DynamicInheritanceRoleSetContributor
 		_fetchParentUnsafeFunction = Objects.requireNonNull(
 			fetchParentUnsafeFunction);
 		_checkParentAccess = checkParentAccess;
-		_parentDynamicInheritanceRoleSetContributor =			parentDynamicInheritanceRoleSetContributor;
+		_parentDynamicInheritanceRoleSetContributor =
+			parentDynamicInheritanceRoleSetContributor;
 
 		_resourcePermissionLocalService = resourcePermissionLocalService;
 		_roleLocalService = roleLocalService;
+		_roleSetContributorHelper = roleSetContributorHelper;
 
 		_portletResourcePermission = Objects.requireNonNull(
 			parentModelResourcePermission.getPortletResourcePermission());
@@ -253,5 +258,6 @@ public class DynamicInheritanceRoleSetContributor
 	private final ResourcePermissionLocalService
 		_resourcePermissionLocalService;
 	private final RoleLocalService _roleLocalService;
+	private final RoleSetContributorHelper _roleSetContributorHelper;
 
 }
