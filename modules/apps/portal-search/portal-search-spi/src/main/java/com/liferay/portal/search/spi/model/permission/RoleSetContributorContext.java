@@ -21,6 +21,8 @@ import java.util.Set;
  */
 public interface RoleSetContributorContext {
 
+	public boolean accessAssigned();
+
 	public void addAccessPermissionRoleIdSet(Set<String> roleIdSet);
 
 	public void addViewPermissionRoleIdSet(Set<String> set);
@@ -29,5 +31,4 @@ public interface RoleSetContributorContext {
 
 	public long getGroupId();
 
-	public boolean accessAssigned();
 }
