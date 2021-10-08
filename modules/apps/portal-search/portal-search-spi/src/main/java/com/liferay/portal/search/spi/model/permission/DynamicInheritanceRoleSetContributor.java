@@ -57,6 +57,8 @@ public class DynamicInheritanceRoleSetContributor
 		_checkParentAccess = checkParentAccess;
 		_resourcePermissionLocalService = resourcePermissionLocalService;
 		_roleLocalService = roleLocalService;
+		_roleSetContributorHelper = new RoleSetContributorHelper(
+			_resourcePermissionLocalService, _roleLocalService);
 
 		_parentDynamicInheritanceRoleSetContributor = this;
 
@@ -79,10 +81,13 @@ public class DynamicInheritanceRoleSetContributor
 		_fetchParentUnsafeFunction = Objects.requireNonNull(
 			fetchParentUnsafeFunction);
 		_checkParentAccess = checkParentAccess;
-		_parentDynamicInheritanceRoleSetContributor =			parentDynamicInheritanceRoleSetContributor;
+		_parentDynamicInheritanceRoleSetContributor =
+			parentDynamicInheritanceRoleSetContributor;
 
 		_resourcePermissionLocalService = resourcePermissionLocalService;
 		_roleLocalService = roleLocalService;
+		_roleSetContributorHelper = new RoleSetContributorHelper(
+			_resourcePermissionLocalService, _roleLocalService);
 
 		_portletResourcePermission = Objects.requireNonNull(
 			parentModelResourcePermission.getPortletResourcePermission());
@@ -101,7 +106,7 @@ public class DynamicInheritanceRoleSetContributor
 			ResourceConstants.SCOPE_INDIVIDUAL, Long.toString(resourcePrimKey),
 			ActionKeys.VIEW);
 
-		_assignRolesAsIndividualViewRoleIdSets(
+		_roleSetContributorHelper.assignRolesAsIndividualViewRoleIdSets(
 			roleSetContributorContext, child.getModelClassName(),
 			resourcePrimKey, roles);
 
@@ -135,112 +140,22 @@ public class DynamicInheritanceRoleSetContributor
 		if (!roleSetContributorContext.accessAssigned()) {
 
 			if(accessRoles.isEmpty()) {
-				_assignRolesAsIndividualAccessRoleIdSets(
-					roleSetContributorContext, child.getModelClassName(),
-					resourcePrimKey, new ArrayList<>());
+				_roleSetContributorHelper.
+					assignRolesAsIndividualAccessRoleIdSets(
+						roleSetContributorContext, child.getModelClassName(),
+						resourcePrimKey, new ArrayList<>());
 			}
 			else {
-				_assignRolesAsIndividualAccessRoleIdSets(
-					roleSetContributorContext, child.getModelClassName(),
-					resourcePrimKey, viewRoles);
+				_roleSetContributorHelper.
+					assignRolesAsIndividualAccessRoleIdSets(
+						roleSetContributorContext, child.getModelClassName(),
+						resourcePrimKey, viewRoles);
 			}
 		}
 
-		_assignRolesAsIndividualAccessRoleIdSets(
+		_roleSetContributorHelper.assignRolesAsIndividualAccessRoleIdSets(
 			roleSetContributorContext, parent.getModelClassName(),
 			GetterUtil.getLong(parent.getPrimaryKeyObj()), accessRoles);
-	}
-
-	private void _assignRolesAsIndividualViewRoleIdSets(
-			RoleSetContributorContext roleSetContributorContext,
-			String className, long classPK, List<Role> roles)
-		throws PortalException {
-
-		roleSetContributorContext.addViewPermissionRoleIdSet(
-			_createRoleIdSet(
-				roleSetContributorContext, className, classPK, roles));
-	}
-
-	private void _assignRolesAsIndividualAccessRoleIdSets(
-			RoleSetContributorContext roleSetContributorContext,
-			String className, long classPK, List<Role> roles)
-		throws PortalException {
-
-		roleSetContributorContext.addAccessPermissionRoleIdSet(
-			_createRoleIdSet(
-				roleSetContributorContext, className, classPK, roles));
-	}
-
-	private Set<String> _createRoleIdSet(
-			RoleSetContributorContext roleSetContributorContext,
-			String className, long classPK, List<Role> roles)
-		throws PortalException {
-
-		Set<String> roleIdSet = new HashSet<>();
-
-		for (Role role : roles) {
-			roleIdSet.add(
-				_roleToRoleId(
-					roleSetContributorContext.getCompanyId(),
-					roleSetContributorContext.getGroupId(), className, classPK,
-					role));
-		}
-
-		return roleIdSet;
-	}
-
-	private Set<String> _roleToRoleIdSet(
-			RoleSetContributorContext roleSetContributorContext,
-			String className, long classPK, Role role)
-		throws PortalException {
-
-		Set<String> roleIds = new HashSet<>();
-
-		roleIds.add(
-			_roleToRoleId(
-				roleSetContributorContext.getCompanyId(),
-				roleSetContributorContext.getGroupId(), className, classPK,
-				role));
-
-		return roleIds;
-	}
-
-	private String _roleToRoleId(
-			long companyId, long groupId, String className, long classPK,
-			Role role)
-		throws PortalException {
-
-		Role ownerRole = _roleLocalService.getRole(
-			companyId, RoleConstants.OWNER);
-
-		if ((role.getType() == RoleConstants.TYPE_ORGANIZATION) ||
-			(role.getType() == RoleConstants.TYPE_SITE)) {
-
-			return groupId + StringPool.DASH + role.getRoleId();
-		}
-		else if (_isOwnerRoleId(companyId, role.getRoleId())) {
-			ResourcePermission resourcePermission =
-				_resourcePermissionLocalService.getResourcePermission(
-					companyId, className, ResourceConstants.SCOPE_INDIVIDUAL,
-					String.valueOf(classPK), ownerRole.getRoleId());
-
-			return resourcePermission.getOwnerId() + StringPool.DASH +
-				role.getRoleId();
-		}
-		else {
-			return String.valueOf(role.getRoleId());
-		}
-	}
-
-	private boolean _isOwnerRoleId(long companyId, long roleId) {
-		Role ownerRole = _roleLocalService.fetchRole(
-			companyId, RoleConstants.OWNER);
-
-		if ((ownerRole != null) && (roleId == ownerRole.getRoleId())) {
-			return true;
-		}
-
-		return false;
 	}
 
 	private final DynamicInheritanceRoleSetContributor
@@ -253,5 +168,6 @@ public class DynamicInheritanceRoleSetContributor
 	private final ResourcePermissionLocalService
 		_resourcePermissionLocalService;
 	private final RoleLocalService _roleLocalService;
+	private final RoleSetContributorHelper _roleSetContributorHelper;
 
 }
