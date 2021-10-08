@@ -32,8 +32,15 @@ import java.util.Set;
 /**
  * @author Joshua Cords
  */
-@Component(immediate = true, service = {})
 public class RoleSetContributorHelper {
+
+	public RoleSetContributorHelper(
+		ResourcePermissionLocalService resourcePermissionLocalService,
+		RoleLocalService roleLocalService) {
+
+		_resourcePermissionLocalService = resourcePermissionLocalService;
+		_roleLocalService = roleLocalService;
+	}
 
 	public void assignRolesAsIndividualAccessRoleIdSets(
 		RoleSetContributorContext roleSetContributorContext,
@@ -111,9 +118,7 @@ public class RoleSetContributorHelper {
 		return false;
 	}
 
-	@Reference
-	private ResourcePermissionLocalService _resourcePermissionLocalService;
+	private final ResourcePermissionLocalService _resourcePermissionLocalService;
 
-	@Reference
-	private RoleLocalService _roleLocalService;
+	private final RoleLocalService _roleLocalService;
 }
