@@ -42,7 +42,7 @@ public class RoleSetContributorHelper {
 
 	public void assignRolesAsIndividualAccessRoleIdSets(
 			RoleSetContributorContext roleSetContributorContext,
-			String className, long classPK, List<Role> roles)
+			String className, String classPK, List<Role> roles)
 		throws PortalException {
 
 		roleSetContributorContext.addAccessPermissionRoleIdSet(
@@ -52,7 +52,7 @@ public class RoleSetContributorHelper {
 
 	public void assignRolesAsIndividualViewRoleIdSets(
 			RoleSetContributorContext roleSetContributorContext,
-			String className, long classPK, List<Role> roles)
+			String className, String classPK, List<Role> roles)
 		throws PortalException {
 
 		roleSetContributorContext.addViewPermissionRoleIdSet(
@@ -62,7 +62,7 @@ public class RoleSetContributorHelper {
 
 	private Set<String> _createRoleIdSet(
 			RoleSetContributorContext roleSetContributorContext,
-			String className, long classPK, List<Role> roles)
+			String className, String classPK, List<Role> roles)
 		throws PortalException {
 
 		Set<String> roleIdSet = new HashSet<>();
@@ -90,7 +90,7 @@ public class RoleSetContributorHelper {
 	}
 
 	private String _roleToRoleId(
-			long companyId, long groupId, String className, long classPK,
+			long companyId, long groupId, String className, String classPK,
 			Role role)
 		throws PortalException {
 
@@ -106,7 +106,7 @@ public class RoleSetContributorHelper {
 			ResourcePermission resourcePermission =
 				_resourcePermissionLocalService.getResourcePermission(
 					companyId, className, ResourceConstants.SCOPE_INDIVIDUAL,
-					String.valueOf(classPK), ownerRole.getRoleId());
+					classPK, ownerRole.getRoleId());
 
 			return resourcePermission.getOwnerId() + StringPool.DASH +
 				role.getRoleId();

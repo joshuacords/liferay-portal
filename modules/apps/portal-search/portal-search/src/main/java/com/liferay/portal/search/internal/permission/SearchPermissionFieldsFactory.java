@@ -16,17 +16,14 @@ package com.liferay.portal.search.internal.permission;
 
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapFactory;
-import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
-import com.liferay.portal.kernel.exception.NoSuchResourceException;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.role.RoleConstants;
 import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.service.RoleLocalService;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.search.spi.model.permission.SearchPermissionDefinition;
 
 import java.util.ArrayList;
@@ -46,8 +43,9 @@ import org.osgi.service.component.annotations.Reference;
 public class SearchPermissionFieldsFactory {
 
 	public SearchPermissionFields createSearchPermissionFields(
-			long companyId, long groupId, String className, long entryClassPK,
-			long id, String permissionName, String viewActionId)
+			long companyId, long groupId, String className,
+			String resourcePrimKey, String entryClassPK, String permissionName,
+			String viewActionId)
 		throws PortalException {
 
 		SearchPermissionFields searchPermissionFields = null;
@@ -57,7 +55,7 @@ public class SearchPermissionFieldsFactory {
 
 		RoleSetContributorContextImpl roleSetContributorContextImpl =
 			_getRoleSetContributorContextImpl(
-				companyId, groupId, entryClassPK, id,
+				companyId, groupId, resourcePrimKey, entryClassPK,
 				searchPermissionDefinition);
 
 		Set<Set<String>> roleIdSets =
@@ -67,45 +65,29 @@ public class SearchPermissionFieldsFactory {
 			return searchPermissionFields;
 		}
 
-		try {
-			List<Role> roles = _resourcePermissionLocalService.getRoles(
-				companyId, permissionName, ResourceConstants.SCOPE_INDIVIDUAL,
-				String.valueOf(entryClassPK), viewActionId);
+		List<Role> roles = _resourcePermissionLocalService.getRoles(
+			companyId, permissionName, ResourceConstants.SCOPE_INDIVIDUAL,
+			resourcePrimKey, viewActionId);
 
-			if (!roles.isEmpty()) {
-				List<Long> roleIds = new ArrayList<>();
-				List<String> groupRoleIds = new ArrayList<>();
+		if (!roles.isEmpty()) {
+			List<Long> roleIds = new ArrayList<>();
+			List<String> groupRoleIds = new ArrayList<>();
 
-				for (Role role : roles) {
-					if ((role.getType() == RoleConstants.TYPE_ORGANIZATION) ||
-						(role.getType() == RoleConstants.TYPE_SITE)) {
+			for (Role role : roles) {
+				if ((role.getType() == RoleConstants.TYPE_ORGANIZATION) ||
+					(role.getType() == RoleConstants.TYPE_SITE)) {
 
-						groupRoleIds.add(
-							groupId + StringPool.DASH + role.getRoleId());
-					}
-					else {
-						roleIds.add(role.getRoleId());
-					}
+					groupRoleIds.add(
+						groupId + StringPool.DASH + role.getRoleId());
 				}
+				else {
+					roleIds.add(role.getRoleId());
+				}
+			}
 
-				searchPermissionFields = new SearchPermissionFields(
-					roleIds.toArray(new Long[0]),
-					groupRoleIds.toArray(new String[0]));
-			}
-		}
-		catch (NoSuchResourceException noSuchResourceException) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(noSuchResourceException);
-			}
-		}
-		catch (Exception exception) {
-			if (_log.isWarnEnabled()) {
-				_log.warn(
-					StringBundler.concat(
-						"Unable to get permission fields for class name ",
-						permissionName, " and class PK ", id),
-					exception);
-			}
+			searchPermissionFields = new SearchPermissionFields(
+				roleIds.toArray(new Long[0]),
+				groupRoleIds.toArray(new String[0]));
 		}
 
 		return searchPermissionFields;
@@ -133,7 +115,8 @@ public class SearchPermissionFieldsFactory {
 	}
 
 	private <T> RoleSetContributorContextImpl _getRoleSetContributorContextImpl(
-			long companyId, long groupId, long entryClassPK, long id,
+			long companyId, long groupId, String resourcePrimKey,
+			String entryClassPK,
 			SearchPermissionDefinition<T> searchPermissionDefinition)
 		throws PortalException {
 
@@ -142,36 +125,26 @@ public class SearchPermissionFieldsFactory {
 				companyId, groupId, _roleLocalService);
 
 		if (searchPermissionDefinition != null) {
-			T model = searchPermissionDefinition.getModel(entryClassPK);
+			T model = searchPermissionDefinition.getModel(
+				GetterUtil.getLong(resourcePrimKey));
 
 			if (model == null) {
-				model = searchPermissionDefinition.getModel(id);
+				model = searchPermissionDefinition.getModel(
+					GetterUtil.getLong(entryClassPK));
 			}
 
-			try {
-				for (SearchPermissionDefinition.RoleSetContributor<T>
-						roleProvider :
-							searchPermissionDefinition.
-								getRoleSetContributors()) {
+			for (SearchPermissionDefinition.RoleSetContributor<T> roleProvider :
+					searchPermissionDefinition.getRoleSetContributors()) {
 
-					roleProvider.apply(
-						roleSetContributorContextImpl, model, entryClassPK);
+				roleProvider.apply(
+					roleSetContributorContextImpl, model, resourcePrimKey);
 
-					//searchPermissionFields = null;
-				}
-			}
-			catch (PortalException portalException) {
-				if (_log.isDebugEnabled()) {
-					_log.debug(portalException, portalException);
-				}
+				//searchPermissionFields = null;
 			}
 		}
 
 		return roleSetContributorContextImpl;
 	}
-
-	private static final Log _log = LogFactoryUtil.getLog(
-		SearchPermissionFieldsFactory.class);
 
 	@Reference
 	private ResourcePermissionLocalService _resourcePermissionLocalService;
