@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.role.RoleConstants;
 import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.service.RoleLocalService;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.search.spi.model.permission.SearchPermissionDefinition;
 
 import java.util.ArrayList;
@@ -46,8 +47,9 @@ import org.osgi.service.component.annotations.Reference;
 public class SearchPermissionFieldsFactory {
 
 	public SearchPermissionFields createSearchPermissionFields(
-			long companyId, long groupId, String className, long entryClassPK,
-			long id, String permissionName, String viewActionId)
+			long companyId, long groupId, String className,
+			String resourcePrimKey, String entryClassPK, String permissionName,
+			String viewActionId)
 		throws PortalException {
 
 		SearchPermissionFields searchPermissionFields = null;
@@ -57,7 +59,7 @@ public class SearchPermissionFieldsFactory {
 
 		RoleSetContributorContextImpl roleSetContributorContextImpl =
 			_getRoleSetContributorContextImpl(
-				companyId, groupId, entryClassPK, id,
+				companyId, groupId, resourcePrimKey, entryClassPK,
 				searchPermissionDefinition);
 
 		Set<Set<String>> roleIdSets =
@@ -70,7 +72,7 @@ public class SearchPermissionFieldsFactory {
 		try {
 			List<Role> roles = _resourcePermissionLocalService.getRoles(
 				companyId, permissionName, ResourceConstants.SCOPE_INDIVIDUAL,
-				String.valueOf(entryClassPK), viewActionId);
+				resourcePrimKey, viewActionId);
 
 			if (!roles.isEmpty()) {
 				List<Long> roleIds = new ArrayList<>();
@@ -103,7 +105,7 @@ public class SearchPermissionFieldsFactory {
 				_log.warn(
 					StringBundler.concat(
 						"Unable to get permission fields for class name ",
-						permissionName, " and class PK ", id),
+						permissionName, " and class PK ", entryClassPK),
 					exception);
 			}
 		}
@@ -133,7 +135,8 @@ public class SearchPermissionFieldsFactory {
 	}
 
 	private <T> RoleSetContributorContextImpl _getRoleSetContributorContextImpl(
-			long companyId, long groupId, long entryClassPK, long id,
+			long companyId, long groupId, String resourcePrimKey,
+			String entryClassPK,
 			SearchPermissionDefinition<T> searchPermissionDefinition)
 		throws PortalException {
 
@@ -142,10 +145,12 @@ public class SearchPermissionFieldsFactory {
 				companyId, groupId, _roleLocalService);
 
 		if (searchPermissionDefinition != null) {
-			T model = searchPermissionDefinition.getModel(entryClassPK);
+			T model = searchPermissionDefinition.getModel(
+				GetterUtil.getLong(resourcePrimKey));
 
 			if (model == null) {
-				model = searchPermissionDefinition.getModel(id);
+				model = searchPermissionDefinition.getModel(
+					GetterUtil.getLong(entryClassPK));
 			}
 
 			try {
@@ -155,7 +160,7 @@ public class SearchPermissionFieldsFactory {
 								getRoleSetContributors()) {
 
 					roleProvider.apply(
-						roleSetContributorContextImpl, model, entryClassPK);
+						roleSetContributorContextImpl, model, resourcePrimKey);
 
 					//searchPermissionFields = null;
 				}
