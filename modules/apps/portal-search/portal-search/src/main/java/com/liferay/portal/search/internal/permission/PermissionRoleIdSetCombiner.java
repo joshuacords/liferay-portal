@@ -32,7 +32,6 @@ public class PermissionRoleIdSetCombiner {
 		_groupId = groupId;
 		_guestRoleId = guestRoleId;
 		_ownerRoleId = ownerRoleId;
-		_roleIdSetsManager = new RoleIdSetsManager();
 	}
 
 	public void addRoleIdSet(Set<String> roleIdSet) {
@@ -43,14 +42,8 @@ public class PermissionRoleIdSetCombiner {
 			return;
 		}
 
-		if (_roleIdSets.isEmpty() || roleIdSet.isEmpty()) {
-			_roleIdSets.clear();
-
-			if (_roleIdSetsManager.isEmpty() || roleIdSet.isEmpty()) {
-				_roleIdSetsManager.clear();
-
-				return;
-			}
+		if (_roleIdSetsManager.isEmpty() || roleIdSet.isEmpty()) {
+			_roleIdSetsManager.clear();
 
 			return;
 		}
@@ -59,16 +52,9 @@ public class PermissionRoleIdSetCombiner {
 			return;
 		}
 
-		if (_roleIdSetsContainGuest()) { //make into flag
-			_roleIdSets.clear();
+		if (_roleIdSetsManager.containsGuest()) {
+			_roleIdSetsManager.clear();
 			_addIndividuallyToRoleIdSets(roleIdSet);
-
-			if (_roleIdSetsManager.containsGuest()) {
-				_roleIdSetsManager.clear();
-				_addIndividuallyToRoleIdSets(roleIdSet);
-
-				return;
-			}
 
 			return;
 		}
@@ -77,15 +63,13 @@ public class PermissionRoleIdSetCombiner {
 
 		_crossCombineNewRoleIdsWithRoleIdSets(newRoleIds);
 
-		_roleIdSets.clear();
 		_roleIdSetsManager.clear();
-		_roleIdSets.addAll(_updatedRoleIdSets);
 		_roleIdSetsManager.addAll(_updatedRoleIdSets);
 		_updatedRoleIdSets.clear();
 	}
 
 	public Set<Set<String>> getRoleIdSets() {
-		return _roleIdSets;
+		return _roleIdSetsManager.getRoleIdSets();
 	}
 
 	public boolean isAssigned() {
@@ -99,7 +83,6 @@ public class PermissionRoleIdSetCombiner {
 			set.add(roleId);
 
 			_roleIdSetsManager.add(set);
-			_addToRoleIdSets(set);
 		}
 	}
 
@@ -110,7 +93,6 @@ public class PermissionRoleIdSetCombiner {
 			set.add(_guestRoleId);
 
 			_roleIdSetsManager.add(set);
-			_addToRoleIdSets(set);
 
 			return;
 		}
@@ -135,21 +117,14 @@ public class PermissionRoleIdSetCombiner {
 	}
 
 	private void _crossCombineNewRoleIdsWithRoleIdSets(Set<String> newRoleIds) {
-		if (_roleIdSets.isEmpty() || newRoleIds.isEmpty()) {
-			_roleIdSets.clear();
-
-			if (_roleIdSetsManager.isEmpty() || newRoleIds.isEmpty()) {
-				_roleIdSetsManager.clear();
-
-				return;
-			}
+		if (_roleIdSetsManager.isEmpty() || newRoleIds.isEmpty()) {
+			_roleIdSetsManager.clear();
 
 			return;
 		}
 
 		Set<Set<String>> newRoleIdSetCombinations = new HashSet<>();
 
-//		Iterator<Set<String>> roleIdSetsIterator = _roleIdSets.iterator();
 		Iterator<Set<String>> roleIdSetsIterator =
 			_roleIdSetsManager.iterator();
 
@@ -183,8 +158,8 @@ public class PermissionRoleIdSetCombiner {
 	private boolean _foundRoleIdInRoleIdSets(String roleId) {
 		boolean foundRoleId = false;
 
-//		Iterator<Set<String>> roleIdSetsIterator = _roleIdSets.iterator();
-		Iterator<Set<String>> roleIdSetsIterator = _roleIdSetsManager.iterator();
+		Iterator<Set<String>> roleIdSetsIterator =
+			_roleIdSetsManager.iterator();
 
 		boolean ownerRole = _isOwnerRole(roleId);
 
@@ -253,27 +228,25 @@ public class PermissionRoleIdSetCombiner {
 		return false;
 	}
 
-	private boolean _roleIdSetsContainGuest() {
-		//make into flag
-
-		for (Set<String> viewPermissionSet : _roleIdSets) {
-			if (viewPermissionSet.contains(_guestRoleId)) {
-				return true;
-			}
-		}
-
-		return false;
-	}
+	private boolean _assigned;
+	private final long _companyId;
+	private final long _groupId;
+	private final String _guestRoleId;
+	private final String _ownerRoleId;
+	private final Set<String> _ownerRoleIds = new HashSet<>();
+	private final RoleIdSetsManager _roleIdSetsManager =
+		new RoleIdSetsManager();
+	private final Set<Set<String>> _updatedRoleIdSets = new HashSet<>();
 
 	private class RoleIdSetsManager {
 
 		public void add(Set<String> roleIdsSet) {
-			for(String roleId : roleIdsSet) {
-				if(!_containsGuest && roleId.equals(_guestRoleId)) {
+			for (String roleId : roleIdsSet) {
+				if (!_containsGuest && roleId.equals(_guestRoleId)) {
 					_containsGuest = true;
 				}
 
-				if(_isOwnerRole(roleId)) {
+				if (_isOwnerRole(roleId)) {
 					_ownerRoleIds.add(roleId);
 				}
 			}
@@ -282,13 +255,9 @@ public class PermissionRoleIdSetCombiner {
 		}
 
 		public void addAll(Set<Set<String>> roleIdSets) {
-			for(Set<String> roleIdSet : roleIdSets) {
+			for (Set<String> roleIdSet : roleIdSets) {
 				add(roleIdSet);
 			}
-		}
-
-		public boolean containsGuest() {
-			return _containsGuest;
 		}
 
 		public void clear() {
@@ -296,42 +265,25 @@ public class PermissionRoleIdSetCombiner {
 			_roleIdSets.clear();
 		}
 
+		public boolean containsGuest() {
+			return _containsGuest;
+		}
+
+		public Set<Set<String>> getRoleIdSets() {
+			return _roleIdSets;
+		}
+
 		public boolean isEmpty() {
 			return _roleIdSets.isEmpty();
 		}
 
-		public Iterator iterator() {
+		public Iterator<Set<String>> iterator() {
 			return _roleIdSets.iterator();
 		}
 
-		private boolean _containsGuest = false;
-		final Set<Set<String>> _roleIdSets = new HashSet<>();
+		private boolean _containsGuest;
+		private final Set<Set<String>> _roleIdSets = new HashSet<>();
+
 	}
-
-	private void _addToRoleIdSets(Set<String> roleIdsSet) {
-
-		for(String roleId : roleIdsSet) {
-			if(!_containsGuest && roleId.equals(_guestRoleId)) {
-				_containsGuest = true;
-			}
-
-			if(_isOwnerRole(roleId)) {
-				_ownerRoleIds.add(roleId);
-			}
-		}
-
-		_roleIdSets.add(roleIdsSet);
-	}
-
-	private RoleIdSetsManager _roleIdSetsManager;
-	private boolean _containsGuest = false;
-	private boolean _assigned = false;
-	private final long _companyId;
-	private final long _groupId;
-	private final String _guestRoleId;
-	private final String _ownerRoleId;
-	private final Set<String> _ownerRoleIds = new HashSet<>();
-	private final Set<Set<String>> _roleIdSets = new HashSet<>();
-	private final Set<Set<String>> _updatedRoleIdSets = new HashSet<>();
 
 }
