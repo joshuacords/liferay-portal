@@ -82,7 +82,7 @@ public class PermissionRoleIdSetCombiner {
 
 			set.add(roleId);
 
-			_roleIdSets.add(set);
+			_addToRoleIdSets(set);
 		}
 	}
 
@@ -92,7 +92,7 @@ public class PermissionRoleIdSetCombiner {
 
 			set.add(_guestRoleId);
 
-			_roleIdSets.add(set);
+			_addToRoleIdSets(set);
 
 			return;
 		}
@@ -236,6 +236,17 @@ public class PermissionRoleIdSetCombiner {
 		}
 
 		return false;
+	}
+
+	private void _addToRoleIdSets(Set<String> roleIdsSet) {
+
+		for(String roleId : roleIdsSet) {
+			if(_isOwnerRole(roleId)) {
+				_ownerRoleIds.add(roleId);
+			}
+		}
+
+		_roleIdSets.add(roleIdsSet);
 	}
 
 	private boolean _assigned = false;
