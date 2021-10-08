@@ -49,12 +49,12 @@ public class SearchPermissionDocumentContributorImpl
 		long groupId = GetterUtil.getLong(document.get(Field.GROUP_ID));
 
 		String className = document.get(Field.ENTRY_CLASS_NAME);
-		String entryClassPK = document.get(Field.ENTRY_CLASS_PK);
-		String id = document.get("id");
+		String resourcePrimKey = document.get(Field.ENTRY_CLASS_PK);
+		String entryClassPK = document.get("id");
 
-		if (Validator.isNull(className) && Validator.isNull(entryClassPK)) {
+		if (Validator.isNull(className) && Validator.isNull(resourcePrimKey)) {
 			className = document.get(Field.ROOT_ENTRY_CLASS_NAME);
-			entryClassPK = document.get(Field.ROOT_ENTRY_CLASS_PK);
+			resourcePrimKey = document.get(Field.ROOT_ENTRY_CLASS_PK);
 		}
 
 		boolean relatedEntry = GetterUtil.getBoolean(
@@ -66,19 +66,19 @@ public class SearchPermissionDocumentContributorImpl
 
 			if (classNameId > 0) {
 				className = _portal.getClassName(classNameId);
-				entryClassPK = document.get(Field.CLASS_PK);
+				resourcePrimKey = document.get(Field.CLASS_PK);
 			}
 		}
 
 		addPermissionFields(
-			companyId, groupId, className, GetterUtil.getLong(entryClassPK),
-			GetterUtil.getLong(id), document);
+			companyId, groupId, className, resourcePrimKey, entryClassPK,
+			document);
 	}
 
 	@Override
 	public void addPermissionFields(
-		long companyId, long groupId, String className, long entryClassPK,
-		long id, Document document) {
+		long companyId, long groupId, String className, String resourcePrimKey,
+		String entryClassPK, Document document) {
 
 		Indexer<?> indexer = _indexerRegistry.nullSafeGetIndexer(className);
 
@@ -93,8 +93,8 @@ public class SearchPermissionDocumentContributorImpl
 		}
 
 		_addPermissionFields(
-			companyId, groupId, className, entryClassPK, id, viewActionId,
-			document);
+			companyId, groupId, className, resourcePrimKey, entryClassPK,
+			viewActionId, document);
 	}
 
 	@Reference(
@@ -117,14 +117,14 @@ public class SearchPermissionDocumentContributorImpl
 	}
 
 	private void _addPermissionFields(
-		long companyId, long groupId, String className, long entryClassPK,
-		long id, String viewActionId, Document document) {
+		long companyId, long groupId, String className, String resourcePrimKey,
+		String entryClassPK, String viewActionId, Document document) {
 
 		for (SearchPermissionFieldContributor searchPermissionFieldContributor :
 				_searchPermissionFieldContributors) {
 
 			searchPermissionFieldContributor.contribute(
-				document, className, entryClassPK);
+				document, className, GetterUtil.getLong(resourcePrimKey));
 		}
 
 		SearchPermissionFields searchPermissionFields = null;
@@ -132,8 +132,9 @@ public class SearchPermissionDocumentContributorImpl
 		try {
 			searchPermissionFields =
 				_searchPermissionFieldsFactory.createSearchPermissionFields(
-					companyId, groupId, className, entryClassPK, id,
-					_getPermissionName(document, className), viewActionId);
+					companyId, groupId, className, resourcePrimKey,
+					entryClassPK, _getPermissionName(document, className),
+					viewActionId);
 		}
 		catch (PortalException portalException) {
 			//log

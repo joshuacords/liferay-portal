@@ -23,19 +23,19 @@ import java.util.List;
  */
 public interface SearchPermissionDefinition<T> {
 
-	public interface RoleSetContributor<T> {
-
-		public void apply(
-			RoleSetContributorContext roleSetContributorContext,
-			T model, long resourcePrimKey)
-			throws PortalException;
-
-	}
+	public String getClassName();
 
 	public T getModel(long classPK);
 
-	public String getClassName();
-
 	public List<RoleSetContributor<T>> getRoleSetContributors();
+
+	public interface RoleSetContributor<T> {
+
+		public void apply(
+				RoleSetContributorContext roleSetContributorContext, T model,
+				String resourcePrimKey)
+			throws PortalException;
+
+	}
 
 }

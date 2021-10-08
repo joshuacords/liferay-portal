@@ -24,7 +24,6 @@ import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermi
 import com.liferay.portal.kernel.security.permission.resource.PortletResourcePermission;
 import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.service.RoleLocalService;
-import com.liferay.portal.kernel.util.GetterUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +83,7 @@ public class DynamicInheritanceRoleSetContributor
 	@Override
 	public void apply(
 			RoleSetContributorContext roleSetContributorContext, C child,
-			long resourcePrimKey)
+			String resourcePrimKey)
 		throws PortalException {
 
 		P parent = _fetchParentUnsafeFunction.apply(child);
@@ -110,12 +109,12 @@ public class DynamicInheritanceRoleSetContributor
 
 		_parentDynamicInheritanceRoleSetContributor.apply(
 			roleSetContributorContext, parent,
-			Long.parseLong(String.valueOf(parent.getPrimaryKeyObj()))); //make sure PrimaryKeyObj works for all asset parents
+			String.valueOf(parent.getPrimaryKeyObj())); //make sure PrimaryKeyObj works for all asset parents
 
 	}
 
 	private void _applyAccessRoles(
-			C child, P parent, long resourcePrimKey,
+			C child, P parent, String resourcePrimKey,
 			RoleSetContributorContext roleSetContributorContext,
 			List<Role> viewRoles)
 		throws PortalException {
@@ -142,7 +141,7 @@ public class DynamicInheritanceRoleSetContributor
 
 		_roleSetContributorHelper.assignRolesAsIndividualAccessRoleIdSets(
 			roleSetContributorContext, parent.getModelClassName(),
-			GetterUtil.getLong(parent.getPrimaryKeyObj()), accessRoles);
+			String.valueOf(parent.getPrimaryKeyObj()), accessRoles);
 	}
 
 	private void _setParentContributor(
