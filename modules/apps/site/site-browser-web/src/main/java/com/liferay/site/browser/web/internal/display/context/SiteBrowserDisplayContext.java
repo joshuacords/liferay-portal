@@ -108,8 +108,6 @@ public class SiteBrowserDisplayContext {
 			(ThemeDisplay)_httpServletRequest.getAttribute(
 				WebKeys.THEME_DISPLAY);
 
-		User user = themeDisplay.getUser();
-
 		Company company = themeDisplay.getCompany();
 
 		GroupSearch groupSearch = new GroupSearch(
@@ -490,8 +488,6 @@ public class SiteBrowserDisplayContext {
 			_groupParams.put("groupsTree", ListUtil.fromArray(parentGroup));
 		}
 		else if (filterManageableGroups) {
-
-
 			if (Objects.equals(type, "sites-that-i-administer")) {
 				_groupParams.put("userId", user.getUserId());
 
@@ -500,7 +496,7 @@ public class SiteBrowserDisplayContext {
 			else {
 				_groupParams.put("userId", user.getUserId());
 
-				_groupParams.put("actionId", ActionKeys.ASSIGN_MEMBERS);;
+				_groupParams.put("actionId", ActionKeys.ASSIGN_MEMBERS);
 			}
 
 			_groupParams.put("usersGroups", user.getUserId());

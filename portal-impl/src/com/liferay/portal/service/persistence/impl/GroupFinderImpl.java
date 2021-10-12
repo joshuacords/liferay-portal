@@ -1282,14 +1282,18 @@ public class GroupFinderImpl
 
 				qPos.add(value);
 			}
-			else if (key.equals("actionId")){
+			else if (key.equals("actionId")) {
 				Long companyId = CompanyThreadLocal.getCompanyId();
+
 				Role siteAdmin = RoleLocalServiceUtil.fetchRole(
 					companyId, RoleConstants.SITE_ADMINISTRATOR);
 				Role siteOwner = RoleLocalServiceUtil.fetchRole(
 					companyId, RoleConstants.SITE_OWNER);
+
 				ResourceAction resourceAction =
-					ResourceActionLocalServiceUtil.getResourceAction(Group.class.getName(),(String)entry.getValue());
+					ResourceActionLocalServiceUtil.getResourceAction(
+						Group.class.getName(), (String)entry.getValue());
+
 				qPos.add(siteAdmin.getRoleId());
 				qPos.add(siteOwner.getRoleId());
 				qPos.add(resourceAction.getBitwiseValue());
@@ -1363,12 +1367,16 @@ public class GroupFinderImpl
 				qPos.add(userId);
 				qPos.add(roleId);
 			}
-			else if (key.equals("userId")){
-				Long companyId = CompanyThreadLocal.getCompanyId();
+			else if (key.equals("userId")) {
 				Role admin = RoleLocalServiceUtil.fetchRole(
-					companyId, RoleConstants.ADMINISTRATOR);
-				boolean isAdmin = RoleLocalServiceUtil.hasUserRole((Long)entry.getValue(),admin.getRoleId());
+					CompanyThreadLocal.getCompanyId(),
+					RoleConstants.ADMINISTRATOR);
+
+				boolean isAdmin = RoleLocalServiceUtil.hasUserRole(
+					(Long)entry.getValue(), admin.getRoleId());
+
 				qPos.add(isAdmin);
+
 				qPos.add(entry.getValue());
 			}
 			else {
@@ -1498,7 +1506,8 @@ public class GroupFinderImpl
 
 		Map<String, String> joinMap = new HashMap<>();
 
-		joinMap.put("actionId", _removeWhere(CustomSQLUtil.get(JOIN_BY_ACTION_ID)));
+		joinMap.put(
+			"actionId", _removeWhere(CustomSQLUtil.get(JOIN_BY_ACTION_ID)));
 		joinMap.put("active", _removeWhere(CustomSQLUtil.get(JOIN_BY_ACTIVE)));
 		joinMap.put(
 			"groupOrg", _removeWhere(CustomSQLUtil.get(JOIN_BY_GROUP_ORG)));
