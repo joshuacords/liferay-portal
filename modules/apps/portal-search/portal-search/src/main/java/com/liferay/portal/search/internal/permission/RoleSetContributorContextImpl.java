@@ -52,8 +52,12 @@ public class RoleSetContributorContextImpl
 	}
 
 	public void addPermissionRoleIdSet(Set<String> roleIdSet) {
+		int size = _roleIdSets.size();
 		_roleIdSets.add(roleIdSet);
-		_removeRedundantSets();
+
+		if(_roleIdSets.size() > size) {
+			_removeRedundantSets();
+		}
 	}
 
 	public Set<Set<String>> getRoleIdSets() {
