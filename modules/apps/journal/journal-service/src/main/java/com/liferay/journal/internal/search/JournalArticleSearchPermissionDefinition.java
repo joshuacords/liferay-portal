@@ -42,18 +42,7 @@ public class JournalArticleSearchPermissionDefinition
 
 	@Override
 	public JournalArticle getModel(long classPK) {
-
-		JournalArticle journalArticle =
-			_journalArticleLocalService.fetchArticle(classPK);
-
-		if (journalArticle != null) {
-			return journalArticle;
-		}
-
-		journalArticle = _journalArticleLocalService.fetchLatestArticle(
-			classPK);
-
-		return journalArticle;
+		return _journalArticleLocalService.fetchArticle(classPK);
 	}
 
 	@Override
