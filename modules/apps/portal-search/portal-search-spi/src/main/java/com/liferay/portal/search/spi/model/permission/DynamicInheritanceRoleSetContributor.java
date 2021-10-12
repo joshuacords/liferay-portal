@@ -90,7 +90,7 @@ public class DynamicInheritanceRoleSetContributor
 		DynamicInheritanceRoleSetContributorContext
 			dynamicInheritanceRoleSetContributorContext =
 				new DynamicInheritanceRoleSetContributorContext(
-					roleSetContributorContext);
+					_roleLocalService, roleSetContributorContext);
 
 		apply(
 			roleSetContributorContext,

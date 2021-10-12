@@ -37,9 +37,7 @@ public class RoleSetContributorContextImpl
 		_companyId = companyId;
 		_groupId = groupId;
 
-		_roleLocalService = roleLocalService;
-
-		Role guestRole = _roleLocalService.getRole(
+		Role guestRole = roleLocalService.getRole(
 			_companyId, RoleConstants.GUEST);
 
 		_guestRoleId = String.valueOf(guestRole.getRoleId());
@@ -67,11 +65,6 @@ public class RoleSetContributorContextImpl
 
 	public Set<Set<String>> getRoleIdSets() {
 		return _roleIdSets;
-	}
-
-	@Override
-	public RoleLocalService getRoleLocalService() {
-		return _roleLocalService;
 	}
 
 	private void _removeRedundantSets() {
@@ -102,6 +95,5 @@ public class RoleSetContributorContextImpl
 	private final long _groupId;
 	private final String _guestRoleId;
 	private final Set<Set<String>> _roleIdSets = new HashSet<>();
-	private final RoleLocalService _roleLocalService;
 
 }
