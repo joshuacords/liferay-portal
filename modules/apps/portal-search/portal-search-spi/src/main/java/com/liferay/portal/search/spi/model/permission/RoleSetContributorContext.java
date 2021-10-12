@@ -14,6 +14,8 @@
 
 package com.liferay.portal.search.spi.model.permission;
 
+import com.liferay.portal.kernel.service.RoleLocalService;
+
 import java.util.Set;
 
 /**
@@ -30,5 +32,7 @@ public interface RoleSetContributorContext {
 	public long getCompanyId();
 
 	public long getGroupId();
+
+	public RoleLocalService getRoleLocalService();
 
 }
