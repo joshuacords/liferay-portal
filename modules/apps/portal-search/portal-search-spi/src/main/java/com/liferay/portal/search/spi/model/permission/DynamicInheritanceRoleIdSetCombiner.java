@@ -23,9 +23,9 @@ import java.util.Set;
 /**
  * @author Joshua Cords
  */
-public class PermissionRoleIdSetCombiner {
+public class DynamicInheritanceRoleIdSetCombiner {
 
-	public PermissionRoleIdSetCombiner(
+	public DynamicInheritanceRoleIdSetCombiner(
 		long companyId, long groupId, String guestRoleId, String ownerRoleId) {
 
 		_companyId = companyId;

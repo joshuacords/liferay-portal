@@ -46,29 +46,29 @@ public class DynamicInheritanceRoleSetContributorContext{
 		_guestRoleId = String.valueOf(guestRole.getRoleId());
 		String ownerRoleId = String.valueOf(ownerRole.getRoleId());
 
-		_accessPermissionRoleIdSetCombiner = new PermissionRoleIdSetCombiner(
+		_accessRoleIdSetCombiner = new DynamicInheritanceRoleIdSetCombiner(
 			_companyId, _groupId, _guestRoleId, ownerRoleId);
 
-		_viewPermissionRoleIdSetCombiner = new PermissionRoleIdSetCombiner(
+		_viewRoleIdSetCombiner = new DynamicInheritanceRoleIdSetCombiner(
 			_companyId, _groupId, _guestRoleId, ownerRoleId);
 	}
 
 	public boolean accessAssigned() {
-		return _accessPermissionRoleIdSetCombiner.isAssigned();
+		return _accessRoleIdSetCombiner.isAssigned();
 	}
 //add layer
 	public void addAccessPermissionRoleIdSet(Set<String> roleIdSet) {
-		_accessPermissionRoleIdSetCombiner.addRoleIdSet(roleIdSet);
+		_accessRoleIdSetCombiner.addRoleIdSet(roleIdSet);
 	}
 
 	public void addViewPermissionRoleIdSet(Set<String> roleIdSet) {
-		_viewPermissionRoleIdSetCombiner.addRoleIdSet(roleIdSet);
+		_viewRoleIdSetCombiner.addRoleIdSet(roleIdSet);
 	}
 
 	public Set<Set<String>> getCombinedPermissionRoleIdSets() {
 		return _combineRoleIdSets(
-			_accessPermissionRoleIdSetCombiner.getRoleIdSets(),
-			_viewPermissionRoleIdSetCombiner.getRoleIdSets());
+			_accessRoleIdSetCombiner.getRoleIdSets(),
+			_viewRoleIdSetCombiner.getRoleIdSets());
 	}
 
 	public long getCompanyId() {
@@ -140,11 +140,10 @@ public class DynamicInheritanceRoleSetContributorContext{
 		}
 	}
 
-	private final PermissionRoleIdSetCombiner
-		_accessPermissionRoleIdSetCombiner;
+	private final DynamicInheritanceRoleIdSetCombiner _accessRoleIdSetCombiner;
 	private final long _companyId;
 	private final long _groupId;
 	private final String _guestRoleId;
-	private final PermissionRoleIdSetCombiner _viewPermissionRoleIdSetCombiner;
+	private final DynamicInheritanceRoleIdSetCombiner _viewRoleIdSetCombiner;
 
 }
