@@ -136,7 +136,7 @@ public class DynamicInheritanceRoleSetContributor
 			ResourceConstants.SCOPE_INDIVIDUAL, String.valueOf(resourcePrimKey),
 			ActionKeys.VIEW);
 
-		_roleSetContributorHelper.assignRolesAsIndividualViewRoleIdSets(
+		_assignRolesAsIndividualViewRoleIdSets(
 			roleSetContributorContext, child.getModelClassName(),
 			resourcePrimKey, roles);
 
@@ -169,22 +169,40 @@ public class DynamicInheritanceRoleSetContributor
 
 		if (!roleSetContributorContext.accessAssigned()) {
 			if (accessRoles.isEmpty()) {
-				_roleSetContributorHelper.
-					assignRolesAsIndividualAccessRoleIdSets(
-						roleSetContributorContext, child.getModelClassName(),
-						resourcePrimKey, new ArrayList<>());
+				_assignRolesAsIndividualAccessRoleIdSets(
+					roleSetContributorContext, child.getModelClassName(),
+					resourcePrimKey, new ArrayList<>());
 			}
 			else {
-				_roleSetContributorHelper.
-					assignRolesAsIndividualAccessRoleIdSets(
-						roleSetContributorContext, child.getModelClassName(),
-						resourcePrimKey, viewRoles);
+				_assignRolesAsIndividualAccessRoleIdSets(
+					roleSetContributorContext, child.getModelClassName(),
+					resourcePrimKey, viewRoles);
 			}
 		}
 
-		_roleSetContributorHelper.assignRolesAsIndividualAccessRoleIdSets(
+		_assignRolesAsIndividualAccessRoleIdSets(
 			roleSetContributorContext, parent.getModelClassName(),
 			String.valueOf(parent.getPrimaryKeyObj()), accessRoles);
+	}
+
+	private void _assignRolesAsIndividualAccessRoleIdSets(
+		RoleSetContributorContext roleSetContributorContext,
+		String className, String classPK, List<Role> roles)
+		throws PortalException {
+
+		roleSetContributorContext.addAccessPermissionRoleIdSet(
+			_roleSetContributorHelper.createRoleIdSet(
+				roleSetContributorContext, className, classPK, roles));
+	}
+
+	private void _assignRolesAsIndividualViewRoleIdSets(
+		RoleSetContributorContext roleSetContributorContext,
+		String className, String classPK, List<Role> roles)
+		throws PortalException {
+
+		roleSetContributorContext.addViewPermissionRoleIdSet(
+			_roleSetContributorHelper.createRoleIdSet(
+				roleSetContributorContext, className, classPK, roles));
 	}
 
 	private void _setParentContributor(

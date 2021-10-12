@@ -56,7 +56,7 @@ public class DynamicInheritanceRoleSetContributorContext {
 	public boolean accessAssigned() {
 		return _accessPermissionRoleIdSetCombiner.isAssigned();
 	}
-
+//add layer
 	public void addAccessPermissionRoleIdSet(Set<String> roleIdSet) {
 		_accessPermissionRoleIdSetCombiner.addRoleIdSet(roleIdSet);
 	}
