@@ -23,11 +23,7 @@ import java.util.Set;
  */
 public interface RoleSetContributorContext {
 
-	public boolean accessAssigned();
-
-	public void addAccessPermissionRoleIdSet(Set<String> roleIdSet);
-
-	public void addViewPermissionRoleIdSet(Set<String> set);
+	public void addPermissionRoleIdSet(Set<String> set);
 
 	public long getCompanyId();
 
