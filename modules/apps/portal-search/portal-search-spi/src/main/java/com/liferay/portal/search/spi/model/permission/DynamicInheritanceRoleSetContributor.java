@@ -86,6 +86,49 @@ public class DynamicInheritanceRoleSetContributor
 			String resourcePrimKey)
 		throws PortalException {
 
+		DynamicInheritanceRoleSetContributorContext dynamicInheritanceRoleSetContributorContext =
+			new DynamicInheritanceRoleSetContributorContext(
+				roleSetContributorContext);
+
+		apply(
+			roleSetContributorContext,
+			dynamicInheritanceRoleSetContributorContext, child,
+			resourcePrimKey);
+
+//		P parent = _fetchParentUnsafeFunction.apply(child);
+//
+//		List<Role> roles = _resourcePermissionLocalService.getRoles(
+//			roleSetContributorContext.getCompanyId(), child.getModelClassName(),
+//			ResourceConstants.SCOPE_INDIVIDUAL, String.valueOf(resourcePrimKey),
+//			ActionKeys.VIEW);
+//
+//		_roleSetContributorHelper.assignRolesAsIndividualViewRoleIdSets(
+//			roleSetContributorContext, child.getModelClassName(),
+//			resourcePrimKey, roles);
+//
+//		if (parent == null) {
+//			return;
+//		}
+//
+//		if (_checkParentAccess) {
+//			_applyAccessRoles(
+//				child, parent, resourcePrimKey, roleSetContributorContext,
+//				roles);
+//		}
+//
+//		_parentDynamicInheritanceRoleSetContributor.apply(
+//			roleSetContributorContext, parent,
+//			String.valueOf(parent.getPrimaryKeyObj())); //make sure PrimaryKeyObj works for all asset parents
+
+	}
+
+	public void apply(
+		RoleSetContributorContext roleSetContributorContext,
+		DynamicInheritanceRoleSetContributorContext
+			dynamicInheritanceRoleSetContributorContext, C child,
+		String resourcePrimKey)
+		throws PortalException {
+
 		P parent = _fetchParentUnsafeFunction.apply(child);
 
 		List<Role> roles = _resourcePermissionLocalService.getRoles(
