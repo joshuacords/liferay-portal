@@ -26,14 +26,15 @@ import java.util.Set;
 /**
  * @author Joshua Cords
  */
-public class DynamicInheritanceRoleSetContributorContext{
+public class DynamicInheritanceRoleSetContributorContext {
 
 	public DynamicInheritanceRoleSetContributorContext(
-		RoleSetContributorContext roleSetContributorContext)
+			RoleSetContributorContext roleSetContributorContext)
 		throws PortalException {
 
 		_companyId = roleSetContributorContext.getCompanyId();
 		_groupId = roleSetContributorContext.getGroupId();
+
 		RoleLocalService roleLocalService =
 			roleSetContributorContext.getRoleLocalService();
 
@@ -56,7 +57,8 @@ public class DynamicInheritanceRoleSetContributorContext{
 	public boolean accessAssigned() {
 		return _accessRoleIdSetCombiner.isAssigned();
 	}
-//add layer
+
+	//add layer
 	public void addAccessPermissionRoleIdSet(Set<String> roleIdSet) {
 		_accessRoleIdSetCombiner.addRoleIdSet(roleIdSet);
 	}
