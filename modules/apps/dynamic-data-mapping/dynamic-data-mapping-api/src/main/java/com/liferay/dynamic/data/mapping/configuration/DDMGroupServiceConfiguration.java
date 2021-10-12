@@ -44,4 +44,14 @@ public interface DDMGroupServiceConfiguration {
 	)
 	public int smallImageMaxSize();
 
+	@Meta.AD(
+		deflt = "false",
+		description = "enable-setting-the-image-description-as-optional-description",
+		name = "enable-setting-the-image-description-as-optional",
+		required = false
+	)
+	public default boolean enableSettingTheImageDescriptionAsOptional() {
+		return false;
+	}
+
 }
