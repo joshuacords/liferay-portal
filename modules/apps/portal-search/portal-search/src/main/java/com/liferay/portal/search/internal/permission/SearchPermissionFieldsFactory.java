@@ -16,12 +16,8 @@ package com.liferay.portal.search.internal.permission;
 
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapFactory;
-import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
-import com.liferay.portal.kernel.exception.NoSuchResourceException;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.role.RoleConstants;
@@ -69,45 +65,29 @@ public class SearchPermissionFieldsFactory {
 			return searchPermissionFields;
 		}
 
-		try {
-			List<Role> roles = _resourcePermissionLocalService.getRoles(
-				companyId, permissionName, ResourceConstants.SCOPE_INDIVIDUAL,
-				resourcePrimKey, viewActionId);
+		List<Role> roles = _resourcePermissionLocalService.getRoles(
+			companyId, permissionName, ResourceConstants.SCOPE_INDIVIDUAL,
+			resourcePrimKey, viewActionId);
 
-			if (!roles.isEmpty()) {
-				List<Long> roleIds = new ArrayList<>();
-				List<String> groupRoleIds = new ArrayList<>();
+		if (!roles.isEmpty()) {
+			List<Long> roleIds = new ArrayList<>();
+			List<String> groupRoleIds = new ArrayList<>();
 
-				for (Role role : roles) {
-					if ((role.getType() == RoleConstants.TYPE_ORGANIZATION) ||
-						(role.getType() == RoleConstants.TYPE_SITE)) {
+			for (Role role : roles) {
+				if ((role.getType() == RoleConstants.TYPE_ORGANIZATION) ||
+					(role.getType() == RoleConstants.TYPE_SITE)) {
 
-						groupRoleIds.add(
-							groupId + StringPool.DASH + role.getRoleId());
-					}
-					else {
-						roleIds.add(role.getRoleId());
-					}
+					groupRoleIds.add(
+						groupId + StringPool.DASH + role.getRoleId());
 				}
+				else {
+					roleIds.add(role.getRoleId());
+				}
+			}
 
-				searchPermissionFields = new SearchPermissionFields(
-					roleIds.toArray(new Long[0]),
-					groupRoleIds.toArray(new String[0]));
-			}
-		}
-		catch (NoSuchResourceException noSuchResourceException) {
-			if (_log.isDebugEnabled()) {
-				_log.debug(noSuchResourceException, noSuchResourceException);
-			}
-		}
-		catch (Exception exception) {
-			if (_log.isWarnEnabled()) {
-				_log.warn(
-					StringBundler.concat(
-						"Unable to get permission fields for class name ",
-						permissionName, " and class PK ", entryClassPK),
-					exception);
-			}
+			searchPermissionFields = new SearchPermissionFields(
+				roleIds.toArray(new Long[0]),
+				groupRoleIds.toArray(new String[0]));
 		}
 
 		return searchPermissionFields;
@@ -153,30 +133,18 @@ public class SearchPermissionFieldsFactory {
 					GetterUtil.getLong(entryClassPK));
 			}
 
-			try {
-				for (SearchPermissionDefinition.RoleSetContributor<T>
-						roleProvider :
-							searchPermissionDefinition.
-								getRoleSetContributors()) {
+			for (SearchPermissionDefinition.RoleSetContributor<T> roleProvider :
+					searchPermissionDefinition.getRoleSetContributors()) {
 
-					roleProvider.apply(
-						roleSetContributorContextImpl, model, resourcePrimKey);
+				roleProvider.apply(
+					roleSetContributorContextImpl, model, resourcePrimKey);
 
-					//searchPermissionFields = null;
-				}
-			}
-			catch (PortalException portalException) {
-				if (_log.isDebugEnabled()) {
-					_log.debug(portalException, portalException);
-				}
+				//searchPermissionFields = null;
 			}
 		}
 
 		return roleSetContributorContextImpl;
 	}
-
-	private static final Log _log = LogFactoryUtil.getLog(
-		SearchPermissionFieldsFactory.class);
 
 	@Reference
 	private ResourcePermissionLocalService _resourcePermissionLocalService;

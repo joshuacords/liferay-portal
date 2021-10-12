@@ -14,7 +14,10 @@
 
 package com.liferay.portal.search.internal.permission;
 
-import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.exception.NoSuchResourceException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Indexer;
@@ -136,8 +139,20 @@ public class SearchPermissionDocumentContributorImpl
 					entryClassPK, _getPermissionName(document, className),
 					viewActionId);
 		}
-		catch (PortalException portalException) {
-			//log
+		catch (NoSuchResourceException noSuchResourceException) {
+			if (_log.isDebugEnabled()) {
+				_log.debug(noSuchResourceException, noSuchResourceException);
+			}
+		}
+		catch (Exception exception) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(
+					StringBundler.concat(
+						"Unable to get permission fields for class name ",
+						_getPermissionName(document, className),
+						" and class PK ", resourcePrimKey),
+					exception);
+			}
 		}
 
 		if (searchPermissionFields != null) {
@@ -157,6 +172,9 @@ public class SearchPermissionDocumentContributorImpl
 
 		return resourcePermissionName;
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		SearchPermissionDocumentContributorImpl.class);
 
 	@Reference
 	private IndexerRegistry _indexerRegistry;
