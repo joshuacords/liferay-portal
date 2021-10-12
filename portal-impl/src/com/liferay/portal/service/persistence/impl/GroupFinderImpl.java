@@ -1278,28 +1278,36 @@ public class GroupFinderImpl
 			if (key.equals("actionId")) {
 				Long companyId = CompanyThreadLocal.getCompanyId();
 
+				Role admin = RoleLocalServiceUtil.fetchRole(
+					companyId, RoleConstants.ADMINISTRATOR);
 				Role siteAdmin = RoleLocalServiceUtil.fetchRole(
 					companyId, RoleConstants.SITE_ADMINISTRATOR);
 				Role siteOwner = RoleLocalServiceUtil.fetchRole(
 					companyId, RoleConstants.SITE_OWNER);
 
+				Long userId = (Long)params.get("userId");
+
+				boolean isAdmin = RoleLocalServiceUtil.hasUserRole(
+					userId, admin.getRoleId());
+
 				ResourceAction resourceAction =
 					ResourceActionLocalServiceUtil.getResourceAction(
 						Group.class.getName(), (String)entry.getValue());
+
+				qPos.add(isAdmin);
+				qPos.add(entry.getValue());
 
 				qPos.add(siteAdmin.getRoleId());
 				qPos.add(siteOwner.getRoleId());
 				qPos.add(resourceAction.getBitwiseValue());
 			}
-
 			else if (key.equals("active") || key.equals("layoutSet") ||
-				key.equals("manualMembership") || key.equals("site")) {
+					 key.equals("manualMembership") || key.equals("site")) {
 
 				Boolean value = (Boolean)entry.getValue();
 
 				qPos.add(value);
 			}
-
 			else if (key.equals("classNameIds")) {
 				if (entry.getValue() instanceof Long) {
 					qPos.add((long)entry.getValue());
@@ -1370,16 +1378,6 @@ public class GroupFinderImpl
 				qPos.add(roleId);
 			}
 			else if (key.equals("userId")) {
-				Role admin = RoleLocalServiceUtil.fetchRole(
-					CompanyThreadLocal.getCompanyId(),
-					RoleConstants.ADMINISTRATOR);
-
-				boolean isAdmin = RoleLocalServiceUtil.hasUserRole(
-					(Long)entry.getValue(), admin.getRoleId());
-
-				qPos.add(isAdmin);
-
-				qPos.add(entry.getValue());
 			}
 			else {
 				Object value = entry.getValue();
