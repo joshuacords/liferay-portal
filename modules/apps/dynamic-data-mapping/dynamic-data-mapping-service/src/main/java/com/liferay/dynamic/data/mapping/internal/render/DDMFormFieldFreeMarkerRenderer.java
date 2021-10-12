@@ -14,6 +14,7 @@
 
 package com.liferay.dynamic.data.mapping.internal.render;
 
+import com.liferay.dynamic.data.mapping.configuration.DDMGroupServiceConfiguration;
 import com.liferay.dynamic.data.mapping.constants.DDMPortletKeys;
 import com.liferay.dynamic.data.mapping.internal.util.DDMFormFieldFreeMarkerRendererHelper;
 import com.liferay.dynamic.data.mapping.internal.util.DDMImpl;
@@ -39,6 +40,8 @@ import com.liferay.portal.kernel.language.LanguageConstants;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.module.configuration.ConfigurationException;
+import com.liferay.portal.kernel.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.security.auth.AuthTokenUtil;
 import com.liferay.portal.kernel.template.Template;
 import com.liferay.portal.kernel.template.TemplateConstants;
@@ -176,12 +179,35 @@ public class DDMFormFieldFreeMarkerRenderer implements DDMFormFieldRenderer {
 		fieldContext.put(
 			"required", Boolean.toString(ddmFormField.isRequired()));
 
+		boolean requiredDescriptionEnabled = false;
+
+		try {
+			DDMGroupServiceConfiguration ddmGroupServiceConfiguration =
+				ConfigurationProviderUtil.getSystemConfiguration(
+					DDMGroupServiceConfiguration.class);
+
+			requiredDescriptionEnabled =
+				ddmGroupServiceConfiguration.
+					enableSettingTheImageDescriptionAsOptional();
+		}
+		catch (ConfigurationException configurationException) {
+			if (_log.isDebugEnabled()) {
+				_log.debug(configurationException);
+			}
+		}
+
 		if (Objects.equals(ddmFormField.getType(), DDMFormFieldType.IMAGE)) {
 			if (ddmFormField.isRequired()) {
-				fieldContext.put(
-					"requiredDescription",
-					GetterUtil.getBoolean(
-						ddmFormField.getProperty("requiredDescription"), true));
+				if (requiredDescriptionEnabled) {
+					fieldContext.put(
+						"requiredDescription",
+						GetterUtil.getBoolean(
+							ddmFormField.getProperty("requiredDescription"),
+							true));
+				}
+				else {
+					fieldContext.put("requiredDescription", true);
+				}
 			}
 			else {
 				fieldContext.put("requiredDescription", false);

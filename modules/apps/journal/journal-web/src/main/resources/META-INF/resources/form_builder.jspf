@@ -28,6 +28,8 @@ if ((ddmForm != null) && (ddmForm.getDefaultLocale() != null)) {
 
 	defaultLanguageId = ddmFormDefaultLanguageId;
 }
+
+DDMGroupServiceConfiguration ddmGroupServiceConfiguration = ConfigurationProviderUtil.getSystemConfiguration(DDMGroupServiceConfiguration.class);
 %>
 
 <div class="alert alert-danger hide lfr-message-response" id="<portlet:namespace />messageContainer"></div>
@@ -235,6 +237,7 @@ if ((ddmForm != null) && (ddmForm.getDefaultLocale() != null)) {
 		portletNamespace: '<portlet:namespace />',
 		portletResourceNamespace: '<portlet:namespace />',
 		readOnly: <%= ParamUtil.getBoolean(request, "formBuilderReadOnly") %>,
+		requiredDescriptionEnabled: <%= ddmGroupServiceConfiguration.enableSettingTheImageDescriptionAsOptional() %>,
 		srcNode: '#<portlet:namespace />formBuilderContent',
 		translationManager: {
 			<c:if test="<%= Validator.isNotNull(journalEditDDMStructuresDisplayContext.getAvailableLocalesJSONArrayString()) %>">
