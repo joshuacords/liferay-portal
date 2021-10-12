@@ -43,17 +43,14 @@ public class RoleSetContributorContextImpl
 		Role ownerRole = roleLocalService.getRole(
 			companyId, RoleConstants.OWNER);
 
-		String guestRoleId = String.valueOf(guestRole.getRoleId());
+		_guestRoleId = String.valueOf(guestRole.getRoleId());
 		String ownerRoleId = String.valueOf(ownerRole.getRoleId());
 
 		_accessPermissionRoleIdSetCombiner = new PermissionRoleIdSetCombiner(
-			_companyId, _groupId, guestRoleId, ownerRoleId);
+			_companyId, _groupId, _guestRoleId, ownerRoleId);
 
 		_viewPermissionRoleIdSetCombiner = new PermissionRoleIdSetCombiner(
-			_companyId, _groupId, guestRoleId, ownerRoleId);
-
-		_permissionRoleIdSetCombinerUtil = new PermissionRoleIdSetCombinerUtil(
-			guestRoleId);
+			_companyId, _groupId, _guestRoleId, ownerRoleId);
 	}
 
 	@Override
@@ -72,12 +69,10 @@ public class RoleSetContributorContextImpl
 		_viewPermissionRoleIdSetCombiner.addRoleIdSet(roleIdSet);
 	}
 
-	public Set<Set<String>> getAccessPermissionRoleIdSets() {
-		return _accessPermissionRoleIdSetCombiner.getRoleIdSets();
-	}
-
 	public Set<Set<String>> getCombinedPermissionRoleIdSets() {
-		return _permissionRoleIdSetCombinerUtil.combineRoleIdSets(this);
+		return _combineRoleIdSets(
+			_accessPermissionRoleIdSetCombiner.getRoleIdSets(),
+			_viewPermissionRoleIdSetCombiner.getRoleIdSets());
 	}
 
 	@Override
@@ -90,95 +85,72 @@ public class RoleSetContributorContextImpl
 		return _groupId;
 	}
 
-	public Set<Set<String>> getViewPermissionRoleIdSets() {
-		return _viewPermissionRoleIdSetCombiner.getRoleIdSets();
+	private Set<Set<String>> _combineRoleIdSets(
+		Set<Set<String>> roleIdSets1, Set<Set<String>> roleIdSets2) {
+
+		Set<Set<String>> roleIdsCombinations = new HashSet<>();
+
+		if (_guestRolePresent(roleIdSets1)) {
+			roleIdsCombinations.addAll(roleIdSets1);
+
+			return roleIdsCombinations;
+		}
+
+		if (_guestRolePresent(roleIdSets2)) {
+			roleIdsCombinations.addAll(roleIdSets2);
+
+			return roleIdsCombinations;
+		}
+
+		roleIdsCombinations.addAll(roleIdSets1);
+		roleIdsCombinations.addAll(roleIdSets2);
+
+		_removeRedundantSets(roleIdsCombinations);
+
+		return roleIdsCombinations;
+	}
+
+	private boolean _guestRolePresent(Set<Set<String>> roleIdSets) {
+		if (roleIdSets.size() == 1) {
+			for (Set<String> roleIdSet : roleIdSets) {
+				if (roleIdSet.contains(_guestRoleId)) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	private void _removeRedundantSets(Set<Set<String>> roleIdSets) {
+		Iterator<Set<String>> comparingIterator = roleIdSets.iterator();
+
+		while (comparingIterator.hasNext()) {
+			Set<String> comparingSet = comparingIterator.next();
+
+			Iterator<Set<String>> searchingIterator = roleIdSets.iterator();
+
+			while (searchingIterator.hasNext()) {
+				Set<String> searchedSet = searchingIterator.next();
+
+				if (comparingSet == searchedSet) {
+					continue;
+				}
+
+				if (comparingSet.containsAll(searchedSet)) {
+					comparingIterator.remove();
+
+					break;
+				}
+			}
+		}
 	}
 
 	private final PermissionRoleIdSetCombiner
 		_accessPermissionRoleIdSetCombiner;
 	private final long _companyId;
 	private final long _groupId;
-	private final PermissionRoleIdSetCombinerUtil
-		_permissionRoleIdSetCombinerUtil;
+	private final String _guestRoleId;
 	private final PermissionRoleIdSetCombiner _viewPermissionRoleIdSetCombiner;
-
-	private class PermissionRoleIdSetCombinerUtil {
-
-		public PermissionRoleIdSetCombinerUtil(String guestRoleId) {
-			_guestRoleId = guestRoleId;
-		}
-
-		public Set<Set<String>> combineRoleIdSets(
-			RoleSetContributorContextImpl roleSetContributorContextImpl) {
-
-			return combineRoleIdSets(
-				roleSetContributorContextImpl.getAccessPermissionRoleIdSets(),
-				roleSetContributorContextImpl.getViewPermissionRoleIdSets());
-		}
-
-		public Set<Set<String>> combineRoleIdSets(
-			Set<Set<String>> roleIdSets1, Set<Set<String>> roleIdSets2) {
-
-			Set<Set<String>> roleIdsCombinations = new HashSet<>();
-
-			if (_guestRolePresent(roleIdSets1)) {
-				roleIdsCombinations.addAll(roleIdSets1);
-
-				return roleIdsCombinations;
-			}
-
-			if (_guestRolePresent(roleIdSets2)) {
-				roleIdsCombinations.addAll(roleIdSets2);
-
-				return roleIdsCombinations;
-			}
-
-			roleIdsCombinations.addAll(roleIdSets1);
-			roleIdsCombinations.addAll(roleIdSets2);
-
-			_removeRedundantSets(roleIdsCombinations);
-
-			return roleIdsCombinations;
-		}
-
-		private boolean _guestRolePresent(Set<Set<String>> roleIdSets) {
-			if (roleIdSets.size() == 1) {
-				for (Set<String> roleIdSet : roleIdSets) {
-					if (roleIdSet.contains(_guestRoleId)) {
-						return true;
-					}
-				}
-			}
-
-			return false;
-		}
-
-		private void _removeRedundantSets(Set<Set<String>> roleIdSets) {
-			Iterator<Set<String>> comparingIterator = roleIdSets.iterator();
-
-			while (comparingIterator.hasNext()) {
-				Set<String> comparingSet = comparingIterator.next();
-
-				Iterator<Set<String>> searchingIterator = roleIdSets.iterator();
-
-				while (searchingIterator.hasNext()) {
-					Set<String> searchedSet = searchingIterator.next();
-
-					if (comparingSet == searchedSet) {
-						continue;
-					}
-
-					if (comparingSet.containsAll(searchedSet)) {
-						comparingIterator.remove();
-
-						break;
-					}
-				}
-			}
-		}
-
-		private final String _guestRoleId;
-
-	}
 
 }
