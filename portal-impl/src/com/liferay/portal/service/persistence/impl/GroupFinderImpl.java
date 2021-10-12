@@ -1291,8 +1291,9 @@ public class GroupFinderImpl
 					ResourceActionLocalServiceUtil.getResourceAction(
 						Group.class.getName(), (String)entry.getValue());
 
-				qPos.add(RoleLocalServiceUtil.hasUserRole(
-					userId, adminRole.getRoleId()));
+				qPos.add(
+					RoleLocalServiceUtil.hasUserRole(
+						userId, adminRole.getRoleId()));
 
 				qPos.add(userId);
 
