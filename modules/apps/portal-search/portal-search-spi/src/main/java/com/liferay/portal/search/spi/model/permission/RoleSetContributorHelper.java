@@ -41,19 +41,9 @@ public class RoleSetContributorHelper {
 	}
 
 	public Set<String> createRoleIdSet(
-		RoleSetContributorContext roleSetContributorContext,
-		String className, String classPK, List<Role> roles)
+			long companyId, long groupId, String className, String classPK,
+			List<Role> roles)
 		throws PortalException {
-
-		return createRoleIdSet(
-			roleSetContributorContext.getCompanyId(),
-			roleSetContributorContext.getGroupId(), className, classPK,
-			roles);
-	}
-
-	public Set<String> createRoleIdSet(
-		long companyId, long groupId, String className, String classPK,
-		List<Role> roles) throws PortalException {
 
 		Set<String> roleIdSet = new HashSet<>();
 
@@ -63,6 +53,16 @@ public class RoleSetContributorHelper {
 		}
 
 		return roleIdSet;
+	}
+
+	public Set<String> createRoleIdSet(
+			RoleSetContributorContext roleSetContributorContext,
+			String className, String classPK, List<Role> roles)
+		throws PortalException {
+
+		return createRoleIdSet(
+			roleSetContributorContext.getCompanyId(),
+			roleSetContributorContext.getGroupId(), className, classPK, roles);
 	}
 
 	private boolean _isOwnerRoleId(long companyId, long roleId) {

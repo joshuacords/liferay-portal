@@ -54,6 +54,7 @@ public class DynamicInheritanceRoleIdSetCombiner {
 
 		if (_roleIdSetsManager.containsGuest()) {
 			_roleIdSetsManager.clear();
+
 			_addIndividuallyToRoleIdSets(roleIdSet);
 
 			return;
@@ -65,6 +66,7 @@ public class DynamicInheritanceRoleIdSetCombiner {
 
 		_roleIdSetsManager.clear();
 		_roleIdSetsManager.addAll(_updatedRoleIdSets);
+
 		_updatedRoleIdSets.clear();
 	}
 
