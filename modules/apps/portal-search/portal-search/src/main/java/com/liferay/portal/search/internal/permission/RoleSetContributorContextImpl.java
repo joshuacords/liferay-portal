@@ -36,12 +36,13 @@ public class RoleSetContributorContextImpl
 
 		_companyId = companyId;
 		_groupId = groupId;
+		_roleLocalService = roleLocalService;
 
-		Role guestRole = roleLocalService.getRole(
-			companyId, RoleConstants.GUEST);
+		Role guestRole = _roleLocalService.getRole(
+			_companyId, RoleConstants.GUEST);
 
-		Role ownerRole = roleLocalService.getRole(
-			companyId, RoleConstants.OWNER);
+		Role ownerRole = _roleLocalService.getRole(
+			_companyId, RoleConstants.OWNER);
 
 		_guestRoleId = String.valueOf(guestRole.getRoleId());
 		String ownerRoleId = String.valueOf(ownerRole.getRoleId());
@@ -83,6 +84,11 @@ public class RoleSetContributorContextImpl
 	@Override
 	public long getGroupId() {
 		return _groupId;
+	}
+
+	@Override
+	public RoleLocalService getRoleLocalService() {
+		return _roleLocalService;
 	}
 
 	private Set<Set<String>> _combineRoleIdSets(
@@ -151,6 +157,7 @@ public class RoleSetContributorContextImpl
 	private final long _companyId;
 	private final long _groupId;
 	private final String _guestRoleId;
+	private final RoleLocalService _roleLocalService;
 	private final PermissionRoleIdSetCombiner _viewPermissionRoleIdSetCombiner;
 
 }
