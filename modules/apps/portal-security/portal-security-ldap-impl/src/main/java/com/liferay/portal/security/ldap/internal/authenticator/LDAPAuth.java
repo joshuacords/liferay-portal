@@ -245,8 +245,11 @@ public class LDAPAuth implements Authenticator {
 				String encryptedPassword = password;
 				String ldapPassword = new String((byte[])userPassword.get());
 
-				if (Validator.isNotNull(
-						ldapAuthConfiguration.passwordEncryptionAlgorithm())) {
+				String passwordEncryptionAlgorithm =
+					ldapAuthConfiguration.passwordEncryptionAlgorithm();
+
+				if (Validator.isNotNull(passwordEncryptionAlgorithm) &&
+					!passwordEncryptionAlgorithm.equals(_NONE)) {
 
 					ldapPassword = removeEncryptionAlgorithm(ldapPassword);
 
@@ -779,6 +782,8 @@ public class LDAPAuth implements Authenticator {
 	protected void setUserLocalService(UserLocalService userLocalService) {
 		_userLocalService = userLocalService;
 	}
+
+	private static final String _NONE = "NONE";
 
 	private static final Log _log = LogFactoryUtil.getLog(LDAPAuth.class);
 
