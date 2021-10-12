@@ -45,14 +45,21 @@ public class RoleSetContributorHelper {
 		String className, String classPK, List<Role> roles)
 		throws PortalException {
 
+		return createRoleIdSet(
+			roleSetContributorContext.getCompanyId(),
+			roleSetContributorContext.getGroupId(), className, classPK,
+			roles);
+	}
+
+	public Set<String> createRoleIdSet(
+		long companyId, long groupId, String className, String classPK,
+		List<Role> roles) throws PortalException {
+
 		Set<String> roleIdSet = new HashSet<>();
 
 		for (Role role : roles) {
 			roleIdSet.add(
-				_roleToRoleId(
-					roleSetContributorContext.getCompanyId(),
-					roleSetContributorContext.getGroupId(), className, classPK,
-					role));
+				_roleToRoleId(companyId, groupId, className, classPK, role));
 		}
 
 		return roleIdSet;

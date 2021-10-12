@@ -26,7 +26,7 @@ import java.util.Set;
 /**
  * @author Joshua Cords
  */
-public class DynamicInheritanceRoleSetContributorContext {
+public class DynamicInheritanceRoleSetContributorContext{
 
 	public DynamicInheritanceRoleSetContributorContext(
 		RoleSetContributorContext roleSetContributorContext)
