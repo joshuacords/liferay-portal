@@ -36,29 +36,23 @@ public class RoleSetContributorContextImpl
 
 		_companyId = companyId;
 		_groupId = groupId;
+
 		_roleLocalService = roleLocalService;
 
 		Role guestRole = _roleLocalService.getRole(
 			_companyId, RoleConstants.GUEST);
 
-		Role ownerRole = _roleLocalService.getRole(
-			_companyId, RoleConstants.OWNER);
-
 		_guestRoleId = String.valueOf(guestRole.getRoleId());
-		String ownerRoleId = String.valueOf(ownerRole.getRoleId());
 	}
 
 	public void addPermissionRoleIdSet(Set<String> roleIdSet) {
 		int size = _roleIdSets.size();
+
 		_roleIdSets.add(roleIdSet);
 
-		if(_roleIdSets.size() > size) {
+		if (_roleIdSets.size() > size) {
 			_removeRedundantSets();
 		}
-	}
-
-	public Set<Set<String>> getRoleIdSets() {
-		return _roleIdSets;
 	}
 
 	@Override
@@ -69,6 +63,10 @@ public class RoleSetContributorContextImpl
 	@Override
 	public long getGroupId() {
 		return _groupId;
+	}
+
+	public Set<Set<String>> getRoleIdSets() {
+		return _roleIdSets;
 	}
 
 	@Override
@@ -103,7 +101,7 @@ public class RoleSetContributorContextImpl
 	private final long _companyId;
 	private final long _groupId;
 	private final String _guestRoleId;
-	private final RoleLocalService _roleLocalService;
 	private final Set<Set<String>> _roleIdSets = new HashSet<>();
+	private final RoleLocalService _roleLocalService;
 
 }
