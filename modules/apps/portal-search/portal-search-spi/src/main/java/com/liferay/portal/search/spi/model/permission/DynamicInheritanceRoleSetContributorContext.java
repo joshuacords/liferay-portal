@@ -29,14 +29,12 @@ import java.util.Set;
 public class DynamicInheritanceRoleSetContributorContext {
 
 	public DynamicInheritanceRoleSetContributorContext(
+			RoleLocalService roleLocalService,
 			RoleSetContributorContext roleSetContributorContext)
 		throws PortalException {
 
 		_companyId = roleSetContributorContext.getCompanyId();
 		_groupId = roleSetContributorContext.getGroupId();
-
-		RoleLocalService roleLocalService =
-			roleSetContributorContext.getRoleLocalService();
 
 		Role guestRole = roleLocalService.getRole(
 			_companyId, RoleConstants.GUEST);
