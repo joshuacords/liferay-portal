@@ -46,9 +46,6 @@ public class RoleSetContributorContextImpl
 
 		_guestRoleId = String.valueOf(guestRole.getRoleId());
 		String ownerRoleId = String.valueOf(ownerRole.getRoleId());
-
-		_permissionRoleIdSetCombiner = new PermissionRoleIdSetCombiner(
-			_companyId, _groupId, _guestRoleId, ownerRoleId);
 	}
 
 	public void addPermissionRoleIdSet(Set<String> roleIdSet) {
@@ -107,7 +104,6 @@ public class RoleSetContributorContextImpl
 	private final long _groupId;
 	private final String _guestRoleId;
 	private final RoleLocalService _roleLocalService;
-	private final PermissionRoleIdSetCombiner _permissionRoleIdSetCombiner;
 	private final Set<Set<String>> _roleIdSets = new HashSet<>();
 
 }
