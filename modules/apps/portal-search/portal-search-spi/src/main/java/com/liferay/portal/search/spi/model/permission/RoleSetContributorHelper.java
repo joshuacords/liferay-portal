@@ -40,29 +40,9 @@ public class RoleSetContributorHelper {
 		_roleLocalService = roleLocalService;
 	}
 
-	public void assignRolesAsIndividualAccessRoleIdSets(
-			RoleSetContributorContext roleSetContributorContext,
-			String className, String classPK, List<Role> roles)
-		throws PortalException {
-
-		roleSetContributorContext.addAccessPermissionRoleIdSet(
-			_createRoleIdSet(
-				roleSetContributorContext, className, classPK, roles));
-	}
-
-	public void assignRolesAsIndividualViewRoleIdSets(
-			RoleSetContributorContext roleSetContributorContext,
-			String className, String classPK, List<Role> roles)
-		throws PortalException {
-
-		roleSetContributorContext.addViewPermissionRoleIdSet(
-			_createRoleIdSet(
-				roleSetContributorContext, className, classPK, roles));
-	}
-
-	private Set<String> _createRoleIdSet(
-			RoleSetContributorContext roleSetContributorContext,
-			String className, String classPK, List<Role> roles)
+	public Set<String> createRoleIdSet(
+		RoleSetContributorContext roleSetContributorContext,
+		String className, String classPK, List<Role> roles)
 		throws PortalException {
 
 		Set<String> roleIdSet = new HashSet<>();
