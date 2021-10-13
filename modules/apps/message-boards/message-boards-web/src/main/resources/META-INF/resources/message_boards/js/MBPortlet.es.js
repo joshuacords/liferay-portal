@@ -290,7 +290,7 @@ class MBPortlet extends PortletBase {
 					const namespace = this.namespace;
 					const value = item.value;
 
-					return `<input id="${namespace}selectedFileName${id}" name="${namespace}selectedFileName" type="hidden" value="${value}" />`;
+					return `<input id="${namespace}selectedFileName${id}" name="${namespace}selectedFileName" type="hidden" value="${Liferay.Util.escapeHTML(value)}" />`;
 				})
 				.join('');
 
