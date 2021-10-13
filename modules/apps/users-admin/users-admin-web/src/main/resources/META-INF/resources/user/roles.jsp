@@ -760,7 +760,7 @@ currentURLObj.setParameter("historyKey", renderResponse.getNamespace() + "roles"
 					);
 
 					if (groupName) {
-						rowColumns.push(groupName);
+						rowColumns.push(Liferay.Util.escapeHTML(groupName));
 					}
 
 					if (groupId) {
