@@ -41,8 +41,15 @@ public class JournalArticleSearchPermissionDefinition
 	implements SearchPermissionDefinition<JournalArticle> {
 
 	@Override
-	public JournalArticle getModel(long classPK) {
-		return _journalArticleLocalService.fetchArticle(classPK);
+	public JournalArticle getModel(long classPK) throws PortalException {
+		JournalArticle article =
+			_journalArticleLocalService.fetchLatestArticle(classPK);
+
+		if (article != null) {
+			return article;
+		}
+
+		return _journalArticleLocalService.getArticle(classPK);
 	}
 
 	@Override

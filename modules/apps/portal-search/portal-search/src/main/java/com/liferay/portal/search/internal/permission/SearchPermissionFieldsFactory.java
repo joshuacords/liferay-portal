@@ -53,15 +53,11 @@ public class SearchPermissionFieldsFactory {
 		SearchPermissionDefinition<?> searchPermissionDefinition =
 			_serviceTrackerMap.getService(className);
 
-		RoleSetContributorContextImpl roleSetContributorContextImpl =
-			_getRoleSetContributorContextImpl(
+		if (searchPermissionDefinition != null) {
+			Set<Set<String>> roleIdSets = _getRoleIdSets(
 				companyId, groupId, resourcePrimKey, entryClassPK,
 				searchPermissionDefinition);
 
-		Set<Set<String>> roleIdSets =
-			roleSetContributorContextImpl.getRoleIdSets();
-
-		if (searchPermissionFields != null) {
 			return searchPermissionFields;
 		}
 
@@ -114,36 +110,38 @@ public class SearchPermissionFieldsFactory {
 		_serviceTrackerMap.close();
 	}
 
-	private <T> RoleSetContributorContextImpl _getRoleSetContributorContextImpl(
+	private <T> Set<Set<String>> _getRoleIdSets(
 			long companyId, long groupId, String resourcePrimKey,
 			String entryClassPK,
 			SearchPermissionDefinition<T> searchPermissionDefinition)
 		throws PortalException {
 
-		RoleSetContributorContextImpl roleSetContributorContextImpl =
-			new RoleSetContributorContextImpl(
-				companyId, groupId, _roleLocalService);
+		T model = searchPermissionDefinition.getModel(
+			GetterUtil.getLong(resourcePrimKey));
+
+		if (model == null) {
+			model = searchPermissionDefinition.getModel(
+				GetterUtil.getLong(entryClassPK));
+		}
+
+		RoleSetContributorContextImpl<T> roleSetContributorContextImpl =
+			new RoleSetContributorContextImpl<>(
+				companyId, groupId, _roleLocalService, model);
 
 		if (searchPermissionDefinition != null) {
-			T model = searchPermissionDefinition.getModel(
-				GetterUtil.getLong(resourcePrimKey));
 
-			if (model == null) {
-				model = searchPermissionDefinition.getModel(
-					GetterUtil.getLong(entryClassPK));
-			}
 
 			for (SearchPermissionDefinition.RoleSetContributor<T> roleProvider :
 					searchPermissionDefinition.getRoleSetContributors()) {
 
 				roleProvider.apply(
-					roleSetContributorContextImpl, model, resourcePrimKey);
+					roleSetContributorContextImpl, resourcePrimKey);
 
 				//searchPermissionFields = null;
 			}
 		}
 
-		return roleSetContributorContextImpl;
+		return roleSetContributorContextImpl.getRoleIdSets();
 	}
 
 	@Reference

@@ -27,15 +27,17 @@ import java.util.Set;
 /**
  * @author Joshua Cords
  */
-public class RoleSetContributorContextImpl
-	implements RoleSetContributorContext {
+public class RoleSetContributorContextImpl<T>
+	implements RoleSetContributorContext<T> {
 
 	public RoleSetContributorContextImpl(
-			long companyId, long groupId, RoleLocalService roleLocalService)
+			long companyId, long groupId, RoleLocalService roleLocalService,
+			T model)
 		throws PortalException {
 
 		_companyId = companyId;
 		_groupId = groupId;
+		_model = model;
 
 		Role guestRole = roleLocalService.getRole(
 			_companyId, RoleConstants.GUEST);
@@ -61,6 +63,11 @@ public class RoleSetContributorContextImpl
 	@Override
 	public long getGroupId() {
 		return _groupId;
+	}
+
+	@Override
+	public T getModel() {
+		return _model;
 	}
 
 	public Set<Set<String>> getRoleIdSets() {
@@ -93,6 +100,7 @@ public class RoleSetContributorContextImpl
 
 	private final long _companyId;
 	private final long _groupId;
+	private final T _model;
 	private final String _guestRoleId;
 	private final Set<Set<String>> _roleIdSets = new HashSet<>();
 

@@ -25,14 +25,14 @@ public interface SearchPermissionDefinition<T> {
 
 	public String getClassName();
 
-	public T getModel(long classPK);
+	public T getModel(long classPK) throws PortalException;
 
 	public List<RoleSetContributor<T>> getRoleSetContributors();
 
 	public interface RoleSetContributor<T> {
 
 		public void apply(
-				RoleSetContributorContext roleSetContributorContext, T model,
+				RoleSetContributorContext<T> roleSetContributorContext,
 				String resourcePrimKey)
 			throws PortalException;
 

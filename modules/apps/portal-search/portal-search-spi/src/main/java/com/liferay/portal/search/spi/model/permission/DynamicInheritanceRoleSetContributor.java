@@ -83,7 +83,7 @@ public class DynamicInheritanceRoleSetContributor
 
 	@Override
 	public void apply(
-			RoleSetContributorContext roleSetContributorContext, C child,
+			RoleSetContributorContext<C> roleSetContributorContext,
 			String resourcePrimKey)
 		throws PortalException {
 
@@ -94,8 +94,8 @@ public class DynamicInheritanceRoleSetContributor
 
 		apply(
 			roleSetContributorContext,
-			dynamicInheritanceRoleSetContributorContext, child,
-			resourcePrimKey);
+			dynamicInheritanceRoleSetContributorContext,
+			roleSetContributorContext.getModel(), resourcePrimKey);
 	}
 
 	public void apply(
