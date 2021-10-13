@@ -56,13 +56,12 @@ public class DynamicInheritanceRoleSetContributorContext {
 		return _accessRoleIdSetCombiner.isAssigned();
 	}
 
-	//add layer
-	public void addAccessPermissionRoleIdSet(Set<String> roleIdSet) {
-		_accessRoleIdSetCombiner.addRoleIdSet(roleIdSet);
+	public void addAccessRoleIdLevel(Set<String> roleIdSet) {
+		_accessRoleIdSetCombiner.addRoleIdLevel(roleIdSet);
 	}
 
-	public void addViewPermissionRoleIdSet(Set<String> roleIdSet) {
-		_viewRoleIdSetCombiner.addRoleIdSet(roleIdSet);
+	public void addViewRoleIdLevel(Set<String> roleIdSet) {
+		_viewRoleIdSetCombiner.addRoleIdLevel(roleIdSet);
 	}
 
 	public Set<Set<String>> getCombinedPermissionRoleIdSets() {
