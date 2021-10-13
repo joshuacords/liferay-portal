@@ -202,10 +202,9 @@ public class UserIndexerTest {
 
 	@Test
 	public void testLuceneQueryParserUnfriendlyCharacters() throws Exception {
-		_expectedUser = UserTestUtil.addUser();
+		UserTestUtil.addUser();
 
-		assertSearch(StringPool.AT, _expectedUser);
-
+		assertNoHits(StringPool.AT);
 		assertNoHits(StringPool.AT + RandomTestUtil.randomString());
 		assertNoHits(StringPool.EXCLAMATION);
 		assertNoHits(StringPool.EXCLAMATION + RandomTestUtil.randomString());
