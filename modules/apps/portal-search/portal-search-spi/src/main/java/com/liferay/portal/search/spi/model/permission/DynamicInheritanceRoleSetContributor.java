@@ -112,7 +112,7 @@ public class DynamicInheritanceRoleSetContributor
 			child.getModelClassName(), ResourceConstants.SCOPE_INDIVIDUAL,
 			String.valueOf(resourcePrimKey), ActionKeys.VIEW);
 
-		_assignRolesAsIndividualViewRoleIdSets(
+		_addViewRoleLevel(
 			dynamicInheritanceRoleSetContributorContext,
 			child.getModelClassName(), resourcePrimKey, roles);
 
@@ -140,6 +140,32 @@ public class DynamicInheritanceRoleSetContributor
 
 	}
 
+	private void _addAccessRoleLevel(
+			DynamicInheritanceRoleSetContributorContext
+				dynamicInheritanceRoleSetContributorContext,
+			String className, String classPK, List<Role> roles)
+		throws PortalException {
+
+		dynamicInheritanceRoleSetContributorContext.addAccessRoleIdLevel(
+			_roleSetContributorHelper.createRoleIdSet(
+				dynamicInheritanceRoleSetContributorContext.getCompanyId(),
+				dynamicInheritanceRoleSetContributorContext.getGroupId(),
+				className, classPK, roles));
+	}
+
+	private void _addViewRoleLevel(
+			DynamicInheritanceRoleSetContributorContext
+				dynamicInheritanceRoleSetContributorContext,
+			String className, String classPK, List<Role> roles)
+		throws PortalException {
+
+		dynamicInheritanceRoleSetContributorContext.addViewRoleIdLevel(
+			_roleSetContributorHelper.createRoleIdSet(
+				dynamicInheritanceRoleSetContributorContext.getCompanyId(),
+				dynamicInheritanceRoleSetContributorContext.getGroupId(),
+				className, classPK, roles));
+	}
+
 	private void _applyAccessRoles(
 			C child, P parent, String resourcePrimKey,
 			DynamicInheritanceRoleSetContributorContext
@@ -154,49 +180,22 @@ public class DynamicInheritanceRoleSetContributor
 
 		if (!dynamicInheritanceRoleSetContributorContext.accessAssigned()) {
 			if (accessRoles.isEmpty()) {
-				_assignRolesAsIndividualAccessRoleIdSets(
+				_addAccessRoleLevel(
 					dynamicInheritanceRoleSetContributorContext,
 					child.getModelClassName(), resourcePrimKey,
 					new ArrayList<>());
 			}
 			else {
-				_assignRolesAsIndividualAccessRoleIdSets(
+				_addAccessRoleLevel(
 					dynamicInheritanceRoleSetContributorContext,
 					child.getModelClassName(), resourcePrimKey, viewRoles);
 			}
 		}
 
-		_assignRolesAsIndividualAccessRoleIdSets(
+		_addAccessRoleLevel(
 			dynamicInheritanceRoleSetContributorContext,
 			parent.getModelClassName(),
 			String.valueOf(parent.getPrimaryKeyObj()), accessRoles);
-	}
-
-	private void _assignRolesAsIndividualAccessRoleIdSets(
-			DynamicInheritanceRoleSetContributorContext
-				dynamicInheritanceRoleSetContributorContext,
-			String className, String classPK, List<Role> roles)
-		throws PortalException {
-
-		dynamicInheritanceRoleSetContributorContext.
-			addAccessPermissionRoleIdSet(
-				_roleSetContributorHelper.createRoleIdSet(
-					dynamicInheritanceRoleSetContributorContext.getCompanyId(),
-					dynamicInheritanceRoleSetContributorContext.getGroupId(),
-					className, classPK, roles));
-	}
-
-	private void _assignRolesAsIndividualViewRoleIdSets(
-			DynamicInheritanceRoleSetContributorContext
-				dynamicInheritanceRoleSetContributorContext,
-			String className, String classPK, List<Role> roles)
-		throws PortalException {
-
-		dynamicInheritanceRoleSetContributorContext.addViewPermissionRoleIdSet(
-			_roleSetContributorHelper.createRoleIdSet(
-				dynamicInheritanceRoleSetContributorContext.getCompanyId(),
-				dynamicInheritanceRoleSetContributorContext.getGroupId(),
-				className, classPK, roles));
 	}
 
 	private void _setParentContributor(

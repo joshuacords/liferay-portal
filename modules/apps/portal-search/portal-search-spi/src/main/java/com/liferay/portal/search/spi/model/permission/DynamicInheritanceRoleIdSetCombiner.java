@@ -34,7 +34,7 @@ public class DynamicInheritanceRoleIdSetCombiner {
 		_ownerRoleId = ownerRoleId;
 	}
 
-	public void addRoleIdSet(Set<String> roleIdSet) {
+	public void addRoleIdLevel(Set<String> roleIdSet) {
 		if (!_assigned) {
 			_assigned = true;
 			_assignFirstSet(roleIdSet);
@@ -53,9 +53,7 @@ public class DynamicInheritanceRoleIdSetCombiner {
 		}
 
 		if (_roleIdSetsManager.containsGuest()) {
-			_roleIdSetsManager.clear();
-
-			_addIndividuallyToRoleIdSets(roleIdSet);
+			_setRoleIdsIndividuallyAsBaseLevel(roleIdSet);
 
 			return;
 		}
@@ -78,28 +76,18 @@ public class DynamicInheritanceRoleIdSetCombiner {
 		return _assigned;
 	}
 
-	private void _addIndividuallyToRoleIdSets(Set<String> roleIdSet) {
-		for (String roleId : roleIdSet) {
-			Set<String> set = new HashSet<>();
-
-			set.add(roleId);
-
-			_roleIdSetsManager.add(set);
-		}
-	}
-
 	private void _assignFirstSet(Set<String> roleIdSet) {
 		if (roleIdSet.contains(_guestRoleId)) {
-			Set<String> set = new HashSet<>();
+			Set<String> guestSet = new HashSet<>();
 
-			set.add(_guestRoleId);
+			guestSet.add(_guestRoleId);
 
-			_roleIdSetsManager.add(set);
+			_setRoleIdsIndividuallyAsBaseLevel(guestSet);
 
 			return;
 		}
 
-		_addIndividuallyToRoleIdSets(roleIdSet);
+		_setRoleIdsIndividuallyAsBaseLevel(roleIdSet);
 	}
 
 	private boolean _containsDifferentOwnerRole(
@@ -228,6 +216,18 @@ public class DynamicInheritanceRoleIdSetCombiner {
 		}
 
 		return false;
+	}
+
+	private void _setRoleIdsIndividuallyAsBaseLevel(Set<String> roleIdSet) {
+		_roleIdSetsManager.clear();
+
+		for (String roleId : roleIdSet) {
+			Set<String> set = new HashSet<>();
+
+			set.add(roleId);
+
+			_roleIdSetsManager.add(set);
+		}
 	}
 
 	private boolean _assigned;
