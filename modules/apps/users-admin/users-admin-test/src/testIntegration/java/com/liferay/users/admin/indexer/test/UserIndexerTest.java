@@ -361,6 +361,8 @@ public class UserIndexerTest {
 		_expectedUser = UserTestUtil.addUser(
 			"Open4Life", new long[] {TestPropsValues.getGroupId()});
 
+		assertNoHits("4lif");
+
 		User actualUser = assertSearchOneUser("open", _expectedUser);
 
 		Assert.assertEquals("open4life", actualUser.getScreenName());
@@ -372,8 +374,6 @@ public class UserIndexerTest {
 		actualUser = assertSearchOneUser("OPE", _expectedUser);
 
 		Assert.assertEquals("open4life", actualUser.getScreenName());
-
-		assertNoHits("4lif");
 	}
 
 	@Test
