@@ -102,12 +102,18 @@ public class UserIndexerTest {
 
 	@Test
 	public void testEmailAddressDomain() throws Exception {
+		_expectedUser = UserTestUtil.addUser();
+
 		String emailAddress = StringUtil.toLowerCase(
 			RandomTestUtil.randomString() + "@test.com");
 
-		addUserWithEmailAddress(emailAddress);
+		_expectedUser.setEmailAddress(emailAddress);
 
-		assertEmailAddressFieldValue(emailAddress, byQueryString("test.com"));
+		_userLocalService.updateUser(_expectedUser);
+
+		User actualUser = assertSearchOneUser("test.com", _expectedUser);
+
+		Assert.assertEquals(emailAddress, actualUser.getEmailAddress());
 	}
 
 	@Test
@@ -517,14 +523,6 @@ public class UserIndexerTest {
 		toggleCreateSite(_organization, false);
 
 		assertNoHits(organizationGroup, _expectedUser.getFullName());
-	}
-
-	protected void addUserWithEmailAddress(String emailAddress) {
-		UserBlueprint.UserBlueprintBuilder userBlueprintBuilder =
-			getUserBlueprintBuilder();
-
-		_userSearchFixture.addUser(
-			userBlueprintBuilder.emailAddress(emailAddress));
 	}
 
 	protected void assertLength(Hits hits, int length) {
