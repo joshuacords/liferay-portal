@@ -515,7 +515,8 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 
 		if (PropsValues.USER_GROUPS_COPY_LAYOUTS_TO_USER_PERSONAL_SITE) {
 			for (long userGroupId : userGroupIds) {
-				userGroupLocalService.copyUserGroupLayouts(userGroupId, userId);
+				userGroupLocalService.copyUserGroupLayouts(
+					userGroupId, user.getUserId());
 			}
 		}
 
