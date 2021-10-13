@@ -211,35 +211,74 @@ public class UserIndexerTest {
 	}
 
 	@Test
-	public void testNameFieldsChinese() {
+	public void testNameFieldsChinese() throws Exception {
 		String firstName = "姓氏";
 		String lastName = "名字";
 
-		User user = addUserWithNameFields(firstName, null, lastName);
+		_expectedUser = UserTestUtil.addUser();
 
-		assertFieldValue(
-			"firstName", firstName, byAttribute("firstName", "姓氏"));
-		assertFieldValue("lastName", lastName, byAttribute("lastName", "名字"));
+		_expectedUser.setFirstName(firstName);
+		_expectedUser.setLastName(lastName);
 
-		assertUserId(user.getUserId(), byQueryString("名字"));
-		assertUserId(user.getUserId(), byQueryString("名字姓氏"));
-		assertUserId(user.getUserId(), byQueryString(user.getFullName()));
+		_userLocalService.updateUser(_expectedUser);
+
+		User actualUser = assertSearchOneUser(
+			"firstName", firstName, _expectedUser);
+
+		Assert.assertEquals(firstName, actualUser.getFirstName());
+
+		actualUser = assertSearchOneUser("lastName", lastName, _expectedUser);
+
+		Assert.assertEquals(lastName, actualUser.getLastName());
+
+		actualUser = assertSearchOneUser(lastName, _expectedUser);
+
+		Assert.assertEquals(_expectedUser.getUserId(), actualUser.getUserId());
+
+		actualUser = assertSearchOneUser(lastName + firstName, _expectedUser);
+
+		Assert.assertEquals(_expectedUser.getUserId(), actualUser.getUserId());
+
+		actualUser = assertSearchOneUser(
+			_expectedUser.getFullName(), _expectedUser);
+
+		Assert.assertEquals(_expectedUser.getUserId(), actualUser.getUserId());
 	}
 
 	@Test
-	public void testNameFieldsJapanese() {
+	public void testNameFieldsJapanese() throws Exception {
 		String firstName = "宮崎";
 		String lastName = "駿";
 
-		User user = addUserWithNameFields(firstName, null, lastName);
+		_expectedUser = UserTestUtil.addUser();
 
-		assertFieldValue(
-			"firstName", firstName, byAttribute("firstName", "宮崎"));
-		assertFieldValue("lastName", lastName, byAttribute("lastName", "駿"));
+		_expectedUser.setFirstName(firstName);
+		_expectedUser.setLastName(lastName);
 
-		assertUserId(user.getUserId(), byQueryString("宮崎"));
-		assertUserId(user.getUserId(), byQueryString("駿 宮崎"));
-		assertUserId(user.getUserId(), byQueryString(user.getFullName()));
+		_userLocalService.updateUser(_expectedUser);
+
+		User actualUser = assertSearchOneUser(
+			"firstName", firstName, _expectedUser);
+
+		Assert.assertEquals(firstName, actualUser.getFirstName());
+
+		actualUser = assertSearchOneUser("lastName", lastName, _expectedUser);
+
+		Assert.assertEquals(lastName, actualUser.getLastName());
+
+		actualUser = assertSearchOneUser(firstName, _expectedUser);
+
+		Assert.assertEquals(_expectedUser.getUserId(), actualUser.getUserId());
+
+		actualUser = assertSearchOneUser(
+			lastName + StringPool.SPACE + firstName, _expectedUser);
+
+		Assert.assertEquals(_expectedUser.getUserId(), actualUser.getUserId());
+
+		actualUser = assertSearchOneUser(
+			_expectedUser.getFullName(), _expectedUser);
+
+		Assert.assertEquals(_expectedUser.getUserId(), actualUser.getUserId());
 	}
 
 	@Test
@@ -266,31 +305,70 @@ public class UserIndexerTest {
 		String lastName = RandomTestUtil.randomString();
 		String middleName = "Middle";
 
-		User user = addUserWithNameFields(firstName, middleName, lastName);
+		_expectedUser = UserTestUtil.addUser();
 
-		assertUserId(user.getUserId(), byQueryString(firstName));
-		assertUserId(user.getUserId(), byQueryString(user.getFullName()));
+		_expectedUser.setFirstName(firstName);
+		_expectedUser.setMiddleName(middleName);
+		_expectedUser.setLastName(lastName);
+
+		_userLocalService.updateUser(_expectedUser);
+
+		User actualUser = assertSearchOneUser(firstName, _expectedUser);
+
+		Assert.assertEquals(_expectedUser.getUserId(), actualUser.getUserId());
+
+		actualUser = assertSearchOneUser(
+			_expectedUser.getFullName(), _expectedUser);
+
+		Assert.assertEquals(_expectedUser.getUserId(), actualUser.getUserId());
 	}
 
 	@Test
-	public void testNameFieldsSpanish() {
+	public void testNameFieldsSpanish() throws Exception {
 		String firstName = "José";
 		String lastName = "Sánchez";
 		String middleName = "Pedro";
 
-		User user = addUserWithNameFields(firstName, middleName, lastName);
+		_expectedUser = UserTestUtil.addUser();
 
-		assertFieldValue(
-			"firstName", firstName, byAttribute("firstName", "José"));
-		assertFieldValue(
-			"lastName", lastName, byAttribute("lastName", "Sánchez"));
-		assertFieldValue(
-			"middleName", middleName, byAttribute("middleName", "Pedro"));
+		_expectedUser.setFirstName(firstName);
+		_expectedUser.setMiddleName(middleName);
+		_expectedUser.setLastName(lastName);
 
-		assertUserId(user.getUserId(), byQueryString("Pedro"));
-		assertUserId(user.getUserId(), byQueryString("José Sánchez"));
-		assertUserId(user.getUserId(), byQueryString("Sánchez José"));
-		assertUserId(user.getUserId(), byQueryString(user.getFullName()));
+		_userLocalService.updateUser(_expectedUser);
+
+		User actualUser = assertSearchOneUser(
+			"firstName", firstName, _expectedUser);
+
+		Assert.assertEquals(firstName, actualUser.getFirstName());
+
+		actualUser = assertSearchOneUser("lastName", lastName, _expectedUser);
+
+		Assert.assertEquals(lastName, actualUser.getLastName());
+
+		actualUser = assertSearchOneUser(
+			"middleName", middleName, _expectedUser);
+
+		Assert.assertEquals(middleName, actualUser.getMiddleName());
+
+		actualUser = assertSearchOneUser(middleName, _expectedUser);
+
+		Assert.assertEquals(_expectedUser.getUserId(), actualUser.getUserId());
+
+		actualUser = assertSearchOneUser(
+			firstName + StringPool.SPACE + lastName, _expectedUser);
+
+		Assert.assertEquals(_expectedUser.getUserId(), actualUser.getUserId());
+
+		actualUser = assertSearchOneUser(
+			lastName + StringPool.SPACE + firstName, _expectedUser);
+
+		Assert.assertEquals(_expectedUser.getUserId(), actualUser.getUserId());
+
+		actualUser = assertSearchOneUser(
+			_expectedUser.getFullName(), _expectedUser);
+
+		Assert.assertEquals(_expectedUser.getUserId(), actualUser.getUserId());
 	}
 
 	@Test
