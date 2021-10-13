@@ -2055,7 +2055,6 @@ public class OrganizationLocalServiceImpl
 
 		String city = null;
 		String country = null;
-		String emailAddress = null;
 		String firstName = null;
 		String fullName = null;
 		String lastName = null;
@@ -2071,7 +2070,6 @@ public class OrganizationLocalServiceImpl
 		if (Validator.isNotNull(keywords)) {
 			city = keywords;
 			country = keywords;
-			emailAddress = keywords;
 			firstName = keywords;
 			fullName = keywords;
 			lastName = keywords;
@@ -2100,7 +2098,6 @@ public class OrganizationLocalServiceImpl
 
 		Map<String, Serializable> attributes = searchContext.getAttributes();
 
-		attributes.put("emailAddress", emailAddress);
 		attributes.put("firstName", firstName);
 		attributes.put("fullName", fullName);
 		attributes.put("lastName", lastName);
