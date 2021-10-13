@@ -1003,10 +1003,6 @@ public class GroupLocalServiceImpl extends GroupLocalServiceBaseImpl {
 					workflowDefinitionLink);
 			}
 
-			// System Events
-
-			systemEventLocalService.deleteSystemEvents(group.getGroupId());
-
 			// Group
 
 			if (!group.isStagingGroup() && group.isOrganization() &&
@@ -1067,6 +1063,10 @@ public class GroupLocalServiceImpl extends GroupLocalServiceBaseImpl {
 
 				groupPersistence.remove(group);
 			}
+
+			// System Events
+
+			systemEventLocalService.deleteSystemEvents(group.getGroupId());
 
 			return group;
 		}
