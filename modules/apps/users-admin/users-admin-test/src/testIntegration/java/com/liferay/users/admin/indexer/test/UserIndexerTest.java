@@ -357,11 +357,15 @@ public class UserIndexerTest {
 	}
 
 	@Test
-	public void testScreenNameSubstring() throws Exception {
+	public void testScreenNamePrefix() throws Exception {
 		_expectedUser = UserTestUtil.addUser(
 			"Open4Life", new long[] {TestPropsValues.getGroupId()});
 
-		User actualUser = assertSearchOneUser("open lite", _expectedUser);
+		User actualUser = assertSearchOneUser("open", _expectedUser);
+
+		Assert.assertEquals("open4life", actualUser.getScreenName());
+
+		actualUser = assertSearchOneUser("open4life", _expectedUser);
 
 		Assert.assertEquals("open4life", actualUser.getScreenName());
 
@@ -369,9 +373,7 @@ public class UserIndexerTest {
 
 		Assert.assertEquals("open4life", actualUser.getScreenName());
 
-		actualUser = assertSearchOneUser("4lif", _expectedUser);
-
-		Assert.assertEquals("open4life", actualUser.getScreenName());
+		assertNoHits("4lif");
 	}
 
 	@Test
