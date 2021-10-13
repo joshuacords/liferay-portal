@@ -29,8 +29,8 @@ public class ExpandoFieldQueryBuilderFactory
 	implements FieldQueryBuilderFactory {
 
 	@Override
-	public FieldQueryBuilder getQueryBuilder(String field) {
-		if (field.startsWith("expando__keyword__")) {
+	public FieldQueryBuilder getQueryBuilder(String fieldName) {
+		if (fieldName.startsWith("expando__keyword__")) {
 			return substringQueryBuilder;
 		}
 

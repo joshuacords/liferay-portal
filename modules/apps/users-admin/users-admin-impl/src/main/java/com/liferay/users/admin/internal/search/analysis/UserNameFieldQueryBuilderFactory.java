@@ -28,8 +28,8 @@ public class UserNameFieldQueryBuilderFactory
 	implements FieldQueryBuilderFactory {
 
 	@Override
-	public FieldQueryBuilder getQueryBuilder(String field) {
-		if (field.equals("userName")) {
+	public FieldQueryBuilder getQueryBuilder(String fieldName) {
+		if (fieldName.equals("userName")) {
 			return _userNameFieldQueryBuilder;
 		}
 

@@ -48,14 +48,14 @@ public class UserNameFieldQueryBuilder implements FieldQueryBuilder {
 			}
 
 			booleanQueryImpl.add(
-				_getMatchPhrasePrefixQuery("userName.text", token),
+				_getMatchQuery("userName.text", token),
 				BooleanClauseOccur.SHOULD);
 		}
 
 		return booleanQueryImpl;
 	}
 
-	private MatchQuery _getMatchPhrasePrefixQuery(String field, String value) {
+	private MatchQuery _getMatchQuery(String field, String value) {
 		MatchQuery matchQuery = new MatchQuery(field, value);
 
 		matchQuery.setType(MatchQuery.Type.PHRASE_PREFIX);
