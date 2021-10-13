@@ -267,19 +267,11 @@ public class UserIndexerTest {
 		_expectedUser.setMiddleName(middleName);
 		_expectedUser.setLastName(lastName);
 
-		_expectedUser = _userLocalService.updateUser(_expectedUser);
+		_userLocalService.updateUser(_expectedUser);
 
-		User actualUser = assertSearchOneUser("Fir", _expectedUser);
-
-		Assert.assertEquals("First", actualUser.getFirstName());
-
-		actualUser = assertSearchOneUser("asT", _expectedUser);
-
-		Assert.assertEquals("Last", actualUser.getLastName());
-
-		actualUser = assertSearchOneUser("idd", _expectedUser);
-
-		Assert.assertEquals("Middle", actualUser.getMiddleName());
+		assertNoHits("irst");
+		assertNoHits("asT");
+		assertNoHits("idd");
 	}
 
 	@Test
