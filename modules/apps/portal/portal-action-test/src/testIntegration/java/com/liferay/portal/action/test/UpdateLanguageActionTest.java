@@ -228,7 +228,7 @@ public class UpdateLanguageActionTest {
 
 		UpdateLanguageAction updateLanguageAction = new UpdateLanguageAction();
 
-		String testUrlSeparator = null;
+		String testURLSeparator = null;
 
 		for (String urlSeparator :
 				FriendlyURLResolverRegistryUtil.getURLSeparators()) {
@@ -237,7 +237,7 @@ public class UpdateLanguageActionTest {
 				!VirtualLayoutConstants.CANONICAL_URL_SEPARATOR.equals(
 					urlSeparator)) {
 
-				testUrlSeparator = urlSeparator;
+				testURLSeparator = urlSeparator;
 
 				break;
 			}
@@ -248,7 +248,7 @@ public class UpdateLanguageActionTest {
 
 		mockHttpServletRequest.setParameter("p_l_id", "0");
 		mockHttpServletRequest.setParameter(
-			"redirect", testUrlSeparator + "no-such-page");
+			"redirect", testURLSeparator + "no-such-page");
 
 		ThemeDisplay themeDisplay = new ThemeDisplay();
 
