@@ -238,6 +238,11 @@ public class ODataSearchAdapterImpl implements ODataSearchAdapter {
 			return booleanQuery;
 		}
 
+		if (!lastDocument.hasField(sortField)) {
+			throw new IllegalArgumentException(
+				"Missing " + sortField + " in last document");
+		}
+
 		BooleanQuery booleanQueryFromLastDocument = new BooleanQueryImpl();
 
 		booleanQueryFromLastDocument.add(booleanQuery, BooleanClauseOccur.MUST);
