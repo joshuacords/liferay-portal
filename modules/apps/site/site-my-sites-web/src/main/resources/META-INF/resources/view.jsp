@@ -108,6 +108,36 @@
 							<strong><liferay-ui:message key="members" /></strong>: <%= siteMySitesDisplayContext.getGroupUsersCounts(group.getGroupId()) %>
 						</div>
 
+						<%
+						int usersCount = siteMySitesDisplayContext.getGroupUsersCounts(group.getGroupId());
+						%>
+
+						<c:if test="<%= usersCount > 0 %>">
+							<div class="text-default">
+								<strong><liferay-ui:message arguments="<%= usersCount %>" key='<%= (usersCount > 1) ? "x-users" : "x-user" %>' /></strong>
+							</div>
+						</c:if>
+
+						<%
+						int organizationsCount = siteMySitesDisplayContext.getGroupOrganizationsCount(group.getGroupId());
+						%>
+
+						<c:if test="<%= organizationsCount > 0 %>">
+							<div class="text-default">
+								<strong><liferay-ui:message arguments="<%= organizationsCount %>" key='<%= (organizationsCount > 1) ? "x-organizations" : "x-organization" %>' /></strong>
+							</div>
+						</c:if>
+
+						<%
+						int userGroupsCount = siteMySitesDisplayContext.getGroupUserGroupsCount(group.getGroupId());
+						%>
+
+						<c:if test="<%= userGroupsCount > 0 %>">
+							<div class="text-default">
+								<strong><liferay-ui:message arguments="<%= userGroupsCount %>" key='<%= (userGroupsCount > 1) ? "x-user-groups" : "x-user-group" %>' /></strong>
+							</div>
+						</c:if>
+
 						<c:if test='<%= Objects.equals(siteMySitesDisplayContext.getTabs1(), "my-sites") && PropsValues.LIVE_USERS_ENABLED %>'>
 							<div class="text-default">
 								<strong><liferay-ui:message key="online-now" /></strong>: <%= String.valueOf(LiveUsers.getGroupUsersCount(company.getCompanyId(), group.getGroupId())) %>
@@ -130,7 +160,7 @@
 
 					<liferay-ui:search-container-column-text>
 						<clay:vertical-card
-							verticalCard="<%= new SiteVerticalCard(group, renderRequest, renderResponse, siteMySitesDisplayContext.getTabs1(), siteMySitesDisplayContext.getGroupUsersCounts(group.getGroupId())) %>"
+							verticalCard="<%= new SiteVerticalCard(group, renderRequest, renderResponse, siteMySitesDisplayContext.getTabs1(), siteMySitesDisplayContext.getGroupUsersCounts(group.getGroupId()), siteMySitesDisplayContext.getGroupOrganizationsCount(group.getGroupId()), siteMySitesDisplayContext.getGroupUserGroupsCount(group.getGroupId())) %>"
 						/>
 					</liferay-ui:search-container-column-text>
 				</c:when>
@@ -160,8 +190,44 @@
 
 					<liferay-ui:search-container-column-text
 						name="members"
-						value="<%= String.valueOf(siteMySitesDisplayContext.getGroupUsersCounts(group.getGroupId())) %>"
-					/>
+					>
+						<span onmouseover="Liferay.Portal.ToolTip.show(this, '<liferay-ui:message key="inherited-memberships-are-not-included-in-members-count" unicode="<%= true %>" />');">
+
+							<%
+							int usersCount = siteMySitesDisplayContext.getGroupUsersCounts(group.getGroupId());
+							%>
+
+							<c:if test="<%= usersCount > 0 %>">
+								<div class="user-count">
+									<%= LanguageUtil.format(request, usersCount > 1 ? "x-users" : "x-user", usersCount, false) %>
+								</div>
+							</c:if>
+
+							<%
+							int organizationsCount = siteMySitesDisplayContext.getGroupOrganizationsCount(group.getGroupId());
+							%>
+
+							<c:if test="<%= organizationsCount > 0 %>">
+								<div class="organization-count">
+									<%= LanguageUtil.format(request, organizationsCount > 1 ? "x-organizations" : "x-organization", organizationsCount, false) %>
+								</div>
+							</c:if>
+
+							<%
+							int userGroupsCount = siteMySitesDisplayContext.getGroupUserGroupsCount(group.getGroupId());
+							%>
+
+							<c:if test="<%= userGroupsCount > 0 %>">
+								<div class="user-group-count">
+									<%= LanguageUtil.format(request, userGroupsCount > 1 ? "x-user-groups" : "x-user-group", userGroupsCount, false) %>
+								</div>
+							</c:if>
+
+							<c:if test="<%= (usersCount + organizationsCount + userGroupsCount) <= 0 %>">
+								0
+							</c:if>
+						</span>
+					</liferay-ui:search-container-column-text>
 
 					<c:if test='<%= Objects.equals(siteMySitesDisplayContext.getTabs1(), "my-sites") && PropsValues.LIVE_USERS_ENABLED %>'>
 						<liferay-ui:search-container-column-text
