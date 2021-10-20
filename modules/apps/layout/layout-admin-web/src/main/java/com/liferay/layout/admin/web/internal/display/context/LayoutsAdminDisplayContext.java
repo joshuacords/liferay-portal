@@ -1465,6 +1465,12 @@ public class LayoutsAdminDisplayContext {
 			ActionKeys.ADD_LAYOUT);
 	}
 
+	public boolean isShowApproveDraftAction(Layout layout)
+		throws PortalException {
+
+		return _isShowDraftActions(layout, true);
+	}
+
 	public boolean isShowCategorization() {
 		long classNameId = PortalUtil.getClassNameId(Layout.class);
 
@@ -1561,45 +1567,6 @@ public class LayoutsAdminDisplayContext {
 		return true;
 	}
 
-	public boolean isShowDraftActions(Layout layout) throws PortalException {
-		if (!Objects.equals(layout.getType(), LayoutConstants.TYPE_CONTENT)) {
-			return false;
-		}
-
-		if (!LayoutPermissionUtil.contains(
-				_themeDisplay.getPermissionChecker(), layout,
-				ActionKeys.UPDATE)) {
-
-			return false;
-		}
-
-		Layout draftLayout = LayoutLocalServiceUtil.fetchLayout(
-			PortalUtil.getClassNameId(Layout.class), layout.getPlid());
-
-		if (draftLayout == null) {
-			return false;
-		}
-
-		Date modifiedDate = draftLayout.getModifiedDate();
-
-		Date publishDate = layout.getPublishDate();
-
-		if (publishDate == null) {
-			publishDate = modifiedDate;
-		}
-
-		boolean published = GetterUtil.getBoolean(
-			draftLayout.getTypeSettingsProperty("published"));
-
-		if (((draftLayout.getPublishDate() == null) && !published) ||
-			(modifiedDate.getTime() > publishDate.getTime())) {
-
-			return true;
-		}
-
-		return false;
-	}
-
 	public boolean isShowFirstColumnConfigureAction() throws PortalException {
 		if (!GroupPermissionUtil.contains(
 				_themeDisplay.getPermissionChecker(), getSelGroupId(),
@@ -1658,6 +1625,12 @@ public class LayoutsAdminDisplayContext {
 			ActionKeys.PERMISSIONS);
 	}
 
+	public boolean isShowPreviewDraftAction(Layout layout)
+		throws PortalException {
+
+		return _isShowDraftActions(layout, false);
+	}
+
 	public boolean isShowPrivatePages() throws PortalException {
 		Group selGroup = getSelGroup();
 
@@ -1704,7 +1677,7 @@ public class LayoutsAdminDisplayContext {
 					layout.isPrivateLayout()));
 		}
 
-		if (isShowDraftActions(layout)) {
+		if (isShowApproveDraftAction(layout)) {
 			jsonObject.put("approveDraftURL", getApproveDraftURL(layout));
 		}
 
@@ -1736,7 +1709,7 @@ public class LayoutsAdminDisplayContext {
 			jsonObject.put("permissionsURL", getPermissionsURL(layout));
 		}
 
-		if (isShowDraftActions(layout)) {
+		if (isShowPreviewDraftAction(layout)) {
 			jsonObject.put("previewDraftURL", getPreviewDraftURL(layout));
 		}
 
@@ -2079,6 +2052,53 @@ public class LayoutsAdminDisplayContext {
 		}
 
 		return false;
+	}
+
+	private boolean _isShowDraftActions(Layout layout, boolean checkPublishDate)
+		throws PortalException {
+
+		if (!Objects.equals(layout.getType(), LayoutConstants.TYPE_CONTENT)) {
+			return false;
+		}
+
+		if (!LayoutPermissionUtil.contains(
+				_themeDisplay.getPermissionChecker(), layout,
+				ActionKeys.UPDATE)) {
+
+			return false;
+		}
+
+		Layout draftLayout = LayoutLocalServiceUtil.fetchLayout(
+			PortalUtil.getClassNameId(Layout.class), layout.getPlid());
+
+		if (draftLayout == null) {
+			return false;
+		}
+
+		Date modifiedDate = draftLayout.getModifiedDate();
+
+		Date publishDate = layout.getPublishDate();
+
+		if (publishDate == null) {
+			publishDate = modifiedDate;
+		}
+
+		if (modifiedDate.getTime() > publishDate.getTime()) {
+			return true;
+		}
+
+		boolean published = GetterUtil.getBoolean(
+			draftLayout.getTypeSettingsProperty("published"));
+
+		if (published) {
+			return false;
+		}
+
+		if (checkPublishDate && (draftLayout.getPublishDate() != null)) {
+			return false;
+		}
+
+		return true;
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(

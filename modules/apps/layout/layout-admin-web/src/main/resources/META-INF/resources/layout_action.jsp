@@ -59,7 +59,7 @@ Layout curLayout = (Layout)row.getObject();
 		/>
 	</c:if>
 
-	<c:if test="<%= layoutsAdminDisplayContext.isShowDraftActions(curLayout) %>">
+	<c:if test="<%= layoutsAdminDisplayContext.isShowPreviewDraftAction(curLayout) %>">
 		<liferay-ui:icon
 			linkCssClass="align-items-center d-flex justify-content-between"
 			markupView="lexicon"
@@ -67,7 +67,9 @@ Layout curLayout = (Layout)row.getObject();
 			target="_blank"
 			url="<%= layoutsAdminDisplayContext.getPreviewDraftURL(curLayout) %>"
 		/>
+	</c:if>
 
+	<c:if test="<%= layoutsAdminDisplayContext.isShowApproveDraftAction(curLayout) %>">
 		<liferay-ui:icon
 			message="approve-draft"
 			url="<%= layoutsAdminDisplayContext.getApproveDraftURL(curLayout) %>"
