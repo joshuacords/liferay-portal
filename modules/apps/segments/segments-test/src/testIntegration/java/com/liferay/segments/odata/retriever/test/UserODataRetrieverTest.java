@@ -949,7 +949,17 @@ public class UserODataRetrieverTest {
 	@Ignore
 	@Test
 	public void testRetrieveMoreThan10KUsers() throws Exception {
-		_createmoreThan10kUsers();
+		_group1 = GroupTestUtil.addGroup();
+
+		long groupId = _group1.getGroupId();
+
+		Locale localeDefault = LocaleUtil.getDefault();
+
+		for (int i = 0; i < MORE_THAN_10K; i++) {
+			UserTestUtil.addUser(
+				RandomTestUtil.randomString(), localeDefault, "firstName",
+				RandomTestUtil.randomString(), new long[] {groupId});
+		}
 
 		String filterString = String.format("(firstName eq '%s')", "firstName");
 
@@ -965,20 +975,6 @@ public class UserODataRetrieverTest {
 			TestPropsValues.getUserId(), TestPropsValues.getGroupId(),
 			RandomTestUtil.randomString(), RandomTestUtil.randomString(),
 			ServiceContextTestUtil.getServiceContext());
-	}
-
-	private void _createmoreThan10kUsers() throws Exception {
-		_group1 = GroupTestUtil.addGroup();
-
-		long groupId = _group1.getGroupId();
-
-		Locale localeDefault = LocaleUtil.getDefault();
-
-		for (int i = 0; i < MORE_THAN_10K; i++) {
-			UserTestUtil.addUser(
-				RandomTestUtil.randomString(), localeDefault, "firstName",
-				RandomTestUtil.randomString(), new long[] {groupId});
-		}
 	}
 
 	@DeleteAfterTestRun
