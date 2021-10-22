@@ -120,8 +120,7 @@ function init(
 						boundingBox: dialog
 							.getStdModNode(A.WidgetStdMod.BODY)
 							.appendChild('<div></div>'),
-						previewCssClass:
-							'alloy-editor alloy-editor-placeholder',
+						previewCssClass: 'alloy-editor',
 						value: initialValue || editableElement.innerHTML
 					}).render();
 				});

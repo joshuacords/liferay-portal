@@ -107,7 +107,7 @@ const Editor = props => {
 			id={`${portletNamespace}${props.id}`}
 		>
 			<div
-				className="alloy-editor alloy-editor-placeholder form-control form-control-sm fragments-editor__editor"
+				className="alloy-editor form-control form-control-sm fragments-editor__editor"
 				contentEditable={false}
 				data-placeholder={props.placeholder}
 				data-required={false}
@@ -115,6 +115,7 @@ const Editor = props => {
 				name={props.id}
 				ref={wrapperRef}
 			/>
+			<div className="alloy-editor-placeholder">{props.placeholder}</div>
 		</div>
 	);
 };

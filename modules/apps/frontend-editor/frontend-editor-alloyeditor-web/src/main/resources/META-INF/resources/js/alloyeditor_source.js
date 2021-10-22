@@ -195,7 +195,7 @@ AUI.add(
 													dataProcessor: host.getNativeEditor()
 														.dataProcessor,
 													previewCssClass:
-														'alloy-editor alloy-editor-placeholder',
+														'alloy-editor',
 													value: host.getHTML()
 												}
 											).render();

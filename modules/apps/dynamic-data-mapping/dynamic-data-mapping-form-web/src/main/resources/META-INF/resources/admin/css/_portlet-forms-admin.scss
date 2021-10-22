@@ -127,9 +127,10 @@
 			content: attr(data-placeholder);
 		}
 
-		.alloy-editor-container .alloy-editor.alloy-editor-placeholder,
+		.alloy-editor-container .alloy-editor.ae-placeholder,
 		.alloy-editor-container
-			.alloy-editor.alloy-editor-placeholder:empty:not(:focus) {
+			.alloy-editor
+			~ .alloy-editor-placeholder:empty:not(:focus) {
 			border-width: 0;
 			padding-left: 0;
 
@@ -143,7 +144,8 @@
 		}
 
 		.alloy-editor-container
-			.alloy-editor.alloy-editor-placeholder:empty:not(:focus) {
+			.alloy-editor
+			~ .alloy-editor-placeholder:empty:not(:focus) {
 			color: $form-header-placeholder-color;
 		}
 	}
