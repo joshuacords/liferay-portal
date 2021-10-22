@@ -40,7 +40,6 @@ import com.liferay.portal.kernel.service.permission.LayoutPermissionUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
-import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.kernel.util.Validator;
@@ -59,7 +58,6 @@ import java.io.IOException;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.PortletURL;
@@ -322,31 +320,19 @@ public class LayoutSiteNavigationMenuItemType
 			return false;
 		}
 
-		Map<Long, Long> layoutPlids =
-			(Map<Long, Long>)portletDataContext.getNewPrimaryKeysMap(
-				Layout.class);
+		UnicodeProperties typeSettingsProperties = new UnicodeProperties();
 
-		long plid = MapUtil.getLong(
-			layoutPlids, layout.getPlid(), layout.getPlid());
+		typeSettingsProperties.fastLoad(
+			siteNavigationMenuItem.getTypeSettings());
 
-		Layout importedLayout = _layoutLocalService.fetchLayout(plid);
+		typeSettingsProperties.put("layoutUuid", layout.getUuid());
+		typeSettingsProperties.put(
+			"groupId", String.valueOf(layout.getGroupId()));
+		typeSettingsProperties.put(
+			"privateLayout", String.valueOf(layout.isPrivateLayout()));
 
-		if (importedLayout != null) {
-			UnicodeProperties typeSettingsProperties = new UnicodeProperties();
-
-			typeSettingsProperties.fastLoad(
-				siteNavigationMenuItem.getTypeSettings());
-
-			typeSettingsProperties.put("layoutUuid", importedLayout.getUuid());
-			typeSettingsProperties.put(
-				"groupId", String.valueOf(importedLayout.getGroupId()));
-			typeSettingsProperties.put(
-				"privateLayout",
-				String.valueOf(importedLayout.isPrivateLayout()));
-
-			importedSiteNavigationMenuItem.setTypeSettings(
-				typeSettingsProperties.toString());
-		}
+		importedSiteNavigationMenuItem.setTypeSettings(
+			typeSettingsProperties.toString());
 
 		return true;
 	}
