@@ -386,15 +386,13 @@ public class AssetBrowserDisplayContext {
 	}
 
 	protected boolean isSearch() {
-		if (AssetBrowserWebConfigurationValues.SEARCH_WITH_DATABASE) {
+		if (AssetBrowserWebConfigurationValues.SEARCH_WITH_DATABASE ||
+			Validator.isNull(_getKeywords())) {
+
 			return false;
 		}
 
-		if (Validator.isNotNull(_getKeywords())) {
-			return true;
-		}
-
-		return false;
+		return true;
 	}
 
 	private long[] _getClassNameIds() {
