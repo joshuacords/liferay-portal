@@ -57,6 +57,7 @@ page import="com.liferay.segments.web.internal.display.context.SelectUsersDispla
 page import="com.liferay.segments.web.internal.security.permission.resource.SegmentsEntryPermission" %>
 
 <%@ page import="java.util.HashMap" %><%@
+page import="java.util.List" %><%@
 page import="java.util.Map" %><%@
 page import="java.util.Objects" %>
 
