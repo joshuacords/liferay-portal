@@ -340,12 +340,12 @@ a.control-menu-icon,
 
 .tools-control-group {
 	flex: 1;
-	flex-wrap: wrap;
+	flex-wrap: nowrap;
 	min-width: 50px;
 
 	> .control-menu-nav {
 		flex-wrap: wrap;
-		justify-content: center;
+		justify-content: flex-start;
 
 		> li > .lfr-portal-tooltip > .control-menu-icon {
 			@extend %control-menu-icon-monospaced;
