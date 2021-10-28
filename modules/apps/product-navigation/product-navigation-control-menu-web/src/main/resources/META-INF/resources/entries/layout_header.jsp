@@ -30,10 +30,49 @@ String portletId = ParamUtil.getString(request, "p_p_id");
 if (Validator.isNotNull(portletId) && layout.isSystem() && !layout.isTypeControlPanel() && layoutFriendlyURL.equals(PropsValues.CONTROL_PANEL_LAYOUT_FRIENDLY_URL)) {
 	headerTitle = PortalUtil.getPortletTitle(portletId, locale);
 }
+
+boolean hasDraft = false;
+boolean isDraft = false;
+
+if (Objects.equals(layout.getType(), LayoutConstants.TYPE_CONTENT) || Objects.equals(layout.getType(), LayoutConstants.TYPE_COLLECTION)) {
+	Layout draftLayout = layout.fetchDraftLayout();
+
+	if (draftLayout != null) {
+		boolean published = GetterUtil.getBoolean(draftLayout.getTypeSettingsProperty("published"));
+
+		if ((draftLayout.getStatus() == WorkflowConstants.STATUS_DRAFT) || !published) {
+			hasDraft = true;
+		}
+	}
+	else {
+		boolean published = GetterUtil.getBoolean(layout.getTypeSettingsProperty("published"));
+
+		if ((layout.getStatus() == WorkflowConstants.STATUS_DRAFT) || !published) {
+			hasDraft = true;
+
+			String mode = ParamUtil.getString(request, "p_l_mode");
+
+			if (!Objects.equals(mode, Constants.EDIT)) {
+				isDraft = true;
+			}
+		}
+	}
+}
 %>
 
 <li class="align-items-center control-menu-nav-item control-menu-nav-item-content">
-	<span class="control-menu-level-1-heading truncate-text" data-qa-id="headerTitle"><%= headerTitle %></span>&nbsp;<span class="text-muted truncate-text">(<%= LanguageUtil.get(request, layoutTypeResourceBundle, "layout.types." + layout.getType()) %>)</span>
+	<span class="control-menu-level-1-heading truncate-text" data-qa-id="headerTitle">
+		<%= headerTitle %><c:if test="<%= hasDraft %>"><sup class="small">*</sup></c:if>
+	</span>
+
+	<c:if test="<%= isDraft %>">
+		<span class="bg-transparent label label-inverse-secondary ml-2 mr-0">
+			<span class="label-item label-item-expand">
+				<liferay-ui:message key="draft" />
+			</span>
+		</span>
+	</c:if>
+	&nbsp;<span class="text-muted truncate-text">(<%= LanguageUtil.get(request, layoutTypeResourceBundle, "layout.types." + layout.getType()) %>)</span>
 
 	<%
 	Map<String, Object> context = new HashMap<>();
