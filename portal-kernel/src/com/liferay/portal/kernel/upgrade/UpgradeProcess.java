@@ -366,13 +366,25 @@ public abstract class UpgradeProcess
 
 			DatabaseMetaData databaseMetaData = connection.getMetaData();
 			DBInspector dbInspector = new DBInspector(connection);
+			DB db = DBManagerUtil.getDB();
+			ResultSet resultSet2;
 
-			try (ResultSet rs1 = databaseMetaData.getPrimaryKeys(
+			DBType dbType = db.getDBType();
+
+			if (dbType == DBType.ORACLE) {
+				resultSet2 = databaseMetaData.getIndexInfo(
 					dbInspector.getCatalog(), dbInspector.getSchema(),
-					tableName);
-				ResultSet rs2 = databaseMetaData.getIndexInfo(
+					dbInspector.normalizeName(tableName), false, true);
+			}
+			else {
+				resultSet2 = databaseMetaData.getIndexInfo(
 					dbInspector.getCatalog(), dbInspector.getSchema(),
-					dbInspector.normalizeName(tableName), false, false)) {
+					dbInspector.normalizeName(tableName), false, false);
+			}
+
+			try (ResultSet resultSet1 = databaseMetaData.getPrimaryKeys(
+					dbInspector.getCatalog(), dbInspector.getSchema(),
+					tableName)) {
 
 				Set<String> primaryKeyNames = new HashSet<>();
 
@@ -471,6 +483,11 @@ public abstract class UpgradeProcess
 					_log.warn(
 						"Successfully recreated and upgraded table " +
 							tableName);
+				}
+			}
+			finally {
+				if (resultSet2 != null) {
+					resultSet2.close();
 				}
 			}
 		}
