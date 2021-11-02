@@ -20,7 +20,6 @@ import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutConstants;
 import com.liferay.portal.kernel.service.LayoutLocalService;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
@@ -134,12 +133,9 @@ public class LayoutHeaderProductNavigationControlMenuEntry
 			(ThemeDisplay)httpServletRequest.getAttribute(
 				WebKeys.THEME_DISPLAY);
 
-		Layout layout = themeDisplay.getLayout();
-
-		String headerTitle = HtmlUtil.escape(
-			layout.getName(themeDisplay.getLocale()));
-
 		String portletId = ParamUtil.getString(httpServletRequest, "p_p_id");
+
+		Layout layout = themeDisplay.getLayout();
 
 		if (Validator.isNotNull(portletId) && layout.isSystem() &&
 			!layout.isTypeControlPanel() &&
@@ -147,11 +143,10 @@ public class LayoutHeaderProductNavigationControlMenuEntry
 				layout.getFriendlyURL(),
 				PropsValues.CONTROL_PANEL_LAYOUT_FRIENDLY_URL)) {
 
-			headerTitle = _portal.getPortletTitle(
-				portletId, themeDisplay.getLocale());
+			return _portal.getPortletTitle(portletId, themeDisplay.getLocale());
 		}
 
-		return headerTitle;
+		return HtmlUtil.escape(layout.getName(themeDisplay.getLocale()));
 	}
 
 	private boolean _hasDraftLayout(HttpServletRequest httpServletRequest) {
@@ -161,39 +156,33 @@ public class LayoutHeaderProductNavigationControlMenuEntry
 
 		Layout layout = themeDisplay.getLayout();
 
-		if (Objects.equals(layout.getType(), LayoutConstants.TYPE_CONTENT)) {
-			Layout draftLayout = _layoutLocalService.fetchLayout(
-				_portal.getClassNameId(Layout.class), layout.getPlid());
-
-			if (draftLayout != null) {
-				Date modifiedDate = draftLayout.getModifiedDate();
-
-				Date publishDate = layout.getPublishDate();
-
-				if (publishDate == null) {
-					publishDate = modifiedDate;
-				}
-
-				boolean published = GetterUtil.getBoolean(
-					draftLayout.getTypeSettingsProperty("published"));
-
-				if (!published ||
-					(modifiedDate.getTime() > publishDate.getTime())) {
-
-					return true;
-				}
-			}
-			else {
-				boolean published = GetterUtil.getBoolean(
-					layout.getTypeSettingsProperty("published"));
-
-				if (!published) {
-					return true;
-				}
-			}
+		if (!Objects.equals(layout.getType(), LayoutConstants.TYPE_CONTENT)) {
+			return false;
 		}
 
-		return false;
+		Layout draftLayout = _layoutLocalService.fetchLayout(
+			_portal.getClassNameId(Layout.class), layout.getPlid());
+
+		if (draftLayout != null) {
+			Date modifiedDate = draftLayout.getModifiedDate();
+
+			Date publishDate = layout.getPublishDate();
+
+			if (publishDate == null) {
+				publishDate = modifiedDate;
+			}
+
+			if ((modifiedDate.getTime() <= publishDate.getTime()) &&
+				_isLayoutPublished(layout)) {
+
+				return false;
+			}
+		}
+		else if (_isLayoutPublished(layout)) {
+			return false;
+		}
+
+		return true;
 	}
 
 	private boolean _isDraftLayout(HttpServletRequest httpServletRequest) {
@@ -203,23 +192,26 @@ public class LayoutHeaderProductNavigationControlMenuEntry
 
 		Layout layout = themeDisplay.getLayout();
 
-		if (Objects.equals(layout.getType(), LayoutConstants.TYPE_CONTENT)) {
-			Layout draftLayout = _layoutLocalService.fetchLayout(
-				_portal.getClassNameId(Layout.class), layout.getPlid());
+		if (!Objects.equals(layout.getType(), LayoutConstants.TYPE_CONTENT)) {
+			return false;
+		}
 
-			if (draftLayout == null) {
-				boolean published = GetterUtil.getBoolean(
-					draftLayout.getTypeSettingsProperty("published"));
+		Layout draftLayout = _layoutLocalService.fetchLayout(
+			_portal.getClassNameId(Layout.class), layout.getPlid());
 
-				if (!published) {
-					String mode = ParamUtil.getString(
-						httpServletRequest, "p_l_mode");
+		if ((draftLayout != null) || _isLayoutPublished(layout)) {
+			return false;
+		}
 
-					if (!Objects.equals(mode, Constants.EDIT)) {
-						return true;
-					}
-				}
-			}
+		return true;
+	}
+
+	private boolean _isLayoutPublished(Layout layout) {
+		boolean published = GetterUtil.getBoolean(
+			layout.getTypeSettingsProperty("published"));
+
+		if (published) {
+			return true;
 		}
 
 		return false;
