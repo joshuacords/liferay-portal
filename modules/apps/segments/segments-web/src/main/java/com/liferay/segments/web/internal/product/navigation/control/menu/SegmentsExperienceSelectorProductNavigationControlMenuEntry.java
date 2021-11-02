@@ -71,13 +71,13 @@ import org.osgi.service.component.annotations.Reference;
 	},
 	service = ProductNavigationControlMenuEntry.class
 )
-public class ExperienceSelectorProductNavigationControlMenuEntry
+public class SegmentsExperienceSelectorProductNavigationControlMenuEntry
 	extends BaseJSPProductNavigationControlMenuEntry
 	implements ProductNavigationControlMenuEntry {
 
 	@Override
 	public String getIconJspPath() {
-		return "/experience_selector.jsp";
+		return "/segments_experience_selector.jsp";
 	}
 
 	@Override
@@ -300,7 +300,7 @@ public class ExperienceSelectorProductNavigationControlMenuEntry
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		ExperienceSelectorProductNavigationControlMenuEntry.class);
+		SegmentsExperienceSelectorProductNavigationControlMenuEntry.class);
 
 	@Reference
 	private Http _http;
