@@ -87,7 +87,7 @@ public class SegmentsExperienceSelectorDisplayContext {
 
 	public String getSelectedSegmentsExperienceName() {
 		long segmentsExperienceId = ParamUtil.getLong(
-			_httpServletRequest, "p_l_segments_experience_id",
+			_httpServletRequest, "p_s_e_id",
 			SegmentsExperienceConstants.ID_DEFAULT);
 
 		SegmentsExperience segmentsExperience =
@@ -117,7 +117,7 @@ public class SegmentsExperienceSelectorDisplayContext {
 			"url",
 			HttpUtil.removeParameter(
 				PortalUtil.getCurrentURL(_httpServletRequest),
-				"p_l_segments_experience_id")
+				"p_s_e_id")
 		);
 	}
 
@@ -150,7 +150,7 @@ public class SegmentsExperienceSelectorDisplayContext {
 			"url",
 			HttpUtil.setParameter(
 				PortalUtil.getCurrentURL(_httpServletRequest),
-				"p_l_segments_experience_id",
+				"p_s_e_id",
 				segmentsExperience.getSegmentsExperienceId())
 		);
 	}
