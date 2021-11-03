@@ -155,9 +155,7 @@ public class RenderFragmentLayoutTag extends IncludeTag {
 						PortalUtil.getClassNameId(Layout.class.getName()),
 						_plid, true);
 
-			long[] segmentsExperienceIds = GetterUtil.getLongValues(
-				request.getAttribute(SegmentsWebKeys.SEGMENTS_EXPERIENCE_IDS),
-				new long[] {SegmentsExperienceConstants.ID_DEFAULT});
+			long[] segmentsExperienceIds = _getSegmentsExperienceIds();
 
 			return layoutPageTemplateStructure.getData(segmentsExperienceIds);
 		}
@@ -233,6 +231,13 @@ public class RenderFragmentLayoutTag extends IncludeTag {
 	}
 
 	private long[] _getSegmentsExperienceIds() {
+		long[] selectedSegmentsExperienceIds = ParamUtil.getLongValues(
+			request, "p_s_e_id");
+
+		if (selectedSegmentsExperienceIds.length > 0) {
+			return selectedSegmentsExperienceIds;
+		}
+
 		return GetterUtil.getLongValues(
 			request.getAttribute(SegmentsWebKeys.SEGMENTS_EXPERIENCE_IDS),
 			new long[] {SegmentsExperienceConstants.ID_DEFAULT});
