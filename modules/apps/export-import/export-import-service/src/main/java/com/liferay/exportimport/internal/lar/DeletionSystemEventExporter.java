@@ -324,8 +324,8 @@ public class DeletionSystemEventExporter {
 			catch (PortalException portalException) {
 				if (_log.isWarnEnabled()) {
 					_log.warn(
-						"Unable to delete system event. The events are being " +
-							"cleaned up reagularly by a scheduled process.",
+						"Unable to delete system event. The system events " +
+							"will be cleaned up by a scheduled process.",
 						portalException);
 				}
 			}
