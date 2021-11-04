@@ -206,8 +206,12 @@ public class DeletionSystemEventExporter {
 				dynamicQuery));
 		actionableDynamicQuery.setCompanyId(portletDataContext.getCompanyId());
 		actionableDynamicQuery.setPerformActionMethod(
-			(SystemEvent systemEvent) -> exportDeletionSystemEvent(
-				portletDataContext, systemEvent, rootElement, systemEventIds));
+			(SystemEvent systemEvent) -> {
+				exportDeletionSystemEvent(
+					portletDataContext, systemEvent, rootElement);
+
+				systemEventIds.add(systemEvent.getSystemEventId());
+			});
 
 		actionableDynamicQuery.performActions();
 
@@ -216,7 +220,7 @@ public class DeletionSystemEventExporter {
 
 	protected void exportDeletionSystemEvent(
 		PortletDataContext portletDataContext, SystemEvent systemEvent,
-		Element deletionSystemEventsElement, List<Long> systemEventIds) {
+		Element deletionSystemEventsElement) {
 
 		Element deletionSystemEventElement =
 			deletionSystemEventsElement.addElement("deletion-system-event");
@@ -285,8 +289,6 @@ public class DeletionSystemEventExporter {
 			new StagedModelType(
 				systemEvent.getClassNameId(),
 				systemEvent.getReferrerClassNameId()));
-
-		systemEventIds.add(systemEvent.getSystemEventId());
 	}
 
 	private DeletionSystemEventExporter() {
