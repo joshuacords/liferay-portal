@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.model.ModelWrapper;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.ProxyUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.security.sso.openid.connect.persistence.model.OpenIdConnectSession;
 import com.liferay.portal.security.sso.openid.connect.persistence.model.OpenIdConnectSessionModel;
 
@@ -31,6 +32,7 @@ import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
+import java.sql.Blob;
 import java.sql.Types;
 
 import java.util.Collections;
@@ -38,7 +40,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -103,25 +104,12 @@ public class OpenIdConnectSessionModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	/**
-	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
-	 *		#getColumnBitmask(String)}
-	 */
-	@Deprecated
-	public static final long OPENIDCONNECTSESSIONID_COLUMN_BITMASK = 1L;
-
-	/**
-	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
-	 */
-	@Deprecated
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
+		_entityCacheEnabled = entityCacheEnabled;
 	}
 
-	/**
-	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
-	 */
-	@Deprecated
 	public static void setFinderCacheEnabled(boolean finderCacheEnabled) {
+		_finderCacheEnabled = finderCacheEnabled;
 	}
 
 	public OpenIdConnectSessionModelImpl() {
@@ -175,6 +163,9 @@ public class OpenIdConnectSessionModelImpl
 				attributeName,
 				attributeGetterFunction.apply((OpenIdConnectSession)this));
 		}
+
+		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
+		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
 
 		return attributes;
 	}
@@ -315,10 +306,6 @@ public class OpenIdConnectSessionModelImpl
 
 	@Override
 	public void setMvccVersion(long mvccVersion) {
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
-		}
-
 		_mvccVersion = mvccVersion;
 	}
 
@@ -329,10 +316,6 @@ public class OpenIdConnectSessionModelImpl
 
 	@Override
 	public void setOpenIdConnectSessionId(long openIdConnectSessionId) {
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
-		}
-
 		_openIdConnectSessionId = openIdConnectSessionId;
 	}
 
@@ -343,10 +326,6 @@ public class OpenIdConnectSessionModelImpl
 
 	@Override
 	public void setCompanyId(long companyId) {
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
-		}
-
 		_companyId = companyId;
 	}
 
@@ -363,10 +342,6 @@ public class OpenIdConnectSessionModelImpl
 	public void setModifiedDate(Date modifiedDate) {
 		_setModifiedDate = true;
 
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
-		}
-
 		_modifiedDate = modifiedDate;
 	}
 
@@ -382,10 +357,6 @@ public class OpenIdConnectSessionModelImpl
 
 	@Override
 	public void setAccessToken(String accessToken) {
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
-		}
-
 		_accessToken = accessToken;
 	}
 
@@ -401,10 +372,6 @@ public class OpenIdConnectSessionModelImpl
 
 	@Override
 	public void setIdToken(String idToken) {
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
-		}
-
 		_idToken = idToken;
 	}
 
@@ -420,10 +387,6 @@ public class OpenIdConnectSessionModelImpl
 
 	@Override
 	public void setProviderName(String providerName) {
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
-		}
-
 		_providerName = providerName;
 	}
 
@@ -439,35 +402,7 @@ public class OpenIdConnectSessionModelImpl
 
 	@Override
 	public void setRefreshToken(String refreshToken) {
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
-		}
-
 		_refreshToken = refreshToken;
-	}
-
-	public long getColumnBitmask() {
-		if (_columnBitmask > 0) {
-			return _columnBitmask;
-		}
-
-		if ((_columnOriginalValues == null) ||
-			(_columnOriginalValues == Collections.EMPTY_MAP)) {
-
-			return 0;
-		}
-
-		for (Map.Entry<String, Object> entry :
-				_columnOriginalValues.entrySet()) {
-
-			if (!Objects.equals(
-					entry.getValue(), getColumnValue(entry.getKey()))) {
-
-				_columnBitmask |= _columnBitmasks.get(entry.getKey());
-			}
-		}
-
-		return _columnBitmask;
 	}
 
 	@Override
@@ -562,31 +497,19 @@ public class OpenIdConnectSessionModelImpl
 		return (int)getPrimaryKey();
 	}
 
-	/**
-	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
-	 */
-	@Deprecated
 	@Override
 	public boolean isEntityCacheEnabled() {
-		return true;
+		return _entityCacheEnabled;
 	}
 
-	/**
-	 * @deprecated As of Athanasius (7.3.x), with no direct replacement
-	 */
-	@Deprecated
 	@Override
 	public boolean isFinderCacheEnabled() {
-		return true;
+		return _finderCacheEnabled;
 	}
 
 	@Override
 	public void resetOriginalValues() {
-		_columnOriginalValues = Collections.emptyMap();
-
 		_setModifiedDate = false;
-
-		_columnBitmask = 0;
 	}
 
 	@Override
@@ -652,7 +575,7 @@ public class OpenIdConnectSessionModelImpl
 			attributeGetterFunctions = getAttributeGetterFunctions();
 
 		StringBundler sb = new StringBundler(
-			(4 * attributeGetterFunctions.size()) + 2);
+			(5 * attributeGetterFunctions.size()) + 2);
 
 		sb.append("{");
 
@@ -663,10 +586,27 @@ public class OpenIdConnectSessionModelImpl
 			Function<OpenIdConnectSession, Object> attributeGetterFunction =
 				entry.getValue();
 
+			sb.append("\"");
 			sb.append(attributeName);
-			sb.append("=");
-			sb.append(
-				attributeGetterFunction.apply((OpenIdConnectSession)this));
+			sb.append("\": ");
+
+			Object value = attributeGetterFunction.apply(
+				(OpenIdConnectSession)this);
+
+			if (value == null) {
+				sb.append("null");
+			}
+			else if (value instanceof Blob || value instanceof Date ||
+					 value instanceof Map || value instanceof String) {
+
+				sb.append(
+					"\"" + StringUtil.replace(value.toString(), "\"", "'") +
+						"\"");
+			}
+			else {
+				sb.append(value);
+			}
+
 			sb.append(", ");
 		}
 
@@ -718,6 +658,9 @@ public class OpenIdConnectSessionModelImpl
 
 	}
 
+	private static boolean _entityCacheEnabled;
+	private static boolean _finderCacheEnabled;
+
 	private long _mvccVersion;
 	private long _openIdConnectSessionId;
 	private long _companyId;
@@ -727,76 +670,6 @@ public class OpenIdConnectSessionModelImpl
 	private String _idToken;
 	private String _providerName;
 	private String _refreshToken;
-
-	public <T> T getColumnValue(String columnName) {
-		Function<OpenIdConnectSession, Object> function =
-			_attributeGetterFunctions.get(columnName);
-
-		if (function == null) {
-			throw new IllegalArgumentException(
-				"No attribute getter function found for " + columnName);
-		}
-
-		return (T)function.apply((OpenIdConnectSession)this);
-	}
-
-	public <T> T getColumnOriginalValue(String columnName) {
-		if (_columnOriginalValues == null) {
-			return null;
-		}
-
-		if (_columnOriginalValues == Collections.EMPTY_MAP) {
-			_setColumnOriginalValues();
-		}
-
-		return (T)_columnOriginalValues.get(columnName);
-	}
-
-	private void _setColumnOriginalValues() {
-		_columnOriginalValues = new HashMap<String, Object>();
-
-		_columnOriginalValues.put("mvccVersion", _mvccVersion);
-		_columnOriginalValues.put(
-			"openIdConnectSessionId", _openIdConnectSessionId);
-		_columnOriginalValues.put("companyId", _companyId);
-		_columnOriginalValues.put("modifiedDate", _modifiedDate);
-		_columnOriginalValues.put("accessToken", _accessToken);
-		_columnOriginalValues.put("idToken", _idToken);
-		_columnOriginalValues.put("providerName", _providerName);
-		_columnOriginalValues.put("refreshToken", _refreshToken);
-	}
-
-	private transient Map<String, Object> _columnOriginalValues;
-
-	public static long getColumnBitmask(String columnName) {
-		return _columnBitmasks.get(columnName);
-	}
-
-	private static final Map<String, Long> _columnBitmasks;
-
-	static {
-		Map<String, Long> columnBitmasks = new HashMap<>();
-
-		columnBitmasks.put("mvccVersion", 1L);
-
-		columnBitmasks.put("openIdConnectSessionId", 2L);
-
-		columnBitmasks.put("companyId", 4L);
-
-		columnBitmasks.put("modifiedDate", 8L);
-
-		columnBitmasks.put("accessToken", 16L);
-
-		columnBitmasks.put("idToken", 32L);
-
-		columnBitmasks.put("providerName", 64L);
-
-		columnBitmasks.put("refreshToken", 128L);
-
-		_columnBitmasks = Collections.unmodifiableMap(columnBitmasks);
-	}
-
-	private long _columnBitmask;
 	private OpenIdConnectSession _escapedModel;
 
 }
