@@ -66,14 +66,14 @@ public class DeletionSystemEventExporter {
 			PortletDataContext portletDataContext)
 		throws Exception {
 
+		List<Long> exportedSystemEventIds = null;
+
 		Document document = SAXReaderUtil.createDocument();
 
 		Element rootElement = document.addElement("deletion-system-events");
 
 		Set<StagedModelType> deletionSystemEventStagedModelTypes =
 			portletDataContext.getDeletionSystemEventStagedModelTypes();
-
-		List<Long> exportedSystemEventIds = null;
 
 		if (!deletionSystemEventStagedModelTypes.isEmpty() &&
 			MapUtil.getBoolean(
