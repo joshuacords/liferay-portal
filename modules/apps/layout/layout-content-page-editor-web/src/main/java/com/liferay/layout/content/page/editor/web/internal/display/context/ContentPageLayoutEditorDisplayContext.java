@@ -118,17 +118,35 @@ public class ContentPageLayoutEditorDisplayContext
 			return _segmentsExperienceId;
 		}
 
-		long selectedSegmentsExperienceId = ParamUtil.getLong(
+		_segmentsExperienceId = ParamUtil.getLong(
+			PortalUtil.getOriginalServletRequest(request), "p_s_e_id", -1);
+
+		if (_segmentsExperienceId != -1) {
+			if (_segmentsExperienceId ==
+					SegmentsExperienceConstants.ID_DEFAULT) {
+
+				return _segmentsExperienceId;
+			}
+
+			SegmentsExperience segmentsExperience =
+				SegmentsExperienceLocalServiceUtil.fetchSegmentsExperience(
+					_segmentsExperienceId);
+
+			if (segmentsExperience != null) {
+				return _segmentsExperienceId;
+			}
+		}
+
+		_segmentsExperienceId = ParamUtil.getLong(
 			PortalUtil.getOriginalServletRequest(request),
 			"segmentsExperienceId", -1);
 
-		if ((selectedSegmentsExperienceId != -1) &&
-			(selectedSegmentsExperienceId !=
-				SegmentsExperienceConstants.ID_DEFAULT)) {
+		if ((_segmentsExperienceId != -1) &&
+			(_segmentsExperienceId != SegmentsExperienceConstants.ID_DEFAULT)) {
 
 			_segmentsExperienceId = Optional.ofNullable(
 				SegmentsExperienceLocalServiceUtil.fetchSegmentsExperience(
-					selectedSegmentsExperienceId)
+					_segmentsExperienceId)
 			).map(
 				SegmentsExperience::getSegmentsExperienceId
 			).orElseGet(

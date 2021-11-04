@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.segments.constants.SegmentsWebKeys;
 
 import java.io.IOException;
 
@@ -106,9 +107,21 @@ public class ContentPageEditorPortlet extends MVCPortlet {
 				String layoutFullURL = _portal.getLayoutFullURL(
 					draftLayout, themeDisplay);
 
-				httpServletResponse.sendRedirect(
-					_http.addParameter(
-						layoutFullURL, "p_l_mode", Constants.EDIT));
+				layoutFullURL = _http.addParameter(
+					layoutFullURL, "p_l_mode", Constants.EDIT);
+
+				Object segmentsExperienceId =
+					(long)httpServletRequest.getAttribute(
+						SegmentsWebKeys.SEGMENTS_EXPERIENCE_IDS);
+
+				if ((segmentsExperienceId != null) &&
+					(segmentsExperienceId instanceof Long)) {
+
+					layoutFullURL = _http.setParameter(
+						layoutFullURL, "p_s_e_id", (Long)segmentsExperienceId);
+				}
+
+				httpServletResponse.sendRedirect(layoutFullURL);
 			}
 			catch (PortalException portalException) {
 				throw new PortletException(portalException);

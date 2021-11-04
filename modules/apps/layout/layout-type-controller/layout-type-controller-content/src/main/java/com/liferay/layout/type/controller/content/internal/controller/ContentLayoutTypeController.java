@@ -47,6 +47,7 @@ import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.segments.constants.SegmentsWebKeys;
 import com.liferay.taglib.servlet.PipingServletResponse;
 
 import javax.servlet.RequestDispatcher;
@@ -142,6 +143,15 @@ public class ContentLayoutTypeController extends BaseLayoutTypeControllerImpl {
 			httpServletRequest.setAttribute(
 				InfoDisplayWebKeys.INFO_ITEM_SELECTOR_TRACKER,
 				_infoItemSelectorTracker);
+
+			long segmentsExperienceId = ParamUtil.getLong(
+				httpServletRequest, "p_s_e_id", -1);
+
+			if (segmentsExperienceId != -1) {
+				httpServletRequest.setAttribute(
+					SegmentsWebKeys.SEGMENTS_EXPERIENCE_IDS,
+					segmentsExperienceId);
+			}
 		}
 
 		httpServletRequest.setAttribute(
