@@ -41,6 +41,7 @@ import com.liferay.portal.kernel.model.SystemEventConstants;
 import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.service.SystemEventLocalServiceUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.xml.Document;
@@ -97,8 +98,7 @@ public class DeletionSystemEventExporter {
 				"/deletion-system-events.xml",
 			document.formattedString());
 
-		if ((exportedSystemEventIds != null) &&
-			!exportedSystemEventIds.isEmpty() &&
+		if (!ListUtil.isNotEmpty(exportedSystemEventIds) &&
 			ExportImportThreadLocal.isStagingInProcess()) {
 
 			ExportImportProcessCallbackRegistryUtil.registerCallback(
