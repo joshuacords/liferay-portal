@@ -98,7 +98,7 @@ public class UserODataRetrieverTest {
 				elasticSearchConfigurationTemporarySwapper =
 					new ConfigurationTemporarySwapper(
 						_CONFIGURATION_PID_ELASTICSEARCH,
-						setUpElasticsearchProperties())) {
+						_setUpElasticsearchProperties())) {
 
 			_company = CompanyTestUtil.addCompany();
 
@@ -939,7 +939,7 @@ public class UserODataRetrieverTest {
 			users.size());
 	}
 
-	protected static Dictionary<String, Object> setUpElasticsearchProperties()
+	private static Dictionary<String, Object> _setUpElasticsearchProperties()
 		throws Exception {
 
 		Configuration configuration = _configurationAdmin.getConfiguration(
