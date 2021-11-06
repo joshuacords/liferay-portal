@@ -917,7 +917,7 @@ public class UserODataRetrieverTest {
 	}
 
 	@Test
-	public void testRetrieveMoreUsersThanElasticsearchMaxResultWindow()
+	public void testGetUsersWithMoreUsersThanElasticsearchMaxResultWindow()
 		throws Exception {
 
 		String firstName = RandomTestUtil.randomString();
