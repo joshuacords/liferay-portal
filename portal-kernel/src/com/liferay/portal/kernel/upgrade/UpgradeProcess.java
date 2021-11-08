@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBInspector;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.db.DBProcessContext;
+import com.liferay.portal.kernel.dao.db.DBType;
 import com.liferay.portal.kernel.dao.db.IndexMetadata;
 import com.liferay.portal.kernel.dao.db.IndexMetadataFactoryUtil;
 import com.liferay.portal.kernel.dao.jdbc.DataAccess;
@@ -362,16 +363,14 @@ public abstract class UpgradeProcess
 		throws Exception {
 
 		try (LoggingTimer loggingTimer = new LoggingTimer()) {
+			DatabaseMetaData databaseMetaData = connection.getMetaData();
+			DB db = DBManagerUtil.getDB();
+			DBInspector dbInspector = new DBInspector(connection);
 			String tableName = getTableName(tableClass);
 
-			DatabaseMetaData databaseMetaData = connection.getMetaData();
-			DBInspector dbInspector = new DBInspector(connection);
-			DB db = DBManagerUtil.getDB();
-			ResultSet resultSet1;
+			ResultSet resultSet1 = null;
 
-			DBType dbType = db.getDBType();
-
-			if (dbType == DBType.ORACLE) {
+			if (db.getDBType() == DBType.ORACLE) {
 				resultSet1 = databaseMetaData.getIndexInfo(
 					dbInspector.getCatalog(), dbInspector.getSchema(),
 					dbInspector.normalizeName(tableName), false, true);
