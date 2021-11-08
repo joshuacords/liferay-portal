@@ -367,30 +367,30 @@ public abstract class UpgradeProcess
 			DatabaseMetaData databaseMetaData = connection.getMetaData();
 			DBInspector dbInspector = new DBInspector(connection);
 			DB db = DBManagerUtil.getDB();
-			ResultSet resultSet2;
+			ResultSet resultSet1;
 
 			DBType dbType = db.getDBType();
 
 			if (dbType == DBType.ORACLE) {
-				resultSet2 = databaseMetaData.getIndexInfo(
+				resultSet1 = databaseMetaData.getIndexInfo(
 					dbInspector.getCatalog(), dbInspector.getSchema(),
 					dbInspector.normalizeName(tableName), false, true);
 			}
 			else {
-				resultSet2 = databaseMetaData.getIndexInfo(
+				resultSet1 = databaseMetaData.getIndexInfo(
 					dbInspector.getCatalog(), dbInspector.getSchema(),
 					dbInspector.normalizeName(tableName), false, false);
 			}
 
-			try (ResultSet resultSet1 = databaseMetaData.getPrimaryKeys(
+			try (ResultSet resultSet2 = databaseMetaData.getPrimaryKeys(
 					dbInspector.getCatalog(), dbInspector.getSchema(),
 					tableName)) {
 
 				Set<String> primaryKeyNames = new HashSet<>();
 
-				while (rs1.next()) {
+				while (resultSet2.next()) {
 					String primaryKeyName = StringUtil.toUpperCase(
-						rs1.getString("PK_NAME"));
+						resultSet2.getString("PK_NAME"));
 
 					if (primaryKeyName != null) {
 						primaryKeyNames.add(primaryKeyName);
@@ -399,9 +399,9 @@ public abstract class UpgradeProcess
 
 				Map<String, Set<String>> columnNamesMap = new HashMap<>();
 
-				while (rs2.next()) {
+				while (resultSet1.next()) {
 					String indexName = StringUtil.toUpperCase(
-						rs2.getString("INDEX_NAME"));
+						resultSet1.getString("INDEX_NAME"));
 
 					if ((indexName == null) ||
 						primaryKeyNames.contains(indexName)) {
@@ -418,7 +418,8 @@ public abstract class UpgradeProcess
 					}
 
 					columnNames.add(
-						StringUtil.toUpperCase(rs2.getString("COLUMN_NAME")));
+						StringUtil.toUpperCase(
+							resultSet1.getString("COLUMN_NAME")));
 				}
 
 				for (Alterable alterable : alterables) {
@@ -486,8 +487,8 @@ public abstract class UpgradeProcess
 				}
 			}
 			finally {
-				if (resultSet2 != null) {
-					resultSet2.close();
+				if (resultSet1 != null) {
+					resultSet1.close();
 				}
 			}
 		}
