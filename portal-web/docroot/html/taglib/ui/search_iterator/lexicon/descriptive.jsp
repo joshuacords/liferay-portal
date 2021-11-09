@@ -36,17 +36,17 @@ for (ResultRowSplitterEntry resultRowSplitterEntry : resultRowSplitterEntries) {
 	List<com.liferay.portal.kernel.dao.search.ResultRow> curResultRows = resultRowSplitterEntry.getResultRows();
 %>
 
-	<ul class="<%= searchResultCssClass %>">
+	<dl class="<%= searchResultCssClass %>">
 		<c:if test="<%= Validator.isNotNull(resultRowSplitterEntry.getTitle()) %>">
-			<li class="list-group-header">
+			<dt class="list-group-header">
 				<div class="list-group-header-title">
 					<liferay-ui:message key="<%= resultRowSplitterEntry.getTitle() %>" />
 				</div>
-			</li>
+			</dt>
 		</c:if>
 
 		<c:if test="<%= (headerNames != null) && Validator.isNotNull(headerNames.get(0)) %>">
-			<li class="list-group-heading"><liferay-ui:message key="<%= headerNames.get(0) %>" /></li>
+			<dt class="list-group-heading"><liferay-ui:message key="<%= headerNames.get(0) %>" /></dt>
 		</c:if>
 
 		<%
@@ -96,7 +96,7 @@ for (ResultRowSplitterEntry resultRowSplitterEntry : resultRowSplitterEntries) {
 			}
 		%>
 
-			<li class="list-group-item list-group-item-flex <%= GetterUtil.getString(row.getClassName()) %> <%= row.getCssClass() %> <%= rowIsChecked ? "active" : StringPool.BLANK %> <%= Validator.isNotNull(row.getState()) ? "list-group-item-" + row.getState() : StringPool.BLANK %>" data-qa-id="row" <%= AUIUtil.buildData(data) %>>
+			<dd class="list-group-item list-group-item-flex <%= GetterUtil.getString(row.getClassName()) %> <%= row.getCssClass() %> <%= rowIsChecked ? "active" : StringPool.BLANK %> <%= Validator.isNotNull(row.getState()) ? "list-group-item-" + row.getState() : StringPool.BLANK %>" data-qa-id="row" <%= AUIUtil.buildData(data) %>>
 				<c:if test="<%= rowChecker != null %>">
 					<div class="autofit-col">
 						<div class="checkbox">
@@ -128,7 +128,7 @@ for (ResultRowSplitterEntry resultRowSplitterEntry : resultRowSplitterEntries) {
 				}
 				%>
 
-			</li>
+			</dd>
 
 		<%
 			request.removeAttribute(WebKeys.SEARCH_CONTAINER_RESULT_ROW);
@@ -138,13 +138,13 @@ for (ResultRowSplitterEntry resultRowSplitterEntry : resultRowSplitterEntries) {
 		}
 		%>
 
-		<li class="lfr-template list-group-item"></li>
-	</ul>
+		<dd class="lfr-template list-group-item"></dd>
+	</dl>
 
 <%
 }
 
-String rowHtmlTag = "li";
+String rowHtmlTag = "dd";
 %>
 
 <%@ include file="/html/taglib/ui/search_iterator/lexicon/bottom.jspf" %>
