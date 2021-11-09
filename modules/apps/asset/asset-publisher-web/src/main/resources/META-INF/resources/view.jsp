@@ -80,6 +80,7 @@ if (assetPublisherDisplayContext.isEnableTagBasedNavigation() && !assetPublisher
 <c:if test="<%= assetPublisherDisplayContext.isShowMetadataDescriptions() %>">
 	<liferay-asset:categorization-filter
 		assetType="content"
+		groupIds="<%= assetPublisherDisplayContext.getGroupIds() %>"
 		portletURL="<%= assetPublisherDisplayContext.getPortletURL() %>"
 	/>
 </c:if>
