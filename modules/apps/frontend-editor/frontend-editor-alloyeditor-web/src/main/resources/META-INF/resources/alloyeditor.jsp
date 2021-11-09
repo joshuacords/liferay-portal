@@ -74,8 +74,10 @@ if (editorOptions != null) {
 	var="alloyEditor"
 >
 	<div class="alloy-editor <%= HtmlUtil.escapeAttribute(cssClass) %>" contenteditable="false" data-placeholder="<%= LanguageUtil.get(request, placeholder) %>" data-required="<%= required %>" id="<%= HtmlUtil.escapeAttribute(name) %>" name="<%= HtmlUtil.escapeAttribute(name) %>"></div>
+
 	<div class="alloy-editor-placeholder <%= HtmlUtil.escapeAttribute(cssClass) %>">
 		<%= LanguageUtil.get(request, placeholder) %>
+
 		<c:if test="<%= Boolean.parseBoolean(required) %>">
 			<span class="text-warning">*</span>
 		</c:if>
