@@ -180,13 +180,13 @@ public class FragmentEntryStagedModelRepository
 			return;
 		}
 
+		long[] plids = new long[0];
+
 		JSONObject extraDataJSONObject = JSONFactoryUtil.createJSONObject(
 			extraData);
 
 		boolean privateLayout = GetterUtil.getBoolean(
 			extraDataJSONObject.get("privateLayout"));
-
-		long[] plids = new long[0];
 
 		for (String layoutUUID :
 				JSONUtil.toStringArray(
