@@ -28,6 +28,8 @@ import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import javax.portlet.RenderRequest;
@@ -124,6 +126,11 @@ public class AssetEntryVerticalCard implements VerticalCard {
 		}
 
 		return null;
+	}
+
+	@Override
+	public String getInputValue() {
+		return String.valueOf(_assetEntry.getEntryId());
 	}
 
 	@Override
