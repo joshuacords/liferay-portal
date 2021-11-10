@@ -4,6 +4,7 @@
 	{@param name: string}
 	{@param? _handleAddRepeatedFieldButtonClicked: any}
 	{@param? _handleRemoveRepeatedFieldButtonClicked: any}
+	{@param? addDuplicateField: string}
 	{@param? contentRenderer: any}
 	{@param? displayErrors: bool}
 	{@param? errorMessage: string}
@@ -11,6 +12,7 @@
 	{@param? label: string}
 	{@param? requiredText: string}
 	{@param? readOnly: bool}
+	{@param? removeDuplicateField: string}
 	{@param? required: bool}
 	{@param? repeatable: bool}
 	{@param? showLabel: bool}
@@ -55,7 +57,7 @@
 			<div class="lfr-ddm-form-field-repeatable-toolbar">
 				{if $showRepeatableRemoveButton}
 					{let $delete kind="text"}
-						{msg desc=""}delete{/msg}
+						{msg desc=""} {$removeDuplicateField} {/msg}
 					{/let}
 
 					{call ClayButton.render}
@@ -70,7 +72,7 @@
 				{/if}
 
 				{let $duplicate kind="text"}
-					{msg desc=""}duplicate{/msg}
+					{msg desc=""} {$addDuplicateField} {/msg}
 				{/let}
 
 				{call ClayButton.render}

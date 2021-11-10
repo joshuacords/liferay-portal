@@ -31,6 +31,14 @@ class FieldBase extends Component {
 
 		return {
 			...state,
+			addDuplicateField: Liferay.Util.sub(
+				Liferay.Language.get('add-duplicate-field'),
+				this.label ? this.label : this.type
+			),
+			removeDuplicateField: Liferay.Util.sub(
+				Liferay.Language.get('remove-duplicate-field'),
+				this.label ? this.label : this.type
+			),
 			requiredText: Liferay.Language.get('required'),
 			showRepeatableAddButton: this.repeatable,
 			showRepeatableRemoveButton: this.repeatable && repeatedIndex > 0
@@ -43,6 +51,14 @@ FieldBase.STATE = {
 	 * @default input
 	 * @memberof FieldBase
 	 * @type {?html}
+	 */
+
+	addDuplicateField: Config.string(),
+
+	/**
+	 * @default undefined
+	 * @memberof FieldBase
+	 * @type {?(string|undefined)}
 	 */
 
 	contentRenderer: Config.any(),
@@ -83,6 +99,14 @@ FieldBase.STATE = {
 	 * @default undefined
 	 * @memberof FieldBase
 	 * @type {?(bool|undefined)}
+	 */
+
+	removeDuplicateField: Config.string(),
+
+	/**
+	 * @default undefined
+	 * @memberof FieldBase
+	 * @type {?(string|undefined)}
 	 */
 
 	repeatable: Config.bool(),
