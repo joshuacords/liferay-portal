@@ -186,11 +186,12 @@ public class FragmentEntryStagedModelRepository
 		boolean privateLayout = GetterUtil.getBoolean(
 			extraDataJSONObject.get("privateLayout"));
 
-		JSONArray jsonArray = (JSONArray)extraDataJSONObject.get("layoutUUIDs");
-
 		long[] plids = new long[0];
 
-		for (String layoutUUID : JSONUtil.toStringArray(jsonArray)) {
+		for (String layoutUUID :
+				JSONUtil.toStringArray(
+					(JSONArray)extraDataJSONObject.get("layoutUUIDs"))) {
+
 			Layout layout = _layoutService.getLayoutByUuidAndGroupId(
 				layoutUUID, groupId, privateLayout);
 
