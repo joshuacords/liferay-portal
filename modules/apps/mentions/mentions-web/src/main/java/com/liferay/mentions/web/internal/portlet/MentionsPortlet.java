@@ -26,8 +26,14 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.security.permission.PermissionCheckerFactoryUtil;
+import com.liferay.portal.kernel.service.permission.LayoutPermissionUtil;
+import com.liferay.portal.kernel.service.permission.PortletPermissionUtil;
 import com.liferay.portal.kernel.servlet.ServletResponseUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ContentTypes;
@@ -86,7 +92,8 @@ public class MentionsPortlet extends MVCPortlet {
 			}
 
 			JSONArray jsonArray = _getJSONArray(
-				themeDisplay, ParamUtil.getString(resourceRequest, "query"));
+				themeDisplay, ParamUtil.getString(resourceRequest, "query"),
+				ParamUtil.getString(resourceRequest, "discussionPortletId"));
 
 			HttpServletResponse httpServletResponse =
 				_portal.getHttpServletResponse(resourceResponse);
@@ -101,7 +108,8 @@ public class MentionsPortlet extends MVCPortlet {
 		}
 	}
 
-	private JSONArray _getJSONArray(ThemeDisplay themeDisplay, String query)
+	private JSONArray _getJSONArray(
+			ThemeDisplay themeDisplay, String query, String discussionPortletId)
 		throws PortalException {
 
 		JSONArray jsonArray = JSONFactoryUtil.createJSONArray();
@@ -115,9 +123,23 @@ public class MentionsPortlet extends MVCPortlet {
 			themeDisplay.getCompanyId(), themeDisplay.getUserId(), query,
 			socialInteractionsConfiguration);
 
+		Layout layout = themeDisplay.getLayout();
+
 		for (User user : users) {
 			if (user.isDefaultUser() ||
 				(themeDisplay.getUserId() == user.getUserId())) {
+
+				continue;
+			}
+
+			PermissionChecker permissionChecker =
+				PermissionCheckerFactoryUtil.create(user);
+
+			if (!LayoutPermissionUtil.contains(
+					permissionChecker, layout, true, ActionKeys.VIEW) ||
+				!PortletPermissionUtil.contains(
+					permissionChecker, layout, discussionPortletId,
+					ActionKeys.VIEW)) {
 
 				continue;
 			}

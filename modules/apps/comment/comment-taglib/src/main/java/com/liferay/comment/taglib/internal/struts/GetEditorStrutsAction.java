@@ -76,7 +76,7 @@ public class GetEditorStrutsAction implements StrutsAction {
 			"liferay-comment:editor:placeholder", placeholder);
 
 		String portletId = ParamUtil.getString(
-			namespacedHttpServletRequest, "portletId");
+			namespacedHttpServletRequest, "p_p_id");
 
 		namespacedHttpServletRequest.setAttribute(
 			WebKeys.PORTLET_ID, portletId);
