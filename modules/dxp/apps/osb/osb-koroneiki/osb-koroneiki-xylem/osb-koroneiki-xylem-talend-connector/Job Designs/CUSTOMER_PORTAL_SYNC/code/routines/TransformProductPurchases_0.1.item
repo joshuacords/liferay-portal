@@ -170,7 +170,22 @@ public class TransformProductPurchases {
 			jsonObject.put("name", name);
 			jsonObject.put("quantity", quantity);
 			jsonObject.put("startDate", DateUtil.format(startDate));
-			jsonObject.put("subscriptionStatus", status);
+
+			Date now = new Date();
+
+			String subscriptionStatus = null;
+
+			if (endDate.before(now)) {
+				subscriptionStatus = "Expired";
+			}
+			else if (startDate.after(now)) {
+				subscriptionStatus = "Future";
+			}
+			else {
+				subscriptionStatus = "Active";
+			}
+
+			jsonObject.put("subscriptionStatus", subscriptionStatus);
 			jsonObject.put(
 				"subscriptionTerms", getSubscriptionTermsJSONArray());
 
@@ -185,7 +200,6 @@ public class TransformProductPurchases {
 		public String name;
 		public int quantity;
 		public Date startDate;
-		public String status;
 		public List<SubscriptionTerm> subscriptionTerms = new ArrayList<>();
 
 	}
