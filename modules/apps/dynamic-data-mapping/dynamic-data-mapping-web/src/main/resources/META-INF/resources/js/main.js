@@ -963,6 +963,15 @@ AUI.add(
 								false
 							);
 						}
+
+						if (
+							field.get('required') &&
+							instance.get('requiredDescriptionEnabled')
+						) {
+							instance.MAP_HIDDEN_FIELD_ATTRS.DEFAULT = instance.MAP_HIDDEN_FIELD_ATTRS.DEFAULT.filter(
+								item => item !== 'requiredDescription'
+							);
+						}
 					}
 
 					// Dynamically updates field toolbar items to produce lexicon svg markup instead of default glyphicon
