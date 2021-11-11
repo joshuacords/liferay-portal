@@ -394,8 +394,7 @@ public class AssetCategoryPersistenceTest {
 			"categoryId", true, "groupId", true, "companyId", true, "userId",
 			true, "userName", true, "createDate", true, "modifiedDate", true,
 			"parentCategoryId", true, "leftCategoryId", true, "rightCategoryId",
-			true, "name", true, "title", true, "description", true,
-			"vocabularyId", true, "lastPublishDate", true);
+			true, "name", true, "vocabularyId", true, "lastPublishDate", true);
 	}
 
 	@Test

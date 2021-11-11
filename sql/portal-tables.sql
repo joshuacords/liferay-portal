@@ -94,8 +94,8 @@ create table AssetCategory (
 	leftCategoryId LONG,
 	rightCategoryId LONG,
 	name VARCHAR(75) null,
-	title STRING null,
-	description STRING null,
+	title TEXT null,
+	description TEXT null,
 	vocabularyId LONG,
 	lastPublishDate DATE null
 );
