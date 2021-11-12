@@ -22,7 +22,7 @@
 				modules: {
 					'liferay-calendar-a11y': {
 						path: 'calendar_a11y.js',
-						requires: ['calendar'],
+						requires: ['calendar']
 					},
 					'liferay-calendar-container': {
 						path: 'calendar_container.js',

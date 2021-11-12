@@ -166,11 +166,11 @@ AUI.add(
 
 						return A.Node.create(
 							A.Lang.sub(TPL_SCHEDULER_VIEWS, {
-								ariaLabel: instance.getAriaLabel('calendar'),
+								ariaLabel: instance.getAriaLabel('calendar')
 							})
 						);
-					},
-				},
+					}
+				}
 			},
 
 			AUGMENTS: [Liferay.RecurrenceConverter],

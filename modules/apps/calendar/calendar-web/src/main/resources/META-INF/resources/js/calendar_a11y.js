@@ -14,7 +14,7 @@
 
 AUI.add(
 	'liferay-calendar-a11y',
-	(A) => {
+	A => {
 		let template = A.CalendarBase.HEADER_TEMPLATE;
 
 		template = template.replace('aria-role="heading"', '');
@@ -25,6 +25,6 @@ AUI.add(
 	},
 	'',
 	{
-		requires: ['calendar'],
+		requires: ['calendar']
 	}
 );
