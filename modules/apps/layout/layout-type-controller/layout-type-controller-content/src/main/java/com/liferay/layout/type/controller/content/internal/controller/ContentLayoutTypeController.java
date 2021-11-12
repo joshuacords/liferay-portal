@@ -296,10 +296,7 @@ public class ContentLayoutTypeController extends BaseLayoutTypeControllerImpl {
 
 		try {
 			if (LayoutPermissionUtil.contains(
-					permissionChecker, layout, ActionKeys.UPDATE) ||
-				LayoutPermissionUtil.contains(
-					permissionChecker, layout,
-					ActionKeys.UPDATE_LAYOUT_CONTENT)) {
+					permissionChecker, layout, ActionKeys.UPDATE)) {
 
 				return true;
 			}
