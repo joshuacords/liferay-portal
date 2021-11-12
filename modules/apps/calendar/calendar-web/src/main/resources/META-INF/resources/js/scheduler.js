@@ -52,6 +52,10 @@ AUI.add(
 			Liferay.Util.getLexiconIconTpl('angle-left') +
 			'</button>';
 
+		var TPL_SCHEDULER_VIEWS =
+			'<div aria-label="{ariaLabel}" class="col-xs-5 form-inline scheduler-base-views" role="listbox">' +
+			'</div>';
+
 		var WEEKLY = 'WEEKLY';
 
 		var Time = Liferay.Time;
@@ -154,7 +158,19 @@ AUI.add(
 				showAddEventBtn: {
 					validator: isBoolean,
 					value: true
-				}
+				},
+
+				viewsNode: {
+					valueFn() {
+						var instance = this;
+
+						return A.Node.create(
+							A.Lang.sub(TPL_SCHEDULER_VIEWS, {
+								ariaLabel: instance.getAriaLabel('calendar'),
+							})
+						);
+					},
+				},
 			},
 
 			AUGMENTS: [Liferay.RecurrenceConverter],
