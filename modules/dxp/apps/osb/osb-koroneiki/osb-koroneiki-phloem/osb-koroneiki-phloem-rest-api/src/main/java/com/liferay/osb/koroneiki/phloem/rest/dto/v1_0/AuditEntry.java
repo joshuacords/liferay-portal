@@ -62,6 +62,10 @@ public class AuditEntry implements Serializable {
 		return ObjectMapperUtil.readValue(AuditEntry.class, json);
 	}
 
+	public static AuditEntry unsafeToDTO(String json) {
+		return ObjectMapperUtil.unsafeReadValue(AuditEntry.class, json);
+	}
+
 	@Schema(description = "The action performed on the object.")
 	@Valid
 	public Action getAction() {

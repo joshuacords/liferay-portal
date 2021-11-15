@@ -61,6 +61,10 @@ public class ProductPurchase implements Serializable {
 		return ObjectMapperUtil.readValue(ProductPurchase.class, json);
 	}
 
+	public static ProductPurchase unsafeToDTO(String json) {
+		return ObjectMapperUtil.unsafeReadValue(ProductPurchase.class, json);
+	}
+
 	@Schema(description = "The key of the account purchasing the product.")
 	public String getAccountKey() {
 		return accountKey;

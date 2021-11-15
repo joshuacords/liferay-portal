@@ -54,6 +54,10 @@ public class Entitlement implements Serializable {
 		return ObjectMapperUtil.readValue(Entitlement.class, json);
 	}
 
+	public static Entitlement unsafeToDTO(String json) {
+		return ObjectMapperUtil.unsafeReadValue(Entitlement.class, json);
+	}
+
 	@Schema(description = "The key of the entitlement's definition.")
 	public String getEntitlementDefinitionKey() {
 		return entitlementDefinitionKey;

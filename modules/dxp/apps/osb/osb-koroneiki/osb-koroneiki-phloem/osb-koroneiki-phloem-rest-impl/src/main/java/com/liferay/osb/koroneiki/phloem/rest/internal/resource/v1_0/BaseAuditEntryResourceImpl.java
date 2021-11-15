@@ -33,13 +33,6 @@ import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.util.ActionUtil;
 import com.liferay.portal.vulcan.util.TransformUtil;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.tags.Tags;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -49,13 +42,6 @@ import javax.annotation.Generated;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import javax.validation.constraints.NotNull;
-
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 
 /**
@@ -63,7 +49,7 @@ import javax.ws.rs.core.UriInfo;
  * @generated
  */
 @Generated("")
-@Path("/v1.0")
+@javax.ws.rs.Path("/v1.0")
 public abstract class BaseAuditEntryResourceImpl implements AuditEntryResource {
 
 	/**
@@ -71,23 +57,38 @@ public abstract class BaseAuditEntryResourceImpl implements AuditEntryResource {
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/koroneiki-rest/v1.0/accounts/{accountKey}/audit-entries'  -u 'test@liferay.com:test'
 	 */
-	@GET
-	@Operation(description = "Retrieves the account's audit history.")
-	@Override
-	@Parameters(
+	@io.swagger.v3.oas.annotations.Operation(
+		description = "Retrieves the account's audit history."
+	)
+	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
-			@Parameter(in = ParameterIn.PATH, name = "accountKey"),
-			@Parameter(in = ParameterIn.QUERY, name = "page"),
-			@Parameter(in = ParameterIn.QUERY, name = "pageSize")
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
+				name = "accountKey"
+			),
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "page"
+			),
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "pageSize"
+			)
 		}
 	)
-	@Path("/accounts/{accountKey}/audit-entries")
-	@Produces({"application/json", "application/xml"})
-	@Tags(value = {@Tag(name = "AuditEntry")})
+	@io.swagger.v3.oas.annotations.tags.Tags(
+		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "AuditEntry")}
+	)
+	@javax.ws.rs.GET
+	@javax.ws.rs.Path("/accounts/{accountKey}/audit-entries")
+	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@Override
 	public Page<AuditEntry> getAccountAccountKeyAuditEntriesPage(
-			@NotNull @Parameter(hidden = true) @PathParam("accountKey") String
-				accountKey,
-			@Context Pagination pagination)
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.PathParam("accountKey")
+			String accountKey,
+			@javax.ws.rs.core.Context Pagination pagination)
 		throws Exception {
 
 		return Page.of(Collections.emptyList());
@@ -98,18 +99,29 @@ public abstract class BaseAuditEntryResourceImpl implements AuditEntryResource {
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/koroneiki-rest/v1.0/audit-entries/{auditEntryKey}'  -u 'test@liferay.com:test'
 	 */
-	@GET
-	@Operation(description = "Retrieves the audit entry.")
-	@Override
-	@Parameters(
-		value = {@Parameter(in = ParameterIn.PATH, name = "auditEntryKey")}
+	@io.swagger.v3.oas.annotations.Operation(
+		description = "Retrieves the audit entry."
 	)
-	@Path("/audit-entries/{auditEntryKey}")
-	@Produces({"application/json", "application/xml"})
-	@Tags(value = {@Tag(name = "AuditEntry")})
+	@io.swagger.v3.oas.annotations.Parameters(
+		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
+				name = "auditEntryKey"
+			)
+		}
+	)
+	@io.swagger.v3.oas.annotations.tags.Tags(
+		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "AuditEntry")}
+	)
+	@javax.ws.rs.GET
+	@javax.ws.rs.Path("/audit-entries/{auditEntryKey}")
+	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@Override
 	public AuditEntry getAuditEntry(
-			@NotNull @Parameter(hidden = true) @PathParam("auditEntryKey")
-				String auditEntryKey)
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.PathParam("auditEntryKey")
+			String auditEntryKey)
 		throws Exception {
 
 		return new AuditEntry();
@@ -120,23 +132,38 @@ public abstract class BaseAuditEntryResourceImpl implements AuditEntryResource {
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/koroneiki-rest/v1.0/contact-roles/{contactRoleKey}/audit-entries'  -u 'test@liferay.com:test'
 	 */
-	@GET
-	@Operation(description = "Retrieves the contact role's audit history.")
-	@Override
-	@Parameters(
+	@io.swagger.v3.oas.annotations.Operation(
+		description = "Retrieves the contact role's audit history."
+	)
+	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
-			@Parameter(in = ParameterIn.PATH, name = "contactRoleKey"),
-			@Parameter(in = ParameterIn.QUERY, name = "page"),
-			@Parameter(in = ParameterIn.QUERY, name = "pageSize")
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
+				name = "contactRoleKey"
+			),
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "page"
+			),
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "pageSize"
+			)
 		}
 	)
-	@Path("/contact-roles/{contactRoleKey}/audit-entries")
-	@Produces({"application/json", "application/xml"})
-	@Tags(value = {@Tag(name = "AuditEntry")})
+	@io.swagger.v3.oas.annotations.tags.Tags(
+		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "AuditEntry")}
+	)
+	@javax.ws.rs.GET
+	@javax.ws.rs.Path("/contact-roles/{contactRoleKey}/audit-entries")
+	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@Override
 	public Page<AuditEntry> getContactRoleContactRoleKeyAuditEntriesPage(
-			@NotNull @Parameter(hidden = true) @PathParam("contactRoleKey")
-				String contactRoleKey,
-			@Context Pagination pagination)
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.PathParam("contactRoleKey")
+			String contactRoleKey,
+			@javax.ws.rs.core.Context Pagination pagination)
 		throws Exception {
 
 		return Page.of(Collections.emptyList());
@@ -147,23 +174,38 @@ public abstract class BaseAuditEntryResourceImpl implements AuditEntryResource {
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/koroneiki-rest/v1.0/contacts/by-uuid/{contactUuid}/audit-entries'  -u 'test@liferay.com:test'
 	 */
-	@GET
-	@Operation(description = "Retrieves the contact's audit history.")
-	@Override
-	@Parameters(
+	@io.swagger.v3.oas.annotations.Operation(
+		description = "Retrieves the contact's audit history."
+	)
+	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
-			@Parameter(in = ParameterIn.PATH, name = "contactUuid"),
-			@Parameter(in = ParameterIn.QUERY, name = "page"),
-			@Parameter(in = ParameterIn.QUERY, name = "pageSize")
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
+				name = "contactUuid"
+			),
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "page"
+			),
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "pageSize"
+			)
 		}
 	)
-	@Path("/contacts/by-uuid/{contactUuid}/audit-entries")
-	@Produces({"application/json", "application/xml"})
-	@Tags(value = {@Tag(name = "AuditEntry")})
+	@io.swagger.v3.oas.annotations.tags.Tags(
+		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "AuditEntry")}
+	)
+	@javax.ws.rs.GET
+	@javax.ws.rs.Path("/contacts/by-uuid/{contactUuid}/audit-entries")
+	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@Override
 	public Page<AuditEntry> getContactByUuidContactUuidAuditEntriesPage(
-			@NotNull @Parameter(hidden = true) @PathParam("contactUuid") String
-				contactUuid,
-			@Context Pagination pagination)
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.PathParam("contactUuid")
+			String contactUuid,
+			@javax.ws.rs.core.Context Pagination pagination)
 		throws Exception {
 
 		return Page.of(Collections.emptyList());
@@ -174,23 +216,38 @@ public abstract class BaseAuditEntryResourceImpl implements AuditEntryResource {
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/koroneiki-rest/v1.0/team-roles/{teamRoleKey}/audit-entries'  -u 'test@liferay.com:test'
 	 */
-	@GET
-	@Operation(description = "Retrieves the team role's audit history.")
-	@Override
-	@Parameters(
+	@io.swagger.v3.oas.annotations.Operation(
+		description = "Retrieves the team role's audit history."
+	)
+	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
-			@Parameter(in = ParameterIn.PATH, name = "teamRoleKey"),
-			@Parameter(in = ParameterIn.QUERY, name = "page"),
-			@Parameter(in = ParameterIn.QUERY, name = "pageSize")
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
+				name = "teamRoleKey"
+			),
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "page"
+			),
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "pageSize"
+			)
 		}
 	)
-	@Path("/team-roles/{teamRoleKey}/audit-entries")
-	@Produces({"application/json", "application/xml"})
-	@Tags(value = {@Tag(name = "AuditEntry")})
+	@io.swagger.v3.oas.annotations.tags.Tags(
+		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "AuditEntry")}
+	)
+	@javax.ws.rs.GET
+	@javax.ws.rs.Path("/team-roles/{teamRoleKey}/audit-entries")
+	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@Override
 	public Page<AuditEntry> getTeamRoleTeamRoleKeyAuditEntriesPage(
-			@NotNull @Parameter(hidden = true) @PathParam("teamRoleKey") String
-				teamRoleKey,
-			@Context Pagination pagination)
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.PathParam("teamRoleKey")
+			String teamRoleKey,
+			@javax.ws.rs.core.Context Pagination pagination)
 		throws Exception {
 
 		return Page.of(Collections.emptyList());
@@ -201,23 +258,38 @@ public abstract class BaseAuditEntryResourceImpl implements AuditEntryResource {
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/koroneiki-rest/v1.0/teams/{teamKey}/audit-entries'  -u 'test@liferay.com:test'
 	 */
-	@GET
-	@Operation(description = "Retrieves the team's audit history.")
-	@Override
-	@Parameters(
+	@io.swagger.v3.oas.annotations.Operation(
+		description = "Retrieves the team's audit history."
+	)
+	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
-			@Parameter(in = ParameterIn.PATH, name = "teamKey"),
-			@Parameter(in = ParameterIn.QUERY, name = "page"),
-			@Parameter(in = ParameterIn.QUERY, name = "pageSize")
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
+				name = "teamKey"
+			),
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "page"
+			),
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "pageSize"
+			)
 		}
 	)
-	@Path("/teams/{teamKey}/audit-entries")
-	@Produces({"application/json", "application/xml"})
-	@Tags(value = {@Tag(name = "AuditEntry")})
+	@io.swagger.v3.oas.annotations.tags.Tags(
+		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "AuditEntry")}
+	)
+	@javax.ws.rs.GET
+	@javax.ws.rs.Path("/teams/{teamKey}/audit-entries")
+	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@Override
 	public Page<AuditEntry> getTeamTeamKeyAuditEntriesPage(
-			@NotNull @Parameter(hidden = true) @PathParam("teamKey") String
-				teamKey,
-			@Context Pagination pagination)
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.PathParam("teamKey")
+			String teamKey,
+			@javax.ws.rs.core.Context Pagination pagination)
 		throws Exception {
 
 		return Page.of(Collections.emptyList());

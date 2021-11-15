@@ -52,6 +52,11 @@ public class ProductConsumptionPermission implements Serializable {
 			ProductConsumptionPermission.class, json);
 	}
 
+	public static ProductConsumptionPermission unsafeToDTO(String json) {
+		return ObjectMapperUtil.unsafeReadValue(
+			ProductConsumptionPermission.class, json);
+	}
+
 	@Schema
 	public Boolean getDelete() {
 		return delete;

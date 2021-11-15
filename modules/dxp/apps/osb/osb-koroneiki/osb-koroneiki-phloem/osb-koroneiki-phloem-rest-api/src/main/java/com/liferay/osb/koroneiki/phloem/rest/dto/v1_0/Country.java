@@ -53,6 +53,10 @@ public class Country implements Serializable {
 		return ObjectMapperUtil.readValue(Country.class, json);
 	}
 
+	public static Country unsafeToDTO(String json) {
+		return ObjectMapperUtil.unsafeReadValue(Country.class, json);
+	}
+
 	@Schema(description = "The country's alpha-2 code (e.g., US).")
 	public String getA2() {
 		return a2;

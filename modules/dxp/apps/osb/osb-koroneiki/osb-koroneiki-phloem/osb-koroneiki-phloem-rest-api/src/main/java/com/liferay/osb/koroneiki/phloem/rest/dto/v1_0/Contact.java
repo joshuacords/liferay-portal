@@ -62,6 +62,10 @@ public class Contact implements Serializable {
 		return ObjectMapperUtil.readValue(Contact.class, json);
 	}
 
+	public static Contact unsafeToDTO(String json) {
+		return ObjectMapperUtil.unsafeReadValue(Contact.class, json);
+	}
+
 	@Schema(
 		description = "The accounts that the contact is assigned to. Optional field that can retrieved with nestedFields."
 	)

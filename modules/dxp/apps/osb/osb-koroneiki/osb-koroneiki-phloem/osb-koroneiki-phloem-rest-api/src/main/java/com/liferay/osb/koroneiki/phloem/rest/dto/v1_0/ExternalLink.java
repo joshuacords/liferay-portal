@@ -64,6 +64,10 @@ public class ExternalLink implements Serializable {
 		return ObjectMapperUtil.readValue(ExternalLink.class, json);
 	}
 
+	public static ExternalLink unsafeToDTO(String json) {
+		return ObjectMapperUtil.unsafeReadValue(ExternalLink.class, json);
+	}
+
 	@Schema(description = "The external link's creation date.")
 	public Date getDateCreated() {
 		return dateCreated;

@@ -51,6 +51,10 @@ public class ProductPermission implements Serializable {
 		return ObjectMapperUtil.readValue(ProductPermission.class, json);
 	}
 
+	public static ProductPermission unsafeToDTO(String json) {
+		return ObjectMapperUtil.unsafeReadValue(ProductPermission.class, json);
+	}
+
 	@Schema
 	public Boolean getConsume() {
 		return consume;

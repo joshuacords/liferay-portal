@@ -54,6 +54,10 @@ public class CountryRegion implements Serializable {
 		return ObjectMapperUtil.readValue(CountryRegion.class, json);
 	}
 
+	public static CountryRegion unsafeToDTO(String json) {
+		return ObjectMapperUtil.unsafeReadValue(CountryRegion.class, json);
+	}
+
 	@Schema(
 		description = "A flag that identifies whether this country region is active."
 	)

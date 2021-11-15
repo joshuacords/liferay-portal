@@ -65,6 +65,10 @@ public class ContactRole implements Serializable {
 		return ObjectMapperUtil.readValue(ContactRole.class, json);
 	}
 
+	public static ContactRole unsafeToDTO(String json) {
+		return ObjectMapperUtil.unsafeReadValue(ContactRole.class, json);
+	}
+
 	@Schema(description = "The contact role's creation date.")
 	public Date getDateCreated() {
 		return dateCreated;

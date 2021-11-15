@@ -51,6 +51,10 @@ public class ContactPermission implements Serializable {
 		return ObjectMapperUtil.readValue(ContactPermission.class, json);
 	}
 
+	public static ContactPermission unsafeToDTO(String json) {
+		return ObjectMapperUtil.unsafeReadValue(ContactPermission.class, json);
+	}
+
 	@Schema
 	public Boolean getDelete() {
 		return delete;

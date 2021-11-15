@@ -65,6 +65,10 @@ public class ProductConsumption implements Serializable {
 		return ObjectMapperUtil.readValue(ProductConsumption.class, json);
 	}
 
+	public static ProductConsumption unsafeToDTO(String json) {
+		return ObjectMapperUtil.unsafeReadValue(ProductConsumption.class, json);
+	}
+
 	@Schema(description = "The key of the account consuming the product.")
 	public String getAccountKey() {
 		return accountKey;

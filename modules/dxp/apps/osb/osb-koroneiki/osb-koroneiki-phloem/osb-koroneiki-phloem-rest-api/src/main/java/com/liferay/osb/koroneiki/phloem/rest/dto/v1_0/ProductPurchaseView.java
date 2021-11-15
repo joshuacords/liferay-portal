@@ -56,6 +56,11 @@ public class ProductPurchaseView implements Serializable {
 		return ObjectMapperUtil.readValue(ProductPurchaseView.class, json);
 	}
 
+	public static ProductPurchaseView unsafeToDTO(String json) {
+		return ObjectMapperUtil.unsafeReadValue(
+			ProductPurchaseView.class, json);
+	}
+
 	@Schema
 	@Valid
 	public Product getProduct() {

@@ -65,6 +65,10 @@ public class TeamRole implements Serializable {
 		return ObjectMapperUtil.readValue(TeamRole.class, json);
 	}
 
+	public static TeamRole unsafeToDTO(String json) {
+		return ObjectMapperUtil.unsafeReadValue(TeamRole.class, json);
+	}
+
 	@Schema(description = "The team role's creation date.")
 	public Date getDateCreated() {
 		return dateCreated;

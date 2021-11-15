@@ -51,6 +51,10 @@ public class TeamPermission implements Serializable {
 		return ObjectMapperUtil.readValue(TeamPermission.class, json);
 	}
 
+	public static TeamPermission unsafeToDTO(String json) {
+		return ObjectMapperUtil.unsafeReadValue(TeamPermission.class, json);
+	}
+
 	@Schema
 	public Boolean getAssignContact() {
 		return assignContact;

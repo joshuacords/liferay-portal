@@ -56,6 +56,10 @@ public class ContactAccountView implements Serializable {
 		return ObjectMapperUtil.readValue(ContactAccountView.class, json);
 	}
 
+	public static ContactAccountView unsafeToDTO(String json) {
+		return ObjectMapperUtil.unsafeReadValue(ContactAccountView.class, json);
+	}
+
 	@Schema
 	@Valid
 	public Account getAccount() {

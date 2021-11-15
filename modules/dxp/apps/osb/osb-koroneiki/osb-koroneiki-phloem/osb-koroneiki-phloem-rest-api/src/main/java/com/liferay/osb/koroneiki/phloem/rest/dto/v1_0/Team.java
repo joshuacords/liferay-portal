@@ -59,6 +59,10 @@ public class Team implements Serializable {
 		return ObjectMapperUtil.readValue(Team.class, json);
 	}
 
+	public static Team unsafeToDTO(String json) {
+		return ObjectMapperUtil.unsafeReadValue(Team.class, json);
+	}
+
 	@Schema(
 		description = "The team's account. Optional field that can retrieved with nestedFields."
 	)

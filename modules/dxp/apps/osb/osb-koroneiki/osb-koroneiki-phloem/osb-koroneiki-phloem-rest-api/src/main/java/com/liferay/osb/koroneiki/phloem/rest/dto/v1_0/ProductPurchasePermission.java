@@ -52,6 +52,11 @@ public class ProductPurchasePermission implements Serializable {
 			ProductPurchasePermission.class, json);
 	}
 
+	public static ProductPurchasePermission unsafeToDTO(String json) {
+		return ObjectMapperUtil.unsafeReadValue(
+			ProductPurchasePermission.class, json);
+	}
+
 	@Schema
 	public Boolean getDelete() {
 		return delete;

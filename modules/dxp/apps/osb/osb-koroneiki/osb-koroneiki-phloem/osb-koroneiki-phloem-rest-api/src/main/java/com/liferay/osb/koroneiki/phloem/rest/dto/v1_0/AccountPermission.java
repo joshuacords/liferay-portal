@@ -51,6 +51,10 @@ public class AccountPermission implements Serializable {
 		return ObjectMapperUtil.readValue(AccountPermission.class, json);
 	}
 
+	public static AccountPermission unsafeToDTO(String json) {
+		return ObjectMapperUtil.unsafeReadValue(AccountPermission.class, json);
+	}
+
 	@Schema
 	public Boolean getAssignContact() {
 		return assignContact;

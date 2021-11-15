@@ -62,6 +62,10 @@ public class Note implements Serializable {
 		return ObjectMapperUtil.readValue(Note.class, json);
 	}
 
+	public static Note unsafeToDTO(String json) {
+		return ObjectMapperUtil.unsafeReadValue(Note.class, json);
+	}
+
 	@Schema(description = "The content of the note.")
 	public String getContent() {
 		return content;

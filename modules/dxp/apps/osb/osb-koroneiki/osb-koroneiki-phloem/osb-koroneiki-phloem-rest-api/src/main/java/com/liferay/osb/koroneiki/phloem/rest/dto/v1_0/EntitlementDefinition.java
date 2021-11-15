@@ -67,6 +67,11 @@ public class EntitlementDefinition implements Serializable {
 		return ObjectMapperUtil.readValue(EntitlementDefinition.class, json);
 	}
 
+	public static EntitlementDefinition unsafeToDTO(String json) {
+		return ObjectMapperUtil.unsafeReadValue(
+			EntitlementDefinition.class, json);
+	}
+
 	@Schema(description = "The entitlement definition's creation date.")
 	public Date getDateCreated() {
 		return dateCreated;
