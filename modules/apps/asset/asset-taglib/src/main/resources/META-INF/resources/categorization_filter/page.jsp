@@ -19,21 +19,15 @@
 <%
 String assetType = GetterUtil.getString((String)request.getAttribute("liferay-asset:categorization-filter:assetType"), "content");
 
-long[] groupIds = GetterUtil.getLongValues(request.getAttribute("liferay-asset:categorization-filter:groupIds"), new long[] {layout.getGroupId()});
-
-PortletURL portletURL = (PortletURL)request.getAttribute("liferay-asset:categorization-filter:portletURL");
-
-if (portletURL == null) {
-	portletURL = renderResponse.createRenderURL();
-}
-
 long assetCategoryId = ParamUtil.getLong(request, "categoryId");
 
 String assetTagName = ParamUtil.getString(request, "tag");
 
-long[] tagIds = AssetTagLocalServiceUtil.getTagIds(groupIds, assetTagName);
+long[] groupIds = GetterUtil.getLongValues(request.getAttribute("liferay-asset:categorization-filter:groupIds"), new long[] {layout.getGroupId()});
 
-if (Validator.isNotNull(assetTagName) && (tagIds.length == 0)) {
+long[] assetTagIds = AssetTagLocalServiceUtil.getTagIds(groupIds, assetTagName);
+
+if (Validator.isNotNull(assetTagName) && (assetTagIds.length == 0)) {
 	assetTagName = null;
 }
 
@@ -52,6 +46,12 @@ if (assetCategoryId != 0) {
 
 		assetVocabularyTitle = HtmlUtil.escape(assetVocabulary.getTitle(locale));
 	}
+}
+
+PortletURL portletURL = (PortletURL)request.getAttribute("liferay-asset:categorization-filter:portletURL");
+
+if (portletURL == null) {
+	portletURL = renderResponse.createRenderURL();
 }
 %>
 
