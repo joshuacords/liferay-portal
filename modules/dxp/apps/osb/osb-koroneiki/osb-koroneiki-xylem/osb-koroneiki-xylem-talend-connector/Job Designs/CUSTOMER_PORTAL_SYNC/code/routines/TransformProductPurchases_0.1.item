@@ -175,10 +175,10 @@ public class TransformProductPurchases {
 
 			String subscriptionStatus = null;
 
-			if (endDate.before(now)) {
+			if ((endDate != null) && endDate.before(now)) {
 				subscriptionStatus = "Expired";
 			}
-			else if (startDate.after(now)) {
+			else if ((startDate != null) && startDate.after(now)) {
 				subscriptionStatus = "Future";
 			}
 			else {
