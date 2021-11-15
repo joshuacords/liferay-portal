@@ -84,6 +84,9 @@ public class SegmentsExperienceSelectorDisplayContext {
 				_getDefaultSegmentsExperienceJSONObject());
 		}
 
+		_calculateActiveSegmentsExperiencesJSONArray(
+			segmentsExperiencesJSONArray);
+
 		return segmentsExperiencesJSONArray;
 	}
 
@@ -114,13 +117,42 @@ public class SegmentsExperienceSelectorDisplayContext {
 		return segmentsExperience.getName(_themeDisplay.getLocale());
 	}
 
+	private void _calculateActiveSegmentsExperiencesJSONArray(
+		JSONArray segmentsExperiencesJSONArray) {
+
+		for (int i = 0; i < segmentsExperiencesJSONArray.length(); i++) {
+			JSONObject segmentsExperiencesJSONObject =
+				segmentsExperiencesJSONArray.getJSONObject(i);
+
+			JSONObject firstSegmentsExperienceJSONObject =
+				_getFirstSegmentsExperienceJSONObject(
+					segmentsExperiencesJSONObject.getLong("segmentsEntryId"),
+					segmentsExperiencesJSONArray);
+
+			long firstSegmentsExperienceId =
+				firstSegmentsExperienceJSONObject.getLong(
+					"segmentsExperienceId");
+
+			if (firstSegmentsExperienceId ==
+					segmentsExperiencesJSONObject.getLong(
+						"segmentsExperienceId")) {
+
+				segmentsExperiencesJSONObject.put("active", true);
+
+				break;
+			}
+		}
+	}
+
 	private JSONObject _getDefaultSegmentsExperienceJSONObject() {
 		return JSONUtil.put(
-			"active", true
+			"segmentsEntryId", SegmentsEntryConstants.ID_DEFAULT
 		).put(
 			"segmentsEntryName",
 			SegmentsEntryConstants.getDefaultSegmentsEntryName(
 				_themeDisplay.getLocale())
+		).put(
+			"segmentsExperienceId", SegmentsExperienceConstants.ID_DEFAULT
 		).put(
 			"segmentsExperienceName",
 			SegmentsExperienceConstants.getDefaultSegmentsExperienceName(
@@ -131,6 +163,31 @@ public class SegmentsExperienceSelectorDisplayContext {
 				PortalUtil.getCurrentURL(_httpServletRequest), "p_s_e_id",
 				SegmentsExperienceConstants.ID_DEFAULT)
 		);
+	}
+
+	private JSONObject _getFirstSegmentsExperienceJSONObject(
+		long segmentsEntryId, JSONArray segmentsExperiencesJSONArray) {
+
+		JSONObject firstSegmentsExperienceJSONObject =
+			JSONFactoryUtil.createJSONObject();
+
+		for (int i = 0; i < segmentsExperiencesJSONArray.length(); i++) {
+			JSONObject segmentsExperiencesJSONObject =
+				segmentsExperiencesJSONArray.getJSONObject(i);
+
+			if ((segmentsExperiencesJSONObject.getLong("segmentsEntryId") ==
+					segmentsEntryId) ||
+				(segmentsExperiencesJSONObject.getLong("segmentsEntryId") ==
+					SegmentsEntryConstants.ID_DEFAULT)) {
+
+				firstSegmentsExperienceJSONObject =
+					segmentsExperiencesJSONObject;
+
+				break;
+			}
+		}
+
+		return firstSegmentsExperienceJSONObject;
 	}
 
 	private String _getSegmentsEntryName(
@@ -152,9 +209,11 @@ public class SegmentsExperienceSelectorDisplayContext {
 		SegmentsExperience segmentsExperience) {
 
 		return JSONUtil.put(
-			"active", segmentsExperience.isActive()
+			"segmentsEntryId", segmentsExperience.getSegmentsEntryId()
 		).put(
 			"segmentsEntryName", _getSegmentsEntryName(segmentsExperience)
+		).put(
+			"segmentsExperienceId", segmentsExperience.getSegmentsExperienceId()
 		).put(
 			"segmentsExperienceName",
 			segmentsExperience.getName(_themeDisplay.getLocale())
