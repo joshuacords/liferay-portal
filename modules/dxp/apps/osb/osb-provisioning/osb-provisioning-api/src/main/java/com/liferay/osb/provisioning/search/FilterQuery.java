@@ -97,7 +97,8 @@ public class FilterQuery {
 		StringBundler sb = new StringBundler(4);
 
 		for (int i = 0; i < values.length; i++) {
-			sb.append("s eq '");
+			sb.append(field);
+			sb.append(" eq '");
 			sb.append(_escape(values[i]));
 			sb.append("'");
 
