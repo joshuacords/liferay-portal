@@ -160,7 +160,7 @@
 
 					<liferay-ui:search-container-column-text>
 						<clay:vertical-card
-							verticalCard="<%= new SiteVerticalCard(group, renderRequest, renderResponse, siteMySitesDisplayContext.getTabs1(), siteMySitesDisplayContext.getGroupUsersCounts(group.getGroupId()), siteMySitesDisplayContext.getGroupOrganizationsCount(group.getGroupId()), siteMySitesDisplayContext.getGroupUserGroupsCount(group.getGroupId())) %>"
+							verticalCard="<%= new SiteVerticalCard(group, siteMySitesDisplayContext.getGroupOrganizationsCount(group.getGroupId()), siteMySitesDisplayContext.getGroupUserGroupsCount(group.getGroupId()), siteMySitesDisplayContext.getGroupUsersCounts(group.getGroupId()), renderRequest, renderResponse, siteMySitesDisplayContext.getTabs1()) %>"
 						/>
 					</liferay-ui:search-container-column-text>
 				</c:when>
