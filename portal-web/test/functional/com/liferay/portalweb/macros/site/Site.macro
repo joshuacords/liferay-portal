@@ -751,8 +751,8 @@ definition {
 			LexiconList.viewListEntryPresent(listEntry = ${siteName});
 
 			LexiconList.viewListEntrySubtitle(
-				listEntry = ${siteName},
-				listEntrySubtitle = "Members: 1");
+				listEntry = "${siteName}",
+				listEntrySubtitle = "1 User");
 
 			LexiconList.clickEllipsisItem(
 				item = "Request Membership",
@@ -775,8 +775,8 @@ definition {
 			LexiconList.viewListEntryPresent(listEntry = ${siteName});
 
 			LexiconList.viewListEntrySubtitle(
-				listEntry = ${siteName},
-				listEntrySubtitle = "Members: 1");
+				listEntry = "${siteName}",
+				listEntrySubtitle = "1 User");
 
 			LexiconList.clickEllipsisItem(
 				item = "Join",
@@ -788,8 +788,8 @@ definition {
 			LexiconList.viewListEntryPresent(listEntry = ${siteName});
 
 			LexiconList.viewListEntrySubtitle(
-				listEntry = ${siteName},
-				listEntrySubtitle = "Members: 2");
+				listEntry = "${siteName}",
+				listEntrySubtitle = "2 Users");
 
 			LexiconList.clickEllipsis(
 				listEntry = ${siteName},
@@ -806,16 +806,16 @@ definition {
 		LexiconList.viewListEntryPresent(listEntry = ${siteName});
 
 		LexiconList.viewListEntrySubtitle(
-			listEntry = ${siteName},
-			listEntrySubtitle = "Members: 2");
+			listEntry = "${siteName}",
+			listEntrySubtitle = "2 Users");
 
 		Navigator.gotoNavItem(navItem = "Available Sites");
 
 		LexiconList.viewListEntryPresent(listEntry = ${siteName});
 
 		LexiconList.viewListEntrySubtitle(
-			listEntry = ${siteName},
-			listEntrySubtitle = "Members: 2");
+			listEntry = "${siteName}",
+			listEntrySubtitle = "2 Users");
 
 		LexiconList.clickEllipsisItem(
 			item = "Leave",
@@ -827,8 +827,8 @@ definition {
 		LexiconList.viewListEntryPresent(listEntry = ${siteName});
 
 		LexiconList.viewListEntrySubtitle(
-			listEntry = ${siteName},
-			listEntrySubtitle = "Members: 1");
+			listEntry = "${siteName}",
+			listEntrySubtitle = "1 User");
 
 		LexiconList.clickEllipsis(
 			listEntry = ${siteName},
@@ -1253,8 +1253,8 @@ definition {
 		LexiconList.viewListEntryPresent(listEntry = ${siteName});
 
 		LexiconList.viewListEntrySubtitle(
-			listEntry = ${siteName},
-			listEntrySubtitle = "Members: ${memberCount}");
+			listEntry = "${siteName}",
+			listEntrySubtitle = "${memberCount}");
 	}
 
 	macro viewNoMySitesViaMySitesPG {
