@@ -407,12 +407,12 @@ public class TransformAccount {
 				continue;
 			}
 
-			Date endDate = DateUtil.parseEndDate(jsonObject);
+			Date originalEndDate = DateUtil.parseOriginalEndDate(jsonObject);
 
 			if ((slaCurrentEndDate == null) ||
-				slaCurrentEndDate.before(endDate)) {
+				slaCurrentEndDate.before(originalEndDate)) {
 
-				slaCurrentEndDate = endDate;
+				slaCurrentEndDate = originalEndDate;
 			}
 		}
 
@@ -520,12 +520,12 @@ public class TransformAccount {
 				continue;
 			}
 
-			Date endDate = DateUtil.parseEndDate(jsonObject);
+			Date originalEndDate = DateUtil.parseOriginalEndDate(jsonObject);
 
 			if ((slaExpiredEndDate == null) ||
-				slaExpiredEndDate.before(endDate)) {
+				slaExpiredEndDate.before(originalEndDate)) {
 
-				slaExpiredEndDate = endDate;
+				slaExpiredEndDate = originalEndDate;
 			}
 		}
 
@@ -636,12 +636,12 @@ public class TransformAccount {
 				continue;
 			}
 
-			Date endDate = DateUtil.parseEndDate(jsonObject);
+			Date originalEndDate = DateUtil.parseOriginalEndDate(jsonObject);
 
 			if ((slaFutureEndDate == null) ||
-				slaFutureEndDate.before(endDate)) {
+				slaFutureEndDate.before(originalEndDate)) {
 
-				slaFutureEndDate = endDate;
+				slaFutureEndDate = originalEndDate;
 			}
 		}
 
