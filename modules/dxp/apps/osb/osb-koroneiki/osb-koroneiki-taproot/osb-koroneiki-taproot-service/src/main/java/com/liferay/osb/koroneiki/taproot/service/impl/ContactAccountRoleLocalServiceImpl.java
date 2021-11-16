@@ -67,8 +67,7 @@ public class ContactAccountRoleLocalServiceImpl
 			contactAccountRole = contactAccountRolePersistence.update(
 				contactAccountRole);
 
-			Account account = _accountLocalService.updateAccount(
-				contactAccountRole.getAccount());
+			Account account = _accountLocalService.reindex(accountId);
 
 			_contactLocalService.reindex(contactId);
 
@@ -102,8 +101,7 @@ public class ContactAccountRoleLocalServiceImpl
 					accountId, contactId);
 			}
 
-			Account account = _accountLocalService.updateAccount(
-				contactAccountRole.getAccount());
+			Account account = _accountLocalService.reindex(accountId);
 
 			_contactLocalService.reindex(contactId);
 
