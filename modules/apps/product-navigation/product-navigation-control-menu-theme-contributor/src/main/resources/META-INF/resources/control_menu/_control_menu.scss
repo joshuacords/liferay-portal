@@ -271,7 +271,7 @@ a.control-menu-icon,
 	display: inline-flex;
 }
 
-.control-menu-nav-item-content {
+.control-menu-nav-item-content:last-child {
 	display: flex;
 	flex: 1 1 0;
 	justify-content: center;
