@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.security.sso.openid.connect.OpenIdConnectServiceException;
 
 import com.nimbusds.jose.JWEAlgorithm;
@@ -39,8 +40,6 @@ import java.net.URL;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import net.minidev.json.JSONObject;
 
 import org.apache.commons.lang3.time.StopWatch;
 
@@ -78,7 +77,10 @@ public class OpenIdConnectMetadataFactoryImpl
 			List<JWSAlgorithm> jwsAlgorithms = new ArrayList<>();
 
 			for (String idTokenSigningAlgValue : idTokenSigningAlgValues) {
-				jwsAlgorithms.add(JWSAlgorithm.parse(idTokenSigningAlgValue));
+				if (!Validator.isBlank(idTokenSigningAlgValue)) {
+					jwsAlgorithms.add(
+						JWSAlgorithm.parse(idTokenSigningAlgValue));
+				}
 			}
 
 			_oidcProviderMetadata.setIDTokenJWSAlgs(jwsAlgorithms);
@@ -181,9 +183,8 @@ public class OpenIdConnectMetadataFactoryImpl
 
 				HTTPResponse httpResponse = httpRequest.send();
 
-				JSONObject jsonObject = httpResponse.getContentAsJSONObject();
-
-				_oidcProviderMetadata = OIDCProviderMetadata.parse(jsonObject);
+			_oidcProviderMetadata = OIDCProviderMetadata.parse(
+				httpResponse.getContentAsJSONObject());
 
 				refreshClientMetadata(_oidcProviderMetadata);
 
