@@ -8,4 +8,5 @@ Export-Package:\
 	com.liferay.osb.koroneiki.root.permission,\
 	com.liferay.osb.koroneiki.root.service,\
 	com.liferay.osb.koroneiki.root.service.persistence,\
-	com.liferay.osb.koroneiki.root.util
+	com.liferay.osb.koroneiki.root.util,\
+    com.liferay.osb.koroneiki.root.util.comparator

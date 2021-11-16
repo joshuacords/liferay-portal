@@ -20,6 +20,7 @@ import com.liferay.osb.koroneiki.root.service.base.AuditEntryServiceBaseImpl;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.util.OrderByComparator;
 
 import java.util.List;
 
@@ -40,14 +41,15 @@ import org.osgi.service.component.annotations.Reference;
 public class AuditEntryServiceImpl extends AuditEntryServiceBaseImpl {
 
 	public List<AuditEntry> getAuditEntries(
-			long classNameId, long classPK, int start, int end)
+			long classNameId, long classPK, int start, int end,
+			OrderByComparator<AuditEntry> obc)
 		throws PortalException {
 
 		_modelPermissionRegistry.check(
 			getPermissionChecker(), classNameId, classPK, ActionKeys.VIEW);
 
 		return auditEntryLocalService.getAuditEntries(
-			classNameId, classPK, start, end);
+			classNameId, classPK, start, end, obc);
 	}
 
 	public List<AuditEntry> getAuditEntries(

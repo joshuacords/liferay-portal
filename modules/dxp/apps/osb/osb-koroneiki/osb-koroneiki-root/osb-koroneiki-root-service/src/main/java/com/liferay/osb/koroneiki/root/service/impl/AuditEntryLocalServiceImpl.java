@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.StringPool;
 
 import java.util.List;
@@ -98,10 +99,11 @@ public class AuditEntryLocalServiceImpl extends AuditEntryLocalServiceBaseImpl {
 	}
 
 	public List<AuditEntry> getAuditEntries(
-		long classNameId, long classPK, int start, int end) {
+		long classNameId, long classPK, int start, int end,
+		OrderByComparator<AuditEntry> obc) {
 
 		return auditEntryPersistence.findByC_C(
-			classNameId, classPK, start, end);
+			classNameId, classPK, start, end, obc);
 	}
 
 	public List<AuditEntry> getAuditEntries(

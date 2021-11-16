@@ -22,6 +22,7 @@ import com.liferay.osb.koroneiki.root.model.AuditEntry;
 import com.liferay.osb.koroneiki.root.model.ExternalLink;
 import com.liferay.osb.koroneiki.root.service.AuditEntryLocalService;
 import com.liferay.osb.koroneiki.root.service.ExternalLinkLocalService;
+import com.liferay.osb.koroneiki.root.util.comparator.AuditEntryCreateDateComparator;
 import com.liferay.osb.koroneiki.taproot.model.Account;
 import com.liferay.osb.koroneiki.taproot.model.AccountField;
 import com.liferay.osb.koroneiki.taproot.model.AccountNote;
@@ -102,7 +103,22 @@ public class AccountModelDocumentContributor
 		document.addKeyword(Field.COMPANY_ID, account.getCompanyId());
 		document.addDate(Field.CREATE_DATE, account.getCreateDate());
 		document.addText(Field.DESCRIPTION, account.getDescription());
-		document.addDate(Field.MODIFIED_DATE, account.getModifiedDate());
+
+		Date modifiedDate = account.getModifiedDate();
+
+		List<AuditEntry> auditEntries = _auditEntryLocalService.getAuditEntries(
+			_classNameLocalService.getClassNameId(Account.class),
+			account.getAccountId(), 0, 1,
+			new AuditEntryCreateDateComparator(false));
+
+		if (!auditEntries.isEmpty()) {
+			AuditEntry auditEntry = auditEntries.get(0);
+
+			modifiedDate = auditEntry.getCreateDate();
+		}
+
+		document.addDate(Field.MODIFIED_DATE, modifiedDate);
+
 		document.addText(Field.NAME, account.getName());
 		document.addKeyword(
 			Field.STATUS, StringUtil.toLowerCase(account.getStatus()));
@@ -139,9 +155,9 @@ public class AccountModelDocumentContributor
 		document.addKeyword("region", account.getRegion());
 		document.addKeyword("tier", account.getTier());
 
-		List<AuditEntry> auditEntries = _auditEntryLocalService.getAuditEntries(
+		auditEntries = _auditEntryLocalService.getAuditEntries(
 			_classNameLocalService.getClassNameId(Account.class),
-			account.getAccountId(), 0, 1);
+			account.getAccountId(), 0, 1, null);
 
 		if (!auditEntries.isEmpty()) {
 			AuditEntry auditEntry = auditEntries.get(0);
@@ -152,8 +168,7 @@ public class AccountModelDocumentContributor
 		document.addKeyword("website", account.getWebsite());
 
 		document.addDateSortable(Field.CREATE_DATE, account.getCreateDate());
-		document.addDateSortable(
-			Field.MODIFIED_DATE, account.getModifiedDate());
+		document.addDateSortable(Field.MODIFIED_DATE, modifiedDate);
 		document.addTextSortable(Field.NAME, account.getName());
 
 		document.addTextSortable("code", account.getCode());

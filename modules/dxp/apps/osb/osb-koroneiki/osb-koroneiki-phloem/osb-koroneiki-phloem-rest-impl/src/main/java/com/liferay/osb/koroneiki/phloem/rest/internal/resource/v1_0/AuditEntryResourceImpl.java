@@ -116,7 +116,7 @@ public class AuditEntryResourceImpl extends BaseAuditEntryResourceImpl {
 			transform(
 				_auditEntryService.getAuditEntries(
 					classNameId, classPK, pagination.getStartPosition(),
-					pagination.getEndPosition()),
+					pagination.getEndPosition(), null),
 				AuditEntryUtil::toAuditEntry),
 			pagination,
 			_auditEntryService.getAuditEntriesCount(classNameId, classPK));
