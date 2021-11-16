@@ -22,7 +22,7 @@ SegmentsExperienceSelectorDisplayContext segmentsExperienceSelectorDisplayContex
 
 <li class="border-left border-secondary control-menu-nav-item ml-3 pl-3">
 	<div class="dropdown">
-		<button aria-expanded="false" aria-haspopup="true" class="btn btn-sm btn-unstyled dropdown-toggle" id="<portlet:namespace />dropdownToggle" type="button">
+		<button aria-expanded="false" aria-haspopup="true" class="btn btn-unstyled dropdown-toggle" id="<portlet:namespace />dropdownToggle" type="button">
 			<span class="align-items-center c-inner d-flex" tabindex="-1">
 				<span class="lfr-portal-tooltip mr-2 text-truncate" title="<%= HtmlUtil.escapeAttribute(segmentsExperienceSelectorDisplayContext.getSelectedSegmentsExperienceName()) %>">
 					<%= segmentsExperienceSelectorDisplayContext.getSelectedSegmentsExperienceName() %>
