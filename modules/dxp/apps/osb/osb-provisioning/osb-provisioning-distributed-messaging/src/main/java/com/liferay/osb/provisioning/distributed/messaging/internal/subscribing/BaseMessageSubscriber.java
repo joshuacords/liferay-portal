@@ -61,7 +61,7 @@ public abstract class BaseMessageSubscriber implements MessageSubscriber {
 			try {
 				handleError(
 					message.getDestinationName(), (String)message.getPayload(),
-					exception);
+					new Exception[] {exception});
 			}
 			catch (PortalException portalException) {
 				_log.error(message);
@@ -77,7 +77,7 @@ public abstract class BaseMessageSubscriber implements MessageSubscriber {
 	protected abstract void doParse(JSONObject jsonObject) throws Exception;
 
 	protected abstract void handleError(
-			String routingKey, String message, Exception exception)
+			String routingKey, String message, Exception[] exceptions)
 		throws PortalException;
 
 	protected boolean isParseMessage(Message message) {

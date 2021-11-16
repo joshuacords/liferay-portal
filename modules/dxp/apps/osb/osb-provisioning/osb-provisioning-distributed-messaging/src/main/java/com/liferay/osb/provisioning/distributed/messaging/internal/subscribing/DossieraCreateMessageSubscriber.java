@@ -167,9 +167,16 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 
 		renewedEWSAAccountNames.add(accountName);
 
-		return _productPurchaseWebService.addProductPurchase(
-			StringPool.BLANK, StringPool.BLANK,
-			newProductPurchase.getAccountKey(), newProductPurchase);
+		try {
+			newProductPurchase = _productPurchaseWebService.addProductPurchase(
+				StringPool.BLANK, StringPool.BLANK,
+				newProductPurchase.getAccountKey(), newProductPurchase);
+		}
+		catch (Exception exception) {
+			_handleProductPurchaseError(productPurchase, exception);
+		}
+
+		return newProductPurchase;
 	}
 
 	protected void checkWarnings(
@@ -567,6 +574,10 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 	protected void createAccountNote(JSONObject jsonObject, Account account)
 		throws Exception {
 
+		if (account.getProductPurchases() == null) {
+			return;
+		}
+
 		Note note = new Note();
 
 		note.setContent(getNoteContent(jsonObject, account));
@@ -868,6 +879,7 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 			return;
 		}
 
+		_productPurchaseExceptionsThreadLocal.set(new ArrayList<>());
 		_renewedEWSAAccountNamesThreadLocal.set(new HashSet<>());
 		_warningMessagesThreadLocal.set(new ArrayList<>());
 
@@ -974,6 +986,15 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 				account = updateAccount(
 					accountKey, parentAccount, activeContacts, region,
 					postalAddress, productPurchases, jsonObject);
+
+				List<Exception> productPurchaseExceptions =
+					_productPurchaseExceptionsThreadLocal.get();
+
+				if (!productPurchaseExceptions.isEmpty()) {
+					handleError(
+						"dossiera.provisioning.create", jsonObject.toString(),
+						productPurchaseExceptions.toArray(new Exception[0]));
+				}
 			}
 			else {
 				ExternalLink[] externalLinks = parseExternalLinks(jsonObject);
@@ -1518,7 +1539,7 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 
 	@Override
 	protected void handleError(
-			String routingKey, String message, Exception exception)
+			String routingKey, String message, Exception[] exceptions)
 		throws PortalException {
 
 		ZendeskTicket zendeskTicket = new ZendeskTicket();
@@ -1531,14 +1552,18 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 
 		zendeskTicket.setCustomFields(customFields);
 
-		StringBundler sb = new StringBundler(7);
+		StringBundler sb = new StringBundler(6 + exceptions.length);
 
 		sb.append("An unexpected error occurred.<br />Routing Key: ");
 		sb.append(routingKey);
 		sb.append("<br />Message:<br /><pre>");
 		sb.append(message);
 		sb.append("</pre><br />Error:<br /><pre>");
-		sb.append(StackTraceUtil.getStackTrace(exception));
+
+		for (Exception exception : exceptions) {
+			sb.append(StackTraceUtil.getStackTrace(exception));
+		}
+
 		sb.append("</pre>");
 
 		_log.error("Creating error Zendesk ticket: " + sb.toString());
@@ -2218,9 +2243,14 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 				}
 			}
 
-			_productPurchaseWebService.addProductPurchase(
-				StringPool.BLANK, StringPool.BLANK, accountKey,
-				productPurchase);
+			try {
+				_productPurchaseWebService.addProductPurchase(
+					StringPool.BLANK, StringPool.BLANK, accountKey,
+					productPurchase);
+			}
+			catch (Exception exception) {
+				_handleProductPurchaseError(productPurchase, exception);
+			}
 		}
 
 		if (renewal) {
@@ -2268,9 +2298,15 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 							productPurchase.setEndDate(newStartDate);
 						}
 
-						_productPurchaseWebService.updateProductPurchase(
-							StringPool.BLANK, StringPool.BLANK,
-							productPurchase.getKey(), productPurchase);
+						try {
+							_productPurchaseWebService.updateProductPurchase(
+								StringPool.BLANK, StringPool.BLANK,
+								productPurchase.getKey(), productPurchase);
+						}
+						catch (Exception exception) {
+							_handleProductPurchaseError(
+								productPurchase, exception);
+						}
 					}
 				}
 
@@ -2467,6 +2503,22 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 		return StringPool.BLANK;
 	}
 
+	private void _handleProductPurchaseError(
+			ProductPurchase productPurchase, Exception exception)
+		throws PortalException {
+
+		Product product = productPurchase.getProduct();
+
+		_logWarning(
+			"Failed to add or update product purchase for " +
+				product.getName());
+
+		List<Exception> exceptions =
+			_productPurchaseExceptionsThreadLocal.get();
+
+		exceptions.add(exception);
+	}
+
 	private boolean _isDuplicateCode(String code) throws Exception {
 		FilterQuery filterQuery = new FilterQuery();
 
@@ -2515,6 +2567,10 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 	private static final Log _log = LogFactoryUtil.getLog(
 		DossieraCreateMessageSubscriber.class);
 
+	private static final ThreadLocal<List<Exception>>
+		_productPurchaseExceptionsThreadLocal = new CentralizedThreadLocal<>(
+			DossieraCreateMessageSubscriber.class +
+				"._productPurchaseExceptionsThreadLocal");
 	private static final ThreadLocal<Set<String>>
 		_renewedEWSAAccountNamesThreadLocal = new CentralizedThreadLocal<>(
 			DossieraCreateMessageSubscriber.class +

@@ -66,10 +66,12 @@ public class ProductMessageSubscriber extends BaseMessageSubscriber {
 
 	@Override
 	protected void handleError(
-			String routingKey, String message, Exception exception)
+			String routingKey, String message, Exception[] exceptions)
 		throws PortalException {
 
-		_log.error(message, exception);
+		for (Exception exception : exceptions) {
+			_log.error(message, exception);
+		}
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
