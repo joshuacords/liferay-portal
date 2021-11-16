@@ -16,6 +16,7 @@ package com.liferay.osb.koroneiki.root.service;
 
 import com.liferay.osb.koroneiki.root.model.AuditEntry;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.util.OrderByComparator;
 
 import java.util.List;
 
@@ -39,10 +40,12 @@ public class AuditEntryServiceUtil {
 	 * Never modify this class directly. Add custom service methods to <code>com.liferay.osb.koroneiki.root.service.impl.AuditEntryServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
 	public static List<AuditEntry> getAuditEntries(
-			long classNameId, long classPK, int start, int end)
+			long classNameId, long classPK, int start, int end,
+			OrderByComparator<AuditEntry> obc)
 		throws PortalException {
 
-		return getService().getAuditEntries(classNameId, classPK, start, end);
+		return getService().getAuditEntries(
+			classNameId, classPK, start, end, obc);
 	}
 
 	public static List<AuditEntry> getAuditEntries(

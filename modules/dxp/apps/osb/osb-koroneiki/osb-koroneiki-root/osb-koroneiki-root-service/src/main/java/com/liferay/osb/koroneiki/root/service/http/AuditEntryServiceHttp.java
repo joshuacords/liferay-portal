@@ -54,7 +54,9 @@ public class AuditEntryServiceHttp {
 	public static java.util.List
 		<com.liferay.osb.koroneiki.root.model.AuditEntry> getAuditEntries(
 				HttpPrincipal httpPrincipal, long classNameId, long classPK,
-				int start, int end)
+				int start, int end,
+				com.liferay.portal.kernel.util.OrderByComparator
+					<com.liferay.osb.koroneiki.root.model.AuditEntry> obc)
 			throws com.liferay.portal.kernel.exception.PortalException {
 
 		try {
@@ -63,7 +65,7 @@ public class AuditEntryServiceHttp {
 				_getAuditEntriesParameterTypes0);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, classNameId, classPK, start, end);
+				methodKey, classNameId, classPK, start, end, obc);
 
 			Object returnObj = null;
 
@@ -304,7 +306,10 @@ public class AuditEntryServiceHttp {
 		AuditEntryServiceHttp.class);
 
 	private static final Class<?>[] _getAuditEntriesParameterTypes0 =
-		new Class[] {long.class, long.class, int.class, int.class};
+		new Class[] {
+			long.class, long.class, int.class, int.class,
+			com.liferay.portal.kernel.util.OrderByComparator.class
+		};
 	private static final Class<?>[] _getAuditEntriesParameterTypes1 =
 		new Class[] {
 			long.class, long.class, long.class, long.class, int.class, int.class

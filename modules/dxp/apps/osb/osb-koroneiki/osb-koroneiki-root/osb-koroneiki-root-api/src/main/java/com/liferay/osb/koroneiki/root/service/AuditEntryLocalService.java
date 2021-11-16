@@ -214,7 +214,8 @@ public interface AuditEntryLocalService
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<AuditEntry> getAuditEntries(
-		long classNameId, long classPK, int start, int end);
+		long classNameId, long classPK, int start, int end,
+		OrderByComparator<AuditEntry> obc);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<AuditEntry> getAuditEntries(

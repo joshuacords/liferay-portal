@@ -226,9 +226,11 @@ public class AuditEntryLocalServiceUtil {
 	}
 
 	public static List<AuditEntry> getAuditEntries(
-		long classNameId, long classPK, int start, int end) {
+		long classNameId, long classPK, int start, int end,
+		OrderByComparator<AuditEntry> obc) {
 
-		return getService().getAuditEntries(classNameId, classPK, start, end);
+		return getService().getAuditEntries(
+			classNameId, classPK, start, end, obc);
 	}
 
 	public static List<AuditEntry> getAuditEntries(

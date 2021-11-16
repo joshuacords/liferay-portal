@@ -62,13 +62,16 @@ import java.rmi.RemoteException;
 public class AuditEntryServiceSoap {
 
 	public static com.liferay.osb.koroneiki.root.model.AuditEntrySoap[]
-			getAuditEntries(long classNameId, long classPK, int start, int end)
+			getAuditEntries(
+				long classNameId, long classPK, int start, int end,
+				com.liferay.portal.kernel.util.OrderByComparator
+					<com.liferay.osb.koroneiki.root.model.AuditEntry> obc)
 		throws RemoteException {
 
 		try {
 			java.util.List<com.liferay.osb.koroneiki.root.model.AuditEntry>
 				returnValue = AuditEntryServiceUtil.getAuditEntries(
-					classNameId, classPK, start, end);
+					classNameId, classPK, start, end, obc);
 
 			return com.liferay.osb.koroneiki.root.model.AuditEntrySoap.
 				toSoapModels(returnValue);

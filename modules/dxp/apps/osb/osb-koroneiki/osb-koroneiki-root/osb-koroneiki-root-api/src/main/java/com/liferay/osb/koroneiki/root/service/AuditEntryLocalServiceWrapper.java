@@ -248,10 +248,13 @@ public class AuditEntryLocalServiceWrapper
 
 	@Override
 	public java.util.List<com.liferay.osb.koroneiki.root.model.AuditEntry>
-		getAuditEntries(long classNameId, long classPK, int start, int end) {
+		getAuditEntries(
+			long classNameId, long classPK, int start, int end,
+			com.liferay.portal.kernel.util.OrderByComparator
+				<com.liferay.osb.koroneiki.root.model.AuditEntry> obc) {
 
 		return _auditEntryLocalService.getAuditEntries(
-			classNameId, classPK, start, end);
+			classNameId, classPK, start, end, obc);
 	}
 
 	@Override
