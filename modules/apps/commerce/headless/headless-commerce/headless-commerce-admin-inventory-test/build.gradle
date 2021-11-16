@@ -18,4 +18,5 @@ dependencies {
 
 	testIntegrationCompile project(":apps:commerce:headless:headless-commerce:headless-commerce-admin-inventory-client")
 	testIntegrationCompile project(":apps:commerce:headless:headless-commerce:headless-commerce-admin-inventory-api")
+	testIntegrationCompile project(":apps:portal-search:portal-search-test-util")
 }
