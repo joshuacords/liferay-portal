@@ -17,7 +17,7 @@
 </tr>
 <tr>
 	<td>ASSET_TITLE_IMAGE_2</td>
-	<td>xpath=(//ul[contains(@class,'list-unstyled')]/li/span/a/i)[2]</td>
+	<td>xpath=(//dl[contains(@class,'list-unstyled')]/dd/span/a/i)[2]</td>
 	<td></td>
 </tr>
 <tr>
@@ -37,7 +37,7 @@
 </tr>
 <tr>
 	<td>ASSET_EDIT_2</td>
-	<td>xpath=(//ul[contains(@class,'list-unstyled')]/li/div/span/a)[2]</td>
+	<td>xpath=(//dl[contains(@class,'list-unstyled')]/dd/div/span/a)[2]</td>
 	<td></td>
 </tr>
 </tbody>
