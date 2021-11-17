@@ -516,6 +516,15 @@ public class BuildingsSiteInitializer implements SiteInitializer {
 
 		if (draftLayout != null) {
 			_layoutCopyHelper.copyLayout(draftLayout, layout);
+
+			UnicodeProperties typeSettingsProperties =
+				draftLayout.getTypeSettingsProperties();
+
+			typeSettingsProperties.setProperty("published", "true");
+
+			_layoutLocalService.updateLayout(
+				draftLayout.getGroupId(), draftLayout.isPrivateLayout(),
+				draftLayout.getLayoutId(), typeSettingsProperties.toString());
 		}
 
 		_layoutLocalService.updateLayout(

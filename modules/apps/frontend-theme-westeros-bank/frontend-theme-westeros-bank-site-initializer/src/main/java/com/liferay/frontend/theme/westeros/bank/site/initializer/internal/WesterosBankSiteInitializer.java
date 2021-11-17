@@ -73,6 +73,7 @@ import com.liferay.portal.kernel.util.MimeTypesUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PortletKeys;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portlet.PortletPreferencesImpl;
 import com.liferay.site.exception.InitializationException;
@@ -494,9 +495,12 @@ public class WesterosBankSiteInitializer implements SiteInitializer {
 				new long[] {fragmentEntry.getFragmentEntryId()},
 				StringPool.BLANK, serviceContext);
 
-			_layoutLocalService.updateLayout(
-				layout.getGroupId(), layout.isPrivateLayout(),
-				layout.getLayoutId(), new Date());
+			TransactionCommitCallbackUtil.registerCallback(
+				() -> {
+					_copyLayout(layout);
+
+					return null;
+				});
 
 			layouts.add(layout);
 		}
@@ -572,6 +576,15 @@ public class WesterosBankSiteInitializer implements SiteInitializer {
 
 		if (draftLayout != null) {
 			_layoutCopyHelper.copyLayout(draftLayout, layout);
+
+			UnicodeProperties typeSettingsProperties =
+				draftLayout.getTypeSettingsProperties();
+
+			typeSettingsProperties.setProperty("published", "true");
+
+			_layoutLocalService.updateLayout(
+				draftLayout.getGroupId(), draftLayout.isPrivateLayout(),
+				draftLayout.getLayoutId(), typeSettingsProperties.toString());
 		}
 
 		_layoutLocalService.updateLayout(

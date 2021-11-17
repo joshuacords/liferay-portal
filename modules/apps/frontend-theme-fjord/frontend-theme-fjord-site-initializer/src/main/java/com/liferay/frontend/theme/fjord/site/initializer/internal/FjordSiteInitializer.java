@@ -55,6 +55,7 @@ import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.MimeTypesUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.site.exception.InitializationException;
 import com.liferay.site.initializer.SiteInitializer;
@@ -361,6 +362,15 @@ public class FjordSiteInitializer implements SiteInitializer {
 
 		if (draftLayout != null) {
 			_layoutCopyHelper.copyLayout(draftLayout, layout);
+
+			UnicodeProperties typeSettingsProperties =
+				draftLayout.getTypeSettingsProperties();
+
+			typeSettingsProperties.setProperty("published", "true");
+
+			_layoutLocalService.updateLayout(
+				draftLayout.getGroupId(), draftLayout.isPrivateLayout(),
+				draftLayout.getLayoutId(), typeSettingsProperties.toString());
 		}
 
 		_layoutLocalService.updateLayout(
