@@ -139,7 +139,36 @@ public class CommonLicenseKeyResourceImpl
 				String name = product.getName();
 
 				if (productGroupName.equals(
-						ProductGroup.Name.ENTERPRISE_SEARCH.toString())) {
+						ProductGroup.Name.COMMERCE.toString())) {
+
+					if (productEnvironment.equals(ProductEnvironment.BACKUP) &&
+						name.equals(
+							ProductConstants.
+								NAME_COMMERCE_SUBSCRIPTION_BACKUP)) {
+
+						return;
+					}
+
+					if (productEnvironment.equals(
+							ProductEnvironment.NON_PRODUCTION) &&
+						name.equals(
+							ProductConstants.
+								NAME_COMMERCE_SUBSCRIPTION_NON_PRODUCTION)) {
+
+						return;
+					}
+
+					if (productEnvironment.equals(
+							ProductEnvironment.PRODUCTION) &&
+						name.equals(
+							ProductConstants.
+								NAME_COMMERCE_SUBSCRIPTION_PRODUCTION)) {
+
+						return;
+					}
+				}
+				else if (productGroupName.equals(
+							ProductGroup.Name.ENTERPRISE_SEARCH.toString())) {
 
 					if (productEnvironment.equals(ProductEnvironment.BACKUP) &&
 						name.equals(

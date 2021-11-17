@@ -1,0 +1,177 @@
+<%--
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * The contents of this file are subject to the terms of the Liferay Enterprise
+ * Subscription License ("License"). You may not use this file except in
+ * compliance with the License. You can obtain a copy of the License by
+ * contacting Liferay, Inc. See the License for the specific language governing
+ * permissions and limitations under the License, including but not limited to
+ * distribution rights of the Software.
+ *
+ *
+ *
+ */
+--%>
+
+<%@ include file="/init.jsp" %>
+
+<%
+String tabs1 = ParamUtil.getString(request, "tabs1");
+String tabs2 = ParamUtil.getString(request, "tabs2", "commerce");
+
+PortletURL portletURL = renderResponse.createRenderURL();
+
+portletURL.setParameter("tabs1", tabs1);
+%>
+
+<liferay-ui:tabs
+	names="commerce,elasticsearch"
+	param="tabs2"
+	portletURL="<%= portletURL %>"
+/>
+
+<c:choose>
+	<c:when test='<%= tabs2.equals("elasticsearch") %>'>
+		<portlet:actionURL name="/admin/upload_elasticsearch_license" var="uploadElasticsearchLicenseURL">
+			<portlet:param name="redirect" value="<%= currentURL %>" />
+		</portlet:actionURL>
+
+		<aui:form action="<%= uploadElasticsearchLicenseURL %>" cssClass="container-fluid container-fluid-max-xl" enctype="multipart/form-data" method="post">
+			<liferay-ui:error exception="<%= DuplicateCommonLicenseKeyException.class %>" message="the-file-has-already-been-uploaded" />
+
+			<aui:fieldset-group>
+				<aui:fieldset>
+					<aui:input multiple="<%= true %>" name="elasticsearchLicenseFiles" type="file" />
+
+					<aui:button type="submit" value="submit" />
+				</aui:fieldset>
+			</aui:fieldset-group>
+		</aui:form>
+
+		<liferay-ui:search-container
+			total="<%= CommonLicenseKeyLocalServiceUtil.getCommonLicenseKeysCount(ProductGroup.Name.ENTERPRISE_SEARCH.toString()) %>"
+		>
+			<liferay-ui:search-container-results
+				results="<%= CommonLicenseKeyLocalServiceUtil.getCommonLicenseKeys(ProductGroup.Name.ENTERPRISE_SEARCH.toString(), searchContainer.getStart(), searchContainer.getEnd()) %>"
+			/>
+
+			<liferay-ui:search-container-row
+				className="com.liferay.osb.provisioning.license.model.CommonLicenseKey"
+				escapedModel="<%= true %>"
+				keyProperty="commonLicenseKeyId"
+				modelVar="commonLicenseKey"
+			>
+				<portlet:renderURL var="rowURL">
+					<portlet:param name="mvcRenderCommandName" value="/admin/edit_common_license_key" />
+					<portlet:param name="redirect" value="<%= currentURL %>" />
+					<portlet:param name="commonLicenseKeyId" value="<%= String.valueOf(commonLicenseKey.getCommonLicenseKeyId()) %>" />
+				</portlet:renderURL>
+
+				<liferay-ui:search-container-column-text
+					href="<%= rowURL %>"
+					name="name"
+					value="<%= commonLicenseKey.getFileName() %>"
+				/>
+
+				<liferay-ui:search-container-column-text
+					href="<%= rowURL %>"
+					name="product-environment"
+					value="<%= commonLicenseKey.getProductEnvironment() %>"
+				/>
+
+				<liferay-ui:search-container-column-text
+					href="<%= rowURL %>"
+					name="start-date"
+					value="<%= mediumDateFormatDate.format(commonLicenseKey.getStartDate()) %>"
+				/>
+
+				<liferay-ui:search-container-column-text
+					href="<%= rowURL %>"
+					name="end-date"
+					value="<%= mediumDateFormatDate.format(commonLicenseKey.getEndDate()) %>"
+				/>
+
+				<liferay-ui:search-container-column-jsp
+					align="right"
+					path="/admin/common_license_key_action.jsp"
+				/>
+			</liferay-ui:search-container-row>
+
+			<liferay-ui:search-iterator
+				markupView="lexicon"
+			/>
+		</liferay-ui:search-container>
+	</c:when>
+	<c:otherwise>
+		<portlet:actionURL name="/admin/upload_commerce_license" var="uploadCommerceLicenseURL">
+			<portlet:param name="redirect" value="<%= currentURL %>" />
+		</portlet:actionURL>
+
+		<aui:form action="<%= uploadCommerceLicenseURL %>" cssClass="container-fluid container-fluid-max-xl" enctype="multipart/form-data" method="post">
+			<liferay-ui:error exception="<%= DuplicateCommonLicenseKeyException.class %>" message="the-file-has-already-been-uploaded" />
+
+			<aui:fieldset-group>
+				<aui:fieldset>
+					<aui:input multiple="<%= true %>" name="commerceLicenseFiles" type="file" />
+
+					<aui:button type="submit" value="submit" />
+				</aui:fieldset>
+			</aui:fieldset-group>
+		</aui:form>
+
+		<liferay-ui:search-container
+			total="<%= CommonLicenseKeyLocalServiceUtil.getCommonLicenseKeysCount(ProductGroup.Name.COMMERCE.toString()) %>"
+		>
+			<liferay-ui:search-container-results
+				results="<%= CommonLicenseKeyLocalServiceUtil.getCommonLicenseKeys(ProductGroup.Name.COMMERCE.toString(), searchContainer.getStart(), searchContainer.getEnd()) %>"
+			/>
+
+			<liferay-ui:search-container-row
+				className="com.liferay.osb.provisioning.license.model.CommonLicenseKey"
+				escapedModel="<%= true %>"
+				keyProperty="commonLicenseKeyId"
+				modelVar="commonLicenseKey"
+			>
+				<portlet:renderURL var="rowURL">
+					<portlet:param name="mvcRenderCommandName" value="/admin/edit_common_license_key" />
+					<portlet:param name="redirect" value="<%= currentURL %>" />
+					<portlet:param name="commonLicenseKeyId" value="<%= String.valueOf(commonLicenseKey.getCommonLicenseKeyId()) %>" />
+				</portlet:renderURL>
+
+				<liferay-ui:search-container-column-text
+					href="<%= rowURL %>"
+					name="name"
+					value="<%= commonLicenseKey.getFileName() %>"
+				/>
+
+				<liferay-ui:search-container-column-text
+					href="<%= rowURL %>"
+					name="product-environment"
+					value="<%= commonLicenseKey.getProductEnvironment() %>"
+				/>
+
+				<liferay-ui:search-container-column-text
+					href="<%= rowURL %>"
+					name="start-date"
+					value="<%= mediumDateFormatDate.format(commonLicenseKey.getStartDate()) %>"
+				/>
+
+				<liferay-ui:search-container-column-text
+					href="<%= rowURL %>"
+					name="end-date"
+					value="<%= mediumDateFormatDate.format(commonLicenseKey.getEndDate()) %>"
+				/>
+
+				<liferay-ui:search-container-column-jsp
+					align="right"
+					path="/admin/common_license_key_action.jsp"
+				/>
+			</liferay-ui:search-container-row>
+
+			<liferay-ui:search-iterator
+				markupView="lexicon"
+			/>
+		</liferay-ui:search-container>
+	</c:otherwise>
+</c:choose>

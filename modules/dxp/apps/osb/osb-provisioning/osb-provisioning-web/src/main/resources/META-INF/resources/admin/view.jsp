@@ -16,10 +16,8 @@
 
 <%@ include file="/init.jsp" %>
 
-<liferay-util:include page="/common/view_account_search_header.jsp" servletContext="<%= application %>" />
-
 <%
-String tabs = ParamUtil.getString(request, "tabs", "elasticsearch-license");
+String tabs = ParamUtil.getString(request, "tabs", "common-license-keys");
 %>
 
 <clay:navigation-bar
@@ -29,9 +27,9 @@ String tabs = ParamUtil.getString(request, "tabs", "elasticsearch-license");
 			{
 				add(
 					navigationItem -> {
-						navigationItem.setActive(tabs.equals("elasticsearch-license"));
-						navigationItem.setHref(renderResponse.createRenderURL(), "tabs", "elasticsearch-license");
-						navigationItem.setLabel(LanguageUtil.get(request, "elasticsearch-license"));
+						navigationItem.setActive(tabs.equals("common-license-keys"));
+						navigationItem.setHref(renderResponse.createRenderURL(), "tabs", "common-license-keys");
+						navigationItem.setLabel(LanguageUtil.get(request, "common-license-keys"));
 					});
 				add(
 					navigationItem -> {
@@ -46,76 +44,8 @@ String tabs = ParamUtil.getString(request, "tabs", "elasticsearch-license");
 
 <div class="container-fluid home">
 	<c:choose>
-		<c:when test='<%= tabs.equals("elasticsearch-license") %>'>
-			<portlet:actionURL name="/admin/upload_elasticsearch_license" var="uploadElasticsearchLicenseURL">
-				<portlet:param name="redirect" value="<%= currentURL %>" />
-			</portlet:actionURL>
-
-			<aui:form action="<%= uploadElasticsearchLicenseURL %>" cssClass="container-fluid container-fluid-max-xl" enctype="multipart/form-data" method="post">
-				<liferay-ui:error exception="<%= DuplicateCommonLicenseKeyException.class %>" message="the-file-has-already-been-uploaded" />
-
-				<aui:fieldset-group>
-					<aui:fieldset>
-						<aui:input name="elasticsearchLicenseFile" type="file" />
-
-						<aui:button type="submit" value="submit" />
-					</aui:fieldset>
-				</aui:fieldset-group>
-			</aui:form>
-
-			<liferay-ui:search-container
-				total="<%= CommonLicenseKeyLocalServiceUtil.getCommonLicenseKeysCount(ProductGroup.Name.ENTERPRISE_SEARCH.toString()) %>"
-			>
-				<liferay-ui:search-container-results
-					results="<%= CommonLicenseKeyLocalServiceUtil.getCommonLicenseKeys(ProductGroup.Name.ENTERPRISE_SEARCH.toString(), searchContainer.getStart(), searchContainer.getEnd()) %>"
-				/>
-
-				<liferay-ui:search-container-row
-					className="com.liferay.osb.provisioning.license.model.CommonLicenseKey"
-					escapedModel="<%= true %>"
-					keyProperty="commonLicenseKeyId"
-					modelVar="commonLicenseKey"
-				>
-					<portlet:renderURL var="rowURL">
-						<portlet:param name="mvcRenderCommandName" value="/admin/edit_common_license_key" />
-						<portlet:param name="redirect" value="<%= currentURL %>" />
-						<portlet:param name="commonLicenseKeyId" value="<%= String.valueOf(commonLicenseKey.getCommonLicenseKeyId()) %>" />
-					</portlet:renderURL>
-
-					<liferay-ui:search-container-column-text
-						href="<%= rowURL %>"
-						name="name"
-						value="<%= commonLicenseKey.getFileName() %>"
-					/>
-
-					<liferay-ui:search-container-column-text
-						href="<%= rowURL %>"
-						name="product-environment"
-						value="<%= commonLicenseKey.getProductEnvironment() %>"
-					/>
-
-					<liferay-ui:search-container-column-text
-						href="<%= rowURL %>"
-						name="start-date"
-						value="<%= mediumDateFormatDate.format(commonLicenseKey.getStartDate()) %>"
-					/>
-
-					<liferay-ui:search-container-column-text
-						href="<%= rowURL %>"
-						name="end-date"
-						value="<%= mediumDateFormatDate.format(commonLicenseKey.getEndDate()) %>"
-					/>
-
-					<liferay-ui:search-container-column-jsp
-						align="right"
-						path="/admin/common_license_key_action.jsp"
-					/>
-				</liferay-ui:search-container-row>
-
-				<liferay-ui:search-iterator
-					markupView="lexicon"
-				/>
-			</liferay-ui:search-container>
+		<c:when test='<%= tabs.equals("common-license-keys") %>'>
+			<liferay-util:include page="/admin/view_common_license_keys.jsp" servletContext="<%= application %>" />
 		</c:when>
 		<c:otherwise>
 			<portlet:actionURL name="/admin/debug_rabbitmq" var="debugRabbitMQURL">

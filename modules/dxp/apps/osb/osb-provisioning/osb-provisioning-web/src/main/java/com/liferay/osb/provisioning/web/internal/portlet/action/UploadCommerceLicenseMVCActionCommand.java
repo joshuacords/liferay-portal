@@ -20,7 +20,6 @@ import com.liferay.osb.provisioning.license.helper.constants.ProductEnvironment;
 import com.liferay.osb.provisioning.license.service.CommonLicenseKeyLocalService;
 import com.liferay.osb.provisioning.rest.dto.v1_0.ProductGroup;
 import com.liferay.portal.kernel.json.JSONFactory;
-import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
@@ -29,12 +28,20 @@ import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.upload.FileItem;
 import com.liferay.portal.kernel.upload.UploadPortletRequest;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.kernel.xml.Document;
+import com.liferay.portal.kernel.xml.Element;
+import com.liferay.portal.kernel.xml.SAXReaderUtil;
 
 import java.io.InputStream;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import java.util.Date;
 import java.util.Map;
@@ -51,11 +58,11 @@ import org.osgi.service.component.annotations.Reference;
 @Component(
 	property = {
 		"javax.portlet.name=" + ProvisioningPortletKeys.ADMIN,
-		"mvc.command.name=/admin/upload_elasticsearch_license"
+		"mvc.command.name=/admin/upload_commerce_license"
 	},
 	service = MVCActionCommand.class
 )
-public class UploadElasticsearchLicenseMVCActionCommand
+public class UploadCommerceLicenseMVCActionCommand
 	extends BaseMVCActionCommand {
 
 	@Override
@@ -73,27 +80,34 @@ public class UploadElasticsearchLicenseMVCActionCommand
 			Map<String, FileItem[]> parameterMap =
 				uploadPortletRequest.getMultipartParameterMap();
 
-			FileItem[] fileItems = parameterMap.get(
-				"elasticsearchLicenseFiles");
+			FileItem[] fileItems = parameterMap.get("commerceLicenseFiles");
 
 			for (FileItem fileItem : fileItems) {
 				try (InputStream inputStream = fileItem.getInputStream()) {
 					String fileContent = StringUtil.read(inputStream);
 
-					JSONObject jsonObject = _jsonFactory.createJSONObject(
-						fileContent);
+					Document document = SAXReaderUtil.read(fileContent);
 
-					JSONObject licenseJSONObject = jsonObject.getJSONObject(
-						"license");
+					Element rootElement = document.getRootElement();
 
-					String issuedTo = licenseJSONObject.getString("issued_to");
+					String productEntryName = GetterUtil.getString(
+						rootElement.elementTextTrim("product-name"));
+
+					if (!productEntryName.contains("Commerce")) {
+						continue;
+					}
+
+					String description = GetterUtil.getString(
+						rootElement.elementTextTrim("description"));
+
+					description = StringUtil.toLowerCase(description);
 
 					String productEnvironment = null;
 
-					if (issuedTo.contains(ProductEnvironment.BACKUP)) {
+					if (description.contains(ProductEnvironment.BACKUP)) {
 						productEnvironment = ProductEnvironment.BACKUP;
 					}
-					else if (issuedTo.contains(
+					else if (description.contains(
 								ProductEnvironment.NON_PRODUCTION)) {
 
 						productEnvironment = ProductEnvironment.NON_PRODUCTION;
@@ -102,16 +116,20 @@ public class UploadElasticsearchLicenseMVCActionCommand
 						productEnvironment = ProductEnvironment.PRODUCTION;
 					}
 
-					Date startDate = new Date(
-						licenseJSONObject.getLong("start_date_in_millis"));
-					Date endDate = new Date(
-						licenseJSONObject.getLong("expiry_date_in_millis"));
+					DateFormat longDateFormatDateTime = new SimpleDateFormat(
+						"EEEE, MMMM d, yyyy hh:mm:ss a z", LocaleUtil.US);
+
+					Date startDate = longDateFormatDateTime.parse(
+						rootElement.elementTextTrim("start-date"));
+
+					Date expirationDate = longDateFormatDateTime.parse(
+						rootElement.elementTextTrim("expiration-date"));
 
 					_commonLicenseKeyLocalService.addCommonLicenseKey(
 						themeDisplay.getUserId(),
-						ProductGroup.Name.ENTERPRISE_SEARCH.toString(),
+						ProductGroup.Name.COMMERCE.toString(),
 						productEnvironment, StringPool.BLANK, startDate,
-						endDate, fileItem.getFileName(), fileContent);
+						expirationDate, fileItem.getFileName(), fileContent);
 				}
 			}
 		}
@@ -131,7 +149,7 @@ public class UploadElasticsearchLicenseMVCActionCommand
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		UploadElasticsearchLicenseMVCActionCommand.class);
+		UploadCommerceLicenseMVCActionCommand.class);
 
 	@Reference
 	private CommonLicenseKeyLocalService _commonLicenseKeyLocalService;

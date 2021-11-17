@@ -47,6 +47,15 @@ public class ProductConstants {
 	public static final String NAME_COMMERCE_SUBSCRIPTION =
 		"Commerce Subscription";
 
+	public static final String NAME_COMMERCE_SUBSCRIPTION_BACKUP =
+		"Commerce Subscription Backup";
+
+	public static final String NAME_COMMERCE_SUBSCRIPTION_PRODUCTION =
+		"Commerce Subscription Production";
+
+	public static final String NAME_COMMERCE_SUBSCRIPTION_NON_PRODUCTION =
+		"Commerce Subscription Non-Production";
+
 	public static final String NAME_DESIGNATED_CONTACT_ADD_ON =
 		"Designated Contact Add-on";
 
