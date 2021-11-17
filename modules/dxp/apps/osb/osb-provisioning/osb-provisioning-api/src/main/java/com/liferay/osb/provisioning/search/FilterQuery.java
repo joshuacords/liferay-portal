@@ -282,6 +282,8 @@ public class FilterQuery {
 		else {
 			_filters.add(filter);
 		}
+
+		_toString = null;
 	}
 
 	private String _escape(String value) {
