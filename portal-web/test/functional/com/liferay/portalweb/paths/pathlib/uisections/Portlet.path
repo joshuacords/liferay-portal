@@ -136,6 +136,11 @@
 	<td></td>
 </tr>
 <tr>
+	<td>SPECIFIC_ELLIPSIS_ICON_1</td>
+	<td>//header[contains(.,'${key_portletName}')]//menu[contains(@class,'portlet-topper')]//a</td>
+	<td></td>
+</tr>
+<tr>
 	<td>SPECIFIC_TITLE</td>
 	<td>//div[@id='main-content']//h2[contains(@class,'portlet-title') and (.='${key_portletTitleName}')]</td>
 	<td></td>
