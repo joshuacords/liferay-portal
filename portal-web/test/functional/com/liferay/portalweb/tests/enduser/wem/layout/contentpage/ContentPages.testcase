@@ -546,7 +546,7 @@ definition {
 		}
 	}
 
-	@description = "Edit an existing content page that has fragments. This testcase covers the bug found in LPS-85872. This test has been extended to cover LPS-78726. Changes to content pages only appear after they are published."
+	@description = "Edit an existing content page that has fragments. This testcase covers the bug found in LPS-85872. This test has been extended to cover LPS-78726. Changes to content pages only appear after they are published. LPS-76741 - Validate content page can be edited by Edit/View mode."
 	@priority = "5"
 	test EditContentPage {
 		property portal.acceptance = "true";
@@ -689,6 +689,30 @@ definition {
 				key_fragmentClass = "body",
 				key_position = "3",
 				locator1 = "Fragment#FRAGMENT");
+		}
+
+		task ("Navigate to the Pages admin in new site") {
+			SitePages.openPagesAdmin(siteURLKey = "test-site-name");
+		}
+
+		task ("Access to content page at edit mode") {
+			SitePages.gotoPageMenuItem(
+				menuItem = "Edit",
+				pageName = "Test Content Page Name");
+
+			PageEditor.assertFragmentSidebarLoaded();
+		}
+
+		task ("Navigate Back to Site Pages") {
+			Navigator.gotoBack();
+		}
+
+		task ("Access to content page can be edited at view mode") {
+			SitePages.gotoPageMenuItem(
+				menuItem = "View",
+				pageName = "Test Content Page Name");
+
+			ContentPages.clickPencil();
 		}
 	}
 
