@@ -31,6 +31,11 @@
 	<td></td>
 </tr>
 <tr>
+	<td>ANY</td>
+	<td>//div[label[contains(.,'${key_text}')]]//input[not(contains(@type,'checkbox'))]</td>
+	<td></td>
+</tr>
+<tr>
 	<td>ASSET_PRIORITY</td>
 	<td>//input[contains(@id,'assetPriority')]</td>
 	<td></td>
