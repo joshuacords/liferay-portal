@@ -235,6 +235,9 @@ public class SimulationProductNavigationControlMenuEntry
 
 			IconTag iconTag = new IconTag();
 
+			iconTag.setAriaLabel(
+				_language.get(
+					(HttpServletRequest)pageContext.getRequest(), "close"));
 			iconTag.setCssClass("icon-monospaced sidenav-close");
 			iconTag.setImage("times");
 			iconTag.setMarkupView("lexicon");
