@@ -24,7 +24,6 @@ import com.google.pubsub.v1.ProjectSubscriptionName;
 import com.google.pubsub.v1.Subscription;
 import com.google.pubsub.v1.TopicName;
 
-import com.liferay.osb.distributed.messaging.security.MessageEncryptor;
 import com.liferay.osb.distributed.messaging.subscribing.router.MessageRouter;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -87,7 +86,7 @@ public abstract class BasePubsubSubscriber {
 
 		_subscriber = Subscriber.newBuilder(
 			projectSubscriptionName,
-			new DefaultMessageReceiver(topic, messageRouter, messageEncryptor)
+			new DefaultMessageReceiver(topic, messageRouter)
 		).setCredentialsProvider(
 			getCredentialsProvider()
 		).build();
@@ -133,9 +132,6 @@ public abstract class BasePubsubSubscriber {
 	protected abstract ServiceAccountCredentialsProvider
 			getServiceAccountCredentialsProvider()
 		throws Exception;
-
-	@Reference
-	protected MessageEncryptor messageEncryptor;
 
 	@Reference
 	protected MessageRouter messageRouter;

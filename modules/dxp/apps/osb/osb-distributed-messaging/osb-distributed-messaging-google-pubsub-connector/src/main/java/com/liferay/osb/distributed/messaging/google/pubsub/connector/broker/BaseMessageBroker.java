@@ -23,7 +23,6 @@ import com.google.pubsub.v1.TopicName;
 import com.liferay.osb.distributed.messaging.Message;
 import com.liferay.osb.distributed.messaging.google.pubsub.connector.ServiceAccountCredentialsProvider;
 import com.liferay.osb.distributed.messaging.publishing.broker.MessageBroker;
-import com.liferay.osb.distributed.messaging.security.MessageEncryptor;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -34,7 +33,6 @@ import java.util.concurrent.TimeUnit;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Deactivate;
-import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Amos Fong
@@ -58,7 +56,7 @@ public abstract class BaseMessageBroker implements MessageBroker {
 		}
 
 		ByteString byteString = ByteString.copyFromUtf8(
-			messageEncryptor.encrypt((String)message.getPayload()));
+			(String)message.getPayload());
 
 		PubsubMessage pubsubMessage = PubsubMessage.newBuilder(
 		).putAllAttributes(
@@ -99,9 +97,6 @@ public abstract class BaseMessageBroker implements MessageBroker {
 	protected abstract ServiceAccountCredentialsProvider
 			getServiceAccountCredentialsProvider()
 		throws Exception;
-
-	@Reference
-	protected MessageEncryptor messageEncryptor;
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		BaseMessageBroker.class);

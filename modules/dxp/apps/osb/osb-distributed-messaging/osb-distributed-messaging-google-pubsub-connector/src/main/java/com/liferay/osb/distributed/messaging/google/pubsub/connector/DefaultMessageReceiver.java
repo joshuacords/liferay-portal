@@ -20,7 +20,6 @@ import com.google.protobuf.ByteString;
 import com.google.pubsub.v1.PubsubMessage;
 
 import com.liferay.osb.distributed.messaging.Message;
-import com.liferay.osb.distributed.messaging.security.MessageEncryptor;
 import com.liferay.osb.distributed.messaging.subscribing.router.MessageRouter;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -30,13 +29,9 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
  */
 public class DefaultMessageReceiver implements MessageReceiver {
 
-	public DefaultMessageReceiver(
-		String topic, MessageRouter messageRouter,
-		MessageEncryptor messageEncryptor) {
-
+	public DefaultMessageReceiver(String topic, MessageRouter messageRouter) {
 		_topic = topic;
 		_messageRouter = messageRouter;
-		_messageEncryptor = messageEncryptor;
 	}
 
 	@Override
@@ -45,15 +40,14 @@ public class DefaultMessageReceiver implements MessageReceiver {
 
 		ByteString byteString = pubsubMessage.getData();
 
-		String decryptedMessage = _messageEncryptor.decrypt(
-			byteString.toStringUtf8());
+		String messageBody = byteString.toStringUtf8();
 
 		if (_log.isDebugEnabled()) {
-			_log.debug("Received message " + decryptedMessage);
+			_log.debug("Received message " + messageBody);
 		}
 
 		try {
-			Message message = new Message(decryptedMessage);
+			Message message = new Message(messageBody);
 
 			message.setStringAttributes(pubsubMessage.getAttributes());
 			message.setTopic(_topic);
@@ -72,7 +66,6 @@ public class DefaultMessageReceiver implements MessageReceiver {
 	private static final Log _log = LogFactoryUtil.getLog(
 		DefaultMessageReceiver.class);
 
-	private final MessageEncryptor _messageEncryptor;
 	private final MessageRouter _messageRouter;
 	private final String _topic;
 
