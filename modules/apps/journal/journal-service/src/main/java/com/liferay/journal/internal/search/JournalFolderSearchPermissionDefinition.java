@@ -15,23 +15,19 @@
 package com.liferay.journal.internal.search;
 
 import com.liferay.journal.constants.JournalFolderConstants;
-import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.model.JournalFolder;
-import com.liferay.journal.service.JournalArticleLocalService;
 import com.liferay.journal.service.JournalFolderLocalService;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
-import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
-import com.liferay.portal.kernel.service.RoleLocalService;
+import com.liferay.portal.search.internal.permission.DynamicInheritanceRoleSetContributorFactory;
 import com.liferay.portal.search.spi.model.permission.SearchPermissionDefinition;
-import com.liferay.portal.search.spi.model.permission.DynamicInheritanceRoleSetContributor;
-
-import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
 import java.util.Arrays;
 import java.util.List;
+
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Preston Crary
@@ -41,27 +37,26 @@ public class JournalFolderSearchPermissionDefinition
 	implements SearchPermissionDefinition<JournalFolder> {
 
 	@Override
-	public JournalFolder getModel(long classPK) {
-		return _journalFolderLocalService.fetchFolder(classPK);
-	}
-
-	@Override
 	public String getClassName() {
 		return JournalFolder.class.getName();
 	}
 
 	@Override
+	public JournalFolder getModel(long classPK) {
+		return _journalFolderLocalService.fetchFolder(classPK);
+	}
+
+	@Override
 	public List<RoleSetContributor<JournalFolder>> getRoleSetContributors() {
 		return Arrays.asList(
-			new DynamicInheritanceRoleSetContributor<>(
+			_dynamicInheritanceRoleSetContributorFactory.create(
 				_journalFolderModelResourcePermission,
-				_getFetchParentFunction(), false,
-				_resourcePermissionLocalService, _roleLocalService));
-//			new WorkflowedModelRoleSetContributor());
+				_getFetchParentFunction(), false));
+		//			new WorkflowedModelRoleSetContributor());
 	}
 
 	private UnsafeFunction<JournalFolder, JournalFolder, PortalException>
-	_getFetchParentFunction() {
+		_getFetchParentFunction() {
 
 		return folder -> {
 			long folderId = folder.getParentFolderId();
@@ -79,6 +74,10 @@ public class JournalFolderSearchPermissionDefinition
 	}
 
 	@Reference
+	private DynamicInheritanceRoleSetContributorFactory
+		_dynamicInheritanceRoleSetContributorFactory;
+
+	@Reference
 	private JournalFolderLocalService _journalFolderLocalService;
 
 	@Reference(
@@ -86,11 +85,5 @@ public class JournalFolderSearchPermissionDefinition
 	)
 	private ModelResourcePermission<JournalFolder>
 		_journalFolderModelResourcePermission;
-
-	@Reference
-	private ResourcePermissionLocalService _resourcePermissionLocalService;
-
-	@Reference
-	private RoleLocalService _roleLocalService;
 
 }
