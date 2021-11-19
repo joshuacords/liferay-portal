@@ -137,8 +137,7 @@ public class SearchPermissionFieldsFactory {
 		for (SearchPermissionDefinition.RoleSetContributor<T> roleProvider :
 				searchPermissionDefinition.getRoleSetContributors()) {
 
-			roleProvider.apply(
-				roleSetContributorContextImpl, model, resourcePrimKey);
+			roleProvider.apply(roleSetContributorContextImpl);
 
 			//searchPermissionFields = null;
 		}

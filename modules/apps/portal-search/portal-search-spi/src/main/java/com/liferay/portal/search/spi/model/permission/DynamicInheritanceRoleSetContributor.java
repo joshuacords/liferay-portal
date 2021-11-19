@@ -81,23 +81,6 @@ public class DynamicInheritanceRoleSetContributor
 		_setParentContributor(parentDynamicInheritanceRoleSetContributor);
 	}
 
-	@Override
-	public void apply(
-			RoleSetContributorContext roleSetContributorContext, C child,
-			String resourcePrimKey)
-		throws PortalException {
-
-		DynamicInheritanceRoleSetContributorContext
-			dynamicInheritanceRoleSetContributorContext =
-				new DynamicInheritanceRoleSetContributorContext(
-					_roleLocalService, roleSetContributorContext);
-
-		apply(
-			roleSetContributorContext,
-			dynamicInheritanceRoleSetContributorContext, child,
-			resourcePrimKey);
-	}
-
 	public void apply(
 			RoleSetContributorContext roleSetContributorContext,
 			DynamicInheritanceRoleSetContributorContext
@@ -138,6 +121,22 @@ public class DynamicInheritanceRoleSetContributor
 			dynamicInheritanceRoleSetContributorContext, parent,
 			String.valueOf(parent.getPrimaryKeyObj())); //make sure PrimaryKeyObj works for all asset parents
 
+	}
+
+	@Override
+	public void apply(RoleSetContributorContext<C> roleSetContributorContext)
+		throws PortalException {
+
+		DynamicInheritanceRoleSetContributorContext
+			dynamicInheritanceRoleSetContributorContext =
+				new DynamicInheritanceRoleSetContributorContext(
+					_roleLocalService, roleSetContributorContext);
+
+		apply(
+			roleSetContributorContext,
+			dynamicInheritanceRoleSetContributorContext,
+			roleSetContributorContext.getModel(),
+			roleSetContributorContext.getResourcePrimKey());
 	}
 
 	private void _addAccessRoleLevel(
