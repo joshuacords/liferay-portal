@@ -19,12 +19,16 @@ import java.util.Set;
 /**
  * @author Preston Crary
  */
-public interface RoleSetContributorContext {
+public interface RoleSetContributorContext<T> {
 
-	public void addPermissionRoleIdSet(Set<String> set);
+	public void addPermissionRoleIdSet(Set<String> roleIdSet);
 
 	public long getCompanyId();
 
 	public long getGroupId();
+
+	public T getModel();
+
+	public String getResourcePrimKey();
 
 }
