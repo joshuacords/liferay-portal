@@ -53,6 +53,8 @@ public class SearchPermissionFieldsFactory {
 		SearchPermissionDefinition<?> searchPermissionDefinition =
 			_serviceTrackerMap.getService(className);
 
+		//check searchPermissionDefinition not null
+
 		RoleSetContributorContextImpl roleSetContributorContextImpl =
 			_getRoleSetContributorContextImpl(
 				companyId, groupId, resourcePrimKey, entryClassPK,
@@ -120,27 +122,25 @@ public class SearchPermissionFieldsFactory {
 			SearchPermissionDefinition<T> searchPermissionDefinition)
 		throws PortalException {
 
+		T model = searchPermissionDefinition.getModel(
+			GetterUtil.getLong(resourcePrimKey));
+
+		if (model == null) {
+			model = searchPermissionDefinition.getModel(
+				GetterUtil.getLong(entryClassPK));
+		}
+
 		RoleSetContributorContextImpl roleSetContributorContextImpl =
 			new RoleSetContributorContextImpl(
-				companyId, groupId, _roleLocalService);
+				companyId, groupId, model, resourcePrimKey, _roleLocalService);
 
-		if (searchPermissionDefinition != null) {
-			T model = searchPermissionDefinition.getModel(
-				GetterUtil.getLong(resourcePrimKey));
+		for (SearchPermissionDefinition.RoleSetContributor<T> roleProvider :
+				searchPermissionDefinition.getRoleSetContributors()) {
 
-			if (model == null) {
-				model = searchPermissionDefinition.getModel(
-					GetterUtil.getLong(entryClassPK));
-			}
+			roleProvider.apply(
+				roleSetContributorContextImpl, model, resourcePrimKey);
 
-			for (SearchPermissionDefinition.RoleSetContributor<T> roleProvider :
-					searchPermissionDefinition.getRoleSetContributors()) {
-
-				roleProvider.apply(
-					roleSetContributorContextImpl, model, resourcePrimKey);
-
-				//searchPermissionFields = null;
-			}
+			//searchPermissionFields = null;
 		}
 
 		return roleSetContributorContextImpl;

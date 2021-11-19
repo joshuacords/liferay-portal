@@ -27,15 +27,18 @@ import java.util.Set;
 /**
  * @author Joshua Cords
  */
-public class RoleSetContributorContextImpl
-	implements RoleSetContributorContext {
+public class RoleSetContributorContextImpl<T>
+	implements RoleSetContributorContext<T> {
 
 	public RoleSetContributorContextImpl(
-			long companyId, long groupId, RoleLocalService roleLocalService)
+			long companyId, long groupId, T model, String resourcePrimKey,
+			RoleLocalService roleLocalService)
 		throws PortalException {
 
 		_companyId = companyId;
 		_groupId = groupId;
+		_model = model;
+		_resourcePrimKey = resourcePrimKey;
 
 		Role guestRole = roleLocalService.getRole(
 			_companyId, RoleConstants.GUEST);
@@ -43,6 +46,7 @@ public class RoleSetContributorContextImpl
 		_guestRoleId = String.valueOf(guestRole.getRoleId());
 	}
 
+	@Override
 	public void addPermissionRoleIdSet(Set<String> roleIdSet) {
 		int size = _roleIdSets.size();
 
@@ -61,6 +65,14 @@ public class RoleSetContributorContextImpl
 	@Override
 	public long getGroupId() {
 		return _groupId;
+	}
+
+	public T getModel() {
+		return _model;
+	}
+
+	public String getResourcePrimKey() {
+		return _resourcePrimKey;
 	}
 
 	public Set<Set<String>> getRoleIdSets() {
@@ -94,6 +106,8 @@ public class RoleSetContributorContextImpl
 	private final long _companyId;
 	private final long _groupId;
 	private final String _guestRoleId;
+	private final T _model;
+	private final String _resourcePrimKey;
 	private final Set<Set<String>> _roleIdSets = new HashSet<>();
 
 }
