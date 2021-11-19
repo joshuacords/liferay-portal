@@ -42,6 +42,7 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.odata.entity.EntityModel;
 import com.liferay.portal.vulcan.fields.NestedField;
 import com.liferay.portal.vulcan.fields.NestedFieldId;
+import com.liferay.portal.vulcan.fields.NestedFieldSupport;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -61,10 +62,12 @@ import org.osgi.service.component.annotations.ServiceScope;
  */
 @Component(
 	properties = "OSGI-INF/liferay/rest/v1_0/contact-role.properties",
-	scope = ServiceScope.PROTOTYPE, service = ContactRoleResource.class
+	scope = ServiceScope.PROTOTYPE,
+	service = {ContactRoleResource.class, NestedFieldSupport.class}
 )
 public class ContactRoleResourceImpl
-	extends BaseContactRoleResourceImpl implements EntityModelResource {
+	extends BaseContactRoleResourceImpl
+	implements EntityModelResource, NestedFieldSupport {
 
 	@Override
 	public void deleteContactRole(
