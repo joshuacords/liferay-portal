@@ -32,8 +32,7 @@ public interface SearchPermissionDefinition<T> {
 	public interface RoleSetContributor<T> {
 
 		public void apply(
-				RoleSetContributorContext roleSetContributorContext, T model,
-				String resourcePrimKey)
+				RoleSetContributorContext<T> roleSetContributorContext)
 			throws PortalException;
 
 	}
