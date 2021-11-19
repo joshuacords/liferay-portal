@@ -80,7 +80,7 @@ definition {
 		var HTML = '''<link data-senna-track="temporary" href="''';
 
 		if ("${locale}" == "zh") {
-			var zhAlternate = '''" hreflang="zh-CN" rel="alternate" />''';
+			var zhAlternate = '''" hreflang="zh-CN" rel="alternate">''';
 
 			var hrefURL = selenium.getAttribute("//link[contains(@rel,'alternate')][contains(@hreflang,'zh-CN')]@href");
 
@@ -92,7 +92,7 @@ definition {
 		}
 
 		else if ("${locale}" == "es") {
-			var esAlternate = '''" hreflang="es-ES" rel="alternate" />''';
+			var esAlternate = '''" hreflang="es-ES" rel="alternate">''';
 
 			var hrefURL = selenium.getAttribute("//link[contains(@rel,'alternate')][contains(@hreflang,'es-ES')]@href");
 
@@ -122,7 +122,7 @@ definition {
 
 	macro assertCanonicalURL {
 		var HTML = '''<link data-senna-track="temporary" href="''';
-		var HTML2 = '''" rel="canonical" />''';
+		var HTML2 = '''" rel="canonical">''';
 
 		if (isSet(pageName)) {
 			var pageNameURL = StringUtil.lowerCase("${pageName}");
