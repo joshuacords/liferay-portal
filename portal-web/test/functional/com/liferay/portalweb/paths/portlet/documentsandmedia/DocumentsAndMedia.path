@@ -119,7 +119,7 @@
 </tr>
 <tr>
 	<td>ICON_DOCUMENT_WORKFLOW_STATUS</td>
-	<td>//li[contains(@data-title,'${key_dmDocumentTitle}')]//span[@class='workflow-status']</td>
+	<td>//dd[contains(@data-title,'${key_dmDocumentTitle}')]//span[@class='workflow-status']</td>
 	<td></td>
 </tr>
 <tr>
@@ -171,12 +171,12 @@
 </tr>
 <tr>
 	<td>DESCRIPTIVE_LIST_DOCUMENT_VERTICAL_ELLIPSIS</td>
-	<td>//li[contains(.,'${key_dmDocumentTitle}')]//a[span/*[name()='svg'][contains(@class,'icon-ellipsis')]]</td>
+	<td>//dd[contains(.,'${key_dmDocumentTitle}')]//a[span/*[name()='svg'][contains(@class,'icon-ellipsis')]]</td>
 	<td></td>
 </tr>
 <tr>
 	<td>DESCRIPTIVE_LIST_DOCUMENT_VERTICAL_ELLIPSIS_SPECIFIC</td>
-	<td>//li[contains(.,"${key_dmDocumentTitle}")]//a[span/*[name()='svg'][contains(@class,'icon-ellipsis')]]</td>
+	<td>//dd[contains(.,"${key_dmDocumentTitle}")]//a[span/*[name()='svg'][contains(@class,'icon-ellipsis')]]</td>
 	<td></td>
 </tr>
 <tr>
@@ -187,7 +187,7 @@
 <!--DESCRIPTIVE_LIST_FOLDER-->
 <tr>
 	<td>DESCRIPTIVE_LIST_VERTICAL_ELLIPSIS</td>
-	<td>//li[contains(.,'${key_dmFolderName}')]//a[span/*[name()='svg'][contains(@class,'icon-ellipsis')]]</td>
+	<td>//dd[contains(.,'${key_dmFolderName}')]//a[span/*[name()='svg'][contains(@class,'icon-ellipsis')]]</td>
 	<td></td>
 </tr>
 <tr>
