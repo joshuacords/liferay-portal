@@ -15,9 +15,6 @@
 package com.liferay.portal.search.internal.permission;
 
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.model.Role;
-import com.liferay.portal.kernel.model.role.RoleConstants;
-import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.search.spi.model.permission.RoleSetContributorContext;
 
 import java.util.HashSet;
@@ -32,18 +29,14 @@ public class RoleSetContributorContextImpl<T>
 
 	public RoleSetContributorContextImpl(
 			long companyId, long groupId, T model, String resourcePrimKey,
-			RoleLocalService roleLocalService)
+			String guestRoleId)
 		throws PortalException {
 
 		_companyId = companyId;
 		_groupId = groupId;
 		_model = model;
 		_resourcePrimKey = resourcePrimKey;
-
-		Role guestRole = roleLocalService.getRole(
-			_companyId, RoleConstants.GUEST);
-
-		_guestRoleId = String.valueOf(guestRole.getRoleId());
+		_guestRoleId = guestRoleId;
 	}
 
 	@Override
