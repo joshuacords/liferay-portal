@@ -37,7 +37,18 @@ public class DynamicInheritanceRoleIdSetCombiner {
 	public void addRoleIdLevel(Set<String> roleIdSet) {
 		if (!_assigned) {
 			_assigned = true;
-			_assignFirstSet(roleIdSet);
+
+			if (roleIdSet.contains(_guestRoleId)) {
+				Set<String> guestSet = new HashSet<>();
+
+				guestSet.add(_guestRoleId);
+
+				_setRoleIdsIndividuallyAsBaseLevel(guestSet);
+
+				return;
+			}
+
+			_setRoleIdsIndividuallyAsBaseLevel(roleIdSet);
 
 			return;
 		}
@@ -58,9 +69,88 @@ public class DynamicInheritanceRoleIdSetCombiner {
 			return;
 		}
 
-		Set<String> newRoleIds = _parseNewRoleIds(roleIdSet);
+		Set<String> newRoleIds = new HashSet<>();
 
-		_crossCombineNewRoleIdsWithRoleIdSets(newRoleIds);
+		for (String roleId : roleIdSet) {
+			boolean foundRoleId = false;
+
+			Iterator<Set<String>> roleIdSetsIterator =
+				_roleIdSetsManager.iterator();
+
+			boolean ownerRole = _isOwnerRole(roleId);
+
+			while (roleIdSetsIterator.hasNext()) {
+				Set<String> currentRoleIdSet = roleIdSetsIterator.next();
+
+				if (currentRoleIdSet.contains(roleId)) {
+					if (ownerRole &&
+						_containsDifferentOwnerRole(currentRoleIdSet, roleId)) {
+
+						continue;
+					}
+
+					_updatedRoleIdSets.add(currentRoleIdSet);
+
+					roleIdSetsIterator.remove();
+
+					foundRoleId = true;
+				}
+			}
+
+			if (ownerRole) {
+				_ownerRoleIds.add(roleId);
+			}
+
+			if (!foundRoleId) {
+				for (Set<String> roleIdSetWithPermission : _updatedRoleIdSets) {
+					if (roleIdSetWithPermission.contains(roleId)) {
+						foundRoleId = true;
+					}
+				}
+			}
+
+			if (!foundRoleId) {
+				newRoleIds.add(roleId);
+			}
+		}
+
+		if (_roleIdSetsManager.isEmpty() || newRoleIds.isEmpty()) {
+			_roleIdSetsManager.clear();
+		}
+		else {
+			Set<Set<String>> newRoleIdSetCombinations = new HashSet<>();
+
+			Iterator<Set<String>> roleIdSetsIterator =
+				_roleIdSetsManager.iterator();
+
+			while (roleIdSetsIterator.hasNext()) {
+				Set<String> currentRoleIdSet = roleIdSetsIterator.next();
+
+				Set<Set<String>> roleIdSetCopies = new HashSet<>(
+					newRoleIds.size());
+
+				for (String newRoleId : newRoleIds) {
+					if (_isOwnerRole(newRoleId) &&
+						_containsDifferentOwnerRole(
+							currentRoleIdSet, newRoleId)) {
+
+						continue;
+					}
+
+					Set<String> roleIdSetCopy = new HashSet<>(currentRoleIdSet);
+
+					roleIdSetCopy.add(newRoleId);
+
+					roleIdSetCopies.add(roleIdSetCopy);
+				}
+
+				newRoleIdSetCombinations.addAll(roleIdSetCopies);
+
+				roleIdSetsIterator.remove();
+			}
+
+			_updatedRoleIdSets.addAll(newRoleIdSetCombinations);
+		}
 
 		_roleIdSetsManager.clear();
 		_roleIdSetsManager.addAll(_updatedRoleIdSets);
@@ -74,20 +164,6 @@ public class DynamicInheritanceRoleIdSetCombiner {
 
 	public boolean isAssigned() {
 		return _assigned;
-	}
-
-	private void _assignFirstSet(Set<String> roleIdSet) {
-		if (roleIdSet.contains(_guestRoleId)) {
-			Set<String> guestSet = new HashSet<>();
-
-			guestSet.add(_guestRoleId);
-
-			_setRoleIdsIndividuallyAsBaseLevel(guestSet);
-
-			return;
-		}
-
-		_setRoleIdsIndividuallyAsBaseLevel(roleIdSet);
 	}
 
 	private boolean _containsDifferentOwnerRole(
@@ -106,82 +182,6 @@ public class DynamicInheritanceRoleIdSetCombiner {
 		return false;
 	}
 
-	private void _crossCombineNewRoleIdsWithRoleIdSets(Set<String> newRoleIds) {
-		if (_roleIdSetsManager.isEmpty() || newRoleIds.isEmpty()) {
-			_roleIdSetsManager.clear();
-
-			return;
-		}
-
-		Set<Set<String>> newRoleIdSetCombinations = new HashSet<>();
-
-		Iterator<Set<String>> roleIdSetsIterator =
-			_roleIdSetsManager.iterator();
-
-		while (roleIdSetsIterator.hasNext()) {
-			Set<String> currentRoleIdSet = roleIdSetsIterator.next();
-
-			Set<Set<String>> roleIdSetCopies = new HashSet<>(newRoleIds.size());
-
-			for (String roleId : newRoleIds) {
-				if (_isOwnerRole(roleId) &&
-					_containsDifferentOwnerRole(currentRoleIdSet, roleId)) {
-
-					continue;
-				}
-
-				Set<String> roleIdSetCopy = new HashSet<>(currentRoleIdSet);
-
-				roleIdSetCopy.add(roleId);
-
-				roleIdSetCopies.add(roleIdSetCopy);
-			}
-
-			newRoleIdSetCombinations.addAll(roleIdSetCopies);
-
-			roleIdSetsIterator.remove();
-		}
-
-		_updatedRoleIdSets.addAll(newRoleIdSetCombinations);
-	}
-
-	private boolean _foundRoleIdInRoleIdSets(String roleId) {
-		boolean foundRoleId = false;
-
-		Iterator<Set<String>> roleIdSetsIterator =
-			_roleIdSetsManager.iterator();
-
-		boolean ownerRole = _isOwnerRole(roleId);
-
-		while (roleIdSetsIterator.hasNext()) {
-			Set<String> currentRoleIdSet = roleIdSetsIterator.next();
-
-			if (currentRoleIdSet.contains(roleId)) {
-				if (ownerRole &&
-					_containsDifferentOwnerRole(currentRoleIdSet, roleId)) {
-
-					continue;
-				}
-
-				_updatedRoleIdSets.add(currentRoleIdSet);
-
-				roleIdSetsIterator.remove();
-
-				foundRoleId = true;
-			}
-		}
-
-		if (ownerRole) {
-			_ownerRoleIds.add(roleId);
-		}
-
-		if (!foundRoleId) {
-			foundRoleId = _roleIdExistsInUpdatedRoleIdSets(roleId);
-		}
-
-		return foundRoleId;
-	}
-
 	private boolean _isOwnerRole(String roleId) {
 		String[] roleIdArray = roleId.split(StringPool.DASH);
 
@@ -191,28 +191,6 @@ public class DynamicInheritanceRoleIdSetCombiner {
 
 		if (roleIdArray[1].equals(_ownerRoleId)) {
 			return true;
-		}
-
-		return false;
-	}
-
-	private Set<String> _parseNewRoleIds(Set<String> roleIdSet) {
-		Set<String> newRoleIds = new HashSet<>();
-
-		for (String roleId : roleIdSet) {
-			if (!_foundRoleIdInRoleIdSets(roleId)) {
-				newRoleIds.add(roleId);
-			}
-		}
-
-		return newRoleIds;
-	}
-
-	private boolean _roleIdExistsInUpdatedRoleIdSets(String roleId) {
-		for (Set<String> roleIdSetWithPermission : _updatedRoleIdSets) {
-			if (roleIdSetWithPermission.contains(roleId)) {
-				return true;
-			}
 		}
 
 		return false;
