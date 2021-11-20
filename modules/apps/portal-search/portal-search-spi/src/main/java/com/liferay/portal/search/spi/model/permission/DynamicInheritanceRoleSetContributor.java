@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.GroupedModel;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.Role;
+import com.liferay.portal.kernel.model.role.RoleConstants;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
 import com.liferay.portal.kernel.security.permission.resource.PortletResourcePermission;
@@ -127,10 +128,18 @@ public class DynamicInheritanceRoleSetContributor
 	public void apply(RoleSetContributorContext<C> roleSetContributorContext)
 		throws PortalException {
 
+		Role guestRole = _roleLocalService.getRole(
+			roleSetContributorContext.getCompanyId(), RoleConstants.GUEST);
+
+		Role ownerRole = _roleLocalService.getRole(
+			roleSetContributorContext.getCompanyId(), RoleConstants.OWNER);
+
 		DynamicInheritanceRoleSetContributorContext
 			dynamicInheritanceRoleSetContributorContext =
 				new DynamicInheritanceRoleSetContributorContext(
-					_roleLocalService, roleSetContributorContext);
+					roleSetContributorContext,
+					String.valueOf(guestRole.getRoleId()),
+					String.valueOf(ownerRole.getRoleId()));
 
 		apply(
 			roleSetContributorContext,

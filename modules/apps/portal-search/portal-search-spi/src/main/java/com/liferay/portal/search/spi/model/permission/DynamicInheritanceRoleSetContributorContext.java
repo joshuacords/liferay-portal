@@ -14,11 +14,6 @@
 
 package com.liferay.portal.search.spi.model.permission;
 
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.model.Role;
-import com.liferay.portal.kernel.model.role.RoleConstants;
-import com.liferay.portal.kernel.service.RoleLocalService;
-
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -29,21 +24,13 @@ import java.util.Set;
 public class DynamicInheritanceRoleSetContributorContext {
 
 	public DynamicInheritanceRoleSetContributorContext(
-			RoleLocalService roleLocalService,
-			RoleSetContributorContext roleSetContributorContext)
-		throws PortalException {
+		RoleSetContributorContext roleSetContributorContext, String guestRoleId,
+		String ownerRoleId) {
 
 		_companyId = roleSetContributorContext.getCompanyId();
 		_groupId = roleSetContributorContext.getGroupId();
 
-		Role guestRole = roleLocalService.getRole(
-			_companyId, RoleConstants.GUEST);
-
-		Role ownerRole = roleLocalService.getRole(
-			_companyId, RoleConstants.OWNER);
-
-		_guestRoleId = String.valueOf(guestRole.getRoleId());
-		String ownerRoleId = String.valueOf(ownerRole.getRoleId());
+		_guestRoleId = guestRoleId;
 
 		_accessRoleIdSetCombiner = new DynamicInheritanceRoleIdSetCombiner(
 			_companyId, _groupId, _guestRoleId, ownerRoleId);
