@@ -130,9 +130,13 @@ public class SearchPermissionFieldsFactory {
 				GetterUtil.getLong(entryClassPK));
 		}
 
+		Role guestRole = _roleLocalService.getRole(
+			companyId, RoleConstants.GUEST);
+
 		RoleSetContributorContextImpl roleSetContributorContextImpl =
 			new RoleSetContributorContextImpl(
-				companyId, groupId, model, resourcePrimKey, _roleLocalService);
+				companyId, groupId, model, resourcePrimKey,
+				String.valueOf(guestRole.getRoleId()));
 
 		for (SearchPermissionDefinition.RoleSetContributor<T> roleProvider :
 				searchPermissionDefinition.getRoleSetContributors()) {
