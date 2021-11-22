@@ -79,7 +79,7 @@
 <!--PAGE_CONTROLS-->
 <tr>
 	<td>PAGE_CONTROLS_ELLIPSIS_ICON</td>
-	<td>//div[@class='form-builder-controls-trigger'] | //div[contains(@class,'dropdown-action')]</td>
+	<td>//div[@class='form-builder-controls-trigger'] | //div[contains(@class,'dropdown-action') and contains(@class,'paginated-builder')]</td>
 	<td></td>
 </tr>
 <tr>
