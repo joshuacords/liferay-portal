@@ -159,7 +159,7 @@ definition {
 
 		Pause(locator1 = "1000");
 
-		Click(
+		Click.clickNoMouseOver(
 			key_user = "${user}",
 			locator1 = "MyWorkflowTasks#DIALOG_BOX_ASSIGN_TO_VALUE");
 

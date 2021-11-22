@@ -26,9 +26,9 @@ definition {
 
 		Click(locator1 = "Segmentation#CRITERION_INPUT");
 
-		Click(
-			locator1 = "Segmentation#CRITERION_INPUT_OPTION",
-			value1 = "${criterionInputOption}");
+		Click.clickNoMouseOver(
+			key_criterionInputOption = "${criterionInputOption}",
+			locator1 = "Segmentation#CRITERION_INPUT_OPTION");
 	}
 
 	macro editSegment {

@@ -110,9 +110,9 @@ definition {
 
 		Click(locator1 = "PageEditor#EXPERIENCE_SEGMENT_ANYONE");
 
-		AssertClick(
-			locator1 = "PageEditor#EXPERIENCE_SELECT_SEGMENT",
-			value1 = "${segmentName}");
+		Click.clickNoMouseOver(
+			key_segmentName = "${segmentName}",
+			locator1 = "PageEditor#EXPERIENCE_SELECT_SEGMENT");
 
 		Button.clickSave();
 
