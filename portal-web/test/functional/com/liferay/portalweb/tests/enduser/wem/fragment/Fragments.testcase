@@ -495,6 +495,99 @@ definition {
 		}
 	}
 
+	@description = "LPS-79349 - User can propagate the changes of fragment to page templates."
+	@priority = "3"
+	test PropagateChangesOfFragmentToPageTemplates {
+		task ("Navigate to the fragment collection") {
+			FragmentsAdminNavigator.gotoCollection(collectionName = "Collection Name");
+		}
+
+		task ("Add a new fragment") {
+			var htmlSnippet = '''<div>TEST</div>''';
+
+			JSONFragment.addSection(
+				collectionName = "Collection Name",
+				fragmentStatus = "Approved",
+				groupName = "Test Site Name",
+				html = "${htmlSnippet}",
+				name = "Test Fragment Name");
+		}
+
+		task ("Navigate to page templates admin") {
+			PageTemplatesAdmin.openPageTemplatesAdmin(siteURLKey = "test-site-name");
+		}
+
+		task ("Add a page template collection") {
+			PageTemplatesAdmin.addCollection(collectionName = "Page Template Collection");
+		}
+
+		task ("Add a page template to the page template collection") {
+			PageTemplatesAdmin.addPageTemplate(pageTemplateName = "Page Template Name");
+		}
+
+		task ("Add the section fragment to the page template") {
+			PageEditor.addFragment(
+				collectionName = "Collection Name",
+				fragmentName = "Test Fragment Name");
+
+			PageEditor.viewAutoSaveMessage();
+		}
+
+		task ("View the inline text of new fragment at edit mode") {
+			AssertTextEquals(
+				index = "1",
+				key_fragmentName = "Test Fragment Name",
+				locator1 = "Fragment#FRAGMENT_BODY",
+				value1 = "TEST");
+
+			PageEditor.clickPublish();
+		}
+
+		task ("Edit the new fragment") {
+			FragmentsAdminNavigator.openFragmentsAdmin(siteURLKey = "test-site-name");
+
+			FragmentsAdminNavigator.gotoCollection(collectionName = "Collection Name");
+
+			FragmentsAdminNavigator.gotoEntryEllipsisItem(
+				entry = "Test Fragment Name",
+				item = "Edit");
+
+			var htmlSnippet = '''<div>EDITED</div>''';
+
+			FragmentsEditor.typeHtmlEditor(content = "${htmlSnippet}");
+
+			FragmentsEditor.publish();
+		}
+
+		task ("Propagate the changes") {
+			FragmentsAdminNavigator.gotoEntryEllipsisItem(
+				entry = "Test Fragment Name",
+				item = "View Usages");
+
+			Click(locator1 = "Checkbox#LEXICON_SELECT_ALL_CONTAINER");
+
+			Click.clickNoMouseOver(locator1 = "Button#PROPAGATE");
+
+			Alert.viewSuccessMessage();
+		}
+
+		task ("View the edited inline text of new fragment at edit mode") {
+			PageTemplatesAdmin.openPageTemplatesAdmin(siteURLKey = "test-site-name");
+
+			Navigator.gotoNavNested(navNested = "Page Template Collection");
+
+			PageTemplatesAdmin.gotoPageTemplate(pageTemplateName = "Page Template Name");
+
+			PageEditor.assertFragmentSidebarLoaded();
+
+			AssertTextEquals(
+				index = "1",
+				key_fragmentName = "Test Fragment Name",
+				locator1 = "Fragment#FRAGMENT_BODY",
+				value1 = "EDITED");
+		}
+	}
+
 	@description = "This is a test for LPS-100540. Global fragments can be propagated to all pages of a site or sites that use the fragments"
 	@priority = "5"
 	test PropagateGlobalFragmentChanges {
