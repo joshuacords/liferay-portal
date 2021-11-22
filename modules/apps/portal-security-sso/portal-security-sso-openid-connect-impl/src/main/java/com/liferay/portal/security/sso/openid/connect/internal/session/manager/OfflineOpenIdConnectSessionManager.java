@@ -26,7 +26,6 @@ import com.liferay.portal.kernel.messaging.DestinationFactory;
 import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.messaging.MessageListener;
 import com.liferay.portal.kernel.scheduler.SchedulerException;
-import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashMapDictionaryBuilder;
 import com.liferay.portal.kernel.util.Time;
@@ -227,7 +226,6 @@ public class OfflineOpenIdConnectSessionManager {
 
 		OIDCTokens oidcTokens = OpenIdConnectTokenRequestUtil.request(
 			_openIdConnectProviderRegistry.findOpenIdConnectProvider(
-				CompanyThreadLocal.getCompanyId(),
 				openIdConnectSession.getProviderName()),
 			refreshToken);
 
