@@ -61,7 +61,7 @@ public class NoteDisplay {
 	}
 
 	public String getContent() {
-		return HtmlUtil.escape(_note.getContent());
+		return _note.getContent();
 	}
 
 	public String getCreateDate() {
