@@ -480,6 +480,27 @@ definition {
 			value1 = "There are no entries.");
 	}
 
+	test AssertSynonymsPagination {
+		property custom.properties = "search.container.page.default.delta=5";
+
+		ProductMenu.gotoPortlet(
+			category = "Search Tuning",
+			panel = "Control Panel",
+			portlet = "Synonyms");
+
+		AssertElementNotPresent(locator1 = "Pagination#PAGINATION_BAR");
+
+		for (var counter : list "1,2,3,4,5,6") {
+			SearchTuning.addSynonymSet(synonyms = "Article ${counter}");
+		}
+
+		AssertElementPresent(locator1 = "Pagination#PAGINATION_BAR");
+
+		Click(locator1 = "Pagination#NEXT_LINK");
+
+		AssertElementPresent(locator1 = "Pagination#CURRENT_PAGE_SELECT");
+	}
+
 	test EnableAndDisableResultRankings {
 		var content = "Article Article Article Article";
 
