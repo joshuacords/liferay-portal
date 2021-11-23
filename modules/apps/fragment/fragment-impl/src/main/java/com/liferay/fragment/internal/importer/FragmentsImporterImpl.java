@@ -126,7 +126,8 @@ public class FragmentsImporterImpl implements FragmentsImporter {
 
 			_importResources(
 				userId, groupId, fragmentCollection.getFragmentCollectionId(),
-				fragmentCollection.getResourcesFolderId(), zipFile);
+				fragmentCollection.getResourcesFolderId(), entry.getKey(),
+				zipFile);
 
 			_importFragmentEntries(
 				userId, groupId, zipFile,
@@ -551,7 +552,7 @@ public class FragmentsImporterImpl implements FragmentsImporter {
 
 	private void _importResources(
 			long userId, long groupId, long fragmentCollectionId, long folderId,
-			ZipFile zipFile)
+			String fragmentCollectionKey, ZipFile zipFile)
 		throws Exception {
 
 		Enumeration<? extends ZipEntry> enumeration = zipFile.entries();
@@ -618,8 +619,11 @@ public class FragmentsImporterImpl implements FragmentsImporter {
 			String[] paths = StringUtil.split(
 				zipEntry.getName(), StringPool.FORWARD_SLASH);
 
+			String zipFileName = zipEntry.getName();
+
 			if (!ArrayUtil.contains(paths, "resources") ||
-				excludePaths.contains(zipEntry.getName())) {
+				excludePaths.contains(zipEntry.getName()) ||
+				!zipFileName.contains(fragmentCollectionKey)) {
 
 				continue;
 			}
