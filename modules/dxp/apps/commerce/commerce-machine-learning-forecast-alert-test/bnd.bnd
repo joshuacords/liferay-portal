@@ -3,4 +3,4 @@ Bundle-SymbolicName: com.liferay.commerce.machine.learning.forecast.alert.test
 Bundle-Version: 1.0.0
 -includeresource:\
 	test-classes/integration,\
-	@lib/frutilla.jar
+	@frutilla-[0-9.]*.jar
