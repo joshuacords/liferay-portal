@@ -214,6 +214,29 @@ definition {
 			value1 = "No Custom Results Yet");
 	}
 
+	test AssertResultRankingsPagination {
+		property custom.properties = "search.container.page.default.delta=5";
+
+		ProductMenu.gotoPortlet(
+			category = "Search Tuning",
+			panel = "Control Panel",
+			portlet = "Result Rankings");
+
+		AssertElementNotPresent(locator1 = "Pagination#PAGINATION_BAR");
+
+		for (var counter : list "1,2,3,4,5,6") {
+			SearchTuning.addResultRanking(searchQuery = "Article ${counter}");
+
+			Button.clickSave();
+		}
+
+		AssertElementPresent(locator1 = "Pagination#PAGINATION_BAR");
+
+		Click(locator1 = "Pagination#NEXT_LINK");
+
+		AssertElementPresent(locator1 = "Pagination#CURRENT_PAGE_SELECT");
+	}
+
 	test AssertResultRankingsWithSynonyms {
 		JSONWebcontent.addWebContent(
 			content = "Article Article Article Article",
