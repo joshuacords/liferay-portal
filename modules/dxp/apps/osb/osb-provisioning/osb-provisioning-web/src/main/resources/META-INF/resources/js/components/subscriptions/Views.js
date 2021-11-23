@@ -86,7 +86,7 @@ export function AddView({
 				<div className="info">
 					<svg
 						aria-label={Liferay.Language.get('info-icon')}
-						className="lexicon-icon-info-circle-full"
+						className="lexicon-icon lexicon-icon-info-circle-full"
 						role="img"
 					>
 						<use xlinkHref="#info-circle-full" />
@@ -172,7 +172,7 @@ export function EditView({
 					<div className="info">
 						<svg
 							aria-label={Liferay.Language.get('info-icon')}
-							className="lexicon-icon-info-circle-full"
+							className="lexicon-icon lexicon-icon-info-circle-full"
 							role="img"
 						>
 							<use xlinkHref="#info-circle-full" />
@@ -256,8 +256,7 @@ function ProductSelection({formAction, initialProductKeys, selectionURL}) {
 				setProductKeys(
 					initialProductKeys.concat(',', newKeys.join(','))
 				);
-			}
-			else {
+			} else {
 				setProductKeys(initialProductKeys);
 			}
 		};
