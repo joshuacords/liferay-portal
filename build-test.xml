@@ -4350,9 +4350,6 @@ go</echo>
 						<equals arg1="@{liferay.portal.bundle}" arg2="7.1.10.5" />
 						<equals arg1="@{liferay.portal.bundle}" arg2="7.3.5" />
 						<equals arg1="@{liferay.portal.bundle}" arg2="7.3.10" />
-						<equals arg1="@{liferay.portal.bundle}" arg2="7.3.10.1" />
-						<equals arg1="@{liferay.portal.bundle}" arg2="7.3.10.2" />
-						<equals arg1="@{liferay.portal.bundle}" arg2="7.3.10.3" />
 					</or>
 					<then>
 						<var name="app.server.tomcat.version" value="9.0.37" />
@@ -4362,6 +4359,7 @@ go</echo>
 					<or>
 						<equals arg1="@{liferay.portal.bundle}" arg2="7.1.10.6" />
 						<equals arg1="@{liferay.portal.bundle}" arg2="7.2.10.5" />
+						<equals arg1="@{liferay.portal.bundle}" arg2="7.3.10.2" />
 						<equals arg1="@{liferay.portal.bundle}" arg2="7.4.0" />
 						<equals arg1="@{liferay.portal.bundle}" arg2="7.4.1" />
 					</or>
@@ -4376,6 +4374,15 @@ go</echo>
 					</or>
 					<then>
 						<var name="app.server.tomcat.version" value="9.0.40" />
+					</then>
+				</elseif>
+				<elseif>
+					<or>
+						<equals arg1="@{liferay.portal.bundle}" arg2="7.3.10.3" />
+						<equals arg1="@{liferay.portal.bundle}" arg2="7.4.13" />
+					</or>
+					<then>
+						<var name="app.server.tomcat.version" value="9.0.53" />
 					</then>
 				</elseif>
 			</if>
