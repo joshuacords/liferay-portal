@@ -125,7 +125,7 @@ public class DefaultMentionsNotifier implements MentionsNotifier {
 
 			Layout layout = themeDisplay.getLayout();
 
-			if ((themeDisplay != null) && (layout != null)) {
+			if (layout != null) {
 				PermissionChecker permissionChecker =
 					PermissionCheckerFactoryUtil.create(mentionedUser);
 
