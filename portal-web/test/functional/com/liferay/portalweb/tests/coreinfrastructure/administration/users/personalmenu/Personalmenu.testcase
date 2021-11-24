@@ -347,4 +347,48 @@ definition {
 		LexiconEntry.viewNoEntry(rowEntry = "Organization2 Name");
 	}
 
+	@description = "This is a use case for LPS-121655."
+	@priority = "4"
+	test ViewNoMyDashboardMyProfileLink {
+		property custom.properties = "layout.user.private.layouts.power.user.required=true${line.separator}layout.user.public.layouts.power.user.required=true";
+
+		var siteName = TestCase.getSiteName(siteName = "${siteName}");
+
+		JSONUser.addUser(
+			userEmailAddress = "user1@liferay.com",
+			userFirstName = "user1",
+			userLastName = "user1",
+			userScreenName = "user1");
+
+		ProductMenu.gotoPortlet(
+			category = "Users",
+			panel = "Control Panel",
+			portlet = "Users and Organizations");
+
+		User.editPasswordCP(
+			userEmailAddress = "user1@liferay.com",
+			userScreenName = "user1");
+
+		JSONGroup.assignUserToGroup(
+			groupName = "Guest",
+			userEmailAddress = "user1@liferay.com");
+
+		JSONGroup.assignGroupRoleToUser(
+			groupName = "Guest",
+			roleTitle = "Site Content Reviewer",
+			userEmailAddress = "user1@liferay.com");
+
+		User.logoutPG();
+
+		User.logoutAndLoginPG(
+			userLoginEmailAddress = "user1@liferay.com",
+			userLoginFullName = "user1 user1");
+
+		UserBar.gotoDropdown();
+
+		UserBar.viewNoDropdownItem(dropdownItem = "My Dashboard");
+
+		UserBar.viewNoDropdownItem(dropdownItem = "My Profile");
+	}
+
 }
