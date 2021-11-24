@@ -51,6 +51,10 @@ function Purchase({
 	);
 
 	useEffect(() => {
+		setSelectedExpirationDate(licenseExpirationDate);
+	}, [licenseExpirationDate]);
+
+	useEffect(() => {
 		setDisableChoose(!sizing || !validDates);
 	}, [sizing, validDates]);
 

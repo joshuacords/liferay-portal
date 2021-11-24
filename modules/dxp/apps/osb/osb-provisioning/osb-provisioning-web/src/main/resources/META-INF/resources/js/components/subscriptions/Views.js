@@ -256,7 +256,8 @@ function ProductSelection({formAction, initialProductKeys, selectionURL}) {
 				setProductKeys(
 					initialProductKeys.concat(',', newKeys.join(','))
 				);
-			} else {
+			}
+			else {
 				setProductKeys(initialProductKeys);
 			}
 		};
