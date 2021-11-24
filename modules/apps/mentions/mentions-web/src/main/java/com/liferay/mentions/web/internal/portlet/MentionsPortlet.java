@@ -123,14 +123,14 @@ public class MentionsPortlet extends MVCPortlet {
 			themeDisplay.getCompanyId(), themeDisplay.getUserId(), query,
 			socialInteractionsConfiguration);
 
-		Layout layout = themeDisplay.getLayout();
-
 		for (User user : users) {
 			if (user.isDefaultUser() ||
 				(themeDisplay.getUserId() == user.getUserId())) {
 
 				continue;
 			}
+
+			Layout layout = themeDisplay.getLayout();
 
 			if (layout != null) {
 				PermissionChecker permissionChecker =
