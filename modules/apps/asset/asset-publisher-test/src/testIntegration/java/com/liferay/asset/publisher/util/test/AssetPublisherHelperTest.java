@@ -15,15 +15,30 @@
 package com.liferay.asset.publisher.util.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.service.persistence.AssetEntryQuery;
 import com.liferay.asset.list.constants.AssetListEntryTypeConstants;
 import com.liferay.asset.list.model.AssetListEntry;
 import com.liferay.asset.list.service.AssetListEntryLocalService;
+import com.liferay.asset.publisher.util.AssetEntryResult;
 import com.liferay.asset.publisher.util.AssetPublisherHelper;
+import com.liferay.asset.test.util.AssetTestUtil;
+import com.liferay.journal.constants.JournalFolderConstants;
+import com.liferay.journal.model.JournalArticle;
+import com.liferay.journal.test.util.JournalTestUtil;
 import com.liferay.layout.test.util.LayoutTestUtil;
 import com.liferay.petra.lang.HashUtil;
+import com.liferay.petra.string.StringPool;
+import com.liferay.portal.configuration.test.util.ConfigurationTestUtil;
+import com.liferay.portal.kernel.dao.search.SearchContainer;
+import com.liferay.portal.kernel.model.ClassName;
+import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.security.permission.PermissionCheckerFactoryUtil;
+import com.liferay.portal.kernel.service.ClassNameLocalService;
+import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.test.portlet.MockLiferayPortletRenderRequest;
@@ -34,6 +49,7 @@ import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.HashMapDictionaryBuilder;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -54,15 +70,20 @@ import java.util.Objects;
 import javax.portlet.PortletPreferences;
 
 import javax.servlet.http.HttpServletRequest;
+import org.junit.AfterClass;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import org.springframework.mock.web.portlet.MockPortletPreferences;
+
+import org.osgi.service.cm.Configuration;
+import org.osgi.service.cm.ConfigurationAdmin;
 
 /**
  * @author Eudaldo Alonso
@@ -77,9 +98,30 @@ public class AssetPublisherHelperTest {
 			new LiferayIntegrationTestRule(),
 			PermissionCheckerMethodTestRule.INSTANCE);
 
+	@BeforeClass
+	public static void setUpClass() throws Exception {
+		_assetPublisherWebConfiguration = _configurationAdmin.getConfiguration(
+			"com.liferay.asset.publisher.web.internal.configuration." +
+				"AssetPublisherWebConfiguration",
+			StringPool.QUESTION);
+
+		ConfigurationTestUtil.saveConfiguration(
+			_assetPublisherWebConfiguration,
+			HashMapDictionaryBuilder.<String, Object>put(
+				"searchWithIndex", false
+			).build());
+	}
+
+	@AfterClass
+	public static void tearDownClass() throws Exception {
+		ConfigurationTestUtil.deleteConfiguration(
+			_assetPublisherWebConfiguration);
+	}
+
 	@Before
 	public void setUp() throws Exception {
-		_group = GroupTestUtil.addGroup();
+		_firstGroup = GroupTestUtil.addGroup();
+		_secondGroup = GroupTestUtil.addGroup();
 	}
 
 	@Test
@@ -268,18 +310,19 @@ public class AssetPublisherHelperTest {
 
 	@Test
 	public void testGetAssetEntries() throws Exception {
-		AssetListEntry assetListEntry = _addAssetListEntry(_group.getGroupId());
+		AssetListEntry assetListEntry = _addAssetListEntry(
+			_firstGroup.getGroupId());
 
 		SegmentsEntry segmentsEntry = _addSegmentsEntry(
-			_group.getGroupId(), TestPropsValues.getUser());
+			_firstGroup.getGroupId(), TestPropsValues.getUser());
 
 		MockLiferayPortletRenderRequest mockLiferayPortletRenderRequest =
 			new MockLiferayPortletRenderRequest();
 
 		ThemeDisplay themeDisplay = new ThemeDisplay();
 
-		themeDisplay.setLayout(LayoutTestUtil.addLayout(_group));
-		themeDisplay.setScopeGroupId(_group.getGroupId());
+		themeDisplay.setScopeGroupId(_firstGroup.getGroupId());
+		themeDisplay.setLayout(LayoutTestUtil.addLayout(_firstGroup));
 		themeDisplay.setUser(TestPropsValues.getUser());
 
 		mockLiferayPortletRenderRequest.setAttribute(
@@ -293,7 +336,7 @@ public class AssetPublisherHelperTest {
 
 		ServiceContext serviceContext =
 			ServiceContextTestUtil.getServiceContext(
-				_group, TestPropsValues.getUserId());
+				_firstGroup, TestPropsValues.getUserId());
 
 		serviceContext.setRequest(httpServletRequest);
 
@@ -489,6 +532,71 @@ public class AssetPublisherHelperTest {
 			Arrays.toString(assetTagNames), 0, assetTagNames.length);
 	}
 
+	@Test
+	public void testNotGetAssetWithTagsFromDifferentSite() throws Exception {
+		ServiceContext serviceContext =
+			ServiceContextTestUtil.getServiceContext(_firstGroup.getGroupId());
+
+		String assetTagName1 = RandomTestUtil.randomString();
+
+		AssetTestUtil.addTag(_firstGroup.getGroupId(), assetTagName1);
+		serviceContext.setAssetTagNames(new String[] {assetTagName1});
+
+		JournalArticle article = JournalTestUtil.addArticle(
+			_firstGroup.getGroupId(),
+			JournalFolderConstants.DEFAULT_PARENT_FOLDER_ID, serviceContext);
+
+		Layout layout = LayoutTestUtil.addLayout(_secondGroup.getGroupId());
+
+		String assetTagName2 = RandomTestUtil.randomString();
+
+		AssetTestUtil.addTag(_secondGroup.getGroupId(), assetTagName2);
+
+		AssetQueryRule assetQueryRule = new AssetQueryRule(
+			true, true, "assetTags", new String[] {assetTagName2});
+
+		PortletPreferences portletPreferences =
+			getAssetPublisherPortletPreferences(
+				ListUtil.fromArray(assetQueryRule));
+
+		long[] overrideAllAssetCategoryIds = new long[0];
+		String[] overrideAllAssetTagNames = {assetTagName2};
+		String[] overrideAllKeywords = new String[0];
+
+		AssetEntryQuery assetEntryQuery =
+			_assetPublisherHelper.getAssetEntryQuery(
+				portletPreferences, _secondGroup.getGroupId(), layout,
+				overrideAllAssetCategoryIds, overrideAllAssetTagNames,
+				overrideAllKeywords);
+
+		ClassName journalArticleClassName =
+			_classNameLocalService.fetchClassName(
+				JournalArticle.class.getName());
+
+		long journalArticleClassNameID =
+			journalArticleClassName.getClassNameId();
+		assetEntryQuery.setClassNameIds(new long[] {journalArticleClassNameID});
+
+		long[] tagids = assetEntryQuery.getAllTagIds();
+		Assert.assertEquals(1, tagids.length);
+
+		Company company = _companyLocalService.getCompany(
+			TestPropsValues.getCompanyId());
+
+		SearchContainer<AssetEntry> searchContainer = new SearchContainer<>();
+
+		searchContainer.setTotal(10);
+
+		List<AssetEntryResult> assetEntryResults =
+			_assetPublisherHelper.getAssetEntryResults(
+				searchContainer, assetEntryQuery, layout, portletPreferences,
+				StringPool.BLANK, null, null, company.getCompanyId(),
+				_firstGroup.getGroupId(), TestPropsValues.getUserId(),
+				assetEntryQuery.getClassNameIds(), null);
+
+		Assert.assertEquals(0, assetEntryResults.size());
+	}
+
 	protected PortletPreferences getAssetPublisherPortletPreferences(
 			List<AssetQueryRule> assetQueryRules)
 		throws Exception {
@@ -535,14 +643,28 @@ public class AssetPublisherHelperTest {
 			User.class.getName());
 	}
 
+	private static Configuration _assetPublisherWebConfiguration;
+
+	@Inject
+	private static ConfigurationAdmin _configurationAdmin;
+
 	@Inject
 	private AssetListEntryLocalService _assetListEntryLocalService;
 
 	@Inject
 	private AssetPublisherHelper _assetPublisherHelper;
 
+	@Inject
+	private ClassNameLocalService _classNameLocalService;
+
+	@Inject
+	private CompanyLocalService _companyLocalService;
+
 	@DeleteAfterTestRun
-	private Group _group;
+	private Group _firstGroup;
+
+	@DeleteAfterTestRun
+	private Group _secondGroup;
 
 	@Inject(
 		filter = "segments.criteria.contributor.key=user",
