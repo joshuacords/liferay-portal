@@ -95,6 +95,28 @@ definition {
 		selenium.assertLiferayErrors();
 	}
 
+	function dragAndDropWithMouseMove {
+		WaitForSPARefresh();
+
+		selenium.waitForElementPresent("${locator1}");
+
+		selenium.mouseOver("${locator1}");
+
+		selenium.waitForVisible("${locator1}");
+
+		selenium.mouseDown("${locator1}");
+
+		selenium.mouseMove("${locator2}");
+
+		selenium.mouseMoveAt("${locator2}", "0,0");
+
+		selenium.mouseRelease();
+
+		selenium.assertJavaScriptErrors();
+
+		selenium.assertLiferayErrors();
+	}
+
 	function javaScriptDragAndDropToObject {
 		WaitForSPARefresh();
 

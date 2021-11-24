@@ -109,10 +109,9 @@ definition {
 
 		var key_field = "${field}";
 
-		DragAndDrop(
+		DragAndDrop.dragAndDropWithMouseMove(
 			locator1 = "DDMEditStructure#FIELDS_FIELD",
-			locator2 = "DDMEditStructure#FORM_BUILDER_FIELD",
-			value1 = "${field}");
+			locator2 = "DDMEditStructure#FORM_BUILDER_FIELD");
 
 		DynamicDataMapping._editFieldLabel(
 			field = "${field}",
