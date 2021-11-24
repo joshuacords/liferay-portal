@@ -447,7 +447,7 @@ definition {
 			locator1 = "PageEditor#FRAGMENT_SIDEBAR_COMMENTS_EDITOR",
 			value1 = "${fragmentCommentEdit}");
 
-		Click(locator1 = "Button#COMMENT");
+		Click(locator1 = "Button#UPDATE");
 	}
 
 	macro editExperience {
