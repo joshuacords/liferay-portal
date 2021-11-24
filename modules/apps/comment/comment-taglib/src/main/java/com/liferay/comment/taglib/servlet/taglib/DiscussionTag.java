@@ -141,9 +141,9 @@ public class DiscussionTag extends IncludeTag {
 
 		return StringBundler.concat(
 			themeDisplay.getPathMain(),
-			"/portal/comment/discussion/get_editor?p_p_isolated=1&",
-			"doAsUserId=", URLCodec.encodeURL(themeDisplay.getDoAsUserId()),
-			"&p_p_id=", portletId, "&p_l_id=", themeDisplay.getPlid());
+			"/portal/comment/discussion/get_editor?p_l_id=",
+			themeDisplay.getPlid(), "&p_p_id=", portletId, "&p_p_isolated=1&",
+			"doAsUserId=", URLCodec.encodeURL(themeDisplay.getDoAsUserId()));
 	}
 
 	protected String getFormAction(HttpServletRequest httpServletRequest) {
