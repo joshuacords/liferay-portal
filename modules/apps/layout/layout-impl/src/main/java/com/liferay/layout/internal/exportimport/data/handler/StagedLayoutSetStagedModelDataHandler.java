@@ -845,6 +845,14 @@ public class StagedLayoutSetStagedModelDataHandler
 				continue;
 			}
 
+			if (_log.isDebugEnabled()) {
+				_log.debug(
+					StringBundler.concat(
+						"Priority of layout ", layout.getUuid(),
+						" updated from ", layout.getPriority(), " to ",
+						newLayoutPriority));
+			}
+
 			layout.setPriority(newLayoutPriority);
 
 			_layoutLocalService.updateLayout(layout);
