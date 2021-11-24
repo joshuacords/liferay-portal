@@ -232,10 +232,6 @@ definition {
 		}
 		else {
 			AssertElementPresent(locator1 = "Calendar#SCHEDULER_EVENT_ALL_DAY");
-
-			AssertTextEquals(
-				locator1 = "Calendar#SCHEDULER_EVENT_ALL_DAY_TITLE",
-				value1 = "${eventTitle}");
 		}
 	}
 
