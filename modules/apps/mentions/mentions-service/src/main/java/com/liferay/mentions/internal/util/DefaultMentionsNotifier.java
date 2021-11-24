@@ -113,10 +113,6 @@ public class DefaultMentionsNotifier implements MentionsNotifier {
 		subscriptionSender.setLocalizedSubjectMap(
 			LocalizationUtil.getMap(subjectLocalizedValuesMap));
 
-		ThemeDisplay themeDisplay = serviceContext.getThemeDisplay();
-
-		Layout layout = themeDisplay.getLayout();
-
 		for (String mentionedUserScreenName : mentionedUsersScreenNames) {
 			User mentionedUser = _userLocalService.fetchUserByScreenName(
 				user.getCompanyId(), mentionedUserScreenName);
@@ -124,6 +120,10 @@ public class DefaultMentionsNotifier implements MentionsNotifier {
 			if (mentionedUser == null) {
 				continue;
 			}
+
+			ThemeDisplay themeDisplay = serviceContext.getThemeDisplay();
+
+			Layout layout = themeDisplay.getLayout();
 
 			if ((themeDisplay != null) && (layout != null)) {
 				PermissionChecker permissionChecker =
