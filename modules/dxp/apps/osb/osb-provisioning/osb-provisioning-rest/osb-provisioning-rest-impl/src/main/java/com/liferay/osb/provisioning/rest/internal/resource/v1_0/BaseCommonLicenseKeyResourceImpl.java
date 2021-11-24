@@ -108,9 +108,11 @@ public abstract class BaseCommonLicenseKeyResourceImpl
 				@javax.ws.rs.PathParam("productEnvironmentName")
 				String productEnvironmentName,
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+				@javax.validation.constraints.NotNull
 				@javax.ws.rs.QueryParam("dateEnd")
 				java.util.Date dateEnd,
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+				@javax.validation.constraints.NotNull
 				@javax.ws.rs.QueryParam("dateStart")
 				java.util.Date dateStart)
 		throws Exception {

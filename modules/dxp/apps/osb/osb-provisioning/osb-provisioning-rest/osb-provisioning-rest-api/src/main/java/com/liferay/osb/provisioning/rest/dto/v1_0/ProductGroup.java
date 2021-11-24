@@ -55,6 +55,10 @@ public class ProductGroup implements Serializable {
 		return ObjectMapperUtil.readValue(ProductGroup.class, json);
 	}
 
+	public static ProductGroup unsafeToDTO(String json) {
+		return ObjectMapperUtil.unsafeReadValue(ProductGroup.class, json);
+	}
+
 	@Schema(description = "The name of the product group.")
 	@Valid
 	public Name getName() {

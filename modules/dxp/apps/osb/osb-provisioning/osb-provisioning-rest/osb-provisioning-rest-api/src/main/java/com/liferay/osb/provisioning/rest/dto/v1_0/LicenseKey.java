@@ -59,6 +59,10 @@ public class LicenseKey implements Serializable {
 		return ObjectMapperUtil.readValue(LicenseKey.class, json);
 	}
 
+	public static LicenseKey unsafeToDTO(String json) {
+		return ObjectMapperUtil.unsafeReadValue(LicenseKey.class, json);
+	}
+
 	@Schema(description = "The key of the license key's account.")
 	public String getAccountKey() {
 		return accountKey;

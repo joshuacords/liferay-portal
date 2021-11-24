@@ -58,6 +58,10 @@ public class SubscriptionTerm implements Serializable {
 		return ObjectMapperUtil.readValue(SubscriptionTerm.class, json);
 	}
 
+	public static SubscriptionTerm unsafeToDTO(String json) {
+		return ObjectMapperUtil.unsafeReadValue(SubscriptionTerm.class, json);
+	}
+
 	@Schema(description = "The date the subscription term ends.")
 	public Date getEndDate() {
 		return endDate;

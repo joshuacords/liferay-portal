@@ -213,10 +213,11 @@ public class CommonLicenseKeyLocalServiceUtil {
 
 	public static CommonLicenseKey fetchCommonLicenseKey(
 		String productGroup, String productEnvironment, String productVersion,
-		java.util.Date endDate) {
+		java.util.Date startDate, java.util.Date endDate) {
 
 		return getService().fetchCommonLicenseKey(
-			productGroup, productEnvironment, productVersion, endDate);
+			productGroup, productEnvironment, productVersion, startDate,
+			endDate);
 	}
 
 	/**

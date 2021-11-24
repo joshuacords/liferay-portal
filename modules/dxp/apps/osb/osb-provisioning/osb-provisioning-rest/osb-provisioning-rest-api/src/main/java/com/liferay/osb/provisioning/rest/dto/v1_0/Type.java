@@ -54,6 +54,10 @@ public class Type implements Serializable {
 		return ObjectMapperUtil.readValue(Type.class, json);
 	}
 
+	public static Type unsafeToDTO(String json) {
+		return ObjectMapperUtil.unsafeReadValue(Type.class, json);
+	}
+
 	@Schema(
 		description = "The display name of the license entry shown on the UI."
 	)

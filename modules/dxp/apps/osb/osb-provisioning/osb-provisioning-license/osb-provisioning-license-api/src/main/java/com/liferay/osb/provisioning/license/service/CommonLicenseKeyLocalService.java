@@ -200,7 +200,7 @@ public interface CommonLicenseKeyLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public CommonLicenseKey fetchCommonLicenseKey(
 		String productGroup, String productEnvironment, String productVersion,
-		Date endDate);
+		Date startDate, Date endDate);
 
 	/**
 	 * Returns the common license key with the matching UUID and company.

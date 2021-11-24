@@ -56,6 +56,11 @@ public class LicenseKeyGenerateForm implements Serializable {
 		return ObjectMapperUtil.readValue(LicenseKeyGenerateForm.class, json);
 	}
 
+	public static LicenseKeyGenerateForm unsafeToDTO(String json) {
+		return ObjectMapperUtil.unsafeReadValue(
+			LicenseKeyGenerateForm.class, json);
+	}
+
 	@Schema(
 		description = "The subscription terms of the account available to generate the license key on."
 	)

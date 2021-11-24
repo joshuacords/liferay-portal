@@ -235,10 +235,12 @@ public class CommonLicenseKeyLocalServiceWrapper
 	public com.liferay.osb.provisioning.license.model.CommonLicenseKey
 		fetchCommonLicenseKey(
 			String productGroup, String productEnvironment,
-			String productVersion, java.util.Date endDate) {
+			String productVersion, java.util.Date startDate,
+			java.util.Date endDate) {
 
 		return _commonLicenseKeyLocalService.fetchCommonLicenseKey(
-			productGroup, productEnvironment, productVersion, endDate);
+			productGroup, productEnvironment, productVersion, startDate,
+			endDate);
 	}
 
 	/**

@@ -56,6 +56,10 @@ public class Version implements Serializable {
 		return ObjectMapperUtil.readValue(Version.class, json);
 	}
 
+	public static Version unsafeToDTO(String json) {
+		return ObjectMapperUtil.unsafeReadValue(Version.class, json);
+	}
+
 	@Schema(description = "The label of the version")
 	public String getLabel() {
 		return label;
