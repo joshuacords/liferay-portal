@@ -83,11 +83,11 @@ public class CommonLicenseKeyLocalServiceImpl
 
 	public CommonLicenseKey fetchCommonLicenseKey(
 		String productGroup, String productEnvironment, String productVersion,
-		Date endDate) {
+		Date startDate, Date endDate) {
 
 		List<CommonLicenseKey> commonLicenseKeys =
 			commonLicenseKeyPersistence.findByPG_PE_PV_gtS_ltE(
-				productGroup, productEnvironment, productVersion, endDate,
+				productGroup, productEnvironment, productVersion, startDate,
 				endDate);
 
 		if (commonLicenseKeys.isEmpty()) {

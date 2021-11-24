@@ -67,7 +67,7 @@ public class CommonLicenseKeyResourceImpl
 		CommonLicenseKey commonLicenseKey =
 			_commonLicenseKeyLocalService.fetchCommonLicenseKey(
 				productGroupName, productEnvironment, StringPool.BLANK,
-				dateEnd);
+				dateStart, dateEnd);
 
 		if (commonLicenseKey != null) {
 			byte[] bytes = _commonLicenseKeyLocalService.getBytes(

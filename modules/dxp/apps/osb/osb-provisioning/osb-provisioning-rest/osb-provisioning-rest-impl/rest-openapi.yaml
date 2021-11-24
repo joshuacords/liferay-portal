@@ -469,11 +469,13 @@ paths:
                       type: string
                 - in: query
                   name: dateEnd
+                  required: true
                   schema:
                       format: date-time
                       type: string
                 - in: query
                   name: dateStart
+                  required: true
                   schema:
                       format: date-time
                       type: string
