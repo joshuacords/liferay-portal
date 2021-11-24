@@ -218,6 +218,62 @@ definition {
 		Staging.viewPortletDefaultMessageInRemoteLive();
 	}
 
+	@description = "This is a use case for LPS-138633. User can edit the name and the status of a template after upgrade."
+	@priority = "5"
+	test TemplateNameAndStatusCanBeEditedAfterUpgrade71103 {
+		property data.archive.type = "data-archive-deactivated-template";
+		property database.types = "db2,mysql,oracle,postgresql,sybase";
+		property portal.version = "7.1.10.3";
+
+		task ("Change the new site template's name then verify it") {
+			SiteTemplatesNavigator.openSiteTemplatesAdmin();
+
+			SiteTemplates.editCP(siteTemplateName = "Site Template Name");
+
+			SiteTemplatesNavigator.openSiteTemplatesAdmin();
+
+			SiteTemplates.viewCP(siteTemplateName = "Site Template Name Edit");
+		}
+
+		task ("Change the new site's status to active then verify it") {
+			SiteTemplates.activateCP(siteTemplateName = "Site Template Name Edit");
+
+			SiteTemplatesNavigator.openSiteTemplatesAdmin();
+
+			SiteTemplates.viewTemplateStatusCP(
+				siteTemplateActiveEdit = "Yes",
+				siteTemplateName = "Site Template Name Edit");
+		}
+	}
+
+	@description = "This is a use case for LPS-138633. User can edit the name and the status of a template after upgrade."
+	@priority = "5"
+	test TemplateNameAndStatusCanBeEditedAfterUpgrade701016 {
+		property data.archive.type = "data-archive-deactivated-template";
+		property database.types = "db2,mysql,oracle,postgresql,sybase";
+		property portal.version = "7.0.10.16";
+
+		task ("Change the new site template's name then verify it") {
+			SiteTemplatesNavigator.openSiteTemplatesAdmin();
+
+			SiteTemplates.editCP(siteTemplateName = "Site Template Name");
+
+			SiteTemplatesNavigator.openSiteTemplatesAdmin();
+
+			SiteTemplates.viewCP(siteTemplateName = "Site Template Name Edit");
+		}
+
+		task ("Change the new site's status to active then verify it") {
+			SiteTemplates.activateCP(siteTemplateName = "Site Template Name Edit");
+
+			SiteTemplatesNavigator.openSiteTemplatesAdmin();
+
+			SiteTemplates.viewTemplateStatusCP(
+				siteTemplateActiveEdit = "Yes",
+				siteTemplateName = "Site Template Name Edit");
+		}
+	}
+
 	@description = "This is a use case for LPS-87237."
 	@priority = "5"
 	test ViewStagingDefaultSettingAfterUpgrade704 {
