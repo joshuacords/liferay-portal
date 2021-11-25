@@ -921,6 +921,13 @@ definition {
 
 		DDLList.saveViaDDLDisplayPG();
 
+		Navigator.openURL();
+
+		DDLList.editUserViewPermissionCP(
+			addOrRemoveViewPermission = "Add",
+			ddlListName = "Employees",
+			roleList = "Data Recorder Name");
+
 		Navigator.gotoPage(pageName = "Dynamic Data Lists Page");
 
 		DDLRecord.addViaDDLDisplayPG(ddlDataDefinitionName = "Employee Profile Data Definition");
