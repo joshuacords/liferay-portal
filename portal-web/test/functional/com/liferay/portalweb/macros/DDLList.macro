@@ -104,6 +104,23 @@ definition {
 		LexiconEntry.gotoEllipsisMenuItem(menuItem = "Permissions");
 	}
 
+	macro editUserViewPermissionCP {
+		ProductMenu.gotoPortlet(
+			category = "Content &amp; Data",
+			panel = "Site Administration",
+			portlet = "Dynamic Data Lists");
+
+		DDLList.editPermissions(ddlListName = "${ddlListName}");
+
+		if (IsElementPresent.isElementPresentAfterWait(locator1 = "IFrame#DIALOG")) {
+			SelectFrame(locator1 = "IFrame#DIALOG");
+		}
+
+		PermissionsInline.addOrRemoveViewPermissionFromAllRoles(
+			addOrRemoveViewPermission = "${addOrRemoveViewPermission}",
+			roleList = "${roleList}");
+	}
+
 	macro editViaDDLDisplayPG {
 		Click(
 			locator1 = "DDL#PORTLET_ACTIONS_EDIT_LIST",
