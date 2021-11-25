@@ -226,6 +226,8 @@ definition {
 	@description = "This is a use case for LPS-83319. This test is Set And View Web Content with two translations"
 	@priority = "5"
 	test ViewChangeWebContentLanguage {
+		property test.name.skip.portal.instance = "LocalizationWithWebContent#ViewChangeWebContentLanguage";
+
 		task ("Check Changeable Default Language setting") {
 			ProductMenu.gotoPortlet(
 				category = "Configuration",
