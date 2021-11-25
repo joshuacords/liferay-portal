@@ -85,7 +85,7 @@ AUI.add(
 				rowSelector: {
 					validator: Lang.isString,
 					value:
-						'li[data-selectable="true"],tr[data-selectable="true"]'
+						'dd[data-selectable="true"],li[data-selectable="true"],tr[data-selectable="true"]'
 				}
 			},
 

@@ -109,6 +109,14 @@ PortletURL portletURL = userItemSelectorViewDisplayContext.getPortletURL();
 		allSelectedElements.each(function() {
 			var row = this.ancestor('tr');
 
+			if (row == null) {
+				row = this.ancestor('li');
+			}
+
+			if (row == null) {
+				row = this.ancestor('dd');
+			}
+
 			var data = row.getDOM().dataset;
 
 			arr.push({id: data.id, name: data.name});
