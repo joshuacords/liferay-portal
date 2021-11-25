@@ -33,4 +33,6 @@ public class ExternalLinkDomain {
 
 	public static final String WEB = "web";
 
+	public static final String ZENDESK = "zendesk";
+
 }

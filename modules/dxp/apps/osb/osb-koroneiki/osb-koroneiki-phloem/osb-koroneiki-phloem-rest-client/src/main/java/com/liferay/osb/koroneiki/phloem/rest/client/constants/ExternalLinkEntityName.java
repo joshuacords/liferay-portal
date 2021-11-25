@@ -41,4 +41,6 @@ public class ExternalLinkEntityName {
 
 	public static final String WEB_ORGANIZATION = "organization";
 
+	public static final String ZENDESK_ORGANIZATION = "organization";
+
 }
