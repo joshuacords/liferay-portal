@@ -77,9 +77,6 @@ public class AddDDMStructureMVCActionCommand extends BaseMVCActionCommand {
 		ServiceContext serviceContext = ServiceContextFactory.getInstance(
 			DDMStructure.class.getName(), actionRequest);
 
-		serviceContext.setAddGroupPermissions(true);
-		serviceContext.setAddGuestPermissions(true);
-
 		_ddmStructureService.addStructure(
 			groupId, parentDDMStructureId,
 			_portal.getClassNameId(JournalArticle.class.getName()),
