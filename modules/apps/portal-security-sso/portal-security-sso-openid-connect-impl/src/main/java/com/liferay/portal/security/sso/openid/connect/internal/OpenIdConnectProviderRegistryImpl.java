@@ -108,7 +108,8 @@ public class OpenIdConnectProviderRegistryImpl
 
 		synchronized (_openIdConnectProvidersPerFactory) {
 			OpenIdConnectProvider openIdConnectProvider =
-				createOpenIdConnectProvider(openIdConnectProviderConfiguration);
+				createOpenIdConnectProvider(
+					factoryPid, openIdConnectProviderConfiguration);
 
 			removeOpenConnectIdProvider(factoryPid);
 
@@ -130,6 +131,7 @@ public class OpenIdConnectProviderRegistryImpl
 
 	protected OpenIdConnectProvider<OIDCClientMetadata, OIDCProviderMetadata>
 			createOpenIdConnectProvider(
+				String configurationPid,
 				OpenIdConnectProviderConfiguration
 					openIdConnectProviderConfiguration)
 		throws ConfigurationException {
@@ -178,7 +180,7 @@ public class OpenIdConnectProviderRegistryImpl
 			openIdConnectProviderConfiguration.providerName(),
 			openIdConnectProviderConfiguration.openIdConnectClientId(),
 			openIdConnectProviderConfiguration.openIdConnectClientSecret(),
-			openIdConnectProviderConfiguration.scopes(),
+			configurationPid, openIdConnectProviderConfiguration.scopes(),
 			openIdConnectMetadataFactory,
 			openIdConnectProviderConfiguration.tokenConnectionTimeout());
 	}
