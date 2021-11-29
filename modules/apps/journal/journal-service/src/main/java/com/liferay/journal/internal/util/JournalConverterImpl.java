@@ -913,7 +913,11 @@ public class JournalConverterImpl implements JournalConverter {
 						ddmField.getDefaultLocale(), count);
 				}
 
-				String valueString = String.valueOf(fieldValue);
+				String valueString = StringPool.BLANK;
+
+				if (fieldValue != null) {
+					valueString = String.valueOf(fieldValue);
+				}
 
 				updateDynamicContentValue(
 					dynamicContentElement, fieldType, multiple,
