@@ -32,7 +32,6 @@ import {
 } from '../state/context.es';
 import {reducer} from '../state/reducer.es';
 import {
-	SegmentsExperienceType,
 	SegmentsExperimentGoal,
 	SegmentsExperimentType,
 	SegmentsVariantType
@@ -47,7 +46,6 @@ import UnsupportedSegmentsExperiments from './UnsupportedSegmentsExperiments.es'
 function SegmentsExperimentsSidebar({
 	initialExperimentHistory,
 	initialGoals,
-	initialSegmentsExperiences,
 	initialSegmentsExperiment,
 	initialSegmentsVariants,
 	initialSelectedSegmentsExperienceId = '0',
@@ -96,11 +94,7 @@ function SegmentsExperimentsSidebar({
 						onEditSegmentsExperimentStatus={
 							_handleEditSegmentExperimentStatus
 						}
-						onSelectSegmentsExperienceChange={
-							_handleSelectSegmentsExperience
-						}
 						onTargetChange={_handleTargetChange}
-						segmentsExperiences={initialSegmentsExperiences}
 					/>
 					{createExperimentModal.active && (
 						<ClayModal observer={creationModalObserver} size="lg">
@@ -354,10 +348,6 @@ function SegmentsExperimentsSidebar({
 			});
 	}
 
-	function _handleSelectSegmentsExperience(segmentsExperienceId) {
-		navigateToExperience(segmentsExperienceId);
-	}
-
 	function _handleTargetChange(selector) {
 		const body = {
 			description: experiment.description,
@@ -387,7 +377,6 @@ SegmentsExperimentsSidebar.propTypes = {
 	initialExperimentHistory: PropTypes.arrayOf(SegmentsExperimentType)
 		.isRequired,
 	initialGoals: PropTypes.arrayOf(SegmentsExperimentGoal),
-	initialSegmentsExperiences: PropTypes.arrayOf(SegmentsExperienceType),
 	initialSegmentsExperiment: SegmentsExperimentType,
 	initialSegmentsVariants: PropTypes.arrayOf(SegmentsVariantType).isRequired,
 	initialSelectedSegmentsExperienceId: PropTypes.string,

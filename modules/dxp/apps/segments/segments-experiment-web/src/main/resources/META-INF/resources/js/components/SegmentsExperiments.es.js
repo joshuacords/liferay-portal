@@ -11,7 +11,6 @@
 
 import ClayButton from '@clayui/button';
 import ClayDropDown from '@clayui/drop-down';
-import {ClaySelect} from '@clayui/form';
 import ClayIcon from '@clayui/icon';
 import ClayLabel from '@clayui/label';
 import ClayTabs from '@clayui/tabs';
@@ -20,7 +19,6 @@ import React, {useContext, useState} from 'react';
 
 import SegmentsExperimentsContext from '../context.es';
 import {StateContext} from '../state/context.es';
-import {SegmentsExperienceType} from '../types.es';
 import {NO_EXPERIMENT_ILLUSTRATION_FILE_NAME} from '../util/contants.es';
 import {STATUS_DRAFT, statusToLabelDisplayType} from '../util/statuses.es';
 import ClickGoalPicker from './ClickGoalPicker/ClickGoalPicker.es';
@@ -39,9 +37,7 @@ function SegmentsExperiments({
 	onDeleteSegmentsExperiment,
 	onEditSegmentsExperiment,
 	onEditSegmentsExperimentStatus,
-	onSelectSegmentsExperienceChange,
-	onTargetChange,
-	segmentsExperiences = []
+	onTargetChange
 }) {
 	const [dropdown, setDropdown] = useState(false);
 	const [activeTab, setActiveTab] = useState(TABS_STATES.ACTIVE);
@@ -50,42 +46,10 @@ function SegmentsExperiments({
 	);
 	const {assetsPath} = useContext(SegmentsExperimentsContext);
 
-	const _selectedExperienceId = experiment
-		? experiment.segmentsExperienceId
-		: selectedExperienceId;
 	const noExperimentIllustration = `${assetsPath}${NO_EXPERIMENT_ILLUSTRATION_FILE_NAME}`;
 
 	return (
 		<>
-			{segmentsExperiences.length > 1 && (
-				<>
-					<div className="form-group">
-						<label>
-							{Liferay.Language.get('select-experience')}
-						</label>
-						<ClaySelect
-							defaultValue={_selectedExperienceId}
-							onChange={_handleExperienceSelection}
-						>
-							{segmentsExperiences.map(segmentsExperience => {
-								return (
-									<ClaySelect.Option
-										key={
-											segmentsExperience.segmentsExperienceId
-										}
-										label={segmentsExperience.name}
-										value={
-											segmentsExperience.segmentsExperienceId
-										}
-									/>
-								);
-							})}
-						</ClaySelect>
-					</div>
-					<hr />
-				</>
-			)}
-
 			<ClayTabs justified={true}>
 				<ClayTabs.Item
 					active={activeTab == TABS_STATES.ACTIVE}
@@ -240,12 +204,6 @@ function SegmentsExperiments({
 		}
 	}
 
-	function _handleExperienceSelection(event) {
-		const segmentsExperienceId = event.target.value;
-
-		onSelectSegmentsExperienceChange(segmentsExperienceId);
-	}
-
 	function _handleEditExperiment() {
 		onEditSegmentsExperiment();
 	}
@@ -256,9 +214,7 @@ SegmentsExperiments.propTypes = {
 	onDeleteSegmentsExperiment: PropTypes.func.isRequired,
 	onEditSegmentsExperiment: PropTypes.func.isRequired,
 	onEditSegmentsExperimentStatus: PropTypes.func.isRequired,
-	onSelectSegmentsExperienceChange: PropTypes.func.isRequired,
-	onTargetChange: PropTypes.func.isRequired,
-	segmentsExperiences: PropTypes.arrayOf(SegmentsExperienceType)
+	onTargetChange: PropTypes.func.isRequired
 };
 
 export default SegmentsExperiments;
