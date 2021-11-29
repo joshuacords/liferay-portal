@@ -119,8 +119,8 @@ public class AssetPublisherHelperTest {
 
 	@Before
 	public void setUp() throws Exception {
-		_firstGroup = GroupTestUtil.addGroup();
-		_secondGroup = GroupTestUtil.addGroup();
+		_group1 = GroupTestUtil.addGroup();
+		_group2 = GroupTestUtil.addGroup();
 	}
 
 	@Test
@@ -310,18 +310,18 @@ public class AssetPublisherHelperTest {
 	@Test
 	public void testGetAssetEntries() throws Exception {
 		AssetListEntry assetListEntry = _addAssetListEntry(
-			_firstGroup.getGroupId());
+			_group1.getGroupId());
 
 		SegmentsEntry segmentsEntry = _addSegmentsEntry(
-			_firstGroup.getGroupId(), TestPropsValues.getUser());
+			_group1.getGroupId(), TestPropsValues.getUser());
 
 		MockLiferayPortletRenderRequest mockLiferayPortletRenderRequest =
 			new MockLiferayPortletRenderRequest();
 
 		ThemeDisplay themeDisplay = new ThemeDisplay();
 
-		themeDisplay.setLayout(LayoutTestUtil.addLayout(_firstGroup));
-		themeDisplay.setScopeGroupId(_firstGroup.getGroupId());
+		themeDisplay.setLayout(LayoutTestUtil.addLayout(_group1));
+		themeDisplay.setScopeGroupId(_group1.getGroupId());
 		themeDisplay.setUser(TestPropsValues.getUser());
 
 		mockLiferayPortletRenderRequest.setAttribute(
@@ -335,7 +335,7 @@ public class AssetPublisherHelperTest {
 
 		ServiceContext serviceContext =
 			ServiceContextTestUtil.getServiceContext(
-				_firstGroup, TestPropsValues.getUserId());
+				_group1, TestPropsValues.getUserId());
 
 		serviceContext.setRequest(httpServletRequest);
 
@@ -534,22 +534,22 @@ public class AssetPublisherHelperTest {
 	@Test
 	public void testNotGetAssetWithTagsFromDifferentSite() throws Exception {
 		ServiceContext serviceContext =
-			ServiceContextTestUtil.getServiceContext(_firstGroup.getGroupId());
+			ServiceContextTestUtil.getServiceContext(_group1.getGroupId());
 
 		String assetTagName1 = RandomTestUtil.randomString();
 
-		AssetTestUtil.addTag(_firstGroup.getGroupId(), assetTagName1);
+		AssetTestUtil.addTag(_group1.getGroupId(), assetTagName1);
 		serviceContext.setAssetTagNames(new String[] {assetTagName1});
 
 		JournalTestUtil.addArticle(
-			_firstGroup.getGroupId(),
+			_group1.getGroupId(),
 			JournalFolderConstants.DEFAULT_PARENT_FOLDER_ID, serviceContext);
 
-		Layout layout = LayoutTestUtil.addLayout(_secondGroup.getGroupId());
+		Layout layout = LayoutTestUtil.addLayout(_group2.getGroupId());
 
 		String assetTagName2 = RandomTestUtil.randomString();
 
-		AssetTestUtil.addTag(_secondGroup.getGroupId(), assetTagName2);
+		AssetTestUtil.addTag(_group2.getGroupId(), assetTagName2);
 
 		AssetQueryRule assetQueryRule = new AssetQueryRule(
 			true, true, "assetTags", new String[] {assetTagName2});
@@ -564,7 +564,7 @@ public class AssetPublisherHelperTest {
 
 		AssetEntryQuery assetEntryQuery =
 			_assetPublisherHelper.getAssetEntryQuery(
-				portletPreferences, _secondGroup.getGroupId(), layout,
+				portletPreferences, _group2.getGroupId(), layout,
 				overrideAllAssetCategoryIds, overrideAllAssetTagNames,
 				overrideAllKeywords);
 
@@ -589,7 +589,7 @@ public class AssetPublisherHelperTest {
 			_assetPublisherHelper.getAssetEntryResults(
 				searchContainer, assetEntryQuery, layout, portletPreferences,
 				StringPool.BLANK, null, null, company.getCompanyId(),
-				_firstGroup.getGroupId(), TestPropsValues.getUserId(),
+				_group1.getGroupId(), TestPropsValues.getUserId(),
 				assetEntryQuery.getClassNameIds(), null);
 
 		Assert.assertTrue(assetEntryResults.isEmpty());
@@ -659,10 +659,10 @@ public class AssetPublisherHelperTest {
 	private CompanyLocalService _companyLocalService;
 
 	@DeleteAfterTestRun
-	private Group _firstGroup;
+	private Group _group1;
 
 	@DeleteAfterTestRun
-	private Group _secondGroup;
+	private Group _group2;
 
 	@Inject(
 		filter = "segments.criteria.contributor.key=user",
