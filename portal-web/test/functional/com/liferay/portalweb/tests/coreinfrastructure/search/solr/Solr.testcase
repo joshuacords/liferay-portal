@@ -36,10 +36,12 @@ definition {
 			panel = "Control Panel",
 			portlet = "Search");
 
+		var serverVersion = PropsUtil.get("solr.version");
+
 		SearchAdministration.assertEngineVendorAndVersions(
-			clientVersion = "7.5.0",
+			clientVersion = "${serverVersion}",
 			engineVendor = "Solr",
-			serverVersion = "7.5.0");
+			serverVersion = "${serverVersion}");
 	}
 
 	@priority = "4"
