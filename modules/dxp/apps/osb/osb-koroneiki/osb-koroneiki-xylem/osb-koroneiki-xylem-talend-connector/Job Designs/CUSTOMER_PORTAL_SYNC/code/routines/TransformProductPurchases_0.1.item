@@ -339,7 +339,22 @@ public class TransformProductPurchases {
 			jsonObject.put("instanceSize", instanceSize);
 			jsonObject.put("quantity", quantity);
 			jsonObject.put("startDate", DateUtil.format(startDate));
-			jsonObject.put("subscriptionTermStatus", status);
+
+			Date now = new Date();
+
+			String subscriptionTermStatus = null;
+
+			if ((endDate != null) && endDate.before(now)) {
+				subscriptionTermStatus = "Expired";
+			}
+			else if ((startDate != null) && startDate.after(now)) {
+				subscriptionTermStatus = "Future";
+			}
+			else {
+				subscriptionTermStatus = "Active";
+			}
+
+			jsonObject.put("subscriptionTermStatus", subscriptionTermStatus);
 
 			return jsonObject;
 		}
