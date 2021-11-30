@@ -15,13 +15,22 @@
 import {PagesVisitor} from '../../util/visitors.es';
 
 const getEditedField = (field, editingLanguageId, name, value) => {
+	const editedFieldValue =
+		!field.localizable &&
+		!field.validation &&
+		field.localizedValue &&
+		field.localizedValue[editingLanguageId] != undefined &&
+		field.required
+			? field.localizedValue[editingLanguageId]
+			: value;
+
 	return {
 		...field,
 		localizedValue: {
 			...field.localizedValue,
-			[editingLanguageId]: value
+			[editingLanguageId]: editedFieldValue
 		},
-		value
+		value: editedFieldValue
 	};
 };
 
