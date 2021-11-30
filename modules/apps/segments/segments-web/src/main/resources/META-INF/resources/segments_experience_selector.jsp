@@ -45,7 +45,7 @@ SegmentsExperienceSelectorDisplayContext segmentsExperienceSelectorDisplayContex
 			%>
 
 				<li>
-					<a class="border-0 dropdown-item list-group-item list-group-item-flex rounded-0" href="<%= segmentsExperiencesJSONObject.getString("url") %>">
+					<a class="border-0 d-flex dropdown-item list-group-item list-group-item-flex rounded-0" href="<%= segmentsExperiencesJSONObject.getString("url") %>">
 						<div class="autofit-col autofit-col-expand">
 							<p class="lfr-portal-tooltip list-group-title text-truncate" title="<%= HtmlUtil.escapeAttribute(segmentsExperiencesJSONObject.getString("segmentsExperienceName")) %>">
 								<%= segmentsExperiencesJSONObject.getString("segmentsExperienceName") %>
