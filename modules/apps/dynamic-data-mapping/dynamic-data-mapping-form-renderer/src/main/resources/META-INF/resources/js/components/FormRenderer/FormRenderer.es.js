@@ -117,6 +117,15 @@ FormRenderer.STATE = {
 	 * @type {?bool}
 	 */
 
+	displayable: Config.bool().valueFn('_getDisplayable'),
+
+	/**
+	 * @default false
+	 * @instance
+	 * @memberof FormRenderer
+	 * @type {?bool}
+	 */
+
 	editable: Config.bool().value(false),
 
 	/**
