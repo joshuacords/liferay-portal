@@ -122,4 +122,5 @@ definition {
 
 		AssertLocation.assertPartialLocation(value1 = "com_liferay_layout_admin_web_portlet_GroupPagesPortlet");
 	}
+
 }
