@@ -30,6 +30,12 @@ definition {
 				value1 = "${pageTypeURL}");
 		}
 
+		else if ("${sitePageType}" == "Link to URL") {
+			Type(
+				locator1 = "TextInput#URL",
+				value1 = "${pageTypeURL}");
+		}
+
 		if (isSet(inheritChanges)) {
 			Page.togglePageTemplateInheritChanges(toggleValue = "${inheritChanges}");
 		}
