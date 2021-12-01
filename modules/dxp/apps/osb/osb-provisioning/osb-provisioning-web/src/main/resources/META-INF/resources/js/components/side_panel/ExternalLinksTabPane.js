@@ -19,9 +19,6 @@ function ExternalLink({link}) {
 		case 'dossiera':
 			icon = '#logo-dossiera';
 			break;
-		case 'lcs':
-			icon = '#logo-lcs';
-			break;
 		case 'salesforce':
 			icon = '#logo-salesforce';
 			break;
