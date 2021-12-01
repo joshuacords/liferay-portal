@@ -94,4 +94,32 @@ definition {
 			translationLanguageLocalizationMessage = "This page is displayed in Spanish (Spain).");
 	}
 
+	@description = "LPS-76981 - When editing a Link to URL type page Cancel button will not redirect to the URL."
+	@ignore = "true"
+	@priority = "4"
+	test CancelEditLinkToURLPageNoRedirectToURL {
+		property custom.properties = "redirect.url.ips.allowed=";
+
+		ProductMenu.gotoPortlet(
+			category = "Site Builder",
+			panel = "Site Administration",
+			portlet = "Pages");
+
+		SitePages.addPublicPage(
+			pageName = "Test Link To URL",
+			pageTypeURL = "http://www.google.com",
+			sitePageType = "Link to URL");
+
+		SitePages.gotoPageMenuItem(
+			menuItem = "Configure",
+			pageName = "Test Link To URL");
+
+		PortletEntry.inputName(name = "Edit Link to URL Page");
+
+		AssertClick(
+			locator1 = "Button#CANCEL",
+			value1 = "Cancel");
+
+		AssertLocation.assertPartialLocation(value1 = "com_liferay_layout_admin_web_portlet_GroupPagesPortlet");
+	}
 }
