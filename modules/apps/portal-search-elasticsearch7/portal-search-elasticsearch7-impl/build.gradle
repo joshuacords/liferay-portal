@@ -50,9 +50,10 @@ dependencies {
 	compileInclude group: "org.apache.lucene", name: "lucene-suggest", version: luceneVersion
 	compileInclude group: "org.bouncycastle", name: "bc-fips", version: "1.0.2.1"
 	compileInclude group: "org.bouncycastle", name: "bcpg-fips", version: "1.0.4"
-	compileInclude group: "org.bouncycastle", name: "bcpg-jdk15on", version: "1.68"
-	compileInclude group: "org.bouncycastle", name: "bcpkix-jdk15on", version: "1.68"
-	compileInclude group: "org.bouncycastle", name: "bcprov-jdk15on", version: "1.68"
+	compileInclude group: "org.bouncycastle", name: "bcpg-jdk15on", version: "1.69"
+	compileInclude group: "org.bouncycastle", name: "bcpkix-jdk15on", version: "1.69"
+	compileInclude group: "org.bouncycastle", name: "bcprov-jdk15on", version: "1.69"
+	compileInclude group: "org.bouncycastle", name: "bcutil-jdk15on", version: "1.69"
 	compileInclude group: "org.codelibs.elasticsearch.module", name: "analysis-common", version: elasticsearchVersion
 	compileInclude group: "org.elasticsearch", name: "elasticsearch", version: elasticsearchVersion
 	compileInclude group: "org.elasticsearch", name: "elasticsearch-cli", version: elasticsearchVersion

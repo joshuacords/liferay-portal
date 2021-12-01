@@ -49,9 +49,10 @@ dependencies {
 	compileInclude group: "org.apache.lucene", name: "lucene-sandbox", version: luceneVersion
 	compileInclude group: "org.apache.lucene", name: "lucene-spatial", version: luceneVersion
 	compileInclude group: "org.apache.lucene", name: "lucene-suggest", version: luceneVersion
-	compileInclude group: "org.bouncycastle", name: "bcpg-jdk15on", version: "1.68"
-	compileInclude group: "org.bouncycastle", name: "bcpkix-jdk15on", version: "1.68"
-	compileInclude group: "org.bouncycastle", name: "bcprov-jdk15on", version: "1.68"
+	compileInclude group: "org.bouncycastle", name: "bcpg-jdk15on", version: "1.69"
+	compileInclude group: "org.bouncycastle", name: "bcpkix-jdk15on", version: "1.69"
+	compileInclude group: "org.bouncycastle", name: "bcprov-jdk15on", version: "1.69"
+	compileInclude group: "org.bouncycastle", name: "bcutil-jdk15on", version: "1.69"
 	compileInclude group: "org.elasticsearch", name: "elasticsearch", version: elasticsearchVersion
 	compileInclude group: "org.elasticsearch", name: "elasticsearch-cli", version: elasticsearchVersion
 	compileInclude group: "org.elasticsearch", name: "elasticsearch-core", version: elasticsearchVersion
