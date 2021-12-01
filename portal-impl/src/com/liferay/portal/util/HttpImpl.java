@@ -1637,6 +1637,16 @@ public class HttpImpl implements Http {
 		return cookie;
 	}
 
+	/**
+	 * @deprecated As of Judson (7.1.x), with no direct replacement
+	 */
+	@Deprecated
+	protected Cookie[] toServletCookies(
+		org.apache.commons.httpclient.Cookie[] commonsCookies) {
+
+		throw new UnsupportedOperationException();
+	}
+
 	protected Cookie[] toServletCookies(
 		List<org.apache.http.cookie.Cookie> httpCookies) {
 
@@ -1651,16 +1661,6 @@ public class HttpImpl implements Http {
 		}
 
 		return cookies;
-	}
-
-	/**
-	 * @deprecated As of Judson (7.1.x), with no direct replacement
-	 */
-	@Deprecated
-	protected Cookie[] toServletCookies(
-		org.apache.commons.httpclient.Cookie[] commonsCookies) {
-
-		throw new UnsupportedOperationException();
 	}
 
 	protected byte[] URLtoByteArray(

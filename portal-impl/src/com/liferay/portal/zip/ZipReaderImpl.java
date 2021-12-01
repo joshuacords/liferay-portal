@@ -44,6 +44,10 @@ import java.util.List;
  */
 public class ZipReaderImpl implements ZipReader {
 
+	public ZipReaderImpl(java.io.File file) {
+		_zipFile = new File(file);
+	}
+
 	public ZipReaderImpl(InputStream inputStream) throws IOException {
 		_zipFile = new File(FileUtil.createTempFile("zip"));
 
@@ -53,10 +57,6 @@ public class ZipReaderImpl implements ZipReader {
 		finally {
 			inputStream.close();
 		}
-	}
-
-	public ZipReaderImpl(java.io.File file) {
-		_zipFile = new File(file);
 	}
 
 	@Override

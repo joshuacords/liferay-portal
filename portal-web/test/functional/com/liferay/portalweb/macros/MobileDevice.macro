@@ -17,7 +17,7 @@ definition {
 		AddSelection(
 			locator1 = "MobileDevice#ADD_CLASSIFICATION_RULE_OPERATING_SYSTEM",
 			value1 = "${ruleOSScope}");
-			
+
 		Select(
 			locator1 = "MobileDevice#ADD_CLASSIFICATION_RULE_DEVICE_TYPE",
 			value1 = "${deviceType}");

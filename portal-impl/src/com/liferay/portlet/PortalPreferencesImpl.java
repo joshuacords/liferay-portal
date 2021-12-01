@@ -71,6 +71,15 @@ public class PortalPreferencesImpl
 	}
 
 	public PortalPreferencesImpl(
+		long ownerId, int ownerType, String xml,
+		Map<String, Preference> preferences, boolean signedIn) {
+
+		super(ownerId, ownerType, xml, preferences);
+
+		_signedIn = signedIn;
+	}
+
+	public PortalPreferencesImpl(
 		com.liferay.portal.kernel.model.PortalPreferences portalPreferences,
 		boolean signedIn) {
 
@@ -84,15 +93,6 @@ public class PortalPreferencesImpl
 		_portalPreferences =
 			(com.liferay.portal.kernel.model.PortalPreferences)
 				portalPreferences.clone();
-	}
-
-	public PortalPreferencesImpl(
-		long ownerId, int ownerType, String xml,
-		Map<String, Preference> preferences, boolean signedIn) {
-
-		super(ownerId, ownerType, xml, preferences);
-
-		_signedIn = signedIn;
 	}
 
 	@Override
