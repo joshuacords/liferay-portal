@@ -307,6 +307,42 @@ public class ProductPurchase implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Product product;
 
+	@Schema(
+		description = "The product consumptions that this purchase has. Optional field that can retrieved with nestedFields."
+	)
+	@Valid
+	public ProductConsumption[] getProductConsumptions() {
+		return productConsumptions;
+	}
+
+	public void setProductConsumptions(
+		ProductConsumption[] productConsumptions) {
+
+		this.productConsumptions = productConsumptions;
+	}
+
+	@JsonIgnore
+	public void setProductConsumptions(
+		UnsafeSupplier<ProductConsumption[], Exception>
+			productConsumptionsUnsafeSupplier) {
+
+		try {
+			productConsumptions = productConsumptionsUnsafeSupplier.get();
+		}
+		catch (RuntimeException re) {
+			throw re;
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@GraphQLField(
+		description = "The product consumptions that this purchase has. Optional field that can retrieved with nestedFields."
+	)
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	protected ProductConsumption[] productConsumptions;
+
 	@Schema(description = "The key of the product being purchased.")
 	public String getProductKey() {
 		return productKey;
@@ -597,6 +633,26 @@ public class ProductPurchase implements Serializable {
 			sb.append("\"product\": ");
 
 			sb.append(String.valueOf(product));
+		}
+
+		if (productConsumptions != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"productConsumptions\": ");
+
+			sb.append("[");
+
+			for (int i = 0; i < productConsumptions.length; i++) {
+				sb.append(String.valueOf(productConsumptions[i]));
+
+				if ((i + 1) < productConsumptions.length) {
+					sb.append(", ");
+				}
+			}
+
+			sb.append("]");
 		}
 
 		if (productKey != null) {

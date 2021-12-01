@@ -1153,6 +1153,16 @@ public abstract class BaseProductPurchaseResourceTestCase {
 				continue;
 			}
 
+			if (Objects.equals(
+					"productConsumptions", additionalAssertFieldName)) {
+
+				if (productPurchase.getProductConsumptions() == null) {
+					valid = false;
+				}
+
+				continue;
+			}
+
 			if (Objects.equals("productKey", additionalAssertFieldName)) {
 				if (productPurchase.getProductKey() == null) {
 					valid = false;
@@ -1367,6 +1377,19 @@ public abstract class BaseProductPurchaseResourceTestCase {
 				if (!Objects.deepEquals(
 						productPurchase1.getProduct(),
 						productPurchase2.getProduct())) {
+
+					return false;
+				}
+
+				continue;
+			}
+
+			if (Objects.equals(
+					"productConsumptions", additionalAssertFieldName)) {
+
+				if (!Objects.deepEquals(
+						productPurchase1.getProductConsumptions(),
+						productPurchase2.getProductConsumptions())) {
 
 					return false;
 				}
@@ -1653,6 +1676,11 @@ public abstract class BaseProductPurchaseResourceTestCase {
 		}
 
 		if (entityFieldName.equals("product")) {
+			throw new IllegalArgumentException(
+				"Invalid entity field " + entityFieldName);
+		}
+
+		if (entityFieldName.equals("productConsumptions")) {
 			throw new IllegalArgumentException(
 				"Invalid entity field " + entityFieldName);
 		}

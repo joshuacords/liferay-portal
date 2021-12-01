@@ -202,6 +202,30 @@ public class ProductPurchase implements Cloneable, Serializable {
 
 	protected Product product;
 
+	public ProductConsumption[] getProductConsumptions() {
+		return productConsumptions;
+	}
+
+	public void setProductConsumptions(
+		ProductConsumption[] productConsumptions) {
+
+		this.productConsumptions = productConsumptions;
+	}
+
+	public void setProductConsumptions(
+		UnsafeSupplier<ProductConsumption[], Exception>
+			productConsumptionsUnsafeSupplier) {
+
+		try {
+			productConsumptions = productConsumptionsUnsafeSupplier.get();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected ProductConsumption[] productConsumptions;
+
 	public String getProductKey() {
 		return productKey;
 	}

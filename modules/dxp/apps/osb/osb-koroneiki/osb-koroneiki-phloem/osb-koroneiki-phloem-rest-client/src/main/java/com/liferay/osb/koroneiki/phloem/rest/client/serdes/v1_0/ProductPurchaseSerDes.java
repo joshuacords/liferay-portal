@@ -15,6 +15,7 @@
 package com.liferay.osb.koroneiki.phloem.rest.client.serdes.v1_0;
 
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ExternalLink;
+import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ProductConsumption;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ProductPurchase;
 import com.liferay.osb.koroneiki.phloem.rest.client.json.BaseJSONParser;
 
@@ -181,6 +182,30 @@ public class ProductPurchaseSerDes {
 			sb.append(String.valueOf(productPurchase.getProduct()));
 		}
 
+		if (productPurchase.getProductConsumptions() != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"productConsumptions\": ");
+
+			sb.append("[");
+
+			for (int i = 0; i < productPurchase.getProductConsumptions().length;
+				 i++) {
+
+				sb.append(
+					String.valueOf(
+						productPurchase.getProductConsumptions()[i]));
+
+				if ((i + 1) < productPurchase.getProductConsumptions().length) {
+					sb.append(", ");
+				}
+			}
+
+			sb.append("]");
+		}
+
 		if (productPurchase.getProductKey() != null) {
 			if (sb.length() > 1) {
 				sb.append(", ");
@@ -334,6 +359,15 @@ public class ProductPurchaseSerDes {
 			map.put("product", String.valueOf(productPurchase.getProduct()));
 		}
 
+		if (productPurchase.getProductConsumptions() == null) {
+			map.put("productConsumptions", null);
+		}
+		else {
+			map.put(
+				"productConsumptions",
+				String.valueOf(productPurchase.getProductConsumptions()));
+		}
+
 		if (productPurchase.getProductKey() == null) {
 			map.put("productKey", null);
 		}
@@ -443,6 +477,21 @@ public class ProductPurchaseSerDes {
 				if (jsonParserFieldValue != null) {
 					productPurchase.setProduct(
 						ProductSerDes.toDTO((String)jsonParserFieldValue));
+				}
+			}
+			else if (Objects.equals(
+						jsonParserFieldName, "productConsumptions")) {
+
+				if (jsonParserFieldValue != null) {
+					productPurchase.setProductConsumptions(
+						Stream.of(
+							toStrings((Object[])jsonParserFieldValue)
+						).map(
+							object -> ProductConsumptionSerDes.toDTO(
+								(String)object)
+						).toArray(
+							size -> new ProductConsumption[size]
+						));
 				}
 			}
 			else if (Objects.equals(jsonParserFieldName, "productKey")) {

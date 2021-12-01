@@ -1518,7 +1518,7 @@ public class Query {
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {productPurchase(productPurchaseKey: ___){accountKey, dateCreated, endDate, externalLinks, key, originalEndDate, perpetual, product, productKey, properties, quantity, startDate, status}}"}' -u 'test@liferay.com:test'
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {productPurchase(productPurchaseKey: ___){accountKey, dateCreated, endDate, externalLinks, key, originalEndDate, perpetual, product, productConsumptions, productKey, properties, quantity, startDate, status}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField(description = "Retrieves the product purchase.")
 	public ProductPurchase productPurchase(
