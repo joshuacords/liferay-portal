@@ -24,7 +24,6 @@ dependencies {
 	compileOnly project(":dxp:apps:osb:osb-provisioning:osb-provisioning-identity-management:osb-provisioning-identity-management-api")
 	compileOnly project(":dxp:apps:osb:osb-provisioning:osb-provisioning-koroneiki:osb-provisioning-koroneiki-api")
 	compileOnly project(":dxp:apps:osb:osb-provisioning:osb-provisioning-koroneiki:osb-provisioning-koroneiki-web-service-api")
-	compileOnly project(":dxp:apps:osb:osb-provisioning:osb-provisioning-lcs:osb-provisioning-lcs-web-service-api")
 	compileOnly project(":dxp:apps:osb:osb-provisioning:osb-provisioning-license:osb-provisioning-license-api")
 	compileOnly project(":dxp:apps:osb:osb-provisioning:osb-provisioning-license:osb-provisioning-license-exporter-api")
 	compileOnly project(":dxp:apps:osb:osb-provisioning:osb-provisioning-license:osb-provisioning-license-helper-api")

@@ -125,15 +125,6 @@ AccountDisplay accountDisplay = viewAccountDisplayContext.getAccountDisplay();
 	</div>
 
 	<div class="header-buttons">
-		<portlet:actionURL name="/accounts/sync_to_lcs" var="syncToLcsURL">
-			<portlet:param name="redirect" value="<%= currentURL %>" />
-			<portlet:param name="accountKey" value="<%= accountDisplay.getKey() %>" />
-		</portlet:actionURL>
-
-		<aui:form action="<%= syncToLcsURL %>" method="post" name="fm">
-			<aui:button cssClass="btn-secondary btn-sm" href="<%= syncToLcsURL %>" value="sync-to-lcs" />
-		</aui:form>
-
 		<portlet:actionURL name="/accounts/sync_to_zendesk" var="syncToZendeskURL">
 			<portlet:param name="redirect" value="<%= currentURL %>" />
 			<portlet:param name="accountKey" value="<%= accountDisplay.getKey() %>" />
