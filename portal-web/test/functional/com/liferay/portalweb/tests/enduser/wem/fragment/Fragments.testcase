@@ -860,6 +860,7 @@ NO CSS
 
 		task ("Assert the fragments appear in Fragments Admin") {
 			FragmentsAdmin.viewEntryPresent(entry = "Global Fragment Name 1");
+
 			FragmentsAdmin.viewEntryPresent(entry = "Global Fragment Name 2");
 		}
 	}

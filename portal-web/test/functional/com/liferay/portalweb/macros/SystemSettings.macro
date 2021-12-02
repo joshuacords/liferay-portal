@@ -4,6 +4,7 @@ definition {
 		AssertClick(
 			locator1 = "Button#ADD",
 			value1 = "Add");
+
 		Type(
 			key_configurationValue = "configuration.name",
 			locator1 = "SystemSettings#CORS_CONFIGURATION",

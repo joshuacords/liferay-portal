@@ -23,7 +23,7 @@ definition {
 	macro executeSearchActions {
 		var reindexElapsedTime = "0";
 
-		while ("${reindexElapsedTime}" == "0" || "${reindexElapsedTime}" == "10" || "${reindexElapsedTime}" == "480" && (maxIterations = "2")) {
+		while (("${reindexElapsedTime}" == "0") || ("${reindexElapsedTime}" == "10") || ("${reindexElapsedTime}" == "480") && (maxIterations = "2")) {
 			AssertTextEquals(
 				locator1 = "Portlet#HEADER",
 				value1 = "Search");
@@ -41,18 +41,17 @@ definition {
 				echo("Current Elasticsearch Tasks:");
 
 				var portalHostname = PropsUtil.get("portal.hostname");
-
 				var curl = "http://${portalHostname}:9200/_tasks";
 				var elasticsearchTasks = JSONCurlUtil.get("${curl}");
 
-				while ((!(contains("${elasticsearchTasks}", "indices:data/write/bulk"))) && ("${reindexStartTime}" != "60")) {
+				while (!(contains("${elasticsearchTasks}", "indices:data/write/bulk")) && ("${reindexStartTime}" != "60")) {
 					Pause.pauseNoSPARefresh(locator1 = "5000");
 
 					var reindexStartTime = ${reindexStartTime} + 5;
 
 					echo("Current Elasticsearch Tasks:");
 
-					elasticsearchTasks = JSONCurlUtil.get("${curl}");
+					var elasticsearchTasks = JSONCurlUtil.get("${curl}");
 				}
 
 				if ("${reindexStartTime}" == "60") {
@@ -62,14 +61,14 @@ definition {
 					echo("Started reindexing ${reindexStartTime} second(s) after clicking 'Execute'.");
 				}
 
-				while (((contains("${elasticsearchTasks}", "indices:data/write/bulk")) || IsElementPresent(locator1 = "ControlMenu#RELOAD_TOOLTIP")) && ("${reindexElapsedTime}" != "480") && (maxIterations = "48")) {
+				while ((contains("${elasticsearchTasks}", "indices:data/write/bulk") || (IsElementPresent(locator1 = "ControlMenu#RELOAD_TOOLTIP"))) && ("${reindexElapsedTime}" != "480") && (maxIterations = "48")) {
 					Pause.pauseNoSPARefresh(locator1 = "10000");
 
 					var reindexElapsedTime = ${reindexElapsedTime} + 10;
 
 					echo("Current Elasticsearch Tasks:");
 
-					elasticsearchTasks = JSONCurlUtil.get("${curl}");
+					var elasticsearchTasks = JSONCurlUtil.get("${curl}");
 
 					Refresh();
 				}

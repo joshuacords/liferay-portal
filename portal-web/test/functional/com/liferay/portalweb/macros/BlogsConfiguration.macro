@@ -227,7 +227,7 @@ definition {
 
 			MenuItem.viewNotPresent(menuItem = "Permissions");
 
-			if (IsElementPresent(locator1 = "MenuItem#ANY_MENU_ITEM", key_menuItem = "Configuration")) {
+			if (IsElementPresent(key_menuItem = "Configuration", locator1 = "MenuItem#ANY_MENU_ITEM")) {
 				MenuItem.click(menuItem = "Configuration");
 
 				SelectFrame(locator1 = "IFrame#CONFIGURATION");
@@ -257,7 +257,7 @@ definition {
 		Navigator.openURL();
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Blogs");
 

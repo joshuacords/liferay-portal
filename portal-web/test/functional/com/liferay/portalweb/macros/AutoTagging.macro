@@ -26,7 +26,6 @@ definition {
 
 			FormFields.disableCheckbox(fieldName = "enabled");
 		}
-
 		else if ("${disableAutoTaggingFor}" == "Instance Settings") {
 			PortalSettings.gotoConfiguration(
 				configurationCategory = "Assets",
@@ -35,7 +34,6 @@ definition {
 
 			Uncheck(locator1 = "Checkbox#ENABLE_AUTO_TAGGING");
 		}
-
 		else if ("${disableAutoTaggingFor}" == "Settings") {
 			ProductMenu.gotoPortlet(
 				category = "Configuration",
@@ -50,7 +48,6 @@ definition {
 		if (IsElementPresent(locator1 = "Button#UPDATE")) {
 			PortletEntry.update();
 		}
-
 		else if (IsElementPresent(locator1 = "Button#SAVE")) {
 			PortletEntry.save();
 		}
@@ -76,7 +73,6 @@ definition {
 					settingValue = "${maximumNumberOfTags}");
 			}
 		}
-
 		else if ("${enableAutoTaggingFor}" == "Instance Settings") {
 			PortalSettings.gotoConfiguration(
 				configurationCategory = "Assets",
@@ -91,7 +87,6 @@ definition {
 					settingValue = "${maximumNumberOfTags}");
 			}
 		}
-
 		else if ("${enableAutoTaggingFor}" == "Settings") {
 			ProductMenu.gotoPortlet(
 				category = "Configuration",
@@ -107,7 +102,6 @@ definition {
 			if (IsElementPresent(locator1 = "Button#UPDATE")) {
 				Button.clickUpdate();
 			}
-
 			else if (IsElementPresent(locator1 = "Button#SAVE")) {
 				Button.clickSave();
 			}
@@ -122,7 +116,6 @@ definition {
 			if (IsElementPresent(locator1 = "Button#UPDATE")) {
 				PortletEntry.update();
 			}
-
 			else if (IsElementPresent(locator1 = "Button#SAVE")) {
 				PortletEntry.save();
 			}
@@ -156,7 +149,6 @@ definition {
 		if (IsElementPresent(locator1 = "Button#UPDATE")) {
 			PortletEntry.update();
 		}
-
 		else if (IsElementPresent(locator1 = "Button#SAVE")) {
 			PortletEntry.save();
 		}
@@ -178,7 +170,6 @@ definition {
 		if (IsElementPresent(locator1 = "Button#UPDATE")) {
 			PortletEntry.update();
 		}
-
 		else if (IsElementPresent(locator1 = "Button#SAVE")) {
 			PortletEntry.save();
 		}

@@ -27,7 +27,7 @@ definition {
 			certificateUsage = "SIGNING",
 			samlKeyPassword = "${samlEntityID}");
 
-		if ((isSet(idpSessionIdleTimeout)) || (isSet(idpSessionMaximumAge))) {
+		if (isSet(idpSessionIdleTimeout) || isSet(idpSessionMaximumAge)) {
 			SAMLNavigation.gotoIdentityProvider();
 
 			SAMLRole.configureIdentityProvider(

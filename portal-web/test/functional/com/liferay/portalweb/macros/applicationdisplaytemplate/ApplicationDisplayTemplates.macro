@@ -98,10 +98,10 @@ definition {
 
 		Pause(locator1 = "5000");
 
-		if (IsElementPresent(locator1 = "NavTab#TAB_LINK", key_tab = "Display Settings")) {
+		if (IsElementPresent(key_tab = "Display Settings", locator1 = "NavTab#TAB_LINK")) {
 			Navigator.gotoNavTab(navTab = "Display Settings");
 		}
-		else if (IsElementPresent(locator1 = "Panel#PANEL", key_panel = "Display Settings")) {
+		else if (IsElementPresent(key_panel = "Display Settings", locator1 = "Panel#PANEL")) {
 			Panel.expandPanel(panel = "Display Settings");
 		}
 
@@ -147,10 +147,10 @@ definition {
 
 		Pause(locator1 = "5000");
 
-		if (IsElementPresent(locator1 = "NavTab#TAB_LINK", key_tab = "Display Settings")) {
+		if (IsElementPresent(key_tab = "Display Settings", locator1 = "NavTab#TAB_LINK")) {
 			Navigator.gotoNavTab(navTab = "Display Settings");
 		}
-		else if (IsElementPresent(locator1 = "Panel#PANEL", key_panel = "Display Settings")) {
+		else if (IsElementPresent(key_panel = "Display Settings", locator1 = "Panel#PANEL")) {
 			Panel.expandPanel(panel = "Display Settings");
 		}
 

@@ -78,7 +78,7 @@ definition {
 			portlet = "Adaptive Media");
 
 		AdaptiveMedia.addImageResolution(
-			description = "1234567890!@#$%^&amp;*()~`",
+			description = "1234567890!@#$%^&*()~`",
 			imageName = "abcdefghijklmnopqrstuvwxyz",
 			maxHeight = "25",
 			maxWidth = "25");
@@ -88,17 +88,17 @@ definition {
 			imageNameEdit = "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
 		AdaptiveMedia.addImageResolution(
-			imageName = "1234567890!@#$%^&amp;*()~`",
+			imageName = "1234567890!@#$%^&*()~`",
 			maxHeight = "75",
 			maxWidth = "75");
 
 		AdaptiveMedia.editImageResolution(
-			imageName = "1234567890!@#$%^&amp;*()~`",
-			imageNameEdit = "[]\{}|:&quot;;&apos;,./&gt;&lt;?");
+			imageName = "1234567890!@#$%^&*()~`",
+			imageNameEdit = "[]\{}|:&quot;;',./><?");
 
 		AdaptiveMedia.gotoImageVariantEntry(imageName = "ABCDEFGHIJKLMNOPQRSTUVWXYZ");
 
-		AdaptiveMedia.viewImageVariantDescription(description = "1234567890!@#$%^&amp;*()~`");
+		AdaptiveMedia.viewImageVariantDescription(description = "1234567890!@#$%^&*()~`");
 	}
 
 	@priority = "5"
@@ -120,7 +120,7 @@ definition {
 			percentAdapted = "0");
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Documents and Media");
 
@@ -254,7 +254,7 @@ definition {
 	@priority = "5"
 	test AssertAdaptedImageInBlogsEntry {
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Documents and Media");
 
@@ -266,7 +266,7 @@ definition {
 		Pause(locator1 = "3000");
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Blogs");
 
@@ -299,7 +299,7 @@ definition {
 			portlet = "Adaptive Media");
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Documents and Media");
 
@@ -309,7 +309,7 @@ definition {
 			dmDocumentTitle = "high_resolution_photo.jpg");
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Web Content");
 
@@ -335,7 +335,7 @@ definition {
 	@priority = "5"
 	test AssertAdaptedSVGImageInBlogsEntry {
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Documents and Media");
 
@@ -347,7 +347,7 @@ definition {
 		Pause(locator1 = "3000");
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Blogs");
 
@@ -462,7 +462,7 @@ definition {
 			percentAdapted = "0");
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Documents and Media");
 
@@ -598,7 +598,7 @@ definition {
 	@priority = "4"
 	test OptimizeAllImageResolutions {
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Documents and Media");
 
@@ -756,7 +756,7 @@ definition {
 
 		for (var entryCount : list "1,2") {
 			ProductMenu.gotoPortlet(
-				category = "Content &amp; Data",
+				category = "Content & Data",
 				panel = "Site Administration",
 				portlet = "Documents and Media");
 
@@ -783,7 +783,7 @@ definition {
 
 		for (var entryCount : list "1,2") {
 			ProductMenu.gotoPortlet(
-				category = "Content &amp; Data",
+				category = "Content & Data",
 				panel = "Site Administration",
 				portlet = "Documents and Media");
 

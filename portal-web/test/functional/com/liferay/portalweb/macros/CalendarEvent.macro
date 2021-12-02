@@ -376,6 +376,7 @@ definition {
 				optionSetValue = "${optionSetValue}",
 				specificOptionSetValue = "${specificOptionSetValue}");
 		}
+
 		CalendarEvent.publish();
 
 		Navigator.gotoSitePage(

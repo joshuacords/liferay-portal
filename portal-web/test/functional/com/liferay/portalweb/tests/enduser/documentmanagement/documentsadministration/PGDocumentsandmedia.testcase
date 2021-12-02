@@ -193,7 +193,7 @@ definition {
 	@priority = "4"
 	test AddDocumentTypes {
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Documents and Media");
 
@@ -205,14 +205,14 @@ definition {
 			dmDocumentTypeName = "DM Document Type 1 Name");
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Documents and Media");
 
 		DMDocumentType.viewMenulistOption(dmDocumentTypeName = "DM Document Type 1 Name");
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Documents and Media");
 
@@ -224,14 +224,14 @@ definition {
 			dmDocumentTypeName = "DM Document Type 2 Name");
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Documents and Media");
 
 		DMDocumentType.viewMenulistOption(dmDocumentTypeName = "DM Document Type 2 Name");
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Documents and Media");
 
@@ -243,7 +243,7 @@ definition {
 			dmDocumentTypeName = "DM Document Type 3 Name");
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Documents and Media");
 
@@ -657,7 +657,7 @@ definition {
 	@priority = "4"
 	test DeleteDocumentType {
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Documents and Media");
 
@@ -669,14 +669,14 @@ definition {
 			dmDocumentTypeName = "DM Document Type Name");
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Documents and Media");
 
 		DMDocumentType.viewMenulistOption(dmDocumentTypeName = "DM Document Type Name");
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Documents and Media");
 
@@ -866,7 +866,7 @@ definition {
 		property testray.component.names = "Training";
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Documents and Media");
 
@@ -878,14 +878,14 @@ definition {
 			dmDocumentTypeName = "DM Document Type Name");
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Documents and Media");
 
 		DMDocumentType.viewMenulistOption(dmDocumentTypeName = "DM Document Type Name");
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Documents and Media");
 
@@ -897,7 +897,7 @@ definition {
 			dmDocumentTypeNameEdit = "DM Document Type Name Edit");
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Documents and Media");
 
@@ -1784,7 +1784,7 @@ definition {
 			dmFolderName = "DM SubFolder Name");
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Documents and Media");
 
@@ -1797,7 +1797,7 @@ definition {
 		IFrame.closeFrame();
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Documents and Media");
 
@@ -1825,7 +1825,7 @@ definition {
 			dmDocumentTitle = "DM Document Title");
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Documents and Media");
 

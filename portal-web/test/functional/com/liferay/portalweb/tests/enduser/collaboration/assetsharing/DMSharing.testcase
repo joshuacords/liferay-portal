@@ -171,6 +171,7 @@ definition {
 		AssertTextEquals(
 			locator1 = "Sharing#NOTIFICATIONS_DELETE_ENTRY_TITLE",
 			value1 = "Notification no longer applies.");
+
 		AssertTextEquals(
 			locator1 = "Sharing#NOTIFICATIONS_DELETE_ENTRY_CONTENT",
 			value1 = "Notification for Sharing was deleted.");
@@ -182,9 +183,11 @@ definition {
 		AssertElementPresent(
 			key_status = "Not Visible",
 			locator1 = "Sharing#SHARED_CONTENT_CONTENT_STATUS");
+
 		AssertElementNotPresent(
 			key_contentTitle = "DM Document Title",
 			locator1 = "Sharing#SHARED_CONTENT_CONTENT_OPTIONS");
+
 		AssertElementNotPresent(
 			key_contentTitle = "DM Document Title",
 			locator1 = "Sharing#SHARED_CONTENT_CONTENT_TITLE");
@@ -277,6 +280,7 @@ definition {
 		AssertTextEquals(
 			locator1 = "Sharing#SHARED_CONTENT_CONTENT_TITLE",
 			value1 = "DM Document Title");
+
 		AssertElementNotPresent(
 			key_contentTitle = "DM Document Title",
 			locator1 = "Sharing#SHARED_CONTENT_CONTENT_TITLE_2");
@@ -829,11 +833,11 @@ definition {
 		DMDocument.addPG(
 			dmDocumentDescription = "DM Document Description",
 			dmDocumentFile = "Document_1.doc",
-			dmDocumentTitle = "DM Document&apos;s Title",
+			dmDocumentTitle = "DM Document's Title",
 			viewableBy = "Owner");
 
 		Click(
-			key_dmDocumentTitle = "DM Document&apos;s Title",
+			key_dmDocumentTitle = "DM Document's Title",
 			locator1 = "DocumentsAndMedia#DESCRIPTIVE_LIST_DOCUMENT_VERTICAL_ELLIPSIS_SPECIFIC");
 
 		ClickNoError(
@@ -849,7 +853,7 @@ definition {
 		Navigator.gotoPage(pageName = "Documents and Media Page");
 
 		Click(
-			key_dmDocumentTitle = "DM Document&apos;s Title",
+			key_dmDocumentTitle = "DM Document's Title",
 			locator1 = "DocumentsAndMedia#DESCRIPTIVE_LIST_DOCUMENT_VERTICAL_ELLIPSIS_SPECIFIC");
 
 		ClickNoError(
@@ -873,7 +877,7 @@ definition {
 
 		Notifications.viewNewSharedContent(
 			contentSharingPermission = "viewing",
-			contentTitle = "DM Document&apos;s Title",
+			contentTitle = "DM Document's Title",
 			ownerName = "Test Test",
 			specialCharacter = "true");
 	}

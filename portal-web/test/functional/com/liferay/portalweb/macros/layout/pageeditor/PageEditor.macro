@@ -630,7 +630,7 @@ definition {
 			key_collectionName = "${collectionName}",
 			locator1 = "PageEditor#FRAGMENT_SIDEBAR_COLLECTION_PANEL");
 
-		if (IsElementPresent(locator1 = "PageEditor#FRAGMENT_SIDEBAR_COLLECTION_PANEL_COLLAPSED", key_collectionName = "${collectionName}")) {
+		if (IsElementPresent(key_collectionName = "${collectionName}", locator1 = "PageEditor#FRAGMENT_SIDEBAR_COLLECTION_PANEL_COLLAPSED")) {
 			AssertClick(
 				key_collectionName = "${collectionName}",
 				locator1 = "PageEditor#FRAGMENT_SIDEBAR_COLLECTION_PANEL_COLLAPSED",
@@ -839,7 +839,6 @@ definition {
 					locator1 = "PageEditor#FRAGMENT_SIDEBAR_COMMENT_ENTRY_HIGHLIGHTED",
 					value1 = "${fragmentComment}");
 			}
-
 			else {
 				AssertTextEquals(
 					key_fragmentComment = "${fragmentComment}",
@@ -847,7 +846,6 @@ definition {
 					value1 = "${fragmentComment}");
 			}
 		}
-
 		else {
 			AssertTextEquals(
 				locator1 = "PageEditor#FRAGMENT_SIDEBAR_SECTION_TITLE",
@@ -894,7 +892,6 @@ definition {
 				locator1 = "PageEditor#FRAGMENT_SIDEBAR_REPLY_COMMENTS_ENTRY_HIGHLIGHTED",
 				value1 = "${commentReply}");
 		}
-
 		else {
 			AssertTextEquals(
 				key_commentReply = "${commentReply}",

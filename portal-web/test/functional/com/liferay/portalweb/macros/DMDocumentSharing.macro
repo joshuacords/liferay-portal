@@ -100,7 +100,6 @@ definition {
 		if ("${contentSharingPermission}" == "View") {
 			AssertElementNotPresent(locator1 = "Comments#COMMENT_FIELD");
 		}
-
 		else {
 			AssertElementPresent(locator1 = "Comments#COMMENT_FIELD");
 		}

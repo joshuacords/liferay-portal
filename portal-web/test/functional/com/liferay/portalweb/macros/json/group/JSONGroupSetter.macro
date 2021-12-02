@@ -44,7 +44,9 @@ definition {
 
 	macro setParentGroupId {
 		if (isSet(parentGroupName)) {
-			var parentGroupId = JSONGroupAPI._getParentGroupIdByName(groupName = "${parentGroupName}", grandParentGroupName = "${grandParentGroupName}");
+			var parentGroupId = JSONGroupAPI._getParentGroupIdByName(
+				grandParentGroupName = "${grandParentGroupName}",
+				groupName = "${parentGroupName}");
 		}
 		else {
 			var parentGroupId = "0";

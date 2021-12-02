@@ -60,6 +60,23 @@ definition {
 		LexiconEntry.changeDisplayStyle(displayStyle = "list");
 	}
 
+	tearDown {
+		var testPortalInstance = PropsUtil.get("test.portal.instance");
+
+		if ("${testPortalInstance}" == "true") {
+			PortalInstances.tearDownCP();
+		}
+		else {
+			DMDocument.tearDownCP();
+
+			DMFolder.tearDownCP();
+
+			DMDocumentType.tearDownCP();
+
+			Page.tearDownCP();
+		}
+	}
+
 	@description = "This test ensures that a Google Doc is autotagged once checked in."
 	@priority = "4"
 	test AutoTagGoogleDoc {
@@ -546,23 +563,6 @@ definition {
 		AssertElementPresent(locator1 = "UserBar#USER_SIGN_IN");
 
 		AssertConsoleTextNotPresent(value1 = "javax.portlet.PortletException:");
-	}
-
-	tearDown {
-		var testPortalInstance = PropsUtil.get("test.portal.instance");
-
-		if ("${testPortalInstance}" == "true") {
-			PortalInstances.tearDownCP();
-		}
-		else {
-			DMDocument.tearDownCP();
-
-			DMFolder.tearDownCP();
-
-			DMDocumentType.tearDownCP();
-
-			Page.tearDownCP();
-		}
 	}
 
 }

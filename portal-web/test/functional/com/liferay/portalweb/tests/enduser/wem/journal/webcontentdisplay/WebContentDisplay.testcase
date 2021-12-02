@@ -510,7 +510,7 @@ definition {
 		WebContentStructures.saveCP(structureName = "WC Structure Name");
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Web Content");
 
@@ -554,7 +554,7 @@ definition {
 		WebContent.viewPGViaWCD(webContentContent = "WC WebContent Content");
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Web Content");
 
@@ -594,7 +594,6 @@ definition {
 ${httpUtil.URLtoString(request.getAttribute("CTX").getResource(".").toURI().create("file:///C:/boot.ini").toURL())}
 ''';
 		}
-
 		else {
 			var templateScript = '''
 ${httpUtil.URLtoString(request.getAttribute("CTX").getResource(".").toURI().create("file:///etc/hosts").toURL())}
@@ -882,6 +881,7 @@ ${company.setKey("rO0ABXVyABNbTGphdmEubGFuZy5PYmplY3Q7kM5YnxBzKWwCAAB4cH////c=")
 
 ${company.getKeyObj()}
 ''';
+
 		WebContentTemplates.addCP(
 			structureName = "WC Structure Name",
 			templateName = "WC Template Name",
@@ -938,6 +938,7 @@ ${staticUtil["java.lang.Runtime"].getRuntime()}
 <#assign runtimeInstance=velocityBeanHandler.invoke(null, getRuntime, null)>
 ${runtimeInstance}
 ''';
+
 		WebContentTemplates.addCP(
 			structureName = "WC Structure Name",
 			templateName = "WC Template Name",
@@ -1022,7 +1023,7 @@ ${runtimeInstance}
 			siteName = "Test Site Name");
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Web Content");
 
@@ -1048,7 +1049,7 @@ ${runtimeInstance}
 			title = "Web Content Title 2");
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Web Content");
 
@@ -1159,7 +1160,7 @@ ${runtimeInstance}
 		Navigator.openSiteURL(siteName = "Test Site Name");
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Web Content");
 
@@ -1312,7 +1313,7 @@ ${runtimeInstance}
 		WebContent.viewPGViaWCD(webContentContent = "WC WebContent Content");
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Web Content");
 
@@ -1335,7 +1336,7 @@ ${runtimeInstance}
 		WebContent.viewPGViaWCD(webContentContent = "WC WebContent Content");
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Web Content");
 

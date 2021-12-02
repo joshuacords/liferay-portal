@@ -79,7 +79,7 @@ definition {
 			threadSubject = "MB Thread Message Subject");
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Wiki");
 
@@ -135,7 +135,7 @@ definition {
 			threadSubject = "MB Thread Message Subject");
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Wiki");
 
@@ -319,7 +319,7 @@ definition {
 		UserBar.gotoDropdownItem(dropdownItem = "My Profile");
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Blogs");
 
@@ -332,7 +332,7 @@ definition {
 		UserBar.gotoDropdownItem(dropdownItem = "My Dashboard");
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Blogs");
 
@@ -341,7 +341,7 @@ definition {
 			entryTitle = "Blogs Entry in My Dashboard");
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Message Boards");
 
@@ -570,7 +570,7 @@ definition {
 			threadSubject = "MB Thread Message Subject");
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Wiki");
 

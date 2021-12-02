@@ -3,9 +3,7 @@ definition {
 	macro addOrRemoveSubscribePermissionFromAllRoles {
 		for (var roleTitle : list "${roleList}") {
 			var roleTitle = "${roleTitle}";
-
 			var key_roleTitle = StringUtil.replace("${roleTitle}", " ", "-");
-
 			var key_roleTitle = StringUtil.lowerCase("${key_roleTitle}");
 
 			if ("${addOrRemoveViewPermission}" == "Add") {

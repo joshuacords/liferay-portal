@@ -4,13 +4,13 @@ definition {
 	macro addChildSite {
 		Variables.assertDefined(parameterList = "${groupName},${parentGroupName}");
 
-		var groupDescriptionMap = JSONGroupSetter.setGroupDescriptionMap(
-			groupDescription = "${groupDescription}");
+		var groupDescriptionMap = JSONGroupSetter.setGroupDescriptionMap(groupDescription = "${groupDescription}");
 
-		var groupNameMap = JSONGroupSetter.setGroupNameMap(
-			groupName = "${groupName}");
+		var groupNameMap = JSONGroupSetter.setGroupNameMap(groupName = "${groupName}");
 
-		var parentGroupId = JSONGroupSetter.setParentGroupId(parentGroupName = "${parentGroupName}", grandParentGroupName = "${grandParentGroupName}");
+		var parentGroupId = JSONGroupSetter.setParentGroupId(
+			grandParentGroupName = "${grandParentGroupName}",
+			parentGroupName = "${parentGroupName}");
 
 		JSONGroupAPI._addGroup(
 			groupDescriptionMap = "${groupDescriptionMap}",
@@ -22,11 +22,9 @@ definition {
 	macro addGroup {
 		Variables.assertDefined(parameterList = "${groupName}");
 
-		var groupDescriptionMap = JSONGroupSetter.setGroupDescriptionMap(
-			groupDescription = "${groupDescription}");
+		var groupDescriptionMap = JSONGroupSetter.setGroupDescriptionMap(groupDescription = "${groupDescription}");
 
-		var groupNameMap = JSONGroupSetter.setGroupNameMap(
-			groupName = "${groupName}");
+		var groupNameMap = JSONGroupSetter.setGroupNameMap(groupName = "${groupName}");
 
 		var parentGroupId = JSONGroupSetter.setParentGroupId(groupName = "${parentGroupName}");
 

@@ -26,7 +26,7 @@ definition {
 			Uncheck(locator1 = "ServerAdministrationExternalServices#OPEN_OFFICE_ENABLED_CHECKBOX");
 		}
 
-		if ((isSet(installXuggler)) && (IsElementNotPresent(locator1 = "ServerAdministrationExternalServices#XUGGLER_ENABLED_CHECKBOX"))) {
+		if (isSet(installXuggler) && (IsElementNotPresent(locator1 = "ServerAdministrationExternalServices#XUGGLER_ENABLED_CHECKBOX"))) {
 			Panel.expandPanel(panel = "Enabling Xuggler provides video conversion functionality.");
 
 			AssertClick(

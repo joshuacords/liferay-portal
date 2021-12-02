@@ -846,7 +846,7 @@ definition {
 			portlet = "Users and Organizations");
 
 		User.addCP(
-			userEmailAddress = "userea&gt;@liferay.com",
+			userEmailAddress = "userea>@liferay.com",
 			userEmailAddressVariation = "Invalid",
 			userFirstName = "userfn",
 			userLastName = "userln",

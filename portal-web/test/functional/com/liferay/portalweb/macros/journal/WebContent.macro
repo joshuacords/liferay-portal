@@ -783,7 +783,7 @@ definition {
 		RecycleBin.emptyCP();
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Web Content");
 
@@ -812,7 +812,7 @@ definition {
 			siteName = "${siteName}");
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Web Content");
 
@@ -867,6 +867,7 @@ definition {
 			else {
 				PortletEntry.publish();
 			}
+
 			LexiconEntry.changeDisplayStyle(displayStyle = "list");
 
 			var key_webContentTitle = "${webContentTitleEdit}";
@@ -965,6 +966,7 @@ definition {
 				navTab = "Web Content Images",
 				uploadFileName = "${webContentImage}");
 		}
+
 		var iFrameDialog = "IFrame#DIALOG";
 
 		if (IsElementPresent(locator1 = "${iFrameDialog}")) {
@@ -1018,7 +1020,6 @@ definition {
 				locator1 = "//div[@class='journal-content-article']//span[contains(@class,'portlet-title-text')]",
 				value1 = "${embeddedPortletTitle}");
 		}
-
 		else if (isSet(templateName)) {
 			AssertTextEquals(
 				locator1 = "WCD#WEB_CONTENT_CONTENT",
@@ -1190,12 +1191,14 @@ definition {
 
 		if (!(contains("${webContentTitleEscapeCharacter}", "{webContentTitleEscapeCharacter}"))) {
 			var key_webContentTitle = "${webContentTitleEscapeCharacter}";
+
 			WebContentNavigator.gotoEntryMenuItem(
 				entry = "${webContentTitleEscapeCharacter}",
 				menuItem = "Move to Recycle Bin");
 		}
 		else {
 			var key_webContentTitle = "${webContentTitle}";
+
 			WebContentNavigator.gotoEntryMenuItem(
 				entry = "${webContentTitle}",
 				menuItem = "Move to Recycle Bin");
@@ -1377,7 +1380,7 @@ definition {
 		Navigator.openURL();
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Web Content");
 

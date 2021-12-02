@@ -53,7 +53,7 @@ definition {
 			var portletName = "LanguagePortlet";
 		}
 
-		if (IsTextNotEqual(locator1 = "Language#DROPDOWN_LANGUAGE", value1 = "${locale}", key_portletName = "${portletName}")) {
+		if (IsTextNotEqual(key_portletName = "${portletName}", locator1 = "Language#DROPDOWN_LANGUAGE", value1 = "${locale}")) {
 			Click(
 				key_portletName = "${portletName}",
 				locator1 = "Language#DROPDOWN");

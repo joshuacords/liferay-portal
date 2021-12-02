@@ -45,7 +45,7 @@ definition {
 		Navigator.openURL();
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Wiki");
 
@@ -91,7 +91,7 @@ definition {
 		Navigator.openURL();
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Wiki");
 
@@ -147,7 +147,7 @@ definition {
 		Navigator.openURL();
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Wiki");
 
@@ -219,7 +219,7 @@ definition {
 
 		WikiPage.addFrontPageChildPageInvalidTitleViaWD(
 			wikiChildPageContent = "Wiki FrontPage Child Page Content",
-			wikiChildPageTitle = "Wiki&lt; Front&lt; Page&lt; Child&lt; Page&lt; Title&lt;");
+			wikiChildPageTitle = "Wiki< Front< Page< Child< Page< Title<");
 
 		Navigator.gotoPage(pageName = "Wiki Display Test Page");
 
@@ -227,7 +227,7 @@ definition {
 
 		WikiPage.addFrontPageChildPageInvalidTitleViaWD(
 			wikiChildPageContent = "Wiki FrontPage Child Page Content",
-			wikiChildPageTitle = "Wiki&gt; Front&gt; Page&gt; Child&gt; Page&gt; Title&gt;");
+			wikiChildPageTitle = "Wiki> Front> Page> Child> Page> Title>");
 
 		Navigator.gotoPage(pageName = "Wiki Display Test Page");
 
@@ -239,7 +239,7 @@ definition {
 		Navigator.openURL();
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Wiki");
 
@@ -278,7 +278,7 @@ definition {
 		Navigator.openURL();
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Wiki");
 

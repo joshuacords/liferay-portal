@@ -19,7 +19,7 @@ definition {
 		JSONUtil2._exclusiveOrCheck(
 			A = "${content}",
 			B = "${contentMap}",
-			failMessage = "Please only set &apos;content&apos; or only &apos;contentMap&apos; but not both or none.");
+			failMessage = "Please only set 'content' or only 'contentMap' but not both or none.");
 
 		if (isSet(contentMap)) {
 			var contentXML = JSONWebcontentUtil._localizedConvertToXML(contentMap = "${contentMap}");

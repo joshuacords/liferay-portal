@@ -177,7 +177,7 @@ definition {
 
 		//Type(locator1 = "FormFields#FIELD_NAME_EDIT", value1 = "${fieldName}");
 
-		if ((isSet(localeAdvanced)) && (isSet(localeBasic))) {
+		if (isSet(localeAdvanced) && isSet(localeBasic)) {
 			var key_localeAdvanced = "${localeAdvanced}";
 			var key_localeBasic = "${localeBasic}";
 
@@ -307,6 +307,7 @@ definition {
 
 		if (isSet(localeBasic)) {
 			var key_localeBasic = "${localeBasic}";
+
 			AssertElementPresent(locator1 = "Form#SIDEBAR_BASIC_TAB_LOCALE");
 		}
 		else {
@@ -325,6 +326,7 @@ definition {
 				locator1 = "Form#SIDEBAR_ADVANCED_TAB",
 				value1 = "Advanced");
 		}
+
 		Pause(locator1 = "1000");
 	}
 
@@ -332,6 +334,7 @@ definition {
 		AssertClick(
 			locator1 = "Form#SIDEBAR_AUTOCOMPLETE_TAB",
 			value1 = "Autocomplete");
+
 		Pause(locator1 = "1000");
 	}
 
@@ -346,6 +349,7 @@ definition {
 				locator1 = "Form#SIDEBAR_BASIC_TAB",
 				value1 = "Basic");
 		}
+
 		Pause(locator1 = "1000");
 	}
 

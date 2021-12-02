@@ -5,7 +5,7 @@ definition {
 	macro _checkForRSSTitleCP {
 		if (IsElementNotPresent(locator1 = "RSS#FEED_TITLE")) {
 			ProductMenu.gotoPortlet(
-				category = "Content &amp; Data",
+				category = "Content & Data",
 				panel = "Site Administration",
 				portlet = "Wiki");
 
@@ -971,7 +971,7 @@ definition {
 		Navigator.openURL();
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Wiki");
 

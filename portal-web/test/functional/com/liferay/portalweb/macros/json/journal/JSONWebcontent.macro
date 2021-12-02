@@ -10,8 +10,7 @@ definition {
 			content = "${content}",
 			contentMap = "${contentMap}");
 
-		var descriptionMap = JSONWebcontentSetter.setDescriptionMap(
-			description = "${description}");
+		var descriptionMap = JSONWebcontentSetter.setDescriptionMap(description = "${description}");
 
 		var folderId = JSONWebcontentSetter.setFolderId(
 			folderName = "${folderName}",

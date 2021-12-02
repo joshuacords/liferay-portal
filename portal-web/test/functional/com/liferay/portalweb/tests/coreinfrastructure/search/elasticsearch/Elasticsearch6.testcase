@@ -133,6 +133,7 @@ definition {
 			portlet = "Search");
 
 		var clientVersion = Elasticsearch.getClientVersion();
+
 		var serverVersion = Elasticsearch.getServerVersion();
 
 		SearchAdministration.assertEngineVendorAndVersions(
@@ -152,6 +153,7 @@ definition {
 			value1 = "liferay-0");
 
 		var companyId = JSONCompany.getCompanyId();
+
 		var liferayIndexName = "liferay-${companyId}";
 
 		Click(
@@ -240,7 +242,7 @@ definition {
 		Navigator.openURL();
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Message Boards");
 
@@ -251,7 +253,7 @@ definition {
 		Navigator.openURL();
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Documents and Media");
 
@@ -361,7 +363,6 @@ definition {
 		var elasticsearchVersion = Elasticsearch.getServerVersion();
 
 		var liferayHome = PropsUtil.get("liferay.home.dir.name");
-
 		var elasticsearchYML = "${liferayHome}/elasticsearch-${elasticsearchVersion}-1/config/elasticsearch.yml";
 
 		AntCommand.antCommand(
@@ -369,10 +370,9 @@ definition {
 			value1 = "stop-elasticsearch");
 
 		var fileContent = FileUtil.read("${elasticsearchYML}");
-
 		var updatedContent = StringUtil.replace("${fileContent}", "LiferayElasticsearchCluster", "LiferayElasticsearchCluster1");
 
-		FileUtil.write("${elasticsearchYML}","${updatedContent}");
+		FileUtil.write("${elasticsearchYML}", "${updatedContent}");
 
 		AntCommand.antCommand(
 			locator1 = "build-test-elasticsearch6.xml",

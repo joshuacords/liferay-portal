@@ -118,7 +118,7 @@ definition {
 		Button.clickSave();
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Web Content");
 
@@ -162,8 +162,11 @@ definition {
 			var key_assetTitle = "${assetTitle}";
 
 			AssertElementNotPresent(locator1 = "AssetRelatedAssets#RELATED_ASSETS_TABLE_TYPE");
+
 			AssertElementNotPresent(locator1 = "AssetRelatedAssets#RELATED_ASSETS_TABLE_TITLE");
+
 			AssertElementNotPresent(locator1 = "AssetRelatedAssets#RELATED_ASSETS_TABLE_SCOPE");
+
 			AssertElementNotPresent(locator1 = "AssetRelatedAssets#RELATED_ASSETS_TABLE_REMOVE_LINK");
 		}
 
@@ -194,7 +197,7 @@ definition {
 		Navigator.openURL();
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Web Content");
 

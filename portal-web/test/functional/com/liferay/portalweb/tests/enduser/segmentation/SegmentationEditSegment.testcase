@@ -42,8 +42,11 @@ definition {
 		LexiconEntry.gotoAdd();
 
 		Segmentation.addProperties(propertyOption = "Email Address");
+
 		Segmentation.fillTitle(titleField = "EditSegmentUserEmailAddressContainsToEquals Test");
+
 		Segmentation.changeCriterionInputEmailAddress(criterionInputOption = "Contains");
+
 		Segmentation.fillEmailAddress(emailAddressField = "liferay");
 
 		Button.clickSave();
@@ -53,6 +56,7 @@ definition {
 		}
 
 		Segmentation.changeCriterionInputEmailAddress(criterionInputOption = "Equals");
+
 		Button.clickSave();
 	}
 

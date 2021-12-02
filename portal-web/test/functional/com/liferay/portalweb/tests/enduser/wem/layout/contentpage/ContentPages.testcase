@@ -341,7 +341,9 @@ definition {
 
 		task ("Assert the layout has exactly 2 columns") {
 			AssertVisible(locator1 = "//section[contains(@class,'fragment-entry-link-list')]//div[contains(@class,'col-md-6')][1]");
+
 			AssertVisible(locator1 = "//section[contains(@class,'fragment-entry-link-list')]//div[contains(@class,'col-md-6')][2]");
+
 			AssertElementNotPresent(locator1 = "//section[contains(@class,'fragment-entry-link-list')]//div[contains(@class,'col-md-6')][3]");
 		}
 
@@ -363,8 +365,11 @@ definition {
 
 		task ("Assert the layout now has exactly 2 columns") {
 			AssertVisible(locator1 = "//section[contains(@class,'fragment-entry-link-list')]//div[contains(@class,'col-md-4')][1]");
+
 			AssertVisible(locator1 = "//section[contains(@class,'fragment-entry-link-list')]//div[contains(@class,'col-md-4')][2]");
+
 			AssertVisible(locator1 = "//section[contains(@class,'fragment-entry-link-list')]//div[contains(@class,'col-md-4')][3]");
+
 			AssertElementNotPresent(locator1 = "//section[contains(@class,'fragment-entry-link')]//div[contains(@class,'col-md-4')][4]");
 		}
 

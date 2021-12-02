@@ -246,7 +246,7 @@ definition {
 
 		task ("Go To Test Site And Create a Web Content") {
 			ProductMenu.gotoPortlet(
-				category = "Content &amp; Data",
+				category = "Content & Data",
 				panel = "Site Administration",
 				portlet = "Web Content");
 

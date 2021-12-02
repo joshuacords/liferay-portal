@@ -35,6 +35,7 @@ definition {
 
 		task ("Add a section fragment to the fragment collection via JSON") {
 			var htmlSnippet = FragmentsAPI.getFragmentFileContent(fileName = "checkbox_configuration.html");
+
 			var jsonSnippet = FragmentsAPI.getFragmentFileContent(fileName = "checkbox_configuration.json");
 
 			JSONFragment.addSection(
@@ -88,6 +89,7 @@ definition {
 
 		task ("Add a section fragment to the fragment collection via JSON") {
 			var htmlSnippet = FragmentsAPI.getFragmentFileContent(fileName = "select_configuration.html");
+
 			var jsonSnippet = FragmentsAPI.getFragmentFileContent(fileName = "select_configuration.json");
 
 			JSONFragment.addSection(
@@ -137,6 +139,7 @@ definition {
 
 		task ("Add a section fragment to the fragment collection via JSON") {
 			var htmlSnippet = FragmentsAPI.getFragmentFileContent(fileName = "text_configuration.html");
+
 			var jsonSnippet = FragmentsAPI.getFragmentFileContent(fileName = "text_configuration.json");
 
 			JSONFragment.addSection(

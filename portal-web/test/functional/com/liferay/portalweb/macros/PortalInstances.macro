@@ -100,7 +100,7 @@ definition {
 			panel = "Control Panel",
 			portlet = "Virtual Instances");
 
-		while (IsElementPresent(locator1 = "ContentRow#ENTRY_CONTENT_ROW_NUMBER_ELLIPSIS", key_rowNumber = "2")) {
+		while (IsElementPresent(key_rowNumber = "2", locator1 = "ContentRow#ENTRY_CONTENT_ROW_NUMBER_ELLIPSIS")) {
 			Click.waitForMenuToggleJSClick(
 				key_rowNumber = "2",
 				locator1 = "ContentRow#ENTRY_CONTENT_ROW_NUMBER_ELLIPSIS");

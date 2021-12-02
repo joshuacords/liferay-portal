@@ -8,7 +8,6 @@ definition {
 
 		return logLevel;
 		''';
-
 		var logLevel = selenium.getEval("${javaScript}");
 
 		return "${logLevel}";

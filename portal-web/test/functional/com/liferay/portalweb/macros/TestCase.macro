@@ -42,8 +42,8 @@ definition {
 		var testNameSkipPortalInstance = PropsUtil.get("test.name.skip.portal.instance");
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if (("${siteName}" == "Liferay") || (!(isSet(siteName)))) {
-			if (("${testPortalInstance}" == "true") && (!(IsTestName(locator1 = "", value1 = "${testNameSkipPortalInstance}")))) {
+		if (("${siteName}" == "Liferay") || !(isSet(siteName))) {
+			if (("${testPortalInstance}" == "true") && !(IsTestName(locator1 = "", value1 = "${testNameSkipPortalInstance}"))) {
 				var portalURL = PropsUtil.get("portal.url");
 				var portalURL = StringUtil.replace("${portalURL}", "http://", "");
 				var portalURL = StringUtil.replace("${portalURL}", ":8080", "");
@@ -77,7 +77,7 @@ definition {
 		var testNameSkipPortalInstance = PropsUtil.get("test.name.skip.portal.instance");
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if (("${testPortalInstance}" == "true") && (!(IsTestName(locator1 = "", value1 = "${testNameSkipPortalInstance}")))) {
+		if (("${testPortalInstance}" == "true") && !(IsTestName(locator1 = "", value1 = "${testNameSkipPortalInstance}"))) {
 			SignIn.signInPortalInstanceSetUp();
 		}
 	}

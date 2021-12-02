@@ -10,8 +10,8 @@ definition {
 			Variables.assertDefined(parameterList = "${folderName},${groupName}");
 
 			var folderId = JSONDocumentAPI._getFolderIdByFolderName(
-				name = "${folderName}",
-				groupName = "${groupName}");
+				groupName = "${groupName}",
+				name = "${folderName}");
 		}
 		else {
 			var folderId = "0";

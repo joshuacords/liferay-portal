@@ -255,6 +255,7 @@ definition {
 		AssertTextEquals(
 			locator1 = "Sharing#NOTIFICATIONS_DELETE_ENTRY_TITLE",
 			value1 = "Notification no longer applies.");
+
 		AssertTextEquals(
 			locator1 = "Sharing#NOTIFICATIONS_DELETE_ENTRY_CONTENT",
 			value1 = "Notification for Sharing was deleted.");

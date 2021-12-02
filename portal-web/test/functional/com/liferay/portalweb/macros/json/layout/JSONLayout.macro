@@ -6,7 +6,9 @@ definition {
 
 		var friendlyURL = JSONLayoutSetter.setFriendlyURL(friendlyURL = "${friendlyURL}");
 
-		var groupId = JSONLayoutSetter.setGroupId(groupKey = "${groupName}", parentGroupName = "${parentGroupName}");
+		var groupId = JSONLayoutSetter.setGroupId(
+			groupKey = "${groupName}",
+			parentGroupName = "${parentGroupName}");
 
 		var parentLayoutId = JSONLayoutSetter.setParentLayoutId(
 			groupId = "${groupId}",
@@ -54,7 +56,10 @@ definition {
 
 		var friendlyURL = JSONLayoutSetter.setFriendlyURL(friendlyURL = "${friendlyURL}");
 
-		var groupId = JSONLayoutSetter.setGroupId(groupKey = "${groupName}", parentGroupName = "${parentGroupName}", grandParentGroupName = "${grandParentGroupName}");
+		var groupId = JSONLayoutSetter.setGroupId(
+			grandParentGroupName = "${grandParentGroupName}",
+			groupKey = "${groupName}",
+			parentGroupName = "${parentGroupName}");
 
 		var parentLayoutId = JSONLayoutSetter.setParentLayoutId(
 			groupId = "${groupId}",

@@ -119,7 +119,9 @@ out.println(PortalUtil.escapeRedirect("/"));
 		WaitForSPARefresh();
 
 		var authToken = Page.getAuthTokenFromHtmlSource();
+
 		var plid = Page.getPlidFromHtmlSource();
+
 		var portalURL = PropsUtil.get("portal.url");
 
 		Navigator.openSpecificURL(url = '''${portalURL}/c/portal/update_layout?cmd=add&p_p_col_id=column-1&p_p_col_pos=0&p_p_id=com_liferay_marketplace_store_web_portlet_MarketplacePurchasedPortlet&p_auth=${authToken}&p_l_id=${plid}''');
@@ -186,7 +188,7 @@ out.println(PortalUtil.escapeRedirect("/"));
 		property portal.acceptance = "true";
 
 		var portalURL = PropsUtil.get("portal.url");
-		var url = "${portalURL}/c/portal/json_service?serviceClassName=com.liferay.portal.kernel.service.AccountServiceUtil&amp;serviceMethodName=getOSGiServiceIdentifier&amp;p_auth=";
+		var url = "${portalURL}/c/portal/json_service?serviceClassName=com.liferay.portal.kernel.service.AccountServiceUtil&serviceMethodName=getOSGiServiceIdentifier&p_auth=";
 
 		Api.gotoPAuthURL(url = "${url}");
 
@@ -198,6 +200,7 @@ out.println(PortalUtil.escapeRedirect("/"));
 		property test.name.skip.portal.instance = "SecurityUsecase#ValidateCannotStealAdminAccount";
 
 		var pAuth = Api.getPAuth();
+
 		var portalURL = PropsUtil.get("portal.url");
 
 		Navigator.openURL();
@@ -237,7 +240,7 @@ out.println(PortalUtil.escapeRedirect("/"));
 	@priority = "5"
 	test ValidateCraftedOrCorruptedFilesCannotCauseOutOfMemoryErrors {
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Documents and Media");
 
@@ -292,7 +295,7 @@ out.println(PortalUtil.escapeRedirect("/"));
 	@priority = "5"
 	test ValidateNoLARRemoteCodeExecution {
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Blogs");
 
@@ -374,7 +377,7 @@ out.println(PortalUtil.escapeRedirect("/"));
 
 		var portalURL = PropsUtil.get("portal.url");
 
-		Navigator.openSpecificURL(url = "${portalURL}/web/guest/home/?p_p_id=asdf&amp;p_p_lifecycle=0&amp;p_p_state=maximized&amp;_asdf_mvcPath=/html/portlet/portal_settings/edit_company.jsp");
+		Navigator.openSpecificURL(url = "${portalURL}/web/guest/home/?p_p_id=asdf&p_p_lifecycle=0&p_p_state=maximized&_asdf_mvcPath=/html/portlet/portal_settings/edit_company.jsp");
 
 		AssertTextEquals(
 			locator1 = "Message#INFO",

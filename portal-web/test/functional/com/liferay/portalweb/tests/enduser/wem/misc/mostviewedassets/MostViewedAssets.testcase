@@ -58,7 +58,7 @@ definition {
 		AssetPublisherPortlet.configureDisplaySettings(displaySettings = "View Count Increment");
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Web Content");
 

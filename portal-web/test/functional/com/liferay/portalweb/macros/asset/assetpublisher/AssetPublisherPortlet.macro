@@ -135,7 +135,7 @@ definition {
 
 		var key_sortOrder = "${sortOrder}";
 
-		if ((isSet(sortOrder)) && (IsVisible(locator1 = "APConfiguration#ORDERING_AND_GROUPING_ORDER_DIRECTIONAL_ICON"))) {
+		if (isSet(sortOrder) && (IsVisible(locator1 = "APConfiguration#ORDERING_AND_GROUPING_ORDER_DIRECTIONAL_ICON"))) {
 			Click(locator1 = "APConfiguration#ORDERING_AND_GROUPING_ORDER_DIRECTIONAL_ICON");
 		}
 
@@ -271,6 +271,7 @@ definition {
 		else {
 			AssetPublisherPortlet.gotoConfigurationPG(portletName = "${portletName}");
 		}
+
 		Navigator.gotoNavTab(navTab = "Display Settings");
 
 		Panel.expandPanel(panel = "Set and Enable");

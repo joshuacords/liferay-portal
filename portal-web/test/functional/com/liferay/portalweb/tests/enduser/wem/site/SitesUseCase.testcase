@@ -966,7 +966,7 @@ definition {
 			portlet = "Pages");
 
 		Page.addJavaScript(
-			javaScript = "alert(&apos;Welcome to Russia.&apos;);",
+			javaScript = "alert('Welcome to Russia.');",
 			pageName = "Arenas");
 
 		Open.openNoError(locator1 = "${portalURL}/web/russia2018/Arenas");

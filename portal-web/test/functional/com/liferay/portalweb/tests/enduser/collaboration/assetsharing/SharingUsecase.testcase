@@ -257,6 +257,7 @@ definition {
 		AssertTextEquals(
 			locator1 = "Sharing#SHARED_CONTENT_CONTENT_TITLE",
 			value1 = "Document_1.jpeg");
+
 		AssertElementNotPresent(
 			key_contentTitle = "Blogs Entry Title",
 			locator1 = "Sharing#SHARED_CONTENT_CONTENT_TITLE_2");
@@ -288,6 +289,7 @@ definition {
 		AssertTextEquals(
 			locator1 = "Sharing#SHARED_CONTENT_CONTENT_TITLE",
 			value1 = "Blogs Entry Title");
+
 		AssertElementNotPresent(
 			key_contentTitle = "Document_1.jpeg",
 			locator1 = "Sharing#SHARED_CONTENT_CONTENT_TITLE_2");
@@ -367,9 +369,11 @@ definition {
 		AssertElementPresent(
 			key_contentTitle = "Blogs Entry Title",
 			locator1 = "Sharing#SHARED_CONTENT_CONTENT_TITLE");
+
 		AssertElementPresent(
 			key_contentTitle = "Document_2.docx",
 			locator1 = "Sharing#SHARED_CONTENT_CONTENT_TITLE_2");
+
 		AssertElementPresent(
 			key_contentTitle = "Document_1.jpeg",
 			locator1 = "Sharing#SHARED_CONTENT_CONTENT_TITLE_3");

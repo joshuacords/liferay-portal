@@ -49,8 +49,8 @@ definition {
 			vocabularyName = "${vocabularyName}");
 
 		var parentCategoryId = JSONCategorySetter.setParentCategoryId(
-			parentCategoryName = "${parentCategoryName}",
 			groupId = "${groupId}",
+			parentCategoryName = "${parentCategoryName}",
 			vocabularyId = "${vocabularyId}");
 
 		var titleMap = JSONCategorySetter.setTitleMap(
@@ -107,8 +107,7 @@ definition {
 		var categoryId = JSONCategoryAPI._getCategoryIdByName(
 			categoryName = "${categoryName}",
 			groupId = "${groupId}",
-			vocabularyId = "${vocabularyId}"
-		);
+			vocabularyId = "${vocabularyId}");
 
 		return "${categoryId}";
 	}

@@ -158,7 +158,7 @@ definition {
 		Navigator.openURL();
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Blogs");
 
@@ -169,15 +169,15 @@ definition {
 	test AddBlogsEntryTitleEscapeCharacters {
 		Blogs.addEntry(
 			entryContent = "Blogs Entry Content",
-			entryTitle = "&amp; &lt; &gt; &quot; Escape Characters Entry");
+			entryTitle = "& < > &quot; Escape Characters Entry");
 
 		BlogsNavigator.gotoEntryPG(
 			entryContent = "Blogs Entry Content",
-			entryTitle = "&amp; &lt; &gt; &quot; Escape Characters Entry");
+			entryTitle = "& < > &quot; Escape Characters Entry");
 
 		BlogsEntry.viewEntry(
 			entryContent = "Blogs Entry Content",
-			entryTitle = "&amp; &lt; &gt; &quot; Escape Characters Entry");
+			entryTitle = "& < > &quot; Escape Characters Entry");
 	}
 
 	@priority = "4"
@@ -1021,7 +1021,7 @@ definition {
 		Navigator.openURL();
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Blogs");
 
@@ -1045,7 +1045,7 @@ definition {
 		Navigator.openURL();
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Blogs");
 
@@ -1632,7 +1632,7 @@ definition {
 		Navigator.openURL();
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Blogs");
 

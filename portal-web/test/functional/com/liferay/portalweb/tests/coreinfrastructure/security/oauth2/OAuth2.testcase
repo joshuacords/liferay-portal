@@ -97,8 +97,7 @@ definition {
 
 		var newGeneratedClientSecret = OAuth2.editApplication(
 			applicationName = "OAuth Application Edited",
-			generateNewSecret = "true"
-		);
+			generateNewSecret = "true");
 
 		Navigator.gotoBack();
 
@@ -155,7 +154,6 @@ definition {
 		var portalVersionCurl = '''
 			-H 'Authorization: Bearer ${accessToken}' ${portalURL}/api/jsonws/portal/get-version
 		''';
-
 		var portalVersionOutput = JSONCurlUtil.post("${portalVersionCurl}");
 
 		if (!(contains("${portalVersionOutput}", "7.2"))) {
@@ -231,7 +229,6 @@ definition {
 		var buildNumberCurl = '''
 			-H 'Authorization: Bearer ${accessToken}' ${portalURL}/api/jsonws/portal/get-build-number
 		''';
-
 		var buildNumberOutput = JSONCurlUtil.post("${buildNumberCurl}");
 
 		if (!(contains("${buildNumberOutput}", "72"))) {
@@ -315,7 +312,6 @@ definition {
 			http://localhost:9080/o/oauth2/token \
 				 --data client_id=abc123&client_secret=abc123&grant_type=authorization_code&code=${authorizationCode}
 		''';
-
 		var reponse = JSONCurlUtil.post("${curl}");
 
 		if (contains("${reponse}", "access_token")) {
@@ -397,7 +393,6 @@ definition {
 				-d articleId=${articleId} \
 				-d articleURL='wc-title'
 		''';
-
 		var deleteOutput1 = JSONCurlUtil.post("${deleteCurl}");
 
 		if (!(contains("${deleteOutput1}", "must have DELETE permission for com.liferay.journal.model.JournalArticle"))) {
@@ -416,7 +411,7 @@ definition {
 		}
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Web Content");
 

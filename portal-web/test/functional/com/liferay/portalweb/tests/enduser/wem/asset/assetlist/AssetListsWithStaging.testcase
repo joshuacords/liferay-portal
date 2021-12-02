@@ -39,7 +39,7 @@ definition {
 		task ("Navigate to asset list administration in the staging site.") {
 			ProductMenuHelper.expandPanel(panel = "Site Administration");
 
-			ProductMenuHelper.expandCategory(category = "Content &amp; Data");
+			ProductMenuHelper.expandCategory(category = "Content & Data");
 
 			AssertVisible(
 				key_portlet = "Content Sets",
@@ -51,7 +51,7 @@ definition {
 
 			ProductMenuHelper.expandPanel(panel = "Site Administration");
 
-			ProductMenuHelper.expandCategory(category = "Content &amp; Data");
+			ProductMenuHelper.expandCategory(category = "Content & Data");
 
 			AssertElementNotPresent(
 				key_portlet = "Content Sets",

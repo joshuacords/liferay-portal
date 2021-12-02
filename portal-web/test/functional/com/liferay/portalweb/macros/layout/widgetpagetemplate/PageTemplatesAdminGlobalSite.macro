@@ -98,7 +98,7 @@ definition {
 
 		var pageTemplateName = "Page Template Name";
 
-		while (IsElementPresent(locator1 = "LexiconCard#CARD_ELLIPSIS", key_card = "${pageTemplateName}")) {
+		while (IsElementPresent(key_card = "${pageTemplateName}", locator1 = "LexiconCard#CARD_ELLIPSIS")) {
 			PageTemplatesAdminGlobalSite.deleteCP(pageTemplateName = "${pageTemplateName}");
 		}
 	}

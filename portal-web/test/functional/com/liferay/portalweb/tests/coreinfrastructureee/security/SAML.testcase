@@ -383,7 +383,7 @@ definition {
 		var portalURL = PropsUtil.get("portal.url");
 
 		SAML.executeIdPInitiatedSSO(
-			idpInitiatedSSOURL = "${portalURL}/c/portal/saml/sso?entityId=samlsp&amp;RelayState=http://www.able.com:9080",
+			idpInitiatedSSOURL = "${portalURL}/c/portal/saml/sso?entityId=samlsp&RelayState=http://www.able.com:9080",
 			password = "test",
 			samlEnabled = "true",
 			spURL = "http://www.able.com:9080/",
@@ -417,7 +417,7 @@ definition {
 		User.viewLoggedOutPG();
 
 		SAML.executeIdPInitiatedSSO(
-			idpInitiatedSSOURL = "${portalURL}/c/portal/saml/sso?entityId=samlsp&amp;RelayState=http://www.able.com:9080",
+			idpInitiatedSSOURL = "${portalURL}/c/portal/saml/sso?entityId=samlsp&RelayState=http://www.able.com:9080",
 			password = "test",
 			samlEnabled = "true",
 			spURL = "http://www.able.com:9080/",
@@ -429,7 +429,7 @@ definition {
 
 		SAML.executeIdPInitiatedSSO(
 			autoLogin = "true",
-			idpInitiatedSSOURL = "${portalURL}/c/portal/saml/sso?entityId=samlsp&amp;RelayState=http://www.able.com:9080",
+			idpInitiatedSSOURL = "${portalURL}/c/portal/saml/sso?entityId=samlsp&RelayState=http://www.able.com:9080",
 			password = "test",
 			samlEnabled = "true",
 			spURL = "http://www.able.com:9080/",
@@ -466,7 +466,7 @@ definition {
 		var portalURL = PropsUtil.get("portal.url");
 
 		SAML.executeIdPInitiatedSSO(
-			idpInitiatedSSOURL = "${portalURL}/c/portal/saml/sso?entityId=samlsp&amp;RelayState=http://www.able.com:9080",
+			idpInitiatedSSOURL = "${portalURL}/c/portal/saml/sso?entityId=samlsp&RelayState=http://www.able.com:9080",
 			password = "test",
 			spURL = "http://www.able.com:9080/",
 			userEmailAddress = "test@liferay.com");
@@ -509,7 +509,7 @@ definition {
 		var portalURL = PropsUtil.get("portal.url");
 
 		SAML.executeIdPInitiatedSSO(
-			idpInitiatedSSOURL = "${portalURL}/c/portal/saml/sso?entityId=samlsp&amp;RelayState=http://www.able.com:9080",
+			idpInitiatedSSOURL = "${portalURL}/c/portal/saml/sso?entityId=samlsp&RelayState=http://www.able.com:9080",
 			password = "test",
 			samlEnabled = "true",
 			spURL = "http://www.able.com:9080/",
@@ -633,7 +633,7 @@ definition {
 		var portalURL = PropsUtil.get("portal.url");
 
 		SAML.executeIdPInitiatedSSO(
-			idpInitiatedSSOURL = "${portalURL}/c/portal/saml/sso?entityId=samlsp&amp;RelayState=http://www.able.com:9080",
+			idpInitiatedSSOURL = "${portalURL}/c/portal/saml/sso?entityId=samlsp&RelayState=http://www.able.com:9080",
 			password = "test",
 			spURL = "http://www.able.com:9080/",
 			userEmailAddress = "test@liferay.com");
@@ -960,7 +960,7 @@ definition {
 		User.viewLoggedInPG();
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Web Content");
 
@@ -985,7 +985,7 @@ definition {
 		User.viewLoggedInPG();
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Web Content");
 
@@ -1022,7 +1022,7 @@ definition {
 		// Verify SP is logged in
 
 		SAML.executeIdPInitiatedSSO(
-			idpInitiatedSSOURL = "${portalURL}/c/portal/saml/sso?entityId=samlsp&amp;RelayState=http://www.able.com:9080",
+			idpInitiatedSSOURL = "${portalURL}/c/portal/saml/sso?entityId=samlsp&RelayState=http://www.able.com:9080",
 			password = "test",
 			spURL = "http://www.able.com:9080/",
 			userEmailAddress = "test@liferay.com");
@@ -1069,7 +1069,7 @@ definition {
 		// Verify SP is logged in
 
 		SAML.executeIdPInitiatedSSO(
-			idpInitiatedSSOURL = "${portalURL}/c/portal/saml/sso?entityId=samlsp&amp;RelayState=http://www.able.com:9080",
+			idpInitiatedSSOURL = "${portalURL}/c/portal/saml/sso?entityId=samlsp&RelayState=http://www.able.com:9080",
 			password = "test",
 			rememberMeChecked = "true",
 			spURL = "http://www.able.com:9080/",
@@ -1400,7 +1400,7 @@ definition {
 		var portalURL = PropsUtil.get("portal.url");
 
 		SAML.executeIdPInitiatedSSO(
-			idpInitiatedSSOURL = "${portalURL}/c/portal/saml/sso?entityId=samlsp&amp;RelayState=http://www.able.com:9080",
+			idpInitiatedSSOURL = "${portalURL}/c/portal/saml/sso?entityId=samlsp&RelayState=http://www.able.com:9080",
 			password = "test",
 			rememberMeChecked = "true",
 			spURL = "http://www.able.com:9080/",

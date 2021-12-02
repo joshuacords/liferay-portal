@@ -19,7 +19,6 @@ definition {
 				-d parentFolderId=${parentFolderId} \
 				-d name=${name}
 		''';
-
 		var folderId = JSONCurlUtil.post("${curl}", "$.[?(@['name'] == '${name}')]['folderId']");
 		var folderId = StringUtil.replace("${folderId}", "[&quot;", "");
 		var folderId = StringUtil.replace("${folderId}", "&quot;]", "");

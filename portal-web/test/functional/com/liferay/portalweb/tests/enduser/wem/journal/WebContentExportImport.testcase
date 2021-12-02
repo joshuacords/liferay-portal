@@ -452,7 +452,7 @@ definition {
 		Site.addBlankCP(siteName = "Site Name 1");
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Web Content");
 
@@ -474,7 +474,7 @@ definition {
 		Site.addBlankCP(siteName = "Site Name 2");
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Web Content");
 

@@ -1089,7 +1089,6 @@ definition {
 					radioOption = "Replace");
 			}
 		}
-
 		else {
 			AssertTextEquals.assertPartialText(
 				locator1 = "Modal#BODY",
@@ -1137,7 +1136,7 @@ definition {
 
 	macro getDMLatestVersionURL {
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Documents and Media");
 
@@ -1492,7 +1491,7 @@ definition {
 		Navigator.openURL();
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Documents and Media");
 
@@ -1656,7 +1655,7 @@ definition {
 
 		DMDocument.expandInfo();
 
-		if ((isSet(dmDocumentSize)) && (!(contains("${dmDocumentSize}", "{dmDocumentSize}")))) {
+		if (isSet(dmDocumentSize) && !(contains("${dmDocumentSize}", "{dmDocumentSize}"))) {
 			var key_dmDocumentSize = "${dmDocumentSize}";
 
 			AssertVisible(locator1 = "DocumentsAndMediaDocument#DOCUMENT_DETAILS_SIZE");

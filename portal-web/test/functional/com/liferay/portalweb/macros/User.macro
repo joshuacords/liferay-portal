@@ -1790,7 +1790,7 @@ definition {
 			Button.click(button = "Sign In");
 		}
 
-		if ((isSet(authenticationMethod)) && ("${authenticationMethod}" == "By Screen Name")) {
+		if (isSet(authenticationMethod) && ("${authenticationMethod}" == "By Screen Name")) {
 			Type(
 				locator1 = "TextInput#SCREEN_NAME",
 				value1 = "${userScreenName}");
@@ -1807,7 +1807,7 @@ definition {
 
 		takeScreenshot();
 
-		if ((isSet(rememberMeChecked)) && ("${rememberMeChecked}" == "true")) {
+		if (isSet(rememberMeChecked) && ("${rememberMeChecked}" == "true")) {
 			Check(locator1 = "Checkbox#REMEMBER_ME");
 		}
 
@@ -1820,10 +1820,10 @@ definition {
 			Button.click(button = "Sign In");
 		}
 
-		if (IsElementPresent(locator1 = "Message#ERROR_FORM_FIELD_REQUIRED") && (IsElementNotPresent(locator1 = "TextInput#ENTER_AGAIN"))) {
+		if ((IsElementPresent(locator1 = "Message#ERROR_FORM_FIELD_REQUIRED")) && (IsElementNotPresent(locator1 = "TextInput#ENTER_AGAIN"))) {
 			echo("Sign in failed due to empty required field. Retrying...");
 
-			if ((isSet(authenticationMethod)) && ("${authenticationMethod}" == "By Screen Name")) {
+			if (isSet(authenticationMethod) && ("${authenticationMethod}" == "By Screen Name")) {
 				Type(
 					locator1 = "TextInput#SCREEN_NAME",
 					value1 = "${userScreenName}");
@@ -1969,16 +1969,14 @@ definition {
 
 			SelectWindow.selectWindowNoSPARefresh(locator1 = "title=Terms of Use");
 
-			if (IsElementPresent.pauseIsElementPresent(
-					locator1 = "Button#I_AGREE",
-					value1 = "I Agree")) {
+			if (IsElementPresent.pauseIsElementPresent(locator1 = "Button#I_AGREE", value1 = "I Agree")) {
 				AssertClick(
 					locator1 = "Button#I_AGREE",
 					value1 = "I Agree");
 			}
 
 			if (IsElementPresent.pauseIsElementPresent(locator1 = "TextInput#PASSWORD")) {
-				if ((isSet(syntaxCheckingEnabled)) && ("${syntaxCheckingEnabled}" == "true")) {
+				if (isSet(syntaxCheckingEnabled) && ("${syntaxCheckingEnabled}" == "true")) {
 					Type(
 						locator1 = "TextInput#PASSWORD",
 						value1 = "${resetPassword}");
@@ -2058,9 +2056,7 @@ definition {
 
 		Click(locator1 = "Button#SIGN_IN");
 
-		if (IsElementPresent.pauseIsElementPresent(
-				locator1 = "Button#I_AGREE",
-				value1 = "I Agree")) {
+		if (IsElementPresent.pauseIsElementPresent(locator1 = "Button#I_AGREE", value1 = "I Agree")) {
 			AssertClick(
 				locator1 = "Button#I_AGREE",
 				value1 = "I Agree");
@@ -2170,7 +2166,7 @@ definition {
 
 	macro resetPassword {
 		if (IsElementPresent.pauseIsElementPresent(locator1 = "TextInput#PASSWORD")) {
-			if ((isSet(syntaxCheckingEnabled)) && ("${syntaxCheckingEnabled}" == "true")) {
+			if (isSet(syntaxCheckingEnabled) && ("${syntaxCheckingEnabled}" == "true")) {
 				Type(
 					locator1 = "TextInput#PASSWORD_1",
 					value1 = "${resetPassword}");
@@ -2180,7 +2176,7 @@ definition {
 					value1 = "${resetPassword}");
 			}
 			else {
-				if ((isSet(setupWizardEnabled)) && ("${setupWizardEnabled}" == "true")) {
+				if (isSet(setupWizardEnabled) && ("${setupWizardEnabled}" == "true")) {
 					Type(
 						locator1 = "TextInput#PASSWORD_1",
 						value1 = "test2");
@@ -2261,9 +2257,7 @@ definition {
 			locator1 = "Button#SIGN_IN",
 			value1 = "Sign In");
 
-		if (IsElementPresent.pauseIsElementPresent(
-				locator1 = "Button#I_AGREE",
-				value1 = "I Agree")) {
+		if (IsElementPresent.pauseIsElementPresent(locator1 = "Button#I_AGREE", value1 = "I Agree")) {
 			AssertClick(
 				locator1 = "Button#I_AGREE",
 				value1 = "I Agree");
@@ -2282,7 +2276,7 @@ definition {
 			value1 = "Verify");
 
 		if (IsElementPresent.pauseIsElementPresent(locator1 = "TextInput#PASSWORD")) {
-			if ((isSet(syntaxCheckingEnabled)) && ("${syntaxCheckingEnabled}" == "true")) {
+			if (isSet(syntaxCheckingEnabled) && ("${syntaxCheckingEnabled}" == "true")) {
 				Type(
 					locator1 = "TextInput#PASSWORD",
 					value1 = "${resetPassword}");
@@ -2323,7 +2317,7 @@ definition {
 
 		MenuItem.click(menuItem = "Active");
 
-		while (IsElementPresent(locator1 = "ContentRow#ENTRY_CONTENT_ROW_NUMBER", key_rowNumber = "2")) {
+		while (IsElementPresent(key_rowNumber = "2", locator1 = "ContentRow#ENTRY_CONTENT_ROW_NUMBER")) {
 			Click.waitForMenuToggleJSClick(
 				key_rowNumber = "2",
 				locator1 = "ContentRow#ENTRY_CONTENT_ROW_NUMBER_ELLIPSIS");

@@ -448,7 +448,7 @@ definition {
 		Navigator.openSiteURL(siteName = "Site Name");
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Documents and Media");
 
@@ -471,6 +471,7 @@ definition {
 		DMDocument.editPG(dmDocumentTitle = "DM Document Title");
 
 		AssertConsoleTextNotPresent(value1 = "PrincipalException$MustHavePermission");
+
 		AssertConsoleTextNotPresent(value1 = "must have UPDATE permission for com.liferay.portlet.expando.model.ExpandoColumn");
 	}
 

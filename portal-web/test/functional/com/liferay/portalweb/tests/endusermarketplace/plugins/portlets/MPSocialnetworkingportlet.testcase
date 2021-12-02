@@ -30,7 +30,7 @@ definition {
 
 		Navigator.gotoPage(pageName = "Test Page");
 
-		Portlet.addPG(portletName = "Friends&apos; Activities");
+		Portlet.addPG(portletName = "Friends' Activities");
 
 		Navigator.gotoPage(pageName = "Test Page");
 
@@ -46,7 +46,7 @@ definition {
 
 		Navigator.gotoPage(pageName = "Test Page");
 
-		Portlet.addPG(portletName = "Members&apos; Activities");
+		Portlet.addPG(portletName = "Members' Activities");
 
 		Navigator.gotoPage(pageName = "Test Page");
 

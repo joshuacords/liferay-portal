@@ -244,6 +244,7 @@ definition {
 	@priority = "4"
 	test EditChildArticle {
 		KBAdmin.openKBAdmin(siteURLKey = "guest");
+
 		KBArticle.addCP(
 			kbArticleContent = "Knowledge Base Article Parent Content 1",
 			kbArticleTitle = "Knowledge Base Article Parent Title 1");

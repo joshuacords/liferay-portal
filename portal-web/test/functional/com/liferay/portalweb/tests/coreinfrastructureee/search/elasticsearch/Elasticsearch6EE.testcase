@@ -107,10 +107,8 @@ definition {
 
 		while ("${iterator}" != "21" && (maxIterations = "20")) {
 			var assetEntryTitle = selenium.getText("//div[contains(@id,'SearchResultsPortlet')]//li[${iterator}]/div//a/strong");
-
 			var assetEntryTitleListNoLTR = StringUtil.add("${assetEntryTitleListNoLTR}", "${assetEntryTitle}");
-
-			var iterator = MathUtil.sum("${iterator}", "1");
+			var iterator = ${iterator} + 1;
 		}
 
 		ProductMenu.gotoPortlet(
@@ -140,10 +138,8 @@ definition {
 
 		while ("${iterator}" != "21" && (maxIterations = "20")) {
 			var assetEntryTitle = selenium.getText("//div[contains(@id,'SearchResultsPortlet')]//li[${iterator}]/div//a/strong");
-
 			var assetEntryTitleListLTR = StringUtil.add("${assetEntryTitleListLTR}", "${assetEntryTitle}");
-
-			var iterator = MathUtil.sum("${iterator}", "1");
+			var iterator = ${iterator} + 1;
 		}
 
 		if ("${assetEntryTitleListNoLTR}" != "${assetEntryTitleListLTR}") {
@@ -170,7 +166,7 @@ definition {
 		Navigator.openURL();
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Message Boards");
 
@@ -181,7 +177,7 @@ definition {
 		Navigator.openURL();
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Documents and Media");
 

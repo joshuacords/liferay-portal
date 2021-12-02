@@ -149,7 +149,7 @@ definition {
 				key_changeListName = "${changeListName}",
 				locator1 = "ChangeList#SELECT_CHANGE_LIST_VALUE");
 
-			if ( "${changeListConfirmEnabled}" == "true") {
+			if ("${changeListConfirmEnabled}" == "true") {
 				ChangeList.confirmSwitchingChangeList(changeListName = "${changeListName}");
 			}
 
@@ -254,7 +254,7 @@ definition {
 
 	macro viewWarningOnPortletExport {
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "${portletName}");
 
@@ -269,7 +269,7 @@ definition {
 
 	macro viewWarningOnPortletImport {
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "${portletName}");
 
@@ -313,6 +313,7 @@ definition {
 			ClickNoError(
 				key_changeListName = "Work on Production",
 				locator1 = "ChangeList#CHANGE_LIST_NAME_CARD_VIEW");
+
 			if ("${changeListConfirmEnabled}" == "true") {
 				ChangeList.confirmSwitchingChangeList(changeListName = "Work on Production");
 			}

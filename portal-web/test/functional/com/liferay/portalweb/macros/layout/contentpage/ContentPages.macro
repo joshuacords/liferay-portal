@@ -14,7 +14,7 @@ definition {
 	}
 
 	macro addPage {
-		var key_breadcrumbName="Pages";
+		var key_breadcrumbName = "Pages";
 
 		Pause(locator1 = "3000");
 

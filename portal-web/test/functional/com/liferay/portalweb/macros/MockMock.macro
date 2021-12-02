@@ -105,7 +105,6 @@ definition {
 			subject = "${subject}");
 
 		var bodyContent = selenium.getText("MockMock#MOCKMOCK_MESSAGE_BODY");
-
 		var bodyContent = StringUtil.extractLast("${bodyContent}", "href=&quot;");
 		var bodyURL = StringUtil.extractFirst("${bodyContent}", "&quot;");
 

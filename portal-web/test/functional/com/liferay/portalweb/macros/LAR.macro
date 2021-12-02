@@ -529,7 +529,7 @@ definition {
 			larFileName = "${larFileName}",
 			uploadFrom = "${uploadFrom}");
 
-		if (!((isSet(importValidationMissingItem)) || (isSet(importFail)))) {
+		if (!(isSet(importValidationMissingItem) || isSet(importFail))) {
 			LAR._importSite(
 				checkContentNameList = "${checkContentNameList}",
 				contentDeletion = "${contentDeletion}",
