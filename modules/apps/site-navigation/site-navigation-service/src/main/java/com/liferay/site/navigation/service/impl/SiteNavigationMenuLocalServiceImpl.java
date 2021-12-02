@@ -158,8 +158,12 @@ public class SiteNavigationMenuLocalServiceImpl
 	}
 
 	@Override
-	public void deleteSiteNavigationMenus(long groupId) {
-		siteNavigationMenuPersistence.removeByGroupId(groupId);
+	public void deleteSiteNavigationMenus(long groupId) throws PortalException {
+		for (SiteNavigationMenu siteNavigationMenu :
+				getSiteNavigationMenus(groupId)) {
+
+			deleteSiteNavigationMenu(siteNavigationMenu);
+		}
 	}
 
 	@Override
