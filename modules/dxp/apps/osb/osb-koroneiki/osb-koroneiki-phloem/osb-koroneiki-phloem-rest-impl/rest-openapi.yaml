@@ -894,6 +894,14 @@ components:
                     items:
                         $ref: "#/components/schemas/Product"
                     type: object
+                productConsumptions:
+                    description:
+                        The product consumptions that this purchase has. Optional field that can retrieved with
+                        nestedFields.
+                    items:
+                        $ref: "#/components/schemas/ProductConsumption"
+                    readOnly: true
+                    type: array
                 productKey:
                     description:
                         The key of the product being purchased.

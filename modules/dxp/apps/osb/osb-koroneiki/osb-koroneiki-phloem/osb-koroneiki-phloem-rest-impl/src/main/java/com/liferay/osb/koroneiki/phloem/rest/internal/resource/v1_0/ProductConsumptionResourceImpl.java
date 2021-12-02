@@ -26,19 +26,27 @@ import com.liferay.osb.koroneiki.phloem.rest.resource.v1_0.ProductConsumptionRes
 import com.liferay.osb.koroneiki.taproot.model.Contact;
 import com.liferay.osb.koroneiki.taproot.service.ContactLocalService;
 import com.liferay.osb.koroneiki.trunk.model.ProductField;
+import com.liferay.osb.koroneiki.trunk.model.ProductPurchase;
 import com.liferay.osb.koroneiki.trunk.service.ProductConsumptionLocalService;
 import com.liferay.osb.koroneiki.trunk.service.ProductConsumptionService;
 import com.liferay.osb.koroneiki.trunk.service.ProductFieldLocalService;
+import com.liferay.osb.koroneiki.trunk.service.ProductPurchaseLocalService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Sort;
+import com.liferay.portal.kernel.search.filter.BooleanFilter;
 import com.liferay.portal.kernel.search.filter.Filter;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
 import com.liferay.portal.kernel.service.ClassNameLocalService;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.odata.entity.EntityModel;
+import com.liferay.portal.vulcan.fields.NestedField;
+import com.liferay.portal.vulcan.fields.NestedFieldId;
+import com.liferay.portal.vulcan.fields.NestedFieldSupport;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -59,10 +67,12 @@ import org.osgi.service.component.annotations.ServiceScope;
  */
 @Component(
 	properties = "OSGI-INF/liferay/rest/v1_0/product-consumption.properties",
-	scope = ServiceScope.PROTOTYPE, service = ProductConsumptionResource.class
+	scope = ServiceScope.PROTOTYPE,
+	service = {NestedFieldSupport.class, ProductConsumptionResource.class}
 )
 public class ProductConsumptionResourceImpl
-	extends BaseProductConsumptionResourceImpl implements EntityModelResource {
+	extends BaseProductConsumptionResourceImpl
+	implements EntityModelResource, NestedFieldSupport {
 
 	@Override
 	public void deleteProductConsumption(
@@ -120,6 +130,37 @@ public class ProductConsumptionResourceImpl
 
 		return new ProductConsumptionEntityModel(
 			_productFieldLocalService.getProductFieldNames(classNameId));
+	}
+
+	@NestedField("productConsumptions")
+	public List<ProductConsumption> getNestedFieldProductConsumptions(
+			@NestedFieldId("key") String productPurchaseKey)
+		throws Exception {
+
+		ProductPurchase productPurchase =
+			_productPurchaseLocalService.getProductPurchase(productPurchaseKey);
+
+		BooleanFilter booleanFilter = new BooleanFilter();
+
+		booleanFilter.addRequiredTerm(
+			"productPurchaseKey", StringUtil.toLowerCase(productPurchaseKey));
+
+		Page<ProductConsumption> productConsumptionsPage = SearchUtil.search(
+			booleanQuery -> {
+			},
+			booleanFilter,
+			com.liferay.osb.koroneiki.trunk.model.ProductConsumption.class,
+			StringPool.BLANK, null,
+			queryConfig -> queryConfig.setSelectedFieldNames(
+				Field.ENTRY_CLASS_PK),
+			searchContext -> searchContext.setCompanyId(
+				productPurchase.getCompanyId()),
+			document -> ProductConsumptionUtil.toProductConsumption(
+				_productConsumptionLocalService.getProductConsumption(
+					GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)))),
+			null);
+
+		return new ArrayList<>(productConsumptionsPage.getItems());
 	}
 
 	@Override
@@ -324,5 +365,8 @@ public class ProductConsumptionResourceImpl
 
 	@Reference
 	private ProductFieldLocalService _productFieldLocalService;
+
+	@Reference
+	private ProductPurchaseLocalService _productPurchaseLocalService;
 
 }
