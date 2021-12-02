@@ -41,13 +41,19 @@ class UserDropdownDefaultEventHandler extends DefaultEventHandler {
 				const editUserGroupRoleFm = this.one('#editUserGroupRoleFm');
 
 				var availableRowIds = document.createElement('input');
-				availableRowIds.setAttribute('name', itemData.namespace + 'availableRowIds');
-				availableRowIds.value = selectedItem.available.reduce((acc, item) => {
-					acc.push(item.value);
-					return acc;
-				}, []).join(',');
+				availableRowIds.setAttribute(
+					'name',
+					itemData.namespace + 'availableRowIds'
+				);
+				availableRowIds.value = selectedItem.available
+					.reduce((acc, item) => {
+						acc.push(item.value);
 
-				dom.append(editUserGroupRoleFm,availableRowIds);
+						return acc;
+					}, [])
+					.join(',');
+
+				dom.append(editUserGroupRoleFm, availableRowIds);
 
 				selectedItem.current.forEach(item => {
 					dom.append(editUserGroupRoleFm, item);
