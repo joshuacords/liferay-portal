@@ -158,6 +158,10 @@ public class TeamResourceImpl
 			String accountKey, Pagination pagination)
 		throws Exception {
 
+		PhloemNestedFieldsContextThreadLocal.addContextName("assignedTeams");
+		PhloemNestedFieldsContextThreadLocal.setContextValue(
+			"accountKey", accountKey);
+
 		return Page.of(
 			transform(
 				_teamService.getAccountAssignedTeams(
