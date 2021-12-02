@@ -1975,8 +1975,14 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 				JSONObject purchasedProductJSONObject =
 					purchasedProductsJSONArray.getJSONObject(j);
 
-				Product product = _getProduct(
-					purchasedProductJSONObject.getString("_name"));
+				String productName = purchasedProductJSONObject.getString(
+					"_name");
+
+				if (ArrayUtil.contains(_IGNORE_PRODUCT_NAMES, productName)) {
+					continue;
+				}
+
+				Product product = _getProduct(productName);
 
 				if (product == null) {
 					continue;
@@ -2561,6 +2567,10 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 
 		warningMessages.add(s);
 	}
+
+	private static final String[] _IGNORE_PRODUCT_NAMES = {
+		"Management Tools (LCS)"
+	};
 
 	private static final String[] _PRODUCT_FAMILY_TOKENS = {"E", "P", "S"};
 
