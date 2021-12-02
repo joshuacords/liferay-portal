@@ -219,9 +219,19 @@ public class LayoutCopyHelperImpl implements LayoutCopyHelper {
 					sourceLayout.getGroupId(), classNameId,
 					sourceLayout.getPlid())) {
 
+			String data = layoutPageTemplateStructure.getData(
+				segmentsExperienceId);
+
+			if (Validator.isNull(data)) {
+				_segmentsExperienceLocalService.deleteSegmentsExperience(
+					segmentsExperienceId);
+
+				continue;
+			}
+
 			_copyLayoutPageTemplateStructureExperience(
-				layoutPageTemplateStructure, segmentsExperienceId, classNameId,
-				targetLayout, fragmentEntryLinkMap, serviceContext);
+				data, segmentsExperienceId, classNameId, targetLayout,
+				fragmentEntryLinkMap, serviceContext);
 		}
 
 		_assetEntryUsageLocalService.deleteAssetEntryUsagesByPlid(
@@ -241,17 +251,11 @@ public class LayoutCopyHelperImpl implements LayoutCopyHelper {
 	}
 
 	private void _copyLayoutPageTemplateStructureExperience(
-			LayoutPageTemplateStructure layoutPageTemplateStructure,
-			long segmentsExperienceId, long classNameId, Layout targetLayout,
+			String data, long segmentsExperienceId, long classNameId,
+			Layout targetLayout,
 			Map<Long, FragmentEntryLink> fragmentEntryLinkMap,
 			ServiceContext serviceContext)
 		throws Exception {
-
-		String data = layoutPageTemplateStructure.getData(segmentsExperienceId);
-
-		if (Validator.isNull(data)) {
-			return;
-		}
 
 		JSONObject dataJSONObject = JSONFactoryUtil.createJSONObject(data);
 
