@@ -116,8 +116,7 @@ public class SegmentsExperienceSelectorDisplayContext {
 		).put(
 			"url",
 			HttpUtil.removeParameter(
-				PortalUtil.getCurrentURL(_httpServletRequest),
-				"p_s_e_id")
+				PortalUtil.getCurrentURL(_httpServletRequest), "p_s_e_id")
 		);
 	}
 
@@ -149,8 +148,7 @@ public class SegmentsExperienceSelectorDisplayContext {
 		).put(
 			"url",
 			HttpUtil.setParameter(
-				PortalUtil.getCurrentURL(_httpServletRequest),
-				"p_s_e_id",
+				PortalUtil.getCurrentURL(_httpServletRequest), "p_s_e_id",
 				segmentsExperience.getSegmentsExperienceId())
 		);
 	}
