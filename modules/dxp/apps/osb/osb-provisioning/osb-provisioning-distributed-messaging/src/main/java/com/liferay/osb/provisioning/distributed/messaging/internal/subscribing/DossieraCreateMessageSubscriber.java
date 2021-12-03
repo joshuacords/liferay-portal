@@ -183,7 +183,7 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 			String accountKey, Account account, Account partnerAccount,
 			boolean analyticsCloud, boolean partnerFirstLineSupport,
 			List<Contact> inactiveContacts, List<Contact> missingContacts,
-			List<ProductPurchase> productPurchases,
+			Set<ProductPurchase> productPurchases,
 			String salesforceOpportunityTypeName, int salesforceOpportunityType,
 			JSONObject jsonObject)
 		throws Exception {
@@ -661,7 +661,7 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 
 	protected void createZendeskTicket(
 			Account account, PostalAddress postalAddress,
-			List<ProductPurchase> productPurchases,
+			Set<ProductPurchase> productPurchases,
 			String salesforceOpportunityTypeName,
 			String salesforceOpportunityKey)
 		throws Exception {
@@ -904,7 +904,7 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 			return;
 		}
 
-		List<ProductPurchase> productPurchases = parseProductPurchases(
+		Set<ProductPurchase> productPurchases = parseProductPurchases(
 			jsonObject);
 
 		if (productPurchases.isEmpty()) {
@@ -1583,9 +1583,7 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 		zendeskTicketWebService.createZendeskTicket(zendeskTicket);
 	}
 
-	protected boolean hasAnalyticsCloud(
-		List<ProductPurchase> productPurchases) {
-
+	protected boolean hasAnalyticsCloud(Set<ProductPurchase> productPurchases) {
 		for (ProductPurchase productPurchase : productPurchases) {
 			Product product = productPurchase.getProduct();
 
@@ -1949,20 +1947,20 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 		return new Team[] {partnerDefaultTeam};
 	}
 
-	protected List<ProductPurchase> parseProductPurchases(JSONObject jsonObject)
+	protected Set<ProductPurchase> parseProductPurchases(JSONObject jsonObject)
 		throws Exception {
 
 		JSONArray bundledProductsJSONArray = jsonObject.getJSONArray(
 			"_bundledProducts");
 
 		if (bundledProductsJSONArray == null) {
-			return Collections.emptyList();
+			return Collections.emptySet();
 		}
 
 		ExternalLink externalLink = getSalesforceOpportunityExternalLink(
 			jsonObject);
 
-		List<ProductPurchase> productPurchases = new ArrayList<>();
+		Set<ProductPurchase> productPurchases = new HashSet<>();
 
 		for (int i = 0; i < bundledProductsJSONArray.length(); i++) {
 			JSONObject bundledProductJSONObject =
@@ -2132,7 +2130,7 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 	protected Account updateAccount(
 			String accountKey, Account parentAccount, List<Contact> contacts,
 			Account.Region region, PostalAddress postalAddress,
-			List<ProductPurchase> productPurchases, JSONObject jsonObject)
+			Set<ProductPurchase> productPurchases, JSONObject jsonObject)
 		throws Exception {
 
 		Account account = _accountWebService.getAccount(accountKey);
@@ -2377,7 +2375,7 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 	}
 
 	private static boolean _containsProduct(
-		List<ProductPurchase> productPurchases, String productKey) {
+		Set<ProductPurchase> productPurchases, String productKey) {
 
 		for (ProductPurchase productPurchase : productPurchases) {
 			Product product = productPurchase.getProduct();
