@@ -232,7 +232,7 @@ public class RenderFragmentLayoutTag extends IncludeTag {
 
 	private long[] _getSegmentsExperienceIds() {
 		long[] selectedSegmentsExperienceIds = ParamUtil.getLongValues(
-			request, "p_s_e_id");
+			request, "segmentsExperienceId");
 
 		if (selectedSegmentsExperienceIds.length > 0) {
 			return selectedSegmentsExperienceIds;

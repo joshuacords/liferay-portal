@@ -145,7 +145,7 @@ public class ContentLayoutTypeController extends BaseLayoutTypeControllerImpl {
 				_infoItemSelectorTracker);
 
 			long segmentsExperienceId = ParamUtil.getLong(
-				httpServletRequest, "p_s_e_id", -1);
+				httpServletRequest, "segmentsExperienceId", -1);
 
 			if (segmentsExperienceId != -1) {
 				httpServletRequest.setAttribute(

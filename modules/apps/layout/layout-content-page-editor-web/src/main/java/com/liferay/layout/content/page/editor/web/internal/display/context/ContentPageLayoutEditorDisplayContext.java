@@ -23,6 +23,8 @@ import com.liferay.layout.page.template.service.LayoutPageTemplateStructureLocal
 import com.liferay.layout.page.template.service.LayoutPageTemplateStructureRelLocalServiceUtil;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.comment.CommentManager;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
@@ -40,8 +42,10 @@ import com.liferay.segments.constants.SegmentsExperienceConstants;
 import com.liferay.segments.constants.SegmentsPortletKeys;
 import com.liferay.segments.model.SegmentsEntry;
 import com.liferay.segments.model.SegmentsExperience;
+import com.liferay.segments.model.SegmentsExperimentRel;
 import com.liferay.segments.service.SegmentsEntryServiceUtil;
 import com.liferay.segments.service.SegmentsExperienceLocalServiceUtil;
+import com.liferay.segments.service.SegmentsExperimentRelLocalServiceUtil;
 import com.liferay.staging.StagingGroupHelper;
 
 import java.util.ArrayList;
@@ -116,25 +120,6 @@ public class ContentPageLayoutEditorDisplayContext
 	protected long getSegmentsExperienceId() {
 		if (_segmentsExperienceId != null) {
 			return _segmentsExperienceId;
-		}
-
-		_segmentsExperienceId = ParamUtil.getLong(
-			PortalUtil.getOriginalServletRequest(request), "p_s_e_id", -1);
-
-		if (_segmentsExperienceId != -1) {
-			if (_segmentsExperienceId ==
-					SegmentsExperienceConstants.ID_DEFAULT) {
-
-				return _segmentsExperienceId;
-			}
-
-			SegmentsExperience segmentsExperience =
-				SegmentsExperienceLocalServiceUtil.fetchSegmentsExperience(
-					_segmentsExperienceId);
-
-			if (segmentsExperience != null) {
-				return _segmentsExperienceId;
-			}
 		}
 
 		_segmentsExperienceId = ParamUtil.getLong(
@@ -326,7 +311,39 @@ public class ContentPageLayoutEditorDisplayContext
 			return false;
 		}
 
-		return true;
+		SegmentsExperience segmentsExperience =
+			SegmentsExperienceLocalServiceUtil.fetchSegmentsExperience(
+				segmentsExperienceId);
+
+		if (segmentsExperience != null) {
+			DynamicQuery dynamicQuery =
+				SegmentsExperimentRelLocalServiceUtil.dynamicQuery();
+
+			dynamicQuery.add(
+				RestrictionsFactoryUtil.eq(
+					"segmentsExperienceId",
+					segmentsExperience.getSegmentsExperienceId()));
+
+			List<SegmentsExperimentRel> segmentsExperimentRels =
+				SegmentsExperimentRelLocalServiceUtil.dynamicQuery(
+					dynamicQuery);
+
+			if (segmentsExperimentRels.isEmpty()) {
+				return false;
+			}
+
+			SegmentsExperimentRel segmentsExperimentRel =
+				segmentsExperimentRels.get(0);
+
+			try {
+				return !segmentsExperimentRel.isControl();
+			}
+			catch (PortalException portalException) {
+				portalException.printStackTrace();
+			}
+		}
+
+		return false;
 	}
 
 	private void _populateSegmentsExperiencesSoyContext(SoyContext soyContext)

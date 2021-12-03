@@ -116,12 +116,12 @@ public class ContentPageEditorPortlet extends MVCPortlet {
 				if (segmentsExperienceId != null) {
 					if (segmentsExperienceId instanceof Long) {
 						layoutFullURL = _http.setParameter(
-							layoutFullURL, "p_s_e_id",
+							layoutFullURL, "segmentsExperienceId",
 							(Long)segmentsExperienceId);
 					}
 					else if (segmentsExperienceId instanceof long[]) {
 						layoutFullURL = _http.setParameter(
-							layoutFullURL, "p_s_e_id",
+							layoutFullURL, "segmentsExperienceId",
 							((long[])segmentsExperienceId)[0]);
 					}
 				}
