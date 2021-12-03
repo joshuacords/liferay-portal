@@ -60,14 +60,8 @@ public class AccountSearchTerms extends AccountDisplayTerms {
 		}
 
 		if (!ArrayUtil.isEmpty(activeSLAs)) {
-			FilterQuery nestedFilterQuery = new FilterQuery();
-
-			for (String activeSLA : activeSLAs) {
-				nestedFilterQuery.addLambdaEquals(
-					false, "entitlements", activeSLAs);
-			}
-
-			filterQuery.addFilterQuery(andOperator, nestedFilterQuery);
+			filterQuery.addLambdaEquals(
+				andOperator, "entitlements", activeSLAs);
 		}
 
 		if (!ArrayUtil.isEmpty(partners)) {
