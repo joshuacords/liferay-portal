@@ -319,6 +319,12 @@ public class TransformProductPurchases {
 			instanceSize = propertiesJSONObject.optString("sizing");
 
 			originalEndDate = DateUtil.parseOriginalEndDate(jsonObject);
+
+			JSONArray jsonArray = jsonObject.getJSONArray(
+				"productConsumptions");
+
+			provisioned = jsonArray.length();
+
 			quantity = jsonObject.getInt("quantity");
 			startDate = DateUtil.parseStartDate(jsonObject);
 			status = jsonObject.getString("status");
@@ -337,6 +343,7 @@ public class TransformProductPurchases {
 			jsonObject.put("endDate", DateUtil.format(endDate));
 			jsonObject.put("externalReferenceCode", externalReferenceCode);
 			jsonObject.put("instanceSize", instanceSize);
+			jsonObject.put("provisioned", provisioned);
 			jsonObject.put("quantity", quantity);
 			jsonObject.put("startDate", DateUtil.format(startDate));
 
@@ -366,6 +373,7 @@ public class TransformProductPurchases {
 		public String externalReferenceCode;
 		public String instanceSize;
 		public Date originalEndDate;
+		public int provisioned;
 		public int quantity;
 		public Date startDate;
 		public String status;
