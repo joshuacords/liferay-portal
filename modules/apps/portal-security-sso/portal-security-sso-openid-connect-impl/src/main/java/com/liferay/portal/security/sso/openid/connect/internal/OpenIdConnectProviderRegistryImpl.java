@@ -56,7 +56,8 @@ public class OpenIdConnectProviderRegistryImpl
 
 	@Override
 	public void deleted(String factoryPid) {
-		_openIdConnectSessionLocalService.deleteOpenIdConnectSessions(pid);
+		_openIdConnectSessionLocalService.deleteOpenIdConnectSessions(
+			factoryPid);
 
 		removeOpenConnectIdProvider(factoryPid);
 	}
