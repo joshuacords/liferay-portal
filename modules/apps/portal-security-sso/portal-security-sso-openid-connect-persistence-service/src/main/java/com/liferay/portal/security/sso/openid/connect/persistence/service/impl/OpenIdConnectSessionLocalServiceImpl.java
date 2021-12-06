@@ -28,4 +28,11 @@ import org.osgi.service.component.annotations.Component;
 )
 public class OpenIdConnectSessionLocalServiceImpl
 	extends OpenIdConnectSessionLocalServiceBaseImpl {
+
+	/**
+	 * NOTE FOR DEVELOPERS:
+	 *
+	 * Never reference this class directly. Use <code>com.liferay.portal.security.sso.openid.connect.persistence.service.OpenIdConnectSessionLocalService</code> via injection or a <code>org.osgi.util.tracker.ServiceTracker</code> or use <code>com.liferay.portal.security.sso.openid.connect.persistence.service.OpenIdConnectSessionLocalServiceUtil</code>.
+	 */
+
 }
