@@ -105,7 +105,7 @@ public class LayoutHeaderProductNavigationControlMenuEntry
 
 		if (_isDraftLayout(httpServletRequest)) {
 			sb.append("<span class=\"bg-transparent flex-shrink-0 label ");
-			sb.append("label-inverse-secondary ml-2 mr-0\">");
+			sb.append("border-secondary ml-2 mr-0\">");
 			sb.append("<span class=\"label-item label-item-expand\">");
 			sb.append(LanguageUtil.get(httpServletRequest, "draft"));
 			sb.append("</span>");
