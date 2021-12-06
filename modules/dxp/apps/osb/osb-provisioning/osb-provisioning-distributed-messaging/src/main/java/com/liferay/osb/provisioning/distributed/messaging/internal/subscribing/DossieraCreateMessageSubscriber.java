@@ -2019,7 +2019,11 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 
 				int quantity = purchasedProductJSONObject.getInt("_quantity");
 
-				if (quantity > 0) {
+				if (!ArrayUtil.contains(
+						ProductConstants.NAMES_SUBSCRIPTION,
+						product.getName()) &&
+					(quantity > 0)) {
+
 					productPurchase.setQuantity(quantity);
 				}
 
