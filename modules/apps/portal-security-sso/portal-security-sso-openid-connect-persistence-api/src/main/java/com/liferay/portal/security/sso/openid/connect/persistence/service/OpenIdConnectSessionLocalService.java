@@ -115,6 +115,10 @@ public interface OpenIdConnectSessionLocalService
 	public OpenIdConnectSession deleteOpenIdConnectSession(
 		OpenIdConnectSession openIdConnectSession);
 
+	public void deleteOpenIdConnectSessions(long userId);
+
+	public void deleteOpenIdConnectSessions(String configurationPid);
+
 	/**
 	 * @throws PortalException
 	 */
@@ -191,6 +195,10 @@ public interface OpenIdConnectSessionLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public OpenIdConnectSession fetchOpenIdConnectSession(
 		long openIdConnectSessionId);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public OpenIdConnectSession fetchOpenIdConnectSession(
+		long userId, String configurationPid);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();

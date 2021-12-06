@@ -47,8 +47,10 @@ public class OpenIdConnectSessionWrapper
 		attributes.put("mvccVersion", getMvccVersion());
 		attributes.put("openIdConnectSessionId", getOpenIdConnectSessionId());
 		attributes.put("companyId", getCompanyId());
+		attributes.put("userId", getUserId());
 		attributes.put("modifiedDate", getModifiedDate());
 		attributes.put("accessToken", getAccessToken());
+		attributes.put("configurationPid", getConfigurationPid());
 		attributes.put("idToken", getIdToken());
 		attributes.put("providerName", getProviderName());
 		attributes.put("refreshToken", getRefreshToken());
@@ -77,6 +79,12 @@ public class OpenIdConnectSessionWrapper
 			setCompanyId(companyId);
 		}
 
+		Long userId = (Long)attributes.get("userId");
+
+		if (userId != null) {
+			setUserId(userId);
+		}
+
 		Date modifiedDate = (Date)attributes.get("modifiedDate");
 
 		if (modifiedDate != null) {
@@ -87,6 +95,12 @@ public class OpenIdConnectSessionWrapper
 
 		if (accessToken != null) {
 			setAccessToken(accessToken);
+		}
+
+		String configurationPid = (String)attributes.get("configurationPid");
+
+		if (configurationPid != null) {
+			setConfigurationPid(configurationPid);
 		}
 
 		String idToken = (String)attributes.get("idToken");
@@ -126,6 +140,16 @@ public class OpenIdConnectSessionWrapper
 	@Override
 	public long getCompanyId() {
 		return model.getCompanyId();
+	}
+
+	/**
+	 * Returns the configuration pid of this open ID connect session.
+	 *
+	 * @return the configuration pid of this open ID connect session
+	 */
+	@Override
+	public String getConfigurationPid() {
+		return model.getConfigurationPid();
 	}
 
 	/**
@@ -198,6 +222,26 @@ public class OpenIdConnectSessionWrapper
 		return model.getRefreshToken();
 	}
 
+	/**
+	 * Returns the user ID of this open ID connect session.
+	 *
+	 * @return the user ID of this open ID connect session
+	 */
+	@Override
+	public long getUserId() {
+		return model.getUserId();
+	}
+
+	/**
+	 * Returns the user uuid of this open ID connect session.
+	 *
+	 * @return the user uuid of this open ID connect session
+	 */
+	@Override
+	public String getUserUuid() {
+		return model.getUserUuid();
+	}
+
 	@Override
 	public void persist() {
 		model.persist();
@@ -221,6 +265,16 @@ public class OpenIdConnectSessionWrapper
 	@Override
 	public void setCompanyId(long companyId) {
 		model.setCompanyId(companyId);
+	}
+
+	/**
+	 * Sets the configuration pid of this open ID connect session.
+	 *
+	 * @param configurationPid the configuration pid of this open ID connect session
+	 */
+	@Override
+	public void setConfigurationPid(String configurationPid) {
+		model.setConfigurationPid(configurationPid);
 	}
 
 	/**
@@ -291,6 +345,26 @@ public class OpenIdConnectSessionWrapper
 	@Override
 	public void setRefreshToken(String refreshToken) {
 		model.setRefreshToken(refreshToken);
+	}
+
+	/**
+	 * Sets the user ID of this open ID connect session.
+	 *
+	 * @param userId the user ID of this open ID connect session
+	 */
+	@Override
+	public void setUserId(long userId) {
+		model.setUserId(userId);
+	}
+
+	/**
+	 * Sets the user uuid of this open ID connect session.
+	 *
+	 * @param userUuid the user uuid of this open ID connect session
+	 */
+	@Override
+	public void setUserUuid(String userUuid) {
+		model.setUserUuid(userUuid);
 	}
 
 	@Override
