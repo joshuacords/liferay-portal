@@ -13,8 +13,8 @@
 		<!-- Audit fields -->
 
 		<column name="companyId" type="long" />
-		<column name="modifiedDate" type="Date" />
 		<column name="userId" type="long" />
+		<column name="modifiedDate" type="Date" />
 
 		<!-- Other fields -->
 

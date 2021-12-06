@@ -126,7 +126,7 @@ public class OfflineOpenIdConnectSessionManager {
 
 		OpenIdConnectSession openIdConnectSession =
 			_openIdConnectSessionLocalService.fetchOpenIdConnectSession(
-				configurationPid, userId);
+				userId, configurationPid);
 
 		if (openIdConnectSession == null) {
 			openIdConnectSession =

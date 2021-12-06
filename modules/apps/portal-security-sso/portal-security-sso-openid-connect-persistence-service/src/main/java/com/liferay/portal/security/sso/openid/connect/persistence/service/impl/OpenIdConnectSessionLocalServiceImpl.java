@@ -43,7 +43,7 @@ public class OpenIdConnectSessionLocalServiceImpl
 
 	@Override
 	public OpenIdConnectSession fetchOpenIdConnectSession(
-		String configurationPid, long userId) {
+		long userId, String configurationPid) {
 
 		return openIdConnectSessionPersistence.fetchByU_C(
 			userId, configurationPid);
