@@ -175,22 +175,10 @@ public class LayoutHeaderProductNavigationControlMenuEntry
 		Layout draftLayout = _layoutLocalService.fetchLayout(
 			_portal.getClassNameId(Layout.class), layout.getPlid());
 
-		if (draftLayout != null) {
-			Date modifiedDate = draftLayout.getModifiedDate();
-
-			Date publishDate = layout.getPublishDate();
-
-			if (publishDate == null) {
-				publishDate = modifiedDate;
-			}
-
-			if ((modifiedDate.getTime() <= publishDate.getTime()) &&
-				_isLayoutPublished(layout)) {
-
-				return false;
-			}
+		if (draftLayout == null) {
+			return _isDraftLayout(httpServletRequest);
 		}
-		else if (_isLayoutPublished(layout)) {
+		else if (_isLayoutPublished(layout, draftLayout)) {
 			return false;
 		}
 
@@ -233,18 +221,39 @@ public class LayoutHeaderProductNavigationControlMenuEntry
 		Layout draftLayout = _layoutLocalService.fetchLayout(
 			_portal.getClassNameId(Layout.class), layout.getPlid());
 
-		if ((draftLayout != null) || _isLayoutPublished(layout)) {
+		if ((draftLayout != null) ||
+			(layout.getClassNameId() != _portal.getClassNameId(Layout.class))) {
+
+			return false;
+		}
+
+		Layout publishedLayout = _layoutLocalService.fetchLayout(
+			layout.getClassPK());
+
+		if ((publishedLayout != null) &&
+			_isLayoutPublished(publishedLayout, layout)) {
+
 			return false;
 		}
 
 		return true;
 	}
 
-	private boolean _isLayoutPublished(Layout layout) {
-		boolean published = GetterUtil.getBoolean(
-			layout.getTypeSettingsProperty("published"));
+	private boolean _isLayoutPublished(
+		Layout publishedLayout, Layout draftLayout) {
 
-		if (published) {
+		Date modifiedDate = draftLayout.getModifiedDate();
+
+		Date publishDate = publishedLayout.getPublishDate();
+
+		if (publishDate == null) {
+			publishDate = modifiedDate;
+		}
+
+		boolean published = GetterUtil.getBoolean(
+			publishedLayout.getTypeSettingsProperty("published"));
+
+		if ((modifiedDate.getTime() <= publishDate.getTime()) && published) {
 			return true;
 		}
 
