@@ -5,6 +5,10 @@ Export-Package:\
 	com.liferay.osb.distributed.messaging.google.pubsub.connector,\
 	com.liferay.osb.distributed.messaging.google.pubsub.connector.broker
 Import-Package:\
+	!com.conversantmedia.util.concurrent.*,\
+	\
+	!com.github.luben.zstd,\
+	\
 	!com.google.protobuf.nano.*,\
 	\
 	!com.jcraft.jzlib,\
@@ -20,13 +24,22 @@ Import-Package:\
 	!net.jpountz.*,\
 	\
 	!org.apache.avalon.framework.logger,\
+	!org.apache.commons.compress.*,\
+	!org.apache.commons.csv.*,\
+	!org.apache.kafka.clients.producer.*,\
 	!org.apache.log,\
 	\
 	!org.bouncycastle.*,\
 	\
 	!org.eclipse.jetty.*,\
 	\
+	!org.fusesource.*,\
+	\
 	!org.jboss.marshalling.*,\
+	\
+	!org.jctools.queues.*,\
+	\
+	!org.zeromq.*,\
 	\
 	!reactor.blockhound.*,\
 	\

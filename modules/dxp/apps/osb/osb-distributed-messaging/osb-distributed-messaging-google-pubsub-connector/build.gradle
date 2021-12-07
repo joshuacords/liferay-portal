@@ -42,6 +42,7 @@ dependencies {
 	compileInclude group: "org.codehaus.mojo", name: "animal-sniffer-annotations", version: "1.20"
 	compileInclude group: "org.conscrypt", name: "conscrypt-openjdk-uber", version: "2.5.1"
 	compileInclude group: "org.threeten", name: "threetenbp", version: "1.5.1"
+	compileInclude group: "org.yaml", name: "snakeyaml", version: "1.27"
 
 	compileOnly group: "biz.aQute.bnd", name: "biz.aQute.bndlib", version: "3.1.0"
 	compileOnly group: "com.liferay", name: "com.liferay.osgi.util", version: "5.0.0"
