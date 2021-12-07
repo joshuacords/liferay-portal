@@ -1096,8 +1096,6 @@ public class LDAPUserImporterImpl implements LDAPUserImporter, UserImporter {
 				ldapImportContext, ldapUser, user, password, modifyTimestamp,
 				isNew);
 
-			updateExpandoAttributes(ldapImportContext, user, ldapUser);
-
 			ldapImportContext.addImportedUserId(fullUserDN, user.getUserId());
 
 			return user;
@@ -1425,27 +1423,6 @@ public class LDAPUserImporterImpl implements LDAPUserImporter, UserImporter {
 		_userLocalService = userLocalService;
 	}
 
-	protected void updateExpandoAttributes(
-			LDAPImportContext ldapImportContext, User user, LDAPUser ldapUser)
-		throws Exception {
-
-		ExpandoBridge userExpandoBridge = user.getExpandoBridge();
-
-		populateExpandoAttributes(
-			userExpandoBridge, ldapUser.getUserExpandoAttributes(),
-			ldapImportContext.getUserExpandoMappings(),
-			ldapImportContext.getLdapUserIgnoreAttributes());
-
-		Contact contact = user.getContact();
-
-		ExpandoBridge contactExpandoBridge = contact.getExpandoBridge();
-
-		populateExpandoAttributes(
-			contactExpandoBridge, ldapUser.getContactExpandoAttributes(),
-			ldapImportContext.getContactExpandoMappings(),
-			ldapImportContext.getLdapUserIgnoreAttributes());
-	}
-
 	protected void updateLDAPUser(
 			User ldapUser, Contact ldapContact, User user,
 			Properties userMappings, Properties contactMappings,
@@ -1597,6 +1574,22 @@ public class LDAPUserImporterImpl implements LDAPUserImporter, UserImporter {
 		}
 
 		Contact ldapContact = ldapUser.getContact();
+
+		ExpandoBridge userExpandoBridge = user.getExpandoBridge();
+
+		populateExpandoAttributes(
+			userExpandoBridge, ldapUser.getUserExpandoAttributes(),
+			ldapImportContext.getUserExpandoMappings(),
+			ldapImportContext.getLdapUserIgnoreAttributes());
+
+		Contact contact = user.getContact();
+
+		ExpandoBridge contactExpandoBridge = contact.getExpandoBridge();
+
+		populateExpandoAttributes(
+			contactExpandoBridge, ldapUser.getContactExpandoAttributes(),
+			ldapImportContext.getContactExpandoMappings(),
+			ldapImportContext.getLdapUserIgnoreAttributes());
 
 		updateLDAPUser(
 			ldapUser.getUser(), ldapContact, user,
