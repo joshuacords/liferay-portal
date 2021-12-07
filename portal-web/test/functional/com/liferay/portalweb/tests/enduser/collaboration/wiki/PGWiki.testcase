@@ -174,7 +174,7 @@ definition {
 		WikiPage.addFrontPageChildPageInvalidTitle(
 			wikiChildPageContent = "Wiki FrontPage Child Page Content",
 			wikiChildPageInvalidTitle = "true",
-			wikiChildPageTitle = "Wiki\ Front\ Page\ Child\ Page\ Title\");
+			wikiChildPageTitle = "Wiki\ Front\ Page\ Child\ Page\ Title");
 
 		Navigator.gotoPage(pageName = "Wiki Test Page");
 

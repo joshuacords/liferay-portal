@@ -171,7 +171,7 @@ definition {
 
 		WikiPage.addFrontPageChildPageInvalidTitleViaWD(
 			wikiChildPageContent = "Wiki FrontPage Child Page Content",
-			wikiChildPageTitle = "Wiki\ Front\ Page\ Child\ Page\ Title\");
+			wikiChildPageTitle = "Wiki\ Front\ Page\ Child\ Page\ Title");
 
 		Navigator.gotoPage(pageName = "Wiki Display Test Page");
 
