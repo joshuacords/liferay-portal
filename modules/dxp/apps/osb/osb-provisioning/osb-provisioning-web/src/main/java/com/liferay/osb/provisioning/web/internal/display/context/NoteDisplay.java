@@ -25,12 +25,16 @@ import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.FastDateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import java.text.Format;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.PortletRequest;
@@ -111,10 +115,32 @@ public class NoteDisplay {
 		String noteContent = HtmlUtil.escape(_note.getContent());
 
 		if (format == Note.Format.PLAIN) {
-			return StringUtil.replace(noteContent, CharPool.NEW_LINE, "<br />");
+			noteContent = StringUtil.replace(
+				noteContent, CharPool.NEW_LINE, "<br />");
 		}
 
-		return noteContent;
+		Matcher matcher = _urlPattern.matcher(noteContent);
+
+		StringBundler sb = new StringBundler();
+
+		int end = 0;
+
+		while (matcher.find()) {
+			String url = noteContent.substring(matcher.start(), matcher.end());
+
+			sb.append(noteContent.substring(end, matcher.start()));
+			sb.append("<a href=\"");
+			sb.append(url);
+			sb.append("\">");
+			sb.append(url);
+			sb.append("</a>");
+
+			end = matcher.end();
+		}
+
+		sb.append(noteContent.substring(end));
+
+		return sb.toString();
 	}
 
 	public String getKey() {
@@ -155,6 +181,10 @@ public class NoteDisplay {
 
 		return false;
 	}
+
+	private static final Pattern _urlPattern = Pattern.compile(
+		"(https?:\\/\\/|www\\.)[\\w-+&@#/%?=~|!:,.;]*[\\w-+&@#/%?=~|]",
+		Pattern.CASE_INSENSITIVE);
 
 	private final User _creatorUser;
 	private final Format _dateFormat;
