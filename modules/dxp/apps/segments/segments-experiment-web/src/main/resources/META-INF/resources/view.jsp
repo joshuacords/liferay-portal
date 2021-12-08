@@ -22,7 +22,7 @@
 
 		<span><liferay-ui:message key="ab-test" /></span>
 
-		<aui:icon cssClass="icon-monospaced sidenav-close" image="times" markupView="lexicon" url="javascript:;" />
+		<aui:icon aria-label='<%= LanguageUtil.get(request, "close") %>' cssClass="icon-monospaced sidenav-close" image="times" markupView="lexicon" url="javascript:;" />
 	</div>
 
 	<div class="sidebar-body">
