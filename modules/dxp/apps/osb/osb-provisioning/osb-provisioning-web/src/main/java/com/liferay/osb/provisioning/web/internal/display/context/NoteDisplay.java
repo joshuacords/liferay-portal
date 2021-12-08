@@ -123,22 +123,22 @@ public class NoteDisplay {
 
 		StringBundler sb = new StringBundler();
 
-		int end = 0;
+		int index = 0;
 
 		while (matcher.find()) {
 			String url = noteContent.substring(matcher.start(), matcher.end());
 
-			sb.append(noteContent.substring(end, matcher.start()));
+			sb.append(noteContent.substring(index, matcher.start()));
 			sb.append("<a href=\"");
 			sb.append(url);
 			sb.append("\">");
 			sb.append(url);
 			sb.append("</a>");
 
-			end = matcher.end();
+			index = matcher.end();
 		}
 
-		sb.append(noteContent.substring(end));
+		sb.append(noteContent.substring(index));
 
 		return sb.toString();
 	}
