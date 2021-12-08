@@ -110,15 +110,20 @@ public class ContentPageEditorPortlet extends MVCPortlet {
 				layoutFullURL = _http.addParameter(
 					layoutFullURL, "p_l_mode", Constants.EDIT);
 
-				Object segmentsExperienceId =
-					(long)httpServletRequest.getAttribute(
-						SegmentsWebKeys.SEGMENTS_EXPERIENCE_IDS);
+				Object segmentsExperienceId = httpServletRequest.getAttribute(
+					SegmentsWebKeys.SEGMENTS_EXPERIENCE_IDS);
 
-				if ((segmentsExperienceId != null) &&
-					(segmentsExperienceId instanceof Long)) {
-
-					layoutFullURL = _http.setParameter(
-						layoutFullURL, "p_s_e_id", (Long)segmentsExperienceId);
+				if (segmentsExperienceId != null) {
+					if (segmentsExperienceId instanceof Long) {
+						layoutFullURL = _http.setParameter(
+							layoutFullURL, "p_s_e_id",
+							(Long)segmentsExperienceId);
+					}
+					else if (segmentsExperienceId instanceof long[]) {
+						layoutFullURL = _http.setParameter(
+							layoutFullURL, "p_s_e_id",
+							((long[])segmentsExperienceId)[0]);
+					}
 				}
 
 				httpServletResponse.sendRedirect(layoutFullURL);
