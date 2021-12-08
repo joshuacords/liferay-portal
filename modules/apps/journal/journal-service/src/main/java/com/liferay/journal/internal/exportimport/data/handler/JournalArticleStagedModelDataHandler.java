@@ -1064,7 +1064,8 @@ public class JournalArticleStagedModelDataHandler
 			if (article.isExpired() || importedArticle.isExpired()) {
 				_journalArticleLocalService.expireArticle(
 					userId, importedArticle.getGroupId(),
-					importedArticle.getArticleId(), articleURL, serviceContext);
+					importedArticle.getArticleId(),
+					importedArticle.getVersion(), articleURL, serviceContext);
 			}
 
 			serviceContext.setModifiedDate(importedArticle.getModifiedDate());
