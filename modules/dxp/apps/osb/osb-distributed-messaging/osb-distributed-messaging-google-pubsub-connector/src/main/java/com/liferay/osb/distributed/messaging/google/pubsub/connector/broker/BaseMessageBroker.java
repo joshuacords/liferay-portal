@@ -14,8 +14,12 @@
 
 package com.liferay.osb.distributed.messaging.google.pubsub.connector.broker;
 
+import com.google.api.core.ApiFuture;
+import com.google.api.core.ApiFutureCallback;
+import com.google.api.core.ApiFutures;
 import com.google.api.gax.core.CredentialsProvider;
 import com.google.cloud.pubsub.v1.Publisher;
+import com.google.common.util.concurrent.MoreExecutors;
 import com.google.protobuf.ByteString;
 import com.google.pubsub.v1.PubsubMessage;
 import com.google.pubsub.v1.TopicName;
@@ -65,7 +69,24 @@ public abstract class BaseMessageBroker implements MessageBroker {
 			byteString
 		).build();
 
-		publisher.publish(pubsubMessage);
+		ApiFuture<String> apiFuture = publisher.publish(pubsubMessage);
+
+		ApiFutures.addCallback(
+			apiFuture,
+			new ApiFutureCallback<String>() {
+
+				public void onFailure(Throwable t) {
+					_log.error("Failed to publish message", t);
+				}
+
+				public void onSuccess(String messageId) {
+					if (_log.isDebugEnabled()) {
+						_log.debug("Published message: " + messageId);
+					}
+				}
+
+			},
+			MoreExecutors.directExecutor());
 	}
 
 	@Activate

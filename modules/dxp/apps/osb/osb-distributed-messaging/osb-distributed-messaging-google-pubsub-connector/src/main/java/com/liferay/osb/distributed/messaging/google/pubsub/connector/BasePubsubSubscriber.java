@@ -65,6 +65,11 @@ public abstract class BasePubsubSubscriber {
 
 		try {
 			subscriptionAdminClient.getSubscription(projectSubscriptionName);
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(
+					"Found subscription " + projectSubscriptionName.toString());
+			}
 		}
 		catch (NotFoundException notFoundException) {
 			TopicName topicName = TopicName.ofProjectTopicName(
@@ -80,6 +85,10 @@ public abstract class BasePubsubSubscriber {
 			).setTopic(
 				topicName.toString()
 			).build();
+
+			if (_log.isDebugEnabled()) {
+				_log.debug("Creating subscription " + subscription.toString());
+			}
 
 			subscriptionAdminClient.createSubscription(subscription);
 		}
