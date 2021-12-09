@@ -345,6 +345,8 @@ public class FileInstallDeployTest {
 
 			jarBuilder.setFragmentHost(
 				_TEST_JAR_SYMBOLIC_NAME
+			).setImport(
+				"javax.servlet"
 			).build();
 
 			fragmentInstallCountDownLatch.await();
