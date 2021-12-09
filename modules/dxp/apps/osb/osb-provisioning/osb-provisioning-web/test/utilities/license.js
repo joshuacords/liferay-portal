@@ -9,7 +9,11 @@
  * distribution rights of the Software.
  */
 
-import {formatDate} from '../../src/main/resources/META-INF/resources/js/utilities/date';
+import {
+	formatDate,
+	generateNewDateByDay,
+	generateNewDateByYear
+} from '../../src/main/resources/META-INF/resources/js/utilities/date';
 import {
 	deriveLicenseDates,
 	getDetachedLicenseDates
@@ -75,12 +79,11 @@ describe('Dates for license associated with a Subscription', () => {
 						licenseStartDate: startDate
 					} = dates;
 
-					expect(
-						expirationDate.getFullYear() - startDate.getFullYear()
-					).toBe(1);
-					expect(
-						expirationDate.getMonth() - startDate.getMonth()
-					).toBe(1);
+					const derivedEXpirationDate = generateNewDateByYear(
+						generateNewDateByDay(startDate)
+					);
+
+					expect(derivedEXpirationDate).toStrictEqual(expirationDate);
 				});
 			});
 		});
@@ -97,12 +100,11 @@ describe('Dates for license associated with a Subscription', () => {
 					licenseStartDate: startDate
 				} = dates;
 
-				expect(
-					expirationDate.getFullYear() - startDate.getFullYear()
-				).toBe(1);
-				expect(expirationDate.getMonth() - startDate.getMonth()).toBe(
-					1
+				const derivedEXpirationDate = generateNewDateByYear(
+					generateNewDateByDay(startDate)
 				);
+
+				expect(derivedEXpirationDate).toStrictEqual(expirationDate);
 			});
 		});
 	});
