@@ -88,10 +88,10 @@ definition {
 		AssertLocation(value1 = "${portalURL}/web/guest/landing");
 	}
 
-	@description = "This is a use case for LPS-39744."
+	@description = "This is a use case for LPS-39744 and LPS-78508."
 	@priority = "5"
 	test DefaultPortalLandingPageSetByProperty {
-		property custom.properties = "default.landing.page.path=/web/guest/landing";
+		property custom.properties = "default.landing.page.path=/web/guest/landing${line.separator}company.default.home.url=";
 		property test.name.skip.portal.instance = "Login#DefaultPortalLandingPageSetByProperty";
 
 		User.firstLoginPG();
@@ -112,6 +112,8 @@ definition {
 		var portalURL = PropsUtil.get("portal.url");
 
 		AssertLocation(value1 = "${portalURL}/web/guest/landing");
+
+		AssertConsoleTextNotPresent(value1 = "java.lang.StackOverflowError");
 	}
 
 	@priority = "4"
