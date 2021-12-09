@@ -39,14 +39,6 @@ public class LicenseKeyServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>com.liferay.osb.provisioning.license.service.impl.LicenseKeyServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static LicenseKey addDeveloperLicenseKey(
-			String accountKey, String productKey, String productVersion)
-		throws Exception {
-
-		return getService().addDeveloperLicenseKey(
-			accountKey, productKey, productVersion);
-	}
-
 	public static LicenseKey addLicenseKey(
 			long userId, long licenseEntryId, String productKey,
 			String accountKey, String productPurchaseKey, String accountName,
@@ -120,12 +112,6 @@ public class LicenseKeyServiceUtil {
 		return getService().getLicenseKey(uuid);
 	}
 
-	public static List<LicenseKey> getLicenseKeys(long userId, String productId)
-		throws PortalException {
-
-		return getService().getLicenseKeys(userId, productId);
-	}
-
 	public static List<LicenseKey> getLicenseKeys(
 			String productId, String serverId)
 		throws PortalException {
@@ -159,31 +145,6 @@ public class LicenseKeyServiceUtil {
 	 */
 	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
-	}
-
-	public static List<LicenseKey> getProductPurchaseGroupLicenseKeys(
-			String[] productPurchaseKeys, boolean complimentary, boolean active,
-			int start, int end, OrderByComparator obc)
-		throws PortalException {
-
-		return getService().getProductPurchaseGroupLicenseKeys(
-			productPurchaseKeys, complimentary, active, start, end, obc);
-	}
-
-	public static int getProductPurchaseGroupLicenseKeysCount(
-			String[] productPurchaseKeys, boolean complimentary, boolean active)
-		throws PortalException {
-
-		return getService().getProductPurchaseGroupLicenseKeysCount(
-			productPurchaseKeys, complimentary, active);
-	}
-
-	public static int getProductPurchaseLicenseKeysCount(
-			String productPurchaseKey, boolean complimentary, boolean active)
-		throws PortalException {
-
-		return getService().getProductPurchaseLicenseKeysCount(
-			productPurchaseKey, complimentary, active);
 	}
 
 	public static boolean isActive(
@@ -261,14 +222,6 @@ public class LicenseKeyServiceUtil {
 			obc);
 	}
 
-	public static List<LicenseKey> search(
-			String keywords, java.util.LinkedHashMap<String, Object> params,
-			int start, int end, OrderByComparator obc)
-		throws Exception {
-
-		return getService().search(keywords, params, start, end, obc);
-	}
-
 	public static int searchCount(
 			String createUserUuid, java.util.Date createDateGT,
 			java.util.Date createDateLT, String modifiedUserUuid,
@@ -290,20 +243,6 @@ public class LicenseKeyServiceUtil {
 			productName, productId, productVersions, clusterIds, owner,
 			description, hostName, ipAddress, macAddress, serverId, key,
 			expirationDateGT, expirationDateLT, params, andSearch);
-	}
-
-	public static int searchCount(
-			String keywords, java.util.LinkedHashMap<String, Object> params)
-		throws Exception {
-
-		return getService().searchCount(keywords, params);
-	}
-
-	public static void updateLicenseKey(
-			long userId, long licenseKeyId, boolean active)
-		throws Exception {
-
-		getService().updateLicenseKey(userId, licenseKeyId, active);
 	}
 
 	public static LicenseKey updateLicenseKey(

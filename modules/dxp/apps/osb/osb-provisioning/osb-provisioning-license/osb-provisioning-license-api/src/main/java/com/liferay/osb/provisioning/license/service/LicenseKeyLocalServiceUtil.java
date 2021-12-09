@@ -43,14 +43,6 @@ public class LicenseKeyLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>com.liferay.osb.provisioning.license.service.impl.LicenseKeyLocalServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static LicenseKey addDeveloperLicenseKey(
-			long userId, String accountKey, String productKey,
-			String productVersion)
-		throws Exception {
-
-		return getService().addDeveloperLicenseKey(
-			userId, accountKey, productKey, productVersion);
-	}
 
 	/**
 	 * Adds the license key to the database. Also notifies the appropriate model listeners.
@@ -297,21 +289,10 @@ public class LicenseKeyLocalServiceUtil {
 		return getService().fetchLicenseKeyByUuidAndCompanyId(uuid, companyId);
 	}
 
-	public static List<LicenseKey> getAccountLicenseKeys(String accountKey) {
-		return getService().getAccountLicenseKeys(accountKey);
-	}
-
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
 
 		return getService().getActionableDynamicQuery();
-	}
-
-	public static List<LicenseKey> getAssetReceiptLicenseLicenseKeys(
-		String assetReceiptLicenseUuid, boolean active) {
-
-		return getService().getAssetReceiptLicenseLicenseKeys(
-			assetReceiptLicenseUuid, active);
 	}
 
 	public static List<LicenseKey> getAssetReceiptLicenseLicenseKeys(
@@ -334,13 +315,6 @@ public class LicenseKeyLocalServiceUtil {
 				portletDataContext) {
 
 		return getService().getExportActionableDynamicQuery(portletDataContext);
-	}
-
-	public static LicenseKey getFirstLicenseKey(
-			String accountKey, OrderByComparator obc)
-		throws PortalException {
-
-		return getService().getFirstLicenseKey(accountKey, obc);
 	}
 
 	public static
@@ -409,34 +383,9 @@ public class LicenseKeyLocalServiceUtil {
 	}
 
 	public static List<LicenseKey> getLicenseKeys(
-			long userId, String accountKey)
-		throws PortalException {
-
-		return getService().getLicenseKeys(userId, accountKey);
-	}
-
-	public static List<LicenseKey> getLicenseKeys(
-		String productPurchaseKey, int start, int end) {
-
-		return getService().getLicenseKeys(productPurchaseKey, start, end);
-	}
-
-	public static List<LicenseKey> getLicenseKeys(
-		String productPurchaseKey, long clusterId) {
-
-		return getService().getLicenseKeys(productPurchaseKey, clusterId);
-	}
-
-	public static List<LicenseKey> getLicenseKeys(
 		String productId, String serverId) {
 
 		return getService().getLicenseKeys(productId, serverId);
-	}
-
-	public static List<LicenseKey> getLicenseKeys(
-		String accountKey, String productKey, int start, int end) {
-
-		return getService().getLicenseKeys(accountKey, productKey, start, end);
 	}
 
 	public static List<LicenseKey> getLicenseKeys(
@@ -456,23 +405,6 @@ public class LicenseKeyLocalServiceUtil {
 			productName, serverId, active, start, end, obc);
 	}
 
-	public static List<LicenseKey> getLicenseKeysByUserIdProductId(
-			long userId, String productId)
-		throws PortalException {
-
-		return getService().getLicenseKeysByUserIdProductId(userId, productId);
-	}
-
-	public static int getLicenseKeysCount(String productPurchaseKey) {
-		return getService().getLicenseKeysCount(productPurchaseKey);
-	}
-
-	public static int getLicenseKeysCount(
-		String accountKey, String productKey) {
-
-		return getService().getLicenseKeysCount(accountKey, productKey);
-	}
-
 	/**
 	 * Returns the OSGi service identifier.
 	 *
@@ -489,82 +421,6 @@ public class LicenseKeyLocalServiceUtil {
 		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
-	}
-
-	public static List<LicenseKey> getProductPurchaseGroupLicenseKeys(
-		String[] productPurchaseKeys, boolean complimentary, boolean active,
-		int start, int end, OrderByComparator obc) {
-
-		return getService().getProductPurchaseGroupLicenseKeys(
-			productPurchaseKeys, complimentary, active, start, end, obc);
-	}
-
-	public static int getProductPurchaseGroupLicenseKeysCount(
-		String[] productPurchaseKeys, boolean complimentary, boolean active) {
-
-		return getService().getProductPurchaseGroupLicenseKeysCount(
-			productPurchaseKeys, complimentary, active);
-	}
-
-	public static List<LicenseKey> getProductPurchaseLicenseKeys(
-		String productPurchaseKey) {
-
-		return getService().getProductPurchaseLicenseKeys(productPurchaseKey);
-	}
-
-	public static List<LicenseKey> getProductPurchaseLicenseKeys(
-		String productPurchaseKey, boolean complimentary, boolean active) {
-
-		return getService().getProductPurchaseLicenseKeys(
-			productPurchaseKey, complimentary, active);
-	}
-
-	public static List<LicenseKey> getProductPurchaseLicenseKeys(
-		String productPurchaseKey, long clusterId) {
-
-		return getService().getProductPurchaseLicenseKeys(
-			productPurchaseKey, clusterId);
-	}
-
-	public static List<LicenseKey> getProductPurchaseLicenseKeys(
-		String productPurchaseKey, long clusterId, boolean active) {
-
-		return getService().getProductPurchaseLicenseKeys(
-			productPurchaseKey, clusterId, active);
-	}
-
-	public static int getProductPurchaseLicenseKeysCount(
-		String productPurchaseKey) {
-
-		return getService().getProductPurchaseLicenseKeysCount(
-			productPurchaseKey);
-	}
-
-	public static int getProductPurchaseLicenseKeysCount(
-		String productPurchaseKey, boolean complimentary, boolean active) {
-
-		return getService().getProductPurchaseLicenseKeysCount(
-			productPurchaseKey, complimentary, active);
-	}
-
-	public static int getProductPurchaseLicenseKeysCount(
-		String productPurchaseKey, long clusterId) {
-
-		return getService().getProductPurchaseLicenseKeysCount(
-			productPurchaseKey, clusterId);
-	}
-
-	public static int getProductPurchaseLicenseKeysCount(
-		String productPurchaseKey, long clusterId, boolean active) {
-
-		return getService().getProductPurchaseLicenseKeysCount(
-			productPurchaseKey, clusterId, active);
-	}
-
-	public static int getUserLicenseKeysCount(long userId, String accountKey)
-		throws PortalException {
-
-		return getService().getUserLicenseKeysCount(userId, accountKey);
 	}
 
 	public static LicenseKey reindex(long licenseKeyId) throws PortalException {
@@ -638,19 +494,6 @@ public class LicenseKeyLocalServiceUtil {
 			obc);
 	}
 
-	public static List<LicenseKey> search(
-		String keywords, java.util.LinkedHashMap<String, Object> params,
-		int start, int end, OrderByComparator obc) {
-
-		return getService().search(keywords, params, start, end, obc);
-	}
-
-	public static int searchCount(long companyId, String keywords)
-		throws PortalException {
-
-		return getService().searchCount(companyId, keywords);
-	}
-
 	public static int searchCount(
 			long companyId, String createUserUuid, java.util.Date createDateGT,
 			java.util.Date createDateLT, String modifiedUserUuid,
@@ -698,12 +541,6 @@ public class LicenseKeyLocalServiceUtil {
 			expirationDateGT, expirationDateLT, params, andSearch);
 	}
 
-	public static int searchCount(
-		String keywords, java.util.LinkedHashMap<String, Object> params) {
-
-		return getService().searchCount(keywords, params);
-	}
-
 	/**
 	 * Updates the license key in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
@@ -732,14 +569,6 @@ public class LicenseKeyLocalServiceUtil {
 
 		return getService().updateLicenseKey(
 			userId, licenseKeyId, productPurchaseKey, complimentary, active);
-	}
-
-	public static LicenseKey updateLicenseKey(
-			long licenseKeyId, String accountKey, String productPurchaseKey)
-		throws PortalException {
-
-		return getService().updateLicenseKey(
-			licenseKeyId, accountKey, productPurchaseKey);
 	}
 
 	public static LicenseKeyLocalService getService() {

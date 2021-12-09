@@ -163,35 +163,27 @@ public class LicenseKeyModelImpl
 
 	public static final String TX_MANAGER = "liferayTransactionManager";
 
-	public static final long ACCOUNTKEY_COLUMN_BITMASK = 1L;
+	public static final long ACTIVE_COLUMN_BITMASK = 1L;
 
-	public static final long ACTIVE_COLUMN_BITMASK = 2L;
+	public static final long ASSETRECEIPTLICENSEUUID_COLUMN_BITMASK = 2L;
 
-	public static final long ASSETRECEIPTLICENSEUUID_COLUMN_BITMASK = 4L;
+	public static final long CLUSTERID_COLUMN_BITMASK = 4L;
 
-	public static final long CLUSTERID_COLUMN_BITMASK = 8L;
+	public static final long COMPANYID_COLUMN_BITMASK = 8L;
 
-	public static final long COMPANYID_COLUMN_BITMASK = 16L;
+	public static final long COMPLIMENTARY_COLUMN_BITMASK = 16L;
 
-	public static final long COMPLIMENTARY_COLUMN_BITMASK = 32L;
+	public static final long PRODUCTID_COLUMN_BITMASK = 32L;
 
-	public static final long LICENSEENTRYTYPE_COLUMN_BITMASK = 64L;
+	public static final long PRODUCTNAME_COLUMN_BITMASK = 64L;
 
-	public static final long PRODUCTID_COLUMN_BITMASK = 128L;
+	public static final long PRODUCTPURCHASEKEY_COLUMN_BITMASK = 128L;
 
-	public static final long PRODUCTKEY_COLUMN_BITMASK = 256L;
+	public static final long SERVERID_COLUMN_BITMASK = 256L;
 
-	public static final long PRODUCTNAME_COLUMN_BITMASK = 512L;
+	public static final long UUID_COLUMN_BITMASK = 512L;
 
-	public static final long PRODUCTPURCHASEKEY_COLUMN_BITMASK = 1024L;
-
-	public static final long SERVERID_COLUMN_BITMASK = 2048L;
-
-	public static final long USERUUID_COLUMN_BITMASK = 4096L;
-
-	public static final long UUID_COLUMN_BITMASK = 8192L;
-
-	public static final long LICENSEKEYID_COLUMN_BITMASK = 16384L;
+	public static final long LICENSEKEYID_COLUMN_BITMASK = 1024L;
 
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
@@ -680,17 +672,7 @@ public class LicenseKeyModelImpl
 
 	@Override
 	public void setUserUuid(String userUuid) {
-		_columnBitmask |= USERUUID_COLUMN_BITMASK;
-
-		if (_originalUserUuid == null) {
-			_originalUserUuid = _userUuid;
-		}
-
 		_userUuid = userUuid;
-	}
-
-	public String getOriginalUserUuid() {
-		return GetterUtil.getString(_originalUserUuid);
 	}
 
 	@JSON
@@ -808,17 +790,7 @@ public class LicenseKeyModelImpl
 
 	@Override
 	public void setAccountKey(String accountKey) {
-		_columnBitmask |= ACCOUNTKEY_COLUMN_BITMASK;
-
-		if (_originalAccountKey == null) {
-			_originalAccountKey = _accountKey;
-		}
-
 		_accountKey = accountKey;
-	}
-
-	public String getOriginalAccountKey() {
-		return GetterUtil.getString(_originalAccountKey);
 	}
 
 	@JSON
@@ -871,17 +843,7 @@ public class LicenseKeyModelImpl
 
 	@Override
 	public void setProductKey(String productKey) {
-		_columnBitmask |= PRODUCTKEY_COLUMN_BITMASK;
-
-		if (_originalProductKey == null) {
-			_originalProductKey = _productKey;
-		}
-
 		_productKey = productKey;
-	}
-
-	public String getOriginalProductKey() {
-		return GetterUtil.getString(_originalProductKey);
 	}
 
 	@JSON
@@ -929,17 +891,7 @@ public class LicenseKeyModelImpl
 
 	@Override
 	public void setLicenseEntryType(String licenseEntryType) {
-		_columnBitmask |= LICENSEENTRYTYPE_COLUMN_BITMASK;
-
-		if (_originalLicenseEntryType == null) {
-			_originalLicenseEntryType = _licenseEntryType;
-		}
-
 		_licenseEntryType = licenseEntryType;
-	}
-
-	public String getOriginalLicenseEntryType() {
-		return GetterUtil.getString(_originalLicenseEntryType);
 	}
 
 	@JSON
@@ -1513,18 +1465,10 @@ public class LicenseKeyModelImpl
 
 		_setOriginalCompanyId = false;
 
-		_originalUserUuid = _userUuid;
-
 		_setModifiedDate = false;
 		_originalAssetReceiptLicenseUuid = _assetReceiptLicenseUuid;
 
-		_originalAccountKey = _accountKey;
-
 		_originalProductPurchaseKey = _productPurchaseKey;
-
-		_originalProductKey = _productKey;
-
-		_originalLicenseEntryType = _licenseEntryType;
 
 		_originalProductName = _productName;
 
@@ -1920,7 +1864,6 @@ public class LicenseKeyModelImpl
 	private long _originalCompanyId;
 	private boolean _setOriginalCompanyId;
 	private String _userUuid;
-	private String _originalUserUuid;
 	private String _userName;
 	private Date _createDate;
 	private String _modifiedUserUuid;
@@ -1930,16 +1873,13 @@ public class LicenseKeyModelImpl
 	private String _assetReceiptLicenseUuid;
 	private String _originalAssetReceiptLicenseUuid;
 	private String _accountKey;
-	private String _originalAccountKey;
 	private String _productPurchaseKey;
 	private String _originalProductPurchaseKey;
 	private long _licenseEntryId;
 	private String _productKey;
-	private String _originalProductKey;
 	private String _accountName;
 	private String _licenseEntryName;
 	private String _licenseEntryType;
-	private String _originalLicenseEntryType;
 	private int _licenseVersion;
 	private String _productName;
 	private String _originalProductName;

@@ -68,10 +68,6 @@ public interface LicenseKeyLocalService
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>com.liferay.osb.provisioning.license.service.impl.LicenseKeyLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the license key local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link LicenseKeyLocalServiceUtil} if injection and service tracking are not available.
 	 */
-	public LicenseKey addDeveloperLicenseKey(
-			long userId, String accountKey, String productKey,
-			String productVersion)
-		throws Exception;
 
 	/**
 	 * Adds the license key to the database. Also notifies the appropriate model listeners.
@@ -256,14 +252,7 @@ public interface LicenseKeyLocalService
 		String uuid, long companyId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<LicenseKey> getAccountLicenseKeys(String accountKey);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<LicenseKey> getAssetReceiptLicenseLicenseKeys(
-		String assetReceiptLicenseUuid, boolean active);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<LicenseKey> getAssetReceiptLicenseLicenseKeys(
@@ -276,11 +265,6 @@ public interface LicenseKeyLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ExportActionableDynamicQuery getExportActionableDynamicQuery(
 		PortletDataContext portletDataContext);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public LicenseKey getFirstLicenseKey(
-			String accountKey, OrderByComparator obc)
-		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public IndexableActionableDynamicQuery getIndexableActionableDynamicQuery();
@@ -334,23 +318,7 @@ public interface LicenseKeyLocalService
 		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<LicenseKey> getLicenseKeys(long userId, String accountKey)
-		throws PortalException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<LicenseKey> getLicenseKeys(
-		String productPurchaseKey, int start, int end);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<LicenseKey> getLicenseKeys(
-		String productPurchaseKey, long clusterId);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<LicenseKey> getLicenseKeys(String productId, String serverId);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<LicenseKey> getLicenseKeys(
-		String accountKey, String productKey, int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<LicenseKey> getLicenseKeys(
@@ -361,17 +329,6 @@ public interface LicenseKeyLocalService
 	public List<LicenseKey> getLicenseKeysByName(
 		String productName, String serverId, boolean active, int start, int end,
 		OrderByComparator obc);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<LicenseKey> getLicenseKeysByUserIdProductId(
-			long userId, String productId)
-		throws PortalException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getLicenseKeysCount(String productPurchaseKey);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getLicenseKeysCount(String accountKey, String productKey);
 
 	/**
 	 * Returns the OSGi service identifier.
@@ -386,50 +343,6 @@ public interface LicenseKeyLocalService
 	@Override
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
-		throws PortalException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<LicenseKey> getProductPurchaseGroupLicenseKeys(
-		String[] productPurchaseKeys, boolean complimentary, boolean active,
-		int start, int end, OrderByComparator obc);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getProductPurchaseGroupLicenseKeysCount(
-		String[] productPurchaseKeys, boolean complimentary, boolean active);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<LicenseKey> getProductPurchaseLicenseKeys(
-		String productPurchaseKey);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<LicenseKey> getProductPurchaseLicenseKeys(
-		String productPurchaseKey, boolean complimentary, boolean active);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<LicenseKey> getProductPurchaseLicenseKeys(
-		String productPurchaseKey, long clusterId);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<LicenseKey> getProductPurchaseLicenseKeys(
-		String productPurchaseKey, long clusterId, boolean active);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getProductPurchaseLicenseKeysCount(String productPurchaseKey);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getProductPurchaseLicenseKeysCount(
-		String productPurchaseKey, boolean complimentary, boolean active);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getProductPurchaseLicenseKeysCount(
-		String productPurchaseKey, long clusterId);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getProductPurchaseLicenseKeysCount(
-		String productPurchaseKey, long clusterId, boolean active);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getUserLicenseKeysCount(long userId, String accountKey)
 		throws PortalException;
 
 	@Indexable(type = IndexableType.REINDEX)
@@ -474,15 +387,6 @@ public interface LicenseKeyLocalService
 		boolean andSearch, int start, int end, OrderByComparator obc);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<LicenseKey> search(
-		String keywords, LinkedHashMap<String, Object> params, int start,
-		int end, OrderByComparator obc);
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int searchCount(long companyId, String keywords)
-		throws PortalException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int searchCount(
 			long companyId, String createUserUuid, Date createDateGT,
 			Date createDateLT, String modifiedUserUuid, Date modifiedDateGT,
@@ -509,10 +413,6 @@ public interface LicenseKeyLocalService
 		Date expirationDateLT, LinkedHashMap<String, Object> params,
 		boolean andSearch);
 
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int searchCount(
-		String keywords, LinkedHashMap<String, Object> params);
-
 	/**
 	 * Updates the license key in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
@@ -534,9 +434,5 @@ public interface LicenseKeyLocalService
 			long userId, long licenseKeyId, String productPurchaseKey,
 			boolean complimentary, boolean active)
 		throws Exception;
-
-	public LicenseKey updateLicenseKey(
-			long licenseKeyId, String accountKey, String productPurchaseKey)
-		throws PortalException;
 
 }

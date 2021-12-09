@@ -31,16 +31,6 @@ public class LicenseKeyServiceWrapper
 	}
 
 	@Override
-	public com.liferay.osb.provisioning.license.model.LicenseKey
-			addDeveloperLicenseKey(
-				String accountKey, String productKey, String productVersion)
-		throws Exception {
-
-		return _licenseKeyService.addDeveloperLicenseKey(
-			accountKey, productKey, productVersion);
-	}
-
-	@Override
 	public com.liferay.osb.provisioning.license.model.LicenseKey addLicenseKey(
 			long userId, long licenseEntryId, String productKey,
 			String accountKey, String productPurchaseKey, String accountName,
@@ -128,14 +118,6 @@ public class LicenseKeyServiceWrapper
 
 	@Override
 	public java.util.List<com.liferay.osb.provisioning.license.model.LicenseKey>
-			getLicenseKeys(long userId, String productId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _licenseKeyService.getLicenseKeys(userId, productId);
-	}
-
-	@Override
-	public java.util.List<com.liferay.osb.provisioning.license.model.LicenseKey>
 			getLicenseKeys(String productId, String serverId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
@@ -174,36 +156,6 @@ public class LicenseKeyServiceWrapper
 	@Override
 	public String getOSGiServiceIdentifier() {
 		return _licenseKeyService.getOSGiServiceIdentifier();
-	}
-
-	@Override
-	public java.util.List<com.liferay.osb.provisioning.license.model.LicenseKey>
-			getProductPurchaseGroupLicenseKeys(
-				String[] productPurchaseKeys, boolean complimentary,
-				boolean active, int start, int end,
-				com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _licenseKeyService.getProductPurchaseGroupLicenseKeys(
-			productPurchaseKeys, complimentary, active, start, end, obc);
-	}
-
-	@Override
-	public int getProductPurchaseGroupLicenseKeysCount(
-			String[] productPurchaseKeys, boolean complimentary, boolean active)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _licenseKeyService.getProductPurchaseGroupLicenseKeysCount(
-			productPurchaseKeys, complimentary, active);
-	}
-
-	@Override
-	public int getProductPurchaseLicenseKeysCount(
-			String productPurchaseKey, boolean complimentary, boolean active)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _licenseKeyService.getProductPurchaseLicenseKeysCount(
-			productPurchaseKey, complimentary, active);
 	}
 
 	@Override
@@ -293,17 +245,6 @@ public class LicenseKeyServiceWrapper
 	}
 
 	@Override
-	public java.util.List<com.liferay.osb.provisioning.license.model.LicenseKey>
-			search(
-				String keywords, java.util.LinkedHashMap<String, Object> params,
-				int start, int end,
-				com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws Exception {
-
-		return _licenseKeyService.search(keywords, params, start, end, obc);
-	}
-
-	@Override
 	public int searchCount(
 			String createUserUuid, java.util.Date createDateGT,
 			java.util.Date createDateLT, String modifiedUserUuid,
@@ -325,21 +266,6 @@ public class LicenseKeyServiceWrapper
 			productName, productId, productVersions, clusterIds, owner,
 			description, hostName, ipAddress, macAddress, serverId, key,
 			expirationDateGT, expirationDateLT, params, andSearch);
-	}
-
-	@Override
-	public int searchCount(
-			String keywords, java.util.LinkedHashMap<String, Object> params)
-		throws Exception {
-
-		return _licenseKeyService.searchCount(keywords, params);
-	}
-
-	@Override
-	public void updateLicenseKey(long userId, long licenseKeyId, boolean active)
-		throws Exception {
-
-		_licenseKeyService.updateLicenseKey(userId, licenseKeyId, active);
 	}
 
 	@Override

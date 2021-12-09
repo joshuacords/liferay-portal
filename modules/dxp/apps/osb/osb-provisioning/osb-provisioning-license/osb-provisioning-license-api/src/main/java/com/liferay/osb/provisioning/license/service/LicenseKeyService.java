@@ -56,10 +56,6 @@ public interface LicenseKeyService extends BaseService {
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>com.liferay.osb.provisioning.license.service.impl.LicenseKeyServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the license key remote service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link LicenseKeyServiceUtil} if injection and service tracking are not available.
 	 */
-	public LicenseKey addDeveloperLicenseKey(
-			String accountKey, String productKey, String productVersion)
-		throws Exception;
-
 	public LicenseKey addLicenseKey(
 			long userId, long licenseEntryId, String productKey,
 			String accountKey, String productPurchaseKey, String accountName,
@@ -106,10 +102,6 @@ public interface LicenseKeyService extends BaseService {
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public LicenseKey getLicenseKey(String uuid) throws PortalException;
 
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<LicenseKey> getLicenseKeys(long userId, String productId)
-		throws PortalException;
-
 	@JSONWebService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<LicenseKey> getLicenseKeys(String productId, String serverId)
@@ -135,22 +127,6 @@ public interface LicenseKeyService extends BaseService {
 	 * @return the OSGi service identifier
 	 */
 	public String getOSGiServiceIdentifier();
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<LicenseKey> getProductPurchaseGroupLicenseKeys(
-			String[] productPurchaseKeys, boolean complimentary, boolean active,
-			int start, int end, OrderByComparator obc)
-		throws PortalException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getProductPurchaseGroupLicenseKeysCount(
-			String[] productPurchaseKeys, boolean complimentary, boolean active)
-		throws PortalException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getProductPurchaseLicenseKeysCount(
-			String productPurchaseKey, boolean complimentary, boolean active)
-		throws PortalException;
 
 	@JSONWebService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -197,12 +173,6 @@ public interface LicenseKeyService extends BaseService {
 		throws Exception;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public List<LicenseKey> search(
-			String keywords, LinkedHashMap<String, Object> params, int start,
-			int end, OrderByComparator obc)
-		throws Exception;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int searchCount(
 			String createUserUuid, Date createDateGT, Date createDateLT,
 			String modifiedUserUuid, Date modifiedDateGT, Date modifiedDateLT,
@@ -214,14 +184,6 @@ public interface LicenseKeyService extends BaseService {
 			String macAddress, String serverId, String key,
 			Date expirationDateGT, Date expirationDateLT,
 			LinkedHashMap<String, Object> params, boolean andSearch)
-		throws Exception;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int searchCount(
-			String keywords, LinkedHashMap<String, Object> params)
-		throws Exception;
-
-	public void updateLicenseKey(long userId, long licenseKeyId, boolean active)
 		throws Exception;
 
 	public LicenseKey updateLicenseKey(

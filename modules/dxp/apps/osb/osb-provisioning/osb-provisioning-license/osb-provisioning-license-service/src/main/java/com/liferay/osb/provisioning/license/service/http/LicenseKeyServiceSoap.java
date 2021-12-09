@@ -62,26 +62,6 @@ import java.rmi.RemoteException;
 public class LicenseKeyServiceSoap {
 
 	public static com.liferay.osb.provisioning.license.model.LicenseKeySoap
-			addDeveloperLicenseKey(
-				String accountKey, String productKey, String productVersion)
-		throws RemoteException {
-
-		try {
-			com.liferay.osb.provisioning.license.model.LicenseKey returnValue =
-				LicenseKeyServiceUtil.addDeveloperLicenseKey(
-					accountKey, productKey, productVersion);
-
-			return com.liferay.osb.provisioning.license.model.LicenseKeySoap.
-				toSoapModel(returnValue);
-		}
-		catch (Exception exception) {
-			_log.error(exception, exception);
-
-			throw new RemoteException(exception.getMessage());
-		}
-	}
-
-	public static com.liferay.osb.provisioning.license.model.LicenseKeySoap
 			addLicenseKey(
 				long userId, long licenseEntryId, String productKey,
 				String accountKey, String productPurchaseKey,
@@ -243,26 +223,6 @@ public class LicenseKeyServiceSoap {
 	}
 
 	public static com.liferay.osb.provisioning.license.model.LicenseKeySoap[]
-			getLicenseKeys(long userId, String productId)
-		throws RemoteException {
-
-		try {
-			java.util.List
-				<com.liferay.osb.provisioning.license.model.LicenseKey>
-					returnValue = LicenseKeyServiceUtil.getLicenseKeys(
-						userId, productId);
-
-			return com.liferay.osb.provisioning.license.model.LicenseKeySoap.
-				toSoapModels(returnValue);
-		}
-		catch (Exception exception) {
-			_log.error(exception, exception);
-
-			throw new RemoteException(exception.getMessage());
-		}
-	}
-
-	public static com.liferay.osb.provisioning.license.model.LicenseKeySoap[]
 			getLicenseKeys(String productId, String serverId)
 		throws RemoteException {
 
@@ -328,68 +288,6 @@ public class LicenseKeyServiceSoap {
 		}
 	}
 
-	public static com.liferay.osb.provisioning.license.model.LicenseKeySoap[]
-			getProductPurchaseGroupLicenseKeys(
-				String[] productPurchaseKeys, boolean complimentary,
-				boolean active, int start, int end,
-				com.liferay.portal.kernel.util.OrderByComparator obc)
-		throws RemoteException {
-
-		try {
-			java.util.List
-				<com.liferay.osb.provisioning.license.model.LicenseKey>
-					returnValue =
-						LicenseKeyServiceUtil.
-							getProductPurchaseGroupLicenseKeys(
-								productPurchaseKeys, complimentary, active,
-								start, end, obc);
-
-			return com.liferay.osb.provisioning.license.model.LicenseKeySoap.
-				toSoapModels(returnValue);
-		}
-		catch (Exception exception) {
-			_log.error(exception, exception);
-
-			throw new RemoteException(exception.getMessage());
-		}
-	}
-
-	public static int getProductPurchaseGroupLicenseKeysCount(
-			String[] productPurchaseKeys, boolean complimentary, boolean active)
-		throws RemoteException {
-
-		try {
-			int returnValue =
-				LicenseKeyServiceUtil.getProductPurchaseGroupLicenseKeysCount(
-					productPurchaseKeys, complimentary, active);
-
-			return returnValue;
-		}
-		catch (Exception exception) {
-			_log.error(exception, exception);
-
-			throw new RemoteException(exception.getMessage());
-		}
-	}
-
-	public static int getProductPurchaseLicenseKeysCount(
-			String productPurchaseKey, boolean complimentary, boolean active)
-		throws RemoteException {
-
-		try {
-			int returnValue =
-				LicenseKeyServiceUtil.getProductPurchaseLicenseKeysCount(
-					productPurchaseKey, complimentary, active);
-
-			return returnValue;
-		}
-		catch (Exception exception) {
-			_log.error(exception, exception);
-
-			throw new RemoteException(exception.getMessage());
-		}
-	}
-
 	public static boolean isActive(
 			String serverId, String productId, String key)
 		throws RemoteException {
@@ -441,21 +339,6 @@ public class LicenseKeyServiceSoap {
 
 			return com.liferay.osb.provisioning.license.model.LicenseKeySoap.
 				toSoapModel(returnValue);
-		}
-		catch (Exception exception) {
-			_log.error(exception, exception);
-
-			throw new RemoteException(exception.getMessage());
-		}
-	}
-
-	public static void updateLicenseKey(
-			long userId, long licenseKeyId, boolean active)
-		throws RemoteException {
-
-		try {
-			LicenseKeyServiceUtil.updateLicenseKey(
-				userId, licenseKeyId, active);
 		}
 		catch (Exception exception) {
 			_log.error(exception, exception);
