@@ -88,21 +88,18 @@ class SelectLayout extends Component {
 	 */
 
 	_searchNodes(event) {
-		if (!this.originalNodes) {
-			this.originalNodes = this.nodes;
-		}
-		else {
-			this.nodes = this.originalNodes;
-		}
-
 		const filterValue = event.delegateTarget.value.toLowerCase();
 
 		if (filterValue !== '') {
 			this.viewType = SelectLayout.VIEW_TYPES.flat;
-			this.nodes = this._filterSiblingNodes(this.nodes, filterValue);
+			this.filteredNodes = this._filterSiblingNodes(
+				this.nodes,
+				filterValue
+			);
 		}
 		else {
 			this.viewType = SelectLayout.VIEW_TYPES.tree;
+			this.filteredNodes = this.nodes;
 		}
 	}
 
@@ -165,6 +162,16 @@ SelectLayout.VIEW_TYPES = {
  */
 
 SelectLayout.STATE = {
+	/**
+	 * List of filtered nodes
+	 * @instance
+	 * @memberOf SelectLayout
+	 * @review
+	 * @type {!Array<Object>}
+	 */
+
+	filteredNodes: Config.array(),
+
 	/**
 	 * Enables URL following on the title click
 	 * @default false

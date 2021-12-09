@@ -9,6 +9,7 @@
 	{@param? _handleSearchFormKeyDown: any}
 	{@param? _searchNodes: any}
 	{@param? _selectedNodeChange: any}
+	{@param? filteredNodes: list<?>}
 	{@param? multiSelection: bool}
 	{@param? namespace: string}
 	{@param? viewType: string}
@@ -72,7 +73,7 @@
 								'selectedNodesChanged': $_selectedNodeChange
 							] /}
 							{param multiSelection: $multiSelection /}
-							{param nodes: $nodes /}
+							{param nodes: isNonnull($filteredNodes) ? $filteredNodes : $nodes /}
 							{param pathThemeImages: $pathThemeImages /}
 							{param viewType: $viewType /}
 						{/call}
