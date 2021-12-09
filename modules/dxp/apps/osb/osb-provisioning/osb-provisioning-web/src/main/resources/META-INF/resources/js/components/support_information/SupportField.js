@@ -36,8 +36,8 @@ function SupportField({
 	updateFormData
 }) {
 	function handleSave(newValue) {
-		request(formAction, updateFormData(newValue), 'formData', 'post')
-			.then(({data}) => {
+		request(formAction, updateFormData(newValue), 'formData')
+			.then(data => {
 				if (data.successMessage) {
 					// Refresh the page to mimic the same user experience as DetailField for a consistent behavior across all fields even though the AJAX submission makes it possible to update the field value without refreshing the page.
 

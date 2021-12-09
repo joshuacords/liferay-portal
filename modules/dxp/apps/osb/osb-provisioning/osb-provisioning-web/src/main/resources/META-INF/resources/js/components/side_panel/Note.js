@@ -62,8 +62,8 @@ function Note({note}) {
 					: NOTE_STATUS_APPROVED
 		});
 
-		request(updateURL, formData, 'formData', 'post')
-			.then(({data}) => {
+		request(updateURL, formData, 'formData')
+			.then(data => {
 				const {note} = data;
 
 				archiveNote(note.key, note.status);
@@ -88,8 +88,8 @@ function Note({note}) {
 			priority: pinned ? NOTE_PRIORITY_UNPINNED : NOTE_PRIORITY_PINNED
 		});
 
-		request(updateURL, formData, 'formData', 'post')
-			.then(({data}) => {
+		request(updateURL, formData, 'formData')
+			.then(data => {
 				const {note} = data;
 
 				pinNote(note.key, note.pinned);

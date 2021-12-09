@@ -9,8 +9,6 @@
  * distribution rights of the Software.
  */
 
-import axios from 'axios';
-
 import {
 	NAMESPACE,
 	PATTERN_IP_ADDRESS_V4,
@@ -42,6 +40,7 @@ export function convertDashToEmptyString(value) {
 	return value === '-' ? '' : value;
 }
 
+// Ported from frontend-js-web to avid adding it as a dependency
 /**
  * Fetches a resource. A thin wrapper around ES6 Fetch API, with standardized
  * default configuration.
@@ -51,7 +50,7 @@ export function convertDashToEmptyString(value) {
  * @return {Promise} A Promise that resolves to a Response object.
  */
 
-export function defaultFetch(resource, init = {}) {
+function defaultFetch(resource, init = {}) {
 	const headers = new Headers({'x-csrf-token': Liferay.authToken});
 
 	new Headers(init.headers || {}).forEach((value, key) => {
@@ -132,15 +131,22 @@ export function groupByAll(items, ...groupFns) {
  * @param {string} method The desired action to be performed for a given resource. Defaults to the GET method.
  * @returns {Promise} A Promise of the object that results from the Request
  */
-export function request(endpoint, params, encoding = 'json', method = 'get') {
-	const namespacedParams = {};
+export function request(endpoint, params, encoding = 'json', method = 'post') {
+	let namespacedParams = {};
 
 	if (encoding === 'json') {
-		Object.entries(params)
-			.map(([key, value]) => [`${NAMESPACE}${key}`, value])
-			.forEach(([key, value]) => {
-				namespacedParams[key] = value;
-			});
+		if (method.toLowerCase() === 'post') {
+			Object.entries(params)
+				.map(([key, value]) => [`${NAMESPACE}${key}`, value])
+				.forEach(([key, value]) => {
+					namespacedParams[key] = value;
+				});
+		}
+		else {
+			namespacedParams = Object.entries(params)
+				.map(([key, value]) => `${NAMESPACE}${key}=${value}`)
+				.join('&');
+		}
 	}
 
 	let namespacedData = null;
@@ -153,11 +159,25 @@ export function request(endpoint, params, encoding = 'json', method = 'get') {
 		);
 	}
 
-	return axios.request({
-		data: namespacedData,
-		method,
-		params: namespacedParams,
-		url: endpoint
+	let init = {};
+	let resource = new Request(endpoint);
+
+	if (method.toLowerCase() === 'post') {
+		init = {
+			body: namespacedData || namespacedParams,
+			method
+		};
+	}
+	else {
+		resource = new Request(`${endpoint}&${namespacedParams}`);
+	}
+
+	return defaultFetch(resource, init).then(response => {
+		if (!response.ok) {
+			throw new Error(`Request responded with ${response.statusText}`);
+		}
+
+		return response.json();
 	});
 }
 
@@ -187,7 +207,8 @@ export function validateAllIPAddresses(input) {
 				chunck.match(PATTERN_IP_ADDRESS_V4) ||
 				chunck.match(PATTERN_IP_ADDRESS_V6)
 		);
-	} else {
+	}
+	else {
 		return false;
 	}
 }
@@ -203,7 +224,8 @@ export function validateIPv6s(input) {
 		const chuncks = input.trim().split(/\s*,\s*|\s+/);
 
 		return chuncks.every(chunck => chunck.match(PATTERN_IP_ADDRESS_V6));
-	} else {
+	}
+	else {
 		return false;
 	}
 }
@@ -219,7 +241,8 @@ export function validateMAC(input) {
 		const chuncks = input.trim().split(/\s*,\s*|\s+/);
 
 		return chuncks.every(chunck => chunck.match(PATTERN_MAC_ADDRESS));
-	} else {
+	}
+	else {
 		return false;
 	}
 }

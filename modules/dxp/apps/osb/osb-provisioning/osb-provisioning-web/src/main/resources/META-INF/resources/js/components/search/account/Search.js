@@ -84,11 +84,16 @@ function Search({
 	const searchRef = useRef();
 	const {current: requestSearchResults} = useRef(
 		debounce(value => {
-			request(resourceURL, {
-				autocompleteKeywords: value,
-				maxResults: MAX_RESULTS
-			})
-				.then(({data}) => {
+			request(
+				resourceURL,
+				{
+					autocompleteKeywords: value,
+					maxResults: MAX_RESULTS
+				},
+				'json',
+				'get'
+			)
+				.then(data => {
 					if (data.length === 0) {
 						setError(true);
 					}

@@ -45,8 +45,8 @@ function GenerateButton({formAction, redirect, serverIdValidatable = false}) {
 			startDate: formatDate(license.startDate)
 		};
 
-		request(formAction, params, 'formData', 'post')
-			.then(({data}) => {
+		request(formAction, params, 'formData')
+			.then(data => {
 				const {redirectURL} = data;
 
 				location.assign(redirectURL ? redirectURL : redirect);

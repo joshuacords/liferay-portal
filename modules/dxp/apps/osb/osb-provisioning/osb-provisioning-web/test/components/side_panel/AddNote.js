@@ -9,7 +9,7 @@
  * distribution rights of the Software.
  */
 
-import {cleanup, fireEvent, render} from '@testing-library/react';
+import {cleanup, fireEvent, render, wait} from '@testing-library/react';
 import React from 'react';
 
 import AddNote from '../../../src/main/resources/META-INF/resources/js/components/side_panel/AddNote';
@@ -21,24 +21,42 @@ import {
 	NOTE_TYPE_SALES
 } from '../../../src/main/resources/META-INF/resources/js/utilities/constants';
 
-function mockNotes() {
-	return [
-		{
-			content: 'pinned note',
-			createDate: new Date().toLocaleString('en-US'),
-			creatorName: 'Jane Doe',
-			creatorPortraitURL: '/',
-			edited: false,
-			format: NOTE_FORMAT_HTML,
-			htmlContent: '<div>pinned note</div>',
-			key: '123',
-			pinned: true,
-			status: NOTE_STATUS_APPROVED,
-			type: NOTE_TYPE_GENERAL,
-			updateNoteURL: '/'
-		}
-	];
-}
+const exampleNotes = [
+	{
+		content: 'pinned note',
+		createDate: new Date().toLocaleString('en-US'),
+		creatorName: 'Jane Doe',
+		creatorPortraitURL: '/',
+		edited: false,
+		format: NOTE_FORMAT_HTML,
+		htmlContent: '<div>pinned note</div>',
+		key: '123',
+		pinned: true,
+		status: NOTE_STATUS_APPROVED,
+		type: NOTE_TYPE_GENERAL,
+		updateNoteURL: '/'
+	}
+];
+
+const mockResponse = {
+	note: {
+		content: 'pinned note',
+		createDate: new Date().toLocaleString('en-US'),
+		creatorName: 'Jane Doe',
+		creatorPortraitURL: '/',
+		deleteNoteURL: '/delete/url',
+		edited: false,
+		format: 'Plain',
+		htmlContent: 'pinned note',
+		key: '123',
+		pinned: false,
+		status: NOTE_STATUS_APPROVED,
+		type: 'General',
+		updateNoteURL: '/update/url'
+	},
+	ok: true,
+	successMessage: 'Note added successfully.'
+};
 
 function renderAddNote(props) {
 	return render(
@@ -48,7 +66,7 @@ function renderAddNote(props) {
 	);
 }
 
-function renderEditNote(notes = mockNotes(), props) {
+function renderEditNote(notes = exampleNotes, props) {
 	return render(
 		<NotesProvider initialNotes={notes}>
 			<AddNote actionURL="edit url" content="test content" {...props} />
@@ -57,6 +75,12 @@ function renderEditNote(notes = mockNotes(), props) {
 }
 
 describe('AddNote', () => {
+	beforeEach(() => {
+		jest.spyOn(global, 'fetch').mockResolvedValue(
+			jest.fn().mockResolvedValue(mockResponse)
+		);
+	});
+
 	afterEach(cleanup);
 
 	it('renders', () => {
@@ -136,7 +160,7 @@ describe('AddNote', () => {
 		expect(saveButton.disabled).toBeFalsy();
 	});
 
-	it('disables the "Save" and "Cancel" buttons after the "Save" button has been pressed', () => {
+	it('disables the "Save" and "Cancel" buttons after the "Save" button has been pressed', async () => {
 		const {container, getByText} = renderAddNote();
 		const textarea = container.querySelector('textarea');
 
@@ -147,10 +171,12 @@ describe('AddNote', () => {
 
 		const saveButton = getByText('save');
 
-		fireEvent.click(saveButton);
+		await wait(() => {
+			fireEvent.click(saveButton);
 
-		expect(saveButton.disabled).toBeTruthy();
-		expect(getByText('cancel').disabled).toBeTruthy();
+			expect(saveButton.disabled).toBeTruthy();
+			expect(getByText('cancel').disabled).toBeTruthy();
+		});
 	});
 
 	it('prefills the textarea with original value for editing a note', () => {

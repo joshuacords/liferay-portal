@@ -69,8 +69,8 @@ function AddNote({
 	function handleSubmit() {
 		setSavingNote(true);
 
-		request(actionURL, noteData, 'formData', 'post')
-			.then(({data}) => {
+		request(actionURL, noteData, 'formData')
+			.then(data => {
 				const {note} = data;
 
 				if (actionType === EDIT_NOTE) {
