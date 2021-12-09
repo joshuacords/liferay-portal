@@ -18,6 +18,10 @@ import {
 	PATTERN_MAC_ADDRESS
 } from '../utilities/constants';
 
+const DEFAULT_INIT = {
+	credentials: 'include'
+};
+
 /**
  * Takes an input string and returns a new capitalized string.
  * @param {string} input The input string to be capitalized.
@@ -36,6 +40,33 @@ export function capitalize(input) {
  */
 export function convertDashToEmptyString(value) {
 	return value === '-' ? '' : value;
+}
+
+/**
+ * Fetches a resource. A thin wrapper around ES6 Fetch API, with standardized
+ * default configuration.
+ * @param {!string|!Request} resource The URL to the resource, or a Resource
+ * object.
+ * @param {Object=} init An optional object containing custom configuration.
+ * @return {Promise} A Promise that resolves to a Response object.
+ */
+
+export function defaultFetch(resource, init = {}) {
+	const headers = new Headers({'x-csrf-token': Liferay.authToken});
+
+	new Headers(init.headers || {}).forEach((value, key) => {
+		headers.set(key, value);
+	});
+
+	const mergedInit = {
+		...DEFAULT_INIT,
+		...init
+	};
+
+	mergedInit.headers = headers;
+
+	// eslint-disable-next-line liferay-portal/no-global-fetch
+	return fetch(resource, mergedInit);
 }
 
 /**
@@ -156,8 +187,7 @@ export function validateAllIPAddresses(input) {
 				chunck.match(PATTERN_IP_ADDRESS_V4) ||
 				chunck.match(PATTERN_IP_ADDRESS_V6)
 		);
-	}
-	else {
+	} else {
 		return false;
 	}
 }
@@ -173,8 +203,7 @@ export function validateIPv6s(input) {
 		const chuncks = input.trim().split(/\s*,\s*|\s+/);
 
 		return chuncks.every(chunck => chunck.match(PATTERN_IP_ADDRESS_V6));
-	}
-	else {
+	} else {
 		return false;
 	}
 }
@@ -190,8 +219,7 @@ export function validateMAC(input) {
 		const chuncks = input.trim().split(/\s*,\s*|\s+/);
 
 		return chuncks.every(chunck => chunck.match(PATTERN_MAC_ADDRESS));
-	}
-	else {
+	} else {
 		return false;
 	}
 }
