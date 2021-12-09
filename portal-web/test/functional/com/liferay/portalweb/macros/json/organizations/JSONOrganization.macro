@@ -40,8 +40,8 @@ definition {
 				-u test@liferay.com:test
 		''';
 		var organizationId = JSONCurlUtil.get("${curl}", "$.[?(@['name'] == '${organizationName}')]['organizationId']");
-		var organizationId = StringUtil.replace("${organizationId}", "[&quot;", "");
-		var organizationId = StringUtil.replace("${organizationId}", "&quot;]", "");
+		var organizationId = StringUtil.replace("${organizationId}", "[\"", "");
+		var organizationId = StringUtil.replace("${organizationId}", "\"]", "");
 
 		return "${organizationId}";
 	}

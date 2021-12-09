@@ -99,8 +99,8 @@ definition {
 				-u test@liferay.com:test
 		''';
 		var passwordPolicyId = JSONCurlUtil.post("${curl}", "$.[?(@['name'] == 'Default Password Policy')]['passwordPolicyId']");
-		var passwordPolicyId = StringUtil.replace("${passwordPolicyId}", "[&quot;", "");
-		var passwordPolicyId = StringUtil.replace("${passwordPolicyId}", "&quot;]", "");
+		var passwordPolicyId = StringUtil.replace("${passwordPolicyId}", "[\"", "");
+		var passwordPolicyId = StringUtil.replace("${passwordPolicyId}", "\"]", "");
 
 		var curl = '''
 			${portalURL}/api/jsonws/passwordpolicy/update-password-policy \
@@ -167,7 +167,7 @@ definition {
 		var userIds = JSONCurlUtil.post("${curl}", "$..['userId']");
 		var userIds = StringUtil.replace("${userIds}", "[", "");
 		var userIds = StringUtil.replace("${userIds}", "]", "");
-		var userIds = StringUtil.replace("${userIds}", "&quot;", "");
+		var userIds = StringUtil.replace("${userIds}", "\"", "");
 
 		return "${userIds}";
 	}

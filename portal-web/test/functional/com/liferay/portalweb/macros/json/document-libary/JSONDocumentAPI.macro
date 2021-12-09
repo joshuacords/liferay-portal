@@ -20,8 +20,8 @@ definition {
 				-d name=${name}
 		''';
 		var folderId = JSONCurlUtil.post("${curl}", "$.[?(@['name'] == '${name}')]['folderId']");
-		var folderId = StringUtil.replace("${folderId}", "[&quot;", "");
-		var folderId = StringUtil.replace("${folderId}", "&quot;]", "");
+		var folderId = StringUtil.replace("${folderId}", "[\"", "");
+		var folderId = StringUtil.replace("${folderId}", "\"]", "");
 
 		if ("${folderId}" == "") {
 			fail("FAIL. Cannot find folder.");

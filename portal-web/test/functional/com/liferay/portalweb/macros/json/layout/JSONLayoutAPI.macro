@@ -76,8 +76,8 @@ definition {
 				-d privateLayout=${privateLayout}
 		''';
 		var layoutId = JSONCurlUtil.post("${curl}", "$.[?(@['nameCurrentValue'] == '${layoutName}')]['layoutId']");
-		var layoutId = StringUtil.replace("${layoutId}", "[&quot;", "");
-		var layoutId = StringUtil.replace("${layoutId}", "&quot;]", "");
+		var layoutId = StringUtil.replace("${layoutId}", "[\"", "");
+		var layoutId = StringUtil.replace("${layoutId}", "\"]", "");
 
 		if ("${layoutId}" == "") {
 			fail("FAIL. Cannot find layout.");
@@ -99,8 +99,8 @@ definition {
 				-d privateLayout=${privateLayout}
 		''';
 		var typeSettings = JSONCurlUtil.post("${curl}", "$.[?(@['nameCurrentValue'] == '${layoutName}')]['typeSettings']");
-		var typeSettings = StringUtil.replace("${typeSettings}", "[&quot;", "");
-		var typeSettings = StringUtil.replace("${typeSettings}", "&quot;]", "");
+		var typeSettings = StringUtil.replace("${typeSettings}", "[\"", "");
+		var typeSettings = StringUtil.replace("${typeSettings}", "\"]", "");
 
 		if ("${typeSettings}" == "") {
 			fail("FAIL. Cannot find layout.");
