@@ -137,46 +137,6 @@ public class LicenseKeyFinderImpl
 			expirationDateLT, params, andOperator);
 	}
 
-	public List<LicenseKey> findByKeywords(
-		String keywords, LinkedHashMap<String, Object> params, int start,
-		int end, OrderByComparator obc) {
-
-		String[] accountNames = null;
-		String[] productNames = null;
-		String[] productIds = null;
-		String[] owners = null;
-		String[] descriptions = null;
-		String[] hostNames = null;
-		String[] ipAddresses = null;
-		String[] macAddresses = null;
-		String[] serverIds = null;
-		String[] keys = null;
-		boolean andOperator = false;
-
-		if (Validator.isNotNull(keywords)) {
-			accountNames = _customSQL.keywords(keywords);
-			productNames = _customSQL.keywords(keywords);
-			productIds = _customSQL.keywords(keywords);
-			owners = _customSQL.keywords(keywords);
-			descriptions = _customSQL.keywords(keywords);
-			hostNames = _customSQL.keywords(keywords);
-			ipAddresses = _customSQL.keywords(keywords);
-			macAddresses = _customSQL.keywords(keywords);
-			serverIds = _customSQL.keywords(keywords);
-			keys = _customSQL.keywords(keywords);
-		}
-		else {
-			andOperator = true;
-		}
-
-		return findByU_C_M_M_AK_PPK_A_S_L_P_P_P_P_CI_O_D_H_I_M_S_E_A(
-			null, null, null, null, null, null, keywords, keywords,
-			accountNames, null, null, new long[0], new String[0], productNames,
-			productIds, new String[0], new long[0], owners, descriptions,
-			hostNames, ipAddresses, macAddresses, serverIds, keys, null, null,
-			params, andOperator, start, end, obc);
-	}
-
 	public List<LicenseKey>
 		findByU_C_M_M_AK_PPK_A_S_L_P_P_P_P_CI_O_D_H_I_M_S_E_A(
 			String createUserUuid, Date createDateGT, Date createDateLT,

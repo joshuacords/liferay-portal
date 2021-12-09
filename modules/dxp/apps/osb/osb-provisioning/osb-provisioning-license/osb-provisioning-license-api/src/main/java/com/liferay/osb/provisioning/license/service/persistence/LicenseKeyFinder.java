@@ -40,12 +40,6 @@ public interface LicenseKeyFinder {
 		java.util.LinkedHashMap<String, Object> params, boolean andOperator);
 
 	public java.util.List<com.liferay.osb.provisioning.license.model.LicenseKey>
-		findByKeywords(
-			String keywords, java.util.LinkedHashMap<String, Object> params,
-			int start, int end,
-			com.liferay.portal.kernel.util.OrderByComparator obc);
-
-	public java.util.List<com.liferay.osb.provisioning.license.model.LicenseKey>
 		findByU_C_M_M_AK_PPK_A_S_L_P_P_P_P_CI_O_D_H_I_M_S_E_A(
 			String createUserUuid, java.util.Date createDateGT,
 			java.util.Date createDateLT, String modifiedUserUuid,

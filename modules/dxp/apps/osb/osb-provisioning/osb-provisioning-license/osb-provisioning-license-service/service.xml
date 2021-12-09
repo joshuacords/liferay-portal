@@ -151,27 +151,9 @@
 
 		<!-- Finder methods -->
 
-		<finder name="AccountKey" return-type="Collection">
-			<finder-column name="accountKey" />
-		</finder>
-		<finder name="ProductPurchaseKey" return-type="Collection">
-			<finder-column name="productPurchaseKey" />
-		</finder>
-		<finder name="U_AK" return-type="Collection">
-			<finder-column name="userUuid" />
-			<finder-column name="accountKey" />
-		</finder>
-		<finder name="U_PI" return-type="Collection">
-			<finder-column name="userUuid" />
-			<finder-column name="productId" />
-		</finder>
 		<finder name="ARLU_A" return-type="Collection">
 			<finder-column name="assetReceiptLicenseUuid" />
 			<finder-column name="active" />
-		</finder>
-		<finder name="AK_PK" return-type="Collection">
-			<finder-column name="accountKey" />
-			<finder-column name="productKey" />
 		</finder>
 		<finder name="PPK_CI" return-type="Collection">
 			<finder-column name="productPurchaseKey" />
@@ -186,16 +168,6 @@
 			<finder-column name="complimentary" />
 			<finder-column name="active" />
 		</finder>
-		<finder name="PPK_CI_A" return-type="Collection">
-			<finder-column name="productPurchaseKey" />
-			<finder-column name="clusterId" />
-			<finder-column name="active" />
-		</finder>
-		<finder name="PPK_C_A" return-type="Collection">
-			<finder-column arrayable-operator="OR" name="productPurchaseKey" />
-			<finder-column name="complimentary" />
-			<finder-column name="active" />
-		</finder>
 		<finder name="PN_SI_A" return-type="Collection">
 			<finder-column name="productName" />
 			<finder-column name="serverId" />
@@ -205,18 +177,6 @@
 			<finder-column name="assetReceiptLicenseUuid" />
 			<finder-column name="productId" />
 			<finder-column name="serverId" />
-			<finder-column name="active" />
-		</finder>
-		<finder name="PPK_LET_C_A" return-type="Collection">
-			<finder-column name="productPurchaseKey" />
-			<finder-column name="licenseEntryType" />
-			<finder-column name="complimentary" />
-			<finder-column name="active" />
-		</finder>
-		<finder name="PPK_NotLET_C_A" return-type="Collection">
-			<finder-column name="productPurchaseKey" />
-			<finder-column comparator="!=" name="licenseEntryType" />
-			<finder-column name="complimentary" />
 			<finder-column name="active" />
 		</finder>
 	</entity>

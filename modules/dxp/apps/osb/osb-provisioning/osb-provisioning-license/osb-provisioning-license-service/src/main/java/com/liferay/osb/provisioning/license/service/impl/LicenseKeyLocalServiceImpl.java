@@ -39,7 +39,6 @@ import com.liferay.osb.provisioning.license.exception.LicenseKeyProductVersionEx
 import com.liferay.osb.provisioning.license.exception.LicenseKeyServerInfoException;
 import com.liferay.osb.provisioning.license.exception.NoSuchLicenseKeyException;
 import com.liferay.osb.provisioning.license.generator.KeyGenerator;
-import com.liferay.osb.provisioning.license.helper.constants.LicenseLifetime;
 import com.liferay.osb.provisioning.license.helper.constants.LicenseServerId;
 import com.liferay.osb.provisioning.license.helper.constants.LicenseType;
 import com.liferay.osb.provisioning.license.helper.constants.LicenseVersion;
@@ -48,7 +47,6 @@ import com.liferay.osb.provisioning.license.model.LicenseEntry;
 import com.liferay.osb.provisioning.license.model.LicenseKey;
 import com.liferay.osb.provisioning.license.service.LicenseEntryLocalService;
 import com.liferay.osb.provisioning.license.service.base.LicenseKeyLocalServiceBaseImpl;
-import com.liferay.osb.provisioning.license.util.comparator.LicenseKeyExpirationDateComparator;
 import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.aop.AopService;
@@ -114,35 +112,6 @@ import org.osgi.service.component.annotations.Reference;
 	service = AopService.class
 )
 public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
-
-	public LicenseKey addDeveloperLicenseKey(
-			long userId, String accountKey, String productKey,
-			String productVersion)
-		throws Exception {
-
-		User user = userLocalService.getUser(userId);
-
-		Account account = _accountWebService.getAccount(accountKey);
-
-		LicenseEntry licenseEntry = _licenseEntryLocalService.getLicenseEntry(
-			productKey, LicenseType.DEVELOPER);
-		Product product = _productWebService.getProduct(productKey);
-
-		String name = "Developer Activation Keys";
-
-		Date startDate = new Date();
-
-		Date expirationDate = new Date(
-			startDate.getTime() + LicenseLifetime.INDEFINITE);
-
-		return addLicenseKey(
-			userId, licenseEntry, product, accountKey, StringPool.BLANK,
-			account.getName(), productVersion, 0, name, user.getFullName(), 0,
-			1, 5, 0, 0, StringPool.BLANK,
-			account.getName() + " Developer Activation Keys", new String[0],
-			new String[0], new String[] {LicenseType.DEVELOPER}, startDate,
-			expirationDate, StringPool.BLANK, true, true);
-	}
 
 	public LicenseKey addLicenseKey(
 			long userId, LicenseEntry licenseEntry, Product product,
@@ -342,19 +311,6 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 			licenseKey.getAdditionalInfo(), licenseKey.isComplimentary(), true);
 	}
 
-	public List<LicenseKey> getAccountLicenseKeys(String accountKey) {
-		return licenseKeyPersistence.findByAccountKey(
-			accountKey, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
-			new LicenseKeyExpirationDateComparator());
-	}
-
-	public List<LicenseKey> getAssetReceiptLicenseLicenseKeys(
-		String assetReceiptLicenseUuid, boolean active) {
-
-		return licenseKeyPersistence.findByARLU_A(
-			assetReceiptLicenseUuid, active);
-	}
-
 	public List<LicenseKey> getAssetReceiptLicenseLicenseKeys(
 		String assetReceiptLicenseUuid, boolean complimentary, boolean active) {
 
@@ -369,13 +325,6 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 			assetReceiptLicenseUuid, complimentary, active);
 	}
 
-	public LicenseKey getFirstLicenseKey(
-			String accountKey, OrderByComparator obc)
-		throws PortalException {
-
-		return licenseKeyPersistence.findByAccountKey_First(accountKey, obc);
-	}
-
 	public LicenseKey getLicenseKeyByUuid(String uuid) throws PortalException {
 		List<LicenseKey> licenseKeys = licenseKeyPersistence.findByUuid(uuid);
 
@@ -386,37 +335,8 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 		return licenseKeys.get(0);
 	}
 
-	public List<LicenseKey> getLicenseKeys(long userId, String accountKey)
-		throws PortalException {
-
-		User user = userLocalService.getUser(userId);
-
-		return licenseKeyPersistence.findByU_AK(user.getUuid(), accountKey);
-	}
-
-	public List<LicenseKey> getLicenseKeys(
-		String productPurchaseKey, int start, int end) {
-
-		return licenseKeyPersistence.findByProductPurchaseKey(
-			productPurchaseKey, start, end);
-	}
-
-	public List<LicenseKey> getLicenseKeys(
-		String productPurchaseKey, long clusterId) {
-
-		return licenseKeyPersistence.findByPPK_CI(
-			productPurchaseKey, clusterId);
-	}
-
 	public List<LicenseKey> getLicenseKeys(String productId, String serverId) {
 		return licenseKeyPersistence.findByPI_SI(productId, serverId);
-	}
-
-	public List<LicenseKey> getLicenseKeys(
-		String accountKey, String productKey, int start, int end) {
-
-		return licenseKeyPersistence.findByAK_PK(
-			accountKey, productKey, start, end);
 	}
 
 	public List<LicenseKey> getLicenseKeys(
@@ -434,120 +354,6 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 
 		return licenseKeyPersistence.findByPN_SI_A(
 			productName, serverId, active, start, end, obc);
-	}
-
-	public List<LicenseKey> getLicenseKeysByUserIdProductId(
-			long userId, String productId)
-		throws PortalException {
-
-		User user = userLocalService.getUser(userId);
-
-		return licenseKeyPersistence.findByU_PI(user.getUuid(), productId);
-	}
-
-	public int getLicenseKeysCount(String productPurchaseKey) {
-		return licenseKeyPersistence.countByProductPurchaseKey(
-			productPurchaseKey);
-	}
-
-	public int getLicenseKeysCount(String accountKey, String productKey) {
-		return licenseKeyPersistence.countByAK_PK(accountKey, productKey);
-	}
-
-	public List<LicenseKey> getProductPurchaseGroupLicenseKeys(
-		String[] productPurchaseKeys, boolean complimentary, boolean active,
-		int start, int end, OrderByComparator obc) {
-
-		return licenseKeyPersistence.findByPPK_C_A(
-			productPurchaseKeys, complimentary, active, start, end, obc);
-	}
-
-	public int getProductPurchaseGroupLicenseKeysCount(
-		String[] productPurchaseKeys, boolean complimentary, boolean active) {
-
-		return licenseKeyPersistence.countByPPK_C_A(
-			productPurchaseKeys, complimentary, active);
-	}
-
-	public List<LicenseKey> getProductPurchaseLicenseKeys(
-		String productPurchaseKey) {
-
-		return licenseKeyPersistence.findByProductPurchaseKey(
-			productPurchaseKey);
-	}
-
-	public List<LicenseKey> getProductPurchaseLicenseKeys(
-		String productPurchaseKey, boolean complimentary, boolean active) {
-
-		return licenseKeyPersistence.findByPPK_C_A(
-			productPurchaseKey, complimentary, active);
-	}
-
-	public List<LicenseKey> getProductPurchaseLicenseKeys(
-		String productPurchaseKey, long clusterId) {
-
-		return licenseKeyPersistence.findByPPK_CI(
-			productPurchaseKey, clusterId);
-	}
-
-	public List<LicenseKey> getProductPurchaseLicenseKeys(
-		String productPurchaseKey, long clusterId, boolean active) {
-
-		return licenseKeyPersistence.findByPPK_CI_A(
-			productPurchaseKey, clusterId, active);
-	}
-
-	public int getProductPurchaseLicenseKeysCount(String productPurchaseKey) {
-		return licenseKeyPersistence.countByProductPurchaseKey(
-			productPurchaseKey);
-	}
-
-	public int getProductPurchaseLicenseKeysCount(
-		String productPurchaseKey, boolean complimentary, boolean active) {
-
-		int count = licenseKeyPersistence.countByPPK_NotLET_C_A(
-			productPurchaseKey, LicenseType.CLUSTER, complimentary, active);
-
-		List<LicenseKey> licenseKeys = licenseKeyPersistence.findByPPK_LET_C_A(
-			productPurchaseKey, LicenseType.CLUSTER, complimentary, active);
-
-		Set<Long> clusterIds = new HashSet<>();
-
-		for (LicenseKey licenseKey : licenseKeys) {
-			if (licenseKey.getLicenseVersion() >= 3) {
-				if (clusterIds.contains(licenseKey.getClusterId())) {
-					continue;
-				}
-
-				clusterIds.add(licenseKey.getClusterId());
-			}
-
-			count += licenseKey.getMaxServers();
-		}
-
-		return count;
-	}
-
-	public int getProductPurchaseLicenseKeysCount(
-		String productPurchaseKey, long clusterId) {
-
-		return licenseKeyPersistence.countByPPK_CI(
-			productPurchaseKey, clusterId);
-	}
-
-	public int getProductPurchaseLicenseKeysCount(
-		String productPurchaseKey, long clusterId, boolean active) {
-
-		return licenseKeyPersistence.countByPPK_CI_A(
-			productPurchaseKey, clusterId, active);
-	}
-
-	public int getUserLicenseKeysCount(long userId, String accountKey)
-		throws PortalException {
-
-		User user = userLocalService.getUser(userId);
-
-		return licenseKeyPersistence.countByU_AK(user.getUuid(), accountKey);
 	}
 
 	@Indexable(type = IndexableType.REINDEX)
@@ -706,47 +512,6 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 				andSearch, start, end, obc);
 	}
 
-	public List<LicenseKey> search(
-		String keywords, LinkedHashMap<String, Object> params, int start,
-		int end, OrderByComparator obc) {
-
-		return licenseKeyFinder.findByKeywords(
-			keywords, params, start, end, obc);
-	}
-
-	public int searchCount(long companyId, String keywords)
-		throws PortalException {
-
-		Indexer<LicenseKey> indexer = IndexerRegistryUtil.nullSafeGetIndexer(
-			LicenseKey.class);
-
-		SearchContext searchContext = new SearchContext();
-
-		Map<String, Serializable> attributes = new HashMap<>();
-
-		attributes.put("accountKey", keywords);
-		attributes.put("accountName", keywords);
-		attributes.put("createUserUuid", keywords);
-		attributes.put("description", keywords);
-		attributes.put("hostName", keywords);
-		attributes.put("ipAddress", keywords);
-		attributes.put("key", keywords);
-		attributes.put("macAddress", keywords);
-		attributes.put("modifiedUserUuid", keywords);
-		attributes.put("owner", keywords);
-		attributes.put("productId", keywords);
-		attributes.put("productName", keywords);
-		attributes.put("productPurchaseKey", keywords);
-		attributes.put("productVersions", keywords);
-		attributes.put("serverId", keywords);
-
-		searchContext.setAttributes(attributes);
-
-		searchContext.setCompanyId(companyId);
-
-		return (int)indexer.searchCount(searchContext);
-	}
-
 	public int searchCount(
 			long companyId, String createUserUuid, Date createDateGT,
 			Date createDateLT, String modifiedUserUuid, Date modifiedDateGT,
@@ -799,12 +564,6 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 				andSearch);
 	}
 
-	public int searchCount(
-		String keywords, LinkedHashMap<String, Object> params) {
-
-		return licenseKeyFinder.countByKeywords(keywords, params);
-	}
-
 	public LicenseKey updateLicenseKey(
 			long userId, long licenseKeyId, boolean active)
 		throws Exception {
@@ -849,19 +608,6 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 			userId, complimentary, active);
 
 		return licenseKey;
-	}
-
-	public LicenseKey updateLicenseKey(
-			long licenseKeyId, String accountKey, String productPurchaseKey)
-		throws PortalException {
-
-		LicenseKey licenseKey = licenseKeyPersistence.findByPrimaryKey(
-			licenseKeyId);
-
-		licenseKey.setAccountKey(accountKey);
-		licenseKey.setProductPurchaseKey(productPurchaseKey);
-
-		return licenseKeyPersistence.update(licenseKey);
 	}
 
 	protected static String trimText(String text) {
