@@ -351,11 +351,8 @@ public class LayoutReferencesExportImportContentProcessor
 
 						url = urlWithoutLocale;
 					}
-					else if (!urlWithoutLocale.substring(
-								1
-							).contains(
-								"/"
-							)) {
+					else if (urlWithoutLocale.indexOf(StringPool.SLASH, 1) ==
+								-1) {
 
 						if (!localePath.equals(
 								_PRIVATE_GROUP_SERVLET_MAPPING) &&
@@ -1005,12 +1002,7 @@ public class LayoutReferencesExportImportContentProcessor
 
 					url = urlWithoutLocale;
 				}
-				else if (!urlWithoutLocale.substring(
-							1
-						).contains(
-							"/"
-						)) {
-
+				else if (urlWithoutLocale.indexOf(StringPool.SLASH, 1) == -1) {
 					if (!localePath.equals(_PRIVATE_GROUP_SERVLET_MAPPING) &&
 						!localePath.equals(_PRIVATE_USER_SERVLET_MAPPING) &&
 						!localePath.equals(_PUBLIC_GROUP_SERVLET_MAPPING)) {
