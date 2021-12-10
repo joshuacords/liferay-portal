@@ -254,7 +254,7 @@ public class LayoutReferencesExportImportContentProcessorTest {
 	}
 
 	@Test
-	public void testExportDefaultGroupRelativeURLHostImportDefaultGroup()
+	public void testExportDefaultGroupRelativeURLImportDefaultGroup()
 		throws Exception {
 
 		Group exportGroup = GroupTestUtil.addGroup();
