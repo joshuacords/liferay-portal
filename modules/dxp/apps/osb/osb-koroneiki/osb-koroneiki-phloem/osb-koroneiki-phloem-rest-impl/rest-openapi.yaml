@@ -3,7 +3,7 @@ components:
         AgentName:
             in: query
             description:
-                The name of the user doing the action.
+                The name of the user doing the action. If it is an automated action, this can be left blank.
             name: agentName
             required: false
             schema:
@@ -11,7 +11,7 @@ components:
         AgentUID:
             in: query
             description:
-                The UUID of the user doing the action.
+                The UUID of the user doing the action. If it is an automated action, this can be left blank.
             name: agentUID
             required: false
             schema:
