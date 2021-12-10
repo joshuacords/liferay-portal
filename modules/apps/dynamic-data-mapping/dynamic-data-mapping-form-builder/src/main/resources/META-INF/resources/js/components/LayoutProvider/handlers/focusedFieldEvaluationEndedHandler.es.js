@@ -24,8 +24,8 @@ const handleFocusedFieldEvaluationEnded = (props, state, settingsContext) => {
 		...state,
 		focusedField: {
 			...focusedField,
-			settingsContext,
-		},
+			settingsContext
+		}
 	};
 
 	visitor.mapFields(({fieldName, value}) => {
