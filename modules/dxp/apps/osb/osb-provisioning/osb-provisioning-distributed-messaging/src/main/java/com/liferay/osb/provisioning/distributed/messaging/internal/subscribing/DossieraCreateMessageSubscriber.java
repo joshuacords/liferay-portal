@@ -2048,7 +2048,10 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 				if (Validator.isNotNull(sizing) &&
 					sizing.startsWith("Sizing ")) {
 
-					properties.put("sizing", sizing.substring(7));
+					String sizingValue = StringUtil.extractDigits(
+						sizing.substring(7));
+
+					properties.put("sizing", sizingValue);
 				}
 
 				if (!properties.isEmpty()) {

@@ -21,11 +21,9 @@ const SIZING_WITH_NO_VALIDATION = '4';
 
 function DownloadLicenses({downloadLicenseKeysURL, licenseKeys}) {
 	const processedLicenseKeys = licenseKeys.map(license => {
-		const result = /(?<size>[0-4])/.exec(license.sizing);
-
 		return {
 			...license,
-			sizing: result ? result.groups.size : SIZING_WITH_NO_VALIDATION
+			sizing: license.sizing ? license.sizing : SIZING_WITH_NO_VALIDATION
 		};
 	});
 
