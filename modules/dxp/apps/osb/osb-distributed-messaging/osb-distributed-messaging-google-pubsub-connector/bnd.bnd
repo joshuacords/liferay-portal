@@ -41,6 +41,8 @@ Import-Package:\
 	\
 	!org.jctools.queues.*,\
 	\
+	!org.relaxng.datatype.*,\
+	\
 	!org.zeromq.*,\
 	\
 	!reactor.blockhound.*,\
