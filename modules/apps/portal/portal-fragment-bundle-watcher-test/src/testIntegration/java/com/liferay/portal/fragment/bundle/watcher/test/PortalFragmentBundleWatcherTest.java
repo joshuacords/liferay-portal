@@ -117,7 +117,9 @@ public class PortalFragmentBundleWatcherTest {
 		ExecutorService executorService = Executors.newFixedThreadPool(2);
 
 		try {
-			//Install unrelated bundles
+
+			// Install unrelated bundles
+
 			Bundle unrelatedABundle = _installBundle(
 				_PACKAGE_NAME.concat(".unrelated.a"), null, null);
 			Bundle unrelatedBBundle = _installBundle(
@@ -131,7 +133,8 @@ public class PortalFragmentBundleWatcherTest {
 			Bundle unrelatedFBundle = _installBundle(
 				_PACKAGE_NAME.concat(".unrelated.f"), null, null);
 
-			//Create callables to install fragments and start unrelated bundles
+			// Create callables to install fragments and start unrelated bundles
+
 			Callable<Bundle> installFragmentACallable = () -> _installBundle(
 				_FRAGMENT_A_SYMBOLIC_NAME, _HOST_SYMBOLIC_NAME, null);
 			Callable<Bundle> installFragmentBCallable = () -> _installBundle(
@@ -149,8 +152,9 @@ public class PortalFragmentBundleWatcherTest {
 			Callable<Bundle> startUnrelatedBundleFCallable = () -> _startBundle(
 				unrelatedFBundle);
 
-			//Simulate multiple fragments and unrelated bundles being deployed
-			//together and starting at the same time
+			// Simulate multiple fragments and unrelated bundles being deployed
+			// together and starting at the same time
+
 			executorService.invokeAll(
 				Arrays.asList(
 					installFragmentACallable, startUnrelatedBundleACallable,
