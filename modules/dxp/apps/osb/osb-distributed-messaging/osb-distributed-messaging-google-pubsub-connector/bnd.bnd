@@ -19,6 +19,8 @@ Import-Package:\
 	\
 	!com.oracle.svm.core.annotate.*,\
 	\
+	!com.sun.msv.*,\
+	\
 	!lzma.sdk.*,\
 	\
 	!net.jpountz.*,\
