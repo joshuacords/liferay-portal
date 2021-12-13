@@ -15,12 +15,8 @@
 package com.liferay.osb.provisioning.license.service.impl;
 
 import com.liferay.osb.provisioning.constants.ProvisioningActionKeys;
-import com.liferay.osb.provisioning.koroneiki.web.service.AccountWebService;
-import com.liferay.osb.provisioning.koroneiki.web.service.ProductPurchaseViewWebService;
-import com.liferay.osb.provisioning.koroneiki.web.service.ProductWebService;
 import com.liferay.osb.provisioning.license.model.LicenseKey;
 import com.liferay.osb.provisioning.license.permission.LicenseKeyPermission;
-import com.liferay.osb.provisioning.license.service.LicenseEntryLocalService;
 import com.liferay.osb.provisioning.license.service.base.LicenseKeyServiceBaseImpl;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.instances.service.PortalInstancesLocalService;
@@ -31,7 +27,6 @@ import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
-import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
 import java.util.Date;
@@ -365,24 +360,9 @@ public class LicenseKeyServiceImpl extends LicenseKeyServiceBaseImpl {
 	}
 
 	@Reference
-	private AccountWebService _accountWebService;
-
-	@Reference
-	private LicenseEntryLocalService _licenseEntryLocalService;
-
-	@Reference
 	private LicenseKeyPermission _licenseKeyPermission;
 
 	@Reference
 	private PortalInstancesLocalService _portalInstancesLocalService;
-
-	@Reference
-	private ProductPurchaseViewWebService _productPurchaseViewWebService;
-
-	@Reference
-	private ProductWebService _productWebService;
-
-	@Reference
-	private RoleLocalService _roleLocalService;
 
 }

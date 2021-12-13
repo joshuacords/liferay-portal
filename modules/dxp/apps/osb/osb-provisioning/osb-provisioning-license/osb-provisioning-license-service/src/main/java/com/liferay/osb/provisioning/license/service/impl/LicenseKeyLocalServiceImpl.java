@@ -75,7 +75,6 @@ import com.liferay.portal.kernel.search.generic.TermRangeQueryImpl;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.FastDateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -1358,9 +1357,6 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 
 	@Reference
 	private LicenseEntryLocalService _licenseEntryLocalService;
-
-	@Reference
-	private Portal _portal;
 
 	@Reference
 	private ProductConsumptionWebService _productConsumptionWebService;
