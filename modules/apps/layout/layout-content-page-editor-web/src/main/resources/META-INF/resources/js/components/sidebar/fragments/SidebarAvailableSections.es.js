@@ -146,9 +146,11 @@ class SidebarAvailableSections extends Component {
 		if (data.target) {
 			const {itemGroupId, itemId, itemName} = data.source.dataset;
 
-			requestAnimationFrame(() => {
-				this._initializeDragAndDrop();
-			});
+			if (this._dragDrop) {
+				this._dragDrop.dispose();
+
+				this._dragDrop = null;
+			}
 
 			this.store
 				.dispatch(enableSavingChangesStatusAction())
