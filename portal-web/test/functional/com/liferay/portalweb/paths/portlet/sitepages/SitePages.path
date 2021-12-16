@@ -32,6 +32,16 @@
 	<td></td>
 </tr>
 <tr>
+	<td>LIST_GROUP_ITEM_DRAG_HANDLER</td>
+	<td>//li[contains(.,'${key_pageName}')]//div[contains(@class,'drag-handler')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>LIST_GROUP_ITEM_DROP_TARGET</td>
+	<td>//li[contains(.,'${key_pageNameTo}')]/button</td>
+	<td></td>
+</tr>
+<tr>
 	<td>LIST_GROUP_ITEM_ELLIPSIS_ICON</td>
 	<td>//li[contains(.,'${key_pageName}')]//*[*[name()='svg'][contains(@class,'ellipsis-v')]]</td>
 	<td></td>
