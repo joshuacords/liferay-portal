@@ -1,6 +1,6 @@
 Bundle-Name: Liferay Data Engine API
 Bundle-SymbolicName: com.liferay.data.engine.api
-Bundle-Version: 2.1.15
+Bundle-Version: 2.1.16
 Export-Package:\
 	com.liferay.data.engine.exception,\
 	com.liferay.data.engine.field.type,\
