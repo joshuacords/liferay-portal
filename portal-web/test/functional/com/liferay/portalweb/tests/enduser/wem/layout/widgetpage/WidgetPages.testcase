@@ -123,8 +123,9 @@ definition {
 		SitePages.addPublicPage(pageName = "Tester's Page");
 	}
 
+	@description = "This is a test for LPS-106469. Reorder Child pages in the same level via drag and drop."
 	@priority = "3"
-	test AddPageWithMultipleChildPagesToSite {
+	test AddPageWithMultipleChildPagesToSiteAndReorder {
 		property testray.component.names = "Site Pages Administration";
 
 		JSONLayout.addPublicLayout(
@@ -144,6 +145,19 @@ definition {
 				pageName = "${childPageName}",
 				privacy = "Public Pages");
 		}
+
+		SitePages.movePageToPageUp(
+			pageName = "Site Child Page 2",
+			pageNameTo = "Site Child Page 1");
+
+		for (var childPageName : list "Site Child Page 2,Site Child Page 1,Site Child Page 3") {
+			Page.view(
+				depth = "2",
+				pageName = "${childPageName}",
+				privacy = "Public Pages");
+		}
+
+		AssertConsoleTextNotPresent(value1 = "javax.portlet.PortletException: java.lang.NullPointerException");
 	}
 
 	@priority = "4"
