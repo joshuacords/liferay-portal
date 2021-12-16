@@ -1,6 +1,6 @@
 Bundle-Name: Liferay Subscription API
 Bundle-SymbolicName: com.liferay.subscription.api
-Bundle-Version: 2.1.15
+Bundle-Version: 2.1.16
 Export-Package:\
 	com.liferay.subscription.exception,\
 	com.liferay.subscription.model,\
