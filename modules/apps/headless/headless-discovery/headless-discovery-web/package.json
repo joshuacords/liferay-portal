@@ -26,5 +26,5 @@
 		"format": "liferay-npm-scripts fix",
 		"start": "liferay-npm-scripts webpack --env=development"
 	},
-	"version": "2.0.11"
+	"version": "2.0.12"
 }
