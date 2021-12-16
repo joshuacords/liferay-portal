@@ -1,6 +1,6 @@
 Bundle-Name: Liferay Portal Workflow Task Web
 Bundle-SymbolicName: com.liferay.portal.workflow.task.web
-Bundle-Version: 3.0.52
+Bundle-Version: 3.0.53
 Liferay-JS-Config: /META-INF/resources/js/config.js
 Provide-Capability:\
 	liferay.resource.bundle;\
