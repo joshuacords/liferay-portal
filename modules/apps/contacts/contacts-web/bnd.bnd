@@ -1,6 +1,6 @@
 Bundle-Name: Liferay Contacts Web
 Bundle-SymbolicName: com.liferay.contacts.web
-Bundle-Version: 3.0.60
+Bundle-Version: 3.0.61
 Liferay-JS-Config: /META-INF/resources/js/config.js
 Web-ContextPath: /contacts-web
 -dsannotations-options: inherit
