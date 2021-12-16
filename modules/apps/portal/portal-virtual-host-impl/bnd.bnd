@@ -1,4 +1,4 @@
 Bundle-Activator: com.liferay.portal.virtual.host.internal.activator.PortalVirtualHostImplBundleActivator
 Bundle-Name: Liferay Portal Virtual Host Implementation
 Bundle-SymbolicName: com.liferay.portal.virtual.host.impl
-Bundle-Version: 1.0.3
+Bundle-Version: 1.0.4
