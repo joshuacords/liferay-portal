@@ -2210,8 +2210,9 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 		filterQuery.addEquals(true, "accountKey", accountKey);
 		filterQuery.addEquals(true, "state", "Active");
 
-		long previousActiveProductPurchases =
-			_productPurchaseWebService.searchCount(filterQuery);
+		List<ProductPurchase> prevActiveProductPurchases =
+			_productPurchaseWebService.search(
+				filterQuery, 1, 1000, StringPool.BLANK);
 
 		Date newStartDate = new Date();
 
@@ -2298,7 +2299,11 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 						newStartDate = ewsaProductPurchase.getStartDate();
 					}
 
-					if (newStartDate.before(productPurchase.getEndDate())) {
+					if ((!accountKey.equals(siblingAccount.getKey()) ||
+						 prevActiveProductPurchases.contains(
+							 productPurchase)) &&
+						newStartDate.before(productPurchase.getEndDate())) {
+
 						if (newStartDate.before(
 								productPurchase.getOriginalEndDate())) {
 
@@ -2322,7 +2327,7 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 				}
 
 				if ((ewsaProductPurchase != null) &&
-					(previousActiveProductPurchases == 0)) {
+					prevActiveProductPurchases.isEmpty()) {
 
 					FilterQuery filterQuery4 = new FilterQuery();
 
