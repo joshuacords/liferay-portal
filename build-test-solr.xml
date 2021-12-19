@@ -22,7 +22,7 @@
 			<equals arg1="${suite.search.engine}" arg2="solr8" />
 			<then>
 				<property name="solr.major.version" value="solr8" />
-				<property name="solr.version" value="8.10.1" />
+				<property name="solr.version" value="8.11.1" />
 			</then>
 		</elseif>
 		<else>
