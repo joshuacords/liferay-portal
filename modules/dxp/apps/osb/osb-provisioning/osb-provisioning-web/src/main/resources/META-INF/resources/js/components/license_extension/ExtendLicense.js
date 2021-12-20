@@ -27,17 +27,19 @@ export default function ExtendLicense({
 	hasUpdateLicenseDatePermission
 }) {
 	return (
-		<ExtendLicensesProvider initialLicenses={details}>
-			<PermissionsProvider
-				permissions={{
-					updateDatePermission: hasUpdateLicenseDatePermission
-				}}
-			>
-				<div className="extend-licenses-container">
-					<ExtendLicensesTable extensionURL={extensionURL} />
-				</div>
-			</PermissionsProvider>
-		</ExtendLicensesProvider>
+		<React.StrictMode>
+			<ExtendLicensesProvider initialLicenses={details}>
+				<PermissionsProvider
+					permissions={{
+						updateDatePermission: hasUpdateLicenseDatePermission
+					}}
+				>
+					<div className="extend-licenses-container">
+						<ExtendLicensesTable extensionURL={extensionURL} />
+					</div>
+				</PermissionsProvider>
+			</ExtendLicensesProvider>
+		</React.StrictMode>
 	);
 }
 

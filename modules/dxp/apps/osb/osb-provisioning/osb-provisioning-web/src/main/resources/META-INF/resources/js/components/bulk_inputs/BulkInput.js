@@ -18,8 +18,8 @@ import FieldNumberWithLabel from './FieldNumberWithLabel';
 import FieldSelect from './FieldSelect';
 import FieldText from './FieldText';
 
-export const Date = ({editHandler, fieldName, isValid, value}) => (
-	<ClayTable.Cell className={isValid ? '' : 'has-error'}>
+export const Date = ({editHandler, fieldName, isValid = true, value}) => (
+	<ClayTable.Cell className={`input-group-sm ${isValid ? '' : 'has-error'}`}>
 		<label htmlFor={fieldName}>
 			<DatePicker
 				defaultValue={value}

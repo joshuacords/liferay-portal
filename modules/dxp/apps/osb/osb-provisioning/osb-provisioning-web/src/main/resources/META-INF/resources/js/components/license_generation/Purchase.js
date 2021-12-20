@@ -93,6 +93,7 @@ function Purchase({
 			<LicenseDates
 				detached={detached}
 				expirationDate={licenseExpirationDate}
+				id={productPurchaseKey}
 				restricted={restricted}
 				startDate={licenseStartDate}
 				updateExpirationDate={handleSelectedExpirationDateChange}

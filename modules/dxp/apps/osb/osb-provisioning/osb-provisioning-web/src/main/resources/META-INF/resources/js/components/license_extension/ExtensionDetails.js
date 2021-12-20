@@ -155,6 +155,7 @@ function Detail({
 				<LicenseDates
 					detached={!!terms}
 					expirationDate={expirationDate}
+					id={licenseKeyId}
 					restricted={restricted}
 					startDate={startDate}
 					updateExpirationDate={handleExpirationDateChange}

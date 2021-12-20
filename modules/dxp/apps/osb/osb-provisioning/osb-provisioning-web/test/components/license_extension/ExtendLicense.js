@@ -220,6 +220,24 @@ describe('ExtendLicense', () => {
 		});
 	});
 
+	describe('Bulk Input display', () => {
+		it('displays Bulk Input when more than one temporary licenses of the same product are available', () => {
+			const {getByText} = renderExtendLicense({
+				details: multipleAttachedLicenses
+			});
+
+			getByText('bulk-input');
+		});
+
+		it('does not display Bulk Input when only one temporary license of a given product is available', () => {
+			const {queryByText} = renderExtendLicense({
+				details: singleAttachedLicense
+			});
+
+			expect(queryByText('bulk-input')).toBeFalsy();
+		});
+	});
+
 	describe('Extend Button', () => {
 		describe('Single License', () => {
 			it('does not render an Extend button for a permanent license', () => {

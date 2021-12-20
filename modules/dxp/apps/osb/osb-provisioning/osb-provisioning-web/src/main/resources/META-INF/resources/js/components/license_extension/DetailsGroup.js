@@ -12,10 +12,11 @@
 import ClayTable from '@clayui/table';
 import {Map} from 'immutable';
 import PropTypes from 'prop-types';
-import React, {useRef, useState} from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 
 import {FieldData} from '../../hooks/extendLicenses';
 import {formatDate} from '../../utilities/date';
+import * as BulkInput from '../bulk_inputs/BulkInput';
 import ExtendButton from './ExtendButton';
 import ExtensionDetails from './ExtensionDetails';
 
@@ -29,6 +30,34 @@ export default function DetailsGroup({extensionURL, licenses}) {
 				new FieldData({...license, ...{hasTerm: !!license.terms}})
 			])
 		)
+	);
+
+	const productName = licenses[0].productName;
+	const singleLicense = licenses.length === 1;
+
+	const fieldValueSet = useCallback(
+		fieldName =>
+			new Set(
+				licenses.map(licenses => {
+					const field = licenses[fieldName];
+
+					return field instanceof Date ? field.toJSON() : field;
+				})
+			),
+		[licenses]
+	);
+
+	const getDisplayValue = useCallback(
+		fieldName => {
+			const set = fieldValueSet(fieldName);
+
+			if (set.size === 1) {
+				return set.values().next().value;
+			}
+
+			return '';
+		},
+		[fieldValueSet]
 	);
 
 	function deriveExtendDisabledState() {
@@ -62,8 +91,41 @@ export default function DetailsGroup({extensionURL, licenses}) {
 		setFieldData(fieldData.delete(key));
 	}
 
+	function handleSaveExpirationDate() {}
+
+	function handleSaveStartDate() {}
+
 	return (
 		<>
+			{!singleLicense && (
+				<ClayTable.Body>
+					<ClayTable.Row className="bulk-input">
+						<ClayTable.Cell className="input-title semi-bold">
+							{Liferay.Language.get('bulk-input')}
+						</ClayTable.Cell>
+						<ClayTable.Cell></ClayTable.Cell>
+						<ClayTable.Cell></ClayTable.Cell>
+
+						<BulkInput.Date
+							editHandler={handleSaveStartDate}
+							fieldName={`startDateBulkInput-${productName}`}
+							// isValid={!invalidDateFormat.startDate}
+							value={getDisplayValue('startDate')}
+						/>
+						<BulkInput.Date
+							editHandler={handleSaveExpirationDate}
+							fieldName={`expirationDateBulkInput-${productName}`}
+							// isValid={!invalidDateFormat.originalEndDate}
+							value={getDisplayValue('expirationDate')}
+						/>
+
+						<ClayTable.Cell></ClayTable.Cell>
+						<ClayTable.Cell></ClayTable.Cell>
+						<ClayTable.Cell></ClayTable.Cell>
+					</ClayTable.Row>
+				</ClayTable.Body>
+			)}
+
 			<ExtensionDetails
 				extensionURL={extensionURL}
 				licenses={licenses}

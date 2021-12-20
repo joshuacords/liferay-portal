@@ -1,47 +1,10 @@
 .subscriptions-container {
 	padding: 0 $spacing-default;
 
-	.bulk-input {
-		td {
-			background-color: $light;
-		}
-
-		.form-control,
-		.input-group-inset-item {
-			background-color: $body-bg;
-
-			&[disabled] {
-				background-color: $light;
-
-				&[placeholder],
-				&::placeholder {
-					color: $input-disabled-color;
-				}
-			}
-
-			&[placeholder],
-			&::placeholder {
-				color: $dark;
-			}
-
-			&.disabled {
-				background-color: $light;
-			}
-		}
-
-		.has-error {
-			.form-control,
-			.input-group-inset-item {
-				background-color: $input-danger-bg;
-			}
-		}
-
-		.input-title {
-			color: $secondary;
-		}
-
-		.varied-data {
-			text-align: left;
+	.date-picker {
+		input {
+			font-size: $input-font-size-sm;
+			height: $input-height-sm;
 		}
 	}
 
@@ -57,13 +20,6 @@
 			&.custom-checkbox {
 				display: inline-block;
 				vertical-align: middle;
-			}
-		}
-
-		.date-picker {
-			input {
-				font-size: $input-font-size-sm;
-				height: $input-height-sm;
 			}
 		}
 	}

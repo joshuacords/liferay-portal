@@ -22,6 +22,7 @@ const YEAR_IN_MS = 1000 * 60 * 60 * 24 * 365;
 export default function LicenseDates({
 	detached,
 	expirationDate,
+	id,
 	restricted,
 	startDate,
 	updateExpirationDate,
@@ -69,11 +70,14 @@ export default function LicenseDates({
 			<ClayTableCell
 				className={`input-group-sm ${!validDates ? 'has-error' : ''}`}
 			>
-				<DatePicker
-					defaultValue={startDate}
-					inputName="startDate"
-					updateFn={handleStartDateChange}
-				/>
+				<label htmlFor={`startDate-${id}`}>
+					<DatePicker
+						defaultValue={startDate}
+						id={`startDate-${id}`}
+						inputName="startDate"
+						updateFn={handleStartDateChange}
+					/>
+				</label>
 			</ClayTableCell>
 
 			{(updateDatePermission ||
@@ -83,11 +87,14 @@ export default function LicenseDates({
 						!validDates ? 'has-error' : ''
 					}`}
 				>
-					<DatePicker
-						defaultValue={expirationDate}
-						inputName="expirationDate"
-						updateFn={handleExpirationDateChange}
-					/>
+					<label htmlFor={`expirationDate-${id}`}>
+						<DatePicker
+							defaultValue={expirationDate}
+							id={`expirationDate-${id}`}
+							inputName="expirationDate"
+							updateFn={handleExpirationDateChange}
+						/>
+					</label>
 				</ClayTableCell>
 			)}
 
@@ -105,11 +112,14 @@ export default function LicenseDates({
 								!validDates ? 'has-error' : ''
 							}`}
 						>
-							<DatePicker
-								defaultValue={expirationDate}
-								inputName="expirationDate"
-								updateFn={validateExpirationDateChange}
-							/>
+							<label htmlFor={`expirationDate-${id}`}>
+								<DatePicker
+									defaultValue={expirationDate}
+									id={`expirationDate-${id}`}
+									inputName="expirationDate"
+									updateFn={validateExpirationDateChange}
+								/>
+							</label>
 						</ClayTableCell>
 					)}
 				</>
@@ -124,6 +134,7 @@ LicenseDates.propTypes = {
 		PropTypes.instanceOf(Date),
 		PropTypes.string
 	]),
+	id: PropTypes.string,
 	restricted: PropTypes.bool.isRequired,
 	startDate: PropTypes.oneOfType([
 		PropTypes.instanceOf(Date),
