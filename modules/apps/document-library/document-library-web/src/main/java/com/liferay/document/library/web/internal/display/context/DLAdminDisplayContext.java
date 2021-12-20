@@ -639,10 +639,8 @@ public class DLAdminDisplayContext {
 		searchContext.setFolderIds(new long[] {searchFolderId});
 
 		searchContext.setIncludeDiscussions(true);
-
 		searchContext.setKeywords(
 			ParamUtil.getString(_httpServletRequest, "keywords"));
-
 		searchContext.setLocale(_themeDisplay.getSiteDefaultLocale());
 
 		QueryConfig queryConfig = searchContext.getQueryConfig();
