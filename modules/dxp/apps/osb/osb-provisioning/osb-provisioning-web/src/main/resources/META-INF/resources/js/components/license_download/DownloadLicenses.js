@@ -21,56 +21,64 @@ const SIZING_WITH_NO_VALIDATION = '4';
 
 function DownloadLicenses({downloadLicenseKeysURL, licenseKeys}) {
 	const processedLicenseKeys = licenseKeys.map(license => {
+		const result = /(?<size>[0-4])/.exec(license.sizing);
+
 		return {
 			...license,
-			sizing: license.sizing ? license.sizing : SIZING_WITH_NO_VALIDATION
+			sizing: result ? result.groups.size : SIZING_WITH_NO_VALIDATION
 		};
 	});
 
 	return (
 		<LicensesProvider initialLicenses={processedLicenseKeys}>
 			<div className="download-licenses-container">
-				<ClayTable>
-					<ClayTable.Head>
-						<ClayTable.Row>
-							<ClayTable.Cell expanded headingCell>
-								{Liferay.Language.get('name-description')}
-							</ClayTable.Cell>
-							<ClayTable.Cell expanded headingCell>
-								{Liferay.Language.get('product')}
-							</ClayTable.Cell>
-							<ClayTable.Cell headingCell>
-								{Liferay.Language.get('version')}
-							</ClayTable.Cell>
-							<ClayTable.Cell expanded headingCell>
-								{Liferay.Language.get('type')}
-							</ClayTable.Cell>
-							<ClayTable.Cell expanded headingCell>
-								{Liferay.Language.get('start-date')}
-							</ClayTable.Cell>
-							<ClayTable.Cell expanded headingCell>
-								{Liferay.Language.get('expiration-date')}
-							</ClayTable.Cell>
-							<ClayTable.Cell expanded headingCell>
-								{Liferay.Language.get('host-name')}
-							</ClayTable.Cell>
-							<ClayTable.Cell expanded headingCell>
-								{Liferay.Language.get('ip-addresses')}
-							</ClayTable.Cell>
-							<ClayTable.Cell expanded headingCell>
-								{Liferay.Language.get('mac-addresses')}
-							</ClayTable.Cell>
-							<ClayTable.Cell headingCell>
-								{Liferay.Language.get('status')}
-							</ClayTable.Cell>
-							<ClayTable.Cell headingCell></ClayTable.Cell>
-						</ClayTable.Row>
-					</ClayTable.Head>
+				<React.StrictMode>
+					<ClayTable>
+						<ClayTable.Head>
+							<ClayTable.Row>
+								<ClayTable.Cell expanded headingCell>
+									{Liferay.Language.get('name-description')}
+								</ClayTable.Cell>
+								<ClayTable.Cell expanded headingCell>
+									{Liferay.Language.get('product')}
+								</ClayTable.Cell>
+								<ClayTable.Cell headingCell>
+									{Liferay.Language.get('version')}
+								</ClayTable.Cell>
+								<ClayTable.Cell expanded headingCell>
+									{Liferay.Language.get('type')}
+								</ClayTable.Cell>
+								<ClayTable.Cell expanded headingCell>
+									{Liferay.Language.get('start-date')}
+								</ClayTable.Cell>
+								<ClayTable.Cell expanded headingCell>
+									{Liferay.Language.get('expiration-date')}
+								</ClayTable.Cell>
+								<ClayTable.Cell expanded headingCell>
+									{Liferay.Language.get('host-name')}
+								</ClayTable.Cell>
+								<ClayTable.Cell expanded headingCell>
+									{Liferay.Language.get('ip-addresses')}
+								</ClayTable.Cell>
+								<ClayTable.Cell expanded headingCell>
+									{Liferay.Language.get('mac-addresses')}
+								</ClayTable.Cell>
+								<ClayTable.Cell headingCell>
+									{Liferay.Language.get('status')}
+								</ClayTable.Cell>
+								<ClayTable.Cell headingCell></ClayTable.Cell>
+							</ClayTable.Row>
+						</ClayTable.Head>
 
-					<IndividualLicenses downloadURL={downloadLicenseKeysURL} />
+						<IndividualLicenses
+							downloadURL={downloadLicenseKeysURL}
+						/>
 
-					<CombinedLicenses downloadURL={downloadLicenseKeysURL} />
-				</ClayTable>
+						<CombinedLicenses
+							downloadURL={downloadLicenseKeysURL}
+						/>
+					</ClayTable>
+				</React.StrictMode>
 			</div>
 		</LicensesProvider>
 	);
