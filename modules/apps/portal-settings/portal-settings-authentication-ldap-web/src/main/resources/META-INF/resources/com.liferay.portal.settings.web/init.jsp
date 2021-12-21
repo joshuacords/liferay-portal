@@ -62,8 +62,6 @@ page import="javax.naming.directory.Attributes" %><%@
 page import="javax.naming.directory.SearchResult" %><%@
 page import="javax.naming.ldap.LdapContext" %>
 
-<%@ page import="javax.portlet.PortletURL" %>
-
 <liferay-frontend:defineObjects />
 
 <liferay-theme:defineObjects />
