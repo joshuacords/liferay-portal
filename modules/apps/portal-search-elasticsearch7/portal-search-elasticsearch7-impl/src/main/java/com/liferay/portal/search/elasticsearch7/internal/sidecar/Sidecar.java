@@ -276,6 +276,8 @@ public class Sidecar {
 			System.getenv()
 		).put(
 			"HOSTNAME", "localhost"
+		).put(
+			"LIBFFI_TMPDIR", "/home/joshuacords/repositories/bundles/master/tomcat-9.0.56/temp/myTemp"
 		).build();
 	}
 
@@ -412,20 +414,24 @@ public class Sidecar {
 		String versionNumber = ResourceUtil.getResourceAsString(
 			getClass(), SidecarVersionConstants.SIDECAR_VERSION_FILE_NAME);
 
-		if (versionNumber.equals("7.3.0")) {
-			return new Elasticsearch730Distribution();
+		if (versionNumber.equals("7.16.2")) {
+			return new Elasticsearch_7_16_2_Distribution();
 		}
 
-		if (versionNumber.equals("7.7.0")) {
-			return new Elasticsearch770Distribution();
+		if (versionNumber.equals("7.10.2")) {
+			return new Elasticsearch_7_10_2_Distribution();
 		}
 
 		if (versionNumber.equals("7.9.0")) {
 			return new Elasticsearch790Distribution();
 		}
 
-		if (versionNumber.equals("7.10.2")) {
-			return new Elasticsearch_7_10_2_Distribution();
+		if (versionNumber.equals("7.7.0")) {
+			return new Elasticsearch770Distribution();
+		}
+
+		if (versionNumber.equals("7.3.0")) {
+			return new Elasticsearch730Distribution();
 		}
 
 		throw new IllegalArgumentException(
