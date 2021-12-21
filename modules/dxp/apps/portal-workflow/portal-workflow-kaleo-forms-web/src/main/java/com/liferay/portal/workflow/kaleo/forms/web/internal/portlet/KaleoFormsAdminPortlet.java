@@ -110,7 +110,6 @@ import com.liferay.portal.workflow.kaleo.service.KaleoDefinitionVersionLocalServ
 import java.io.IOException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -169,6 +168,21 @@ import org.osgi.service.component.annotations.Reference;
 	service = Portlet.class
 )
 public class KaleoFormsAdminPortlet extends MVCPortlet {
+
+	public KaleoFormsAdminPortlet() {
+		_parameterNames = ListUtil.fromArray(
+			"backURL", "ddmStructureId", "ddmStructureName", "ddmTemplateId",
+			"historyKey", "kaleoProcessId", "kaleoTaskFormPairsData", "mvcPath",
+			"redirect", "translatedLanguagesDescription",
+			"translatedLanguagesName", "workflowDefinition");
+
+		for (Locale availableLocale : LanguageUtil.getAvailableLocales()) {
+			_parameterNames.add(
+				"description" + LocaleUtil.toLanguageId(availableLocale));
+			_parameterNames.add(
+				"name" + LocaleUtil.toLanguageId(availableLocale));
+		}
+	}
 
 	/**
 	 * Deactivates the <code>WorkflowDefinition</code> (in
@@ -885,10 +899,7 @@ public class KaleoFormsAdminPortlet extends MVCPortlet {
 
 		PortletSession portletSession = resourceRequest.getPortletSession();
 
-		for (String parameterName :
-				ListUtil.concat(
-					_getLocalizedParameterNames(), _parameterNames)) {
-
+		for (String parameterName : _parameterNames) {
 			if (!parameterMap.containsKey(parameterName)) {
 				continue;
 			}
@@ -1146,27 +1157,9 @@ public class KaleoFormsAdminPortlet extends MVCPortlet {
 	@Reference
 	protected StorageEngine storageEngine;
 
-	private List<String> _getLocalizedParameterNames() {
-		List<String> localizedParameters = new ArrayList<>();
-
-		for (Locale availableLocale : LanguageUtil.getAvailableLocales()) {
-			localizedParameters.add(
-				"description" + LocaleUtil.toLanguageId(availableLocale));
-			localizedParameters.add(
-				"name" + LocaleUtil.toLanguageId(availableLocale));
-		}
-
-		return localizedParameters;
-	}
-
 	private static final Log _log = LogFactoryUtil.getLog(
 		KaleoFormsAdminPortlet.class);
 
-	private static final List<String> _parameterNames = Arrays.asList(
-		"backURL", "ddmStructureId", "ddmStructureName", "ddmTemplateId",
-		"historyKey", "kaleoProcessId", "kaleoTaskFormPairsData", "mvcPath",
-		"redirect", "translatedLanguagesDescription", "translatedLanguagesName",
-		"workflowDefinition");
 	private static final TransactionConfig _transactionConfig =
 		TransactionConfig.Factory.create(
 			Propagation.REQUIRES_NEW, new Class<?>[] {Exception.class});
@@ -1203,6 +1196,8 @@ public class KaleoFormsAdminPortlet extends MVCPortlet {
 
 	@Reference
 	private KaleoProcessService _kaleoProcessService;
+
+	private final List<String> _parameterNames;
 
 	@Reference
 	private Portal _portal;
