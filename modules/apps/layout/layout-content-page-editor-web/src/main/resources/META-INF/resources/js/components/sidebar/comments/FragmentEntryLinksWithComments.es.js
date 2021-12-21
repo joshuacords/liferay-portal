@@ -72,13 +72,14 @@ const FragmentEntryLinksWithComments = () => {
 		const {fragmentEntryLinkId, name} = fragmentEntryLink;
 
 		return (
-			<a
+			<button
+				aria-label={Liferay.Language.get('show-comments')}
 				className="border-0 list-group-item list-group-item-action"
-				href={`#${fragmentEntryLinkId}`}
 				key={fragmentEntryLinkId}
 				onClick={setActiveFragmentEntryLink(fragmentEntryLinkId)}
 				onFocus={setHoveredFragmentEntryLink(fragmentEntryLinkId)}
 				onMouseOver={setHoveredFragmentEntryLink(fragmentEntryLinkId)}
+				type="button"
 			>
 				<strong className="d-block text-dark">{name}</strong>
 
@@ -90,7 +91,7 @@ const FragmentEntryLinksWithComments = () => {
 						commentCount
 					)}
 				</span>
-			</a>
+			</button>
 		);
 	};
 
