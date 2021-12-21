@@ -305,7 +305,7 @@ public class ElasticsearchInstanceSettingsBuilder {
 
 		_configureTestMode();
 
-		put("transport.type", "netty4");
+		put("transport.type", "security4");
 	}
 
 	private void _loadSettingsContributors() {
