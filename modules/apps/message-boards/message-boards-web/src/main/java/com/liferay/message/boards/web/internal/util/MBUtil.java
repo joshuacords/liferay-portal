@@ -60,8 +60,8 @@ public class MBUtil {
 		sb.append("[quote=");
 		sb.append(
 			StringUtil.replace(
-				parentAuthor, new String[] {"[", "]", "(", ")"},
-				new String[] {"&#91;", "&#93;", "&#40;", "&#41;"}));
+				parentAuthor, new String[] {"[", "]"},
+				new String[] {"&#91;", "&#93;"}));
 		sb.append("]\n");
 		sb.append(parentMessage.getBody(false));
 		sb.append("[/quote]\n\n\n");
