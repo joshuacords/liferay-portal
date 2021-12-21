@@ -30,7 +30,7 @@ import {
 } from '../../utilities/date';
 import DatePicker from '../DatePicker';
 import IconButton from '../IconButton';
-import BulkInput from './BulkInput';
+import BulkInputs from './BulkInputs';
 
 function Subscriptions({
 	accountName,
@@ -115,7 +115,7 @@ function Subscriptions({
 			</ClayTable.Head>
 			<ClayTable.Body>
 				{subscriptions.size > 1 && (
-					<BulkInput
+					<BulkInputs
 						accountName={accountName}
 						dateFormatValidators={getLicenseDateFormatValidator}
 						instanceSizes={instanceSizes}

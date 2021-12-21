@@ -12,7 +12,7 @@
 import {cleanup, fireEvent, render} from '@testing-library/react';
 import React from 'react';
 
-import BulkInput from '../../../src/main/resources/META-INF/resources/js/components/subscriptions/BulkInput';
+import BulkInputs from '../../../src/main/resources/META-INF/resources/js/components/subscriptions/BulkInputs';
 import {SubscriptionsProvider} from '../../../src/main/resources/META-INF/resources/js/hooks/subscriptions';
 import {
 	EDIT_SUBSCRIPTIONS,
@@ -51,7 +51,7 @@ function mockEditSubscriptions() {
 	];
 }
 
-function renderBulkInput({
+function renderBulkInputs({
 	subscriptions = mockEditSubscriptions(),
 	...props
 } = {}) {
@@ -59,7 +59,7 @@ function renderBulkInput({
 		<table>
 			<tbody>
 				<SubscriptionsProvider initialSubscriptions={subscriptions}>
-					<BulkInput
+					<BulkInputs
 						accountName="Test Account"
 						dateFormatValidators={jest.fn()}
 						instanceSizes={[1, 2, 3, 4]}
@@ -81,19 +81,19 @@ describe('Bulk Input', () => {
 	afterEach(cleanup);
 
 	it('renders', () => {
-		const {container} = renderBulkInput();
+		const {container} = renderBulkInputs();
 
 		expect(container).toBeTruthy();
 	});
 
 	it('renders Varied Data for Salesforce Opportunity Key, Purchased, Instant Size, and Status when the subscriptions to be edited contain different values for these fields', () => {
-		const {getAllByText} = renderBulkInput();
+		const {getAllByText} = renderBulkInputs();
 
 		expect(getAllByText('varied-data').length).toBe(4);
 	});
 
 	it('renders Varied Data for the two date fields when the subscriptions to be edited contain different values for these fields', () => {
-		const {getAllByPlaceholderText} = renderBulkInput();
+		const {getAllByPlaceholderText} = renderBulkInputs();
 
 		expect(getAllByPlaceholderText('varied-data').length).toBe(2);
 	});
@@ -103,7 +103,7 @@ describe('Bulk Input', () => {
 			getAllByDisplayValue,
 			getByDisplayValue,
 			getByLabelText
-		} = renderBulkInput({
+		} = renderBulkInputs({
 			subscriptions: [
 				{
 					endDate: '2021-12-24',
@@ -149,7 +149,7 @@ describe('Bulk Input', () => {
 		const {
 			getAllByPlaceholderText,
 			queryAllByDisplayValue
-		} = renderBulkInput({
+		} = renderBulkInputs({
 			subscriptions: [
 				{
 					endDate: '2022-01-21',
@@ -186,7 +186,7 @@ describe('Bulk Input', () => {
 	});
 
 	it('reveals an input for user to enter data when Varied Data is clicked', () => {
-		const {getAllByText, getByLabelText} = renderBulkInput();
+		const {getAllByText, getByLabelText} = renderBulkInputs();
 
 		fireEvent.click(getAllByText('varied-data')[0]);
 
@@ -195,7 +195,7 @@ describe('Bulk Input', () => {
 	});
 
 	it('displays date bulk inputs and Grace Period bulk input as disabled when Perpetual Subscription is checked', () => {
-		const {getAllByPlaceholderText, getByLabelText} = renderBulkInput();
+		const {getAllByPlaceholderText, getByLabelText} = renderBulkInputs();
 
 		const dateFields = getAllByPlaceholderText('varied-data');
 
@@ -209,7 +209,7 @@ describe('Bulk Input', () => {
 	});
 
 	it('displays date bulk inputs and Grace Period bulk input as enabled when Perpetual Subscription is unchecked', () => {
-		const {getAllByPlaceholderText, getByLabelText} = renderBulkInput({
+		const {getAllByPlaceholderText, getByLabelText} = renderBulkInputs({
 			subscriptions: [
 				{
 					endDate: '2022-01-20',
@@ -252,7 +252,7 @@ describe('Bulk Input', () => {
 	});
 
 	it('displays the indeterminate state of Perpetual Subscription when subscriptions contain varying values', () => {
-		const {getByLabelText} = renderBulkInput({
+		const {getByLabelText} = renderBulkInputs({
 			subscriptions: [
 				{
 					endDate: '2022-01-21',

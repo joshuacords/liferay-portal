@@ -28,9 +28,9 @@ import {
 	setDisabledAttribute,
 	validateDateFieldFormat
 } from '../../utilities/date';
-import DatePicker from '../DatePicker';
+import * as BulkInput from '../bulk_inputs/BulkInput';
 
-function BulkInput({
+function BulkInputs({
 	accountName,
 	dateFormatValidators,
 	instanceSizes = [],
@@ -303,58 +303,25 @@ function BulkInput({
 			<ClayTable.Cell className="input-title semi-bold">
 				{Liferay.Language.get('bulk-input')}
 			</ClayTable.Cell>
-			<ClayTable.Cell>
-				{showField.salesforceOpportunityKey && (
-					<label
-						htmlFor="salesforceOpportunityKeyBulkInput"
-						ref={salesforceOpportunityKeyRef}
-					>
-						<input
-							aria-label={Liferay.Language.get(
-								'salesforce-opportunity-key-bulk-input'
-							)}
-							className="form-control form-control-sm"
-							id="salesforceOpportunityKeyBulkInput"
-							onChange={handleSaveSalesforceOpportunityKey}
-							type="text"
-							value={salesforceOpportunityKey}
-						/>
-					</label>
+			<BulkInput.Text
+				changeHandler={handleSaveSalesforceOpportunityKey}
+				editHandler={handleOnClickSalesforceOpportunityKey}
+				fieldName={Liferay.Language.get(
+					'salesforce-opportunity-key-bulk-input'
 				)}
-
-				{!showField.salesforceOpportunityKey && (
-					<VariedData
-						clickFn={handleOnClickSalesforceOpportunityKey}
-						name={Liferay.Language.get(
-							'salesforce-opportunity-key-bulk-input'
-						)}
-					/>
-				)}
-			</ClayTable.Cell>
-			<ClayTable.Cell>
-				{showField.quantity && (
-					<label htmlFor="quantityBulkInput" ref={quantityRef}>
-						<input
-							aria-label={Liferay.Language.get(
-								'purchased-bulk-input'
-							)}
-							className="form-control form-control-sm"
-							id="quantityBulkInput"
-							min={1}
-							onChange={handleSaveQuantity}
-							type="number"
-							value={quantity}
-						/>
-					</label>
-				)}
-
-				{!showField.quantity && (
-					<VariedData
-						clickFn={handleOnClickQuantity}
-						name={Liferay.Language.get('purchased-bulk-input')}
-					/>
-				)}
-			</ClayTable.Cell>
+				ref={salesforceOpportunityKeyRef}
+				showField={showField.salesforceOpportunityKey}
+				value={salesforceOpportunityKey}
+			/>
+			<BulkInput.Number
+				changeHandler={handleSaveQuantity}
+				editHandler={handleOnClickQuantity}
+				fieldName={Liferay.Language.get('purchased-bulk-input')}
+				min={1}
+				ref={quantityRef}
+				showField={showField.quantity}
+				value={quantity}
+			/>
 			<ClayTable.Cell>
 				{showField.perpetual && (
 					<ClayCheckbox
@@ -383,143 +350,59 @@ function BulkInput({
 					/>
 				)}
 			</ClayTable.Cell>
-			<ClayTable.Cell
-				className={!invalidDateFormat.startDate ? '' : 'has-error'}
-			>
-				<label htmlFor="startDateBulkInput">
-					<DatePicker
-						defaultValue={getDatePickerDisplayValue('startDate')}
-						id="startDateBulkInput"
-						inputName="startDateBulkInput"
-						placeholder={Liferay.Language.get('varied-data')}
-						updateFn={handleSaveStartDate}
-					/>
-				</label>
-			</ClayTable.Cell>
-			<ClayTable.Cell
-				className={
-					!invalidDateFormat.originalEndDate ? '' : 'has-error'
-				}
-			>
-				<label htmlFor="gracePeriodStartDateBulkInput">
-					<DatePicker
-						defaultValue={getDatePickerDisplayValue(
-							'originalEndDate'
-						)}
-						id="gracePeriodStartDateBulkInput"
-						inputName="gracePeriodStartDateBulkInput"
-						placeholder={Liferay.Language.get('varied-data')}
-						updateFn={handleSaveGracePeriodStartDate}
-					/>
-				</label>
-			</ClayTable.Cell>
+			<BulkInput.Date
+				editHandler={handleSaveStartDate}
+				fieldName={Liferay.Language.get('start-date-bulk-input')}
+				isValid={!invalidDateFormat.startDate}
+				value={getDatePickerDisplayValue('startDate')}
+			/>
+			<BulkInput.Date
+				editHandler={handleSaveGracePeriodStartDate}
+				fieldName={Liferay.Language.get('end-date-bulk-input')}
+				isValid={!invalidDateFormat.originalEndDate}
+				value={getDatePickerDisplayValue('originalEndDate')}
+			/>
 
 			{subscriptionsType === EDIT_SUBSCRIPTIONS && (
-				<ClayTable.Cell>
-					{showField.status && (
-						<label htmlFor="statusBulkInput" ref={statusRef}>
-							<select
-								aria-label={Liferay.Language.get(
-									'subscription-status-bulk-input'
-								)}
-								className="form-control form-control-sm"
-								disabled={statusOptions.length === 0}
-								id="status"
-								onChange={handleSaveStatus}
-								value={status}
-							>
-								{statusOptions.map(option => (
-									<option key={option} value={option}>
-										{option}
-									</option>
-								))}
-							</select>
-						</label>
+				<BulkInput.Select
+					changeHandler={handleSaveStatus}
+					editHandler={handleOnClickStatus}
+					fieldDisabled={!statusOptions.length}
+					fieldName={Liferay.Language.get(
+						'subscription-status-bulk-input'
 					)}
-
-					{!showField.status && (
-						<VariedData
-							clickFn={handleOnClickStatus}
-							name={Liferay.Language.get(
-								'subscription-status-bulk-input'
-							)}
-						/>
-					)}
-				</ClayTable.Cell>
+					options={statusOptions}
+					ref={statusRef}
+					showField={showField.status}
+					value={status}
+				/>
 			)}
 
-			<ClayTable.Cell>
-				{showField.sizing && (
-					<label htmlFor="instanceSizeBulkInput" ref={sizingRef}>
-						<select
-							aria-label={Liferay.Language.get(
-								'instance-size-bulk-input'
-							)}
-							className="form-control form-control-sm"
-							disabled={!instanceSizes.length}
-							id="instanceSizeBulkInput"
-							onChange={handleSaveSizing}
-							value={sizing}
-						>
-							{instanceSizes.map(size => (
-								<option key={size} value={size}>
-									{size}
-								</option>
-							))}
-						</select>
-					</label>
-				)}
-
-				{!showField.sizing && (
-					<VariedData
-						clickFn={handleOnClickSizing}
-						name={Liferay.Language.get('instance-size-bulk-input')}
-					/>
-				)}
-			</ClayTable.Cell>
+			<BulkInput.Select
+				changeHandler={handleSaveSizing}
+				editHandler={handleOnClickSizing}
+				fieldDisabled={!instanceSizes.length}
+				fieldName={Liferay.Language.get('instance-size-bulk-input')}
+				options={instanceSizes}
+				ref={sizingRef}
+				showField={showField.sizing}
+				value={sizing}
+			/>
 
 			{subscriptionsType === EDIT_SUBSCRIPTIONS && (
-				<ClayTable.Cell
-					className={!invalidDateFormat.endDate ? '' : 'has-error'}
-				>
-					{showField.gracePeriod && (
-						<label htmlFor="endDateBulkInput">
-							<div className="input-group" id="endDateBulkInput">
-								<div className="input-group-item">
-									<input
-										aria-label={Liferay.Language.get(
-											'grace-period-bulk-input'
-										)}
-										className="form-control form-control-sm input-group-inset input-group-inset-after"
-										disabled={perpetual}
-										min={0}
-										onChange={handleSaveEndDate}
-										ref={gracePeriodRef}
-										type="number"
-										value={gracePeriod}
-									/>
-									<div
-										className={`${
-											perpetual ? 'disabled' : ''
-										} input-group-inset-item input-group-inset-item-after`}
-									>
-										{Liferay.Language.get('days')}
-									</div>
-								</div>
-							</div>
-						</label>
-					)}
-
-					{!showField.gracePeriod && (
-						<VariedData
-							clickFn={handleOnClickGracePeriod}
-							disabled={perpetual}
-							name={Liferay.Language.get(
-								'grace-period-bulk-input'
-							)}
-						/>
-					)}
-				</ClayTable.Cell>
+				<BulkInput.NumberWithLabel
+					changeHandler={handleSaveEndDate}
+					disableEdit={perpetual}
+					editHandler={handleOnClickGracePeriod}
+					fieldDisabled={perpetual}
+					fieldName={Liferay.Language.get('grace-period-bulk-input')}
+					isValid={!invalidDateFormat.endDate}
+					labelName={Liferay.Language.get('days')}
+					min={0}
+					ref={gracePeriodRef}
+					showField={showField.gracePeriod}
+					value={gracePeriod}
+				/>
 			)}
 
 			<ClayTable.Cell>{accountName}</ClayTable.Cell>
@@ -528,7 +411,7 @@ function BulkInput({
 	);
 }
 
-BulkInput.protoTypes = {
+BulkInputs.protoTypes = {
 	accountName: PropTypes.string.isRequired,
 	dateFormatValidators: PropTypes.func,
 	instanceSizes: PropTypes.arrayOf(PropTypes.number),
@@ -546,19 +429,4 @@ function useSetFocus(ref, state) {
 	}, [ref, state]);
 }
 
-function VariedData({clickFn, disabled = false, name = ''}) {
-	return (
-		<button
-			aria-label={name}
-			className="form-control form-control-sm varied-data"
-			disabled={disabled}
-			name={name}
-			onClick={clickFn}
-			type="button"
-		>
-			{Liferay.Language.get('varied-data')}
-		</button>
-	);
-}
-
-export default BulkInput;
+export default BulkInputs;
