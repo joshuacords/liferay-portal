@@ -440,12 +440,8 @@ public class DefaultPortalToLDAPConverter implements PortalToLDAPConverter {
 			!algorithm.equals(PasswordEncryptorUtil.TYPE_NONE)) {
 
 			try {
-				StringBundler sb = new StringBundler(1);
-
-				sb.append(
-					_passwordEncryptor.encrypt(algorithm, password, null));
-
-				password = sb.toString();
+				password = _passwordEncryptor.encrypt(
+					algorithm, password, null);
 			}
 			catch (PwdEncryptorException pwdEncryptorException) {
 				throw new SystemException(pwdEncryptorException);
