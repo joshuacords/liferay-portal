@@ -26,6 +26,6 @@ public interface MultiPolygonGeometry extends ShapeGeometry {
 
 	public Orientation getOrientation();
 
-	public List<PolygonShape> getPolygonShapes();
+	public List<PolygonGeometry> getPolygonShapes();
 
 }
