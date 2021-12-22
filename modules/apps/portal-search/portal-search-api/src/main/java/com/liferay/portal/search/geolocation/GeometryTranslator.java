@@ -24,8 +24,6 @@ public interface GeometryTranslator<T> {
 
 	public T translate(CircleGeometry circleGeometry);
 
-	public T translate(EnvelopeGeometry envelopeGeometry);
-
 	public T translate(GeometryCollectionGeometry geometryCollectionGeometry);
 
 	public T translate(LineStringGeometry lineStringGeometry);
@@ -39,5 +37,7 @@ public interface GeometryTranslator<T> {
 	public T translate(PointGeometry pointGeometry);
 
 	public T translate(PolygonGeometry polygonGeometry);
+
+	public T translate(RectangleGeometry rectangleGeometry);
 
 }

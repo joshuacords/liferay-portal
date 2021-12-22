@@ -20,7 +20,7 @@ import org.osgi.annotation.versioning.ProviderType;
  * @author Joshua Cords
  */
 @ProviderType
-public interface EnvelopeGeometry extends ShapeGeometry {
+public interface RectangleGeometry extends ShapeGeometry {
 
 	public Coordinate getBottomRight();
 
