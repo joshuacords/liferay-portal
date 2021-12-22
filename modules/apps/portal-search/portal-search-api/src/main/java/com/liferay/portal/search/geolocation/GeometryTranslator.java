@@ -24,20 +24,20 @@ public interface GeometryTranslator<T> {
 
 	public T translate(CircleGeometry circleGeometry);
 
-//	public T translate(EnvelopeShape envelopeShape);
-//
-//	public T translate(GeometryCollectionShape geometryCollectionShape);
-//
-//	public T translate(LineStringShape lineStringShape);
-//
-//	public T translate(MultiLineStringShape multiLineStringShape);
-//
-//	public T translate(MultiPointShape multiPointShape);
-//
-//	public T translate(MultiPolygonShape multiPolygonShape);
-//
-//	public T translate(PointShape pointShape);
-//
-//	public T translate(PolygonShape polygonShape);
+	public T translate(EnvelopeGeometry envelopeGeometry);
+
+	public T translate(GeometryCollectionGeometry geometryCollectionGeometry);
+
+	public T translate(LineStringGeometry lineStringGeometry);
+
+	public T translate(MultiLineStringGeometry multiLineStringGeometry);
+
+	public T translate(MultiPointGeometry multiPointGeometry);
+
+	public T translate(MultiPolygonGeometry multiPolygonGeometry);
+
+	public T translate(PointGeometry pointGeometry);
+
+	public T translate(PolygonGeometry polygonGeometry);
 
 }
