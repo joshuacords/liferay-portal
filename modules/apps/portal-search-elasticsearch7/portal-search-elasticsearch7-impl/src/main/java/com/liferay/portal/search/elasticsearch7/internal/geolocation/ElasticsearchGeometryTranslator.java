@@ -22,6 +22,7 @@ import com.liferay.portal.search.geolocation.ShapeGeometry;
 import com.liferay.portal.search.geolocation.GeometryTranslator;
 //import org.elasticsearch.common.unit.DistanceUnit;
 import org.elasticsearch.geometry.Circle;
+import org.elasticsearch.geometry.Envelope;
 import org.elasticsearch.geometry.Geometry;
 
 /**
@@ -44,13 +45,15 @@ public class ElasticsearchGeometryTranslator
 	}
 
 //	@Override
-//	public EnvelopeBuilder translate(EnvelopeShape envelopeShape) {
+//	public Envelope translate(EnvelopeGeometry envelopeGeometry) {
 //		return new EnvelopeBuilder(
 //			translate(envelopeShape.getTopLeft()),
 //			translate(envelopeShape.getBottomRight())
 //		).coordinates(
 //			translate(envelopeShape.getCoordinates())
 //		);
+//
+//
 //	}
 //
 //	@Override
