@@ -20,24 +20,10 @@ import org.osgi.annotation.versioning.ProviderType;
  * @author Joshua Cords
  */
 @ProviderType
-public interface GeometryTranslator<T> {
+public interface EnvelopeGeometry extends ShapeGeometry {
 
-	public T translate(CircleGeometry circleGeometry);
+	public Coordinate getBottomRight();
 
-	public T translate(EnvelopeGeometry envelopeGeometry);
-
-	public T translate(GeometryCollectionGeometry geometryCollectionGeometry);
-
-	public T translate(LineStringGeometry lineStringGeometry);
-
-	public T translate(MultiLineStringGeometry multiLineStringGeometry);
-
-	public T translate(MultiPointGeometry multiPointGeometry);
-
-	public T translate(MultiPolygonGeometry multiPolygonGeometry);
-
-	public T translate(PointGeometry pointGeometry);
-
-	public T translate(PolygonGeometry polygonGeometry);
+	public Coordinate getTopLeft();
 
 }
