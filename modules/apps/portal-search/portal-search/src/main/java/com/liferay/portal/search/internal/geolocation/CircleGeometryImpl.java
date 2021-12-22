@@ -25,7 +25,7 @@ import com.liferay.portal.search.geolocation.ShapeTranslator;
 import java.util.List;
 
 /**
- * @author Michael C. Han
+ * @author Joshua Cords
  */
 public class CircleGeometryImpl extends BaseGeometryImpl implements
 	CircleGeometry {
