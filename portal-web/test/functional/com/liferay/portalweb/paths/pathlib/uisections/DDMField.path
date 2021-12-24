@@ -76,6 +76,11 @@
 	<td></td>
 </tr>
 <tr>
+	<td>TEXT_BOX_2</td>
+	<td>xpath=(//div[contains(@data-fieldname,'${key_fieldName}')]//textarea)[2]</td>
+	<td></td>
+</tr>
+<tr>
 	<td>WEB_CONTENT</td>
 	<td>//div[@data-fieldname='${key_fieldName}']//label[contains(.,'${key_fieldFieldLabel}')]</td>
 	<td></td>
