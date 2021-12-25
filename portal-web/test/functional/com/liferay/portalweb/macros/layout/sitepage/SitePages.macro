@@ -29,7 +29,6 @@ definition {
 				locator1 = "SitePagesEditPage#PAGE_TYPE_EMBEDDED_URL_FIELD",
 				value1 = "${pageTypeURL}");
 		}
-
 		else if ("${sitePageType}" == "Link to URL") {
 			Type(
 				locator1 = "TextInput#URL",
