@@ -3,17 +3,17 @@
 		{
 			"fields": [
 				{
-					"name": "hideBody",
-					"label": "Hide Body",
+					"defaultValue": false,
 					"description": "hide-body",
-					"type": "checkbox",
-					"defaultValue": false
+					"label": "Hide Body",
+					"name": "hideBody",
+					"type": "checkbox"
 				},
 				{
-					"name": "makeBold",
+					"defaultValue": false,
 					"label": "Make Bold",
-					"type": "checkbox",
-					"defaultValue": false
+					"name": "makeBold",
+					"type": "checkbox"
 				}
 			]
 		}
