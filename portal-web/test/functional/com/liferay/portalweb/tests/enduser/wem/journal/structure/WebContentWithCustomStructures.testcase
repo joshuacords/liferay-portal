@@ -1070,6 +1070,71 @@ definition {
 			webContentTitle = "WC WebContent Title");
 	}
 
+	@description = "LPS-102867 - Repeatable Select loses options"
+	@priority = "4"
+	test RepeatableSelectDisplaysOptions {
+		WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
+
+		NavItem.gotoStructures();
+
+		WebContentStructures.addCP(
+			structureDescription = "WC Structure Description",
+			structureName = "WC Structure Name");
+
+		DynamicDataMapping.addField(
+			field = "Select",
+			fieldFieldLabel = "Select",
+			fieldName = "Select");
+
+		DynamicDataMapping.editFieldRepeatable(fieldFieldLabel = "Select");
+
+		DynamicDataMapping.addField(
+			field = "Color",
+			fieldFieldLabel = "Color",
+			fieldName = "Color");
+
+		DynamicDataMapping.editFieldRepeatable(fieldFieldLabel = "Color");
+
+		DynamicDataMapping.addField(
+			field = "Geolocation",
+			fieldFieldLabel = "Geolocation",
+			fieldName = "Geolocation");
+
+		DynamicDataMapping.editFieldRepeatable(fieldFieldLabel = "Geolocation");
+
+		WebContentStructures.saveCP(structureName = "WC Structure Name");
+
+		WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
+
+		WebContentNavigator.gotoAddWithStructureCP(structureName = "WC Structure Name");
+
+		WebContent.addWithStructureCP(webContentTitle = "WC WebContent Title");
+
+		SelectField.select(
+			selectFieldLabel = "Select",
+			selectFieldValue = "option 1");
+
+		for (var selectFieldValue1 : list ",option 1,option 2,option 3") {
+			AssertElementPresent(
+				key_selectFieldLabel = "Select",
+				locator1 = "Select#ANY",
+				value1 = "${selectFieldValue1}");
+		}
+
+		DDLRecord.addRepeatableField(fieldName = "Color");
+
+		DDLRecord.addRepeatableField(fieldName = "Geolocation");
+
+		DDLRecord.addRepeatableField(fieldName = "Select");
+
+		for (var selectFieldValue2 : list ",option 1,option 2,option 3") {
+			Select(
+				key_selectFieldLabel = "Select",
+				locator1 = "Select#ANY_2",
+				value1 = "${selectFieldValue2}");
+		}
+	}
+
 	@description = "This test ensures that all the default values for a structure can be reset."
 	@priority = "4"
 	test ResetStructureDefaultValues {
