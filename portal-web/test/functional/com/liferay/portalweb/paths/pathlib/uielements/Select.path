@@ -16,6 +16,11 @@
 	<td></td>
 </tr>
 <tr>
+	<td>ANY_2</td>
+	<td>xpath=(//div[not(contains(@class,'hide'))]/div[contains(@class,'input-select-wrapper')][label[contains(.,'${key_selectFieldLabel}')]]/select)[2]</td>
+	<td></td>
+</tr>
+<tr>
 	<td>APPLICATION_DECORATORS</td>
 	<td>//div[label[contains(.,'Application Decorators')]]/select[contains(@id,'portletDecorator')]</td>
 	<td></td>
