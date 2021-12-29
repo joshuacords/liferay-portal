@@ -34,6 +34,8 @@ public interface ContactWebService {
 	public Contact getContactByEmailAddress(String emailAddress)
 		throws Exception;
 
+	public Contact getContactByUuid(String uuid) throws Exception;
+
 	public List<Contact> search(
 			String search, FilterQuery filterQuery, int page, int pageSize,
 			String sortString)

@@ -21,6 +21,11 @@ import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Contact;
  */
 public interface ContactIdentityProvider {
 
+	public Contact createContact(
+			String emailAddress, String firstName, String middleName,
+			String lastName)
+		throws Exception;
+
 	public Contact fetchContactByEmailAddress(String emailAddress)
 		throws Exception;
 
@@ -28,5 +33,7 @@ public interface ContactIdentityProvider {
 
 	public Integer fetchContactStatusByEmailAddress(String emailAddress)
 		throws Exception;
+
+	public Contact syncContact(Contact contact) throws Exception;
 
 }
