@@ -113,7 +113,7 @@
 								{if $multiple}
 									<div>
 										{call ClayLabel.render}
-											{param closeable: true /}
+											{param closeable: not $readOnly /}
 											{param elementClasses: 'ddm-select-option-label' /}
 											{param data: [
 												'value': $option.value
