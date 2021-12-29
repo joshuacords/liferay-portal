@@ -24,12 +24,17 @@ export default function AddContact({
 	allRoles = [],
 	currentRoles = [],
 	emailAddress,
+	firstName,
 	fullName,
+	lastName,
+	newContact,
 	redirect
 }) {
 	const [contactEmailAddress, setContactEmailAddress] = useState(
 		emailAddress
 	);
+	const [contactFirstName, setContactFirstName] = useState(firstName);
+	const [contactLastName, setContactLastName] = useState(lastName);
 	const [newRoles, setNewRoles] = useState(currentRoles);
 	const [valid, setValid] = useState(true);
 
@@ -127,6 +132,26 @@ export default function AddContact({
 								</span>
 							</th>
 						)}
+						{newContact && (
+							<th className="table-cell-expand">
+								<span className="text-truncate-inline">
+									<span className="text-secondary text-truncate">
+										{Liferay.Language.get('first-name')}
+										<RequiredFieldMarker />
+									</span>
+								</span>
+							</th>
+						)}
+						{newContact && (
+							<th className="table-cell-expand">
+								<span className="text-truncate-inline">
+									<span className="text-secondary text-truncate">
+										{Liferay.Language.get('last-name')}
+										<RequiredFieldMarker />
+									</span>
+								</span>
+							</th>
+						)}
 						<th className="table-cell-expand">
 							<span className="text-truncate-inline">
 								<span className="text-secondary text-truncate">
@@ -159,10 +184,15 @@ export default function AddContact({
 						allRoles={allRoles}
 						contactFullName={fullName}
 						emailAddress={contactEmailAddress}
+						firstName={contactFirstName}
 						knownContact={knownContact}
+						lastName={contactLastName}
+						newContact={newContact}
 						newRoles={newRoles}
 						removeFn={handleRemove}
 						setEmailAddress={setContactEmailAddress}
+						setFirstName={setContactFirstName}
+						setLastName={setContactLastName}
 					/>
 				</tbody>
 			</table>
@@ -193,6 +223,8 @@ AddContact.propTypes = {
 	),
 	currentRoles: PropTypes.arrayOf(PropTypes.string),
 	emailAddress: PropTypes.string,
+	firstName: PropTypes.string,
 	fullName: PropTypes.string,
+	lastName: PropTypes.string,
 	redirect: PropTypes.string
 };

@@ -19,6 +19,8 @@ package com.liferay.osb.provisioning.koroneiki.constants;
  */
 public class EntitlementConstants {
 
+	public static final String CUSTOMER = "Customer";
+
 	public static final String GOLD_SUBSCRIPTION = "Gold Subscription";
 
 	public static final String LIMITED_SUBSCRIPTION = "Limited Subscription";
