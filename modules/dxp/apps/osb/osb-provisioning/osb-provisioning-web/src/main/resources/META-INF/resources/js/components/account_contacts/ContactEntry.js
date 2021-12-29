@@ -19,7 +19,6 @@ export default function ContactEntry({
 	accountName,
 	addFn,
 	allRoles = [],
-	contactFullName,
 	emailAddress,
 	firstName,
 	knownContact,
@@ -45,36 +44,41 @@ export default function ContactEntry({
 
 	return (
 		<tr className="contact-entry">
-			{knownContact && (
-				<td className="table-cell-expand">
-					<span className="text-truncate-inline">
-						<span className="semi-bold text-truncate">
-							{contactFullName}
-						</span>
-					</span>
-				</td>
-			)}
-			{newContact && (
-				<td className="table-cell-expand">
-					<input
-						className="form-control"
-						name={`${NAMESPACE}firstName`}
-						onChange={handleFirstNameChange}
-						type="text"
-						value={firstName}
-					/>
-				</td>
-			)}
-			{newContact && (
-				<td className="table-cell-expand">
-					<input
-						className="form-control"
-						name={`${NAMESPACE}lastName`}
-						onChange={handleLastNameChange}
-						type="text"
-						value={lastName}
-					/>
-				</td>
+			{(knownContact || newContact) && (
+				<>
+					<td className="table-cell-expand">
+						{knownContact && (
+							<span className="text-truncate-inline">
+								<span className="text-truncate">
+									{firstName}
+								</span>
+							</span>
+						)}
+						<input
+							className="form-control"
+							name={`${NAMESPACE}firstName`}
+							onChange={handleFirstNameChange}
+							type={knownContact ? 'hidden' : 'text'}
+							value={firstName}
+						/>
+					</td>
+					<td className="table-cell-expand">
+						{knownContact && (
+							<span className="text-truncate-inline">
+								<span className="text-truncate">
+									{lastName}
+								</span>
+							</span>
+						)}
+						<input
+							className="form-control"
+							name={`${NAMESPACE}lastName`}
+							onChange={handleLastNameChange}
+							type={knownContact ? 'hidden' : 'text'}
+							value={lastName}
+						/>
+					</td>
+				</>
 			)}
 			<td className="table-cell-expand">
 				{knownContact && (
@@ -116,7 +120,6 @@ ContactEntry.propTypes = {
 			name: PropTypes.string
 		})
 	),
-	contactFullName: PropTypes.string,
 	emailAddress: PropTypes.string,
 	firstName: PropTypes.string,
 	knownContact: PropTypes.bool,

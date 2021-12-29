@@ -77,14 +77,6 @@ public class ViewAccountContactsDisplayContext
 		data.put(
 			"firstName",
 			BeanParamUtil.getString(_contact, renderRequest, "firstName"));
-
-		if (_contact != null) {
-			ContactDisplay contactDisplay = new ContactDisplay(
-				httpServletRequest, _contact, null);
-
-			data.put("fullName", contactDisplay.getFullName());
-		}
-
 		data.put(
 			"lastName",
 			BeanParamUtil.getString(_contact, renderRequest, "lastName"));

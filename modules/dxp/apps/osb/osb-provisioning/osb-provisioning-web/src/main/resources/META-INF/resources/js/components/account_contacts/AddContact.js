@@ -25,7 +25,6 @@ export default function AddContact({
 	currentRoles = [],
 	emailAddress,
 	firstName,
-	fullName,
 	lastName,
 	newContact,
 	redirect
@@ -41,7 +40,8 @@ export default function AddContact({
 	const knownContact = !!(
 		currentRoles.length !== 0 &&
 		emailAddress &&
-		fullName
+		firstName &&
+		lastName
 	);
 
 	const validationRoleIds = {
@@ -76,7 +76,12 @@ export default function AddContact({
 	}, [newRoles, validationRoleIds.partner, validationRoleIds.support]);
 
 	function disableSave() {
-		if (newRoles.length > 0 && contactEmailAddress && valid) {
+		if (
+			newRoles.length > 0 &&
+			contactEmailAddress &&
+			(!newContact || (contactFirstName && contactLastName)) &&
+			valid
+		) {
 			return false;
 		}
 
@@ -123,34 +128,29 @@ export default function AddContact({
 			<table className="table table-autofit table-list table-nowrap">
 				<thead>
 					<tr>
-						{knownContact && (
-							<th className="table-cell-expand">
-								<span className="text-truncate-inline">
-									<span className="text-secondary text-truncate">
-										{Liferay.Language.get('name')}
+						{(knownContact || newContact) && (
+							<>
+								<th className="table-cell-expand">
+									<span className="text-truncate-inline">
+										<span className="text-secondary text-truncate">
+											{Liferay.Language.get('first-name')}
+											{!knownContact && (
+												<RequiredFieldMarker />
+											)}
+										</span>
 									</span>
-								</span>
-							</th>
-						)}
-						{newContact && (
-							<th className="table-cell-expand">
-								<span className="text-truncate-inline">
-									<span className="text-secondary text-truncate">
-										{Liferay.Language.get('first-name')}
-										<RequiredFieldMarker />
+								</th>
+								<th className="table-cell-expand">
+									<span className="text-truncate-inline">
+										<span className="text-secondary text-truncate">
+											{Liferay.Language.get('last-name')}
+											{!knownContact && (
+												<RequiredFieldMarker />
+											)}
+										</span>
 									</span>
-								</span>
-							</th>
-						)}
-						{newContact && (
-							<th className="table-cell-expand">
-								<span className="text-truncate-inline">
-									<span className="text-secondary text-truncate">
-										{Liferay.Language.get('last-name')}
-										<RequiredFieldMarker />
-									</span>
-								</span>
-							</th>
+								</th>
+							</>
 						)}
 						<th className="table-cell-expand">
 							<span className="text-truncate-inline">
@@ -182,7 +182,6 @@ export default function AddContact({
 						accountName={accountName}
 						addFn={handleAdd}
 						allRoles={allRoles}
-						contactFullName={fullName}
 						emailAddress={contactEmailAddress}
 						firstName={contactFirstName}
 						knownContact={knownContact}
@@ -224,7 +223,7 @@ AddContact.propTypes = {
 	currentRoles: PropTypes.arrayOf(PropTypes.string),
 	emailAddress: PropTypes.string,
 	firstName: PropTypes.string,
-	fullName: PropTypes.string,
 	lastName: PropTypes.string,
+	newContact: PropTypes.string,
 	redirect: PropTypes.string
 };
