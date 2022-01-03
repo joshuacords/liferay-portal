@@ -209,7 +209,7 @@ public class Organization implements Serializable {
 	}
 
 	@GraphQLField(description = "The organization's ID.")
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long id;
 
 	@Schema(description = "A relative URL to the organization's image.")

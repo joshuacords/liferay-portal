@@ -14,6 +14,7 @@
 
 package com.liferay.headless.admin.user.internal.graphql.mutation.v1_0;
 
+import com.liferay.headless.admin.user.resource.v1_0.OrganizationResource;
 import com.liferay.headless.admin.user.resource.v1_0.SubscriptionResource;
 import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
@@ -31,6 +32,7 @@ import javax.annotation.Generated;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.osgi.service.component.ComponentServiceObjects;
@@ -42,12 +44,48 @@ import org.osgi.service.component.ComponentServiceObjects;
 @Generated("")
 public class Mutation {
 
+	public static void setOrganizationResourceComponentServiceObjects(
+		ComponentServiceObjects<OrganizationResource>
+			organizationResourceComponentServiceObjects) {
+
+		_organizationResourceComponentServiceObjects =
+			organizationResourceComponentServiceObjects;
+	}
+
 	public static void setSubscriptionResourceComponentServiceObjects(
 		ComponentServiceObjects<SubscriptionResource>
 			subscriptionResourceComponentServiceObjects) {
 
 		_subscriptionResourceComponentServiceObjects =
 			subscriptionResourceComponentServiceObjects;
+	}
+
+	@GraphQLField(description = "Deletes an organization")
+	public boolean deleteOrganization(
+			@GraphQLName("organizationId") Long organizationId)
+		throws Exception {
+
+		_applyVoidComponentServiceObjects(
+			_organizationResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			organizationResource -> organizationResource.deleteOrganization(
+				organizationId));
+
+		return true;
+	}
+
+	@GraphQLField
+	public Response deleteOrganizationBatch(
+			@GraphQLName("callbackURL") String callbackURL,
+			@GraphQLName("object") Object object)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_organizationResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			organizationResource ->
+				organizationResource.deleteOrganizationBatch(
+					callbackURL, object));
 	}
 
 	@GraphQLField
@@ -104,6 +142,21 @@ public class Mutation {
 	}
 
 	private void _populateResourceContext(
+			OrganizationResource organizationResource)
+		throws Exception {
+
+		organizationResource.setContextAcceptLanguage(_acceptLanguage);
+		organizationResource.setContextCompany(_company);
+		organizationResource.setContextHttpServletRequest(_httpServletRequest);
+		organizationResource.setContextHttpServletResponse(
+			_httpServletResponse);
+		organizationResource.setContextUriInfo(_uriInfo);
+		organizationResource.setContextUser(_user);
+		organizationResource.setGroupLocalService(_groupLocalService);
+		organizationResource.setRoleLocalService(_roleLocalService);
+	}
+
+	private void _populateResourceContext(
 			SubscriptionResource subscriptionResource)
 		throws Exception {
 
@@ -118,6 +171,8 @@ public class Mutation {
 		subscriptionResource.setRoleLocalService(_roleLocalService);
 	}
 
+	private static ComponentServiceObjects<OrganizationResource>
+		_organizationResourceComponentServiceObjects;
 	private static ComponentServiceObjects<SubscriptionResource>
 		_subscriptionResourceComponentServiceObjects;
 
