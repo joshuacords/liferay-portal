@@ -131,7 +131,7 @@ public abstract class BaseOrganizationResourceImpl
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/{organizationId}'  -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Operation(
-		description = "Deletes an organization"
+		description = "Deletes an organization."
 	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
