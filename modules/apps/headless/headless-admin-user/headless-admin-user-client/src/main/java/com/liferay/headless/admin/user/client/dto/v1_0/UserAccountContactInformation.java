@@ -15,7 +15,7 @@
 package com.liferay.headless.admin.user.client.dto.v1_0;
 
 import com.liferay.headless.admin.user.client.function.UnsafeSupplier;
-import com.liferay.headless.admin.user.client.serdes.v1_0.ContactInformationSerDes;
+import com.liferay.headless.admin.user.client.serdes.v1_0.UserAccountContactInformationSerDes;
 
 import java.io.Serializable;
 
@@ -28,10 +28,10 @@ import javax.annotation.Generated;
  * @generated
  */
 @Generated("")
-public class ContactInformation implements Cloneable, Serializable {
+public class UserAccountContactInformation implements Cloneable, Serializable {
 
-	public static ContactInformation toDTO(String json) {
-		return ContactInformationSerDes.toDTO(json);
+	public static UserAccountContactInformation toDTO(String json) {
+		return UserAccountContactInformationSerDes.toDTO(json);
 	}
 
 	public EmailAddress[] getEmailAddresses() {
@@ -243,8 +243,10 @@ public class ContactInformation implements Cloneable, Serializable {
 	protected WebUrl[] webUrls;
 
 	@Override
-	public ContactInformation clone() throws CloneNotSupportedException {
-		return (ContactInformation)super.clone();
+	public UserAccountContactInformation clone()
+		throws CloneNotSupportedException {
+
+		return (UserAccountContactInformation)super.clone();
 	}
 
 	@Override
@@ -253,13 +255,15 @@ public class ContactInformation implements Cloneable, Serializable {
 			return true;
 		}
 
-		if (!(object instanceof ContactInformation)) {
+		if (!(object instanceof UserAccountContactInformation)) {
 			return false;
 		}
 
-		ContactInformation contactInformation = (ContactInformation)object;
+		UserAccountContactInformation userAccountContactInformation =
+			(UserAccountContactInformation)object;
 
-		return Objects.equals(toString(), contactInformation.toString());
+		return Objects.equals(
+			toString(), userAccountContactInformation.toString());
 	}
 
 	@Override
@@ -270,7 +274,7 @@ public class ContactInformation implements Cloneable, Serializable {
 	}
 
 	public String toString() {
-		return ContactInformationSerDes.toJSON(this);
+		return UserAccountContactInformationSerDes.toJSON(this);
 	}
 
 }

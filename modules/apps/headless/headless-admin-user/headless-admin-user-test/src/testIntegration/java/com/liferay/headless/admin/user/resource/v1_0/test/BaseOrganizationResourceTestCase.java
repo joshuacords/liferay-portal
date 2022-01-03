@@ -978,16 +978,6 @@ public abstract class BaseOrganizationResourceTestCase {
 				continue;
 			}
 
-			if (Objects.equals(
-					"contactInformation", additionalAssertFieldName)) {
-
-				if (organization.getContactInformation() == null) {
-					valid = false;
-				}
-
-				continue;
-			}
-
 			if (Objects.equals("customFields", additionalAssertFieldName)) {
 				if (organization.getCustomFields() == null) {
 					valid = false;
@@ -1032,6 +1022,17 @@ public abstract class BaseOrganizationResourceTestCase {
 					"numberOfOrganizations", additionalAssertFieldName)) {
 
 				if (organization.getNumberOfOrganizations() == null) {
+					valid = false;
+				}
+
+				continue;
+			}
+
+			if (Objects.equals(
+					"organizationContactInformation",
+					additionalAssertFieldName)) {
+
+				if (organization.getOrganizationContactInformation() == null) {
 					valid = false;
 				}
 
@@ -1160,19 +1161,6 @@ public abstract class BaseOrganizationResourceTestCase {
 				continue;
 			}
 
-			if (Objects.equals(
-					"contactInformation", additionalAssertFieldName)) {
-
-				if (!Objects.deepEquals(
-						organization1.getContactInformation(),
-						organization2.getContactInformation())) {
-
-					return false;
-				}
-
-				continue;
-			}
-
 			if (Objects.equals("customFields", additionalAssertFieldName)) {
 				if (!Objects.deepEquals(
 						organization1.getCustomFields(),
@@ -1264,6 +1252,20 @@ public abstract class BaseOrganizationResourceTestCase {
 				if (!Objects.deepEquals(
 						organization1.getNumberOfOrganizations(),
 						organization2.getNumberOfOrganizations())) {
+
+					return false;
+				}
+
+				continue;
+			}
+
+			if (Objects.equals(
+					"organizationContactInformation",
+					additionalAssertFieldName)) {
+
+				if (!Objects.deepEquals(
+						organization1.getOrganizationContactInformation(),
+						organization2.getOrganizationContactInformation())) {
 
 					return false;
 				}
@@ -1400,11 +1402,6 @@ public abstract class BaseOrganizationResourceTestCase {
 			return sb.toString();
 		}
 
-		if (entityFieldName.equals("contactInformation")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
-		}
-
 		if (entityFieldName.equals("customFields")) {
 			throw new IllegalArgumentException(
 				"Invalid entity field " + entityFieldName);
@@ -1508,6 +1505,11 @@ public abstract class BaseOrganizationResourceTestCase {
 		}
 
 		if (entityFieldName.equals("numberOfOrganizations")) {
+			throw new IllegalArgumentException(
+				"Invalid entity field " + entityFieldName);
+		}
+
+		if (entityFieldName.equals("organizationContactInformation")) {
 			throw new IllegalArgumentException(
 				"Invalid entity field " + entityFieldName);
 		}

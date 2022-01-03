@@ -47,18 +47,20 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Generated("")
 @GraphQLName(
 	description = "The user's contact information.",
-	value = "ContactInformation"
+	value = "UserAccountContactInformation"
 )
 @JsonFilter("Liferay.Vulcan")
-@XmlRootElement(name = "ContactInformation")
-public class ContactInformation implements Serializable {
+@XmlRootElement(name = "UserAccountContactInformation")
+public class UserAccountContactInformation implements Serializable {
 
-	public static ContactInformation toDTO(String json) {
-		return ObjectMapperUtil.readValue(ContactInformation.class, json);
+	public static UserAccountContactInformation toDTO(String json) {
+		return ObjectMapperUtil.readValue(
+			UserAccountContactInformation.class, json);
 	}
 
-	public static ContactInformation unsafeToDTO(String json) {
-		return ObjectMapperUtil.unsafeReadValue(ContactInformation.class, json);
+	public static UserAccountContactInformation unsafeToDTO(String json) {
+		return ObjectMapperUtil.unsafeReadValue(
+			UserAccountContactInformation.class, json);
 	}
 
 	@Schema(
@@ -365,13 +367,15 @@ public class ContactInformation implements Serializable {
 			return true;
 		}
 
-		if (!(object instanceof ContactInformation)) {
+		if (!(object instanceof UserAccountContactInformation)) {
 			return false;
 		}
 
-		ContactInformation contactInformation = (ContactInformation)object;
+		UserAccountContactInformation userAccountContactInformation =
+			(UserAccountContactInformation)object;
 
-		return Objects.equals(toString(), contactInformation.toString());
+		return Objects.equals(
+			toString(), userAccountContactInformation.toString());
 	}
 
 	@Override
@@ -553,7 +557,7 @@ public class ContactInformation implements Serializable {
 
 	@Schema(
 		accessMode = Schema.AccessMode.READ_ONLY,
-		defaultValue = "com.liferay.headless.admin.user.dto.v1_0.ContactInformation",
+		defaultValue = "com.liferay.headless.admin.user.dto.v1_0.UserAccountContactInformation",
 		name = "x-class-name"
 	)
 	public String xClassName;

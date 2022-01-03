@@ -98,28 +98,6 @@ public class UserAccount implements Cloneable, Serializable {
 
 	protected Date birthDate;
 
-	public ContactInformation getContactInformation() {
-		return contactInformation;
-	}
-
-	public void setContactInformation(ContactInformation contactInformation) {
-		this.contactInformation = contactInformation;
-	}
-
-	public void setContactInformation(
-		UnsafeSupplier<ContactInformation, Exception>
-			contactInformationUnsafeSupplier) {
-
-		try {
-			contactInformation = contactInformationUnsafeSupplier.get();
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	protected ContactInformation contactInformation;
-
 	public CustomField[] getCustomFields() {
 		return customFields;
 	}
@@ -494,6 +472,31 @@ public class UserAccount implements Cloneable, Serializable {
 	}
 
 	protected SiteBrief[] siteBriefs;
+
+	public UserAccountContactInformation getUserAccountContactInformation() {
+		return userAccountContactInformation;
+	}
+
+	public void setUserAccountContactInformation(
+		UserAccountContactInformation userAccountContactInformation) {
+
+		this.userAccountContactInformation = userAccountContactInformation;
+	}
+
+	public void setUserAccountContactInformation(
+		UnsafeSupplier<UserAccountContactInformation, Exception>
+			userAccountContactInformationUnsafeSupplier) {
+
+		try {
+			userAccountContactInformation =
+				userAccountContactInformationUnsafeSupplier.get();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected UserAccountContactInformation userAccountContactInformation;
 
 	@Override
 	public UserAccount clone() throws CloneNotSupportedException {
