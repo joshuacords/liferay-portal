@@ -14,7 +14,10 @@
  */
 --%>
 
-<%@ taglib uri="http://liferay.com/tld/clay" prefix="clay" %>
+<%@ taglib uri="http://liferay.com/tld/clay" prefix="clay" %><%@
+taglib uri="http://liferay.com/tld/frontend" prefix="liferay-frontend" %>
 
 <%@ page import="com.liferay.portal.kernel.util.GetterUtil" %><%@
 page import="com.liferay.social.bookmarks.SocialBookmark" %>
+
+<%@ page import="java.util.HashMap" %>

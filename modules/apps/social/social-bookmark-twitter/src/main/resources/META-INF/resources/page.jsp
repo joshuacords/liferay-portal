@@ -24,8 +24,15 @@ String url = GetterUtil.getString((String)request.getAttribute("liferay-social-b
 
 <clay:link
 	buttonStyle="outline-secondary"
+	data='<%= (HashMap)request.getAttribute("liferay-social-bookmarks:bookmark:data") %>'
+	defaultEventHandler="openSocialBookmarkDefaultEventHandler"
 	elementClasses="btn-monospaced btn-outline-borderless btn-sm lfr-portal-tooltip"
 	href="<%= socialBookmark.getPostURL(title, url) %>"
 	icon="twitter"
 	title="<%= socialBookmark.getName(request.getLocale()) %>"
+/>
+
+<liferay-frontend:component
+	componentId="openSocialBookmarkDefaultEventHandler"
+	module="js/OpenSocialBookmarkDefaultEventHandler"
 />

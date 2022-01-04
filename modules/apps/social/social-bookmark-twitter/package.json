@@ -1,0 +1,12 @@
+{
+	"dependencies": {
+		"frontend-js-web": "*"
+	},
+	"name": "social-bookmark-twitter",
+	"scripts": {
+		"build": "liferay-npm-scripts build",
+		"checkFormat": "liferay-npm-scripts check",
+		"format": "liferay-npm-scripts fix"
+	},
+	"version": "2.0.12"
+}

@@ -24,6 +24,7 @@ public class LinkTag extends BaseClayTag {
 	@Override
 	public int doStartTag() {
 		setComponentBaseName("ClayLink");
+		setHydrate(true);
 		setModuleBaseName("link");
 
 		return super.doStartTag();

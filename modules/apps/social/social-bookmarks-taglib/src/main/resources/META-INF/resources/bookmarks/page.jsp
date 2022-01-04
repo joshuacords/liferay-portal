@@ -46,10 +46,19 @@ String dropdownMenuComponentId = randomNamespace + "socialBookmarksDropdownMenu"
 				<%
 				for (int i = 0; i < Math.min(types.length, maxInlineItems); i++) {
 					SocialBookmark socialBookmark = SocialBookmarksRegistryUtil.getSocialBookmark(types[i]);
+
+					Map<String, String> data = new HashMap<String, String>();
+
+					data.put("classname", HtmlUtil.escapeJS(className));
+					data.put("classpk", String.valueOf(classPK));
+					data.put("posturl", socialBookmark.getPostURL(title, url));
+					data.put("type", types[i]);
+					data.put("url", HtmlUtil.escapeJS(url));
 				%>
 
-					<li class="taglib-social-bookmark <%= "taglib-social-bookmark-" + types[i] %>" onClick="<%= "return " + SocialBookmarksTagUtil.getClickJSCall(className, classPK, types[i], socialBookmark.getPostURL(title, url), url) %>">
+					<li class="taglib-social-bookmark <%= "taglib-social-bookmark-" + types[i] %>">
 						<liferay-social-bookmarks:bookmark
+							data="<%= data %>"
 							displayStyle="<%= displayStyle %>"
 							target="<%= target %>"
 							title="<%= title %>"
@@ -86,7 +95,7 @@ String dropdownMenuComponentId = randomNamespace + "socialBookmarksDropdownMenu"
 		outputKey="social_bookmarks"
 	>
 		<aui:script>
-			function socialBookmarks_handleItemClick(
+			function openSocialBookmarkOnClick(
 				event,
 				className,
 				classPK,
@@ -132,7 +141,7 @@ String dropdownMenuComponentId = randomNamespace + "socialBookmarksDropdownMenu"
 
 				var data = event.data.item.data;
 
-				socialBookmarks_handleItemClick(
+				openSocialBookmarkOnClick(
 					event,
 					data.className,
 					parseInt(data.classPK),
