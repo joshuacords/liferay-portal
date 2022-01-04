@@ -64,6 +64,53 @@ definition {
 		}
 	}
 
+	@description = "This is a test for LPS-81244. The web content can be assigned to the default display page."
+	@priority = "4"
+	test AddWebContentAssignedToDefaultDisplayPage {
+		task ("Mark the display page as default") {
+			DisplayPageTemplatesAdmin.markDisplayPageAsDefault(displayPageName = "Display Page Name");
+		}
+
+		task ("Add a web content article") {
+			WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
+
+			WebContentNavigator.gotoAddCP();
+
+			WebContent.addCP(
+				webContentContent = "Webcontent Content",
+				webContentTitle = "Webcontent Title");
+
+			PortletEntry.publish();
+		}
+
+		task ("Add an Asset Publisher widget to page") {
+			JSONLayout.addPublicLayout(
+				groupName = "Test Site Name",
+				layoutName = "Test Page Name");
+
+			JSONLayout.addWidgetToPublicLayout(
+				groupName = "Test Site Name",
+				layoutName = "Test Page Name",
+				widgetName = "Asset Publisher");
+		}
+
+		task ("Configure Asset Link Behavior to View in Context") {
+			Navigator.gotoSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			AssetPublisherPortlet.configureAssetLinkBehaviorPG(assetLinkBehavior = "View in Context");
+		}
+
+		task ("View web content should be rendered in the default display page") {
+			AssetPublisherPortlet.clickAssetTitle(assetTitle = "Webcontent Title");
+
+			AssertTextEquals(
+				locator1 = "Portlet#HEADER",
+				value1 = "Display Page Name");
+		}
+	}
+
 	@description = "This is a test for LPS-86191. A user can configure the page settings for each individual display page. This test will test 'Show Header' and 'Show Footer'. This test has been extended to also cover LPS-96438."
 	@priority = "4"
 	test ConfigureDisplayPageShowHeaderAndFooter {
