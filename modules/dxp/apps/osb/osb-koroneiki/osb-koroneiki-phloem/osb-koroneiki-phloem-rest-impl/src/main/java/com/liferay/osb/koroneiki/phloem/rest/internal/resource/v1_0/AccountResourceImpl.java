@@ -808,7 +808,7 @@ public class AccountResourceImpl
 	@Reference
 	private ContactAccountRoleService _contactAccountRoleService;
 
-	@Reference(target = "(provider=okta)")
+	@Reference(target = "(provider=web)")
 	private ContactIdentityProvider _contactIdentityProvider;
 
 	@Reference

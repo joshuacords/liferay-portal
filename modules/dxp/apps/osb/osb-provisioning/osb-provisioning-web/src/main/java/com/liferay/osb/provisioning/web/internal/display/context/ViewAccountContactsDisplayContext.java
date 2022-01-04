@@ -18,17 +18,12 @@ import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenu;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Contact;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ContactRole;
 import com.liferay.osb.provisioning.constants.ProvisioningWebKeys;
-import com.liferay.osb.provisioning.exception.ContactEmailAddressException;
-import com.liferay.osb.provisioning.exception.ContactNameException;
-import com.liferay.osb.provisioning.koroneiki.constants.ProductPurchaseConstants;
 import com.liferay.osb.provisioning.search.FilterQuery;
 import com.liferay.portal.kernel.bean.BeanParamUtil;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
-import com.liferay.portal.kernel.exception.NoSuchContactException;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.language.LanguageUtil;
-import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -74,36 +69,12 @@ public class ViewAccountContactsDisplayContext
 		data.put(
 			"emailAddress",
 			BeanParamUtil.getString(_contact, renderRequest, "emailAddress"));
-		data.put(
-			"firstName",
-			BeanParamUtil.getString(_contact, renderRequest, "firstName"));
 
 		if (_contact != null) {
 			ContactDisplay contactDisplay = new ContactDisplay(
 				httpServletRequest, _contact, null);
 
 			data.put("fullName", contactDisplay.getFullName());
-		}
-
-		data.put(
-			"lastName",
-			BeanParamUtil.getString(_contact, renderRequest, "lastName"));
-
-		if (SessionErrors.contains(
-				renderRequest, ContactEmailAddressException.class.getName()) ||
-			SessionErrors.contains(
-				renderRequest, ContactNameException.class.getName()) ||
-			SessionErrors.contains(
-				renderRequest, NoSuchContactException.class.getName())) {
-
-			String subscriptionState = accountReader.getSubscriptionState(
-				account);
-
-			if (subscriptionState.equals(
-					ProductPurchaseConstants.STATE_ACTIVE)) {
-
-				data.put("newContact", true);
-			}
 		}
 
 		data.put("redirect", ParamUtil.getString(renderRequest, "redirect"));

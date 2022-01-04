@@ -77,10 +77,6 @@ public class ContactWebServiceImpl implements ContactWebService {
 			emailAddress);
 	}
 
-	public Contact getContactByUuid(String uuid) throws Exception {
-		return _contactResource.getContactByUuidContactUuid(uuid);
-	}
-
 	public List<Contact> search(
 			String search, FilterQuery filterQuery, int page, int pageSize,
 			String sortString)

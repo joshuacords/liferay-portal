@@ -564,7 +564,7 @@ public class ProvisioningWebComponentProvider {
 	@Reference
 	private AuditEntryWebService _auditEntryWebService;
 
-	@Reference(target = "(provider=okta)")
+	@Reference(target = "(provider=web)")
 	private ContactIdentityProvider _contactIdentityProvider;
 
 	@Reference

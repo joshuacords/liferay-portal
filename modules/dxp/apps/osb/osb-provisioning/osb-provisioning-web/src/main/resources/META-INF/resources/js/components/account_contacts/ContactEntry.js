@@ -21,26 +21,13 @@ export default function ContactEntry({
 	allRoles = [],
 	contactFullName,
 	emailAddress,
-	firstName,
 	knownContact,
-	lastName,
-	newContact,
 	newRoles = [],
 	removeFn,
-	setEmailAddress,
-	setFirstName,
-	setLastName
+	setEmailAddress
 }) {
 	function handleEmailChange(event) {
 		setEmailAddress(event.currentTarget.value);
-	}
-
-	function handleFirstNameChange(event) {
-		setFirstName(event.currentTarget.value);
-	}
-
-	function handleLastNameChange(event) {
-		setLastName(event.currentTarget.value);
 	}
 
 	return (
@@ -52,28 +39,6 @@ export default function ContactEntry({
 							{contactFullName}
 						</span>
 					</span>
-				</td>
-			)}
-			{newContact && (
-				<td className="table-cell-expand">
-					<input
-						className="form-control"
-						name={`${NAMESPACE}firstName`}
-						onChange={handleFirstNameChange}
-						type="text"
-						value={firstName}
-					/>
-				</td>
-			)}
-			{newContact && (
-				<td className="table-cell-expand">
-					<input
-						className="form-control"
-						name={`${NAMESPACE}lastName`}
-						onChange={handleLastNameChange}
-						type="text"
-						value={lastName}
-					/>
 				</td>
 			)}
 			<td className="table-cell-expand">
@@ -118,13 +83,8 @@ ContactEntry.propTypes = {
 	),
 	contactFullName: PropTypes.string,
 	emailAddress: PropTypes.string,
-	firstName: PropTypes.string,
 	knownContact: PropTypes.bool,
-	lastName: PropTypes.string,
-	newContact: PropTypes.bool,
 	newRoles: PropTypes.arrayOf(PropTypes.string),
 	removeFn: PropTypes.func,
-	setEmailAddress: PropTypes.func,
-	setFirstName: PropTypes.func,
-	setLastName: PropTypes.func
+	setEmailAddress: PropTypes.func
 };

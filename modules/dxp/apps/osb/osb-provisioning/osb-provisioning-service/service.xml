@@ -44,8 +44,6 @@
 	</entity>
 	<exceptions>
 		<exception>AccountCode</exception>
-		<exception>ContactEmailAddress</exception>
-		<exception>ContactName</exception>
 		<exception>ContactRequired</exception>
 		<exception>DuplicateDossieraKey</exception>
 		<exception>MultipleDossieraKeys</exception>

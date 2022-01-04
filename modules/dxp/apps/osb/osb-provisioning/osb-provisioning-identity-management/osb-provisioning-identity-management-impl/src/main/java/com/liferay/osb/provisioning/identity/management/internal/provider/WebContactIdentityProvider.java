@@ -58,14 +58,6 @@ import org.osgi.service.component.annotations.Reference;
 )
 public class WebContactIdentityProvider implements ContactIdentityProvider {
 
-	public Contact createContact(
-			String emailAddress, String firstName, String middleName,
-			String lastName)
-		throws Exception {
-
-		throw new UnsupportedOperationException();
-	}
-
 	public Contact fetchContactByEmailAddress(String emailAddress)
 		throws Exception {
 
@@ -100,10 +92,6 @@ public class WebContactIdentityProvider implements ContactIdentityProvider {
 		}
 
 		return (Integer)jsonObject.get("status");
-	}
-
-	public Contact syncContact(Contact contact) throws Exception {
-		throw new UnsupportedOperationException();
 	}
 
 	@Activate

@@ -33,10 +33,6 @@ AccountDisplay accountDisplay = viewAccountContactsDisplayContext.getAccountDisp
 		title="<%= viewAccountContactsDisplayContext.getAssignContactTitle() %>"
 	/>
 
-	<liferay-ui:error exception="<%= ContactEmailAddressException.class %>" message="please-enter-a-valid-email-address" />
-	<liferay-ui:error exception="<%= ContactNameException.class %>" message="the-contact-could-not-be-found.enter-the-contact's-first-and-last-name-to-create-one" />
-	<liferay-ui:error exception="<%= NoSuchContactException.class %>" message="the-contact-could-not-be-found.the-user-must-create-his-own-okta-account" />
-
 	<liferay-ui:error exception="<%= Problem.ProblemException.class %>">
 
 		<%

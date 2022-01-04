@@ -28,6 +28,33 @@ import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClass
 public interface DistributedMessagingConfiguration {
 
 	@Meta.AD(required = false)
+	public String provisioningEmailAddressAustralia();
+
+	@Meta.AD(required = false)
+	public String provisioningEmailAddressBrazil();
+
+	@Meta.AD(required = false)
+	public String provisioningEmailAddressChina();
+
+	@Meta.AD(required = false)
+	public String provisioningEmailAddressGlobal();
+
+	@Meta.AD(required = false)
+	public String provisioningEmailAddressHungary();
+
+	@Meta.AD(required = false)
+	public String provisioningEmailAddressIndia();
+
+	@Meta.AD(required = false)
+	public String provisioningEmailAddressJapan();
+
+	@Meta.AD(required = false)
+	public String provisioningEmailAddressSpain();
+
+	@Meta.AD(required = false)
+	public String provisioningEmailAddressUS();
+
+	@Meta.AD(required = false)
 	public Long provisioningZendeskGroupId();
 
 	@Meta.AD(required = false)

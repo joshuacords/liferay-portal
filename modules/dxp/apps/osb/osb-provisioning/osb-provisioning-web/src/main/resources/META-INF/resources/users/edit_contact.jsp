@@ -34,7 +34,7 @@ Contact koroneikiContact = (Contact)renderRequest.getAttribute(ProvisioningWebKe
 	<portlet:param name="emailAddress" value="<%= koroneikiContact.getEmailAddress() %>" />
 </portlet:actionURL>
 
-<div class="container-fluid-1280">
+<aui:form action="<%= editContactURL %>" cssClass="container-fluid-1280" method="post" name="fm">
 	<aui:fieldset-group>
 		<aui:fieldset>
 			<aui:input name="key" type="resource" value="<%= koroneikiContact.getKey() %>" />
@@ -43,15 +43,21 @@ Contact koroneikiContact = (Contact)renderRequest.getAttribute(ProvisioningWebKe
 
 			<aui:input name="languageId" type="resource" value="<%= koroneikiContact.getLanguageId() %>" />
 
-			<aui:input name="uuid" type="resource" value="<%= koroneikiContact.getUuid() %>" />
+			<aui:input name="uuid" value="<%= koroneikiContact.getUuid() %>" />
 
-			<aui:input name="firstName" type="resource" value="<%= koroneikiContact.getFirstName() %>" />
+			<aui:input name="firstName" value="<%= koroneikiContact.getFirstName() %>" />
 
-			<aui:input name="middleName" type="resource" value="<%= koroneikiContact.getMiddleName() %>" />
+			<aui:input name="middleName" value="<%= koroneikiContact.getMiddleName() %>" />
 
-			<aui:input name="lastName" type="resource" value="<%= koroneikiContact.getLastName() %>" />
+			<aui:input name="lastName" value="<%= koroneikiContact.getLastName() %>" />
 
-			<aui:input checked="<%= koroneikiContact.getEmailAddressVerified() %>" disabled="<%= true %>" name="emailAddressVerified" type="checkbox" />
+			<aui:input checked="<%= koroneikiContact.getEmailAddressVerified() %>" name="emailAddressVerified" type="checkbox" />
 		</aui:fieldset>
 	</aui:fieldset-group>
-</div>
+
+	<aui:button-row>
+		<aui:button type="submit" />
+
+		<aui:button href="<%= currentURL %>" type="cancel" />
+	</aui:button-row>
+</aui:form>

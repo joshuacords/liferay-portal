@@ -18,7 +18,6 @@ import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Account;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Contact;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ContactRole;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Entitlement;
-import com.liferay.osb.provisioning.koroneiki.constants.EntitlementConstants;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
@@ -141,42 +140,6 @@ public class ContactDisplay {
 		}
 
 		return "label label-danger";
-	}
-
-	public String getUuid() {
-		return _contact.getUuid();
-	}
-
-	public boolean isCustomer() {
-		Entitlement[] entitlements = _contact.getEntitlements();
-
-		if (ArrayUtil.isNotEmpty(entitlements)) {
-			for (Entitlement entitlement : entitlements) {
-				String name = entitlement.getName();
-
-				if (name.equals(EntitlementConstants.CUSTOMER)) {
-					return true;
-				}
-			}
-		}
-
-		return false;
-	}
-
-	public boolean isPartner() {
-		Entitlement[] entitlements = _contact.getEntitlements();
-
-		if (ArrayUtil.isNotEmpty(entitlements)) {
-			for (Entitlement entitlement : entitlements) {
-				String name = entitlement.getName();
-
-				if (name.equals(EntitlementConstants.PARTNER)) {
-					return true;
-				}
-			}
-		}
-
-		return false;
 	}
 
 	private final Contact _contact;

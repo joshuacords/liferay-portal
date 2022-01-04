@@ -14,19 +14,13 @@
 
 package com.liferay.osb.provisioning.web.internal.portlet.action;
 
-import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Account;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Contact;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ContactRole;
 import com.liferay.osb.koroneiki.phloem.rest.client.problem.Problem;
 import com.liferay.osb.provisioning.constants.ProvisioningPortletKeys;
-import com.liferay.osb.provisioning.exception.ContactEmailAddressException;
-import com.liferay.osb.provisioning.exception.ContactNameException;
 import com.liferay.osb.provisioning.exception.ContactRequiredException;
 import com.liferay.osb.provisioning.exception.DuplicateContactRoleException;
-import com.liferay.osb.provisioning.identity.management.provider.ContactIdentityProvider;
 import com.liferay.osb.provisioning.koroneiki.constants.ContactRoleConstants;
-import com.liferay.osb.provisioning.koroneiki.constants.ProductPurchaseConstants;
-import com.liferay.osb.provisioning.koroneiki.reader.AccountReader;
 import com.liferay.osb.provisioning.koroneiki.web.service.AccountWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.ContactRoleWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.ContactWebService;
@@ -97,36 +91,6 @@ public class AssignAccountContactRolesMVCActionCommand
 					accountKey, ContactRoleConstants.NAME_SECONDARY_CONTACT,
 					emailAddress, addContactRoleKeys);
 
-				Contact contact =
-					_contactIdentityProvider.fetchContactByEmailAddress(
-						emailAddress);
-
-				if (contact == null) {
-					Account account = _accountWebService.getAccount(accountKey);
-
-					String subscriptionState =
-						_accountReader.getSubscriptionState(account);
-
-					if (subscriptionState.equals(
-							ProductPurchaseConstants.STATE_ACTIVE)) {
-
-						String firstName = ParamUtil.getString(
-							actionRequest, "firstName");
-						String lastName = ParamUtil.getString(
-							actionRequest, "lastName");
-
-						_contactIdentityProvider.createContact(
-							emailAddress, firstName, StringPool.BLANK,
-							lastName);
-					}
-					else {
-						throw new NoSuchContactException();
-					}
-				}
-				else {
-					_contactIdentityProvider.syncContact(contact);
-				}
-
 				_accountWebService.assignContactRolesByEmailAddress(
 					user.getFullName(), user.getUuid(), accountKey,
 					emailAddress, addContactRoleKeys);
@@ -161,10 +125,7 @@ public class AssignAccountContactRolesMVCActionCommand
 			sendRedirect(actionRequest, actionResponse);
 		}
 		catch (Exception exception) {
-			if (exception instanceof ContactEmailAddressException ||
-				exception instanceof ContactNameException ||
-				exception instanceof DuplicateContactRoleException ||
-				exception instanceof NoSuchContactException ||
+			if (exception instanceof DuplicateContactRoleException ||
 				exception instanceof Problem.ProblemException) {
 
 				SessionErrors.add(
@@ -188,7 +149,9 @@ public class AssignAccountContactRolesMVCActionCommand
 					}
 				}
 			}
-			else if (exception instanceof ContactRequiredException) {
+			else if (exception instanceof ContactRequiredException ||
+					 exception instanceof NoSuchContactException) {
+
 				SessionErrors.add(
 					actionRequest, exception.getClass(), exception);
 
@@ -234,13 +197,7 @@ public class AssignAccountContactRolesMVCActionCommand
 		AssignAccountContactRolesMVCActionCommand.class);
 
 	@Reference
-	private AccountReader _accountReader;
-
-	@Reference
 	private AccountWebService _accountWebService;
-
-	@Reference(target = "(provider=okta)")
-	private ContactIdentityProvider _contactIdentityProvider;
 
 	@Reference
 	private ContactRoleWebService _contactRoleWebService;

@@ -14,26 +14,17 @@
 
 package com.liferay.osb.provisioning.identity.management.internal.provider;
 
-import com.liferay.osb.distributed.messaging.Message;
-import com.liferay.osb.distributed.messaging.publishing.MessagePublisher;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Contact;
-import com.liferay.osb.provisioning.distributed.messaging.constants.GooglePubsubConstants;
-import com.liferay.osb.provisioning.exception.ContactEmailAddressException;
-import com.liferay.osb.provisioning.exception.ContactNameException;
 import com.liferay.osb.provisioning.identity.management.provider.ContactIdentityProvider;
 import com.liferay.osb.provisioning.koroneiki.web.service.ContactWebService;
 import com.liferay.portal.kernel.cache.MultiVMPool;
 import com.liferay.portal.kernel.cache.PortalCache;
 import com.liferay.portal.kernel.json.JSONFactory;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
-import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.util.Map;
@@ -51,50 +42,6 @@ import org.osgi.service.component.annotations.Reference;
 	service = ContactIdentityProvider.class
 )
 public class OktaContactIdentityProvider implements ContactIdentityProvider {
-
-	public Contact createContact(
-			String emailAddress, String firstName, String middleName,
-			String lastName)
-		throws Exception {
-
-		if (Validator.isNull(emailAddress) ||
-			!Validator.isEmailAddress(emailAddress)) {
-
-			throw new ContactEmailAddressException();
-		}
-
-		if (Validator.isNull(firstName) || Validator.isNull(lastName)) {
-			throw new ContactNameException();
-		}
-
-		Contact contact = _contactWebService.fetchContactByEmailAddress(
-			emailAddress);
-
-		if (contact == null) {
-			contact = new Contact();
-
-			contact.setEmailAddress(emailAddress);
-			contact.setFirstName(firstName);
-			contact.setLastName(lastName);
-			contact.setMiddleName(middleName);
-			contact.setUuid(PortalUUIDUtil.generate());
-
-			contact = _contactWebService.addContact(
-				StringPool.BLANK, StringPool.BLANK, contact);
-		}
-
-		String response = _sendRequest(_URL_API_REST_USERS + emailAddress);
-
-		JSONObject jsonObject = _jsonFactory.createJSONObject(response);
-
-		if (jsonObject.has("errorCode")) {
-			_messagePublisher.publish(
-				GooglePubsubConstants.TOPIC_OKTA_USER_CREATE,
-				new Message(contact.toString()));
-		}
-
-		return contact;
-	}
 
 	public Contact fetchContactByEmailAddress(String emailAddress)
 		throws Exception {
@@ -173,54 +120,6 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 		return WorkflowConstants.STATUS_INACTIVE;
 	}
 
-	public Contact syncContact(Contact contact) throws Exception {
-		String response = _sendRequest(
-			_URL_API_REST_USERS + contact.getEmailAddress());
-
-		JSONObject jsonObject = _jsonFactory.createJSONObject(response);
-
-		if (jsonObject.has("errorCode")) {
-			_messagePublisher.publish(
-				GooglePubsubConstants.TOPIC_OKTA_USER_CREATE,
-				new Message(contact.toString()));
-		}
-		else {
-			JSONObject profileJSONObject = jsonObject.getJSONObject("profile");
-
-			String uuid = profileJSONObject.getString("uuid");
-			String firstName = profileJSONObject.getString("firstName");
-			String lastName = profileJSONObject.getString("lastName");
-
-			if ((Validator.isNotNull(uuid) &&
-				 !uuid.equals(contact.getUuid())) ||
-				(Validator.isNotNull(firstName) &&
-				 !firstName.equals(contact.getFirstName())) ||
-				(Validator.isNotNull(lastName) &&
-				 !lastName.equals(contact.getLastName()))) {
-
-				contact.setUuid(uuid);
-				contact.setFirstName(firstName);
-				contact.setLastName(lastName);
-
-				String agentName = StringPool.BLANK;
-				String agentUID = StringPool.BLANK;
-
-				User user = _userLocalService.fetchUser(
-					PrincipalThreadLocal.getUserId());
-
-				if ((user != null) && !user.isDefaultUser()) {
-					agentName = user.getFullName();
-					agentUID = user.getUuid();
-				}
-
-				_contactWebService.updateContact(
-					agentName, agentUID, contact.getEmailAddress(), contact);
-			}
-		}
-
-		return contact;
-	}
-
 	@Activate
 	protected void activate(Map<String, Object> properties) throws Exception {
 		_apiToken = String.valueOf(properties.get("api.token"));
@@ -279,14 +178,8 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 	private JSONFactory _jsonFactory;
 
 	@Reference
-	private MessagePublisher _messagePublisher;
-
-	@Reference
 	private MultiVMPool _multiVMPool;
 
 	private PortalCache<String, String> _portalCache;
-
-	@Reference
-	private UserLocalService _userLocalService;
 
 }

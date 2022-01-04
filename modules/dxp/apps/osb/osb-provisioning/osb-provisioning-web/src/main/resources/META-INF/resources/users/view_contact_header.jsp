@@ -60,15 +60,4 @@ ContactDisplay contactDisplay = viewContactDisplayContext.getContactDisplay();
 			</li>
 		</ul>
 	</div>
-
-	<div class="header-buttons">
-		<portlet:actionURL name="/users/sync_with_okta" var="syncWithOktaURL">
-			<portlet:param name="redirect" value="<%= currentURL %>" />
-			<portlet:param name="contactUuid" value="<%= contactDisplay.getUuid() %>" />
-		</portlet:actionURL>
-
-		<aui:form action="<%= syncWithOktaURL %>" method="post" name="fm1">
-			<aui:button cssClass="btn-secondary btn-sm" disabled="<%= !contactDisplay.isCustomer() && !contactDisplay.isPartner() %>" href="<%= syncWithOktaURL %>" value="sync-with-okta" />
-		</aui:form>
-	</div>
 </div>

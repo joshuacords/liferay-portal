@@ -1,5 +1,4 @@
 Bundle-Name: Liferay OSB Provisioning Distributed Messaging
 Bundle-SymbolicName: com.liferay.osb.provisioning.distributed.messaging
 Bundle-Version: 1.0.0
-Export-Package: com.liferay.osb.provisioning.distributed.messaging.constants
 -dsannotations-options: inherit
