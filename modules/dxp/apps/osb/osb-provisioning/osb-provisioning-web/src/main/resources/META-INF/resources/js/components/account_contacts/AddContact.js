@@ -224,6 +224,6 @@ AddContact.propTypes = {
 	emailAddress: PropTypes.string,
 	firstName: PropTypes.string,
 	lastName: PropTypes.string,
-	newContact: PropTypes.string,
+	newContact: PropTypes.bool,
 	redirect: PropTypes.string
 };

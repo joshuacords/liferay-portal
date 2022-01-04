@@ -54,22 +54,26 @@ describe('AddContact', () => {
 		getByText('account');
 	});
 
-	it('displays full name if name, email, and roles are provided', () => {
+	it('displays first and last name if first and last name, email, and roles are provided', () => {
 		const {getByText} = renderAddContact({
 			currentRoles: ['KEY-100'],
 			emailAddress: 'test1@liferay.com',
-			fullName: 'Test One'
+			firstName: 'TestFirst',
+			lastName: 'TestLast'
 		});
 
-		getByText('name');
-		getByText('Test One');
+		getByText('first-name');
+		getByText('last-name');
+		getByText('TestFirst');
+		getByText('TestLast');
 	});
 
 	it('displays contact roles if name, email, and roles are provided', () => {
 		const {container} = renderAddContact({
 			currentRoles: ['KEY-100', 'KEY-101'],
 			emailAddress: 'test1@liferay.com',
-			fullName: 'Test One'
+			firstName: 'TestFirst',
+			lastName: 'TestLast'
 		});
 
 		const {getByText} = within(
@@ -80,13 +84,16 @@ describe('AddContact', () => {
 		getByText('Member');
 	});
 
-	it('does not display full name if email and roles are not provided', () => {
+	it('does not display first and last name if email and roles are not provided', () => {
 		const {queryByText} = renderAddContact({
-			fullName: 'Test One'
+			firstName: 'TestFirst',
+			lastName: 'TestLast'
 		});
 
-		expect(queryByText('name')).toBeFalsy();
-		expect(queryByText('Test One')).toBeFalsy();
+		expect(queryByText('first-name')).toBeFalsy();
+		expect(queryByText('last-name')).toBeFalsy();
+		expect(queryByText('TestFirst')).toBeFalsy();
+		expect(queryByText('TestLast')).toBeFalsy();
 	});
 
 	it('adds contact roles when selected from dropdown', () => {
@@ -106,8 +113,7 @@ describe('AddContact', () => {
 	it('removes contact roles when clicked on close', () => {
 		const {container, getAllByTitle} = renderAddContact({
 			currentRoles: ['KEY-100', 'KEY-101'],
-			emailAddress: 'test1@liferay.com',
-			fullName: 'Test One'
+			emailAddress: 'test1@liferay.com'
 		});
 
 		fireEvent.click(getAllByTitle('delete')[0]);
@@ -123,6 +129,30 @@ describe('AddContact', () => {
 		const {getByText} = renderAddContact({
 			currentRoles: ['KEY-100', 'KEY-101'],
 			emailAddress: ''
+		});
+
+		expect(getByText('save').disabled).toBeTruthy();
+	});
+
+	it('disables Save button if first name is blank', () => {
+		const {getByText} = renderAddContact({
+			currentRoles: ['KEY-100', 'KEY-101'],
+			emailAddress: 'test1@liferay.com',
+			firstName: '',
+			lastName: 'TestLast',
+			newContact: true
+		});
+
+		expect(getByText('save').disabled).toBeTruthy();
+	});
+
+	it('disables Save button if last name is blank', () => {
+		const {getByText} = renderAddContact({
+			currentRoles: ['KEY-100', 'KEY-101'],
+			emailAddress: 'test1@liferay.com',
+			firstName: 'TestLast',
+			lastName: '',
+			newContact: true
 		});
 
 		expect(getByText('save').disabled).toBeTruthy();
@@ -167,8 +197,7 @@ describe('AddContact', () => {
 	it('enables Save button if email and contact roles are populated', () => {
 		const {getByText} = renderAddContact({
 			currentRoles: ['KEY-100', 'KEY-101'],
-			emailAddress: 'test1@liferay.com',
-			fullName: 'Test One'
+			emailAddress: 'test1@liferay.com'
 		});
 
 		expect(getByText('save').disabled).toBeFalsy();

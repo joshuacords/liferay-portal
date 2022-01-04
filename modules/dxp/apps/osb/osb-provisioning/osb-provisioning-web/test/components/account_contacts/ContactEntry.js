@@ -60,15 +60,17 @@ describe('AccountAddress', () => {
 		getByText('Test Account');
 	});
 
-	it('displays full name and email if provided', () => {
+	it('displays first and last name and email if provided', () => {
 		const {getByText} = renderContactLine({
-			contactFullName: 'Test One',
 			emailAddress: 'test1@liferay.com',
+			firstName: 'TestFirst',
 			knownContact: true,
+			lastName: 'TestLast',
 			newRoles: ['KEY-100']
 		});
 
-		getByText('Test One');
+		getByText('TestFirst');
+		getByText('TestLast');
 		getByText('test1@liferay.com');
 	});
 
@@ -80,7 +82,6 @@ describe('AccountAddress', () => {
 
 	it('hides email as an input if disabled', () => {
 		const {container} = renderContactLine({
-			contactFullName: 'Test One',
 			emailAddress: 'test1@liferay.com',
 			knownContact: true,
 			newRoles: ['KEY-100']
@@ -91,15 +92,16 @@ describe('AccountAddress', () => {
 
 	it('does not display full name if email is enabled', () => {
 		const {queryByText} = renderContactLine({
-			userFullName: 'Test One'
+			firstName: 'TestFirst',
+			lastName: 'TestLast'
 		});
 
-		expect(queryByText('Test One')).toBeFalsy();
+		expect(queryByText('TestFirst')).toBeFalsy();
+		expect(queryByText('TestLast')).toBeFalsy();
 	});
 
 	it('displays contact roles if provided', () => {
 		const {container} = renderContactLine({
-			contactFullName: 'Test One',
 			emailAddress: 'test1@liferay.com',
 			knownContact: true,
 			newRoles: ['KEY-100', 'KEY-101']
@@ -125,7 +127,6 @@ describe('AccountAddress', () => {
 
 	it('calls Remove function when contact roles are removed', () => {
 		const {queryAllByTitle} = renderContactLine({
-			contactFullName: 'Test One',
 			emailAddress: 'test1@liferay.com',
 			knownContact: true,
 			newRoles: ['KEY-100', 'KEY-101']
