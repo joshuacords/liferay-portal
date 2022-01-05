@@ -18,7 +18,11 @@ import {
 	DASH,
 	RESTRICTED_EXPIRATION_DATE_TYPES
 } from '../../utilities/constants';
-import {formatDate} from '../../utilities/date';
+import {
+	convertInputToDate,
+	formatDate,
+	validateDateFieldFormat
+} from '../../utilities/date';
 import IconButton from '../IconButton';
 import LicenseDates from '../LicenseDates';
 import ExtendButton from './ExtendButton';
@@ -54,7 +58,7 @@ function Detail({
 	);
 	const [selectedStartDate, setSelectedStartDate] = useState(startDate);
 	const [validDates, setValidDates] = useState(
-		!isNaN(new Date(expirationDate)) && !isNaN(new Date(startDate))
+		!isNaN(expirationDate) && !isNaN(startDate)
 	);
 
 	const missingTermSelection = terms && !productPurchaseKey;
@@ -63,9 +67,7 @@ function Detail({
 	);
 
 	useEffect(() => {
-		setValidDates(
-			!isNaN(new Date(expirationDate)) && !isNaN(new Date(startDate))
-		);
+		setValidDates(!isNaN(expirationDate) && !isNaN(startDate));
 	}, [expirationDate, startDate]);
 
 	useEffect(() => {
@@ -91,10 +93,16 @@ function Detail({
 	}
 
 	function handleExpirationDateChange(val) {
-		setSelectedExpirationDate(val);
+		const validDateFormat = validateDateFieldFormat(val);
 
-		if (updater) {
-			updater([licenseKeyId, 'expirationDate'], val);
+		if (validDateFormat) {
+			const newDate = convertInputToDate(val);
+
+			setSelectedExpirationDate(newDate);
+
+			if (updater) {
+				updater([licenseKeyId, 'expirationDate'], newDate);
+			}
 		}
 	}
 
@@ -117,10 +125,16 @@ function Detail({
 	}
 
 	function handleStartDateChange(val) {
-		setSelectedStartDate(val);
+		const validDateFormat = validateDateFieldFormat(val);
 
-		if (updater) {
-			updater([licenseKeyId, 'startDate'], val);
+		if (validDateFormat) {
+			const newDate = convertInputToDate(val);
+
+			setSelectedStartDate(newDate);
+
+			if (updater) {
+				updater([licenseKeyId, 'startDate'], newDate);
+			}
 		}
 	}
 

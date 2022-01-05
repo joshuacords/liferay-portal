@@ -15,7 +15,11 @@ import PropTypes from 'prop-types';
 import React, {useCallback, useRef, useState} from 'react';
 
 import {FieldData} from '../../hooks/extendLicenses';
-import {formatDate} from '../../utilities/date';
+import {
+	convertInputToDate,
+	formatDate,
+	validateDateFieldFormat
+} from '../../utilities/date';
 import * as BulkInput from '../bulk_inputs/BulkInput';
 import ExtendButton from './ExtendButton';
 import ExtensionDetails from './ExtensionDetails';
@@ -38,13 +42,13 @@ export default function DetailsGroup({extensionURL, licenses}) {
 	const fieldValueSet = useCallback(
 		fieldName =>
 			new Set(
-				licenses.map(licenses => {
-					const field = licenses[fieldName];
+				fieldData.toList().map(license => {
+					const field = license[fieldName];
 
 					return field instanceof Date ? field.toJSON() : field;
 				})
 			),
-		[licenses]
+		[fieldData]
 	);
 
 	const getDisplayValue = useCallback(
@@ -77,6 +81,14 @@ export default function DetailsGroup({extensionURL, licenses}) {
 			}));
 	}
 
+	function handleBulkSaveExpirationDate() {}
+
+	function handleBulkSaveStartDate(value) {
+		const validDateFormat = validateDateFieldFormat(value);
+
+	
+	}
+
 	function handleFieldChange(keyPath, value) {
 		setFieldData(fieldData.setIn(keyPath, value));
 	}
@@ -91,10 +103,6 @@ export default function DetailsGroup({extensionURL, licenses}) {
 		setFieldData(fieldData.delete(key));
 	}
 
-	function handleSaveExpirationDate() {}
-
-	function handleSaveStartDate() {}
-
 	return (
 		<>
 			{!singleLicense && (
@@ -107,13 +115,13 @@ export default function DetailsGroup({extensionURL, licenses}) {
 						<ClayTable.Cell></ClayTable.Cell>
 
 						<BulkInput.Date
-							editHandler={handleSaveStartDate}
+							editHandler={handleBulkSaveStartDate}
 							fieldName={`startDateBulkInput-${productName}`}
 							// isValid={!invalidDateFormat.startDate}
 							value={getDisplayValue('startDate')}
 						/>
 						<BulkInput.Date
-							editHandler={handleSaveExpirationDate}
+							editHandler={handleBulkSaveExpirationDate}
 							fieldName={`expirationDateBulkInput-${productName}`}
 							// isValid={!invalidDateFormat.originalEndDate}
 							value={getDisplayValue('expirationDate')}

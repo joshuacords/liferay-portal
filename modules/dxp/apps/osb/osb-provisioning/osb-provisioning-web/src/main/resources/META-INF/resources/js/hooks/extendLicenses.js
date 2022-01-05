@@ -50,17 +50,23 @@ function createLicenseRecord(license) {
 		term => term.status !== PRODUCT_PURCHASE_STATUS_CANCELLED
 	);
 
+	const newRecord = {
+		...license,
+		expirationDate: new Date(license.expirationDate),
+		startDate: new Date(license.startDate),
+		terms: approvedTerms
+	};
+
 	if (approvedTerms.length === 1) {
 		const term = approvedTerms[0];
 
 		return new LicenseRecord({
-			...license,
-			productPurchaseKey: term.productPurchaseKey,
-			terms: approvedTerms
+			...newRecord,
+			productPurchaseKey: term.productPurchaseKey
 		});
 	}
 
-	return new LicenseRecord({...license, terms: approvedTerms});
+	return new LicenseRecord(newRecord);
 }
 
 export function ExtendLicensesProvider({initialLicenses = [], children}) {
@@ -100,7 +106,7 @@ export class FieldData extends Record({
 	hasTerm: false,
 	licenseKeyId: '',
 	productPurchaseKey: '',
-	startDate: ''
+	startDate: null
 }) {
 	hasMissingTerm() {
 		if (this.hasTerm) {
