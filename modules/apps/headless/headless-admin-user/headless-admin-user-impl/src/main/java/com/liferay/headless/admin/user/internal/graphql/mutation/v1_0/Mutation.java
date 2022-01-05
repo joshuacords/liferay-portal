@@ -114,9 +114,7 @@ public class Mutation {
 					callbackURL, object));
 	}
 
-	@GraphQLField(
-		description = "Updates the organization with the information sent in the request body. Fields not present in the request body are left unchanged."
-	)
+	@GraphQLField
 	public Organization patchOrganization(
 			@GraphQLName("organizationId") Long organizationId,
 			@GraphQLName("organization") Organization organization)
@@ -129,9 +127,7 @@ public class Mutation {
 				organizationId, organization));
 	}
 
-	@GraphQLField(
-		description = "Replaces the organization with information sent in the request body. Any missing fields are deleted unless they are required."
-	)
+	@GraphQLField
 	public Organization updateOrganization(
 			@GraphQLName("organizationId") Long organizationId,
 			@GraphQLName("organization") Organization organization)
