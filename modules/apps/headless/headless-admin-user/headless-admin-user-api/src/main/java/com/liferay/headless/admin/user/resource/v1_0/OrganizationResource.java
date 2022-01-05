@@ -66,6 +66,9 @@ public interface OrganizationResource {
 	public Organization postOrganization(Organization organization)
 		throws Exception;
 
+	public Response postOrganizationBatch(String callbackURL, Object object)
+		throws Exception;
+
 	public void deleteOrganization(Long organizationId) throws Exception;
 
 	public Response deleteOrganizationBatch(String callbackURL, Object object)

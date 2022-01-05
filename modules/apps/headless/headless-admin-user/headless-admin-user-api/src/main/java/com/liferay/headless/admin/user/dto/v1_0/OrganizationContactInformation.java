@@ -194,7 +194,7 @@ public class OrganizationContactInformation implements Serializable {
 	@GraphQLField(
 		description = "The organization's web URLs, with one optionally marked as primary."
 	)
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected WebUrl[] webUrls;
 
 	@Override

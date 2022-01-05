@@ -14,11 +14,9 @@
 
 package com.liferay.headless.admin.user.dto.v1_0;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
 
 import com.liferay.petra.function.UnsafeSupplier;
 import com.liferay.petra.string.StringBundler;
@@ -61,41 +59,6 @@ public class PostalAddress implements Serializable {
 
 	public static PostalAddress unsafeToDTO(String json) {
 		return ObjectMapperUtil.unsafeReadValue(PostalAddress.class, json);
-	}
-
-	@GraphQLName("AddressType")
-	public static enum AddressType {
-
-		BILLING("billing"), OTHER("other"), P_O_BOX("p-o-box"),
-		SHIPPING("shipping");
-
-		@JsonCreator
-		public static AddressType create(String value) {
-			for (AddressType addressType : values()) {
-				if (Objects.equals(addressType.getValue(), value)) {
-					return addressType;
-				}
-			}
-
-			return null;
-		}
-
-		@JsonValue
-		public String getValue() {
-			return _value;
-		}
-
-		@Override
-		public String toString() {
-			return _value;
-		}
-
-		private AddressType(String value) {
-			_value = value;
-		}
-
-		private final String _value;
-
 	}
 
 	@Schema(description = "The address's country (e.g., USA).")
@@ -215,27 +178,17 @@ public class PostalAddress implements Serializable {
 	protected String addressRegion;
 
 	@Schema(description = "The address's type.")
-	@Valid
-	public AddressType getAddressType() {
+	public String getAddressType() {
 		return addressType;
 	}
 
-	@JsonIgnore
-	public String getAddressTypeAsString() {
-		if (addressType == null) {
-			return null;
-		}
-
-		return addressType.toString();
-	}
-
-	public void setAddressType(AddressType addressType) {
+	public void setAddressType(String addressType) {
 		this.addressType = addressType;
 	}
 
 	@JsonIgnore
 	public void setAddressType(
-		UnsafeSupplier<AddressType, Exception> addressTypeUnsafeSupplier) {
+		UnsafeSupplier<String, Exception> addressTypeUnsafeSupplier) {
 
 		try {
 			addressType = addressTypeUnsafeSupplier.get();
@@ -514,7 +467,7 @@ public class PostalAddress implements Serializable {
 
 			sb.append("\"");
 
-			sb.append(addressType);
+			sb.append(_escape(addressType));
 
 			sb.append("\"");
 		}

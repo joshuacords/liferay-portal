@@ -804,7 +804,7 @@ components:
 info:
     description:
         "A Java client JAR is available for use with the group ID 'com.liferay', artifact ID
-        'com.liferay.headless.admin.user.client', and version '2.0.14'."
+        'com.liferay.headless.admin.user.client', and version '2.0.15'."
     license:
         name: "Apache 2.0"
         url: "http://www.apache.org/licenses/LICENSE-2.0.html"
@@ -1007,30 +1007,6 @@ paths:
                     description:
                         "Organizations successfully created"
             tags: ["Organization"]
-        post:
-            description:
-                Creates a new organization
-            operationId: postOrganization
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: "#/components/schemas/Organization"
-                    application/xml:
-                        schema:
-                            $ref: "#/components/schemas/Organization"
-            responses:
-                201:
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/Organization"
-                        application/xml:
-                            schema:
-                                $ref: "#/components/schemas/Organization"
-                    description:
-                        "Organizations successfully created"
-            tags: ["Organization"]
     "/organizations/{organizationId}":
         delete:
             # @review
@@ -1048,6 +1024,7 @@ paths:
                 204:
                     content:
                         application/json: {}
+                        application/xml: {}
                     description:
                         ""
             tags: ["Organization"]

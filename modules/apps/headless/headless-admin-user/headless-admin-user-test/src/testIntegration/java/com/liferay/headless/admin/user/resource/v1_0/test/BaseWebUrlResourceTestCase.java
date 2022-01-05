@@ -443,6 +443,14 @@ public abstract class BaseWebUrlResourceTestCase {
 		for (String additionalAssertFieldName :
 				getAdditionalAssertFieldNames()) {
 
+			if (Objects.equals("primary", additionalAssertFieldName)) {
+				if (webUrl.getPrimary() == null) {
+					valid = false;
+				}
+
+				continue;
+			}
+
 			if (Objects.equals("url", additionalAssertFieldName)) {
 				if (webUrl.getUrl() == null) {
 					valid = false;
@@ -551,6 +559,16 @@ public abstract class BaseWebUrlResourceTestCase {
 
 			if (Objects.equals("id", additionalAssertFieldName)) {
 				if (!Objects.deepEquals(webUrl1.getId(), webUrl2.getId())) {
+					return false;
+				}
+
+				continue;
+			}
+
+			if (Objects.equals("primary", additionalAssertFieldName)) {
+				if (!Objects.deepEquals(
+						webUrl1.getPrimary(), webUrl2.getPrimary())) {
+
 					return false;
 				}
 
@@ -677,6 +695,11 @@ public abstract class BaseWebUrlResourceTestCase {
 				"Invalid entity field " + entityFieldName);
 		}
 
+		if (entityFieldName.equals("primary")) {
+			throw new IllegalArgumentException(
+				"Invalid entity field " + entityFieldName);
+		}
+
 		if (entityFieldName.equals("url")) {
 			sb.append("'");
 			sb.append(String.valueOf(webUrl.getUrl()));
@@ -738,6 +761,7 @@ public abstract class BaseWebUrlResourceTestCase {
 		return new WebUrl() {
 			{
 				id = RandomTestUtil.randomLong();
+				primary = RandomTestUtil.randomBoolean();
 				url = StringUtil.toLowerCase(RandomTestUtil.randomString());
 				urlType = StringUtil.toLowerCase(RandomTestUtil.randomString());
 			}

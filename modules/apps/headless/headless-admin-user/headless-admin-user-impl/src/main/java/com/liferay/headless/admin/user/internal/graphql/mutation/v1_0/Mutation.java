@@ -73,6 +73,19 @@ public class Mutation {
 				organization));
 	}
 
+	@GraphQLField
+	public Response createOrganizationBatch(
+			@GraphQLName("callbackURL") String callbackURL,
+			@GraphQLName("object") Object object)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_organizationResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			organizationResource -> organizationResource.postOrganizationBatch(
+				callbackURL, object));
+	}
+
 	@GraphQLField(description = "Deletes an organization.")
 	public boolean deleteOrganization(
 			@GraphQLName("organizationId") Long organizationId)
