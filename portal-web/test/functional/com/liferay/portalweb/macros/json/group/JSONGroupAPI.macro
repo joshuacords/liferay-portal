@@ -4,7 +4,9 @@ definition {
 	macro _addGroup {
 		Variables.assertDefined(parameterList = "${groupNameMap}");
 
-		var portalURL = JSONCompany.getPortalURL();
+		if (!(isSet(portalURL))) {
+			var portalURL = JSONCompany.getPortalURL();
+		}
 
 		var curl = '''
 			${portalURL}/api/jsonws/group/add-group \
@@ -104,9 +106,11 @@ definition {
 	macro _getGroupIdByName {
 		Variables.assertDefined(parameterList = "${groupName}");
 
-		var companyId = JSONCompany.getCompanyId();
+		if (!(isSet(portalURL))) {
+			var portalURL = JSONCompany.getPortalURL();
+		}
 
-		var portalURL = JSONCompany.getPortalURL();
+		var companyId = JSONCompany.getCompanyId(portalURL = "${portalURL}");
 
 		var curl = '''
 			${portalURL}/api/jsonws/group/get-groups/company-id/${companyId}/parent-group-id/0/site/true \

@@ -31,7 +31,8 @@ definition {
 		JSONGroupAPI._addGroup(
 			groupDescriptionMap = "${groupDescriptionMap}",
 			groupNameMap = "${groupNameMap}",
-			parentGroupId = "${parentGroupId}");
+			parentGroupId = "${parentGroupId}",
+			portalURL = "${portalURL}");
 	}
 
 	macro assignGroupRoleToUser {
