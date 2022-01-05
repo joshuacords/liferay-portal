@@ -76,6 +76,17 @@ public interface OrganizationResource {
 
 	public Organization getOrganization(Long organizationId) throws Exception;
 
+	public Organization patchOrganization(
+			Long organizationId, Organization organization)
+		throws Exception;
+
+	public Organization putOrganization(
+			Long organizationId, Organization organization)
+		throws Exception;
+
+	public Response putOrganizationBatch(String callbackURL, Object object)
+		throws Exception;
+
 	public Page<Organization> getOrganizationOrganizationsPage(
 			Long parentOrganizationId, Boolean flatten, String search,
 			Filter filter, Pagination pagination, Sort[] sorts)

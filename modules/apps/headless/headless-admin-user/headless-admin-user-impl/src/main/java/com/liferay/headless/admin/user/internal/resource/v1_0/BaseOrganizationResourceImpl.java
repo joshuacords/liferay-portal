@@ -303,6 +303,154 @@ public abstract class BaseOrganizationResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
+	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/{organizationId}' -d $'{"comment": ___, "customFields": ___, "id": ___, "location": ___, "name": ___, "organizationContactInformation": ___, "parentOrganization": ___, "services": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
+	 */
+	@io.swagger.v3.oas.annotations.Operation(
+		description = "Updates the organization with the information sent in the request body. Fields not present in the request body are left unchanged."
+	)
+	@io.swagger.v3.oas.annotations.Parameters(
+		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
+				name = "organizationId"
+			)
+		}
+	)
+	@io.swagger.v3.oas.annotations.tags.Tags(
+		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Organization")}
+	)
+	@javax.ws.rs.Consumes({"application/json", "application/xml"})
+	@javax.ws.rs.PATCH
+	@javax.ws.rs.Path("/organizations/{organizationId}")
+	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@Override
+	public Organization patchOrganization(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.PathParam("organizationId")
+			Long organizationId,
+			Organization organization)
+		throws Exception {
+
+		Organization existingOrganization = getOrganization(organizationId);
+
+		if (organization.getComment() != null) {
+			existingOrganization.setComment(organization.getComment());
+		}
+
+		if (organization.getDateCreated() != null) {
+			existingOrganization.setDateCreated(organization.getDateCreated());
+		}
+
+		if (organization.getDateModified() != null) {
+			existingOrganization.setDateModified(
+				organization.getDateModified());
+		}
+
+		if (organization.getImage() != null) {
+			existingOrganization.setImage(organization.getImage());
+		}
+
+		if (organization.getKeywords() != null) {
+			existingOrganization.setKeywords(organization.getKeywords());
+		}
+
+		if (organization.getName() != null) {
+			existingOrganization.setName(organization.getName());
+		}
+
+		if (organization.getNumberOfOrganizations() != null) {
+			existingOrganization.setNumberOfOrganizations(
+				organization.getNumberOfOrganizations());
+		}
+
+		preparePatch(organization, existingOrganization);
+
+		return putOrganization(organizationId, existingOrganization);
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/{organizationId}' -d $'{"comment": ___, "customFields": ___, "id": ___, "location": ___, "name": ___, "organizationContactInformation": ___, "parentOrganization": ___, "services": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
+	 */
+	@io.swagger.v3.oas.annotations.Operation(
+		description = "Replaces the organization with information sent in the request body. Any missing fields are deleted unless they are required."
+	)
+	@io.swagger.v3.oas.annotations.Parameters(
+		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
+				name = "organizationId"
+			)
+		}
+	)
+	@io.swagger.v3.oas.annotations.tags.Tags(
+		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Organization")}
+	)
+	@javax.ws.rs.Consumes({"application/json", "application/xml"})
+	@javax.ws.rs.Path("/organizations/{organizationId}")
+	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@javax.ws.rs.PUT
+	@Override
+	public Organization putOrganization(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.PathParam("organizationId")
+			Long organizationId,
+			Organization organization)
+		throws Exception {
+
+		return new Organization();
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/batch'  -u 'test@liferay.com:test'
+	 */
+	@io.swagger.v3.oas.annotations.Parameters(
+		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "callbackURL"
+			)
+		}
+	)
+	@io.swagger.v3.oas.annotations.tags.Tags(
+		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Organization")}
+	)
+	@javax.ws.rs.Consumes("application/json")
+	@javax.ws.rs.Path("/organizations/batch")
+	@javax.ws.rs.Produces("application/json")
+	@javax.ws.rs.PUT
+	@Override
+	public Response putOrganizationBatch(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.ws.rs.QueryParam("callbackURL")
+			String callbackURL,
+			Object object)
+		throws Exception {
+
+		vulcanBatchEngineImportTaskResource.setContextAcceptLanguage(
+			contextAcceptLanguage);
+		vulcanBatchEngineImportTaskResource.setContextCompany(contextCompany);
+		vulcanBatchEngineImportTaskResource.setContextHttpServletRequest(
+			contextHttpServletRequest);
+		vulcanBatchEngineImportTaskResource.setContextUriInfo(contextUriInfo);
+		vulcanBatchEngineImportTaskResource.setContextUser(contextUser);
+
+		Response.ResponseBuilder responseBuilder = Response.accepted();
+
+		return responseBuilder.entity(
+			vulcanBatchEngineImportTaskResource.putImportTask(
+				Organization.class.getName(), callbackURL, object)
+		).build();
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/organizations/{parentOrganizationId}/organizations'  -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Operation(
@@ -445,6 +593,13 @@ public abstract class BaseOrganizationResourceImpl
 			java.util.Collection<Organization> organizations,
 			Map<String, Serializable> parameters)
 		throws Exception {
+
+		for (Organization organization : organizations) {
+			putOrganization(
+				organization.getId() != null ? organization.getId() :
+					Long.parseLong((String)parameters.get("organizationId")),
+				organization);
+		}
 	}
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {
@@ -568,6 +723,10 @@ public abstract class BaseOrganizationResourceImpl
 
 		return addAction(
 			actionName, siteId, methodName, null, permissionName, siteId);
+	}
+
+	protected void preparePatch(
+		Organization organization, Organization existingOrganization) {
 	}
 
 	protected <T, R> List<R> transform(

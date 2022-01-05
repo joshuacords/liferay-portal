@@ -633,6 +633,61 @@ public abstract class BaseOrganizationResourceTestCase {
 	}
 
 	@Test
+	public void testPatchOrganization() throws Exception {
+		Organization postOrganization = testPatchOrganization_addOrganization();
+
+		Organization randomPatchOrganization = randomPatchOrganization();
+
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		Organization patchOrganization = organizationResource.patchOrganization(
+			postOrganization.getId(), randomPatchOrganization);
+
+		Organization expectedPatchOrganization = postOrganization.clone();
+
+		_beanUtilsBean.copyProperties(
+			expectedPatchOrganization, randomPatchOrganization);
+
+		Organization getOrganization = organizationResource.getOrganization(
+			patchOrganization.getId());
+
+		assertEquals(expectedPatchOrganization, getOrganization);
+		assertValid(getOrganization);
+	}
+
+	protected Organization testPatchOrganization_addOrganization()
+		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
+	@Test
+	public void testPutOrganization() throws Exception {
+		Organization postOrganization = testPutOrganization_addOrganization();
+
+		Organization randomOrganization = randomOrganization();
+
+		Organization putOrganization = organizationResource.putOrganization(
+			postOrganization.getId(), randomOrganization);
+
+		assertEquals(randomOrganization, putOrganization);
+		assertValid(putOrganization);
+
+		Organization getOrganization = organizationResource.getOrganization(
+			putOrganization.getId());
+
+		assertEquals(randomOrganization, getOrganization);
+		assertValid(getOrganization);
+	}
+
+	protected Organization testPutOrganization_addOrganization()
+		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
+	@Test
 	public void testGetOrganizationOrganizationsPage() throws Exception {
 		Long parentOrganizationId =
 			testGetOrganizationOrganizationsPage_getParentOrganizationId();
