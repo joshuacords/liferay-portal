@@ -817,6 +817,31 @@ definition {
 		SearchResultPortlet.viewMultipleSearchResultsNotPresent(noResultsList = "Liferay Journal/Web Content Article,New Site Article/Web Content Article,New Site Journal/Web Content Article");
 	}
 
+	test SearchWithMoreThanTenSynonymSets {
+		SearchTuning.openSynonymsAdmin();
+
+		var digit = "1";
+
+		for (var number : list "one,two,three,four,five,six,seven,eight,nine,ten,eleven") {
+			SearchTuning.addSynonymSet(synonyms = "${digit},${number}");
+
+			var digit = ${digit} + 1;
+		}
+
+		JSONWebcontent.addWebContent(
+			content = "",
+			groupName = "Guest",
+			title = "eleven");
+
+		Navigator.openURL();
+
+		SearchPortlets.searchEmbedded(searchTerm = "11");
+
+		SearchResultPortlet.viewSearchResults(
+			searchAssetTitle = "eleven",
+			searchAssetType = "Web Content Article");
+	}
+
 	test SearchWithSynonyms {
 		property portal.acceptance = "true";
 
