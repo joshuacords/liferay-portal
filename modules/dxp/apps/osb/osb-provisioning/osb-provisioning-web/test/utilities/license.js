@@ -61,9 +61,12 @@ describe('Dates for license associated with a Subscription', () => {
 						licenseStartDate: startDate
 					} = dates;
 
-					expect(
-						expirationDate.getFullYear() - startDate.getFullYear()
-					).toBe(100);
+					const derivedEXpirationDate = generateNewDateByYear(
+						startDate,
+						100
+					);
+
+					expect(derivedEXpirationDate).toStrictEqual(expirationDate);
 				});
 			});
 
@@ -180,6 +183,8 @@ describe('Dates for Detached licenses', () => {
 			licenseStartDate: startDate
 		} = dates;
 
-		expect(expirationDate.getFullYear() - startDate.getFullYear()).toBe(1);
+		const derivedEXpirationDate = generateNewDateByYear(startDate);
+
+		expect(derivedEXpirationDate).toStrictEqual(expirationDate);
 	});
 });
