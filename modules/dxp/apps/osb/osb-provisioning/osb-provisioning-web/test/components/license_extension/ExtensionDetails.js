@@ -29,7 +29,7 @@ const multipleDetachedLicenses = [
 		startDate: '2021-06-04'
 	},
 	{
-		accountName: 'Account 2',
+		accountName: 'Account 1',
 		expirationDate: '2027-12-14',
 		indefinite: false,
 		licenseKeyId: 'licenseKeyID2',

@@ -14,7 +14,7 @@ import {Map} from 'immutable';
 import PropTypes from 'prop-types';
 import React, {useCallback, useRef, useState} from 'react';
 
-import {FieldData} from '../../hooks/extendLicenses';
+import {FieldData, useExtendLicenses} from '../../hooks/extendLicenses';
 import {
 	convertInputToDate,
 	formatDate,
@@ -25,6 +25,7 @@ import ExtendButton from './ExtendButton';
 import ExtensionDetails from './ExtensionDetails';
 
 export default function DetailsGroup({extensionURL, licenses}) {
+	const [, {batchFieldUpdateByIds}] = useExtendLicenses();
 	const formRef = useRef();
 
 	const [fieldData, setFieldData] = useState(
@@ -36,6 +37,7 @@ export default function DetailsGroup({extensionURL, licenses}) {
 		)
 	);
 
+	const ids = licenses.map(({licenseKeyId}) => licenseKeyId);
 	const productName = licenses[0].productName;
 	const singleLicense = licenses.length === 1;
 
@@ -81,12 +83,34 @@ export default function DetailsGroup({extensionURL, licenses}) {
 			}));
 	}
 
-	function handleBulkSaveExpirationDate() {}
+	function handleBulkSaveExpirationDate(value) {
+		const validDateFormat = validateDateFieldFormat(value);
+
+		if (validDateFormat) {
+			const date = convertInputToDate(value);
+
+			// update submission data
+			setFieldData(
+				fieldData.map(data => data.set('expirationDate', date))
+			);
+
+			// update display data
+			batchFieldUpdateByIds(ids, 'startDate', date);
+		}
+	}
 
 	function handleBulkSaveStartDate(value) {
 		const validDateFormat = validateDateFieldFormat(value);
 
-	
+		if (validDateFormat) {
+			const date = convertInputToDate(value);
+
+			// update submission data
+			setFieldData(fieldData.map(data => data.set('startDate', date)));
+
+			// update display data
+			batchFieldUpdateByIds(ids, 'startDate', date);
+		}
 	}
 
 	function handleFieldChange(keyPath, value) {

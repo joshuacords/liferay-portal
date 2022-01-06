@@ -220,7 +220,7 @@ describe('ExtendLicense', () => {
 		});
 	});
 
-	describe('Bulk Input display', () => {
+	describe('Bulk Input', () => {
 		it('displays Bulk Input when more than one temporary licenses of the same product are available', () => {
 			const {getByText} = renderExtendLicense({
 				details: multipleAttachedLicenses
@@ -235,6 +235,121 @@ describe('ExtendLicense', () => {
 			});
 
 			expect(queryByText('bulk-input')).toBeFalsy();
+		});
+
+		it('populates the start/expiration bulk date input when all licenses in the group have the same start/expiration dates', () => {
+			const {container} = renderExtendLicense({
+				details: multipleAttachedLicenses
+			});
+
+			const bulkStartDate = container.querySelector(
+				'input[name="startDateBulkInput-DXP 7.0"]'
+			);
+
+			const bulkExpirationDate = container.querySelector(
+				'input[name="expirationDateBulkInput-DXP 7.0"]'
+			);
+
+			expect(bulkStartDate.value).toBe('2021-06-03');
+			expect(bulkExpirationDate.value).toBe('2022-06-08');
+		});
+
+		it('displays the start/expiration bulk date input as Varied Data when dates vary for the licenses in the group', () => {
+			const {container} = renderExtendLicense({
+				details: [
+					{
+						accountName: 'Account 1',
+						expirationDate: '2022-01-08',
+						indefinite: false,
+						licenseKeyId: 'licenseKeyID1',
+						licenseKeysGenerated: '0',
+						licenseType: 'development',
+						productName: 'DXP 7.0',
+						startDate: '2021-01-03',
+						terms: [
+							{
+								endDate: '2022-07-02',
+								licenseKeysGenerated: '1 / 1',
+								perpetual: false,
+								productPurchaseKey: 'productPurchaseKey2',
+								startDate: '2021-06-02',
+								status: 'Approved'
+							}
+						]
+					},
+					{
+						accountName: 'Account 1',
+						expirationDate: '2022-06-08',
+						indefinite: false,
+						licenseKeyId: 'licenseKeyID2',
+						licenseKeysGenerated: '0',
+						licenseType: 'development',
+						productName: 'DXP 7.0',
+						startDate: '2021-06-03',
+						terms: [
+							{
+								endDate: '2022-07-02',
+								licenseKeysGenerated: '1 / 1',
+								perpetual: false,
+								productPurchaseKey: 'productPurchaseKey4',
+								startDate: '2021-06-02',
+								status: 'Approved'
+							}
+						]
+					}
+				]
+			});
+
+			const bulkStartDate = container.querySelector(
+				'input[name="startDateBulkInput-DXP 7.0"]'
+			);
+
+			const bulkExpirationDate = container.querySelector(
+				'input[name="expirationDateBulkInput-DXP 7.0"]'
+			);
+
+			expect(bulkStartDate.value).toBe('');
+			expect(bulkExpirationDate.value).toBe('');
+		});
+
+		it("display Varied Data when one of the licenses' date changes", () => {
+			const {container, getAllByDisplayValue} = renderExtendLicense({
+				details: multipleAttachedLicenses
+			});
+
+			const bulkStartDate = container.querySelector(
+				'input[name="startDateBulkInput-DXP 7.0"]'
+			);
+
+			expect(bulkStartDate.value).toBe('2021-06-03');
+
+			// Clay Date Picker always displays two inputs for the same date
+
+			fireEvent.change(getAllByDisplayValue('2021-06-03')[3], {
+				target: {value: '2021-03-06'}
+			});
+
+			expect(bulkStartDate.value).toBe('');
+		});
+
+		it('updates all licenses dates in the group when the Bulk Input is updated', () => {
+			const {container, getAllByDisplayValue} = renderExtendLicense({
+				details: multipleAttachedLicenses
+			});
+
+			const bulkStartDate = container.querySelector(
+				'input[name="startDateBulkInput-DXP 7.0"]'
+			);
+
+			expect(bulkStartDate.value).toBe('2021-06-03');
+
+			// Clay Date Picker always displays two inputs for the same date
+
+			fireEvent.change(getAllByDisplayValue('2021-06-03')[1], {
+				target: {value: '2021-03-06'}
+			});
+
+			expect(bulkStartDate.value).toBe('2021-03-06');
 		});
 	});
 

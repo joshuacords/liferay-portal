@@ -81,6 +81,19 @@ export function ExtendLicensesProvider({initialLicenses = [], children}) {
 			value={[
 				licenses,
 				{
+					batchFieldUpdateByIds(ids, fieldName, value) {
+						setLicenses(
+							licenses.map(license => {
+								const id = ids.find(
+									id => id === license.licenseKeyId
+								);
+
+								return id
+									? license.set(fieldName, value)
+									: license;
+							})
+						);
+					},
 					removeLicense(key) {
 						setLicenses(licenses.delete(key));
 					},
@@ -117,8 +130,8 @@ export class FieldData extends Record({
 	}
 
 	hasValidDates() {
-		const expiration = Date.parse(new Date(this.expirationDate));
-		const start = Date.parse(new Date(this.startDate));
+		const expiration = Date.parse(this.expirationDate);
+		const start = Date.parse(this.startDate);
 
 		return start < expiration;
 	}
