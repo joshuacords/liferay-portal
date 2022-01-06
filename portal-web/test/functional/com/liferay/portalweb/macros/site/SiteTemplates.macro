@@ -66,13 +66,13 @@ definition {
 
 		LexiconEntry.gotoAdd();
 
-		if (contains("${sitePageType}", "{sitePageType}")) {
+		if (!(isSet(sitePageType))) {
 			var sitePageType = "Widget Page";
 		}
 
 		var rowEntry = "${sitePageType}";
 
-		if (!(contains("${pageTemplateName}", "{pageTemplateName}"))) {
+		if (isSet(pageTemplateName)) {
 			Navigator.gotoNavNested(navNested = "Global Templates");
 
 			var rowEntry = "${pageTemplateName}";

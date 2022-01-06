@@ -3,7 +3,7 @@ definition {
 	macro _addItemPage {
 		IFrame.selectConfigurationFrame();
 
-		if (contains("${privacy}", "{privacy}")) {
+		if (!(isSet(privacy))) {
 			var privacy = "Public Pages";
 		}
 

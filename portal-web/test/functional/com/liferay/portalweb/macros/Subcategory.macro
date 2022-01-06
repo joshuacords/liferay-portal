@@ -9,7 +9,7 @@ definition {
 
 		PortletEntry.inputTitle(title = "${subcategoryName}");
 
-		if (!(contains("${subcategoryDescription}", "{subcategoryDescription}"))) {
+		if (isSet(subcategoryDescription)) {
 			PortletEntry.inputDescription(description = "${subcategoryDescription}");
 		}
 	}

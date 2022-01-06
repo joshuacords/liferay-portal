@@ -106,7 +106,7 @@ definition {
 	}
 
 	macro _selectPageType {
-		if (!(contains("${pageTemplateName}", "{pageTemplateName}"))) {
+		if (isSet(pageTemplateName)) {
 			var sitePageType = "${pageTemplateName}";
 
 			if (isSet(collectionName)) {
