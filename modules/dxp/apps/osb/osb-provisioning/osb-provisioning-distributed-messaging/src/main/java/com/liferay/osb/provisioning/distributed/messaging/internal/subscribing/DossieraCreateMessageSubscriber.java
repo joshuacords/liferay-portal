@@ -665,7 +665,8 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 			Account account, PostalAddress postalAddress,
 			Set<ProductPurchase> productPurchases,
 			String salesforceOpportunityTypeName,
-			String salesforceOpportunityKey)
+			String salesforceOpportunityKey,
+			String salesforceOpportunityOwnerEmailAddress)
 		throws Exception {
 
 		ZendeskTicket zendeskTicket = new ZendeskTicket();
@@ -679,7 +680,7 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 		customFields.put(
 			_distributedMessagingConfiguration.
 				zendeskCustomFieldOpportunityOwnerId(),
-			account.getContactEmailAddress());
+			salesforceOpportunityOwnerEmailAddress);
 		customFields.put(
 			_distributedMessagingConfiguration.
 				zendeskCustomFieldPrimaryAddressCountryId(),
@@ -852,8 +853,10 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 
 		zendeskTicket.setDescription(sb.toString());
 
-		zendeskTicket.setEmailCCs(
-			new String[] {account.getContactEmailAddress()});
+		if (Validator.isNotNull(salesforceOpportunityOwnerEmailAddress)) {
+			zendeskTicket.setEmailCCs(
+				new String[] {salesforceOpportunityOwnerEmailAddress});
+		}
 
 		zendeskTicket.setRequesterId(
 			_distributedMessagingConfiguration.
@@ -1041,9 +1044,19 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 			"_salesforceOpportunityProductFamily");
 
 		if (!salesforceOpportunityProductFamily.equals("P")) {
+			String salesforceOpportunityOwnerEmailAddress = StringPool.BLANK;
+
+			JSONObject ownerJSONObject = jsonObject.getJSONObject("_owner");
+
+			if (ownerJSONObject != null) {
+				salesforceOpportunityOwnerEmailAddress =
+					ownerJSONObject.getString("_emailAddress");
+			}
+
 			createZendeskTicket(
 				account, postalAddress, productPurchases,
-				salesforceOpportunityTypeName, salesforceOpportunityKey);
+				salesforceOpportunityTypeName, salesforceOpportunityKey,
+				salesforceOpportunityOwnerEmailAddress);
 		}
 	}
 
