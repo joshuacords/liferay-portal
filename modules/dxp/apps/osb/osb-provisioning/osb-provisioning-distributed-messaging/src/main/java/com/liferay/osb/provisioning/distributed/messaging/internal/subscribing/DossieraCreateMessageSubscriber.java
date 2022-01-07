@@ -234,7 +234,9 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 
 		int maxDeveloperCount = _accountReader.getMaxDeveloperCount(account);
 
-		if (curDeveloperCount > maxDeveloperCount) {
+		if ((maxDeveloperCount >= 0) &&
+			(curDeveloperCount > maxDeveloperCount)) {
+
 			_logWarning(
 				StringBundler.concat(
 					"The maximum developer contacts is ", maxDeveloperCount,
