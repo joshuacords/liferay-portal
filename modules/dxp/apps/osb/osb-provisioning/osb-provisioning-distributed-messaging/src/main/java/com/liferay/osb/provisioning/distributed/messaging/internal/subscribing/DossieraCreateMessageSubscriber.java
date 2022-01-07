@@ -970,8 +970,6 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 
 		Account account = null;
 
-		JSONObject projectJSONObject = jsonObject.getJSONObject("_project");
-
 		Account partnerAccount = parsePartnerAccount(jsonObject);
 
 		boolean partnerFirstLineSupport = jsonObject.getBoolean(
@@ -980,8 +978,10 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 		String salesforceOpportunityKey = jsonObject.getString(
 			"_salesforceOpportunityKey");
 
-		if (isProvisionMessage(salesforceOpportunityKey)) {
+		if (isProvisionMessage(salesforceOpportunityKey, jsonObject)) {
 			Account parentAccount = null;
+
+			JSONObject projectJSONObject = jsonObject.getJSONObject("_project");
 
 			if (projectJSONObject != null) {
 				parentAccount = createParentAccount(jsonObject);
@@ -1663,11 +1663,43 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 		return true;
 	}
 
-	protected boolean isProvisionMessage(String salesforceOpportunityKey)
+	protected boolean isProvisionMessage(
+			String salesforceOpportunityKey, JSONObject jsonObject)
 		throws Exception {
 
 		if (Validator.isNull(salesforceOpportunityKey)) {
 			return false;
+		}
+
+		Account account = null;
+
+		JSONObject projectJSONObject = jsonObject.getJSONObject("_project");
+
+		if (projectJSONObject != null) {
+			List<Account> accounts = _accountWebService.getAccounts(
+				ExternalLinkDomain.SALESFORCE,
+				ExternalLinkEntityName.SALESFORCE_PROJECT,
+				projectJSONObject.getString("_salesforceProjectKey"), 1, 1);
+
+			if (!accounts.isEmpty()) {
+				account = accounts.get(0);
+			}
+		}
+		else {
+			JSONObject accountJSONObject = jsonObject.getJSONObject("_account");
+
+			List<Account> accounts = _accountWebService.getAccounts(
+				ExternalLinkDomain.DOSSIERA,
+				ExternalLinkEntityName.DOSSIERA_ACCOUNT,
+				accountJSONObject.getString("_dossieraAccountKey"), 1, 1);
+
+			if (!accounts.isEmpty()) {
+				account = accounts.get(0);
+			}
+		}
+
+		if (account == null) {
+			return true;
 		}
 
 		FilterQuery filterQuery = new FilterQuery();
@@ -1683,20 +1715,24 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 		filterQuery.addLambdaEquals(
 			true, "externalLinkEntityIds", sb.toString());
 
+		filterQuery.addEquals(true, "accountKey", account.getKey());
+
 		long productPurchaseCount = _productPurchaseWebService.searchCount(
 			filterQuery);
 
 		if (productPurchaseCount > 0) {
 			if (_log.isDebugEnabled()) {
 				_log.debug(
-					"Product purchase already exists with opportunity key " +
-						salesforceOpportunityKey);
+					StringBundler.concat(
+						"Product purchase already exists with opportunity key ",
+						salesforceOpportunityKey, " and account key ",
+						account.getKey()));
 			}
 
 			_logWarning(
 				"The opportunity was not provisioned automatically since " +
-					"subscriptions with this opportunity key already exist " +
-						"in the system.");
+					"subscriptions with this opportunity key and account key " +
+						"already exist in the system.");
 
 			return false;
 		}
