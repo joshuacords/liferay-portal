@@ -42,7 +42,7 @@ AssetRenderer<?> assetRenderer = (AssetRenderer<?>)request.getAttribute("view.js
 long previewAssetEntryId = ParamUtil.getLong(request, "previewAssetEntryId");
 
 boolean print = GetterUtil.getBoolean(request.getAttribute("view.jsp-print"));
-boolean viewSingleAsset = ParamUtil.getBoolean(request, "viewSingleAsset");
+boolean viewSingleAsset = ParamUtil.getBoolean(request, "viewSingleAsset", true);
 
 assetPublisherDisplayContext.setLayoutAssetEntry(assetEntry);
 
@@ -56,7 +56,7 @@ if (print) {
 	viewFullContentURL.setParameter("viewMode", Constants.PRINT);
 }
 
-String viewInContextURL = HttpUtil.addParameter(assetRenderer.getURLViewInContext(liferayPortletRequest, liferayPortletResponse, HttpUtil.setParameter(viewFullContentURL.toString(), "redirect", currentURL)), liferayPortletResponse.getNamespace() + "viewSingleAsset", true);
+String viewInContextURL = assetRenderer.getURLViewInContext(liferayPortletRequest, liferayPortletResponse, HttpUtil.setParameter(viewFullContentURL.toString(), "redirect", currentURL));
 
 Map<String, Object> fragmentsEditorData = new HashMap<>();
 
