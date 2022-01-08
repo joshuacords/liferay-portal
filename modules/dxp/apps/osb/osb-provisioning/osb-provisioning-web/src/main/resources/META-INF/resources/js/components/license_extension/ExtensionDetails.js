@@ -67,7 +67,11 @@ function Detail({
 	);
 
 	useEffect(() => {
-		setValidDates(!isNaN(expirationDate) && !isNaN(startDate));
+		setValidDates(
+			!isNaN(expirationDate) &&
+				!isNaN(startDate) &&
+				startDate < expirationDate
+		);
 	}, [expirationDate, startDate]);
 
 	useEffect(() => {

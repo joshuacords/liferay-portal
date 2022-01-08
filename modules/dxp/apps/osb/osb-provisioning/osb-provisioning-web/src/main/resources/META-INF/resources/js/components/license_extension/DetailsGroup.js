@@ -36,6 +36,10 @@ export default function DetailsGroup({extensionURL, licenses}) {
 			])
 		)
 	);
+	const [validDateFormat, setValidDateFormat] = useState({
+		expirationDate: true,
+		startDate: true
+	});
 
 	const ids = licenses.map(({licenseKeyId}) => licenseKeyId);
 	const productName = licenses[0].productName;
@@ -84,9 +88,9 @@ export default function DetailsGroup({extensionURL, licenses}) {
 	}
 
 	function handleBulkSaveExpirationDate(value) {
-		const validDateFormat = validateDateFieldFormat(value);
+		const validation = validateDateFieldFormat(value);
 
-		if (validDateFormat) {
+		if (validation) {
 			const date = convertInputToDate(value);
 
 			// update submission data
@@ -95,14 +99,19 @@ export default function DetailsGroup({extensionURL, licenses}) {
 			);
 
 			// update display data
-			batchFieldUpdateByIds(ids, 'startDate', date);
+			batchFieldUpdateByIds(ids, 'expirationDate', date);
 		}
+
+		setValidDateFormat({
+			...validDateFormat,
+			expirationDate: validation
+		});
 	}
 
 	function handleBulkSaveStartDate(value) {
-		const validDateFormat = validateDateFieldFormat(value);
+		const validation = validateDateFieldFormat(value);
 
-		if (validDateFormat) {
+		if (validation) {
 			const date = convertInputToDate(value);
 
 			// update submission data
@@ -111,6 +120,11 @@ export default function DetailsGroup({extensionURL, licenses}) {
 			// update display data
 			batchFieldUpdateByIds(ids, 'startDate', date);
 		}
+
+		setValidDateFormat({
+			...validDateFormat,
+			startDate: validation
+		});
 	}
 
 	function handleFieldChange(keyPath, value) {
@@ -141,13 +155,13 @@ export default function DetailsGroup({extensionURL, licenses}) {
 						<BulkInput.Date
 							editHandler={handleBulkSaveStartDate}
 							fieldName={`startDateBulkInput-${productName}`}
-							// isValid={!invalidDateFormat.startDate}
+							isValid={validDateFormat.startDate}
 							value={getDisplayValue('startDate')}
 						/>
 						<BulkInput.Date
 							editHandler={handleBulkSaveExpirationDate}
 							fieldName={`expirationDateBulkInput-${productName}`}
-							// isValid={!invalidDateFormat.originalEndDate}
+							isValid={validDateFormat.expirationDate}
 							value={getDisplayValue('expirationDate')}
 						/>
 

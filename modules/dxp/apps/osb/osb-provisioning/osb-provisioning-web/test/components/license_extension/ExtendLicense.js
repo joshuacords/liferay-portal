@@ -531,7 +531,7 @@ describe('ExtendLicense', () => {
 				// Clay Date Picker always displays two inputs for the same date
 
 				fireEvent.change(
-					getAllByDisplayValue(formatDate(new Date()))[1],
+					getAllByDisplayValue(formatDate(new Date()))[3],
 					{
 						target: {value: 'invalid'}
 					}
