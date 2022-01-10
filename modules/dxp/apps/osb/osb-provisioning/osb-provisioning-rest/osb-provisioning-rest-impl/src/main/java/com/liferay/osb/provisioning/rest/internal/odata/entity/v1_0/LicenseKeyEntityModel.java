@@ -15,6 +15,7 @@
 package com.liferay.osb.provisioning.rest.internal.odata.entity.v1_0;
 
 import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.odata.entity.BooleanEntityField;
 import com.liferay.portal.odata.entity.DateTimeEntityField;
 import com.liferay.portal.odata.entity.EntityField;
 import com.liferay.portal.odata.entity.EntityModel;
@@ -35,15 +36,16 @@ public class LicenseKeyEntityModel implements EntityModel {
 	public LicenseKeyEntityModel() {
 		_entityFieldsMap = Stream.of(
 			new StringEntityField("accountKey", locale -> "accountKey"),
+			new BooleanEntityField("active", locale -> "active"),
 			new DateTimeEntityField(
 				"expirationDate",
 				locale -> Field.getSortableFieldName(Field.EXPIRATION_DATE),
 				locale -> Field.EXPIRATION_DATE),
-			new StringEntityField("type", locale -> "licenseEntryType"),
 			new StringEntityField("productVersion", locale -> "productVersion"),
 			new DateTimeEntityField(
 				"startDate", locale -> Field.getSortableFieldName("startDate"),
-				locale -> "startDate")
+				locale -> "startDate"),
+			new StringEntityField("type", locale -> "licenseEntryType")
 		).collect(
 			Collectors.toMap(EntityField::getName, Function.identity())
 		);
