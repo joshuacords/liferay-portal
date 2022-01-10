@@ -18,13 +18,14 @@ import {
 	NewLicenseProvider
 } from '../../../src/main/resources/META-INF/resources/js/hooks/newLicense';
 import {PermissionsProvider} from '../../../src/main/resources/META-INF/resources/js/hooks/permissions';
-import {DASH} from '../../../src/main/resources/META-INF/resources/js/utilities/constants';
+import {
+	CURRENT_TIME,
+	DASH
+} from '../../../src/main/resources/META-INF/resources/js/utilities/constants';
 import {
 	formatDate,
 	generateNewDateByYear
 } from '../../../src/main/resources/META-INF/resources/js/utilities/date';
-
-const TODAY = new Date();
 
 function renderPurchases({
 	initialLicense = new License(),
@@ -290,7 +291,7 @@ describe('Purchases', () => {
 							{
 								target: {
 									value: formatDate(
-										generateNewDateByYear(TODAY, 2)
+										generateNewDateByYear(CURRENT_TIME, 2)
 									)
 								}
 							}

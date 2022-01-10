@@ -41,9 +41,9 @@ describe('generateNewDateByYear', () => {
 
 describe('getIntervalInDays', () => {
 	it('calculates the interval between two dates correctly', () => {
-		expect(
-			getIntervalInDays(CURRENT_TIME, generateNewDateByDay())
-		).toBe(30);
+		expect(getIntervalInDays(CURRENT_TIME, generateNewDateByDay())).toBe(
+			30
+		);
 	});
 
 	it('calculates the duration between two string representation of dates correctly', () => {

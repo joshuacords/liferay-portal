@@ -15,6 +15,7 @@ import React from 'react';
 import AddNote from '../../../src/main/resources/META-INF/resources/js/components/side_panel/AddNote';
 import {NotesProvider} from '../../../src/main/resources/META-INF/resources/js/hooks/notes';
 import {
+	CURRENT_TIME,
 	NOTE_FORMAT_HTML,
 	NOTE_STATUS_APPROVED,
 	NOTE_TYPE_GENERAL,
@@ -24,7 +25,7 @@ import {
 const exampleNotes = [
 	{
 		content: 'pinned note',
-		createDate: new Date().toLocaleString('en-US'),
+		createDate: CURRENT_TIME.toLocaleString('en-US'),
 		creatorName: 'Jane Doe',
 		creatorPortraitURL: '/',
 		edited: false,
@@ -41,7 +42,7 @@ const exampleNotes = [
 const mockResponse = {
 	note: {
 		content: 'pinned note',
-		createDate: new Date().toLocaleString('en-US'),
+		createDate: CURRENT_TIME.toLocaleString('en-US'),
 		creatorName: 'Jane Doe',
 		creatorPortraitURL: '/',
 		deleteNoteURL: '/delete/url',

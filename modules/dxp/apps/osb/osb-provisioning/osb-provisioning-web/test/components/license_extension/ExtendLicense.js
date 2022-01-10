@@ -13,6 +13,7 @@ import {cleanup, fireEvent, render} from '@testing-library/react';
 import React from 'react';
 
 import ExtendLicense from '../../../src/main/resources/META-INF/resources/js/components/license_extension/ExtendLicense';
+import {CURRENT_TIME} from '../../../src/main/resources/META-INF/resources/js/utilities/constants';
 import {
 	formatDate,
 	generateNewDateByYear
@@ -531,7 +532,7 @@ describe('ExtendLicense', () => {
 				// Clay Date Picker always displays two inputs for the same date
 
 				fireEvent.change(
-					getAllByDisplayValue(formatDate(new Date()))[3],
+					getAllByDisplayValue(formatDate(CURRENT_TIME))[3],
 					{
 						target: {value: 'invalid'}
 					}
@@ -550,11 +551,11 @@ describe('ExtendLicense', () => {
 				// Clay Date Picker always displays two inputs for the same date
 
 				fireEvent.change(
-					getAllByDisplayValue(formatDate(new Date()))[1],
+					getAllByDisplayValue(formatDate(CURRENT_TIME))[1],
 					{
 						target: {
 							value: formatDate(
-								generateNewDateByYear(new Date(), 2)
+								generateNewDateByYear(CURRENT_TIME, 2)
 							)
 						}
 					}
@@ -597,7 +598,9 @@ describe('ExtendLicense', () => {
 			// Clay Date Picker always displays two inputs for the same date
 			// The date occurs one more time in the hidden form
 
-			expect(getAllByDisplayValue(formatDate(new Date())).length).toBe(3);
+			expect(getAllByDisplayValue(formatDate(CURRENT_TIME)).length).toBe(
+				3
+			);
 		});
 	});
 

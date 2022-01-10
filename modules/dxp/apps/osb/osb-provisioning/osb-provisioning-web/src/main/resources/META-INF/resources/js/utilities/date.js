@@ -56,10 +56,7 @@ export function formatDate(date) {
  * starting date.
  * @returns {Object} Date object.
  */
-export function generateNewDateByDay(
-	startDate = CURRENT_TIME,
-	offset = 30
-) {
+export function generateNewDateByDay(startDate = CURRENT_TIME, offset = 30) {
 	let startDateCopy = new Date(startDate);
 
 	if (isNaN(startDateCopy)) {
@@ -80,10 +77,7 @@ export function generateNewDateByDay(
  * starting date.
  * @returns {Object} Date object.
  */
-export function generateNewDateByYear(
-	startDate = CURRENT_TIME,
-	offset = 1
-) {
+export function generateNewDateByYear(startDate = CURRENT_TIME, offset = 1) {
 	let startDateCopy = new Date(startDate);
 
 	if (isNaN(startDateCopy)) {

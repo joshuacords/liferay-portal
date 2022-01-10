@@ -14,6 +14,7 @@ import React from 'react';
 
 import GeneralDetails from '../../../src/main/resources/META-INF/resources/js/components/account_details/GeneralDetails';
 import {PermissionsProvider} from '../../../src/main/resources/META-INF/resources/js/hooks/permissions';
+import {CURRENT_TIME} from '../../../src/main/resources/META-INF/resources/js/utilities/constants';
 
 function renderGeneralDetails(permission = true) {
 	return render(
@@ -25,8 +26,8 @@ function renderGeneralDetails(permission = true) {
 					allowSelfProvisioning: false,
 					code: '123',
 					dataRegion: 'Brazil',
-					dateCreated: new Date().toLocaleString('en-US'),
-					dateModified: new Date().toLocaleString('en-US'),
+					dateCreated: CURRENT_TIME.toLocaleString('en-US'),
+					dateModified: CURRENT_TIME.toLocaleString('en-US'),
 					firstLineSupportTeamName: 'Test Support Team',
 					key: '123',
 					liferayVersion: 'DXP 7.0',

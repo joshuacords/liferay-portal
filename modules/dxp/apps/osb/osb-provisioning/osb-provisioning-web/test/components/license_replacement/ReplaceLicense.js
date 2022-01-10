@@ -13,12 +13,11 @@ import {cleanup, fireEvent, render, wait} from '@testing-library/react';
 import React from 'react';
 
 import ReplaceLicense from '../../../src/main/resources/META-INF/resources/js/components/license_replacement/ReplaceLicense';
+import {CURRENT_TIME} from '../../../src/main/resources/META-INF/resources/js/utilities/constants';
 import {
 	formatDate,
 	generateNewDateByDay
 } from '../../../src/main/resources/META-INF/resources/js/utilities/date';
-
-const TODAY = new Date();
 
 function renderReplaceLicense() {
 	return render(
@@ -87,7 +86,9 @@ describe('ReplaceLicense', () => {
 		await wait(() => {
 			getByText('start-date');
 
-			expect(queryAllByDisplayValue(formatDate(TODAY)).length).toBe(2);
+			expect(
+				queryAllByDisplayValue(formatDate(CURRENT_TIME)).length
+			).toBe(2);
 		});
 	});
 

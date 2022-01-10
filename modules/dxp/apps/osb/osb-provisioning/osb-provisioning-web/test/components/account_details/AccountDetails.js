@@ -13,6 +13,7 @@ import {cleanup, render} from '@testing-library/react';
 import React from 'react';
 
 import AccountDetails from '../../../src/main/resources/META-INF/resources/js/components/account_details/AccountDetails';
+import {CURRENT_TIME} from '../../../src/main/resources/META-INF/resources/js/utilities/constants';
 
 function renderAccountDetails(props) {
 	return render(
@@ -63,8 +64,8 @@ function renderAccountDetails(props) {
 				allowSelfProvisioning: true,
 				code: '123',
 				dataRegion: 'Brazil',
-				dateCreated: new Date().toLocaleString('en-US'),
-				dateModified: new Date().toLocaleString('en-US'),
+				dateCreated: CURRENT_TIME.toLocaleString('en-US'),
+				dateModified: CURRENT_TIME.toLocaleString('en-US'),
 				dossieraAccountKey: 'testDossieraAccountKey',
 				dossieraProjectKey: 'testDossieraProjectKey',
 				editAccountURL: 'edit/account/url',

@@ -17,6 +17,7 @@ import {
 	License,
 	NewLicenseProvider
 } from '../../../src/main/resources/META-INF/resources/js/hooks/newLicense';
+import {CURRENT_TIME} from '../../../src/main/resources/META-INF/resources/js/utilities/constants';
 import {
 	displayInMDYDateFormat,
 	getUTCAdjustedDate
@@ -26,7 +27,7 @@ const dummyLicense = new License({
 	accountKey: 'KEY-ABC',
 	accountName: 'Test Account',
 	complimentary: true,
-	expirationDate: new Date(),
+	expirationDate: CURRENT_TIME,
 	licenseEntry: {
 		licenseEntryId: 'ID-123',
 		licenseEntryName: 'Test License Entry Name',
@@ -38,7 +39,7 @@ const dummyLicense = new License({
 	productPurchaseKey: 'PPKEY-123',
 	showSpecificDetails: true,
 	sizing: '1',
-	startDate: new Date(),
+	startDate: CURRENT_TIME,
 	version: '1.0'
 });
 
@@ -64,7 +65,7 @@ function renderServerIdFields(props) {
 						licenseEntryType: 'cluster'
 					},
 					name: 'Test Account',
-					startDate: new Date(),
+					startDate: CURRENT_TIME,
 					...props
 				})
 			}
@@ -126,7 +127,7 @@ describe('SpecificDetails', () => {
 		const {getAllByText} = renderSpecificDetails();
 
 		const utcAdjustedDate = displayInMDYDateFormat(
-			getUTCAdjustedDate(new Date())
+			getUTCAdjustedDate(CURRENT_TIME)
 		);
 
 		expect(getAllByText(utcAdjustedDate).length).toBe(2);

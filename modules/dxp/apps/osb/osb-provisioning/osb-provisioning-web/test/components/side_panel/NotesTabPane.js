@@ -16,6 +16,7 @@ import NotesTabPane from '../../../src/main/resources/META-INF/resources/js/comp
 import {NotesProvider} from '../../../src/main/resources/META-INF/resources/js/hooks/notes';
 import {PermissionsProvider} from '../../../src/main/resources/META-INF/resources/js/hooks/permissions';
 import {
+	CURRENT_TIME,
 	NOTE_FORMAT_HTML,
 	NOTE_STATUS_APPROVED,
 	NOTE_STATUS_ARCHIVED,
@@ -55,7 +56,7 @@ function mockNotes({type}) {
 		},
 		{
 			content: 'an unpinned note',
-			createDate: new Date().toLocaleString('en-US'),
+			createDate: CURRENT_TIME.toLocaleString('en-US'),
 			creatorName: 'Jane Doe',
 			creatorPortraitURL: '/',
 			edited: false,
@@ -69,7 +70,7 @@ function mockNotes({type}) {
 		},
 		{
 			content: 'an archived note',
-			createDate: new Date().toLocaleString('en-US'),
+			createDate: CURRENT_TIME.toLocaleString('en-US'),
 			creatorName: 'Jane Doe',
 			creatorPortraitURL: '/',
 			edited: false,

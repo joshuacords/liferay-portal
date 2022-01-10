@@ -9,7 +9,7 @@
  * distribution rights of the Software.
  */
 
-import {RESTRICTED_EXPIRATION_DATE_TYPES, CURRENT_TIME} from './constants';
+import {CURRENT_TIME, RESTRICTED_EXPIRATION_DATE_TYPES} from './constants';
 import {generateNewDateByDay, generateNewDateByYear} from './date';
 
 /**

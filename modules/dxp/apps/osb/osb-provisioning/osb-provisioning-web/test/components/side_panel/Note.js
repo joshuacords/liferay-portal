@@ -19,6 +19,7 @@ import {
 } from '../../../src/main/resources/META-INF/resources/js/hooks/notes';
 import {PermissionsProvider} from '../../../src/main/resources/META-INF/resources/js/hooks/permissions';
 import {
+	CURRENT_TIME,
 	NOTE_FORMAT_HTML,
 	NOTE_STATUS_APPROVED,
 	NOTE_STATUS_ARCHIVED,
@@ -28,7 +29,7 @@ import {
 const initialNotes = [
 	{
 		content: 'pinned note',
-		createDate: new Date().toLocaleString('en-US'),
+		createDate: CURRENT_TIME.toLocaleString('en-US'),
 		creatorName: 'Jane Doe',
 		creatorPortraitURL: '/',
 		edited: false,
@@ -45,7 +46,7 @@ const initialNotes = [
 const note = props =>
 	NoteRecord({
 		content: '<div>note 1</div>',
-		createDate: new Date().toLocaleString('en-US'),
+		createDate: CURRENT_TIME.toLocaleString('en-US'),
 		creatorName: 'Jane Doe',
 		creatorPortraitURL: '/',
 		edited: false,
