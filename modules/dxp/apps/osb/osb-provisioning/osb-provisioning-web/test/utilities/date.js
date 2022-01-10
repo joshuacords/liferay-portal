@@ -9,6 +9,7 @@
  * distribution rights of the Software.
  */
 
+import {CURRENT_TIME} from '../../src/main/resources/META-INF/resources/js/utilities/constants';
 import {
 	formatDate,
 	generateNewDateByDay,
@@ -40,7 +41,9 @@ describe('generateNewDateByYear', () => {
 
 describe('getIntervalInDays', () => {
 	it('calculates the interval between two dates correctly', () => {
-		expect(getIntervalInDays(new Date(), generateNewDateByDay())).toBe(30);
+		expect(
+			getIntervalInDays(CURRENT_TIME, generateNewDateByDay())
+		).toBe(30);
 	});
 
 	it('calculates the duration between two string representation of dates correctly', () => {

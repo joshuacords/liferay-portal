@@ -9,6 +9,8 @@
  * distribution rights of the Software.
  */
 
+import {CURRENT_TIME} from './constants';
+
 /**
  * Takes the possible incoming value, date or string, and converts
  * it to a Date object. Except in the case of an empty string, in which case it
@@ -54,11 +56,14 @@ export function formatDate(date) {
  * starting date.
  * @returns {Object} Date object.
  */
-export function generateNewDateByDay(startDate = new Date(), offset = 30) {
+export function generateNewDateByDay(
+	startDate = CURRENT_TIME,
+	offset = 30
+) {
 	let startDateCopy = new Date(startDate);
 
 	if (isNaN(startDateCopy)) {
-		startDateCopy = new Date();
+		startDateCopy = CURRENT_TIME;
 	}
 
 	const offsetInMS = offset * 1000 * 60 * 60 * 24;
@@ -75,11 +80,14 @@ export function generateNewDateByDay(startDate = new Date(), offset = 30) {
  * starting date.
  * @returns {Object} Date object.
  */
-export function generateNewDateByYear(startDate = new Date(), offset = 1) {
+export function generateNewDateByYear(
+	startDate = CURRENT_TIME,
+	offset = 1
+) {
 	let startDateCopy = new Date(startDate);
 
 	if (isNaN(startDateCopy)) {
-		startDateCopy = new Date();
+		startDateCopy = CURRENT_TIME;
 	}
 
 	const offsetInMS = offset * 1000 * 60 * 60 * 24 * 365;

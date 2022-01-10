@@ -22,6 +22,8 @@ export const BINARY_SELECTION = [
 
 export const DASH = '-';
 
+export const CURRENT_TIME = new Date(new Date().setMinutes(0, 0, 0));
+
 // Namespaces
 
 export const ACCOUNTS_PORTLET_NAMESPACE =

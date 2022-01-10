@@ -9,10 +9,8 @@
  * distribution rights of the Software.
  */
 
-import {RESTRICTED_EXPIRATION_DATE_TYPES} from './constants';
+import {RESTRICTED_EXPIRATION_DATE_TYPES, CURRENT_TIME} from './constants';
 import {generateNewDateByDay, generateNewDateByYear} from './date';
-
-const TODAY = new Date();
 
 /**
  * Generates the start and expiration dates for a license associated with a
@@ -42,10 +40,13 @@ export function deriveLicenseDates(
 		let expirationDate = generateNewDateByDay(generateNewDateByYear());
 
 		if (isUnrestrictedPermanentLicenseType) {
-			expirationDate = generateNewDateByYear(TODAY, 100);
+			expirationDate = generateNewDateByYear(CURRENT_TIME, 100);
 		}
 
-		return {licenseExpirationDate: expirationDate, licenseStartDate: TODAY};
+		return {
+			licenseExpirationDate: expirationDate,
+			licenseStartDate: CURRENT_TIME
+		};
 	}
 
 	let expirationDate = new Date(license.endDate);
@@ -63,14 +64,15 @@ export function deriveLicenseDates(
 /**
  * Generates the start and expiration dates for a detached license (license not
  * associated with any purchased product). The start date should always be the
- * current date in UTC while the expiration date should be 365 days from the
- * start date.
+ * current date at midnight to match the selection results from the date
+ * picker. The expiration date should be 365 days from the start date at
+ * midnight.
  * @returns {Object} An object of dates representing the start and expiration
  * dates of a detached license.
  */
 export function getDetachedLicenseDates() {
 	return {
-		licenseExpirationDate: generateNewDateByYear(TODAY),
-		licenseStartDate: TODAY
+		licenseExpirationDate: generateNewDateByYear(CURRENT_TIME),
+		licenseStartDate: CURRENT_TIME
 	};
 }

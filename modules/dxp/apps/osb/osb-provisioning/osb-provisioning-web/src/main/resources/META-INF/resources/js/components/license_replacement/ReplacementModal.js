@@ -14,14 +14,13 @@ import ClayModal, {useModal} from '@clayui/modal';
 import PropTypes from 'prop-types';
 import React, {useEffect, useState} from 'react';
 
+import {CURRENT_TIME} from '../../utilities/constants';
 import {
 	formatDate,
 	generateNewDateByDay,
 	validateDateFieldFormat
 } from '../../utilities/date';
 import DatePicker from '../DatePicker';
-
-const TODAY = new Date();
 
 function ReplacementModal({
 	closeFn,
@@ -33,7 +32,8 @@ function ReplacementModal({
 		expirationDate === ''
 			? formatDate(generateNewDateByDay())
 			: expirationDate;
-	const defaultStartDate = startDate === '' ? formatDate(TODAY) : startDate;
+	const defaultStartDate =
+		startDate === '' ? formatDate(CURRENT_TIME) : startDate;
 
 	const [currentExpirationDate, setCurrentExpirationDate] = useState(
 		defaultExpirationDate

@@ -16,14 +16,13 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {useNewLicense} from '../../hooks/newLicense';
+import {CURRENT_TIME} from '../../utilities/constants';
 import {
 	deriveLicenseDates,
 	getDetachedLicenseDates
 } from '../../utilities/license';
 import TableDivider from '../TableDivider';
 import Purchase from './Purchase';
-
-const TODAY = new Date();
 
 function Purchases({detached, purchased}) {
 	return (
@@ -102,7 +101,7 @@ function Purchased({purchased}) {
 			return false;
 		}
 
-		return new Date(item.endDate) < TODAY;
+		return new Date(item.endDate) < CURRENT_TIME;
 	}
 
 	return (

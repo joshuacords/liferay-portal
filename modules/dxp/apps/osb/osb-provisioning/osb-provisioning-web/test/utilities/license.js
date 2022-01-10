@@ -9,6 +9,7 @@
  * distribution rights of the Software.
  */
 
+import {CURRENT_TIME} from '../../src/main/resources/META-INF/resources/js/utilities/constants';
 import {
 	formatDate,
 	generateNewDateByDay,
@@ -19,7 +20,6 @@ import {
 	getDetachedLicenseDates
 } from '../../src/main/resources/META-INF/resources/js/utilities/license';
 
-const TODAY = new Date();
 const ALLOW_PERMANENT_LICENSES = true;
 
 const license = {
@@ -36,7 +36,7 @@ const perpetualLicense = {
 
 describe('Dates for license associated with a Subscription', () => {
 	describe('Perpetual Subscription', () => {
-		it('displays the Start Date as Today in UTC', () => {
+		it('displays the Start Date as Today at midnight', () => {
 			const dates = deriveLicenseDates(
 				perpetualLicense,
 				'developer',
@@ -44,13 +44,13 @@ describe('Dates for license associated with a Subscription', () => {
 			);
 
 			expect(formatDate(dates.licenseStartDate)).toMatch(
-				formatDate(TODAY)
+				formatDate(CURRENT_TIME)
 			);
 		});
 
 		describe('when Type is NOT Enterpirse, Limited, OEM, or Virtual Cluster ', () => {
 			describe('when Permanent Licenses are allowed', () => {
-				it('displays the Expiration Date as 100 years from Today in UTC', () => {
+				it('displays the Expiration Date as 100 years from Today at midnight', () => {
 					const dates = deriveLicenseDates(
 						perpetualLicense,
 						'developer',
@@ -71,7 +71,7 @@ describe('Dates for license associated with a Subscription', () => {
 			});
 
 			describe('when Permanent Licenses are not allowed', () => {
-				it('displays the Expiration Date as 395 days (365 days + 30 days of grace period) from Today in UTC', () => {
+				it('displays the Expiration Date as 395 days (365 days + 30 days of grace period) from Today at midnight', () => {
 					const dates = deriveLicenseDates(
 						perpetualLicense,
 						'developer',
@@ -92,7 +92,7 @@ describe('Dates for license associated with a Subscription', () => {
 		});
 
 		describe('when Type is Enterpirse, Limited, OEM, or Virtual Cluster', () => {
-			it('displays the Expiration Date as 395 days (365 days + 30 days of grace period) from Today in UTC', () => {
+			it('displays the Expiration Date as 395 days (365 days + 30 days of grace period) from Today at midnight', () => {
 				const dates = deriveLicenseDates(
 					perpetualLicense,
 					'oem',
@@ -170,10 +170,12 @@ describe('Dates for license associated with a Subscription', () => {
 });
 
 describe('Dates for Detached licenses', () => {
-	it('displays Start Date as Today in UTC', () => {
+	it('displays Start Date as Today at midnight', () => {
 		const dates = getDetachedLicenseDates();
 
-		expect(formatDate(dates.licenseStartDate)).toMatch(formatDate(TODAY));
+		expect(formatDate(dates.licenseStartDate)).toMatch(
+			formatDate(CURRENT_TIME)
+		);
 	});
 
 	it('displays Expiration Date as one year after the Start Date', () => {
