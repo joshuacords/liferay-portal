@@ -37,29 +37,38 @@ export default function LicenseDates({
 	const [selectedStartDate, setSelectedStartDate] = useState(startDate);
 
 	function handleExpirationDateChange(val) {
-		const expiration = Date.parse(new Date(val));
-		const start = Date.parse(new Date(selectedStartDate));
+		const date = new Date(val);
 
-		setSelectedExpirationDate(val);
-		updateExpirationDate(val);
+		setSelectedExpirationDate(date);
+		updateExpirationDate(date);
+
+		const expiration = Date.parse(date);
+		const start = Date.parse(selectedStartDate);
+
 		updateValidation(start < expiration);
 	}
 
 	function handleStartDateChange(val) {
-		const expiration = Date.parse(new Date(selectedExpirationDate));
-		const start = Date.parse(new Date(val));
+		const date = new Date(val);
 
-		setSelectedStartDate(val);
-		updateStartDate(val);
+		setSelectedStartDate(date);
+		updateStartDate(date);
+
+		const expiration = Date.parse(selectedExpirationDate);
+		const start = Date.parse(date);
+
 		updateValidation(start < expiration);
 	}
 
 	function validateExpirationDateChange(val) {
-		const expiration = Date.parse(new Date(val));
-		const start = Date.parse(new Date(selectedStartDate));
+		const date = new Date(val);
 
-		setSelectedExpirationDate(val);
-		updateExpirationDate(val);
+		setSelectedExpirationDate(date);
+		updateExpirationDate(date);
+
+		const expiration = Date.parse(date);
+		const start = Date.parse(selectedStartDate);
+
 		updateValidation(
 			expiration - start <= YEAR_IN_MS && start < expiration
 		);
@@ -130,16 +139,10 @@ export default function LicenseDates({
 
 LicenseDates.propTypes = {
 	detached: PropTypes.bool.isRequired,
-	expirationDate: PropTypes.oneOfType([
-		PropTypes.instanceOf(Date),
-		PropTypes.string
-	]),
+	expirationDate: PropTypes.instanceOf(Date),
 	id: PropTypes.string,
 	restricted: PropTypes.bool.isRequired,
-	startDate: PropTypes.oneOfType([
-		PropTypes.instanceOf(Date),
-		PropTypes.string
-	]),
+	startDate: PropTypes.instanceOf(Date),
 	updateExpirationDate: PropTypes.func.isRequired,
 	updateStartDate: PropTypes.func.isRequired,
 	updateValidation: PropTypes.func.isRequired,

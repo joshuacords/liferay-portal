@@ -25,9 +25,9 @@ function renderLicenseDates({permission, props}) {
 					>
 						<LicenseDates
 							detached
-							expirationDate={'2022-07-09'}
+							expirationDate={new Date('2022-07-09')}
 							restricted
-							startDate={'2021-07-09'}
+							startDate={new Date('2021-07-09')}
 							updateExpirationDate={jest.fn()}
 							updateStartDate={jest.fn()}
 							updateValidation={jest.fn()}

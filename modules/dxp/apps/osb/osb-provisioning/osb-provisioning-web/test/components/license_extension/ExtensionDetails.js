@@ -20,49 +20,49 @@ import {DASH} from '../../../src/main/resources/META-INF/resources/js/utilities/
 const multipleDetachedLicenses = [
 	{
 		accountName: 'Account 1',
-		expirationDate: '2022-06-04',
+		expirationDate: new Date('2022-06-04'),
 		indefinite: false,
 		licenseKeyId: 'licenseKeyID1',
 		licenseKeysGenerated: '0',
 		licenseType: 'production',
 		productName: 'Commerce Subscription Backup',
-		startDate: '2021-06-04'
+		startDate: new Date('2021-06-04')
 	},
 	{
 		accountName: 'Account 1',
-		expirationDate: '2027-12-14',
+		expirationDate: new Date('2027-12-14'),
 		indefinite: false,
 		licenseKeyId: 'licenseKeyID2',
 		licenseKeysGenerated: '0',
 		licenseType: 'developer',
 		productName: 'DXP Development',
-		startDate: '2021-07-26'
+		startDate: new Date('2021-07-26')
 	}
 ];
 
 const singleDetachedLicense = [
 	{
 		accountName: 'Account 1',
-		expirationDate: '2022-06-04',
+		expirationDate: new Date('2022-06-04'),
 		indefinite: false,
 		licenseKeyId: 'licenseKeyID1',
 		licenseKeysGenerated: '0',
 		licenseType: 'production',
 		productName: 'Commerce Subscription Backup',
-		startDate: '2021-06-04'
+		startDate: new Date('2021-06-04')
 	}
 ];
 
 const singleAttachedLicense = [
 	{
 		accountName: 'Account 1',
-		expirationDate: '2122-06-08',
+		expirationDate: new Date('2122-06-08'),
 		indefinite: false,
 		licenseKeyId: 'licenseKeyID1',
 		licenseKeysGenerated: '0',
 		licenseType: 'development',
 		productName: 'DXP 7.0',
-		startDate: '2021-06-03',
+		startDate: new Date('2021-06-03'),
 		terms: [
 			{
 				endDate: '',
