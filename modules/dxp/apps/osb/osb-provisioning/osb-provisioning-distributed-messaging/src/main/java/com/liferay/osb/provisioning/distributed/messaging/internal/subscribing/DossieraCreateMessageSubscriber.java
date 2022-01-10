@@ -1821,9 +1821,17 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 			contact.setEmailAddress(
 				contactJSONObject.getString("_emailAddress"));
 
+			String contactRoleName = null;
+
+			if (_distributedMessagingConfiguration.customerPortal2Enabled()) {
+				contactRoleName = ContactRoleConstants.NAME_ADMINISTRATOR;
+			}
+			else {
+				contactRoleName = ContactRoleConstants.NAME_SUPPORT_WATCHER;
+			}
+
 			ContactRole contactRole = _contactRoleWebService.fetchContactRole(
-				ContactRole.Type.ACCOUNT_CUSTOMER.toString(),
-				ContactRoleConstants.NAME_ADMINISTRATOR);
+				ContactRole.Type.ACCOUNT_CUSTOMER.toString(), contactRoleName);
 
 			contact.setContactRoles(new ContactRole[] {contactRole});
 

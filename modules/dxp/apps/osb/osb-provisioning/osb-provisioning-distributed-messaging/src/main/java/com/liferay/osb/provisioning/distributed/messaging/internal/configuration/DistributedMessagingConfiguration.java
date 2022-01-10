@@ -27,6 +27,9 @@ import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClass
 )
 public interface DistributedMessagingConfiguration {
 
+	@Meta.AD(deflt = "false", required = false)
+	public boolean customerPortal2Enabled();
+
 	@Meta.AD(required = false)
 	public String provisioningEmailAddressAustralia();
 
