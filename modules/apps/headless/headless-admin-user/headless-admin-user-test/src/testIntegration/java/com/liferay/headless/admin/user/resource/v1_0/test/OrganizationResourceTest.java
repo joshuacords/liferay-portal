@@ -16,9 +16,9 @@ package com.liferay.headless.admin.user.resource.v1_0.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.headless.admin.user.client.dto.v1_0.Organization;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.headless.admin.user.client.pagination.Page;
 import com.liferay.headless.admin.user.client.pagination.Pagination;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
@@ -71,24 +71,6 @@ public class OrganizationResourceTest extends BaseOrganizationResourceTestCase {
 	public void testGetOrganizationOrganizationsPageWithSortString() {
 	}
 
-	@Ignore
-	@Override
-	@Test
-	public void testGetOrganizationsPageWithSortString() {
-	}
-
-	@Ignore
-	@Override
-	@Test
-	public void testGraphQLDeleteOrganization() {
-	}
-
-	@Ignore
-	@Override
-	@Test
-	public void testPatchOrganization() {
-	}
-
 	@Override
 	@Test
 	public void testGetOrganizationsPage() throws Exception {
@@ -123,6 +105,24 @@ public class OrganizationResourceTest extends BaseOrganizationResourceTestCase {
 			GetterUtil.getLong(organization2.getId()), _user.getUserId());
 
 		organizationResource.deleteOrganization(organization2.getId());
+	}
+
+	@Ignore
+	@Override
+	@Test
+	public void testGetOrganizationsPageWithSortString() {
+	}
+
+	@Ignore
+	@Override
+	@Test
+	public void testGraphQLDeleteOrganization() {
+	}
+
+	@Ignore
+	@Override
+	@Test
+	public void testPatchOrganization() {
 	}
 
 	@Override
