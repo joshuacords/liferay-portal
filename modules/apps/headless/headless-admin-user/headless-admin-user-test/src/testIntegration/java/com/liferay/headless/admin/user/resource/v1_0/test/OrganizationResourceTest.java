@@ -53,6 +53,8 @@ public class OrganizationResourceTest extends BaseOrganizationResourceTestCase {
 	public void tearDown() throws Exception {
 		_deleteOrganizations(_childOrganizations);
 		_deleteOrganizations(_organizations);
+
+		super.tearDown();
 	}
 
 	@Ignore
