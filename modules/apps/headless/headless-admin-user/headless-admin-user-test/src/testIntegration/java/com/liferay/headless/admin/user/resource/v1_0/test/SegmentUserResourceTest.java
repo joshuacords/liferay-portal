@@ -19,12 +19,15 @@ import com.liferay.headless.admin.user.client.dto.v1_0.SegmentUser;
 import com.liferay.headless.admin.user.client.pagination.Page;
 import com.liferay.headless.admin.user.client.problem.Problem;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.UserConstants;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
+import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.test.util.UserTestUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -59,6 +62,8 @@ public class SegmentUserResourceTest extends BaseSegmentUserResourceTestCase {
 	@Override
 	@Test
 	public void testGetSegmentUserAccountsPage() throws Exception {
+		_removeCompanyUsers();
+
 		Page<SegmentUser> page = segmentUserResource.getSegmentUserAccountsPage(
 			testGetSegmentUserAccountsPage_getSegmentId(), null);
 
@@ -158,6 +163,22 @@ public class SegmentUserResourceTest extends BaseSegmentUserResourceTestCase {
 		return segmentsEntry.getSegmentsEntryId();
 	}
 
+	private void _removeCompanyUsers() throws Exception {
+		for (User user :
+			UserLocalServiceUtil.getCompanyUsers(
+				TestPropsValues.getCompanyId(), QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS)) {
+
+			if (user.isDefaultUser() ||
+				(user.getUserId() == TestPropsValues.getUserId())) {
+
+				continue;
+			}
+
+			UserLocalServiceUtil.deleteUser(user);
+		}
+	}
+	
 	private SegmentUser _toSegmentUser(User user) {
 		return new SegmentUser() {
 			{
