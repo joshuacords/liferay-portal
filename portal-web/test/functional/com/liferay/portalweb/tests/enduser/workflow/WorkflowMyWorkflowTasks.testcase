@@ -322,49 +322,16 @@ definition {
 
 	@priority = "3"
 	test ReviewerApproveResubmitTaskByActionsUser {
-		Permissions.setUpRegRoleLoginUserCP(
-			roleTitle = "Regrole Name",
-			userEmailAddress = "userea1@liferay.com",
-			userFirstName = "userfn1",
-			userLastName = "userln1",
-			userLoginEmailAddress = "test@liferay.com",
-			userLoginFullName = "Test Test",
-			userScreenName = "usersn1");
-
-		ProductMenu.gotoPortlet(
-			category = "Users",
-			panel = "Control Panel",
-			portlet = "Roles");
-
-		Role.definePermissionCP(
-			permissionDefinitionKey = "SITE_ADMIN_CONTENT_BLOGS_GENERAL_PERMISSIONS_ACCESS_IN_SITE_ADMINISTRATION_CHECKBOX",
-			permissionDefinitionValue = "Access in Site Administration",
-			permissionNavigationKey = "SITE_ADMIN_CONTENT_BLOGS",
-			permissionNavigationValue = "Blogs",
-			roleTitle = "Regrole Name");
-
-		ProductMenu.gotoPortlet(
-			category = "Users",
-			panel = "Control Panel",
-			portlet = "Roles");
-
-		Role.definePermissionCP(
-			permissionDefinitionKey = "SITE_ADMIN_CONTENT_BLOGS_RESOURCE_PERMISSIONS_BLOGS_ENTRIES_ADD_ENTRY_CHECKBOX",
-			permissionDefinitionValue = "Add Entry",
-			permissionNavigationKey = "SITE_ADMIN_CONTENT_BLOGS",
-			permissionNavigationValue = "Blogs",
-			roleTitle = "Regrole Name");
-
 		ProductMenu.gotoPortlet(
 			category = "Users",
 			panel = "Control Panel",
 			portlet = "Users and Organizations");
 
 		User.addCP(
-			userEmailAddress = "userea2@liferay.com",
-			userFirstName = "userfn2",
-			userLastName = "userln2",
-			userScreenName = "usersn2");
+			userEmailAddress = "userea@liferay.com",
+			userFirstName = "userfn",
+			userLastName = "userln",
+			userScreenName = "usersn");
 
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -372,37 +339,28 @@ definition {
 			portlet = "Users and Organizations");
 
 		User.editPasswordCP(
-			userEmailAddress = "userea2@liferay.com",
-			userScreenName = "usersn2");
+			userEmailAddress = "userea@liferay.com",
+			userScreenName = "usersn");
 
 		ProductMenu.gotoPortlet(
 			category = "Users",
 			panel = "Control Panel",
 			portlet = "Roles");
 
-		Role.assignRegRoleCP(
-			roleTitle = "Portal Content Reviewer",
-			userScreenName = "usersn2");
-
-		User.logoutAndLoginPG(
-			userLoginEmailAddress = "userea1@liferay.com",
-			userLoginFullName = "userfn1 userln1");
+		Workflow.addAssigneeToRegularRole(
+			assigneeName = "usersn",
+			assigneeType = "Users",
+			roleTitle = "Portal Content Reviewer");
 
 		Navigator.openURL();
 
-		ProductMenu.gotoPortlet(
-			category = "Content & Data",
-			panel = "Site Administration",
-			portlet = "Blogs");
-
-		Blogs.addWithWorkflow(
-			entryContent = "Blogs Entry Content",
-			entrySubtitle = "Subtitle",
+		JSONBlog.addEntry(
+			entryContent = "Blogs Entry",
 			entryTitle = "Blogs Entry Title");
 
 		User.logoutAndLoginPG(
-			userLoginEmailAddress = "userea2@liferay.com",
-			userLoginFullName = "userfn2 userln2");
+			userLoginEmailAddress = "userea@liferay.com",
+			userLoginFullName = "userfn userln");
 
 		UserBar.gotoDropdownItem(dropdownItem = "My Workflow Tasks");
 
@@ -411,22 +369,20 @@ definition {
 			workflowAssetType = "Blogs Entry",
 			workflowTask = "Review");
 
-		UserBar.gotoDropdownItem(dropdownItem = "My Workflow Tasks");
-
 		Workflow.rejectTaskByActions(
-			workflowAssetContent = "Blogs Entry Content",
+			workflowAssetContent = "Blogs Entry",
 			workflowAssetTitle = "Blogs Entry Title",
 			workflowAssetType = "Blogs Entry",
 			workflowTask = "Review");
 
 		User.logoutAndLoginPG(
-			userLoginEmailAddress = "userea1@liferay.com",
-			userLoginFullName = "userfn1 userln1");
+			userLoginEmailAddress = "test@liferay.com",
+			userLoginFullName = "test test");
 
 		UserBar.gotoDropdownItem(dropdownItem = "My Workflow Tasks");
 
 		Workflow.resubmitTaskByActions(
-			workflowAssetContent = "Blogs Entry Content",
+			workflowAssetContent = "Blogs Entry",
 			workflowAssetTitle = "Blogs Entry Title",
 			workflowAssetType = "Blogs Entry",
 			workflowTask = "Update");
@@ -449,8 +405,8 @@ definition {
 			value1 = "Pending");
 
 		User.logoutAndLoginPG(
-			userLoginEmailAddress = "userea2@liferay.com",
-			userLoginFullName = "userfn2 userln2");
+			userLoginEmailAddress = "userea@liferay.com",
+			userLoginFullName = "userfn userln");
 
 		UserBar.gotoDropdownItem(dropdownItem = "My Workflow Tasks");
 
@@ -459,58 +415,29 @@ definition {
 			workflowAssetType = "Blogs Entry",
 			workflowTask = "Review");
 
-		UserBar.gotoDropdownItem(dropdownItem = "My Workflow Tasks");
-
 		Workflow.approveTaskByActions(
 			workflowAssetTitle = "Blogs Entry Title",
 			workflowAssetType = "Blogs Entry",
 			workflowTask = "Review");
 
 		User.logoutAndLoginPG(
-			userLoginEmailAddress = "userea1@liferay.com",
-			userLoginFullName = "userfn1 userln1");
-
-		Navigator.openURL();
-
-		ProductMenu.gotoPortlet(
-			category = "Content & Data",
-			panel = "Site Administration",
-			portlet = "Blogs");
-
-		BlogsEntry.viewEntryTable(entryTitle = "Blogs Entry Title");
-
-		BlogsEntry.viewEntryAuthorCP(
-			entryAuthorFullName = "userfn1 userln1",
-			entryTitle = "Blogs Entry Title");
-
-		BlogsNavigator.gotoEntryCP(entryTitle = "Blogs Entry Title");
-
-		BlogsEntry.viewEntry(
-			entryContent = "Blogs Entry Content",
-			entryTitle = "Blogs Entry Title");
-
-		User.logoutAndLoginPG(
 			userLoginEmailAddress = "test@liferay.com",
-			userLoginFullName = "Test Test");
-
-		Navigator.openURL();
+			userLoginFullName = "test test");
 
 		ProductMenu.gotoPortlet(
 			category = "Content & Data",
 			panel = "Site Administration",
 			portlet = "Blogs");
 
-		BlogsEntry.viewEntryTable(entryTitle = "Blogs Entry Title");
+		LexiconEntry.changeDisplayStyle(displayStyle = "cards");
 
-		BlogsEntry.viewEntryAuthorCP(
-			entryAuthorFullName = "userfn1 userln1",
-			entryTitle = "Blogs Entry Title");
+		var key_entryTitle = "Blogs Entry Title";
 
-		BlogsNavigator.gotoEntryCP(entryTitle = "Blogs Entry Title");
+		Blogs.viewEntryPresent(entryTitle = "Blogs Entry Title");
 
-		BlogsEntry.viewEntry(
-			entryContent = "Blogs Entry Content",
-			entryTitle = "Blogs Entry Title");
+		AssertTextEquals(
+			locator1 = "Blogs#ICON_VIEW_ENTRY_STATUS",
+			value1 = "Approved");
 	}
 
 	@priority = "5"
