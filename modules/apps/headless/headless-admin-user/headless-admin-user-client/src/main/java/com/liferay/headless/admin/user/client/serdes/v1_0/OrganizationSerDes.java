@@ -78,6 +78,16 @@ public class OrganizationSerDes {
 			sb.append("\"");
 		}
 
+		if (organization.getContactInformation() != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"contactInformation\": ");
+
+			sb.append(String.valueOf(organization.getContactInformation()));
+		}
+
 		if (organization.getCustomFields() != null) {
 			if (sb.length() > 1) {
 				sb.append(", ");
@@ -281,6 +291,15 @@ public class OrganizationSerDes {
 			map.put("comment", String.valueOf(organization.getComment()));
 		}
 
+		if (organization.getContactInformation() == null) {
+			map.put("contactInformation", null);
+		}
+		else {
+			map.put(
+				"contactInformation",
+				String.valueOf(organization.getContactInformation()));
+		}
+
 		if (organization.getCustomFields() == null) {
 			map.put("customFields", null);
 		}
@@ -401,6 +420,15 @@ public class OrganizationSerDes {
 			if (Objects.equals(jsonParserFieldName, "comment")) {
 				if (jsonParserFieldValue != null) {
 					organization.setComment((String)jsonParserFieldValue);
+				}
+			}
+			else if (Objects.equals(
+						jsonParserFieldName, "contactInformation")) {
+
+				if (jsonParserFieldValue != null) {
+					organization.setContactInformation(
+						ContactInformationSerDes.toDTO(
+							(String)jsonParserFieldValue));
 				}
 			}
 			else if (Objects.equals(jsonParserFieldName, "customFields")) {

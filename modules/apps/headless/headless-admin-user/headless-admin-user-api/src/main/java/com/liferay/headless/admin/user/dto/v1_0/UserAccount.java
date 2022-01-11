@@ -148,6 +148,37 @@ public class UserAccount implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Date birthDate;
 
+	@Schema(deprecated = true, description = "The user's contact information.")
+	@Valid
+	public ContactInformation getContactInformation() {
+		return contactInformation;
+	}
+
+	public void setContactInformation(ContactInformation contactInformation) {
+		this.contactInformation = contactInformation;
+	}
+
+	@JsonIgnore
+	public void setContactInformation(
+		UnsafeSupplier<ContactInformation, Exception>
+			contactInformationUnsafeSupplier) {
+
+		try {
+			contactInformation = contactInformationUnsafeSupplier.get();
+		}
+		catch (RuntimeException re) {
+			throw re;
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Deprecated
+	@GraphQLField(description = "The user's contact information.")
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
+	protected ContactInformation contactInformation;
+
 	@Schema
 	@Valid
 	public CustomField[] getCustomFields() {
@@ -762,6 +793,16 @@ public class UserAccount implements Serializable {
 			sb.append(liferayToJSONDateFormat.format(birthDate));
 
 			sb.append("\"");
+		}
+
+		if (contactInformation != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"contactInformation\": ");
+
+			sb.append(String.valueOf(contactInformation));
 		}
 
 		if (customFields != null) {

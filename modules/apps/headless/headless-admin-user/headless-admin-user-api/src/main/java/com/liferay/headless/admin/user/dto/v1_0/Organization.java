@@ -97,6 +97,42 @@ public class Organization implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String comment;
 
+	@Schema(
+		deprecated = true,
+		description = "The organization's contact information, which includes email addresses, postal addresses, phone numbers, and web URLs. This is modeled internally as a `Contact`."
+	)
+	@Valid
+	public ContactInformation getContactInformation() {
+		return contactInformation;
+	}
+
+	public void setContactInformation(ContactInformation contactInformation) {
+		this.contactInformation = contactInformation;
+	}
+
+	@JsonIgnore
+	public void setContactInformation(
+		UnsafeSupplier<ContactInformation, Exception>
+			contactInformationUnsafeSupplier) {
+
+		try {
+			contactInformation = contactInformationUnsafeSupplier.get();
+		}
+		catch (RuntimeException re) {
+			throw re;
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Deprecated
+	@GraphQLField(
+		description = "The organization's contact information, which includes email addresses, postal addresses, phone numbers, and web URLs. This is modeled internally as a `Contact`."
+	)
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	protected ContactInformation contactInformation;
+
 	@Schema
 	@Valid
 	public CustomField[] getCustomFields() {
@@ -504,6 +540,16 @@ public class Organization implements Serializable {
 			sb.append(_escape(comment));
 
 			sb.append("\"");
+		}
+
+		if (contactInformation != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"contactInformation\": ");
+
+			sb.append(String.valueOf(contactInformation));
 		}
 
 		if (customFields != null) {

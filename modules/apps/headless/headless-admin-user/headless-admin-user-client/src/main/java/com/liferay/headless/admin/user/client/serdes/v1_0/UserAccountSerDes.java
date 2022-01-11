@@ -109,6 +109,16 @@ public class UserAccountSerDes {
 			sb.append("\"");
 		}
 
+		if (userAccount.getContactInformation() != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"contactInformation\": ");
+
+			sb.append(String.valueOf(userAccount.getContactInformation()));
+		}
+
 		if (userAccount.getCustomFields() != null) {
 			if (sb.length() > 1) {
 				sb.append(", ");
@@ -456,6 +466,15 @@ public class UserAccountSerDes {
 				liferayToJSONDateFormat.format(userAccount.getBirthDate()));
 		}
 
+		if (userAccount.getContactInformation() == null) {
+			map.put("contactInformation", null);
+		}
+		else {
+			map.put(
+				"contactInformation",
+				String.valueOf(userAccount.getContactInformation()));
+		}
+
 		if (userAccount.getCustomFields() == null) {
 			map.put("customFields", null);
 		}
@@ -639,6 +658,15 @@ public class UserAccountSerDes {
 				if (jsonParserFieldValue != null) {
 					userAccount.setBirthDate(
 						toDate((String)jsonParserFieldValue));
+				}
+			}
+			else if (Objects.equals(
+						jsonParserFieldName, "contactInformation")) {
+
+				if (jsonParserFieldValue != null) {
+					userAccount.setContactInformation(
+						ContactInformationSerDes.toDTO(
+							(String)jsonParserFieldValue));
 				}
 			}
 			else if (Objects.equals(jsonParserFieldName, "customFields")) {

@@ -98,6 +98,28 @@ public class UserAccount implements Cloneable, Serializable {
 
 	protected Date birthDate;
 
+	public ContactInformation getContactInformation() {
+		return contactInformation;
+	}
+
+	public void setContactInformation(ContactInformation contactInformation) {
+		this.contactInformation = contactInformation;
+	}
+
+	public void setContactInformation(
+		UnsafeSupplier<ContactInformation, Exception>
+			contactInformationUnsafeSupplier) {
+
+		try {
+			contactInformation = contactInformationUnsafeSupplier.get();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected ContactInformation contactInformation;
+
 	public CustomField[] getCustomFields() {
 		return customFields;
 	}
