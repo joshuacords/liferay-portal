@@ -46,10 +46,10 @@ if (activityDescriptors == null) {
 
 String selector = StringPool.BLANK;
 
-Format dateFormatDate = FastDateFormatFactoryUtil.getSimpleDateFormat("MMM d", locale, timeZone);
-	Format yearDateFormatDate = FastDateFormatFactoryUtil.getSimpleDateFormat("MMMM d, yyyy", locale, timeZone);
+Format dateFormat = FastDateFormatFactoryUtil.getSimpleDateFormat("MMM d", locale, timeZone);
+Format yearDateFormat = FastDateFormatFactoryUtil.getSimpleDateFormat("MMMM d, yyyy", locale, timeZone);
 
-Format timeFormatDate = FastDateFormatFactoryUtil.getTime(locale, timeZone);
+Format timeFormat = FastDateFormatFactoryUtil.getTime(locale, timeZone);
 %>
 
 <%@ include file="/social_activities/init-ext.jsp" %>

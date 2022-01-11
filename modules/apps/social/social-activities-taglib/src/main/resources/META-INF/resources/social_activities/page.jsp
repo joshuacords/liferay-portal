@@ -74,10 +74,10 @@
 							<liferay-ui:message key="yesterday" />
 						</c:when>
 						<c:when test="<%= DateUtil.getYear(activityDate) == DateUtil.getYear(now) %>">
-							<%= dateFormatDate.format(activityDescriptor.getCreateDate()) %>
+							<%= dateFormat.format(activityDescriptor.getCreateDate()) %>
 						</c:when>
 						<c:otherwise>
-							<%= yearDateFormatDate.format(activityDescriptor.getCreateDate()) %>
+							<%= yearDateFormat.format(activityDescriptor.getCreateDate()) %>
 						</c:otherwise>
 					</c:choose>
 				</li>
@@ -94,7 +94,7 @@
 
 					<div class="card-col-content card-col-gutters">
 						<h5 class="text-default">
-							<%= timeFormatDate.format(activityDescriptor.getCreateDate()) %>
+							<%= timeFormat.format(activityDescriptor.getCreateDate()) %>
 						</h5>
 
 						<%= activityFeedEntry.getTitle() %>
