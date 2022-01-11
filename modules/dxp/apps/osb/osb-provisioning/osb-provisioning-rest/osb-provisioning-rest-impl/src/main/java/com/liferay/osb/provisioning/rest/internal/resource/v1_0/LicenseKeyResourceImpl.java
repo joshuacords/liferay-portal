@@ -71,6 +71,7 @@ import com.liferay.portal.vulcan.util.SearchUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -94,6 +95,38 @@ import org.osgi.service.component.annotations.ServiceScope;
 )
 public class LicenseKeyResourceImpl
 	extends BaseLicenseKeyResourceImpl implements EntityModelResource {
+
+	@Override
+	public Response getAccountAccountKeyLicenseKeyExport(
+			String accountKey, Filter filter, Sort[] sorts)
+		throws Exception {
+
+		_checkAccountMembership(accountKey);
+
+		Page<com.liferay.osb.provisioning.license.model.LicenseKey> page =
+			SearchUtil.search(
+				booleanQuery -> booleanQuery.addRequiredTerm(
+					"accountKey", accountKey),
+				filter,
+				com.liferay.osb.provisioning.license.model.LicenseKey.class,
+				StringPool.BLANK, null,
+				queryConfig -> queryConfig.setSelectedFieldNames(
+					Field.ENTRY_CLASS_PK),
+				searchContext -> searchContext.setCompanyId(
+					contextCompany.getCompanyId()),
+				document -> _licenseKeyLocalService.getLicenseKey(
+					GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK))),
+				sorts);
+
+		return Response.ok(
+			_toCsv(page.getItems())
+		).header(
+			"content-disposition",
+			"attachment; filename=\"activation-key-details.csv\""
+		).type(
+			ContentTypes.TEXT_CSV
+		).build();
+	}
 
 	@Override
 	public Page<LicenseKey> getAccountAccountKeyLicenseKeysPage(
@@ -400,44 +433,8 @@ public class LicenseKeyResourceImpl
 			licenseKeys.add(licenseKey);
 		}
 
-		StringBundler sb = new StringBundler(6 + licenseKeys.size());
-
-		sb.append("Project Name,Account Key,Project State,Support Region,");
-		sb.append("Product Version,Product Name,License Key Id,IP Addresses,");
-		sb.append("MAC Addresses,Host Name,Instance Sizing,");
-		sb.append("License Start Date,License Expiration Date,License Status,");
-		sb.append("Max Servers,Complimentary");
-		sb.append(StringPool.NEW_LINE);
-
-		for (com.liferay.osb.provisioning.license.model.LicenseKey licenseKey :
-				licenseKeys) {
-
-			Account account = _accountWebService.getAccount(
-				licenseKey.getAccountKey());
-
-			String status = "Active";
-
-			if (!licenseKey.getActive()) {
-				status = "Inactive";
-			}
-
-			String formattedCsvFields = _formatCsvFields(
-				licenseKey.getAccountName(), licenseKey.getAccountKey(),
-				_accountReader.getSubscriptionState(account),
-				account.getRegionAsString(),
-				licenseKey.getProductVersionLabel(),
-				licenseKey.getProductName(), licenseKey.getLicenseKeyId(),
-				licenseKey.getIpAddresses(), licenseKey.getMacAddresses(),
-				licenseKey.getHostName(), licenseKey.getSizing(),
-				licenseKey.getStartDate(), licenseKey.getExpirationDate(),
-				status, licenseKey.getMaxServers(),
-				licenseKey.getComplimentary());
-
-			sb.append(formattedCsvFields);
-		}
-
 		return Response.ok(
-			sb.toString()
+			_toCsv(licenseKeys)
 		).header(
 			"content-disposition",
 			"attachment; filename=\"activation-key-details.csv\""
@@ -859,6 +856,50 @@ public class LicenseKeyResourceImpl
 		}
 
 		return false;
+	}
+
+	private String _toCsv(
+			Collection<com.liferay.osb.provisioning.license.model.LicenseKey>
+				licenseKeys)
+		throws Exception {
+
+		StringBundler sb = new StringBundler(6 + licenseKeys.size());
+
+		sb.append("Project Name,Account Key,Project State,Support Region,");
+		sb.append("Product Version,Product Name,License Key Id,IP Addresses,");
+		sb.append("MAC Addresses,Host Name,Instance Sizing,");
+		sb.append("License Start Date,License Expiration Date,License Status,");
+		sb.append("Max Servers,Complimentary");
+		sb.append(StringPool.NEW_LINE);
+
+		for (com.liferay.osb.provisioning.license.model.LicenseKey licenseKey :
+				licenseKeys) {
+
+			Account account = _accountWebService.getAccount(
+				licenseKey.getAccountKey());
+
+			String status = "Active";
+
+			if (!licenseKey.getActive()) {
+				status = "Inactive";
+			}
+
+			String formattedCsvFields = _formatCsvFields(
+				licenseKey.getAccountName(), licenseKey.getAccountKey(),
+				_accountReader.getSubscriptionState(account),
+				account.getRegionAsString(),
+				licenseKey.getProductVersionLabel(),
+				licenseKey.getProductName(), licenseKey.getLicenseKeyId(),
+				licenseKey.getIpAddresses(), licenseKey.getMacAddresses(),
+				licenseKey.getHostName(), licenseKey.getSizing(),
+				licenseKey.getStartDate(), licenseKey.getExpirationDate(),
+				status, licenseKey.getMaxServers(),
+				licenseKey.getComplimentary());
+
+			sb.append(formattedCsvFields);
+		}
+
+		return sb.toString();
 	}
 
 	private void _validate(
