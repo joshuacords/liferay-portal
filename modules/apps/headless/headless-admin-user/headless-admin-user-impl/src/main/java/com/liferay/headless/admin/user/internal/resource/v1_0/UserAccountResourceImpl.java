@@ -278,13 +278,16 @@ public class UserAccountResourceImpl
 						{
 							emailAddresses = transformToArray(
 								user.getEmailAddresses(),
-								EmailAddressUtil::toEmail, EmailAddress.class);
+								EmailAddressUtil::toEmailAddress,
+								EmailAddress.class);
 							facebook = contact.getFacebookSn();
 							jabber = contact.getJabberSn();
 							postalAddresses = transformToArray(
 								user.getAddresses(),
 								address -> PostalAddressUtil.toPostalAddress(
-									address,
+									contextAcceptLanguage.
+										isAcceptAllLanguages(),
+									address, contextCompany.getCompanyId(),
 									contextAcceptLanguage.getPreferredLocale()),
 								PostalAddress.class);
 							skype = contact.getSkypeSn();
