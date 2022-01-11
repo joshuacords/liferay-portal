@@ -68,6 +68,10 @@ public interface LicenseKeyResource {
 			String accountKey, LicenseKey[] licenseKeys)
 		throws Exception;
 
+	public Response getAccountAccountKeyLicenseKeyExport(
+			String accountKey, Filter filter, Sort[] sorts)
+		throws Exception;
+
 	public Page<LicenseKeyGenerateForm>
 			getAccountAccountKeyProductGroupProductGroupNameGenerateFormPage(
 				String accountKey, String productGroupName)

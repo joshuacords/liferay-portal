@@ -87,6 +87,30 @@ public class Query {
 	/**
 	 * Invoke this method with the command line:
 	 *
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {accountAccountKeyLicenseKeyExport(accountKey: ___, filter: ___, sorts: ___){}}"}' -u 'test@liferay.com:test'
+	 */
+	@GraphQLField(
+		description = "Exports a CSV file of the account's license key details. Results can be filtered and sorted."
+	)
+	public Response accountAccountKeyLicenseKeyExport(
+			@GraphQLName("accountKey") String accountKey,
+			@GraphQLName("filter") String filterString,
+			@GraphQLName("sort") String sortsString)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_licenseKeyResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			licenseKeyResource ->
+				licenseKeyResource.getAccountAccountKeyLicenseKeyExport(
+					accountKey,
+					_filterBiFunction.apply(licenseKeyResource, filterString),
+					_sortsBiFunction.apply(licenseKeyResource, sortsString)));
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
 	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {accountAccountKeyProductGroupProductGroupNameGenerateForm(accountKey: ___, productGroupName: ___){items {__}, page, pageSize, totalCount}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField(

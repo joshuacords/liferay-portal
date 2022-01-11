@@ -553,6 +553,11 @@ public abstract class BaseLicenseKeyResourceTestCase {
 	}
 
 	@Test
+	public void testGetAccountAccountKeyLicenseKeyExport() throws Exception {
+		Assert.assertTrue(false);
+	}
+
+	@Test
 	public void testGetAccountAccountKeyProductGroupProductGroupNameGenerateFormPage()
 		throws Exception {
 
