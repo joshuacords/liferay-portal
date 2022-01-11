@@ -36,10 +36,6 @@ export default function DetailsGroup({extensionURL, licenses}) {
 			])
 		)
 	);
-	const [validDateFormat, setValidDateFormat] = useState({
-		expirationDate: true,
-		startDate: true
-	});
 
 	const ids = licenses.map(({licenseKeyId}) => licenseKeyId);
 	const productName = licenses[0].productName;
@@ -101,11 +97,6 @@ export default function DetailsGroup({extensionURL, licenses}) {
 			// update display data
 			batchFieldUpdateByIds(ids, 'expirationDate', date);
 		}
-
-		setValidDateFormat({
-			...validDateFormat,
-			expirationDate: validation
-		});
 	}
 
 	function handleBulkSaveStartDate(value) {
@@ -120,11 +111,6 @@ export default function DetailsGroup({extensionURL, licenses}) {
 			// update display data
 			batchFieldUpdateByIds(ids, 'startDate', date);
 		}
-
-		setValidDateFormat({
-			...validDateFormat,
-			startDate: validation
-		});
 	}
 
 	function handleFieldChange(keyPath, value) {
@@ -155,13 +141,11 @@ export default function DetailsGroup({extensionURL, licenses}) {
 						<BulkInput.Date
 							editHandler={handleBulkSaveStartDate}
 							fieldName={`startDateBulkInput-${productName}`}
-							isValid={validDateFormat.startDate}
 							value={getDisplayValue('startDate')}
 						/>
 						<BulkInput.Date
 							editHandler={handleBulkSaveExpirationDate}
 							fieldName={`expirationDateBulkInput-${productName}`}
-							isValid={validDateFormat.expirationDate}
 							value={getDisplayValue('expirationDate')}
 						/>
 

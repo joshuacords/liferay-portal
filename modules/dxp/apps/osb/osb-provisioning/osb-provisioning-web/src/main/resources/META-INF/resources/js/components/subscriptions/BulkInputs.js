@@ -32,7 +32,6 @@ import * as BulkInput from '../bulk_inputs/BulkInput';
 
 function BulkInputs({
 	accountName,
-	dateFormatValidators,
 	instanceSizes = [],
 	statusOptions = [
 		PRODUCT_PURCHASE_STATUS_APPROVED,
@@ -111,12 +110,6 @@ function BulkInputs({
 	);
 	const [sizing, setSizing] = useState(getDisplayValue('sizing'));
 	const [status, setStatus] = useState(getDisplayValue('status'));
-
-	const [invalidDateFormat, setInvalidDateFormat] = useState({
-		endDate: false,
-		originalEndDate: false,
-		startDate: false
-	});
 
 	useEffect(() => {
 		setDisabledAttribute('bulkInput', perpetual);
@@ -206,12 +199,6 @@ function BulkInputs({
 					: endDate
 			);
 		});
-
-		dateFormatValidators(['bulk', 'endDate'], validGracePeriod);
-		setInvalidDateFormat({
-			...invalidDateFormat,
-			endDate: !validGracePeriod
-		});
 	}
 
 	function handleSaveGracePeriodStartDate(value) {
@@ -233,13 +220,6 @@ function BulkInputs({
 					)
 			);
 		}
-
-		dateFormatValidators(['bulk', 'originalEndDate'], validDateFormat);
-
-		setInvalidDateFormat({
-			...invalidDateFormat,
-			originalEndDate: !validDateFormat
-		});
 	}
 
 	function handleSavePerpetual() {
@@ -280,12 +260,6 @@ function BulkInputs({
 				subscription.set('startDate', convertInputToDate(value))
 			);
 		}
-
-		dateFormatValidators(['bulk', 'startDate'], validDateFormat);
-		setInvalidDateFormat({
-			...invalidDateFormat,
-			startDate: !validDateFormat
-		});
 	}
 
 	function handleSaveStatus(event) {
@@ -353,13 +327,11 @@ function BulkInputs({
 			<BulkInput.Date
 				editHandler={handleSaveStartDate}
 				fieldName={Liferay.Language.get('start-date-bulk-input')}
-				isValid={!invalidDateFormat.startDate}
 				value={getDatePickerDisplayValue('startDate')}
 			/>
 			<BulkInput.Date
 				editHandler={handleSaveGracePeriodStartDate}
 				fieldName={Liferay.Language.get('end-date-bulk-input')}
-				isValid={!invalidDateFormat.originalEndDate}
 				value={getDatePickerDisplayValue('originalEndDate')}
 			/>
 
@@ -396,7 +368,6 @@ function BulkInputs({
 					editHandler={handleOnClickGracePeriod}
 					fieldDisabled={perpetual}
 					fieldName={Liferay.Language.get('grace-period-bulk-input')}
-					isValid={!invalidDateFormat.endDate}
 					labelName={Liferay.Language.get('days')}
 					min={0}
 					ref={gracePeriodRef}
@@ -413,7 +384,6 @@ function BulkInputs({
 
 BulkInputs.protoTypes = {
 	accountName: PropTypes.string.isRequired,
-	dateFormatValidators: PropTypes.func,
 	instanceSizes: PropTypes.arrayOf(PropTypes.number),
 	statusOptions: PropTypes.arrayOf(PropTypes.string),
 	subscriptionsType: PropTypes.oneOf([ADD_SUBSCRIPTIONS, EDIT_SUBSCRIPTIONS])

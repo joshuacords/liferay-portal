@@ -192,11 +192,7 @@ export function useInitialDateFormatValidators(subscriptions) {
 		.keySeq()
 		.map(key => [key, new DateFormatValidator()]);
 
-	return Map(
-		subscriptions.size > 1
-			? initial.toList().push(['bulk', new DateFormatValidator()])
-			: initial.toList()
-	);
+	return Map(initial.toList());
 }
 
 export function useSetDisplayAlert(callback, subscriptions) {

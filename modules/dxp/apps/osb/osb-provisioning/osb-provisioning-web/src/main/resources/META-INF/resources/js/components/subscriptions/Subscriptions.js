@@ -117,7 +117,6 @@ function Subscriptions({
 				{subscriptions.size > 1 && (
 					<BulkInputs
 						accountName={accountName}
-						dateFormatValidators={getLicenseDateFormatValidator}
 						instanceSizes={instanceSizes}
 						statusOptions={statusOptions}
 						subscriptionsType={subscriptionsType}

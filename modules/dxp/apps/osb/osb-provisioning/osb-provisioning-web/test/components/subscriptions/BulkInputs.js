@@ -61,7 +61,6 @@ function renderBulkInputs({
 				<SubscriptionsProvider initialSubscriptions={subscriptions}>
 					<BulkInputs
 						accountName="Test Account"
-						dateFormatValidators={jest.fn()}
 						instanceSizes={[1, 2, 3, 4]}
 						statusOptions={[
 							PRODUCT_PURCHASE_STATUS_APPROVED,
