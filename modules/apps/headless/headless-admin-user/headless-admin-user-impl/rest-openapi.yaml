@@ -124,6 +124,7 @@ components:
                         The text of a comment associated with the organization.
                     type: string
                 contactInformation:
+                    deprecated: true
                     description:
                         The organization's contact information, which includes email addresses, postal addresses, phone
                         numbers, and web URLs. This is modeled internally as a `Contact`.
@@ -650,6 +651,7 @@ components:
                     readOnly: true
                     type: string
                 contactInformation:
+                    deprecated: true
                     description:
                         The user's contact information.
                     properties:
