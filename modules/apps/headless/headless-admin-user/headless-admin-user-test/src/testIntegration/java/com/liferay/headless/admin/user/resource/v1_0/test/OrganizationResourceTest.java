@@ -204,7 +204,7 @@ public class OrganizationResourceTest extends BaseOrganizationResourceTestCase {
 
 			try {
 				OrganizationLocalServiceUtil.deleteUserOrganization(
-					_user.getUserId(),organization);
+					_user.getUserId(), organization);
 			}
 			catch (Exception exception) {
 				if (_log.isDebugEnabled()) {

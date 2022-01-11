@@ -165,9 +165,9 @@ public class SegmentUserResourceTest extends BaseSegmentUserResourceTestCase {
 
 	private void _removeCompanyUsers() throws Exception {
 		for (User user :
-			UserLocalServiceUtil.getCompanyUsers(
-				TestPropsValues.getCompanyId(), QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS)) {
+				UserLocalServiceUtil.getCompanyUsers(
+					TestPropsValues.getCompanyId(), QueryUtil.ALL_POS,
+					QueryUtil.ALL_POS)) {
 
 			if (user.isDefaultUser() ||
 				(user.getUserId() == TestPropsValues.getUserId())) {
@@ -178,7 +178,7 @@ public class SegmentUserResourceTest extends BaseSegmentUserResourceTestCase {
 			UserLocalServiceUtil.deleteUser(user);
 		}
 	}
-	
+
 	private SegmentUser _toSegmentUser(User user) {
 		return new SegmentUser() {
 			{
