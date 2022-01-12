@@ -736,9 +736,20 @@ public class LicenseKeyResourceImpl
 		filterQuery.addEquals(true, "accountKey", accountKey);
 		filterQuery.addEquals(true, "property_type", "primary");
 		filterQuery.addEquals(true, "state", "active");
-		filterQuery.addContains(false, "name", "Commerce for DXP Cloud");
-		filterQuery.addContains(false, "name", "Commerce Subscription");
-		filterQuery.addContains(false, "name", "DXP Cloud Subscription");
+
+		if (productGroupName.equals(ProductConstants.GROUP_NAME_COMMERCE)) {
+			filterQuery.addContains(false, "name", "Commerce for DXP Cloud");
+			filterQuery.addContains(false, "name", "Commerce Subscription");
+		}
+
+		if (productGroupName.equals(ProductConstants.GROUP_NAME_DXP)) {
+			filterQuery.addContains(false, "name", "DXP");
+		}
+
+		if (productGroupName.equals(ProductConstants.GROUP_NAME_PORTAL)) {
+			filterQuery.addContains(false, "name", "Portal");
+		}
+
 		filterQuery.addContains(false, "name", "Partnership");
 
 		List<ProductPurchaseView> productPurchaseViews =
@@ -750,26 +761,36 @@ public class LicenseKeyResourceImpl
 
 			String curProductName = curProduct.getName();
 
-			if (((curProductName.startsWith(
+			if (productGroupName.equals(ProductConstants.GROUP_NAME_COMMERCE) &&
+				(curProductName.startsWith(
 					ProductConstants.NAME_COMMERCE_FOR_DXP_CLOUD) ||
-				  curProductName.startsWith(
-					  ProductConstants.NAME_COMMERCE_SUBSCRIPTION)) &&
-				 productGroupName.equals(
-					 ProductConstants.GROUP_NAME_COMMERCE)) ||
-				((curProductName.startsWith(ProductConstants.NAME_DXP) ||
-				  curProductName.contains(ProductConstants.NAME_DXP_CLOUD)) &&
-				 productGroupName.equals(ProductConstants.GROUP_NAME_DXP)) ||
-				(curProductName.contains(ProductConstants.NAME_PORTAL) &&
-				 productGroupName.equals(ProductConstants.GROUP_NAME_PORTAL)) ||
-				(ArrayUtil.contains(
-					ProductConstants.NAMES_PARTNERSHIP, curProductName) &&
-				 (productGroupName.equals(
-					 ProductConstants.GROUP_NAME_COMMERCE) ||
-				  productGroupName.equals(ProductConstants.GROUP_NAME_DXP) ||
-				  productGroupName.equals(
-					  ProductConstants.GROUP_NAME_PORTAL)))) {
+				 curProductName.startsWith(
+					 ProductConstants.NAME_COMMERCE_SUBSCRIPTION))) {
 
-				return true
+				return true;
+			}
+
+			if (productGroupName.equals(ProductConstants.GROUP_NAME_DXP) &&
+				(curProductName.startsWith(ProductConstants.NAME_DXP) ||
+				 curProductName.contains(ProductConstants.NAME_DXP_CLOUD))) {
+
+				return true;
+			}
+
+			if (productGroupName.equals(ProductConstants.GROUP_NAME_PORTAL) &&
+				curProductName.contains(ProductConstants.NAME_PORTAL)) {
+
+				return true;
+			}
+
+			if (ArrayUtil.contains(
+					ProductConstants.NAMES_PARTNERSHIP, curProductName) &&
+				(productGroupName.equals(
+					ProductConstants.GROUP_NAME_COMMERCE) ||
+				 productGroupName.equals(ProductConstants.GROUP_NAME_DXP) ||
+				 productGroupName.equals(ProductConstants.GROUP_NAME_PORTAL))) {
+
+				return true;
 			}
 		}
 
