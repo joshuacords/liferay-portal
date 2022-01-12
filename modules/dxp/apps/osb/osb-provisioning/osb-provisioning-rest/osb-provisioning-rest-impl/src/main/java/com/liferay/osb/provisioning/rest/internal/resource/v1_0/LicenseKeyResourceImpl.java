@@ -179,53 +179,7 @@ public class LicenseKeyResourceImpl
 
 		_checkAccountSelfProvisioningPermission(accountKey);
 
-		FilterQuery filterQuery = new FilterQuery();
-
-		filterQuery.addEquals(true, "accountKey", accountKey);
-		filterQuery.addEquals(true, "property_type", "primary");
-		filterQuery.addEquals(true, "state", "active");
-		filterQuery.addContains(false, "name", "Commerce for DXP Cloud");
-		filterQuery.addContains(false, "name", "Commerce Subscription");
-		filterQuery.addContains(false, "name", "DXP Cloud Subscription");
-		filterQuery.addContains(false, "name", "Partnership");
-
-		List<ProductPurchaseView> productPurchaseViews =
-			_productPurchaseViewWebService.search(
-				StringPool.BLANK, filterQuery, 1, 1000, StringPool.BLANK);
-
-		boolean hasActiveProduct = false;
-
-		for (ProductPurchaseView productPurchaseView : productPurchaseViews) {
-			Product curProduct = productPurchaseView.getProduct();
-
-			String curProductName = curProduct.getName();
-
-			if (((curProductName.startsWith(
-					ProductConstants.NAME_COMMERCE_FOR_DXP_CLOUD) ||
-				  curProductName.startsWith(
-					  ProductConstants.NAME_COMMERCE_SUBSCRIPTION)) &&
-				 productGroupName.equals(
-					 ProductConstants.GROUP_NAME_COMMERCE)) ||
-				((curProductName.startsWith(ProductConstants.NAME_DXP) ||
-				  curProductName.contains(ProductConstants.NAME_DXP_CLOUD)) &&
-				 productGroupName.equals(ProductConstants.GROUP_NAME_DXP)) ||
-				(curProductName.contains(ProductConstants.NAME_PORTAL) &&
-				 productGroupName.equals(ProductConstants.GROUP_NAME_PORTAL)) ||
-				(ArrayUtil.contains(
-					ProductConstants.NAMES_PARTNERSHIP, curProductName) &&
-				 (productGroupName.equals(
-					 ProductConstants.GROUP_NAME_COMMERCE) ||
-				  productGroupName.equals(ProductConstants.GROUP_NAME_DXP) ||
-				  productGroupName.equals(
-					  ProductConstants.GROUP_NAME_PORTAL)))) {
-
-				hasActiveProduct = true;
-
-				break;
-			}
-		}
-
-		if (!hasActiveProduct) {
+		if (!_hasActiveProduct(accountKey, productGroupName)) {
 			return Response.status(
 				Response.Status.NOT_FOUND
 			).build();
@@ -771,6 +725,55 @@ public class LicenseKeyResourceImpl
 		}
 
 		return subscriptionTerms.toArray(new SubscriptionTerm[0]);
+	}
+
+	private boolean _hasActiveProduct(
+			String accountKey, String productGroupName)
+		throws Exception {
+
+		FilterQuery filterQuery = new FilterQuery();
+
+		filterQuery.addEquals(true, "accountKey", accountKey);
+		filterQuery.addEquals(true, "property_type", "primary");
+		filterQuery.addEquals(true, "state", "active");
+		filterQuery.addContains(false, "name", "Commerce for DXP Cloud");
+		filterQuery.addContains(false, "name", "Commerce Subscription");
+		filterQuery.addContains(false, "name", "DXP Cloud Subscription");
+		filterQuery.addContains(false, "name", "Partnership");
+
+		List<ProductPurchaseView> productPurchaseViews =
+			_productPurchaseViewWebService.search(
+				StringPool.BLANK, filterQuery, 1, 1000, StringPool.BLANK);
+
+		for (ProductPurchaseView productPurchaseView : productPurchaseViews) {
+			Product curProduct = productPurchaseView.getProduct();
+
+			String curProductName = curProduct.getName();
+
+			if (((curProductName.startsWith(
+					ProductConstants.NAME_COMMERCE_FOR_DXP_CLOUD) ||
+				  curProductName.startsWith(
+					  ProductConstants.NAME_COMMERCE_SUBSCRIPTION)) &&
+				 productGroupName.equals(
+					 ProductConstants.GROUP_NAME_COMMERCE)) ||
+				((curProductName.startsWith(ProductConstants.NAME_DXP) ||
+				  curProductName.contains(ProductConstants.NAME_DXP_CLOUD)) &&
+				 productGroupName.equals(ProductConstants.GROUP_NAME_DXP)) ||
+				(curProductName.contains(ProductConstants.NAME_PORTAL) &&
+				 productGroupName.equals(ProductConstants.GROUP_NAME_PORTAL)) ||
+				(ArrayUtil.contains(
+					ProductConstants.NAMES_PARTNERSHIP, curProductName) &&
+				 (productGroupName.equals(
+					 ProductConstants.GROUP_NAME_COMMERCE) ||
+				  productGroupName.equals(ProductConstants.GROUP_NAME_DXP) ||
+				  productGroupName.equals(
+					  ProductConstants.GROUP_NAME_PORTAL)))) {
+
+				return true
+			}
+		}
+
+		return false;
 	}
 
 	private boolean _isAggregateVersion1(
