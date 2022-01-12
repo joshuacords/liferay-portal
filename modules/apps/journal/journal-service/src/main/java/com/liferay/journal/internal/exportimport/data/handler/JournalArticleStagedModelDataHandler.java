@@ -963,21 +963,47 @@ public class JournalArticleStagedModelDataHandler
 				}
 			}
 			else {
-				importedArticle = _journalArticleLocalService.addArticle(
-					userId, portletDataContext.getScopeGroupId(), folderId,
-					article.getClassNameId(), ddmStructureId, articleId,
-					autoArticleId, article.getVersion(), article.getTitleMap(),
-					article.getDescriptionMap(), friendlyURLMap,
-					article.getContent(), parentDDMStructureKey,
-					parentDDMTemplateKey, article.getLayoutUuid(),
-					displayDateMonth, displayDateDay, displayDateYear,
-					displayDateHour, displayDateMinute, expirationDateMonth,
-					expirationDateDay, expirationDateYear, expirationDateHour,
-					expirationDateMinute, neverExpire, reviewDateMonth,
-					reviewDateDay, reviewDateYear, reviewDateHour,
-					reviewDateMinute, neverReview, article.isIndexable(),
-					article.isSmallImage(), article.getSmallImageURL(),
-					smallFile, null, articleURL, serviceContext);
+				JournalArticle existingArticle =
+					_journalArticleLocalService.fetchArticle(
+						portletDataContext.getScopeGroupId(), articleId,
+						article.getVersion());
+
+				if (existingArticle == null) {
+					importedArticle = _journalArticleLocalService.addArticle(
+						userId, portletDataContext.getScopeGroupId(), folderId,
+						article.getClassNameId(), ddmStructureId, articleId,
+						autoArticleId, article.getVersion(),
+						article.getTitleMap(), article.getDescriptionMap(),
+						friendlyURLMap, article.getContent(),
+						parentDDMStructureKey, parentDDMTemplateKey,
+						article.getLayoutUuid(), displayDateMonth,
+						displayDateDay, displayDateYear, displayDateHour,
+						displayDateMinute, expirationDateMonth,
+						expirationDateDay, expirationDateYear,
+						expirationDateHour, expirationDateMinute, neverExpire,
+						reviewDateMonth, reviewDateDay, reviewDateYear,
+						reviewDateHour, reviewDateMinute, neverReview,
+						article.isIndexable(), article.isSmallImage(),
+						article.getSmallImageURL(), smallFile, null, articleURL,
+						serviceContext);
+				}
+				else {
+					importedArticle = _journalArticleLocalService.updateArticle(
+						userId, portletDataContext.getScopeGroupId(), folderId,
+						articleId, article.getVersion(), article.getTitleMap(),
+						article.getDescriptionMap(), friendlyURLMap,
+						article.getContent(), parentDDMStructureKey,
+						parentDDMTemplateKey, article.getLayoutUuid(),
+						displayDateMonth, displayDateDay, displayDateYear,
+						displayDateHour, displayDateMinute, expirationDateMonth,
+						expirationDateDay, expirationDateYear,
+						expirationDateHour, expirationDateMinute, neverExpire,
+						reviewDateMonth, reviewDateDay, reviewDateYear,
+						reviewDateHour, reviewDateMinute, neverReview,
+						article.isIndexable(), article.isSmallImage(),
+						article.getSmallImageURL(), smallFile, null, articleURL,
+						serviceContext);
+				}
 			}
 
 			Map<Long, Long> primaryKeys =
