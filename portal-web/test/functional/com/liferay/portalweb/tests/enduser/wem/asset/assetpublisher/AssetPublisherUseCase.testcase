@@ -323,6 +323,7 @@ definition {
 			textIcon = "english-United States");
 	}
 
+	@description = "This is a test for LPS-135460. delta parameter is missing from the url if pagination is done trough combo box."
 	@priority = "5"
 	test AssetPublisherCategoriesNavigation {
 		property testray.component.names = "Training";
@@ -416,6 +417,16 @@ definition {
 			pageNumber = "2 of 2",
 			paginationNumber = "3",
 			paginationType = "Regular");
+
+		AssertLocation.assertPartialLocation(value1 = "_delta");
+
+		ClickNoError(
+			key_pageNumber = "2 of 2",
+			locator1 = "Pagination#PARTICULAR_PAGE");
+
+		SelectFrame(value1 = "relative=top");
+
+		AssertLocation.assertPartialLocation(value1 = "_delta");
 	}
 
 	@priority = "5"
