@@ -177,21 +177,7 @@ public abstract class BaseDB implements DB {
 	}
 
 	@Override
-	public ResultSet getIndexResultSet(Connection connection, String tableName) 
-		throws SQLException {
-		DatabaseMetaData databaseMetaData = connection.getMetaData();
-		
-		DBInspector dbInspector = new DBInspector(connection);
-		
-		String catalog = dbInspector.getCatalog();
- 		String schema = dbInspector.getSchema();
- 		
- 		return databaseMetaData.getIndexInfo(
- 				catalog, schema, tableName, false, false);
-	}
-
-	@Override
-	public List<Index> getIndexes(Connection connection) throws SQLException {
+	public List<Index> getIndexes(Connection con) throws SQLException {
 		Set<Index> indexes = new HashSet<>();
 
 		DatabaseMetaData databaseMetaData = con.getMetaData();
@@ -208,9 +194,7 @@ public abstract class BaseDB implements DB {
 				String tableName = dbInspector.normalizeName(
 					tableRS.getString("TABLE_NAME"));
 
-				try (ResultSet indexRS = getIndexResultSet(
-						connection, tableName)) {
-
+				try (ResultSet indexRS = getIndexResultSet(con, tableName)) {
 					while (indexRS.next()) {
 						String indexName = indexRS.getString("INDEX_NAME");
 
@@ -236,6 +220,19 @@ public abstract class BaseDB implements DB {
 		}
 
 		return new ArrayList<>(indexes);
+	}
+
+	@Override
+	public ResultSet getIndexResultSet(Connection connection, String tableName)
+		throws SQLException {
+
+		DatabaseMetaData databaseMetaData = connection.getMetaData();
+
+		DBInspector dbInspector = new DBInspector(connection);
+
+		return databaseMetaData.getIndexInfo(
+			dbInspector.getCatalog(), dbInspector.getSchema(), tableName, false,
+			false);
 	}
 
 	@Override

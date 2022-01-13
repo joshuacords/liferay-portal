@@ -54,10 +54,10 @@ public interface DB {
 
 	public DBType getDBType();
 
+	public List<Index> getIndexes(Connection connection) throws SQLException;
+
 	public ResultSet getIndexResultSet(Connection connection, String tableName)
 		throws SQLException;
-
-	public List<Index> getIndexes(Connection connection) throws SQLException;
 
 	public int getMajorVersion();
 
