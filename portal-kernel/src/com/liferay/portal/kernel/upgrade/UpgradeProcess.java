@@ -21,7 +21,6 @@ import com.liferay.portal.kernel.dao.db.DB;
 import com.liferay.portal.kernel.dao.db.DBInspector;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.db.DBProcessContext;
-import com.liferay.portal.kernel.dao.db.DBType;
 import com.liferay.portal.kernel.dao.db.IndexMetadata;
 import com.liferay.portal.kernel.dao.db.IndexMetadataFactoryUtil;
 import com.liferay.portal.kernel.dao.jdbc.DataAccess;
@@ -365,25 +364,13 @@ public abstract class UpgradeProcess
 		try (LoggingTimer loggingTimer = new LoggingTimer()) {
 			DatabaseMetaData databaseMetaData = connection.getMetaData();
 			DB db = DBManagerUtil.getDB();
-			DBInspector dbInspector = new DBInspector(connection);
+
 			String tableName = getTableName(tableClass);
 
-			ResultSet resultSet1 = null;
-
-			if (db.getDBType() == DBType.ORACLE) {
-				resultSet1 = databaseMetaData.getIndexInfo(
-					dbInspector.getCatalog(), dbInspector.getSchema(),
-					dbInspector.normalizeName(tableName), false, true);
-			}
-			else {
-				resultSet1 = databaseMetaData.getIndexInfo(
-					dbInspector.getCatalog(), dbInspector.getSchema(),
-					dbInspector.normalizeName(tableName), false, false);
-			}
-
-			try (ResultSet resultSet2 = databaseMetaData.getPrimaryKeys(
-					dbInspector.getCatalog(), dbInspector.getSchema(),
-					tableName)) {
+			try (ResultSet resultSet1 = db.getIndexResultSet(
+					connection, tableName);
+					ResultSet resultSet2 = db.getIndexResultSet(
+						connection, tableName)) {
 
 				Set<String> primaryKeyNames = new HashSet<>();
 
@@ -483,11 +470,6 @@ public abstract class UpgradeProcess
 					_log.warn(
 						"Successfully recreated and upgraded table " +
 							tableName);
-				}
-			}
-			finally {
-				if (resultSet1 != null) {
-					resultSet1.close();
 				}
 			}
 		}

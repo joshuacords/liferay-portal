@@ -59,6 +59,8 @@ public abstract class BaseUpgradeDBColumnSize extends UpgradeProcess {
 	private void _upgradeTables() throws Exception {
 		DatabaseMetaData databaseMetaData = connection.getMetaData();
 
+		DB db = DBManagerUtil.getDB();
+
 		DBInspector dbInspector = new DBInspector(connection);
 
 		String catalog = dbInspector.getCatalog();
@@ -85,8 +87,8 @@ public abstract class BaseUpgradeDBColumnSize extends UpgradeProcess {
 					}
 				}
 
-				try (ResultSet indexRS = databaseMetaData.getIndexInfo(
-						catalog, schema, tableName, false, false)) {
+				try (ResultSet indexRS = db.getIndexResultSet(
+						connection, tableName)) {
 
 					while (indexRS.next()) {
 						invalidColumnNames.add(

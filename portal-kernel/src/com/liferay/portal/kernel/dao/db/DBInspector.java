@@ -152,8 +152,10 @@ public class DBInspector {
 
 		DatabaseMetaData databaseMetaData = _connection.getMetaData();
 
-		try (ResultSet rs = databaseMetaData.getIndexInfo(
-				null, null, tableName, false, false)) {
+		DB db = DBManagerUtil.getDB();
+
+		try (ResultSet rs = db.getIndexResultSet(
+				_connection, normalizeName(tableName, databaseMetaData))) {
 
 			while (rs.next()) {
 				if (Objects.equals(indexName, rs.getString("index_name"))) {
