@@ -2358,7 +2358,8 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 						newStartDate = ewsaProductPurchase.getStartDate();
 					}
 
-					if ((!accountKey.equals(siblingAccount.getKey()) ||
+					if ((((ewsaProductPurchase != null) &&
+						  !accountKey.equals(siblingAccount.getKey())) ||
 						 prevActiveProductPurchases.contains(
 							 productPurchase)) &&
 						newStartDate.before(productPurchase.getEndDate())) {
