@@ -17,6 +17,7 @@ package com.liferay.portal.kernel.dao.db;
 import java.io.IOException;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import java.util.List;
@@ -53,7 +54,10 @@ public interface DB {
 
 	public DBType getDBType();
 
-	public List<Index> getIndexes(Connection con) throws SQLException;
+	public ResultSet getIndexResultSet(Connection connection, String tableName)
+		throws SQLException;
+
+	public List<Index> getIndexes(Connection connection) throws SQLException;
 
 	public int getMajorVersion();
 
