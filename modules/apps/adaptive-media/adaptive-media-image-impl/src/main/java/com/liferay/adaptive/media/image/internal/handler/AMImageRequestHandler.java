@@ -33,7 +33,6 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.repository.model.FileVersion;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.io.IOException;
@@ -84,15 +83,7 @@ public class AMImageRequestHandler
 	}
 
 	private AdaptiveMedia<AMImageProcessor> _createRawAdaptiveMedia(
-			FileVersion fileVersion)
-		throws PortalException {
-
-		AMAttribute<Object, Long> contentLengthAMAttribute =
-			AMAttribute.getContentLengthAMAttribute();
-		AMAttribute<Object, String> contentTypeAMAttribute =
-			AMAttribute.getContentTypeAMAttribute();
-		AMAttribute<Object, String> fileNameAMAttribute =
-			AMAttribute.getFileNameAMAttribute();
+		FileVersion fileVersion) {
 
 		return new AMImage(
 			() -> {
@@ -103,16 +94,7 @@ public class AMImageRequestHandler
 					throw new AMRuntimeException(portalException);
 				}
 			},
-			AMImageAttributeMapping.fromProperties(
-				HashMapBuilder.put(
-					contentLengthAMAttribute.getName(),
-					String.valueOf(fileVersion.getSize())
-				).put(
-					contentTypeAMAttribute.getName(), fileVersion.getMimeType()
-				).put(
-					fileNameAMAttribute.getName(), fileVersion.getFileName()
-				).build()),
-			null);
+			AMImageAttributeMapping.fromFileVersion(fileVersion), null);
 	}
 
 	private Optional<AdaptiveMedia<AMImageProcessor>> _findAdaptiveMedia(
