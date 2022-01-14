@@ -90,6 +90,7 @@ fragmentsEditorData.put("fragments-editor-item-type", "fragments-editor-mapped-i
 						cssClass="header-back-to"
 						icon="angle-left"
 						markupView="lexicon"
+						message="back"
 						url="<%= redirect %>"
 					/>
 				</c:if>
