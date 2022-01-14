@@ -29,205 +29,218 @@ import com.liferay.portal.search.geolocation.PolygonShape;
 import com.liferay.portal.search.geolocation.Shape;
 import com.liferay.portal.search.geolocation.ShapeTranslator;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.elasticsearch.common.geo.builders.CircleBuilder;
-import org.elasticsearch.common.geo.builders.EnvelopeBuilder;
-import org.elasticsearch.common.geo.builders.GeometryCollectionBuilder;
-import org.elasticsearch.common.geo.builders.LineStringBuilder;
-import org.elasticsearch.common.geo.builders.MultiLineStringBuilder;
-import org.elasticsearch.common.geo.builders.MultiPointBuilder;
-import org.elasticsearch.common.geo.builders.MultiPolygonBuilder;
-import org.elasticsearch.common.geo.builders.PointBuilder;
-import org.elasticsearch.common.geo.builders.PolygonBuilder;
-import org.elasticsearch.common.geo.builders.ShapeBuilder;
+//import org.elasticsearch.common.geo.builders.CircleBuilder;
+//import org.elasticsearch.common.geo.builders.EnvelopeBuilder;
+//import org.elasticsearch.common.geo.builders.GeometryCollectionBuilder;
+//import org.elasticsearch.common.geo.builders.LineStringBuilder;
+//import org.elasticsearch.common.geo.builders.MultiLineStringBuilder;
+//import org.elasticsearch.common.geo.builders.MultiPointBuilder;
+//import org.elasticsearch.common.geo.builders.MultiPolygonBuilder;
+//import org.elasticsearch.common.geo.builders.PointBuilder;
+//import org.elasticsearch.common.geo.builders.PolygonBuilder;
+//import org.elasticsearch.common.geo.builders.ShapeBuilder;
+
+import org.elasticsearch.geometry.Circle;
+import org.elasticsearch.geometry.Geometry;
+import org.elasticsearch.geometry.Line;
+import org.elasticsearch.geometry.MultiLine;
+import org.elasticsearch.geometry.Point;
+import org.elasticsearch.geometry.Rectangle;
 
 /**
  * @author Michael C. Han
  */
 public class ElasticsearchShapeTranslator
-	implements ShapeTranslator<ShapeBuilder<?, ?, ?>> {
+	implements ShapeTranslator<Geometry> {
 
 	@Override
-	public CircleBuilder translate(CircleShape circleShape) {
+	public Circle translate(CircleShape circleShape) {
 		GeoDistance radiusGeoDistance = circleShape.getRadius();
 
-		return new CircleBuilder().center(
-			translate(circleShape.getCenter())
-		).coordinates(
-			translate(circleShape.getCoordinates())
-		).radius(
-			radiusGeoDistance.getDistance(),
-			String.valueOf(radiusGeoDistance.getDistanceUnit())
-		);
+		Coordinate center = circleShape.getCenter();
+
+//		DistanceUnit unit = radiusGeoDistance.getDistanceUnit();
+
+		return new Circle(center.getX(), center.getY(), center.getZ(),
+			radiusGeoDistance.getDistance());
 	}
 
 	@Override
-	public EnvelopeBuilder translate(EnvelopeShape envelopeShape) {
-		return new EnvelopeBuilder(
-			translate(envelopeShape.getTopLeft()),
-			translate(envelopeShape.getBottomRight())
-		).coordinates(
-			translate(envelopeShape.getCoordinates())
-		);
+	public Rectangle translate(EnvelopeShape envelopeShape) {
+		Coordinate topLeft = envelopeShape.getTopLeft();
+		Coordinate bottomRight = envelopeShape.getBottomRight();
+
+		return new Rectangle(
+			topLeft.getX(), bottomRight.getX(), topLeft.getY(),
+			bottomRight.getY(), topLeft.getZ(), bottomRight.getZ());
+	}
+//
+//	@Override
+//	public GeometryCollectionBuilder translate(
+//		GeometryCollectionShape geometryCollectionShape) {
+//
+//		GeometryCollectionBuilder geometryCollectionBuilder =
+//			new GeometryCollectionBuilder();
+//
+//		geometryCollectionBuilder.coordinates(
+//			translate(geometryCollectionShape.getCoordinates()));
+//
+//		List<Shape> shapes = geometryCollectionShape.getShapes();
+//
+//		Stream<Shape> stream = shapes.stream();
+//
+//		stream.map(
+//			this::translate
+//		).forEach(
+//			geometryCollectionBuilder::shape
+//		);
+//
+//		return geometryCollectionBuilder;
+//	}
+//
+	@Override
+	public Line translate(LineStringShape lineStringShape) {
+		List<Coordinate> coordinates = lineStringShape.getCoordinates();
+
+		double[] x = new double[coordinates.size()];
+		double[] y = new double[coordinates.size()];
+		double[] z = new double[coordinates.size()];
+
+		for(int i = 0; i < coordinates.size(); i++) {
+			x[i] = coordinates.get(i).getX();
+			y[i] = coordinates.get(i).getY();
+			x[i] = coordinates.get(i).getX();	//z is optional, what do we do
+		}
+
+		return new Line(x, y, z);
 	}
 
 	@Override
-	public GeometryCollectionBuilder translate(
-		GeometryCollectionShape geometryCollectionShape) {
-
-		GeometryCollectionBuilder geometryCollectionBuilder =
-			new GeometryCollectionBuilder();
-
-		geometryCollectionBuilder.coordinates(
-			translate(geometryCollectionShape.getCoordinates()));
-
-		List<Shape> shapes = geometryCollectionShape.getShapes();
-
-		Stream<Shape> stream = shapes.stream();
-
-		stream.map(
-			this::translate
-		).forEach(
-			geometryCollectionBuilder::shape
-		);
-
-		return geometryCollectionBuilder;
-	}
-
-	@Override
-	public LineStringBuilder translate(LineStringShape lineStringShape) {
-		return new LineStringBuilder(
-			translate(lineStringShape.getCoordinates()));
-	}
-
-	@Override
-	public MultiLineStringBuilder translate(
+	public MultiLine translate(
 		MultiLineStringShape multiLineStringShape) {
-
-		MultiLineStringBuilder multiLineStringBuilder =
-			new MultiLineStringBuilder();
-
-		multiLineStringBuilder.coordinates(
-			translate(multiLineStringShape.getCoordinates()));
 
 		List<LineStringShape> lineStringShapes =
 			multiLineStringShape.getLineStringShapes();
 
-		Stream<LineStringShape> stream = lineStringShapes.stream();
+//		Stream<LineGeometry> stream = lineGeometries.stream();
 
-		stream.map(
-			this::translate
-		).forEach(
-			multiLineStringBuilder::linestring
-		);
+		List<Line> lines = new ArrayList<Line>();
 
-		return multiLineStringBuilder;
+		for(LineStringShape lineStringShape : lineStringShapes) {
+			lines.add(translate(lineStringShape));
+		}
+
+//		stream.map(
+//			this::translate
+//		).forEach(
+//			lineGeometries::add
+//		);
+
+		return new MultiLine(lines);
 	}
-
+//
 	@Override
-	public MultiPointBuilder translate(MultiPointShape multiPointShape) {
-		return new MultiPointBuilder(
+	public MultiPoint translate(MultiPointShape multiPointShape) {
+		return new MultiPoint(
 			translate(multiPointShape.getCoordinates()));
 	}
-
+//
+//	@Override
+//	public MultiPolygonBuilder translate(MultiPolygonShape multiPolygonShape) {
+//		MultiPolygonBuilder multiPolygonBuilder = new MultiPolygonBuilder(
+//			translate(multiPolygonShape.getOrientation()));
+//
+//		multiPolygonBuilder.coordinates(
+//			translate(multiPolygonShape.getCoordinates()));
+//
+//		List<PolygonShape> polygonShapes = multiPolygonShape.getPolygonShapes();
+//
+//		Stream<PolygonShape> stream = polygonShapes.stream();
+//
+//		stream.map(
+//			this::translate
+//		).forEach(
+//			multiPolygonBuilder::polygon
+//		);
+//
+//		return multiPolygonBuilder;
+//	}
+//
 	@Override
-	public MultiPolygonBuilder translate(MultiPolygonShape multiPolygonShape) {
-		MultiPolygonBuilder multiPolygonBuilder = new MultiPolygonBuilder(
-			translate(multiPolygonShape.getOrientation()));
-
-		multiPolygonBuilder.coordinates(
-			translate(multiPolygonShape.getCoordinates()));
-
-		List<PolygonShape> polygonShapes = multiPolygonShape.getPolygonShapes();
-
-		Stream<PolygonShape> stream = polygonShapes.stream();
-
-		stream.map(
-			this::translate
-		).forEach(
-			multiPolygonBuilder::polygon
-		);
-
-		return multiPolygonBuilder;
-	}
-
-	@Override
-	public PointBuilder translate(PointShape pointShape) {
+	public Point translate(PointShape pointShape) {
 		List<Coordinate> coordinates = pointShape.getCoordinates();
 
-		PointBuilder pointBuilder = new PointBuilder();
+//		if(coordinates.size() != 1) {
+//			throw new Exception();
+//		}
 
-		Stream<Coordinate> stream = coordinates.stream();
-
-		stream.map(
-			this::translate
-		).forEach(
-			pointBuilder::coordinate
-		);
-
-		return pointBuilder;
+		return new Point(
+			coordinates.get(0).getX(), coordinates.get(0).getY(),
+			coordinates.get(0).getZ());
 	}
-
-	@Override
-	public PolygonBuilder translate(PolygonShape polygonShape) {
-		PolygonBuilder polygonBuilder = new PolygonBuilder(
-			translate(polygonShape.getShell()),
-			translate(polygonShape.getOrientation()));
-
-		polygonBuilder.coordinates(translate(polygonShape.getCoordinates()));
-
-		List<LineStringShape> holesLineStringShapes = polygonShape.getHoles();
-
-		Stream<LineStringShape> stream = holesLineStringShapes.stream();
-
-		stream.map(
-			this::translate
-		).forEach(
-			polygonBuilder::hole
-		);
-
-		return polygonBuilder;
-	}
-
-	protected org.locationtech.jts.geom.Coordinate translate(
-		Coordinate coordinate) {
-
-		return new org.locationtech.jts.geom.Coordinate(
-			coordinate.getX(), coordinate.getY(), coordinate.getZ());
-	}
-
-	protected List<org.locationtech.jts.geom.Coordinate> translate(
-		List<Coordinate> coordinates) {
-
-		Stream<Coordinate> stream = coordinates.stream();
-
-		return stream.map(
-			this::translate
-		).collect(
-			Collectors.toList()
-		);
-	}
-
-	protected org.elasticsearch.common.geo.Orientation translate(
-		Orientation orientation) {
-
-		if (orientation == Orientation.LEFT) {
-			return org.elasticsearch.common.geo.Orientation.LEFT;
-		}
-
-		if (orientation == Orientation.RIGHT) {
-			return org.elasticsearch.common.geo.Orientation.RIGHT;
-		}
-
-		throw new IllegalArgumentException(
-			"Invalid Orientation: " + orientation);
-	}
-
-	protected ShapeBuilder<?, ?, ?> translate(Shape shape) {
-		return shape.accept(this);
-	}
+//
+//	@Override
+//	public PolygonBuilder translate(PolygonShape polygonShape) {
+//		PolygonBuilder polygonBuilder = new PolygonBuilder(
+//			translate(polygonShape.getShell()),
+//			translate(polygonShape.getOrientation()));
+//
+//		polygonBuilder.coordinates(translate(polygonShape.getCoordinates()));
+//
+//		List<LineStringShape> holesLineStringShapes = polygonShape.getHoles();
+//
+//		Stream<LineStringShape> stream = holesLineStringShapes.stream();
+//
+//		stream.map(
+//			this::translate
+//		).forEach(
+//			polygonBuilder::hole
+//		);
+//
+//		return polygonBuilder;
+//	}
+//
+//	protected org.locationtech.jts.geom.Coordinate translate(
+//		Coordinate coordinate) {
+//
+//		return new org.locationtech.jts.geom.Coordinate(
+//			coordinate.getX(), coordinate.getY(), coordinate.getZ());
+//	}
+//
+//	protected List<org.locationtech.jts.geom.Coordinate> translate(
+//		List<Coordinate> coordinates) {
+//
+//		Stream<Coordinate> stream = coordinates.stream();
+//
+//		return stream.map(
+//			this::translate
+//		).collect(
+//			Collectors.toList()
+//		);
+//	}
+//
+//	protected org.elasticsearch.common.geo.Orientation translate(
+//		Orientation orientation) {
+//
+//		if (orientation == Orientation.LEFT) {
+//			return org.elasticsearch.common.geo.Orientation.LEFT;
+//		}
+//
+//		if (orientation == Orientation.RIGHT) {
+//			return org.elasticsearch.common.geo.Orientation.RIGHT;
+//		}
+//
+//		throw new IllegalArgumentException(
+//			"Invalid Orientation: " + orientation);
+//	}
+//
+//	protected ShapeBuilder<?, ?, ?> translate(Shape shape) {
+//		return shape.accept(this);
+//	}
 
 }
