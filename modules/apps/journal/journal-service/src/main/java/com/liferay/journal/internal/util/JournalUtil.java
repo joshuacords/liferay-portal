@@ -15,13 +15,9 @@
 package com.liferay.journal.internal.util;
 
 import com.liferay.asset.kernel.service.AssetTagLocalServiceUtil;
-import com.liferay.dynamic.data.mapping.model.DDMStructure;
-import com.liferay.dynamic.data.mapping.model.DDMTemplate;
-import com.liferay.dynamic.data.mapping.service.DDMTemplateLocalServiceUtil;
 import com.liferay.journal.configuration.JournalServiceConfiguration;
 import com.liferay.journal.constants.JournalPortletKeys;
 import com.liferay.journal.internal.transformer.JournalTransformer;
-import com.liferay.journal.internal.transformer.JournalTransformerListenerRegistryUtil;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.model.JournalStructureConstants;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
@@ -49,7 +45,6 @@ import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.template.TemplateHandler;
 import com.liferay.portal.kernel.template.TemplateHandlerRegistryUtil;
-import com.liferay.portal.kernel.templateparser.TransformerListener;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.FriendlyURLNormalizerUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
@@ -522,39 +517,6 @@ public class JournalUtil {
 		}
 
 		return null;
-	}
-
-	private static String _getTemplateScript(
-		DDMTemplate ddmTemplate, Map<String, String> tokens, String languageId,
-		boolean transform) {
-
-		String script = ddmTemplate.getScript();
-
-		if (!transform) {
-			return script;
-		}
-
-		for (TransformerListener transformerListener :
-				JournalTransformerListenerRegistryUtil.
-					getTransformerListeners()) {
-
-			script = transformerListener.onScript(
-				script, (Document)null, languageId, tokens);
-		}
-
-		return script;
-	}
-
-	private static String _getTemplateScript(
-			long groupId, String ddmTemplateKey, Map<String, String> tokens,
-			String languageId, boolean transform)
-		throws PortalException {
-
-		DDMTemplate ddmTemplate = DDMTemplateLocalServiceUtil.getTemplate(
-			groupId, PortalUtil.getClassNameId(DDMStructure.class),
-			ddmTemplateKey, true);
-
-		return _getTemplateScript(ddmTemplate, tokens, languageId, transform);
 	}
 
 	private static void _mergeArticleContentUpdate(
