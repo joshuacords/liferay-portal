@@ -15,8 +15,7 @@
 package com.liferay.portal.search.internal.geolocation;
 
 import com.liferay.portal.search.geolocation.GeometryTranslator;
-import com.liferay.portal.search.geolocation.LineStringGeometry;
-import com.liferay.portal.search.geolocation.LineStringShape;
+import com.liferay.portal.search.geolocation.LineGeometry;
 import com.liferay.portal.search.geolocation.Orientation;
 import com.liferay.portal.search.geolocation.PolygonGeometry;
 
@@ -36,8 +35,8 @@ public class PolygonGeometryImpl extends BaseGeometryImpl implements
 	}
 
 	@Override
-	public List<LineStringGeometry> getHoles() {
-		return Collections.unmodifiableList(_holeLineStringGeometrys);
+	public List<LineGeometry> getHoles() {
+		return Collections.unmodifiableList(_holeLineGeometries);
 	}
 
 	@Override
@@ -46,7 +45,7 @@ public class PolygonGeometryImpl extends BaseGeometryImpl implements
 	}
 
 	@Override
-	public LineStringGeometry getShell() {
+	public LineGeometry getShell() {
 		return _shell;
 	}
 
@@ -121,15 +120,15 @@ public class PolygonGeometryImpl extends BaseGeometryImpl implements
 		_orientation = polygonGeometryImpl._orientation;
 		_shell = polygonGeometryImpl._shell;
 
-		_holeLineStringGeometrys.addAll(
-			polygonGeometryImpl._holeLineStringGeometrys);
+		_holeLineGeometries.addAll(
+			polygonGeometryImpl._holeLineGeometries);
 
 		setCoordinates(polygonGeometryImpl.getCoordinates());
 	}
 
-	private final List<LineStringGeometry> _holeLineStringGeometrys =
+	private final List<LineGeometry> _holeLineGeometries =
 		new ArrayList<>();
 	private Orientation _orientation;
-	private LineStringGeometry _shell;
+	private LineGeometry _shell;
 
 }

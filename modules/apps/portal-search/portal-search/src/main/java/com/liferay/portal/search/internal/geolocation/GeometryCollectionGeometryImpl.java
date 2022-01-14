@@ -14,13 +14,10 @@
 
 package com.liferay.portal.search.internal.geolocation;
 
-import com.liferay.portal.search.geolocation.Coordinate;
 import com.liferay.portal.search.geolocation.GeometryCollectionGeometry;
-import com.liferay.portal.search.geolocation.GeometryCollectionShape;
-import com.liferay.portal.search.geolocation.GeometryCollectionShapeBuilder;
 import com.liferay.portal.search.geolocation.GeometryTranslator;
 import com.liferay.portal.search.geolocation.Shape;
-import com.liferay.portal.search.geolocation.ShapeTranslator;
+import com.liferay.portal.search.geolocation.ShapeGeometry;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,7 +35,7 @@ public class GeometryCollectionGeometryImpl
 	}
 
 	@Override
-	public List<Shape> getShapes() {
+	public List<ShapeGeometry> getShapeGeometrys() {
 		return Collections.unmodifiableList(_shapes);
 	}
 
@@ -111,6 +108,6 @@ public class GeometryCollectionGeometryImpl
 		setCoordinates(geometryCollectionGeometryImpl.getCoordinates());
 	}
 
-	private final List<Shape> _shapes = new ArrayList<>();
+	private final List<ShapeGeometry> _shapes = new ArrayList<>();
 
 }

@@ -24,10 +24,10 @@ import java.util.List;
 @ProviderType
 public interface PolygonGeometry extends ShapeGeometry {
 
-	public List<LineStringGeometry> getHoles();
+	public List<LineGeometry> getHoles();
 
 	public Orientation getOrientation();
 
-	public LineStringGeometry getShell();
+	public LineGeometry getShell();
 
 }

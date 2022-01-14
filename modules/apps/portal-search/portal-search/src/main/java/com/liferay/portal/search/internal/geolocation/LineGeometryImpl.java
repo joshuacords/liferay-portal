@@ -14,20 +14,14 @@
 
 package com.liferay.portal.search.internal.geolocation;
 
-import com.liferay.portal.search.geolocation.Coordinate;
 import com.liferay.portal.search.geolocation.GeometryTranslator;
-import com.liferay.portal.search.geolocation.LineStringGeometry;
-import com.liferay.portal.search.geolocation.LineStringShape;
-import com.liferay.portal.search.geolocation.LineStringShapeBuilder;
-import com.liferay.portal.search.geolocation.ShapeTranslator;
-
-import java.util.List;
+import com.liferay.portal.search.geolocation.LineGeometry;
 
 /**
  * @author Joshua Cords
  */
-public class LineStringGeometryImpl
-	extends BaseGeometryImpl implements LineStringGeometry {
+public class LineGeometryImpl
+	extends BaseGeometryImpl implements LineGeometry {
 
 	@Override
 	public <T> T accept(GeometryTranslator<T> geometryTranslator) {
@@ -70,10 +64,10 @@ public class LineStringGeometryImpl
 //
 //	}
 
-	protected LineStringGeometryImpl() {
+	protected LineGeometryImpl() {
 	}
 
-	protected LineStringGeometryImpl(LineStringGeometryImpl lineStringGeometryImpl) {
+	protected LineGeometryImpl(LineGeometryImpl lineStringGeometryImpl) {
 		setCoordinates(lineStringGeometryImpl.getCoordinates());
 	}
 

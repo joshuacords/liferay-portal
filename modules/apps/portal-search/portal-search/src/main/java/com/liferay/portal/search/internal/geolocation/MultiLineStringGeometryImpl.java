@@ -14,14 +14,9 @@
 
 package com.liferay.portal.search.internal.geolocation;
 
-import com.liferay.portal.search.geolocation.Coordinate;
 import com.liferay.portal.search.geolocation.GeometryTranslator;
-import com.liferay.portal.search.geolocation.LineStringGeometry;
-import com.liferay.portal.search.geolocation.LineStringShape;
+import com.liferay.portal.search.geolocation.LineGeometry;
 import com.liferay.portal.search.geolocation.MultiLineStringGeometry;
-import com.liferay.portal.search.geolocation.MultiLineStringShape;
-import com.liferay.portal.search.geolocation.MultiLineStringShapeBuilder;
-import com.liferay.portal.search.geolocation.ShapeTranslator;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -39,8 +34,8 @@ public class MultiLineStringGeometryImpl
 	}
 
 	@Override
-	public List<LineStringGeometry> getLineStringGeometrys() {
-		return Collections.unmodifiableList(_lineStringGeometrys);
+	public List<LineGeometry> getLineGeometries() {
+		return Collections.unmodifiableList(_lineGeometries);
 	}
 
 //	public static class MultiLineStringShapeBuilderImpl
@@ -122,11 +117,11 @@ public class MultiLineStringGeometryImpl
 	protected MultiLineStringGeometryImpl(
 		MultiLineStringGeometryImpl multiLineStringGeometryImpl) {
 
-		_lineStringGeometrys.addAll(multiLineStringGeometryImpl._lineStringGeometrys);
+		_lineGeometries.addAll(multiLineStringGeometryImpl._lineGeometries);
 
 		setCoordinates(multiLineStringGeometryImpl.getCoordinates());
 	}
 
-	private final List<LineStringGeometry> _lineStringGeometrys = new ArrayList<>();
+	private final List<LineGeometry> _lineGeometries = new ArrayList<>();
 
 }

@@ -20,5 +20,5 @@ import org.osgi.annotation.versioning.ProviderType;
  * @author Joshua Cords
  */
 @ProviderType
-public interface LineStringGeometry extends ShapeGeometry {
+public interface LineGeometry extends ShapeGeometry {
 }

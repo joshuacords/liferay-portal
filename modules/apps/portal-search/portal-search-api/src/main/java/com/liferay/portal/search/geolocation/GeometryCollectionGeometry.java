@@ -24,6 +24,6 @@ import java.util.List;
 @ProviderType
 public interface GeometryCollectionGeometry extends ShapeGeometry {
 
-	public List<Shape> getShapes();
+	public List<ShapeGeometry> getShapeGeometrys();
 
 }

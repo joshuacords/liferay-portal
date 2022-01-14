@@ -24,6 +24,6 @@ import java.util.List;
 @ProviderType
 public interface MultiLineStringGeometry extends ShapeGeometry {
 
-	public List<LineStringGeometry> getLineStringGeometrys();
+	public List<LineGeometry> getLineGeometries();
 
 }

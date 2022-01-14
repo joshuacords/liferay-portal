@@ -26,7 +26,7 @@ public interface GeometryTranslator<T> {
 
 	public T translate(GeometryCollectionGeometry geometryCollectionGeometry);
 
-	public T translate(LineStringGeometry lineStringGeometry);
+	public T translate(LineGeometry lineGeometry);
 
 	public T translate(MultiLineStringGeometry multiLineStringGeometry);
 
