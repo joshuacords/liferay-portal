@@ -132,6 +132,13 @@ public class AssetTagIndexerIndexedFieldsTest {
 				).build()));
 	}
 
+	protected ComplexQueryPart getComplexQueryPart(Query query) {
+		return _complexQueryPartBuilderFactory.builder(
+		).query(
+			query
+		).build();
+	}
+
 	protected boolean isNumberSortableImplementedAsDoubleForSearchEngine() {
 		SearchEngine searchEngine = searchEngineHelper.getSearchEngine(
 			searchEngineHelper.getDefaultSearchEngineId());
@@ -143,13 +150,6 @@ public class AssetTagIndexerIndexedFieldsTest {
 		}
 
 		return false;
-	}
-
-	protected ComplexQueryPart getComplexQueryPart(Query query) {
-		return _complexQueryPartBuilderFactory.builder(
-		).query(
-			query
-		).build();
 	}
 
 	@Inject
