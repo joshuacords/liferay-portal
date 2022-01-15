@@ -23,7 +23,6 @@ import com.liferay.portal.search.geolocation.LineStringShape;
 import com.liferay.portal.search.geolocation.MultiLineStringShape;
 import com.liferay.portal.search.geolocation.MultiPointShape;
 import com.liferay.portal.search.geolocation.MultiPolygonShape;
-import com.liferay.portal.search.geolocation.Orientation;
 import com.liferay.portal.search.geolocation.PointShape;
 import com.liferay.portal.search.geolocation.PolygonShape;
 import com.liferay.portal.search.geolocation.Shape;
@@ -60,8 +59,7 @@ import org.elasticsearch.geometry.Rectangle;
 /**
  * @author Michael C. Han
  */
-public class ElasticsearchShapeTranslator
-	implements ShapeTranslator<Geometry> {
+public class ElasticsearchShapeTranslator implements ShapeTranslator<Geometry> {
 
 	@Override
 	public Circle translate(CircleShape circleShape) {
@@ -69,9 +67,10 @@ public class ElasticsearchShapeTranslator
 
 		Coordinate center = circleShape.getCenter();
 
-//		DistanceUnit unit = radiusGeoDistance.getDistanceUnit();
+		//		DistanceUnit unit = radiusGeoDistance.getDistanceUnit();
 
-		return new Circle(center.getX(), center.getY(), center.getZ(),
+		return new Circle(
+			center.getX(), center.getY(), center.getZ(),
 			radiusGeoDistance.getDistance());
 	}
 
@@ -91,13 +90,13 @@ public class ElasticsearchShapeTranslator
 
 		List<Shape> shapes = geometryCollectionShape.getShapes();
 
-		List<Geometry> geometries = new ArrayList<Geometry>(shapes.size());
+		List<Geometry> geometries = new ArrayList<>(shapes.size());
 
-//		for(Shape shape : shapes) {
-//			geometries.add(translate(shape));
-//		}
-//
-//		return new GeometryCollection(geometries);
+		//		for(Shape shape : shapes) {
+		//			geometries.add(translate(shape));
+		//		}
+		//
+		//		return new GeometryCollection(geometries);
 
 		return new GeometryCollection();
 	}
@@ -110,25 +109,29 @@ public class ElasticsearchShapeTranslator
 		double[] y = new double[coordinates.size()];
 		double[] z = new double[coordinates.size()];
 
-		for(int i = 0; i < coordinates.size(); i++) {
-			x[i] = coordinates.get(i).getX();
-			y[i] = coordinates.get(i).getY();
-			x[i] = coordinates.get(i).getX();	//z is optional, what do we do
+		for (int i = 0; i < coordinates.size(); i++) {
+			x[i] = coordinates.get(
+				i
+			).getX();
+			y[i] = coordinates.get(
+				i
+			).getY();
+			x[i] = coordinates.get(
+				i
+			).getX();	//z is optional, what do we do
 		}
 
 		return new Line(x, y, z);
 	}
 
 	@Override
-	public MultiLine translate(
-		MultiLineStringShape multiLineStringShape) {
-
+	public MultiLine translate(MultiLineStringShape multiLineStringShape) {
 		List<LineStringShape> lineStringShapes =
 			multiLineStringShape.getLineStringShapes();
 
-		List<Line> lines = new ArrayList<Line>();
+		List<Line> lines = new ArrayList<>();
 
-		for(LineStringShape lineStringShape : lineStringShapes) {
+		for (LineStringShape lineStringShape : lineStringShapes) {
 			lines.add(translate(lineStringShape));
 		}
 
@@ -137,12 +140,12 @@ public class ElasticsearchShapeTranslator
 
 	@Override
 	public MultiPoint translate(MultiPointShape multiPointShape) {
-		List<Point> points = new ArrayList<Point>();
+		List<Point> points = new ArrayList<>();
 
-		for(Coordinate coordinate : multiPointShape.getCoordinates()) {
-			points.add(new Point(
-				coordinate.getX(), coordinate.getY(),
-				coordinate.getZ()));
+		for (Coordinate coordinate : multiPointShape.getCoordinates()) {
+			points.add(
+				new Point(
+					coordinate.getX(), coordinate.getY(), coordinate.getZ()));
 		}
 
 		return new MultiPoint(points);
@@ -151,9 +154,10 @@ public class ElasticsearchShapeTranslator
 	@Override
 	public MultiPolygon translate(MultiPolygonShape multiPolygonShape) {
 		List<PolygonShape> polygonShapes = multiPolygonShape.getPolygonShapes();
-		List<Polygon> polygons = new ArrayList<Polygon>(polygonShapes.size());
 
-		for(PolygonShape polygonShape : polygonShapes) {
+		List<Polygon> polygons = new ArrayList<>(polygonShapes.size());
+
+		for (PolygonShape polygonShape : polygonShapes) {
 			polygons.add(translate(polygonShape));
 		}
 
@@ -164,38 +168,29 @@ public class ElasticsearchShapeTranslator
 	public Point translate(PointShape pointShape) {
 		List<Coordinate> coordinates = pointShape.getCoordinates();
 
-//		if(coordinates.size() != 1) {
-//			throw new Exception();
-//		}
+		//		if(coordinates.size() != 1) {
+		//			throw new Exception();
+		//		}
 
 		return new Point(
-			coordinates.get(0).getX(), coordinates.get(0).getY(),
-			coordinates.get(0).getZ());
-	}
-
-	private LinearRing translateLinearRing(LineStringShape lineStringShape) {
-		List<Coordinate> coordinates = lineStringShape.getCoordinates();
-
-		double[] x = new double[coordinates.size()];
-		double[] y = new double[coordinates.size()];
-		double[] z = new double[coordinates.size()];
-
-		for(int i = 0; i < coordinates.size(); i++) {
-			x[i] = coordinates.get(i).getX();
-			y[i] = coordinates.get(i).getY();
-			x[i] = coordinates.get(i).getX();	//z is optional, what do we do
-		}
-
-		return new LinearRing(x, y, z);
+			coordinates.get(
+				0
+			).getX(),
+			coordinates.get(
+				0
+			).getY(),
+			coordinates.get(
+				0
+			).getZ());
 	}
 
 	@Override
 	public Polygon translate(PolygonShape polygonShape) {
 		LinearRing shell = translateLinearRing(polygonShape.getShell());
 
-		List<LinearRing> holes = new ArrayList<LinearRing>();
+		List<LinearRing> holes = new ArrayList<>();
 
-		for(LineStringShape lineStringShape: polygonShape.getHoles()) {
+		for (LineStringShape lineStringShape : polygonShape.getHoles()) {
 			holes.add(translateLinearRing(lineStringShape));
 		}
 
@@ -221,23 +216,45 @@ public class ElasticsearchShapeTranslator
 		);
 	}
 
-//	protected org.elasticsearch.common.geo.Orientation translate(
-//		Orientation orientation) {
-//
-//		if (orientation == Orientation.LEFT) {
-//			return org.elasticsearch.common.geo.Orientation.LEFT;
-//		}
-//
-//		if (orientation == Orientation.RIGHT) {
-//			return org.elasticsearch.common.geo.Orientation.RIGHT;
-//		}
-//
-//		throw new IllegalArgumentException(
-//			"Invalid Orientation: " + orientation);
-//	}
+	private LinearRing translateLinearRing(LineStringShape lineStringShape) {
+		List<Coordinate> coordinates = lineStringShape.getCoordinates();
 
-//	protected Geometry translate(Shape shape) {
-//		return shape.accept(this);
-//	}
+		double[] x = new double[coordinates.size()];
+		double[] y = new double[coordinates.size()];
+		double[] z = new double[coordinates.size()];
+
+		for (int i = 0; i < coordinates.size(); i++) {
+			x[i] = coordinates.get(
+				i
+			).getX();
+			y[i] = coordinates.get(
+				i
+			).getY();
+			x[i] = coordinates.get(
+				i
+			).getX();	//z is optional, what do we do
+		}
+
+		return new LinearRing(x, y, z);
+	}
+
+	//	protected org.elasticsearch.common.geo.Orientation translate(
+	//		Orientation orientation) {
+	//
+	//		if (orientation == Orientation.LEFT) {
+	//			return org.elasticsearch.common.geo.Orientation.LEFT;
+	//		}
+	//
+	//		if (orientation == Orientation.RIGHT) {
+	//			return org.elasticsearch.common.geo.Orientation.RIGHT;
+	//		}
+	//
+	//		throw new IllegalArgumentException(
+	//			"Invalid Orientation: " + orientation);
+	//	}
+
+	//	protected Geometry translate(Shape shape) {
+	//		return shape.accept(this);
+	//	}
 
 }
