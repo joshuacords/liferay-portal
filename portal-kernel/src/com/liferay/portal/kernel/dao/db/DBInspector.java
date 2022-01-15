@@ -150,9 +150,8 @@ public class DBInspector {
 	public boolean hasIndex(String tableName, String indexName)
 		throws Exception {
 
-		DatabaseMetaData databaseMetaData = _connection.getMetaData();
-
 		DB db = DBManagerUtil.getDB();
+		DatabaseMetaData databaseMetaData = _connection.getMetaData();
 
 		try (ResultSet rs = db.getIndexResultSet(
 				_connection, normalizeName(tableName, databaseMetaData))) {
