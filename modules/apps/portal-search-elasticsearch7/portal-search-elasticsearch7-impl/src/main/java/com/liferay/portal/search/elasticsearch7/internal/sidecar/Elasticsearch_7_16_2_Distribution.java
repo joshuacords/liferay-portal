@@ -26,7 +26,7 @@ public class Elasticsearch_7_16_2_Distribution implements Distribution {
 	public Distributable getElasticsearchDistributable() {
 		return new DistributableImpl(
 			"https://artifacts.elastic.co/downloads/elasticsearch" +
-				"/elasticsearch-oss-7.16.2-no-jdk-linux-x86_64.tar.gz",
+				"/elasticsearch-7.16.2-no-jdk-linux-x86_64.tar.gz",
 			_ELASTICSEARCH_CHECKSUM);
 	}
 
@@ -35,7 +35,7 @@ public class Elasticsearch_7_16_2_Distribution implements Distribution {
 		return Arrays.asList(
 			new DistributableImpl(
 				"https://artifacts.elastic.co/downloads/elasticsearch-plugins" +
-					"/analysis-icu/analysis-icu-7.10.2.zip",
+					"/analysis-icu/analysis-icu-7.16.2.zip",
 				_ICU_CHECKSUM),
 			new DistributableImpl(
 				"https://artifacts.elastic.co/downloads/elasticsearch-plugins" +
@@ -52,8 +52,8 @@ public class Elasticsearch_7_16_2_Distribution implements Distribution {
 	}
 
 	private static final String _ELASTICSEARCH_CHECKSUM =
-		"0f00e29f5eadff95b845939298e9949f0167c60cfdcc5dc8343df63e3ddf465f53e5" +
-			"f5d92329db888d2b8a20a46a07fc5fe865f3bee439a8a0da4ae9735e03fa";
+		"4e913e6657501a23830e138d0f7de7de57e80c0953078ecb10565770931bbba0eed3" +
+			"7b38de0888f9618de579138d51ca16f0239048ff70de68330aba862aff8d";
 
 	private static final String _ICU_CHECKSUM =
 		"58cea3b004fba73aa67420cfdbe64dde05a515235ba0a8e281ea8c45737f9d79d765" +
