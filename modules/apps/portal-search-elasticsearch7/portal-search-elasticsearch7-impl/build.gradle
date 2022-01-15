@@ -5,7 +5,7 @@ task cleanSidecar
 task deploySidecar(type: Copy)
 
 String elasticsearchClientVersion = "7.16.2"
-String luceneVersion = "8.9.0"
+String luceneVersion = "8.10.1"
 String sidecarElasticsearchServerVersion = file('src/main/resources/META-INF/sidecar.version').text
 
 String elasticsearchDownloadURL = "https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-${sidecarElasticsearchServerVersion}-no-jdk-linux-x86_64.tar.gz"
@@ -56,6 +56,7 @@ dependencies {
 	compileInclude group: "org.elasticsearch", name: "elasticsearch-cli", version: elasticsearchClientVersion
 	compileInclude group: "org.elasticsearch", name: "elasticsearch-core", version: elasticsearchClientVersion
 	compileInclude group: "org.elasticsearch", name: "elasticsearch-geo", version: elasticsearchClientVersion
+	compileInclude group: "org.elasticsearch", name: "elasticsearch-lz4", version: elasticsearchClientVersion
 	compileInclude group: "org.elasticsearch", name: "elasticsearch-x-content", version: elasticsearchClientVersion
 	compileInclude group: "org.elasticsearch.client", name: "elasticsearch-rest-client", version: elasticsearchClientVersion
 	compileInclude group: "org.elasticsearch.client", name: "elasticsearch-rest-high-level-client", version: elasticsearchClientVersion
