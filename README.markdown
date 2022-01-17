@@ -40,21 +40,21 @@ To get up and running quickly, follow the steps below:
 1. Download a [pre-built Liferay Portal release](https://portal.liferay.dev/download)
     bundled with Tomcat.
 
-2. Download and install
+1. Download and install
    [Java (JDK) 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
    (if necessary) in your local environment.
 
-3. Extract the downloaded pre-built Liferay Portal bundle into a folder.
+1. Extract the downloaded pre-built Liferay Portal bundle into a folder.
 
-4. Navigate to the bundle's `liferay-ce-portal-[version]/tomcat-[version]/bin`
+1. Navigate to the bundle's `liferay-ce-portal-[version]/tomcat-[version]/bin`
    folder and execute `startup.bat` (Windows) or `startup.sh` (Unix/Linux/Mac OS
    X), depending on your operating system.
 
-5. A server console opens, which starts your Liferay Portal instance. Once your
+1. A server console opens, which starts your Liferay Portal instance. Once your
    instance is ready to use, the portal URL address (http://localhost:8080) is
    automatically opened in your default browser.
 
-6. You're presented a Basic Configuration page. Complete the configuration
+1. You're presented a Basic Configuration page. Complete the configuration
    options.
 
     Liferay Portal uses an embedded database (HSQL) to make installation fast
@@ -62,7 +62,7 @@ To get up and running quickly, follow the steps below:
     a production-ready database (e.g., MySQL) if you plan on doing more than
     just exploring/testing.
 
-7. Agree to the terms and conditions, create a password, and configure a
+1. Agree to the terms and conditions, create a password, and configure a
    security question/answer.
 
 You can now use Liferay Portal!
