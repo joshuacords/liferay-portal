@@ -245,6 +245,19 @@ public abstract class BaseDB implements DB {
 		return _minorVersion;
 	}
 
+	@Override
+	public ResultSet getPrimaryKeysResultSet(
+			Connection connection, String tableName)
+		throws SQLException {
+
+		DatabaseMetaData databaseMetaData = connection.getMetaData();
+
+		DBInspector dbInspector = new DBInspector(connection);
+
+		return databaseMetaData.getPrimaryKeys(
+			dbInspector.getCatalog(), dbInspector.getSchema(), tableName);
+	}
+
 	public Integer getSQLType(String templateType) {
 		return _sqlTypes.get(templateType);
 	}

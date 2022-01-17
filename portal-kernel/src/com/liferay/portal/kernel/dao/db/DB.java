@@ -67,6 +67,10 @@ public interface DB {
 		return null;
 	}
 
+	public ResultSet getPrimaryKeysResultSet(
+			Connection connection, String tableName)
+		throws SQLException;
+
 	public Integer getSQLType(String templateType);
 
 	public String getTemplateBlob();
