@@ -368,7 +368,7 @@ public abstract class UpgradeProcess
 
 			try (ResultSet resultSet1 = db.getIndexResultSet(
 					connection, tableName);
-				ResultSet resultSet2 = db.getIndexResultSet(
+				ResultSet resultSet2 = db.getPrimaryKeysResultSet(
 					connection, tableName)) {
 
 				Set<String> primaryKeyNames = new HashSet<>();
