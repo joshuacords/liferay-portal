@@ -19,12 +19,14 @@ import com.liferay.osb.koroneiki.trunk.constants.TrunkPortletKeys;
 import com.liferay.osb.koroneiki.trunk.exception.NoSuchProductEntryException;
 import com.liferay.osb.koroneiki.trunk.exception.ProductPurchaseEndDateException;
 import com.liferay.osb.koroneiki.trunk.exception.ProductPurchaseQuantityException;
+import com.liferay.osb.koroneiki.trunk.exception.RequiredProductPurchaseException;
 import com.liferay.osb.koroneiki.trunk.model.ProductField;
 import com.liferay.osb.koroneiki.trunk.service.ProductFieldLocalService;
 import com.liferay.osb.koroneiki.trunk.service.ProductPurchaseService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.servlet.SessionErrors;
@@ -42,6 +44,7 @@ import java.util.List;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
+import javax.portlet.PortletURL;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -96,12 +99,32 @@ public class EditProductPurchaseMVCActionCommand extends BaseMVCActionCommand {
 					"mvcRenderCommandName",
 					"/products_admin/edit_product_purchase");
 			}
+			else if (exception instanceof RequiredProductPurchaseException) {
+				SessionErrors.add(actionRequest, exception.getClass());
+
+				sendRedirect(
+					actionRequest, actionResponse, getRedirect(actionResponse));
+			}
 			else {
 				_log.error(exception, exception);
 
 				throw exception;
 			}
 		}
+	}
+
+	protected String getRedirect(ActionResponse actionResponse)
+		throws Exception {
+
+		LiferayPortletResponse liferayPortletResponse =
+			_portal.getLiferayPortletResponse(actionResponse);
+
+		PortletURL portletURL = liferayPortletResponse.createRenderURL();
+
+		portletURL.setParameter("mvcRenderCommandName", "/view");
+		portletURL.setParameter("tabs1", "purchases");
+
+		return portletURL.toString();
 	}
 
 	protected void updateProductPurchase(ActionRequest actionRequest)

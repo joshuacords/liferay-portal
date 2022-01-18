@@ -31,6 +31,8 @@ ViewProductPurchasesManagementToolbarDisplayContext viewProductPurchasesManageme
 	displayContext="<%= viewProductPurchasesManagementToolbarDisplayContext %>"
 />
 
+<liferay-ui:error exception="<%= RequiredProductPurchaseException.MustNotDeleteProductPurchaseReferencedByProductConsumption.class %>" message="the-purchase-cannot-be-deleted-because-it-is-required-by-one-or-more-product-consumptions" />
+
 <div class="container-fluid-1280">
 	<liferay-ui:search-container
 		searchContainer="<%= productPurchasesDisplayContext.getSearchContainer() %>"
