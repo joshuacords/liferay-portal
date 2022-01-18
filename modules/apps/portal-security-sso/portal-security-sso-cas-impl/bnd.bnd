@@ -1,6 +1,6 @@
 Bundle-Name: Liferay Portal Security SSO CAS Implementation
 Bundle-SymbolicName: com.liferay.portal.security.sso.cas.impl
-Bundle-Version: 2.0.18
+Bundle-Version: 2.0.19
 Import-Package:\
 	!javax.microedition.*,\
 	\
