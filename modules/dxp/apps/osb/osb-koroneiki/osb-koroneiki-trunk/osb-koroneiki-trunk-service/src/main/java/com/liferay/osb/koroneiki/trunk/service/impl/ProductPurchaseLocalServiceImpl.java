@@ -19,10 +19,12 @@ import com.liferay.osb.koroneiki.root.util.ModelKeyGenerator;
 import com.liferay.osb.koroneiki.taproot.service.AccountLocalService;
 import com.liferay.osb.koroneiki.trunk.exception.ProductPurchaseEndDateException;
 import com.liferay.osb.koroneiki.trunk.exception.ProductPurchaseQuantityException;
+import com.liferay.osb.koroneiki.trunk.exception.RequiredProductPurchaseException;
 import com.liferay.osb.koroneiki.trunk.model.ProductField;
 import com.liferay.osb.koroneiki.trunk.model.ProductPurchase;
 import com.liferay.osb.koroneiki.trunk.model.view.ProductPurchaseView;
 import com.liferay.osb.koroneiki.trunk.model.view.impl.ProductPurchaseViewImpl;
+import com.liferay.osb.koroneiki.trunk.service.ProductConsumptionLocalService;
 import com.liferay.osb.koroneiki.trunk.service.ProductFieldLocalService;
 import com.liferay.osb.koroneiki.trunk.service.base.ProductPurchaseLocalServiceBaseImpl;
 import com.liferay.portal.aop.AopService;
@@ -125,6 +127,20 @@ public class ProductPurchaseLocalServiceImpl
 		ProductPurchase productPurchase =
 			productPurchaseLocalService.getProductPurchase(productPurchaseId);
 
+		long accountId = productPurchase.getAccountId();
+		long productEntryId = productPurchase.getProductEntryId();
+
+		int productConsumptionsCount =
+			_productConsumptionLocalService.
+				getAccountProductEntryProductConsumptionsCount(
+					accountId, productEntryId);
+
+		if (productConsumptionsCount > 0) {
+			throw new RequiredProductPurchaseException.
+				MustNotDeleteProductPurchaseReferencedByProductConsumption(
+					productPurchaseId);
+		}
+
 		// External links
 
 		long classNameId = classNameLocalService.getClassNameId(
@@ -141,10 +157,9 @@ public class ProductPurchaseLocalServiceImpl
 
 		resourceLocalService.deleteResource(
 			productPurchase.getCompanyId(), ProductPurchase.class.getName(),
-			ResourceConstants.SCOPE_INDIVIDUAL,
-			productPurchase.getProductPurchaseId());
+			ResourceConstants.SCOPE_INDIVIDUAL, productPurchaseId);
 
-		_accountLocalService.reindex(productPurchase.getAccountId());
+		_accountLocalService.reindex(accountId);
 
 		reindexProductPurchaseView(productPurchase);
 
@@ -398,6 +413,9 @@ public class ProductPurchaseLocalServiceImpl
 
 	@Reference
 	private IndexerRegistry _indexerRegistry;
+
+	@Reference
+	private ProductConsumptionLocalService _productConsumptionLocalService;
 
 	@Reference
 	private ProductFieldLocalService _productFieldLocalService;
