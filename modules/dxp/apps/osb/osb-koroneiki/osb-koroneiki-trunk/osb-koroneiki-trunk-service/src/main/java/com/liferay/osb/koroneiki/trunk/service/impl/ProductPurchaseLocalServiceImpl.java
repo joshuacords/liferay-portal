@@ -124,22 +124,18 @@ public class ProductPurchaseLocalServiceImpl
 	public ProductPurchase deleteProductPurchase(long productPurchaseId)
 		throws PortalException {
 
-		ProductPurchase productPurchase =
-			productPurchaseLocalService.getProductPurchase(productPurchaseId);
-
-		long accountId = productPurchase.getAccountId();
-		long productEntryId = productPurchase.getProductEntryId();
-
 		int productConsumptionsCount =
 			_productConsumptionLocalService.
-				getAccountProductEntryProductConsumptionsCount(
-					accountId, productEntryId);
+				getProductPurchaseProductConsumptionsCount(productPurchaseId);
 
 		if (productConsumptionsCount > 0) {
 			throw new RequiredProductPurchaseException.
 				MustNotDeleteProductPurchaseReferencedByProductConsumption(
 					productPurchaseId);
 		}
+
+		ProductPurchase productPurchase =
+			productPurchaseLocalService.getProductPurchase(productPurchaseId);
 
 		// External links
 
@@ -159,7 +155,7 @@ public class ProductPurchaseLocalServiceImpl
 			productPurchase.getCompanyId(), ProductPurchase.class.getName(),
 			ResourceConstants.SCOPE_INDIVIDUAL, productPurchaseId);
 
-		_accountLocalService.reindex(accountId);
+		_accountLocalService.reindex(productPurchase.getAccountId());
 
 		reindexProductPurchaseView(productPurchase);
 

@@ -234,6 +234,14 @@ public class ProductConsumptionLocalServiceImpl
 			productEntryId);
 	}
 
+	public int getProductPurchaseProductConsumptionsCount(
+			long productPurchaseId)
+		throws PortalException {
+
+		return productConsumptionPersistence.countByProductPurchaseId(
+			productPurchaseId);
+	}
+
 	@Indexable(type = IndexableType.REINDEX)
 	public ProductConsumption reindex(long productConsumptionId)
 		throws PortalException {

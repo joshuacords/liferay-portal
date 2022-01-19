@@ -36,6 +36,9 @@
 		<finder name="ProductEntryId" return-type="Collection">
 			<finder-column name="productEntryId" />
 		</finder>
+		<finder name="ProductPurchaseId" return-type="Collection">
+			<finder-column name="productPurchaseId" />
+		</finder>
 		<finder name="AI_PEI" return-type="Collection">
 			<finder-column name="accountId" />
 			<finder-column name="productEntryId" />
