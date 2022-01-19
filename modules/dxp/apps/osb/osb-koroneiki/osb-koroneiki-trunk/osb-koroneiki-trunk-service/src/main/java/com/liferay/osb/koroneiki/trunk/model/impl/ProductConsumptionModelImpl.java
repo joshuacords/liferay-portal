@@ -131,11 +131,13 @@ public class ProductConsumptionModelImpl
 
 	public static final long PRODUCTENTRYID_COLUMN_BITMASK = 8L;
 
-	public static final long USERID_COLUMN_BITMASK = 16L;
+	public static final long PRODUCTPURCHASEID_COLUMN_BITMASK = 16L;
 
-	public static final long UUID_COLUMN_BITMASK = 32L;
+	public static final long USERID_COLUMN_BITMASK = 32L;
 
-	public static final long PRODUCTCONSUMPTIONID_COLUMN_BITMASK = 64L;
+	public static final long UUID_COLUMN_BITMASK = 64L;
+
+	public static final long PRODUCTCONSUMPTIONID_COLUMN_BITMASK = 128L;
 
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
@@ -630,7 +632,19 @@ public class ProductConsumptionModelImpl
 
 	@Override
 	public void setProductPurchaseId(long productPurchaseId) {
+		_columnBitmask |= PRODUCTPURCHASEID_COLUMN_BITMASK;
+
+		if (!_setOriginalProductPurchaseId) {
+			_setOriginalProductPurchaseId = true;
+
+			_originalProductPurchaseId = _productPurchaseId;
+		}
+
 		_productPurchaseId = productPurchaseId;
+	}
+
+	public long getOriginalProductPurchaseId() {
+		return _originalProductPurchaseId;
 	}
 
 	@JSON
@@ -794,6 +808,10 @@ public class ProductConsumptionModelImpl
 		_originalProductEntryId = _productEntryId;
 
 		_setOriginalProductEntryId = false;
+
+		_originalProductPurchaseId = _productPurchaseId;
+
+		_setOriginalProductPurchaseId = false;
 
 		_columnBitmask = 0;
 	}
@@ -990,6 +1008,8 @@ public class ProductConsumptionModelImpl
 	private long _originalProductEntryId;
 	private boolean _setOriginalProductEntryId;
 	private long _productPurchaseId;
+	private long _originalProductPurchaseId;
+	private boolean _setOriginalProductPurchaseId;
 	private Date _startDate;
 	private Date _endDate;
 	private long _columnBitmask;

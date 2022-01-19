@@ -393,6 +393,14 @@ public class ProductConsumptionLocalServiceUtil {
 			productEntryId);
 	}
 
+	public static int getProductPurchaseProductConsumptionsCount(
+			long productPurchaseId)
+		throws PortalException {
+
+		return getService().getProductPurchaseProductConsumptionsCount(
+			productPurchaseId);
+	}
+
 	public static ProductConsumption reindex(long productConsumptionId)
 		throws PortalException {
 

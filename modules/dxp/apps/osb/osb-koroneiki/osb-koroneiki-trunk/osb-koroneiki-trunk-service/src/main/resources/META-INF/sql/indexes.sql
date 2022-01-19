@@ -1,6 +1,7 @@
 create index IX_958051C8 on Koroneiki_ProductConsumption (accountId, productEntryId);
 create unique index IX_25801541 on Koroneiki_ProductConsumption (productConsumptionKey[$COLUMN_LENGTH:75$]);
 create index IX_891BB134 on Koroneiki_ProductConsumption (productEntryId);
+create index IX_686F8DF9 on Koroneiki_ProductConsumption (productPurchaseId);
 create index IX_E22074E on Koroneiki_ProductConsumption (userId, accountId, productEntryId);
 create index IX_D719E376 on Koroneiki_ProductConsumption (uuid_[$COLUMN_LENGTH:75$], companyId);
 

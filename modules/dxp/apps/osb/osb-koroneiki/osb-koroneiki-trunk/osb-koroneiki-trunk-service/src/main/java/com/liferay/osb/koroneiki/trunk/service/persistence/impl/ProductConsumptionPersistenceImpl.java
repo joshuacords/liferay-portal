@@ -4161,6 +4161,916 @@ public class ProductConsumptionPersistenceImpl
 	private static final String _FINDER_COLUMN_PRODUCTENTRYID_PRODUCTENTRYID_2 =
 		"productConsumption.productEntryId = ?";
 
+	private FinderPath _finderPathWithPaginationFindByProductPurchaseId;
+	private FinderPath _finderPathWithoutPaginationFindByProductPurchaseId;
+	private FinderPath _finderPathCountByProductPurchaseId;
+
+	/**
+	 * Returns all the product consumptions where productPurchaseId = &#63;.
+	 *
+	 * @param productPurchaseId the product purchase ID
+	 * @return the matching product consumptions
+	 */
+	@Override
+	public List<ProductConsumption> findByProductPurchaseId(
+		long productPurchaseId) {
+
+		return findByProductPurchaseId(
+			productPurchaseId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the product consumptions where productPurchaseId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ProductConsumptionModelImpl</code>.
+	 * </p>
+	 *
+	 * @param productPurchaseId the product purchase ID
+	 * @param start the lower bound of the range of product consumptions
+	 * @param end the upper bound of the range of product consumptions (not inclusive)
+	 * @return the range of matching product consumptions
+	 */
+	@Override
+	public List<ProductConsumption> findByProductPurchaseId(
+		long productPurchaseId, int start, int end) {
+
+		return findByProductPurchaseId(productPurchaseId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the product consumptions where productPurchaseId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ProductConsumptionModelImpl</code>.
+	 * </p>
+	 *
+	 * @param productPurchaseId the product purchase ID
+	 * @param start the lower bound of the range of product consumptions
+	 * @param end the upper bound of the range of product consumptions (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching product consumptions
+	 */
+	@Override
+	public List<ProductConsumption> findByProductPurchaseId(
+		long productPurchaseId, int start, int end,
+		OrderByComparator<ProductConsumption> orderByComparator) {
+
+		return findByProductPurchaseId(
+			productPurchaseId, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the product consumptions where productPurchaseId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ProductConsumptionModelImpl</code>.
+	 * </p>
+	 *
+	 * @param productPurchaseId the product purchase ID
+	 * @param start the lower bound of the range of product consumptions
+	 * @param end the upper bound of the range of product consumptions (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching product consumptions
+	 */
+	@Override
+	public List<ProductConsumption> findByProductPurchaseId(
+		long productPurchaseId, int start, int end,
+		OrderByComparator<ProductConsumption> orderByComparator,
+		boolean useFinderCache) {
+
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+			(orderByComparator == null)) {
+
+			if (useFinderCache) {
+				finderPath =
+					_finderPathWithoutPaginationFindByProductPurchaseId;
+				finderArgs = new Object[] {productPurchaseId};
+			}
+		}
+		else if (useFinderCache) {
+			finderPath = _finderPathWithPaginationFindByProductPurchaseId;
+			finderArgs = new Object[] {
+				productPurchaseId, start, end, orderByComparator
+			};
+		}
+
+		List<ProductConsumption> list = null;
+
+		if (useFinderCache) {
+			list = (List<ProductConsumption>)finderCache.getResult(
+				finderPath, finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (ProductConsumption productConsumption : list) {
+					if (productPurchaseId !=
+							productConsumption.getProductPurchaseId()) {
+
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler sb = null;
+
+			if (orderByComparator != null) {
+				sb = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				sb = new StringBundler(3);
+			}
+
+			sb.append(_SQL_SELECT_PRODUCTCONSUMPTION_WHERE);
+
+			sb.append(_FINDER_COLUMN_PRODUCTPURCHASEID_PRODUCTPURCHASEID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(
+					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+			}
+			else {
+				sb.append(ProductConsumptionModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				queryPos.add(productPurchaseId);
+
+				list = (List<ProductConsumption>)QueryUtil.list(
+					query, getDialect(), start, end);
+
+				cacheResult(list);
+
+				if (useFinderCache) {
+					finderCache.putResult(finderPath, finderArgs, list);
+				}
+			}
+			catch (Exception exception) {
+				if (useFinderCache) {
+					finderCache.removeResult(finderPath, finderArgs);
+				}
+
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first product consumption in the ordered set where productPurchaseId = &#63;.
+	 *
+	 * @param productPurchaseId the product purchase ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching product consumption
+	 * @throws NoSuchProductConsumptionException if a matching product consumption could not be found
+	 */
+	@Override
+	public ProductConsumption findByProductPurchaseId_First(
+			long productPurchaseId,
+			OrderByComparator<ProductConsumption> orderByComparator)
+		throws NoSuchProductConsumptionException {
+
+		ProductConsumption productConsumption = fetchByProductPurchaseId_First(
+			productPurchaseId, orderByComparator);
+
+		if (productConsumption != null) {
+			return productConsumption;
+		}
+
+		StringBundler sb = new StringBundler(4);
+
+		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		sb.append("productPurchaseId=");
+		sb.append(productPurchaseId);
+
+		sb.append("}");
+
+		throw new NoSuchProductConsumptionException(sb.toString());
+	}
+
+	/**
+	 * Returns the first product consumption in the ordered set where productPurchaseId = &#63;.
+	 *
+	 * @param productPurchaseId the product purchase ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching product consumption, or <code>null</code> if a matching product consumption could not be found
+	 */
+	@Override
+	public ProductConsumption fetchByProductPurchaseId_First(
+		long productPurchaseId,
+		OrderByComparator<ProductConsumption> orderByComparator) {
+
+		List<ProductConsumption> list = findByProductPurchaseId(
+			productPurchaseId, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last product consumption in the ordered set where productPurchaseId = &#63;.
+	 *
+	 * @param productPurchaseId the product purchase ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching product consumption
+	 * @throws NoSuchProductConsumptionException if a matching product consumption could not be found
+	 */
+	@Override
+	public ProductConsumption findByProductPurchaseId_Last(
+			long productPurchaseId,
+			OrderByComparator<ProductConsumption> orderByComparator)
+		throws NoSuchProductConsumptionException {
+
+		ProductConsumption productConsumption = fetchByProductPurchaseId_Last(
+			productPurchaseId, orderByComparator);
+
+		if (productConsumption != null) {
+			return productConsumption;
+		}
+
+		StringBundler sb = new StringBundler(4);
+
+		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		sb.append("productPurchaseId=");
+		sb.append(productPurchaseId);
+
+		sb.append("}");
+
+		throw new NoSuchProductConsumptionException(sb.toString());
+	}
+
+	/**
+	 * Returns the last product consumption in the ordered set where productPurchaseId = &#63;.
+	 *
+	 * @param productPurchaseId the product purchase ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching product consumption, or <code>null</code> if a matching product consumption could not be found
+	 */
+	@Override
+	public ProductConsumption fetchByProductPurchaseId_Last(
+		long productPurchaseId,
+		OrderByComparator<ProductConsumption> orderByComparator) {
+
+		int count = countByProductPurchaseId(productPurchaseId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<ProductConsumption> list = findByProductPurchaseId(
+			productPurchaseId, count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the product consumptions before and after the current product consumption in the ordered set where productPurchaseId = &#63;.
+	 *
+	 * @param productConsumptionId the primary key of the current product consumption
+	 * @param productPurchaseId the product purchase ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next product consumption
+	 * @throws NoSuchProductConsumptionException if a product consumption with the primary key could not be found
+	 */
+	@Override
+	public ProductConsumption[] findByProductPurchaseId_PrevAndNext(
+			long productConsumptionId, long productPurchaseId,
+			OrderByComparator<ProductConsumption> orderByComparator)
+		throws NoSuchProductConsumptionException {
+
+		ProductConsumption productConsumption = findByPrimaryKey(
+			productConsumptionId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			ProductConsumption[] array = new ProductConsumptionImpl[3];
+
+			array[0] = getByProductPurchaseId_PrevAndNext(
+				session, productConsumption, productPurchaseId,
+				orderByComparator, true);
+
+			array[1] = productConsumption;
+
+			array[2] = getByProductPurchaseId_PrevAndNext(
+				session, productConsumption, productPurchaseId,
+				orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected ProductConsumption getByProductPurchaseId_PrevAndNext(
+		Session session, ProductConsumption productConsumption,
+		long productPurchaseId,
+		OrderByComparator<ProductConsumption> orderByComparator,
+		boolean previous) {
+
+		StringBundler sb = null;
+
+		if (orderByComparator != null) {
+			sb = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			sb = new StringBundler(3);
+		}
+
+		sb.append(_SQL_SELECT_PRODUCTCONSUMPTION_WHERE);
+
+		sb.append(_FINDER_COLUMN_PRODUCTPURCHASEID_PRODUCTPURCHASEID_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				sb.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				sb.append(_ORDER_BY_ENTITY_ALIAS);
+				sb.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			sb.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				sb.append(_ORDER_BY_ENTITY_ALIAS);
+				sb.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						sb.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC);
+					}
+					else {
+						sb.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			sb.append(ProductConsumptionModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = sb.toString();
+
+		Query query = session.createQuery(sql);
+
+		query.setFirstResult(0);
+		query.setMaxResults(2);
+
+		QueryPos queryPos = QueryPos.getInstance(query);
+
+		queryPos.add(productPurchaseId);
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(
+						productConsumption)) {
+
+				queryPos.add(orderByConditionValue);
+			}
+		}
+
+		List<ProductConsumption> list = query.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Returns all the product consumptions that the user has permission to view where productPurchaseId = &#63;.
+	 *
+	 * @param productPurchaseId the product purchase ID
+	 * @return the matching product consumptions that the user has permission to view
+	 */
+	@Override
+	public List<ProductConsumption> filterFindByProductPurchaseId(
+		long productPurchaseId) {
+
+		return filterFindByProductPurchaseId(
+			productPurchaseId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the product consumptions that the user has permission to view where productPurchaseId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ProductConsumptionModelImpl</code>.
+	 * </p>
+	 *
+	 * @param productPurchaseId the product purchase ID
+	 * @param start the lower bound of the range of product consumptions
+	 * @param end the upper bound of the range of product consumptions (not inclusive)
+	 * @return the range of matching product consumptions that the user has permission to view
+	 */
+	@Override
+	public List<ProductConsumption> filterFindByProductPurchaseId(
+		long productPurchaseId, int start, int end) {
+
+		return filterFindByProductPurchaseId(
+			productPurchaseId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the product consumptions that the user has permissions to view where productPurchaseId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ProductConsumptionModelImpl</code>.
+	 * </p>
+	 *
+	 * @param productPurchaseId the product purchase ID
+	 * @param start the lower bound of the range of product consumptions
+	 * @param end the upper bound of the range of product consumptions (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching product consumptions that the user has permission to view
+	 */
+	@Override
+	public List<ProductConsumption> filterFindByProductPurchaseId(
+		long productPurchaseId, int start, int end,
+		OrderByComparator<ProductConsumption> orderByComparator) {
+
+		if (!InlineSQLHelperUtil.isEnabled()) {
+			return findByProductPurchaseId(
+				productPurchaseId, start, end, orderByComparator);
+		}
+
+		StringBundler sb = null;
+
+		if (orderByComparator != null) {
+			sb = new StringBundler(
+				3 + (orderByComparator.getOrderByFields().length * 2));
+		}
+		else {
+			sb = new StringBundler(4);
+		}
+
+		if (getDB().isSupportsInlineDistinct()) {
+			sb.append(_FILTER_SQL_SELECT_PRODUCTCONSUMPTION_WHERE);
+		}
+		else {
+			sb.append(
+				_FILTER_SQL_SELECT_PRODUCTCONSUMPTION_NO_INLINE_DISTINCT_WHERE_1);
+		}
+
+		sb.append(_FINDER_COLUMN_PRODUCTPURCHASEID_PRODUCTPURCHASEID_2);
+
+		if (!getDB().isSupportsInlineDistinct()) {
+			sb.append(
+				_FILTER_SQL_SELECT_PRODUCTCONSUMPTION_NO_INLINE_DISTINCT_WHERE_2);
+		}
+
+		if (orderByComparator != null) {
+			if (getDB().isSupportsInlineDistinct()) {
+				appendOrderByComparator(
+					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator, true);
+			}
+			else {
+				appendOrderByComparator(
+					sb, _ORDER_BY_ENTITY_TABLE, orderByComparator, true);
+			}
+		}
+		else {
+			if (getDB().isSupportsInlineDistinct()) {
+				sb.append(ProductConsumptionModelImpl.ORDER_BY_JPQL);
+			}
+			else {
+				sb.append(ProductConsumptionModelImpl.ORDER_BY_SQL);
+			}
+		}
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(
+			sb.toString(), ProductConsumption.class.getName(),
+			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
+
+			if (getDB().isSupportsInlineDistinct()) {
+				sqlQuery.addEntity(
+					_FILTER_ENTITY_ALIAS, ProductConsumptionImpl.class);
+			}
+			else {
+				sqlQuery.addEntity(
+					_FILTER_ENTITY_TABLE, ProductConsumptionImpl.class);
+			}
+
+			QueryPos queryPos = QueryPos.getInstance(sqlQuery);
+
+			queryPos.add(productPurchaseId);
+
+			return (List<ProductConsumption>)QueryUtil.list(
+				sqlQuery, getDialect(), start, end);
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	/**
+	 * Returns the product consumptions before and after the current product consumption in the ordered set of product consumptions that the user has permission to view where productPurchaseId = &#63;.
+	 *
+	 * @param productConsumptionId the primary key of the current product consumption
+	 * @param productPurchaseId the product purchase ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next product consumption
+	 * @throws NoSuchProductConsumptionException if a product consumption with the primary key could not be found
+	 */
+	@Override
+	public ProductConsumption[] filterFindByProductPurchaseId_PrevAndNext(
+			long productConsumptionId, long productPurchaseId,
+			OrderByComparator<ProductConsumption> orderByComparator)
+		throws NoSuchProductConsumptionException {
+
+		if (!InlineSQLHelperUtil.isEnabled()) {
+			return findByProductPurchaseId_PrevAndNext(
+				productConsumptionId, productPurchaseId, orderByComparator);
+		}
+
+		ProductConsumption productConsumption = findByPrimaryKey(
+			productConsumptionId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			ProductConsumption[] array = new ProductConsumptionImpl[3];
+
+			array[0] = filterGetByProductPurchaseId_PrevAndNext(
+				session, productConsumption, productPurchaseId,
+				orderByComparator, true);
+
+			array[1] = productConsumption;
+
+			array[2] = filterGetByProductPurchaseId_PrevAndNext(
+				session, productConsumption, productPurchaseId,
+				orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected ProductConsumption filterGetByProductPurchaseId_PrevAndNext(
+		Session session, ProductConsumption productConsumption,
+		long productPurchaseId,
+		OrderByComparator<ProductConsumption> orderByComparator,
+		boolean previous) {
+
+		StringBundler sb = null;
+
+		if (orderByComparator != null) {
+			sb = new StringBundler(
+				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			sb = new StringBundler(4);
+		}
+
+		if (getDB().isSupportsInlineDistinct()) {
+			sb.append(_FILTER_SQL_SELECT_PRODUCTCONSUMPTION_WHERE);
+		}
+		else {
+			sb.append(
+				_FILTER_SQL_SELECT_PRODUCTCONSUMPTION_NO_INLINE_DISTINCT_WHERE_1);
+		}
+
+		sb.append(_FINDER_COLUMN_PRODUCTPURCHASEID_PRODUCTPURCHASEID_2);
+
+		if (!getDB().isSupportsInlineDistinct()) {
+			sb.append(
+				_FILTER_SQL_SELECT_PRODUCTCONSUMPTION_NO_INLINE_DISTINCT_WHERE_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				sb.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				if (getDB().isSupportsInlineDistinct()) {
+					sb.append(
+						getColumnName(
+							_ORDER_BY_ENTITY_ALIAS, orderByConditionFields[i],
+							true));
+				}
+				else {
+					sb.append(
+						getColumnName(
+							_ORDER_BY_ENTITY_TABLE, orderByConditionFields[i],
+							true));
+				}
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			sb.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				if (getDB().isSupportsInlineDistinct()) {
+					sb.append(
+						getColumnName(
+							_ORDER_BY_ENTITY_ALIAS, orderByFields[i], true));
+				}
+				else {
+					sb.append(
+						getColumnName(
+							_ORDER_BY_ENTITY_TABLE, orderByFields[i], true));
+				}
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						sb.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC);
+					}
+					else {
+						sb.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			if (getDB().isSupportsInlineDistinct()) {
+				sb.append(ProductConsumptionModelImpl.ORDER_BY_JPQL);
+			}
+			else {
+				sb.append(ProductConsumptionModelImpl.ORDER_BY_SQL);
+			}
+		}
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(
+			sb.toString(), ProductConsumption.class.getName(),
+			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
+
+		SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
+
+		sqlQuery.setFirstResult(0);
+		sqlQuery.setMaxResults(2);
+
+		if (getDB().isSupportsInlineDistinct()) {
+			sqlQuery.addEntity(
+				_FILTER_ENTITY_ALIAS, ProductConsumptionImpl.class);
+		}
+		else {
+			sqlQuery.addEntity(
+				_FILTER_ENTITY_TABLE, ProductConsumptionImpl.class);
+		}
+
+		QueryPos queryPos = QueryPos.getInstance(sqlQuery);
+
+		queryPos.add(productPurchaseId);
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(
+						productConsumption)) {
+
+				queryPos.add(orderByConditionValue);
+			}
+		}
+
+		List<ProductConsumption> list = sqlQuery.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the product consumptions where productPurchaseId = &#63; from the database.
+	 *
+	 * @param productPurchaseId the product purchase ID
+	 */
+	@Override
+	public void removeByProductPurchaseId(long productPurchaseId) {
+		for (ProductConsumption productConsumption :
+				findByProductPurchaseId(
+					productPurchaseId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+					null)) {
+
+			remove(productConsumption);
+		}
+	}
+
+	/**
+	 * Returns the number of product consumptions where productPurchaseId = &#63;.
+	 *
+	 * @param productPurchaseId the product purchase ID
+	 * @return the number of matching product consumptions
+	 */
+	@Override
+	public int countByProductPurchaseId(long productPurchaseId) {
+		FinderPath finderPath = _finderPathCountByProductPurchaseId;
+
+		Object[] finderArgs = new Object[] {productPurchaseId};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler sb = new StringBundler(2);
+
+			sb.append(_SQL_COUNT_PRODUCTCONSUMPTION_WHERE);
+
+			sb.append(_FINDER_COLUMN_PRODUCTPURCHASEID_PRODUCTPURCHASEID_2);
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				queryPos.add(productPurchaseId);
+
+				count = (Long)query.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception exception) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	/**
+	 * Returns the number of product consumptions that the user has permission to view where productPurchaseId = &#63;.
+	 *
+	 * @param productPurchaseId the product purchase ID
+	 * @return the number of matching product consumptions that the user has permission to view
+	 */
+	@Override
+	public int filterCountByProductPurchaseId(long productPurchaseId) {
+		if (!InlineSQLHelperUtil.isEnabled()) {
+			return countByProductPurchaseId(productPurchaseId);
+		}
+
+		StringBundler sb = new StringBundler(2);
+
+		sb.append(_FILTER_SQL_COUNT_PRODUCTCONSUMPTION_WHERE);
+
+		sb.append(_FINDER_COLUMN_PRODUCTPURCHASEID_PRODUCTPURCHASEID_2);
+
+		String sql = InlineSQLHelperUtil.replacePermissionCheck(
+			sb.toString(), ProductConsumption.class.getName(),
+			_FILTER_ENTITY_TABLE_FILTER_PK_COLUMN);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			SQLQuery sqlQuery = session.createSynchronizedSQLQuery(sql);
+
+			sqlQuery.addScalar(
+				COUNT_COLUMN_NAME, com.liferay.portal.kernel.dao.orm.Type.LONG);
+
+			QueryPos queryPos = QueryPos.getInstance(sqlQuery);
+
+			queryPos.add(productPurchaseId);
+
+			Long count = (Long)sqlQuery.uniqueResult();
+
+			return count.intValue();
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	private static final String
+		_FINDER_COLUMN_PRODUCTPURCHASEID_PRODUCTPURCHASEID_2 =
+			"productConsumption.productPurchaseId = ?";
+
 	private FinderPath _finderPathWithPaginationFindByAI_PEI;
 	private FinderPath _finderPathWithoutPaginationFindByAI_PEI;
 	private FinderPath _finderPathCountByAI_PEI;
@@ -6540,6 +7450,14 @@ public class ProductConsumptionPersistenceImpl
 				_finderPathWithoutPaginationFindByProductEntryId, args);
 
 			args = new Object[] {
+				productConsumptionModelImpl.getProductPurchaseId()
+			};
+
+			finderCache.removeResult(_finderPathCountByProductPurchaseId, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByProductPurchaseId, args);
+
+			args = new Object[] {
 				productConsumptionModelImpl.getAccountId(),
 				productConsumptionModelImpl.getProductEntryId()
 			};
@@ -6647,6 +7565,29 @@ public class ProductConsumptionPersistenceImpl
 					_finderPathCountByProductEntryId, args);
 				finderCache.removeResult(
 					_finderPathWithoutPaginationFindByProductEntryId, args);
+			}
+
+			if ((productConsumptionModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByProductPurchaseId.
+					 getColumnBitmask()) != 0) {
+
+				Object[] args = new Object[] {
+					productConsumptionModelImpl.getOriginalProductPurchaseId()
+				};
+
+				finderCache.removeResult(
+					_finderPathCountByProductPurchaseId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByProductPurchaseId, args);
+
+				args = new Object[] {
+					productConsumptionModelImpl.getProductPurchaseId()
+				};
+
+				finderCache.removeResult(
+					_finderPathCountByProductPurchaseId, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByProductPurchaseId, args);
 			}
 
 			if ((productConsumptionModelImpl.getColumnBitmask() &
@@ -7099,6 +8040,27 @@ public class ProductConsumptionPersistenceImpl
 			entityCacheEnabled, finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByProductEntryId",
 			new String[] {Long.class.getName()});
+
+		_finderPathWithPaginationFindByProductPurchaseId = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled,
+			ProductConsumptionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByProductPurchaseId",
+			new String[] {
+				Long.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByProductPurchaseId = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled,
+			ProductConsumptionImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByProductPurchaseId", new String[] {Long.class.getName()},
+			ProductConsumptionModelImpl.PRODUCTPURCHASEID_COLUMN_BITMASK);
+
+		_finderPathCountByProductPurchaseId = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByProductPurchaseId", new String[] {Long.class.getName()});
 
 		_finderPathWithPaginationFindByAI_PEI = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled,
