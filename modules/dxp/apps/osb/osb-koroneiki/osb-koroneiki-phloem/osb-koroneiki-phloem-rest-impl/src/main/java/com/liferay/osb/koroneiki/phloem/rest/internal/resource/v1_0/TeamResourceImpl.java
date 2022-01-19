@@ -460,7 +460,7 @@ public class TeamResourceImpl
 
 	private static final EntityModel _entityModel = new TeamEntityModel();
 
-	@Reference(target = "(provider=web)")
+	@Reference(target = "(provider=okta)")
 	private ContactIdentityProvider _contactIdentityProvider;
 
 	@Reference

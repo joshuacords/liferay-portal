@@ -83,7 +83,7 @@ public class AssignAccountContactMVCActionCommand extends BaseMVCActionCommand {
 	@Reference
 	private ContactAccountRoleService _contactAccountRoleService;
 
-	@Reference(target = "(provider=web)")
+	@Reference(target = "(provider=okta)")
 	private ContactIdentityProvider _contactIdentityProvider;
 
 }
