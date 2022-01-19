@@ -48,6 +48,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Stream;
 
 /**
  * @author Brian Wing Shun Chan
@@ -443,9 +444,19 @@ public class DocumentImpl implements Document {
 			return;
 		}
 
-		createField(name, values);
+		Stream<String> valuesStream = Arrays.stream(values);
 
-		_createSortableTextField(name, true, values);
+		valuesStream.filter(value -> Validator.isNotNull(value));
+
+		String[] filteredValues = valuesStream.toArray(String[]::new);
+
+		if (ArrayUtil.isEmpty(filteredValues)) {
+			return;
+		}
+
+		createField(name, filteredValues);
+
+		_createSortableTextField(name, true, filteredValues);
 	}
 
 	@Override
