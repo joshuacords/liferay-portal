@@ -141,7 +141,7 @@
 </tr>
 <tr>
 	<td>CATEGORY_LIST_THREAD_COUNT</td>
-	<td>//div[@data-qa-id='rowItemContent'][contains(.,'${key_categoryName}')]//div[3][contains(.,'${key_threadCount}')] | //div[@data-qa-id='rowItemContent'][contains(.,'${key_categoryName}')]//span[2][contains(.,'${key_threadCount}')]</td>
+	<td>//div[@data-qa-id='rowItemContent'][contains(.,'${key_categoryName}')]//div[3][contains(.,'${key_threadCount}')] | //div[@data-qa-id='rowItemContent'][contains(.,'${key_categoryName}')]//span[3][contains(.,'${key_threadCount}')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -168,7 +168,7 @@
 </tr>
 <tr>
 	<td>THREAD_LIST_ANSWER</td>
-	<td>//div[@data-qa-id='rowItemContent'][contains(.,'${key_threadSubject}')]//div[4][contains(.,'${key_answerCount}')] | /div[@data-qa-id='rowItemContent'][contains(.,'${key_threadSubject}')]//div[5][contains(.,'${key_answerCount}')]</td>
+	<td>//div[@data-qa-id='rowItemContent'][contains(.,'${key_threadSubject}')]//div[5][contains(.,'${key_answerCount}')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -178,7 +178,7 @@
 </tr>
 <tr>
 	<td>THREAD_LIST_REPLIES</td>
-	<td>//div[@data-qa-id='rowItemContent'][contains(.,'${key_threadSubject}')]//div[2][contains(.,'${key_repliesCount}')] | //div[@data-qa-id='rowItemContent'][contains(.,'${key_threadSubject}')]//div[3][contains(.,'${key_repliesCount}')]</td>
+	<td>//div[@data-qa-id='rowItemContent'][contains(.,'${key_threadSubject}')]//div[3][contains(.,'${key_repliesCount}')]</td>
 	<td></td>
 </tr>
 <tr>
@@ -203,7 +203,7 @@
 </tr>
 <tr>
 	<td>THREAD_LIST_THREAD_UNREAD</td>
-	<td>//*[@data-qa-id='rowItemContent']/h2/a/strong[contains(.,'${key_threadSubject}')]</td>
+	<td>//*[@data-qa-id='rowItemContent']/div/a/strong[contains(.,'${key_threadSubject}')]</td>
 	<td></td>
 </tr>
 <tr>

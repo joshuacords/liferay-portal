@@ -70,7 +70,7 @@
 <!--VIEWER-->
 <tr>
 	<td>CAPTION</td>
-	<td>//li[@data-qa-id='row']/div[contains(@class,'image-card') and contains(.,'${key_uploadFileName}')]</td>
+	<td>//dd[@data-qa-id='row']/div[contains(@class,'image-card') and contains(.,'${key_uploadFileName}')]</td>
 	<td></td>
 </tr>
 <tr>
