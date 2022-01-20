@@ -55,7 +55,7 @@ String tabs = ParamUtil.getString(request, "tabs", "common-license-keys");
 			<aui:form action="<%= debugRabbitMQURL %>" cssClass="container-fluid container-fluid-max-xl" method="post">
 				<aui:fieldset-group>
 					<aui:fieldset>
-						<aui:input name="routingKey" type="text" />
+						<aui:input name="routingKey" type="text" value="dossiera.provisioning.create" />
 
 						<aui:input name="message" type="textarea" />
 
