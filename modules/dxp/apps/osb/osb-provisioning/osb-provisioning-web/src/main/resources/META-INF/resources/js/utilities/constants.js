@@ -9,8 +9,6 @@
  * distribution rights of the Software.
  */
 
-import {formatDate} from './date';
-
 export const BINARY_SELECTION = [
 	{
 		label: Liferay.Language.get('yes'),
@@ -24,8 +22,10 @@ export const BINARY_SELECTION = [
 
 export const DASH = '-';
 
-// When a ISO 8601 format date string is passed into new Date(), it's treated as if it's starting at UTC midnight of the given date
-export const CURRENT_TIME = new Date(formatDate(new Date()));
+// Convert the current time to ISO 8601 format date string. When the date string is passed into new Date(), it's treated as if it's starting at UTC midnight of the given date.
+export const CURRENT_TIME = new Date(
+	JSON.stringify(new Date()).match(/\d{4}-\d{2}-\d{2}/)[0]
+);
 
 // Namespaces
 
