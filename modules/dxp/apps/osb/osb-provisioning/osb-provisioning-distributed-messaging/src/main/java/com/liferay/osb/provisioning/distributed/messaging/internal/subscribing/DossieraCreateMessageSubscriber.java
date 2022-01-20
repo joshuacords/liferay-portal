@@ -2016,10 +2016,10 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 			return Collections.emptySet();
 		}
 
+		Map<ProductPurchase, Integer> productPurchasesMap = new HashMap<>();
+
 		ExternalLink externalLink = getSalesforceOpportunityExternalLink(
 			jsonObject);
-
-		Set<ProductPurchase> productPurchases = new HashSet<>();
 
 		for (int i = 0; i < bundledProductsJSONArray.length(); i++) {
 			JSONObject bundledProductJSONObject =
@@ -2076,16 +2076,6 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 
 				productPurchase.setProduct(product);
 
-				int quantity = purchasedProductJSONObject.getInt("_quantity");
-
-				if (!ArrayUtil.contains(
-						ProductConstants.NAMES_SUBSCRIPTION,
-						product.getName()) &&
-					(quantity > 0)) {
-
-					productPurchase.setQuantity(quantity);
-				}
-
 				Map<String, String> properties = new HashMap<>();
 
 				String environment = purchasedProductJSONObject.getString(
@@ -2122,8 +2112,33 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 						new ExternalLink[] {externalLink});
 				}
 
-				productPurchases.add(productPurchase);
+				int quantity = GetterUtil.getInteger(
+					productPurchasesMap.get(productPurchase));
+
+				if (ArrayUtil.contains(
+						ProductConstants.NAMES_SUBSCRIPTION,
+						product.getName())) {
+
+					quantity = 1;
+				}
+				else {
+					quantity += purchasedProductJSONObject.getInt("_quantity");
+				}
+
+				productPurchasesMap.put(productPurchase, quantity);
 			}
+		}
+
+		Set<ProductPurchase> productPurchases = new HashSet<>();
+
+		for (Map.Entry<ProductPurchase, Integer> entry :
+				productPurchasesMap.entrySet()) {
+
+			ProductPurchase productPurchase = entry.getKey();
+
+			productPurchase.setQuantity(entry.getValue());
+
+			productPurchases.add(productPurchase);
 		}
 
 		return productPurchases;
