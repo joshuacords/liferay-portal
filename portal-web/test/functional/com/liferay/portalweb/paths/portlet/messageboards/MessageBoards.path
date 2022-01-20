@@ -178,7 +178,7 @@
 </tr>
 <tr>
 	<td>THREAD_LIST_REPLIES</td>
-	<td>//div[@data-qa-id='rowItemContent'][contains(.,'${key_threadSubject}')]//div[3][contains(.,'${key_repliesCount}')]</td>
+	<td>//div[@data-qa-id='rowItemContent'][contains(.,'${key_threadSubject}')]//div[contains(.,'${key_repliesCount} Rep')]</td>
 	<td></td>
 </tr>
 <tr>
