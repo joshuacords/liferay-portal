@@ -169,7 +169,8 @@ public class ProcessSummaryDisplayContext {
 					groupId, privateLayout, selectedLayoutIds,
 					layout.getLayoutId(), pageNames, languageId);
 
-				sb.insert(0, layout.getName() + StringPool.FORWARD_SLASH);
+				sb.insert(
+					0, layout.getName(languageId) + StringPool.FORWARD_SLASH);
 			}
 			catch (PortalException portalException) {
 				if (_log.isWarnEnabled()) {
