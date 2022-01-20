@@ -27,6 +27,7 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactory;
+import com.liferay.portal.kernel.util.Validator;
 
 import java.io.Serializable;
 
@@ -178,7 +179,12 @@ public class DDMFormValuesToPropertiesConverter {
 		Vector<Serializable> values = new Vector<>();
 
 		for (DDMFormFieldValue ddmFormFieldValue : ddmFormFieldValues) {
-			values.add(toSimpleValue(ddmFormFieldValue));
+			Serializable simpleDDMFormFieldValue = toSimpleValue(
+				ddmFormFieldValue);
+
+			if (!Validator.isBlank(simpleDDMFormFieldValue.toString())) {
+				values.add(simpleDDMFormFieldValue);
+			}
 		}
 
 		return values;
