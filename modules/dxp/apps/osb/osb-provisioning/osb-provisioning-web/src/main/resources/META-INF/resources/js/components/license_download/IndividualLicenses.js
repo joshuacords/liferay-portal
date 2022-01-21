@@ -14,7 +14,10 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {useLicenses} from '../../hooks/licenses';
-import {LICENSE_TYPE_PRODUCTION} from '../../utilities/constants';
+import {
+	LICENSE_TYPE_PRODUCTION,
+	PRODUCT_ID_PORTAL
+} from '../../utilities/constants';
 import {groupByAll} from '../../utilities/helpers';
 import LicenseGroup from './LicenseGroup';
 
@@ -23,10 +26,15 @@ const MIN_LICENSE_GROUPABLE_VERSION_NUMBER = 3;
 function IndividualLicenses({downloadURL}) {
 	const [licenses] = useLicenses();
 
-	const [activeVersionCompliantLicenses, oldInactiveLicenses] = partition(
+	const [
+		activeVersionCompliantLicenses,
+		oldInactiveOrMarketplaceLicenses
+	] = partition(
 		licenses.toSet().toJS(),
-		({active, licenseVersion}) =>
-			licenseVersion > MIN_LICENSE_GROUPABLE_VERSION_NUMBER && active
+		({active, licenseVersion, productId}) =>
+			active &&
+			licenseVersion >= MIN_LICENSE_GROUPABLE_VERSION_NUMBER &&
+			productId === PRODUCT_ID_PORTAL
 	);
 
 	const [licensesTypeProduction, licensesTypeOther] = partition(
@@ -34,7 +42,7 @@ function IndividualLicenses({downloadURL}) {
 		({licenseEntryType}) => licenseEntryType === LICENSE_TYPE_PRODUCTION
 	);
 
-	const intersection = licensesTypeProduction.length
+	const licensesTypeProductionIntersection = licensesTypeProduction.length
 		? groupByAll(
 				licensesTypeProduction,
 				({startDate}) => startDate,
@@ -50,8 +58,11 @@ function IndividualLicenses({downloadURL}) {
 
 	return (
 		<>
-			{!!intersection.length && (
-				<LicenseGroup downloadURL={downloadURL} items={intersection} />
+			{!!licensesTypeProductionIntersection.length && (
+				<LicenseGroup
+					downloadURL={downloadURL}
+					items={licensesTypeProductionIntersection}
+				/>
 			)}
 
 			{!!licensesTypeOther.length && (
@@ -61,10 +72,10 @@ function IndividualLicenses({downloadURL}) {
 				/>
 			)}
 
-			{!!oldInactiveLicenses.length && (
+			{!!oldInactiveOrMarketplaceLicenses.length && (
 				<LicenseGroup
 					downloadURL={downloadURL}
-					items={formatLicenses(oldInactiveLicenses)}
+					items={formatLicenses(oldInactiveOrMarketplaceLicenses)}
 				/>
 			)}
 		</>

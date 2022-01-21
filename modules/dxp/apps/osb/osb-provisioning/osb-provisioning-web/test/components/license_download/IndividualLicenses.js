@@ -207,19 +207,27 @@ describe('IndividualLicenses', () => {
 		expect(container).toBeTruthy();
 	});
 
-	it('groups licenses that are active, has a license versions greater than 3, has a license type that is Production, and shares the same start date, expiration date, product version, and license version', () => {
+	it('groups licenses that are active, has a license version that is at least 3, has a license type that is Production, and shares the same start date, expiration date, product version, and license version', () => {
 		const {container, getAllByText} = renderIndividualLicenses(licenseKeys);
 
 		const groups = container.querySelectorAll('tbody');
 
+		let grouped;
+
+		groups.forEach(group => {
+			if (group.children.length > 2) {
+				grouped = group;
+			}
+		});
+
 		// only two licenses are groupable
-		within(groups[0]).getByText('License 1');
-		within(groups[0]).getByText('License 2');
+		within(grouped).getByText('License 1');
+		within(grouped).getByText('License 2');
 
 		expect(getAllByText('download').length).toBe(8);
 	});
 
-	it('does not group licenses whose version is 3', () => {
+	it('does not group licenses whose version is below 3', () => {
 		const {getAllByText} = renderIndividualLicenses([
 			{
 				active: true,
@@ -227,15 +235,15 @@ describe('IndividualLicenses', () => {
 				expirationDate: 'April 16, 2122',
 				hostName: 'Test Host Name 1',
 				ipAddresses: '',
-				licenseEntryName: 'Portal Backup',
-				licenseEntryType: 'production',
+				licenseEntryName: 'Portal Enterprise',
+				licenseEntryType: 'enterprise',
 				licenseKeyId: '85602',
-				licenseVersion: 3,
+				licenseVersion: 2,
 				macAddresses: '',
 				name: 'License 1',
 				productId: 'Portal',
-				productName: 'Portal Backup',
-				productVersion: '6.1',
+				productName: 'Portal Enterprise',
+				productVersion: '6.0 SP1',
 				sizing: 1,
 				startDate: 'March 17, 2021'
 			},
@@ -245,15 +253,58 @@ describe('IndividualLicenses', () => {
 				expirationDate: 'April 16, 2122',
 				hostName: 'Test Host Name 2',
 				ipAddresses: '',
-				licenseEntryName: 'Portal Backup',
-				licenseEntryType: 'production',
+				licenseEntryName: 'Portal Enterprise',
+				licenseEntryType: 'enterprise',
 				licenseKeyId: '85603',
-				licenseVersion: 3,
+				licenseVersion: 2,
 				macAddresses: '',
 				name: 'License 2',
 				productId: 'Portal',
-				productName: 'Portal Backup',
-				productVersion: '6.1',
+				productName: 'Portal Enterprise',
+				productVersion: '6.0 SP1',
+				sizing: 1,
+				startDate: 'March 17, 2021'
+			}
+		]);
+
+		expect(getAllByText('download').length).toBe(2);
+	});
+
+	it('does not group marketplace app licenses, even if license version is 3', () => {
+		const {getAllByText} = renderIndividualLicenses([
+			{
+				active: true,
+				description: 'Test Account description',
+				expirationDate: 'April 16, 2122',
+				hostName: 'Test Host Name 1',
+				ipAddresses: '',
+				licenseEntryName: 'Liferay Commerce Subscription Production',
+				licenseEntryType: 'production',
+				licenseKeyId: '85602',
+				licenseVersion: 3,
+				macAddresses: '',
+				name: 'License 1',
+				productId: 'commerce-id',
+				productName: 'Commerce Subscription Production',
+				productVersion: '1',
+				sizing: 1,
+				startDate: 'March 17, 2021'
+			},
+			{
+				active: true,
+				description: 'Test Account description',
+				expirationDate: 'April 16, 2122',
+				hostName: 'Test Host Name 2',
+				ipAddresses: '',
+				licenseEntryName: 'Liferay Commerce Subscription Production',
+				licenseEntryType: 'production',
+				licenseKeyId: '85603',
+				licenseVersion: 2,
+				macAddresses: '',
+				name: 'License 2',
+				productId: 'commerce-id',
+				productName: 'Commerce Subscription Production',
+				productVersion: '1',
 				sizing: 1,
 				startDate: 'March 17, 2021'
 			}
