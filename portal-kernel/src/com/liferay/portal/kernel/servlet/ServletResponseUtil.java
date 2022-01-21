@@ -447,9 +447,21 @@ public class ServletResponseUtil {
 		}
 
 		if (!httpServletResponse.containsHeader(HttpHeaders.CACHE_CONTROL)) {
-			httpServletResponse.setHeader(
-				HttpHeaders.CACHE_CONTROL,
-				HttpHeaders.CACHE_CONTROL_PRIVATE_VALUE);
+			if (Validator.isNotNull(contentType) &&
+				ArrayUtil.contains(
+					PropsUtil.getArray(
+						PropsKeys.DL_FILE_ENTRY_NO_CACHEABLE_MIME_TYPES),
+					contentType)) {
+
+				httpServletResponse.setHeader(
+					HttpHeaders.CACHE_CONTROL,
+					HttpHeaders.CACHE_CONTROL_NO_CACHE_VALUE);
+			}
+			else {
+				httpServletResponse.setHeader(
+					HttpHeaders.CACHE_CONTROL,
+					HttpHeaders.CACHE_CONTROL_PRIVATE_VALUE);
+			}
 		}
 
 		if (Validator.isNull(fileName)) {
