@@ -109,12 +109,10 @@ describe('AutoSave', () => {
 		const spy = jest.spyOn(component, 'saveStateHash');
 
 		const modifiedDate = 'date-1';
-		const saveAsDraft = component.props.saveAsDraft;
 
 		fetch.mockResponse(
 			JSON.stringify({
-				modifiedDate,
-				saveAsDraft
+				modifiedDate
 			})
 		);
 
@@ -153,19 +151,16 @@ describe('AutoSave', () => {
 		const spy = jest.spyOn(component, 'emit');
 
 		const modifiedDate = 'date-1';
-		const saveAsDraft = component.props.saveAsDraft;
 
 		fetch.mockResponse(
 			JSON.stringify({
-				modifiedDate,
-				saveAsDraft
+				modifiedDate
 			})
 		);
 
 		return component.save().then(() => {
 			expect(spy).toHaveBeenCalledWith('autosaved', {
-				modifiedDate,
-				savedAsDraft: saveAsDraft
+				modifiedDate
 			});
 		});
 	});
