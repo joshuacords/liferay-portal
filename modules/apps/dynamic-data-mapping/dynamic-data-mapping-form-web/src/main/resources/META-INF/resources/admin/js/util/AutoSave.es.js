@@ -56,14 +56,14 @@ class AutoSave extends Component {
 		return this._lastKownHash !== currentStateHash;
 	}
 
-	save(saveAsDraft = this.props.saveAsDraft) {
+	save() {
 		const {stateSyncronizer} = this.props;
 		const currentState = this.getCurrentState();
 
 		stateSyncronizer.syncInputs();
 
 		this._pendingRequest = makeFetch({
-			body: this._getFormData(saveAsDraft),
+			body: this._getFormData(),
 			url: this.props.url
 		})
 			.then(responseData => {
@@ -74,8 +74,7 @@ class AutoSave extends Component {
 				this.saveStateHash(currentState);
 
 				this.emit('autosaved', {
-					modifiedDate: responseData.modifiedDate,
-					savedAsDraft: saveAsDraft
+					modifiedDate: responseData.modifiedDate
 				});
 
 				return responseData;
@@ -147,7 +146,7 @@ class AutoSave extends Component {
 		}
 	}
 
-	_getFormData(saveAsDraft) {
+	_getFormData() {
 		const {form, namespace} = this.props;
 
 		const formData = new FormData(form);
@@ -155,11 +154,7 @@ class AutoSave extends Component {
 		const state = this.getCurrentState();
 
 		formData.append(`${namespace}name`, JSON.stringify(state.name));
-		formData.append(
-			`${namespace}published`,
-			JSON.stringify(this.published)
-		);
-		formData.append(`${namespace}saveAsDraft`, saveAsDraft);
+		formData.append(`${namespace}saveAsDraft`, 'true');
 
 		return convertToFormData(formData);
 	}
@@ -172,7 +167,6 @@ class AutoSave extends Component {
 AutoSave.PROPS = {
 	form: Config.any(),
 	interval: Config.number().setter('_setInterval'),
-	saveAsDraft: Config.bool().value(true),
 	stateSyncronizer: Config.any(),
 	url: Config.string()
 };

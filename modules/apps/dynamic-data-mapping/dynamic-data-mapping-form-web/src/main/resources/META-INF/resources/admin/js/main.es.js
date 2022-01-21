@@ -938,23 +938,16 @@ class Form extends Component {
 		);
 	}
 
-	_updateAutoSaveMessage({modifiedDate, savedAsDraft}) {
+	_updateAutoSaveMessage({modifiedDate}) {
 		const {namespace} = this.props;
-
-		let message = '';
-
-		if (savedAsDraft) {
-			message = Liferay.Language.get('draft-x');
-		}
-		else {
-			message = Liferay.Language.get('saved-x');
-		}
 
 		const autoSaveMessageNode = document.querySelector(
 			`#${namespace}autosaveMessage`
 		);
 
-		autoSaveMessageNode.innerHTML = sub(message, [modifiedDate]);
+		autoSaveMessageNode.innerHTML = sub(Liferay.Language.get('draft-x'), [
+			modifiedDate
+		]);
 	}
 
 	_updateShareFormIcon(published) {
