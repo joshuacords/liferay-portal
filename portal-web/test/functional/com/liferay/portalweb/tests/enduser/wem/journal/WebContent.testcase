@@ -462,6 +462,8 @@ definition {
 	@description = "This is a use case for LPS-121695. Assert imported DDMStructures in Global Staging are not published in Global Live."
 	@priority = "4"
 	test ImportedDDMStructuresInGlobalStagingNotPublishedInLive {
+		property test.name.skip.portal.instance = "WebContent#ImportedDDMStructuresInGlobalStagingNotPublishedInLive";
+
 		WebContentNavigator.openWebContentAdmin(siteURLKey = "global");
 
 		NavItem.gotoStructures();
