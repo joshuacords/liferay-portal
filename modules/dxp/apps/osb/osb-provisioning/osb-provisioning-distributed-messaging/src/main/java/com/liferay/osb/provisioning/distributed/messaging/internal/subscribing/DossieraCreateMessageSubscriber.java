@@ -194,7 +194,7 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 
 			_logWarning(
 				"The opportunity type is " + salesforceOpportunityTypeName +
-					" and the project does not exists.");
+					" and the project does not exist.");
 		}
 
 		if (Validator.isNotNull(accountKey) &&
