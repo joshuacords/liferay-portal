@@ -15,11 +15,11 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import {useLicenses} from '../../hooks/licenses';
+import {PRODUCT_ID_COMMERCE} from '../../utilities/constants';
 import {groupBy, groupByAll} from '../../utilities/helpers';
 import TableDivider from '../TableDivider';
 import LicenseGroup from './LicenseGroup';
 
-const COMMERCE = 'Commerce';
 const COMMERCE_LICENSE_VERSION = 3;
 const DXP_LICENSE_VERSION = 5;
 
@@ -30,10 +30,10 @@ function CombinedLicenses({downloadURL}) {
 
 	const [activeCommerceDXPLicenses] = partition(
 		licenses.toSet().toJS(),
-		({active, licenseVersion, productName}) =>
+		({active, licenseVersion, productId}) =>
 			(licenseVersion >= DXP_LICENSE_VERSION ||
 				(licenseVersion === COMMERCE_LICENSE_VERSION &&
-					productName.includes(COMMERCE))) &&
+					productId === PRODUCT_ID_COMMERCE)) &&
 			active
 	);
 

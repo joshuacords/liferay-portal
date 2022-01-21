@@ -100,6 +100,7 @@ DownloadLicenses.propTypes = {
 			licenseVersion: PropTypes.number,
 			macAddresses: PropTypes.string,
 			name: PropTypes.string,
+			productId: PropTypes.string,
 			productName: PropTypes.string,
 			productVersion: PropTypes.string,
 			sizing: PropTypes.string,

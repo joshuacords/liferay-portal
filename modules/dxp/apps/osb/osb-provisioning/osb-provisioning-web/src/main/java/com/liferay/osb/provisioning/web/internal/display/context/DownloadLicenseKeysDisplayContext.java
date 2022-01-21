@@ -107,6 +107,8 @@ public class DownloadLicenseKeysDisplayContext {
 				).put(
 					"name", licenseKey.getName()
 				).put(
+					"productId", licenseKey.getProductId()
+				).put(
 					"productName", licenseKey.getProductName()
 				).put(
 					"productVersion", licenseKey.getProductVersion()

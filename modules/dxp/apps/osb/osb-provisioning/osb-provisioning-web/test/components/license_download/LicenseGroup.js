@@ -34,6 +34,7 @@ const multipleLicenses = [
 		licenseVersion: 3,
 		macAddresses: '',
 		name: 'License 1',
+		productId: 'Portal',
 		productName: 'Portal Backup',
 		productVersion: '6.1 GA1',
 		startDate: 'March 17, 2021'
@@ -51,6 +52,7 @@ const multipleLicenses = [
 		licenseVersion: 3,
 		macAddresses: '',
 		name: 'License 2',
+		productId: 'Portal',
 		productName: 'Portal Backup',
 		productVersion: '6.2',
 		startDate: 'March 17, 2021'
@@ -71,6 +73,7 @@ const singleLicense = [
 		licenseVersion: 3,
 		macAddresses: '01-02-03-04-ab-cd',
 		name: 'License 1',
+		productId: 'Portal',
 		productName: 'Portal Backup',
 		productVersion: '6.1 GA1',
 		startDate: 'March 17, 2021'
@@ -183,6 +186,7 @@ describe('LicenseGroup', () => {
 						licenseVersion: 3,
 						macAddresses: '',
 						name: 'License 1',
+						productId: 'Portal',
 						productName: 'Portal Backup',
 						productVersion: '6.1 GA1',
 						startDate: 'March 17, 2021'
@@ -212,6 +216,7 @@ describe('LicenseGroup', () => {
 						licenseVersion: 3,
 						macAddresses: '',
 						name: 'License 1',
+						productId: 'Portal',
 						productName: 'Portal Backup',
 						productVersion: '6.1 GA1',
 						startDate: 'March 17, 2020'
@@ -239,6 +244,7 @@ describe('LicenseGroup', () => {
 						licenseVersion: 3,
 						macAddresses: '',
 						name: 'License 1',
+						productId: 'Portal',
 						productName: 'Portal Backup',
 						productVersion: '6.1 GA1',
 						startDate: 'March 17, 2020'

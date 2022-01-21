@@ -25,6 +25,7 @@ export const LicenseRecord = Record({
 	licenseVersion: '',
 	macAddresses: '',
 	name: '',
+	productId: '',
 	productName: '',
 	productVersion: '',
 	sizing: 1,

@@ -56,6 +56,7 @@ page import="com.liferay.osb.provisioning.exception.RequiredProductException" %>
 page import="com.liferay.osb.provisioning.koroneiki.constants.ContactRoleConstants" %><%@
 page import="com.liferay.osb.provisioning.license.exception.DuplicateCommonLicenseKeyException" %><%@
 page import="com.liferay.osb.provisioning.license.helper.constants.LicenseType" %><%@
+page import="com.liferay.osb.provisioning.license.helper.constants.ProductId" %><%@
 page import="com.liferay.osb.provisioning.license.model.CommonLicenseKey" %><%@
 page import="com.liferay.osb.provisioning.license.model.LicenseKey" %><%@
 page import="com.liferay.osb.provisioning.license.service.CommonLicenseKeyLocalServiceUtil" %><%@
@@ -182,6 +183,10 @@ Format mediumDateFormatDate = FastDateFormatFactoryUtil.getDate(DateFormat.MEDIU
 		noteType: {
 			general: '<%= Note.Type.GENERAL %>',
 			sales: '<%= Note.Type.SALES %>'
+		},
+		productId: {
+			commerce: '<%= ProductId.COMMERCE %>',
+			portal: '<%= ProductId.PORTAL %>'
 		},
 		productPurchaseStatus: {
 			approved: '<%= ProductPurchase.Status.APPROVED %>',

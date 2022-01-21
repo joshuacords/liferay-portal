@@ -63,6 +63,10 @@ window.ProvisioningConstants = {
 		general: 'General',
 		sales: 'Sales'
 	},
+	productId: {
+		commerce: 'commerce-id',
+		portal: 'Portal'
+	},
 	productPurchaseStatus: {
 		approved: 'Approved',
 		cancelled: 'Cancelled'

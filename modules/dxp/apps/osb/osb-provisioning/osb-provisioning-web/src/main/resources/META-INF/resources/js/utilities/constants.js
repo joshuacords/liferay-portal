@@ -99,6 +99,11 @@ export const NOTE_STATUS_ARCHIVED =
 export const NOTE_TYPE_GENERAL = window.ProvisioningConstants.noteType.general;
 export const NOTE_TYPE_SALES = window.ProvisioningConstants.noteType.sales;
 
+// Product Ids
+export const PRODUCT_ID_COMMERCE =
+	window.ProvisioningConstants.productId.commerce;
+export const PRODUCT_ID_PORTAL = window.ProvisioningConstants.productId.portal;
+
 // Product purchase actions
 
 export const ADD_SUBSCRIPTIONS = 'add';
