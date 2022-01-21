@@ -401,6 +401,10 @@ definition {
 			PortletEntry.publish();
 		}
 
+		task ("Assert there is no error in the console") {
+			AssertConsoleTextNotPresent(value1 = "error");
+		}
+
 		task ("View Web Content with two translations") {
 			WebContentNavigator.gotoEditCP(webContentTitle = "WC WebContent Title");
 
