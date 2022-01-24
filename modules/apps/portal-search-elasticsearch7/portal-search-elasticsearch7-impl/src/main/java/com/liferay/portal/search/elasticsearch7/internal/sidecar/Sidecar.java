@@ -335,7 +335,7 @@ public class Sidecar {
 			"HOSTNAME", "localhost"
 		).put(
 			"LIBFFI_TMPDIR",
-			"/home/joshuacords/repositories/bundles/master/tomcat-9.0.56/temp/myTemp"
+			"/home/joshuacords/repositories/bundles/sidecar/tomcat-9.0.56/temp/myTemp"
 		).build();
 	}
 
