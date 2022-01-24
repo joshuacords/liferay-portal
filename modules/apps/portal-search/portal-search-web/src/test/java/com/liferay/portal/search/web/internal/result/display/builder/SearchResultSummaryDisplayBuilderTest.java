@@ -483,8 +483,8 @@ public class SearchResultSummaryDisplayBuilderTest {
 		ThemeDisplay themeDisplay = new ThemeDisplay();
 
 		themeDisplay.setCompany(Mockito.mock(Company.class));
-		themeDisplay.setUser(Mockito.mock(User.class));
 		themeDisplay.setPermissionChecker(permissionChecker);
+		themeDisplay.setUser(Mockito.mock(User.class));
 
 		return themeDisplay;
 	}
