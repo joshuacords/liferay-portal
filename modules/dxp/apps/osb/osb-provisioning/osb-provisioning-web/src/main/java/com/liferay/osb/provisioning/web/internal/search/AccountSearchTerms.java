@@ -302,7 +302,8 @@ public class AccountSearchTerms extends AccountDisplayTerms {
 					true, "expiredProductKeys", subscriptionProductKeys, true);
 
 				nestedFilterQuery.addLambdaEquals(
-					true, "unactivatedProductKeys", subscriptionProductKeys);
+					true, "unactivatedProductKeys", subscriptionProductKeys,
+					true);
 
 				filterQuery.addFilterQuery(false, nestedFilterQuery);
 			}
