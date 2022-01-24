@@ -59,31 +59,22 @@ function GenerateButton({formAction, redirect, serverIdValidatable = false}) {
 	}
 
 	function trimHostnames() {
-		return serverIds.map(server => {
-			return {...server, hostName: server.hostName.trim()};
-		});
+		return serverIds.map(server => ({
+			...server,
+			hostName: server.hostName.trim()
+		}));
 	}
 
 	function validateIpAddresses() {
-		return serverIds.every(({ipAddresses}) => {
-			if (ipAddresses) {
-				return validateAllIPAddresses(ipAddresses);
-			}
-			else {
-				return true;
-			}
-		});
+		return serverIds.every(({ipAddresses}) =>
+			ipAddresses ? validateAllIPAddresses(ipAddresses) : true
+		);
 	}
 
 	function validateMacAddresses() {
-		return serverIds.every(({macAddresses}) => {
-			if (macAddresses) {
-				return validateMAC(macAddresses);
-			}
-			else {
-				return true;
-			}
-		});
+		return serverIds.every(({macAddresses}) =>
+			macAddresses ? validateMAC(macAddresses) : true
+		);
 	}
 
 	function validateFields() {

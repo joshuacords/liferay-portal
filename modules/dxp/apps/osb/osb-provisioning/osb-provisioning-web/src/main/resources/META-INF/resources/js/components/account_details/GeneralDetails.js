@@ -48,12 +48,10 @@ function GeneralDetails({
 	};
 
 	function createSelectOptions(options) {
-		return options.map(option => {
-			return {
-				label: option,
-				value: option
-			};
-		});
+		return options.map(option => ({
+			label: option,
+			value: option
+		}));
 	}
 
 	return (

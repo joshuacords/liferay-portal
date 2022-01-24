@@ -24,9 +24,10 @@ export default function DropdownMultiSelect({
 	const displayOptions = allOptions.filter(
 		option => !newOptions.includes(option.key)
 	);
-	const processedAllOptions = allOptions.reduce((options, option) => {
-		return {...options, [option.key]: option};
-	}, {});
+	const processedAllOptions = allOptions.reduce(
+		(options, option) => ({...options, [option.key]: option}),
+		{}
+	);
 
 	const triggerElement = (
 		<div className="input-group input-group-stacked-sm-down">
