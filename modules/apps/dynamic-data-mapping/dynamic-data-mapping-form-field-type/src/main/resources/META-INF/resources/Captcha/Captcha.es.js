@@ -32,7 +32,7 @@ class Captcha extends Component {
 		if (window.grecaptcha) {
 			window.grecaptcha.ready(() => {
 				try {
-					window.grecaptcha.reset();
+					window.grecaptcha.reset(this._getRecaptchaIndex());
 				}
 				catch (e) {
 					console.warn('Could not reset reCAPTCHA.');
@@ -71,6 +71,25 @@ class Captcha extends Component {
 
 	shouldUpdate() {
 		return false;
+	}
+
+	_getRecaptchaIndex() {
+		const recaptchaElements = document.getElementsByClassName(
+			'g-recaptcha'
+		);
+
+		for (let index = 0; index < recaptchaElements.length; index++) {
+			const parentElement = recaptchaElements[index].parentElement;
+
+			if (
+				parentElement &&
+				parentElement.getAttribute('data-field-name') === this.name
+			) {
+				return index;
+			}
+		}
+
+		return 0;
 	}
 }
 
