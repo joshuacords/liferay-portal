@@ -306,6 +306,7 @@ public class ElasticsearchInstanceSettingsBuilder {
 		_configureTestMode();
 
 		put("transport.type", "security4");
+		put("xpack.ml.enabled", false);
 	}
 
 	private void _loadSettingsContributors() {
