@@ -83,7 +83,7 @@ public class LicenseUtil {
 		for (LicenseKey licenseKey : licenseKeys) {
 			int curLicenseVersion = licenseKey.getLicenseVersion();
 
-			if ((curLicenseVersion < 4) ||
+			if ((curLicenseVersion < 3) ||
 				(curLicenseVersion != licenseVersion)) {
 
 				return false;
