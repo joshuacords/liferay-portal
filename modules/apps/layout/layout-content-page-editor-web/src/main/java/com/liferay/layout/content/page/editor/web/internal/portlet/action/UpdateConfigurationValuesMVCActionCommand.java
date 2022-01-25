@@ -112,36 +112,47 @@ public class UpdateConfigurationValuesMVCActionCommand
 		ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(
 			WebKeys.THEME_DISPLAY);
 
-		DefaultFragmentRendererContext defaultFragmentRendererContext =
-			new DefaultFragmentRendererContext(fragmentEntryLink);
+		boolean isolated = themeDisplay.isIsolated();
 
-		defaultFragmentRendererContext.setLocale(themeDisplay.getLocale());
-		defaultFragmentRendererContext.setMode(FragmentEntryLinkConstants.EDIT);
-		defaultFragmentRendererContext.setSegmentsExperienceIds(
-			new long[] {SegmentsExperienceConstants.ID_DEFAULT});
+		themeDisplay.setIsolated(true);
 
-		String configuration = _fragmentRendererController.getConfiguration(
-			defaultFragmentRendererContext);
+		try {
+			DefaultFragmentRendererContext defaultFragmentRendererContext =
+				new DefaultFragmentRendererContext(fragmentEntryLink);
 
-		return JSONUtil.put(
-			"configuration", JSONFactoryUtil.createJSONObject(configuration)
-		).put(
-			"content",
-			_fragmentRendererController.render(
-				defaultFragmentRendererContext,
-				_portal.getHttpServletRequest(actionRequest),
-				_portal.getHttpServletResponse(actionResponse))
-		).put(
-			"defaultConfigurationValues",
-			FragmentEntryConfigUtil.getConfigurationDefaultValuesJSONObject(
-				configuration)
-		).put(
-			"editableValues",
-			JSONFactoryUtil.createJSONObject(
-				fragmentEntryLink.getEditableValues())
-		).put(
-			"fragmentEntryLinkId", fragmentEntryLink.getFragmentEntryLinkId()
-		);
+			defaultFragmentRendererContext.setLocale(themeDisplay.getLocale());
+			defaultFragmentRendererContext.setMode(
+				FragmentEntryLinkConstants.EDIT);
+			defaultFragmentRendererContext.setSegmentsExperienceIds(
+				new long[] {SegmentsExperienceConstants.ID_DEFAULT});
+
+			String configuration = _fragmentRendererController.getConfiguration(
+				defaultFragmentRendererContext);
+
+			return JSONUtil.put(
+				"configuration", JSONFactoryUtil.createJSONObject(configuration)
+			).put(
+				"content",
+				_fragmentRendererController.render(
+					defaultFragmentRendererContext,
+					_portal.getHttpServletRequest(actionRequest),
+					_portal.getHttpServletResponse(actionResponse))
+			).put(
+				"defaultConfigurationValues",
+				FragmentEntryConfigUtil.getConfigurationDefaultValuesJSONObject(
+					configuration)
+			).put(
+				"editableValues",
+				JSONFactoryUtil.createJSONObject(
+					fragmentEntryLink.getEditableValues())
+			).put(
+				"fragmentEntryLinkId",
+				fragmentEntryLink.getFragmentEntryLinkId()
+			);
+		}
+		finally {
+			themeDisplay.setIsolated(isolated);
+		}
 	}
 
 	private JSONObject _mergeEditableValuesJSONObject(
