@@ -37,6 +37,67 @@ definition {
 		}
 	}
 
+	@description = "This is a use case for LPS-103694. Verify that with Single Approver Workflow enabled and after the user Submit for Publication, the admin is notified of form submission"
+	@priority = "4"
+	test SubmitFormWithWorkflowAndViewNotification {
+		Navigator.openURL();
+
+		ProductMenu.gotoPortlet(
+			category = "Content & Data",
+			panel = "Site Administration",
+			portlet = "Forms");
+
+		FormsAdminNavigator.gotoAddForm();
+
+		Form.editName();
+
+		Form.editDescription();
+
+		Form.gotoAddField(fieldType = "Text Field");
+
+		Form.editFieldLabelMetal(fieldValue = "Text Field");
+
+		Form.closeSidebar();
+
+		FormsAdminNavigator.gotoSettings();
+
+		Form.configureWorkflow(workflowDefinition = "Single Approver");
+
+		Form.save();
+
+		Form.publishForm();
+
+		FormsAdminNavigator.gotoPublishCopyURLLink();
+
+		Pause(locator1 = "2000");
+
+		var publishFormURL = selenium.getElementValue("Form#PUBLISH_FORM_PUBLIC_URL");
+
+		Navigator.openSpecificURL(url = "${publishFormURL}");
+
+		FormFields.editText(
+			fieldName = "TextField",
+			fieldValue = "Text Field Value");
+
+		FormPortlet.submitLocalizedSuccessfully(buttonName = "Submit for Publication");
+
+		Pause(locator1 = "120000");
+
+		Navigator.openSpecificURL(url = "${publishFormURL}");
+
+		FormFields.editText(
+			fieldName = "TextField",
+			fieldValue = "Text Field Value 1");
+
+		FormPortlet.submitLocalizedSuccessfully(buttonName = "Submit for Publication");
+
+		Navigator.openURL();
+
+		UserBar.gotoDropdownItem(dropdownItem = "Notifications");
+
+		AssertTextPresent(value1 = "Test Test sent you a Form Record for review in the workflow.");
+	}
+
 	@description = "This is a use case for LPS-62371"
 	@priority = "3"
 	test SubmitPublishedFormWithTextField {
