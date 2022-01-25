@@ -560,6 +560,63 @@ definition {
 			webContentTitle = "WC Webcontent Title");
 	}
 
+	@description = "LPS-103624 - URLs are not well formed when changing language in classic Display Pages."
+	@priority = "4"
+	test ViewInContextTranslatedWCWithFriendlyURL {
+		JSONLayout.addWidgetToPublicLayout(
+			groupName = "Guest",
+			layoutName = "Asset Publisher Page",
+			widgetName = "Language Selector");
+
+		AssetPublisherPortlet.configureAssetLinkBehaviorPG(assetLinkBehavior = "View in Context");
+
+		AssetPublisherPortlet.configureDisplaySettings(displaySettings = "Set as the Default Asset Publisher for This Page");
+
+		WebContentNavigator.openWebContentAdmin(siteURLKey = "guest");
+
+		WebContentNavigator.gotoAddCP();
+
+		WebContent.addCP(
+			webContentContent = "WC WebContent English Content",
+			webContentTitle = "WC WebContent English Title");
+
+		WebContent.editDisplayPage(
+			pageName = "Asset Publisher Page",
+			pageType = "Public Pages");
+
+		WebContent.editFriendlyURL(webContentFriendlyURL = "webcontentenglish");
+
+		PortletEntry.changeLocale(locale = "de-DE");
+
+		WebContent.addCP(
+			webContentContent = "WC WebContent German Content",
+			webContentTitle = "WC WebContent German Title");
+
+		WebContent.editFriendlyURL(webContentFriendlyURL = "webcontentgerman");
+
+		PortletEntry.publish();
+
+		Navigator.gotoPage(pageName = "Asset Publisher Page");
+
+		AssetPublisherPortlet.clickAssetTitle(assetTitle = "WC WebContent English Title");
+
+		AssetPublisherPortlet.viewAssetDetailsPG(
+			assetContent = "WC WebContent English Content",
+			assetTitle = "WC WebContent English Title");
+
+		AssertLocation.assertPartialLocation(value1 = "-/webcontentenglish");
+
+		LanguagePortlet.selectLanguagePG(
+			locale = "de-DE",
+			textIcon = "deutsch-Deutschland");
+
+		AssetPublisherPortlet.viewAssetDetailsPG(
+			assetContent = "WC WebContent German Content",
+			assetTitle = "WC WebContent German Title");
+
+		AssertLocation.assertPartialLocation(value1 = "-/webcontentgerman");
+	}
+
 	@description = "This is a use case for LPS-49853."
 	@priority = "5"
 	test ViewWebContentViaAPAsGuestWithViewPermission {
