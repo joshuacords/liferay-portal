@@ -69,8 +69,8 @@ import java.util.Objects;
 import javax.portlet.PortletPreferences;
 
 import javax.servlet.http.HttpServletRequest;
-import org.junit.AfterClass;
 
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -79,10 +79,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import org.springframework.mock.web.portlet.MockPortletPreferences;
-
 import org.osgi.service.cm.Configuration;
 import org.osgi.service.cm.ConfigurationAdmin;
+
+import org.springframework.mock.web.portlet.MockPortletPreferences;
 
 /**
  * @author Eudaldo Alonso
