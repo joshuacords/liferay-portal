@@ -74,14 +74,10 @@ public class SummaryBuilderImpl implements SummaryBuilder {
 		}
 
 		if (_highlight) {
-			return buildContentHighlighted();
+			return _escapeAndHighlight(_content);
 		}
 
 		return buildContentPlain(_content);
-	}
-
-	protected String buildContentHighlighted() {
-		return _escapeAndHighlight(_content);
 	}
 
 	protected String buildContentPlain(String text) {
@@ -102,7 +98,7 @@ public class SummaryBuilderImpl implements SummaryBuilder {
 		}
 
 		if (_highlight) {
-			return buildTitleHighlighted();
+			return _escapeAndHighlight(_title);
 		}
 
 		if (_escape) {
@@ -110,10 +106,6 @@ public class SummaryBuilderImpl implements SummaryBuilder {
 		}
 
 		return buildTitlePlain();
-	}
-
-	protected String buildTitleHighlighted() {
-		return _escapeAndHighlight(_title);
 	}
 
 	protected String buildTitlePlain() {
