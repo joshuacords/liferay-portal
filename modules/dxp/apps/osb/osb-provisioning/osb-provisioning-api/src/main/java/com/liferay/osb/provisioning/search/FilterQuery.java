@@ -238,7 +238,7 @@ public class FilterQuery {
 	public void addStartsWith(boolean required, String field, String value) {
 		StringBundler sb = new StringBundler(5);
 
-		sb.append("startsWith(");
+		sb.append("startswith(");
 		sb.append(field);
 		sb.append(", '");
 		sb.append(_escape(value));
