@@ -73,13 +73,13 @@ public interface LicenseKeyResource {
 				String accountKey, String filterString, String sortString)
 		throws Exception;
 
-	public Page<LicenseKeyGenerateForm>
-			getAccountAccountKeyProductGroupProductGroupNameGenerateFormPage(
+	public LicenseKeyGenerateForm
+			getAccountAccountKeyProductGroupProductGroupNameGenerateForm(
 				String accountKey, String productGroupName)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
-			getAccountAccountKeyProductGroupProductGroupNameGenerateFormPageHttpResponse(
+			getAccountAccountKeyProductGroupProductGroupNameGenerateFormHttpResponse(
 				String accountKey, String productGroupName)
 		throws Exception;
 
@@ -493,13 +493,13 @@ public interface LicenseKeyResource {
 			return httpInvoker.invoke();
 		}
 
-		public Page<LicenseKeyGenerateForm>
-				getAccountAccountKeyProductGroupProductGroupNameGenerateFormPage(
+		public LicenseKeyGenerateForm
+				getAccountAccountKeyProductGroupProductGroupNameGenerateForm(
 					String accountKey, String productGroupName)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				getAccountAccountKeyProductGroupProductGroupNameGenerateFormPageHttpResponse(
+				getAccountAccountKeyProductGroupProductGroupNameGenerateFormHttpResponse(
 					accountKey, productGroupName);
 
 			String content = httpResponse.getContent();
@@ -528,7 +528,7 @@ public interface LicenseKeyResource {
 			}
 
 			try {
-				return Page.of(content, LicenseKeyGenerateFormSerDes::toDTO);
+				return LicenseKeyGenerateFormSerDes.toDTO(content);
 			}
 			catch (Exception e) {
 				_logger.log(
@@ -540,7 +540,7 @@ public interface LicenseKeyResource {
 		}
 
 		public HttpInvoker.HttpResponse
-				getAccountAccountKeyProductGroupProductGroupNameGenerateFormPageHttpResponse(
+				getAccountAccountKeyProductGroupProductGroupNameGenerateFormHttpResponse(
 					String accountKey, String productGroupName)
 			throws Exception {
 

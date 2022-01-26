@@ -15,6 +15,7 @@
 package com.liferay.osb.provisioning.rest.internal.graphql.query.v1_0;
 
 import com.liferay.osb.provisioning.rest.dto.v1_0.LicenseKey;
+import com.liferay.osb.provisioning.rest.dto.v1_0.LicenseKeyGenerateForm;
 import com.liferay.osb.provisioning.rest.resource.v1_0.LicenseKeyResource;
 import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
@@ -111,12 +112,12 @@ public class Query {
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {accountAccountKeyProductGroupProductGroupNameGenerateForm(accountKey: ___, productGroupName: ___){items {__}, page, pageSize, totalCount}}"}' -u 'test@liferay.com:test'
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {accountAccountKeyProductGroupProductGroupNameGenerateForm(accountKey: ___, productGroupName: ___){allowPermanentLicenses, subscriptionTerms, versions}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField(
 		description = "Retrieves the license key generation options for the given account."
 	)
-	public LicenseKeyPage
+	public LicenseKeyGenerateForm
 			accountAccountKeyProductGroupProductGroupNameGenerateForm(
 				@GraphQLName("accountKey") String accountKey,
 				@GraphQLName("productGroupName") String productGroupName)
@@ -125,10 +126,10 @@ public class Query {
 		return _applyComponentServiceObjects(
 			_licenseKeyResourceComponentServiceObjects,
 			this::_populateResourceContext,
-			licenseKeyResource -> new LicenseKeyPage(
+			licenseKeyResource ->
 				licenseKeyResource.
-					getAccountAccountKeyProductGroupProductGroupNameGenerateFormPage(
-						accountKey, productGroupName)));
+					getAccountAccountKeyProductGroupProductGroupNameGenerateForm(
+						accountKey, productGroupName));
 	}
 
 	/**

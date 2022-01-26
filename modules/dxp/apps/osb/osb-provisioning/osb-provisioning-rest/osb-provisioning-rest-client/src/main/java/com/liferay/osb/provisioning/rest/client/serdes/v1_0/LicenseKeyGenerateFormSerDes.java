@@ -58,6 +58,16 @@ public class LicenseKeyGenerateFormSerDes {
 
 		sb.append("{");
 
+		if (licenseKeyGenerateForm.getAllowPermanentLicenses() != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"allowPermanentLicenses\": ");
+
+			sb.append(licenseKeyGenerateForm.getAllowPermanentLicenses());
+		}
+
 		if (licenseKeyGenerateForm.getSubscriptionTerms() != null) {
 			if (sb.length() > 1) {
 				sb.append(", ");
@@ -129,6 +139,16 @@ public class LicenseKeyGenerateFormSerDes {
 
 		Map<String, String> map = new TreeMap<>();
 
+		if (licenseKeyGenerateForm.getAllowPermanentLicenses() == null) {
+			map.put("allowPermanentLicenses", null);
+		}
+		else {
+			map.put(
+				"allowPermanentLicenses",
+				String.valueOf(
+					licenseKeyGenerateForm.getAllowPermanentLicenses()));
+		}
+
 		if (licenseKeyGenerateForm.getSubscriptionTerms() == null) {
 			map.put("subscriptionTerms", null);
 		}
@@ -168,7 +188,13 @@ public class LicenseKeyGenerateFormSerDes {
 			LicenseKeyGenerateForm licenseKeyGenerateForm,
 			String jsonParserFieldName, Object jsonParserFieldValue) {
 
-			if (Objects.equals(jsonParserFieldName, "subscriptionTerms")) {
+			if (Objects.equals(jsonParserFieldName, "allowPermanentLicenses")) {
+				if (jsonParserFieldValue != null) {
+					licenseKeyGenerateForm.setAllowPermanentLicenses(
+						(Boolean)jsonParserFieldValue);
+				}
+			}
+			else if (Objects.equals(jsonParserFieldName, "subscriptionTerms")) {
 				if (jsonParserFieldValue != null) {
 					licenseKeyGenerateForm.setSubscriptionTerms(
 						Stream.of(

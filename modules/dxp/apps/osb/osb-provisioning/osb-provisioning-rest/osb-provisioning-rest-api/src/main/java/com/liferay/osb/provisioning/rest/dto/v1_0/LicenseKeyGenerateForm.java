@@ -62,6 +62,37 @@ public class LicenseKeyGenerateForm implements Serializable {
 			LicenseKeyGenerateForm.class, json);
 	}
 
+	@Schema(description = "If the account can generate permanent license keys.")
+	public Boolean getAllowPermanentLicenses() {
+		return allowPermanentLicenses;
+	}
+
+	public void setAllowPermanentLicenses(Boolean allowPermanentLicenses) {
+		this.allowPermanentLicenses = allowPermanentLicenses;
+	}
+
+	@JsonIgnore
+	public void setAllowPermanentLicenses(
+		UnsafeSupplier<Boolean, Exception>
+			allowPermanentLicensesUnsafeSupplier) {
+
+		try {
+			allowPermanentLicenses = allowPermanentLicensesUnsafeSupplier.get();
+		}
+		catch (RuntimeException re) {
+			throw re;
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@GraphQLField(
+		description = "If the account can generate permanent license keys."
+	)
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	protected Boolean allowPermanentLicenses;
+
 	@Schema(
 		description = "The subscription terms of the account available to generate the license key on."
 	)
@@ -156,6 +187,16 @@ public class LicenseKeyGenerateForm implements Serializable {
 		StringBundler sb = new StringBundler();
 
 		sb.append("{");
+
+		if (allowPermanentLicenses != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"allowPermanentLicenses\": ");
+
+			sb.append(allowPermanentLicenses);
+		}
 
 		if (subscriptionTerms != null) {
 			if (sb.length() > 1) {

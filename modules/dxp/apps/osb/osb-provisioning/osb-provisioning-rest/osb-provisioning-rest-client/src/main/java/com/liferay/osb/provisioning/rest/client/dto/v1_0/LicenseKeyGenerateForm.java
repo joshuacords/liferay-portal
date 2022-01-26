@@ -34,6 +34,28 @@ public class LicenseKeyGenerateForm implements Cloneable, Serializable {
 		return LicenseKeyGenerateFormSerDes.toDTO(json);
 	}
 
+	public Boolean getAllowPermanentLicenses() {
+		return allowPermanentLicenses;
+	}
+
+	public void setAllowPermanentLicenses(Boolean allowPermanentLicenses) {
+		this.allowPermanentLicenses = allowPermanentLicenses;
+	}
+
+	public void setAllowPermanentLicenses(
+		UnsafeSupplier<Boolean, Exception>
+			allowPermanentLicensesUnsafeSupplier) {
+
+		try {
+			allowPermanentLicenses = allowPermanentLicensesUnsafeSupplier.get();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected Boolean allowPermanentLicenses;
+
 	public SubscriptionTerm[] getSubscriptionTerms() {
 		return subscriptionTerms;
 	}

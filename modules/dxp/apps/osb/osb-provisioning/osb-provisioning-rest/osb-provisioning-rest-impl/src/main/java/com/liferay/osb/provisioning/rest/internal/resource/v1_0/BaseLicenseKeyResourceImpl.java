@@ -223,8 +223,8 @@ public abstract class BaseLicenseKeyResourceImpl implements LicenseKeyResource {
 	)
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public Page<LicenseKeyGenerateForm>
-			getAccountAccountKeyProductGroupProductGroupNameGenerateFormPage(
+	public LicenseKeyGenerateForm
+			getAccountAccountKeyProductGroupProductGroupNameGenerateForm(
 				@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 				@javax.validation.constraints.NotNull
 				@javax.ws.rs.PathParam("accountKey")
@@ -235,7 +235,7 @@ public abstract class BaseLicenseKeyResourceImpl implements LicenseKeyResource {
 				String productGroupName)
 		throws Exception {
 
-		return Page.of(Collections.emptyList());
+		return new LicenseKeyGenerateForm();
 	}
 
 	/**

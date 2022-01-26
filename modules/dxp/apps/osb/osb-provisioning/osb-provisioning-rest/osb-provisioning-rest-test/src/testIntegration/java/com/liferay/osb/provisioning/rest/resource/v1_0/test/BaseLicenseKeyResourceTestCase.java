@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 
 import com.liferay.osb.provisioning.rest.client.dto.v1_0.LicenseKey;
+import com.liferay.osb.provisioning.rest.client.dto.v1_0.LicenseKeyGenerateForm;
 import com.liferay.osb.provisioning.rest.client.dto.v1_0.Type;
 import com.liferay.osb.provisioning.rest.client.http.HttpInvoker;
 import com.liferay.osb.provisioning.rest.client.pagination.Page;
@@ -558,108 +559,6 @@ public abstract class BaseLicenseKeyResourceTestCase {
 	}
 
 	@Test
-	public void testGetAccountAccountKeyProductGroupProductGroupNameGenerateFormPage()
-		throws Exception {
-
-		String accountKey =
-			testGetAccountAccountKeyProductGroupProductGroupNameGenerateFormPage_getAccountKey();
-		String irrelevantAccountKey =
-			testGetAccountAccountKeyProductGroupProductGroupNameGenerateFormPage_getIrrelevantAccountKey();
-		String productGroupName =
-			testGetAccountAccountKeyProductGroupProductGroupNameGenerateFormPage_getProductGroupName();
-		String irrelevantProductGroupName =
-			testGetAccountAccountKeyProductGroupProductGroupNameGenerateFormPage_getIrrelevantProductGroupName();
-
-		Page<LicenseKey> page =
-			licenseKeyResource.
-				getAccountAccountKeyProductGroupProductGroupNameGenerateFormPage(
-					accountKey, productGroupName);
-
-		Assert.assertEquals(0, page.getTotalCount());
-
-		if ((irrelevantAccountKey != null) &&
-			(irrelevantProductGroupName != null)) {
-
-			LicenseKey irrelevantLicenseKey =
-				testGetAccountAccountKeyProductGroupProductGroupNameGenerateFormPage_addLicenseKey(
-					irrelevantAccountKey, irrelevantProductGroupName,
-					randomIrrelevantLicenseKey());
-
-			page =
-				licenseKeyResource.
-					getAccountAccountKeyProductGroupProductGroupNameGenerateFormPage(
-						irrelevantAccountKey, irrelevantProductGroupName);
-
-			Assert.assertEquals(1, page.getTotalCount());
-
-			assertEquals(
-				Arrays.asList(irrelevantLicenseKey),
-				(List<LicenseKey>)page.getItems());
-			assertValid(page);
-		}
-
-		LicenseKey licenseKey1 =
-			testGetAccountAccountKeyProductGroupProductGroupNameGenerateFormPage_addLicenseKey(
-				accountKey, productGroupName, randomLicenseKey());
-
-		LicenseKey licenseKey2 =
-			testGetAccountAccountKeyProductGroupProductGroupNameGenerateFormPage_addLicenseKey(
-				accountKey, productGroupName, randomLicenseKey());
-
-		page =
-			licenseKeyResource.
-				getAccountAccountKeyProductGroupProductGroupNameGenerateFormPage(
-					accountKey, productGroupName);
-
-		Assert.assertEquals(2, page.getTotalCount());
-
-		assertEqualsIgnoringOrder(
-			Arrays.asList(licenseKey1, licenseKey2),
-			(List<LicenseKey>)page.getItems());
-		assertValid(page);
-	}
-
-	protected LicenseKey
-			testGetAccountAccountKeyProductGroupProductGroupNameGenerateFormPage_addLicenseKey(
-				String accountKey, String productGroupName,
-				LicenseKey licenseKey)
-		throws Exception {
-
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
-	}
-
-	protected String
-			testGetAccountAccountKeyProductGroupProductGroupNameGenerateFormPage_getAccountKey()
-		throws Exception {
-
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
-	}
-
-	protected String
-			testGetAccountAccountKeyProductGroupProductGroupNameGenerateFormPage_getIrrelevantAccountKey()
-		throws Exception {
-
-		return null;
-	}
-
-	protected String
-			testGetAccountAccountKeyProductGroupProductGroupNameGenerateFormPage_getProductGroupName()
-		throws Exception {
-
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
-	}
-
-	protected String
-			testGetAccountAccountKeyProductGroupProductGroupNameGenerateFormPage_getIrrelevantProductGroupName()
-		throws Exception {
-
-		return null;
-	}
-
-	@Test
 	public void testGetAccountAccountKeyProductGroupProductGroupNameProductVersionDevelopmentLicenseKey()
 		throws Exception {
 
@@ -734,6 +633,35 @@ public abstract class BaseLicenseKeyResourceTestCase {
 	@Rule
 	public SearchTestRule searchTestRule = new SearchTestRule();
 
+	@Test
+	public void testGetAccountAccountKeyProductGroupProductGroupNameGenerateForm()
+		throws Exception {
+
+		LicenseKey postLicenseKey = testGetLicenseKey_addLicenseKey();
+
+		LicenseKeyGenerateForm postLicenseKeyGenerateForm =
+			testGetAccountAccountKeyProductGroupProductGroupNameGenerateForm_addLicenseKeyGenerateForm(
+				postLicenseKey.getId(), randomLicenseKeyGenerateForm());
+
+		LicenseKeyGenerateForm getLicenseKeyGenerateForm =
+			licenseKeyResource.
+				getAccountAccountKeyProductGroupProductGroupNameGenerateForm(
+					postLicenseKey.getId());
+
+		assertEquals(postLicenseKeyGenerateForm, getLicenseKeyGenerateForm);
+		assertValid(getLicenseKeyGenerateForm);
+	}
+
+	protected LicenseKeyGenerateForm
+			testGetAccountAccountKeyProductGroupProductGroupNameGenerateForm_addLicenseKeyGenerateForm(
+				long licenseKeyId,
+				LicenseKeyGenerateForm licenseKeyGenerateForm)
+		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
 	protected LicenseKey testGraphQLLicenseKey_addLicenseKey()
 		throws Exception {
 
@@ -785,6 +713,16 @@ public abstract class BaseLicenseKeyResourceTestCase {
 
 			assertEquals(licenseKey1, licenseKey2);
 		}
+	}
+
+	protected void assertEquals(
+		LicenseKeyGenerateForm licenseKeyGenerateForm1,
+		LicenseKeyGenerateForm licenseKeyGenerateForm2) {
+
+		Assert.assertTrue(
+			licenseKeyGenerateForm1 + " does not equal " +
+				licenseKeyGenerateForm2,
+			equals(licenseKeyGenerateForm1, licenseKeyGenerateForm2));
 	}
 
 	protected void assertEqualsIgnoringOrder(
@@ -1127,7 +1065,55 @@ public abstract class BaseLicenseKeyResourceTestCase {
 		Assert.assertTrue(valid);
 	}
 
+	protected void assertValid(LicenseKeyGenerateForm licenseKeyGenerateForm) {
+		boolean valid = true;
+
+		for (String additionalAssertFieldName :
+				getAdditionalLicenseKeyGenerateFormAssertFieldNames()) {
+
+			if (Objects.equals(
+					"allowPermanentLicenses", additionalAssertFieldName)) {
+
+				if (licenseKeyGenerateForm.getAllowPermanentLicenses() ==
+						null) {
+
+					valid = false;
+				}
+
+				continue;
+			}
+
+			if (Objects.equals(
+					"subscriptionTerms", additionalAssertFieldName)) {
+
+				if (licenseKeyGenerateForm.getSubscriptionTerms() == null) {
+					valid = false;
+				}
+
+				continue;
+			}
+
+			if (Objects.equals("versions", additionalAssertFieldName)) {
+				if (licenseKeyGenerateForm.getVersions() == null) {
+					valid = false;
+				}
+
+				continue;
+			}
+
+			throw new IllegalArgumentException(
+				"Invalid additional assert field name " +
+					additionalAssertFieldName);
+		}
+
+		Assert.assertTrue(valid);
+	}
+
 	protected String[] getAdditionalAssertFieldNames() {
+		return new String[0];
+	}
+
+	protected String[] getAdditionalLicenseKeyGenerateFormAssertFieldNames() {
 		return new String[0];
 	}
 
@@ -1615,6 +1601,62 @@ public abstract class BaseLicenseKeyResourceTestCase {
 		}
 
 		return false;
+	}
+
+	protected boolean equals(
+		LicenseKeyGenerateForm licenseKeyGenerateForm1,
+		LicenseKeyGenerateForm licenseKeyGenerateForm2) {
+
+		if (licenseKeyGenerateForm1 == licenseKeyGenerateForm2) {
+			return true;
+		}
+
+		for (String additionalAssertFieldName :
+				getAdditionalLicenseKeyGenerateFormAssertFieldNames()) {
+
+			if (Objects.equals(
+					"allowPermanentLicenses", additionalAssertFieldName)) {
+
+				if (!Objects.deepEquals(
+						licenseKeyGenerateForm1.getAllowPermanentLicenses(),
+						licenseKeyGenerateForm2.getAllowPermanentLicenses())) {
+
+					return false;
+				}
+
+				continue;
+			}
+
+			if (Objects.equals(
+					"subscriptionTerms", additionalAssertFieldName)) {
+
+				if (!Objects.deepEquals(
+						licenseKeyGenerateForm1.getSubscriptionTerms(),
+						licenseKeyGenerateForm2.getSubscriptionTerms())) {
+
+					return false;
+				}
+
+				continue;
+			}
+
+			if (Objects.equals("versions", additionalAssertFieldName)) {
+				if (!Objects.deepEquals(
+						licenseKeyGenerateForm1.getVersions(),
+						licenseKeyGenerateForm2.getVersions())) {
+
+					return false;
+				}
+
+				continue;
+			}
+
+			throw new IllegalArgumentException(
+				"Invalid additional assert field name " +
+					additionalAssertFieldName);
+		}
+
+		return true;
 	}
 
 	protected java.lang.reflect.Field[] getDeclaredFields(Class clazz)
@@ -2137,6 +2179,16 @@ public abstract class BaseLicenseKeyResourceTestCase {
 
 	protected LicenseKey randomPatchLicenseKey() throws Exception {
 		return randomLicenseKey();
+	}
+
+	protected LicenseKeyGenerateForm randomLicenseKeyGenerateForm()
+		throws Exception {
+
+		return new LicenseKeyGenerateForm() {
+			{
+				allowPermanentLicenses = RandomTestUtil.randomBoolean();
+			}
+		};
 	}
 
 	protected LicenseKeyResource licenseKeyResource;

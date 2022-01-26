@@ -72,8 +72,8 @@ public interface LicenseKeyResource {
 			String accountKey, Filter filter, Sort[] sorts)
 		throws Exception;
 
-	public Page<LicenseKeyGenerateForm>
-			getAccountAccountKeyProductGroupProductGroupNameGenerateFormPage(
+	public LicenseKeyGenerateForm
+			getAccountAccountKeyProductGroupProductGroupNameGenerateForm(
 				String accountKey, String productGroupName)
 		throws Exception;
 
