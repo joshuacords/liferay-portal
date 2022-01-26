@@ -10,6 +10,7 @@ create unique index IX_2785F413 on Koroneiki_ProductEntry (productEntryKey[$COLU
 create index IX_EBC2538D on Koroneiki_ProductEntry (uuid_[$COLUMN_LENGTH:75$], companyId);
 
 create index IX_2BD84FF6 on Koroneiki_ProductField (classNameId, classPK);
+create index IX_D37B848C on Koroneiki_ProductField (classNameId, name[$COLUMN_LENGTH:75$]);
 
 create index IX_9EE38684 on Koroneiki_ProductPurchase (accountId, productEntryId);
 create index IX_FA2A19F8 on Koroneiki_ProductPurchase (productEntryId);

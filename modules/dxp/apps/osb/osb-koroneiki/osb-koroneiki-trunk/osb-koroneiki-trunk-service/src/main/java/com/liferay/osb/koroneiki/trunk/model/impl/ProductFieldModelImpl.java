@@ -29,6 +29,7 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.model.impl.BaseModelImpl;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -117,7 +118,9 @@ public class ProductFieldModelImpl
 
 	public static final long CLASSPK_COLUMN_BITMASK = 2L;
 
-	public static final long PRODUCTFIELDID_COLUMN_BITMASK = 4L;
+	public static final long NAME_COLUMN_BITMASK = 4L;
+
+	public static final long PRODUCTFIELDID_COLUMN_BITMASK = 8L;
 
 	public static void setEntityCacheEnabled(boolean entityCacheEnabled) {
 		_entityCacheEnabled = entityCacheEnabled;
@@ -478,7 +481,17 @@ public class ProductFieldModelImpl
 
 	@Override
 	public void setName(String name) {
+		_columnBitmask |= NAME_COLUMN_BITMASK;
+
+		if (_originalName == null) {
+			_originalName = _name;
+		}
+
 		_name = name;
+	}
+
+	public String getOriginalName() {
+		return GetterUtil.getString(_originalName);
 	}
 
 	@JSON
@@ -608,6 +621,8 @@ public class ProductFieldModelImpl
 		_originalClassPK = _classPK;
 
 		_setOriginalClassPK = false;
+
+		_originalName = _name;
 
 		_columnBitmask = 0;
 	}
@@ -749,6 +764,7 @@ public class ProductFieldModelImpl
 	private long _originalClassPK;
 	private boolean _setOriginalClassPK;
 	private String _name;
+	private String _originalName;
 	private String _value;
 	private long _columnBitmask;
 	private ProductField _escapedModel;
