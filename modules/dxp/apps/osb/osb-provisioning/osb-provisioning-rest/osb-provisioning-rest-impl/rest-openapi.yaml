@@ -167,6 +167,11 @@ components:
             description:
                 Represents the options available during license generation based on account and product.
             properties:
+                allowPermanentLicenses:
+                    description:
+                        If the account can generate permanent license keys.
+                    readOnly: true
+                    type: boolean
                 subscriptionTerms:
                     description:
                         The subscription terms of the account available to generate the license key on.
@@ -448,7 +453,7 @@ paths:
         get:
             description:
                 Retrieves the license key generation options for the given account.
-            operationId: getAccountAccountKeyProductGroupProductGroupNameGenerateFormPage
+            operationId: getAccountAccountKeyProductGroupProductGroupNameGenerateForm
             parameters:
                 - in: path
                   name: accountKey
@@ -465,14 +470,10 @@ paths:
                     content:
                         application/json:
                             schema:
-                                items:
-                                    $ref: "#/components/schemas/LicenseKeyGenerateForm"
-                                type: array
+                                $ref: "#/components/schemas/LicenseKeyGenerateForm"
                         application/xml:
                             schema:
-                                items:
-                                    $ref: "#/components/schemas/LicenseKeyGenerateForm"
-                                type: array
+                                $ref: "#/components/schemas/LicenseKeyGenerateForm"
             tags: ["LicenseKey"]
     "/accounts/{accountKey}/product-groups/{productGroupName}/product-environment/{productEnvironmentName}/common-license-key":
         get:

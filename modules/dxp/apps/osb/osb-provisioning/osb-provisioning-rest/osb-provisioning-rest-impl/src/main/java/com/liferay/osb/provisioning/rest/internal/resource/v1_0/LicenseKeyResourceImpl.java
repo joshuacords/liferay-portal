@@ -70,7 +70,6 @@ import com.liferay.portal.vulcan.resource.EntityModelResource;
 import com.liferay.portal.vulcan.util.SearchUtil;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -152,20 +151,34 @@ public class LicenseKeyResourceImpl
 	}
 
 	@Override
-	public Page<LicenseKeyGenerateForm>
-			getAccountAccountKeyProductGroupProductGroupNameGenerateFormPage(
+	public LicenseKeyGenerateForm
+			getAccountAccountKeyProductGroupProductGroupNameGenerateForm(
 				String accountKey, String productGroupName)
 		throws Exception {
 
 		LicenseKeyGenerateForm licenseKeyGenerateForm =
 			new LicenseKeyGenerateForm();
 
-		licenseKeyGenerateForm.setVersions(
-			_getProductVersions(productGroupName));
+		Account account = _accountWebService.getAccount(accountKey);
+
+		boolean allowPermanentLicenses = false;
+
+		Map<String, String> properties = account.getProperties();
+
+		if (properties != null) {
+			allowPermanentLicenses = GetterUtil.getBoolean(
+				properties.get("allowPermanentLicenses"), true);
+		}
+
+		licenseKeyGenerateForm.setAllowPermanentLicenses(
+			allowPermanentLicenses);
+
 		licenseKeyGenerateForm.setSubscriptionTerms(
 			_getSubscriptionTerms(accountKey, productGroupName));
+		licenseKeyGenerateForm.setVersions(
+			_getProductVersions(productGroupName));
 
-		return Page.of(Arrays.asList(licenseKeyGenerateForm));
+		return licenseKeyGenerateForm;
 	}
 
 	@Override
