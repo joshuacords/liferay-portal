@@ -96,12 +96,13 @@
 
 		<!-- Finder methods -->
 
-		<finder name="ClassNameId" return-type="Collection">
-			<finder-column name="classNameId" />
-		</finder>
 		<finder name="C_C" return-type="Collection">
 			<finder-column name="classNameId" />
 			<finder-column name="classPK" />
+		</finder>
+		<finder name="C_N" return-type="Collection">
+			<finder-column name="classNameId" />
+			<finder-column name="name" />
 		</finder>
 	</entity>
 	<entity local-service="true" name="ProductPurchase" remote-service="true" uuid="true">
