@@ -78,16 +78,16 @@ public class AssetEntryLocalServiceImpl extends AssetEntryLocalServiceBaseImpl {
 	@Override
 	public void deleteEntry(AssetEntry entry) throws PortalException {
 
+		// Links
+
+		assetLinkLocalService.deleteLinks(entry.getEntryId());
+
 		// Entry
 
 		List<AssetTag> tags = assetEntryPersistence.getAssetTags(
 			entry.getEntryId());
 
 		assetEntryPersistence.remove(entry);
-
-		// Links
-
-		assetLinkLocalService.deleteLinks(entry.getEntryId());
 
 		// Tags
 
