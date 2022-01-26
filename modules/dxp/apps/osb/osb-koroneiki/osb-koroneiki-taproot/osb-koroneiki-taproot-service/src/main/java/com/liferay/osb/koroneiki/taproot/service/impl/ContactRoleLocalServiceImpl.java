@@ -19,6 +19,7 @@ import com.liferay.osb.koroneiki.taproot.constants.ContactRoleSystem;
 import com.liferay.osb.koroneiki.taproot.exception.ContactRoleNameException;
 import com.liferay.osb.koroneiki.taproot.exception.ContactRoleSystemException;
 import com.liferay.osb.koroneiki.taproot.exception.ContactRoleTypeException;
+import com.liferay.osb.koroneiki.taproot.exception.RequiredContactRoleException;
 import com.liferay.osb.koroneiki.taproot.model.ContactRole;
 import com.liferay.osb.koroneiki.taproot.service.base.ContactRoleLocalServiceBaseImpl;
 import com.liferay.portal.aop.AopService;
@@ -132,15 +133,18 @@ public class ContactRoleLocalServiceImpl
 			throw new ContactRoleSystemException();
 		}
 
-		// Contact account roles
+		long contactRoleId = contactRole.getContactRoleId();
 
-		contactAccountRolePersistence.removeByContactRoleId(
-			contactRole.getContactRoleId());
+		int contactAccountRolesCount =
+			contactAccountRolePersistence.countByContactRoleId(contactRoleId);
 
-		// Contact team roles
+		int contactTeamRolesCount =
+			contactTeamRolePersistence.countByContactRoleId(contactRoleId);
 
-		contactTeamRolePersistence.removeByContactRoleId(
-			contactRole.getContactRoleId());
+		if ((contactAccountRolesCount != 0) || (contactTeamRolesCount != 0)) {
+			throw new RequiredContactRoleException.
+				MustNotDeleteContactRoleReferencedByContact(contactRoleId);
+		}
 
 		// Resources
 
