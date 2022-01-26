@@ -54,7 +54,7 @@ public class EntityExtensionUtil {
 		for (Field baseEntityField : baseEntityClass.getDeclaredFields()) {
 			int modifiers = baseEntityField.getModifiers();
 
-			if (Modifier.isStatic(modifiers) || Modifier.isFinal(modifiers)) {
+			if (Modifier.isFinal(modifiers) || Modifier.isStatic(modifiers)) {
 				continue;
 			}
 
