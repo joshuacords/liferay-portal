@@ -31,6 +31,8 @@ ViewContactRolesManagementToolbarDisplayContext viewContactRolesManagementToolba
 	displayContext="<%= viewContactRolesManagementToolbarDisplayContext %>"
 />
 
+<liferay-ui:error exception="<%= RequiredContactRoleException.MustNotDeleteContactRoleReferencedByContact.class %>" message="the-contact-role-cannot-be-deleted-because-it-is-assigned-to-one-or-more-contacts" />
+
 <div class="container-fluid-1280">
 	<liferay-ui:search-container
 		searchContainer="<%= contactRolesDisplayContext.getSearchContainer() %>"

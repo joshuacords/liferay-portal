@@ -52,6 +52,7 @@ page import="com.liferay.osb.koroneiki.taproot.exception.NoSuchContactRoleExcept
 page import="com.liferay.osb.koroneiki.taproot.exception.NoSuchTeamException" %><%@
 page import="com.liferay.osb.koroneiki.taproot.exception.NoSuchTeamRoleException" %><%@
 page import="com.liferay.osb.koroneiki.taproot.exception.RequiredAccountException" %><%@
+page import="com.liferay.osb.koroneiki.taproot.exception.RequiredContactRoleException" %><%@
 page import="com.liferay.osb.koroneiki.taproot.exception.TeamNameException" %><%@
 page import="com.liferay.osb.koroneiki.taproot.exception.TeamRoleNameException" %><%@
 page import="com.liferay.osb.koroneiki.taproot.exception.TeamRoleTypeException" %><%@
