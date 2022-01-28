@@ -45,7 +45,7 @@ public class ContactRoleDeleteExceptionMapper
 		return Response.status(
 			409
 		).entity(
-			"Please remove any contact assigned to the contact role before " +
+			"Please remove any contacts assigned to the contact role before " +
 				"attempting to delete"
 		).type(
 			MediaType.TEXT_PLAIN

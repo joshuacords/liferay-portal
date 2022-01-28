@@ -21,17 +21,14 @@ import com.liferay.osb.koroneiki.taproot.exception.NoSuchContactRoleException;
 import com.liferay.osb.koroneiki.taproot.exception.RequiredContactRoleException;
 import com.liferay.osb.koroneiki.taproot.service.ContactRoleService;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.Portal;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
-import javax.portlet.PortletURL;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -87,26 +84,12 @@ public class EditContactRoleMVCActionCommand extends BaseMVCActionCommand {
 			else if (exception instanceof RequiredContactRoleException) {
 				SessionErrors.add(actionRequest, exception.getClass());
 
-				sendRedirect(
-					actionRequest, actionResponse, getRedirect(actionResponse));
+				sendRedirect(actionRequest, actionResponse);
 			}
 			else {
 				throw exception;
 			}
 		}
-	}
-
-	protected String getRedirect(ActionResponse actionResponse)
-		throws Exception {
-
-		LiferayPortletResponse liferayPortletResponse =
-			_portal.getLiferayPortletResponse(actionResponse);
-
-		PortletURL portletURL = liferayPortletResponse.createRenderURL();
-
-		portletURL.setParameter("mvcRenderCommandName", "/view");
-
-		return portletURL.toString();
 	}
 
 	protected void updateContactRole(ActionRequest actionRequest)
@@ -130,8 +113,5 @@ public class EditContactRoleMVCActionCommand extends BaseMVCActionCommand {
 
 	@Reference
 	private ContactRoleService _contactRoleService;
-
-	@Reference
-	private Portal _portal;
 
 }

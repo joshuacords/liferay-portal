@@ -133,17 +133,18 @@ public class ContactRoleLocalServiceImpl
 			throw new ContactRoleSystemException();
 		}
 
-		long contactRoleId = contactRole.getContactRoleId();
-
 		int contactAccountRolesCount =
-			contactAccountRolePersistence.countByContactRoleId(contactRoleId);
+			contactAccountRolePersistence.countByContactRoleId(
+				contactRole.getContactRoleId());
 
 		int contactTeamRolesCount =
-			contactTeamRolePersistence.countByContactRoleId(contactRoleId);
+			contactTeamRolePersistence.countByContactRoleId(
+				contactRole.getContactRoleId());
 
 		if ((contactAccountRolesCount != 0) || (contactTeamRolesCount != 0)) {
 			throw new RequiredContactRoleException.
-				MustNotDeleteContactRoleReferencedByContact(contactRoleId);
+				MustNotDeleteContactRoleReferencedByContact(
+					contactRole.getContactRoleId());
 		}
 
 		// Resources
