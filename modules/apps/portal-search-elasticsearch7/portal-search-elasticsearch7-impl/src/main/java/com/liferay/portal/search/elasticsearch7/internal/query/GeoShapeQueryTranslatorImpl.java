@@ -121,16 +121,11 @@ public class GeoShapeQueryTranslatorImpl implements GeoShapeQueryTranslator {
 			return geoShapeQueryBuilder;
 		}
 
-		try {
-			Shape shape = geoShapeQuery.getShape();
+		Shape shape = geoShapeQuery.getShape();
 
-			return QueryBuilders.geoShapeQuery(
-				geoShapeQuery.getField(),
-				shape.accept(_elasticsearchShapeTranslator));
-		}
-		catch (IOException ioException) {
-			throw new SystemException(ioException);
-		}
+		return new GeoShapeQueryBuilder(
+			geoShapeQuery.getField(),
+			shape.accept(_elasticsearchShapeTranslator).buildGeometry());
 	}
 
 	private final ElasticsearchShapeTranslator _elasticsearchShapeTranslator =
