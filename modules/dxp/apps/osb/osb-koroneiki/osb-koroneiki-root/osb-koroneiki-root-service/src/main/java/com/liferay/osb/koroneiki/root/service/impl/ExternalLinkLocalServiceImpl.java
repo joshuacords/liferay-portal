@@ -49,12 +49,12 @@ public class ExternalLinkLocalServiceImpl
 
 		validate(domain, entityName, entityId);
 
-		ExternalLink currentExternalLinks =
+		ExternalLink curExternalLink =
 			externalLinkPersistence.fetchByC_C_D_EN_EI(
 				classNameId, classPK, domain, entityName, entityId);
 
-		if (currentExternalLinks != null) {
-			return currentExternalLinks;
+		if (curExternalLink != null) {
+			return curExternalLink;
 		}
 
 		long externalLinkId = counterLocalService.increment();
