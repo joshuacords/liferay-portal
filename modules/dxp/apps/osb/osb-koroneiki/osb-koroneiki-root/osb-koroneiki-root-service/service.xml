@@ -92,6 +92,13 @@
 			<finder-column name="entityName" />
 			<finder-column name="entityId" />
 		</finder>
+		<finder name="C_C_D_EN_EI" return-type="ExternalLink">
+			<finder-column name="classNameId" />
+			<finder-column name="classPK" />
+			<finder-column name="domain" />
+			<finder-column name="entityName" />
+			<finder-column name="entityId" />
+		</finder>
 	</entity>
 	<exceptions>
 		<exception>ExternalLinkDomain</exception>
