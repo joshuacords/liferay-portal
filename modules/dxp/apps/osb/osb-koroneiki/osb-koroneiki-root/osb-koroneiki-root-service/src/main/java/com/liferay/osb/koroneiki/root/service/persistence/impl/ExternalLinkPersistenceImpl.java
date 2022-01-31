@@ -42,12 +42,14 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import java.io.Serializable;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -1625,6 +1627,411 @@ public class ExternalLinkPersistenceImpl
 	private static final String _FINDER_COLUMN_C_D_EN_EI_ENTITYID_3 =
 		"(externalLink.entityId IS NULL OR externalLink.entityId = '')";
 
+	private FinderPath _finderPathFetchByC_C_D_EN_EI;
+	private FinderPath _finderPathCountByC_C_D_EN_EI;
+
+	/**
+	 * Returns the external link where classNameId = &#63; and classPK = &#63; and domain = &#63; and entityName = &#63; and entityId = &#63; or throws a <code>NoSuchExternalLinkException</code> if it could not be found.
+	 *
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
+	 * @param domain the domain
+	 * @param entityName the entity name
+	 * @param entityId the entity ID
+	 * @return the matching external link
+	 * @throws NoSuchExternalLinkException if a matching external link could not be found
+	 */
+	@Override
+	public ExternalLink findByC_C_D_EN_EI(
+			long classNameId, long classPK, String domain, String entityName,
+			String entityId)
+		throws NoSuchExternalLinkException {
+
+		ExternalLink externalLink = fetchByC_C_D_EN_EI(
+			classNameId, classPK, domain, entityName, entityId);
+
+		if (externalLink == null) {
+			StringBundler sb = new StringBundler(12);
+
+			sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			sb.append("classNameId=");
+			sb.append(classNameId);
+
+			sb.append(", classPK=");
+			sb.append(classPK);
+
+			sb.append(", domain=");
+			sb.append(domain);
+
+			sb.append(", entityName=");
+			sb.append(entityName);
+
+			sb.append(", entityId=");
+			sb.append(entityId);
+
+			sb.append("}");
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(sb.toString());
+			}
+
+			throw new NoSuchExternalLinkException(sb.toString());
+		}
+
+		return externalLink;
+	}
+
+	/**
+	 * Returns the external link where classNameId = &#63; and classPK = &#63; and domain = &#63; and entityName = &#63; and entityId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
+	 * @param domain the domain
+	 * @param entityName the entity name
+	 * @param entityId the entity ID
+	 * @return the matching external link, or <code>null</code> if a matching external link could not be found
+	 */
+	@Override
+	public ExternalLink fetchByC_C_D_EN_EI(
+		long classNameId, long classPK, String domain, String entityName,
+		String entityId) {
+
+		return fetchByC_C_D_EN_EI(
+			classNameId, classPK, domain, entityName, entityId, true);
+	}
+
+	/**
+	 * Returns the external link where classNameId = &#63; and classPK = &#63; and domain = &#63; and entityName = &#63; and entityId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
+	 * @param domain the domain
+	 * @param entityName the entity name
+	 * @param entityId the entity ID
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching external link, or <code>null</code> if a matching external link could not be found
+	 */
+	@Override
+	public ExternalLink fetchByC_C_D_EN_EI(
+		long classNameId, long classPK, String domain, String entityName,
+		String entityId, boolean useFinderCache) {
+
+		domain = Objects.toString(domain, "");
+		entityName = Objects.toString(entityName, "");
+		entityId = Objects.toString(entityId, "");
+
+		Object[] finderArgs = null;
+
+		if (useFinderCache) {
+			finderArgs = new Object[] {
+				classNameId, classPK, domain, entityName, entityId
+			};
+		}
+
+		Object result = null;
+
+		if (useFinderCache) {
+			result = finderCache.getResult(
+				_finderPathFetchByC_C_D_EN_EI, finderArgs, this);
+		}
+
+		if (result instanceof ExternalLink) {
+			ExternalLink externalLink = (ExternalLink)result;
+
+			if ((classNameId != externalLink.getClassNameId()) ||
+				(classPK != externalLink.getClassPK()) ||
+				!Objects.equals(domain, externalLink.getDomain()) ||
+				!Objects.equals(entityName, externalLink.getEntityName()) ||
+				!Objects.equals(entityId, externalLink.getEntityId())) {
+
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler sb = new StringBundler(7);
+
+			sb.append(_SQL_SELECT_EXTERNALLINK_WHERE);
+
+			sb.append(_FINDER_COLUMN_C_C_D_EN_EI_CLASSNAMEID_2);
+
+			sb.append(_FINDER_COLUMN_C_C_D_EN_EI_CLASSPK_2);
+
+			boolean bindDomain = false;
+
+			if (domain.isEmpty()) {
+				sb.append(_FINDER_COLUMN_C_C_D_EN_EI_DOMAIN_3);
+			}
+			else {
+				bindDomain = true;
+
+				sb.append(_FINDER_COLUMN_C_C_D_EN_EI_DOMAIN_2);
+			}
+
+			boolean bindEntityName = false;
+
+			if (entityName.isEmpty()) {
+				sb.append(_FINDER_COLUMN_C_C_D_EN_EI_ENTITYNAME_3);
+			}
+			else {
+				bindEntityName = true;
+
+				sb.append(_FINDER_COLUMN_C_C_D_EN_EI_ENTITYNAME_2);
+			}
+
+			boolean bindEntityId = false;
+
+			if (entityId.isEmpty()) {
+				sb.append(_FINDER_COLUMN_C_C_D_EN_EI_ENTITYID_3);
+			}
+			else {
+				bindEntityId = true;
+
+				sb.append(_FINDER_COLUMN_C_C_D_EN_EI_ENTITYID_2);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				queryPos.add(classNameId);
+
+				queryPos.add(classPK);
+
+				if (bindDomain) {
+					queryPos.add(domain);
+				}
+
+				if (bindEntityName) {
+					queryPos.add(entityName);
+				}
+
+				if (bindEntityId) {
+					queryPos.add(entityId);
+				}
+
+				List<ExternalLink> list = query.list();
+
+				if (list.isEmpty()) {
+					if (useFinderCache) {
+						finderCache.putResult(
+							_finderPathFetchByC_C_D_EN_EI, finderArgs, list);
+					}
+				}
+				else {
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							if (!useFinderCache) {
+								finderArgs = new Object[] {
+									classNameId, classPK, domain, entityName,
+									entityId
+								};
+							}
+
+							_log.warn(
+								"ExternalLinkPersistenceImpl.fetchByC_C_D_EN_EI(long, long, String, String, String, boolean) with parameters (" +
+									StringUtil.merge(finderArgs) +
+										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
+					}
+
+					ExternalLink externalLink = list.get(0);
+
+					result = externalLink;
+
+					cacheResult(externalLink);
+				}
+			}
+			catch (Exception exception) {
+				if (useFinderCache) {
+					finderCache.removeResult(
+						_finderPathFetchByC_C_D_EN_EI, finderArgs);
+				}
+
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (ExternalLink)result;
+		}
+	}
+
+	/**
+	 * Removes the external link where classNameId = &#63; and classPK = &#63; and domain = &#63; and entityName = &#63; and entityId = &#63; from the database.
+	 *
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
+	 * @param domain the domain
+	 * @param entityName the entity name
+	 * @param entityId the entity ID
+	 * @return the external link that was removed
+	 */
+	@Override
+	public ExternalLink removeByC_C_D_EN_EI(
+			long classNameId, long classPK, String domain, String entityName,
+			String entityId)
+		throws NoSuchExternalLinkException {
+
+		ExternalLink externalLink = findByC_C_D_EN_EI(
+			classNameId, classPK, domain, entityName, entityId);
+
+		return remove(externalLink);
+	}
+
+	/**
+	 * Returns the number of external links where classNameId = &#63; and classPK = &#63; and domain = &#63; and entityName = &#63; and entityId = &#63;.
+	 *
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
+	 * @param domain the domain
+	 * @param entityName the entity name
+	 * @param entityId the entity ID
+	 * @return the number of matching external links
+	 */
+	@Override
+	public int countByC_C_D_EN_EI(
+		long classNameId, long classPK, String domain, String entityName,
+		String entityId) {
+
+		domain = Objects.toString(domain, "");
+		entityName = Objects.toString(entityName, "");
+		entityId = Objects.toString(entityId, "");
+
+		FinderPath finderPath = _finderPathCountByC_C_D_EN_EI;
+
+		Object[] finderArgs = new Object[] {
+			classNameId, classPK, domain, entityName, entityId
+		};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler sb = new StringBundler(6);
+
+			sb.append(_SQL_COUNT_EXTERNALLINK_WHERE);
+
+			sb.append(_FINDER_COLUMN_C_C_D_EN_EI_CLASSNAMEID_2);
+
+			sb.append(_FINDER_COLUMN_C_C_D_EN_EI_CLASSPK_2);
+
+			boolean bindDomain = false;
+
+			if (domain.isEmpty()) {
+				sb.append(_FINDER_COLUMN_C_C_D_EN_EI_DOMAIN_3);
+			}
+			else {
+				bindDomain = true;
+
+				sb.append(_FINDER_COLUMN_C_C_D_EN_EI_DOMAIN_2);
+			}
+
+			boolean bindEntityName = false;
+
+			if (entityName.isEmpty()) {
+				sb.append(_FINDER_COLUMN_C_C_D_EN_EI_ENTITYNAME_3);
+			}
+			else {
+				bindEntityName = true;
+
+				sb.append(_FINDER_COLUMN_C_C_D_EN_EI_ENTITYNAME_2);
+			}
+
+			boolean bindEntityId = false;
+
+			if (entityId.isEmpty()) {
+				sb.append(_FINDER_COLUMN_C_C_D_EN_EI_ENTITYID_3);
+			}
+			else {
+				bindEntityId = true;
+
+				sb.append(_FINDER_COLUMN_C_C_D_EN_EI_ENTITYID_2);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				queryPos.add(classNameId);
+
+				queryPos.add(classPK);
+
+				if (bindDomain) {
+					queryPos.add(domain);
+				}
+
+				if (bindEntityName) {
+					queryPos.add(entityName);
+				}
+
+				if (bindEntityId) {
+					queryPos.add(entityId);
+				}
+
+				count = (Long)query.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception exception) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_C_C_D_EN_EI_CLASSNAMEID_2 =
+		"externalLink.classNameId = ? AND ";
+
+	private static final String _FINDER_COLUMN_C_C_D_EN_EI_CLASSPK_2 =
+		"externalLink.classPK = ? AND ";
+
+	private static final String _FINDER_COLUMN_C_C_D_EN_EI_DOMAIN_2 =
+		"externalLink.domain = ? AND ";
+
+	private static final String _FINDER_COLUMN_C_C_D_EN_EI_DOMAIN_3 =
+		"(externalLink.domain IS NULL OR externalLink.domain = '') AND ";
+
+	private static final String _FINDER_COLUMN_C_C_D_EN_EI_ENTITYNAME_2 =
+		"externalLink.entityName = ? AND ";
+
+	private static final String _FINDER_COLUMN_C_C_D_EN_EI_ENTITYNAME_3 =
+		"(externalLink.entityName IS NULL OR externalLink.entityName = '') AND ";
+
+	private static final String _FINDER_COLUMN_C_C_D_EN_EI_ENTITYID_2 =
+		"externalLink.entityId = ?";
+
+	private static final String _FINDER_COLUMN_C_C_D_EN_EI_ENTITYID_3 =
+		"(externalLink.entityId IS NULL OR externalLink.entityId = '')";
+
 	public ExternalLinkPersistenceImpl() {
 		setModelClass(ExternalLink.class);
 
@@ -1646,6 +2053,15 @@ public class ExternalLinkPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByExternalLinkKey,
 			new Object[] {externalLink.getExternalLinkKey()}, externalLink);
+
+		finderCache.putResult(
+			_finderPathFetchByC_C_D_EN_EI,
+			new Object[] {
+				externalLink.getClassNameId(), externalLink.getClassPK(),
+				externalLink.getDomain(), externalLink.getEntityName(),
+				externalLink.getEntityId()
+			},
+			externalLink);
 
 		externalLink.resetOriginalValues();
 	}
@@ -1751,6 +2167,19 @@ public class ExternalLinkPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByExternalLinkKey, args, externalLinkModelImpl,
 			false);
+
+		args = new Object[] {
+			externalLinkModelImpl.getClassNameId(),
+			externalLinkModelImpl.getClassPK(),
+			externalLinkModelImpl.getDomain(),
+			externalLinkModelImpl.getEntityName(),
+			externalLinkModelImpl.getEntityId()
+		};
+
+		finderCache.putResult(
+			_finderPathCountByC_C_D_EN_EI, args, Long.valueOf(1), false);
+		finderCache.putResult(
+			_finderPathFetchByC_C_D_EN_EI, args, externalLinkModelImpl, false);
 	}
 
 	protected void clearUniqueFindersCache(
@@ -1774,6 +2203,34 @@ public class ExternalLinkPersistenceImpl
 
 			finderCache.removeResult(_finderPathCountByExternalLinkKey, args);
 			finderCache.removeResult(_finderPathFetchByExternalLinkKey, args);
+		}
+
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+				externalLinkModelImpl.getClassNameId(),
+				externalLinkModelImpl.getClassPK(),
+				externalLinkModelImpl.getDomain(),
+				externalLinkModelImpl.getEntityName(),
+				externalLinkModelImpl.getEntityId()
+			};
+
+			finderCache.removeResult(_finderPathCountByC_C_D_EN_EI, args);
+			finderCache.removeResult(_finderPathFetchByC_C_D_EN_EI, args);
+		}
+
+		if ((externalLinkModelImpl.getColumnBitmask() &
+			 _finderPathFetchByC_C_D_EN_EI.getColumnBitmask()) != 0) {
+
+			Object[] args = new Object[] {
+				externalLinkModelImpl.getOriginalClassNameId(),
+				externalLinkModelImpl.getOriginalClassPK(),
+				externalLinkModelImpl.getOriginalDomain(),
+				externalLinkModelImpl.getOriginalEntityName(),
+				externalLinkModelImpl.getOriginalEntityId()
+			};
+
+			finderCache.removeResult(_finderPathCountByC_C_D_EN_EI, args);
+			finderCache.removeResult(_finderPathFetchByC_C_D_EN_EI, args);
 		}
 	}
 
@@ -2384,6 +2841,29 @@ public class ExternalLinkPersistenceImpl
 			new String[] {
 				Long.class.getName(), String.class.getName(),
 				String.class.getName(), String.class.getName()
+			});
+
+		_finderPathFetchByC_C_D_EN_EI = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled, ExternalLinkImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByC_C_D_EN_EI",
+			new String[] {
+				Long.class.getName(), Long.class.getName(),
+				String.class.getName(), String.class.getName(),
+				String.class.getName()
+			},
+			ExternalLinkModelImpl.CLASSNAMEID_COLUMN_BITMASK |
+			ExternalLinkModelImpl.CLASSPK_COLUMN_BITMASK |
+			ExternalLinkModelImpl.DOMAIN_COLUMN_BITMASK |
+			ExternalLinkModelImpl.ENTITYNAME_COLUMN_BITMASK |
+			ExternalLinkModelImpl.ENTITYID_COLUMN_BITMASK);
+
+		_finderPathCountByC_C_D_EN_EI = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C_D_EN_EI",
+			new String[] {
+				Long.class.getName(), Long.class.getName(),
+				String.class.getName(), String.class.getName(),
+				String.class.getName()
 			});
 
 		_setExternalLinkUtilPersistence(this);

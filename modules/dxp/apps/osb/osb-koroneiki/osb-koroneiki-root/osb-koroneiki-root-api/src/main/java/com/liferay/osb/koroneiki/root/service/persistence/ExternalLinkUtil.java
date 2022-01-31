@@ -593,6 +593,102 @@ public class ExternalLinkUtil {
 	}
 
 	/**
+	 * Returns the external link where classNameId = &#63; and classPK = &#63; and domain = &#63; and entityName = &#63; and entityId = &#63; or throws a <code>NoSuchExternalLinkException</code> if it could not be found.
+	 *
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
+	 * @param domain the domain
+	 * @param entityName the entity name
+	 * @param entityId the entity ID
+	 * @return the matching external link
+	 * @throws NoSuchExternalLinkException if a matching external link could not be found
+	 */
+	public static ExternalLink findByC_C_D_EN_EI(
+			long classNameId, long classPK, String domain, String entityName,
+			String entityId)
+		throws com.liferay.osb.koroneiki.root.exception.
+			NoSuchExternalLinkException {
+
+		return getPersistence().findByC_C_D_EN_EI(
+			classNameId, classPK, domain, entityName, entityId);
+	}
+
+	/**
+	 * Returns the external link where classNameId = &#63; and classPK = &#63; and domain = &#63; and entityName = &#63; and entityId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
+	 * @param domain the domain
+	 * @param entityName the entity name
+	 * @param entityId the entity ID
+	 * @return the matching external link, or <code>null</code> if a matching external link could not be found
+	 */
+	public static ExternalLink fetchByC_C_D_EN_EI(
+		long classNameId, long classPK, String domain, String entityName,
+		String entityId) {
+
+		return getPersistence().fetchByC_C_D_EN_EI(
+			classNameId, classPK, domain, entityName, entityId);
+	}
+
+	/**
+	 * Returns the external link where classNameId = &#63; and classPK = &#63; and domain = &#63; and entityName = &#63; and entityId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
+	 * @param domain the domain
+	 * @param entityName the entity name
+	 * @param entityId the entity ID
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching external link, or <code>null</code> if a matching external link could not be found
+	 */
+	public static ExternalLink fetchByC_C_D_EN_EI(
+		long classNameId, long classPK, String domain, String entityName,
+		String entityId, boolean useFinderCache) {
+
+		return getPersistence().fetchByC_C_D_EN_EI(
+			classNameId, classPK, domain, entityName, entityId, useFinderCache);
+	}
+
+	/**
+	 * Removes the external link where classNameId = &#63; and classPK = &#63; and domain = &#63; and entityName = &#63; and entityId = &#63; from the database.
+	 *
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
+	 * @param domain the domain
+	 * @param entityName the entity name
+	 * @param entityId the entity ID
+	 * @return the external link that was removed
+	 */
+	public static ExternalLink removeByC_C_D_EN_EI(
+			long classNameId, long classPK, String domain, String entityName,
+			String entityId)
+		throws com.liferay.osb.koroneiki.root.exception.
+			NoSuchExternalLinkException {
+
+		return getPersistence().removeByC_C_D_EN_EI(
+			classNameId, classPK, domain, entityName, entityId);
+	}
+
+	/**
+	 * Returns the number of external links where classNameId = &#63; and classPK = &#63; and domain = &#63; and entityName = &#63; and entityId = &#63;.
+	 *
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
+	 * @param domain the domain
+	 * @param entityName the entity name
+	 * @param entityId the entity ID
+	 * @return the number of matching external links
+	 */
+	public static int countByC_C_D_EN_EI(
+		long classNameId, long classPK, String domain, String entityName,
+		String entityId) {
+
+		return getPersistence().countByC_C_D_EN_EI(
+			classNameId, classPK, domain, entityName, entityId);
+	}
+
+	/**
 	 * Caches the external link in the entity cache if it is enabled.
 	 *
 	 * @param externalLink the external link
