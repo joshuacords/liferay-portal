@@ -41,161 +41,6 @@ public interface ProductFieldPersistence extends BasePersistence<ProductField> {
 	 */
 
 	/**
-	 * Returns all the product fields where classNameId = &#63; and name = &#63;.
-	 *
-	 * @param classNameId the class name ID
-	 * @param name the name
-	 * @return the matching product fields
-	 */
-	public java.util.List<ProductField> findByC_N(
-		long classNameId, String name);
-
-	/**
-	 * Returns a range of all the product fields where classNameId = &#63; and name = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ProductFieldModelImpl</code>.
-	 * </p>
-	 *
-	 * @param classNameId the class name ID
-	 * @param name the name
-	 * @param start the lower bound of the range of product fields
-	 * @param end the upper bound of the range of product fields (not inclusive)
-	 * @return the range of matching product fields
-	 */
-	public java.util.List<ProductField> findByC_N(
-		long classNameId, String name, int start, int end);
-
-	/**
-	 * Returns an ordered range of all the product fields where classNameId = &#63; and name = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ProductFieldModelImpl</code>.
-	 * </p>
-	 *
-	 * @param classNameId the class name ID
-	 * @param name the name
-	 * @param start the lower bound of the range of product fields
-	 * @param end the upper bound of the range of product fields (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching product fields
-	 */
-	public java.util.List<ProductField> findByC_N(
-		long classNameId, String name, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<ProductField>
-			orderByComparator);
-
-	/**
-	 * Returns an ordered range of all the product fields where classNameId = &#63; and name = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ProductFieldModelImpl</code>.
-	 * </p>
-	 *
-	 * @param classNameId the class name ID
-	 * @param name the name
-	 * @param start the lower bound of the range of product fields
-	 * @param end the upper bound of the range of product fields (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @param useFinderCache whether to use the finder cache
-	 * @return the ordered range of matching product fields
-	 */
-	public java.util.List<ProductField> findByC_N(
-		long classNameId, String name, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<ProductField>
-			orderByComparator,
-		boolean useFinderCache);
-
-	/**
-	 * Returns the first product field in the ordered set where classNameId = &#63; and name = &#63;.
-	 *
-	 * @param classNameId the class name ID
-	 * @param name the name
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching product field
-	 * @throws NoSuchProductFieldException if a matching product field could not be found
-	 */
-	public ProductField findByC_N_First(
-			long classNameId, String name,
-			com.liferay.portal.kernel.util.OrderByComparator<ProductField>
-				orderByComparator)
-		throws NoSuchProductFieldException;
-
-	/**
-	 * Returns the first product field in the ordered set where classNameId = &#63; and name = &#63;.
-	 *
-	 * @param classNameId the class name ID
-	 * @param name the name
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching product field, or <code>null</code> if a matching product field could not be found
-	 */
-	public ProductField fetchByC_N_First(
-		long classNameId, String name,
-		com.liferay.portal.kernel.util.OrderByComparator<ProductField>
-			orderByComparator);
-
-	/**
-	 * Returns the last product field in the ordered set where classNameId = &#63; and name = &#63;.
-	 *
-	 * @param classNameId the class name ID
-	 * @param name the name
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching product field
-	 * @throws NoSuchProductFieldException if a matching product field could not be found
-	 */
-	public ProductField findByC_N_Last(
-			long classNameId, String name,
-			com.liferay.portal.kernel.util.OrderByComparator<ProductField>
-				orderByComparator)
-		throws NoSuchProductFieldException;
-
-	/**
-	 * Returns the last product field in the ordered set where classNameId = &#63; and name = &#63;.
-	 *
-	 * @param classNameId the class name ID
-	 * @param name the name
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching product field, or <code>null</code> if a matching product field could not be found
-	 */
-	public ProductField fetchByC_N_Last(
-		long classNameId, String name,
-		com.liferay.portal.kernel.util.OrderByComparator<ProductField>
-			orderByComparator);
-
-	/**
-	 * Returns the product fields before and after the current product field in the ordered set where classNameId = &#63; and name = &#63;.
-	 *
-	 * @param productFieldId the primary key of the current product field
-	 * @param classNameId the class name ID
-	 * @param name the name
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next product field
-	 * @throws NoSuchProductFieldException if a product field with the primary key could not be found
-	 */
-	public ProductField[] findByC_N_PrevAndNext(
-			long productFieldId, long classNameId, String name,
-			com.liferay.portal.kernel.util.OrderByComparator<ProductField>
-				orderByComparator)
-		throws NoSuchProductFieldException;
-
-	/**
-	 * Removes all the product fields where classNameId = &#63; and name = &#63; from the database.
-	 *
-	 * @param classNameId the class name ID
-	 * @param name the name
-	 */
-	public void removeByC_N(long classNameId, String name);
-
-	/**
-	 * Returns the number of product fields where classNameId = &#63; and name = &#63;.
-	 *
-	 * @param classNameId the class name ID
-	 * @param name the name
-	 * @return the number of matching product fields
-	 */
-	public int countByC_N(long classNameId, String name);
-
-	/**
 	 * Returns all the product fields where classNameId = &#63; and classPK = &#63;.
 	 *
 	 * @param classNameId the class name ID
@@ -349,6 +194,161 @@ public interface ProductFieldPersistence extends BasePersistence<ProductField> {
 	 * @return the number of matching product fields
 	 */
 	public int countByC_C(long classNameId, long classPK);
+
+	/**
+	 * Returns all the product fields where classNameId = &#63; and name = &#63;.
+	 *
+	 * @param classNameId the class name ID
+	 * @param name the name
+	 * @return the matching product fields
+	 */
+	public java.util.List<ProductField> findByC_N(
+		long classNameId, String name);
+
+	/**
+	 * Returns a range of all the product fields where classNameId = &#63; and name = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ProductFieldModelImpl</code>.
+	 * </p>
+	 *
+	 * @param classNameId the class name ID
+	 * @param name the name
+	 * @param start the lower bound of the range of product fields
+	 * @param end the upper bound of the range of product fields (not inclusive)
+	 * @return the range of matching product fields
+	 */
+	public java.util.List<ProductField> findByC_N(
+		long classNameId, String name, int start, int end);
+
+	/**
+	 * Returns an ordered range of all the product fields where classNameId = &#63; and name = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ProductFieldModelImpl</code>.
+	 * </p>
+	 *
+	 * @param classNameId the class name ID
+	 * @param name the name
+	 * @param start the lower bound of the range of product fields
+	 * @param end the upper bound of the range of product fields (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching product fields
+	 */
+	public java.util.List<ProductField> findByC_N(
+		long classNameId, String name, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<ProductField>
+			orderByComparator);
+
+	/**
+	 * Returns an ordered range of all the product fields where classNameId = &#63; and name = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>ProductFieldModelImpl</code>.
+	 * </p>
+	 *
+	 * @param classNameId the class name ID
+	 * @param name the name
+	 * @param start the lower bound of the range of product fields
+	 * @param end the upper bound of the range of product fields (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching product fields
+	 */
+	public java.util.List<ProductField> findByC_N(
+		long classNameId, String name, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<ProductField>
+			orderByComparator,
+		boolean useFinderCache);
+
+	/**
+	 * Returns the first product field in the ordered set where classNameId = &#63; and name = &#63;.
+	 *
+	 * @param classNameId the class name ID
+	 * @param name the name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching product field
+	 * @throws NoSuchProductFieldException if a matching product field could not be found
+	 */
+	public ProductField findByC_N_First(
+			long classNameId, String name,
+			com.liferay.portal.kernel.util.OrderByComparator<ProductField>
+				orderByComparator)
+		throws NoSuchProductFieldException;
+
+	/**
+	 * Returns the first product field in the ordered set where classNameId = &#63; and name = &#63;.
+	 *
+	 * @param classNameId the class name ID
+	 * @param name the name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching product field, or <code>null</code> if a matching product field could not be found
+	 */
+	public ProductField fetchByC_N_First(
+		long classNameId, String name,
+		com.liferay.portal.kernel.util.OrderByComparator<ProductField>
+			orderByComparator);
+
+	/**
+	 * Returns the last product field in the ordered set where classNameId = &#63; and name = &#63;.
+	 *
+	 * @param classNameId the class name ID
+	 * @param name the name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching product field
+	 * @throws NoSuchProductFieldException if a matching product field could not be found
+	 */
+	public ProductField findByC_N_Last(
+			long classNameId, String name,
+			com.liferay.portal.kernel.util.OrderByComparator<ProductField>
+				orderByComparator)
+		throws NoSuchProductFieldException;
+
+	/**
+	 * Returns the last product field in the ordered set where classNameId = &#63; and name = &#63;.
+	 *
+	 * @param classNameId the class name ID
+	 * @param name the name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching product field, or <code>null</code> if a matching product field could not be found
+	 */
+	public ProductField fetchByC_N_Last(
+		long classNameId, String name,
+		com.liferay.portal.kernel.util.OrderByComparator<ProductField>
+			orderByComparator);
+
+	/**
+	 * Returns the product fields before and after the current product field in the ordered set where classNameId = &#63; and name = &#63;.
+	 *
+	 * @param productFieldId the primary key of the current product field
+	 * @param classNameId the class name ID
+	 * @param name the name
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next product field
+	 * @throws NoSuchProductFieldException if a product field with the primary key could not be found
+	 */
+	public ProductField[] findByC_N_PrevAndNext(
+			long productFieldId, long classNameId, String name,
+			com.liferay.portal.kernel.util.OrderByComparator<ProductField>
+				orderByComparator)
+		throws NoSuchProductFieldException;
+
+	/**
+	 * Removes all the product fields where classNameId = &#63; and name = &#63; from the database.
+	 *
+	 * @param classNameId the class name ID
+	 * @param name the name
+	 */
+	public void removeByC_N(long classNameId, String name);
+
+	/**
+	 * Returns the number of product fields where classNameId = &#63; and name = &#63;.
+	 *
+	 * @param classNameId the class name ID
+	 * @param name the name
+	 * @return the number of matching product fields
+	 */
+	public int countByC_N(long classNameId, String name);
 
 	/**
 	 * Caches the product field in the entity cache if it is enabled.
