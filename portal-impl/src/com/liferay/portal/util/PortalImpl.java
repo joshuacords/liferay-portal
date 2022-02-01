@@ -4749,6 +4749,10 @@ public class PortalImpl implements Portal {
 	public String getPortletTitle(String portletId, Locale locale) {
 		PortletConfig portletConfig = PortletConfigFactoryUtil.get(portletId);
 
+		if (portletConfig == null) {
+			return PortletIdCodec.decodePortletName(portletId);
+		}
+
 		return getPortletTitle(
 			portletId, portletConfig.getResourceBundle(locale));
 	}
