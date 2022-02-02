@@ -161,28 +161,34 @@ name = HtmlUtil.escapeJS(name);
 					itemSelectorDialog.once('selectedItemChange', function(event) {
 						var selectedItem = event.newVal ? event.newVal : value;
 
-						if (
-							selectedItem.returnType ===
-							'com.liferay.item.selector.criteria.FileEntryItemSelectorReturnType'
-						) {
-							try {
-								var itemValue = JSON.parse(selectedItem.value);
+						if (selectedItem) {
+							if (typeof selectedItem === 'object') {
+								if (
+									selectedItem.returnType ===
+									'com.liferay.item.selector.criteria.FileEntryItemSelectorReturnType'
+								) {
+									try {
+										var itemValue = JSON.parse(
+											selectedItem.value
+										);
 
-								var attachmentPrefix =
-									tinymce.activeEditor.settings
-										.attachmentURLPrefix;
+										var attachmentPrefix =
+											tinymce.activeEditor.settings
+												.attachmentURLPrefix;
 
-								selectedItem = attachmentPrefix
-									? attachmentPrefix + itemValue.title
-									: itemValue.url;
+										selectedItem = attachmentPrefix
+											? attachmentPrefix + itemValue.title
+											: itemValue.url;
+									}
+									catch (e) {}
+								}
+								else {
+									selectedItem = selectedItem.value;
+								}
 							}
-							catch (e) {}
-						}
-						else {
-							selectedItem = selectedItem.value;
-						}
 
-						callback(selectedItem);
+							callback(selectedItem);
+						}
 					});
 
 					itemSelectorDialog.open();
