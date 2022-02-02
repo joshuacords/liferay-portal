@@ -23,7 +23,7 @@ import com.liferay.asset.list.service.AssetListEntryLocalService;
 import com.liferay.asset.publisher.util.AssetEntryResult;
 import com.liferay.asset.publisher.util.AssetPublisherHelper;
 import com.liferay.asset.test.util.AssetTestUtil;
-import com.liferay.journal.constants.JournalFolderConstants;
+import com.liferay.journal.model.JournalFolderConstants;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.test.util.JournalTestUtil;
 import com.liferay.layout.test.util.LayoutTestUtil;
