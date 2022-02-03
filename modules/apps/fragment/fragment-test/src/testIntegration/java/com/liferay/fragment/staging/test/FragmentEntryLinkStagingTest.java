@@ -122,7 +122,7 @@ public class FragmentEntryLinkStagingTest {
 		FragmentEntryLink liveFragmentEntryLink =
 			FragmentTestUtil.addFragmentEntryLink(
 				_liveGroup.getGroupId(), liveFragmentEntry.getFragmentEntryId(),
-				_layout.getPlid());
+				PortalUtil.getClassNameId(Layout.class), _layout.getPlid());
 
 		_stagingGroup = FragmentStagingTestUtil.enableLocalStaging(_liveGroup);
 
@@ -152,7 +152,7 @@ public class FragmentEntryLinkStagingTest {
 		FragmentTestUtil.addFragmentEntryLink(
 			_stagingGroup.getGroupId(),
 			newStagingFragmentEntry.getFragmentEntryId(),
-			stagingLayout.getPlid());
+			PortalUtil.getClassNameId(Layout.class), stagingLayout.getPlid());
 
 		FragmentStagingTestUtil.publishLayouts(_stagingGroup, _liveGroup);
 

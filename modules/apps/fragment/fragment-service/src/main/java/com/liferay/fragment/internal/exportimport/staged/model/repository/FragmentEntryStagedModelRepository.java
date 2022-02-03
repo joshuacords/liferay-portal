@@ -32,13 +32,16 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.model.LayoutConstants;
 import com.liferay.portal.kernel.service.LayoutService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.Portal;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -197,7 +200,7 @@ public class FragmentEntryStagedModelRepository
 
 			plids = ArrayUtil.append(plids, layout.getPlid());
 
-			Layout draftLayout = layout.fetchDraftLayout();
+			Layout draftLayout = _fetchDraftLayout(layout);
 
 			if (draftLayout != null) {
 				plids = ArrayUtil.append(plids, draftLayout.getPlid());
@@ -209,7 +212,7 @@ public class FragmentEntryStagedModelRepository
 		for (int i = 0; i < fragmentEntryLinks.size(); i++) {
 			FragmentEntryLink fragmentEntryLink = fragmentEntryLinks.get(i);
 
-			if (ArrayUtil.contains(plids, fragmentEntryLink.getPlid())) {
+			if (ArrayUtil.contains(plids, fragmentEntryLink.getClassPK())) {
 				fragmentEntryLinkIds[i] =
 					fragmentEntryLink.getFragmentEntryLinkId();
 			}
@@ -222,6 +225,20 @@ public class FragmentEntryStagedModelRepository
 			fragmentEntryLinkIds);
 	}
 
+	private Layout _fetchDraftLayout(Layout layout) {
+		if (!Objects.equals(layout.getType(), LayoutConstants.TYPE_CONTENT)) {
+			return null;
+		}
+
+		if ((layout.getClassNameId() == _portal.getClassNameId(Layout.class)) &&
+			(layout.getClassPK() > 0)) {
+
+			return layout;
+		}
+
+		return null;
+	}
+
 	@Reference
 	private FragmentEntryLinkLocalService _fragmentEntryLinkLocalService;
 
@@ -230,6 +247,9 @@ public class FragmentEntryStagedModelRepository
 
 	@Reference
 	private LayoutService _layoutService;
+
+	@Reference
+	private Portal _portal;
 
 	@Reference
 	private StagedModelRepositoryHelper _stagedModelRepositoryHelper;
