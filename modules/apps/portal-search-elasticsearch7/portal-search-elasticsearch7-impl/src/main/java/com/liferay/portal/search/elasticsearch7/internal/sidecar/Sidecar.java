@@ -304,6 +304,10 @@ public class Sidecar {
 		String versionNumber = ResourceUtil.getResourceAsString(
 			getClass(), SidecarVersionConstants.SIDECAR_VERSION_FILE_NAME);
 
+		if (versionNumber.equals("7.17.0")) {
+			return new Elasticsearch_7_17_0_Distribution();
+		}
+
 		if (versionNumber.equals("7.16.3")) {
 			return new Elasticsearch_7_16_3_Distribution();
 		}
