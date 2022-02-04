@@ -2645,7 +2645,9 @@ public class MBMessageLocalServiceImpl extends MBMessageLocalServiceBaseImpl {
 
 		return _configurationProvider.getConfiguration(
 			CommentGroupServiceConfiguration.class,
-			new GroupServiceSettingsLocator(groupId, MBConstants.SERVICE_NAME));
+			new GroupServiceSettingsLocator(
+				groupId, MBConstants.SERVICE_NAME,
+				CommentGroupServiceConfiguration.class.getName()));
 	}
 
 	private long _getFileEntryMessageId(long fileEntryId)
