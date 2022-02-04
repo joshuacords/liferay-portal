@@ -20,13 +20,13 @@ import java.util.List;
 /**
  * @author Joshua Cords
  */
-public class Elasticsearch_7_16_2_Distribution implements Distribution {
+public class ElasticsearchDistribution implements Distribution {
 
 	@Override
 	public Distributable getElasticsearchDistributable() {
 		return new DistributableImpl(
 			"https://artifacts.elastic.co/downloads/elasticsearch" +
-				"/elasticsearch-7.16.2-no-jdk-linux-x86_64.tar.gz",
+				"/elasticsearch-7.17.0-no-jdk-linux-x86_64.tar.gz",
 			_ELASTICSEARCH_CHECKSUM);
 	}
 
@@ -35,40 +35,40 @@ public class Elasticsearch_7_16_2_Distribution implements Distribution {
 		return Arrays.asList(
 			new DistributableImpl(
 				"https://artifacts.elastic.co/downloads/elasticsearch-plugins" +
-					"/analysis-icu/analysis-icu-7.16.2.zip",
+					"/analysis-icu/analysis-icu-7.17.0.zip",
 				_ICU_CHECKSUM),
 			new DistributableImpl(
 				"https://artifacts.elastic.co/downloads/elasticsearch-plugins" +
-					"/analysis-kuromoji/analysis-kuromoji-7.16.2.zip",
+					"/analysis-kuromoji/analysis-kuromoji-7.17.0.zip",
 				_KUROMOJI_CHECKSUM),
 			new DistributableImpl(
 				"https://artifacts.elastic.co/downloads/elasticsearch-plugins" +
-					"/analysis-smartcn/analysis-smartcn-7.16.2.zip",
+					"/analysis-smartcn/analysis-smartcn-7.17.0.zip",
 				_SMARTCN_CHECKSUM),
 			new DistributableImpl(
 				"https://artifacts.elastic.co/downloads/elasticsearch-plugins" +
-					"/analysis-stempel/analysis-stempel-7.16.2.zip",
+					"/analysis-stempel/analysis-stempel-7.17.0.zip",
 				_STEMPEL_CHECKSUM));
 	}
 
 	private static final String _ELASTICSEARCH_CHECKSUM =
-		"4e913e6657501a23830e138d0f7de7de57e80c0953078ecb10565770931bbba0eed3" +
-			"7b38de0888f9618de579138d51ca16f0239048ff70de68330aba862aff8d";
+		"b23f5345631ab7366488fa621d0cb8050ed5a29ac9bf71d9f0689baaa2440e614ea3" +
+			"b34a0f65f8a84593f356da053e52e2ed2624abe76b067fe7f7adeb108565";
 
 	private static final String _ICU_CHECKSUM =
-		"58cea3b004fba73aa67420cfdbe64dde05a515235ba0a8e281ea8c45737f9d79d765" +
-			"3eb716a722eac5694b557235242daea4f1fd4361b2b1772e9305e6182119";
+		"95e7016f35e64234ee504d6476a0e4a969a20c733866352847a01fe5746f9b6122e8" +
+			"925ae57753d8a53c719b6047018b49ddc206a1313082c505b678003fbc50";
 
 	private static final String _KUROMOJI_CHECKSUM =
-		"c7c5b82a887ce9c11bf5d03835340482ad806ba382d9354a2f97283289060712e635" +
-			"d75d889d20e1cdb643701cbd0178762e3a747c6dd0b6331d215a7e0376d8";
+		"c775248a40df8b05a4eefe08c0f7a071aa9da3d211e00936cc6c29e99c1221777788" +
+			"e647dde7960255a3332f7ea09d1ec2a5f4a1255f86b926de8b3577889e22";
 
 	private static final String _SMARTCN_CHECKSUM =
-		"24c483e0b6a4dcf9b3b1c541906f817dd68fd9ca6928f5509235f8b362a66bfa5e50" +
-			"e200c4ab39028af7d8493c56a79f6f8864516c8a3a3e6e030cf8bc00fc28";
+		"0642c0ac8e333468f5ca71de3e756dff7c79fa0687bf900043d77dfce2b1d7de9f25" +
+			"cb756dd8548521deb3ed7c95db98624cd8fd4d3cc01d2a6e25b3d31dc6d9";
 
 	private static final String _STEMPEL_CHECKSUM =
-		"fc3986d3e7c7f1e59c69d6abbb6389962c3ce1130905213e4761a099bc0913cc049d" +
-			"84000488c1664ce9b8603d677b2489689840dcea00f2fdc33bf43b948870";
+		"719dad74f53b3f9c554a6fddfd11e7fa68a2eb690e679f91e151112d243288bf2798" +
+			"11f64714ca6a605fc988adb900da1b0ca477447c35f210c229c60a6361af";
 
 }

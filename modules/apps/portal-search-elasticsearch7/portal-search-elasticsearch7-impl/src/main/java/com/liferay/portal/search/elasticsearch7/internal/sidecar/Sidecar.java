@@ -305,31 +305,7 @@ public class Sidecar {
 			getClass(), SidecarVersionConstants.SIDECAR_VERSION_FILE_NAME);
 
 		if (versionNumber.equals("7.17.0")) {
-			return new Elasticsearch_7_17_0_Distribution();
-		}
-
-		if (versionNumber.equals("7.16.3")) {
-			return new Elasticsearch_7_16_3_Distribution();
-		}
-
-		if (versionNumber.equals("7.16.2")) {
-			return new Elasticsearch_7_16_2_Distribution();
-		}
-
-		if (versionNumber.equals("7.10.2")) {
-			return new Elasticsearch_7_10_2_Distribution();
-		}
-
-		if (versionNumber.equals("7.9.0")) {
-			return new Elasticsearch790Distribution();
-		}
-
-		if (versionNumber.equals("7.7.0")) {
-			return new Elasticsearch770Distribution();
-		}
-
-		if (versionNumber.equals("7.3.0")) {
-			return new Elasticsearch730Distribution();
+			return new ElasticsearchDistribution();
 		}
 
 		throw new IllegalArgumentException(
