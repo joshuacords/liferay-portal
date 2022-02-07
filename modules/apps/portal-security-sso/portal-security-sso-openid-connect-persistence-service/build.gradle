@@ -9,6 +9,7 @@ dependencies {
 	compileOnly project(":apps:portal-security-sso:portal-security-sso-openid-connect-persistence-api")
 	compileOnly project(":apps:portal:portal-aop-api")
 	compileOnly project(":core:petra:petra-function")
+	compileOnly project(":apps:static:portal:portal-upgrade-api")
 	compileOnly project(":core:petra:petra-lang")
 	compileOnly project(":core:petra:petra-string")
 	compileOnly project(":core:registry-api")
