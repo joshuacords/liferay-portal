@@ -9576,6 +9576,7 @@ session.cookie.use.full.hostname=true
 			ignore.errors.file.name=${project.dir}/portal-web/test-ignorable-error-lines.xml
 			ip.address=${ip.address}
 			liferay.home.dir.name=${liferay.home}
+			logger.resources.url=${test.poshi.logger.resources.url}
 			output.dir.name=${selenium.output.dir.name}
 			product.names=${product.names}
 			project.dir=${project.dir}
