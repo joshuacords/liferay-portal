@@ -1611,6 +1611,10 @@ definition {
 			permissionDefinitionKey = "CONTENT_PERMISSIONS_DELETE_CHECKBOX",
 			roleTitle = "Guest");
 
+		Role.definePermissionPG(
+			permissionDefinitionKey = "CONTENT_PERMISSIONS_VIEW_CHECKBOX",
+			roleTitle = "Guest");
+
 		Navigator.gotoPage(pageName = "Data Definition Page Name");
 
 		ProductMenu.gotoPortlet(
