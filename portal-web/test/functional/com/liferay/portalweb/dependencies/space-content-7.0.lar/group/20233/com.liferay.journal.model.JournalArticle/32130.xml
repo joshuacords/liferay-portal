@@ -1,0 +1,102 @@
+<JournalArticle>
+  <__cachedModel>false</__cachedModel>
+  <__new>false</__new>
+  <__uuid>4a7c529f-0d85-0418-93da-9945f48f0a96</__uuid>
+  <__originalUuid>4a7c529f-0d85-0418-93da-9945f48f0a96</__originalUuid>
+  <__id>32130</__id>
+  <__resourcePrimKey>31828</__resourcePrimKey>
+  <__originalResourcePrimKey>31828</__originalResourcePrimKey>
+  <__setOriginalResourcePrimKey>false</__setOriginalResourcePrimKey>
+  <__groupId>20233</__groupId>
+  <__originalGroupId>20233</__originalGroupId>
+  <__setOriginalGroupId>false</__setOriginalGroupId>
+  <__companyId>20202</__companyId>
+  <__originalCompanyId>20202</__originalCompanyId>
+  <__setOriginalCompanyId>false</__setOriginalCompanyId>
+  <__userId>20250</__userId>
+  <__originalUserId>20250</__originalUserId>
+  <__setOriginalUserId>false</__setOriginalUserId>
+  <__userName>Space Admin</__userName>
+  <__createDate class="sql-timestamp">2016-05-12 21:10:00.285</__createDate>
+  <__modifiedDate class="sql-timestamp">2016-05-12 23:13:15.198</__modifiedDate>
+  <__setModifiedDate>false</__setModifiedDate>
+  <__folderId>31885</__folderId>
+  <__originalFolderId>31885</__originalFolderId>
+  <__setOriginalFolderId>false</__setOriginalFolderId>
+  <__classNameId>0</__classNameId>
+  <__originalClassNameId>0</__originalClassNameId>
+  <__setOriginalClassNameId>false</__setOriginalClassNameId>
+  <__classPK>0</__classPK>
+  <__originalClassPK>0</__originalClassPK>
+  <__setOriginalClassPK>false</__setOriginalClassPK>
+  <__treePath>/31885/</__treePath>
+  <__articleId>31826</__articleId>
+  <__originalArticleId>31826</__originalArticleId>
+  <__version>1.4</__version>
+  <__originalVersion>1.4</__originalVersion>
+  <__setOriginalVersion>false</__setOriginalVersion>
+  <__title>&lt;?xml version=&apos;1.0&apos; encoding=&apos;UTF-8&apos;?&gt;&lt;root available-locales=&quot;en_US&quot; default-locale=&quot;en_US&quot;&gt;&lt;Title language-id=&quot;en_US&quot;&gt;About S.P.A.C.E.&lt;/Title&gt;&lt;/root&gt;</__title>
+  <__urlTitle>3-col-test</__urlTitle>
+  <__originalUrlTitle>3-col-test</__originalUrlTitle>
+  <__description></__description>
+  <__content>&lt;?xml version=&quot;1.0&quot;?&gt;
+
+&lt;root available-locales=&quot;en_US&quot; default-locale=&quot;en_US&quot;&gt;
+	&lt;dynamic-element name=&quot;title&quot; type=&quot;text_box&quot; index-type=&quot;keyword&quot; instance-id=&quot;pvtn&quot;&gt;
+		&lt;dynamic-content language-id=&quot;en_US&quot;&gt;&lt;![CDATA[Who Will You Become?]]&gt;&lt;/dynamic-content&gt;
+	&lt;/dynamic-element&gt;
+	&lt;dynamic-element name=&quot;image1&quot; type=&quot;image&quot; index-type=&quot;keyword&quot; instance-id=&quot;yeja&quot;&gt;
+		&lt;dynamic-content language-id=&quot;en_US&quot; alt=&quot;&quot; name=&quot;dream (1).jpg&quot; title=&quot;dream (1).jpg&quot; type=&quot;document&quot;&gt;&lt;![CDATA[[$dl-reference=/group/20233/com.liferay.document.library.kernel.model.DLFileEntry/32028.xml$]]]&gt;&lt;/dynamic-content&gt;
+	&lt;/dynamic-element&gt;
+	&lt;dynamic-element name=&quot;heading1&quot; type=&quot;text_box&quot; index-type=&quot;keyword&quot; instance-id=&quot;xoqj&quot;&gt;
+		&lt;dynamic-content language-id=&quot;en_US&quot;&gt;&lt;![CDATA[Dream even bigger]]&gt;&lt;/dynamic-content&gt;
+	&lt;/dynamic-element&gt;
+	&lt;dynamic-element name=&quot;content1&quot; type=&quot;text_box&quot; index-type=&quot;keyword&quot; instance-id=&quot;lqcd&quot;&gt;
+		&lt;dynamic-content language-id=&quot;en_US&quot;&gt;&lt;![CDATA[Think your dreams are too lofty? We’ll raise you twenty and bet that classes with our award-winning faculty will illuminate possibilities you haven’t even considered. The sky is no longer the limit.]]&gt;&lt;/dynamic-content&gt;
+	&lt;/dynamic-element&gt;
+	&lt;dynamic-element name=&quot;image2&quot; type=&quot;image&quot; index-type=&quot;keyword&quot; instance-id=&quot;rwuo&quot;&gt;
+		&lt;dynamic-content language-id=&quot;en_US&quot; alt=&quot;&quot; name=&quot;future.jpg&quot; title=&quot;future.jpg&quot; type=&quot;document&quot;&gt;&lt;![CDATA[[$dl-reference=/group/20233/com.liferay.document.library.kernel.model.DLFileEntry/32014.xml$]]]&gt;&lt;/dynamic-content&gt;
+	&lt;/dynamic-element&gt;
+	&lt;dynamic-element name=&quot;heading2&quot; type=&quot;text_box&quot; index-type=&quot;keyword&quot; instance-id=&quot;vvmd&quot;&gt;
+		&lt;dynamic-content language-id=&quot;en_US&quot;&gt;&lt;![CDATA[Find your future]]&gt;&lt;/dynamic-content&gt;
+	&lt;/dynamic-element&gt;
+	&lt;dynamic-element name=&quot;content2&quot; type=&quot;text_box&quot; index-type=&quot;keyword&quot; instance-id=&quot;dipj&quot;&gt;
+		&lt;dynamic-content language-id=&quot;en_US&quot;&gt;&lt;![CDATA[S.P.A.C.E. is a vocation-minded school for vocation-minded students. We believe in helping you reach new heights, unlock your potential, and discover your passion.]]&gt;&lt;/dynamic-content&gt;
+	&lt;/dynamic-element&gt;
+	&lt;dynamic-element name=&quot;image3&quot; type=&quot;image&quot; index-type=&quot;keyword&quot; instance-id=&quot;vvnd&quot;&gt;
+		&lt;dynamic-content language-id=&quot;en_US&quot; alt=&quot;&quot; name=&quot;lift-off.jpg&quot; title=&quot;lift-off.jpg&quot; type=&quot;document&quot;&gt;&lt;![CDATA[[$dl-reference=/group/20233/com.liferay.document.library.kernel.model.DLFileEntry/32000.xml$]]]&gt;&lt;/dynamic-content&gt;
+	&lt;/dynamic-element&gt;
+	&lt;dynamic-element name=&quot;heading3&quot; type=&quot;text_box&quot; index-type=&quot;keyword&quot; instance-id=&quot;xter&quot;&gt;
+		&lt;dynamic-content language-id=&quot;en_US&quot;&gt;&lt;![CDATA[Prepare for lift-off]]&gt;&lt;/dynamic-content&gt;
+	&lt;/dynamic-element&gt;
+	&lt;dynamic-element name=&quot;content3&quot; type=&quot;text_box&quot; index-type=&quot;keyword&quot; instance-id=&quot;avnq&quot;&gt;
+		&lt;dynamic-content language-id=&quot;en_US&quot;&gt;&lt;![CDATA[We don’t just teach you—we equip you to take on the real-life challenges of being an… Astronaut? Aeronautics engineer? AI expert? You get to fill in the blank.]]&gt;&lt;/dynamic-content&gt;
+	&lt;/dynamic-element&gt;
+	&lt;dynamic-element name=&quot;Image6kp8&quot; type=&quot;image&quot; index-type=&quot;keyword&quot; instance-id=&quot;mnco&quot;&gt;
+		&lt;dynamic-content language-id=&quot;en_US&quot;&gt;&lt;/dynamic-content&gt;
+	&lt;/dynamic-element&gt;
+&lt;/root&gt;</__content>
+  <__DDMStructureKey>32440</__DDMStructureKey>
+  <__originalDDMStructureKey>32440</__originalDDMStructureKey>
+  <__DDMTemplateKey>32448</__DDMTemplateKey>
+  <__originalDDMTemplateKey>32448</__originalDDMTemplateKey>
+  <__layoutUuid></__layoutUuid>
+  <__originalLayoutUuid></__originalLayoutUuid>
+  <__displayDate class="sql-timestamp">2016-05-12 21:06:00.0</__displayDate>
+  <__originalDisplayDate class="sql-timestamp" reference="../__displayDate"/>
+  <__indexable>true</__indexable>
+  <__originalIndexable>true</__originalIndexable>
+  <__setOriginalIndexable>false</__setOriginalIndexable>
+  <__smallImage>false</__smallImage>
+  <__smallImageId>0</__smallImageId>
+  <__originalSmallImageId>0</__originalSmallImageId>
+  <__setOriginalSmallImageId>false</__setOriginalSmallImageId>
+  <__smallImageURL></__smallImageURL>
+  <__status>0</__status>
+  <__originalStatus>0</__originalStatus>
+  <__setOriginalStatus>false</__setOriginalStatus>
+  <__statusByUserId>20250</__statusByUserId>
+  <__statusByUserName>Space Admin</__statusByUserName>
+  <__statusDate class="sql-timestamp">2016-05-12 23:13:15.198</__statusDate>
+  <__columnBitmask>0</__columnBitmask>
+</JournalArticle>

@@ -1,0 +1,81 @@
+<DDMTemplate>
+  <__cachedModel>false</__cachedModel>
+  <__new>false</__new>
+  <__uuid>b485f346-9ee9-abce-1711-36798f6ad97c</__uuid>
+  <__originalUuid>b485f346-9ee9-abce-1711-36798f6ad97c</__originalUuid>
+  <__templateId>31787</__templateId>
+  <__groupId>20233</__groupId>
+  <__originalGroupId>20233</__originalGroupId>
+  <__setOriginalGroupId>false</__setOriginalGroupId>
+  <__companyId>20202</__companyId>
+  <__originalCompanyId>20202</__originalCompanyId>
+  <__setOriginalCompanyId>false</__setOriginalCompanyId>
+  <__userId>20250</__userId>
+  <__userName>Space Admin</__userName>
+  <__versionUserId>20250</__versionUserId>
+  <__versionUserName>Space Admin</__versionUserName>
+  <__createDate class="sql-timestamp">2016-05-12 20:26:57.41</__createDate>
+  <__modifiedDate class="sql-timestamp">2016-05-12 22:29:36.937</__modifiedDate>
+  <__setModifiedDate>false</__setModifiedDate>
+  <__classNameId>30805</__classNameId>
+  <__originalClassNameId>30805</__originalClassNameId>
+  <__setOriginalClassNameId>false</__setOriginalClassNameId>
+  <__classPK>31766</__classPK>
+  <__originalClassPK>31766</__originalClassPK>
+  <__setOriginalClassPK>false</__setOriginalClassPK>
+  <__resourceClassNameId>31029</__resourceClassNameId>
+  <__templateKey>32368</__templateKey>
+  <__originalTemplateKey>32368</__originalTemplateKey>
+  <__version>1.2</__version>
+  <__name>&lt;?xml version=&apos;1.0&apos; encoding=&apos;UTF-8&apos;?&gt;&lt;root available-locales=&quot;en_US&quot; default-locale=&quot;en_US&quot;&gt;&lt;Name language-id=&quot;en_US&quot;&gt;Footer Template&lt;/Name&gt;&lt;/root&gt;</__name>
+  <__description></__description>
+  <__type>display</__type>
+  <__originalType>display</__originalType>
+  <__mode></__mode>
+  <__originalMode></__originalMode>
+  <__language>ftl</__language>
+  <__originalLanguage>ftl</__originalLanguage>
+  <__script>&lt;style&gt;
+div.padding{
+    background-image: url(${bgimage.getData()});
+    padding-top: 50px;
+    padding-left: 50px;
+    padding-bottom: 50px;
+}
+
+&lt;/style&gt;
+
+&lt;div class=&quot;padding&quot;&gt;
+&lt;table&gt;
+  &lt;colgroup&gt;
+    &lt;col style=&quot;width: 33%&quot; /&gt;
+    &lt;col style=&quot;width: 5%&quot; /&gt;
+    &lt;col style=&quot;width: 40%&quot; /&gt;
+    &lt;col style=&quot;width: 22%&quot; /&gt;
+  &lt;/colgroup&gt;
+  &lt;tr&gt;
+    &lt;td&gt;
+    &lt;#if image.getData()?? &amp;&amp; image.getData() != &quot;&quot;&gt;
+	&lt;img alt=&quot;${image.getAttribute(&quot;alt&quot;)}&quot; src=&quot;${image.getData()}&quot; /&gt;
+&lt;/#if&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+        &lt;h2&gt;${heading.getData()}&lt;/h2&gt;
+        &lt;p&gt;${text.getData()}&lt;/p&gt;
+        &lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot;&gt;Apply Now!&lt;/button&gt;
+    &lt;/td&gt;
+    &lt;td&gt;
+    &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;</__script>
+  <__cacheable>false</__cacheable>
+  <__smallImage>false</__smallImage>
+  <__smallImageId>31788</__smallImageId>
+  <__originalSmallImageId>31788</__originalSmallImageId>
+  <__setOriginalSmallImageId>false</__setOriginalSmallImageId>
+  <__smallImageURL></__smallImageURL>
+  <__columnBitmask>0</__columnBitmask>
+</DDMTemplate>

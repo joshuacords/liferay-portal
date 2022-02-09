@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<JournalPortletDataHandler group-id="41251">
+	<DDMTemplate>
+		<staged-model group-id="41251" uuid="eabe1e49-d0da-4f5e-8a02-96434e823080" resource-class-name="com.liferay.journal.model.JournalArticle" path="/group/41251/com.liferay.dynamic.data.mapping.model.DDMTemplate/41258.xml" attached-class-name="com.liferay.dynamic.data.mapping.model.DDMStructure"/>
+		<staged-model group-id="41251" uuid="f4f3942c-71a8-6816-d010-2b3fe7637397" resource-class-name="com.liferay.journal.model.JournalArticle" path="/group/41251/com.liferay.dynamic.data.mapping.model.DDMTemplate/41262.xml" attached-class-name="com.liferay.dynamic.data.mapping.model.DDMStructure"/>
+		<staged-model group-id="41251" uuid="6764da5d-ede5-4b2d-aa64-97cfdd1404ac" resource-class-name="com.liferay.journal.model.JournalArticle" path="/group/41251/com.liferay.dynamic.data.mapping.model.DDMTemplate/41266.xml" attached-class-name="com.liferay.dynamic.data.mapping.model.DDMStructure"/>
+	</DDMTemplate>
+</JournalPortletDataHandler>

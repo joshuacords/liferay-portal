@@ -1,0 +1,81 @@
+<JournalArticle>
+  <__cachedModel>false</__cachedModel>
+  <__new>false</__new>
+  <__uuid>831ce191-bc1e-9d90-da54-a3147b956328</__uuid>
+  <__originalUuid>831ce191-bc1e-9d90-da54-a3147b956328</__originalUuid>
+  <__id>31975</__id>
+  <__resourcePrimKey>31976</__resourcePrimKey>
+  <__originalResourcePrimKey>31976</__originalResourcePrimKey>
+  <__setOriginalResourcePrimKey>false</__setOriginalResourcePrimKey>
+  <__groupId>20233</__groupId>
+  <__originalGroupId>20233</__originalGroupId>
+  <__setOriginalGroupId>false</__setOriginalGroupId>
+  <__companyId>20202</__companyId>
+  <__originalCompanyId>20202</__originalCompanyId>
+  <__setOriginalCompanyId>false</__setOriginalCompanyId>
+  <__userId>20250</__userId>
+  <__originalUserId>20250</__originalUserId>
+  <__setOriginalUserId>false</__setOriginalUserId>
+  <__userName>Space Admin</__userName>
+  <__createDate class="sql-timestamp">2016-05-12 22:03:34.03</__createDate>
+  <__modifiedDate class="sql-timestamp">2016-05-12 22:03:34.039</__modifiedDate>
+  <__setModifiedDate>false</__setModifiedDate>
+  <__folderId>31885</__folderId>
+  <__originalFolderId>31885</__originalFolderId>
+  <__setOriginalFolderId>false</__setOriginalFolderId>
+  <__classNameId>0</__classNameId>
+  <__originalClassNameId>0</__originalClassNameId>
+  <__setOriginalClassNameId>false</__setOriginalClassNameId>
+  <__classPK>0</__classPK>
+  <__originalClassPK>0</__originalClassPK>
+  <__setOriginalClassPK>false</__setOriginalClassPK>
+  <__treePath>/31885/</__treePath>
+  <__articleId>31974</__articleId>
+  <__originalArticleId>31974</__originalArticleId>
+  <__version>1.0</__version>
+  <__originalVersion>1.0</__originalVersion>
+  <__setOriginalVersion>false</__setOriginalVersion>
+  <__title>&lt;?xml version=&apos;1.0&apos; encoding=&apos;UTF-8&apos;?&gt;&lt;root available-locales=&quot;en_US&quot; default-locale=&quot;en_US&quot;&gt;&lt;Title language-id=&quot;en_US&quot;&gt;S.P.A.C.E. Banner&lt;/Title&gt;&lt;/root&gt;</__title>
+  <__urlTitle>s-p-a-c-e-banner</__urlTitle>
+  <__originalUrlTitle>s-p-a-c-e-banner</__originalUrlTitle>
+  <__description></__description>
+  <__content>&lt;?xml version=&quot;1.0&quot;?&gt;
+
+&lt;root available-locales=&quot;en_US&quot; default-locale=&quot;en_US&quot;&gt;
+	&lt;dynamic-element name=&quot;title&quot; type=&quot;text_box&quot; index-type=&quot;keyword&quot; instance-id=&quot;htkb&quot;&gt;
+		&lt;dynamic-content language-id=&quot;en_US&quot;&gt;&lt;![CDATA[Space Program Academy of Continuing Education]]&gt;&lt;/dynamic-content&gt;
+	&lt;/dynamic-element&gt;
+	&lt;dynamic-element name=&quot;heading1&quot; type=&quot;text_box&quot; index-type=&quot;keyword&quot; instance-id=&quot;zhts&quot;&gt;
+		&lt;dynamic-content language-id=&quot;en_US&quot;&gt;&lt;![CDATA[Dare to dream out of this world.]]&gt;&lt;/dynamic-content&gt;
+	&lt;/dynamic-element&gt;
+	&lt;dynamic-element name=&quot;content1&quot; type=&quot;text_box&quot; index-type=&quot;keyword&quot; instance-id=&quot;opxh&quot;&gt;
+		&lt;dynamic-content language-id=&quot;en_US&quot;&gt;&lt;![CDATA[]]&gt;&lt;/dynamic-content&gt;
+	&lt;/dynamic-element&gt;
+	&lt;dynamic-element name=&quot;Image6kp8&quot; type=&quot;image&quot; index-type=&quot;keyword&quot; instance-id=&quot;drxx&quot;&gt;
+		&lt;dynamic-content language-id=&quot;en_US&quot; alt=&quot;&quot; name=&quot;Spaceport.jpg&quot; title=&quot;Spaceport.jpg&quot; type=&quot;document&quot;&gt;&lt;![CDATA[[$dl-reference=/group/20233/com.liferay.document.library.kernel.model.DLFileEntry/31960.xml$]]]&gt;&lt;/dynamic-content&gt;
+	&lt;/dynamic-element&gt;
+&lt;/root&gt;</__content>
+  <__DDMStructureKey>31770</__DDMStructureKey>
+  <__originalDDMStructureKey>31770</__originalDDMStructureKey>
+  <__DDMTemplateKey>31797</__DDMTemplateKey>
+  <__originalDDMTemplateKey>31797</__originalDDMTemplateKey>
+  <__layoutUuid></__layoutUuid>
+  <__originalLayoutUuid></__originalLayoutUuid>
+  <__displayDate class="sql-timestamp">2016-05-12 22:02:00.0</__displayDate>
+  <__originalDisplayDate class="sql-timestamp" reference="../__displayDate"/>
+  <__indexable>true</__indexable>
+  <__originalIndexable>true</__originalIndexable>
+  <__setOriginalIndexable>false</__setOriginalIndexable>
+  <__smallImage>false</__smallImage>
+  <__smallImageId>31977</__smallImageId>
+  <__originalSmallImageId>31977</__originalSmallImageId>
+  <__setOriginalSmallImageId>false</__setOriginalSmallImageId>
+  <__smallImageURL></__smallImageURL>
+  <__status>0</__status>
+  <__originalStatus>0</__originalStatus>
+  <__setOriginalStatus>false</__setOriginalStatus>
+  <__statusByUserId>20250</__statusByUserId>
+  <__statusByUserName>Space Admin</__statusByUserName>
+  <__statusDate class="sql-timestamp">2016-05-12 22:03:34.039</__statusDate>
+  <__columnBitmask>0</__columnBitmask>
+</JournalArticle>

@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+
+<expando-tables>
+	<expando-table class-name="com.liferay.dynamic.data.mapping.model.DDMTemplate"/>
+	<expando-table class-name="com.liferay.journal.model.JournalArticle"/>
+	<expando-table class-name="com.liferay.dynamic.data.mapping.model.DDMStructure"/>
+</expando-tables>

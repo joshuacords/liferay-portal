@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+
+<AssetCategoryPortletDataHandler group-id="31550">
+	<AssetVocabulary>
+		<staged-model group-id="31550" uuid="83cf5974-9bbc-567e-0416-307ecdc5b793" path="/group/31550/com.liferay.asset.kernel.model.AssetVocabulary/31586.xml">
+			<references>
+				<reference class-name="com.liferay.asset.kernel.model.AssetVocabulary" class-pk="31586" group-id="31550" live-group-id="31550" type="dependency" uuid="83cf5974-9bbc-567e-0416-307ecdc5b793" company-id="20116" missing="false"/>
+			</references>
+		</staged-model>
+		<staged-model group-id="31550" uuid="d737162f-ef88-13e9-41b0-80166718e11c" path="/group/31550/com.liferay.asset.kernel.model.AssetVocabulary/31587.xml">
+			<references>
+				<reference class-name="com.liferay.asset.kernel.model.AssetVocabulary" class-pk="31587" group-id="31550" live-group-id="31550" type="dependency" uuid="d737162f-ef88-13e9-41b0-80166718e11c" company-id="20116" missing="false"/>
+			</references>
+		</staged-model>
+		<staged-model group-id="31550" uuid="3bed7454-3287-0a3b-a2df-65111c4847eb" path="/group/31550/com.liferay.asset.kernel.model.AssetVocabulary/31588.xml">
+			<references>
+				<reference class-name="com.liferay.asset.kernel.model.AssetVocabulary" class-pk="31588" group-id="31550" live-group-id="31550" type="dependency" uuid="3bed7454-3287-0a3b-a2df-65111c4847eb" company-id="20116" missing="false"/>
+			</references>
+		</staged-model>
+		<staged-model group-id="31550" uuid="550aeab6-e53b-8859-f063-8da4348ee2a5" path="/group/31550/com.liferay.asset.kernel.model.AssetVocabulary/31589.xml">
+			<references>
+				<reference class-name="com.liferay.asset.kernel.model.AssetVocabulary" class-pk="31589" group-id="31550" live-group-id="31550" type="dependency" uuid="550aeab6-e53b-8859-f063-8da4348ee2a5" company-id="20116" missing="false"/>
+			</references>
+		</staged-model>
+		<staged-model group-id="31550" uuid="df58a2ab-b930-cc4d-2736-9d74b2013280" path="/group/31550/com.liferay.asset.kernel.model.AssetVocabulary/31590.xml">
+			<references>
+				<reference class-name="com.liferay.asset.kernel.model.AssetVocabulary" class-pk="31590" group-id="31550" live-group-id="31550" type="dependency" uuid="df58a2ab-b930-cc4d-2736-9d74b2013280" company-id="20116" missing="false"/>
+			</references>
+		</staged-model>
+		<staged-model group-id="31550" uuid="daae8337-2b1b-120d-f580-d1d265fa984f" path="/group/31550/com.liferay.asset.kernel.model.AssetVocabulary/31591.xml">
+			<references>
+				<reference class-name="com.liferay.asset.kernel.model.AssetVocabulary" class-pk="31591" group-id="31550" live-group-id="31550" type="dependency" uuid="daae8337-2b1b-120d-f580-d1d265fa984f" company-id="20116" missing="false"/>
+			</references>
+		</staged-model>
+		<staged-model group-id="31550" uuid="b6610698-9c1b-1d94-ce2c-6ca8377af01c" path="/group/31550/com.liferay.asset.kernel.model.AssetVocabulary/31592.xml">
+			<references>
+				<reference class-name="com.liferay.asset.kernel.model.AssetVocabulary" class-pk="31592" group-id="31550" live-group-id="31550" type="dependency" uuid="b6610698-9c1b-1d94-ce2c-6ca8377af01c" company-id="20116" missing="false"/>
+			</references>
+		</staged-model>
+		<staged-model group-id="31550" uuid="037a6dd1-9d1c-b218-8970-734bb2d34b42" path="/group/31550/com.liferay.asset.kernel.model.AssetVocabulary/31593.xml">
+			<references>
+				<reference class-name="com.liferay.asset.kernel.model.AssetVocabulary" class-pk="31593" group-id="31550" live-group-id="31550" type="dependency" uuid="037a6dd1-9d1c-b218-8970-734bb2d34b42" company-id="20116" missing="false"/>
+			</references>
+		</staged-model>
+		<staged-model group-id="31550" uuid="452b783a-cddb-9efa-0040-926e536d6fca" path="/group/31550/com.liferay.asset.kernel.model.AssetVocabulary/31594.xml">
+			<references>
+				<reference class-name="com.liferay.asset.kernel.model.AssetVocabulary" class-pk="31594" group-id="31550" live-group-id="31550" type="dependency" uuid="452b783a-cddb-9efa-0040-926e536d6fca" company-id="20116" missing="false"/>
+			</references>
+		</staged-model>
+		<staged-model group-id="31550" uuid="27f3c492-cb80-6c73-945b-f7129f9b132a" path="/group/31550/com.liferay.asset.kernel.model.AssetVocabulary/31595.xml">
+			<references>
+				<reference class-name="com.liferay.asset.kernel.model.AssetVocabulary" class-pk="31595" group-id="31550" live-group-id="31550" type="dependency" uuid="27f3c492-cb80-6c73-945b-f7129f9b132a" company-id="20116" missing="false"/>
+			</references>
+		</staged-model>
+		<staged-model group-id="31550" uuid="33823582-efea-52e2-bb65-1b6551156561" path="/group/31550/com.liferay.asset.kernel.model.AssetVocabulary/31596.xml">
+			<references>
+				<reference class-name="com.liferay.asset.kernel.model.AssetVocabulary" class-pk="31596" group-id="31550" live-group-id="31550" type="dependency" uuid="33823582-efea-52e2-bb65-1b6551156561" company-id="20116" missing="false"/>
+			</references>
+		</staged-model>
+		<staged-model group-id="31550" uuid="88339185-1a4e-ceb0-169f-588d9fd89458" path="/group/31550/com.liferay.asset.kernel.model.AssetVocabulary/31597.xml">
+			<references>
+				<reference class-name="com.liferay.asset.kernel.model.AssetVocabulary" class-pk="31597" group-id="31550" live-group-id="31550" type="dependency" uuid="88339185-1a4e-ceb0-169f-588d9fd89458" company-id="20116" missing="false"/>
+			</references>
+		</staged-model>
+		<staged-model group-id="31550" uuid="2fb00d00-4598-120c-e6c0-f72d116b30ce" path="/group/31550/com.liferay.asset.kernel.model.AssetVocabulary/31598.xml">
+			<references>
+				<reference class-name="com.liferay.asset.kernel.model.AssetVocabulary" class-pk="31598" group-id="31550" live-group-id="31550" type="dependency" uuid="2fb00d00-4598-120c-e6c0-f72d116b30ce" company-id="20116" missing="false"/>
+			</references>
+		</staged-model>
+		<staged-model group-id="31550" uuid="42c47e75-dfce-de98-3591-bcdff2cf4336" path="/group/31550/com.liferay.asset.kernel.model.AssetVocabulary/31599.xml">
+			<references>
+				<reference class-name="com.liferay.asset.kernel.model.AssetVocabulary" class-pk="31599" group-id="31550" live-group-id="31550" type="dependency" uuid="42c47e75-dfce-de98-3591-bcdff2cf4336" company-id="20116" missing="false"/>
+			</references>
+		</staged-model>
+	</AssetVocabulary>
+</AssetCategoryPortletDataHandler>

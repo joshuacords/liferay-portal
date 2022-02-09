@@ -1,0 +1,1 @@
+{"availableLanguageIds":["en_US"],"defaultLanguageId":"en_US","fields":[{"dataType":"string","predefinedValue":{"en_US":""},"readOnly":false,"label":{"en_US":"Content"},"type":"textarea","required":false,"showLabel":true,"fieldNamespace":"","visibilityExpression":"","indexType":"keyword","repeatable":false,"name":"content","localizable":true,"tip":{"en_US":""},"validation":{}}]}

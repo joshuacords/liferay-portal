@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<root>
+	<header available-locales="zh_CN,es_ES,ja_JP,nl_NL,hu_HU,pt_BR,de_DE,iw_IL,fi_FI,ca_ES,fr_FR,en_US" build-number="7010" export-date="Fri, 06 Jan 2017 21:42:13 +0000" type="portlet" company-id="20116" company-group-id="20160" group-id="31550" user-personal-site-group-id="20157" private-layout="true" root-portlet-id="com_liferay_asset_categories_admin_web_portlet_AssetCategoriesAdminPortlet"/>
+	<missing-references/>
+	<portlet portlet-id="com_liferay_asset_categories_admin_web_portlet_AssetCategoriesAdminPortlet" layout-id="1" path="/group/31550/portlet/com_liferay_asset_categories_admin_web_portlet_AssetCategoriesAdminPortlet/20137/portlet.xml" portlet-data="true" schema-version="1.0.0" portlet-configuration="setup"/>
+	<manifest-summary>
+		<staged-model manifest-summary-key="com.liferay.asset.kernel.model.AssetCategory"/>
+		<staged-model manifest-summary-key="com.liferay.asset.kernel.model.AssetVocabulary" addition-count="14"/>
+	</manifest-summary>
+</root>

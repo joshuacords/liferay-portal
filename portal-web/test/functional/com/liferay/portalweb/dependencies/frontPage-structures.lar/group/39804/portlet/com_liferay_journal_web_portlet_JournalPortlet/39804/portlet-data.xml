@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<JournalPortletDataHandler group-id="39804">
+	<DDMStructure>
+		<staged-model group-id="39804" uuid="f11ecbba-2b10-3ac5-ff88-9a4b5dcc74d3" ddm-form-path="/group/39804/com.liferay.dynamic.data.mapping.model.DDMStructure/39811/ddm-form.json" ddm-data-provider-instance-ids="" ddm-form-layout-path="/group/39804/com.liferay.dynamic.data.mapping.model.DDMStructure/39811/ddm-form-layout.json" path="/group/39804/com.liferay.dynamic.data.mapping.model.DDMStructure/39811.xml" attached-class-name="com.liferay.journal.model.JournalArticle"/>
+		<staged-model group-id="39804" uuid="814d869e-5f84-2db4-131f-0a56e8523b07" ddm-form-path="/group/39804/com.liferay.dynamic.data.mapping.model.DDMStructure/39815/ddm-form.json" ddm-data-provider-instance-ids="" ddm-form-layout-path="/group/39804/com.liferay.dynamic.data.mapping.model.DDMStructure/39815/ddm-form-layout.json" path="/group/39804/com.liferay.dynamic.data.mapping.model.DDMStructure/39815.xml" attached-class-name="com.liferay.journal.model.JournalArticle"/>
+		<staged-model group-id="39804" uuid="5aea4c42-bfdb-49ae-d4b8-b90492c2b258" ddm-form-path="/group/39804/com.liferay.dynamic.data.mapping.model.DDMStructure/39819/ddm-form.json" ddm-data-provider-instance-ids="" ddm-form-layout-path="/group/39804/com.liferay.dynamic.data.mapping.model.DDMStructure/39819/ddm-form-layout.json" path="/group/39804/com.liferay.dynamic.data.mapping.model.DDMStructure/39819.xml" attached-class-name="com.liferay.journal.model.JournalArticle"/>
+	</DDMStructure>
+</JournalPortletDataHandler>

@@ -1,0 +1,63 @@
+<DDMTemplate>
+  <__cachedModel>false</__cachedModel>
+  <__new>false</__new>
+  <__uuid>6764da5d-ede5-4b2d-aa64-97cfdd1404ac</__uuid>
+  <__originalUuid>6764da5d-ede5-4b2d-aa64-97cfdd1404ac</__originalUuid>
+  <__templateId>41266</__templateId>
+  <__groupId>41251</__groupId>
+  <__originalGroupId>41251</__originalGroupId>
+  <__setOriginalGroupId>false</__setOriginalGroupId>
+  <__companyId>20116</__companyId>
+  <__originalCompanyId>20116</__originalCompanyId>
+  <__setOriginalCompanyId>false</__setOriginalCompanyId>
+  <__userId>30520</__userId>
+  <__userName>Space Admin</__userName>
+  <__versionUserId>30520</__versionUserId>
+  <__versionUserName>Space Admin</__versionUserName>
+  <__createDate class="sql-timestamp">2016-12-09 16:16:30.905</__createDate>
+  <__modifiedDate class="sql-timestamp">2016-12-09 16:16:30.905</__modifiedDate>
+  <__setModifiedDate>false</__setModifiedDate>
+  <__classNameId>29007</__classNameId>
+  <__originalClassNameId>29007</__originalClassNameId>
+  <__setOriginalClassNameId>false</__setOriginalClassNameId>
+  <__classPK>0</__classPK>
+  <__originalClassPK>0</__originalClassPK>
+  <__setOriginalClassPK>false</__setOriginalClassPK>
+  <__resourceClassNameId>30301</__resourceClassNameId>
+  <__templateKey>41265</__templateKey>
+  <__originalTemplateKey>41265</__originalTemplateKey>
+  <__version>1.0</__version>
+  <__name>&lt;?xml version=&apos;1.0&apos; encoding=&apos;UTF-8&apos;?&gt;&lt;root available-locales=&quot;en_US&quot; default-locale=&quot;en_US&quot;&gt;&lt;Name language-id=&quot;en_US&quot;&gt;Thumbnail Display&lt;/Name&gt;&lt;/root&gt;</__name>
+  <__description></__description>
+  <__type>display</__type>
+  <__originalType>display</__originalType>
+  <__mode></__mode>
+  <__originalMode></__originalMode>
+  <__language>ftl</__language>
+  <__originalLanguage>ftl</__originalLanguage>
+  <__script>&lt;#if contents.getSiblings()?has_content&gt;
+	&lt;#assign VOID = freeMarkerPortletPreferences.setValue(&quot;view&quot;, &quot;thumbnailListView&quot;) /&gt;
+&lt;div class=&quot;row&quot;&gt;
+    &lt;ul class=&quot;list-unstyled &quot;&gt;
+	&lt;#list contents.getSiblings() as cur_contents&gt;
+		&lt;#assign article = cur_contents.getData()?eval /&gt;
+        &lt;li class=&quot;col-lg-4 col-md-4 col-xs-6&quot;&gt;
+		&lt;@liferay_ui[&quot;asset-display&quot;]
+			className=article.className
+			classPK=getterUtil.getLong(article.classPK, 0)
+			template=&quot;full_content&quot;
+		/&gt;
+		&lt;/li&gt;
+	&lt;/#list&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;
+	&lt;#assign VOID = freeMarkerPortletPreferences.reset() /&gt;
+&lt;/#if&gt;</__script>
+  <__cacheable>true</__cacheable>
+  <__smallImage>false</__smallImage>
+  <__smallImageId>41267</__smallImageId>
+  <__originalSmallImageId>41267</__originalSmallImageId>
+  <__setOriginalSmallImageId>false</__setOriginalSmallImageId>
+  <__smallImageURL></__smallImageURL>
+  <__columnBitmask>0</__columnBitmask>
+</DDMTemplate>
