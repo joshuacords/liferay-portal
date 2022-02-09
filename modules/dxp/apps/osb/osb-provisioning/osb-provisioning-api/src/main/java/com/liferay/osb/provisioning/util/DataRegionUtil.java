@@ -15,18 +15,26 @@
 package com.liferay.osb.provisioning.util;
 
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Account;
+import com.liferay.portal.kernel.util.Validator;
 
 /**
  * @author Amos Fong
  */
 public class DataRegionUtil {
 
-	public static Account.DataRegion getDataRegion(Account.Region region) {
+	public static Account.DataRegion getDataRegion(
+		Account.Region region, String country) {
+
 		if (region == Account.Region.AUSTRALIA) {
 			return Account.DataRegion.JAPAN;
 		}
 		else if (region == Account.Region.BRAZIL) {
-			return Account.DataRegion.BRAZIL;
+			if (country.equals("Brazil") || Validator.isNull(country)) {
+				return Account.DataRegion.BRAZIL;
+			}
+			else {
+				return Account.DataRegion.UNITED_STATES;
+			}
 		}
 		else if (region == Account.Region.CHINA) {
 			return Account.DataRegion.JAPAN;

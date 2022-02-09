@@ -533,7 +533,9 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 		account.setPostalAddresses(new PostalAddress[] {postalAddress});
 		account.setProductPurchases(productPurchases);
 		account.setRegion(region);
-		account.setDataRegion(DataRegionUtil.getDataRegion(region));
+		account.setDataRegion(
+			DataRegionUtil.getDataRegion(
+				region, postalAddress.getAddressCountry()));
 		account.setLanguage(language);
 
 		String productFamily = jsonObject.getString(
