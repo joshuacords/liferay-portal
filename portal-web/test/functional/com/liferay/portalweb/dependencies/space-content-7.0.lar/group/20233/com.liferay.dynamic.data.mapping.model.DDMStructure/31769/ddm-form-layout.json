@@ -1,1 +1,123 @@
-{"pages":[{"rows":[{"columns":[{"size":12,"fieldNames":["title"]}]},{"columns":[{"size":12,"fieldNames":["image1"]}]},{"columns":[{"size":12,"fieldNames":["heading1"]}]},{"columns":[{"size":12,"fieldNames":["content1"]}]},{"columns":[{"size":12,"fieldNames":["image2"]}]},{"columns":[{"size":12,"fieldNames":["heading2"]}]},{"columns":[{"size":12,"fieldNames":["content2"]}]},{"columns":[{"size":12,"fieldNames":["image3"]}]},{"columns":[{"size":12,"fieldNames":["heading3"]}]},{"columns":[{"size":12,"fieldNames":["content3"]}]},{"columns":[{"size":12,"fieldNames":["Image6kp8"]}]}],"title":{"en_US":""}}],"paginationMode":"single-page","defaultLanguageId":"en_US"}
+{
+	"defaultLanguageId": "en_US",
+	"pages": [
+		{
+			"rows": [
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"title"
+							],
+							"size": 12
+						}
+					]
+				},
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"image1"
+							],
+							"size": 12
+						}
+					]
+				},
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"heading1"
+							],
+							"size": 12
+						}
+					]
+				},
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"content1"
+							],
+							"size": 12
+						}
+					]
+				},
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"image2"
+							],
+							"size": 12
+						}
+					]
+				},
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"heading2"
+							],
+							"size": 12
+						}
+					]
+				},
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"content2"
+							],
+							"size": 12
+						}
+					]
+				},
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"image3"
+							],
+							"size": 12
+						}
+					]
+				},
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"heading3"
+							],
+							"size": 12
+						}
+					]
+				},
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"content3"
+							],
+							"size": 12
+						}
+					]
+				},
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"Image6kp8"
+							],
+							"size": 12
+						}
+					]
+				}
+			],
+			"title": {
+				"en_US": ""
+			}
+		}
+	],
+	"paginationMode": "single-page"
+}

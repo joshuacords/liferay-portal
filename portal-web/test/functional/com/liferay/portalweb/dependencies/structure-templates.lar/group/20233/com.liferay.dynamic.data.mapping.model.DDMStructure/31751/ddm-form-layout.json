@@ -1,1 +1,103 @@
-{"pages":[{"rows":[{"columns":[{"size":12,"fieldNames":["title1"]}]},{"columns":[{"size":12,"fieldNames":["url1"]}]},{"columns":[{"size":12,"fieldNames":["abstract1"]}]},{"columns":[{"size":12,"fieldNames":["title2"]}]},{"columns":[{"size":12,"fieldNames":["url2"]}]},{"columns":[{"size":12,"fieldNames":["abstract2"]}]},{"columns":[{"size":12,"fieldNames":["title3"]}]},{"columns":[{"size":12,"fieldNames":["url3"]}]},{"columns":[{"size":12,"fieldNames":["abstract3"]}]}],"title":{"en_US":""}}],"paginationMode":"single-page","defaultLanguageId":"en_US"}
+{
+	"defaultLanguageId": "en_US",
+	"pages": [
+		{
+			"rows": [
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"title1"
+							],
+							"size": 12
+						}
+					]
+				},
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"url1"
+							],
+							"size": 12
+						}
+					]
+				},
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"abstract1"
+							],
+							"size": 12
+						}
+					]
+				},
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"title2"
+							],
+							"size": 12
+						}
+					]
+				},
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"url2"
+							],
+							"size": 12
+						}
+					]
+				},
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"abstract2"
+							],
+							"size": 12
+						}
+					]
+				},
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"title3"
+							],
+							"size": 12
+						}
+					]
+				},
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"url3"
+							],
+							"size": 12
+						}
+					]
+				},
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"abstract3"
+							],
+							"size": 12
+						}
+					]
+				}
+			],
+			"title": {
+				"en_US": ""
+			}
+		}
+	],
+	"paginationMode": "single-page"
+}

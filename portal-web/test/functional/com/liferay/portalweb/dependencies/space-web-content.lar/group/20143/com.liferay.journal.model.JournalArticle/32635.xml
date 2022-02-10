@@ -1,74 +1,74 @@
 <JournalArticle>
-  <__cachedModel>false</__cachedModel>
-  <__new>false</__new>
-  <__uuid>94942152-9afa-4fb5-2147-f9e3cab628b2</__uuid>
-  <__originalUuid>94942152-9afa-4fb5-2147-f9e3cab628b2</__originalUuid>
-  <__id>32635</__id>
-  <__resourcePrimKey>32636</__resourcePrimKey>
-  <__originalResourcePrimKey>32636</__originalResourcePrimKey>
-  <__setOriginalResourcePrimKey>false</__setOriginalResourcePrimKey>
-  <__groupId>20143</__groupId>
-  <__originalGroupId>20143</__originalGroupId>
-  <__setOriginalGroupId>false</__setOriginalGroupId>
-  <__companyId>20116</__companyId>
-  <__originalCompanyId>20116</__originalCompanyId>
-  <__setOriginalCompanyId>false</__setOriginalCompanyId>
-  <__userId>30819</__userId>
-  <__originalUserId>30819</__originalUserId>
-  <__setOriginalUserId>false</__setOriginalUserId>
-  <__userName>Space Admin</__userName>
-  <__createDate class="sql-timestamp">2016-12-08 23:02:23.394</__createDate>
-  <__modifiedDate class="sql-timestamp">2016-12-08 23:02:23.401</__modifiedDate>
-  <__setModifiedDate>false</__setModifiedDate>
-  <__folderId>0</__folderId>
-  <__originalFolderId>0</__originalFolderId>
-  <__setOriginalFolderId>false</__setOriginalFolderId>
-  <__classNameId>0</__classNameId>
-  <__originalClassNameId>0</__originalClassNameId>
-  <__setOriginalClassNameId>false</__setOriginalClassNameId>
-  <__classPK>0</__classPK>
-  <__originalClassPK>0</__originalClassPK>
-  <__setOriginalClassPK>false</__setOriginalClassPK>
-  <__treePath>/</__treePath>
-  <__articleId>32634</__articleId>
-  <__originalArticleId>32634</__originalArticleId>
-  <__version>1.0</__version>
-  <__originalVersion>1.0</__originalVersion>
-  <__setOriginalVersion>false</__setOriginalVersion>
-  <__title>&lt;?xml version=&apos;1.0&apos; encoding=&apos;UTF-8&apos;?&gt;&lt;root available-locales=&quot;en_US&quot; default-locale=&quot;en_US&quot;&gt;&lt;Title language-id=&quot;en_US&quot;&gt;When It All Began...&lt;/Title&gt;&lt;/root&gt;</__title>
-  <__urlTitle>when-it-all-began-</__urlTitle>
-  <__originalUrlTitle>when-it-all-began-</__originalUrlTitle>
-  <__description></__description>
-  <__content>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+	<__cachedModel>false</__cachedModel>
+	<__new>false</__new>
+	<__uuid>94942152-9afa-4fb5-2147-f9e3cab628b2</__uuid>
+	<__originalUuid>94942152-9afa-4fb5-2147-f9e3cab628b2</__originalUuid>
+	<__id>32635</__id>
+	<__resourcePrimKey>32636</__resourcePrimKey>
+	<__originalResourcePrimKey>32636</__originalResourcePrimKey>
+	<__setOriginalResourcePrimKey>false</__setOriginalResourcePrimKey>
+	<__groupId>20143</__groupId>
+	<__originalGroupId>20143</__originalGroupId>
+	<__setOriginalGroupId>false</__setOriginalGroupId>
+	<__companyId>20116</__companyId>
+	<__originalCompanyId>20116</__originalCompanyId>
+	<__setOriginalCompanyId>false</__setOriginalCompanyId>
+	<__userId>30819</__userId>
+	<__originalUserId>30819</__originalUserId>
+	<__setOriginalUserId>false</__setOriginalUserId>
+	<__userName>Space Admin</__userName>
+	<__createDate class="sql-timestamp">2016-12-08 23:02:23.394</__createDate>
+	<__modifiedDate class="sql-timestamp">2016-12-08 23:02:23.401</__modifiedDate>
+	<__setModifiedDate>false</__setModifiedDate>
+	<__folderId>0</__folderId>
+	<__originalFolderId>0</__originalFolderId>
+	<__setOriginalFolderId>false</__setOriginalFolderId>
+	<__classNameId>0</__classNameId>
+	<__originalClassNameId>0</__originalClassNameId>
+	<__setOriginalClassNameId>false</__setOriginalClassNameId>
+	<__classPK>0</__classPK>
+	<__originalClassPK>0</__originalClassPK>
+	<__setOriginalClassPK>false</__setOriginalClassPK>
+	<__treePath>/</__treePath>
+	<__articleId>32634</__articleId>
+	<__originalArticleId>32634</__originalArticleId>
+	<__version>1.0</__version>
+	<__originalVersion>1.0</__originalVersion>
+	<__setOriginalVersion>false</__setOriginalVersion>
+	<__title>&lt;?xml version=&apos;1.0&apos; encoding=&apos;UTF-8&apos;?&gt;&lt;root available-locales=&quot;en_US&quot; default-locale=&quot;en_US&quot;&gt;&lt;Title language-id=&quot;en_US&quot;&gt;When It All Began...&lt;/Title&gt;&lt;/root&gt;</__title>
+	<__urlTitle>when-it-all-began-</__urlTitle>
+	<__originalUrlTitle>when-it-all-began-</__originalUrlTitle>
+	<__description></__description>
+	<__content>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
 &lt;root available-locales=&quot;en_US&quot; default-locale=&quot;en_US&quot;&gt;
 	&lt;dynamic-element name=&quot;NewsCoverImage&quot; type=&quot;document_library&quot; index-type=&quot;keyword&quot; instance-id=&quot;aiqj&quot;&gt;
 		&lt;dynamic-content language-id=&quot;en_US&quot;&gt;&lt;![CDATA[]]&gt;&lt;/dynamic-content&gt;
 	&lt;/dynamic-element&gt;
 	&lt;dynamic-element name=&quot;NewsContent&quot; type=&quot;text_box&quot; index-type=&quot;keyword&quot; instance-id=&quot;kmpx&quot;&gt;
-		&lt;dynamic-content language-id=&quot;en_US&quot;&gt;&lt;![CDATA[As the 96th anniversary of Apollo 11’s historic landing on the moon approaches, Dr. Peter Vance and Dr. Alessandro Mancelli of the Astronautics Department discuss the profound impact the vision of Apollo 11 and NASA had on both the world and on the foundation of The Space Program itself.]]&gt;&lt;/dynamic-content&gt;
+		&lt;dynamic-content language-id=&quot;en_US&quot;&gt;&lt;![CDATA[As the 96th anniversary of Apollo 11's historic landing on the moon approaches, Dr. Peter Vance and Dr. Alessandro Mancelli of the Astronautics Department discuss the profound impact the vision of Apollo 11 and NASA had on both the world and on the foundation of The Space Program itself.]]&gt;&lt;/dynamic-content&gt;
 	&lt;/dynamic-element&gt;
 &lt;/root&gt;</__content>
-  <__DDMStructureKey>40442</__DDMStructureKey>
-  <__originalDDMStructureKey>40442</__originalDDMStructureKey>
-  <__DDMTemplateKey>40450</__DDMTemplateKey>
-  <__originalDDMTemplateKey>40450</__originalDDMTemplateKey>
-  <__layoutUuid></__layoutUuid>
-  <__originalLayoutUuid></__originalLayoutUuid>
-  <__displayDate class="sql-timestamp">2016-12-08 23:02:00.0</__displayDate>
-  <__originalDisplayDate class="sql-timestamp" reference="../__displayDate"/>
-  <__indexable>true</__indexable>
-  <__originalIndexable>true</__originalIndexable>
-  <__setOriginalIndexable>false</__setOriginalIndexable>
-  <__smallImage>false</__smallImage>
-  <__smallImageId>32637</__smallImageId>
-  <__originalSmallImageId>32637</__originalSmallImageId>
-  <__setOriginalSmallImageId>false</__setOriginalSmallImageId>
-  <__smallImageURL></__smallImageURL>
-  <__status>0</__status>
-  <__originalStatus>0</__originalStatus>
-  <__setOriginalStatus>false</__setOriginalStatus>
-  <__statusByUserId>30819</__statusByUserId>
-  <__statusByUserName>Space Admin</__statusByUserName>
-  <__statusDate class="sql-timestamp">2016-12-08 23:02:23.401</__statusDate>
-  <__columnBitmask>0</__columnBitmask>
+	<__DDMStructureKey>40442</__DDMStructureKey>
+	<__originalDDMStructureKey>40442</__originalDDMStructureKey>
+	<__DDMTemplateKey>40450</__DDMTemplateKey>
+	<__originalDDMTemplateKey>40450</__originalDDMTemplateKey>
+	<__layoutUuid></__layoutUuid>
+	<__originalLayoutUuid></__originalLayoutUuid>
+	<__displayDate class="sql-timestamp">2016-12-08 23:02:00.0</__displayDate>
+	<__originalDisplayDate class="sql-timestamp" reference="../__displayDate" />
+	<__indexable>true</__indexable>
+	<__originalIndexable>true</__originalIndexable>
+	<__setOriginalIndexable>false</__setOriginalIndexable>
+	<__smallImage>false</__smallImage>
+	<__smallImageId>32637</__smallImageId>
+	<__originalSmallImageId>32637</__originalSmallImageId>
+	<__setOriginalSmallImageId>false</__setOriginalSmallImageId>
+	<__smallImageURL></__smallImageURL>
+	<__status>0</__status>
+	<__originalStatus>0</__originalStatus>
+	<__setOriginalStatus>false</__setOriginalStatus>
+	<__statusByUserId>30819</__statusByUserId>
+	<__statusByUserName>Space Admin</__statusByUserName>
+	<__statusDate class="sql-timestamp">2016-12-08 23:02:23.401</__statusDate>
+	<__columnBitmask>0</__columnBitmask>
 </JournalArticle>

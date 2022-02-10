@@ -1,1 +1,113 @@
-{"availableLanguageIds":["en_US"],"defaultLanguageId":"en_US","fields":[{"dataType":"document-library","predefinedValue":{"en_US":""},"readOnly":false,"label":{"en_US":"Cover Image"},"type":"ddm-documentlibrary","showLabel":true,"required":false,"visibilityExpression":"","fieldNamespace":"ddm","indexType":"keyword","repeatable":false,"name":"EventCoverImage","localizable":true,"tip":{"en_US":""},"validation":{"expression":"","errorMessage":""}},{"dataType":"string","predefinedValue":{"en_US":""},"readOnly":false,"label":{"en_US":"Headline"},"type":"text","showLabel":true,"required":false,"displayStyle":"","visibilityExpression":"","fieldNamespace":"","indexType":"keyword","repeatable":false,"name":"EventHeadline","localizable":true,"tip":{"en_US":""},"validation":{"expression":"","errorMessage":""}},{"dataType":"date","predefinedValue":{"en_US":""},"readOnly":false,"label":{"en_US":"Event Date"},"type":"ddm-date","showLabel":true,"required":false,"visibilityExpression":"","fieldNamespace":"ddm","indexType":"keyword","repeatable":false,"name":"EventDate","localizable":true,"tip":{"en_US":""},"validation":{"expression":"","errorMessage":""}},{"dataType":"string","predefinedValue":{"en_US":""},"readOnly":false,"label":{"en_US":"Lead Text"},"type":"textarea","showLabel":true,"required":false,"visibilityExpression":"","fieldNamespace":"","indexType":"keyword","repeatable":false,"name":"EventLeadText","localizable":true,"tip":{"en_US":""},"validation":{"expression":"","errorMessage":""}}]}
+{
+	"availableLanguageIds": [
+		"en_US"
+	],
+	"defaultLanguageId": "en_US",
+	"fields": [
+		{
+			"dataType": "document-library",
+			"fieldNamespace": "ddm",
+			"indexType": "keyword",
+			"label": {
+				"en_US": "Cover Image"
+			},
+			"localizable": true,
+			"name": "EventCoverImage",
+			"predefinedValue": {
+				"en_US": ""
+			},
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			},
+			"type": "ddm-documentlibrary",
+			"validation": {
+				"errorMessage": "",
+				"expression": ""
+			},
+			"visibilityExpression": ""
+		},
+		{
+			"dataType": "string",
+			"displayStyle": "",
+			"fieldNamespace": "",
+			"indexType": "keyword",
+			"label": {
+				"en_US": "Headline"
+			},
+			"localizable": true,
+			"name": "EventHeadline",
+			"predefinedValue": {
+				"en_US": ""
+			},
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			},
+			"type": "text",
+			"validation": {
+				"errorMessage": "",
+				"expression": ""
+			},
+			"visibilityExpression": ""
+		},
+		{
+			"dataType": "date",
+			"fieldNamespace": "ddm",
+			"indexType": "keyword",
+			"label": {
+				"en_US": "Event Date"
+			},
+			"localizable": true,
+			"name": "EventDate",
+			"predefinedValue": {
+				"en_US": ""
+			},
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			},
+			"type": "ddm-date",
+			"validation": {
+				"errorMessage": "",
+				"expression": ""
+			},
+			"visibilityExpression": ""
+		},
+		{
+			"dataType": "string",
+			"fieldNamespace": "",
+			"indexType": "keyword",
+			"label": {
+				"en_US": "Lead Text"
+			},
+			"localizable": true,
+			"name": "EventLeadText",
+			"predefinedValue": {
+				"en_US": ""
+			},
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			},
+			"type": "textarea",
+			"validation": {
+				"errorMessage": "",
+				"expression": ""
+			},
+			"visibilityExpression": ""
+		}
+	]
+}

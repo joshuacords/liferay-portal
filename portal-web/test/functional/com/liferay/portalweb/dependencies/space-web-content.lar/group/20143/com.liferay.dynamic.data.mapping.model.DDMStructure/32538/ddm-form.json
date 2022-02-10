@@ -1,1 +1,268 @@
-{"availableLanguageIds":["en_US"],"defaultLanguageId":"en_US","fields":[{"dataType":"string","predefinedValue":{"en_US":""},"readOnly":false,"label":{"en_US":"Heading"},"type":"textarea","showLabel":true,"required":false,"visibilityExpression":"","fieldNamespace":"","indexType":"keyword","repeatable":false,"name":"ColumnHeading","localizable":true,"tip":{"en_US":""},"validation":{"expression":"","errorMessage":""}},{"dataType":"image","predefinedValue":{"en_US":""},"readOnly":false,"label":{"en_US":"Left Image"},"type":"ddm-image","showLabel":true,"required":false,"visibilityExpression":"","fieldNamespace":"ddm","indexType":"keyword","repeatable":false,"name":"LeftImage","localizable":true,"tip":{"en_US":""},"validation":{"expression":"","errorMessage":""}},{"dataType":"string","predefinedValue":{"en_US":""},"readOnly":false,"label":{"en_US":"Left Subheading"},"type":"textarea","showLabel":true,"required":false,"visibilityExpression":"","fieldNamespace":"","indexType":"keyword","repeatable":false,"name":"LeftSubheading","localizable":true,"tip":{"en_US":""},"validation":{"expression":"","errorMessage":""}},{"dataType":"string","predefinedValue":{"en_US":""},"readOnly":false,"label":{"en_US":"Left Content"},"type":"textarea","showLabel":true,"required":false,"visibilityExpression":"","fieldNamespace":"","indexType":"keyword","repeatable":false,"name":"LeftContent","localizable":true,"tip":{"en_US":""},"validation":{"expression":"","errorMessage":""}},{"dataType":"image","predefinedValue":{"en_US":""},"readOnly":false,"label":{"en_US":"Middle Image"},"type":"ddm-image","showLabel":true,"required":false,"visibilityExpression":"","fieldNamespace":"ddm","indexType":"keyword","repeatable":false,"name":"MiddleImage","localizable":true,"tip":{"en_US":""},"validation":{"expression":"","errorMessage":""}},{"dataType":"string","predefinedValue":{"en_US":""},"readOnly":false,"label":{"en_US":"Middle Subheading"},"type":"textarea","showLabel":true,"required":false,"visibilityExpression":"","fieldNamespace":"","indexType":"keyword","repeatable":false,"name":"MiddleSubheading","localizable":true,"tip":{"en_US":""},"validation":{"expression":"","errorMessage":""}},{"dataType":"string","predefinedValue":{"en_US":""},"readOnly":false,"label":{"en_US":"Middle Content"},"type":"textarea","showLabel":true,"required":false,"visibilityExpression":"","fieldNamespace":"","indexType":"keyword","repeatable":false,"name":"MiddleContent","localizable":true,"tip":{"en_US":""},"validation":{"expression":"","errorMessage":""}},{"dataType":"image","predefinedValue":{"en_US":""},"readOnly":false,"label":{"en_US":"Right Image"},"type":"ddm-image","showLabel":true,"required":false,"visibilityExpression":"","fieldNamespace":"ddm","indexType":"keyword","repeatable":false,"name":"RightImage","localizable":true,"tip":{"en_US":""},"validation":{"expression":"","errorMessage":""}},{"dataType":"string","predefinedValue":{"en_US":""},"readOnly":false,"label":{"en_US":"Right Subheading"},"type":"textarea","showLabel":true,"required":false,"visibilityExpression":"","fieldNamespace":"","indexType":"keyword","repeatable":false,"name":"RightSubheading","localizable":true,"tip":{"en_US":""},"validation":{"expression":"","errorMessage":""}},{"dataType":"string","predefinedValue":{"en_US":""},"readOnly":false,"label":{"en_US":"Right Content"},"type":"textarea","showLabel":true,"required":false,"visibilityExpression":"","fieldNamespace":"","indexType":"keyword","repeatable":false,"name":"RightContent","localizable":true,"tip":{"en_US":""},"validation":{"expression":"","errorMessage":""}}]}
+{
+	"availableLanguageIds": [
+		"en_US"
+	],
+	"defaultLanguageId": "en_US",
+	"fields": [
+		{
+			"dataType": "string",
+			"fieldNamespace": "",
+			"indexType": "keyword",
+			"label": {
+				"en_US": "Heading"
+			},
+			"localizable": true,
+			"name": "ColumnHeading",
+			"predefinedValue": {
+				"en_US": ""
+			},
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			},
+			"type": "textarea",
+			"validation": {
+				"errorMessage": "",
+				"expression": ""
+			},
+			"visibilityExpression": ""
+		},
+		{
+			"dataType": "image",
+			"fieldNamespace": "ddm",
+			"indexType": "keyword",
+			"label": {
+				"en_US": "Left Image"
+			},
+			"localizable": true,
+			"name": "LeftImage",
+			"predefinedValue": {
+				"en_US": ""
+			},
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			},
+			"type": "ddm-image",
+			"validation": {
+				"errorMessage": "",
+				"expression": ""
+			},
+			"visibilityExpression": ""
+		},
+		{
+			"dataType": "string",
+			"fieldNamespace": "",
+			"indexType": "keyword",
+			"label": {
+				"en_US": "Left Subheading"
+			},
+			"localizable": true,
+			"name": "LeftSubheading",
+			"predefinedValue": {
+				"en_US": ""
+			},
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			},
+			"type": "textarea",
+			"validation": {
+				"errorMessage": "",
+				"expression": ""
+			},
+			"visibilityExpression": ""
+		},
+		{
+			"dataType": "string",
+			"fieldNamespace": "",
+			"indexType": "keyword",
+			"label": {
+				"en_US": "Left Content"
+			},
+			"localizable": true,
+			"name": "LeftContent",
+			"predefinedValue": {
+				"en_US": ""
+			},
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			},
+			"type": "textarea",
+			"validation": {
+				"errorMessage": "",
+				"expression": ""
+			},
+			"visibilityExpression": ""
+		},
+		{
+			"dataType": "image",
+			"fieldNamespace": "ddm",
+			"indexType": "keyword",
+			"label": {
+				"en_US": "Middle Image"
+			},
+			"localizable": true,
+			"name": "MiddleImage",
+			"predefinedValue": {
+				"en_US": ""
+			},
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			},
+			"type": "ddm-image",
+			"validation": {
+				"errorMessage": "",
+				"expression": ""
+			},
+			"visibilityExpression": ""
+		},
+		{
+			"dataType": "string",
+			"fieldNamespace": "",
+			"indexType": "keyword",
+			"label": {
+				"en_US": "Middle Subheading"
+			},
+			"localizable": true,
+			"name": "MiddleSubheading",
+			"predefinedValue": {
+				"en_US": ""
+			},
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			},
+			"type": "textarea",
+			"validation": {
+				"errorMessage": "",
+				"expression": ""
+			},
+			"visibilityExpression": ""
+		},
+		{
+			"dataType": "string",
+			"fieldNamespace": "",
+			"indexType": "keyword",
+			"label": {
+				"en_US": "Middle Content"
+			},
+			"localizable": true,
+			"name": "MiddleContent",
+			"predefinedValue": {
+				"en_US": ""
+			},
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			},
+			"type": "textarea",
+			"validation": {
+				"errorMessage": "",
+				"expression": ""
+			},
+			"visibilityExpression": ""
+		},
+		{
+			"dataType": "image",
+			"fieldNamespace": "ddm",
+			"indexType": "keyword",
+			"label": {
+				"en_US": "Right Image"
+			},
+			"localizable": true,
+			"name": "RightImage",
+			"predefinedValue": {
+				"en_US": ""
+			},
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			},
+			"type": "ddm-image",
+			"validation": {
+				"errorMessage": "",
+				"expression": ""
+			},
+			"visibilityExpression": ""
+		},
+		{
+			"dataType": "string",
+			"fieldNamespace": "",
+			"indexType": "keyword",
+			"label": {
+				"en_US": "Right Subheading"
+			},
+			"localizable": true,
+			"name": "RightSubheading",
+			"predefinedValue": {
+				"en_US": ""
+			},
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			},
+			"type": "textarea",
+			"validation": {
+				"errorMessage": "",
+				"expression": ""
+			},
+			"visibilityExpression": ""
+		},
+		{
+			"dataType": "string",
+			"fieldNamespace": "",
+			"indexType": "keyword",
+			"label": {
+				"en_US": "Right Content"
+			},
+			"localizable": true,
+			"name": "RightContent",
+			"predefinedValue": {
+				"en_US": ""
+			},
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			},
+			"type": "textarea",
+			"validation": {
+				"errorMessage": "",
+				"expression": ""
+			},
+			"visibilityExpression": ""
+		}
+	]
+}

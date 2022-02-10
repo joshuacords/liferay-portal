@@ -1,1 +1,113 @@
-{"pages":[{"rows":[{"columns":[{"size":12,"fieldNames":["ColumnHeading"]}]},{"columns":[{"size":12,"fieldNames":["LeftImage"]}]},{"columns":[{"size":12,"fieldNames":["LeftSubheading"]}]},{"columns":[{"size":12,"fieldNames":["LeftContent"]}]},{"columns":[{"size":12,"fieldNames":["MiddleImage"]}]},{"columns":[{"size":12,"fieldNames":["MiddleSubheading"]}]},{"columns":[{"size":12,"fieldNames":["MiddleContent"]}]},{"columns":[{"size":12,"fieldNames":["RightImage"]}]},{"columns":[{"size":12,"fieldNames":["RightSubheading"]}]},{"columns":[{"size":12,"fieldNames":["RightContent"]}]}],"title":{"en_US":""}}],"paginationMode":"single-page","defaultLanguageId":"en_US"}
+{
+	"defaultLanguageId": "en_US",
+	"pages": [
+		{
+			"rows": [
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"ColumnHeading"
+							],
+							"size": 12
+						}
+					]
+				},
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"LeftImage"
+							],
+							"size": 12
+						}
+					]
+				},
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"LeftSubheading"
+							],
+							"size": 12
+						}
+					]
+				},
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"LeftContent"
+							],
+							"size": 12
+						}
+					]
+				},
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"MiddleImage"
+							],
+							"size": 12
+						}
+					]
+				},
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"MiddleSubheading"
+							],
+							"size": 12
+						}
+					]
+				},
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"MiddleContent"
+							],
+							"size": 12
+						}
+					]
+				},
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"RightImage"
+							],
+							"size": 12
+						}
+					]
+				},
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"RightSubheading"
+							],
+							"size": 12
+						}
+					]
+				},
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"RightContent"
+							],
+							"size": 12
+						}
+					]
+				}
+			],
+			"title": {
+				"en_US": ""
+			}
+		}
+	],
+	"paginationMode": "single-page"
+}

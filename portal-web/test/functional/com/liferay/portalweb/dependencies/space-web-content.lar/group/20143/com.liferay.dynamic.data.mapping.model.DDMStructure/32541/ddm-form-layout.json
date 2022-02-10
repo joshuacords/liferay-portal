@@ -1,1 +1,53 @@
-{"pages":[{"rows":[{"columns":[{"size":12,"fieldNames":["FooterMainImage"]}]},{"columns":[{"size":12,"fieldNames":["FooterHeading"]}]},{"columns":[{"size":12,"fieldNames":["FooterText"]}]},{"columns":[{"size":12,"fieldNames":["FooterBgImage"]}]}],"title":{"en_US":""}}],"paginationMode":"single-page","defaultLanguageId":"en_US"}
+{
+	"defaultLanguageId": "en_US",
+	"pages": [
+		{
+			"rows": [
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"FooterMainImage"
+							],
+							"size": 12
+						}
+					]
+				},
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"FooterHeading"
+							],
+							"size": 12
+						}
+					]
+				},
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"FooterText"
+							],
+							"size": 12
+						}
+					]
+				},
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"FooterBgImage"
+							],
+							"size": 12
+						}
+					]
+				}
+			],
+			"title": {
+				"en_US": ""
+			}
+		}
+	],
+	"paginationMode": "single-page"
+}

@@ -1,1 +1,53 @@
-{"pages":[{"rows":[{"columns":[{"size":12,"fieldNames":["BannerTitle"]}]},{"columns":[{"size":12,"fieldNames":["BannerHeading"]}]},{"columns":[{"size":12,"fieldNames":["BannerContent"]}]},{"columns":[{"size":12,"fieldNames":["BannerImage"]}]}],"title":{"en_US":""}}],"paginationMode":"single-page","defaultLanguageId":"en_US"}
+{
+	"defaultLanguageId": "en_US",
+	"pages": [
+		{
+			"rows": [
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"BannerTitle"
+							],
+							"size": 12
+						}
+					]
+				},
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"BannerHeading"
+							],
+							"size": 12
+						}
+					]
+				},
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"BannerContent"
+							],
+							"size": 12
+						}
+					]
+				},
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"BannerImage"
+							],
+							"size": 12
+						}
+					]
+				}
+			],
+			"title": {
+				"en_US": ""
+			}
+		}
+	],
+	"paginationMode": "single-page"
+}

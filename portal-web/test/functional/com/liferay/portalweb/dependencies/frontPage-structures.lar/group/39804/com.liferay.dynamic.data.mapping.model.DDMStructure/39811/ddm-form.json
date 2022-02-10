@@ -1,1 +1,104 @@
-{"availableLanguageIds":["en_US"],"defaultLanguageId":"en_US","fields":[{"dataType":"string","predefinedValue":{"en_US":""},"readOnly":false,"label":{"en_US":"Title"},"type":"textarea","showLabel":true,"required":false,"indexType":"keyword","visibilityExpression":"","fieldNamespace":"","repeatable":false,"name":"BannerTitle","localizable":true,"tip":{"en_US":""},"validation":{}},{"dataType":"string","predefinedValue":{"en_US":""},"readOnly":false,"label":{"en_US":"Heading"},"type":"textarea","showLabel":true,"required":false,"indexType":"keyword","visibilityExpression":"","fieldNamespace":"","repeatable":false,"name":"BannerHeading","localizable":true,"tip":{"en_US":""},"validation":{}},{"dataType":"string","predefinedValue":{"en_US":""},"readOnly":false,"label":{"en_US":"Content"},"type":"textarea","showLabel":true,"required":false,"indexType":"keyword","visibilityExpression":"","fieldNamespace":"","repeatable":false,"name":"BannerContent","localizable":true,"tip":{"en_US":""},"validation":{}},{"dataType":"image","predefinedValue":{"en_US":""},"readOnly":false,"label":{"en_US":"Banner Image"},"type":"ddm-image","showLabel":true,"required":false,"indexType":"keyword","visibilityExpression":"","fieldNamespace":"ddm","repeatable":false,"name":"BannerImage","localizable":true,"tip":{"en_US":""},"validation":{}}]}
+{
+	"availableLanguageIds": [
+		"en_US"
+	],
+	"defaultLanguageId": "en_US",
+	"fields": [
+		{
+			"dataType": "string",
+			"fieldNamespace": "",
+			"indexType": "keyword",
+			"label": {
+				"en_US": "Title"
+			},
+			"localizable": true,
+			"name": "BannerTitle",
+			"predefinedValue": {
+				"en_US": ""
+			},
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			},
+			"type": "textarea",
+			"validation": {
+			},
+			"visibilityExpression": ""
+		},
+		{
+			"dataType": "string",
+			"fieldNamespace": "",
+			"indexType": "keyword",
+			"label": {
+				"en_US": "Heading"
+			},
+			"localizable": true,
+			"name": "BannerHeading",
+			"predefinedValue": {
+				"en_US": ""
+			},
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			},
+			"type": "textarea",
+			"validation": {
+			},
+			"visibilityExpression": ""
+		},
+		{
+			"dataType": "string",
+			"fieldNamespace": "",
+			"indexType": "keyword",
+			"label": {
+				"en_US": "Content"
+			},
+			"localizable": true,
+			"name": "BannerContent",
+			"predefinedValue": {
+				"en_US": ""
+			},
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			},
+			"type": "textarea",
+			"validation": {
+			},
+			"visibilityExpression": ""
+		},
+		{
+			"dataType": "image",
+			"fieldNamespace": "ddm",
+			"indexType": "keyword",
+			"label": {
+				"en_US": "Banner Image"
+			},
+			"localizable": true,
+			"name": "BannerImage",
+			"predefinedValue": {
+				"en_US": ""
+			},
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			},
+			"type": "ddm-image",
+			"validation": {
+			},
+			"visibilityExpression": ""
+		}
+	]
+}

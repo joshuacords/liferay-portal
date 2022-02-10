@@ -1,1 +1,104 @@
-{"availableLanguageIds":["en_US"],"defaultLanguageId":"en_US","fields":[{"dataType":"image","predefinedValue":{"en_US":""},"readOnly":false,"label":{"en_US":"Main Image"},"type":"ddm-image","required":false,"showLabel":true,"fieldNamespace":"ddm","visibilityExpression":"","indexType":"keyword","repeatable":false,"name":"image","localizable":true,"tip":{"en_US":""},"validation":{}},{"dataType":"string","predefinedValue":{"en_US":""},"readOnly":false,"label":{"en_US":"Heading"},"type":"textarea","required":false,"showLabel":true,"fieldNamespace":"","visibilityExpression":"","indexType":"keyword","repeatable":false,"name":"heading","localizable":true,"tip":{"en_US":""},"validation":{}},{"dataType":"string","predefinedValue":{"en_US":""},"readOnly":false,"label":{"en_US":"Text"},"type":"textarea","required":false,"showLabel":true,"fieldNamespace":"","visibilityExpression":"","indexType":"keyword","repeatable":false,"name":"text","localizable":true,"tip":{"en_US":""},"validation":{}},{"dataType":"image","predefinedValue":{"en_US":""},"readOnly":false,"label":{"en_US":"Background Image"},"type":"ddm-image","required":false,"showLabel":true,"fieldNamespace":"ddm","visibilityExpression":"","indexType":"keyword","repeatable":false,"name":"bgimage","localizable":true,"tip":{"en_US":""},"validation":{}}]}
+{
+	"availableLanguageIds": [
+		"en_US"
+	],
+	"defaultLanguageId": "en_US",
+	"fields": [
+		{
+			"dataType": "image",
+			"fieldNamespace": "ddm",
+			"indexType": "keyword",
+			"label": {
+				"en_US": "Main Image"
+			},
+			"localizable": true,
+			"name": "image",
+			"predefinedValue": {
+				"en_US": ""
+			},
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			},
+			"type": "ddm-image",
+			"validation": {
+			},
+			"visibilityExpression": ""
+		},
+		{
+			"dataType": "string",
+			"fieldNamespace": "",
+			"indexType": "keyword",
+			"label": {
+				"en_US": "Heading"
+			},
+			"localizable": true,
+			"name": "heading",
+			"predefinedValue": {
+				"en_US": ""
+			},
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			},
+			"type": "textarea",
+			"validation": {
+			},
+			"visibilityExpression": ""
+		},
+		{
+			"dataType": "string",
+			"fieldNamespace": "",
+			"indexType": "keyword",
+			"label": {
+				"en_US": "Text"
+			},
+			"localizable": true,
+			"name": "text",
+			"predefinedValue": {
+				"en_US": ""
+			},
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			},
+			"type": "textarea",
+			"validation": {
+			},
+			"visibilityExpression": ""
+		},
+		{
+			"dataType": "image",
+			"fieldNamespace": "ddm",
+			"indexType": "keyword",
+			"label": {
+				"en_US": "Background Image"
+			},
+			"localizable": true,
+			"name": "bgimage",
+			"predefinedValue": {
+				"en_US": ""
+			},
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			},
+			"type": "ddm-image",
+			"validation": {
+			},
+			"visibilityExpression": ""
+		}
+	]
+}

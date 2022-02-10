@@ -1,1 +1,53 @@
-{"pages":[{"rows":[{"columns":[{"size":12,"fieldNames":["EventCoverImage"]}]},{"columns":[{"size":12,"fieldNames":["EventHeadline"]}]},{"columns":[{"size":12,"fieldNames":["EventDate"]}]},{"columns":[{"size":12,"fieldNames":["EventLeadText"]}]}],"title":{"en_US":""}}],"paginationMode":"single-page","defaultLanguageId":"en_US"}
+{
+	"defaultLanguageId": "en_US",
+	"pages": [
+		{
+			"rows": [
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"EventCoverImage"
+							],
+							"size": 12
+						}
+					]
+				},
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"EventHeadline"
+							],
+							"size": 12
+						}
+					]
+				},
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"EventDate"
+							],
+							"size": 12
+						}
+					]
+				},
+				{
+					"columns": [
+						{
+							"fieldNames": [
+								"EventLeadText"
+							],
+							"size": 12
+						}
+					]
+				}
+			],
+			"title": {
+				"en_US": ""
+			}
+		}
+	],
+	"paginationMode": "single-page"
+}

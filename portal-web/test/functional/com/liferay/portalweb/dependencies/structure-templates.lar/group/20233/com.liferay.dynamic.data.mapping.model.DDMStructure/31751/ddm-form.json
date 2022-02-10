@@ -1,1 +1,248 @@
-{"availableLanguageIds":["en_US"],"defaultLanguageId":"en_US","fields":[{"dataType":"string","predefinedValue":{"en_US":""},"readOnly":false,"label":{"en_US":"Title"},"type":"text","required":false,"showLabel":true,"displayStyle":"","fieldNamespace":"","visibilityExpression":"","indexType":"keyword","repeatable":false,"name":"title1","localizable":true,"tip":{"en_US":""},"validation":{"expression":"","errorMessage":""}},{"dataType":"string","predefinedValue":{"en_US":""},"readOnly":false,"label":{"en_US":"URL"},"type":"text","required":false,"showLabel":true,"displayStyle":"","fieldNamespace":"","visibilityExpression":"","indexType":"keyword","repeatable":false,"name":"url1","localizable":true,"tip":{"en_US":""},"validation":{"expression":"","errorMessage":""}},{"dataType":"string","predefinedValue":{"en_US":""},"readOnly":false,"label":{"en_US":"Abstract"},"type":"textarea","required":false,"showLabel":true,"fieldNamespace":"","visibilityExpression":"","indexType":"keyword","repeatable":false,"name":"abstract1","localizable":true,"tip":{"en_US":""},"validation":{"expression":"","errorMessage":""}},{"dataType":"string","predefinedValue":{"en_US":""},"readOnly":false,"label":{"en_US":"Title"},"type":"text","required":false,"showLabel":true,"displayStyle":"","fieldNamespace":"","visibilityExpression":"","indexType":"keyword","repeatable":false,"name":"title2","localizable":true,"tip":{"en_US":""},"validation":{"expression":"","errorMessage":""}},{"dataType":"string","predefinedValue":{"en_US":""},"readOnly":false,"label":{"en_US":"URL"},"type":"text","required":false,"showLabel":true,"displayStyle":"","fieldNamespace":"","visibilityExpression":"","indexType":"keyword","repeatable":false,"name":"url2","localizable":true,"tip":{"en_US":""},"validation":{"expression":"","errorMessage":""}},{"dataType":"string","predefinedValue":{"en_US":""},"readOnly":false,"label":{"en_US":"Abstract"},"type":"textarea","required":false,"showLabel":true,"fieldNamespace":"","visibilityExpression":"","indexType":"keyword","repeatable":false,"name":"abstract2","localizable":true,"tip":{"en_US":""},"validation":{"expression":"","errorMessage":""}},{"dataType":"string","predefinedValue":{"en_US":""},"readOnly":false,"label":{"en_US":"Title"},"type":"text","required":false,"showLabel":true,"displayStyle":"","fieldNamespace":"","visibilityExpression":"","indexType":"keyword","repeatable":false,"name":"title3","localizable":true,"tip":{"en_US":""},"validation":{"expression":"","errorMessage":""}},{"dataType":"string","predefinedValue":{"en_US":""},"readOnly":false,"label":{"en_US":"URL"},"type":"text","required":false,"showLabel":true,"displayStyle":"","fieldNamespace":"","visibilityExpression":"","indexType":"keyword","repeatable":false,"name":"url3","localizable":true,"tip":{"en_US":""},"validation":{"expression":"","errorMessage":""}},{"dataType":"string","predefinedValue":{"en_US":""},"readOnly":false,"label":{"en_US":"Abstract"},"type":"textarea","required":false,"showLabel":true,"fieldNamespace":"","visibilityExpression":"","indexType":"keyword","repeatable":false,"name":"abstract3","localizable":true,"tip":{"en_US":""},"validation":{"expression":"","errorMessage":""}}]}
+{
+	"availableLanguageIds": [
+		"en_US"
+	],
+	"defaultLanguageId": "en_US",
+	"fields": [
+		{
+			"dataType": "string",
+			"displayStyle": "",
+			"fieldNamespace": "",
+			"indexType": "keyword",
+			"label": {
+				"en_US": "Title"
+			},
+			"localizable": true,
+			"name": "title1",
+			"predefinedValue": {
+				"en_US": ""
+			},
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			},
+			"type": "text",
+			"validation": {
+				"errorMessage": "",
+				"expression": ""
+			},
+			"visibilityExpression": ""
+		},
+		{
+			"dataType": "string",
+			"displayStyle": "",
+			"fieldNamespace": "",
+			"indexType": "keyword",
+			"label": {
+				"en_US": "URL"
+			},
+			"localizable": true,
+			"name": "url1",
+			"predefinedValue": {
+				"en_US": ""
+			},
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			},
+			"type": "text",
+			"validation": {
+				"errorMessage": "",
+				"expression": ""
+			},
+			"visibilityExpression": ""
+		},
+		{
+			"dataType": "string",
+			"fieldNamespace": "",
+			"indexType": "keyword",
+			"label": {
+				"en_US": "Abstract"
+			},
+			"localizable": true,
+			"name": "abstract1",
+			"predefinedValue": {
+				"en_US": ""
+			},
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			},
+			"type": "textarea",
+			"validation": {
+				"errorMessage": "",
+				"expression": ""
+			},
+			"visibilityExpression": ""
+		},
+		{
+			"dataType": "string",
+			"displayStyle": "",
+			"fieldNamespace": "",
+			"indexType": "keyword",
+			"label": {
+				"en_US": "Title"
+			},
+			"localizable": true,
+			"name": "title2",
+			"predefinedValue": {
+				"en_US": ""
+			},
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			},
+			"type": "text",
+			"validation": {
+				"errorMessage": "",
+				"expression": ""
+			},
+			"visibilityExpression": ""
+		},
+		{
+			"dataType": "string",
+			"displayStyle": "",
+			"fieldNamespace": "",
+			"indexType": "keyword",
+			"label": {
+				"en_US": "URL"
+			},
+			"localizable": true,
+			"name": "url2",
+			"predefinedValue": {
+				"en_US": ""
+			},
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			},
+			"type": "text",
+			"validation": {
+				"errorMessage": "",
+				"expression": ""
+			},
+			"visibilityExpression": ""
+		},
+		{
+			"dataType": "string",
+			"fieldNamespace": "",
+			"indexType": "keyword",
+			"label": {
+				"en_US": "Abstract"
+			},
+			"localizable": true,
+			"name": "abstract2",
+			"predefinedValue": {
+				"en_US": ""
+			},
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			},
+			"type": "textarea",
+			"validation": {
+				"errorMessage": "",
+				"expression": ""
+			},
+			"visibilityExpression": ""
+		},
+		{
+			"dataType": "string",
+			"displayStyle": "",
+			"fieldNamespace": "",
+			"indexType": "keyword",
+			"label": {
+				"en_US": "Title"
+			},
+			"localizable": true,
+			"name": "title3",
+			"predefinedValue": {
+				"en_US": ""
+			},
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			},
+			"type": "text",
+			"validation": {
+				"errorMessage": "",
+				"expression": ""
+			},
+			"visibilityExpression": ""
+		},
+		{
+			"dataType": "string",
+			"displayStyle": "",
+			"fieldNamespace": "",
+			"indexType": "keyword",
+			"label": {
+				"en_US": "URL"
+			},
+			"localizable": true,
+			"name": "url3",
+			"predefinedValue": {
+				"en_US": ""
+			},
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			},
+			"type": "text",
+			"validation": {
+				"errorMessage": "",
+				"expression": ""
+			},
+			"visibilityExpression": ""
+		},
+		{
+			"dataType": "string",
+			"fieldNamespace": "",
+			"indexType": "keyword",
+			"label": {
+				"en_US": "Abstract"
+			},
+			"localizable": true,
+			"name": "abstract3",
+			"predefinedValue": {
+				"en_US": ""
+			},
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			},
+			"type": "textarea",
+			"validation": {
+				"errorMessage": "",
+				"expression": ""
+			},
+			"visibilityExpression": ""
+		}
+	]
+}

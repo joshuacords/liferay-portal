@@ -1,1 +1,56 @@
-{"availableLanguageIds":["en_US"],"defaultLanguageId":"en_US","fields":[{"dataType":"date","predefinedValue":{"en_US":""},"readOnly":false,"label":{"en_US":"Date"},"type":"ddm-date","required":false,"showLabel":true,"fieldNamespace":"ddm","visibilityExpression":"","indexType":"keyword","repeatable":false,"name":"date","localizable":true,"tip":{"en_US":""},"validation":{}},{"dataType":"string","predefinedValue":{"en_US":""},"readOnly":false,"label":{"en_US":"Details"},"type":"textarea","required":false,"showLabel":true,"fieldNamespace":"","visibilityExpression":"","indexType":"keyword","repeatable":false,"name":"details","localizable":true,"tip":{"en_US":""},"validation":{}}]}
+{
+	"availableLanguageIds": [
+		"en_US"
+	],
+	"defaultLanguageId": "en_US",
+	"fields": [
+		{
+			"dataType": "date",
+			"fieldNamespace": "ddm",
+			"indexType": "keyword",
+			"label": {
+				"en_US": "Date"
+			},
+			"localizable": true,
+			"name": "date",
+			"predefinedValue": {
+				"en_US": ""
+			},
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			},
+			"type": "ddm-date",
+			"validation": {
+			},
+			"visibilityExpression": ""
+		},
+		{
+			"dataType": "string",
+			"fieldNamespace": "",
+			"indexType": "keyword",
+			"label": {
+				"en_US": "Details"
+			},
+			"localizable": true,
+			"name": "details",
+			"predefinedValue": {
+				"en_US": ""
+			},
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			},
+			"type": "textarea",
+			"validation": {
+			},
+			"visibilityExpression": ""
+		}
+	]
+}

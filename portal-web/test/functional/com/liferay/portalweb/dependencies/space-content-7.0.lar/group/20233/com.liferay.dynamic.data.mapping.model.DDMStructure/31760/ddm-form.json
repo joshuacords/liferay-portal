@@ -1,1 +1,32 @@
-{"availableLanguageIds":["en_US"],"defaultLanguageId":"en_US","fields":[{"dataType":"string","predefinedValue":{"en_US":""},"readOnly":false,"label":{"en_US":"Content"},"type":"textarea","required":false,"showLabel":true,"fieldNamespace":"","visibilityExpression":"","indexType":"keyword","repeatable":false,"name":"content","localizable":true,"tip":{"en_US":""},"validation":{}}]}
+{
+	"availableLanguageIds": [
+		"en_US"
+	],
+	"defaultLanguageId": "en_US",
+	"fields": [
+		{
+			"dataType": "string",
+			"fieldNamespace": "",
+			"indexType": "keyword",
+			"label": {
+				"en_US": "Content"
+			},
+			"localizable": true,
+			"name": "content",
+			"predefinedValue": {
+				"en_US": ""
+			},
+			"readOnly": false,
+			"repeatable": false,
+			"required": false,
+			"showLabel": true,
+			"tip": {
+				"en_US": ""
+			},
+			"type": "textarea",
+			"validation": {
+			},
+			"visibilityExpression": ""
+		}
+	]
+}
