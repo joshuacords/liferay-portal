@@ -29,12 +29,11 @@ public class DataRegionUtil {
 			return Account.DataRegion.JAPAN;
 		}
 		else if (region == Account.Region.BRAZIL) {
-			if (country.equals("Brazil") || Validator.isNull(country)) {
+			if (Validator.isNull(country) || country.equals("Brazil")) {
 				return Account.DataRegion.BRAZIL;
 			}
-			else {
-				return Account.DataRegion.UNITED_STATES;
-			}
+
+			return Account.DataRegion.UNITED_STATES;
 		}
 		else if (region == Account.Region.CHINA) {
 			return Account.DataRegion.JAPAN;
