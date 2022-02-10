@@ -2108,14 +2108,6 @@ com.liferay.portal.kernel.util.ServiceProxyFactory.timeout=300000</echo>
 										<property name="output.dir" value="${app.server.parent.dir}/osgi/temp" />
 									</ant>
 
-									<ant dir="modules" inheritAll="false" target="build-app-lpkg">
-										<property name="app.name" value="portal-mobile-device-detection-fiftyonedegrees-enterprise" />
-										<property name="hot.deploy.test" value="true" />
-										<property name="liferay.home" value="${liferay.home}" />
-										<property name="lpkg.container" value="false" />
-										<property name="output.dir" value="${app.server.parent.dir}/osgi/temp" />
-									</ant>
-
 									<zip
 										destfile="${app.server.parent.dir}/osgi/temp/Liferay Mobile Device Detection.lpkg"
 									>

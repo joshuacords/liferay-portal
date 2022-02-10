@@ -22,7 +22,7 @@ definition {
 	@description = "This is a use case for LPS-42381."
 	@priority = "5"
 	test AssertMobileDeviceRuleActionOnSitePage {
-		property osgi.app.includes = "portal-mobile-device-detection-fiftyonedegrees-enterprise";
+		property osgi.app.includes = "portal-mobile-device-detection-fiftyonedegrees";
 		property osgi.module.configuration.file.names = "com.liferay.portal.bundle.blacklist.internal.BundleBlacklistConfiguration.config";
 		property osgi.module.configurations = "blacklistBundleSymbolicNames=";
 		property portal.acceptance = "true";
