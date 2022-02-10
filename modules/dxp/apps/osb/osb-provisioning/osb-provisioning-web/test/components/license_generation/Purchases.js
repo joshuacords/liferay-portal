@@ -266,7 +266,7 @@ describe('Purchases', () => {
 
 			describe('Limited Privilege, Detached Section', () => {
 				describe('when Type is Enterpirse, Limited, OEM, or Virtual Cluster', () => {
-					it('disables the Choose button if the user selects an Expiration Date that is not within one year from the start date', async () => {
+					it('disables the Choose button if the user selects an Expiration Date that is not within 365 days from the start date', async () => {
 						const {
 							container,
 							getAllByPlaceholderText
@@ -293,6 +293,42 @@ describe('Purchases', () => {
 									value: formatDate(
 										generateNewDateByYear(CURRENT_TIME, 2)
 									)
+								}
+							}
+						);
+
+						await wait(() =>
+							expect(
+								within(container).getByText('choose').disabled
+							).toBeTruthy()
+						);
+					});
+
+					it('disables the Choose button if the user selects a Start Date that is further back than 365 days from the expiration date', async () => {
+						const {
+							container,
+							getAllByPlaceholderText
+						} = renderPurchases({
+							initialLicense: new License({
+								licenseEntry: {
+									licenseEntryType: 'virtual_cluster'
+								}
+							}),
+							permission: false,
+							props: {
+								detached: {
+									instanceSizes: [1, 2, 3, 4],
+									licenseKeysGenerated: '0'
+								},
+								purchased: []
+							}
+						});
+
+						fireEvent.change(
+							getAllByPlaceholderText('YYYY-MM-DD')[0],
+							{
+								target: {
+									value: '2020-02-10'
 								}
 							}
 						);

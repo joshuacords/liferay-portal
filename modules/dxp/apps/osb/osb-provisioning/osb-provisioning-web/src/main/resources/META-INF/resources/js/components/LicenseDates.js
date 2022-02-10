@@ -57,7 +57,11 @@ export default function LicenseDates({
 		const expiration = Date.parse(selectedExpirationDate);
 		const start = Date.parse(date);
 
-		updateValidation(start < expiration);
+		updateValidation(
+			detached && restricted && !updateDatePermission
+				? expiration - start <= YEAR_IN_MS && start < expiration
+				: start < expiration
+		);
 	}
 
 	function validateExpirationDateChange(val) {

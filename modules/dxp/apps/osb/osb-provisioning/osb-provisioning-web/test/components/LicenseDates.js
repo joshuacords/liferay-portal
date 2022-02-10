@@ -100,40 +100,54 @@ describe('LicenseDates', () => {
 					});
 				});
 
-				describe('Non Detached Section', () => {
-					describe('when Type is NOT Enterpirse, Limited, OEM, or Virtual Cluster', () => {
-						it('displays the Expiration Date datepicker ', () => {
-							const {container} = renderLicenseDates({
-								permission: false,
-								props: {
-									detached: false,
-									restricted: false
-								}
-							});
-
-							const expDateDatepickers = container.querySelectorAll(
-								'input[name="expirationDate"][type="hidden"]'
-							);
-
-							expect(expDateDatepickers.length).toBe(1);
+				describe('when Type is Enterpirse, Limited, OEM, or Virtual Cluster', () => {
+					it('displays the Expiration Date datepicker ', () => {
+						const {container} = renderLicenseDates({
+							permission: false
 						});
+
+						const expDateDatepickers = container.querySelectorAll(
+							'input[name="expirationDate"][type="hidden"]'
+						);
+
+						expect(expDateDatepickers.length).toBe(1);
 					});
+				});
+			});
 
-					describe('when Type is Enterpirse, Limited, OEM, or Virtual Cluster', () => {
-						it('does not display the Expiration Date datepicker ', () => {
-							const {container} = renderLicenseDates({
-								permission: false,
-								props: {
-									detached: false
-								}
-							});
-
-							const expDateDatepickers = container.querySelectorAll(
-								'input[name="expirationDate"][type="hidden"]'
-							);
-
-							expect(expDateDatepickers.length).toBe(0);
+			describe('Non Detached Section', () => {
+				describe('when Type is NOT Enterpirse, Limited, OEM, or Virtual Cluster', () => {
+					it('displays the Expiration Date datepicker ', () => {
+						const {container} = renderLicenseDates({
+							permission: false,
+							props: {
+								detached: false,
+								restricted: false
+							}
 						});
+
+						const expDateDatepickers = container.querySelectorAll(
+							'input[name="expirationDate"][type="hidden"]'
+						);
+
+						expect(expDateDatepickers.length).toBe(1);
+					});
+				});
+
+				describe('when Type is Enterpirse, Limited, OEM, or Virtual Cluster', () => {
+					it('does not display the Expiration Date datepicker ', () => {
+						const {container} = renderLicenseDates({
+							permission: false,
+							props: {
+								detached: false
+							}
+						});
+
+						const expDateDatepickers = container.querySelectorAll(
+							'input[name="expirationDate"][type="hidden"]'
+						);
+
+						expect(expDateDatepickers.length).toBe(0);
 					});
 				});
 			});
