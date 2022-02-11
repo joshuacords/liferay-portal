@@ -280,7 +280,7 @@ describe('GeneralInformation', () => {
 		getByText('choose-purchase');
 	});
 
-	it('displays the Non-detached section correctly based on the Product Selected', () => {
+	it('displays the Non-detached section based on the Product Selected', () => {
 		const {getAllByDisplayValue, getByLabelText} = renderGeneralInformation(
 			{
 				props: {
@@ -382,7 +382,7 @@ describe('GeneralInformation', () => {
 		expect(getByLabelText('type').disabled).toBeFalsy();
 	});
 
-	it('hides the Choose Purchase section when the Product dropdown has been reselected after Product, Version, and Type have been previously selected', () => {
+	it('hides the Choose Purchase section when the Product dropdown was reselected after Product, Version, and Type have already been selected', () => {
 		const {getByLabelText, queryByText} = renderGeneralInformation({
 			props: {
 				accountName: 'Test Account',
@@ -407,7 +407,7 @@ describe('GeneralInformation', () => {
 		expect(queryByText('choose-purchase')).toBeFalsy();
 	});
 
-	it('hides the Choose Purchase section when the Version dropdown has been reselected after Product, Version, and Type have been previously selected', () => {
+	it('hides the Choose Purchase section when the Version dropdown was reselected after Product, Version, and Type have been previously selected', () => {
 		const {getByLabelText, queryByText} = renderGeneralInformation({
 			props: {
 				accountName: 'Test Account',

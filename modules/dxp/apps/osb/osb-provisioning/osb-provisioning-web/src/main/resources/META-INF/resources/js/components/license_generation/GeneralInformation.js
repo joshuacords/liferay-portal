@@ -38,8 +38,14 @@ function GeneralInformation({
 	selectAccountActionURL,
 	selectAccountRenderURL
 }) {
-	const [{licenseEntry, product, version}, {updateLicense}] = useNewLicense();
-	const {licenseEntryId} = licenseEntry;
+	const [
+		{
+			licenseEntry: {licenseEntryId},
+			product,
+			version
+		},
+		{updateLicense}
+	] = useNewLicense();
 
 	const [selectedProduct, setSelectedProduct] = useState(
 		findCurrentProduct(
