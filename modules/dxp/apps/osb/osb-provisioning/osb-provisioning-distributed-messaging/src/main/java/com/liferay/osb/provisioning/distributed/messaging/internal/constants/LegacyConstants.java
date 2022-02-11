@@ -21,7 +21,4 @@ public class LegacyConstants {
 
 	public static final long ORGANIZATION_LIFERAY_INC_ID = 21;
 
-	public static final String ROLE_VERIFIED_UUID =
-		"553abeb9-426a-417a-ace2-8d92a20d5690";
-
 }

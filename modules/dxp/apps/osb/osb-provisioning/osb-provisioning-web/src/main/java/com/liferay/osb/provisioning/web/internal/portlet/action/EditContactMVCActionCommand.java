@@ -86,8 +86,6 @@ public class EditContactMVCActionCommand extends BaseMVCActionCommand {
 		String firstName = ParamUtil.getString(actionRequest, "firstName");
 		String middleName = ParamUtil.getString(actionRequest, "middleName");
 		String lastName = ParamUtil.getString(actionRequest, "lastName");
-		boolean emailAddressVerified = ParamUtil.getBoolean(
-			actionRequest, "emailAddressVerified");
 
 		Contact contact = new Contact();
 
@@ -96,7 +94,6 @@ public class EditContactMVCActionCommand extends BaseMVCActionCommand {
 		contact.setFirstName(firstName);
 		contact.setMiddleName(middleName);
 		contact.setLastName(lastName);
-		contact.setEmailAddressVerified(emailAddressVerified);
 
 		_contactWebservice.updateContact(
 			user.getFullName(), user.getUuid(), emailAddress, contact);

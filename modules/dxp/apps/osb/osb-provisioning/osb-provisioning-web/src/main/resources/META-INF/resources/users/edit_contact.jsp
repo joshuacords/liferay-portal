@@ -50,8 +50,6 @@ Contact koroneikiContact = (Contact)renderRequest.getAttribute(ProvisioningWebKe
 			<aui:input name="middleName" type="resource" value="<%= koroneikiContact.getMiddleName() %>" />
 
 			<aui:input name="lastName" type="resource" value="<%= koroneikiContact.getLastName() %>" />
-
-			<aui:input checked="<%= koroneikiContact.getEmailAddressVerified() %>" disabled="<%= true %>" name="emailAddressVerified" type="checkbox" />
 		</aui:fieldset>
 	</aui:fieldset-group>
 </div>
