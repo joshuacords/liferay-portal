@@ -15,6 +15,7 @@
 package com.liferay.osb.provisioning.web.internal.portlet.action;
 
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Account;
+import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.PostalAddress;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Team;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.TeamRole;
 import com.liferay.osb.koroneiki.phloem.rest.client.problem.Problem;
@@ -93,7 +94,22 @@ public class EditAccountMVCActionCommand extends BaseMVCActionCommand {
 
 			account.setRegion(accountRegion);
 
-			account.setDataRegion(DataRegionUtil.getDataRegion(accountRegion));
+			PostalAddress[] postalAddresses = account.getPostalAddresses();
+
+			String country = null;
+
+			if (postalAddresses != null) {
+				for (PostalAddress postalAddress : postalAddresses) {
+					if ((postalAddress.getPrimary() != null) &&
+						postalAddress.getPrimary()) {
+
+						country = postalAddress.getAddressCountry();
+					}
+				}
+			}
+
+			account.setDataRegion(
+				DataRegionUtil.getDataRegion(accountRegion, country));
 		}
 
 		Account newAccount = _accountWebService.addAccount(
