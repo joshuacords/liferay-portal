@@ -273,7 +273,7 @@ public class I18nServletTest extends I18nServlet {
 	}
 
 	@Test
-	public void testSendRedirectWithLegacyLanguageCode() throws Exception {
+	public void testSendRedirectWithHebrewLocale() throws Exception {
 		MockServletContext mockServletContext = new MockServletContext();
 
 		String contextPath = StringPool.SLASH + RandomTestUtil.randomString(10);
