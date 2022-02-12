@@ -347,8 +347,7 @@ public class I18nServlet extends HttpServlet {
 		_setRequestAttributes(
 			httpServletRequest, httpServletResponse, i18nData);
 
-		String languageId = LocaleUtil.toW3cLanguageId(
-			i18nData.getLanguageId());
+		String languageId = LocaleUtil.toW3cLanguageId(i18nData.getLanguageId());
 
 		httpServletResponse.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
 
@@ -357,8 +356,8 @@ public class I18nServlet extends HttpServlet {
 		httpServletResponse.setHeader(
 			"Location",
 			StringBundler.concat(
-				servletContext.getContextPath(), StringPool.SLASH, languageId,
-				i18nData.getPath()));
+				servletContext.getContextPath(), StringPool.SLASH,
+				languageId, i18nData.getPath()));
 	}
 
 	private void _setRequestAttributes(
