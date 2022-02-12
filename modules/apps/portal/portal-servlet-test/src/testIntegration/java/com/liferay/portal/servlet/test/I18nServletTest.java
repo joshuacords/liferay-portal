@@ -71,8 +71,8 @@ public class I18nServletTest extends I18nServlet {
 	public static void setUpClass() throws Exception {
 		_availableLocales = _language.getAvailableLocales();
 		_defaultLocale = LocaleUtil.getDefault();
-		_hebrewLocale = new Locale("iw", "IL");
 		_localesEnabled = PropsValues.LOCALES_ENABLED;
+		_hebrewLocale = new Locale("iw", "IL");
 
 		_language.init();
 
