@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.test.util.PropsTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.upgrade.MockPortletPreferences;
 import com.liferay.portal.kernel.util.Html;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -90,6 +91,13 @@ public class SearchDisplayContextTest {
 		assertSearchSkippedAndNullResults(
 			null,
 			new ConfigurationRenderRequest(renderRequest, portletPreferences));
+	}
+
+	@Test
+	public void testNoScopeParameter() throws Exception {
+		portletPreferences.setValue("searchScope", "let-the-user-choose");
+
+		_assertSearchKeywords(StringPool.DOUBLE_SPACE, StringPool.BLANK);
 	}
 
 	@Test
@@ -344,8 +352,8 @@ public class SearchDisplayContextTest {
 	@Mock
 	protected HttpServletRequest httpServletRequest;
 
-	@Mock
-	protected PortletPreferences portletPreferences;
+	protected PortletPreferences portletPreferences =
+		new MockPortletPreferences();
 
 	@Mock
 	protected PortletURLFactory portletURLFactory;
