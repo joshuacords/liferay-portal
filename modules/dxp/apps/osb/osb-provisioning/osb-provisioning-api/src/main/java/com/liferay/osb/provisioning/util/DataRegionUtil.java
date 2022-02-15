@@ -36,7 +36,7 @@ public class DataRegionUtil {
 			return Account.DataRegion.UNITED_STATES;
 		}
 		else if (region == Account.Region.CHINA) {
-			return Account.DataRegion.JAPAN;
+			return Account.DataRegion.UNITED_STATES;
 		}
 		else if (region == Account.Region.GLOBAL) {
 			return Account.DataRegion.HUNGARY;
@@ -45,7 +45,7 @@ public class DataRegionUtil {
 			return Account.DataRegion.HUNGARY;
 		}
 		else if (region == Account.Region.INDIA) {
-			return Account.DataRegion.JAPAN;
+			return Account.DataRegion.UNITED_STATES;
 		}
 		else if (region == Account.Region.JAPAN) {
 			return Account.DataRegion.JAPAN;
