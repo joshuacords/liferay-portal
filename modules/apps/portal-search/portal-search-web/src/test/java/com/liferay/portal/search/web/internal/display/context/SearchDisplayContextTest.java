@@ -97,7 +97,7 @@ public class SearchDisplayContextTest {
 	public void testNoScopeParameter() throws Exception {
 		portletPreferences.setValue("searchScope", "let-the-user-choose");
 
-		_assertSearchKeywords(StringPool.DOUBLE_SPACE, StringPool.BLANK);
+		assertSearchKeywords(StringPool.DOUBLE_SPACE, StringPool.BLANK);
 	}
 
 	@Test
