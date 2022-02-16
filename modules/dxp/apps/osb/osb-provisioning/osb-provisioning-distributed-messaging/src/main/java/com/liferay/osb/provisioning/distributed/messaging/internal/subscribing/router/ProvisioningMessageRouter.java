@@ -20,7 +20,6 @@ import com.liferay.osb.provisioning.distributed.messaging.internal.subscribing.D
 import com.liferay.osb.provisioning.distributed.messaging.internal.subscribing.OrganizationAssignmentMessageSubscriber;
 import com.liferay.osb.provisioning.distributed.messaging.internal.subscribing.OrganizationUnassignmentMessageSubscriber;
 import com.liferay.osb.provisioning.distributed.messaging.internal.subscribing.ProductMessageSubscriber;
-import com.liferay.osb.provisioning.distributed.messaging.internal.subscribing.RoleAssignmentMessageSubscriber;
 
 import java.util.Map;
 
@@ -65,14 +64,6 @@ public class ProvisioningMessageRouter extends BaseMessageRouter {
 		Map<String, Object> properties) {
 
 		addRoute(productMessageSubscriber, properties);
-	}
-
-	@Reference(unbind = "-")
-	protected void setRoleAssignmentMessageSubscriber(
-		RoleAssignmentMessageSubscriber roleAssignmentMessageSubscriber,
-		Map<String, Object> properties) {
-
-		addRoute(roleAssignmentMessageSubscriber, properties);
 	}
 
 }
