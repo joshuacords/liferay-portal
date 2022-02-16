@@ -183,8 +183,8 @@ public class OpenIdConnectMetadataFactoryImpl
 
 				HTTPResponse httpResponse = httpRequest.send();
 
-			_oidcProviderMetadata = OIDCProviderMetadata.parse(
-				httpResponse.getContentAsJSONObject());
+				_oidcProviderMetadata = OIDCProviderMetadata.parse(
+					httpResponse.getContentAsJSONObject());
 
 				refreshClientMetadata(_oidcProviderMetadata);
 
