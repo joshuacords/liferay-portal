@@ -220,6 +220,15 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 			false, "accountKeysContactRoleKeys",
 			accountKey + "_" + supportDeveloperContactRole.getKey());
 
+		List<Account> liferayIncAccounts = _accountWebService.search(
+			"Liferay, Inc.", null, 1, 1, null);
+
+		Account liferayIncAccount = liferayIncAccounts.get(0);
+
+		filterQuery.addContains(
+			true, "accountKeysContactRoleKeys",
+			liferayIncAccount.getKey() + "_", true);
+
 		long curDeveloperCount = _contactWebService.searchCount(
 			StringPool.BLANK, filterQuery);
 

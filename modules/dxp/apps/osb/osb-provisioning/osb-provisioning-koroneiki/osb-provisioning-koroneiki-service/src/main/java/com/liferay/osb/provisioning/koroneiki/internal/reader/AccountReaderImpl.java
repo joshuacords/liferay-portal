@@ -73,9 +73,21 @@ public class AccountReaderImpl implements AccountReader {
 		int developerCount = 0;
 
 		for (Contact contact : contacts) {
+			boolean employee = false;
+
+			for (Team team : contact.getTeams()) {
+				String name = team.getName();
+
+				if (name.equals("Liferay, Inc.")) {
+					employee = true;
+
+					break;
+				}
+			}
+
 			ContactRole[] contactRoles = contact.getContactRoles();
 
-			if (contactRoles == null) {
+			if ((contactRoles == null) || employee) {
 				continue;
 			}
 
@@ -119,6 +131,7 @@ public class AccountReaderImpl implements AccountReader {
 			return 0;
 		}
 
+		boolean managedServices = false;
 		int developerAddons = 0;
 		int productionInstances = 0;
 
@@ -147,6 +160,14 @@ public class AccountReaderImpl implements AccountReader {
 			}
 			else if (curName.equals(
 						ProductConstants.
+							NAME_MANAGED_SERVICES_DEVELOPER_SUPPORT) ||
+					 curName.equals(
+						 ProductConstants.NAME_MANAGED_SERVICES_STANDARD)) {
+
+				managedServices = true;
+			}
+			else if (curName.equals(
+						ProductConstants.
 							NAME_DXP_CLOUD_SUBSCRIPTION_HA_PRODUCTION)) {
 
 				productionInstances += 2 * productPurchase.getQuantity();
@@ -161,6 +182,10 @@ public class AccountReaderImpl implements AccountReader {
 
 				productionInstances += productPurchase.getQuantity();
 			}
+		}
+
+		if (managedServices) {
+			return 10 + developerAddons;
 		}
 
 		if (productionInstances <= 0) {
