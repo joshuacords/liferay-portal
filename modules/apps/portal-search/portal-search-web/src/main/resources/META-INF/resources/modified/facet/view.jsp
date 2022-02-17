@@ -65,10 +65,10 @@ ModifiedFacetCalendarDisplayContext modifiedFacetCalendarDisplayContext = modifi
 						for (ModifiedFacetTermDisplayContext modifiedFacetTermDisplayContext : modifiedFacetDisplayContext.getModifiedFacetTermDisplayContexts()) {
 						%>
 
-							<li class="facet-value" name="<%= renderResponse.getNamespace() + "range_" + modifiedFacetTermDisplayContext.getLabel() %>">
+							<li class="facet-value" name="<%= renderResponse.getNamespace() + "range_" + HtmlUtil.escape(modifiedFacetTermDisplayContext.getLabel()) %>">
 								<a href="<%= modifiedFacetTermDisplayContext.getRangeURL() %>">
 									<span class="term-name <%= modifiedFacetTermDisplayContext.isSelected() ? "facet-term-selected" : "facet-term-unselected" %>">
-										<liferay-ui:message key="<%= modifiedFacetTermDisplayContext.getLabel() %>" />
+										<liferay-ui:message key="<%= HtmlUtil.escape(modifiedFacetTermDisplayContext.getLabel()) %>" />
 									</span>
 
 									<small class="term-count">
@@ -81,9 +81,9 @@ ModifiedFacetCalendarDisplayContext modifiedFacetCalendarDisplayContext = modifi
 						}
 						%>
 
-						<li class="facet-value" name="<%= renderResponse.getNamespace() + "range_" + customRangeModifiedFacetTermDisplayContext.getLabel() %>">
+						<li class="facet-value" name="<%= renderResponse.getNamespace() + "range_" + HtmlUtil.escape(customRangeModifiedFacetTermDisplayContext.getLabel()) %>">
 							<a href="<%= customRangeModifiedFacetTermDisplayContext.getRangeURL() %>" id="<portlet:namespace /><%= customRangeModifiedFacetTermDisplayContext.getLabel() + "-toggleLink" %>">
-								<span class="term-name <%= customRangeModifiedFacetTermDisplayContext.isSelected() ? "facet-term-selected" : "facet-term-unselected" %>"><liferay-ui:message key="<%= customRangeModifiedFacetTermDisplayContext.getLabel() %>" />&hellip;</span>
+								<span class="term-name <%= customRangeModifiedFacetTermDisplayContext.isSelected() ? "facet-term-selected" : "facet-term-unselected" %>"><liferay-ui:message key="<%= HtmlUtil.escape(customRangeModifiedFacetTermDisplayContext.getLabel()) %>" />&hellip;</span>
 
 								<c:if test="<%= customRangeModifiedFacetTermDisplayContext.isSelected() %>">
 									<small class="term-count">
