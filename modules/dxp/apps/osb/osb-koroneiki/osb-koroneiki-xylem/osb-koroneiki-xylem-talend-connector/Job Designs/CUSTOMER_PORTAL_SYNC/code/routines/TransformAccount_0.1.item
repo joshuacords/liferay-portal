@@ -243,6 +243,7 @@ public class TransformAccount {
 			return 0;
 		}
 
+		boolean managedServices = false;
 		int developerAddons = 0;
 		int productionInstances = 0;
 
@@ -275,6 +276,14 @@ public class TransformAccount {
 			if (name.equals(ProductConstants.NAME_DESIGNATED_CONTACT_ADD_ON)) {
 				developerAddons += quantity;
 			}
+			else if (curName.equals(
+						ProductConstants.
+							NAME_MANAGED_SERVICES_DEVELOPER_SUPPORT) ||
+					curName.equals(
+						ProductConstants.NAME_MANAGED_SERVICES_STANDARD)) {
+
+				managedServices = true;
+			}
 			else if (name.equals(
 						ProductConstants.
 							NAME_DXP_CLOUD_SUBSCRIPTION_HA_PRODUCTION)) {
@@ -292,6 +301,10 @@ public class TransformAccount {
 
 				productionInstances += quantity;
 			}
+		}
+
+		if (managedServices) {
+			return 10 + developerAddons;
 		}
 
 		if (productionInstances <= 0) {
