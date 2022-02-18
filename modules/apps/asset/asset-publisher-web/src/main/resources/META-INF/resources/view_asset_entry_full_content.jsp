@@ -359,6 +359,7 @@ fragmentsEditorData.put("fragments-editor-item-type", "fragments-editor-mapped-i
 						target="_blank"
 						title="<%= title %>"
 						types="<%= assetPublisherDisplayContext.getSocialBookmarksTypes() %>"
+						url="<%= assetPublisherHelper.getAssetSocialURL(liferayPortletRequest, liferayPortletResponse, assetEntry) %>"
 						urlImpl="<%= viewFullContentURL %>"
 					/>
 				</div>
