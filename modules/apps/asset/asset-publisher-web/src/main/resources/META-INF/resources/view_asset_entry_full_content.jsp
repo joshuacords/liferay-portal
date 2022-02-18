@@ -360,7 +360,6 @@ fragmentsEditorData.put("fragments-editor-item-type", "fragments-editor-mapped-i
 						title="<%= title %>"
 						types="<%= assetPublisherDisplayContext.getSocialBookmarksTypes() %>"
 						url="<%= assetPublisherHelper.getAssetSocialURL(liferayPortletRequest, liferayPortletResponse, assetEntry) %>"
-						urlImpl="<%= viewFullContentURL %>"
 					/>
 				</div>
 			</c:if>
