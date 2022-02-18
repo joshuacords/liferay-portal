@@ -31,3 +31,7 @@ dependencies {
 	compileOnly project(":dxp:apps:osb:osb-provisioning:osb-provisioning-zendesk:osb-provisioning-zendesk-api")
 	compileOnly project(":dxp:apps:osb:osb-provisioning:osb-provisioning-zendesk:osb-provisioning-zendesk-web-service-api")
 }
+
+jar {
+	zip64 = true
+}
