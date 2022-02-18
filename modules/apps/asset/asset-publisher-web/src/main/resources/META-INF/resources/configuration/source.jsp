@@ -383,7 +383,7 @@ List<AssetRendererFactory<?>> classTypesAssetRendererFactories = (List<AssetRend
 						if (orderingPanel) {
 							Array.prototype.forEach.call(
 								orderingPanel.querySelectorAll('.order-by-subtype'),
-								function (option) {
+								function(option) {
 									dom.exitDocument(option);
 								}
 							);
