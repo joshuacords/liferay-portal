@@ -33,12 +33,15 @@ import com.liferay.asset.publisher.util.AssetEntryResult;
 import com.liferay.asset.publisher.util.AssetPublisherHelper;
 import com.liferay.asset.publisher.web.internal.configuration.AssetPublisherWebConfiguration;
 import com.liferay.asset.util.AssetHelper;
+import com.liferay.petra.portlet.url.builder.PortletURLBuilder;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.GroupConstants;
 import com.liferay.portal.kernel.model.Layout;
@@ -492,8 +495,66 @@ public class AssetPublisherHelperImpl implements AssetPublisherHelper {
 		LiferayPortletRequest liferayPortletRequest,
 		LiferayPortletResponse liferayPortletResponse, AssetEntry assetEntry) {
 
-		return getAssetViewURL(
-			liferayPortletRequest, liferayPortletResponse, assetEntry);
+		PortletURL redirectURL = PortletURLBuilder.createRenderURL(
+			liferayPortletResponse
+		).setParameter(
+			"assetEntryId", assetEntry.getEntryId()
+		).setParameter(
+			"cur", ParamUtil.getInteger(liferayPortletRequest, "cur")
+		).setParameter(
+			"delta",
+			() -> {
+				int delta = ParamUtil.getInteger(
+					liferayPortletRequest, "delta");
+
+				if (delta > 0) {
+					return delta;
+				}
+
+				return null;
+			}
+		).setParameter(
+			"resetCur", ParamUtil.getBoolean(liferayPortletRequest, "resetCur")
+		).buildPortletURL();
+
+		PortletURL viewFullContentURL = PortletURLBuilder.create(
+			getBaseAssetViewURL(
+				liferayPortletRequest, liferayPortletResponse, assetRenderer,
+				assetEntry)
+		).setRedirect(
+			redirectURL
+		).buildPortletURL();
+
+		String viewURL = null;
+
+		if (viewInContext) {
+			try {
+				String noSuchEntryRedirect = viewFullContentURL.toString();
+
+				viewURL = assetRenderer.getURLViewInContext(
+					liferayPortletRequest, liferayPortletResponse,
+					noSuchEntryRedirect);
+
+				if (Validator.isNotNull(viewURL) &&
+					!Objects.equals(viewURL, noSuchEntryRedirect)) {
+
+					viewURL = _http.setParameter(
+						viewURL, "redirect",
+						_portal.getCurrentURL(liferayPortletRequest));
+				}
+			}
+			catch (Exception exception) {
+				if (_log.isDebugEnabled()) {
+					_log.debug(exception);
+				}
+			}
+		}
+
+		if (Validator.isNull(viewURL)) {
+			viewURL = viewFullContentURL.toString();
+		}
+
+		return viewURL;
 	}
 
 	@Override
@@ -1351,6 +1412,9 @@ public class AssetPublisherHelperImpl implements AssetPublisherHelper {
 
 		assetEntryQuery.setNotAnyTagIds(notAnyAssetTagIds);
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		AssetPublisherHelperImpl.class);
 
 	@Reference
 	private AssetCategoryLocalService _assetCategoryLocalService;
