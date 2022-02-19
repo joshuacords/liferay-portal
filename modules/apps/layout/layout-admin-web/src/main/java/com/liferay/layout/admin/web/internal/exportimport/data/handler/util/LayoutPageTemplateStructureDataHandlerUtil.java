@@ -158,6 +158,32 @@ public class LayoutPageTemplateStructureDataHandlerUtil {
 			}
 		}
 
+		JSONArray nonIndexableFragmentEntryLinkIdsJSONArray =
+			dataJSONObject.getJSONArray("nonIndexableFragmentEntryLinkIds");
+
+		JSONArray newNonIndexableFragmentEntryLinkIdsJSONArrayJSONArray =
+			JSONFactoryUtil.createJSONArray();
+
+		for (int i = 0; i < nonIndexableFragmentEntryLinkIdsJSONArray.length();
+			 i++) {
+
+			long fragmentEntryLinkId = MapUtil.getLong(
+				fragmentEntryLinkIds,
+				nonIndexableFragmentEntryLinkIdsJSONArray.getLong(i),
+				nonIndexableFragmentEntryLinkIdsJSONArray.getLong(i));
+
+			if (fragmentEntryLinkId <= 0) {
+				continue;
+			}
+
+			newNonIndexableFragmentEntryLinkIdsJSONArrayJSONArray.put(
+				fragmentEntryLinkId);
+		}
+
+		dataJSONObject.put(
+			"nonIndexableFragmentEntryLinkIds",
+			newNonIndexableFragmentEntryLinkIdsJSONArrayJSONArray);
+
 		existingLayoutPageTemplateStructureRel.setData(
 			dataJSONObject.toString());
 
