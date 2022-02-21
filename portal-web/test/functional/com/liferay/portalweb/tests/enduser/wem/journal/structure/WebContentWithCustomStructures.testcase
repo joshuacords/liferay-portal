@@ -639,6 +639,15 @@ definition {
 			userEmailAddress = "test1@liferay.com",
 			userScreenName = "test1test");
 
+		ProductMenu.gotoPortlet(
+			category = "Users",
+			panel = "Control Panel",
+			portlet = "Roles");
+
+		Role.assignRegRoleCP(
+			roleTitle = "Power User",
+			userScreenName = "test1test");
+
 		Site.openSiteMembershipsAdmin(siteURLKey = "test-site-name");
 
 		Site.assignUserAsMemberCP(
