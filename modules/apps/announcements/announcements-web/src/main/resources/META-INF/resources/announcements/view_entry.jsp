@@ -64,7 +64,7 @@ if (portletTitleBasedNavigation) {
 				<div class="card-col-content card-col-gutters">
 
 					<%
-					String userDisplayText = PortalUtil.getUserName(entry) + StringPool.COMMA_AND_SPACE + Time.getRelativeTimeDescription(entry.getDisplayDate(), locale, timeZone, announcementsDisplayContext.getDateFormatDate());
+					String userDisplayText = HtmlUtil.escape(PortalUtil.getUserName(entry) + StringPool.COMMA_AND_SPACE + Time.getRelativeTimeDescription(entry.getDisplayDate(), locale, timeZone, announcementsDisplayContext.getDateFormatDate()));
 					%>
 
 					<h5 class="text-default" title="<%= userDisplayText %>">
