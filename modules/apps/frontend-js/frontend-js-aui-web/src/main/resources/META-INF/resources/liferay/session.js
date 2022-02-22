@@ -676,6 +676,10 @@ AUI.add(
 					});
 
 					DOC.title = instance.get('pageTitle');
+
+					if (instance._alert) {
+						instance._alert.setAttribute('role', 'alert');
+					}
 				},
 
 				_uiSetRemainingTime(remainingTime, counterTextNode) {
