@@ -31,12 +31,12 @@
 
 	.dropdown-toggle:after {
 		border-width: 0;
-		content: normal;
+		content: none;
 	}
 
 	.dropup .dropdown-toggle:after {
 		border-width: 0;
-		content: normal;
+		content: none;
 	}
 
 	.dropdown.open > .dropdown-menu,
