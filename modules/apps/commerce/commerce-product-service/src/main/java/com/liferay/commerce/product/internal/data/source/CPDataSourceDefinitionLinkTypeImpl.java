@@ -26,10 +26,7 @@ import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.SearchContext;
-<<<<<<< HEAD
-=======
 import com.liferay.portal.kernel.util.HashMapBuilder;
->>>>>>> 7e4fa32 (COMMERCE-6695 Fixed data sources implementation)
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
