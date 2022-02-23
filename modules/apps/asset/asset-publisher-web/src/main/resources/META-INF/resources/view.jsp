@@ -37,6 +37,7 @@ if (assetPublisherDisplayContext.isEnableTagBasedNavigation() && !assetPublisher
 					href="<%= rssURL.toString() %>"
 					icon="rss-full"
 					label='<%= LanguageUtil.get(request, "rss") %>'
+					target="_blank"
 				/>
 			</div>
 
