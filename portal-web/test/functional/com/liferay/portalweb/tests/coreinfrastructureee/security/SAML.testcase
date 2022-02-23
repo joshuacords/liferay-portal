@@ -1212,7 +1212,6 @@ definition {
 	}
 
 	@description = "This will be ignored until LPS-129933 is fixed."
-	@ignore = "true"
 	@priority = "4"
 	test ViewSingleLogoutAndForceAuthWithMultipleSPs {
 		property portal.upstream = "quarantine";

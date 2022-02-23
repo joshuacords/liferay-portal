@@ -671,7 +671,6 @@ definition {
 	}
 
 	@description = "This will be ignored until LPS-88647 is fixed."
-	@ignore = "true"
 	@priority = "4"
 	test EditListRecordViaRecordView {
 		Navigator.openURL();

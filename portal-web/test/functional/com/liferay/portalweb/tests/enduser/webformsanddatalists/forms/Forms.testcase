@@ -4558,7 +4558,6 @@ definition {
 	}
 
 	@description = "LPS-84637 - Form title and description get unescaped after unpublish it."
-	@ignore = "true"
 	@priority = "5"
 	test TitleAndDescriptionXSSUnescapedAfterUnpublish {
 		property portal.acceptance = "true";
