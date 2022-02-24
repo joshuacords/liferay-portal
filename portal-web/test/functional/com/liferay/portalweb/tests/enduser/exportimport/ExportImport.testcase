@@ -1099,6 +1099,66 @@ definition {
 			voteCount = "1");
 	}
 
+	@description = "This is a test for LPS-142076. Can import site with the 'Copy as new' option in the Update data section."
+	@priority = "3"
+	test ExportImportSiteWithCopyAsNew {
+		JSONGroup.addGroup(groupName = "Test Site Name");
+
+		JSONLayout.addPublicLayout(
+			groupName = "Test Site Name",
+			layoutName = "Test Site Name");
+
+		JSONLayout.addWidgetToPublicLayout(
+			groupName = "Test Site Name",
+			layoutName = "Test Site Name",
+			widgetName = "Web Content Display");
+
+		WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
+
+		WebContentNavigator.gotoAddCP();
+
+		PortletEntry.inputTitle(title = "WC WebContent 1");
+
+		AlloyEditor.addSourceContent(content = '''<p>Test: <a href="/web/test-site-name/test-site-name">Link</a></p>''');
+
+		PortletEntry.publish();
+
+		WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
+
+		WebContentNavigator.gotoAddCP();
+
+		WebContent.addCP(
+			webContentContent = "WC WebContent Content",
+			webContentTitle = "WC WebContent 2");
+
+		PortletEntry.publish();
+
+		Navigator.gotoSitePage(
+			pageName = "Test Site Name",
+			siteName = "Test Site Name");
+
+		WebContentDisplayPortlet.selectWebContent(webContentTitle = "WC WebContent 2");
+
+		LAR.openExportAdmin(siteScopeName = "test-site-name");
+
+		LexiconEntry.gotoAdd();
+
+		LAR.exportWithAssertionOnSuccess();
+
+		LAR.downloadLar();
+
+		JSONGroup.addGroup(groupName = "Site Name");
+
+		var larFileName = LAR.getLarFileName();
+
+		LAR.importSiteCP(
+			copyAsNew = "true",
+			larFileName = "${larFileName}",
+			siteName = "Site Name");
+
+		AssertConsoleTextNotPresent(value1 = "Could not execute JDBC batch update");
+	}
+
 	@description = "This is a use case for LPS-88331."
 	@priority = "3"
 	test ExportImportSiteWithNestedDocumentsAndMediaField {
