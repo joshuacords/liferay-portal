@@ -25,6 +25,12 @@
 	<td>//input[contains(@id,'autoArticleId')]</td>
 	<td></td>
 </tr>
+<!--SIDEBAR-->
+<tr>
+	<td>DEFAULT_LANGUAGE</td>
+	<td>//div[contains(@class,'article-default-language')]//b[normalize-space()='Default Language']</td>
+	<td></td>
+</tr>
 <tr>
 	<td>SIDEBAR</td>
 	<td>//div[contains(@class,'contextual-sidebar-visible')]</td>
