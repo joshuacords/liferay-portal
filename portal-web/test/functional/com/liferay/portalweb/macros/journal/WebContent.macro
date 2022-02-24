@@ -753,15 +753,10 @@ definition {
 			value1 = "${webContentTitle} is not approved.");
 	}
 
-	macro clickChangeDefaultLanguage {
-		var menuItem = "${menuItem}";
-
+	macro changeDefaultLanguage {
 		Click(locator1 = "Button#CHANGE");
 
-		AssertClick(
-			key_menuItem = "${menuItem}",
-			locator1 = "MenuItem#ANY_MENU_ITEM",
-			value1 = "${menuItem}");
+		MenuItem.click(menuItem = "${defaultLanguage}");
 	}
 
 	macro copyCP {
@@ -1595,6 +1590,12 @@ definition {
 		AssertElementNotPresent(locator1 = "WC#ENTRY_LIST_THUMBNAIL");
 
 		AssertElementNotPresent(locator1 = "WC#ENTRY_LIST_TITLE");
+	}
+
+	macro viewDefaultLanguage {
+		AssertVisible(
+			defaultLanguage = "${defaultLanguage}",
+			locator1 = "WCEditWebContent#DEFAULT_LANGUAGE");
 	}
 
 	macro viewDisplayStyleCP {
