@@ -95,10 +95,10 @@ public class ProductConstants {
 	public static final String NAME_LIMITED = "Limited Subscription";
 
 	public static final String NAME_MANAGED_SERVICES_DEVELOPER_SUPPORT =
-		"Managed Services Developer Support";
+		"Managed Services - Developer Support";
 
 	public static final String NAME_MANAGED_SERVICES_STANDARD =
-		"Managed Services Standard";
+		"Managed Services - Standard";
 
 	public static final String NAME_PLATINUM = "Platinum Subscription";
 
