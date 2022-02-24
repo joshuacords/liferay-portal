@@ -14,6 +14,7 @@
 
 package com.liferay.layout.internal.search.util;
 
+import com.liferay.fragment.constants.FragmentEntryLinkConstants;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -36,6 +37,7 @@ import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.cookie.BasicClientCookie;
@@ -76,8 +78,14 @@ public class LayoutCrawler {
 			themeDisplay.setServerPort(_portal.getPortalServerPort(false));
 			themeDisplay.setSiteGroupId(layout.getGroupId());
 
-			HttpGet httpGet = new HttpGet(
+			URIBuilder uriBuilder = new URIBuilder(
 				_portal.getLayoutFullURL(layout, themeDisplay));
+
+			uriBuilder.setParameter(
+				"liferay-layout:render-fragment-layout:mode",
+				FragmentEntryLinkConstants.SEARCH);
+
+			HttpGet httpGet = new HttpGet(uriBuilder.build());
 
 			httpGet.setHeader("Host", company.getVirtualHostname());
 
