@@ -679,7 +679,11 @@ AUI.add(
 							),
 							A.getDoc().on(
 								EVENT_CLICK,
-								menuInstance._closeActiveMenu,
+								event => {
+									if (event._event.isTrusted) {
+										menuInstance._closeActiveMenu();
+									}
+								},
 								menuInstance
 							),
 							listContainer.on(
