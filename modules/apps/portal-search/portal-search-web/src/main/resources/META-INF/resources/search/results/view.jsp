@@ -252,7 +252,7 @@ com.liferay.portal.kernel.dao.search.SearchContainer<com.liferay.portal.kernel.s
 		</c:choose>
 	</liferay-ui:search-container-row>
 
-	<aui:form useNamespace="<%= false %>">
+	<aui:form action="#" useNamespace="<%= false %>">
 		<liferay-ui:search-iterator
 			displayStyle="descriptive"
 			markupView="lexicon"

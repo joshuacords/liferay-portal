@@ -52,7 +52,7 @@ FolderSearchFacetDisplayContext folderSearchFacetDisplayContext = (FolderSearchF
 				persistState="<%= true %>"
 				title="folder"
 			>
-				<aui:form method="post" name="folderFacetForm">
+				<aui:form action="#" method="post" name="folderFacetForm">
 					<aui:input autocomplete="off" name="<%= HtmlUtil.escapeAttribute(folderSearchFacetDisplayContext.getParameterName()) %>" type="hidden" value="<%= folderSearchFacetDisplayContext.getParameterValue() %>" />
 					<aui:input cssClass="facet-parameter-name" name="facet-parameter-name" type="hidden" value="<%= folderSearchFacetDisplayContext.getParameterName() %>" />
 					<aui:input cssClass="start-parameter-name" name="start-parameter-name" type="hidden" value="<%= folderSearchFacetDisplayContext.getPaginationStartParameterName() %>" />

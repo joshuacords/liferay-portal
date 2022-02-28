@@ -41,7 +41,7 @@ SortDisplayContext sortDisplayContext = (SortDisplayContext)java.util.Objects.re
 		</div>
 	</c:when>
 	<c:otherwise>
-		<aui:form method="post" name="fm">
+		<aui:form action="#" method="post" name="fm">
 			<aui:fieldset>
 				<aui:input cssClass="sort-parameter-name" name="sort-parameter-name" type="hidden" value="<%= sortDisplayContext.getParameterName() %>" />
 

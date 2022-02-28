@@ -53,7 +53,7 @@ ModifiedFacetCalendarDisplayContext modifiedFacetCalendarDisplayContext = modifi
 			persistState="<%= true %>"
 			title="last-modified"
 		>
-			<aui:form method="get" name="modifiedFacetForm">
+			<aui:form action="#" method="get" name="modifiedFacetForm">
 				<aui:input autocomplete="off" name="inputFacetName" type="hidden" value="modified" />
 				<aui:input cssClass="facet-parameter-name" name="facet-parameter-name" type="hidden" value="<%= modifiedFacetDisplayContext.getParameterName() %>" />
 				<aui:input name="start-parameter-name" type="hidden" value="<%= modifiedFacetDisplayContext.getPaginationStartParameterName() %>" />
