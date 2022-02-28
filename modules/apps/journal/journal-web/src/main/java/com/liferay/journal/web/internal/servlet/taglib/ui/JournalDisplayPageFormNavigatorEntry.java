@@ -53,7 +53,7 @@ public class JournalDisplayPageFormNavigatorEntry
 
 	@Override
 	public boolean isVisible(User user, JournalArticle article) {
-		if (_isGlobalStructure(article) || isGlobalScopeArticle(article)) {
+		if (isGlobalScopeArticle(article) || _isGlobalStructure(article)) {
 			return false;
 		}
 
