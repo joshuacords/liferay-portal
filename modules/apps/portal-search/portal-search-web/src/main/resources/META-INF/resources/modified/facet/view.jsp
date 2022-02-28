@@ -92,8 +92,7 @@ ModifiedFacetCalendarDisplayContext modifiedFacetCalendarDisplayContext = modifi
 								</c:if>
 							</a>
 						</li>
-
-						<div class="<%= !modifiedFacetCalendarDisplayContext.isSelected() ? "hide" : StringPool.BLANK %> modified-custom-range" id="<portlet:namespace />customRange">
+						<li class="<%= !modifiedFacetCalendarDisplayContext.isSelected() ? "hide" : StringPool.BLANK %> modified-custom-range" id="<portlet:namespace />customRange">
 							<div class="col-md-6" id="<portlet:namespace />customRangeFrom">
 								<aui:field-wrapper label="from">
 									<liferay-ui:input-date
@@ -129,7 +128,7 @@ ModifiedFacetCalendarDisplayContext modifiedFacetCalendarDisplayContext = modifi
 							</div>
 
 							<aui:button cssClass="modified-facet-custom-range-filter-button" disabled="<%= modifiedFacetCalendarDisplayContext.isRangeBackwards() %>" name="searchCustomRangeButton" value="search" />
-						</div>
+						</li>
 					</ul>
 				</aui:field-wrapper>
 
