@@ -102,7 +102,7 @@ if (ListUtil.isEmpty(folders) && ListUtil.isEmpty(fileEntries) && ListUtil.isEmp
 
 						<c:if test="<%= folder != null %>">
 							<dt class="sidebar-dt">
-								<liferay-ui:message key="created" />
+								<liferay-ui:message key="created-by" />
 							</dt>
 							<dd class="sidebar-dd">
 								<%= HtmlUtil.escape(folder.getUserName()) %>
