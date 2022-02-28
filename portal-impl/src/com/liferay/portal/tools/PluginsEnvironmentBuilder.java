@@ -324,7 +324,7 @@ public class PluginsEnvironmentBuilder {
 
 	protected List<String> getCommonJars() {
 		return ListUtil.fromArray(
-			"commons-logging.jar", "log4j.jar", "util-bridges.jar",
+			"commons-logging.jar", "reload4j.jar", "util-bridges.jar",
 			"util-java.jar", "util-taglib.jar");
 	}
 
@@ -586,7 +586,7 @@ public class PluginsEnvironmentBuilder {
 
 			portalJars.addAll(dependencyJars);
 			portalJars.add("commons-logging.jar");
-			portalJars.add("log4j.jar");
+			portalJars.add("reload4j.jar");
 
 			portalJars = ListUtil.unique(portalJars);
 

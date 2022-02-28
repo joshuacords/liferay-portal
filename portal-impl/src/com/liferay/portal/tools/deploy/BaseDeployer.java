@@ -438,17 +438,22 @@ public class BaseDeployer implements AutoDeployer, Deployer {
 		// log4j*.jar
 
 		if (PropsValues.AUTO_DEPLOY_COPY_LOG4J) {
-			String[] log4jJars = pluginLibDir.list(
-				new GlobFilenameFilter("log4j*.jar"));
+			String[] reload4jJar = pluginLibDir.list(
+				new GlobFilenameFilter("reload4j.jar"));
 
-			if (ArrayUtil.isEmpty(log4jJars)) {
+			if (ArrayUtil.isEmpty(reload4jJar)) {
 				String portalJarPath =
-					PortalUtil.getPortalLibDir() + "log4j.jar";
+					PortalUtil.getPortalLibDir() + "reload4j.jar";
 
 				FileUtil.copyFile(
-					portalJarPath, srcFile + "/WEB-INF/lib/log4j.jar", true);
+					portalJarPath, srcFile + "/WEB-INF/lib/reload4j.jar", true);
+			}
 
-				portalJarPath =
+			String[] log4jExtrasJar = pluginLibDir.list(
+				new GlobFilenameFilter("log4j-extras.jar"));
+
+			if (ArrayUtil.isEmpty(log4jExtrasJar)) {
+				String portalJarPath =
 					PortalUtil.getPortalLibDir() + "log4j-extras.jar";
 
 				FileUtil.copyFile(
@@ -703,7 +708,7 @@ public class BaseDeployer implements AutoDeployer, Deployer {
 		if (appServerType.equals(ServerDetector.JBOSS_ID) ||
 			appServerType.equals(ServerDetector.WILDFLY_ID)) {
 
-			excludes += "**/WEB-INF/lib/log4j.jar,";
+			excludes += "**/WEB-INF/lib/reload4j.jar,";
 		}
 		else if (appServerType.equals(ServerDetector.TOMCAT_ID)) {
 			String[] libs = FileUtil.listFiles(tomcatLibDir);

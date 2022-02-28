@@ -9707,8 +9707,8 @@ ${update.properties}</echo>
 		/>
 
 		<copy
-			file="${project.dir}/lib/portal/log4j.jar"
-			tofile="${app.server.parent.dir}/gateway/tomcat-${app.server.tomcat.version}/lib/log4j.jar"
+			file="${project.dir}/lib/portal/reload4j.jar"
+			tofile="${app.server.parent.dir}/gateway/tomcat-${app.server.tomcat.version}/lib/reload4j.jar"
 		/>
 
 		<copy
@@ -9853,8 +9853,8 @@ osb.lcs.portlet.oauth.consumer.secret=${osb.lcs.portlet.oauth.consumer.secret}</
 		/>
 
 		<copy
-			file="${project.dir}/lib/portal/log4j.jar"
-			tofile="${app.server.parent.dir}/processor/tomcat-${app.server.tomcat.version}/lib/log4j.jar"
+			file="${project.dir}/lib/portal/reload4j.jar"
+			tofile="${app.server.parent.dir}/processor/tomcat-${app.server.tomcat.version}/lib/reload4j.jar"
 		/>
 
 		<copy

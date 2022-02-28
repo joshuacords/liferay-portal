@@ -36,8 +36,8 @@
 		<pathelement location="${project.dir}/lib/portal/jstl-api.jar" />
 		<pathelement location="${project.dir}/lib/portal/jstl-impl.jar" />
 		<pathelement location="${project.dir}/lib/portal/liferay-icu4j.jar" />
-		<pathelement location="${project.dir}/lib/portal/log4j.jar" />
 		<pathelement location="${project.dir}/lib/portal/openid4java.jar" />
+		<pathelement location="${project.dir}/lib/portal/reload4j.jar" />
 		<pathelement location="${project.dir}/lib/portal/rome.jar" />
 	</path>
 
