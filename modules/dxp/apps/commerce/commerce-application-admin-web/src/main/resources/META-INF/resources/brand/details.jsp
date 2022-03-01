@@ -46,8 +46,6 @@ CommerceApplicationBrand commerceApplicationBrand = commerceApplicationAdminDisp
 
 									<%
 									long logoId = commerceApplicationBrand.getLogoId();
-
-									UserFileUploadsConfiguration userFileUploadsConfiguration = commerceApplicationAdminDisplayContext.getUserFileUploadsConfiguration();
 									%>
 
 									<liferay-ui:logo-selector
@@ -55,7 +53,6 @@ CommerceApplicationBrand commerceApplicationBrand = commerceApplicationAdminDisp
 										defaultLogo="<%= logoId == 0 %>"
 										defaultLogoURL='<%= themeDisplay.getPathImage() + "/organization_logo?img_id=0" %>'
 										logoDisplaySelector=".organization-logo"
-										maxFileSize="<%= userFileUploadsConfiguration.imageMaxSize() %>"
 										tempImageFileName="<%= String.valueOf(themeDisplay.getScopeGroupId()) %>"
 									/>
 								</c:if>

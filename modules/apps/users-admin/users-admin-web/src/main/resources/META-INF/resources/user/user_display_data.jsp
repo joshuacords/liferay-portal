@@ -145,11 +145,6 @@ User selUser = (User)request.getAttribute(UsersAdminWebKeys.SELECTED_USER);
 			<c:if test="<%= selUser != null %>">
 				<c:choose>
 					<c:when test='<%= UsersAdminUtil.hasUpdateFieldPermission(permissionChecker, user, selUser, "portrait") %>'>
-
-						<%
-						UserFileUploadsConfiguration userFileUploadsConfiguration = ConfigurationProviderUtil.getSystemConfiguration(UserFileUploadsConfiguration.class);
-						%>
-
 						<label class="control-label"></label>
 
 						<liferay-ui:logo-selector
@@ -158,7 +153,6 @@ User selUser = (User)request.getAttribute(UsersAdminWebKeys.SELECTED_USER);
 							defaultLogo="<%= selUser.getPortraitId() == 0 %>"
 							defaultLogoURL="<%= UserConstants.getPortraitURL(themeDisplay.getPathImage(), selUser.isMale(), 0, null) %>"
 							logoDisplaySelector=".user-logo"
-							maxFileSize="<%= userFileUploadsConfiguration.imageMaxSize() %>"
 							preserveRatio="<%= true %>"
 							tempImageFileName="<%= String.valueOf(selUser.getUserId()) %>"
 						/>

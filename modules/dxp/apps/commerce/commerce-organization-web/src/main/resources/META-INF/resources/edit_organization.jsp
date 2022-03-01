@@ -44,8 +44,6 @@ Organization organization = commerceOrganizationDisplayContext.getOrganization()
 
 						<%
 						long logoId = organization.getLogoId();
-
-						UserFileUploadsConfiguration userFileUploadsConfiguration = commerceOrganizationDisplayContext.getUserFileUploadsConfiguration();
 						%>
 
 						<liferay-ui:logo-selector
@@ -53,7 +51,6 @@ Organization organization = commerceOrganizationDisplayContext.getOrganization()
 							defaultLogo="<%= logoId == 0 %>"
 							defaultLogoURL='<%= themeDisplay.getPathImage() + "/organization_logo?img_id=0" %>'
 							logoDisplaySelector=".organization-logo"
-							maxFileSize="<%= userFileUploadsConfiguration.imageMaxSize() %>"
 							tempImageFileName="<%= String.valueOf(themeDisplay.getScopeGroupId()) %>"
 						/>
 					</c:if>

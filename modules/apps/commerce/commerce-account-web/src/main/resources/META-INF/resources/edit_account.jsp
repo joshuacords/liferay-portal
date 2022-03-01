@@ -56,8 +56,6 @@ if (commerceAddress != null) {
 
 								<%
 								long logoId = commerceAccount.getLogoId();
-
-								UserFileUploadsConfiguration userFileUploadsConfiguration = commerceAccountDisplayContext.getUserFileUploadsConfiguration();
 								%>
 
 								<liferay-ui:logo-selector
@@ -65,7 +63,6 @@ if (commerceAddress != null) {
 									defaultLogo="<%= logoId == 0 %>"
 									defaultLogoURL='<%= themeDisplay.getPathImage() + "/organization_logo?img_id=0" %>'
 									logoDisplaySelector=".organization-logo"
-									maxFileSize="<%= userFileUploadsConfiguration.imageMaxSize() %>"
 									tempImageFileName="<%= String.valueOf(themeDisplay.getScopeGroupId()) %>"
 								/>
 							</c:if>

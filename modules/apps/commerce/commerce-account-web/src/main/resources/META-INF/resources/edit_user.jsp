@@ -117,17 +117,11 @@ boolean canEditUser = (selectedUser.getUserId() == user.getUserId()) || commerce
 						<aui:fieldset>
 							<c:choose>
 								<c:when test="<%= canEditUser %>">
-
-									<%
-									UserFileUploadsConfiguration userFileUploadsConfiguration = commerceAccountDisplayContext.getUserFileUploadsConfiguration();
-									%>
-
 									<liferay-ui:logo-selector
 										currentLogoURL="<%= selectedUser.getPortraitURL(themeDisplay) %>"
 										defaultLogo="<%= selectedUser.getPortraitId() == 0 %>"
 										defaultLogoURL="<%= UserConstants.getPortraitURL(themeDisplay.getPathImage(), selectedUser.isMale(), 0, null) %>"
 										logoDisplaySelector=".user-logo"
-										maxFileSize="<%= userFileUploadsConfiguration.imageMaxSize() %>"
 										tempImageFileName="<%= String.valueOf(selectedUser.getUserId()) %>"
 									/>
 								</c:when>

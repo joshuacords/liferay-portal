@@ -68,8 +68,6 @@ long commerceAccountId = commerceAccountAdminDisplayContext.getCommerceAccountId
 
 								<%
 								long logoId = commerceAccount.getLogoId();
-
-								UserFileUploadsConfiguration userFileUploadsConfiguration = commerceAccountAdminDisplayContext.getUserFileUploadsConfiguration();
 								%>
 
 								<liferay-ui:logo-selector
@@ -77,7 +75,6 @@ long commerceAccountId = commerceAccountAdminDisplayContext.getCommerceAccountId
 									defaultLogo="<%= logoId == 0 %>"
 									defaultLogoURL='<%= themeDisplay.getPathImage() + "/organization_logo?img_id=0" %>'
 									logoDisplaySelector=".organization-logo"
-									maxFileSize="<%= userFileUploadsConfiguration.imageMaxSize() %>"
 									tempImageFileName="<%= String.valueOf(themeDisplay.getScopeGroupId()) %>"
 								/>
 							</c:if>

@@ -2490,6 +2490,7 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
+			<description>Deprecated as of 7.4.0, with no direct replacement.</description>
 			<name>maxFileSize</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
