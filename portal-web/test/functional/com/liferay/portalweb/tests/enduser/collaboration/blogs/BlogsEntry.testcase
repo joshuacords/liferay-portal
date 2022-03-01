@@ -26,6 +26,8 @@ definition {
 	@description = "This is a use case for LPS-82204."
 	@priority = "5"
 	test CannotExecuteXSSInCustomAbstractViaAP {
+		property testray.component.names = "Security";
+
 		var entryAbstractDescription = '''<script>alert(123)</script>''';
 		var key_entryAbstractDescription = "${entryAbstractDescription}";
 
