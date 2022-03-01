@@ -1,0 +1,57 @@
+@component-name = "portal-document-management"
+definition {
+
+	property portal.release = "true";
+	property portal.upstream = "true";
+	property testray.main.component.name = "Document Management";
+
+	setUp {
+		TestCase.setUpPortalInstance();
+
+		User.firstLoginPG();
+
+		JSONLayout.addPublicLayout(
+			groupName = "Guest",
+			layoutName = "Documents and Media Page");
+
+		JSONLayout.addWidgetToPublicLayout(
+			column = "1",
+			groupName = "Guest",
+			layoutName = "Documents and Media Page",
+			widgetName = "Documents and Media");
+	}
+
+	tearDown {
+		var testPortalInstance = PropsUtil.get("test.portal.instance");
+
+		if ("${testPortalInstance}" == "true") {
+			PortalInstances.tearDownCP();
+		}
+		else {
+			DMDocument.tearDownCP();
+
+			User.logoutPG();
+		}
+	}
+
+	@description = "This is a use case for LPS-114470."
+	@priority = "5"
+	test CannotUploadFileThatCausesOutOfMemoryErrors {
+		ProductMenu.gotoPortlet(
+			category = "Content & Data",
+			panel = "Site Administration",
+			portlet = "Documents and Media");
+
+		DMDocument.addCP(
+			dmDocumentDescription = "DM Document Description",
+			dmDocumentFile = "tika.mp3",
+			dmDocumentTitle = "DM Document Title");
+
+		AssertConsoleTextPresent(value1 = "java.io.IOException: Record size");
+
+		AssertConsoleTextPresent(value1 = "is larger than the allowed record size");
+
+		AssertConsoleTextNotPresent(value1 = "java.lang.OutOfMemoryError");
+	}
+
+}

@@ -1,0 +1,55 @@
+@component-name = "portal-lima"
+definition {
+
+	property portal.acceptance = "true";
+	property portal.release = "true";
+	property portal.upstream = "true";
+	property testray.main.component.name = "Blogs";
+
+	setUp {
+		TestCase.setUpPortalInstance();
+
+		User.firstLoginPG();
+	}
+
+	tearDown {
+		var testPortalInstance = PropsUtil.get("test.portal.instance");
+
+		if ("${testPortalInstance}" == "true") {
+			PortalInstances.tearDownCP();
+		}
+		else {
+			BlogsEntry.tearDownCP();
+		}
+	}
+
+	@description = "This is a use case for LPS-82204."
+	@priority = "5"
+	test CannotExecuteXSSInCustomAbstractViaAP {
+		var entryAbstractDescription = '''<script>alert(123)</script>''';
+		var key_entryAbstractDescription = "${entryAbstractDescription}";
+
+		JSONLayout.addPublicLayout(
+			groupName = "Guest",
+			layoutName = "Blogs Page");
+
+		JSONLayout.addWidgetToPublicLayout(
+			groupName = "Guest",
+			layoutName = "Blogs Page",
+			widgetName = "Asset Publisher");
+
+		Navigator.gotoPage(pageName = "Blogs Page");
+
+		Blogs.addWithCustomAbstractViaAP(
+			entryAbstractDescription = "${entryAbstractDescription}",
+			entryContent = "Blogs Entry Content",
+			entryTitle = "Blogs Entry Title");
+
+		AssertAlertNotPresent();
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "BlogsEntry#CONTENT_ABSTRACT_AP",
+			value1 = "${entryAbstractDescription}");
+	}
+
+}

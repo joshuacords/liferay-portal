@@ -160,35 +160,6 @@ definition {
 		AssertAlertNotPresent();
 	}
 
-	@description = "This is a use case for LPS-82204."
-	@priority = "5"
-	test ViewBlogsEntryWithXSSCustomAbstract {
-		var entryAbstractDescription = '''<script>alert(123)</script>''';
-		var key_entryAbstractDescription = "${entryAbstractDescription}";
-
-		JSONLayout.addPublicLayout(
-			groupName = "Guest",
-			layoutName = "Blogs Page");
-
-		JSONLayout.addWidgetToPublicLayout(
-			groupName = "Guest",
-			layoutName = "Blogs Page",
-			widgetName = "Asset Publisher");
-
-		Navigator.gotoPage(pageName = "Blogs Page");
-
-		Blogs.addWithCustomAbstractViaAP(
-			entryAbstractDescription = "${entryAbstractDescription}",
-			entryContent = "Blogs Entry Content",
-			entryTitle = "Blogs Entry Title");
-
-		AssertAlertNotPresent();
-
-		AssertTextEquals.assertPartialText(
-			locator1 = "BlogsEntry#CONTENT_ABSTRACT_AP",
-			value1 = "${entryAbstractDescription}");
-	}
-
 	@description = "This is a use case for LPS-83273. View forms entry with XSS"
 	@priority = "5"
 	test ViewFormsWithXSS {
