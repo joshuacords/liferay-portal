@@ -8600,6 +8600,10 @@ ${update.properties}</echo>
 		<apply-portal-ext-properties />
 	</target>
 
+	<target name="prepare-chrome-driver">
+		<prepare-chrome-driver />
+	</target>
+
 	<target name="prepare-ip-address-update">
 		<get-testcase-property property.name="testcase.url" />
 
