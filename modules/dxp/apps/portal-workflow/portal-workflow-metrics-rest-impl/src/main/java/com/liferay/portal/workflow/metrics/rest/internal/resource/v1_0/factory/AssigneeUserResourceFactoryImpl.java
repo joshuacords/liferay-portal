@@ -35,12 +35,15 @@ import com.liferay.portal.odata.filter.FilterParserProvider;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.workflow.metrics.rest.resource.v1_0.AssigneeUserResource;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.function.Function;
 
 import javax.annotation.Generated;
 
@@ -73,9 +76,7 @@ public class AssigneeUserResourceFactoryImpl
 					throw new IllegalArgumentException("User is not set");
 				}
 
-				return (AssigneeUserResource)ProxyUtil.newProxyInstance(
-					AssigneeUserResource.class.getClassLoader(),
-					new Class<?>[] {AssigneeUserResource.class},
+				return _assigneeUserResourceProxyProviderFunction.apply(
 					(proxy, method, arguments) -> _invoke(
 						method, arguments, _checkPermissions,
 						_httpServletRequest, _httpServletResponse,
@@ -144,6 +145,34 @@ public class AssigneeUserResourceFactoryImpl
 		AssigneeUserResource.FactoryHolder.factory = null;
 	}
 
+	private static Function<InvocationHandler, AssigneeUserResource>
+		_getProxyProviderFunction() {
+
+		Class<?> proxyClass = ProxyUtil.getProxyClass(
+			AssigneeUserResource.class.getClassLoader(),
+			AssigneeUserResource.class);
+
+		try {
+			Constructor<AssigneeUserResource> constructor =
+				(Constructor<AssigneeUserResource>)proxyClass.getConstructor(
+					InvocationHandler.class);
+
+			return invocationHandler -> {
+				try {
+					return constructor.newInstance(invocationHandler);
+				}
+				catch (ReflectiveOperationException
+							reflectiveOperationException) {
+
+					throw new InternalError(reflectiveOperationException);
+				}
+			};
+		}
+		catch (NoSuchMethodException noSuchMethodException) {
+			throw new InternalError(noSuchMethodException);
+		}
+	}
+
 	private Object _invoke(
 			Method method, Object[] arguments, boolean checkPermissions,
 			HttpServletRequest httpServletRequest,
@@ -203,6 +232,10 @@ public class AssigneeUserResourceFactoryImpl
 			PermissionThreadLocal.setPermissionChecker(permissionChecker);
 		}
 	}
+
+	private static final Function<InvocationHandler, AssigneeUserResource>
+		_assigneeUserResourceProxyProviderFunction =
+			_getProxyProviderFunction();
 
 	@Reference
 	private CompanyLocalService _companyLocalService;

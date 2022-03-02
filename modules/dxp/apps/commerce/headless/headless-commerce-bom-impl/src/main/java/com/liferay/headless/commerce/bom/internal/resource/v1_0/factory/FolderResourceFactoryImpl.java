@@ -35,12 +35,15 @@ import com.liferay.portal.odata.filter.ExpressionConvert;
 import com.liferay.portal.odata.filter.FilterParserProvider;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.function.Function;
 
 import javax.annotation.Generated;
 
@@ -72,9 +75,7 @@ public class FolderResourceFactoryImpl implements FolderResource.Factory {
 					throw new IllegalArgumentException("User is not set");
 				}
 
-				return (FolderResource)ProxyUtil.newProxyInstance(
-					FolderResource.class.getClassLoader(),
-					new Class<?>[] {FolderResource.class},
+				return _folderResourceProxyProviderFunction.apply(
 					(proxy, method, arguments) -> _invoke(
 						method, arguments, _checkPermissions,
 						_httpServletRequest, _httpServletResponse,
@@ -143,6 +144,33 @@ public class FolderResourceFactoryImpl implements FolderResource.Factory {
 		FolderResource.FactoryHolder.factory = null;
 	}
 
+	private static Function<InvocationHandler, FolderResource>
+		_getProxyProviderFunction() {
+
+		Class<?> proxyClass = ProxyUtil.getProxyClass(
+			FolderResource.class.getClassLoader(), FolderResource.class);
+
+		try {
+			Constructor<FolderResource> constructor =
+				(Constructor<FolderResource>)proxyClass.getConstructor(
+					InvocationHandler.class);
+
+			return invocationHandler -> {
+				try {
+					return constructor.newInstance(invocationHandler);
+				}
+				catch (ReflectiveOperationException
+							reflectiveOperationException) {
+
+					throw new InternalError(reflectiveOperationException);
+				}
+			};
+		}
+		catch (NoSuchMethodException noSuchMethodException) {
+			throw new InternalError(noSuchMethodException);
+		}
+	}
+
 	private Object _invoke(
 			Method method, Object[] arguments, boolean checkPermissions,
 			HttpServletRequest httpServletRequest,
@@ -201,6 +229,9 @@ public class FolderResourceFactoryImpl implements FolderResource.Factory {
 			PermissionThreadLocal.setPermissionChecker(permissionChecker);
 		}
 	}
+
+	private static final Function<InvocationHandler, FolderResource>
+		_folderResourceProxyProviderFunction = _getProxyProviderFunction();
 
 	@Reference
 	private CompanyLocalService _companyLocalService;
