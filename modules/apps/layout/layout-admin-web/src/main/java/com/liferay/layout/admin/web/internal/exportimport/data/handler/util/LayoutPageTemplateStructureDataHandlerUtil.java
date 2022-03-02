@@ -136,22 +136,8 @@ public class LayoutPageTemplateStructureDataHandlerUtil {
 					columnJSONObject.getJSONArray("fragmentEntryLinkIds");
 
 				JSONArray newFragmentEntryLinkIdsJSONArray =
-					JSONFactoryUtil.createJSONArray();
-
-				for (int k = 0; k < fragmentEntryLinkIdsJSONArray.length();
-					 k++) {
-
-					long fragmentEntryLinkId = MapUtil.getLong(
-						fragmentEntryLinkIds,
-						fragmentEntryLinkIdsJSONArray.getLong(k),
-						fragmentEntryLinkIdsJSONArray.getLong(k));
-
-					if (fragmentEntryLinkId <= 0) {
-						continue;
-					}
-
-					newFragmentEntryLinkIdsJSONArray.put(fragmentEntryLinkId);
-				}
+					_replaceFragmentEntryLinkIds(
+						fragmentEntryLinkIds, fragmentEntryLinkIdsJSONArray);
 
 				columnJSONObject.put(
 					"fragmentEntryLinkIds", newFragmentEntryLinkIdsJSONArray);
@@ -161,28 +147,16 @@ public class LayoutPageTemplateStructureDataHandlerUtil {
 		JSONArray nonIndexableFragmentEntryLinkIdsJSONArray =
 			dataJSONObject.getJSONArray("nonIndexableFragmentEntryLinkIds");
 
-		JSONArray newNonIndexableFragmentEntryLinkIdsJSONArrayJSONArray =
-			JSONFactoryUtil.createJSONArray();
+		if (nonIndexableFragmentEntryLinkIdsJSONArray != null) {
+			JSONArray newNonIndexableFragmentEntryLinkIdsJSONArrayJSONArray =
+				_replaceFragmentEntryLinkIds(
+					fragmentEntryLinkIds,
+					nonIndexableFragmentEntryLinkIdsJSONArray);
 
-		for (int i = 0; i < nonIndexableFragmentEntryLinkIdsJSONArray.length();
-			 i++) {
-
-			long fragmentEntryLinkId = MapUtil.getLong(
-				fragmentEntryLinkIds,
-				nonIndexableFragmentEntryLinkIdsJSONArray.getLong(i),
-				nonIndexableFragmentEntryLinkIdsJSONArray.getLong(i));
-
-			if (fragmentEntryLinkId <= 0) {
-				continue;
-			}
-
-			newNonIndexableFragmentEntryLinkIdsJSONArrayJSONArray.put(
-				fragmentEntryLinkId);
+			dataJSONObject.put(
+				"nonIndexableFragmentEntryLinkIds",
+				newNonIndexableFragmentEntryLinkIdsJSONArrayJSONArray);
 		}
-
-		dataJSONObject.put(
-			"nonIndexableFragmentEntryLinkIds",
-			newNonIndexableFragmentEntryLinkIdsJSONArrayJSONArray);
 
 		existingLayoutPageTemplateStructureRel.setData(
 			dataJSONObject.toString());
@@ -190,6 +164,28 @@ public class LayoutPageTemplateStructureDataHandlerUtil {
 		_layoutPageTemplateStructureRelLocalService.
 			updateLayoutPageTemplateStructureRel(
 				existingLayoutPageTemplateStructureRel);
+	}
+
+	private JSONArray _replaceFragmentEntryLinkIds(
+		Map<Long, Long> fragmentEntryLinkIds,
+		JSONArray fragmentEntryLinkIdsJSONArray) {
+
+		JSONArray newFragmentEntryLinkIdsJSONArrayJSONArray =
+			JSONFactoryUtil.createJSONArray();
+
+		for (int i = 0; i < fragmentEntryLinkIdsJSONArray.length(); i++) {
+			long fragmentEntryLinkId = MapUtil.getLong(
+				fragmentEntryLinkIds, fragmentEntryLinkIdsJSONArray.getLong(i),
+				fragmentEntryLinkIdsJSONArray.getLong(i));
+
+			if (fragmentEntryLinkId <= 0) {
+				continue;
+			}
+
+			newFragmentEntryLinkIdsJSONArrayJSONArray.put(fragmentEntryLinkId);
+		}
+
+		return newFragmentEntryLinkIdsJSONArrayJSONArray;
 	}
 
 	private void _updateSegmentsExperiences(
