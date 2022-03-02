@@ -209,7 +209,7 @@ public interface InstanceResource {
 			httpInvoker.httpMethod(HttpInvoker.HttpMethod.GET);
 
 			DateFormat liferayToJSONDateFormat = new SimpleDateFormat(
-				"yyyy-MM-dd'T'HH:mm:ss'Z'");
+				"yyyy-MM-dd'T'HH:mm:ssXX");
 
 			if (assigneeUserIds != null) {
 				for (int i = 0; i < assigneeUserIds.length; i++) {
