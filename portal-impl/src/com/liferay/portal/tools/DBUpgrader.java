@@ -137,7 +137,7 @@ public class DBUpgrader {
 					"the status.");
 		}
 		catch (Exception exception) {
-			exception.printStackTrace();
+			_log.error(exception);
 
 			System.exit(1);
 		}

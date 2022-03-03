@@ -17,6 +17,8 @@ package com.liferay.portal.tools.propertiesdoc;
 import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.freemarker.FreeMarkerUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -121,13 +123,13 @@ public class PropertiesDocBuilder {
 					context, writer);
 			}
 			catch (Exception exception) {
-				exception.printStackTrace();
+				_log.error(exception);
 			}
 
 			writer.flush();
 		}
 		catch (IOException ioException) {
-			ioException.printStackTrace();
+			_log.error(ioException);
 		}
 	}
 
@@ -402,6 +404,9 @@ public class PropertiesDocBuilder {
 		PropertiesDocBuilder.INDENT + PropertiesDocBuilder.INDENT;
 
 	protected static final String INDENT = StringPool.FOUR_SPACES;
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		PropertiesDocBuilder.class);
 
 	private static final FileImpl _fileImpl = FileImpl.getInstance();
 
