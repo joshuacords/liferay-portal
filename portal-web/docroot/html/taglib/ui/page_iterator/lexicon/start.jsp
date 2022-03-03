@@ -162,7 +162,7 @@ NumberFormat numberFormat = NumberFormat.getNumberInstance(locale);
 								</c:otherwise>
 							</c:choose>
 
-								<span class="sr-only"><liferay-ui:message key="page" /></span><%= i %></a>
+							<span class="sr-only"><liferay-ui:message key="page" /></span><%= i %></a>
 						</li>
 
 					<%
