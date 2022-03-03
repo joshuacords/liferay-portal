@@ -160,15 +160,11 @@ definition {
 			siteName = "Site Name");
 
 		ProductMenu.gotoPortlet(
-			category = "Content & Data",
+			category = "Content &amp; Data",
 			panel = "Site Administration",
 			portlet = "Documents and Media");
 
 		DMDocument.deleteCP(dmDocumentTitle = "DM Document Title");
-
-		AssertElementNotPresent(
-			key_card = "DM Document Title",
-			locator1 = "LexiconCard#CARD_SHORTCUT");
 
 		Navigator.gotoStagedSitePage(
 			pageName = "Staging DM Page",
@@ -178,16 +174,11 @@ definition {
 
 		Staging.publishToLive();
 
-		ProductMenu.gotoLiveSite();
+		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "site-name");
 
-		ProductMenu.gotoPortlet(
-			category = "Content & Data",
-			panel = "Site Administration",
-			portlet = "Documents and Media");
+		DMDocument.viewDefaultCP();
 
-		AssertElementNotPresent(
-			key_card = "DM Document Title",
-			locator1 = "LexiconCard#CARD_SHORTCUT");
+		AssertConsoleTextNotPresent(value1 = "PortletDataException");
 	}
 
 	@description = "This is a use case for LPS-79925."
