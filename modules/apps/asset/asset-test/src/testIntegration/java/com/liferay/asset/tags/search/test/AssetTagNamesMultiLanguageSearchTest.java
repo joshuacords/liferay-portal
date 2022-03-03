@@ -120,7 +120,7 @@ public class AssetTagNamesMultiLanguageSearchTest {
 	}
 
 	@Test
-	public void testDifferentLocale() throws Exception {
+	public void testDisplayLocaleDifferentFromDefaultLocale() throws Exception {
 		Locale indexLocale = LocaleUtil.US;
 		Locale queryLocale = LocaleUtil.JAPAN;
 		String title = "title should not match";
@@ -144,7 +144,7 @@ public class AssetTagNamesMultiLanguageSearchTest {
 				}
 			});
 
-		assertSearch(tag, queryLocale);
+		assertSearch(tag, group, queryLocale);
 	}
 
 	@Test
@@ -215,26 +215,28 @@ public class AssetTagNamesMultiLanguageSearchTest {
 		assertSearch(tag2, locale);
 	}
 
-	protected void assertDLFileEntryIndexer(String tagName, Locale locale)
+	protected void assertDLFileEntryIndexer(
+			String tagName, Group group, Locale locale)
 		throws Exception {
 
 		Indexer<DLFileEntry> indexer = indexerRegistry.getIndexer(
 			DLFileEntry.class);
 
-		SearchContext searchContext = getSearchContext(tagName, locale);
+		SearchContext searchContext = getSearchContext(tagName, group, locale);
 
 		Hits hits = indexer.search(searchContext);
 
 		assertHits(tagName, hits, searchContext);
 	}
 
-	protected void assertFacetedSearcher(String tagName, Locale locale)
+	protected void assertFacetedSearcher(
+			String tagName, Group group, Locale locale)
 		throws Exception {
 
 		FacetedSearcher facetedSearcher =
 			facetedSearcherManager.createFacetedSearcher();
 
-		SearchContext searchContext = getSearchContext(tagName, locale);
+		SearchContext searchContext = getSearchContext(tagName, group, locale);
 
 		Hits hits = facetedSearcher.search(searchContext);
 
@@ -249,11 +251,18 @@ public class AssetTagNamesMultiLanguageSearchTest {
 			Field.ASSET_TAG_NAMES, Arrays.asList(tagName));
 	}
 
+	protected void assertSearch(String tagName, Group group, Locale locale)
+		throws Exception {
+
+		assertDLFileEntryIndexer(tagName, group, locale);
+		assertFacetedSearcher(tagName, group, locale);
+	}
+
 	protected void assertSearch(String tagName, Locale locale)
 		throws Exception {
 
-		assertDLFileEntryIndexer(tagName, locale);
-		assertFacetedSearcher(tagName, locale);
+		assertDLFileEntryIndexer(tagName, null, locale);
+		assertFacetedSearcher(tagName, null, locale);
 	}
 
 	protected long getAdminUserId(Group group) {
@@ -267,11 +276,16 @@ public class AssetTagNamesMultiLanguageSearchTest {
 		}
 	}
 
-	protected SearchContext getSearchContext(String keywords, Locale locale)
+	protected SearchContext getSearchContext(
+			String keywords, Group group, Locale locale)
 		throws Exception {
 
 		SearchContext searchContext = _userSearchFixture.getSearchContext(
 			keywords);
+
+		if (group != null) {
+			searchContext.setGroupIds(new long[] {group.getGroupId()});
+		}
 
 		searchContext.setLocale(locale);
 
