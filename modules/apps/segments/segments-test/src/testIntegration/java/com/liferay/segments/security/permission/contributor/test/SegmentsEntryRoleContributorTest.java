@@ -25,6 +25,8 @@ import com.liferay.portal.kernel.model.role.RoleConstants;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.PermissionCheckerFactoryUtil;
+import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
+import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
@@ -40,6 +42,9 @@ import com.liferay.portal.kernel.util.HashMapDictionary;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
+import com.liferay.segments.criteria.Criteria;
+import com.liferay.segments.criteria.CriteriaSerializer;
+import com.liferay.segments.criteria.contributor.SegmentsCriteriaContributor;
 import com.liferay.segments.model.SegmentsEntry;
 import com.liferay.segments.service.SegmentsEntryRoleLocalService;
 import com.liferay.segments.test.util.SegmentsTestUtil;
@@ -123,6 +128,58 @@ public class SegmentsEntryRoleContributorTest {
 	}
 
 	@Test
+	public void testHasPermissionWhenUserInOrganizationSegment()
+		throws Exception {
+
+		PermissionChecker permissionChecker =
+			PermissionThreadLocal.getPermissionChecker();
+
+		try {
+			_role = RoleTestUtil.addRole(RoleConstants.TYPE_REGULAR);
+
+			_organization = OrganizationTestUtil.addOrganization();
+
+			String actionKey = ActionKeys.DELETE;
+
+			_resourcePermissionLocalService.addResourcePermission(
+				TestPropsValues.getCompanyId(), Organization.class.getName(),
+				ResourceConstants.SCOPE_COMPANY,
+				String.valueOf(TestPropsValues.getCompanyId()),
+				_role.getRoleId(), actionKey);
+
+			_user = UserTestUtil.addOrganizationUser(
+				_organization, RoleConstants.ORGANIZATION_USER);
+
+			_userLocalService.addOrganizationUsers(
+				_organization.getOrganizationId(),
+				new long[] {_user.getUserId()});
+
+			_segmentsEntry = _addSegmentEntry(_organization);
+
+			_groupLocalService.addOrganizationGroup(
+				_organization.getOrganizationId(),
+				TestPropsValues.getGroupId());
+
+			_segmentsEntryRoleLocalService.addSegmentsEntryRole(
+				_segmentsEntry.getSegmentsEntryId(), _role.getRoleId(),
+				ServiceContextTestUtil.getServiceContext());
+
+			PermissionChecker userPermissionChecker =
+				PermissionCheckerFactoryUtil.create(_user);
+
+			PermissionThreadLocal.setPermissionChecker(userPermissionChecker);
+
+			Assert.assertTrue(
+				userPermissionChecker.hasPermission(
+					TestPropsValues.getGroupId(), Organization.class.getName(),
+					_organization.getOrganizationId(), actionKey));
+		}
+		finally {
+			PermissionThreadLocal.setPermissionChecker(permissionChecker);
+		}
+	}
+
+	@Test
 	public void testHasPermissionWithDisabledConfiguration() throws Exception {
 		HashMapDictionary<String, Object> properties =
 			new HashMapDictionary<String, Object>() {
@@ -164,6 +221,22 @@ public class SegmentsEntryRoleContributorTest {
 		}
 	}
 
+	private SegmentsEntry _addSegmentEntry(Organization organization)
+		throws Exception {
+
+		Criteria criteria = new Criteria();
+
+		_userOrganizationSegmentsCriteriaContributor.contribute(
+			criteria,
+			String.format(
+				"(organizationId eq '%s')", organization.getOrganizationId()),
+			Criteria.Conjunction.AND);
+
+		return SegmentsTestUtil.addSegmentsEntry(
+			TestPropsValues.getGroupId(),
+			CriteriaSerializer.serialize(criteria), User.class.getName());
+	}
+
 	private SegmentsEntry _addSegmentsEntry(User user) throws Exception {
 		return SegmentsTestUtil.addSegmentsEntry(
 			TestPropsValues.getGroupId(),
@@ -198,6 +271,9 @@ public class SegmentsEntryRoleContributorTest {
 
 	private ConfigurationTemporarySwapper _configurationTemporarySwapper;
 
+	@Inject
+	private GroupLocalService _groupLocalService;
+
 	@DeleteAfterTestRun
 	private Organization _organization;
 
@@ -218,5 +294,12 @@ public class SegmentsEntryRoleContributorTest {
 
 	@Inject
 	private UserLocalService _userLocalService;
+
+	@Inject(
+		filter = "segments.criteria.contributor.key=user-organization",
+		type = SegmentsCriteriaContributor.class
+	)
+	private SegmentsCriteriaContributor
+		_userOrganizationSegmentsCriteriaContributor;
 
 }
