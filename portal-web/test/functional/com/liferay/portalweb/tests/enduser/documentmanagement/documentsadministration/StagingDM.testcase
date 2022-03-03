@@ -134,14 +134,14 @@ definition {
 	@description = "LPS-90557 - Publishing deletion of shortcut target results in PortletDataException."
 	@priority = "5"
 	test PublishDeletionOfShortcutTarget {
-		DMNavigator.gotoAddDocumentTypeCP();
-
-		DMDocument.editDocument(
+		JSONDocument.addFileWithUploadedFile(
 			dmDocumentDescription = "DM Document Description",
-			dmDocumentFile = "Document_1.doc",
-			dmDocumentTitle = "DM Document Title");
+			dmDocumentTitle = "DM Document Title",
+			groupName = "Site Name-staging",
+			mimeType = "image/jpeg",
+			sourceFileName = "Document_1.jpg");
 
-		Button.clickPublish();
+		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "site-name-staging");
 
 		DMDocument.addDMShortcutCP(
 			dmDocumentTitle = "DM Document Title",
