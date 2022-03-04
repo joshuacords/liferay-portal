@@ -59,7 +59,6 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -8959,23 +8958,6 @@ public class OrganizationPersistenceImpl
 					}
 				}
 				else {
-					if (list.size() > 1) {
-						Collections.sort(list, Collections.reverseOrder());
-
-						if (_log.isWarnEnabled()) {
-							if (!useFinderCache) {
-								finderArgs = new Object[] {
-									companyId, externalReferenceCode
-								};
-							}
-
-							_log.warn(
-								"OrganizationPersistenceImpl.fetchByC_ERC(long, String, boolean) with parameters (" +
-									StringUtil.merge(finderArgs) +
-										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
-						}
-					}
-
 					Organization organization = list.get(0);
 
 					result = organization;
@@ -9443,6 +9425,11 @@ public class OrganizationPersistenceImpl
 
 		OrganizationModelImpl organizationModelImpl =
 			(OrganizationModelImpl)organization;
+
+		if (Validator.isNull(organization.getExternalReferenceCode())) {
+			organization.setExternalReferenceCode(
+				String.valueOf(organization.getPrimaryKey()));
+		}
 
 		if (Validator.isNull(organization.getUuid())) {
 			String uuid = PortalUUIDUtil.generate();

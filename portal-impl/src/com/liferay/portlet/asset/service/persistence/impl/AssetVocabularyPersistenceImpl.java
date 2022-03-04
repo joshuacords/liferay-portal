@@ -53,7 +53,6 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -4743,23 +4742,6 @@ public class AssetVocabularyPersistenceImpl
 					}
 				}
 				else {
-					if (list.size() > 1) {
-						Collections.sort(list, Collections.reverseOrder());
-
-						if (_log.isWarnEnabled()) {
-							if (!useFinderCache) {
-								finderArgs = new Object[] {
-									companyId, externalReferenceCode
-								};
-							}
-
-							_log.warn(
-								"AssetVocabularyPersistenceImpl.fetchByC_ERC(long, String, boolean) with parameters (" +
-									StringUtil.merge(finderArgs) +
-										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
-						}
-					}
-
 					AssetVocabulary assetVocabulary = list.get(0);
 
 					result = assetVocabulary;
@@ -5267,6 +5249,11 @@ public class AssetVocabularyPersistenceImpl
 
 		AssetVocabularyModelImpl assetVocabularyModelImpl =
 			(AssetVocabularyModelImpl)assetVocabulary;
+
+		if (Validator.isNull(assetVocabulary.getExternalReferenceCode())) {
+			assetVocabulary.setExternalReferenceCode(
+				String.valueOf(assetVocabulary.getPrimaryKey()));
+		}
 
 		if (Validator.isNull(assetVocabulary.getUuid())) {
 			String uuid = PortalUUIDUtil.generate();

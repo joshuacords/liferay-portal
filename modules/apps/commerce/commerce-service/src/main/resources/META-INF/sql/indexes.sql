@@ -10,7 +10,7 @@ create index IX_15EA4714 on CommerceAddress (classNameId, classPK);
 create index IX_CD76FE87 on CommerceAddress (commerceCountryId);
 create index IX_71C5A9DD on CommerceAddress (commerceRegionId);
 create index IX_6D0EADB7 on CommerceAddress (companyId, classNameId, classPK, type_);
-create index IX_4E616A54 on CommerceAddress (companyId, externalReferenceCode[$COLUMN_LENGTH:75$]);
+create unique index IX_4E616A54 on CommerceAddress (companyId, externalReferenceCode[$COLUMN_LENGTH:75$]);
 create index IX_EEACF18E on CommerceAddress (groupId, classNameId, classPK, defaultBilling);
 create index IX_333246DF on CommerceAddress (groupId, classNameId, classPK, defaultShipping);
 
@@ -31,7 +31,7 @@ create index IX_12131FC1 on CommerceOrder (billingAddressId);
 create index IX_7DD246EA on CommerceOrder (commerceAccountId, groupId, orderStatus);
 create index IX_81097E4C on CommerceOrder (commerceAccountId, orderStatus);
 create index IX_DFF1932E on CommerceOrder (companyId, commerceAccountId);
-create index IX_48EEEDEE on CommerceOrder (companyId, externalReferenceCode[$COLUMN_LENGTH:75$]);
+create unique index IX_48EEEDEE on CommerceOrder (companyId, externalReferenceCode[$COLUMN_LENGTH:75$]);
 create index IX_9ACAF78A on CommerceOrder (createDate, commerceAccountId, orderStatus);
 create index IX_4F4CAEE4 on CommerceOrder (groupId, commerceAccountId, orderStatus);
 create index IX_9C04F6F8 on CommerceOrder (groupId, commercePaymentMethodKey[$COLUMN_LENGTH:75$]);
@@ -46,11 +46,11 @@ create index IX_F9E8D927 on CommerceOrderItem (CProductId);
 create index IX_2D8339EE on CommerceOrderItem (bookedQuantityId);
 create index IX_415AF3E3 on CommerceOrderItem (commerceOrderId, CPInstanceId);
 create index IX_15B37023 on CommerceOrderItem (commerceOrderId, subscription);
-create index IX_12257E21 on CommerceOrderItem (companyId, externalReferenceCode[$COLUMN_LENGTH:75$]);
+create unique index IX_12257E21 on CommerceOrderItem (companyId, externalReferenceCode[$COLUMN_LENGTH:75$]);
 create index IX_8E1472FB on CommerceOrderItem (parentCommerceOrderItemId);
 
 create index IX_CEB86C22 on CommerceOrderNote (commerceOrderId, restricted);
-create index IX_EF4EEF80 on CommerceOrderNote (companyId, externalReferenceCode[$COLUMN_LENGTH:75$]);
+create unique index IX_EF4EEF80 on CommerceOrderNote (companyId, externalReferenceCode[$COLUMN_LENGTH:75$]);
 
 create index IX_CF274005 on CommerceOrderPayment (commerceOrderId);
 

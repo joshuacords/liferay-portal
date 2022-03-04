@@ -61,7 +61,6 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -11812,23 +11811,6 @@ public class AssetCategoryPersistenceImpl
 					}
 				}
 				else {
-					if (list.size() > 1) {
-						Collections.sort(list, Collections.reverseOrder());
-
-						if (_log.isWarnEnabled()) {
-							if (!useFinderCache) {
-								finderArgs = new Object[] {
-									companyId, externalReferenceCode
-								};
-							}
-
-							_log.warn(
-								"AssetCategoryPersistenceImpl.fetchByC_ERC(long, String, boolean) with parameters (" +
-									StringUtil.merge(finderArgs) +
-										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
-						}
-					}
-
 					AssetCategory assetCategory = list.get(0);
 
 					result = assetCategory;
@@ -12348,6 +12330,11 @@ public class AssetCategoryPersistenceImpl
 
 		AssetCategoryModelImpl assetCategoryModelImpl =
 			(AssetCategoryModelImpl)assetCategory;
+
+		if (Validator.isNull(assetCategory.getExternalReferenceCode())) {
+			assetCategory.setExternalReferenceCode(
+				String.valueOf(assetCategory.getPrimaryKey()));
+		}
 
 		if (Validator.isNull(assetCategory.getUuid())) {
 			String uuid = PortalUUIDUtil.generate();
