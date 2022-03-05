@@ -101,6 +101,7 @@
 			<echo file="${elasticsearch.dir}-2/config/elasticsearch.yml">${line.separator}bootstrap.system_call_filter: false
 cluster.name: LiferayElasticsearchClusterTwo
 http.port: 9202
+ingest.geoip.downloader.enabled: false
 transport.port: 9500-9600
 xpack.license.self_generated.type: trial</echo>
 		</sequential>
@@ -123,6 +124,7 @@ path.repo: ${liferay.home}/data/elasticsearch7/repo</echo>
 		<sequential>
 			<echo append="true" file="${elasticsearch.dir}/config/elasticsearch.yml">${line.separator}bootstrap.system_call_filter: false
 cluster.name: LiferayElasticsearchCluster
+ingest.geoip.downloader.enabled: false
 xpack.license.self_generated.type: trial</echo>
 		</sequential>
 	</macrodef>
