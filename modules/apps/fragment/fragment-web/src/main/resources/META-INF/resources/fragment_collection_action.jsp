@@ -49,7 +49,7 @@
 	<c:if test="<%= fragmentDisplayContext.hasUpdatePermission() %>">
 		<liferay-ui:icon
 			message="import"
-			onClick='<%= "openImportCollectionView();" %>'
+			onClick="openImportCollectionView();"
 			url="javascript:;"
 		/>
 
