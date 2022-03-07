@@ -153,7 +153,7 @@ definition {
 		}
 	}
 
-	@description = "This is a test for LPS-76717. The user could view warning message in preview window when no available navigation in site."
+	@description = "This is a test for LPS-76717. The user could view warning message in preview window when no available navigation in site. ignoring this case until LPS-142698 is fixed."
 	@ignore = "true"
 	@priority = "3"
 	test ViewWarningMessageInPreviewWindowWhenNoNavigationAvailable {
