@@ -133,21 +133,21 @@ public class AssignAccountContactRolesMVCActionCommand
 			}
 
 			if (!ArrayUtil.isEmpty(deleteContactRoleKeys)) {
-				ContactRole administratorContactRole =
+				ContactRole supportAdministratorContactRole =
 					_contactRoleWebService.getContactRole(
 						ContactRole.Type.ACCOUNT_CUSTOMER.toString(),
-						ContactRoleConstants.NAME_ADMINISTRATOR);
-				ContactRole supportDeveloperContactRole =
+						ContactRoleConstants.NAME_SUPPORT_ADMINISTRATOR);
+				ContactRole supportRequesterContactRole =
 					_contactRoleWebService.getContactRole(
 						ContactRole.Type.ACCOUNT_CUSTOMER.toString(),
-						ContactRoleConstants.NAME_SUPPORT_DEVELOPER);
+						ContactRoleConstants.NAME_SUPPORT_REQUESTER);
 
 				if (ArrayUtil.contains(
 						deleteContactRoleKeys,
-						administratorContactRole.getKey()) ||
+						supportAdministratorContactRole.getKey()) ||
 					ArrayUtil.contains(
 						deleteContactRoleKeys,
-						supportDeveloperContactRole.getKey())) {
+						supportRequesterContactRole.getKey())) {
 
 					_zendeskValidator.validateCustomerZendeskTickets(
 						accountKey, emailAddress);

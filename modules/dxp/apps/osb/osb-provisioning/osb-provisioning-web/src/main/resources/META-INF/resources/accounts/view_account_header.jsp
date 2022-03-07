@@ -88,10 +88,10 @@ AccountDisplay accountDisplay = viewAccountDisplayContext.getAccountDisplay();
 			</li>
 			<li>
 				<div class="header-label">
-					<liferay-ui:message key="developers" />
+					<liferay-ui:message key="support-seats" />
 				</div>
 
-				<%= accountDisplay.getDeveloperContactUsage() %>
+				<%= accountDisplay.getSupportSeatContactUsage() %>
 			</li>
 			<li>
 				<div class="header-label">

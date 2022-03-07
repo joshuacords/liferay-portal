@@ -19,8 +19,6 @@ package com.liferay.osb.provisioning.koroneiki.constants;
  */
 public class ContactRoleConstants {
 
-	public static final String NAME_ADMINISTRATOR = "Administrator";
-
 	public static final String NAME_ANALYTICS_CLOUD_OWNER =
 		"Analytics Cloud Owner";
 
@@ -36,24 +34,26 @@ public class ContactRoleConstants {
 
 	public static final String NAME_SECONDARY_CONTACT = "Secondary Contact";
 
+	public static final String NAME_SUPPORT_ADMINISTRATOR =
+		"Support Administrator";
+
 	public static final String NAME_SUPPORT_CLOSED_WATCHER =
 		"Support Closed Watcher";
 
-	public static final String NAME_SUPPORT_DEVELOPER = "Support Developer";
+	public static final String NAME_SUPPORT_REQUESTER = "Support Requester";
 
-	public static final String NAME_SUPPORT_WATCHER = "Support Watcher";
+	public static final String NAME_SUPPORT_USER = "Support User";
 
 	public static final String[] PARTNER_CONTACT_ROLES = {
 		NAME_PARTNER_MANAGER, NAME_PARTNER_MEMBER
 	};
 
 	public static final String[] SUPPORT_CONTACT_ROLES = {
-		NAME_SUPPORT_DEVELOPER, NAME_SUPPORT_WATCHER,
-		NAME_SUPPORT_CLOSED_WATCHER
+		NAME_SUPPORT_REQUESTER, NAME_SUPPORT_USER, NAME_SUPPORT_CLOSED_WATCHER
 	};
 
-	public static final String[] SUPPORT_DEVELOPER_CONTACT_ROLES = {
-		NAME_ADMINISTRATOR, NAME_SUPPORT_DEVELOPER
+	public static final String[] SUPPORT_SEAT_CONTACT_ROLES = {
+		NAME_SUPPORT_ADMINISTRATOR, NAME_SUPPORT_REQUESTER
 	};
 
 }

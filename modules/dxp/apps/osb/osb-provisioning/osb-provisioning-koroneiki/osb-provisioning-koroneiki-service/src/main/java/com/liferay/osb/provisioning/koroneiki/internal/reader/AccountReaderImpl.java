@@ -63,54 +63,11 @@ public class AccountReaderImpl implements AccountReader {
 		return ancestorAccounts;
 	}
 
-	public int getDeveloperCount(Account account) {
-		Contact[] contacts = account.getCustomerContacts();
-
-		if (contacts == null) {
-			return 0;
-		}
-
-		int developerCount = 0;
-
-		for (Contact contact : contacts) {
-			boolean employee = false;
-
-			for (Team team : contact.getTeams()) {
-				String name = team.getName();
-
-				if (name.equals("Liferay, Inc.")) {
-					employee = true;
-
-					break;
-				}
-			}
-
-			ContactRole[] contactRoles = contact.getContactRoles();
-
-			if ((contactRoles == null) || employee) {
-				continue;
-			}
-
-			for (ContactRole contactRole : contactRoles) {
-				if (ArrayUtil.contains(
-						ContactRoleConstants.SUPPORT_DEVELOPER_CONTACT_ROLES,
-						contactRole.getName())) {
-
-					developerCount++;
-
-					break;
-				}
-			}
-		}
-
-		return developerCount;
-	}
-
 	public Team getFirstLineSupportTeam(Account account) throws Exception {
 		return _getTeam(account, TeamRoleConstants.NAME_FIRST_LINE_SUPPORT);
 	}
 
-	public int getMaxDeveloperCount(Account account) {
+	public int getMaxSupportSeatCount(Account account) {
 		if (ArrayUtil.isEmpty(account.getProductPurchases())) {
 			return 0;
 		}
@@ -132,7 +89,7 @@ public class AccountReaderImpl implements AccountReader {
 		}
 
 		boolean managedServices = false;
-		int developerAddons = 0;
+		int supportSeatAddons = 0;
 		int productionInstances = 0;
 
 		for (ProductPurchase productPurchase : account.getProductPurchases()) {
@@ -156,7 +113,7 @@ public class AccountReaderImpl implements AccountReader {
 			if (curName.equals(
 					ProductConstants.NAME_DESIGNATED_CONTACT_ADD_ON)) {
 
-				developerAddons += productPurchase.getQuantity();
+				supportSeatAddons += productPurchase.getQuantity();
 			}
 			else if (curName.equals(
 						ProductConstants.
@@ -185,59 +142,59 @@ public class AccountReaderImpl implements AccountReader {
 		}
 
 		if (managedServices) {
-			return 10 + developerAddons;
+			return 10 + supportSeatAddons;
 		}
 
 		if (productionInstances <= 0) {
 			return 0;
 		}
 
-		int maxDeveloperCount = 0;
+		int maxSupportSeatCount = 0;
 
 		if (name.equals(ProductConstants.NAME_GOLD)) {
 			if (productionInstances <= 4) {
-				maxDeveloperCount = 2;
+				maxSupportSeatCount = 2;
 			}
 			else if (productionInstances <= 8) {
-				maxDeveloperCount = 4;
+				maxSupportSeatCount = 4;
 			}
 			else if (productionInstances <= 12) {
-				maxDeveloperCount = 6;
+				maxSupportSeatCount = 6;
 			}
 			else if (productionInstances <= 16) {
-				maxDeveloperCount = 8;
+				maxSupportSeatCount = 8;
 			}
 			else if (productionInstances <= 20) {
-				maxDeveloperCount = 10;
+				maxSupportSeatCount = 10;
 			}
 			else {
-				maxDeveloperCount = 12;
+				maxSupportSeatCount = 12;
 			}
 		}
 		else if (name.equals(ProductConstants.NAME_PLATINUM)) {
 			if (productionInstances <= 4) {
-				maxDeveloperCount = 3;
+				maxSupportSeatCount = 3;
 			}
 			else if (productionInstances <= 8) {
-				maxDeveloperCount = 6;
+				maxSupportSeatCount = 6;
 			}
 			else if (productionInstances <= 12) {
-				maxDeveloperCount = 9;
+				maxSupportSeatCount = 9;
 			}
 			else if (productionInstances <= 16) {
-				maxDeveloperCount = 12;
+				maxSupportSeatCount = 12;
 			}
 			else if (productionInstances <= 20) {
-				maxDeveloperCount = 15;
+				maxSupportSeatCount = 15;
 			}
 			else {
-				maxDeveloperCount = 18;
+				maxSupportSeatCount = 18;
 			}
 		}
 
-		maxDeveloperCount += developerAddons;
+		maxSupportSeatCount += supportSeatAddons;
 
-		return maxDeveloperCount;
+		return maxSupportSeatCount;
 	}
 
 	public Team getPartnerTeam(Account account) throws Exception {
@@ -298,6 +255,49 @@ public class AccountReaderImpl implements AccountReader {
 		}
 
 		return state;
+	}
+
+	public int getSupportSeatCount(Account account) {
+		Contact[] contacts = account.getCustomerContacts();
+
+		if (contacts == null) {
+			return 0;
+		}
+
+		int supportSeatCount = 0;
+
+		for (Contact contact : contacts) {
+			boolean employee = false;
+
+			for (Team team : contact.getTeams()) {
+				String name = team.getName();
+
+				if (name.equals("Liferay, Inc.")) {
+					employee = true;
+
+					break;
+				}
+			}
+
+			ContactRole[] contactRoles = contact.getContactRoles();
+
+			if ((contactRoles == null) || employee) {
+				continue;
+			}
+
+			for (ContactRole contactRole : contactRoles) {
+				if (ArrayUtil.contains(
+						ContactRoleConstants.SUPPORT_SEAT_CONTACT_ROLES,
+						contactRole.getName())) {
+
+					supportSeatCount++;
+
+					break;
+				}
+			}
+		}
+
+		return supportSeatCount;
 	}
 
 	public boolean isEWSA(Account account) throws Exception {

@@ -28,17 +28,17 @@ public interface AccountReader {
 
 	public List<Account> getAncestorAccounts(Account account) throws Exception;
 
-	public int getDeveloperCount(Account account);
-
 	public Team getFirstLineSupportTeam(Account account) throws Exception;
 
-	public int getMaxDeveloperCount(Account account);
+	public int getMaxSupportSeatCount(Account account);
 
 	public Team getPartnerTeam(Account account) throws Exception;
 
 	public ProductPurchase getSLAProductPurchase(Account account);
 
 	public String getSubscriptionState(Account account);
+
+	public int getSupportSeatCount(Account account);
 
 	public boolean isEWSA(Account account) throws Exception;
 

@@ -119,27 +119,6 @@ public class AccountDisplay {
 		return _dateTimeFormat.format(_account.getDateModified());
 	}
 
-	public String getDeveloperContactUsage() {
-		StringBundler sb = new StringBundler(5);
-
-		sb.append(_accountReader.getDeveloperCount(_account));
-		sb.append(" / ");
-
-		int maxDeveloperCount = _accountReader.getMaxDeveloperCount(_account);
-
-		if (maxDeveloperCount == -1) {
-			sb.append("∞");
-		}
-		else {
-			sb.append(maxDeveloperCount);
-		}
-
-		sb.append(" ");
-		sb.append(LanguageUtil.get(_httpServletRequest, "filled"));
-
-		return sb.toString();
-	}
-
 	public String getDossieraAccountKey() {
 		return _getExternalLinkEntityId(
 			ExternalLinkDomain.DOSSIERA,
@@ -366,6 +345,28 @@ public class AccountDisplay {
 		}
 
 		return StringPool.BLANK;
+	}
+
+	public String getSupportSeatContactUsage() {
+		StringBundler sb = new StringBundler(5);
+
+		sb.append(_accountReader.getSupportSeatCount(_account));
+		sb.append(" / ");
+
+		int maxSupportSeatCount = _accountReader.getMaxSupportSeatCount(
+			_account);
+
+		if (maxSupportSeatCount == -1) {
+			sb.append("∞");
+		}
+		else {
+			sb.append(maxSupportSeatCount);
+		}
+
+		sb.append(" ");
+		sb.append(LanguageUtil.get(_httpServletRequest, "filled"));
+
+		return sb.toString();
 	}
 
 	public String getTier() {

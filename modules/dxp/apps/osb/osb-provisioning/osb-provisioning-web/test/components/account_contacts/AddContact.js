@@ -20,11 +20,11 @@ function renderAddContact(props) {
 		{key: 'KEY-101', name: 'Member'},
 		{key: 'KEY-102', name: 'Analyst'},
 		{key: 'KEY-103', name: 'Designer'},
-		{key: 'KEY-ADMINISTRATOR', name: 'Administrator'},
-		{key: 'KEY-SUPPORT1', name: 'Support Watcher'},
-		{key: 'KEY-SUPPORT2', name: 'Support Developer'},
+		{key: 'KEY-ADMINISTRATOR', name: 'Support Administrator'},
 		{key: 'KEY-PARTNER1', name: 'Partner Member'},
-		{key: 'KEY-PARTNER2', name: 'Partner Watcher'}
+		{key: 'KEY-PARTNER2', name: 'Partner Watcher'},
+		{key: 'KEY-SUPPORT1', name: 'Support Requester'},
+		{key: 'KEY-SUPPORT2', name: 'Support User'}
 	];
 
 	return render(

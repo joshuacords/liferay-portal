@@ -150,7 +150,7 @@ Format mediumDateFormatDate = FastDateFormatFactoryUtil.getDate(DateFormat.MEDIU
 		accountsPortletNamespace:
 			'<%= PortalUtil.getPortletNamespace(ProvisioningPortletKeys.ACCOUNTS) %>',
 		contactRole: {
-			administrator: '<%= ContactRoleConstants.NAME_ADMINISTRATOR %>'
+			administrator: '<%= ContactRoleConstants.NAME_SUPPORT_ADMINISTRATOR %>'
 		},
 		licenseType: {
 			cluster: '<%= LicenseType.CLUSTER %>',

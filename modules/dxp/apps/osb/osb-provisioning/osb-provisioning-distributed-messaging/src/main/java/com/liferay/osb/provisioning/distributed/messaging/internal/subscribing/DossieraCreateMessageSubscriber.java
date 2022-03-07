@@ -202,23 +202,23 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 
 		FilterQuery filterQuery = new FilterQuery();
 
-		ContactRole administratorContactRole =
+		ContactRole supportAdministratorContactRole =
 			_contactRoleWebService.getContactRole(
 				ContactRole.Type.ACCOUNT_CUSTOMER.toString(),
-				ContactRoleConstants.NAME_ADMINISTRATOR);
+				ContactRoleConstants.NAME_SUPPORT_ADMINISTRATOR);
 
 		filterQuery.addLambdaEquals(
 			false, "accountKeysContactRoleKeys",
-			accountKey + "_" + administratorContactRole.getKey());
+			accountKey + "_" + supportAdministratorContactRole.getKey());
 
-		ContactRole supportDeveloperContactRole =
+		ContactRole supportRequesterContactRole =
 			_contactRoleWebService.getContactRole(
 				ContactRole.Type.ACCOUNT_CUSTOMER.toString(),
-				ContactRoleConstants.NAME_SUPPORT_DEVELOPER);
+				ContactRoleConstants.NAME_SUPPORT_REQUESTER);
 
 		filterQuery.addLambdaEquals(
 			false, "accountKeysContactRoleKeys",
-			accountKey + "_" + supportDeveloperContactRole.getKey());
+			accountKey + "_" + supportRequesterContactRole.getKey());
 
 		List<Account> liferayIncAccounts = _accountWebService.search(
 			"Liferay, Inc.", null, 1, 1, null);
@@ -229,19 +229,19 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 			true, "accountKeysContactRoleKeys",
 			liferayIncAccount.getKey() + "_", true);
 
-		long curDeveloperCount = _contactWebService.searchCount(
+		long curSupportSeatCount = _contactWebService.searchCount(
 			StringPool.BLANK, filterQuery);
 
-		int maxDeveloperCount = _accountReader.getMaxDeveloperCount(account);
+		int maxSupportSeatCount = _accountReader.getMaxSupportSeatCount(
+			account);
 
-		if ((maxDeveloperCount >= 0) &&
-			(curDeveloperCount > maxDeveloperCount)) {
+		if ((maxSupportSeatCount >= 0) &&
+			(curSupportSeatCount > maxSupportSeatCount)) {
 
 			_logWarning(
 				StringBundler.concat(
-					"The maximum developer contacts is ", maxDeveloperCount,
-					" but there are ", curDeveloperCount,
-					" developer contacts."));
+					"The maximum support seats is ", maxSupportSeatCount,
+					" but there are ", curSupportSeatCount, " support seats."));
 		}
 
 		if (!inactiveContacts.isEmpty()) {
@@ -452,13 +452,12 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 						"have access to Help Center."));
 			}
 
-			if (curDeveloperCount == 0) {
+			if (curSupportSeatCount == 0) {
 				_logWarning(
 					StringBundler.concat(
 						"An opportunity was processed with Renewal order type ",
-						"and there are no contacts with the Developer role. ",
-						"The customer does not have access to support ",
-						"tickets."));
+						"and there are no contacts with a requester role. The ",
+						"customer does not have access to support tickets."));
 			}
 		}
 
@@ -1803,10 +1802,11 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 			String contactRoleName = null;
 
 			if (_distributedMessagingConfiguration.customerPortal2Enabled()) {
-				contactRoleName = ContactRoleConstants.NAME_ADMINISTRATOR;
+				contactRoleName =
+					ContactRoleConstants.NAME_SUPPORT_ADMINISTRATOR;
 			}
 			else {
-				contactRoleName = ContactRoleConstants.NAME_SUPPORT_WATCHER;
+				contactRoleName = ContactRoleConstants.NAME_SUPPORT_USER;
 			}
 
 			ContactRole contactRole = _contactRoleWebService.fetchContactRole(

@@ -99,7 +99,7 @@ public class AccountResourceImpl extends BaseAccountResourceImpl {
 		}
 
 		String[] contactRoleKeys = new String[contactRoleNames.length];
-		boolean checkSupportDeveloperCount = false;
+		boolean checkSupportSeatCount = false;
 
 		for (int i = 0; i < contactRoleNames.length; i++) {
 			String contactRoleName = contactRoleNames[i];
@@ -115,39 +115,39 @@ public class AccountResourceImpl extends BaseAccountResourceImpl {
 			contactRoleKeys[i] = contactRole.getKey();
 
 			if (ArrayUtil.contains(
-					ContactRoleConstants.SUPPORT_DEVELOPER_CONTACT_ROLES,
+					ContactRoleConstants.SUPPORT_SEAT_CONTACT_ROLES,
 					contactRoleName)) {
 
-				checkSupportDeveloperCount = true;
+				checkSupportSeatCount = true;
 			}
 		}
 
-		if (checkSupportDeveloperCount) {
+		if (checkSupportSeatCount) {
 			List<ContactRole> contactRoles =
 				_contactRoleWebService.getAccountCustomerContactRoles(
 					accountKey, contactEmailAddress, 1, 1000);
 
 			for (ContactRole contactRole : contactRoles) {
 				if (ArrayUtil.contains(
-						ContactRoleConstants.SUPPORT_DEVELOPER_CONTACT_ROLES,
+						ContactRoleConstants.SUPPORT_SEAT_CONTACT_ROLES,
 						contactRole.getName())) {
 
-					checkSupportDeveloperCount = false;
+					checkSupportSeatCount = false;
 				}
 			}
 		}
 
-		if (checkSupportDeveloperCount) {
+		if (checkSupportSeatCount) {
 			Account account = _accountWebService.getAccount(accountKey);
 
-			int developerCount = _accountReader.getDeveloperCount(account);
-			int maxDeveloperCount = _accountReader.getMaxDeveloperCount(
+			int supportSeatCount = _accountReader.getSupportSeatCount(account);
+			int maxSupportSeatCount = _accountReader.getMaxSupportSeatCount(
 				account);
 
-			if ((developerCount + 1) > maxDeveloperCount) {
+			if ((supportSeatCount + 1) > maxSupportSeatCount) {
 				throw new PortalException(
 					"Account has reached the maximum allowed ticket " +
-						"requestors");
+						"requesters");
 			}
 		}
 
@@ -182,7 +182,9 @@ public class AccountResourceImpl extends BaseAccountResourceImpl {
 			for (ContactRole contactRole : contactRoles) {
 				String name = contactRole.getName();
 
-				if (name.equals(ContactRoleConstants.NAME_ADMINISTRATOR)) {
+				if (name.equals(
+						ContactRoleConstants.NAME_SUPPORT_ADMINISTRATOR)) {
+
 					return;
 				}
 			}

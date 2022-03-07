@@ -527,7 +527,9 @@ public class LicenseKeyResourceImpl
 			for (ContactRole contactRole : contactRoles) {
 				String name = contactRole.getName();
 
-				if (name.equals(ContactRoleConstants.NAME_ADMINISTRATOR)) {
+				if (name.equals(
+						ContactRoleConstants.NAME_SUPPORT_ADMINISTRATOR)) {
+
 					return;
 				}
 			}

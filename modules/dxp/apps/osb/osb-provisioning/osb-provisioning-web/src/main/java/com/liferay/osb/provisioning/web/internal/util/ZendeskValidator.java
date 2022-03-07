@@ -169,27 +169,27 @@ public class ZendeskValidator {
 			String accountKey, String emailAddress)
 		throws Exception {
 
-		boolean supportDeveloper = false;
+		boolean supportRequester = false;
 
 		FilterQuery filterQuery = new FilterQuery();
 
-		ContactRole administratorContactRole =
+		ContactRole supportAdministratorContactRole =
 			_contactRoleWebService.getContactRole(
 				ContactRole.Type.ACCOUNT_CUSTOMER.toString(),
-				ContactRoleConstants.NAME_ADMINISTRATOR);
+				ContactRoleConstants.NAME_SUPPORT_ADMINISTRATOR);
 
 		filterQuery.addLambdaEquals(
 			false, "accountKeysContactRoleKeys",
-			accountKey + "_" + administratorContactRole.getKey());
+			accountKey + "_" + supportAdministratorContactRole.getKey());
 
-		ContactRole supportDeveloperContactRole =
+		ContactRole supportRequesterContactRole =
 			_contactRoleWebService.getContactRole(
 				ContactRole.Type.ACCOUNT_CUSTOMER.toString(),
-				ContactRoleConstants.NAME_SUPPORT_DEVELOPER);
+				ContactRoleConstants.NAME_SUPPORT_REQUESTER);
 
 		filterQuery.addLambdaEquals(
 			false, "accountKeysContactRoleKeys",
-			accountKey + "_" + supportDeveloperContactRole.getKey());
+			accountKey + "_" + supportRequesterContactRole.getKey());
 
 		List<Contact> contacts = _contactWebService.search(
 			StringPool.BLANK, filterQuery, 1, 1000, StringPool.BLANK);
@@ -198,13 +198,13 @@ public class ZendeskValidator {
 			String curEmailAddress = contact.getEmailAddress();
 
 			if (curEmailAddress.equals(emailAddress)) {
-				supportDeveloper = true;
+				supportRequester = true;
 
 				break;
 			}
 		}
 
-		if (supportDeveloper && (contacts.size() <= 1)) {
+		if (supportRequester && (contacts.size() <= 1)) {
 			return true;
 		}
 
