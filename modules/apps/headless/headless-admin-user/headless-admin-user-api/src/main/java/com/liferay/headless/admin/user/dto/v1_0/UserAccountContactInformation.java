@@ -94,7 +94,7 @@ public class UserAccountContactInformation implements Serializable {
 	@GraphQLField(
 		description = "A list of the user's email addresses, with one optionally marked as primary."
 	)
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected EmailAddress[] emailAddresses;
 
 	@Schema(description = "The user's Facebook account.")
@@ -122,7 +122,7 @@ public class UserAccountContactInformation implements Serializable {
 	}
 
 	@GraphQLField(description = "The user's Facebook account.")
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String facebook;
 
 	@Schema(description = "The ID of the `contactInformation`.")
@@ -176,7 +176,7 @@ public class UserAccountContactInformation implements Serializable {
 	}
 
 	@GraphQLField(description = "The user's Jabber handle.")
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String jabber;
 
 	@Schema(
@@ -210,7 +210,7 @@ public class UserAccountContactInformation implements Serializable {
 	@GraphQLField(
 		description = "A list of user's postal addresses, with one optionally marked as primary."
 	)
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected PostalAddress[] postalAddresses;
 
 	@Schema(description = "The user's Skype handle.")
@@ -238,7 +238,7 @@ public class UserAccountContactInformation implements Serializable {
 	}
 
 	@GraphQLField(description = "The user's Skype handle.")
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String skype;
 
 	@Schema(description = "The user's SMS number.")
@@ -264,7 +264,7 @@ public class UserAccountContactInformation implements Serializable {
 	}
 
 	@GraphQLField(description = "The user's SMS number.")
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String sms;
 
 	@Schema(
@@ -297,7 +297,7 @@ public class UserAccountContactInformation implements Serializable {
 	@GraphQLField(
 		description = "A list of the user's phone numbers, with one optionally marked as primary."
 	)
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Phone[] telephones;
 
 	@Schema(description = "The user's Twitter handle.")
@@ -325,7 +325,7 @@ public class UserAccountContactInformation implements Serializable {
 	}
 
 	@GraphQLField(description = "The user's Twitter handle.")
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String twitter;
 
 	@Schema(
@@ -358,7 +358,7 @@ public class UserAccountContactInformation implements Serializable {
 	@GraphQLField(
 		description = "A list of the user's web URLs, with one optionally marked as primary."
 	)
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected WebUrl[] webUrls;
 
 	@Override

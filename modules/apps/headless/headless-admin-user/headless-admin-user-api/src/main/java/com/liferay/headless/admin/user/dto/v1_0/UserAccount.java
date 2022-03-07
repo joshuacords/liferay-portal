@@ -89,7 +89,7 @@ public class UserAccount implements Serializable {
 	@GraphQLField(
 		description = "The user's additional name (e.g., middle name)."
 	)
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String additionalName;
 
 	@Schema(description = "The user's alias or screen name.")
@@ -117,7 +117,7 @@ public class UserAccount implements Serializable {
 	}
 
 	@GraphQLField(description = "The user's alias or screen name.")
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String alternateName;
 
 	@Schema(description = "The user's date of birth, in ISO 8601 format.")
@@ -145,7 +145,7 @@ public class UserAccount implements Serializable {
 	}
 
 	@GraphQLField(description = "The user's date of birth, in ISO 8601 format.")
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Date birthDate;
 
 	@Schema(deprecated = true, description = "The user's contact information.")
@@ -321,7 +321,7 @@ public class UserAccount implements Serializable {
 	}
 
 	@GraphQLField(description = "The user's main email address.")
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String emailAddress;
 
 	@Schema(description = "The user's surname (last name).")
@@ -349,7 +349,7 @@ public class UserAccount implements Serializable {
 	}
 
 	@GraphQLField(description = "The user's surname (last name).")
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String familyName;
 
 	@Schema(description = "The user's first name.")
@@ -377,7 +377,7 @@ public class UserAccount implements Serializable {
 	}
 
 	@GraphQLField(description = "The user's first name.")
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String givenName;
 
 	@Schema(description = "The user's title (e.g., Dr., Mr., Mrs, Ms., etc.).")
@@ -407,7 +407,7 @@ public class UserAccount implements Serializable {
 	@GraphQLField(
 		description = "The user's title (e.g., Dr., Mr., Mrs, Ms., etc.)."
 	)
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String honorificPrefix;
 
 	@Schema(description = "The user's suffix (e.g., II, Jr., PhD, etc.).")
@@ -435,7 +435,7 @@ public class UserAccount implements Serializable {
 	}
 
 	@GraphQLField(description = "The user's suffix (e.g., II, Jr., PhD, etc.).")
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String honorificSuffix;
 
 	@Schema(description = "The user's ID.")
@@ -517,7 +517,7 @@ public class UserAccount implements Serializable {
 	}
 
 	@GraphQLField(description = "The user's job title.")
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String jobTitle;
 
 	@Schema(description = "A list of keywords describing the user.")
