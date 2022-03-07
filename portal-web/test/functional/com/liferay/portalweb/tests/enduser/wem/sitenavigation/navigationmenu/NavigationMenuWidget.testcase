@@ -154,15 +154,18 @@ definition {
 	}
 
 	@description = "This is a test for LPS-76717. The user could view warning message in preview window when no available navigation in site."
+	@ignore = "true"
 	@priority = "3"
 	test ViewWarningMessageInPreviewWindowWhenNoNavigationAvailable {
-		task ("Add a content page") {
-			SitePages.openPagesAdmin(siteURLKey = "test-site-name");
+		task ("Add a content page template") {
+			PageTemplatesAdmin.openPageTemplatesAdmin(siteURLKey = "test-site-name");
 
-			ContentPages.addPage(pageName = "Test Content Page Name");
+			PageTemplatesAdmin.addCollection(collectionName = "Page Template Collection");
+
+			PageTemplatesAdmin.addPageTemplate(pageTemplateName = "Page Template Name");
 		}
 
-		task ("Add a Navigation Menu widget to the page") {
+		task ("Add a Navigation Menu widget to content page template") {
 			PageEditor.addWidget(portletName = "Navigation Menu");
 		}
 
@@ -177,7 +180,9 @@ definition {
 		}
 
 		task ("Select different navigation menu, assert preview displays properly") {
-			NavigationMenusWidget.selectNavigation(menuType = "Primary Navigation");
+			AssertSelectedLabel(
+				locator1 = "NavigationMenusWidget#SELECT_NAVIGATION",
+				value1 = "Primary Navigation");
 
 			AssertTextPresent(value1 = "There is no Primary Navigation available for the current site.");
 
