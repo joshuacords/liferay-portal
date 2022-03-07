@@ -2872,6 +2872,13 @@ log.sanitizer.enabled=false</echo>
 								<arg value="-Pforced.deploy.dir=${project.dir}/tmp/lib-pre" />
 							</gradle-execute>
 
+							<get-test-app-server-lib-portal-dir />
+
+							<unzip
+								dest="portal-impl/classes"
+								src="${test.app.server.lib.portal.dir}/portal-impl.jar"
+							/>
+
 							<parallel failonany="true" threadcount="${parallel.thread.count}">
 								<ant dir="portal-test" inheritAll="false" target="jar" />
 								<ant dir="support-tomcat" inheritAll="false" target="compile" />
@@ -2884,8 +2891,6 @@ log.sanitizer.enabled=false</echo>
 
 								<ant dir="util-slf4j" inheritAll="false" target="compile" />
 							</parallel>
-
-							<ant dir="portal-impl" inheritAll="false" target="compile" />
 
 							<ant dir="portal-test-integration" inheritAll="false" target="jar" />
 

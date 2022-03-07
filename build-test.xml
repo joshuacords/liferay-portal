@@ -962,6 +962,14 @@ jdbc.counter.connectionProperties=oracle.jdbc.ReadTimeout=0;oracle.net.CONNECT_T
 		</sequential>
 	</macrodef>
 
+	<macrodef name="get-test-app-server-lib-portal-dir">
+		<sequential>
+			<var name="test.app.server.lib.portal.dir" unset="true" />
+
+			<propertycopy from="app.server.${app.server.type}.lib.portal.dir" name="test.app.server.lib.portal.dir" />
+		</sequential>
+	</macrodef>
+
 	<macrodef name="get-test-case-properties-content">
 		<attribute default="batch-jdk8" name="test.batch.name" />
 
