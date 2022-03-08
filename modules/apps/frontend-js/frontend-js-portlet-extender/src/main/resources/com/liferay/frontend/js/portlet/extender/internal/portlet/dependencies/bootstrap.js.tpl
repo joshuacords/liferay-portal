@@ -15,8 +15,8 @@
 				initializer(
 					{
 						configuration: {
-							portletInstance: JSON.parse('[$PORTLET_INSTANCE_CONFIGURATION$]'),
-							system: JSON.parse('[$SYSTEM_CONFIGURATION$]')
+							portletInstance: JSON.parse(JSON.stringify([$PORTLET_INSTANCE_CONFIGURATION$])),
+							system: JSON.parse(JSON.stringify([$SYSTEM_CONFIGURATION$]))
 						},
 						contextPath: '[$CONTEXT_PATH$]',
 						portletElementId: '[$PORTLET_ELEMENT_ID$]',
