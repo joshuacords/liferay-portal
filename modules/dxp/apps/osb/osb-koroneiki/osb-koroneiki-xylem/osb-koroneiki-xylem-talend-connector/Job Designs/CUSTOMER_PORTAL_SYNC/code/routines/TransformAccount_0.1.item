@@ -276,11 +276,11 @@ public class TransformAccount {
 			if (name.equals(ProductConstants.NAME_DESIGNATED_CONTACT_ADD_ON)) {
 				developerAddons += quantity;
 			}
-			else if (curName.equals(
+			else if (name.equals(
 						ProductConstants.
 							NAME_MANAGED_SERVICES_DEVELOPER_SUPPORT) ||
-					curName.equals(
-						ProductConstants.NAME_MANAGED_SERVICES_STANDARD)) {
+					 name.equals(
+						 ProductConstants.NAME_MANAGED_SERVICES_STANDARD)) {
 
 				managedServices = true;
 			}

@@ -1,0 +1,87 @@
+package routines;
+
+import java.util.Set;
+
+import routines.system.JSONArray;
+import routines.system.JSONObject;
+
+/**
+ * @author Amos Fong
+ */
+public class FLSPartnerSyncUtil {
+
+	public static String getFLSTeamKey(String assignedTeams) {
+		if (assignedTeams.isEmpty()) {
+			return null;
+		}
+
+		JSONArray jsonArray = new JSONArray(assignedTeams);
+
+		for (int i = 0; i < jsonArray.length(); i++) {
+			JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+			JSONArray teamRolesJSONArray = jsonObject.getJSONArray("teamRoles");
+
+			if (teamRolesJSONArray == null) {
+				continue;
+			}
+
+			for (int j = 0; j < teamRolesJSONArray.length(); j++) {
+				JSONObject teamRoleJSONObject =
+					teamRolesJSONArray.getJSONObject(j);
+
+				String name = teamRoleJSONObject.getString("name");
+
+				if (name.equals(Constants.TEAM_ROLE_NAME_FIRST_LINE_SUPPORT)) {
+					return jsonObject.getString("key");
+				}
+			}
+		}
+
+		return "";
+	}
+
+	public static String getFLSTeamName(String assignedTeams) {
+		if (assignedTeams.isEmpty()) {
+			return null;
+		}
+
+		JSONArray jsonArray = new JSONArray(assignedTeams);
+
+		for (int i = 0; i < jsonArray.length(); i++) {
+			JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+			JSONArray teamRolesJSONArray = jsonObject.getJSONArray("teamRoles");
+
+			if (teamRolesJSONArray == null) {
+				continue;
+			}
+
+			for (int j = 0; j < teamRolesJSONArray.length(); j++) {
+				JSONObject teamRoleJSONObject =
+					teamRolesJSONArray.getJSONObject(j);
+
+				String name = teamRoleJSONObject.getString("name");
+
+				if (name.equals(Constants.TEAM_ROLE_NAME_FIRST_LINE_SUPPORT)) {
+					return jsonObject.getString("name");
+				}
+			}
+		}
+
+		return "";
+	}
+
+	public static String getRemoveUserEmailAddress(
+		Object emailAddresses, String emailAddress) {
+
+		Set<String> emailAddressesSet = (Set<String>)emailAddresses;
+
+		if (emailAddressesSet.contains(emailAddress)) {
+			return null;
+		}
+
+		return emailAddress;
+	}
+
+}

@@ -32,4 +32,7 @@ public class Constants {
 
 	public static final long START_DATE_PERPETUAL = 0L;
 
+	public static final String TEAM_ROLE_NAME_FIRST_LINE_SUPPORT =
+		"First Line Support";
+
 }
