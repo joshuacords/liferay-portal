@@ -240,8 +240,9 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 
 			_logWarning(
 				StringBundler.concat(
-					"The maximum support seats is ", maxSupportSeatCount,
-					" but there are ", curSupportSeatCount, " support seats."));
+					"The maximum allowed support seats is ",
+					maxSupportSeatCount, " but there are ", curSupportSeatCount,
+					" support seats taken."));
 		}
 
 		if (!inactiveContacts.isEmpty()) {
