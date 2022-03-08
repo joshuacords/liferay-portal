@@ -49,18 +49,18 @@ public class AssetTagNamesKeywordQueryContributor
 		SearchContext searchContext =
 			keywordQueryContributorHelper.getSearchContext();
 
-		Locale locale = getLocale(searchContext);
+		Locale locale = _getLocale(searchContext);
 
-		Localization localization = getLocalization();
+		Localization localization = _getLocalization();
 
-		queryHelper.addSearchTerm(
+		_queryHelper.addSearchTerm(
 			booleanQuery, searchContext,
 			localization.getLocalizedName(
 				Field.ASSET_TAG_NAMES, LocaleUtil.toLanguageId(locale)),
 			false);
 	}
 
-	protected long getGroupId(SearchContext searchContext) {
+	private long _getGroupId(SearchContext searchContext) {
 		Layout layout = searchContext.getLayout();
 
 		if (layout != null) {
@@ -76,42 +76,42 @@ public class AssetTagNamesKeywordQueryContributor
 		return 0;
 	}
 
-	protected Locale getLocale(SearchContext searchContext) {
-		long groupId = getGroupId(searchContext);
+	private Locale _getLocale(SearchContext searchContext) {
+		long groupId = _getGroupId(searchContext);
 
 		if (groupId > 0) {
-			return getSiteDefaultLocale(groupId);
+			return _getSiteDefaultLocale(groupId);
 		}
 
 		return searchContext.getLocale();
 	}
 
-	protected Localization getLocalization() {
+	private Localization _getLocalization() {
 
 		// See LPS-72507 and LPS-76500
 
-		if (localization != null) {
-			return localization;
+		if (_localization != null) {
+			return _localization;
 		}
 
 		return LocalizationUtil.getLocalization();
 	}
 
-	protected Locale getSiteDefaultLocale(long groupId) {
+	private Locale _getSiteDefaultLocale(long groupId) {
 		try {
-			return portal.getSiteDefaultLocale(groupId);
+			return _portal.getSiteDefaultLocale(groupId);
 		}
 		catch (PortalException portalException) {
 			throw new RuntimeException(portalException);
 		}
 	}
 
-	protected Localization localization;
+	private Localization _localization;
 
 	@Reference
-	protected Portal portal;
+	private Portal _portal;
 
 	@Reference
-	protected QueryHelper queryHelper;
+	private QueryHelper _queryHelper;
 
 }
