@@ -401,6 +401,37 @@ public abstract class BaseKeywordResourceTestCase {
 	}
 
 	@Test
+	public void testGetSiteKeywordsPageWithFilterDoubleEquals()
+		throws Exception {
+
+		List<EntityField> entityFields = getEntityFields(
+			EntityField.Type.DOUBLE);
+
+		if (entityFields.isEmpty()) {
+			return;
+		}
+
+		Long siteId = testGetSiteKeywordsPage_getSiteId();
+
+		Keyword keyword1 = testGetSiteKeywordsPage_addKeyword(
+			siteId, randomKeyword());
+
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		Keyword keyword2 = testGetSiteKeywordsPage_addKeyword(
+			siteId, randomKeyword());
+
+		for (EntityField entityField : entityFields) {
+			Page<Keyword> page = keywordResource.getSiteKeywordsPage(
+				siteId, null, getFilterString(entityField, "eq", keyword1),
+				Pagination.of(1, 2), null);
+
+			assertEquals(
+				Collections.singletonList(keyword1),
+				(List<Keyword>)page.getItems());
+		}
+	}
+
+	@Test
 	public void testGetSiteKeywordsPageWithFilterStringEquals()
 		throws Exception {
 
@@ -476,6 +507,16 @@ public abstract class BaseKeywordResourceTestCase {
 				BeanUtils.setProperty(
 					keyword1, entityField.getName(),
 					DateUtils.addMinutes(new Date(), -2));
+			});
+	}
+
+	@Test
+	public void testGetSiteKeywordsPageWithSortDouble() throws Exception {
+		testGetSiteKeywordsPageWithSort(
+			EntityField.Type.DOUBLE,
+			(entityField, keyword1, keyword2) -> {
+				BeanUtils.setProperty(keyword1, entityField.getName(), 0.1);
+				BeanUtils.setProperty(keyword2, entityField.getName(), 0.5);
 			});
 	}
 
@@ -1205,8 +1246,9 @@ public abstract class BaseKeywordResourceTestCase {
 		}
 
 		if (entityFieldName.equals("keywordUsageCount")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(String.valueOf(keyword.getKeywordUsageCount()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("name")) {

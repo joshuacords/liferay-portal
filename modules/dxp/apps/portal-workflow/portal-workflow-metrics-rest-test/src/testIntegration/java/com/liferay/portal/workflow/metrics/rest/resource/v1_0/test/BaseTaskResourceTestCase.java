@@ -283,6 +283,16 @@ public abstract class BaseTaskResourceTestCase {
 	}
 
 	@Test
+	public void testGetProcessTasksPageWithSortDouble() throws Exception {
+		testGetProcessTasksPageWithSort(
+			EntityField.Type.DOUBLE,
+			(entityField, task1, task2) -> {
+				BeanUtils.setProperty(task1, entityField.getName(), 0.1);
+				BeanUtils.setProperty(task2, entityField.getName(), 0.5);
+			});
+	}
+
+	@Test
 	public void testGetProcessTasksPageWithSortInteger() throws Exception {
 		testGetProcessTasksPageWithSort(
 			EntityField.Type.INTEGER,

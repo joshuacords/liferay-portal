@@ -266,6 +266,16 @@ public abstract class BaseProcessResourceTestCase {
 	}
 
 	@Test
+	public void testGetProcessesPageWithSortDouble() throws Exception {
+		testGetProcessesPageWithSort(
+			EntityField.Type.DOUBLE,
+			(entityField, process1, process2) -> {
+				BeanUtils.setProperty(process1, entityField.getName(), 0.1);
+				BeanUtils.setProperty(process2, entityField.getName(), 0.5);
+			});
+	}
+
+	@Test
 	public void testGetProcessesPageWithSortInteger() throws Exception {
 		testGetProcessesPageWithSort(
 			EntityField.Type.INTEGER,

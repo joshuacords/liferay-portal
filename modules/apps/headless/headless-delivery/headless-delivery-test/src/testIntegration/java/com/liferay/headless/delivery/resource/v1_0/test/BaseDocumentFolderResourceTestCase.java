@@ -523,6 +523,42 @@ public abstract class BaseDocumentFolderResourceTestCase {
 	}
 
 	@Test
+	public void testGetDocumentFolderDocumentFoldersPageWithFilterDoubleEquals()
+		throws Exception {
+
+		List<EntityField> entityFields = getEntityFields(
+			EntityField.Type.DOUBLE);
+
+		if (entityFields.isEmpty()) {
+			return;
+		}
+
+		Long parentDocumentFolderId =
+			testGetDocumentFolderDocumentFoldersPage_getParentDocumentFolderId();
+
+		DocumentFolder documentFolder1 =
+			testGetDocumentFolderDocumentFoldersPage_addDocumentFolder(
+				parentDocumentFolderId, randomDocumentFolder());
+
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		DocumentFolder documentFolder2 =
+			testGetDocumentFolderDocumentFoldersPage_addDocumentFolder(
+				parentDocumentFolderId, randomDocumentFolder());
+
+		for (EntityField entityField : entityFields) {
+			Page<DocumentFolder> page =
+				documentFolderResource.getDocumentFolderDocumentFoldersPage(
+					parentDocumentFolderId, null, null, null,
+					getFilterString(entityField, "eq", documentFolder1),
+					Pagination.of(1, 2), null);
+
+			assertEquals(
+				Collections.singletonList(documentFolder1),
+				(List<DocumentFolder>)page.getItems());
+		}
+	}
+
+	@Test
 	public void testGetDocumentFolderDocumentFoldersPageWithFilterStringEquals()
 		throws Exception {
 
@@ -621,6 +657,20 @@ public abstract class BaseDocumentFolderResourceTestCase {
 				BeanUtils.setProperty(
 					documentFolder1, entityField.getName(),
 					DateUtils.addMinutes(new Date(), -2));
+			});
+	}
+
+	@Test
+	public void testGetDocumentFolderDocumentFoldersPageWithSortDouble()
+		throws Exception {
+
+		testGetDocumentFolderDocumentFoldersPageWithSort(
+			EntityField.Type.DOUBLE,
+			(entityField, documentFolder1, documentFolder2) -> {
+				BeanUtils.setProperty(
+					documentFolder1, entityField.getName(), 0.1);
+				BeanUtils.setProperty(
+					documentFolder2, entityField.getName(), 0.5);
 			});
 	}
 
@@ -874,6 +924,41 @@ public abstract class BaseDocumentFolderResourceTestCase {
 	}
 
 	@Test
+	public void testGetSiteDocumentFoldersPageWithFilterDoubleEquals()
+		throws Exception {
+
+		List<EntityField> entityFields = getEntityFields(
+			EntityField.Type.DOUBLE);
+
+		if (entityFields.isEmpty()) {
+			return;
+		}
+
+		Long siteId = testGetSiteDocumentFoldersPage_getSiteId();
+
+		DocumentFolder documentFolder1 =
+			testGetSiteDocumentFoldersPage_addDocumentFolder(
+				siteId, randomDocumentFolder());
+
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		DocumentFolder documentFolder2 =
+			testGetSiteDocumentFoldersPage_addDocumentFolder(
+				siteId, randomDocumentFolder());
+
+		for (EntityField entityField : entityFields) {
+			Page<DocumentFolder> page =
+				documentFolderResource.getSiteDocumentFoldersPage(
+					siteId, null, null, null,
+					getFilterString(entityField, "eq", documentFolder1),
+					Pagination.of(1, 2), null);
+
+			assertEquals(
+				Collections.singletonList(documentFolder1),
+				(List<DocumentFolder>)page.getItems());
+		}
+	}
+
+	@Test
 	public void testGetSiteDocumentFoldersPageWithFilterStringEquals()
 		throws Exception {
 
@@ -967,6 +1052,20 @@ public abstract class BaseDocumentFolderResourceTestCase {
 				BeanUtils.setProperty(
 					documentFolder1, entityField.getName(),
 					DateUtils.addMinutes(new Date(), -2));
+			});
+	}
+
+	@Test
+	public void testGetSiteDocumentFoldersPageWithSortDouble()
+		throws Exception {
+
+		testGetSiteDocumentFoldersPageWithSort(
+			EntityField.Type.DOUBLE,
+			(entityField, documentFolder1, documentFolder2) -> {
+				BeanUtils.setProperty(
+					documentFolder1, entityField.getName(), 0.1);
+				BeanUtils.setProperty(
+					documentFolder2, entityField.getName(), 0.5);
 			});
 	}
 
@@ -1888,13 +1987,16 @@ public abstract class BaseDocumentFolderResourceTestCase {
 		}
 
 		if (entityFieldName.equals("numberOfDocumentFolders")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(
+				String.valueOf(documentFolder.getNumberOfDocumentFolders()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("numberOfDocuments")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(String.valueOf(documentFolder.getNumberOfDocuments()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("siteId")) {

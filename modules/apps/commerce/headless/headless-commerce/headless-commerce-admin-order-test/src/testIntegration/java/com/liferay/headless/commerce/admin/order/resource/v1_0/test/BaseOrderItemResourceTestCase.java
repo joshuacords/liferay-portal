@@ -1812,8 +1812,9 @@ public abstract class BaseOrderItemResourceTestCase {
 		}
 
 		if (entityFieldName.equals("quantity")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(String.valueOf(orderItem.getQuantity()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("requestedDeliveryDate")) {
@@ -1851,8 +1852,9 @@ public abstract class BaseOrderItemResourceTestCase {
 		}
 
 		if (entityFieldName.equals("shippedQuantity")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(String.valueOf(orderItem.getShippedQuantity()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("shippingAddress")) {

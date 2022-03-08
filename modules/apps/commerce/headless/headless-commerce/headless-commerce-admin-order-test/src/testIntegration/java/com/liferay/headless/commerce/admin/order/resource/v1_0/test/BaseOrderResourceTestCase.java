@@ -298,6 +298,31 @@ public abstract class BaseOrderResourceTestCase {
 	}
 
 	@Test
+	public void testGetOrdersPageWithFilterDoubleEquals() throws Exception {
+		List<EntityField> entityFields = getEntityFields(
+			EntityField.Type.DOUBLE);
+
+		if (entityFields.isEmpty()) {
+			return;
+		}
+
+		Order order1 = testGetOrdersPage_addOrder(randomOrder());
+
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		Order order2 = testGetOrdersPage_addOrder(randomOrder());
+
+		for (EntityField entityField : entityFields) {
+			Page<Order> page = orderResource.getOrdersPage(
+				null, getFilterString(entityField, "eq", order1),
+				Pagination.of(1, 2), null);
+
+			assertEquals(
+				Collections.singletonList(order1),
+				(List<Order>)page.getItems());
+		}
+	}
+
+	@Test
 	public void testGetOrdersPageWithFilterStringEquals() throws Exception {
 		List<EntityField> entityFields = getEntityFields(
 			EntityField.Type.STRING);
@@ -367,6 +392,16 @@ public abstract class BaseOrderResourceTestCase {
 				BeanUtils.setProperty(
 					order1, entityField.getName(),
 					DateUtils.addMinutes(new Date(), -2));
+			});
+	}
+
+	@Test
+	public void testGetOrdersPageWithSortDouble() throws Exception {
+		testGetOrdersPageWithSort(
+			EntityField.Type.DOUBLE,
+			(entityField, order1, order2) -> {
+				BeanUtils.setProperty(order1, entityField.getName(), 0.1);
+				BeanUtils.setProperty(order2, entityField.getName(), 0.5);
 			});
 	}
 
@@ -3260,8 +3295,9 @@ public abstract class BaseOrderResourceTestCase {
 		}
 
 		if (entityFieldName.equals("orderStatus")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(String.valueOf(order.getOrderStatus()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("orderStatusInfo")) {
@@ -3278,8 +3314,9 @@ public abstract class BaseOrderResourceTestCase {
 		}
 
 		if (entityFieldName.equals("paymentStatus")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(String.valueOf(order.getPaymentStatus()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("paymentStatusInfo")) {
@@ -3360,13 +3397,15 @@ public abstract class BaseOrderResourceTestCase {
 		}
 
 		if (entityFieldName.equals("shippingAmountValue")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(String.valueOf(order.getShippingAmountValue()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("shippingDiscountAmount")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(String.valueOf(order.getShippingDiscountAmount()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("shippingDiscountAmountFormatted")) {
@@ -3379,56 +3418,77 @@ public abstract class BaseOrderResourceTestCase {
 		}
 
 		if (entityFieldName.equals("shippingDiscountPercentageLevel1")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(
+				String.valueOf(order.getShippingDiscountPercentageLevel1()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals(
 				"shippingDiscountPercentageLevel1WithTaxAmount")) {
 
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(
+				String.valueOf(
+					order.getShippingDiscountPercentageLevel1WithTaxAmount()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("shippingDiscountPercentageLevel2")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(
+				String.valueOf(order.getShippingDiscountPercentageLevel2()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals(
 				"shippingDiscountPercentageLevel2WithTaxAmount")) {
 
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(
+				String.valueOf(
+					order.getShippingDiscountPercentageLevel2WithTaxAmount()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("shippingDiscountPercentageLevel3")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(
+				String.valueOf(order.getShippingDiscountPercentageLevel3()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals(
 				"shippingDiscountPercentageLevel3WithTaxAmount")) {
 
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(
+				String.valueOf(
+					order.getShippingDiscountPercentageLevel3WithTaxAmount()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("shippingDiscountPercentageLevel4")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(
+				String.valueOf(order.getShippingDiscountPercentageLevel4()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals(
 				"shippingDiscountPercentageLevel4WithTaxAmount")) {
 
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(
+				String.valueOf(
+					order.getShippingDiscountPercentageLevel4WithTaxAmount()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("shippingDiscountWithTaxAmount")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(String.valueOf(order.getShippingDiscountWithTaxAmount()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("shippingDiscountWithTaxAmountFormatted")) {
@@ -3472,8 +3532,9 @@ public abstract class BaseOrderResourceTestCase {
 		}
 
 		if (entityFieldName.equals("shippingWithTaxAmountValue")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(String.valueOf(order.getShippingWithTaxAmountValue()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("subtotal")) {
@@ -3482,13 +3543,15 @@ public abstract class BaseOrderResourceTestCase {
 		}
 
 		if (entityFieldName.equals("subtotalAmount")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(String.valueOf(order.getSubtotalAmount()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("subtotalDiscountAmount")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(String.valueOf(order.getSubtotalDiscountAmount()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("subtotalDiscountAmountFormatted")) {
@@ -3501,56 +3564,77 @@ public abstract class BaseOrderResourceTestCase {
 		}
 
 		if (entityFieldName.equals("subtotalDiscountPercentageLevel1")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(
+				String.valueOf(order.getSubtotalDiscountPercentageLevel1()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals(
 				"subtotalDiscountPercentageLevel1WithTaxAmount")) {
 
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(
+				String.valueOf(
+					order.getSubtotalDiscountPercentageLevel1WithTaxAmount()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("subtotalDiscountPercentageLevel2")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(
+				String.valueOf(order.getSubtotalDiscountPercentageLevel2()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals(
 				"subtotalDiscountPercentageLevel2WithTaxAmount")) {
 
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(
+				String.valueOf(
+					order.getSubtotalDiscountPercentageLevel2WithTaxAmount()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("subtotalDiscountPercentageLevel3")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(
+				String.valueOf(order.getSubtotalDiscountPercentageLevel3()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals(
 				"subtotalDiscountPercentageLevel3WithTaxAmount")) {
 
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(
+				String.valueOf(
+					order.getSubtotalDiscountPercentageLevel3WithTaxAmount()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("subtotalDiscountPercentageLevel4")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(
+				String.valueOf(order.getSubtotalDiscountPercentageLevel4()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals(
 				"subtotalDiscountPercentageLevel4WithTaxAmount")) {
 
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(
+				String.valueOf(
+					order.getSubtotalDiscountPercentageLevel4WithTaxAmount()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("subtotalDiscountWithTaxAmount")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(String.valueOf(order.getSubtotalDiscountWithTaxAmount()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("subtotalDiscountWithTaxAmountFormatted")) {
@@ -3586,13 +3670,15 @@ public abstract class BaseOrderResourceTestCase {
 		}
 
 		if (entityFieldName.equals("subtotalWithTaxAmountValue")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(String.valueOf(order.getSubtotalWithTaxAmountValue()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("taxAmount")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(String.valueOf(order.getTaxAmount()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("taxAmountFormatted")) {
@@ -3609,13 +3695,15 @@ public abstract class BaseOrderResourceTestCase {
 		}
 
 		if (entityFieldName.equals("totalAmount")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(String.valueOf(order.getTotalAmount()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("totalDiscountAmount")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(String.valueOf(order.getTotalDiscountAmount()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("totalDiscountAmountFormatted")) {
@@ -3627,56 +3715,73 @@ public abstract class BaseOrderResourceTestCase {
 		}
 
 		if (entityFieldName.equals("totalDiscountPercentageLevel1")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(String.valueOf(order.getTotalDiscountPercentageLevel1()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals(
 				"totalDiscountPercentageLevel1WithTaxAmount")) {
 
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(
+				String.valueOf(
+					order.getTotalDiscountPercentageLevel1WithTaxAmount()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("totalDiscountPercentageLevel2")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(String.valueOf(order.getTotalDiscountPercentageLevel2()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals(
 				"totalDiscountPercentageLevel2WithTaxAmount")) {
 
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(
+				String.valueOf(
+					order.getTotalDiscountPercentageLevel2WithTaxAmount()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("totalDiscountPercentageLevel3")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(String.valueOf(order.getTotalDiscountPercentageLevel3()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals(
 				"totalDiscountPercentageLevel3WithTaxAmount")) {
 
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(
+				String.valueOf(
+					order.getTotalDiscountPercentageLevel3WithTaxAmount()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("totalDiscountPercentageLevel4")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(String.valueOf(order.getTotalDiscountPercentageLevel4()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals(
 				"totalDiscountPercentageLevel4WithTaxAmount")) {
 
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(
+				String.valueOf(
+					order.getTotalDiscountPercentageLevel4WithTaxAmount()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("totalDiscountWithTaxAmount")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(String.valueOf(order.getTotalDiscountWithTaxAmount()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("totalDiscountWithTaxAmountFormatted")) {
@@ -3710,8 +3815,9 @@ public abstract class BaseOrderResourceTestCase {
 		}
 
 		if (entityFieldName.equals("totalWithTaxAmountValue")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(String.valueOf(order.getTotalWithTaxAmountValue()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("transactionId")) {

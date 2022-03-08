@@ -275,6 +275,38 @@ public abstract class BaseCommentResourceTestCase {
 	}
 
 	@Test
+	public void testGetBlogPostingCommentsPageWithFilterDoubleEquals()
+		throws Exception {
+
+		List<EntityField> entityFields = getEntityFields(
+			EntityField.Type.DOUBLE);
+
+		if (entityFields.isEmpty()) {
+			return;
+		}
+
+		Long blogPostingId = testGetBlogPostingCommentsPage_getBlogPostingId();
+
+		Comment comment1 = testGetBlogPostingCommentsPage_addComment(
+			blogPostingId, randomComment());
+
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		Comment comment2 = testGetBlogPostingCommentsPage_addComment(
+			blogPostingId, randomComment());
+
+		for (EntityField entityField : entityFields) {
+			Page<Comment> page = commentResource.getBlogPostingCommentsPage(
+				blogPostingId, null, null,
+				getFilterString(entityField, "eq", comment1),
+				Pagination.of(1, 2), null);
+
+			assertEquals(
+				Collections.singletonList(comment1),
+				(List<Comment>)page.getItems());
+		}
+	}
+
+	@Test
 	public void testGetBlogPostingCommentsPageWithFilterStringEquals()
 		throws Exception {
 
@@ -355,6 +387,18 @@ public abstract class BaseCommentResourceTestCase {
 				BeanUtils.setProperty(
 					comment1, entityField.getName(),
 					DateUtils.addMinutes(new Date(), -2));
+			});
+	}
+
+	@Test
+	public void testGetBlogPostingCommentsPageWithSortDouble()
+		throws Exception {
+
+		testGetBlogPostingCommentsPageWithSort(
+			EntityField.Type.DOUBLE,
+			(entityField, comment1, comment2) -> {
+				BeanUtils.setProperty(comment1, entityField.getName(), 0.1);
+				BeanUtils.setProperty(comment2, entityField.getName(), 0.5);
 			});
 	}
 
@@ -715,6 +759,38 @@ public abstract class BaseCommentResourceTestCase {
 	}
 
 	@Test
+	public void testGetCommentCommentsPageWithFilterDoubleEquals()
+		throws Exception {
+
+		List<EntityField> entityFields = getEntityFields(
+			EntityField.Type.DOUBLE);
+
+		if (entityFields.isEmpty()) {
+			return;
+		}
+
+		Long parentCommentId = testGetCommentCommentsPage_getParentCommentId();
+
+		Comment comment1 = testGetCommentCommentsPage_addComment(
+			parentCommentId, randomComment());
+
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		Comment comment2 = testGetCommentCommentsPage_addComment(
+			parentCommentId, randomComment());
+
+		for (EntityField entityField : entityFields) {
+			Page<Comment> page = commentResource.getCommentCommentsPage(
+				parentCommentId, null, null,
+				getFilterString(entityField, "eq", comment1),
+				Pagination.of(1, 2), null);
+
+			assertEquals(
+				Collections.singletonList(comment1),
+				(List<Comment>)page.getItems());
+		}
+	}
+
+	@Test
 	public void testGetCommentCommentsPageWithFilterStringEquals()
 		throws Exception {
 
@@ -791,6 +867,16 @@ public abstract class BaseCommentResourceTestCase {
 				BeanUtils.setProperty(
 					comment1, entityField.getName(),
 					DateUtils.addMinutes(new Date(), -2));
+			});
+	}
+
+	@Test
+	public void testGetCommentCommentsPageWithSortDouble() throws Exception {
+		testGetCommentCommentsPageWithSort(
+			EntityField.Type.DOUBLE,
+			(entityField, comment1, comment2) -> {
+				BeanUtils.setProperty(comment1, entityField.getName(), 0.1);
+				BeanUtils.setProperty(comment2, entityField.getName(), 0.5);
 			});
 	}
 
@@ -1015,6 +1101,38 @@ public abstract class BaseCommentResourceTestCase {
 	}
 
 	@Test
+	public void testGetDocumentCommentsPageWithFilterDoubleEquals()
+		throws Exception {
+
+		List<EntityField> entityFields = getEntityFields(
+			EntityField.Type.DOUBLE);
+
+		if (entityFields.isEmpty()) {
+			return;
+		}
+
+		Long documentId = testGetDocumentCommentsPage_getDocumentId();
+
+		Comment comment1 = testGetDocumentCommentsPage_addComment(
+			documentId, randomComment());
+
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		Comment comment2 = testGetDocumentCommentsPage_addComment(
+			documentId, randomComment());
+
+		for (EntityField entityField : entityFields) {
+			Page<Comment> page = commentResource.getDocumentCommentsPage(
+				documentId, null, null,
+				getFilterString(entityField, "eq", comment1),
+				Pagination.of(1, 2), null);
+
+			assertEquals(
+				Collections.singletonList(comment1),
+				(List<Comment>)page.getItems());
+		}
+	}
+
+	@Test
 	public void testGetDocumentCommentsPageWithFilterStringEquals()
 		throws Exception {
 
@@ -1091,6 +1209,16 @@ public abstract class BaseCommentResourceTestCase {
 				BeanUtils.setProperty(
 					comment1, entityField.getName(),
 					DateUtils.addMinutes(new Date(), -2));
+			});
+	}
+
+	@Test
+	public void testGetDocumentCommentsPageWithSortDouble() throws Exception {
+		testGetDocumentCommentsPageWithSort(
+			EntityField.Type.DOUBLE,
+			(entityField, comment1, comment2) -> {
+				BeanUtils.setProperty(comment1, entityField.getName(), 0.1);
+				BeanUtils.setProperty(comment2, entityField.getName(), 0.5);
 			});
 	}
 
@@ -1318,6 +1446,40 @@ public abstract class BaseCommentResourceTestCase {
 	}
 
 	@Test
+	public void testGetStructuredContentCommentsPageWithFilterDoubleEquals()
+		throws Exception {
+
+		List<EntityField> entityFields = getEntityFields(
+			EntityField.Type.DOUBLE);
+
+		if (entityFields.isEmpty()) {
+			return;
+		}
+
+		Long structuredContentId =
+			testGetStructuredContentCommentsPage_getStructuredContentId();
+
+		Comment comment1 = testGetStructuredContentCommentsPage_addComment(
+			structuredContentId, randomComment());
+
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		Comment comment2 = testGetStructuredContentCommentsPage_addComment(
+			structuredContentId, randomComment());
+
+		for (EntityField entityField : entityFields) {
+			Page<Comment> page =
+				commentResource.getStructuredContentCommentsPage(
+					structuredContentId, null, null,
+					getFilterString(entityField, "eq", comment1),
+					Pagination.of(1, 2), null);
+
+			assertEquals(
+				Collections.singletonList(comment1),
+				(List<Comment>)page.getItems());
+		}
+	}
+
+	@Test
 	public void testGetStructuredContentCommentsPageWithFilterStringEquals()
 		throws Exception {
 
@@ -1401,6 +1563,18 @@ public abstract class BaseCommentResourceTestCase {
 				BeanUtils.setProperty(
 					comment1, entityField.getName(),
 					DateUtils.addMinutes(new Date(), -2));
+			});
+	}
+
+	@Test
+	public void testGetStructuredContentCommentsPageWithSortDouble()
+		throws Exception {
+
+		testGetStructuredContentCommentsPageWithSort(
+			EntityField.Type.DOUBLE,
+			(entityField, comment1, comment2) -> {
+				BeanUtils.setProperty(comment1, entityField.getName(), 0.1);
+				BeanUtils.setProperty(comment2, entityField.getName(), 0.5);
 			});
 	}
 
@@ -2016,8 +2190,9 @@ public abstract class BaseCommentResourceTestCase {
 		}
 
 		if (entityFieldName.equals("numberOfComments")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(String.valueOf(comment.getNumberOfComments()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("text")) {

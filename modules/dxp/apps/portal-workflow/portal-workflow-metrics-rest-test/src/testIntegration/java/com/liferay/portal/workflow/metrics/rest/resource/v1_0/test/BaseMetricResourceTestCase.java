@@ -514,8 +514,9 @@ public abstract class BaseMetricResourceTestCase {
 		}
 
 		if (entityFieldName.equals("value")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(String.valueOf(metric.getValue()));
+
+			return sb.toString();
 		}
 
 		throw new IllegalArgumentException(

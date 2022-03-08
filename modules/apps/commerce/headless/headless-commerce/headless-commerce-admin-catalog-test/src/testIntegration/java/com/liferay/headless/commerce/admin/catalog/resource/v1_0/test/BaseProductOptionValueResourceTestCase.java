@@ -723,8 +723,9 @@ public abstract class BaseProductOptionValueResourceTestCase {
 		}
 
 		if (entityFieldName.equals("priority")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(String.valueOf(productOptionValue.getPriority()));
+
+			return sb.toString();
 		}
 
 		throw new IllegalArgumentException(

@@ -540,6 +540,20 @@ public abstract class BaseDataDefinitionResourceTestCase {
 	}
 
 	@Test
+	public void testGetSiteDataDefinitionsPageWithSortDouble()
+		throws Exception {
+
+		testGetSiteDataDefinitionsPageWithSort(
+			EntityField.Type.DOUBLE,
+			(entityField, dataDefinition1, dataDefinition2) -> {
+				BeanUtils.setProperty(
+					dataDefinition1, entityField.getName(), 0.1);
+				BeanUtils.setProperty(
+					dataDefinition2, entityField.getName(), 0.5);
+			});
+	}
+
+	@Test
 	public void testGetSiteDataDefinitionsPageWithSortInteger()
 		throws Exception {
 
