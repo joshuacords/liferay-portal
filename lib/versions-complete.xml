@@ -2284,90 +2284,6 @@
 				</licenses>
 			</library>
 			<library>
-				<file-name>com.liferay.portal.odata.impl.jar!netty-buffer.jar</file-name>
-				<version>4.1.50.Final</version>
-				<project-name>Netty/Buffer</project-name>
-				<project-url>https://netty.io/</project-url>
-				<licenses>
-					<license>
-						<license-name>Apache License, Version 2.0</license-name>
-						<license-url>http://www.apache.org/licenses/LICENSE-2.0</license-url>
-					</license>
-				</licenses>
-			</library>
-			<library>
-				<file-name>com.liferay.portal.odata.impl.jar!netty-codec-http.jar</file-name>
-				<version>4.1.59.Final</version>
-				<project-name>Netty/Codec/HTTP</project-name>
-				<project-url>https://netty.io/</project-url>
-				<licenses>
-					<license>
-						<license-name>Apache License, Version 2.0</license-name>
-						<license-url>https://www.apache.org/licenses/LICENSE-2.0</license-url>
-					</license>
-				</licenses>
-			</library>
-			<library>
-				<file-name>com.liferay.portal.odata.impl.jar!netty-codec.jar</file-name>
-				<version>4.1.50.Final</version>
-				<project-name>Netty/Codec</project-name>
-				<project-url>https://netty.io/</project-url>
-				<licenses>
-					<license>
-						<license-name>Apache License, Version 2.0</license-name>
-						<license-url>http://www.apache.org/licenses/LICENSE-2.0</license-url>
-					</license>
-				</licenses>
-			</library>
-			<library>
-				<file-name>com.liferay.portal.odata.impl.jar!netty-common.jar</file-name>
-				<version>4.1.50.Final</version>
-				<project-name>Netty/Common</project-name>
-				<project-url>https://netty.io/</project-url>
-				<licenses>
-					<license>
-						<license-name>Apache License, Version 2.0</license-name>
-						<license-url>http://www.apache.org/licenses/LICENSE-2.0</license-url>
-					</license>
-				</licenses>
-			</library>
-			<library>
-				<file-name>com.liferay.portal.odata.impl.jar!netty-handler.jar</file-name>
-				<version>4.1.50.Final</version>
-				<project-name>Netty/Handler</project-name>
-				<project-url>https://netty.io/</project-url>
-				<licenses>
-					<license>
-						<license-name>Apache License, Version 2.0</license-name>
-						<license-url>http://www.apache.org/licenses/LICENSE-2.0</license-url>
-					</license>
-				</licenses>
-			</library>
-			<library>
-				<file-name>com.liferay.portal.odata.impl.jar!netty-resolver.jar</file-name>
-				<version>4.1.50.Final</version>
-				<project-name>Netty/Resolver</project-name>
-				<project-url>https://netty.io/</project-url>
-				<licenses>
-					<license>
-						<license-name>Apache License, Version 2.0</license-name>
-						<license-url>http://www.apache.org/licenses/LICENSE-2.0</license-url>
-					</license>
-				</licenses>
-			</library>
-			<library>
-				<file-name>com.liferay.portal.odata.impl.jar!netty-transport.jar</file-name>
-				<version>4.1.50.Final</version>
-				<project-name>Netty/Transport</project-name>
-				<project-url>https://netty.io/</project-url>
-				<licenses>
-					<license>
-						<license-name>Apache License, Version 2.0</license-name>
-						<license-url>http://www.apache.org/licenses/LICENSE-2.0</license-url>
-					</license>
-				</licenses>
-			</library>
-			<library>
 				<file-name>com.liferay.portal.odata.impl.jar!netty-codec-http.jar</file-name>
 				<version>4.1.72.Final</version>
 				<project-name>Netty/Codec/HTTP</project-name>
@@ -5105,18 +5021,6 @@
 				</licenses>
 			</library>
 			<library>
-				<file-name>com.liferay.portal.vulcan.impl.jar!jackson-module-jaxb-annotations.jar</file-name>
-				<version>2.9.8</version>
-				<project-name>Jackson module: JAXB Annotations</project-name>
-				<project-url>https://github.com/FasterXML/jackson-modules-base</project-url>
-				<licenses>
-					<license>
-						<license-name>The Apache Software License, Version 2.0</license-name>
-						<license-url>http://www.apache.org/licenses/LICENSE-2.0.txt</license-url>
-					</license>
-				</licenses>
-			</library>
-			<library>
 				<file-name>com.liferay.portal.vulcan.impl.jar!java-dataloader.jar</file-name>
 				<version>2.1.1</version>
 				<project-name>java-dataloader</project-name>
@@ -5250,17 +5154,6 @@
 					<license>
 						<license-name>The MIT License (MIT)</license-name>
 						<license-url>http://opensource.org/licenses/MIT</license-url>
-					</license>
-				</licenses>
-			</library>
-			<library>
-				<file-name>com.liferay.push.notifications.sender.apple.jar!netty-all.jar</file-name>
-				<version>4.1.62.Final</version>
-				<project-name>Netty/All-in-One</project-name>
-				<licenses>
-					<license>
-						<license-name>Apache License, Version 2.0</license-name>
-						<license-url>https://www.apache.org/licenses/LICENSE-2.0</license-url>
 					</license>
 				</licenses>
 			</library>
@@ -8379,6 +8272,18 @@
 				</licenses>
 			</library>
 			<library>
+				<file-name>lib/portal/netty-all.jar</file-name>
+				<version>4.1.72.Final</version>
+				<project-name>Netty</project-name>
+				<project-url>http://netty.io</project-url>
+				<licenses>
+					<license>
+						<license-name>Apache License 2.0</license-name>
+						<license-url>http://www.apache.org/licenses/LICENSE-2.0</license-url>
+					</license>
+				</licenses>
+			</library>
+			<library>
 				<file-name>lib/portal/netty-buffer.jar</file-name>
 				<version>4.1.72.Final</version>
 				<project-name>Netty</project-name>
@@ -8416,6 +8321,18 @@
 			</library>
 			<library>
 				<file-name>lib/portal/netty-handler.jar</file-name>
+				<version>4.1.72.Final</version>
+				<project-name>Netty</project-name>
+				<project-url>http://netty.io</project-url>
+				<licenses>
+					<license>
+						<license-name>Apache License 2.0</license-name>
+						<license-url>http://www.apache.org/licenses/LICENSE-2.0</license-url>
+					</license>
+				</licenses>
+			</library>
+			<library>
+				<file-name>lib/portal/netty-resolver.jar</file-name>
 				<version>4.1.72.Final</version>
 				<project-name>Netty</project-name>
 				<project-url>http://netty.io</project-url>
