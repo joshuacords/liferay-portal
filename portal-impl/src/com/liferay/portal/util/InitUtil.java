@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.bean.PortalBeanLocatorUtil;
 import com.liferay.portal.kernel.configuration.ConfigurationFactoryUtil;
 import com.liferay.portal.kernel.dao.db.DBManagerUtil;
 import com.liferay.portal.kernel.dao.jdbc.DataSourceFactoryUtil;
+import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.log.SanitizerLogWrapper;
 import com.liferay.portal.kernel.module.framework.ModuleServiceLifecycle;
@@ -92,7 +93,9 @@ public class InitUtil {
 			}
 		}
 		catch (Exception exception) {
-			exception.printStackTrace();
+			if (_log.isDebugEnabled()) {
+				_log.debug(exception);
+			}
 		}
 
 		StopWatch stopWatch = new StopWatch();
@@ -124,7 +127,9 @@ public class InitUtil {
 				currentThread.getContextClassLoader());
 		}
 		catch (Exception exception) {
-			exception.printStackTrace();
+			if (_log.isDebugEnabled()) {
+				_log.debug(exception);
+			}
 		}
 
 		// Properties
@@ -137,7 +142,9 @@ public class InitUtil {
 			LogFactoryUtil.setLogFactory(new Log4jLogFactoryImpl());
 		}
 		catch (Exception exception) {
-			exception.printStackTrace();
+			if (_log.isDebugEnabled()) {
+				_log.debug(exception);
+			}
 		}
 
 		// Log4J
@@ -343,6 +350,8 @@ public class InitUtil {
 	}
 
 	private static final boolean _PRINT_TIME = false;
+
+	private static final Log _log = LogFactoryUtil.getLog(InitUtil.class);
 
 	private static ApplicationContext _appApplicationContext;
 	private static boolean _initialized;
