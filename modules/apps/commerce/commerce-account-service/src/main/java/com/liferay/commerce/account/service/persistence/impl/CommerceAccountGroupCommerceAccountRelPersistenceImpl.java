@@ -40,7 +40,7 @@ import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
-import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import java.io.Serializable;
@@ -1593,6 +1593,23 @@ public class CommerceAccountGroupCommerceAccountRelPersistenceImpl
 					}
 				}
 				else {
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							if (!useFinderCache) {
+								finderArgs = new Object[] {
+									companyId, externalReferenceCode
+								};
+							}
+
+							_log.warn(
+								"CommerceAccountGroupCommerceAccountRelPersistenceImpl.fetchByC_ERC(long, String, boolean) with parameters (" +
+									StringUtil.merge(finderArgs) +
+										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
+					}
+
 					CommerceAccountGroupCommerceAccountRel
 						commerceAccountGroupCommerceAccountRel = list.get(0);
 
@@ -2145,15 +2162,6 @@ public class CommerceAccountGroupCommerceAccountRelPersistenceImpl
 			commerceAccountGroupCommerceAccountRelModelImpl =
 				(CommerceAccountGroupCommerceAccountRelModelImpl)
 					commerceAccountGroupCommerceAccountRel;
-
-		if (Validator.isNull(
-				commerceAccountGroupCommerceAccountRel.
-					getExternalReferenceCode())) {
-
-			commerceAccountGroupCommerceAccountRel.setExternalReferenceCode(
-				String.valueOf(
-					commerceAccountGroupCommerceAccountRel.getPrimaryKey()));
-		}
 
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();

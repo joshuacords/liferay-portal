@@ -40,6 +40,7 @@ import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -4929,6 +4930,23 @@ public class CommerceTierPriceEntryPersistenceImpl
 					}
 				}
 				else {
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							if (!useFinderCache) {
+								finderArgs = new Object[] {
+									companyId, externalReferenceCode
+								};
+							}
+
+							_log.warn(
+								"CommerceTierPriceEntryPersistenceImpl.fetchByC_ERC(long, String, boolean) with parameters (" +
+									StringUtil.merge(finderArgs) +
+										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
+					}
+
 					CommerceTierPriceEntry commerceTierPriceEntry = list.get(0);
 
 					result = commerceTierPriceEntry;
@@ -5426,13 +5444,6 @@ public class CommerceTierPriceEntryPersistenceImpl
 
 		CommerceTierPriceEntryModelImpl commerceTierPriceEntryModelImpl =
 			(CommerceTierPriceEntryModelImpl)commerceTierPriceEntry;
-
-		if (Validator.isNull(
-				commerceTierPriceEntry.getExternalReferenceCode())) {
-
-			commerceTierPriceEntry.setExternalReferenceCode(
-				String.valueOf(commerceTierPriceEntry.getPrimaryKey()));
-		}
 
 		if (Validator.isNull(commerceTierPriceEntry.getUuid())) {
 			String uuid = PortalUUIDUtil.generate();

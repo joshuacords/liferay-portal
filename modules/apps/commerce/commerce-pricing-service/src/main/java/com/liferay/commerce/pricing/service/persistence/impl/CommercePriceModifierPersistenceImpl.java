@@ -6184,6 +6184,23 @@ public class CommercePriceModifierPersistenceImpl
 					}
 				}
 				else {
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							if (!useFinderCache) {
+								finderArgs = new Object[] {
+									companyId, externalReferenceCode
+								};
+							}
+
+							_log.warn(
+								"CommercePriceModifierPersistenceImpl.fetchByC_ERC(long, String, boolean) with parameters (" +
+									StringUtil.merge(finderArgs) +
+										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
+					}
+
 					CommercePriceModifier commercePriceModifier = list.get(0);
 
 					result = commercePriceModifier;
@@ -6679,13 +6696,6 @@ public class CommercePriceModifierPersistenceImpl
 
 		CommercePriceModifierModelImpl commercePriceModifierModelImpl =
 			(CommercePriceModifierModelImpl)commercePriceModifier;
-
-		if (Validator.isNull(
-				commercePriceModifier.getExternalReferenceCode())) {
-
-			commercePriceModifier.setExternalReferenceCode(
-				String.valueOf(commercePriceModifier.getPrimaryKey()));
-		}
 
 		if (Validator.isNull(commercePriceModifier.getUuid())) {
 			String uuid = PortalUUIDUtil.generate();
