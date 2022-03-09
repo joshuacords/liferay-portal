@@ -2,6 +2,8 @@ Bundle-Name: Liferay Portal OData Implementation
 Bundle-SymbolicName: com.liferay.portal.odata.impl
 Bundle-Version: 2.0.21
 Import-Package:\
+	!com.aayushatharva.brotli4j.*,\
+	\
 	!com.google.protobuf.*,\
 	\
 	!com.jcraft.jzlib.*,\
