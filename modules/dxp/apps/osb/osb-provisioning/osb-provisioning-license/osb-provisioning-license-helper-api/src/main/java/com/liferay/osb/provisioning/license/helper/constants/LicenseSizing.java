@@ -15,6 +15,7 @@
 package com.liferay.osb.provisioning.license.helper.constants;
 
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.util.Validator;
 
 /**
  * @author Kyle Bischof
@@ -52,6 +53,27 @@ public class LicenseSizing {
 		}
 
 		return StringPool.BLANK;
+	}
+
+	public static String getLabel(String sizing) {
+		if (Validator.isNull(sizing)) {
+			return sizing;
+		}
+
+		if (sizing.equals("sizing-1")) {
+			return SIZING_ONE;
+		}
+		else if (sizing.equals("sizing-2")) {
+			return SIZING_TWO;
+		}
+		else if (sizing.equals("sizing-3")) {
+			return SIZING_THREE;
+		}
+		else if (sizing.equals("sizing-4")) {
+			return SIZING_FOUR;
+		}
+
+		return sizing;
 	}
 
 }

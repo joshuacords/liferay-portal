@@ -14,6 +14,8 @@
 
 package com.liferay.osb.provisioning.rest.dto.v1_0.util;
 
+import com.liferay.osb.provisioning.license.helper.constants.LicenseSizing;
+import com.liferay.osb.provisioning.license.model.LicenseEntry;
 import com.liferay.osb.provisioning.rest.dto.v1_0.LicenseKey;
 
 /**
@@ -42,8 +44,12 @@ public class LicenseKeyUtil {
 				id = licenseKey.getLicenseKeyId();
 				ipAddresses = licenseKey.getIpAddresses();
 				key = licenseKey.getKey();
+
+				LicenseEntry licenseEntry = licenseKey.getLicenseEntry();
+
 				licenseEntryName = LicenseEntryName.create(
-					licenseKey.getLicenseEntryName());
+					licenseEntry.getName());
+
 				licenseEntryType = LicenseEntryType.create(
 					licenseKey.getLicenseEntryType());
 				licenseVersion = licenseKey.getLicenseVersion();
@@ -62,7 +68,10 @@ public class LicenseKeyUtil {
 				productPurchaseKey = licenseKey.getProductPurchaseKey();
 				productVersion = licenseKey.getProductVersion();
 				serverId = licenseKey.getServerId();
-				sizing = Sizing.create(licenseKey.getSizing());
+
+				sizing = Sizing.create(
+					LicenseSizing.getLabel(licenseKey.getSizing()));
+
 				startDate = licenseKey.getStartDate();
 				userName = licenseKey.getUserName();
 				userUuid = licenseKey.getUserUuid();
