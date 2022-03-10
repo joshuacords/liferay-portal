@@ -14,6 +14,8 @@
 
 package com.liferay.portal.tools;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.util.FileImpl;
 
@@ -88,9 +90,12 @@ public class ReleaseInfoBuilder {
 			_fileImpl.write(file, content);
 		}
 		catch (Exception exception) {
-			exception.printStackTrace();
+			_log.error(exception);
 		}
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		ReleaseInfoBuilder.class);
 
 	private static final FileImpl _fileImpl = FileImpl.getInstance();
 

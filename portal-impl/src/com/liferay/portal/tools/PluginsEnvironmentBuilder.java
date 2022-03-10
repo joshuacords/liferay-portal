@@ -15,6 +15,8 @@
 package com.liferay.portal.tools;
 
 import com.liferay.petra.string.CharPool;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.FileComparator;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
@@ -59,7 +61,7 @@ public class PluginsEnvironmentBuilder {
 			new PluginsEnvironmentBuilder(dir);
 		}
 		catch (Exception exception) {
-			exception.printStackTrace();
+			_log.error(exception);
 		}
 	}
 
@@ -886,6 +888,9 @@ public class PluginsEnvironmentBuilder {
 	};
 
 	private static final String[] _TEST_TYPES = {"integration", "unit"};
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		PluginsEnvironmentBuilder.class);
 
 	private static final FileImpl _fileImpl = FileImpl.getInstance();
 	private static final SAXReader _saxReader = new SAXReaderImpl();

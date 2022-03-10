@@ -17,6 +17,8 @@ package com.liferay.portal.tools;
 import com.liferay.petra.string.StringPool;
 import com.liferay.petra.xml.DocUtil;
 import com.liferay.portal.kernel.io.unsync.UnsyncStringReader;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.TreeMapBuilder;
 import com.liferay.portal.kernel.util.Validator;
@@ -59,7 +61,7 @@ public class JavadocBuilder {
 			new JavadocBuilder(args);
 		}
 		catch (Exception exception) {
-			exception.printStackTrace();
+			_log.error(exception);
 		}
 	}
 
@@ -857,6 +859,8 @@ public class JavadocBuilder {
 	}
 
 	private static final String _BASEDIR = "./";
+
+	private static final Log _log = LogFactoryUtil.getLog(JavadocBuilder.class);
 
 	private static final FileImpl _fileImpl = FileImpl.getInstance();
 	private static final SAXReader _saxReader = new SAXReaderImpl();

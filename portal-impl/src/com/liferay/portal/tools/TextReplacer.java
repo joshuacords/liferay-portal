@@ -14,6 +14,8 @@
 
 package com.liferay.portal.tools;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.util.FileImpl;
 
@@ -91,9 +93,11 @@ public class TextReplacer {
 			}
 		}
 		catch (Exception exception) {
-			exception.printStackTrace();
+			_log.error(exception);
 		}
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(TextReplacer.class);
 
 	private static final FileImpl _fileImpl = FileImpl.getInstance();
 
