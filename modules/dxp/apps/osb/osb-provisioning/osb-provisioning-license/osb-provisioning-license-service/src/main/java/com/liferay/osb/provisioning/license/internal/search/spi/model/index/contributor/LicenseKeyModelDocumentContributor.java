@@ -91,6 +91,7 @@ public class LicenseKeyModelDocumentContributor
 
 		document.addKeyword(
 			"macAddresses", StringUtil.split(licenseKey.getMacAddresses()));
+		document.addKeyword("maxClusterNodes", licenseKey.getMaxClusterNodes());
 		document.addKeyword(
 			"maxConcurrentUsers", licenseKey.getMaxConcurrentUsers());
 		document.addKeyword("maxHttpSessions", licenseKey.getMaxHttpSessions());
