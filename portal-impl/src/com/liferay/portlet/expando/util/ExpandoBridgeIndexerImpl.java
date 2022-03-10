@@ -39,7 +39,10 @@ import com.liferay.portal.kernel.util.UnicodeProperties;
 import com.liferay.portlet.expando.model.impl.ExpandoValueImpl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
 
 /**
  * @author Raymond Augé
@@ -130,15 +133,15 @@ public class ExpandoBridgeIndexerImpl implements ExpandoBridgeIndexer {
 		}
 		else if (type == ExpandoColumnConstants.DOUBLE_ARRAY) {
 			if (!defaultValue) {
-				double[] doubleValues = expandoValue.getDoubleArray();
+				DoubleStream doubleStream = Arrays.stream(
+					expandoValue.getDoubleArray());
 
-				Double[] doubleArray = new Double[doubleValues.length];
-
-				for (int i = 0; i < doubleArray.length; i++) {
-					doubleArray[i] = new Double(doubleValues[i]);
-				}
-
-				document.addNumberSortable(fieldName, doubleArray);
+				document.addNumberSortable(
+					fieldName,
+					doubleStream.boxed(
+					).toArray(
+						Double[]::new
+					));
 			}
 			else {
 				document.addNumberSortable(fieldName, new Double[0]);
@@ -149,15 +152,15 @@ public class ExpandoBridgeIndexerImpl implements ExpandoBridgeIndexer {
 		}
 		else if (type == ExpandoColumnConstants.FLOAT_ARRAY) {
 			if (!defaultValue) {
-				float[] floatValues = expandoValue.getFloatArray();
+				float[] floatArray = expandoValue.getFloatArray();
 
-				Float[] floatArray = new Float[floatValues.length];
+				Float[] floatValues = new Float[floatArray.length];
 
-				for (int i = 0; i < floatArray.length; i++) {
-					floatArray[i] = new Float(floatValues[i]);
+				for (int i = 0; i < floatValues.length; i++) {
+					floatValues[i] = Float.valueOf(floatArray[i]);
 				}
 
-				document.addNumberSortable(fieldName, floatArray);
+				document.addNumberSortable(fieldName, floatValues);
 			}
 			else {
 				document.addNumberSortable(fieldName, new Float[0]);
@@ -177,15 +180,15 @@ public class ExpandoBridgeIndexerImpl implements ExpandoBridgeIndexer {
 		}
 		else if (type == ExpandoColumnConstants.INTEGER_ARRAY) {
 			if (!defaultValue) {
-				int[] intergerValues = expandoValue.getIntegerArray();
+				IntStream intStream = Arrays.stream(
+					expandoValue.getIntegerArray());
 
-				Integer[] integerArray = new Integer[intergerValues.length];
-
-				for (int i = 0; i < integerArray.length; i++) {
-					integerArray[i] = new Integer(intergerValues[i]);
-				}
-
-				document.addNumberSortable(fieldName, integerArray);
+				document.addNumberSortable(
+					fieldName,
+					intStream.boxed(
+					).toArray(
+						Integer[]::new
+					));
 			}
 			else {
 				document.addNumberSortable(fieldName, new Float[0]);
@@ -196,7 +199,8 @@ public class ExpandoBridgeIndexerImpl implements ExpandoBridgeIndexer {
 		}
 		else if (type == ExpandoColumnConstants.LONG_ARRAY) {
 			if (!defaultValue) {
-				document.addNumberSortable(fieldName,
+				document.addNumberSortable(
+					fieldName,
 					ArrayUtil.toLongArray(expandoValue.getLongArray()));
 			}
 			else {
@@ -204,8 +208,9 @@ public class ExpandoBridgeIndexerImpl implements ExpandoBridgeIndexer {
 			}
 		}
 		else if (type == ExpandoColumnConstants.NUMBER) {
-			document.addNumberSortable(
-				fieldName, expandoValue.getNumber().longValue());
+			Number number = expandoValue.getNumber();
+
+			document.addNumberSortable(fieldName, number.longValue());
 		}
 		else if (type == ExpandoColumnConstants.NUMBER_ARRAY) {
 			if (!defaultValue) {
@@ -218,18 +223,21 @@ public class ExpandoBridgeIndexerImpl implements ExpandoBridgeIndexer {
 			}
 		}
 		else if (type == ExpandoColumnConstants.SHORT) {
-			document.addNumberSortable(fieldName,
-				new Long(expandoValue.getShort()));
+			document.addNumberSortable(
+				fieldName, Long.valueOf(expandoValue.getShort()));
 		}
 		else if (type == ExpandoColumnConstants.SHORT_ARRAY) {
 			if (!defaultValue) {
-				short[] shortValues = expandoValue.getShortArray();
+				short[] shortArray = expandoValue.getShortArray();
 
-				Long[] longArray = new Long[shortValues.length];
+				IntStream intStream = IntStream.range(0, shortArray.length);
 
-				for (int i = 0; i < longArray.length; i++) {
-					longArray[i] = new Long(shortValues[i]);
-				}
+				Long[] longArray = intStream.mapToLong(
+					i -> shortArray[i]
+				).boxed(
+				).toArray(
+					Long[]::new
+				);
 
 				document.addNumberSortable(fieldName, longArray);
 			}
