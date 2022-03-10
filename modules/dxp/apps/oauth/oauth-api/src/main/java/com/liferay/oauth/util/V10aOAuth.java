@@ -308,7 +308,7 @@ public class V10aOAuth implements OAuth {
 			return deserializer.readObject();
 		}
 		catch (ClassNotFoundException classNotFoundException) {
-			classNotFoundException.printStackTrace();
+			_log.error(classNotFoundException);
 		}
 
 		return null;
