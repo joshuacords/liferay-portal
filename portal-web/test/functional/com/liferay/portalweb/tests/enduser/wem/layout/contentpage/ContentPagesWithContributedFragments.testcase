@@ -32,6 +32,7 @@ definition {
 	@priority = "5"
 	test AddContentPageWithVideoFragment {
 		property portal.acceptance = "true";
+		property test.name.skip.portal.instance = "ContentPagesWithContributedFragments#AddContentPageWithVideoFragment";
 
 		JSONLayout.addPublicLayout(
 			groupName = "Test Site Name",
