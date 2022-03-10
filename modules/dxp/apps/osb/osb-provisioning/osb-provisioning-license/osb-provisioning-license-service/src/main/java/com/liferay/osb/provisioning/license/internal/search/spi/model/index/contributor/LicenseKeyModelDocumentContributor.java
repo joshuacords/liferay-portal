@@ -113,6 +113,7 @@ public class LicenseKeyModelDocumentContributor
 		document.addDateSortable(Field.CREATE_DATE, licenseKey.getCreateDate());
 		document.addDateSortable(
 			Field.MODIFIED_DATE, licenseKey.getModifiedDate());
+		document.addTextSortable("productName", licenseKey.getProductName());
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(

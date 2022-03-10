@@ -50,6 +50,9 @@ public class LicenseKeyEntityModel implements EntityModel {
 				new StringEntityField(
 					"macAddresses", locale -> "macAddresses")),
 			new StringEntityField("name", locale -> "name"),
+			new StringEntityField(
+				"productName",
+				locale -> Field.getSortableFieldName("productName_String")),
 			new StringEntityField("productVersion", locale -> "productVersion"),
 			new DateTimeEntityField(
 				"startDate", locale -> "startDate", locale -> "startDate"),
