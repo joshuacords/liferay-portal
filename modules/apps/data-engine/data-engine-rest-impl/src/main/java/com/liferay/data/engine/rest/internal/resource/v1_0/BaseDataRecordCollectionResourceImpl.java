@@ -17,6 +17,7 @@ package com.liferay.data.engine.rest.internal.resource.v1_0;
 import com.liferay.data.engine.rest.dto.v1_0.DataRecordCollection;
 import com.liferay.data.engine.rest.dto.v1_0.DataRecordCollectionPermission;
 import com.liferay.data.engine.rest.resource.v1_0.DataRecordCollectionResource;
+import com.liferay.petra.function.UnsafeBiConsumer;
 import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -609,10 +610,16 @@ public abstract class BaseDataRecordCollectionResourceImpl
 					Long.parseLong((String)parameters.get("dataDefinitionId")),
 					dataRecordCollection);
 
-		for (DataRecordCollection dataRecordCollection :
-				dataRecordCollections) {
+		if (contextBatchUnsafeConsumer != null) {
+			contextBatchUnsafeConsumer.accept(
+				dataRecordCollections, dataRecordCollectionUnsafeConsumer);
+		}
+		else {
+			for (DataRecordCollection dataRecordCollection :
+					dataRecordCollections) {
 
-			dataRecordCollectionUnsafeConsumer.accept(dataRecordCollection);
+				dataRecordCollectionUnsafeConsumer.accept(dataRecordCollection);
+			}
 		}
 	}
 
@@ -704,6 +711,15 @@ public abstract class BaseDataRecordCollectionResourceImpl
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {
 		this.contextAcceptLanguage = contextAcceptLanguage;
+	}
+
+	public void setContextBatchUnsafeConsumer(
+		UnsafeBiConsumer
+			<java.util.Collection<DataRecordCollection>,
+			 UnsafeConsumer<DataRecordCollection, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
+
+		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
 
 	public void setContextCompany(
@@ -854,6 +870,10 @@ public abstract class BaseDataRecordCollectionResourceImpl
 	}
 
 	protected AcceptLanguage contextAcceptLanguage;
+	protected UnsafeBiConsumer
+		<java.util.Collection<DataRecordCollection>,
+		 UnsafeConsumer<DataRecordCollection, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;

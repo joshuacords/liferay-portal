@@ -17,6 +17,7 @@ package com.liferay.data.engine.rest.internal.resource.v1_0;
 import com.liferay.data.engine.rest.dto.v1_0.DataLayout;
 import com.liferay.data.engine.rest.dto.v1_0.DataLayoutPermission;
 import com.liferay.data.engine.rest.resource.v1_0.DataLayoutResource;
+import com.liferay.petra.function.UnsafeBiConsumer;
 import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -559,8 +560,14 @@ public abstract class BaseDataLayoutResourceImpl
 				Long.parseLong((String)parameters.get("dataDefinitionId")),
 				dataLayout);
 
-		for (DataLayout dataLayout : dataLayouts) {
-			dataLayoutUnsafeConsumer.accept(dataLayout);
+		if (contextBatchUnsafeConsumer != null) {
+			contextBatchUnsafeConsumer.accept(
+				dataLayouts, dataLayoutUnsafeConsumer);
+		}
+		else {
+			for (DataLayout dataLayout : dataLayouts) {
+				dataLayoutUnsafeConsumer.accept(dataLayout);
+			}
 		}
 	}
 
@@ -646,6 +653,15 @@ public abstract class BaseDataLayoutResourceImpl
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {
 		this.contextAcceptLanguage = contextAcceptLanguage;
+	}
+
+	public void setContextBatchUnsafeConsumer(
+		UnsafeBiConsumer
+			<java.util.Collection<DataLayout>,
+			 UnsafeConsumer<DataLayout, Exception>, Exception>
+				contextBatchUnsafeConsumer) {
+
+		this.contextBatchUnsafeConsumer = contextBatchUnsafeConsumer;
 	}
 
 	public void setContextCompany(
@@ -796,6 +812,10 @@ public abstract class BaseDataLayoutResourceImpl
 	}
 
 	protected AcceptLanguage contextAcceptLanguage;
+	protected UnsafeBiConsumer
+		<java.util.Collection<DataLayout>,
+		 UnsafeConsumer<DataLayout, Exception>, Exception>
+			contextBatchUnsafeConsumer;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
 	protected HttpServletResponse contextHttpServletResponse;
