@@ -92,7 +92,7 @@
 </tr>
 <tr>
 	<td>REMOVE_SPECIFIC_REPEATED_FIELD</td>
-	<td>//div[@class='form-group' and contains(.,'${key_fieldValue}')]//button[@aria-label='Delete']</td>
+	<td>//div[@class='form-group' and contains(.,'${key_fieldValue}')]//button[contains(@aria-label,'Remove')]</td>
 	<td></td>
 </tr>
 </tbody>
