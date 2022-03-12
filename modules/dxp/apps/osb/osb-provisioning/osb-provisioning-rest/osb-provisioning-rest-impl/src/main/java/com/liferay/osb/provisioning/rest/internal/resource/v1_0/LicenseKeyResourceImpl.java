@@ -619,8 +619,26 @@ public class LicenseKeyResourceImpl
 
 				type.setLicenseEntryDisplayName(licenseEntry.getDisplayName());
 				type.setLicenseEntryName(licenseEntry.getName());
-				type.setLicenseEntryType(licenseEntry.getType());
+
+				String licenseEntryType = licenseEntry.getType();
+
+				type.setLicenseEntryType(licenseEntryType);
+
 				type.setProductKey(licenseEntry.getProductKey());
+
+				if (licenseEntryType.equals(LicenseType.ENTERPRISE) ||
+					licenseEntryType.equals(LicenseType.OEM)) {
+
+					type.setRequiredDetails("None");
+				}
+				else if (licenseEntryType.equals(LicenseType.LIMITED) ||
+						 licenseEntryType.equals(LicenseType.PRODUCTION)) {
+
+					type.setRequiredDetails("Server Id");	
+				}
+				else if (licenseEntryType.equals(LicenseType.VIRTUAL_CLUSTER)) {
+					type.setRequiredDetails("Virtual Cluster");	
+				}
 
 				types.add(type);
 			}

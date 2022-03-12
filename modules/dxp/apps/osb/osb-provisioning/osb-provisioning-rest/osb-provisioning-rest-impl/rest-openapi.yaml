@@ -257,6 +257,11 @@ components:
                                                 The key of the license entry product.
                                             readOnly: true
                                             type: string
+                                        requiredDetails:
+                                            description:
+                                                The necessary details from the user to generate this type of license key. Possible values are "None", "Server Id", "Virtual Cluster".
+                                            readOnly: true
+                                            type: string
                                     type: object
                                 readOnly: true
                                 type: array
