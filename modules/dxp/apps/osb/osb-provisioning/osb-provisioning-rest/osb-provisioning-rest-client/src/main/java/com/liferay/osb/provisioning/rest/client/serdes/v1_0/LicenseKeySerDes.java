@@ -57,7 +57,7 @@ public class LicenseKeySerDes {
 		sb.append("{");
 
 		DateFormat liferayToJSONDateFormat = new SimpleDateFormat(
-			"yyyy-MM-dd'T'HH:mm:ss'Z'");
+			"yyyy-MM-dd'T'HH:mm:ssXX");
 
 		if (licenseKey.getAccountKey() != null) {
 			if (sb.length() > 1) {
@@ -554,7 +554,7 @@ public class LicenseKeySerDes {
 		Map<String, String> map = new TreeMap<>();
 
 		DateFormat liferayToJSONDateFormat = new SimpleDateFormat(
-			"yyyy-MM-dd'T'HH:mm:ss'Z'");
+			"yyyy-MM-dd'T'HH:mm:ssXX");
 
 		if (licenseKey.getAccountKey() == null) {
 			map.put("accountKey", null);

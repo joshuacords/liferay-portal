@@ -109,6 +109,20 @@ public class TypeSerDes {
 			sb.append("\"");
 		}
 
+		if (type.getRequiredDetails() != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"requiredDetails\": ");
+
+			sb.append("\"");
+
+			sb.append(_escape(type.getRequiredDetails()));
+
+			sb.append("\"");
+		}
+
 		sb.append("}");
 
 		return sb.toString();
@@ -159,6 +173,14 @@ public class TypeSerDes {
 			map.put("productKey", String.valueOf(type.getProductKey()));
 		}
 
+		if (type.getRequiredDetails() == null) {
+			map.put("requiredDetails", null);
+		}
+		else {
+			map.put(
+				"requiredDetails", String.valueOf(type.getRequiredDetails()));
+		}
+
 		return map;
 	}
 
@@ -200,6 +222,11 @@ public class TypeSerDes {
 			else if (Objects.equals(jsonParserFieldName, "productKey")) {
 				if (jsonParserFieldValue != null) {
 					type.setProductKey((String)jsonParserFieldValue);
+				}
+			}
+			else if (Objects.equals(jsonParserFieldName, "requiredDetails")) {
+				if (jsonParserFieldValue != null) {
+					type.setRequiredDetails((String)jsonParserFieldValue);
 				}
 			}
 		}

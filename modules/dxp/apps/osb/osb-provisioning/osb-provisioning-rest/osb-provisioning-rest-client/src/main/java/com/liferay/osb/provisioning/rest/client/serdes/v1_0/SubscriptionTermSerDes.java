@@ -59,7 +59,7 @@ public class SubscriptionTermSerDes {
 		sb.append("{");
 
 		DateFormat liferayToJSONDateFormat = new SimpleDateFormat(
-			"yyyy-MM-dd'T'HH:mm:ss'Z'");
+			"yyyy-MM-dd'T'HH:mm:ssXX");
 
 		if (subscriptionTerm.getEndDate() != null) {
 			if (sb.length() > 1) {
@@ -180,7 +180,7 @@ public class SubscriptionTermSerDes {
 		Map<String, String> map = new TreeMap<>();
 
 		DateFormat liferayToJSONDateFormat = new SimpleDateFormat(
-			"yyyy-MM-dd'T'HH:mm:ss'Z'");
+			"yyyy-MM-dd'T'HH:mm:ssXX");
 
 		if (subscriptionTerm.getEndDate() == null) {
 			map.put("endDate", null);

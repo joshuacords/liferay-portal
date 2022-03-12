@@ -181,6 +181,38 @@ public class Type implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected String productKey;
 
+	@Schema(
+		description = "The necessary details from the user to generate this type of license key. Possible values are \"None\", \"Server Id\", \"Virtual Cluster\"."
+	)
+	public String getRequiredDetails() {
+		return requiredDetails;
+	}
+
+	public void setRequiredDetails(String requiredDetails) {
+		this.requiredDetails = requiredDetails;
+	}
+
+	@JsonIgnore
+	public void setRequiredDetails(
+		UnsafeSupplier<String, Exception> requiredDetailsUnsafeSupplier) {
+
+		try {
+			requiredDetails = requiredDetailsUnsafeSupplier.get();
+		}
+		catch (RuntimeException re) {
+			throw re;
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@GraphQLField(
+		description = "The necessary details from the user to generate this type of license key. Possible values are \"None\", \"Server Id\", \"Virtual Cluster\"."
+	)
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	protected String requiredDetails;
+
 	@Override
 	public boolean equals(Object object) {
 		if (this == object) {
@@ -260,6 +292,20 @@ public class Type implements Serializable {
 			sb.append("\"");
 
 			sb.append(_escape(productKey));
+
+			sb.append("\"");
+		}
+
+		if (requiredDetails != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"requiredDetails\": ");
+
+			sb.append("\"");
+
+			sb.append(_escape(requiredDetails));
 
 			sb.append("\"");
 		}

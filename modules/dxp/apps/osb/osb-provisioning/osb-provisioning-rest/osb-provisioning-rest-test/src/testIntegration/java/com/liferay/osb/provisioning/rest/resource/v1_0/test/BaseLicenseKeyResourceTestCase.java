@@ -318,6 +318,42 @@ public abstract class BaseLicenseKeyResourceTestCase {
 	}
 
 	@Test
+	public void testGetAccountAccountKeyLicenseKeysPageWithFilterDoubleEquals()
+		throws Exception {
+
+		List<EntityField> entityFields = getEntityFields(
+			EntityField.Type.DOUBLE);
+
+		if (entityFields.isEmpty()) {
+			return;
+		}
+
+		String accountKey =
+			testGetAccountAccountKeyLicenseKeysPage_getAccountKey();
+
+		LicenseKey licenseKey1 =
+			testGetAccountAccountKeyLicenseKeysPage_addLicenseKey(
+				accountKey, randomLicenseKey());
+
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		LicenseKey licenseKey2 =
+			testGetAccountAccountKeyLicenseKeysPage_addLicenseKey(
+				accountKey, randomLicenseKey());
+
+		for (EntityField entityField : entityFields) {
+			Page<LicenseKey> page =
+				licenseKeyResource.getAccountAccountKeyLicenseKeysPage(
+					accountKey, null,
+					getFilterString(entityField, "eq", licenseKey1),
+					Pagination.of(1, 2), null);
+
+			assertEquals(
+				Collections.singletonList(licenseKey1),
+				(List<LicenseKey>)page.getItems());
+		}
+	}
+
+	@Test
 	public void testGetAccountAccountKeyLicenseKeysPageWithFilterStringEquals()
 		throws Exception {
 
@@ -409,6 +445,18 @@ public abstract class BaseLicenseKeyResourceTestCase {
 				BeanUtils.setProperty(
 					licenseKey1, entityField.getName(),
 					DateUtils.addMinutes(new Date(), -2));
+			});
+	}
+
+	@Test
+	public void testGetAccountAccountKeyLicenseKeysPageWithSortDouble()
+		throws Exception {
+
+		testGetAccountAccountKeyLicenseKeysPageWithSort(
+			EntityField.Type.DOUBLE,
+			(entityField, licenseKey1, licenseKey2) -> {
+				BeanUtils.setProperty(licenseKey1, entityField.getName(), 0.1);
+				BeanUtils.setProperty(licenseKey2, entityField.getName(), 0.5);
 			});
 	}
 
@@ -1881,8 +1929,9 @@ public abstract class BaseLicenseKeyResourceTestCase {
 		}
 
 		if (entityFieldName.equals("licenseVersion")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(String.valueOf(licenseKey.getLicenseVersion()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("macAddresses")) {
@@ -1894,18 +1943,21 @@ public abstract class BaseLicenseKeyResourceTestCase {
 		}
 
 		if (entityFieldName.equals("maxClusterNodes")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(String.valueOf(licenseKey.getMaxClusterNodes()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("maxHttpSessions")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(String.valueOf(licenseKey.getMaxHttpSessions()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("maxServers")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(String.valueOf(licenseKey.getMaxServers()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("modifiedDate")) {

@@ -120,6 +120,27 @@ public class Type implements Cloneable, Serializable {
 
 	protected String productKey;
 
+	public String getRequiredDetails() {
+		return requiredDetails;
+	}
+
+	public void setRequiredDetails(String requiredDetails) {
+		this.requiredDetails = requiredDetails;
+	}
+
+	public void setRequiredDetails(
+		UnsafeSupplier<String, Exception> requiredDetailsUnsafeSupplier) {
+
+		try {
+			requiredDetails = requiredDetailsUnsafeSupplier.get();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected String requiredDetails;
+
 	@Override
 	public Type clone() throws CloneNotSupportedException {
 		return (Type)super.clone();
