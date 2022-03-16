@@ -645,15 +645,21 @@ public class LicenseKeyResourceImpl
 					"%" + productGroupName + "%", productVersion);
 
 			for (LicenseEntry licenseEntry : licenseEntries) {
+				String licenseEntryType = licenseEntry.getType();
+
+				if (licenseEntryType.equals(LicenseType.DEVELOPER) ||
+					licenseEntryType.equals(LicenseType.DEVELOPER_CLUSTER) ||
+					licenseEntryType.equals(LicenseType.ENTERPRISE) ||
+					licenseEntryType.equals(LicenseType.OEM)) {
+
+					continue;
+				}
+
 				Type type = new Type();
 
 				type.setLicenseEntryDisplayName(licenseEntry.getDisplayName());
 				type.setLicenseEntryName(licenseEntry.getName());
-
-				String licenseEntryType = licenseEntry.getType();
-
 				type.setLicenseEntryType(licenseEntryType);
-
 				type.setProductKey(licenseEntry.getProductKey());
 
 				if (licenseEntryType.equals(LicenseType.ENTERPRISE) ||
