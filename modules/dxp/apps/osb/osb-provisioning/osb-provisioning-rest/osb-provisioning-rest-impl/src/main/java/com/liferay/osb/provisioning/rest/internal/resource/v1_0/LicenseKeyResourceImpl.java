@@ -21,14 +21,19 @@ import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Product;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ProductConsumption;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ProductPurchase;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ProductPurchaseView;
+import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Team;
+import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.TeamRole;
 import com.liferay.osb.provisioning.koroneiki.constants.ContactRoleConstants;
 import com.liferay.osb.provisioning.koroneiki.constants.ProductConstants;
+import com.liferay.osb.provisioning.koroneiki.constants.TeamRoleConstants;
 import com.liferay.osb.provisioning.koroneiki.reader.AccountReader;
 import com.liferay.osb.provisioning.koroneiki.web.service.AccountWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.ContactRoleWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.ContactWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.ProductPurchaseViewWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.ProductWebService;
+import com.liferay.osb.provisioning.koroneiki.web.service.TeamRoleWebService;
+import com.liferay.osb.provisioning.koroneiki.web.service.TeamWebService;
 import com.liferay.osb.provisioning.license.exception.LicenseKeyDateException;
 import com.liferay.osb.provisioning.license.exception.LicenseKeyProductPurchaseKeyException;
 import com.liferay.osb.provisioning.license.exporter.LicenseKeyExporter;
@@ -541,9 +546,7 @@ public class LicenseKeyResourceImpl
 		throw new PrincipalException();
 	}
 
-	private void _checkAccountMembership(String accountKey)
-		throws PrincipalException {
-
+	private void _checkAccountMembership(String accountKey) throws Exception {
 		Contact contact = ProvisioningContactThreadLocal.getContact();
 
 		if (contact != null) {
@@ -551,6 +554,21 @@ public class LicenseKeyResourceImpl
 				if (accountKey.equals(account.getKey())) {
 					return;
 				}
+			}
+
+			FilterQuery filterQuery = new FilterQuery();
+
+			filterQuery.addLambdaEquals(
+				true, "contactUuids", contact.getUuid());
+			filterQuery.addLambdaEquals(
+				true, "accountKeyTeamRoleKeys",
+				accountKey + "_" + _getFLSTeamRoleKey());
+
+			List<Team> teams = _teamWebService.search(
+				StringPool.BLANK, filterQuery, 1, 1000, StringPool.BLANK);
+
+			if (!teams.isEmpty()) {
+				return;
 			}
 		}
 		else if (_isOmniAdmin()) {
@@ -595,6 +613,18 @@ public class LicenseKeyResourceImpl
 		sb.append(StringPool.NEW_LINE);
 
 		return sb.toString();
+	}
+
+	private String _getFLSTeamRoleKey() throws Exception {
+		if (Validator.isNull(_flsTeamRoleKey)) {
+			TeamRole flsTeamRole = _teamRoleWebService.getTeamRole(
+				TeamRole.Type.ACCOUNT.toString(),
+				TeamRoleConstants.NAME_FIRST_LINE_SUPPORT);
+
+			_flsTeamRoleKey = flsTeamRole.getKey();
+		}
+
+		return _flsTeamRoleKey;
 	}
 
 	private Version[] _getProductVersions(String productGroupName) {
@@ -990,6 +1020,8 @@ public class LicenseKeyResourceImpl
 	@Reference
 	private ContactWebService _contactWebService;
 
+	private String _flsTeamRoleKey;
+
 	@Reference
 	private LicenseEntryLocalService _licenseEntryLocalService;
 
@@ -1004,5 +1036,11 @@ public class LicenseKeyResourceImpl
 
 	@Reference
 	private ProductWebService _productWebService;
+
+	@Reference
+	private TeamRoleWebService _teamRoleWebService;
+
+	@Reference
+	private TeamWebService _teamWebService;
 
 }
