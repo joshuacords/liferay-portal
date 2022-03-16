@@ -267,7 +267,7 @@ public class EditableFragmentEntryProcessor implements FragmentEntryProcessor {
 
 				String tagName = element.attr("view-tag-name");
 
-				if (Validator.isNull(tagName)) {
+				if (!Objects.equals(tagName, "span")) {
 					tagName = "div";
 				}
 
