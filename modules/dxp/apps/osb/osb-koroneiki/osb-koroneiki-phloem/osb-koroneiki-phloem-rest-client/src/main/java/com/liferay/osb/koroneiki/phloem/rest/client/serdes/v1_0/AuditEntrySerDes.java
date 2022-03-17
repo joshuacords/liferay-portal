@@ -57,7 +57,7 @@ public class AuditEntrySerDes {
 		sb.append("{");
 
 		DateFormat liferayToJSONDateFormat = new SimpleDateFormat(
-			"yyyy-MM-dd'T'HH:mm:ss'Z'");
+			"yyyy-MM-dd'T'HH:mm:ssXX");
 
 		if (auditEntry.getAction() != null) {
 			if (sb.length() > 1) {
@@ -154,6 +154,30 @@ public class AuditEntrySerDes {
 			sb.append("\"");
 		}
 
+		if (auditEntry.getFieldClassLabel() != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"fieldClassLabel\": ");
+
+			sb.append("\"");
+
+			sb.append(_escape(auditEntry.getFieldClassLabel()));
+
+			sb.append("\"");
+		}
+
+		if (auditEntry.getFieldClassPK() != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"fieldClassPK\": ");
+
+			sb.append(auditEntry.getFieldClassPK());
+		}
+
 		if (auditEntry.getKey() != null) {
 			if (sb.length() > 1) {
 				sb.append(", ");
@@ -229,7 +253,7 @@ public class AuditEntrySerDes {
 		Map<String, String> map = new TreeMap<>();
 
 		DateFormat liferayToJSONDateFormat = new SimpleDateFormat(
-			"yyyy-MM-dd'T'HH:mm:ss'Z'");
+			"yyyy-MM-dd'T'HH:mm:ssXX");
 
 		if (auditEntry.getAction() == null) {
 			map.put("action", null);
@@ -280,6 +304,23 @@ public class AuditEntrySerDes {
 		}
 		else {
 			map.put("field", String.valueOf(auditEntry.getField()));
+		}
+
+		if (auditEntry.getFieldClassLabel() == null) {
+			map.put("fieldClassLabel", null);
+		}
+		else {
+			map.put(
+				"fieldClassLabel",
+				String.valueOf(auditEntry.getFieldClassLabel()));
+		}
+
+		if (auditEntry.getFieldClassPK() == null) {
+			map.put("fieldClassPK", null);
+		}
+		else {
+			map.put(
+				"fieldClassPK", String.valueOf(auditEntry.getFieldClassPK()));
 		}
 
 		if (auditEntry.getKey() == null) {
@@ -367,6 +408,17 @@ public class AuditEntrySerDes {
 			else if (Objects.equals(jsonParserFieldName, "field")) {
 				if (jsonParserFieldValue != null) {
 					auditEntry.setField((String)jsonParserFieldValue);
+				}
+			}
+			else if (Objects.equals(jsonParserFieldName, "fieldClassLabel")) {
+				if (jsonParserFieldValue != null) {
+					auditEntry.setFieldClassLabel((String)jsonParserFieldValue);
+				}
+			}
+			else if (Objects.equals(jsonParserFieldName, "fieldClassPK")) {
+				if (jsonParserFieldValue != null) {
+					auditEntry.setFieldClassPK(
+						Long.valueOf((String)jsonParserFieldValue));
 				}
 			}
 			else if (Objects.equals(jsonParserFieldName, "key")) {

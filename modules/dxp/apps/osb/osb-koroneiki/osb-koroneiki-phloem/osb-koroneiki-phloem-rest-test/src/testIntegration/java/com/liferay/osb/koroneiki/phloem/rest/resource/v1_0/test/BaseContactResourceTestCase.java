@@ -595,6 +595,31 @@ public abstract class BaseContactResourceTestCase {
 	}
 
 	@Test
+	public void testGetContactsPageWithFilterDoubleEquals() throws Exception {
+		List<EntityField> entityFields = getEntityFields(
+			EntityField.Type.DOUBLE);
+
+		if (entityFields.isEmpty()) {
+			return;
+		}
+
+		Contact contact1 = testGetContactsPage_addContact(randomContact());
+
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		Contact contact2 = testGetContactsPage_addContact(randomContact());
+
+		for (EntityField entityField : entityFields) {
+			Page<Contact> page = contactResource.getContactsPage(
+				null, getFilterString(entityField, "eq", contact1),
+				Pagination.of(1, 2), null);
+
+			assertEquals(
+				Collections.singletonList(contact1),
+				(List<Contact>)page.getItems());
+		}
+	}
+
+	@Test
 	public void testGetContactsPageWithFilterStringEquals() throws Exception {
 		List<EntityField> entityFields = getEntityFields(
 			EntityField.Type.STRING);
@@ -665,6 +690,16 @@ public abstract class BaseContactResourceTestCase {
 				BeanUtils.setProperty(
 					contact1, entityField.getName(),
 					DateUtils.addMinutes(new Date(), -2));
+			});
+	}
+
+	@Test
+	public void testGetContactsPageWithSortDouble() throws Exception {
+		testGetContactsPageWithSort(
+			EntityField.Type.DOUBLE,
+			(entityField, contact1, contact2) -> {
+				BeanUtils.setProperty(contact1, entityField.getName(), 0.1);
+				BeanUtils.setProperty(contact2, entityField.getName(), 0.5);
 			});
 	}
 

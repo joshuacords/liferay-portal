@@ -183,6 +183,7 @@ public abstract class BaseAuditEntryResourceTestCase {
 		auditEntry.setAgentUID(regex);
 		auditEntry.setDescription(regex);
 		auditEntry.setField(regex);
+		auditEntry.setFieldClassLabel(regex);
 		auditEntry.setKey(regex);
 		auditEntry.setNewValue(regex);
 		auditEntry.setOldValue(regex);
@@ -198,6 +199,7 @@ public abstract class BaseAuditEntryResourceTestCase {
 		Assert.assertEquals(regex, auditEntry.getAgentUID());
 		Assert.assertEquals(regex, auditEntry.getDescription());
 		Assert.assertEquals(regex, auditEntry.getField());
+		Assert.assertEquals(regex, auditEntry.getFieldClassLabel());
 		Assert.assertEquals(regex, auditEntry.getKey());
 		Assert.assertEquals(regex, auditEntry.getNewValue());
 		Assert.assertEquals(regex, auditEntry.getOldValue());
@@ -318,6 +320,11 @@ public abstract class BaseAuditEntryResourceTestCase {
 		throws Exception {
 
 		return null;
+	}
+
+	@Test
+	public void testPostAccountAccountKeyAuditEntriesPage() throws Exception {
+		Assert.assertTrue(false);
 	}
 
 	@Test
@@ -932,6 +939,22 @@ public abstract class BaseAuditEntryResourceTestCase {
 				continue;
 			}
 
+			if (Objects.equals("fieldClassLabel", additionalAssertFieldName)) {
+				if (auditEntry.getFieldClassLabel() == null) {
+					valid = false;
+				}
+
+				continue;
+			}
+
+			if (Objects.equals("fieldClassPK", additionalAssertFieldName)) {
+				if (auditEntry.getFieldClassPK() == null) {
+					valid = false;
+				}
+
+				continue;
+			}
+
 			if (Objects.equals("key", additionalAssertFieldName)) {
 				if (auditEntry.getKey() == null) {
 					valid = false;
@@ -1122,6 +1145,28 @@ public abstract class BaseAuditEntryResourceTestCase {
 			if (Objects.equals("field", additionalAssertFieldName)) {
 				if (!Objects.deepEquals(
 						auditEntry1.getField(), auditEntry2.getField())) {
+
+					return false;
+				}
+
+				continue;
+			}
+
+			if (Objects.equals("fieldClassLabel", additionalAssertFieldName)) {
+				if (!Objects.deepEquals(
+						auditEntry1.getFieldClassLabel(),
+						auditEntry2.getFieldClassLabel())) {
+
+					return false;
+				}
+
+				continue;
+			}
+
+			if (Objects.equals("fieldClassPK", additionalAssertFieldName)) {
+				if (!Objects.deepEquals(
+						auditEntry1.getFieldClassPK(),
+						auditEntry2.getFieldClassPK())) {
 
 					return false;
 				}
@@ -1339,6 +1384,19 @@ public abstract class BaseAuditEntryResourceTestCase {
 			return sb.toString();
 		}
 
+		if (entityFieldName.equals("fieldClassLabel")) {
+			sb.append("'");
+			sb.append(String.valueOf(auditEntry.getFieldClassLabel()));
+			sb.append("'");
+
+			return sb.toString();
+		}
+
+		if (entityFieldName.equals("fieldClassPK")) {
+			throw new IllegalArgumentException(
+				"Invalid entity field " + entityFieldName);
+		}
+
 		if (entityFieldName.equals("key")) {
 			sb.append("'");
 			sb.append(String.valueOf(auditEntry.getKey()));
@@ -1424,6 +1482,9 @@ public abstract class BaseAuditEntryResourceTestCase {
 				description = StringUtil.toLowerCase(
 					RandomTestUtil.randomString());
 				field = StringUtil.toLowerCase(RandomTestUtil.randomString());
+				fieldClassLabel = StringUtil.toLowerCase(
+					RandomTestUtil.randomString());
+				fieldClassPK = RandomTestUtil.randomLong();
 				key = StringUtil.toLowerCase(RandomTestUtil.randomString());
 				newValue = StringUtil.toLowerCase(
 					RandomTestUtil.randomString());

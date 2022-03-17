@@ -916,8 +916,9 @@ public abstract class BaseNoteResourceTestCase {
 		}
 
 		if (entityFieldName.equals("priority")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(String.valueOf(note.getPriority()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("status")) {

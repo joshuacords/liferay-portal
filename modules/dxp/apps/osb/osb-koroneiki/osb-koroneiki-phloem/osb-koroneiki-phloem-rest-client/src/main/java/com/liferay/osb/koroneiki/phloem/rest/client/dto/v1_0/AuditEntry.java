@@ -190,6 +190,48 @@ public class AuditEntry implements Cloneable, Serializable {
 
 	protected String field;
 
+	public String getFieldClassLabel() {
+		return fieldClassLabel;
+	}
+
+	public void setFieldClassLabel(String fieldClassLabel) {
+		this.fieldClassLabel = fieldClassLabel;
+	}
+
+	public void setFieldClassLabel(
+		UnsafeSupplier<String, Exception> fieldClassLabelUnsafeSupplier) {
+
+		try {
+			fieldClassLabel = fieldClassLabelUnsafeSupplier.get();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected String fieldClassLabel;
+
+	public Long getFieldClassPK() {
+		return fieldClassPK;
+	}
+
+	public void setFieldClassPK(Long fieldClassPK) {
+		this.fieldClassPK = fieldClassPK;
+	}
+
+	public void setFieldClassPK(
+		UnsafeSupplier<Long, Exception> fieldClassPKUnsafeSupplier) {
+
+		try {
+			fieldClassPK = fieldClassPKUnsafeSupplier.get();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected Long fieldClassPK;
+
 	public String getKey() {
 		return key;
 	}

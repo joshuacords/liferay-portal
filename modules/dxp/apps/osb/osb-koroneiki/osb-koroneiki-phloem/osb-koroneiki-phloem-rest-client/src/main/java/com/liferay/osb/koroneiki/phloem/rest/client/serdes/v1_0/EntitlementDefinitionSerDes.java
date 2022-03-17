@@ -61,7 +61,7 @@ public class EntitlementDefinitionSerDes {
 		sb.append("{");
 
 		DateFormat liferayToJSONDateFormat = new SimpleDateFormat(
-			"yyyy-MM-dd'T'HH:mm:ss'Z'");
+			"yyyy-MM-dd'T'HH:mm:ssXX");
 
 		if (entitlementDefinition.getDateCreated() != null) {
 			if (sb.length() > 1) {
@@ -211,7 +211,7 @@ public class EntitlementDefinitionSerDes {
 		Map<String, String> map = new TreeMap<>();
 
 		DateFormat liferayToJSONDateFormat = new SimpleDateFormat(
-			"yyyy-MM-dd'T'HH:mm:ss'Z'");
+			"yyyy-MM-dd'T'HH:mm:ssXX");
 
 		if (entitlementDefinition.getDateCreated() == null) {
 			map.put("dateCreated", null);

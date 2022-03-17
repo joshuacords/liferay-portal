@@ -1167,6 +1167,35 @@ public abstract class BaseContactRoleResourceTestCase {
 	}
 
 	@Test
+	public void testGetContactRolesPageWithFilterDoubleEquals()
+		throws Exception {
+
+		List<EntityField> entityFields = getEntityFields(
+			EntityField.Type.DOUBLE);
+
+		if (entityFields.isEmpty()) {
+			return;
+		}
+
+		ContactRole contactRole1 = testGetContactRolesPage_addContactRole(
+			randomContactRole());
+
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		ContactRole contactRole2 = testGetContactRolesPage_addContactRole(
+			randomContactRole());
+
+		for (EntityField entityField : entityFields) {
+			Page<ContactRole> page = contactRoleResource.getContactRolesPage(
+				null, getFilterString(entityField, "eq", contactRole1),
+				Pagination.of(1, 2), null);
+
+			assertEquals(
+				Collections.singletonList(contactRole1),
+				(List<ContactRole>)page.getItems());
+		}
+	}
+
+	@Test
 	public void testGetContactRolesPageWithFilterStringEquals()
 		throws Exception {
 
@@ -1244,6 +1273,16 @@ public abstract class BaseContactRoleResourceTestCase {
 				BeanUtils.setProperty(
 					contactRole1, entityField.getName(),
 					DateUtils.addMinutes(new Date(), -2));
+			});
+	}
+
+	@Test
+	public void testGetContactRolesPageWithSortDouble() throws Exception {
+		testGetContactRolesPageWithSort(
+			EntityField.Type.DOUBLE,
+			(entityField, contactRole1, contactRole2) -> {
+				BeanUtils.setProperty(contactRole1, entityField.getName(), 0.1);
+				BeanUtils.setProperty(contactRole2, entityField.getName(), 0.5);
 			});
 	}
 

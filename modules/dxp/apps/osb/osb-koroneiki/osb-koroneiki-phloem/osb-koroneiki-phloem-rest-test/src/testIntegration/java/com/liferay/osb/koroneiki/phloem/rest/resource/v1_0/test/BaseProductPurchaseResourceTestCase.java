@@ -540,6 +540,38 @@ public abstract class BaseProductPurchaseResourceTestCase {
 	}
 
 	@Test
+	public void testGetProductPurchasesPageWithFilterDoubleEquals()
+		throws Exception {
+
+		List<EntityField> entityFields = getEntityFields(
+			EntityField.Type.DOUBLE);
+
+		if (entityFields.isEmpty()) {
+			return;
+		}
+
+		ProductPurchase productPurchase1 =
+			testGetProductPurchasesPage_addProductPurchase(
+				randomProductPurchase());
+
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		ProductPurchase productPurchase2 =
+			testGetProductPurchasesPage_addProductPurchase(
+				randomProductPurchase());
+
+		for (EntityField entityField : entityFields) {
+			Page<ProductPurchase> page =
+				productPurchaseResource.getProductPurchasesPage(
+					null, getFilterString(entityField, "eq", productPurchase1),
+					Pagination.of(1, 2), null);
+
+			assertEquals(
+				Collections.singletonList(productPurchase1),
+				(List<ProductPurchase>)page.getItems());
+		}
+	}
+
+	@Test
 	public void testGetProductPurchasesPageWithFilterStringEquals()
 		throws Exception {
 
@@ -634,6 +666,18 @@ public abstract class BaseProductPurchaseResourceTestCase {
 				BeanUtils.setProperty(
 					productPurchase1, entityField.getName(),
 					DateUtils.addMinutes(new Date(), -2));
+			});
+	}
+
+	@Test
+	public void testGetProductPurchasesPageWithSortDouble() throws Exception {
+		testGetProductPurchasesPageWithSort(
+			EntityField.Type.DOUBLE,
+			(entityField, productPurchase1, productPurchase2) -> {
+				BeanUtils.setProperty(
+					productPurchase1, entityField.getName(), 0.1);
+				BeanUtils.setProperty(
+					productPurchase2, entityField.getName(), 0.5);
 			});
 	}
 
@@ -1699,8 +1743,9 @@ public abstract class BaseProductPurchaseResourceTestCase {
 		}
 
 		if (entityFieldName.equals("quantity")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
+			sb.append(String.valueOf(productPurchase.getQuantity()));
+
+			return sb.toString();
 		}
 
 		if (entityFieldName.equals("startDate")) {

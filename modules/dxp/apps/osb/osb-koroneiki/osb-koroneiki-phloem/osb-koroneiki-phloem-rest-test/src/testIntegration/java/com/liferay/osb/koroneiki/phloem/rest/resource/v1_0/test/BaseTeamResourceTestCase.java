@@ -468,6 +468,30 @@ public abstract class BaseTeamResourceTestCase {
 	}
 
 	@Test
+	public void testGetTeamsPageWithFilterDoubleEquals() throws Exception {
+		List<EntityField> entityFields = getEntityFields(
+			EntityField.Type.DOUBLE);
+
+		if (entityFields.isEmpty()) {
+			return;
+		}
+
+		Team team1 = testGetTeamsPage_addTeam(randomTeam());
+
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		Team team2 = testGetTeamsPage_addTeam(randomTeam());
+
+		for (EntityField entityField : entityFields) {
+			Page<Team> page = teamResource.getTeamsPage(
+				null, getFilterString(entityField, "eq", team1),
+				Pagination.of(1, 2), null);
+
+			assertEquals(
+				Collections.singletonList(team1), (List<Team>)page.getItems());
+		}
+	}
+
+	@Test
 	public void testGetTeamsPageWithFilterStringEquals() throws Exception {
 		List<EntityField> entityFields = getEntityFields(
 			EntityField.Type.STRING);
@@ -536,6 +560,16 @@ public abstract class BaseTeamResourceTestCase {
 				BeanUtils.setProperty(
 					team1, entityField.getName(),
 					DateUtils.addMinutes(new Date(), -2));
+			});
+	}
+
+	@Test
+	public void testGetTeamsPageWithSortDouble() throws Exception {
+		testGetTeamsPageWithSort(
+			EntityField.Type.DOUBLE,
+			(entityField, team1, team2) -> {
+				BeanUtils.setProperty(team1, entityField.getName(), 0.1);
+				BeanUtils.setProperty(team2, entityField.getName(), 0.5);
 			});
 	}
 

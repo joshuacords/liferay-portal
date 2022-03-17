@@ -62,7 +62,7 @@ public class ProductPurchaseSerDes {
 		sb.append("{");
 
 		DateFormat liferayToJSONDateFormat = new SimpleDateFormat(
-			"yyyy-MM-dd'T'HH:mm:ss'Z'");
+			"yyyy-MM-dd'T'HH:mm:ssXX");
 
 		if (productPurchase.getAccountKey() != null) {
 			if (sb.length() > 1) {
@@ -289,7 +289,7 @@ public class ProductPurchaseSerDes {
 		Map<String, String> map = new TreeMap<>();
 
 		DateFormat liferayToJSONDateFormat = new SimpleDateFormat(
-			"yyyy-MM-dd'T'HH:mm:ss'Z'");
+			"yyyy-MM-dd'T'HH:mm:ssXX");
 
 		if (productPurchase.getAccountKey() == null) {
 			map.put("accountKey", null);

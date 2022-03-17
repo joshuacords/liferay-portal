@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 import com.liferay.petra.function.UnsafeSupplier;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.vulcan.graphql.annotation.GraphQLField;
 import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.util.ObjectMapperUtil;
@@ -101,7 +102,7 @@ public class AuditEntry implements Serializable {
 	}
 
 	@GraphQLField(description = "The action performed on the object.")
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Action action;
 
 	@Schema(
@@ -133,7 +134,7 @@ public class AuditEntry implements Serializable {
 	@GraphQLField(
 		description = "The full name of the user performing the audited action."
 	)
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String agentName;
 
 	@Schema(description = "The UUID of the user performing the audited action.")
@@ -191,7 +192,7 @@ public class AuditEntry implements Serializable {
 	}
 
 	@GraphQLField(description = "The id of related audit entries.")
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected Long auditSetId;
 
 	@Schema(description = "The audit entry's creation date.")
@@ -249,7 +250,7 @@ public class AuditEntry implements Serializable {
 	@GraphQLField(
 		description = "Additional information describing what occurred."
 	)
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String description;
 
 	@Schema(description = "The field of the audited object.")
@@ -277,8 +278,64 @@ public class AuditEntry implements Serializable {
 	}
 
 	@GraphQLField(description = "The field of the audited object.")
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String field;
+
+	@Schema(description = "The class name of the audited object.")
+	public String getFieldClassLabel() {
+		return fieldClassLabel;
+	}
+
+	public void setFieldClassLabel(String fieldClassLabel) {
+		this.fieldClassLabel = fieldClassLabel;
+	}
+
+	@JsonIgnore
+	public void setFieldClassLabel(
+		UnsafeSupplier<String, Exception> fieldClassLabelUnsafeSupplier) {
+
+		try {
+			fieldClassLabel = fieldClassLabelUnsafeSupplier.get();
+		}
+		catch (RuntimeException re) {
+			throw re;
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@GraphQLField(description = "The class name of the audited object.")
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
+	protected String fieldClassLabel;
+
+	@Schema(description = "The primary key of the audited object.")
+	public Long getFieldClassPK() {
+		return fieldClassPK;
+	}
+
+	public void setFieldClassPK(Long fieldClassPK) {
+		this.fieldClassPK = fieldClassPK;
+	}
+
+	@JsonIgnore
+	public void setFieldClassPK(
+		UnsafeSupplier<Long, Exception> fieldClassPKUnsafeSupplier) {
+
+		try {
+			fieldClassPK = fieldClassPKUnsafeSupplier.get();
+		}
+		catch (RuntimeException re) {
+			throw re;
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@GraphQLField(description = "The primary key of the audited object.")
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
+	protected Long fieldClassPK;
 
 	@Schema(description = "The audit entry's key.")
 	public String getKey() {
@@ -333,7 +390,7 @@ public class AuditEntry implements Serializable {
 	@GraphQLField(
 		description = "The new value of the field on the audited object."
 	)
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String newValue;
 
 	@Schema(description = "The old value of the field on the audited object.")
@@ -363,7 +420,7 @@ public class AuditEntry implements Serializable {
 	@GraphQLField(
 		description = "The old value of the field on the audited object."
 	)
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String oldValue;
 
 	@Schema(description = "A summary of the what occurred.")
@@ -518,6 +575,30 @@ public class AuditEntry implements Serializable {
 			sb.append("\"");
 		}
 
+		if (fieldClassLabel != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"fieldClassLabel\": ");
+
+			sb.append("\"");
+
+			sb.append(_escape(fieldClassLabel));
+
+			sb.append("\"");
+		}
+
+		if (fieldClassPK != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"fieldClassPK\": ");
+
+			sb.append(fieldClassPK);
+		}
+
 		if (key != null) {
 			if (sb.length() > 1) {
 				sb.append(", ");
@@ -626,9 +707,9 @@ public class AuditEntry implements Serializable {
 	}
 
 	private static String _escape(Object object) {
-		String string = String.valueOf(object);
-
-		return string.replaceAll("\"", "\\\\\"");
+		return StringUtil.replace(
+			String.valueOf(object), _JSON_ESCAPE_STRINGS[0],
+			_JSON_ESCAPE_STRINGS[1]);
 	}
 
 	private static boolean _isArray(Object value) {
@@ -654,7 +735,7 @@ public class AuditEntry implements Serializable {
 			Map.Entry<String, ?> entry = iterator.next();
 
 			sb.append("\"");
-			sb.append(entry.getKey());
+			sb.append(_escape(entry.getKey()));
 			sb.append("\": ");
 
 			Object value = entry.getValue();
@@ -686,7 +767,7 @@ public class AuditEntry implements Serializable {
 			}
 			else if (value instanceof String) {
 				sb.append("\"");
-				sb.append(value);
+				sb.append(_escape(value));
 				sb.append("\"");
 			}
 			else {
@@ -702,5 +783,10 @@ public class AuditEntry implements Serializable {
 
 		return sb.toString();
 	}
+
+	private static final String[][] _JSON_ESCAPE_STRINGS = {
+		{"\\", "\"", "\b", "\f", "\n", "\r", "\t"},
+		{"\\\\", "\\\"", "\\b", "\\f", "\\n", "\\r", "\\t"}
+	};
 
 }

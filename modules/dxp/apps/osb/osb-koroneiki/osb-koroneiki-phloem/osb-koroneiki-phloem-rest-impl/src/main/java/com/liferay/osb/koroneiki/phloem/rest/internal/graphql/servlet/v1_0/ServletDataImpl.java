@@ -56,6 +56,8 @@ public class ServletDataImpl implements ServletData {
 	public void activate(BundleContext bundleContext) {
 		Mutation.setAccountResourceComponentServiceObjects(
 			_accountResourceComponentServiceObjects);
+		Mutation.setAuditEntryResourceComponentServiceObjects(
+			_auditEntryResourceComponentServiceObjects);
 		Mutation.setContactResourceComponentServiceObjects(
 			_contactResourceComponentServiceObjects);
 		Mutation.setContactRoleResourceComponentServiceObjects(
@@ -135,6 +137,10 @@ public class ServletDataImpl implements ServletData {
 		_accountResourceComponentServiceObjects;
 
 	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
+	private ComponentServiceObjects<AuditEntryResource>
+		_auditEntryResourceComponentServiceObjects;
+
+	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
 	private ComponentServiceObjects<ContactResource>
 		_contactResourceComponentServiceObjects;
 
@@ -177,10 +183,6 @@ public class ServletDataImpl implements ServletData {
 	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
 	private ComponentServiceObjects<TeamRoleResource>
 		_teamRoleResourceComponentServiceObjects;
-
-	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
-	private ComponentServiceObjects<AuditEntryResource>
-		_auditEntryResourceComponentServiceObjects;
 
 	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
 	private ComponentServiceObjects<ContactAccountViewResource>

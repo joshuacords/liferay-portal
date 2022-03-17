@@ -555,6 +555,39 @@ public abstract class BaseProductConsumptionResourceTestCase {
 	}
 
 	@Test
+	public void testGetProductConsumptionsPageWithFilterDoubleEquals()
+		throws Exception {
+
+		List<EntityField> entityFields = getEntityFields(
+			EntityField.Type.DOUBLE);
+
+		if (entityFields.isEmpty()) {
+			return;
+		}
+
+		ProductConsumption productConsumption1 =
+			testGetProductConsumptionsPage_addProductConsumption(
+				randomProductConsumption());
+
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		ProductConsumption productConsumption2 =
+			testGetProductConsumptionsPage_addProductConsumption(
+				randomProductConsumption());
+
+		for (EntityField entityField : entityFields) {
+			Page<ProductConsumption> page =
+				productConsumptionResource.getProductConsumptionsPage(
+					null,
+					getFilterString(entityField, "eq", productConsumption1),
+					Pagination.of(1, 2), null);
+
+			assertEquals(
+				Collections.singletonList(productConsumption1),
+				(List<ProductConsumption>)page.getItems());
+		}
+	}
+
+	@Test
 	public void testGetProductConsumptionsPageWithFilterStringEquals()
 		throws Exception {
 
@@ -654,6 +687,20 @@ public abstract class BaseProductConsumptionResourceTestCase {
 				BeanUtils.setProperty(
 					productConsumption1, entityField.getName(),
 					DateUtils.addMinutes(new Date(), -2));
+			});
+	}
+
+	@Test
+	public void testGetProductConsumptionsPageWithSortDouble()
+		throws Exception {
+
+		testGetProductConsumptionsPageWithSort(
+			EntityField.Type.DOUBLE,
+			(entityField, productConsumption1, productConsumption2) -> {
+				BeanUtils.setProperty(
+					productConsumption1, entityField.getName(), 0.1);
+				BeanUtils.setProperty(
+					productConsumption2, entityField.getName(), 0.5);
 			});
 	}
 

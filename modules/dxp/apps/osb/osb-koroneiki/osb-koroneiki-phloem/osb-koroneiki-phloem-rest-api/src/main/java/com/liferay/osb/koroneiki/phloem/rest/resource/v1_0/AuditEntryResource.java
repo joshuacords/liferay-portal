@@ -60,6 +60,11 @@ public interface AuditEntryResource {
 			String accountKey, Pagination pagination)
 		throws Exception;
 
+	public Page<AuditEntry> postAccountAccountKeyAuditEntriesPage(
+			String agentName, String agentUID, String accountKey,
+			AuditEntry[] auditEntries)
+		throws Exception;
+
 	public AuditEntry getAuditEntry(String auditEntryKey) throws Exception;
 
 	public Page<AuditEntry> getContactRoleContactRoleKeyAuditEntriesPage(

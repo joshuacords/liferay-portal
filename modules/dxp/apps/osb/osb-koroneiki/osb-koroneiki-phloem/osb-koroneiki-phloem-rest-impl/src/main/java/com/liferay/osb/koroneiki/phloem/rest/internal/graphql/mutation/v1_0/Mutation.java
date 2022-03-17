@@ -16,6 +16,7 @@ package com.liferay.osb.koroneiki.phloem.rest.internal.graphql.mutation.v1_0;
 
 import com.liferay.osb.koroneiki.phloem.rest.dto.v1_0.Account;
 import com.liferay.osb.koroneiki.phloem.rest.dto.v1_0.AccountPermission;
+import com.liferay.osb.koroneiki.phloem.rest.dto.v1_0.AuditEntry;
 import com.liferay.osb.koroneiki.phloem.rest.dto.v1_0.Contact;
 import com.liferay.osb.koroneiki.phloem.rest.dto.v1_0.ContactPermission;
 import com.liferay.osb.koroneiki.phloem.rest.dto.v1_0.ContactRole;
@@ -35,6 +36,7 @@ import com.liferay.osb.koroneiki.phloem.rest.dto.v1_0.TeamPermission;
 import com.liferay.osb.koroneiki.phloem.rest.dto.v1_0.TeamRole;
 import com.liferay.osb.koroneiki.phloem.rest.dto.v1_0.TeamRolePermission;
 import com.liferay.osb.koroneiki.phloem.rest.resource.v1_0.AccountResource;
+import com.liferay.osb.koroneiki.phloem.rest.resource.v1_0.AuditEntryResource;
 import com.liferay.osb.koroneiki.phloem.rest.resource.v1_0.ContactResource;
 import com.liferay.osb.koroneiki.phloem.rest.resource.v1_0.ContactRoleResource;
 import com.liferay.osb.koroneiki.phloem.rest.resource.v1_0.EntitlementDefinitionResource;
@@ -54,6 +56,7 @@ import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.graphql.annotation.GraphQLField;
 import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
+import com.liferay.portal.vulcan.pagination.Page;
 
 import java.util.function.BiFunction;
 
@@ -79,6 +82,14 @@ public class Mutation {
 
 		_accountResourceComponentServiceObjects =
 			accountResourceComponentServiceObjects;
+	}
+
+	public static void setAuditEntryResourceComponentServiceObjects(
+		ComponentServiceObjects<AuditEntryResource>
+			auditEntryResourceComponentServiceObjects) {
+
+		_auditEntryResourceComponentServiceObjects =
+			auditEntryResourceComponentServiceObjects;
 	}
 
 	public static void setContactResourceComponentServiceObjects(
@@ -447,6 +458,27 @@ public class Mutation {
 				agentName, agentUID, accountKey, contactUuids));
 
 		return true;
+	}
+
+	@GraphQLField
+	public java.util.Collection<AuditEntry>
+			createAccountAccountKeyAuditEntriesPage(
+				@GraphQLName("agentName") String agentName,
+				@GraphQLName("agentUID") String agentUID,
+				@GraphQLName("accountKey") String accountKey,
+				@GraphQLName("auditEntries") AuditEntry[] auditEntries)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_auditEntryResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			auditEntryResource -> {
+				Page paginationPage =
+					auditEntryResource.postAccountAccountKeyAuditEntriesPage(
+						agentName, agentUID, accountKey, auditEntries);
+
+				return paginationPage.getItems();
+			});
 	}
 
 	@GraphQLField
@@ -1578,6 +1610,19 @@ public class Mutation {
 		accountResource.setRoleLocalService(_roleLocalService);
 	}
 
+	private void _populateResourceContext(AuditEntryResource auditEntryResource)
+		throws Exception {
+
+		auditEntryResource.setContextAcceptLanguage(_acceptLanguage);
+		auditEntryResource.setContextCompany(_company);
+		auditEntryResource.setContextHttpServletRequest(_httpServletRequest);
+		auditEntryResource.setContextHttpServletResponse(_httpServletResponse);
+		auditEntryResource.setContextUriInfo(_uriInfo);
+		auditEntryResource.setContextUser(_user);
+		auditEntryResource.setGroupLocalService(_groupLocalService);
+		auditEntryResource.setRoleLocalService(_roleLocalService);
+	}
+
 	private void _populateResourceContext(ContactResource contactResource)
 		throws Exception {
 
@@ -1737,6 +1782,8 @@ public class Mutation {
 
 	private static ComponentServiceObjects<AccountResource>
 		_accountResourceComponentServiceObjects;
+	private static ComponentServiceObjects<AuditEntryResource>
+		_auditEntryResourceComponentServiceObjects;
 	private static ComponentServiceObjects<ContactResource>
 		_contactResourceComponentServiceObjects;
 	private static ComponentServiceObjects<ContactRoleResource>

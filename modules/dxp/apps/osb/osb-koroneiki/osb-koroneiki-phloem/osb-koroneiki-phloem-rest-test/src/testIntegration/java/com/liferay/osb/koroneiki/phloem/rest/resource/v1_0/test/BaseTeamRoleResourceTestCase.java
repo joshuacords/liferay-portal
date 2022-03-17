@@ -396,6 +396,31 @@ public abstract class BaseTeamRoleResourceTestCase {
 	}
 
 	@Test
+	public void testGetTeamRolesPageWithFilterDoubleEquals() throws Exception {
+		List<EntityField> entityFields = getEntityFields(
+			EntityField.Type.DOUBLE);
+
+		if (entityFields.isEmpty()) {
+			return;
+		}
+
+		TeamRole teamRole1 = testGetTeamRolesPage_addTeamRole(randomTeamRole());
+
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		TeamRole teamRole2 = testGetTeamRolesPage_addTeamRole(randomTeamRole());
+
+		for (EntityField entityField : entityFields) {
+			Page<TeamRole> page = teamRoleResource.getTeamRolesPage(
+				null, getFilterString(entityField, "eq", teamRole1),
+				Pagination.of(1, 2), null);
+
+			assertEquals(
+				Collections.singletonList(teamRole1),
+				(List<TeamRole>)page.getItems());
+		}
+	}
+
+	@Test
 	public void testGetTeamRolesPageWithFilterStringEquals() throws Exception {
 		List<EntityField> entityFields = getEntityFields(
 			EntityField.Type.STRING);
@@ -466,6 +491,16 @@ public abstract class BaseTeamRoleResourceTestCase {
 				BeanUtils.setProperty(
 					teamRole1, entityField.getName(),
 					DateUtils.addMinutes(new Date(), -2));
+			});
+	}
+
+	@Test
+	public void testGetTeamRolesPageWithSortDouble() throws Exception {
+		testGetTeamRolesPageWithSort(
+			EntityField.Type.DOUBLE,
+			(entityField, teamRole1, teamRole2) -> {
+				BeanUtils.setProperty(teamRole1, entityField.getName(), 0.1);
+				BeanUtils.setProperty(teamRole2, entityField.getName(), 0.5);
 			});
 	}
 

@@ -275,6 +275,39 @@ public abstract class BaseProductPurchaseViewResourceTestCase {
 	}
 
 	@Test
+	public void testGetProductPurchaseViewsPageWithFilterDoubleEquals()
+		throws Exception {
+
+		List<EntityField> entityFields = getEntityFields(
+			EntityField.Type.DOUBLE);
+
+		if (entityFields.isEmpty()) {
+			return;
+		}
+
+		ProductPurchaseView productPurchaseView1 =
+			testGetProductPurchaseViewsPage_addProductPurchaseView(
+				randomProductPurchaseView());
+
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		ProductPurchaseView productPurchaseView2 =
+			testGetProductPurchaseViewsPage_addProductPurchaseView(
+				randomProductPurchaseView());
+
+		for (EntityField entityField : entityFields) {
+			Page<ProductPurchaseView> page =
+				productPurchaseViewResource.getProductPurchaseViewsPage(
+					null,
+					getFilterString(entityField, "eq", productPurchaseView1),
+					Pagination.of(1, 2), null);
+
+			assertEquals(
+				Collections.singletonList(productPurchaseView1),
+				(List<ProductPurchaseView>)page.getItems());
+		}
+	}
+
+	@Test
 	public void testGetProductPurchaseViewsPageWithFilterStringEquals()
 		throws Exception {
 
@@ -374,6 +407,20 @@ public abstract class BaseProductPurchaseViewResourceTestCase {
 				BeanUtils.setProperty(
 					productPurchaseView1, entityField.getName(),
 					DateUtils.addMinutes(new Date(), -2));
+			});
+	}
+
+	@Test
+	public void testGetProductPurchaseViewsPageWithSortDouble()
+		throws Exception {
+
+		testGetProductPurchaseViewsPageWithSort(
+			EntityField.Type.DOUBLE,
+			(entityField, productPurchaseView1, productPurchaseView2) -> {
+				BeanUtils.setProperty(
+					productPurchaseView1, entityField.getName(), 0.1);
+				BeanUtils.setProperty(
+					productPurchaseView2, entityField.getName(), 0.5);
 			});
 	}
 
