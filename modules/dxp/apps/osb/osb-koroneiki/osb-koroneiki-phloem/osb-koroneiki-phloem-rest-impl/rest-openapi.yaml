@@ -195,12 +195,10 @@ components:
                     description:
                         The action performed on the object.
                     enum: ["Add", "Assign", "Delete", "Renew", "Unassign", "Update"]
-                    readOnly: true
                     type: string
                 agentName:
                     description:
                         The full name of the user performing the audited action.
-                    readOnly: true
                     type: string
                 agentUID:
                     description:
@@ -211,7 +209,6 @@ components:
                     description:
                         The id of related audit entries.
                     format: int64
-                    readOnly: true
                     type: integer
                 dateCreated:
                     description:
@@ -222,13 +219,20 @@ components:
                 description:
                     description:
                         Additional information describing what occurred.
-                    readOnly: true
                     type: string
                 field:
                     description:
                         The field of the audited object.
-                    readOnly: true
                     type: string
+                fieldClassLabel:
+                    description:
+                        The class name of the audited object.
+                    type: string
+                fieldClassPK:
+                    description:
+                        The primary key of the audited object.
+                    format: int64
+                    type: integer
                 key:
                     description:
                         The audit entry's key.
@@ -237,12 +241,10 @@ components:
                 newValue:
                     description:
                         The new value of the field on the audited object.
-                    readOnly: true
                     type: string
                 oldValue:
                     description:
                         The old value of the field on the audited object.
-                    readOnly: true
                     type: string
                 summary:
                     description:
@@ -1535,6 +1537,43 @@ paths:
                   name: pageSize
                   schema:
                       type: integer
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/AuditEntry"
+                                type: array
+                        application/xml:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/AuditEntry"
+                                type: array
+            tags: ["AuditEntry"]
+        post:
+            operationId: postAccountAccountKeyAuditEntriesPage
+            parameters:
+                - $ref: "#/components/parameters/AgentName"
+                - $ref: "#/components/parameters/AgentUID"
+                - in: path
+                  name: accountKey
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            items:
+                                $ref: "#/components/schemas/AuditEntry"
+                            type: array
+                    application/xml:
+                        schema:
+                            items:
+                                $ref: "#/components/schemas/AuditEntry"
+                            type: array
+                required: true
             responses:
                 200:
                     content:

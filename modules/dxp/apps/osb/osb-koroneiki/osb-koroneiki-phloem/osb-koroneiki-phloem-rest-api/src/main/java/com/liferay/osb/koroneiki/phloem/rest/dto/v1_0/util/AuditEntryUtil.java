@@ -27,6 +27,8 @@ import com.liferay.osb.koroneiki.trunk.model.ProductConsumption;
 import com.liferay.osb.koroneiki.trunk.model.ProductEntry;
 import com.liferay.osb.koroneiki.trunk.model.ProductPurchase;
 import com.liferay.portal.kernel.model.Address;
+import com.liferay.portal.kernel.model.ClassName;
+import com.liferay.portal.kernel.service.ClassNameLocalServiceUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.Validator;
@@ -35,6 +37,13 @@ import com.liferay.portal.kernel.util.Validator;
  * @author Amos Fong
  */
 public class AuditEntryUtil {
+
+	public static long getDynamicClassNameId(String value) {
+		ClassName className = ClassNameLocalServiceUtil.getClassName(
+			AuditEntry.class.getName() + "#" + value);
+
+		return className.getClassNameId();
+	}
 
 	public static AuditEntry toAuditEntry(
 			com.liferay.osb.koroneiki.root.model.AuditEntry auditEntry)
@@ -56,6 +65,9 @@ public class AuditEntryUtil {
 				dateCreated = auditEntry.getCreateDate();
 				description = auditEntry.getDescription();
 				field = auditEntry.getField();
+				fieldClassLabel = _getDisplayName(
+					auditEntry.getFieldClassNameId());
+				fieldClassPK = auditEntry.getFieldClassPK();
 				key = auditEntry.getAuditEntryKey();
 				newValue = _getNewValue(auditEntry);
 				oldValue = _getOldValue(auditEntry);
@@ -105,8 +117,15 @@ public class AuditEntryUtil {
 		else if (classNameId == PortalUtil.getClassNameId(TeamRole.class)) {
 			return "Team Role";
 		}
+		else {
+			String className = PortalUtil.getClassName(classNameId);
 
-		return "N/A";
+			if (className.startsWith(AuditEntry.class.getName() + "#")) {
+				return className.substring(className.indexOf("#") + 1);
+			}
+
+			return "N/A";
+		}
 	}
 
 	private static String _getNewValue(

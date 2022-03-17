@@ -14,8 +14,10 @@
 
 package com.liferay.osb.koroneiki.phloem.rest.internal.resource.v1_0;
 
+import com.liferay.counter.kernel.service.CounterLocalService;
 import com.liferay.osb.koroneiki.phloem.rest.dto.v1_0.AuditEntry;
 import com.liferay.osb.koroneiki.phloem.rest.dto.v1_0.util.AuditEntryUtil;
+import com.liferay.osb.koroneiki.phloem.rest.internal.resource.v1_0.util.ServiceContextUtil;
 import com.liferay.osb.koroneiki.phloem.rest.resource.v1_0.AuditEntryResource;
 import com.liferay.osb.koroneiki.root.service.AuditEntryService;
 import com.liferay.osb.koroneiki.taproot.model.Account;
@@ -28,9 +30,13 @@ import com.liferay.osb.koroneiki.taproot.service.ContactLocalService;
 import com.liferay.osb.koroneiki.taproot.service.ContactRoleLocalService;
 import com.liferay.osb.koroneiki.taproot.service.TeamLocalService;
 import com.liferay.osb.koroneiki.taproot.service.TeamRoleLocalService;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.service.ClassNameLocalService;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -106,6 +112,41 @@ public class AuditEntryResourceImpl extends BaseAuditEntryResourceImpl {
 		return getAuditEntriesPage(Team.class, team.getTeamId(), pagination);
 	}
 
+	@Override
+	public Page<AuditEntry> postAccountAccountKeyAuditEntriesPage(
+			String agentName, String agentUID, String accountKey,
+			AuditEntry[] auditEntries)
+		throws Exception {
+
+		ServiceContextUtil.setAgentFields(agentName, agentUID);
+		ServiceContextUtil.setAuditSetId(
+			_counterLocalService.increment(
+				com.liferay.osb.koroneiki.root.model.AuditEntry.class.
+					getName()));
+
+		Account account = _accountLocalService.getAccount(accountKey);
+
+		List<AuditEntry> auditEntriesList = new ArrayList<>();
+
+		for (AuditEntry auditEntry : auditEntries) {
+			auditEntriesList.add(
+				AuditEntryUtil.toAuditEntry(
+					_auditEntryService.addAuditEntry(
+						_classNameLocalService.getClassNameId(Account.class),
+						account.getAccountId(),
+						AuditEntryUtil.getDynamicClassNameId(
+							auditEntry.getFieldClassLabel()),
+						auditEntry.getFieldClassPK(),
+						auditEntry.getActionAsString(), auditEntry.getField(),
+						StringPool.BLANK, auditEntry.getOldValue(),
+						StringPool.BLANK, auditEntry.getNewValue(),
+						auditEntry.getDescription(),
+						ServiceContextUtil.getServiceContext())));
+		}
+
+		return Page.of(auditEntriesList);
+	}
+
 	protected Page<AuditEntry> getAuditEntriesPage(
 			Class<?> clazz, long classPK, Pagination pagination)
 		throws Exception {
@@ -136,6 +177,9 @@ public class AuditEntryResourceImpl extends BaseAuditEntryResourceImpl {
 
 	@Reference
 	private ContactRoleLocalService _contactRoleLocalService;
+
+	@Reference
+	private CounterLocalService _counterLocalService;
 
 	@Reference
 	private TeamLocalService _teamLocalService;

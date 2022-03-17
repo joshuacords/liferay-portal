@@ -20,6 +20,7 @@ import com.liferay.osb.koroneiki.root.service.base.AuditEntryServiceBaseImpl;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
 import java.util.List;
@@ -39,6 +40,22 @@ import org.osgi.service.component.annotations.Reference;
 	service = AopService.class
 )
 public class AuditEntryServiceImpl extends AuditEntryServiceBaseImpl {
+
+	public AuditEntry addAuditEntry(
+			long classNameId, long classPK, long fieldClassNameId,
+			long fieldClassPK, String action, String field, String oldLabel,
+			String oldValue, String newLabel, String newValue,
+			String description, ServiceContext serviceContext)
+		throws PortalException {
+
+		_modelPermissionRegistry.check(
+			getPermissionChecker(), classNameId, classPK, ActionKeys.UPDATE);
+
+		return auditEntryLocalService.addAuditEntry(
+			getUserId(), classNameId, classPK, fieldClassNameId, fieldClassPK,
+			action, field, oldLabel, oldValue, newLabel, newValue, description,
+			serviceContext);
+	}
 
 	public List<AuditEntry> getAuditEntries(
 			long classNameId, long classPK, int start, int end,

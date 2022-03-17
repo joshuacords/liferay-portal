@@ -57,4 +57,21 @@ public class ServiceContextUtil {
 		ServiceContextThreadLocal.pushServiceContext(serviceContext);
 	}
 
+	public static void setAuditSetId(Long auditSetId) {
+		if ((auditSetId == null) || (auditSetId == 0)) {
+			return;
+		}
+
+		ServiceContext serviceContext =
+			ServiceContextThreadLocal.popServiceContext();
+
+		if (serviceContext == null) {
+			serviceContext = new ServiceContext();
+		}
+
+		serviceContext.setAttribute("auditSetId", auditSetId);
+
+		ServiceContextThreadLocal.pushServiceContext(serviceContext);
+	}
+
 }
