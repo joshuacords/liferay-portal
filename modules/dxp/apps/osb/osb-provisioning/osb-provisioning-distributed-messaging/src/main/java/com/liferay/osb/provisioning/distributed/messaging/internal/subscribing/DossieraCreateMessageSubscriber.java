@@ -225,7 +225,7 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 
 		Account liferayIncAccount = liferayIncAccounts.get(0);
 
-		filterQuery.addContains(
+		filterQuery.addLambdaContains(
 			true, "accountKeysContactRoleKeys",
 			liferayIncAccount.getKey() + "_", true);
 
