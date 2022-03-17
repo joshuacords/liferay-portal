@@ -15,6 +15,7 @@
 package com.liferay.osb.provisioning.koroneiki.web.service;
 
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.AuditEntry;
+import com.liferay.osb.koroneiki.phloem.rest.client.pagination.Page;
 
 import java.util.List;
 
@@ -25,6 +26,11 @@ public interface AuditEntryWebService {
 
 	public List<AuditEntry> getAccountAuditEntries(
 			String accountKey, int page, int pageSize)
+		throws Exception;
+
+	public Page<AuditEntry> postAccountAuditEntries(
+			String agentName, String agentUID, String accountKey,
+			AuditEntry[] auditEntries)
 		throws Exception;
 
 }

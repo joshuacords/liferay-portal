@@ -56,6 +56,15 @@ public class AuditEntryWebServiceImpl implements AuditEntryWebService {
 		return Collections.emptyList();
 	}
 
+	public Page<AuditEntry> postAccountAuditEntries(
+			String agentName, String agentUID, String accountKey,
+			AuditEntry[] auditEntries)
+		throws Exception {
+
+		return _auditEntryResource.postAccountAccountKeyAuditEntriesPage(
+			agentName, agentUID, accountKey, auditEntries);
+	}
+
 	@Activate
 	protected void activate(Map<String, Object> properties) throws Exception {
 		KoroneikiConfiguration koroneikiConfiguration =
