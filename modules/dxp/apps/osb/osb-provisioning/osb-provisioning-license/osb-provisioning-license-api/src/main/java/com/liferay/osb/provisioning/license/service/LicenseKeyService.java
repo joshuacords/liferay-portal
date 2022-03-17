@@ -57,14 +57,14 @@ public interface LicenseKeyService extends BaseService {
 	 * Never modify this interface directly. Add custom service methods to <code>com.liferay.osb.provisioning.license.service.impl.LicenseKeyServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the license key remote service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link LicenseKeyServiceUtil} if injection and service tracking are not available.
 	 */
 	public LicenseKey addLicenseKey(
-			long userId, long licenseEntryId, String productKey,
-			String accountKey, String productPurchaseKey, String accountName,
-			String productVersion, long clusterId, String name, String owner,
-			int maxClusterNodes, int maxServers, int maxHttpSessions,
-			int maxConcurrentUsers, int maxUsers, String sizing,
-			String description, String[] hostNames, String[] ipAddresses,
-			String[] macAddresses, Date startDate, Date expirationDate,
-			boolean complimentary, boolean active)
+			String userName, String userUuid, long licenseEntryId,
+			String productKey, String accountKey, String productPurchaseKey,
+			String accountName, String productVersion, long clusterId,
+			String name, String owner, int maxClusterNodes, int maxServers,
+			int maxHttpSessions, int maxConcurrentUsers, int maxUsers,
+			String sizing, String description, String[] hostNames,
+			String[] ipAddresses, String[] macAddresses, Date startDate,
+			Date expirationDate, boolean complimentary, boolean active)
 		throws Exception;
 
 	@JSONWebService

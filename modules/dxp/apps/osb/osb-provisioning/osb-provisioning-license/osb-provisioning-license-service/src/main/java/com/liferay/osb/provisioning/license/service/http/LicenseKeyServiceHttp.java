@@ -53,10 +53,11 @@ public class LicenseKeyServiceHttp {
 
 	public static com.liferay.osb.provisioning.license.model.LicenseKey
 			addLicenseKey(
-				HttpPrincipal httpPrincipal, long userId, long licenseEntryId,
-				String productKey, String accountKey, String productPurchaseKey,
-				String accountName, String productVersion, long clusterId,
-				String name, String owner, int maxClusterNodes, int maxServers,
+				HttpPrincipal httpPrincipal, String userName, String userUuid,
+				long licenseEntryId, String productKey, String accountKey,
+				String productPurchaseKey, String accountName,
+				String productVersion, long clusterId, String name,
+				String owner, int maxClusterNodes, int maxServers,
 				int maxHttpSessions, int maxConcurrentUsers, int maxUsers,
 				String sizing, String description, String[] hostNames,
 				String[] ipAddresses, String[] macAddresses,
@@ -70,12 +71,12 @@ public class LicenseKeyServiceHttp {
 				_addLicenseKeyParameterTypes0);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, userId, licenseEntryId, productKey, accountKey,
-				productPurchaseKey, accountName, productVersion, clusterId,
-				name, owner, maxClusterNodes, maxServers, maxHttpSessions,
-				maxConcurrentUsers, maxUsers, sizing, description, hostNames,
-				ipAddresses, macAddresses, startDate, expirationDate,
-				complimentary, active);
+				methodKey, userName, userUuid, licenseEntryId, productKey,
+				accountKey, productPurchaseKey, accountName, productVersion,
+				clusterId, name, owner, maxClusterNodes, maxServers,
+				maxHttpSessions, maxConcurrentUsers, maxUsers, sizing,
+				description, hostNames, ipAddresses, macAddresses, startDate,
+				expirationDate, complimentary, active);
 
 			Object returnObj = null;
 
@@ -901,12 +902,12 @@ public class LicenseKeyServiceHttp {
 
 	private static final Class<?>[] _addLicenseKeyParameterTypes0 =
 		new Class[] {
-			long.class, long.class, String.class, String.class, String.class,
 			String.class, String.class, long.class, String.class, String.class,
-			int.class, int.class, int.class, int.class, int.class, String.class,
-			String.class, String[].class, String[].class, String[].class,
-			java.util.Date.class, java.util.Date.class, boolean.class,
-			boolean.class
+			String.class, String.class, String.class, long.class, String.class,
+			String.class, int.class, int.class, int.class, int.class, int.class,
+			String.class, String.class, String[].class, String[].class,
+			String[].class, java.util.Date.class, java.util.Date.class,
+			boolean.class, boolean.class
 		};
 	private static final Class<?>[] _addLicenseKeyParameterTypes1 =
 		new Class[] {

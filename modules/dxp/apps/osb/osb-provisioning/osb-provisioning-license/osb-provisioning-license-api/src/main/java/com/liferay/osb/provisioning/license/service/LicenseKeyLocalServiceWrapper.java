@@ -51,52 +51,6 @@ public class LicenseKeyLocalServiceWrapper
 
 	@Override
 	public com.liferay.osb.provisioning.license.model.LicenseKey addLicenseKey(
-			long userId,
-			com.liferay.osb.provisioning.license.model.LicenseEntry
-				licenseEntry,
-			com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Product
-				product,
-			String accountKey, String productPurchaseKey, String accountName,
-			String productVersion, long clusterId, String name, String owner,
-			int maxClusterNodes, int maxServers, int maxHttpSessions,
-			int maxConcurrentUsers, int maxUsers, String sizing,
-			String description, String[] hostNames, String[] ipAddresses,
-			String[] macAddresses, java.util.Date startDate,
-			java.util.Date expirationDate, String additionalInfo,
-			boolean complimentary, boolean active)
-		throws Exception {
-
-		return _licenseKeyLocalService.addLicenseKey(
-			userId, licenseEntry, product, accountKey, productPurchaseKey,
-			accountName, productVersion, clusterId, name, owner,
-			maxClusterNodes, maxServers, maxHttpSessions, maxConcurrentUsers,
-			maxUsers, sizing, description, hostNames, ipAddresses, macAddresses,
-			startDate, expirationDate, additionalInfo, complimentary, active);
-	}
-
-	@Override
-	public com.liferay.osb.provisioning.license.model.LicenseKey addLicenseKey(
-			long userId, long licenseEntryId, String productKey,
-			String accountKey, String productPurchaseKey, String accountName,
-			String productVersion, long clusterId, String name, String owner,
-			int maxClusterNodes, int maxServers, int maxHttpSessions,
-			int maxConcurrentUsers, int maxUsers, String sizing,
-			String description, String[] hostNames, String[] ipAddresses,
-			String[] macAddresses, java.util.Date startDate,
-			java.util.Date expirationDate, boolean complimentary,
-			boolean active)
-		throws Exception {
-
-		return _licenseKeyLocalService.addLicenseKey(
-			userId, licenseEntryId, productKey, accountKey, productPurchaseKey,
-			accountName, productVersion, clusterId, name, owner,
-			maxClusterNodes, maxServers, maxHttpSessions, maxConcurrentUsers,
-			maxUsers, sizing, description, hostNames, ipAddresses, macAddresses,
-			startDate, expirationDate, complimentary, active);
-	}
-
-	@Override
-	public com.liferay.osb.provisioning.license.model.LicenseKey addLicenseKey(
 			long userId, String assetReceiptLicenseUuid,
 			String licenseEntryType, String productName, String productId,
 			String productVersion, String owner, long maxUsers,
@@ -113,17 +67,65 @@ public class LicenseKeyLocalServiceWrapper
 
 	@Override
 	public com.liferay.osb.provisioning.license.model.LicenseKey addLicenseKey(
-			long userId, String licenseEntryType, String productKey,
-			String accountKey, String productPurchaseKey, String productVersion,
-			String name, String owner, int maxClusterNodes, String sizing,
-			String description, String hostName, String ipAddresses,
-			String macAddresses, java.util.Date startDate,
-			java.util.Date expirationDate, boolean complimentary,
-			boolean active)
+			String userName, String userUuid,
+			com.liferay.osb.provisioning.license.model.LicenseEntry
+				licenseEntry,
+			com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Product
+				product,
+			String accountKey, String productPurchaseKey, String accountName,
+			String productVersion, long clusterId, String name, String owner,
+			int maxClusterNodes, int maxServers, int maxHttpSessions,
+			int maxConcurrentUsers, int maxUsers, String sizing,
+			String description, String[] hostNames, String[] ipAddresses,
+			String[] macAddresses, java.util.Date startDate,
+			java.util.Date expirationDate, String additionalInfo,
+			boolean complimentary, boolean active)
 		throws Exception {
 
 		return _licenseKeyLocalService.addLicenseKey(
-			userId, licenseEntryType, productKey, accountKey,
+			userName, userUuid, licenseEntry, product, accountKey,
+			productPurchaseKey, accountName, productVersion, clusterId, name,
+			owner, maxClusterNodes, maxServers, maxHttpSessions,
+			maxConcurrentUsers, maxUsers, sizing, description, hostNames,
+			ipAddresses, macAddresses, startDate, expirationDate,
+			additionalInfo, complimentary, active);
+	}
+
+	@Override
+	public com.liferay.osb.provisioning.license.model.LicenseKey addLicenseKey(
+			String userName, String userUuid, long licenseEntryId,
+			String productKey, String accountKey, String productPurchaseKey,
+			String accountName, String productVersion, long clusterId,
+			String name, String owner, int maxClusterNodes, int maxServers,
+			int maxHttpSessions, int maxConcurrentUsers, int maxUsers,
+			String sizing, String description, String[] hostNames,
+			String[] ipAddresses, String[] macAddresses,
+			java.util.Date startDate, java.util.Date expirationDate,
+			boolean complimentary, boolean active)
+		throws Exception {
+
+		return _licenseKeyLocalService.addLicenseKey(
+			userName, userUuid, licenseEntryId, productKey, accountKey,
+			productPurchaseKey, accountName, productVersion, clusterId, name,
+			owner, maxClusterNodes, maxServers, maxHttpSessions,
+			maxConcurrentUsers, maxUsers, sizing, description, hostNames,
+			ipAddresses, macAddresses, startDate, expirationDate, complimentary,
+			active);
+	}
+
+	@Override
+	public com.liferay.osb.provisioning.license.model.LicenseKey addLicenseKey(
+			String userName, String userUuid, String licenseEntryType,
+			String productKey, String accountKey, String productPurchaseKey,
+			String productVersion, String name, String owner,
+			int maxClusterNodes, String sizing, String description,
+			String hostName, String ipAddresses, String macAddresses,
+			java.util.Date startDate, java.util.Date expirationDate,
+			boolean complimentary, boolean active)
+		throws Exception {
+
+		return _licenseKeyLocalService.addLicenseKey(
+			userName, userUuid, licenseEntryType, productKey, accountKey,
 			productPurchaseKey, productVersion, name, owner, maxClusterNodes,
 			sizing, description, hostName, ipAddresses, macAddresses, startDate,
 			expirationDate, complimentary, active);

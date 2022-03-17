@@ -83,28 +83,6 @@ public interface LicenseKeyLocalService
 	public LicenseKey addLicenseKey(LicenseKey licenseKey);
 
 	public LicenseKey addLicenseKey(
-			long userId, LicenseEntry licenseEntry, Product product,
-			String accountKey, String productPurchaseKey, String accountName,
-			String productVersion, long clusterId, String name, String owner,
-			int maxClusterNodes, int maxServers, int maxHttpSessions,
-			int maxConcurrentUsers, int maxUsers, String sizing,
-			String description, String[] hostNames, String[] ipAddresses,
-			String[] macAddresses, Date startDate, Date expirationDate,
-			String additionalInfo, boolean complimentary, boolean active)
-		throws Exception;
-
-	public LicenseKey addLicenseKey(
-			long userId, long licenseEntryId, String productKey,
-			String accountKey, String productPurchaseKey, String accountName,
-			String productVersion, long clusterId, String name, String owner,
-			int maxClusterNodes, int maxServers, int maxHttpSessions,
-			int maxConcurrentUsers, int maxUsers, String sizing,
-			String description, String[] hostNames, String[] ipAddresses,
-			String[] macAddresses, Date startDate, Date expirationDate,
-			boolean complimentary, boolean active)
-		throws Exception;
-
-	public LicenseKey addLicenseKey(
 			long userId, String assetReceiptLicenseUuid,
 			String licenseEntryType, String productName, String productId,
 			String productVersion, String owner, long maxUsers,
@@ -114,12 +92,36 @@ public interface LicenseKeyLocalService
 		throws Exception;
 
 	public LicenseKey addLicenseKey(
-			long userId, String licenseEntryType, String productKey,
-			String accountKey, String productPurchaseKey, String productVersion,
-			String name, String owner, int maxClusterNodes, String sizing,
-			String description, String hostName, String ipAddresses,
-			String macAddresses, Date startDate, Date expirationDate,
-			boolean complimentary, boolean active)
+			String userName, String userUuid, LicenseEntry licenseEntry,
+			Product product, String accountKey, String productPurchaseKey,
+			String accountName, String productVersion, long clusterId,
+			String name, String owner, int maxClusterNodes, int maxServers,
+			int maxHttpSessions, int maxConcurrentUsers, int maxUsers,
+			String sizing, String description, String[] hostNames,
+			String[] ipAddresses, String[] macAddresses, Date startDate,
+			Date expirationDate, String additionalInfo, boolean complimentary,
+			boolean active)
+		throws Exception;
+
+	public LicenseKey addLicenseKey(
+			String userName, String userUuid, long licenseEntryId,
+			String productKey, String accountKey, String productPurchaseKey,
+			String accountName, String productVersion, long clusterId,
+			String name, String owner, int maxClusterNodes, int maxServers,
+			int maxHttpSessions, int maxConcurrentUsers, int maxUsers,
+			String sizing, String description, String[] hostNames,
+			String[] ipAddresses, String[] macAddresses, Date startDate,
+			Date expirationDate, boolean complimentary, boolean active)
+		throws Exception;
+
+	public LicenseKey addLicenseKey(
+			String userName, String userUuid, String licenseEntryType,
+			String productKey, String accountKey, String productPurchaseKey,
+			String productVersion, String name, String owner,
+			int maxClusterNodes, String sizing, String description,
+			String hostName, String ipAddresses, String macAddresses,
+			Date startDate, Date expirationDate, boolean complimentary,
+			boolean active)
 		throws Exception;
 
 	/**

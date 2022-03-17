@@ -39,6 +39,20 @@ public class AuditEntryServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>com.liferay.osb.koroneiki.root.service.impl.AuditEntryServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static AuditEntry addAuditEntry(
+			long classNameId, long classPK, long fieldClassNameId,
+			long fieldClassPK, String action, String field, String oldLabel,
+			String oldValue, String newLabel, String newValue,
+			String description,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().addAuditEntry(
+			classNameId, classPK, fieldClassNameId, fieldClassPK, action, field,
+			oldLabel, oldValue, newLabel, newValue, description,
+			serviceContext);
+	}
+
 	public static List<AuditEntry> getAuditEntries(
 			long classNameId, long classPK, int start, int end,
 			OrderByComparator<AuditEntry> obc)

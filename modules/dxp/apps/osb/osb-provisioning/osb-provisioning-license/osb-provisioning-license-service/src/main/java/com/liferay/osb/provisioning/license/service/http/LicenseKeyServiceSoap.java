@@ -63,8 +63,8 @@ public class LicenseKeyServiceSoap {
 
 	public static com.liferay.osb.provisioning.license.model.LicenseKeySoap
 			addLicenseKey(
-				long userId, long licenseEntryId, String productKey,
-				String accountKey, String productPurchaseKey,
+				String userName, String userUuid, long licenseEntryId,
+				String productKey, String accountKey, String productPurchaseKey,
 				String accountName, String productVersion, long clusterId,
 				String name, String owner, int maxClusterNodes, int maxServers,
 				int maxHttpSessions, int maxConcurrentUsers, int maxUsers,
@@ -77,7 +77,7 @@ public class LicenseKeyServiceSoap {
 		try {
 			com.liferay.osb.provisioning.license.model.LicenseKey returnValue =
 				LicenseKeyServiceUtil.addLicenseKey(
-					userId, licenseEntryId, productKey, accountKey,
+					userName, userUuid, licenseEntryId, productKey, accountKey,
 					productPurchaseKey, accountName, productVersion, clusterId,
 					name, owner, maxClusterNodes, maxServers, maxHttpSessions,
 					maxConcurrentUsers, maxUsers, sizing, description,

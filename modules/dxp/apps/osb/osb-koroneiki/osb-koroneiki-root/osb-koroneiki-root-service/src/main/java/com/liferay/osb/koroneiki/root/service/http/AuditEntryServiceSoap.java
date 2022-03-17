@@ -61,6 +61,32 @@ import java.rmi.RemoteException;
  */
 public class AuditEntryServiceSoap {
 
+	public static com.liferay.osb.koroneiki.root.model.AuditEntrySoap
+			addAuditEntry(
+				long classNameId, long classPK, long fieldClassNameId,
+				long fieldClassPK, String action, String field, String oldLabel,
+				String oldValue, String newLabel, String newValue,
+				String description,
+				com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws RemoteException {
+
+		try {
+			com.liferay.osb.koroneiki.root.model.AuditEntry returnValue =
+				AuditEntryServiceUtil.addAuditEntry(
+					classNameId, classPK, fieldClassNameId, fieldClassPK,
+					action, field, oldLabel, oldValue, newLabel, newValue,
+					description, serviceContext);
+
+			return com.liferay.osb.koroneiki.root.model.AuditEntrySoap.
+				toSoapModel(returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
 	public static com.liferay.osb.koroneiki.root.model.AuditEntrySoap[]
 			getAuditEntries(
 				long classNameId, long classPK, int start, int end,
