@@ -21,6 +21,9 @@ import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Contact;
  */
 public interface ContactIdentityProvider {
 
+	public void addMembership(String groupId, String emailAddress)
+		throws Exception;
+
 	public Contact createContact(
 			String emailAddress, String firstName, String middleName,
 			String lastName)
@@ -32,6 +35,9 @@ public interface ContactIdentityProvider {
 	public Contact fetchContactBySessionId(String sessionId) throws Exception;
 
 	public Integer fetchContactStatusByEmailAddress(String emailAddress)
+		throws Exception;
+
+	public void removeMembership(String groupId, String emailAddress)
 		throws Exception;
 
 	public Contact syncContact(Contact contact) throws Exception;

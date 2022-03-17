@@ -1,4 +1,6 @@
 Bundle-Name: Liferay OSB Provisioning Identity Management API
 Bundle-SymbolicName: com.liferay.osb.provisioning.identity.management.api
 Bundle-Version: 1.0.0
-Export-Package: com.liferay.osb.provisioning.identity.management.provider
+Export-Package:\
+	com.liferay.osb.provisioning.identity.management.constants,\
+	com.liferay.osb.provisioning.identity.management.provider

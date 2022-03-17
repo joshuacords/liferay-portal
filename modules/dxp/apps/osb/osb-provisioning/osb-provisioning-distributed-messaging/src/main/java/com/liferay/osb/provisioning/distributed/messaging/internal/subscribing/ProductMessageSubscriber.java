@@ -19,10 +19,7 @@ import com.liferay.osb.koroneiki.phloem.rest.client.serdes.v1_0.ProductSerDes;
 import com.liferay.osb.provisioning.model.ProductBundleProducts;
 import com.liferay.osb.provisioning.service.ProductBundleLocalService;
 import com.liferay.osb.provisioning.service.ProductBundleProductsLocalService;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 import java.util.List;
 
@@ -63,19 +60,6 @@ public class ProductMessageSubscriber extends BaseMessageSubscriber {
 			}
 		}
 	}
-
-	@Override
-	protected void handleError(
-			String routingKey, String message, Exception[] exceptions)
-		throws PortalException {
-
-		for (Exception exception : exceptions) {
-			_log.error(message, exception);
-		}
-	}
-
-	private static final Log _log = LogFactoryUtil.getLog(
-		ProductMessageSubscriber.class);
 
 	@Reference
 	private ProductBundleLocalService _productBundleLocalService;

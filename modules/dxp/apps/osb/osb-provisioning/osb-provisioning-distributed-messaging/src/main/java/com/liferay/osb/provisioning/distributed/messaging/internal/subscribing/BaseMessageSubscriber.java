@@ -76,9 +76,14 @@ public abstract class BaseMessageSubscriber implements MessageSubscriber {
 
 	protected abstract void doParse(JSONObject jsonObject) throws Exception;
 
-	protected abstract void handleError(
+	protected void handleError(
 			String routingKey, String message, Exception[] exceptions)
-		throws PortalException;
+		throws PortalException {
+
+		for (Exception exception : exceptions) {
+			_log.error(message, exception);
+		}
+	}
 
 	protected boolean isParseMessage(Message message) {
 		return true;

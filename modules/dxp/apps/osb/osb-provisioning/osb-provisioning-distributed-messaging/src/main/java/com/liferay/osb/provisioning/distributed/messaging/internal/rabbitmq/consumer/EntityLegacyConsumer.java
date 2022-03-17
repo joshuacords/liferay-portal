@@ -31,7 +31,9 @@ import org.osgi.service.component.annotations.Reference;
 		"queue=is_osb_provisioning_entity_queue",
 		"routing.key=entity.organization.assigned",
 		"routing.key=entity.organization.unassigned",
-		"routing.key=entity.role.assigned"
+		"routing.key=koroneiki.entitlement.create",
+		"routing.key=koroneiki.entitlement.delete",
+		"routing.key=koroneiki.product.delete"
 	},
 	service = EntityLegacyConsumer.class
 )

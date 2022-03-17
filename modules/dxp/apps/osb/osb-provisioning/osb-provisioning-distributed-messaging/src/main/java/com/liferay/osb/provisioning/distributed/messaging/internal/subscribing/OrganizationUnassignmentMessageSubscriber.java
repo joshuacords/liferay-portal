@@ -21,10 +21,7 @@ import com.liferay.osb.provisioning.koroneiki.web.service.AccountWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.ContactRoleWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.ContactWebService;
 import com.liferay.petra.string.StringPool;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 
 import org.osgi.service.component.annotations.Component;
@@ -71,19 +68,6 @@ public class OrganizationUnassignmentMessageSubscriber
 				contact.getEmailAddress());
 		}
 	}
-
-	@Override
-	protected void handleError(
-			String routingKey, String message, Exception[] exceptions)
-		throws PortalException {
-
-		for (Exception exception : exceptions) {
-			_log.error(message, exception);
-		}
-	}
-
-	private static final Log _log = LogFactoryUtil.getLog(
-		OrganizationUnassignmentMessageSubscriber.class);
 
 	@Reference
 	private AccountWebService _accountWebService;

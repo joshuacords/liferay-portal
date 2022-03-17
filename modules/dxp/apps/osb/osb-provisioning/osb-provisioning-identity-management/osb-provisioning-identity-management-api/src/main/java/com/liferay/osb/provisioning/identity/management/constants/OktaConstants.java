@@ -12,16 +12,15 @@
  *
  */
 
-package com.liferay.osb.provisioning.distributed.messaging.constants;
+package com.liferay.osb.provisioning.identity.management.constants;
 
 /**
  * @author Amos Fong
  */
-public class GooglePubsubConstants {
+public class OktaConstants {
 
-	public static final String TOPIC_OKTA_USER_CREATE = "okta-user-create";
+	public static final String GROUP_NAME_CUSTOMERS = "Customers";
 
-	public static final String TOPIC_OKTA_USER_GROUP_UPDATE =
-		"okta-user-group-update";
+	public static final String GROUP_NAME_PARTNERS = "Partners";
 
 }

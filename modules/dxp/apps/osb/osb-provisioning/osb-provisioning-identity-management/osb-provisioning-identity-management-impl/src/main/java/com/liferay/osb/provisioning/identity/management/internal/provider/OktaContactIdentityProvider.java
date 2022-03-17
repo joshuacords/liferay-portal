@@ -52,6 +52,24 @@ import org.osgi.service.component.annotations.Reference;
 )
 public class OktaContactIdentityProvider implements ContactIdentityProvider {
 
+	public void addMembership(String groupId, String emailAddress)
+		throws Exception {
+
+		JSONObject jsonObject = _jsonFactory.createJSONObject();
+
+		jsonObject.put(
+			"action", "ADD"
+		).put(
+			"groupName", groupId
+		).put(
+			"login", emailAddress
+		);
+
+		_messagePublisher.publish(
+			GooglePubsubConstants.TOPIC_OKTA_USER_GROUP_UPDATE,
+			new Message(jsonObject.toString()));
+	}
+
 	public Contact createContact(
 			String emailAddress, String firstName, String middleName,
 			String lastName)
@@ -171,6 +189,24 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 		}
 
 		return WorkflowConstants.STATUS_INACTIVE;
+	}
+
+	public void removeMembership(String groupId, String emailAddress)
+		throws Exception {
+
+		JSONObject jsonObject = _jsonFactory.createJSONObject();
+
+		jsonObject.put(
+			"action", "REMOVE"
+		).put(
+			"groupName", groupId
+		).put(
+			"login", emailAddress
+		);
+
+		_messagePublisher.publish(
+			GooglePubsubConstants.TOPIC_OKTA_USER_GROUP_UPDATE,
+			new Message(jsonObject.toString()));
 	}
 
 	public Contact syncContact(Contact contact) throws Exception {
