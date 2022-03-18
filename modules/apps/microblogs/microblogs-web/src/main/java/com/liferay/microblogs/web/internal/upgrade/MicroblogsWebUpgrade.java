@@ -55,7 +55,7 @@ public class MicroblogsWebUpgrade implements UpgradeStepRegistrator {
 			throw new RuntimeException(upgradeException);
 		}
 
-		registry.register("0.0.0", "1.0.0", new DummyUpgradeStep());
+		registry.register("0.0.0", "1.0.1", new DummyUpgradeStep());
 
 		registry.register("0.0.1", "1.0.1", new UpgradePortletId());
 
