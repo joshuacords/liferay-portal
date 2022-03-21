@@ -19,6 +19,8 @@ package routines;
  */
 public class SubscriptionConstants {
 
+	public static String GROUP_NAME_ANALYTICS_CLOUD = "Analytics Cloud";
+
 	public static String GROUP_NAME_COMMERCE = "Commerce";
 
 	public static String GROUP_NAME_COMMERCE_CLOUD = "Commerce Cloud";
@@ -33,6 +35,8 @@ public class SubscriptionConstants {
 	public static String GROUP_NAME_DXP_COMMERCE = "DXP + Commerce";
 
 	public static String GROUP_NAME_ENTERPRISE_SEARCH = "Enterprise Search";
+
+	public static String GROUP_NAME_PARTNERSHIP = "Partnership";
 
 	public static String GROUP_NAME_PORTAL = "Portal";
 

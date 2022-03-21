@@ -284,8 +284,10 @@ public class TransformProductPurchases {
 				jsonObject.put("hasActivation", false);
 			}
 
+			jsonObject.put("menuOrder", _getMenuOrder());
 			jsonObject.put("name", name);
 			jsonObject.put("subscriptions", getSubscriptionJSONArray());
+			jsonObject.put("tabOrder", _getTabOrder());
 
 			return jsonObject;
 		}
@@ -294,6 +296,73 @@ public class TransformProductPurchases {
 		public String externalReferenceCode;
 		public String name;
 		public Map<String, Subscription> subscriptionsMap = new HashMap<>();
+
+		private int _getMenuOrder() {
+			if (name.equals(SubscriptionConstants.GROUP_NAME_ANALYTICS_CLOUD)) {
+				return 400;
+			}
+			else if (name.equals(SubscriptionConstants.GROUP_NAME_COMMERCE)) {
+				return 500;
+			}
+			else if (name.equals(SubscriptionConstants.GROUP_NAME_DXP)) {
+				return 300;
+			}
+			else if (name.equals(SubscriptionConstants.GROUP_NAME_DXP_CLOUD)) {
+				return 100;
+			}
+			else if (name.equals(
+						SubscriptionConstants.
+							GROUP_NAME_DXP_CLOUD_COMMERCE_CLOUD)) {
+
+				return 200;
+			}
+			else if (name.equals(
+						SubscriptionConstants.GROUP_NAME_ENTERPRISE_SEARCH)) {
+
+				return 600;
+			}
+			else if (name.equals(SubscriptionConstants.GROUP_NAME_PORTAL)) {
+				return 700;
+			}
+
+			return 100000;
+		}
+
+		private int _getTabOrder() {
+			if (name.equals(SubscriptionConstants.GROUP_NAME_ANALYTICS_CLOUD)) {
+				return 500;
+			}
+			else if (name.equals(SubscriptionConstants.GROUP_NAME_COMMERCE)) {
+				return 600;
+			}
+			else if (name.equals(SubscriptionConstants.GROUP_NAME_DXP)) {
+				return 400;
+			}
+			else if (name.equals(SubscriptionConstants.GROUP_NAME_DXP_CLOUD)) {
+				return 200;
+			}
+			else if (name.equals(
+						SubscriptionConstants.
+							GROUP_NAME_DXP_CLOUD_COMMERCE_CLOUD)) {
+
+				return 300;
+			}
+			else if (name.equals(
+						SubscriptionConstants.GROUP_NAME_ENTERPRISE_SEARCH)) {
+
+				return 700;
+			}
+			else if (name.equals(SubscriptionConstants.GROUP_NAME_PORTAL)) {
+				return 800;
+			}
+			else if (name.equals(
+						SubscriptionConstants.GROUP_NAME_PARTNERSHIP)) {
+
+				return 100;
+			}
+
+			return 100000;
+		}
 
 	}
 
