@@ -4557,7 +4557,8 @@ definition {
 			locator1 = "FormFields#TEXT_FIELD");
 	}
 
-	@description = "LPS-84637 - Form title and description get unescaped after unpublish it."
+	@description = "This will be ignored until LPS-141952 is fixed. LPS-84637 - Form title and description get unescaped after unpublish it."
+	@ignore = "true"
 	@priority = "5"
 	test TitleAndDescriptionXSSUnescapedAfterUnpublish {
 		property portal.acceptance = "true";
