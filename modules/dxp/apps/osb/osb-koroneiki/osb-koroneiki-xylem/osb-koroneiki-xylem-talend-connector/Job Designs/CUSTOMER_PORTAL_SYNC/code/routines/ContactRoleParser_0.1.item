@@ -14,33 +14,44 @@
 
 package routines;
 
-import routines.system.JSONArray;
-import routines.system.JSONObject;
+import java.util.Map;
 
 /**
  * @author Amos Fong
  */
 public class ContactRoleParser {
 
-	public static String getAccountRoleId(String externalLinks) {
-		if ((externalLinks == null) || externalLinks.isEmpty()) {
+	public static String getAccountRoleId(
+		Map<String, Object> globalMap, String contactRoleName) {
+
+		if ((contactRoleName == null) || contactRoleName.isEmpty()) {
 			return "";
 		}
 
-		JSONArray jsonArray = new JSONArray(externalLinks);
+		if (contactRoleName.equals(
+				ContactRoleConstants.NAME_ADMINISTRATOR_PROVISIONING)) {
 
-		for (int i = 0; i < jsonArray.length(); i++) {
-			JSONObject jsonObject = jsonArray.getJSONObject(i);
+			return String.valueOf(globalMap.get("supportAdministratorRoleId"));
+		}
+		else if (contactRoleName.equals(
+					ContactRoleConstants.NAME_MEMBER_PROVISIONING)) {
 
-			String domain = jsonObject.getString("domain");
-			String entityName = jsonObject.getString("entityName");
-			String entityId = jsonObject.getString("entityId");
+			return String.valueOf(globalMap.get("supportUserRoleId"));
+		}
+		else if (contactRoleName.equals(
+					ContactRoleConstants.NAME_PARTNER_MANAGER_PROVISIONING)) {
 
-			if (domain.equals("customer-2.0") &&
-				entityName.equals("account-role")) {
+			return String.valueOf(globalMap.get("partnerManagerRoleId"));
+		}
+		else if (contactRoleName.equals(
+					ContactRoleConstants.NAME_PARTNER_MEMBER_PROVISIONING)) {
 
-				return entityId;
-			}
+			return String.valueOf(globalMap.get("partnerMemberRoleId"));
+		}
+		else if (contactRoleName.equals(
+					ContactRoleConstants.NAME_REQUESTER_PROVISIONING)) {
+
+			return String.valueOf(globalMap.get("supportRequesterRoleId"));
 		}
 
 		return "";

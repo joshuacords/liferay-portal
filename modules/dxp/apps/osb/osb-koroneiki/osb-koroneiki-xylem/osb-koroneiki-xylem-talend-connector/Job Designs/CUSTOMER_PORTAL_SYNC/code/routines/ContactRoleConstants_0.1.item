@@ -1,0 +1,26 @@
+package routines;
+
+public class ContactRoleConstants {
+
+	public static String NAME_ADMINISTRATOR_CP = "Account Administrator";
+
+	public static String NAME_ADMINISTRATOR_PROVISIONING =
+		"Support Administrator";
+
+	public static String NAME_MEMBER_CP = "Account Member";
+
+	public static String NAME_MEMBER_PROVISIONING = "Support User";
+
+	public static String NAME_PARTNER_MANAGER_CP = "Partner Manager";
+
+	public static String NAME_PARTNER_MANAGER_PROVISIONING = "Partner Manager";
+
+	public static String NAME_PARTNER_MEMBER_CP = "Partner Member";
+
+	public static String NAME_PARTNER_MEMBER_PROVISIONING = "Partner Member";
+
+	public static String NAME_REQUESTER_CP = "Requester";
+
+	public static String NAME_REQUESTER_PROVISIONING = "Support Requester";
+
+}

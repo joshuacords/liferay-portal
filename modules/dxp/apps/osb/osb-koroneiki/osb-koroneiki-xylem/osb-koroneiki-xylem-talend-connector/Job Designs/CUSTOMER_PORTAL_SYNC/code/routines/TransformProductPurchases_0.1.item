@@ -275,7 +275,8 @@ public class TransformProductPurchases {
 					SubscriptionConstants.
 						GROUP_NAME_DXP_CLOUD_COMMERCE_CLOUD) ||
 				name.equals(
-					SubscriptionConstants.GROUP_NAME_ENTERPRISE_SEARCH)) {
+					SubscriptionConstants.GROUP_NAME_ENTERPRISE_SEARCH) ||
+				name.equals(SubscriptionConstants.GROUP_NAME_PORTAL)) {
 
 				jsonObject.put("hasActivation", true);
 			}
