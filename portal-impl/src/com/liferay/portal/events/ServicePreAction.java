@@ -1035,7 +1035,7 @@ public class ServicePreAction extends Action {
 					Group sourceGroup = GroupLocalServiceUtil.getGroup(
 						sourceGroupId);
 
-					if (sourceGroup.isUser() &&
+					if (layout.isTypeControlPanel() && sourceGroup.isUser() &&
 						(sourceGroup.getClassPK() != user.getUserId()) &&
 						!GroupPermissionUtil.contains(
 							permissionChecker, sourceGroup, ActionKeys.VIEW)) {
