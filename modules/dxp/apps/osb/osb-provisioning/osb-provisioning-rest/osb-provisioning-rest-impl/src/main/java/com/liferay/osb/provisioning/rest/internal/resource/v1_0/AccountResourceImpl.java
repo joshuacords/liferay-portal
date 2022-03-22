@@ -17,7 +17,9 @@ package com.liferay.osb.provisioning.rest.internal.resource.v1_0;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Account;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Contact;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ContactRole;
+import com.liferay.osb.provisioning.identity.management.provider.ContactIdentityProvider;
 import com.liferay.osb.provisioning.koroneiki.constants.ContactRoleConstants;
+import com.liferay.osb.provisioning.koroneiki.constants.ProductPurchaseConstants;
 import com.liferay.osb.provisioning.koroneiki.reader.AccountReader;
 import com.liferay.osb.provisioning.koroneiki.web.service.AccountWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.ContactRoleWebService;
@@ -25,6 +27,7 @@ import com.liferay.osb.provisioning.rest.internal.ProvisioningContactThreadLocal
 import com.liferay.osb.provisioning.rest.resource.v1_0.AccountResource;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.exception.NoSuchContactException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -122,18 +125,40 @@ public class AccountResourceImpl extends BaseAccountResourceImpl {
 			}
 		}
 
-		if (checkSupportSeatCount) {
-			List<ContactRole> contactRoles =
-				_contactRoleWebService.getAccountCustomerContactRoles(
-					accountKey, contactEmailAddress, 1, 1000);
+		Contact contact = _contactIdentityProvider.fetchContactByEmailAddress(
+			contactEmailAddress);
 
-			for (ContactRole contactRole : contactRoles) {
-				if (ArrayUtil.contains(
-						ContactRoleConstants.SUPPORT_SEAT_CONTACT_ROLES,
-						contactRole.getName())) {
+		if (contact != null) {
+			if (checkSupportSeatCount) {
+				List<ContactRole> contactRoles =
+					_contactRoleWebService.getAccountCustomerContactRoles(
+						accountKey, contactEmailAddress, 1, 1000);
 
-					checkSupportSeatCount = false;
+				for (ContactRole contactRole : contactRoles) {
+					if (ArrayUtil.contains(
+							ContactRoleConstants.SUPPORT_SEAT_CONTACT_ROLES,
+							contactRole.getName())) {
+
+						checkSupportSeatCount = false;
+					}
 				}
+			}
+		}
+		else {
+			Account account = _accountWebService.getAccount(accountKey);
+
+			String subscriptionState = _accountReader.getSubscriptionState(
+				account);
+
+			if (subscriptionState.equals(
+					ProductPurchaseConstants.STATE_ACTIVE)) {
+
+				_contactIdentityProvider.createContact(
+					contactEmailAddress, contactEmailAddress, StringPool.BLANK,
+					contactEmailAddress);
+			}
+			else {
+				throw new NoSuchContactException();
 			}
 		}
 
@@ -249,6 +274,9 @@ public class AccountResourceImpl extends BaseAccountResourceImpl {
 	private AccountWebService _accountWebService;
 
 	private final Set<String> _badDomains = new HashSet<>();
+
+	@Reference(target = "(provider=okta)")
+	private ContactIdentityProvider _contactIdentityProvider;
 
 	@Reference
 	private ContactRoleWebService _contactRoleWebService;
