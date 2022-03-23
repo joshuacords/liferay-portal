@@ -23,16 +23,12 @@ public class SubscriptionConstants {
 
 	public static String GROUP_NAME_COMMERCE = "Commerce";
 
-	public static String GROUP_NAME_COMMERCE_CLOUD = "Commerce Cloud";
+	public static String GROUP_NAME_COMMERCE_FOR_DXP_CLOUD =
+		"Commerce for DXP Cloud";
 
 	public static String GROUP_NAME_DXP = "DXP";
 
 	public static String GROUP_NAME_DXP_CLOUD = "DXP Cloud";
-
-	public static String GROUP_NAME_DXP_CLOUD_COMMERCE_CLOUD =
-		"DXP Cloud + Commerce Cloud";
-
-	public static String GROUP_NAME_DXP_COMMERCE = "DXP + Commerce";
 
 	public static String GROUP_NAME_ENTERPRISE_SEARCH = "Enterprise Search";
 

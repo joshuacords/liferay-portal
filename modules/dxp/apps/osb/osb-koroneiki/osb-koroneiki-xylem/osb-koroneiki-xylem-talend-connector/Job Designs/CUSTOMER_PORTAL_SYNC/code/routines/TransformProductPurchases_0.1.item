@@ -270,10 +270,6 @@ public class TransformProductPurchases {
 
 			if (name.equals(SubscriptionConstants.GROUP_NAME_DXP) ||
 				name.equals(SubscriptionConstants.GROUP_NAME_DXP_CLOUD) ||
-				name.equals(SubscriptionConstants.GROUP_NAME_DXP_COMMERCE) ||
-				name.equals(
-					SubscriptionConstants.
-						GROUP_NAME_DXP_CLOUD_COMMERCE_CLOUD) ||
 				name.equals(
 					SubscriptionConstants.GROUP_NAME_ENTERPRISE_SEARCH) ||
 				name.equals(SubscriptionConstants.GROUP_NAME_PORTAL)) {
@@ -304,17 +300,17 @@ public class TransformProductPurchases {
 			else if (name.equals(SubscriptionConstants.GROUP_NAME_COMMERCE)) {
 				return 500;
 			}
+			else if (name.equals(
+						SubscriptionConstants.
+							GROUP_NAME_COMMERCE_FOR_DXP_CLOUD)) {
+
+				return 200;
+			}
 			else if (name.equals(SubscriptionConstants.GROUP_NAME_DXP)) {
 				return 300;
 			}
 			else if (name.equals(SubscriptionConstants.GROUP_NAME_DXP_CLOUD)) {
 				return 100;
-			}
-			else if (name.equals(
-						SubscriptionConstants.
-							GROUP_NAME_DXP_CLOUD_COMMERCE_CLOUD)) {
-
-				return 200;
 			}
 			else if (name.equals(
 						SubscriptionConstants.GROUP_NAME_ENTERPRISE_SEARCH)) {
@@ -335,17 +331,17 @@ public class TransformProductPurchases {
 			else if (name.equals(SubscriptionConstants.GROUP_NAME_COMMERCE)) {
 				return 600;
 			}
+			else if (name.equals(
+						SubscriptionConstants.
+							GROUP_NAME_COMMERCE_FOR_DXP_CLOUD)) {
+
+				return 300;
+			}
 			else if (name.equals(SubscriptionConstants.GROUP_NAME_DXP)) {
 				return 400;
 			}
 			else if (name.equals(SubscriptionConstants.GROUP_NAME_DXP_CLOUD)) {
 				return 200;
-			}
-			else if (name.equals(
-						SubscriptionConstants.
-							GROUP_NAME_DXP_CLOUD_COMMERCE_CLOUD)) {
-
-				return 300;
 			}
 			else if (name.equals(
 						SubscriptionConstants.GROUP_NAME_ENTERPRISE_SEARCH)) {
