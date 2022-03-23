@@ -4834,6 +4834,10 @@ public class StringUtil {
 	 * @return the string, with its first character converted to upper-case
 	 */
 	public static String upperCaseFirstLetter(String s) {
+		if (s == null) {
+			return null;
+		}
+
 		if (!s.isEmpty()) {
 			char[] chars = s.toCharArray();
 
