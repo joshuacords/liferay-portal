@@ -49,25 +49,26 @@ import org.osgi.service.component.annotations.Reference;
 public class LicenseKeyServiceImpl extends LicenseKeyServiceBaseImpl {
 
 	public LicenseKey addLicenseKey(
-			long userId, long licenseEntryId, String productKey,
-			String accountKey, String productPurchaseKey, String accountName,
-			String productVersion, long clusterId, String name, String owner,
-			int maxClusterNodes, int maxServers, int maxHttpSessions,
-			int maxConcurrentUsers, int maxUsers, String sizing,
-			String description, String[] hostNames, String[] ipAddresses,
-			String[] macAddresses, Date startDate, Date expirationDate,
-			boolean complimentary, boolean active)
+			String userName, String userUuid, long licenseEntryId,
+			String productKey, String accountKey, String productPurchaseKey,
+			String accountName, String productVersion, long clusterId,
+			String name, String owner, int maxClusterNodes, int maxServers,
+			int maxHttpSessions, int maxConcurrentUsers, int maxUsers,
+			String sizing, String description, String[] hostNames,
+			String[] ipAddresses, String[] macAddresses, Date startDate,
+			Date expirationDate, boolean complimentary, boolean active)
 		throws Exception {
 
 		_licenseKeyPermission.check(
 			getPermissionChecker(), ProvisioningActionKeys.MANAGE_LICENSE_KEYS);
 
 		return licenseKeyLocalService.addLicenseKey(
-			userId, licenseEntryId, productKey, accountKey, productPurchaseKey,
-			accountName, productVersion, clusterId, name, owner,
-			maxClusterNodes, maxServers, maxHttpSessions, maxConcurrentUsers,
-			maxUsers, sizing, description, hostNames, ipAddresses, macAddresses,
-			startDate, expirationDate, complimentary, true);
+			userName, userUuid, licenseEntryId, productKey, accountKey,
+			productPurchaseKey, accountName, productVersion, clusterId, name,
+			owner, maxClusterNodes, maxServers, maxHttpSessions,
+			maxConcurrentUsers, maxUsers, sizing, description, hostNames,
+			ipAddresses, macAddresses, startDate, expirationDate, complimentary,
+			true);
 	}
 
 	@JSONWebService

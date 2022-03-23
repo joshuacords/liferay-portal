@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.portlet.JSONPortletResponseUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.portal.kernel.portlet.PortletURLFactoryUtil;
@@ -153,10 +154,12 @@ public class EditLicenseKeysMVCActionCommand extends BaseMVCActionCommand {
 			macAddresses.add(StringUtil.merge(distinctMacAddresses));
 		}
 
+		User user = themeDisplay.getUser();
+
 		LicenseKey licenseKey = _licenseKeyService.addLicenseKey(
-			themeDisplay.getUserId(), licenseEntryId, productKey, accountKey,
-			productPurchaseKey, accountName, productVersion, 0, name, owner,
-			maxClusterNodes, maxServers, maxHttpSessions, 0, 0,
+			user.getFullName(), user.getUserUuid(), licenseEntryId, productKey,
+			accountKey, productPurchaseKey, accountName, productVersion, 0,
+			name, owner, maxClusterNodes, maxServers, maxHttpSessions, 0, 0,
 			LicenseSizing.getLabel(sizing), description,
 			hostNames.toArray(new String[0]),
 			ipAddresses.toArray(new String[0]),

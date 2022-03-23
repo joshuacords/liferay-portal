@@ -15,8 +15,8 @@
 package com.liferay.osb.provisioning.rest.internal.security.auth.verifier;
 
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Contact;
+import com.liferay.osb.provisioning.auth.ProvisioningContactThreadLocal;
 import com.liferay.osb.provisioning.identity.management.provider.ContactIdentityProvider;
-import com.liferay.osb.provisioning.rest.internal.ProvisioningContactThreadLocal;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Role;

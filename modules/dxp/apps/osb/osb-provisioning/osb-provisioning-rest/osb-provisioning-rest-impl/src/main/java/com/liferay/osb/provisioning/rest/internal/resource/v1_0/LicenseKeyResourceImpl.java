@@ -23,6 +23,7 @@ import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ProductPurchase;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ProductPurchaseView;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Team;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.TeamRole;
+import com.liferay.osb.provisioning.auth.ProvisioningContactThreadLocal;
 import com.liferay.osb.provisioning.koroneiki.constants.ContactRoleConstants;
 import com.liferay.osb.provisioning.koroneiki.constants.ProductConstants;
 import com.liferay.osb.provisioning.koroneiki.constants.TeamRoleConstants;
@@ -49,7 +50,6 @@ import com.liferay.osb.provisioning.rest.dto.v1_0.SubscriptionTerm;
 import com.liferay.osb.provisioning.rest.dto.v1_0.Type;
 import com.liferay.osb.provisioning.rest.dto.v1_0.Version;
 import com.liferay.osb.provisioning.rest.dto.v1_0.util.LicenseKeyUtil;
-import com.liferay.osb.provisioning.rest.internal.ProvisioningContactThreadLocal;
 import com.liferay.osb.provisioning.rest.internal.odata.entity.v1_0.LicenseKeyEntityModel;
 import com.liferay.osb.provisioning.rest.resource.v1_0.LicenseKeyResource;
 import com.liferay.osb.provisioning.search.FilterQuery;
@@ -422,6 +422,8 @@ public class LicenseKeyResourceImpl
 
 		_checkAccountAdminContactRole(accountKey);
 
+		Contact contact = ProvisioningContactThreadLocal.getContact();
+
 		List<LicenseKey> curLicenseKeys = new ArrayList<>();
 
 		for (LicenseKey licenseKey : licenseKeys) {
@@ -431,7 +433,10 @@ public class LicenseKeyResourceImpl
 
 			com.liferay.osb.provisioning.license.model.LicenseKey
 				curLicenseKey = _licenseKeyLocalService.addLicenseKey(
-					contextUser.getUserId(), licenseEntryType.getValue(),
+					StringBundler.concat(
+						contact.getFirstName(), StringPool.SPACE,
+						contact.getLastName()),
+					contact.getUuid(), licenseEntryType.getValue(),
 					licenseKey.getProductKey(), accountKey,
 					licenseKey.getProductPurchaseKey(),
 					licenseKey.getProductVersion(), licenseKey.getName(),

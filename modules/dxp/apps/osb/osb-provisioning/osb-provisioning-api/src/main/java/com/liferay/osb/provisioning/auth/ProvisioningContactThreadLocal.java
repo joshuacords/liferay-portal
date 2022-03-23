@@ -12,7 +12,7 @@
  *
  */
 
-package com.liferay.osb.provisioning.rest.internal;
+package com.liferay.osb.provisioning.auth;
 
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Contact;
 import com.liferay.petra.lang.CentralizedThreadLocal;

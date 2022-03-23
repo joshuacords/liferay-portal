@@ -15,9 +15,12 @@
 package com.liferay.osb.provisioning.license.internal.model.listener;
 
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.AuditEntry;
+import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Contact;
+import com.liferay.osb.provisioning.auth.ProvisioningContactThreadLocal;
 import com.liferay.osb.provisioning.koroneiki.web.service.AuditEntryWebService;
 import com.liferay.osb.provisioning.license.model.LicenseKey;
 import com.liferay.osb.provisioning.license.service.LicenseKeyLocalService;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.ModelListenerException;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -25,8 +28,6 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
-import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
 import com.liferay.portal.kernel.service.ClassNameLocalService;
 import com.liferay.portal.kernel.service.UserLocalService;
 
@@ -170,10 +171,13 @@ public class LicenseKeyModelListener extends BaseModelListener<LicenseKey> {
 			auditEntries.add(auditEntry);
 		}
 
-		User user = _userLocalService.getUser(PrincipalThreadLocal.getUserId());
+		Contact contact = ProvisioningContactThreadLocal.getContact();
 
 		_auditEntryWebService.postAccountAuditEntries(
-			user.getFullName(), user.getUuid(), licenseKey.getAccountKey(),
+			StringBundler.concat(
+				contact.getFirstName(), StringPool.SPACE,
+				contact.getLastName()),
+			contact.getUuid(), licenseKey.getAccountKey(),
 			auditEntries.toArray(new AuditEntry[0]));
 	}
 
