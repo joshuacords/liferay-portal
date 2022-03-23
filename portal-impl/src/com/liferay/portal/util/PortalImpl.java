@@ -8562,7 +8562,8 @@ public class PortalImpl implements Portal {
 			!Objects.equals(layout.getType(), LayoutConstants.TYPE_CONTENT)) {
 
 			explicitlyAddedPortlets =
-				layoutTypePortlet.getExplicitlyAddedPortlets();
+				_getExplicitlyAddedPortletsWithoutCustomizableColumns(
+					layoutTypePortlet);
 		}
 
 		return layoutTypePortlet.addStaticPortlets(
