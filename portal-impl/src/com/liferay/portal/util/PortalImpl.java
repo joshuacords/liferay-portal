@@ -8550,12 +8550,23 @@ public class PortalImpl implements Portal {
 		return i18nErrorPath.concat(redirect);
 	}
 
-	private List<Portlet> _getAllPortlets(LayoutTypePortlet layoutTypePortlet) {
-		List<Portlet> staticPortlets = layoutTypePortlet.getStaticPortlets(
-			PropsKeys.LAYOUT_STATIC_PORTLETS_ALL);
+	private List<Portlet> _getAllPortlets(
+		Layout layout, LayoutTypePortlet layoutTypePortlet) {
+
+		List<Portlet> staticPortlets = _getStaticPortlets(layoutTypePortlet);
+
+		List<Portlet> explicitlyAddedPortlets = new ArrayList<>();
+
+		if (!Objects.equals(
+				layout.getType(), LayoutConstants.TYPE_ASSET_DISPLAY) &&
+			!Objects.equals(layout.getType(), LayoutConstants.TYPE_CONTENT)) {
+
+			explicitlyAddedPortlets =
+				layoutTypePortlet.getExplicitlyAddedPortlets();
+		}
 
 		return layoutTypePortlet.addStaticPortlets(
-			layoutTypePortlet.getExplicitlyAddedPortlets(), staticPortlets,
+			explicitlyAddedPortlets, staticPortlets,
 			layoutTypePortlet.getEmbeddedPortlets());
 	}
 
@@ -9406,7 +9417,7 @@ public class PortalImpl implements Portal {
 		LayoutTypePortlet layoutTypePortlet =
 			(LayoutTypePortlet)layout.getLayoutType();
 
-		for (Portlet portlet : _getAllPortlets(layoutTypePortlet)) {
+		for (Portlet portlet : _getAllPortlets(layout, layoutTypePortlet)) {
 			if ((portletId.equals(portlet.getPortletId()) ||
 				 portletId.equals(portlet.getRootPortletId())) &&
 				!layout.isPortletEmbedded(portletId, layout.getGroupId()) &&
