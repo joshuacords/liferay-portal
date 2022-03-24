@@ -33,6 +33,7 @@ import com.liferay.asset.publisher.util.AssetEntryResult;
 import com.liferay.asset.publisher.util.AssetPublisherHelper;
 import com.liferay.asset.publisher.web.internal.configuration.AssetPublisherWebConfiguration;
 import com.liferay.asset.util.AssetHelper;
+import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
@@ -1199,7 +1200,13 @@ public class AssetPublisherHelperImpl implements AssetPublisherHelper {
 	}
 
 	private String _normalizeURL(String url) {
-		return StringUtil.split(url, "?")[0];
+		int index = url.indexOf(CharPool.QUESTION);
+
+		if (index != -1) {
+			url = url.substring(0, index);
+		}
+
+		return url;
 	}
 
 	private void _removeAndStoreSelection(
