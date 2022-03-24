@@ -184,7 +184,7 @@ public class SXPBlueprintSearchResultTest {
 		_assertSearch("[folder cola, coca cola, pepsi cola]");
 
 		_updateElementInstancesJSON(null, null);
-
+//In boost tests like this, I want _assertSearch to demostrated the normal relevance order, I don't see a need for _assertSearchIgnoreRelevance
 		_assertSearchIgnoreRelevance("[coca cola, folder cola, pepsi cola]");
 	}
 
@@ -211,13 +211,13 @@ public class SXPBlueprintSearchResultTest {
 			new String[] {"Boost Contents for the Current Language"});
 
 		_keywords = "cola";
-
+//!!!this test is failing with:  expected:<[coca cola en_US, [pepsi cola en_US, coca cola es_E]S, pepsi cola es_ES]> but was:<[coca cola en_US, [coca cola es_ES, pepsi cola en_U]S, pepsi cola es_ES]>
 		_assertSearch(
 			"[coca cola en_US, pepsi cola en_US," +
 				" coca cola es_ES, pepsi cola es_ES]");
 
 		_updateElementInstancesJSON(null, null);
-
+//In boost tests like this, I want _assertSearch to demostrated the normal relevance order, I don't see a need for _assertSearchIgnoreRelevance
 		_assertSearchIgnoreRelevance(
 			"[coca cola en_US, coca cola es_ES," +
 				" pepsi cola en_US, pepsi cola es_ES]");
@@ -295,7 +295,7 @@ public class SXPBlueprintSearchResultTest {
 		_assertSearch("[charlie alpha, beta alpha]");
 
 		_updateElementInstancesJSON(null, null);
-
+//In boost tests like this, I want _assertSearch to demostrated the normal relevance order, I don't see a need for _assertSearchIgnoreRelevance
 		_assertSearchIgnoreRelevance("[beta alpha, charlie alpha]");
 	}
 
@@ -334,8 +334,10 @@ public class SXPBlueprintSearchResultTest {
 
 		_assertSearch("[Pepsi Cola, Coca Cola]");
 
-		_updateElementInstancesJSON(null, null);
+//after the first assertSearch, can you update the ElementInstancesJSON to only apply to a range outside the creation date of the article. The order should be the same as not applying the element below.
 
+		_updateElementInstancesJSON(null, null);
+//In boost tests like this, I want _assertSearch to demostrated the normal relevance order, I don't see a need for _assertSearchIgnoreRelevance
 		_assertSearchIgnoreRelevance("[Coca Cola, Pepsi Cola]");
 	}
 
@@ -366,9 +368,9 @@ public class SXPBlueprintSearchResultTest {
 			new String[] {"Boost Contents in a Category for a User Segment"});
 
 		_assertSearch("[charlie alpha, beta alpha]");
-
+//After the first assertSearch, could you also test a search with a second user outside of the User Segment, their result should match the null element
 		_updateElementInstancesJSON(null, null);
-
+//In boost tests like this, I want _assertSearch to demostrated the normal relevance order, I don't see a need for _assertSearchIgnoreRelevance
 		_assertSearchIgnoreRelevance("[beta alpha, charlie alpha]");
 	}
 
@@ -399,16 +401,16 @@ public class SXPBlueprintSearchResultTest {
 		_keywords = "alpha";
 
 		_assertSearch("[charlie alpha, beta alpha]");
-
+//After the first assertSearch, could you also test a search with a second non-guest user, their results should be the same as below
 		_updateElementInstancesJSON(null, null);
-
+//In boost tests like this, I want _assertSearch to demostrated the normal relevance order, I don't see a need for _assertSearchIgnoreRelevance
 		_assertSearchIgnoreRelevance("[beta alpha, charlie alpha]");
 	}
 
 	@Test
 	public void testBoostContentsInACategoryForNewUserAccounts()
 		throws Exception {
-
+//Across this file, can you make all the addGroupUser roleNames capitalized (there's both "employee" and "Employee")
 		_addAssetCategory(
 			"For New Recruits", _addGroupUser(_group, "Employee"));
 
@@ -439,6 +441,7 @@ public class SXPBlueprintSearchResultTest {
 		_assertSearch(
 			"[Company Policies for New Recruits, Company Policies for All" +
 				" Employees Recruits]");
+//add a search for a user outside of this range, add _assertSearch after nulling the element
 	}
 
 	@Test
@@ -452,7 +455,7 @@ public class SXPBlueprintSearchResultTest {
 		JournalArticle article = _journalArticles.get(1);
 
 		Date morningDate = new Date(70066372608L);
-
+//I think we should also set the Coca Cola article createDate to NOT be the morning, or else the time the test is run may interfere
 		article.setCreateDate(morningDate);
 
 		JournalTestUtil.updateArticle(article, "pepsi cola");
@@ -475,7 +478,7 @@ public class SXPBlueprintSearchResultTest {
 		_assertSearch("[pepsi cola, coca cola]");
 
 		_updateElementInstancesJSON(null, null);
-
+//In boost tests like this, I want _assertSearch to demostrated the normal relevance order, I don't see a need for _assertSearchIgnoreRelevance
 		_assertSearchIgnoreRelevance("[coca cola, pepsi cola]");
 	}
 
@@ -504,7 +507,7 @@ public class SXPBlueprintSearchResultTest {
 		_assertSearch("[pepsi cola, coca cola]");
 
 		_updateElementInstancesJSON(null, null);
-
+//In boost tests like this, I want _assertSearch to demostrated the normal relevance order, I don't see a need for _assertSearchIgnoreRelevance
 		_assertSearchIgnoreRelevance("[coca cola, pepsi cola]");
 	}
 
@@ -535,7 +538,7 @@ public class SXPBlueprintSearchResultTest {
 		_assertSearch("[pepsi cola, coca cola]");
 
 		_updateElementInstancesJSON(null, null);
-
+//I know this is older, but let's update it. In boost tests like this, I want _assertSearch to demostrated the normal relevance order, I don't see a need for _assertSearchIgnoreRelevance
 		_assertSearchIgnoreRelevance("[coca cola, pepsi cola]");
 	}
 
@@ -544,7 +547,7 @@ public class SXPBlueprintSearchResultTest {
 		_setUpJournalArticles(
 			new String[] {"alpha alpha", "", ""},
 			new String[] {"beta alpha", "charlie alpha", "alpha alpha"});
-
+//I would feel more comfortable if the content of "beta alpha" was "beta beta" so the content itself is not interfering with relevance
 		_updateElementInstancesJSON(
 			new Object[] {
 				HashMapBuilder.<String, Object>put(
@@ -562,7 +565,7 @@ public class SXPBlueprintSearchResultTest {
 		_assertSearch("[beta alpha, alpha alpha, charlie alpha]");
 
 		_updateElementInstancesJSON(null, null);
-
+//In boost tests like this, I want _assertSearch to demostrated the normal relevance order, I don't see a need for _assertSearchIgnoreRelevance
 		_assertSearchIgnoreRelevance(
 			"[alpha alpha, beta alpha, charlie alpha]");
 	}
@@ -669,7 +672,7 @@ public class SXPBlueprintSearchResultTest {
 	public void testBoostTaggedContents() throws Exception {
 		_assetTag = AssetTagLocalServiceUtil.addTag(
 			_user.getUserId(), _group.getGroupId(), "cola", _serviceContext);
-
+//can we change the name of the tag to "soda" so we know it's not the assetTag matching the keyword that's being boosted, but rather just the presence of any tag
 		_setUpJournalArticles(
 			new String[] {"", ""}, new String[] {"coca cola", "pepsi cola"});
 
@@ -688,7 +691,7 @@ public class SXPBlueprintSearchResultTest {
 		_assertSearch("[pepsi cola, coca cola]");
 
 		_updateElementInstancesJSON(null, null);
-
+//In boost tests like this, I want _assertSearch to demostrated the normal relevance order, I don't see a need for _assertSearchIgnoreRelevance
 		_assertSearchIgnoreRelevance("[coca cola, pepsi cola]");
 	}
 
@@ -696,7 +699,7 @@ public class SXPBlueprintSearchResultTest {
 	public void testBoostTagsMatch() throws Exception {
 		_assetTag = AssetTagLocalServiceUtil.addTag(
 			_user.getUserId(), _group.getGroupId(), "cola", _serviceContext);
-
+//can we change the tag and keyword to "coca" to clarify the match is with the tag and not just more instances of "cola"
 		_setUpJournalArticles(
 			new String[] {"", ""}, new String[] {"coca cola", "pepsi cola"});
 
@@ -713,14 +716,14 @@ public class SXPBlueprintSearchResultTest {
 		_assertSearch("[pepsi cola, coca cola]");
 
 		_updateElementInstancesJSON(null, null);
-
+//In boost tests like this, I want _assertSearch to demostrated the normal relevance order, I don't see a need for _assertSearchIgnoreRelevance
 		_assertSearchIgnoreRelevance("[coca cola, pepsi cola]");
 	}
 
 	@Test
 	public void testBoostWebContentsByKeywordsMatch() throws Exception {
 		_addAssetCategory("Promoted", _addGroupUser(_group, "employee"));
-
+//this just looks like we're testing for particular articles matching a keyword, so why are we adding AssetCategories? Can this test be simplified?
 		_setUpJournalArticles(
 			new String[] {"alpha alpha", ""},
 			new String[] {"beta alpha", "charlie alpha"});
@@ -744,7 +747,7 @@ public class SXPBlueprintSearchResultTest {
 		_assertSearch("[charlie alpha, beta alpha]");
 
 		_updateElementInstancesJSON(null, null);
-
+//In boost tests like this, I want _assertSearch to demostrated the normal relevance order, I don't see a need for _assertSearchIgnoreRelevance
 		_assertSearchIgnoreRelevance("[beta alpha, charlie alpha]");
 	}
 
@@ -867,7 +870,7 @@ public class SXPBlueprintSearchResultTest {
 	@Test
 	public void testHideContentsInACategory() throws Exception {
 		_addAssetCategory("Promoted", _addGroupUser(_group, "employee"));
-
+//change from "Promoted" to "Hidden"
 		_setUpJournalArticles(
 			new String[] {"alpha alpha", ""},
 			new String[] {"beta alpha", "charlie alpha"});
@@ -898,7 +901,7 @@ public class SXPBlueprintSearchResultTest {
 			_group, _user.getUserId());
 
 		_addAssetCategory("Guest Users", _user);
-
+//Change from "Guest Users" to "Non-Guest Users"
 		_setUpJournalArticles(
 			new String[] {"", ""},
 			new String[] {"beta alpha", "charlie alpha"});
@@ -913,7 +916,7 @@ public class SXPBlueprintSearchResultTest {
 			new String[] {"Hide Contents in a Category for Guest Users"});
 
 		_keywords = "alpha";
-
+//Just use _assertSearchIgnoreRelevance
 		_assertSearch("[beta alpha]");
 
 		_updateElementInstancesJSON(null, null);
@@ -1024,8 +1027,9 @@ public class SXPBlueprintSearchResultTest {
 				).build()
 			},
 			new String[] {"Hide Tagged Contents"});
-
+//change to _assertSearchIgnoreRelevance
 		_assertSearch("[do not hide me]");
+//add _assertSearchIgnoreRelevance after _updateElementInstancesJSON(null)
 	}
 
 	@Test
@@ -1119,7 +1123,7 @@ public class SXPBlueprintSearchResultTest {
 	@Test
 	public void testLimitSearchToTheCurrentSite() throws Exception {
 		_setUpLimitSearchTest();
-
+//I'm having a hard time understanding what articles are in which groups and what the Current Site is, can this test be re-written to make what's happening and what's being tested more clear?
 		_assertSearchIgnoreRelevance("[cola coca, cola pepsi, cola sprite]");
 
 		User user = UserTestUtil.addUser(_groupA.getGroupId());
