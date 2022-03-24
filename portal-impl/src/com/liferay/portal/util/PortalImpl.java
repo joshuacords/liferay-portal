@@ -934,24 +934,18 @@ public class PortalImpl implements Portal {
 			return url;
 		}
 
-		String decodedURL = HttpUtil.decodeURL(url);
+		if (!uri.isAbsolute()) {
 
-		if (Validator.isNotNull(HttpUtil.getPath(url)) &&
-			(decodedURL.startsWith(HttpUtil.decodeURL(HttpUtil.getPath(url))) ||
-			 decodedURL.startsWith(HttpUtil.getPath(url)))) {
+			// https://datatracker.ietf.org/doc/html/rfc3986#section-4.2
 
-			// Relative URL
+			if (url.startsWith(StringPool.DOUBLE_SLASH)) {
+
+				// "//" authority path-abempty
+
+				return null;
+			}
 
 			return url;
-		}
-
-		String protocol = HttpUtil.getProtocol(url);
-
-		if (protocol == null) {
-
-			// Protocol is required
-
-			return null;
 		}
 
 		String domain = HttpUtil.getDomain(url);
