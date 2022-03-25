@@ -228,23 +228,29 @@ public abstract class BaseExpandoTestCase extends BaseIndexingTestCase {
 			Matchers.eq(ExpandoColumnConstants.INDEX_TYPE_TEXT)
 		);
 
-		Mockito.doReturn(
-			_FIELD_KEYWORD
-		).when(
-			expandoBridgeIndexer
-		).encodeIndexedFieldName(
-			Mockito.anyString(), Matchers.eq(ExpandoColumnConstants.STRING),
-			Matchers.eq(ExpandoColumnConstants.INDEX_TYPE_KEYWORD)
-		);
+		//		Mockito.doReturn(
+		//			_FIELD_KEYWORD
+		//		).when(
+		//			expandoBridgeIndexer
+		//		).encodeIndexedFieldName(
+		//			_expandoColumnLocalService.getDefaultTableColumn)
+		//		);
+		//
+		//		Mockito.doReturn(
+		//			_FIELD_TEXT
+		//		).when(
+		//			expandoBridgeIndexer
+		//		).encodeIndexedFieldName(
+		//			Mockito.anyString(),
 
-		Mockito.doReturn(
-			_FIELD_TEXT
-		).when(
-			expandoBridgeIndexer
-		).encodeIndexedFieldName(
-			Mockito.anyString(), Matchers.eq(ExpandoColumnConstants.STRING),
-			Matchers.eq(ExpandoColumnConstants.INDEX_TYPE_TEXT)
-		);
+		// 			Matchers.eq(ExpandoColumnConstants.STRING),
+
+		//			Matchers.eq(ExpandoColumnConstants.INDEX_TYPE_TEXT)
+		//		);
+
+		//		Mockito.when(
+		//			expandoBridgeIndexer.encodeIndexedFieldName()
+		//		)
 
 		return expandoBridgeIndexer;
 	}
