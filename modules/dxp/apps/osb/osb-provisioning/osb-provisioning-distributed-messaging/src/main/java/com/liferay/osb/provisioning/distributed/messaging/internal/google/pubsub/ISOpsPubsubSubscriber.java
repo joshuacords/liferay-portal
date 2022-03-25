@@ -25,7 +25,10 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(
 	immediate = true,
-	property = {"messageFilter=", "projectId=is-ops-dev", "topic=okta-users"},
+	property = {
+		"messageFilter=", "namespace=", "projectId=is-ops-dev",
+		"topic=okta-users"
+	},
 	service = ISOpsPubsubSubscriber.class
 )
 public class ISOpsPubsubSubscriber extends BasePubsubSubscriber {

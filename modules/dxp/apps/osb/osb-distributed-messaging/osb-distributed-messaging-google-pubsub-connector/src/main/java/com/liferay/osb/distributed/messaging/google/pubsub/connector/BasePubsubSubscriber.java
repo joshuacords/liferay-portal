@@ -28,6 +28,8 @@ import com.liferay.osb.distributed.messaging.subscribing.router.MessageRouter;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.Validator;
 
 import java.util.Map;
 
@@ -46,6 +48,7 @@ public abstract class BasePubsubSubscriber {
 	protected void activate(Map<String, Object> properties) throws Exception {
 		String messageFilter = GetterUtil.getString(
 			properties.get("messageFilter"));
+		String namespace = GetterUtil.getString(properties.get("namespace"));
 		String projectId = GetterUtil.getString(properties.get("projectId"));
 		String topic = GetterUtil.getString(properties.get("topic"));
 
@@ -60,8 +63,15 @@ public abstract class BasePubsubSubscriber {
 
 		Class<?> clazz = getClass();
 
+		String subscriptionName = clazz.getName();
+
+		if (Validator.isNotNull(namespace)) {
+			subscriptionName =
+				namespace + StringPool.UNDERLINE + subscriptionName;
+		}
+
 		ProjectSubscriptionName projectSubscriptionName =
-			ProjectSubscriptionName.of(projectId, clazz.getName());
+			ProjectSubscriptionName.of(projectId, subscriptionName);
 
 		try {
 			subscriptionAdminClient.getSubscription(projectSubscriptionName);
