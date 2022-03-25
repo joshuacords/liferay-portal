@@ -125,16 +125,24 @@ public class AccountReaderImpl implements AccountReader {
 			}
 			else if (curName.equals(
 						ProductConstants.
-							NAME_DXP_CLOUD_SUBSCRIPTION_HA_PRODUCTION)) {
+							NAME_DXP_CLOUD_SUBSCRIPTION_HA_PRODUCTION) ||
+					 curName.equals(
+						 ProductConstants.
+							 NAME_LXC_SM_SUBSCRIPTION_HA_PRODUCTION)) {
 
 				productionInstances += 2 * productPurchase.getQuantity();
 			}
 			else if (curName.equals(ProductConstants.NAME_DXP_PRODUCTION) ||
 					 curName.equals(
+						 ProductConstants.NAME_DXP_CLOUD_INSTANCE_PRODUCTION) ||
+					 curName.equals(
 						 ProductConstants.
 							 NAME_DXP_CLOUD_SUBSCRIPTION_STD_PRODUCTION) ||
 					 curName.equals(
-						 ProductConstants.NAME_DXP_CLOUD_INSTANCE_PRODUCTION) ||
+						 ProductConstants.NAME_LXC_SM_INSTANCE_PRODUCTION) ||
+					 curName.equals(
+						 ProductConstants.
+							 NAME_LXC_SM_SUBSCRIPTION_STD_PRODUCTION) ||
 					 curName.equals(ProductConstants.NAME_PORTAL_PRODUCTION)) {
 
 				productionInstances += productPurchase.getQuantity();

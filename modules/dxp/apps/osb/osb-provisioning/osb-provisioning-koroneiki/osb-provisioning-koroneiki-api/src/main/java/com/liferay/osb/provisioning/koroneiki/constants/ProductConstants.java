@@ -94,6 +94,17 @@ public class ProductConstants {
 
 	public static final String NAME_LIMITED = "Limited Subscription";
 
+	public static final String NAME_LXC_SM = "LXC SM";
+
+	public static final String NAME_LXC_SM_INSTANCE_PRODUCTION =
+		"LXC SM Instance - Production";
+
+	public static final String NAME_LXC_SM_SUBSCRIPTION_HA_PRODUCTION =
+		"LXC SM Subscription HA Production";
+
+	public static final String NAME_LXC_SM_SUBSCRIPTION_STD_PRODUCTION =
+		"LXC SM Subscription Std Production";
+
 	public static final String NAME_MANAGED_SERVICES_DEVELOPER_SUPPORT =
 		"Managed Services - Developer Support";
 

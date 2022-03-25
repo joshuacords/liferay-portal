@@ -709,6 +709,7 @@ public class LicenseKeyResourceImpl
 		else if (productGroupName.equals(ProductGroup.Name.DXP.toString())) {
 			filterQuery.addStartsWith(true, "name", "DXP");
 			filterQuery.addContains(true, "name", "DXP Cloud", true);
+			filterQuery.addContains(true, "name", "LXC SM", true);
 		}
 		else if (productGroupName.equals(ProductGroup.Name.PORTAL.toString())) {
 			filterQuery.addContains(
@@ -846,7 +847,8 @@ public class LicenseKeyResourceImpl
 
 			if (productGroupName.equals(ProductConstants.GROUP_NAME_DXP) &&
 				(curProductName.startsWith(ProductConstants.NAME_DXP) ||
-				 curProductName.contains(ProductConstants.NAME_DXP_CLOUD))) {
+				 curProductName.contains(ProductConstants.NAME_DXP_CLOUD) ||
+				 curProductName.contains(ProductConstants.NAME_LXC_SM))) {
 
 				return true;
 			}
