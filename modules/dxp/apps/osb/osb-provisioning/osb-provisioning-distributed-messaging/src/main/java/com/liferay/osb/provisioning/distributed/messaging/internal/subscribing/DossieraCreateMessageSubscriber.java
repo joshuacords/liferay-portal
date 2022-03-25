@@ -929,13 +929,17 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 						contact.getEmailAddress());
 
 				if (status == null) {
-					contact = _contactIdentityProvider.createContact(
+					Contact newContact = _contactIdentityProvider.createContact(
 						contact.getEmailAddress(), contact.getFirstName(),
 						contact.getMiddleName(), contact.getLastName());
 
-					activeContacts.add(contact);
+					newContact.setContactRoles(contact.getContactRoles());
+
+					activeContacts.add(newContact);
 				}
-				else if (status == WorkflowConstants.STATUS_APPROVED) {
+				else if ((status == WorkflowConstants.STATUS_APPROVED) ||
+						 (status == WorkflowConstants.STATUS_PENDING)) {
+
 					activeContacts.add(contact);
 				}
 				else if (status == WorkflowConstants.STATUS_INACTIVE) {
