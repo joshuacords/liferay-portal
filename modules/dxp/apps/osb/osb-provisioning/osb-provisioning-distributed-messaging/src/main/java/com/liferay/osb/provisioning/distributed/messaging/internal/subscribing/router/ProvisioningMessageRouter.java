@@ -19,6 +19,7 @@ import com.liferay.osb.distributed.messaging.subscribing.router.MessageRouter;
 import com.liferay.osb.provisioning.distributed.messaging.internal.subscribing.DossieraCreateMessageSubscriber;
 import com.liferay.osb.provisioning.distributed.messaging.internal.subscribing.EntitlementCreateMessageSubscriber;
 import com.liferay.osb.provisioning.distributed.messaging.internal.subscribing.EntitlementDeleteMessageSubscriber;
+import com.liferay.osb.provisioning.distributed.messaging.internal.subscribing.OktaUsersMessageSubscriber;
 import com.liferay.osb.provisioning.distributed.messaging.internal.subscribing.OrganizationAssignmentMessageSubscriber;
 import com.liferay.osb.provisioning.distributed.messaging.internal.subscribing.OrganizationUnassignmentMessageSubscriber;
 import com.liferay.osb.provisioning.distributed.messaging.internal.subscribing.ProductMessageSubscriber;
@@ -56,6 +57,14 @@ public class ProvisioningMessageRouter extends BaseMessageRouter {
 		Map<String, Object> properties) {
 
 		addRoute(entitlementDeleteMessageSubscriber, properties);
+	}
+
+	@Reference(unbind = "-")
+	protected void setOktaUsersMessageSubscriber(
+		OktaUsersMessageSubscriber oktaUsersMessageSubscriber,
+		Map<String, Object> properties) {
+
+		addRoute(oktaUsersMessageSubscriber, properties);
 	}
 
 	@Reference(unbind = "-")

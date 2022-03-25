@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.json.JSONFactory;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalService;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -162,7 +163,9 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 
 		String status = jsonObject.getString("status");
 
-		if (Validator.isNotNull(status) && status.equals("ACTIVE")) {
+		if (Validator.isNotNull(status) &&
+			ArrayUtil.contains(_STATUSES_VERIFIED, status)) {
+
 			return true;
 		}
 
@@ -193,6 +196,10 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 
 		return response;
 	}
+
+	private static final String[] _STATUSES_VERIFIED = {
+		"ACTIVE", "LOCKED_OUT", "PASSWORD_EXPIRED", "RECOVERY", "SUSPENDED"
+	};
 
 	private static final String _URL_API_REST_USERS = "/api/v1/users/";
 

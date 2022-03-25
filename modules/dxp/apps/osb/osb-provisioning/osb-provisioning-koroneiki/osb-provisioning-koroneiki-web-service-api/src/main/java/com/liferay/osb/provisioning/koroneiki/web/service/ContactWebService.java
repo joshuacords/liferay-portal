@@ -31,6 +31,8 @@ public interface ContactWebService {
 	public Contact fetchContactByEmailAddress(String emailAddress)
 		throws Exception;
 
+	public Contact fetchContactByUuid(String uuid) throws Exception;
+
 	public Contact getContactByEmailAddress(String emailAddress)
 		throws Exception;
 
@@ -44,9 +46,13 @@ public interface ContactWebService {
 	public long searchCount(String search, FilterQuery filterQuery)
 		throws Exception;
 
-	public Contact updateContact(
+	public Contact updateContactByEmailAddress(
 			String agentName, String agentUID, String emailAddress,
 			Contact contact)
+		throws Exception;
+
+	public Contact updateContactByUuid(
+			String agentName, String agentUID, String uuid, Contact contact)
 		throws Exception;
 
 }

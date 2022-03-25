@@ -95,7 +95,7 @@ public class EditContactMVCActionCommand extends BaseMVCActionCommand {
 		contact.setMiddleName(middleName);
 		contact.setLastName(lastName);
 
-		_contactWebservice.updateContact(
+		_contactWebservice.updateContactByEmailAddress(
 			user.getFullName(), user.getUuid(), emailAddress, contact);
 	}
 

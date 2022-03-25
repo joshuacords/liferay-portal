@@ -29,6 +29,7 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
 import com.liferay.portal.kernel.service.UserLocalService;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
@@ -138,6 +139,10 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 			contact.setLastName(profileJSONObject.getString("lastName"));
 			contact.setMiddleName(profileJSONObject.getString("middleName"));
 			contact.setUuid(profileJSONObject.getString("uuid"));
+
+			if (_isEmailAddressVerified(jsonObject.getString("status"))) {
+				contact.setEmailAddressVerified(true);
+			}
 		}
 
 		return contact;
@@ -184,11 +189,15 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 
 		String status = jsonObject.getString("status");
 
-		if (Validator.isNotNull(status) && status.equals("ACTIVE")) {
-			return WorkflowConstants.STATUS_APPROVED;
+		if (ArrayUtil.contains(_STATUSES_DEACTIVATED, status)) {
+			return WorkflowConstants.STATUS_INACTIVE;
 		}
 
-		return WorkflowConstants.STATUS_INACTIVE;
+		if (ArrayUtil.contains(_STATUSES_PENDING, status)) {
+			return WorkflowConstants.STATUS_PENDING;
+		}
+
+		return WorkflowConstants.STATUS_APPROVED;
 	}
 
 	public void removeMembership(String groupId, String emailAddress)
@@ -227,16 +236,24 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 			String firstName = profileJSONObject.getString("firstName");
 			String lastName = profileJSONObject.getString("lastName");
 
+			String status = jsonObject.getString("status");
+
 			if ((Validator.isNotNull(uuid) &&
 				 !uuid.equals(contact.getUuid())) ||
 				(Validator.isNotNull(firstName) &&
 				 !firstName.equals(contact.getFirstName())) ||
 				(Validator.isNotNull(lastName) &&
-				 !lastName.equals(contact.getLastName()))) {
+				 !lastName.equals(contact.getLastName())) ||
+				(_isEmailAddressVerified(status) &&
+				 !contact.getEmailAddressVerified())) {
 
 				contact.setUuid(uuid);
 				contact.setFirstName(firstName);
 				contact.setLastName(lastName);
+
+				if (_isEmailAddressVerified(status)) {
+					contact.setEmailAddressVerified(true);
+				}
 
 				String agentName = StringPool.BLANK;
 				String agentUID = StringPool.BLANK;
@@ -249,7 +266,7 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 					agentUID = user.getUuid();
 				}
 
-				_contactWebService.updateContact(
+				_contactWebService.updateContactByEmailAddress(
 					agentName, agentUID, contact.getEmailAddress(), contact);
 			}
 		}
@@ -270,6 +287,16 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 	protected void deactivate() {
 		_multiVMPool.removePortalCache(
 			OktaContactIdentityProvider.class.getName());
+	}
+
+	private boolean _isEmailAddressVerified(String status) {
+		if (Validator.isNotNull(status) &&
+			ArrayUtil.contains(_STATUSES_VERIFIED, status)) {
+
+			return true;
+		}
+
+		return false;
 	}
 
 	private String _sendRequest(String endpoint) throws Exception {
@@ -296,6 +323,14 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 
 		return response;
 	}
+
+	private static final String[] _STATUSES_DEACTIVATED = {"DEPROVISIONED"};
+
+	private static final String[] _STATUSES_PENDING = {"PROVISIONED", "STAGED"};
+
+	private static final String[] _STATUSES_VERIFIED = {
+		"ACTIVE", "LOCKED_OUT", "PASSWORD_EXPIRED", "RECOVERY", "SUSPENDED"
+	};
 
 	private static final String _URL_API_GET_SESSION = "/api/v1/sessions/";
 

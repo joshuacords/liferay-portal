@@ -123,9 +123,6 @@ public class AssignAccountContactRolesMVCActionCommand
 						throw new NoSuchContactException();
 					}
 				}
-				else {
-					_contactIdentityProvider.syncContact(contact);
-				}
 
 				_accountWebService.assignContactRolesByEmailAddress(
 					user.getFullName(), user.getUuid(), accountKey,

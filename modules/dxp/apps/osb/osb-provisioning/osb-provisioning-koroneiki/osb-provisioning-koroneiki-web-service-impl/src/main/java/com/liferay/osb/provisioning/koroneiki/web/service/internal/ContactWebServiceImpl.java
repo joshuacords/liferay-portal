@@ -70,6 +70,21 @@ public class ContactWebServiceImpl implements ContactWebService {
 		return ContactSerDes.toDTO(httpResponse.getContent());
 	}
 
+	public Contact fetchContactByUuid(String uuid) throws Exception {
+		HttpInvoker.HttpResponse httpResponse =
+			_contactResource.getContactByUuidContactUuidHttpResponse(uuid);
+
+		if ((httpResponse.getStatusCode() ==
+				HttpServletResponse.SC_BAD_REQUEST) ||
+			(httpResponse.getStatusCode() ==
+				HttpServletResponse.SC_NOT_FOUND)) {
+
+			return null;
+		}
+
+		return ContactSerDes.toDTO(httpResponse.getContent());
+	}
+
 	public Contact getContactByEmailAddress(String emailAddress)
 		throws Exception {
 
@@ -121,13 +136,21 @@ public class ContactWebServiceImpl implements ContactWebService {
 		return 0;
 	}
 
-	public Contact updateContact(
+	public Contact updateContactByEmailAddress(
 			String agentName, String agentUID, String emailAddress,
 			Contact contact)
 		throws Exception {
 
 		return _contactResource.putContactByEmailAddresEmailAddress(
 			agentName, agentUID, emailAddress, contact);
+	}
+
+	public Contact updateContactByUuid(
+			String agentName, String agentUID, String uuid, Contact contact)
+		throws Exception {
+
+		return _contactResource.putContactByUuidContactUuid(
+			agentName, agentUID, uuid, contact);
 	}
 
 	@Activate
