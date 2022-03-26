@@ -43,6 +43,9 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -114,6 +117,16 @@ public class LayoutHeaderProductNavigationControlMenuEntry
 
 		writer.write(sb.toString());
 
+		RequestDispatcher requestDispatcher =
+			_servletContext.getRequestDispatcher("/entries/layout_finder.jsp");
+
+		try {
+			requestDispatcher.include(httpServletRequest, httpServletResponse);
+		}
+		catch (ServletException servletException) {
+			_log.error(servletException, servletException);
+		}
+
 		return true;
 	}
 
@@ -138,6 +151,14 @@ public class LayoutHeaderProductNavigationControlMenuEntry
 		}
 
 		return super.isShow(httpServletRequest);
+	}
+
+	@Reference(
+		target = "(osgi.web.symbolicname=com.liferay.product.navigation.control.menu.web)",
+		unbind = "-"
+	)
+	public void setServletContext(ServletContext servletContext) {
+		_servletContext = servletContext;
 	}
 
 	private String _getHeaderTitle(HttpServletRequest httpServletRequest) {
@@ -271,5 +292,7 @@ public class LayoutHeaderProductNavigationControlMenuEntry
 
 	@Reference
 	private Portal _portal;
+
+	private ServletContext _servletContext;
 
 }
