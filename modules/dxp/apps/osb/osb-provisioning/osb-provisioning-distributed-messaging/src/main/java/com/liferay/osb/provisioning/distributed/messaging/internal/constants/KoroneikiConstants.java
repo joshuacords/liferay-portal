@@ -15,10 +15,10 @@
 package com.liferay.osb.provisioning.distributed.messaging.internal.constants;
 
 /**
- * @author Jenny Chen
+ * @author Kyle Bischof
  */
-public class LegacyConstants {
+public class KoroneikiConstants {
 
-	public static final long ORGANIZATION_LIFERAY_INC_ID = 21;
+	public static final String ACCOUNT_KEY_LIFERAY_INC = "KOR-15097278";
 
 }

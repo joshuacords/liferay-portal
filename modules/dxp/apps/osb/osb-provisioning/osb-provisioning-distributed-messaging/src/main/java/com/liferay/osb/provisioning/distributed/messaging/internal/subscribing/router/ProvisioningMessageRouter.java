@@ -20,8 +20,6 @@ import com.liferay.osb.provisioning.distributed.messaging.internal.subscribing.D
 import com.liferay.osb.provisioning.distributed.messaging.internal.subscribing.EntitlementCreateMessageSubscriber;
 import com.liferay.osb.provisioning.distributed.messaging.internal.subscribing.EntitlementDeleteMessageSubscriber;
 import com.liferay.osb.provisioning.distributed.messaging.internal.subscribing.OktaUsersMessageSubscriber;
-import com.liferay.osb.provisioning.distributed.messaging.internal.subscribing.OrganizationAssignmentMessageSubscriber;
-import com.liferay.osb.provisioning.distributed.messaging.internal.subscribing.OrganizationUnassignmentMessageSubscriber;
 import com.liferay.osb.provisioning.distributed.messaging.internal.subscribing.ProductMessageSubscriber;
 
 import java.util.Map;
@@ -65,24 +63,6 @@ public class ProvisioningMessageRouter extends BaseMessageRouter {
 		Map<String, Object> properties) {
 
 		addRoute(oktaUsersMessageSubscriber, properties);
-	}
-
-	@Reference(unbind = "-")
-	protected void setOrganizationAssignmentMessageSubscriber(
-		OrganizationAssignmentMessageSubscriber
-			organizationAssignmentMessageSubscriber,
-		Map<String, Object> properties) {
-
-		addRoute(organizationAssignmentMessageSubscriber, properties);
-	}
-
-	@Reference(unbind = "-")
-	protected void setOrganizationUnassignmentMessageSubscriber(
-		OrganizationUnassignmentMessageSubscriber
-			organizationUnassignmentMessageSubscriber,
-		Map<String, Object> properties) {
-
-		addRoute(organizationUnassignmentMessageSubscriber, properties);
 	}
 
 	@Reference(unbind = "-")
