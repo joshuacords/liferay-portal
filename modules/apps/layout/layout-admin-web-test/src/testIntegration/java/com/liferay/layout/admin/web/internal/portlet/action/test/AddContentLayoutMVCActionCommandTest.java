@@ -101,6 +101,21 @@ public class AddContentLayoutMVCActionCommandTest {
 			portletPreferences.toString(), 1, portletPreferences.size());
 	}
 
+	private void _addEmbeddedPortlet() throws Exception {
+		long companyId = _company.getCompanyId();
+
+		_layoutPrototype = LayoutTestUtil.addLayoutPrototype(
+			RandomTestUtil.randomString());
+
+		Group group = _groupLocalService.fetchGroup(
+			companyId, _portal.getClassNameId(LayoutPrototype.class.getName()),
+			_layoutPrototype.getLayoutPrototypeId());
+
+		Layout layout = _layoutPrototype.getLayout();
+
+		_addEmbeddedPortlet(companyId, group.getGroupId(), layout.getPlid());
+	}
+
 	private void _addEmbeddedPortlet(long companyId, long groupId, long plid) {
 		Portlet portlet = _portletLocalService.fetchPortletById(
 			companyId, LayoutAdminWebPortletKeys.LAYOUT_ADMIN_WEB_TEST_PORTLET);
@@ -116,21 +131,6 @@ public class AddContentLayoutMVCActionCommandTest {
 			PortletKeys.PREFS_OWNER_TYPE_LAYOUT, plid,
 			LayoutAdminWebPortletKeys.LAYOUT_ADMIN_WEB_TEST_PORTLET, portlet,
 			PortletConstants.DEFAULT_PREFERENCES);
-	}
-
-	private void _addEmbeddedPortlet() throws Exception {
-		long companyId = _company.getCompanyId();
-
-		_layoutPrototype = LayoutTestUtil.addLayoutPrototype(
-			RandomTestUtil.randomString());
-
-		Group group = _groupLocalService.fetchGroup(
-			companyId, _portal.getClassNameId(LayoutPrototype.class.getName()),
-			_layoutPrototype.getLayoutPrototypeId());
-
-		Layout layout = _layoutPrototype.getLayout();
-
-		_addEmbeddedPortlet(companyId, group.getGroupId(), layout.getPlid());
 	}
 
 	private MockLiferayPortletActionRequest
