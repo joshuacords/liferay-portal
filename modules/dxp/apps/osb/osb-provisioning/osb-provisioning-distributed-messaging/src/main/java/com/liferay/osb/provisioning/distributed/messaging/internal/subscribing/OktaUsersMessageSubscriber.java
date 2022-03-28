@@ -14,10 +14,17 @@
 
 package com.liferay.osb.provisioning.distributed.messaging.internal.subscribing;
 
+import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Account;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Contact;
+import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ContactRole;
+import com.liferay.osb.provisioning.distributed.messaging.internal.constants.KoroneikiConstants;
+import com.liferay.osb.provisioning.koroneiki.constants.ContactRoleConstants;
+import com.liferay.osb.provisioning.koroneiki.web.service.AccountWebService;
+import com.liferay.osb.provisioning.koroneiki.web.service.ContactRoleWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.ContactWebService;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.json.JSONObject;
-import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import org.osgi.service.component.annotations.Component;
@@ -39,9 +46,30 @@ public class OktaUsersMessageSubscriber extends BaseMessageSubscriber {
 		if (eventType.equals(_EVENT_TYPE_ACTIVATE)) {
 			_verifyContact(jsonObject.getJSONObject("user"));
 		}
+		else if (eventType.equals(_EVENT_TYPE_GROUP_ADD)) {
+			if (_isGroupEmployee(jsonObject)) {
+				_addEmployee(jsonObject.getJSONObject("user"));
+			}
+		}
+		else if (eventType.equals(_EVENT_TYPE_GROUP_REMOVE)) {
+			if (_isGroupEmployee(jsonObject)) {
+				_removeEmployee(jsonObject.getJSONObject("user"));
+			}
+		}
 		else if (eventType.equals(_EVENT_TYPE_UPDATE)) {
 			_updateContact(jsonObject.getJSONObject("user"));
 		}
+	}
+
+	private void _addEmployee(JSONObject jsonObject) throws Exception {
+		ContactRole contactRole = _contactRoleWebService.getContactRole(
+			ContactRole.Type.ACCOUNT_CUSTOMER.toString(),
+			ContactRoleConstants.NAME_MEMBER);
+
+		_accountWebService.assignContactRolesByEmailAddress(
+			StringPool.BLANK, StringPool.BLANK,
+			KoroneikiConstants.ACCOUNT_KEY_LIFERAY_INC,
+			jsonObject.getString("email"), new String[] {contactRole.getKey()});
 	}
 
 	private Contact _fetchContact(JSONObject jsonObject) throws Exception {
@@ -52,6 +80,37 @@ public class OktaUsersMessageSubscriber extends BaseMessageSubscriber {
 		}
 
 		return _contactWebService.fetchContactByUuid(uuid);
+	}
+
+	private boolean _isGroupEmployee(JSONObject jsonObject) {
+		JSONObject groupJSONObject = jsonObject.getJSONObject("group");
+
+		String name = groupJSONObject.getString("displayName");
+
+		if (name.equals(_GROUP_NAME_EMPLOYEES)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	private void _removeEmployee(JSONObject jsonObject) throws Exception {
+		Contact contact = _contactWebService.fetchContactByEmailAddress(
+			jsonObject.getString("email"));
+
+		if ((contact == null) || ArrayUtil.isEmpty(contact.getAccounts())) {
+			return;
+		}
+
+		for (Account account : contact.getAccounts()) {
+			_accountWebService.unassignCustomerContact(
+				StringPool.BLANK, StringPool.BLANK, account.getKey(),
+				contact.getEmailAddress());
+
+			_accountWebService.unassignWorkerContact(
+				StringPool.BLANK, StringPool.BLANK, account.getKey(),
+				contact.getEmailAddress());
+		}
 	}
 
 	private void _updateContact(JSONObject jsonObject) throws Exception {
@@ -97,8 +156,22 @@ public class OktaUsersMessageSubscriber extends BaseMessageSubscriber {
 	private static final String _EVENT_TYPE_ACTIVATE =
 		"user.lifecycle.activate";
 
+	private static final String _EVENT_TYPE_GROUP_ADD =
+		"group.user_membership.add";
+
+	private static final String _EVENT_TYPE_GROUP_REMOVE =
+		"group.user_membership.remove";
+
 	private static final String _EVENT_TYPE_UPDATE =
 		"user.account.update_profile";
+
+	private static final String _GROUP_NAME_EMPLOYEES = "Employees";
+
+	@Reference
+	private AccountWebService _accountWebService;
+
+	@Reference
+	private ContactRoleWebService _contactRoleWebService;
 
 	@Reference
 	private ContactWebService _contactWebService;
