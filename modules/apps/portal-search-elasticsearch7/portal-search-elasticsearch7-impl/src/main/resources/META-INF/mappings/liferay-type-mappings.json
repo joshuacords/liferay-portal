@@ -557,58 +557,6 @@
 				}
 			}
 		],
-		"expando_templates": [
-			{
-				"template_double_sortable": {
-					"mapping": {
-						"store": true,
-						"type": "double"
-					},
-					"match": "*_Double_sortable",
-					"match_mapping_type": "double"
-				}
-			},
-			{
-				"template_float_sortable": {
-					"mapping": {
-						"store": true,
-						"type": "float"
-					},
-					"match": "*_Float_sortable",
-					"match_mapping_type": "float"
-				}
-			},
-			{
-				"template_integer_sortable": {
-					"mapping": {
-						"store": true,
-						"type": "integer"
-					},
-					"match": "*_Integer_sortable",
-					"match_mapping_type": "integer"
-				}
-			},
-			{
-				"template_long_sortable": {
-					"mapping": {
-						"store": true,
-						"type": "long"
-					},
-					"match": "*_Long_sortable",
-					"match_mapping_type": "long"
-				}
-			},
-			{
-				"template_short_sortable": {
-					"mapping": {
-						"store": true,
-						"type": "short"
-					},
-					"match": "*_Short_sortable",
-					"match_mapping_type": "short"
-				}
-			}
-		],
 		"properties": {
 			"ancestorOrganizationIds": {
 				"store": true,
