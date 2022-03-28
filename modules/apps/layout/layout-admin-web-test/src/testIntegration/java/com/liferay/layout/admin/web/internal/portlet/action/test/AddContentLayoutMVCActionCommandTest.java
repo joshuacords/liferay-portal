@@ -146,6 +146,8 @@ public class AddContentLayoutMVCActionCommandTest {
 		MockLiferayPortletActionRequest mockLiferayPortletActionRequest =
 			new MockLiferayPortletActionRequest();
 
+		mockLiferayPortletActionRequest.setAttribute(
+			WebKeys.THEME_DISPLAY, _getThemeDisplay());
 		mockLiferayPortletActionRequest.setParameter(
 			"groupId", String.valueOf(_group.getGroupId()));
 		mockLiferayPortletActionRequest.setParameter(
@@ -159,9 +161,6 @@ public class AddContentLayoutMVCActionCommandTest {
 			String.valueOf(LayoutConstants.DEFAULT_PARENT_LAYOUT_ID));
 		mockLiferayPortletActionRequest.setParameter(
 			"name", RandomTestUtil.randomString());
-
-		mockLiferayPortletActionRequest.setAttribute(
-			WebKeys.THEME_DISPLAY, _getThemeDisplay());
 
 		return mockLiferayPortletActionRequest;
 	}
