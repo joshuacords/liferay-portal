@@ -79,7 +79,7 @@ public class AddContentLayoutMVCActionCommandTest {
 
 		_company = _companyLocalService.getCompany(_group.getCompanyId());
 
-		_addPageTemplate();
+		_addEmbeddedPortlet();
 	}
 
 	@Test
@@ -118,7 +118,7 @@ public class AddContentLayoutMVCActionCommandTest {
 			PortletConstants.DEFAULT_PREFERENCES);
 	}
 
-	private void _addPageTemplate() throws Exception {
+	private void _addEmbeddedPortlet() throws Exception {
 		long companyId = _company.getCompanyId();
 
 		_layoutPrototype = LayoutTestUtil.addLayoutPrototype(
