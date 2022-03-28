@@ -118,14 +118,19 @@ public class AuditEntryUtil {
 			return "Team Role";
 		}
 		else {
-			String className = PortalUtil.getClassName(classNameId);
+			ClassName className = ClassNameLocalServiceUtil.fetchClassName(
+				classNameId);
 
-			if (className.startsWith(AuditEntry.class.getName() + "#")) {
-				return className.substring(className.indexOf("#") + 1);
+			if (className != null) {
+				String value = className.getValue();
+
+				if (value.startsWith(AuditEntry.class.getName() + "#")) {
+					return value.substring(value.indexOf("#") + 1);
+				}
 			}
-
-			return "N/A";
 		}
+
+		return "N/A";
 	}
 
 	private static String _getNewValue(
