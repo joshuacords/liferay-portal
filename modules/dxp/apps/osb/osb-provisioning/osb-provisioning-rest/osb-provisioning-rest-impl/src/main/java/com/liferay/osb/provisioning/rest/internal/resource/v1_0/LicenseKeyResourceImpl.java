@@ -814,6 +814,7 @@ public class LicenseKeyResourceImpl
 
 		if (productGroupName.equals(ProductConstants.GROUP_NAME_COMMERCE)) {
 			filterQuery.addContains(false, "name", "Commerce for DXP Cloud");
+			filterQuery.addContains(false, "name", "Commerce for LXC SM");
 			filterQuery.addContains(false, "name", "Commerce Subscription");
 		}
 
@@ -839,6 +840,8 @@ public class LicenseKeyResourceImpl
 			if (productGroupName.equals(ProductConstants.GROUP_NAME_COMMERCE) &&
 				(curProductName.startsWith(
 					ProductConstants.NAME_COMMERCE_FOR_DXP_CLOUD) ||
+				 curProductName.contains(
+					 ProductConstants.NAME_COMMERCE_FOR_LXC_SM) ||
 				 curProductName.startsWith(
 					 ProductConstants.NAME_COMMERCE_SUBSCRIPTION))) {
 
