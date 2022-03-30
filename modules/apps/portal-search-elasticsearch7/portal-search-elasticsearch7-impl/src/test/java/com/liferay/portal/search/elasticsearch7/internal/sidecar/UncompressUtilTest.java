@@ -59,7 +59,7 @@ public class UncompressUtilTest {
 	public void testUnarchive() throws Exception {
 		Assert.assertEquals(
 			"tar/",
-			UncompressUtil.unarchive(_getResourcePath("testTar.gz"), _tempDir));
+			UncompressUtil.unarchive(_getResourcePath("test.gz"), _tempDir));
 
 		_assertExists("tar/test/entry/entry.txt");
 		_assertExists("tar/test/directory");
@@ -87,7 +87,7 @@ public class UncompressUtilTest {
 
 	@Test
 	public void testUnzipZipSlipVulnerable() throws Exception {
-		UncompressUtil.unzip(_getResourcePath("testZipSlip.zip"), _tempDir);
+		UncompressUtil.unzip(_getResourcePath("test_slip.zip"), _tempDir);
 
 		_assertExists("good.txt");
 		_assertDoesNotExist();
