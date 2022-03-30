@@ -51,6 +51,7 @@ import com.liferay.osb.provisioning.search.FilterQuery;
 import com.liferay.osb.provisioning.util.DataRegionUtil;
 import com.liferay.osb.provisioning.zendesk.model.ZendeskTicket;
 import com.liferay.osb.provisioning.zendesk.web.service.ZendeskTicketWebService;
+import com.liferay.petra.content.ContentUtil;
 import com.liferay.petra.lang.CentralizedThreadLocal;
 import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringBundler;
@@ -62,6 +63,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Address;
@@ -71,13 +73,18 @@ import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.FastDateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.StackTraceUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.SubscriptionSender;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.lock.model.Lock;
 import com.liferay.portal.lock.service.LockLocalService;
+
+import java.net.URL;
 
 import java.text.Format;
 
@@ -89,7 +96,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -173,7 +182,7 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 	protected void checkWarnings(
 			String accountKey, Account account, Account partnerAccount,
 			boolean analyticsCloud, boolean partnerFirstLineSupport,
-			List<Contact> inactiveContacts,
+			List<Contact> inactiveContacts, List<Contact> missingContacts,
 			Set<ProductPurchase> productPurchases,
 			String salesforceOpportunityTypeName, int salesforceOpportunityType,
 			JSONObject jsonObject)
@@ -253,6 +262,21 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 			sb.append("to the account:<br />");
 
 			for (Contact contact : inactiveContacts) {
+				sb.append(contact.getEmailAddress());
+				sb.append("<br />");
+			}
+
+			_logWarning(sb.toString());
+		}
+
+		if (!missingContacts.isEmpty()) {
+			StringBundler sb = new StringBundler(
+				(2 * missingContacts.size()) + 2);
+
+			sb.append("The following missing contact(s) cannot be assigned ");
+			sb.append("to the account:<br />");
+
+			for (Contact contact : missingContacts) {
 				sb.append(contact.getEmailAddress());
 				sb.append("<br />");
 			}
@@ -909,6 +933,7 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 
 		List<Contact> activeContacts = new ArrayList<>();
 		List<Contact> inactiveContacts = new ArrayList<>();
+		List<Contact> missingContacts = new ArrayList<>();
 
 		String accountKey = getAccountKey(jsonObject);
 
@@ -929,20 +954,12 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 						contact.getEmailAddress());
 
 				if (status == null) {
-					Contact newContact = _contactIdentityProvider.createContact(
-						contact.getEmailAddress(), contact.getFirstName(),
-						contact.getMiddleName(), contact.getLastName());
-
-					newContact.setContactRoles(contact.getContactRoles());
-
-					activeContacts.add(newContact);
+					missingContacts.add(contact);
 				}
-				else if ((status == WorkflowConstants.STATUS_APPROVED) ||
-						 (status == WorkflowConstants.STATUS_PENDING)) {
-
+				else if (status == WorkflowConstants.STATUS_APPROVED) {
 					activeContacts.add(contact);
 				}
-				else if (status == WorkflowConstants.STATUS_INACTIVE) {
+				else {
 					inactiveContacts.add(contact);
 				}
 			}
@@ -954,6 +971,8 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 
 		Account.Language language = getLanguage(
 			jsonObject, postalAddress.getAddressCountry());
+
+		String languageId = _getLanguageId(language);
 
 		String soldBy = jsonObject.getString("_salesforceOpportunitySoldBy");
 
@@ -1007,6 +1026,11 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 			}
 
 			createAccountNote(jsonObject, account);
+
+			for (Contact contact : missingContacts) {
+				sendUserCreationEmail(
+					contact, account, analyticsCloud, languageId);
+			}
 		}
 		else {
 			account = _accountWebService.fetchAccount(accountKey);
@@ -1023,9 +1047,9 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 
 		checkWarnings(
 			accountKey, account, partnerAccount, analyticsCloud,
-			partnerFirstLineSupport, inactiveContacts, productPurchases,
-			salesforceOpportunityTypeName, salesforceOpportunityType,
-			jsonObject);
+			partnerFirstLineSupport, inactiveContacts, missingContacts,
+			productPurchases, salesforceOpportunityTypeName,
+			salesforceOpportunityType, jsonObject);
 
 		String salesforceOpportunityProductFamily = jsonObject.getString(
 			"_salesforceOpportunityProductFamily");
@@ -1384,6 +1408,46 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 		postalAddress.setPostalCode(jsonObject.getString("_postalCode"));
 
 		return postalAddress;
+	}
+
+	protected String getProvisioningEmailAddress(String accountRegion) {
+		if (accountRegion.equals(Account.Region.AUSTRALIA.toString())) {
+			return _distributedMessagingConfiguration.
+				provisioningEmailAddressAustralia();
+		}
+		else if (accountRegion.equals(Account.Region.BRAZIL.toString())) {
+			return _distributedMessagingConfiguration.
+				provisioningEmailAddressBrazil();
+		}
+		else if (accountRegion.equals(Account.Region.CHINA.toString())) {
+			return _distributedMessagingConfiguration.
+				provisioningEmailAddressChina();
+		}
+		else if (accountRegion.equals(Account.Region.HUNGARY.toString())) {
+			return _distributedMessagingConfiguration.
+				provisioningEmailAddressHungary();
+		}
+		else if (accountRegion.equals(Account.Region.INDIA.toString())) {
+			return _distributedMessagingConfiguration.
+				provisioningEmailAddressIndia();
+		}
+		else if (accountRegion.equals(Account.Region.JAPAN.toString())) {
+			return _distributedMessagingConfiguration.
+				provisioningEmailAddressJapan();
+		}
+		else if (accountRegion.equals(Account.Region.SPAIN.toString())) {
+			return _distributedMessagingConfiguration.
+				provisioningEmailAddressSpain();
+		}
+		else if (accountRegion.equals(
+					Account.Region.UNITED_STATES.toString())) {
+
+			return _distributedMessagingConfiguration.
+				provisioningEmailAddressUS();
+		}
+
+		return _distributedMessagingConfiguration.
+			provisioningEmailAddressGlobal();
 	}
 
 	protected ExternalLink getSalesforceOpportunityExternalLink(
@@ -2104,6 +2168,58 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 			Message.class.getName(), salesforceOpportunityKey);
 	}
 
+	protected void sendUserCreationEmail(
+		Contact contact, Account account, boolean analyticsCloud,
+		String languageId) {
+
+		String body = _getEmailTemplate(
+			"email_provisioning_create_account_body_" + languageId + ".tmpl",
+			"email_provisioning_create_account_body.tmpl");
+
+		String provisioningEmailAddress = getProvisioningEmailAddress(
+			account.getRegionAsString());
+
+		Locale locale = LocaleUtil.fromLanguageId(languageId);
+
+		ResourceBundle resourceBundle = ResourceBundleUtil.getBundle(
+			"content.Language", locale, getClass());
+
+		StringBundler sb = new StringBundler(2);
+
+		if (analyticsCloud) {
+			sb.append("analytics-cloud-");
+		}
+
+		sb.append("help-center-all-of-our-downloads-and-our-support-system");
+
+		String subscriptionServices = LanguageUtil.get(
+			resourceBundle, sb.toString());
+		String subject = LanguageUtil.get(
+			resourceBundle, "welcome-to-liferay-support");
+
+		SubscriptionSender subscriptionSender = new SubscriptionSender();
+
+		subscriptionSender.setBody(body);
+		subscriptionSender.setCompanyId(_portal.getDefaultCompanyId());
+		subscriptionSender.setContextAttributes(
+			"[$ACCOUNT_ENTRY_NAME$]", account.getName(),
+			"[$SUBSCRIPTION_SERVICES$]", subscriptionServices, "[$TO_NAME$]",
+			getContactFullName(contact));
+		subscriptionSender.setFrom(
+			provisioningEmailAddress, "Liferay Provisioning");
+		subscriptionSender.setHtmlFormat(true);
+		subscriptionSender.setMailId("provisioning");
+		subscriptionSender.setReplyToAddress(provisioningEmailAddress);
+		subscriptionSender.setSubject(subject);
+
+		subscriptionSender.addRuntimeSubscribers(
+			contact.getEmailAddress(), getContactFullName(contact));
+		subscriptionSender.addRuntimeSubscribers(
+			provisioningEmailAddress, getContactFullName(contact));
+
+		subscriptionSender.flushNotificationsAsync();
+	}
+
 	protected Account updateAccount(
 			String accountKey, Account parentAccount, List<Contact> contacts,
 			Account.Region region, PostalAddress postalAddress,
@@ -2371,6 +2487,29 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 		return false;
 	}
 
+	private static String _getEmailTemplate(
+		String templateName, String defaultTemplateName) {
+
+		ClassLoader classLoader =
+			DossieraCreateMessageSubscriber.class.getClassLoader();
+
+		String templateDirName =
+			"com/liferay/osb/provisioning/distributed/messaging/internal" +
+				"/dependencies/";
+
+		URL url = classLoader.getResource(templateDirName + templateName);
+
+		if (url != null) {
+			return ContentUtil.get(
+				DossieraCreateMessageSubscriber.class.getClassLoader(),
+				templateDirName + templateName);
+		}
+
+		return ContentUtil.get(
+			DossieraCreateMessageSubscriber.class.getClassLoader(),
+			templateDirName + defaultTemplateName);
+	}
+
 	private String _getCode(String parentAccountName, String accountName)
 		throws Exception {
 
@@ -2404,6 +2543,29 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 			}
 
 			i++;
+		}
+	}
+
+	private String _getLanguageId(Account.Language accountLanguage) {
+		String language = accountLanguage.toString();
+
+		if (language.equals(Account.Language.CHINESE.toString())) {
+			return "zh_CN";
+		}
+		else if (language.equals(Account.Language.ENGLISH.toString())) {
+			return "en_US";
+		}
+		else if (language.equals(Account.Language.JAPANESE.toString())) {
+			return "ja_JP";
+		}
+		else if (language.equals(Account.Language.PORTUGUESE.toString())) {
+			return "pt_BR";
+		}
+		else if (language.equals(Account.Language.SPANISH.toString())) {
+			return "es_ES";
+		}
+		else {
+			return StringPool.BLANK;
 		}
 	}
 
