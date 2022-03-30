@@ -45,11 +45,13 @@ public class UncompressUtilTest {
 
 	@Before
 	public void setUp() throws IOException {
+		_evilFileTarget = Paths.get("/tmp/evil.txt");
 		_tempDir = Files.createTempDirectory("temp_dir");
 	}
 
 	@After
 	public void tearDown() throws Exception {
+		PathUtil.deleteDir(_evilFileTarget);
 		PathUtil.deleteDir(_tempDir);
 	}
 
@@ -88,13 +90,13 @@ public class UncompressUtilTest {
 		UncompressUtil.unzip(_getResourcePath("testZipSlip.zip"), _tempDir);
 
 		_assertExists("good.txt");
-		_assertDoesNotExist("tmp/evil.txt");
+		_assertDoesNotExist();
 	}
 
-	private void _assertDoesNotExist(String name) {
-		Path fullPath = _tempDir.resolve(name);
-
-		Assert.assertFalse(Files.exists(fullPath));
+	private void _assertDoesNotExist() {
+		Assert.assertFalse(
+			"File should not unzip outside of " + _tempDir,
+			Files.exists(_evilFileTarget));
 	}
 
 	private void _assertExists(String name) {
@@ -133,6 +135,7 @@ public class UncompressUtilTest {
 		return path.resolve(fileName);
 	}
 
+	private Path _evilFileTarget;
 	private Path _tempDir;
 
 }
