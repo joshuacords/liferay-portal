@@ -27,6 +27,8 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.portlet.PortletProvider;
@@ -339,7 +341,7 @@ public class ContentPageLayoutEditorDisplayContext
 				return !segmentsExperimentRel.isControl();
 			}
 			catch (PortalException portalException) {
-				portalException.printStackTrace();
+				_log.error(portalException);
 			}
 		}
 
@@ -385,6 +387,9 @@ public class ContentPageLayoutEditorDisplayContext
 			"singleSegmentsExperienceMode", _isSingleSegmentsExperienceMode()
 		);
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		ContentPageLayoutEditorDisplayContext.class);
 
 	private SoyContext _editorSoyContext;
 	private String _editSegmentsEntryURL;
