@@ -15,7 +15,7 @@
 package com.liferay.headless.admin.user.internal.resource.v1_0;
 
 import com.liferay.headless.admin.user.dto.v1_0.Phone;
-import com.liferay.headless.admin.user.internal.dto.v1_0.helper.OrganizationResourceDTOConverter;
+import com.liferay.headless.admin.user.internal.dto.v1_0.converter.OrganizationResourceDTOConverter;
 import com.liferay.headless.admin.user.internal.dto.v1_0.util.PhoneUtil;
 import com.liferay.headless.admin.user.resource.v1_0.PhoneResource;
 import com.liferay.portal.kernel.model.Contact;
@@ -39,11 +39,11 @@ import org.osgi.service.component.annotations.ServiceScope;
 public class PhoneResourceImpl extends BasePhoneResourceImpl {
 
 	@Override
-	public Page<Phone> getOrganizationPhonesPage(String organizationId)
+	public Page<Phone> getOrganizationPhonesPage(Long organizationId)
 		throws Exception {
 
 		Organization organization = _organizationResourceDTOConverter.getObject(
-			organizationId);
+			String.valueOf(organizationId));
 
 		return Page.of(
 			transform(

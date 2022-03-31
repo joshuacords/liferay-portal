@@ -1762,8 +1762,6 @@ paths:
                     content:
                         application/json: {}
                         application/xml: {}
-                    description:
-                        ""
             tags: ["UserAccount"]
         get:
             description:

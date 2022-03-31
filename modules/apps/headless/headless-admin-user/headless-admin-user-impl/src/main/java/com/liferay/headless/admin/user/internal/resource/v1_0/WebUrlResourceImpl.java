@@ -15,7 +15,7 @@
 package com.liferay.headless.admin.user.internal.resource.v1_0;
 
 import com.liferay.headless.admin.user.dto.v1_0.WebUrl;
-import com.liferay.headless.admin.user.internal.dto.v1_0.helper.OrganizationResourceDTOConverter;
+import com.liferay.headless.admin.user.internal.dto.v1_0.converter.OrganizationResourceDTOConverter;
 import com.liferay.headless.admin.user.internal.dto.v1_0.util.WebUrlUtil;
 import com.liferay.headless.admin.user.resource.v1_0.WebUrlResource;
 import com.liferay.portal.kernel.model.Contact;
@@ -39,11 +39,11 @@ import org.osgi.service.component.annotations.ServiceScope;
 public class WebUrlResourceImpl extends BaseWebUrlResourceImpl {
 
 	@Override
-	public Page<WebUrl> getOrganizationWebUrlsPage(String organizationId)
+	public Page<WebUrl> getOrganizationWebUrlsPage(Long organizationId)
 		throws Exception {
 
 		Organization organization = _organizationResourceDTOConverter.getObject(
-			organizationId);
+			String.valueOf(organizationId));
 
 		return Page.of(
 			transform(

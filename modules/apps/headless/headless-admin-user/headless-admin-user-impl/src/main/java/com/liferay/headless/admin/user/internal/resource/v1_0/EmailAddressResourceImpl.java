@@ -15,7 +15,7 @@
 package com.liferay.headless.admin.user.internal.resource.v1_0;
 
 import com.liferay.headless.admin.user.dto.v1_0.EmailAddress;
-import com.liferay.headless.admin.user.internal.dto.v1_0.helper.OrganizationResourceDTOConverter;
+import com.liferay.headless.admin.user.internal.dto.v1_0.converter.OrganizationResourceDTOConverter;
 import com.liferay.headless.admin.user.internal.dto.v1_0.util.EmailAddressUtil;
 import com.liferay.headless.admin.user.resource.v1_0.EmailAddressResource;
 import com.liferay.portal.kernel.model.Contact;
@@ -46,11 +46,11 @@ public class EmailAddressResourceImpl extends BaseEmailAddressResourceImpl {
 
 	@Override
 	public Page<EmailAddress> getOrganizationEmailAddressesPage(
-			String organizationId)
+			Long organizationId)
 		throws Exception {
 
 		Organization organization = _organizationResourceDTOConverter.getObject(
-			organizationId);
+			String.valueOf(organizationId));
 
 		return Page.of(
 			transform(

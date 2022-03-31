@@ -19,7 +19,7 @@ import com.liferay.headless.admin.user.dto.v1_0.Location;
 import com.liferay.headless.admin.user.dto.v1_0.Organization;
 import com.liferay.headless.admin.user.dto.v1_0.OrganizationContactInformation;
 import com.liferay.headless.admin.user.dto.v1_0.Service;
-import com.liferay.headless.admin.user.internal.dto.v1_0.helper.OrganizationResourceDTOConverter;
+import com.liferay.headless.admin.user.internal.dto.v1_0.converter.OrganizationResourceDTOConverter;
 import com.liferay.headless.admin.user.internal.dto.v1_0.util.ServiceBuilderAddressUtil;
 import com.liferay.headless.admin.user.internal.dto.v1_0.util.ServiceBuilderCountryUtil;
 import com.liferay.headless.admin.user.internal.dto.v1_0.util.ServiceBuilderEmailAddressUtil;
@@ -91,7 +91,7 @@ public class OrganizationResourceImpl
 	extends BaseOrganizationResourceImpl implements EntityModelResource {
 
 	@Override
-	public void deleteOrganization(String organizationId) throws Exception {
+	public void deleteOrganization(Long organizationId) throws Exception {
 		long id = _getServiceBuilderOrganizationId(organizationId);
 
 		_organizationService.deleteOrganization(id);
@@ -103,15 +103,13 @@ public class OrganizationResourceImpl
 	}
 
 	@Override
-	public Organization getOrganization(String organizationId)
-		throws Exception {
-
+	public Organization getOrganization(Long organizationId) throws Exception {
 		return _toOrganization(organizationId);
 	}
 
 	@Override
 	public Page<Organization> getOrganizationOrganizationsPage(
-			String parentOrganizationId, Boolean flatten, String search,
+			Long parentOrganizationId, Boolean flatten, String search,
 			Filter filter, Pagination pagination, Sort[] sorts)
 		throws Exception {
 
@@ -153,19 +151,20 @@ public class OrganizationResourceImpl
 
 	@Override
 	public Organization putOrganization(
-			String organizationId, Organization organization)
+			Long organizationId, Organization organization)
 		throws Exception {
 
 		com.liferay.portal.kernel.model.Organization
 			serviceBuilderOrganization =
-				_organizationResourceDTOConverter.getObject(organizationId);
+				_organizationResourceDTOConverter.getObject(
+					String.valueOf(organizationId));
 
 		long countryId = _getCountryId(organization);
 
 		Group group = serviceBuilderOrganization.getGroup();
 
 		return _organizationResourceDTOConverter.toDTO(
-			_getDtoConverterContext(organizationId),
+			_getDtoConverterContext(String.valueOf(organizationId)),
 			_organizationService.updateOrganization(
 				serviceBuilderOrganization.getOrganizationId(),
 				_getDefaultParentOrganizationId(organization),
@@ -289,8 +288,8 @@ public class OrganizationResourceImpl
 	}
 
 	private Page<Organization> _getOrganizationsPage(
-			String organizationId, Boolean flatten, String search,
-			Filter filter, Pagination pagination, Sort[] sorts)
+			Long organizationId, Boolean flatten, String search, Filter filter,
+			Pagination pagination, Sort[] sorts)
 		throws Exception {
 
 		long id = _getServiceBuilderOrganizationId(organizationId);
@@ -327,7 +326,7 @@ public class OrganizationResourceImpl
 			searchContext -> searchContext.setCompanyId(
 				contextCompany.getCompanyId()),
 			document -> _toOrganization(
-				GetterUtil.getString(document.get(Field.ENTRY_CLASS_PK))),
+				GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK))),
 			sorts);
 	}
 
@@ -372,7 +371,7 @@ public class OrganizationResourceImpl
 		);
 	}
 
-	private long _getServiceBuilderOrganizationId(String organizationId)
+	private long _getServiceBuilderOrganizationId(Long organizationId)
 		throws Exception {
 
 		if (organizationId == null) {
@@ -381,7 +380,8 @@ public class OrganizationResourceImpl
 
 		com.liferay.portal.kernel.model.Organization
 			serviceBuilderOrganization =
-				_organizationResourceDTOConverter.getObject(organizationId);
+				_organizationResourceDTOConverter.getObject(
+					String.valueOf(organizationId));
 
 		if (serviceBuilderOrganization == null) {
 			return GetterUtil.getLong(organizationId);
@@ -407,9 +407,7 @@ public class OrganizationResourceImpl
 		);
 	}
 
-	private Organization _toOrganization(String organizationId)
-		throws Exception {
-
+	private Organization _toOrganization(Long organizationId) throws Exception {
 		return _organizationResourceDTOConverter.toDTO(
 			_getDtoConverterContext(String.valueOf(organizationId)));
 	}
