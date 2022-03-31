@@ -116,7 +116,7 @@ public class OrganizationResourceDTOConverter
 					dtoConverterContext.getLocale());
 				dateCreated = organization.getCreateDate();
 				dateModified = organization.getModifiedDate();
-				id = String.valueOf(organization.getOrganizationId());
+				id = organization.getOrganizationId();
 				keywords = ListUtil.toArray(
 					_assetTagLocalService.getTags(
 						organization.getModelClassName(),
