@@ -111,7 +111,7 @@ public class FragmentCollectionLocalServiceImpl
 			FragmentCollection fragmentCollection)
 		throws PortalException {
 
-		/// Fragment collection
+		// Fragment collection
 
 		fragmentCollectionPersistence.remove(fragmentCollection);
 
