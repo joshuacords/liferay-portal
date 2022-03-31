@@ -430,6 +430,111 @@ public abstract class BaseUserAccountResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
+	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-admin-user/v1.0/user-accounts/{userAccountId}' -d $'{"additionalName": ___, "alternateName": ___, "birthDate": ___, "contactInformation": ___, "customFields": ___, "emailAddress": ___, "familyName": ___, "givenName": ___, "honorificPrefix": ___, "honorificSuffix": ___, "jobTitle": ___, "userAccountContactInformation": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
+	 */
+	@io.swagger.v3.oas.annotations.Operation(
+		description = "Updates the user account with information sent in the request body. Only the provided fields are updated."
+	)
+	@io.swagger.v3.oas.annotations.Parameters(
+		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
+				name = "userAccountId"
+			)
+		}
+	)
+	@io.swagger.v3.oas.annotations.tags.Tags(value = {})
+	@javax.ws.rs.Consumes({"application/json", "application/xml"})
+	@javax.ws.rs.PATCH
+	@javax.ws.rs.Path("/user-accounts/{userAccountId}")
+	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@Override
+	public UserAccount patchUserAccount(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.PathParam("userAccountId")
+			Long userAccountId,
+			UserAccount userAccount)
+		throws Exception {
+
+		UserAccount existingUserAccount = getUserAccount(userAccountId);
+
+		if (userAccount.getAdditionalName() != null) {
+			existingUserAccount.setAdditionalName(
+				userAccount.getAdditionalName());
+		}
+
+		if (userAccount.getAlternateName() != null) {
+			existingUserAccount.setAlternateName(
+				userAccount.getAlternateName());
+		}
+
+		if (userAccount.getBirthDate() != null) {
+			existingUserAccount.setBirthDate(userAccount.getBirthDate());
+		}
+
+		if (userAccount.getDashboardURL() != null) {
+			existingUserAccount.setDashboardURL(userAccount.getDashboardURL());
+		}
+
+		if (userAccount.getDateCreated() != null) {
+			existingUserAccount.setDateCreated(userAccount.getDateCreated());
+		}
+
+		if (userAccount.getDateModified() != null) {
+			existingUserAccount.setDateModified(userAccount.getDateModified());
+		}
+
+		if (userAccount.getEmailAddress() != null) {
+			existingUserAccount.setEmailAddress(userAccount.getEmailAddress());
+		}
+
+		if (userAccount.getFamilyName() != null) {
+			existingUserAccount.setFamilyName(userAccount.getFamilyName());
+		}
+
+		if (userAccount.getGivenName() != null) {
+			existingUserAccount.setGivenName(userAccount.getGivenName());
+		}
+
+		if (userAccount.getHonorificPrefix() != null) {
+			existingUserAccount.setHonorificPrefix(
+				userAccount.getHonorificPrefix());
+		}
+
+		if (userAccount.getHonorificSuffix() != null) {
+			existingUserAccount.setHonorificSuffix(
+				userAccount.getHonorificSuffix());
+		}
+
+		if (userAccount.getImage() != null) {
+			existingUserAccount.setImage(userAccount.getImage());
+		}
+
+		if (userAccount.getJobTitle() != null) {
+			existingUserAccount.setJobTitle(userAccount.getJobTitle());
+		}
+
+		if (userAccount.getKeywords() != null) {
+			existingUserAccount.setKeywords(userAccount.getKeywords());
+		}
+
+		if (userAccount.getName() != null) {
+			existingUserAccount.setName(userAccount.getName());
+		}
+
+		if (userAccount.getProfileURL() != null) {
+			existingUserAccount.setProfileURL(userAccount.getProfileURL());
+		}
+
+		preparePatch(userAccount, existingUserAccount);
+
+		return putUserAccount(userAccountId, existingUserAccount);
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/headless-admin-user/v1.0/user-accounts/{userAccountId}' -d $'{"additionalName": ___, "alternateName": ___, "birthDate": ___, "contactInformation": ___, "customFields": ___, "emailAddress": ___, "familyName": ___, "givenName": ___, "honorificPrefix": ___, "honorificSuffix": ___, "jobTitle": ___, "userAccountContactInformation": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Operation(
@@ -745,6 +850,10 @@ public abstract class BaseUserAccountResourceImpl
 
 		return addAction(
 			actionName, siteId, methodName, null, permissionName, siteId);
+	}
+
+	protected void preparePatch(
+		UserAccount userAccount, UserAccount existingUserAccount) {
 	}
 
 	protected <T, R, E extends Throwable> List<R> transform(

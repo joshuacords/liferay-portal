@@ -1448,6 +1448,35 @@ public abstract class BaseUserAccountResourceTestCase {
 		return testGraphQLUserAccount_addUserAccount();
 
 	@Test
+	public void testPatchUserAccount() throws Exception {
+		UserAccount postUserAccount = testPatchUserAccount_addUserAccount();
+
+		UserAccount randomPatchUserAccount = randomPatchUserAccount();
+
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		UserAccount patchUserAccount = userAccountResource.patchUserAccount(
+			postUserAccount.getId(), randomPatchUserAccount);
+
+		UserAccount expectedPatchUserAccount = postUserAccount.clone();
+
+		_beanUtilsBean.copyProperties(
+			expectedPatchUserAccount, randomPatchUserAccount);
+
+		UserAccount getUserAccount = userAccountResource.getUserAccount(
+			patchUserAccount.getId());
+
+		assertEquals(expectedPatchUserAccount, getUserAccount);
+		assertValid(getUserAccount);
+	}
+
+	protected UserAccount testPatchUserAccount_addUserAccount()
+		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
+	@Test
 	public void testPutUserAccount() throws Exception {
 		UserAccount postUserAccount = testPutUserAccount_addUserAccount();
 
