@@ -79,7 +79,6 @@ import com.liferay.portal.vulcan.util.SearchUtil;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 

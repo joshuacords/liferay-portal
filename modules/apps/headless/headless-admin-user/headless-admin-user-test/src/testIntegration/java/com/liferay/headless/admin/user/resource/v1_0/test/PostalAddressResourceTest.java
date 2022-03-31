@@ -81,9 +81,7 @@ public class PostalAddressResourceTest
 	}
 
 	@Override
-	protected Long
-		testGetOrganizationPostalAddressesPage_getOrganizationId() {
-
+	protected Long testGetOrganizationPostalAddressesPage_getOrganizationId() {
 		return _organization.getOrganizationId();
 	}
 

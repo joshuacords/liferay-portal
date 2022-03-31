@@ -1744,8 +1744,6 @@ paths:
                         application/xml:
                             schema:
                                 $ref: "#/components/schemas/UserAccount"
-                    description:
-                        ""
     "/user-accounts/{userAccountId}":
         get:
             description:
