@@ -362,8 +362,14 @@ public abstract class BaseUserAccountResourceImpl
 		UnsafeConsumer<UserAccount, Exception> userAccountUnsafeConsumer =
 			userAccount -> postUserAccount(userAccount);
 
-		for (UserAccount userAccount : userAccounts) {
-			userAccountUnsafeConsumer.accept(userAccount);
+		if (contextBatchUnsafeConsumer != null) {
+			contextBatchUnsafeConsumer.accept(
+				userAccounts, userAccountUnsafeConsumer);
+		}
+		else {
+			for (UserAccount userAccount : userAccounts) {
+				userAccountUnsafeConsumer.accept(userAccount);
+			}
 		}
 	}
 
