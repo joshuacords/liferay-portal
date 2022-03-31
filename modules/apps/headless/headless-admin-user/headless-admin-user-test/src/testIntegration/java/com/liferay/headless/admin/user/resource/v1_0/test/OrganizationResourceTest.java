@@ -149,23 +149,14 @@ public class OrganizationResourceTest extends BaseOrganizationResourceTestCase {
 	}
 
 	@Override
-	protected Organization testGetOrganizationOrganizationsPage_addOrganization(
-			String parentOrganizationId, Organization organization)
-		throws Exception {
-
-		return _toOrganization(
-			_addOrganization(organization, parentOrganizationId));
-	}
-
-	@Override
-	protected String
+	protected Long
 			testGetOrganizationOrganizationsPage_getParentOrganizationId()
 		throws Exception {
 
 		com.liferay.portal.kernel.model.Organization organization =
 			_addOrganization(randomOrganization(), "0");
 
-		return String.valueOf(organization.getOrganizationId());
+		return organization.getOrganizationId();
 	}
 
 	@Override
@@ -275,7 +266,7 @@ public class OrganizationResourceTest extends BaseOrganizationResourceTestCase {
 			{
 				dateCreated = organization.getCreateDate();
 				dateModified = organization.getModifiedDate();
-				id = String.valueOf(organization.getOrganizationId());
+				id = organization.getOrganizationId();
 				name = organization.getName();
 			}
 		};

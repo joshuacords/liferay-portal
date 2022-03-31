@@ -389,7 +389,7 @@ public class UserAccountResourceTest extends BaseUserAccountResourceTestCase {
 
 	@Override
 	protected UserAccount testGetOrganizationUserAccountsPage_addUserAccount(
-			String organizationId, UserAccount userAccount)
+			Long organizationId, UserAccount userAccount)
 		throws Exception {
 
 		userAccount = _addUserAccount(
@@ -402,8 +402,8 @@ public class UserAccountResourceTest extends BaseUserAccountResourceTestCase {
 	}
 
 	@Override
-	protected String testGetOrganizationUserAccountsPage_getOrganizationId() {
-		return String.valueOf(_organization.getOrganizationId());
+	protected Long testGetOrganizationUserAccountsPage_getOrganizationId() {
+		return _organization.getOrganizationId();
 	}
 
 	@Override

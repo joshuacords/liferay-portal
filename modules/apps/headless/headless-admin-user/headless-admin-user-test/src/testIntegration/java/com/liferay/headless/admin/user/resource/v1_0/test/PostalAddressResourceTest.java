@@ -71,7 +71,7 @@ public class PostalAddressResourceTest
 	@Override
 	protected PostalAddress
 			testGetOrganizationPostalAddressesPage_addPostalAddress(
-				String organizationId, PostalAddress postalAddress)
+				Long organizationId, PostalAddress postalAddress)
 		throws Exception {
 
 		return _addPostalAddress(
@@ -81,10 +81,10 @@ public class PostalAddressResourceTest
 	}
 
 	@Override
-	protected String
+	protected Long
 		testGetOrganizationPostalAddressesPage_getOrganizationId() {
 
-		return String.valueOf(_organization.getOrganizationId());
+		return _organization.getOrganizationId();
 	}
 
 	@Override
