@@ -149,12 +149,21 @@ public class OrganizationResourceTest extends BaseOrganizationResourceTestCase {
 	}
 
 	@Override
+	protected Organization testGetOrganizationOrganizationsPage_addOrganization(
+		Long parentOrganizationId, Organization organization)
+		throws Exception {
+
+		return _toOrganization(
+			_addOrganization(organization, parentOrganizationId));
+	}
+
+	@Override
 	protected Long
 			testGetOrganizationOrganizationsPage_getParentOrganizationId()
 		throws Exception {
 
 		com.liferay.portal.kernel.model.Organization organization =
-			_addOrganization(randomOrganization(), "0");
+			_addOrganization(randomOrganization(), 0);
 
 		return organization.getOrganizationId();
 	}
@@ -197,16 +206,16 @@ public class OrganizationResourceTest extends BaseOrganizationResourceTestCase {
 	}
 
 	private com.liferay.portal.kernel.model.Organization _addOrganization(
-			Organization organization, String parentOrganizationId)
+			Organization organization, long parentOrganizationId)
 		throws PortalException {
 
 		com.liferay.portal.kernel.model.Organization
 			serviceBuilderOrganization =
 				OrganizationLocalServiceUtil.addOrganization(
-					_user.getUserId(), GetterUtil.getLong(parentOrganizationId),
+					_user.getUserId(), parentOrganizationId,
 					organization.getName(), true);
 
-		if (parentOrganizationId.equals("0")) {
+		if (parentOrganizationId ==0) {
 			_organizations.add(serviceBuilderOrganization);
 		}
 		else {
@@ -221,11 +230,11 @@ public class OrganizationResourceTest extends BaseOrganizationResourceTestCase {
 		throws Exception {
 
 		Organization parentOrganization = _toOrganization(
-			_addOrganization(organization, "0"));
+			_addOrganization(organization, 0));
 
 		if (userAccountId != null) {
 			UserLocalServiceUtil.addOrganizationUser(
-				GetterUtil.getLong(parentOrganization.getId()), userAccountId);
+				parentOrganization.getId(), userAccountId);
 		}
 
 		return parentOrganization;

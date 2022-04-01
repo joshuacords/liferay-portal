@@ -65,6 +65,17 @@ public class WebUrlResourceTest extends BaseWebUrlResourceTestCase {
 	}
 
 	@Override
+	protected WebUrl testGetOrganizationWebUrlsPage_addWebUrl(
+		Long organizationId, WebUrl webUrl)
+		throws Exception {
+
+		return _addWebUrl(
+			webUrl, _organization.getModelClassName(),
+			_organization.getOrganizationId(),
+			ListTypeConstants.ORGANIZATION_WEBSITE);
+	}
+
+	@Override
 	protected Long testGetOrganizationWebUrlsPage_getOrganizationId() {
 		return _organization.getOrganizationId();
 	}
