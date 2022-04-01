@@ -382,6 +382,10 @@ public class SolrQuerySuggester implements QuerySuggester {
 				List<String> suggestions = (List<String>)solrDocument.get(
 					Field.SPELL_CHECK_WORD);
 
+				if (ListUtil.isEmpty(suggestions)) {
+					continue;
+				}
+
 				String suggestion = suggestions.get(0);
 
 				float weight = GetterUtil.getFloat(
