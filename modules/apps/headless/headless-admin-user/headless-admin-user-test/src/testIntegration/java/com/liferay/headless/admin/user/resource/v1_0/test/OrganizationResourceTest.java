@@ -150,7 +150,7 @@ public class OrganizationResourceTest extends BaseOrganizationResourceTestCase {
 
 	@Override
 	protected Organization testGetOrganizationOrganizationsPage_addOrganization(
-		Long parentOrganizationId, Organization organization)
+			Long parentOrganizationId, Organization organization)
 		throws Exception {
 
 		return _toOrganization(
@@ -215,7 +215,7 @@ public class OrganizationResourceTest extends BaseOrganizationResourceTestCase {
 					_user.getUserId(), parentOrganizationId,
 					organization.getName(), true);
 
-		if (parentOrganizationId ==0) {
+		if (parentOrganizationId == 0) {
 			_organizations.add(serviceBuilderOrganization);
 		}
 		else {
