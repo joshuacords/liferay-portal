@@ -15,7 +15,7 @@
 package com.liferay.portal.search.web.portlet.shared.task;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface PortletSharedTask<T> {
 

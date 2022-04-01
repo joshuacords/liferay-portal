@@ -21,7 +21,7 @@ import com.liferay.search.experiences.blueprint.exception.UnresolvedTemplateVari
 import org.apache.commons.lang.StringUtils;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class PropertyValidator {
 

@@ -38,7 +38,7 @@ import org.elasticsearch.search.aggregations.bucket.filter.FilterAggregationBuil
 
 /**
  * @author Bryan Engler
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class AggregationFilteringFacetProcessorContext
 	implements FacetProcessorContext {

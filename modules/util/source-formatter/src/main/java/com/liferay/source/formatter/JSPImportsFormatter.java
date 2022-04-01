@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 
 /**
  * @author Carlos Sierra Andrés
- * @author André de Oliveira
+ * @author Bryan Engler
  * @author Hugo Huijser
  */
 public class JSPImportsFormatter extends BaseImportsFormatter {

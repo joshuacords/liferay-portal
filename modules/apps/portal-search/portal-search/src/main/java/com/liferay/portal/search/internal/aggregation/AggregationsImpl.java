@@ -116,7 +116,7 @@ import com.liferay.portal.search.script.Script;
 import org.osgi.service.component.annotations.Component;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @Component(service = Aggregations.class)
 public class AggregationsImpl implements Aggregations {

@@ -17,7 +17,7 @@ package com.liferay.portal.search.elasticsearch7.internal.query;
 import org.elasticsearch.index.query.QueryBuilder;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface QueryBuilderFactory {
 

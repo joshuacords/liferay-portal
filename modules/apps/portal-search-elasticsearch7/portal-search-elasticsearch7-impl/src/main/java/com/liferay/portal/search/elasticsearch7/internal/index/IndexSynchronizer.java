@@ -17,7 +17,7 @@ package com.liferay.portal.search.elasticsearch7.internal.index;
 import com.liferay.portal.search.elasticsearch7.spi.index.IndexRegistrar;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface IndexSynchronizer {
 

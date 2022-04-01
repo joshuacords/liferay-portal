@@ -31,7 +31,7 @@ import java.io.Serializable;
 import org.osgi.service.component.annotations.Component;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @Component(service = UIDFactory.class)
 public class UIDFactoryImpl implements UIDFactory {

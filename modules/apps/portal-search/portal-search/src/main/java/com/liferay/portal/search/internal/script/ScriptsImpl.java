@@ -25,7 +25,7 @@ import org.osgi.service.component.annotations.Component;
 
 /**
  * @author Wade Cao
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @Component(service = Scripts.class)
 public class ScriptsImpl implements Scripts {

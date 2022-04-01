@@ -17,7 +17,7 @@ package com.liferay.portal.kernel.search.facet.faceted.searcher;
 import org.osgi.annotation.versioning.ProviderType;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @ProviderType
 public interface FacetedSearcherManager {

@@ -15,7 +15,7 @@
 package com.liferay.portal.search.elasticsearch.monitoring.web.internal.constants;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class MonitoringProxyServletWebKeys {
 

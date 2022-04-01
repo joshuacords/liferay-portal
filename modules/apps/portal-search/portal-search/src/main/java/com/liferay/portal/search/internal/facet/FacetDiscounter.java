@@ -30,7 +30,7 @@ import java.util.stream.Stream;
 
 /**
  * @author Bryan Engler
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class FacetDiscounter {
 

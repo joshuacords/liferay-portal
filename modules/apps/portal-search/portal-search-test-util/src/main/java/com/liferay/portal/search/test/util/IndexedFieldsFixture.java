@@ -44,7 +44,7 @@ import java.util.Map;
 /**
  * @author Eric Yan
  * @author Wade Cao
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class IndexedFieldsFixture {
 

@@ -33,7 +33,7 @@ import org.osgi.annotation.versioning.ProviderType;
  * Holds the parameters used when performing a search. Build the search request
  * with the {@link SearchRequestBuilder}.
  *
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @ProviderType
 public interface SearchRequest {

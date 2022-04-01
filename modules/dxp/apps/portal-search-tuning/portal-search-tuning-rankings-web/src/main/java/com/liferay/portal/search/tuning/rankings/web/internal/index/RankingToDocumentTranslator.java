@@ -17,7 +17,7 @@ package com.liferay.portal.search.tuning.rankings.web.internal.index;
 import com.liferay.portal.search.document.Document;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface RankingToDocumentTranslator {
 

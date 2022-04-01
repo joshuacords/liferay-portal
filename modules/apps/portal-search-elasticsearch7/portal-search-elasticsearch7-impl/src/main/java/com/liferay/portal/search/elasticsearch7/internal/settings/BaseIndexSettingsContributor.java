@@ -19,7 +19,7 @@ import com.liferay.portal.search.elasticsearch7.settings.IndexSettingsHelper;
 import com.liferay.portal.search.elasticsearch7.settings.TypeMappingsHelper;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class BaseIndexSettingsContributor implements IndexSettingsContributor {
 

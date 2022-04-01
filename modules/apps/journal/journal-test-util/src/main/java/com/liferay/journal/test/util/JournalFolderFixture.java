@@ -24,7 +24,7 @@ import com.liferay.portal.kernel.test.util.TestPropsValues;
 import java.util.Objects;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class JournalFolderFixture {
 

@@ -20,7 +20,7 @@ import com.liferay.portal.search.engine.adapter.SearchEngineAdapter;
 
 /**
  * @author Miguel Angelo Caldas Gallindo
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface IndexingFixture {
 

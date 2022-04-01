@@ -27,7 +27,7 @@ import com.liferay.portal.search.web.internal.display.context.ThemeDisplaySuppli
 import javax.portlet.RenderRequest;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class SearchPortletPermissionUtil {
 

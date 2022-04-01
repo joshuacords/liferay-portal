@@ -40,7 +40,7 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.junit.Assert;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class SearchAssert {
 

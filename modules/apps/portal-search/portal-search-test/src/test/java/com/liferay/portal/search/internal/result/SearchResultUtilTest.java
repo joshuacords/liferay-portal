@@ -49,7 +49,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @PrepareForTest(AssetRendererFactoryRegistryUtil.class)
 @RunWith(PowerMockRunner.class)

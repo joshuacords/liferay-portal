@@ -21,7 +21,7 @@ import com.liferay.portal.search.elasticsearch7.internal.facet.FacetProcessor;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class ElasticsearchIndexingFixtureBuilder {
 

@@ -24,7 +24,7 @@ import org.junit.ClassRule;
 import org.junit.Rule;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class NestedFieldsSortTest extends BaseNestedFieldsSortTestCase {
 

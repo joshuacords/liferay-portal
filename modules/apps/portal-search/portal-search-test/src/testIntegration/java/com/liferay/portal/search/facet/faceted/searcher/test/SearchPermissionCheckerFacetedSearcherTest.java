@@ -55,7 +55,7 @@ import org.junit.runner.RunWith;
 
 /**
  * @author Bryan Engler
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @RunWith(Arquillian.class)
 public class SearchPermissionCheckerFacetedSearcherTest

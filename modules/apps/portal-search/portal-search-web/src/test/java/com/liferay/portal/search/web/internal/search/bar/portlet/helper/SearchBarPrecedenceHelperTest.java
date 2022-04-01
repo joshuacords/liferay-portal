@@ -47,7 +47,7 @@ import org.mockito.MockitoAnnotations;
 
 /**
  * @author Joshua Cords
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class SearchBarPrecedenceHelperTest {
 

@@ -21,7 +21,7 @@ import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClass
 import org.osgi.annotation.versioning.ProviderType;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @ExtendedObjectClassDefinition(category = "search", generateUI = false)
 @Meta.OCD(

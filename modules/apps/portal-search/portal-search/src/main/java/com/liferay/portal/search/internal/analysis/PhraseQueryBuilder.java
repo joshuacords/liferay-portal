@@ -19,7 +19,7 @@ import com.liferay.portal.kernel.search.Query;
 import com.liferay.portal.kernel.search.generic.MatchQuery;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class PhraseQueryBuilder {
 

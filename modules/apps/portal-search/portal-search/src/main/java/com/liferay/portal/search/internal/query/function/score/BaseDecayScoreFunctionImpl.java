@@ -20,7 +20,7 @@ import com.liferay.portal.search.query.function.score.DecayScoreFunction;
 /**
  * @author Michael C. Han
  * @author Wade Cao
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public abstract class BaseDecayScoreFunctionImpl
 	extends BaseScoreFunctionImpl implements DecayScoreFunction {

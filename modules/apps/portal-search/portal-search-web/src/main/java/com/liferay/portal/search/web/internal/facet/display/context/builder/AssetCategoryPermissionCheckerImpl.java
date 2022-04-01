@@ -21,7 +21,7 @@ import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portlet.asset.service.permission.AssetCategoryPermission;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class AssetCategoryPermissionCheckerImpl
 	implements AssetCategoryPermissionChecker {

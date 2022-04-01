@@ -15,7 +15,7 @@
 package com.liferay.portal.search.spi.index;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface IndexDefinition {
 

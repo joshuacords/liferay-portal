@@ -22,7 +22,7 @@ import com.liferay.portal.kernel.search.generic.MatchQuery;
 import com.liferay.portal.kernel.search.generic.TermQueryImpl;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class QueryContributors {
 

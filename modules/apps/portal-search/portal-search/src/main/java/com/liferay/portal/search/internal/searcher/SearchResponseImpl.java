@@ -48,7 +48,7 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class SearchResponseImpl implements SearchResponse, Serializable {
 

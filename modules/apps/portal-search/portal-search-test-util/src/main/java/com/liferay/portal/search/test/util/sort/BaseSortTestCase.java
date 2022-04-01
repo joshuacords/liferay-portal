@@ -34,7 +34,7 @@ import org.junit.Test;
 
 /**
  * @author Wade Cao
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public abstract class BaseSortTestCase extends BaseIndexingTestCase {
 

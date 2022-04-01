@@ -45,7 +45,7 @@ import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  * @author Miguel Angelo Caldas Gallindo
  */
 @Component(

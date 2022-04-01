@@ -17,7 +17,7 @@ package com.liferay.portal.search.facet;
 import com.liferay.portal.kernel.search.SearchContext;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface FacetFactory
 	extends com.liferay.portal.kernel.search.facet.util.FacetFactory {

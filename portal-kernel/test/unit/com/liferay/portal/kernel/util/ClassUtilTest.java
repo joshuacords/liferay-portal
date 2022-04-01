@@ -51,7 +51,7 @@ import org.junit.ClassRule;
 import org.junit.Test;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  * @author Hugo Huijser
  */
 public class ClassUtilTest {

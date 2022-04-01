@@ -17,7 +17,7 @@ package com.liferay.portal.search.spi.searcher;
 import com.liferay.portal.search.searcher.SearchRequest;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface SearchRequestContributor {
 

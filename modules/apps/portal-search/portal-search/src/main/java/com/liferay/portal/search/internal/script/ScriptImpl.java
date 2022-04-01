@@ -25,7 +25,7 @@ import java.util.Map;
 /**
  * @author Michael C. Han
  * @author Wade Cao
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class ScriptImpl implements Script {
 

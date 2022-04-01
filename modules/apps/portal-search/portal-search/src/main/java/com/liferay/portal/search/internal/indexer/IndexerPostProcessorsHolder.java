@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class IndexerPostProcessorsHolder {
 

@@ -34,7 +34,7 @@ import java.util.function.Function;
 
 /**
  * @author Bryan Engler
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public abstract class BaseFacetTestCase extends BaseIndexingTestCase {
 

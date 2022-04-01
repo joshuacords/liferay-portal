@@ -66,7 +66,7 @@ import org.osgi.framework.FrameworkUtil;
 
 /**
  * @author Preston Crary
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public abstract class TestOrderHelper {
 

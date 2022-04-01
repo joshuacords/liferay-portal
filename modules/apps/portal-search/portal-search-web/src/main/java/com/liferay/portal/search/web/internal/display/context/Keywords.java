@@ -17,7 +17,7 @@ package com.liferay.portal.search.web.internal.display.context;
 import com.liferay.petra.string.CharPool;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class Keywords {
 

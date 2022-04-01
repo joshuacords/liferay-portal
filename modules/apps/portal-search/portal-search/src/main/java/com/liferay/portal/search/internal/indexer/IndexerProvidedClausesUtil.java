@@ -18,7 +18,7 @@ import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.util.GetterUtil;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class IndexerProvidedClausesUtil {
 

@@ -17,7 +17,7 @@ package com.liferay.portal.search.web.internal.search.request;
 import com.liferay.portal.kernel.search.SearchContext;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface SearchContextBuilder {
 

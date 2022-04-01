@@ -15,7 +15,7 @@
 package com.liferay.portal.kernel.search.reindexer;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface ReindexerBridge {
 

@@ -18,7 +18,7 @@ import com.liferay.search.experiences.rest.dto.v1_0.ElementDefinition;
 import com.liferay.search.experiences.rest.dto.v1_0.SXPElement;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class SXPElementUtil {
 

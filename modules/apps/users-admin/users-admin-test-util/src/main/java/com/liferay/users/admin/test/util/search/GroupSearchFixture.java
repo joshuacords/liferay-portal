@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class GroupSearchFixture {
 

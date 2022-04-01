@@ -22,7 +22,7 @@ import com.liferay.portal.search.spi.model.registrar.ModelSearchSettings;
 import java.util.Map;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface PreFilterContributorHelper {
 

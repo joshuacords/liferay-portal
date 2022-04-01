@@ -18,7 +18,7 @@ import com.liferay.portal.search.significance.GNDSignificanceHeuristic;
 
 /**
  * @author Michael C. Han
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class GNDSignificanceHeuristicImpl implements GNDSignificanceHeuristic {
 

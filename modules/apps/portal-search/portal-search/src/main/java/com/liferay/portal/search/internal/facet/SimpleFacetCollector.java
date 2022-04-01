@@ -26,7 +26,7 @@ import java.util.Map;
 
 /**
  * @author Bryan Engler
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class SimpleFacetCollector implements FacetCollector {
 

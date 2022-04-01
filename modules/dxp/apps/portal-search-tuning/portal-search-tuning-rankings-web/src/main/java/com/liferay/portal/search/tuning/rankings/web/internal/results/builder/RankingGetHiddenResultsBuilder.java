@@ -43,7 +43,7 @@ import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  * @author Bryan Engler
  */
 public class RankingGetHiddenResultsBuilder {

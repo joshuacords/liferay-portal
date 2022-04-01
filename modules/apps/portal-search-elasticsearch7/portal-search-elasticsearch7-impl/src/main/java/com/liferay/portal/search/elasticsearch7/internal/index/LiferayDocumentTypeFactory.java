@@ -46,7 +46,7 @@ import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.xcontent.XContentType;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class LiferayDocumentTypeFactory
 	implements com.liferay.portal.search.spi.settings.TypeMappingsHelper,

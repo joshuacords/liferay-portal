@@ -20,7 +20,7 @@ import com.liferay.portal.kernel.search.SearchContext;
 import java.util.Collection;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface ExpandoQueryContributorHelper {
 

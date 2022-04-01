@@ -21,7 +21,7 @@ import com.liferay.portal.search.script.Script;
 /**
  * @author Michael C. Han
  * @author Wade Cao
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class ScriptScoreFunctionImpl
 	extends BaseScoreFunctionImpl implements ScriptScoreFunction {

@@ -36,7 +36,7 @@ import javax.portlet.RenderRequest;
 
 /**
  * @author Wade Cao
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class SortDisplayContextBuilder {
 

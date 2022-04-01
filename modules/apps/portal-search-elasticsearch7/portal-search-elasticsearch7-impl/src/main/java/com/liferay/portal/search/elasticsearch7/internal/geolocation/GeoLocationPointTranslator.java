@@ -19,7 +19,7 @@ import com.liferay.portal.search.geolocation.GeoLocationPoint;
 import org.elasticsearch.common.geo.GeoPoint;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class GeoLocationPointTranslator {
 

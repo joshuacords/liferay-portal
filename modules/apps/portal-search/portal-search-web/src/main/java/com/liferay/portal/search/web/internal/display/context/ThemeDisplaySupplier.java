@@ -17,7 +17,7 @@ package com.liferay.portal.search.web.internal.display.context;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface ThemeDisplaySupplier {
 

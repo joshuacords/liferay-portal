@@ -37,7 +37,7 @@ import org.mockito.Mockito;
 
 /**
  * @author Wade Cao
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public abstract class BaseHighlightTestCase extends BaseIndexingTestCase {
 

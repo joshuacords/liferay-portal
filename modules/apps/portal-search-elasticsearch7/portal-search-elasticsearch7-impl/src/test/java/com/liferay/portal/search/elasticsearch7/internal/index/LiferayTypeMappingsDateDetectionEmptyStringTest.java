@@ -31,7 +31,7 @@ import org.junit.rules.TestName;
 
 /**
  * @author Rodrigo Paulino
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class LiferayTypeMappingsDateDetectionEmptyStringTest {
 

@@ -22,7 +22,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  * @author Michael C. Han
  */
 public class IndexerRequestBuffer {

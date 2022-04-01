@@ -23,7 +23,7 @@ import javax.portlet.PortletPreferences;
 
 /**
  * @author Wade Cao
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class SimilarResultsPortletPreferencesImpl
 	implements SimilarResultsPortletPreferences {

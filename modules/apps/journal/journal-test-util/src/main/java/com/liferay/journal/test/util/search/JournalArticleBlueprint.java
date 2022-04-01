@@ -27,7 +27,7 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class JournalArticleBlueprint {
 

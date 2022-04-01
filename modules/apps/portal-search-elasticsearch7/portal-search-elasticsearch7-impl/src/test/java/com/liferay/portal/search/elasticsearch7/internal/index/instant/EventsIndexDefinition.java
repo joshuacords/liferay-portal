@@ -19,7 +19,7 @@ import com.liferay.portal.search.spi.index.IndexDefinition;
 import org.osgi.service.component.annotations.Component;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @Component(
 	immediate = true,

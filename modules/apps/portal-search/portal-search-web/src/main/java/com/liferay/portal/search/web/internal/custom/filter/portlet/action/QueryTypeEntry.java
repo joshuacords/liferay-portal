@@ -15,7 +15,7 @@
 package com.liferay.portal.search.web.internal.custom.filter.portlet.action;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class QueryTypeEntry {
 

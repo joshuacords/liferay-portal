@@ -17,7 +17,7 @@ package com.liferay.portal.search.web.internal.display.context;
 import java.util.Optional;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface SearchResultPreferences {
 

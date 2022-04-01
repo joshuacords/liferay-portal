@@ -19,7 +19,7 @@ import com.liferay.portal.kernel.search.filter.BooleanFilter;
 import com.liferay.portal.search.spi.model.registrar.ModelSearchSettings;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface ModelPreFilterContributor {
 

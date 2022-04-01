@@ -60,7 +60,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @PrepareForTest(ActionUtil.class)
 @RunWith(PowerMockRunner.class)

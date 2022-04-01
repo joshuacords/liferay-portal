@@ -47,7 +47,7 @@ import org.junit.Test;
 
 /**
  * @author Miguel Angelo Caldas Gallindo
- * @author André de Oliveira
+ * @author Bryan Engler
  * @author Tibor Lipusz
  */
 public abstract class BaseGroupByTestCase extends BaseIndexingTestCase {

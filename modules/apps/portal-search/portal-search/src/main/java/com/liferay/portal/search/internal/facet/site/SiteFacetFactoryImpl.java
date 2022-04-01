@@ -24,7 +24,7 @@ import com.liferay.portal.search.internal.facet.FacetImpl;
 import org.osgi.service.component.annotations.Component;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @Component(
 	immediate = true, service = {FacetFactory.class, SiteFacetFactory.class}

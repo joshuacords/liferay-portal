@@ -27,7 +27,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class CustomFilterDisplayContextBuilder {
 

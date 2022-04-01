@@ -38,7 +38,7 @@ import java.util.Map;
 
 /**
  * @author Tina Tian
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class PathUtil {
 

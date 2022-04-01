@@ -17,7 +17,7 @@ package com.liferay.portal.search.elasticsearch7.internal.util;
 import java.util.function.Supplier;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class ClassLoaderUtil {
 

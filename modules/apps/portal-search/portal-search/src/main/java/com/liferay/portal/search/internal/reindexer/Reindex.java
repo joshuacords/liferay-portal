@@ -29,7 +29,7 @@ import java.util.concurrent.ExecutorService;
 
 /**
  * @author Minhchau Dang
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class Reindex {
 

@@ -18,7 +18,7 @@ import com.liferay.portal.kernel.search.BooleanQuery;
 import com.liferay.portal.kernel.search.SearchContext;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface AddSearchKeywordsQueryContributorHelper {
 

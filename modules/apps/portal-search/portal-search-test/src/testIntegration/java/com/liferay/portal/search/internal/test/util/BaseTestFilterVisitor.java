@@ -30,7 +30,7 @@ import com.liferay.portal.kernel.search.filter.TermFilter;
 import com.liferay.portal.kernel.search.filter.TermsFilter;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class BaseTestFilterVisitor<T> implements FilterVisitor<T> {
 

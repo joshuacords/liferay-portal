@@ -21,7 +21,7 @@ import org.elasticsearch.common.settings.SettingsException;
 import org.elasticsearch.xcontent.XContentType;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class SettingsBuilder {
 

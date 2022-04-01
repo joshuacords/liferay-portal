@@ -17,7 +17,7 @@ package com.liferay.portal.search.elasticsearch7.spi.index;
 import com.liferay.portal.search.elasticsearch7.spi.index.helper.IndexRegistrarHelper;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface IndexRegistrar {
 

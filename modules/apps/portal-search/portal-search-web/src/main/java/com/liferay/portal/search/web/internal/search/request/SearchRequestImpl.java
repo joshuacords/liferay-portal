@@ -27,7 +27,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class SearchRequestImpl {
 

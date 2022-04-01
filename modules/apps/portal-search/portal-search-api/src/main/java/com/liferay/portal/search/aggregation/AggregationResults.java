@@ -62,7 +62,7 @@ import com.liferay.portal.search.geolocation.GeoLocationPoint;
 import com.liferay.portal.search.hits.SearchHits;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface AggregationResults {
 

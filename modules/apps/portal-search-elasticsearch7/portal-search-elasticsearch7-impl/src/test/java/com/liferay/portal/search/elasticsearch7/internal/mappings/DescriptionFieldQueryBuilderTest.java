@@ -24,7 +24,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  * @author Rodrigo Paulino
  */
 public class DescriptionFieldQueryBuilderTest

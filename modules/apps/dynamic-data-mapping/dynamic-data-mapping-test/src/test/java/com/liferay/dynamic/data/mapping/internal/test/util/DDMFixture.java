@@ -35,7 +35,7 @@ import org.mockito.MockitoAnnotations;
 import org.powermock.api.mockito.PowerMockito;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class DDMFixture {
 

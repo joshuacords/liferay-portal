@@ -18,7 +18,7 @@ import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class DocumentFormPermissionCheckerImpl
 	implements DocumentFormPermissionChecker {

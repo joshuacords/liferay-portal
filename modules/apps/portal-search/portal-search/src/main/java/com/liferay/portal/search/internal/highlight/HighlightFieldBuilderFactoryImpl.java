@@ -21,7 +21,7 @@ import org.osgi.service.component.annotations.Component;
 
 /**
  * @author Wade Cao
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @Component(service = HighlightFieldBuilderFactory.class)
 public class HighlightFieldBuilderFactoryImpl

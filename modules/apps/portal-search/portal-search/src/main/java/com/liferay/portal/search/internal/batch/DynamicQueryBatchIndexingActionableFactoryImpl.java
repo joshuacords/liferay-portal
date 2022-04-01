@@ -21,7 +21,7 @@ import com.liferay.portal.search.batch.DynamicQueryBatchIndexingActionableFactor
 import org.osgi.service.component.annotations.Component;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @Component(
 	immediate = true, service = DynamicQueryBatchIndexingActionableFactory.class

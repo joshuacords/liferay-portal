@@ -38,7 +38,7 @@ import org.mockito.MockitoAnnotations;
 
 /**
  * @author Tibor Lipusz
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public abstract class BaseGroupIdQueryPreFilterContributorTestCase
 	extends BaseIndexingTestCase {

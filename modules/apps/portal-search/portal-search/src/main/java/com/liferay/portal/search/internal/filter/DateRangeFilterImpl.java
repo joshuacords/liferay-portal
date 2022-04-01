@@ -18,7 +18,7 @@ import com.liferay.portal.search.filter.DateRangeFilter;
 import com.liferay.portal.search.filter.FilterVisitor;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class DateRangeFilterImpl implements DateRangeFilter {
 

@@ -17,7 +17,7 @@ package com.liferay.source.formatter.processor;
 import org.junit.Test;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class JSPSourceProcessorTest extends BaseSourceProcessorTestCase {
 

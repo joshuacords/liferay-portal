@@ -29,7 +29,7 @@ import org.elasticsearch.client.Requests;
 import org.elasticsearch.client.RestHighLevelClient;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class LiferayIndexFixture {
 

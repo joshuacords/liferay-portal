@@ -39,7 +39,7 @@ import org.junit.Test;
 
 /**
  * @author Miguel Angelo Caldas Gallindo
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class BaseIndexerGetSiteGroupIdTest {
 

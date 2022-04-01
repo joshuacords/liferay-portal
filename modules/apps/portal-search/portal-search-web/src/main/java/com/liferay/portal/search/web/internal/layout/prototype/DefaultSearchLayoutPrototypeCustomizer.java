@@ -32,7 +32,7 @@ import com.liferay.portal.search.web.internal.user.facet.constants.UserFacetPort
 import com.liferay.portal.search.web.layout.prototype.SearchLayoutPrototypeCustomizer;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  * @author Lino Alves
  */
 public class DefaultSearchLayoutPrototypeCustomizer

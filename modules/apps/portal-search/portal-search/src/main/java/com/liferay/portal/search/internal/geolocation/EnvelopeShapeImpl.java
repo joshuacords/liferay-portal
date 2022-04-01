@@ -23,7 +23,7 @@ import java.util.List;
 
 /**
  * @author Michael C. Han
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class EnvelopeShapeImpl extends BaseShapeImpl implements EnvelopeShape {
 

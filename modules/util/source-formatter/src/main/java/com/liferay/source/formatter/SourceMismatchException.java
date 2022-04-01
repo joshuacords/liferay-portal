@@ -20,7 +20,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import org.junit.Assert;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  * @author Hugo Huijser
  */
 public class SourceMismatchException extends PortalException {

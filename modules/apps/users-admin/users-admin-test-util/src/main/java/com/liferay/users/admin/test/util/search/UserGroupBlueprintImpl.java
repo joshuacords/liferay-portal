@@ -17,7 +17,7 @@ package com.liferay.users.admin.test.util.search;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class UserGroupBlueprintImpl implements UserGroupBlueprint {
 

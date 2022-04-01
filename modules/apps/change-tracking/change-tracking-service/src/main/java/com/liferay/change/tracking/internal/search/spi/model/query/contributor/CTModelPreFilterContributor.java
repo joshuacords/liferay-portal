@@ -46,7 +46,7 @@ import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Preston Crary
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @Component(
 	immediate = true,

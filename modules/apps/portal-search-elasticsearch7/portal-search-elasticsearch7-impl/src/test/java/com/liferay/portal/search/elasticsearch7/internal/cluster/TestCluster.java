@@ -22,7 +22,7 @@ import com.liferay.portal.search.elasticsearch7.internal.connection.HttpPortRang
 import java.util.HashMap;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class TestCluster {
 

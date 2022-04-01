@@ -25,7 +25,7 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.wiki.model.WikiPage;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class AssetTypeUtil {
 

@@ -20,7 +20,7 @@ import com.liferay.portal.kernel.util.StringUtil;
 
 /**
  * @author Marcellus Tavares
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class DDLRecordTestUtil {
 

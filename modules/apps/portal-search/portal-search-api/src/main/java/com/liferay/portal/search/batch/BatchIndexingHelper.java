@@ -18,7 +18,7 @@ import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * @author Bryan Engler
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @ProviderType
 public interface BatchIndexingHelper {

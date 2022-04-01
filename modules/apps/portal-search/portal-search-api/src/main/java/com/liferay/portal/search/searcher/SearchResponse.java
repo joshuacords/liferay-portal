@@ -35,7 +35,7 @@ import org.osgi.annotation.versioning.ProviderType;
  * engine. The exact response format and the contents of the response depends on
  * the search engine and the search request that was executed.
  *
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @ProviderType
 public interface SearchResponse {

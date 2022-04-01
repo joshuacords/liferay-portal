@@ -15,7 +15,7 @@
 package com.liferay.portal.search.tuning.rankings.web.internal.index;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class RankingFields {
 

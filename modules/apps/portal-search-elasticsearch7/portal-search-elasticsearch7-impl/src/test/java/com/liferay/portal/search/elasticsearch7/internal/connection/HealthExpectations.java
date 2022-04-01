@@ -20,7 +20,7 @@ import org.elasticsearch.action.admin.cluster.health.ClusterHealthResponse;
 import org.elasticsearch.cluster.health.ClusterHealthStatus;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class HealthExpectations {
 

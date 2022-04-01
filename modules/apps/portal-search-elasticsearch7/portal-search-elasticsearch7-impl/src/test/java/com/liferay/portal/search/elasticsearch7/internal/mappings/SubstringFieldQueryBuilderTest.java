@@ -23,7 +23,7 @@ import org.junit.ClassRule;
 import org.junit.Rule;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  * @author Rodrigo Paulino
  */
 public class SubstringFieldQueryBuilderTest

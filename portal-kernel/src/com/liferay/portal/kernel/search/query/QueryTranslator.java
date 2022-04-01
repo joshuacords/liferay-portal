@@ -18,7 +18,7 @@ import com.liferay.portal.kernel.search.Query;
 import com.liferay.portal.kernel.search.SearchContext;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  * @author Miguel Angelo Caldas Gallindo
  */
 public interface QueryTranslator<T> {

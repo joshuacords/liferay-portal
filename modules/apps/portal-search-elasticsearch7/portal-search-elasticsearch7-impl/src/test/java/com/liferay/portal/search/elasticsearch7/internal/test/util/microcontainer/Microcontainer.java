@@ -19,7 +19,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface Microcontainer {
 

@@ -31,7 +31,7 @@ import org.elasticsearch.search.SearchHit;
 import org.osgi.service.component.annotations.Component;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @Component(immediate = true, service = SearchHitDocumentTranslator.class)
 public class SearchHitDocumentTranslatorImpl

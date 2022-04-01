@@ -19,7 +19,7 @@ import com.liferay.portal.kernel.search.filter.BooleanFilter;
 import java.util.Map;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface PreFilterContributor {
 

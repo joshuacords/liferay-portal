@@ -22,7 +22,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class RankingTest {
 

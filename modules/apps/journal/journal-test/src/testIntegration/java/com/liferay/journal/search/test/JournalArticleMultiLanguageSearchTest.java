@@ -70,7 +70,7 @@ import org.junit.runner.RunWith;
 /**
  * @author Wade Cao
  * @author Adam Brandizzi
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @RunWith(Arquillian.class)
 @Sync

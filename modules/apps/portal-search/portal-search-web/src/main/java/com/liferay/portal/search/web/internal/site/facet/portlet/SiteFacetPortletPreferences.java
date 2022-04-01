@@ -15,7 +15,7 @@
 package com.liferay.portal.search.web.internal.site.facet.portlet;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface SiteFacetPortletPreferences {
 

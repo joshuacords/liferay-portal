@@ -22,7 +22,7 @@ import com.liferay.portal.search.similar.results.web.spi.contributor.helper.Rout
 import com.liferay.portal.search.similar.results.web.spi.contributor.helper.RouteHelper;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface SimilarResultsContributor {
 

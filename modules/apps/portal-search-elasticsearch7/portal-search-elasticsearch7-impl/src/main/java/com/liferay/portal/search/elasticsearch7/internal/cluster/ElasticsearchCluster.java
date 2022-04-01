@@ -34,7 +34,7 @@ import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @Component(
 	enabled = false, immediate = true, service = ElasticsearchCluster.class

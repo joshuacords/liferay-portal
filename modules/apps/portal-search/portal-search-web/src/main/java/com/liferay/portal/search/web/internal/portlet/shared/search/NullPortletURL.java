@@ -29,7 +29,7 @@ import javax.portlet.WindowStateException;
 import javax.portlet.annotations.PortletSerializable;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class NullPortletURL implements PortletURL {
 

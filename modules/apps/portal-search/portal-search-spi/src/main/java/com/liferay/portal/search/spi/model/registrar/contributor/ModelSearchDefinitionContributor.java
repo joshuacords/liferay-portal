@@ -17,7 +17,7 @@ package com.liferay.portal.search.spi.model.registrar.contributor;
 import com.liferay.portal.search.spi.model.registrar.ModelSearchDefinition;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @FunctionalInterface
 public interface ModelSearchDefinitionContributor {

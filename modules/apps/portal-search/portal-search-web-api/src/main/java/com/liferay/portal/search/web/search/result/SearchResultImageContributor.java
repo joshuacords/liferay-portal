@@ -15,7 +15,7 @@
 package com.liferay.portal.search.web.search.result;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface SearchResultImageContributor {
 

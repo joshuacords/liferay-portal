@@ -24,7 +24,7 @@ import com.liferay.portal.search.web.portlet.shared.search.PortletSharedSearchSe
 import org.osgi.service.component.annotations.Component;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @Component(
 	immediate = true,

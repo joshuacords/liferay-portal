@@ -18,7 +18,7 @@ import com.liferay.portal.search.searcher.SearchRequestBuilder;
 import com.liferay.search.experiences.model.SXPBlueprint;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface SXPBlueprintSearchRequestEnhancer {
 

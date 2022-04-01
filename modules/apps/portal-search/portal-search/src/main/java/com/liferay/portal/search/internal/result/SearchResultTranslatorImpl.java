@@ -37,7 +37,7 @@ import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Eudaldo Alonso
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @Component(immediate = true, service = SearchResultTranslator.class)
 public class SearchResultTranslatorImpl implements SearchResultTranslator {

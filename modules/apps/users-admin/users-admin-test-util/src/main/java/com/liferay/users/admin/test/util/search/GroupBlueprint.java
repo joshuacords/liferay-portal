@@ -17,7 +17,7 @@ package com.liferay.users.admin.test.util.search;
 import java.util.Locale;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class GroupBlueprint {
 

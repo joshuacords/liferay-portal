@@ -24,7 +24,7 @@ import java.util.Arrays;
 import org.junit.Test;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public abstract class BaseTermsFilterTestCase extends BaseIndexingTestCase {
 

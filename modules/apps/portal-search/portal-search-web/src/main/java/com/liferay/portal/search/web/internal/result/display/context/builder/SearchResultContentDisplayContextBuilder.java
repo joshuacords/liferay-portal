@@ -34,7 +34,7 @@ import javax.portlet.RenderResponse;
 
 /**
  * @author Wade Cao
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class SearchResultContentDisplayContextBuilder {
 

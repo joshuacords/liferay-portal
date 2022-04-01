@@ -16,7 +16,7 @@ package com.liferay.portal.search.web.internal.sort.display.context;
 
 /**
  * @author Wade Cao
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class SortTermDisplayContext {
 

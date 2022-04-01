@@ -21,7 +21,7 @@ import com.liferay.portal.search.script.ScriptFieldBuilder;
 /**
  * @author Michael C. Han
  * @author Wade Cao
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class ScriptFieldImpl implements ScriptField {
 

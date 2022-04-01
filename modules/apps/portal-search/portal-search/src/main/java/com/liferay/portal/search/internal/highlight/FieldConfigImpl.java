@@ -20,7 +20,7 @@ import com.liferay.portal.search.query.Query;
 
 /**
  * @author Michael C. Han
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class FieldConfigImpl implements FieldConfig {
 

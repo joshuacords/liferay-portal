@@ -17,7 +17,7 @@ package com.liferay.asset.util;
 import com.liferay.asset.kernel.model.AssetRendererFactory;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface AssetRendererFactoryLookup {
 

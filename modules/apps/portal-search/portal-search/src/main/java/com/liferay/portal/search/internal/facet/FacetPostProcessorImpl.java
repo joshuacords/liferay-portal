@@ -25,7 +25,7 @@ import org.osgi.service.component.annotations.Component;
 
 /**
  * @author Bryan Engler
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @Component(immediate = true, service = FacetPostProcessor.class)
 public class FacetPostProcessorImpl implements FacetPostProcessor {

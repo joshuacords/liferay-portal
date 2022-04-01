@@ -15,7 +15,7 @@
 package com.liferay.search.experiences.blueprint.exception;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class InvalidParameterException extends RuntimeException {
 

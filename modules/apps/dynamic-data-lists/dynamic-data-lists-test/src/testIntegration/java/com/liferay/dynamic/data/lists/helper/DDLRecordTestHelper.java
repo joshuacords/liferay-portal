@@ -33,7 +33,7 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 /**
  * @author Marcellus Tavares
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class DDLRecordTestHelper {
 

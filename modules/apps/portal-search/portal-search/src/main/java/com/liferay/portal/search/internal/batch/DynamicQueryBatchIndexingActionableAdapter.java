@@ -23,7 +23,7 @@ import com.liferay.portal.search.batch.BatchIndexingActionable;
 import java.util.function.Consumer;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class DynamicQueryBatchIndexingActionableAdapter
 	implements BatchIndexingActionable {

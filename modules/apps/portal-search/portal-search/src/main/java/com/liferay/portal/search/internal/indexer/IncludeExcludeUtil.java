@@ -20,7 +20,7 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class IncludeExcludeUtil {
 

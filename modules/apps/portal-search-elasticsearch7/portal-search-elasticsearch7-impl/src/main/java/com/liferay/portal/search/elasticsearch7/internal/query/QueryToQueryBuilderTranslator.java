@@ -20,7 +20,7 @@ import com.liferay.portal.search.query.QueryTranslator;
 import org.elasticsearch.index.query.QueryBuilder;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface QueryToQueryBuilderTranslator
 	extends QueryTranslator<QueryBuilder> {

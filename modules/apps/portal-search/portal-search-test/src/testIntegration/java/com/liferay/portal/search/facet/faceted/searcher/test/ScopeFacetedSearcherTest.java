@@ -37,7 +37,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @RunWith(Arquillian.class)
 public class ScopeFacetedSearcherTest extends BaseFacetedSearcherTestCase {

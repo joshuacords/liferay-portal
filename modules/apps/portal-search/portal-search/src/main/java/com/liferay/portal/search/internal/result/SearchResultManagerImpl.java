@@ -40,7 +40,7 @@ import org.osgi.service.component.annotations.ReferencePolicyOption;
 
 /**
  * @author Adolfo Pérez
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @Component(immediate = true, service = SearchResultManager.class)
 public class SearchResultManagerImpl implements SearchResultManager {

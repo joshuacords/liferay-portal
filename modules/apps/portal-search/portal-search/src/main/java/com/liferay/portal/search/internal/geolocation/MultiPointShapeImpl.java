@@ -23,7 +23,7 @@ import java.util.List;
 
 /**
  * @author Michael C. Han
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class MultiPointShapeImpl
 	extends BaseShapeImpl implements MultiPointShape {

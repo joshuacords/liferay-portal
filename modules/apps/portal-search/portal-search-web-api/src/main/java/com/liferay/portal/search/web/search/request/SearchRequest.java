@@ -17,7 +17,7 @@ package com.liferay.portal.search.web.search.request;
 import org.osgi.annotation.versioning.ProviderType;
 
 /**
- * @author     André de Oliveira
+ * @author     Bryan Engler
  * @deprecated As of Mueller (7.2.x), with no direct replacement
  */
 @Deprecated

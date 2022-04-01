@@ -24,7 +24,7 @@ import java.util.stream.Stream;
 import org.elasticsearch.search.aggregations.Aggregations;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class ElasticsearchAggregationResultsTranslator {
 

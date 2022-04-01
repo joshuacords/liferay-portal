@@ -33,7 +33,7 @@ import javax.portlet.PortletPreferences;
 import javax.portlet.RenderRequest;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class PortletSharedSearchSettingsImpl
 	implements PortletSharedSearchSettings {

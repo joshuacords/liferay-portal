@@ -66,7 +66,7 @@ import org.osgi.service.component.annotations.ServiceScope;
 
 /**
  * @author Brian Wing Shun Chan
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @Component(
 	enabled = false,

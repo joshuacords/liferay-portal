@@ -23,7 +23,7 @@ import com.liferay.search.experiences.rest.dto.v1_0.Configuration;
 import com.liferay.search.experiences.rest.dto.v1_0.GeneralConfiguration;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class GeneralSXPSearchRequestBodyContributor
 	implements SXPSearchRequestBodyContributor {

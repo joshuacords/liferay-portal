@@ -32,7 +32,7 @@ import org.junit.Test;
 
 /**
  * @author Bryan Engler
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class ElasticsearchIndexSearcherLoggingTest
 	extends BaseIndexingTestCase {

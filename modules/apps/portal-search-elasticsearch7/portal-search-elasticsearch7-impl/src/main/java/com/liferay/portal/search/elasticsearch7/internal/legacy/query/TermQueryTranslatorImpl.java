@@ -24,7 +24,7 @@ import org.elasticsearch.index.query.TermQueryBuilder;
 import org.osgi.service.component.annotations.Component;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  * @author Miguel Angelo Caldas Gallindo
  */
 @Component(immediate = true, service = TermQueryTranslator.class)

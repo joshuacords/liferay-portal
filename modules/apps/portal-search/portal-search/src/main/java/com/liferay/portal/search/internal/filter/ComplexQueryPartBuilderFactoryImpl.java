@@ -20,7 +20,7 @@ import com.liferay.portal.search.filter.ComplexQueryPartBuilderFactory;
 import org.osgi.service.component.annotations.Component;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @Component(service = ComplexQueryPartBuilderFactory.class)
 public class ComplexQueryPartBuilderFactoryImpl

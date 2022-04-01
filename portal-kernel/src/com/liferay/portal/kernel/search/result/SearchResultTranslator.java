@@ -24,7 +24,7 @@ import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface SearchResultTranslator {
 

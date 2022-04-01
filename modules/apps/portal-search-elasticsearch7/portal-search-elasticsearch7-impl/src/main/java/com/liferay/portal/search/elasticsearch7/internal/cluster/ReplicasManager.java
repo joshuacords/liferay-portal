@@ -15,7 +15,7 @@
 package com.liferay.portal.search.elasticsearch7.internal.cluster;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface ReplicasManager {
 

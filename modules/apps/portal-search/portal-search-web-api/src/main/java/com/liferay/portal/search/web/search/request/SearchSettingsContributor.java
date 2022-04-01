@@ -15,7 +15,7 @@
 package com.liferay.portal.search.web.search.request;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface SearchSettingsContributor {
 

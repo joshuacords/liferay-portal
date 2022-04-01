@@ -18,7 +18,7 @@ import com.liferay.portal.search.stats.StatsResponse;
 import com.liferay.portal.search.stats.StatsResponseBuilder;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class StatsResponseBuilderImpl implements StatsResponseBuilder {
 

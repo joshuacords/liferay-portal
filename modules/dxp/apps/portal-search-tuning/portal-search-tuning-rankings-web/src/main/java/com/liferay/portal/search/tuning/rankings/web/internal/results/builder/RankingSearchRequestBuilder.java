@@ -22,7 +22,7 @@ import com.liferay.portal.search.searcher.SearchRequestBuilder;
 import com.liferay.portal.search.searcher.SearchRequestBuilderFactory;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  * @author Bryan Engler
  */
 public class RankingSearchRequestBuilder {

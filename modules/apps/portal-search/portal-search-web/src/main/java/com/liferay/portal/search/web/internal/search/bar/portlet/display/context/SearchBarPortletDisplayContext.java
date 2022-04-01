@@ -17,7 +17,7 @@ package com.liferay.portal.search.web.internal.search.bar.portlet.display.contex
 import com.liferay.portal.search.web.internal.search.bar.portlet.configuration.SearchBarPortletInstanceConfiguration;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class SearchBarPortletDisplayContext {
 

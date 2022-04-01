@@ -19,7 +19,7 @@ import com.liferay.portal.search.filter.ComplexQueryPartBuilder;
 import com.liferay.portal.search.query.Query;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class ComplexQueryPartImpl implements ComplexQueryPart {
 

@@ -30,7 +30,7 @@ import org.elasticsearch.common.settings.Settings;
 import org.mockito.Mockito;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class IndexCreator {
 

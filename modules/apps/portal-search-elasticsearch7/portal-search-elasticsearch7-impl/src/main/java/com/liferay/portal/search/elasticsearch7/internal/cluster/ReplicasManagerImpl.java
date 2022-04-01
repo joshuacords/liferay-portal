@@ -25,7 +25,7 @@ import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.common.settings.Settings;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class ReplicasManagerImpl implements ReplicasManager {
 

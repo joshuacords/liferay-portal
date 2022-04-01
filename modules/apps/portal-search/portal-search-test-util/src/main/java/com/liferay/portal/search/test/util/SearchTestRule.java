@@ -22,7 +22,7 @@ import com.liferay.portal.test.rule.InjectTestBag;
 import org.junit.runner.Description;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class SearchTestRule extends MethodTestRule<Void> {
 

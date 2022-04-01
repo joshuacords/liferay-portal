@@ -32,7 +32,7 @@ import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Wade Cao
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @Component(service = SimilarResultsContributor.class)
 public class ClassNameClassPKSimilarResultsContributor

@@ -19,7 +19,7 @@ import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.search.web.search.request.SearchSettings;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface SearchContainerBuilder {
 

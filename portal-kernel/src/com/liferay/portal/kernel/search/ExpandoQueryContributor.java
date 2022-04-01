@@ -15,7 +15,7 @@
 package com.liferay.portal.kernel.search;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface ExpandoQueryContributor {
 

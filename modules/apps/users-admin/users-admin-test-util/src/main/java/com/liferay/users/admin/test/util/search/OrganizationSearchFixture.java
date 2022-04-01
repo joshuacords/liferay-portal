@@ -30,7 +30,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class OrganizationSearchFixture {
 

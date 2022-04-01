@@ -32,7 +32,7 @@ import org.mockito.Mockito;
 
 /**
  * @author Bryan Engler
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class IndexerRequestBufferHandlerTest {
 

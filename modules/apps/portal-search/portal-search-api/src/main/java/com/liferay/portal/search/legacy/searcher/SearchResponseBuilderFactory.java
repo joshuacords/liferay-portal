@@ -25,7 +25,7 @@ import org.osgi.annotation.versioning.ProviderType;
  * should use {@link
  * com.liferay.portal.search.searcher.SearchResponseBuilderFactory}.
  *
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @ProviderType
 public interface SearchResponseBuilderFactory {

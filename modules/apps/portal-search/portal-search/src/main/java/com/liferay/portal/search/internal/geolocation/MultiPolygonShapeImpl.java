@@ -27,7 +27,7 @@ import java.util.List;
 
 /**
  * @author Michael C. Han
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class MultiPolygonShapeImpl
 	extends BaseShapeImpl implements MultiPolygonShape {

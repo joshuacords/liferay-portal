@@ -28,7 +28,7 @@ import java.util.List;
 import org.junit.Test;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public abstract class BaseAssetTagNamesFacetTestCase extends BaseFacetTestCase {
 

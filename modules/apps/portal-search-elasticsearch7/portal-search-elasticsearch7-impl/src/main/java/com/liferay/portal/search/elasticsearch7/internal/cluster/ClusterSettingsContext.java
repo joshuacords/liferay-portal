@@ -18,7 +18,7 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface ClusterSettingsContext {
 

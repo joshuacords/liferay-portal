@@ -21,7 +21,7 @@ import com.liferay.portal.search.elasticsearch7.spi.index.helper.IndexRegistrarH
 import org.osgi.service.component.annotations.Component;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @Component(service = IndexRegistrar.class)
 public class InstancesAndProcessesIndexRegistrar implements IndexRegistrar {

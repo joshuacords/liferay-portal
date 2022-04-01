@@ -15,7 +15,7 @@
 package com.liferay.portal.search.elasticsearch7.spi.index;
 
 /**
- * @author     André de Oliveira
+ * @author     Bryan Engler
  * @deprecated As of Athanasius (7.3.x), replaced by {@link
  *             com.liferay.portal.search.spi.index.IndexDefinition}
  */

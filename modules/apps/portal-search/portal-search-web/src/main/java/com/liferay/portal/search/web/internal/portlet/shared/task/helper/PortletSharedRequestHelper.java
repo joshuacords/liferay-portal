@@ -19,7 +19,7 @@ import java.util.Optional;
 import javax.portlet.RenderRequest;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface PortletSharedRequestHelper {
 

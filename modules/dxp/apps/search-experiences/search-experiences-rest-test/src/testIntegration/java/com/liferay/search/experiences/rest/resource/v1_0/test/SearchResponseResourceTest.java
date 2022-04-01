@@ -39,7 +39,7 @@ import org.junit.runner.RunWith;
 
 /**
  * @author Brian Wing Shun Chan
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @RunWith(Arquillian.class)
 public class SearchResponseResourceTest

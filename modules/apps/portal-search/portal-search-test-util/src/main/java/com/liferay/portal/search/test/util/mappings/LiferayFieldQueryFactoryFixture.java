@@ -28,7 +28,7 @@ import com.liferay.portal.search.query.field.QueryPreProcessConfiguration;
 import org.mockito.Mockito;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class LiferayFieldQueryFactoryFixture {
 

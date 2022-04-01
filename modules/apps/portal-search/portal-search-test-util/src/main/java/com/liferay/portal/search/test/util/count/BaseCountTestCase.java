@@ -29,7 +29,7 @@ import org.junit.Test;
 
 /**
  * @author Preston Crary
- * @author André de Oliveira
+ * @author Bryan Engler
  * @author Tibor Lipusz
  */
 public abstract class BaseCountTestCase extends BaseIndexingTestCase {

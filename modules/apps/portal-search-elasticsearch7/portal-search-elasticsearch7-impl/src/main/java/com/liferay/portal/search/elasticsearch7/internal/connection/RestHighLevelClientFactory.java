@@ -43,7 +43,7 @@ import org.elasticsearch.client.RestClientBuilder;
 import org.elasticsearch.client.RestHighLevelClient;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class RestHighLevelClientFactory {
 

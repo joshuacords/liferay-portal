@@ -30,7 +30,7 @@ import java.util.function.Supplier;
 import org.junit.Assert;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class AssertUtils {
 

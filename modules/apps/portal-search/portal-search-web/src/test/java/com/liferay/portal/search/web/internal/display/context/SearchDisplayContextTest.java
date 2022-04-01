@@ -63,7 +63,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class SearchDisplayContextTest {
 

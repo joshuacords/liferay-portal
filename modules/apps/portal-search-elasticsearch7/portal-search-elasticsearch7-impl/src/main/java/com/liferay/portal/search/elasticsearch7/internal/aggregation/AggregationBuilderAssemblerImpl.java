@@ -24,7 +24,7 @@ import org.elasticsearch.search.aggregations.PipelineAggregationBuilder;
 import org.elasticsearch.search.aggregations.support.ValuesSourceAggregationBuilder;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class AggregationBuilderAssemblerImpl {
 

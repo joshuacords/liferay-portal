@@ -17,7 +17,7 @@ package com.liferay.portal.search.internal.reindexer;
 import com.liferay.portal.search.spi.reindexer.BulkReindexer;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface BulkReindexersHolder {
 

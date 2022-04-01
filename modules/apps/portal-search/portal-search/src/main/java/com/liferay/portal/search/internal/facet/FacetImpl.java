@@ -25,7 +25,7 @@ import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.search.facet.Facet;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class FacetImpl extends BaseFacet implements Facet {
 

@@ -29,7 +29,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class SearchResultsSummariesHolderTest {
 

@@ -18,7 +18,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class IdempotentRetryAssert {
 

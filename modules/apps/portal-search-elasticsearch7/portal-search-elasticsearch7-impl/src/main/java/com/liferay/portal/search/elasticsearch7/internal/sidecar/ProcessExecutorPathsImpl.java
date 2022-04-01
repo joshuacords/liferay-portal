@@ -21,7 +21,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class ProcessExecutorPathsImpl implements ProcessExecutorPaths {
 

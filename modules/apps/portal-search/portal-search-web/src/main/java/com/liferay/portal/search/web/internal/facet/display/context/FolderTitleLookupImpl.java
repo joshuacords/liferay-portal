@@ -29,7 +29,7 @@ import java.util.stream.Stream;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class FolderTitleLookupImpl implements FolderTitleLookup {
 

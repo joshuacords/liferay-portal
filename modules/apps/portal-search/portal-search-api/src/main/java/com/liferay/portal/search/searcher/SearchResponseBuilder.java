@@ -29,7 +29,7 @@ import org.osgi.annotation.versioning.ProviderType;
  * Builds a search response with the results of a search. This interface's usage
  * is intended for the Liferay Search Framework only.
  *
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @ProviderType
 public interface SearchResponseBuilder {

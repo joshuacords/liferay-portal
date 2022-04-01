@@ -25,7 +25,7 @@ import com.liferay.search.experiences.rest.dto.v1_0.Rescore;
 import com.liferay.search.experiences.rest.dto.v1_0.SortConfiguration;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class ConfigurationUtil {
 

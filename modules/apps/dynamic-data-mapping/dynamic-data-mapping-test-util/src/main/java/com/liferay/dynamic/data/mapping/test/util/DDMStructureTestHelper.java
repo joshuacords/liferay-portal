@@ -35,7 +35,7 @@ import java.util.Map;
 
 /**
  * @author Eduardo García
- * @author André de Oliveira
+ * @author Bryan Engler
  * @author Marcellus Tavares
  */
 public class DDMStructureTestHelper {

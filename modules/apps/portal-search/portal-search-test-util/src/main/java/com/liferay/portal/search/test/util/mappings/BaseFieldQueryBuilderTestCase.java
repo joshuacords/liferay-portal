@@ -31,7 +31,7 @@ import java.util.List;
 import org.junit.Assert;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public abstract class BaseFieldQueryBuilderTestCase
 	extends BaseIndexingTestCase {

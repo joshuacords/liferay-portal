@@ -19,7 +19,7 @@ import org.osgi.annotation.versioning.ProviderType;
 /**
  * Performs a search using the Liferay Search Framework.
  *
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @ProviderType
 public interface Searcher {

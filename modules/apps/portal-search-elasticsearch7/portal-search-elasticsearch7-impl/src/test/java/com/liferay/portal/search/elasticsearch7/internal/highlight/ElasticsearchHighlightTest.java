@@ -31,7 +31,7 @@ import org.junit.Test;
 
 /**
  * @author Wade Cao
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class ElasticsearchHighlightTest extends BaseHighlightTestCase {
 

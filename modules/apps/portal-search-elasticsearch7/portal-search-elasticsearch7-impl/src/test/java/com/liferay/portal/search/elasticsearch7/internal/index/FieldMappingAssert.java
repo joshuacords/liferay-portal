@@ -31,7 +31,7 @@ import org.junit.Assert;
 
 /**
  * @author Artur Aquino
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class FieldMappingAssert {
 

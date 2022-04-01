@@ -15,7 +15,7 @@
 package com.liferay.portal.search.web.internal.result.display.context.builder;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface SearchResultViewURLSupplier {
 

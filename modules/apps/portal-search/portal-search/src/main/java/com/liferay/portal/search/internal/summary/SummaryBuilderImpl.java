@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  * @author Bryan Engler
  * @author Ryan Park
  * @author Tibor Lipusz

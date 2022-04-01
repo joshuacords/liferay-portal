@@ -59,7 +59,7 @@ import org.osgi.service.component.annotations.Reference;
  * @author Michael C. Han
  * @author Miguel Angelo Caldas Gallindo
  * @author Artur Aquino
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @Component(
 	configurationPid = "com.liferay.portal.search.elasticsearch.monitoring.web.internal.configuration.MonitoringConfiguration",

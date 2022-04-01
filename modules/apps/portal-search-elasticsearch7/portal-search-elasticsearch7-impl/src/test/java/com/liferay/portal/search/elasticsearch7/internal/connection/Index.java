@@ -15,7 +15,7 @@
 package com.liferay.portal.search.elasticsearch7.internal.connection;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class Index {
 

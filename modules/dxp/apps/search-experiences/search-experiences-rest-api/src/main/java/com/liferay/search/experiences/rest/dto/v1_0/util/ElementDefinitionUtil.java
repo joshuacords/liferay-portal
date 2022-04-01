@@ -22,7 +22,7 @@ import com.liferay.search.experiences.rest.dto.v1_0.Field;
 import com.liferay.search.experiences.rest.dto.v1_0.UiConfiguration;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class ElementDefinitionUtil {
 

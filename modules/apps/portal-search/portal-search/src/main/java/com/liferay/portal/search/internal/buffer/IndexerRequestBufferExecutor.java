@@ -15,7 +15,7 @@
 package com.liferay.portal.search.internal.buffer;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  * @author Michael C. Han
  */
 public interface IndexerRequestBufferExecutor {

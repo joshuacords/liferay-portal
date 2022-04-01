@@ -20,7 +20,7 @@ import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClass
 
 /**
  * @author Adam Brandizzi
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @ExtendedObjectClassDefinition(category = "search")
 @Meta.OCD(

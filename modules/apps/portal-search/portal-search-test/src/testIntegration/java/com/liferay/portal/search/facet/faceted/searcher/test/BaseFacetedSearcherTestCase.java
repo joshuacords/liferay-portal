@@ -45,7 +45,7 @@ import org.junit.Rule;
 import org.junit.rules.TestName;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public abstract class BaseFacetedSearcherTestCase {
 

@@ -20,7 +20,7 @@ import org.osgi.annotation.versioning.ProviderType;
  * Creates a search request builder for building a search request object that
  * can be sent to the search engine when performing a search.
  *
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @ProviderType
 public interface SearchRequestBuilderFactory {

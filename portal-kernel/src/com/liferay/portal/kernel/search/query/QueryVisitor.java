@@ -28,7 +28,7 @@ import com.liferay.portal.kernel.search.generic.NestedQuery;
 import com.liferay.portal.kernel.search.generic.StringQuery;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  * @author Miguel Angelo Caldas Gallindo
  */
 public interface QueryVisitor<T> {

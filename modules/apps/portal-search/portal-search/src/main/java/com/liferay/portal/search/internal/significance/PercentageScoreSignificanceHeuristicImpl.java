@@ -17,7 +17,7 @@ package com.liferay.portal.search.internal.significance;
 import com.liferay.portal.search.significance.PercentageScoreSignificanceHeuristic;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class PercentageScoreSignificanceHeuristicImpl
 	implements PercentageScoreSignificanceHeuristic {

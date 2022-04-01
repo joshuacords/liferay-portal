@@ -25,7 +25,7 @@ import com.liferay.portal.kernel.util.ArrayUtil;
 
 /**
  * @author Eduardo García
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class FolderSearcher extends BaseSearcher {
 

@@ -35,7 +35,7 @@ import org.osgi.service.component.annotations.ReferencePolicy;
 import org.osgi.service.component.annotations.ReferencePolicyOption;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @Component(immediate = true, service = SearchRequestContributorsHolder.class)
 public class SearchRequestContributorsHolderImpl

@@ -17,7 +17,7 @@ package com.liferay.portal.search.web.internal.result.display.context;
 import java.io.Serializable;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class SearchResultFieldDisplayContext implements Serializable {
 

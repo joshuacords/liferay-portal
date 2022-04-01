@@ -79,7 +79,7 @@ import org.junit.runner.RunWith;
 
 /**
  * @author Wade Cao
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @RunWith(Arquillian.class)
 public class IndexerScoreDistortionTest {

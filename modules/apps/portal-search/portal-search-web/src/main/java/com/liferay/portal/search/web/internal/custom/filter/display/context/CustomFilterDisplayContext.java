@@ -17,7 +17,7 @@ package com.liferay.portal.search.web.internal.custom.filter.display.context;
 import com.liferay.portal.search.web.internal.custom.filter.configuration.CustomFilterPortletInstanceConfiguration;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class CustomFilterDisplayContext {
 

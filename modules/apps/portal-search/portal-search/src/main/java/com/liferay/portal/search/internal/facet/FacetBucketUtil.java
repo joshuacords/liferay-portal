@@ -23,7 +23,7 @@ import com.liferay.portal.kernel.util.Validator;
 
 /**
  * @author Bryan Engler
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class FacetBucketUtil {
 

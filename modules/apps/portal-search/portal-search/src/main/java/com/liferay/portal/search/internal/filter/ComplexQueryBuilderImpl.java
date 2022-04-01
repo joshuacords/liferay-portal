@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class ComplexQueryBuilderImpl implements ComplexQueryBuilder {
 

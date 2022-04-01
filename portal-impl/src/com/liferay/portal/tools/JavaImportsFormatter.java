@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 
 /**
  * @author Carlos Sierra Andrés
- * @author André de Oliveira
+ * @author Bryan Engler
  * @author Raymond Augé
  * @author Hugo Huijser
  */

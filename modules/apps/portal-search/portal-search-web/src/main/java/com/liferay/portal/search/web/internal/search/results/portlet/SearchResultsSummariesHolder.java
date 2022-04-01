@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class SearchResultsSummariesHolder implements Serializable {
 

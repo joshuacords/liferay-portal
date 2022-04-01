@@ -18,7 +18,7 @@ import javax.portlet.PortletException;
 import javax.portlet.PortletURL;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface PortletURLFactory {
 

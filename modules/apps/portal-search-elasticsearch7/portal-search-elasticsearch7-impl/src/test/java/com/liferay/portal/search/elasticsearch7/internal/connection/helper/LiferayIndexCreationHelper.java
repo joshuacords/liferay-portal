@@ -23,7 +23,7 @@ import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.settings.Settings;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class LiferayIndexCreationHelper implements IndexCreationHelper {
 

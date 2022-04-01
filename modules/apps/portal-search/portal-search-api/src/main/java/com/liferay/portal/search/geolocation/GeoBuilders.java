@@ -20,7 +20,7 @@ import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * @author Wade Cao
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @ProviderType
 public interface GeoBuilders {

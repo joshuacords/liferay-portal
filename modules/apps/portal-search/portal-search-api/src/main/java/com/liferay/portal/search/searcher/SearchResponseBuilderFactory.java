@@ -21,7 +21,7 @@ import org.osgi.annotation.versioning.ProviderType;
  * the search engine's response to an executed search request. This interface's
  * usage is intended for the Liferay Search Framework only.
  *
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @ProviderType
 public interface SearchResponseBuilderFactory {

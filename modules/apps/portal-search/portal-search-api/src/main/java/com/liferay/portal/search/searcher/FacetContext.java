@@ -17,7 +17,7 @@ package com.liferay.portal.search.searcher;
 import com.liferay.portal.kernel.search.facet.Facet;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface FacetContext {
 

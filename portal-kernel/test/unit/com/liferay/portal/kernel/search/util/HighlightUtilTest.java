@@ -32,7 +32,7 @@ import org.mockito.Mockito;
 
 /**
  * @author Tibor Lipusz
- * @author André de Oliveira
+ * @author Bryan Engler
  * @author Bryan Engler
  */
 public class HighlightUtilTest {

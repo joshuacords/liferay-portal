@@ -15,7 +15,7 @@
 package com.liferay.portal.search.web.internal.search.results.constants;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class SearchResultsPortletKeys {
 

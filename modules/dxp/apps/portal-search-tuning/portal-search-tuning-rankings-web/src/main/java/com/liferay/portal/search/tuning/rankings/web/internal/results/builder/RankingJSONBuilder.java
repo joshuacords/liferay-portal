@@ -49,7 +49,7 @@ import java.util.Locale;
 import javax.portlet.ResourceRequest;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  * @author Bryan Engler
  */
 public class RankingJSONBuilder {

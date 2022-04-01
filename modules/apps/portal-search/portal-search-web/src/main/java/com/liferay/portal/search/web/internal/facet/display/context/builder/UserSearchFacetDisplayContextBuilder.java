@@ -36,7 +36,7 @@ import java.util.Objects;
 import javax.portlet.RenderRequest;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class UserSearchFacetDisplayContextBuilder {
 

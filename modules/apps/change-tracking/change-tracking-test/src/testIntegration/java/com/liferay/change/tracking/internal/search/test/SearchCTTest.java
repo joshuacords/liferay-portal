@@ -62,7 +62,7 @@ import org.junit.runner.RunWith;
 
 /**
  * @author Preston Crary
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @RunWith(Arquillian.class)
 public class SearchCTTest {

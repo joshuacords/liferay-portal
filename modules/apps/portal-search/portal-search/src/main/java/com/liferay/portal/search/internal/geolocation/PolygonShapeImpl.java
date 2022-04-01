@@ -27,7 +27,7 @@ import java.util.List;
 
 /**
  * @author Michael C. Han
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class PolygonShapeImpl extends BaseShapeImpl implements PolygonShape {
 

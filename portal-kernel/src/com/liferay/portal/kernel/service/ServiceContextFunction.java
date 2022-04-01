@@ -23,7 +23,7 @@ import javax.portlet.PortletRequest;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class ServiceContextFunction
 	implements Function<String, ServiceContext> {

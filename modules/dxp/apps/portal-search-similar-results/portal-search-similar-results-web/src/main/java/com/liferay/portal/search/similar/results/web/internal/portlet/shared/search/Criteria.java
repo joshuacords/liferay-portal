@@ -17,7 +17,7 @@ package com.liferay.portal.search.similar.results.web.internal.portlet.shared.se
 import java.util.Optional;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface Criteria {
 

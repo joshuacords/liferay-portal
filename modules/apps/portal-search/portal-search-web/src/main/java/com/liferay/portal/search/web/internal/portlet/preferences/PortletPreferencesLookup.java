@@ -22,7 +22,7 @@ import java.util.Optional;
 import javax.portlet.PortletPreferences;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface PortletPreferencesLookup {
 

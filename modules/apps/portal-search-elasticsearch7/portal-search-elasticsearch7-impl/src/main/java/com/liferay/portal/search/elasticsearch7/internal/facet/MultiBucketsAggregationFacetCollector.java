@@ -22,7 +22,7 @@ import java.util.List;
 import org.elasticsearch.search.aggregations.bucket.MultiBucketsAggregation;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class MultiBucketsAggregationFacetCollector implements FacetCollector {
 

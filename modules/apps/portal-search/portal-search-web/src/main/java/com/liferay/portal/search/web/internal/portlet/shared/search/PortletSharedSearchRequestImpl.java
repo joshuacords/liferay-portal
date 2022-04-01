@@ -64,7 +64,7 @@ import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @Component(service = PortletSharedSearchRequest.class)
 public class PortletSharedSearchRequestImpl

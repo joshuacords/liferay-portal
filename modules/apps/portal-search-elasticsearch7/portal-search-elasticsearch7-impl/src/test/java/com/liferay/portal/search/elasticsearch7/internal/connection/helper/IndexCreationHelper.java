@@ -18,7 +18,7 @@ import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
 import org.elasticsearch.common.settings.Settings;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface IndexCreationHelper {
 

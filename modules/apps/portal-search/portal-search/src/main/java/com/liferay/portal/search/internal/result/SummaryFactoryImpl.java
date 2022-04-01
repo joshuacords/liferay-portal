@@ -36,7 +36,7 @@ import org.osgi.service.component.annotations.Reference;
 /**
  * @author Eudaldo Alonso
  * @author Adolfo Pérez
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @Component(immediate = true, service = SummaryFactory.class)
 public class SummaryFactoryImpl implements SummaryFactory {

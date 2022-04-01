@@ -15,7 +15,7 @@
 package com.liferay.portal.background.task.internal;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class StaleBackgroundTaskException extends RuntimeException {
 

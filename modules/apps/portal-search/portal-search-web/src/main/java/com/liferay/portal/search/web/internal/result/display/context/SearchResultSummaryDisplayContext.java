@@ -21,7 +21,7 @@ import java.util.List;
 import javax.portlet.PortletURL;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class SearchResultSummaryDisplayContext implements Serializable {
 

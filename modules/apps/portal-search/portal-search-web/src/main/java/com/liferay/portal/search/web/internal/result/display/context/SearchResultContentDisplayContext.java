@@ -22,7 +22,7 @@ import java.io.Serializable;
 
 /**
  * @author Wade Cao
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class SearchResultContentDisplayContext implements Serializable {
 

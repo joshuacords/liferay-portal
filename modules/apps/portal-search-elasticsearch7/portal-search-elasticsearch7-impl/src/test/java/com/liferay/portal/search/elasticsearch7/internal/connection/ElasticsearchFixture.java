@@ -26,7 +26,7 @@ import org.elasticsearch.client.indices.GetIndexResponse;
 import org.elasticsearch.cluster.health.ClusterHealthStatus;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class ElasticsearchFixture implements ElasticsearchClientResolver {
 

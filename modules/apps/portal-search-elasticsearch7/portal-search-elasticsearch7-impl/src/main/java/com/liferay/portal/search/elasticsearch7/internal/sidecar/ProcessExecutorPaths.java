@@ -17,7 +17,7 @@ package com.liferay.portal.search.elasticsearch7.internal.sidecar;
 import java.nio.file.Path;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface ProcessExecutorPaths {
 

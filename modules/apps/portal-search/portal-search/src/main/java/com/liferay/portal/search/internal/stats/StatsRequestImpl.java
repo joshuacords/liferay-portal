@@ -21,7 +21,7 @@ import java.io.Serializable;
 
 /**
  * @author Michael C. Han
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class StatsRequestImpl implements Serializable, StatsRequest {
 

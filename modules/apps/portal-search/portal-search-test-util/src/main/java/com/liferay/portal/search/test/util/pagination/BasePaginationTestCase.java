@@ -36,7 +36,7 @@ import org.junit.rules.ExpectedException;
 
 /**
  * @author Preston Crary
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public abstract class BasePaginationTestCase extends BaseIndexingTestCase {
 

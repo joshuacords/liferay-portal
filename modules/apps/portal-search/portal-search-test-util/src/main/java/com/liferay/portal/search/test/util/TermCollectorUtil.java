@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class TermCollectorUtil {
 

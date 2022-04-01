@@ -51,7 +51,7 @@ import org.mockito.MockitoAnnotations;
 
 /**
  * @author Mika Koivisto
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class BaseCmisSearchQueryBuilderTest {
 

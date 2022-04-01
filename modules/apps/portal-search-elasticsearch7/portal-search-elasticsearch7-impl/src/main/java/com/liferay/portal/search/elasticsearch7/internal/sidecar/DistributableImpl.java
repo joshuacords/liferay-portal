@@ -15,7 +15,7 @@
 package com.liferay.portal.search.elasticsearch7.internal.sidecar;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class DistributableImpl implements Distributable {
 

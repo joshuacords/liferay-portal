@@ -19,7 +19,7 @@ import com.liferay.portal.search.tuning.rankings.web.internal.index.name.Ranking
 import java.util.Optional;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface RankingIndexReader {
 

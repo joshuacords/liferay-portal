@@ -32,7 +32,7 @@ import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  * @author Michael C. Han
  */
 public class NoAutoCommitIndexer<T> implements Indexer<T> {

@@ -21,7 +21,7 @@ import com.liferay.portal.search.elasticsearch7.internal.connection.HealthExpect
 import org.junit.Assert;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class ClusterAssert {
 

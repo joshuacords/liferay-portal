@@ -15,7 +15,7 @@
 package com.liferay.calendar.internal.search;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface CalendarBookingBatchReindexer {
 

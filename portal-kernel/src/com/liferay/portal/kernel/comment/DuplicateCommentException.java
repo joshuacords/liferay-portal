@@ -17,7 +17,7 @@ package com.liferay.portal.kernel.comment;
 import com.liferay.portal.kernel.exception.PortalException;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class DuplicateCommentException extends PortalException {
 

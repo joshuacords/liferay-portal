@@ -20,7 +20,7 @@ import java.util.List;
 
 /**
  * @author Wade Cao
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class SortDisplayContext {
 

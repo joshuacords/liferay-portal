@@ -20,7 +20,7 @@ import com.liferay.portal.search.stats.StatsResponseBuilderFactory;
 import org.osgi.service.component.annotations.Component;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @Component(service = StatsResponseBuilderFactory.class)
 public class StatsResponseBuilderFactoryImpl

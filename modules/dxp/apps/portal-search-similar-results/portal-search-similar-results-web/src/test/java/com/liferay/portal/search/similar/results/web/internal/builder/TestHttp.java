@@ -30,7 +30,7 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class TestHttp {
 

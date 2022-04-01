@@ -53,7 +53,7 @@ import org.junit.runner.RunWith;
 
 /**
  * @author Yasuyuki Takeo
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @RunWith(Arquillian.class)
 public class JournalFolderIndexerLocalizedTest {

@@ -19,7 +19,7 @@ import com.liferay.portal.search.summary.Summary;
 import java.util.Locale;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class SummaryImpl implements Summary {
 

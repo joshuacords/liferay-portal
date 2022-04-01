@@ -18,7 +18,7 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.search.facet.config.FacetConfiguration;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class ScopeFacetConfigurationImpl implements ScopeFacetConfiguration {
 

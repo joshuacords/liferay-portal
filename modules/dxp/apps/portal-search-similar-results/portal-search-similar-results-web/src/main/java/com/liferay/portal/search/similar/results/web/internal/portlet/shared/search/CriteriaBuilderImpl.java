@@ -20,7 +20,7 @@ import com.liferay.portal.search.similar.results.web.spi.contributor.helper.Crit
 import java.util.Optional;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class CriteriaBuilderImpl implements CriteriaBuilder {
 

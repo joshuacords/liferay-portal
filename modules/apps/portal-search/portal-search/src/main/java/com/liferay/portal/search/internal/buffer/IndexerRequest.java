@@ -29,7 +29,7 @@ import java.lang.reflect.Method;
 import java.util.Objects;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  * @author Michael C. Han
  */
 public class IndexerRequest {

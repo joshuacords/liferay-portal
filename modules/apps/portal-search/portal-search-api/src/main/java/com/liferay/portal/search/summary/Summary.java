@@ -17,7 +17,7 @@ package com.liferay.portal.search.summary;
 import java.util.Locale;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface Summary {
 

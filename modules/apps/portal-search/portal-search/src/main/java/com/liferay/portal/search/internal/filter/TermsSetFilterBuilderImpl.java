@@ -20,7 +20,7 @@ import com.liferay.portal.search.filter.TermsSetFilterBuilder;
 import java.util.List;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class TermsSetFilterBuilderImpl implements TermsSetFilterBuilder {
 

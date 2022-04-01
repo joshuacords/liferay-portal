@@ -35,7 +35,7 @@ import org.objectweb.asm.tree.MethodNode;
 import org.osgi.service.component.annotations.Reference;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class MicrocontainerImpl implements Microcontainer {
 

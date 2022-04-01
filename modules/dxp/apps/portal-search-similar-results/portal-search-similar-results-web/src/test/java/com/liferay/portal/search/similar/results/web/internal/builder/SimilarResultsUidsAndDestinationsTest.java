@@ -75,7 +75,7 @@ import org.mockito.MockitoAnnotations;
 
 /**
  * @author Wade Cao
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class SimilarResultsUidsAndDestinationsTest {
 

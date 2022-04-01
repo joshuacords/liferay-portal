@@ -20,7 +20,7 @@ import com.liferay.search.experiences.blueprint.exception.InvalidWebCacheItemExc
 import com.liferay.search.experiences.blueprint.exception.PrivateIPAddressException;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  * @author Wade Cao
  */
 public class SXPExceptionUtil {

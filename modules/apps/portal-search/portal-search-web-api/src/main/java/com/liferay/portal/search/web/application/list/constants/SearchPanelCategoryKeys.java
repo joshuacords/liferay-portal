@@ -15,7 +15,7 @@
 package com.liferay.portal.search.web.application.list.constants;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface SearchPanelCategoryKeys {
 

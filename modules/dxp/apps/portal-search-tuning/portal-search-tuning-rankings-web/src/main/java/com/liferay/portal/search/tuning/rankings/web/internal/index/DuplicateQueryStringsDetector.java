@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface DuplicateQueryStringsDetector {
 

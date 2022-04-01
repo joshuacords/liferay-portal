@@ -19,7 +19,7 @@ import com.liferay.portal.search.aggregation.AggregationTranslator;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface AggregationBuilderAssemblerFactory {
 

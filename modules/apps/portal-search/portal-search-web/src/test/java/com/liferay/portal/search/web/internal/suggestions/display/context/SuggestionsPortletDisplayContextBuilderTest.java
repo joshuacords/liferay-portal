@@ -43,7 +43,7 @@ import org.mockito.MockitoAnnotations;
 
 /**
  * @author Adam Brandizzi
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class SuggestionsPortletDisplayContextBuilderTest {
 

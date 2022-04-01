@@ -28,7 +28,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @Component(immediate = true, service = KeywordQueryContributorsHolder.class)
 public class KeywordQueryContributorsHolderImpl

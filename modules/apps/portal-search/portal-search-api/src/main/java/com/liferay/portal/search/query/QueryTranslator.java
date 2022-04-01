@@ -17,7 +17,7 @@ package com.liferay.portal.search.query;
 import org.osgi.annotation.versioning.ProviderType;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  * @author Miguel Angelo Caldas Gallindo
  */
 @ProviderType

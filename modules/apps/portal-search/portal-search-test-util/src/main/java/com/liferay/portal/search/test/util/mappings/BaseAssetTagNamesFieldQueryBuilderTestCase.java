@@ -26,7 +26,7 @@ import java.util.Locale;
 import org.junit.Test;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public abstract class BaseAssetTagNamesFieldQueryBuilderTestCase
 	extends BaseTitleFieldQueryBuilderTestCase {

@@ -16,7 +16,7 @@ package com.liferay.portal.search.script;
 
 /**
  * @author Wade Cao
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface Scripts {
 

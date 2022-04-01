@@ -17,7 +17,7 @@ package com.liferay.portal.search.significance;
 import org.osgi.annotation.versioning.ProviderType;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @ProviderType
 public interface ChiSquareSignificanceHeuristic extends SignificanceHeuristic {

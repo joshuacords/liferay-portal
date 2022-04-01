@@ -37,7 +37,7 @@ import org.osgi.service.cm.Configuration;
 import org.osgi.service.metatype.AttributeDefinition;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class AttributeDefinitionUtilTest {
 

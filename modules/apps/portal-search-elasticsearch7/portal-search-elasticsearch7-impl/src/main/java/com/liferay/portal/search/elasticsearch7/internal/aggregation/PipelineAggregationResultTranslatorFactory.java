@@ -19,7 +19,7 @@ import com.liferay.portal.search.aggregation.pipeline.PipelineAggregationResultT
 import org.elasticsearch.search.aggregations.Aggregation;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface PipelineAggregationResultTranslatorFactory {
 

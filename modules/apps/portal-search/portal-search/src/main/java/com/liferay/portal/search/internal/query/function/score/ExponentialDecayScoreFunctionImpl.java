@@ -20,7 +20,7 @@ import com.liferay.portal.search.query.function.score.ScoreFunctionTranslator;
 /**
  * @author Michael C. Han
  * @author Wade Cao
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class ExponentialDecayScoreFunctionImpl
 	extends BaseDecayScoreFunctionImpl

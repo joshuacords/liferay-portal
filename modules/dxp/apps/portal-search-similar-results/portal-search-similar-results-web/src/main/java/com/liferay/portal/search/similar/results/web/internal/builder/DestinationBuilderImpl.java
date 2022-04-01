@@ -22,7 +22,7 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.search.similar.results.web.spi.contributor.helper.DestinationBuilder;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class DestinationBuilderImpl implements DestinationBuilder {
 

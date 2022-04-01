@@ -20,7 +20,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 import javax.portlet.PortletRequest;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class PortletRequestThemeDisplaySupplier
 	implements ThemeDisplaySupplier {

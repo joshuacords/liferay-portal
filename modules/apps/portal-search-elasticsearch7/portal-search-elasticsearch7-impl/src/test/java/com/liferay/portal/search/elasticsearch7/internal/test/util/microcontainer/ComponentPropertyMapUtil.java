@@ -28,7 +28,7 @@ import org.objectweb.asm.tree.ClassNode;
 import org.osgi.service.component.annotations.Component;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class ComponentPropertyMapUtil {
 

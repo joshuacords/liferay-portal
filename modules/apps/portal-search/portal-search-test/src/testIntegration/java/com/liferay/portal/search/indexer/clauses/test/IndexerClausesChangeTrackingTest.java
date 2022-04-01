@@ -69,7 +69,7 @@ import org.junit.runner.RunWith;
 
 /**
  * @author Adam Brandizzi
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @RunWith(Arquillian.class)
 public class IndexerClausesChangeTrackingTest {

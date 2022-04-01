@@ -21,7 +21,7 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class ModelKeywordQueryContributorsHolderImpl
 	implements ModelKeywordQueryContributorsHolder {

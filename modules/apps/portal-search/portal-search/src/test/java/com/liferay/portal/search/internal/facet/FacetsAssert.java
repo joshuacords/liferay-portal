@@ -26,7 +26,7 @@ import java.util.stream.Stream;
 import org.junit.Assert;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class FacetsAssert {
 

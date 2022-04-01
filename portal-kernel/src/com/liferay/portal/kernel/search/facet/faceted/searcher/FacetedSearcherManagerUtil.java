@@ -17,7 +17,7 @@ package com.liferay.portal.kernel.search.facet.faceted.searcher;
 import com.liferay.portal.kernel.util.ServiceProxyFactory;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class FacetedSearcherManagerUtil {
 

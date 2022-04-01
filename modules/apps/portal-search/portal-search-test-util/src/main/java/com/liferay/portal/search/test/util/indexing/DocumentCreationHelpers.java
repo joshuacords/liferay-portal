@@ -21,7 +21,7 @@ import com.liferay.portal.search.test.util.mappings.NestedDDMFieldArrayUtil;
 import java.util.Date;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class DocumentCreationHelpers {
 

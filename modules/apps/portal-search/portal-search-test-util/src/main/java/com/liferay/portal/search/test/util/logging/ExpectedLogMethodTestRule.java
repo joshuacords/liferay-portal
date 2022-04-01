@@ -36,7 +36,7 @@ import org.junit.Assert;
 import org.junit.runner.Description;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class ExpectedLogMethodTestRule extends MethodTestRule<Void> {
 

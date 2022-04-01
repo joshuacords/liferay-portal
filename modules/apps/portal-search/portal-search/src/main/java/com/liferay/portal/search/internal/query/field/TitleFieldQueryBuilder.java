@@ -29,7 +29,7 @@ import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  * @author Rodrigo Paulino
  */
 @Component(

@@ -75,7 +75,7 @@ import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @Component(
 	immediate = true,

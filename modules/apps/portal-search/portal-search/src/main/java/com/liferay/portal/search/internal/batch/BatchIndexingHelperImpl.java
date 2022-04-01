@@ -32,7 +32,7 @@ import org.osgi.service.component.annotations.Modified;
 
 /**
  * @author Bryan Engler
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @Component(
 	configurationPid = "com.liferay.portal.search.configuration.ReindexConfiguration",

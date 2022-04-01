@@ -39,7 +39,7 @@ import org.osgi.service.component.annotations.Component;
 
 /**
  * @author Petteri Karttunen
- * @author André de Oliveira
+ * @author Bryan Engler
  * @author Brian Wing Shun Chan
  */
 @Component(

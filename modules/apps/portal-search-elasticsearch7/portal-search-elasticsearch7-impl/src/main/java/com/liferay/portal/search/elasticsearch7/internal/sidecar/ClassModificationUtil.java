@@ -27,7 +27,7 @@ import org.objectweb.asm.Opcodes;
 
 /**
  * @author Tina Tian
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class ClassModificationUtil {
 

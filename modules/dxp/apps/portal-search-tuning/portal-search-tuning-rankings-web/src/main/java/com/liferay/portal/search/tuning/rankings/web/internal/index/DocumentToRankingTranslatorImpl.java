@@ -28,7 +28,7 @@ import java.util.stream.Stream;
 import org.osgi.service.component.annotations.Component;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @Component(service = DocumentToRankingTranslator.class)
 public class DocumentToRankingTranslatorImpl

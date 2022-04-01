@@ -36,7 +36,7 @@ import org.junit.Assert;
 import org.junit.Before;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public abstract class BaseSearchResultUtilTestCase {
 

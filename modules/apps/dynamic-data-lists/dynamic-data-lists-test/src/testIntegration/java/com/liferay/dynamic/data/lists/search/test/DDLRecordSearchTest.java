@@ -68,7 +68,7 @@ import org.junit.runner.RunWith;
 
 /**
  * @author Marcellus Tavares
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @RunWith(Arquillian.class)
 public class DDLRecordSearchTest {

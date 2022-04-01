@@ -28,7 +28,7 @@ import java.util.Optional;
 
 /**
  * @author Rodrigo Paulino
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class SearchResponseImpl {
 

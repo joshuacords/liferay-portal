@@ -21,7 +21,7 @@ import com.liferay.portal.search.filter.TermsSetFilterBuilder;
 import org.osgi.service.component.annotations.Component;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @Component(immediate = true, service = FilterBuilders.class)
 public class FilterBuildersImpl implements FilterBuilders {

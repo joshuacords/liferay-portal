@@ -21,7 +21,7 @@ import java.util.Collection;
 import org.osgi.annotation.versioning.ProviderType;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @ProviderType
 public interface UpdateDocumentIndexWriter {

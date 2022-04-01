@@ -34,7 +34,7 @@ import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Alexander Chow
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @Component(service = Trackback.class)
 public class Trackback {

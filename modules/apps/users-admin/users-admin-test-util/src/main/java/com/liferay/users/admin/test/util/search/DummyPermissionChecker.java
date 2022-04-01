@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class DummyPermissionChecker implements PermissionChecker {
 

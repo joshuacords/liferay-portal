@@ -53,7 +53,7 @@ import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Preston Crary
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @Component(service = CTEventListener.class)
 public class CTSearchEventListener implements CTEventListener {

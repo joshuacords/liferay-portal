@@ -19,7 +19,7 @@ import com.liferay.portal.search.similar.results.web.spi.contributor.SimilarResu
 import java.util.stream.Stream;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface SimilarResultsContributorsHolder {
 

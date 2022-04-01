@@ -18,7 +18,7 @@ import com.liferay.portal.search.similar.results.web.internal.builder.SimilarRes
 import com.liferay.portal.search.similar.results.web.spi.contributor.helper.CriteriaHelper;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class CriteriaHelperImpl implements CriteriaHelper {
 

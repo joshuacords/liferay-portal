@@ -17,7 +17,7 @@ package com.liferay.portal.search.elasticsearch7.internal.index;
 import java.util.Collection;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface IndexDefinitionsHolder {
 

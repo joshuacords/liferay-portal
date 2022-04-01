@@ -31,7 +31,7 @@ import org.apache.commons.lang.StringUtils;
 
 /**
  * @author Wade Cao
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class ElasticsearchInstaller {
 

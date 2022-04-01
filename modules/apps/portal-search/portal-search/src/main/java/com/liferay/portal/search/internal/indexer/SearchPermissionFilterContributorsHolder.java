@@ -19,7 +19,7 @@ import com.liferay.portal.search.permission.SearchPermissionFilterContributor;
 import java.util.stream.Stream;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface SearchPermissionFilterContributorsHolder {
 

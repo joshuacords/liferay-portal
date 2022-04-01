@@ -45,7 +45,7 @@ import javax.portlet.RenderRequest;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class ScopeSearchFacetDisplayContextBuilder {
 

@@ -22,7 +22,7 @@ import com.liferay.portal.kernel.search.filter.BooleanFilter;
 import java.util.Collection;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface PostProcessSearchQueryContributorHelper {
 

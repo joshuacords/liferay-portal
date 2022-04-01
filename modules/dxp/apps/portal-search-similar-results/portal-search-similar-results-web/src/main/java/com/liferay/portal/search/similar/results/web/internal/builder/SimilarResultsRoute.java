@@ -17,7 +17,7 @@ package com.liferay.portal.search.similar.results.web.internal.builder;
 import com.liferay.portal.search.similar.results.web.spi.contributor.SimilarResultsContributor;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface SimilarResultsRoute {
 

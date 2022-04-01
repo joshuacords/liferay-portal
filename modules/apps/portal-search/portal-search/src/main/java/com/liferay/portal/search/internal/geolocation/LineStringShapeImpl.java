@@ -23,7 +23,7 @@ import java.util.List;
 
 /**
  * @author Michael C. Han
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class LineStringShapeImpl
 	extends BaseShapeImpl implements LineStringShape {

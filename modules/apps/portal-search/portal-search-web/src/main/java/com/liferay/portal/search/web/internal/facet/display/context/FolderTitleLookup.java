@@ -15,7 +15,7 @@
 package com.liferay.portal.search.web.internal.facet.display.context;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface FolderTitleLookup {
 

@@ -22,7 +22,7 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.osgi.service.component.annotations.Component;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  * @author Miguel Angelo Caldas Gallindo
  */
 @Component(service = TermQueryTranslator.class)

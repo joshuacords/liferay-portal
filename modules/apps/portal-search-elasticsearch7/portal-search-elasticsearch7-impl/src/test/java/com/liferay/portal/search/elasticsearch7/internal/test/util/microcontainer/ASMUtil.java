@@ -20,7 +20,7 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.tree.ClassNode;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class ASMUtil {
 

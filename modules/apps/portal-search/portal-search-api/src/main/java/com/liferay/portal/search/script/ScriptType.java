@@ -17,7 +17,7 @@ package com.liferay.portal.search.script;
 /**
  * @author Michael C. Han
  * @author Wade Cao
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public enum ScriptType {
 

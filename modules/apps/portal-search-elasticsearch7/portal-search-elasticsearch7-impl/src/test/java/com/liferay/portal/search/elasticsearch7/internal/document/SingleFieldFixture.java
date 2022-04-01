@@ -27,7 +27,7 @@ import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.QueryBuilder;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class SingleFieldFixture {
 

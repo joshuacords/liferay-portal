@@ -21,7 +21,7 @@ import com.liferay.portal.search.document.Document;
 import java.util.Map;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class DocumentTranslator {
 

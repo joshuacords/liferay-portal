@@ -46,7 +46,7 @@ import org.elasticsearch.client.RestHighLevelClient;
 import org.mockito.Mockito;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class ElasticsearchConnectionFixture
 	implements ElasticsearchClientResolver {

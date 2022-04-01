@@ -20,7 +20,7 @@ import com.liferay.portal.search.document.DocumentBuilder;
 import org.osgi.annotation.versioning.ProviderType;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @ProviderType
 public interface DocumentBuilderFactory {

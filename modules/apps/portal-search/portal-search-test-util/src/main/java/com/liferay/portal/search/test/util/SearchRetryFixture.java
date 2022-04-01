@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class SearchRetryFixture {
 

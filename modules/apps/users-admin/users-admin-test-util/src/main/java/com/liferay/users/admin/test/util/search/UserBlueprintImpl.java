@@ -19,7 +19,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import java.util.Locale;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class UserBlueprintImpl implements UserBlueprint {
 

@@ -28,7 +28,7 @@ import org.junit.Test;
 import org.junit.rules.TestName;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class LiferayTypeMappingsPrefixPerLanguageTest {
 

@@ -67,7 +67,7 @@ import org.mockito.MockitoAnnotations;
 
 /**
  * @author Lino Alves
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class SearchResultSummaryDisplayContextBuilderTest {
 

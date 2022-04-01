@@ -31,7 +31,7 @@ import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.annotations.Component;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @Component(immediate = true, service = ModelSearchRegistrarHelper.class)
 public class ModelSearchRegistrarHelperImpl

@@ -23,7 +23,7 @@ import org.elasticsearch.search.aggregations.bucket.SingleBucketAggregation;
 import org.elasticsearch.search.aggregations.bucket.range.Range;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class FacetCollectorFactory {
 

@@ -32,7 +32,7 @@ import com.liferay.wiki.service.WikiPageLocalService;
 
 /**
  * @author Wade Cao
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public abstract class BaseWikiSimilarResultsContributor
 	implements SimilarResultsContributor {

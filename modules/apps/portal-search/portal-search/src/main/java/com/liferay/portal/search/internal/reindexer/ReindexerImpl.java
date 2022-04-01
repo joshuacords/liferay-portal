@@ -35,7 +35,7 @@ import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @Component(
 	configurationPid = "com.liferay.portal.search.configuration.ReindexerConfiguration",

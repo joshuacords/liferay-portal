@@ -29,7 +29,7 @@ import org.junit.Test;
 
 /**
  * @author Bryan Engler
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public abstract class BaseSuggestTestCase extends BaseIndexingTestCase {
 

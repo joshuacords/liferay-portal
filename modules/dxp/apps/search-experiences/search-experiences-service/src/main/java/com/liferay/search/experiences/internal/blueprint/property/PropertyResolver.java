@@ -17,7 +17,7 @@ package com.liferay.search.experiences.internal.blueprint.property;
 import java.util.Map;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface PropertyResolver {
 

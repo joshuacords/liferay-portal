@@ -18,7 +18,7 @@ import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class QueryBuilderFactories {
 

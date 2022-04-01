@@ -33,7 +33,7 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 /**
  * @author Marcellus Tavares
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class DDLRecordSetTestHelper {
 

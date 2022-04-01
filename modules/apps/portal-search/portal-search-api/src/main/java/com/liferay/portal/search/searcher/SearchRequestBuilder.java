@@ -35,7 +35,7 @@ import org.osgi.annotation.versioning.ProviderType;
 /**
  * Builds a search request that can be used for executing a search.
  *
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @ProviderType
 public interface SearchRequestBuilder {

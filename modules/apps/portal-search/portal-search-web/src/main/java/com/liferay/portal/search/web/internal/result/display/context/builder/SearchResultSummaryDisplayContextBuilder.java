@@ -85,7 +85,7 @@ import javax.portlet.RenderResponse;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class SearchResultSummaryDisplayContextBuilder {
 

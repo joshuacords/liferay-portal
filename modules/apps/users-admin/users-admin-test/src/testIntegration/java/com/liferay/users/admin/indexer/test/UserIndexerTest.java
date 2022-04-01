@@ -82,7 +82,7 @@ import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceRegistration;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @RunWith(Arquillian.class)
 public class UserIndexerTest {

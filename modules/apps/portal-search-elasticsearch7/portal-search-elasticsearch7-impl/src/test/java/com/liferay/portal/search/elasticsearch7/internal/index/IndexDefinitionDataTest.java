@@ -27,7 +27,7 @@ import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class IndexDefinitionDataTest {
 

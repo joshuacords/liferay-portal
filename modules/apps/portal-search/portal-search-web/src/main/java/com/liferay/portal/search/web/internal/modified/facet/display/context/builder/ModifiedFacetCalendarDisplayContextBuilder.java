@@ -28,7 +28,7 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class ModifiedFacetCalendarDisplayContextBuilder {
 

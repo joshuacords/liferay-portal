@@ -17,7 +17,7 @@ package com.liferay.portal.search.web.internal.facet.display.context.builder;
 import com.liferay.asset.kernel.model.AssetCategory;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface AssetCategoryPermissionChecker {
 

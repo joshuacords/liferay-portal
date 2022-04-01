@@ -21,7 +21,7 @@ import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClass
 /**
  * @author Miguel Angelo Caldas Gallindo
  * @author Artur Aquino
- * @author André de Oliveira
+ * @author Bryan Engler
  * @author Bryan Engler
  */
 @ExtendedObjectClassDefinition(category = "search")

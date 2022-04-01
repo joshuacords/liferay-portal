@@ -26,7 +26,7 @@ import org.junit.Test;
 
 /**
  * @author Adam Brandizzi
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class HttpPortRangeTest {
 

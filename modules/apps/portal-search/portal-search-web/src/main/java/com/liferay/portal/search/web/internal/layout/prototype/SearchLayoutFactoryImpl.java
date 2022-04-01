@@ -49,7 +49,7 @@ import org.osgi.service.component.annotations.ReferencePolicyOption;
 
 /**
  * @author Adam Brandizzi
- * @author André de Oliveira
+ * @author Bryan Engler
  * @author Lino Alves
  */
 @Component(immediate = true, service = SearchLayoutFactory.class)

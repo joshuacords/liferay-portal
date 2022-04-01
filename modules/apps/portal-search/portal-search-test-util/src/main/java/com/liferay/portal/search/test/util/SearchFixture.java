@@ -19,7 +19,7 @@ import com.liferay.portal.search.index.IndexStatusManager;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class SearchFixture {
 

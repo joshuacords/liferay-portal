@@ -43,7 +43,7 @@ import org.osgi.service.component.annotations.Component;
 
 /**
  * @author Wade Cao
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @Component(service = GeoBuilders.class)
 public class GeoBuildersImpl implements GeoBuilders {

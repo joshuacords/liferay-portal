@@ -22,7 +22,7 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @ProviderType
 public interface ModelSearchRegistrarHelper {

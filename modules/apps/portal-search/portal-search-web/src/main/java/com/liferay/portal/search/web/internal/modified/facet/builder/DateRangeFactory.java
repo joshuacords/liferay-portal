@@ -35,7 +35,7 @@ import java.util.Map;
 
 /**
  * @author Adam Brandizzi
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class DateRangeFactory {
 

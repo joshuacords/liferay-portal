@@ -30,7 +30,7 @@ import java.util.stream.Stream;
 
 /**
  * @author Michael C. Han
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class SearchHitImpl implements SearchHit, Serializable {
 

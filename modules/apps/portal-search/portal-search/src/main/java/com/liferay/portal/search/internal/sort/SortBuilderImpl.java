@@ -29,7 +29,7 @@ import java.util.Locale;
 
 /**
  * @author Wade Cao
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class SortBuilderImpl implements SortBuilder {
 

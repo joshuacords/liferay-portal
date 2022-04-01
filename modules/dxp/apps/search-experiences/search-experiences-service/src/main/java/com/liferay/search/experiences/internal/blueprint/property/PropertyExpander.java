@@ -25,7 +25,7 @@ import java.util.Map;
 
 /**
  * @author Petteri Karttunen
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class PropertyExpander {
 

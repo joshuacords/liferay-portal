@@ -17,7 +17,7 @@ package com.liferay.portal.search.elasticsearch7.internal.connection;
 import com.liferay.portal.kernel.util.StringUtil;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class IndexName {
 

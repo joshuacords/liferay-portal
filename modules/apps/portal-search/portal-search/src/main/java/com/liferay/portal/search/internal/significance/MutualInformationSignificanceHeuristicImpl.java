@@ -18,7 +18,7 @@ import com.liferay.portal.search.significance.MutualInformationSignificanceHeuri
 
 /**
  * @author Michael C. Han
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class MutualInformationSignificanceHeuristicImpl
 	implements MutualInformationSignificanceHeuristic {

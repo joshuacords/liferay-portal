@@ -21,7 +21,7 @@ import com.liferay.portal.search.geolocation.GeoLocationPoint;
 /**
  * @author Michael C. Han
  * @author Wade Cao
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class GeoLocationPointImpl implements GeoLocationPoint {
 

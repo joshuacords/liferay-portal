@@ -17,7 +17,7 @@ package com.liferay.search.experiences.blueprint.exception;
 import java.util.Arrays;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class UnresolvedTemplateVariableException extends RuntimeException {
 

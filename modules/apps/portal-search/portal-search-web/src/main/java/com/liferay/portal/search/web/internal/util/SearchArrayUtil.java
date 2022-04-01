@@ -19,7 +19,7 @@ import com.liferay.portal.kernel.util.ArrayUtil;
 import java.util.Optional;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class SearchArrayUtil {
 

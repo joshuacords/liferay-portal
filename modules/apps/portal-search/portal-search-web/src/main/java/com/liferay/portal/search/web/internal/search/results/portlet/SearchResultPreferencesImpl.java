@@ -20,7 +20,7 @@ import com.liferay.portal.search.web.internal.document.DocumentFormPermissionChe
 import java.util.Optional;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class SearchResultPreferencesImpl implements SearchResultPreferences {
 

@@ -45,7 +45,7 @@ import org.mockito.Mockito;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @RunWith(PowerMockRunner.class)
 public class SearchResultUtilMBMessageTest

@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class ReindexRequestsHolder {
 

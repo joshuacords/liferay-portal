@@ -19,7 +19,7 @@ import java.nio.file.Path;
 import java.util.Optional;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class ElasticsearchInstancePathsBuilder {
 

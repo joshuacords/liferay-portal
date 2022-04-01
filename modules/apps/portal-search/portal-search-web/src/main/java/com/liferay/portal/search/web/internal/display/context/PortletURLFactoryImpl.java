@@ -28,7 +28,7 @@ import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class PortletURLFactoryImpl implements PortletURLFactory {
 

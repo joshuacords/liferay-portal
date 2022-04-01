@@ -50,7 +50,7 @@ import org.junit.rules.TestRule;
 import org.junit.runner.RunWith;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @RunWith(Arquillian.class)
 public class AssetUtilSearchSortTest {

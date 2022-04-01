@@ -22,7 +22,7 @@ import javax.servlet.Filter;
 import org.osgi.service.component.annotations.Component;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @Component(
 	enabled = false, immediate = true,

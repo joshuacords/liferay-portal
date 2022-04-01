@@ -24,7 +24,7 @@ import java.util.stream.Stream;
 import org.objectweb.asm.tree.ClassNode;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class Activator {
 

@@ -24,7 +24,7 @@ import com.liferay.portal.search.test.util.indexing.DocumentCreationHelpers;
 import org.junit.Test;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public abstract class BaseLiferayFieldQueryFactoryTestCase
 	extends BaseIndexingTestCase {

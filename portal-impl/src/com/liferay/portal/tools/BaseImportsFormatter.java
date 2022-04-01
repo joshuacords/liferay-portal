@@ -29,7 +29,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  * @author Hugo Huijser
  */
 public abstract class BaseImportsFormatter implements ImportsFormatter {

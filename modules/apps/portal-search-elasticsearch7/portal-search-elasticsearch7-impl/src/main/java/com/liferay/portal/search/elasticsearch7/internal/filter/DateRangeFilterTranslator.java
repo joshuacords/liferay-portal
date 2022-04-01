@@ -19,7 +19,7 @@ import com.liferay.portal.search.filter.DateRangeFilter;
 import org.elasticsearch.index.query.QueryBuilder;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface DateRangeFilterTranslator {
 

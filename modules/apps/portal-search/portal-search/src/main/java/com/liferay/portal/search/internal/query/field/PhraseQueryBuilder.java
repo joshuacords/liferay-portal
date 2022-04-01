@@ -20,7 +20,7 @@ import com.liferay.portal.search.query.Queries;
 import com.liferay.portal.search.query.Query;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class PhraseQueryBuilder {
 

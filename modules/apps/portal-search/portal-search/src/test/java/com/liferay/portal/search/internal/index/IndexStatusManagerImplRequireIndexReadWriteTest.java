@@ -23,7 +23,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class IndexStatusManagerImplRequireIndexReadWriteTest {
 

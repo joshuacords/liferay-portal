@@ -31,7 +31,7 @@ import org.junit.Test;
 
 /**
  * @author Tibor Lipusz
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public abstract class BaseStringQueryTestCase extends BaseIndexingTestCase {
 

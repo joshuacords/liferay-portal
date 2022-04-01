@@ -18,7 +18,7 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.settings.ParameterMapSettings;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class PortletPreferencesJspUtil {
 

@@ -19,7 +19,7 @@ import com.liferay.portal.search.web.internal.site.facet.configuration.SiteFacet
 import java.util.List;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class ScopeSearchFacetDisplayContext {
 

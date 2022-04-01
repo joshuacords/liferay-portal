@@ -17,7 +17,7 @@ package com.liferay.portal.search.elasticsearch7.internal.facet;
 import org.elasticsearch.search.aggregations.AggregationBuilder;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface FacetProcessorContext {
 

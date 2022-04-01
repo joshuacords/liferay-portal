@@ -22,7 +22,7 @@ import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * @author Michael C. Han
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @ProviderType
 public interface TermsAggregation extends FieldAggregation {

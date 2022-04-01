@@ -32,7 +32,7 @@ import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class SearchResultsPortletDisplayContext implements Serializable {
 

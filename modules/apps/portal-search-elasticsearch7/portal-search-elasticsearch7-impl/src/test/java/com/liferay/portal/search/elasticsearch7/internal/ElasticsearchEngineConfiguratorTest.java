@@ -37,7 +37,7 @@ import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.ComponentContext;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class ElasticsearchEngineConfiguratorTest {
 

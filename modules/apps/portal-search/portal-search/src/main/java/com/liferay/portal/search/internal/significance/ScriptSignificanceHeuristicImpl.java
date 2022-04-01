@@ -19,7 +19,7 @@ import com.liferay.portal.search.significance.ScriptSignificanceHeuristic;
 
 /**
  * @author Michael C. Han
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class ScriptSignificanceHeuristicImpl
 	implements ScriptSignificanceHeuristic {

@@ -27,7 +27,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @Component(service = PortletPreferencesLookup.class)
 public class PortletPreferencesLookupImpl implements PortletPreferencesLookup {

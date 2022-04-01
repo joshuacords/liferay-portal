@@ -18,7 +18,7 @@ import com.liferay.portal.search.significance.ChiSquareSignificanceHeuristic;
 
 /**
  * @author Michael C. Han
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class ChiSquareSignificanceHeuristicImpl
 	implements ChiSquareSignificanceHeuristic {

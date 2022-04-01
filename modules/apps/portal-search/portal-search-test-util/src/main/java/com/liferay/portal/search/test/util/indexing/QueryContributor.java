@@ -17,7 +17,7 @@ package com.liferay.portal.search.test.util.indexing;
 import com.liferay.portal.kernel.search.Query;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface QueryContributor {
 

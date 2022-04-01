@@ -24,7 +24,7 @@ import org.osgi.annotation.versioning.ProviderType;
  * search context. This is for backward compatibility only; new code should use
  * {@link com.liferay.portal.search.searcher.SearchRequestBuilderFactory}.
  *
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @ProviderType
 public interface SearchRequestBuilderFactory {

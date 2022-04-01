@@ -109,7 +109,7 @@ import com.liferay.portal.search.internal.aggregation.pipeline.SumBucketPipeline
 import org.osgi.service.component.annotations.Component;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 @Component(service = AggregationResults.class)
 public class AggregationResultsImpl implements AggregationResults {

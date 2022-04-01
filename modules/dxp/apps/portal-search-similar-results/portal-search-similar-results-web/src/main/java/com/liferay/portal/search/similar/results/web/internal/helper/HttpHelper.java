@@ -15,7 +15,7 @@
 package com.liferay.portal.search.similar.results.web.internal.helper;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface HttpHelper {
 

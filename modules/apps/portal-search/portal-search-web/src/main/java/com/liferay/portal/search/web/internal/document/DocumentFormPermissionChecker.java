@@ -15,7 +15,7 @@
 package com.liferay.portal.search.web.internal.document;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface DocumentFormPermissionChecker {
 

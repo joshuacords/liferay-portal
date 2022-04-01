@@ -23,7 +23,7 @@ import java.util.List;
 
 /**
  * @author Marco Leo
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class TermsSetFilterImpl implements TermsSetFilter {
 

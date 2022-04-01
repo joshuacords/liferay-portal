@@ -24,7 +24,7 @@ import org.osgi.annotation.versioning.ProviderType;
 
 /**
  * @author     Rodrigo Paulino
- * @author     André de Oliveira
+ * @author     Bryan Engler
  * @deprecated As of Mueller (7.2.x), with no direct replacement
  */
 @Deprecated

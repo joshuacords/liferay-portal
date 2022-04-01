@@ -20,7 +20,7 @@ import com.liferay.portal.search.elasticsearch7.internal.configuration.Elasticse
 import java.util.Objects;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class HttpPortRange {
 

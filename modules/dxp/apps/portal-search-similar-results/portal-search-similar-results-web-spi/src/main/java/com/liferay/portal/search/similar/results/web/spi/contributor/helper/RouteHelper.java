@@ -15,7 +15,7 @@
 package com.liferay.portal.search.similar.results.web.spi.contributor.helper;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface RouteHelper {
 

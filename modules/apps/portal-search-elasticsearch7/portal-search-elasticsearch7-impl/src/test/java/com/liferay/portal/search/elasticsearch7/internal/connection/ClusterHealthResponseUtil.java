@@ -26,7 +26,7 @@ import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.core.TimeValue;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public class ClusterHealthResponseUtil {
 

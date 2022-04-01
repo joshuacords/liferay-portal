@@ -28,7 +28,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public abstract class BaseUserFacetSearchContributorTestCase
 	extends BaseIndexingTestCase {

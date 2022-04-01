@@ -18,7 +18,7 @@ import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.Group;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  */
 public interface SearchLayoutFactory {
 

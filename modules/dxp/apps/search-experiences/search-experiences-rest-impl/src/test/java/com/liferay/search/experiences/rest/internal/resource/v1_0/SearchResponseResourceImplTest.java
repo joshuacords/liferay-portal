@@ -67,7 +67,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 /**
- * @author André de Oliveira
+ * @author Bryan Engler
  * @author Wade Cao
  */
 public class SearchResponseResourceImplTest {
