@@ -46,6 +46,9 @@ public class OktaUsersMessageSubscriber extends BaseMessageSubscriber {
 		if (eventType.equals(_EVENT_TYPE_ACTIVATE)) {
 			_verifyContact(jsonObject.getJSONObject("user"));
 		}
+		else if (eventType.equals(_EVENT_TYPE_DEACTIVATE)) {
+			_unassignContact(jsonObject.getJSONObject("user"));
+		}
 		else if (eventType.equals(_EVENT_TYPE_GROUP_ADD)) {
 			if (_isGroupEmployee(jsonObject)) {
 				_addEmployee(jsonObject.getJSONObject("user"));
@@ -53,7 +56,7 @@ public class OktaUsersMessageSubscriber extends BaseMessageSubscriber {
 		}
 		else if (eventType.equals(_EVENT_TYPE_GROUP_REMOVE)) {
 			if (_isGroupEmployee(jsonObject)) {
-				_removeEmployee(jsonObject.getJSONObject("user"));
+				_unassignContact(jsonObject.getJSONObject("user"));
 			}
 		}
 		else if (eventType.equals(_EVENT_TYPE_UPDATE)) {
@@ -94,7 +97,7 @@ public class OktaUsersMessageSubscriber extends BaseMessageSubscriber {
 		return false;
 	}
 
-	private void _removeEmployee(JSONObject jsonObject) throws Exception {
+	private void _unassignContact(JSONObject jsonObject) throws Exception {
 		Contact contact = _contactWebService.fetchContactByEmailAddress(
 			jsonObject.getString("email"));
 
@@ -155,6 +158,9 @@ public class OktaUsersMessageSubscriber extends BaseMessageSubscriber {
 
 	private static final String _EVENT_TYPE_ACTIVATE =
 		"user.lifecycle.activate";
+
+	private static final String _EVENT_TYPE_DEACTIVATE =
+		"user.lifecycle.deactivate";
 
 	private static final String _EVENT_TYPE_GROUP_ADD =
 		"group.user_membership.add";
