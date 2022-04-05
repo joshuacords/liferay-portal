@@ -244,7 +244,7 @@ public abstract class BaseKnowledgeBaseArticleResourceTestCase {
 	@Test
 	public void testGraphQLDeleteKnowledgeBaseArticle() throws Exception {
 		KnowledgeBaseArticle knowledgeBaseArticle =
-			testGraphQLKnowledgeBaseArticle_addKnowledgeBaseArticle();
+			testGraphQLDeleteKnowledgeBaseArticle_addKnowledgeBaseArticle();
 
 		Assert.assertTrue(
 			JSONUtil.getValueAsBoolean(
@@ -259,7 +259,6 @@ public abstract class BaseKnowledgeBaseArticleResourceTestCase {
 							}
 						})),
 				"JSONObject/data", "Object/deleteKnowledgeBaseArticle"));
-
 		JSONArray errorsJSONArray = JSONUtil.getValueAsJSONArray(
 			invokeGraphQLQuery(
 				new GraphQLField(
@@ -275,6 +274,13 @@ public abstract class BaseKnowledgeBaseArticleResourceTestCase {
 			"JSONArray/errors");
 
 		Assert.assertTrue(errorsJSONArray.length() > 0);
+	}
+
+	protected KnowledgeBaseArticle
+			testGraphQLDeleteKnowledgeBaseArticle_addKnowledgeBaseArticle()
+		throws Exception {
+
+		return testGraphQLKnowledgeBaseArticle_addKnowledgeBaseArticle();
 	}
 
 	@Test
@@ -301,7 +307,7 @@ public abstract class BaseKnowledgeBaseArticleResourceTestCase {
 	@Test
 	public void testGraphQLGetKnowledgeBaseArticle() throws Exception {
 		KnowledgeBaseArticle knowledgeBaseArticle =
-			testGraphQLKnowledgeBaseArticle_addKnowledgeBaseArticle();
+			testGraphQLGetKnowledgeBaseArticle_addKnowledgeBaseArticle();
 
 		Assert.assertTrue(
 			equals(
@@ -342,6 +348,13 @@ public abstract class BaseKnowledgeBaseArticleResourceTestCase {
 						getGraphQLFields())),
 				"JSONArray/errors", "Object/0", "JSONObject/extensions",
 				"Object/code"));
+	}
+
+	protected KnowledgeBaseArticle
+			testGraphQLGetKnowledgeBaseArticle_addKnowledgeBaseArticle()
+		throws Exception {
+
+		return testGraphQLKnowledgeBaseArticle_addKnowledgeBaseArticle();
 	}
 
 	@Test
@@ -1783,9 +1796,9 @@ public abstract class BaseKnowledgeBaseArticleResourceTestCase {
 			0, knowledgeBaseArticlesJSONObject.get("totalCount"));
 
 		KnowledgeBaseArticle knowledgeBaseArticle1 =
-			testGraphQLKnowledgeBaseArticle_addKnowledgeBaseArticle();
+			testGraphQLGetSiteKnowledgeBaseArticlesPage_addKnowledgeBaseArticle();
 		KnowledgeBaseArticle knowledgeBaseArticle2 =
-			testGraphQLKnowledgeBaseArticle_addKnowledgeBaseArticle();
+			testGraphQLGetSiteKnowledgeBaseArticlesPage_addKnowledgeBaseArticle();
 
 		knowledgeBaseArticlesJSONObject = JSONUtil.getValueAsJSONObject(
 			invokeGraphQLQuery(graphQLField), "JSONObject/data",
@@ -1799,6 +1812,13 @@ public abstract class BaseKnowledgeBaseArticleResourceTestCase {
 			Arrays.asList(
 				KnowledgeBaseArticleSerDes.toDTOs(
 					knowledgeBaseArticlesJSONObject.getString("items"))));
+	}
+
+	protected KnowledgeBaseArticle
+			testGraphQLGetSiteKnowledgeBaseArticlesPage_addKnowledgeBaseArticle()
+		throws Exception {
+
+		return testGraphQLKnowledgeBaseArticle_addKnowledgeBaseArticle();
 	}
 
 	@Test

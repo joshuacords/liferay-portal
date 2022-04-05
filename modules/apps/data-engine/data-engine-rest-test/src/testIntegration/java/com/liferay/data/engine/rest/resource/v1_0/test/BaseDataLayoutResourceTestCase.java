@@ -504,7 +504,7 @@ public abstract class BaseDataLayoutResourceTestCase {
 
 	@Test
 	public void testGraphQLDeleteDataLayout() throws Exception {
-		DataLayout dataLayout = testGraphQLDataLayout_addDataLayout();
+		DataLayout dataLayout = testGraphQLDeleteDataLayout_addDataLayout();
 
 		Assert.assertTrue(
 			JSONUtil.getValueAsBoolean(
@@ -517,7 +517,6 @@ public abstract class BaseDataLayoutResourceTestCase {
 							}
 						})),
 				"JSONObject/data", "Object/deleteDataLayout"));
-
 		JSONArray errorsJSONArray = JSONUtil.getValueAsJSONArray(
 			invokeGraphQLQuery(
 				new GraphQLField(
@@ -531,6 +530,12 @@ public abstract class BaseDataLayoutResourceTestCase {
 			"JSONArray/errors");
 
 		Assert.assertTrue(errorsJSONArray.length() > 0);
+	}
+
+	protected DataLayout testGraphQLDeleteDataLayout_addDataLayout()
+		throws Exception {
+
+		return testGraphQLDataLayout_addDataLayout();
 	}
 
 	@Test
@@ -551,7 +556,7 @@ public abstract class BaseDataLayoutResourceTestCase {
 
 	@Test
 	public void testGraphQLGetDataLayout() throws Exception {
-		DataLayout dataLayout = testGraphQLDataLayout_addDataLayout();
+		DataLayout dataLayout = testGraphQLGetDataLayout_addDataLayout();
 
 		Assert.assertTrue(
 			equals(
@@ -588,6 +593,12 @@ public abstract class BaseDataLayoutResourceTestCase {
 						getGraphQLFields())),
 				"JSONArray/errors", "Object/0", "JSONObject/extensions",
 				"Object/code"));
+	}
+
+	protected DataLayout testGraphQLGetDataLayout_addDataLayout()
+		throws Exception {
+
+		return testGraphQLDataLayout_addDataLayout();
 	}
 
 	@Test
@@ -926,8 +937,10 @@ public abstract class BaseDataLayoutResourceTestCase {
 
 		Assert.assertEquals(0, dataLayoutsJSONObject.get("totalCount"));
 
-		DataLayout dataLayout1 = testGraphQLDataLayout_addDataLayout();
-		DataLayout dataLayout2 = testGraphQLDataLayout_addDataLayout();
+		DataLayout dataLayout1 =
+			testGraphQLGetSiteDataLayoutsPage_addDataLayout();
+		DataLayout dataLayout2 =
+			testGraphQLGetSiteDataLayoutsPage_addDataLayout();
 
 		dataLayoutsJSONObject = JSONUtil.getValueAsJSONObject(
 			invokeGraphQLQuery(graphQLField), "JSONObject/data",
@@ -940,6 +953,12 @@ public abstract class BaseDataLayoutResourceTestCase {
 			Arrays.asList(
 				DataLayoutSerDes.toDTOs(
 					dataLayoutsJSONObject.getString("items"))));
+	}
+
+	protected DataLayout testGraphQLGetSiteDataLayoutsPage_addDataLayout()
+		throws Exception {
+
+		return testGraphQLDataLayout_addDataLayout();
 	}
 
 	@Test
@@ -962,7 +981,7 @@ public abstract class BaseDataLayoutResourceTestCase {
 
 	@Test
 	public void testGraphQLGetSiteDataLayout() throws Exception {
-		DataLayout dataLayout = testGraphQLDataLayout_addDataLayout();
+		DataLayout dataLayout = testGraphQLGetSiteDataLayout_addDataLayout();
 
 		Assert.assertTrue(
 			equals(
@@ -1011,6 +1030,12 @@ public abstract class BaseDataLayoutResourceTestCase {
 						getGraphQLFields())),
 				"JSONArray/errors", "Object/0", "JSONObject/extensions",
 				"Object/code"));
+	}
+
+	protected DataLayout testGraphQLGetSiteDataLayout_addDataLayout()
+		throws Exception {
+
+		return testGraphQLDataLayout_addDataLayout();
 	}
 
 	protected DataLayout testGraphQLDataLayout_addDataLayout()

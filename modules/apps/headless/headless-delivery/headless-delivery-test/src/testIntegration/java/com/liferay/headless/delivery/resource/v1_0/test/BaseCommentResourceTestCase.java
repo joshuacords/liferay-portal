@@ -573,7 +573,7 @@ public abstract class BaseCommentResourceTestCase {
 
 	@Test
 	public void testGraphQLDeleteComment() throws Exception {
-		Comment comment = testGraphQLComment_addComment();
+		Comment comment = testGraphQLDeleteComment_addComment();
 
 		Assert.assertTrue(
 			JSONUtil.getValueAsBoolean(
@@ -586,7 +586,6 @@ public abstract class BaseCommentResourceTestCase {
 							}
 						})),
 				"JSONObject/data", "Object/deleteComment"));
-
 		JSONArray errorsJSONArray = JSONUtil.getValueAsJSONArray(
 			invokeGraphQLQuery(
 				new GraphQLField(
@@ -600,6 +599,10 @@ public abstract class BaseCommentResourceTestCase {
 			"JSONArray/errors");
 
 		Assert.assertTrue(errorsJSONArray.length() > 0);
+	}
+
+	protected Comment testGraphQLDeleteComment_addComment() throws Exception {
+		return testGraphQLComment_addComment();
 	}
 
 	@Test
@@ -619,7 +622,7 @@ public abstract class BaseCommentResourceTestCase {
 
 	@Test
 	public void testGraphQLGetComment() throws Exception {
-		Comment comment = testGraphQLComment_addComment();
+		Comment comment = testGraphQLGetComment_addComment();
 
 		Assert.assertTrue(
 			equals(
@@ -656,6 +659,10 @@ public abstract class BaseCommentResourceTestCase {
 						getGraphQLFields())),
 				"JSONArray/errors", "Object/0", "JSONObject/extensions",
 				"Object/code"));
+	}
+
+	protected Comment testGraphQLGetComment_addComment() throws Exception {
+		return testGraphQLComment_addComment();
 	}
 
 	@Test

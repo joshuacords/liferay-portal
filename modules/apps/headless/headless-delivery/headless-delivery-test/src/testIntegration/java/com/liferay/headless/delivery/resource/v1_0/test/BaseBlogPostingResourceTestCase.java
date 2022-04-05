@@ -236,7 +236,7 @@ public abstract class BaseBlogPostingResourceTestCase {
 
 	@Test
 	public void testGraphQLDeleteBlogPosting() throws Exception {
-		BlogPosting blogPosting = testGraphQLBlogPosting_addBlogPosting();
+		BlogPosting blogPosting = testGraphQLDeleteBlogPosting_addBlogPosting();
 
 		Assert.assertTrue(
 			JSONUtil.getValueAsBoolean(
@@ -249,7 +249,6 @@ public abstract class BaseBlogPostingResourceTestCase {
 							}
 						})),
 				"JSONObject/data", "Object/deleteBlogPosting"));
-
 		JSONArray errorsJSONArray = JSONUtil.getValueAsJSONArray(
 			invokeGraphQLQuery(
 				new GraphQLField(
@@ -263,6 +262,12 @@ public abstract class BaseBlogPostingResourceTestCase {
 			"JSONArray/errors");
 
 		Assert.assertTrue(errorsJSONArray.length() > 0);
+	}
+
+	protected BlogPosting testGraphQLDeleteBlogPosting_addBlogPosting()
+		throws Exception {
+
+		return testGraphQLBlogPosting_addBlogPosting();
 	}
 
 	@Test
@@ -283,7 +288,7 @@ public abstract class BaseBlogPostingResourceTestCase {
 
 	@Test
 	public void testGraphQLGetBlogPosting() throws Exception {
-		BlogPosting blogPosting = testGraphQLBlogPosting_addBlogPosting();
+		BlogPosting blogPosting = testGraphQLGetBlogPosting_addBlogPosting();
 
 		Assert.assertTrue(
 			equals(
@@ -322,6 +327,12 @@ public abstract class BaseBlogPostingResourceTestCase {
 						getGraphQLFields())),
 				"JSONArray/errors", "Object/0", "JSONObject/extensions",
 				"Object/code"));
+	}
+
+	protected BlogPosting testGraphQLGetBlogPosting_addBlogPosting()
+		throws Exception {
+
+		return testGraphQLBlogPosting_addBlogPosting();
 	}
 
 	@Test
@@ -756,8 +767,10 @@ public abstract class BaseBlogPostingResourceTestCase {
 
 		Assert.assertEquals(0, blogPostingsJSONObject.get("totalCount"));
 
-		BlogPosting blogPosting1 = testGraphQLBlogPosting_addBlogPosting();
-		BlogPosting blogPosting2 = testGraphQLBlogPosting_addBlogPosting();
+		BlogPosting blogPosting1 =
+			testGraphQLGetSiteBlogPostingsPage_addBlogPosting();
+		BlogPosting blogPosting2 =
+			testGraphQLGetSiteBlogPostingsPage_addBlogPosting();
 
 		blogPostingsJSONObject = JSONUtil.getValueAsJSONObject(
 			invokeGraphQLQuery(graphQLField), "JSONObject/data",
@@ -770,6 +783,12 @@ public abstract class BaseBlogPostingResourceTestCase {
 			Arrays.asList(
 				BlogPostingSerDes.toDTOs(
 					blogPostingsJSONObject.getString("items"))));
+	}
+
+	protected BlogPosting testGraphQLGetSiteBlogPostingsPage_addBlogPosting()
+		throws Exception {
+
+		return testGraphQLBlogPosting_addBlogPosting();
 	}
 
 	@Test

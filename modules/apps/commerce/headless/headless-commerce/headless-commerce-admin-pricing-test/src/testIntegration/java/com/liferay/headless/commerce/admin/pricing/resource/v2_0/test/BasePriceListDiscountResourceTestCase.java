@@ -220,7 +220,7 @@ public abstract class BasePriceListDiscountResourceTestCase {
 	@Test
 	public void testGraphQLDeletePriceListDiscount() throws Exception {
 		PriceListDiscount priceListDiscount =
-			testGraphQLPriceListDiscount_addPriceListDiscount();
+			testGraphQLDeletePriceListDiscount_addPriceListDiscount();
 
 		Assert.assertTrue(
 			JSONUtil.getValueAsBoolean(
@@ -233,6 +233,13 @@ public abstract class BasePriceListDiscountResourceTestCase {
 							}
 						})),
 				"JSONObject/data", "Object/deletePriceListDiscount"));
+	}
+
+	protected PriceListDiscount
+			testGraphQLDeletePriceListDiscount_addPriceListDiscount()
+		throws Exception {
+
+		return testGraphQLPriceListDiscount_addPriceListDiscount();
 	}
 
 	@Test

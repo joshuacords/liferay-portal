@@ -230,7 +230,7 @@ public abstract class BaseDocumentFolderResourceTestCase {
 	@Test
 	public void testGraphQLDeleteDocumentFolder() throws Exception {
 		DocumentFolder documentFolder =
-			testGraphQLDocumentFolder_addDocumentFolder();
+			testGraphQLDeleteDocumentFolder_addDocumentFolder();
 
 		Assert.assertTrue(
 			JSONUtil.getValueAsBoolean(
@@ -243,7 +243,6 @@ public abstract class BaseDocumentFolderResourceTestCase {
 							}
 						})),
 				"JSONObject/data", "Object/deleteDocumentFolder"));
-
 		JSONArray errorsJSONArray = JSONUtil.getValueAsJSONArray(
 			invokeGraphQLQuery(
 				new GraphQLField(
@@ -257,6 +256,12 @@ public abstract class BaseDocumentFolderResourceTestCase {
 			"JSONArray/errors");
 
 		Assert.assertTrue(errorsJSONArray.length() > 0);
+	}
+
+	protected DocumentFolder testGraphQLDeleteDocumentFolder_addDocumentFolder()
+		throws Exception {
+
+		return testGraphQLDocumentFolder_addDocumentFolder();
 	}
 
 	@Test
@@ -282,7 +287,7 @@ public abstract class BaseDocumentFolderResourceTestCase {
 	@Test
 	public void testGraphQLGetDocumentFolder() throws Exception {
 		DocumentFolder documentFolder =
-			testGraphQLDocumentFolder_addDocumentFolder();
+			testGraphQLGetDocumentFolder_addDocumentFolder();
 
 		Assert.assertTrue(
 			equals(
@@ -323,6 +328,12 @@ public abstract class BaseDocumentFolderResourceTestCase {
 						getGraphQLFields())),
 				"JSONArray/errors", "Object/0", "JSONObject/extensions",
 				"Object/code"));
+	}
+
+	protected DocumentFolder testGraphQLGetDocumentFolder_addDocumentFolder()
+		throws Exception {
+
+		return testGraphQLDocumentFolder_addDocumentFolder();
 	}
 
 	@Test
@@ -1228,9 +1239,9 @@ public abstract class BaseDocumentFolderResourceTestCase {
 		Assert.assertEquals(0, documentFoldersJSONObject.get("totalCount"));
 
 		DocumentFolder documentFolder1 =
-			testGraphQLDocumentFolder_addDocumentFolder();
+			testGraphQLGetSiteDocumentFoldersPage_addDocumentFolder();
 		DocumentFolder documentFolder2 =
-			testGraphQLDocumentFolder_addDocumentFolder();
+			testGraphQLGetSiteDocumentFoldersPage_addDocumentFolder();
 
 		documentFoldersJSONObject = JSONUtil.getValueAsJSONObject(
 			invokeGraphQLQuery(graphQLField), "JSONObject/data",
@@ -1243,6 +1254,13 @@ public abstract class BaseDocumentFolderResourceTestCase {
 			Arrays.asList(
 				DocumentFolderSerDes.toDTOs(
 					documentFoldersJSONObject.getString("items"))));
+	}
+
+	protected DocumentFolder
+			testGraphQLGetSiteDocumentFoldersPage_addDocumentFolder()
+		throws Exception {
+
+		return testGraphQLDocumentFolder_addDocumentFolder();
 	}
 
 	@Test

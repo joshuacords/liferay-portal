@@ -233,7 +233,7 @@ public abstract class BaseMessageBoardSectionResourceTestCase {
 	@Test
 	public void testGraphQLDeleteMessageBoardSection() throws Exception {
 		MessageBoardSection messageBoardSection =
-			testGraphQLMessageBoardSection_addMessageBoardSection();
+			testGraphQLDeleteMessageBoardSection_addMessageBoardSection();
 
 		Assert.assertTrue(
 			JSONUtil.getValueAsBoolean(
@@ -248,7 +248,6 @@ public abstract class BaseMessageBoardSectionResourceTestCase {
 							}
 						})),
 				"JSONObject/data", "Object/deleteMessageBoardSection"));
-
 		JSONArray errorsJSONArray = JSONUtil.getValueAsJSONArray(
 			invokeGraphQLQuery(
 				new GraphQLField(
@@ -264,6 +263,13 @@ public abstract class BaseMessageBoardSectionResourceTestCase {
 			"JSONArray/errors");
 
 		Assert.assertTrue(errorsJSONArray.length() > 0);
+	}
+
+	protected MessageBoardSection
+			testGraphQLDeleteMessageBoardSection_addMessageBoardSection()
+		throws Exception {
+
+		return testGraphQLMessageBoardSection_addMessageBoardSection();
 	}
 
 	@Test
@@ -290,7 +296,7 @@ public abstract class BaseMessageBoardSectionResourceTestCase {
 	@Test
 	public void testGraphQLGetMessageBoardSection() throws Exception {
 		MessageBoardSection messageBoardSection =
-			testGraphQLMessageBoardSection_addMessageBoardSection();
+			testGraphQLGetMessageBoardSection_addMessageBoardSection();
 
 		Assert.assertTrue(
 			equals(
@@ -331,6 +337,13 @@ public abstract class BaseMessageBoardSectionResourceTestCase {
 						getGraphQLFields())),
 				"JSONArray/errors", "Object/0", "JSONObject/extensions",
 				"Object/code"));
+	}
+
+	protected MessageBoardSection
+			testGraphQLGetMessageBoardSection_addMessageBoardSection()
+		throws Exception {
+
+		return testGraphQLMessageBoardSection_addMessageBoardSection();
 	}
 
 	@Test
@@ -1288,9 +1301,9 @@ public abstract class BaseMessageBoardSectionResourceTestCase {
 			0, messageBoardSectionsJSONObject.get("totalCount"));
 
 		MessageBoardSection messageBoardSection1 =
-			testGraphQLMessageBoardSection_addMessageBoardSection();
+			testGraphQLGetSiteMessageBoardSectionsPage_addMessageBoardSection();
 		MessageBoardSection messageBoardSection2 =
-			testGraphQLMessageBoardSection_addMessageBoardSection();
+			testGraphQLGetSiteMessageBoardSectionsPage_addMessageBoardSection();
 
 		messageBoardSectionsJSONObject = JSONUtil.getValueAsJSONObject(
 			invokeGraphQLQuery(graphQLField), "JSONObject/data",
@@ -1304,6 +1317,13 @@ public abstract class BaseMessageBoardSectionResourceTestCase {
 			Arrays.asList(
 				MessageBoardSectionSerDes.toDTOs(
 					messageBoardSectionsJSONObject.getString("items"))));
+	}
+
+	protected MessageBoardSection
+			testGraphQLGetSiteMessageBoardSectionsPage_addMessageBoardSection()
+		throws Exception {
+
+		return testGraphQLMessageBoardSection_addMessageBoardSection();
 	}
 
 	@Test

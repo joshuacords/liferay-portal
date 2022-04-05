@@ -222,7 +222,7 @@ public abstract class BaseDiscountChannelResourceTestCase {
 	@Test
 	public void testGraphQLDeleteDiscountChannel() throws Exception {
 		DiscountChannel discountChannel =
-			testGraphQLDiscountChannel_addDiscountChannel();
+			testGraphQLDeleteDiscountChannel_addDiscountChannel();
 
 		Assert.assertTrue(
 			JSONUtil.getValueAsBoolean(
@@ -235,6 +235,13 @@ public abstract class BaseDiscountChannelResourceTestCase {
 							}
 						})),
 				"JSONObject/data", "Object/deleteDiscountChannel"));
+	}
+
+	protected DiscountChannel
+			testGraphQLDeleteDiscountChannel_addDiscountChannel()
+		throws Exception {
+
+		return testGraphQLDiscountChannel_addDiscountChannel();
 	}
 
 	@Test

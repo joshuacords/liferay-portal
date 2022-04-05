@@ -261,7 +261,8 @@ public abstract class BasePriceEntryResourceTestCase {
 	public void testGraphQLGetPriceEntryByExternalReferenceCode()
 		throws Exception {
 
-		PriceEntry priceEntry = testGraphQLPriceEntry_addPriceEntry();
+		PriceEntry priceEntry =
+			testGraphQLGetPriceEntryByExternalReferenceCode_addPriceEntry();
 
 		Assert.assertTrue(
 			equals(
@@ -309,6 +310,13 @@ public abstract class BasePriceEntryResourceTestCase {
 						getGraphQLFields())),
 				"JSONArray/errors", "Object/0", "JSONObject/extensions",
 				"Object/code"));
+	}
+
+	protected PriceEntry
+			testGraphQLGetPriceEntryByExternalReferenceCode_addPriceEntry()
+		throws Exception {
+
+		return testGraphQLPriceEntry_addPriceEntry();
 	}
 
 	@Test
@@ -371,7 +379,7 @@ public abstract class BasePriceEntryResourceTestCase {
 
 	@Test
 	public void testGraphQLDeletePriceEntry() throws Exception {
-		PriceEntry priceEntry = testGraphQLPriceEntry_addPriceEntry();
+		PriceEntry priceEntry = testGraphQLDeletePriceEntry_addPriceEntry();
 
 		Assert.assertTrue(
 			JSONUtil.getValueAsBoolean(
@@ -384,7 +392,6 @@ public abstract class BasePriceEntryResourceTestCase {
 							}
 						})),
 				"JSONObject/data", "Object/deletePriceEntry"));
-
 		JSONArray errorsJSONArray = JSONUtil.getValueAsJSONArray(
 			invokeGraphQLQuery(
 				new GraphQLField(
@@ -398,6 +405,12 @@ public abstract class BasePriceEntryResourceTestCase {
 			"JSONArray/errors");
 
 		Assert.assertTrue(errorsJSONArray.length() > 0);
+	}
+
+	protected PriceEntry testGraphQLDeletePriceEntry_addPriceEntry()
+		throws Exception {
+
+		return testGraphQLPriceEntry_addPriceEntry();
 	}
 
 	@Test
@@ -418,7 +431,7 @@ public abstract class BasePriceEntryResourceTestCase {
 
 	@Test
 	public void testGraphQLGetPriceEntry() throws Exception {
-		PriceEntry priceEntry = testGraphQLPriceEntry_addPriceEntry();
+		PriceEntry priceEntry = testGraphQLGetPriceEntry_addPriceEntry();
 
 		Assert.assertTrue(
 			equals(
@@ -455,6 +468,12 @@ public abstract class BasePriceEntryResourceTestCase {
 						getGraphQLFields())),
 				"JSONArray/errors", "Object/0", "JSONObject/extensions",
 				"Object/code"));
+	}
+
+	protected PriceEntry testGraphQLGetPriceEntry_addPriceEntry()
+		throws Exception {
+
+		return testGraphQLPriceEntry_addPriceEntry();
 	}
 
 	@Test

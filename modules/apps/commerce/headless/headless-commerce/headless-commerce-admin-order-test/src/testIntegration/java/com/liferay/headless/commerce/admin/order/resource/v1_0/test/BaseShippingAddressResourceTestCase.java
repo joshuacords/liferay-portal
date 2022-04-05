@@ -238,7 +238,7 @@ public abstract class BaseShippingAddressResourceTestCase {
 		throws Exception {
 
 		ShippingAddress shippingAddress =
-			testGraphQLShippingAddress_addShippingAddress();
+			testGraphQLGetOrderByExternalReferenceCodeShippingAddress_addShippingAddress();
 
 		Assert.assertTrue(
 			equals(
@@ -288,6 +288,13 @@ public abstract class BaseShippingAddressResourceTestCase {
 				"Object/code"));
 	}
 
+	protected ShippingAddress
+			testGraphQLGetOrderByExternalReferenceCodeShippingAddress_addShippingAddress()
+		throws Exception {
+
+		return testGraphQLShippingAddress_addShippingAddress();
+	}
+
 	@Test
 	public void testPatchOrderByExternalReferenceCodeShippingAddress()
 		throws Exception {
@@ -318,7 +325,7 @@ public abstract class BaseShippingAddressResourceTestCase {
 	@Test
 	public void testGraphQLGetOrderIdShippingAddress() throws Exception {
 		ShippingAddress shippingAddress =
-			testGraphQLShippingAddress_addShippingAddress();
+			testGraphQLGetOrderIdShippingAddress_addShippingAddress();
 
 		Assert.assertTrue(
 			equals(
@@ -357,6 +364,13 @@ public abstract class BaseShippingAddressResourceTestCase {
 						getGraphQLFields())),
 				"JSONArray/errors", "Object/0", "JSONObject/extensions",
 				"Object/code"));
+	}
+
+	protected ShippingAddress
+			testGraphQLGetOrderIdShippingAddress_addShippingAddress()
+		throws Exception {
+
+		return testGraphQLShippingAddress_addShippingAddress();
 	}
 
 	@Test

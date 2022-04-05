@@ -240,7 +240,7 @@ public abstract class BaseDataDefinitionResourceTestCase {
 	@Test
 	public void testGraphQLDeleteDataDefinition() throws Exception {
 		DataDefinition dataDefinition =
-			testGraphQLDataDefinition_addDataDefinition();
+			testGraphQLDeleteDataDefinition_addDataDefinition();
 
 		Assert.assertTrue(
 			JSONUtil.getValueAsBoolean(
@@ -253,7 +253,6 @@ public abstract class BaseDataDefinitionResourceTestCase {
 							}
 						})),
 				"JSONObject/data", "Object/deleteDataDefinition"));
-
 		JSONArray errorsJSONArray = JSONUtil.getValueAsJSONArray(
 			invokeGraphQLQuery(
 				new GraphQLField(
@@ -267,6 +266,12 @@ public abstract class BaseDataDefinitionResourceTestCase {
 			"JSONArray/errors");
 
 		Assert.assertTrue(errorsJSONArray.length() > 0);
+	}
+
+	protected DataDefinition testGraphQLDeleteDataDefinition_addDataDefinition()
+		throws Exception {
+
+		return testGraphQLDataDefinition_addDataDefinition();
 	}
 
 	@Test
@@ -292,7 +297,7 @@ public abstract class BaseDataDefinitionResourceTestCase {
 	@Test
 	public void testGraphQLGetDataDefinition() throws Exception {
 		DataDefinition dataDefinition =
-			testGraphQLDataDefinition_addDataDefinition();
+			testGraphQLGetDataDefinition_addDataDefinition();
 
 		Assert.assertTrue(
 			equals(
@@ -333,6 +338,12 @@ public abstract class BaseDataDefinitionResourceTestCase {
 						getGraphQLFields())),
 				"JSONArray/errors", "Object/0", "JSONObject/extensions",
 				"Object/code"));
+	}
+
+	protected DataDefinition testGraphQLGetDataDefinition_addDataDefinition()
+		throws Exception {
+
+		return testGraphQLDataDefinition_addDataDefinition();
 	}
 
 	@Test
@@ -712,9 +723,9 @@ public abstract class BaseDataDefinitionResourceTestCase {
 		Assert.assertEquals(0, dataDefinitionsJSONObject.get("totalCount"));
 
 		DataDefinition dataDefinition1 =
-			testGraphQLDataDefinition_addDataDefinition();
+			testGraphQLGetSiteDataDefinitionsPage_addDataDefinition();
 		DataDefinition dataDefinition2 =
-			testGraphQLDataDefinition_addDataDefinition();
+			testGraphQLGetSiteDataDefinitionsPage_addDataDefinition();
 
 		dataDefinitionsJSONObject = JSONUtil.getValueAsJSONObject(
 			invokeGraphQLQuery(graphQLField), "JSONObject/data",
@@ -727,6 +738,13 @@ public abstract class BaseDataDefinitionResourceTestCase {
 			Arrays.asList(
 				DataDefinitionSerDes.toDTOs(
 					dataDefinitionsJSONObject.getString("items"))));
+	}
+
+	protected DataDefinition
+			testGraphQLGetSiteDataDefinitionsPage_addDataDefinition()
+		throws Exception {
+
+		return testGraphQLDataDefinition_addDataDefinition();
 	}
 
 	@Test
@@ -782,7 +800,7 @@ public abstract class BaseDataDefinitionResourceTestCase {
 	@Test
 	public void testGraphQLGetSiteDataDefinition() throws Exception {
 		DataDefinition dataDefinition =
-			testGraphQLDataDefinition_addDataDefinition();
+			testGraphQLGetSiteDataDefinition_addDataDefinition();
 
 		Assert.assertTrue(
 			equals(
@@ -834,6 +852,13 @@ public abstract class BaseDataDefinitionResourceTestCase {
 						getGraphQLFields())),
 				"JSONArray/errors", "Object/0", "JSONObject/extensions",
 				"Object/code"));
+	}
+
+	protected DataDefinition
+			testGraphQLGetSiteDataDefinition_addDataDefinition()
+		throws Exception {
+
+		return testGraphQLDataDefinition_addDataDefinition();
 	}
 
 	protected void appendGraphQLFieldValue(StringBuilder sb, Object value)

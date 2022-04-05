@@ -231,7 +231,7 @@ public abstract class BasePriceModifierCategoryResourceTestCase {
 	@Test
 	public void testGraphQLDeletePriceModifierCategory() throws Exception {
 		PriceModifierCategory priceModifierCategory =
-			testGraphQLPriceModifierCategory_addPriceModifierCategory();
+			testGraphQLDeletePriceModifierCategory_addPriceModifierCategory();
 
 		Assert.assertTrue(
 			JSONUtil.getValueAsBoolean(
@@ -244,6 +244,13 @@ public abstract class BasePriceModifierCategoryResourceTestCase {
 							}
 						})),
 				"JSONObject/data", "Object/deletePriceModifierCategory"));
+	}
+
+	protected PriceModifierCategory
+			testGraphQLDeletePriceModifierCategory_addPriceModifierCategory()
+		throws Exception {
+
+		return testGraphQLPriceModifierCategory_addPriceModifierCategory();
 	}
 
 	@Test

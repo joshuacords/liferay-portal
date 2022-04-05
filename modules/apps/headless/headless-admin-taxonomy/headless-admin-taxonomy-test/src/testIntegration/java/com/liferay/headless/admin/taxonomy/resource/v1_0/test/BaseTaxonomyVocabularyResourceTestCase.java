@@ -600,9 +600,9 @@ public abstract class BaseTaxonomyVocabularyResourceTestCase {
 			0, taxonomyVocabulariesJSONObject.get("totalCount"));
 
 		TaxonomyVocabulary taxonomyVocabulary1 =
-			testGraphQLTaxonomyVocabulary_addTaxonomyVocabulary();
+			testGraphQLGetSiteTaxonomyVocabulariesPage_addTaxonomyVocabulary();
 		TaxonomyVocabulary taxonomyVocabulary2 =
-			testGraphQLTaxonomyVocabulary_addTaxonomyVocabulary();
+			testGraphQLGetSiteTaxonomyVocabulariesPage_addTaxonomyVocabulary();
 
 		taxonomyVocabulariesJSONObject = JSONUtil.getValueAsJSONObject(
 			invokeGraphQLQuery(graphQLField), "JSONObject/data",
@@ -616,6 +616,13 @@ public abstract class BaseTaxonomyVocabularyResourceTestCase {
 			Arrays.asList(
 				TaxonomyVocabularySerDes.toDTOs(
 					taxonomyVocabulariesJSONObject.getString("items"))));
+	}
+
+	protected TaxonomyVocabulary
+			testGraphQLGetSiteTaxonomyVocabulariesPage_addTaxonomyVocabulary()
+		throws Exception {
+
+		return testGraphQLTaxonomyVocabulary_addTaxonomyVocabulary();
 	}
 
 	@Test
@@ -685,7 +692,7 @@ public abstract class BaseTaxonomyVocabularyResourceTestCase {
 	@Test
 	public void testGraphQLDeleteTaxonomyVocabulary() throws Exception {
 		TaxonomyVocabulary taxonomyVocabulary =
-			testGraphQLTaxonomyVocabulary_addTaxonomyVocabulary();
+			testGraphQLDeleteTaxonomyVocabulary_addTaxonomyVocabulary();
 
 		Assert.assertTrue(
 			JSONUtil.getValueAsBoolean(
@@ -700,7 +707,6 @@ public abstract class BaseTaxonomyVocabularyResourceTestCase {
 							}
 						})),
 				"JSONObject/data", "Object/deleteTaxonomyVocabulary"));
-
 		JSONArray errorsJSONArray = JSONUtil.getValueAsJSONArray(
 			invokeGraphQLQuery(
 				new GraphQLField(
@@ -716,6 +722,13 @@ public abstract class BaseTaxonomyVocabularyResourceTestCase {
 			"JSONArray/errors");
 
 		Assert.assertTrue(errorsJSONArray.length() > 0);
+	}
+
+	protected TaxonomyVocabulary
+			testGraphQLDeleteTaxonomyVocabulary_addTaxonomyVocabulary()
+		throws Exception {
+
+		return testGraphQLTaxonomyVocabulary_addTaxonomyVocabulary();
 	}
 
 	@Test
@@ -742,7 +755,7 @@ public abstract class BaseTaxonomyVocabularyResourceTestCase {
 	@Test
 	public void testGraphQLGetTaxonomyVocabulary() throws Exception {
 		TaxonomyVocabulary taxonomyVocabulary =
-			testGraphQLTaxonomyVocabulary_addTaxonomyVocabulary();
+			testGraphQLGetTaxonomyVocabulary_addTaxonomyVocabulary();
 
 		Assert.assertTrue(
 			equals(
@@ -783,6 +796,13 @@ public abstract class BaseTaxonomyVocabularyResourceTestCase {
 						getGraphQLFields())),
 				"JSONArray/errors", "Object/0", "JSONObject/extensions",
 				"Object/code"));
+	}
+
+	protected TaxonomyVocabulary
+			testGraphQLGetTaxonomyVocabulary_addTaxonomyVocabulary()
+		throws Exception {
+
+		return testGraphQLTaxonomyVocabulary_addTaxonomyVocabulary();
 	}
 
 	@Test

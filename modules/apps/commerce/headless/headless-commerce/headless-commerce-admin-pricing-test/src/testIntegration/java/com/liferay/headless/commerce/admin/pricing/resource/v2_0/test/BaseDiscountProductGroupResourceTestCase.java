@@ -227,7 +227,7 @@ public abstract class BaseDiscountProductGroupResourceTestCase {
 	@Test
 	public void testGraphQLDeleteDiscountProductGroup() throws Exception {
 		DiscountProductGroup discountProductGroup =
-			testGraphQLDiscountProductGroup_addDiscountProductGroup();
+			testGraphQLDeleteDiscountProductGroup_addDiscountProductGroup();
 
 		Assert.assertTrue(
 			JSONUtil.getValueAsBoolean(
@@ -240,6 +240,13 @@ public abstract class BaseDiscountProductGroupResourceTestCase {
 							}
 						})),
 				"JSONObject/data", "Object/deleteDiscountProductGroup"));
+	}
+
+	protected DiscountProductGroup
+			testGraphQLDeleteDiscountProductGroup_addDiscountProductGroup()
+		throws Exception {
+
+		return testGraphQLDiscountProductGroup_addDiscountProductGroup();
 	}
 
 	@Test

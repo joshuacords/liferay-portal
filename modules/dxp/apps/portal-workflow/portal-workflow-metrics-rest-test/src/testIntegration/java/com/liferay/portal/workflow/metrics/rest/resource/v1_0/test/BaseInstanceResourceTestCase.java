@@ -313,7 +313,7 @@ public abstract class BaseInstanceResourceTestCase {
 
 	@Test
 	public void testGraphQLGetProcessInstance() throws Exception {
-		Instance instance = testGraphQLInstance_addInstance();
+		Instance instance = testGraphQLGetProcessInstance_addInstance();
 
 		Assert.assertTrue(
 			equals(
@@ -355,6 +355,12 @@ public abstract class BaseInstanceResourceTestCase {
 						getGraphQLFields())),
 				"JSONArray/errors", "Object/0", "JSONObject/extensions",
 				"Object/code"));
+	}
+
+	protected Instance testGraphQLGetProcessInstance_addInstance()
+		throws Exception {
+
+		return testGraphQLInstance_addInstance();
 	}
 
 	protected Instance testGraphQLInstance_addInstance() throws Exception {

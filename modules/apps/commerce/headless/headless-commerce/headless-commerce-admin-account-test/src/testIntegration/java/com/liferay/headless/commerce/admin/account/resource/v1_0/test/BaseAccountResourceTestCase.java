@@ -220,7 +220,16 @@ public abstract class BaseAccountResourceTestCase {
 			204,
 			accountResource.
 				deleteAccountGroupByExternalReferenceCodeAccountHttpResponse(
-					null, account.getExternalReferenceCode()));
+					testDeleteAccountGroupByExternalReferenceCodeAccount_getAccountExternalReferenceCode(),
+					account.getExternalReferenceCode()));
+	}
+
+	protected String
+			testDeleteAccountGroupByExternalReferenceCodeAccount_getAccountExternalReferenceCode()
+		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
 	}
 
 	protected Account
@@ -518,8 +527,8 @@ public abstract class BaseAccountResourceTestCase {
 
 		long totalCount = accountsJSONObject.getLong("totalCount");
 
-		Account account1 = testGraphQLAccount_addAccount();
-		Account account2 = testGraphQLAccount_addAccount();
+		Account account1 = testGraphQLGetAccountsPage_addAccount();
+		Account account2 = testGraphQLGetAccountsPage_addAccount();
 
 		accountsJSONObject = JSONUtil.getValueAsJSONObject(
 			invokeGraphQLQuery(graphQLField), "JSONObject/data",
@@ -536,6 +545,10 @@ public abstract class BaseAccountResourceTestCase {
 			account2,
 			Arrays.asList(
 				AccountSerDes.toDTOs(accountsJSONObject.getString("items"))));
+	}
+
+	protected Account testGraphQLGetAccountsPage_addAccount() throws Exception {
+		return testGraphQLAccount_addAccount();
 	}
 
 	@Test
@@ -606,7 +619,8 @@ public abstract class BaseAccountResourceTestCase {
 	public void testGraphQLGetAccountByExternalReferenceCode()
 		throws Exception {
 
-		Account account = testGraphQLAccount_addAccount();
+		Account account =
+			testGraphQLGetAccountByExternalReferenceCode_addAccount();
 
 		Assert.assertTrue(
 			equals(
@@ -656,6 +670,12 @@ public abstract class BaseAccountResourceTestCase {
 				"Object/code"));
 	}
 
+	protected Account testGraphQLGetAccountByExternalReferenceCode_addAccount()
+		throws Exception {
+
+		return testGraphQLAccount_addAccount();
+	}
+
 	@Test
 	public void testPatchAccountByExternalReferenceCode() throws Exception {
 		Assert.assertTrue(false);
@@ -688,7 +708,7 @@ public abstract class BaseAccountResourceTestCase {
 
 	@Test
 	public void testGraphQLDeleteAccount() throws Exception {
-		Account account = testGraphQLAccount_addAccount();
+		Account account = testGraphQLDeleteAccount_addAccount();
 
 		Assert.assertTrue(
 			JSONUtil.getValueAsBoolean(
@@ -701,7 +721,6 @@ public abstract class BaseAccountResourceTestCase {
 							}
 						})),
 				"JSONObject/data", "Object/deleteAccount"));
-
 		JSONArray errorsJSONArray = JSONUtil.getValueAsJSONArray(
 			invokeGraphQLQuery(
 				new GraphQLField(
@@ -715,6 +734,10 @@ public abstract class BaseAccountResourceTestCase {
 			"JSONArray/errors");
 
 		Assert.assertTrue(errorsJSONArray.length() > 0);
+	}
+
+	protected Account testGraphQLDeleteAccount_addAccount() throws Exception {
+		return testGraphQLAccount_addAccount();
 	}
 
 	@Test
@@ -734,7 +757,7 @@ public abstract class BaseAccountResourceTestCase {
 
 	@Test
 	public void testGraphQLGetAccount() throws Exception {
-		Account account = testGraphQLAccount_addAccount();
+		Account account = testGraphQLGetAccount_addAccount();
 
 		Assert.assertTrue(
 			equals(
@@ -771,6 +794,10 @@ public abstract class BaseAccountResourceTestCase {
 						getGraphQLFields())),
 				"JSONArray/errors", "Object/0", "JSONObject/extensions",
 				"Object/code"));
+	}
+
+	protected Account testGraphQLGetAccount_addAccount() throws Exception {
+		return testGraphQLAccount_addAccount();
 	}
 
 	@Test

@@ -330,7 +330,7 @@ public abstract class BaseWebUrlResourceTestCase {
 
 	@Test
 	public void testGraphQLGetWebUrl() throws Exception {
-		WebUrl webUrl = testGraphQLWebUrl_addWebUrl();
+		WebUrl webUrl = testGraphQLGetWebUrl_addWebUrl();
 
 		Assert.assertTrue(
 			equals(
@@ -367,6 +367,10 @@ public abstract class BaseWebUrlResourceTestCase {
 						getGraphQLFields())),
 				"JSONArray/errors", "Object/0", "JSONObject/extensions",
 				"Object/code"));
+	}
+
+	protected WebUrl testGraphQLGetWebUrl_addWebUrl() throws Exception {
+		return testGraphQLWebUrl_addWebUrl();
 	}
 
 	protected WebUrl testGraphQLWebUrl_addWebUrl() throws Exception {

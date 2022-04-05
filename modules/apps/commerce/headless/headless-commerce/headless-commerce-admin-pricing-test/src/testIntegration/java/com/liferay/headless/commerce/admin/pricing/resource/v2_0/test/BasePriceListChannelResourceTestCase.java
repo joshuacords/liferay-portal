@@ -222,7 +222,7 @@ public abstract class BasePriceListChannelResourceTestCase {
 	@Test
 	public void testGraphQLDeletePriceListChannel() throws Exception {
 		PriceListChannel priceListChannel =
-			testGraphQLPriceListChannel_addPriceListChannel();
+			testGraphQLDeletePriceListChannel_addPriceListChannel();
 
 		Assert.assertTrue(
 			JSONUtil.getValueAsBoolean(
@@ -235,6 +235,13 @@ public abstract class BasePriceListChannelResourceTestCase {
 							}
 						})),
 				"JSONObject/data", "Object/deletePriceListChannel"));
+	}
+
+	protected PriceListChannel
+			testGraphQLDeletePriceListChannel_addPriceListChannel()
+		throws Exception {
+
+		return testGraphQLPriceListChannel_addPriceListChannel();
 	}
 
 	@Test

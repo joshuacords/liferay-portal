@@ -205,7 +205,8 @@ public abstract class BaseProductGroupResourceTestCase {
 
 	@Test
 	public void testGraphQLGetDiscountIdProductGroupPage() throws Exception {
-		ProductGroup productGroup = testGraphQLProductGroup_addProductGroup();
+		ProductGroup productGroup =
+			testGraphQLGetDiscountIdProductGroupPage_addProductGroup();
 
 		Assert.assertTrue(
 			equals(
@@ -247,6 +248,13 @@ public abstract class BaseProductGroupResourceTestCase {
 				"Object/code"));
 	}
 
+	protected ProductGroup
+			testGraphQLGetDiscountIdProductGroupPage_addProductGroup()
+		throws Exception {
+
+		return testGraphQLProductGroup_addProductGroup();
+	}
+
 	@Test
 	public void testGetPriceModifierIdProductGroup() throws Exception {
 		ProductGroup postProductGroup =
@@ -269,7 +277,8 @@ public abstract class BaseProductGroupResourceTestCase {
 
 	@Test
 	public void testGraphQLGetPriceModifierIdProductGroup() throws Exception {
-		ProductGroup productGroup = testGraphQLProductGroup_addProductGroup();
+		ProductGroup productGroup =
+			testGraphQLGetPriceModifierIdProductGroup_addProductGroup();
 
 		Assert.assertTrue(
 			equals(
@@ -309,6 +318,13 @@ public abstract class BaseProductGroupResourceTestCase {
 						getGraphQLFields())),
 				"JSONArray/errors", "Object/0", "JSONObject/extensions",
 				"Object/code"));
+	}
+
+	protected ProductGroup
+			testGraphQLGetPriceModifierIdProductGroup_addProductGroup()
+		throws Exception {
+
+		return testGraphQLProductGroup_addProductGroup();
 	}
 
 	protected ProductGroup testGraphQLProductGroup_addProductGroup()

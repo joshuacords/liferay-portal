@@ -222,7 +222,7 @@ public abstract class BasePriceListAccountResourceTestCase {
 	@Test
 	public void testGraphQLDeletePriceListAccount() throws Exception {
 		PriceListAccount priceListAccount =
-			testGraphQLPriceListAccount_addPriceListAccount();
+			testGraphQLDeletePriceListAccount_addPriceListAccount();
 
 		Assert.assertTrue(
 			JSONUtil.getValueAsBoolean(
@@ -235,6 +235,13 @@ public abstract class BasePriceListAccountResourceTestCase {
 							}
 						})),
 				"JSONObject/data", "Object/deletePriceListAccount"));
+	}
+
+	protected PriceListAccount
+			testGraphQLDeletePriceListAccount_addPriceListAccount()
+		throws Exception {
+
+		return testGraphQLPriceListAccount_addPriceListAccount();
 	}
 
 	@Test

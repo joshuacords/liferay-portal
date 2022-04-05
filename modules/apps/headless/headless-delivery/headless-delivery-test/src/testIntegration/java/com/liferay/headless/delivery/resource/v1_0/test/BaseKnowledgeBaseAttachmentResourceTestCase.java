@@ -363,7 +363,7 @@ public abstract class BaseKnowledgeBaseAttachmentResourceTestCase {
 	@Test
 	public void testGraphQLDeleteKnowledgeBaseAttachment() throws Exception {
 		KnowledgeBaseAttachment knowledgeBaseAttachment =
-			testGraphQLKnowledgeBaseAttachment_addKnowledgeBaseAttachment();
+			testGraphQLDeleteKnowledgeBaseAttachment_addKnowledgeBaseAttachment();
 
 		Assert.assertTrue(
 			JSONUtil.getValueAsBoolean(
@@ -378,7 +378,6 @@ public abstract class BaseKnowledgeBaseAttachmentResourceTestCase {
 							}
 						})),
 				"JSONObject/data", "Object/deleteKnowledgeBaseAttachment"));
-
 		JSONArray errorsJSONArray = JSONUtil.getValueAsJSONArray(
 			invokeGraphQLQuery(
 				new GraphQLField(
@@ -394,6 +393,13 @@ public abstract class BaseKnowledgeBaseAttachmentResourceTestCase {
 			"JSONArray/errors");
 
 		Assert.assertTrue(errorsJSONArray.length() > 0);
+	}
+
+	protected KnowledgeBaseAttachment
+			testGraphQLDeleteKnowledgeBaseAttachment_addKnowledgeBaseAttachment()
+		throws Exception {
+
+		return testGraphQLKnowledgeBaseAttachment_addKnowledgeBaseAttachment();
 	}
 
 	@Test
@@ -420,7 +426,7 @@ public abstract class BaseKnowledgeBaseAttachmentResourceTestCase {
 	@Test
 	public void testGraphQLGetKnowledgeBaseAttachment() throws Exception {
 		KnowledgeBaseAttachment knowledgeBaseAttachment =
-			testGraphQLKnowledgeBaseAttachment_addKnowledgeBaseAttachment();
+			testGraphQLGetKnowledgeBaseAttachment_addKnowledgeBaseAttachment();
 
 		Assert.assertTrue(
 			equals(
@@ -463,6 +469,13 @@ public abstract class BaseKnowledgeBaseAttachmentResourceTestCase {
 						getGraphQLFields())),
 				"JSONArray/errors", "Object/0", "JSONObject/extensions",
 				"Object/code"));
+	}
+
+	protected KnowledgeBaseAttachment
+			testGraphQLGetKnowledgeBaseAttachment_addKnowledgeBaseAttachment()
+		throws Exception {
+
+		return testGraphQLKnowledgeBaseAttachment_addKnowledgeBaseAttachment();
 	}
 
 	protected KnowledgeBaseAttachment

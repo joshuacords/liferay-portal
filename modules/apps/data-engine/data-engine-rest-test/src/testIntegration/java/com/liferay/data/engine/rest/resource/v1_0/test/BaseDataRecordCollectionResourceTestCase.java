@@ -401,7 +401,7 @@ public abstract class BaseDataRecordCollectionResourceTestCase {
 	@Test
 	public void testGraphQLDeleteDataRecordCollection() throws Exception {
 		DataRecordCollection dataRecordCollection =
-			testGraphQLDataRecordCollection_addDataRecordCollection();
+			testGraphQLDeleteDataRecordCollection_addDataRecordCollection();
 
 		Assert.assertTrue(
 			JSONUtil.getValueAsBoolean(
@@ -416,7 +416,6 @@ public abstract class BaseDataRecordCollectionResourceTestCase {
 							}
 						})),
 				"JSONObject/data", "Object/deleteDataRecordCollection"));
-
 		JSONArray errorsJSONArray = JSONUtil.getValueAsJSONArray(
 			invokeGraphQLQuery(
 				new GraphQLField(
@@ -432,6 +431,13 @@ public abstract class BaseDataRecordCollectionResourceTestCase {
 			"JSONArray/errors");
 
 		Assert.assertTrue(errorsJSONArray.length() > 0);
+	}
+
+	protected DataRecordCollection
+			testGraphQLDeleteDataRecordCollection_addDataRecordCollection()
+		throws Exception {
+
+		return testGraphQLDataRecordCollection_addDataRecordCollection();
 	}
 
 	@Test
@@ -458,7 +464,7 @@ public abstract class BaseDataRecordCollectionResourceTestCase {
 	@Test
 	public void testGraphQLGetDataRecordCollection() throws Exception {
 		DataRecordCollection dataRecordCollection =
-			testGraphQLDataRecordCollection_addDataRecordCollection();
+			testGraphQLGetDataRecordCollection_addDataRecordCollection();
 
 		Assert.assertTrue(
 			equals(
@@ -499,6 +505,13 @@ public abstract class BaseDataRecordCollectionResourceTestCase {
 						getGraphQLFields())),
 				"JSONArray/errors", "Object/0", "JSONObject/extensions",
 				"Object/code"));
+	}
+
+	protected DataRecordCollection
+			testGraphQLGetDataRecordCollection_addDataRecordCollection()
+		throws Exception {
+
+		return testGraphQLDataRecordCollection_addDataRecordCollection();
 	}
 
 	@Test
@@ -750,9 +763,9 @@ public abstract class BaseDataRecordCollectionResourceTestCase {
 			0, dataRecordCollectionsJSONObject.get("totalCount"));
 
 		DataRecordCollection dataRecordCollection1 =
-			testGraphQLDataRecordCollection_addDataRecordCollection();
+			testGraphQLGetSiteDataRecordCollectionsPage_addDataRecordCollection();
 		DataRecordCollection dataRecordCollection2 =
-			testGraphQLDataRecordCollection_addDataRecordCollection();
+			testGraphQLGetSiteDataRecordCollectionsPage_addDataRecordCollection();
 
 		dataRecordCollectionsJSONObject = JSONUtil.getValueAsJSONObject(
 			invokeGraphQLQuery(graphQLField), "JSONObject/data",
@@ -766,6 +779,13 @@ public abstract class BaseDataRecordCollectionResourceTestCase {
 			Arrays.asList(
 				DataRecordCollectionSerDes.toDTOs(
 					dataRecordCollectionsJSONObject.getString("items"))));
+	}
+
+	protected DataRecordCollection
+			testGraphQLGetSiteDataRecordCollectionsPage_addDataRecordCollection()
+		throws Exception {
+
+		return testGraphQLDataRecordCollection_addDataRecordCollection();
 	}
 
 	@Test
@@ -793,7 +813,7 @@ public abstract class BaseDataRecordCollectionResourceTestCase {
 	@Test
 	public void testGraphQLGetSiteDataRecordCollection() throws Exception {
 		DataRecordCollection dataRecordCollection =
-			testGraphQLDataRecordCollection_addDataRecordCollection();
+			testGraphQLGetSiteDataRecordCollection_addDataRecordCollection();
 
 		Assert.assertTrue(
 			equals(
@@ -849,6 +869,13 @@ public abstract class BaseDataRecordCollectionResourceTestCase {
 						getGraphQLFields())),
 				"JSONArray/errors", "Object/0", "JSONObject/extensions",
 				"Object/code"));
+	}
+
+	protected DataRecordCollection
+			testGraphQLGetSiteDataRecordCollection_addDataRecordCollection()
+		throws Exception {
+
+		return testGraphQLDataRecordCollection_addDataRecordCollection();
 	}
 
 	protected DataRecordCollection

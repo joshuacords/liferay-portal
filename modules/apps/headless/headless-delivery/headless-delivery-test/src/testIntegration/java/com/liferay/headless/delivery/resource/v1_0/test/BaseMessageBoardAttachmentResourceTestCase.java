@@ -242,7 +242,7 @@ public abstract class BaseMessageBoardAttachmentResourceTestCase {
 	@Test
 	public void testGraphQLDeleteMessageBoardAttachment() throws Exception {
 		MessageBoardAttachment messageBoardAttachment =
-			testGraphQLMessageBoardAttachment_addMessageBoardAttachment();
+			testGraphQLDeleteMessageBoardAttachment_addMessageBoardAttachment();
 
 		Assert.assertTrue(
 			JSONUtil.getValueAsBoolean(
@@ -257,7 +257,6 @@ public abstract class BaseMessageBoardAttachmentResourceTestCase {
 							}
 						})),
 				"JSONObject/data", "Object/deleteMessageBoardAttachment"));
-
 		JSONArray errorsJSONArray = JSONUtil.getValueAsJSONArray(
 			invokeGraphQLQuery(
 				new GraphQLField(
@@ -273,6 +272,13 @@ public abstract class BaseMessageBoardAttachmentResourceTestCase {
 			"JSONArray/errors");
 
 		Assert.assertTrue(errorsJSONArray.length() > 0);
+	}
+
+	protected MessageBoardAttachment
+			testGraphQLDeleteMessageBoardAttachment_addMessageBoardAttachment()
+		throws Exception {
+
+		return testGraphQLMessageBoardAttachment_addMessageBoardAttachment();
 	}
 
 	@Test
@@ -299,7 +305,7 @@ public abstract class BaseMessageBoardAttachmentResourceTestCase {
 	@Test
 	public void testGraphQLGetMessageBoardAttachment() throws Exception {
 		MessageBoardAttachment messageBoardAttachment =
-			testGraphQLMessageBoardAttachment_addMessageBoardAttachment();
+			testGraphQLGetMessageBoardAttachment_addMessageBoardAttachment();
 
 		Assert.assertTrue(
 			equals(
@@ -342,6 +348,13 @@ public abstract class BaseMessageBoardAttachmentResourceTestCase {
 						getGraphQLFields())),
 				"JSONArray/errors", "Object/0", "JSONObject/extensions",
 				"Object/code"));
+	}
+
+	protected MessageBoardAttachment
+			testGraphQLGetMessageBoardAttachment_addMessageBoardAttachment()
+		throws Exception {
+
+		return testGraphQLMessageBoardAttachment_addMessageBoardAttachment();
 	}
 
 	@Test

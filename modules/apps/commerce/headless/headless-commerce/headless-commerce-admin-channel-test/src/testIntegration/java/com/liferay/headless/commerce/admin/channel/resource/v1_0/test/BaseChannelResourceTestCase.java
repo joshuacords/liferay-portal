@@ -490,8 +490,8 @@ public abstract class BaseChannelResourceTestCase {
 
 		long totalCount = channelsJSONObject.getLong("totalCount");
 
-		Channel channel1 = testGraphQLChannel_addChannel();
-		Channel channel2 = testGraphQLChannel_addChannel();
+		Channel channel1 = testGraphQLGetChannelsPage_addChannel();
+		Channel channel2 = testGraphQLGetChannelsPage_addChannel();
 
 		channelsJSONObject = JSONUtil.getValueAsJSONObject(
 			invokeGraphQLQuery(graphQLField), "JSONObject/data",
@@ -508,6 +508,10 @@ public abstract class BaseChannelResourceTestCase {
 			channel2,
 			Arrays.asList(
 				ChannelSerDes.toDTOs(channelsJSONObject.getString("items"))));
+	}
+
+	protected Channel testGraphQLGetChannelsPage_addChannel() throws Exception {
+		return testGraphQLChannel_addChannel();
 	}
 
 	@Test
@@ -549,7 +553,7 @@ public abstract class BaseChannelResourceTestCase {
 
 	@Test
 	public void testGraphQLDeleteChannel() throws Exception {
-		Channel channel = testGraphQLChannel_addChannel();
+		Channel channel = testGraphQLDeleteChannel_addChannel();
 
 		Assert.assertTrue(
 			JSONUtil.getValueAsBoolean(
@@ -562,7 +566,6 @@ public abstract class BaseChannelResourceTestCase {
 							}
 						})),
 				"JSONObject/data", "Object/deleteChannel"));
-
 		JSONArray errorsJSONArray = JSONUtil.getValueAsJSONArray(
 			invokeGraphQLQuery(
 				new GraphQLField(
@@ -576,6 +579,10 @@ public abstract class BaseChannelResourceTestCase {
 			"JSONArray/errors");
 
 		Assert.assertTrue(errorsJSONArray.length() > 0);
+	}
+
+	protected Channel testGraphQLDeleteChannel_addChannel() throws Exception {
+		return testGraphQLChannel_addChannel();
 	}
 
 	@Test
@@ -595,7 +602,7 @@ public abstract class BaseChannelResourceTestCase {
 
 	@Test
 	public void testGraphQLGetChannel() throws Exception {
-		Channel channel = testGraphQLChannel_addChannel();
+		Channel channel = testGraphQLGetChannel_addChannel();
 
 		Assert.assertTrue(
 			equals(
@@ -632,6 +639,10 @@ public abstract class BaseChannelResourceTestCase {
 						getGraphQLFields())),
 				"JSONArray/errors", "Object/0", "JSONObject/extensions",
 				"Object/code"));
+	}
+
+	protected Channel testGraphQLGetChannel_addChannel() throws Exception {
+		return testGraphQLChannel_addChannel();
 	}
 
 	@Test

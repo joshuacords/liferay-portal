@@ -512,7 +512,8 @@ public abstract class BaseDataListViewResourceTestCase {
 
 	@Test
 	public void testGraphQLDeleteDataListView() throws Exception {
-		DataListView dataListView = testGraphQLDataListView_addDataListView();
+		DataListView dataListView =
+			testGraphQLDeleteDataListView_addDataListView();
 
 		Assert.assertTrue(
 			JSONUtil.getValueAsBoolean(
@@ -525,7 +526,6 @@ public abstract class BaseDataListViewResourceTestCase {
 							}
 						})),
 				"JSONObject/data", "Object/deleteDataListView"));
-
 		JSONArray errorsJSONArray = JSONUtil.getValueAsJSONArray(
 			invokeGraphQLQuery(
 				new GraphQLField(
@@ -539,6 +539,12 @@ public abstract class BaseDataListViewResourceTestCase {
 			"JSONArray/errors");
 
 		Assert.assertTrue(errorsJSONArray.length() > 0);
+	}
+
+	protected DataListView testGraphQLDeleteDataListView_addDataListView()
+		throws Exception {
+
+		return testGraphQLDataListView_addDataListView();
 	}
 
 	@Test
@@ -561,7 +567,8 @@ public abstract class BaseDataListViewResourceTestCase {
 
 	@Test
 	public void testGraphQLGetDataListView() throws Exception {
-		DataListView dataListView = testGraphQLDataListView_addDataListView();
+		DataListView dataListView =
+			testGraphQLGetDataListView_addDataListView();
 
 		Assert.assertTrue(
 			equals(
@@ -600,6 +607,12 @@ public abstract class BaseDataListViewResourceTestCase {
 						getGraphQLFields())),
 				"JSONArray/errors", "Object/0", "JSONObject/extensions",
 				"Object/code"));
+	}
+
+	protected DataListView testGraphQLGetDataListView_addDataListView()
+		throws Exception {
+
+		return testGraphQLDataListView_addDataListView();
 	}
 
 	@Test

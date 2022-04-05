@@ -218,7 +218,7 @@ public abstract class BaseCartItemResourceTestCase {
 
 	@Test
 	public void testGraphQLDeleteCartItem() throws Exception {
-		CartItem cartItem = testGraphQLCartItem_addCartItem();
+		CartItem cartItem = testGraphQLDeleteCartItem_addCartItem();
 
 		Assert.assertTrue(
 			JSONUtil.getValueAsBoolean(
@@ -231,7 +231,6 @@ public abstract class BaseCartItemResourceTestCase {
 							}
 						})),
 				"JSONObject/data", "Object/deleteCartItem"));
-
 		JSONArray errorsJSONArray = JSONUtil.getValueAsJSONArray(
 			invokeGraphQLQuery(
 				new GraphQLField(
@@ -245,6 +244,12 @@ public abstract class BaseCartItemResourceTestCase {
 			"JSONArray/errors");
 
 		Assert.assertTrue(errorsJSONArray.length() > 0);
+	}
+
+	protected CartItem testGraphQLDeleteCartItem_addCartItem()
+		throws Exception {
+
+		return testGraphQLCartItem_addCartItem();
 	}
 
 	@Test
@@ -265,7 +270,7 @@ public abstract class BaseCartItemResourceTestCase {
 
 	@Test
 	public void testGraphQLGetCartItem() throws Exception {
-		CartItem cartItem = testGraphQLCartItem_addCartItem();
+		CartItem cartItem = testGraphQLGetCartItem_addCartItem();
 
 		Assert.assertTrue(
 			equals(
@@ -302,6 +307,10 @@ public abstract class BaseCartItemResourceTestCase {
 						getGraphQLFields())),
 				"JSONArray/errors", "Object/0", "JSONObject/extensions",
 				"Object/code"));
+	}
+
+	protected CartItem testGraphQLGetCartItem_addCartItem() throws Exception {
+		return testGraphQLCartItem_addCartItem();
 	}
 
 	@Test
@@ -477,8 +486,8 @@ public abstract class BaseCartItemResourceTestCase {
 
 		Assert.assertEquals(0, cartItemsJSONObject.get("totalCount"));
 
-		CartItem cartItem1 = testGraphQLCartItem_addCartItem();
-		CartItem cartItem2 = testGraphQLCartItem_addCartItem();
+		CartItem cartItem1 = testGraphQLGetCartItemsPage_addCartItem();
+		CartItem cartItem2 = testGraphQLGetCartItemsPage_addCartItem();
 
 		cartItemsJSONObject = JSONUtil.getValueAsJSONObject(
 			invokeGraphQLQuery(graphQLField), "JSONObject/data",
@@ -490,6 +499,12 @@ public abstract class BaseCartItemResourceTestCase {
 			Arrays.asList(cartItem1, cartItem2),
 			Arrays.asList(
 				CartItemSerDes.toDTOs(cartItemsJSONObject.getString("items"))));
+	}
+
+	protected CartItem testGraphQLGetCartItemsPage_addCartItem()
+		throws Exception {
+
+		return testGraphQLCartItem_addCartItem();
 	}
 
 	@Test

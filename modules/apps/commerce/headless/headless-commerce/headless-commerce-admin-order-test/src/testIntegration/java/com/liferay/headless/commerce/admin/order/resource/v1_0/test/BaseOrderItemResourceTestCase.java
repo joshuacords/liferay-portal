@@ -256,7 +256,8 @@ public abstract class BaseOrderItemResourceTestCase {
 	public void testGraphQLGetOrderItemByExternalReferenceCode()
 		throws Exception {
 
-		OrderItem orderItem = testGraphQLOrderItem_addOrderItem();
+		OrderItem orderItem =
+			testGraphQLGetOrderItemByExternalReferenceCode_addOrderItem();
 
 		Assert.assertTrue(
 			equals(
@@ -306,6 +307,13 @@ public abstract class BaseOrderItemResourceTestCase {
 				"Object/code"));
 	}
 
+	protected OrderItem
+			testGraphQLGetOrderItemByExternalReferenceCode_addOrderItem()
+		throws Exception {
+
+		return testGraphQLOrderItem_addOrderItem();
+	}
+
 	@Test
 	public void testPatchOrderItemByExternalReferenceCode() throws Exception {
 		Assert.assertTrue(false);
@@ -334,7 +342,7 @@ public abstract class BaseOrderItemResourceTestCase {
 
 	@Test
 	public void testGraphQLDeleteOrderItem() throws Exception {
-		OrderItem orderItem = testGraphQLOrderItem_addOrderItem();
+		OrderItem orderItem = testGraphQLDeleteOrderItem_addOrderItem();
 
 		Assert.assertTrue(
 			JSONUtil.getValueAsBoolean(
@@ -347,7 +355,6 @@ public abstract class BaseOrderItemResourceTestCase {
 							}
 						})),
 				"JSONObject/data", "Object/deleteOrderItem"));
-
 		JSONArray errorsJSONArray = JSONUtil.getValueAsJSONArray(
 			invokeGraphQLQuery(
 				new GraphQLField(
@@ -361,6 +368,12 @@ public abstract class BaseOrderItemResourceTestCase {
 			"JSONArray/errors");
 
 		Assert.assertTrue(errorsJSONArray.length() > 0);
+	}
+
+	protected OrderItem testGraphQLDeleteOrderItem_addOrderItem()
+		throws Exception {
+
+		return testGraphQLOrderItem_addOrderItem();
 	}
 
 	@Test
@@ -381,7 +394,7 @@ public abstract class BaseOrderItemResourceTestCase {
 
 	@Test
 	public void testGraphQLGetOrderItem() throws Exception {
-		OrderItem orderItem = testGraphQLOrderItem_addOrderItem();
+		OrderItem orderItem = testGraphQLGetOrderItem_addOrderItem();
 
 		Assert.assertTrue(
 			equals(
@@ -418,6 +431,12 @@ public abstract class BaseOrderItemResourceTestCase {
 						getGraphQLFields())),
 				"JSONArray/errors", "Object/0", "JSONObject/extensions",
 				"Object/code"));
+	}
+
+	protected OrderItem testGraphQLGetOrderItem_addOrderItem()
+		throws Exception {
+
+		return testGraphQLOrderItem_addOrderItem();
 	}
 
 	@Test

@@ -212,7 +212,7 @@ public abstract class BaseCategoryResourceTestCase {
 
 	@Test
 	public void testGraphQLGetDiscountIdCategoryPage() throws Exception {
-		Category category = testGraphQLCategory_addCategory();
+		Category category = testGraphQLGetDiscountIdCategoryPage_addCategory();
 
 		Assert.assertTrue(
 			equals(
@@ -253,6 +253,12 @@ public abstract class BaseCategoryResourceTestCase {
 				"Object/code"));
 	}
 
+	protected Category testGraphQLGetDiscountIdCategoryPage_addCategory()
+		throws Exception {
+
+		return testGraphQLCategory_addCategory();
+	}
+
 	@Test
 	public void testGetPriceModifierIdCategory() throws Exception {
 		Category postCategory = testGetPriceModifierIdCategory_addCategory();
@@ -273,7 +279,7 @@ public abstract class BaseCategoryResourceTestCase {
 
 	@Test
 	public void testGraphQLGetPriceModifierIdCategory() throws Exception {
-		Category category = testGraphQLCategory_addCategory();
+		Category category = testGraphQLGetPriceModifierIdCategory_addCategory();
 
 		Assert.assertTrue(
 			equals(
@@ -312,6 +318,12 @@ public abstract class BaseCategoryResourceTestCase {
 						getGraphQLFields())),
 				"JSONArray/errors", "Object/0", "JSONObject/extensions",
 				"Object/code"));
+	}
+
+	protected Category testGraphQLGetPriceModifierIdCategory_addCategory()
+		throws Exception {
+
+		return testGraphQLCategory_addCategory();
 	}
 
 	protected Category testGraphQLCategory_addCategory() throws Exception {

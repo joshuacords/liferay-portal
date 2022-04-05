@@ -402,8 +402,8 @@ public abstract class BaseProcessResourceTestCase {
 
 		long totalCount = processesJSONObject.getLong("totalCount");
 
-		Process process1 = testGraphQLProcess_addProcess();
-		Process process2 = testGraphQLProcess_addProcess();
+		Process process1 = testGraphQLGetProcessesPage_addProcess();
+		Process process2 = testGraphQLGetProcessesPage_addProcess();
 
 		processesJSONObject = JSONUtil.getValueAsJSONObject(
 			invokeGraphQLQuery(graphQLField), "JSONObject/data",
@@ -420,6 +420,12 @@ public abstract class BaseProcessResourceTestCase {
 			process2,
 			Arrays.asList(
 				ProcessSerDes.toDTOs(processesJSONObject.getString("items"))));
+	}
+
+	protected Process testGraphQLGetProcessesPage_addProcess()
+		throws Exception {
+
+		return testGraphQLProcess_addProcess();
 	}
 
 	@Test
@@ -440,7 +446,7 @@ public abstract class BaseProcessResourceTestCase {
 
 	@Test
 	public void testGraphQLGetProcess() throws Exception {
-		Process process = testGraphQLProcess_addProcess();
+		Process process = testGraphQLGetProcess_addProcess();
 
 		Assert.assertTrue(
 			equals(
@@ -477,6 +483,10 @@ public abstract class BaseProcessResourceTestCase {
 						getGraphQLFields())),
 				"JSONArray/errors", "Object/0", "JSONObject/extensions",
 				"Object/code"));
+	}
+
+	protected Process testGraphQLGetProcess_addProcess() throws Exception {
+		return testGraphQLProcess_addProcess();
 	}
 
 	@Test

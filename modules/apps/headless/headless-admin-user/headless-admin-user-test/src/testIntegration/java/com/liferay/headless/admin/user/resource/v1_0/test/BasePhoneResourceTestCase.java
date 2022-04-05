@@ -270,7 +270,7 @@ public abstract class BasePhoneResourceTestCase {
 
 	@Test
 	public void testGraphQLGetPhone() throws Exception {
-		Phone phone = testGraphQLPhone_addPhone();
+		Phone phone = testGraphQLGetPhone_addPhone();
 
 		Assert.assertTrue(
 			equals(
@@ -307,6 +307,10 @@ public abstract class BasePhoneResourceTestCase {
 						getGraphQLFields())),
 				"JSONArray/errors", "Object/0", "JSONObject/extensions",
 				"Object/code"));
+	}
+
+	protected Phone testGraphQLGetPhone_addPhone() throws Exception {
+		return testGraphQLPhone_addPhone();
 	}
 
 	@Test

@@ -221,7 +221,7 @@ public abstract class BaseContentStructureResourceTestCase {
 	@Test
 	public void testGraphQLGetContentStructure() throws Exception {
 		ContentStructure contentStructure =
-			testGraphQLContentStructure_addContentStructure();
+			testGraphQLGetContentStructure_addContentStructure();
 
 		Assert.assertTrue(
 			equals(
@@ -262,6 +262,13 @@ public abstract class BaseContentStructureResourceTestCase {
 						getGraphQLFields())),
 				"JSONArray/errors", "Object/0", "JSONObject/extensions",
 				"Object/code"));
+	}
+
+	protected ContentStructure
+			testGraphQLGetContentStructure_addContentStructure()
+		throws Exception {
+
+		return testGraphQLContentStructure_addContentStructure();
 	}
 
 	@Test
@@ -654,9 +661,9 @@ public abstract class BaseContentStructureResourceTestCase {
 		Assert.assertEquals(0, contentStructuresJSONObject.get("totalCount"));
 
 		ContentStructure contentStructure1 =
-			testGraphQLContentStructure_addContentStructure();
+			testGraphQLGetSiteContentStructuresPage_addContentStructure();
 		ContentStructure contentStructure2 =
-			testGraphQLContentStructure_addContentStructure();
+			testGraphQLGetSiteContentStructuresPage_addContentStructure();
 
 		contentStructuresJSONObject = JSONUtil.getValueAsJSONObject(
 			invokeGraphQLQuery(graphQLField), "JSONObject/data",
@@ -670,6 +677,13 @@ public abstract class BaseContentStructureResourceTestCase {
 			Arrays.asList(
 				ContentStructureSerDes.toDTOs(
 					contentStructuresJSONObject.getString("items"))));
+	}
+
+	protected ContentStructure
+			testGraphQLGetSiteContentStructuresPage_addContentStructure()
+		throws Exception {
+
+		return testGraphQLContentStructure_addContentStructure();
 	}
 
 	@Rule
