@@ -37,7 +37,7 @@ public class UserModelListener extends BaseModelListener<User> {
 	@Override
 	public void onAfterRemove(User user) throws ModelListenerException {
 		try {
-			if(user != null) {
+			if (user != null) {
 				_deleteAnonymousUserConfiguration(
 					user.getCompanyId(), user.getUserId());
 			}

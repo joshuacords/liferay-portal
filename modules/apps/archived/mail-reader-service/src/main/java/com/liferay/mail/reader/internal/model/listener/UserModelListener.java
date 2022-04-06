@@ -39,7 +39,7 @@ public class UserModelListener extends BaseModelListener<User> {
 	@Override
 	public void onAfterRemove(User user) {
 		try {
-			if(user != null) {
+			if (user != null) {
 				if (_log.isDebugEnabled()) {
 					_log.debug(
 						"Removing mail accounts for user " + user.getUserId());
