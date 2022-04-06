@@ -364,6 +364,9 @@ public class Mutation {
 		userAccountResource.setContextUser(_user);
 		userAccountResource.setGroupLocalService(_groupLocalService);
 		userAccountResource.setRoleLocalService(_roleLocalService);
+
+		userAccountResource.setVulcanBatchEngineImportTaskResource(
+			_vulcanBatchEngineImportTaskResource);
 	}
 
 	private static ComponentServiceObjects<OrganizationResource>

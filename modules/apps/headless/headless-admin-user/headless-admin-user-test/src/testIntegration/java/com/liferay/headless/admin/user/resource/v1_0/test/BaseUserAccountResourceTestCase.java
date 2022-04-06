@@ -1354,7 +1354,7 @@ public abstract class BaseUserAccountResourceTestCase {
 
 	@Test
 	public void testGraphQLDeleteUserAccount() throws Exception {
-		UserAccount userAccount = testGraphQLUserAccount_addUserAccount();
+		UserAccount userAccount = testGraphQLDeleteUserAccount_addUserAccount();
 
 		Assert.assertTrue(
 			JSONUtil.getValueAsBoolean(
@@ -1367,7 +1367,6 @@ public abstract class BaseUserAccountResourceTestCase {
 							}
 						})),
 				"JSONObject/data", "Object/deleteUserAccount"));
-
 		JSONArray errorsJSONArray = JSONUtil.getValueAsJSONArray(
 			invokeGraphQLQuery(
 				new GraphQLField(
@@ -1381,6 +1380,12 @@ public abstract class BaseUserAccountResourceTestCase {
 			"JSONArray/errors");
 
 		Assert.assertTrue(errorsJSONArray.length() > 0);
+	}
+
+	protected UserAccount testGraphQLDeleteUserAccount_addUserAccount()
+		throws Exception {
+
+		return testGraphQLUserAccount_addUserAccount();
 	}
 
 	@Test
@@ -1446,6 +1451,7 @@ public abstract class BaseUserAccountResourceTestCase {
 		throws Exception {
 
 		return testGraphQLUserAccount_addUserAccount();
+	}
 
 	@Test
 	public void testPatchUserAccount() throws Exception {
@@ -1459,8 +1465,8 @@ public abstract class BaseUserAccountResourceTestCase {
 
 		UserAccount expectedPatchUserAccount = postUserAccount.clone();
 
-		_beanUtilsBean.copyProperties(
-			expectedPatchUserAccount, randomPatchUserAccount);
+		BeanTestUtil.copyProperties(
+			randomPatchUserAccount, expectedPatchUserAccount);
 
 		UserAccount getUserAccount = userAccountResource.getUserAccount(
 			patchUserAccount.getId());
