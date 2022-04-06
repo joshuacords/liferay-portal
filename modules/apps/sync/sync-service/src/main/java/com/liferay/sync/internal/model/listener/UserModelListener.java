@@ -38,13 +38,15 @@ public class UserModelListener extends SyncBaseModelListener<User> {
 	@Override
 	public void onAfterRemove(User user) throws ModelListenerException {
 		try {
-			List<SyncDevice> syncDevices =
-				_syncDeviceLocalService.getSyncDevices(
-					user.getUserId(), QueryUtil.ALL_POS, QueryUtil.ALL_POS,
-					null);
+			if(user != null) {
+				List<SyncDevice> syncDevices =
+					_syncDeviceLocalService.getSyncDevices(
+						user.getUserId(), QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+						null);
 
-			for (SyncDevice syncDevice : syncDevices) {
-				_syncDeviceLocalService.deleteSyncDevice(syncDevice);
+				for (SyncDevice syncDevice : syncDevices) {
+					_syncDeviceLocalService.deleteSyncDevice(syncDevice);
+				}
 			}
 		}
 		catch (Exception exception) {

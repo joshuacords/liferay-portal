@@ -37,19 +37,21 @@ public class UserModelListener extends BaseModelListener<User> {
 	@Override
 	public void onAfterRemove(User user) {
 		try {
-			if (_log.isDebugEnabled()) {
-				_log.debug(
-					"Removing chat entries and status for user " +
+			if(user != null) {
+				if (_log.isDebugEnabled()) {
+					_log.debug(
+						"Removing chat entries and status for user " +
 						user.getUserId());
-			}
+				}
 
-			EntryLocalServiceUtil.deleteEntries(user.getUserId());
+				EntryLocalServiceUtil.deleteEntries(user.getUserId());
 
-			Status status = StatusLocalServiceUtil.getUserStatus(
-				user.getUserId());
+				Status status = StatusLocalServiceUtil.getUserStatus(
+					user.getUserId());
 
-			if (status != null) {
-				StatusLocalServiceUtil.deleteStatus(status);
+				if (status != null) {
+					StatusLocalServiceUtil.deleteStatus(status);
+				}
 			}
 		}
 		catch (Exception exception) {

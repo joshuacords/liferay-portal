@@ -37,8 +37,10 @@ public class UserModelListener extends BaseModelListener<User> {
 	@Override
 	public void onAfterRemove(User user) throws ModelListenerException {
 		try {
-			_deleteAnonymousUserConfiguration(
-				user.getCompanyId(), user.getUserId());
+			if(user != null) {
+				_deleteAnonymousUserConfiguration(
+					user.getCompanyId(), user.getUserId());
+			}
 		}
 		catch (InvalidSyntaxException | IOException exception) {
 			throw new ModelListenerException(exception);

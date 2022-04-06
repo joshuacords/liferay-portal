@@ -39,19 +39,21 @@ public class UserModelListener extends BaseModelListener<User> {
 	@Override
 	public void onAfterRemove(User user) {
 		try {
-			if (_log.isDebugEnabled()) {
-				_log.debug(
-					"Removing mail accounts for user " + user.getUserId());
-			}
+			if(user != null) {
+				if (_log.isDebugEnabled()) {
+					_log.debug(
+						"Removing mail accounts for user " + user.getUserId());
+				}
 
-			List<Account> accounts = AccountLocalServiceUtil.getAccounts(
-				user.getUserId());
+				List<Account> accounts = AccountLocalServiceUtil.getAccounts(
+					user.getUserId());
 
-			for (Account account : accounts) {
-				Mailbox mailbox = MailboxFactoryUtil.getMailbox(
-					user, account, StringPool.BLANK);
+				for (Account account : accounts) {
+					Mailbox mailbox = MailboxFactoryUtil.getMailbox(
+						user, account, StringPool.BLANK);
 
-				mailbox.deleteAccount();
+					mailbox.deleteAccount();
+				}
 			}
 		}
 		catch (Exception exception) {
