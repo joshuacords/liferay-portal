@@ -431,6 +431,32 @@ public class LicenseKeyResourceImpl
 				licenseKey.getLicenseEntryType();
 			LicenseKey.Sizing sizing = licenseKey.getSizing();
 
+			String owner = licenseKey.getOwner();
+
+			if (owner == null) {
+				Account account = _accountWebService.getAccount(accountKey);
+
+				owner = account.getName();
+			}
+
+			int maxClusterNodes = 0;
+
+			if (licenseKey.getMaxClusterNodes() != null) {
+				maxClusterNodes = licenseKey.getMaxClusterNodes();
+			}
+
+			boolean complimentary = false;
+
+			if (licenseKey.getComplimentary() != null) {
+				complimentary = licenseKey.getComplimentary();
+			}
+
+			boolean active = true;
+
+			if (licenseKey.getActive() != null) {
+				active = licenseKey.getActive();
+			}
+
 			com.liferay.osb.provisioning.license.model.LicenseKey
 				curLicenseKey = _licenseKeyLocalService.addLicenseKey(
 					StringBundler.concat(
@@ -439,13 +465,12 @@ public class LicenseKeyResourceImpl
 					contact.getUuid(), licenseEntryType.getValue(),
 					licenseKey.getProductKey(), accountKey,
 					licenseKey.getProductPurchaseKey(),
-					licenseKey.getProductVersion(), licenseKey.getName(),
-					licenseKey.getOwner(), licenseKey.getMaxClusterNodes(),
-					sizing.getValue(), licenseKey.getDescription(),
-					licenseKey.getHostName(), licenseKey.getIpAddresses(),
-					licenseKey.getMacAddresses(), licenseKey.getStartDate(),
-					licenseKey.getExpirationDate(),
-					licenseKey.getComplimentary(), licenseKey.getActive());
+					licenseKey.getProductVersion(), licenseKey.getName(), owner,
+					maxClusterNodes, sizing.getValue(),
+					licenseKey.getDescription(), licenseKey.getHostName(),
+					licenseKey.getIpAddresses(), licenseKey.getMacAddresses(),
+					licenseKey.getStartDate(), licenseKey.getExpirationDate(),
+					complimentary, active);
 
 			curLicenseKeys.add(LicenseKeyUtil.toLicenseKey(curLicenseKey));
 		}
