@@ -32,7 +32,6 @@ import com.liferay.portal.workflow.kaleo.model.KaleoNotificationRecipientModel;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
 import java.sql.Blob;
@@ -230,34 +229,6 @@ public class KaleoNotificationRecipientModelImpl
 		getAttributeSetterBiConsumers() {
 
 		return _attributeSetterBiConsumers;
-	}
-
-	private static Function<InvocationHandler, KaleoNotificationRecipient>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			KaleoNotificationRecipient.class.getClassLoader(),
-			KaleoNotificationRecipient.class, ModelWrapper.class);
-
-		try {
-			Constructor<KaleoNotificationRecipient> constructor =
-				(Constructor<KaleoNotificationRecipient>)
-					proxyClass.getConstructor(InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
 	}
 
 	private static final Map
@@ -1048,7 +1019,8 @@ public class KaleoNotificationRecipientModelImpl
 		private static final Function
 			<InvocationHandler, KaleoNotificationRecipient>
 				_escapedModelProxyProviderFunction =
-					_getProxyProviderFunction();
+					ProxyUtil.getProxyProviderFunction(
+						KaleoNotificationRecipient.class, ModelWrapper.class);
 
 	}
 

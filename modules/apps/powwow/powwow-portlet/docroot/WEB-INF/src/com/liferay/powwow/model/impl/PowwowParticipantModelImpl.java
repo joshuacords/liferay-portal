@@ -35,7 +35,6 @@ import com.liferay.powwow.model.PowwowParticipantSoap;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
 import java.sql.Blob;
@@ -287,34 +286,6 @@ public class PowwowParticipantModelImpl
 		getAttributeSetterBiConsumers() {
 
 		return _attributeSetterBiConsumers;
-	}
-
-	private static Function<InvocationHandler, PowwowParticipant>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			PowwowParticipant.class.getClassLoader(), PowwowParticipant.class,
-			ModelWrapper.class);
-
-		try {
-			Constructor<PowwowParticipant> constructor =
-				(Constructor<PowwowParticipant>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
 	}
 
 	private static final Map<String, Function<PowwowParticipant, Object>>
@@ -929,7 +900,9 @@ public class PowwowParticipantModelImpl
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, PowwowParticipant>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					PowwowParticipant.class, ModelWrapper.class);
 
 	}
 

@@ -32,7 +32,6 @@ import com.liferay.portal.workflow.kaleo.model.KaleoInstanceTokenModel;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 
 import java.sql.Blob;
@@ -228,34 +227,6 @@ public class KaleoInstanceTokenModelImpl
 		getAttributeSetterBiConsumers() {
 
 		return _attributeSetterBiConsumers;
-	}
-
-	private static Function<InvocationHandler, KaleoInstanceToken>
-		_getProxyProviderFunction() {
-
-		Class<?> proxyClass = ProxyUtil.getProxyClass(
-			KaleoInstanceToken.class.getClassLoader(), KaleoInstanceToken.class,
-			ModelWrapper.class);
-
-		try {
-			Constructor<KaleoInstanceToken> constructor =
-				(Constructor<KaleoInstanceToken>)proxyClass.getConstructor(
-					InvocationHandler.class);
-
-			return invocationHandler -> {
-				try {
-					return constructor.newInstance(invocationHandler);
-				}
-				catch (ReflectiveOperationException
-							reflectiveOperationException) {
-
-					throw new InternalError(reflectiveOperationException);
-				}
-			};
-		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			throw new InternalError(noSuchMethodException);
-		}
 	}
 
 	private static final Map<String, Function<KaleoInstanceToken, Object>>
@@ -979,7 +950,9 @@ public class KaleoInstanceTokenModelImpl
 	private static class EscapedModelProxyProviderFunctionHolder {
 
 		private static final Function<InvocationHandler, KaleoInstanceToken>
-			_escapedModelProxyProviderFunction = _getProxyProviderFunction();
+			_escapedModelProxyProviderFunction =
+				ProxyUtil.getProxyProviderFunction(
+					KaleoInstanceToken.class, ModelWrapper.class);
 
 	}
 
