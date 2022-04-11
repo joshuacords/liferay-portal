@@ -124,12 +124,13 @@ public class EditLayoutMVCActionCommand extends BaseMVCActionCommand {
 		Layout layout = _layoutLocalService.getLayout(
 			groupId, privateLayout, layoutId);
 
-		if (Objects.equals(
+		Layout draftLayout = _layoutLocalService.fetchLayout(
+			_portal.getClassNameId(Layout.class), layout.getPlid());
+
+		if ((Objects.equals(
 				layout.getType(), LayoutConstants.TYPE_ASSET_DISPLAY) ||
-			 Objects.equals(layout.getType(), LayoutConstants.TYPE_CONTENT) &&
-			_layoutLocalService.fetchLayout(
-				_portal.getClassNameId(Layout.class), layout.getPlid()) ==
-					null) {
+			 Objects.equals(layout.getType(), LayoutConstants.TYPE_CONTENT)) &&
+			(draftLayout == null)) {
 
 			AssetEntry assetEntry = _assetEntryLocalService.fetchEntry(
 				Layout.class.getName(), layout.getPlid());
@@ -179,7 +180,7 @@ public class EditLayoutMVCActionCommand extends BaseMVCActionCommand {
 
 		boolean layoutHasDraftChanges = true;
 
-		Layout draftLayout = _layoutLocalService.fetchLayout(
+		draftLayout = _layoutLocalService.fetchLayout(
 			_portal.getClassNameId(Layout.class), layout.getPlid());
 
 		if (draftLayout != null) {
