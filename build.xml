@@ -1138,7 +1138,7 @@ This target has been renamed to "snapshot-bundle". Please call "snapshot-bundle"
 	</target>
 
 	<target depends="setup-jrebel-init" name="setup-jrebel-properties" unless="liferay.lib.portal.dir.isset">
-		<echo append="true" file="portal-impl/src/system-ext.properties" message="liferay.lib.portal.dir=${app.server.lib.portal.dir}" />
+		<echo append="true" file="portal-impl/src/system-ext.properties">liferay.lib.portal.dir=${app.server.lib.portal.dir}</echo>
 
 		<copy
 			file="portal-impl/src/system-ext.properties"
