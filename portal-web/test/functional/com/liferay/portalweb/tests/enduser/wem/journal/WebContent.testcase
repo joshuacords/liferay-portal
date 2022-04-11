@@ -213,6 +213,8 @@ definition {
 
 		WebContentNavigator.gotoEditStructure(structureName = "Basic Web Content");
 
+		ProductMenuHelper.closeProductMenu();
+
 		PortletEntry.inputName(name = "Basic Web Content Edit");
 
 		for (var structureFieldName : list "Date,Image") {
