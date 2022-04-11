@@ -14,6 +14,9 @@
 
 import {PagesVisitor} from 'dynamic-data-mapping-form-renderer/js/util/visitors.es';
 
+const regexEmptyField = /\[\]/g;
+const regexFieldPattern = /Field\d{8}/g;
+
 const clearTargetValue = (actions, index) => {
 	if (actions[index]) {
 		actions[index].target = '';
@@ -145,6 +148,69 @@ const targetFieldExists = (target, pages) => {
 	});
 
 	return targetFieldExists;
+}
+
+const fieldNameBelongsToAction = (fieldName, actions) => {
+	return actions
+		.map((action) => {
+			if (action.action == 'auto-fill') {
+				return Object.values(action.outputs).some(
+					(output) => output == fieldName
+				);
+			}
+			if (action.action == 'calculate') {
+				const expressionFields = getExpressionFields(action);
+				if (fieldName == '') {
+					const expressionEmptyFields = getExpressionFields(
+						action,
+						regexEmptyField
+					);
+
+					return (
+						(expressionEmptyFields &&
+							expressionEmptyFields.indexOf('[]') >= 0) ||
+						action.target == fieldName
+					);
+				}
+				else {
+					return (
+						!expressionFields ||
+						expressionFields.indexOf(fieldName) >= 0 ||
+						action.target == fieldName
+					);
+				}
+			}
+			else {
+				return action.target == fieldName;
+			}
+		})
+		.some((fieldFound) => fieldFound == true);
+};
+
+const fieldNameBelongsToCondition = (fieldName, conditions) => {
+	return conditions
+		.map((condition) => {
+			return condition.operands
+				.map((operand) => operand.value == fieldName)
+				.some((fieldFound) => fieldFound == true);
+		})
+		.some((fieldFound) => fieldFound == true);
+};
+
+const findInvalidRule = (rule) => {
+	return findRuleByFieldName('', [rule]);
+};
+
+const findRuleByFieldName = (fieldName, rules) => {
+	return rules.some(
+		(rule) =>
+			fieldNameBelongsToAction(fieldName, rule.actions) ||
+			fieldNameBelongsToCondition(fieldName, rule.conditions)
+	);
+};
+
+const getExpressionFields = (action, regex = regexFieldPattern) => {
+	return action.expression.match(regex);
 };
 
 export default {
@@ -154,5 +220,7 @@ export default {
 	clearSecondOperandValue,
 	clearTargetValue,
 	formatRules,
+	findInvalidRule,
+	findRuleByFieldName,
 	syncActions
 };

@@ -62,26 +62,50 @@ export const removeField = (props, pages, fieldName) => {
 	}));
 };
 
-export const handleFieldDeleted = (props, state, {fieldName}) => {
-	const {activePage, pages} = state;
-	const newPages = pages.map((page, pageIndex) => {
-		if (activePage === pageIndex) {
-			return {
-				...page,
-				rows: FormSupport.removeEmptyRows(
-					removeField(props, pages, fieldName),
-					pageIndex
-				)
-			};
-		}
+export const fieldContainsRules = (state, pages) => {
+	const visitor = new PagesVisitor(pages);
 
-		return page;
+	const allRules = state.rules;
+
+	visitor.mapFields(({fieldName}) => {
+		const rulesFound = RulesSupport.findRuleByFieldName(fieldName, allRules);	
+
+		if (rulesFound) return true;
+	});
+
+	return false;
+}
+
+const removeEmptyRow = (pages, source) => {
+	const {pageIndex, rowIndex} = source;
+
+	if (!FormSupport.rowHasFields(pages, pageIndex, rowIndex)) {
+		pages = FormSupport.removeRow(pages, pageIndex, rowIndex);
+	}
+
+	return pages;
+};
+
+export const handleFieldDeleted = (state, {indexes}) => {
+	const {columnIndex, pageIndex, rowIndex} = indexes;
+	const {pages} = state;
+	let newContext = FormSupport.removeFields(
+		pages,
+		pageIndex,
+		rowIndex,
+		columnIndex
+	);
+
+	newContext = removeEmptyRow(newContext, {
+		columnIndex,
+		pageIndex,
+		rowIndex
 	});
 
 	return {
 		focusedField: {},
-		pages: newPages,
-		rules: RulesSupport.formatRules(newPages, state.rules)
+		pages: newContext,
+		rules: RulesSupport.formatRules(newContext, state.rules)
 	};
 };
 
