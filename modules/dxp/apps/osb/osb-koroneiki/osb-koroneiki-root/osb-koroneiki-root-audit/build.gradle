@@ -4,7 +4,7 @@ dependencies {
 	compileOnly group: "com.liferay", name: "com.liferay.petra.string", version: "3.0.0"
 	compileOnly group: "com.liferay", name: "com.liferay.portal.instances.api", version: "3.0.0"
 	compileOnly group: "com.liferay", name: "com.liferay.text.localizer.address.api", version: "2.0.0"
-	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "4.0.0"
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "4.30.0"
 	compileOnly group: "org.osgi", name: "osgi.core", version: "6.0.0"
 	compileOnly project(":dxp:apps:osb:osb-koroneiki:osb-koroneiki-phloem:osb-koroneiki-phloem-rest-api")
 	compileOnly project(":dxp:apps:osb:osb-koroneiki:osb-koroneiki-phytohormone:osb-koroneiki-phytohormone-api")
