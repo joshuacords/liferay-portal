@@ -260,6 +260,10 @@ public abstract class BaseSpotResourceImpl
 		return null;
 	}
 
+	public String getVersion() {
+		return "1.0";
+	}
+
 	@Override
 	public Page<Spot> read(
 			Filter filter, Pagination pagination, Sort[] sorts,

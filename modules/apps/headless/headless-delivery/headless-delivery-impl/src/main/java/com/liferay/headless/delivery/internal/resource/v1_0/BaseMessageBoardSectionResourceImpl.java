@@ -772,6 +772,10 @@ public abstract class BaseMessageBoardSectionResourceImpl
 		return null;
 	}
 
+	public String getVersion() {
+		return "v1.0";
+	}
+
 	@Override
 	public Page<MessageBoardSection> read(
 			Filter filter, Pagination pagination, Sort[] sorts,

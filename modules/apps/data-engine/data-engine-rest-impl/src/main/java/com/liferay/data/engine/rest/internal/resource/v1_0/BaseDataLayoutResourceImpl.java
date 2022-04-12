@@ -597,6 +597,10 @@ public abstract class BaseDataLayoutResourceImpl
 		return null;
 	}
 
+	public String getVersion() {
+		return "v1.0";
+	}
+
 	@Override
 	public Page<DataLayout> read(
 			Filter filter, Pagination pagination, Sort[] sorts,

@@ -319,6 +319,10 @@ public abstract class BaseUserAccountResourceImpl
 		return null;
 	}
 
+	public String getVersion() {
+		return "v1.0";
+	}
+
 	@Override
 	public Page<UserAccount> read(
 			Filter filter, Pagination pagination, Sort[] sorts,

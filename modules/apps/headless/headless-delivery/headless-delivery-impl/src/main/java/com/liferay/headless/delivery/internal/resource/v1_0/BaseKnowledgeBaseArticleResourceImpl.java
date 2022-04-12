@@ -1206,6 +1206,10 @@ public abstract class BaseKnowledgeBaseArticleResourceImpl
 		return null;
 	}
 
+	public String getVersion() {
+		return "v1.0";
+	}
+
 	@Override
 	public Page<KnowledgeBaseArticle> read(
 			Filter filter, Pagination pagination, Sort[] sorts,

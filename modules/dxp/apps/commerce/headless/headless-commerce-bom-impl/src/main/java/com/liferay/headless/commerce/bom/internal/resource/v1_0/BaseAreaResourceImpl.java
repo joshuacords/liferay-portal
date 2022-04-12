@@ -126,6 +126,10 @@ public abstract class BaseAreaResourceImpl
 		return null;
 	}
 
+	public String getVersion() {
+		return "1.0";
+	}
+
 	@Override
 	public Page<Area> read(
 			Filter filter, Pagination pagination, Sort[] sorts,

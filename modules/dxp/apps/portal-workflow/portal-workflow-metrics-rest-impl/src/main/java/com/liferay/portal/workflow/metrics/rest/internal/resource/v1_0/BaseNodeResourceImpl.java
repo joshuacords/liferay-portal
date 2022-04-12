@@ -128,6 +128,10 @@ public abstract class BaseNodeResourceImpl
 		return null;
 	}
 
+	public String getVersion() {
+		return "v1.0";
+	}
+
 	@Override
 	public Page<Node> read(
 			Filter filter, Pagination pagination, Sort[] sorts,

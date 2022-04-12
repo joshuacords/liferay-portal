@@ -651,6 +651,10 @@ public abstract class BaseDataRecordCollectionResourceImpl
 		return null;
 	}
 
+	public String getVersion() {
+		return "v1.0";
+	}
+
 	@Override
 	public Page<DataRecordCollection> read(
 			Filter filter, Pagination pagination, Sort[] sorts,

@@ -1027,6 +1027,10 @@ public abstract class BaseMessageBoardMessageResourceImpl
 		return null;
 	}
 
+	public String getVersion() {
+		return "v1.0";
+	}
+
 	@Override
 	public Page<MessageBoardMessage> read(
 			Filter filter, Pagination pagination, Sort[] sorts,
