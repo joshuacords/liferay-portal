@@ -58,6 +58,7 @@ import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
+import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
 import com.liferay.portal.vulcan.graphql.annotation.GraphQLField;
 import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 
@@ -1870,6 +1871,9 @@ public class Mutation {
 		discountResource.setContextUser(_user);
 		discountResource.setGroupLocalService(_groupLocalService);
 		discountResource.setRoleLocalService(_roleLocalService);
+
+		discountResource.setVulcanBatchEngineImportTaskResource(
+			_vulcanBatchEngineImportTaskResource);
 	}
 
 	private void _populateResourceContext(
@@ -1886,6 +1890,9 @@ public class Mutation {
 		discountAccountResource.setContextUser(_user);
 		discountAccountResource.setGroupLocalService(_groupLocalService);
 		discountAccountResource.setRoleLocalService(_roleLocalService);
+
+		discountAccountResource.setVulcanBatchEngineImportTaskResource(
+			_vulcanBatchEngineImportTaskResource);
 	}
 
 	private void _populateResourceContext(
@@ -1902,6 +1909,9 @@ public class Mutation {
 		discountAccountGroupResource.setContextUser(_user);
 		discountAccountGroupResource.setGroupLocalService(_groupLocalService);
 		discountAccountGroupResource.setRoleLocalService(_roleLocalService);
+
+		discountAccountGroupResource.setVulcanBatchEngineImportTaskResource(
+			_vulcanBatchEngineImportTaskResource);
 	}
 
 	private void _populateResourceContext(
@@ -1918,6 +1928,9 @@ public class Mutation {
 		discountCategoryResource.setContextUser(_user);
 		discountCategoryResource.setGroupLocalService(_groupLocalService);
 		discountCategoryResource.setRoleLocalService(_roleLocalService);
+
+		discountCategoryResource.setVulcanBatchEngineImportTaskResource(
+			_vulcanBatchEngineImportTaskResource);
 	}
 
 	private void _populateResourceContext(
@@ -1934,6 +1947,9 @@ public class Mutation {
 		discountChannelResource.setContextUser(_user);
 		discountChannelResource.setGroupLocalService(_groupLocalService);
 		discountChannelResource.setRoleLocalService(_roleLocalService);
+
+		discountChannelResource.setVulcanBatchEngineImportTaskResource(
+			_vulcanBatchEngineImportTaskResource);
 	}
 
 	private void _populateResourceContext(
@@ -1950,6 +1966,9 @@ public class Mutation {
 		discountProductResource.setContextUser(_user);
 		discountProductResource.setGroupLocalService(_groupLocalService);
 		discountProductResource.setRoleLocalService(_roleLocalService);
+
+		discountProductResource.setVulcanBatchEngineImportTaskResource(
+			_vulcanBatchEngineImportTaskResource);
 	}
 
 	private void _populateResourceContext(
@@ -1966,6 +1985,9 @@ public class Mutation {
 		discountProductGroupResource.setContextUser(_user);
 		discountProductGroupResource.setGroupLocalService(_groupLocalService);
 		discountProductGroupResource.setRoleLocalService(_roleLocalService);
+
+		discountProductGroupResource.setVulcanBatchEngineImportTaskResource(
+			_vulcanBatchEngineImportTaskResource);
 	}
 
 	private void _populateResourceContext(
@@ -1981,6 +2003,9 @@ public class Mutation {
 		discountRuleResource.setContextUser(_user);
 		discountRuleResource.setGroupLocalService(_groupLocalService);
 		discountRuleResource.setRoleLocalService(_roleLocalService);
+
+		discountRuleResource.setVulcanBatchEngineImportTaskResource(
+			_vulcanBatchEngineImportTaskResource);
 	}
 
 	private void _populateResourceContext(PriceEntryResource priceEntryResource)
@@ -1994,6 +2019,9 @@ public class Mutation {
 		priceEntryResource.setContextUser(_user);
 		priceEntryResource.setGroupLocalService(_groupLocalService);
 		priceEntryResource.setRoleLocalService(_roleLocalService);
+
+		priceEntryResource.setVulcanBatchEngineImportTaskResource(
+			_vulcanBatchEngineImportTaskResource);
 	}
 
 	private void _populateResourceContext(PriceListResource priceListResource)
@@ -2007,6 +2035,9 @@ public class Mutation {
 		priceListResource.setContextUser(_user);
 		priceListResource.setGroupLocalService(_groupLocalService);
 		priceListResource.setRoleLocalService(_roleLocalService);
+
+		priceListResource.setVulcanBatchEngineImportTaskResource(
+			_vulcanBatchEngineImportTaskResource);
 	}
 
 	private void _populateResourceContext(
@@ -2023,6 +2054,9 @@ public class Mutation {
 		priceListAccountResource.setContextUser(_user);
 		priceListAccountResource.setGroupLocalService(_groupLocalService);
 		priceListAccountResource.setRoleLocalService(_roleLocalService);
+
+		priceListAccountResource.setVulcanBatchEngineImportTaskResource(
+			_vulcanBatchEngineImportTaskResource);
 	}
 
 	private void _populateResourceContext(
@@ -2039,6 +2073,9 @@ public class Mutation {
 		priceListAccountGroupResource.setContextUser(_user);
 		priceListAccountGroupResource.setGroupLocalService(_groupLocalService);
 		priceListAccountGroupResource.setRoleLocalService(_roleLocalService);
+
+		priceListAccountGroupResource.setVulcanBatchEngineImportTaskResource(
+			_vulcanBatchEngineImportTaskResource);
 	}
 
 	private void _populateResourceContext(
@@ -2055,6 +2092,9 @@ public class Mutation {
 		priceListChannelResource.setContextUser(_user);
 		priceListChannelResource.setGroupLocalService(_groupLocalService);
 		priceListChannelResource.setRoleLocalService(_roleLocalService);
+
+		priceListChannelResource.setVulcanBatchEngineImportTaskResource(
+			_vulcanBatchEngineImportTaskResource);
 	}
 
 	private void _populateResourceContext(
@@ -2071,6 +2111,9 @@ public class Mutation {
 		priceListDiscountResource.setContextUser(_user);
 		priceListDiscountResource.setGroupLocalService(_groupLocalService);
 		priceListDiscountResource.setRoleLocalService(_roleLocalService);
+
+		priceListDiscountResource.setVulcanBatchEngineImportTaskResource(
+			_vulcanBatchEngineImportTaskResource);
 	}
 
 	private void _populateResourceContext(
@@ -2086,6 +2129,9 @@ public class Mutation {
 		priceModifierResource.setContextUser(_user);
 		priceModifierResource.setGroupLocalService(_groupLocalService);
 		priceModifierResource.setRoleLocalService(_roleLocalService);
+
+		priceModifierResource.setVulcanBatchEngineImportTaskResource(
+			_vulcanBatchEngineImportTaskResource);
 	}
 
 	private void _populateResourceContext(
@@ -2102,6 +2148,9 @@ public class Mutation {
 		priceModifierCategoryResource.setContextUser(_user);
 		priceModifierCategoryResource.setGroupLocalService(_groupLocalService);
 		priceModifierCategoryResource.setRoleLocalService(_roleLocalService);
+
+		priceModifierCategoryResource.setVulcanBatchEngineImportTaskResource(
+			_vulcanBatchEngineImportTaskResource);
 	}
 
 	private void _populateResourceContext(
@@ -2118,6 +2167,9 @@ public class Mutation {
 		priceModifierProductResource.setContextUser(_user);
 		priceModifierProductResource.setGroupLocalService(_groupLocalService);
 		priceModifierProductResource.setRoleLocalService(_roleLocalService);
+
+		priceModifierProductResource.setVulcanBatchEngineImportTaskResource(
+			_vulcanBatchEngineImportTaskResource);
 	}
 
 	private void _populateResourceContext(
@@ -2137,6 +2189,10 @@ public class Mutation {
 			_groupLocalService);
 		priceModifierProductGroupResource.setRoleLocalService(
 			_roleLocalService);
+
+		priceModifierProductGroupResource.
+			setVulcanBatchEngineImportTaskResource(
+				_vulcanBatchEngineImportTaskResource);
 	}
 
 	private void _populateResourceContext(TierPriceResource tierPriceResource)
@@ -2150,6 +2206,9 @@ public class Mutation {
 		tierPriceResource.setContextUser(_user);
 		tierPriceResource.setGroupLocalService(_groupLocalService);
 		tierPriceResource.setRoleLocalService(_roleLocalService);
+
+		tierPriceResource.setVulcanBatchEngineImportTaskResource(
+			_vulcanBatchEngineImportTaskResource);
 	}
 
 	private static ComponentServiceObjects<DiscountResource>
@@ -2200,5 +2259,7 @@ public class Mutation {
 	private BiFunction<Object, String, Sort[]> _sortsBiFunction;
 	private UriInfo _uriInfo;
 	private com.liferay.portal.kernel.model.User _user;
+	private VulcanBatchEngineImportTaskResource
+		_vulcanBatchEngineImportTaskResource;
 
 }
