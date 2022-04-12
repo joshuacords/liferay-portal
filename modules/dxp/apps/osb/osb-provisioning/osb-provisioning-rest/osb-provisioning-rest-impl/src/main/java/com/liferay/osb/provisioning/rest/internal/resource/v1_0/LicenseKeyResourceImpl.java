@@ -804,7 +804,7 @@ public class LicenseKeyResourceImpl
 						}
 
 						subscriptionTerm.setEndDate(
-							productPurchase.getEndDate());
+							productPurchase.getOriginalEndDate());
 						subscriptionTerm.setInstanceSize(sizing);
 						subscriptionTerm.setPerpetual(
 							productPurchase.getPerpetual());
