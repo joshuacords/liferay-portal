@@ -16,7 +16,7 @@
 
 <%@ include file="/init.jsp" %>
 
-<aui:row id="ordering">
+<aui:row>
 	<aui:col width="<%= 50 %>">
 		<aui:select label="order-by" name="preferences--orderByColumn1--" value="<%= assetPublisherDisplayContext.getOrderByColumn1() %>" wrapperCssClass="field-inline w80">
 			<aui:option label="average-score" value="ratings" />
