@@ -65,14 +65,21 @@ import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.DateUtil;
+import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.zip.ZipWriter;
+import com.liferay.portal.kernel.zip.ZipWriterFactoryUtil;
 import com.liferay.portal.odata.entity.EntityModel;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
 import com.liferay.portal.vulcan.util.SearchUtil;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -383,6 +390,100 @@ public class LicenseKeyResourceImpl
 		).type(
 			ContentTypes.TEXT_XML
 		).build();
+	}
+
+	@Override
+	public Response getLicenseKeyDownloadZip(Long[] licenseKeyIds)
+		throws Exception {
+
+		if (ArrayUtil.isEmpty(licenseKeyIds)) {
+			return Response.status(
+				Response.Status.NOT_FOUND
+			).build();
+		}
+
+		List<com.liferay.osb.provisioning.license.model.LicenseKey>
+			licenseKeys = new ArrayList<>();
+
+		for (long licenseKeyId : licenseKeyIds) {
+			com.liferay.osb.provisioning.license.model.LicenseKey licenseKey =
+				_licenseKeyLocalService.getLicenseKey(licenseKeyId);
+
+			if (!licenseKey.getActive()) {
+				continue;
+			}
+
+			_checkAccountMembership(licenseKey.getAccountKey());
+
+			licenseKeys.add(licenseKey);
+		}
+
+		ZipWriter zipWriter = ZipWriterFactoryUtil.getZipWriter();
+
+		try {
+			Set<String> fileNames = new HashSet<>();
+
+			for (com.liferay.osb.provisioning.license.model.LicenseKey
+					licenseKey : licenseKeys) {
+
+				String originalFileName = _licenseKeyExporter.getFileName(
+					licenseKey.getProductName(), licenseKey.getProductVersion(),
+					licenseKey.getName());
+
+				String fileName = originalFileName;
+
+				for (int i = 1; fileNames.contains(fileName); i++) {
+					int pos = originalFileName.lastIndexOf(StringPool.PERIOD);
+
+					StringBundler sb = new StringBundler(5);
+
+					sb.append(originalFileName.substring(0, pos));
+					sb.append(StringPool.OPEN_PARENTHESIS);
+					sb.append(i);
+					sb.append(StringPool.CLOSE_PARENTHESIS);
+					sb.append(originalFileName.substring(pos));
+
+					fileName = sb.toString();
+				}
+
+				fileNames.add(fileName);
+
+				String licenseXML = _licenseKeyExporter.toXML(
+					licenseKey.getKey(), licenseKey.getAccountName(),
+					licenseKey.getLicenseEntryName(),
+					licenseKey.getLicenseEntryType(),
+					licenseKey.getLicenseVersion(), licenseKey.getProductName(),
+					licenseKey.getProductId(), licenseKey.getProductVersion(),
+					licenseKey.getOwner(), licenseKey.getMaxClusterNodes(),
+					licenseKey.getMaxServers(), licenseKey.getMaxHttpSessions(),
+					licenseKey.getMaxConcurrentUsers(),
+					licenseKey.getMaxUsers(), licenseKey.getSizing(),
+					licenseKey.getDescription(), licenseKey.getHostName(),
+					licenseKey.getIpAddresses(), licenseKey.getMacAddresses(),
+					licenseKey.getServerId(), licenseKey.getStartDate(),
+					licenseKey.getExpirationDate(), licenseKey.getCreateDate());
+
+				zipWriter.addEntry(StringPool.SLASH + fileName, licenseXML);
+			}
+
+			try (InputStream inputStream = new FileInputStream(
+					zipWriter.getFile())) {
+
+				return Response.ok(
+					FileUtil.getBytes(inputStream)
+				).header(
+					"content-disposition",
+					"attachment; filename=\"activation-keys.zip\""
+				).type(
+					ContentTypes.APPLICATION_ZIP
+				).build();
+			}
+		}
+		finally {
+			File file = zipWriter.getFile();
+
+			file.delete();
+		}
 	}
 
 	@Override

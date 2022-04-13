@@ -612,6 +612,28 @@ paths:
                                 format: binary
                                 type: string
             tags: ["LicenseKey"]
+    "/license-keys/download-zip":
+        get:
+            description:
+                Downloads a zip file that includes all of the specified license keys.
+            operationId: getLicenseKeyDownloadZip
+            parameters:
+                - in: query
+                  name: licenseKeyIds
+                  required: true
+                  schema:
+                      items:
+                          format: int64
+                          type: integer
+                      type: array
+            responses:
+                200:
+                    content:
+                        application/zip:
+                            schema:
+                                format: binary
+                                type: string
+            tags: ["LicenseKey"]
     "/license-keys/export":
         get:
             description:
