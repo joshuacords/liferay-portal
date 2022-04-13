@@ -16,15 +16,18 @@ package com.liferay.asset.service.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.asset.kernel.model.AssetEntry;
-import com.liferay.asset.kernel.service.AssetEntryLocalServiceUtil;
+import com.liferay.asset.kernel.service.AssetEntryLocalService;
 import com.liferay.asset.kernel.service.persistence.AssetEntryQuery;
 import com.liferay.asset.test.util.AssetTestUtil;
 import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.util.CalendarFactoryUtil;
 import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.ratings.test.util.RatingsTestUtil;
 
@@ -61,15 +64,15 @@ public class AssetEntryServiceTest {
 
 		assetEntryQuery.setGroupIds(new long[] {_group.getGroupId()});
 
-		int initialAssetEntriesCount =
-			AssetEntryLocalServiceUtil.getEntriesCount(assetEntryQuery);
+		int initialAssetEntriesCount = _assetEntryLocalService.getEntriesCount(
+			assetEntryQuery);
 
 		AssetTestUtil.addAssetEntry(_group.getGroupId());
 
 		assetEntryQuery.setGroupIds(new long[] {_group.getGroupId()});
 
-		int actualAssetEntriesCount =
-			AssetEntryLocalServiceUtil.getEntriesCount(assetEntryQuery);
+		int actualAssetEntriesCount = _assetEntryLocalService.getEntriesCount(
+			assetEntryQuery);
 
 		Assert.assertEquals(
 			initialAssetEntriesCount + 1, actualAssetEntriesCount);
@@ -82,13 +85,13 @@ public class AssetEntryServiceTest {
 		assetEntryQuery.setGroupIds(new long[] {_group.getGroupId()});
 
 		List<AssetEntry> initialAssetEntries =
-			AssetEntryLocalServiceUtil.getEntries(assetEntryQuery);
+			_assetEntryLocalService.getEntries(assetEntryQuery);
 
 		AssetTestUtil.addAssetEntry(_group.getGroupId());
 
 		assetEntryQuery.setGroupIds(new long[] {_group.getGroupId()});
 
-		List<AssetEntry> assetEntries = AssetEntryLocalServiceUtil.getEntries(
+		List<AssetEntry> assetEntries = _assetEntryLocalService.getEntries(
 			assetEntryQuery);
 
 		Assert.assertEquals(
@@ -114,7 +117,7 @@ public class AssetEntryServiceTest {
 		assetEntryQuery.setOrderByType2("DESC");
 
 		List<AssetEntry> actualAssetEntries =
-			AssetEntryLocalServiceUtil.getEntries(assetEntryQuery);
+			_assetEntryLocalService.getEntries(assetEntryQuery);
 
 		validateAssetEntries(expectedAssetEntries, actualAssetEntries);
 	}
@@ -130,7 +133,7 @@ public class AssetEntryServiceTest {
 		assetEntryQuery.setOrderByType1("DESC");
 
 		List<AssetEntry> actualAssetEntries =
-			AssetEntryLocalServiceUtil.getEntries(assetEntryQuery);
+			_assetEntryLocalService.getEntries(assetEntryQuery);
 
 		validateAssetEntries(expectedAssetEntries, actualAssetEntries);
 	}
@@ -187,6 +190,15 @@ public class AssetEntryServiceTest {
 				expectedAssetEntry.getEntryId(), actualAssetEntry.getEntryId());
 		}
 	}
+
+	@Inject
+	private static AssetEntryLocalService _assetEntryLocalService;
+
+	@Inject
+	private static CompanyLocalService _companyLocalService;
+
+	@Inject
+	private static Portal _portal;
 
 	@DeleteAfterTestRun
 	private Group _group;
