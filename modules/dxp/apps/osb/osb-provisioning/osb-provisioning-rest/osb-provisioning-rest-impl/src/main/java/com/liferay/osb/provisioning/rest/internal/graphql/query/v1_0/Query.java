@@ -178,6 +178,25 @@ public class Query {
 	/**
 	 * Invoke this method with the command line:
 	 *
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {licenseKeyDownloadZip(licenseKeyIds: ___){}}"}' -u 'test@liferay.com:test'
+	 */
+	@GraphQLField(
+		description = "Downloads a zip file that includes all of the specified license keys."
+	)
+	public Response licenseKeyDownloadZip(
+			@GraphQLName("licenseKeyIds") Long[] licenseKeyIds)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_licenseKeyResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			licenseKeyResource -> licenseKeyResource.getLicenseKeyDownloadZip(
+				licenseKeyIds));
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
 	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {licenseKeyExport(licenseKeyIds: ___){}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField(

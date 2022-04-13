@@ -392,6 +392,41 @@ public abstract class BaseLicenseKeyResourceImpl implements LicenseKeyResource {
 	/**
 	 * Invoke this method with the command line:
 	 *
+	 * curl -X 'GET' 'http://localhost:8080/o/provisioning-rest/v1.0/license-keys/download-zip'  -u 'test@liferay.com:test'
+	 */
+	@io.swagger.v3.oas.annotations.Operation(
+		description = "Downloads a zip file that includes all of the specified license keys."
+	)
+	@io.swagger.v3.oas.annotations.Parameters(
+		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "licenseKeyIds"
+			)
+		}
+	)
+	@io.swagger.v3.oas.annotations.tags.Tags(
+		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "LicenseKey")}
+	)
+	@javax.ws.rs.GET
+	@javax.ws.rs.Path("/license-keys/download-zip")
+	@javax.ws.rs.Produces("application/xml")
+	@Override
+	public Response getLicenseKeyDownloadZip(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.QueryParam("licenseKeyIds")
+			Long[] licenseKeyIds)
+		throws Exception {
+
+		Response.ResponseBuilder responseBuilder = Response.ok();
+
+		return responseBuilder.build();
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/provisioning-rest/v1.0/license-keys/export'  -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Operation(
