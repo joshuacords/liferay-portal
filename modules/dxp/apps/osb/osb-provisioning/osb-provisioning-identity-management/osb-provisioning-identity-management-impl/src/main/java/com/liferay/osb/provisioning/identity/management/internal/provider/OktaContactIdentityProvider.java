@@ -42,6 +42,7 @@ import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -225,16 +226,6 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 	}
 
 	public Contact syncContact(Contact contact) throws Exception {
-		List<String> entitlements = new ArrayList<>();
-
-		if (!ArrayUtil.isEmpty(contact.getEntitlements())) {
-			for (Entitlement entitlement : contact.getEntitlements()) {
-				entitlements.add(entitlement.getName());
-			}
-		}
-
-		List<String> groups = _getGroups(contact.getEmailAddress());
-
 		String response = _sendRequest(
 			_URL_API_REST_USERS + contact.getEmailAddress());
 
@@ -244,6 +235,8 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 			_messagePublisher.publish(
 				GooglePubsubConstants.TOPIC_OKTA_USER_CREATE,
 				new Message(contact.toString()));
+
+			_syncGroups(contact, Collections.emptyList());
 		}
 		else {
 			JSONObject profileJSONObject = jsonObject.getJSONObject("profile");
@@ -286,38 +279,7 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 					agentName, agentUID, contact.getEmailAddress(), contact);
 			}
 
-			if (groups.contains(OktaConstants.GROUP_NAME_CUSTOMERS) &&
-				!entitlements.contains(EntitlementConstants.CUSTOMER)) {
-
-				removeMembership(
-					OktaConstants.GROUP_NAME_CUSTOMERS,
-					contact.getEmailAddress());
-			}
-
-			if (groups.contains(OktaConstants.GROUP_NAME_PARTNERS) &&
-				!entitlements.contains(EntitlementConstants.PARTNER)) {
-
-				removeMembership(
-					OktaConstants.GROUP_NAME_PARTNERS,
-					contact.getEmailAddress());
-			}
-		}
-
-		for (String entitlement : entitlements) {
-			if (entitlement.equals(EntitlementConstants.CUSTOMER) &&
-				!groups.contains(OktaConstants.GROUP_NAME_CUSTOMERS)) {
-
-				addMembership(
-					OktaConstants.GROUP_NAME_CUSTOMERS,
-					contact.getEmailAddress());
-			}
-			else if (entitlement.equals(EntitlementConstants.PARTNER) &&
-					 !groups.contains(OktaConstants.GROUP_NAME_PARTNERS)) {
-
-				addMembership(
-					OktaConstants.GROUP_NAME_PARTNERS,
-					contact.getEmailAddress());
-			}
+			_syncGroups(contact, _getGroups(contact.getEmailAddress()));
 		}
 
 		return contact;
@@ -343,7 +305,7 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 			_URL_API_REST_USERS + emailAddress + _URL_API_REST_GROUPS);
 
 		if (response.contains("errorCode")) {
-			return new ArrayList<>();
+			return Collections.emptyList();
 		}
 
 		List<String> groups = new ArrayList<>();
@@ -395,6 +357,44 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 		}
 
 		return response;
+	}
+
+	private void _syncGroups(Contact contact, List<String> groups)
+		throws Exception {
+
+		List<String> entitlements = new ArrayList<>();
+
+		if (!ArrayUtil.isEmpty(contact.getEntitlements())) {
+			for (Entitlement entitlement : contact.getEntitlements()) {
+				entitlements.add(entitlement.getName());
+			}
+		}
+
+		if (entitlements.contains(EntitlementConstants.CUSTOMER) &&
+			!groups.contains(OktaConstants.GROUP_NAME_CUSTOMERS)) {
+
+			addMembership(
+				OktaConstants.GROUP_NAME_CUSTOMERS, contact.getEmailAddress());
+		}
+		else if (groups.contains(OktaConstants.GROUP_NAME_CUSTOMERS) &&
+				 !entitlements.contains(EntitlementConstants.CUSTOMER)) {
+
+			removeMembership(
+				OktaConstants.GROUP_NAME_CUSTOMERS, contact.getEmailAddress());
+		}
+
+		if (entitlements.contains(EntitlementConstants.PARTNER) &&
+			!groups.contains(OktaConstants.GROUP_NAME_PARTNERS)) {
+
+			addMembership(
+				OktaConstants.GROUP_NAME_PARTNERS, contact.getEmailAddress());
+		}
+		else if (groups.contains(OktaConstants.GROUP_NAME_PARTNERS) &&
+				 !entitlements.contains(EntitlementConstants.PARTNER)) {
+
+			removeMembership(
+				OktaConstants.GROUP_NAME_PARTNERS, contact.getEmailAddress());
+		}
 	}
 
 	private static final String[] _STATUSES_DEACTIVATED = {"DEPROVISIONED"};
