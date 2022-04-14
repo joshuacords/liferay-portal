@@ -23,6 +23,8 @@ import com.liferay.portal.kernel.util.InetAddressUtil;
 import com.liferay.portal.kernel.util.Props;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.SystemProperties;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.search.elasticsearch7.configuration.ElasticsearchConfiguration;
 import com.liferay.portal.search.elasticsearch7.configuration.XPackSecurityConfiguration;
 import com.liferay.portal.search.elasticsearch7.internal.index.IndexFactory;
@@ -130,6 +132,16 @@ public class RemoteElasticsearchConnection extends BaseElasticsearchConnection {
 		settingsBuilder.put("xpack.security.user", user);
 	}
 
+	protected void configureCipherSuites(SettingsBuilder settingsBuilder) {
+		String cipherSuites = GetterUtil.getString(
+			SystemProperties.get("jdk.tls.client.cipherSuites"));
+
+		if (!Validator.isBlank(cipherSuites)) {
+			settingsBuilder.put(
+				"xpack.security.transport.ssl.cipher_suites", cipherSuites);
+		}
+	}
+
 	protected void configurePEMPaths(SettingsBuilder settingsBuilder) {
 		settingsBuilder.put(
 			"xpack.security.transport.ssl.certificate",
@@ -172,6 +184,22 @@ public class RemoteElasticsearchConnection extends BaseElasticsearchConnection {
 		}
 		else {
 			configurePEMPaths(settingsBuilder);
+		}
+
+		configureCipherSuites(settingsBuilder);
+		configureSupportedProtocols(settingsBuilder);
+	}
+
+	protected void configureSupportedProtocols(
+		SettingsBuilder settingsBuilder) {
+
+		String supportedProtocols = GetterUtil.getString(
+			SystemProperties.get("jdk.tls.client.protocols"));
+
+		if (!Validator.isBlank(supportedProtocols)) {
+			settingsBuilder.put(
+				"xpack.security.transport.ssl.supported_protocols",
+				supportedProtocols);
 		}
 	}
 
