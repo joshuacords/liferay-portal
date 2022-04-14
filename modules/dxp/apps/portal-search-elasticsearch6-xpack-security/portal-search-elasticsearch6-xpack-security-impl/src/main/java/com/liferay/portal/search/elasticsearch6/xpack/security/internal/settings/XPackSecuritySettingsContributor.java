@@ -15,7 +15,10 @@
 package com.liferay.portal.search.elasticsearch6.xpack.security.internal.settings;
 
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.SystemProperties;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.search.elasticsearch6.settings.ClientSettingsHelper;
 import com.liferay.portal.search.elasticsearch6.settings.SettingsContributor;
 import com.liferay.portal.search.elasticsearch6.xpack.security.internal.configuration.XPackSecurityConfiguration;
@@ -85,6 +88,18 @@ public class XPackSecuritySettingsContributor implements SettingsContributor {
 		clientSettingsHelper.put("xpack.security.user", user);
 	}
 
+	protected void configureCipherSuites(
+		ClientSettingsHelper clientSettingsHelper) {
+
+		String cipherSuites = GetterUtil.getString(
+			SystemProperties.get("jdk.tls.client.cipherSuites"));
+
+		if (!Validator.isBlank(cipherSuites)) {
+			clientSettingsHelper.put(
+				"xpack.security.transport.ssl.cipher_suites", cipherSuites);
+		}
+	}
+
 	protected void configurePEMPaths(
 		ClientSettingsHelper clientSettingsHelper) {
 
@@ -135,6 +150,22 @@ public class XPackSecuritySettingsContributor implements SettingsContributor {
 		}
 		else {
 			configurePEMPaths(clientSettingsHelper);
+		}
+
+		configureCipherSuites(clientSettingsHelper);
+		configureSupportedProtocols(clientSettingsHelper);
+	}
+
+	protected void configureSupportedProtocols(
+		ClientSettingsHelper clientSettingsHelper) {
+
+		String supportedProtocols = GetterUtil.getString(
+			SystemProperties.get("jdk.tls.client.protocols"));
+
+		if (!Validator.isBlank(supportedProtocols)) {
+			clientSettingsHelper.put(
+				"xpack.security.transport.ssl.supported_protocols",
+				supportedProtocols);
 		}
 	}
 
