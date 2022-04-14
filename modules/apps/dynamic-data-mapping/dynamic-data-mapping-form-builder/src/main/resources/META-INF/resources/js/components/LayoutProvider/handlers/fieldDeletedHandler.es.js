@@ -62,20 +62,6 @@ export const removeField = (props, pages, fieldName) => {
 	}));
 };
 
-export const fieldContainsRules = (state, pages) => {
-	const visitor = new PagesVisitor(pages);
-
-	const allRules = state.rules;
-
-	visitor.mapFields(({fieldName}) => {
-		const rulesFound = RulesSupport.findRuleByFieldName(fieldName, allRules);	
-
-		if (rulesFound) return true;
-	});
-
-	return false;
-}
-
 const removeEmptyRow = (pages, source) => {
 	const {pageIndex, rowIndex} = source;
 

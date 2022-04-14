@@ -21,7 +21,7 @@ import {
 import Component from 'metal-jsx';
 import {Config} from 'metal-state';
 import dom from 'metal-dom';
-import ClayModal from '@clayui/modal';
+import ClayModal from 'clay-modal';
 
 import {pageStructure, ruleStructure} from '../../util/config.es';
 import {getFieldProperties} from '../../util/fieldSupport.es';
@@ -41,6 +41,7 @@ import handleSectionAdded from './handlers/sectionAddedHandler.es';
 import {shouldAutoGenerateName} from './util/defaults.es';
 import {fieldContainsRules} from './handlers/fieldDeletedHandler.es';
 import {generateFieldName} from './util/fields.es';
+import RulesSupport from '../RuleBuilder/RulesSupport.es'
 
 /**
  * LayoutProvider listens to your children's events to
@@ -317,37 +318,40 @@ class LayoutProvider extends Component {
 			}
 		}
 
-		return 	(
-			
+		return 	(<div>
+
+			<span>{children}</span>
 			
 			<ClayModal
 					body={Liferay.Language.get(
-						'are-you-sure-you-want-to-cancel' //'a-rule-is-applied-to-this-field'
+						'a-rule-is-applied-to-this-field'
 					)}
 					events={{
-						clickButton: this._handleCancelChangesModalButtonClicked.bind(this)
+						clickButton: this._handleDeleteFieldModalButtonClicked.bind(this)
 					}}
 					footerButtons={[
 						{
 							alignment: 'right',
-							label: Liferay.Language.get('dismiss'),
-							style: 'primary',
+							label: Liferay.Language.get('cancel'),
+							style: 'secondary',
 							type: 'close'
 						},
 						{
 							alignment: 'right',
-							label: Liferay.Language.get('yes-cancel'),
+							label: Liferay.Language.get('confirm'),
 							style: 'primary',
 							type: 'button'
 						}
 					]}
-					ref="cancelChangesModal"
-					size="sm"
+					ref={'existingRuleModal'}
+					size={'lg'}
 					spritemap={spritemap}
 					title={Liferay.Language.get(
-						'cancel-field-changes-question'
+						'delete-field-with-rule-applied'
 					)}
 				/>
+
+			</div>
 			);
 	}
 
@@ -359,9 +363,23 @@ class LayoutProvider extends Component {
 				label: Liferay.Language.get('duplicate')
 			},
 			{
-				action: fieldName => this.dispatch('fieldDeleted', {fieldName}),
+				action: (indexes) => {
+					
+					const {pages} = this.state;
+					const visitor = new PagesVisitor(pages);
+	                const {rules} = this.state;
+
+	                visitor.mapFields(({fieldName}) => {
+						if (RulesSupport.findRuleByFieldName(fieldName, rules)) {
+							this.refs.existingRuleModal.data = indexes
+							this.refs.existingRuleModal.show();
+						} else {
+							this.dispatch('fieldDeleted', {indexes});
+						}
+					});
+				},
 				label: Liferay.Language.get('delete')
-			}
+			},
 		];
 	}
 
@@ -432,22 +450,12 @@ class LayoutProvider extends Component {
 		});
 	}
 
-	_handleCancelChangesModalButtonClicked(event) {
-		const {dispatch} = this.context;
-		const {target} = event;
-		const {cancelChangesModal} = this.refs;
-
-		event.stopPropagation();
-
-		if (this._isOutsideModal(target)) {
-			this.close();
+	_handleDeleteFieldModalButtonClicked(event) {
+		if (event.target.classList.contains('btn-primary')) {
+			this.dispatch('fieldDeleted', this.refs.existingRuleModal.data)
 		}
 
-		cancelChangesModal.emit('hide');
-
-		if (!event.target.classList.contains('close-modal')) {
-			dispatch('fieldChangesCanceled', {});
-		}
+		this.refs.existingRuleModal.emit('hide');
 	}
 
 	_handleFieldClicked(event) {
