@@ -233,6 +233,8 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 			}
 		}
 
+		List<String> groups = _getGroups(contact.getEmailAddress());
+
 		String response = _sendRequest(
 			_URL_API_REST_USERS + contact.getEmailAddress());
 
@@ -284,8 +286,6 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 					agentName, agentUID, contact.getEmailAddress(), contact);
 			}
 
-			List<String> groups = _getGroups(contact.getEmailAddress());
-
 			if (groups.contains(OktaConstants.GROUP_NAME_CUSTOMERS) &&
 				!entitlements.contains(EntitlementConstants.CUSTOMER)) {
 
@@ -304,12 +304,16 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 		}
 
 		for (String entitlement : entitlements) {
-			if (entitlement.equals(EntitlementConstants.CUSTOMER)) {
+			if (entitlement.equals(EntitlementConstants.CUSTOMER) &&
+				!groups.contains(OktaConstants.GROUP_NAME_CUSTOMERS)) {
+
 				addMembership(
 					OktaConstants.GROUP_NAME_CUSTOMERS,
 					contact.getEmailAddress());
 			}
-			else if (entitlement.equals(EntitlementConstants.PARTNER)) {
+			else if (entitlement.equals(EntitlementConstants.PARTNER) &&
+					 !groups.contains(OktaConstants.GROUP_NAME_PARTNERS)) {
+
 				addMembership(
 					OktaConstants.GROUP_NAME_PARTNERS,
 					contact.getEmailAddress());
@@ -335,10 +339,14 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 	}
 
 	private List<String> _getGroups(String emailAddress) throws Exception {
-		List<String> groups = new ArrayList<>();
-
 		String response = _sendRequest(
 			_URL_API_REST_USERS + emailAddress + _URL_API_REST_GROUPS);
+
+		if (response.contains("errorCode")) {
+			return new ArrayList<>();
+		}
+
+		List<String> groups = new ArrayList<>();
 
 		JSONArray jsonArray = _jsonFactory.createJSONArray(response);
 
