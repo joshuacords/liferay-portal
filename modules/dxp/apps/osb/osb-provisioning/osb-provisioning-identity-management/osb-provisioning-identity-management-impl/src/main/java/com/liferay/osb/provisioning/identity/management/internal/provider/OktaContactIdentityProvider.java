@@ -17,13 +17,17 @@ package com.liferay.osb.provisioning.identity.management.internal.provider;
 import com.liferay.osb.distributed.messaging.Message;
 import com.liferay.osb.distributed.messaging.publishing.MessagePublisher;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Contact;
+import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Entitlement;
 import com.liferay.osb.provisioning.distributed.messaging.constants.GooglePubsubConstants;
 import com.liferay.osb.provisioning.exception.ContactEmailAddressException;
 import com.liferay.osb.provisioning.exception.ContactNameException;
+import com.liferay.osb.provisioning.identity.management.constants.OktaConstants;
 import com.liferay.osb.provisioning.identity.management.provider.ContactIdentityProvider;
+import com.liferay.osb.provisioning.koroneiki.constants.EntitlementConstants;
 import com.liferay.osb.provisioning.koroneiki.web.service.ContactWebService;
 import com.liferay.portal.kernel.cache.MultiVMPool;
 import com.liferay.portal.kernel.cache.PortalCache;
+import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactory;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.model.User;
@@ -37,6 +41,8 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.osgi.service.component.annotations.Activate;
@@ -219,6 +225,14 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 	}
 
 	public Contact syncContact(Contact contact) throws Exception {
+		List<String> entitlements = new ArrayList<>();
+
+		if (!ArrayUtil.isEmpty(contact.getEntitlements())) {
+			for (Entitlement entitlement : contact.getEntitlements()) {
+				entitlements.add(entitlement.getName());
+			}
+		}
+
 		String response = _sendRequest(
 			_URL_API_REST_USERS + contact.getEmailAddress());
 
@@ -269,6 +283,37 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 				_contactWebService.updateContactByEmailAddress(
 					agentName, agentUID, contact.getEmailAddress(), contact);
 			}
+
+			List<String> groups = _getGroups(contact.getEmailAddress());
+
+			if (groups.contains(OktaConstants.GROUP_NAME_CUSTOMERS) &&
+				!entitlements.contains(EntitlementConstants.CUSTOMER)) {
+
+				removeMembership(
+					OktaConstants.GROUP_NAME_CUSTOMERS,
+					contact.getEmailAddress());
+			}
+
+			if (groups.contains(OktaConstants.GROUP_NAME_PARTNERS) &&
+				!entitlements.contains(EntitlementConstants.PARTNER)) {
+
+				removeMembership(
+					OktaConstants.GROUP_NAME_PARTNERS,
+					contact.getEmailAddress());
+			}
+		}
+
+		for (String entitlement : entitlements) {
+			if (entitlement.equals(EntitlementConstants.CUSTOMER)) {
+				addMembership(
+					OktaConstants.GROUP_NAME_CUSTOMERS,
+					contact.getEmailAddress());
+			}
+			else if (entitlement.equals(EntitlementConstants.PARTNER)) {
+				addMembership(
+					OktaConstants.GROUP_NAME_PARTNERS,
+					contact.getEmailAddress());
+			}
 		}
 
 		return contact;
@@ -287,6 +332,26 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 	protected void deactivate() {
 		_multiVMPool.removePortalCache(
 			OktaContactIdentityProvider.class.getName());
+	}
+
+	private List<String> _getGroups(String emailAddress) throws Exception {
+		List<String> groups = new ArrayList<>();
+
+		String response = _sendRequest(
+			_URL_API_REST_USERS + emailAddress + _URL_API_REST_GROUPS);
+
+		JSONArray jsonArray = _jsonFactory.createJSONArray(response);
+
+		for (int i = 0; i < jsonArray.length(); i++) {
+			JSONObject groupJSONObject = jsonArray.getJSONObject(i);
+
+			JSONObject groupProfileJSONObject = groupJSONObject.getJSONObject(
+				"profile");
+
+			groups.add(groupProfileJSONObject.getString("name"));
+		}
+
+		return groups;
 	}
 
 	private boolean _isEmailAddressVerified(String status) {
@@ -333,6 +398,8 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 	};
 
 	private static final String _URL_API_GET_SESSION = "/api/v1/sessions/";
+
+	private static final String _URL_API_REST_GROUPS = "/groups";
 
 	private static final String _URL_API_REST_USERS = "/api/v1/users/";
 

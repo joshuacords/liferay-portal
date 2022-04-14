@@ -68,7 +68,7 @@ ContactDisplay contactDisplay = viewContactDisplayContext.getContactDisplay();
 		</portlet:actionURL>
 
 		<aui:form action="<%= syncWithOktaURL %>" method="post" name="fm1">
-			<aui:button cssClass="btn-secondary btn-sm" disabled="<%= !contactDisplay.isCustomer() && !contactDisplay.isPartner() %>" href="<%= syncWithOktaURL %>" value="sync-with-okta" />
+			<aui:button cssClass="btn-secondary btn-sm" href="<%= syncWithOktaURL %>" value="sync-with-okta" />
 		</aui:form>
 	</div>
 </div>
