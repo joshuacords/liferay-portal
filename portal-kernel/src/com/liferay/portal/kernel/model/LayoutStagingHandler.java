@@ -15,7 +15,8 @@
 package com.liferay.portal.kernel.model;
 
 import com.liferay.exportimport.kernel.staging.StagingUtil;
-import com.liferay.petra.sql.dsl.DSLQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -40,6 +41,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -223,24 +225,19 @@ public class LayoutStagingHandler implements InvocationHandler, Serializable {
 			return layoutRevision;
 		}
 
-		if (layout.isTypeContent()) {
+		if (Objects.equals(layout.getType(), LayoutConstants.TYPE_CONTENT)) {
+			DynamicQuery dynamicQuery =
+				LayoutRevisionLocalServiceUtil.dynamicQuery();
+
+			dynamicQuery.add(
+				RestrictionsFactoryUtil.eq("companyId", layout.getCompanyId()));
+			dynamicQuery.add(
+				RestrictionsFactoryUtil.eq("groupId", layout.getGroupId()));
+			dynamicQuery.add(
+				RestrictionsFactoryUtil.eq("plid", layout.getPlid()));
+
 			long layoutRevisionsCount =
-				LayoutRevisionLocalServiceUtil.dslQueryCount(
-					DSLQueryFactoryUtil.count(
-					).from(
-						LayoutRevisionTable.INSTANCE
-					).where(
-						LayoutRevisionTable.INSTANCE.companyId.eq(
-							layout.getCompanyId()
-						).and(
-							LayoutRevisionTable.INSTANCE.groupId.eq(
-								layout.getGroupId()
-							).and(
-								LayoutRevisionTable.INSTANCE.plid.eq(
-									layout.getPlid())
-							)
-						)
-					));
+				LayoutRevisionLocalServiceUtil.dynamicQueryCount(dynamicQuery);
 
 			if (layoutRevisionsCount == 0) {
 				_initializeLayoutRevisionsForUpgradedContentLayout(layout);
