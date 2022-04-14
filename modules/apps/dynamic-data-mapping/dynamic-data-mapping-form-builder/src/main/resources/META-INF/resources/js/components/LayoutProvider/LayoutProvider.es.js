@@ -20,6 +20,8 @@ import {
 } from 'dynamic-data-mapping-form-renderer/js/util/visitors.es';
 import Component from 'metal-jsx';
 import {Config} from 'metal-state';
+import dom from 'metal-dom';
+import ClayModal from '@clayui/modal';
 
 import {pageStructure, ruleStructure} from '../../util/config.es';
 import {getFieldProperties} from '../../util/fieldSupport.es';
@@ -37,6 +39,7 @@ import handleFocusedFieldEvaluationEnded from './handlers/focusedFieldEvaluation
 import handleLanguageIdDeleted from './handlers/languageIdDeletedHandler.es';
 import handleSectionAdded from './handlers/sectionAddedHandler.es';
 import {shouldAutoGenerateName} from './util/defaults.es';
+import {fieldContainsRules} from './handlers/fieldDeletedHandler.es';
 import {generateFieldName} from './util/fields.es';
 
 /**
@@ -46,6 +49,7 @@ import {generateFieldName} from './util/fields.es';
  */
 
 class LayoutProvider extends Component {
+
 	createNewPage() {
 		const languageId = this.props.editingLanguageId;
 		const page = {
@@ -313,7 +317,38 @@ class LayoutProvider extends Component {
 			}
 		}
 
-		return <span>{children}</span>;
+		return 	(
+			
+			
+			<ClayModal
+					body={Liferay.Language.get(
+						'are-you-sure-you-want-to-cancel' //'a-rule-is-applied-to-this-field'
+					)}
+					events={{
+						clickButton: this._handleCancelChangesModalButtonClicked.bind(this)
+					}}
+					footerButtons={[
+						{
+							alignment: 'right',
+							label: Liferay.Language.get('dismiss'),
+							style: 'primary',
+							type: 'close'
+						},
+						{
+							alignment: 'right',
+							label: Liferay.Language.get('yes-cancel'),
+							style: 'primary',
+							type: 'button'
+						}
+					]}
+					ref="cancelChangesModal"
+					size="sm"
+					spritemap={spritemap}
+					title={Liferay.Language.get(
+						'cancel-field-changes-question'
+					)}
+				/>
+			);
 	}
 
 	_fieldActionsValueFn() {
@@ -397,12 +432,42 @@ class LayoutProvider extends Component {
 		});
 	}
 
+	_handleCancelChangesModalButtonClicked(event) {
+		const {dispatch} = this.context;
+		const {target} = event;
+		const {cancelChangesModal} = this.refs;
+
+		event.stopPropagation();
+
+		if (this._isOutsideModal(target)) {
+			this.close();
+		}
+
+		cancelChangesModal.emit('hide');
+
+		if (!event.target.classList.contains('close-modal')) {
+			dispatch('fieldChangesCanceled', {});
+		}
+	}
+
 	_handleFieldClicked(event) {
 		this.setState(handleFieldClicked(this.props, this.state, event));
 	}
 
 	_handleFieldDeleted(event) {
-		this.setState(handleFieldDeleted(this.props, this.state, event));
+		const {columnIndex, pageIndex, rowIndex} = event.target;
+		const indexes = {
+			columnIndex,
+			pageIndex,
+			rowIndex
+		};
+		const {pages} = this.state;
+
+		if (fieldContainsRules(this.state, pages)) {
+		   this._deleteFieldShowModal(indexes);
+		}
+		
+		this.setState(handleFieldDeleted(this.state, event));
 	}
 
 	_handleFieldDuplicated(event) {
@@ -637,6 +702,18 @@ class LayoutProvider extends Component {
 	_successPageSettingsValueFn() {
 		return this.props.initialSuccessPageSettings;
 	}
+
+	_deleteFieldShowModal() {
+		const {cancelChangesModal} = this.refs;
+
+		cancelChangesModal.show();
+	}
+
+
+	_isOutsideModal(node) {
+		return !dom.closest(node, '.close-modal');
+	}
+
 }
 
 LayoutProvider.PROPS = {
