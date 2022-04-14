@@ -152,10 +152,10 @@ const targetFieldExists = (target, pages) => {
 
 const fieldNameBelongsToAction = (fieldName, actions) => {
 	return actions
-		.map((action) => {
+		.map(action => {
 			if (action.action == 'auto-fill') {
 				return Object.values(action.outputs).some(
-					(output) => output == fieldName
+					output => output == fieldName
 				);
 			}
 			if (action.action == 'calculate') {
@@ -184,26 +184,26 @@ const fieldNameBelongsToAction = (fieldName, actions) => {
 				return action.target == fieldName;
 			}
 		})
-		.some((fieldFound) => fieldFound == true);
+		.some(fieldFound => fieldFound == true);
 };
 
 const fieldNameBelongsToCondition = (fieldName, conditions) => {
 	return conditions
-		.map((condition) => {
+		.map(condition => {
 			return condition.operands
-				.map((operand) => operand.value == fieldName)
-				.some((fieldFound) => fieldFound == true);
+				.map(operand => operand.value == fieldName)
+				.some(fieldFound => fieldFound == true);
 		})
-		.some((fieldFound) => fieldFound == true);
+		.some(fieldFound => fieldFound == true);
 };
 
-const findInvalidRule = (rule) => {
+const findInvalidRule = rule => {
 	return findRuleByFieldName('', [rule]);
 };
 
 const findRuleByFieldName = (fieldName, rules) => {
 	return rules.some(
-		(rule) =>
+		rule =>
 			fieldNameBelongsToAction(fieldName, rule.actions) ||
 			fieldNameBelongsToCondition(fieldName, rule.conditions)
 	);

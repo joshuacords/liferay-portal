@@ -12,20 +12,22 @@
  * details.
  */
 
+import ClayModal from 'clay-modal';
 import * as FormSupport from 'dynamic-data-mapping-form-renderer/js/components/FormRenderer/FormSupport.es';
 import handlePaginationItemClicked from 'dynamic-data-mapping-form-renderer/js/store/actions/handlePaginationItemClicked.es';
 import {
 	PagesVisitor,
 	RulesVisitor
 } from 'dynamic-data-mapping-form-renderer/js/util/visitors.es';
+import dom from 'metal-dom';
 import Component from 'metal-jsx';
 import {Config} from 'metal-state';
-import dom from 'metal-dom';
-import ClayModal from 'clay-modal';
 
 import {pageStructure, ruleStructure} from '../../util/config.es';
 import {getFieldProperties} from '../../util/fieldSupport.es';
 import {setLocalizedValue} from '../../util/i18n.es';
+import RulesSupport from '../RuleBuilder/RulesSupport.es';
+
 import handleColumnResized from './handlers/columnResizedHandler.es';
 import handleFieldAdded from './handlers/fieldAddedHandler.es';
 import handleFieldBlurred from './handlers/fieldBlurredHandler.es';
@@ -41,7 +43,6 @@ import handleSectionAdded from './handlers/sectionAddedHandler.es';
 import {shouldAutoGenerateName} from './util/defaults.es';
 import {fieldContainsRules} from './handlers/fieldDeletedHandler.es';
 import {generateFieldName} from './util/fields.es';
-import RulesSupport from '../RuleBuilder/RulesSupport.es'
 
 /**
  * LayoutProvider listens to your children's events to
@@ -50,7 +51,6 @@ import RulesSupport from '../RuleBuilder/RulesSupport.es'
  */
 
 class LayoutProvider extends Component {
-
 	createNewPage() {
 		const languageId = this.props.editingLanguageId;
 		const page = {
@@ -318,16 +318,18 @@ class LayoutProvider extends Component {
 			}
 		}
 
-		return 	(<div>
+		return (
+			<div>
+				<span>{children}</span>
 
-			<span>{children}</span>
-			
-			<ClayModal
+				<ClayModal
 					body={Liferay.Language.get(
 						'a-rule-is-applied-to-this-field'
 					)}
 					events={{
-						clickButton: this._handleDeleteFieldModalButtonClicked.bind(this)
+						clickButton: this._handleDeleteFieldModalButtonClicked.bind(
+							this
+						)
 					}}
 					footerButtons={[
 						{
@@ -350,9 +352,8 @@ class LayoutProvider extends Component {
 						'delete-field-with-rule-applied'
 					)}
 				/>
-
 			</div>
-			);
+		);
 	}
 
 	_fieldActionsValueFn() {
@@ -363,23 +364,25 @@ class LayoutProvider extends Component {
 				label: Liferay.Language.get('duplicate')
 			},
 			{
-				action: (indexes) => {
-					
+				action: indexes => {
 					const {pages} = this.state;
 					const visitor = new PagesVisitor(pages);
-	                const {rules} = this.state;
+					const {rules} = this.state;
 
-	                visitor.mapFields(({fieldName}) => {
-						if (RulesSupport.findRuleByFieldName(fieldName, rules)) {
-							this.refs.existingRuleModal.data = indexes
+					visitor.mapFields(({fieldName}) => {
+						if (
+							RulesSupport.findRuleByFieldName(fieldName, rules)
+						) {
+							this.refs.existingRuleModal.data = indexes;
 							this.refs.existingRuleModal.show();
-						} else {
+						}
+						else {
 							this.dispatch('fieldDeleted', {indexes});
 						}
 					});
 				},
 				label: Liferay.Language.get('delete')
-			},
+			}
 		];
 	}
 
@@ -452,7 +455,7 @@ class LayoutProvider extends Component {
 
 	_handleDeleteFieldModalButtonClicked(event) {
 		if (event.target.classList.contains('btn-primary')) {
-			this.dispatch('fieldDeleted', this.refs.existingRuleModal.data)
+			this.dispatch('fieldDeleted', this.refs.existingRuleModal.data);
 		}
 
 		this.refs.existingRuleModal.emit('hide');
@@ -717,11 +720,9 @@ class LayoutProvider extends Component {
 		cancelChangesModal.show();
 	}
 
-
 	_isOutsideModal(node) {
 		return !dom.closest(node, '.close-modal');
 	}
-
 }
 
 LayoutProvider.PROPS = {
