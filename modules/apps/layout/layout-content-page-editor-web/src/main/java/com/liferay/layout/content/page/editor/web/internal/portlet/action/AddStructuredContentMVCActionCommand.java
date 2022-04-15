@@ -208,7 +208,7 @@ public class AddStructuredContentMVCActionCommand extends BaseMVCActionCommand {
 			"fieldValues", updatedFieldValuesJSONArray);
 
 		serviceContext.setAttribute(
-			"ddmFormValues", serializedDDMFormValuesJSONObject.toJSONString());
+			"ddmFormValues", serializedDDMFormValuesJSONObject.toString());
 
 		String content = _journalConverter.getContent(
 			ddmStructure, _ddm.getFields(ddmStructureId, serviceContext));

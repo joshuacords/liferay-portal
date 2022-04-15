@@ -739,7 +739,7 @@ public class DataLayoutTaglibUtil {
 			_transformOptions(jsonObject, "options");
 			_transformOptions(jsonObject, "rows");
 
-			return _deserializeDDMForm(jsonObject.toJSONString());
+			return _deserializeDDMForm(jsonObject.toString());
 		}
 
 		private DDMFormLayout _getDDMFormLayout() throws Exception {
@@ -756,7 +756,7 @@ public class DataLayoutTaglibUtil {
 					},
 					new String[] {"size", "columns", "pages", "rows"}));
 
-			return _deserializeDDMFormLayout(jsonObject.toJSONString());
+			return _deserializeDDMFormLayout(jsonObject.toString());
 		}
 
 		private void _populateDDMFormFieldSettingsContext(

@@ -461,8 +461,8 @@ public class LayoutConverterTest {
 			JSONFactoryUtil.createJSONObject(expectedLayoutData);
 
 		Assert.assertEquals(
-			expectedLayoutDataJSONObject.toJSONString(),
-			layoutDataJSONObject.toJSONString());
+			expectedLayoutDataJSONObject.toString(),
+			layoutDataJSONObject.toString());
 	}
 
 	private void _testConvertNoPortlets(String layoutTemplateId)
