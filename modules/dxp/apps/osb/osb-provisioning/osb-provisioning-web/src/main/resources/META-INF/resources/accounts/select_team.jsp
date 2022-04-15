@@ -56,7 +56,7 @@ SearchContainer searchContainer = teamSearchDisplayContext.getSearchContainer();
 				"name", teamDisplay.getName()
 			);
 
-			teamData.put("key", jsonObject.toJSONString());
+			teamData.put("key", jsonObject.toString());
 
 			row.setData(teamData);
 

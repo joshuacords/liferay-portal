@@ -54,7 +54,7 @@ SearchContainer accountSearchContainer = accountSearchDisplayContext.getSearchCo
 				"name", accountDisplay.getName()
 			);
 
-			accountData.put("key", jsonObject.toJSONString());
+			accountData.put("key", jsonObject.toString());
 
 			row.setData(accountData);
 
