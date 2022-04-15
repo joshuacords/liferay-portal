@@ -185,10 +185,12 @@ public class LicenseKeyResourceImpl
 		licenseKeyGenerateForm.setAllowPermanentLicenses(
 			allowPermanentLicenses);
 
-		licenseKeyGenerateForm.setSubscriptionTerms(
-			_getSubscriptionTerms(accountKey, productGroupName));
+		SubscriptionTerm[] subscriptionTerms = _getSubscriptionTerms(
+			accountKey, productGroupName);
+
+		licenseKeyGenerateForm.setSubscriptionTerms(subscriptionTerms);
 		licenseKeyGenerateForm.setVersions(
-			_getProductVersions(productGroupName));
+			_getProductVersions(productGroupName, subscriptionTerms));
 
 		return licenseKeyGenerateForm;
 	}
@@ -758,7 +760,15 @@ public class LicenseKeyResourceImpl
 		return _flsTeamRoleKey;
 	}
 
-	private Version[] _getProductVersions(String productGroupName) {
+	private Version[] _getProductVersions(
+		String productGroupName, SubscriptionTerm[] subscriptionTerms) {
+
+		Set<String> purchasedProductKeys = new HashSet<>();
+
+		for (SubscriptionTerm subscriptionTerm : subscriptionTerms) {
+			purchasedProductKeys.add(subscriptionTerm.getProductKey());
+		}
+
 		Set<Version> versions = new HashSet<>();
 
 		String[] productVersions = ProductVersion.getProductGroupVersions(
@@ -782,6 +792,12 @@ public class LicenseKeyResourceImpl
 					licenseEntryType.equals(LicenseType.DEVELOPER_CLUSTER) ||
 					licenseEntryType.equals(LicenseType.ENTERPRISE) ||
 					licenseEntryType.equals(LicenseType.OEM)) {
+
+					continue;
+				}
+
+				if (!purchasedProductKeys.contains(
+						licenseEntry.getProductKey())) {
 
 					continue;
 				}
