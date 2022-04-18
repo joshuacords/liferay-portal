@@ -858,7 +858,6 @@ ${httpUtil.URLtoString(request.getAttribute("CTX").getResource(".").toURI().crea
 	}
 
 	@description = "This is a test for LPS-64814. Validate remote code execution via untrusted Java Deserialization in templates cannot cause out of memory errors."
-	@ignore = "true"
 	@priority = "5"
 	test ValidateRemoteCodeViaTemplatesCannotCauseOutOfMemoryErrors {
 		WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
@@ -899,13 +898,26 @@ ${company.getKeyObj()}
 			pageName = "Web Content Display Page",
 			siteName = "Test Site Name");
 
-		WebContentDisplayPortlet.selectWebContent(webContentTitle = "WC WebContent Title");
+		Portlet.gotoPortletOptions(
+			portletName = "Web Content Display",
+			portletOption = "Configuration");
 
-		IFrame.closeFrame();
+		SelectFrame(locator1 = "IFrame#DIALOG");
 
-		Portlet.viewTitle(portletName = "WC WebContent Title");
+		AssertClick(
+			locator1 = "WCDConfiguration#SELECT_WEB_CONTENT_BUTTON",
+			value1 = "Select");
 
-		AssertConsoleTextNotPresent(value1 = "java.lang.OutOfMemoryError");
+		SelectFrame(value1 = "relative=top");
+
+		SelectFrame(locator1 = "IFrame#DIALOG");
+
+		AssertClick(
+			key_webContentTitle = "WC WebContent Title",
+			locator1 = "Link#WEB_CONTENT_ARTICLE",
+			value1 = "WC WebContent Title");
+
+		AssertConsoleTextPresent(value1 = "java.security.InvalidKeyException: Invalid AES key length: 44 bytes");
 	}
 
 	@description = "This is a test for LPS-58698. Validate remote code execution can't privilege escalation in templates."
