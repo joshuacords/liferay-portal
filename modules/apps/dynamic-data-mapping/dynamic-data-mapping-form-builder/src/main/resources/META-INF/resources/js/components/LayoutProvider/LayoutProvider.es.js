@@ -325,6 +325,7 @@ class LayoutProvider extends Component {
 					body={Liferay.Language.get(
 						'a-rule-is-applied-to-this-field'
 					)}
+					elementClasses={'lfr-ddm-forms-delete-rule'}
 					events={{
 						clickButton: this._handleDeleteFieldModalButtonClicked.bind(
 							this
@@ -455,7 +456,6 @@ class LayoutProvider extends Component {
 	_handleDeleteFieldModalButtonClicked(event) {
 		if (event.target.classList.contains('btn-primary')) {
 			this.dispatch('fieldDeleted', this.refs.existingRuleModal.data);
-			this.refs.existingRuleModal.emit('hide');
 		}
 	
 	}
