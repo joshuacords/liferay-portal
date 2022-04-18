@@ -41,7 +41,6 @@ import handleFocusedFieldEvaluationEnded from './handlers/focusedFieldEvaluation
 import handleLanguageIdDeleted from './handlers/languageIdDeletedHandler.es';
 import handleSectionAdded from './handlers/sectionAddedHandler.es';
 import {shouldAutoGenerateName} from './util/defaults.es';
-import {fieldContainsRules} from './handlers/fieldDeletedHandler.es';
 import {generateFieldName} from './util/fields.es';
 
 /**
@@ -456,28 +455,16 @@ class LayoutProvider extends Component {
 	_handleDeleteFieldModalButtonClicked(event) {
 		if (event.target.classList.contains('btn-primary')) {
 			this.dispatch('fieldDeleted', this.refs.existingRuleModal.data);
+			this.refs.existingRuleModal.emit('hide');
 		}
-
-		this.refs.existingRuleModal.emit('hide');
+	
 	}
 
 	_handleFieldClicked(event) {
 		this.setState(handleFieldClicked(this.props, this.state, event));
 	}
 
-	_handleFieldDeleted(event) {
-		const {columnIndex, pageIndex, rowIndex} = event.target;
-		const indexes = {
-			columnIndex,
-			pageIndex,
-			rowIndex
-		};
-		const {pages} = this.state;
-
-		if (fieldContainsRules(this.state, pages)) {
-		   this._deleteFieldShowModal(indexes);
-		}
-		
+	_handleFieldDeleted(event) {	
 		this.setState(handleFieldDeleted(this.state, event));
 	}
 

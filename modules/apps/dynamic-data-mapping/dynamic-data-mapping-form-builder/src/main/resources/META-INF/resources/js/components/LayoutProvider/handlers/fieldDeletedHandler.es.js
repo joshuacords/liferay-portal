@@ -72,8 +72,8 @@ const removeEmptyRow = (pages, source) => {
 	return pages;
 };
 
-export const handleFieldDeleted = (state, {indexes}) => {
-	const {columnIndex, pageIndex, rowIndex} = indexes;
+export const handleFieldDeleted = (state, indexes) => {
+	const {pageIndex, rowIndex, columnIndex} = indexes;
 	const {pages} = state;
 	let newContext = FormSupport.removeFields(
 		pages,
