@@ -13,6 +13,7 @@
  */
 
 import {PagesVisitor} from 'dynamic-data-mapping-form-renderer/js/util/visitors.es';
+import {getFieldProperty} from '../LayoutProvider/util/fields.es';
 
 const regexEmptyField = /\[\]/g;
 const regexFieldPattern = /Field\d{8}/g;
@@ -121,6 +122,16 @@ const getFieldOptions = (fieldName, pages) => {
 	return options;
 }
 
+const getFieldType = (fieldName, pages) => {
+	return getFieldProperty(pages, fieldName, 'type');
+};
+
+const optionBelongsToRule = (condition, options) => {
+	return options.some(
+		(option) => option.label == condition.operands[1].value
+	);
+};
+
 const syncActions = (pages, actions) => {
 	actions.forEach(action => {
 		if (action.action === 'auto-fill') {
@@ -210,6 +221,15 @@ const fieldNameBelongsToCondition = (fieldName, conditions) => {
 		.some(fieldFound => fieldFound == true);
 };
 
+const fieldWithOptions = (fieldType) => {
+	return (
+		fieldType == 'radio' ||
+		fieldType == 'checkbox_multiple' ||
+		fieldType == 'select'
+	);
+};
+
+
 const findInvalidRule = rule => {
 	return findRuleByFieldName('', [rule]);
 };
@@ -233,8 +253,10 @@ export default {
 	clearSecondOperandValue,
 	clearTargetValue,
 	formatRules,
+	fieldWithOptions,
 	findInvalidRule,
 	findRuleByFieldName,
 	getFieldOptions,
+	optionBelongsToRule,
 	syncActions
 };
