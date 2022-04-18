@@ -13,10 +13,9 @@
  */
 
 import {PagesVisitor} from 'dynamic-data-mapping-form-renderer/js/util/visitors.es';
-import {getFieldProperty} from '../LayoutProvider/util/fields.es';
 
-const regexEmptyField = /\[\]/g;
-const regexFieldPattern = /Field\d{8}/g;
+import {DEFAULT_FIELD_NAME_REGEX, EMPTY_FIELD_REGEX} from '../../util/regex.es';
+import {getFieldProperty} from '../LayoutProvider/util/fields.es';
 
 const clearTargetValue = (actions, index) => {
 	if (actions[index]) {
@@ -113,23 +112,21 @@ const getFieldOptions = (fieldName, pages) => {
 	let options = [];
 	const visitor = new PagesVisitor(pages);
 
-	const field = visitor.findField((field) => {
+	const field = visitor.findField(field => {
 		return field.fieldName === fieldName;
 	});
 
 	options = field ? field.options : [];
 
 	return options;
-}
+};
 
 const getFieldType = (fieldName, pages) => {
 	return getFieldProperty(pages, fieldName, 'type');
 };
 
 const optionBelongsToRule = (condition, options) => {
-	return options.some(
-		(option) => option.label == condition.operands[1].value
-	);
+	return options.some(option => option.label === condition.operands[1].value);
 };
 
 const syncActions = (pages, actions) => {
@@ -177,38 +174,38 @@ const targetFieldExists = (target, pages) => {
 const fieldNameBelongsToAction = (fieldName, actions) => {
 	return actions
 		.map(action => {
-			if (action.action == 'auto-fill') {
+			if (action.action === 'auto-fill') {
 				return Object.values(action.outputs).some(
-					output => output == fieldName
+					output => output === fieldName
 				);
 			}
-			if (action.action == 'calculate') {
+			if (action.action === 'calculate') {
 				const expressionFields = getExpressionFields(action);
-				if (fieldName == '') {
+				if (fieldName === '') {
 					const expressionEmptyFields = getExpressionFields(
 						action,
-						regexEmptyField
+						EMPTY_FIELD_REGEX
 					);
 
 					return (
 						(expressionEmptyFields &&
-							expressionEmptyFields.indexOf('[]') >= 0) ||
-						action.target == fieldName
+							expressionEmptyFields.indexOf(emptyField) !== -1) ||
+						action.target === fieldName
 					);
 				}
 				else {
 					return (
 						!expressionFields ||
 						expressionFields.indexOf(fieldName) >= 0 ||
-						action.target == fieldName
+						action.target === fieldName
 					);
 				}
 			}
 			else {
-				return action.target == fieldName;
+				return action.target === fieldName;
 			}
 		})
-		.some(fieldFound => fieldFound == true);
+		.some(fieldFound => fieldFound === true);
 };
 
 const fieldNameBelongsToCondition = (fieldName, conditions) => {
@@ -221,14 +218,13 @@ const fieldNameBelongsToCondition = (fieldName, conditions) => {
 		.some(fieldFound => fieldFound == true);
 };
 
-const fieldWithOptions = (fieldType) => {
+const fieldWithOptions = fieldType => {
 	return (
-		fieldType == 'radio' ||
-		fieldType == 'checkbox_multiple' ||
-		fieldType == 'select'
+		fieldType === 'radio' ||
+		fieldType === 'checkbox_multiple' ||
+		fieldType === 'select'
 	);
 };
-
 
 const findInvalidRule = rule => {
 	return findRuleByFieldName('', [rule]);
@@ -242,7 +238,7 @@ const findRuleByFieldName = (fieldName, rules) => {
 	);
 };
 
-const getExpressionFields = (action, regex = regexFieldPattern) => {
+const getExpressionFields = (action, regex = DEFAULT_FIELD_NAME_REGEX) => {
 	return action.expression.match(regex);
 };
 
@@ -257,6 +253,7 @@ export default {
 	findInvalidRule,
 	findRuleByFieldName,
 	getFieldOptions,
+	getFieldType,
 	optionBelongsToRule,
 	syncActions
 };

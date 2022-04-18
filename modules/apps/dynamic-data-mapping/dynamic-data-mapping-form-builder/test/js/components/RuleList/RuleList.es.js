@@ -31,7 +31,8 @@ const pages = [
 							},
 							{
 								fieldName: 'text2',
-								label: 'label text 2'
+								label: 'label text 2',
+								type: 'text'
 							}
 						]
 					}
@@ -40,6 +41,51 @@ const pages = [
 		]
 	}
 ];
+
+const brokenRuleConfig = {
+	pages,
+	rules: [
+		{
+			actions: [
+				{
+					action: 'require',
+					label: 'label text 1',
+					target: 'text1'
+				}
+			],
+			conditions: [
+				{
+					operands: [
+						{
+							type: 'field',
+							value: 'text1'
+						},
+						{
+							type: '',
+							value: ''
+						}
+					],
+					operator: 'contains'
+				},
+				{
+					operands: [
+						{
+							type: 'field',
+							value: 'text1'
+						},
+						{
+							type: 'field',
+							value: 'text2'
+						}
+					],
+					operator: 'equals-to'
+				}
+			],
+			['logical-operator']: 'OR'
+		}
+	],
+	spritemap
+};
 
 const configDefault = {
 	pages,

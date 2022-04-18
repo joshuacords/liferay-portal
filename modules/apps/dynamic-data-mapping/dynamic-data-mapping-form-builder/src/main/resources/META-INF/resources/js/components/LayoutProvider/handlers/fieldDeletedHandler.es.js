@@ -45,13 +45,16 @@ const formatRules = (state, pages) => {
 				pages
 			);
 
-			if (firstOperandFieldExists && RulesSupport.fieldWithOptions(firstOperandFieldType) &&
+			if (
+				firstOperandFieldExists &&
+				RulesSupport.fieldWithOptions(firstOperandFieldType) &&
 				condition.operands[1].type != 'field'
 			) {
 				const fieldName = condition.operands[0].value;
 				const options = RulesSupport.getFieldOptions(fieldName, pages);
 				secondOperandFieldExists =
-					options && RullesSupport.optionBelongsToRule(condition, options);
+					options &&
+					RullesSupport.optionBelongsToRule(condition, options);
 			}
 
 			if (condition.operands[0].value === 'user') {
@@ -68,7 +71,6 @@ const formatRules = (state, pages) => {
 			) {
 				RulesSupport.clearSecondOperandValue(condition);
 			}
-
 
 			if (
 				!secondOperandFieldExists &&
@@ -144,7 +146,7 @@ const removeEmptyRow = (pages, source) => {
 };
 
 export const handleFieldDeleted = (state, indexes) => {
-	const {pageIndex, rowIndex, columnIndex} = indexes;
+	const {columnIndex, pageIndex, rowIndex} = indexes;
 	const {pages} = state;
 	let newContext = FormSupport.removeFields(
 		pages,

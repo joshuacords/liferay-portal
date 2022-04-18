@@ -27,7 +27,6 @@ import {pageStructure, ruleStructure} from '../../util/config.es';
 import {getFieldProperties} from '../../util/fieldSupport.es';
 import {setLocalizedValue} from '../../util/i18n.es';
 import RulesSupport from '../RuleBuilder/RulesSupport.es';
-
 import handleColumnResized from './handlers/columnResizedHandler.es';
 import handleFieldAdded from './handlers/fieldAddedHandler.es';
 import handleFieldBlurred from './handlers/fieldBlurredHandler.es';
@@ -457,14 +456,13 @@ class LayoutProvider extends Component {
 		if (event.target.classList.contains('btn-primary')) {
 			this.dispatch('fieldDeleted', this.refs.existingRuleModal.data);
 		}
-	
 	}
 
 	_handleFieldClicked(event) {
 		this.setState(handleFieldClicked(this.props, this.state, event));
 	}
 
-	_handleFieldDeleted(event) {	
+	_handleFieldDeleted(event) {
 		this.setState(handleFieldDeleted(this.state, event));
 	}
 
