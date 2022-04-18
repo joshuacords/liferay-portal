@@ -108,6 +108,19 @@ const formatRules = (pages, rules) => {
 	return formattedRules;
 };
 
+const getFieldOptions = (fieldName, pages) => {
+	let options = [];
+	const visitor = new PagesVisitor(pages);
+
+	const field = visitor.findField((field) => {
+		return field.fieldName === fieldName;
+	});
+
+	options = field ? field.options : [];
+
+	return options;
+}
+
 const syncActions = (pages, actions) => {
 	actions.forEach(action => {
 		if (action.action === 'auto-fill') {
@@ -222,5 +235,6 @@ export default {
 	formatRules,
 	findInvalidRule,
 	findRuleByFieldName,
+	getFieldOptions,
 	syncActions
 };
