@@ -870,8 +870,6 @@ public class LicenseKeyResourceImpl
 		List<SubscriptionTerm> subscriptionTerms = new ArrayList<>();
 
 		for (ProductPurchaseView productPurchaseView : productPurchaseViews) {
-			SubscriptionTerm subscriptionTerm = new SubscriptionTerm();
-
 			if (productPurchaseView.getProductConsumptions() != null) {
 				Map<String, List<ProductConsumption>> productConsumptionsMap =
 					new HashMap<>();
@@ -919,6 +917,9 @@ public class LicenseKeyResourceImpl
 						if (productConsumptions != null) {
 							provisionedCount = productConsumptions.size();
 						}
+
+						SubscriptionTerm subscriptionTerm =
+							new SubscriptionTerm();
 
 						subscriptionTerm.setEndDate(
 							productPurchase.getOriginalEndDate());
