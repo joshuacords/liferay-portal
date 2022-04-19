@@ -364,21 +364,21 @@ class LayoutProvider extends Component {
 			},
 			{
 				action: indexes => {
-					const {pages} = this.state;
+					const {pages, focusedField} = this.state;
 					const visitor = new PagesVisitor(pages);
 					const {rules} = this.state;
+					
+					visitor.mapFields(field => {
+						if (field.fieldName === focusedField.fieldName) {
 
-					visitor.mapFields(({fieldName}) => {
-						if (
-							RulesSupport.findRuleByFieldName(fieldName, rules)
-						) {
-							this.refs.existingRuleModal.data = indexes;
-							this.refs.existingRuleModal.show();
+							if (RulesSupport.findRuleByFieldName(focusedField.name, rules)) {
+								this.refs.existingRuleModal.data = indexes;
+								this.refs.existingRuleModal.show();
+						    } else {
+								this.dispatch('fieldDeleted', indexes);
+							}
 						}
-						else {
-							this.dispatch('fieldDeleted', {indexes});
-						}
-					});
+					})
 				},
 				label: Liferay.Language.get('delete')
 			}
