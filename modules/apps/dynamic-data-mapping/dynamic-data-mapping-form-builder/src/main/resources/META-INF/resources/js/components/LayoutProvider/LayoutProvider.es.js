@@ -24,7 +24,7 @@ import Component from 'metal-jsx';
 import {Config} from 'metal-state';
 
 import {pageStructure, ruleStructure} from '../../util/config.es';
-import {getFieldProperties} from '../../util/fieldSupport.es';
+import {getFieldIndexes, getFieldProperties} from '../../util/fieldSupport.es';
 import {setLocalizedValue} from '../../util/i18n.es';
 import RulesSupport from '../RuleBuilder/RulesSupport.es';
 import handleColumnResized from './handlers/columnResizedHandler.es';
@@ -364,20 +364,24 @@ class LayoutProvider extends Component {
 			},
 			{
 				action: indexes => {
-					const {pages, focusedField} = this.state;
+					const {pages} = this.state;
 					const visitor = new PagesVisitor(pages);
 					const {rules} = this.state;
-					
-					visitor.mapFields(field => {
-						if (field.fieldName === focusedField.fieldName) {
 
-							if (RulesSupport.findRuleByFieldName(focusedField.name, rules)) {
-								this.refs.existingRuleModal.data = indexes;
-								this.refs.existingRuleModal.show();
-						    } else {
-								this.dispatch('fieldDeleted', indexes);
+					visitor.mapFields(({fieldName}) => {
+
+							const {columnIndex, pageIndex, rowIndex}= getFieldIndexes(pages, fieldName);
+							  
+							if (indexes.columnIndex === columnIndex 
+								&& indexes.pageIndex === pageIndex 
+								&& indexes.rowIndex === rowIndex) {
+								if (RulesSupport.findRuleByFieldName(fieldName, rules)) {
+									this.refs.existingRuleModal.data = indexes;
+									this.refs.existingRuleModal.show();
+								} else {
+								    this.dispatch('fieldDeleted', indexes);
+								}
 							}
-						}
 					})
 				},
 				label: Liferay.Language.get('delete')

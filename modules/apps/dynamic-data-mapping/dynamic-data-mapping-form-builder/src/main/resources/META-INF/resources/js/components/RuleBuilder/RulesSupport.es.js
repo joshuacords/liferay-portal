@@ -15,6 +15,7 @@
 import {PagesVisitor} from 'dynamic-data-mapping-form-renderer/js/util/visitors.es';
 
 import {DEFAULT_FIELD_NAME_REGEX, EMPTY_FIELD_REGEX} from '../../util/regex.es';
+import {getFieldProperty} from '../LayoutProvider/util/fields.es';
 
 const clearTargetValue = (actions, index) => {
 	if (actions[index]) {
@@ -118,6 +119,10 @@ const getFieldOptions = (fieldName, pages) => {
 	options = field ? field.options : [];
 
 	return options;
+};
+
+const getFieldType = (fieldName, pages) => {
+	return getFieldProperty(pages, fieldName, 'type');
 };
 
 const optionBelongsToRule = (condition, options) => {
@@ -248,6 +253,7 @@ export default {
 	findInvalidRule,
 	findRuleByFieldName,
 	getFieldOptions,
+	getFieldType,
 	optionBelongsToRule,
 	syncActions
 };

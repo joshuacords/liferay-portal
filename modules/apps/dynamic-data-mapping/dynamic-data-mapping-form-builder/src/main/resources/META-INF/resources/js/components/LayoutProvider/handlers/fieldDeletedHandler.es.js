@@ -40,7 +40,7 @@ const formatRules = (state, pages) => {
 				}
 			});
 
-			const firstOperandFieldType = getFieldType(
+			const firstOperandFieldType = RulesSupport.getFieldType(
 				condition.operands[0].value,
 				pages
 			);
@@ -54,7 +54,7 @@ const formatRules = (state, pages) => {
 				const options = RulesSupport.getFieldOptions(fieldName, pages);
 				secondOperandFieldExists =
 					options &&
-					RullesSupport.optionBelongsToRule(condition, options);
+					RulesSupport.optionBelongsToRule(condition, options);
 			}
 
 			if (condition.operands[0].value === 'user') {
@@ -66,7 +66,7 @@ const formatRules = (state, pages) => {
 			}
 
 			if (
-				fieldWithOptions(firstOperandFieldType) &&
+				RulesSupport.fieldWithOptions(firstOperandFieldType) &&
 				!secondOperandFieldExists
 			) {
 				RulesSupport.clearSecondOperandValue(condition);

@@ -190,6 +190,19 @@ export const getFieldProperties = (
 	return properties;
 };
 
+export const getFieldIndexes = (pages, fieldName) => {
+	const visitor = new PagesVisitor(pages);
+	let indexes = {};
+
+	visitor.mapFields((field, fieldIndex, columnIndex, rowIndex, pageIndex) => {
+		if (field.fieldName === fieldName) {
+			indexes = {columnIndex, pageIndex, rowIndex};
+		}
+	});
+
+	return indexes;
+};
+
 export const localizeField = (field, defaultLanguageId, editingLanguageId) => {
 	let value = field.value;
 
