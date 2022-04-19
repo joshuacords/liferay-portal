@@ -169,6 +169,12 @@ class RuleList extends Component {
 		return getFieldProperty(pages, fieldName, 'label') || fieldName;
 	}
 
+	_getFieldType(fieldName) {
+		const pages = this.pages;
+
+		return getFieldProperty(pages, fieldName, 'type');
+	}
+
 	_getJumpToPageLabel(rule, action) {
 		const {pages} = this;
 		let pageLabel = '';
@@ -198,10 +204,7 @@ class RuleList extends Component {
 			label = Liferay.Language.get('user');
 		}
 		else if (operand.type !== 'field') {
-			const fieldType = RulesSupport.getFieldType(
-				operands[0].value,
-				this.pages
-			);
+			const fieldType = this._getFieldType(operands[0].value);
 
 			if (fieldType == 'select' || fieldType === 'radio') {
 				label = this._getOptionLabel(operands[0].value, operand.value);
