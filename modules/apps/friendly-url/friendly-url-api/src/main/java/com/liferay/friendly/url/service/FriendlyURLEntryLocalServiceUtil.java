@@ -153,6 +153,15 @@ public class FriendlyURLEntryLocalServiceUtil {
 		getService().deleteFriendlyURLEntry(groupId, clazz, classPK);
 	}
 
+	public static void deleteFriendlyURLLocalizationEntry(
+			long friendlyURLEntryId, String languageId)
+		throws com.liferay.friendly.url.exception.
+			NoSuchFriendlyURLEntryLocalizationException {
+
+		getService().deleteFriendlyURLLocalizationEntry(
+			friendlyURLEntryId, languageId);
+	}
+
 	public static void deleteGroupFriendlyURLEntries(
 		long groupId, long classNameId) {
 
