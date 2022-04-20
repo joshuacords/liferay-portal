@@ -704,6 +704,9 @@ class Sidebar extends Component {
 					const {rules} = this.props;
 
 					if (RulesSupport.findRuleByFieldName(name, rules)) {
+
+						document.querySelector('.dropdown-menu.show').classList.remove('show');
+
 						this.refs.existingRuleModal.data = indexes;
 						this.refs.existingRuleModal.show();
 					} else {
