@@ -20,6 +20,7 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.editor.configuration.BaseEditorConfigContributor;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
+import com.liferay.portal.kernel.portlet.LiferayPortletURL;
 import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactory;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -27,8 +28,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.util.Map;
-
-import javax.portlet.PortletURL;
 
 /**
  * @author Sergio González
@@ -55,9 +54,11 @@ public class BaseMentionsEditorConfigContributor
 			"resultTextLocator", "screenName"
 		);
 
-		PortletURL autoCompleteUserURL =
-			requestBackedPortletURLFactory.createResourceURL(
+		LiferayPortletURL autoCompleteUserURL =
+			(LiferayPortletURL)requestBackedPortletURLFactory.createResourceURL(
 				MentionsPortletKeys.MENTIONS);
+
+		autoCompleteUserURL.setAnchor(false);
 
 		String discussionPortletId = themeDisplay.getPpid();
 
