@@ -27,6 +27,7 @@ import {EventHandler} from 'metal-events';
 import Component, {Fragment} from 'metal-jsx';
 import {Config} from 'metal-state';
 
+import RulesSupport from '../../components/RuleBuilder/RulesSupport.es';
 import {focusedFieldStructure} from '../../util/config.es';
 import {selectText} from '../../util/dom.es';
 import {
@@ -319,6 +320,37 @@ class Sidebar extends Component {
 						'cancel-field-changes-question'
 					)}
 				/>
+
+                <ClayModal
+					body={Liferay.Language.get(
+						'a-rule-is-applied-to-this-field'
+					)}
+					elementClasses={'lfr-ddm-forms-delete-rule'}
+					events={{
+						clickButton: this._handleDeleteFieldModalButtonClicked.bind(
+							this
+						),
+					}}
+					footerButtons={[
+						{
+							alignment: 'right',
+							label: Liferay.Language.get('cancel'),
+							style: 'secondary',
+							type: 'close',
+						},
+						{
+							alignment: 'right',
+							label: Liferay.Language.get('delete'),
+							style: 'primary',
+							type: 'button',
+						},
+					]}
+					ref={'existingRuleModal'}
+					size={'lg'}
+					title={Liferay.Language.get(
+						'delete-field-with-rule-applied'
+					)}
+				/>
 			</div>
 		);
 	}
@@ -379,10 +411,9 @@ class Sidebar extends Component {
 		cancelChangesModal.show();
 	}
 
-	_deleteField(fieldName) {
+	_deleteField(indexes) {
 		const {dispatch} = this.context;
-
-		dispatch('fieldDeleted', {fieldName});
+		dispatch('fieldDeleted', indexes);
 	}
 
 	dispatchFieldBlurred() {
@@ -516,6 +547,13 @@ class Sidebar extends Component {
 		this.close();
 	}
 
+	_handleDeleteFieldModalButtonClicked(event) {
+
+		if (event.target.classList.contains('btn-primary')) {
+			this._deleteField(this.refs.existingRuleModal.data);
+		}
+	}
+	
 	_handleDocumentMouseDown({target}) {
 		const {transitionEnd} = this;
 		const {open} = this.state;
@@ -650,12 +688,7 @@ class Sidebar extends Component {
 	}
 
 	_handleFieldSettingsClicked({data: {item}}) {
-		const {
-			columnIndex,
-			fieldName,
-			pageIndex,
-			rowIndex
-		} = this.props.focusedField;
+		const {columnIndex, pageIndex, rowIndex, name} = this.props.focusedField;
 		const {settingsItem} = item;
 		const indexes = {
 			columnIndex,
@@ -668,7 +701,15 @@ class Sidebar extends Component {
 				this._duplicateField(fieldName);
 			}
 			else if (settingsItem === 'delete-field') {
-				this._deleteField(fieldName);
+					const {rules} = this.props;
+
+					if (RulesSupport.findRuleByFieldName(name, rules)) {
+						this.refs.existingRuleModal.data = indexes;
+						this.refs.existingRuleModal.show();
+					} else {
+						this._deleteField(indexes);
+					}
+							
 			}
 			else if (settingsItem === 'cancel-field-changes') {
 				this._cancelFieldChanges(indexes);
