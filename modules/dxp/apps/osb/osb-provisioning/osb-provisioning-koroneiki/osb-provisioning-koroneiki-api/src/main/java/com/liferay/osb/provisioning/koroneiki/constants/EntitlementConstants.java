@@ -29,11 +29,13 @@ public class EntitlementConstants {
 
 	public static final String PLATINUM_SUBSCRIPTION = "Platinum Subscription";
 
+	public static final String PREMIUM_SUBSCRIPTION = "Premium Subscription";
+
 	public static final String SILVER_SUBSCRIPTION = "Silver Subscription";
 
 	public static final String[] SLAS = {
 		GOLD_SUBSCRIPTION, LIMITED_SUBSCRIPTION, PLATINUM_SUBSCRIPTION,
-		SILVER_SUBSCRIPTION
+		PREMIUM_SUBSCRIPTION, SILVER_SUBSCRIPTION
 	};
 
 }

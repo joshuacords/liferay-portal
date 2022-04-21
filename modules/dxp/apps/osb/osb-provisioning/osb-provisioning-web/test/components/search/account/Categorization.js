@@ -21,6 +21,7 @@ function renderCategorization() {
 				'Gold Subscription',
 				'Limited Subscription',
 				'Platinum Subscription',
+				'Premium Subscription',
 				'Silver Subscription'
 			]}
 			regionNames={[
@@ -139,6 +140,7 @@ describe('Account Search Categorization', () => {
 		getByText('Gold');
 		getByText('Limited');
 		getByText('Platinum');
+		getByText('Premium');
 		getByText('Silver');
 	});
 

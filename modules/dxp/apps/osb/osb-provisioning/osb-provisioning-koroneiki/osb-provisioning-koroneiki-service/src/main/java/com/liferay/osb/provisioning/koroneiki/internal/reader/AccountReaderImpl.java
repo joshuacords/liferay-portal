@@ -83,7 +83,8 @@ public class AccountReaderImpl implements AccountReader {
 		String name = product.getName();
 
 		if (!name.equals(ProductConstants.NAME_GOLD) &&
-			!name.equals(ProductConstants.NAME_PLATINUM)) {
+			!name.equals(ProductConstants.NAME_PLATINUM) &&
+			!name.equals(ProductConstants.NAME_PREMIUM)) {
 
 			return 0;
 		}
@@ -179,7 +180,9 @@ public class AccountReaderImpl implements AccountReader {
 				maxSupportSeatCount = 12;
 			}
 		}
-		else if (name.equals(ProductConstants.NAME_PLATINUM)) {
+		else if (name.equals(ProductConstants.NAME_PLATINUM) ||
+				 name.equals(ProductConstants.NAME_PREMIUM)) {
+
 			if (productionInstances <= 4) {
 				maxSupportSeatCount = 3;
 			}
@@ -374,6 +377,9 @@ public class AccountReaderImpl implements AccountReader {
 		}
 		else if (name.equals(ProductConstants.NAME_PLATINUM)) {
 			return 4;
+		}
+		else if (name.equals(ProductConstants.NAME_PREMIUM)) {
+			return 5;
 		}
 		else if (name.equals(ProductConstants.NAME_SILVER)) {
 			return 2;
