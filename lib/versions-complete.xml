@@ -8152,18 +8152,6 @@
 				</licenses>
 			</library>
 			<library>
-				<file-name>lib/portal/log4j.jar</file-name>
-				<version>1.2.17</version>
-				<project-name>Log4j</project-name>
-				<project-url>http://logging.apache.org/log4j</project-url>
-				<licenses>
-					<license>
-						<license-name>Apache License 2.0</license-name>
-						<license-url>http://www.apache.org/licenses/LICENSE-2.0</license-url>
-					</license>
-				</licenses>
-			</library>
-			<library>
 				<file-name>lib/portal/mchange-commons-java.jar</file-name>
 				<version>0.2.15</version>
 				<project-name>C3P0</project-name>
@@ -8453,6 +8441,18 @@
 					<license>
 						<license-name>Public Domain</license-name>
 						<license-url>http://en.wikipedia.org/wiki/Public_domain</license-url>
+					</license>
+				</licenses>
+			</library>
+			<library>
+				<file-name>lib/portal/reload4j.jar</file-name>
+				<version>1.2.18.4</version>
+				<project-name>Reload4j</project-name>
+				<project-url>https://reload4j.qos.ch</project-url>
+				<licenses>
+					<license>
+						<license-name>Apache License 2.0</license-name>
+						<license-url>http://www.apache.org/licenses/LICENSE-2.0</license-url>
 					</license>
 				</licenses>
 			</library>
