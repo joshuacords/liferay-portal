@@ -130,48 +130,48 @@ const optionBelongsToRule = (condition, options) => {
 };
 
 const syncActions = (pages, actions) => {
-	actions.forEach(action => {
+	const visitor = new PagesVisitor(pages);
+
+	actions.forEach((action, index) => {
+
 		if (action.action === 'auto-fill') {
 			const {inputs, outputs} = action;
 
 			Object.keys(inputs)
-				.filter(key => !targetFieldExists(inputs[key], pages))
-				.map(key => delete inputs[key]);
+				.filter((key) => !targetFieldExists(inputs[key], pages))
+				.map((key) => {
+					inputs[key] = '';
+				});
 
 			Object.keys(outputs)
-				.filter(key => !targetFieldExists(outputs[key], pages))
-				.map(key => delete outputs[key]);
-		}
-		else if (action.action === 'jump-to-page') {
-			const target = parseInt(action.target, 10) + 1;
+				.filter((key) => !targetFieldExists(outputs[key], pages))
+				.map((key) => {
+					outputs[key] = '';
+				});
 
-			if (pages.length < 3 || target > pages.length) {
-				action.target = '';
-			}
+		} 
+		else {
+			let targetFieldExists = false;
+
+			visitor.mapFields(({fieldName}) => {
+				if (action.target === fieldName) {
+						targetFieldExists = true;
+				}
+			});
+
+	    if (!targetFieldExists) {
+			actions = clearTargetValue(actions, index);
 		}
-		else if (!targetFieldExists(action.target, pages)) {
-			action.target = '';
 		}
+
 	});
 
 	return actions;
 };
 
-const targetFieldExists = (target, pages) => {
-	const visitor = new PagesVisitor(pages);
-
-	let targetFieldExists = false;
-
-	visitor.mapFields(({fieldName}) => {
-		if (target === fieldName) {
-			targetFieldExists = true;
-		}
-	});
-
-	return targetFieldExists;
-}
-
 const fieldNameBelongsToAction = (fieldName, actions) => {
+	const emptyField = '[]';
+
 	return actions
 		.map(action => {
 			if (action.action === 'auto-fill') {
@@ -241,6 +241,24 @@ const getExpressionFields = (action, regex = DEFAULT_FIELD_NAMES_REGEX_FOR_EXPRE
 	return action.expression.match(regex);
 };
 
+const targetFieldExists = (target, pages) => {
+	const visitor = new PagesVisitor(pages);
+
+	let targetFieldExists = false;
+
+	visitor.mapFields(
+		({fieldName}) => {
+			if (target === fieldName) {
+				targetFieldExists = true;
+			}
+		},
+		true,
+		true
+	);
+
+	return targetFieldExists;
+};
+
 export default {
 	clearAllConditionFieldValues,
 	clearFirstOperandValue,
@@ -254,5 +272,6 @@ export default {
 	getFieldOptions,
 	getFieldType,
 	optionBelongsToRule,
-	syncActions
+	syncActions,
+	targetFieldExists
 };
