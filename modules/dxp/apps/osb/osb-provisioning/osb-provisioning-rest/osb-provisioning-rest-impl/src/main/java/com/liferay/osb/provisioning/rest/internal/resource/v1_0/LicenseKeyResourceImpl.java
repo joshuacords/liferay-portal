@@ -536,10 +536,16 @@ public class LicenseKeyResourceImpl
 
 			String owner = licenseKey.getOwner();
 
-			if (owner == null) {
+			if (Validator.isNull(owner)) {
 				Account account = _accountWebService.getAccount(accountKey);
 
 				owner = account.getName();
+			}
+
+			String description = licenseKey.getDescription();
+
+			if (Validator.isNull(description)) {
+				description = owner;
 			}
 
 			int maxClusterNodes = 0;
@@ -569,11 +575,10 @@ public class LicenseKeyResourceImpl
 					licenseKey.getProductKey(), accountKey,
 					licenseKey.getProductPurchaseKey(),
 					licenseKey.getProductVersion(), licenseKey.getName(), owner,
-					maxClusterNodes, sizing.getValue(),
-					licenseKey.getDescription(), licenseKey.getHostName(),
-					licenseKey.getIpAddresses(), licenseKey.getMacAddresses(),
-					licenseKey.getStartDate(), licenseKey.getExpirationDate(),
-					complimentary, active);
+					maxClusterNodes, sizing.getValue(), description,
+					licenseKey.getHostName(), licenseKey.getIpAddresses(),
+					licenseKey.getMacAddresses(), licenseKey.getStartDate(),
+					licenseKey.getExpirationDate(), complimentary, active);
 
 			curLicenseKeys.add(LicenseKeyUtil.toLicenseKey(curLicenseKey));
 		}
