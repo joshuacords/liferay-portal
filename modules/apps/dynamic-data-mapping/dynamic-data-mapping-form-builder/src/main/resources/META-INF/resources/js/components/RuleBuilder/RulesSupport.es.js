@@ -14,7 +14,7 @@
 
 import {PagesVisitor} from 'dynamic-data-mapping-form-renderer/js/util/visitors.es';
 
-import {DEFAULT_FIELD_NAME_REGEX} from '../../util/regex.es';
+import {DEFAULT_FIELD_NAMES_REGEX_FOR_EXPRESSION} from '../../util/regex.es';
 import {getFieldProperty} from '../LayoutProvider/util/fields.es';
 
 const clearTargetValue = (actions, index) => {
@@ -237,7 +237,7 @@ const findRuleByFieldName = (fieldName, rules) => {
 	);
 };
 
-const getExpressionFields = (action, regex = DEFAULT_FIELD_NAME_REGEX) => {
+const getExpressionFields = (action, regex = DEFAULT_FIELD_NAMES_REGEX_FOR_EXPRESSION) => {
 	return action.expression.match(regex);
 };
 
