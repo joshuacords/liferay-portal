@@ -17,6 +17,7 @@ package com.liferay.journal.web.internal.display.context;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItem;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemList;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletRequest;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
 import com.liferay.trash.TrashHelper;
@@ -48,6 +49,14 @@ public class JournalArticleVersionsManagementToolbarDisplayContext
 	public List<DropdownItem> getFilterDropdownItems() {
 		return new DropdownItemList() {
 			{
+				addGroup(
+					dropdownGroupItem -> {
+						dropdownGroupItem.setDropdownItems(
+							getFilterStatusDropdownItems());
+						dropdownGroupItem.setLabel(
+							LanguageUtil.get(request, "filter-by-status"));
+					});
+
 				addGroup(
 					dropdownGroupItem -> {
 						dropdownGroupItem.setDropdownItems(
