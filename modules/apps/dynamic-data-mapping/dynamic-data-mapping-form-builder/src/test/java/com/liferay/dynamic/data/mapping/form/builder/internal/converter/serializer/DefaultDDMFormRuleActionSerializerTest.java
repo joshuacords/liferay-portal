@@ -16,6 +16,7 @@ package com.liferay.dynamic.data.mapping.form.builder.internal.converter.seriali
 
 import com.liferay.dynamic.data.mapping.form.builder.internal.converter.model.action.DefaultDDMFormRuleAction;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
+import com.liferay.petra.string.StringPool;
 
 import org.junit.Assert;
 import org.junit.ClassRule;
@@ -33,6 +34,20 @@ public class DefaultDDMFormRuleActionSerializerTest {
 	@Rule
 	public static final LiferayUnitTestRule liferayUnitTestRule =
 		LiferayUnitTestRule.INSTANCE;
+		
+    @Test
+	public void testSerializeWithEmptyTarget() {
+		DefaultDDMFormRuleAction defaultDDMFormRuleAction =
+			new DefaultDDMFormRuleAction("show", StringPool.BLANK);
+
+		DefaultDDMFormRuleActionSerializer defaultDDMFormRuleActionSerializer =
+			new DefaultDDMFormRuleActionSerializer(defaultDDMFormRuleAction);
+
+		String result = defaultDDMFormRuleActionSerializer.serialize(
+			_ddmFormRuleSerializerContext);
+
+		Assert.assertNull(result);
+	}
 
 	@Test
 	public void testSerializeSetEnabled() {
