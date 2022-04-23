@@ -9728,11 +9728,6 @@ session.cookie.use.full.hostname=true
 					test.base.dir.name=${test.base.dir.name}
 				</echo>
 			</then>
-			<else>
-				<echo append="true" file="${test.ext.properties.file}">
-					test.base.dir.name=${basedir.unix}/portal-web/test/functional/com/liferay/portalweb/
-				</echo>
-			</else>
 		</if>
 
 		<if>
@@ -9846,6 +9841,18 @@ session.cookie.use.full.hostname=true
 		</if>
 
 		<if>
+			<or>
+				<equals arg1="${test.dirs}" arg2="" />
+				<isset property="test.dirs" />
+			</or>
+			<then>
+				<echo append="true" file="${test.ext.properties.file}">
+					test.dirs=${test.dirs}
+				</echo>
+			</then>
+		</if>
+
+		<if>
 			<isset property="test.include.dir.names" />
 			<then>
 				<echo append="true" file="${test.ext.properties.file}">
@@ -9868,15 +9875,6 @@ session.cookie.use.full.hostname=true
 			<then>
 				<echo append="true" file="${test.ext.properties.file}">
 					test.run.environment=${test.run.environment}
-				</echo>
-			</then>
-		</if>
-
-		<if>
-			<isset property="test.subrepo.dirs" />
-			<then>
-				<echo append="true" file="${test.ext.properties.file}">
-					test.subrepo.dirs=${test.subrepo.dirs}
 				</echo>
 			</then>
 		</if>
@@ -10067,11 +10065,6 @@ session.cookie.use.full.hostname=true
 					test.base.dir.name=${test.base.dir.name}
 				</echo>
 			</then>
-			<else>
-				<echo append="true" file="${test.ext.properties.file}">
-					test.base.dir.name=${basedir.unix}/portal-web/test/functional/com/liferay/portalweb/
-				</echo>
-			</else>
 		</if>
 
 		<get-testcase-property property.name="test.skip.tear.down" />
