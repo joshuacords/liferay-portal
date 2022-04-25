@@ -1,5 +1,5 @@
 dependencies {
-	testIntegrationCompile group: "ch.qos.reload4j", name: "reload4j", version: "1.2.18.4"
+	testIntegrationCompile group: "ch.qos.reload4j", name: "reload4j", version: "1.2.19"
 	testIntegrationCompile group: "com.fasterxml.jackson.core", name: "jackson-annotations", version: "2.10.3"
 	testIntegrationCompile group: "com.fasterxml.jackson.core", name: "jackson-core", version: "2.10.3"
 	testIntegrationCompile group: "com.fasterxml.jackson.core", name: "jackson-databind", version: "2.10.5.1"

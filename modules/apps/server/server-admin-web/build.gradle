@@ -3,7 +3,7 @@ dependencies {
 	compileInclude group: "org.jfree", name: "jfreechart", version: "1.0.19"
 
 	compileOnly group: "biz.aQute.bnd", name: "biz.aQute.bnd.annotation", version: "4.2.0"
-	compileOnly group: "ch.qos.reload4j", name: "reload4j", version: "1.2.18.4"
+	compileOnly group: "ch.qos.reload4j", name: "reload4j", version: "1.2.19"
 	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.impl", version: "default"
 	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "default"
 	compileOnly group: "com.liferay.portal", name: "com.liferay.util.java", version: "default"
