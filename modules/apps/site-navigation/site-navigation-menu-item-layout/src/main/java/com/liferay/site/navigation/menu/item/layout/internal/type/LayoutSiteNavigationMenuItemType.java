@@ -27,6 +27,8 @@ import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.exception.NoSuchLayoutException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutFriendlyURL;
 import com.liferay.portal.kernel.model.LayoutRevision;
@@ -94,6 +96,24 @@ public class LayoutSiteNavigationMenuItemType
 		Layout layout = _getLayout(portletDataContext, siteNavigationMenuItem);
 
 		if (layout == null) {
+			return false;
+		}
+
+		boolean privateLayout = layout.isPrivateLayout();
+
+		if (privateLayout != portletDataContext.isPrivateLayout()) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(
+					StringBundler.concat(
+						"SiteNavigationMenuItem ",
+						siteNavigationMenuItem.getSiteNavigationMenuItemId(),
+						" won't be exported because it points to a ",
+						privateLayout ? "private" : "public",
+						" layout. It will be exported when a ",
+						privateLayout ? "private" : "public",
+						" process is performed."));
+			}
+
 			return false;
 		}
 
@@ -569,6 +589,9 @@ public class LayoutSiteNavigationMenuItemType
 		return GetterUtil.getBoolean(
 			typeSettingsProperties.get("setCustomName"));
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		LayoutSiteNavigationMenuItemType.class);
 
 	@Reference
 	private ItemSelector _itemSelector;
