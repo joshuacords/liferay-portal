@@ -5,12 +5,12 @@
 	<owner>Liferay Activation Key</owner>
 	<description>Liferay Activation Key</description>
 	<product-name>Portal Development</product-name>
-	<product-version>6.1 GA3</product-version>
-	<license-name>Portal Development</license-name>
+	<product-version>6.1 GA1</product-version>
+	<license-name>Portal Developer</license-name>
 	<license-type>developer</license-type>
-	<license-version>4</license-version>
-	<start-date>Friday, September 10, 2021 10:54:06 PM GMT</start-date>
-	<expiration-date>Sunday, August 17, 2121 10:54:06 PM GMT</expiration-date>
-	<max-http-sessions>5</max-http-sessions>
-	<key>2636c78c6b612e0eac383c8253c8b63e93d15bad69c610ed4b74907a61354a664dd8ca7d1b60acff97862bd490e7a58eac85a873a5ded30d87cff7ca41f076f16a04b0fd4934c8aef6178e0b05b7493ebdea385c3acc8378a1983ab36cf79ef6c50557857db19f5d07eb76d79c8c9353b9397a805d85d1e9215621ae1fb0fb484797ee87</key>
+	<license-version>3</license-version>
+	<start-date>Monday, April 25, 2022 12:00:00 AM GMT</start-date>
+	<expiration-date>Saturday, April 25, 2122 12:00:00 AM GMT</expiration-date>
+	<max-http-sessions>10</max-http-sessions>
+	<key>8e7f17afc741f507aaa2e53636cfdf2c592f24b9aeef1d744a780fe28a4cd5e1dfd3a3eaf11fc15879a0a37df1bcb3219d1994a249ac37e2f133689b1f2a3b9559e14eac4fc92ddbf5cc4ef4a3174be8f7eaadab6d1e13de77df4f6e216bed19e3ff69a01744b3b6258a17bcee435bed13820c5c00e2158553568cb9b2623c474508a3aa</key>
 </license>
