@@ -96,6 +96,24 @@ public class ProductConstants {
 
 	public static final String NAME_LIMITED = "Limited Subscription";
 
+	public static final String NAME_LXC_CSP_UP_TO_1K_USERS =
+		"LXC - CSP - Up to 1K Users";
+
+	public static final String NAME_LXC_CSP_UP_TO_5K_USERS =
+		"LXC - CSP - Up to 5K Users";
+
+	public static final String NAME_LXC_CSP_UP_TO_10K_USERS =
+		"LXC - CSP - Up to 10K Users";
+
+	public static final String NAME_LXC_CSP_UP_TO_20K_USERS =
+		"LXC - CSP - Up to 20K Users";
+
+	public static final String NAME_LXC_CSP_UP_TO_100_USERS =
+		"LXC - CSP - Up to 100 Users";
+
+	public static final String NAME_LXC_CSP_UP_TO_500_USERS =
+		"LXC - CSP - Up to 500 Users";
+
 	public static final String NAME_LXC_SM = "LXC SM";
 
 	public static final String NAME_LXC_SM_INSTANCE_PRODUCTION =
@@ -106,6 +124,15 @@ public class ProductConstants {
 
 	public static final String NAME_LXC_SM_SUBSCRIPTION_STD_PRODUCTION =
 		"LXC SM Subscription Std Production";
+
+	public static final String NAME_LXC_SUBSCRIPTION_ENGAGE_SITE =
+		"LXC Subscription - Engage Site";
+
+	public static final String NAME_LXC_SUBSCRIPTION_SUPPORT_SITE =
+		"LXC Subscription - Support Site";
+
+	public static final String NAME_LXC_SUBSCRIPTION_TRANSACT_SITE =
+		"LXC Subscription - Transact Site";
 
 	public static final String NAME_MANAGED_SERVICES_DEVELOPER_SUPPORT =
 		"Managed Services - Developer Support";

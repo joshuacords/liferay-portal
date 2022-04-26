@@ -140,10 +140,29 @@ public class AccountReaderImpl implements AccountReader {
 						 ProductConstants.
 							 NAME_DXP_CLOUD_SUBSCRIPTION_STD_PRODUCTION) ||
 					 curName.equals(
+						 ProductConstants.NAME_LXC_CSP_UP_TO_1K_USERS) ||
+					 curName.equals(
+						 ProductConstants.NAME_LXC_CSP_UP_TO_5K_USERS) ||
+					 curName.equals(
+						 ProductConstants.NAME_LXC_CSP_UP_TO_10K_USERS) ||
+					 curName.equals(
+						 ProductConstants.NAME_LXC_CSP_UP_TO_20K_USERS) ||
+					 curName.equals(
+						 ProductConstants.NAME_LXC_CSP_UP_TO_100_USERS) ||
+					 curName.equals(
+						 ProductConstants.NAME_LXC_CSP_UP_TO_500_USERS) ||
+					 curName.equals(
 						 ProductConstants.NAME_LXC_SM_INSTANCE_PRODUCTION) ||
 					 curName.equals(
 						 ProductConstants.
 							 NAME_LXC_SM_SUBSCRIPTION_STD_PRODUCTION) ||
+					 curName.equals(
+						 ProductConstants.NAME_LXC_SUBSCRIPTION_ENGAGE_SITE) ||
+					 curName.equals(
+						 ProductConstants.NAME_LXC_SUBSCRIPTION_SUPPORT_SITE) ||
+					 curName.equals(
+						 ProductConstants.
+							 NAME_LXC_SUBSCRIPTION_TRANSACT_SITE) ||
 					 curName.equals(ProductConstants.NAME_PORTAL_PRODUCTION)) {
 
 				productionInstances += productPurchase.getQuantity();
@@ -180,9 +199,7 @@ public class AccountReaderImpl implements AccountReader {
 				maxSupportSeatCount = 12;
 			}
 		}
-		else if (name.equals(ProductConstants.NAME_PLATINUM) ||
-				 name.equals(ProductConstants.NAME_PREMIUM)) {
-
+		else if (name.equals(ProductConstants.NAME_PLATINUM)) {
 			if (productionInstances <= 4) {
 				maxSupportSeatCount = 3;
 			}
@@ -196,6 +213,26 @@ public class AccountReaderImpl implements AccountReader {
 				maxSupportSeatCount = 12;
 			}
 			else if (productionInstances <= 20) {
+				maxSupportSeatCount = 15;
+			}
+			else {
+				maxSupportSeatCount = 18;
+			}
+		}
+		else if (name.equals(ProductConstants.NAME_PREMIUM)) {
+			if (productionInstances <= 3) {
+				maxSupportSeatCount = 3;
+			}
+			else if (productionInstances <= 6) {
+				maxSupportSeatCount = 6;
+			}
+			else if (productionInstances <= 9) {
+				maxSupportSeatCount = 9;
+			}
+			else if (productionInstances <= 12) {
+				maxSupportSeatCount = 12;
+			}
+			else if (productionInstances <= 15) {
 				maxSupportSeatCount = 15;
 			}
 			else {
