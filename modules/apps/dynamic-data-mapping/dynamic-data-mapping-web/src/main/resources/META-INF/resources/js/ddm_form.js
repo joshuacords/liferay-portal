@@ -1289,7 +1289,7 @@ AUI.add(
 							locale === defaultLocale ||
 							(localizationMap[defaultLocale] !== undefined &&
 								value !== localizationMap[defaultLocale]) ||
-							localizationMap[locale]
+							localizationMap[locale] !== undefined
 						) {
 							localizationMap[locale] = value;
 						}
@@ -4360,7 +4360,7 @@ AUI.add(
 							var defaultLocale = field.getDefaultLocale();
 
 							availableLanguageIds.forEach(locale => {
-								if (!localizationMap[locale]) {
+								if (localizationMap[locale] === undefined) {
 									localizationMap[locale] =
 										localizationMap[defaultLocale];
 								}
