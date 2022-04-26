@@ -149,6 +149,34 @@ const syncActions = (pages, actions) => {
 					outputs[key] = '';
 				});
 
+		}
+		else if (action.action === 'calculate') {
+	         
+			const expressionFields = getExpressionFields(action);
+
+			if (expressionFields && expressionFields.length > 0) {
+				expressionFields.forEach((field) => {
+					if (!targetFieldExists(field, pages)) {
+						const inexistentField = new RegExp(field, 'g');
+
+						action.expression = action.expression.replace(
+							inexistentField,
+							''
+						);
+					}
+				});
+			}
+
+			if (!targetFieldExists(action.target, pages)) {
+				action.target = '';
+			}
+		}
+		else if (action.action === 'jump-to-page') {
+			const target = parseInt(action.target, 10) + 1;
+
+			if (pages.length < 3 || target > pages.length) {
+				action.target = '';
+			}
 		} 
 		else {
 			let targetFieldExists = false;

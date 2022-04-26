@@ -12,6 +12,4 @@
  * details.
  */
 
- export const DEFAULT_FIELD_NAME_REGEX = /^Field[0-9]{8}$/;
-
- export const DEFAULT_FIELD_NAMES_REGEX_FOR_EXPRESSION = /Field[0-9]{8}/g;
+ export const DEFAULT_FIELD_NAMES_REGEX_FOR_EXPRESSION = /([^[]+(?=]))/g;
