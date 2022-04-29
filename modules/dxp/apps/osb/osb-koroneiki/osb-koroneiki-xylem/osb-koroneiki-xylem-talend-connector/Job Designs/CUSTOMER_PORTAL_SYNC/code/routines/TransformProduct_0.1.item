@@ -40,6 +40,8 @@ public class TransformProduct {
 		JSONObject jsonObject = new JSONObject();
 
 		jsonObject.put("externalReferenceCode", productKey);
+		jsonObject.put("published", true);
+		jsonObject.put("purchasable", true);
 		jsonObject.put("sku", productKey);
 
 		jsonArray.put(jsonObject);

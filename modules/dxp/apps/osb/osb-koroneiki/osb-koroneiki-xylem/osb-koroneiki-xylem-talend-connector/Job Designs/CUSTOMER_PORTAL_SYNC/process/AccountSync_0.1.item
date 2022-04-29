@@ -296,8 +296,13 @@
       <column comment="" key="false" length="-1" name="teamKey" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="-1" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="teamName" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="-1" usefulColumn="true"/>
     </metadata>
+    <metadata connector="FLOW" label="liferayoutput8" name="liferayoutput8">
+      <column comment="complex: Array" key="false" length="-1" name="productPurchases" nullable="true" pattern="" precision="-1" type="id_String" originalLength="-1" usefulColumn="true">
+        <additionalField key="AVRO_TECHNICAL_KEY" value="productPurchases"/>
+      </column>
+    </metadata>
     <nodeData xsi:type="TalendMapper:MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="liferayoutput6">
         <mapperTableEntries name="description" expression="row1.description " type="id_String" nullable="true"/>
@@ -350,6 +355,9 @@
         <mapperTableEntries name="accountKey" expression="row1.key " type="id_String" nullable="true"/>
         <mapperTableEntries name="teamKey" expression="FLSPartnerSyncUtil.getFLSTeamKey(row1.assignedTeams)" type="id_String" nullable="true"/>
         <mapperTableEntries name="teamName" expression="FLSPartnerSyncUtil.getFLSTeamName(row1.assignedTeams)" type="id_String" nullable="true"/>
+      </outputTables>
+      <outputTables sizeState="INTERMEDIATE" name="liferayoutput8">
+        <mapperTableEntries name="productPurchases" expression="row1.productPurchases " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row1" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="assignedTeams" type="id_String" nullable="true"/>
@@ -2111,7 +2119,7 @@
       <column comment="" key="false" length="-1" name="x_class_name" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="-1" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tRunJob" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="576" posY="2080">
+  <node componentName="tRunJob" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="608" posY="1856">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRunJob_6" show="false"/>
     <elementParameter field="CHECK" name="USE_DYNAMIC_JOB" value="false"/>
     <elementParameter field="TEXT" name="CONTEXT_JOB" value="" show="false"/>
@@ -2137,6 +2145,37 @@
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tRunJob_6"/>
   </node>
+  <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="960" posY="704">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_2" show="false"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="globalMap.put(&quot;accountId&quot;, String.valueOf(row18.id));"/>
+    <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="tJavaRow_2"/>
+  </node>
+  <node componentName="tRunJob" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="480" posY="2080">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRunJob_5" show="false"/>
+    <elementParameter field="CHECK" name="USE_DYNAMIC_JOB" value="false"/>
+    <elementParameter field="TEXT" name="CONTEXT_JOB" value="" show="false"/>
+    <elementParameter field="PROCESS_TYPE" name="PROCESS" value="CommerceOrderSync"/>
+    <elementParameter field="TECHNICAL" name="PROCESS:PROCESS_TYPE_CONTEXT" value="Default"/>
+    <elementParameter field="TECHNICAL" name="PROCESS:PROCESS_TYPE_PROCESS" value="_gZqNULUwEeyE7J7PNYHVIg"/>
+    <elementParameter field="TECHNICAL" name="PROCESS:PROCESS_TYPE_VERSION" value="Latest"/>
+    <elementParameter field="TEXT" name="CONTEXT_NAME" value="Default" show="false"/>
+    <elementParameter field="CHECK" name="USE_INDEPENDENT_PROCESS" value="false"/>
+    <elementParameter field="CHECK" name="DIE_ON_CHILD_ERROR" value="false"/>
+    <elementParameter field="CHECK" name="TRANSMIT_WHOLE_CONTEXT" value="true"/>
+    <elementParameter field="TABLE" name="CONTEXTPARAMS">
+      <elementValue elementRef="PARAM_NAME_COLUMN" value="accountId"/>
+      <elementValue elementRef="PARAM_VALUE_COLUMN" value="(String)globalMap.get(&quot;accountId&quot;)"/>
+      <elementValue elementRef="PARAM_NAME_COLUMN" value="productPurchases"/>
+      <elementValue elementRef="PARAM_VALUE_COLUMN" value="liferayoutput8.productPurchases"/>
+    </elementParameter>
+    <elementParameter field="CHECK" name="PROPAGATE_CHILD_RESULT" value="false"/>
+    <elementParameter field="CHECK" name="PRINT_PARAMETER" value="false"/>
+    <elementParameter field="CHECK" name="TRANSMIT_ORIGINAL_CONTEXT" value="true" show="false"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="tRunJob_5"/>
+  </node>
   <node componentName="tLiferayConnection" componentVersion="0.6.0.SNAPSHOT" offsetLabelX="0" offsetLabelY="0" posX="128" posY="192">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLiferayConnection_1" show="false"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="" show="false"/>
@@ -2155,12 +2194,12 @@
   </node>
   <node componentName="tJava" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="128" posY="32">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJava_1" show="false"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="System.out.println(&quot;Start sync job&quot;);&#xA;System.out.println(&quot;Syncing to &quot; + context.customerPortalHost + &quot; using &quot; + context.customerPortalUserName);&#xA;&#xA;if (context.lastRunStartDate != null) {&#xA;&#x9;String sanitizedLastRunStartDate = context.lastRunStartDate.trim();&#xA;&#xA;&#x9;if (!sanitizedLastRunStartDate.isEmpty()) {&#xA;&#x9;&#x9;if (context.deltaMins == null) {&#xA;&#x9;&#x9;&#x9;context.deltaMins = 5;&#xA;&#x9;&#x9;}&#xA;&#xA;&#x9;&#x9;Date date = TalendDate.parseDate(&quot;yyyy-MM-dd'T'HH:mm:ssZ&quot;, sanitizedLastRunStartDate);&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;date = new Date(date.getTime() - (context.deltaMins * 60 * 1000));&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;context.lastRunStartDate = TalendDate.formatDate(&#xA;&#x9;&#x9;&#x9;&quot;yyyy-MM-dd'T'HH:mm:ss'Z'&quot;, date);&#xA;&#x9;}&#xA;&#x9;else {&#xA;&#x9;&#x9;context.lastRunStartDate = null;&#xA;&#x9;}&#xA;}&#xA;&#xA;if (context.lastRunStartDate == null) {&#xA;&#x9;//context.lastRunStartDate = TalendDate.formatDate(&quot;yyyy-MM-dd'T'HH:mm:ss'Z'&quot;, new Date(0));&#xA;&#xA;&#x9;//2021-01-01T00:00:00Z&#xA;&#x9;//context.lastRunStartDate = TalendDate.formatDate(&quot;yyyy-MM-dd'T'HH:mm:ss'Z'&quot;, new Date(1609488000000L));&#xA;&#xA;&#x9;context.lastRunStartDate = TalendDate.formatDate(&quot;yyyy-MM-dd'T'HH:mm:ss'Z'&quot;, new Date(System.currentTimeMillis() - 30000000));&#xA;}&#xA;&#xA;if ((context.accountSyncFilter == null) || context.accountSyncFilter.equals(&quot;&quot;)) {&#xA;&#x9;context.accountSyncFilter = &quot;entitlements/any(s:contains(s, 'Subscription') or s eq 'Partner') and dateModified gt &quot; + context.lastRunStartDate;&#xA;}&#xA;&#xA;// Test&#xA; context.accountSyncFilter = &quot;entitlements/any(s:contains(s, 'Subscription') or s eq 'Partner') and (code eq 'FIFAWCQATAR' or code eq 'NINTENDOJPOSBT')&quot;;&#xA;&#x9;&#xA;System.out.println(&quot;Syncing accounts with filter: &quot; + context.accountSyncFilter);"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="System.out.println(&quot;Start sync job&quot;);&#xA;System.out.println(&quot;Syncing to &quot; + context.customerPortalHost + &quot; using &quot; + context.customerPortalUserName);&#xA;&#xA;if (context.lastRunStartDate != null) {&#xA;&#x9;String sanitizedLastRunStartDate = context.lastRunStartDate.trim();&#xA;&#xA;&#x9;if (!sanitizedLastRunStartDate.isEmpty()) {&#xA;&#x9;&#x9;if (context.deltaMins == null) {&#xA;&#x9;&#x9;&#x9;context.deltaMins = 5;&#xA;&#x9;&#x9;}&#xA;&#xA;&#x9;&#x9;Date date = TalendDate.parseDate(&quot;yyyy-MM-dd'T'HH:mm:ssZ&quot;, sanitizedLastRunStartDate);&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;date = new Date(date.getTime() - (context.deltaMins * 60 * 1000));&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;context.lastRunStartDate = TalendDate.formatDate(&#xA;&#x9;&#x9;&#x9;&quot;yyyy-MM-dd'T'HH:mm:ss'Z'&quot;, date);&#xA;&#x9;}&#xA;&#x9;else {&#xA;&#x9;&#x9;context.lastRunStartDate = null;&#xA;&#x9;}&#xA;}&#xA;&#xA;if (context.lastRunStartDate == null) {&#xA;&#x9;//context.lastRunStartDate = TalendDate.formatDate(&quot;yyyy-MM-dd'T'HH:mm:ss'Z'&quot;, new Date(0));&#xA;&#xA;&#x9;//2021-01-01T00:00:00Z&#xA;&#x9;//context.lastRunStartDate = TalendDate.formatDate(&quot;yyyy-MM-dd'T'HH:mm:ss'Z'&quot;, new Date(1609488000000L));&#xA;&#xA;&#x9;context.lastRunStartDate = TalendDate.formatDate(&quot;yyyy-MM-dd'T'HH:mm:ss'Z'&quot;, new Date(System.currentTimeMillis() - 30000000));&#xA;}&#xA;&#xA;if ((context.accountSyncFilter == null) || context.accountSyncFilter.equals(&quot;&quot;)) {&#xA;&#x9;context.accountSyncFilter = &quot;entitlements/any(s:contains(s, 'Subscription') or s eq 'Partner') and dateModified gt &quot; + context.lastRunStartDate;&#xA;}&#xA;&#xA;// Test&#xA; context.accountSyncFilter = &quot;entitlements/any(s:contains(s, 'Subscription') or s eq 'Partner') and (code eq 'FIFAWCQATAR' or code eq 'NINTENDOJPOSBT')&quot;;&#xA; context.accountSyncFilter = &quot;entitlements/any(s:contains(s, 'Subscription') or s eq 'Partner') and (code eq 'NINTENDOJPOSBT')&quot;;&#xA;&#x9;&#xA;System.out.println(&quot;Syncing accounts with filter: &quot; + context.accountSyncFilter);"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="import java.util.Date;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" name="tJava_1"/>
   </node>
-  <node componentName="tLiferayInput" componentVersion="0.6.0.SNAPSHOT" offsetLabelX="0" offsetLabelY="0" posX="96" posY="2240">
+  <node componentName="tLiferayInput" componentVersion="0.6.0.SNAPSHOT" offsetLabelX="0" offsetLabelY="0" posX="96" posY="2400">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLiferayInput_2" show="false"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
@@ -2261,7 +2300,7 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="320" posY="2240">
+  <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="320" posY="2400">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMap_4" show="false"/>
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
     <elementParameter field="CLOSED_LIST" name="LINK_STYLE" value="AUTO"/>
@@ -2327,7 +2366,7 @@
       </inputTables>
     </nodeData>
   </node>
-  <node componentName="tLiferayOutput" componentVersion="0.6.0.SNAPSHOT" offsetLabelX="0" offsetLabelY="0" posX="672" posY="2240">
+  <node componentName="tLiferayOutput" componentVersion="0.6.0.SNAPSHOT" offsetLabelX="0" offsetLabelY="0" posX="672" posY="2400">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLiferayOutput_9" show="false"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
@@ -2356,7 +2395,7 @@
       </column>
     </metadata>
   </node>
-  <node componentName="tRunJob" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="672" posY="2432">
+  <node componentName="tRunJob" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="672" posY="2592">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRunJob_4" show="false"/>
     <elementParameter field="CHECK" name="USE_DYNAMIC_JOB" value="false"/>
     <elementParameter field="TEXT" name="CONTEXT_JOB" value="" show="false"/>
@@ -2536,6 +2575,10 @@
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="liferayoutput7" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="liferayoutput8" lineStyle="0" metaname="liferayoutput8" offsetLabelX="0" offsetLabelY="0" outputId="7" source="tMap_1" target="tRunJob_5">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="liferayoutput8" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row2" lineStyle="0" metaname="tExtractJSONFields_1" offsetLabelX="0" offsetLabelY="0" source="tExtractJSONFields_1" target="tMap_2">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
@@ -2753,6 +2796,10 @@
   <connection connectorName="MAIN" label="row7" lineStyle="0" metaname="MAIN" offsetLabelX="0" offsetLabelY="0" source="tLiferayOutput_1" target="tLogRow_3">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row7" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="row18" lineStyle="0" metaname="tLogRow_3" offsetLabelX="0" offsetLabelY="0" source="tLogRow_3" target="tJavaRow_2">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="row18" show="false"/>
   </connection>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tLiferayConnection_1" offsetLabelX="0" offsetLabelY="0" source="tLiferayConnection_1" target="tLiferayConnection_2">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk1" show="false"/>

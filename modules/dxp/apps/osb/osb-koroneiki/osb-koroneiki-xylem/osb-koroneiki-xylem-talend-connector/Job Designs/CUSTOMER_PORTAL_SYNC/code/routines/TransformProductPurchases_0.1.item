@@ -32,6 +32,165 @@ public class TransformProductPurchases {
 
 	public static String SUBSCRIPTION_NAME_BACKUP = "Backup";
 
+	public static JSONObject getCommerceJSONObject(
+			String accountId, String channelId, String productPurchases)
+		throws Exception {
+
+		Date now = new Date();
+
+		Map<String, JSONObject> orderMap = new HashMap<>();
+		JSONArray orderItemsJSONArray = new JSONArray();
+
+		JSONArray jsonArray = new JSONArray(productPurchases);
+
+		for (int i = 0; i < jsonArray.length(); i++) {
+			JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+			String accountKey = jsonObject.getString("accountKey");
+			Date endDate = DateUtil.parseEndDate(jsonObject);
+			Date originalEndDate = DateUtil.parseOriginalEndDate(jsonObject);
+			JSONArray productConsumptionsJSONArray = jsonObject.getJSONArray(
+				"productConsumptions");
+			String productPurchaseKey = jsonObject.getString("key");
+			int quantity = jsonObject.getInt("quantity");
+			Date startDate = DateUtil.parseStartDate(jsonObject);
+
+			JSONObject propertiesJSONObject = jsonObject.getJSONObject(
+				"properties");
+
+			String instanceSize = propertiesJSONObject.optString("sizing");
+
+			JSONObject productJSONObject = jsonObject.getJSONObject("product");
+
+			JSONObject productPropertiesJSONObject =
+				productJSONObject.getJSONObject("properties");
+
+			String displayGroupName = productPropertiesJSONObject.optString(
+				"display-group-name");
+			String displayName = productPropertiesJSONObject.optString(
+				"display-name");
+
+			if (displayGroupName.isEmpty()) {
+				continue;
+			}
+
+			// Order
+
+			String orderExternalReferenceCode = _getOpportunityKey(
+				accountKey, jsonObject);
+
+			if (!orderMap.containsKey(orderExternalReferenceCode)) {
+				JSONObject orderJSONObject = new JSONObject();
+
+				orderJSONObject.put("accountId", accountId);
+				orderJSONObject.put("channelId", channelId);
+				orderJSONObject.put(
+					"currencyCode", Constants.CURRENCY_CODE_USD);
+				orderJSONObject.put(
+					"externalReferenceCode", orderExternalReferenceCode);
+				orderJSONObject.put("orderStatus", Constants.ORDER_STATUS_OPEN);
+				orderJSONObject.put(
+					"paymentStatus", Constants.ORDER_STATUS_OPEN);
+
+				orderMap.put(orderExternalReferenceCode, orderJSONObject);
+			}
+
+			// Order Item
+
+			JSONObject orderItemJSONObject = new JSONObject();
+
+			JSONArray customFieldsJSONArray = new JSONArray();
+
+			customFieldsJSONArray.put(
+				_getCustomFieldJSONObject(
+					"accountSubscriptionGroupERC",
+					_getAccountSubscriptionGroupERC(
+						accountKey, displayGroupName)));
+			customFieldsJSONArray.put(
+				_getCustomFieldJSONObject(
+					"accountSubscriptionERC",
+					_getAccountSubscriptionERC(
+						accountKey, displayGroupName, displayName)));
+			customFieldsJSONArray.put(
+				_getCustomFieldJSONObject(
+					"provisionedCount", productConsumptionsJSONArray.length()));
+
+			String subscriptionTermStatus = null;
+
+			if ((endDate != null) && endDate.before(now)) {
+				subscriptionTermStatus = "Expired";
+			}
+			else if ((startDate != null) && startDate.after(now)) {
+				subscriptionTermStatus = "Future";
+			}
+			else {
+				subscriptionTermStatus = "Active";
+			}
+
+			customFieldsJSONArray.put(
+				_getCustomFieldJSONObject("status", subscriptionTermStatus));
+
+			orderItemJSONObject.put("customFields", customFieldsJSONArray);
+
+			orderItemJSONObject.put(
+				"externalReferenceCode", productPurchaseKey);
+
+			JSONObject nameJSONObject = new JSONObject();
+
+			nameJSONObject.put(Constants.LANGUAGE_ID_US, displayName);
+
+			orderItemJSONObject.put("name", nameJSONObject);
+
+			orderItemJSONObject.put(
+				"orderExternalReferenceCode", orderExternalReferenceCode);
+			orderItemJSONObject.put(
+				"skuExternalReferenceCode", productJSONObject.get("key"));
+
+			JSONArray optionsJSONArray = new JSONArray();
+
+			JSONObject optionJSONObject = new JSONObject();
+
+			optionJSONObject.put("endDate", originalEndDate);
+
+			optionsJSONArray.put(optionJSONObject);
+
+			JSONObject optionJSONObject2 = new JSONObject();
+
+			optionJSONObject2.put("instanceSize", instanceSize);
+
+			optionsJSONArray.put(optionJSONObject2);
+
+			JSONObject optionJSONObject3 = new JSONObject();
+
+			optionJSONObject3.put("startDate", startDate);
+
+			optionsJSONArray.put(optionJSONObject3);
+
+			// Extra space so Liferay component won't interpret it as a JSONArray
+
+			orderItemJSONObject.put(
+				"options", optionsJSONArray.toString() + " ");
+
+			orderItemJSONObject.put("quantity", quantity);
+
+			orderItemsJSONArray.put(orderItemJSONObject);
+		}
+
+		JSONObject commerceJSONObject = new JSONObject();
+
+		JSONArray ordersJSONArray = new JSONArray();
+
+		for (JSONObject orderJSONObject : orderMap.values()) {
+			ordersJSONArray.put(orderJSONObject);
+		}
+
+		commerceJSONObject.put("orders", ordersJSONArray);
+
+		commerceJSONObject.put("orderItems", orderItemsJSONArray);
+
+		return commerceJSONObject;
+	}
+
 	public static JSONArray getSubscriptionGroupsJSONArray(
 			String productPurchases)
 		throws Exception {
@@ -90,25 +249,98 @@ public class TransformProductPurchases {
 		return subscriptionGroupsJSONArray;
 	}
 
+	private static String _getAccountSubscriptionERC(
+		String accountKey, String displayGroupName, String displayName) {
+
+		return _getAccountSubscriptionGroupERC(accountKey, displayGroupName) +
+			"_" +
+				displayName.toLowerCase(
+				).replace(
+					" ", "-"
+				);
+	}
+
+	private static String _getAccountSubscriptionGroupERC(
+		String accountKey, String displayGroupName) {
+
+		return accountKey + "_" +
+			displayGroupName.toLowerCase(
+			).replace(
+				" ", "-"
+			);
+	}
+
+	private static JSONObject _getCustomFieldJSONObject(String name, int data) {
+		JSONObject customFieldJSONObject = new JSONObject();
+
+		customFieldJSONObject.put("name", name);
+
+		JSONObject customValueJSONObject = new JSONObject();
+
+		customValueJSONObject.put("data", data);
+
+		customFieldJSONObject.put("customValue", customValueJSONObject);
+
+		return customFieldJSONObject;
+	}
+
+	private static JSONObject _getCustomFieldJSONObject(
+		String name, String data) {
+
+		JSONObject customFieldJSONObject = new JSONObject();
+
+		customFieldJSONObject.put("name", name);
+
+		JSONObject customValueJSONObject = new JSONObject();
+
+		customValueJSONObject.put("data", data);
+
+		customFieldJSONObject.put("customValue", customValueJSONObject);
+
+		return customFieldJSONObject;
+	}
+
+	private static String _getOpportunityKey(
+		String accountKey, JSONObject productPurchaseJSONObject) {
+
+		if (productPurchaseJSONObject.isNull("externalLinks")) {
+			return accountKey;
+		}
+
+		JSONArray externalLinksJSONArray =
+			productPurchaseJSONObject.getJSONArray("externalLinks");
+
+		for (int j = 0; j < externalLinksJSONArray.length(); j++) {
+			JSONObject externalLinkJSONObject =
+				externalLinksJSONArray.getJSONObject(j);
+
+			String domain = externalLinkJSONObject.getString("domain");
+			String entityName = externalLinkJSONObject.getString("entityName");
+
+			if (domain.equals(Constants.EXTERNAL_LINK_DOMAIN_SALESFORCE) &&
+				entityName.equals(
+					Constants.
+						EXTERNAL_LINK_ENTITY_NAME_SALESFORCE_OPPORTUNITY)) {
+
+				return externalLinkJSONObject.getString("entityId");
+			}
+		}
+
+		return accountKey;
+	}
+
 	private static class Subscription {
 
 		public Subscription(
-			String accountKey,
-			String accountSubscriptionGroupExternalReferenceCode, String name) {
+			String accountKey, String displayGroupName, String name) {
 
 			this.accountKey = accountKey;
-			this.accountSubscriptionGroupExternalReferenceCode =
-				accountSubscriptionGroupExternalReferenceCode;
 			this.name = name;
 
-			String curExternalReferenceCode = name.toLowerCase();
-
-			curExternalReferenceCode = curExternalReferenceCode.replace(
-				" ", "-");
-
-			externalReferenceCode =
-				accountSubscriptionGroupExternalReferenceCode + "_" +
-					curExternalReferenceCode;
+			this.accountSubscriptionGroupExternalReferenceCode =
+				_getAccountSubscriptionGroupERC(accountKey, displayGroupName);
+			this.externalReferenceCode = _getAccountSubscriptionERC(
+				accountKey, displayGroupName, name);
 		}
 
 		public void addSubscriptionTerm(JSONObject jsonObject)
@@ -216,13 +448,8 @@ public class TransformProductPurchases {
 				if (accountKey == null) {
 					accountKey = jsonObject.getString("accountKey");
 
-					String curExternalReferenceCode = name.toLowerCase();
-
-					curExternalReferenceCode = curExternalReferenceCode.replace(
-						" ", "-");
-
-					externalReferenceCode =
-						accountKey + "_" + curExternalReferenceCode;
+					externalReferenceCode = _getAccountSubscriptionGroupERC(
+						accountKey, name);
 				}
 
 				JSONObject productJSONObject = jsonObject.getJSONObject(
@@ -243,7 +470,7 @@ public class TransformProductPurchases {
 
 				if (subscription == null) {
 					subscription = new Subscription(
-						accountKey, externalReferenceCode, subscriptionName);
+						accountKey, name, subscriptionName);
 
 					subscriptionsMap.put(subscriptionName, subscription);
 				}
@@ -406,7 +633,7 @@ public class TransformProductPurchases {
 			jsonObject.put(
 				"accountSubscriptionGroupERC",
 				accountSubscriptionGroupExternalReferenceCode);
-			jsonObject.put("endDate", DateUtil.format(endDate));
+			jsonObject.put("endDate", DateUtil.format(originalEndDate));
 			jsonObject.put("externalReferenceCode", externalReferenceCode);
 			jsonObject.put("instanceSize", instanceSize);
 			jsonObject.put("provisioned", provisioned);

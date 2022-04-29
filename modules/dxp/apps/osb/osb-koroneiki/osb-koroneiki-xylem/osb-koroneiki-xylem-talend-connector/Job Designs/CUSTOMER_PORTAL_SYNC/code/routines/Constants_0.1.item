@@ -19,6 +19,8 @@ package routines;
  */
 public class Constants {
 
+	public static final String CURRENCY_CODE_USD = "USD";
+
 	public static final String DATE_PATTERN = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 
 	public static final long END_DATE_PERPETUAL = 4102444800000L;
@@ -27,8 +29,17 @@ public class Constants {
 
 	public static final String EXTERNAL_LINK_DOMAIN_AC = "analytics-cloud";
 
+	public static final String EXTERNAL_LINK_DOMAIN_SALESFORCE = "salesforce";
+
 	public static final String EXTERNAL_LINK_ENTITY_NAME_AC_WORKSPACE =
 		"workspace";
+
+	public static final String
+		EXTERNAL_LINK_ENTITY_NAME_SALESFORCE_OPPORTUNITY = "opportunity";
+
+	public static final String LANGUAGE_ID_US = "en_US";
+
+	public static final int ORDER_STATUS_OPEN = 2;
 
 	public static final long START_DATE_PERPETUAL = 0L;
 
