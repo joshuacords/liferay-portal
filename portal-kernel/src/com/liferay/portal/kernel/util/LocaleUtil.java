@@ -342,7 +342,9 @@ public class LocaleUtil {
 
 		String displayName = null;
 
-		if (duplicateLanguages.contains(locale.getLanguage())) {
+		if (duplicateLanguages.contains(locale.getLanguage()) &&
+			Validator.isNotNull(country)) {
+
 			displayName = StringUtil.appendParentheticalSuffix(
 				language, country);
 		}
