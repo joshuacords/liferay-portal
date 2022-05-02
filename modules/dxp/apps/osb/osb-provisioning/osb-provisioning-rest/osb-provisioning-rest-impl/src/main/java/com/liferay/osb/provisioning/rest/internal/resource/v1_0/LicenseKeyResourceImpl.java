@@ -530,10 +530,6 @@ public class LicenseKeyResourceImpl
 		List<LicenseKey> curLicenseKeys = new ArrayList<>();
 
 		for (LicenseKey licenseKey : licenseKeys) {
-			LicenseKey.LicenseEntryType licenseEntryType =
-				licenseKey.getLicenseEntryType();
-			LicenseKey.Sizing sizing = licenseKey.getSizing();
-
 			String owner = licenseKey.getOwner();
 
 			if (Validator.isNull(owner)) {
@@ -560,25 +556,20 @@ public class LicenseKeyResourceImpl
 				complimentary = licenseKey.getComplimentary();
 			}
 
-			boolean active = true;
-
-			if (licenseKey.getActive() != null) {
-				active = licenseKey.getActive();
-			}
-
 			com.liferay.osb.provisioning.license.model.LicenseKey
 				curLicenseKey = _licenseKeyLocalService.addLicenseKey(
 					StringBundler.concat(
 						contact.getFirstName(), StringPool.SPACE,
 						contact.getLastName()),
-					contact.getUuid(), licenseEntryType.getValue(),
+					contact.getUuid(), licenseKey.getLicenseEntryTypeAsString(),
 					licenseKey.getProductKey(), accountKey,
 					licenseKey.getProductPurchaseKey(),
 					licenseKey.getProductVersion(), licenseKey.getName(), owner,
-					maxClusterNodes, sizing.getValue(), description,
-					licenseKey.getHostName(), licenseKey.getIpAddresses(),
-					licenseKey.getMacAddresses(), licenseKey.getStartDate(),
-					licenseKey.getExpirationDate(), complimentary, active);
+					maxClusterNodes, licenseKey.getSizingAsString(),
+					description, licenseKey.getHostName(),
+					licenseKey.getIpAddresses(), licenseKey.getMacAddresses(),
+					licenseKey.getStartDate(), licenseKey.getExpirationDate(),
+					complimentary, true);
 
 			curLicenseKeys.add(LicenseKeyUtil.toLicenseKey(curLicenseKey));
 		}
@@ -875,10 +866,10 @@ public class LicenseKeyResourceImpl
 		List<SubscriptionTerm> subscriptionTerms = new ArrayList<>();
 
 		for (ProductPurchaseView productPurchaseView : productPurchaseViews) {
-			if (productPurchaseView.getProductConsumptions() != null) {
-				Map<String, List<ProductConsumption>> productConsumptionsMap =
-					new HashMap<>();
+			Map<String, List<ProductConsumption>> productConsumptionsMap =
+				new HashMap<>();
 
+			if (productPurchaseView.getProductConsumptions() != null) {
 				for (ProductConsumption productConsumption :
 						productPurchaseView.getProductConsumptions()) {
 
@@ -896,53 +887,54 @@ public class LicenseKeyResourceImpl
 
 					productConsumptions.add(productConsumption);
 				}
+			}
 
-				if (ArrayUtil.isNotEmpty(
-						productPurchaseView.getProductPurchases())) {
+			if (ArrayUtil.isNotEmpty(
+					productPurchaseView.getProductPurchases())) {
 
-					for (ProductPurchase productPurchase :
-							productPurchaseView.getProductPurchases()) {
+				for (ProductPurchase productPurchase :
+						productPurchaseView.getProductPurchases()) {
 
-						Map<String, String> properties =
-							productPurchase.getProperties();
+					SubscriptionTerm subscriptionTerm = new SubscriptionTerm();
 
-						int sizing = 0;
+					subscriptionTerm.setEndDate(
+						productPurchase.getOriginalEndDate());
 
-						if (properties != null) {
-							sizing = GetterUtil.getInteger(
-								properties.get("sizing"));
+					Map<String, String> properties =
+						productPurchase.getProperties();
+
+					if (properties != null) {
+						int sizing = GetterUtil.getInteger(
+							properties.get("sizing"));
+
+						if (sizing > 0) {
+							subscriptionTerm.setInstanceSize(sizing);
 						}
-
-						int provisionedCount = 0;
-
-						List<ProductConsumption> productConsumptions =
-							productConsumptionsMap.get(
-								productPurchase.getKey());
-
-						if (productConsumptions != null) {
-							provisionedCount = productConsumptions.size();
-						}
-
-						SubscriptionTerm subscriptionTerm =
-							new SubscriptionTerm();
-
-						subscriptionTerm.setEndDate(
-							productPurchase.getOriginalEndDate());
-						subscriptionTerm.setInstanceSize(sizing);
-						subscriptionTerm.setPerpetual(
-							productPurchase.getPerpetual());
-						subscriptionTerm.setProductKey(
-							productPurchase.getProductKey());
-						subscriptionTerm.setProductPurchaseKey(
-							productPurchase.getKey());
-						subscriptionTerm.setProvisionedCount(provisionedCount);
-						subscriptionTerm.setQuantity(
-							productPurchase.getQuantity());
-						subscriptionTerm.setStartDate(
-							productPurchase.getStartDate());
-
-						subscriptionTerms.add(subscriptionTerm);
 					}
+
+					subscriptionTerm.setPerpetual(
+						productPurchase.getPerpetual());
+					subscriptionTerm.setProductKey(
+						productPurchase.getProductKey());
+					subscriptionTerm.setProductPurchaseKey(
+						productPurchase.getKey());
+
+					int provisionedCount = 0;
+
+					List<ProductConsumption> productConsumptions =
+						productConsumptionsMap.get(productPurchase.getKey());
+
+					if (productConsumptions != null) {
+						provisionedCount = productConsumptions.size();
+					}
+
+					subscriptionTerm.setProvisionedCount(provisionedCount);
+
+					subscriptionTerm.setQuantity(productPurchase.getQuantity());
+					subscriptionTerm.setStartDate(
+						productPurchase.getStartDate());
+
+					subscriptionTerms.add(subscriptionTerm);
 				}
 			}
 		}
