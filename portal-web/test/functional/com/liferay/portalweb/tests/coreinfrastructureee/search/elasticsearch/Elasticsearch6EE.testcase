@@ -290,4 +290,41 @@ definition {
 		XPackMonitoring.viewAsGuestPG();
 	}
 
+	@description = "This is a use case for LPS-151205."
+	@priority = "5"
+	test XPackWithRestrictedCipherSuitesAndTLSVersions {
+		property elastic.xpack.configure.tls.cipher.suites = "true";
+		property elastic.xpack.enabled = "true";
+		property osgi.app.includes = "portal-search-elasticsearch6-xpack-monitoring,portal-search-elasticsearch6-xpack-security";
+		property remote.elasticsearch.enabled = "true";
+		property test.name.skip.portal.instance = "Elasticsearch6EE#XPackWithRestrictedCipherSuitesAndTLSVersions";
+
+		ProductMenu.gotoPortlet(
+			category = "Site Builder",
+			panel = "Site Administration",
+			portlet = "Pages");
+
+		SitePages.addPublicPage(
+			pageName = "X-Pack Monitoring Page",
+			sitePageType = "Widget Page");
+
+		SitePages.configurePage(
+			columnName = "1 Column",
+			pageName = "X-Pack Monitoring Page",
+			privacy = "Public Pages",
+			sitePageType = "Widget Page");
+
+		Navigator.gotoPage(pageName = "X-Pack Monitoring Page");
+
+		Portlet.addPG(portletName = "X-Pack Monitoring");
+
+		XPackMonitoring.viewPG();
+
+		User.logoutPG();
+
+		Navigator.gotoPage(pageName = "X-Pack Monitoring Page");
+
+		XPackMonitoring.viewAsGuestPG();
+	}
+
 }
