@@ -72,6 +72,21 @@ xpack.ssl.key: certs/localhost/localhost.key</echo>
 		</sequential>
 	</macrodef>
 
+	<macrodef name="configure-elasticsearch-x-pack-security-tls-cipher-suites-properties">
+		<sequential>
+			<echo append="true" file="${elasticsearch.dir}/config/elasticsearch.yml">${line.separator}xpack.security.enabled: true
+xpack.security.http.ssl.enabled: true
+xpack.security.http.ssl.supported_protocols: [ "TLSv1.2" ]
+xpack.security.transport.ssl.cipher_suites : TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_DHE_RSA_WITH_AES_128_GCM_SHA256
+xpack.security.transport.ssl.enabled: true
+xpack.security.transport.ssl.supported_protocols: [ "TLSv1.2" ]
+xpack.security.transport.ssl.verification_mode: certificate
+xpack.ssl.certificate: certs/localhost/localhost.crt
+xpack.ssl.certificate_authorities: [ "certs/ca/ca.crt" ]
+xpack.ssl.key: certs/localhost/localhost.key</echo>
+		</sequential>
+	</macrodef>
+
 	<macrodef name="configure-kibana-properties">
 		<sequential>
 			<echo append="true" file="${elastic.kibana.dir}/config/kibana.yml">${line.separator}elasticsearch.url: "http://localhost:9200"
@@ -171,10 +186,32 @@ ${line.separator}CATALINA_OPTS="${CATALINA_OPTS} -Djavax.net.ssl.trustStore=${el
 
 					<echo append="true" file="${app.server.tomcat.dir}/bin/setenv.sh">
 ${line.separator}CATALINA_OPTS="${CATALINA_OPTS} -Djavax.net.ssl.trustStore=${elasticsearch.dir}-1/config/certs/localhost.jks -Djavax.net.ssl.trustStorePassword=liferay"</echo>
+
+					<if>
+						<equals arg1="${elastic.xpack.configure.tls.cipher.suites}" arg2="true" />
+						<then>
+							<echo append="true" file="${app.server.tomcat.dir}/bin/setenv.bat">
+		${line.separator}CATALINA_OPTS="${CATALINA_OPTS} -Djdk.tls.client.cipherSuites=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_DHE_RSA_WITH_AES_128_GCM_SHA256 -Djdk.tls.client.protocols=TLSv1.2"</echo>
+
+							<echo append="true" file="${app.server.tomcat.dir}/bin/setenv.sh">
+		${line.separator}CATALINA_OPTS="${CATALINA_OPTS} -Djdk.tls.client.cipherSuites=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_DHE_RSA_WITH_AES_128_GCM_SHA256 -Djdk.tls.client.protocols=TLSv1.2"</echo>
+						</then>
+					</if>
 				</then>
 				<else>
 					<echo>Set setenv.bat and setenv.sh manually before attempting to connect with portal.</echo>
 				</else>
+			</if>
+
+			<if>
+				<equals arg1="${elastic.xpack.configure.tls.cipher.suites}" arg2="true" />
+				<then>
+					<echo append="true" file="${app.server.tomcat.dir}/bin/setenv.bat">
+${line.separator}CATALINA_OPTS="${CATALINA_OPTS} -Djdk.tls.client.cipherSuites=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_DHE_RSA_WITH_AES_128_GCM_SHA256 -Djdk.tls.client.protocols=TLSv1.2"</echo>
+
+					<echo append="true" file="${app.server.tomcat.dir}/bin/setenv.sh">
+${line.separator}CATALINA_OPTS="${CATALINA_OPTS} -Djdk.tls.client.cipherSuites=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_DHE_RSA_WITH_AES_128_GCM_SHA256 -Djdk.tls.client.protocols=TLSv1.2"</echo>
+				</then>
 			</if>
 		</sequential>
 	</macrodef>
@@ -811,6 +848,7 @@ xpack.monitoring.collection.enabled: true</echo>
 
 		<configure-elasticsearch-properties />
 
+		<get-testcase-property property.name="elastic.xpack.configure.tls.cipher.suites" />
 		<get-testcase-property property.name="elastic.xpack.enabled" />
 
 		<if>
@@ -818,7 +856,15 @@ xpack.monitoring.collection.enabled: true</echo>
 			<then>
 				<generate-x-pack-security-certificates />
 
-				<configure-elasticsearch-x-pack-security-properties />
+				<if>
+					<equals arg1="${elastic.xpack.configure.tls.cipher.suites}" arg2="true" />
+					<then>
+						<configure-elasticsearch-x-pack-security-tls-cipher-suites-properties />
+					</then>
+					<else>
+						<configure-elasticsearch-x-pack-security-properties />
+					</else>
+				</if>
 			</then>
 		</if>
 
