@@ -374,8 +374,15 @@ public class DDMRESTDataProvider implements DDMDataProvider {
 				).build(),
 				false);
 
-		String response = jsonWebServiceClient.doGet(
-			absoluteURL, _getParametersArray(allParameters));
+		String response = null;
+
+		try {
+			response = jsonWebServiceClient.doGet(
+				absoluteURL, _getParametersArray(allParameters));
+		}
+		finally {
+			jsonWebServiceClient.destroy();
+		}
 
 		jsonWebServiceClient.destroy();
 
