@@ -1553,6 +1553,16 @@ public abstract class BaseDocumentFolderResourceTestCase {
 				continue;
 			}
 
+			if (Objects.equals(
+					"parentDocumentFolderId", additionalAssertFieldName)) {
+
+				if (documentFolder.getParentDocumentFolderId() == null) {
+					valid = false;
+				}
+
+				continue;
+			}
+
 			if (Objects.equals("subscribed", additionalAssertFieldName)) {
 				if (documentFolder.getSubscribed() == null) {
 					valid = false;
@@ -1775,6 +1785,19 @@ public abstract class BaseDocumentFolderResourceTestCase {
 				if (!Objects.deepEquals(
 						documentFolder1.getNumberOfDocuments(),
 						documentFolder2.getNumberOfDocuments())) {
+
+					return false;
+				}
+
+				continue;
+			}
+
+			if (Objects.equals(
+					"parentDocumentFolderId", additionalAssertFieldName)) {
+
+				if (!Objects.deepEquals(
+						documentFolder1.getParentDocumentFolderId(),
+						documentFolder2.getParentDocumentFolderId())) {
 
 					return false;
 				}
@@ -2017,6 +2040,11 @@ public abstract class BaseDocumentFolderResourceTestCase {
 			return sb.toString();
 		}
 
+		if (entityFieldName.equals("parentDocumentFolderId")) {
+			throw new IllegalArgumentException(
+				"Invalid entity field " + entityFieldName);
+		}
+
 		if (entityFieldName.equals("siteId")) {
 			throw new IllegalArgumentException(
 				"Invalid entity field " + entityFieldName);
@@ -2084,6 +2112,7 @@ public abstract class BaseDocumentFolderResourceTestCase {
 				name = StringUtil.toLowerCase(RandomTestUtil.randomString());
 				numberOfDocumentFolders = RandomTestUtil.randomInt();
 				numberOfDocuments = RandomTestUtil.randomInt();
+				parentDocumentFolderId = RandomTestUtil.randomLong();
 				siteId = testGroup.getGroupId();
 				subscribed = RandomTestUtil.randomBoolean();
 			}

@@ -234,6 +234,34 @@ public class Comment implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Integer numberOfComments;
 
+	@Schema
+	public Long getParentCommentId() {
+		return parentCommentId;
+	}
+
+	public void setParentCommentId(Long parentCommentId) {
+		this.parentCommentId = parentCommentId;
+	}
+
+	@JsonIgnore
+	public void setParentCommentId(
+		UnsafeSupplier<Long, Exception> parentCommentIdUnsafeSupplier) {
+
+		try {
+			parentCommentId = parentCommentIdUnsafeSupplier.get();
+		}
+		catch (RuntimeException re) {
+			throw re;
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@GraphQLField
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
+	protected Long parentCommentId;
+
 	@Schema(description = "The comment's text content.")
 	public String getText() {
 		return text;
@@ -356,6 +384,16 @@ public class Comment implements Serializable {
 			sb.append("\"numberOfComments\": ");
 
 			sb.append(numberOfComments);
+		}
+
+		if (parentCommentId != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"parentCommentId\": ");
+
+			sb.append(parentCommentId);
 		}
 
 		if (text != null) {

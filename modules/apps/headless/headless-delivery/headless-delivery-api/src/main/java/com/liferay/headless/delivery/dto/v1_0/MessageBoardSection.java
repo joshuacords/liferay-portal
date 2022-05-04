@@ -339,6 +339,38 @@ public class MessageBoardSection implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Integer numberOfMessageBoardThreads;
 
+	@Schema
+	public Long getParentMessageBoardSectionId() {
+		return parentMessageBoardSectionId;
+	}
+
+	public void setParentMessageBoardSectionId(
+		Long parentMessageBoardSectionId) {
+
+		this.parentMessageBoardSectionId = parentMessageBoardSectionId;
+	}
+
+	@JsonIgnore
+	public void setParentMessageBoardSectionId(
+		UnsafeSupplier<Long, Exception>
+			parentMessageBoardSectionIdUnsafeSupplier) {
+
+		try {
+			parentMessageBoardSectionId =
+				parentMessageBoardSectionIdUnsafeSupplier.get();
+		}
+		catch (RuntimeException re) {
+			throw re;
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@GraphQLField
+	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
+	protected Long parentMessageBoardSectionId;
+
 	@Schema(description = "The ID of the site to which this section is scoped.")
 	public Long getSiteId() {
 		return siteId;
@@ -608,6 +640,16 @@ public class MessageBoardSection implements Serializable {
 			sb.append("\"numberOfMessageBoardThreads\": ");
 
 			sb.append(numberOfMessageBoardThreads);
+		}
+
+		if (parentMessageBoardSectionId != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"parentMessageBoardSectionId\": ");
+
+			sb.append(parentMessageBoardSectionId);
 		}
 
 		if (siteId != null) {

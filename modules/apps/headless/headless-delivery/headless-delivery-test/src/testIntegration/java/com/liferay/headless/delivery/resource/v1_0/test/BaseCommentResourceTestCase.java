@@ -1853,6 +1853,14 @@ public abstract class BaseCommentResourceTestCase {
 				continue;
 			}
 
+			if (Objects.equals("parentCommentId", additionalAssertFieldName)) {
+				if (comment.getParentCommentId() == null) {
+					valid = false;
+				}
+
+				continue;
+			}
+
 			if (Objects.equals("text", additionalAssertFieldName)) {
 				if (comment.getText() == null) {
 					valid = false;
@@ -2005,6 +2013,17 @@ public abstract class BaseCommentResourceTestCase {
 				if (!Objects.deepEquals(
 						comment1.getNumberOfComments(),
 						comment2.getNumberOfComments())) {
+
+					return false;
+				}
+
+				continue;
+			}
+
+			if (Objects.equals("parentCommentId", additionalAssertFieldName)) {
+				if (!Objects.deepEquals(
+						comment1.getParentCommentId(),
+						comment2.getParentCommentId())) {
 
 					return false;
 				}
@@ -2202,6 +2221,11 @@ public abstract class BaseCommentResourceTestCase {
 			return sb.toString();
 		}
 
+		if (entityFieldName.equals("parentCommentId")) {
+			throw new IllegalArgumentException(
+				"Invalid entity field " + entityFieldName);
+		}
+
 		if (entityFieldName.equals("text")) {
 			sb.append("'");
 			sb.append(String.valueOf(comment.getText()));
@@ -2258,6 +2282,7 @@ public abstract class BaseCommentResourceTestCase {
 				dateModified = RandomTestUtil.nextDate();
 				id = RandomTestUtil.randomLong();
 				numberOfComments = RandomTestUtil.randomInt();
+				parentCommentId = RandomTestUtil.randomLong();
 				text = StringUtil.toLowerCase(RandomTestUtil.randomString());
 			}
 		};

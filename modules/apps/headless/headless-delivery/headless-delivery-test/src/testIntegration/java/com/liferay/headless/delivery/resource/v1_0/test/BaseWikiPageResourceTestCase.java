@@ -1003,6 +1003,14 @@ public abstract class BaseWikiPageResourceTestCase {
 				continue;
 			}
 
+			if (Objects.equals("parentWikiPageId", additionalAssertFieldName)) {
+				if (wikiPage.getParentWikiPageId() == null) {
+					valid = false;
+				}
+
+				continue;
+			}
+
 			if (Objects.equals("relatedContents", additionalAssertFieldName)) {
 				if (wikiPage.getRelatedContents() == null) {
 					valid = false;
@@ -1287,6 +1295,17 @@ public abstract class BaseWikiPageResourceTestCase {
 				if (!Objects.deepEquals(
 						wikiPage1.getNumberOfWikiPages(),
 						wikiPage2.getNumberOfWikiPages())) {
+
+					return false;
+				}
+
+				continue;
+			}
+
+			if (Objects.equals("parentWikiPageId", additionalAssertFieldName)) {
+				if (!Objects.deepEquals(
+						wikiPage1.getParentWikiPageId(),
+						wikiPage2.getParentWikiPageId())) {
 
 					return false;
 				}
@@ -1584,6 +1603,11 @@ public abstract class BaseWikiPageResourceTestCase {
 			return sb.toString();
 		}
 
+		if (entityFieldName.equals("parentWikiPageId")) {
+			throw new IllegalArgumentException(
+				"Invalid entity field " + entityFieldName);
+		}
+
 		if (entityFieldName.equals("relatedContents")) {
 			throw new IllegalArgumentException(
 				"Invalid entity field " + entityFieldName);
@@ -1670,6 +1694,7 @@ public abstract class BaseWikiPageResourceTestCase {
 				id = RandomTestUtil.randomLong();
 				numberOfAttachments = RandomTestUtil.randomInt();
 				numberOfWikiPages = RandomTestUtil.randomInt();
+				parentWikiPageId = RandomTestUtil.randomLong();
 				siteId = testGroup.getGroupId();
 				subscribed = RandomTestUtil.randomBoolean();
 			}

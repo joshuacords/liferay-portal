@@ -245,6 +245,27 @@ public class DocumentFolder implements Cloneable, Serializable {
 
 	protected Integer numberOfDocuments;
 
+	public Long getParentDocumentFolderId() {
+		return parentDocumentFolderId;
+	}
+
+	public void setParentDocumentFolderId(Long parentDocumentFolderId) {
+		this.parentDocumentFolderId = parentDocumentFolderId;
+	}
+
+	public void setParentDocumentFolderId(
+		UnsafeSupplier<Long, Exception> parentDocumentFolderIdUnsafeSupplier) {
+
+		try {
+			parentDocumentFolderId = parentDocumentFolderIdUnsafeSupplier.get();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected Long parentDocumentFolderId;
+
 	public Long getSiteId() {
 		return siteId;
 	}

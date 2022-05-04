@@ -359,6 +359,31 @@ public class MessageBoardMessage implements Cloneable, Serializable {
 
 	protected Integer numberOfMessageBoardMessages;
 
+	public Long getParentMessageBoardMessageId() {
+		return parentMessageBoardMessageId;
+	}
+
+	public void setParentMessageBoardMessageId(
+		Long parentMessageBoardMessageId) {
+
+		this.parentMessageBoardMessageId = parentMessageBoardMessageId;
+	}
+
+	public void setParentMessageBoardMessageId(
+		UnsafeSupplier<Long, Exception>
+			parentMessageBoardMessageIdUnsafeSupplier) {
+
+		try {
+			parentMessageBoardMessageId =
+				parentMessageBoardMessageIdUnsafeSupplier.get();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected Long parentMessageBoardMessageId;
+
 	public RelatedContent[] getRelatedContents() {
 		return relatedContents;
 	}

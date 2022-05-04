@@ -161,6 +161,27 @@ public class Comment implements Cloneable, Serializable {
 
 	protected Integer numberOfComments;
 
+	public Long getParentCommentId() {
+		return parentCommentId;
+	}
+
+	public void setParentCommentId(Long parentCommentId) {
+		this.parentCommentId = parentCommentId;
+	}
+
+	public void setParentCommentId(
+		UnsafeSupplier<Long, Exception> parentCommentIdUnsafeSupplier) {
+
+		try {
+			parentCommentId = parentCommentIdUnsafeSupplier.get();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected Long parentCommentId;
+
 	public String getText() {
 		return text;
 	}

@@ -1704,6 +1704,19 @@ public abstract class BaseStructuredContentFolderResourceTestCase {
 				continue;
 			}
 
+			if (Objects.equals(
+					"parentStructuredContentFolderId",
+					additionalAssertFieldName)) {
+
+				if (structuredContentFolder.
+						getParentStructuredContentFolderId() == null) {
+
+					valid = false;
+				}
+
+				continue;
+			}
+
 			if (Objects.equals("subscribed", additionalAssertFieldName)) {
 				if (structuredContentFolder.getSubscribed() == null) {
 					valid = false;
@@ -1936,6 +1949,22 @@ public abstract class BaseStructuredContentFolderResourceTestCase {
 							getNumberOfStructuredContents(),
 						structuredContentFolder2.
 							getNumberOfStructuredContents())) {
+
+					return false;
+				}
+
+				continue;
+			}
+
+			if (Objects.equals(
+					"parentStructuredContentFolderId",
+					additionalAssertFieldName)) {
+
+				if (!Objects.deepEquals(
+						structuredContentFolder1.
+							getParentStructuredContentFolderId(),
+						structuredContentFolder2.
+							getParentStructuredContentFolderId())) {
 
 					return false;
 				}
@@ -2188,6 +2217,11 @@ public abstract class BaseStructuredContentFolderResourceTestCase {
 			return sb.toString();
 		}
 
+		if (entityFieldName.equals("parentStructuredContentFolderId")) {
+			throw new IllegalArgumentException(
+				"Invalid entity field " + entityFieldName);
+		}
+
 		if (entityFieldName.equals("siteId")) {
 			throw new IllegalArgumentException(
 				"Invalid entity field " + entityFieldName);
@@ -2257,6 +2291,7 @@ public abstract class BaseStructuredContentFolderResourceTestCase {
 				name = StringUtil.toLowerCase(RandomTestUtil.randomString());
 				numberOfStructuredContentFolders = RandomTestUtil.randomInt();
 				numberOfStructuredContents = RandomTestUtil.randomInt();
+				parentStructuredContentFolderId = RandomTestUtil.randomLong();
 				siteId = testGroup.getGroupId();
 				subscribed = RandomTestUtil.randomBoolean();
 			}

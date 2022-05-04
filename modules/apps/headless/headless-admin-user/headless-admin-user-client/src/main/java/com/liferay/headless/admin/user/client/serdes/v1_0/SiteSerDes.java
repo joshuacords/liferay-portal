@@ -188,6 +188,16 @@ public class SiteSerDes {
 			sb.append(_toJSON(site.getName_i18n()));
 		}
 
+		if (site.getParentSiteId() != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"parentSiteId\": ");
+
+			sb.append(site.getParentSiteId());
+		}
+
 		if (site.getSites() != null) {
 			if (sb.length() > 1) {
 				sb.append(", ");
@@ -300,6 +310,13 @@ public class SiteSerDes {
 			map.put("name_i18n", String.valueOf(site.getName_i18n()));
 		}
 
+		if (site.getParentSiteId() == null) {
+			map.put("parentSiteId", null);
+		}
+		else {
+			map.put("parentSiteId", String.valueOf(site.getParentSiteId()));
+		}
+
 		if (site.getSites() == null) {
 			map.put("sites", null);
 		}
@@ -379,6 +396,12 @@ public class SiteSerDes {
 				if (jsonParserFieldValue != null) {
 					site.setName_i18n(
 						(Map)SiteSerDes.toMap((String)jsonParserFieldValue));
+				}
+			}
+			else if (Objects.equals(jsonParserFieldName, "parentSiteId")) {
+				if (jsonParserFieldValue != null) {
+					site.setParentSiteId(
+						Long.valueOf((String)jsonParserFieldValue));
 				}
 			}
 			else if (Objects.equals(jsonParserFieldName, "sites")) {
