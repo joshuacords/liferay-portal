@@ -43,10 +43,7 @@ public class OktaUsersMessageSubscriber extends BaseMessageSubscriber {
 	protected void doParse(JSONObject jsonObject) throws Exception {
 		String eventType = jsonObject.getString("eventType");
 
-		if (eventType.equals(_EVENT_TYPE_ACTIVATE)) {
-			_verifyContact(jsonObject.getJSONObject("user"));
-		}
-		else if (eventType.equals(_EVENT_TYPE_DEACTIVATE)) {
+		if (eventType.equals(_EVENT_TYPE_DEACTIVATE)) {
 			_unassignContact(jsonObject.getJSONObject("user"));
 		}
 		else if (eventType.equals(_EVENT_TYPE_GROUP_ADD)) {
@@ -69,10 +66,13 @@ public class OktaUsersMessageSubscriber extends BaseMessageSubscriber {
 			ContactRole.Type.ACCOUNT_CUSTOMER.toString(),
 			ContactRoleConstants.NAME_MEMBER);
 
+		JSONObject profileJSONObject = jsonObject.getJSONObject("profile");
+
 		_accountWebService.assignContactRolesByEmailAddress(
 			StringPool.BLANK, StringPool.BLANK,
 			KoroneikiConstants.ACCOUNT_KEY_LIFERAY_INC,
-			jsonObject.getString("email"), new String[] {contactRole.getKey()});
+			profileJSONObject.getString("email"),
+			new String[] {contactRole.getKey()});
 	}
 
 	private Contact _fetchContact(JSONObject jsonObject) throws Exception {
@@ -98,8 +98,10 @@ public class OktaUsersMessageSubscriber extends BaseMessageSubscriber {
 	}
 
 	private void _unassignContact(JSONObject jsonObject) throws Exception {
+		JSONObject profileJSONObject = jsonObject.getJSONObject("profile");
+
 		Contact contact = _contactWebService.fetchContactByEmailAddress(
-			jsonObject.getString("email"));
+			profileJSONObject.getString("email"));
 
 		if ((contact == null) || ArrayUtil.isEmpty(contact.getAccounts())) {
 			return;
@@ -117,15 +119,23 @@ public class OktaUsersMessageSubscriber extends BaseMessageSubscriber {
 	}
 
 	private void _updateContact(JSONObject jsonObject) throws Exception {
-		Contact contact = _fetchContact(jsonObject);
+		JSONObject profileJSONObject = jsonObject.getJSONObject("profile");
+
+		Contact contact = _fetchContact(profileJSONObject);
 
 		if (contact == null) {
 			return;
 		}
 
-		String emailAddress = jsonObject.getString("email");
-		String firstName = jsonObject.getString("firstName");
-		String lastName = jsonObject.getString("lastName");
+		String status = jsonObject.getString("status");
+
+		if (status.equals(_STATUS_NAME_ACTIVE)) {
+			contact.setEmailAddressVerified(true);
+		}
+
+		String emailAddress = profileJSONObject.getString("email");
+		String firstName = profileJSONObject.getString("firstName");
+		String lastName = profileJSONObject.getString("lastName");
 
 		if (Validator.isNotNull(emailAddress)) {
 			contact.setEmailAddress(emailAddress);
@@ -143,22 +153,6 @@ public class OktaUsersMessageSubscriber extends BaseMessageSubscriber {
 			StringPool.BLANK, StringPool.BLANK, contact.getUuid(), contact);
 	}
 
-	private void _verifyContact(JSONObject jsonObject) throws Exception {
-		Contact contact = _fetchContact(jsonObject);
-
-		if (contact == null) {
-			return;
-		}
-
-		contact.setEmailAddressVerified(true);
-
-		_contactWebService.updateContactByUuid(
-			StringPool.BLANK, StringPool.BLANK, contact.getUuid(), contact);
-	}
-
-	private static final String _EVENT_TYPE_ACTIVATE =
-		"user.lifecycle.activate";
-
 	private static final String _EVENT_TYPE_DEACTIVATE =
 		"user.lifecycle.deactivate";
 
@@ -172,6 +166,8 @@ public class OktaUsersMessageSubscriber extends BaseMessageSubscriber {
 		"user.account.update_profile";
 
 	private static final String _GROUP_NAME_EMPLOYEES = "Employees";
+
+	private static final String _STATUS_NAME_ACTIVE = "ACTIVE";
 
 	@Reference
 	private AccountWebService _accountWebService;
