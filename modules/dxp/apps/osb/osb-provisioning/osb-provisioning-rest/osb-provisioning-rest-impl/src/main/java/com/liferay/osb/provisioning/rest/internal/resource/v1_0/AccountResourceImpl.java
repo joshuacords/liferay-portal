@@ -22,6 +22,7 @@ import com.liferay.osb.provisioning.identity.management.provider.ContactIdentity
 import com.liferay.osb.provisioning.koroneiki.constants.ContactRoleConstants;
 import com.liferay.osb.provisioning.koroneiki.constants.ProductPurchaseConstants;
 import com.liferay.osb.provisioning.koroneiki.reader.AccountReader;
+import com.liferay.osb.provisioning.koroneiki.validator.ContactRoleValidator;
 import com.liferay.osb.provisioning.koroneiki.web.service.AccountWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.ContactRoleWebService;
 import com.liferay.osb.provisioning.rest.resource.v1_0.AccountResource;
@@ -76,6 +77,15 @@ public class AccountResourceImpl extends BaseAccountResourceImpl {
 			if (contactRole == null) {
 				throw new PortalException(
 					"Unable to find contact role with name " + contactRoleName);
+			}
+
+			if (contactRoleName.equals(
+					ContactRoleConstants.NAME_SUPPORT_ADMINISTRATOR) ||
+				contactRoleName.equals(
+					ContactRoleConstants.NAME_PARTNER_MANAGER)) {
+
+				_contactRoleValidator.validateContactRoleAssignment(
+					accountKey, contactEmailAddress);
 			}
 
 			contactRoleKeys[i] = contactRole.getKey();
@@ -277,6 +287,9 @@ public class AccountResourceImpl extends BaseAccountResourceImpl {
 
 	@Reference(target = "(provider=okta)")
 	private ContactIdentityProvider _contactIdentityProvider;
+
+	@Reference
+	private ContactRoleValidator _contactRoleValidator;
 
 	@Reference
 	private ContactRoleWebService _contactRoleWebService;

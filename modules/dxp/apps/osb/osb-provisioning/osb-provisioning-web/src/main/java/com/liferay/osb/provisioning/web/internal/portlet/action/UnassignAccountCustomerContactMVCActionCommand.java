@@ -14,10 +14,16 @@
 
 package com.liferay.osb.provisioning.web.internal.portlet.action;
 
+import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ContactRole;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Team;
 import com.liferay.osb.provisioning.constants.ProvisioningPortletKeys;
 import com.liferay.osb.provisioning.exception.ContactRequiredException;
+import com.liferay.osb.provisioning.exception.RequiredContactRoleException;
+import com.liferay.osb.provisioning.koroneiki.constants.ContactRoleConstants;
+import com.liferay.osb.provisioning.koroneiki.reader.AccountReader;
+import com.liferay.osb.provisioning.koroneiki.validator.ContactRoleValidator;
 import com.liferay.osb.provisioning.koroneiki.web.service.AccountWebService;
+import com.liferay.osb.provisioning.koroneiki.web.service.ContactRoleWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.TeamWebService;
 import com.liferay.osb.provisioning.search.FilterQuery;
 import com.liferay.osb.provisioning.web.internal.util.ZendeskValidator;
@@ -77,11 +83,29 @@ public class UnassignAccountCustomerContactMVCActionCommand
 
 			User user = themeDisplay.getUser();
 
+			List<ContactRole> contactRoles =
+				_contactRoleWebService.getAccountCustomerContactRoles(
+					accountKey, emailAddress, 1, 1000);
+
+			for (ContactRole contactRole : contactRoles) {
+				String name = contactRole.getName();
+
+				if (name.equals(
+						ContactRoleConstants.NAME_SUPPORT_ADMINISTRATOR) ||
+					name.equals(ContactRoleConstants.NAME_PARTNER_MANAGER)) {
+
+					_contactRoleValidator.validateContactRoleAssignment(
+						accountKey, emailAddress);
+				}
+			}
+
 			_accountWebService.unassignCustomerContact(
 				user.getFullName(), user.getUuid(), accountKey, emailAddress);
 		}
 		catch (Exception exception) {
-			if (!(exception instanceof ContactRequiredException)) {
+			if (!(exception instanceof ContactRequiredException) &&
+				!(exception instanceof RequiredContactRoleException)) {
+
 				_log.error(exception, exception);
 			}
 
@@ -111,7 +135,16 @@ public class UnassignAccountCustomerContactMVCActionCommand
 		UnassignAccountCustomerContactMVCActionCommand.class);
 
 	@Reference
+	private AccountReader _accountReader;
+
+	@Reference
 	private AccountWebService _accountWebService;
+
+	@Reference
+	private ContactRoleValidator _contactRoleValidator;
+
+	@Reference
+	private ContactRoleWebService _contactRoleWebService;
 
 	@Reference
 	private TeamWebService _teamWebService;

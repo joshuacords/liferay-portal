@@ -27,6 +27,8 @@ import com.liferay.osb.provisioning.koroneiki.constants.ProductPurchaseConstants
 import com.liferay.osb.provisioning.koroneiki.constants.TeamRoleConstants;
 import com.liferay.osb.provisioning.koroneiki.reader.AccountReader;
 import com.liferay.osb.provisioning.koroneiki.web.service.AccountWebService;
+import com.liferay.osb.provisioning.koroneiki.web.service.ContactRoleWebService;
+import com.liferay.osb.provisioning.koroneiki.web.service.ContactWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.TeamRoleWebService;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.StringPool;
@@ -540,6 +542,12 @@ public class AccountReaderImpl implements AccountReader {
 
 	@Reference
 	private AccountWebService _accountWebService;
+
+	@Reference
+	private ContactRoleWebService _contactRoleWebService;
+
+	@Reference
+	private ContactWebService _contactWebService;
 
 	@Reference
 	private TeamRoleWebService _teamRoleWebService;

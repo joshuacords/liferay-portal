@@ -23,10 +23,12 @@ import com.liferay.osb.provisioning.exception.ContactEmailAddressException;
 import com.liferay.osb.provisioning.exception.ContactNameException;
 import com.liferay.osb.provisioning.exception.ContactRequiredException;
 import com.liferay.osb.provisioning.exception.DuplicateContactRoleException;
+import com.liferay.osb.provisioning.exception.RequiredContactRoleException;
 import com.liferay.osb.provisioning.identity.management.provider.ContactIdentityProvider;
 import com.liferay.osb.provisioning.koroneiki.constants.ContactRoleConstants;
 import com.liferay.osb.provisioning.koroneiki.constants.ProductPurchaseConstants;
 import com.liferay.osb.provisioning.koroneiki.reader.AccountReader;
+import com.liferay.osb.provisioning.koroneiki.validator.ContactRoleValidator;
 import com.liferay.osb.provisioning.koroneiki.web.service.AccountWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.ContactRoleWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.ContactWebService;
@@ -150,6 +152,22 @@ public class AssignAccountContactRolesMVCActionCommand
 						accountKey, emailAddress);
 				}
 
+				ContactRole partnerManagerContactRole =
+					_contactRoleWebService.getContactRole(
+						ContactRole.Type.ACCOUNT_CUSTOMER.toString(),
+						ContactRoleConstants.NAME_PARTNER_MANAGER);
+
+				if (ArrayUtil.contains(
+						deleteContactRoleKeys,
+						supportAdministratorContactRole.getKey()) &&
+					ArrayUtil.contains(
+						deleteContactRoleKeys,
+						partnerManagerContactRole.getKey())) {
+
+					_contactRoleValidator.validateContactRoleAssignment(
+						accountKey, emailAddress);
+				}
+
 				_accountWebService.unassignContactRolesByEmailAddress(
 					user.getFullName(), user.getUuid(), accountKey,
 					emailAddress, deleteContactRoleKeys);
@@ -162,7 +180,8 @@ public class AssignAccountContactRolesMVCActionCommand
 				exception instanceof ContactNameException ||
 				exception instanceof DuplicateContactRoleException ||
 				exception instanceof NoSuchContactException ||
-				exception instanceof Problem.ProblemException) {
+				exception instanceof Problem.ProblemException ||
+				exception instanceof RequiredContactRoleException) {
 
 				SessionErrors.add(
 					actionRequest, exception.getClass(), exception);
@@ -238,6 +257,9 @@ public class AssignAccountContactRolesMVCActionCommand
 
 	@Reference(target = "(provider=okta)")
 	private ContactIdentityProvider _contactIdentityProvider;
+
+	@Reference
+	private ContactRoleValidator _contactRoleValidator;
 
 	@Reference
 	private ContactRoleWebService _contactRoleWebService;

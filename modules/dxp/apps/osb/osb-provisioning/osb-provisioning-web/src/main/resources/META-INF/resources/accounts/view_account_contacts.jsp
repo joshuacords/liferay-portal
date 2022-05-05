@@ -22,6 +22,7 @@ ViewAccountContactsDisplayContext viewAccountContactsDisplayContext = Provisioni
 
 <div class="details-table table-striped">
 	<liferay-ui:error exception="<%= ContactRequiredException.class %>" message="please-reassign-all-of-the-contacts-zendesk-tickets-before-unassigning" />
+	<liferay-ui:error exception="<%= RequiredContactRoleException.class %>" message="cannot-remove-the-last-team-member-with-this-role.assign-this-role-to-another-team-member-then-try-again" />
 
 	<liferay-ui:search-container
 		id="contacts"

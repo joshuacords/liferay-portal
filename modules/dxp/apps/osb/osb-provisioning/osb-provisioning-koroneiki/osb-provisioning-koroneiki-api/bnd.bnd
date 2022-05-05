@@ -3,4 +3,5 @@ Bundle-SymbolicName: com.liferay.osb.provisioning.koroneiki.api
 Bundle-Version: 1.0.0
 Export-Package:\
 	com.liferay.osb.provisioning.koroneiki.constants,\
-	com.liferay.osb.provisioning.koroneiki.reader
+	com.liferay.osb.provisioning.koroneiki.reader,\
+	com.liferay.osb.provisioning.koroneiki.validator
