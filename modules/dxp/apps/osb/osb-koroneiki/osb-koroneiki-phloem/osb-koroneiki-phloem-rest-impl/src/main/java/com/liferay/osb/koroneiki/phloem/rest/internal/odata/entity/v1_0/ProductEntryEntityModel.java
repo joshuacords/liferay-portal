@@ -16,9 +16,9 @@ package com.liferay.osb.koroneiki.phloem.rest.internal.odata.entity.v1_0;
 
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.odata.entity.CollectionEntityField;
+import com.liferay.portal.odata.entity.DateTimeEntityField;
 import com.liferay.portal.odata.entity.EntityField;
 import com.liferay.portal.odata.entity.EntityModel;
-import com.liferay.portal.odata.entity.DateTimeEntityField;
 import com.liferay.portal.odata.entity.StringEntityField;
 
 import java.util.List;
