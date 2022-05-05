@@ -129,7 +129,8 @@ public class UpgradeLayoutPageTemplateEntry extends UpgradeProcess {
 			return;
 		}
 
-		nameMap.put(locale, defaultName.replaceFirst(oldName, newName));
+		nameMap.put(
+			locale, StringUtil.replaceFirst(defaultName, oldName, newName));
 
 		_layoutPrototypeLocalService.updateLayoutPrototype(
 			layoutPrototypeId, nameMap, layoutPrototype.getDescriptionMap(),
