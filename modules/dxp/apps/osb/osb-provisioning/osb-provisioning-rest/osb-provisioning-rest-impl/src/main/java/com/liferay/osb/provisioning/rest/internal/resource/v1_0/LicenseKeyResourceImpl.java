@@ -18,7 +18,6 @@ import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Account;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Contact;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ContactRole;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Product;
-import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ProductConsumption;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ProductPurchase;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ProductPurchaseView;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Team;
@@ -31,7 +30,9 @@ import com.liferay.osb.provisioning.koroneiki.reader.AccountReader;
 import com.liferay.osb.provisioning.koroneiki.web.service.AccountWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.ContactRoleWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.ContactWebService;
+import com.liferay.osb.provisioning.koroneiki.web.service.ProductConsumptionWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.ProductPurchaseViewWebService;
+import com.liferay.osb.provisioning.koroneiki.web.service.ProductPurchaseWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.ProductWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.TeamRoleWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.TeamWebService;
@@ -68,6 +69,7 @@ import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Time;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.zip.ZipWriter;
 import com.liferay.portal.kernel.zip.ZipWriterFactoryUtil;
@@ -84,7 +86,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -525,11 +526,19 @@ public class LicenseKeyResourceImpl
 
 		_checkAccountAdminContactRole(accountKey);
 
+		_validateLicenseKeys(accountKey, licenseKeys);
+
 		Contact contact = ProvisioningContactThreadLocal.getContact();
 
 		List<LicenseKey> curLicenseKeys = new ArrayList<>();
 
 		for (LicenseKey licenseKey : licenseKeys) {
+			String productPurchaseKey = StringPool.BLANK;
+
+			if (!_isPerpetual(licenseKey)) {
+				productPurchaseKey = licenseKey.getProductPurchaseKey();
+			}
+
 			String owner = licenseKey.getOwner();
 
 			if (Validator.isNull(owner)) {
@@ -550,26 +559,19 @@ public class LicenseKeyResourceImpl
 				maxClusterNodes = licenseKey.getMaxClusterNodes();
 			}
 
-			boolean complimentary = false;
-
-			if (licenseKey.getComplimentary() != null) {
-				complimentary = licenseKey.getComplimentary();
-			}
-
 			com.liferay.osb.provisioning.license.model.LicenseKey
 				curLicenseKey = _licenseKeyLocalService.addLicenseKey(
 					StringBundler.concat(
 						contact.getFirstName(), StringPool.SPACE,
 						contact.getLastName()),
 					contact.getUuid(), licenseKey.getLicenseEntryTypeAsString(),
-					licenseKey.getProductKey(), accountKey,
-					licenseKey.getProductPurchaseKey(),
+					licenseKey.getProductKey(), accountKey, productPurchaseKey,
 					licenseKey.getProductVersion(), licenseKey.getName(), owner,
 					maxClusterNodes, licenseKey.getSizingAsString(),
 					description, licenseKey.getHostName(),
 					licenseKey.getIpAddresses(), licenseKey.getMacAddresses(),
 					licenseKey.getStartDate(), licenseKey.getExpirationDate(),
-					complimentary, true);
+					false, true);
 
 			curLicenseKeys.add(LicenseKeyUtil.toLicenseKey(curLicenseKey));
 		}
@@ -756,6 +758,36 @@ public class LicenseKeyResourceImpl
 		return _flsTeamRoleKey;
 	}
 
+	private int _getProductConsumptionsCount(ProductPurchase productPurchase)
+		throws Exception {
+
+		FilterQuery filterQuery = new FilterQuery();
+
+		filterQuery.addEquals(
+			true, "accountKey", productPurchase.getAccountKey());
+
+		FilterQuery filterQuery2 = new FilterQuery();
+
+		filterQuery2.addEquals(
+			false, "productPurchaseKey", productPurchase.getKey());
+
+		FilterQuery filterQuery3 = new FilterQuery();
+
+		filterQuery3.addGreaterThanEquals(
+			true, "endDate", productPurchase.getOriginalEndDate());
+		filterQuery3.addEquals(
+			true, "productKey", productPurchase.getProductKey());
+		filterQuery3.addEquals(true, "productPurchaseKey", (String)null);
+		filterQuery3.addLessThanEquals(
+			true, "startDate", productPurchase.getStartDate());
+
+		filterQuery2.addFilterQuery(false, filterQuery3);
+
+		filterQuery.addFilterQuery(true, filterQuery2);
+
+		return (int)_productConsumptionWebService.searchCount(filterQuery);
+	}
+
 	private Version[] _getProductVersions(
 		String productGroupName, SubscriptionTerm[] subscriptionTerms) {
 
@@ -866,76 +898,40 @@ public class LicenseKeyResourceImpl
 		List<SubscriptionTerm> subscriptionTerms = new ArrayList<>();
 
 		for (ProductPurchaseView productPurchaseView : productPurchaseViews) {
-			Map<String, List<ProductConsumption>> productConsumptionsMap =
-				new HashMap<>();
-
-			if (productPurchaseView.getProductConsumptions() != null) {
-				for (ProductConsumption productConsumption :
-						productPurchaseView.getProductConsumptions()) {
-
-					List<ProductConsumption> productConsumptions =
-						productConsumptionsMap.get(
-							productConsumption.getProductPurchaseKey());
-
-					if (productConsumptions == null) {
-						productConsumptions = new ArrayList<>();
-
-						productConsumptionsMap.put(
-							productConsumption.getProductPurchaseKey(),
-							productConsumptions);
-					}
-
-					productConsumptions.add(productConsumption);
-				}
+			if (ArrayUtil.isEmpty(productPurchaseView.getProductPurchases())) {
+				continue;
 			}
 
-			if (ArrayUtil.isNotEmpty(
-					productPurchaseView.getProductPurchases())) {
+			for (ProductPurchase productPurchase :
+					productPurchaseView.getProductPurchases()) {
 
-				for (ProductPurchase productPurchase :
-						productPurchaseView.getProductPurchases()) {
+				SubscriptionTerm subscriptionTerm = new SubscriptionTerm();
 
-					SubscriptionTerm subscriptionTerm = new SubscriptionTerm();
+				subscriptionTerm.setEndDate(
+					productPurchase.getOriginalEndDate());
 
-					subscriptionTerm.setEndDate(
-						productPurchase.getOriginalEndDate());
+				Map<String, String> properties =
+					productPurchase.getProperties();
 
-					Map<String, String> properties =
-						productPurchase.getProperties();
+				if (properties != null) {
+					int sizing = GetterUtil.getInteger(
+						properties.get("sizing"));
 
-					if (properties != null) {
-						int sizing = GetterUtil.getInteger(
-							properties.get("sizing"));
-
-						if (sizing > 0) {
-							subscriptionTerm.setInstanceSize(sizing);
-						}
+					if (sizing > 0) {
+						subscriptionTerm.setInstanceSize(sizing);
 					}
-
-					subscriptionTerm.setPerpetual(
-						productPurchase.getPerpetual());
-					subscriptionTerm.setProductKey(
-						productPurchase.getProductKey());
-					subscriptionTerm.setProductPurchaseKey(
-						productPurchase.getKey());
-
-					int provisionedCount = 0;
-
-					List<ProductConsumption> productConsumptions =
-						productConsumptionsMap.get(productPurchase.getKey());
-
-					if (productConsumptions != null) {
-						provisionedCount = productConsumptions.size();
-					}
-
-					subscriptionTerm.setProvisionedCount(provisionedCount);
-
-					subscriptionTerm.setQuantity(productPurchase.getQuantity());
-					subscriptionTerm.setStartDate(
-						productPurchase.getStartDate());
-
-					subscriptionTerms.add(subscriptionTerm);
 				}
+
+				subscriptionTerm.setPerpetual(productPurchase.getPerpetual());
+				subscriptionTerm.setProductKey(productPurchase.getProductKey());
+				subscriptionTerm.setProductPurchaseKey(
+					productPurchase.getKey());
+				subscriptionTerm.setProvisionedCount(
+					_getProductConsumptionsCount(productPurchase));
+				subscriptionTerm.setQuantity(productPurchase.getQuantity());
+				subscriptionTerm.setStartDate(productPurchase.getStartDate());
+
+				subscriptionTerms.add(subscriptionTerm);
 			}
 		}
 
@@ -1101,6 +1097,19 @@ public class LicenseKeyResourceImpl
 		return false;
 	}
 
+	private boolean _isPerpetual(LicenseKey licenseKey) {
+		Date startDate = licenseKey.getStartDate();
+		Date expirationDate = licenseKey.getExpirationDate();
+
+		if ((expirationDate.getTime() - startDate.getTime()) >
+				(Time.YEAR * 50)) {
+
+			return true;
+		}
+
+		return false;
+	}
+
 	private String _toCsv(
 			Collection<com.liferay.osb.provisioning.license.model.LicenseKey>
 				licenseKeys)
@@ -1162,6 +1171,109 @@ public class LicenseKeyResourceImpl
 		}
 	}
 
+	private void _validateLicenseKeys(
+			String accountKey, LicenseKey[] licenseKeys)
+		throws Exception {
+
+		Account account = _accountWebService.getAccount(accountKey);
+
+		boolean allowPermanentLicenses = false;
+
+		Map<String, String> properties = account.getProperties();
+
+		if (properties != null) {
+			allowPermanentLicenses = GetterUtil.getBoolean(
+				properties.get("allowPermanentLicenses"), true);
+		}
+
+		for (LicenseKey licenseKey : licenseKeys) {
+			ProductPurchase productPurchase =
+				_productPurchaseWebService.getProductPurchase(
+					licenseKey.getProductPurchaseKey());
+
+			if (!accountKey.equals(productPurchase.getAccountKey())) {
+				throw new PrincipalException("Invalid product purchase key");
+			}
+
+			String productKey = licenseKey.getProductKey();
+
+			if (!productKey.equals(productPurchase.getProductKey())) {
+				throw new PrincipalException("Invalid product key");
+			}
+
+			boolean validLicenseEntryType = false;
+
+			LicenseKey.LicenseEntryType licenseEntryType =
+				licenseKey.getLicenseEntryType();
+
+			List<LicenseEntry> licenseEntries =
+				_licenseEntryLocalService.getLicenseEntriesByVersion(
+					licenseKey.getProductKey(), licenseKey.getProductVersion());
+
+			for (LicenseEntry licenseEntry : licenseEntries) {
+				String curLicenseEntryType = licenseEntry.getType();
+
+				if (curLicenseEntryType.equals(licenseEntryType.toString())) {
+					validLicenseEntryType = true;
+
+					break;
+				}
+			}
+
+			if (!validLicenseEntryType) {
+				throw new PrincipalException("Invalid license entry type");
+			}
+
+			LicenseKey.Sizing sizing = licenseKey.getSizing();
+
+			Map<String, String> productPurchaseProperties =
+				productPurchase.getProperties();
+
+			if (productPurchaseProperties != null) {
+				int productPurchaseSizing = GetterUtil.getInteger(
+					productPurchaseProperties.get("sizing"));
+
+				if (((productPurchaseSizing == 1) &&
+					 (sizing != LicenseKey.Sizing.SIZING_1)) ||
+					((productPurchaseSizing == 2) &&
+					 (sizing != LicenseKey.Sizing.SIZING_2)) ||
+					((productPurchaseSizing == 3) &&
+					 (sizing != LicenseKey.Sizing.SIZING_3)) ||
+					((productPurchaseSizing == 4) &&
+					 (sizing != LicenseKey.Sizing.SIZING_4))) {
+
+					throw new PrincipalException("Invalid sizing");
+				}
+			}
+
+			Date startDate = productPurchase.getStartDate();
+			Date endDate = productPurchase.getEndDate();
+
+			if (!productPurchase.getPerpetual() && !allowPermanentLicenses &&
+				(!startDate.equals(licenseKey.getStartDate()) ||
+				 !endDate.equals(licenseKey.getExpirationDate()))) {
+
+				throw new PrincipalException("Invalid start or end date");
+			}
+
+			int productionConsumptionsCount = _getProductConsumptionsCount(
+				productPurchase);
+
+			int serverCount = 1;
+
+			if (licenseKey.getMaxClusterNodes() != null) {
+				serverCount = licenseKey.getMaxClusterNodes();
+			}
+
+			if ((productionConsumptionsCount + serverCount) >
+					productPurchase.getQuantity()) {
+
+				throw new PrincipalException(
+					"The subscription has no more available licenses");
+			}
+		}
+	}
+
 	private static final EntityModel _entityModel = new LicenseKeyEntityModel();
 
 	@Reference
@@ -1188,7 +1300,13 @@ public class LicenseKeyResourceImpl
 	private LicenseKeyLocalService _licenseKeyLocalService;
 
 	@Reference
+	private ProductConsumptionWebService _productConsumptionWebService;
+
+	@Reference
 	private ProductPurchaseViewWebService _productPurchaseViewWebService;
+
+	@Reference
+	private ProductPurchaseWebService _productPurchaseWebService;
 
 	@Reference
 	private ProductWebService _productWebService;

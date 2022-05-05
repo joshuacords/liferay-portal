@@ -34,7 +34,6 @@ import com.liferay.osb.provisioning.license.exception.LicenseKeyMACAddressExcept
 import com.liferay.osb.provisioning.license.exception.LicenseKeyMaxClusterNodesException;
 import com.liferay.osb.provisioning.license.exception.LicenseKeyNameException;
 import com.liferay.osb.provisioning.license.exception.LicenseKeyOwnerException;
-import com.liferay.osb.provisioning.license.exception.LicenseKeyProductPurchaseKeyException;
 import com.liferay.osb.provisioning.license.exception.LicenseKeyProductVersionException;
 import com.liferay.osb.provisioning.license.exception.LicenseKeyServerInfoException;
 import com.liferay.osb.provisioning.license.exception.NoSuchLicenseKeyException;
@@ -1186,11 +1185,6 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 			String ipAddresses, String macAddresses, Date startDate,
 			Date expirationDate)
 		throws PortalException {
-
-		if (Validator.isNull(productPurchaseKey)) {
-			throw new LicenseKeyProductPurchaseKeyException(
-				"Invalid product purchase key");
-		}
 
 		if ((startDate == null) || (expirationDate == null) ||
 			expirationDate.before(startDate)) {
