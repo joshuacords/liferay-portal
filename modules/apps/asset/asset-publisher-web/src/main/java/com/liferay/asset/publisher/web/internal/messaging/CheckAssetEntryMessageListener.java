@@ -27,6 +27,8 @@ import com.liferay.portal.kernel.scheduler.TimeUnit;
 import com.liferay.portal.kernel.scheduler.Trigger;
 import com.liferay.portal.kernel.scheduler.TriggerFactory;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 
 import org.osgi.service.component.annotations.Activate;
@@ -60,7 +62,7 @@ public class CheckAssetEntryMessageListener extends BaseMessageListener {
 		String className = clazz.getName();
 
 		Trigger trigger = _triggerFactory.createTrigger(
-			className, className, null, null,
+			className, className, _getFutureDate(), null,
 			assetPublisherWebConfiguration.checkInterval(), TimeUnit.HOUR);
 
 		SchedulerEntry schedulerEntry = new SchedulerEntryImpl(
@@ -78,6 +80,17 @@ public class CheckAssetEntryMessageListener extends BaseMessageListener {
 	@Override
 	protected void doReceive(Message message) throws Exception {
 		_assetEntriesCheckerUtil.checkAssetEntries();
+	}
+
+	private Date _getFutureDate() {
+		Calendar calendar = Calendar.getInstance();
+
+		calendar.setLenient(true);
+		calendar.setTime(new Date());
+
+		calendar.add(Calendar.MINUTE, 5);
+
+		return calendar.getTime();
 	}
 
 	@Reference
