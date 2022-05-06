@@ -19,7 +19,7 @@ package com.liferay.osb.provisioning.koroneiki.validator;
  */
 public interface ContactRoleValidator {
 
-	public void validateContactRoleAssignment(
+	public void validateAdminContactRoleUnassignment(
 			String accountKey, String emailAddress)
 		throws Exception;
 

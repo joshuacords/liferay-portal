@@ -35,22 +35,22 @@ import org.osgi.service.component.annotations.Reference;
 @Component(immediate = true, service = ContactRoleValidator.class)
 public class ContactRoleValidatorImpl implements ContactRoleValidator {
 
-	public void validateContactRoleAssignment(
+	public void validateAdminContactRoleUnassignment(
 			String accountKey, String emailAddress)
 		throws Exception {
 
-		ContactRole supportAdministratorContactRole =
-			_contactRoleWebService.getContactRole(
-				ContactRole.Type.ACCOUNT_CUSTOMER.toString(),
-				ContactRoleConstants.NAME_SUPPORT_ADMINISTRATOR);
 		ContactRole partnerManagerContactRole =
 			_contactRoleWebService.getContactRole(
 				ContactRole.Type.ACCOUNT_CUSTOMER.toString(),
 				ContactRoleConstants.NAME_PARTNER_MANAGER);
+		ContactRole supportAdministratorContactRole =
+			_contactRoleWebService.getContactRole(
+				ContactRole.Type.ACCOUNT_CUSTOMER.toString(),
+				ContactRoleConstants.NAME_SUPPORT_ADMINISTRATOR);
 
 		String[] accountKeysContactRoleKeys = {
-			accountKey + "_" + supportAdministratorContactRole.getKey(),
-			accountKey + "_" + partnerManagerContactRole.getKey()
+			accountKey + "_" + partnerManagerContactRole.getKey(),
+			accountKey + "_" + supportAdministratorContactRole.getKey()
 		};
 
 		FilterQuery filterQuery = new FilterQuery();

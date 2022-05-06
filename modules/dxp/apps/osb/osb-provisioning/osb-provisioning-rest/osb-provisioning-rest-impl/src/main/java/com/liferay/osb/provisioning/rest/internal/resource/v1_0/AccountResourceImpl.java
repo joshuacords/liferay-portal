@@ -80,11 +80,11 @@ public class AccountResourceImpl extends BaseAccountResourceImpl {
 			}
 
 			if (contactRoleName.equals(
-					ContactRoleConstants.NAME_SUPPORT_ADMINISTRATOR) ||
+					ContactRoleConstants.NAME_PARTNER_MANAGER) ||
 				contactRoleName.equals(
-					ContactRoleConstants.NAME_PARTNER_MANAGER)) {
+					ContactRoleConstants.NAME_SUPPORT_ADMINISTRATOR)) {
 
-				_contactRoleValidator.validateContactRoleAssignment(
+				_contactRoleValidator.validateAdminContactRoleUnassignment(
 					accountKey, contactEmailAddress);
 			}
 

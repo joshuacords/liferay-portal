@@ -20,7 +20,6 @@ import com.liferay.osb.provisioning.constants.ProvisioningPortletKeys;
 import com.liferay.osb.provisioning.exception.ContactRequiredException;
 import com.liferay.osb.provisioning.exception.RequiredContactRoleException;
 import com.liferay.osb.provisioning.koroneiki.constants.ContactRoleConstants;
-import com.liferay.osb.provisioning.koroneiki.reader.AccountReader;
 import com.liferay.osb.provisioning.koroneiki.validator.ContactRoleValidator;
 import com.liferay.osb.provisioning.koroneiki.web.service.AccountWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.ContactRoleWebService;
@@ -90,11 +89,11 @@ public class UnassignAccountCustomerContactMVCActionCommand
 			for (ContactRole contactRole : contactRoles) {
 				String name = contactRole.getName();
 
-				if (name.equals(
-						ContactRoleConstants.NAME_SUPPORT_ADMINISTRATOR) ||
-					name.equals(ContactRoleConstants.NAME_PARTNER_MANAGER)) {
+				if (name.equals(ContactRoleConstants.NAME_PARTNER_MANAGER) ||
+					name.equals(
+						ContactRoleConstants.NAME_SUPPORT_ADMINISTRATOR)) {
 
-					_contactRoleValidator.validateContactRoleAssignment(
+					_contactRoleValidator.validateAdminContactRoleUnassignment(
 						accountKey, emailAddress);
 				}
 			}
@@ -133,9 +132,6 @@ public class UnassignAccountCustomerContactMVCActionCommand
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		UnassignAccountCustomerContactMVCActionCommand.class);
-
-	@Reference
-	private AccountReader _accountReader;
 
 	@Reference
 	private AccountWebService _accountWebService;

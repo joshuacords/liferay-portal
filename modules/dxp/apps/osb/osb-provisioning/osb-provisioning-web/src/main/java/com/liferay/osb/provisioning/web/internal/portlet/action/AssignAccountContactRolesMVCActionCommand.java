@@ -159,12 +159,12 @@ public class AssignAccountContactRolesMVCActionCommand
 
 				if (ArrayUtil.contains(
 						deleteContactRoleKeys,
-						supportAdministratorContactRole.getKey()) &&
+						partnerManagerContactRole.getKey()) &&
 					ArrayUtil.contains(
 						deleteContactRoleKeys,
-						partnerManagerContactRole.getKey())) {
+						supportAdministratorContactRole.getKey())) {
 
-					_contactRoleValidator.validateContactRoleAssignment(
+					_contactRoleValidator.validateAdminContactRoleUnassignment(
 						accountKey, emailAddress);
 				}
 
