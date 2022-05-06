@@ -605,6 +605,28 @@ definition {
 		SearchResultPortlet.viewNoSearchResults(searchTerm = "orange");
 	}
 
+	test NavigateToResultRankingsViaUI {
+		ProductMenu.gotoPortlet(
+			category = "Search Tuning",
+			panel = "Control Panel",
+			portlet = "Result Rankings");
+
+		AssertTextEquals(
+			locator1 = "Portlet#HEADER",
+			value1 = "Result Rankings");
+	}
+
+	test NavigateToSynonymsViaUI {
+		ProductMenu.gotoPortlet(
+			category = "Search Tuning",
+			panel = "Control Panel",
+			portlet = "Synonyms");
+
+		AssertTextEquals(
+			locator1 = "Portlet#HEADER",
+			value1 = "Synonyms");
+	}
+
 	test PinAndHideResultsWithAliases {
 		property portal.acceptance = "true";
 
