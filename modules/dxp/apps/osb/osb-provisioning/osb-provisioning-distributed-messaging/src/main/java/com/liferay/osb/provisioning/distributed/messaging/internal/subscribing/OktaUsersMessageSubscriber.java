@@ -133,21 +133,9 @@ public class OktaUsersMessageSubscriber extends BaseMessageSubscriber {
 			contact.setEmailAddressVerified(true);
 		}
 
-		String emailAddress = profileJSONObject.getString("email");
-		String firstName = profileJSONObject.getString("firstName");
-		String lastName = profileJSONObject.getString("lastName");
-
-		if (Validator.isNotNull(emailAddress)) {
-			contact.setEmailAddress(emailAddress);
-		}
-
-		if (Validator.isNotNull(firstName)) {
-			contact.setFirstName(firstName);
-		}
-
-		if (Validator.isNotNull(lastName)) {
-			contact.setLastName(lastName);
-		}
+		contact.setEmailAddress(profileJSONObject.getString("email"));
+		contact.setFirstName(profileJSONObject.getString("firstName"));
+		contact.setLastName(profileJSONObject.getString("lastName"));
 
 		_contactWebService.updateContactByUuid(
 			StringPool.BLANK, StringPool.BLANK, contact.getUuid(), contact);
