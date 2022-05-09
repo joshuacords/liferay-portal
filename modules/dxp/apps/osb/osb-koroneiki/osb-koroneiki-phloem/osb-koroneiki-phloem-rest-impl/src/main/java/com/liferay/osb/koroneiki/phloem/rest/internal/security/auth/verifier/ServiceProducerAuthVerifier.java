@@ -18,6 +18,7 @@ import com.liferay.osb.koroneiki.scion.model.AuthenticationToken;
 import com.liferay.osb.koroneiki.scion.model.ServiceProducer;
 import com.liferay.osb.koroneiki.scion.service.AuthenticationTokenLocalService;
 import com.liferay.osb.koroneiki.scion.service.ServiceProducerLocalService;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -64,6 +65,8 @@ public class ServiceProducerAuthVerifier implements AuthVerifier {
 		AuthVerifierResult authVerifierResult = new AuthVerifierResult();
 
 		try {
+			_logRequest(accessControlContext.getRequest());
+
 			String[] credentials = verify(accessControlContext.getRequest());
 
 			if (credentials != null) {
@@ -133,6 +136,25 @@ public class ServiceProducerAuthVerifier implements AuthVerifier {
 		credentials[1] = StringPool.BLANK;
 
 		return credentials;
+	}
+
+	private void _logRequest(HttpServletRequest httpServletRequest) {
+		if (_log.isInfoEnabled()) {
+			StringBundler sb = new StringBundler(7);
+
+			sb.append(httpServletRequest.getRemoteAddr());
+			sb.append(StringPool.SPACE);
+			sb.append(httpServletRequest.getMethod());
+			sb.append(StringPool.SPACE);
+			sb.append(httpServletRequest.getRequestURI());
+
+			if (httpServletRequest.getQueryString() != null) {
+				sb.append(StringPool.QUESTION);
+				sb.append(httpServletRequest.getQueryString());
+			}
+
+			_log.info(sb.toString());
+		}
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(

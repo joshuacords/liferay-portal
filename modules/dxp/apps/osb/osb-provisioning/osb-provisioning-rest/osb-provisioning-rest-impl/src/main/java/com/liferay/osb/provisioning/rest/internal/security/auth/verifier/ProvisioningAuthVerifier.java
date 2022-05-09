@@ -17,6 +17,8 @@ package com.liferay.osb.provisioning.rest.internal.security.auth.verifier;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Contact;
 import com.liferay.osb.provisioning.auth.ProvisioningContactThreadLocal;
 import com.liferay.osb.provisioning.identity.management.provider.ContactIdentityProvider;
+import com.liferay.petra.string.StringBundler;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Role;
@@ -29,7 +31,6 @@ import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.Portal;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.io.IOException;
@@ -67,6 +68,8 @@ public class ProvisioningAuthVerifier implements AuthVerifier {
 		AuthVerifierResult authVerifierResult = new AuthVerifierResult();
 
 		try {
+			_logRequest(accessControlContext.getRequest());
+
 			String[] credentials = verify(accessControlContext.getRequest());
 
 			if (credentials != null) {
@@ -135,6 +138,25 @@ public class ProvisioningAuthVerifier implements AuthVerifier {
 		}
 
 		return null;
+	}
+
+	private void _logRequest(HttpServletRequest httpServletRequest) {
+		if (_log.isInfoEnabled()) {
+			StringBundler sb = new StringBundler(7);
+
+			sb.append(httpServletRequest.getRemoteAddr());
+			sb.append(StringPool.SPACE);
+			sb.append(httpServletRequest.getMethod());
+			sb.append(StringPool.SPACE);
+			sb.append(httpServletRequest.getRequestURI());
+
+			if (httpServletRequest.getQueryString() != null) {
+				sb.append(StringPool.QUESTION);
+				sb.append(httpServletRequest.getQueryString());
+			}
+
+			_log.info(sb.toString());
+		}
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
