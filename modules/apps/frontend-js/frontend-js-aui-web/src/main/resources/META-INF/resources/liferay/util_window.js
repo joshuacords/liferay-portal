@@ -533,6 +533,18 @@ AUI.add(
 
 				modal.align();
 
+				var modalId = modal.getAttrs().id;
+
+				var modalElement = document.getElementById(modalId);
+
+				var focusableElements = modalElement.querySelectorAll(
+					'a[href], button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])'
+				);
+
+				if (focusableElements) {
+					modal.focus(focusableElements[0]);
+				}
+
 				return modal;
 			},
 
