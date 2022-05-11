@@ -65,6 +65,15 @@ public class AuditEntryWebServiceImpl implements AuditEntryWebService {
 			agentName, agentUID, accountKey, auditEntries);
 	}
 
+	public Page<AuditEntry> postContactAuditEntries(
+			String agentName, String agentUID, String contactUuid,
+			AuditEntry[] auditEntries)
+		throws Exception {
+
+		return _auditEntryResource.postContactByUuidContactUuidAuditEntriesPage(
+			agentName, agentUID, contactUuid, auditEntries);
+	}
+
 	@Activate
 	protected void activate(Map<String, Object> properties) throws Exception {
 		KoroneikiConfiguration koroneikiConfiguration =

@@ -183,6 +183,43 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 		return null;
 	}
 
+	public Contact fetchContactByUuid(String uuid) throws Exception {
+		Contact contact = _contactWebService.fetchContactByUuid(uuid);
+
+		if (contact == null) {
+			StringBundler sb = new StringBundler(4);
+
+			sb.append(_URL_API_REST_USERS);
+			sb.append("?search=profile.uuid eq \"");
+			sb.append(uuid);
+			sb.append("\"");
+
+			String response = _sendRequest(sb.toString());
+
+			JSONObject jsonObject = _jsonFactory.createJSONObject(response);
+
+			if (jsonObject.has("errorCode")) {
+				return null;
+			}
+
+			JSONObject profileJSONObject = jsonObject.getJSONObject("profile");
+
+			contact = new Contact();
+
+			contact.setEmailAddress(profileJSONObject.getString("email"));
+			contact.setFirstName(profileJSONObject.getString("firstName"));
+			contact.setLastName(profileJSONObject.getString("lastName"));
+			contact.setMiddleName(profileJSONObject.getString("middleName"));
+			contact.setUuid(uuid);
+
+			if (_isEmailAddressVerified(jsonObject.getString("status"))) {
+				contact.setEmailAddressVerified(true);
+			}
+		}
+
+		return contact;
+	}
+
 	public Integer fetchContactStatusByEmailAddress(String emailAddress)
 		throws Exception {
 

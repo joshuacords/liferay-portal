@@ -19,6 +19,7 @@ import com.liferay.osb.koroneiki.phloem.rest.dto.v1_0.AuditEntry;
 import com.liferay.osb.koroneiki.phloem.rest.dto.v1_0.util.AuditEntryUtil;
 import com.liferay.osb.koroneiki.phloem.rest.internal.resource.v1_0.util.ServiceContextUtil;
 import com.liferay.osb.koroneiki.phloem.rest.resource.v1_0.AuditEntryResource;
+import com.liferay.osb.koroneiki.root.identity.management.provider.ContactIdentityProvider;
 import com.liferay.osb.koroneiki.root.service.AuditEntryService;
 import com.liferay.osb.koroneiki.taproot.model.Account;
 import com.liferay.osb.koroneiki.taproot.model.Contact;
@@ -147,6 +148,42 @@ public class AuditEntryResourceImpl extends BaseAuditEntryResourceImpl {
 		return Page.of(auditEntriesList);
 	}
 
+	@Override
+	public Page<AuditEntry> postContactByUuidContactUuidAuditEntriesPage(
+			String agentName, String agentUID, String contactUuid,
+			AuditEntry[] auditEntries)
+		throws Exception {
+
+		ServiceContextUtil.setAgentFields(agentName, agentUID);
+		ServiceContextUtil.setAuditSetId(
+			_counterLocalService.increment(
+				com.liferay.osb.koroneiki.root.model.AuditEntry.class.
+					getName()));
+
+		Contact contact = _contactIdentityProvider.getContactByUuid(
+			contactUuid);
+
+		List<AuditEntry> auditEntriesList = new ArrayList<>();
+
+		for (AuditEntry auditEntry : auditEntries) {
+			auditEntriesList.add(
+				AuditEntryUtil.toAuditEntry(
+					_auditEntryService.addAuditEntry(
+						_classNameLocalService.getClassNameId(Contact.class),
+						contact.getContactId(),
+						AuditEntryUtil.getDynamicClassNameId(
+							auditEntry.getFieldClassLabel()),
+						auditEntry.getFieldClassPK(),
+						auditEntry.getActionAsString(), auditEntry.getField(),
+						StringPool.BLANK, auditEntry.getOldValue(),
+						StringPool.BLANK, auditEntry.getNewValue(),
+						auditEntry.getDescription(),
+						ServiceContextUtil.getServiceContext())));
+		}
+
+		return Page.of(auditEntriesList);
+	}
+
 	protected Page<AuditEntry> getAuditEntriesPage(
 			Class<?> clazz, long classPK, Pagination pagination)
 		throws Exception {
@@ -171,6 +208,9 @@ public class AuditEntryResourceImpl extends BaseAuditEntryResourceImpl {
 
 	@Reference
 	private ClassNameLocalService _classNameLocalService;
+
+	@Reference
+	private ContactIdentityProvider _contactIdentityProvider;
 
 	@Reference
 	private ContactLocalService _contactLocalService;

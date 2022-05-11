@@ -34,6 +34,8 @@ public interface ContactIdentityProvider {
 
 	public Contact fetchContactBySessionId(String sessionId) throws Exception;
 
+	public Contact fetchContactByUuid(String uuid) throws Exception;
+
 	public Integer fetchContactStatusByEmailAddress(String emailAddress)
 		throws Exception;
 

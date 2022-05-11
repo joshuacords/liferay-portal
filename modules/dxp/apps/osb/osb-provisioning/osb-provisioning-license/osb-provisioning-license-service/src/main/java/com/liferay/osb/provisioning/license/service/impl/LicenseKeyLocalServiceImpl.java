@@ -17,9 +17,11 @@ package com.liferay.osb.provisioning.license.service.impl;
 import com.liferay.osb.koroneiki.phloem.rest.client.constants.ExternalLinkDomain;
 import com.liferay.osb.koroneiki.phloem.rest.client.constants.ExternalLinkEntityName;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Account;
+import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Contact;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ExternalLink;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Product;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ProductConsumption;
+import com.liferay.osb.provisioning.identity.management.provider.ContactIdentityProvider;
 import com.liferay.osb.provisioning.koroneiki.constants.ProductConstants;
 import com.liferay.osb.provisioning.koroneiki.web.service.AccountWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.ProductConsumptionWebService;
@@ -112,68 +114,6 @@ import org.osgi.service.component.annotations.Reference;
 public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 
 	public LicenseKey addLicenseKey(
-			long userId, String assetReceiptLicenseUuid,
-			String licenseEntryType, String productName, String productId,
-			String productVersion, String owner, long maxUsers,
-			String description, String hostName, String ipAddresses,
-			String macAddresses, String serverId, Date startDate,
-			Date expirationDate)
-		throws Exception {
-
-		User user = userLocalService.getUser(userId);
-		Date now = new Date();
-		int licenseVersion = 3;
-
-		productName = trimText(productName);
-		owner = trimText(owner);
-		description = trimText(description);
-		startDate = DateUtils.round(startDate, Calendar.SECOND);
-		expirationDate = DateUtils.round(expirationDate, Calendar.SECOND);
-
-		validate(
-			licenseEntryType, owner, description, hostName, ipAddresses,
-			macAddresses);
-
-		String key = _keyGenerator.generate(
-			StringPool.BLANK, StringPool.BLANK, licenseEntryType,
-			licenseVersion, productName, productId, productVersion, owner, 0, 0,
-			0, 0, maxUsers, StringPool.BLANK, description, hostName,
-			ipAddresses, macAddresses, new String[] {serverId}, startDate,
-			expirationDate);
-
-		long licenseKeyId = counterLocalService.increment();
-
-		LicenseKey licenseKey = licenseKeyPersistence.create(licenseKeyId);
-
-		licenseKey.setUserUuid(user.getUserUuid());
-		licenseKey.setUserName(user.getFullName());
-		licenseKey.setCreateDate(now);
-		licenseKey.setModifiedUserUuid(user.getUserUuid());
-		licenseKey.setModifiedUserName(user.getFullName());
-		licenseKey.setModifiedDate(now);
-		licenseKey.setAssetReceiptLicenseUuid(assetReceiptLicenseUuid);
-		licenseKey.setLicenseEntryType(licenseEntryType);
-		licenseKey.setLicenseVersion(licenseVersion);
-		licenseKey.setProductName(productName);
-		licenseKey.setProductId(productId);
-		licenseKey.setProductVersion(productVersion);
-		licenseKey.setOwner(owner);
-		licenseKey.setMaxUsers(maxUsers);
-		licenseKey.setDescription(description);
-		licenseKey.setHostName(hostName);
-		licenseKey.setIpAddresses(ipAddresses);
-		licenseKey.setMacAddresses(macAddresses);
-		licenseKey.setServerId(serverId);
-		licenseKey.setKey(key);
-		licenseKey.setStartDate(startDate);
-		licenseKey.setExpirationDate(expirationDate);
-		licenseKey.setComplimentary(false);
-		licenseKey.setActive(true);
-
-		return licenseKeyPersistence.update(licenseKey);
-	}
-
-	public LicenseKey addLicenseKey(
 			String userName, String userUuid, LicenseEntry licenseEntry,
 			Product product, String accountKey, String productPurchaseKey,
 			String accountName, String productVersion, long clusterId,
@@ -249,6 +189,77 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 			maxConcurrentUsers, maxUsers, sizing, description, hostNames,
 			ipAddresses, macAddresses, startDate, expirationDate,
 			StringPool.BLANK, complimentary, active);
+	}
+
+	public LicenseKey addLicenseKey(
+			String userUuid, String assetReceiptLicenseUuid,
+			String licenseEntryType, String productName, String productId,
+			String productVersion, String owner, long maxUsers,
+			String description, String hostName, String ipAddresses,
+			String macAddresses, String serverId, Date startDate,
+			Date expirationDate)
+		throws Exception {
+
+		Contact contact = _contactIdentityProvider.fetchContactByUuid(userUuid);
+
+		String contactName = StringPool.BLANK;
+
+		if (contact != null) {
+			contactName = StringBundler.concat(
+				contact.getFirstName(), StringPool.SPACE,
+				contact.getLastName());
+		}
+
+		Date now = new Date();
+		int licenseVersion = 3;
+
+		productName = trimText(productName);
+		owner = trimText(owner);
+		description = trimText(description);
+		startDate = DateUtils.round(startDate, Calendar.SECOND);
+		expirationDate = DateUtils.round(expirationDate, Calendar.SECOND);
+
+		validate(
+			licenseEntryType, owner, description, hostName, ipAddresses,
+			macAddresses);
+
+		String key = _keyGenerator.generate(
+			StringPool.BLANK, StringPool.BLANK, licenseEntryType,
+			licenseVersion, productName, productId, productVersion, owner, 0, 0,
+			0, 0, maxUsers, StringPool.BLANK, description, hostName,
+			ipAddresses, macAddresses, new String[] {serverId}, startDate,
+			expirationDate);
+
+		long licenseKeyId = counterLocalService.increment();
+
+		LicenseKey licenseKey = licenseKeyPersistence.create(licenseKeyId);
+
+		licenseKey.setUserUuid(userUuid);
+		licenseKey.setUserName(contactName);
+		licenseKey.setCreateDate(now);
+		licenseKey.setModifiedUserUuid(userUuid);
+		licenseKey.setModifiedUserName(contactName);
+		licenseKey.setModifiedDate(now);
+		licenseKey.setAssetReceiptLicenseUuid(assetReceiptLicenseUuid);
+		licenseKey.setLicenseEntryType(licenseEntryType);
+		licenseKey.setLicenseVersion(licenseVersion);
+		licenseKey.setProductName(productName);
+		licenseKey.setProductId(productId);
+		licenseKey.setProductVersion(productVersion);
+		licenseKey.setOwner(owner);
+		licenseKey.setMaxUsers(maxUsers);
+		licenseKey.setDescription(description);
+		licenseKey.setHostName(hostName);
+		licenseKey.setIpAddresses(ipAddresses);
+		licenseKey.setMacAddresses(macAddresses);
+		licenseKey.setServerId(serverId);
+		licenseKey.setKey(key);
+		licenseKey.setStartDate(startDate);
+		licenseKey.setExpirationDate(expirationDate);
+		licenseKey.setComplimentary(false);
+		licenseKey.setActive(true);
+
+		return licenseKeyPersistence.update(licenseKey);
 	}
 
 	public LicenseKey addLicenseKey(
@@ -379,7 +390,7 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 			updateLicenseKey(userId, licenseKeyId, false);
 
 			return addLicenseKey(
-				userId, licenseKey.getAssetReceiptLicenseUuid(),
+				user.getUuid(), licenseKey.getAssetReceiptLicenseUuid(),
 				licenseKey.getLicenseEntryType(), licenseKey.getProductName(),
 				licenseKey.getProductId(), licenseKey.getProductVersion(),
 				licenseKey.getOwner(), licenseKey.getMaxUsers(),
@@ -1357,6 +1368,9 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 
 	@Reference
 	private AccountWebService _accountWebService;
+
+	@Reference
+	private ContactIdentityProvider _contactIdentityProvider;
 
 	private final Format _dateFormat =
 		FastDateFormatFactoryUtil.getSimpleDateFormat(

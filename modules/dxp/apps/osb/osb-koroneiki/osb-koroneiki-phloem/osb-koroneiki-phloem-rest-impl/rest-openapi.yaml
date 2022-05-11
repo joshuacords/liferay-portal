@@ -3159,6 +3159,42 @@ paths:
                                 items:
                                     $ref: "#/components/schemas/AuditEntry"
                                 type: array
+        post:
+            operationId: postContactByUuidContactUuidAuditEntriesPage
+            parameters:
+                - $ref: "#/components/parameters/AgentName"
+                - $ref: "#/components/parameters/AgentUID"
+                - in: path
+                  name: contactUuid
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            items:
+                                $ref: "#/components/schemas/AuditEntry"
+                            type: array
+                    application/xml:
+                        schema:
+                            items:
+                                $ref: "#/components/schemas/AuditEntry"
+                            type: array
+                required: true
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/AuditEntry"
+                                type: array
+                        application/xml:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/AuditEntry"
+                                type: array
             tags: ["AuditEntry"]
     "/contacts/by-uuid/{contactUuid}/contact-account-views":
         get:

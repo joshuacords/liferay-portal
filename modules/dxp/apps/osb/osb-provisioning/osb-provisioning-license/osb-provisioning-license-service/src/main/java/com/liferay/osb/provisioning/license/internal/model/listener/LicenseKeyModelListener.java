@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.model.BaseModelListener;
 import com.liferay.portal.kernel.model.ModelListener;
 import com.liferay.portal.kernel.service.ClassNameLocalService;
 import com.liferay.portal.kernel.service.UserLocalService;
+import com.liferay.portal.kernel.util.Validator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -168,10 +169,18 @@ public class LicenseKeyModelListener extends BaseModelListener<LicenseKey> {
 			auditEntries.add(auditEntry);
 		}
 
-		_auditEntryWebService.postAccountAuditEntries(
-			licenseKey.getUserName(), licenseKey.getUuid(),
-			licenseKey.getAccountKey(),
-			auditEntries.toArray(new AuditEntry[0]));
+		if (Validator.isNotNull(licenseKey.getAccountKey())) {
+			_auditEntryWebService.postAccountAuditEntries(
+				licenseKey.getUserName(), licenseKey.getUuid(),
+				licenseKey.getAccountKey(),
+				auditEntries.toArray(new AuditEntry[0]));
+		}
+		else {
+			_auditEntryWebService.postContactAuditEntries(
+				licenseKey.getUserName(), licenseKey.getUuid(),
+				licenseKey.getUserUuid(),
+				auditEntries.toArray(new AuditEntry[0]));
+		}
 	}
 
 	private void _reindex(LicenseKey licenseKey) throws PortalException {

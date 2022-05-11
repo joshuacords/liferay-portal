@@ -33,4 +33,9 @@ public interface AuditEntryWebService {
 			AuditEntry[] auditEntries)
 		throws Exception;
 
+	public Page<AuditEntry> postContactAuditEntries(
+			String agentName, String agentUID, String contactUuid,
+			AuditEntry[] auditEntries)
+		throws Exception;
+
 }

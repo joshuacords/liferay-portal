@@ -82,12 +82,8 @@ public class LicenseKeyServiceImpl extends LicenseKeyServiceBaseImpl {
 
 		validateJSONWebServicePermissions();
 
-		long companyId = _portalInstancesLocalService.getDefaultCompanyId();
-
-		User user = userLocalService.getDefaultUser(companyId);
-
 		return licenseKeyLocalService.addLicenseKey(
-			user.getUserId(), assetReceiptLicenseUuid, licenseEntryType,
+			userUuid, assetReceiptLicenseUuid, licenseEntryType,
 			productEntryName, productId, String.valueOf(productVersion), owner,
 			maxUsers, description, hostName, ipAddresses, macAddresses,
 			serverId, startDate, expirationDate);
