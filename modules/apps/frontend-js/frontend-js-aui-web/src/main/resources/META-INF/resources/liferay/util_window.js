@@ -166,7 +166,7 @@ AUI.add(
 
 							var iframeNode = modal.iframe.node;
 
-							iframeNode.focus();
+							instance._focusFirstFocusableElement(modal);
 
 							if (UA.ios) {
 								iframeNode.attr('scrolling', 'no');
@@ -185,6 +185,20 @@ AUI.add(
 
 				if (!config.iframeId) {
 					config.iframeId = config.id + instance.IFRAME_SUFFIX;
+				}
+			},
+
+			_focusFirstFocusableElement(modal) {
+				var modalId = modal.getAttrs().id;
+
+				var modalElement = document.getElementById(modalId);
+
+				var focusableElements = modalElement.querySelectorAll(
+					'a[href], button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])'
+				);
+
+				if (focusableElements) {
+					focusableElements[0].focus();
 				}
 			},
 
@@ -533,17 +547,7 @@ AUI.add(
 
 				modal.align();
 
-				var modalId = modal.getAttrs().id;
-
-				var modalElement = document.getElementById(modalId);
-
-				var focusableElements = modalElement.querySelectorAll(
-					'a[href], button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])'
-				);
-
-				if (focusableElements) {
-					modal.focus(focusableElements[0]);
-				}
+				instance._focusFirstFocusableElement(modal);
 
 				return modal;
 			},
