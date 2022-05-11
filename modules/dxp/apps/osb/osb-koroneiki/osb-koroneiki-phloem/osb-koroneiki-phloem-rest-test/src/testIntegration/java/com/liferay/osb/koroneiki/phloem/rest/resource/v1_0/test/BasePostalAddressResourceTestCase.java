@@ -332,7 +332,7 @@ public abstract class BasePostalAddressResourceTestCase {
 	@Test
 	public void testGraphQLDeletePostalAddress() throws Exception {
 		PostalAddress postalAddress =
-			testGraphQLPostalAddress_addPostalAddress();
+			testGraphQLDeletePostalAddress_addPostalAddress();
 
 		Assert.assertTrue(
 			JSONUtil.getValueAsBoolean(
@@ -345,7 +345,6 @@ public abstract class BasePostalAddressResourceTestCase {
 							}
 						})),
 				"JSONObject/data", "Object/deletePostalAddress"));
-
 		JSONArray errorsJSONArray = JSONUtil.getValueAsJSONArray(
 			invokeGraphQLQuery(
 				new GraphQLField(
@@ -359,6 +358,12 @@ public abstract class BasePostalAddressResourceTestCase {
 			"JSONArray/errors");
 
 		Assert.assertTrue(errorsJSONArray.length() > 0);
+	}
+
+	protected PostalAddress testGraphQLDeletePostalAddress_addPostalAddress()
+		throws Exception {
+
+		return testGraphQLPostalAddress_addPostalAddress();
 	}
 
 	@Test
@@ -383,7 +388,7 @@ public abstract class BasePostalAddressResourceTestCase {
 	@Test
 	public void testGraphQLGetPostalAddress() throws Exception {
 		PostalAddress postalAddress =
-			testGraphQLPostalAddress_addPostalAddress();
+			testGraphQLGetPostalAddress_addPostalAddress();
 
 		Assert.assertTrue(
 			equals(
@@ -426,6 +431,12 @@ public abstract class BasePostalAddressResourceTestCase {
 				"Object/code"));
 	}
 
+	protected PostalAddress testGraphQLGetPostalAddress_addPostalAddress()
+		throws Exception {
+
+		return testGraphQLPostalAddress_addPostalAddress();
+	}
+
 	@Test
 	public void testPutPostalAddress() throws Exception {
 		PostalAddress postPostalAddress =
@@ -434,7 +445,9 @@ public abstract class BasePostalAddressResourceTestCase {
 		PostalAddress randomPostalAddress = randomPostalAddress();
 
 		PostalAddress putPostalAddress = postalAddressResource.putPostalAddress(
-			null, null, postPostalAddress.getId(), randomPostalAddress);
+			testPutPostalAddress_getAgentName(),
+			testPutPostalAddress_getAgentUID(), postPostalAddress.getId(),
+			randomPostalAddress);
 
 		assertEquals(randomPostalAddress, putPostalAddress);
 		assertValid(putPostalAddress);
@@ -444,6 +457,16 @@ public abstract class BasePostalAddressResourceTestCase {
 
 		assertEquals(randomPostalAddress, getPostalAddress);
 		assertValid(getPostalAddress);
+	}
+
+	protected String testPutPostalAddress_getAgentName() throws Exception {
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
+	protected String testPutPostalAddress_getAgentUID() throws Exception {
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
 	}
 
 	protected PostalAddress testPutPostalAddress_addPostalAddress()

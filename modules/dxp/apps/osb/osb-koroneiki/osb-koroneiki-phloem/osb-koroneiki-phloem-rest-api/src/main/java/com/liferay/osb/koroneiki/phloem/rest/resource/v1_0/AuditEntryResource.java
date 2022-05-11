@@ -75,6 +75,11 @@ public interface AuditEntryResource {
 			String contactUuid, Pagination pagination)
 		throws Exception;
 
+	public Page<AuditEntry> postContactByUuidContactUuidAuditEntriesPage(
+			String agentName, String agentUID, String contactUuid,
+			AuditEntry[] auditEntries)
+		throws Exception;
+
 	public Page<AuditEntry> getTeamRoleTeamRoleKeyAuditEntriesPage(
 			String teamRoleKey, Pagination pagination)
 		throws Exception;

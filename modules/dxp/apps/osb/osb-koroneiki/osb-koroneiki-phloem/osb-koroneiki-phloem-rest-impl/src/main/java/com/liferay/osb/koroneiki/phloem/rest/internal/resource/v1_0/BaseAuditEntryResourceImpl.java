@@ -239,9 +239,7 @@ public abstract class BaseAuditEntryResourceImpl implements AuditEntryResource {
 			)
 		}
 	)
-	@io.swagger.v3.oas.annotations.tags.Tags(
-		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "AuditEntry")}
-	)
+	@io.swagger.v3.oas.annotations.tags.Tags(value = {})
 	@javax.ws.rs.GET
 	@javax.ws.rs.Path("/contacts/by-uuid/{contactUuid}/audit-entries")
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
@@ -252,6 +250,52 @@ public abstract class BaseAuditEntryResourceImpl implements AuditEntryResource {
 			@javax.ws.rs.PathParam("contactUuid")
 			String contactUuid,
 			@javax.ws.rs.core.Context Pagination pagination)
+		throws Exception {
+
+		return Page.of(Collections.emptyList());
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'POST' 'http://localhost:8080/o/koroneiki-rest/v1.0/contacts/by-uuid/{contactUuid}/audit-entries'  -u 'test@liferay.com:test'
+	 */
+	@io.swagger.v3.oas.annotations.Parameters(
+		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "agentName"
+			),
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "agentUID"
+			),
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
+				name = "contactUuid"
+			)
+		}
+	)
+	@io.swagger.v3.oas.annotations.tags.Tags(
+		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "AuditEntry")}
+	)
+	@javax.ws.rs.Consumes({"application/json", "application/xml"})
+	@javax.ws.rs.Path("/contacts/by-uuid/{contactUuid}/audit-entries")
+	@javax.ws.rs.POST
+	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@Override
+	public Page<AuditEntry> postContactByUuidContactUuidAuditEntriesPage(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.ws.rs.QueryParam("agentName")
+			String agentName,
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.ws.rs.QueryParam("agentUID")
+			String agentUID,
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.PathParam("contactUuid")
+			String contactUuid,
+			AuditEntry[] auditEntries)
 		throws Exception {
 
 		return Page.of(Collections.emptyList());

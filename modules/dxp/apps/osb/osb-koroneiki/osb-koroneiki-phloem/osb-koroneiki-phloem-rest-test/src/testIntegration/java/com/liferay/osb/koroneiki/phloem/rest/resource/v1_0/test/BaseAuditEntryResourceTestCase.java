@@ -585,6 +585,13 @@ public abstract class BaseAuditEntryResourceTestCase {
 	}
 
 	@Test
+	public void testPostContactByUuidContactUuidAuditEntriesPage()
+		throws Exception {
+
+		Assert.assertTrue(false);
+	}
+
+	@Test
 	public void testGetTeamRoleTeamRoleKeyAuditEntriesPage() throws Exception {
 		String teamRoleKey =
 			testGetTeamRoleTeamRoleKeyAuditEntriesPage_getTeamRoleKey();

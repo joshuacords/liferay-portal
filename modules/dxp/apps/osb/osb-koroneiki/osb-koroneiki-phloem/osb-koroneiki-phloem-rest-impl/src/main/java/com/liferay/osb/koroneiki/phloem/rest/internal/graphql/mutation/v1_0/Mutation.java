@@ -482,6 +482,28 @@ public class Mutation {
 	}
 
 	@GraphQLField
+	public java.util.Collection<AuditEntry>
+			createContactByUuidContactUuidAuditEntriesPage(
+				@GraphQLName("agentName") String agentName,
+				@GraphQLName("agentUID") String agentUID,
+				@GraphQLName("contactUuid") String contactUuid,
+				@GraphQLName("auditEntries") AuditEntry[] auditEntries)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_auditEntryResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			auditEntryResource -> {
+				Page paginationPage =
+					auditEntryResource.
+						postContactByUuidContactUuidAuditEntriesPage(
+							agentName, agentUID, contactUuid, auditEntries);
+
+				return paginationPage.getItems();
+			});
+	}
+
+	@GraphQLField
 	public Contact createContact(
 			@GraphQLName("agentName") String agentName,
 			@GraphQLName("agentUID") String agentUID,
