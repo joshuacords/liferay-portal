@@ -53,6 +53,7 @@ import javax.annotation.Generated;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import javax.ws.rs.NotSupportedException;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
@@ -164,9 +165,22 @@ public abstract class BaseExperimentRunResourceImpl
 		throws Exception {
 
 		UnsafeConsumer<ExperimentRun, Exception> experimentRunUnsafeConsumer =
-			experimentRun -> postExperimentRun(
+			null;
+
+		String createStrategy = (String)parameters.getOrDefault(
+			"createStrategy", "INSERT");
+
+		if ("INSERT".equalsIgnoreCase(createStrategy)) {
+			experimentRunUnsafeConsumer = experimentRun -> postExperimentRun(
 				Long.parseLong((String)parameters.get("experimentId")),
 				experimentRun);
+		}
+
+		if (experimentRunUnsafeConsumer == null) {
+			throw new NotSupportedException(
+				"Create strategy \"" + createStrategy +
+					"\" is not supported for ExperimentRun");
+		}
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(

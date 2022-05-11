@@ -55,6 +55,7 @@ import javax.annotation.Generated;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import javax.ws.rs.NotSupportedException;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
@@ -605,10 +606,23 @@ public abstract class BaseDataRecordCollectionResourceImpl
 		throws Exception {
 
 		UnsafeConsumer<DataRecordCollection, Exception>
+			dataRecordCollectionUnsafeConsumer = null;
+
+		String createStrategy = (String)parameters.getOrDefault(
+			"createStrategy", "INSERT");
+
+		if ("INSERT".equalsIgnoreCase(createStrategy)) {
 			dataRecordCollectionUnsafeConsumer =
 				dataRecordCollection -> postDataDefinitionDataRecordCollection(
 					Long.parseLong((String)parameters.get("dataDefinitionId")),
 					dataRecordCollection);
+		}
+
+		if (dataRecordCollectionUnsafeConsumer == null) {
+			throw new NotSupportedException(
+				"Create strategy \"" + createStrategy +
+					"\" is not supported for DataRecordCollection");
+		}
 
 		if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
@@ -701,15 +715,39 @@ public abstract class BaseDataRecordCollectionResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		for (DataRecordCollection dataRecordCollection :
-				dataRecordCollections) {
+		UnsafeConsumer<DataRecordCollection, Exception>
+			dataRecordCollectionUnsafeConsumer = null;
 
-			putDataRecordCollection(
-				dataRecordCollection.getId() != null ?
-					dataRecordCollection.getId() :
-						Long.parseLong(
-							(String)parameters.get("dataRecordCollectionId")),
-				dataRecordCollection);
+		String updateStrategy = (String)parameters.getOrDefault(
+			"updateStrategy", "UPDATE");
+
+		if ("UPDATE".equalsIgnoreCase(updateStrategy)) {
+			dataRecordCollectionUnsafeConsumer =
+				dataRecordCollection -> putDataRecordCollection(
+					dataRecordCollection.getId() != null ?
+						dataRecordCollection.getId() :
+							Long.parseLong(
+								(String)parameters.get(
+									"dataRecordCollectionId")),
+					dataRecordCollection);
+		}
+
+		if (dataRecordCollectionUnsafeConsumer == null) {
+			throw new NotSupportedException(
+				"Update strategy \"" + updateStrategy +
+					"\" is not supported for DataRecordCollection");
+		}
+
+		if (contextBatchUnsafeConsumer != null) {
+			contextBatchUnsafeConsumer.accept(
+				dataRecordCollections, dataRecordCollectionUnsafeConsumer);
+		}
+		else {
+			for (DataRecordCollection dataRecordCollection :
+					dataRecordCollections) {
+
+				dataRecordCollectionUnsafeConsumer.accept(dataRecordCollection);
+			}
 		}
 	}
 
