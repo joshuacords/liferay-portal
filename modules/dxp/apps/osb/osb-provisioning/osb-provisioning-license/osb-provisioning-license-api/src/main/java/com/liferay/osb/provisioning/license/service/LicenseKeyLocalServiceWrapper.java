@@ -51,22 +51,6 @@ public class LicenseKeyLocalServiceWrapper
 
 	@Override
 	public com.liferay.osb.provisioning.license.model.LicenseKey addLicenseKey(
-			long userId, String assetReceiptLicenseUuid,
-			String licenseEntryType, String productName, String productId,
-			String productVersion, String owner, long maxUsers,
-			String description, String hostName, String ipAddresses,
-			String macAddresses, String serverId, java.util.Date startDate,
-			java.util.Date expirationDate)
-		throws Exception {
-
-		return _licenseKeyLocalService.addLicenseKey(
-			userId, assetReceiptLicenseUuid, licenseEntryType, productName,
-			productId, productVersion, owner, maxUsers, description, hostName,
-			ipAddresses, macAddresses, serverId, startDate, expirationDate);
-	}
-
-	@Override
-	public com.liferay.osb.provisioning.license.model.LicenseKey addLicenseKey(
 			String userName, String userUuid,
 			com.liferay.osb.provisioning.license.model.LicenseEntry
 				licenseEntry,
@@ -111,6 +95,22 @@ public class LicenseKeyLocalServiceWrapper
 			maxConcurrentUsers, maxUsers, sizing, description, hostNames,
 			ipAddresses, macAddresses, startDate, expirationDate, complimentary,
 			active);
+	}
+
+	@Override
+	public com.liferay.osb.provisioning.license.model.LicenseKey addLicenseKey(
+			String userUuid, String assetReceiptLicenseUuid,
+			String licenseEntryType, String productName, String productId,
+			String productVersion, String owner, long maxUsers,
+			String description, String hostName, String ipAddresses,
+			String macAddresses, String serverId, java.util.Date startDate,
+			java.util.Date expirationDate)
+		throws Exception {
+
+		return _licenseKeyLocalService.addLicenseKey(
+			userUuid, assetReceiptLicenseUuid, licenseEntryType, productName,
+			productId, productVersion, owner, maxUsers, description, hostName,
+			ipAddresses, macAddresses, serverId, startDate, expirationDate);
 	}
 
 	@Override

@@ -59,21 +59,6 @@ public class LicenseKeyLocalServiceUtil {
 	}
 
 	public static LicenseKey addLicenseKey(
-			long userId, String assetReceiptLicenseUuid,
-			String licenseEntryType, String productName, String productId,
-			String productVersion, String owner, long maxUsers,
-			String description, String hostName, String ipAddresses,
-			String macAddresses, String serverId, java.util.Date startDate,
-			java.util.Date expirationDate)
-		throws Exception {
-
-		return getService().addLicenseKey(
-			userId, assetReceiptLicenseUuid, licenseEntryType, productName,
-			productId, productVersion, owner, maxUsers, description, hostName,
-			ipAddresses, macAddresses, serverId, startDate, expirationDate);
-	}
-
-	public static LicenseKey addLicenseKey(
 			String userName, String userUuid,
 			com.liferay.osb.provisioning.license.model.LicenseEntry
 				licenseEntry,
@@ -117,6 +102,21 @@ public class LicenseKeyLocalServiceUtil {
 			maxConcurrentUsers, maxUsers, sizing, description, hostNames,
 			ipAddresses, macAddresses, startDate, expirationDate, complimentary,
 			active);
+	}
+
+	public static LicenseKey addLicenseKey(
+			String userUuid, String assetReceiptLicenseUuid,
+			String licenseEntryType, String productName, String productId,
+			String productVersion, String owner, long maxUsers,
+			String description, String hostName, String ipAddresses,
+			String macAddresses, String serverId, java.util.Date startDate,
+			java.util.Date expirationDate)
+		throws Exception {
+
+		return getService().addLicenseKey(
+			userUuid, assetReceiptLicenseUuid, licenseEntryType, productName,
+			productId, productVersion, owner, maxUsers, description, hostName,
+			ipAddresses, macAddresses, serverId, startDate, expirationDate);
 	}
 
 	public static LicenseKey addLicenseKey(

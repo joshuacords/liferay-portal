@@ -83,15 +83,6 @@ public interface LicenseKeyLocalService
 	public LicenseKey addLicenseKey(LicenseKey licenseKey);
 
 	public LicenseKey addLicenseKey(
-			long userId, String assetReceiptLicenseUuid,
-			String licenseEntryType, String productName, String productId,
-			String productVersion, String owner, long maxUsers,
-			String description, String hostName, String ipAddresses,
-			String macAddresses, String serverId, Date startDate,
-			Date expirationDate)
-		throws Exception;
-
-	public LicenseKey addLicenseKey(
 			String userName, String userUuid, LicenseEntry licenseEntry,
 			Product product, String accountKey, String productPurchaseKey,
 			String accountName, String productVersion, long clusterId,
@@ -112,6 +103,15 @@ public interface LicenseKeyLocalService
 			String sizing, String description, String[] hostNames,
 			String[] ipAddresses, String[] macAddresses, Date startDate,
 			Date expirationDate, boolean complimentary, boolean active)
+		throws Exception;
+
+	public LicenseKey addLicenseKey(
+			String userUuid, String assetReceiptLicenseUuid,
+			String licenseEntryType, String productName, String productId,
+			String productVersion, String owner, long maxUsers,
+			String description, String hostName, String ipAddresses,
+			String macAddresses, String serverId, Date startDate,
+			Date expirationDate)
 		throws Exception;
 
 	public LicenseKey addLicenseKey(
