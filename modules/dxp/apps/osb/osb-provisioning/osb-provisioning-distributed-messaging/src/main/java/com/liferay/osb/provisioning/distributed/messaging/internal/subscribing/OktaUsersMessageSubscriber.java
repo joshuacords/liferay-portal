@@ -56,7 +56,9 @@ public class OktaUsersMessageSubscriber extends BaseMessageSubscriber {
 				_unassignContact(jsonObject.getJSONObject("user"));
 			}
 		}
-		else if (eventType.equals(_EVENT_TYPE_UPDATE)) {
+		else if (eventType.equals(_EVENT_TYPE_UPDATE_PASSWORD) ||
+				 eventType.equals(_EVENT_TYPE_UPDATE_PROFILE)) {
+
 			_updateContact(jsonObject.getJSONObject("user"));
 		}
 	}
@@ -150,7 +152,10 @@ public class OktaUsersMessageSubscriber extends BaseMessageSubscriber {
 	private static final String _EVENT_TYPE_GROUP_REMOVE =
 		"group.user_membership.remove";
 
-	private static final String _EVENT_TYPE_UPDATE =
+	private static final String _EVENT_TYPE_UPDATE_PASSWORD =
+		"user.account.update_password";
+
+	private static final String _EVENT_TYPE_UPDATE_PROFILE =
 		"user.account.update_profile";
 
 	private static final String _GROUP_NAME_EMPLOYEES = "Employees";
