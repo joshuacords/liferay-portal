@@ -8557,10 +8557,27 @@ public class PortalImpl implements Portal {
 
 		List<Portlet> explicitlyAddedPortlets = new ArrayList<>();
 
-		if (!Objects.equals(
-				layout.getType(), LayoutConstants.TYPE_ASSET_DISPLAY) &&
-			!Objects.equals(layout.getType(), LayoutConstants.TYPE_CONTENT)) {
+		if (Objects.equals(
+				layout.getType(), LayoutConstants.TYPE_ASSET_DISPLAY) ||
+			Objects.equals(layout.getType(), LayoutConstants.TYPE_CONTENT)) {
 
+			List<com.liferay.portal.kernel.model.PortletPreferences>
+				portletPreferencesList =
+					PortletPreferencesLocalServiceUtil.
+						getPortletPreferencesByPlid(layout.getPlid());
+
+			for (com.liferay.portal.kernel.model.PortletPreferences
+					portletPreferences : portletPreferencesList) {
+
+				Portlet portlet = PortletLocalServiceUtil.getPortletById(
+					layout.getCompanyId(), portletPreferences.getPortletId());
+
+				if (portlet != null) {
+					explicitlyAddedPortlets.add(portlet);
+				}
+			}
+		}
+		else {
 			explicitlyAddedPortlets =
 				_getExplicitlyAddedPortletsWithoutCustomizableColumns(
 					layoutTypePortlet);
