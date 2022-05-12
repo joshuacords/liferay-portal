@@ -14,6 +14,7 @@
 
 package com.liferay.fragment.service.impl;
 
+import com.liferay.document.library.kernel.service.DLAppLocalService;
 import com.liferay.fragment.configuration.FragmentServiceConfiguration;
 import com.liferay.fragment.constants.FragmentConstants;
 import com.liferay.fragment.constants.FragmentPortletKeys;
@@ -41,6 +42,7 @@ import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.ModelHintsUtil;
+import com.liferay.portal.kernel.model.Repository;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.SystemEventConstants;
 import com.liferay.portal.kernel.model.User;
@@ -448,6 +450,9 @@ public class FragmentEntryLocalServiceImpl
 			fragmentEntry.getPreviewFileEntryId(), fragmentEntry.getType(),
 			fragmentEntry.getStatus(), serviceContext);
 
+		_copyFragmentEntryPreviewFileEntry(
+			userId, groupId, fragmentEntry, copyFragmentEntry);
+
 		_copyFragmentEntryResources(
 			fragmentEntry, originalFragmentCollectionId, fragmentCollectionId);
 
@@ -812,6 +817,48 @@ public class FragmentEntryLocalServiceImpl
 		}
 	}
 
+	private void _copyFragmentEntryPreviewFileEntry(
+			long userId, long groupId, FragmentEntry fragmentEntry,
+			FragmentEntry copyFragmentEntry)
+		throws PortalException {
+
+		if (fragmentEntry.getPreviewFileEntryId() != 0) {
+			FileEntry fileEntry = _dlAppLocalService.getFileEntry(
+				fragmentEntry.getPreviewFileEntryId());
+
+			Repository repository =
+				PortletFileRepositoryUtil.fetchPortletRepository(
+					groupId, FragmentPortletKeys.FRAGMENT);
+
+			if (repository == null) {
+				ServiceContext addPortletRepositoryServiceContext =
+					new ServiceContext();
+
+				addPortletRepositoryServiceContext.setAddGroupPermissions(true);
+				addPortletRepositoryServiceContext.setAddGuestPermissions(true);
+
+				repository = PortletFileRepositoryUtil.addPortletRepository(
+					groupId, FragmentPortletKeys.FRAGMENT,
+					addPortletRepositoryServiceContext);
+			}
+
+			String fileName =
+				copyFragmentEntry.getFragmentEntryId() + "_preview." +
+					fileEntry.getExtension();
+
+			fileEntry = PortletFileRepositoryUtil.addPortletFileEntry(
+				groupId, userId, FragmentEntry.class.getName(),
+				copyFragmentEntry.getFragmentEntryId(),
+				FragmentPortletKeys.FRAGMENT, repository.getDlFolderId(),
+				fileEntry.getContentStream(), fileName, fileEntry.getMimeType(),
+				false);
+
+			updateFragmentEntry(
+				copyFragmentEntry.getFragmentEntryId(),
+				fileEntry.getFileEntryId());
+		}
+	}
+
 	private void _copyFragmentEntryResources(
 			FragmentEntry fragmentEntry, long sourceFragmentCollectionId,
 			long targetFragmentCollectionId)
@@ -932,6 +979,9 @@ public class FragmentEntryLocalServiceImpl
 
 	@Reference
 	private CustomSQL _customSQL;
+
+	@Reference
+	private DLAppLocalService _dlAppLocalService;
 
 	@Reference
 	private FragmentEntryLinkLocalService _fragmentEntryLinkLocalService;
