@@ -171,13 +171,13 @@ public class LicenseKeyModelListener extends BaseModelListener<LicenseKey> {
 
 		if (Validator.isNotNull(licenseKey.getAccountKey())) {
 			_auditEntryWebService.postAccountAuditEntries(
-				licenseKey.getUserName(), licenseKey.getUuid(),
+				licenseKey.getUserName(), licenseKey.getUserUuid(),
 				licenseKey.getAccountKey(),
 				auditEntries.toArray(new AuditEntry[0]));
 		}
 		else {
 			_auditEntryWebService.postContactAuditEntries(
-				licenseKey.getUserName(), licenseKey.getUuid(),
+				licenseKey.getUserName(), licenseKey.getUserUuid(),
 				licenseKey.getUserUuid(),
 				auditEntries.toArray(new AuditEntry[0]));
 		}
