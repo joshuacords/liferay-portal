@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.LocaleThreadLocal;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.search.legacy.searcher.SearchRequestBuilderFactory;
 import com.liferay.portal.search.test.util.FieldValuesAssert;
 import com.liferay.portal.search.test.util.IndexerFixture;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
@@ -111,7 +112,8 @@ public class UserGroupMultiLanguageSearchTest {
 	}
 
 	protected void setUpUserGroupIndexerFixture() {
-		userGroupIndexerFixture = new IndexerFixture<>(UserGroup.class);
+		userGroupIndexerFixture = new IndexerFixture<>(
+			UserGroup.class, _searchRequestBuilderFactory);
 	}
 
 	protected void setUpUserSearchFixture() throws Exception {
@@ -153,5 +155,9 @@ public class UserGroupMultiLanguageSearchTest {
 
 	private Locale _defaultLocale;
 	private Group _group;
+
+
+	@Inject
+	private SearchRequestBuilderFactory _searchRequestBuilderFactory;
 
 }
