@@ -175,6 +175,8 @@ definition {
 	test AssertModifiedFacetNoXSS {
 		Search.openSearchPage();
 
+		SearchPortlets.addWidgets(searchPortletList = "Modified Facet");
+
 		Portlet.gotoPortletOptions(
 			portletName = "Modified Facet",
 			portletOption = "Configuration");
