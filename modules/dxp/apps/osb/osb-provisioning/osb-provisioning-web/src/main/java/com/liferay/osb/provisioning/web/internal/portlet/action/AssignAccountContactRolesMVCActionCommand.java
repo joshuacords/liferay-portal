@@ -90,6 +90,54 @@ public class AssignAccountContactRolesMVCActionCommand
 			String[] deleteContactRoleKeys = ParamUtil.getStringValues(
 				actionRequest, "deleteContactRoleKeys");
 
+			if (!ArrayUtil.isEmpty(deleteContactRoleKeys)) {
+				ContactRole supportAdministratorContactRole =
+					_contactRoleWebService.getContactRole(
+						ContactRole.Type.ACCOUNT_CUSTOMER.toString(),
+						ContactRoleConstants.NAME_SUPPORT_ADMINISTRATOR);
+				ContactRole supportRequesterContactRole =
+					_contactRoleWebService.getContactRole(
+						ContactRole.Type.ACCOUNT_CUSTOMER.toString(),
+						ContactRoleConstants.NAME_SUPPORT_REQUESTER);
+
+				if (ArrayUtil.contains(
+						deleteContactRoleKeys,
+						supportAdministratorContactRole.getKey()) ||
+					ArrayUtil.contains(
+						deleteContactRoleKeys,
+						supportRequesterContactRole.getKey())) {
+
+					_zendeskValidator.validateCustomerZendeskTickets(
+						accountKey, emailAddress);
+				}
+
+				ContactRole partnerManagerContactRole =
+					_contactRoleWebService.getContactRole(
+						ContactRole.Type.ACCOUNT_CUSTOMER.toString(),
+						ContactRoleConstants.NAME_PARTNER_MANAGER);
+
+				List<ContactRole> contactRoles =
+					_contactRoleWebService.getAccountCustomerContactRoles(
+						accountKey, emailAddress, 1, 1000);
+
+				if ((contactRoles.contains(partnerManagerContactRole) ||
+					 contactRoles.contains(supportAdministratorContactRole)) &&
+					ArrayUtil.contains(
+						deleteContactRoleKeys,
+						partnerManagerContactRole.getKey()) &&
+					ArrayUtil.contains(
+						deleteContactRoleKeys,
+						supportAdministratorContactRole.getKey())) {
+
+					_contactRoleValidator.validateAdminContactRoleUnassignment(
+						accountKey, emailAddress);
+				}
+
+				_accountWebService.unassignContactRolesByEmailAddress(
+					user.getFullName(), user.getUuid(), accountKey,
+					emailAddress, deleteContactRoleKeys);
+			}
+
 			if (!ArrayUtil.isEmpty(addContactRoleKeys)) {
 				_validateAccountWorkerContactRole(
 					accountKey, ContactRoleConstants.NAME_PRIMARY_CONTACT,
@@ -129,48 +177,6 @@ public class AssignAccountContactRolesMVCActionCommand
 				_accountWebService.assignContactRolesByEmailAddress(
 					user.getFullName(), user.getUuid(), accountKey,
 					emailAddress, addContactRoleKeys);
-			}
-
-			if (!ArrayUtil.isEmpty(deleteContactRoleKeys)) {
-				ContactRole supportAdministratorContactRole =
-					_contactRoleWebService.getContactRole(
-						ContactRole.Type.ACCOUNT_CUSTOMER.toString(),
-						ContactRoleConstants.NAME_SUPPORT_ADMINISTRATOR);
-				ContactRole supportRequesterContactRole =
-					_contactRoleWebService.getContactRole(
-						ContactRole.Type.ACCOUNT_CUSTOMER.toString(),
-						ContactRoleConstants.NAME_SUPPORT_REQUESTER);
-
-				if (ArrayUtil.contains(
-						deleteContactRoleKeys,
-						supportAdministratorContactRole.getKey()) ||
-					ArrayUtil.contains(
-						deleteContactRoleKeys,
-						supportRequesterContactRole.getKey())) {
-
-					_zendeskValidator.validateCustomerZendeskTickets(
-						accountKey, emailAddress);
-				}
-
-				ContactRole partnerManagerContactRole =
-					_contactRoleWebService.getContactRole(
-						ContactRole.Type.ACCOUNT_CUSTOMER.toString(),
-						ContactRoleConstants.NAME_PARTNER_MANAGER);
-
-				if (ArrayUtil.contains(
-						deleteContactRoleKeys,
-						partnerManagerContactRole.getKey()) &&
-					ArrayUtil.contains(
-						deleteContactRoleKeys,
-						supportAdministratorContactRole.getKey())) {
-
-					_contactRoleValidator.validateAdminContactRoleUnassignment(
-						accountKey, emailAddress);
-				}
-
-				_accountWebService.unassignContactRolesByEmailAddress(
-					user.getFullName(), user.getUuid(), accountKey,
-					emailAddress, deleteContactRoleKeys);
 			}
 
 			sendRedirect(actionRequest, actionResponse);
