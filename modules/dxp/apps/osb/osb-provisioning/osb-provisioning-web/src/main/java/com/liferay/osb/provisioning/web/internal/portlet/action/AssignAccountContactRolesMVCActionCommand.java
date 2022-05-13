@@ -49,6 +49,8 @@ import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -90,6 +92,25 @@ public class AssignAccountContactRolesMVCActionCommand
 			String[] deleteContactRoleKeys = ParamUtil.getStringValues(
 				actionRequest, "deleteContactRoleKeys");
 
+			List<ContactRole> contactRoles =
+				_contactRoleWebService.getAccountCustomerContactRoles(
+					accountKey, emailAddress, 1, 1000);
+
+			Stream<ContactRole> stream = contactRoles.stream();
+
+			List<String> contactRoleKeys = stream.map(
+				ContactRole::getKey
+			).collect(
+				Collectors.toList()
+			);
+
+			for (String deleteContactRoleKey : deleteContactRoleKeys) {
+				if (!contactRoleKeys.contains(deleteContactRoleKey)) {
+					deleteContactRoleKeys = ArrayUtil.remove(
+						deleteContactRoleKeys, deleteContactRoleKey);
+				}
+			}
+
 			if (!ArrayUtil.isEmpty(deleteContactRoleKeys)) {
 				ContactRole supportAdministratorContactRole =
 					_contactRoleWebService.getContactRole(
@@ -116,18 +137,18 @@ public class AssignAccountContactRolesMVCActionCommand
 						ContactRole.Type.ACCOUNT_CUSTOMER.toString(),
 						ContactRoleConstants.NAME_PARTNER_MANAGER);
 
-				List<ContactRole> contactRoles =
-					_contactRoleWebService.getAccountCustomerContactRoles(
-						accountKey, emailAddress, 1, 1000);
-
-				if ((contactRoles.contains(partnerManagerContactRole) ||
-					 contactRoles.contains(supportAdministratorContactRole)) &&
-					ArrayUtil.contains(
+				if (ArrayUtil.contains(
 						deleteContactRoleKeys,
-						partnerManagerContactRole.getKey()) &&
-					ArrayUtil.contains(
+						partnerManagerContactRole.getKey()) ||
+					(ArrayUtil.contains(
 						deleteContactRoleKeys,
-						supportAdministratorContactRole.getKey())) {
+						supportAdministratorContactRole.getKey()) &&
+					 !ArrayUtil.contains(
+						 addContactRoleKeys,
+						 supportAdministratorContactRole.getKey()) &&
+					 !ArrayUtil.contains(
+						 addContactRoleKeys,
+						 partnerManagerContactRole.getKey()))) {
 
 					_contactRoleValidator.validateAdminContactRoleUnassignment(
 						accountKey, emailAddress);
