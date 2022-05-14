@@ -2,6 +2,7 @@ definition {
 
 	macro rate {
 		var key_ratingResult = StringUtil.replace("${ratingResult}", " ", "-");
+
 		var key_ratingResult = StringUtil.lowerCase("${key_ratingResult}");
 
 		if (isSet(commentRating)) {
@@ -14,6 +15,7 @@ definition {
 
 	macro viewRating {
 		var key_ratingResult = StringUtil.replace("${ratingResult}", " ", "-");
+
 		var key_ratingResult = StringUtil.lowerCase("${key_ratingResult}");
 
 		if (isSet(ratingResult)) {

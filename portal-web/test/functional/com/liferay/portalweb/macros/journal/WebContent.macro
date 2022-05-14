@@ -1501,6 +1501,7 @@ definition {
 
 		for (var documentType : list "${documentTypes}") {
 			var documentTypeUppercase = StringUtil.upperCase("${documentType}");
+
 			var key_documentType = "${documentTypeUppercase}";
 
 			AssertTextEquals.assertPartialText(

@@ -3,7 +3,6 @@ definition {
 	@summary = "This calls the JSON WS API to add a Document entry"
 	macro addFile {
 		var portalURL = JSONCompany.getPortalURL();
-
 		var repositoryId = JSONGroupAPI._getGroupIdByName(groupName = "${groupName}");
 
 		if (isSet(folderName)) {
@@ -44,7 +43,6 @@ definition {
 		Variables.assertDefined(parameterList = "${groupName},${mimeType},${sourceFileName}");
 
 		var portalURL = JSONCompany.getPortalURL();
-
 		var repositoryId = JSONGroupAPI._getSiteIdByGroupKey(groupName = "${groupName}");
 
 		if (isSet(folderName)) {
@@ -60,6 +58,7 @@ definition {
 
 		var baseDir = PropsUtil.get("test.base.dir.name");
 		var dependenciesDir = PropsUtil.get("test.dependencies.dir.name");
+
 		var filePath = "${baseDir}${dependenciesDir}/${sourceFileName}";
 
 		if (isSet(dmDocumentDescription)) {
@@ -101,7 +100,6 @@ definition {
 	@summary = "This calls the JSON WS API to add a DL Folder"
 	macro addFolder {
 		var portalURL = JSONCompany.getPortalURL();
-
 		var repositoryId = JSONGroupAPI._getGroupIdByName(groupName = "${groupName}");
 
 		if (!(isSet(parentFolderId))) {
@@ -129,7 +127,6 @@ definition {
 	@summary = "This calls the JSON WS API to delete a Document entry"
 	macro deleteFile {
 		var portalURL = JSONCompany.getPortalURL();
-
 		var groupId = JSONGroupAPI._getGroupIdByName(groupName = "${groupName}");
 
 		if (!(isSet(folderId))) {

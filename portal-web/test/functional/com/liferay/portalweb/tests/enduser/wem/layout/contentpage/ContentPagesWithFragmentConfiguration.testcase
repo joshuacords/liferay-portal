@@ -56,7 +56,6 @@ definition {
 
 		task ("Add a section fragment to the fragment collection via JSON") {
 			var htmlSnippet = FragmentsAPI.getFragmentFileContent(fileName = "checkbox_configuration.html");
-
 			var jsonSnippet = FragmentsAPI.getFragmentFileContent(fileName = "checkbox_configuration.json");
 
 			JSONFragment.addSection(
@@ -103,7 +102,6 @@ definition {
 	test AddColorPlatteConfigurationFragmentToContentPage {
 		task ("Add a section fragment to the fragment collection via JSON") {
 			var htmlSnippet = FragmentsAPI.getFragmentFileContent(fileName = "colorPalette_configuration.html");
-
 			var jsonSnippet = FragmentsAPI.getFragmentFileContent(fileName = "colorPalette_configuration.json");
 
 			JSONFragment.addSection(
@@ -164,7 +162,6 @@ definition {
 	test AddPlaceholderConfigurationFragmentToContentPage {
 		task ("Add a section fragment to the fragment collection via JSON") {
 			var htmlSnippet = FragmentsAPI.getFragmentFileContent(fileName = "text_configuration.html");
-
 			var jsonSnippet = FragmentsAPI.getFragmentFileContent(fileName = "placeholder_configuration.json");
 
 			JSONFragment.addSection(
@@ -200,7 +197,6 @@ definition {
 
 		task ("Add a section fragment to the fragment collection via JSON") {
 			var htmlSnippet = FragmentsAPI.getFragmentFileContent(fileName = "select_configuration.html");
-
 			var jsonSnippet = FragmentsAPI.getFragmentFileContent(fileName = "select_configuration.json");
 
 			JSONFragment.addSection(
@@ -241,7 +237,6 @@ definition {
 
 		task ("Add a section fragment to the fragment collection via JSON") {
 			var htmlSnippet = FragmentsAPI.getFragmentFileContent(fileName = "text_configuration.html");
-
 			var jsonSnippet = FragmentsAPI.getFragmentFileContent(fileName = "text_configuration.json");
 
 			JSONFragment.addSection(
@@ -325,7 +320,6 @@ definition {
 		LAR.exportSiteCP(siteScopeName = "Test Site Name");
 
 		var key_larFileName = "${larFileName}";
-
 		var larFileName = LAR.getLarFileName();
 
 		LAR.downloadLar();
@@ -361,7 +355,6 @@ definition {
 
 		task ("Add a section fragment to the fragment collection via JSON") {
 			var htmlSnippet = FragmentsAPI.getFragmentFileContent(fileName = "select_configuration.html");
-
 			var jsonSnippet = FragmentsAPI.getFragmentFileContent(fileName = "select_configuration.json");
 
 			JSONFragment.addSection(

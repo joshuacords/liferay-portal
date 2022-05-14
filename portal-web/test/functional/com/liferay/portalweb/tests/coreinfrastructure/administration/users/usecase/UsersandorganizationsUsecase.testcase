@@ -1533,7 +1533,6 @@ definition {
 			script = "${script}");
 
 		var companyId = JSONCompany.getCompanyId();
-
 		var userId = JSONUserSetter.setUserId(userEmailAddress = "test@liferay.com");
 
 		AssertTextEquals.assertPartialText(

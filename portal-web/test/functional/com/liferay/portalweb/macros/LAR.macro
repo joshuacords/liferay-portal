@@ -568,6 +568,7 @@ definition {
 
 	macro openExportAdmin {
 		var siteNameURL = StringUtil.replace("${siteScopeName}", " ", "-");
+
 		var siteNameURL = StringUtil.lowerCase("${siteNameURL}");
 		var baseURL = "${baseURL}";
 
@@ -580,6 +581,7 @@ definition {
 
 	macro openImportAdmin {
 		var siteNameURL = StringUtil.replace("${siteName}", " ", "-");
+
 		var siteNameURL = StringUtil.lowerCase("${siteNameURL}");
 		var baseURL = "${baseURL}";
 

@@ -5,23 +5,18 @@ definition {
 		Variables.assertDefined(parameterList = "${groupName}");
 
 		var groupId = JSONWebcontentSetter.setGroupId(groupName = "${groupName}");
-
 		var contentXML = JSONWebcontentSetter.setContentXML(
 			content = "${content}",
 			contentMap = "${contentMap}");
-
 		var descriptionMap = JSONWebcontentSetter.setDescriptionMap(description = "${description}");
-
 		var folderId = JSONWebcontentSetter.setFolderId(
 			folderName = "${folderName}",
 			groupId = "${groupId}");
-
 		var serviceContext = JSONWebcontentSetter.setServiceContext(
 			assetCategoryIds = "${assetCategoryIds}",
 			assetTagNames = "${assetTagNames}",
 			serviceContext = "${serviceContext}",
 			workflowAction = "${workflowAction}");
-
 		var titleMap = JSONWebcontentSetter.setTitleMap(
 			title = "${title}",
 			titleMap = "${titleMap}");
@@ -56,21 +51,16 @@ definition {
 		Variables.assertDefined(parameterList = "${content},${groupName},${title}");
 
 		var groupId = JSONWebcontentSetter.setGroupId(groupName = "${groupName}");
-
 		var contentXML = JSONWebcontentSetter.setContentXML(content = "${content}");
-
 		var descriptionMap = JSONWebcontentSetter.setDescriptionMap(description = "${description}");
-
 		var folderId = JSONWebcontentSetter.setFolderId(
 			folderName = "${folderName}",
 			groupId = "${groupId}");
-
 		var serviceContext = JSONWebcontentSetter.setServiceContext(
 			assetCategoryIds = "${assetCategoryIds}",
 			assetTagNames = "${assetTagNames}",
 			serviceContext = "${serviceContext}",
 			workflowAction = "${workflowAction}");
-
 		var titleMap = JSONWebcontentSetter.setTitleMap(title = "${title}");
 
 		JSONWebcontentAPI._addWebContent(
@@ -87,7 +77,6 @@ definition {
 		Variables.assertDefined(parameterList = "${groupName},${title}");
 
 		var groupId = JSONWebcontentSetter.setGroupId(groupName = "${groupName}");
-
 		var articleId = JSONWebcontentSetter.setArticleId(
 			groupName = "${groupName}",
 			title = "${title}");

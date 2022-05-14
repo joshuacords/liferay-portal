@@ -70,16 +70,12 @@ definition {
 	@priority = "4"
 	test AddPollsQuestionWithSpecialCharacters {
 		var pollsQuestionChoiceA = '''"Black"''';
-
 		var pollsQuestionChoiceB = '''"Brown"''';
-
 		var pollsQuestionChoiceC = '''"Blonde"''';
-
 		var pollsQuestionChoiceD = '''"Red"''';
-
 		var pollsQuestionChoiceE = '''"Other"''';
-		var pollsQuestionChoiceList = "${pollsQuestionChoiceA},${pollsQuestionChoiceB},${pollsQuestionChoiceC},${pollsQuestionChoiceD},${pollsQuestionChoiceE}";
 
+		var pollsQuestionChoiceList = "${pollsQuestionChoiceA},${pollsQuestionChoiceB},${pollsQuestionChoiceC},${pollsQuestionChoiceD},${pollsQuestionChoiceE}";
 		var pollsQuestionTitle = '''"Hair Color"''';
 
 		Navigator.openURL();

@@ -815,6 +815,7 @@ definition {
 			configurationScope = "Virtual Instance Scope");
 
 		var googlePropertiesSet = MathUtil.randomNumber("3");
+
 		var googleClientID = PropsUtil.get("google.client.id.${googlePropertiesSet}");
 		var googleClientSecret = PropsUtil.get("google.client.secret.${googlePropertiesSet}");
 		var googlePickerAPIKey = PropsUtil.get("google.api.key.${googlePropertiesSet}");
@@ -1141,6 +1142,7 @@ definition {
 			configurationScope = "Virtual Instance Scope");
 
 		var googlePropertiesSet = MathUtil.randomNumber("3");
+
 		var googleClientID = PropsUtil.get("google.client.id.${googlePropertiesSet}");
 		var googleClientSecret = PropsUtil.get("google.client.secret.${googlePropertiesSet}");
 		var googlePickerAPIKey = PropsUtil.get("google.api.key.${googlePropertiesSet}");

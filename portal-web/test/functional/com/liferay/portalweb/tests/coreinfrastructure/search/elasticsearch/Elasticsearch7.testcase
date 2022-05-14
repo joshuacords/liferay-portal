@@ -59,7 +59,6 @@ definition {
 		Portlet.addPG(portletName = "Asset Publisher");
 
 		var companyId = JSONCompany.getCompanyId();
-
 		var portalHostname = PropsUtil.get("portal.hostname");
 
 		var curl = '''
@@ -309,7 +308,9 @@ definition {
 			${portalURL}/api/jsonws/portal/get-build-number \
 				-u test@liferay.com:test
 		''';
+
 		var portalBuildNumber = JSONCurlUtil.get("${curl}");
+
 		var isDXP = StringUtil.startsWith("${portalBuildNumber}", "721");
 
 		if ("${isDXP}" == "true") {
@@ -470,8 +471,8 @@ definition {
 		property test.name.skip.portal.instance = "Elasticsearch7#UpdateSystemSettingsWithoutPortalRestart";
 
 		var elasticsearchVersion = Elasticsearch.getServerVersion();
-
 		var liferayHome = PropsUtil.get("liferay.home.dir.name");
+
 		var elasticsearchYML = "${liferayHome}/elasticsearch-${elasticsearchVersion}/config/elasticsearch.yml";
 
 		AntCommand.antCommand(
@@ -479,6 +480,7 @@ definition {
 			value1 = "stop-elasticsearch");
 
 		var fileContent = FileUtil.read("${elasticsearchYML}");
+
 		var updatedContent = StringUtil.replace("${fileContent}", "LiferayElasticsearchCluster", "LiferayElasticsearchCluster1");
 
 		FileUtil.write("${elasticsearchYML}", "${updatedContent}");

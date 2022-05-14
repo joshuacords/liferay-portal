@@ -26,13 +26,9 @@ definition {
 		var collectionId = JSONFragmentSetter.setCollectionId(
 			collectionName = "${collectionName}",
 			groupId = "${groupId}");
-
 		var configuration = JSONFragmentSetter.setConfiguration(configuration = "${configuration}");
-
 		var html = JSONFragmentSetter.setHTML(html = "${html}");
-
 		var status = JSONFragmentSetter.setStatus(status = "${status}");
-
 		var type = JSONFragmentSetter.setType(type = "${type}");
 
 		JSONFragmentAPI._addSection(

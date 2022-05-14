@@ -54,7 +54,6 @@ definition {
 		var userLastName = "userln";
 		var userMiddleName = "usermn";
 		var userScreenName = "usersn";
-
 		var siteName = TestCase.getSiteName(siteName = "${siteName}");
 
 		ProductMenu.gotoPortlet(

@@ -5,7 +5,6 @@ definition {
 		Variables.assertDefined(parameterList = "${groupName},${layoutName}");
 
 		var friendlyURL = JSONLayoutSetter.setFriendlyURL(friendlyURL = "${friendlyURL}");
-
 		var groupId = JSONLayoutSetter.setGroupId(
 			groupKey = "${groupName}",
 			parentGroupName = "${parentGroupName}");
@@ -14,7 +13,6 @@ definition {
 			groupId = "${groupId}",
 			parentLayoutName = "${parentLayoutName}",
 			privateLayout = "true");
-
 		var type = JSONLayoutSetter.setType(type = "${type}");
 
 		JSONLayoutAPI._addLayout(
@@ -31,14 +29,12 @@ definition {
 		Variables.assertDefined(parameterList = "${groupName},${layoutName}");
 
 		var friendlyURL = JSONLayoutSetter.setFriendlyURL(friendlyURL = "${friendlyURL}");
-
 		var groupId = JSONLayoutSetter.setGroupId(groupName = "${groupName}");
 
 		var parentLayoutId = JSONLayoutSetter.setParentLayoutId(
 			groupId = "${groupId}",
 			parentLayoutName = "${parentLayoutName}",
 			privateLayout = "true");
-
 		var type = JSONLayoutSetter.setType(type = "${type}");
 
 		JSONLayoutAPI._addLayout(
@@ -55,7 +51,6 @@ definition {
 		Variables.assertDefined(parameterList = "${groupName},${layoutName}");
 
 		var friendlyURL = JSONLayoutSetter.setFriendlyURL(friendlyURL = "${friendlyURL}");
-
 		var groupId = JSONLayoutSetter.setGroupId(
 			grandParentGroupName = "${grandParentGroupName}",
 			groupKey = "${groupName}",
@@ -65,7 +60,6 @@ definition {
 			groupId = "${groupId}",
 			parentLayoutName = "${parentLayoutName}",
 			privateLayout = "false");
-
 		var type = JSONLayoutSetter.setType(type = "${type}");
 
 		JSONLayoutAPI._addLayout(
@@ -82,14 +76,12 @@ definition {
 		Variables.assertDefined(parameterList = "${groupName},${layoutName}");
 
 		var friendlyURL = JSONLayoutSetter.setFriendlyURL(friendlyURL = "${friendlyURL}");
-
 		var groupId = JSONLayoutSetter.setGroupId(groupName = "${groupName}");
 
 		var parentLayoutId = JSONLayoutSetter.setParentLayoutId(
 			groupId = "${groupId}",
 			parentLayoutName = "${parentLayoutName}",
 			privateLayout = "false");
-
 		var type = JSONLayoutSetter.setType(type = "${type}");
 
 		JSONLayoutAPI._addLayout(
@@ -111,7 +103,6 @@ definition {
 			groupId = "${groupId}",
 			layoutName = "${layoutName}",
 			privateLayout = "true");
-
 		var typeSettings = JSONLayoutSetter.setTypeSettings(
 			groupId = "${groupId}",
 			layoutName = "${layoutName}",
@@ -135,7 +126,6 @@ definition {
 			groupId = "${groupId}",
 			layoutName = "${layoutName}",
 			privateLayout = "false");
-
 		var typeSettings = JSONLayoutSetter.setTypeSettings(
 			column = "${column}",
 			groupId = "${groupId}",
@@ -160,7 +150,6 @@ definition {
 			groupId = "${groupId}",
 			layoutName = "${layoutName}",
 			privateLayout = "false");
-
 		var serviceContext = JSONLayoutSetter.setServiceContext(
 			assetCategoryIds = "${assetCategoryIds}",
 			assetTagNames = "${assetTagNames}",
@@ -189,14 +178,12 @@ definition {
 		Variables.assertDefined(parameterList = "${groupName},${layoutName},${layoutTemplate}");
 
 		var groupId = JSONGroupAPI._getGroupIdByName(groupName = "${groupName}");
-
 		var groupId = JSONLayoutSetter.setGroupId(groupName = "${groupName}");
 
 		var layoutId = JSONLayoutSetter.setLayoutId(
 			groupId = "${groupId}",
 			layoutName = "${layoutName}",
 			privateLayout = "false");
-
 		var typeSettings = JSONLayoutSetter.setTypeSettings(
 			column = "${column}",
 			groupId = "${groupId}",

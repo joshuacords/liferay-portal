@@ -91,7 +91,6 @@ CSS
 NO CSS
 </div>
 		''';
-
 			var cssSnippet = '''
 .test
 { font-size: 40px; }

@@ -137,6 +137,7 @@ definition {
 		property test.name.skip.portal.instance = "ReportsUsecase#ViewReportEmailNewConfiguration";
 
 		var portalURL = PropsUtil.get("portal.url");
+
 		property test.smtp.server.enabled = "true";
 
 		Navigator.openURL();

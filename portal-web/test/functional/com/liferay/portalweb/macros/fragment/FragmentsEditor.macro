@@ -58,9 +58,7 @@ definition {
 
 	macro typeFileContent {
 		var content = TestCase.getFileContent(fileName = "${fileName}");
-
 		var fileExtension = File.getFileExtension(fileName = "${fileName}");
-
 		var browserType = PropsUtil.get("browser.type");
 
 		if ("${browserType}" == "internetexplorer") {

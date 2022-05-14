@@ -41,7 +41,9 @@ definition {
 				echo("Current Elasticsearch Tasks:");
 
 				var portalHostname = PropsUtil.get("portal.hostname");
+
 				var curl = "http://${portalHostname}:9200/_tasks";
+
 				var elasticsearchTasks = JSONCurlUtil.get("${curl}");
 
 				while (!(contains("${elasticsearchTasks}", "indices:data/write/bulk")) && ("${reindexStartTime}" != "60")) {

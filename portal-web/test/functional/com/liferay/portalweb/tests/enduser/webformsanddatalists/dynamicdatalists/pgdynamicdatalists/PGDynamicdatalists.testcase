@@ -1088,7 +1088,9 @@ definition {
 		property custom.properties = "default.layout.template.id=1_column";
 
 		var currentDateYear = DateUtil.getCurrentYear();
+
 		var currentDatelastYear = ${currentDateYear} - 1;
+
 		var currentDatelastYearShort = StringUtil.substring("${currentDatelastYear}", "2", "4");
 
 		Navigator.openURL();

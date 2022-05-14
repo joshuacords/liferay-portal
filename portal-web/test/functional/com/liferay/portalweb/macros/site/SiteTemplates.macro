@@ -245,6 +245,7 @@ definition {
 		echo("## * SQL Query Result is: ${sqlResults}");
 
 		var modifiedDate = StringUtil.regexReplaceAll("${sqlResults}", "[\r\n]", "");
+
 		var modifiedDate = StringUtil.extractDigits("${modifiedDate}");
 
 		echo("## * Modification Date is: ${modifiedDate}");
@@ -262,6 +263,7 @@ definition {
 		var currentURL = Navigator.getCurrentURL();
 
 		var siteTemplateURL = StringUtil.extractFirst("${currentURL}", "/~/");
+
 		var siteTemplateID = StringUtil.extractLast("${siteTemplateURL}", "/");
 
 		echo("siteTemplateID: ${siteTemplateID}");

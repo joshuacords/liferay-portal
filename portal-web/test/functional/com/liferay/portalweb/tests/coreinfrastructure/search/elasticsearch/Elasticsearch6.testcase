@@ -56,7 +56,6 @@ definition {
 		Portlet.addPG(portletName = "Asset Publisher");
 
 		var companyId = JSONCompany.getCompanyId();
-
 		var portalHostname = PropsUtil.get("portal.hostname");
 
 		var curl = '''
@@ -133,7 +132,6 @@ definition {
 			portlet = "Search");
 
 		var clientVersion = Elasticsearch.getClientVersion();
-
 		var serverVersion = Elasticsearch.getServerVersion();
 
 		SearchAdministration.assertEngineVendorAndVersions(
@@ -361,8 +359,8 @@ definition {
 		property test.name.skip.portal.instance = "Elasticsearch6#UpdateSystemSettingsWithoutPortalRestart";
 
 		var elasticsearchVersion = Elasticsearch.getServerVersion();
-
 		var liferayHome = PropsUtil.get("liferay.home.dir.name");
+
 		var elasticsearchYML = "${liferayHome}/elasticsearch-${elasticsearchVersion}-1/config/elasticsearch.yml";
 
 		AntCommand.antCommand(
@@ -370,6 +368,7 @@ definition {
 			value1 = "stop-elasticsearch");
 
 		var fileContent = FileUtil.read("${elasticsearchYML}");
+
 		var updatedContent = StringUtil.replace("${fileContent}", "LiferayElasticsearchCluster", "LiferayElasticsearchCluster1");
 
 		FileUtil.write("${elasticsearchYML}", "${updatedContent}");

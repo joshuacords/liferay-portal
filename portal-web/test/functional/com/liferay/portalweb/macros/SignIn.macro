@@ -89,7 +89,9 @@ definition {
 		}
 
 		var portalURL = PropsUtil.get("portal.url");
+
 		var portalURL = StringUtil.replace("${portalURL}", "http://", "");
+
 		var portalURL = StringUtil.replace("${portalURL}", ":8080", "");
 
 		LexiconEntry.gotoAdd();

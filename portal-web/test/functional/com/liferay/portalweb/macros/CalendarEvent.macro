@@ -4,6 +4,7 @@ definition {
 
 	macro _expandPanel {
 		var panelNamePath = StringUtil.replace("${panelName}", " ", "_");
+
 		var panelNamePath = StringUtil.upperCase("${panelNamePath}");
 
 		if (IsElementPresent(locator1 = "CalendarEditEvent#${panelNamePath}_PANEL_COLLAPSED")) {
@@ -932,6 +933,7 @@ definition {
 		AssertElementPresent(locator1 = "CalendarEditEvent#RECURRING_EVENT_DIALOG_BOX_HEADER");
 
 		var saveOptionPath = StringUtil.replace("${saveOption}", " ", "_");
+
 		var saveOptionPath = StringUtil.upperCase("${saveOptionPath}");
 
 		AssertClick(
@@ -1069,7 +1071,9 @@ definition {
 		Click(locator1 = "CalendarEditEvent#END_DATE");
 
 		var daySelected = selenium.getText("CalendarEditEvent#MINI_CALENDAR_DAY_SELECTED");
+
 		var tomorrow = ${daySelected} + 1;
+
 		var key_daySpecific = "${tomorrow}";
 
 		if (IsElementPresent(locator1 = "CalendarEditEvent#MINI_CALENDAR_DAY_SPECIFIC")) {
@@ -1121,7 +1125,9 @@ definition {
 				value1 = "${frequency}");
 
 			var currentDay = selenium.getElementValue("CalendarEditEvent#REPEAT_MONTHLY_CURRENT_DAY");
+
 			var currentDay = StringUtil.lowerCase("${currentDay}");
+
 			var currentDay = StringUtil.upperCaseFirstLetter("${currentDay}");
 
 			AssertTextEquals.assertPartialText(
@@ -1144,7 +1150,9 @@ definition {
 				value1 = "${frequency}");
 
 			var currentDay = selenium.getElementValue("CalendarEditEvent#REPEAT_WEEKLY_CURRENT_DAY");
+
 			var currentDay = StringUtil.lowerCase("${currentDay}");
+
 			var currentDay = StringUtil.upperCaseFirstLetter("${currentDay}");
 
 			AssertTextEquals.assertPartialText(
@@ -1540,7 +1548,6 @@ definition {
 
 	macro viewInvitedUserRSVPWithApprovedWorkflow {
 		var siteName = TestCase.getSiteName(siteName = "${siteName}");
-
 		var key_siteCalendarName = "${siteCalendarName}";
 		var key_siteName = "${siteName}";
 
@@ -1569,7 +1576,6 @@ definition {
 
 	macro viewNoUserInviteWithUnapprovedWorkflow {
 		var siteName = TestCase.getSiteName(siteName = "${siteName}");
-
 		var key_siteCalendarName = "${siteCalendarName}";
 		var key_siteName = "${siteName}";
 
