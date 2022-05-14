@@ -93,7 +93,7 @@ public class PriceModifierProduct implements Serializable {
 	protected Map<String, Map<String, String>> actions;
 
 	@DecimalMin("0")
-	@Schema
+	@Schema(example = "30643")
 	public Long getId() {
 		return id;
 	}
@@ -119,7 +119,7 @@ public class PriceModifierProduct implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Long id;
 
-	@Schema
+	@Schema(example = "DAB-34098-789-N")
 	public String getPriceModifierExternalReferenceCode() {
 		return priceModifierExternalReferenceCode;
 	}
@@ -153,7 +153,7 @@ public class PriceModifierProduct implements Serializable {
 	protected String priceModifierExternalReferenceCode;
 
 	@DecimalMin("0")
-	@Schema
+	@Schema(example = "30324")
 	public Long getPriceModifierId() {
 		return priceModifierId;
 	}
@@ -211,7 +211,7 @@ public class PriceModifierProduct implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Product product;
 
-	@Schema
+	@Schema(example = "PAB-34098-789-N")
 	public String getProductExternalReferenceCode() {
 		return productExternalReferenceCode;
 	}
@@ -244,7 +244,7 @@ public class PriceModifierProduct implements Serializable {
 	protected String productExternalReferenceCode;
 
 	@DecimalMin("0")
-	@Schema
+	@Schema(example = "30130")
 	public Long getProductId() {
 		return productId;
 	}

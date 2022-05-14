@@ -120,7 +120,7 @@ public class DiscountCategory implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Category category;
 
-	@Schema
+	@Schema(example = "PAB-34098-789-N")
 	public String getCategoryExternalReferenceCode() {
 		return categoryExternalReferenceCode;
 	}
@@ -153,7 +153,7 @@ public class DiscountCategory implements Serializable {
 	protected String categoryExternalReferenceCode;
 
 	@DecimalMin("0")
-	@Schema
+	@Schema(example = "30130")
 	public Long getCategoryId() {
 		return categoryId;
 	}
@@ -182,7 +182,7 @@ public class DiscountCategory implements Serializable {
 	@NotNull
 	protected Long categoryId;
 
-	@Schema
+	@Schema(example = "DAB-34098-789-N")
 	public String getDiscountExternalReferenceCode() {
 		return discountExternalReferenceCode;
 	}
@@ -215,7 +215,7 @@ public class DiscountCategory implements Serializable {
 	protected String discountExternalReferenceCode;
 
 	@DecimalMin("0")
-	@Schema
+	@Schema(example = "30324")
 	public Long getDiscountId() {
 		return discountId;
 	}
@@ -245,7 +245,7 @@ public class DiscountCategory implements Serializable {
 	protected Long discountId;
 
 	@DecimalMin("0")
-	@Schema
+	@Schema(example = "30643")
 	public Long getId() {
 		return id;
 	}
