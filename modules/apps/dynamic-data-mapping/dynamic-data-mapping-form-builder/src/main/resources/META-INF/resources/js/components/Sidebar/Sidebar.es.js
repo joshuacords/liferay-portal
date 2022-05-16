@@ -321,7 +321,7 @@ class Sidebar extends Component {
 					)}
 				/>
 
-                <ClayModal
+				<ClayModal
 					body={Liferay.Language.get(
 						'a-rule-is-applied-to-this-field'
 					)}
@@ -329,21 +329,21 @@ class Sidebar extends Component {
 					events={{
 						clickButton: this._handleDeleteFieldModalButtonClicked.bind(
 							this
-						),
+						)
 					}}
 					footerButtons={[
 						{
 							alignment: 'right',
 							label: Liferay.Language.get('cancel'),
 							style: 'secondary',
-							type: 'close',
+							type: 'close'
 						},
 						{
 							alignment: 'right',
 							label: Liferay.Language.get('delete'),
 							style: 'primary',
-							type: 'button',
-						},
+							type: 'button'
+						}
 					]}
 					ref={'existingRuleModal'}
 					size={'lg'}
@@ -548,12 +548,11 @@ class Sidebar extends Component {
 	}
 
 	_handleDeleteFieldModalButtonClicked(event) {
-
 		if (event.target.classList.contains('btn-primary')) {
 			this._deleteField(this.refs.existingRuleModal.data);
 		}
 	}
-	
+
 	_handleDocumentMouseDown({target}) {
 		const {transitionEnd} = this;
 		const {open} = this.state;
@@ -688,7 +687,12 @@ class Sidebar extends Component {
 	}
 
 	_handleFieldSettingsClicked({data: {item}}) {
-		const {columnIndex, pageIndex, rowIndex, name} = this.props.focusedField;
+		const {
+			columnIndex,
+			name,
+			pageIndex,
+			rowIndex
+		} = this.props.focusedField;
 		const {settingsItem} = item;
 		const indexes = {
 			columnIndex,
@@ -701,18 +705,19 @@ class Sidebar extends Component {
 				this._duplicateField(fieldName);
 			}
 			else if (settingsItem === 'delete-field') {
-					const {rules} = this.props;
+				const {rules} = this.props;
 
-					if (RulesSupport.findRuleByFieldName(name, rules)) {
+				if (RulesSupport.findRuleByFieldName(name, rules)) {
+					document
+						.querySelector('.dropdown-menu.show')
+						.classList.remove('show');
 
-						document.querySelector('.dropdown-menu.show').classList.remove('show');
-
-						this.refs.existingRuleModal.data = indexes;
-						this.refs.existingRuleModal.show();
-					} else {
-						this._deleteField(indexes);
-					}
-							
+					this.refs.existingRuleModal.data = indexes;
+					this.refs.existingRuleModal.show();
+				}
+				else {
+					this._deleteField(indexes);
+				}
 			}
 			else if (settingsItem === 'cancel-field-changes') {
 				this._cancelFieldChanges(indexes);

@@ -59,6 +59,14 @@ const clearAllConditionFieldValues = condition => {
 	return condition;
 };
 
+const fieldWithOptions = fieldType => {
+	return (
+		fieldType === 'radio' ||
+		fieldType === 'checkbox_multiple' ||
+		fieldType === 'select'
+	);
+};
+
 const formatRules = (pages, rules) => {
 	const visitor = new PagesVisitor(pages);
 
@@ -133,29 +141,26 @@ const syncActions = (pages, actions) => {
 	const visitor = new PagesVisitor(pages);
 
 	actions.forEach((action, index) => {
-
 		if (action.action === 'auto-fill') {
 			const {inputs, outputs} = action;
 
 			Object.keys(inputs)
-				.filter((key) => !targetFieldExists(inputs[key], pages))
-				.map((key) => {
+				.filter(key => !targetFieldExists(inputs[key], pages))
+				.map(key => {
 					inputs[key] = '';
 				});
 
 			Object.keys(outputs)
-				.filter((key) => !targetFieldExists(outputs[key], pages))
-				.map((key) => {
+				.filter(key => !targetFieldExists(outputs[key], pages))
+				.map(key => {
 					outputs[key] = '';
 				});
-
 		}
 		else if (action.action === 'calculate') {
-	         
 			const expressionFields = getExpressionFields(action);
 
 			if (expressionFields && expressionFields.length > 0) {
-				expressionFields.forEach((field) => {
+				expressionFields.forEach(field => {
 					if (!targetFieldExists(field, pages)) {
 						const inexistentField = new RegExp(field, 'g');
 
@@ -177,21 +182,20 @@ const syncActions = (pages, actions) => {
 			if (pages.length < 3 || target > pages.length) {
 				action.target = '';
 			}
-		} 
+		}
 		else {
 			let targetFieldExists = false;
 
 			visitor.mapFields(({fieldName}) => {
 				if (action.target === fieldName) {
-						targetFieldExists = true;
+					targetFieldExists = true;
 				}
 			});
 
-	    if (!targetFieldExists) {
-			actions = clearTargetValue(actions, index);
+			if (!targetFieldExists) {
+				actions = clearTargetValue(actions, index);
+			}
 		}
-		}
-
 	});
 
 	return actions;
@@ -205,17 +209,16 @@ const fieldNameBelongsToAction = (fieldName, actions) => {
 			if (action.action === 'auto-fill') {
 				return (
 					Object.values(action.inputs).some(
-						(input) => input === fieldName
+						input => input === fieldName
 					) ||
 					Object.values(action.outputs).some(
-						(output) => output === fieldName
+						output => output === fieldName
 					)
 				);
 			}
 			if (action.action === 'calculate') {
 				const {expression, target} = action;
 				if (fieldName === '') {
-
 					return (
 						expression.indexOf(emptyField) !== -1 ||
 						target === fieldName
@@ -245,14 +248,6 @@ const fieldNameBelongsToCondition = (fieldName, conditions) => {
 		.some(fieldFound => fieldFound == true);
 };
 
-const fieldWithOptions = fieldType => {
-	return (
-		fieldType === 'radio' ||
-		fieldType === 'checkbox_multiple' ||
-		fieldType === 'select'
-	);
-};
-
 const findInvalidRule = rule => {
 	return findRuleByFieldName('', [rule]);
 };
@@ -265,7 +260,10 @@ const findRuleByFieldName = (fieldName, rules) => {
 	);
 };
 
-const getExpressionFields = (action, regex = DEFAULT_FIELD_NAMES_REGEX_FOR_EXPRESSION) => {
+const getExpressionFields = (
+	action,
+	regex = DEFAULT_FIELD_NAMES_REGEX_FOR_EXPRESSION
+) => {
 	return action.expression.match(regex);
 };
 

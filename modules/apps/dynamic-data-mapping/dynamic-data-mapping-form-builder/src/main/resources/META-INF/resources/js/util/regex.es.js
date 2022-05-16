@@ -12,4 +12,4 @@
  * details.
  */
 
- export const DEFAULT_FIELD_NAMES_REGEX_FOR_EXPRESSION = /([^[]+(?=]))/g;
+export const DEFAULT_FIELD_NAMES_REGEX_FOR_EXPRESSION = /([^[]+(?=]))/g;

@@ -367,14 +367,15 @@ class LayoutProvider extends Component {
 					const {pages} = this.state;
 					const {rules} = this.state;
 
-							const indexes = getFieldIndexes(pages, fieldName);
-							  
-								if (RulesSupport.findRuleByFieldName(fieldName, rules)) {
-									this.refs.existingRuleModal.data = indexes;
-									this.refs.existingRuleModal.show();
-								} else {
-								    this.dispatch('fieldDeleted', indexes);
-								}
+					const indexes = getFieldIndexes(pages, fieldName);
+
+					if (RulesSupport.findRuleByFieldName(fieldName, rules)) {
+						this.refs.existingRuleModal.data = indexes;
+						this.refs.existingRuleModal.show();
+					}
+					else {
+						this.dispatch('fieldDeleted', indexes);
+					}
 				},
 				label: Liferay.Language.get('delete')
 			}
