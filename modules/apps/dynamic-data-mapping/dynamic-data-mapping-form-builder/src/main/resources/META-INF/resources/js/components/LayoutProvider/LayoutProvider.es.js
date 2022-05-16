@@ -363,26 +363,18 @@ class LayoutProvider extends Component {
 				label: Liferay.Language.get('duplicate')
 			},
 			{
-				action: indexes => {
+				action: fieldName => {
 					const {pages} = this.state;
-					const visitor = new PagesVisitor(pages);
 					const {rules} = this.state;
 
-					visitor.mapFields(({fieldName}) => {
-
-							const {columnIndex, pageIndex, rowIndex}= getFieldIndexes(pages, fieldName);
+							const indexes = getFieldIndexes(pages, fieldName);
 							  
-							if (indexes.columnIndex === columnIndex 
-								&& indexes.pageIndex === pageIndex 
-								&& indexes.rowIndex === rowIndex) {
 								if (RulesSupport.findRuleByFieldName(fieldName, rules)) {
 									this.refs.existingRuleModal.data = indexes;
 									this.refs.existingRuleModal.show();
 								} else {
 								    this.dispatch('fieldDeleted', indexes);
 								}
-							}
-					})
 				},
 				label: Liferay.Language.get('delete')
 			}
