@@ -92,23 +92,31 @@ public class AssignAccountContactRolesMVCActionCommand
 			String[] deleteContactRoleKeys = ParamUtil.getStringValues(
 				actionRequest, "deleteContactRoleKeys");
 
-			List<ContactRole> contactRoles =
-				_contactRoleWebService.getAccountCustomerContactRoles(
-					accountKey, emailAddress, 1, 1000);
+			Contact contact = _contactWebService.fetchContactByEmailAddress(
+				emailAddress);
 
-			Stream<ContactRole> stream = contactRoles.stream();
+			if (contact != null) {
+				List<ContactRole> contactRoles =
+					_contactRoleWebService.getAccountCustomerContactRoles(
+						accountKey, emailAddress, 1, 1000);
 
-			List<String> contactRoleKeys = stream.map(
-				ContactRole::getKey
-			).collect(
-				Collectors.toList()
-			);
+				Stream<ContactRole> stream = contactRoles.stream();
 
-			for (String deleteContactRoleKey : deleteContactRoleKeys) {
-				if (!contactRoleKeys.contains(deleteContactRoleKey)) {
-					deleteContactRoleKeys = ArrayUtil.remove(
-						deleteContactRoleKeys, deleteContactRoleKey);
+				List<String> contactRoleKeys = stream.map(
+					ContactRole::getKey
+				).collect(
+					Collectors.toList()
+				);
+
+				for (String deleteContactRoleKey : deleteContactRoleKeys) {
+					if (!contactRoleKeys.contains(deleteContactRoleKey)) {
+						deleteContactRoleKeys = ArrayUtil.remove(
+							deleteContactRoleKeys, deleteContactRoleKey);
+					}
 				}
+			}
+			else {
+				deleteContactRoleKeys = new String[0];
 			}
 
 			if (!ArrayUtil.isEmpty(deleteContactRoleKeys)) {
@@ -168,9 +176,8 @@ public class AssignAccountContactRolesMVCActionCommand
 					accountKey, ContactRoleConstants.NAME_SECONDARY_CONTACT,
 					emailAddress, addContactRoleKeys);
 
-				Contact contact =
-					_contactIdentityProvider.fetchContactByEmailAddress(
-						emailAddress);
+				contact = _contactIdentityProvider.fetchContactByEmailAddress(
+					emailAddress);
 
 				if (contact == null) {
 					Account account = _accountWebService.getAccount(accountKey);
