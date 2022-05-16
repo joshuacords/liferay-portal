@@ -92,10 +92,34 @@ public class AssignAccountContactRolesMVCActionCommand
 			String[] deleteContactRoleKeys = ParamUtil.getStringValues(
 				actionRequest, "deleteContactRoleKeys");
 
-			Contact contact = _contactWebService.fetchContactByEmailAddress(
-				emailAddress);
+			Contact contact =
+				_contactIdentityProvider.fetchContactByEmailAddress(
+					emailAddress, true);
 
-			if (contact != null) {
+			if (contact == null) {
+				Account account = _accountWebService.getAccount(accountKey);
+
+				String subscriptionState = _accountReader.getSubscriptionState(
+					account);
+
+				if (subscriptionState.equals(
+						ProductPurchaseConstants.STATE_ACTIVE)) {
+
+					String firstName = ParamUtil.getString(
+						actionRequest, "firstName");
+					String lastName = ParamUtil.getString(
+						actionRequest, "lastName");
+
+					_contactIdentityProvider.createContact(
+						emailAddress, firstName, StringPool.BLANK, lastName);
+				}
+				else {
+					throw new NoSuchContactException();
+				}
+
+				deleteContactRoleKeys = new String[0];
+			}
+			else {
 				List<ContactRole> contactRoles =
 					_contactRoleWebService.getAccountCustomerContactRoles(
 						accountKey, emailAddress, 1, 1000);
@@ -114,9 +138,6 @@ public class AssignAccountContactRolesMVCActionCommand
 							deleteContactRoleKeys, deleteContactRoleKey);
 					}
 				}
-			}
-			else {
-				deleteContactRoleKeys = new String[0];
 			}
 
 			if (!ArrayUtil.isEmpty(deleteContactRoleKeys)) {
@@ -175,32 +196,6 @@ public class AssignAccountContactRolesMVCActionCommand
 				_validateAccountWorkerContactRole(
 					accountKey, ContactRoleConstants.NAME_SECONDARY_CONTACT,
 					emailAddress, addContactRoleKeys);
-
-				contact = _contactIdentityProvider.fetchContactByEmailAddress(
-					emailAddress);
-
-				if (contact == null) {
-					Account account = _accountWebService.getAccount(accountKey);
-
-					String subscriptionState =
-						_accountReader.getSubscriptionState(account);
-
-					if (subscriptionState.equals(
-							ProductPurchaseConstants.STATE_ACTIVE)) {
-
-						String firstName = ParamUtil.getString(
-							actionRequest, "firstName");
-						String lastName = ParamUtil.getString(
-							actionRequest, "lastName");
-
-						_contactIdentityProvider.createContact(
-							emailAddress, firstName, StringPool.BLANK,
-							lastName);
-					}
-					else {
-						throw new NoSuchContactException();
-					}
-				}
 
 				_accountWebService.assignContactRolesByEmailAddress(
 					user.getFullName(), user.getUuid(), accountKey,

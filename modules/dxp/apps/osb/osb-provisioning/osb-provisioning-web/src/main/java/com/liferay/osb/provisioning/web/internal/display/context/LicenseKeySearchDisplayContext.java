@@ -243,7 +243,7 @@ public class LicenseKeySearchDisplayContext {
 		}
 
 		Contact contact = _contactIdentityProvider.fetchContactByEmailAddress(
-			emailAddress);
+			emailAddress, false);
 
 		if (contact != null) {
 			return contact.getUuid();

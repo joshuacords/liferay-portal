@@ -122,7 +122,7 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 		return contact;
 	}
 
-	public Contact fetchContactByEmailAddress(String emailAddress)
+	public Contact fetchContactByEmailAddress(String emailAddress, boolean sync)
 		throws Exception {
 
 		Contact contact = _contactWebService.fetchContactByEmailAddress(
@@ -149,6 +149,11 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 
 			if (_isEmailAddressVerified(jsonObject.getString("status"))) {
 				contact.setEmailAddressVerified(true);
+			}
+
+			if (sync) {
+				contact = _contactWebService.addContact(
+					StringPool.BLANK, StringPool.BLANK, contact);
 			}
 		}
 

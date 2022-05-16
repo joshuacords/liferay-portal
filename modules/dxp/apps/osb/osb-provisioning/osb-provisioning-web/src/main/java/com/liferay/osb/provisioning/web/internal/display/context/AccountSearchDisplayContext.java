@@ -278,7 +278,7 @@ public class AccountSearchDisplayContext {
 		}
 
 		Contact contact = _contactIdentityProvider.fetchContactByEmailAddress(
-			createdByEmailAddress);
+			createdByEmailAddress, false);
 
 		if (contact != null) {
 			return contact.getUuid();

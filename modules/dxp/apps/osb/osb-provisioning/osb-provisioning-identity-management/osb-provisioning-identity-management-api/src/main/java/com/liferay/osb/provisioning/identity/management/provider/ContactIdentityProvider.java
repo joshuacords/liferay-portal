@@ -29,7 +29,7 @@ public interface ContactIdentityProvider {
 			String lastName)
 		throws Exception;
 
-	public Contact fetchContactByEmailAddress(String emailAddress)
+	public Contact fetchContactByEmailAddress(String emailAddress, boolean sync)
 		throws Exception;
 
 	public Contact fetchContactBySessionId(String sessionId) throws Exception;

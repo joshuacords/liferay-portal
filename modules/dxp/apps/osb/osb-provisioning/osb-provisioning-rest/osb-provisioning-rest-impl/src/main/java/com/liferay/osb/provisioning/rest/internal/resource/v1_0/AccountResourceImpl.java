@@ -136,7 +136,7 @@ public class AccountResourceImpl extends BaseAccountResourceImpl {
 		}
 
 		Contact contact = _contactIdentityProvider.fetchContactByEmailAddress(
-			contactEmailAddress);
+			contactEmailAddress, false);
 
 		if (contact != null) {
 			if (checkSupportSeatCount) {
