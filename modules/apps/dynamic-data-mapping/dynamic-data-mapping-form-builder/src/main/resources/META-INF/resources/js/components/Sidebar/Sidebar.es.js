@@ -31,6 +31,7 @@ import RulesSupport from '../../components/RuleBuilder/RulesSupport.es';
 import {focusedFieldStructure} from '../../util/config.es';
 import {selectText} from '../../util/dom.es';
 import {
+	getFieldIndexes,
 	getFieldProperties,
 	normalizeSettingsContextPages
 } from '../../util/fieldSupport.es';
@@ -687,27 +688,18 @@ class Sidebar extends Component {
 	}
 
 	_handleFieldSettingsClicked({data: {item}}) {
-		const {
-			columnIndex,
-			name,
-			pageIndex,
-			rowIndex
-		} = this.props.focusedField;
+		const {fieldName} = this.props.focusedField;
 		const {settingsItem} = item;
-		const indexes = {
-			columnIndex,
-			pageIndex,
-			rowIndex
-		};
+		const {rules, pages} = this.props;
+		const indexes = getFieldIndexes(pages, fieldName);
 
 		if (!item.disabled) {
 			if (settingsItem === 'duplicate-field') {
 				this._duplicateField(fieldName);
 			}
 			else if (settingsItem === 'delete-field') {
-				const {rules} = this.props;
 
-				if (RulesSupport.findRuleByFieldName(name, rules)) {
+				if (RulesSupport.findRuleByFieldName(fieldName, rules)) {
 					document
 						.querySelector('.dropdown-menu.show')
 						.classList.remove('show');
