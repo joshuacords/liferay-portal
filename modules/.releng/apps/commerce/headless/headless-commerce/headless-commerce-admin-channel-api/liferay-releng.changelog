@@ -47,3 +47,8 @@
 # Bundle Version 4.6.0
 #
 b9920aa0c4718eeaeaa6fc19b9288a2c7ea713af^..4c070bd09f835628fd150f18f053dcbb1eb5fd41=LPS-150490
+
+#
+# Bundle Version 4.6.1
+#
+4c070bd09f835628fd150f18f053dcbb1eb5fd41^..8ba32cd594bc04925ded293bd1e9135fcd9abea9=LPS-140372
