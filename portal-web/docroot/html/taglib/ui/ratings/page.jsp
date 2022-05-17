@@ -140,9 +140,18 @@ if (!inTrash) {
 
 							for (int i = 1; i <= numberOfStars; i++) {
 								String ratingId = PortalUtil.generateRandomKey(request, "taglib_ui_ratings_page_rating");
+
+								String message = StringPool.BLANK;
+
+								if (yourScoreStars == i) {
+									message = LanguageUtil.format(request, (i == 1) ? "you-have-rated-this-x-star-out-of-x" : "you-have-rated-this-x-stars-out-of-x", new Object[] {i, numberOfStars}, false);
+								}
+								else {
+									message = LanguageUtil.format(request, (i == 1) ? "rate-this-x-star-out-of-x" : "rate-this-x-stars-out-of-x", new Object[] {i, numberOfStars}, false);
+								}
 							%>
 
-								<a class="btn btn-unstyled rating-element <%= (i <= yourScoreStars) ? "icon-star-on" : "icon-star-off" %>" href="javascript:;">
+								<a class="btn btn-unstyled rating-element <%= (i <= yourScoreStars) ? "icon-star-on" : "icon-star-off" %>" href="javascript:;" title="<%= message %>">
 									<svg aria-hidden="true" class="lexicon-icon lexicon-icon-star" role="img">
 										<use xlink:href="<%= themeDisplay.getPathThemeImages() %>/lexicon/icons.svg#star" />
 									</svg>
@@ -153,7 +162,7 @@ if (!inTrash) {
 								</a>
 
 								<div class="rating-input-container">
-									<label for="<%= ratingId %>"><liferay-ui:message arguments="<%= new Object[] {i, numberOfStars} %>" key='<%= (yourScoreStars == i) ? ((i == 1) ? "you-have-rated-this-x-star-out-of-x" : "you-have-rated-this-x-stars-out-of-x") : ((i == 1) ? "rate-this-x-star-out-of-x" : "rate-this-x-stars-out-of-x") %>' translateArguments="<%= false %>" /></label>
+									<label for="<%= ratingId %>"><%= message %></label>
 
 									<input checked="<%= i == yourScoreStars %>" class="rating-input" id="<%= ratingId %>" name="<portlet:namespace />rating" type="radio" value="<%= i %>" />
 								</div>
@@ -180,9 +189,18 @@ if (!inTrash) {
 
 							for (int i = 1; i <= numberOfStars; i++) {
 								String ratingId = PortalUtil.generateRandomKey(request, "taglib_ui_ratings_page_rating");
+
+								String message = StringPool.BLANK;
+
+								if (yourScoreStars == i) {
+									message = LanguageUtil.format(request, (i == 1) ? "you-have-rated-this-x-star-out-of-x" : "you-have-rated-this-x-stars-out-of-x", new Object[] {i, numberOfStars}, false);
+								}
+								else {
+									message = LanguageUtil.format(request, (i == 1) ? "rate-this-x-star-out-of-x" : "rate-this-x-stars-out-of-x", new Object[] {i, numberOfStars}, false);
+								}
 							%>
 
-								<a class="btn btn-unstyled rating-element <%= (i <= yourScoreStars) ? "icon-star-on" : "icon-star-off" %>" href="javascript:;">
+								<a class="btn btn-unstyled rating-element <%= (i <= yourScoreStars) ? "icon-star-on" : "icon-star-off" %>" href="javascript:;" title="<%= message %>">
 									<svg aria-hidden="true" class="lexicon-icon lexicon-icon-star" role="img">
 										<use xlink:href="<%= themeDisplay.getPathThemeImages() %>/lexicon/icons.svg#star" />
 									</svg>
@@ -193,7 +211,7 @@ if (!inTrash) {
 								</a>
 
 								<div class="rating-input-container">
-									<label for="<%= ratingId %>"><liferay-ui:message arguments="<%= new Object[] {i, numberOfStars} %>" key='<%= (yourScoreStars == i) ? ((i == 1) ? "you-have-rated-this-x-star-out-of-x" : "you-have-rated-this-x-stars-out-of-x") : ((i == 1) ? "rate-this-x-star-out-of-x" : "rate-this-x-stars-out-of-x") %>' translateArguments="<%= false %>" /></label>
+									<label for="<%= ratingId %>"><%= message %></label>
 
 									<input checked="<%= i == yourScoreStars %>" class="rating-input" id="<%= ratingId %>" name="<portlet:namespace />rating" type="radio" value="<%= i %>" />
 								</div>
