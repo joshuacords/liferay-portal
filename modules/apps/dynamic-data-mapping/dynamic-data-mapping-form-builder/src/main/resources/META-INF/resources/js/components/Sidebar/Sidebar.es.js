@@ -690,7 +690,7 @@ class Sidebar extends Component {
 	_handleFieldSettingsClicked({data: {item}}) {
 		const {fieldName} = this.props.focusedField;
 		const {settingsItem} = item;
-		const {rules, pages} = this.props;
+		const {pages, rules} = this.props;
 		const indexes = getFieldIndexes(pages, fieldName);
 
 		if (!item.disabled) {
@@ -698,7 +698,6 @@ class Sidebar extends Component {
 				this._duplicateField(fieldName);
 			}
 			else if (settingsItem === 'delete-field') {
-
 				if (RulesSupport.findRuleByFieldName(fieldName, rules)) {
 					document
 						.querySelector('.dropdown-menu.show')

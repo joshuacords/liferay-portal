@@ -15,7 +15,6 @@
 package com.liferay.dynamic.data.mapping.form.builder.internal.converter.serializer;
 
 import com.liferay.dynamic.data.mapping.form.builder.internal.converter.model.action.JumpToPageDDMFormRuleAction;
-
 import com.liferay.petra.string.StringPool;
 
 import org.junit.Assert;

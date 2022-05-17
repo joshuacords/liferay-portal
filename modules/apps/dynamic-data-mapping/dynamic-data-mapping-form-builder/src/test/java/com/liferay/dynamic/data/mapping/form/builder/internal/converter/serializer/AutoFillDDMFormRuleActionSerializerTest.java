@@ -15,8 +15,6 @@
 package com.liferay.dynamic.data.mapping.form.builder.internal.converter.serializer;
 
 import com.liferay.dynamic.data.mapping.form.builder.internal.converter.model.action.AutoFillDDMFormRuleAction;
-import com.liferay.dynamic.data.mapping.model.DDMForm;
-import com.liferay.dynamic.data.mapping.model.DDMFormField;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 
@@ -127,4 +125,4 @@ public class AutoFillDDMFormRuleActionSerializerTest extends PowerMockito {
 	@Mock
 	private DDMFormRuleSerializerContext _ddmFormRuleSerializerContext;
 
-} 
+}

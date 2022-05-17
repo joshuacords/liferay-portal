@@ -15,8 +15,8 @@
 package com.liferay.dynamic.data.mapping.form.builder.internal.converter.serializer;
 
 import com.liferay.dynamic.data.mapping.form.builder.internal.converter.model.action.DefaultDDMFormRuleAction;
-import com.liferay.portal.test.rule.LiferayUnitTestRule;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.test.rule.LiferayUnitTestRule;
 
 import org.junit.Assert;
 import org.junit.ClassRule;
@@ -34,20 +34,6 @@ public class DefaultDDMFormRuleActionSerializerTest {
 	@Rule
 	public static final LiferayUnitTestRule liferayUnitTestRule =
 		LiferayUnitTestRule.INSTANCE;
-		
-    @Test
-	public void testSerializeWithEmptyTarget() {
-		DefaultDDMFormRuleAction defaultDDMFormRuleAction =
-			new DefaultDDMFormRuleAction("show", StringPool.BLANK);
-
-		DefaultDDMFormRuleActionSerializer defaultDDMFormRuleActionSerializer =
-			new DefaultDDMFormRuleActionSerializer(defaultDDMFormRuleAction);
-
-		String result = defaultDDMFormRuleActionSerializer.serialize(
-			_ddmFormRuleSerializerContext);
-
-		Assert.assertNull(result);
-	}
 
 	@Test
 	public void testSerializeSetEnabled() {
@@ -103,6 +89,20 @@ public class DefaultDDMFormRuleActionSerializerTest {
 			_ddmFormRuleSerializerContext);
 
 		Assert.assertEquals("setVisible('field0', true)", result);
+	}
+
+	@Test
+	public void testSerializeWithEmptyTarget() {
+		DefaultDDMFormRuleAction defaultDDMFormRuleAction =
+			new DefaultDDMFormRuleAction("show", StringPool.BLANK);
+
+		DefaultDDMFormRuleActionSerializer defaultDDMFormRuleActionSerializer =
+			new DefaultDDMFormRuleActionSerializer(defaultDDMFormRuleAction);
+
+		String result = defaultDDMFormRuleActionSerializer.serialize(
+			_ddmFormRuleSerializerContext);
+
+		Assert.assertNull(result);
 	}
 
 	@Mock

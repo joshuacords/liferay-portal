@@ -96,18 +96,6 @@ definition {
 		Button.clickDone();
 	}
 
-	macro deleteFieldModalConfirmation {
-		FormsAdminNavigator.gotoDeleteField(
-			fieldLabel = "${fieldLabel}",
-			fieldName = "${fieldName}");
-
-		while (IsElementPresent(locator1 = "Form#VALIDATE_DELETE_FIELD_MODAL_DELETE_MESSAGE")) {
-			Click(locator1 = "Form#SIDEBAR_DELETE_FIELD_MODAL_DELETE_BUTTON");
-		}
-
-		Form.validateNoFieldLabel(fieldLabel = "${fieldLabel}");
-	}
-
 	macro deleteCurrentPage {
 		var key_formPageName = "${formPageName}";
 
@@ -120,6 +108,18 @@ definition {
 			value1 = "Delete Current Page");
 
 		AssertElementNotPresent(locator1 = "FormPortlet#FORM_PAGE");
+	}
+
+	macro deleteFieldModalConfirmation {
+		FormsAdminNavigator.gotoDeleteField(
+			fieldLabel = "${fieldLabel}",
+			fieldName = "${fieldName}");
+
+		while (IsElementPresent(locator1 = "Form#VALIDATE_DELETE_FIELD_MODAL_DELETE_MESSAGE")) {
+			Click(locator1 = "Form#SIDEBAR_DELETE_FIELD_MODAL_DELETE_BUTTON");
+		}
+
+		Form.validateNoFieldLabel(fieldLabel = "${fieldLabel}");
 	}
 
 	macro disableAutocompleteConfiguration {

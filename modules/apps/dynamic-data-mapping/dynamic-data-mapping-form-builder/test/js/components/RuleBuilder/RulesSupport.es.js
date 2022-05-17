@@ -83,25 +83,25 @@ describe('RulesSupport', () => {
 					actions: [
 						{
 							action: 'require',
-							target: 'text1',
-						},
+							target: 'text1'
+						}
 					],
 					conditions: [
 						{
 							operands: [
 								{
 									type: 'field',
-									value: 'text1',
+									value: 'text1'
 								},
 								{
 									type: 'field',
-									value: 'text2',
-								},
+									value: 'text2'
+								}
 							],
-							operator: 'equals-to',
-						},
-					],
-				},
+							operator: 'equals-to'
+						}
+					]
+				}
 			];
 
 			expect(
@@ -115,25 +115,25 @@ describe('RulesSupport', () => {
 					actions: [
 						{
 							action: 'enable',
-							target: 'date1',
-						},
+							target: 'date1'
+						}
 					],
 					conditions: [
 						{
 							operands: [
 								{
 									type: 'field',
-									value: 'text1',
+									value: 'text1'
 								},
 								{
 									type: 'field',
-									value: 'text2',
-								},
+									value: 'text2'
+								}
 							],
-							operator: 'equals-to',
-						},
-					],
-				},
+							operator: 'equals-to'
+						}
+					]
+				}
 			];
 
 			expect(
@@ -156,21 +156,21 @@ describe('RulesSupport', () => {
 						{
 							action: 'calculate',
 							expression: '[num1]+([num2]*2)',
-							target: 'num3',
-						},
+							target: 'num3'
+						}
 					],
 					conditions: [
 						{
 							operands: [
 								{
 									type: 'field',
-									value: 'text1',
-								},
+									value: 'text1'
+								}
 							],
-							operator: 'is-empty',
-						},
-					],
-				},
+							operator: 'is-empty'
+						}
+					]
+				}
 			];
 
 			expect(
@@ -189,25 +189,25 @@ describe('RulesSupport', () => {
 						{
 							action: 'auto-fill',
 							inputs: {
-								key: 'text2',
+								key: 'text2'
 							},
 							outputs: {
-								key: 'select1',
-							},
-						},
+								key: 'select1'
+							}
+						}
 					],
 					conditions: [
 						{
 							operands: [
 								{
 									type: 'field',
-									value: 'text1',
-								},
+									value: 'text1'
+								}
 							],
-							operator: 'is-empty',
-						},
-					],
-				},
+							operator: 'is-empty'
+						}
+					]
+				}
 			];
 
 			expect(

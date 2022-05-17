@@ -203,7 +203,7 @@ public class CalculateDDMFormRuleActionSerializerTest extends PowerMockito {
 			result);
 	}
 
-    @Test
+	@Test
 	public void testSerializeWithEmptyTarget() {
 		when(
 			_calculateDDMFormRuleAction.getTarget()
