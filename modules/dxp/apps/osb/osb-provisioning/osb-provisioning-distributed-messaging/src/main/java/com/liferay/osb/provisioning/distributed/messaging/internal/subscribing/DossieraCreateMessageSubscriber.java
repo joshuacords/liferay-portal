@@ -48,6 +48,7 @@ import com.liferay.osb.provisioning.koroneiki.web.service.ProductWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.TeamRoleWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.TeamWebService;
 import com.liferay.osb.provisioning.search.FilterQuery;
+import com.liferay.osb.provisioning.util.CustomerPortalRelease;
 import com.liferay.osb.provisioning.util.DataRegionUtil;
 import com.liferay.osb.provisioning.zendesk.model.ZendeskTicket;
 import com.liferay.osb.provisioning.zendesk.web.service.ZendeskTicketWebService;
@@ -89,6 +90,7 @@ import java.net.URL;
 import java.text.Format;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -931,9 +933,25 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 			return;
 		}
 
+		PostalAddress postalAddress = parseAddress(jsonObject);
+
+		Account.Language language = getLanguage(
+			jsonObject, postalAddress.getAddressCountry());
+
+		String languageId = _getLanguageId(language);
+
+		Account.Region region = getSupportRegion(
+			jsonObject.getString("_salesforceOpportunitySoldBy"),
+			postalAddress.getAddressCountry());
+
+		boolean customerPortal2Account = _customerPortalRelease.isEnabled(
+			productPurchases, region);
+
 		List<Contact> activeContacts = new ArrayList<>();
 		List<Contact> inactiveContacts = new ArrayList<>();
 		List<Contact> missingContacts = new ArrayList<>();
+		Map<Contact, List<ContactRole>> customerPortal2ContactsMap =
+			new HashMap<>();
 
 		String accountKey = getAccountKey(jsonObject);
 
@@ -946,7 +964,8 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 					OPPORTUNITY_TYPE_NEW_PROJECT_EXISTING_BUSINESS)) {
 
 			List<Contact> contacts = parseContacts(
-				jsonObject, accountKey, salesforceOpportunityType);
+				jsonObject, accountKey, salesforceOpportunityType, languageId,
+				customerPortal2Account);
 
 			for (Contact contact : contacts) {
 				Integer status =
@@ -954,10 +973,42 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 						contact.getEmailAddress());
 
 				if (status == null) {
-					missingContacts.add(contact);
+					if (customerPortal2Account) {
+						Contact newContact =
+							_contactIdentityProvider.createContact(
+								contact.getEmailAddress(),
+								contact.getFirstName(), contact.getMiddleName(),
+								contact.getLastName());
+
+						newContact.setContactRoles(contact.getContactRoles());
+
+						activeContacts.add(newContact);
+					}
+					else {
+						missingContacts.add(contact);
+					}
 				}
-				else if (status == WorkflowConstants.STATUS_APPROVED) {
+				else if ((status == WorkflowConstants.STATUS_APPROVED) ||
+						 (status == WorkflowConstants.STATUS_PENDING)) {
+
 					activeContacts.add(contact);
+
+					if (customerPortal2Account) {
+						if (Validator.isNotNull(accountKey)) {
+							List<ContactRole> contactRoles =
+								_contactRoleWebService.
+									getAccountCustomerContactRoles(
+										accountKey, contact.getEmailAddress(),
+										1, 1000);
+
+							customerPortal2ContactsMap.put(
+								contact, contactRoles);
+						}
+						else {
+							customerPortal2ContactsMap.put(
+								contact, Collections.emptyList());
+						}
+					}
 				}
 				else {
 					inactiveContacts.add(contact);
@@ -966,18 +1017,6 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 		}
 
 		boolean analyticsCloud = hasAnalyticsCloud(productPurchases);
-
-		PostalAddress postalAddress = parseAddress(jsonObject);
-
-		Account.Language language = getLanguage(
-			jsonObject, postalAddress.getAddressCountry());
-
-		String languageId = _getLanguageId(language);
-
-		String soldBy = jsonObject.getString("_salesforceOpportunitySoldBy");
-
-		Account.Region region = getSupportRegion(
-			soldBy, postalAddress.getAddressCountry());
 
 		Account account = null;
 
@@ -1030,6 +1069,30 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 			for (Contact contact : missingContacts) {
 				sendUserCreationEmail(
 					contact, account, analyticsCloud, languageId);
+			}
+
+			if (customerPortal2Account) {
+				if ((salesforceOpportunityType ==
+						SalesforceConstants.OPPORTUNITY_TYPE_NEW_BUSINESS) ||
+					(salesforceOpportunityType ==
+						SalesforceConstants.
+							OPPORTUNITY_TYPE_NEW_PROJECT_EXISTING_BUSINESS)) {
+
+					_customerPortalRelease.sendAutoProvisionedWelcomeEmail(
+						account);
+				}
+				else {
+					for (Map.Entry<Contact, List<ContactRole>> entry :
+							customerPortal2ContactsMap.entrySet()) {
+
+						Contact contact = entry.getKey();
+
+						_customerPortalRelease.sendAutoProvisionedWelcomeEmail(
+							contact.getEmailAddress(), account,
+							entry.getValue(),
+							Arrays.asList(contact.getContactRoles()));
+					}
+				}
 			}
 		}
 		else {
@@ -1788,7 +1851,8 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 
 	protected List<Contact> parseContacts(
 			JSONObject jsonObject, String accountKey,
-			int salesforceOpportunityType)
+			int salesforceOpportunityType, String languageId,
+			boolean customerPortal2Account)
 		throws Exception {
 
 		List<Contact> contacts = new ArrayList<>();
@@ -1867,10 +1931,11 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 			contact.setLastName(contactJSONObject.getString("_lastName"));
 			contact.setEmailAddress(
 				contactJSONObject.getString("_emailAddress"));
+			contact.setLanguageId(languageId);
 
 			String contactRoleName = null;
 
-			if (_distributedMessagingConfiguration.customerPortal2Enabled()) {
+			if (customerPortal2Account) {
 				contactRoleName =
 					ContactRoleConstants.NAME_SUPPORT_ADMINISTRATOR;
 			}
@@ -2701,6 +2766,9 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 
 	@Reference
 	private ContactWebService _contactWebService;
+
+	@Reference
+	private CustomerPortalRelease _customerPortalRelease;
 
 	private volatile DistributedMessagingConfiguration
 		_distributedMessagingConfiguration;

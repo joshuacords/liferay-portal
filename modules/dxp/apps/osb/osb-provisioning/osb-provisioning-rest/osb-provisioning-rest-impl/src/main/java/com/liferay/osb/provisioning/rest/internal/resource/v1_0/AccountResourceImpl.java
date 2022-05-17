@@ -26,6 +26,7 @@ import com.liferay.osb.provisioning.koroneiki.validator.ContactRoleValidator;
 import com.liferay.osb.provisioning.koroneiki.web.service.AccountWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.ContactRoleWebService;
 import com.liferay.osb.provisioning.rest.resource.v1_0.AccountResource;
+import com.liferay.osb.provisioning.util.CustomerPortalRelease;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.NoSuchContactException;
@@ -39,6 +40,7 @@ import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -115,35 +117,39 @@ public class AccountResourceImpl extends BaseAccountResourceImpl {
 		boolean checkSupportSeatCount = false;
 
 		for (int i = 0; i < contactRoleNames.length; i++) {
-			String contactRoleName = contactRoleNames[i];
-
 			ContactRole contactRole = _contactRoleWebService.fetchContactRole(
-				ContactRole.Type.ACCOUNT_CUSTOMER.toString(), contactRoleName);
+				ContactRole.Type.ACCOUNT_CUSTOMER.toString(),
+				contactRoleNames[i]);
 
 			if (contactRole == null) {
 				throw new PortalException(
-					"Unable to find contact role with name " + contactRoleName);
+					"Unable to find contact role with name " +
+						contactRoleNames[i]);
 			}
 
 			contactRoleKeys[i] = contactRole.getKey();
 
 			if (ArrayUtil.contains(
 					ContactRoleConstants.SUPPORT_SEAT_CONTACT_ROLES,
-					contactRoleName)) {
+					contactRoleNames[i])) {
 
 				checkSupportSeatCount = true;
 			}
 		}
 
+		Account account = _accountWebService.getAccount(accountKey);
+
 		Contact contact = _contactIdentityProvider.fetchContactByEmailAddress(
 			contactEmailAddress, false);
 
-		if (contact != null) {
-			if (checkSupportSeatCount) {
-				List<ContactRole> contactRoles =
-					_contactRoleWebService.getAccountCustomerContactRoles(
-						accountKey, contactEmailAddress, 1, 1000);
+		List<ContactRole> contactRoles = new ArrayList<>();
 
+		if (contact != null) {
+			contactRoles =
+				_contactRoleWebService.getAccountCustomerContactRoles(
+					accountKey, contactEmailAddress, 1, 1000);
+
+			if (checkSupportSeatCount) {
 				for (ContactRole contactRole : contactRoles) {
 					if (ArrayUtil.contains(
 							ContactRoleConstants.SUPPORT_SEAT_CONTACT_ROLES,
@@ -155,8 +161,6 @@ public class AccountResourceImpl extends BaseAccountResourceImpl {
 			}
 		}
 		else {
-			Account account = _accountWebService.getAccount(accountKey);
-
 			String subscriptionState = _accountReader.getSubscriptionState(
 				account);
 
@@ -173,8 +177,6 @@ public class AccountResourceImpl extends BaseAccountResourceImpl {
 		}
 
 		if (checkSupportSeatCount) {
-			Account account = _accountWebService.getAccount(accountKey);
-
 			int supportSeatCount = _accountReader.getSupportSeatCount(account);
 			int maxSupportSeatCount = _accountReader.getMaxSupportSeatCount(
 				account);
@@ -189,6 +191,11 @@ public class AccountResourceImpl extends BaseAccountResourceImpl {
 		_accountWebService.assignContactRolesByEmailAddress(
 			_getAgentName(), _getAgentUID(), accountKey, contactEmailAddress,
 			contactRoleKeys);
+
+		if (contact != null) {
+			_customerPortalRelease.sendContactAssignedWelcomeEmail(
+				contact, account, contactRoles, contactRoleKeys);
+		}
 	}
 
 	@Activate
@@ -293,5 +300,8 @@ public class AccountResourceImpl extends BaseAccountResourceImpl {
 
 	@Reference
 	private ContactRoleWebService _contactRoleWebService;
+
+	@Reference
+	private CustomerPortalRelease _customerPortalRelease;
 
 }

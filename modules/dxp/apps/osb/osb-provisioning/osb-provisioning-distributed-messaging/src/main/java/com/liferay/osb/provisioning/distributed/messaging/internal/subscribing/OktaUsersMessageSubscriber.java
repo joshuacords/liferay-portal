@@ -22,6 +22,7 @@ import com.liferay.osb.provisioning.koroneiki.constants.ContactRoleConstants;
 import com.liferay.osb.provisioning.koroneiki.web.service.AccountWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.ContactRoleWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.ContactWebService;
+import com.liferay.osb.provisioning.util.CustomerPortalRelease;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.ArrayUtil;
@@ -129,15 +130,19 @@ public class OktaUsersMessageSubscriber extends BaseMessageSubscriber {
 			return;
 		}
 
-		String status = jsonObject.getString("status");
-
-		if (status.equals(_STATUS_NAME_ACTIVE)) {
-			contact.setEmailAddressVerified(true);
-		}
-
 		contact.setEmailAddress(profileJSONObject.getString("email"));
 		contact.setFirstName(profileJSONObject.getString("firstName"));
 		contact.setLastName(profileJSONObject.getString("lastName"));
+
+		String status = jsonObject.getString("status");
+
+		if (status.equals(_STATUS_NAME_ACTIVE)) {
+			if (!contact.getEmailAddressVerified()) {
+				_customerPortalRelease.sendContactVerifiedWelcomeEmail(contact);
+			}
+
+			contact.setEmailAddressVerified(true);
+		}
 
 		_contactWebService.updateContactByUuid(
 			StringPool.BLANK, StringPool.BLANK, contact.getUuid(), contact);
@@ -170,5 +175,8 @@ public class OktaUsersMessageSubscriber extends BaseMessageSubscriber {
 
 	@Reference
 	private ContactWebService _contactWebService;
+
+	@Reference
+	private CustomerPortalRelease _customerPortalRelease;
 
 }

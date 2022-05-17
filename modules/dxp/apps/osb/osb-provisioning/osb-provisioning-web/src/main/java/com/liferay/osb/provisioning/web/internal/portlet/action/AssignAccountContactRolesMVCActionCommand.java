@@ -33,6 +33,7 @@ import com.liferay.osb.provisioning.koroneiki.web.service.AccountWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.ContactRoleWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.ContactWebService;
 import com.liferay.osb.provisioning.search.FilterQuery;
+import com.liferay.osb.provisioning.util.CustomerPortalRelease;
 import com.liferay.osb.provisioning.web.internal.util.ZendeskValidator;
 import com.liferay.portal.kernel.exception.NoSuchContactException;
 import com.liferay.portal.kernel.log.Log;
@@ -92,13 +93,13 @@ public class AssignAccountContactRolesMVCActionCommand
 			String[] deleteContactRoleKeys = ParamUtil.getStringValues(
 				actionRequest, "deleteContactRoleKeys");
 
+			Account account = _accountWebService.getAccount(accountKey);
+				
 			Contact contact =
 				_contactIdentityProvider.fetchContactByEmailAddress(
 					emailAddress, true);
 
 			if (contact == null) {
-				Account account = _accountWebService.getAccount(accountKey);
-
 				String subscriptionState = _accountReader.getSubscriptionState(
 					account);
 
@@ -156,6 +157,9 @@ public class AssignAccountContactRolesMVCActionCommand
 					emailAddress, deleteContactRoleKeys);
 			}
 
+			_customerPortalRelease.sendContactAssignedWelcomeEmail(
+				contact, account, contactRoles, addContactRoleKeys);
+				
 			sendRedirect(actionRequest, actionResponse);
 		}
 		catch (Exception exception) {
@@ -308,6 +312,9 @@ public class AssignAccountContactRolesMVCActionCommand
 
 	@Reference
 	private ContactWebService _contactWebService;
+
+	@Reference
+	private CustomerPortalRelease _customerPortalRelease;
 
 	@Reference
 	private ZendeskValidator _zendeskValidator;
