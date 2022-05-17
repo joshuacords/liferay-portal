@@ -28,7 +28,7 @@
 			"FormRenderer",
 			"LayoutProvider",
 			"PageRenderer",
-			"RuleBuilder/RuleBuilder",
+			"RuleBuilder",
 			"RuleEditor",
 			"RuleList",
 			"Sidebar"
