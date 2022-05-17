@@ -447,9 +447,9 @@ describe('LayoutProvider', () => {
 
 				const mockEvent = {
 					activePage: 0,
-					fieldName: 'text1',
+					fieldName: 'text1'
 				};
-				
+
 				child.emit('fieldDeleted', mockEvent);
 
 				expect(
