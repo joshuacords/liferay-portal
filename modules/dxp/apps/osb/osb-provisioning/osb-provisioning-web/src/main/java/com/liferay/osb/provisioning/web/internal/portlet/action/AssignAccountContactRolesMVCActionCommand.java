@@ -94,10 +94,14 @@ public class AssignAccountContactRolesMVCActionCommand
 				actionRequest, "deleteContactRoleKeys");
 
 			Account account = _accountWebService.getAccount(accountKey);
-				
+
 			Contact contact =
 				_contactIdentityProvider.fetchContactByEmailAddress(
 					emailAddress, true);
+
+			List<ContactRole> contactRoles =
+				_contactRoleWebService.getAccountCustomerContactRoles(
+					accountKey, emailAddress, 1, 1000);
 
 			if (contact == null) {
 				String subscriptionState = _accountReader.getSubscriptionState(
@@ -121,10 +125,6 @@ public class AssignAccountContactRolesMVCActionCommand
 				deleteContactRoleKeys = new String[0];
 			}
 			else {
-				List<ContactRole> contactRoles =
-					_contactRoleWebService.getAccountCustomerContactRoles(
-						accountKey, emailAddress, 1, 1000);
-
 				Stream<ContactRole> stream = contactRoles.stream();
 
 				List<String> contactRoleKeys = stream.map(
@@ -159,7 +159,7 @@ public class AssignAccountContactRolesMVCActionCommand
 
 			_customerPortalRelease.sendContactAssignedWelcomeEmail(
 				contact, account, contactRoles, addContactRoleKeys);
-				
+
 			sendRedirect(actionRequest, actionResponse);
 		}
 		catch (Exception exception) {
