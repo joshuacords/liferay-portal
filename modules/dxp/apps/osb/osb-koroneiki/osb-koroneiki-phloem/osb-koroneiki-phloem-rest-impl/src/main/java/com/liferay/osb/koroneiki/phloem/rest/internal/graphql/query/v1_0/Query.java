@@ -810,6 +810,26 @@ public class Query {
 	/**
 	 * Invoke this method with the command line:
 	 *
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {contactRoleByTypeContactRoleTypeByNameContactRoleName(contactRoleName: ___, contactRoleType: ___){dateCreated, dateModified, description, externalLinks, key, name, system, type}}"}' -u 'test@liferay.com:test'
+	 */
+	@GraphQLField(description = "Retrieves the contact role by name.")
+	public ContactRole contactRoleByTypeContactRoleTypeByNameContactRoleName(
+			@GraphQLName("contactRoleType") String contactRoleType,
+			@GraphQLName("contactRoleName") String contactRoleName)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_contactRoleResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			contactRoleResource ->
+				contactRoleResource.
+					getContactRoleByTypeContactRoleTypeByNameContactRoleName(
+						contactRoleType, contactRoleName));
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
 	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {contactRole(contactRoleKey: ___){dateCreated, dateModified, description, externalLinks, key, name, system, type}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField(description = "Retrieves the contact role.")
@@ -827,10 +847,10 @@ public class Query {
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {contactRole(contactRoleName: ___, contactRoleType: ___){dateCreated, dateModified, description, externalLinks, key, name, system, type}}"}' -u 'test@liferay.com:test'
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {contactRolesContactRoleTypeContactRoleName(contactRoleName: ___, contactRoleType: ___){dateCreated, dateModified, description, externalLinks, key, name, system, type}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField(description = "Retrieves the contact role by name.")
-	public ContactRole contactRole(
+	public ContactRole contactRolesContactRoleTypeContactRoleName(
 			@GraphQLName("contactRoleType") String contactRoleType,
 			@GraphQLName("contactRoleName") String contactRoleName)
 		throws Exception {
@@ -838,8 +858,10 @@ public class Query {
 		return _applyComponentServiceObjects(
 			_contactRoleResourceComponentServiceObjects,
 			this::_populateResourceContext,
-			contactRoleResource -> contactRoleResource.getContactRole(
-				contactRoleType, contactRoleName));
+			contactRoleResource ->
+				contactRoleResource.
+					getContactRolesContactRoleTypeContactRoleName(
+						contactRoleType, contactRoleName));
 	}
 
 	/**
@@ -1740,6 +1762,26 @@ public class Query {
 	/**
 	 * Invoke this method with the command line:
 	 *
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {teamRoleByTypeTeamRoleTypeByNameTeamRoleName(teamRoleName: ___, teamRoleType: ___){dateCreated, dateModified, description, key, name, type}}"}' -u 'test@liferay.com:test'
+	 */
+	@GraphQLField(description = "Retrieves the team role by name.")
+	public TeamRole teamRoleByTypeTeamRoleTypeByNameTeamRoleName(
+			@GraphQLName("teamRoleType") String teamRoleType,
+			@GraphQLName("teamRoleName") String teamRoleName)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_teamRoleResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			teamRoleResource ->
+				teamRoleResource.
+					getTeamRoleByTypeTeamRoleTypeByNameTeamRoleName(
+						teamRoleType, teamRoleName));
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
 	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {teamRole(teamRoleKey: ___){dateCreated, dateModified, description, key, name, type}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField(description = "Retrieves the team role.")
@@ -1755,10 +1797,10 @@ public class Query {
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {teamRole(teamRoleName: ___, teamRoleType: ___){dateCreated, dateModified, description, key, name, type}}"}' -u 'test@liferay.com:test'
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {teamRolesTeamRoleTypeTeamRoleName(teamRoleName: ___, teamRoleType: ___){dateCreated, dateModified, description, key, name, type}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField(description = "Retrieves the team role by name.")
-	public TeamRole teamRole(
+	public TeamRole teamRolesTeamRoleTypeTeamRoleName(
 			@GraphQLName("teamRoleType") String teamRoleType,
 			@GraphQLName("teamRoleName") String teamRoleName)
 		throws Exception {
@@ -1766,8 +1808,9 @@ public class Query {
 		return _applyComponentServiceObjects(
 			_teamRoleResourceComponentServiceObjects,
 			this::_populateResourceContext,
-			teamRoleResource -> teamRoleResource.getTeamRole(
-				teamRoleType, teamRoleName));
+			teamRoleResource ->
+				teamRoleResource.getTeamRolesTeamRoleTypeTeamRoleName(
+					teamRoleType, teamRoleName));
 	}
 
 	@GraphQLTypeExtension(Account.class)

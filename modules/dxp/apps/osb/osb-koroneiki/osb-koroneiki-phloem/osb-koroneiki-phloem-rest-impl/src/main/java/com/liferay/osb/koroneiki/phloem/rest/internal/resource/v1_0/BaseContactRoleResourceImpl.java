@@ -465,6 +465,49 @@ public abstract class BaseContactRoleResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
+	 * curl -X 'GET' 'http://localhost:8080/o/koroneiki-rest/v1.0/contact-roles/by-type/{contactRoleType}/by-name/{contactRoleName}'  -u 'test@liferay.com:test'
+	 */
+	@io.swagger.v3.oas.annotations.Operation(
+		description = "Retrieves the contact role by name."
+	)
+	@io.swagger.v3.oas.annotations.Parameters(
+		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
+				name = "contactRoleType"
+			),
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
+				name = "contactRoleName"
+			)
+		}
+	)
+	@io.swagger.v3.oas.annotations.tags.Tags(
+		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "ContactRole")}
+	)
+	@javax.ws.rs.GET
+	@javax.ws.rs.Path(
+		"/contact-roles/by-type/{contactRoleType}/by-name/{contactRoleName}"
+	)
+	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@Override
+	public ContactRole getContactRoleByTypeContactRoleTypeByNameContactRoleName(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.PathParam("contactRoleType")
+			String contactRoleType,
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.PathParam("contactRoleName")
+			String contactRoleName)
+		throws Exception {
+
+		return new ContactRole();
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/koroneiki-rest/v1.0/contact-roles/{contactRoleKey}'  -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Parameters(
@@ -680,8 +723,9 @@ public abstract class BaseContactRoleResourceImpl
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/koroneiki-rest/v1.0/contact-roles/{contactRoleType}/{contactRoleName}'  -u 'test@liferay.com:test'
 	 */
+	@Deprecated
 	@io.swagger.v3.oas.annotations.Operation(
-		description = "Retrieves the contact role by name."
+		deprecated = true, description = "Retrieves the contact role by name."
 	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -702,7 +746,7 @@ public abstract class BaseContactRoleResourceImpl
 	@javax.ws.rs.Path("/contact-roles/{contactRoleType}/{contactRoleName}")
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public ContactRole getContactRole(
+	public ContactRole getContactRolesContactRoleTypeContactRoleName(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("contactRoleType")

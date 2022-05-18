@@ -196,6 +196,49 @@ public abstract class BaseTeamRoleResourceImpl implements TeamRoleResource {
 	/**
 	 * Invoke this method with the command line:
 	 *
+	 * curl -X 'GET' 'http://localhost:8080/o/koroneiki-rest/v1.0/team-roles/by-type/{teamRoleType}/by-name/{teamRoleName}'  -u 'test@liferay.com:test'
+	 */
+	@io.swagger.v3.oas.annotations.Operation(
+		description = "Retrieves the team role by name."
+	)
+	@io.swagger.v3.oas.annotations.Parameters(
+		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
+				name = "teamRoleType"
+			),
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
+				name = "teamRoleName"
+			)
+		}
+	)
+	@io.swagger.v3.oas.annotations.tags.Tags(
+		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "TeamRole")}
+	)
+	@javax.ws.rs.GET
+	@javax.ws.rs.Path(
+		"/team-roles/by-type/{teamRoleType}/by-name/{teamRoleName}"
+	)
+	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@Override
+	public TeamRole getTeamRoleByTypeTeamRoleTypeByNameTeamRoleName(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.PathParam("teamRoleType")
+			String teamRoleType,
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.PathParam("teamRoleName")
+			String teamRoleName)
+		throws Exception {
+
+		return new TeamRole();
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/koroneiki-rest/v1.0/team-roles/{teamRoleKey}'  -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Parameters(
@@ -407,8 +450,9 @@ public abstract class BaseTeamRoleResourceImpl implements TeamRoleResource {
 	 *
 	 * curl -X 'GET' 'http://localhost:8080/o/koroneiki-rest/v1.0/team-roles/{teamRoleType}/{teamRoleName}'  -u 'test@liferay.com:test'
 	 */
+	@Deprecated
 	@io.swagger.v3.oas.annotations.Operation(
-		description = "Retrieves the team role by name."
+		deprecated = true, description = "Retrieves the team role by name."
 	)
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -429,7 +473,7 @@ public abstract class BaseTeamRoleResourceImpl implements TeamRoleResource {
 	@javax.ws.rs.Path("/team-roles/{teamRoleType}/{teamRoleName}")
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public TeamRole getTeamRole(
+	public TeamRole getTeamRolesTeamRoleTypeTeamRoleName(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("teamRoleType")

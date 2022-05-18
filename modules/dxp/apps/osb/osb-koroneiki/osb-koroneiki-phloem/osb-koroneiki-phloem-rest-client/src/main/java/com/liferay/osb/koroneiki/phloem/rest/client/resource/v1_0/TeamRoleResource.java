@@ -68,6 +68,15 @@ public interface TeamRoleResource {
 			String agentName, String agentUID, TeamRole teamRole)
 		throws Exception;
 
+	public TeamRole getTeamRoleByTypeTeamRoleTypeByNameTeamRoleName(
+			String teamRoleType, String teamRoleName)
+		throws Exception;
+
+	public HttpInvoker.HttpResponse
+			getTeamRoleByTypeTeamRoleTypeByNameTeamRoleNameHttpResponse(
+				String teamRoleType, String teamRoleName)
+		throws Exception;
+
 	public void deleteTeamRole(
 			String agentName, String agentUID, String teamRoleKey)
 		throws Exception;
@@ -112,11 +121,13 @@ public interface TeamRoleResource {
 			TeamRolePermission teamRolePermission)
 		throws Exception;
 
-	public TeamRole getTeamRole(String teamRoleType, String teamRoleName)
+	public TeamRole getTeamRolesTeamRoleTypeTeamRoleName(
+			String teamRoleType, String teamRoleName)
 		throws Exception;
 
-	public HttpInvoker.HttpResponse getTeamRoleHttpResponse(
-			String teamRoleType, String teamRoleName)
+	public HttpInvoker.HttpResponse
+			getTeamRolesTeamRoleTypeTeamRoleNameHttpResponse(
+				String teamRoleType, String teamRoleName)
 		throws Exception;
 
 	public static class Builder {
@@ -465,6 +476,91 @@ public interface TeamRoleResource {
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port + "/o/koroneiki-rest/v1.0/team-roles");
+
+			httpInvoker.userNameAndPassword(
+				_builder._login + ":" + _builder._password);
+
+			return httpInvoker.invoke();
+		}
+
+		public TeamRole getTeamRoleByTypeTeamRoleTypeByNameTeamRoleName(
+				String teamRoleType, String teamRoleName)
+			throws Exception {
+
+			HttpInvoker.HttpResponse httpResponse =
+				getTeamRoleByTypeTeamRoleTypeByNameTeamRoleNameHttpResponse(
+					teamRoleType, teamRoleName);
+
+			String content = httpResponse.getContent();
+
+			if ((httpResponse.getStatusCode() / 100) != 2) {
+				_logger.log(
+					Level.WARNING,
+					"Unable to process HTTP response content: " + content);
+				_logger.log(
+					Level.WARNING,
+					"HTTP response message: " + httpResponse.getMessage());
+				_logger.log(
+					Level.WARNING,
+					"HTTP response status code: " +
+						httpResponse.getStatusCode());
+
+				throw new Problem.ProblemException(Problem.toDTO(content));
+			}
+			else {
+				_logger.fine("HTTP response content: " + content);
+				_logger.fine(
+					"HTTP response message: " + httpResponse.getMessage());
+				_logger.fine(
+					"HTTP response status code: " +
+						httpResponse.getStatusCode());
+			}
+
+			try {
+				return TeamRoleSerDes.toDTO(content);
+			}
+			catch (Exception e) {
+				_logger.log(
+					Level.WARNING,
+					"Unable to process HTTP response: " + content, e);
+
+				throw new Problem.ProblemException(Problem.toDTO(content));
+			}
+		}
+
+		public HttpInvoker.HttpResponse
+				getTeamRoleByTypeTeamRoleTypeByNameTeamRoleNameHttpResponse(
+					String teamRoleType, String teamRoleName)
+			throws Exception {
+
+			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
+
+			if (_builder._locale != null) {
+				httpInvoker.header(
+					"Accept-Language", _builder._locale.toLanguageTag());
+			}
+
+			for (Map.Entry<String, String> entry :
+					_builder._headers.entrySet()) {
+
+				httpInvoker.header(entry.getKey(), entry.getValue());
+			}
+
+			for (Map.Entry<String, String> entry :
+					_builder._parameters.entrySet()) {
+
+				httpInvoker.parameter(entry.getKey(), entry.getValue());
+			}
+
+			httpInvoker.httpMethod(HttpInvoker.HttpMethod.GET);
+
+			httpInvoker.path(
+				_builder._scheme + "://" + _builder._host + ":" +
+					_builder._port +
+						"/o/koroneiki-rest/v1.0/team-roles/by-type/{teamRoleType}/by-name/{teamRoleName}");
+
+			httpInvoker.path("teamRoleType", teamRoleType);
+			httpInvoker.path("teamRoleName", teamRoleName);
 
 			httpInvoker.userNameAndPassword(
 				_builder._login + ":" + _builder._password);
@@ -929,11 +1025,13 @@ public interface TeamRoleResource {
 			return httpInvoker.invoke();
 		}
 
-		public TeamRole getTeamRole(String teamRoleType, String teamRoleName)
+		public TeamRole getTeamRolesTeamRoleTypeTeamRoleName(
+				String teamRoleType, String teamRoleName)
 			throws Exception {
 
-			HttpInvoker.HttpResponse httpResponse = getTeamRoleHttpResponse(
-				teamRoleType, teamRoleName);
+			HttpInvoker.HttpResponse httpResponse =
+				getTeamRolesTeamRoleTypeTeamRoleNameHttpResponse(
+					teamRoleType, teamRoleName);
 
 			String content = httpResponse.getContent();
 
@@ -972,8 +1070,9 @@ public interface TeamRoleResource {
 			}
 		}
 
-		public HttpInvoker.HttpResponse getTeamRoleHttpResponse(
-				String teamRoleType, String teamRoleName)
+		public HttpInvoker.HttpResponse
+				getTeamRolesTeamRoleTypeTeamRoleNameHttpResponse(
+					String teamRoleType, String teamRoleName)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();

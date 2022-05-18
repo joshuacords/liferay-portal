@@ -70,6 +70,10 @@ public interface TeamRoleResource {
 			String agentName, String agentUID, TeamRole teamRole)
 		throws Exception;
 
+	public TeamRole getTeamRoleByTypeTeamRoleTypeByNameTeamRoleName(
+			String teamRoleType, String teamRoleName)
+		throws Exception;
+
 	public void deleteTeamRole(
 			String agentName, String agentUID, String teamRoleKey)
 		throws Exception;
@@ -91,7 +95,8 @@ public interface TeamRoleResource {
 			TeamRolePermission teamRolePermission)
 		throws Exception;
 
-	public TeamRole getTeamRole(String teamRoleType, String teamRoleName)
+	public TeamRole getTeamRolesTeamRoleTypeTeamRoleName(
+			String teamRoleType, String teamRoleName)
 		throws Exception;
 
 	public default void setContextAcceptLanguage(

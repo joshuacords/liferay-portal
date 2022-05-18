@@ -99,6 +99,10 @@ public interface ContactRoleResource {
 			String agentName, String agentUID, ContactRole contactRole)
 		throws Exception;
 
+	public ContactRole getContactRoleByTypeContactRoleTypeByNameContactRoleName(
+			String contactRoleType, String contactRoleName)
+		throws Exception;
+
 	public void deleteContactRole(
 			String agentName, String agentUID, String contactRoleKey)
 		throws Exception;
@@ -120,7 +124,7 @@ public interface ContactRoleResource {
 			ContactRolePermission contactRolePermission)
 		throws Exception;
 
-	public ContactRole getContactRole(
+	public ContactRole getContactRolesContactRoleTypeContactRoleName(
 			String contactRoleType, String contactRoleName)
 		throws Exception;
 
