@@ -222,6 +222,16 @@ public class ContactRoleResourceImpl
 	}
 
 	@Override
+	public ContactRole getContactRoleByTypeContactRoleTypeByNameContactRoleName(
+			String contactRoleType, String contactRoleName)
+		throws Exception {
+
+		return ContactRoleUtil.toContactRole(
+			_contactRoleService.getContactRole(
+				contactRoleName, contactRoleType));
+	}
+
+	@Override
 	public Page<ContactRole> getContactRolesPage(
 			String search, Filter filter, Pagination pagination, Sort[] sorts)
 		throws Exception {

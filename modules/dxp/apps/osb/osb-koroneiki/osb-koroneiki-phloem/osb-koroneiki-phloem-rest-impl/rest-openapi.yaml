@@ -1101,7 +1101,7 @@ components:
 info:
     description:
         "A Java client JAR is available for use with the group ID 'com.liferay', artifact ID
-        'com.liferay.osb.koroneiki.phloem.rest.client', and version '1.0.0'."
+        'com.liferay.osb.koroneiki.phloem.rest.client', and version '1.1.0'."
     license:
         name: "Apache 2.0"
         url: "http://www.apache.org/licenses/LICENSE-2.0.html"
@@ -2661,6 +2661,32 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/ContactRole"
             tags: ["ContactRole"]
+    "/contact-roles/by-type/{contactRoleType}/by-name/{contactRoleName}":
+        get:
+            description:
+                Retrieves the contact role by name.
+            operationId: getContactRoleByTypeContactRoleTypeByNameContactRoleName
+            parameters:
+                - in: path
+                  name: contactRoleType
+                  required: true
+                  schema:
+                      type: string
+                - in: path
+                  name: contactRoleName
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ContactRole"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/ContactRole"
+            tags: ["ContactRole"]
     "/contact-roles/{contactRoleKey}":
         delete:
             operationId: deleteContactRole
@@ -2875,8 +2901,10 @@ paths:
             tags: ["ExternalLink"]
     "/contact-roles/{contactRoleType}/{contactRoleName}":
         get:
+            deprecated: true
             description:
                 Retrieves the contact role by name.
+            operationId: getContactRolesContactRoleTypeContactRoleName
             parameters:
                 - in: path
                   name: contactRoleType
@@ -4667,6 +4695,32 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/TeamRole"
             tags: ["TeamRole"]
+    "/team-roles/by-type/{teamRoleType}/by-name/{teamRoleName}":
+        get:
+            description:
+                Retrieves the team role by name.
+            operationId: getTeamRoleByTypeTeamRoleTypeByNameTeamRoleName
+            parameters:
+                - in: path
+                  name: teamRoleType
+                  required: true
+                  schema:
+                      type: string
+                - in: path
+                  name: teamRoleName
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/TeamRole"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/TeamRole"
+            tags: ["TeamRole"]
     "/team-roles/{teamRoleKey}":
         delete:
             operationId: deleteTeamRole
@@ -4817,8 +4871,10 @@ paths:
             tags: ["TeamRole"]
     "/team-roles/{teamRoleType}/{teamRoleName}":
         get:
+            deprecated: true
             description:
                 Retrieves the team role by name.
+            operationId: getTeamRolesTeamRoleTypeTeamRoleName
             parameters:
                 - in: path
                   name: teamRoleType

@@ -140,6 +140,15 @@ public class TeamRoleResourceImpl
 	}
 
 	@Override
+	public TeamRole getTeamRoleByTypeTeamRoleTypeByNameTeamRoleName(
+			String teamRoleType, String teamRoleName)
+		throws Exception {
+
+		return TeamRoleUtil.toTeamRole(
+			_teamRoleService.getTeamRole(teamRoleName, teamRoleType));
+	}
+
+	@Override
 	public Page<TeamRole> getTeamRolesPage(
 			String search, Filter filter, Pagination pagination, Sort[] sorts)
 		throws Exception {

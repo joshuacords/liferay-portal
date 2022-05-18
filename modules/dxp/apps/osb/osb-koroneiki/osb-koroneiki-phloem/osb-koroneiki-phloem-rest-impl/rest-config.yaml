@@ -6,6 +6,6 @@ application:
     name: "Liferay.Koroneiki.REST"
 author: "Amos Fong"
 clientDir: "../osb-koroneiki-phloem-rest-client/src/main/java"
-forcePredictableOperationId: true
+forcePredictableOperationId: false
 generateBatch: false
 testDir: "../osb-koroneiki-phloem-rest-test/src/testIntegration/java"
