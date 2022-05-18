@@ -792,7 +792,7 @@ definition {
 		Navigator.openURL();
 
 		ProductMenu.gotoPortlet(
-			category = "Content & Data",
+			category = "Content &amp; Data",
 			portlet = "Forms");
 
 		FormsAdminNavigator.gotoAddForm();
