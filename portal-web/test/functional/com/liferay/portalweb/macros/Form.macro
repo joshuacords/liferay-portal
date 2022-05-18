@@ -34,7 +34,6 @@ definition {
 			key_fieldPositionNumber = "${fieldPositionNumber}");
 	}
 
-
 	macro addTranslation {
 		Click(locator1 = "Translation#ADD");
 

@@ -792,22 +792,21 @@ definition {
 		Navigator.openURL();
 
 		ProductMenu.gotoPortlet(
-			category = "Content &amp; Data",
+			category = "Content & Data",
+			panel = "Site Administration",
 			portlet = "Forms");
 
 		FormsAdminNavigator.gotoAddForm();
 
 		Form.editName();
 
-		Form.addTextField(fieldPositionNumber = "1");
-
-		Form.editFieldLabelMetal(fieldValue = "Text Field");
+		Form.gotoAddField(fieldType = "Text Field");
 
 		var fieldNameTextField = FormFields.getFieldName();
 
 		Form.closeSidebar();
 
-		Form.addTextField(fieldPositionNumber = "2");
+		Form.gotoAddField(fieldType = "Text Field");
 
 		Form.editFieldLabelMetal(fieldValue = "Text Field 2");
 
@@ -836,8 +835,10 @@ definition {
 		Form.save();
 
 		Form.deleteFieldModalConfirmation(
-			fieldLabel = "Text Field",
-			fieldName = "${fieldNameTextField}");
+			fieldLabel = "Text Field 2",
+			fieldName = "TextField2");
+
+		Form.closeSidebar();
 
 		FormsAdminNavigator.gotoRules();
 
