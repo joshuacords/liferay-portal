@@ -246,17 +246,17 @@ public class AssignAccountContactRolesMVCActionCommand
 					ContactRole.Type.ACCOUNT_CUSTOMER.toString(),
 					ContactRoleConstants.NAME_PARTNER_MANAGER);
 
-			if (ArrayUtil.contains(
+			if ((ArrayUtil.contains(
 					deleteContactRoleKeys,
 					partnerManagerContactRole.getKey()) ||
-				(ArrayUtil.contains(
-					deleteContactRoleKeys,
+				 ArrayUtil.contains(
+					 deleteContactRoleKeys,
+					 supportAdministratorContactRole.getKey())) &&
+				!ArrayUtil.contains(
+					addContactRoleKeys,
 					supportAdministratorContactRole.getKey()) &&
-				 !ArrayUtil.contains(
-					 addContactRoleKeys,
-					 supportAdministratorContactRole.getKey()) &&
-				 !ArrayUtil.contains(
-					 addContactRoleKeys, partnerManagerContactRole.getKey()))) {
+				!ArrayUtil.contains(
+					addContactRoleKeys, partnerManagerContactRole.getKey())) {
 
 				_contactRoleValidator.validateAdminContactRoleUnassignment(
 					accountKey, emailAddress);
