@@ -8,3 +8,14 @@ app.artifacts-3.0.0=\
 app.change.log-3.0.0=LPS-95413
 
 app.git.id-3.0.0=217d77a4c99bcc77c431b59d62f53ccd2e46bcd6
+
+#
+# Liferay App Version 3.1.0
+#
+
+app.artifacts-3.1.0=\
+	com.liferay.portal.search.elasticsearch6.xpack.security.impl-3.0.28.jar
+
+app.change.log-3.1.0=LPS-0 LPS-103302 LPS-107697 LPS-112251 LPS-119196 LPS-122403 LPS-151205 LPS-74544 LPS-75049 LPS-77425 LPS-77679 LPS-77699 LPS-78977 LPS-79562 LPS-79679 LPS-81106 LPS-82343 LPS-86408 LPS-95413
+
+app.git.id-3.1.0=3feb7520c7672a8c96c5b6f7fcecb8f8c3925ef6
