@@ -26,6 +26,7 @@
 	{@param? spritemap: string}
 	{@param? tip: string}
 	{@param? tooltip: string}
+	{@param? type: string}
 	{@param? value: string}
 	{@param? valid: bool}
 	{@param? visible: bool}
@@ -64,6 +65,7 @@
 		{param spritemap: $spritemap /}
 		{param tip: $tip /}
 		{param tooltip: $tooltip /}
+		{param type: $type /}
 		{param valid: $valid /}
 		{param visible: $visible /}
 	{/call}
@@ -90,7 +92,6 @@
 
 	{let $inputValue: isNonnull($value) and $value != '' ? $value : ''/}
 	{let $attributes kind="attributes"}
-		aria-labelledby="{$name + '_fieldDetails'}"
 
 		class="ddm-field-text form-control"
 

@@ -9,6 +9,7 @@
 	{@param? contentRenderer: any}
 	{@param? displayErrors: bool}
 	{@param? errorMessage: string}
+	{@param? id: string}
 	{@param? tip: string}
 	{@param? label: string}
 	{@param? requiredText: string}
@@ -90,10 +91,20 @@
 			</div>
 		{/if}
 
-		{let $labelAttributes kind="attributes"}
-			tabindex="0"
+		{let $showFor: $type and ($type == 'text' or $type == 'numeric') /}
 
-			aria-describedby="{$fieldDetailsId}"
+		{let $labelAttributes kind="attributes"}
+			{if $showFor}
+				{if $id}
+					for="{$id}"
+				{else}
+					for="{$name}"
+				{/if}
+			{else}
+				tabindex="0"
+			{/if}
+
+			aria-labelledby="{$fieldDetailsId}"
 
 			{if not $showLabel and not $required}
 				class="ddm-empty"
