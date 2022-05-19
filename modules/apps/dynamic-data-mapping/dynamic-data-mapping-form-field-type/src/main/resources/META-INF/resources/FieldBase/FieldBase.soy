@@ -165,8 +165,10 @@
 
 		{let $hasError: $displayErrors and ($errorMessage != null and $errorMessage != '') and not $valid/}
 
-		{if $tip or $text or $hasError}
+		{if $label or $tip or $text or $hasError}
 			<span id="{$fieldDetailsId}" class="sr-only">
+				{if $label}{sp}{$label}{/if}
+
 				{if $tip}{sp}{$tip}{/if}
 
 				{if $text}{sp}{$text}{/if}
