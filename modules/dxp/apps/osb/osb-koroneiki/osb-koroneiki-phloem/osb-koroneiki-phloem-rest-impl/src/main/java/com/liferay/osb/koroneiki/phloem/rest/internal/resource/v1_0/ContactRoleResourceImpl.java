@@ -212,7 +212,7 @@ public class ContactRoleResourceImpl
 	}
 
 	@Override
-	public ContactRole getContactRole(
+	public ContactRole getContactRoleByTypeContactRoleTypeByNameContactRoleName(
 			String contactRoleType, String contactRoleName)
 		throws Exception {
 
@@ -222,13 +222,12 @@ public class ContactRoleResourceImpl
 	}
 
 	@Override
-	public ContactRole getContactRoleByTypeContactRoleTypeByNameContactRoleName(
+	public ContactRole getContactRolesContactRoleTypeContactRoleName(
 			String contactRoleType, String contactRoleName)
 		throws Exception {
 
-		return ContactRoleUtil.toContactRole(
-			_contactRoleService.getContactRole(
-				contactRoleName, contactRoleType));
+		return getContactRoleByTypeContactRoleTypeByNameContactRoleName(
+			contactRoleType, contactRoleName);
 	}
 
 	@Override

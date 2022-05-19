@@ -1,2 +1,6 @@
+baseline {
+	enabled = false
+}
+
 dependencies {
 }

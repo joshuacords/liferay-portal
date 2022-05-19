@@ -132,14 +132,6 @@ public class TeamRoleResourceImpl
 	}
 
 	@Override
-	public TeamRole getTeamRole(String teamRoleType, String teamRoleName)
-		throws Exception {
-
-		return TeamRoleUtil.toTeamRole(
-			_teamRoleService.getTeamRole(teamRoleName, teamRoleType));
-	}
-
-	@Override
 	public TeamRole getTeamRoleByTypeTeamRoleTypeByNameTeamRoleName(
 			String teamRoleType, String teamRoleName)
 		throws Exception {
@@ -166,6 +158,15 @@ public class TeamRoleResourceImpl
 				_teamRoleLocalService.getTeamRole(
 					GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)))),
 			sorts);
+	}
+
+	@Override
+	public TeamRole getTeamRolesTeamRoleTypeTeamRoleName(
+			String teamRoleType, String teamRoleName)
+		throws Exception {
+
+		return getTeamRoleByTypeTeamRoleTypeByNameTeamRoleName(
+			teamRoleType, teamRoleName);
 	}
 
 	@Override
