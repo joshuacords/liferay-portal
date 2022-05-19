@@ -100,7 +100,7 @@ public class AssignAccountContactRolesMVCActionCommand
 					emailAddress, true);
 
 			List<ContactRole> contactRoles =
-				_contactRoleWebService.getAccountCustomerContactRoles(
+				_contactRoleWebService.getAccountContactRoles(
 					accountKey, emailAddress, 1, 1000);
 
 			if (contact == null) {
