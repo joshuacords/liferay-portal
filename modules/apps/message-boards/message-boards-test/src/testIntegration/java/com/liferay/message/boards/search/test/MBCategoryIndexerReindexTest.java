@@ -24,9 +24,7 @@ import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.rule.Sync;
 import com.liferay.portal.kernel.test.rule.SynchronousDestinationTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
-import com.liferay.portal.search.legacy.searcher.SearchRequestBuilderFactory;
 import com.liferay.portal.search.test.util.IndexerFixture;
-import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.test.rule.PermissionCheckerMethodTestRule;
 import com.liferay.users.admin.test.util.search.UserSearchFixture;
@@ -81,8 +79,7 @@ public class MBCategoryIndexerReindexTest {
 	}
 
 	protected void setUpMBCategoryIndexerFixture() {
-		mbCategoryIndexerFixture = new IndexerFixture<>(
-			MBCategory.class, _searchRequestBuilderFactory);
+		mbCategoryIndexerFixture = new IndexerFixture<>(MBCategory.class);
 	}
 
 	protected void setUpMBFixture() {
@@ -110,9 +107,6 @@ public class MBCategoryIndexerReindexTest {
 
 	@DeleteAfterTestRun
 	private List<MBCategory> _mbCategories;
-
-	@Inject
-	private SearchRequestBuilderFactory _searchRequestBuilderFactory;
 
 	private User _user;
 

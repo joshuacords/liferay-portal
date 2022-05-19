@@ -26,7 +26,6 @@ import com.liferay.portal.kernel.test.rule.SynchronousDestinationTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.LocaleThreadLocal;
 import com.liferay.portal.kernel.util.LocaleUtil;
-import com.liferay.portal.search.legacy.searcher.SearchRequestBuilderFactory;
 import com.liferay.portal.search.test.util.FieldValuesAssert;
 import com.liferay.portal.search.test.util.IndexerFixture;
 import com.liferay.portal.test.rule.Inject;
@@ -160,8 +159,7 @@ public class ContactMultiLanguageSearchTest {
 	}
 
 	protected void setUpContactIndexerFixture() {
-		contactIndexerFixture = new IndexerFixture<>(
-			Contact.class, _searchRequestBuilderFactory);
+		contactIndexerFixture = new IndexerFixture<>(Contact.class);
 	}
 
 	protected void setUpUserSearchFixture() throws Exception {
@@ -196,9 +194,6 @@ public class ContactMultiLanguageSearchTest {
 
 	@DeleteAfterTestRun
 	private List<Group> _groups;
-
-	@Inject
-	private SearchRequestBuilderFactory _searchRequestBuilderFactory;
 
 	@DeleteAfterTestRun
 	private List<User> _users;

@@ -26,13 +26,7 @@ import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.rule.Sync;
 import com.liferay.portal.kernel.test.rule.SynchronousDestinationTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
-import com.liferay.portal.search.legacy.searcher.SearchRequestBuilderFactory;
 import com.liferay.portal.search.test.util.IndexerFixture;
-<<<<<<< HEAD
-=======
-import com.liferay.portal.search.test.util.SearchTestRule;
-import com.liferay.portal.test.rule.Inject;
->>>>>>> 493ea08473d06 (LPS-152937 Add new parameter to the IndexerFixture constructor call)
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.test.rule.PermissionCheckerMethodTestRule;
 import com.liferay.users.admin.test.util.search.UserSearchFixture;
@@ -144,8 +138,7 @@ public class MBThreadIndexerReindexTest {
 	}
 
 	protected void setUpMBThreadIndexerFixture() {
-		mbThreadIndexerFixture = new IndexerFixture<>(
-			MBThread.class, _searchRequestBuilderFactory);
+		mbThreadIndexerFixture = new IndexerFixture<>(MBThread.class);
 	}
 
 	protected void setUpUserSearchFixture() throws Exception {
@@ -177,9 +170,6 @@ public class MBThreadIndexerReindexTest {
 
 	@DeleteAfterTestRun
 	private List<MBThread> _mbThreads;
-
-	@Inject
-	private SearchRequestBuilderFactory _searchRequestBuilderFactory;
 
 	private User _user;
 
