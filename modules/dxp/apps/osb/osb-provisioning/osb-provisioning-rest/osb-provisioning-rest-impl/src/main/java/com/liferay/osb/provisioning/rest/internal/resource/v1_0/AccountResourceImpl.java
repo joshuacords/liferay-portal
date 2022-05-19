@@ -21,6 +21,10 @@ import com.liferay.osb.provisioning.auth.ProvisioningContactThreadLocal;
 import com.liferay.osb.provisioning.identity.management.provider.ContactIdentityProvider;
 import com.liferay.osb.provisioning.koroneiki.constants.ContactRoleConstants;
 import com.liferay.osb.provisioning.koroneiki.constants.ProductPurchaseConstants;
+import com.liferay.osb.provisioning.koroneiki.exception.ContactAccountRoleAlreadyExistsException;
+import com.liferay.osb.provisioning.koroneiki.exception.NoSuchContactException;
+import com.liferay.osb.provisioning.koroneiki.exception.UnexpectedErrorException;
+import com.liferay.osb.provisioning.koroneiki.exception.ValidationException;
 import com.liferay.osb.provisioning.koroneiki.reader.AccountReader;
 import com.liferay.osb.provisioning.koroneiki.validator.ContactRoleValidator;
 import com.liferay.osb.provisioning.koroneiki.web.service.AccountWebService;
@@ -29,8 +33,7 @@ import com.liferay.osb.provisioning.rest.resource.v1_0.AccountResource;
 import com.liferay.osb.provisioning.util.CustomerPortalRelease;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
-import com.liferay.portal.kernel.exception.NoSuchContactException;
-import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.NoSuchModelException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
@@ -73,13 +76,8 @@ public class AccountResourceImpl extends BaseAccountResourceImpl {
 		for (int i = 0; i < contactRoleNames.length; i++) {
 			String contactRoleName = contactRoleNames[i];
 
-			ContactRole contactRole = _contactRoleWebService.fetchContactRole(
+			ContactRole contactRole = _contactRoleWebService.getContactRole(
 				ContactRole.Type.ACCOUNT_CUSTOMER.toString(), contactRoleName);
-
-			if (contactRole == null) {
-				throw new PortalException(
-					"Unable to find contact role with name " + contactRoleName);
-			}
 
 			if (contactRoleName.equals(
 					ContactRoleConstants.NAME_PARTNER_MANAGER) ||
@@ -106,26 +104,57 @@ public class AccountResourceImpl extends BaseAccountResourceImpl {
 
 		_checkAccountAdminContactRole(accountKey);
 
+		try {
+			_assignAccountContactRole(
+				accountKey, contactEmailAddress, contactRoleNames);
+		}
+		catch (Exception exception) {
+			if (exception instanceof ContactAccountRoleAlreadyExistsException ||
+				exception instanceof NoSuchModelException ||
+				exception instanceof ValidationException) {
+
+				throw exception;
+			}
+
+			_log.error(exception, exception);
+
+			throw new UnexpectedErrorException(exception);
+		}
+	}
+
+	@Activate
+	protected void activate(Map<String, Object> properties) {
+		try {
+			StringUtil.readLines(
+				AccountResourceImpl.class.getResourceAsStream(
+					"/dependencies/bad_domains.txt"),
+				_badDomains);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+		}
+	}
+
+	private void _assignAccountContactRole(
+			String accountKey, String contactEmailAddress,
+			String[] contactRoleNames)
+		throws Exception {
+
 		String domain = contactEmailAddress.substring(
 			contactEmailAddress.indexOf(StringPool.AT) + 1);
 
 		if (_badDomains.contains(domain)) {
-			throw new PortalException("Domain " + domain + " is not allowed");
+			throw new ValidationException(
+				"Domain " + domain + " is not allowed");
 		}
 
 		String[] contactRoleKeys = new String[contactRoleNames.length];
 		boolean checkSupportSeatCount = false;
 
 		for (int i = 0; i < contactRoleNames.length; i++) {
-			ContactRole contactRole = _contactRoleWebService.fetchContactRole(
+			ContactRole contactRole = _contactRoleWebService.getContactRole(
 				ContactRole.Type.ACCOUNT_CUSTOMER.toString(),
 				contactRoleNames[i]);
-
-			if (contactRole == null) {
-				throw new PortalException(
-					"Unable to find contact role with name " +
-						contactRoleNames[i]);
-			}
 
 			contactRoleKeys[i] = contactRole.getKey();
 
@@ -152,6 +181,12 @@ public class AccountResourceImpl extends BaseAccountResourceImpl {
 			if (checkSupportSeatCount) {
 				for (ContactRole contactRole : contactRoles) {
 					if (ArrayUtil.contains(
+							contactRoleKeys, contactRole.getKey())) {
+
+						throw new ContactAccountRoleAlreadyExistsException();
+					}
+
+					if (ArrayUtil.contains(
 							ContactRoleConstants.SUPPORT_SEAT_CONTACT_ROLES,
 							contactRole.getName())) {
 
@@ -172,7 +207,9 @@ public class AccountResourceImpl extends BaseAccountResourceImpl {
 					contactEmailAddress);
 			}
 			else {
-				throw new NoSuchContactException();
+				throw new NoSuchContactException(
+					"No contact exists with email address " +
+						contactEmailAddress);
 			}
 		}
 
@@ -182,7 +219,7 @@ public class AccountResourceImpl extends BaseAccountResourceImpl {
 				account);
 
 			if ((supportSeatCount + 1) > maxSupportSeatCount) {
-				throw new PortalException(
+				throw new ValidationException(
 					"Account has reached the maximum allowed ticket " +
 						"requesters");
 			}
@@ -195,19 +232,6 @@ public class AccountResourceImpl extends BaseAccountResourceImpl {
 		if (contact != null) {
 			_customerPortalRelease.sendContactAssignedWelcomeEmail(
 				contact, account, contactRoles, contactRoleKeys);
-		}
-	}
-
-	@Activate
-	protected void activate(Map<String, Object> properties) {
-		try {
-			StringUtil.readLines(
-				AccountResourceImpl.class.getResourceAsStream(
-					"/dependencies/bad_domains.txt"),
-				_badDomains);
-		}
-		catch (Exception exception) {
-			_log.error(exception, exception);
 		}
 	}
 

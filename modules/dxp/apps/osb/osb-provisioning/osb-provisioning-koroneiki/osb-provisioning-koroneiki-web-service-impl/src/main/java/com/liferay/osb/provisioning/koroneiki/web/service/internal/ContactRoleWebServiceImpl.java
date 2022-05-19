@@ -20,11 +20,13 @@ import com.liferay.osb.koroneiki.phloem.rest.client.pagination.Page;
 import com.liferay.osb.koroneiki.phloem.rest.client.pagination.Pagination;
 import com.liferay.osb.koroneiki.phloem.rest.client.resource.v1_0.ContactRoleResource;
 import com.liferay.osb.koroneiki.phloem.rest.client.serdes.v1_0.ContactRoleSerDes;
+import com.liferay.osb.provisioning.koroneiki.exception.NoSuchContactRoleException;
 import com.liferay.osb.provisioning.koroneiki.web.service.ContactRoleWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.internal.configuration.KoroneikiConfiguration;
 import com.liferay.osb.provisioning.search.FilterQuery;
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.util.Http;
+import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 
 import java.util.ArrayList;
@@ -113,9 +115,19 @@ public class ContactRoleWebServiceImpl implements ContactRoleWebService {
 	public ContactRole getContactRole(String type, String name)
 		throws Exception {
 
-		return _contactRoleResource.
-			getContactRoleByTypeContactRoleTypeByNameContactRoleName(
-				_http.encodePath(type), _http.encodePath(name));
+		HttpInvoker.HttpResponse httpResponse =
+			_contactRoleResource.
+				getContactRoleByTypeContactRoleTypeByNameContactRoleNameHttpResponse(
+					_http.encodePath(type), _http.encodePath(name));
+
+		if (httpResponse.getStatusCode() == HttpServletResponse.SC_NOT_FOUND) {
+			throw new NoSuchContactRoleException(
+				StringBundler.concat(
+					"No contact role exists with type ", type, " and name ",
+					name));
+		}
+
+		return ContactRoleSerDes.toDTO(httpResponse.getContent());
 	}
 
 	public List<ContactRole> search(
