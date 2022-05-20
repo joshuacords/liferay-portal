@@ -632,7 +632,7 @@ public class SXPBlueprintSearchResultTest {
 				).put(
 					"offset", "0s"
 				).put(
-					"scale", "2s"
+					"scale", "1s"
 				).build()
 			},
 			new String[] {"Boost Freshness"});
@@ -1140,7 +1140,9 @@ public class SXPBlueprintSearchResultTest {
 	public void testLimitSearchToContentsCreatedWithinAPeriodOfTime()
 		throws Exception {
 
-		_addJournalArticleSleep = 2;
+		_addJournalArticleSleep = 3;
+
+		_serviceContext.setModifiedDate(new Date(System.currentTimeMillis()));
 
 		_setUpJournalArticles(
 			new String[] {"cola cola", "", ""},
@@ -2157,6 +2159,8 @@ public class SXPBlueprintSearchResultTest {
 		}
 
 		TimeUnit.SECONDS.sleep(_addJournalArticleSleep);
+
+		_serviceContext.setModifiedDate(new Date(System.currentTimeMillis()));
 
 		long journalFolderId = 0;
 
