@@ -36,7 +36,10 @@ import com.liferay.portal.kernel.util.Validator;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -68,8 +71,6 @@ public class ProvisioningAuthVerifier implements AuthVerifier {
 		AuthVerifierResult authVerifierResult = new AuthVerifierResult();
 
 		try {
-			_logRequest(accessControlContext.getRequest());
-
 			String[] credentials = verify(accessControlContext.getRequest());
 
 			if (credentials != null) {
@@ -111,6 +112,8 @@ public class ProvisioningAuthVerifier implements AuthVerifier {
 		String oktaSessionId = httpServletRequest.getHeader("Okta-Session-ID");
 
 		if (Validator.isNull(oktaSessionId)) {
+			_logRequest(httpServletRequest, null);
+
 			return null;
 		}
 
@@ -118,6 +121,12 @@ public class ProvisioningAuthVerifier implements AuthVerifier {
 			oktaSessionId);
 
 		if (contact != null) {
+			if (!_ipAddresses.contains(httpServletRequest.getRemoteAddr())) {
+				_logRequest(httpServletRequest, contact.getEmailAddress());
+
+				_ipAddresses.add(httpServletRequest.getRemoteAddr());
+			}
+
 			ProvisioningContactThreadLocal.setContact(contact);
 
 			long companyId = _portal.getCompanyId(httpServletRequest);
@@ -140,9 +149,16 @@ public class ProvisioningAuthVerifier implements AuthVerifier {
 		return null;
 	}
 
-	private void _logRequest(HttpServletRequest httpServletRequest) {
+	private void _logRequest(
+		HttpServletRequest httpServletRequest, String emailAddress) {
+
 		if (_log.isInfoEnabled()) {
-			StringBundler sb = new StringBundler(7);
+			StringBundler sb = new StringBundler(9);
+
+			if (Validator.isNotNull(emailAddress)) {
+				sb.append(emailAddress);
+				sb.append(StringPool.BLANK);
+			}
 
 			sb.append(httpServletRequest.getRemoteAddr());
 			sb.append(StringPool.SPACE);
@@ -150,7 +166,7 @@ public class ProvisioningAuthVerifier implements AuthVerifier {
 			sb.append(StringPool.SPACE);
 			sb.append(httpServletRequest.getRequestURI());
 
-			if (httpServletRequest.getQueryString() != null) {
+			if (Validator.isNotNull(httpServletRequest.getQueryString())) {
 				sb.append(StringPool.QUESTION);
 				sb.append(httpServletRequest.getQueryString());
 			}
@@ -164,6 +180,9 @@ public class ProvisioningAuthVerifier implements AuthVerifier {
 
 	@Reference(target = "(provider=okta)")
 	private ContactIdentityProvider _contactIdentityProvider;
+
+	private final Set<String> _ipAddresses = Collections.synchronizedSet(
+		new HashSet<>());
 
 	@Reference
 	private Portal _portal;

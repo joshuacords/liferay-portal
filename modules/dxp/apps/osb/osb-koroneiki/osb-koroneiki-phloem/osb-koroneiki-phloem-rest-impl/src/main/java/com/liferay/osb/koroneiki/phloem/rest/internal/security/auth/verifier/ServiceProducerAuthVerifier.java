@@ -34,7 +34,10 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -65,8 +68,6 @@ public class ServiceProducerAuthVerifier implements AuthVerifier {
 		AuthVerifierResult authVerifierResult = new AuthVerifierResult();
 
 		try {
-			_logRequest(accessControlContext.getRequest());
-
 			String[] credentials = verify(accessControlContext.getRequest());
 
 			if (credentials != null) {
@@ -108,6 +109,8 @@ public class ServiceProducerAuthVerifier implements AuthVerifier {
 		String apiToken = httpServletRequest.getHeader("API_Token");
 
 		if (Validator.isNull(apiToken)) {
+			_logRequest(httpServletRequest, null);
+
 			return null;
 		}
 
@@ -118,6 +121,8 @@ public class ServiceProducerAuthVerifier implements AuthVerifier {
 				digest, WorkflowConstants.STATUS_APPROVED);
 
 		if (authenticationToken == null) {
+			_logRequest(httpServletRequest, null);
+
 			return null;
 		}
 
@@ -129,6 +134,12 @@ public class ServiceProducerAuthVerifier implements AuthVerifier {
 			return null;
 		}
 
+		if (!_ipAddresses.contains(httpServletRequest.getRemoteAddr())) {
+			_logRequest(httpServletRequest, serviceProducer.getName());
+
+			_ipAddresses.add(httpServletRequest.getRemoteAddr());
+		}
+
 		String[] credentials = new String[2];
 
 		credentials[0] = String.valueOf(
@@ -138,9 +149,16 @@ public class ServiceProducerAuthVerifier implements AuthVerifier {
 		return credentials;
 	}
 
-	private void _logRequest(HttpServletRequest httpServletRequest) {
+	private void _logRequest(
+		HttpServletRequest httpServletRequest, String system) {
+
 		if (_log.isInfoEnabled()) {
-			StringBundler sb = new StringBundler(7);
+			StringBundler sb = new StringBundler(9);
+
+			if (Validator.isNotNull(system)) {
+				sb.append(system);
+				sb.append(StringPool.SPACE);
+			}
 
 			sb.append(httpServletRequest.getRemoteAddr());
 			sb.append(StringPool.SPACE);
@@ -148,7 +166,7 @@ public class ServiceProducerAuthVerifier implements AuthVerifier {
 			sb.append(StringPool.SPACE);
 			sb.append(httpServletRequest.getRequestURI());
 
-			if (httpServletRequest.getQueryString() != null) {
+			if (Validator.isNotNull(httpServletRequest.getQueryString())) {
 				sb.append(StringPool.QUESTION);
 				sb.append(httpServletRequest.getQueryString());
 			}
@@ -162,6 +180,9 @@ public class ServiceProducerAuthVerifier implements AuthVerifier {
 
 	@Reference
 	private AuthenticationTokenLocalService _authenticationTokenLocalService;
+
+	private final Set<String> _ipAddresses = Collections.synchronizedSet(
+		new HashSet<>());
 
 	@Reference
 	private ServiceProducerLocalService _serviceProducerLocalService;
