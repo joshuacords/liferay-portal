@@ -26,6 +26,8 @@ import com.liferay.portal.kernel.search.QueryConfig;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
+import com.liferay.portal.search.legacy.searcher.SearchRequestBuilderFactory;
+import com.liferay.portal.search.searcher.SearchResponse;
 import com.liferay.portal.search.test.util.HitsAssert;
 
 import java.util.Locale;
@@ -38,7 +40,15 @@ import java.util.Objects;
 public class CalendarSearchFixture {
 
 	public CalendarSearchFixture(IndexerRegistry indexerRegistry) {
+		this(indexerRegistry, null);
+	}
+
+	public CalendarSearchFixture(
+		IndexerRegistry indexerRegistry,
+		SearchRequestBuilderFactory searchRequestBuilderFactory) {
+
 		_indexerRegistry = indexerRegistry;
+		_searchRequestBuilderFactory = searchRequestBuilderFactory;
 	}
 
 	public SearchContext getSearchContext(String keywords, Locale locale) {
@@ -77,6 +87,27 @@ public class CalendarSearchFixture {
 			search(getSearchContext(keywords, locale)));
 	}
 
+	public SearchResponse searchOnlyOneSearchResponse(
+		String keywords, Locale locale) {
+
+		SearchContext searchContext = getSearchContext(keywords, locale);
+
+		_searchRequestBuilderFactory.builder(
+			searchContext
+		).fetchSource(
+			true
+		).build();
+
+		search(searchContext);
+
+		SearchResponse searchResponse =
+			(SearchResponse)searchContext.getAttribute("search.response");
+
+		HitsAssert.assertOnlyOne(searchResponse.getSearchHits());
+
+		return searchResponse;
+	}
+
 	public void setGroup(Group group) {
 		_group = group;
 	}
@@ -100,6 +131,7 @@ public class CalendarSearchFixture {
 	private Group _group;
 	private Indexer<?> _indexer;
 	private final IndexerRegistry _indexerRegistry;
+	private final SearchRequestBuilderFactory _searchRequestBuilderFactory;
 	private User _user;
 
 }

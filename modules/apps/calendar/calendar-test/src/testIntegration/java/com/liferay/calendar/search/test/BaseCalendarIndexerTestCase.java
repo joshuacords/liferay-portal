@@ -25,8 +25,6 @@ import com.liferay.portal.kernel.search.SearchEngineHelper;
 import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.search.legacy.searcher.SearchRequestBuilderFactory;
-import com.liferay.portal.search.searcher.SearchResponse;
-import com.liferay.portal.search.test.util.HitsAssert;
 import com.liferay.portal.search.test.util.IndexedFieldsFixture;
 import com.liferay.portal.test.rule.Inject;
 
@@ -62,28 +60,8 @@ public abstract class BaseCalendarIndexerTestCase {
 	}
 
 	protected CalendarSearchFixture createSingleDocumentSearchFixture() {
-		return new CalendarSearchFixture(indexerRegistry);
-	}
-
-	protected SearchResponse searchOnlyOneSearchResponse(
-		String keywords, Locale locale) {
-
-		SearchContext searchContext = getSearchContext(keywords, locale);
-
-		searchRequestBuilderFactory.builder(
-			searchContext
-		).fetchSource(
-			true
-		).build();
-
-		search(searchContext);
-
-		SearchResponse searchResponse =
-			(SearchResponse)searchContext.getAttribute("search.response");
-
-		HitsAssert.assertOnlyOne(searchResponse.getSearchHits());
-
-		return searchResponse;
+		return new CalendarSearchFixture(
+			indexerRegistry, searchRequestBuilderFactory);
 	}
 
 	protected void setGroup(Group group) {
