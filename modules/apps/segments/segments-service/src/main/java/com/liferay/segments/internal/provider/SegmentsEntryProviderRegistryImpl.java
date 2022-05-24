@@ -20,6 +20,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.segments.context.Context;
 import com.liferay.segments.model.SegmentsEntry;
 import com.liferay.segments.provider.SegmentsEntryProvider;
@@ -93,24 +94,26 @@ public class SegmentsEntryProviderRegistryImpl
 
 	@Override
 	public long[] getSegmentsEntryIds(
-			long groupId, String className, long classPK, Context context)
+			long groupId, String className, long classPK, Context context,
+			long[] segmentEntryIds)
 		throws PortalException {
 
-		Set<Long> segmentsEntryIds = new HashSet<>();
+		long[] finalSegmentsEntryIds = new long[0];
 
 		for (SegmentsEntryProvider segmentsEntryProvider :
 				_serviceTrackerMap.values()) {
 
-			long[] segmentsEntryProviderSegmentsEntryIds =
+			finalSegmentsEntryIds = ArrayUtil.append(
+				finalSegmentsEntryIds,
 				segmentsEntryProvider.getSegmentsEntryIds(
-					groupId, className, classPK, context);
-
-			for (long segmentsEntryId : segmentsEntryProviderSegmentsEntryIds) {
-				segmentsEntryIds.add(segmentsEntryId);
-			}
+					groupId, className, classPK, context, segmentEntryIds,
+					finalSegmentsEntryIds));
 		}
 
-		return ArrayUtil.toLongArray(segmentsEntryIds);
+		Set<Long> segmentsEntryIdsSet = SetUtil.fromArray(
+			finalSegmentsEntryIds);
+
+		return ArrayUtil.toLongArray(segmentsEntryIdsSet);
 	}
 
 	@Override
