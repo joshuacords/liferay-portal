@@ -23,6 +23,7 @@ import com.liferay.portal.kernel.messaging.DestinationConfiguration;
 import com.liferay.portal.kernel.messaging.DestinationFactory;
 import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.messaging.MessageBus;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.Portal;
@@ -86,14 +87,25 @@ public class AsahSegmentsEntryProvider implements SegmentsEntryProvider {
 
 	@Override
 	public long[] getSegmentsEntryIds(
-		long groupId, String className, long classPK) {
+			long groupId, String className, long classPK)
+		throws PortalException {
 
 		return getSegmentsEntryIds(groupId, className, classPK, null);
 	}
 
 	@Override
 	public long[] getSegmentsEntryIds(
-		long groupId, String className, long classPK, Context context) {
+			long groupId, String className, long classPK, Context context)
+		throws PortalException {
+
+		return getSegmentsEntryIds(
+			groupId, className, classPK, context, new long[0], new long[0]);
+	}
+
+	@Override
+	public long[] getSegmentsEntryIds(
+		long groupId, String className, long classPK, Context context,
+		long[] filterSegmentsEntryIds, long[] segmentsEntryIds) {
 
 		if (context == null) {
 			return new long[0];
@@ -113,6 +125,12 @@ public class AsahSegmentsEntryProvider implements SegmentsEntryProvider {
 			Stream<SegmentsEntry> stream = segmentsEntries.stream();
 
 			return stream.filter(
+				segmentsEntry ->
+					ArrayUtil.isEmpty(filterSegmentsEntryIds) ||
+					ArrayUtil.contains(
+						filterSegmentsEntryIds,
+						segmentsEntry.getSegmentsEntryId())
+			).filter(
 				segmentsEntry ->
 					_segmentsEntryRelLocalService.hasSegmentsEntryRel(
 						segmentsEntry.getSegmentsEntryId(),
