@@ -187,6 +187,18 @@
 }
 
 .lfr-ddm-link-to-page-modal {
+	.lfr-ddm-breadcrumb-element a {
+		background-color: transparent;
+		color: #0b5fff;
+		cursor: pointer;
+		text-decoration: none;
+	}
+
+	.lfr-ddm-breadcrumb-element a:hover {
+		color: #004ad7;
+		text-decoration: underline;
+	}
+
 	.lfr-ddm-breadcrumb {
 		padding-left: 0;
 		padding-right: 0;
