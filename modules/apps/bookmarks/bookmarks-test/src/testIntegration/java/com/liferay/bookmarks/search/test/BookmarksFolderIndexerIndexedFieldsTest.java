@@ -16,9 +16,9 @@ package com.liferay.bookmarks.search.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.bookmarks.model.BookmarksFolder;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.IndexerRegistry;
 import com.liferay.portal.kernel.search.SearchEngineHelper;
@@ -29,6 +29,8 @@ import com.liferay.portal.kernel.test.rule.SynchronousDestinationTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.search.searcher.SearchRequestBuilderFactory;
+import com.liferay.portal.search.searcher.Searcher;
 import com.liferay.portal.search.test.util.FieldValuesAssert;
 import com.liferay.portal.search.test.util.IndexedFieldsFixture;
 import com.liferay.portal.search.test.util.IndexerFixture;
@@ -80,13 +82,29 @@ public class BookmarksFolderIndexerIndexedFieldsTest {
 
 		String searchTerm = bookmarksFolder.getUserName();
 
-		Document document = bookmarksFolderIndexerFixture.searchOnlyOne(
-			searchTerm);
+		assertFieldValues(_expectedFieldValues(bookmarksFolder), searchTerm);
+	}
 
-		indexedFieldsFixture.postProcessDocument(document);
+	protected void assertFieldValues(
+		Map<String, String> map, String searchTerm) {
 
 		FieldValuesAssert.assertFieldValues(
-			_expectedFieldValues(bookmarksFolder), document, searchTerm);
+			map, name -> !name.equals("score"),
+			searcher.search(
+				searchRequestBuilderFactory.builder(
+				).companyId(
+					_group.getCompanyId()
+				).groupIds(
+					_group.getGroupId()
+				).fields(
+					StringPool.STAR
+				).modelIndexerClasses(
+					BookmarksFolder.class
+				).queryString(
+					searchTerm
+				).fetchSource(
+					true
+				).build()));
 	}
 
 	protected void setUpBookmarksFolderFixture() throws Exception {
@@ -120,6 +138,8 @@ public class BookmarksFolderIndexerIndexedFieldsTest {
 		_users = userSearchFixture.getUsers();
 	}
 
+	protected static final Class<?> MODEL_INDEXER_CLASS = BookmarksFolder.class;
+
 	protected BookmarksFixture bookmarksFixture;
 	protected IndexerFixture<BookmarksFolder> bookmarksFolderIndexerFixture;
 	protected IndexedFieldsFixture indexedFieldsFixture;
@@ -132,6 +152,12 @@ public class BookmarksFolderIndexerIndexedFieldsTest {
 
 	@Inject
 	protected SearchEngineHelper searchEngineHelper;
+
+	@Inject
+	protected Searcher searcher;
+
+	@Inject
+	protected SearchRequestBuilderFactory searchRequestBuilderFactory;
 
 	protected UserSearchFixture userSearchFixture;
 

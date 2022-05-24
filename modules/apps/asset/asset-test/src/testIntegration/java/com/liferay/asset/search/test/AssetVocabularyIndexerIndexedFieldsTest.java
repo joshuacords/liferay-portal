@@ -17,10 +17,10 @@ package com.liferay.asset.search.test;
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.SearchEngineHelper;
 import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
@@ -31,6 +31,8 @@ import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.LocaleThreadLocal;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.search.searcher.SearchRequestBuilderFactory;
+import com.liferay.portal.search.searcher.Searcher;
 import com.liferay.portal.search.test.util.FieldValuesAssert;
 import com.liferay.portal.search.test.util.IndexedFieldsFixture;
 import com.liferay.portal.search.test.util.IndexerFixture;
@@ -95,13 +97,32 @@ public class AssetVocabularyIndexerIndexedFieldsTest {
 
 		String searchTerm = "新しい";
 
-		Document document = assetVocabularyIndexerFixture.searchOnlyOne(
-			searchTerm, locale);
+		assertFieldValues(
+			_expectedFieldValues(assetVocabulary), locale, searchTerm);
+	}
 
-		indexedFieldsFixture.postProcessDocument(document);
+	protected void assertFieldValues(
+		Map<String, String> map, Locale locale, String searchTerm) {
 
 		FieldValuesAssert.assertFieldValues(
-			_expectedFieldValues(assetVocabulary), document, searchTerm);
+			map, name -> !name.equals("score"),
+			searcher.search(
+				searchRequestBuilderFactory.builder(
+				).companyId(
+					_group.getCompanyId()
+				).groupIds(
+					_group.getGroupId()
+				).locale(
+					locale
+				).fields(
+					StringPool.STAR
+				).modelIndexerClasses(
+					AssetVocabulary.class
+				).queryString(
+					searchTerm
+				).fetchSource(
+					true
+				).build()));
 	}
 
 	protected void setTestLocale(Locale locale) throws Exception {
@@ -147,6 +168,12 @@ public class AssetVocabularyIndexerIndexedFieldsTest {
 
 	@Inject
 	protected SearchEngineHelper searchEngineHelper;
+
+	@Inject
+	protected Searcher searcher;
+
+	@Inject
+	protected SearchRequestBuilderFactory searchRequestBuilderFactory;
 
 	protected UserSearchFixture userSearchFixture;
 
