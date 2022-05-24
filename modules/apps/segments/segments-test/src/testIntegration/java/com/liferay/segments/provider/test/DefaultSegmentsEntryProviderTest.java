@@ -15,6 +15,7 @@
 package com.liferay.segments.provider.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Organization;
@@ -30,6 +31,7 @@ import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.test.util.UserTestUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.segments.constants.SegmentsEntryConstants;
@@ -860,7 +862,8 @@ public class DefaultSegmentsEntryProviderTest {
 			User.class.getName());
 
 		long[] segmentsEntryIds = _segmentsEntryProvider.getSegmentsEntryIds(
-			_group.getGroupId(), User.class.getName(), _user1.getUserId());
+			_group.getGroupId(), User.class.getName(), _user1.getUserId(), null,
+			new long[0], new long[0]);
 
 		Assert.assertEquals(
 			segmentsEntryIds.toString(), 2, segmentsEntryIds.length);
@@ -870,6 +873,51 @@ public class DefaultSegmentsEntryProviderTest {
 					segmentsEntry1.getSegmentsEntryId(),
 					segmentsEntry2.getSegmentsEntryId()
 				},
+				segmentsEntryIds));
+	}
+
+	@Test
+	public void testGetSegmentsEntryIdsWithSingleModelCriterionAndFilterSegmenntEntryIds()
+		throws Exception {
+
+		_user1 = UserTestUtil.addUser(_group.getGroupId());
+		_user2 = UserTestUtil.addUser(_group.getGroupId());
+
+		Criteria criteria1 = new Criteria();
+
+		_userSegmentsCriteriaContributor.contribute(
+			criteria1,
+			String.format("(firstName eq '%s')", _user1.getFirstName()),
+			Criteria.Conjunction.AND);
+
+		SegmentsEntry segmentsEntry1 = SegmentsTestUtil.addSegmentsEntry(
+			_group.getGroupId(), User.class.getName(), _user1.getUserId());
+
+		SegmentsTestUtil.addSegmentsEntry(
+			_group.getGroupId(), CriteriaSerializer.serialize(criteria1),
+			User.class.getName());
+
+		Criteria criteria2 = new Criteria();
+
+		_userSegmentsCriteriaContributor.contribute(
+			criteria2,
+			String.format("(firstName eq '%s')", _user2.getFirstName()),
+			Criteria.Conjunction.AND);
+
+		SegmentsTestUtil.addSegmentsEntry(
+			_group.getGroupId(), User.class.getName(), _user2.getUserId());
+		SegmentsTestUtil.addSegmentsEntry(
+			_group.getGroupId(), CriteriaSerializer.serialize(criteria2),
+			User.class.getName());
+
+		long[] segmentsEntryIds = _segmentsEntryProvider.getSegmentsEntryIds(
+			_group.getGroupId(), User.class.getName(), _user1.getUserId(), null,
+			new long[] {segmentsEntry1.getSegmentsEntryId()}, new long[0]);
+
+		Assert.assertTrue(
+			StringUtil.merge(segmentsEntryIds, StringPool.COMMA),
+			ArrayUtil.containsAll(
+				new long[] {segmentsEntry1.getSegmentsEntryId()},
 				segmentsEntryIds));
 	}
 

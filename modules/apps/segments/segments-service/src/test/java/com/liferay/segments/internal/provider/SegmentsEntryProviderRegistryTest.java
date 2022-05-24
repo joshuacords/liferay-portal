@@ -178,12 +178,10 @@ public class SegmentsEntryProviderRegistryTest {
 		};
 
 		SegmentsEntryProvider segmentsEntryProvider1 =
-			_createSegmentsEntryProvider(
-				groupId, className, classPK, context, segmentsEntryIds1);
+			_createSegmentsEntryProvider(segmentsEntryIds1);
 
 		SegmentsEntryProvider segmentsEntryProvider2 =
-			_createSegmentsEntryProvider(
-				groupId, className, classPK, context, segmentsEntryIds2);
+			_createSegmentsEntryProvider(segmentsEntryIds2);
 
 		Mockito.doReturn(
 			Arrays.asList(segmentsEntryProvider1, segmentsEntryProvider2)
@@ -203,22 +201,6 @@ public class SegmentsEntryProviderRegistryTest {
 		Arrays.sort(segmentsEntryIds);
 
 		Assert.assertArrayEquals(segmentsEntryIds, actualSegmentsEntryIds);
-
-		Mockito.verify(
-			_serviceTrackerMap, Mockito.times(1)
-		).values();
-
-		Mockito.verify(
-			segmentsEntryProvider1, Mockito.times(1)
-		).getSegmentsEntryIds(
-			groupId, className, classPK, context
-		);
-
-		Mockito.verify(
-			segmentsEntryProvider2, Mockito.times(1)
-		).getSegmentsEntryIds(
-			groupId, className, classPK, context
-		);
 	}
 
 	private SegmentsEntry _createSegmentsEntry(
@@ -278,19 +260,19 @@ public class SegmentsEntryProviderRegistryTest {
 	}
 
 	private SegmentsEntryProvider _createSegmentsEntryProvider(
-			long groupId, String className, long classPK, Context context,
 			long[] segmentsEntryIds)
 		throws PortalException {
 
 		SegmentsEntryProvider segmentsEntryProvider = Mockito.mock(
 			SegmentsEntryProvider.class);
 
-		Mockito.doReturn(
+		Mockito.when(
+			segmentsEntryProvider.getSegmentsEntryIds(
+				Mockito.anyLong(), Mockito.anyString(), Mockito.anyLong(),
+				Mockito.any(Context.class), Mockito.any(long[].class),
+				Mockito.any(long[].class))
+		).thenReturn(
 			segmentsEntryIds
-		).when(
-			segmentsEntryProvider
-		).getSegmentsEntryIds(
-			groupId, className, classPK, context
 		);
 
 		return segmentsEntryProvider;
