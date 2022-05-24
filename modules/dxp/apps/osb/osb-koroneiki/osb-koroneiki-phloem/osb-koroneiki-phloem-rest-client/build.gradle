@@ -1,5 +1,7 @@
-baseline {
-	enabled = false
+if (tasks.findByName("baseline")) {
+	baseline {
+		enabled = false
+	}
 }
 
 dependencies {
