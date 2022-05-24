@@ -192,20 +192,21 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 		Contact contact = _contactWebService.fetchContactByUuid(uuid);
 
 		if (contact == null) {
-			StringBundler sb = new StringBundler(4);
+			StringBundler sb = new StringBundler(3);
 
 			sb.append(_URL_API_REST_USERS);
-			sb.append("?search=profile.uuid eq \"");
-			sb.append(uuid);
-			sb.append("\"");
+			sb.append("?search=");
+			sb.append(_http.encodePath("profile.uuid eq \"" + uuid + "\""));
 
 			String response = _sendRequest(sb.toString());
 
-			JSONObject jsonObject = _jsonFactory.createJSONObject(response);
+			JSONArray jsonArray = _jsonFactory.createJSONArray(response);
 
-			if (jsonObject.has("errorCode")) {
+			if (jsonArray.length() <= 0) {
 				return null;
 			}
+
+			JSONObject jsonObject = jsonArray.getJSONObject(0);
 
 			JSONObject profileJSONObject = jsonObject.getJSONObject("profile");
 
