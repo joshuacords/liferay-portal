@@ -140,6 +140,8 @@ public class AccountReaderImpl implements AccountReader {
 						 ProductConstants.
 							 NAME_DXP_CLOUD_SUBSCRIPTION_STD_PRODUCTION) ||
 					 curName.equals(
+						 ProductConstants.NAME_LXC_CSP_CUSTOM_USER_TIER) ||
+					 curName.equals(
 						 ProductConstants.NAME_LXC_CSP_UP_TO_1K_USERS) ||
 					 curName.equals(
 						 ProductConstants.NAME_LXC_CSP_UP_TO_5K_USERS) ||

@@ -96,6 +96,9 @@ public class ProductConstants {
 
 	public static final String NAME_LIMITED = "Limited Subscription";
 
+	public static final String NAME_LXC_CSP_CUSTOM_USER_TIER =
+		"LXC - CSP - Custom User Tier";
+
 	public static final String NAME_LXC_CSP_UP_TO_1K_USERS =
 		"LXC - CSP - Up to 1K Users";
 
