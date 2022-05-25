@@ -255,6 +255,7 @@ public class ElasticsearchIndexingFixture implements IndexingFixture {
 		return new CompositeFacetProcessor() {
 			{
 				defaultFacetProcessor = new DefaultFacetProcessor();
+
 				setFacetProcessor(
 					new ModifiedFacetProcessor(),
 					Collections.singletonMap(
