@@ -45,7 +45,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--ADT_SOCIAL-->
+
 <tr>
 	<td>ADT_SOCIAL_LAST_MODIFIED_MESSAGE</td>
 	<td>//div[@class='wiki-info']/span[contains(.,'Last Modified')]</td>
@@ -56,7 +58,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--ATTACHMENT_TABLE-->
+
 <tr>
 	<td>ATTACHMENT_TABLE_FILE_NAME</td>
 	<td>//tr[contains(.,'${key_attachmentFileName}')]/td[1]</td>
@@ -77,7 +81,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--CHILD_PAGE-->
+
 <tr>
 	<td>CHILD_PAGE_HEADER</td>
 	<td>//div[@class='sidenav-content']/h4</td>
@@ -98,7 +104,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--COMPARE_ACTIVITIES_NAVIGATION-->
+
 <tr>
 	<td>COMPARE_ACTIVITIES_NAVIGATION_TEXT_MODE_LINK</td>
 	<td>//div[@class='central-info']//a[contains(.,'Text Mode')]</td>
@@ -139,7 +147,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--CONTENT_IMAGE_VIEW-->
+
 <tr>
 	<td>CONTENT_IMAGE_NAME</td>
 	<td>//img[contains(@src,'${key_contentImageName}')]</td>
@@ -150,7 +160,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--DESCRIPTIVE_VIEW-->
+
 <tr>
 	<td>DESCRIPTIVE_VIEW_ENTRY_TITLE</td>
 	<td>//*[@data-qa-id='row']/*[@data-qa-id='rowItemContent']/h4[contains(.,'${key_wikiPageTitle}')]/a</td>
@@ -161,7 +173,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--HISTORY-->
+
 <tr>
 	<td>HISTORY_ACTIVITIES_TABLE_COMPARE_TO_LINK</td>
 	<td>//ul/li[contains(@class,'compare-to-link')]/a[contains(@class,' taglib-icon')]</td>
@@ -187,7 +201,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--COMPARE_VERSIONS-->
+
 <tr>
 	<td>COMPARE_VERSIONS_DATE</td>
 	<td>//div[contains(@id,'wikiPageVersionSearchContainer')]//tr[contains(.,'${key_wikiPageVersion}')]/td[2]</td>
@@ -238,7 +254,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--NODE_TABLE-->
+
 <tr>
 	<td>NODE_TABLE</td>
 	<td>//div[contains(@id,'WikiAdminPortlet') and contains(@id,'SearchContainer')]//table</td>
@@ -274,7 +292,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--PAGE_TABS-->
+
 <tr>
 	<td>PAGE_TABS_HISTORY</td>
 	<td>//div[@class='portlet-body']/ul/li/a[contains(.,'History')]</td>
@@ -295,7 +315,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--SEARCH-->
+
 <tr>
 	<td>SEARCH_CREATE_NEW_PAGE_LINK</td>
 	<td>//div[@class='portlet-body']//a[contains(.,'Create a new page on this topic.')]</td>

@@ -30,7 +30,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--NAVIGATION-->
+
 <tr>
 	<td>NAVIGATION_SPECIFIC_TAB</td>
 	<td>//ul[contains(@class,'navbar')]/li/a[contains(.,'${key_navTab}')]</td>
@@ -51,7 +53,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--SELECT_FILE-->
+
 <tr>
 	<td>SELECT_FILE_IMAGE_PREVIEW</td>
 	<td>//div[contains(@class,'card')]//span[contains(@title,'${key_imageFileName}')]</td>
@@ -67,7 +71,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--VIEWER-->
+
 <tr>
 	<td>CAPTION</td>
 	<td>//dd[@data-qa-id='row']/div[contains(@class,'image-card') and contains(.,'${key_uploadFileName}')]</td>
@@ -88,7 +94,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--SIDEBAR_FILE_INFO-->
+
 <tr>
 	<td>SIDEBAR_FILE_INFO_FORMAT</td>
 	<td>//div[contains(@class,'image-viewer-sidenav-body')]//dt[contains(.,'Format')]/following-sibling::dd[1]</td>
@@ -114,7 +122,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--SIDEBAR_VERSION-->
+
 <tr>
 	<td>SIDEBAR_VERSION_STATUS</td>
 	<td>//div[contains(@class,'image-viewer-sidenav-body')]//dt[contains(.,'Status')]/following-sibling::dd[1]</td>
@@ -130,7 +140,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--SELECT_IMAGE_PREVIEW-->
+
 <tr>
 	<td>SELECT_IMAGE_PREVIEW</td>
 	<td>//div[contains(@class,'image-viewer-base-image-list')]//img</td>
@@ -141,7 +153,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--URL-->
+
 <tr>
 	<td>URL_LABEL</td>
 	<td>//label[contains(.,'Image URL')]</td>

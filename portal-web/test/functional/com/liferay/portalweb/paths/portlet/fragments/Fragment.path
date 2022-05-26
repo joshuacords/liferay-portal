@@ -110,13 +110,17 @@
 	<td>//li[contains(@class,'navbar-breakpoint')]</td>
 	<td></td>
 </tr>
+
 <!--FRAGMENT_COMMENT-->
+
 <tr>
 	<td>FRAGMENT_COMMENT_ICON</td>
 	<td>//button[*[name()='svg'][*[contains(@class,'comments-borde')]]]</td>
 	<td></td>
 </tr>
+
 <!--FRAGMENT_CONFIGURAION-->
+
 <tr>
 	<td>FRAGMENT_CONFIGURATION_ALIGNMENT</td>
 	<td>//*[contains(@class,'component-${key_fragmentName}')][contains(@class,'text-${key_alignment}')]</td>
@@ -177,7 +181,9 @@
 	<td>//div[contains(@class,'component-${key_fragmentName}')]//hr[contains(@class,'pb-${key_verticalSpace}')]</td>
 	<td></td>
 </tr>
+
 <!--FRAGMENT_HEADER-->
+
 <tr>
 	<td>FRAGMENT_HEADER</td>
 	<td>//div[contains(@class,'fragment-entry-link-wrapper')]//li[contains(.,'${key_fragmentName}')]</td>

@@ -20,7 +20,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--ADD_CLASSIFICATION_RULE-->
+
 <tr>
 	<td>ADD_CLASSIFICATION_RULE_OPERATING_SYSTEM</td>
 	<td>//select[contains(@id,'os')]</td>
@@ -36,7 +38,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--ADD_ACTION-->
+
 <tr>
 	<td>ADD_ACTION_TYPE_OPTION</td>
 	<td>//option[contains(.,'${key_actionType}')]</td>

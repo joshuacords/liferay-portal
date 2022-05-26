@@ -30,7 +30,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--WEB_CONTENT_TABLE-->
+
 <tr>
 	<td>WEB_CONTENT_TABLE_TITLE</td>
 	<td>//tr[contains(.,'${key_webContentTitle}')]/td[1]</td>
@@ -41,7 +43,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--USER_TOOLS-->
+
 <tr>
 	<td>USER_TOOLS_SELECT_BUTTON</td>
 	<td>//button[contains(@id,'userTools') and normalize-space()='Select']</td>
@@ -52,7 +56,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--CONTENT_METADATA-->
+
 <tr>
 	<td>CONTENT_METADATA_SELECT</td>
 	<td>//button[contains(@id,'contentMetadata') and normalize-space()='Select']</td>

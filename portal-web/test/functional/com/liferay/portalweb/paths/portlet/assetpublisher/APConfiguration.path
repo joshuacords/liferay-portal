@@ -10,7 +10,9 @@
 </thead>
 
 <tbody>
+
 <!--ASSET_SELECTION-->
+
 <tr>
 	<td>ASSET_SELECTION_ASSET_LIST</td>
 	<td>//input[contains(@id,'selectionStyleAssetList')]</td>
@@ -31,7 +33,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--SUBSCRIPTIONS-->
+
 <tr>
 	<td>SUBSCRIPTIONS_ENABLE_RSS_SUBSCRIPTION_LABEL</td>
 	<td>//label[contains(@for,'enableRss')]</td>
@@ -47,7 +51,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--RULE_BUILDER-->
+
 <tr>
 	<td>RULE_BUILDER_ADD_CONDITION</td>
 	<td>//button[contains(@class,'form-builder-rule-add-condition')]</td>
@@ -58,7 +64,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--USER_SEGMENTS_FILTER-->
+
 <tr>
 	<td>ENABLE_USER_SEGMENTS_FILTER_LABEL</td>
 	<td>//label[contains(@for,'UserSegments')]/span[contains(@class,'label')]</td>
@@ -74,7 +82,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--SOURCE_SCOPE-->
+
 <tr>
 	<td>SOURCE_DROPDOWN</td>
 	<td>//div[contains(@class,'header') and contains(@class,'expanded') and contains(.,'Source')]</td>
@@ -130,7 +140,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--SELECT_MORE_THAN_ONE_ASSET_TYPE-->
+
 <tr>
 	<td>SELECT_MORE_THAN_ONE_ASSET_TYPE_CONTENT</td>
 	<td>//select/option[contains(.,'${key_contentName}')]</td>
@@ -151,7 +163,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--SELECT_MORE_THAN_ONE_ASSET_SUBTYPE-->
+
 <tr>
 	<td>SELECT_MORE_THAN_ONE_ASSET_SUBTYPE_MOVE_AVAILABLE</td>
 	<td>xpath=(//button[contains(@class,'move-right') and contains(@title,'Move selected items from Selected to Available.')])[3]</td>
@@ -167,7 +181,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--FILTER-->
+
 <tr>
 	<td>FILTER_DROPDOWN</td>
 	<td>//div[contains(@class,'header') and contains(@class,'expanded') and contains(.,'Filter')]</td>
@@ -198,7 +214,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--CUSTOM_USER_ATTRIBUTES-->
+
 <tr>
 	<td>CUSTOM_USER_DROPDOWN</td>
 	<td>//div[contains(@class,'header') and contains(@class,'expanded') and contains(.,'Custom User Attributes')]</td>
@@ -214,7 +232,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--ORDERING_AND_GROUPING-->
+
 <tr>
 	<td>ORDERING_AND_GROUPING_DROPDOWN</td>
 	<td>//div[contains(@class,'header') and contains(@class,'expanded') and contains(.,'Ordering and Grouping')]</td>
@@ -240,7 +260,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--ASSET_SELECTION_MANUAL_ASSET_ENTRIES-->
+
 <tr>
 	<td>ASSET_SELECTION_MANUAL_ASSET_ENTRIES_SELECT_BUTTON</td>
 	<td>//div[contains(.,'Asset Entries')]/following-sibling::div//a[@title='Select']</td>

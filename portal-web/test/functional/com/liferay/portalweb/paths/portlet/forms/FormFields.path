@@ -45,7 +45,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--CHECKBOX-->
+
 <tr>
 	<td>CHECKBOX</td>
 	<td>//input[@type='checkbox' and contains(@id,'${key_fieldName}') or contains (@name,'${key_fieldName}')] | //li[contains(.,'${key_fieldName}')]//input[@type='checkbox'] | //label[contains(@class,'toggle-switch')]//input[contains(@type,'checkbox')]/following-sibling::span[contains(@class,'toggle-switch-bar')]//span[contains(text(),'${key_fieldName}')]/..//preceding-sibling::input[contains(@type,'checkbox')] | //input[contains(@type,'checkbox')]//following-sibling::span[contains(.,'${key_fieldName}')]/..//preceding-sibling::input[contains(@type,'checkbox')]</td>
@@ -71,7 +73,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--DATE-->
+
 <tr>
 	<td>DATE_FIELD</td>
 	<td>//div[contains(@data-field-name,'${key_fieldName}')]//input[@type='text']</td>
@@ -87,7 +91,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--HELP TEXT-->
+
 <tr>
 	<td>HELP_TEXT</td>
 	<td>//div[contains(@class,'form-group')]//span[contains(@class,'form-text') and contains(text(),'${value1}')] | //div[contains(@data-field-name,'${key_fieldName}')]//p[@class='liferay-ddm-form-field-tip'] | //div[contains(@data-field-name,'${key_fieldName}')]//span[contains(@class, 'form-text')]</td>
@@ -98,7 +104,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--OPTIONS-->
+
 <tr>
 	<td>OPTIONS_DELETE_ROW_BUTTON</td>
 	<td>//div[contains(@class,'ddm-field-options-container')]//div[contains(@class,'ddm-field-options')][${key_rowNumber}]//button[contains(@class,'close-modal')] | //div[@class='options']//div[contains(@class,'form-field-container')][${key_rowNumber}]//button[contains(@class,'close-modal')]</td>
@@ -139,7 +147,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--GRID-->
+
 <tr>
 	<td>GRID_OPTIONS_OPTION_DELETE_ROW_BUTTON</td>
 	<td>//div[contains(@class,'form-group')]//label[contains(text(),'${key_gridField}')]/..//div[@class='ddm-field-options'][${key_rowNumber}]//button[contains(@class,'close')] | //div[contains(@data-field-name,'${key_gridField}sOption')]/../../div[${key_rowNumber}]//button[contains(@class,'close-modal')]</td>
@@ -175,7 +185,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--RADIO-->
+
 <tr>
 	<td>RADIO_OPTION_LABEL</td>
 	<td>//label[contains(.,'${key_radioOption}')]/input[@type='radio' and contains(@name,'${key_fieldName}')]/../span</td>
@@ -191,7 +203,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--TEXT-->
+
 <tr>
 	<td>REPEATABLE_TEXT_MULTILINE_FIELD</td>
 	<td>//div[contains(@class,'form-group')][${key_repeatableFieldNumber}]//textarea[contains(@id,'${key_fieldName}') or contains(@name,'${key_fieldName}')] | //div[contains(@class,'form-container')]//div[contains(@data-field-name,'${key_fieldName}')][${key_repeatableFieldNumber}]//textarea[contains(@id,'${key_fieldName}') or contains(@name,'${key_fieldName}')]</td>
@@ -232,7 +246,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--PARAGRAPH-->
+
 <tr>
 	<td>PARAGRAPH_BODY_TEXT_CONTENT</td>
 	<td>//div[(@class='form-group') and contains(@data-field-name,'${key_fieldName}')]//div</td>
@@ -253,7 +269,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--PASSWORD-->
+
 <tr>
 	<td>PASSWORD_FIELD</td>
 	<td>//input[@type='password' and contains(@id,'${key_fieldName}')]</td>
@@ -264,7 +282,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--SELECT-->
+
 <tr>
 	<td>SELECT_ACTIVE_DATE</td>
 	<td>//div[contains(@class,'day active')]</td>
@@ -315,7 +335,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--SWITCHER-->
+
 <tr>
 	<td>SWITCHER</td>
 	<td>//div[contains(@data-field-name,'${key_fieldName}')]//span[@class='toggle-switch-bar'] | //span[contains(text(),'${key_fieldName}')]/preceding-sibling::span[@class='toggle-switch-handle'] | //span[contains(text(),'${key_fieldName}')]</td>
@@ -336,7 +358,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--VALIDATION-->
+
 <tr>
 	<td>VALIDATION_ARGUMENT</td>
 	<td>//div[contains(@data-field-name,'selectedValidation')]//div[contains(@class,'select-field-trigger')]</td>
@@ -362,7 +386,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--CAPTCHA-->
+
 <tr>
 	<td>CAPTCHA_FIELD</td>
 	<td>//div[@class='taglib-captcha']/img[contains(@id, 'captcha')]</td>
@@ -388,7 +414,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--AUTOCOMPLETE-->
+
 <tr>
 	<td>AUTOCOMPLETE_OPTION</td>
 	<td>//li[contains(.,'${key_autocompleteOption}')]</td>
@@ -399,7 +427,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--UPLOAD-->
+
 <tr>
 	<td>SELECT_UPLOAD_FIELD</td>
 	<td>//span[@class='lfr-btn-label']</td>
@@ -425,7 +455,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--CHANGE FIELD TYPE-->
+
 <tr>
 	<td>CHANGE_FIELD_TYPE_BUTTON</td>
 	<td>//li[contains(@class,'ddm-fieldtypes-dropdown')]//div[contains(@class,'dropdown')] | //button[contains(@id,'field-type-menu-content')] | //li[contains(@class,'ddm-fieldtypes-dropdown')]//button[contains(@class,'dropdown-toggle')]</td>
@@ -441,7 +473,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--FRONTEND SPA INFRASTRUCTURE-->
+
 <tr>
 	<td>USER_NOTIFICATION_TIMEOUT</td>
 	<td>//input[contains(@name,'userNotificationTimeout')]</td>

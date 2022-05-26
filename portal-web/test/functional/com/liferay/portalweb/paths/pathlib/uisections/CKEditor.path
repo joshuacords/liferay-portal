@@ -45,7 +45,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--This locator is necessary for tests that require the sendKey action-->
+
 <tr>
 	<td>RESIZER</td>
 	<td>//span[@id='cke_1_resizer']</td>
@@ -56,7 +58,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--TOOLBAR-->
+
 <tr>
 	<td>TOOLBAR_IMAGE_BUTTON</td>
 	<td>//a[contains(@class,'cke_button') and contains(@class,'image')]</td>
@@ -77,7 +81,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!-- CONTENT_AUDIO_LINK -->
+
 <tr>
 	<td>CONTENT_AUDIO_LINK_IMAGE</td>
 	<td>//img[contains(@class,'audio')]</td>
@@ -88,7 +94,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--CONTENT_IMAGE_LINK-->
+
 <tr>
 	<td>CONTENT_IMAGE_LINK_IMAGE</td>
 	<td>//img[contains(@src,'jpg')]</td>
@@ -99,7 +107,9 @@
 	<td></td>
 	<td></td>
 </tr>
+
 <!--CONTENT_VIDEO_LINK-->
+
 <tr>
 	<td>CONTENT_VIDEO_LINK_IMAGE</td>
 	<td>//img[contains(@class,'video')]</td>

@@ -10,7 +10,9 @@
 </thead>
 
 <tbody>
+
 <!--LANGUAGES-->
+
 <tr>
 	<td>LANGUAGES_CURRENT</td>
 	<td>//select[contains(@id,'currentLanguageIds')]</td>
