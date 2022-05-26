@@ -169,7 +169,7 @@ public class AccountResourceImpl extends BaseAccountResourceImpl {
 		Account account = _accountWebService.getAccount(accountKey);
 
 		Contact contact = _contactIdentityProvider.fetchContactByEmailAddress(
-			contactEmailAddress, false);
+			contactEmailAddress, true);
 
 		List<ContactRole> contactRoles = new ArrayList<>();
 
