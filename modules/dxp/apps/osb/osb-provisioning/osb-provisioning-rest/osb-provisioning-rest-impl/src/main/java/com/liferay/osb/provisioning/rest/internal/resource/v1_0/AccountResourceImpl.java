@@ -178,20 +178,17 @@ public class AccountResourceImpl extends BaseAccountResourceImpl {
 				_contactRoleWebService.getAccountCustomerContactRoles(
 					accountKey, contactEmailAddress, 1, 1000);
 
-			if (checkSupportSeatCount) {
-				for (ContactRole contactRole : contactRoles) {
-					if (ArrayUtil.contains(
-							contactRoleKeys, contactRole.getKey())) {
+			for (ContactRole contactRole : contactRoles) {
+				if (ArrayUtil.contains(contactRoleKeys, contactRole.getKey())) {
+					throw new ContactAccountRoleAlreadyExistsException();
+				}
 
-						throw new ContactAccountRoleAlreadyExistsException();
-					}
+				if (checkSupportSeatCount &&
+					ArrayUtil.contains(
+						ContactRoleConstants.SUPPORT_SEAT_CONTACT_ROLES,
+						contactRole.getName())) {
 
-					if (ArrayUtil.contains(
-							ContactRoleConstants.SUPPORT_SEAT_CONTACT_ROLES,
-							contactRole.getName())) {
-
-						checkSupportSeatCount = false;
-					}
+					checkSupportSeatCount = false;
 				}
 			}
 		}
