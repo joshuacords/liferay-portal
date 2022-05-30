@@ -152,6 +152,14 @@ public class SegmentsServicePreAction extends Action {
 					segmentsExperienceIdsSegmentsEntryIds.add(
 						segmentsExperience.getSegmentsEntryId());
 				}
+				
+				long[] cachedSegmentsEntryIds =
+						(long[])httpServletRequest.getAttribute(
+							SegmentsWebKeys.SEGMENTS_ENTRY_IDS);
+
+				if (cachedSegmentsEntryIds != null) {
+					return cachedSegmentsEntryIds;
+				}
 
 				long[] segmentsEntryIds =
 					_segmentsEntryRetriever.getSegmentsEntryIds(
@@ -160,6 +168,9 @@ public class SegmentsServicePreAction extends Action {
 						ArrayUtil.toArray(
 							segmentsExperienceIdsSegmentsEntryIds.toArray(
 								new Long[0])));
+	
+				httpServletRequest.setAttribute(
+					SegmentsWebKeys.SEGMENTS_ENTRY_IDS, segmentsEntryIds);
 
 				return ArrayUtil.append(
 					_segmentsExperienceRequestProcessorRegistry.
