@@ -28,6 +28,10 @@ public interface ContactWebService {
 			String agentName, String agentUID, Contact contact)
 		throws Exception;
 
+	public void deleteContact(
+			String agentName, String agentUID, String emailAddress)
+		throws Exception;
+
 	public Contact fetchContactByEmailAddress(String emailAddress)
 		throws Exception;
 

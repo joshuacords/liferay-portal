@@ -52,6 +52,14 @@ public class ContactWebServiceImpl implements ContactWebService {
 		return _contactResource.postContact(agentName, agentUID, contact);
 	}
 
+	public void deleteContact(
+			String agentName, String agentUID, String emailAddress)
+		throws Exception {
+
+		_contactResource.deleteContactByEmailAddresEmailAddress(
+			agentName, agentUID, emailAddress);
+	}
+
 	public Contact fetchContactByEmailAddress(String emailAddress)
 		throws Exception {
 
