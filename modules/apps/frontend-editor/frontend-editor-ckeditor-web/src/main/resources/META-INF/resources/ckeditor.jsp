@@ -612,16 +612,18 @@ name = HtmlUtil.escapeJS(name);
 		ckEditor.on('drop', function(event) {
 			var data = event.data.dataTransfer.getData('text/html');
 
-			var fragment = CKEDITOR.htmlParser.fragment.fromHtml(data);
+			if (data) {
+				var fragment = CKEDITOR.htmlParser.fragment.fromHtml(data);
 
-			var element = fragment.children[0];
+				var element = fragment.children[0];
 
-			if (element.hasClass('cke_widget_image')) {
-				element = element.children[0];
-			}
+				if (element.hasClass('cke_widget_image')) {
+					element = element.children[0];
+				}
 
-			if (this.pasteFilter && element.name) {
-				return this.pasteFilter.check(element.name);
+				if (this.pasteFilter && element.name) {
+					return this.pasteFilter.check(element.name);
+				}
 			}
 		});
 
