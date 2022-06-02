@@ -7108,6 +7108,154 @@ public class LayoutUtil {
 	}
 
 	/**
+	 * Returns all the layouts that the user has permission to view where groupId = &#63; and privateLayout = &#63; and type = any &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param privateLayout the private layout
+	 * @param types the types
+	 * @return the matching layouts that the user has permission to view
+	 */
+	public static List<Layout> filterFindByG_P_T(
+		long groupId, boolean privateLayout, String[] types) {
+
+		return getPersistence().filterFindByG_P_T(
+			groupId, privateLayout, types);
+	}
+
+	/**
+	 * Returns a range of all the layouts that the user has permission to view where groupId = &#63; and privateLayout = &#63; and type = any &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LayoutModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param privateLayout the private layout
+	 * @param types the types
+	 * @param start the lower bound of the range of layouts
+	 * @param end the upper bound of the range of layouts (not inclusive)
+	 * @return the range of matching layouts that the user has permission to view
+	 */
+	public static List<Layout> filterFindByG_P_T(
+		long groupId, boolean privateLayout, String[] types, int start,
+		int end) {
+
+		return getPersistence().filterFindByG_P_T(
+			groupId, privateLayout, types, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the layouts that the user has permission to view where groupId = &#63; and privateLayout = &#63; and type = any &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LayoutModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param privateLayout the private layout
+	 * @param types the types
+	 * @param start the lower bound of the range of layouts
+	 * @param end the upper bound of the range of layouts (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching layouts that the user has permission to view
+	 */
+	public static List<Layout> filterFindByG_P_T(
+		long groupId, boolean privateLayout, String[] types, int start, int end,
+		OrderByComparator<Layout> orderByComparator) {
+
+		return getPersistence().filterFindByG_P_T(
+			groupId, privateLayout, types, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns all the layouts where groupId = &#63; and privateLayout = &#63; and type = any &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LayoutModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param privateLayout the private layout
+	 * @param types the types
+	 * @return the matching layouts
+	 */
+	public static List<Layout> findByG_P_T(
+		long groupId, boolean privateLayout, String[] types) {
+
+		return getPersistence().findByG_P_T(groupId, privateLayout, types);
+	}
+
+	/**
+	 * Returns a range of all the layouts where groupId = &#63; and privateLayout = &#63; and type = any &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LayoutModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param privateLayout the private layout
+	 * @param types the types
+	 * @param start the lower bound of the range of layouts
+	 * @param end the upper bound of the range of layouts (not inclusive)
+	 * @return the range of matching layouts
+	 */
+	public static List<Layout> findByG_P_T(
+		long groupId, boolean privateLayout, String[] types, int start,
+		int end) {
+
+		return getPersistence().findByG_P_T(
+			groupId, privateLayout, types, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the layouts where groupId = &#63; and privateLayout = &#63; and type = any &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LayoutModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param privateLayout the private layout
+	 * @param types the types
+	 * @param start the lower bound of the range of layouts
+	 * @param end the upper bound of the range of layouts (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching layouts
+	 */
+	public static List<Layout> findByG_P_T(
+		long groupId, boolean privateLayout, String[] types, int start, int end,
+		OrderByComparator<Layout> orderByComparator) {
+
+		return getPersistence().findByG_P_T(
+			groupId, privateLayout, types, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the layouts where groupId = &#63; and privateLayout = &#63; and type = &#63;, optionally using the finder cache.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LayoutModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param privateLayout the private layout
+	 * @param type the type
+	 * @param start the lower bound of the range of layouts
+	 * @param end the upper bound of the range of layouts (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching layouts
+	 */
+	public static List<Layout> findByG_P_T(
+		long groupId, boolean privateLayout, String[] types, int start, int end,
+		OrderByComparator<Layout> orderByComparator, boolean useFinderCache) {
+
+		return getPersistence().findByG_P_T(
+			groupId, privateLayout, types, start, end, orderByComparator,
+			useFinderCache);
+	}
+
+	/**
 	 * Removes all the layouts where groupId = &#63; and privateLayout = &#63; and type = &#63; from the database.
 	 *
 	 * @param groupId the group ID
@@ -7135,6 +7283,20 @@ public class LayoutUtil {
 	}
 
 	/**
+	 * Returns the number of layouts where groupId = &#63; and privateLayout = &#63; and type = any &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param privateLayout the private layout
+	 * @param types the types
+	 * @return the number of matching layouts
+	 */
+	public static int countByG_P_T(
+		long groupId, boolean privateLayout, String[] types) {
+
+		return getPersistence().countByG_P_T(groupId, privateLayout, types);
+	}
+
+	/**
 	 * Returns the number of layouts that the user has permission to view where groupId = &#63; and privateLayout = &#63; and type = &#63;.
 	 *
 	 * @param groupId the group ID
@@ -7147,6 +7309,21 @@ public class LayoutUtil {
 
 		return getPersistence().filterCountByG_P_T(
 			groupId, privateLayout, type);
+	}
+
+	/**
+	 * Returns the number of layouts that the user has permission to view where groupId = &#63; and privateLayout = &#63; and type = any &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param privateLayout the private layout
+	 * @param types the types
+	 * @return the number of matching layouts that the user has permission to view
+	 */
+	public static int filterCountByG_P_T(
+		long groupId, boolean privateLayout, String[] types) {
+
+		return getPersistence().filterCountByG_P_T(
+			groupId, privateLayout, types);
 	}
 
 	/**
@@ -7421,6 +7598,163 @@ public class LayoutUtil {
 	}
 
 	/**
+	 * Returns all the layouts that the user has permission to view where groupId = &#63; and privateLayout = &#63; and type = any &#63; and head = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param privateLayout the private layout
+	 * @param types the types
+	 * @param head the head
+	 * @return the matching layouts that the user has permission to view
+	 */
+	public static List<Layout> filterFindByG_P_T_Head(
+		long groupId, boolean privateLayout, String[] types, boolean head) {
+
+		return getPersistence().filterFindByG_P_T_Head(
+			groupId, privateLayout, types, head);
+	}
+
+	/**
+	 * Returns a range of all the layouts that the user has permission to view where groupId = &#63; and privateLayout = &#63; and type = any &#63; and head = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LayoutModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param privateLayout the private layout
+	 * @param types the types
+	 * @param head the head
+	 * @param start the lower bound of the range of layouts
+	 * @param end the upper bound of the range of layouts (not inclusive)
+	 * @return the range of matching layouts that the user has permission to view
+	 */
+	public static List<Layout> filterFindByG_P_T_Head(
+		long groupId, boolean privateLayout, String[] types, boolean head,
+		int start, int end) {
+
+		return getPersistence().filterFindByG_P_T_Head(
+			groupId, privateLayout, types, head, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the layouts that the user has permission to view where groupId = &#63; and privateLayout = &#63; and type = any &#63; and head = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LayoutModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param privateLayout the private layout
+	 * @param types the types
+	 * @param head the head
+	 * @param start the lower bound of the range of layouts
+	 * @param end the upper bound of the range of layouts (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching layouts that the user has permission to view
+	 */
+	public static List<Layout> filterFindByG_P_T_Head(
+		long groupId, boolean privateLayout, String[] types, boolean head,
+		int start, int end, OrderByComparator<Layout> orderByComparator) {
+
+		return getPersistence().filterFindByG_P_T_Head(
+			groupId, privateLayout, types, head, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns all the layouts where groupId = &#63; and privateLayout = &#63; and type = any &#63; and head = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LayoutModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param privateLayout the private layout
+	 * @param types the types
+	 * @param head the head
+	 * @return the matching layouts
+	 */
+	public static List<Layout> findByG_P_T_Head(
+		long groupId, boolean privateLayout, String[] types, boolean head) {
+
+		return getPersistence().findByG_P_T_Head(
+			groupId, privateLayout, types, head);
+	}
+
+	/**
+	 * Returns a range of all the layouts where groupId = &#63; and privateLayout = &#63; and type = any &#63; and head = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LayoutModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param privateLayout the private layout
+	 * @param types the types
+	 * @param head the head
+	 * @param start the lower bound of the range of layouts
+	 * @param end the upper bound of the range of layouts (not inclusive)
+	 * @return the range of matching layouts
+	 */
+	public static List<Layout> findByG_P_T_Head(
+		long groupId, boolean privateLayout, String[] types, boolean head,
+		int start, int end) {
+
+		return getPersistence().findByG_P_T_Head(
+			groupId, privateLayout, types, head, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the layouts where groupId = &#63; and privateLayout = &#63; and type = any &#63; and head = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LayoutModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param privateLayout the private layout
+	 * @param types the types
+	 * @param head the head
+	 * @param start the lower bound of the range of layouts
+	 * @param end the upper bound of the range of layouts (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching layouts
+	 */
+	public static List<Layout> findByG_P_T_Head(
+		long groupId, boolean privateLayout, String[] types, boolean head,
+		int start, int end, OrderByComparator<Layout> orderByComparator) {
+
+		return getPersistence().findByG_P_T_Head(
+			groupId, privateLayout, types, head, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the layouts where groupId = &#63; and privateLayout = &#63; and type = &#63; and head = &#63;, optionally using the finder cache.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>LayoutModelImpl</code>.
+	 * </p>
+	 *
+	 * @param groupId the group ID
+	 * @param privateLayout the private layout
+	 * @param type the type
+	 * @param head the head
+	 * @param start the lower bound of the range of layouts
+	 * @param end the upper bound of the range of layouts (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching layouts
+	 */
+	public static List<Layout> findByG_P_T_Head(
+		long groupId, boolean privateLayout, String[] types, boolean head,
+		int start, int end, OrderByComparator<Layout> orderByComparator,
+		boolean useFinderCache) {
+
+		return getPersistence().findByG_P_T_Head(
+			groupId, privateLayout, types, head, start, end, orderByComparator,
+			useFinderCache);
+	}
+
+	/**
 	 * Removes all the layouts where groupId = &#63; and privateLayout = &#63; and type = &#63; and head = &#63; from the database.
 	 *
 	 * @param groupId the group ID
@@ -7451,6 +7785,22 @@ public class LayoutUtil {
 	}
 
 	/**
+	 * Returns the number of layouts where groupId = &#63; and privateLayout = &#63; and type = any &#63; and head = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param privateLayout the private layout
+	 * @param types the types
+	 * @param head the head
+	 * @return the number of matching layouts
+	 */
+	public static int countByG_P_T_Head(
+		long groupId, boolean privateLayout, String[] types, boolean head) {
+
+		return getPersistence().countByG_P_T_Head(
+			groupId, privateLayout, types, head);
+	}
+
+	/**
 	 * Returns the number of layouts that the user has permission to view where groupId = &#63; and privateLayout = &#63; and type = &#63; and head = &#63;.
 	 *
 	 * @param groupId the group ID
@@ -7464,6 +7814,22 @@ public class LayoutUtil {
 
 		return getPersistence().filterCountByG_P_T_Head(
 			groupId, privateLayout, type, head);
+	}
+
+	/**
+	 * Returns the number of layouts that the user has permission to view where groupId = &#63; and privateLayout = &#63; and type = any &#63; and head = &#63;.
+	 *
+	 * @param groupId the group ID
+	 * @param privateLayout the private layout
+	 * @param types the types
+	 * @param head the head
+	 * @return the number of matching layouts that the user has permission to view
+	 */
+	public static int filterCountByG_P_T_Head(
+		long groupId, boolean privateLayout, String[] types, boolean head) {
+
+		return getPersistence().filterCountByG_P_T_Head(
+			groupId, privateLayout, types, head);
 	}
 
 	/**

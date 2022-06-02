@@ -1170,7 +1170,7 @@ public class LayoutLocalServiceWrapper
 	 * @param types layout types
 	 * @param start the lower bound of the range of layouts
 	 * @param end the upper bound of the range of layouts (not inclusive)
-	 * @param obc the comparator to order the layouts
+	 * @param orderByComparator the comparator to order the layouts
 	 * @return the matching layouts, or <code>null</code> if no matches were
 	 found
 	 */
@@ -1179,11 +1179,31 @@ public class LayoutLocalServiceWrapper
 			long groupId, boolean privateLayout, java.lang.String keywords,
 			java.lang.String[] types, int start, int end,
 			com.liferay.portal.kernel.util.OrderByComparator
-				<com.liferay.portal.kernel.model.Layout> obc)
+				<com.liferay.portal.kernel.model.Layout> orderByComparator)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _layoutLocalService.getLayouts(
-			groupId, privateLayout, keywords, types, start, end, obc);
+			groupId, privateLayout, keywords, types, start, end,
+			orderByComparator);
+	}
+
+	/**
+	 * Returns all the layouts that match the type and belong to the group.
+	 *
+	 * @param groupId the primary key of the group
+	 * @param privateLayout whether the layout is private to the group
+	 * @param types the layout's type (optionally {@link
+	 LayoutConstants#TYPE_PORTLET}). The possible types can be found
+	 in {@link LayoutConstants}.
+	 * @return the matching layouts, or <code>null</code> if no matches were
+	 found
+	 */
+	@Override
+	public java.util.List<com.liferay.portal.kernel.model.Layout> getLayouts(
+			long groupId, boolean privateLayout, java.lang.String[] types)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _layoutLocalService.getLayouts(groupId, privateLayout, types);
 	}
 
 	/**

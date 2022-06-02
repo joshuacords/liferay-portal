@@ -1058,17 +1058,37 @@ public class LayoutLocalServiceUtil {
 	 * @param types layout types
 	 * @param start the lower bound of the range of layouts
 	 * @param end the upper bound of the range of layouts (not inclusive)
-	 * @param obc the comparator to order the layouts
+	 * @param orderByComparator the comparator to order the layouts
 	 * @return the matching layouts, or <code>null</code> if no matches were
 	 found
 	 */
 	public static List<Layout> getLayouts(
 			long groupId, boolean privateLayout, String keywords,
-			String[] types, int start, int end, OrderByComparator<Layout> obc)
+			String[] types, int start, int end,
+			OrderByComparator<Layout> orderByComparator)
 		throws PortalException {
 
 		return getService().getLayouts(
-			groupId, privateLayout, keywords, types, start, end, obc);
+			groupId, privateLayout, keywords, types, start, end,
+			orderByComparator);
+	}
+
+	/**
+	 * Returns all the layouts that match the type and belong to the group.
+	 *
+	 * @param groupId the primary key of the group
+	 * @param privateLayout whether the layout is private to the group
+	 * @param types the layout's type (optionally {@link
+	 LayoutConstants#TYPE_PORTLET}). The possible types can be found
+	 in {@link LayoutConstants}.
+	 * @return the matching layouts, or <code>null</code> if no matches were
+	 found
+	 */
+	public static List<Layout> getLayouts(
+			long groupId, boolean privateLayout, String[] types)
+		throws PortalException {
+
+		return getService().getLayouts(groupId, privateLayout, types);
 	}
 
 	/**
