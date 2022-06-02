@@ -1105,7 +1105,7 @@
 			</library>
 			<library>
 				<file-name>com.liferay.document.library.repository.search.jar!lucene-analyzers-common.jar</file-name>
-				<version>5.2.1</version>
+				<version>7.1.0</version>
 				<project-name>Lucene Common Analyzers</project-name>
 				<licenses>
 					<license>
@@ -1116,7 +1116,7 @@
 			</library>
 			<library>
 				<file-name>com.liferay.document.library.repository.search.jar!lucene-core.jar</file-name>
-				<version>5.2.1</version>
+				<version>7.1.0</version>
 				<project-name>Lucene Core</project-name>
 				<licenses>
 					<license>
@@ -1127,7 +1127,7 @@
 			</library>
 			<library>
 				<file-name>com.liferay.document.library.repository.search.jar!lucene-queries.jar</file-name>
-				<version>5.2.1</version>
+				<version>7.1.0</version>
 				<project-name>Lucene Queries</project-name>
 				<licenses>
 					<license>
@@ -1138,7 +1138,7 @@
 			</library>
 			<library>
 				<file-name>com.liferay.document.library.repository.search.jar!lucene-queryparser.jar</file-name>
-				<version>5.2.1</version>
+				<version>7.1.0</version>
 				<project-name>Lucene QueryParsers</project-name>
 				<licenses>
 					<license>
@@ -1149,7 +1149,7 @@
 			</library>
 			<library>
 				<file-name>com.liferay.document.library.repository.search.jar!lucene-sandbox.jar</file-name>
-				<version>5.2.1</version>
+				<version>7.1.0</version>
 				<project-name>Lucene Sandbox</project-name>
 				<licenses>
 					<license>
@@ -2986,7 +2986,7 @@
 			</library>
 			<library>
 				<file-name>com.liferay.portal.search.elasticsearch6.impl.jar!log4j-api.jar</file-name>
-				<version>2.17.0</version>
+				<version>2.17.1</version>
 				<project-name>Apache Log4j API</project-name>
 				<project-url>https://www.apache.org/</project-url>
 				<licenses>
@@ -2998,7 +2998,7 @@
 			</library>
 			<library>
 				<file-name>com.liferay.portal.search.elasticsearch6.impl.jar!log4j-core.jar</file-name>
-				<version>2.17.0</version>
+				<version>2.17.1</version>
 				<project-name>Apache Log4j Core</project-name>
 				<project-url>https://www.apache.org/</project-url>
 				<licenses>
@@ -3879,7 +3879,7 @@
 			</library>
 			<library>
 				<file-name>com.liferay.portal.security.sso.openid.impl.jar!xercesImpl.jar</file-name>
-				<version>2.12.0</version>
+				<version>2.12.2</version>
 				<project-name>Xerces2-j</project-name>
 				<project-url>https://xerces.apache.org/xerces2-j/</project-url>
 				<licenses>
@@ -9074,7 +9074,7 @@
 			</library>
 			<library>
 				<file-name>lib/portal/xercesImpl.jar</file-name>
-				<version>2.12.1</version>
+				<version>2.12.2</version>
 				<project-name>Xerces</project-name>
 				<project-url>http://xerces.apache.org/xerces2-j</project-url>
 				<licenses>
