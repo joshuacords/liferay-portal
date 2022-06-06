@@ -237,14 +237,14 @@ public class TransformAccount {
 	public static int getMaxRequestors(String productPurchases)
 		throws Exception {
 
-		String slaCurrent = getSLACurrent(productPurchases);
+		String name = getSLACurrent(productPurchases);
 
-		if (slaCurrent.isEmpty()) {
+		if (name.isEmpty()) {
 			return 0;
 		}
 
 		boolean managedServices = false;
-		int developerAddons = 0;
+		int supportSeatAddons = 0;
 		int productionInstances = 0;
 
 		JSONArray jsonArray = new JSONArray(productPurchases);
@@ -264,99 +264,154 @@ public class TransformAccount {
 
 			JSONObject productJSONObject = jsonObject.getJSONObject("product");
 
-			String name = productJSONObject.getString("name");
+			String curName = productJSONObject.getString("name");
 
-			if (name.equals(ProductConstants.NAME_ANALYTICS_CLOUD_BASIC) ||
-				name.equals(ProductConstants.NAME_ANALYTICS_CLOUD_BUSINESS) ||
-				name.equals(ProductConstants.NAME_ANALYTICS_CLOUD_ENTERPRISE)) {
+			if (curName.equals(ProductConstants.NAME_ANALYTICS_CLOUD_BASIC) ||
+				curName.equals(
+					ProductConstants.NAME_ANALYTICS_CLOUD_BUSINESS) ||
+				curName.equals(
+					ProductConstants.NAME_ANALYTICS_CLOUD_ENTERPRISE)) {
 
 				return -1;
 			}
 
-			if (name.equals(ProductConstants.NAME_DESIGNATED_CONTACT_ADD_ON)) {
-				developerAddons += quantity;
+			if (curName.equals(
+					ProductConstants.NAME_DESIGNATED_CONTACT_ADD_ON)) {
+
+				supportSeatAddons += quantity;
 			}
-			else if (name.equals(
+			else if (curName.equals(
 						ProductConstants.
 							NAME_MANAGED_SERVICES_DEVELOPER_SUPPORT) ||
-					 name.equals(
+					 curName.equals(
 						 ProductConstants.NAME_MANAGED_SERVICES_STANDARD)) {
 
 				managedServices = true;
 			}
-			else if (name.equals(
+			else if (curName.equals(
 						ProductConstants.
-							NAME_DXP_CLOUD_SUBSCRIPTION_HA_PRODUCTION)) {
+							NAME_DXP_CLOUD_SUBSCRIPTION_HA_PRODUCTION) ||
+					 curName.equals(
+						 ProductConstants.
+							 NAME_LXC_SM_SUBSCRIPTION_HA_PRODUCTION)) {
 
 				productionInstances += 2 * quantity;
 			}
-			else if (name.equals(ProductConstants.NAME_DXP_FLEX) ||
-					 name.equals(ProductConstants.NAME_DXP_PRODUCTION) ||
-					 name.equals(
+			else if (curName.equals(ProductConstants.NAME_DXP_PRODUCTION) ||
+					 curName.equals(
+						 ProductConstants.NAME_DXP_CLOUD_INSTANCE_PRODUCTION) ||
+					 curName.equals(
 						 ProductConstants.
 							 NAME_DXP_CLOUD_SUBSCRIPTION_STD_PRODUCTION) ||
-					 name.equals(
-						 ProductConstants.NAME_DXP_CLOUD_INSTANCE_PRODUCTION) ||
-					 name.equals(ProductConstants.NAME_PORTAL_PRODUCTION)) {
+					 curName.equals(ProductConstants.NAME_DXP_FLEX) ||
+					 curName.equals(ProductConstants.NAME_DXP_OEM) ||
+					 curName.equals(
+						 ProductConstants.NAME_LXC_CSP_CUSTOM_USER_TIER) ||
+					 curName.equals(
+						 ProductConstants.NAME_LXC_CSP_UP_TO_1K_USERS) ||
+					 curName.equals(
+						 ProductConstants.NAME_LXC_CSP_UP_TO_5K_USERS) ||
+					 curName.equals(
+						 ProductConstants.NAME_LXC_CSP_UP_TO_10K_USERS) ||
+					 curName.equals(
+						 ProductConstants.NAME_LXC_CSP_UP_TO_20K_USERS) ||
+					 curName.equals(
+						 ProductConstants.NAME_LXC_CSP_UP_TO_100_USERS) ||
+					 curName.equals(
+						 ProductConstants.NAME_LXC_CSP_UP_TO_500_USERS) ||
+					 curName.equals(
+						 ProductConstants.NAME_LXC_SM_INSTANCE_PRODUCTION) ||
+					 curName.equals(
+						 ProductConstants.
+							 NAME_LXC_SM_SUBSCRIPTION_STD_PRODUCTION) ||
+					 curName.equals(
+						 ProductConstants.NAME_LXC_SUBSCRIPTION_ENGAGE_SITE) ||
+					 curName.equals(
+						 ProductConstants.NAME_LXC_SUBSCRIPTION_SUPPORT_SITE) ||
+					 curName.equals(
+						 ProductConstants.
+							 NAME_LXC_SUBSCRIPTION_TRANSACT_SITE) ||
+					 curName.equals(ProductConstants.NAME_PORTAL_OEM) ||
+					 curName.equals(ProductConstants.NAME_PORTAL_PRODUCTION)) {
 
 				productionInstances += quantity;
 			}
 		}
 
 		if (managedServices) {
-			return 10 + developerAddons;
+			return 10 + supportSeatAddons;
 		}
 
 		if (productionInstances <= 0) {
 			return 0;
 		}
 
-		int maxDeveloperCount = 0;
+		int maxSupportSeatCount = 0;
 
-		if (slaCurrent.equals(ProductConstants.NAME_GOLD)) {
+		if (name.equals(ProductConstants.NAME_GOLD)) {
 			if (productionInstances <= 4) {
-				maxDeveloperCount = 2;
+				maxSupportSeatCount = 2;
 			}
 			else if (productionInstances <= 8) {
-				maxDeveloperCount = 4;
+				maxSupportSeatCount = 4;
 			}
 			else if (productionInstances <= 12) {
-				maxDeveloperCount = 6;
+				maxSupportSeatCount = 6;
 			}
 			else if (productionInstances <= 16) {
-				maxDeveloperCount = 8;
+				maxSupportSeatCount = 8;
 			}
 			else if (productionInstances <= 20) {
-				maxDeveloperCount = 10;
+				maxSupportSeatCount = 10;
 			}
 			else {
-				maxDeveloperCount = 12;
+				maxSupportSeatCount = 12;
 			}
 		}
-		else if (slaCurrent.equals(ProductConstants.NAME_PLATINUM)) {
+		else if (name.equals(ProductConstants.NAME_PLATINUM)) {
 			if (productionInstances <= 4) {
-				maxDeveloperCount = 3;
+				maxSupportSeatCount = 3;
 			}
 			else if (productionInstances <= 8) {
-				maxDeveloperCount = 6;
+				maxSupportSeatCount = 6;
 			}
 			else if (productionInstances <= 12) {
-				maxDeveloperCount = 9;
+				maxSupportSeatCount = 9;
 			}
 			else if (productionInstances <= 16) {
-				maxDeveloperCount = 12;
+				maxSupportSeatCount = 12;
 			}
 			else if (productionInstances <= 20) {
-				maxDeveloperCount = 15;
+				maxSupportSeatCount = 15;
 			}
 			else {
-				maxDeveloperCount = 18;
+				maxSupportSeatCount = 18;
+			}
+		}
+		else if (name.equals(ProductConstants.NAME_PREMIUM)) {
+			if (productionInstances <= 3) {
+				maxSupportSeatCount = 3;
+			}
+			else if (productionInstances <= 6) {
+				maxSupportSeatCount = 6;
+			}
+			else if (productionInstances <= 9) {
+				maxSupportSeatCount = 9;
+			}
+			else if (productionInstances <= 12) {
+				maxSupportSeatCount = 12;
+			}
+			else if (productionInstances <= 15) {
+				maxSupportSeatCount = 15;
+			}
+			else {
+				maxSupportSeatCount = 18;
 			}
 		}
 
-		maxDeveloperCount += developerAddons;
+		maxSupportSeatCount += supportSeatAddons;
 
-		return maxDeveloperCount;
+		return maxSupportSeatCount;
 	}
 
 	public static String getSLACurrent(String productPurchases)
