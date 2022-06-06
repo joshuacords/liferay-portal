@@ -81,6 +81,10 @@ public class ProductConstants {
 
 	public static final String NAME_DXP_EWSA = "DXP Unlimited Enterprise-Wide";
 
+	public static final String NAME_DXP_FLEX = "DXP Flex";
+
+	public static final String NAME_DXP_OEM = "DXP OEM";
+
 	public static final String NAME_DXP_PRODUCTION = "DXP Production";
 
 	public static final String NAME_ENTERPRISE_SEARCH_BACKUP =
@@ -148,6 +152,8 @@ public class ProductConstants {
 	public static final String NAME_PORTAL = "Portal";
 
 	public static final String NAME_PORTAL_EWSA = "Portal Enterprise";
+
+	public static final String NAME_PORTAL_OEM = "Portal OEM";
 
 	public static final String NAME_PORTAL_PRODUCTION = "Portal Production";
 

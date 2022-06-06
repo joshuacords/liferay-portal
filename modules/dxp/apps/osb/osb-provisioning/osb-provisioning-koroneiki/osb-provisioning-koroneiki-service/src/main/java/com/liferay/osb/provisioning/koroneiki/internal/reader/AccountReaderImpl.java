@@ -139,6 +139,8 @@ public class AccountReaderImpl implements AccountReader {
 					 curName.equals(
 						 ProductConstants.
 							 NAME_DXP_CLOUD_SUBSCRIPTION_STD_PRODUCTION) ||
+					 curName.equals(ProductConstants.NAME_DXP_FLEX) ||
+					 curName.equals(ProductConstants.NAME_DXP_OEM) ||
 					 curName.equals(
 						 ProductConstants.NAME_LXC_CSP_CUSTOM_USER_TIER) ||
 					 curName.equals(
@@ -165,6 +167,7 @@ public class AccountReaderImpl implements AccountReader {
 					 curName.equals(
 						 ProductConstants.
 							 NAME_LXC_SUBSCRIPTION_TRANSACT_SITE) ||
+					 curName.equals(ProductConstants.NAME_PORTAL_OEM) ||
 					 curName.equals(ProductConstants.NAME_PORTAL_PRODUCTION)) {
 
 				productionInstances += productPurchase.getQuantity();
