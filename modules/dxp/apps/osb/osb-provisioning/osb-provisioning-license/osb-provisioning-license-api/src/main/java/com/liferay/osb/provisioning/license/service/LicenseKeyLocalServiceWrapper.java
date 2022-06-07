@@ -285,12 +285,13 @@ public class LicenseKeyLocalServiceWrapper
 	@Override
 	public com.liferay.osb.provisioning.license.model.LicenseKey
 			extendLicenseKey(
-				long userId, long licenseKeyId, String productPurchaseKey,
-				java.util.Date startDate, java.util.Date expirationDate)
+				String userName, String userUuid, long licenseKeyId,
+				String productPurchaseKey, java.util.Date startDate,
+				java.util.Date expirationDate)
 		throws Exception {
 
 		return _licenseKeyLocalService.extendLicenseKey(
-			userId, licenseKeyId, productPurchaseKey, startDate,
+			userName, userUuid, licenseKeyId, productPurchaseKey, startDate,
 			expirationDate);
 	}
 
@@ -487,12 +488,12 @@ public class LicenseKeyLocalServiceWrapper
 	@Override
 	public com.liferay.osb.provisioning.license.model.LicenseKey
 			replaceLicenseKey(
-				long userId, long licenseKeyId, java.util.Date startDate,
-				java.util.Date expirationDate)
+				String userName, String userUuid, long licenseKeyId,
+				java.util.Date startDate, java.util.Date expirationDate)
 		throws Exception {
 
 		return _licenseKeyLocalService.replaceLicenseKey(
-			userId, licenseKeyId, startDate, expirationDate);
+			userName, userUuid, licenseKeyId, startDate, expirationDate);
 	}
 
 	@Override
@@ -628,22 +629,26 @@ public class LicenseKeyLocalServiceWrapper
 
 	@Override
 	public com.liferay.osb.provisioning.license.model.LicenseKey
-			updateLicenseKey(long userId, long licenseKeyId, boolean active)
+			updateLicenseKey(
+				String userName, String userUuid, long licenseKeyId,
+				boolean active)
 		throws Exception {
 
 		return _licenseKeyLocalService.updateLicenseKey(
-			userId, licenseKeyId, active);
+			userName, userUuid, licenseKeyId, active);
 	}
 
 	@Override
 	public com.liferay.osb.provisioning.license.model.LicenseKey
 			updateLicenseKey(
-				long userId, long licenseKeyId, String productPurchaseKey,
-				boolean complimentary, boolean active)
+				String userName, String userUuid, long licenseKeyId,
+				String productPurchaseKey, boolean complimentary,
+				boolean active)
 		throws Exception {
 
 		return _licenseKeyLocalService.updateLicenseKey(
-			userId, licenseKeyId, productPurchaseKey, complimentary, active);
+			userName, userUuid, licenseKeyId, productPurchaseKey, complimentary,
+			active);
 	}
 
 	@Override

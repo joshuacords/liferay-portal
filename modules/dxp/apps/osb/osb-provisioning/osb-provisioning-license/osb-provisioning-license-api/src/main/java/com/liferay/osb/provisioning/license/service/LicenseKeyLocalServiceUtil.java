@@ -265,12 +265,13 @@ public class LicenseKeyLocalServiceUtil {
 	}
 
 	public static LicenseKey extendLicenseKey(
-			long userId, long licenseKeyId, String productPurchaseKey,
-			java.util.Date startDate, java.util.Date expirationDate)
+			String userName, String userUuid, long licenseKeyId,
+			String productPurchaseKey, java.util.Date startDate,
+			java.util.Date expirationDate)
 		throws Exception {
 
 		return getService().extendLicenseKey(
-			userId, licenseKeyId, productPurchaseKey, startDate,
+			userName, userUuid, licenseKeyId, productPurchaseKey, startDate,
 			expirationDate);
 	}
 
@@ -430,12 +431,12 @@ public class LicenseKeyLocalServiceUtil {
 	}
 
 	public static LicenseKey replaceLicenseKey(
-			long userId, long licenseKeyId, java.util.Date startDate,
-			java.util.Date expirationDate)
+			String userName, String userUuid, long licenseKeyId,
+			java.util.Date startDate, java.util.Date expirationDate)
 		throws Exception {
 
 		return getService().replaceLicenseKey(
-			userId, licenseKeyId, startDate, expirationDate);
+			userName, userUuid, licenseKeyId, startDate, expirationDate);
 	}
 
 	public static com.liferay.portal.kernel.search.Hits search(
@@ -558,19 +559,21 @@ public class LicenseKeyLocalServiceUtil {
 	}
 
 	public static LicenseKey updateLicenseKey(
-			long userId, long licenseKeyId, boolean active)
-		throws Exception {
-
-		return getService().updateLicenseKey(userId, licenseKeyId, active);
-	}
-
-	public static LicenseKey updateLicenseKey(
-			long userId, long licenseKeyId, String productPurchaseKey,
-			boolean complimentary, boolean active)
+			String userName, String userUuid, long licenseKeyId, boolean active)
 		throws Exception {
 
 		return getService().updateLicenseKey(
-			userId, licenseKeyId, productPurchaseKey, complimentary, active);
+			userName, userUuid, licenseKeyId, active);
+	}
+
+	public static LicenseKey updateLicenseKey(
+			String userName, String userUuid, long licenseKeyId,
+			String productPurchaseKey, boolean complimentary, boolean active)
+		throws Exception {
+
+		return getService().updateLicenseKey(
+			userName, userUuid, licenseKeyId, productPurchaseKey, complimentary,
+			active);
 	}
 
 	public static LicenseKeyLocalService getService() {

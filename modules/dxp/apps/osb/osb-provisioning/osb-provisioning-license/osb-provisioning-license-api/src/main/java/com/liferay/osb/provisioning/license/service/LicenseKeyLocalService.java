@@ -235,8 +235,8 @@ public interface LicenseKeyLocalService
 		DynamicQuery dynamicQuery, Projection projection);
 
 	public LicenseKey extendLicenseKey(
-			long userId, long licenseKeyId, String productPurchaseKey,
-			Date startDate, Date expirationDate)
+			String userName, String userUuid, long licenseKeyId,
+			String productPurchaseKey, Date startDate, Date expirationDate)
 		throws Exception;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -352,7 +352,8 @@ public interface LicenseKeyLocalService
 	public LicenseKey reindex(long licenseKeyId) throws PortalException;
 
 	public LicenseKey replaceLicenseKey(
-			long userId, long licenseKeyId, Date startDate, Date expirationDate)
+			String userName, String userUuid, long licenseKeyId, Date startDate,
+			Date expirationDate)
 		throws Exception;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -429,12 +430,12 @@ public interface LicenseKeyLocalService
 	public LicenseKey updateLicenseKey(LicenseKey licenseKey);
 
 	public LicenseKey updateLicenseKey(
-			long userId, long licenseKeyId, boolean active)
+			String userName, String userUuid, long licenseKeyId, boolean active)
 		throws Exception;
 
 	public LicenseKey updateLicenseKey(
-			long userId, long licenseKeyId, String productPurchaseKey,
-			boolean complimentary, boolean active)
+			String userName, String userUuid, long licenseKeyId,
+			String productPurchaseKey, boolean complimentary, boolean active)
 		throws Exception;
 
 }
