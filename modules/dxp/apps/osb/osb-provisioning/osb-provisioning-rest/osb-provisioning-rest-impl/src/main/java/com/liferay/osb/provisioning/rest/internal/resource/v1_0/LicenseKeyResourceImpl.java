@@ -597,10 +597,15 @@ public class LicenseKeyResourceImpl
 
 		List<LicenseKey> curLicenseKeys = new ArrayList<>();
 
+		Contact contact = ProvisioningContactThreadLocal.getContact();
+
 		for (LicenseKey licenseKey : licenseKeys) {
 			com.liferay.osb.provisioning.license.model.LicenseKey
 				curLicenseKey = _licenseKeyLocalService.extendLicenseKey(
-					contextUser.getUserId(), licenseKey.getId(),
+					StringBundler.concat(
+						contact.getFirstName(), StringPool.SPACE,
+						contact.getLastName()),
+					contact.getUuid(), licenseKey.getId(),
 					licenseKey.getProductPurchaseKey(),
 					licenseKey.getStartDate(), licenseKey.getExpirationDate());
 
@@ -619,12 +624,17 @@ public class LicenseKeyResourceImpl
 			_checkAccountAdminContactRole(licenseKey.getAccountKey());
 		}
 
+		Contact contact = ProvisioningContactThreadLocal.getContact();
+
 		for (long licenseKeyId : licenseKeyIds) {
 			com.liferay.osb.provisioning.license.model.LicenseKey licenseKey =
 				_licenseKeyLocalService.getLicenseKey(licenseKeyId);
 
 			_licenseKeyLocalService.updateLicenseKey(
-				contextUser.getUserId(), licenseKeyId,
+				StringBundler.concat(
+					contact.getFirstName(), StringPool.SPACE,
+					contact.getLastName()),
+				contact.getUuid(), licenseKeyId,
 				licenseKey.getProductPurchaseKey(),
 				licenseKey.getComplimentary(), true);
 		}
@@ -639,12 +649,17 @@ public class LicenseKeyResourceImpl
 			_checkAccountAdminContactRole(licenseKey.getAccountKey());
 		}
 
+		Contact contact = ProvisioningContactThreadLocal.getContact();
+
 		for (long licenseKeyId : licenseKeyIds) {
 			com.liferay.osb.provisioning.license.model.LicenseKey licenseKey =
 				_licenseKeyLocalService.getLicenseKey(licenseKeyId);
 
 			_licenseKeyLocalService.updateLicenseKey(
-				contextUser.getUserId(), licenseKeyId,
+				StringBundler.concat(
+					contact.getFirstName(), StringPool.SPACE,
+					contact.getLastName()),
+				contact.getUuid(), licenseKeyId,
 				licenseKey.getProductPurchaseKey(),
 				licenseKey.getComplimentary(), false);
 		}

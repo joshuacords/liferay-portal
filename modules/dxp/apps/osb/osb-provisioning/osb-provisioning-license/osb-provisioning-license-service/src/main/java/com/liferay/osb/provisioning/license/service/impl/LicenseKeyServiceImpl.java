@@ -28,6 +28,7 @@ import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.StringPool;
 
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -97,9 +98,11 @@ public class LicenseKeyServiceImpl extends LicenseKeyServiceBaseImpl {
 		_licenseKeyPermission.check(
 			getPermissionChecker(), ProvisioningActionKeys.MANAGE_LICENSE_KEYS);
 
+		User user = getUser();
+
 		return licenseKeyLocalService.extendLicenseKey(
-			getUserId(), licenseKeyId, productPurchaseKey, startDate,
-			expirationDate);
+			user.getFullName(), user.getUuid(), licenseKeyId,
+			productPurchaseKey, startDate, expirationDate);
 	}
 
 	@JSONWebService
@@ -204,8 +207,11 @@ public class LicenseKeyServiceImpl extends LicenseKeyServiceBaseImpl {
 		_licenseKeyPermission.check(
 			getPermissionChecker(), ProvisioningActionKeys.MANAGE_LICENSE_KEYS);
 
+		User user = getUser();
+
 		return licenseKeyLocalService.replaceLicenseKey(
-			getUserId(), licenseKeyId, startDate, expirationDate);
+			user.getFullName(), user.getUserUuid(), licenseKeyId, startDate,
+			expirationDate);
 	}
 
 	@JSONWebService
@@ -219,8 +225,8 @@ public class LicenseKeyServiceImpl extends LicenseKeyServiceBaseImpl {
 			uuid);
 
 		return licenseKeyLocalService.replaceLicenseKey(
-			getUserId(), licenseKey.getLicenseKeyId(), startDate,
-			expirationDate);
+			licenseKey.getUserName(), licenseKey.getUserUuid(),
+			licenseKey.getLicenseKeyId(), startDate, expirationDate);
 	}
 
 	public Hits search(
@@ -310,9 +316,11 @@ public class LicenseKeyServiceImpl extends LicenseKeyServiceBaseImpl {
 		_licenseKeyPermission.check(
 			getPermissionChecker(), ProvisioningActionKeys.MANAGE_LICENSE_KEYS);
 
+		User user = getUser();
+
 		return licenseKeyLocalService.updateLicenseKey(
-			getUserId(), licenseKeyId, productPurchaseKey, complimentary,
-			active);
+			user.getFullName(), user.getUuid(), licenseKeyId,
+			productPurchaseKey, complimentary, active);
 	}
 
 	@JSONWebService
@@ -321,15 +329,11 @@ public class LicenseKeyServiceImpl extends LicenseKeyServiceBaseImpl {
 
 		validateJSONWebServicePermissions();
 
-		long companyId = _portalInstancesLocalService.getDefaultCompanyId();
-
-		User user = userLocalService.getDefaultUser(companyId);
-
 		LicenseKey licenseKey = licenseKeyLocalService.getLicenseKeyByUuid(
 			uuid);
 
 		licenseKeyLocalService.updateLicenseKey(
-			user.getUserId(), licenseKey.getLicenseKeyId(), active);
+			StringPool.BLANK, userUuid, licenseKey.getLicenseKeyId(), active);
 	}
 
 	@JSONWebService
@@ -344,7 +348,9 @@ public class LicenseKeyServiceImpl extends LicenseKeyServiceBaseImpl {
 
 		for (LicenseKey licenseKey : licenseKeys) {
 			licenseKeyLocalService.updateLicenseKey(
-				getUserId(), licenseKey.getLicenseKeyId(), active);
+				licenseKey.getModifiedUserName(),
+				licenseKey.getModifiedUserUuid(), licenseKey.getLicenseKeyId(),
+				active);
 		}
 	}
 

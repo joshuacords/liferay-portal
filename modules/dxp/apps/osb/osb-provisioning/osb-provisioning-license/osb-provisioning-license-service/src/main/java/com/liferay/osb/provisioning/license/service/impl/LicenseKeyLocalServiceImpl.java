@@ -53,7 +53,6 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.BooleanClause;
 import com.liferay.portal.kernel.search.BooleanClauseFactoryUtil;
 import com.liferay.portal.kernel.search.BooleanClauseOccur;
@@ -292,11 +291,9 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 	}
 
 	public LicenseKey extendLicenseKey(
-			long userId, long licenseKeyId, String productPurchaseKey,
-			Date startDate, Date expirationDate)
+			String userName, String userUuid, long licenseKeyId,
+			String productPurchaseKey, Date startDate, Date expirationDate)
 		throws Exception {
-
-		User user = userLocalService.getUser(userId);
 
 		LicenseKey licenseKey = licenseKeyPersistence.findByPrimaryKey(
 			licenseKeyId);
@@ -306,16 +303,15 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 		LicenseEntry licenseEntry = licenseKey.getLicenseEntry();
 
 		return doAddLicenseKeyVersion3_4(
-			new Date(), user.getFullName(), user.getUserUuid(),
-			licenseKey.getLicenseEntry(), product, licenseKey.getAccountKey(),
-			productPurchaseKey, licenseKey.getAccountName(),
-			licenseEntry.getType(), licenseKey.getLicenseVersion(),
-			licenseKey.getProductVersion(), licenseKey.getClusterId(),
-			licenseKey.getName(), licenseKey.getOwner(),
-			licenseKey.getMaxClusterNodes(), licenseKey.getMaxServers(),
-			licenseKey.getMaxHttpSessions(), licenseKey.getMaxConcurrentUsers(),
-			licenseKey.getMaxUsers(), licenseKey.getSizing(),
-			licenseKey.getDescription(),
+			new Date(), userName, userUuid, licenseKey.getLicenseEntry(),
+			product, licenseKey.getAccountKey(), productPurchaseKey,
+			licenseKey.getAccountName(), licenseEntry.getType(),
+			licenseKey.getLicenseVersion(), licenseKey.getProductVersion(),
+			licenseKey.getClusterId(), licenseKey.getName(),
+			licenseKey.getOwner(), licenseKey.getMaxClusterNodes(),
+			licenseKey.getMaxServers(), licenseKey.getMaxHttpSessions(),
+			licenseKey.getMaxConcurrentUsers(), licenseKey.getMaxUsers(),
+			licenseKey.getSizing(), licenseKey.getDescription(),
 			new String[] {licenseKey.getHostName()},
 			new String[] {licenseKey.getIpAddresses()},
 			new String[] {licenseKey.getMacAddresses()},
@@ -374,10 +370,9 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 	}
 
 	public LicenseKey replaceLicenseKey(
-			long userId, long licenseKeyId, Date startDate, Date expirationDate)
+			String userName, String userUuid, long licenseKeyId, Date startDate,
+			Date expirationDate)
 		throws Exception {
-
-		User user = userLocalService.getUser(userId);
 
 		LicenseKey licenseKey = licenseKeyPersistence.findByPrimaryKey(
 			licenseKeyId);
@@ -387,10 +382,10 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 				throw new LicenseKeyActiveException();
 			}
 
-			updateLicenseKey(userId, licenseKeyId, false);
+			updateLicenseKey(userName, userUuid, licenseKeyId, false);
 
 			return addLicenseKey(
-				user.getUuid(), licenseKey.getAssetReceiptLicenseUuid(),
+				userUuid, licenseKey.getAssetReceiptLicenseUuid(),
 				licenseKey.getLicenseEntryType(), licenseKey.getProductName(),
 				licenseKey.getProductId(), licenseKey.getProductVersion(),
 				licenseKey.getOwner(), licenseKey.getMaxUsers(),
@@ -400,16 +395,17 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 		}
 
 		updateLicenseKey(
-			userId, licenseKeyId, licenseKey.getProductPurchaseKey(),
-			licenseKey.isComplimentary(), false);
+			userName, userUuid, licenseKeyId,
+			licenseKey.getProductPurchaseKey(), licenseKey.isComplimentary(),
+			false);
 
 		Product product = _productWebService.getProduct(
 			licenseKey.getProductKey());
 		LicenseEntry licenseEntry = licenseKey.getLicenseEntry();
 
 		return doAddLicenseKeyVersion3_4(
-			new Date(), user.getFullName(), user.getUserUuid(),
-			licenseKey.getLicenseEntry(), product, licenseKey.getAccountKey(),
+			new Date(), userName, userUuid, licenseKey.getLicenseEntry(),
+			product, licenseKey.getAccountKey(),
 			licenseKey.getProductPurchaseKey(), licenseKey.getAccountName(),
 			licenseEntry.getType(), licenseKey.getLicenseVersion(),
 			licenseKey.getProductVersion(), licenseKey.getClusterId(),
@@ -578,27 +574,23 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 	}
 
 	public LicenseKey updateLicenseKey(
-			long userId, long licenseKeyId, boolean active)
+			String userName, String userUuid, long licenseKeyId, boolean active)
 		throws Exception {
-
-		User user = userLocalService.getUser(userId);
 
 		LicenseKey licenseKey = licenseKeyPersistence.findByPrimaryKey(
 			licenseKeyId);
 
 		if (active && !licenseKey.isActive()) {
 			if (!licenseKey.isComplimentary()) {
-				_addProductConsumption(
-					user.getFullName(), user.getUserUuid(), licenseKey);
+				_addProductConsumption(userName, userUuid, licenseKey);
 			}
 		}
 		else if (!active && licenseKey.isActive()) {
-			_deleteProductConsumption(
-				user.getFullName(), user.getUserUuid(), licenseKey);
+			_deleteProductConsumption(userName, userUuid, licenseKey);
 		}
 
-		licenseKey.setModifiedUserUuid(user.getUuid());
-		licenseKey.setModifiedUserName(user.getFullName());
+		licenseKey.setModifiedUserUuid(userUuid);
+		licenseKey.setModifiedUserName(userName);
 		licenseKey.setModifiedDate(new Date());
 		licenseKey.setActive(active);
 
@@ -606,8 +598,8 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 	}
 
 	public LicenseKey updateLicenseKey(
-			long userId, long licenseKeyId, String productPurchaseKey,
-			boolean complimentary, boolean active)
+			String userName, String userUuid, long licenseKeyId,
+			String productPurchaseKey, boolean complimentary, boolean active)
 		throws Exception {
 
 		LicenseKey licenseKey = licenseKeyPersistence.findByPrimaryKey(
@@ -620,7 +612,7 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 
 		doUpdateLicenseKeyVersion3(
 			new Date(), licenseKey, productPurchaseKey, clusterLicenseKeys,
-			userId, complimentary, active);
+			userName, userUuid, complimentary, active);
 
 		return licenseKey;
 	}
@@ -1014,11 +1006,9 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 
 	protected void doUpdateLicenseKeyVersion3(
 			Date now, LicenseKey licenseKey, String productPurchaseKey,
-			List<LicenseKey> clusterLicenseKeys, long userId,
-			boolean complimentary, boolean active)
+			List<LicenseKey> clusterLicenseKeys, String userName,
+			String userUuid, boolean complimentary, boolean active)
 		throws Exception {
-
-		User user = userLocalService.getUser(userId);
 
 		long clusterId = licenseKey.getClusterId();
 
@@ -1057,8 +1047,8 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 				clusterLicenseKey.setActive(active);
 			}
 
-			clusterLicenseKey.setModifiedUserUuid(user.getUserUuid());
-			clusterLicenseKey.setModifiedUserName(user.getFullName());
+			clusterLicenseKey.setModifiedUserUuid(userUuid);
+			clusterLicenseKey.setModifiedUserName(userName);
 			clusterLicenseKey.setModifiedDate(now);
 			clusterLicenseKey.setProductPurchaseKey(productPurchaseKey);
 			clusterLicenseKey.setClusterId(clusterId);
@@ -1068,27 +1058,23 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 
 			if (updateProductPurchaseKey) {
 				_deleteProductConsumption(
-					user.getFullName(), user.getUserUuid(), clusterLicenseKey);
+					userName, userUuid, clusterLicenseKey);
 
 				if (active && !complimentary) {
 					_addProductConsumption(
-						user.getFullName(), user.getUserUuid(),
-						clusterLicenseKey);
+						userName, userUuid, clusterLicenseKey);
 				}
 			}
 			else if (active) {
 				if (!complimentary && (updateComplimentary || updateActive)) {
-					_addProductConsumption(
-						user.getFullName(), user.getUserUuid(), licenseKey);
+					_addProductConsumption(userName, userUuid, licenseKey);
 				}
 				else if (complimentary && updateComplimentary) {
-					_deleteProductConsumption(
-						user.getFullName(), user.getUserUuid(), licenseKey);
+					_deleteProductConsumption(userName, userUuid, licenseKey);
 				}
 			}
 			else if (updateActive) {
-				_deleteProductConsumption(
-					user.getFullName(), user.getUserUuid(), licenseKey);
+				_deleteProductConsumption(userName, userUuid, licenseKey);
 			}
 		}
 	}
