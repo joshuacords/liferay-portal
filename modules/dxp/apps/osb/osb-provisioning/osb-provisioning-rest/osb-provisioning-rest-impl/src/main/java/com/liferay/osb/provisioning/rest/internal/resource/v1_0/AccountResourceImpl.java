@@ -70,6 +70,7 @@ public class AccountResourceImpl extends BaseAccountResourceImpl {
 		throws Exception {
 
 		_checkAccountAdminContactRole(accountKey);
+		_validate(accountKey, contactEmailAddress, contactRoleNames);
 
 		String[] contactRoleKeys = new String[contactRoleNames.length];
 
@@ -78,15 +79,6 @@ public class AccountResourceImpl extends BaseAccountResourceImpl {
 
 			ContactRole contactRole = _contactRoleWebService.getContactRole(
 				ContactRole.Type.ACCOUNT_CUSTOMER.toString(), contactRoleName);
-
-			if (contactRoleName.equals(
-					ContactRoleConstants.NAME_PARTNER_MANAGER) ||
-				contactRoleName.equals(
-					ContactRoleConstants.NAME_SUPPORT_ADMINISTRATOR)) {
-
-				_contactRoleValidator.validateAdminContactRoleUnassignment(
-					accountKey, contactEmailAddress);
-			}
 
 			contactRoleKeys[i] = contactRole.getKey();
 		}
@@ -300,6 +292,58 @@ public class AccountResourceImpl extends BaseAccountResourceImpl {
 		}
 
 		return false;
+	}
+
+	private void _validate(
+			String accountKey, String emailAddress, String[] contactRoleNames)
+		throws Exception {
+
+		if (!ArrayUtil.contains(
+				contactRoleNames, ContactRoleConstants.NAME_PARTNER_MANAGER) &&
+			!ArrayUtil.contains(
+				contactRoleNames,
+				ContactRoleConstants.NAME_SUPPORT_ADMINISTRATOR)) {
+
+			return;
+		}
+
+		boolean hasPartnerManager = false;
+		boolean hasSupportAdministrator = false;
+
+		List<ContactRole> curContactRoles =
+			_contactRoleWebService.getAccountCustomerContactRoles(
+				accountKey, emailAddress, 1, 1000);
+
+		for (ContactRole curContactRole : curContactRoles) {
+			String name = curContactRole.getName();
+
+			if (name.equals(ContactRoleConstants.NAME_PARTNER_MANAGER)) {
+				hasPartnerManager = true;
+			}
+			else if (name.equals(
+						ContactRoleConstants.NAME_SUPPORT_ADMINISTRATOR)) {
+
+				hasSupportAdministrator = true;
+			}
+		}
+
+		if ((ArrayUtil.contains(
+				contactRoleNames, ContactRoleConstants.NAME_PARTNER_MANAGER) &&
+			 ArrayUtil.contains(
+				 contactRoleNames,
+				 ContactRoleConstants.NAME_SUPPORT_ADMINISTRATOR) &&
+			 hasPartnerManager && hasSupportAdministrator) ||
+			(ArrayUtil.contains(
+				contactRoleNames, ContactRoleConstants.NAME_PARTNER_MANAGER) &&
+			 !hasSupportAdministrator) ||
+			(ArrayUtil.contains(
+				contactRoleNames,
+				ContactRoleConstants.NAME_SUPPORT_ADMINISTRATOR) &&
+			 !hasPartnerManager)) {
+
+			_contactRoleValidator.validateAdminContactRoleUnassignment(
+				accountKey, emailAddress);
+		}
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
