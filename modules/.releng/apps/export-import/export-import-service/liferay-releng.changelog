@@ -362,3 +362,8 @@ cf420f431c097fc4b39590eba2afbc402e8d0530^..689b3624b3d4c6219b31b78b147f7b6bf4b10
 # Bundle Version 6.0.76
 #
 f78cb8ee913f919aec036b9079ed57eeeb6c09e7^..5f9de58114b94c3a3df8255e71aa78dacadbc0ef=LPS-134119
+
+#
+# Bundle Version 6.0.77
+#
+5f9de58114b94c3a3df8255e71aa78dacadbc0ef^..fb93e99833ca8b7cbca4db9e3aeeada35b03a716=LPS-126914 LPS-127615
