@@ -307,6 +307,11 @@
 	<td>//head/title[contains(.,'${key_videoGenerationThumbnailResolution}')]</td>
 	<td></td>
 </tr>
+<tr>
+	<td>VIDEO_PREVIEW</td>
+	<td>//video[contains(@poster,'${key_videoName}')]</td>
+	<td></td>
+</tr>
 </tbody>
 </table>
 </body>

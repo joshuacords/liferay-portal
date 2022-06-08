@@ -453,6 +453,22 @@
 	<td>//div[(@class = 'card d-flex')]/h4[contains(.,'Images')]//..//button[contains(@class,'btn-primary')]</td>
 	<td></td>
 </tr>
+<!--CHANNELS-->
+<tr>
+	<td>SEARCH_TABLES_CHANNELS</td>
+	<td>//h4[contains(text(),'${key_nameTableChannels}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ASSERT_COLUMN_STATUS_TAX_CALCULATIONS</td>
+	<td>//a[contains(text(),'${key_nameColumn}')]/../../..//span[contains(text(),'')]//span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SELECT_ASSERT_SELECTED_VALUE</td>
+	<td>//label[contains(.,'${key_fieldLabel}')]/../select/option[@selected and contains(.,'${key_value}')]</td>
+	<td></td>
+</tr>
 <!--PRODUCT-->
 <tr>
 	<td>CREATE_NEW_PRODUCT_CATALOG_FIELD</td>

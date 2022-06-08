@@ -331,6 +331,11 @@
 	<td></td>
 </tr>
 <tr>
+	<td>NO_PROPERTIES_AVAILABLE_TEXT</td>
+	<td>//span[contains(@class,'text-truncate') and text()='No Properties Available']</td>
+	<td></td>
+</tr>
+<tr>
 	<td>NUMBER</td>
 	<td>//div[label[contains(.,'Number')]]/input</td>
 	<td></td>
@@ -348,6 +353,11 @@
 <tr>
 	<td>PASSWORD_2</td>
 	<td>//input[contains(@id,'password2')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PASSWORD_CONFIRM</td>
+	<td>//div[label[contains(.,'Your Password')]]/input[not(contains(@type,'hidden')) and not(contains(@class,'hide'))]</td>
 	<td></td>
 </tr>
 <tr>

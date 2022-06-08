@@ -46,6 +46,11 @@
 	<td></td>
 </tr>
 <tr>
+	<td>APPLICATIONS_RATING</td>
+	<td>//select[contains(@id,'${key_applications}')]</td>
+	<td></td>
+</tr>
+<tr>
 	<td>COUNTRY</td>
 	<td>//div[label[contains(.,'Country')]]/select</td>
 	<td></td>
@@ -163,6 +168,11 @@
 <tr>
 	<td>SELECT_ID</td>
 	<td>//select[contains(@id,'${selectFieldId}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SELECT</td>
+	<td>//select</td>
 	<td></td>
 </tr>
 <tr>

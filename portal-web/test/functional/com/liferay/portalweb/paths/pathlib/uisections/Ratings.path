@@ -54,6 +54,11 @@
 	<td></td>
 </tr>
 <tr>
+	<td>REPLY_RATING_THUMB</td>
+	<td>//h4[contains(@title,'RE: ${key_threadSubject}')]//following-sibling::div//button[contains(@title,'${key_ratingResult}') or contains(@data-title,'${key_ratingResult}')]</td>
+	<td></td>
+</tr>
+<tr>
 	<td></td>
 	<td></td>
 	<td></td>
@@ -92,6 +97,21 @@
 	<td></td>
 </tr>
 <tr>
+	<td>YOUR_RATING_STAR_COUNT</td>
+	<td>//div[contains(@class,'ratings-stars-dropdown')]//button[contains(.,'Rate this ${key_ratingStarCount} stars out of 5')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>YOUR_RATING_STAR_DELETE</td>
+	<td>//div[contains(@class,'ratings-stars')]//button[@class='dropdown-item' and contains(.,'Delete')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>YOUR_RATING_STAR_DELETE_DISABLE</td>
+	<td>//div[contains(@class,'ratings-stars')]//button[contains(@class,'dropdown-item disabled') and contains(.,'Delete')]</td>
+	<td></td>
+</tr>
+<tr>
 	<td>YOUR_RATING_STAR_EMPTY_1</td>
 	<td>xPath=(//div[contains(@id,'_ratingStar')]//a[@class='btn btn-unstyled rating-element icon-star-off'])[1]</td>
 	<td></td>
@@ -124,6 +144,16 @@
 <tr>
 	<td>YOUR_RATING_STAR_EMPTY</td>
 	<td>xPath=(//div[contains(@id,'_ratingStar')]//a[@class='btn btn-unstyled rating-element icon-star-off'])[${key_emptyStarPosition}]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>YOUR_RATING_STAR_RESULT</td>
+	<td>//div[contains(@class,'ratings-stars')]//button[contains(@title,'You have rated this ${key_ratingStarCount} stars out of 5') or contains(@data-title,'You have rated this ${key_ratingStarCount} stars out of 5')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>YOUR_RATING_STACKED_STAR_RESULT</td>
+	<td>//div[contains(@class,'stacked-stars')]//label[contains(@class,'ratings-stars-star-full') and contains(@for,'star${key_ratingStarCount}')]</td>
 	<td></td>
 </tr>
 <tr>

@@ -72,6 +72,11 @@
 	<td></td>
 </tr>
 <tr>
+	<td>WEB_CONTENT_CONTENT_ANY</td>
+	<td>//div[contains(@class,'journal-content-article')]${key_content}</td>
+	<td></td>
+</tr>
+<tr>
 	<td>WEB_CONTENT_LINK</td>
 	<td>//div[contains(@class,'journal-content-article')]//p/a</td>
 	<td></td>
