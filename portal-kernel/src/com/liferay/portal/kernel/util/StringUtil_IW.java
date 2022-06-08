@@ -360,15 +360,15 @@ public class StringUtil_IW {
 		return StringUtil.read(classLoader, name, all);
 	}
 
-	public java.lang.String read(java.io.InputStream inputStream)
+	public java.lang.String read(java.io.InputStream is)
 		throws java.io.IOException {
-		return StringUtil.read(inputStream);
+		return StringUtil.read(is);
 	}
 
-	public void readLines(java.io.InputStream inputStream,
+	public void readLines(java.io.InputStream is,
 		java.util.Collection<java.lang.String> lines)
 		throws java.io.IOException {
-		StringUtil.readLines(inputStream, lines);
+		StringUtil.readLines(is, lines);
 	}
 
 	public java.lang.String removeChar(java.lang.String s, char oldSub) {
@@ -655,8 +655,8 @@ public class StringUtil_IW {
 		return StringUtil.toHexString(l);
 	}
 
-	public java.lang.String toHexString(java.lang.Object object) {
-		return StringUtil.toHexString(object);
+	public java.lang.String toHexString(java.lang.Object obj) {
+		return StringUtil.toHexString(obj);
 	}
 
 	public java.lang.String toLowerCase(java.lang.String s) {

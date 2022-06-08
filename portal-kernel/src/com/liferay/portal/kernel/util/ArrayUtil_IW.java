@@ -412,6 +412,11 @@ public class ArrayUtil_IW {
 		return ArrayUtil.isNotEmpty(array);
 	}
 
+	public <T> void isNotEmptyForEach(T[] array,
+		java.util.function.Consumer<T> consumer) {
+		ArrayUtil.isNotEmptyForEach(array, consumer);
+	}
+
 	public boolean[] remove(boolean[] array, boolean value) {
 		return ArrayUtil.remove(array, value);
 	}
