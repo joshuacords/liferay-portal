@@ -146,30 +146,16 @@ public class TransformProductPurchases {
 			orderItemJSONObject.put(
 				"skuExternalReferenceCode", productJSONObject.get("key"));
 
-			JSONArray optionsJSONArray = new JSONArray();
+			JSONObject optionsJSONObject = new JSONObject();
 
-			JSONObject optionJSONObject = new JSONObject();
+			optionsJSONObject.put("endDate", originalEndDate);
+			optionsJSONObject.put("instanceSize", instanceSize);
+			optionsJSONObject.put("startDate", startDate);
 
-			optionJSONObject.put("endDate", originalEndDate);
-
-			optionsJSONArray.put(optionJSONObject);
-
-			JSONObject optionJSONObject2 = new JSONObject();
-
-			optionJSONObject2.put("instanceSize", instanceSize);
-
-			optionsJSONArray.put(optionJSONObject2);
-
-			JSONObject optionJSONObject3 = new JSONObject();
-
-			optionJSONObject3.put("startDate", startDate);
-
-			optionsJSONArray.put(optionJSONObject3);
-
-			// Extra space so Liferay component won't interpret it as a JSONArray
+			// Extra space so Liferay component won't interpret it as a JSONObject
 
 			orderItemJSONObject.put(
-				"options", optionsJSONArray.toString() + " ");
+				"options", optionsJSONObject.toString() + " ");
 
 			orderItemJSONObject.put("quantity", quantity);
 

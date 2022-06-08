@@ -1,0 +1,47 @@
+package routines;
+
+import routines.system.JSONArray;
+import routines.system.JSONObject;
+
+/**
+ * @author Amos Fong
+ */
+public class CleanCommerceUtil {
+
+	public static String getCommerceOrderERC(
+		JSONArray commerceOrdersJSONArray, String externalReferenceCode) {
+
+		for (int i = 0; i < commerceOrdersJSONArray.length(); i++) {
+			JSONObject commerceOrderJSONObject =
+				commerceOrdersJSONArray.getJSONObject(i);
+
+			if (externalReferenceCode.equals(
+					commerceOrderJSONObject.getString(
+						"externalReferenceCode"))) {
+
+				return "";
+			}
+		}
+
+		return externalReferenceCode;
+	}
+
+	public static String getCommerceOrderItemERC(
+		JSONArray commerceOrderItemsJSONArray, String externalReferenceCode) {
+
+		for (int i = 0; i < commerceOrderItemsJSONArray.length(); i++) {
+			JSONObject commerceOrderItemJSONObject =
+				commerceOrderItemsJSONArray.getJSONObject(i);
+
+			if (externalReferenceCode.equals(
+					commerceOrderItemJSONObject.getString(
+						"externalReferenceCode"))) {
+
+				return "";
+			}
+		}
+
+		return externalReferenceCode;
+	}
+
+}
