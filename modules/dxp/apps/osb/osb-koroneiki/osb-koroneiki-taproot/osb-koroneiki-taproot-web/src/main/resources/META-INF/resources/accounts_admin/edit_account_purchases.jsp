@@ -28,6 +28,7 @@ renderResponse.setTitle(koroneikiAccount.getName());
 	<liferay-ui:search-container
 		emptyResultsMessage="no-purchases-were-found"
 		headerNames="name,type"
+		iteratorURL="<%= currentURLObj %>"
 		total="<%= ProductPurchaseLocalServiceUtil.getAccountProductPurchasesCount(koroneikiAccount.getAccountId()) %>"
 	>
 		<liferay-ui:search-container-results

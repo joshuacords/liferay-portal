@@ -44,6 +44,7 @@ renderResponse.setTitle(koroneikiAccount.getName());
 	<liferay-ui:search-container
 		emptyResultsMessage="no-teams-were-found"
 		headerNames="name,role"
+		iteratorURL="<%= currentURLObj %>"
 		total="<%= TeamLocalServiceUtil.getAccountAssignedTeamsCount(koroneikiAccount.getAccountId()) %>"
 	>
 		<liferay-ui:search-container-results

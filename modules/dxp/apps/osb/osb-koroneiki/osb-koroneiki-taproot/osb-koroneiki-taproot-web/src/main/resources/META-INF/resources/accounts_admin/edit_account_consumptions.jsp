@@ -28,6 +28,7 @@ renderResponse.setTitle(koroneikiAccount.getName());
 	<liferay-ui:search-container
 		emptyResultsMessage="no-consumptions-were-found"
 		headerNames="name,type"
+		iteratorURL="<%= currentURLObj %>"
 		total="<%= ProductConsumptionLocalServiceUtil.getAccountProductConsumptionsCount(koroneikiAccount.getAccountId()) %>"
 	>
 		<liferay-ui:search-container-results

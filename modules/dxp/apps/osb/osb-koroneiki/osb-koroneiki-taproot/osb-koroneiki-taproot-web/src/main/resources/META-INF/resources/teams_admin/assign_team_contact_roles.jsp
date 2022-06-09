@@ -35,7 +35,7 @@ renderResponse.setTitle(team.getName());
 		<aui:input name="addContactRoleIds" type="hidden" />
 		<aui:input name="deleteContactRoleIds" type="hidden" />
 
-		<h2><liferay-ui:message arguments="<%= koroneikiContact.getFullName() %>" key="assign-contact-roles-for-x" /></h2>
+		<h2><liferay-ui:message arguments="<%= HtmlUtil.escape(koroneikiContact.getFullName()) %>" key="assign-contact-roles-for-x" /></h2>
 
 		<%
 		List<ContactRole> contactRoles = ContactRoleLocalServiceUtil.getContactTeamContactRoles(team.getTeamId(), koroneikiContact.getContactId(), new String[] {com.liferay.osb.koroneiki.phloem.rest.dto.v1_0.ContactRole.Type.TEAM.toString()}, QueryUtil.ALL_POS, QueryUtil.ALL_POS);
@@ -44,7 +44,7 @@ renderResponse.setTitle(team.getName());
 		<liferay-ui:search-container
 			emptyResultsMessage="no-contact-roles-were-found"
 			headerNames="name,description"
-			iteratorURL="<%= renderResponse.createRenderURL() %>"
+			iteratorURL="<%= currentURLObj %>"
 			total="<%= ContactRoleLocalServiceUtil.getContactRolesCount(com.liferay.osb.koroneiki.phloem.rest.dto.v1_0.ContactRole.Type.TEAM.toString()) %>"
 		>
 			<liferay-ui:search-container-results

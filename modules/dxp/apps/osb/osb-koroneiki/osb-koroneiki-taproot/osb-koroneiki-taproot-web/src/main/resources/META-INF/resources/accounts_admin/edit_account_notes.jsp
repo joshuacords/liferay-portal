@@ -44,6 +44,7 @@ renderResponse.setTitle(koroneikiAccount.getName());
 	<liferay-ui:search-container
 		emptyResultsMessage="no-notes-were-found"
 		headerNames="name,type"
+		iteratorURL="<%= currentURLObj %>"
 		total="<%= AccountNoteLocalServiceUtil.getAccountNotesCount(koroneikiAccount.getAccountId()) %>"
 	>
 		<liferay-ui:search-container-results

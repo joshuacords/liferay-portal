@@ -29,6 +29,7 @@ renderResponse.setTitle(koroneikiContact.getFullName());
 		<liferay-ui:search-container
 			emptyResultsMessage="no-accounts-were-found"
 			headerNames="name,code,description,roles"
+			iteratorURL="<%= currentURLObj %>"
 			total="<%= AccountLocalServiceUtil.getContactAccountsCount(koroneikiContact.getContactId()) %>"
 		>
 			<liferay-ui:search-container-results

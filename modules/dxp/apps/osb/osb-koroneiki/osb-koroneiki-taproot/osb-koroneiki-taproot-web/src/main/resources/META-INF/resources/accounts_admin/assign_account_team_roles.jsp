@@ -44,7 +44,7 @@ renderResponse.setTitle(koroneikiAccount.getName());
 		<liferay-ui:search-container
 			emptyResultsMessage="no-team-roles-were-found"
 			headerNames="name,description"
-			iteratorURL="<%= renderResponse.createRenderURL() %>"
+			iteratorURL="<%= currentURLObj %>"
 			total="<%= TeamRoleLocalServiceUtil.getTeamRolesCount(com.liferay.osb.koroneiki.phloem.rest.dto.v1_0.TeamRole.Type.ACCOUNT.toString()) %>"
 		>
 			<liferay-ui:search-container-results

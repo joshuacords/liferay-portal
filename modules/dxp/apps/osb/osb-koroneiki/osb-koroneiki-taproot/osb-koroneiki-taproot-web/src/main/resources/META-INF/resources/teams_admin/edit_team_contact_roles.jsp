@@ -46,6 +46,7 @@ renderResponse.setTitle(team.getName());
 	<liferay-ui:search-container
 		emptyResultsMessage="no-contacts-were-found"
 		headerNames="first-name,last-name,email-address"
+		iteratorURL="<%= currentURLObj %>"
 		total="<%= ContactLocalServiceUtil.getTeamContactsCount(team.getTeamId()) %>"
 	>
 		<liferay-ui:search-container-results
@@ -71,7 +72,7 @@ renderResponse.setTitle(team.getName());
 					<aui:icon cssClass="icon-monospaced" image="user" markupView="lexicon" />
 				</span>
 
-				<%= koroneikiContact.getFullName() %>
+				<%= HtmlUtil.escape(koroneikiContact.getFullName()) %>
 			</liferay-ui:search-container-column-text>
 
 			<liferay-ui:search-container-column-text

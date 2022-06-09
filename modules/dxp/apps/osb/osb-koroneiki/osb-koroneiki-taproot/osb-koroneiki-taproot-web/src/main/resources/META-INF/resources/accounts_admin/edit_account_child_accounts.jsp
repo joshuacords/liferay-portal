@@ -34,6 +34,7 @@ renderResponse.setTitle(koroneikiAccount.getName());
 		<liferay-ui:search-container
 			emptyResultsMessage="no-child-accounts-were-found"
 			headerNames="name,code,status"
+			iteratorURL="<%= currentURLObj %>"
 			total="<%= accounts.size() %>"
 		>
 			<liferay-ui:search-container-results
