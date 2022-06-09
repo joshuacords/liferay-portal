@@ -67,6 +67,12 @@ public interface WorkflowLogResource {
 			return new WorkflowLogResourceImpl(this);
 		}
 
+		public Builder contextPath(String contextPath) {
+			_contextPath = contextPath;
+
+			return this;
+		}
+
 		public Builder endpoint(String host, int port, String scheme) {
 			_host = host;
 			_port = port;
@@ -112,6 +118,7 @@ public interface WorkflowLogResource {
 		private Builder() {
 		}
 
+		private String _contextPath = "";
 		private Map<String, String> _headers = new LinkedHashMap<>();
 		private String _host = "localhost";
 		private Locale _locale;
@@ -193,7 +200,7 @@ public interface WorkflowLogResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/headless-admin-workflow/v1.0/workflow-logs/{workflowLogId}");
 
 			httpInvoker.path("workflowLogId", workflowLogId);
@@ -284,7 +291,7 @@ public interface WorkflowLogResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/headless-admin-workflow/v1.0/workflow-tasks/{workflowTaskId}/workflow-logs");
 
 			httpInvoker.path("workflowTaskId", workflowTaskId);

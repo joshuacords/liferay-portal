@@ -114,6 +114,12 @@ public interface PriceListChannelResource {
 			return new PriceListChannelResourceImpl(this);
 		}
 
+		public Builder contextPath(String contextPath) {
+			_contextPath = contextPath;
+
+			return this;
+		}
+
 		public Builder endpoint(String host, int port, String scheme) {
 			_host = host;
 			_port = port;
@@ -159,6 +165,7 @@ public interface PriceListChannelResource {
 		private Builder() {
 		}
 
+		private String _contextPath = "";
 		private Map<String, String> _headers = new LinkedHashMap<>();
 		private String _host = "localhost";
 		private Locale _locale;
@@ -241,7 +248,7 @@ public interface PriceListChannelResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/headless-commerce-admin-pricing/v2.0/price-list-channels/{id}");
 
 			httpInvoker.path("id", id);
@@ -320,7 +327,7 @@ public interface PriceListChannelResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/headless-commerce-admin-pricing/v2.0/price-list-channels/batch");
 
 			httpInvoker.path("id", id);
@@ -412,7 +419,7 @@ public interface PriceListChannelResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/headless-commerce-admin-pricing/v2.0/price-lists/by-externalReferenceCode/{externalReferenceCode}/price-list-channels");
 
 			httpInvoker.path("externalReferenceCode", externalReferenceCode);
@@ -501,7 +508,7 @@ public interface PriceListChannelResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/headless-commerce-admin-pricing/v2.0/price-lists/by-externalReferenceCode/{externalReferenceCode}/price-list-channels");
 
 			httpInvoker.path("externalReferenceCode", externalReferenceCode);
@@ -606,7 +613,7 @@ public interface PriceListChannelResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/headless-commerce-admin-pricing/v2.0/price-lists/{id}/price-list-channels");
 
 			httpInvoker.path("id", id);
@@ -692,7 +699,7 @@ public interface PriceListChannelResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/headless-commerce-admin-pricing/v2.0/price-lists/{id}/price-list-channels");
 
 			httpInvoker.path("id", id);
@@ -772,7 +779,7 @@ public interface PriceListChannelResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/headless-commerce-admin-pricing/v2.0/price-lists/price-list-channels/batch");
 
 			httpInvoker.path("id", id);

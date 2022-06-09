@@ -63,6 +63,12 @@ public interface ProductGroupResource {
 			return new ProductGroupResourceImpl(this);
 		}
 
+		public Builder contextPath(String contextPath) {
+			_contextPath = contextPath;
+
+			return this;
+		}
+
 		public Builder endpoint(String host, int port, String scheme) {
 			_host = host;
 			_port = port;
@@ -108,6 +114,7 @@ public interface ProductGroupResource {
 		private Builder() {
 		}
 
+		private String _contextPath = "";
 		private Map<String, String> _headers = new LinkedHashMap<>();
 		private String _host = "localhost";
 		private Locale _locale;
@@ -193,7 +200,7 @@ public interface ProductGroupResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/headless-commerce-admin-pricing/v2.0/discounts/{id}/product-group");
 
 			httpInvoker.path("id", id);
@@ -275,7 +282,7 @@ public interface ProductGroupResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/headless-commerce-admin-pricing/v2.0/price-modifiers/{id}/product-group");
 
 			httpInvoker.path("id", id);

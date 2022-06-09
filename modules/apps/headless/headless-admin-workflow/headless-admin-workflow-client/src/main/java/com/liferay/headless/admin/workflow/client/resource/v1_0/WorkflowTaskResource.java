@@ -122,6 +122,12 @@ public interface WorkflowTaskResource {
 			return new WorkflowTaskResourceImpl(this);
 		}
 
+		public Builder contextPath(String contextPath) {
+			_contextPath = contextPath;
+
+			return this;
+		}
+
 		public Builder endpoint(String host, int port, String scheme) {
 			_host = host;
 			_port = port;
@@ -167,6 +173,7 @@ public interface WorkflowTaskResource {
 		private Builder() {
 		}
 
+		private String _contextPath = "";
 		private Map<String, String> _headers = new LinkedHashMap<>();
 		private String _host = "localhost";
 		private Locale _locale;
@@ -259,7 +266,7 @@ public interface WorkflowTaskResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/headless-admin-workflow/v1.0/roles/{roleId}/workflow-tasks");
 
 			httpInvoker.path("roleId", roleId);
@@ -349,7 +356,7 @@ public interface WorkflowTaskResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/headless-admin-workflow/v1.0/workflow-tasks/assigned-to-me");
 
 			httpInvoker.userNameAndPassword(
@@ -437,7 +444,7 @@ public interface WorkflowTaskResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/headless-admin-workflow/v1.0/workflow-tasks/assigned-to-my-roles");
 
 			httpInvoker.userNameAndPassword(
@@ -516,7 +523,7 @@ public interface WorkflowTaskResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/headless-admin-workflow/v1.0/workflow-tasks/{workflowTaskId}");
 
 			httpInvoker.path("workflowTaskId", workflowTaskId);
@@ -604,7 +611,7 @@ public interface WorkflowTaskResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/headless-admin-workflow/v1.0/workflow-tasks/{workflowTaskId}/assign-to-me");
 
 			httpInvoker.path("workflowTaskId", workflowTaskId);
@@ -693,7 +700,7 @@ public interface WorkflowTaskResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/headless-admin-workflow/v1.0/workflow-tasks/{workflowTaskId}/assign-to-user");
 
 			httpInvoker.path("workflowTaskId", workflowTaskId);
@@ -779,7 +786,7 @@ public interface WorkflowTaskResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/headless-admin-workflow/v1.0/workflow-tasks/{workflowTaskId}/change-transition");
 
 			httpInvoker.path("workflowTaskId", workflowTaskId);
@@ -868,7 +875,7 @@ public interface WorkflowTaskResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/headless-admin-workflow/v1.0/workflow-tasks/{workflowTaskId}/update-due-date");
 
 			httpInvoker.path("workflowTaskId", workflowTaskId);

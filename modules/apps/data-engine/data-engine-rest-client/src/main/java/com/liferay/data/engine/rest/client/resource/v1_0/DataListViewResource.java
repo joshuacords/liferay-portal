@@ -115,6 +115,12 @@ public interface DataListViewResource {
 			return new DataListViewResourceImpl(this);
 		}
 
+		public Builder contextPath(String contextPath) {
+			_contextPath = contextPath;
+
+			return this;
+		}
+
 		public Builder endpoint(String host, int port, String scheme) {
 			_host = host;
 			_port = port;
@@ -160,6 +166,7 @@ public interface DataListViewResource {
 		private Builder() {
 		}
 
+		private String _contextPath = "";
 		private Map<String, String> _headers = new LinkedHashMap<>();
 		private String _host = "localhost";
 		private Locale _locale;
@@ -264,7 +271,7 @@ public interface DataListViewResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/data-engine/v1.0/data-definitions/{dataDefinitionId}/data-list-views");
 
 			httpInvoker.path("dataDefinitionId", dataDefinitionId);
@@ -350,7 +357,7 @@ public interface DataListViewResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/data-engine/v1.0/data-definitions/{dataDefinitionId}/data-list-views");
 
 			httpInvoker.path("dataDefinitionId", dataDefinitionId);
@@ -430,7 +437,7 @@ public interface DataListViewResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/data-engine/v1.0/data-definitions/{dataDefinitionId}/data-list-views/batch");
 
 			httpInvoker.path("dataDefinitionId", dataDefinitionId);
@@ -509,7 +516,7 @@ public interface DataListViewResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/data-engine/v1.0/data-list-views/{dataListViewId}");
 
 			httpInvoker.path("dataListViewId", dataListViewId);
@@ -586,7 +593,7 @@ public interface DataListViewResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/data-engine/v1.0/data-list-views/batch");
 
 			httpInvoker.userNameAndPassword(
@@ -665,7 +672,7 @@ public interface DataListViewResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/data-engine/v1.0/data-list-views/{dataListViewId}");
 
 			httpInvoker.path("dataListViewId", dataListViewId);
@@ -749,7 +756,7 @@ public interface DataListViewResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/data-engine/v1.0/data-list-views/{dataListViewId}");
 
 			httpInvoker.path("dataListViewId", dataListViewId);
@@ -826,7 +833,7 @@ public interface DataListViewResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/data-engine/v1.0/data-list-views/batch");
 
 			httpInvoker.userNameAndPassword(

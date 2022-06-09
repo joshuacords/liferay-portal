@@ -147,6 +147,12 @@ public interface DataRecordResource {
 			return new DataRecordResourceImpl(this);
 		}
 
+		public Builder contextPath(String contextPath) {
+			_contextPath = contextPath;
+
+			return this;
+		}
+
 		public Builder endpoint(String host, int port, String scheme) {
 			_host = host;
 			_port = port;
@@ -192,6 +198,7 @@ public interface DataRecordResource {
 		private Builder() {
 		}
 
+		private String _contextPath = "";
 		private Map<String, String> _headers = new LinkedHashMap<>();
 		private String _host = "localhost";
 		private Locale _locale;
@@ -285,7 +292,7 @@ public interface DataRecordResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/data-engine/v1.0/data-definitions/{dataDefinitionId}/data-records");
 
 			httpInvoker.path("dataDefinitionId", dataDefinitionId);
@@ -371,7 +378,7 @@ public interface DataRecordResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/data-engine/v1.0/data-definitions/{dataDefinitionId}/data-records");
 
 			httpInvoker.path("dataDefinitionId", dataDefinitionId);
@@ -451,7 +458,7 @@ public interface DataRecordResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/data-engine/v1.0/data-definitions/{dataDefinitionId}/data-records/batch");
 
 			httpInvoker.path("dataDefinitionId", dataDefinitionId);
@@ -542,7 +549,7 @@ public interface DataRecordResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/data-engine/v1.0/data-record-collections/{dataRecordCollectionId}/data-records");
 
 			httpInvoker.path("dataRecordCollectionId", dataRecordCollectionId);
@@ -628,7 +635,7 @@ public interface DataRecordResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/data-engine/v1.0/data-record-collections/{dataRecordCollectionId}/data-records");
 
 			httpInvoker.path("dataRecordCollectionId", dataRecordCollectionId);
@@ -709,7 +716,7 @@ public interface DataRecordResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/data-engine/v1.0/data-record-collections/{dataRecordCollectionId}/data-records/batch");
 
 			httpInvoker.path("dataRecordCollectionId", dataRecordCollectionId);
@@ -800,7 +807,7 @@ public interface DataRecordResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/data-engine/v1.0/data-record-collections/{dataRecordCollectionId}/data-records/export");
 
 			httpInvoker.path("dataRecordCollectionId", dataRecordCollectionId);
@@ -879,7 +886,7 @@ public interface DataRecordResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/data-engine/v1.0/data-records/{dataRecordId}");
 
 			httpInvoker.path("dataRecordId", dataRecordId);
@@ -956,7 +963,8 @@ public interface DataRecordResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port + "/o/data-engine/v1.0/data-records/batch");
+					_builder._port + _builder._contextPath +
+						"/o/data-engine/v1.0/data-records/batch");
 
 			httpInvoker.userNameAndPassword(
 				_builder._login + ":" + _builder._password);
@@ -1032,7 +1040,7 @@ public interface DataRecordResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/data-engine/v1.0/data-records/{dataRecordId}");
 
 			httpInvoker.path("dataRecordId", dataRecordId);
@@ -1116,7 +1124,7 @@ public interface DataRecordResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/data-engine/v1.0/data-records/{dataRecordId}");
 
 			httpInvoker.path("dataRecordId", dataRecordId);
@@ -1193,7 +1201,8 @@ public interface DataRecordResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port + "/o/data-engine/v1.0/data-records/batch");
+					_builder._port + _builder._contextPath +
+						"/o/data-engine/v1.0/data-records/batch");
 
 			httpInvoker.userNameAndPassword(
 				_builder._login + ":" + _builder._password);

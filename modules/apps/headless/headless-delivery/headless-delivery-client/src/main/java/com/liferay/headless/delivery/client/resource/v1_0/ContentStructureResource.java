@@ -71,6 +71,12 @@ public interface ContentStructureResource {
 			return new ContentStructureResourceImpl(this);
 		}
 
+		public Builder contextPath(String contextPath) {
+			_contextPath = contextPath;
+
+			return this;
+		}
+
 		public Builder endpoint(String host, int port, String scheme) {
 			_host = host;
 			_port = port;
@@ -116,6 +122,7 @@ public interface ContentStructureResource {
 		private Builder() {
 		}
 
+		private String _contextPath = "";
 		private Map<String, String> _headers = new LinkedHashMap<>();
 		private String _host = "localhost";
 		private Locale _locale;
@@ -200,7 +207,7 @@ public interface ContentStructureResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/headless-delivery/v1.0/content-structures/{contentStructureId}");
 
 			httpInvoker.path("contentStructureId", contentStructureId);
@@ -307,7 +314,7 @@ public interface ContentStructureResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/headless-delivery/v1.0/sites/{siteId}/content-structures");
 
 			httpInvoker.path("siteId", siteId);
