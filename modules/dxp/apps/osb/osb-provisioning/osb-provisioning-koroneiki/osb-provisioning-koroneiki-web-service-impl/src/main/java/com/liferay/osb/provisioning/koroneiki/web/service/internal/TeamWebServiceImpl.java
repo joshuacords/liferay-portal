@@ -76,6 +76,22 @@ public class TeamWebServiceImpl
 		return _teamResource.getTeam(teamKey);
 	}
 
+	public List<Team> getTeams(
+			String domain, String entityName, String entityId, int page,
+			int pageSize)
+		throws Exception {
+
+		Page<Team> teamsPage =
+			_teamResource.getTeamByExternalLinkDomainEntityNameEntityPage(
+				domain, entityName, entityId, Pagination.of(page, pageSize));
+
+		if ((teamsPage != null) && (teamsPage.getItems() != null)) {
+			return new ArrayList<>(teamsPage.getItems());
+		}
+
+		return Collections.emptyList();
+	}
+
 	public List<Team> search(
 			String search, FilterQuery filterQuery, int page, int pageSize,
 			String sortString)

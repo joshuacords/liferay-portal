@@ -14,19 +14,24 @@
 
 package com.liferay.osb.provisioning.distributed.messaging.internal.subscribing;
 
+import com.liferay.osb.koroneiki.phloem.rest.client.constants.ExternalLinkDomain;
+import com.liferay.osb.koroneiki.phloem.rest.client.constants.ExternalLinkEntityName;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Account;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Contact;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ContactRole;
-import com.liferay.osb.provisioning.distributed.messaging.internal.constants.KoroneikiConstants;
+import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Team;
 import com.liferay.osb.provisioning.koroneiki.constants.ContactRoleConstants;
 import com.liferay.osb.provisioning.koroneiki.web.service.AccountWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.ContactRoleWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.ContactWebService;
+import com.liferay.osb.provisioning.koroneiki.web.service.TeamWebService;
 import com.liferay.osb.provisioning.util.CustomerPortalRelease;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.Validator;
+
+import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -45,16 +50,18 @@ public class OktaUsersMessageSubscriber extends BaseMessageSubscriber {
 		String eventType = jsonObject.getString("eventType");
 
 		if (eventType.equals(_EVENT_TYPE_DEACTIVATE)) {
-			_unassignContact(jsonObject.getJSONObject("user"));
+			_unassignAllContactMemberships(jsonObject.getJSONObject("user"));
 		}
 		else if (eventType.equals(_EVENT_TYPE_GROUP_ADD)) {
-			if (_isGroupEmployee(jsonObject)) {
-				_addEmployee(jsonObject.getJSONObject("user"));
-			}
+			_assignContactMemberships(jsonObject);
 		}
 		else if (eventType.equals(_EVENT_TYPE_GROUP_REMOVE)) {
 			if (_isGroupEmployee(jsonObject)) {
-				_unassignContact(jsonObject.getJSONObject("user"));
+				_unassignAllContactMemberships(
+					jsonObject.getJSONObject("user"));
+			}
+			else {
+				_unassignContactMemberships(jsonObject);
 			}
 		}
 		else if (eventType.equals(_EVENT_TYPE_UPDATE_PASSWORD) ||
@@ -64,18 +71,33 @@ public class OktaUsersMessageSubscriber extends BaseMessageSubscriber {
 		}
 	}
 
-	private void _addEmployee(JSONObject jsonObject) throws Exception {
+	private void _assignContactMemberships(JSONObject jsonObject)
+		throws Exception {
+
+		JSONObject userJSONObject = jsonObject.getJSONObject("user");
+
+		JSONObject profileJSONObject = userJSONObject.getJSONObject("profile");
+
 		ContactRole contactRole = _contactRoleWebService.getContactRole(
 			ContactRole.Type.ACCOUNT_CUSTOMER.toString(),
 			ContactRoleConstants.NAME_MEMBER);
 
-		JSONObject profileJSONObject = jsonObject.getJSONObject("profile");
+		List<Account> accounts = _getGroupAccounts(jsonObject);
 
-		_accountWebService.assignContactRolesByEmailAddress(
-			StringPool.BLANK, StringPool.BLANK,
-			KoroneikiConstants.ACCOUNT_KEY_LIFERAY_INC,
-			profileJSONObject.getString("email"),
-			new String[] {contactRole.getKey()});
+		for (Account account : accounts) {
+			_accountWebService.assignContactRolesByEmailAddress(
+				StringPool.BLANK, StringPool.BLANK, account.getKey(),
+				profileJSONObject.getString("email"),
+				new String[] {contactRole.getKey()});
+		}
+
+		List<Team> teams = _getGroupTeams(jsonObject);
+
+		for (Team team : teams) {
+			_teamWebService.assignContacts(
+				StringPool.BLANK, StringPool.BLANK, team.getKey(),
+				new String[] {profileJSONObject.getString("email")});
+		}
 	}
 
 	private Contact _fetchContact(JSONObject jsonObject) throws Exception {
@@ -86,6 +108,28 @@ public class OktaUsersMessageSubscriber extends BaseMessageSubscriber {
 		}
 
 		return _contactWebService.fetchContactByUuid(uuid);
+	}
+
+	private List<Account> _getGroupAccounts(JSONObject jsonObject)
+		throws Exception {
+
+		JSONObject groupJSONObject = jsonObject.getJSONObject("group");
+
+		String id = groupJSONObject.getString("id");
+
+		return _accountWebService.getAccounts(
+			ExternalLinkDomain.OKTA, ExternalLinkEntityName.OKTA_GROUP, id, 1,
+			1000);
+	}
+
+	private List<Team> _getGroupTeams(JSONObject jsonObject) throws Exception {
+		JSONObject groupJSONObject = jsonObject.getJSONObject("group");
+
+		String id = groupJSONObject.getString("id");
+
+		return _teamWebService.getTeams(
+			ExternalLinkDomain.OKTA, ExternalLinkEntityName.OKTA_GROUP, id, 1,
+			1000);
 	}
 
 	private boolean _isGroupEmployee(JSONObject jsonObject) {
@@ -100,24 +144,67 @@ public class OktaUsersMessageSubscriber extends BaseMessageSubscriber {
 		return false;
 	}
 
-	private void _unassignContact(JSONObject jsonObject) throws Exception {
+	private void _unassignAllContactMemberships(JSONObject jsonObject)
+		throws Exception {
+
 		JSONObject profileJSONObject = jsonObject.getJSONObject("profile");
 
 		Contact contact = _contactWebService.fetchContactByEmailAddress(
 			profileJSONObject.getString("email"));
 
-		if ((contact == null) || ArrayUtil.isEmpty(contact.getAccounts())) {
+		if (contact == null) {
 			return;
 		}
 
-		for (Account account : contact.getAccounts()) {
+		if (ArrayUtil.isNotEmpty(contact.getAccounts())) {
+			for (Account account : contact.getAccounts()) {
+				_accountWebService.unassignCustomerContact(
+					StringPool.BLANK, StringPool.BLANK, account.getKey(),
+					contact.getEmailAddress());
+
+				_accountWebService.unassignWorkerContact(
+					StringPool.BLANK, StringPool.BLANK, account.getKey(),
+					contact.getEmailAddress());
+			}
+		}
+
+		if (ArrayUtil.isNotEmpty(contact.getTeams())) {
+			for (Team team : contact.getTeams()) {
+				_teamWebService.unassignContacts(
+					StringPool.BLANK, StringPool.BLANK, team.getKey(),
+					new String[] {contact.getEmailAddress()});
+			}
+		}
+	}
+
+	private void _unassignContactMemberships(JSONObject jsonObject)
+		throws Exception {
+
+		JSONObject userJSONObject = jsonObject.getJSONObject("user");
+
+		JSONObject profileJSONObject = userJSONObject.getJSONObject("profile");
+
+		Contact contact = _contactWebService.fetchContactByEmailAddress(
+			profileJSONObject.getString("email"));
+
+		if (contact == null) {
+			return;
+		}
+
+		List<Account> accounts = _getGroupAccounts(jsonObject);
+
+		for (Account account : accounts) {
 			_accountWebService.unassignCustomerContact(
 				StringPool.BLANK, StringPool.BLANK, account.getKey(),
 				contact.getEmailAddress());
+		}
 
-			_accountWebService.unassignWorkerContact(
-				StringPool.BLANK, StringPool.BLANK, account.getKey(),
-				contact.getEmailAddress());
+		List<Team> teams = _getGroupTeams(jsonObject);
+
+		for (Team team : teams) {
+			_teamWebService.unassignContacts(
+				StringPool.BLANK, StringPool.BLANK, team.getKey(),
+				new String[] {contact.getEmailAddress()});
 		}
 	}
 
@@ -178,5 +265,8 @@ public class OktaUsersMessageSubscriber extends BaseMessageSubscriber {
 
 	@Reference
 	private CustomerPortalRelease _customerPortalRelease;
+
+	@Reference
+	private TeamWebService _teamWebService;
 
 }

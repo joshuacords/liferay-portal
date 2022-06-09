@@ -38,6 +38,11 @@ public interface TeamWebService {
 
 	public Team getTeam(String teamKey) throws Exception;
 
+	public List<Team> getTeams(
+			String domain, String entityName, String entityId, int page,
+			int pageSize)
+		throws Exception;
+
 	public List<Team> search(
 			String search, FilterQuery filterQuery, int page, int pageSize,
 			String sortString)

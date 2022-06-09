@@ -31,6 +31,8 @@ public class ExternalLinkEntityName {
 
 	public static final String LICENSE_KEY = "license-key";
 
+	public static final String OKTA_GROUP = "group";
+
 	public static final String SALESFORCE_ACCOUNT = "account";
 
 	public static final String SALESFORCE_OPPORTUNITY = "opportunity";
