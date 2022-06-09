@@ -100,6 +100,17 @@ definition {
 			userId = "${userId}");
 	}
 
+	macro addUserToUserGroup {
+		Variables.assertDefined(parameterList = "${userGroupName},${userEmailAddress}");
+
+		var userGroupId = JSONUserGroupSetter.setUserGroupId(userGroupName = "${userGroupName}");
+		var userId = JSONUserSetter.setUserId(userEmailAddress = "${userEmailAddress}");
+
+		JSONUserAPI._addUserToUserGroup(
+			userGroupId = "${userGroupId}",
+			userId = "${userId}");
+	}
+
 	macro deleteUserByEmailAddress {
 		Variables.assertDefined(parameterList = "${userEmailAddress}");
 

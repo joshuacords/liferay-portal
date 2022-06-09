@@ -51,7 +51,9 @@ definition {
 		Variables.assertDefined(parameterList = "${content},${groupName},${title}");
 
 		var groupId = JSONWebcontentSetter.setGroupId(groupName = "${groupName}");
-		var contentXML = JSONWebcontentSetter.setContentXML(content = "${content}");
+		var contentXML = JSONWebcontentSetter.setContentXML(
+			content = "${content}",
+			source = "${source}");
 		var descriptionMap = JSONWebcontentSetter.setDescriptionMap(description = "${description}");
 		var folderId = JSONWebcontentSetter.setFolderId(
 			folderName = "${folderName}",
@@ -69,7 +71,9 @@ definition {
 			folderId = "${folderId}",
 			groupId = "${groupId}",
 			serviceContext = "${serviceContext}",
-			titleMap = "${titleMap}");
+			titleMap = "${titleMap}",
+			userEmailAddress = "${userEmailAddress}",
+			userPassword = "${userPassword}");
 	}
 
 	@summary = "Delete a WC Article under an existing site via article title"

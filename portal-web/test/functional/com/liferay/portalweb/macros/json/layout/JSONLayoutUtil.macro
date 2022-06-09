@@ -49,6 +49,9 @@ definition {
 		else if ("${widgetName}" == "Documents and Media") {
 			var portletId = "com_liferay_document_library_web_portlet_DLPortlet";
 		}
+		else if ("${widgetName}" == "Form") {
+			var portletId = "com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormPortlet";
+		}
 		else if ("${widgetName}" == "Knowledge Base Article") {
 			var portletId = "com_liferay_knowledge_base_web_portlet_ArticlePortlet";
 		}

@@ -1,0 +1,33 @@
+definition {
+
+	macro gotoPanel {
+		var key_panel = "${panel}";
+
+		Click(locator1 = "ApplicationsMenu#PANEL");
+
+		AssertElementPresent(locator1 = "ApplicationsMenu#ACTIVE_PANEL");
+
+		WaitForLiferayEvent.initializeLiferayEventLog();
+	}
+
+	@summary = "Navigate to Applications Menu > ${panel} > ${category} > ${portlet}"
+	macro gotoPortlet {
+		ApplicationsMenuHelper.openApplicationsMenu();
+
+		ApplicationsMenu.gotoPanel(panel = "${panel}");
+
+		ApplicationsMenuHelper.gotoPortlet(
+			category = "${category}",
+			portlet = "${portlet}");
+	}
+
+	@summary = "Navigate to Applications Menu > ${site}"
+	macro gotoSite {
+		ApplicationsMenuHelper.openApplicationsMenu();
+
+		Click(
+			key_site = "${site}",
+			locator1 = "ApplicationsMenu#SITE_LINK");
+	}
+
+}

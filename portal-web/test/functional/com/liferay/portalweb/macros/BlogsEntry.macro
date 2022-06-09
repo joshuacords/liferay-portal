@@ -811,6 +811,95 @@ definition {
 			value1 = "${entryExternalURL}");
 	}
 
+	macro viewEntryPG {
+		var key_entryTitle = "${entryTitle}";
+
+		AssertElementPresent(locator1 = "BlogsEntry#TITLE");
+
+		AssertTextEquals(
+			locator1 = "BlogsEntry#TITLE",
+			value1 = "${entryTitle}");
+
+		if (isSet(entrySubtitle)) {
+			var key_entrySubtitle = "${entrySubtitle}";
+
+			AssertTextEquals(
+				locator1 = "BlogsEntry#SUBTITLE",
+				value1 = "${entrySubtitle}");
+		}
+
+		if (isSet(uploadFileName)) {
+			AssertElementPresent(
+				key_uploadFileName = "${uploadFileName}",
+				locator1 = "BlogsEntry#ENTRY_COVER_IMAGE");
+		}
+
+		if (isSet(embedVideo)) {
+			if ("${embedVideo}" == "twitch") {
+				AssertElementPresent(
+					key_service = "twitch",
+					locator1 = "BlogsEntry#CONTENT_VIDEO");
+			}
+			else if ("${embedVideo}" == "vimeo") {
+				AssertVisible(
+					key_service = "vimeo",
+					locator1 = "BlogsEntry#CONTENT_VIDEO");
+			}
+			else if ("${internalVideo}" == "true") {
+				DMDocument.viewInternalVideoPreview(videoName = "${videoName}");
+			}
+			else {
+				AssertElementPresent(
+					key_service = "youtube",
+					locator1 = "BlogsEntry#CONTENT_VIDEO");
+			}
+		}
+
+		if (isSet(entryCaption)) {
+			AssertTextEquals(
+				locator1 = "BlogsEntry#ENTRY_COVER_IMAGE_CAPTION",
+				value1 = "${entryCaption}");
+		}
+
+		if (isSet(entryContent)) {
+			var key_entryContent = "${entryContent}";
+
+			AssertTextEquals(
+				locator1 = "BlogsEntry#CONTENT",
+				value1 = "${entryContent}");
+		}
+
+		if (isSet(entryContentBold)) {
+			AssertTextEquals.assertPartialText(
+				locator1 = "BlogsEntry#CONTENT_HTML_BOLD",
+				value1 = "${entryContentBold}");
+		}
+
+		if (isSet(entryContentHtml)) {
+			AssertTextEquals.assertPartialText(
+				locator1 = "BlogsEntry#CONTENT_HTML_H2",
+				value1 = "${entryContentHtml}");
+		}
+
+		if (isSet(entryContentItalics)) {
+			AssertTextEquals.assertPartialText(
+				locator1 = "BlogsEntry#CONTENT_HTML_ITALICS",
+				value1 = "${entryContentItalics}");
+		}
+
+		if (isSet(entryExternalURL)) {
+			AssertClick(
+				locator1 = "BlogsEntry#CONTENT_LINK",
+				value1 = "${entryContent}");
+
+			AssertLocation.assertPartialLocation(value1 = "${entryExternalURL}");
+		}
+
+		if (isSet(entryInlineImage)) {
+			BlogsEntry.viewInlineImage(uploadFileName = "${entryInlineImage}");
+		}
+	}
+
 	macro viewEntryTable {
 		var key_entryTitle = "${entryTitle}";
 

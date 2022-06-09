@@ -1,5 +1,53 @@
 definition {
 
+	macro _openToConfigInSiteSettings {
+		var baseURL = PropsUtil.get("portal.url");
+
+		if ("${portlet}" == "Ratings") {
+			var portletKey = "site-configuration-ratings";
+		}
+
+		Open(locator1 = "${baseURL}/group/${siteURLKey}/~/control_panel/manage/-/site/settings?_com_liferay_site_admin_web_portlet_SiteSettingsPortlet_mvcRenderCommandName=%2Fconfiguration_admin%2Fview_configuration_screen&_com_liferay_site_admin_web_portlet_SiteSettingsPortlet_configurationScreenKey=${portletKey}");
+	}
+
+	macro configureRatingType {
+		if (isSet(siteURLKey)) {
+			Ratings._openToConfigInSiteSettings(
+				portlet = "${portlet}",
+				siteURLKey = "${siteURLKey}");
+		}
+		else {
+			if (isSet(siteName)) {
+				Site.openSiteSettingsAdmin(siteURLKey = "${siteName}");
+			}
+			else {
+				Site.openSiteSettingsAdmin(siteURLKey = "guest");
+			}
+
+			Click(
+				key_itemName = "Community Tools",
+				locator1 = "ListGroupItem#ITEM_TEXT");
+
+			Navigator.gotoNavTab(navTab = "Ratings");
+		}
+
+		Select(
+			key_applications = "${applications}",
+			locator1 = "Select#APPLICATIONS_RATING",
+			value1 = "${ratingType}");
+
+		AssertClickNoError(
+			locator1 = "Button#SAVE",
+			value1 = "Save");
+
+		AssertConfirm(value1 = "Existing ratings data values will be adapted to match the new ratings type even though it may not be accurate. Do you want to continue?");
+
+		AssertSelectedLabel(
+			key_applications = "${applications}",
+			locator1 = "Select#APPLICATIONS_RATING",
+			value1 = "${ratingType}");
+	}
+
 	macro rate {
 		var key_ratingResult = StringUtil.replace("${ratingResult}", " ", "-");
 
@@ -11,6 +59,59 @@ definition {
 		else {
 			Click(locator1 = "Ratings#THUMB");
 		}
+	}
+
+	macro rateStar {
+		Click(locator1 = "Ratings#YOUR_RATING_STAR");
+
+		if (isSet(checkDeleteButton)) {
+			AssertElementPresent(locator1 = "Ratings#YOUR_RATING_STAR_DELETE_DISABLE");
+		}
+
+		Click.clickNoMouseOver(
+			key_ratingStarCount = "${ratingStarCount}",
+			locator1 = "Ratings#YOUR_RATING_STAR_COUNT");
+
+		AssertElementPresent(
+			key_ratingStarCount = "${ratingStarCount}",
+			locator1 = "Ratings#YOUR_RATING_STAR_RESULT");
+	}
+
+	macro rateThumb {
+		if (isSet(blogCommentRating)) {
+			Click.javaScriptClick(
+				key_ratingResult = "${ratingResult}",
+				locator1 = "Ratings#COMMENT_RATING_THUMB");
+		}
+		else if (isSet(blogRating)) {
+			Click.javaScriptClick(
+				key_ratingResult = "${ratingResult}",
+				locator1 = "Ratings#THUMB");
+		}
+		else if (isSet(commentRating)) {
+			Click.clickNoMouseOver(
+				key_ratingResult = "${ratingResult}",
+				locator1 = "Ratings#COMMENT_RATING_THUMB");
+		}
+		else if (isSet(replyRating)) {
+			Click.javaScriptClick(
+				key_ratingResult = "${ratingResult}",
+				key_threadSubject = "${threadSubject}",
+				locator1 = "Ratings#REPLY_RATING_THUMB");
+		}
+		else {
+			Click.javaScriptClick(
+				key_ratingResult = "${ratingResult}",
+				locator1 = "Ratings#THUMB");
+		}
+	}
+
+	macro revokeStarsRating {
+		Click(locator1 = "Ratings#YOUR_RATING_STAR");
+
+		Click.clickNoMouseOver(locator1 = "Ratings#YOUR_RATING_STAR_DELETE");
+
+		AssertElementPresent(locator1 = "Ratings#YOUR_RATING_STAR_EMPTY");
 	}
 
 	macro viewRating {

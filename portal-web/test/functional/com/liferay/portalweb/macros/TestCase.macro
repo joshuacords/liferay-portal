@@ -17,6 +17,53 @@ definition {
 		SystemSettings.saveConfiguration();
 	}
 
+	macro getDependenciesDirPath {
+		var projectDir = PropsUtil.get("project.dir");
+		var testBaseDir = PropsUtil.get("test.base.dir.name");
+		var testDependenciesDir = PropsUtil.get("test.dependencies.dir.name");
+		var testName = selenium.getTestName();
+
+		var testName = StringUtil.extractLast("${testName}", ".");
+
+		var testName = StringUtil.extractFirst("${testName}", "#");
+
+		var testFileName = StringUtil.split("**/${testName}.testcase");
+
+		var testFilePaths = FileUtil.getIncludedResourceURLs("${testFileName}", "${projectDir}/portal-web");
+
+		var testFilePaths = StringUtil.valueOf("${testFilePaths}");
+
+		if ("${testFilePaths}" == "[]") {
+			var testFilePaths = FileUtil.getIncludedResourceURLs("${testFileName}", "${projectDir}/modules");
+
+			var testFilePaths = StringUtil.valueOf("${testFilePaths}");
+		}
+
+		var testFilePath = RegexUtil.replace("${testFilePaths}", "\[(.*)\]", "1");
+
+		var testFilePath = StringUtil.extractLast("${testFilePath}", "file:");
+
+		var testFileParentDir = StringUtil.extractFirst("${testFilePath}", "${testName}.testcase");
+
+		var dependenciesDir = "${testFileParentDir}${testDependenciesDir}";
+
+		var dependencyFilePath = "${dependenciesDir}/${fileName}";
+
+		var fileExists = FileUtil.exists("${dependencyFilePath}");
+
+		if ("${fileExists}" == "false") {
+			var dependencyFilePath = "${testBaseDir}${testDependenciesDir}/${fileName}";
+
+			var globalFileExists = FileUtil.exists("${dependencyFilePath}");
+
+			if ("${globalFileExists}" == "false") {
+				fail("Unable to find dependency file at ${dependenciesDir}/${fileName} or ${dependencyFilePath}");
+			}
+		}
+
+		return "${dependencyFilePath}";
+	}
+
 	macro getDownloadedTempFileName {
 		var tempDir = PropsUtil.get("output.dir.name");
 		var pattern = StringUtil.split("**/${fileNamePattern}");

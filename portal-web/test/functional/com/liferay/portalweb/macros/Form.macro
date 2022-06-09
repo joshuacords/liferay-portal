@@ -29,9 +29,17 @@ definition {
 	}
 
 	macro addTextField {
-		Form.gotoAddField(
-			fieldType = "Text",
-			key_fieldPositionNumber = "${fieldPositionNumber}");
+		if (isSet(formPageNumber)) {
+			Form.gotoAddField(
+				fieldType = "Text Field",
+				formPageNumber = "${formPageNumber}",
+				key_fieldPositionNumber = "${fieldPositionNumber}");
+		}
+		else {
+			Form.gotoAddField(
+				fieldType = "Text Field",
+				key_fieldPositionNumber = "${fieldPositionNumber}");
+		}
 	}
 
 	macro addTranslation {

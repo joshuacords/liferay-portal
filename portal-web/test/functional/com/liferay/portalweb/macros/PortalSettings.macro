@@ -634,6 +634,12 @@ definition {
 			configurationScope = "Virtual Instance Scope");
 	}
 
+	macro openInstanceSettingsAdmin {
+		Navigator.openWithAppendToBaseURL(
+			baseURL = "${baseURL}",
+			urlAppend = "group/control_panel/manage?p_p_id=com_liferay_configuration_admin_web_portlet_InstanceSettingsPortlet");
+	}
+
 	macro tearDownAuthenticationCP {
 		PortalSettings.gotoConfiguration(
 			configurationCategory = "User Authentication",
