@@ -27,6 +27,9 @@ import java.util.Set;
  */
 public interface CustomerPortalRelease {
 
+	public boolean hasAccountAccessPermission(Account account, Contact contact)
+		throws Exception;
+
 	public boolean isEnabled(
 		Set<ProductPurchase> productPurchases, Account.Region region);
 

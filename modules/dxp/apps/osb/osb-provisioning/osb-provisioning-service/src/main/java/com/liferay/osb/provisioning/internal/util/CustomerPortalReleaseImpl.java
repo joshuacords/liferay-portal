@@ -14,17 +14,21 @@
 
 package com.liferay.osb.provisioning.internal.util;
 
+import com.liferay.osb.koroneiki.phloem.rest.client.constants.ExternalLinkDomain;
+import com.liferay.osb.koroneiki.phloem.rest.client.constants.ExternalLinkEntityName;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Account;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Contact;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ContactRole;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Entitlement;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Product;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ProductPurchase;
+import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Team;
 import com.liferay.osb.provisioning.koroneiki.constants.ContactRoleConstants;
 import com.liferay.osb.provisioning.koroneiki.constants.EntitlementConstants;
 import com.liferay.osb.provisioning.koroneiki.web.service.AccountWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.ContactRoleWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.ContactWebService;
+import com.liferay.osb.provisioning.koroneiki.web.service.TeamWebService;
 import com.liferay.osb.provisioning.search.FilterQuery;
 import com.liferay.osb.provisioning.util.CustomerPortalRelease;
 import com.liferay.osgi.util.StringPlus;
@@ -63,16 +67,57 @@ import org.osgi.service.component.annotations.Reference;
 @Component(
 	immediate = true,
 	property = {
-		"partner=", "provisioningEmailAddressAustralia=",
-		"provisioningEmailAddressBrazil=", "provisioningEmailAddressChina=",
-		"provisioningEmailAddressGlobal=", "provisioningEmailAddressHungary=",
-		"provisioningEmailAddressIndia=", "provisioningEmailAddressJapan=",
-		"provisioningEmailAddressSpain=", "provisioningEmailAddressUS=",
-		"regions="
+		"accountAccessEUOktaId=", "accountAccessUSOktaId=", "partner=",
+		"provisioningEmailAddressAustralia=", "provisioningEmailAddressBrazil=",
+		"provisioningEmailAddressChina=", "provisioningEmailAddressGlobal=",
+		"provisioningEmailAddressHungary=", "provisioningEmailAddressIndia=",
+		"provisioningEmailAddressJapan=", "provisioningEmailAddressSpain=",
+		"provisioningEmailAddressUS=", "provisioningOktaId=", "regions="
 	},
 	service = CustomerPortalRelease.class
 )
 public class CustomerPortalReleaseImpl implements CustomerPortalRelease {
+
+	public boolean hasAccountAccessPermission(Account account, Contact contact)
+		throws Exception {
+
+		FilterQuery filterQuery = new FilterQuery();
+
+		filterQuery.addLambdaEquals(true, "contactUuids", contact.getUuid());
+
+		FilterQuery nestedFilterQuery = new FilterQuery();
+
+		nestedFilterQuery.addLambdaEquals(
+			false, "externalLinkEntityIds",
+			StringBundler.concat(
+				ExternalLinkDomain.OKTA, "_", ExternalLinkEntityName.OKTA_GROUP,
+				"_", _accountAccessEUOktaId));
+		nestedFilterQuery.addLambdaEquals(
+			false, "externalLinkEntityIds",
+			StringBundler.concat(
+				ExternalLinkDomain.OKTA, "_", ExternalLinkEntityName.OKTA_GROUP,
+				"_", _provisioningOktaId));
+
+		if (account.getRegion() == Account.Region.UNITED_STATES) {
+			nestedFilterQuery.addLambdaEquals(
+				false, "externalLinkEntityIds",
+				StringBundler.concat(
+					ExternalLinkDomain.OKTA, "_",
+					ExternalLinkEntityName.OKTA_GROUP, "_",
+					_accountAccessUSOktaId));
+		}
+
+		filterQuery.addFilterQuery(true, nestedFilterQuery);
+
+		List<Team> teams = _teamWebService.search(
+			StringPool.BLANK, filterQuery, 1, 1000, StringPool.BLANK);
+
+		if (!teams.isEmpty()) {
+			return true;
+		}
+
+		return false;
+	}
 
 	public boolean isEnabled(
 		Set<ProductPurchase> productPurchases, Account.Region accountRegion) {
@@ -246,6 +291,10 @@ public class CustomerPortalReleaseImpl implements CustomerPortalRelease {
 	@Activate
 	@Modified
 	protected void activate(Map<String, Object> properties) throws Exception {
+		_accountAccessEUOktaId = GetterUtil.getString(
+			properties.get("accountAccessEUOktaId"));
+		_accountAccessUSOktaId = GetterUtil.getString(
+			properties.get("accountAccessUSOktaId"));
 		_partner = GetterUtil.getBoolean(properties.get("partner"));
 		_provisioningEmailAddressAustralia = GetterUtil.getString(
 			properties.get("provisioningEmailAddressAustralia"));
@@ -265,6 +314,8 @@ public class CustomerPortalReleaseImpl implements CustomerPortalRelease {
 			properties.get("provisioningEmailAddressSpain"));
 		_provisioningEmailAddressUS = GetterUtil.getString(
 			properties.get("provisioningEmailAddressUS"));
+		_provisioningOktaId = GetterUtil.getString(
+			properties.get("provisioningOktaId"));
 		_regions = StringPlus.asList(properties.get("regions"));
 	}
 
@@ -651,6 +702,9 @@ public class CustomerPortalReleaseImpl implements CustomerPortalRelease {
 		ContactRoleConstants.NAME_PARTNER_MEMBER
 	};
 
+	private String _accountAccessEUOktaId;
+	private String _accountAccessUSOktaId;
+
 	@Reference
 	private AccountWebService _accountWebService;
 
@@ -676,6 +730,10 @@ public class CustomerPortalReleaseImpl implements CustomerPortalRelease {
 	private String _provisioningEmailAddressJapan;
 	private String _provisioningEmailAddressSpain;
 	private String _provisioningEmailAddressUS;
+	private String _provisioningOktaId;
 	private List<String> _regions;
+
+	@Reference
+	private TeamWebService _teamWebService;
 
 }

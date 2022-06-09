@@ -55,6 +55,7 @@ import com.liferay.osb.provisioning.rest.dto.v1_0.util.LicenseKeyUtil;
 import com.liferay.osb.provisioning.rest.internal.odata.entity.v1_0.LicenseKeyEntityModel;
 import com.liferay.osb.provisioning.rest.resource.v1_0.LicenseKeyResource;
 import com.liferay.osb.provisioning.search.FilterQuery;
+import com.liferay.osb.provisioning.util.CustomerPortalRelease;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
@@ -114,7 +115,7 @@ public class LicenseKeyResourceImpl
 			String accountKey, Filter filter, Sort[] sorts)
 		throws Exception {
 
-		_checkAccountMembership(accountKey);
+		_checkAccountViewPermission(accountKey);
 
 		Page<com.liferay.osb.provisioning.license.model.LicenseKey> page =
 			SearchUtil.search(
@@ -147,7 +148,7 @@ public class LicenseKeyResourceImpl
 			Pagination pagination, Sort[] sorts)
 		throws Exception {
 
-		_checkAccountMembership(accountKey);
+		_checkAccountViewPermission(accountKey);
 
 		return SearchUtil.search(
 			booleanQuery -> booleanQuery.addRequiredTerm(
@@ -204,7 +205,7 @@ public class LicenseKeyResourceImpl
 				String productVersion)
 		throws Exception {
 
-		_checkAccountMembership(accountKey);
+		_checkAccountViewPermission(accountKey);
 
 		_checkAccountSelfProvisioningPermission(accountKey);
 
@@ -240,7 +241,7 @@ public class LicenseKeyResourceImpl
 		com.liferay.osb.provisioning.license.model.LicenseKey licenseKey =
 			_licenseKeyLocalService.getLicenseKey(licenseKeyId);
 
-		_checkAccountMembership(licenseKey.getAccountKey());
+		_checkAccountViewPermission(licenseKey.getAccountKey());
 
 		if (licenseKey.getLicenseVersion() >= 2) {
 			String fileName = _licenseKeyExporter.getFileName(
@@ -298,7 +299,7 @@ public class LicenseKeyResourceImpl
 				continue;
 			}
 
-			_checkAccountMembership(licenseKey.getAccountKey());
+			_checkAccountViewPermission(licenseKey.getAccountKey());
 
 			licenseKeys.add(licenseKey);
 		}
@@ -417,7 +418,7 @@ public class LicenseKeyResourceImpl
 				continue;
 			}
 
-			_checkAccountMembership(licenseKey.getAccountKey());
+			_checkAccountViewPermission(licenseKey.getAccountKey());
 
 			licenseKeys.add(licenseKey);
 		}
@@ -505,7 +506,7 @@ public class LicenseKeyResourceImpl
 			com.liferay.osb.provisioning.license.model.LicenseKey licenseKey =
 				_licenseKeyLocalService.getLicenseKey(licenseKeyId);
 
-			_checkAccountMembership(licenseKey.getAccountKey());
+			_checkAccountViewPermission(licenseKey.getAccountKey());
 
 			licenseKeys.add(licenseKey);
 		}
@@ -693,7 +694,28 @@ public class LicenseKeyResourceImpl
 		throw new PrincipalException();
 	}
 
-	private void _checkAccountMembership(String accountKey) throws Exception {
+	private void _checkAccountSelfProvisioningPermission(String accountKey)
+		throws Exception {
+
+		Account account = _accountWebService.getAccount(accountKey);
+
+		Map<String, String> properties = account.getProperties();
+
+		if (properties == null) {
+			return;
+		}
+
+		boolean selfProvisioning = GetterUtil.getBoolean(
+			properties.get("allowSelfProvisioning"), true);
+
+		if (!selfProvisioning) {
+			throw new PrincipalException();
+		}
+	}
+
+	private void _checkAccountViewPermission(String accountKey)
+		throws Exception {
+
 		Contact contact = ProvisioningContactThreadLocal.getContact();
 
 		if (contact != null) {
@@ -717,31 +739,20 @@ public class LicenseKeyResourceImpl
 			if (!teams.isEmpty()) {
 				return;
 			}
+
+			Account account = _accountWebService.getAccount(accountKey);
+
+			if (_customerPortalRelease.hasAccountAccessPermission(
+					account, contact)) {
+
+				return;
+			}
 		}
 		else if (_isOmniAdmin()) {
 			return;
 		}
 
 		throw new PrincipalException();
-	}
-
-	private void _checkAccountSelfProvisioningPermission(String accountKey)
-		throws Exception {
-
-		Account account = _accountWebService.getAccount(accountKey);
-
-		Map<String, String> properties = account.getProperties();
-
-		if (properties == null) {
-			return;
-		}
-
-		boolean selfProvisioning = GetterUtil.getBoolean(
-			properties.get("allowSelfProvisioning"), true);
-
-		if (!selfProvisioning) {
-			throw new PrincipalException();
-		}
 	}
 
 	private String _formatCsvFields(Object... objects) {
@@ -1308,6 +1319,9 @@ public class LicenseKeyResourceImpl
 
 	@Reference
 	private ContactWebService _contactWebService;
+
+	@Reference
+	private CustomerPortalRelease _customerPortalRelease;
 
 	private String _flsTeamRoleKey;
 
