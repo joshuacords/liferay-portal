@@ -1,6 +1,6 @@
 Bundle-Name: Liferay Portal Security SSO OpenID Implementation
 Bundle-SymbolicName: com.liferay.portal.security.sso.openid.impl
-Bundle-Version: 2.0.20
+Bundle-Version: 2.0.21
 Import-Package:\
 	!com.google.inject.internal.asm.util.*,\
 	\
