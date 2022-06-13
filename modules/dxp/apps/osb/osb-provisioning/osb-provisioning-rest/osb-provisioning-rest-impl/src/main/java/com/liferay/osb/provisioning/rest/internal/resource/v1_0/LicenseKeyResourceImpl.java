@@ -40,6 +40,7 @@ import com.liferay.osb.provisioning.license.exception.LicenseKeyDateException;
 import com.liferay.osb.provisioning.license.exception.LicenseKeyProductPurchaseKeyException;
 import com.liferay.osb.provisioning.license.exporter.LicenseKeyExporter;
 import com.liferay.osb.provisioning.license.helper.constants.LicenseType;
+import com.liferay.osb.provisioning.license.helper.constants.ProductId;
 import com.liferay.osb.provisioning.license.helper.constants.ProductVersion;
 import com.liferay.osb.provisioning.license.model.LicenseEntry;
 import com.liferay.osb.provisioning.license.service.LicenseEntryLocalService;
@@ -1093,7 +1094,12 @@ public class LicenseKeyResourceImpl
 		for (com.liferay.osb.provisioning.license.model.LicenseKey licenseKey :
 				licenseKeys) {
 
-			if (licenseKey.getLicenseVersion() <= 5) {
+			String productId = licenseKey.getProductId();
+
+			if ((licenseKey.getLicenseVersion() <= 5) &&
+				(Validator.isNull(productId) ||
+				 productId.equals(ProductId.PORTAL))) {
+
 				return false;
 			}
 		}
