@@ -193,7 +193,12 @@ String target = ParamUtil.getString(request, "target");
 														<p class="col font-weight-bold h5 text-truncate">
 															<c:choose>
 																<c:when test="<%= group.isActive() %>">
-																	<aui:a cssClass="selector-button" data="<%= data %>" href="javascript:;">
+
+																	<%
+																	boolean isNull = data.get("url") == null;
+																	%>
+
+																	<aui:a cssClass='<%= isNull ? " disabled text-muted " : "selector-button " %>' data="<%= data %>" href='<%= isNull ? " " : "javascript:; " %>'>
 																		<%= siteVerticalCard.getTitle() %>
 																	</aui:a>
 																</c:when>
