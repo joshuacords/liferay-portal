@@ -195,10 +195,14 @@ String target = ParamUtil.getString(request, "target");
 																<c:when test="<%= group.isActive() %>">
 
 																	<%
-																	boolean isNull = data.get("url") == null;
+																	boolean hasURL = true;
+
+																	if (data.get("url") == null) {
+																		hasURL = false;
+																	}
 																	%>
 
-																	<aui:a cssClass='<%= isNull ? " disabled text-muted " : "selector-button " %>' data="<%= data %>" href='<%= isNull ? " " : "javascript:; " %>'>
+																	<aui:a cssClass='<%= hasURL ? "selector-button " : " disabled text-muted " %>' data="<%= data %>" href='<%= hasURL ? "javascript:; " : " " %>'>
 																		<%= siteVerticalCard.getTitle() %>
 																	</aui:a>
 																</c:when>
