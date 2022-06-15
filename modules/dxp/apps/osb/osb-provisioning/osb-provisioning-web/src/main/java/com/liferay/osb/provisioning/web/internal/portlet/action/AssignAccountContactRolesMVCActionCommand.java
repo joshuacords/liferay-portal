@@ -49,6 +49,7 @@ import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -93,15 +94,13 @@ public class AssignAccountContactRolesMVCActionCommand
 			String[] deleteContactRoleKeys = ParamUtil.getStringValues(
 				actionRequest, "deleteContactRoleKeys");
 
+			List<ContactRole> contactRoles = Collections.emptyList();
+
 			Account account = _accountWebService.getAccount(accountKey);
 
 			Contact contact =
 				_contactIdentityProvider.fetchContactByEmailAddress(
 					emailAddress, true);
-
-			List<ContactRole> contactRoles =
-				_contactRoleWebService.getAccountContactRoles(
-					accountKey, emailAddress, 1, 1000);
 
 			if (contact == null) {
 				String subscriptionState = _accountReader.getSubscriptionState(
@@ -125,6 +124,9 @@ public class AssignAccountContactRolesMVCActionCommand
 				deleteContactRoleKeys = new String[0];
 			}
 			else {
+				contactRoles = _contactRoleWebService.getAccountContactRoles(
+					accountKey, emailAddress, 1, 1000);
+
 				Stream<ContactRole> stream = contactRoles.stream();
 
 				List<String> contactRoleKeys = stream.map(
