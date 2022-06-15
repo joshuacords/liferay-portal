@@ -418,12 +418,13 @@ public abstract class BaseKeywordResourceImpl
 			"createStrategy", "INSERT");
 
 		if ("INSERT".equalsIgnoreCase(createStrategy)) {
-			keywordUnsafeConsumer = keyword -> {
-			};
-
 			if (parameters.containsKey("siteId")) {
 				keywordUnsafeConsumer = keyword -> postSiteKeyword(
 					(Long)parameters.get("siteId"), keyword);
+			}
+			else {
+				throw new NotSupportedException(
+					"One of the following parameters must be specified: [siteId]");
 			}
 		}
 
@@ -493,7 +494,8 @@ public abstract class BaseKeywordResourceImpl
 				sorts);
 		}
 		else {
-			return null;
+			throw new NotSupportedException(
+				"One of the following parameters must be specified: [siteId]");
 		}
 	}
 

@@ -527,13 +527,14 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 			"createStrategy", "INSERT");
 
 		if ("INSERT".equalsIgnoreCase(createStrategy)) {
-			taxonomyVocabularyUnsafeConsumer = taxonomyVocabulary -> {
-			};
-
 			if (parameters.containsKey("siteId")) {
 				taxonomyVocabularyUnsafeConsumer =
 					taxonomyVocabulary -> postSiteTaxonomyVocabulary(
 						(Long)parameters.get("siteId"), taxonomyVocabulary);
+			}
+			else {
+				throw new NotSupportedException(
+					"One of the following parameters must be specified: [siteId]");
 			}
 		}
 
@@ -598,7 +599,8 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 			Map<String, Serializable> parameters, String search)
 		throws Exception {
 
-		return null;
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
 	}
 
 	@Override

@@ -1150,18 +1150,22 @@ public abstract class BaseStructuredContentResourceImpl
 			"createStrategy", "INSERT");
 
 		if ("INSERT".equalsIgnoreCase(createStrategy)) {
-			structuredContentUnsafeConsumer =
-				structuredContent ->
+			if (parameters.containsKey("structuredContentFolderId")) {
+				structuredContentUnsafeConsumer = structuredContent ->
 					postStructuredContentFolderStructuredContent(
 						Long.parseLong(
 							(String)parameters.get(
 								"structuredContentFolderId")),
 						structuredContent);
-
-			if (parameters.containsKey("siteId")) {
+			}
+			else if (parameters.containsKey("siteId")) {
 				structuredContentUnsafeConsumer =
 					structuredContent -> postSiteStructuredContent(
 						(Long)parameters.get("siteId"), structuredContent);
+			}
+			else {
+				throw new NotSupportedException(
+					"One of the following parameters must be specified: [structuredContentFolderId, siteId]");
 			}
 		}
 
@@ -1232,10 +1236,21 @@ public abstract class BaseStructuredContentResourceImpl
 				Boolean.parseBoolean((String)parameters.get("flatten")), search,
 				null, filter, pagination, sorts);
 		}
-		else {
+		else if (parameters.containsKey("contentStructureId")) {
 			return getContentStructureStructuredContentsPage(
 				Long.parseLong((String)parameters.get("contentStructureId")),
 				search, null, filter, pagination, sorts);
+		}
+		else if (parameters.containsKey("structuredContentFolderId")) {
+			return getStructuredContentFolderStructuredContentsPage(
+				Long.parseLong(
+					(String)parameters.get("structuredContentFolderId")),
+				Boolean.parseBoolean((String)parameters.get("flatten")), search,
+				null, filter, pagination, sorts);
+		}
+		else {
+			throw new NotSupportedException(
+				"One of the following parameters must be specified: [siteId, contentStructureId, structuredContentFolderId]");
 		}
 	}
 

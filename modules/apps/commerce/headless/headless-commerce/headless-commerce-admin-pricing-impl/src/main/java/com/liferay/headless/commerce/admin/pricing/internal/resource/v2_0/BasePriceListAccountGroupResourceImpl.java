@@ -386,6 +386,9 @@ public abstract class BasePriceListAccountGroupResourceImpl
 			java.util.Collection<PriceListAccountGroup> priceListAccountGroups,
 			Map<String, Serializable> parameters)
 		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
 	}
 
 	@Override
@@ -434,7 +437,8 @@ public abstract class BasePriceListAccountGroupResourceImpl
 			Map<String, Serializable> parameters, String search)
 		throws Exception {
 
-		return null;
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
 	}
 
 	@Override
@@ -464,6 +468,9 @@ public abstract class BasePriceListAccountGroupResourceImpl
 			java.util.Collection<PriceListAccountGroup> priceListAccountGroups,
 			Map<String, Serializable> parameters)
 		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
 	}
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {

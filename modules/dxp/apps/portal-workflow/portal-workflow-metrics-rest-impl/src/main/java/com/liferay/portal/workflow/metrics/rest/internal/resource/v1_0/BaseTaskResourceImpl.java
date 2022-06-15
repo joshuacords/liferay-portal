@@ -56,6 +56,7 @@ import javax.annotation.Generated;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import javax.ws.rs.NotSupportedException;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
@@ -148,6 +149,9 @@ public abstract class BaseTaskResourceImpl
 			java.util.Collection<Task> tasks,
 			Map<String, Serializable> parameters)
 		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
 	}
 
 	@Override
@@ -155,6 +159,9 @@ public abstract class BaseTaskResourceImpl
 			java.util.Collection<Task> tasks,
 			Map<String, Serializable> parameters)
 		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
 	}
 
 	public Set<String> getAvailableCreateStrategies() {
@@ -190,12 +197,18 @@ public abstract class BaseTaskResourceImpl
 			Map<String, Serializable> parameters, String search)
 		throws Exception {
 
-		return getProcessTasksPage(
-			Long.parseLong((String)parameters.get("processId")),
-			Boolean.parseBoolean((String)parameters.get("completed")),
-			new java.util.Date((String)parameters.get("dateEnd")),
-			new java.util.Date((String)parameters.get("dateStart")),
-			(String)parameters.get("key"), pagination, sorts);
+		if (parameters.containsKey("processId")) {
+			return getProcessTasksPage(
+				Long.parseLong((String)parameters.get("processId")),
+				Boolean.parseBoolean((String)parameters.get("completed")),
+				new java.util.Date((String)parameters.get("dateEnd")),
+				new java.util.Date((String)parameters.get("dateStart")),
+				(String)parameters.get("key"), pagination, sorts);
+		}
+		else {
+			throw new NotSupportedException(
+				"One of the following parameters must be specified: [processId]");
+		}
 	}
 
 	@Override
@@ -225,6 +238,9 @@ public abstract class BaseTaskResourceImpl
 			java.util.Collection<Task> tasks,
 			Map<String, Serializable> parameters)
 		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
 	}
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {

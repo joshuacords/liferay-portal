@@ -56,6 +56,7 @@ import javax.annotation.Generated;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import javax.ws.rs.NotSupportedException;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
@@ -195,6 +196,9 @@ public abstract class BaseInstanceResourceImpl
 			java.util.Collection<Instance> instances,
 			Map<String, Serializable> parameters)
 		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
 	}
 
 	@Override
@@ -202,6 +206,9 @@ public abstract class BaseInstanceResourceImpl
 			java.util.Collection<Instance> instances,
 			Map<String, Serializable> parameters)
 		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
 	}
 
 	public Set<String> getAvailableCreateStrategies() {
@@ -237,14 +244,20 @@ public abstract class BaseInstanceResourceImpl
 			Map<String, Serializable> parameters, String search)
 		throws Exception {
 
-		return getProcessInstancesPage(
-			Long.parseLong((String)parameters.get("processId")),
-			(Long[])parameters.get("assigneeUserIds"),
-			new java.util.Date((String)parameters.get("dateEnd")),
-			new java.util.Date((String)parameters.get("dateStart")),
-			(String[])parameters.get("slaStatuses"),
-			(String[])parameters.get("statuses"),
-			(String[])parameters.get("taskKeys"), pagination);
+		if (parameters.containsKey("processId")) {
+			return getProcessInstancesPage(
+				Long.parseLong((String)parameters.get("processId")),
+				(Long[])parameters.get("assigneeUserIds"),
+				new java.util.Date((String)parameters.get("dateEnd")),
+				new java.util.Date((String)parameters.get("dateStart")),
+				(String[])parameters.get("slaStatuses"),
+				(String[])parameters.get("statuses"),
+				(String[])parameters.get("taskKeys"), pagination);
+		}
+		else {
+			throw new NotSupportedException(
+				"One of the following parameters must be specified: [processId]");
+		}
 	}
 
 	@Override
@@ -274,6 +287,9 @@ public abstract class BaseInstanceResourceImpl
 			java.util.Collection<Instance> instances,
 			Map<String, Serializable> parameters)
 		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
 	}
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {

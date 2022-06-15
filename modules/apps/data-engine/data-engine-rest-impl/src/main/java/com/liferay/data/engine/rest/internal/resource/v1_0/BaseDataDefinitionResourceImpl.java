@@ -559,13 +559,14 @@ public abstract class BaseDataDefinitionResourceImpl
 			"createStrategy", "INSERT");
 
 		if ("INSERT".equalsIgnoreCase(createStrategy)) {
-			dataDefinitionUnsafeConsumer = dataDefinition -> {
-			};
-
 			if (parameters.containsKey("siteId")) {
 				dataDefinitionUnsafeConsumer =
 					dataDefinition -> postSiteDataDefinition(
 						(Long)parameters.get("siteId"), dataDefinition);
+			}
+			else {
+				throw new NotSupportedException(
+					"One of the following parameters must be specified: [siteId]");
 			}
 		}
 
@@ -636,7 +637,8 @@ public abstract class BaseDataDefinitionResourceImpl
 				(String)parameters.get("keywords"), pagination, sorts);
 		}
 		else {
-			return null;
+			throw new NotSupportedException(
+				"One of the following parameters must be specified: [siteId]");
 		}
 	}
 

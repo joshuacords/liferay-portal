@@ -745,14 +745,15 @@ public abstract class BaseStructuredContentFolderResourceImpl
 			"createStrategy", "INSERT");
 
 		if ("INSERT".equalsIgnoreCase(createStrategy)) {
-			structuredContentFolderUnsafeConsumer = structuredContentFolder -> {
-			};
-
 			if (parameters.containsKey("siteId")) {
 				structuredContentFolderUnsafeConsumer =
 					structuredContentFolder -> postSiteStructuredContentFolder(
 						(Long)parameters.get("siteId"),
 						structuredContentFolder);
+			}
+			else {
+				throw new NotSupportedException(
+					"One of the following parameters must be specified: [siteId]");
 			}
 		}
 
@@ -831,7 +832,8 @@ public abstract class BaseStructuredContentFolderResourceImpl
 				null, filter, pagination, sorts);
 		}
 		else {
-			return null;
+			throw new NotSupportedException(
+				"One of the following parameters must be specified: [siteId]");
 		}
 	}
 

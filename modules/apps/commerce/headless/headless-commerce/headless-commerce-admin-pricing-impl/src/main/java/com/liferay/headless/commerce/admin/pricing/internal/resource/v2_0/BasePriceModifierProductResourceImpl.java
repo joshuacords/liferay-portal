@@ -399,6 +399,9 @@ public abstract class BasePriceModifierProductResourceImpl
 			java.util.Collection<PriceModifierProduct> priceModifierProducts,
 			Map<String, Serializable> parameters)
 		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
 	}
 
 	@Override
@@ -447,7 +450,8 @@ public abstract class BasePriceModifierProductResourceImpl
 			Map<String, Serializable> parameters, String search)
 		throws Exception {
 
-		return null;
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
 	}
 
 	@Override
@@ -477,6 +481,9 @@ public abstract class BasePriceModifierProductResourceImpl
 			java.util.Collection<PriceModifierProduct> priceModifierProducts,
 			Map<String, Serializable> parameters)
 		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
 	}
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {

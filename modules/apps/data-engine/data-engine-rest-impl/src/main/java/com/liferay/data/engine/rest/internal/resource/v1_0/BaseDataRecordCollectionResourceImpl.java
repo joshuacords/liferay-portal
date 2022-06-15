@@ -614,10 +614,18 @@ public abstract class BaseDataRecordCollectionResourceImpl
 			"createStrategy", "INSERT");
 
 		if ("INSERT".equalsIgnoreCase(createStrategy)) {
-			dataRecordCollectionUnsafeConsumer =
-				dataRecordCollection -> postDataDefinitionDataRecordCollection(
-					Long.parseLong((String)parameters.get("dataDefinitionId")),
-					dataRecordCollection);
+			if (parameters.containsKey("dataDefinitionId")) {
+				dataRecordCollectionUnsafeConsumer =
+					dataRecordCollection ->
+						postDataDefinitionDataRecordCollection(
+							Long.parseLong(
+								(String)parameters.get("dataDefinitionId")),
+							dataRecordCollection);
+			}
+			else {
+				throw new NotSupportedException(
+					"One of the following parameters must be specified: [dataDefinitionId]");
+			}
 		}
 
 		if (dataRecordCollectionUnsafeConsumer == null) {
@@ -690,10 +698,14 @@ public abstract class BaseDataRecordCollectionResourceImpl
 				(Long)parameters.get("siteId"),
 				(String)parameters.get("keywords"), pagination);
 		}
-		else {
+		else if (parameters.containsKey("dataDefinitionId")) {
 			return getDataDefinitionDataRecordCollectionsPage(
 				Long.parseLong((String)parameters.get("dataDefinitionId")),
 				(String)parameters.get("keywords"), pagination);
+		}
+		else {
+			throw new NotSupportedException(
+				"One of the following parameters must be specified: [siteId, dataDefinitionId]");
 		}
 	}
 

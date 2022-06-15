@@ -693,10 +693,13 @@ public abstract class BaseUserAccountResourceImpl
 				(Long)parameters.get("siteId"), search, filter, pagination,
 				sorts);
 		}
-		else {
+		else if (parameters.containsKey("organizationId")) {
 			return getOrganizationUserAccountsPage(
 				Long.parseLong((String)parameters.get("organizationId")),
 				search, filter, pagination, sorts);
+		}
+		else {
+			return getUserAccountsPage(search, filter, pagination, sorts);
 		}
 	}
 
