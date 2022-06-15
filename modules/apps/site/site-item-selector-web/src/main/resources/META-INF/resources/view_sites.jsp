@@ -202,7 +202,7 @@ String target = ParamUtil.getString(request, "target");
 																	}
 																	%>
 
-																	<aui:a cssClass='<%= hasURL ? "selector-button " : " disabled text-muted " %>' data="<%= data %>" href='<%= hasURL ? "javascript:; " : " " %>'>
+																	<aui:a cssClass='<%= hasURL ? "selector-button" : "disabled text-muted" %>' data="<%= data %>" href='<%= hasURL ? "javascript:;" : StringPool.BLANK %>'>
 																		<%= siteVerticalCard.getTitle() %>
 																	</aui:a>
 																</c:when>
