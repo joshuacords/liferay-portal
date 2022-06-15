@@ -1,0 +1,49 @@
+package routines;
+
+import java.net.URLEncoder;
+
+import java.nio.charset.StandardCharsets;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @author Amos Fong
+ */
+public class StringUtil {
+
+	public static String encodeURL(String rawURLString) throws Exception {
+		if (rawURLString == null) {
+			return null;
+		}
+
+		if (rawURLString.isEmpty()) {
+			return "";
+		}
+
+		return URLEncoder.encode(
+			rawURLString, StandardCharsets.UTF_8.toString());
+	}
+
+	public static List<String> split(String s) {
+		List<String> values = new ArrayList<>();
+
+		int offset = 0;
+		int pos;
+
+		while ((pos = s.indexOf(",", offset)) != -1) {
+			if (offset < pos) {
+				values.add(s.substring(offset, pos));
+			}
+
+			offset = pos + 1;
+		}
+
+		if (offset < s.length()) {
+			values.add(s.substring(offset));
+		}
+
+		return values;
+	}
+
+}

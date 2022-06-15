@@ -5082,7 +5082,7 @@
       <column comment="" key="false" length="-1" name="externalReferenceCode" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="-1" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="TalendMapper:MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="map3">
         <mapperTableEntries name="externalReferenceCode" expression="CleanCommerceUtil.getCommerceOrderERC((JSONArray)globalMap.get(&quot;orders&quot;), row9.externalReferenceCode) " type="id_String" nullable="true"/>
@@ -5328,7 +5328,7 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRunJob_1" show="false"/>
     <elementParameter field="CHECK" name="USE_DYNAMIC_JOB" value="false"/>
     <elementParameter field="TEXT" name="CONTEXT_JOB" value="" show="false"/>
-    <elementParameter field="PROCESS_TYPE" name="PROCESS" value="CleanCommerceOrderItems"/>
+    <elementParameter field="PROCESS_TYPE" name="PROCESS" value="AccountSync_CommerceOrders_CleanCommerceOrderItems"/>
     <elementParameter field="TECHNICAL" name="PROCESS:PROCESS_TYPE_CONTEXT" value="Default"/>
     <elementParameter field="TECHNICAL" name="PROCESS:PROCESS_TYPE_PROCESS" value="_h1tjAOdhEeyzPYA6YIFv2g"/>
     <elementParameter field="TECHNICAL" name="PROCESS:PROCESS_TYPE_VERSION" value="Latest"/>

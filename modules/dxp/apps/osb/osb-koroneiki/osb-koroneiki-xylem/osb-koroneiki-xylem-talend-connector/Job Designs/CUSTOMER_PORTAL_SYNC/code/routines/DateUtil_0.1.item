@@ -34,6 +34,44 @@ public class DateUtil {
 		return _simpleDateFormat.format(date);
 	}
 
+	public static String getLastRunStartDate(
+		String lastRunStartDate, Integer deltaMins) {
+
+		String formattedLastRunStartDate = null;
+
+		if (lastRunStartDate != null) {
+			String sanitizedLastRunStartDate = lastRunStartDate.trim();
+
+			if (!sanitizedLastRunStartDate.isEmpty()) {
+				if (deltaMins == null) {
+					deltaMins = 5;
+				}
+
+				Date date = TalendDate.parseDate(
+					"yyyy-MM-dd'T'HH:mm:ssZ", sanitizedLastRunStartDate);
+
+				date = new Date(date.getTime() - (deltaMins * 60 * 1000));
+
+				formattedLastRunStartDate = TalendDate.formatDate(
+					"yyyy-MM-dd'T'HH:mm:ss'Z'", date);
+			}
+		}
+
+		if (formattedLastRunStartDate == null) {
+			//formattedLastRunStartDate = TalendDate.formatDate("yyyy-MM-dd'T'HH:mm:ss'Z'", new Date(0));
+
+			// 2021-01-01T00:00:00Z
+
+			//formattedLastRunStartDate = TalendDate.formatDate("yyyy-MM-dd'T'HH:mm:ss'Z'", new Date(1609488000000L));
+
+			formattedLastRunStartDate = TalendDate.formatDate(
+				"yyyy-MM-dd'T'HH:mm:ss'Z'",
+				new Date(System.currentTimeMillis() - 30000000));
+		}
+
+		return formattedLastRunStartDate;
+	}
+
 	public static Date parseDate(JSONObject jsonObject, String fieldName)
 		throws Exception {
 

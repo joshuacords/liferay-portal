@@ -41,6 +41,8 @@ public class Constants {
 
 	public static final int ORDER_STATUS_OPEN = 2;
 
+	public static final String REGION_UNITED_STATES = "United States";
+
 	public static final long START_DATE_PERPETUAL = 0L;
 
 	public static final String TEAM_ROLE_NAME_FIRST_LINE_SUPPORT =

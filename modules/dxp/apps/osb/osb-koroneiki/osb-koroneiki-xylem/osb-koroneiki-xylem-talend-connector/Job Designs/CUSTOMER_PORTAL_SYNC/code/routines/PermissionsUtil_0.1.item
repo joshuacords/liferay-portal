@@ -1,0 +1,24 @@
+package routines;
+
+import java.util.Map;
+
+/**
+ * @author Amos Fong
+ */
+public class PermissionsUtil {
+
+	public static String getAccountAccessOrganizationId(
+		String region, Map<String, Object> globalMap) {
+
+		if (region == null) {
+			return "";
+		}
+
+		if (region.equals(Constants.REGION_UNITED_STATES)) {
+			return (String)globalMap.get("accountAccessUSOrganizationId");
+		}
+
+		return "";
+	}
+
+}
