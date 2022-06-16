@@ -1,6 +1,6 @@
 Bundle-Name: Liferay Portal Security SSO Token API
 Bundle-SymbolicName: com.liferay.portal.security.sso.token.api
-Bundle-Version: 3.1.22
+Bundle-Version: 3.1.23
 Export-Package:\
 	com.liferay.portal.security.sso.token.configuration,\
 	com.liferay.portal.security.sso.token.constants,\
