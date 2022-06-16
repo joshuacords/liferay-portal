@@ -1,6 +1,6 @@
 Bundle-Name: Liferay Fragment Collection Contributor Basic Section
 Bundle-SymbolicName: com.liferay.fragment.collection.contributor.basic.section
-Bundle-Version: 1.0.41
+Bundle-Version: 1.0.42
 Import-Package:\
 	com.liferay.fragment.contributor;version="[1.0,99.0.0)",\
 	\
