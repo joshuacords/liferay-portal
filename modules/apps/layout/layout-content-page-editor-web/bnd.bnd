@@ -1,6 +1,6 @@
 Bundle-Name: Liferay Layout Content Page Editor Web
 Bundle-SymbolicName: com.liferay.layout.content.page.editor.web
-Bundle-Version: 1.0.137
+Bundle-Version: 1.0.138
 Provide-Capability:\
 	soy;\
 		type="layout-content-page-editor-web";\
