@@ -14,9 +14,12 @@
 
 package com.liferay.osb.provisioning.web.internal.display.context;
 
+import com.liferay.osb.koroneiki.phloem.rest.client.constants.ExternalLinkDomain;
+import com.liferay.osb.koroneiki.phloem.rest.client.constants.ExternalLinkEntityName;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Account;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Contact;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ContactRole;
+import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ExternalLink;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Team;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.TeamRole;
 import com.liferay.osb.provisioning.constants.ProvisioningWebKeys;
@@ -24,6 +27,7 @@ import com.liferay.osb.provisioning.koroneiki.constants.TeamRoleConstants;
 import com.liferay.osb.provisioning.search.FilterQuery;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.language.LanguageUtil;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -200,6 +204,23 @@ public class ViewTeamDisplayContext extends ViewAccountDisplayContext {
 
 	public TeamDisplay getTeamDisplay() {
 		return teamDisplay;
+	}
+
+	public boolean hasOktaGroup() {
+		if (ArrayUtil.isNotEmpty(team.getExternalLinks())) {
+			for (ExternalLink externalLink : team.getExternalLinks()) {
+				String domain = externalLink.getDomain();
+				String entityName = externalLink.getEntityName();
+
+				if (domain.equals(ExternalLinkDomain.OKTA) &&
+					entityName.equals(ExternalLinkEntityName.OKTA_GROUP)) {
+
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	@Override

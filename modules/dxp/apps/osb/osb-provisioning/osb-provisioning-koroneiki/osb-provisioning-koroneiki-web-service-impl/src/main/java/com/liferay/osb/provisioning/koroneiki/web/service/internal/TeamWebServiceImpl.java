@@ -51,7 +51,7 @@ public class TeamWebServiceImpl
 			agentName, agentUID, accountKey, team);
 	}
 
-	public void assignContacts(
+	public void assignContactsByEmailAddress(
 			String agentName, String agentUID, String teamKey,
 			String[] contactEmailAddresses)
 		throws Exception {
@@ -59,6 +59,18 @@ public class TeamWebServiceImpl
 		HttpInvoker.HttpResponse httpResponse =
 			_teamResource.putTeamContactByEmailAddresHttpResponse(
 				agentName, agentUID, teamKey, contactEmailAddresses);
+
+		validateResponse(httpResponse);
+	}
+
+	public void assignContactsByUuid(
+			String agentName, String agentUID, String teamKey,
+			String[] contactUuids)
+		throws Exception {
+
+		HttpInvoker.HttpResponse httpResponse =
+			_teamResource.putTeamContactByUuidHttpResponse(
+				agentName, agentUID, teamKey, contactUuids);
 
 		validateResponse(httpResponse);
 	}
@@ -132,7 +144,7 @@ public class TeamWebServiceImpl
 		return 0;
 	}
 
-	public void unassignContacts(
+	public void unassignContactsByEmailAddress(
 			String agentName, String agentUID, String teamKey,
 			String[] contactEmailAddresses)
 		throws Exception {
@@ -140,6 +152,18 @@ public class TeamWebServiceImpl
 		HttpInvoker.HttpResponse httpResponse =
 			_teamResource.deleteTeamContactByEmailAddresHttpResponse(
 				agentName, agentUID, teamKey, contactEmailAddresses);
+
+		validateResponse(httpResponse);
+	}
+
+	public void unassignContactsByUuid(
+			String agentName, String agentUID, String teamKey,
+			String[] contactUuids)
+		throws Exception {
+
+		HttpInvoker.HttpResponse httpResponse =
+			_teamResource.deleteTeamContactByUuidHttpResponse(
+				agentName, agentUID, teamKey, contactUuids);
 
 		validateResponse(httpResponse);
 	}

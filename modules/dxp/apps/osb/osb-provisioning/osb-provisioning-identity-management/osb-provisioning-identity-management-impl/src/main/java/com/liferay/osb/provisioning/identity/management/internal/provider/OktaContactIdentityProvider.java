@@ -30,6 +30,8 @@ import com.liferay.portal.kernel.cache.PortalCache;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactory;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
 import com.liferay.portal.kernel.service.UserLocalService;
@@ -37,9 +39,13 @@ import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
+
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -137,19 +143,7 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 				return null;
 			}
 
-			JSONObject profileJSONObject = jsonObject.getJSONObject("profile");
-
-			contact = new Contact();
-
-			contact.setEmailAddress(emailAddress);
-			contact.setFirstName(profileJSONObject.getString("firstName"));
-			contact.setLastName(profileJSONObject.getString("lastName"));
-			contact.setMiddleName(profileJSONObject.getString("middleName"));
-			contact.setUuid(profileJSONObject.getString("uuid"));
-
-			if (_isEmailAddressVerified(jsonObject.getString("status"))) {
-				contact.setEmailAddressVerified(true);
-			}
+			contact = _toContact(jsonObject);
 
 			if (sync) {
 				contact = _contactWebService.addContact(
@@ -206,21 +200,7 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 				return null;
 			}
 
-			JSONObject jsonObject = jsonArray.getJSONObject(0);
-
-			JSONObject profileJSONObject = jsonObject.getJSONObject("profile");
-
-			contact = new Contact();
-
-			contact.setEmailAddress(profileJSONObject.getString("email"));
-			contact.setFirstName(profileJSONObject.getString("firstName"));
-			contact.setLastName(profileJSONObject.getString("lastName"));
-			contact.setMiddleName(profileJSONObject.getString("middleName"));
-			contact.setUuid(uuid);
-
-			if (_isEmailAddressVerified(jsonObject.getString("status"))) {
-				contact.setEmailAddressVerified(true);
-			}
+			contact = _toContact(jsonArray.getJSONObject(0));
 		}
 
 		return contact;
@@ -248,6 +228,10 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 		}
 
 		return WorkflowConstants.STATUS_APPROVED;
+	}
+
+	public List<Contact> getGroupContacts(String groupId) throws Exception {
+		return _getAllContacts(groupId);
 	}
 
 	public void removeMembership(String groupId, String emailAddress)
@@ -343,9 +327,60 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 			OktaContactIdentityProvider.class.getName());
 	}
 
+	private List<Contact> _getAllContacts(String groupId) throws Exception {
+		List<Contact> contacts = new ArrayList<>();
+
+		StringBundler sb = new StringBundler(6);
+
+		sb.append(Http.HTTPS_WITH_SLASH);
+		sb.append(_host);
+		sb.append(_URL_API_REST_GROUPS);
+		sb.append(groupId);
+		sb.append(_URL_API_REST_GROUPS_USERS);
+		sb.append("?limit=200");
+
+		String requestURL = sb.toString();
+
+		while (Validator.isNotNull(requestURL)) {
+			URL url = new URL(requestURL);
+
+			HttpURLConnection httpURLConnection =
+				(HttpURLConnection)url.openConnection();
+
+			httpURLConnection.setRequestProperty(
+				"Authorization", "SSWS " + _apiToken);
+
+			int responseCode = httpURLConnection.getResponseCode();
+
+			if (responseCode != HttpURLConnection.HTTP_OK) {
+				if (_log.isDebugEnabled()) {
+					_log.debug(
+						StringUtil.read(httpURLConnection.getErrorStream()));
+				}
+
+				throw new Exception("Server responded with " + responseCode);
+			}
+
+			String response = StringUtil.read(
+				httpURLConnection.getInputStream());
+
+			JSONArray jsonArray = _jsonFactory.createJSONArray(response);
+
+			for (int i = 0; i < jsonArray.length(); i++) {
+				JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+				contacts.add(_toContact(jsonObject));
+			}
+
+			requestURL = _getNextURL(httpURLConnection.getHeaderFields());
+		}
+
+		return contacts;
+	}
+
 	private List<String> _getGroups(String emailAddress) throws Exception {
 		String response = _sendRequest(
-			_URL_API_REST_USERS + emailAddress + _URL_API_REST_GROUPS);
+			_URL_API_REST_USERS + emailAddress + _URL_API_REST_USER_GROUPS);
 
 		if (response.contains("errorCode")) {
 			return Collections.emptyList();
@@ -365,6 +400,28 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 		}
 
 		return groups;
+	}
+
+	private String _getNextURL(Map<String, List<String>> headerFields) {
+		List<String> links = headerFields.get("link");
+
+		for (String link : links) {
+			String[] linkArray = StringUtil.split(link, StringPool.SEMICOLON);
+
+			if (linkArray.length <= 1) {
+				continue;
+			}
+
+			String relAttribute = StringUtil.trim(linkArray[1]);
+
+			if (relAttribute.equals("rel=\"next\"")) {
+				String url = linkArray[0];
+
+				return url.substring(1, url.length() - 1);
+			}
+		}
+
+		return null;
 	}
 
 	private boolean _isEmailAddressVerified(String status) {
@@ -440,6 +497,24 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 		}
 	}
 
+	private Contact _toContact(JSONObject jsonObject) {
+		JSONObject profileJSONObject = jsonObject.getJSONObject("profile");
+
+		Contact contact = new Contact();
+
+		contact.setEmailAddress(profileJSONObject.getString("email"));
+		contact.setFirstName(profileJSONObject.getString("firstName"));
+		contact.setLastName(profileJSONObject.getString("lastName"));
+		contact.setMiddleName(profileJSONObject.getString("middleName"));
+		contact.setUuid(profileJSONObject.getString("uuid"));
+
+		if (_isEmailAddressVerified(jsonObject.getString("status"))) {
+			contact.setEmailAddressVerified(true);
+		}
+
+		return contact;
+	}
+
 	private static final String[] _STATUSES_DEACTIVATED = {"DEPROVISIONED"};
 
 	private static final String[] _STATUSES_PENDING = {"PROVISIONED", "STAGED"};
@@ -450,9 +525,16 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 
 	private static final String _URL_API_GET_SESSION = "/api/v1/sessions/";
 
-	private static final String _URL_API_REST_GROUPS = "/groups";
+	private static final String _URL_API_REST_GROUPS = "/api/v1/groups/";
+
+	private static final String _URL_API_REST_GROUPS_USERS = "/users";
+
+	private static final String _URL_API_REST_USER_GROUPS = "/groups";
 
 	private static final String _URL_API_REST_USERS = "/api/v1/users/";
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		OktaContactIdentityProvider.class);
 
 	private String _apiToken;
 

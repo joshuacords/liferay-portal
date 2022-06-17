@@ -42,6 +42,9 @@ public interface ContactWebService {
 
 	public Contact getContactByUuid(String uuid) throws Exception;
 
+	public List<Contact> getTeamContacts(String teamKey, int page, int pageSize)
+		throws Exception;
+
 	public List<Contact> search(
 			String search, FilterQuery filterQuery, int page, int pageSize,
 			String sortString)

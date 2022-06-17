@@ -57,31 +57,39 @@ TeamDisplay teamDisplay = viewTeamDisplayContext.getTeamDisplay();
 		</ul>
 	</div>
 
-	<div class="autofit-col">
+	<div class="header-buttons">
+		<c:if test="<%= viewTeamDisplayContext.hasOktaGroup() %>">
+			<portlet:actionURL name="/team/sync_from_okta" var="syncFromOktaURL">
+				<portlet:param name="redirect" value="<%= currentURL %>" />
+				<portlet:param name="teamKey" value="<%= teamDisplay.getKey() %>" />
+			</portlet:actionURL>
+
+			<aui:form action="<%= syncFromOktaURL %>" method="post" name="fm1">
+				<aui:button cssClass="btn-secondary" href="<%= syncFromOktaURL %>" value="sync-from-okta" />
+			</aui:form>
+		</c:if>
+
 		<c:if test="<%= !teamDisplay.isSystem() && viewTeamDisplayContext.hasManageAccountsPermission() %>">
 			<portlet:actionURL name="/accounts/edit_team" var="editTeamURL" />
 
-			<portlet:renderURL var="editTeamNameURL">
-				<portlet:param name="mvcRenderCommandName" value="/accounts/edit_team" />
-				<portlet:param name="redirect" value="<%= currentURL %>" />
-				<portlet:param name="teamKey" value="<%= teamDisplay.getKey() %>" />
-			</portlet:renderURL>
-
-			<aui:form action="<%= editTeamURL %>" method="post" name="editTeamFm">
+			<aui:form action="<%= editTeamURL %>" method="post" name="fm2">
 				<aui:input name="redirect" type="hidden" value="<%= currentURL %>" />
 				<aui:input name="teamKey" type="hidden" value="<%= teamDisplay.getKey() %>" />
 				<aui:input name="addEmailAddresses" type="hidden" />
 
-				<aui:button-row>
+				<portlet:renderURL var="editTeamNameURL">
+					<portlet:param name="mvcRenderCommandName" value="/accounts/edit_team" />
+					<portlet:param name="redirect" value="<%= currentURL %>" />
+					<portlet:param name="teamKey" value="<%= teamDisplay.getKey() %>" />
+				</portlet:renderURL>
 
-					<%
-					String taglibOnClick = "if (confirm('" + LanguageUtil.get(request, "are-you-sure-you-want-to-delete-this-team") + "')) {submitForm(document.hrefFm, '" + teamDisplay.getDeleteTeamURL() + "');}";
-					%>
+				<aui:button cssClass="btn-secondary" href="<%= editTeamNameURL %>" value="edit" />
 
-					<aui:button cssClass="btn-secondary" href="<%= editTeamNameURL %>" value="edit" />
+				<%
+				String taglibOnClick = "if (confirm('" + LanguageUtil.get(request, "are-you-sure-you-want-to-delete-this-team") + "')) {submitForm(document.hrefFm, '" + teamDisplay.getDeleteTeamURL() + "');}";
+				%>
 
-					<aui:button cssClass="btn-secondary" onClick="<%= taglibOnClick %>" value="delete" />
-				</aui:button-row>
+				<aui:button cssClass="btn-secondary" onClick="<%= taglibOnClick %>" value="delete" />
 			</aui:form>
 		</c:if>
 	</div>

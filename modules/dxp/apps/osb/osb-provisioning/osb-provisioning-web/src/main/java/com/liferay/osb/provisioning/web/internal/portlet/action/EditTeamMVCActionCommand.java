@@ -155,7 +155,7 @@ public class EditTeamMVCActionCommand extends BaseMVCActionCommand {
 			actionRequest, "deleteEmailAddresses");
 
 		if (!ArrayUtil.isEmpty(addEmailAddresses)) {
-			_teamWebService.assignContacts(
+			_teamWebService.assignContactsByEmailAddress(
 				user.getFullName(), user.getUuid(), teamKey, addEmailAddresses);
 		}
 
@@ -165,7 +165,7 @@ public class EditTeamMVCActionCommand extends BaseMVCActionCommand {
 					teamKey, emailAddress);
 			}
 
-			_teamWebService.unassignContacts(
+			_teamWebService.unassignContactsByEmailAddress(
 				user.getFullName(), user.getUuid(), teamKey,
 				deleteEmailAddresses);
 		}

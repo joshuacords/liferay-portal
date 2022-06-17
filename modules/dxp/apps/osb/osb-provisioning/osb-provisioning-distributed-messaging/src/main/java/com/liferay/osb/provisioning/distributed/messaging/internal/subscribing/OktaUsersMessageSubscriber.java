@@ -94,7 +94,7 @@ public class OktaUsersMessageSubscriber extends BaseMessageSubscriber {
 		List<Team> teams = _getGroupTeams(jsonObject);
 
 		for (Team team : teams) {
-			_teamWebService.assignContacts(
+			_teamWebService.assignContactsByEmailAddress(
 				StringPool.BLANK, StringPool.BLANK, team.getKey(),
 				new String[] {profileJSONObject.getString("email")});
 		}
@@ -170,7 +170,7 @@ public class OktaUsersMessageSubscriber extends BaseMessageSubscriber {
 
 		if (ArrayUtil.isNotEmpty(contact.getTeams())) {
 			for (Team team : contact.getTeams()) {
-				_teamWebService.unassignContacts(
+				_teamWebService.unassignContactsByEmailAddress(
 					StringPool.BLANK, StringPool.BLANK, team.getKey(),
 					new String[] {contact.getEmailAddress()});
 			}
@@ -202,7 +202,7 @@ public class OktaUsersMessageSubscriber extends BaseMessageSubscriber {
 		List<Team> teams = _getGroupTeams(jsonObject);
 
 		for (Team team : teams) {
-			_teamWebService.unassignContacts(
+			_teamWebService.unassignContactsByEmailAddress(
 				StringPool.BLANK, StringPool.BLANK, team.getKey(),
 				new String[] {contact.getEmailAddress()});
 		}

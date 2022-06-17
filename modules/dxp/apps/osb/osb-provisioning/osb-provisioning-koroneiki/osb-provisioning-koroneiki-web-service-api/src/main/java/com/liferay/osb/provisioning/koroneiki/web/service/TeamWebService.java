@@ -28,9 +28,14 @@ public interface TeamWebService {
 			String agentName, String agentUID, String accountKey, Team team)
 		throws Exception;
 
-	public void assignContacts(
+	public void assignContactsByEmailAddress(
 			String agentName, String agentUID, String teamKey,
 			String[] contactEmailAddresses)
+		throws Exception;
+
+	public void assignContactsByUuid(
+			String agentName, String agentUID, String teamKey,
+			String[] contactUuids)
 		throws Exception;
 
 	public void deleteTeam(String agentName, String agentUID, String teamKey)
@@ -51,9 +56,14 @@ public interface TeamWebService {
 	public long searchCount(String search, FilterQuery filterQuery)
 		throws Exception;
 
-	public void unassignContacts(
+	public void unassignContactsByEmailAddress(
 			String agentName, String agentUID, String teamKey,
 			String[] contactEmailAddresses)
+		throws Exception;
+
+	public void unassignContactsByUuid(
+			String agentName, String agentUID, String teamKey,
+			String[] contactUuids)
 		throws Exception;
 
 	public Team updateTeam(

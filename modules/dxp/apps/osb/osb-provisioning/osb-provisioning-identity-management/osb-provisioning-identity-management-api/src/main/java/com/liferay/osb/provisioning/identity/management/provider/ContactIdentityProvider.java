@@ -16,6 +16,8 @@ package com.liferay.osb.provisioning.identity.management.provider;
 
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Contact;
 
+import java.util.List;
+
 /**
  * @author Yuanyuan Huang
  */
@@ -38,6 +40,8 @@ public interface ContactIdentityProvider {
 
 	public Integer fetchContactStatusByEmailAddress(String emailAddress)
 		throws Exception;
+
+	public List<Contact> getGroupContacts(String groupId) throws Exception;
 
 	public void removeMembership(String groupId, String emailAddress)
 		throws Exception;
