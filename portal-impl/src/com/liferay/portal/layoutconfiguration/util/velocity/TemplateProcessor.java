@@ -19,7 +19,6 @@ import com.liferay.petra.xml.XMLUtil;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutTypePortlet;
 import com.liferay.portal.kernel.model.Portlet;
-import com.liferay.portal.kernel.portlet.PortletContainerException;
 import com.liferay.portal.kernel.portlet.PortletContainerUtil;
 import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
 import com.liferay.portal.kernel.portlet.PortletProvider;
@@ -289,7 +288,7 @@ public class TemplateProcessor implements ColumnProcessor {
 	private String _processColumn(
 			String columnId, String classNames,
 			LayoutTypePortlet layoutTypePortlet, List<Portlet> portlets)
-		throws PortletContainerException {
+		throws Exception {
 
 		StringBundler sb = new StringBundler((portlets.size() * 3) + 11);
 
