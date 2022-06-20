@@ -29,8 +29,6 @@ import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.ThreadLocalBinder;
 import com.liferay.portal.kernel.util.WebKeys;
 
-import java.io.IOException;
-
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -235,8 +233,8 @@ public class PortletRenderer {
 
 			return bufferCacheServletResponse.getStringBundler();
 		}
-		catch (IOException ioException) {
-			throw new PortletContainerException(ioException);
+		catch (Exception exception) {
+			throw new PortletContainerException(exception);
 		}
 		finally {
 			httpServletRequest.removeAttribute(WebKeys.RENDER_PORTLET_RESOURCE);
