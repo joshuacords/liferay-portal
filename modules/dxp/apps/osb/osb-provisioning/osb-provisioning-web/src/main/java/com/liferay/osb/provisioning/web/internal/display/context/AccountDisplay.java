@@ -38,6 +38,7 @@ import com.liferay.portal.vulcan.util.TransformUtil;
 import java.text.Format;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -274,9 +275,11 @@ public class AccountDisplay {
 	}
 
 	public String getSLAName() {
-		ProductPurchase slaProductPurchase = _getSLAProductPurchase();
+		List<ProductPurchase> slaProductPurchases = _getSLAProductPurchases();
 
-		if (slaProductPurchase != null) {
+		if ((slaProductPurchases != null) && !slaProductPurchases.isEmpty()) {
+			ProductPurchase slaProductPurchase = slaProductPurchases.get(0);
+
 			Product product = slaProductPurchase.getProduct();
 
 			return StringUtil.removeSubstring(
@@ -334,14 +337,26 @@ public class AccountDisplay {
 	}
 
 	public String getSupportEndDate() {
-		ProductPurchase slaProductPurchase = _getSLAProductPurchase();
+		List<ProductPurchase> slaProductPurchases = _getSLAProductPurchases();
 
-		if (slaProductPurchase != null) {
-			if (slaProductPurchase.getPerpetual()) {
-				return LanguageUtil.get(_httpServletRequest, "perpetual");
+		if (slaProductPurchases != null) {
+			Date endDate = null;
+
+			for (ProductPurchase slaProductPurchase : slaProductPurchases) {
+				if (slaProductPurchase.getPerpetual()) {
+					return LanguageUtil.get(_httpServletRequest, "perpetual");
+				}
+
+				if ((endDate == null) ||
+					endDate.before(slaProductPurchase.getOriginalEndDate())) {
+
+					endDate = slaProductPurchase.getOriginalEndDate();
+				}
 			}
 
-			return _dateFormat.format(slaProductPurchase.getOriginalEndDate());
+			if (endDate != null) {
+				return _dateFormat.format(endDate);
+			}
 		}
 
 		return StringPool.BLANK;
@@ -499,12 +514,14 @@ public class AccountDisplay {
 		return portletURL;
 	}
 
-	private ProductPurchase _getSLAProductPurchase() {
-		if (_slaProductPurchase != null) {
-			return _slaProductPurchase;
+	private List<ProductPurchase> _getSLAProductPurchases() {
+		if (_slaProductPurchases != null) {
+			return _slaProductPurchases;
 		}
 
-		return _accountReader.getSLAProductPurchase(_account);
+		_slaProductPurchases = _accountReader.getSLAProductPurchases(_account);
+
+		return _slaProductPurchases;
 	}
 
 	private String _getUpdateExternalLinkURL(String externalLinkKey) {
@@ -525,6 +542,6 @@ public class AccountDisplay {
 	private final Team _partnerTeam;
 	private final PortletRequest _portletRequest;
 	private final PortletResponse _portletResponse;
-	private ProductPurchase _slaProductPurchase;
+	private List<ProductPurchase> _slaProductPurchases;
 
 }

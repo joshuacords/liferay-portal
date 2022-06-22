@@ -36,6 +36,8 @@ public interface AccountReader {
 
 	public ProductPurchase getSLAProductPurchase(Account account);
 
+	public List<ProductPurchase> getSLAProductPurchases(Account account);
+
 	public String getSubscriptionState(Account account);
 
 	public int getSupportSeatCount(Account account);

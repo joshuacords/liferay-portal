@@ -33,8 +33,11 @@ import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -280,6 +283,51 @@ public class AccountReaderImpl implements AccountReader {
 		}
 
 		return slaProductPurchase;
+	}
+
+	public List<ProductPurchase> getSLAProductPurchases(Account account) {
+		if (ArrayUtil.isEmpty(account.getProductPurchases())) {
+			return null;
+		}
+
+		Map<String, List<ProductPurchase>> slaProductPurchasesMap =
+			new HashMap<>();
+		ProductPurchase slaProductPurchase = null;
+
+		for (ProductPurchase productPurchase : account.getProductPurchases()) {
+			Product product = productPurchase.getProduct();
+
+			if (!ArrayUtil.contains(
+					ProductConstants.NAMES_SUBSCRIPTION, product.getName())) {
+
+				continue;
+			}
+
+			List<ProductPurchase> productPurchases = slaProductPurchasesMap.get(
+				product.getKey());
+
+			if (productPurchases == null) {
+				productPurchases = new ArrayList<>();
+
+				slaProductPurchasesMap.put(product.getKey(), productPurchases);
+			}
+
+			productPurchases.add(productPurchase);
+
+			if (_isActive(productPurchase) &&
+				_isHigherSLA(slaProductPurchase, productPurchase)) {
+
+				slaProductPurchase = productPurchase;
+			}
+		}
+
+		if (slaProductPurchase != null) {
+			Product product = slaProductPurchase.getProduct();
+
+			return slaProductPurchasesMap.get(product.getKey());
+		}
+
+		return Collections.emptyList();
 	}
 
 	public String getSubscriptionState(Account account) {
