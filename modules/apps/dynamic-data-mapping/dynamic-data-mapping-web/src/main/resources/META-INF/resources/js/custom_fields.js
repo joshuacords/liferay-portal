@@ -1466,7 +1466,29 @@ AUI.add(
 
 					var keysPressed = {};
 
+					var onKeyDown = function (domEvent) {
+						if (domEvent.keyCode === 16) {
+							keysPressed[domEvent.keyCode] = true;
+						}
+					};
+
+					var onKeyUp = function (domEvent) {
+						if (domEvent.keyCode === 16) {
+							delete keysPressed[domEvent.keyCode];
+						}
+					};
+
 					var trigger = instance.get('templateNode').one('input');
+
+					var closePopoverOnKeyboardNavigation = function (instance) {
+						instance.hide();
+
+						keysPressed = {};
+
+						if (trigger) {
+							Liferay.Util.focusFormField(trigger);
+						}
+					};
 
 					if (trigger) {
 						instance.datePicker = new A.DatePickerDeprecated({
@@ -1474,6 +1496,16 @@ AUI.add(
 								locale: Liferay.ThemeDisplay.getLanguageId()
 							},
 							on: {
+								destroy() {
+									document.removeEventListener(
+										'keydown',
+										onKeyDown
+									);
+									document.removeEventListener(
+										'keyup',
+										onKeyUp
+									);
+								},
 								enterKey() {
 									var countInterval = 0;
 
@@ -1494,6 +1526,13 @@ AUI.add(
 										countInterval++;
 									}, 100);
 								},
+								init() {
+									document.addEventListener(
+										'keydown',
+										onKeyDown
+									);
+									document.addEventListener('keyup', onKeyUp);
+								},
 								selectionChange(event) {
 									var date = event.newSelection;
 
@@ -1509,33 +1548,67 @@ AUI.add(
 
 										keysPressed[domEvent.keyCode] = true;
 
+										var isTabPressed =
+											domEvent.keyCode === 9 ||
+											keysPressed[9];
+
+										var isShiftPressed =
+											domEvent.keyCode === 16 ||
+											keysPressed[16];
+
+										var isForwardNavigation =
+											isTabPressed && !isShiftPressed;
+
+										var isEscapePressed =
+											domEvent.keyCode === 27 ||
+											keysPressed[27];
+
+										var hasClassName =
+											domEvent.target.hasClass(
+												'yui3-calendar-grid'
+											) ||
+											domEvent.target.hasClass(
+												'yui3-calendar-day'
+											);
+
 										if (
-											(domEvent.keyCode === 9 &&
-												!keysPressed[16] &&
-												(domEvent.target.hasClass(
-													'yui3-calendar-grid'
-												) ||
-													domEvent.target.hasClass(
-														'yui3-calendar-day'
-													))) ||
-											(domEvent.keyCode === 9 &&
-												keysPressed[16] &&
-												domEvent.target.hasClass(
-													'yui3-calendar-focused'
-												)) ||
-											domEvent.keyCode === 27
+											(isForwardNavigation &&
+												hasClassName) ||
+											isEscapePressed
 										) {
-											instance.hide();
-
-											keysPressed = {};
-
-											Liferay.Util.focusFormField(
-												trigger
+											closePopoverOnKeyboardNavigation(
+												instance
 											);
 										}
 									},
 									keyup(event) {
+										var instance = this;
+
 										var domEvent = event.domEvent;
+
+										var isTabPressed =
+											domEvent.keyCode === 9 ||
+											keysPressed[9];
+
+										var isShiftPressed =
+											domEvent.keyCode === 16 ||
+											keysPressed[16];
+
+										var isBackwardNavigation =
+											isTabPressed && isShiftPressed;
+
+										var hasClassName = domEvent.target.hasClass(
+											'yui3-calendar-focused'
+										);
+
+										if (
+											isBackwardNavigation &&
+											hasClassName
+										) {
+											closePopoverOnKeyboardNavigation(
+												instance
+											);
+										}
 
 										delete keysPressed[domEvent.keyCode];
 									}
