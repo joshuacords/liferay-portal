@@ -287,6 +287,22 @@ export default Component => {
 
 			handleFormSubmitted(this.getEvaluatorContext()).then(validForm => {
 				if (validForm) {
+					event.target
+						.querySelectorAll('input[type=checkbox]')
+						.forEach(node => {
+							if (!node.hasAttribute('value')) {
+								if (node.checked) {
+									node.value = 'true';
+								}
+								else {
+									const cloneNode = node.cloneNode();
+									cloneNode.type = 'hidden';
+									cloneNode.value = 'false';
+									node.after(cloneNode);
+								}
+							}
+						});
+
 					Liferay.Util.submitForm(event.target);
 
 					Liferay.fire('ddmFormSubmit', {
