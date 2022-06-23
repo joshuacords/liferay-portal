@@ -32,6 +32,9 @@ public class SubscriptionConstants {
 
 	public static String GROUP_NAME_ENTERPRISE_SEARCH = "Enterprise Search";
 
+	public static String GROUP_NAME_LIFERAY_EXPERIENCE_CLOUD =
+		"Liferay Experience Cloud";
+
 	public static String GROUP_NAME_PARTNERSHIP = "Partnership";
 
 	public static String GROUP_NAME_PORTAL = "Portal";

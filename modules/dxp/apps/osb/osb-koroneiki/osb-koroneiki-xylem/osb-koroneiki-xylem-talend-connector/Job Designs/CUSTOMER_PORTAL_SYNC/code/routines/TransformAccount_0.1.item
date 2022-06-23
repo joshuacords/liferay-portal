@@ -792,6 +792,9 @@ public class TransformAccount {
 		else if (productName.equals(ProductConstants.NAME_PLATINUM)) {
 			return 4;
 		}
+		else if (productName.equals(ProductConstants.NAME_PREMIUM)) {
+			return 5;
+		}
 		else if (productName.equals(ProductConstants.NAME_SILVER)) {
 			return 2;
 		}

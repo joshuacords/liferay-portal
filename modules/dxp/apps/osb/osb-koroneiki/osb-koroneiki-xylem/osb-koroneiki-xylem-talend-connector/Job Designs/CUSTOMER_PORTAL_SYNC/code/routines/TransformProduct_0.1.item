@@ -22,7 +22,17 @@ import routines.system.JSONObject;
  */
 public class TransformProduct {
 
-	public static String getName(String name) {
+	public static String getName(String name, String properties) {
+		if (!properties.isEmpty()) {
+			JSONObject propertiesJSONObject = new JSONObject(properties);
+
+			String displayName = propertiesJSONObject.optString("display-name");
+
+			if ((displayName != null) && !displayName.isEmpty()) {
+				name = displayName;
+			}
+		}
+
 		JSONObject jsonObject = new JSONObject();
 
 		jsonObject.put("en_US", name);

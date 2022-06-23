@@ -9,7 +9,7 @@
     <contextParameter comment="" name="provisioningUserName" prompt="provisioningUserName?" promptNeeded="false" type="id_String" value="&quot;test@liferay.com&quot;"/>
     <contextParameter comment="" name="provisioningPassword" prompt="provisioningPassword?" promptNeeded="false" type="id_String" value="&quot;R7.QR9g7pUvfmrcKKP6f&quot;"/>
     <contextParameter comment="" name="deltaMins" prompt="deltaMins?" promptNeeded="false" type="id_Integer" value=""/>
-    <contextParameter comment="" name="koroneikiTeamKeys" prompt="koroneikiTeamKeys?" promptNeeded="false" type="id_String" value="&quot;KOR-123,KOR-456&quot;"/>
+    <contextParameter comment="" name="koroneikiTeamKeys" prompt="koroneikiTeamKeys?" promptNeeded="false" type="id_String" value="&quot;KOR-14041160,KOR-14041148,KOR-14041172&quot;"/>
     <contextParameter comment="" name="continueLooping" prompt="continueLooping?" promptNeeded="false" type="id_Boolean" value="true"/>
   </context>
   <parameters>
@@ -1056,24 +1056,24 @@
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tLiferayConnection_2" offsetLabelX="0" offsetLabelY="0" source="tLiferayConnection_2" target="tLoop_1">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk2" show="false"/>
   </connection>
-  <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tLiferayInput_1" offsetLabelX="0" offsetLabelY="0" source="tLiferayInput_1" target="tLiferayInput_3">
-    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk3" show="false"/>
-  </connection>
   <connection connectorName="MAIN" label="row1" lineStyle="0" metaname="MAIN" offsetLabelX="0" offsetLabelY="0" source="tLiferayInput_1" target="tMap_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row1" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="map3" lineStyle="0" metaname="map3" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tMap_1" target="tJavaRow_2">
-    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+  <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tLiferayInput_1" offsetLabelX="0" offsetLabelY="0" source="tLiferayInput_1" target="tLiferayInput_3">
     <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="map3" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk3" show="false"/>
   </connection>
-  <connection connectorName="FLOW" label="map1" lineStyle="0" metaname="map1" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tMap_1" target="tExtractJSONFields_1">
+  <connection connectorName="FLOW" label="map1" lineStyle="0" metaname="map1" offsetLabelX="0" offsetLabelY="0" outputId="1" source="tMap_1" target="tExtractJSONFields_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="map1" show="false"/>
+  </connection>
+  <connection connectorName="FLOW" label="map3" lineStyle="0" metaname="map3" offsetLabelX="0" offsetLabelY="0" outputId="2" source="tMap_1" target="tJavaRow_2">
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="map3" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="row2" lineStyle="0" metaname="tExtractJSONFields_1" offsetLabelX="0" offsetLabelY="0" source="tExtractJSONFields_1" target="tLiferayOutput_1">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER" show="false">
@@ -1090,14 +1090,14 @@
     <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row3" show="false"/>
   </connection>
-  <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tLiferayInput_2" offsetLabelX="0" offsetLabelY="0" source="tLiferayInput_2" target="tLiferayInput_1">
-    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk2" show="false"/>
-  </connection>
   <connection connectorName="MAIN" label="row18" lineStyle="0" metaname="tLiferayInput_2" offsetLabelX="0" offsetLabelY="0" source="tLiferayInput_2" target="tMap_2">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row18" show="false"/>
+  </connection>
+  <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tLiferayInput_2" offsetLabelX="0" offsetLabelY="0" source="tLiferayInput_2" target="tLiferayInput_1">
+    <elementParameter field="CHECK" name="ACTIVATE" value="false" show="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk2" show="false"/>
   </connection>
   <connection connectorName="FLOW" label="map15" lineStyle="0" metaname="map15" offsetLabelX="0" offsetLabelY="0" source="tMap_2" target="tFilterRow_1">
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
