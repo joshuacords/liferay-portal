@@ -284,6 +284,16 @@ AUI.add(
 					return instance.all('img[data-random-id]');
 				},
 
+				_getValuesByName(name) {
+					var instance = this;
+
+					const nodes = document.querySelectorAll(
+						`input[name^=${instance.NS}${name}]`
+					);
+
+					return [...nodes].map(node => node.value);
+				},
+
 				_hasTempImages() {
 					var instance = this;
 
@@ -415,6 +425,9 @@ AUI.add(
 									allowPingbacks && allowPingbacks.val(),
 								allowTrackbacks:
 									allowTrackbacks && allowTrackbacks.val(),
+								assetCategoryIds: instance._getValuesByName(
+									'assetCategoryIds'
+								),
 								assetTagNames: instance
 									.one('#assetTagNames')
 									.val(),
