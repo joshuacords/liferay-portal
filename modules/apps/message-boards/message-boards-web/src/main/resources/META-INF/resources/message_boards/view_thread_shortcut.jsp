@@ -37,9 +37,11 @@ if (threadFlag != null) {
 
 	threadFlagModifiedTime = threadFlagModifiedDate.getTime();
 }
+
+MBMessage rootMessage = treeWalker.getRoot();
 %>
 
-<c:if test="<%= (message.getMessageId() != selMessage.getMessageId()) || MBUtil.isViewableMessage(themeDisplay, message) %>">
+<c:if test="<%= (message.getMessageId() != selMessage.getMessageId()) || MBUtil.isViewableMessage(themeDisplay, message, rootMessage) %>">
 	<tr>
 		<td class="table-cell" style="padding-left: <%= (depth > 0) ? depth * 10 : 5 %>px; width: 90%;" valign="middle">
 			<c:if test="<%= !message.isRoot() %>">

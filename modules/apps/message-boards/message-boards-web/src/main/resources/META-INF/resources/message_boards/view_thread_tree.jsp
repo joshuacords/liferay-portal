@@ -43,7 +43,7 @@ MBMessage rootMessage = treeWalker.getRoot();
 %>
 
 <c:choose>
-	<c:when test="<%= !MBUtil.isViewableMessage(themeDisplay, message) %>">
+	<c:when test="<%= !MBUtil.isViewableMessage(themeDisplay, message, rootMessage) %>">
 		<c:if test="<%= (message.getParentMessageId() == MBMessageConstants.DEFAULT_PARENT_MESSAGE_ID) || mbMessageIterator.hasNext() %>">
 			<div class="alert alert-danger">
 				<liferay-ui:message key="you-do-not-have-permission-to-access-the-requested-resource" />
