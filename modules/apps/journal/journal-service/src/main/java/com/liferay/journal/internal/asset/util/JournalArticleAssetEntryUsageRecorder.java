@@ -107,7 +107,7 @@ public class JournalArticleAssetEntryUsageRecorder
 
 		List<JournalContentSearch> contentSearches =
 			_journalContentSearchLocalService.getArticleContentSearches(
-				article.getArticleId());
+				article.getGroupId(), article.getArticleId());
 
 		for (JournalContentSearch contentSearch : contentSearches) {
 			Layout layout = _layoutLocalService.fetchLayout(
