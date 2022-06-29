@@ -18,7 +18,6 @@
 		<suppress checks="CopyrightCheck" files="commerce-theme-minium/commerce-theme-minium/src/js/intersection-observer\.js" />
 		<suppress checks="CopyrightCheck" files="commerce-theme-speedwell/commerce-theme-speedwell/src/js/intersection-observer\.js" />
 		<suppress checks="GradleDependenciesCheck" files=".*" />
-		<suppress checks="GradleDependencyArtifactsCheck" files=".*" />
 		<suppress checks="GradleTestDependencyVersionCheck" files=".*" />
 		<suppress checks="JavaConfigurationCategoryCheck" files=".*" />
 		<suppress checks="JavaInternalPackageCheck" files="commerce-product-service/.*" />
