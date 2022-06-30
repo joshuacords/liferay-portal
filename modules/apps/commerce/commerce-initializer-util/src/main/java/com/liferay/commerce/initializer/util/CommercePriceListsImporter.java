@@ -73,7 +73,8 @@ public class CommercePriceListsImporter {
 		String currencyCode = jsonObject.getString("CurrencyCode");
 
 		if (Validator.isNull(currencyCode)) {
-			//We should throw that they must have currencyCode
+
+			// We should throw that they must have currencyCode
 
 			return;
 		}
@@ -97,7 +98,8 @@ public class CommercePriceListsImporter {
 		String name = jsonObject.getString("Name");
 
 		if (Validator.isBlank(name)) {
-			//We should throw that the must have name
+
+			// We should throw that the must have name
 
 			return;
 		}

@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.configuration.ConfigurationFactory;
 import com.liferay.portal.kernel.configuration.ConfigurationFactoryUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.test.rule.LiferayUnitTestRule;
 
 import java.util.Collections;
 import java.util.Date;
@@ -36,8 +37,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
-import com.liferay.portal.test.rule.LiferayUnitTestRule;
-import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import org.junit.Test;
 
 import org.mockito.Mockito;
@@ -55,7 +54,8 @@ public class SKUCombinationsIteratorTest {
 
 	@ClassRule
 	@Rule
-	public static final LiferayUnitTestRule liferayUnitTestRule = LiferayUnitTestRule.INSTANCE;
+	public static final LiferayUnitTestRule liferayUnitTestRule =
+		LiferayUnitTestRule.INSTANCE;
 
 	@Test
 	public void testSKUCombinationsIterator() throws Exception {

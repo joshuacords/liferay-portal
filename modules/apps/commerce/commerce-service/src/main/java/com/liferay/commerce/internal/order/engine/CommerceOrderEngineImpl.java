@@ -430,7 +430,7 @@ public class CommerceOrderEngineImpl implements CommerceOrderEngine {
 				@Override
 				public Void call() throws Exception {
 
-					//Commerce Subscription
+					// Commerce Subscription
 
 					if ((orderStatus ==
 							CommerceOrderConstants.ORDER_STATUS_PENDING) &&
@@ -441,14 +441,14 @@ public class CommerceOrderEngineImpl implements CommerceOrderEngine {
 							checkCommerceSubscriptions(commerceOrder);
 					}
 
-					//Commerce Notification
+					// Commerce Notification
 
 					_commerceNotificationHelper.sendNotifications(
 						commerceOrder.getGroupId(), commerceOrder.getUserId(),
 						CommerceOrderConstants.getNotificationKey(orderStatus),
 						commerceOrder);
 
-					//Commerce Order Status Message
+					// Commerce Order Status Message
 
 					Message message = new Message();
 

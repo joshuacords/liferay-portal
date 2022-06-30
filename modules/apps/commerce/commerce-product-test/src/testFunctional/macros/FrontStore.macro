@@ -94,7 +94,6 @@ definition {
 				cartItemSKU = "${cartItemSKU}");
 
 			var count = ${count} - 1;
-
 			var cartItemNames = StringUtil.replaceFirst("${cartItemNames}", "${cartItemName},", "");
 			var cartItemPriceValues = StringUtil.replaceFirst("${cartItemPriceValues}", "${cartItemPriceValue},", "");
 			var cartItemQuantities = StringUtil.replaceFirst("${cartItemQuantities}", "${cartItemQuantity},", "");

@@ -193,16 +193,14 @@ definition {
 
 	macro commerceCatalogsTearDown {
 		var catalogsList = "";
-
 		var count = "1";
 
 		while (IsElementPresent(key_rowNumber = "${count}", locator1 = "CommerceNavigation#ENTRY_NAME_N")) {
 			var key_rowNumber = "${count}";
-
 			var entryName = selenium.getText("CommerceNavigation#ENTRY_NAME_N");
 
 			if ("${entryName}" != "Master") {
-				catalogsList = StringUtil.add("${catalogsList}", "${entryName}");
+				var catalogsList = StringUtil.add("${catalogsList}", "${entryName}");
 			}
 
 			var count = ${count} + 1;
@@ -242,16 +240,14 @@ definition {
 
 	macro commercePriceListsTearDown {
 		var priceListsList = "";
-
 		var count = "1";
 
 		while (IsElementPresent(key_rowNumber = "${count}", locator1 = "CommerceNavigation#ENTRY_NAME_N")) {
 			var key_rowNumber = "${count}";
-
 			var entryName = selenium.getText("CommerceNavigation#ENTRY_NAME_N");
 
 			if ("${entryName}" != "Master Base Price List") {
-				catalogsList = StringUtil.add("${priceListsList}", "${entryName}");
+				var catalogsList = StringUtil.add("${priceListsList}", "${entryName}");
 			}
 
 			var count = ${count} + 1;
@@ -281,7 +277,7 @@ definition {
 		CommerceNavigator.gotoCommercePortletNavItem(navItem = "Health Check");
 
 		for (var buttonRowNumber : list "1,2,3,4,5") {
-			if (!(IsElementPresent(locator1 = "CommerceEntry#FIX_ISSUE_BUTTON", key_buttonStatus = "disabled"))) {
+			if (!(IsElementPresent(key_buttonStatus = "disabled", locator1 = "CommerceEntry#FIX_ISSUE_BUTTON"))) {
 				Click(
 					key_buttonRowNumber = "${buttonRowNumber}",
 					key_buttonStatus = "",
@@ -297,7 +293,7 @@ definition {
 		CommerceNavigator.gotoCommercePortletNavItem(navItem = "Health Check");
 
 		for (var buttonRowNumber : list "1,2,3,4") {
-			if (!(IsElementPresent(locator1 = "CommerceEntry#FIX_ISSUE_BUTTON", key_buttonStatus = "disabled"))) {
+			if (!(IsElementPresent(key_buttonStatus = "disabled", locator1 = "CommerceEntry#FIX_ISSUE_BUTTON"))) {
 				Click(
 					key_buttonRowNumber = "${buttonRowNumber}",
 					key_buttonStatus = "",

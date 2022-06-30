@@ -139,8 +139,7 @@ public abstract class BaseCommerceOrderPriceCalculation
 		BigDecimal totalWithTaxAmount = total;
 
 		if (commerceOrder.getTotalWithTaxAmount() != null) {
-			totalWithTaxAmount =
-				commerceOrder.getTotalWithTaxAmount();
+			totalWithTaxAmount = commerceOrder.getTotalWithTaxAmount();
 		}
 
 		BigDecimal totalDiscountWithTaxAmount = totalDiscountAmount;

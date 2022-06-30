@@ -3,8 +3,8 @@ Bundle-SymbolicName: com.liferay.commerce.initializer.util
 Bundle-Version: 5.0.7
 Export-Package: com.liferay.commerce.initializer.util
 Import-Package:\
-	com.liferay.dynamic.data.mapping.model;version="[1.6.0,3.0.0)",\
-	com.liferay.dynamic.data.mapping.service;version="[1.2.0,3.0.0)",\
-	com.liferay.friendly.url.model; version="[1.0.0,3.0.0)",\
+	com.liferay.dynamic.data.mapping.model;version="[1.6.0,99.0.0)",\
+	com.liferay.dynamic.data.mapping.service;version="[1.2.0,99.0.0)",\
+	com.liferay.friendly.url.model;version="[1.0.0,99.0.0)",\
 	\
 	*
