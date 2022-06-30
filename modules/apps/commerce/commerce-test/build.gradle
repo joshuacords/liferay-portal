@@ -4,7 +4,6 @@ copyLibs {
 
 dependencies {
 	testIntegrationCompile group: "com.github.ignaciotcrespo", name: "frutilla", version: "0.7.1"
-
 	testIntegrationCompile group: "com.liferay", name: "com.liferay.arquillian.extension.junit.bridge", version: "1.0.19"
 	testIntegrationCompile group: "com.liferay.portal", name: "com.liferay.portal.impl", version: "default"
 	testIntegrationCompile group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "default"
@@ -21,12 +20,12 @@ dependencies {
 	testIntegrationCompile project(":apps:commerce:commerce-payment-api")
 	testIntegrationCompile project(":apps:commerce:commerce-payment-test-util")
 	testIntegrationCompile project(":apps:commerce:commerce-price-list-api")
+	testIntegrationCompile project(":apps:commerce:commerce-pricing-api")
 	testIntegrationCompile project(":apps:commerce:commerce-product-api")
 	testIntegrationCompile project(":apps:commerce:commerce-product-test-util")
 	testIntegrationCompile project(":apps:commerce:commerce-product-type-simple")
 	testIntegrationCompile project(":apps:commerce:commerce-service")
 	testIntegrationCompile project(":apps:commerce:commerce-tax-api")
 	testIntegrationCompile project(":apps:commerce:commerce-test-util")
-	testIntegrationCompile project(":apps:commerce:commerce-pricing-api")
 	testIntegrationCompile project(":apps:portal-configuration:portal-configuration-test-util")
 }
