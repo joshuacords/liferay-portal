@@ -38,78 +38,87 @@ const debounceFn = debounce(fn => fn(), UPDATE_DELAY_MS);
 let lastEditedPages = [];
 
 const _handleFieldEdited = function(properties) {
-	debounceFn(() => {
-		const {fieldInstance} = properties;
-		const {evaluable} = fieldInstance;
-		const evaluatorContext = this.getEvaluatorContext();
+	const {fieldInstance} = properties;
 
-		const editedPages = handleFieldEdited(evaluatorContext, properties);
-
-		lastEditedPages = editedPages;
-
-		this.setState({
-			pages: editedPages
+	if (fieldInstance.type === 'text' && this.viewMode) {
+		_handleFieldEditedContext(this, properties);
+	}
+	else {
+		debounceFn(() => {
+			_handleFieldEditedContext(this, properties);
 		});
+	}
+};
 
-		if (evaluable) {
-			evaluate(fieldInstance.fieldName, {
-				...evaluatorContext,
-				pages: editedPages
-			})
-				.then(evaluatedPages => {
-					if (REVALIDATE_UPDATES.length > 0) {
-						REVALIDATE_UPDATES.forEach(item => {
-							const {evaluatorContext, properties} = item;
+const _handleFieldEditedContext = function(currentInstance, properties) {
+	const {fieldInstance} = properties;
+	const {evaluable} = fieldInstance;
 
-							evaluatedPages = handleFieldEdited(
-								{
-									...evaluatorContext,
-									pages: evaluatedPages
-								},
-								properties
-							);
-						});
+	const evaluatorContext = currentInstance.getEvaluatorContext();
 
-						REVALIDATE_UPDATES = [];
-					}
+	const editedPages = handleFieldEdited(evaluatorContext, properties);
 
-					if (fieldInstance.isDisposed()) {
-						return;
-					}
+	lastEditedPages = editedPages;
 
-					const {
-						defaultLanguageId,
-						editingLanguageId
-					} = evaluatorContext;
-
-					const mergedPages = mergePages(
-						defaultLanguageId,
-						editingLanguageId,
-						fieldInstance.fieldName,
-						evaluatedPages,
-						lastEditedPages
-					);
-
-					this.setState(
-						{
-							pages: mergedPages
-						},
-						() => {
-							if (evaluable) {
-								this.emit('evaluated', mergedPages);
-							}
-						}
-					);
-				})
-				.catch(error => this.emit('evaluationError', error));
-		}
-		else {
-			REVALIDATE_UPDATES.push({
-				evaluatorContext,
-				properties
-			});
-		}
+	currentInstance.setState({
+		pages: editedPages
 	});
+
+	if (evaluable) {
+		evaluate(fieldInstance.fieldName, {
+			...evaluatorContext,
+			pages: editedPages
+		})
+			.then(evaluatedPages => {
+				if (REVALIDATE_UPDATES.length > 0) {
+					REVALIDATE_UPDATES.forEach(item => {
+						const {evaluatorContext, properties} = item;
+
+						evaluatedPages = handleFieldEdited(
+							{
+								...evaluatorContext,
+								pages: evaluatedPages
+							},
+							properties
+						);
+					});
+
+					REVALIDATE_UPDATES = [];
+				}
+
+				if (fieldInstance.isDisposed()) {
+					return;
+				}
+
+				const {defaultLanguageId, editingLanguageId} = evaluatorContext;
+
+				const mergedPages = mergePages(
+					defaultLanguageId,
+					editingLanguageId,
+					fieldInstance.fieldName,
+					evaluatedPages,
+					lastEditedPages
+				);
+
+				currentInstance.setState(
+					{
+						pages: mergedPages
+					},
+					() => {
+						if (evaluable) {
+							currentInstance.emit('evaluated', mergedPages);
+						}
+					}
+				);
+			})
+			.catch(error => currentInstance.emit('evaluationError', error));
+	}
+	else {
+		REVALIDATE_UPDATES.push({
+			evaluatorContext,
+			properties
+		});
+	}
 };
 
 const _handleFieldBlurred = function(properties) {
