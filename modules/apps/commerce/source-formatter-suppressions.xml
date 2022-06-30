@@ -27,9 +27,6 @@
 		<suppress checks="CopyrightCheck" files="commerce-theme-minium/commerce-theme-minium/src/js/intersection-observer\.js" />
 		<suppress checks="CopyrightCheck" files="commerce-theme-speedwell/commerce-theme-speedwell/src/js/intersection-observer\.js" />
 		<suppress checks="FTLTagAttributesCheck" files=".*" />
-		<suppress checks="GradleDependenciesCheck" files=".*" />
-		<suppress checks="GradleIndentationCheck" files=".*" />
-		<suppress checks="GradleTestDependencyVersionCheck" files=".*" />
 		<suppress checks="HTMLEmptyLinesCheck" files=".*" />
 		<suppress checks="HTMLWhitespaceCheck" files=".*" />
 		<suppress checks="JavaConfigurationCategoryCheck" files=".*" />
