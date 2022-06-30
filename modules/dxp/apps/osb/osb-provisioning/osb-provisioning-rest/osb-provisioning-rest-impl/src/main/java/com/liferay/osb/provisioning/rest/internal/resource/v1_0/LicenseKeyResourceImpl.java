@@ -1123,6 +1123,8 @@ public class LicenseKeyResourceImpl
 			PermissionThreadLocal.getPermissionChecker();
 
 		if (permissionChecker.isOmniadmin()) {
+			_setOmniContact();
+
 			return true;
 		}
 
@@ -1140,6 +1142,16 @@ public class LicenseKeyResourceImpl
 		}
 
 		return false;
+	}
+
+	private void _setOmniContact() {
+		Contact contact = new Contact();
+
+		contact.setFirstName(contextUser.getFirstName());
+		contact.setLastName(contextUser.getLastName());
+		contact.setUuid(contextUser.getUuid());
+
+		ProvisioningContactThreadLocal.setContact(contact);
 	}
 
 	private String _toCsv(
