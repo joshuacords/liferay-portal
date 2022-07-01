@@ -88,5 +88,5 @@
 		"format": "liferay-npm-scripts fix",
 		"test": "liferay-npm-scripts test"
 	},
-	"version": "2.2.42"
+	"version": "2.2.43"
 }
