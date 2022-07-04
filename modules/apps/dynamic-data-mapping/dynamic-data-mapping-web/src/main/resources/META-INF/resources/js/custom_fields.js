@@ -1466,13 +1466,13 @@ AUI.add(
 
 					var keysPressed = {};
 
-					var onKeyDown = function (domEvent) {
+					var onKeyDown = function(domEvent) {
 						if (domEvent.keyCode === 16) {
 							keysPressed[domEvent.keyCode] = true;
 						}
 					};
 
-					var onKeyUp = function (domEvent) {
+					var onKeyUp = function(domEvent) {
 						if (domEvent.keyCode === 16) {
 							delete keysPressed[domEvent.keyCode];
 						}
@@ -1480,7 +1480,7 @@ AUI.add(
 
 					var trigger = instance.get('templateNode').one('input');
 
-					var closePopoverOnKeyboardNavigation = function (instance) {
+					var closePopoverOnKeyboardNavigation = function(instance) {
 						instance.hide();
 
 						keysPressed = {};
