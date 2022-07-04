@@ -5,20 +5,20 @@ buildService {
 
 dependencies {
 	compileOnly group: "biz.aQute.bnd", name: "biz.aQute.bndlib", version: "3.1.0"
-	compileOnly group: "com.liferay", name: "com.liferay.petra.lang", version: "3.0.0"
-	compileOnly group: "com.liferay", name: "com.liferay.petra.string", version: "3.0.0"
-	compileOnly group: "com.liferay", name: "com.liferay.portal.aop.api", version: "1.0.0"
-	compileOnly group: "com.liferay", name: "com.liferay.portal.dao.orm.custom.sql.api", version: "2.0.0"
-	compileOnly group: "com.liferay", name: "com.liferay.portal.instances.api", version: "3.0.0"
-	compileOnly group: "com.liferay", name: "com.liferay.portal.search.api", version: "3.0.0"
-	compileOnly group: "com.liferay", name: "com.liferay.portal.search.spi", version: "3.0.0"
 	compileOnly group: "com.liferay", name: "com.liferay.portal.spring.extender", version: "2.0.0"
-	compileOnly group: "com.liferay", name: "com.liferay.portal.upgrade.api", version: "2.0.0"
-	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "4.30.0"
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "default"
 	compileOnly group: "commons-lang", name: "commons-lang", version: "2.6"
-	compileOnly group: "javax.servlet", name: "javax.servlet-api", version: "3.0.1"
+	compileOnly group: "org.apache.felix", name: "org.apache.felix.http.servlet-api", version: "1.1.2"
 	compileOnly group: "org.osgi", name: "org.osgi.annotation.versioning", version: "1.1.0"
 	compileOnly group: "org.osgi", name: "osgi.core", version: "6.0.0"
+	compileOnly project(":apps:portal-instances:portal-instances-api")
+	compileOnly project(":apps:portal-search:portal-search-api")
+	compileOnly project(":apps:portal-search:portal-search-spi")
+	compileOnly project(":apps:portal:portal-aop-api")
+	compileOnly project(":apps:portal:portal-dao-orm-custom-sql-api")
+	compileOnly project(":apps:portal:portal-upgrade-api")
+	compileOnly project(":core:petra:petra-lang")
+	compileOnly project(":core:petra:petra-string")
 	compileOnly project(":dxp:apps:osb:osb-koroneiki:osb-koroneiki-phloem:osb-koroneiki-phloem-rest-client")
 	compileOnly project(":dxp:apps:osb:osb-provisioning:osb-provisioning-api")
 	compileOnly project(":dxp:apps:osb:osb-provisioning:osb-provisioning-identity-management:osb-provisioning-identity-management-api")

@@ -1,6 +1,6 @@
 dependencies {
-	compileOnly group: "com.liferay", name: "com.liferay.osgi.util", version: "5.0.0"
-	compileOnly group: "com.liferay", name: "com.liferay.petra.string", version: "3.0.0"
-	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "4.0.0"
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "default"
+	compileOnly project(":apps:static:osgi:osgi-util")
+	compileOnly project(":core:petra:petra-string")
 	compileOnly project(":dxp:apps:osb:osb-distributed-messaging:osb-distributed-messaging-api")
 }

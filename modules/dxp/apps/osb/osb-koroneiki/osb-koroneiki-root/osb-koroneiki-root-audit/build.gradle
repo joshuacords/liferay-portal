@@ -1,11 +1,11 @@
 dependencies {
 	compileOnly group: "biz.aQute.bnd", name: "biz.aQute.bndlib", version: "3.1.0"
-	compileOnly group: "com.liferay", name: "com.liferay.petra.lang", version: "3.0.0"
-	compileOnly group: "com.liferay", name: "com.liferay.petra.string", version: "3.0.0"
-	compileOnly group: "com.liferay", name: "com.liferay.portal.instances.api", version: "3.0.0"
-	compileOnly group: "com.liferay", name: "com.liferay.text.localizer.address.api", version: "2.0.0"
-	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "4.30.0"
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "default"
 	compileOnly group: "org.osgi", name: "osgi.core", version: "6.0.0"
+	compileOnly project(":apps:portal-instances:portal-instances-api")
+	compileOnly project(":apps:text-localizer:text-localizer-address-api")
+	compileOnly project(":core:petra:petra-lang")
+	compileOnly project(":core:petra:petra-string")
 	compileOnly project(":dxp:apps:osb:osb-koroneiki:osb-koroneiki-phloem:osb-koroneiki-phloem-rest-api")
 	compileOnly project(":dxp:apps:osb:osb-koroneiki:osb-koroneiki-phytohormone:osb-koroneiki-phytohormone-api")
 	compileOnly project(":dxp:apps:osb:osb-koroneiki:osb-koroneiki-root:osb-koroneiki-root-api")

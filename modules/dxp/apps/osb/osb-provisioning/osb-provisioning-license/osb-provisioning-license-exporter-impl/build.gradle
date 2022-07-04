@@ -1,9 +1,9 @@
 dependencies {
 	compileOnly group: "biz.aQute.bnd", name: "biz.aQute.bndlib", version: "3.1.0"
-	compileOnly group: "com.liferay", name: "com.liferay.petra.lang", version: "3.0.0"
-	compileOnly group: "com.liferay", name: "com.liferay.petra.string", version: "3.0.0"
-	compileOnly group: "com.liferay", name: "com.liferay.petra.xml", version: "3.0.0"
-	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "4.0.0"
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "default"
+	compileOnly project(":apps:petra:petra-xml")
+	compileOnly project(":core:petra:petra-lang")
+	compileOnly project(":core:petra:petra-string")
 	compileOnly project(":dxp:apps:osb:osb-provisioning:osb-provisioning-license:osb-provisioning-license-exporter-api")
 	compileOnly project(":dxp:apps:osb:osb-provisioning:osb-provisioning-license:osb-provisioning-license-generator-api")
 	compileOnly project(":dxp:apps:osb:osb-provisioning:osb-provisioning-license:osb-provisioning-license-helper-api")

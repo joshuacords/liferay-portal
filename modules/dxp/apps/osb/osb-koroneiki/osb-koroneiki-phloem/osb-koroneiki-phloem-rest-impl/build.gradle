@@ -6,18 +6,18 @@ buildREST {
 
 dependencies {
 	compileOnly group: "biz.aQute.bnd", name: "biz.aQute.bndlib", version: "3.1.0"
-	compileOnly group: "com.liferay", name: "com.liferay.petra.function", version: "3.0.0"
-	compileOnly group: "com.liferay", name: "com.liferay.petra.lang", version: "3.0.0"
-	compileOnly group: "com.liferay", name: "com.liferay.petra.string", version: "3.0.0"
-	compileOnly group: "com.liferay", name: "com.liferay.portal.odata.api", version: "2.0.0"
-	compileOnly group: "com.liferay", name: "com.liferay.portal.vulcan.api", version: "6.24.0"
-	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "4.0.0"
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "default"
 	compileOnly group: "io.swagger.core.v3", name: "swagger-annotations", version: "2.0.5"
-	compileOnly group: "javax.servlet", name: "javax.servlet-api", version: "3.0.1"
 	compileOnly group: "javax.validation", name: "validation-api", version: "2.0.1.Final"
 	compileOnly group: "javax.ws.rs", name: "javax.ws.rs-api", version: "2.1"
+	compileOnly group: "org.apache.felix", name: "org.apache.felix.http.servlet-api", version: "1.1.2"
 	compileOnly group: "org.osgi", name: "org.osgi.service.component", version: "1.3.0"
 	compileOnly group: "org.osgi", name: "osgi.core", version: "6.0.0"
+	compileOnly project(":apps:portal-odata:portal-odata-api")
+	compileOnly project(":apps:portal-vulcan:portal-vulcan-api")
+	compileOnly project(":core:petra:petra-function")
+	compileOnly project(":core:petra:petra-lang")
+	compileOnly project(":core:petra:petra-string")
 	compileOnly project(":dxp:apps:osb:osb-koroneiki:osb-koroneiki-phloem:osb-koroneiki-phloem-rest-api")
 	compileOnly project(":dxp:apps:osb:osb-koroneiki:osb-koroneiki-phytohormone:osb-koroneiki-phytohormone-api")
 	compileOnly project(":dxp:apps:osb:osb-koroneiki:osb-koroneiki-root:osb-koroneiki-root-api")
