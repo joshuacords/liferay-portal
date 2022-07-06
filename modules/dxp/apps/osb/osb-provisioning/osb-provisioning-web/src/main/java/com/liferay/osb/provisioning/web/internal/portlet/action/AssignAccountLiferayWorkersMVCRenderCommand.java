@@ -14,7 +14,6 @@
 
 package com.liferay.osb.provisioning.web.internal.portlet.action;
 
-import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Contact;
 import com.liferay.osb.provisioning.constants.ProvisioningPortletKeys;
 import com.liferay.osb.provisioning.constants.ProvisioningWebKeys;
 import com.liferay.osb.provisioning.koroneiki.web.service.AccountWebService;
@@ -51,22 +50,17 @@ public class AssignAccountLiferayWorkersMVCRenderCommand
 
 		String accountKey = ParamUtil.getString(renderRequest, "accountKey");
 
-		String emailAddress = ParamUtil.getString(
-			renderRequest, "emailAddress");
+		String uuid = ParamUtil.getString(renderRequest, "uuid");
 
 		try {
 			renderRequest.setAttribute(
 				ProvisioningWebKeys.ACCOUNT,
 				_accountWebService.getAccount(accountKey));
 
-			if (Validator.isNotNull(emailAddress)) {
-				Contact contact = _contactWebService.fetchContactByEmailAddress(
-					emailAddress);
-
-				if (contact != null) {
-					renderRequest.setAttribute(
-						ProvisioningWebKeys.CONTACT, contact);
-				}
+			if (Validator.isNotNull(uuid)) {
+				renderRequest.setAttribute(
+					ProvisioningWebKeys.CONTACT,
+					_contactWebService.getContactByUuid(uuid));
 			}
 
 			return "/accounts/assign_liferay_workers.jsp";

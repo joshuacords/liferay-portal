@@ -29,6 +29,7 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.PortletURLUtil;
+import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringBundler;
@@ -70,25 +71,29 @@ public class ViewAccountLiferayWorkersDisplayContext
 		data.put("accountName", account.getName());
 		data.put("allRoles", _getContactRoleJSONObjects());
 
-		Contact contact = (Contact)renderRequest.getAttribute(
-			ProvisioningWebKeys.CONTACT);
-
-		if (contact != null) {
-			data.put("currentRoles", _getContactRoleKeys(contact));
+		if (!SessionErrors.isEmpty(renderRequest)) {
+			data.put(
+				"currentRoles",
+				ParamUtil.getStringValues(renderRequest, "addContactRoleKeys"));
+		}
+		else if (_contact != null) {
+			data.put("currentRoles", _getContactRoleKeys(_contact));
 		}
 
 		data.put(
 			"emailAddress",
-			BeanParamUtil.getString(contact, renderRequest, "emailAddress"));
-
-		if (contact != null) {
-			ContactDisplay contactDisplay = new ContactDisplay(
-				httpServletRequest, contact, null);
-
-			data.put("fullName", contactDisplay.getFullName());
-		}
-
+			BeanParamUtil.getString(_contact, renderRequest, "emailAddress"));
+		data.put(
+			"firstName",
+			BeanParamUtil.getString(_contact, renderRequest, "firstName"));
+		data.put(
+			"lastName",
+			BeanParamUtil.getString(_contact, renderRequest, "lastName"));
 		data.put("redirect", ParamUtil.getString(renderRequest, "redirect"));
+
+		if (_contact != null) {
+			data.put("uuid", _contact.getUuid());
+		}
 
 		return data;
 	}

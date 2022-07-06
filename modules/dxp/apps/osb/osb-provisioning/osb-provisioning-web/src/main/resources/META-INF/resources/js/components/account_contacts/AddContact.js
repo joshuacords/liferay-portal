@@ -27,7 +27,8 @@ export default function AddContact({
 	firstName,
 	lastName,
 	newContact,
-	redirect
+	redirect,
+	uuid
 }) {
 	const [contactEmailAddress, setContactEmailAddress] = useState(
 		emailAddress
@@ -37,12 +38,7 @@ export default function AddContact({
 	const [newRoles, setNewRoles] = useState(currentRoles);
 	const [valid, setValid] = useState(true);
 
-	const knownContact = !!(
-		currentRoles.length !== 0 &&
-		emailAddress &&
-		firstName &&
-		lastName
-	);
+	const knownContact = !!uuid;
 
 	const validationRoleIds = {
 		partner: allRoles
@@ -192,6 +188,7 @@ export default function AddContact({
 						setEmailAddress={setContactEmailAddress}
 						setFirstName={setContactFirstName}
 						setLastName={setContactLastName}
+						uuid={uuid}
 					/>
 				</tbody>
 			</table>
@@ -225,5 +222,6 @@ AddContact.propTypes = {
 	firstName: PropTypes.string,
 	lastName: PropTypes.string,
 	newContact: PropTypes.bool,
-	redirect: PropTypes.string
+	redirect: PropTypes.string,
+	uuid: PropTypes.string
 };

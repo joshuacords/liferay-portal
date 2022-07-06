@@ -38,7 +38,7 @@ AccountDisplay accountDisplay = viewAccountDisplayContext.getAccountDisplay();
 			<portlet:param name="mvcRenderCommandName" value="/accounts/assign_contacts" />
 			<portlet:param name="redirect" value="<%= currentURL %>" />
 			<portlet:param name="accountKey" value="<%= accountDisplay.getKey() %>" />
-			<portlet:param name="emailAddress" value="<%= contactDisplay.getEmailAddress() %>" />
+			<portlet:param name="uuid" value="<%= contactDisplay.getUuid() %>" />
 		</portlet:renderURL>
 
 		<liferay-ui:icon

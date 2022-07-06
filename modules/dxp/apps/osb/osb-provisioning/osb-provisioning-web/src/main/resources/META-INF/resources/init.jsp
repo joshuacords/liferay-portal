@@ -46,6 +46,7 @@ page import="com.liferay.osb.provisioning.constants.ProvisioningActionKeys" %><%
 page import="com.liferay.osb.provisioning.constants.ProvisioningPortletKeys" %><%@
 page import="com.liferay.osb.provisioning.constants.ProvisioningWebKeys" %><%@
 page import="com.liferay.osb.provisioning.exception.AccountCodeException" %><%@
+page import="com.liferay.osb.provisioning.exception.ContactAlreadyAssignedException" %><%@
 page import="com.liferay.osb.provisioning.exception.ContactEmailAddressException" %><%@
 page import="com.liferay.osb.provisioning.exception.ContactNameException" %><%@
 page import="com.liferay.osb.provisioning.exception.ContactRequiredException" %><%@

@@ -33,10 +33,16 @@ AccountDisplay accountDisplay = viewAccountContactsDisplayContext.getAccountDisp
 		title="<%= viewAccountContactsDisplayContext.getAssignContactTitle() %>"
 	/>
 
+	<liferay-ui:error exception="<%= ContactAlreadyAssignedException.class %>" message="the-contact-is-already-assigned-to-the-account" />
 	<liferay-ui:error exception="<%= ContactEmailAddressException.class %>" message="please-enter-a-valid-email-address" />
-	<liferay-ui:error exception="<%= ContactNameException.class %>" message="the-contact-could-not-be-found.enter-the-contact's-first-and-last-name-to-create-one" />
+
+	<c:if test="<%= SessionErrors.contains(renderRequest, ContactNameException.class.getName()) %>">
+		<div class="portlet-msg-info">
+			<liferay-ui:message key="the-contact-could-not-be-found.enter-the-contact's-first-and-last-name-to-create-one" />
+		</div>
+	</c:if>
+
 	<liferay-ui:error exception="<%= NoSuchContactException.class %>" message="the-contact-could-not-be-found.the-user-must-create-his-own-okta-account" />
-	<liferay-ui:error exception="<%= RequiredContactRoleException.class %>" message="cannot-remove-the-last-team-member-with-this-role.assign-this-role-to-another-team-member-then-try-again" />
 
 	<liferay-ui:error exception="<%= Problem.ProblemException.class %>">
 
@@ -46,6 +52,8 @@ AccountDisplay accountDisplay = viewAccountContactsDisplayContext.getAccountDisp
 
 		<%= problemException.getMessage() %>
 	</liferay-ui:error>
+
+	<liferay-ui:error exception="<%= RequiredContactRoleException.class %>" message="cannot-remove-the-last-team-member-with-this-role.assign-this-role-to-another-team-member-then-try-again" />
 
 	<portlet:actionURL name="/accounts/assign_contact_roles" var="assignContactRolesURL">
 		<portlet:param name="redirect" value="<%= redirect %>" />

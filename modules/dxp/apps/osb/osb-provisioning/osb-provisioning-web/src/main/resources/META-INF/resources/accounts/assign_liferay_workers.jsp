@@ -33,6 +33,11 @@ AccountDisplay accountDisplay = viewAccountLiferayWorkersDisplayContext.getAccou
 		title="<%= viewAccountLiferayWorkersDisplayContext.getAssignLiferayWorkerTitle() %>"
 	/>
 
+	<liferay-ui:error exception="<%= ContactAlreadyAssignedException.class %>" message="the-contact-is-already-assigned-to-the-account" />
+	<liferay-ui:error exception="<%= ContactEmailAddressException.class %>" message="please-enter-a-valid-email-address" />
+	<liferay-ui:error exception="<%= ContactNameException.class %>" message="the-contact-could-not-be-found" />
+	<liferay-ui:error exception="<%= DuplicateContactRoleException.class %>" message="primary-or-secondary-contact-is-already-assigned-to-another-user" />
+
 	<liferay-ui:error exception="<%= Problem.ProblemException.class %>">
 
 		<%
@@ -41,8 +46,6 @@ AccountDisplay accountDisplay = viewAccountLiferayWorkersDisplayContext.getAccou
 
 		<%= problemException.getMessage() %>
 	</liferay-ui:error>
-
-	<liferay-ui:error exception="<%= DuplicateContactRoleException.class %>" message="primary-or-secondary-contact-is-already-assigned-to-another-user" />
 
 	<portlet:actionURL name="/accounts/assign_contact_roles" var="assignContactRolesURL">
 		<portlet:param name="redirect" value="<%= redirect %>" />

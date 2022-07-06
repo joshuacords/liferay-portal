@@ -19,6 +19,7 @@ import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Contact;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ContactRole;
 import com.liferay.osb.koroneiki.phloem.rest.client.problem.Problem;
 import com.liferay.osb.provisioning.constants.ProvisioningPortletKeys;
+import com.liferay.osb.provisioning.exception.ContactAlreadyAssignedException;
 import com.liferay.osb.provisioning.exception.ContactEmailAddressException;
 import com.liferay.osb.provisioning.exception.ContactNameException;
 import com.liferay.osb.provisioning.exception.ContactRequiredException;
@@ -78,94 +79,44 @@ public class AssignAccountContactRolesMVCActionCommand
 			ActionRequest actionRequest, ActionResponse actionResponse)
 		throws Exception {
 
+		ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(
+			WebKeys.THEME_DISPLAY);
+
+		User user = themeDisplay.getUser();
+
+		String accountKey = ParamUtil.getString(actionRequest, "accountKey");
+
+		String uuid = ParamUtil.getString(actionRequest, "uuid");
+		String emailAddress = ParamUtil.getString(
+			actionRequest, "emailAddress");
+		String firstName = ParamUtil.getString(actionRequest, "firstName");
+		String lastName = ParamUtil.getString(actionRequest, "lastName");
+		String contactRoleType = ParamUtil.getString(
+			actionRequest, "contactRoleType");
+		String[] addContactRoleKeys = ParamUtil.getStringValues(
+			actionRequest, "addContactRoleKeys");
+		String[] deleteContactRoleKeys = ParamUtil.getStringValues(
+			actionRequest, "deleteContactRoleKeys");
+
 		try {
-			ThemeDisplay themeDisplay =
-				(ThemeDisplay)actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
-
-			User user = themeDisplay.getUser();
-
-			String accountKey = ParamUtil.getString(
-				actionRequest, "accountKey");
-
-			String emailAddress = ParamUtil.getString(
-				actionRequest, "emailAddress");
-			String[] addContactRoleKeys = ParamUtil.getStringValues(
-				actionRequest, "addContactRoleKeys");
-			String[] deleteContactRoleKeys = ParamUtil.getStringValues(
-				actionRequest, "deleteContactRoleKeys");
-
-			List<ContactRole> contactRoles = Collections.emptyList();
-
 			Account account = _accountWebService.getAccount(accountKey);
 
-			Contact contact =
-				_contactIdentityProvider.fetchContactByEmailAddress(
-					emailAddress, true);
-
-			if (contact == null) {
-				String subscriptionState = _accountReader.getSubscriptionState(
-					account);
-
-				if (subscriptionState.equals(
-						ProductPurchaseConstants.STATE_ACTIVE)) {
-
-					String firstName = ParamUtil.getString(
-						actionRequest, "firstName");
-					String lastName = ParamUtil.getString(
-						actionRequest, "lastName");
-
-					_contactIdentityProvider.createContact(
-						emailAddress, firstName, StringPool.BLANK, lastName);
-				}
-				else {
-					throw new NoSuchContactException();
-				}
-
-				deleteContactRoleKeys = new String[0];
+			if (Validator.isNotNull(uuid)) {
+				_updateContactRoles(
+					user, account, uuid, addContactRoleKeys,
+					deleteContactRoleKeys);
 			}
 			else {
-				contactRoles = _contactRoleWebService.getAccountContactRoles(
-					accountKey, emailAddress, 1, 1000);
-
-				Stream<ContactRole> stream = contactRoles.stream();
-
-				List<String> contactRoleKeys = stream.map(
-					ContactRole::getKey
-				).collect(
-					Collectors.toList()
-				);
-
-				for (String deleteContactRoleKey : deleteContactRoleKeys) {
-					if (!contactRoleKeys.contains(deleteContactRoleKey)) {
-						deleteContactRoleKeys = ArrayUtil.remove(
-							deleteContactRoleKeys, deleteContactRoleKey);
-					}
-				}
+				_assignNewContact(
+					user, account, emailAddress, firstName, lastName,
+					contactRoleType, addContactRoleKeys);
 			}
-
-			_validate(
-				accountKey, emailAddress, addContactRoleKeys,
-				deleteContactRoleKeys);
-
-			if (!ArrayUtil.isEmpty(addContactRoleKeys)) {
-				_accountWebService.assignContactRolesByEmailAddress(
-					user.getFullName(), user.getUuid(), accountKey,
-					emailAddress, addContactRoleKeys);
-			}
-
-			if (!ArrayUtil.isEmpty(deleteContactRoleKeys)) {
-				_accountWebService.unassignContactRolesByEmailAddress(
-					user.getFullName(), user.getUuid(), accountKey,
-					emailAddress, deleteContactRoleKeys);
-			}
-
-			_customerPortalRelease.sendContactAssignedWelcomeEmail(
-				contact, account, contactRoles, addContactRoleKeys);
 
 			sendRedirect(actionRequest, actionResponse);
 		}
 		catch (Exception exception) {
-			if (exception instanceof ContactEmailAddressException ||
+			if (exception instanceof ContactAlreadyAssignedException ||
+				exception instanceof ContactEmailAddressException ||
 				exception instanceof ContactNameException ||
 				exception instanceof DuplicateContactRoleException ||
 				exception instanceof NoSuchContactException ||
@@ -175,23 +126,24 @@ public class AssignAccountContactRolesMVCActionCommand
 				SessionErrors.add(
 					actionRequest, exception.getClass(), exception);
 
-				String contactRoleType = ParamUtil.getString(
-					actionRequest, "contactRoleType");
+				if (contactRoleType.equals(
+						ContactRole.Type.ACCOUNT_CUSTOMER.toString())) {
 
-				if (Validator.isNotNull(contactRoleType)) {
-					if (contactRoleType.equals(
-							ContactRole.Type.ACCOUNT_CUSTOMER.toString())) {
+					if (exception instanceof ContactNameException) {
+						hideDefaultErrorMessage(actionRequest);
+					}
 
-						actionResponse.setRenderParameter(
-							"mvcRenderCommandName",
-							"/accounts/assign_contacts");
-					}
-					else {
-						actionResponse.setRenderParameter(
-							"mvcRenderCommandName",
-							"/accounts/assign_liferay_workers");
-					}
+					actionResponse.setRenderParameter(
+						"mvcRenderCommandName", "/accounts/assign_contacts");
 				}
+				else {
+					actionResponse.setRenderParameter(
+						"mvcRenderCommandName",
+						"/accounts/assign_liferay_workers");
+				}
+
+				actionResponse.setRenderParameter(
+					"addContactRoleKeys", addContactRoleKeys);
 			}
 			else if (exception instanceof ContactRequiredException) {
 				SessionErrors.add(
@@ -205,6 +157,126 @@ public class AssignAccountContactRolesMVCActionCommand
 				throw exception;
 			}
 		}
+	}
+
+	private void _assignNewContact(
+			User user, Account account, String emailAddress, String firstName,
+			String lastName, String contactRoleType,
+			String[] addContactRoleKeys)
+		throws Exception {
+
+		Contact contact = _contactIdentityProvider.fetchContactByEmailAddress(
+			emailAddress, true);
+
+		if (contact == null) {
+			String subscriptionState = _accountReader.getSubscriptionState(
+				account);
+
+			if (subscriptionState.equals(
+					ProductPurchaseConstants.STATE_ACTIVE)) {
+
+				_contactIdentityProvider.createContact(
+					emailAddress, firstName, StringPool.BLANK, lastName);
+			}
+			else {
+				throw new NoSuchContactException();
+			}
+		}
+
+		_validate(
+			account.getKey(), emailAddress, contactRoleType,
+			addContactRoleKeys);
+
+		if (!ArrayUtil.isEmpty(addContactRoleKeys)) {
+			_accountWebService.assignContactRolesByEmailAddress(
+				user.getFullName(), user.getUuid(), account.getKey(),
+				emailAddress, addContactRoleKeys);
+		}
+
+		_customerPortalRelease.sendContactAssignedWelcomeEmail(
+			contact, account, Collections.emptyList(), addContactRoleKeys);
+	}
+
+	private void _updateContactRoles(
+			User user, Account account, String uuid,
+			String[] addContactRoleKeys, String[] deleteContactRoleKeys)
+		throws Exception {
+
+		Contact contact = _contactIdentityProvider.fetchContactByUuid(uuid);
+
+		if (contact == null) {
+			throw new NoSuchContactException();
+		}
+
+		List<ContactRole> contactRoles =
+			_contactRoleWebService.getAccountContactRoles(
+				account.getKey(), contact.getEmailAddress(), 1, 1000);
+
+		Stream<ContactRole> stream = contactRoles.stream();
+
+		List<String> contactRoleKeys = stream.map(
+			ContactRole::getKey
+		).collect(
+			Collectors.toList()
+		);
+
+		for (String deleteContactRoleKey : deleteContactRoleKeys) {
+			if (!contactRoleKeys.contains(deleteContactRoleKey)) {
+				deleteContactRoleKeys = ArrayUtil.remove(
+					deleteContactRoleKeys, deleteContactRoleKey);
+			}
+		}
+
+		_validate(
+			account.getKey(), contact.getEmailAddress(), addContactRoleKeys,
+			deleteContactRoleKeys);
+
+		if (!ArrayUtil.isEmpty(addContactRoleKeys)) {
+			_accountWebService.assignContactRolesByEmailAddress(
+				user.getFullName(), user.getUuid(), account.getKey(),
+				contact.getEmailAddress(), addContactRoleKeys);
+		}
+
+		if (!ArrayUtil.isEmpty(deleteContactRoleKeys)) {
+			_accountWebService.unassignContactRolesByEmailAddress(
+				user.getFullName(), user.getUuid(), account.getKey(),
+				contact.getEmailAddress(), deleteContactRoleKeys);
+		}
+
+		_customerPortalRelease.sendContactAssignedWelcomeEmail(
+			contact, account, contactRoles, addContactRoleKeys);
+	}
+
+	private void _validate(
+			String accountKey, String emailAddress, String contactRoleType,
+			String[] addContactRoleKeys)
+		throws Exception {
+
+		List<ContactRole> contactRoles = null;
+
+		if (contactRoleType.equals(
+				ContactRole.Type.ACCOUNT_CUSTOMER.toString())) {
+
+			contactRoles =
+				_contactRoleWebService.getAccountCustomerContactRoles(
+					accountKey, emailAddress, 1, 1);
+		}
+		else {
+			contactRoles = _contactRoleWebService.getAccountWorkerContactRoles(
+				accountKey, emailAddress, 1, 1);
+		}
+
+		if (!contactRoles.isEmpty()) {
+			throw new ContactAlreadyAssignedException();
+		}
+
+		_validateAccountWorkerContactRole(
+			accountKey, ContactRoleConstants.NAME_PRIMARY_CONTACT, emailAddress,
+			addContactRoleKeys);
+
+		_validateAccountWorkerContactRole(
+			accountKey, ContactRoleConstants.NAME_SECONDARY_CONTACT,
+			emailAddress, addContactRoleKeys);
 	}
 
 	private void _validate(

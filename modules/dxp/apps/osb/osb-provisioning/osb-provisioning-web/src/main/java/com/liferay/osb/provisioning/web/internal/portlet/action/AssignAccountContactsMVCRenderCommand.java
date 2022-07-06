@@ -49,20 +49,17 @@ public class AssignAccountContactsMVCRenderCommand implements MVCRenderCommand {
 
 		String accountKey = ParamUtil.getString(renderRequest, "accountKey");
 
-		String emailAddress = ParamUtil.getString(
-			renderRequest, "emailAddress");
+		String uuid = ParamUtil.getString(renderRequest, "uuid");
 
 		try {
 			renderRequest.setAttribute(
 				ProvisioningWebKeys.ACCOUNT,
 				_accountWebService.getAccount(accountKey));
 
-			if (SessionErrors.isEmpty(renderRequest) &&
-				Validator.isNotNull(emailAddress)) {
-
+			if (Validator.isNotNull(uuid)) {
 				renderRequest.setAttribute(
 					ProvisioningWebKeys.CONTACT,
-					_contactWebService.getContactByEmailAddress(emailAddress));
+					_contactWebService.getContactByUuid(uuid));
 			}
 
 			return "/accounts/assign_contacts.jsp";

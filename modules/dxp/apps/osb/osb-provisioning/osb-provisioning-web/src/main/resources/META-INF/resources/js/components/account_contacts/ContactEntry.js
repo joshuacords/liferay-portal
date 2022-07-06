@@ -28,7 +28,8 @@ export default function ContactEntry({
 	removeFn,
 	setEmailAddress,
 	setFirstName,
-	setLastName
+	setLastName,
+	uuid
 }) {
 	function handleEmailChange(event) {
 		setEmailAddress(event.currentTarget.value);
@@ -93,6 +94,7 @@ export default function ContactEntry({
 					type={knownContact ? 'hidden' : 'text'}
 					value={emailAddress}
 				/>
+				<input name={`${NAMESPACE}uuid`} type="hidden" value={uuid} />
 			</td>
 			<td className="table-cell-expand">
 				<DropdownMultiSelect
@@ -129,5 +131,6 @@ ContactEntry.propTypes = {
 	removeFn: PropTypes.func,
 	setEmailAddress: PropTypes.func,
 	setFirstName: PropTypes.func,
-	setLastName: PropTypes.func
+	setLastName: PropTypes.func,
+	uuid: PropTypes.func
 };

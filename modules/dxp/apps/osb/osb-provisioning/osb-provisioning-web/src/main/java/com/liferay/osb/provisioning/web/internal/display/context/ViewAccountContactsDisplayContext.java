@@ -18,7 +18,6 @@ import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenu;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Contact;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ContactRole;
 import com.liferay.osb.provisioning.constants.ProvisioningWebKeys;
-import com.liferay.osb.provisioning.exception.ContactEmailAddressException;
 import com.liferay.osb.provisioning.exception.ContactNameException;
 import com.liferay.osb.provisioning.koroneiki.constants.ProductPurchaseConstants;
 import com.liferay.osb.provisioning.search.FilterQuery;
@@ -67,7 +66,12 @@ public class ViewAccountContactsDisplayContext
 		data.put("accountName", account.getName());
 		data.put("allRoles", _getContactRoleJSONObjects());
 
-		if (_contact != null) {
+		if (!SessionErrors.isEmpty(renderRequest)) {
+			data.put(
+				"currentRoles",
+				ParamUtil.getStringValues(renderRequest, "addContactRoleKeys"));
+		}
+		else if (_contact != null) {
 			data.put("currentRoles", _getContactRoleKeys(_contact));
 		}
 
@@ -82,8 +86,6 @@ public class ViewAccountContactsDisplayContext
 			BeanParamUtil.getString(_contact, renderRequest, "lastName"));
 
 		if (SessionErrors.contains(
-				renderRequest, ContactEmailAddressException.class.getName()) ||
-			SessionErrors.contains(
 				renderRequest, ContactNameException.class.getName()) ||
 			SessionErrors.contains(
 				renderRequest, NoSuchContactException.class.getName())) {
@@ -99,6 +101,10 @@ public class ViewAccountContactsDisplayContext
 		}
 
 		data.put("redirect", ParamUtil.getString(renderRequest, "redirect"));
+
+		if (_contact != null) {
+			data.put("uuid", _contact.getUuid());
+		}
 
 		return data;
 	}
