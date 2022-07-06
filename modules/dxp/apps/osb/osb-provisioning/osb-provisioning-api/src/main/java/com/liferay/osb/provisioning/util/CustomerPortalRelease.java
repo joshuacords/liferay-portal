@@ -30,6 +30,10 @@ public interface CustomerPortalRelease {
 	public boolean hasAccountAccessPermission(Account account, Contact contact)
 		throws Exception;
 
+	public boolean hasAccountManageLicenseKeysPermission(
+			String accountKey, Contact contact)
+		throws Exception;
+
 	public boolean isEnabled(
 		Set<ProductPurchase> productPurchases, Account.Region region);
 

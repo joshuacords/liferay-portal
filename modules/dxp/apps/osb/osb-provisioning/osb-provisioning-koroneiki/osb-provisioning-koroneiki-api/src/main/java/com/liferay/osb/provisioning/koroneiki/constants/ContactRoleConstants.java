@@ -22,6 +22,9 @@ public class ContactRoleConstants {
 	public static final String NAME_ANALYTICS_CLOUD_OWNER =
 		"Analytics Cloud Owner";
 
+	public static final String NAME_LIFERAY_CUSTOMER_SUCCESS =
+		"Liferay Customer Success";
+
 	public static final String NAME_LIFERAY_SALES = "Liferay Sales";
 
 	public static final String NAME_MEMBER = "Member";

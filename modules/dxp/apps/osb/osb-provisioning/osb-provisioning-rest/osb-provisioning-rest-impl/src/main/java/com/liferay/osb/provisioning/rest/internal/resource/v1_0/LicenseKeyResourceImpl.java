@@ -16,14 +16,12 @@ package com.liferay.osb.provisioning.rest.internal.resource.v1_0;
 
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Account;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Contact;
-import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ContactRole;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Product;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ProductPurchase;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ProductPurchaseView;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Team;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.TeamRole;
 import com.liferay.osb.provisioning.auth.ProvisioningContactThreadLocal;
-import com.liferay.osb.provisioning.koroneiki.constants.ContactRoleConstants;
 import com.liferay.osb.provisioning.koroneiki.constants.ProductConstants;
 import com.liferay.osb.provisioning.koroneiki.constants.TeamRoleConstants;
 import com.liferay.osb.provisioning.koroneiki.reader.AccountReader;
@@ -526,7 +524,7 @@ public class LicenseKeyResourceImpl
 			String accountKey, LicenseKey[] licenseKeys)
 		throws Exception {
 
-		_checkAccountAdminContactRole(accountKey);
+		_checkAccountManageLicenseKeysPermission(accountKey);
 
 		_validateLicenseKeys(accountKey, licenseKeys);
 
@@ -590,7 +588,8 @@ public class LicenseKeyResourceImpl
 				curLicenseKey = _licenseKeyLocalService.getLicenseKey(
 					licenseKey.getId());
 
-			_checkAccountAdminContactRole(curLicenseKey.getAccountKey());
+			_checkAccountManageLicenseKeysPermission(
+				curLicenseKey.getAccountKey());
 
 			_validate(
 				licenseKey.getProductPurchaseKey(), licenseKey.getStartDate(),
@@ -623,7 +622,8 @@ public class LicenseKeyResourceImpl
 			com.liferay.osb.provisioning.license.model.LicenseKey licenseKey =
 				_licenseKeyLocalService.getLicenseKey(licenseKeyId);
 
-			_checkAccountAdminContactRole(licenseKey.getAccountKey());
+			_checkAccountManageLicenseKeysPermission(
+				licenseKey.getAccountKey());
 		}
 
 		Contact contact = ProvisioningContactThreadLocal.getContact();
@@ -648,7 +648,8 @@ public class LicenseKeyResourceImpl
 			com.liferay.osb.provisioning.license.model.LicenseKey licenseKey =
 				_licenseKeyLocalService.getLicenseKey(licenseKeyId);
 
-			_checkAccountAdminContactRole(licenseKey.getAccountKey());
+			_checkAccountManageLicenseKeysPermission(
+				licenseKey.getAccountKey());
 		}
 
 		Contact contact = ProvisioningContactThreadLocal.getContact();
@@ -667,24 +668,16 @@ public class LicenseKeyResourceImpl
 		}
 	}
 
-	private void _checkAccountAdminContactRole(String accountKey)
+	private void _checkAccountManageLicenseKeysPermission(String accountKey)
 		throws Exception {
 
 		Contact contact = ProvisioningContactThreadLocal.getContact();
 
 		if (contact != null) {
-			List<ContactRole> contactRoles =
-				_contactRoleWebService.getAccountCustomerContactRoles(
-					accountKey, contact.getEmailAddress(), 1, 1000);
+			if (_customerPortalRelease.hasAccountManageLicenseKeysPermission(
+					accountKey, contact)) {
 
-			for (ContactRole contactRole : contactRoles) {
-				String name = contactRole.getName();
-
-				if (name.equals(
-						ContactRoleConstants.NAME_SUPPORT_ADMINISTRATOR)) {
-
-					return;
-				}
+				return;
 			}
 		}
 		else if (_isOmniAdmin()) {

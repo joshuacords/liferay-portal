@@ -119,6 +119,50 @@ public class CustomerPortalReleaseImpl implements CustomerPortalRelease {
 		return false;
 	}
 
+	public boolean hasAccountManageLicenseKeysPermission(
+			String accountKey, Contact contact)
+		throws Exception {
+
+		FilterQuery filterQuery = new FilterQuery();
+
+		filterQuery.addLambdaEquals(true, "contactUuids", contact.getUuid());
+
+		FilterQuery nestedFilterQuery = new FilterQuery();
+
+		nestedFilterQuery.addLambdaEquals(
+			false, "externalLinkEntityIds",
+			StringBundler.concat(
+				ExternalLinkDomain.OKTA, "_", ExternalLinkEntityName.OKTA_GROUP,
+				"_", _provisioningOktaId));
+
+		filterQuery.addFilterQuery(true, nestedFilterQuery);
+
+		List<Team> teams = _teamWebService.search(
+			StringPool.BLANK, filterQuery, 1, 1000, StringPool.BLANK);
+
+		if (!teams.isEmpty()) {
+			return true;
+		}
+
+		List<ContactRole> contactRoles =
+			_contactRoleWebService.getAccountContactRoles(
+				accountKey, contact.getEmailAddress(), 1, 1000);
+
+		for (ContactRole contactRole : contactRoles) {
+			String name = contactRole.getName();
+
+			if (name.equals(
+					ContactRoleConstants.NAME_LIFERAY_CUSTOMER_SUCCESS) ||
+				name.equals(ContactRoleConstants.NAME_LIFERAY_SALES) ||
+				name.equals(ContactRoleConstants.NAME_SUPPORT_ADMINISTRATOR)) {
+
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	public boolean isEnabled(
 		Set<ProductPurchase> productPurchases, Account.Region accountRegion) {
 
