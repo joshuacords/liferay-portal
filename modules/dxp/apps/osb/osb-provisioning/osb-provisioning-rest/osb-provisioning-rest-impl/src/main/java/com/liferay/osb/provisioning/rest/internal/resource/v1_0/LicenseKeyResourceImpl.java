@@ -671,16 +671,16 @@ public class LicenseKeyResourceImpl
 	private void _checkAccountManageLicenseKeysPermission(String accountKey)
 		throws Exception {
 
+		if (_isOmniAdmin()) {
+			return;
+		}
+
 		Contact contact = ProvisioningContactThreadLocal.getContact();
 
-		if (contact != null) {
-			if (_customerPortalRelease.hasAccountManageLicenseKeysPermission(
-					accountKey, contact)) {
+		if ((contact != null) &&
+			_customerPortalRelease.hasAccountManageLicenseKeysPermission(
+				accountKey, contact)) {
 
-				return;
-			}
-		}
-		else if (_isOmniAdmin()) {
 			return;
 		}
 
@@ -708,6 +708,10 @@ public class LicenseKeyResourceImpl
 
 	private void _checkAccountViewPermission(String accountKey)
 		throws Exception {
+
+		if (_isOmniAdmin()) {
+			return;
+		}
 
 		Contact contact = ProvisioningContactThreadLocal.getContact();
 
@@ -740,9 +744,6 @@ public class LicenseKeyResourceImpl
 
 				return;
 			}
-		}
-		else if (_isOmniAdmin()) {
-			return;
 		}
 
 		throw new PrincipalException();
