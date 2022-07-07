@@ -2410,8 +2410,14 @@ public class SXPBlueprintSearchResultTest {
 				String title, String description)
 			throws Exception {
 
+			Group group = _defaultGroup;
+
+			if (_group != null) {
+				group = _group;
+			}
+
 			_journalFolder = JournalFolderServiceUtil.addFolder(
-				null, _group.getGroupId(), 0, title, description,
+				null, group.getGroupId(), 0, title, description,
 				_serviceContext);
 
 			return this;
