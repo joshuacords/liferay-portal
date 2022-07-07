@@ -347,8 +347,11 @@ public class LayoutCopyHelperImpl implements LayoutCopyHelper {
 			nonIndexableFragmentEntryLinkIdsJSONArray);
 
 		for (String fragmentEntryLinkId : nonIndexableFragmentEntryLinkIds) {
-			newNonIndexableFragmentEntryLinkIdsJSONArray.put(
-				fragmentEntryLinkIdsMap.get(fragmentEntryLinkId));
+			String id = fragmentEntryLinkIdsMap.get(fragmentEntryLinkId);
+
+			if (Validator.isNotNull(id)) {
+				newNonIndexableFragmentEntryLinkIdsJSONArray.put(id);
+			}
 		}
 
 		dataJSONObject.put(
