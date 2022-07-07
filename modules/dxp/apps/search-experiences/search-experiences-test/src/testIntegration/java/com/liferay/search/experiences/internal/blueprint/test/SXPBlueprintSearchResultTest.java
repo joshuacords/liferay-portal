@@ -164,7 +164,7 @@ public class SXPBlueprintSearchResultTest {
 				LocaleUtil.US, RandomTestUtil.randomString()),
 			_serviceContext);
 
-		_journalArticleBuilderFactory = new JournalArticleBuilderFactory(
+		_journalArticleBuilder = new JournalArticleBuilder(
 			_group, _journalArticles, _serviceContext);
 	}
 
@@ -2296,7 +2296,7 @@ public class SXPBlueprintSearchResultTest {
 	@DeleteAfterTestRun
 	private Group _groupB;
 
-	private JournalArticleBuilderFactory _journalArticleBuilderFactory;
+	private JournalArticleBuilder _journalArticleBuilder;
 	private final List<JournalArticle> _journalArticles = new ArrayList<>();
 	private JournalFolder _journalFolder;
 	private String _keywords;
@@ -2428,28 +2428,6 @@ public class SXPBlueprintSearchResultTest {
 		private JournalFolder _journalFolder;
 		private ServiceContext _serviceContext;
 		private String _title;
-
-	}
-
-	private class JournalArticleBuilderFactory {
-
-		public JournalArticleBuilderFactory(
-			Group group, List<JournalArticle> journalArticles,
-			ServiceContext serviceContext) {
-
-			_group = group;
-			_journalArticles = journalArticles;
-			_serviceContext = serviceContext;
-		}
-
-		public JournalArticleBuilder newInstance() {
-			return new JournalArticleBuilder(
-				_group, _journalArticles, _serviceContext);
-		}
-
-		private Group _group;
-		private List<JournalArticle> _journalArticles;
-		private ServiceContext _serviceContext;
 
 	}
 
