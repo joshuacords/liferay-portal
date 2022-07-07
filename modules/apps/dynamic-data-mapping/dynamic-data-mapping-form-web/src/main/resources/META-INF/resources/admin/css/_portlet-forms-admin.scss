@@ -123,10 +123,6 @@
 			margin: 0;
 		}
 
-		.ae-placeholder:empty:before {
-			content: attr(data-placeholder);
-		}
-
 		.alloy-editor-container .alloy-editor.ae-placeholder,
 		.alloy-editor-container
 			.alloy-editor
