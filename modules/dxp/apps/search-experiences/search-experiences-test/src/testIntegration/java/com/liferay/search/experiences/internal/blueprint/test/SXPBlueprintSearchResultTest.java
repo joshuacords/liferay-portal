@@ -848,8 +848,15 @@ public class SXPBlueprintSearchResultTest {
 		_assetTag = AssetTagLocalServiceUtil.addTag(
 			_user.getUserId(), _group.getGroupId(), "Boost", _serviceContext);
 
-		_setUpJournalArticles(
-			new String[] {"", ""}, new String[] {"Article", "Tagged Article"});
+		_journalArticleBuilder.setTitle(
+			"Article"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"Tagged Article"
+		).setAssetTag(
+			_assetTag
+		).build();
 
 		_updateElementInstancesJSON(
 			new Object[] {
@@ -875,8 +882,15 @@ public class SXPBlueprintSearchResultTest {
 		_assetTag = AssetTagLocalServiceUtil.addTag(
 			_user.getUserId(), _group.getGroupId(), "cola", _serviceContext);
 
-		_setUpJournalArticles(
-			new String[] {"", ""}, new String[] {"coca cola", "pepsi"});
+		_journalArticleBuilder.setTitle(
+			"coca cola"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"pepsi"
+		).setAssetTag(
+			_assetTag
+		).build();
 
 		_keywords = "cola";
 
@@ -897,9 +911,15 @@ public class SXPBlueprintSearchResultTest {
 
 	@Test
 	public void testBoostWebContentsByKeywordsMatch() throws Exception {
-		_setUpJournalArticles(
-			new String[] {"alpha alpha", ""},
-			new String[] {"beta alpha", "charlie alpha"});
+		_journalArticleBuilder.setTitle(
+			"beta alpha"
+		).setContent(
+			"alpha alpha"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"charlie alpha"
+		).build();
 
 		_keywords = "alpha";
 
@@ -934,9 +954,15 @@ public class SXPBlueprintSearchResultTest {
 				"parameters",
 				JSONUtil.put("myparam", JSONUtil.put("type", "String"))));
 
-		_setUpJournalArticles(
-			new String[] {"cola cola", ""},
-			new String[] {"Coca Cola", "liferay"});
+		_journalArticleBuilder.setTitle(
+			"Coca Cola"
+		).setContent(
+			"cola cola"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"liferay"
+		).build();
 
 		_updateElementInstancesJSON(
 			new Object[] {
@@ -978,11 +1004,17 @@ public class SXPBlueprintSearchResultTest {
 
 	@Test
 	public void testFilterByExactTermsMatch() throws Exception {
-		_setUpJournalArticles(
-			new String[] {"", "", ""},
-			new String[] {
-				"coca cola filter", "pepsi cola filter", "sprite cola"
-			});
+		_journalArticleBuilder.setTitle(
+			"coca cola filter"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"pepsi cola filter"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"sprite cola"
+		).build();
 
 		_keywords = "cola";
 
@@ -2476,10 +2508,8 @@ public class SXPBlueprintSearchResultTest {
 			return this;
 		}
 
-		public JournalArticleBuilder setAssetTag(String name) throws Exception {
-			_assetTag = AssetTagLocalServiceUtil.addTag(
-				_defaultUser.getUserId(), _getGroupId(), "cola",
-				_serviceContext);
+		public JournalArticleBuilder setAssetTag(AssetTag assetTag) {
+			_assetTag = assetTag;
 
 			return this;
 		}
