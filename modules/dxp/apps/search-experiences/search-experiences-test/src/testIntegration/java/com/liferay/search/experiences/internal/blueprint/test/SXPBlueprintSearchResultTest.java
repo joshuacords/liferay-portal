@@ -163,6 +163,9 @@ public class SXPBlueprintSearchResultTest {
 			Collections.singletonMap(
 				LocaleUtil.US, RandomTestUtil.randomString()),
 			_serviceContext);
+
+		_journalArticleBuilder = new JournalArticleBuilder(
+			_group, _journalArticles, _serviceContext);
 	}
 
 	@Test
@@ -2293,6 +2296,7 @@ public class SXPBlueprintSearchResultTest {
 	@DeleteAfterTestRun
 	private Group _groupB;
 
+	private JournalArticleBuilder _journalArticleBuilder;
 	private final List<JournalArticle> _journalArticles = new ArrayList<>();
 	private JournalFolder _journalFolder;
 	private String _keywords;
@@ -2322,5 +2326,109 @@ public class SXPBlueprintSearchResultTest {
 		type = SegmentsCriteriaContributor.class
 	)
 	private SegmentsCriteriaContributor _userSegmentsCriteriaContributor;
+
+	private class JournalArticleBuilder {
+
+		public JournalArticleBuilder(
+			Group group, List<JournalArticle> journalArticles,
+			ServiceContext serviceContext) {
+
+			_journalArticles = journalArticles;
+			_serviceContext = serviceContext;
+
+			_defaultGroup = group;
+		}
+
+		public void build() throws Exception {
+			Group group = _defaultGroup;
+
+			if (_group != null) {
+				group = _group;
+			}
+
+			if (_assetCategory != null) {
+				_serviceContext.setAssetCategoryIds(
+					new long[] {_assetCategory.getCategoryId()});
+			}
+
+			if (_assetTag != null) {
+				_serviceContext.setAssetTagNames(
+					new String[] {_assetTag.getName()});
+			}
+
+			long journalFolderId = 0;
+
+			if (_journalFolder != null) {
+				journalFolderId = _journalFolder.getFolderId();
+			}
+
+			_journalArticles.add(
+				_addJournalArticle(
+					group.getGroupId(), journalFolderId, _title, _content,
+					false, true));
+		}
+
+		public JournalArticleBuilder setAssetCategory(
+			AssetCategory assetCategory) {
+
+			_assetCategory = assetCategory;
+
+			return this;
+		}
+
+		public JournalArticleBuilder setAssetTag(AssetTag assetTag) {
+			_assetTag = assetTag;
+
+			return this;
+		}
+
+		public JournalArticleBuilder setContent(String content) {
+			_content = content;
+
+			return this;
+		}
+
+		public JournalArticleBuilder setGroup(Group group) {
+			_group = group;
+
+			return this;
+		}
+
+		public JournalArticleBuilder setJournalFolder(
+			JournalFolder journalFolder) {
+
+			_journalFolder = journalFolder;
+
+			return this;
+		}
+
+		public JournalArticleBuilder setJournalFolder(
+				String title, String description)
+			throws Exception {
+
+			_journalFolder = JournalFolderServiceUtil.addFolder(
+				null, _group.getGroupId(), 0, title, description,
+				_serviceContext);
+
+			return this;
+		}
+
+		public JournalArticleBuilder setTitle(String title) {
+			_title = title;
+
+			return this;
+		}
+
+		private AssetCategory _assetCategory;
+		private AssetTag _assetTag;
+		private String _content;
+		private final Group _defaultGroup;
+		private Group _group;
+		private final List<JournalArticle> _journalArticles;
+		private JournalFolder _journalFolder;
+		private ServiceContext _serviceContext;
+		private String _title;
+
+	}
 
 }
