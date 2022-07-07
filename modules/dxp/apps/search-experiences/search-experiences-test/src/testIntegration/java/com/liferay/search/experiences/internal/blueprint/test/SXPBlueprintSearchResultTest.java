@@ -2342,12 +2342,6 @@ public class SXPBlueprintSearchResultTest {
 		}
 
 		public void build() throws Exception {
-			Group group = _defaultGroup;
-
-			if (_group != null) {
-				group = _group;
-			}
-
 			if (_assetCategory != null) {
 				_serviceContext.setAssetCategoryIds(
 					new long[] {_assetCategory.getCategoryId()});
@@ -2366,8 +2360,8 @@ public class SXPBlueprintSearchResultTest {
 
 			_journalArticles.add(
 				_addJournalArticle(
-					group.getGroupId(), journalFolderId, _title, _content,
-					false, true));
+					_getGroupId(), journalFolderId, _title, _content, false,
+					true));
 
 			_reset();
 		}
@@ -2410,15 +2404,8 @@ public class SXPBlueprintSearchResultTest {
 				String title, String description)
 			throws Exception {
 
-			Group group = _defaultGroup;
-
-			if (_group != null) {
-				group = _group;
-			}
-
 			_journalFolder = JournalFolderServiceUtil.addFolder(
-				null, group.getGroupId(), 0, title, description,
-				_serviceContext);
+				null, _getGroupId(), 0, title, description, _serviceContext);
 
 			return this;
 		}
@@ -2427,6 +2414,14 @@ public class SXPBlueprintSearchResultTest {
 			_title = title;
 
 			return this;
+		}
+
+		private long _getGroupId() {
+			if (_group != null) {
+				return _group.getGroupId();
+			}
+
+			return _defaultGroup.getGroupId();
 		}
 
 		private void _reset() {
