@@ -917,9 +917,9 @@ public class LayoutStagedModelDataHandler
 
 		fixImportTypeSettings(importedLayout);
 
-		_layoutLocalService.updateLayout(importedLayout);
-
 		importTheme(portletDataContext, layout, importedLayout);
+
+		importedLayout = _layoutLocalService.updateLayout(importedLayout);
 
 		_layoutSetLocalService.updatePageCount(groupId, privateLayout);
 
