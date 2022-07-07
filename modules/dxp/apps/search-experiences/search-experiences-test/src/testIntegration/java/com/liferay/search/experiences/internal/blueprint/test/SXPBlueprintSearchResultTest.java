@@ -265,13 +265,15 @@ public class SXPBlueprintSearchResultTest {
 
 	@Test
 	public void testBoostContentsInACategory() throws Exception {
-		_addAssetCategory("Important", _user);
+		_journalArticleBuilder.setTitle(
+			"Article"
+		).build();
 
-		_addGroupAAndGroupB();
-
-		_setUpJournalArticles(
-			new String[] {"", ""},
-			new String[] {"Article", "Article With Category"});
+		_journalArticleBuilder.setTitle(
+			"Article With Category"
+		).setAssetCategory(
+			_addAssetCategory("Important", _user)
+		).build();
 
 		_updateElementInstancesJSON(
 			new Object[] {
@@ -297,11 +299,15 @@ public class SXPBlueprintSearchResultTest {
 
 	@Test
 	public void testBoostContentsInACategoryByKeywordMatch() throws Exception {
-		_addAssetCategory("Promoted", _addGroupUser(_group, "Employee"));
+		_journalArticleBuilder.setTitle(
+			"Article"
+		).build();
 
-		_setUpJournalArticles(
-			new String[] {"", ""},
-			new String[] {"Article", "Article With Category"});
+		_journalArticleBuilder.setTitle(
+			"Article With Category"
+		).setAssetCategory(
+			_addAssetCategory("Promoted", _addGroupUser(_group, "Employee"))
+		).build();
 
 		_updateElementInstancesJSON(
 			new Object[] {
@@ -329,11 +335,15 @@ public class SXPBlueprintSearchResultTest {
 	public void testBoostContentsInACategoryForAPeriodOfTime()
 		throws Exception {
 
-		_addAssetCategory("Promoted", _addGroupUser(_group, "Customers"));
+		_journalArticleBuilder.setTitle(
+			"Article"
+		).build();
 
-		_setUpJournalArticles(
-			new String[] {"", ""},
-			new String[] {"Article", "Article With Category"});
+		_journalArticleBuilder.setTitle(
+			"Article With Category"
+		).setAssetCategory(
+			_addAssetCategory("Promoted", _addGroupUser(_group, "Customers"))
+		).build();
 
 		_updateElementInstancesJSON(
 			new Object[] {
@@ -390,11 +400,15 @@ public class SXPBlueprintSearchResultTest {
 
 	@Test
 	public void testBoostContentsInACategoryForAUserSegment() throws Exception {
-		_addAssetCategory("Promoted", _addGroupUser(_group, "Employee"));
+		_journalArticleBuilder.setTitle(
+			"Article"
+		).build();
 
-		_setUpJournalArticles(
-			new String[] {"", ""},
-			new String[] {"Article", "Article With Category"});
+		_journalArticleBuilder.setTitle(
+			"Article With Category"
+		).setAssetCategory(
+			_addAssetCategory("Promoted", _addGroupUser(_group, "Employee"))
+		).build();
 
 		_keywords = "Article";
 
@@ -428,11 +442,15 @@ public class SXPBlueprintSearchResultTest {
 
 	@Test
 	public void testBoostContentsInACategoryForGuestUsers() throws Exception {
-		_addAssetCategory("Promoted", _user);
+		_journalArticleBuilder.setTitle(
+			"Article"
+		).build();
 
-		_setUpJournalArticles(
-			new String[] {"", ""},
-			new String[] {"Article", "Article With Category"});
+		_journalArticleBuilder.setTitle(
+			"Article With Category"
+		).setAssetCategory(
+			_addAssetCategory("Promoted", _user)
+		).build();
 
 		User guestUser = _userLocalService.getDefaultUser(
 			_group.getCompanyId());
@@ -469,11 +487,15 @@ public class SXPBlueprintSearchResultTest {
 	public void testBoostContentsInACategoryForNewUserAccounts()
 		throws Exception {
 
-		_addAssetCategory("New User", _addGroupUser(_group, "Employee"));
+		_journalArticleBuilder.setTitle(
+			"Article"
+		).build();
 
-		_setUpJournalArticles(
-			new String[] {"", ""},
-			new String[] {"Article", "Article With Category"});
+		_journalArticleBuilder.setTitle(
+			"Article With Category"
+		).setAssetCategory(
+			_addAssetCategory("New User", _addGroupUser(_group, "Employee"))
+		).build();
 
 		_updateElementInstancesJSON(
 			new Object[] {
@@ -517,13 +539,17 @@ public class SXPBlueprintSearchResultTest {
 
 	@Test
 	public void testBoostContentsInACategoryForTheTimeOfDay() throws Exception {
+		_journalArticleBuilder.setTitle(
+			"Article"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"Article With Category"
+		).setAssetCategory(
+			_addAssetCategory("Time", _user)
+		).build();
+
 		LocalDateTime localDateTime = LocalDateTime.now();
-
-		_addAssetCategory("Time", _user);
-
-		_setUpJournalArticles(
-			new String[] {"", "", ""},
-			new String[] {"Article", "Article With Category"});
 
 		String[] timeOfDays = _getTimeOfDayAndNextTimeOfDay(
 			localDateTime.toLocalTime());
@@ -1889,7 +1915,9 @@ public class SXPBlueprintSearchResultTest {
 	@Rule
 	public TestName testName = new TestName();
 
-	private void _addAssetCategory(String title, User user) throws Exception {
+	private AssetCategory _addAssetCategory(String title, User user)
+		throws Exception {
+
 		if (_assetVocabulary == null) {
 			_assetVocabulary =
 				AssetVocabularyLocalServiceUtil.addDefaultVocabulary(
@@ -1899,6 +1927,8 @@ public class SXPBlueprintSearchResultTest {
 		_assetCategory = AssetCategoryLocalServiceUtil.addCategory(
 			user.getUserId(), _group.getGroupId(), title,
 			_assetVocabulary.getVocabularyId(), _serviceContext);
+
+		return _assetCategory;
 	}
 
 	private void _addFileEntry(String sourceFileName, String extension)
@@ -2426,22 +2456,6 @@ public class SXPBlueprintSearchResultTest {
 			return this;
 		}
 
-		public JournalArticleBuilder setAssetCategory(String title, User user)
-			throws Exception {
-
-			if (_assetVocabulary == null) {
-				_assetVocabulary =
-					AssetVocabularyLocalServiceUtil.addDefaultVocabulary(
-						_group.getGroupId());
-			}
-
-			_assetCategory = AssetCategoryLocalServiceUtil.addCategory(
-				user.getUserId(), _getGroupId(), title,
-				_assetVocabulary.getVocabularyId(), _serviceContext);
-
-			return this;
-		}
-
 		public JournalArticleBuilder setAssetTag(AssetTag assetTag) {
 			_assetTag = assetTag;
 
@@ -2546,7 +2560,6 @@ public class SXPBlueprintSearchResultTest {
 		private boolean _approved;
 		private AssetCategory _assetCategory;
 		private AssetTag _assetTag;
-		private AssetVocabulary _assetVocabulary;
 		private String _content;
 		private final Group _defaultGroup;
 		private final User _defaultUser;
