@@ -178,13 +178,17 @@ public class SXPBlueprintSearchResultTest {
 					"com.liferay.journal.model.JournalArticle",
 					"com.liferay.journal.model.JournalFolder")));
 
-		_journalFolder = JournalFolderServiceUtil.addFolder(
-			null, _group.getGroupId(), 0, "Folder cola", StringPool.BLANK,
-			_serviceContext);
+		_journalArticleBuilder.setTitle(
+			"Article coca cola"
+		).setContent(
+			"cola"
+		).build();
 
-		_setUpJournalArticles(
-			new String[] {"cola", ""},
-			new String[] {"Article coca cola", "Article pepsi cola"});
+		_journalArticleBuilder.setJournalFolder(
+			"Folder cola", StringPool.BLANK
+		).setTitle(
+			"Article pepsi cola"
+		).build();
 
 		_updateElementInstancesJSON(
 			new Object[] {
@@ -208,15 +212,29 @@ public class SXPBlueprintSearchResultTest {
 
 	@Test
 	public void testBoostContentsForTheCurrentLanguage() throws Exception {
-		_setUpJournalArticles(
-			new String[] {"Article Article", ""},
-			new String[] {"Article beta en_US", "Article delta en_US"});
+		_journalArticleBuilder.setTitle(
+			"Article beta en_US"
+		).setContent(
+			"Article Article"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"Article delta en_US"
+		).build();
 
 		LocaleThreadLocal.setDefaultLocale(LocaleUtil.SPAIN);
 
-		_setUpJournalArticles(
-			new String[] {"Article Article Article", "Article"},
-			new String[] {"Article alpha es_ES", "Article omega es_ES"});
+		_journalArticleBuilder.setTitle(
+			"Article alpha es_ES"
+		).setContent(
+			"Article Article Article"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"Article omega es_ES"
+		).setContent(
+			"Article"
+		).build();
 
 		_updateElementInstancesJSON(
 			new Object[] {
@@ -2374,6 +2392,22 @@ public class SXPBlueprintSearchResultTest {
 			return this;
 		}
 
+		public JournalArticleBuilder setAssetCategory(String title, User user)
+			throws Exception {
+
+			if (_assetVocabulary == null) {
+				_assetVocabulary =
+					AssetVocabularyLocalServiceUtil.addDefaultVocabulary(
+						_group.getGroupId());
+			}
+
+			_assetCategory = AssetCategoryLocalServiceUtil.addCategory(
+				user.getUserId(), _getGroupId(), title,
+				_assetVocabulary.getVocabularyId(), _serviceContext);
+
+			return this;
+		}
+
 		public JournalArticleBuilder setAssetTag(AssetTag assetTag) {
 			_assetTag = assetTag;
 
@@ -2435,6 +2469,7 @@ public class SXPBlueprintSearchResultTest {
 
 		private AssetCategory _assetCategory;
 		private AssetTag _assetTag;
+		private AssetVocabulary _assetVocabulary;
 		private String _content;
 		private final Group _defaultGroup;
 		private Group _group;
