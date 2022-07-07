@@ -165,7 +165,7 @@ public class SXPBlueprintSearchResultTest {
 			_serviceContext);
 
 		_journalArticleBuilder = new JournalArticleBuilder(
-			_group, _journalArticles, _serviceContext);
+			_group, _journalArticles, _serviceContext, _user);
 	}
 
 	@Test
@@ -622,9 +622,15 @@ public class SXPBlueprintSearchResultTest {
 
 	@Test
 	public void testBoostContentsWithMoreVersions() throws Exception {
-		_setUpJournalArticles(
-			new String[] {"Article", ""},
-			new String[] {"Article 1.0", "Article 2.0"});
+		_journalArticleBuilder.setTitle(
+			"Article 1.0"
+		).setContent(
+			"Article"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"Article 2.0"
+		).build();
 
 		_journalArticles.set(
 			0,
@@ -664,9 +670,15 @@ public class SXPBlueprintSearchResultTest {
 
 	@Test
 	public void testBoostFreshness() throws Exception {
-		_setUpJournalArticles(
-			new String[] {"Created", ""},
-			new String[] {"First Created", "Second Created"});
+		_journalArticleBuilder.setTitle(
+			"First Created"
+		).setContent(
+			"Created"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"Second Created"
+		).build();
 
 		JournalArticle journalArticle = _journalArticles.get(0);
 
@@ -700,9 +712,17 @@ public class SXPBlueprintSearchResultTest {
 
 	@Test
 	public void testBoostLongerContents() throws Exception {
-		_setUpJournalArticles(
-			new String[] {"Article", "Content Content"},
-			new String[] {"Article 1", "Article 2"});
+		_journalArticleBuilder.setTitle(
+			"Article 1"
+		).setContent(
+			"Article"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"Article 2"
+		).setContent(
+			"Content Content"
+		).build();
 
 		_updateElementInstancesJSON(
 			new Object[] {
@@ -2379,12 +2399,13 @@ public class SXPBlueprintSearchResultTest {
 
 		public JournalArticleBuilder(
 			Group group, List<JournalArticle> journalArticles,
-			ServiceContext serviceContext) {
+			ServiceContext serviceContext, User user) {
 
 			_journalArticles = journalArticles;
 			_serviceContext = serviceContext;
 
 			_defaultGroup = group;
+			_defaultUser = user;
 
 			_reset();
 		}
@@ -2422,8 +2443,10 @@ public class SXPBlueprintSearchResultTest {
 			return this;
 		}
 
-		public JournalArticleBuilder setAssetTag(AssetTag assetTag) {
-			_assetTag = assetTag;
+		public JournalArticleBuilder setAssetTag(String name) throws Exception {
+			_assetTag = AssetTagLocalServiceUtil.addTag(
+				_defaultUser.getUserId(), _getGroupId(), "cola",
+				_serviceContext);
 
 			return this;
 		}
@@ -2485,6 +2508,7 @@ public class SXPBlueprintSearchResultTest {
 		private AssetTag _assetTag;
 		private String _content;
 		private final Group _defaultGroup;
+		private final User _defaultUser;
 		private Group _group;
 		private final List<JournalArticle> _journalArticles;
 		private JournalFolder _journalFolder;
