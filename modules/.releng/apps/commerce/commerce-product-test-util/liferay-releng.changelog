@@ -7,3 +7,8 @@
 # Bundle Version 4.1.0
 #
 caee28a2a3ece763c7a2db7a63838c7592bcd2be^..6ad767f1dac965bc62d91803bbb99068b4ca4edf=COMMERCE-4584 COMMERCE-6622
+
+#
+# Bundle Version 4.1.2
+#
+6ad767f1dac965bc62d91803bbb99068b4ca4edf^..f15ce3cdeff6c40a130ee936494633b1bb841647=LPS-157106
