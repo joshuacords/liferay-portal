@@ -2337,6 +2337,8 @@ public class SXPBlueprintSearchResultTest {
 			_serviceContext = serviceContext;
 
 			_defaultGroup = group;
+
+			_reset();
 		}
 
 		public void build() throws Exception {
@@ -2366,6 +2368,8 @@ public class SXPBlueprintSearchResultTest {
 				_addJournalArticle(
 					group.getGroupId(), journalFolderId, _title, _content,
 					false, true));
+
+			_reset();
 		}
 
 		public JournalArticleBuilder setAssetCategory(
@@ -2417,6 +2421,15 @@ public class SXPBlueprintSearchResultTest {
 			_title = title;
 
 			return this;
+		}
+
+		private void _reset() {
+			_assetCategory = null;
+			_assetTag = null;
+			_content = StringPool.BLANK;
+			_group = null;
+			_journalFolder = null;
+			_title = StringPool.BLANK;
 		}
 
 		private AssetCategory _assetCategory;
