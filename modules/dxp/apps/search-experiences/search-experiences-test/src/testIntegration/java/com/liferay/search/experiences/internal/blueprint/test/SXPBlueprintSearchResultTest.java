@@ -1423,9 +1423,9 @@ public class SXPBlueprintSearchResultTest {
 
 		_addFileEntry("PDF file", ".pdf");
 
-		_setUpJournalArticles(
-			new String[] {"", "", ""},
-			new String[] {"Article file 1", "Article file 2"});
+		_journalArticleBuilder.setTitle(
+			"Article file 1"
+		).build();
 
 		_updateElementInstancesJSON(
 			null, new String[] {"Limit Search to PDF Files"});
@@ -1437,7 +1437,7 @@ public class SXPBlueprintSearchResultTest {
 		_updateElementInstancesJSON(null, null);
 
 		_assertSearchIgnoreRelevance(
-			"[Article file 1, Article file 2, PDF file]");
+			"[Article file 1, PDF file]");
 	}
 
 	@Test
