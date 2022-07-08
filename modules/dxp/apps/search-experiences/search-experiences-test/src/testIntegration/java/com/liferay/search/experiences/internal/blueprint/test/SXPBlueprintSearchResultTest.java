@@ -1436,8 +1436,7 @@ public class SXPBlueprintSearchResultTest {
 
 		_updateElementInstancesJSON(null, null);
 
-		_assertSearchIgnoreRelevance(
-			"[Article file 1, PDF file]");
+		_assertSearchIgnoreRelevance("[Article file 1, PDF file]");
 	}
 
 	@Test
