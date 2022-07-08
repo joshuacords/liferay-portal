@@ -1444,13 +1444,21 @@ public class SXPBlueprintSearchResultTest {
 		_updateConfigurationJSON(
 			"queryConfiguration", JSONUtil.put("applyIndexerClauses", false));
 
-		_setUpJournalArticles(
-			new String[] {"", "", ""}, new String[] {"Article 1", "Article 2"});
+		_journalArticleBuilder.setTitle(
+			"Article 1"
+		).build();
 
-		_journalArticles.add(
-			_addJournalArticle(
-				_group.getGroupId(), 0, "Draft Article", StringPool.BLANK, true,
-				false));
+		_journalArticleBuilder.setTitle(
+			"Article 2"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"Draft Article"
+		).setApproved(
+			false
+		).setWorkflowEnabled(
+			true
+		).build();
 
 		_updateElementInstancesJSON(
 			new Object[] {_getTextMatchOverMultipleFields()},
