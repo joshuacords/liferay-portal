@@ -1480,15 +1480,21 @@ public class SXPBlueprintSearchResultTest {
 
 	@Test
 	public void testLimitSearchToTheCurrentSite() throws Exception {
-		_addGroupAAndGroupB();
+		Group groupA = _addGroup();
 
-		_setUpJournalArticles(
-			new String[] {"", "", ""},
-			new String[] {"Site A", "Site B", "Current Site"});
+		_journalArticleBuilder.setTitle(
+			"Site A"
+		).setGroup(
+			groupA
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"Current Site"
+		).build();
 
 		_keywords = "Site";
 
-		User user = UserTestUtil.addUser(_groupA.getGroupId());
+		User user = UserTestUtil.addUser(groupA.getGroupId());
 
 		_serviceContext.setUserId(user.getUserId());
 
@@ -1499,7 +1505,7 @@ public class SXPBlueprintSearchResultTest {
 
 		_updateElementInstancesJSON(null, null);
 
-		_assertSearchIgnoreRelevance("[Current Site, Site A, Site B]");
+		_assertSearchIgnoreRelevance("[Current Site, Site A]");
 	}
 
 	@Test
