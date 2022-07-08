@@ -1436,8 +1436,7 @@ public class SXPBlueprintSearchResultTest {
 
 		_updateElementInstancesJSON(null, null);
 
-		_assertSearchIgnoreRelevance(
-			"[Article file 1, PDF file]");
+		_assertSearchIgnoreRelevance("[Article file 1, PDF file]");
 	}
 
 	@Test
@@ -2505,10 +2504,16 @@ public class SXPBlueprintSearchResultTest {
 
 			_journalArticles.add(
 				_addJournalArticle(
-					_getGroupId(), journalFolderId, _title, _content, false,
-					true));
+					_getGroupId(), journalFolderId, _title, _content,
+					_workflowEnabled, _approved));
 
 			_reset();
+		}
+
+		public JournalArticleBuilder setApproved(boolean approved) {
+			_approved = approved;
+
+			return this;
 		}
 
 		public JournalArticleBuilder setAssetCategory(
@@ -2561,6 +2566,14 @@ public class SXPBlueprintSearchResultTest {
 			return this;
 		}
 
+		public JournalArticleBuilder setWorkflowEnabled(
+			boolean workflowEnabled) {
+
+			_workflowEnabled = workflowEnabled;
+
+			return this;
+		}
+
 		private JournalArticle _addJournalArticle(
 				long groupId, long folderId, String name, String content,
 				boolean workflowEnabled, boolean approved)
@@ -2589,14 +2602,17 @@ public class SXPBlueprintSearchResultTest {
 		}
 
 		private void _reset() {
+			_approved = true;
 			_assetCategory = null;
 			_assetTag = null;
 			_content = StringPool.BLANK;
 			_group = null;
 			_journalFolder = null;
 			_title = StringPool.BLANK;
+			_workflowEnabled = false;
 		}
 
+		private boolean _approved;
 		private AssetCategory _assetCategory;
 		private AssetTag _assetTag;
 		private String _content;
@@ -2607,6 +2623,7 @@ public class SXPBlueprintSearchResultTest {
 		private JournalFolder _journalFolder;
 		private ServiceContext _serviceContext;
 		private String _title;
+		private boolean _workflowEnabled;
 
 	}
 
