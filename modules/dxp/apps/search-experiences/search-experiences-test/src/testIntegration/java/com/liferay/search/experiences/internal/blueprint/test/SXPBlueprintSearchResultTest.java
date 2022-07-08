@@ -112,6 +112,7 @@ import java.util.function.Consumer;
 
 import org.apache.commons.lang.StringUtils;
 
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
@@ -166,6 +167,11 @@ public class SXPBlueprintSearchResultTest {
 
 		_journalArticleBuilder = new JournalArticleBuilder(
 			_group, _journalArticles, _serviceContext, _user);
+	}
+
+	@After
+	public void tearDown() {
+		_journalArticleBuilder.tearDown();
 	}
 
 	@Test
@@ -1389,13 +1395,27 @@ public class SXPBlueprintSearchResultTest {
 
 	@Test
 	public void testLimitSearchToMySites() throws Exception {
-		_addGroupAAndGroupB();
+		Group groupA = _addGroup();
 
-		_setUpJournalArticles(
-			new String[] {"", "", ""},
-			new String[] {"Site A", "Site B", "Current Site"});
+		_journalArticleBuilder.setTitle(
+			"Site A"
+		).setGroup(
+			groupA
+		).build();
 
-		User user = UserTestUtil.addUser(_groupA.getGroupId());
+		Group groupB = _addGroup();
+
+		_journalArticleBuilder.setTitle(
+			"Site B"
+		).setGroup(
+			groupB
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"Current Site"
+		).build();
+
+		User user = UserTestUtil.addUser(groupA.getGroupId());
 
 		_serviceContext.setUserId(user.getUserId());
 
@@ -1510,11 +1530,25 @@ public class SXPBlueprintSearchResultTest {
 
 	@Test
 	public void testLimitSearchToTheseSites() throws Exception {
-		_addGroupAAndGroupB();
+		Group groupA = _addGroup();
 
-		_setUpJournalArticles(
-			new String[] {"", "", ""},
-			new String[] {"Site A", "Site B", "Current Site"});
+		_journalArticleBuilder.setTitle(
+			"Site A"
+		).setGroup(
+			groupA
+		).build();
+
+		Group groupB = _addGroup();
+
+		_journalArticleBuilder.setTitle(
+			"Site B"
+		).setGroup(
+			groupB
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"Current Site"
+		).build();
 
 		_keywords = "Site";
 
@@ -1522,7 +1556,7 @@ public class SXPBlueprintSearchResultTest {
 			new Object[] {
 				HashMapBuilder.<String, Object>put(
 					"scope_group_ids",
-					new Long[] {_groupA.getGroupId(), _groupB.getGroupId()}
+					new Long[] {groupA.getGroupId(), groupB.getGroupId()}
 				).build()
 			},
 			new String[] {"Limit Search to These Sites"});
@@ -1536,13 +1570,29 @@ public class SXPBlueprintSearchResultTest {
 
 	@Test
 	public void testMatch() throws Exception {
-		_setUpJournalArticles(
-			new String[] {
-				"Los Angeles", "Orange County", "Los Angeles", "Los Angeles"
-			},
-			new String[] {
-				"Cafe Rio", "Cloud Cafe", "Denny's", "Starbucks Cafe"
-			});
+		_journalArticleBuilder.setTitle(
+			"Cafe Rio"
+		).setContent(
+			"Los Angeles"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"Cloud Cafe"
+		).setContent(
+			"Orange County"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"Denny's"
+		).setContent(
+			"Los Angeles"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"Starbucks Cafe"
+		).setContent(
+			"Los Angeles"
+		).build();
 
 		_updateElementInstancesJSON(null, null);
 
@@ -1581,12 +1631,15 @@ public class SXPBlueprintSearchResultTest {
 
 	@Test
 	public void testPhraseMatch() throws Exception {
-		_setUpJournalArticles(
-			new String[] {"coca coca", ""},
-			new String[] {
-				"this coca looks like a kind of drink",
-				"this looks like a kind of coca drink"
-			});
+		_journalArticleBuilder.setTitle(
+			"this coca looks like a kind of drink"
+		).setContent(
+			"coca coca"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"this looks like a kind of coca drink"
+		).build();
 
 		_updateElementInstancesJSON(
 			new Object[] {
@@ -1640,8 +1693,9 @@ public class SXPBlueprintSearchResultTest {
 
 	@Test
 	public void testSchedulingAware() throws Exception {
-		_setUpJournalArticles(
-			new String[] {"", ""}, new String[] {"Article 1", "Article 2"});
+		_journalArticleBuilder.setTitle(
+			"Article 1"
+		).build();
 
 		_updateConfigurationJSON(
 			"queryConfiguration", JSONUtil.put("applyIndexerClauses", false));
@@ -1679,8 +1733,7 @@ public class SXPBlueprintSearchResultTest {
 
 		_keywords = "Article";
 
-		_assertSearchIgnoreRelevance(
-			"[Article 1, Article 2, Article Scheduled]");
+		_assertSearchIgnoreRelevance("[Article 1, Article Scheduled]");
 
 		_updateElementInstancesJSON(
 			new Object[] {textMatchOverMultipleFields, null},
@@ -1688,14 +1741,22 @@ public class SXPBlueprintSearchResultTest {
 				"Text Match Over Multiple Fields", "Scheduling Aware"
 			});
 
-		_assertSearchIgnoreRelevance("[Article 1, Article 2]");
+		_assertSearchIgnoreRelevance("[Article 1]");
 	}
 
 	@Test
 	public void testSearch() throws Exception {
-		_setUpJournalArticles(
-			new String[] {"Los Angeles", "Orange County"},
-			new String[] {"Cafe Rio", "Cloud Cafe"});
+		_journalArticleBuilder.setTitle(
+			"Cafe Rio"
+		).setContent(
+			"Los Angeles"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"Cloud Cafe"
+		).setContent(
+			"Orange County"
+		).build();
 
 		_updateElementInstancesJSON(
 			new Object[] {
@@ -1721,8 +1782,13 @@ public class SXPBlueprintSearchResultTest {
 
 		_assertSearchIgnoreRelevance("[Cafe Rio, Cloud Cafe]");
 
-		_setUpJournalArticles(
-			new String[] {"", ""}, new String[] {"Coca Cola", "Pepsi Cola"});
+		_journalArticleBuilder.setTitle(
+			"Coca Cola"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"Pepsi Cola"
+		).build();
 
 		_keywords = "cola +coca";
 
@@ -1766,13 +1832,19 @@ public class SXPBlueprintSearchResultTest {
 
 		Group stagingGroup = _group.getStagingGroup();
 
-		_setUpJournalArticles(
-			new String[] {"", "", ""}, new String[] {"Article 1", "Article 2"});
+		_journalArticleBuilder.setTitle(
+			"Article 1"
+		).build();
 
-		_journalArticles.add(
-			_addJournalArticle(
-				stagingGroup.getGroupId(), 0, "Staged Article",
-				StringPool.BLANK, false, true));
+		_journalArticleBuilder.setTitle(
+			"Article 2"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"Staged Article"
+		).setGroup(
+			stagingGroup
+		).build();
 
 		Map<String, Object> textMatchOverMultipleFields =
 			_getTextMatchOverMultipleFields();
@@ -1797,15 +1869,29 @@ public class SXPBlueprintSearchResultTest {
 
 	@Test
 	public void testTextMatchOverMultipleFields_bestFields() throws Exception {
-		_setUpJournalArticles(
-			new String[] {
-				"carbonated cola", "carbonated cola cola",
-				"non-carbonated cola", "carbonated cola cola"
-			},
-			new String[] {
-				"drink carbonated coca", "drink carbonated pepsi cola",
-				"fruit punch", "sprite"
-			});
+		_journalArticleBuilder.setTitle(
+			"drink carbonated coca"
+		).setContent(
+			"carbonated cola"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"drink carbonated pepsi cola"
+		).setContent(
+			"carbonated cola cola"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"fruit punch"
+		).setContent(
+			"non-carbonated cola"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"sprite"
+		).setContent(
+			"carbonated cola cola"
+		).build();
 
 		_getTextMatchOverMultipleFields();
 
@@ -2622,6 +2708,11 @@ public class SXPBlueprintSearchResultTest {
 			return this;
 		}
 
+		public void tearDown() {
+			_reset();
+			_journalArticles = null;
+		}
+
 		private JournalArticle _addJournalArticle(
 				long groupId, long folderId, String name, String content,
 				boolean workflowEnabled, boolean approved)
@@ -2671,7 +2762,7 @@ public class SXPBlueprintSearchResultTest {
 		private final User _defaultUser;
 		private String _fieldName;
 		private Group _group;
-		private final List<JournalArticle> _journalArticles;
+		private List<JournalArticle> _journalArticles;
 		private JournalFolder _journalFolder;
 		private double _latitude;
 		private double _longitude;
