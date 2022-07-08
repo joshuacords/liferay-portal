@@ -1067,10 +1067,11 @@ public class SXPBlueprintSearchResultTest {
 
 	@Test
 	public void testHideComments() throws Exception {
-		JournalArticle journalArticle = _addJournalArticle(
-			_group.getGroupId(), 0, "Article", StringPool.BLANK, false, true);
+		_journalArticleBuilder.setTitle(
+			"Article"
+		).build();
 
-		_journalArticles.add(journalArticle);
+		JournalArticle journalArticle = _journalArticles.get(0);
 
 		CommentManagerUtil.addComment(
 			_user.getUserId(), _serviceContext.getScopeGroupId(),
@@ -1108,11 +1109,15 @@ public class SXPBlueprintSearchResultTest {
 
 	@Test
 	public void testHideContentsInACategory() throws Exception {
-		_addAssetCategory("Hidden", _addGroupUser(_group, "Employee"));
+		_journalArticleBuilder.setTitle(
+			"Without Category"
+		).build();
 
-		_setUpJournalArticles(
-			new String[] {"", ""},
-			new String[] {"Without Category", "Hidden Category"});
+		_journalArticleBuilder.setTitle(
+			"Hidden Category"
+		).setAssetCategory(
+			_addAssetCategory("Hidden", _addGroupUser(_group, "Employee"))
+		).build();
 
 		_updateElementInstancesJSON(
 			new Object[] {
@@ -1139,11 +1144,15 @@ public class SXPBlueprintSearchResultTest {
 		_serviceContext = ServiceContextTestUtil.getServiceContext(
 			_group, _user.getUserId());
 
-		_addAssetCategory("Hide from Guest Users", _user);
+		_journalArticleBuilder.setTitle(
+			"Guest Users"
+		).build();
 
-		_setUpJournalArticles(
-			new String[] {"", ""},
-			new String[] {"Guest Users", "Non-Guest Users"});
+		_journalArticleBuilder.setTitle(
+			"Non-Guest Users"
+		).setAssetCategory(
+			_addAssetCategory("Hide from Guest Users", _user)
+		).build();
 
 		_updateElementInstancesJSON(
 			new Object[] {
@@ -1165,13 +1174,29 @@ public class SXPBlueprintSearchResultTest {
 
 	@Test
 	public void testHideHiddenContents() throws Exception {
-		_setUpJournalArticles(
-			new String[] {
-				"Los Angeles", "Orange County", "Los Angeles", "Los Angeles"
-			},
-			new String[] {
-				"Cafe Rio", "Cloud Cafe", "Denny's", "Starbucks Cafe"
-			});
+		_journalArticleBuilder.setTitle(
+			"Cafe Rio"
+		).setContent(
+			"Los Angeles"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"Cloud Cafe"
+		).setContent(
+			"Orange County"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"Denny's"
+		).setContent(
+			"Los Angeles"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"Starbucks Cafe"
+		).setContent(
+			"Los Angeles"
+		).build();
 
 		_updateElementInstancesJSON(
 			new Object[] {
@@ -1244,9 +1269,15 @@ public class SXPBlueprintSearchResultTest {
 	public void testLimitSearchToContentsCreatedWithinAPeriodOfTime()
 		throws Exception {
 
-		_setUpJournalArticles(
-			new String[] {"cola cola", ""},
-			new String[] {"Coca Cola", "Pepsi Cola"});
+		_journalArticleBuilder.setTitle(
+			"Coca Cola"
+		).setContent(
+			"cola cola"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"Pepsi Cola"
+		).build();
 
 		JournalArticle journalArticle = _journalArticles.get(0);
 
@@ -1285,10 +1316,9 @@ public class SXPBlueprintSearchResultTest {
 		_updateConfigurationJSON(
 			"queryConfiguration", JSONUtil.put("applyIndexerClauses", false));
 
-		_journalArticles.add(
-			_addJournalArticle(
-				_group.getGroupId(), 0, "Article 1.0", StringPool.BLANK, false,
-				true));
+		_journalArticleBuilder.setTitle(
+			"Article 1.0"
+		).build();
 
 		_journalArticles.set(
 			0,
@@ -1324,15 +1354,23 @@ public class SXPBlueprintSearchResultTest {
 
 		_serviceContext.setUserId(newUser.getUserId());
 
-		_setUpJournalArticles(
-			new String[] {"", ""},
-			new String[] {"Article 1 New User", "Article 2 New User"});
+		_journalArticleBuilder.setTitle(
+			"Article 1 New User"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"Article 2 New User"
+		).build();
 
 		_serviceContext.setUserId(_user.getUserId());
 
-		_setUpJournalArticles(
-			new String[] {"", ""},
-			new String[] {"Article 1 Default User", "Article 2 Default User"});
+		_journalArticleBuilder.setTitle(
+			"Article 1 Default User"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"Article 2 Default User"
+		).build();
 
 		_keywords = "Article";
 
@@ -2260,6 +2298,9 @@ public class SXPBlueprintSearchResultTest {
 		}
 
 		if (_assetCategory != null) {
+			System.out.println(
+				"setupJournalArticles CategoryId: " +
+					_assetCategory.getCategoryId());
 			_serviceContext.setAssetCategoryIds(
 				new long[] {_assetCategory.getCategoryId()});
 		}
@@ -2444,6 +2485,9 @@ public class SXPBlueprintSearchResultTest {
 
 		public void build() throws Exception {
 			if (_assetCategory != null) {
+				System.out.println(
+					"JournalArticleBuilder CategoryId: " +
+						_assetCategory.getCategoryId());
 				_serviceContext.setAssetCategoryIds(
 					new long[] {_assetCategory.getCategoryId()});
 			}
@@ -2515,6 +2559,25 @@ public class SXPBlueprintSearchResultTest {
 			_title = title;
 
 			return this;
+		}
+
+		private JournalArticle _addJournalArticle(
+				long groupId, long folderId, String name, String content,
+				boolean workflowEnabled, boolean approved)
+			throws Exception {
+
+			return JournalTestUtil.addArticle(
+				groupId, folderId,
+				PortalUtil.getClassNameId(JournalArticle.class),
+				HashMapBuilder.put(
+					LocaleUtil.US, name
+				).build(),
+				null,
+				HashMapBuilder.put(
+					LocaleUtil.US, content
+				).build(),
+				LocaleUtil.getSiteDefault(), workflowEnabled, approved,
+				_serviceContext);
 		}
 
 		private long _getGroupId() {
