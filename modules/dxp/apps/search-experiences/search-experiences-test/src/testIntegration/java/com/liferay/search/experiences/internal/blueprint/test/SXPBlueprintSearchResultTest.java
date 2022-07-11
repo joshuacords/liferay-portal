@@ -773,8 +773,10 @@ public class SXPBlueprintSearchResultTest {
 			_expandoTables.add(expandoTable);
 		}
 
+		String fieldName = "location";
+
 		ExpandoColumn expandoColumn = ExpandoTestUtil.addColumn(
-			expandoTable, "location", ExpandoColumnConstants.GEOLOCATION);
+			expandoTable, fieldName, ExpandoColumnConstants.GEOLOCATION);
 
 		_expandoColumns.add(expandoColumn);
 
@@ -789,10 +791,17 @@ public class SXPBlueprintSearchResultTest {
 
 		ExpandoColumnLocalServiceUtil.updateExpandoColumn(expandoColumn);
 
-		_setUpJournalArticles(
-			new String[] {"location", "location"},
-			new String[] {"Branch SF", "Branch LA"},
-			new double[] {64.01, 24.03}, new double[] {-117.42, -107.44});
+		_journalArticleBuilder.setTitle(
+			"Branch SF"
+		).setGeolocation(
+			fieldName, 64.01, -117.42
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"Branch LA"
+		).setGeolocation(
+			fieldName, 24.03, -107.44
+		).build();
 
 		_updateElementInstancesJSON(
 			new Object[] {
