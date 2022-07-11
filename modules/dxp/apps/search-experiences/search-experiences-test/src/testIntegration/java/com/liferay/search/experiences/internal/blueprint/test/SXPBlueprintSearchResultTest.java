@@ -779,8 +779,10 @@ public class SXPBlueprintSearchResultTest {
 			_expandoTables.add(expandoTable);
 		}
 
+		String fieldName = "location";
+
 		ExpandoColumn expandoColumn = ExpandoTestUtil.addColumn(
-			expandoTable, "location", ExpandoColumnConstants.GEOLOCATION);
+			expandoTable, fieldName, ExpandoColumnConstants.GEOLOCATION);
 
 		_expandoColumns.add(expandoColumn);
 
@@ -795,10 +797,17 @@ public class SXPBlueprintSearchResultTest {
 
 		ExpandoColumnLocalServiceUtil.updateExpandoColumn(expandoColumn);
 
-		_setUpJournalArticles(
-			new String[] {"location", "location"},
-			new String[] {"Branch SF", "Branch LA"},
-			new double[] {64.01, 24.03}, new double[] {-117.42, -107.44});
+		_journalArticleBuilder.setTitle(
+			"Branch SF"
+		).setGeolocation(
+			fieldName, 64.01, -117.42
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"Branch LA"
+		).setGeolocation(
+			fieldName, 24.03, -107.44
+		).build();
 
 		_updateElementInstancesJSON(
 			new Object[] {
@@ -2719,6 +2728,17 @@ public class SXPBlueprintSearchResultTest {
 					new String[] {_assetTag.getName()});
 			}
 
+			if ((_latitude != 200) && (_longitude != 200)) {
+				_serviceContext.setExpandoBridgeAttributes(
+					Collections.singletonMap(
+						_fieldName,
+						JSONUtil.put(
+							"latitude", _latitude
+						).put(
+							"longitude", _longitude
+						).toString()));
+			}
+
 			long journalFolderId = 0;
 
 			if (_journalFolder != null) {
@@ -2755,6 +2775,16 @@ public class SXPBlueprintSearchResultTest {
 
 		public JournalArticleBuilder setContent(String content) {
 			_content = content;
+
+			return this;
+		}
+
+		public JournalArticleBuilder setGeolocation(
+			String fieldName, double latitude, double longitude) {
+
+			_fieldName = fieldName;
+			_latitude = latitude;
+			_longitude = longitude;
 
 			return this;
 		}
@@ -2834,8 +2864,11 @@ public class SXPBlueprintSearchResultTest {
 			_assetCategory = null;
 			_assetTag = null;
 			_content = StringPool.BLANK;
+			_fieldName = StringPool.BLANK;
 			_group = null;
 			_journalFolder = null;
+			_latitude = 200;
+			_longitude = 200;
 			_title = StringPool.BLANK;
 			_workflowEnabled = false;
 		}
@@ -2846,9 +2879,12 @@ public class SXPBlueprintSearchResultTest {
 		private String _content;
 		private final Group _defaultGroup;
 		private final User _defaultUser;
+		private String _fieldName;
 		private Group _group;
 		private List<JournalArticle> _journalArticles;
 		private JournalFolder _journalFolder;
+		private double _latitude;
+		private double _longitude;
 		private ServiceContext _serviceContext;
 		private String _title;
 		private boolean _workflowEnabled;
