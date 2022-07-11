@@ -190,10 +190,10 @@ public class SXPBlueprintSearchResultTest {
 			"cola"
 		).build();
 
-		_journalArticleBuilder.setJournalFolder(
-			"Folder cola", StringPool.BLANK
-		).setTitle(
+		_journalArticleBuilder.setTitle(
 			"Article pepsi cola"
+		).setJournalFolder(
+			"Folder cola"
 		).build();
 
 		_updateElementInstancesJSON(
@@ -599,13 +599,25 @@ public class SXPBlueprintSearchResultTest {
 
 	@Test
 	public void testBoostContentsOnMySites() throws Exception {
-		_addGroupAAndGroupB();
+		Group groupA = _addGroup();
 
-		_setUpJournalArticles(
-			new String[] {"Site", ""},
-			new String[] {"Site Default Group", "Site Group B"});
+		_journalArticleBuilder.setTitle(
+			"Site Other Group"
+		).setContent(
+			"Site"
+		).setGroup(
+			groupA
+		).build();
 
-		User userSiteB = UserTestUtil.addUser(_groupB.getGroupId());
+		Group groupB = _addGroup();
+
+		_journalArticleBuilder.setTitle(
+			"Site Group B"
+		).setGroup(
+			groupB
+		).build();
+
+		User userSiteB = UserTestUtil.addUser(groupB.getGroupId());
 
 		_serviceContext.setUserId(userSiteB.getUserId());
 
@@ -619,11 +631,11 @@ public class SXPBlueprintSearchResultTest {
 			},
 			new String[] {"Boost Contents on My Sites"});
 
-		_assertSearch("[Site Group B, Site Default Group]");
+		_assertSearch("[Site Group B, Site Other Group]");
 
 		_updateElementInstancesJSON(null, null);
 
-		_assertSearch("[Site Default Group, Site Group B]");
+		_assertSearch("[Site Other Group, Site Group B]");
 	}
 
 	@Test
@@ -1044,13 +1056,19 @@ public class SXPBlueprintSearchResultTest {
 
 	@Test
 	public void testHideByExactTermMatch() throws Exception {
-		_journalFolder = JournalFolderServiceUtil.addFolder(
+		_journalArticleBuilder.setTitle(
+			"Out of the folder"
+		).build();
+
+		JournalFolder journalFolder = JournalFolderServiceUtil.addFolder(
 			null, _group.getGroupId(), 0, RandomTestUtil.randomString(),
 			StringPool.BLANK, _serviceContext);
 
-		_setUpJournalArticles(
-			new String[] {"", ""},
-			new String[] {"Out of the folder", "In-Folder"});
+		_journalArticleBuilder.setTitle(
+			"In-Folder"
+		).setJournalFolder(
+			journalFolder
+		).build();
 
 		_keywords = "folder";
 
@@ -1059,7 +1077,7 @@ public class SXPBlueprintSearchResultTest {
 				HashMapBuilder.<String, Object>put(
 					"field", "folderId"
 				).put(
-					"value", String.valueOf(_journalFolder.getFolderId())
+					"value", String.valueOf(journalFolder.getFolderId())
 				).build()
 			},
 			new String[] {"Hide by Exact Term Match"});
@@ -1245,14 +1263,17 @@ public class SXPBlueprintSearchResultTest {
 
 	@Test
 	public void testHideTaggedContents() throws Exception {
-		_assetTag = AssetTestUtil.addTag(_group.getGroupId(), "hide");
+		_journalArticleBuilder.setTitle(
+			"do not hide me"
+		).build();
 
-		_journalFolder = JournalFolderServiceUtil.addFolder(
-			null, _group.getGroupId(), 0, RandomTestUtil.randomString(),
-			StringPool.BLANK, _serviceContext);
-
-		_setUpJournalArticles(
-			new String[] {"", ""}, new String[] {"do not hide me", "hide me"});
+		_journalArticleBuilder.setTitle(
+			"hide me"
+		).setAssetTag(
+			AssetTestUtil.addTag(_group.getGroupId(), "hide")
+		).setJournalFolder(
+			"Folder"
+		).build();
 
 		_keywords = "hide me";
 
@@ -1905,9 +1926,23 @@ public class SXPBlueprintSearchResultTest {
 			"[drink carbonated coca, drink carbonated pepsi cola, sprite, " +
 				"fruit punch]");
 
-		_setUpJournalArticles(
-			new String[] {"ipsum sit", "ipsum sit sit", "non-lorem ipsum sit"},
-			new String[] {"lorem ipsum dolor", "lorem ipsum sit", "nunquis"});
+		_journalArticleBuilder.setTitle(
+			"lorem ipsum dolor"
+		).setContent(
+			"ipsum sit"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"lorem ipsum sit"
+		).setContent(
+			"ipsum sit sit"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"nunquis"
+		).setContent(
+			"non-lorem ipsum sit"
+		).build();
 
 		_updateElementInstancesJSON(
 			new Object[] {_getTextMatchOverMultipleFields()},
@@ -2738,12 +2773,12 @@ public class SXPBlueprintSearchResultTest {
 			return this;
 		}
 
-		public JournalArticleBuilder setJournalFolder(
-				String title, String description)
+		public JournalArticleBuilder setJournalFolder(String title)
 			throws Exception {
 
 			_journalFolder = JournalFolderServiceUtil.addFolder(
-				null, _getGroupId(), 0, title, description, _serviceContext);
+				null, _getGroupId(), 0, title, StringPool.BLANK,
+				_serviceContext);
 
 			return this;
 		}
