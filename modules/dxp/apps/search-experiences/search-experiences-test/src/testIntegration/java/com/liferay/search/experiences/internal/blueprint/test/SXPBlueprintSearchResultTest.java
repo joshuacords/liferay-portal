@@ -1920,14 +1920,29 @@ public class SXPBlueprintSearchResultTest {
 
 	@Test
 	public void testTextMatchOverMultipleFields_boolPrefix() throws Exception {
-		_setUpJournalArticles(
-			new String[] {
-				"ipsum sit sit", "ipsum sit", "ipsum sit sit",
-				"non-lorem ipsum sit"
-			},
-			new String[] {
-				"lorem ipsum sit", "lorem ipsum dolor", "amet", "nunquis"
-			});
+		_journalArticleBuilder.setTitle(
+			"lorem ipsum sit"
+		).setContent(
+			"ipsum sit sit"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"lorem ipsum dolor"
+		).setContent(
+			"ipsum sit"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"amet"
+		).setContent(
+			"ipsum sit sit"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"nunquis"
+		).setContent(
+			"non-lorem ipsum sit"
+		).build();
 
 		Map<String, Object> textMatchOverMultipleFields =
 			_getTextMatchOverMultipleFields();
@@ -1956,11 +1971,29 @@ public class SXPBlueprintSearchResultTest {
 
 	@Test
 	public void testTextMatchOverMultipleFields_crossFields() throws Exception {
-		_setUpJournalArticles(
-			new String[] {"foxtrot, golf", "hotel golf", "alpha", "beta"},
-			new String[] {
-				"alpha beta", "alpha edison", "beta charlie", "edison india"
-			});
+		_journalArticleBuilder.setTitle(
+			"alpha beta"
+		).setContent(
+			"foxtrot, golf"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"alpha edison"
+		).setContent(
+			"hotel golf"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"beta charlie"
+		).setContent(
+			"alpha"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"edison india"
+		).setContent(
+			"beta"
+		).build();
 
 		_updateElementInstancesJSON(
 			new Object[] {
@@ -2000,14 +2033,29 @@ public class SXPBlueprintSearchResultTest {
 
 	@Test
 	public void testTextMatchOverMultipleFields_mostFields() throws Exception {
-		_setUpJournalArticles(
-			new String[] {
-				"ipsum sit sit", "ipsum sit", "ipsum sit sit",
-				"non-lorem ipsum sit"
-			},
-			new String[] {
-				"amet", "lorem ipsum dolor", "lorem ipsum sit", "nunquis"
-			});
+		_journalArticleBuilder.setTitle(
+			"amet"
+		).setContent(
+			"ipsum sit sit"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"lorem ipsum dolor"
+		).setContent(
+			"ipsum sit"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"lorem ipsum sit"
+		).setContent(
+			"ipsum sit sit"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"nunquis"
+		).setContent(
+			"non-lorem ipsum sit"
+		).build();
 
 		Map<String, Object> textMatchOverMultipleFields =
 			_getTextMatchOverMultipleFields();
@@ -2038,15 +2086,29 @@ public class SXPBlueprintSearchResultTest {
 
 	@Test
 	public void testTextMatchOverMultipleFields_phrase() throws Exception {
-		_setUpJournalArticles(
-			new String[] {
-				"do not listen to birds", "listen listen to birds",
-				"listen to birds", "listen listen to birds"
-			},
-			new String[] {
-				"listen something", "listen to birds", "listen to planes",
-				"silence"
-			});
+		_journalArticleBuilder.setTitle(
+			"listen something"
+		).setContent(
+			"do not listen to birds"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"listen to birds"
+		).setContent(
+			"listen listen to birds"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"listen to planes"
+		).setContent(
+			"listen to birds"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"silence"
+		).setContent(
+			"listen listen to birds"
+		).build();
 
 		_updateElementInstancesJSON(
 			new Object[] {
@@ -2071,16 +2133,29 @@ public class SXPBlueprintSearchResultTest {
 	public void testTextMatchOverMultipleFields_phrasePrefix()
 		throws Exception {
 
-		_setUpJournalArticles(
-			new String[] {
-				"simple things are beautiful sometimes",
-				"simple things are beautiful", "simple things are not good",
-				"simple things are bad"
-			},
-			new String[] {
-				"clouds", "watch birds on the sky", "watch planes on the sky",
-				"watch trains"
-			});
+		_journalArticleBuilder.setTitle(
+			"clouds"
+		).setContent(
+			"simple things are beautiful sometimes"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"watch birds on the sky"
+		).setContent(
+			"simple things are beautiful"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"watch planes on the sky"
+		).setContent(
+			"simple things are not good"
+		).build();
+
+		_journalArticleBuilder.setTitle(
+			"watch trains"
+		).setContent(
+			"simple things are bad"
+		).build();
 
 		_updateElementInstancesJSON(
 			new Object[] {
