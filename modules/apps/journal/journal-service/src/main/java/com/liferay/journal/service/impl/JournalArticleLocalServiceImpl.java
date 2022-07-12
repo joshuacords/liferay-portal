@@ -5940,15 +5940,11 @@ public class JournalArticleLocalServiceImpl
 			article.setUserId(user.getUserId());
 			article.setUserName(user.getFullName());
 			article.setCreateDate(latestArticle.getCreateDate());
-			article.setModifiedDate(serviceContext.getModifiedDate(now));
 			article.setClassNameId(latestArticle.getClassNameId());
 			article.setClassPK(latestArticle.getClassPK());
 			article.setArticleId(articleId);
 			article.setVersion(version);
 			article.setSmallImageId(latestArticle.getSmallImageId());
-			article.setStatusByUserId(user.getUserId());
-			article.setStatusByUserName(user.getFullName());
-			article.setStatusDate(serviceContext.getModifiedDate(now));
 
 			serviceContext.setAttribute("version", version);
 
@@ -6019,6 +6015,11 @@ public class JournalArticleLocalServiceImpl
 		ExpandoBridgeUtil.setExpandoBridgeAttributes(
 			latestArticle.getExpandoBridge(), article.getExpandoBridge(),
 			serviceContext);
+
+		article.setModifiedDate(serviceContext.getModifiedDate(now));
+		article.setStatusByUserId(user.getUserId());
+		article.setStatusByUserName(user.getFullName());
+		article.setStatusDate(serviceContext.getModifiedDate(now));
 
 		article = journalArticlePersistence.update(article);
 
