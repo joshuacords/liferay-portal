@@ -45,6 +45,7 @@ class LiferayApp extends App {
 	constructor() {
 		super();
 
+		this.lastLocale = themeDisplay.getLanguageId();
 		this.portletsBlacklist = {};
 		this.validStatusCodes = [];
 
