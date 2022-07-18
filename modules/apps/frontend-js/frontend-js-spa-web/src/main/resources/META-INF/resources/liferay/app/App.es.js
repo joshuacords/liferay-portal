@@ -62,6 +62,7 @@ class LiferayApp extends App {
 
 		this.on('beforeNavigate', this.onBeforeNavigate);
 		this.on('endNavigate', this.onEndNavigate);
+		this.on('endNavigate', this._checkLanguageChange);
 		this.on('navigationError', this.onNavigationError);
 		this.on('startNavigate', this.onStartNavigate);
 
@@ -390,6 +391,22 @@ class LiferayApp extends App {
 
 				window.scrollBy(0, -controlMenuScroll);
 			}
+		}
+	}
+
+	/**
+	 * In case there is a language change during navigation we need to
+	 * fully reload to avoid modules being loaded twice in the browser
+	 */
+
+	_checkLanguageChange() {
+		const currentLocale = themeDisplay.getLanguageId();
+
+		if (!this.lastLocale) {
+			this.lastLocale = currentLocale;
+		}
+		else if (this.lastLocale !== currentLocale) {
+			window.location.reload();
 		}
 	}
 
