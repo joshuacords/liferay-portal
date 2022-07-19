@@ -95,7 +95,7 @@ public class TunnelUtil {
 		}
 
 		if (_log.isDebugEnabled()) {
-			_log.debug("Received object " + returnObject);
+			_log.debug("Return object " + returnObject);
 		}
 
 		if ((returnObject != null) && (returnObject instanceof Exception)) {
