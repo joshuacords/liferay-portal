@@ -165,50 +165,52 @@ AUI.add(
 					}
 				},
 
-				_onClick(event) {
-					var instance = this;
+				_onEvents(event) {
+					if (event.keyCode === 13 || event.type === 'click') {
+						var instance = this;
 
-					var target = event.target.ancestor(
-						STR_DOT + CSS_CALENDAR_LIST_ITEM_ARROW,
-						true,
-						STR_DOT + CSS_CALENDAR_LIST_ITEM
-					);
+						var target = event.target.ancestor(
+							STR_DOT + CSS_CALENDAR_LIST_ITEM_ARROW,
+							true,
+							STR_DOT + CSS_CALENDAR_LIST_ITEM
+						);
 
-					if (target) {
-						var activeNode = instance.activeNode;
+						if (target) {
+							var activeNode = instance.activeNode;
 
-						if (activeNode) {
-							activeNode.removeClass(
-								CSS_CALENDAR_LIST_ITEM_ACTIVE
+							if (activeNode) {
+								activeNode.removeClass(
+									CSS_CALENDAR_LIST_ITEM_ACTIVE
+								);
+							}
+
+							activeNode = event.currentTarget;
+
+							instance.activeItem = instance.getCalendarByNode(
+								activeNode
 							);
+
+							activeNode.addClass(CSS_CALENDAR_LIST_ITEM_ACTIVE);
+
+							instance.activeNode = activeNode;
+
+							var simpleMenu = instance.simpleMenu;
+
+							simpleMenu.setAttrs({
+								alignNode: target,
+								toggler: target,
+								visible:
+									simpleMenu.get('align.node') !== target ||
+									!simpleMenu.get('visible')
+							});
 						}
+						else {
+							var calendar = instance.getCalendarByNode(
+								event.currentTarget
+							);
 
-						activeNode = event.currentTarget;
-
-						instance.activeItem = instance.getCalendarByNode(
-							activeNode
-						);
-
-						activeNode.addClass(CSS_CALENDAR_LIST_ITEM_ACTIVE);
-
-						instance.activeNode = activeNode;
-
-						var simpleMenu = instance.simpleMenu;
-
-						simpleMenu.setAttrs({
-							alignNode: target,
-							toggler: target,
-							visible:
-								simpleMenu.get('align.node') !== target ||
-								!simpleMenu.get('visible')
-						});
-					}
-					else {
-						var calendar = instance.getCalendarByNode(
-							event.currentTarget
-						);
-
-						calendar.set('visible', !calendar.get('visible'));
+							calendar.set('visible', !calendar.get('visible'));
+						}
 					}
 				},
 
@@ -389,7 +391,14 @@ AUI.add(
 
 					contentBox.delegate(
 						'click',
-						instance._onClick,
+						instance._onEvents,
+						STR_DOT + CSS_CALENDAR_LIST_ITEM,
+						instance
+					);
+
+					contentBox.delegate(
+						'keyup',
+						instance._onEvents,
 						STR_DOT + CSS_CALENDAR_LIST_ITEM,
 						instance
 					);
