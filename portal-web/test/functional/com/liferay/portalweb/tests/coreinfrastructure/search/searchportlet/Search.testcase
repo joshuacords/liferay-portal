@@ -447,6 +447,10 @@ definition {
 
 		WebContentStructures.saveCP(structureName = "Test Structure");
 
+		var structureIdTemp = selenium.getAttribute("//td[contains(@class,'lfr-id-column')]@textContent");
+
+		var structureId = RegexUtil.replace("${structureIdTemp}", "[0-9]+", "");
+
 		ProductMenu.gotoPortlet(
 			category = "Content & Data",
 			panel = "Site Administration",
@@ -474,13 +478,7 @@ definition {
 
 		SearchPortlets.addWidgets(searchPortletList = "Custom Facet");
 
-		var portalHostname = PropsUtil.get("portal.hostname");
-
-		var curl = "http://${portalHostname}:9200/_search?q=entryClassName:com.liferay.journal.model.JournalArticle";
-
-		var journalArticleDocumentType = JSONCurlUtil.get("${curl}");
-
-		var aggregationField = RegexUtil.replace("${journalArticleDocumentType}", "ddmFieldName\":\"(.*)\",\"ddmValueFieldName\"", "1");
+		var aggregationField = "ddm__keyword__${structureId}__Text_en_US";
 
 		SearchFacetPortlet.configureCustomFacet(aggregationField = "${aggregationField}");
 
