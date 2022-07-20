@@ -937,6 +937,32 @@ while (manageableCalendarsIterator.hasNext()) {
 		]
 	});
 
+	var endDateContainer = A.one('#<portlet:namespace />endDateContainer');
+
+	endDateContainer._node
+		.querySelector('label')
+		.setAttribute('id', '<portlet:namespace />endDateContainerLabel');
+
+	endDateContainer._node.querySelectorAll('input').forEach(function(element) {
+		element.setAttribute(
+			'aria-labeledby',
+			'<portlet:namespace />endDateContainerLabel'
+		);
+	});
+
+	var startDateContainer = A.one('#<portlet:namespace />startDateContainer');
+
+	startDateContainer._node
+		.querySelector('label')
+		.setAttribute('id', '<portlet:namespace />startDateContainerLabel');
+
+	startDateContainer._node.querySelectorAll('input').forEach(function(element) {
+		element.setAttribute(
+			'aria-labeledby',
+			'<portlet:namespace />startDateContainerLabel'
+		);
+	});
+
 	var allDayCheckbox = A.one('#<portlet:namespace />allDay');
 
 	<%
@@ -951,9 +977,6 @@ while (manageableCalendarsIterator.hasNext()) {
 	A.one('#<portlet:namespace />startTime').set('maxLength', maxLength);
 
 	allDayCheckbox.after('click', function() {
-		var endDateContainer = A.one('#<portlet:namespace />endDateContainer');
-		var startDateContainer = A.one('#<portlet:namespace />startDateContainer');
-
 		var endTimeHours;
 		var endTimeMinutes;
 		var startTimeHours;
