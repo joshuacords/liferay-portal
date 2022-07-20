@@ -41,7 +41,7 @@ int maxEntries = GetterUtil.getInteger(PropsUtil.get(PropsKeys.ASSET_CATEGORIES_
 		%>
 
 			<span class="field-content">
-				<label id="<%= randomNamespace %>assetCategoriesLabel_<%= vocabulary.getVocabularyId() %>">
+				<label for="namespace_assetCategoriesSelector_<%= vocabulary.getVocabularyId() %>_MultiSelect" id="<%= randomNamespace %>assetCategoriesLabel_<%= vocabulary.getVocabularyId() %>">
 					<%= vocabulary.getTitle(locale) %>
 
 					<c:if test="<%= vocabulary.getGroupId() != themeDisplay.getSiteGroupId() %>">
@@ -61,7 +61,7 @@ int maxEntries = GetterUtil.getInteger(PropsUtil.get(PropsKeys.ASSET_CATEGORIES_
 				</label>
 
 				<div class="lfr-tags-selector-content" id="<%= randomNamespace %>assetCategoriesSelector_<%= vocabulary.getVocabularyId() %>">
-					<aui:input name="<%= hiddenInput + StringPool.UNDERLINE + vocabulary.getVocabularyId() %>" type="hidden" />
+					<aui:input id='<%= "namespace_assetCategoriesSelector_" + vocabulary.getVocabularyId() + "_MultiSelect" %>' name="<%= hiddenInput + StringPool.UNDERLINE + vocabulary.getVocabularyId() %>" type="hidden" />
 				</div>
 			</span>
 
