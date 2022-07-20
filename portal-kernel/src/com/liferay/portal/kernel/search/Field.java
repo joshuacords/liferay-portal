@@ -555,11 +555,6 @@ public class Field implements Serializable {
 			throw new IllegalArgumentException(
 				"Name must not contain *: " + name);
 		}
-
-		if (name.startsWith(StringPool.UNDERLINE)) {
-			throw new IllegalArgumentException(
-				"Name must not start with _: " + name);
-		}
 	}
 
 	private static final String _SORTABLE_FIELD_SUFFIX = "sortable";
