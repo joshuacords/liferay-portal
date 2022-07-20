@@ -818,7 +818,8 @@ AUI.add(
 						[
 							{
 								cssClass: 'close',
-								label: '\u00D7',
+								labelHTML:
+									'<span aria-label="close">&times;</span>',
 								on: {
 									click: A.bind(
 										instance._handleCancelEvent,
