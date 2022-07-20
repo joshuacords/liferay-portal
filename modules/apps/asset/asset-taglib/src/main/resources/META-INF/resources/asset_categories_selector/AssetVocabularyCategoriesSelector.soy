@@ -49,7 +49,7 @@
 		{/call}
 
 		{if $_unexistingCategoryError}
-			<div class="form-feedback-item">
+			<div class="form-feedback-item" aria-live="polite">
 				{msg desc=""}category-{$_typedCategory}-does-not-exist{/msg}
 			</div>
 		{/if}
