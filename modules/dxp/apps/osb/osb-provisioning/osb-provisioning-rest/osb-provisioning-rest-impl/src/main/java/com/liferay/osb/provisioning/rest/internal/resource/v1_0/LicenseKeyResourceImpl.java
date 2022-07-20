@@ -26,12 +26,9 @@ import com.liferay.osb.provisioning.koroneiki.constants.ProductConstants;
 import com.liferay.osb.provisioning.koroneiki.constants.TeamRoleConstants;
 import com.liferay.osb.provisioning.koroneiki.reader.AccountReader;
 import com.liferay.osb.provisioning.koroneiki.web.service.AccountWebService;
-import com.liferay.osb.provisioning.koroneiki.web.service.ContactRoleWebService;
-import com.liferay.osb.provisioning.koroneiki.web.service.ContactWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.ProductConsumptionWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.ProductPurchaseViewWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.ProductPurchaseWebService;
-import com.liferay.osb.provisioning.koroneiki.web.service.ProductWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.TeamRoleWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.TeamWebService;
 import com.liferay.osb.provisioning.license.exception.LicenseKeyDateException;
@@ -671,16 +668,16 @@ public class LicenseKeyResourceImpl
 	private void _checkAccountManageLicenseKeysPermission(String accountKey)
 		throws Exception {
 
-		if (_isOmniAdmin()) {
-			return;
-		}
-
 		Contact contact = ProvisioningContactThreadLocal.getContact();
 
-		if ((contact != null) &&
-			_customerPortalRelease.hasAccountManageLicenseKeysPermission(
-				accountKey, contact)) {
+		if ((contact != null) && !contact.equals(_getOmniContact())) {
+			if (_customerPortalRelease.hasAccountManageLicenseKeysPermission(
+					accountKey, contact)) {
 
+				return;
+			}
+		}
+		else if (_isOmniAdmin()) {
 			return;
 		}
 
@@ -709,13 +706,9 @@ public class LicenseKeyResourceImpl
 	private void _checkAccountViewPermission(String accountKey)
 		throws Exception {
 
-		if (_isOmniAdmin()) {
-			return;
-		}
-
 		Contact contact = ProvisioningContactThreadLocal.getContact();
 
-		if (contact != null) {
+		if ((contact != null) && !contact.equals(_getOmniContact())) {
 			for (Account account : contact.getAccounts()) {
 				if (accountKey.equals(account.getKey())) {
 					return;
@@ -744,6 +737,9 @@ public class LicenseKeyResourceImpl
 
 				return;
 			}
+		}
+		else if (_isOmniAdmin()) {
+			return;
 		}
 
 		throw new PrincipalException();
@@ -777,6 +773,16 @@ public class LicenseKeyResourceImpl
 		}
 
 		return _flsTeamRoleKey;
+	}
+
+	private Contact _getOmniContact() {
+		Contact contact = new Contact();
+
+		contact.setFirstName(contextUser.getFirstName());
+		contact.setLastName(contextUser.getLastName());
+		contact.setUuid(contextUser.getUuid());
+
+		return contact;
 	}
 
 	private int _getProductConsumptionsCount(ProductPurchase productPurchase)
@@ -1117,7 +1123,7 @@ public class LicenseKeyResourceImpl
 			PermissionThreadLocal.getPermissionChecker();
 
 		if (permissionChecker.isOmniadmin()) {
-			_setOmniContact();
+			ProvisioningContactThreadLocal.setContact(_getOmniContact());
 
 			return true;
 		}
@@ -1136,16 +1142,6 @@ public class LicenseKeyResourceImpl
 		}
 
 		return false;
-	}
-
-	private void _setOmniContact() {
-		Contact contact = new Contact();
-
-		contact.setFirstName(contextUser.getFirstName());
-		contact.setLastName(contextUser.getLastName());
-		contact.setUuid(contextUser.getUuid());
-
-		ProvisioningContactThreadLocal.setContact(contact);
 	}
 
 	private String _toCsv(
@@ -1321,12 +1317,6 @@ public class LicenseKeyResourceImpl
 	private AccountWebService _accountWebService;
 
 	@Reference
-	private ContactRoleWebService _contactRoleWebService;
-
-	@Reference
-	private ContactWebService _contactWebService;
-
-	@Reference
 	private CustomerPortalRelease _customerPortalRelease;
 
 	private String _flsTeamRoleKey;
@@ -1348,9 +1338,6 @@ public class LicenseKeyResourceImpl
 
 	@Reference
 	private ProductPurchaseWebService _productPurchaseWebService;
-
-	@Reference
-	private ProductWebService _productWebService;
 
 	@Reference
 	private TeamRoleWebService _teamRoleWebService;
