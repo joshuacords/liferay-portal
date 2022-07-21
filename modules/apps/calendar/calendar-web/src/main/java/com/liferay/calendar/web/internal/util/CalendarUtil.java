@@ -170,12 +170,19 @@ public class CalendarUtil {
 			TimeZone timeZone)
 		throws PortalException {
 
+		CalendarResource calendarResource =
+			_calendarResourceLocalService.getCalendarResource(
+				calendarBooking.getCalendarResourceId());
+
 		JSONObject jsonObject = JSONUtil.put(
 			"allDay", calendarBooking.isAllDay()
 		).put(
 			"calendarBookingId", calendarBooking.getCalendarBookingId()
 		).put(
 			"calendarId", calendarBooking.getCalendarId()
+		).put(
+			"calendarResourceName",
+			calendarResource.getName(themeDisplay.getLocale())
 		).put(
 			"description",
 			calendarBooking.getDescription(themeDisplay.getLocale())

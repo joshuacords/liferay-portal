@@ -78,6 +78,12 @@ AUI.add(
 					value: 0
 				},
 
+				calendarResourceName: {
+					setter: String,
+					validator: isValue,
+					value: STR_BLANK
+				},
+
 				content: {
 					getter(val) {
 						var content = val;

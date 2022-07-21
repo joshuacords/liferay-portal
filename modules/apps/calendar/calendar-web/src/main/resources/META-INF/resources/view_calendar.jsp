@@ -363,6 +363,15 @@ boolean columnOptionsVisible = GetterUtil.getBoolean(SessionClicks.get(request, 
 				'title',
 				A.Lang.String.unescapeHTML(schedulerEvent.get('content'))
 			);
+
+		schedulerEvent
+			.get('node')
+			.attr(
+				'calendarResourceName',
+				Liferay.Util.unescapeHTML(
+					schedulerEvent.get('calendarResourceName')
+				)
+			);
 	};
 
 	<portlet:namespace />scheduler.after(['scheduler-events:load'], function(
