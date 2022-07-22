@@ -26,6 +26,11 @@
 	<td></td>
 </tr>
 <tr>
+	<td>FRAGMENT_INLINE_RICH_TEXT_STYLE</td>
+	<td>xpath=(//*[contains(@data-lfr-editable-id,'${id}')])${key_style}[normalize-space()='${key_text}']</td>
+	<td></td>
+</tr>
+<tr>
 	<td>FRAGMENT_LINK</td>
 	<td>//a[contains(@href,'${key_URL}')]${key_append}</td>
 	<td></td>
