@@ -163,14 +163,13 @@ public class ExpandoPortlet extends MVCPortlet {
 
 		String name = ParamUtil.getString(actionRequest, "name");
 
-		int type = ParamUtil.getInteger(actionRequest, "type");
-
-		Serializable defaultValue = getDefaultValue(actionRequest, type);
-
 		ExpandoBridge expandoBridge = ExpandoBridgeFactoryUtil.getExpandoBridge(
 			themeDisplay.getCompanyId(), modelResource, resourcePrimKey);
 
-		expandoBridge.setAttributeDefault(name, defaultValue);
+		expandoBridge.setAttributeDefault(
+			name,
+			getDefaultValue(
+				actionRequest, ParamUtil.getInteger(actionRequest, "type")));
 
 		updateProperties(actionRequest, expandoBridge, name);
 	}
