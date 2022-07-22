@@ -121,10 +121,8 @@ public class ExpandoPortlet extends MVCPortlet {
 			throw new ColumnNameException.MustValidate();
 		}
 
-		expandoBridge.addAttribute(name, type);
-
-		expandoBridge.setAttributeDefault(
-			name, getDefaultValue(actionRequest, type));
+		expandoBridge.addAttribute(
+			name, type, getDefaultValue(actionRequest, type));
 
 		updateProperties(actionRequest, expandoBridge, name);
 	}
