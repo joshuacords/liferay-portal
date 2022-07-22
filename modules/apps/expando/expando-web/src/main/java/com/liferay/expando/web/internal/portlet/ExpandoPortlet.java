@@ -18,6 +18,7 @@ import com.liferay.expando.constants.ExpandoPortletKeys;
 import com.liferay.expando.kernel.exception.ColumnNameException;
 import com.liferay.expando.kernel.exception.ColumnTypeException;
 import com.liferay.expando.kernel.exception.DuplicateColumnNameException;
+import com.liferay.expando.kernel.exception.MissingDefaultLocaleValueException;
 import com.liferay.expando.kernel.exception.NoSuchColumnException;
 import com.liferay.expando.kernel.exception.ValueDataException;
 import com.liferay.expando.kernel.model.ExpandoBridge;
@@ -186,7 +187,10 @@ public class ExpandoPortlet extends MVCPortlet {
 			SessionErrors.contains(
 				renderRequest, DuplicateColumnNameException.class.getName()) ||
 			SessionErrors.contains(
-				renderRequest, ValueDataException.class.getName())) {
+				renderRequest, ValueDataException.class.getName()) ||
+			SessionErrors.contains(
+				renderRequest,
+				MissingDefaultLocaleValueException.class.getName())) {
 
 			include("/edit/expando.jsp", renderRequest, renderResponse);
 		}
@@ -363,6 +367,7 @@ public class ExpandoPortlet extends MVCPortlet {
 		if (cause instanceof ColumnNameException ||
 			cause instanceof ColumnTypeException ||
 			cause instanceof DuplicateColumnNameException ||
+			cause instanceof MissingDefaultLocaleValueException ||
 			cause instanceof NoSuchColumnException ||
 			cause instanceof PrincipalException ||
 			cause instanceof ValueDataException) {
