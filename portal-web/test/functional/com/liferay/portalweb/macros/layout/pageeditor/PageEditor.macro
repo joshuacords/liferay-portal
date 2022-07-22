@@ -529,11 +529,25 @@ definition {
 			fragmentName = "${fragmentName}",
 			id = "${id}");
 
-		Type(
-			key_fragmentName = "${fragmentName}",
-			key_id = "${id}",
-			locator1 = "Fragment#EDITABLE_FIELD_CK_EDITOR",
-			value1 = "${text}");
+		if (isSet(text)) {
+			Type(
+				key_fragmentName = "${fragmentName}",
+				key_id = "${id}",
+				locator1 = "Fragment#EDITABLE_FIELD_CK_EDITOR",
+				value1 = "${text}");
+		}
+
+		if (isSet(style)) {
+			SelectFieldText(
+				key_editor = "content",
+				locator1 = "AlloyEditor#EDITOR");
+
+			Click(locator1 = "AlloyEditor#TEXT_FORMATTING_STYLE");
+
+			Click(
+				key_styleFormat = "${style}",
+				locator1 = "AlloyEditor#TEXT_FORMATTING_STYLE_DROPDOWN");
+		}
 
 		PageEditor.waitForAutoSave();
 	}
@@ -927,6 +941,15 @@ definition {
 			key_id = "${id}",
 			locator1 = "Fragment#EDITABLE_FIELD",
 			value1 = "${editableText}");
+
+		if (isSet(style)) {
+			AssertVisible(
+				id = "${id}",
+				key_position = "${position}",
+				key_style = "${style}",
+				key_text = "${editableText}",
+				locator1 = "Fragment#FRAGMENT_INLINE_RICH_TEXT_STYLE");
+		}
 	}
 
 	macro viewFragmentOrder {
