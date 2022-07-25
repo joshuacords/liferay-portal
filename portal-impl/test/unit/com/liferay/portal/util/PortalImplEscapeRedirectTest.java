@@ -126,6 +126,11 @@ public class PortalImplEscapeRedirectTest {
 	}
 
 	@Test
+	public void testEscapeRedirectWithEscapingSequenceCharacter() {
+		Assert.assertNull(_portalImpl.escapeRedirect("\t//example.com"));
+	}
+
+	@Test
 	public void testEscapeRedirectWithIPs() throws Exception {
 		String[] redirectURLIPsAllowed = PropsValues.REDIRECT_URL_IPS_ALLOWED;
 		String redirectURLSecurityMode = PropsValues.REDIRECT_URL_SECURITY_MODE;
