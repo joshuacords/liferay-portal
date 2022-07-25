@@ -6,7 +6,7 @@
     <contextParameter comment="" name="customerPortalPassword" prompt="customerPortalPassword?" promptNeeded="false" type="id_String" value="&quot;test&quot;"/>
     <contextParameter comment="" name="provisioningHost" prompt="provisioningHost?" promptNeeded="false" type="id_String" value="&quot;https://webserver-lrkoroneiki-uat.lfr.cloud&quot;"/>
     <contextParameter comment="" name="provisioningUserName" prompt="provisioningUserName?" promptNeeded="false" type="id_String" value="&quot;test@liferay.com&quot;"/>
-    <contextParameter comment="" name="provisioningPassword" prompt="provisioningPassword?" promptNeeded="false" type="id_String" value="&quot;nHZMPLWyzvRKujPLqfHK&quot;"/>
+    <contextParameter comment="" name="provisioningPassword" prompt="provisioningPassword?" promptNeeded="false" type="id_String" value=""/>
     <contextParameter comment="" name="productPurchases" prompt="productPurchases?" promptNeeded="false" type="id_String" value=""/>
     <contextParameter comment="" name="accountId" prompt="accountId?" promptNeeded="false" type="id_String" value=""/>
   </context>

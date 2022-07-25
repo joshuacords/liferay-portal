@@ -214,7 +214,7 @@
       <column comment="" key="false" length="-1" name="skus" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="-1" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="TalendMapper:MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="map2">
         <mapperTableEntries name="active" expression="true" type="id_Boolean" nullable="true"/>
