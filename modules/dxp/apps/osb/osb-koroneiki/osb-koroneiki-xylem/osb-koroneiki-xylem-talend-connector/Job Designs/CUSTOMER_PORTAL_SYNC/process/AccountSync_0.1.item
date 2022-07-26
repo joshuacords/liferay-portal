@@ -9,7 +9,7 @@
     <contextParameter comment="" name="customerPortalUserName" prompt="customerPortalUserName?" promptNeeded="false" type="id_String" value="&quot;test@liferay.com&quot;"/>
     <contextParameter comment="" name="customerPortalPassword" prompt="customerPortalPassword?" promptNeeded="false" type="id_String" value="&quot;test&quot;"/>
     <contextParameter comment="" name="provisioningUserName" prompt="provisioningUserName?" promptNeeded="false" type="id_String" value="&quot;test@liferay.com&quot;"/>
-    <contextParameter comment="" name="provisioningPassword" prompt="provisioningPassword?" promptNeeded="false" type="id_String" value="&quot;R7.QR9g7pUvfmrcKKP6f&quot;"/>
+    <contextParameter comment="" name="provisioningPassword" prompt="provisioningPassword?" promptNeeded="false" type="id_String" value=""/>
     <contextParameter comment="" name="accountAccessUSTeamKey" prompt="accountAccessUSTeamKey?" promptNeeded="false" type="id_String" value="&quot;KOR-14041160&quot;"/>
     <contextParameter comment="" name="accountAccessEUTeamKey" prompt="accountAccessEUTeamKey?" promptNeeded="false" type="id_String" value="&quot;KOR-14041148&quot;"/>
   </context>

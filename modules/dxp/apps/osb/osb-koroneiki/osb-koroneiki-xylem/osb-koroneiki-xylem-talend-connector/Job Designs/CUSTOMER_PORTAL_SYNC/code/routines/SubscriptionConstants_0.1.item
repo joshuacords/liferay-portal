@@ -23,17 +23,17 @@ public class SubscriptionConstants {
 
 	public static String GROUP_NAME_COMMERCE = "Commerce";
 
-	public static String GROUP_NAME_COMMERCE_FOR_DXP_CLOUD =
-		"Commerce for DXP Cloud";
+	public static String GROUP_NAME_COMMERCE_FOR_CLOUD = "Commerce for Cloud";
 
 	public static String GROUP_NAME_DXP = "DXP";
-
-	public static String GROUP_NAME_DXP_CLOUD = "DXP Cloud";
 
 	public static String GROUP_NAME_ENTERPRISE_SEARCH = "Enterprise Search";
 
 	public static String GROUP_NAME_LIFERAY_EXPERIENCE_CLOUD =
 		"Liferay Experience Cloud";
+
+	public static String GROUP_NAME_LIFERAY_EXPERIENCE_CLOUD_SM =
+		"Liferay Experience Cloud - Self-Managed";
 
 	public static String GROUP_NAME_PARTNERSHIP = "Partnership";
 
