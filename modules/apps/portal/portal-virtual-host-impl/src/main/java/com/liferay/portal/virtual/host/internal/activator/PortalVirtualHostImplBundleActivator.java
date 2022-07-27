@@ -45,14 +45,14 @@ public class PortalVirtualHostImplBundleActivator implements BundleActivator {
 
 			if (!hasColumn("VirtualHost", "defaultVirtualHost")) {
 				runSQL(
-					"alter table VirtualHost add defaultVirtualHost BOOLEAN;");
+					"alter table VirtualHost add defaultVirtualHost BOOLEAN");
 
-				runSQL("update VirtualHost set defaultVirtualHost = [$TRUE$];");
+				runSQL("update VirtualHost set defaultVirtualHost = [$TRUE$]");
 			}
 
 			if (!hasColumn("VirtualHost", "languageId")) {
 				runSQL(
-					"alter table VirtualHost add languageId VARCHAR(75) null;");
+					"alter table VirtualHost add languageId VARCHAR(75) null");
 			}
 		}
 
