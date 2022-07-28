@@ -16,10 +16,44 @@ package routines;
 
 import java.util.Map;
 
+import routines.system.JSONArray;
+import routines.system.JSONObject;
+
 /**
  * @author Amos Fong
  */
 public class ContactRoleParser {
+
+	public static JSONArray filterContactRoles(
+		JSONArray contactRolesJSONArray) {
+
+		JSONArray newJSONArray = new JSONArray();
+
+		for (int i = 0; i < contactRolesJSONArray.length(); i++) {
+			JSONObject jsonObject = contactRolesJSONArray.getJSONObject(i);
+
+			String name = jsonObject.getString("name");
+
+			if (name.equals(
+					ContactRoleConstants.NAME_ADMINISTRATOR_PROVISIONING) ||
+				name.equals(
+					ContactRoleConstants.
+						NAME_LIFERAY_CUSTOMER_SUCCESS_PROVISIONING) ||
+				name.equals(
+					ContactRoleConstants.NAME_LIFERAY_SALES_PROVISIONING) ||
+				name.equals(ContactRoleConstants.NAME_MEMBER_PROVISIONING) ||
+				name.equals(
+					ContactRoleConstants.NAME_PARTNER_MANAGER_PROVISIONING) ||
+				name.equals(
+					ContactRoleConstants.NAME_PARTNER_MEMBER_PROVISIONING) ||
+				name.equals(ContactRoleConstants.NAME_REQUESTER_PROVISIONING)) {
+
+				newJSONArray.put(jsonObject);
+			}
+		}
+
+		return newJSONArray;
+	}
 
 	public static String getAccountRoleId(
 		Map<String, Object> globalMap, String contactRoleName) {
@@ -32,6 +66,14 @@ public class ContactRoleParser {
 				ContactRoleConstants.NAME_ADMINISTRATOR_PROVISIONING)) {
 
 			return String.valueOf(globalMap.get("supportAdministratorRoleId"));
+		}
+		else if (contactRoleName.equals(
+					ContactRoleConstants.
+						NAME_LIFERAY_CUSTOMER_SUCCESS_PROVISIONING) ||
+				 contactRoleName.equals(
+					 ContactRoleConstants.NAME_LIFERAY_SALES_PROVISIONING)) {
+
+			return String.valueOf(globalMap.get("provisioningRoleId"));
 		}
 		else if (contactRoleName.equals(
 					ContactRoleConstants.NAME_MEMBER_PROVISIONING)) {

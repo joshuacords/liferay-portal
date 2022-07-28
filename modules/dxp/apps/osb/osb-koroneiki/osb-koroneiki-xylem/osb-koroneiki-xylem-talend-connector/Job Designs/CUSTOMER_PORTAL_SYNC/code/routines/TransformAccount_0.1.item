@@ -15,6 +15,8 @@
 package routines;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -51,6 +53,71 @@ public class TransformAccount {
 		}
 
 		return "";
+	}
+
+	public static String getCombinedContactsJSONArray(
+		String customerContacts, String workerContacts) {
+
+		JSONArray customerContactsJSONArray = new JSONArray(customerContacts);
+		JSONArray workerContactsJSONArray = new JSONArray(workerContacts);
+
+		Map<String, JSONObject> contactsMap = new HashMap<>();
+
+		for (int i = 0; i < customerContactsJSONArray.length(); i++) {
+			JSONObject jsonObject = customerContactsJSONArray.getJSONObject(i);
+
+			JSONArray contactRolesJSONArray =
+				ContactRoleParser.filterContactRoles(
+					jsonObject.getJSONArray("contactRoles"));
+
+			if (contactRolesJSONArray.length() > 0) {
+				jsonObject.put("contactRoles", contactRolesJSONArray);
+
+				contactsMap.put(
+					jsonObject.getString("emailAddress"), jsonObject);
+			}
+		}
+
+		for (int i = 0; i < workerContactsJSONArray.length(); i++) {
+			JSONObject jsonObject = workerContactsJSONArray.getJSONObject(i);
+
+			JSONArray contactRolesJSONArray =
+				ContactRoleParser.filterContactRoles(
+					jsonObject.getJSONArray("contactRoles"));
+
+			if (contactRolesJSONArray.length() <= 0) {
+				continue;
+			}
+
+			JSONObject curJSONObject = contactsMap.get(
+				jsonObject.getString("emailAddress"));
+
+			if (curJSONObject == null) {
+				jsonObject.put("contactRoles", contactRolesJSONArray);
+
+				contactsMap.put(
+					jsonObject.getString("emailAddress"), jsonObject);
+			}
+			else {
+				JSONArray curContactRolesJSONArray = curJSONObject.getJSONArray(
+					"contactRoles");
+
+				for (int j = 0; j < contactRolesJSONArray.length(); j++) {
+					JSONObject contactRoleJSONObject =
+						contactRolesJSONArray.getJSONObject(j);
+
+					curContactRolesJSONArray.put(contactRoleJSONObject);
+				}
+			}
+		}
+
+		JSONArray jsonArray = new JSONArray();
+
+		for (JSONObject jsonObject : contactsMap.values()) {
+			jsonArray.put(jsonObject);
+		}
+
+		return jsonArray.toString();
 	}
 
 	public static String getLiferayContactEmailAddress(

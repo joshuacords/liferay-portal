@@ -14,6 +14,8 @@
 
 package routines;
 
+import java.util.Map;
+
 import routines.system.JSONArray;
 import routines.system.JSONObject;
 
@@ -23,41 +25,27 @@ import routines.system.JSONObject;
 public class CleanUserAccountRolesUtil {
 
 	public static Long getRemoveAccountRoleId(
-		String contactRoles, Long accountRoleId) {
+		Map<String, Object> globalMap, String contactRoles,
+		Long accountRoleId) {
 
 		JSONArray jsonArray = new JSONArray(contactRoles);
 
 		for (int i = 0; i < jsonArray.length(); i++) {
 			JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-			if (jsonObject.isNull("externalLinks")) {
+			String curAccountRoleId = ContactRoleParser.getAccountRoleId(
+				globalMap, jsonObject.getString("name"));
+
+			if (curAccountRoleId.isEmpty()) {
 				continue;
 			}
 
-			JSONArray externalLinksJSONArray = jsonObject.getJSONArray(
-				"externalLinks");
-
-			for (int j = 0; j < externalLinksJSONArray.length(); j++) {
-				JSONObject externalLinkJSONObject =
-					externalLinksJSONArray.getJSONObject(j);
-
-				String domain = externalLinkJSONObject.getString("domain");
-				String entityName = externalLinkJSONObject.getString(
-					"entityName");
-
-				try {
-					Long entityId = Long.valueOf(
-						externalLinkJSONObject.getString("entityId"));
-
-					if (domain.equals("customer-2.0") &&
-						entityName.equals("account-role") &&
-						entityId.equals(accountRoleId)) {
-
-						return 0L;
-					}
+			try {
+				if (accountRoleId == Long.valueOf(curAccountRoleId)) {
+					return 0L;
 				}
-				catch (Exception e) {
-				}
+			}
+			catch (Exception e) {
 			}
 		}
 
