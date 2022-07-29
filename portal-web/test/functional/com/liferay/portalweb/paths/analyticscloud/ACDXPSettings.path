@@ -72,11 +72,6 @@
 	<td>//td[contains(., '${key_availablePropertyName}')]</td>
 	<td></td>
 </tr>
-<tr>
-	<td>AVAILABLE_NO_PROPERTIES_FOUND</td>
-	<td>//span[contains(@class,'title') and text()='No Properties Found']</td>
-	<td></td>
-</tr>
 
 <!-- GENERIC CHECKBOX -->
 
@@ -98,7 +93,7 @@
 
 <tr>
 	<td>AC_GENERIC_CANCEL_BUTTON</td>
-	<td>//*[contains(@class, 'btn-default')]</td>
+	<td>//*[contains(@class, 'btn-secondary')]</td>
 	<td></td>
 </tr>
 
