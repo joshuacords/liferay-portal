@@ -106,7 +106,7 @@ definition {
 				locator1 = "Button#DOWNLOAD_SIDEBAR",
 				value1 = "Download");
 
-			Pause(locator1 = "5000");
+			ACUtils.waitForSendingRequest();
 		}
 
 		task ("View the Document events triggered") {
@@ -120,7 +120,7 @@ definition {
 				applicationId = "Document",
 				eventId = "documentDownloaded",
 				property = "title",
-				value = "Document_1.jpg");
+				value = "New Document");
 
 			ACUtils.assertEventPropertyValue(
 				applicationId = "Document",
