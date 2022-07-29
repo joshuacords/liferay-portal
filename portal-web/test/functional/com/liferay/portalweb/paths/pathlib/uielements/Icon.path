@@ -96,6 +96,11 @@
 	<td></td>
 </tr>
 <tr>
+	<td>DOWNLOAD</td>
+	<td>//button[@title='Download']//*[contains(@class,'icon-download')]</td>
+	<td></td>
+</tr>
+<tr>
 	<td>CUSTOM_EDIT</td>
 	<td>//a[contains(@class,'taglib-icon')]/i[contains(@class,'icon-edit')]</td>
 	<td></td>
@@ -183,6 +188,11 @@
 <tr>
 	<td>PRINT</td>
 	<td>//span/a[contains(.,'Print')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PLUS</td>
+	<td>//*[*[name()='svg'][contains(@class,'icon-plus')]]</td>
 	<td></td>
 </tr>
 <tr>
