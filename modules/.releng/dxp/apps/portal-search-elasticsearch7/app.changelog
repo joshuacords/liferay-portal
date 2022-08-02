@@ -101,3 +101,19 @@ app.artifacts-3.3.0=\
 app.change.log-3.3.0=LPS-131959 LPS-134639 LPS-138396 LPS-144881 LPS-151205 LPS-151389 LPS-153257 LPS-154660 LPS-77699
 
 app.git.id-3.3.0=d066e0425a6a82491679a1c45d7d2b97405ba69b
+
+#
+# Liferay App Version 3.4.0
+#
+
+app.artifacts-3.4.0=\
+	com.ctc.wstx-4.4.1.jar,\
+	com.liferay.portal.search.elasticsearch7.api-4.0.18.jar,\
+	com.liferay.portal.search.elasticsearch7.impl-4.0.36.jar,\
+	com.liferay.portal.search.elasticsearch7.spi-4.0.2.jar,\
+	org.codehaus.stax2-3.1.4.jar
+
+app.change.log-3.4.0=LPS-129172 LPS-130384 LPS-134501 LPS-149990 LPS-152892 LPS-152937
+
+app.git.id-3.4.0=3d778e5682571596e0bf8bc4d71a678acaee0bef
+
