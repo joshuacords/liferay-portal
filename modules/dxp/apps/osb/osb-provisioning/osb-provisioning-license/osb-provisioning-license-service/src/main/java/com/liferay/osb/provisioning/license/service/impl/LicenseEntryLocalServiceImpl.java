@@ -76,12 +76,12 @@ public class LicenseEntryLocalServiceImpl
 	}
 
 	public List<LicenseEntry> getLicenseEntriesByNameVersion(
-		String name, String version) {
+		String name, String version, boolean supportedVersion) {
 
 		List<LicenseEntry> licenseEntries =
 			licenseEntryPersistence.findByLikeName(name);
 
-		return filterByVersion(licenseEntries, name, version);
+		return filterByVersion(licenseEntries, name, version, supportedVersion);
 	}
 
 	public List<LicenseEntry> getLicenseEntriesByType(String type) {
@@ -89,7 +89,7 @@ public class LicenseEntryLocalServiceImpl
 	}
 
 	public List<LicenseEntry> getLicenseEntriesByVersion(
-			String productKey, String version)
+			String productKey, String version, boolean supportedVersion)
 		throws Exception {
 
 		Product product = _productWebService.getProduct(productKey);
@@ -97,7 +97,8 @@ public class LicenseEntryLocalServiceImpl
 		List<LicenseEntry> licenseEntries =
 			licenseEntryPersistence.findByProductKey(productKey);
 
-		return filterByVersion(licenseEntries, product.getName(), version);
+		return filterByVersion(
+			licenseEntries, product.getName(), version, supportedVersion);
 	}
 
 	public LicenseEntry getLicenseEntry(String productKey, String type)
@@ -127,21 +128,22 @@ public class LicenseEntryLocalServiceImpl
 	}
 
 	protected List<LicenseEntry> filterByVersion(
-		List<LicenseEntry> licenseEntries, String name, String version) {
+		List<LicenseEntry> licenseEntries, String name, String version,
+		boolean supportedVersion) {
 
 		List<LicenseEntry> curLicenseEntries = new ArrayList<>();
 
 		for (LicenseEntry licenseEntry : licenseEntries) {
 			int productVersionMinOrder = ProductVersion.getOrder(
-				name, licenseEntry.getVersionMin());
+				name, licenseEntry.getVersionMin(), supportedVersion);
 			int productVersionMaxOrder = ProductVersion.getOrder(
-				name, licenseEntry.getVersionMax());
+				name, licenseEntry.getVersionMax(), supportedVersion);
 
 			if ((Validator.isNull(licenseEntry.getVersionMin()) ||
 				 (productVersionMinOrder <= ProductVersion.getOrder(
-					 name, version))) &&
+					 name, version, supportedVersion))) &&
 				(Validator.isNull(licenseEntry.getVersionMax()) ||
-				 (ProductVersion.getOrder(name, version) <=
+				 (ProductVersion.getOrder(name, version, supportedVersion) <=
 					 productVersionMaxOrder))) {
 
 				curLicenseEntries.add(licenseEntry);

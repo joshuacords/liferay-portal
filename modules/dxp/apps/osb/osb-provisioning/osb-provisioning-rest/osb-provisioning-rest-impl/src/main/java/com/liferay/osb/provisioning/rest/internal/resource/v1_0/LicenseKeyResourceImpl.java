@@ -827,7 +827,7 @@ public class LicenseKeyResourceImpl
 		Set<Version> versions = new HashSet<>();
 
 		String[] productVersions = ProductVersion.getProductGroupVersions(
-			productGroupName);
+			productGroupName, true);
 
 		for (String productVersion : productVersions) {
 			Set<Type> types = new HashSet<>();
@@ -838,7 +838,7 @@ public class LicenseKeyResourceImpl
 
 			List<LicenseEntry> licenseEntries =
 				_licenseEntryLocalService.getLicenseEntriesByNameVersion(
-					"%" + productGroupName + "%", productVersion);
+					"%" + productGroupName + "%", productVersion, true);
 
 			for (LicenseEntry licenseEntry : licenseEntries) {
 				String licenseEntryType = licenseEntry.getType();
@@ -1242,7 +1242,8 @@ public class LicenseKeyResourceImpl
 
 			List<LicenseEntry> licenseEntries =
 				_licenseEntryLocalService.getLicenseEntriesByVersion(
-					licenseKey.getProductKey(), licenseKey.getProductVersion());
+					licenseKey.getProductKey(), licenseKey.getProductVersion(),
+					false);
 
 			for (LicenseEntry licenseEntry : licenseEntries) {
 				String curLicenseEntryType = licenseEntry.getType();

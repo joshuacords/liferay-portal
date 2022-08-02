@@ -99,13 +99,22 @@ public class ProductVersion {
 		PORTAL_VERSION_6_2_10
 	};
 
+	public static final String[] SUPPORTED_PORTAL_VERSIONS = {
+		PORTAL_VERSION_6_1_10, PORTAL_VERSION_6_1_20, PORTAL_VERSION_6_1_30,
+		PORTAL_VERSION_6_2_10
+	};
+
 	public static final int getOrder(
-		String productName, String productVersion) {
+		String productName, String productVersion, boolean supportedVersion) {
 
 		if (_isDXP(productName)) {
 			return _orderedDXPVersions.indexOf(productVersion);
 		}
 		else if (_isPortal(productName)) {
+			if (supportedVersion) {
+				return _orderedSupportedPortalVersions.indexOf(productVersion);
+			}
+
 			return _orderedPortalVersions.indexOf(productVersion);
 		}
 
@@ -113,7 +122,7 @@ public class ProductVersion {
 	}
 
 	public static final String[] getProductGroupVersions(
-		String productGroupName) {
+		String productGroupName, boolean supportedVersion) {
 
 		if (productGroupName.equals("Commerce")) {
 			return new String[] {COMMERCE_LICENSE_VERSION_1};
@@ -122,13 +131,19 @@ public class ProductVersion {
 			return DXP_VERSIONS;
 		}
 		else if (productGroupName.equals("Portal")) {
+			if (supportedVersion) {
+				return SUPPORTED_PORTAL_VERSIONS;
+			}
+
 			return PORTAL_VERSIONS;
 		}
 
 		return new String[0];
 	}
 
-	public static final String[] getProductVersions(String productName) {
+	public static final String[] getProductVersions(
+		String productName, boolean supportedVersion) {
+
 		if (productName.contains("Commerce Subscription")) {
 			return new String[] {COMMERCE_LICENSE_VERSION_1};
 		}
@@ -136,6 +151,10 @@ public class ProductVersion {
 			return DXP_VERSIONS;
 		}
 		else if (_isPortal(productName)) {
+			if (supportedVersion) {
+				return SUPPORTED_PORTAL_VERSIONS;
+			}
+
 			return PORTAL_VERSIONS;
 		}
 
@@ -167,5 +186,7 @@ public class ProductVersion {
 		DXP_VERSIONS);
 	private static final List<String> _orderedPortalVersions = Arrays.asList(
 		PORTAL_VERSIONS);
+	private static final List<String> _orderedSupportedPortalVersions =
+		Arrays.asList(SUPPORTED_PORTAL_VERSIONS);
 
 }
