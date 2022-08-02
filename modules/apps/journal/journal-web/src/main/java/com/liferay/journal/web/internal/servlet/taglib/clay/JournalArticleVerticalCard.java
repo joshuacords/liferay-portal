@@ -225,7 +225,8 @@ public class JournalArticleVerticalCard extends BaseVerticalCard {
 		return LanguageUtil.format(
 			_httpServletRequest, "modified-x-ago-by-x",
 			new String[] {
-				modifiedDateDescription, HtmlUtil.escape(_article.getStatusByUserName())
+				modifiedDateDescription,
+				HtmlUtil.escape(_article.getStatusByUserName())
 			});
 	}
 
