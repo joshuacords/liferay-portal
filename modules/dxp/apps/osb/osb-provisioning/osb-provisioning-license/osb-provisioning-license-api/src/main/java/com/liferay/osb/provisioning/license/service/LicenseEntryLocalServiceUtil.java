@@ -232,9 +232,10 @@ public class LicenseEntryLocalServiceUtil {
 	}
 
 	public static List<LicenseEntry> getLicenseEntriesByNameVersion(
-		String name, String version) {
+		String name, String version, boolean supportedVersions) {
 
-		return getService().getLicenseEntriesByNameVersion(name, version);
+		return getService().getLicenseEntriesByNameVersion(
+			name, version, supportedVersions);
 	}
 
 	public static List<LicenseEntry> getLicenseEntriesByType(String type) {
@@ -242,10 +243,11 @@ public class LicenseEntryLocalServiceUtil {
 	}
 
 	public static List<LicenseEntry> getLicenseEntriesByVersion(
-			String productKey, String version)
+			String productKey, String version, boolean supportedVersions)
 		throws Exception {
 
-		return getService().getLicenseEntriesByVersion(productKey, version);
+		return getService().getLicenseEntriesByVersion(
+			productKey, version, supportedVersions);
 	}
 
 	/**

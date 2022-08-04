@@ -266,10 +266,11 @@ public class LicenseEntryLocalServiceWrapper
 	@Override
 	public java.util.List
 		<com.liferay.osb.provisioning.license.model.LicenseEntry>
-			getLicenseEntriesByNameVersion(String name, String version) {
+			getLicenseEntriesByNameVersion(
+				String name, String version, boolean supportedVersions) {
 
 		return _licenseEntryLocalService.getLicenseEntriesByNameVersion(
-			name, version);
+			name, version, supportedVersions);
 	}
 
 	@Override
@@ -283,11 +284,13 @@ public class LicenseEntryLocalServiceWrapper
 	@Override
 	public java.util.List
 		<com.liferay.osb.provisioning.license.model.LicenseEntry>
-				getLicenseEntriesByVersion(String productKey, String version)
+				getLicenseEntriesByVersion(
+					String productKey, String version,
+					boolean supportedVersions)
 			throws Exception {
 
 		return _licenseEntryLocalService.getLicenseEntriesByVersion(
-			productKey, version);
+			productKey, version, supportedVersions);
 	}
 
 	/**

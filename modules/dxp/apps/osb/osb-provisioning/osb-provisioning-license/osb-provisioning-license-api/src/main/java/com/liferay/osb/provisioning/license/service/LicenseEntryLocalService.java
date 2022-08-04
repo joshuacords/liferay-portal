@@ -217,14 +217,14 @@ public interface LicenseEntryLocalService
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<LicenseEntry> getLicenseEntriesByNameVersion(
-		String name, String version);
+		String name, String version, boolean supportedVersions);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<LicenseEntry> getLicenseEntriesByType(String type);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<LicenseEntry> getLicenseEntriesByVersion(
-			String productKey, String version)
+			String productKey, String version, boolean supportedVersions)
 		throws Exception;
 
 	/**
