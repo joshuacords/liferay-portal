@@ -24,8 +24,6 @@ public class ProductVersion {
 
 	public static final String COMMERCE_LICENSE_VERSION_1 = "1";
 
-	public static final String DXP_MAJOR_VERSION_7 = "7";
-
 	public static final String DXP_VERSION_7_0 = "7.0";
 
 	public static final String DXP_VERSION_7_1 = "7.1";
@@ -39,16 +37,6 @@ public class ProductVersion {
 	public static final String[] DXP_VERSIONS = {
 		DXP_VERSION_7_0, DXP_VERSION_7_1, DXP_VERSION_7_2, DXP_VERSION_7_3,
 		DXP_VERSION_7_4
-	};
-
-	public static final String PORTAL_MAJOR_VERSION_6 = "6";
-
-	public static final String PORTAL_MINOR_VERSION_6_1 = "6.1";
-
-	public static final String PORTAL_MINOR_VERSION_6_2 = "6.2";
-
-	public static final String[] PORTAL_MINOR_VERSIONS = {
-		PORTAL_MINOR_VERSION_6_1, PORTAL_MINOR_VERSION_6_2
 	};
 
 	public static final String PORTAL_VERSION_5_1_3 = "5.1";
