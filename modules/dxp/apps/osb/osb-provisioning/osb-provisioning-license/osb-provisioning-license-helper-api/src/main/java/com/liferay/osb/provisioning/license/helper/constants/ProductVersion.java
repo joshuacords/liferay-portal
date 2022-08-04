@@ -105,13 +105,13 @@ public class ProductVersion {
 	};
 
 	public static final int getOrder(
-		String productName, String productVersion, boolean supportedVersion) {
+		String productName, String productVersion, boolean supportedVersions) {
 
 		if (_isDXP(productName)) {
 			return _orderedDXPVersions.indexOf(productVersion);
 		}
 		else if (_isPortal(productName)) {
-			if (supportedVersion) {
+			if (supportedVersions) {
 				return _orderedSupportedPortalVersions.indexOf(productVersion);
 			}
 
@@ -122,7 +122,7 @@ public class ProductVersion {
 	}
 
 	public static final String[] getProductGroupVersions(
-		String productGroupName, boolean supportedVersion) {
+		String productGroupName, boolean supportedVersions) {
 
 		if (productGroupName.equals("Commerce")) {
 			return new String[] {COMMERCE_LICENSE_VERSION_1};
@@ -131,7 +131,7 @@ public class ProductVersion {
 			return DXP_VERSIONS;
 		}
 		else if (productGroupName.equals("Portal")) {
-			if (supportedVersion) {
+			if (supportedVersions) {
 				return SUPPORTED_PORTAL_VERSIONS;
 			}
 
@@ -142,7 +142,7 @@ public class ProductVersion {
 	}
 
 	public static final String[] getProductVersions(
-		String productName, boolean supportedVersion) {
+		String productName, boolean supportedVersions) {
 
 		if (productName.contains("Commerce Subscription")) {
 			return new String[] {COMMERCE_LICENSE_VERSION_1};
@@ -151,7 +151,7 @@ public class ProductVersion {
 			return DXP_VERSIONS;
 		}
 		else if (_isPortal(productName)) {
-			if (supportedVersion) {
+			if (supportedVersions) {
 				return SUPPORTED_PORTAL_VERSIONS;
 			}
 
