@@ -447,7 +447,7 @@
 					</license>
 				</licenses>
 				<current-version-publish-date>2021-03-01 13:14:40</current-version-publish-date>
-				<latest-version-publish-date>2022-07-11 16:08:47</latest-version-publish-date>
+				<latest-version-publish-date>2022-08-03 11:48:43</latest-version-publish-date>
 			</library>
 			<library>
 				<file-name>com.liferay.comment.sanitizer.jar!error_prone_annotations.jar</file-name>
@@ -460,7 +460,7 @@
 					</license>
 				</licenses>
 				<current-version-publish-date>2018-01-08 15:29:52</current-version-publish-date>
-				<latest-version-publish-date>2022-05-24 14:43:34</latest-version-publish-date>
+				<latest-version-publish-date>2022-08-03 15:30:44</latest-version-publish-date>
 			</library>
 			<library>
 				<file-name>com.liferay.comment.sanitizer.jar!failureaccess.jar</file-name>
@@ -901,7 +901,7 @@
 					</license>
 				</licenses>
 				<current-version-publish-date>2021-01-14 20:21:33</current-version-publish-date>
-				<latest-version-publish-date>2022-05-24 14:43:34</latest-version-publish-date>
+				<latest-version-publish-date>2022-08-03 15:30:44</latest-version-publish-date>
 			</library>
 			<library>
 				<file-name>com.liferay.document.library.opener.google.drive.web.jar!google-api-client-jackson2.jar</file-name>
@@ -965,8 +965,8 @@
 						<license-url>http://www.apache.org/licenses/LICENSE-2.0.txt</license-url>
 					</license>
 				</licenses>
-				<current-version-publish-date>2019-05-03 00:27:32</current-version-publish-date>
-				<latest-version-publish-date>2022-07-14 01:11:55</latest-version-publish-date>
+				<current-version-publish-date>2019-05-03 02:34:51</current-version-publish-date>
+				<latest-version-publish-date>2022-08-02 01:34:30</latest-version-publish-date>
 			</library>
 			<library>
 				<file-name>com.liferay.document.library.opener.google.drive.web.jar!google-api-services-oauth2.jar</file-name>
@@ -979,7 +979,7 @@
 					</license>
 				</licenses>
 				<current-version-publish-date>2018-05-01 20:08:21</current-version-publish-date>
-				<latest-version-publish-date>2021-07-02 15:05:22</latest-version-publish-date>
+				<latest-version-publish-date>2022-08-01 13:54:03</latest-version-publish-date>
 			</library>
 			<library>
 				<file-name>com.liferay.document.library.opener.google.drive.web.jar!google-http-client-jackson2.jar</file-name>
@@ -1009,7 +1009,7 @@
 			</library>
 			<library>
 				<file-name>com.liferay.document.library.opener.google.drive.web.jar!google-oauth-client-java6.jar</file-name>
-				<version>1.31.0</version>
+				<version>1.34.1</version>
 				<project-name>Java 6 (and higher) extensions to the Google OAuth Client Library for Java.</project-name>
 				<project-url>https://www.google.com/</project-url>
 				<licenses>
@@ -1018,12 +1018,12 @@
 						<license-url>https://www.apache.org/licenses/LICENSE-2.0.txt</license-url>
 					</license>
 				</licenses>
-				<current-version-publish-date>2020-06-29 14:07:26</current-version-publish-date>
+				<current-version-publish-date>2022-06-09 12:33:35</current-version-publish-date>
 				<latest-version-publish-date>2022-06-09 12:33:35</latest-version-publish-date>
 			</library>
 			<library>
 				<file-name>com.liferay.document.library.opener.google.drive.web.jar!google-oauth-client-servlet.jar</file-name>
-				<version>1.31.0</version>
+				<version>1.34.1</version>
 				<project-name>Servlet and JDO extensions to the Google OAuth Client Library for Java.</project-name>
 				<project-url>https://www.google.com/</project-url>
 				<licenses>
@@ -1032,12 +1032,12 @@
 						<license-url>https://www.apache.org/licenses/LICENSE-2.0.txt</license-url>
 					</license>
 				</licenses>
-				<current-version-publish-date>2020-06-29 14:07:06</current-version-publish-date>
+				<current-version-publish-date>2022-06-09 12:33:34</current-version-publish-date>
 				<latest-version-publish-date>2022-06-09 12:33:34</latest-version-publish-date>
 			</library>
 			<library>
 				<file-name>com.liferay.document.library.opener.google.drive.web.jar!google-oauth-client.jar</file-name>
-				<version>1.31.0</version>
+				<version>1.34.1</version>
 				<project-name>Google OAuth Client Library for Java</project-name>
 				<project-url>https://www.google.com/</project-url>
 				<licenses>
@@ -1046,7 +1046,7 @@
 						<license-url>https://www.apache.org/licenses/LICENSE-2.0.txt</license-url>
 					</license>
 				</licenses>
-				<current-version-publish-date>2020-06-29 14:07:24</current-version-publish-date>
+				<current-version-publish-date>2022-06-09 12:33:36</current-version-publish-date>
 				<latest-version-publish-date>2022-06-09 12:33:36</latest-version-publish-date>
 			</library>
 			<library>
@@ -4144,8 +4144,8 @@
 						<license-url>http://www.apache.org/licenses/LICENSE-2.0.txt</license-url>
 					</license>
 				</licenses>
-				<current-version-publish-date>2017-05-11 02:45:09</current-version-publish-date>
-				<latest-version-publish-date>2021-07-02 15:05:22</latest-version-publish-date>
+				<current-version-publish-date>2017-08-02 16:31:28</current-version-publish-date>
+				<latest-version-publish-date>2022-08-01 13:54:03</latest-version-publish-date>
 			</library>
 			<library>
 				<file-name>com.liferay.portal.security.sso.google.impl.jar!google-http-client-jackson2.jar</file-name>
@@ -4175,7 +4175,7 @@
 			</library>
 			<library>
 				<file-name>com.liferay.portal.security.sso.google.impl.jar!google-oauth-client.jar</file-name>
-				<version>1.31.0</version>
+				<version>1.34.1</version>
 				<project-name>Google OAuth Client Library for Java</project-name>
 				<project-url>https://www.google.com/</project-url>
 				<licenses>
@@ -4184,7 +4184,7 @@
 						<license-url>https://www.apache.org/licenses/LICENSE-2.0.txt</license-url>
 					</license>
 				</licenses>
-				<current-version-publish-date>2020-06-29 14:07:24</current-version-publish-date>
+				<current-version-publish-date>2022-06-09 12:33:36</current-version-publish-date>
 				<latest-version-publish-date>2022-06-09 12:33:36</latest-version-publish-date>
 			</library>
 			<library>
@@ -4545,7 +4545,7 @@
 					</license>
 				</licenses>
 				<current-version-publish-date>2021-01-14 20:21:33</current-version-publish-date>
-				<latest-version-publish-date>2022-05-24 14:43:34</latest-version-publish-date>
+				<latest-version-publish-date>2022-08-03 15:30:44</latest-version-publish-date>
 			</library>
 			<library>
 				<file-name>com.liferay.portal.store.gcs.jar!failureaccess.jar</file-name>
@@ -4573,7 +4573,7 @@
 					</license>
 				</licenses>
 				<current-version-publish-date>2021-02-25 11:03:21</current-version-publish-date>
-				<latest-version-publish-date>2022-07-29 10:09:22</latest-version-publish-date>
+				<latest-version-publish-date>2022-08-01 13:33:54</latest-version-publish-date>
 			</library>
 			<library>
 				<file-name>com.liferay.portal.store.gcs.jar!gax.jar</file-name>
@@ -4587,7 +4587,7 @@
 					</license>
 				</licenses>
 				<current-version-publish-date>2021-02-25 11:02:37</current-version-publish-date>
-				<latest-version-publish-date>2022-07-29 10:08:21</latest-version-publish-date>
+				<latest-version-publish-date>2022-08-01 13:32:50</latest-version-publish-date>
 			</library>
 			<library>
 				<file-name>com.liferay.portal.store.gcs.jar!google-api-client.jar</file-name>
@@ -4614,7 +4614,7 @@
 					</license>
 				</licenses>
 				<current-version-publish-date>2021-02-10 19:45:27</current-version-publish-date>
-				<latest-version-publish-date>2022-07-08 01:11:46</latest-version-publish-date>
+				<latest-version-publish-date>2022-08-01 14:33:37</latest-version-publish-date>
 			</library>
 			<library>
 				<file-name>com.liferay.portal.store.gcs.jar!google-auth-library-credentials.jar</file-name>
@@ -4627,7 +4627,7 @@
 					</license>
 				</licenses>
 				<current-version-publish-date>2021-02-25 14:17:22</current-version-publish-date>
-				<latest-version-publish-date>2022-07-14 07:11:06</latest-version-publish-date>
+				<latest-version-publish-date>2022-08-02 15:56:00</latest-version-publish-date>
 			</library>
 			<library>
 				<file-name>com.liferay.portal.store.gcs.jar!google-auth-library-oauth2-http.jar</file-name>
@@ -4640,7 +4640,7 @@
 					</license>
 				</licenses>
 				<current-version-publish-date>2021-02-25 14:17:29</current-version-publish-date>
-				<latest-version-publish-date>2022-07-14 07:11:10</latest-version-publish-date>
+				<latest-version-publish-date>2022-08-02 15:56:02</latest-version-publish-date>
 			</library>
 			<library>
 				<file-name>com.liferay.portal.store.gcs.jar!google-cloud-core-http.jar</file-name>
@@ -4654,7 +4654,7 @@
 					</license>
 				</licenses>
 				<current-version-publish-date>2021-03-10 19:10:47</current-version-publish-date>
-				<latest-version-publish-date>2022-07-29 13:07:59</latest-version-publish-date>
+				<latest-version-publish-date>2022-08-03 22:16:25</latest-version-publish-date>
 			</library>
 			<library>
 				<file-name>com.liferay.portal.store.gcs.jar!google-cloud-core.jar</file-name>
@@ -4668,7 +4668,7 @@
 					</license>
 				</licenses>
 				<current-version-publish-date>2021-03-10 19:10:45</current-version-publish-date>
-				<latest-version-publish-date>2022-07-29 13:07:57</latest-version-publish-date>
+				<latest-version-publish-date>2022-08-03 22:16:21</latest-version-publish-date>
 			</library>
 			<library>
 				<file-name>com.liferay.portal.store.gcs.jar!google-cloud-storage.jar</file-name>
@@ -4682,7 +4682,7 @@
 					</license>
 				</licenses>
 				<current-version-publish-date>2021-03-11 14:22:38</current-version-publish-date>
-				<latest-version-publish-date>2022-07-14 13:24:14</latest-version-publish-date>
+				<latest-version-publish-date>2022-08-04 16:18:59</latest-version-publish-date>
 			</library>
 			<library>
 				<file-name>com.liferay.portal.store.gcs.jar!google-http-client-apache-v2.jar</file-name>
@@ -4753,7 +4753,7 @@
 			</library>
 			<library>
 				<file-name>com.liferay.portal.store.gcs.jar!google-oauth-client.jar</file-name>
-				<version>1.31.4</version>
+				<version>1.34.1</version>
 				<project-name>Google OAuth Client Library for Java</project-name>
 				<project-url>https://www.google.com/</project-url>
 				<licenses>
@@ -4762,7 +4762,7 @@
 						<license-url>https://www.apache.org/licenses/LICENSE-2.0.txt</license-url>
 					</license>
 				</licenses>
-				<current-version-publish-date>2021-01-08 16:54:45</current-version-publish-date>
+				<current-version-publish-date>2022-06-09 12:33:36</current-version-publish-date>
 				<latest-version-publish-date>2022-06-09 12:33:36</latest-version-publish-date>
 			</library>
 			<library>
@@ -4777,7 +4777,7 @@
 					</license>
 				</licenses>
 				<current-version-publish-date>2021-02-22 22:27:48</current-version-publish-date>
-				<latest-version-publish-date>2022-07-19 23:29:47</latest-version-publish-date>
+				<latest-version-publish-date>2022-08-01 16:26:07</latest-version-publish-date>
 			</library>
 			<library>
 				<file-name>com.liferay.portal.store.gcs.jar!gson.jar</file-name>
@@ -4972,7 +4972,7 @@
 					</license>
 				</licenses>
 				<current-version-publish-date>2022-07-15 13:54:32</current-version-publish-date>
-				<latest-version-publish-date>2022-07-29 14:01:15</latest-version-publish-date>
+				<latest-version-publish-date>2022-08-04 13:18:48</latest-version-publish-date>
 			</library>
 			<library>
 				<file-name>com.liferay.portal.store.s3.jar!aws-java-sdk-kms.jar</file-name>
@@ -4986,7 +4986,7 @@
 					</license>
 				</licenses>
 				<current-version-publish-date>2022-07-15 13:54:29</current-version-publish-date>
-				<latest-version-publish-date>2022-07-29 14:03:09</latest-version-publish-date>
+				<latest-version-publish-date>2022-08-04 13:18:20</latest-version-publish-date>
 			</library>
 			<library>
 				<file-name>com.liferay.portal.store.s3.jar!aws-java-sdk-s3.jar</file-name>
@@ -5000,7 +5000,7 @@
 					</license>
 				</licenses>
 				<current-version-publish-date>2022-07-15 13:53:45</current-version-publish-date>
-				<latest-version-publish-date>2022-07-29 14:01:47</latest-version-publish-date>
+				<latest-version-publish-date>2022-08-04 13:15:40</latest-version-publish-date>
 			</library>
 			<library>
 				<file-name>com.liferay.portal.store.s3.jar!commons-codec.jar</file-name>
@@ -5194,7 +5194,7 @@
 					</license>
 				</licenses>
 				<current-version-publish-date>2018-06-01 11:57:23</current-version-publish-date>
-				<latest-version-publish-date>2022-07-11 16:08:47</latest-version-publish-date>
+				<latest-version-publish-date>2022-08-03 11:48:43</latest-version-publish-date>
 			</library>
 			<library>
 				<file-name>com.liferay.portal.template.soy.impl.jar!commons-lang3.jar</file-name>
@@ -5221,7 +5221,7 @@
 					</license>
 				</licenses>
 				<current-version-publish-date>2018-01-08 15:29:52</current-version-publish-date>
-				<latest-version-publish-date>2022-05-24 14:43:34</latest-version-publish-date>
+				<latest-version-publish-date>2022-08-03 15:30:44</latest-version-publish-date>
 			</library>
 			<library>
 				<file-name>com.liferay.portal.template.soy.impl.jar!failureaccess.jar</file-name>
@@ -5631,8 +5631,8 @@
 						<license-url>https://github.com/graphql-java/graphql-java/blob/master/LICENSE.md</license-url>
 					</license>
 				</licenses>
-				<current-version-publish-date>2021-07-07 13:56:09</current-version-publish-date>
-				<latest-version-publish-date>2022-07-26 18:37:51</latest-version-publish-date>
+				<current-version-publish-date>2021-07-07 20:59:51</current-version-publish-date>
+				<latest-version-publish-date>2022-08-02 02:43:04</latest-version-publish-date>
 			</library>
 			<library>
 				<file-name>com.liferay.portal.vulcan.impl.jar!guava.jar</file-name>
@@ -5659,7 +5659,7 @@
 					</license>
 				</licenses>
 				<current-version-publish-date>2020-05-06 07:24:51</current-version-publish-date>
-				<latest-version-publish-date>2022-06-28 04:07:38</latest-version-publish-date>
+				<latest-version-publish-date>2022-08-04 03:40:57</latest-version-publish-date>
 			</library>
 			<library>
 				<file-name>com.liferay.portal.vulcan.impl.jar!jackson-dataformat-xml.jar</file-name>
