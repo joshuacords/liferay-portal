@@ -21,15 +21,11 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.model.Role;
-import com.liferay.portal.kernel.model.RoleConstants;
 import com.liferay.portal.kernel.security.auth.AccessControlContext;
 import com.liferay.portal.kernel.security.auth.AuthException;
 import com.liferay.portal.kernel.security.auth.verifier.AuthVerifier;
 import com.liferay.portal.kernel.security.auth.verifier.AuthVerifierResult;
-import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.service.UserLocalService;
-import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
 
@@ -131,19 +127,14 @@ public class ProvisioningAuthVerifier implements AuthVerifier {
 
 			long companyId = _portal.getCompanyId(httpServletRequest);
 
-			Role role = _roleLocalService.getRole(
-				companyId, RoleConstants.ADMINISTRATOR);
+			long userId = _userLocalService.getDefaultUserId(companyId);
 
-			long[] userIds = _userLocalService.getRoleUserIds(role.getRoleId());
+			String[] credentials = new String[2];
 
-			if (!ArrayUtil.isEmpty(userIds)) {
-				String[] credentials = new String[2];
+			credentials[0] = String.valueOf(userId);
+			credentials[1] = StringPool.BLANK;
 
-				credentials[0] = String.valueOf(userIds[0]);
-				credentials[1] = StringPool.BLANK;
-
-				return credentials;
-			}
+			return credentials;
 		}
 
 		return null;
@@ -186,9 +177,6 @@ public class ProvisioningAuthVerifier implements AuthVerifier {
 
 	@Reference
 	private Portal _portal;
-
-	@Reference
-	private RoleLocalService _roleLocalService;
 
 	@Reference
 	private UserLocalService _userLocalService;
