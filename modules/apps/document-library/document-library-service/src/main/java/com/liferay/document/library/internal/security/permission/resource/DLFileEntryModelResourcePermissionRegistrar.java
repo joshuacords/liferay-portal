@@ -51,8 +51,6 @@ import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
-import org.osgi.service.component.annotations.ReferenceCardinality;
-import org.osgi.service.component.annotations.ReferencePolicyOption;
 
 /**
  * @author Preston Crary
@@ -172,10 +170,7 @@ public class DLFileEntryModelResourcePermissionRegistrar {
 
 	private ServiceRegistration<ModelResourcePermission> _serviceRegistration;
 
-	@Reference(
-		cardinality = ReferenceCardinality.OPTIONAL,
-		policyOption = ReferencePolicyOption.GREEDY
-	)
+	@Reference
 	private SharingModelResourcePermissionConfigurator
 		_sharingModelResourcePermissionConfigurator;
 
