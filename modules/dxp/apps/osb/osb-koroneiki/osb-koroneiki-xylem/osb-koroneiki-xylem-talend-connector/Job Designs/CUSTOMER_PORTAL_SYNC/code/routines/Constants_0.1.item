@@ -31,8 +31,7 @@ public class Constants {
 
 	public static final String EXTERNAL_LINK_DOMAIN_SALESFORCE = "salesforce";
 
-	public static final String EXTERNAL_LINK_ENTITY_NAME_AC_WORKSPACE =
-		"workspace";
+	public static final String EXTERNAL_LINK_ENTITY_NAME_AC_GROUP = "group";
 
 	public static final String
 		EXTERNAL_LINK_ENTITY_NAME_SALESFORCE_OPPORTUNITY = "opportunity";

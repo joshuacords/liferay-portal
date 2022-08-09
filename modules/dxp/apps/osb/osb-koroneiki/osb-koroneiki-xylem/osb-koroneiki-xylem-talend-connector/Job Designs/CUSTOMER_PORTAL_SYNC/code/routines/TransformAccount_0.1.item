@@ -35,7 +35,7 @@ public class TransformAccount {
 
 	public static final String STATUS_CANCELLED = "Cancelled";
 
-	public static String getACWorkspaceName(String externalLinks) {
+	public static String getACWorkspaceGroupId(String externalLinks) {
 		JSONArray jsonArray = new JSONArray(externalLinks);
 
 		for (int i = 0; i < jsonArray.length(); i++) {
@@ -46,7 +46,7 @@ public class TransformAccount {
 
 			if (domain.equals(Constants.EXTERNAL_LINK_DOMAIN_AC) &&
 				entityName.equals(
-					Constants.EXTERNAL_LINK_ENTITY_NAME_AC_WORKSPACE)) {
+					Constants.EXTERNAL_LINK_ENTITY_NAME_AC_GROUP)) {
 
 				return jsonObject.getString("entityId");
 			}
