@@ -31,6 +31,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
+import org.osgi.service.component.annotations.ReferencePolicy;
 import org.osgi.service.component.annotations.ReferencePolicyOption;
 
 /**
@@ -82,9 +83,11 @@ public class BackgroundTaskExecutorConfigurator {
 
 	@Reference(
 		cardinality = ReferenceCardinality.OPTIONAL,
+		policy = ReferencePolicy.DYNAMIC,
 		policyOption = ReferencePolicyOption.GREEDY
 	)
-	private CrossClusterReplicationHelper _crossClusterReplicationHelper;
+	private volatile CrossClusterReplicationHelper
+		_crossClusterReplicationHelper;
 
 	@Reference
 	private IndexNameBuilder _indexNameBuilder;
