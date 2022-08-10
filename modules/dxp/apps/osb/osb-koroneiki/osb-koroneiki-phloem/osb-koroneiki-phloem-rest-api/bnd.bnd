@@ -5,3 +5,4 @@ Export-Package:\
 	com.liferay.osb.koroneiki.phloem.rest.dto.v1_0,\
 	com.liferay.osb.koroneiki.phloem.rest.dto.v1_0.util,\
 	com.liferay.osb.koroneiki.phloem.rest.resource.v1_0
+-fixupmessages: Classes found in the wrong directory: ...;is:=ignore
