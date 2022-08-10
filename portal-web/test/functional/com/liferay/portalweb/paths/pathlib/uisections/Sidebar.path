@@ -1,0 +1,46 @@
+<html>
+<head>
+<title>Sidebar</title>
+</head>
+
+<body>
+<table border="1" cellpadding="1" cellspacing="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Sidebar</td></tr>
+</thead>
+
+<tbody>
+<tr>
+	<td>ADD_FIELD_TARGET</td>
+	<td>//div[contains(@class,'col-empty')]/div[contains(@class,'target')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ADD_FIELD_NAME</td>
+	<td>//div[contains(@class,'field-type')]//span[normalize-space(text())='${key_fieldName}']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ADD_FIELD_POSITION</td>
+	<td>xpath=(//div[contains(@class,'col-empty')]/div[contains(@class,'target')])[${key_fieldLocation}]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>BACK</td>
+	<td>//div[contains(@class,'sidebar-header')]//button[*[name()='svg'][contains(@class,'lexicon-icon-angle-left')]]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>OPTION_INPUT</td>
+	<td>xpath=(//label[normalize-space(text())='${key_optionFieldLabel}']//following-sibling::div[contains(@class,'options-container')]//div[contains(@class,'ddm-option-entry')]//input[contains(@class,'ddm-field-text')])[${index}]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>OPTION_INPUT_WITHOUT_LABEL</td>
+	<td>xpath=(//div[contains(@class,'ddm-option-entry')]//input[contains(@class,'ddm-field-text')])[${index}]</td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

@@ -77,6 +77,21 @@
 <!--DATE-->
 
 <tr>
+	<td>DATE_CALENDAR</td>
+	<td>//button[contains(@class,'date-picker-dropdown-toggle')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>DATE_CALENDAR_DAY</td>
+	<td>//div[@class='date-picker-calendar-body']//div[@class='date-picker-col']/button[text()='${key_valueDay}']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>DATE_CALENDAR_FIELD</td>
+	<td>//select[@name='${key_valueName}']</td>
+	<td></td>
+</tr>
+<tr>
 	<td>DATE_FIELD</td>
 	<td>//div[contains(@data-field-name,'${key_fieldName}')]//input[@type='text']</td>
 	<td></td>
@@ -204,6 +219,24 @@
 	<td></td>
 </tr>
 
+<!--RICH TEXT-->
+
+<tr>
+	<td>RICH_TEXT_CONTENT</td>
+	<td>//label[contains(.,'${key_fieldLabel}')]//following-sibling::div//div[contains(@id,'cke')]/iframe</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PREDEFINED_VALUE_IFRAME</td>
+	<td>//label[contains(.,'Predefined Value')]//following-sibling::div//div[contains(@id,'cke')]/iframe</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PREDEFINED_VALUE_BODY</td>
+	<td>//body[contains(@class,'cke_editable')]</td>
+	<td></td>
+</tr>
+
 <!--TEXT-->
 
 <tr>
@@ -214,6 +247,11 @@
 <tr>
 	<td>REPEATABLE_TEXT_MULTILINE_LABEL</td>
 	<td>//div[contains(@class,'form-container')]//div[contains(@data-field-name,'${key_fieldName}')][${key_repeatableFieldNumber}]/label[contains(.,'${key_fieldLabel}')] | //div[contains(@class,'form-container')]//div[contains(@data-field-name,'${key_fieldName}')][${key_repeatableFieldNumber}]//label[contains(.,'${key_fieldLabel}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>GENERIC_INPUT_FIELD</td>
+	<td>//div[contains(@data-field-name,'${key_fieldName}')]//div[contains(@class,'form-group')]//input[contains(@class,'form-control')]</td>
 	<td></td>
 </tr>
 <tr>
