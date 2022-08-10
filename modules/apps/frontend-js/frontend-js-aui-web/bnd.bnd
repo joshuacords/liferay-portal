@@ -1,6 +1,6 @@
 Bundle-Name: Liferay Frontend JS AUI Web
 Bundle-SymbolicName: com.liferay.frontend.js.aui.web
-Bundle-Version: 3.0.80
+Bundle-Version: 3.0.81
 Fragment-Host: com.liferay.frontend.js.web
 Web-ContextPath: /frontend-js-aui-web
 -donotcopy: (\.touch|.*_diffs.*)
