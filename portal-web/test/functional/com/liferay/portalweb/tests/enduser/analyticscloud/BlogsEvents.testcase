@@ -7,10 +7,6 @@ definition {
 	property testray.main.component.name = "Analytics Cloud";
 
 	setUp {
-		AntCommand(
-			locator1 = "build-test.xml",
-			value1 = "record-test-generated-properties");
-
 		ACUtils.launchAC();
 
 		ACSettings.takeTokenFromAnalyticsCloud();
@@ -29,6 +25,8 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
+		ACUtils.tearDownAC();
+
 		ACUtils.tearDownDXP();
 
 		if ("${testPortalInstance}" == "true") {
@@ -37,24 +35,17 @@ definition {
 		else {
 			JSONGroup.deleteGroupByName(groupName = "Site Name");
 		}
-
-		ACUtils.tearDownAC();
 	}
 
 	@description = "Feature ID: Legacy | Automation ID: LRAC-8668 | Test Summary: Check blogClicked is triggered when a blog is clicked within a widget"
 	@priority = "3"
 	test CheckBlogClickedTriggeredWhenBlogClicked {
-		property portal.upstream = "quarantine";
 		property proxy.server.enabled = "true";
-
-		// AC Refactor ticket: LRAC-9599
 
 		task ("Get the Property ID in AC") {
 			ACUtils.launchAC();
 
 			ACNavigation.goToSettings();
-
-			Pause(locator1 = "10000");
 
 			var expectedChannelId = ACSettings.getPropertyId(propertyName = "${assignedPropertyName}");
 		}
@@ -74,21 +65,23 @@ definition {
 				pageName = "AC Page",
 				siteName = "Site Name");
 
+			task ("Start Har recording") {
+				ProxyUtil.startHarRecording("blogClicked");
+			}
+
 			Click(
 				key_entryContent = "This is the blog test for AC",
 				locator1 = "BlogsEntry#CONTENT");
+
+			task ("Wait for sending requests") {
+				ACUtils.waitForSendingRequest();
+			}
 		}
 
 		task ("Get entryId of blog entry") {
 			var entryId = JSONBlog.getBlogEntryId(
 				entryTitle = "Blogs AC Title",
 				groupName = "Site Name");
-		}
-
-		task ("Start Har recording") {
-			ProxyUtil.startHarRecording("blogClicked");
-
-			Pause(locator1 = "5000");
 		}
 
 		task ("View the properties of blogClicked event") {
@@ -128,8 +121,6 @@ definition {
 
 			ACNavigation.goToSettings();
 
-			Pause(locator1 = "10000");
-
 			var expectedChannelId = ACSettings.getPropertyId(propertyName = "${assignedPropertyName}");
 		}
 
@@ -148,21 +139,23 @@ definition {
 				pageName = "AC Page",
 				siteName = "Site Name");
 
+			task ("Start Har recording") {
+				ProxyUtil.startHarRecording("blogClicked");
+			}
+
 			Click(
 				key_entryTitle = "Blogs AC Title",
 				locator1 = "BlogsEntry#TITLE");
+
+			task ("Wait for sending requests") {
+				ACUtils.waitForSendingRequest();
+			}
 		}
 
 		task ("Get entryId of blog entry") {
 			var entryId = JSONBlog.getBlogEntryId(
 				entryTitle = "Blogs AC Title",
 				groupName = "Site Name");
-		}
-
-		task ("Start Har recording") {
-			ProxyUtil.startHarRecording("blogClicked");
-
-			Pause(locator1 = "5000");
 		}
 
 		task ("View the properties of blogClicked event") {
@@ -202,8 +195,6 @@ definition {
 
 			ACNavigation.goToSettings();
 
-			Pause(locator1 = "10000");
-
 			var expectedChannelId = ACSettings.getPropertyId(propertyName = "${assignedPropertyName}");
 		}
 
@@ -233,7 +224,7 @@ definition {
 
 			ProxyUtil.startHarRecording("blogDepthReached");
 
-			Pause(locator1 = "40000");
+			ACUtils.waitForSendingRequest();
 		}
 
 		task ("Get entryId of blog entry") {
@@ -279,8 +270,6 @@ definition {
 
 			ACNavigation.goToSettings();
 
-			Pause(locator1 = "10000");
-
 			var expectedChannelId = ACSettings.getPropertyId(propertyName = "${assignedPropertyName}");
 		}
 
@@ -310,7 +299,7 @@ definition {
 
 			ProxyUtil.startHarRecording("blogDepthReached");
 
-			Pause(locator1 = "40000");
+			ACUtils.waitForSendingRequest();
 		}
 
 		task ("Get entryId of blog entry") {
@@ -356,8 +345,6 @@ definition {
 
 			ACNavigation.goToSettings();
 
-			Pause(locator1 = "10000");
-
 			var expectedChannelId = ACSettings.getPropertyId(propertyName = "${assignedPropertyName}");
 		}
 
@@ -387,7 +374,7 @@ definition {
 
 			ProxyUtil.startHarRecording("blogDepthReached");
 
-			Pause(locator1 = "5000");
+			ACUtils.waitForSendingRequest();
 		}
 
 		task ("Get entryId of blog entry") {
@@ -433,8 +420,6 @@ definition {
 
 			ACNavigation.goToSettings();
 
-			Pause(locator1 = "10000");
-
 			var expectedChannelId = ACSettings.getPropertyId(propertyName = "${assignedPropertyName}");
 		}
 
@@ -464,7 +449,7 @@ definition {
 
 			ProxyUtil.startHarRecording("blogDepthReached");
 
-			Pause(locator1 = "40000");
+			ACUtils.waitForSendingRequest();
 		}
 
 		task ("Get entryId of blog entry") {
@@ -510,8 +495,6 @@ definition {
 
 			ACNavigation.goToSettings();
 
-			Pause(locator1 = "10000");
-
 			var expectedChannelId = ACSettings.getPropertyId(propertyName = "${assignedPropertyName}");
 		}
 
@@ -521,6 +504,10 @@ definition {
 			var dataSourceName = StringUtil.trim("${dataSourceName}");
 
 			var expectedDataSourceId = ACSettings.getDXPInstanceId(dataSourceName = "${dataSourceName}");
+		}
+
+		task ("Start Har recording") {
+			ProxyUtil.startHarRecording("BlogViewed");
 		}
 
 		task ("Go to the site page to assert the blog entry is displayed but don't visit it") {
@@ -533,10 +520,8 @@ definition {
 				entryTitle = "Blogs AC Title");
 		}
 
-		task ("Start Har recording") {
-			ProxyUtil.startHarRecording("BlogViewed");
-
-			Pause(locator1 = "5000");
+		task ("Wait for sending requests") {
+			ACUtils.waitForSendingRequest();
 		}
 
 		task ("View the BlogViewed event not triggered") {
@@ -562,8 +547,6 @@ definition {
 
 			ACNavigation.goToSettings();
 
-			Pause(locator1 = "10000");
-
 			var expectedChannelId = ACSettings.getPropertyId(propertyName = "${assignedPropertyName}");
 		}
 
@@ -575,6 +558,10 @@ definition {
 			var expectedDataSourceId = ACSettings.getDXPInstanceId(dataSourceName = "${dataSourceName}");
 		}
 
+		task ("Start Har recording") {
+			ProxyUtil.startHarRecording("blogViewed");
+		}
+
 		task ("Go to the site page to visit the blog") {
 			ACUtils.navigateToSitePage(
 				actionType = "View Blog",
@@ -583,16 +570,14 @@ definition {
 				siteName = "Site Name");
 		}
 
+		task ("Wait for sending requests") {
+			ACUtils.waitForSendingRequest();
+		}
+
 		task ("Get entryId of blog entry") {
 			var entryId = JSONBlog.getBlogEntryId(
 				entryTitle = "Blogs AC Title",
 				groupName = "Site Name");
-		}
-
-		task ("Start Har recording") {
-			ProxyUtil.startHarRecording("blogViewed");
-
-			Pause(locator1 = "5000");
 		}
 
 		task ("View the properties of blogClicked event") {

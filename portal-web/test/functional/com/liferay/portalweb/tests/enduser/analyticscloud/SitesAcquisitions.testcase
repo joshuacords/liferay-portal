@@ -31,6 +31,8 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
+		ACUtils.tearDownAC();
+
 		ACUtils.tearDownDXP();
 
 		if ("${testPortalInstance}" == "true") {
@@ -39,17 +41,12 @@ definition {
 		else {
 			JSONGroup.deleteGroupByName(groupName = "Site Name");
 		}
-
-		JSONUser.tearDownNonAdminUsers();
-
-		ACUtils.tearDownAC();
 	}
 
 	@description = "Feature ID: Legacy | Automation ID: LRAC-8344 | Test Summary: Site overview acquisition card shows which channels individuals are coming from"
 	@ignore = "true"
 	@priority = "5"
 	test AssertShowsChannelsIndividualsComingFrom {
-		property portal.upstream = "quarantine";
 
 		// AC Refactor: data doesn't appear on time
 		// AC Refactor ticket: LRAC-9016
@@ -281,9 +278,7 @@ definition {
 		}
 
 		task ("Navigate to the new site via Applications Menu") {
-			Navigator.gotoSitePage(
-				pageName = "AC Page",
-				siteName = "Site Name");
+			ApplicationsMenu.gotoSite(site = "Site Name");
 		}
 
 		task ("View the site page") {
@@ -344,8 +339,6 @@ definition {
 	@description = "Feature ID: Legacy | Automation ID: LRAC-8348 | Test Summary: Assert Sites Acquisition card Source|Medium highest session"
 	@priority = "3"
 	test AssertSitesAcquisitionCardSourceAndMediumHighestSession {
-		property portal.upstream = "quarantine";
-
 		task ("Get the portal URL") {
 			var portalURL = PropsUtil.get("portal.url");
 

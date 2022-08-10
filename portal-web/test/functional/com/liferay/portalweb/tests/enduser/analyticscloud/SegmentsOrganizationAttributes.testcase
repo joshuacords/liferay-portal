@@ -21,6 +21,8 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
+		ACUtils.tearDownAC();
+
 		ACUtils.tearDownDXP();
 
 		if ("${testPortalInstance}" == "true") {
@@ -29,17 +31,12 @@ definition {
 		else {
 			JSONGroup.deleteGroupByName(groupName = "Site Name");
 		}
-
-		JSONUser.tearDownNonAdminUsers();
-
-		ACUtils.tearDownAC();
 	}
 
 	@description = "Feature ID: Legacy | Automation ID: LRAC-8548 | Test Summary: Add segment using an organization property 'date modified'"
 	@ignore = "true"
 	@priority = "4"
 	test CanCreateSegmentUsingOrganizationPropertyDateModified {
-		property portal.upstream = "quarantine";
 
 		// AC Refactor: Team not sure of which steps should be done to assert Date modified
 		// AC Refactor ticket: LRAC-9277
@@ -98,7 +95,6 @@ definition {
 	@ignore = "true"
 	@priority = "4"
 	test CanCreateSegmentUsingOrganizationPropertyHierarchyPath {
-		property portal.upstream = "quarantine";
 
 		// AC Refactor: Team not sure of which values or what steps are expected in this test
 		// AC Refactor ticket: LRAC-9279
@@ -215,7 +211,6 @@ definition {
 	@ignore = "true"
 	@priority = "4"
 	test CanCreateSegmentUsingOrganizationPropertyName {
-		property portal.upstream = "quarantine";
 
 		// AC Refactor: Team not sure of which steps should be done to assert property Name, please check steps and update if necessary
 		// AC Refactor ticket: LRAC-9278
@@ -359,7 +354,6 @@ definition {
 	@ignore = "true"
 	@priority = "4"
 	test CanCreateSegmentUsingOrganizationPropertyOrganization {
-		property portal.upstream = "quarantine";
 
 		// AC Refactor: the data takes some time to appear in the segment
 		// AC Refactor ticket: LRAC-9324
@@ -452,7 +446,6 @@ definition {
 	@ignore = "true"
 	@priority = "4"
 	test CanCreateSegmentUsingOrganizationPropertyParentOrganization {
-		property portal.upstream = "quarantine";
 
 		// AC Refactor: the data takes some time to appear in the segment
 		// AC Refactor ticket: LRAC-9323
@@ -549,7 +542,6 @@ definition {
 	@ignore = "true"
 	@priority = "4"
 	test CanCreateSegmentUsingOrganizationPropertyType {
-		property portal.upstream = "quarantine";
 
 		// AC Refactor: Team not sure of which steps should be done to assert property Type, please check steps and update if necessary
 		// AC Refactor ticket: LRAC-9280

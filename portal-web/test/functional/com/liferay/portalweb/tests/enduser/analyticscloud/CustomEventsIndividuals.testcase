@@ -63,6 +63,8 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
+		ACUtils.tearDownAC();
+
 		ACUtils.tearDownDXP();
 
 		if ("${testPortalInstance}" == "true") {
@@ -71,161 +73,13 @@ definition {
 		else {
 			JSONGroup.deleteGroupByName(groupName = "Site Name");
 		}
-
-		JSONUser.tearDownNonAdminUsers();
-
-		ACUtils.tearDownAC();
-	}
-
-	@description = "Feature ID: LRAC-7536 | Automation ID: LRAC-10512 | Test Summary: Individual activities chart tooltip events and sessions shown"
-	@priority = "5"
-	test AssertChartTooltipEventsAndSessions {
-		task ("Fill fields and create custom event") {
-			var customEventName = ACCustomEvents.generateCustomEventName();
-
-			ACCustomEvents.createCustomEvent(
-				customEventName = "${customEventName}",
-				timeToSendCustomEvent = "1");
-		}
-
-		task ("Close sessions") {
-			ACUtils.closeAllSessionsAndWait();
-		}
-
-		task ("Switch the property in AC") {
-			ACUtils.launchAC();
-
-			ACProperties.switchProperty(propertyName = "${assignedPropertyName}");
-		}
-
-		task ("Navigate to the Known Individuals on the Individuals dashboard") {
-			ACNavigation.goToIndividuals();
-
-			ACIndividualsDashboard.goToKnownIndividualsTab();
-		}
-
-		task ("Navigate to the individuals page of new user") {
-			ACUtils.searchBar(searchItem = "ac1 ac1");
-
-			ACNavigation.openItem(itemName = "ac1 ac1");
-		}
-
-		task ("Select Last 24 hours time period in Individuals Events chart") {
-			ACTimeFilter.clickTimeFilterButton(cardName = "Individual Events");
-
-			ACTimeFilter.setLast24Hours();
-		}
-
-		task ("Mouse over the user activity graph and confirm the elements that are shown in the tooltip") {
-			ACIndividualsDashboard.viewActivitiesOnGraph(
-				typeList = "Events,Sessions",
-				valueList = "12,1");
-		}
-
-		task ("Go to DXP and create a new custom event") {
-			ACUtils.launchDXP(userEmailAddress = "ac1@liferay.com");
-
-			ACUtils.navigateToSitePage(
-				pageName = "AC Page",
-				siteName = "Site Name");
-
-			var customEventName = ACCustomEvents.generateCustomEventName();
-
-			ACCustomEvents.createCustomEvent(
-				customEventName = "${customEventName}",
-				timeToSendCustomEvent = "1");
-		}
-
-		task ("Close sessions") {
-			ACUtils.closeAllSessionsAndWait();
-		}
-
-		task ("Switch the property in AC") {
-			ACUtils.launchAC();
-
-			ACProperties.switchProperty(propertyName = "${assignedPropertyName}");
-		}
-
-		task ("Navigate to the Known Individuals on the Individuals dashboard") {
-			ACNavigation.goToIndividuals();
-
-			ACIndividualsDashboard.goToKnownIndividualsTab();
-		}
-
-		task ("Navigate to the individuals page of new user") {
-			ACUtils.searchBar(searchItem = "ac1 ac1");
-
-			ACNavigation.openItem(itemName = "ac1 ac1");
-		}
-
-		task ("Select Last 24 hours time period in Individuals Events chart") {
-			ACTimeFilter.clickTimeFilterButton(cardName = "Individual Events");
-
-			ACTimeFilter.setLast24Hours();
-		}
-
-		task ("Mouse over the user activity graph and confirm the elements that are shown in the tooltip") {
-			ACIndividualsDashboard.viewActivitiesOnGraph(
-				typeList = "Events,Sessions",
-				valueList = "24,2");
-		}
-	}
-
-	@description = "Feature ID: LRAC-7536 | Automation ID: LRAC-10513 | Test Summary: Empty individual events state"
-	@priority = "3"
-	test AssertEmptyIndividualEvents {
-		task ("Fill fields and create custom event") {
-			var customEventName1 = ACCustomEvents.generateCustomEventName();
-
-			ACCustomEvents.createCustomEvent(
-				customEventName = "${customEventName1}",
-				timeToSendCustomEvent = "1");
-
-			var customEventName2 = ACCustomEvents.generateCustomEventName();
-		}
-
-		task ("Close sessions") {
-			ACUtils.closeAllSessionsAndWait();
-		}
-
-		task ("Switch the property in AC") {
-			ACUtils.launchAC();
-
-			ACProperties.switchProperty(propertyName = "${assignedPropertyName}");
-		}
-
-		task ("Navigate to the Known Individuals on the Individuals dashboard") {
-			ACNavigation.goToIndividuals();
-
-			ACIndividualsDashboard.goToKnownIndividualsTab();
-		}
-
-		task ("Navigate to the individuals page of new user") {
-			ACUtils.searchBar(searchItem = "ac1 ac1");
-
-			ACNavigation.openItem(itemName = "ac1 ac1");
-		}
-
-		task ("Assert empty state") {
-			ACUtils.viewGenericText(textValueList = "No Events Found,Try a different date range or search term.");
-		}
-
-		task ("Select Last 24 hours time period in Individuals Events chart") {
-			ACTimeFilter.clickTimeFilterButton(cardName = "Individual Events");
-
-			ACTimeFilter.setLast24Hours();
-		}
-
-		task ("Assert empty state") {
-			ACUtils.searchBar(searchItem = "${customEventName2}");
-
-			ACUtils.viewGenericText(textValueList = "No Events Found,Try a different date range or search term.");
-		}
 	}
 
 	@description = "Feature ID: LRAC-7536 | Automation ID: LRAC-10509 | Test Summary: Individual activities with session attributes"
 	@priority = "5"
 	test ViewIndividualActivitiesWithSessionAttributes {
+		property analytics.cloud.upstream = "false";
+
 		task ("Fill fields and create custom event") {
 			var customEventName1 = ACCustomEvents.generateCustomEventName();
 
@@ -233,9 +87,7 @@ definition {
 				customEventName = "${customEventName1}",
 				timeToSendCustomEvent = "1");
 
-			// Pause is necessary because poshi logs in from one user to another very quickly.
-
-			Pause(locator1 = "5000");
+			ACUtils.logInPause();
 		}
 
 		task ("Sign in as new user") {

@@ -31,6 +31,8 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
+		ACUtils.tearDownAC();
+
 		ACUtils.tearDownDXP();
 
 		if ("${testPortalInstance}" == "true") {
@@ -39,106 +41,12 @@ definition {
 		else {
 			JSONGroup.deleteGroupByName(groupName = "Site Name");
 		}
-
-		ACUtils.tearDownAC();
-	}
-
-	@description = "Feature ID: Legacy | Automation ID: LRAC-9132 | Test Summary: Individuals interest details has a tab that shows active pages"
-	@ignore = "true"
-	@priority = "3"
-	test AssertIndividualsinterestActivePages {
-		property portal.upstream = "quarantine";
-
-		// AC Refactor: data doesn't appear on time
-		// AC Refactor ticket: LRAC-9152
-
-		task ("View the site page") {
-			ACUtils.navigateToSitePage(
-				pageName = "AC Page",
-				siteName = "Site Name");
-		}
-
-		task ("Close sessions") {
-			ACUtils.closeAllSessionsAndWait();
-		}
-
-		task ("Switch to new property in AC") {
-			ACUtils.launchAC();
-
-			ACProperties.switchProperty(propertyName = "${assignedPropertyName}");
-		}
-
-		task ("Go to the Individual > KnownIndividual > Interests") {
-			ACNavigation.goToIndividuals();
-
-			ACIndividualsDashboard.goToKnownIndividualsTab();
-
-			ACIndividualsDashboard.goToKnownIndividualDetails(individualName = "Test Test");
-
-			ACNavigation.switchTab(tabName = "Interests");
-		}
-
-		task ("Assert Active pages shown for individuals and assert details") {
-			ACInterests.clickInterest(interestTopic = "ac page 1");
-
-			var portalURL = PropsUtil.get("portal.url");
-			var siteName = TestCase.getSiteName(siteName = "${siteName}");
-
-			ACInterests.viewInterestPage(
-				pageName = "AC Page 1 - Site Name - ${siteName}",
-				pageURL = "${portalURL}/web/site-name/ac-page");
-		}
-	}
-
-	@description = "Feature ID: Legacy | Automation ID: LRAC-9131 | Test Summary: Individuals interest details has a tab that shows inactive pages"
-	@ignore = "true"
-	@priority = "3"
-	test AssertIndividualsInterestInactivePages {
-		property portal.upstream = "quarantine";
-
-		// AC Refactor: data doesn't appear on time
-		// AC Refactor ticket: LRAC-9151
-
-		task ("View the site page") {
-			ACUtils.navigateToSitePage(
-				pageName = "AC Page",
-				siteName = "Site Name");
-		}
-
-		task ("Close sessions") {
-			ACUtils.closeAllSessionsAndWait();
-		}
-
-		task ("Switch to new property in AC") {
-			ACUtils.launchAC();
-
-			ACProperties.switchProperty(propertyName = "${assignedPropertyName}");
-		}
-
-		task ("Go to the Individual > KnownIndividual > Interests") {
-			ACNavigation.goToIndividuals();
-
-			ACIndividualsDashboard.goToKnownIndividualsTab();
-
-			ACIndividualsDashboard.goToKnownIndividualDetails(individualName = "Test Test");
-
-			ACNavigation.switchTab(tabName = "Interests");
-		}
-
-		task ("Assert Inactive pages shown for individuals") {
-			ACInterests.clickInterest(interestTopic = "ac page 1");
-
-			ACIndividualsDashboard.goToTabName(tabName = "Inactive Pages");
-
-			ACUtils.viewNoResultsMessage(noResultMessage = "There are no Pages found.");
-		}
 	}
 
 	@description = "Feature ID: Legacy | Automation ID: LRAC-8950 | Test Summary: Interests that are associated with the individual appear in the list"
 	@ignore = "true"
 	@priority = "5"
 	test InterestsAssociatedWithIndividualAppearInList {
-		property portal.upstream = "quarantine";
 
 		// AC Refactor: data doesn't appear on time
 		// AC Refactor ticket: LRAC-9151

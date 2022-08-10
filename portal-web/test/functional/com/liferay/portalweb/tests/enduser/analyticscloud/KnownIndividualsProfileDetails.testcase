@@ -29,15 +29,11 @@ definition {
 				birthdayDay = "10",
 				birthdayMonth = "10",
 				birthdayYear = "2020",
+				jobTitle = "lawyer",
 				userEmailAddress = "user1@liferay.com",
 				userFirstName = "user1",
 				userLastName = "user1",
 				userScreenName = "user1");
-
-			JSONUser.setFirstPassword(
-				agreeToTermsAndAnswerReminderQuery = "true",
-				requireReset = "false",
-				userEmailAddress = "user1@liferay.com");
 		}
 
 		task ("Connect the DXP to AC") {
@@ -48,6 +44,8 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
+		ACUtils.tearDownAC();
+
 		ACUtils.tearDownDXP();
 
 		if ("${testPortalInstance}" == "true") {
@@ -56,19 +54,11 @@ definition {
 		else {
 			JSONGroup.deleteGroupByName(groupName = "Site Name");
 		}
-
-		JSONUser.tearDownNonAdminUsers();
-
-		ACUtils.tearDownAC();
 	}
 
 	@description = "Feature ID: Legacy | Automation ID: LRAC-8938 | Test Summary: All attributes of the individual appear in a list"
 	@priority = "5"
 	test AllIndividualAttributesAppearInList {
-		property portal.upstream = "quarantine";
-
-		// AC Refactor ticket: LRAC-9707
-
 		task ("Sign in as new user to view the site page") {
 			User.logoutAndLoginPG(
 				userLoginEmailAddress = "user1@liferay.com",
@@ -125,131 +115,6 @@ definition {
 			ACIndividualsDashboard.assertIndividualAttributeValue(
 				individualAttribute = "givenName",
 				individualAttributeValue = "user1");
-		}
-	}
-
-	@description = "Feature ID: Legacy | Automation ID: LRAC-8939 | Test Summary: Assert Individuals details search result displays correct number"
-	@priority = "3"
-	test AssertIndividualsSearchDetailsResult {
-		task ("Sign in as new user to view the site page") {
-			User.logoutAndLoginPG(
-				userLoginEmailAddress = "user1@liferay.com",
-				userLoginFullName = "user1 user1");
-
-			ACUtils.navigateToSitePage(
-				pageName = "AC Page",
-				siteName = "Site Name");
-		}
-
-		task ("Close sessions") {
-			ACUtils.closeAllSessionsAndWait();
-		}
-
-		task ("Switch to new property in AC") {
-			ACUtils.launchAC();
-
-			ACProperties.switchProperty(propertyName = "${assignedPropertyName}");
-		}
-
-		task ("Go to the Individual > KnownIndividual > Details") {
-			ACNavigation.goToIndividuals();
-
-			ACIndividualsDashboard.goToKnownIndividualsTab();
-
-			ACIndividualsDashboard.goToKnownIndividualDetails(individualName = "user1 user1");
-
-			ACNavigation.switchTab(tabName = "Details");
-		}
-
-		task ("Assert Individuals details search result displays correct number and items") {
-			ACUtils.searchBar(searchItem = "Name");
-
-			ACUtils.viewSearchResultsInfo(
-				count = "2",
-				searchTerm = '''"Name"''');
-
-			for (var individualAttribute : list "familyName,givenName") {
-				ACIndividualsDashboard.assertIndividualAttribute(key_individualAttribute = "${individualAttribute}");
-			}
-
-			for (var individualAttribute : list "birthDate,classPK,contactId,createDate,email,modifiedDate") {
-				ACIndividualsDashboard.assertNoIndividualAttribute(key_individualAttribute = "${individualAttribute}");
-			}
-
-			ACUtils.searchBar(searchItem = "Should not be here");
-
-			ACUtils.viewSearchResultsInfo(
-				count = "0",
-				searchTerm = '''"Should not be here"''');
-
-			AssertTextEquals(
-				key_noResultMessage = "There are no items found.",
-				locator1 = "ACAssets#NO_RESULTS_CONTENT_MESSAGE",
-				value1 = "There are no items found.");
-		}
-	}
-
-	@description = "Feature ID: Legacy | Automation ID: LRAC-8938 | Test Summary: Order an Individual's Details"
-	@priority = "3"
-	test OrderIndividualDetails {
-		property portal.upstream = "quarantine";
-
-		task ("Sign in as new user to view the site page") {
-			User.logoutAndLoginPG(
-				userLoginEmailAddress = "user1@liferay.com",
-				userLoginFullName = "user1 user1");
-
-			ACUtils.navigateToSitePage(
-				pageName = "AC Page",
-				siteName = "Site Name");
-		}
-
-		task ("Close sessions") {
-			ACUtils.closeAllSessionsAndWait();
-		}
-
-		task ("Switch to new property in AC") {
-			ACUtils.launchAC();
-
-			ACProperties.switchProperty(propertyName = "${assignedPropertyName}");
-		}
-
-		task ("Go to the Individual > KnownIndividual > Details") {
-			ACNavigation.goToIndividuals();
-
-			ACIndividualsDashboard.goToKnownIndividualsTab();
-
-			ACIndividualsDashboard.goToKnownIndividualDetails(individualName = "user1 user1");
-
-			ACNavigation.switchTab(tabName = "Details");
-		}
-
-		task ("Sort the table by the Attribute column header in descending order") {
-			ACIndividualsDashboard.filterKnownIndividualList(
-				desc = "true",
-				rowName = "Attribute");
-
-			ACIndividualsDashboard.viewKnownIndividualDetailsSpecificOrder(itemName = "modifiedDate,jobTitle,givenName,familyName,email,createDate,contactId,classPK,birthDate");
-		}
-
-		task ("Sort the table by the Attribute column header in ascending order") {
-			ACIndividualsDashboard.filterKnownIndividualList(rowName = "Attribute");
-
-			ACIndividualsDashboard.viewKnownIndividualDetailsSpecificOrder(itemName = "birthDate,classPK,contactId,createDate,email,familyName,givenName,jobTitle,modifiedDate");
-		}
-
-		task ("Sort the table by the Source Name column header in ascending order") {
-			ACIndividualsDashboard.filterKnownIndividualList(rowName = "Source Name");
-
-			ACIndividualsDashboard.viewKnownIndividualDetailsSpecificOrder(itemName = "birthDate,classPK,contactId,createDate,email,givenName,jobTitle,familyName,modifiedDate");
-		}
-
-		task ("Sort the table by the Source Name column header in descending order") {
-			ACIndividualsDashboard.filterKnownIndividualList(
-				desc = "true",
-				rowName = "Source Name");
-
-			ACIndividualsDashboard.viewKnownIndividualDetailsSpecificOrder(itemName = "modifiedDate,familyName,jobTitle,givenName,email,createDate,contactId,classPK,birthDate");
 		}
 	}
 

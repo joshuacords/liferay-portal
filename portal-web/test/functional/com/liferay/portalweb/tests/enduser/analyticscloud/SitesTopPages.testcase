@@ -7,19 +7,31 @@ definition {
 	property testray.main.component.name = "Analytics Cloud";
 
 	setUp {
-		ACUtils.launchAC();
+		task ("Copy the token from AC") {
+			ACUtils.launchAC();
 
-		ACSettings.takeTokenFromAnalyticsCloud();
+			ACSettings.takeTokenFromAnalyticsCloud();
+		}
 
-		TestCase.setUpPortalInstance();
+		task ("Set up instance and sign in DXP") {
+			TestCase.setUpPortalInstance();
 
-		ACUtils.launchDXP();
+			ACUtils.launchDXP();
+		}
 
-		ACUtils.addSiteAndPage();
+		task ("Add a new site with a public widget page") {
+			ACUtils.addSiteAndPage();
+		}
+
+		task ("Connect the DXP to AC") {
+			ACDXPSettings.connectDXPtoAnalyticsCloud(siteName = "Site Name");
+		}
 	}
 
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
+
+		ACUtils.tearDownAC();
 
 		ACUtils.tearDownDXP();
 
@@ -29,481 +41,374 @@ definition {
 		else {
 			JSONGroup.deleteGroupByName(groupName = "Site Name");
 		}
-
-		JSONUser.tearDownNonAdminUsers();
-
-		ACUtils.tearDownAC();
 	}
 
-	@description = "Feature ID: Legacy | Automation ID: LRAC-8304 | Test Summary: Assert Sites Top Pages Card Entrance Pages Highest Entrances"
+	@description = "Feature ID: Legacy | Automation ID: LRAC-8344 | Test Summary: Site overview acquisition card shows which channels individuals are coming from"
 	@ignore = "true"
-	@priority = "3"
-	test AssertSitesTopPagesCardEntrancePagesHighestEntrances {
-		property portal.upstream = "quarantine";
+	@priority = "5"
+	test AssertShowsChannelsIndividualsComingFrom {
 
-		// AC Refactor: the issue is due to data not appearing on time
-		// AC Refactor ticket: LRAC-9010
+		// AC Refactor: data doesn't appear on time
+		// AC Refactor ticket: LRAC-9016
 
-		var pageCreation = "AC Page 1,AC Page 2";
-		var pageInteraction = "AC Page,AC Page 1,AC Page 1,AC Page 2,AC Page 2,AC Page 2";
-
-		task ("Add Site and Page") {
-			for (var n : list "${pageCreation}") {
-				ACUtils.addPage(layoutName = "${n}");
-			}
-		}
-
-		task ("Connect Analytics Cloud to DXP") {
-			var propertyName = ACDXPSettings.connectDXPtoAnalyticsCloud(siteName = "Site Name");
-		}
-
-		task ("Interation with Pages") {
-			for (var pageName : list "${pageInteraction}") {
-				ACUtils.navigateToSitePage(
-					pageName = "${pageName}",
-					siteName = "Site Name");
-			}
-		}
-
-		task ("AC launch") {
-			ACUtils.closeAllSessionsAndWait();
-
-			ACUtils.launchAC();
-
-			ACProperties.switchProperty(propertyName = "${propertyName}");
-		}
-
-		task ("Asset highest views pages highest entrances") {
-
-			// Unable to perform the declaration because the data does not appear at the time
-
-			ACTimeFilter.clickTimeFilterButton(cardName = "Top Pages");
-
-			ACTimeFilter.setLast24Hours();
-
-			ACNavigation.switchTabInCard(tabName = "Entrance Pages");
-
-			for (var current : list "3-AC Page,2-AC Page 1,1-AC Page 2") {
-				ACSites.viewVisitedTopPages(current = "${current}");
-			}
-		}
-	}
-
-	@description = "Feature ID: Legacy | Automation ID: LRAC-8302 | Test Summary: Assert Sites Top Pages Card Exit Pages Highest Exits"
-	@ignore = "true"
-	@priority = "3"
-	test AssertSitesTopPagesCardExitPagesHighestExits {
-		property portal.upstream = "quarantine";
-
-		// AC Refactor: the issue is due to data not appearing on time
-		// AC Refactor ticket: LRAC-8964
-
-		task ("Blogs creation") {
-			for (var n : list "1,2") {
-				ACUtils.createBlogsAndAddToPage(entryTitle = "Test Blog ${n}");
-			}
-		}
-
-		task ("Connect Analytics Cloud to DXP") {
-			var propertyName = ACDXPSettings.connectDXPtoAnalyticsCloud(siteName = "Site Name");
-		}
-
-		task ("Interation with Test Blogs") {
-			for (var n : list "2,2,2,1,1") {
-				User.logoutAndLoginPG(
-					userLoginEmailAddress = "test@liferay.com",
-					userLoginFullName = "test test");
-
-				ACUtils.navigateToSitePage(
-					actionType = "View Blog",
-					documentTitleList = "Test Blog ${n}",
-					pageName = "AC Page",
-					siteName = "Site Name");
-			}
-		}
-
-		task ("Interation with Page") {
+		task ("Sign out then sign in as Test Test") {
 			User.logoutAndLoginPG(
 				userLoginEmailAddress = "test@liferay.com",
-				userLoginFullName = "test test");
-
-			ACUtils.navigateToSitePage(
-				pageName = "AC Page",
-				siteName = "Site Name");
+				userLoginFullName = "Test Test");
 		}
 
-		task ("AC launch") {
-			ACUtils.closeAllSessionsAndWait();
+		task ("Navigate to the site page directly") {
+			Navigator.openWithAppendToBaseURL(urlAppend = "web/site-name/ac-page");
+		}
 
+		task ("Close session") {
+			ACUtils.closeAllSessionsAndWait();
+		}
+
+		task ("Sign out then sign in as Test Test") {
+			User.logoutAndLoginPG(
+				userLoginEmailAddress = "test@liferay.com",
+				userLoginFullName = "Test Test");
+		}
+
+		task ("Navigate to the site page via social channel") {
+			Navigator.openWithAppendToBaseURL(urlAppend = "web/site-name/ac-page?utm_medium=social");
+		}
+
+		task ("Close session") {
+			ACUtils.closeAllSessionsAndWait();
+		}
+
+		task ("Sign out then sign in as Test Test") {
+			User.logoutAndLoginPG(
+				userLoginEmailAddress = "test@liferay.com",
+				userLoginFullName = "Test Test");
+		}
+
+		task ("Navigate to the site page via paid search channel") {
+			Navigator.openWithAppendToBaseURL(urlAppend = "web/site-name/ac-page?utm_medium=paidsearch");
+		}
+
+		task ("Close session") {
+			ACUtils.closeAllSessionsAndWait();
+		}
+
+		task ("Sign out then sign in as Test Test") {
+			User.logoutAndLoginPG(
+				userLoginEmailAddress = "test@liferay.com",
+				userLoginFullName = "Test Test");
+		}
+
+		task ("Navigate to the site page via organic channel") {
+			Navigator.openWithAppendToBaseURL(urlAppend = "web/site-name/ac-page?utm_medium=organic");
+		}
+
+		task ("Close session") {
+			ACUtils.closeAllSessionsAndWait();
+		}
+
+		task ("Switch to new property in AC") {
 			ACUtils.launchAC();
 
-			ACProperties.switchProperty(propertyName = "${propertyName}");
+			ACProperties.switchProperty(propertyName = "${assignedPropertyName}");
 		}
 
-		task ("Asset highest views pages Top Pages") {
+		task ("Navigate to the Overview in Sites dashboard") {
+			ACNavigation.goToSites();
 
-			// Unable to perform the declaration because the data does not appear at the time
+			ACIndividualsDashboard.goToOverviewTab();
+		}
 
-			ACTimeFilter.clickTimeFilterButton(cardName = "Top Pages");
+		task ("Select the Last 24 hours in Acquisitions report") {
+			ACTimeFilter.clickTimeFilterButton(cardName = "Acquisitions");
 
 			ACTimeFilter.setLast24Hours();
+		}
 
-			ACNavigation.switchTabInCard(tabName = "Exit Pages");
+		task ("Navigate to Channels tab in Acquisitions report") {
+			ACNavigation.switchTabInCard(tabName = "Channels");
+		}
 
-			for (var current : list "1-Test Blog 2,2-Test Blog 1,3-AC Page") {
-				ACSites.viewVisitedTopPages(current = "${current}");
-			}
+		task ("View the session entries in Channels tab") {
+			ACCards.viewMetricBarStyle(
+				backgroundColor = "rgba(80, 210, 160, 1)",
+				cardTitle = "Acquisitions",
+				entryName = "direct",
+				style = "width: 83%;");
+
+			ACCards.viewTableEntryInfo(
+				cardTitle = "Acquisitions",
+				column = "cell-expand",
+				entryInfo = "1",
+				entryName = "direct");
+
+			ACCards.viewTableEntryInfo(
+				cardTitle = "Acquisitions",
+				column = "column-text-end",
+				entryInfo = "25.00%",
+				entryName = "direct");
+
+			ACCards.viewMetricBarStyle(
+				backgroundColor = "rgba(80, 210, 160, 1)",
+				cardTitle = "Acquisitions",
+				entryName = "social",
+				style = "width: 83%;");
+
+			ACCards.viewTableEntryInfo(
+				cardTitle = "Acquisitions",
+				column = "cell-expand",
+				entryInfo = "1",
+				entryName = "social");
+
+			ACCards.viewTableEntryInfo(
+				cardTitle = "Acquisitions",
+				column = "column-text-end",
+				entryInfo = "25.00%",
+				entryName = "social");
+
+			ACCards.viewMetricBarStyle(
+				backgroundColor = "rgba(80, 210, 160, 1)",
+				cardTitle = "Acquisitions",
+				entryName = "organic",
+				style = "width: 83%;");
+
+			ACCards.viewTableEntryInfo(
+				cardTitle = "Acquisitions",
+				column = "cell-expand",
+				entryInfo = "1",
+				entryName = "organic");
+
+			ACCards.viewTableEntryInfo(
+				cardTitle = "Acquisitions",
+				column = "column-text-end",
+				entryInfo = "25.00%",
+				entryName = "organic");
+
+			ACCards.viewMetricBarStyle(
+				backgroundColor = "rgba(80, 210, 160, 1)",
+				cardTitle = "Acquisitions",
+				entryName = "paid search",
+				style = "width: 83%;");
+
+			ACCards.viewTableEntryInfo(
+				cardTitle = "Acquisitions",
+				column = "cell-expand",
+				entryInfo = "1",
+				entryName = "paid search");
+
+			ACCards.viewTableEntryInfo(
+				cardTitle = "Acquisitions",
+				column = "column-text-end",
+				entryInfo = "25.00%",
+				entryName = "paid search");
 		}
 	}
 
-	@description = "Feature ID: Legacy | Automation ID: LRAC-8301 | Test Summary: Assert Sites Top Pages Card Visited Pages Highest Views"
-	@ignore = "true"
+	@description = "Feature ID: Legacy | Automation ID: LRAC-8346 | Test Summary: Assert Sites Acquisition card Channels highest session"
 	@priority = "3"
-	test AssertSitesTopPagesCardVisitedPagesHighestViews {
-		property portal.upstream = "quarantine";
-
-		// AC Refactor: the issue is due to data not appearing on time
-		// AC Refactor ticket: LRAC-8961
-
-		var num = "1,2";
-		var usernameList = "ac,liferay";
-		var emailList = "ac@liferay.com,liferay@liferay.com";
-
-		task ("Add two new users") {
-			for (var name : list "${usernameList}") {
-				JSONUser.addUser(
-					userEmailAddress = "${name}@liferay.com",
-					userFirstName = "${name}",
-					userLastName = "${name}",
-					userScreenName = "${name}");
-			}
-		}
-
-		task ("Blogs creation") {
-			for (var n : list "${num}") {
-				ACUtils.createBlogsAndAddToPage(entryTitle = "Test Blog ${n}");
-			}
-		}
-
-		task ("Connect Analytics Cloud to DXP") {
-			var propertyName = ACDXPSettings.connectDXPtoAnalyticsCloud(siteName = "Site Name");
-		}
-
-		task ("Access the page as a Test user") {
+	test AssertSitesAcquisitionCardChannelsHighestSession {
+		task ("View the site page") {
 			ACUtils.navigateToSitePage(
 				pageName = "AC Page",
 				siteName = "Site Name");
 		}
 
-		task ("Interation with ac user") {
-			User.logoutAndLoginPG(
-				userLoginEmailAddress = "ac@liferay.com",
-				userLoginFullName = "ac ac");
-
-			for (var n : list "${num}") {
-				ACUtils.navigateToSitePage(
-					actionType = "View Blog",
-					documentTitleList = "Test Blog ${n}",
-					pageName = "AC Page",
-					siteName = "Site Name");
-			}
-		}
-
-		task ("Interation with liferay user") {
-			User.logoutAndLoginPG(
-				userLoginEmailAddress = "liferay@liferay.com",
-				userLoginFullName = "liferay liferay");
-
-			ACUtils.navigateToSitePage(
-				actionType = "View Blog",
-				documentTitleList = "Test Blog 2",
-				pageName = "AC Page",
-				siteName = "Site Name");
-		}
-
-		task ("AC launch") {
+		task ("Close session") {
 			ACUtils.closeAllSessionsAndWait();
+		}
 
+		task ("Switch to new property in AC") {
 			ACUtils.launchAC();
 
-			ACProperties.switchProperty(propertyName = "${propertyName}");
+			ACProperties.switchProperty(propertyName = "${assignedPropertyName}");
 		}
 
-		task ("Asset highest views pages Top Pages") {
+		task ("Navigate to the Overview in Sites dashboard") {
+			ACNavigation.goToSites();
 
-			// Unable to perform the declaration because the data does not appear at the time
+			ACIndividualsDashboard.goToOverviewTab();
+		}
 
-			ACTimeFilter.clickTimeFilterButton(cardName = "Top Pages");
+		task ("Select the Last 24 hours in Acquisitions report") {
+			ACTimeFilter.clickTimeFilterButton(cardName = "Acquisitions");
 
 			ACTimeFilter.setLast24Hours();
+		}
 
-			for (var current : list "1-AC Page,2-Test Blog 2,3-Test Blog 1") {
-				ACSites.viewVisitedTopPages(current = "${current}");
-			}
+		task ("Navigate to Channels tab in Acquisitions report") {
+			ACNavigation.switchTabInCard(tabName = "Channels");
+		}
+
+		task ("View the details of direct session entry in Channels tab") {
+			ACCards.viewMetricBarStyle(
+				backgroundColor = "rgba(80, 210, 160, 1)",
+				cardTitle = "Acquisitions",
+				entryName = "direct",
+				style = "width: 100%;");
+
+			ACCards.viewTableEntryInfo(
+				cardTitle = "Acquisitions",
+				column = "cell-expand",
+				entryInfo = "1",
+				entryName = "direct");
+
+			ACCards.viewTableEntryInfo(
+				cardTitle = "Acquisitions",
+				column = "column-text-end",
+				entryInfo = "100.00%",
+				entryName = "direct");
 		}
 	}
 
-	@description = "Feature ID: Legacy | Automation ID: LRAC-8305 | Test Summary: Assert Sites Top Pages Change Time Filter"
-	@ignore = "true"
+	@description = "Feature ID: Legacy | Automation ID: LRAC-8347 | Test Summary: Assert Sites Acquisition card Referrers highest session"
 	@priority = "3"
-	test AssertSitesTopPagesChangeTimeFilter {
-		property portal.upstream = "quarantine";
+	test AssertSitesAcquisitionCardReferrersHighestSession {
+		task ("Get the portal URL") {
+			var portalURL = PropsUtil.get("portal.url");
 
-		// AC Refactor: the issue is due to data not appearing on time
-		// AC Refactor ticket: LRAC-8815
+			var portalURL = StringUtil.replace("${portalURL}", "http://", "");
 
-		task ("Site and blogs creation and connection with AC") {
-			ACUtils.createBlogsAndAddToPage();
-
-			var propertyName = ACDXPSettings.connectDXPtoAnalyticsCloud(siteName = "Site Name");
+			var portalURL = StringUtil.replace("${portalURL}", ":8080", "");
 		}
 
-		task ("Interation with pages") {
-			ACUtils.navigateToSitePage(
-				actionType = "View Blog",
-				documentTitleList = "Blogs AC Title",
-				pageName = "AC Page",
-				siteName = "Site Name");
-
-			ACUtils.closeAllSessionsAndWait();
-		}
-
-		task ("AC launch") {
-			ACUtils.launchAC();
-
-			ACProperties.switchProperty(propertyName = "${propertyName}");
-		}
-
-		task ("Asset last 180 days time period filter ") {
-			ACTimeFilter.clickTimeFilterButton(cardName = "Top Pages");
-
-			ACTimeFilter.setLast180Days();
-
-			ACCards.noViewTopSitesCardByIndexes(key_index = "1");
-		}
-
-		task ("Asset last 24 hours time period filter ") {
-
-			// Unable to perform the declaration because the data does not appear at the time
-
-			ACTimeFilter.clickTimeFilterButton(cardName = "Top Pages");
-
-			ACTimeFilter.setLast24Hours();
-
-			ACCards.viewTopSitesCardByIndexes(key_index = "1");
-		}
-	}
-
-	@description = "Feature ID: Legacy | Automation ID: LRAC-8296 | Test Summary: Show Top 5 Entrance Pages"
-	@ignore = "true"
-	@priority = "5"
-	test ShowTop5EntrancePages {
-		property portal.upstream = "quarantine";
-
-		// AC Refactor: the issue is due to data not appearing on time
-		// AC Refactor ticket: LRAC-8725
-
-		task ("Site and blogs creation and connection with AC") {
-			for (var n : list "2,3,4,5") {
-				ACUtils.createBlogsAndAddToPage(entryTitle = "Test Blog ${n}");
-			}
-
-			var propertyName = ACDXPSettings.connectDXPtoAnalyticsCloud(siteName = "Site Name");
-		}
-
-		task ("Interation with pages") {
-			for (var n : list "2,3,4,5") {
-				ACUtils.navigateToSitePage(
-					actionType = "View Blog",
-					documentTitleList = "Test Blog ${n}",
-					pageName = "AC Page",
-					siteName = "Site Name");
-			}
-
-			ACUtils.closeAllSessionsAndWait();
-		}
-
-		task ("AC launch") {
-			ACUtils.launchAC();
-
-			ACProperties.switchProperty(propertyName = "${propertyName}");
-		}
-
-		task ("Asset top 5 entrances pages") {
-
-			// Unable to perform the declaration because the data does not appear at the time
-
-			ACNavigation.switchTab(tabName = "Pages");
-
-			ACTimeFilter.clickTimeFilterButton();
-
-			ACTimeFilter.setLast24Hours();
-
-			ClickNoError(locator1 = "ACSites#TOP_PAGES_ENTRANCES_BUTTON");
-
-			ACCards.viewTopSitesByIndexes(
-				key_entry = "AC Page",
-				key_index = "1");
-
-			for (var n : list "2,3,4,5") {
-				ACCards.viewTopSitesByIndexes(
-					key_entry = "Test Blog ${n}",
-					key_index = "${n}");
-			}
-		}
-	}
-
-	@description = "Feature ID: Legacy | Automation ID: LRAC-8297 | Test Summary: Show Top 5 Exit Pages"
-	@ignore = "true"
-	@priority = "5"
-	test ShowTop5ExitPages {
-		property portal.upstream = "quarantine";
-
-		// AC Refactor: the issue is due to data not appearing on time
-		// AC Refactor ticket: LRAC-8898
-
-		task ("Site and blogs creation and connection with AC") {
-			var pages = "AC Page,AC Page 2,AC Page 3,AC Page 4,AC Page 5";
-
-			for (var n : list "${pages}") {
-				if ("${n}" != "AC Page") {
-					ACUtils.addPage(layoutName = "${n}");
-				}
-
-				ACUtils.addWidgetToPage(
-					layoutName = "${n}",
-					widgetName = "Blogs");
-			}
-
-			ACUtils.createBlogsAndAddToPage();
-
-			var propertyName = ACDXPSettings.connectDXPtoAnalyticsCloud(siteName = "Site Name");
-		}
-
-		task ("Interation with pages") {
-			for (var n : list "${pages}") {
-				User.logoutAndLoginPG(
-					userLoginEmailAddress = "test@liferay.com",
-					userLoginFullName = "test test");
-
-				ACUtils.navigateToSitePage(
-					pageName = "${n}",
-					siteName = "Site Name");
-			}
-
-			ACUtils.closeAllSessionsAndWait();
-		}
-
-		task ("AC launch") {
-			ACUtils.launchAC();
-
-			ACProperties.switchProperty(propertyName = "${propertyName}");
-		}
-
-		task ("Setting filter") {
-			ACTimeFilter.clickTimeFilterButton(cardName = "Top Pages");
-
-			ACTimeFilter.setLast24Hours();
-
-			ACNavigation.switchTabInCard(tabName = "Exit Pages");
-		}
-
-		task ("Asset top 5 exit pages") {
-
-			// Unable to perform the declaration because the data does not appear at the time
-
-			var pagesList = "AC Page-2,AC Page 2-3,AC Page 3-4,AC Page 4-5,AC Page 5-1";
-
-			for (var current : list "${pagesList}") {
-				var name = StringUtil.extractFirst("${current}", "-");
-				var n = StringUtil.extractLast("${current}", "-");
-
-				ACCards.viewTopSitesByIndexes(
-					key_entry = "${name}",
-					key_index = "${n}");
-			}
-		}
-	}
-
-	@description = "Feature ID: Legacy | Automation ID: LRAC-8294 | Test Summary: Show Top 5 Visited Pages"
-	@ignore = "true"
-	@priority = "5"
-	test ShowTop5VisitedPages {
-		property portal.upstream = "quarantine";
-
-		// AC Refactor: This test is flaky due to timing issues
-		// AC Refactor ticket: LRAC-8764
-
-		var n = "1,2,3,4,5";
-		var u = "1,2,3,4";
-
-		task ("Site, users and blogs creation then connect with AC") {
-			for (var x : list "${n}") {
-				ACUtils.createBlogsAndAddToPage(entryTitle = "Test Blog ${x}");
-			}
-
-			JSONUser.addUser(
-				userEmailAddress = "test1@liferay.com",
-				userFirstName = "test1",
-				userLastName = "test1",
-				userScreenName = "test1");
-
-			var propertyName = ACDXPSettings.connectDXPtoAnalyticsCloud(siteName = "Site Name");
-		}
-
-		task ("Interation with pages") {
-			for (var x : list "${n}") {
-				ACUtils.navigateToSitePage(
-					actionType = "View Blog",
-					documentTitleList = "Test Blog ${x}",
-					pageName = "AC Page",
-					siteName = "Site Name");
-			}
-
+		task ("Sign out then sign in as Test Test") {
 			User.logoutAndLoginPG(
-				userLoginEmailAddress = "test1@liferay.com",
-				userLoginFullName = "test1 test1");
-
-			for (var x : list "${u}") {
-				ACUtils.navigateToSitePage(
-					actionType = "View Blog",
-					documentTitleList = "Test Blog ${x}",
-					pageName = "AC Page",
-					siteName = "Site Name");
-			}
+				userLoginEmailAddress = "test@liferay.com",
+				userLoginFullName = "Test Test");
 		}
 
-		task ("Close all sessions") {
+		task ("Navigate to the new site via Applications Menu") {
+			ApplicationsMenu.gotoSite(site = "Site Name");
+		}
+
+		task ("View the site page") {
+			Page.viewCurrentPage(pageName = "AC Page");
+		}
+
+		task ("Wait for page loading") {
+			WaitForPageLoad();
+		}
+
+		task ("Close session") {
 			ACUtils.closeAllSessionsAndWait();
 		}
 
-		task ("AC launch") {
+		task ("Switch to new property in AC") {
 			ACUtils.launchAC();
 
-			ACProperties.switchProperty(propertyName = "${propertyName}");
+			ACProperties.switchProperty(propertyName = "${assignedPropertyName}");
 		}
 
-		task ("Assert top 5 visited pages") {
+		task ("Navigate to the Overview in Sites dashboard") {
+			ACNavigation.goToSites();
 
-			// Unable to perform the declaration because the data does not appear at the time
+			ACIndividualsDashboard.goToOverviewTab();
+		}
 
-			ACTimeFilter.clickTimeFilterButton(cardName = "Top Pages");
+		task ("Select the Last 24 hours in Acquisitions report") {
+			ACTimeFilter.clickTimeFilterButton(cardName = "Acquisitions");
 
 			ACTimeFilter.setLast24Hours();
+		}
 
-			ACCards.viewTopVisitedPages(
-				key_entry = "AC Page",
-				key_result = "");
+		task ("Navigate to Referrers tab in Acquisitions report") {
+			ACNavigation.switchTabInCard(tabName = "Referrers");
+		}
 
-			for (var x : list "${u}") {
-				ACCards.viewTopVisitedPages(
-					key_entry = "Test Blog ${x}",
-					key_result = "");
-			}
+		task ("View the details of session entry in Referrers tab") {
+			ACCards.viewMetricBarStyle(
+				backgroundColor = "rgba(80, 210, 160, 1)",
+				cardTitle = "Acquisitions",
+				entryName = "${portalURL}",
+				style = "width: 100%;");
 
-			ACCards.noViewTopVisitedPages(
-				kay_result = "",
-				key_entry = "Test Blog 5");
+			ACCards.viewTableEntryInfo(
+				cardTitle = "Acquisitions",
+				column = "cell-expand",
+				entryInfo = "1",
+				entryName = "${portalURL}");
+
+			ACCards.viewTableEntryInfo(
+				cardTitle = "Acquisitions",
+				column = "column-text-end",
+				entryInfo = "100.00%",
+				entryName = "${portalURL}");
+		}
+	}
+
+	@description = "Feature ID: Legacy | Automation ID: LRAC-8348 | Test Summary: Assert Sites Acquisition card Source|Medium highest session"
+	@priority = "3"
+	test AssertSitesAcquisitionCardSourceAndMediumHighestSession {
+		task ("Get the portal URL") {
+			var portalURL = PropsUtil.get("portal.url");
+
+			var portalURL = StringUtil.replace("${portalURL}", "http://", "");
+
+			var portalURL = StringUtil.replace("${portalURL}", ":8080", "");
+		}
+
+		task ("Sign out then sign in as Test Test") {
+			User.logoutAndLoginPG(
+				userLoginEmailAddress = "test@liferay.com",
+				userLoginFullName = "Test Test");
+		}
+
+		task ("Navigate to the new site via Applications Menu") {
+			ApplicationsMenu.gotoSite(site = "Site Name");
+		}
+
+		task ("View the site page") {
+			Page.viewCurrentPage(pageName = "AC Page");
+		}
+
+		task ("Wait for page loading") {
+			WaitForPageLoad();
+		}
+
+		task ("Close session") {
+			ACUtils.closeAllSessionsAndWait();
+		}
+
+		task ("Switch to new property in AC") {
+			ACUtils.launchAC();
+
+			ACProperties.switchProperty(propertyName = "${assignedPropertyName}");
+		}
+
+		task ("Navigate to the Overview in Sites dashboard") {
+			ACNavigation.goToSites();
+
+			ACIndividualsDashboard.goToOverviewTab();
+		}
+
+		task ("Select the Last 24 hours in Acquisitions report") {
+			ACTimeFilter.clickTimeFilterButton(cardName = "Acquisitions");
+
+			ACTimeFilter.setLast24Hours();
+		}
+
+		task ("Navigate to Source | Medium tab in Acquisitions report") {
+			ACNavigation.switchTabInCard(tabName = "Source | Medium");
+		}
+
+		task ("View the details of session entry in Source | Medium tab") {
+			ACCards.viewMetricBarStyle(
+				backgroundColor = "rgba(80, 210, 160, 1)",
+				cardTitle = "Acquisitions",
+				entryName = "${portalURL} / referral",
+				style = "width: 100%;");
+
+			ACCards.viewTableEntryInfo(
+				cardTitle = "Acquisitions",
+				column = "cell-expand",
+				entryInfo = "1",
+				entryName = "${portalURL} / referral");
+
+			ACCards.viewTableEntryInfo(
+				cardTitle = "Acquisitions",
+				column = "column-text-end",
+				entryInfo = "100.00%",
+				entryName = "${portalURL} / referral");
 		}
 	}
 
