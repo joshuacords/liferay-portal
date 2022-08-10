@@ -12,6 +12,103 @@ definition {
 		}
 	}
 
+	macro addFieldOption {
+		if (isSet(optionFieldLabel)) {
+			Type(
+				index = "${index}",
+				key_optionFieldLabel = "${optionFieldLabel}",
+				locator1 = "Sidebar#OPTION_INPUT",
+				value1 = "${optionValue}");
+		}
+		else {
+			Type(
+				index = "${index}",
+				locator1 = "Sidebar#OPTION_INPUT_WITHOUT_LABEL",
+				value1 = "${optionValue}");
+		}
+	}
+
+	macro addFields {
+		Click(locator1 = "FormRules#RULE_BUILDER_ADD_RULE_BUTTON");
+
+		Navigator.gotoNavTab(navTab = "Elements");
+
+		for (var fieldName : list "${fieldNameList}") {
+			var key_fieldName = "${fieldName}";
+
+			if (isSet(fieldLocation)) {
+				DragAndDrop.javaScriptDragAndDropToObject(
+					key_fieldLocation = "${fieldLocation}",
+					locator1 = "Sidebar#ADD_FIELD_NAME",
+					locator2 = "Sidebar#ADD_FIELD_POSITION",
+					value1 = "${fieldName}");
+			}
+			else {
+				DragAndDrop.javaScriptDragAndDropToObject(
+					locator1 = "Sidebar#ADD_FIELD_NAME",
+					locator2 = "Sidebar#ADD_FIELD_TARGET",
+					value1 = "${fieldName}");
+			}
+
+			WaitForVisible(locator1 = "Sidebar#BACK");
+
+			if ("${fieldName}" == "Grid") {
+				var index = "1";
+
+				for (var optionValue : list "R1,R2") {
+					Form.addFieldOption(
+						index = "${index}",
+						optionFieldLabel = "Rows",
+						optionValue = "Row ${index}");
+
+					var index = ${index} + 1;
+				}
+
+				var index = "1";
+
+				for (var optionValue : list "C1,C2") {
+					Form.addFieldOption(
+						index = "${index}",
+						optionFieldLabel = "Columns",
+						optionValue = "Column ${index}");
+
+					var index = ${index} + 1;
+				}
+			}
+			else if ("${fieldName}" == "Multiple Selection") {
+				Form.addFieldOption(
+					index = "1",
+					optionFieldLabel = "Options",
+					optionValue = "Option 1");
+
+				Form.addFieldOption(
+					index = "2",
+					optionFieldLabel = "Options",
+					optionValue = "Option 2");
+			}
+			else if ("${fieldName}" == "Select from List") {
+				Form.addFieldOption(
+					index = "1",
+					optionValue = "Option 2");
+
+				Form.addFieldOption(
+					index = "2",
+					optionValue = "Option 1");
+			}
+			else if ("${fieldName}" == "Single Selection") {
+				Form.addFieldOption(
+					index = "1",
+					optionValue = "Option 3");
+
+				Form.addFieldOption(
+					index = "2",
+					optionValue = "Option 4");
+			}
+
+			Click(locator1 = "Sidebar#BACK");
+		}
+	}
+
 	macro addPage {
 		Click(locator1 = "Form#PAGE_CONTROLS_ELLIPSIS_ICON");
 
