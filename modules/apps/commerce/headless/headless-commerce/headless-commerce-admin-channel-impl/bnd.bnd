@@ -1,6 +1,6 @@
 Bundle-Name: Liferay Headless Commerce Admin Channel Implementation
 Bundle-SymbolicName: com.liferay.headless.commerce.admin.channel.impl
-Bundle-Version: 2.0.32
+Bundle-Version: 2.0.33
 Import-Package:\
 	com.liferay.asset.kernel.model;version="[1.5.0,99.0.0)",\
 	com.liferay.expando.kernel.model;version="[1.1.0,99.0.0)",\
