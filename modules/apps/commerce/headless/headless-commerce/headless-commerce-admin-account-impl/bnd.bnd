@@ -1,6 +1,6 @@
 Bundle-Name: Liferay Headless Commerce Admin Account Implementation
 Bundle-SymbolicName: com.liferay.headless.commerce.admin.account.impl
-Bundle-Version: 2.0.36
+Bundle-Version: 2.0.37
 Import-Package:\
 	com.liferay.portal.vulcan.accept.language;version="[1.0.0,99.0.0)",\
 	com.liferay.portal.vulcan.dto.converter;version="[1.0.0,99.0.0)",\
