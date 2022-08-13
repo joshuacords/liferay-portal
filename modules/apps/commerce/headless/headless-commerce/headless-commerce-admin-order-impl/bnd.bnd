@@ -1,6 +1,6 @@
 Bundle-Name: Liferay Headless Commerce Admin Order Implementation
 Bundle-SymbolicName: com.liferay.headless.commerce.admin.order.impl
-Bundle-Version: 2.0.36
+Bundle-Version: 2.0.37
 Import-Package:\
 	com.liferay.expando.kernel.model;version="[1.1.0,99.0.0)",\
 	com.liferay.exportimport.kernel.lar;version="[1.13.0,99.0.0)",\
