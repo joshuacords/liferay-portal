@@ -64,7 +64,7 @@ portletURL.setParameter("eventName", eventName);
 			%>
 
 			<liferay-ui:search-container-column-text>
-				<input data-button-id="<%= renderResponse.getNamespace() + "applyButton" + name %>" data-form-id="<%= renderResponse.getNamespace() + name + "fieldForm" %>" name="<portlet:namespace />selectStructureFieldSubtype" type="radio" <%= name.equals(ddmStructureFieldName) ? "checked" : StringPool.BLANK %> />
+				<input data-button-id="<%= renderResponse.getNamespace() %>applyButton<%= name %>" data-form-id="<%= renderResponse.getNamespace() + name %>fieldForm" name="<portlet:namespace />selectStructureFieldSubtype" type="radio" <%= name.equals(ddmStructureFieldName) ? "checked" : StringPool.BLANK %> />
 			</liferay-ui:search-container-column-text>
 
 			<%

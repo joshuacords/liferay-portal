@@ -124,7 +124,7 @@ String redirect = ParamUtil.getString(request, "redirect");
 <div class="divider"></div>
 
 <div class="panel-body">
-	<div class="card-row card-row-padded message-content" id="<%= liferayPortletResponse.getNamespace() + "addQuickReply" + parentMessageId %>">
+	<div class="card-row card-row-padded message-content" id="<%= liferayPortletResponse.getNamespace() %>addQuickReply<%= parentMessageId %>">
 		<portlet:actionURL name="/message_boards/edit_message" var="editMessageURL" />
 
 		<aui:form action="<%= editMessageURL %>" method="post" name='<%= "addQuickReplyFm" + parentMessageId %>' onSubmit="event.preventDefault(); ">

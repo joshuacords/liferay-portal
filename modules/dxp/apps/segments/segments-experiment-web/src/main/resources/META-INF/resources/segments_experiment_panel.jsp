@@ -22,7 +22,7 @@ SegmentsExperimentDisplayContext segmentsExperimentDisplayContext = (SegmentsExp
 
 <c:choose>
 	<c:when test="<%= SegmentsExperimentUtil.isAnalyticsEnabled(themeDisplay.getCompanyId(), themeDisplay.getScopeGroupId()) %>">
-		<div id="<%= renderResponse.getNamespace() + "-segments-experiment-root" %>"></div>
+		<div id="<%= renderResponse.getNamespace() %>-segments-experiment-root"></div>
 
 		<aui:script require='<%= npmResolvedPackageName + "/js/index.es as segmentsExperimentsApp" %>'>
 			segmentsExperimentsApp.default(
