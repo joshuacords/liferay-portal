@@ -61,10 +61,14 @@ public class UpgradeCalendarBooking extends UpgradeProcess {
 					continue;
 				}
 
+				long startTime = resultSet.getLong("startTime");
+				long endTime = resultSet.getLong("endTime");
+
 				Calendar startTimeJCalendar = JCalendarUtil.getJCalendar(
-					resultSet.getLong("startTime"), user.getTimeZone());
+					startTime, user.getTimeZone());
+
 				Calendar endTimeJCalendar = JCalendarUtil.getJCalendar(
-					resultSet.getLong("endTime"), user.getTimeZone());
+					endTime, user.getTimeZone());
 
 				if (_isMidnight(startTimeJCalendar) &&
 					_isLastHour(endTimeJCalendar)) {
