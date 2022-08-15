@@ -96,8 +96,9 @@ public class UpgradeCalendarBooking extends UpgradeProcess {
 				updatePreparedStatement.setLong(
 					2, endTimeUTCJCalendar.getTimeInMillis());
 
-				updatePreparedStatement.setLong(
-					3, resultSet.getLong("calendarBookingId"));
+				long calendarBookingId = resultSet.getLong("calendarBookingId");
+
+				updatePreparedStatement.setLong(3, calendarBookingId);
 
 				updatePreparedStatement.addBatch();
 			}
