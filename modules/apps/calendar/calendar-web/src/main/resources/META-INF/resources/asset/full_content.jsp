@@ -146,14 +146,7 @@ String languageId = LanguageUtil.getLanguageId(request);
 			java.util.Calendar nextEventStartTimeJCalendar = JCalendarUtil.getJCalendar(nextCalendarBooking.getStartTime(), user.getTimeZone());
 			%>
 
-			<c:choose>
-				<c:when test="<%= calendarBooking.isAllDay() %>">
-					<liferay-ui:message key="next-event-starts" />: <%= utcLongDateJFormat.format(nextEventStartTimeJCalendar.getTime()) + ", " + utcTimeJFormat.format(nextEventStartTimeJCalendar.getTime()) %>
-				</c:when>
-				<c:otherwise>
-					<liferay-ui:message key="next-event-starts" />: <%= longDateJFormat.format(nextEventStartTimeJCalendar.getTime()) + ", " + timeJFormat.format(nextEventStartTimeJCalendar.getTime()) %>
-				</c:otherwise>
-			</c:choose>
+			<liferay-ui:message key="next-event-starts" />: <%= longDateJFormat.format(nextEventStartTimeJCalendar.getTime()) + ", " + timeJFormat.format(nextEventStartTimeJCalendar.getTime()) %>
 
 			<br />
 
@@ -167,14 +160,7 @@ String languageId = LanguageUtil.getLanguageId(request);
 			java.util.Calendar nextEventEndTimeJCalendar = JCalendarUtil.getJCalendar(nextCalendarBooking.getEndTime(), user.getTimeZone());
 			%>
 
-			<c:choose>
-				<c:when test="<%= calendarBooking.isAllDay() %>">
-					<liferay-ui:message key="next-event-ends" />: <%= utcLongDateJFormat.format(nextEventEndTimeJCalendar.getTime()) + ", " + utcTimeJFormat.format(nextEventEndTimeJCalendar.getTime()) %>
-				</c:when>
-				<c:otherwise>
-					<liferay-ui:message key="next-event-ends" />: <%= longDateJFormat.format(nextEventEndTimeJCalendar.getTime()) + ", " + timeJFormat.format(nextEventEndTimeJCalendar.getTime()) %>
-				</c:otherwise>
-			</c:choose>
+			<liferay-ui:message key="next-event-ends" />: <%= longDateJFormat.format(nextEventEndTimeJCalendar.getTime()) + ", " + timeJFormat.format(nextEventEndTimeJCalendar.getTime()) %>
 		</c:if>
 
 		<c:if test="<%= Validator.isNotNull(calendarBooking.getLocation()) %>">
