@@ -946,24 +946,31 @@ public class CalendarPortlet extends MVCPortlet {
 	protected java.util.Calendar getJCalendar(
 		PortletRequest portletRequest, String name) {
 
+		int month = ParamUtil.getInteger(portletRequest, name + "Month");
+		int day = ParamUtil.getInteger(portletRequest, name + "Day");
+		int year = ParamUtil.getInteger(portletRequest, name + "Year");
 		int hour = ParamUtil.getInteger(portletRequest, name + "Hour");
+		int minute = ParamUtil.getInteger(portletRequest, name + "Minute");
 
-		if (ParamUtil.getInteger(portletRequest, name + "AmPm") ==
-				java.util.Calendar.PM) {
+		int amPm = ParamUtil.getInteger(portletRequest, name + "AmPm");
 
+		if (amPm == java.util.Calendar.PM) {
 			hour += 12;
 		}
 
-		TimeZone timeZone = ParamUtil.getBoolean(portletRequest, "allDay") ?
-			TimeZoneUtil.getTimeZone(StringPool.UTC) :
-				getTimeZone(portletRequest);
+		TimeZone timeZone = null;
+
+		boolean allDay = ParamUtil.getBoolean(portletRequest, "allDay");
+
+		if (allDay) {
+			timeZone = TimeZoneUtil.getTimeZone(StringPool.UTC);
+		}
+		else {
+			timeZone = getTimeZone(portletRequest);
+		}
 
 		return JCalendarUtil.getJCalendar(
-			ParamUtil.getInteger(portletRequest, name + "Year"),
-			ParamUtil.getInteger(portletRequest, name + "Month"),
-			ParamUtil.getInteger(portletRequest, name + "Day"), hour,
-			ParamUtil.getInteger(portletRequest, name + "Minute"), 0, 0,
-			timeZone);
+			year, month, day, hour, minute, 0, 0, timeZone);
 	}
 
 	protected String getNotificationTypeSettings(
