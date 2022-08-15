@@ -958,19 +958,8 @@ public class CalendarPortlet extends MVCPortlet {
 			hour += 12;
 		}
 
-		boolean allDay = ParamUtil.getBoolean(portletRequest, "allDay");
-
-		TimeZone timeZone = null;
-
-		if (allDay) {
-			timeZone = TimeZoneUtil.getTimeZone(StringPool.UTC);
-		}
-		else {
-			timeZone = getTimeZone(portletRequest);
-		}
-
 		return JCalendarUtil.getJCalendar(
-			year, month, day, hour, minute, 0, 0, timeZone);
+			year, month, day, hour, minute, 0, 0, getTimeZone(portletRequest));
 	}
 
 	protected String getNotificationTypeSettings(
