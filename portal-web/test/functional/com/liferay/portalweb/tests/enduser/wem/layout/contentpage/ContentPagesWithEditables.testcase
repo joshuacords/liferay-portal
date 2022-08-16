@@ -90,6 +90,8 @@ definition {
 		}
 
 		task ("Change the inline text style to Normal") {
+			Click(locator1 = "PageEditor#CONTENT_PAGE_DISABLED_FOOTER");
+
 			PageEditor.editFragmentText(
 				fragmentName = "Paragraph",
 				id = "element-text",
