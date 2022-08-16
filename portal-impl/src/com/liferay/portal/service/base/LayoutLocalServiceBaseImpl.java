@@ -484,7 +484,7 @@ public abstract class LayoutLocalServiceBaseImpl
 	 * <strong>Important:</strong> Inspect LayoutLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
 	 * </p>
 	 *
-	 * @param layout the layout
+	 * @param draftLayout the layout
 	 * @return the layout that was updated
 	 * @throws PortalException
 	 */

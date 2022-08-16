@@ -6394,6 +6394,10 @@ public class UserGroupPersistenceImpl
 			userGroup.setUuid(uuid);
 		}
 
+		if (Validator.isNull(userGroup.getExternalReferenceCode())) {
+			userGroup.setExternalReferenceCode(userGroup.getUuid());
+		}
+
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 

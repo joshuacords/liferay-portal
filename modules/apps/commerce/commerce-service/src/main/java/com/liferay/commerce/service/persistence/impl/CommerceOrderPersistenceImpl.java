@@ -8262,6 +8262,10 @@ public class CommerceOrderPersistenceImpl
 			commerceOrder.setUuid(uuid);
 		}
 
+		if (Validator.isNull(commerceOrder.getExternalReferenceCode())) {
+			commerceOrder.setExternalReferenceCode(commerceOrder.getUuid());
+		}
+
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 

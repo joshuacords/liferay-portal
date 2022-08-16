@@ -3796,6 +3796,10 @@ public class CPOptionPersistenceImpl
 			cpOption.setUuid(uuid);
 		}
 
+		if (Validator.isNull(cpOption.getExternalReferenceCode())) {
+			cpOption.setExternalReferenceCode(cpOption.getUuid());
+		}
+
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 

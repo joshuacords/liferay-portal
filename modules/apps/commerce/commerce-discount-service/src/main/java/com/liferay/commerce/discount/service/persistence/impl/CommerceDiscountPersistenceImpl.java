@@ -6992,6 +6992,11 @@ public class CommerceDiscountPersistenceImpl
 			commerceDiscount.setUuid(uuid);
 		}
 
+		if (Validator.isNull(commerceDiscount.getExternalReferenceCode())) {
+			commerceDiscount.setExternalReferenceCode(
+				commerceDiscount.getUuid());
+		}
+
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 

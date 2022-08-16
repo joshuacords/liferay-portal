@@ -3620,6 +3620,11 @@ public class CommercePricingClassPersistenceImpl
 			commercePricingClass.setUuid(uuid);
 		}
 
+		if (Validator.isNull(commercePricingClass.getExternalReferenceCode())) {
+			commercePricingClass.setExternalReferenceCode(
+				commercePricingClass.getUuid());
+		}
+
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 

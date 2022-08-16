@@ -5451,6 +5451,13 @@ public class CommerceTierPriceEntryPersistenceImpl
 			commerceTierPriceEntry.setUuid(uuid);
 		}
 
+		if (Validator.isNull(
+				commerceTierPriceEntry.getExternalReferenceCode())) {
+
+			commerceTierPriceEntry.setExternalReferenceCode(
+				commerceTierPriceEntry.getUuid());
+		}
+
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 

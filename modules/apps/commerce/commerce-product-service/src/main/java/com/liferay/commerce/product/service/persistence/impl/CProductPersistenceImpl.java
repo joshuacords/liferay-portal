@@ -2570,6 +2570,10 @@ public class CProductPersistenceImpl
 			cProduct.setUuid(uuid);
 		}
 
+		if (Validator.isNull(cProduct.getExternalReferenceCode())) {
+			cProduct.setExternalReferenceCode(cProduct.getUuid());
+		}
+
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 

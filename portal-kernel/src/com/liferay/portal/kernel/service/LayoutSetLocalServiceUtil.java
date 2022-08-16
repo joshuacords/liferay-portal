@@ -414,7 +414,7 @@ public class LayoutSetLocalServiceUtil {
 	 * <strong>Important:</strong> Inspect LayoutSetLocalServiceImpl for overloaded versions of the method. If provided, use these entry points to the API, as the implementation logic may require the additional parameters defined there.
 	 * </p>
 	 *
-	 * @param layoutSet the layout set
+	 * @param draftLayoutSet the layout set
 	 * @return the layout set that was updated
 	 * @throws PortalException
 	 */

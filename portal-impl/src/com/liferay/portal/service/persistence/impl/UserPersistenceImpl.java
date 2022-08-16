@@ -8632,6 +8632,10 @@ public class UserPersistenceImpl
 			user.setUuid(uuid);
 		}
 
+		if (Validator.isNull(user.getExternalReferenceCode())) {
+			user.setExternalReferenceCode(user.getUuid());
+		}
+
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 

@@ -751,9 +751,9 @@ public interface AccountNotePersistence extends BasePersistence<AccountNote> {
 	 * </p>
 	 *
 	 * @param accountId the account ID
-	 * @param type the type
-	 * @param priority the priority
-	 * @param status the status
+	 * @param types the types
+	 * @param priorities the priorities
+	 * @param statuses the statuses
 	 * @param start the lower bound of the range of account notes
 	 * @param end the upper bound of the range of account notes (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)

@@ -44,6 +44,7 @@ import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import java.io.Serializable;
@@ -745,7 +746,7 @@ public class CommerceAccountGroupPersistenceImpl
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>CommerceAccountGroupModelImpl</code>.
 	 * </p>
 	 *
-	 * @param commerceAccountGroupId the commerce account group ID
+	 * @param commerceAccountGroupIds the commerce account group IDs
 	 * @param start the lower bound of the range of commerce account groups
 	 * @param end the upper bound of the range of commerce account groups (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
@@ -3604,6 +3605,11 @@ public class CommerceAccountGroupPersistenceImpl
 
 		CommerceAccountGroupModelImpl commerceAccountGroupModelImpl =
 			(CommerceAccountGroupModelImpl)commerceAccountGroup;
+
+		if (Validator.isNull(commerceAccountGroup.getExternalReferenceCode())) {
+			commerceAccountGroup.setExternalReferenceCode(
+				String.valueOf(commerceAccountGroup.getPrimaryKey()));
+		}
 
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();

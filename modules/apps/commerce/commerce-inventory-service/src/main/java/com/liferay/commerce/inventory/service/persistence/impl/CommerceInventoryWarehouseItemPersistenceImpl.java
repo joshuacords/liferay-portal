@@ -41,6 +41,7 @@ import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import java.io.Serializable;
@@ -2712,6 +2713,13 @@ public class CommerceInventoryWarehouseItemPersistenceImpl
 			commerceInventoryWarehouseItemModelImpl =
 				(CommerceInventoryWarehouseItemModelImpl)
 					commerceInventoryWarehouseItem;
+
+		if (Validator.isNull(
+				commerceInventoryWarehouseItem.getExternalReferenceCode())) {
+
+			commerceInventoryWarehouseItem.setExternalReferenceCode(
+				String.valueOf(commerceInventoryWarehouseItem.getPrimaryKey()));
+		}
 
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();

@@ -5479,6 +5479,13 @@ public class CPAttachmentFileEntryPersistenceImpl
 			cpAttachmentFileEntry.setUuid(uuid);
 		}
 
+		if (Validator.isNull(
+				cpAttachmentFileEntry.getExternalReferenceCode())) {
+
+			cpAttachmentFileEntry.setExternalReferenceCode(
+				cpAttachmentFileEntry.getUuid());
+		}
+
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 

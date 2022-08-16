@@ -6999,6 +6999,10 @@ public class CPInstancePersistenceImpl
 			cpInstance.setUuid(uuid);
 		}
 
+		if (Validator.isNull(cpInstance.getExternalReferenceCode())) {
+			cpInstance.setExternalReferenceCode(cpInstance.getUuid());
+		}
+
 		ServiceContext serviceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
