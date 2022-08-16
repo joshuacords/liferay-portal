@@ -34,8 +34,6 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Image;
 import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutConstants;
@@ -89,15 +87,12 @@ public class LayoutCopyHelperImpl implements LayoutCopyHelper {
 			sourceLayout, targetLayout);
 
 		boolean copyLayout = CopyLayoutThreadLocal.isCopyLayout();
-		boolean stagingAdvicesThreadLocalEnabled =
-			StagingAdvicesThreadLocal.isEnabled();
 
 		ServiceContext currentServiceContext =
 			ServiceContextThreadLocal.getServiceContext();
 
 		try {
 			CopyLayoutThreadLocal.setCopyLayout(true);
-			StagingAdvicesThreadLocal.setEnabled(false);
 
 			return TransactionInvokerUtil.invoke(_transactionConfig, callable);
 		}
@@ -106,8 +101,6 @@ public class LayoutCopyHelperImpl implements LayoutCopyHelper {
 		}
 		finally {
 			CopyLayoutThreadLocal.setCopyLayout(copyLayout);
-			StagingAdvicesThreadLocal.setEnabled(
-				stagingAdvicesThreadLocalEnabled);
 
 			ServiceContextThreadLocal.pushServiceContext(currentServiceContext);
 		}
@@ -368,76 +361,59 @@ public class LayoutCopyHelperImpl implements LayoutCopyHelper {
 			Layout sourceLayout, Layout targetLayout)
 		throws Exception {
 
-		List<PortletPreferences> portletPreferencesList =
-			_portletPreferencesLocalService.getPortletPreferences(
-				PortletKeys.PREFS_OWNER_ID_DEFAULT,
-				PortletKeys.PREFS_OWNER_TYPE_LAYOUT, sourceLayout.getPlid());
+		boolean stagingAdvicesThreadLocalEnabled =
+			StagingAdvicesThreadLocal.isEnabled();
 
-		List<PortletPreferences> targetPortletPreferencesList =
-			_portletPreferencesLocalService.getPortletPreferences(
-				PortletKeys.PREFS_OWNER_ID_DEFAULT,
-				PortletKeys.PREFS_OWNER_TYPE_LAYOUT, targetLayout.getPlid());
+		try {
+			StagingAdvicesThreadLocal.setEnabled(false);
 
-		Stream<PortletPreferences> targetPortletPreferencesStream =
-			targetPortletPreferencesList.stream();
-
-		List<String> targetPortletIds = targetPortletPreferencesStream.map(
-			PortletPreferences::getPortletId
-		).collect(
-			Collectors.toList()
-		);
-
-		for (PortletPreferences portletPreferences : portletPreferencesList) {
-			Portlet portlet = _portletLocalService.getPortletById(
-				portletPreferences.getPortletId());
-
-			if ((portlet == null) || portlet.isUndeployedPortlet()) {
-				continue;
-			}
-
-			targetPortletIds.remove(portletPreferences.getPortletId());
-
-			PortletPreferences targetPortletPreferences =
-				_portletPreferencesLocalService.fetchPortletPreferences(
+			List<PortletPreferences> portletPreferencesList =
+				_portletPreferencesLocalService.getPortletPreferences(
 					PortletKeys.PREFS_OWNER_ID_DEFAULT,
-					PortletKeys.PREFS_OWNER_TYPE_LAYOUT, targetLayout.getPlid(),
+					PortletKeys.PREFS_OWNER_TYPE_LAYOUT,
+					sourceLayout.getPlid());
+
+			for (PortletPreferences portletPreferences :
+					portletPreferencesList) {
+
+				Portlet portlet = _portletLocalService.getPortletById(
 					portletPreferences.getPortletId());
 
-			if (targetPortletPreferences != null) {
-				_portletPreferencesLocalService.updatePreferences(
-					targetPortletPreferences.getOwnerId(),
-					targetPortletPreferences.getOwnerType(),
-					targetPortletPreferences.getPlid(),
-					targetPortletPreferences.getPortletId(),
-					portletPreferences.getPreferences());
-			}
-			else {
-				_portletPreferencesLocalService.addPortletPreferences(
-					targetLayout.getCompanyId(),
-					PortletKeys.PREFS_OWNER_ID_DEFAULT,
-					PortletKeys.PREFS_OWNER_TYPE_LAYOUT, targetLayout.getPlid(),
-					portletPreferences.getPortletId(),
-					_portletLocalService.getPortletById(
-						portletPreferences.getPortletId()),
-					portletPreferences.getPreferences());
-			}
-		}
+				if ((portlet == null) || portlet.isUndeployedPortlet()) {
+					continue;
+				}
 
-		for (String portletId : targetPortletIds) {
-			try {
-				_portletPreferencesLocalService.deletePortletPreferences(
-					PortletKeys.PREFS_OWNER_ID_DEFAULT,
-					PortletKeys.PREFS_OWNER_TYPE_LAYOUT, targetLayout.getPlid(),
-					portletId);
-			}
-			catch (Exception exception) {
-				if (_log.isDebugEnabled()) {
-					_log.debug(
-						"Unable to delete portlet preferences for portlet " +
-							portletId,
-						exception);
+				PortletPreferences targetPortletPreferences =
+					_portletPreferencesLocalService.fetchPortletPreferences(
+						PortletKeys.PREFS_OWNER_ID_DEFAULT,
+						PortletKeys.PREFS_OWNER_TYPE_LAYOUT,
+						targetLayout.getPlid(),
+						portletPreferences.getPortletId());
+
+				if (targetPortletPreferences != null) {
+					_portletPreferencesLocalService.updatePreferences(
+						targetPortletPreferences.getOwnerId(),
+						targetPortletPreferences.getOwnerType(),
+						targetPortletPreferences.getPlid(),
+						targetPortletPreferences.getPortletId(),
+						portletPreferences.getPreferences());
+				}
+				else {
+					_portletPreferencesLocalService.addPortletPreferences(
+						targetLayout.getCompanyId(),
+						PortletKeys.PREFS_OWNER_ID_DEFAULT,
+						PortletKeys.PREFS_OWNER_TYPE_LAYOUT,
+						targetLayout.getPlid(),
+						portletPreferences.getPortletId(),
+						_portletLocalService.getPortletById(
+							portletPreferences.getPortletId()),
+						portletPreferences.getPreferences());
 				}
 			}
+		}
+		finally {
+			StagingAdvicesThreadLocal.setEnabled(
+				stagingAdvicesThreadLocalEnabled);
 		}
 	}
 
@@ -470,9 +446,6 @@ public class LayoutCopyHelperImpl implements LayoutCopyHelper {
 
 		return true;
 	}
-
-	private static final Log _log = LogFactoryUtil.getLog(
-		LayoutCopyHelperImpl.class);
 
 	private static final TransactionConfig _transactionConfig =
 		TransactionConfig.Factory.create(
