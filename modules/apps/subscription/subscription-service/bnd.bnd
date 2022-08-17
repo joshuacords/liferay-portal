@@ -1,6 +1,6 @@
 Bundle-Name: Liferay Subscription Service
 Bundle-SymbolicName: com.liferay.subscription.service
-Bundle-Version: 2.1.38
+Bundle-Version: 2.1.39
 Import-Package:\
 	com.liferay.subscription.util.comparator,\
 	\
