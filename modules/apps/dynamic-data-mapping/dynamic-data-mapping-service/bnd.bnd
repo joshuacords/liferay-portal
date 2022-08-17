@@ -1,6 +1,6 @@
 Bundle-Name: Liferay Dynamic Data Mapping Service
 Bundle-SymbolicName: com.liferay.dynamic.data.mapping.service
-Bundle-Version: 4.2.33
+Bundle-Version: 4.2.34
 Export-Package: com.liferay.dynamic.data.mapping.service.http
 Import-Package:\
 	com.github.*;resolution:=optional,\
