@@ -54,18 +54,21 @@ describe('AddContact', () => {
 		getByText('account');
 	});
 
-	it('displays first and last name if first and last name, email, and roles are provided', () => {
-		const {getByText} = renderAddContact({
+	it('displays email and roles if email and roles are provided', () => {
+		const {container} = renderAddContact({
 			currentRoles: ['KEY-100'],
-			emailAddress: 'test1@liferay.com',
-			firstName: 'TestFirst',
-			lastName: 'TestLast'
+			emailAddress: 'test1@liferay.com'
 		});
 
-		getByText('first-name');
-		getByText('last-name');
-		getByText('TestFirst');
-		getByText('TestLast');
+		const inputs = container.querySelectorAll('input');
+
+		expect(inputs[2].value).toBe('test1@liferay.com');
+
+		const {getByText} = within(
+			container.querySelector('.input-group-item')
+		);
+
+		getByText('Manager');
 	});
 
 	it('displays contact roles if name, email, and roles are provided', () => {
