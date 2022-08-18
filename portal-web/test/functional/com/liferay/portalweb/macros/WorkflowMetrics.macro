@@ -229,7 +229,7 @@ definition {
 	}
 
 	macro waitForSLA {
-		while (IsTextEqual(locator1 = "WorkflowMetrics#DASHBOARD_TOTAL_${key_status}_ITEMS_VALUE", value1 = "${key_expectedValue}") && (maxIterations = "24")) {
+		while ((IsTextEqual(locator1 = "WorkflowMetrics#DASHBOARD_TOTAL_${key_status}_ITEMS_VALUE", value1 = "${key_expectedValue}")) && (maxIterations = "24")) {
 			echo("Waiting 5 seconds to recheck");
 
 			Pause(locator1 = "5000");

@@ -75,7 +75,7 @@ definition {
 			panel = "Control Panel",
 			portlet = "Products");
 
-		while (IsElementPresent(locator1 = "CommerceEntry#BODY_VERTICAL_ELLIPSIS") && (maxIterations = "50")) {
+		while ((IsElementPresent(locator1 = "CommerceEntry#BODY_VERTICAL_ELLIPSIS")) && (maxIterations = "50")) {
 			CommerceEntry.deleteCommerceEntry();
 		}
 
@@ -131,7 +131,7 @@ definition {
 			panel = "Control Panel",
 			portlet = "Inventory");
 
-		while (IsElementPresent(locator1 = "CommerceEntry#BODY_VERTICAL_ELLIPSIS") && (maxIterations = "100")) {
+		while ((IsElementPresent(locator1 = "CommerceEntry#BODY_VERTICAL_ELLIPSIS")) && (maxIterations = "100")) {
 			CommerceEntry.deleteCommerceEntry();
 		}
 
