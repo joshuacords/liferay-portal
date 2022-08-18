@@ -23,7 +23,7 @@ definition {
 	macro executeSearchActions {
 		var reindexElapsedTime = "0";
 
-		while (("${reindexElapsedTime}" == "0") || ("${reindexElapsedTime}" == "10") || ("${reindexElapsedTime}" == "480") && (maxIterations = "2")) {
+		while ((("${reindexElapsedTime}" == "0") || ("${reindexElapsedTime}" == "10") || ("${reindexElapsedTime}" == "480")) && (maxIterations = "2")) {
 			AssertTextEquals(
 				locator1 = "Portlet#HEADER",
 				value1 = "Search");
@@ -63,7 +63,7 @@ definition {
 					echo("Started reindexing ${reindexStartTime} second(s) after clicking 'Execute'.");
 				}
 
-				while ((contains("${elasticsearchTasks}", "indices:data/write/bulk") || (IsElementPresent(locator1 = "ControlMenu#RELOAD_TOOLTIP"))) && ("${reindexElapsedTime}" != "480") && (maxIterations = "48")) {
+				while (((contains("${elasticsearchTasks}", "indices:data/write/bulk") || (IsElementPresent(locator1 = "ControlMenu#RELOAD_TOOLTIP"))) && ("${reindexElapsedTime}" != "480")) && (maxIterations = "48")) {
 					Pause.pauseNoSPARefresh(locator1 = "10000");
 
 					var reindexElapsedTime = ${reindexElapsedTime} + 10;
@@ -92,7 +92,7 @@ definition {
 					echo("Started reindexing ${reindexStartTime} second(s) after clicking 'Execute'.");
 				}
 
-				while ((IsElementPresent(locator1 = "ControlMenu#RELOAD_TOOLTIP")) && ("${reindexElapsedTime}" != "480") && (maxIterations = "48")) {
+				while (((IsElementPresent(locator1 = "ControlMenu#RELOAD_TOOLTIP")) && ("${reindexElapsedTime}" != "480")) && (maxIterations = "48")) {
 					Pause.pauseNoSPARefresh(locator1 = "10000");
 
 					var reindexElapsedTime = ${reindexElapsedTime} + 10;
