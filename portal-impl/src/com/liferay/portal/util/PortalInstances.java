@@ -52,12 +52,14 @@ import java.sql.SQLException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * @author Brian Wing Shun Chan
@@ -489,6 +491,30 @@ public class PortalInstances {
 
 					httpServletRequest.setAttribute(
 						WebKeys.I18N_LANGUAGE_ID, languageId);
+				}
+
+				HttpSession httpSession = httpServletRequest.getSession(false);
+
+				if (httpSession != null) {
+					Locale locale = (Locale)httpSession.getAttribute(
+						WebKeys.LOCALE);
+
+					if (locale != null) {
+						languageId = LanguageUtil.getLanguageId(locale);
+
+						if (Validator.isNotNull(languageId) &&
+							LanguageUtil.isAvailableLocale(languageId)) {
+
+							if (_log.isDebugEnabled()) {
+								_log.debug(
+									"Session has updated language " +
+										languageId);
+							}
+
+							httpServletRequest.setAttribute(
+								WebKeys.I18N_LANGUAGE_ID, languageId);
+						}
+					}
 				}
 			}
 
