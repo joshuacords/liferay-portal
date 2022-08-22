@@ -94,6 +94,12 @@ public class AccountDisplay {
 		return addPostalAddressURL.toString();
 	}
 
+	public String getAnalyticsCloudGroupId() {
+		return _getExternalLinkEntityId(
+			ExternalLinkDomain.ANALYTICS_CLOUD,
+			ExternalLinkEntityName.ANALYTICS_CLOUD_GROUP);
+	}
+
 	public String getCode() {
 		if (Validator.isNotNull(_account.getCode())) {
 			return _account.getCode();
@@ -130,6 +136,12 @@ public class AccountDisplay {
 		return _getExternalLinkEntityId(
 			ExternalLinkDomain.DOSSIERA,
 			ExternalLinkEntityName.DOSSIERA_PROJECT);
+	}
+
+	public String getDxpCloudProjectId() {
+		return _getExternalLinkEntityId(
+			ExternalLinkDomain.DXP_CLOUD,
+			ExternalLinkEntityName.DXP_CLOUD_PROJECT);
 	}
 
 	public String getEditAccountHierarchyURL() {
@@ -394,6 +406,13 @@ public class AccountDisplay {
 		return StringPool.DASH;
 	}
 
+	public String getUpdateAnalyticsCloudGroupURL() {
+		return _getUpdateExternalLinkURL(
+			_getExternalLinkKey(
+				ExternalLinkDomain.ANALYTICS_CLOUD,
+				ExternalLinkEntityName.ANALYTICS_CLOUD_GROUP));
+	}
+
 	public String getUpdateDossieraAccountURL() {
 		return _getUpdateExternalLinkURL(
 			_getExternalLinkKey(
@@ -406,6 +425,13 @@ public class AccountDisplay {
 			_getExternalLinkKey(
 				ExternalLinkDomain.DOSSIERA,
 				ExternalLinkEntityName.DOSSIERA_PROJECT));
+	}
+
+	public String getUpdateDxpCloudProjectURL() {
+		return _getUpdateExternalLinkURL(
+			_getExternalLinkKey(
+				ExternalLinkDomain.DXP_CLOUD,
+				ExternalLinkEntityName.DXP_CLOUD_PROJECT));
 	}
 
 	public String getUpdateSalesforceProjectURL() {

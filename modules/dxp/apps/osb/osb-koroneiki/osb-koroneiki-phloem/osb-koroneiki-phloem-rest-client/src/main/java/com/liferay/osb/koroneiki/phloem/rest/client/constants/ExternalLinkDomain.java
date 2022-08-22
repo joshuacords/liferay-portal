@@ -19,9 +19,13 @@ package com.liferay.osb.koroneiki.phloem.rest.client.constants;
  */
 public class ExternalLinkDomain {
 
+	public static final String ANALYTICS_CLOUD = "analytics-cloud";
+
 	public static final String CUSTOMER = "customer";
 
 	public static final String DOSSIERA = "dossiera";
+
+	public static final String DXP_CLOUD = "dxp-cloud";
 
 	public static final String JIRA = "jira";
 

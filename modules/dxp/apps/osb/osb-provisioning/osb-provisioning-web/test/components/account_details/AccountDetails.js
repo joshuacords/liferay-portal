@@ -66,8 +66,10 @@ function renderAccountDetails(props) {
 				dataRegion: 'Brazil',
 				dateCreated: CURRENT_TIME.toLocaleString('en-US'),
 				dateModified: CURRENT_TIME.toLocaleString('en-US'),
+				analyticsCloudGroupId: 'testAnalyticsCloudGroupId',
 				dossieraAccountKey: 'testDossieraAccountKey',
 				dossieraProjectKey: 'testDossieraProjectKey',
+				dxpCloudProjectId: 'testDxpCloudProjectId',
 				editAccountURL: 'edit/account/url',
 				firstLineSupportTeamKey: 'first-line-123',
 				firstLineSupportTeamName: 'Test Support Team',
@@ -82,9 +84,11 @@ function renderAccountDetails(props) {
 				subscriptionState: 'Active',
 				subscriptionStateStyle: 'label-success',
 				tier: 'Regular',
+				updateAnalyticsCloudGroupURL: '/update/analytics-cloud/group',
 				updateDossieraAccountURL: '/update/dossiera/account',
 				updateDossieraProjectURL: '/update/dossiera/project',
-				updateSalesforceProjectURL: 'update/salesforce/project'
+				updateDxpCloudProjectURL: '/update/dxp-cloud/project',
+				updateSalesforceProjectURL: '/update/salesforce/project'
 			}}
 			liferayVersionNames={[
 				'DXP 7.0',

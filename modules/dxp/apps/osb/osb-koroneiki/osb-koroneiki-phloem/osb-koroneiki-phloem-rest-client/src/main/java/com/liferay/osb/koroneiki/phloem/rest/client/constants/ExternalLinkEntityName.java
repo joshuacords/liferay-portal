@@ -19,11 +19,15 @@ package com.liferay.osb.koroneiki.phloem.rest.client.constants;
  */
 public class ExternalLinkEntityName {
 
+	public static final String ANALYTICS_CLOUD_GROUP = "group";
+
 	public static final String DOSSIERA_ACCOUNT = "account";
 
 	public static final String DOSSIERA_PRODUCT = "product";
 
 	public static final String DOSSIERA_PROJECT = "project";
+
+	public static final String DXP_CLOUD_PROJECT = "project";
 
 	public static final String JIRA_PROJECT = "project";
 

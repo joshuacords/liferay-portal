@@ -21,7 +21,9 @@ ViewAccountDisplayContext viewAccountDisplayContext = ProvisioningWebComponentPr
 %>
 
 <liferay-ui:error exception="<%= AccountCodeException.class %>" message="please-enter-a-valid-code" />
-<liferay-ui:error exception="<%= DuplicateDossieraKeyException.class %>" message="dossiera-keys-must-be-unique" />
+<liferay-ui:error exception="<%= DuplicateAnalyticsCloudGroupIdException.class %>" message="analytics-cloud-group-id-must-be-unique" />
+<liferay-ui:error exception="<%= DuplicateDossieraKeyException.class %>" message="dossiera-key-must-be-unique" />
+<liferay-ui:error exception="<%= DuplicateDXPCloudProjectIdException.class %>" message="dxp-cloud-project-id-must-be-unique" />
 <liferay-ui:error exception="<%= MultipleDossieraKeysException.class %>" message="an-account-can-only-have-one-dossiera-key" />
 
 <liferay-ui:error exception="<%= Problem.ProblemException.class %>">

@@ -20,6 +20,8 @@ import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Account;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ExternalLink;
 import com.liferay.osb.koroneiki.phloem.rest.client.problem.Problem;
 import com.liferay.osb.provisioning.constants.ProvisioningPortletKeys;
+import com.liferay.osb.provisioning.exception.DuplicateAnalyticsCloudGroupIdException;
+import com.liferay.osb.provisioning.exception.DuplicateDXPCloudProjectIdException;
 import com.liferay.osb.provisioning.exception.DuplicateDossieraKeyException;
 import com.liferay.osb.provisioning.exception.MultipleDossieraKeysException;
 import com.liferay.osb.provisioning.koroneiki.web.service.AccountWebService;
@@ -89,7 +91,9 @@ public class EditExternalLinkMVCActionCommand extends BaseMVCActionCommand {
 		catch (Exception exception) {
 			_log.error(exception, exception);
 
-			if (exception instanceof DuplicateDossieraKeyException ||
+			if (exception instanceof DuplicateAnalyticsCloudGroupIdException ||
+				exception instanceof DuplicateDossieraKeyException ||
+				exception instanceof DuplicateDXPCloudProjectIdException ||
 				exception instanceof MultipleDossieraKeysException ||
 				exception instanceof Problem.ProblemException) {
 
@@ -148,7 +152,10 @@ public class EditExternalLinkMVCActionCommand extends BaseMVCActionCommand {
 			String entityId)
 		throws Exception {
 
-		if (!domain.equals(ExternalLinkDomain.DOSSIERA)) {
+		if (!domain.equals(ExternalLinkDomain.ANALYTICS_CLOUD) &&
+			!domain.equals(ExternalLinkDomain.DOSSIERA) &&
+			!domain.equals(ExternalLinkDomain.DXP_CLOUD)) {
+
 			return;
 		}
 
@@ -156,7 +163,15 @@ public class EditExternalLinkMVCActionCommand extends BaseMVCActionCommand {
 			domain, entityName, entityId, 1, 1);
 
 		if (!accounts.isEmpty()) {
-			throw new DuplicateDossieraKeyException();
+			if (domain.equals(ExternalLinkDomain.ANALYTICS_CLOUD)) {
+				throw new DuplicateAnalyticsCloudGroupIdException();
+			}
+			else if (domain.equals(ExternalLinkDomain.DOSSIERA)) {
+				throw new DuplicateDossieraKeyException();
+			}
+			else if (domain.equals(ExternalLinkDomain.DXP_CLOUD)) {
+				throw new DuplicateDXPCloudProjectIdException();
+			}
 		}
 
 		List<ExternalLink> externalLinks =

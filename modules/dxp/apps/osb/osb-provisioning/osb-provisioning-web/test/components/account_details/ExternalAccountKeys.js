@@ -20,13 +20,17 @@ function renderExternalAccountKeys(permission = true) {
 		<PermissionsProvider permissions={{updatePermission: permission}}>
 			<ExternalAccountKeys
 				details={{
+					analyticsCloudGroupId: 'testAnalyticsCloudGroupId',
 					dossieraAccountKey: 'testDossieraAccountKey',
 					dossieraProjectKey: 'testDossieraProjectKey',
+					dxpCloudProjectId: 'testDxpCloudProjectId',
 					key: '123',
 					salesforceProjectKey: 'testSalesForceProjectKey',
+					updateAnalyticsCloudGroupURL: '/update/analytics-cloud/group',
 					updateDossieraAccountURL: '/update/dossiera/account',
 					updateDossieraProjectURL: '/update/dossiera/project',
-					updateSalesforceProjectURL: 'update/salesforce/project'
+					updateDXPCloudProjectURL: '/update/dxp-cloud/project',
+					updateSalesforceProjectURL: '/update/salesforce/project'
 				}}
 			/>
 		</PermissionsProvider>
@@ -42,6 +46,13 @@ describe('ExternalAccountKeys', () => {
 		expect(container).toBeTruthy();
 	});
 
+	it('displays Analytics Cloud Group field with the correct value', () => {
+		const {getByText} = renderExternalAccountKeys();
+
+		getByText('analytics-cloud-group');
+		getByText('testAnalyticsCloudGroupId');
+	});
+
 	it('displays Dossiera Account field with the correct value', () => {
 		const {getByText} = renderExternalAccountKeys();
 
@@ -54,6 +65,13 @@ describe('ExternalAccountKeys', () => {
 
 		getByText('dossiera-project');
 		getByText('testDossieraProjectKey');
+	});
+
+	it('displays DXP Cloud Project field with the correct value', () => {
+		const {getByText} = renderExternalAccountKeys();
+
+		getByText('dxp-cloud-project');
+		getByText('testDxpCloudProjectId');
 	});
 
 	it('displays Salesforce Project field with the correct value', () => {

@@ -48,8 +48,10 @@
 		<exception>ContactEmailAddress</exception>
 		<exception>ContactName</exception>
 		<exception>ContactRequired</exception>
+		<exception>DuplicateAnalyticsCloudGroupId</exception>
 		<exception>DuplicateContactRole</exception>
 		<exception>DuplicateDossieraKey</exception>
+		<exception>DuplicateDXPCloudProjectId</exception>
 		<exception>MultipleDossieraKeys</exception>
 		<exception>ProductBundleName</exception>
 		<exception>ProductPurchaseQuantity</exception>

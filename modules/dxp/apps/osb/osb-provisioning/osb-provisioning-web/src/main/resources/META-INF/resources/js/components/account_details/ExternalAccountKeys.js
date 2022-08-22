@@ -34,6 +34,21 @@ function ExternalAccountKeys({details}) {
 			</ClayList.Header>
 
 			<DetailField
+				fieldLabel={Liferay.Language.get('analytics-cloud-group')}
+				fieldName="entityId"
+				formAction={details.updateAnalyticsCloudGroupURL}
+				formData={{
+					domain: 'analytics-cloud',
+					entityId: convertDashToEmptyString(
+						details.analyticsCloudGroupId
+					),
+					entityName: 'group'
+				}}
+				type={fieldType}
+				value={details.analyticsCloudGroupId}
+			/>
+
+			<DetailField
 				fieldLabel={Liferay.Language.get('dossiera-account')}
 				fieldName="entityId"
 				formAction={details.updateDossieraAccountURL}
@@ -64,6 +79,21 @@ function ExternalAccountKeys({details}) {
 			/>
 
 			<DetailField
+				fieldLabel={Liferay.Language.get('dxp-cloud-project')}
+				fieldName="entityId"
+				formAction={details.updateDxpCloudProjectURL}
+				formData={{
+					domain: 'dxp-cloud',
+					entityId: convertDashToEmptyString(
+						details.dxpCloudProjectId
+					),
+					entityName: 'project'
+				}}
+				type={fieldType}
+				value={details.dxpCloudProjectId}
+			/>
+
+			<DetailField
 				fieldLabel={Liferay.Language.get('salesforce-project')}
 				fieldName="entityId"
 				formAction={details.updateSalesforceProjectURL}
@@ -87,8 +117,10 @@ ExternalAccountKeys.propTypes = {
 		dossieraProjectKey: PropTypes.string,
 		key: PropTypes.string,
 		salesforceProjectKey: PropTypes.string,
+		updateAnalyticsCloudGroupURL: PropTypes.string,
 		updateDossieraAccountURL: PropTypes.string,
 		updateDossieraProjectURL: PropTypes.string,
+		updateDxpCloudProjectURL: PropTypes.string,
 		updateSalesforceProjectURL: PropTypes.string
 	})
 };
