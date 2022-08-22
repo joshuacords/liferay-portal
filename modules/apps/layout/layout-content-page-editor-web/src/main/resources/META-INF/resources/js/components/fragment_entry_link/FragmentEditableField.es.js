@@ -138,7 +138,7 @@ class FragmentEditableField extends PortletBase {
 
 		const content = Soy.toIncDom(
 			processor.render(this.content, value, this.editableValues)
-		);
+		) || state.content;
 
 		const highlighted = editableShouldBeHighlighted(
 			state.activeItemId,
