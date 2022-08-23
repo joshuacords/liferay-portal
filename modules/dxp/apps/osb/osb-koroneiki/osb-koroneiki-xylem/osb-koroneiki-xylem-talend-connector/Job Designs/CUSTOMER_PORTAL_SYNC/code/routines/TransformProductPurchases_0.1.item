@@ -52,7 +52,13 @@ public class TransformProductPurchases {
 			JSONArray productConsumptionsJSONArray = jsonObject.getJSONArray(
 				"productConsumptions");
 			String productPurchaseKey = jsonObject.getString("key");
+
 			int quantity = jsonObject.getInt("quantity");
+
+			if (quantity > 10000) {
+				quantity = 10000;
+			}
+
 			Date startDate = DateUtil.parseStartDate(jsonObject);
 
 			JSONObject propertiesJSONObject = jsonObject.getJSONObject(
