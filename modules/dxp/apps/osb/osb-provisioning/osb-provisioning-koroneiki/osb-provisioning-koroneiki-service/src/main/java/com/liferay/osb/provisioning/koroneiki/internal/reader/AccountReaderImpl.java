@@ -92,6 +92,7 @@ public class AccountReaderImpl implements AccountReader {
 			return 0;
 		}
 
+		boolean analyticsCloud = false;
 		boolean managedServices = false;
 		int supportSeatAddons = 0;
 		int productionInstances = 0;
@@ -111,7 +112,7 @@ public class AccountReaderImpl implements AccountReader {
 				curName.equals(
 					ProductConstants.NAME_ANALYTICS_CLOUD_ENTERPRISE)) {
 
-				return -1;
+				analyticsCloud = true;
 			}
 
 			if (curName.equals(
@@ -182,6 +183,10 @@ public class AccountReaderImpl implements AccountReader {
 		}
 
 		if (productionInstances <= 0) {
+			if (analyticsCloud) {
+				return -1;
+			}
+
 			return 0;
 		}
 
