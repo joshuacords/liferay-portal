@@ -891,6 +891,14 @@ definition {
 			value1 = "${itemName}");
 	}
 
+	macro setLocalStorageValue {
+		var javaScript = '''
+		localStorage.setItem('${keyName}', '${keyValue}');
+		''';
+
+		var localStorageItem = selenium.getEval("${javaScript}");
+	}
+
 	macro tearDownAC {
 		ACUtils.launchAC();
 
