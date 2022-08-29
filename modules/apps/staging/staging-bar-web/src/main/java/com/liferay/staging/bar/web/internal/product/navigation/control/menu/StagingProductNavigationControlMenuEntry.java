@@ -124,9 +124,10 @@ public class StagingProductNavigationControlMenuEntry
 			if ((publishedLayout == null) ||
 				!LayoutPermissionUtil.contains(
 					themeDisplay.getPermissionChecker(), layout,
-					ActionKeys.UPDATE))
+					ActionKeys.UPDATE)) {
 
 				return false;
+			}
 		}
 
 		String layoutMode = ParamUtil.getString(
