@@ -42,7 +42,7 @@
 </tr>
 <tr>
 	<td>TRIGGER</td>
-	<td>//a[*[name()='svg'][contains(@class,'icon-caret-double')]]</td>
+	<td>//div[*[name()='svg'][contains(@class,'icon-caret-double')]]</td>
 	<td></td>
 </tr>
 <tr>
