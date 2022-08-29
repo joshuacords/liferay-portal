@@ -72,7 +72,7 @@
 </tr>
 <tr>
 	<td>CONTENT_ABSTRACT</td>
-	<td>//div[contains(@class,'content')]//p[contains(.,'${key_entryAbstractDescription}')]</td>
+	<td>//div[contains(@class,'content')]//p[contains(.,'${key_entryAbstractDescription}')] | //div[contains(@class,'content')]//p[contains(normalize-space(),'${key_entryAbstractDescription}')]</td>
 	<td></td>
 </tr>
 <tr>
