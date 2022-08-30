@@ -343,7 +343,7 @@ class Options extends Component {
 		const deletedIndex = this.getFieldIndex(delegateTarget);
 		const fieldName = this.findOptionByIndex(this.items, deletedIndex);
 
-		Liferay.fire('optionDeleted', {
+		Liferay.fire('optionConfirmDeleted', {
 			deletedIndex,
 			fieldInstance: this,
 			fieldName

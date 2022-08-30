@@ -77,7 +77,11 @@ class LayoutProvider extends Component {
 	}
 
 	getEvents() {
-		Liferay.on('optionDeleted', this._handleOptionDeleted, this);
+		Liferay.on(
+			'optionConfirmDeleted',
+			this._handleOptionConfirmDeleted,
+			this
+		);
 
 		return {
 			activePageUpdated: this._handleActivePageUpdated.bind(this),
@@ -95,6 +99,7 @@ class LayoutProvider extends Component {
 				this
 			),
 			languageIdDeleted: this._handleLanguageIdDeleted.bind(this),
+			optionDeleted: this._handleOptionDeleted.bind(this),
 			pageAdded: this._handlePageAdded.bind(this),
 			pageDeleted: this._handlePageDeleted.bind(this),
 			pageReset: this._handlePageReset.bind(this),
@@ -463,6 +468,7 @@ class LayoutProvider extends Component {
 					modalInstance.optionData,
 					modalInstance.optionInstance
 				);
+				this.dispatch('optionDeleted', this.props.rules);
 			}
 		}
 	}
@@ -507,7 +513,7 @@ class LayoutProvider extends Component {
 		this.setState(handleLanguageIdDeleted(focusedField, pages, locale));
 	}
 
-	_handleOptionDeleted({deletedIndex, fieldInstance, fieldName}) {
+	_handleOptionConfirmDeleted({deletedIndex, fieldInstance, fieldName}) {
 		if (RulesSupport.findRuleByFieldName(fieldName, this.props.rules)) {
 			this.refs.existingRuleModal.optionData = deletedIndex;
 			this.refs.existingRuleModal.optionInstance = fieldInstance;
@@ -516,6 +522,12 @@ class LayoutProvider extends Component {
 		else {
 			fieldInstance.deleteOption(deletedIndex, fieldInstance);
 		}
+	}
+
+	_handleOptionDeleted(event) {
+		this.setState({
+			rules: RulesSupport.formatRules(this.state.pages, event)
+		});
 	}
 
 	_handlePageAdded() {

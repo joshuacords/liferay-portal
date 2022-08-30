@@ -89,12 +89,35 @@ const formatRules = (pages, rules) => {
 				}
 			});
 
+			const firstOperandFieldType = getFieldType(
+				condition.operands[0].value,
+				pages
+			);
+
+			if (
+				firstOperandFieldExists &&
+				fieldWithOptions(firstOperandFieldType) &&
+				condition.operands[1].type != 'field'
+			) {
+				const fieldName = condition.operands[0].value;
+				const options = getFieldOptions(fieldName, pages);
+				secondOperandFieldExists =
+					options && optionBelongsToRule(condition, options);
+			}
+
 			if (condition.operands[0].value === 'user') {
 				firstOperandFieldExists = true;
 			}
 
 			if (!firstOperandFieldExists) {
 				clearAllConditionFieldValues(condition);
+			}
+
+			if (
+				fieldWithOptions(firstOperandFieldType) &&
+				!secondOperandFieldExists
+			) {
+				clearSecondOperandValue(condition);
 			}
 
 			if (
