@@ -77,6 +77,8 @@ class LayoutProvider extends Component {
 	}
 
 	getEvents() {
+		Liferay.on('optionDeleted', this._handleOptionDeleted, this);
+
 		return {
 			activePageUpdated: this._handleActivePageUpdated.bind(this),
 			columnResized: this._handleColumnResized.bind(this),
@@ -450,8 +452,18 @@ class LayoutProvider extends Component {
 	}
 
 	_handleDeleteFieldModalButtonClicked(event) {
+		const modalInstance = this.refs.existingRuleModal;
+
 		if (event.target.classList.contains('btn-primary')) {
-			this.dispatch('fieldDeleted', this.refs.existingRuleModal.data);
+			if (modalInstance.data) {
+				this.dispatch('fieldDeleted', modalInstance.data);
+			}
+			else {
+				modalInstance.optionInstance.deleteOption(
+					modalInstance.optionData,
+					modalInstance.optionInstance
+				);
+			}
 		}
 	}
 
@@ -493,6 +505,17 @@ class LayoutProvider extends Component {
 		const {focusedField, pages} = this.state;
 
 		this.setState(handleLanguageIdDeleted(focusedField, pages, locale));
+	}
+
+	_handleOptionDeleted({deletedIndex, fieldInstance, fieldName}) {
+		if (RulesSupport.findRuleByFieldName(fieldName, this.props.rules)) {
+			this.refs.existingRuleModal.optionData = deletedIndex;
+			this.refs.existingRuleModal.optionInstance = fieldInstance;
+			this.refs.existingRuleModal.show();
+		}
+		else {
+			fieldInstance.deleteOption(deletedIndex, fieldInstance);
+		}
 	}
 
 	_handlePageAdded() {

@@ -53,8 +53,8 @@ class Options extends Component {
 		this._createDragDrop();
 	}
 
-	deleteOption(deletedIndex) {
-		let {value} = this;
+	deleteOption(deletedIndex, fieldInstance) {
+		let value = fieldInstance.value;
 
 		Object.keys(value).forEach(languageId => {
 			value = {
@@ -78,6 +78,10 @@ class Options extends Component {
 		super.disposeInternal();
 
 		this.disposeDragAndDrop();
+	}
+
+	findOptionByIndex(option, index) {
+		return option[index].value;
 	}
 
 	findOptionByValue(options, name, limit = options.length) {
@@ -337,8 +341,13 @@ class Options extends Component {
 	_handleOptionDeleted(event) {
 		const {delegateTarget} = event;
 		const deletedIndex = this.getFieldIndex(delegateTarget);
+		const fieldName = this.findOptionByIndex(this.items, deletedIndex);
 
-		this.deleteOption(deletedIndex);
+		Liferay.fire('optionDeleted', {
+			deletedIndex,
+			fieldInstance: this,
+			fieldName
+		});
 	}
 
 	_handleOptionEdited(event, property) {
