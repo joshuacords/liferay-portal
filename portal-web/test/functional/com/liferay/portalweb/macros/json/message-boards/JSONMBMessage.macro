@@ -40,6 +40,14 @@ definition {
 			var addGuestPermissions = "false";
 		}
 
+		if (!(isSet(userEmailAddress))) {
+			var userEmailAddress = "test@liferay.com";
+		}
+
+		if (!(isSet(userPassword))) {
+			var userPassword = "test";
+		}
+
 		var serviceContext = JSONServiceContextUtil.setServiceContext(
 			addGroupPermissions = "true",
 			addGuestPermissions = "${addGuestPermissions}",
@@ -49,7 +57,7 @@ definition {
 
 		var curl = '''
 			${portalURL}/api/jsonws/mb.mbmessage/add-message \
-			-u test@liferay.com:test \
+			-u ${userEmailAddress}:${userPassword} \
 			-d groupId=${groupId} \
 			-d categoryId=${categoryId} \
 			-d subject=${threadSubject} \
