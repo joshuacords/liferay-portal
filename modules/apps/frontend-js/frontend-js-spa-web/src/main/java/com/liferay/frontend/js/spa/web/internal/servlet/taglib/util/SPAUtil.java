@@ -283,7 +283,9 @@ public class SPAUtil {
 		}
 
 		for (String customExcludedPath : customExcludedPaths) {
-			jsonArray.put(_portal.getPathContext() + customExcludedPath);
+			if (customExcludedPath != StringPool.BLANK) {
+				jsonArray.put(_portal.getPathContext() + customExcludedPath);
+			}
 		}
 
 		return jsonArray;
