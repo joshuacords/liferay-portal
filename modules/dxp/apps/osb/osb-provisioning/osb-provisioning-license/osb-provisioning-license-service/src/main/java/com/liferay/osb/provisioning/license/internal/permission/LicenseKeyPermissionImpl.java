@@ -54,13 +54,6 @@ public class LicenseKeyPermissionImpl implements LicenseKeyPermission {
 
 		if (_roleLocalService.hasUserRole(
 				permissionChecker.getUserId(), permissionChecker.getCompanyId(),
-				RoleConstants.PROVISIONING_ADMIN, false)) {
-
-			return true;
-		}
-
-		if (_roleLocalService.hasUserRole(
-				permissionChecker.getUserId(), permissionChecker.getCompanyId(),
 				RoleConstants.PROVISIONING_ACCOUNT_WORKER, false) &&
 			ArrayUtil.contains(
 				_PROVISIONING_ACCOUNT_WORKER_ACTION_IDS, actionId)) {
@@ -70,8 +63,16 @@ public class LicenseKeyPermissionImpl implements LicenseKeyPermission {
 
 		if (_roleLocalService.hasUserRole(
 				permissionChecker.getUserId(), permissionChecker.getCompanyId(),
-				RoleConstants.PROVISIONING_WORKER, false) &&
-			ArrayUtil.contains(_PROVISIONING_WORKER_ACTION_IDS, actionId)) {
+				RoleConstants.PROVISIONING_ADMIN, false)) {
+
+			return true;
+		}
+
+		if (_roleLocalService.hasUserRole(
+				permissionChecker.getUserId(), permissionChecker.getCompanyId(),
+				RoleConstants.PROVISIONING_CONTACT_WORKER, false) &&
+			ArrayUtil.contains(
+				_PROVISIONING_CONTACT_WORKER_ACTION_IDS, actionId)) {
 
 			return true;
 		}
@@ -86,9 +87,8 @@ public class LicenseKeyPermissionImpl implements LicenseKeyPermission {
 
 		if (_roleLocalService.hasUserRole(
 				permissionChecker.getUserId(), permissionChecker.getCompanyId(),
-				RoleConstants.PROVISIONING_CONTACT_WORKER, false) &&
-			ArrayUtil.contains(
-				_PROVISIONING_CONTACT_WORKER_ACTION_IDS, actionId)) {
+				RoleConstants.PROVISIONING_WORKER, false) &&
+			ArrayUtil.contains(_PROVISIONING_WORKER_ACTION_IDS, actionId)) {
 
 			return true;
 		}
