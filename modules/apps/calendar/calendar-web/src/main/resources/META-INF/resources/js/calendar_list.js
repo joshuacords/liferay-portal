@@ -247,11 +247,18 @@ AUI.add(
 
 				_onSimpleMenuVisibleChange(event) {
 					var instance = this;
+					var calendar = instance.activeNode.one(
+						'.calendar-list-item-arrow'
+					)._node;
 
 					if (instance.activeNode && !event.newVal) {
+						calendar.setAttribute('aria-expanded', false);
 						instance.activeNode.removeClass(
 							CSS_CALENDAR_LIST_ITEM_ACTIVE
 						);
+					}
+					else {
+						calendar.setAttribute('aria-expanded', true);
 					}
 				},
 
@@ -270,6 +277,7 @@ AUI.add(
 
 					instance.items
 						.all(STR_DOT + CSS_CALENDAR_LIST_ITEM_ARROW)
+						.setAttribute('aria-expanded', false)
 						.setAttribute('aria-controls', simpleMenu.id);
 
 					contentBox.setContent(instance.items);
