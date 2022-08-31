@@ -18,7 +18,9 @@
 
 <div class="sheet">
 	<div class="sheet-header">
-		<h3 class="sheet-title"><liferay-ui:message key="summary" /></h3>
+		<h3 class="sheet-title">
+			<liferay-ui:message key="summary" />
+		</h3>
 	</div>
 
 	<div class="sheet-section">
@@ -119,8 +121,6 @@
 		for (int i = 0; i < results.size(); i++) {
 			PermissionDisplay permissionDisplay = (PermissionDisplay)results.get(i);
 
-			Permission permission = permissionDisplay.getPermission();
-
 			Resource resource = permissionDisplay.getResource();
 
 			String curResource = resource.getName();
@@ -130,8 +130,6 @@
 			String curModelLabel = permissionDisplay.getModelLabel();
 			String actionId = permissionDisplay.getActionId();
 			String actionLabel = permissionDisplay.getActionLabel();
-
-			ResultRow row = new ResultRow(new Object[] {permission, role}, actionId, i);
 
 			List groups = Collections.emptyList();
 
@@ -156,6 +154,22 @@
 			else {
 				scope = ResourceConstants.SCOPE_GROUP_TEMPLATE;
 			}
+
+			Permission permission = permissionDisplay.getPermission();
+
+			String[] primKeys = {permission.getPrimKey()};
+
+			if (scope == ResourceConstants.SCOPE_GROUP) {
+				primKeys = new String[groups.size()];
+
+				for (int j = 0; j < groups.size(); j++) {
+					Group group = (Group)groups.get(j);
+
+					primKeys[j] = String.valueOf(group.getGroupId());
+				}
+			}
+
+			ResultRow row = new ResultRow(new Object[] {permission, role, primKeys}, actionId, i);
 
 			boolean selected = ResourcePermissionLocalServiceUtil.hasScopeResourcePermission(company.getCompanyId(), curResource, scope, role.getRoleId(), actionId);
 
