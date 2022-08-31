@@ -47,6 +47,15 @@ public class AccountPermissionChecker {
 
 		if (_roleLocalService.hasUserRole(
 				permissionChecker.getUserId(), permissionChecker.getCompanyId(),
+				RoleConstants.PROVISIONING_ACCOUNT_WORKER, false) &&
+			ArrayUtil.contains(
+				_PROVISIONING_ACCOUNT_WORKER_ACTION_IDS, actionId)) {
+
+			return true;
+		}
+
+		if (_roleLocalService.hasUserRole(
+				permissionChecker.getUserId(), permissionChecker.getCompanyId(),
 				RoleConstants.PROVISIONING_WORKER, false) &&
 			ArrayUtil.contains(_PROVISIONING_WORKER_ACTION_IDS, actionId)) {
 
@@ -77,6 +86,16 @@ public class AccountPermissionChecker {
 	protected void setRoleLocalService(RoleLocalService roleLocalService) {
 		_roleLocalService = roleLocalService;
 	}
+
+	private static final String[] _PROVISIONING_ACCOUNT_WORKER_ACTION_IDS = {
+		ProvisioningActionKeys.ASSIGN_CONTACTS,
+		ProvisioningActionKeys.MANAGE_ACCOUNTS,
+		ProvisioningActionKeys.UPDATE_EXTERNAL_LINKS,
+		ProvisioningActionKeys.UPDATE_INSTRUCTIONS,
+		ProvisioningActionKeys.UPDATE_LANGUAGE_ID,
+		ProvisioningActionKeys.UPDATE_NOTES,
+		ProvisioningActionKeys.UPDATE_SALES_INFO
+	};
 
 	private static final String[] _PROVISIONING_CONTACT_WORKER_ACTION_IDS = {
 		ProvisioningActionKeys.ASSIGN_CONTACTS

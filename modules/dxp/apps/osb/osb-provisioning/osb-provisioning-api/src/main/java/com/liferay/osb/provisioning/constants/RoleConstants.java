@@ -19,6 +19,9 @@ package com.liferay.osb.provisioning.constants;
  */
 public class RoleConstants {
 
+	public static final String PROVISIONING_ACCOUNT_WORKER =
+		"Provisioning Account Worker";
+
 	public static final String PROVISIONING_ADMIN = "Provisioning Admin";
 
 	public static final String PROVISIONING_CONTACT_WORKER =

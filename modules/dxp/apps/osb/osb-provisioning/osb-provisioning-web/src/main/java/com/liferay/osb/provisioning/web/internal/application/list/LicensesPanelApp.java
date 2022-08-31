@@ -59,6 +59,9 @@ public class LicensesPanelApp extends BasePanelApp {
 				RoleConstants.PROVISIONING_ADMIN, false) ||
 			_roleLocalService.hasUserRole(
 				permissionChecker.getUserId(), permissionChecker.getCompanyId(),
+				RoleConstants.PROVISIONING_ACCOUNT_WORKER, false) ||
+			_roleLocalService.hasUserRole(
+				permissionChecker.getUserId(), permissionChecker.getCompanyId(),
 				RoleConstants.PROVISIONING_CONTACT_WORKER, false) ||
 			_roleLocalService.hasUserRole(
 				permissionChecker.getUserId(), permissionChecker.getCompanyId(),

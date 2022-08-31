@@ -61,6 +61,15 @@ public class LicenseKeyPermissionImpl implements LicenseKeyPermission {
 
 		if (_roleLocalService.hasUserRole(
 				permissionChecker.getUserId(), permissionChecker.getCompanyId(),
+				RoleConstants.PROVISIONING_ACCOUNT_WORKER, false) &&
+			ArrayUtil.contains(
+				_PROVISIONING_ACCOUNT_WORKER_ACTION_IDS, actionId)) {
+
+			return true;
+		}
+
+		if (_roleLocalService.hasUserRole(
+				permissionChecker.getUserId(), permissionChecker.getCompanyId(),
 				RoleConstants.PROVISIONING_WORKER, false) &&
 			ArrayUtil.contains(_PROVISIONING_WORKER_ACTION_IDS, actionId)) {
 
@@ -86,6 +95,10 @@ public class LicenseKeyPermissionImpl implements LicenseKeyPermission {
 
 		return false;
 	}
+
+	private static final String[] _PROVISIONING_ACCOUNT_WORKER_ACTION_IDS = {
+		ProvisioningActionKeys.MANAGE_LICENSE_KEYS, ProvisioningActionKeys.VIEW
+	};
 
 	private static final String[] _PROVISIONING_CONTACT_WORKER_ACTION_IDS = {
 		ProvisioningActionKeys.VIEW
