@@ -33,7 +33,7 @@ definition {
 		property test.assert.warning.exceptions = "true";
 		property test.name.skip.portal.instance = "Elasticsearch6EE#HotDeployLearningToRankApp";
 
-		var appName = "Liferay Enterprise Search Learning to Rank ";
+		var appName = "Liferay Enterprise Search Learning to Rank";
 
 		AssertConsoleTextNotPresent(value1 = "The portal instance needs to be restarted");
 
