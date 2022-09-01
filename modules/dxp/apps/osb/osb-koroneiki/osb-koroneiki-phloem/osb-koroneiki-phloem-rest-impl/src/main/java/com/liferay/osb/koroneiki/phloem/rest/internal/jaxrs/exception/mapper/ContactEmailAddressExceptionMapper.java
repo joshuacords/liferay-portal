@@ -32,7 +32,7 @@ import org.osgi.service.component.annotations.Component;
 	property = {
 		"osgi.jaxrs.application.select=(osgi.jaxrs.name=Liferay.Koroneiki.REST)",
 		"osgi.jaxrs.extension=true",
-		"osgi.jaxrs.name=Liferay.Koroneiki.REST.ContactEmailAddressException"
+		"osgi.jaxrs.name=Liferay.Koroneiki.REST.ContactEmailAddressExceptionMapper"
 	},
 	service = ExceptionMapper.class
 )
