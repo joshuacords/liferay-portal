@@ -113,14 +113,15 @@ public class PortalImplUnitTest {
 		ActionRequest actionRequest = _createActionRequestMock(
 			params, enumeration);
 
-		MockedStatic<PortalUtil> portalUtilMock = Mockito.mockStatic(
+		MockedStatic<PortalUtil> portalUtilMockedStatic = Mockito.mockStatic(
 			PortalUtil.class);
 
-		ActionResponse actionResponse = _createActionResponse(portalUtilMock);
+		ActionResponse actionResponse = _createActionResponse(
+			portalUtilMockedStatic);
 
 		_portalImpl.copyRequestParameters(actionRequest, actionResponse);
 
-		portalUtilMock.close();
+		portalUtilMockedStatic.close();
 
 		_assertActionResponse(actionResponse, params);
 	}
@@ -139,14 +140,15 @@ public class PortalImplUnitTest {
 		ActionRequest actionRequestMock = _createActionRequestMock(
 			params, enumeration);
 
-		MockedStatic<PortalUtil> portalUtilMock = Mockito.mockStatic(
+		MockedStatic<PortalUtil> portalUtilMockedStatic = Mockito.mockStatic(
 			PortalUtil.class);
 
-		ActionResponse actionResponse = _createActionResponse(portalUtilMock);
+		ActionResponse actionResponse = _createActionResponse(
+			portalUtilMockedStatic);
 
 		_portalImpl.copyRequestParameters(actionRequestMock, actionResponse);
 
-		portalUtilMock.close();
+		portalUtilMockedStatic.close();
 
 		_assertActionResponse(actionResponse, params);
 	}
@@ -864,7 +866,7 @@ public class PortalImplUnitTest {
 	}
 
 	private ActionResponse _createActionResponse(
-			MockedStatic<PortalUtil> portalUtilMock)
+			MockedStatic<PortalUtil> portalUtilMockedStatic)
 		throws PortletException {
 
 		HttpServletResponse httpServletResponse =
@@ -876,7 +878,7 @@ public class PortalImplUnitTest {
 		layoutTypePortletFactoryUtil.setLayoutTypePortletFactory(
 			new LayoutTypePortletFactoryImpl());
 
-		portalUtilMock.when(
+		portalUtilMockedStatic.when(
 			() -> PortalUtil.updateWindowState(
 				Mockito.anyString(), Mockito.any(UserImpl.class),
 				Mockito.any(LayoutImpl.class), Mockito.any(WindowState.class),
