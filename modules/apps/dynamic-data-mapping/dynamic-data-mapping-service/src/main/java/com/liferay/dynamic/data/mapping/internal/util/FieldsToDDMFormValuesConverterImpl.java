@@ -33,8 +33,6 @@ import com.liferay.portal.kernel.util.Validator;
 
 import java.io.Serializable;
 
-import java.math.BigDecimal;
-
 import java.text.NumberFormat;
 
 import java.util.ArrayList;
@@ -221,9 +219,7 @@ public class FieldsToDDMFormValuesConverterImpl
 
 			Number number = (Number)fieldValue;
 
-			if (!_isBigDecimalTypeAndIntegerNumber(number) ||
-				(number instanceof Double) || (number instanceof Float)) {
-
+			if (number instanceof Double || number instanceof Float) {
 				numberFormat.setMaximumFractionDigits(Integer.MAX_VALUE);
 				numberFormat.setMinimumFractionDigits(1);
 			}
@@ -367,23 +363,6 @@ public class FieldsToDDMFormValuesConverterImpl
 		String value = (String)fieldsDisplayField.getValue();
 
 		return StringUtil.split(value);
-	}
-
-	private boolean _isBigDecimalTypeAndIntegerNumber(Object number) {
-		if ((number == null) || !(number instanceof BigDecimal)) {
-			return false;
-		}
-
-		try {
-			BigDecimal bigDecimalValue = (BigDecimal)number;
-
-			bigDecimalValue.toBigIntegerExact();
-		}
-		catch (ArithmeticException arithmeticException) {
-			return false;
-		}
-
-		return true;
 	}
 
 }
