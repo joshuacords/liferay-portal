@@ -221,7 +221,7 @@ public class FieldsToDDMFormValuesConverterImpl
 
 			Number number = (Number)fieldValue;
 
-			if (!_isBigDecimalAndInteger(number) ||
+			if (!_isBigDecimalTypeAndIntegerNumber(number) ||
 				(number instanceof Double) || (number instanceof Float)) {
 
 				numberFormat.setMaximumFractionDigits(Integer.MAX_VALUE);
@@ -369,7 +369,7 @@ public class FieldsToDDMFormValuesConverterImpl
 		return StringUtil.split(value);
 	}
 
-	private boolean _isBigDecimalAndInteger(Object number) {
+	private boolean _isBigDecimalTypeAndIntegerNumber(Object number) {
 		if ((number == null) || !(number instanceof BigDecimal)) {
 			return false;
 		}
