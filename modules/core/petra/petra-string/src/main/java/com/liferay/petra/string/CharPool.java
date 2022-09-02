@@ -23,7 +23,7 @@ public class CharPool {
 
 	public static final char APOSTROPHE = '\'';
 
-	public static final char ARABIC_DECIMAL_SEPARATOR = '٫';
+	public static final char ARABIC_DECIMAL_SEPARATOR = '\u066b';
 
 	public static final char AT = '@';
 
