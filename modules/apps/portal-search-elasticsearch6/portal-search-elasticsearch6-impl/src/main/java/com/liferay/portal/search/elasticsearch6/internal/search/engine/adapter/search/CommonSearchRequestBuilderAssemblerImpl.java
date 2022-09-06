@@ -394,7 +394,7 @@ public class CommonSearchRequestBuilderAssemblerImpl
 
 		List<StatsRequest> statsRequests = baseSearchRequest.getStatsRequests();
 
-		if (!ListUtil.isEmpty(statsRequests)) {
+		if (ListUtil.isNotEmpty(statsRequests)) {
 			statsRequests.forEach(
 				statsRequest -> _statsTranslator.populateRequest(
 					searchRequestBuilder, statsRequest));

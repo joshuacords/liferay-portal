@@ -270,7 +270,7 @@ public class ConfigurationModelToDDMFormConverter {
 			return DDMFormFieldType.PASSWORD;
 		}
 
-		if (!SetUtil.isEmpty(ddmFormFieldOptions.getOptionsValues())) {
+		if (SetUtil.isNotEmpty(ddmFormFieldOptions.getOptionsValues())) {
 			return DDMFormFieldType.SELECT;
 		}
 
