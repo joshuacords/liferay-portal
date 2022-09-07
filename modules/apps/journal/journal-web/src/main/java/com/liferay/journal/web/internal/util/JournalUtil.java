@@ -231,11 +231,11 @@ public class JournalUtil {
 			!LayoutPermissionUtil.contains(
 				themeDisplay.getPermissionChecker(), layout, ActionKeys.VIEW)) {
 
-			layout = _getViewableLayout(themeDisplay, false);
+			layout = _getViewableLayout(false, themeDisplay);
 
 			if (layout == null) {
 				layout = _getViewableLayout(
-					themeDisplay, true);
+					true, themeDisplay);
 			}
 		}
 
@@ -382,7 +382,7 @@ public class JournalUtil {
 	}
 
 	private static Layout _getViewableLayout(
-		ThemeDisplay themeDisplay, boolean privateLayout) {
+		boolean privateLayout, ThemeDisplay themeDisplay) {
 
 		boolean hasNext = true;
 
