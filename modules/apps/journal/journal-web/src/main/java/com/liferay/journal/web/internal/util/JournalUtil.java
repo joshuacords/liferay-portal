@@ -234,8 +234,7 @@ public class JournalUtil {
 			layout = _getViewableLayout(false, themeDisplay);
 
 			if (layout == null) {
-				layout = _getViewableLayout(
-					true, themeDisplay);
+				layout = _getViewableLayout(true, themeDisplay);
 			}
 		}
 
