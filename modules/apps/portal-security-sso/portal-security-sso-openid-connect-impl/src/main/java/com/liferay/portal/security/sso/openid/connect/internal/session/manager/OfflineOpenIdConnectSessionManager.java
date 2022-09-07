@@ -24,14 +24,12 @@ import com.liferay.portal.kernel.messaging.DestinationConfiguration;
 import com.liferay.portal.kernel.messaging.DestinationFactory;
 import com.liferay.portal.kernel.messaging.Message;
 import com.liferay.portal.kernel.messaging.MessageListener;
-import com.liferay.portal.kernel.scheduler.SchedulerException;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashMapDictionaryBuilder;
 import com.liferay.portal.kernel.util.Time;
 import com.liferay.portal.security.sso.openid.connect.OpenIdConnectProviderRegistry;
 import com.liferay.portal.security.sso.openid.connect.constants.OpenIdConnectWebKeys;
 import com.liferay.portal.security.sso.openid.connect.internal.constants.OpenIdConnectDestinationNames;
-import com.liferay.portal.security.sso.openid.connect.internal.scheduler.OpenIdConnectTokenRefreshScheduler;
 import com.liferay.portal.security.sso.openid.connect.internal.util.OpenIdConnectTokenRequestUtil;
 import com.liferay.portal.security.sso.openid.connect.persistence.model.OpenIdConnectSession;
 import com.liferay.portal.security.sso.openid.connect.persistence.service.OpenIdConnectSessionLocalService;
@@ -62,18 +60,6 @@ import org.osgi.service.component.annotations.Reference;
 @Component(immediate = true, service = OfflineOpenIdConnectSessionManager.class)
 public class OfflineOpenIdConnectSessionManager {
 
-	public void endOpenIdConnectSession(long openIdConnectSessionId) {
-		try {
-			_openIdConnectTokenRefreshScheduler.unschedule(
-				openIdConnectSessionId);
-		}
-		catch (SchedulerException schedulerException) {
-			if (_log.isWarnEnabled()) {
-				_log.warn(schedulerException, schedulerException);
-			}
-		}
-	}
-
 	public boolean isOpenIdConnectSession(HttpSession httpSession) {
 		if (httpSession == null) {
 			return false;
@@ -102,8 +88,6 @@ public class OfflineOpenIdConnectSessionManager {
 				openIdConnectSessionId);
 
 		if (openIdConnectSession == null) {
-			endOpenIdConnectSession(openIdConnectSessionId);
-
 			return true;
 		}
 
@@ -135,26 +119,10 @@ public class OfflineOpenIdConnectSessionManager {
 						OpenIdConnectSession.class.getName()));
 		}
 
-		AccessToken accessToken = oidcTokens.getAccessToken();
-
 		_updateOpenIdConnectSession(
-			accessToken, configurationPid, oidcTokens.getIDTokenString(),
-			oidcTokens.getRefreshToken(), openIdConnectSession, providerName,
-			userId);
-
-		if (openIdConnectSession.getRefreshToken() != null) {
-			try {
-				_openIdConnectTokenRefreshScheduler.schedule(
-					accessToken.getLifetime(),
-					openIdConnectSession.getOpenIdConnectSessionId(),
-					openIdConnectSession.getModifiedDate());
-			}
-			catch (SchedulerException schedulerException) {
-				if (_log.isWarnEnabled()) {
-					_log.warn(schedulerException, schedulerException);
-				}
-			}
-		}
+			oidcTokens.getAccessToken(), configurationPid,
+			oidcTokens.getIDTokenString(), oidcTokens.getRefreshToken(),
+			openIdConnectSession, providerName, userId);
 
 		return openIdConnectSession.getOpenIdConnectSessionId();
 	}
@@ -217,28 +185,9 @@ public class OfflineOpenIdConnectSessionManager {
 				openIdConnectSession.getProviderName()),
 			refreshToken);
 
-		AccessToken oldAccessToken = _getAccessToken(openIdConnectSession);
-
-		AccessToken accessToken = oidcTokens.getAccessToken();
-
 		_updateOpenIdConnectSession(
-			accessToken, openIdConnectSession, oidcTokens.getRefreshToken());
-
-		if ((openIdConnectSession.getRefreshToken() != null) &&
-			(oldAccessToken.getLifetime() != accessToken.getLifetime())) {
-
-			try {
-				_openIdConnectTokenRefreshScheduler.reschedule(
-					accessToken.getLifetime(),
-					openIdConnectSession.getOpenIdConnectSessionId(),
-					openIdConnectSession.getModifiedDate());
-			}
-			catch (SchedulerException schedulerException) {
-				if (_log.isWarnEnabled()) {
-					_log.warn(schedulerException, schedulerException);
-				}
-			}
-		}
+			oidcTokens.getAccessToken(), openIdConnectSession,
+			oidcTokens.getRefreshToken());
 	}
 
 	private AccessToken _getAccessToken(
@@ -305,10 +254,6 @@ public class OfflineOpenIdConnectSessionManager {
 
 	@Reference
 	private OpenIdConnectSessionLocalService _openIdConnectSessionLocalService;
-
-	@Reference
-	private OpenIdConnectTokenRefreshScheduler
-		_openIdConnectTokenRefreshScheduler;
 
 	private ServiceRegistration<Destination> _serviceRegistration1;
 	private ServiceRegistration<MessageListener> _serviceRegistration2;
