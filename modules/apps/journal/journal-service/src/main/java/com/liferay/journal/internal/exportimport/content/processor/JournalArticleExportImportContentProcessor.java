@@ -317,13 +317,16 @@ public class JournalArticleExportImportContentProcessor
 				if (fieldValueClass.isArray()) {
 					List<String> jsonList = new ArrayList<>();
 
-					for (String json : (String[])fieldValue) {
-						json = _extractJournalArticleForExport(
-							json, stagedModel, portletDataContext,
+					for (String singleFieldValue : (String[])fieldValue) {
+						String json = _extractJournalArticleForExport(
+							singleFieldValue, stagedModel, portletDataContext,
 							exportReferencedContent);
 
 						if (Validator.isNotNull(json)) {
 							jsonList.add(json);
+						}
+						else {
+							jsonList.add(singleFieldValue);
 						}
 					}
 
@@ -336,6 +339,9 @@ public class JournalArticleExportImportContentProcessor
 
 					if (Validator.isNotNull(json)) {
 						field.setValue(locale, json);
+					}
+					else {
+						field.setValue(locale, String.valueOf(fieldValue));
 					}
 				}
 			}
@@ -364,12 +370,16 @@ public class JournalArticleExportImportContentProcessor
 				if (serializableClass.isArray()) {
 					List<String> jsonList = new ArrayList<>();
 
-					for (String json : (String[])serializable) {
-						json = _extractJournalArticleForImport(
-							json, portletDataContext, stagedModel);
+					for (String singleSerializable : (String[])serializable) {
+						String json = _extractJournalArticleForImport(
+							singleSerializable, portletDataContext,
+							stagedModel);
 
 						if (Validator.isNotNull(json)) {
 							jsonList.add(json);
+						}
+						else {
+							jsonList.add(singleSerializable);
 						}
 					}
 
@@ -382,6 +392,9 @@ public class JournalArticleExportImportContentProcessor
 
 					if (Validator.isNotNull(json)) {
 						field.setValue(locale, json);
+					}
+					else {
+						field.setValue(locale, String.valueOf(serializable));
 					}
 				}
 			}
