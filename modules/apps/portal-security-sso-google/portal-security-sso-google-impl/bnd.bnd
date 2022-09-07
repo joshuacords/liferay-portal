@@ -1,6 +1,6 @@
 Bundle-Name: Liferay Portal Security SSO Google Implementation
 Bundle-SymbolicName: com.liferay.portal.security.sso.google.impl
-Bundle-Version: 2.0.21
+Bundle-Version: 2.0.22
 Import-Package:\
 	!com.google.*,\
 	\
