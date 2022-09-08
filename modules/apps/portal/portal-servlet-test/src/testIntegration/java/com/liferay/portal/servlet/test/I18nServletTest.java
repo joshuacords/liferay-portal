@@ -216,7 +216,7 @@ public class I18nServletTest extends I18nServlet {
 		mockHttpServletRequest.setServletPath(
 			String.format("/%s_%s", locale.getLanguage(), locale.getCountry()));
 
-		mockHttpServletRequest.setPathInfo(_getControlPanelPath(_group));
+		mockHttpServletRequest.setPathInfo(_getControlPanelPathInfo(_group));
 
 		Assert.assertNull(getI18nData(mockHttpServletRequest));
 	}
@@ -236,15 +236,15 @@ public class I18nServletTest extends I18nServlet {
 		mockHttpServletRequest.setServletPath(
 			String.format("/%s_%s", locale.getLanguage(), locale.getCountry()));
 
-		String groupControlPanelPath = _getControlPanelPath(_group);
+		String controlPanePathInfo = _getControlPanelPathInfo(_group);
 
-		mockHttpServletRequest.setPathInfo(groupControlPanelPath);
+		mockHttpServletRequest.setPathInfo(controlPanePathInfo);
 
 		I18nServlet.I18nData i18nData = getI18nData(mockHttpServletRequest);
 
 		Assert.assertNotNull(i18nData);
 
-		_testGetI18nData(locale, groupControlPanelPath, i18nData);
+		_testGetI18nData(locale, controlPanePathInfo, i18nData);
 	}
 
 	@Test
@@ -463,7 +463,7 @@ public class I18nServletTest extends I18nServlet {
 			mockHttpServletResponse.getHeader("Location"));
 	}
 
-	private String _getControlPanelPath(Group group) {
+	private String _getControlPanelPathInfo(Group group) {
 		return StringBundler.concat(
 			PropsValues.LAYOUT_FRIENDLY_URL_PRIVATE_GROUP_SERVLET_MAPPING,
 			group.getFriendlyURL(),
