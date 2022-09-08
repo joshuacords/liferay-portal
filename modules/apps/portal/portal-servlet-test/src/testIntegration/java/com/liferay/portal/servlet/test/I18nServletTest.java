@@ -216,8 +216,7 @@ public class I18nServletTest extends I18nServlet {
 		mockHttpServletRequest.setServletPath(
 			String.format("/%s_%s", locale.getLanguage(), locale.getCountry()));
 
-		mockHttpServletRequest.setPathInfo(
-			_getControlPanelPath(_group));
+		mockHttpServletRequest.setPathInfo(_getControlPanelPath(_group));
 
 		Assert.assertNull(getI18nData(mockHttpServletRequest));
 	}
@@ -464,6 +463,14 @@ public class I18nServletTest extends I18nServlet {
 			mockHttpServletResponse.getHeader("Location"));
 	}
 
+	private String _getControlPanelPath(Group group) {
+		return StringBundler.concat(
+			PropsValues.LAYOUT_FRIENDLY_URL_PRIVATE_GROUP_SERVLET_MAPPING,
+			group.getFriendlyURL(),
+			VirtualLayoutConstants.CANONICAL_URL_SEPARATOR,
+			GroupConstants.CONTROL_PANEL_FRIENDLY_URL);
+	}
+
 	private Locale _getDefaultLocale(Group group) throws Exception {
 		if (group != null) {
 			return _portal.getSiteDefaultLocale(group);
@@ -498,14 +505,6 @@ public class I18nServletTest extends I18nServlet {
 		mockHttpServletRequest.setServletPath(StringPool.SLASH + path);
 
 		return getI18nData(mockHttpServletRequest);
-	}
-
-	private String _getControlPanelPath(Group group) {
-		return StringBundler.concat(
-			PropsValues.LAYOUT_FRIENDLY_URL_PRIVATE_GROUP_SERVLET_MAPPING,
-			group.getFriendlyURL(),
-			VirtualLayoutConstants.CANONICAL_URL_SEPARATOR,
-			GroupConstants.CONTROL_PANEL_FRIENDLY_URL);
 	}
 
 	private void _testGetI18nData(
