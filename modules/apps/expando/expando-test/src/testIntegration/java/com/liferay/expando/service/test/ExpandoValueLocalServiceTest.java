@@ -17,6 +17,7 @@ package com.liferay.expando.service.test;
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
 import com.liferay.document.library.kernel.model.DLFileEntry;
+import com.liferay.expando.kernel.exception.MissingDefaultLocaleValueException;
 import com.liferay.expando.kernel.exception.ValueDataException;
 import com.liferay.expando.kernel.model.ExpandoColumn;
 import com.liferay.expando.kernel.model.ExpandoColumnConstants;
@@ -164,14 +165,8 @@ public class ExpandoValueLocalServiceTest {
 
 			Assert.fail();
 		}
-		catch (PortalException portalException) {
-			Assert.assertEquals(
-				MissingDefaultLocaleValueException.class,
-				portalException.getClass());
-
-			if (_log.isDebugEnabled()) {
-				_log.debug(valueDataException);
-			}
+		catch (MissingDefaultLocaleValueException valueDataException) {
+			Assert.assertNotNull(valueDataException);
 		}
 	}
 
