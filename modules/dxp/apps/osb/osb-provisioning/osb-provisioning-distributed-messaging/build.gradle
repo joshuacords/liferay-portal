@@ -16,6 +16,8 @@ dependencies {
 	compileOnly project(":dxp:apps:osb:osb-distributed-messaging:osb-distributed-messaging-subscribing-api")
 	compileOnly project(":dxp:apps:osb:osb-koroneiki:osb-koroneiki-phloem:osb-koroneiki-phloem-rest-client")
 	compileOnly project(":dxp:apps:osb:osb-provisioning:osb-provisioning-api")
+	compileOnly project(":dxp:apps:osb:osb-provisioning:osb-provisioning-customer:osb-provisioning-customer-api")
+	compileOnly project(":dxp:apps:osb:osb-provisioning:osb-provisioning-customer:osb-provisioning-customer-web-service-api")
 	compileOnly project(":dxp:apps:osb:osb-provisioning:osb-provisioning-identity-management:osb-provisioning-identity-management-api")
 	compileOnly project(":dxp:apps:osb:osb-provisioning:osb-provisioning-koroneiki:osb-provisioning-koroneiki-api")
 	compileOnly project(":dxp:apps:osb:osb-provisioning:osb-provisioning-koroneiki:osb-provisioning-koroneiki-web-service-api")

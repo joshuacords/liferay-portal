@@ -23,6 +23,7 @@ import com.liferay.osb.provisioning.zendesk.web.service.internal.util.ZendeskCon
 import com.liferay.osb.provisioning.zendesk.web.service.search.QueryFactory;
 import com.liferay.osb.provisioning.zendesk.web.service.search.SearchHits;
 import com.liferay.osb.provisioning.zendesk.web.service.search.ZendeskTicketQuery;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -141,6 +142,32 @@ public class DefaultZendeskTicketWebService implements ZendeskTicketWebService {
 			zendeskTicketQuery.getParameters());
 
 		return toSearchHits(responseJSONObject);
+	}
+
+	public void updateZendeskTickets(List<ZendeskTicket> zendeskTickets)
+		throws PortalException {
+
+		for (ZendeskTicket zendeskTicket : zendeskTickets) {
+			String endpoint = StringBundler.concat(
+				ZendeskRESTEndpoints.URL_API_V2, "tickets/",
+				zendeskTicket.getZendeskTicketId(), ".json");
+
+			JSONObject ticketJSONObject = JSONUtil.put(
+				"custom_fields", zendeskTicket.getCustomFields()
+			).put(
+				"organization_id", zendeskTicket.getZendeskOrganizationId()
+			).put(
+				"requester_id", zendeskTicket.getRequesterId()
+			).put(
+				"status", zendeskTicket.getStatus()
+			).put(
+				"tags", zendeskTicket.getTags()
+			);
+
+			JSONObject jsonObject = JSONUtil.put("ticket", ticketJSONObject);
+
+			zendeskBaseWebService.put(endpoint, jsonObject.toString());
+		}
 	}
 
 	protected SearchHits<ZendeskTicket> toSearchHits(

@@ -40,4 +40,7 @@ public interface ZendeskTicketWebService {
 			ZendeskTicketQuery zendeskTicketQuery)
 		throws PortalException;
 
+	public void updateZendeskTickets(List<ZendeskTicket> zendeskTickets)
+		throws PortalException;
+
 }

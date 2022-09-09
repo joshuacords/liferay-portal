@@ -72,6 +72,19 @@ public class ZendeskConverter {
 		zendeskTicket.setRequesterId(jsonObject.getLong("requester_id"));
 		zendeskTicket.setStatus(jsonObject.getString("status"));
 		zendeskTicket.setSubject(jsonObject.getString("subject"));
+
+		JSONArray jsonArray = jsonObject.getJSONArray("tags");
+
+		if (jsonArray != null) {
+			Set<String> tags = new HashSet<>();
+
+			for (int i = 0; i < jsonArray.length(); i++) {
+				tags.add(jsonArray.getString(i));
+			}
+
+			zendeskTicket.setTags(tags);
+		}
+
 		zendeskTicket.setZendeskOrganizationId(
 			jsonObject.getLong("organization_id"));
 		zendeskTicket.setZendeskTicketId(jsonObject.getLong("id"));

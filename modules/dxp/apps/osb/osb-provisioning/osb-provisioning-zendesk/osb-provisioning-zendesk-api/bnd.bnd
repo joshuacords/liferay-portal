@@ -1,4 +1,6 @@
 Bundle-Name: Liferay OSB Provisioning Zendesk API
 Bundle-SymbolicName: com.liferay.osb.provisioning.zendesk.api
 Bundle-Version: 1.0.0
-Export-Package: com.liferay.osb.provisioning.zendesk.model
+Export-Package:\
+	com.liferay.osb.provisioning.zendesk.constants,\
+	com.liferay.osb.provisioning.zendesk.model

@@ -31,6 +31,7 @@ import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.TeamRole;
 import com.liferay.osb.provisioning.constants.ProvisioningPortletKeys;
 import com.liferay.osb.provisioning.distributed.messaging.internal.configuration.DistributedMessagingConfiguration;
 import com.liferay.osb.provisioning.distributed.messaging.internal.constants.SalesforceConstants;
+import com.liferay.osb.provisioning.distributed.messaging.internal.subscribing.util.DossieraSubscriberUtil;
 import com.liferay.osb.provisioning.identity.management.provider.ContactIdentityProvider;
 import com.liferay.osb.provisioning.koroneiki.constants.ContactRoleConstants;
 import com.liferay.osb.provisioning.koroneiki.constants.ProductConstants;
@@ -521,18 +522,9 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 				account.setParentAccountKey(parentAccount.getKey());
 			}
 
-			String liferayVersion = projectJSONObject.getString(
-				"_liferayVersion");
-
-			if (Validator.isNotNull(liferayVersion) &&
-				liferayVersion.contains("DXP")) {
-
-				Map<String, String> properties = new HashMap<>();
-
-				properties.put("liferayVersion", liferayVersion);
-
-				account.setProperties(properties);
-			}
+			account.setProperties(
+				_dossieraSubscriberUtil.getAccountProperties(
+					account, jsonObject));
 		}
 		else {
 			account.setName(name);
@@ -614,7 +606,8 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 
 		String name = accountJSONObject.getString("_name");
 
-		Account parentAccount = fetchAccount(dossieraAccountKey);
+		Account parentAccount = _dossieraSubscriberUtil.fetchAccount(
+			dossieraAccountKey);
 
 		if (parentAccount != null) {
 			String parentAccountName = parentAccount.getName();
@@ -953,7 +946,7 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 		Map<Contact, List<ContactRole>> customerPortal2ContactsMap =
 			new HashMap<>();
 
-		String accountKey = getAccountKey(jsonObject);
+		String accountKey = _dossieraSubscriberUtil.getAccountKey(jsonObject);
 
 		if ((salesforceOpportunityType ==
 				SalesforceConstants.OPPORTUNITY_TYPE_EXISTING_BUSINESS) ||
@@ -1132,52 +1125,6 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 				salesforceOpportunityTypeName, salesforceOpportunityKey,
 				salesforceOpportunityOwnerEmailAddress);
 		}
-	}
-
-	protected Account fetchAccount(String dossieraAccountKey) throws Exception {
-		List<Account> accounts = _accountWebService.getAccounts(
-			ExternalLinkDomain.DOSSIERA,
-			ExternalLinkEntityName.DOSSIERA_ACCOUNT, dossieraAccountKey, 1, 1);
-
-		if (!accounts.isEmpty()) {
-			return accounts.get(0);
-		}
-
-		return null;
-	}
-
-	protected String getAccountKey(JSONObject jsonObject) throws Exception {
-		JSONObject projectJSONObject = jsonObject.getJSONObject("_project");
-
-		if (projectJSONObject != null) {
-			String dossieraProjectKey = projectJSONObject.getString(
-				"_dossieraProjectKey");
-
-			List<Account> accounts = _accountWebService.getAccounts(
-				ExternalLinkDomain.DOSSIERA,
-				ExternalLinkEntityName.DOSSIERA_PROJECT, dossieraProjectKey, 1,
-				1);
-
-			if (!accounts.isEmpty()) {
-				Account account = accounts.get(0);
-
-				return account.getKey();
-			}
-		}
-		else {
-			JSONObject accountJSONObject = jsonObject.getJSONObject("_account");
-
-			String dossieraAccountKey = accountJSONObject.getString(
-				"_dossieraAccountKey");
-
-			Account account = fetchAccount(dossieraAccountKey);
-
-			if (account != null) {
-				return account.getKey();
-			}
-		}
-
-		return null;
 	}
 
 	protected String getContactFullName(Contact contact) {
@@ -2023,7 +1970,7 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 			return null;
 		}
 
-		return fetchAccount(dossieraAccountKey);
+		return _dossieraSubscriberUtil.fetchAccount(dossieraAccountKey);
 	}
 
 	protected Team[] parsePartnerTeams(
@@ -2772,6 +2719,9 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 
 	private volatile DistributedMessagingConfiguration
 		_distributedMessagingConfiguration;
+
+	@Reference
+	private DossieraSubscriberUtil _dossieraSubscriberUtil;
 
 	@Reference
 	private GroupLocalService _groupLocalService;
