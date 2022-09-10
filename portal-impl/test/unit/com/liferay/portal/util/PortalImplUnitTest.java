@@ -24,7 +24,6 @@ import com.liferay.portal.kernel.servlet.DynamicServletRequest;
 import com.liferay.portal.kernel.servlet.PersistentHttpServletRequestWrapper;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
-import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.upgrade.MockPortletPreferences;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.HttpUtil;
@@ -65,7 +64,6 @@ import javax.portlet.WindowState;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.junit.Assert;
@@ -106,11 +104,13 @@ public class PortalImplUnitTest {
 		// Without password
 
 		Map<String, String[]> params = HashMapBuilder.put(
-			"p_u_i_d", new String[] {String.valueOf(4200L)}
+			"p_u_i_d",
+			new String[] {String.valueOf(RandomTestUtil.randomLong())}
 		).put(
-			"passwordReset", new String[] {Boolean.TRUE.toString()}
+			"passwordReset",
+			new String[] {String.valueOf(RandomTestUtil.randomBoolean())}
 		).put(
-			"redirect", new String[] {"http://localhost:8080/test"}
+			"redirect", new String[] {RandomTestUtil.randomString()}
 		).build();
 
 		Enumeration<String> enumeration = Collections.enumeration(
@@ -131,8 +131,8 @@ public class PortalImplUnitTest {
 
 		// With password
 
-		params.put("password1", new String[] {"abc_123"});
-		params.put("password2", new String[] {"def_456"});
+		params.put("password1", new String[] {RandomTestUtil.randomString()});
+		params.put("password2", new String[] {RandomTestUtil.randomString()});
 
 		_portalImpl.copyRequestParameters(
 			_createActionRequest(params, enumeration), actionResponse);
@@ -884,8 +884,7 @@ public class PortalImplUnitTest {
 		).toString();
 
 		return ActionResponseFactory.create(
-			_createActionRequest(portletMode),
-			new DummyHttpServletResponse(),
+			_createActionRequest(portletMode), new DummyHttpServletResponse(),
 			new UserImpl(), new LayoutImpl());
 	}
 
