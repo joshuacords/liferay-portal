@@ -30,10 +30,13 @@ class Numeric extends Component {
 		const inputElement = element.querySelector('input');
 		const {value} = inputElement;
 
-		if (dataType === 'integer' && value !isNaN(Number(value)) {
+		if (dataType === 'integer' && value && !isNaN(Number(value))) {
 			inputElement.value = Math.round(
 				value.replace(symbols.decimalSymbol, '.')
 			);
+		}
+		else if (dataType === 'integer' && value) {
+			inputElement.value = value.replace(symbols.decimalSymbol, '.');
 		}
 
 		const mask = createNumberMask(this.getMaskConfig(dataType));
