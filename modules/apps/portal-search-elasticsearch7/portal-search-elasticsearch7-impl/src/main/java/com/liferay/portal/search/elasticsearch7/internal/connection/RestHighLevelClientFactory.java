@@ -66,6 +66,13 @@ public class RestHighLevelClientFactory {
 
 	public static class Builder {
 
+		public Builder apiCompatibilityModeEnabled(boolean apiCompatibilityModeEnabled) {
+			_restHighLevelClientFactory._apiCompatibilityModeEnabled =
+				apiCompatibilityModeEnabled;
+
+			return this;
+		}
+
 		public Builder authenticationEnabled(boolean authenticationEnabled) {
 			_restHighLevelClientFactory._authenticationEnabled =
 				authenticationEnabled;
@@ -138,6 +145,7 @@ public class RestHighLevelClientFactory {
 	private RestHighLevelClientFactory(
 		RestHighLevelClientFactory restHighLevelClientFactory) {
 
+		_apiCompatibilityModeEnabled = restHighLevelClientFactory._apiCompatibilityModeEnabled;
 		_authenticationEnabled =
 			restHighLevelClientFactory._authenticationEnabled;
 		_httpSSLEnabled = restHighLevelClientFactory._httpSSLEnabled;
@@ -229,6 +237,7 @@ public class RestHighLevelClientFactory {
 		);
 	}
 
+	private boolean _apiCompatibilityModeEnabled;
 	private boolean _authenticationEnabled;
 	private boolean _httpSSLEnabled;
 	private String[] _networkHostAddresses;
