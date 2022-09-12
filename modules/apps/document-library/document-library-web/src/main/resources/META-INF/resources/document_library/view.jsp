@@ -238,7 +238,7 @@ String navigation = ParamUtil.getString(request, "navigation");
 					decimalSeparator: '<%= decimalFormatSymbols.getDecimalSeparator() %>',
 					displayStyle: '<%= HtmlUtil.escapeJS(displayStyle) %>',
 					editEntryUrl:
-						'<%=((themeDisplay.isSignedIn())?editEntryURL:StringPool.BLANK ) %>',
+						'<%= ((themeDisplay.isSignedIn())?editEntryURL:StringPool.BLANK) %>',
 					downloadEntryUrl:
 						'<portlet:resourceURL id="/document_library/download_entry"><portlet:param name="folderId" value="<%= String.valueOf(folderId) %>" /></portlet:resourceURL>',
 					folders: {
