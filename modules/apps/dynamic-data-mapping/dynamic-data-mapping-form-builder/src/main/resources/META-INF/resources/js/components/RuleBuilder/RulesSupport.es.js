@@ -97,7 +97,7 @@ const formatRules = (pages, rules) => {
 			if (
 				firstOperandFieldExists &&
 				fieldWithOptions(firstOperandFieldType) &&
-				condition.operands[1].type != 'field'
+				condition.operands[1].type !== 'field'
 			) {
 				const fieldName = condition.operands[0].value;
 				const options = getFieldOptions(fieldName, pages);
@@ -123,7 +123,7 @@ const formatRules = (pages, rules) => {
 			if (
 				!secondOperandFieldExists &&
 				secondOperand &&
-				secondOperand.type == 'field'
+				secondOperand.type === 'field'
 			) {
 				clearSecondOperandValue(condition);
 			}
@@ -157,7 +157,7 @@ const getFieldType = (fieldName, pages) => {
 };
 
 const optionBelongsToRule = (condition, options) => {
-	return options.some(option => option.label === condition.operands[1].value);
+	return options.some(option => option.value === condition.operands[1].value);
 };
 
 const syncActions = (pages, actions) => {
