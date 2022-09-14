@@ -37,7 +37,7 @@ public class SLAInstanceResultWorkflowMetricsIndexImpl
 
 	@Override
 	public String getIndexType() {
-		return "WorkflowMetricsSLAInstanceResultType";
+		return "_doc";
 	}
 
 	@Reference(
