@@ -80,12 +80,6 @@ public interface ElasticsearchConnectionConfiguration {
 	public boolean httpSSLEnabled();
 
 	@Meta.AD(
-		deflt = "true", description = "api-compatibility-mode-enabled-help",
-		name = "api-compatibility-mode-enabled", required = false
-	)
-	public boolean apiCompatibilityModeEnabled();
-
-	@Meta.AD(
 		deflt = "pkcs12", description = "truststore-type-help",
 		name = "truststore-type", required = false
 	)
