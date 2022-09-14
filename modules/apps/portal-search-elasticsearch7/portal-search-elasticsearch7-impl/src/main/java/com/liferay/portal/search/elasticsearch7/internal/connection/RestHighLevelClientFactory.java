@@ -41,6 +41,7 @@ import org.apache.http.ssl.SSLContexts;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.client.RestHighLevelClientBuilder;
 
 /**
  * @author André de Oliveira
@@ -61,7 +62,12 @@ public class RestHighLevelClientFactory {
 		);
 
 		return ClassLoaderUtil.getWithContextClassLoader(
-			() -> new RestHighLevelClient(restClientBuilder), getClass());
+			() -> new RestHighLevelClientBuilder(
+				restClientBuilder.build()
+			).setApiCompatibilityMode(
+				true
+			).build(),
+			getClass());
 	}
 
 	public static class Builder {
