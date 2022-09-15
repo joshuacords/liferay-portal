@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.2.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_2_0.dtd">
+
+<service-builder mvcc-enabled="true" package-path="com.liferay.osb.provisioning.subscription">
+	<namespace>Provisioning</namespace>
+	<entity local-service="true" name="SubscriptionEntry" remote-service="true">
+
+		<!-- PK fields -->
+
+		<column name="subscriptionEntryId" primary="true" type="long" />
+
+		<!-- Audit fields -->
+
+		<column name="createDate" type="Date" />
+
+		<!-- Other fields -->
+
+		<column name="classNameId" type="long" />
+		<column name="classPK" type="long" />
+		<column name="contactUuid" type="String" />
+
+		<!-- Finder methods -->
+
+		<finder name="ContactUuid" return-type="Collection">
+			<finder-column name="contactUuid" />
+		</finder>
+		<finder name="C_C_CU" return-type="SubscriptionEntry">
+			<finder-column name="classNameId" />
+			<finder-column name="classPK" />
+			<finder-column name="contactUuid" />
+		</finder>
+	</entity>
+	<exceptions>
+		<exception>SubscriptionEntryClassNameId</exception>
+		<exception>SubscriptionEntryClassPK</exception>
+		<exception>SubscriptionEntryContactUuid</exception>
+	</exceptions>
+</service-builder>

@@ -50,6 +50,7 @@ import com.liferay.osb.provisioning.rest.dto.v1_0.util.LicenseKeyUtil;
 import com.liferay.osb.provisioning.rest.internal.odata.entity.v1_0.LicenseKeyEntityModel;
 import com.liferay.osb.provisioning.rest.resource.v1_0.LicenseKeyResource;
 import com.liferay.osb.provisioning.search.FilterQuery;
+import com.liferay.osb.provisioning.subscription.service.SubscriptionEntryLocalService;
 import com.liferay.osb.provisioning.util.CustomerPortalRelease;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
@@ -60,6 +61,7 @@ import com.liferay.portal.kernel.search.filter.Filter;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
+import com.liferay.portal.kernel.service.ClassNameLocalService;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.DateUtil;
@@ -104,6 +106,23 @@ import org.osgi.service.component.annotations.ServiceScope;
 )
 public class LicenseKeyResourceImpl
 	extends BaseLicenseKeyResourceImpl implements EntityModelResource {
+
+	@Override
+	public void deleteLicenseKeySubscription(Long[] licenseKeyIds)
+		throws Exception {
+
+		long classNameId = _classNameLocalService.getClassNameId(
+			com.liferay.osb.provisioning.license.model.LicenseKey.class);
+
+		Contact contact = ProvisioningContactThreadLocal.getContact();
+
+		if (contact != null) {
+			for (long licenseKeyId : licenseKeyIds) {
+				_subscriptionServiceLocalService.deleteSubscriptionEntry(
+					classNameId, licenseKeyId, contact.getUuid());
+			}
+		}
+	}
 
 	@Override
 	public Response getAccountAccountKeyLicenseKeyExport(
@@ -662,6 +681,30 @@ public class LicenseKeyResourceImpl
 				contact.getUuid(), licenseKeyId,
 				licenseKey.getProductPurchaseKey(),
 				licenseKey.getComplimentary(), false);
+		}
+	}
+
+	@Override
+	public void putLicenseKeySubscription(Long[] licenseKeyIds)
+		throws Exception {
+
+		for (long licenseKeyId : licenseKeyIds) {
+			com.liferay.osb.provisioning.license.model.LicenseKey licenseKey =
+				_licenseKeyLocalService.getLicenseKey(licenseKeyId);
+
+			_checkAccountViewPermission(licenseKey.getAccountKey());
+		}
+
+		long classNameId = _classNameLocalService.getClassNameId(
+			com.liferay.osb.provisioning.license.model.LicenseKey.class);
+
+		Contact contact = ProvisioningContactThreadLocal.getContact();
+
+		if (contact != null) {
+			for (long licenseKeyId : licenseKeyIds) {
+				_subscriptionServiceLocalService.addSubscriptionEntry(
+					classNameId, licenseKeyId, contact.getUuid());
+			}
 		}
 	}
 
@@ -1318,6 +1361,9 @@ public class LicenseKeyResourceImpl
 	private AccountWebService _accountWebService;
 
 	@Reference
+	private ClassNameLocalService _classNameLocalService;
+
+	@Reference
 	private CustomerPortalRelease _customerPortalRelease;
 
 	private String _flsTeamRoleKey;
@@ -1339,6 +1385,9 @@ public class LicenseKeyResourceImpl
 
 	@Reference
 	private ProductPurchaseWebService _productPurchaseWebService;
+
+	@Reference
+	private SubscriptionEntryLocalService _subscriptionServiceLocalService;
 
 	@Reference
 	private TeamRoleWebService _teamRoleWebService;

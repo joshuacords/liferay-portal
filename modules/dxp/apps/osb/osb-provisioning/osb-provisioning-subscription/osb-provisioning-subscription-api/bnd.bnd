@@ -1,0 +1,8 @@
+Bundle-Name: Liferay OSB Provisioning Subscription API
+Bundle-SymbolicName: com.liferay.osb.provisioning.subscription.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.liferay.osb.provisioning.subscription.exception,\
+	com.liferay.osb.provisioning.subscription.model,\
+	com.liferay.osb.provisioning.subscription.service,\
+	com.liferay.osb.provisioning.subscription.service.persistence

@@ -688,6 +688,45 @@ paths:
                                     $ref: "#/components/schemas/LicenseKey"
                                 type: array
             tags: ["LicenseKey"]
+    "/license-keys/subscriptions":
+        delete:
+            description:
+                Unsubscribes from license keys.
+            operationId: deleteLicenseKeySubscription
+            parameters:
+                - in: query
+                  name: licenseKeyIds
+                  required: true
+                  schema:
+                      items:
+                          format: int64
+                          type: integer
+                      type: array
+            responses:
+                204:
+                    content:
+                        application/json: {}
+                        application/xml: {}
+            tags: ["LicenseKey"]
+        put:
+            description:
+                Subscribes to license keys.
+            operationId: putLicenseKeySubscription
+            parameters:
+                - in: query
+                  name: licenseKeyIds
+                  required: true
+                  schema:
+                      items:
+                          format: int64
+                          type: integer
+                      type: array
+            responses:
+                204:
+                    content:
+                        application/json: {}
+                        application/xml: {}
+            tags: ["LicenseKey"]
     "/license-keys/{licenseKeyId}/download":
         get:
             description:
