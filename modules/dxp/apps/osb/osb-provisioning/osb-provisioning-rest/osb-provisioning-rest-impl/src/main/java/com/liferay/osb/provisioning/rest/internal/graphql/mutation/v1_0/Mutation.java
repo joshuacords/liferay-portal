@@ -115,6 +115,34 @@ public class Mutation {
 			});
 	}
 
+	@GraphQLField(description = "Unsubscribes from license keys.")
+	public boolean deleteLicenseKeySubscription(
+			@GraphQLName("licenseKeyIds") Long[] licenseKeyIds)
+		throws Exception {
+
+		_applyVoidComponentServiceObjects(
+			_licenseKeyResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			licenseKeyResource ->
+				licenseKeyResource.deleteLicenseKeySubscription(licenseKeyIds));
+
+		return true;
+	}
+
+	@GraphQLField(description = "Subscribes to license keys.")
+	public boolean updateLicenseKeySubscription(
+			@GraphQLName("licenseKeyIds") Long[] licenseKeyIds)
+		throws Exception {
+
+		_applyVoidComponentServiceObjects(
+			_licenseKeyResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			licenseKeyResource -> licenseKeyResource.putLicenseKeySubscription(
+				licenseKeyIds));
+
+		return true;
+	}
+
 	private <T, R, E1 extends Throwable, E2 extends Throwable> R
 			_applyComponentServiceObjects(
 				ComponentServiceObjects<T> componentServiceObjects,

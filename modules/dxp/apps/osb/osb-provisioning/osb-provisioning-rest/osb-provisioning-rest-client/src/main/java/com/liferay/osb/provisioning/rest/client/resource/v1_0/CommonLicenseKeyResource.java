@@ -66,6 +66,12 @@ public interface CommonLicenseKeyResource {
 			return new CommonLicenseKeyResourceImpl(this);
 		}
 
+		public Builder contextPath(String contextPath) {
+			_contextPath = contextPath;
+
+			return this;
+		}
+
 		public Builder endpoint(String host, int port, String scheme) {
 			_host = host;
 			_port = port;
@@ -111,6 +117,7 @@ public interface CommonLicenseKeyResource {
 		private Builder() {
 		}
 
+		private String _contextPath = "";
 		private Map<String, String> _headers = new LinkedHashMap<>();
 		private String _host = "localhost";
 		private Locale _locale;
@@ -206,7 +213,7 @@ public interface CommonLicenseKeyResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/provisioning-rest/v1.0/accounts/{accountKey}/product-groups/{productGroupName}/product-environment/{productEnvironmentName}/common-license-key");
 
 			httpInvoker.path("accountKey", accountKey);

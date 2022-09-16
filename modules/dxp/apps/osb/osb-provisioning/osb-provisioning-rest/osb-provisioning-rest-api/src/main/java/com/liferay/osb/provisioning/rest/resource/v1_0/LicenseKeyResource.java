@@ -98,6 +98,12 @@ public interface LicenseKeyResource {
 	public Page<LicenseKey> postLicenseKeysExtendPage(LicenseKey[] licenseKeys)
 		throws Exception;
 
+	public void deleteLicenseKeySubscription(Long[] licenseKeyIds)
+		throws Exception;
+
+	public void putLicenseKeySubscription(Long[] licenseKeyIds)
+		throws Exception;
+
 	public Response getLicenseKeyDownload(Long licenseKeyId) throws Exception;
 
 	public Response getProductGroupProductGroupNameDevelopmentLicenseKey(

@@ -71,10 +71,6 @@ public abstract class BaseLicenseKeyResourceImpl implements LicenseKeyResource {
 			),
 			@io.swagger.v3.oas.annotations.Parameter(
 				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
-				name = "search"
-			),
-			@io.swagger.v3.oas.annotations.Parameter(
-				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
 				name = "filter"
 			),
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -84,6 +80,10 @@ public abstract class BaseLicenseKeyResourceImpl implements LicenseKeyResource {
 			@io.swagger.v3.oas.annotations.Parameter(
 				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
 				name = "pageSize"
+			),
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "search"
 			),
 			@io.swagger.v3.oas.annotations.Parameter(
 				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
@@ -410,7 +410,7 @@ public abstract class BaseLicenseKeyResourceImpl implements LicenseKeyResource {
 	)
 	@javax.ws.rs.GET
 	@javax.ws.rs.Path("/license-keys/download-zip")
-	@javax.ws.rs.Produces("application/xml")
+	@javax.ws.rs.Produces("application/zip")
 	@Override
 	public Response getLicenseKeyDownloadZip(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
@@ -479,6 +479,68 @@ public abstract class BaseLicenseKeyResourceImpl implements LicenseKeyResource {
 		throws Exception {
 
 		return Page.of(Collections.emptyList());
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'DELETE' 'http://localhost:8080/o/provisioning-rest/v1.0/license-keys/subscriptions'  -u 'test@liferay.com:test'
+	 */
+	@io.swagger.v3.oas.annotations.Operation(
+		description = "Unsubscribes from license keys."
+	)
+	@io.swagger.v3.oas.annotations.Parameters(
+		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "licenseKeyIds"
+			)
+		}
+	)
+	@io.swagger.v3.oas.annotations.tags.Tags(
+		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "LicenseKey")}
+	)
+	@javax.ws.rs.DELETE
+	@javax.ws.rs.Path("/license-keys/subscriptions")
+	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@Override
+	public void deleteLicenseKeySubscription(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.QueryParam("licenseKeyIds")
+			Long[] licenseKeyIds)
+		throws Exception {
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'PUT' 'http://localhost:8080/o/provisioning-rest/v1.0/license-keys/subscriptions'  -u 'test@liferay.com:test'
+	 */
+	@io.swagger.v3.oas.annotations.Operation(
+		description = "Subscribes to license keys."
+	)
+	@io.swagger.v3.oas.annotations.Parameters(
+		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "licenseKeyIds"
+			)
+		}
+	)
+	@io.swagger.v3.oas.annotations.tags.Tags(
+		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "LicenseKey")}
+	)
+	@javax.ws.rs.Path("/license-keys/subscriptions")
+	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@javax.ws.rs.PUT
+	@Override
+	public void putLicenseKeySubscription(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.QueryParam("licenseKeyIds")
+			Long[] licenseKeyIds)
+		throws Exception {
 	}
 
 	/**
@@ -667,32 +729,62 @@ public abstract class BaseLicenseKeyResourceImpl implements LicenseKeyResource {
 			actionName, siteId, methodName, null, permissionName, siteId);
 	}
 
-	protected <T, R> List<R> transform(
+	protected <T, R, E extends Throwable> List<R> transform(
 		java.util.Collection<T> collection,
-		UnsafeFunction<T, R, Exception> unsafeFunction) {
+		UnsafeFunction<T, R, E> unsafeFunction) {
 
 		return TransformUtil.transform(collection, unsafeFunction);
 	}
 
-	protected <T, R> R[] transform(
-		T[] array, UnsafeFunction<T, R, Exception> unsafeFunction,
-		Class<?> clazz) {
+	protected <T, R, E extends Throwable> R[] transform(
+		T[] array, UnsafeFunction<T, R, E> unsafeFunction, Class<?> clazz) {
 
 		return TransformUtil.transform(array, unsafeFunction, clazz);
 	}
 
-	protected <T, R> R[] transformToArray(
+	protected <T, R, E extends Throwable> R[] transformToArray(
 		java.util.Collection<T> collection,
-		UnsafeFunction<T, R, Exception> unsafeFunction, Class<?> clazz) {
+		UnsafeFunction<T, R, E> unsafeFunction, Class<?> clazz) {
 
 		return TransformUtil.transformToArray(
 			collection, unsafeFunction, clazz);
 	}
 
-	protected <T, R> List<R> transformToList(
-		T[] array, UnsafeFunction<T, R, Exception> unsafeFunction) {
+	protected <T, R, E extends Throwable> List<R> transformToList(
+		T[] array, UnsafeFunction<T, R, E> unsafeFunction) {
 
 		return TransformUtil.transformToList(array, unsafeFunction);
+	}
+
+	protected <T, R, E extends Throwable> List<R> unsafeTransform(
+			java.util.Collection<T> collection,
+			UnsafeFunction<T, R, E> unsafeFunction)
+		throws E {
+
+		return TransformUtil.unsafeTransform(collection, unsafeFunction);
+	}
+
+	protected <T, R, E extends Throwable> R[] unsafeTransform(
+			T[] array, UnsafeFunction<T, R, E> unsafeFunction, Class<?> clazz)
+		throws E {
+
+		return TransformUtil.unsafeTransform(array, unsafeFunction, clazz);
+	}
+
+	protected <T, R, E extends Throwable> R[] unsafeTransformToArray(
+			java.util.Collection<T> collection,
+			UnsafeFunction<T, R, E> unsafeFunction, Class<?> clazz)
+		throws E {
+
+		return TransformUtil.unsafeTransformToArray(
+			collection, unsafeFunction, clazz);
+	}
+
+	protected <T, R, E extends Throwable> List<R> unsafeTransformToList(
+			T[] array, UnsafeFunction<T, R, E> unsafeFunction)
+		throws E {
+
+		return TransformUtil.unsafeTransformToList(array, unsafeFunction);
 	}
 
 	protected AcceptLanguage contextAcceptLanguage;

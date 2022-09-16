@@ -132,6 +132,20 @@ public interface LicenseKeyResource {
 			LicenseKey[] licenseKeys)
 		throws Exception;
 
+	public void deleteLicenseKeySubscription(Long[] licenseKeyIds)
+		throws Exception;
+
+	public HttpInvoker.HttpResponse deleteLicenseKeySubscriptionHttpResponse(
+			Long[] licenseKeyIds)
+		throws Exception;
+
+	public void putLicenseKeySubscription(Long[] licenseKeyIds)
+		throws Exception;
+
+	public HttpInvoker.HttpResponse putLicenseKeySubscriptionHttpResponse(
+			Long[] licenseKeyIds)
+		throws Exception;
+
 	public void getLicenseKeyDownload(Long licenseKeyId) throws Exception;
 
 	public HttpInvoker.HttpResponse getLicenseKeyDownloadHttpResponse(
@@ -159,6 +173,12 @@ public interface LicenseKeyResource {
 
 		public LicenseKeyResource build() {
 			return new LicenseKeyResourceImpl(this);
+		}
+
+		public Builder contextPath(String contextPath) {
+			_contextPath = contextPath;
+
+			return this;
 		}
 
 		public Builder endpoint(String host, int port, String scheme) {
@@ -206,6 +226,7 @@ public interface LicenseKeyResource {
 		private Builder() {
 		}
 
+		private String _contextPath = "";
 		private Map<String, String> _headers = new LinkedHashMap<>();
 		private String _host = "localhost";
 		private Locale _locale;
@@ -313,7 +334,7 @@ public interface LicenseKeyResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/provisioning-rest/v1.0/accounts/{accountKey}/license-keys");
 
 			httpInvoker.path("accountKey", accountKey);
@@ -407,7 +428,7 @@ public interface LicenseKeyResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/provisioning-rest/v1.0/accounts/{accountKey}/license-keys");
 
 			httpInvoker.path("accountKey", accountKey);
@@ -488,7 +509,7 @@ public interface LicenseKeyResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/provisioning-rest/v1.0/accounts/{accountKey}/license-keys/export");
 
 			httpInvoker.path("accountKey", accountKey);
@@ -573,7 +594,7 @@ public interface LicenseKeyResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/provisioning-rest/v1.0/accounts/{accountKey}/product-groups/{productGroupName}/generate-form");
 
 			httpInvoker.path("accountKey", accountKey);
@@ -650,7 +671,7 @@ public interface LicenseKeyResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/provisioning-rest/v1.0/accounts/{accountKey}/product-groups/{productGroupName}/product-version/{productVersion}/development-license-key");
 
 			httpInvoker.path("accountKey", accountKey);
@@ -750,7 +771,7 @@ public interface LicenseKeyResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/provisioning-rest/v1.0/license-keys/activate");
 
 			httpInvoker.userNameAndPassword(
@@ -846,7 +867,7 @@ public interface LicenseKeyResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/provisioning-rest/v1.0/license-keys/deactivate");
 
 			httpInvoker.userNameAndPassword(
@@ -921,7 +942,7 @@ public interface LicenseKeyResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/provisioning-rest/v1.0/license-keys/download");
 
 			httpInvoker.userNameAndPassword(
@@ -996,7 +1017,7 @@ public interface LicenseKeyResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/provisioning-rest/v1.0/license-keys/download-zip");
 
 			httpInvoker.userNameAndPassword(
@@ -1069,7 +1090,7 @@ public interface LicenseKeyResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/provisioning-rest/v1.0/license-keys/export");
 
 			httpInvoker.userNameAndPassword(
@@ -1159,8 +1180,200 @@ public interface LicenseKeyResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/provisioning-rest/v1.0/license-keys/extend");
+
+			httpInvoker.userNameAndPassword(
+				_builder._login + ":" + _builder._password);
+
+			return httpInvoker.invoke();
+		}
+
+		public void deleteLicenseKeySubscription(Long[] licenseKeyIds)
+			throws Exception {
+
+			HttpInvoker.HttpResponse httpResponse =
+				deleteLicenseKeySubscriptionHttpResponse(licenseKeyIds);
+
+			String content = httpResponse.getContent();
+
+			if ((httpResponse.getStatusCode() / 100) != 2) {
+				_logger.log(
+					Level.WARNING,
+					"Unable to process HTTP response content: " + content);
+				_logger.log(
+					Level.WARNING,
+					"HTTP response message: " + httpResponse.getMessage());
+				_logger.log(
+					Level.WARNING,
+					"HTTP response status code: " +
+						httpResponse.getStatusCode());
+
+				throw new Problem.ProblemException(Problem.toDTO(content));
+			}
+			else {
+				_logger.fine("HTTP response content: " + content);
+				_logger.fine(
+					"HTTP response message: " + httpResponse.getMessage());
+				_logger.fine(
+					"HTTP response status code: " +
+						httpResponse.getStatusCode());
+			}
+
+			try {
+				return;
+			}
+			catch (Exception e) {
+				_logger.log(
+					Level.WARNING,
+					"Unable to process HTTP response: " + content, e);
+
+				throw new Problem.ProblemException(Problem.toDTO(content));
+			}
+		}
+
+		public HttpInvoker.HttpResponse
+				deleteLicenseKeySubscriptionHttpResponse(Long[] licenseKeyIds)
+			throws Exception {
+
+			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
+
+			httpInvoker.body(
+				Stream.of(
+					licenseKeyIds
+				).map(
+					value -> String.valueOf(value)
+				).collect(
+					Collectors.toList()
+				).toString(),
+				"application/json");
+
+			if (_builder._locale != null) {
+				httpInvoker.header(
+					"Accept-Language", _builder._locale.toLanguageTag());
+			}
+
+			for (Map.Entry<String, String> entry :
+					_builder._headers.entrySet()) {
+
+				httpInvoker.header(entry.getKey(), entry.getValue());
+			}
+
+			for (Map.Entry<String, String> entry :
+					_builder._parameters.entrySet()) {
+
+				httpInvoker.parameter(entry.getKey(), entry.getValue());
+			}
+
+			httpInvoker.httpMethod(HttpInvoker.HttpMethod.DELETE);
+
+			if (licenseKeyIds != null) {
+				for (int i = 0; i < licenseKeyIds.length; i++) {
+					httpInvoker.parameter(
+						"licenseKeyIds", String.valueOf(licenseKeyIds[i]));
+				}
+			}
+
+			httpInvoker.path(
+				_builder._scheme + "://" + _builder._host + ":" +
+					_builder._port + _builder._contextPath +
+						"/o/provisioning-rest/v1.0/license-keys/subscriptions");
+
+			httpInvoker.userNameAndPassword(
+				_builder._login + ":" + _builder._password);
+
+			return httpInvoker.invoke();
+		}
+
+		public void putLicenseKeySubscription(Long[] licenseKeyIds)
+			throws Exception {
+
+			HttpInvoker.HttpResponse httpResponse =
+				putLicenseKeySubscriptionHttpResponse(licenseKeyIds);
+
+			String content = httpResponse.getContent();
+
+			if ((httpResponse.getStatusCode() / 100) != 2) {
+				_logger.log(
+					Level.WARNING,
+					"Unable to process HTTP response content: " + content);
+				_logger.log(
+					Level.WARNING,
+					"HTTP response message: " + httpResponse.getMessage());
+				_logger.log(
+					Level.WARNING,
+					"HTTP response status code: " +
+						httpResponse.getStatusCode());
+
+				throw new Problem.ProblemException(Problem.toDTO(content));
+			}
+			else {
+				_logger.fine("HTTP response content: " + content);
+				_logger.fine(
+					"HTTP response message: " + httpResponse.getMessage());
+				_logger.fine(
+					"HTTP response status code: " +
+						httpResponse.getStatusCode());
+			}
+
+			try {
+				return;
+			}
+			catch (Exception e) {
+				_logger.log(
+					Level.WARNING,
+					"Unable to process HTTP response: " + content, e);
+
+				throw new Problem.ProblemException(Problem.toDTO(content));
+			}
+		}
+
+		public HttpInvoker.HttpResponse putLicenseKeySubscriptionHttpResponse(
+				Long[] licenseKeyIds)
+			throws Exception {
+
+			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
+
+			httpInvoker.body(
+				Stream.of(
+					licenseKeyIds
+				).map(
+					value -> String.valueOf(value)
+				).collect(
+					Collectors.toList()
+				).toString(),
+				"application/json");
+
+			if (_builder._locale != null) {
+				httpInvoker.header(
+					"Accept-Language", _builder._locale.toLanguageTag());
+			}
+
+			for (Map.Entry<String, String> entry :
+					_builder._headers.entrySet()) {
+
+				httpInvoker.header(entry.getKey(), entry.getValue());
+			}
+
+			for (Map.Entry<String, String> entry :
+					_builder._parameters.entrySet()) {
+
+				httpInvoker.parameter(entry.getKey(), entry.getValue());
+			}
+
+			httpInvoker.httpMethod(HttpInvoker.HttpMethod.PUT);
+
+			if (licenseKeyIds != null) {
+				for (int i = 0; i < licenseKeyIds.length; i++) {
+					httpInvoker.parameter(
+						"licenseKeyIds", String.valueOf(licenseKeyIds[i]));
+				}
+			}
+
+			httpInvoker.path(
+				_builder._scheme + "://" + _builder._host + ":" +
+					_builder._port + _builder._contextPath +
+						"/o/provisioning-rest/v1.0/license-keys/subscriptions");
 
 			httpInvoker.userNameAndPassword(
 				_builder._login + ":" + _builder._password);
@@ -1225,7 +1438,7 @@ public interface LicenseKeyResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/provisioning-rest/v1.0/license-keys/{licenseKeyId}/download");
 
 			httpInvoker.path("licenseKeyId", licenseKeyId);
@@ -1309,7 +1522,7 @@ public interface LicenseKeyResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/provisioning-rest/v1.0/product-groups/{productGroupName}/development-license-key");
 
 			httpInvoker.path("productGroupName", productGroupName);
