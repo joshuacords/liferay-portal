@@ -770,6 +770,6 @@ public abstract class KaleoProcessServiceBaseImpl
 	protected WorkflowInstanceLinkPersistence workflowInstanceLinkPersistence;
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		KaleoProcessLocalServiceBaseImpl.class);
+		KaleoProcessServiceBaseImpl.class);
 
 }

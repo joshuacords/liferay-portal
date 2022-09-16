@@ -2142,6 +2142,6 @@ public abstract class CPTaxCategoryServiceBaseImpl
 	protected UserPersistence userPersistence;
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		CPTaxCategoryLocalServiceBaseImpl.class);
+		CPTaxCategoryServiceBaseImpl.class);
 
 }

@@ -224,6 +224,6 @@ public abstract class ContactServiceBaseImpl
 	protected com.liferay.portal.kernel.service.UserService userService;
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		ContactLocalServiceBaseImpl.class);
+		ContactServiceBaseImpl.class);
 
 }

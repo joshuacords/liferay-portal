@@ -1736,6 +1736,6 @@ public abstract class LayoutServiceBaseImpl
 	protected UserGroupFinder userGroupFinder;
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		LayoutLocalServiceBaseImpl.class);
+		LayoutServiceBaseImpl.class);
 
 }

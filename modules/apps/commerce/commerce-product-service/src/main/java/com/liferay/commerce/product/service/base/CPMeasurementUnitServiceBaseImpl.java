@@ -2143,6 +2143,6 @@ public abstract class CPMeasurementUnitServiceBaseImpl
 	protected UserPersistence userPersistence;
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		CPMeasurementUnitLocalServiceBaseImpl.class);
+		CPMeasurementUnitServiceBaseImpl.class);
 
 }

@@ -191,6 +191,6 @@ public abstract class ProductEntryServiceBaseImpl
 	protected com.liferay.portal.kernel.service.UserService userService;
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		ProductEntryLocalServiceBaseImpl.class);
+		ProductEntryServiceBaseImpl.class);
 
 }

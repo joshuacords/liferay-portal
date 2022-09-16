@@ -554,6 +554,6 @@ public abstract class PortletServiceBaseImpl
 	protected RoleFinder roleFinder;
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		PortletLocalServiceBaseImpl.class);
+		PortletServiceBaseImpl.class);
 
 }

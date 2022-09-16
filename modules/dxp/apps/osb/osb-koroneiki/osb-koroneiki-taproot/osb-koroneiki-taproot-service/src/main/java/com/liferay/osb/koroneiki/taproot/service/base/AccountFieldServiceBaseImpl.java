@@ -227,6 +227,6 @@ public abstract class AccountFieldServiceBaseImpl
 	protected com.liferay.portal.kernel.service.UserService userService;
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		AccountFieldLocalServiceBaseImpl.class);
+		AccountFieldServiceBaseImpl.class);
 
 }

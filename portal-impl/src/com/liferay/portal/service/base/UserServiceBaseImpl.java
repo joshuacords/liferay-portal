@@ -2587,6 +2587,6 @@ public abstract class UserServiceBaseImpl
 	protected WorkflowInstanceLinkPersistence workflowInstanceLinkPersistence;
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		UserLocalServiceBaseImpl.class);
+		UserServiceBaseImpl.class);
 
 }

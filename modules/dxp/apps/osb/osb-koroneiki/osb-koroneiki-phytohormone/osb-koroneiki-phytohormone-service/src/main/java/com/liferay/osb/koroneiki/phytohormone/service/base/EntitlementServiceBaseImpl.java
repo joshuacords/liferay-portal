@@ -170,6 +170,6 @@ public abstract class EntitlementServiceBaseImpl
 	protected com.liferay.portal.kernel.service.UserService userService;
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		EntitlementLocalServiceBaseImpl.class);
+		EntitlementServiceBaseImpl.class);
 
 }

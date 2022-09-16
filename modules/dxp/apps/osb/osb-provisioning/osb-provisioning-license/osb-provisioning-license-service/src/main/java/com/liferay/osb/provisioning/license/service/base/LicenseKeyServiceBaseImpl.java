@@ -178,6 +178,6 @@ public abstract class LicenseKeyServiceBaseImpl
 	protected com.liferay.portal.kernel.service.UserService userService;
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		LicenseKeyLocalServiceBaseImpl.class);
+		LicenseKeyServiceBaseImpl.class);
 
 }

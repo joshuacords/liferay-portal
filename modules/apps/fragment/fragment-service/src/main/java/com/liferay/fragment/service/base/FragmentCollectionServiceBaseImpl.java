@@ -164,6 +164,6 @@ public abstract class FragmentCollectionServiceBaseImpl
 	protected FragmentEntryPersistence fragmentEntryPersistence;
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		FragmentCollectionLocalServiceBaseImpl.class);
+		FragmentCollectionServiceBaseImpl.class);
 
 }

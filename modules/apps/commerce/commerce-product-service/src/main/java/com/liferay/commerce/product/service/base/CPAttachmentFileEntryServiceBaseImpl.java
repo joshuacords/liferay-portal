@@ -2337,6 +2337,6 @@ public abstract class CPAttachmentFileEntryServiceBaseImpl
 	protected ExpandoRowPersistence expandoRowPersistence;
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		CPAttachmentFileEntryLocalServiceBaseImpl.class);
+		CPAttachmentFileEntryServiceBaseImpl.class);
 
 }

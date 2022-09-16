@@ -204,6 +204,6 @@ public abstract class MBThreadServiceBaseImpl
 		trashVersionLocalService;
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		MBThreadLocalServiceBaseImpl.class);
+		MBThreadServiceBaseImpl.class);
 
 }

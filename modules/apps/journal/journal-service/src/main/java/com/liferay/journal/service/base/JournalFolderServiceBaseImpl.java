@@ -224,6 +224,6 @@ public abstract class JournalFolderServiceBaseImpl
 		trashVersionLocalService;
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		JournalFolderLocalServiceBaseImpl.class);
+		JournalFolderServiceBaseImpl.class);
 
 }

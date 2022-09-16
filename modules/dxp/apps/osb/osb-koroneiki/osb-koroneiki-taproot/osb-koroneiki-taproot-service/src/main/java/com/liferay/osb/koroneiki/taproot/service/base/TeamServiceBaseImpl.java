@@ -224,6 +224,6 @@ public abstract class TeamServiceBaseImpl
 	protected com.liferay.portal.kernel.service.UserService userService;
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		TeamLocalServiceBaseImpl.class);
+		TeamServiceBaseImpl.class);
 
 }

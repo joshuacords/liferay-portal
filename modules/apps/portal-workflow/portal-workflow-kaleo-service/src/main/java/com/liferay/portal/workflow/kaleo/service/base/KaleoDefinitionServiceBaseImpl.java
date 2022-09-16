@@ -251,6 +251,6 @@ public abstract class KaleoDefinitionServiceBaseImpl
 	protected com.liferay.portal.kernel.service.UserService userService;
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		KaleoDefinitionLocalServiceBaseImpl.class);
+		KaleoDefinitionServiceBaseImpl.class);
 
 }

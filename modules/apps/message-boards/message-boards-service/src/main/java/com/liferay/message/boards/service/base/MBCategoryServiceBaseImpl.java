@@ -181,6 +181,6 @@ public abstract class MBCategoryServiceBaseImpl
 		trashVersionLocalService;
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		MBCategoryLocalServiceBaseImpl.class);
+		MBCategoryServiceBaseImpl.class);
 
 }

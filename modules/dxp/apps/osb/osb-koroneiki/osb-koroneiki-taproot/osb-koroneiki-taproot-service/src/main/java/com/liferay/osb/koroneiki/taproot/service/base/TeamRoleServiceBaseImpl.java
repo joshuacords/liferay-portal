@@ -225,6 +225,6 @@ public abstract class TeamRoleServiceBaseImpl
 	protected com.liferay.portal.kernel.service.UserService userService;
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		TeamRoleLocalServiceBaseImpl.class);
+		TeamRoleServiceBaseImpl.class);
 
 }

@@ -173,6 +173,6 @@ public abstract class AuditEntryServiceBaseImpl
 	protected com.liferay.portal.kernel.service.UserService userService;
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		AuditEntryLocalServiceBaseImpl.class);
+		AuditEntryServiceBaseImpl.class);
 
 }

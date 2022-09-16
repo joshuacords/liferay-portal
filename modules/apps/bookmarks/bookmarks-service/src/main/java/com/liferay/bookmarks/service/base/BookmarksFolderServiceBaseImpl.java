@@ -207,6 +207,6 @@ public abstract class BookmarksFolderServiceBaseImpl
 		socialActivityService;
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		BookmarksFolderLocalServiceBaseImpl.class);
+		BookmarksFolderServiceBaseImpl.class);
 
 }

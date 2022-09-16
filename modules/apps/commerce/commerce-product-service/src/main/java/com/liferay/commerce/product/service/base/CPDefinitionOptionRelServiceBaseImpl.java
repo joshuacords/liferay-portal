@@ -2197,6 +2197,6 @@ public abstract class CPDefinitionOptionRelServiceBaseImpl
 	protected ExpandoRowPersistence expandoRowPersistence;
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		CPDefinitionOptionRelLocalServiceBaseImpl.class);
+		CPDefinitionOptionRelServiceBaseImpl.class);
 
 }

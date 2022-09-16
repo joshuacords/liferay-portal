@@ -171,6 +171,6 @@ public abstract class FragmentEntryServiceBaseImpl
 	protected FragmentEntryLinkFinder fragmentEntryLinkFinder;
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		FragmentEntryLocalServiceBaseImpl.class);
+		FragmentEntryServiceBaseImpl.class);
 
 }

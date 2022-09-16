@@ -2143,6 +2143,6 @@ public abstract class CommerceChannelRelServiceBaseImpl
 	protected UserPersistence userPersistence;
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		CommerceChannelRelLocalServiceBaseImpl.class);
+		CommerceChannelRelServiceBaseImpl.class);
 
 }

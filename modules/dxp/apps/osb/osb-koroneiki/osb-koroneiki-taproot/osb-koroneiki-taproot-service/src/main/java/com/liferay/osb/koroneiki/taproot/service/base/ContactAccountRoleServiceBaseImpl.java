@@ -229,6 +229,6 @@ public abstract class ContactAccountRoleServiceBaseImpl
 	protected com.liferay.portal.kernel.service.UserService userService;
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		ContactAccountRoleLocalServiceBaseImpl.class);
+		ContactAccountRoleServiceBaseImpl.class);
 
 }
