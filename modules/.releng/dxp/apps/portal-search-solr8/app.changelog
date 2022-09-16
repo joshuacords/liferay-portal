@@ -21,3 +21,15 @@ app.artifacts-3.0.1=\
 app.change.log-3.0.1=LPS-127030 LPS-134703 LPS-77699 LRQA-51488
 
 app.git.id-3.0.1=78e1db5ab29e297f1c0fb5d5d372ca091599a92e
+
+#
+# Liferay App Version 3.0.2
+#
+
+app.artifacts-3.0.2=\
+	com.liferay.portal.search.solr8.api-3.0.6.jar,\
+	com.liferay.portal.search.solr8.impl-3.0.9.jar
+
+app.change.log-3.0.2=LPE-17306 LPE-17063 LPS-151389 LPS-149436 LPE-17316 LPE-17269 LPS-77699
+
+app.git.id-3.0.2=b51a5b6f20f0c6e53e7b851b16e5b391fbc03a11
