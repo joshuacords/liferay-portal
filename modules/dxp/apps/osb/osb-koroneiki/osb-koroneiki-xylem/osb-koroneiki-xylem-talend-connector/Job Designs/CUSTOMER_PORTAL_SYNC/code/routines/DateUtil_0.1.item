@@ -37,16 +37,16 @@ public class DateUtil {
 	public static String getLastRunStartDate(
 		String lastRunStartDate, Integer deltaMins) {
 
+		if (deltaMins == null) {
+			deltaMins = 5;
+		}
+
 		String formattedLastRunStartDate = null;
 
 		if (lastRunStartDate != null) {
 			String sanitizedLastRunStartDate = lastRunStartDate.trim();
 
 			if (!sanitizedLastRunStartDate.isEmpty()) {
-				if (deltaMins == null) {
-					deltaMins = 5;
-				}
-
 				Date date = TalendDate.parseDate(
 					"yyyy-MM-dd'T'HH:mm:ssZ", sanitizedLastRunStartDate);
 
@@ -66,7 +66,7 @@ public class DateUtil {
 
 			formattedLastRunStartDate = TalendDate.formatDate(
 				"yyyy-MM-dd'T'HH:mm:ss'Z'",
-				new Date(System.currentTimeMillis() - 30000000));
+				new Date(System.currentTimeMillis() - (deltaMins * 60 * 1000)));
 		}
 
 		return formattedLastRunStartDate;
