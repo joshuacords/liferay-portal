@@ -137,15 +137,6 @@ public class DossieraSubscriberUtil {
 	public void updateTickets(Account account, Map<String, String> properties)
 		throws Exception {
 
-		String extendedPatchPolicy = properties.get("extendedPatchPolicy");
-		String projectSolution = properties.get("projectSolution");
-
-		if (Validator.isNull(extendedPatchPolicy) &&
-			Validator.isNull(projectSolution)) {
-
-			return;
-		}
-
 		AccountEntry accountEntry = _accountEntryWebService.fetchAccountEntry(
 			account.getKey());
 
@@ -156,6 +147,9 @@ public class DossieraSubscriberUtil {
 		if (zendeskOrganization == null) {
 			return;
 		}
+
+		String extendedPatchPolicy = properties.get("extendedPatchPolicy");
+		String projectSolution = properties.get("projectSolution");
 
 		Set<String> criteria = new HashSet<>();
 

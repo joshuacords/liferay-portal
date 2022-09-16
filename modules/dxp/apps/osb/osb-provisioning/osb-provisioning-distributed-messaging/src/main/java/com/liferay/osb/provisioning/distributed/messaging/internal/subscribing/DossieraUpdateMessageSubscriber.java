@@ -21,8 +21,10 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.Validator;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.osgi.service.component.annotations.Component;
@@ -58,6 +60,10 @@ public class DossieraUpdateMessageSubscriber extends BaseMessageSubscriber {
 		if (accountKey != null) {
 			Account account = _accountWebService.getAccount(accountKey);
 
+			Map<String, String> oldProperties = new HashMap<>();
+
+			MapUtil.copy(account.getProperties(), oldProperties);
+
 			Map<String, String> properties =
 				_dossieraSubscriberUtil.getAccountProperties(
 					account, jsonObject);
@@ -67,7 +73,9 @@ public class DossieraUpdateMessageSubscriber extends BaseMessageSubscriber {
 			_accountWebService.updateAccount(
 				StringPool.BLANK, StringPool.BLANK, accountKey, account);
 
-			_dossieraSubscriberUtil.updateTickets(account, properties);
+			if (!oldProperties.equals(properties)) {
+				_dossieraSubscriberUtil.updateTickets(account, properties);
+			}
 		}
 	}
 
