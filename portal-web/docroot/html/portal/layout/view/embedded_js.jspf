@@ -29,7 +29,8 @@
 				if (height == null) {
 					if (themeDisplay.isStateMaximized()) {
 						height = A.getDoc().get('docHeight');
-					}else {
+					}
+					else {
 						height = normalHeight;
 
 						iframe.autosizeiframe.set('monitorHeight', false);
