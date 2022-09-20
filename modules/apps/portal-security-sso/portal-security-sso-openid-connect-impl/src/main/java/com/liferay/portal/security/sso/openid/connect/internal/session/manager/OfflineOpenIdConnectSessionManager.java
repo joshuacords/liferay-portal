@@ -112,11 +112,7 @@ public class OfflineOpenIdConnectSessionManager {
 			OpenIdConnectSession.class.getSimpleName(), key, lockOwner);
 
 		if (!lockOwner.equals(lock.getOwner())) {
-			if (elapsedTime <= lifetime) {
-				return false;
-			}
-
-			return true;
+			return false;
 		}
 
 		accessToken = _extendOpenIdConnectSession(openIdConnectSession);
