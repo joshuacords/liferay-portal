@@ -32,8 +32,7 @@ public class SubscriptionConstants {
 	public static String GROUP_NAME_LIFERAY_EXPERIENCE_CLOUD =
 		"Liferay Experience Cloud";
 
-	public static String GROUP_NAME_LIFERAY_EXPERIENCE_CLOUD_SM =
-		"Liferay Experience Cloud - Self-Managed";
+	public static String GROUP_NAME_LXC_SM = "LXC - SM";
 
 	public static String GROUP_NAME_PARTNERSHIP = "Partnership";
 

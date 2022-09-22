@@ -480,12 +480,12 @@ public class TransformProductPurchases {
 			jsonObject.put("accountKey", accountKey);
 			jsonObject.put("externalReferenceCode", externalReferenceCode);
 
-			if (name.equals(SubscriptionConstants.GROUP_NAME_DXP) ||
+			if (name.equals(SubscriptionConstants.GROUP_NAME_ANALYTICS_CLOUD) ||
+				name.equals(SubscriptionConstants.GROUP_NAME_COMMERCE) ||
+				name.equals(SubscriptionConstants.GROUP_NAME_DXP) ||
 				name.equals(
 					SubscriptionConstants.GROUP_NAME_ENTERPRISE_SEARCH) ||
-				name.equals(
-					SubscriptionConstants.
-						GROUP_NAME_LIFERAY_EXPERIENCE_CLOUD_SM) ||
+				name.equals(SubscriptionConstants.GROUP_NAME_LXC_SM) ||
 				name.equals(SubscriptionConstants.GROUP_NAME_PORTAL)) {
 
 				jsonObject.put("hasActivation", true);
@@ -522,10 +522,7 @@ public class TransformProductPurchases {
 			else if (name.equals(SubscriptionConstants.GROUP_NAME_DXP)) {
 				return 300;
 			}
-			else if (name.equals(
-						SubscriptionConstants.
-							GROUP_NAME_LIFERAY_EXPERIENCE_CLOUD_SM)) {
-
+			else if (name.equals(SubscriptionConstants.GROUP_NAME_LXC_SM)) {
 				return 100;
 			}
 			else if (name.equals(
@@ -555,10 +552,7 @@ public class TransformProductPurchases {
 			else if (name.equals(SubscriptionConstants.GROUP_NAME_DXP)) {
 				return 500;
 			}
-			else if (name.equals(
-						SubscriptionConstants.
-							GROUP_NAME_LIFERAY_EXPERIENCE_CLOUD_SM)) {
-
+			else if (name.equals(SubscriptionConstants.GROUP_NAME_LXC_SM)) {
 				return 300;
 			}
 			else if (name.equals(
