@@ -537,7 +537,7 @@ definition {
 	@description = "This is a use case for LPS-115435."
 	@priority = "3"
 	test ModifyPaginationConfigurationProperties {
-		for (var count : list "1,2,3,4,5") {
+		for (var count : list "1,2,3,4,5,6") {
 			JSONWebcontent.addWebContent(
 				content = "WC Content ${count}",
 				groupName = "Guest",
@@ -569,23 +569,23 @@ definition {
 		Pagination.changePagination(itemsPerPage = "20");
 
 		SearchResultPortlet.viewMultipleSearchResults(
-			resultsList = "Apple 1/Web Content Article,Apple 2/Web Content Article,Apple 3/Web Content Article,Apple 4/Web Content Article,Apple 5/Web Content Article,",
+			resultsList = "Apple 1/Web Content Article,Apple 2/Web Content Article,Apple 3/Web Content Article,Apple 4/Web Content Article,Apple 5/Web Content Article,Apple 6/Web Content Article",
 			searchTerm = "Apple");
 
-		Pagination.changePagination(itemsPerPage = "4");
+		Pagination.changePagination(itemsPerPage = "5");
 
 		SearchResultPortlet.viewMultipleSearchResults(
-			resultsList = "Apple 1/Web Content Article,Apple 2/Web Content Article,Apple 3/Web Content Article,Apple 4/Web Content Article",
+			resultsList = "Apple 1/Web Content Article,Apple 2/Web Content Article,Apple 3/Web Content Article,Apple 4/Web Content Article,Apple 5/Web Content Article",
 			searchTerm = "Apple");
 
 		SearchResultPortlet.viewSearchResultNotPresent(
-			searchAssetTitle = "Apple 5",
+			searchAssetTitle = "Apple 6",
 			searchAssetType = "Web Content Article");
 
 		Pagination.changePagination(itemsPerPage = "20");
 
 		SearchResultPortlet.viewMultipleSearchResults(
-			resultsList = "Apple 1/Web Content Article,Apple 2/Web Content Article,Apple 3/Web Content Article,Apple 4/Web Content Article,Apple 5/Web Content Article",
+			resultsList = "Apple 1/Web Content Article,Apple 2/Web Content Article,Apple 3/Web Content Article,Apple 4/Web Content Article,Apple 5/Web Content Article,Apple 6/Web Content Article",
 			searchTerm = "Apple");
 	}
 
