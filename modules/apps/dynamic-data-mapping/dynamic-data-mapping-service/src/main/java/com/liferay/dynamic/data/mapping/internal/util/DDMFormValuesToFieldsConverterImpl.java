@@ -23,7 +23,6 @@ import com.liferay.dynamic.data.mapping.storage.Field;
 import com.liferay.dynamic.data.mapping.storage.FieldConstants;
 import com.liferay.dynamic.data.mapping.storage.Fields;
 import com.liferay.dynamic.data.mapping.util.DDMFormValuesToFieldsConverter;
-import com.liferay.dynamic.data.mapping.util.NumericDDMFormFieldUtil;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.util.ArrayUtil;
@@ -33,6 +32,8 @@ import com.liferay.portal.kernel.util.StringUtil;
 
 import java.io.Serializable;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.ParseException;
 
@@ -211,6 +212,24 @@ public class DDMFormValuesToFieldsConverterImpl
 		}
 	}
 
+	private static DecimalFormat _getArabicDecimalFormat(Locale locale) {
+		DecimalFormat decimalFormat = (DecimalFormat)DecimalFormat.getInstance(
+			locale);
+
+		DecimalFormatSymbols decimalFormatSymbols =
+			decimalFormat.getDecimalFormatSymbols();
+
+		decimalFormatSymbols.setZeroDigit('0');
+
+		decimalFormat.setDecimalFormatSymbols(decimalFormatSymbols);
+
+		decimalFormat.setGroupingUsed(false);
+		decimalFormat.setMaximumFractionDigits(Integer.MAX_VALUE);
+		decimalFormat.setParseBigDecimal(true);
+
+		return decimalFormat;
+	}
+
 	private Serializable _getSerializable(
 		Locale defaultLocale, Locale locale, String type, Value value) {
 
@@ -219,12 +238,14 @@ public class DDMFormValuesToFieldsConverterImpl
 		if (FieldConstants.isNumericType(type)) {
 			NumberFormat numberFormat = null;
 
-			if (locale.equals(LocaleUtil.ROOT)) {
-				numberFormat = NumericDDMFormFieldUtil.getDecimalFormat(
-					defaultLocale);
+			if (StringUtil.equals(locale.getLanguage(), "ar")) {
+				numberFormat = _getArabicDecimalFormat(locale);
+			}
+			else if (locale.equals(LocaleUtil.ROOT)) {
+				numberFormat = NumberFormat.getInstance(defaultLocale);
 			}
 			else {
-				numberFormat = NumericDDMFormFieldUtil.getDecimalFormat(locale);
+				numberFormat = NumberFormat.getInstance(locale);
 			}
 
 			if (type.equals(FieldConstants.DOUBLE) ||
