@@ -1,0 +1,74 @@
+/**
+ * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
+ *
+ * The contents of this file are subject to the terms of the Liferay Enterprise
+ * Subscription License ("License"). You may not use this file except in
+ * compliance with the License. You can obtain a copy of the License by
+ * contacting Liferay, Inc. See the License for the specific language governing
+ * permissions and limitations under the License, including but not limited to
+ * distribution rights of the Software.
+ *
+ *
+ *
+ */
+
+package routines;
+
+/**
+ * @author Amos Fong
+ */
+public class InitialAccountSetupUtil {
+
+	public static String getActivationStatus(
+		String accountKey, String name, String activationStatus) {
+
+		if (name.equals(SubscriptionConstants.GROUP_NAME_ANALYTICS_CLOUD)) {
+			if (_contains(accountKey)) {
+				return "Active";
+			}
+		}
+		else if (name.equals(
+					SubscriptionConstants.
+						GROUP_NAME_LIFERAY_EXPERIENCE_CLOUD)) {
+
+			return "Active";
+		}
+		else if (name.equals(SubscriptionConstants.GROUP_NAME_LXC_SM)) {
+			return "Active";
+		}
+
+		return activationStatus;
+	}
+
+	private static boolean _contains(String accountKey) {
+		for (String activeAccountKey : _ACTIVE_ACCOUNT_KEYS) {
+			if (activeAccountKey.equals(accountKey)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private static final String[] _ACTIVE_ACCOUNT_KEYS = {
+		"KOR-117268541", "KOR-117563841", "KOR-116874320", "KOR-117461044",
+		"KOR-116881480", "KOR-116859300", "KOR-117509913", "KOR-118018413",
+		"KOR-117509815", "KOR-86488333", "KOR-116870149", "KOR-166495415",
+		"KOR-168809579", "KOR-168625632", "KOR-169780861", "KOR-170561688",
+		"KOR-170202628", "KOR-116368488", "KOR-173663286", "KOR-172967728",
+		"KOR-169409840", "KOR-175136426", "KOR-175180704", "KOR-70946893",
+		"KOR-166774563", "KOR-176042336", "KOR-75656168", "KOR-175037888",
+		"KOR-176830517", "KOR-170773418", "KOR-176421959", "KOR-178665584",
+		"KOR-176623940", "KOR-178496269", "KOR-174773022", "KOR-171901315",
+		"KOR-177257306", "KOR-1785967", "KOR-171763316", "KOR-116918225",
+		"KOR-169605565", "KOR-116864866", "KOR-1606484", "KOR-1850150",
+		"KOR-1652997", "KOR-3722517", "KOR-1384569", "KOR-1796026",
+		"KOR-3809713", "KOR-3929996", "KOR-3806793", "KOR-4048866",
+		"KOR-7095501", "KOR-4001587", "KOR-1992408", "KOR-1829453",
+		"KOR-4704702", "KOR-5016001", "KOR-4996567", "KOR-5088546",
+		"KOR-5186387", "KOR-5110865", "KOR-4976782", "KOR-4890590",
+		"KOR-5029203", "KOR-3671035", "KOR-5395022", "KOR-5224503",
+		"KOR-4895143", "KOR-5541428"
+	};
+
+}
