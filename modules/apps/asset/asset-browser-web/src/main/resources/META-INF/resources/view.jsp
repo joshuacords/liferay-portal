@@ -212,6 +212,10 @@
 						domElement = this.ancestor('li');
 					}
 
+					if (domElement == null) {
+						domElement = this.ancestor('dd');
+					}
+
 					if (domElement != null) {
 						var data = domElement.getDOM().dataset;
 
