@@ -26,14 +26,13 @@ import com.liferay.dynamic.data.mapping.storage.Field;
 import com.liferay.dynamic.data.mapping.storage.Fields;
 import com.liferay.dynamic.data.mapping.util.DDMFieldsCounter;
 import com.liferay.dynamic.data.mapping.util.FieldsToDDMFormValuesConverter;
-import com.liferay.dynamic.data.mapping.util.NumericDDMFormFieldUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.io.Serializable;
 
-import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -215,17 +214,16 @@ public class FieldsToDDMFormValuesConverterImpl
 		else if ((fieldValue instanceof Number) &&
 				 !(fieldValue instanceof Integer)) {
 
-			DecimalFormat decimalFormat =
-				NumericDDMFormFieldUtil.getDecimalFormat(locale);
+			NumberFormat numberFormat = NumberFormat.getInstance(locale);
 
 			Number number = (Number)fieldValue;
 
 			if (number instanceof Double || number instanceof Float) {
-				decimalFormat.setMaximumFractionDigits(Integer.MAX_VALUE);
-				decimalFormat.setMinimumFractionDigits(1);
+				numberFormat.setMaximumFractionDigits(Integer.MAX_VALUE);
+				numberFormat.setMinimumFractionDigits(1);
 			}
 
-			return decimalFormat.format(number.doubleValue());
+			return numberFormat.format(number.doubleValue());
 		}
 
 		return String.valueOf(fieldValue);
