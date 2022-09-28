@@ -15,7 +15,6 @@
 package com.liferay.dynamic.data.mapping.util;
 
 import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 
 import java.util.Locale;
 
@@ -28,13 +27,6 @@ public class NumericDDMFormFieldUtil {
 	public static DecimalFormat getDecimalFormat(Locale locale) {
 		DecimalFormat decimalFormat = (DecimalFormat)DecimalFormat.getInstance(
 			locale);
-
-		DecimalFormatSymbols decimalFormatSymbols =
-			decimalFormat.getDecimalFormatSymbols();
-
-		decimalFormatSymbols.setZeroDigit('0');
-
-		decimalFormat.setDecimalFormatSymbols(decimalFormatSymbols);
 
 		decimalFormat.setGroupingUsed(false);
 		decimalFormat.setMaximumFractionDigits(Integer.MAX_VALUE);
