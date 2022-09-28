@@ -21,7 +21,7 @@ import com.liferay.dynamic.data.mapping.util.NumericDDMFormFieldUtil;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 
-import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 
 import java.util.Locale;
@@ -43,10 +43,10 @@ public class NumericDDMFormFieldValueRenderer
 		Number number = getNumber(ddmFormFieldValue);
 
 		if (number != null) {
-			DecimalFormat decimalFormat =
+			NumberFormat numberFormat =
 				NumericDDMFormFieldUtil.getDecimalFormat(locale);
 
-			return decimalFormat.format(number);
+			return numberFormat.format(number);
 		}
 
 		return StringPool.BLANK;
@@ -61,10 +61,10 @@ public class NumericDDMFormFieldValueRenderer
 
 		if (Validator.isNotNull(valueString)) {
 			try {
-				DecimalFormat decimalFormat =
+				NumberFormat formatter =
 					NumericDDMFormFieldUtil.getDecimalFormat(locale);
 
-				return decimalFormat.parse(valueString);
+				return formatter.parse(valueString);
 			}
 			catch (ParseException parseException) {
 			}
