@@ -56,7 +56,7 @@ String dropdownMenuComponentId = randomNamespace + "socialBookmarksDropdownMenu"
 					data.put("url", HtmlUtil.escapeJS(url));
 				%>
 
-					<li class="taglib-social-bookmark <%= "taglib-social-bookmark-" + types[i] %>">
+					<li class="taglib-social-bookmark taglib-social-bookmark-<%= types[i] %>">
 						<liferay-social-bookmarks:bookmark
 							data="<%= data %>"
 							displayStyle="<%= displayStyle %>"
