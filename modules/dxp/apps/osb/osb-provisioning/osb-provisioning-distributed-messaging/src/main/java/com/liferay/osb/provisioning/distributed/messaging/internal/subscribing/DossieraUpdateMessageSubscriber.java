@@ -35,7 +35,8 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(
 	configurationPid = "com.liferay.osb.provisioning.distributed.messaging.internal.configuration.DistributedMessagingConfiguration",
-	immediate = true, property = "topic.pattern=dossiera.provisioning.update",
+	immediate = true,
+	property = "topic.pattern=dossiera.provisioning.project.update",
 	service = DossieraUpdateMessageSubscriber.class
 )
 public class DossieraUpdateMessageSubscriber extends BaseMessageSubscriber {
@@ -46,16 +47,15 @@ public class DossieraUpdateMessageSubscriber extends BaseMessageSubscriber {
 			_log.debug("Parsing message: " + jsonObject.toString());
 		}
 
-		JSONObject projectJSONObject = jsonObject.getJSONObject("_project");
-
-		String salesforceProjectKey = projectJSONObject.getString(
-			"_salesforceProjectKey");
+		String salesforceProjectKey = jsonObject.getString(
+			"salesforceProjectKey");
 
 		if (Validator.isNull(salesforceProjectKey)) {
 			return;
 		}
 
-		String accountKey = _dossieraSubscriberUtil.getAccountKey(jsonObject);
+		String accountKey = _dossieraSubscriberUtil.getAccountKey(
+			salesforceProjectKey);
 
 		if (accountKey != null) {
 			Account account = _accountWebService.getAccount(accountKey);

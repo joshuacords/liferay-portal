@@ -92,10 +92,23 @@ public class DossieraSubscriberUtil {
 		return null;
 	}
 
+	public String getAccountKey(String salesforceProjectKey) throws Exception {
+		List<Account> accounts = _accountWebService.getAccounts(
+			ExternalLinkDomain.SALESFORCE,
+			ExternalLinkEntityName.SALESFORCE_PROJECT, salesforceProjectKey, 1,
+			1);
+
+		if (!accounts.isEmpty()) {
+			Account account = accounts.get(0);
+
+			return account.getKey();
+		}
+
+		return null;
+	}
+
 	public Map<String, String> getAccountProperties(
 		Account account, JSONObject jsonObject) {
-
-		JSONObject projectJSONObject = jsonObject.getJSONObject("_project");
 
 		Map<String, String> properties = new HashMap<>();
 
@@ -103,8 +116,30 @@ public class DossieraSubscriberUtil {
 			properties = account.getProperties();
 		}
 
-		boolean extendedPatchPolicy = projectJSONObject.getBoolean(
-			"_extendedPatchPolicy");
+		JSONObject projectJSONObject = jsonObject.getJSONObject("_project");
+
+		boolean extendedPatchPolicy = false;
+		String projectSolution = null;
+
+		if (projectJSONObject != null) {
+			extendedPatchPolicy = projectJSONObject.getBoolean(
+				"_extendedPatchPolicy");
+
+			String liferayVersion = projectJSONObject.getString(
+				"_liferayVersion");
+
+			if (Validator.isNotNull(liferayVersion) &&
+				liferayVersion.contains("DXP")) {
+
+				properties.put("liferayVersion", liferayVersion);
+			}
+
+			projectSolution = projectJSONObject.getString("_projectSolution");
+		}
+		else {
+			extendedPatchPolicy = jsonObject.getBoolean("extendedPatchPolicy");
+			projectSolution = jsonObject.getString("projectSolution");
+		}
 
 		if (extendedPatchPolicy) {
 			properties.put("extendedPatchPolicy", Boolean.TRUE.toString());
@@ -112,17 +147,6 @@ public class DossieraSubscriberUtil {
 		else {
 			properties.remove("extendedPatchPolicy");
 		}
-
-		String liferayVersion = projectJSONObject.getString("_liferayVersion");
-
-		if (Validator.isNotNull(liferayVersion) &&
-			liferayVersion.contains("DXP")) {
-
-			properties.put("liferayVersion", liferayVersion);
-		}
-
-		String projectSolution = projectJSONObject.getString(
-			"_projectSolution");
 
 		if (Validator.isNotNull(projectSolution)) {
 			properties.put("projectSolution", projectSolution);
