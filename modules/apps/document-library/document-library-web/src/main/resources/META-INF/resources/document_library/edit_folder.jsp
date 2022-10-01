@@ -515,7 +515,7 @@ if (portletTitleBasedNavigation) {
 			<portlet:namespace />documentTypesChanged = true;
 
 			var select = A.one(
-				'#<%= liferayPortletResponse.getNamespace() + "workflowDefinition" + DLFileEntryTypeConstants.FILE_ENTRY_TYPE_ID_ALL %>'
+				'#<%= liferayPortletResponse.getNamespace() %>workflowDefinition<%= DLFileEntryTypeConstants.FILE_ENTRY_TYPE_ID_ALL %>'
 			);
 
 			var selectContainer = A.one(

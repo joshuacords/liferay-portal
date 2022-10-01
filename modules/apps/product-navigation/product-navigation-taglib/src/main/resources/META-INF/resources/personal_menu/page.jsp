@@ -69,7 +69,7 @@ resourceURL.setResourceID("/get_personal_menu_items");
 					var personalMenu = new ClayDropdown.default(
 						{
 							element:
-								'#<%= namespace + "personal_menu_dropdown_toggle" %>',
+								'#<%= namespace %>personal_menu_dropdown_toggle',
 							events: {
 								willAttach: function(event) {
 									if (
@@ -135,7 +135,7 @@ resourceURL.setResourceID("/get_personal_menu_items");
 							spritemap:
 								'<%= themeDisplay.getPathThemeImages().concat("/clay/icons.svg") %>'
 						},
-						'#<%= namespace + "personal_menu_dropdown" %>'
+						'#<%= namespace %>personal_menu_dropdown'
 					);
 
 					Liferay.once('beforeNavigate', function(event) {

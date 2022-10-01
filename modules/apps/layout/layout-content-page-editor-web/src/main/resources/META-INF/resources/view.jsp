@@ -68,9 +68,9 @@ JSONSerializer jsonSerializer = JSONFactoryUtil.createJSONSerializer();
 	);
 
 	var editModeComponents = {
-		<%= portletNamespace + "disabledAreaMaskWrapper" %>:
+		<%= portletNamespace %>disabledAreaMaskWrapper:
 			DisabledAreaMaskModule.default,
-		<%= portletNamespace + "editModeWrapper" %>: EditModeWrapperModule.default
+		<%= portletNamespace %>editModeWrapper: EditModeWrapperModule.default
 	};
 
 	Object.keys(editModeComponents).forEach(function(key) {

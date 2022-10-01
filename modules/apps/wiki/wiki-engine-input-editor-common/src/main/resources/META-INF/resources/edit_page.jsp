@@ -49,7 +49,7 @@ WikiPage wikiPage = BaseWikiEngine.getWikiPage(request);
 
 		<aui:script use="liferay-util-window">
 			var helpPageLink = A.one(
-				'#<%= renderResponse.getNamespace() + "toggle_id_wiki_editor_help" %>'
+				'#<%= renderResponse.getNamespace() %>toggle_id_wiki_editor_help'
 			);
 
 			helpPageLink.on('click', function(event) {

@@ -75,7 +75,7 @@ AssetRenderer<JournalArticle> assetRenderer = assetRendererFactory.getAssetRende
 <aui:script use="aui-parse-content,liferay-alert">
 	var templatePreview = A.one('.template-preview-content');
 	var form = A.one('#<%= refererPortletName %>fm');
-	var templateKeyInput = A.one('#<%= refererPortletName + "ddmTemplateKey" %>');
+	var templateKeyInput = A.one('#<%= refererPortletName %>ddmTemplateKey');
 
 	<%
 	String className = DDMTemplate.class.getName() + "_" + JournalArticle.class.getName();
@@ -91,7 +91,7 @@ AssetRenderer<JournalArticle> assetRenderer = assetRendererFactory.getAssetRende
 	selectDDMTemplateURL.setWindowState(LiferayWindowState.POP_UP);
 	%>
 
-	A.one('#<%= refererPortletName + "selectDDMTemplateButton" %>').on(
+	A.one('#<%= refererPortletName %>selectDDMTemplateButton').on(
 		'click',
 		function(event) {
 			event.preventDefault();
@@ -164,14 +164,14 @@ AssetRenderer<JournalArticle> assetRenderer = assetRendererFactory.getAssetRende
 		}
 	);
 
-	A.one('#<%= refererPortletName + "ddmTemplateTypeDefault" %>').on(
+	A.one('#<%= refererPortletName %>ddmTemplateTypeDefault').on(
 		'click',
 		function(event) {
 			templateKeyInput.setAttribute('value', '');
 		}
 	);
 
-	A.one('#<%= refererPortletName + "clearddmTemplateButton" %>').on(
+	A.one('#<%= refererPortletName %>clearddmTemplateButton').on(
 		'click',
 		function(event) {
 			templateKeyInput.setAttribute('value', '');

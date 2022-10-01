@@ -143,16 +143,16 @@ renderResponse.setTitle(LanguageUtil.get(request, "new-report-entry"));
 											var A = AUI();
 
 											var type = A.one(
-												'#<%= renderResponse.getNamespace() + "useVariable" + HtmlUtil.escapeJS(key) %>'
+												'#<%= renderResponse.getNamespace() %>useVariable<%= HtmlUtil.escapeJS(key) %>'
 											).get('value');
 											var day = A.one(
-												'#<%= renderResponse.getNamespace() + HtmlUtil.escapeJS(key) + "Day" %>'
+												'#<%= renderResponse.getNamespace() + HtmlUtil.escapeJS(key) %>Day'
 											);
 											var month = A.one(
-												'#<%= renderResponse.getNamespace() + HtmlUtil.escapeJS(key) + "Month" %>'
+												'#<%= renderResponse.getNamespace() + HtmlUtil.escapeJS(key) %>Month'
 											);
 											var year = A.one(
-												'#<%= renderResponse.getNamespace() + HtmlUtil.escapeJS(key) + "Year" %>'
+												'#<%= renderResponse.getNamespace() + HtmlUtil.escapeJS(key) %>Year'
 											);
 
 											if (type == 'startDate' || type == 'endDate') {

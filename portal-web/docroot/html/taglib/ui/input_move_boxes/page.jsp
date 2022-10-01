@@ -86,7 +86,7 @@ Map<String, Object> data = new HashMap<String, Object>();
 <aui:script use="liferay-input-move-boxes">
 	new Liferay.InputMoveBoxes(
 		{
-			contentBox: '#<%= randomNamespace + "input-move-boxes" %>',
+			contentBox: '#<%= randomNamespace %>input-move-boxes',
 			strings: {
 				LEFT_MOVE_DOWN: '<%= UnicodeLanguageUtil.format(request, "move-selected-item-in-x-one-position-down", leftTitle, false) %>',
 				LEFT_MOVE_UP: '<%= UnicodeLanguageUtil.format(request, "move-selected-item-in-x-one-position-up", leftTitle, false) %>',

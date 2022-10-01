@@ -258,7 +258,7 @@ String clientSecret = (oAuth2Application == null) ? "" : oAuth2Application.getCl
 			A.all(
 				'#<portlet:namespace />allowedGrantTypes .client-profile-' +
 					selectedClientProfile.val() +
-					' input:checked[name=<%= renderResponse.getNamespace() + "grant-" + GrantType.CLIENT_CREDENTIALS.name() %>]'
+					' input:checked[name=<%= renderResponse.getNamespace() %>grant-<%= GrantType.CLIENT_CREDENTIALS.name() %>]'
 			).size() > 0
 		);
 	};
