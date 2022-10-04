@@ -133,6 +133,12 @@ public interface ProductResource {
 			return new ProductResourceImpl(this);
 		}
 
+		public Builder contextPath(String contextPath) {
+			_contextPath = contextPath;
+
+			return this;
+		}
+
 		public Builder endpoint(String host, int port, String scheme) {
 			_host = host;
 			_port = port;
@@ -178,6 +184,7 @@ public interface ProductResource {
 		private Builder() {
 		}
 
+		private String _contextPath = "";
 		private Map<String, String> _headers = new LinkedHashMap<>();
 		private String _host = "localhost";
 		private Locale _locale;
@@ -283,7 +290,8 @@ public interface ProductResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port + "/o/koroneiki-rest/v1.0/products");
+					_builder._port + _builder._contextPath +
+						"/o/koroneiki-rest/v1.0/products");
 
 			httpInvoker.userNameAndPassword(
 				_builder._login + ":" + _builder._password);
@@ -372,7 +380,8 @@ public interface ProductResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port + "/o/koroneiki-rest/v1.0/products");
+					_builder._port + _builder._contextPath +
+						"/o/koroneiki-rest/v1.0/products");
 
 			httpInvoker.userNameAndPassword(
 				_builder._login + ":" + _builder._password);
@@ -462,7 +471,7 @@ public interface ProductResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/products/by-external-link/{domain}/{entityName}/{entityId}");
 
 			httpInvoker.path("domain", domain);
@@ -545,7 +554,7 @@ public interface ProductResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/products/by-name/{productName}");
 
 			httpInvoker.path("productName", productName);
@@ -637,7 +646,7 @@ public interface ProductResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/products/{productKey}");
 
 			httpInvoker.path("productKey", productKey);
@@ -716,7 +725,7 @@ public interface ProductResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/products/{productKey}");
 
 			httpInvoker.path("productKey", productKey);
@@ -810,7 +819,7 @@ public interface ProductResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/products/{productKey}");
 
 			httpInvoker.path("productKey", productKey);
@@ -906,7 +915,7 @@ public interface ProductResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/products/{productKey}/product-permissions");
 
 			httpInvoker.path("productKey", productKey);
@@ -1001,7 +1010,7 @@ public interface ProductResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/products/{productKey}/product-permissions");
 
 			httpInvoker.path("productKey", productKey);

@@ -57,6 +57,12 @@ public interface CountryResource {
 			return new CountryResourceImpl(this);
 		}
 
+		public Builder contextPath(String contextPath) {
+			_contextPath = contextPath;
+
+			return this;
+		}
+
 		public Builder endpoint(String host, int port, String scheme) {
 			_host = host;
 			_port = port;
@@ -102,6 +108,7 @@ public interface CountryResource {
 		private Builder() {
 		}
 
+		private String _contextPath = "";
 		private Map<String, String> _headers = new LinkedHashMap<>();
 		private String _host = "localhost";
 		private Locale _locale;
@@ -182,7 +189,8 @@ public interface CountryResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port + "/o/koroneiki-rest/v1.0/countries");
+					_builder._port + _builder._contextPath +
+						"/o/koroneiki-rest/v1.0/countries");
 
 			httpInvoker.userNameAndPassword(
 				_builder._login + ":" + _builder._password);

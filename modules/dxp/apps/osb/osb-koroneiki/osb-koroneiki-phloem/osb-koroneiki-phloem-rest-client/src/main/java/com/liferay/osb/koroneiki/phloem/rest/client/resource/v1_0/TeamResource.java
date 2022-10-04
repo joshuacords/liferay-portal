@@ -226,6 +226,12 @@ public interface TeamResource {
 			return new TeamResourceImpl(this);
 		}
 
+		public Builder contextPath(String contextPath) {
+			_contextPath = contextPath;
+
+			return this;
+		}
+
 		public Builder endpoint(String host, int port, String scheme) {
 			_host = host;
 			_port = port;
@@ -271,6 +277,7 @@ public interface TeamResource {
 		private Builder() {
 		}
 
+		private String _contextPath = "";
 		private Map<String, String> _headers = new LinkedHashMap<>();
 		private String _host = "localhost";
 		private Locale _locale;
@@ -364,7 +371,7 @@ public interface TeamResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/accounts/{accountKey}/assigned-teams");
 
 			httpInvoker.path("accountKey", accountKey);
@@ -455,7 +462,7 @@ public interface TeamResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/accounts/{accountKey}/teams");
 
 			httpInvoker.path("accountKey", accountKey);
@@ -548,7 +555,7 @@ public interface TeamResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/accounts/{accountKey}/teams");
 
 			httpInvoker.path("accountKey", accountKey);
@@ -651,7 +658,8 @@ public interface TeamResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port + "/o/koroneiki-rest/v1.0/teams");
+					_builder._port + _builder._contextPath +
+						"/o/koroneiki-rest/v1.0/teams");
 
 			httpInvoker.userNameAndPassword(
 				_builder._login + ":" + _builder._password);
@@ -741,7 +749,7 @@ public interface TeamResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/teams/by-external-link/{domain}/{entityName}/{entityId}");
 
 			httpInvoker.path("domain", domain);
@@ -835,7 +843,8 @@ public interface TeamResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port + "/o/koroneiki-rest/v1.0/teams/{teamKey}");
+					_builder._port + _builder._contextPath +
+						"/o/koroneiki-rest/v1.0/teams/{teamKey}");
 
 			httpInvoker.path("teamKey", teamKey);
 
@@ -912,7 +921,8 @@ public interface TeamResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port + "/o/koroneiki-rest/v1.0/teams/{teamKey}");
+					_builder._port + _builder._contextPath +
+						"/o/koroneiki-rest/v1.0/teams/{teamKey}");
 
 			httpInvoker.path("teamKey", teamKey);
 
@@ -1003,7 +1013,8 @@ public interface TeamResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port + "/o/koroneiki-rest/v1.0/teams/{teamKey}");
+					_builder._port + _builder._contextPath +
+						"/o/koroneiki-rest/v1.0/teams/{teamKey}");
 
 			httpInvoker.path("teamKey", teamKey);
 
@@ -1113,7 +1124,7 @@ public interface TeamResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/teams/{teamKey}/contacts/by-email-address");
 
 			httpInvoker.path("teamKey", teamKey);
@@ -1223,7 +1234,7 @@ public interface TeamResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/teams/{teamKey}/contacts/by-email-address");
 
 			httpInvoker.path("teamKey", teamKey);
@@ -1335,7 +1346,7 @@ public interface TeamResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/teams/{teamKey}/contacts/by-email-address/{emailAddress}/roles");
 
 			httpInvoker.path("teamKey", teamKey);
@@ -1448,7 +1459,7 @@ public interface TeamResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/teams/{teamKey}/contacts/by-email-address/{emailAddress}/roles");
 
 			httpInvoker.path("teamKey", teamKey);
@@ -1559,7 +1570,7 @@ public interface TeamResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/teams/{teamKey}/contacts/by-uuid");
 
 			httpInvoker.path("teamKey", teamKey);
@@ -1669,7 +1680,7 @@ public interface TeamResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/teams/{teamKey}/contacts/by-uuid");
 
 			httpInvoker.path("teamKey", teamKey);
@@ -1780,7 +1791,7 @@ public interface TeamResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/teams/{teamKey}/contacts/by-uuid/{contactUuid}/roles");
 
 			httpInvoker.path("teamKey", teamKey);
@@ -1892,7 +1903,7 @@ public interface TeamResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/teams/{teamKey}/contacts/by-uuid/{contactUuid}/roles");
 
 			httpInvoker.path("teamKey", teamKey);
@@ -1988,7 +1999,7 @@ public interface TeamResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/teams/{teamKey}/team-permissions");
 
 			httpInvoker.path("teamKey", teamKey);
@@ -2083,7 +2094,7 @@ public interface TeamResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/teams/{teamKey}/team-permissions");
 
 			httpInvoker.path("teamKey", teamKey);

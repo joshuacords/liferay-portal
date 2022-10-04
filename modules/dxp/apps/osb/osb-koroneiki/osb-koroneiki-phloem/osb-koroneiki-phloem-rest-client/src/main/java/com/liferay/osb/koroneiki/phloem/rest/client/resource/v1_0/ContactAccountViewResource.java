@@ -63,6 +63,12 @@ public interface ContactAccountViewResource {
 			return new ContactAccountViewResourceImpl(this);
 		}
 
+		public Builder contextPath(String contextPath) {
+			_contextPath = contextPath;
+
+			return this;
+		}
+
 		public Builder endpoint(String host, int port, String scheme) {
 			_host = host;
 			_port = port;
@@ -108,6 +114,7 @@ public interface ContactAccountViewResource {
 		private Builder() {
 		}
 
+		private String _contextPath = "";
 		private Map<String, String> _headers = new LinkedHashMap<>();
 		private String _host = "localhost";
 		private Locale _locale;
@@ -203,7 +210,7 @@ public interface ContactAccountViewResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/contacts/by-uuid/{contactUuid}/contact-account-views");
 
 			httpInvoker.path("contactUuid", contactUuid);

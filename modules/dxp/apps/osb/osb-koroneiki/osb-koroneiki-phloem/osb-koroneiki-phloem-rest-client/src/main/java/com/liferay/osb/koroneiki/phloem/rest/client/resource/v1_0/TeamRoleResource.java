@@ -143,6 +143,12 @@ public interface TeamRoleResource {
 			return new TeamRoleResourceImpl(this);
 		}
 
+		public Builder contextPath(String contextPath) {
+			_contextPath = contextPath;
+
+			return this;
+		}
+
 		public Builder endpoint(String host, int port, String scheme) {
 			_host = host;
 			_port = port;
@@ -188,6 +194,7 @@ public interface TeamRoleResource {
 		private Builder() {
 		}
 
+		private String _contextPath = "";
 		private Map<String, String> _headers = new LinkedHashMap<>();
 		private String _host = "localhost";
 		private Locale _locale;
@@ -281,7 +288,7 @@ public interface TeamRoleResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/accounts/{accountKey}/assigned-teams/{teamKey}/roles");
 
 			httpInvoker.path("accountKey", accountKey);
@@ -386,7 +393,8 @@ public interface TeamRoleResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port + "/o/koroneiki-rest/v1.0/team-roles");
+					_builder._port + _builder._contextPath +
+						"/o/koroneiki-rest/v1.0/team-roles");
 
 			httpInvoker.userNameAndPassword(
 				_builder._login + ":" + _builder._password);
@@ -475,7 +483,8 @@ public interface TeamRoleResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port + "/o/koroneiki-rest/v1.0/team-roles");
+					_builder._port + _builder._contextPath +
+						"/o/koroneiki-rest/v1.0/team-roles");
 
 			httpInvoker.userNameAndPassword(
 				_builder._login + ":" + _builder._password);
@@ -556,7 +565,7 @@ public interface TeamRoleResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/team-roles/by-type/{teamRoleType}/by-name/{teamRoleName}");
 
 			httpInvoker.path("teamRoleType", teamRoleType);
@@ -649,7 +658,7 @@ public interface TeamRoleResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/team-roles/{teamRoleKey}");
 
 			httpInvoker.path("teamRoleKey", teamRoleKey);
@@ -728,7 +737,7 @@ public interface TeamRoleResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/team-roles/{teamRoleKey}");
 
 			httpInvoker.path("teamRoleKey", teamRoleKey);
@@ -822,7 +831,7 @@ public interface TeamRoleResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/team-roles/{teamRoleKey}");
 
 			httpInvoker.path("teamRoleKey", teamRoleKey);
@@ -918,7 +927,7 @@ public interface TeamRoleResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/team-roles/{teamRoleKey}/team-role-permissions");
 
 			httpInvoker.path("teamRoleKey", teamRoleKey);
@@ -1014,7 +1023,7 @@ public interface TeamRoleResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/team-roles/{teamRoleKey}/team-role-permissions");
 
 			httpInvoker.path("teamRoleKey", teamRoleKey);
@@ -1098,7 +1107,7 @@ public interface TeamRoleResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/team-roles/{teamRoleType}/{teamRoleName}");
 
 			httpInvoker.path("teamRoleType", teamRoleType);

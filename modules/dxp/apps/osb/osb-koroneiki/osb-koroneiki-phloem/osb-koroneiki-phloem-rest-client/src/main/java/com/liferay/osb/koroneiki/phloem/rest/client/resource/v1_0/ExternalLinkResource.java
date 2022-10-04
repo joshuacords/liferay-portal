@@ -218,6 +218,12 @@ public interface ExternalLinkResource {
 			return new ExternalLinkResourceImpl(this);
 		}
 
+		public Builder contextPath(String contextPath) {
+			_contextPath = contextPath;
+
+			return this;
+		}
+
 		public Builder endpoint(String host, int port, String scheme) {
 			_host = host;
 			_port = port;
@@ -263,6 +269,7 @@ public interface ExternalLinkResource {
 		private Builder() {
 		}
 
+		private String _contextPath = "";
 		private Map<String, String> _headers = new LinkedHashMap<>();
 		private String _host = "localhost";
 		private Locale _locale;
@@ -357,7 +364,7 @@ public interface ExternalLinkResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/accounts/{accountKey}/external-links");
 
 			httpInvoker.path("accountKey", accountKey);
@@ -453,7 +460,7 @@ public interface ExternalLinkResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/accounts/{accountKey}/external-links");
 
 			httpInvoker.path("accountKey", accountKey);
@@ -544,7 +551,7 @@ public interface ExternalLinkResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/contact-roles/{contactRoleKey}/external-links");
 
 			httpInvoker.path("contactRoleKey", contactRoleKey);
@@ -640,7 +647,7 @@ public interface ExternalLinkResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/contact-roles/{contactRoleKey}/external-links");
 
 			httpInvoker.path("contactRoleKey", contactRoleKey);
@@ -731,7 +738,7 @@ public interface ExternalLinkResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/contacts/by-uuid/{contactUuid}/external-links");
 
 			httpInvoker.path("contactUuid", contactUuid);
@@ -827,7 +834,7 @@ public interface ExternalLinkResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/contacts/by-uuid/{contactUuid}/external-links");
 
 			httpInvoker.path("contactUuid", contactUuid);
@@ -920,7 +927,7 @@ public interface ExternalLinkResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/external-links/{externalLinkKey}");
 
 			httpInvoker.path("externalLinkKey", externalLinkKey);
@@ -1001,7 +1008,7 @@ public interface ExternalLinkResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/external-links/{externalLinkKey}");
 
 			httpInvoker.path("externalLinkKey", externalLinkKey);
@@ -1095,7 +1102,7 @@ public interface ExternalLinkResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/external-links/{externalLinkKey}");
 
 			httpInvoker.path("externalLinkKey", externalLinkKey);
@@ -1187,7 +1194,7 @@ public interface ExternalLinkResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/product-consumptions/{productConsumptionKey}/external-links");
 
 			httpInvoker.path("productConsumptionKey", productConsumptionKey);
@@ -1284,7 +1291,7 @@ public interface ExternalLinkResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/product-consumptions/{productConsumptionKey}/external-links");
 
 			httpInvoker.path("productConsumptionKey", productConsumptionKey);
@@ -1376,7 +1383,7 @@ public interface ExternalLinkResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/product-purchases/{productPurchaseKey}/external-links");
 
 			httpInvoker.path("productPurchaseKey", productPurchaseKey);
@@ -1472,7 +1479,7 @@ public interface ExternalLinkResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/product-purchases/{productPurchaseKey}/external-links");
 
 			httpInvoker.path("productPurchaseKey", productPurchaseKey);
@@ -1563,7 +1570,7 @@ public interface ExternalLinkResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/products/{productKey}/external-links");
 
 			httpInvoker.path("productKey", productKey);
@@ -1659,7 +1666,7 @@ public interface ExternalLinkResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/products/{productKey}/external-links");
 
 			httpInvoker.path("productKey", productKey);
@@ -1750,7 +1757,7 @@ public interface ExternalLinkResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/teams/{teamKey}/external-links");
 
 			httpInvoker.path("teamKey", teamKey);
@@ -1845,7 +1852,7 @@ public interface ExternalLinkResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/teams/{teamKey}/external-links");
 
 			httpInvoker.path("teamKey", teamKey);

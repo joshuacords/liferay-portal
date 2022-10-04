@@ -181,6 +181,12 @@ public interface ContactResource {
 			return new ContactResourceImpl(this);
 		}
 
+		public Builder contextPath(String contextPath) {
+			_contextPath = contextPath;
+
+			return this;
+		}
+
 		public Builder endpoint(String host, int port, String scheme) {
 			_host = host;
 			_port = port;
@@ -226,6 +232,7 @@ public interface ContactResource {
 		private Builder() {
 		}
 
+		private String _contextPath = "";
 		private Map<String, String> _headers = new LinkedHashMap<>();
 		private String _host = "localhost";
 		private Locale _locale;
@@ -319,7 +326,7 @@ public interface ContactResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/accounts/{accountKey}/contacts");
 
 			httpInvoker.path("accountKey", accountKey);
@@ -410,7 +417,7 @@ public interface ContactResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/accounts/{accountKey}/customer-contacts");
 
 			httpInvoker.path("accountKey", accountKey);
@@ -501,7 +508,7 @@ public interface ContactResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/accounts/{accountKey}/worker-contacts");
 
 			httpInvoker.path("accountKey", accountKey);
@@ -604,7 +611,8 @@ public interface ContactResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port + "/o/koroneiki-rest/v1.0/contacts");
+					_builder._port + _builder._contextPath +
+						"/o/koroneiki-rest/v1.0/contacts");
 
 			httpInvoker.userNameAndPassword(
 				_builder._login + ":" + _builder._password);
@@ -693,7 +701,8 @@ public interface ContactResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port + "/o/koroneiki-rest/v1.0/contacts");
+					_builder._port + _builder._contextPath +
+						"/o/koroneiki-rest/v1.0/contacts");
 
 			httpInvoker.userNameAndPassword(
 				_builder._login + ":" + _builder._password);
@@ -784,7 +793,7 @@ public interface ContactResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/contacts/by-email-address/{emailAddress}");
 
 			httpInvoker.path("emailAddress", emailAddress);
@@ -866,7 +875,7 @@ public interface ContactResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/contacts/by-email-address/{emailAddress}");
 
 			httpInvoker.path("emailAddress", emailAddress);
@@ -962,7 +971,7 @@ public interface ContactResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/contacts/by-email-address/{emailAddress}");
 
 			httpInvoker.path("emailAddress", emailAddress);
@@ -1056,7 +1065,7 @@ public interface ContactResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/contacts/by-uuid/{contactUuid}");
 
 			httpInvoker.path("contactUuid", contactUuid);
@@ -1137,7 +1146,7 @@ public interface ContactResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/contacts/by-uuid/{contactUuid}");
 
 			httpInvoker.path("contactUuid", contactUuid);
@@ -1232,7 +1241,7 @@ public interface ContactResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/contacts/by-uuid/{contactUuid}");
 
 			httpInvoker.path("contactUuid", contactUuid);
@@ -1328,7 +1337,7 @@ public interface ContactResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/contacts/by-uuid/{contactUuid}/contact-permissions");
 
 			httpInvoker.path("contactUuid", contactUuid);
@@ -1424,7 +1433,7 @@ public interface ContactResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/contacts/by-uuid/{contactUuid}/contact-permissions");
 
 			httpInvoker.path("contactUuid", contactUuid);
@@ -1513,7 +1522,7 @@ public interface ContactResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
+					_builder._port + _builder._contextPath +
 						"/o/koroneiki-rest/v1.0/teams/{teamKey}/contacts");
 
 			httpInvoker.path("teamKey", teamKey);
