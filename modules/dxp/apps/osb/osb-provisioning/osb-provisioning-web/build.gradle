@@ -7,7 +7,7 @@ dependencies {
 	compileOnly group: "com.liferay", name: "com.liferay.petra.function", version: "3.0.0"
 	compileOnly group: "com.liferay", name: "com.liferay.petra.lang", version: "3.0.0"
 	compileOnly group: "com.liferay", name: "com.liferay.petra.string", version: "3.0.0"
-	compileOnly group: "com.liferay", name: "com.liferay.portal.vulcan.api", version: "6.24.0"
+	compileOnly group: "com.liferay", name: "com.liferay.portal.vulcan.api", version: "6.25.0"
 	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "4.30.0"
 	compileOnly group: "com.liferay.portal", name: "com.liferay.util.taglib", version: "4.0.0"
 	compileOnly group: "com.liferay.portal", name: "release.portal.api", version: "7.1.1"
