@@ -33,8 +33,6 @@ public class TransformAccount {
 	public static final String CONTACT_ROLE_NAME_SECONDARY =
 		"Secondary Contact";
 
-	public static final String STATUS_CANCELLED = "Cancelled";
-
 	public static String getACWorkspaceGroupId(String externalLinks) {
 		JSONArray jsonArray = new JSONArray(externalLinks);
 
@@ -892,7 +890,9 @@ public class TransformAccount {
 	}
 
 	private static boolean _isActive(String status) throws Exception {
-		if ((status == null) || status.equals(STATUS_CANCELLED)) {
+		if ((status == null) ||
+			status.equals(ProductConstants.PURCHASE_STATUS_CANCELLED)) {
+
 			return false;
 		}
 

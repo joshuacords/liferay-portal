@@ -46,6 +46,10 @@ public class TransformProductPurchases {
 		for (int i = 0; i < jsonArray.length(); i++) {
 			JSONObject jsonObject = jsonArray.getJSONObject(i);
 
+			if (!_isActive(jsonObject.getString("status"))) {
+				continue;
+			}
+
 			String accountKey = jsonObject.getString("accountKey");
 			Date endDate = DateUtil.parseEndDate(jsonObject);
 			Date originalEndDate = DateUtil.parseOriginalEndDate(jsonObject);
@@ -187,6 +191,10 @@ public class TransformProductPurchases {
 		for (int i = 0; i < jsonArray.length(); i++) {
 			JSONObject jsonObject = jsonArray.getJSONObject(i);
 
+			if (!_isActive(jsonObject.getString("status"))) {
+				continue;
+			}
+
 			JSONObject productJSONObject = jsonObject.getJSONObject("product");
 
 			JSONObject propertiesJSONObject = productJSONObject.getJSONObject(
@@ -312,6 +320,16 @@ public class TransformProductPurchases {
 		}
 
 		return accountKey;
+	}
+
+	private static boolean _isActive(String status) throws Exception {
+		if ((status == null) ||
+			status.equals(ProductConstants.PURCHASE_STATUS_CANCELLED)) {
+
+			return false;
+		}
+
+		return true;
 	}
 
 	private static class Subscription {

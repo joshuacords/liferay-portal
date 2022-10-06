@@ -111,4 +111,6 @@ public class ProductConstants {
 		NAME_GOLD, NAME_LIMITED, NAME_PLATINUM, NAME_PREMIUM, NAME_SILVER
 	};
 
+	public static final String PURCHASE_STATUS_CANCELLED = "Cancelled";
+
 }
