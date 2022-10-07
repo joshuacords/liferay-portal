@@ -84,6 +84,10 @@ public class TransformProductPurchases {
 				continue;
 			}
 
+			if (displayName.isEmpty()) {
+				displayName = productJSONObject.getString("name");
+			}
+
 			// Order
 
 			String orderExternalReferenceCode = _getOpportunityKey(
