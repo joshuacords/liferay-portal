@@ -182,9 +182,18 @@ public class LayoutModelDocumentContributor
 		}
 
 		if ((httpServletRequest == null) || (httpServletResponse == null)) {
+			User defaultUser = null;
+
+			try {
+				defaultUser = _userLocalService.getDefaultUser(
+					layout.getCompanyId());
+			}
+			catch (PortalException portalException) {
+				return;
+			}
+
 			MockContextHelper mockContextHelper = new MockContextHelper(
-				layout,
-				_userLocalService.fetchDefaultUser(layout.getCompanyId()));
+				layout, defaultUser);
 
 			for (Locale locale : locales) {
 				String content = StringPool.BLANK;
