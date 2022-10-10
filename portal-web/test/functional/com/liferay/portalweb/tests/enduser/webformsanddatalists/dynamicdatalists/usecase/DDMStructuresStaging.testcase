@@ -84,7 +84,7 @@ definition {
 
 		LexiconEntry.changeDisplayStyle(displayStyle = "cards");
 
-		WebContentTemplates.viewCardsEntryCP2(
+		WebContentTemplates.viewCardsEntryCP(
 			templateName = "WC Template Name",
 			templateSmallImage = "true");
 
@@ -107,7 +107,7 @@ definition {
 
 		LexiconEntry.changeDisplayStyle(displayStyle = "cards");
 
-		WebContentTemplates.viewCardsEntryCP2(
+		WebContentTemplates.viewCardsEntryCP(
 			templateName = "WC Template Name",
 			templateSmallImage = "true");
 	}
