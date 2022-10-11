@@ -35,7 +35,8 @@ public interface CustomerPortalRelease {
 		throws Exception;
 
 	public boolean isEnabled(
-		Set<ProductPurchase> productPurchases, Account.Region region);
+		String accountKey, Set<ProductPurchase> productPurchases,
+		Account.Region region);
 
 	public void sendAutoProvisionedWelcomeEmail(Account account)
 		throws Exception;

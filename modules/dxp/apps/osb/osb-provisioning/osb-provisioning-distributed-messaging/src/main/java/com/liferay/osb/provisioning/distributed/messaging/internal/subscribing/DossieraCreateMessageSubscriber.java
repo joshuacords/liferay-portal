@@ -926,6 +926,8 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 			return;
 		}
 
+		String accountKey = _dossieraSubscriberUtil.getAccountKey(jsonObject);
+
 		PostalAddress postalAddress = parseAddress(jsonObject);
 
 		Account.Language language = getLanguage(
@@ -938,15 +940,13 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 			postalAddress.getAddressCountry());
 
 		boolean customerPortal2Account = _customerPortalRelease.isEnabled(
-			productPurchases, region);
+			accountKey, productPurchases, region);
 
 		List<Contact> activeContacts = new ArrayList<>();
 		List<Contact> inactiveContacts = new ArrayList<>();
 		List<Contact> missingContacts = new ArrayList<>();
 		Map<Contact, List<ContactRole>> customerPortal2ContactsMap =
 			new HashMap<>();
-
-		String accountKey = _dossieraSubscriberUtil.getAccountKey(jsonObject);
 
 		if ((salesforceOpportunityType ==
 				SalesforceConstants.OPPORTUNITY_TYPE_EXISTING_BUSINESS) ||

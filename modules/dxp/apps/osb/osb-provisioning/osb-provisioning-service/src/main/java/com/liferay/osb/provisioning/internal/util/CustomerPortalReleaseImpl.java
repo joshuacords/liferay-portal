@@ -67,12 +67,13 @@ import org.osgi.service.component.annotations.Reference;
 @Component(
 	immediate = true,
 	property = {
-		"accountAccessEUOktaId=", "accountAccessUSOktaId=", "partner=",
-		"provisioningEmailAddressAustralia=", "provisioningEmailAddressBrazil=",
-		"provisioningEmailAddressChina=", "provisioningEmailAddressGlobal=",
-		"provisioningEmailAddressHungary=", "provisioningEmailAddressIndia=",
-		"provisioningEmailAddressJapan=", "provisioningEmailAddressSpain=",
-		"provisioningEmailAddressUS=", "provisioningOktaId=", "regions="
+		"accountAccessEUOktaId=", "accountAccessUSOktaId=", "accountKeys=",
+		"partner=", "provisioningEmailAddressAustralia=",
+		"provisioningEmailAddressBrazil=", "provisioningEmailAddressChina=",
+		"provisioningEmailAddressGlobal=", "provisioningEmailAddressHungary=",
+		"provisioningEmailAddressIndia=", "provisioningEmailAddressJapan=",
+		"provisioningEmailAddressSpain=", "provisioningEmailAddressUS=",
+		"provisioningOktaId=", "regions="
 	},
 	service = CustomerPortalRelease.class
 )
@@ -164,7 +165,14 @@ public class CustomerPortalReleaseImpl implements CustomerPortalRelease {
 	}
 
 	public boolean isEnabled(
-		Set<ProductPurchase> productPurchases, Account.Region accountRegion) {
+		String accountKey, Set<ProductPurchase> productPurchases,
+		Account.Region accountRegion) {
+
+		if (Validator.isNotNull(accountKey) &&
+			_accountKeys.contains(accountKey)) {
+
+			return true;
+		}
 
 		if (_partner) {
 			for (ProductPurchase productPurchase : productPurchases) {
@@ -339,6 +347,7 @@ public class CustomerPortalReleaseImpl implements CustomerPortalRelease {
 			properties.get("accountAccessEUOktaId"));
 		_accountAccessUSOktaId = GetterUtil.getString(
 			properties.get("accountAccessUSOktaId"));
+		_accountKeys = StringPlus.asList(properties.get("accountKeys"));
 		_partner = GetterUtil.getBoolean(properties.get("partner"));
 		_provisioningEmailAddressAustralia = GetterUtil.getString(
 			properties.get("provisioningEmailAddressAustralia"));
@@ -651,6 +660,10 @@ public class CustomerPortalReleaseImpl implements CustomerPortalRelease {
 	}
 
 	private boolean _isEnabled(Account account) {
+		if (_accountKeys.contains(account.getKey())) {
+			return true;
+		}
+
 		Entitlement[] entitlements = account.getEntitlements();
 
 		for (Entitlement entitlement : entitlements) {
@@ -748,6 +761,7 @@ public class CustomerPortalReleaseImpl implements CustomerPortalRelease {
 
 	private String _accountAccessEUOktaId;
 	private String _accountAccessUSOktaId;
+	private List<String> _accountKeys;
 
 	@Reference
 	private AccountWebService _accountWebService;
