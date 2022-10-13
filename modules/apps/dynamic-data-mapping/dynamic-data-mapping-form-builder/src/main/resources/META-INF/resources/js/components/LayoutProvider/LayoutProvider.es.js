@@ -513,8 +513,13 @@ class LayoutProvider extends Component {
 		this.setState(handleLanguageIdDeleted(focusedField, pages, locale));
 	}
 
-	_handleOptionConfirmDeleted({deletedIndex, fieldInstance, fieldName}) {
-		if (RulesSupport.findRuleByFieldName(fieldName, this.props.rules)) {
+	_handleOptionConfirmDeleted({
+		deletedIndex,
+		fieldInstance,
+		fieldName,
+		formRules
+	}) {
+		if (RulesSupport.findRuleByFieldName(fieldName, formRules)) {
 			this.refs.existingRuleModal.optionData = deletedIndex;
 			this.refs.existingRuleModal.optionInstance = fieldInstance;
 			this.refs.existingRuleModal.show();

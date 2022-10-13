@@ -346,7 +346,8 @@ class Options extends Component {
 		Liferay.fire('optionConfirmDeleted', {
 			deletedIndex,
 			fieldInstance: this,
-			fieldName
+			fieldName,
+			formRules: this.context.store.context.store.props.rules
 		});
 	}
 
