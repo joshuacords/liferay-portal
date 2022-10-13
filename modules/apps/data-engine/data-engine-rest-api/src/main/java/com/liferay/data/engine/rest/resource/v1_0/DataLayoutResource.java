@@ -56,10 +56,6 @@ import org.osgi.annotation.versioning.ProviderType;
 @ProviderType
 public interface DataLayoutResource {
 
-	public static Builder builder() {
-		return FactoryHolder.factory.create();
-	}
-
 	public Page<DataLayout> getDataDefinitionDataLayoutsPage(
 			Long dataDefinitionId, String keywords, Pagination pagination,
 			Sort[] sorts)
@@ -153,12 +149,6 @@ public interface DataLayoutResource {
 		String filterString, Map<String, List<String>> multivaluedMap) {
 
 		return null;
-	}
-
-	public static class FactoryHolder {
-
-		public static volatile Factory factory;
-
 	}
 
 	@ProviderType

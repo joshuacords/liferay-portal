@@ -54,10 +54,6 @@ import org.osgi.annotation.versioning.ProviderType;
 @ProviderType
 public interface InstanceResource {
 
-	public static Builder builder() {
-		return FactoryHolder.factory.create();
-	}
-
 	public Page<Instance> getProcessInstancesPage(
 			Long processId, Long[] assigneeUserIds, Date dateEnd,
 			Date dateStart, String[] slaStatuses, String[] statuses,
@@ -117,12 +113,6 @@ public interface InstanceResource {
 		String filterString, Map<String, List<String>> multivaluedMap) {
 
 		return null;
-	}
-
-	public static class FactoryHolder {
-
-		public static volatile Factory factory;
-
 	}
 
 	@ProviderType

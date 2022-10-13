@@ -55,10 +55,6 @@ import org.osgi.annotation.versioning.ProviderType;
 @ProviderType
 public interface WorkflowTaskResource {
 
-	public static Builder builder() {
-		return FactoryHolder.factory.create();
-	}
-
 	public Page<WorkflowTask> getRoleWorkflowTasksPage(
 			Long roleId, Pagination pagination)
 		throws Exception;
@@ -136,12 +132,6 @@ public interface WorkflowTaskResource {
 		String filterString, Map<String, List<String>> multivaluedMap) {
 
 		return null;
-	}
-
-	public static class FactoryHolder {
-
-		public static volatile Factory factory;
-
 	}
 
 	@ProviderType

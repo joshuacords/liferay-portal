@@ -55,10 +55,6 @@ import org.osgi.annotation.versioning.ProviderType;
 @ProviderType
 public interface TaskResource {
 
-	public static Builder builder() {
-		return FactoryHolder.factory.create();
-	}
-
 	public Page<Task> getProcessTasksPage(
 			Long processId, Boolean completed, Date dateEnd, Date dateStart,
 			String key, Pagination pagination, Sort[] sorts)
@@ -114,12 +110,6 @@ public interface TaskResource {
 		String filterString, Map<String, List<String>> multivaluedMap) {
 
 		return null;
-	}
-
-	public static class FactoryHolder {
-
-		public static volatile Factory factory;
-
 	}
 
 	@ProviderType

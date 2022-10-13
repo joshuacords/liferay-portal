@@ -55,10 +55,6 @@ import org.osgi.annotation.versioning.ProviderType;
 @ProviderType
 public interface PriceModifierProductGroupResource {
 
-	public static Builder builder() {
-		return FactoryHolder.factory.create();
-	}
-
 	public void deletePriceModifierProductGroup(Long id) throws Exception;
 
 	public Response deletePriceModifierProductGroupBatch(
@@ -141,12 +137,6 @@ public interface PriceModifierProductGroupResource {
 		String filterString, Map<String, List<String>> multivaluedMap) {
 
 		return null;
-	}
-
-	public static class FactoryHolder {
-
-		public static volatile Factory factory;
-
 	}
 
 	@ProviderType
