@@ -1,6 +1,6 @@
 Bundle-Name: Liferay Headless Commerce Machine Learning Implementation
 Bundle-SymbolicName: com.liferay.headless.commerce.machine.learning.impl
-Bundle-Version: 3.0.21
+Bundle-Version: 3.0.22
 Import-Package:\
 	com.liferay.expando.kernel.model;version="[1.1.0,3.0.0)",\
 	com.liferay.exportimport.kernel.lar;version="[1.13.0,3.0.0)",\
