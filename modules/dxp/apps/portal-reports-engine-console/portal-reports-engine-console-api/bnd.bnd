@@ -1,6 +1,6 @@
 Bundle-Name: Liferay Portal Reports Engine Console API
 Bundle-SymbolicName: com.liferay.portal.reports.engine.console.api
-Bundle-Version: 4.1.29
+Bundle-Version: 4.1.30
 Export-Package:\
 	com.liferay.portal.reports.engine.console.configuration,\
 	com.liferay.portal.reports.engine.console.constants,\
