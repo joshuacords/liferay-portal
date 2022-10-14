@@ -1,6 +1,6 @@
 Bundle-Name: Liferay Mail Reader API
 Bundle-SymbolicName: com.liferay.mail.reader.api
-Bundle-Version: 3.0.35
+Bundle-Version: 3.0.36
 Export-Package:\
 	com.liferay.mail.reader.attachment,\
 	com.liferay.mail.reader.configuration,\
