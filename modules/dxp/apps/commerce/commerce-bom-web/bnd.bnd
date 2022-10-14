@@ -1,6 +1,6 @@
 Bundle-Name: Liferay Commerce BOM Web
 Bundle-SymbolicName: com.liferay.commerce.bom.web
-Bundle-Version: 3.0.14
+Bundle-Version: 3.0.15
 Import-Package:\
 	com.liferay.frontend.js.loader.modules.extender.npm;version="[2.0.0,4.0.0)",\
 	\
