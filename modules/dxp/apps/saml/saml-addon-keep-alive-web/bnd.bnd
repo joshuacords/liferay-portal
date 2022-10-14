@@ -1,6 +1,6 @@
 Bundle-Name: Liferay SAML Addon Keep Alive Web
 Bundle-SymbolicName: com.liferay.saml.addon.keep.alive.web
-Bundle-Version: 3.0.27
+Bundle-Version: 3.0.28
 Provide-Capability:\
 	liferay.resource.bundle;\
 		aggregate=saml-addon-keep-alive-web;\
