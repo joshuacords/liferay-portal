@@ -148,7 +148,7 @@ function startListeningWidgetConfigurationChange(store) {
 
 	_widgetConfigurationChangeHandler = Liferay.after('popupReady', event => {
 		const configurationForm = event.win.document.querySelector(
-			'.portlet-configuration-setup'
+			'.portlet-configuration-setup,.portlet-configuration-edit-communications,.portlet-configuration-edit-scope,.portlet-configuration-edit-sharing,.portlet-configuration-edit-supported-clients'
 		);
 
 		if (configurationForm) {
