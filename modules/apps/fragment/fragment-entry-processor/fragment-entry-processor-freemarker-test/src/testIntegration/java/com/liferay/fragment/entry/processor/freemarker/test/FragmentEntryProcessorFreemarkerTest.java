@@ -227,8 +227,8 @@ public class FragmentEntryProcessorFreemarkerTest {
 				put(
 					"classPK",
 					String.valueOf(journalArticle.getResourcePrimKey()));
-				put("contentES", "c1-es");
-				put("contentUS", "c1");
+				put("contentES", journalArticle.getContentByLocale("es_ES"));
+				put("contentUS", journalArticle.getContentByLocale("en_US"));
 				put("titleES", "t1-es");
 				put("titleUS", "t1");
 			}
@@ -351,8 +351,8 @@ public class FragmentEntryProcessorFreemarkerTest {
 				put(
 					"classPK",
 					String.valueOf(journalArticle2.getResourcePrimKey()));
-				put("contentES", "c2-es");
-				put("contentUS", "c2");
+				put("contentES", journalArticle2.getContentByLocale("es_ES"));
+				put("contentUS", journalArticle2.getContentByLocale("en_US"));
 				put("titleES", "t2-es");
 				put("titleUS", "t2");
 			}
