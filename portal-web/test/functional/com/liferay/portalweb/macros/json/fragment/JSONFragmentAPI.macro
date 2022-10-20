@@ -62,20 +62,20 @@ definition {
 
 		var collectionId = StringUtil.replace("${collectionId}", "[\"", "");
 
-		var collectionId = StringUtil.replace("${collectionId}", "\"]", "");
+			var collectionId = StringUtil.replace("${collectionId}", "\"]", "");
 
-		if ("${collectionId}" == "") {
-			fail("FAIL. Cannot find collection.");
-		}
+				if ("${collectionId}" == "") {
+					fail("FAIL. Cannot find collection.");
+				}
 
-		return "${collectionId}";
-	}
+				return "${collectionId}";
+			}
 
-	@summary = "Get the collectionName by using collectionName"
-	macro _getCollectionName {
-		var portalURL = JSONCompany.getPortalURL();
+			@summary = "Get the collectionName by using collectionName"
+			macro _getCollectionName {
+				var portalURL = JSONCompany.getPortalURL();
 
-		var curl = '''
+				var curl = '''
 			${portalURL}/api/jsonws/fragment.fragmentcollection/get-fragment-collections \
 			-u test@liferay.com:test \
 			-d groupId=${groupId} \
@@ -85,16 +85,16 @@ definition {
 			-d -orderByComparator=
 		''';
 
-		var collectionNameResult = JSONCurlUtil.post("${curl}", "$..[?(@['name'] == '${collectionName}')]");
+				var collectionNameResult = JSONCurlUtil.post("${curl}", "$..[?(@['name'] == '${collectionName}')]");
 
-		return "${collectionNameResult}";
-	}
+				return "${collectionNameResult}";
+			}
 
-	@summary = "Get the fragmentName from a fragmentCollection by using fragmentName "
-	macro _getFragmentName {
-		var portalURL = JSONCompany.getPortalURL();
+			@summary = "Get the fragmentName from a fragmentCollection by using fragmentName "
+			macro _getFragmentName {
+				var portalURL = JSONCompany.getPortalURL();
 
-		var curl = '''
+				var curl = '''
 			${portalURL}/api/jsonws/fragment.fragmententry/get-fragment-entries \
 			-u test@liferay.com:test \
 			-d groupId=${groupId} \
@@ -103,9 +103,8 @@ definition {
 			-d <CURL_DATA[end=-1]CURL_DATA>
 		''';
 
-		var fragmentNameResult = JSONCurlUtil.post("${curl}", "$..[?(@['name'] == '${fragmentName}')]");
+				var fragmentNameResult = JSONCurlUtil.post("${curl}", "$..[?(@['name'] == '${fragmentName}')]");
 
-		return "${fragmentNameResult}";
-	}
-
-}
+				return "${fragmentNameResult}";
+			}
+		}

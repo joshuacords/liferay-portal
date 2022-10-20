@@ -23,14 +23,13 @@ definition {
 
 		var folderId = StringUtil.replace("${folderId}", "[\"", "");
 
-		var folderId = StringUtil.replace("${folderId}", "\"]", "");
+			var folderId = StringUtil.replace("${folderId}", "\"]", "");
 
-		if ("${folderId}" == "") {
-			fail("FAIL. Cannot find folder.");
+				if ("${folderId}" == "") {
+					fail("FAIL. Cannot find folder.");
+				}
+				else {
+					return "${folderId}";
+				}
+			}
 		}
-		else {
-			return "${folderId}";
-		}
-	}
-
-}

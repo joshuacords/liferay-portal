@@ -82,48 +82,48 @@ definition {
 
 		var layoutId = StringUtil.replace("${layoutId}", "[\"", "");
 
-		var layoutId = StringUtil.replace("${layoutId}", "\"]", "");
+			var layoutId = StringUtil.replace("${layoutId}", "\"]", "");
 
-		if ("${layoutId}" == "") {
-			fail("FAIL. Cannot find layout.");
-		}
+				if ("${layoutId}" == "") {
+					fail("FAIL. Cannot find layout.");
+				}
 
-		return "${layoutId}";
-	}
+				return "${layoutId}";
+			}
 
-	@summary = "Get the typeSettings from a layout by using groupId and layoutName"
-	macro _getTypeSettingsByName {
-		Variables.assertDefined(parameterList = "${groupId},${layoutName},${privateLayout}");
+			@summary = "Get the typeSettings from a layout by using groupId and layoutName"
+			macro _getTypeSettingsByName {
+				Variables.assertDefined(parameterList = "${groupId},${layoutName},${privateLayout}");
 
-		var portalURL = JSONCompany.getPortalURL();
+				var portalURL = JSONCompany.getPortalURL();
 
-		var curl = '''
+				var curl = '''
 			${portalURL}/api/jsonws/layout/get-layouts \
 				-u test@liferay.com:test \
 				-d groupId=${groupId} \
 				-d privateLayout=${privateLayout}
 		''';
 
-		var typeSettings = JSONCurlUtil.post("${curl}", "$.[?(@['nameCurrentValue'] == '${layoutName}')]['typeSettings']");
+				var typeSettings = JSONCurlUtil.post("${curl}", "$.[?(@['nameCurrentValue'] == '${layoutName}')]['typeSettings']");
 
-		var typeSettings = StringUtil.replace("${typeSettings}", "[\"", "");
+				var typeSettings = StringUtil.replace("${typeSettings}", "[\"", "");
 
-		var typeSettings = StringUtil.replace("${typeSettings}", "\"]", "");
+					var typeSettings = StringUtil.replace("${typeSettings}", "\"]", "");
 
-		if ("${typeSettings}" == "") {
-			fail("FAIL. Cannot find layout.");
-		}
+						if ("${typeSettings}" == "") {
+							fail("FAIL. Cannot find layout.");
+						}
 
-		return "${typeSettings}";
-	}
+						return "${typeSettings}";
+					}
 
-	@summary = "Directly calls the JavaScript API to update typeSettings"
-	macro _updateTypeSettings {
-		Variables.assertDefined(parameterList = "${groupId},${privateLayout},${layoutId},${typeSettings}");
+					@summary = "Directly calls the JavaScript API to update typeSettings"
+					macro _updateTypeSettings {
+						Variables.assertDefined(parameterList = "${groupId},${privateLayout},${layoutId},${typeSettings}");
 
-		var portalURL = JSONCompany.getPortalURL();
+						var portalURL = JSONCompany.getPortalURL();
 
-		var curl = '''
+						var curl = '''
 			${portalURL}/api/jsonws/layout/update-layout \
 				-u test@liferay.com:test \
 				-d groupId=${groupId} \
@@ -132,7 +132,6 @@ definition {
 				-d typeSettings=${typeSettings}
 		''';
 
-		com.liferay.poshi.runner.util.JSONCurlUtil.post("${curl}");
-	}
-
-}
+						com.liferay.poshi.runner.util.JSONCurlUtil.post("${curl}");
+					}
+				}

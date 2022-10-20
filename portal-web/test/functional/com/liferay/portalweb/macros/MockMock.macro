@@ -110,28 +110,27 @@ definition {
 
 		var bodyContent = StringUtil.extractLast("${bodyContent}", "href=\"");
 
-		var bodyURL = StringUtil.extractFirst("${bodyContent}", "\"");
+			var bodyURL = StringUtil.extractFirst("${bodyContent}", "\"");
 
-		Navigator.openSpecificURL(url = "${bodyURL}");
-	}
+				Navigator.openSpecificURL(url = "${bodyURL}");
+			}
 
-	macro viewMail {
-		MockMock._gotoMail();
+			macro viewMail {
+				MockMock._gotoMail();
 
-		MockMock._viewMailFromInbox(
-			asset = "${asset}",
-			recipient = "${recipient}",
-			sender = "${sender}");
+				MockMock._viewMailFromInbox(
+					asset = "${asset}",
+					recipient = "${recipient}",
+					sender = "${sender}");
 
-		MockMock._gotoMailMessage(
-			asset = "${asset}",
-			recipient = "${recipient}");
+				MockMock._gotoMailMessage(
+					asset = "${asset}",
+					recipient = "${recipient}");
 
-		MockMock._viewMailMessage(
-			content = "${content}",
-			subject = "${subject}");
+				MockMock._viewMailMessage(
+					content = "${content}",
+					subject = "${subject}");
 
-		MockMock._backtoInbox();
-	}
-
-}
+				MockMock._backtoInbox();
+			}
+		}
