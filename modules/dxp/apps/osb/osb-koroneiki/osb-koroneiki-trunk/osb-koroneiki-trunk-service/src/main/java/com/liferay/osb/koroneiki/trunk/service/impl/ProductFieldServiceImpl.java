@@ -22,7 +22,6 @@ import com.liferay.osb.koroneiki.trunk.service.base.ProductFieldServiceBaseImpl;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
-import com.liferay.portal.kernel.service.ClassNameLocalService;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -44,7 +43,7 @@ public class ProductFieldServiceImpl extends ProductFieldServiceBaseImpl {
 		throws PortalException {
 
 		long productConsumptionClassNameId =
-			_classNameLocalService.getClassNameId(ProductConsumption.class);
+			classNameLocalService.getClassNameId(ProductConsumption.class);
 
 		if (classNameId == productConsumptionClassNameId) {
 			_productConsumptionPermission.check(
@@ -99,9 +98,6 @@ public class ProductFieldServiceImpl extends ProductFieldServiceBaseImpl {
 		return productFieldLocalService.updateProductField(
 			productFieldId, value);
 	}
-
-	@Reference
-	private ClassNameLocalService _classNameLocalService;
 
 	@Reference
 	private ProductConsumptionPermission _productConsumptionPermission;

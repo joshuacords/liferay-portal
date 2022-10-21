@@ -39,7 +39,6 @@ import com.liferay.portal.kernel.model.LayoutSet;
 import com.liferay.portal.kernel.model.ModelHintsUtil;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
-import com.liferay.portal.kernel.service.ClassNameLocalService;
 import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.service.LayoutPrototypeLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -826,7 +825,7 @@ public class LayoutPageTemplateEntryLocalServiceImpl
 			long classNameId, long classTypeId, long groupId, Locale locale)
 		throws PortalException {
 
-		ClassName className = _classNameLocalService.getClassName(classNameId);
+		ClassName className = classNameLocalService.getClassName(classNameId);
 
 		InfoDisplayContributor<?> infoDisplayContributor =
 			_infoDisplayContributorTracker.getInfoDisplayContributor(
@@ -911,9 +910,6 @@ public class LayoutPageTemplateEntryLocalServiceImpl
 
 		return layout;
 	}
-
-	@Reference
-	private ClassNameLocalService _classNameLocalService;
 
 	@Reference
 	private CompanyLocalService _companyLocalService;
