@@ -34,6 +34,7 @@ import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.util.FriendlyURLNormalizerUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.search.test.util.IndexerFixture;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
@@ -105,13 +106,15 @@ public class LayoutPublishedSearchTest {
 
 		ServiceContextThreadLocal.pushServiceContext(serviceContext);
 
+		Layout draftLayout = LayoutLocalServiceUtil.fetchLayout(
+			PortalUtil.getClassNameId(Layout.class), layout.getPlid());
+
 		ReflectionTestUtil.invoke(
 			_mvcActionCommand, "_publishLayout",
 			new Class<?>[] {
 				Layout.class, Layout.class, ServiceContext.class, long.class
 			},
-			layout.fetchDraftLayout(), layout, serviceContext,
-			TestPropsValues.getUserId());
+			draftLayout, layout, serviceContext, TestPropsValues.getUserId());
 	}
 
 	private void _setUpLayoutIndexerFixture() {
