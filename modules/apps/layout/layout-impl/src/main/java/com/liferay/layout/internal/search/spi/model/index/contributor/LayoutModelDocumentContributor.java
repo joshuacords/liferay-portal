@@ -28,7 +28,9 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.model.LayoutConstants;
 import com.liferay.portal.kernel.model.LayoutSet;
+import com.liferay.portal.kernel.model.LayoutTypeController;
 import com.liferay.portal.kernel.model.LayoutTypePortlet;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Document;
@@ -38,6 +40,7 @@ import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.PermissionCheckerFactoryUtil;
 import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
 import com.liferay.portal.kernel.service.CompanyLocalService;
+import com.liferay.portal.kernel.service.LayoutLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
@@ -61,6 +64,7 @@ import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.search.spi.model.index.contributor.ModelDocumentContributor;
 import com.liferay.portal.theme.ThemeDisplayFactory;
+import com.liferay.portal.util.LayoutTypeControllerTracker;
 import com.liferay.segments.constants.SegmentsExperienceConstants;
 import com.liferay.segments.service.SegmentsExperienceLocalService;
 
@@ -334,11 +338,19 @@ public class LayoutModelDocumentContributor
 	}
 
 	private int _getStatus(Layout layout) {
-		if (!layout.isTypeContent()) {
+		LayoutTypeController layoutTypeController =
+			LayoutTypeControllerTracker.getLayoutTypeController(
+				layout.getType());
+
+		if (!Objects.equals(layout.getType(), LayoutConstants.TYPE_CONTENT) &&
+			!Objects.equals(
+				layoutTypeController.getType(), LayoutConstants.TYPE_CONTENT)) {
+
 			return WorkflowConstants.STATUS_APPROVED;
 		}
 
-		Layout draftLayout = layout.fetchDraftLayout();
+		Layout draftLayout = _layoutLocalService.fetchLayout(
+			_portal.getClassNameId(Layout.class), layout.getPlid());
 
 		boolean published = false;
 
@@ -394,6 +406,9 @@ public class LayoutModelDocumentContributor
 
 	@Reference
 	private LayoutCrawler _layoutCrawler;
+
+	@Reference
+	private LayoutLocalService _layoutLocalService;
 
 	@Reference
 	private LayoutPageTemplateStructureLocalService
