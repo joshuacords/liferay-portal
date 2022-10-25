@@ -887,9 +887,7 @@ public class LicenseKeyResourceImpl
 				String licenseEntryType = licenseEntry.getType();
 
 				if (licenseEntryType.equals(LicenseType.DEVELOPER) ||
-					licenseEntryType.equals(LicenseType.DEVELOPER_CLUSTER) ||
-					licenseEntryType.equals(LicenseType.ENTERPRISE) ||
-					licenseEntryType.equals(LicenseType.OEM)) {
+					licenseEntryType.equals(LicenseType.DEVELOPER_CLUSTER)) {
 
 					continue;
 				}
