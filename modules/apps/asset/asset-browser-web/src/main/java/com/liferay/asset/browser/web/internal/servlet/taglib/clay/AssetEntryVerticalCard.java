@@ -28,8 +28,6 @@ import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 import javax.portlet.RenderRequest;
