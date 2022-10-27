@@ -41,7 +41,7 @@ public class CleanUserAccountRolesUtil {
 			}
 
 			try {
-				if (accountRoleId == Long.valueOf(curAccountRoleId)) {
+				if (accountRoleId.equals(Long.valueOf(curAccountRoleId))) {
 					return 0L;
 				}
 			}
