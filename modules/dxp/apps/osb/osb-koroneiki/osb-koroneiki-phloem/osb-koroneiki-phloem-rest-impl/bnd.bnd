@@ -2,8 +2,8 @@ Bundle-Name: Liferay OSB Koroneiki Phloem REST Implementation
 Bundle-SymbolicName: com.liferay.osb.koroneiki.phloem.rest.impl
 Bundle-Version: 1.0.0
 Import-Package:\
-	com.liferay.portal.vulcan.fields;version="[1.0.0,99.0.0)",\
-	com.liferay.portal.vulcan.pagination;version="[1.0.0,99.0.0)",\
-	com.liferay.portal.vulcan.util;version="[1.0.0,99.0.0)",\
+	com.liferay.portal.vulcan.fields;version="[1.0.0,9999.0.0)",\
+	com.liferay.portal.vulcan.pagination;version="[1.0.0,9999.0.0)",\
+	com.liferay.portal.vulcan.util;version="[1.0.0,9999.0.0)",\
 	\
 	*
