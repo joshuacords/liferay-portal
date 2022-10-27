@@ -25,6 +25,7 @@ page import="com.liferay.document.library.web.internal.bulk.selection.BulkSelect
 page import="com.liferay.document.library.web.internal.display.context.FolderActionDisplayContext" %><%@
 page import="com.liferay.document.library.web.internal.util.DLAssetHelperUtil" %><%@
 page import="com.liferay.document.library.web.internal.util.RepositoryClassDefinitionUtil" %><%@
+page import="com.liferay.expando.kernel.exception.MissingDefaultLocaleValueException" %><%@
 page import="com.liferay.frontend.taglib.clay.servlet.taglib.util.DropdownItemList" %><%@
 page import="com.liferay.portal.kernel.lock.Lock" %><%@
 page import="com.liferay.portal.kernel.module.configuration.ConfigurationProviderUtil" %><%@
