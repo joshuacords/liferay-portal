@@ -123,7 +123,7 @@ public class JournalArticleHistoryVerticalCard extends BaseVerticalCard {
 
 	@Override
 	public String getTitle() {
-		return HtmlUtil.escape(_article.getTitle(themeDisplay.getLocale()));
+		return _article.getTitle(themeDisplay.getLocale());
 	}
 
 	private final JournalArticle _article;
