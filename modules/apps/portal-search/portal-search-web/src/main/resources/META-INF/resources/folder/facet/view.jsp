@@ -38,25 +38,25 @@ FolderSearchFacetDisplayContext folderSearchFacetDisplayContext = (FolderSearchF
 		<aui:input autocomplete="off" name="<%= HtmlUtil.escapeAttribute(folderSearchFacetDisplayContext.getParameterName()) %>" type="hidden" value="<%= folderSearchFacetDisplayContext.getParameterValue() %>" />
 	</c:when>
 	<c:otherwise>
-		<liferay-ui:panel-container
-			extended="<%= true %>"
-			id='<%= renderResponse.getNamespace() + "facetFolderPanelContainer" %>'
-			markupView="lexicon"
-			persistState="<%= true %>"
-		>
-			<liferay-ui:panel
-				collapsible="<%= true %>"
-				cssClass="search-facet"
-				id='<%= renderResponse.getNamespace() + "facetFolderPanel" %>'
+		<aui:form action="#" method="post" name="folderFacetForm">
+			<aui:input autocomplete="off" name="<%= HtmlUtil.escapeAttribute(folderSearchFacetDisplayContext.getParameterName()) %>" type="hidden" value="<%= folderSearchFacetDisplayContext.getParameterValue() %>" />
+			<aui:input cssClass="facet-parameter-name" name="facet-parameter-name" type="hidden" value="<%= folderSearchFacetDisplayContext.getParameterName() %>" />
+			<aui:input cssClass="start-parameter-name" name="start-parameter-name" type="hidden" value="<%= folderSearchFacetDisplayContext.getPaginationStartParameterName() %>" />
+
+			<liferay-ui:panel-container
+				extended="<%= true %>"
+				id='<%= renderResponse.getNamespace() + "facetFolderPanelContainer" %>'
 				markupView="lexicon"
 				persistState="<%= true %>"
-				title="folder"
 			>
-				<aui:form action="#" method="post" name="folderFacetForm">
-					<aui:input autocomplete="off" name="<%= HtmlUtil.escapeAttribute(folderSearchFacetDisplayContext.getParameterName()) %>" type="hidden" value="<%= folderSearchFacetDisplayContext.getParameterValue() %>" />
-					<aui:input cssClass="facet-parameter-name" name="facet-parameter-name" type="hidden" value="<%= folderSearchFacetDisplayContext.getParameterName() %>" />
-					<aui:input cssClass="start-parameter-name" name="start-parameter-name" type="hidden" value="<%= folderSearchFacetDisplayContext.getPaginationStartParameterName() %>" />
-
+				<liferay-ui:panel
+					collapsible="<%= true %>"
+					cssClass="search-facet"
+					id='<%= renderResponse.getNamespace() + "facetFolderPanel" %>'
+					markupView="lexicon"
+					persistState="<%= true %>"
+					title="folder"
+				>
 					<aui:fieldset>
 						<ul class="list-unstyled">
 
@@ -70,10 +70,20 @@ FolderSearchFacetDisplayContext folderSearchFacetDisplayContext = (FolderSearchF
 								<li class="facet-value">
 									<div class="custom-checkbox custom-control">
 										<label class="facet-checkbox-label" for="<portlet:namespace />term_<%= i %>">
-											<input class="custom-control-input facet-term" data-term-id="<%= folderSearchFacetTermDisplayContext.getFolderId() %>" id="<portlet:namespace />term_<%= i %>" name="<portlet:namespace />term_<%= i %>" onChange="Liferay.Search.FacetUtil.changeSelection(event);" type="checkbox" <%= folderSearchFacetTermDisplayContext.isSelected() ? "checked" : StringPool.BLANK %> />
+											<input
+												class="custom-control-input facet-term"
+												data-term-id="<%= folderSearchFacetTermDisplayContext.getFolderId() %>"
+												disabled
+												id="<portlet:namespace />term_<%= i %>"
+												name="<portlet:namespace />term_<%= i %>"
+												onChange="Liferay.Search.FacetUtil.changeSelection(event);"
+												type="checkbox" <%= folderSearchFacetTermDisplayContext.isSelected() ? "checked" : StringPool.BLANK %>
+											/>
 
 											<span class="custom-control-label term-name <%= folderSearchFacetTermDisplayContext.isSelected() ? "facet-term-selected" : "facet-term-unselected" %>">
-												<span class="custom-control-label-text"><%= HtmlUtil.escape(folderSearchFacetTermDisplayContext.getDisplayName()) %></span>
+												<span class="custom-control-label-text">
+													<%= HtmlUtil.escape(folderSearchFacetTermDisplayContext.getDisplayName()) %>
+												</span>
 											</span>
 
 											<c:if test="<%= folderSearchFacetTermDisplayContext.isFrequencyVisible() %>">
@@ -95,10 +105,16 @@ FolderSearchFacetDisplayContext folderSearchFacetDisplayContext = (FolderSearchF
 					<c:if test="<%= !folderSearchFacetDisplayContext.isNothingSelected() %>">
 						<aui:button cssClass="btn-link btn-unstyled facet-clear-btn" onClick="Liferay.Search.FacetUtil.clearSelections(event);" value="clear" />
 					</c:if>
-				</aui:form>
-			</liferay-ui:panel>
-		</liferay-ui:panel-container>
+				</liferay-ui:panel>
+			</liferay-ui:panel-container>
+		</aui:form>
 	</c:otherwise>
 </c:choose>
 
-<aui:script use="liferay-search-facet-util"></aui:script>
+<aui:script use="liferay-search-facet-util">
+	Liferay.Search.FacetUtil.enableInputs(
+		document.querySelectorAll(
+			'#<portlet:namespace />folderFacetForm .facet-term'
+		)
+	);
+</aui:script>
