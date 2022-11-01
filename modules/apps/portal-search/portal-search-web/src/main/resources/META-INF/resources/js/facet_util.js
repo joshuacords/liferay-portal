@@ -59,6 +59,12 @@ AUI.add(
 				FacetUtil.selectTerms(form._node, selections);
 			},
 
+			enableInputs(inputs) {
+				inputs.forEach(term => {
+					Liferay.Util.toggleDisabled(term, false);
+				});
+			},
+
 			removeStartParameter(startParameterName, queryString) {
 				var search = queryString;
 
