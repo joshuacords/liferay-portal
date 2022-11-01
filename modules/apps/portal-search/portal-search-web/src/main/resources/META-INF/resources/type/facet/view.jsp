@@ -38,25 +38,25 @@ AssetEntriesSearchFacetDisplayContext assetEntriesSearchFacetDisplayContext = (A
 		<aui:input autocomplete="off" name="<%= HtmlUtil.escapeAttribute(assetEntriesSearchFacetDisplayContext.getParameterName()) %>" type="hidden" value="<%= assetEntriesSearchFacetDisplayContext.getParameterValue() %>" />
 	</c:when>
 	<c:otherwise>
-		<liferay-ui:panel-container
-			extended="<%= true %>"
-			id='<%= renderResponse.getNamespace() + "facetAssetEntriesPanelContainer" %>'
-			markupView="lexicon"
-			persistState="<%= true %>"
-		>
-			<liferay-ui:panel
-				collapsible="<%= true %>"
-				cssClass="search-facet"
-				id='<%= renderResponse.getNamespace() + "facetAssetEntriesPanel" %>'
+		<aui:form action="#" method="post" name="assetEntriesFacetForm">
+			<aui:input autocomplete="off" name="<%= HtmlUtil.escapeAttribute(assetEntriesSearchFacetDisplayContext.getParameterName()) %>" type="hidden" value="<%= assetEntriesSearchFacetDisplayContext.getParameterValue() %>" />
+			<aui:input cssClass="facet-parameter-name" name="facet-parameter-name" type="hidden" value="<%= assetEntriesSearchFacetDisplayContext.getParameterName() %>" />
+			<aui:input cssClass="start-parameter-name" name="start-parameter-name" type="hidden" value="<%= assetEntriesSearchFacetDisplayContext.getPaginationStartParameterName() %>" />
+
+			<liferay-ui:panel-container
+				extended="<%= true %>"
+				id='<%= renderResponse.getNamespace() + "facetAssetEntriesPanelContainer" %>'
 				markupView="lexicon"
 				persistState="<%= true %>"
-				title="type"
 			>
-				<aui:form action="#" method="post" name="assetEntriesFacetForm">
-					<aui:input autocomplete="off" name="<%= HtmlUtil.escapeAttribute(assetEntriesSearchFacetDisplayContext.getParameterName()) %>" type="hidden" value="<%= assetEntriesSearchFacetDisplayContext.getParameterValue() %>" />
-					<aui:input cssClass="facet-parameter-name" name="facet-parameter-name" type="hidden" value="<%= assetEntriesSearchFacetDisplayContext.getParameterName() %>" />
-					<aui:input cssClass="start-parameter-name" name="start-parameter-name" type="hidden" value="<%= assetEntriesSearchFacetDisplayContext.getPaginationStartParameterName() %>" />
-
+				<liferay-ui:panel
+					collapsible="<%= true %>"
+					cssClass="search-facet"
+					id='<%= renderResponse.getNamespace() + "facetAssetEntriesPanel" %>'
+					markupView="lexicon"
+					persistState="<%= true %>"
+					title="type"
+				>
 					<aui:fieldset>
 						<ul class="asset-type list-unstyled">
 
@@ -95,10 +95,16 @@ AssetEntriesSearchFacetDisplayContext assetEntriesSearchFacetDisplayContext = (A
 					<c:if test="<%= !assetEntriesSearchFacetDisplayContext.isNothingSelected() %>">
 						<aui:button cssClass="btn-link btn-unstyled facet-clear-btn" onClick="Liferay.Search.FacetUtil.clearSelections(event);" value="clear" />
 					</c:if>
-				</aui:form>
-			</liferay-ui:panel>
-		</liferay-ui:panel-container>
+				</liferay-ui:panel>
+			</liferay-ui:panel-container>
+		</aui:form>
 	</c:otherwise>
 </c:choose>
 
-<aui:script use="liferay-search-facet-util"></aui:script>
+<aui:script use="liferay-search-facet-util">
+	Liferay.Search.FacetUtil.enableInputs(
+		document.querySelectorAll(
+			'#<portlet:namespace />assetEntriesFacetForm .facet-term'
+		)
+	);
+</aui:script>
