@@ -38,25 +38,25 @@ UserSearchFacetDisplayContext userSearchFacetDisplayContext = (UserSearchFacetDi
 		<aui:input autocomplete="off" name="<%= HtmlUtil.escapeAttribute(userSearchFacetDisplayContext.getParamName()) %>" type="hidden" value="<%= userSearchFacetDisplayContext.getParamValue() %>" />
 	</c:when>
 	<c:otherwise>
-		<liferay-ui:panel-container
-			extended="<%= true %>"
-			id='<%= renderResponse.getNamespace() + "facetUserPanelContainer" %>'
-			markupView="lexicon"
-			persistState="<%= true %>"
-		>
-			<liferay-ui:panel
-				collapsible="<%= true %>"
-				cssClass="search-facet"
-				id='<%= renderResponse.getNamespace() + "facetUserPanel" %>'
+		<aui:form action="#" method="post" name="userFacetForm">
+			<aui:input autocomplete="off" name="<%= HtmlUtil.escapeAttribute(userSearchFacetDisplayContext.getParamName()) %>" type="hidden" value="<%= userSearchFacetDisplayContext.getParamValue() %>" />
+			<aui:input cssClass="facet-parameter-name" name="facet-parameter-name" type="hidden" value="<%= userSearchFacetDisplayContext.getParamName() %>" />
+			<aui:input cssClass="start-parameter-name" name="start-parameter-name" type="hidden" value="<%= userSearchFacetDisplayContext.getPaginationStartParameterName() %>" />
+
+			<liferay-ui:panel-container
+				extended="<%= true %>"
+				id='<%= renderResponse.getNamespace() + "facetUserPanelContainer" %>'
 				markupView="lexicon"
 				persistState="<%= true %>"
-				title="user"
 			>
-				<aui:form action="#" method="post" name="userFacetForm">
-					<aui:input autocomplete="off" name="<%= HtmlUtil.escapeAttribute(userSearchFacetDisplayContext.getParamName()) %>" type="hidden" value="<%= userSearchFacetDisplayContext.getParamValue() %>" />
-					<aui:input cssClass="facet-parameter-name" name="facet-parameter-name" type="hidden" value="<%= userSearchFacetDisplayContext.getParamName() %>" />
-					<aui:input cssClass="start-parameter-name" name="start-parameter-name" type="hidden" value="<%= userSearchFacetDisplayContext.getPaginationStartParameterName() %>" />
-
+				<liferay-ui:panel
+					collapsible="<%= true %>"
+					cssClass="search-facet"
+					id='<%= renderResponse.getNamespace() + "facetUserPanel" %>'
+					markupView="lexicon"
+					persistState="<%= true %>"
+					title="user"
+				>
 					<aui:fieldset>
 						<ul class="list-unstyled">
 
@@ -70,10 +70,21 @@ UserSearchFacetDisplayContext userSearchFacetDisplayContext = (UserSearchFacetDi
 								<li class="facet-value">
 									<div class="custom-checkbox custom-control">
 										<label class="facet-checkbox-label" for="<portlet:namespace />term_<%= i %>">
-											<input class="custom-control-input facet-term" data-term-id="<%= HtmlUtil.escapeAttribute(userSearchFacetTermDisplayContext.getUserName()) %>" id="<portlet:namespace />term_<%= i %>" name="<portlet:namespace />term_<%= i %>" onChange="Liferay.Search.FacetUtil.changeSelection(event);" type="checkbox" <%= userSearchFacetTermDisplayContext.isSelected() ? "checked" : StringPool.BLANK %> />
+											<input
+												<%= userSearchFacetTermDisplayContext.isSelected() ? "checked" : StringPool.BLANK %>
+												class="custom-control-input facet-term"
+												data-term-id="<%= HtmlUtil.escapeAttribute(userSearchFacetTermDisplayContext.getUserName()) %>"
+												disabled
+												id="<portlet:namespace />term_<%= i %>"
+												name="<portlet:namespace />term_<%= i %>"
+												onChange="Liferay.Search.FacetUtil.changeSelection(event);"
+												type="checkbox"
+											/>
 
 											<span class="custom-control-label term-name <%= userSearchFacetTermDisplayContext.isSelected() ? "facet-term-selected" : "facet-term-unselected" %>">
-												<span class="custom-control-label-text"><%= HtmlUtil.escape(userSearchFacetTermDisplayContext.getUserName()) %></span>
+												<span class="custom-control-label-text">
+													<%= HtmlUtil.escape(userSearchFacetTermDisplayContext.getUserName()) %>
+												</span>
 											</span>
 
 											<c:if test="<%= userSearchFacetTermDisplayContext.isFrequencyVisible() %>">
@@ -95,10 +106,14 @@ UserSearchFacetDisplayContext userSearchFacetDisplayContext = (UserSearchFacetDi
 					<c:if test="<%= !userSearchFacetDisplayContext.isNothingSelected() %>">
 						<aui:button cssClass="btn-link btn-unstyled facet-clear-btn" onClick="Liferay.Search.FacetUtil.clearSelections(event);" value="clear" />
 					</c:if>
-				</aui:form>
-			</liferay-ui:panel>
-		</liferay-ui:panel-container>
+				</liferay-ui:panel>
+			</liferay-ui:panel-container>
+		</aui:form>
 	</c:otherwise>
 </c:choose>
 
-<aui:script use="liferay-search-facet-util"></aui:script>
+<aui:script use="liferay-search-facet-util">
+	Liferay.Search.FacetUtil.enableInputs(
+		document.querySelectorAll('#<portlet:namespace />userFacetForm .facet-term')
+	);
+</aui:script>
