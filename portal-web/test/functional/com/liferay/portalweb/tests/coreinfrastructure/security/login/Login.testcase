@@ -267,7 +267,7 @@ definition {
 		property dummy.socket.proxy.disabled = "true";
 		property osgi.app.includes = "portal-security-sso-openid";
 		property osgi.module.configuration.file.names = "com.liferay.captcha.configuration.CaptchaConfiguration.config";
-		property osgi.module.configurations = "createAccountCaptchaEnabled=&quot;false&quot;";
+		property osgi.module.configurations = "createAccountCaptchaEnabled=\"false\"";
 		property test.name.skip.portal.instance = "Login#OpenIDSmoke";
 
 		var openIDPassword = PropsUtil.get("email.password.1");

@@ -51,7 +51,7 @@ definition {
 	test SmokeWithDeveloperProperties {
 		property custom.properties = "include-and-override=portal-developer.properties";
 		property osgi.module.configuration.file.names = "com.liferay.document.library.document.conversion.configuration.OpenOfficeConfiguration";
-		property osgi.module.configurations = "cacheEnabled=&quot;false&quot;";
+		property osgi.module.configurations = "cacheEnabled=\"false\"";
 		property portal.acceptance = "true";
 		property portal.smoke = "false";
 

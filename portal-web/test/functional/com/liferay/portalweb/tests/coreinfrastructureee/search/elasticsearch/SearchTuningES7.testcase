@@ -3,7 +3,7 @@ definition {
 
 	property osgi.app.includes = "portal-search-elasticsearch7";
 	property osgi.module.configuration.file.names = "com.liferay.portal.bundle.blacklist.internal.BundleBlacklistConfiguration.config";
-	property osgi.module.configurations = "blacklistBundleSymbolicNames=&quot;com.liferay.portal.mobile.device.detection.fiftyonedegrees.api,com.liferay.portal.mobile.device.detection.fiftyonedegrees.enterprise,com.liferay.portal.mobile.device.detection.fiftyonedegrees.enterprise.test.data,com.liferay.portal.mobile.device.detection.fiftyonedegrees,com.liferay.portal.search.elasticsearch6.impl,com.liferay.portal.search.elasticsearch6.spi,com.liferay.portal.search.elasticsearch6.api,com.liferay.portal.search.elasticsearch6.xpack.security.impl&quot;";
+	property osgi.module.configurations = "blacklistBundleSymbolicNames=\"com.liferay.portal.mobile.device.detection.fiftyonedegrees.api,com.liferay.portal.mobile.device.detection.fiftyonedegrees.enterprise,com.liferay.portal.mobile.device.detection.fiftyonedegrees.enterprise.test.data,com.liferay.portal.mobile.device.detection.fiftyonedegrees,com.liferay.portal.search.elasticsearch6.impl,com.liferay.portal.search.elasticsearch6.spi,com.liferay.portal.search.elasticsearch6.api,com.liferay.portal.search.elasticsearch6.xpack.security.impl\"";
 	property portal.release = "true";
 	property portal.suite.search.engine = "elasticsearch7";
 	property portal.upstream = "true";
@@ -882,21 +882,21 @@ definition {
 
 		SearchTuning.openSynonymsAdmin();
 
-		SearchTuning.addSynonymSet(synonyms = "banana,red apple,blue.berry!,&quot;xigua&quot;,fruit,sweet");
+		SearchTuning.addSynonymSet(synonyms = "banana,red apple,blue.berry!,\"xigua\",fruit,sweet");
 
 		AssertElementPresent(
-			key_synonyms = "banana, red apple, blue.berry!, &quot;xigua&quot;, fruit, sweet",
+			key_synonyms = "banana, red apple, blue.berry!, \"xigua\", fruit, sweet",
 			locator1 = "SearchTuning#SYNONYMS_ENTRY");
 
 		Navigator.openURL();
 
-		var searchTerms = "banana,red apple,blue.berry!,&quot;xigua&quot;,fruit,sweet";
+		var searchTerms = "banana,red apple,blue.berry!,\"xigua\",fruit,sweet";
 
 		for (var searchTerm : list "${searchTerms}") {
 			SearchPortlets.searchEmbedded(searchTerm = "${searchTerm}");
 
 			SearchResultPortlet.viewMultipleSearchResults(
-				resultsList = "banana/Web Content Article,red apple/Web Content Article,blue.berry!/Web Content Article,&quot;xigua&quot;/Web Content Article",
+				resultsList = "banana/Web Content Article,red apple/Web Content Article,blue.berry!/Web Content Article,\"xigua\"/Web Content Article",
 				searchTerm = "${searchTerm}");
 		}
 
@@ -905,10 +905,10 @@ definition {
 		SearchTuning.editSynonymSet(
 			addSynonyms = "pear",
 			deleteSynonym = "banana",
-			synonymSet = "banana, red apple, blue.berry!, &quot;xigua&quot;, fruit, sweet");
+			synonymSet = "banana, red apple, blue.berry!, \"xigua\", fruit, sweet");
 
 		AssertElementPresent(
-			key_synonyms = "red apple, blue.berry!, &quot;xigua&quot;, fruit, sweet, pear",
+			key_synonyms = "red apple, blue.berry!, \"xigua\", fruit, sweet, pear",
 			locator1 = "SearchTuning#SYNONYMS_ENTRY");
 
 		Navigator.openURL();
@@ -926,7 +926,7 @@ definition {
 			searchAssetType = "Web Content Article");
 
 		SearchResultPortlet.viewMultipleSearchResults(
-			resultsList = "red apple/Web Content Article,blue.berry!/Web Content Article,&quot;xigua&quot;/Web Content Article",
+			resultsList = "red apple/Web Content Article,blue.berry!/Web Content Article,\"xigua\"/Web Content Article",
 			searchTerm = "pear");
 
 		SearchPortlets.searchEmbedded(searchTerm = "red apple");
@@ -936,7 +936,7 @@ definition {
 			searchAssetType = "Web Content Article");
 
 		SearchResultPortlet.viewMultipleSearchResults(
-			resultsList = "red apple/Web Content Article,blue.berry!/Web Content Article,&quot;xigua&quot;/Web Content Article",
+			resultsList = "red apple/Web Content Article,blue.berry!/Web Content Article,\"xigua\"/Web Content Article",
 			searchTerm = "red apple");
 
 		SearchTuning.openSynonymsAdmin();
@@ -952,7 +952,7 @@ definition {
 		SearchPortlets.searchEmbedded(searchTerm = "red apple");
 
 		SearchResultPortlet.viewMultipleSearchResults(
-			resultsList = "red apple/Web Content Article,blue.berry!/Web Content Article,&quot;xigua&quot;/Web Content Article,citrus-orange/Web Content Article",
+			resultsList = "red apple/Web Content Article,blue.berry!/Web Content Article,\"xigua\"/Web Content Article,citrus-orange/Web Content Article",
 			searchTerm = "red apple");
 
 		SearchPortlets.searchEmbedded(searchTerm = "citrus-orange");
@@ -963,7 +963,7 @@ definition {
 
 		SearchTuning.openSynonymsAdmin();
 
-		SearchTuning.deleteSynonymSet(synonymSet = "red apple, blue.berry!, &quot;xigua&quot;, fruit, sweet, pear");
+		SearchTuning.deleteSynonymSet(synonymSet = "red apple, blue.berry!, \"xigua\", fruit, sweet, pear");
 
 		Navigator.openURL();
 

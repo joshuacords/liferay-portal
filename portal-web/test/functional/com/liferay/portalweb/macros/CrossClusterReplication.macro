@@ -29,7 +29,7 @@ definition {
 	macro setupCrossClusterReplication {
 		OSGiConfig.deployOSGiConfigs(
 			OSGiConfigFileName = "com.liferay.portal.search.elasticsearch.cross.cluster.replication.internal.configuration.ElasticsearchConnectionConfiguration-localcluster.config",
-			OSGiConfigs = "clusterName=&quot;LiferayElasticsearchClusterTwo&quot;,connectionId=&quot;localcluster&quot;,networkHostAddress=&quot;http://localhost:9202&quot;,transportAddresses=[&quot;localhost:9500&quot;]");
+			OSGiConfigs = "clusterName=\"LiferayElasticsearchClusterTwo\",connectionId=\"localcluster\",networkHostAddress=\"http://localhost:9202\",transportAddresses=[\"localhost:9500\"]");
 
 		CrossClusterReplication.configureCrossClusterReplication();
 
