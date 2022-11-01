@@ -38,25 +38,25 @@ CustomFacetDisplayContext customFacetDisplayContext = (CustomFacetDisplayContext
 		<aui:input autocomplete="off" name="<%= HtmlUtil.escapeAttribute(customFacetDisplayContext.getParameterName()) %>" type="hidden" value="<%= customFacetDisplayContext.getParameterValue() %>" />
 	</c:when>
 	<c:otherwise>
-		<liferay-ui:panel-container
-			extended="<%= true %>"
-			id='<%= renderResponse.getNamespace() + "facetCustomPanelContainer" %>'
-			markupView="lexicon"
-			persistState="<%= true %>"
-		>
-			<liferay-ui:panel
-				collapsible="<%= true %>"
-				cssClass="search-facet"
-				id='<%= renderResponse.getNamespace() + "facetCustomPanel" %>'
+		<aui:form action="#" method="post" name="customFacetForm">
+			<aui:input autocomplete="off" name="<%= HtmlUtil.escapeAttribute(customFacetDisplayContext.getParameterName()) %>" type="hidden" value="<%= customFacetDisplayContext.getParameterValue() %>" />
+			<aui:input cssClass="facet-parameter-name" name="facet-parameter-name" type="hidden" value="<%= customFacetDisplayContext.getParameterName() %>" />
+			<aui:input cssClass="start-parameter-name" name="start-parameter-name" type="hidden" value="<%= customFacetDisplayContext.getPaginationStartParameterName() %>" />
+
+			<liferay-ui:panel-container
+				extended="<%= true %>"
+				id='<%= renderResponse.getNamespace() + "facetCustomPanelContainer" %>'
 				markupView="lexicon"
 				persistState="<%= true %>"
-				title="<%= customFacetDisplayContext.getDisplayCaption() %>"
 			>
-				<aui:form action="#" method="post" name="customFacetForm">
-					<aui:input autocomplete="off" name="<%= HtmlUtil.escapeAttribute(customFacetDisplayContext.getParameterName()) %>" type="hidden" value="<%= customFacetDisplayContext.getParameterValue() %>" />
-					<aui:input cssClass="facet-parameter-name" name="facet-parameter-name" type="hidden" value="<%= customFacetDisplayContext.getParameterName() %>" />
-					<aui:input cssClass="start-parameter-name" name="start-parameter-name" type="hidden" value="<%= customFacetDisplayContext.getPaginationStartParameterName() %>" />
-
+				<liferay-ui:panel
+					collapsible="<%= true %>"
+					cssClass="search-facet"
+					id='<%= renderResponse.getNamespace() + "facetCustomPanel" %>'
+					markupView="lexicon"
+					persistState="<%= true %>"
+					title="<%= customFacetDisplayContext.getDisplayCaption() %>"
+				>
 					<aui:fieldset>
 						<ul class="list-unstyled">
 
@@ -70,7 +70,7 @@ CustomFacetDisplayContext customFacetDisplayContext = (CustomFacetDisplayContext
 								<li class="facet-value">
 									<div class="custom-checkbox custom-control">
 										<label class="facet-checkbox-label" for="<portlet:namespace />term_<%= i %>">
-											<input class="custom-control-input facet-term" data-term-id="<%= HtmlUtil.escapeAttribute(customFacetTermDisplayContext.getFieldName()) %>" id="<portlet:namespace />term_<%= i %>" name="<portlet:namespace />term_<%= i %>" onChange="Liferay.Search.FacetUtil.changeSelection(event);" type="checkbox" <%= customFacetTermDisplayContext.isSelected() ? "checked" : StringPool.BLANK %> />
+											<input class="custom-control-input facet-term" data-term-id="<%= HtmlUtil.escapeAttribute(customFacetTermDisplayContext.getFieldName()) %>" disabled id="<portlet:namespace />term_<%= i %>" name="<portlet:namespace />term_<%= i %>" onChange="Liferay.Search.FacetUtil.changeSelection(event);" type="checkbox" <%= customFacetTermDisplayContext.isSelected() ? "checked" : StringPool.BLANK %> />
 
 											<span class="custom-control-label term-name <%= customFacetTermDisplayContext.isSelected() ? "facet-term-selected" : "facet-term-unselected" %>">
 												<span class="custom-control-label-text"><%= HtmlUtil.escape(customFacetTermDisplayContext.getFieldName()) %></span>
@@ -95,10 +95,18 @@ CustomFacetDisplayContext customFacetDisplayContext = (CustomFacetDisplayContext
 					<c:if test="<%= !customFacetDisplayContext.isNothingSelected() %>">
 						<aui:button cssClass="btn-link btn-unstyled facet-clear-btn" onClick="Liferay.Search.FacetUtil.clearSelections(event);" value="clear" />
 					</c:if>
-				</aui:form>
-			</liferay-ui:panel>
-		</liferay-ui:panel-container>
+				</liferay-ui:panel>
+			</liferay-ui:panel-container>
+		</aui:form>
 	</c:otherwise>
 </c:choose>
 
-<aui:script use="liferay-search-facet-util"></aui:script>
+<aui:script use="liferay-search-facet-util">
+	var facetTerms = document.querySelectorAll(
+		'#<portlet:namespace />customFacetForm .facet-term'
+	);
+
+	facetTerms.forEach(function(term) {
+		Liferay.Util.toggleDisabled(term, false);
+	});
+</aui:script>
