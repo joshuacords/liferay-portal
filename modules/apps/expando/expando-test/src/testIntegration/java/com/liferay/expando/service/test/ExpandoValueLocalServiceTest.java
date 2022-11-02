@@ -25,6 +25,7 @@ import com.liferay.expando.kernel.model.ExpandoTable;
 import com.liferay.expando.kernel.model.ExpandoValue;
 import com.liferay.expando.kernel.service.ExpandoColumnLocalServiceUtil;
 import com.liferay.expando.kernel.service.ExpandoRowLocalServiceUtil;
+import com.liferay.expando.kernel.service.ExpandoValueLocalService;
 import com.liferay.expando.kernel.service.ExpandoValueLocalServiceUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
@@ -33,6 +34,7 @@ import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.LocaleThreadLocal;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
@@ -168,6 +170,31 @@ public class ExpandoValueLocalServiceTest {
 		catch (MissingDefaultLocaleValueException valueDataException) {
 			Assert.assertNotNull(valueDataException);
 		}
+	}
+
+	@Test
+	public void testAddSiteDefaultLocalizedStringValue() throws Exception {
+		Locale originalLocale = LocaleUtil.getSiteDefault();
+
+		LocaleThreadLocal.setSiteDefaultLocale(LocaleUtil.FRANCE);
+
+		ExpandoColumn column = ExpandoTestUtil.addColumn(
+			_expandoTable, "Test Column",
+			ExpandoColumnConstants.STRING_LOCALIZED);
+
+		ExpandoValue value = ExpandoTestUtil.addValue(
+			_expandoTable, column,
+			HashMapBuilder.put(
+				_enLocale, "one"
+			).put(
+				_frLocale, "un"
+			).build());
+
+		value = _expandoValueLocalService.getExpandoValue(value.getValueId());
+
+		Assert.assertEquals(_frLocale, value.getDefaultLocale());
+
+		LocaleThreadLocal.setSiteDefaultLocale(originalLocale);
 	}
 
 	@Test
@@ -330,6 +357,9 @@ public class ExpandoValueLocalServiceTest {
 
 	@DeleteAfterTestRun
 	private ExpandoTable _expandoTable;
+
+	@Inject
+	private ExpandoValueLocalService _expandoValueLocalService;
 
 	private Locale _frLocale;
 	private Locale _ptLocale;
