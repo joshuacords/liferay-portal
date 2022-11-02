@@ -171,7 +171,7 @@ function Detail({
 					/>
 				</ClayTable.Cell>
 				<LicenseDates
-					detached={!!terms}
+					detached={!terms}
 					expirationDate={expirationDate}
 					id={licenseKeyId}
 					restricted={restricted}
