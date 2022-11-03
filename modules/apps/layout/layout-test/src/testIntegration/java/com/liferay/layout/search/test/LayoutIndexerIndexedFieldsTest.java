@@ -17,30 +17,38 @@ package com.liferay.layout.search.test;
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.model.LayoutConstants;
+import com.liferay.portal.kernel.model.LayoutTypeController;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.SearchEngineHelper;
+import com.liferay.portal.kernel.service.LayoutLocalServiceUtil;
 import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.rule.SynchronousDestinationTestRule;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.LocaleThreadLocal;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.search.test.util.FieldValuesAssert;
 import com.liferay.portal.search.test.util.IndexedFieldsFixture;
 import com.liferay.portal.search.test.util.IndexerFixture;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.test.rule.PermissionCheckerMethodTestRule;
+import com.liferay.portal.util.LayoutTypeControllerTracker;
 import com.liferay.users.admin.test.util.search.UserSearchFixture;
 
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 import org.junit.After;
 import org.junit.Before;
@@ -169,6 +177,8 @@ public class LayoutIndexerIndexedFieldsTest {
 		).put(
 			Field.STAGING_GROUP, "false"
 		).put(
+			Field.STATUS, String.valueOf(_getStatus(layout))
+		).put(
 			Field.TYPE, layout.getType()
 		).put(
 			Field.USER_ID, String.valueOf(layout.getUserId())
@@ -188,6 +198,35 @@ public class LayoutIndexerIndexedFieldsTest {
 		_populateRoles(layout, map);
 
 		return map;
+	}
+
+	private int _getStatus(Layout layout) {
+		LayoutTypeController layoutTypeController =
+			LayoutTypeControllerTracker.getLayoutTypeController(
+				layout.getType());
+
+		if (!Objects.equals(layout.getType(), LayoutConstants.TYPE_CONTENT) &&
+			!Objects.equals(
+				layoutTypeController.getType(), LayoutConstants.TYPE_CONTENT)) {
+
+			return WorkflowConstants.STATUS_APPROVED;
+		}
+
+		Layout draftLayout = LayoutLocalServiceUtil.fetchLayout(
+			PortalUtil.getClassNameId(Layout.class), layout.getPlid());
+
+		boolean published = false;
+
+		if (draftLayout != null) {
+			published = GetterUtil.getBoolean(
+				draftLayout.getTypeSettingsProperty("published"));
+		}
+
+		if (published) {
+			return WorkflowConstants.STATUS_APPROVED;
+		}
+
+		return WorkflowConstants.STATUS_DRAFT;
 	}
 
 	private void _populateDates(Layout layout, Map<String, String> map) {
