@@ -142,9 +142,8 @@ public class PortalInstancesTest {
 		UnicodeProperties typeSettingsUnicodeProperties =
 			group.getTypeSettingsProperties();
 
-		typeSettingsUnicodeProperties.setProperty("languageId", "es_ES");
-
 		typeSettingsUnicodeProperties.setProperty(PropsKeys.LOCALES, "es_ES");
+		typeSettingsUnicodeProperties.setProperty("languageId", "es_ES");
 
 		group.setTypeSettingsProperties(typeSettingsUnicodeProperties);
 
@@ -154,7 +153,7 @@ public class PortalInstancesTest {
 			RandomTestUtil.randomString(6) + "." +
 				RandomTestUtil.randomString(3);
 
-		// No virtual host language set
+		// Blank virtual host language
 
 		_updateLayoutSetVirtualHostname(
 			StringPool.BLANK, group.getPublicLayoutSet(), hostname);
@@ -162,14 +161,14 @@ public class PortalInstancesTest {
 		_testGetI18NLanguageId(null, hostname, null);
 		_testGetI18NLanguageId(null, hostname, LanguageUtil.getLocale("vi_VN"));
 
-		// Virtual host language set
+		// Spanish virtual host language
 
 		_updateLayoutSetVirtualHostname(
 			"es_ES", group.getPublicLayoutSet(), hostname);
 
 		_testGetI18NLanguageId("es_ES", hostname, null);
 
-		// Remove virtual host language to test new changes
+		// ...
 
 		_updateLayoutSetVirtualHostname(
 			StringPool.BLANK, group.getPublicLayoutSet(), hostname);

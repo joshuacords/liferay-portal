@@ -531,8 +531,6 @@ public class PortalInstances {
 			}
 		}
 
-		// Virtual host default locale
-
 		String languageId = virtualHost.getLanguageId();
 
 		if (Validator.isNotNull(languageId) &&
