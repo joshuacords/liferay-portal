@@ -40,7 +40,7 @@ import com.liferay.portal.kernel.test.util.RoleTestUtil;
 import com.liferay.portal.kernel.test.util.UserTestUtil;
 import com.liferay.portal.kernel.util.LinkedHashMapBuilder;
 import com.liferay.portal.kernel.util.ListUtil;
-import com.liferay.portal.kernel.util.comparator.OrganizationIdComparator;
+import com.liferay.portal.kernel.util.comparator.OrganizationNameComparator;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 
@@ -152,7 +152,7 @@ public class OrganizationLocalServiceWhenSearchingOrganizationsTreeTest {
 				_user.getCompanyId(),
 				OrganizationConstants.ANY_PARENT_ORGANIZATION_ID, null,
 				organizationParams, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
-				new Sort("organizationId", false));
+				new Sort("name", false));
 
 		List<Organization> expectedSearchResults = new ArrayList<>();
 
@@ -168,9 +168,11 @@ public class OrganizationLocalServiceWhenSearchingOrganizationsTreeTest {
 		List<Organization> indexerSearchResults =
 			baseModelSearchResult.getBaseModels();
 
+		ListUtil.sort(
+			indexerSearchResults, new OrganizationNameComparator(true));
 		Assert.assertEquals(
 			ListUtil.sort(
-				expectedSearchResults, new OrganizationIdComparator(true)),
+				expectedSearchResults, new OrganizationNameComparator(true)),
 			indexerSearchResults);
 
 		List<Organization> finderSearchResults =
@@ -178,7 +180,7 @@ public class OrganizationLocalServiceWhenSearchingOrganizationsTreeTest {
 				_user.getCompanyId(),
 				OrganizationConstants.ANY_PARENT_ORGANIZATION_ID, null, null,
 				null, null, organizationParams, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, new OrganizationIdComparator(true));
+				QueryUtil.ALL_POS, new OrganizationNameComparator(true));
 
 		Assert.assertEquals(indexerSearchResults, finderSearchResults);
 	}
