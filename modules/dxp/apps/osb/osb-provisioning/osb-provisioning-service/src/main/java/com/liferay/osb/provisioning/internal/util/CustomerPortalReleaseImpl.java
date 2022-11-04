@@ -155,6 +155,7 @@ public class CustomerPortalReleaseImpl implements CustomerPortalRelease {
 			if (name.equals(
 					ContactRoleConstants.NAME_LIFERAY_CUSTOMER_SUCCESS) ||
 				name.equals(ContactRoleConstants.NAME_LIFERAY_SALES) ||
+				name.equals(ContactRoleConstants.NAME_PARTNER_MANAGER) ||
 				name.equals(ContactRoleConstants.NAME_SUPPORT_ADMINISTRATOR)) {
 
 				return true;

@@ -237,7 +237,8 @@ public class AccountResourceImpl extends BaseAccountResourceImpl {
 			for (ContactRole contactRole : contactRoles) {
 				String name = contactRole.getName();
 
-				if (name.equals(
+				if (name.equals(ContactRoleConstants.NAME_PARTNER_MANAGER) ||
+					name.equals(
 						ContactRoleConstants.NAME_SUPPORT_ADMINISTRATOR)) {
 
 					return;
