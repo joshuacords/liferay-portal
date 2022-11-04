@@ -1211,7 +1211,6 @@ definition {
 		User.viewLoggedOutPG();
 	}
 
-	@description = "This will be ignored until LPS-129933 is fixed."
 	@priority = "4"
 	test ViewSingleLogoutAndForceAuthWithMultipleSPs {
 		property portal.upstream = "quarantine";
