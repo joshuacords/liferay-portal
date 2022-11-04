@@ -324,8 +324,7 @@ definition {
 		}
 	}
 
-	@description = "This will be ignored until LPS-134311 is fixed.This is a use case for OAUTH2-259."
-	@ignore = "true"
+	@description = "This is a use case for OAUTH2-259."
 	@priority = "4"
 	test AssertClientCredentialsIsUserScoped {
 		property custom.properties = "json.service.serialize.throwable=true";

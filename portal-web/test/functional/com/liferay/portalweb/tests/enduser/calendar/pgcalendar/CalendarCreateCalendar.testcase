@@ -89,8 +89,6 @@ definition {
 			user = "Test Test");
 	}
 
-	@description = "This will be ignored until POSHI-6 is fixed."
-	@ignore = "true"
 	@priority = "4"
 	test AddUserCalendarToOtherCalendars {
 		ProductMenu.gotoPortlet(

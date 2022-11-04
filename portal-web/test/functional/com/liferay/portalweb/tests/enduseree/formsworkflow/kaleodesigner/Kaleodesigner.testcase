@@ -471,8 +471,7 @@ definition {
 		Notifications.viewNoNotificationEntry();
 	}
 
-	@description = "This will be ignored until LRCI-1048 is fixed.This is a use case for LPS-37209."
-	@ignore = "true"
+	@description = "This is a use case for LPS-37209."
 	@priority = "4"
 	test ConfigureTaskTimersViaSourceTab {
 		property test.name.skip.portal.instance = "Kaleodesigner#ConfigureTaskTimersViaSourceTab";
