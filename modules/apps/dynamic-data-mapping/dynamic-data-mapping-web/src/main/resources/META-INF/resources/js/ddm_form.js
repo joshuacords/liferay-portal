@@ -114,6 +114,8 @@ AUI.add(
 
 			p_l_id: {},
 
+			portletId: {},
+
 			portletNamespace: {}
 		};
 
@@ -229,6 +231,7 @@ AUI.add(
 					p_p_isolated: true,
 					p_p_resource_id: 'renderStructureField',
 					p_p_state: 'pop_up',
+					portletId: instance.get('portletId'),
 					portletNamespace: instance.get('portletNamespace'),
 					readOnly: instance.get('readOnly')
 				};
