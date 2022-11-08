@@ -8,7 +8,7 @@ Export-Package:\
 Import-Package:\
 	com.fasterxml.jackson.annotation;version="[2.9.0,3.0.0)",\
 	\
-	com.liferay.commerce.model;version="[5.0.0,99.0.0)",\
-	com.liferay.portal.vulcan.util;version="[2.3.0,99.0.0)",\
+	com.liferay.commerce.model;version="[5.0.0,9999.0.0)",\
+	com.liferay.portal.vulcan.util;version="[2.3.0,9999.0.0)",\
 	\
 	*
