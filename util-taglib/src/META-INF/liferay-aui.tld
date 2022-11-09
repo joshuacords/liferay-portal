@@ -257,7 +257,7 @@
 		<dynamic-attributes>true</dynamic-attributes>
 	</tag>
 	<tag>
-		<description><![CDATA[Creates a column to display content in an <code>&lt;aui:row&gt;</code> component.]]></description>
+		<description>Creates a column to display content in an <![CDATA[<code>&lt;aui:row&gt;</code>]]> component.</description>
 		<name>col</name>
 		<tag-class>com.liferay.taglib.aui.ColTag</tag-class>
 		<body-content>JSP</body-content>
@@ -310,7 +310,7 @@
 		<dynamic-attributes>true</dynamic-attributes>
 	</tag>
 	<tag>
-		<description><![CDATA[Creates a container <code>&lt;div&gt;</code> tag to wrap <code>&lt;aui:row&gt;</code> components and offer additional styling.]]></description>
+		<description>Creates a container <![CDATA[<code>&lt;div&gt;</code>]]> tag to wrap <![CDATA[<code>&lt;aui:row&gt;</code>]]> components and offer additional styling.</description>
 		<name>container</name>
 		<tag-class>com.liferay.taglib.aui.ContainerTag</tag-class>
 		<body-content>JSP</body-content>
@@ -1291,7 +1291,7 @@
 		<dynamic-attributes>true</dynamic-attributes>
 	</tag>
 	<tag>
-		<description><![CDATA[Creates a row to hold <code>&lt;aui:col&gt;</code> components.]]></description>
+		<description>Creates a row to hold <![CDATA[<code>&lt;aui:col&gt;</code>]]> components.</description>
 		<name>row</name>
 		<tag-class>com.liferay.taglib.aui.RowTag</tag-class>
 		<body-content>JSP</body-content>
