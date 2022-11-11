@@ -17,15 +17,18 @@ package com.liferay.osb.provisioning.web.internal.display.context;
 import com.liferay.osb.koroneiki.phloem.rest.client.constants.ExternalLinkDomain;
 import com.liferay.osb.koroneiki.phloem.rest.client.constants.ExternalLinkEntityName;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Account;
+import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Entitlement;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ExternalLink;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.PostalAddress;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Product;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ProductPurchase;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Team;
+import com.liferay.osb.provisioning.koroneiki.constants.EntitlementConstants;
 import com.liferay.osb.provisioning.koroneiki.constants.ProductPurchaseConstants;
 import com.liferay.osb.provisioning.koroneiki.reader.AccountReader;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.portlet.LiferayPortletResponse;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.FastDateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
@@ -441,6 +444,22 @@ public class AccountDisplay {
 				ExternalLinkEntityName.SALESFORCE_PROJECT));
 	}
 
+	public boolean hasSubscription() {
+		Entitlement[] entitlements = _account.getEntitlements();
+
+		if (ArrayUtil.isNotEmpty(entitlements)) {
+			for (Entitlement entitlement : entitlements) {
+				if (ArrayUtil.contains(
+						EntitlementConstants.SLAS, entitlement.getName())) {
+
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
 	public boolean isAllowPermanentLicenses() {
 		Map<String, String> properties = _account.getProperties();
 
@@ -461,6 +480,22 @@ public class AccountDisplay {
 		}
 
 		return true;
+	}
+
+	public boolean isPartner() {
+		Entitlement[] entitlements = _account.getEntitlements();
+
+		if (ArrayUtil.isNotEmpty(entitlements)) {
+			for (Entitlement entitlement : entitlements) {
+				String name = entitlement.getName();
+
+				if (name.equals(EntitlementConstants.PARTNER)) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	private String _getAddExternalLinkURL() {

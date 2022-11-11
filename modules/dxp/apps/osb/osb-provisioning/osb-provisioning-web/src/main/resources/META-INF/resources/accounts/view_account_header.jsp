@@ -22,6 +22,8 @@ ViewAccountDisplayContext viewAccountDisplayContext = ProvisioningWebComponentPr
 AccountDisplay accountDisplay = viewAccountDisplayContext.getAccountDisplay();
 %>
 
+<liferay-ui:error key="syncInUse" message="sync-to-customer-portal-is-currently-in-use.-please-wait-and-try-again-later" />
+
 <div class="account-header autofit-row provisioning-accounts">
 	<svg class="autofit-col header-icon">
 		<use xlink:href="#account-icon" />
@@ -125,6 +127,17 @@ AccountDisplay accountDisplay = viewAccountDisplayContext.getAccountDisplay();
 	</div>
 
 	<div class="header-buttons">
+		<c:if test="<%= accountDisplay.hasSubscription() || accountDisplay.isPartner() %>">
+			<portlet:actionURL name="/accounts/sync_to_customer_portal" var="syncToCustomerPortalURL">
+				<portlet:param name="redirect" value="<%= currentURL %>" />
+				<portlet:param name="accountKey" value="<%= accountDisplay.getKey() %>" />
+			</portlet:actionURL>
+
+			<aui:form action="<%= syncToCustomerPortalURL %>" method="post" name="fm1">
+				<aui:button cssClass="btn-secondary btn-sm" href="<%= syncToCustomerPortalURL %>" value="sync-to-customer-portal" />
+			</aui:form>
+		</c:if>
+
 		<portlet:actionURL name="/accounts/sync_to_zendesk" var="syncToZendeskURL">
 			<portlet:param name="redirect" value="<%= currentURL %>" />
 			<portlet:param name="accountKey" value="<%= accountDisplay.getKey() %>" />
