@@ -26,10 +26,11 @@ function renderExternalAccountKeys(permission = true) {
 					dxpCloudProjectId: 'testDxpCloudProjectId',
 					key: '123',
 					salesforceProjectKey: 'testSalesForceProjectKey',
-					updateAnalyticsCloudGroupURL: '/update/analytics-cloud/group',
+					updateAnalyticsCloudGroupURL:
+						'/update/analytics-cloud/group',
+					updateDXPCloudProjectURL: '/update/dxp-cloud/project',
 					updateDossieraAccountURL: '/update/dossiera/account',
 					updateDossieraProjectURL: '/update/dossiera/project',
-					updateDXPCloudProjectURL: '/update/dxp-cloud/project',
 					updateSalesforceProjectURL: '/update/salesforce/project'
 				}}
 			/>
