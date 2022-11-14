@@ -176,7 +176,7 @@ public class AssetDisplayPageStagedModelDataHandler
 		return _stagedModelRepository;
 	}
 
-	private boolean _exportAssetObject(
+	private void _exportAssetObject(
 			PortletDataContext portletDataContext,
 			AssetDisplayPageEntry assetDisplayPageEntry)
 		throws Exception {
@@ -186,7 +186,7 @@ public class AssetDisplayPageStagedModelDataHandler
 				assetDisplayPageEntry.getClassName());
 
 		if (assetRendererFactory == null) {
-			return false;
+			return;
 		}
 
 		AssetRenderer<?> assetRenderer = assetRendererFactory.getAssetRenderer(
@@ -196,7 +196,7 @@ public class AssetDisplayPageStagedModelDataHandler
 			(assetRenderer.getAssetObject() == null) ||
 			!(assetRenderer.getAssetObject() instanceof StagedModel)) {
 
-			return false;
+			return;
 		}
 
 		if (ExportImportThreadLocal.isStagingInProcess() &&
@@ -204,7 +204,7 @@ public class AssetDisplayPageStagedModelDataHandler
 				assetRenderer.getGroupId(),
 				assetRendererFactory.getPortletId())) {
 
-			return false;
+			return;
 		}
 
 		StagedModelDataHandlerUtil.exportReferenceStagedModel(
@@ -212,8 +212,6 @@ public class AssetDisplayPageStagedModelDataHandler
 			(StagedModel)assetRenderer.getAssetObject(),
 			PortletDataContext.REFERENCE_TYPE_DEPENDENCY,
 			portletDataContext.getPortletId());
-
-		return true;
 	}
 
 	@Reference
