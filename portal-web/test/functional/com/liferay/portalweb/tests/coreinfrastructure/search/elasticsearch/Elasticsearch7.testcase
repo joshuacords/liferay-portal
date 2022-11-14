@@ -395,11 +395,9 @@ definition {
 
 		SearchPortlets.searchEmbedded(searchTerm = "apple");
 
-		// Workaround for LPS-109449
-
-		/*SearchResultPortlet.viewSearchResults(
+		SearchResultPortlet.viewSearchResults(
 			searchAssetTitle = "apple",
-			searchAssetType = "Web Content Article");*/
+			searchAssetType = "Web Content Article");
 	}
 
 	@priority = "5"
