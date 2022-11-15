@@ -25,7 +25,7 @@ Export-Package:\
 	com.liferay.portal.vulcan.yaml.graphql,\
 	com.liferay.portal.vulcan.yaml.openapi,\
 	\
-	graphql.annotations.annotationTypes;version="5.4"
+	graphql.annotations.annotationTypes;version="6.0"
 Import-Package:\
 	!graphql.annotations.directives.*,\
 	!graphql.annotations.processor.typeFunctions.*,\
