@@ -36,6 +36,8 @@ DiscussionComment rootDiscussionComment = (discussion == null) ? null : discussi
 
 CommentSectionDisplayContext commentSectionDisplayContext = CommentDisplayContextProviderUtil.getCommentSectionDisplayContext(request, response, discussionPermission, discussion);
 StagingGroupHelper stagingGroupHelper = StagingGroupHelperUtil.getStagingGroupHelper();
+
+String layoutMode = ParamUtil.getString(PortalUtil.getOriginalServletRequest(request), "p_l_mode", Constants.VIEW);
 %>
 
 <section>
@@ -120,34 +122,36 @@ StagingGroupHelper stagingGroupHelper = StagingGroupHelperUtil.getStagingGroupHe
 
 							<c:choose>
 								<c:when test="<%= commentSectionDisplayContext.isReplyButtonVisible() %>">
-									<div class="lfr-discussion-reply-container">
-										<div class="autofit-padded-no-gutters autofit-row">
-											<div class="autofit-col lfr-discussion-details">
-												<liferay-ui:user-portrait
-													user="<%= user %>"
-												/>
-											</div>
+									<c:if test="<%= !layoutMode.equals(Constants.EDIT) %>">
+										<div class="lfr-discussion-reply-container">
+											<div class="autofit-padded-no-gutters autofit-row">
+												<div class="autofit-col lfr-discussion-details">
+													<liferay-ui:user-portrait
+														user="<%= user %>"
+													/>
+												</div>
 
-											<div class="autofit-col autofit-col-expand lfr-discussion-editor">
-												<liferay-ui:input-editor
-													configKey="commentEditor"
-													contents=""
-													editorName='<%= PropsUtil.get("editor.wysiwyg.portal-web.docroot.html.taglib.ui.discussion.jsp") %>'
-													name="postReplyBody0"
-													onChangeMethod="0ReplyOnChange"
-													placeholder="type-your-comment-here"
-													showSource="<%= false %>"
-													skipEditorLoading="<%= skipEditorLoading %>"
-												/>
+												<div class="autofit-col autofit-col-expand lfr-discussion-editor">
+													<liferay-ui:input-editor
+														configKey="commentEditor"
+														contents=""
+														editorName='<%= PropsUtil.get("editor.wysiwyg.portal-web.docroot.html.taglib.ui.discussion.jsp") %>'
+														name="postReplyBody0"
+														onChangeMethod="0ReplyOnChange"
+														placeholder="type-your-comment-here"
+														showSource="<%= false %>"
+														skipEditorLoading="<%= skipEditorLoading %>"
+													/>
 
-												<aui:input name="postReplyBody0" type="hidden" />
+													<aui:input name="postReplyBody0" type="hidden" />
 
-												<aui:button-row>
-													<aui:button cssClass="btn-comment btn-primary btn-sm" disabled="<%= true %>" id="postReplyButton0" onClick='<%= randomNamespace + "postReply(0);" %>' value='<%= themeDisplay.isSignedIn() ? "reply" : "reply-as" %>' />
-												</aui:button-row>
+													<aui:button-row>
+														<aui:button cssClass="btn-comment btn-primary btn-sm" disabled="<%= true %>" id="postReplyButton0" onClick='<%= randomNamespace + "postReply(0);" %>' value='<%= themeDisplay.isSignedIn() ? "reply" : "reply-as" %>' />
+													</aui:button-row>
+												</div>
 											</div>
 										</div>
-									</div>
+									</c:if>
 								</c:when>
 								<c:otherwise>
 									<c:choose>
