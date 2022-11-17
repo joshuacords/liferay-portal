@@ -42,6 +42,10 @@ definition {
 		Button.click(button = "Edit");
 	}
 
+	macro clickInfoButton {
+		Click(locator1 = "Button#INFO");
+	}
+
 	macro clickInstall {
 		Button.click(button = "Install");
 	}
@@ -124,8 +128,4 @@ definition {
 			locator1 = "Button#ANY");
 	}
 
-	macro clickInfoButton {
-		Click(locator1 = "Button#INFO");
-	}
-	
 }
