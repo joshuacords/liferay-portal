@@ -124,4 +124,8 @@ definition {
 			locator1 = "Button#ANY");
 	}
 
+	macro clickInfoButton {
+		Click(locator1 = "Button#INFO");
+	}
+	
 }
