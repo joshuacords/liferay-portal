@@ -54,4 +54,10 @@ definition {
 			value1 = "${searchAssetTitle}");
 	}
 
+	macro gotoResultAssetViaTitle {
+		AssertClick(
+			key_searchAssetTitle = "${searchAssetTitle}",
+			locator1 = "SearchResults#ASSET_ENTRY_TABLE_TITLE",
+			value1 = "${searchAssetTitle}");
+	}
 }
