@@ -445,9 +445,9 @@ definition {
 		task ("Search for the DOCX and PDF files and Assert 'Download' Button is Present") {
 			SearchPortlets.searchEmbedded(searchTerm = "DOCXFile");
 
-			Search.gotoResultAssetViaTitle(searchAssetTitle = "DOCXFile");
+			SearchPortlets.gotoResultDetails(searchAssetTitle = "DOCXFile");
 
-			Button.clickInfoButton();
+			Click(locator1 = "Button#INFO");
 
 			Button.viewPresent(button = "Download");
 
@@ -457,9 +457,9 @@ definition {
 
 			SearchPortlets.searchEmbedded(searchTerm = "PDFFile");
 
-			Search.gotoResultAssetViaTitle(searchAssetTitle = "PDFFile");
+			SearchPortlets.gotoResultDetails(searchAssetTitle = "PDFFile");
 
-			Button.clickInfoButton();
+			Click(locator1 = "Button#INFO");
 
 			Button.viewPresent(button = "Download");
 
