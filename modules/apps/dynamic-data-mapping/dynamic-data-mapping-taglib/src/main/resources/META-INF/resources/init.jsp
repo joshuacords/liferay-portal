@@ -29,6 +29,7 @@ page import="com.liferay.portal.util.PropsValues" %>
 
 <%@ page import="java.util.ArrayList" %><%@
 page import="java.util.HashMap" %><%@
+page import="com.liferay.portal.kernel.util.HashMapBuilder" %><%@
 page import="java.util.LinkedHashSet" %><%@
 page import="java.util.List" %><%@
 page import="java.util.Locale" %><%@

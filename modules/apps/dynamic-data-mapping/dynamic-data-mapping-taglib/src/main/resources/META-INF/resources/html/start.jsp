@@ -76,17 +76,9 @@
 
 							Locale curLocale = LocaleUtil.fromLanguageId(curLanguageId);
 
-							String title = HtmlUtil.escapeAttribute(curLocale.getDisplayName(LocaleUtil.fromLanguageId(LanguageUtil.getLanguageId(request)))) + " " + LanguageUtil.get(LocaleUtil.getDefault(), "translation");
-
 							Map<String, Object> data = new HashMap<String, Object>();
 
 							data.put("languageid", curLanguageId);
-
-							Map<String, Object> iconData = new HashMap<>();
-
-							iconData.put("index", index++);
-							iconData.put("languageid", curLanguageId);
-							iconData.put("value", curLanguageId);
 
 							String translationStatus = LanguageUtil.get(request, "untranslated");
 							String translationStatusCssClass = "warning";
@@ -117,8 +109,16 @@
 
 							<c:if test="<%= showLanguageSelector %>">
 								<liferay-ui:icon
-									alt="<%= title %>"
-									data="<%= iconData %>"
+									alt='<%= HtmlUtil.escapeAttribute(curLocale.getDisplayName(LocaleUtil.fromLanguageId(LanguageUtil.getLanguageId(request)))) + " " + LanguageUtil.get(LocaleUtil.getDefault(), "translation") %>'
+									data='<%=
+										HashMapBuilder.<String, Object>put(
+											"index", index++
+										).put(
+											"languageid", curLanguageId
+										).put(
+											"value", curLanguageId
+										).build()
+									%>'
 									icon="<%= StringUtil.toLowerCase(StringUtil.replace(curLanguageId, '_', '-')) %>"
 									iconCssClass="inline-item inline-item-before"
 									linkCssClass="<%= linkCssClass %>"
