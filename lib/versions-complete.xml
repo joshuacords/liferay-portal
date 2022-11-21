@@ -8538,7 +8538,7 @@
 			</library>
 			<library>
 				<file-name>lib/portal/jdom.jar</file-name>
-				<version>1.1.3</version>
+				<version>1.1.3.LIFERAY-PATCHED-1</version>
 				<project-name>JDOM</project-name>
 				<project-url>http://www.jdom.org</project-url>
 				<licenses>
