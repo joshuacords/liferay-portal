@@ -287,45 +287,6 @@ public class FriendlyURLServletTest {
 	}
 
 	@Test
-	public void testServiceForwardToDefaultLayoutWith404OnDisabledLocale()
-		throws Throwable {
-
-		Group group = GroupTestUtil.addGroup();
-
-		Locale locale = LocaleUtil.getSiteDefault();
-
-		Layout homeLayout = LayoutTestUtil.addLayout(
-			group.getGroupId(), false,
-			HashMapBuilder.put(
-				locale, "home"
-			).build(),
-			HashMapBuilder.put(
-				locale, "/home"
-			).put(
-				LocaleUtil.GERMANY, "/home1"
-			).build());
-
-		GroupTestUtil.updateDisplaySettings(
-			group.getGroupId(), Arrays.asList(LocaleUtil.GERMANY),
-			LocaleUtil.GERMANY);
-
-		MockHttpServletResponse mockHttpServletResponse =
-			new MockHttpServletResponse();
-
-		testGetRedirect(
-			new MockHttpServletRequest(
-				"GET",
-				StringBundler.concat(
-					PropsValues.LAYOUT_FRIENDLY_URL_PUBLIC_SERVLET_MAPPING,
-					group.getFriendlyURL(), "/home")),
-			mockHttpServletResponse, getPath(group, homeLayout) + "/home",
-			Portal.PATH_MAIN,
-			_redirectConstructor1.newInstance(getURL(homeLayout)));
-
-		Assert.assertEquals(404, mockHttpServletResponse.getStatus());
-	}
-
-	@Test
 	public void testServiceLinkToURLRedirectWithQueryParams() throws Throwable {
 		MockHttpServletRequest mockHttpServletRequest =
 			new MockHttpServletRequest();
