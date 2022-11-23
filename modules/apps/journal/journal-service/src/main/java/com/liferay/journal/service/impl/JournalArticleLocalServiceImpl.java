@@ -5973,12 +5973,7 @@ public class JournalArticleLocalServiceImpl
 			(classNameLocalService.getClassNameId(DDMStructure.class) !=
 				article.getClassNameId())) {
 
-			Group companyGroup = groupLocalService.getCompanyGroup(
-				article.getGroupId());
-
-			if (article.getGroupId() != companyGroup.getGroupId()) {
-				throw new ArticleFriendlyURLException();
-			}
+			throw new ArticleFriendlyURLException();
 		}
 
 		content = format(user, groupId, article, content);
