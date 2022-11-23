@@ -37,6 +37,7 @@ import com.liferay.portal.kernel.service.permission.PortletPermission;
 import com.liferay.portal.kernel.servlet.ServletResponseUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.ContentTypes;
+import com.liferay.portal.kernel.util.GroupThreadLocal;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.Validator;
@@ -118,6 +119,8 @@ public class MentionsPortlet extends MVCPortlet {
 			SocialInteractionsConfigurationUtil.
 				getSocialInteractionsConfiguration(
 					themeDisplay.getCompanyId(), MentionsPortletKeys.MENTIONS);
+
+		GroupThreadLocal.setGroupId(themeDisplay.getSiteGroupId());
 
 		List<User> users = _mentionsUserFinder.getUsers(
 			themeDisplay.getCompanyId(), themeDisplay.getUserId(), query,
