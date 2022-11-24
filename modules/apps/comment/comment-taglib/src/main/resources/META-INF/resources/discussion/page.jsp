@@ -36,8 +36,6 @@ DiscussionComment rootDiscussionComment = (discussion == null) ? null : discussi
 
 CommentSectionDisplayContext commentSectionDisplayContext = CommentDisplayContextProviderUtil.getCommentSectionDisplayContext(request, response, discussionPermission, discussion);
 StagingGroupHelper stagingGroupHelper = StagingGroupHelperUtil.getStagingGroupHelper();
-
-String layoutMode = ParamUtil.getString(PortalUtil.getOriginalServletRequest(request), "p_l_mode", Constants.VIEW);
 %>
 
 <section>
@@ -122,6 +120,11 @@ String layoutMode = ParamUtil.getString(PortalUtil.getOriginalServletRequest(req
 
 							<c:choose>
 								<c:when test="<%= commentSectionDisplayContext.isReplyButtonVisible() %>">
+
+									<%
+									String layoutMode = ParamUtil.getString(PortalUtil.getOriginalServletRequest(request), "p_l_mode", Constants.VIEW);
+									%>
+
 									<c:if test="<%= !layoutMode.equals(Constants.EDIT) %>">
 										<div class="lfr-discussion-reply-container">
 											<div class="autofit-padded-no-gutters autofit-row">
