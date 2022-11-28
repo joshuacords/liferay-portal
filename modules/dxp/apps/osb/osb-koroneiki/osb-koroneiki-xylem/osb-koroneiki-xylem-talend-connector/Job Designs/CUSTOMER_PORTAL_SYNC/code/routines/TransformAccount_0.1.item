@@ -53,6 +53,19 @@ public class TransformAccount {
 		return "";
 	}
 
+	public static boolean getAllowSelfProvisioning(String properties) {
+		JSONObject jsonObject = new JSONObject(properties);
+
+		if (jsonObject.has("allowSelfProvisioning")) {
+			boolean allowSelfProvisioning = jsonObject.getBoolean(
+				"allowSelfProvisioning");
+
+			return allowSelfProvisioning;
+		}
+
+		return true;
+	}
+
 	public static String getCombinedContactsJSONArray(
 		String customerContacts, String workerContacts) {
 
