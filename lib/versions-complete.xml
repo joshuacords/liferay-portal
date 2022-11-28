@@ -2837,20 +2837,6 @@
 				<latest-version-publish-date>2022-10-03 17:34:41</latest-version-publish-date>
 			</library>
 			<library>
-				<file-name>com.liferay.portal.remote.rest.extender.jar!cxf-rt-rs-json-basic.jar</file-name>
-				<version>3.2.14</version>
-				<project-name>Apache CXF JAX-RS Extensions: JSON Basic</project-name>
-				<project-url>https://cxf.apache.org</project-url>
-				<licenses>
-					<license>
-						<license-name>Apache License, Version 2.0</license-name>
-						<license-url>https://www.apache.org/licenses/LICENSE-2.0.txt</license-url>
-					</license>
-				</licenses>
-				<current-version-publish-date>2020-06-23 17:55:15</current-version-publish-date>
-				<latest-version-publish-date>2022-10-03 17:34:34</latest-version-publish-date>
-			</library>
-			<library>
 				<file-name>com.liferay.portal.remote.rest.extender.jar!jettison.jar</file-name>
 				<version>1.3.3</version>
 				<project-name>jettison</project-name>
@@ -2862,6 +2848,20 @@
 				</licenses>
 				<current-version-publish-date>2013-01-07 13:43:47</current-version-publish-date>
 				<latest-version-publish-date>2022-11-17 15:46:46</latest-version-publish-date>
+			</library>
+			<library>
+				<file-name>com.liferay.portal.remote.rest.extender.jar!org.apache.cxf.jaxrs.json.basic.jar</file-name>
+				<version>3.2.14.LIFERAY-PATCHED-1</version>
+				<project-name>Apache CXF JAX-RS Extensions: JSON Basic</project-name>
+				<project-url>http://cxf.apache.org</project-url>
+				<licenses>
+					<license>
+						<license-name>LGPL 2.1</license-name>
+						<license-url>http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt</license-url>
+					</license>
+				</licenses>
+				<current-version-publish-date>2022-11-10 21:56:25</current-version-publish-date>
+				<latest-version-publish-date>2022-11-10 21:56:25</latest-version-publish-date>
 			</library>
 			<library>
 				<file-name>com.liferay.portal.remote.soap.extender.impl.jar!cxf-rt-frontend-jaxws.jar</file-name>
