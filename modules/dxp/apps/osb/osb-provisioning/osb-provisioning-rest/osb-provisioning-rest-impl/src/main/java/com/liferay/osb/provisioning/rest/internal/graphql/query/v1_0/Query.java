@@ -112,7 +112,7 @@ public class Query {
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {accountAccountKeyProductGroupProductGroupNameGenerateForm(accountKey: ___, productGroupName: ___){allowPermanentLicenses, subscriptionTerms, versions}}"}' -u 'test@liferay.com:test'
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {accountAccountKeyProductGroupProductGroupNameGenerateForm(accountKey: ___, productGroupName: ___){allowComplimentary, allowPermanentLicenses, subscriptionTerms, versions}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField(
 		description = "Retrieves the license key generation options for the given account."

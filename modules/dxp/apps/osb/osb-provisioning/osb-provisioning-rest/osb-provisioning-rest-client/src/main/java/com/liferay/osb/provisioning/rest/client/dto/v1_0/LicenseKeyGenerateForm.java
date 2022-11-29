@@ -34,6 +34,27 @@ public class LicenseKeyGenerateForm implements Cloneable, Serializable {
 		return LicenseKeyGenerateFormSerDes.toDTO(json);
 	}
 
+	public Boolean getAllowComplimentary() {
+		return allowComplimentary;
+	}
+
+	public void setAllowComplimentary(Boolean allowComplimentary) {
+		this.allowComplimentary = allowComplimentary;
+	}
+
+	public void setAllowComplimentary(
+		UnsafeSupplier<Boolean, Exception> allowComplimentaryUnsafeSupplier) {
+
+		try {
+			allowComplimentary = allowComplimentaryUnsafeSupplier.get();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected Boolean allowComplimentary;
+
 	public Boolean getAllowPermanentLicenses() {
 		return allowPermanentLicenses;
 	}

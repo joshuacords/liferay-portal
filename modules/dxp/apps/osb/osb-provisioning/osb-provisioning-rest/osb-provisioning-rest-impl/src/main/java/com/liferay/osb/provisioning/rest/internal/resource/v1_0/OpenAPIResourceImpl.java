@@ -20,10 +20,14 @@ import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
 
+import java.lang.reflect.Method;
+
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.annotation.Generated;
+
+import javax.servlet.http.HttpServletRequest;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -58,19 +62,33 @@ public class OpenAPIResourceImpl {
 	public Response getOpenAPI(@PathParam("type") String type)
 		throws Exception {
 
+		Class<? extends OpenAPIResource> clazz = _openAPIResource.getClass();
+
 		try {
-			Class<? extends OpenAPIResource> clazz =
-				_openAPIResource.getClass();
+			Method method = clazz.getMethod(
+				"getOpenAPI", HttpServletRequest.class, Set.class, String.class,
+				UriInfo.class);
 
-			clazz.getMethod(
-				"getOpenAPI", Set.class, String.class, UriInfo.class);
+			return (Response)method.invoke(
+				_openAPIResource, _httpServletRequest, _resourceClasses, type,
+				_uriInfo);
 		}
-		catch (NoSuchMethodException noSuchMethodException) {
-			return _openAPIResource.getOpenAPI(_resourceClasses, type);
-		}
+		catch (NoSuchMethodException noSuchMethodException1) {
+			try {
+				Method method = clazz.getMethod(
+					"getOpenAPI", Set.class, String.class, UriInfo.class);
 
-		return _openAPIResource.getOpenAPI(_resourceClasses, type, _uriInfo);
+				return (Response)method.invoke(
+					_openAPIResource, _resourceClasses, type, _uriInfo);
+			}
+			catch (NoSuchMethodException noSuchMethodException2) {
+				return _openAPIResource.getOpenAPI(_resourceClasses, type);
+			}
+		}
 	}
+
+	@Context
+	private HttpServletRequest _httpServletRequest;
 
 	@Reference
 	private OpenAPIResource _openAPIResource;

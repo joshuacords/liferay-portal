@@ -58,6 +58,16 @@ public class LicenseKeyGenerateFormSerDes {
 
 		sb.append("{");
 
+		if (licenseKeyGenerateForm.getAllowComplimentary() != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"allowComplimentary\": ");
+
+			sb.append(licenseKeyGenerateForm.getAllowComplimentary());
+		}
+
 		if (licenseKeyGenerateForm.getAllowPermanentLicenses() != null) {
 			if (sb.length() > 1) {
 				sb.append(", ");
@@ -139,6 +149,15 @@ public class LicenseKeyGenerateFormSerDes {
 
 		Map<String, String> map = new TreeMap<>();
 
+		if (licenseKeyGenerateForm.getAllowComplimentary() == null) {
+			map.put("allowComplimentary", null);
+		}
+		else {
+			map.put(
+				"allowComplimentary",
+				String.valueOf(licenseKeyGenerateForm.getAllowComplimentary()));
+		}
+
 		if (licenseKeyGenerateForm.getAllowPermanentLicenses() == null) {
 			map.put("allowPermanentLicenses", null);
 		}
@@ -188,7 +207,15 @@ public class LicenseKeyGenerateFormSerDes {
 			LicenseKeyGenerateForm licenseKeyGenerateForm,
 			String jsonParserFieldName, Object jsonParserFieldValue) {
 
-			if (Objects.equals(jsonParserFieldName, "allowPermanentLicenses")) {
+			if (Objects.equals(jsonParserFieldName, "allowComplimentary")) {
+				if (jsonParserFieldValue != null) {
+					licenseKeyGenerateForm.setAllowComplimentary(
+						(Boolean)jsonParserFieldValue);
+				}
+			}
+			else if (Objects.equals(
+						jsonParserFieldName, "allowPermanentLicenses")) {
+
 				if (jsonParserFieldValue != null) {
 					licenseKeyGenerateForm.setAllowPermanentLicenses(
 						(Boolean)jsonParserFieldValue);

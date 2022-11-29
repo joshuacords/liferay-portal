@@ -62,6 +62,38 @@ public class LicenseKeyGenerateForm implements Serializable {
 			LicenseKeyGenerateForm.class, json);
 	}
 
+	@Schema(
+		description = "If the account can generate complimentary license keys."
+	)
+	public Boolean getAllowComplimentary() {
+		return allowComplimentary;
+	}
+
+	public void setAllowComplimentary(Boolean allowComplimentary) {
+		this.allowComplimentary = allowComplimentary;
+	}
+
+	@JsonIgnore
+	public void setAllowComplimentary(
+		UnsafeSupplier<Boolean, Exception> allowComplimentaryUnsafeSupplier) {
+
+		try {
+			allowComplimentary = allowComplimentaryUnsafeSupplier.get();
+		}
+		catch (RuntimeException re) {
+			throw re;
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@GraphQLField(
+		description = "If the account can generate complimentary license keys."
+	)
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	protected Boolean allowComplimentary;
+
 	@Schema(description = "If the account can generate permanent license keys.")
 	public Boolean getAllowPermanentLicenses() {
 		return allowPermanentLicenses;
@@ -187,6 +219,16 @@ public class LicenseKeyGenerateForm implements Serializable {
 		StringBundler sb = new StringBundler();
 
 		sb.append("{");
+
+		if (allowComplimentary != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"allowComplimentary\": ");
+
+			sb.append(allowComplimentary);
+		}
 
 		if (allowPermanentLicenses != null) {
 			if (sb.length() > 1) {

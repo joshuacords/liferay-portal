@@ -1166,6 +1166,16 @@ public abstract class BaseLicenseKeyResourceTestCase {
 				getAdditionalLicenseKeyGenerateFormAssertFieldNames()) {
 
 			if (Objects.equals(
+					"allowComplimentary", additionalAssertFieldName)) {
+
+				if (licenseKeyGenerateForm.getAllowComplimentary() == null) {
+					valid = false;
+				}
+
+				continue;
+			}
+
+			if (Objects.equals(
 					"allowPermanentLicenses", additionalAssertFieldName)) {
 
 				if (licenseKeyGenerateForm.getAllowPermanentLicenses() ==
@@ -1707,6 +1717,19 @@ public abstract class BaseLicenseKeyResourceTestCase {
 
 		for (String additionalAssertFieldName :
 				getAdditionalLicenseKeyGenerateFormAssertFieldNames()) {
+
+			if (Objects.equals(
+					"allowComplimentary", additionalAssertFieldName)) {
+
+				if (!Objects.deepEquals(
+						licenseKeyGenerateForm1.getAllowComplimentary(),
+						licenseKeyGenerateForm2.getAllowComplimentary())) {
+
+					return false;
+				}
+
+				continue;
+			}
 
 			if (Objects.equals(
 					"allowPermanentLicenses", additionalAssertFieldName)) {
@@ -2284,6 +2307,7 @@ public abstract class BaseLicenseKeyResourceTestCase {
 
 		return new LicenseKeyGenerateForm() {
 			{
+				allowComplimentary = RandomTestUtil.randomBoolean();
 				allowPermanentLicenses = RandomTestUtil.randomBoolean();
 			}
 		};
