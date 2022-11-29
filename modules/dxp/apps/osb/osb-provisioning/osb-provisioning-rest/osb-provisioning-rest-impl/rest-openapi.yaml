@@ -167,6 +167,11 @@ components:
             description:
                 Represents the options available during license generation based on account and product.
             properties:
+                allowComplimentary:
+                    description:
+                        If the account can generate complimentary license keys.
+                    readOnly: true
+                    type: boolean
                 allowPermanentLicenses:
                     description:
                         If the account can generate permanent license keys.

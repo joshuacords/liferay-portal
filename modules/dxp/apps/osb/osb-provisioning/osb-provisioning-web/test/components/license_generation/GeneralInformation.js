@@ -109,6 +109,7 @@ function renderGeneralInformation({permission = true, props = {}} = {}) {
 				permissions={{updateDatePermission: permission}}
 			>
 				<GeneralInformation
+					allowComplimentary={false}
 					allowPermanentLicenses={true}
 					redirect="/back/url"
 					selectAccountActionURL="/action/url"

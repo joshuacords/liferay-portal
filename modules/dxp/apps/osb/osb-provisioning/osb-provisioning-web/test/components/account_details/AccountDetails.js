@@ -60,6 +60,7 @@ function renderAccountDetails(props) {
 			dataRegionNames={['Brazil', 'Hungary', 'Japan', 'United States']}
 			details={{
 				addPostalAddressURL: '/',
+				allowComplimentary: false,
 				allowPermanentLicenses: true,
 				allowSelfProvisioning: true,
 				analyticsCloudGroupId: 'testAnalyticsCloudGroupId',

@@ -93,6 +93,7 @@ AccountDetails.propTypes = {
 	dataRegionNames: PropTypes.arrayOf(PropTypes.string),
 	details: PropTypes.shape({
 		addPostalAddressURL: PropTypes.string,
+		allowComplimentary: PropTypes.bool,
 		allowPermanentLicenses: PropTypes.bool,
 		allowSelfProvisioning: PropTypes.bool,
 		analyticsCloudGroupId: PropTypes.string,
@@ -131,9 +132,9 @@ AccountDetails.propTypes = {
 		subscriptionStateStyle: PropTypes.string,
 		tier: PropTypes.string,
 		updateAnalyticsCloudGroupURL: PropTypes.string,
-		updateDXPCloudProjectURL: PropTypes.string,
 		updateDossieraAccountURL: PropTypes.string,
 		updateDossieraProjectURL: PropTypes.string,
+		updateDxpCloudProjectURL: PropTypes.string,
 		updateSalesforceProjectURL: PropTypes.string
 	}),
 	hasManageAccountsPermission: PropTypes.bool,

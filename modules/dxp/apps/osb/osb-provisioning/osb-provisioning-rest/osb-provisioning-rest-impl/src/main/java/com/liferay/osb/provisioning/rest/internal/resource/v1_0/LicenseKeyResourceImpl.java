@@ -82,6 +82,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
+import java.time.temporal.ChronoUnit;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -190,15 +192,20 @@ public class LicenseKeyResourceImpl
 
 		Account account = _accountWebService.getAccount(accountKey);
 
+		boolean allowComplimentary = false;
 		boolean allowPermanentLicenses = false;
 
 		Map<String, String> properties = account.getProperties();
 
 		if (properties != null) {
+			allowComplimentary = GetterUtil.getBoolean(
+				properties.get("allowComplimentary"));
+
 			allowPermanentLicenses = GetterUtil.getBoolean(
 				properties.get("allowPermanentLicenses"), true);
 		}
 
+		licenseKeyGenerateForm.setAllowComplimentary(allowComplimentary);
 		licenseKeyGenerateForm.setAllowPermanentLicenses(
 			allowPermanentLicenses);
 
@@ -587,7 +594,7 @@ public class LicenseKeyResourceImpl
 					description, licenseKey.getHostName(),
 					licenseKey.getIpAddresses(), licenseKey.getMacAddresses(),
 					licenseKey.getStartDate(), licenseKey.getExpirationDate(),
-					false, true);
+					licenseKey.getComplimentary(), true);
 
 			curLicenseKeys.add(LicenseKeyUtil.toLicenseKey(curLicenseKey));
 		}
@@ -1252,11 +1259,15 @@ public class LicenseKeyResourceImpl
 
 		Account account = _accountWebService.getAccount(accountKey);
 
+		boolean allowComplimentary = false;
 		boolean allowPermanentLicenses = false;
 
 		Map<String, String> properties = account.getProperties();
 
 		if (properties != null) {
+			allowComplimentary = GetterUtil.getBoolean(
+				properties.get("allowComplimentary"));
+
 			allowPermanentLicenses = GetterUtil.getBoolean(
 				properties.get("allowPermanentLicenses"), true);
 		}
@@ -1274,6 +1285,25 @@ public class LicenseKeyResourceImpl
 
 			if (!productKey.equals(productPurchase.getProductKey())) {
 				throw new PrincipalException("Invalid product key");
+			}
+
+			if (licenseKey.getComplimentary()) {
+				if (!allowComplimentary) {
+					throw new PrincipalException(
+						"Invalid complimentary permissions");
+				}
+
+				Date licenseKeyStartDate = licenseKey.getStartDate();
+				Date licenseKeyExpirationDate = licenseKey.getExpirationDate();
+
+				long days = ChronoUnit.DAYS.between(
+					licenseKeyStartDate.toInstant(),
+					licenseKeyExpirationDate.toInstant());
+
+				if (days != 30) {
+					throw new PrincipalException(
+						"Invalid start or expiration date");
+				}
 			}
 
 			boolean validLicenseEntryType = false;

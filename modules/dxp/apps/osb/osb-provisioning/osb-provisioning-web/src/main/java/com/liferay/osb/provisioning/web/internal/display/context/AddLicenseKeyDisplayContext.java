@@ -139,6 +139,7 @@ public class AddLicenseKeyDisplayContext {
 
 		data.put("addLicenseKeyURL", addLicenseKeyURL.toString());
 
+		data.put("allowComplimentary", _isAllowComplimentary());
 		data.put("allowPermanentLicenses", _isAllowPermanentLicenses());
 
 		String productKey = ParamUtil.getString(_renderRequest, "productKey");
@@ -365,6 +366,16 @@ public class AddLicenseKeyDisplayContext {
 		}
 
 		return purchasedProductsJSONObject;
+	}
+
+	private boolean _isAllowComplimentary() {
+		Map<String, String> properties = _account.getProperties();
+
+		if (properties != null) {
+			return GetterUtil.getBoolean(properties.get("allowComplimentary"));
+		}
+
+		return false;
 	}
 
 	private boolean _isAllowPermanentLicenses() {

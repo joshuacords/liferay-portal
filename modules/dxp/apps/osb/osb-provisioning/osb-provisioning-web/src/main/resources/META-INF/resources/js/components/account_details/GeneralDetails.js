@@ -36,6 +36,7 @@ function GeneralDetails({
 	const {updatePermission} = usePermissions();
 
 	const formData = {
+		allowComplimentary: details.allowComplimentary,
 		allowPermanentLicenses: details.allowPermanentLicenses,
 		allowSelfProvisioning: details.allowSelfProvisioning,
 		code: convertDashToEmptyString(details.code),
@@ -161,6 +162,20 @@ function GeneralDetails({
 
 			<DetailField
 				displayAs="toggle"
+				fieldLabel={Liferay.Language.get('complimentary')}
+				fieldName="allowComplimentary"
+				formAction={details.editAccountURL}
+				formData={formData}
+				type={
+					updatePermission
+						? FIELD_TYPE_TOGGLE
+						: FIELD_TYPE_NONEDITABLE
+				}
+				value={details.allowComplimentary}
+			/>
+
+			<DetailField
+				displayAs="toggle"
 				fieldLabel={Liferay.Language.get('permanent-licenses')}
 				fieldName="allowPermanentLicenses"
 				formAction={details.editAccountURL}
@@ -194,6 +209,7 @@ GeneralDetails.propTypes = {
 	assignParentAccountURL: PropTypes.string,
 	dataRegions: PropTypes.arrayOf(PropTypes.string).isRequired,
 	details: PropTypes.shape({
+		allowComplimentary: PropTypes.bool,
 		allowPermanentLicenses: PropTypes.bool,
 		allowSelfProvisioning: PropTypes.bool,
 		code: PropTypes.string,

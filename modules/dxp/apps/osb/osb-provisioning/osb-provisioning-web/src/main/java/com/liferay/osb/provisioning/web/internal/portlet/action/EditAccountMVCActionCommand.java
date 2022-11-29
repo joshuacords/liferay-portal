@@ -207,6 +207,8 @@ public class EditAccountMVCActionCommand extends BaseMVCActionCommand {
 				actionRequest, "dataRegion");
 			String liferayVersion = ParamUtil.getString(
 				actionRequest, "liferayVersion");
+			boolean allowComplimentary = ParamUtil.getBoolean(
+				actionRequest, "allowComplimentary");
 			boolean allowPermanentLicenses = ParamUtil.getBoolean(
 				actionRequest, "allowPermanentLicenses");
 			boolean allowSelfProvisioning = ParamUtil.getBoolean(
@@ -245,6 +247,13 @@ public class EditAccountMVCActionCommand extends BaseMVCActionCommand {
 			}
 			else {
 				properties.remove("liferayVersion");
+			}
+
+			if (allowComplimentary) {
+				properties.put("allowComplimentary", StringPool.TRUE);
+			}
+			else {
+				properties.remove("allowComplimentary");
 			}
 
 			if (!allowPermanentLicenses) {

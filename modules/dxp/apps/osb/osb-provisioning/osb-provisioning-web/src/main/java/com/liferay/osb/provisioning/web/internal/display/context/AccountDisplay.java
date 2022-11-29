@@ -460,6 +460,16 @@ public class AccountDisplay {
 		return false;
 	}
 
+	public boolean isAllowComplimentary() {
+		Map<String, String> properties = _account.getProperties();
+
+		if (properties != null) {
+			return GetterUtil.getBoolean(properties.get("allowComplimentary"));
+		}
+
+		return false;
+	}
+
 	public boolean isAllowPermanentLicenses() {
 		Map<String, String> properties = _account.getProperties();
 

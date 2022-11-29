@@ -22,6 +22,7 @@ function renderGeneralDetails(permission = true) {
 			<GeneralDetails
 				dataRegions={['Brazil', 'Hungary', 'Japan', 'United States']}
 				details={{
+					allowComplimentary: false,
 					allowPermanentLicenses: true,
 					allowSelfProvisioning: false,
 					code: '123',
@@ -108,6 +109,13 @@ describe('GeneralDetails', () => {
 
 		getByText('liferay-version');
 		getByText('DXP 7.0');
+	});
+
+	it('shows Complimentary field', () => {
+		const {getByLabelText, getByText} = renderGeneralDetails();
+
+		getByText('complimentary');
+		expect(getByLabelText('allowComplimentary').checked).toBeFalsy();
 	});
 
 	it('shows Permanent Licenses field', () => {
