@@ -24,6 +24,10 @@
 		<finder name="ContactUuid" return-type="Collection">
 			<finder-column name="contactUuid" />
 		</finder>
+		<finder name="C_C" return-type="Collection">
+			<finder-column name="classNameId" />
+			<finder-column name="classPK" />
+		</finder>
 		<finder name="C_C_CU" return-type="SubscriptionEntry">
 			<finder-column name="classNameId" />
 			<finder-column name="classPK" />

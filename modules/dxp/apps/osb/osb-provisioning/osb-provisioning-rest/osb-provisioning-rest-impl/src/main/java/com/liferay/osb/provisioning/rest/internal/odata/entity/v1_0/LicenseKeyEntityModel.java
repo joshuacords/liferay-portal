@@ -61,7 +61,11 @@ public class LicenseKeyEntityModel implements EntityModel {
 			new StringEntityField("productVersion", locale -> "productVersion"),
 			new StringEntityField("sizing", locale -> "sizing"),
 			new DateTimeEntityField(
-				"startDate", locale -> "startDate", locale -> "startDate")
+				"startDate", locale -> "startDate", locale -> "startDate"),
+			new CollectionEntityField(
+				new StringEntityField(
+					"subscriptionContactUuids",
+					locale -> "subscriptionContactUuids"))
 		).collect(
 			Collectors.toMap(EntityField::getName, Function.identity())
 		);

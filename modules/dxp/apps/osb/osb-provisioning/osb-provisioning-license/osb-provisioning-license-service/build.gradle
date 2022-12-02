@@ -27,4 +27,5 @@ dependencies {
 	compileOnly project(":dxp:apps:osb:osb-provisioning:osb-provisioning-license:osb-provisioning-license-api")
 	compileOnly project(":dxp:apps:osb:osb-provisioning:osb-provisioning-license:osb-provisioning-license-generator-api")
 	compileOnly project(":dxp:apps:osb:osb-provisioning:osb-provisioning-license:osb-provisioning-license-helper-api")
+	compileOnly project(":dxp:apps:osb:osb-provisioning:osb-provisioning-subscription:osb-provisioning-subscription-api")
 }

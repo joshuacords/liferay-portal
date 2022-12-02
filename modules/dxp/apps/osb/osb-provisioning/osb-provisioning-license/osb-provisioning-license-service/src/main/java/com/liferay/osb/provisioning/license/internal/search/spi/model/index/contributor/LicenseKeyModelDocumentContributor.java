@@ -19,13 +19,20 @@ import com.liferay.osb.provisioning.koroneiki.web.service.AccountWebService;
 import com.liferay.osb.provisioning.license.model.LicenseEntry;
 import com.liferay.osb.provisioning.license.model.LicenseKey;
 import com.liferay.osb.provisioning.license.service.LicenseEntryLocalService;
-import com.liferay.osb.provisioning.license.service.LicenseKeyLocalService;
+import com.liferay.osb.provisioning.subscription.model.SubscriptionEntry;
+import com.liferay.osb.provisioning.subscription.service.SubscriptionEntryLocalService;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.service.ClassNameLocalService;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.search.spi.model.index.contributor.ModelDocumentContributor;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -115,6 +122,29 @@ public class LicenseKeyModelDocumentContributor
 		document.addDateSortable(
 			Field.MODIFIED_DATE, licenseKey.getModifiedDate());
 		document.addTextSortable("productName", licenseKey.getProductName());
+
+		_contributeSubscriptions(document, licenseKey.getLicenseKeyId());
+	}
+
+	private void _contributeSubscriptions(
+		Document document, long licenseKeyId) {
+
+		Set<String> subscriptionContactUuids = new HashSet<>();
+
+		long classNameId = _classNameLocalService.getClassNameId(
+			LicenseKey.class.getName());
+
+		List<SubscriptionEntry> subscriptionEntries =
+			_subscriptionEntryLocalService.getSubscriptionEntries(
+				classNameId, licenseKeyId);
+
+		for (SubscriptionEntry subscriptionEntry : subscriptionEntries) {
+			subscriptionContactUuids.add(subscriptionEntry.getContactUuid());
+		}
+
+		document.addKeyword(
+			"subscriptionContactUuids",
+			ArrayUtil.toStringArray(subscriptionContactUuids.toArray()));
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
@@ -124,9 +154,12 @@ public class LicenseKeyModelDocumentContributor
 	private AccountWebService _accountWebService;
 
 	@Reference
+	private ClassNameLocalService _classNameLocalService;
+
+	@Reference
 	private LicenseEntryLocalService _licenseEntryLocalService;
 
 	@Reference
-	private LicenseKeyLocalService _licenseKeyLocalService;
+	private SubscriptionEntryLocalService _subscriptionEntryLocalService;
 
 }
