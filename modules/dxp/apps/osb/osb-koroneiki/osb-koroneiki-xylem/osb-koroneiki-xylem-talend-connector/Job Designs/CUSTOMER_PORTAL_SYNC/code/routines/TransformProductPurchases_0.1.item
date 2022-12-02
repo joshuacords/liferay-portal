@@ -185,7 +185,7 @@ public class TransformProductPurchases {
 	}
 
 	public static JSONArray getSubscriptionGroupsJSONArray(
-			String productPurchases)
+			String externalLinks, String productPurchases)
 		throws Exception {
 
 		Map<String, List<JSONObject>> subscriptionGroupsMap = new HashMap<>();
@@ -238,7 +238,8 @@ public class TransformProductPurchases {
 			}
 
 			SubscriptionGroup subscriptionGroup = new SubscriptionGroup(
-				subscriptionGroupName, productPurchaseJSONObjects);
+				subscriptionGroupName, productPurchaseJSONObjects,
+				externalLinks);
 
 			subscriptionGroupsJSONArray.put(subscriptionGroup.toJSONObject());
 		}
@@ -446,10 +447,25 @@ public class TransformProductPurchases {
 	private static class SubscriptionGroup {
 
 		public SubscriptionGroup(
-				String name, List<JSONObject> productPurchaseJSONObjects)
+				String name, List<JSONObject> productPurchaseJSONObjects,
+				String externalLinks)
 			throws Exception {
 
 			this.name = name;
+
+			if (name.equals(SubscriptionConstants.GROUP_NAME_ANALYTICS_CLOUD)) {
+				this.manageContactsURL =
+					"https://analytics.liferay.com/workspace/" +
+						TransformAccount.getACWorkspaceGroupId(externalLinks) +
+							"/sites";
+			}
+			else if (name.equals(
+						SubscriptionConstants.
+							GROUP_NAME_LIFERAY_EXPERIENCE_CLOUD) ||
+					 name.equals(SubscriptionConstants.GROUP_NAME_LXC_SM)) {
+
+				this.manageContactsURL = "https://console.liferay.cloud";
+			}
 
 			for (JSONObject jsonObject : productPurchaseJSONObjects) {
 				if (accountKey == null) {
@@ -516,6 +532,7 @@ public class TransformProductPurchases {
 				jsonObject.put("hasActivation", false);
 			}
 
+			jsonObject.put("manageContactsURL", manageContactsURL);
 			jsonObject.put("menuOrder", _getMenuOrder());
 			jsonObject.put("name", name);
 			jsonObject.put("subscriptions", getSubscriptionJSONArray());
@@ -526,6 +543,7 @@ public class TransformProductPurchases {
 
 		public String accountKey;
 		public String externalReferenceCode;
+		public String manageContactsURL;
 		public String name;
 		public Map<String, Subscription> subscriptionsMap = new HashMap<>();
 
