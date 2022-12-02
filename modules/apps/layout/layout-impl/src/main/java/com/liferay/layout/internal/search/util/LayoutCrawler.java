@@ -23,11 +23,13 @@ import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.CookieKeys;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.util.HttpImpl;
 
 import java.net.InetAddress;
 
@@ -39,6 +41,7 @@ import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.client.utils.URIBuilder;
@@ -65,9 +68,22 @@ public class LayoutCrawler {
 				return StringPool.BLANK;
 			}
 
+			RequestConfig.Builder requestConfigBuilder = RequestConfig.custom();
+
+			RequestConfig requestConfig =
+				requestConfigBuilder.setConnectTimeout(
+					_TIMEOUT
+				).setConnectionRequestTimeout(
+					_TIMEOUT
+				).setSocketTimeout(
+					_TIMEOUT
+				).build();
+
 			HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
 
-			HttpClient httpClient = httpClientBuilder.setUserAgent(
+			HttpClient httpClient = httpClientBuilder.setDefaultRequestConfig(
+				requestConfig
+			).setUserAgent(
 				_USER_AGENT
 			).build();
 
@@ -146,6 +162,11 @@ public class LayoutCrawler {
 
 		return false;
 	}
+
+	private static final int _TIMEOUT = GetterUtil.getInteger(
+		com.liferay.portal.util.PropsUtil.get(
+			HttpImpl.class.getName() + ".timeout"),
+		5000);
 
 	private static final String _USER_AGENT = "Liferay Page Crawler";
 
