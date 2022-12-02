@@ -297,6 +297,15 @@ public class SubscriptionEntryLocalServiceWrapper
 	@Override
 	public java.util.List
 		<com.liferay.osb.provisioning.subscription.model.SubscriptionEntry>
+			getSubscriptionEntries(long classNameId, long classPK) {
+
+		return _subscriptionEntryLocalService.getSubscriptionEntries(
+			classNameId, classPK);
+	}
+
+	@Override
+	public java.util.List
+		<com.liferay.osb.provisioning.subscription.model.SubscriptionEntry>
 			getSubscriptionEntries(String contactUuid) {
 
 		return _subscriptionEntryLocalService.getSubscriptionEntries(

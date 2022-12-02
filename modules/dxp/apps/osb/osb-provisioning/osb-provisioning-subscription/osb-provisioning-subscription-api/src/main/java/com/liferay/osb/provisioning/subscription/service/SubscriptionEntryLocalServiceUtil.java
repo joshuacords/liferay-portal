@@ -263,6 +263,12 @@ public class SubscriptionEntryLocalServiceUtil {
 	}
 
 	public static List<SubscriptionEntry> getSubscriptionEntries(
+		long classNameId, long classPK) {
+
+		return getService().getSubscriptionEntries(classNameId, classPK);
+	}
+
+	public static List<SubscriptionEntry> getSubscriptionEntries(
 		String contactUuid) {
 
 		return getService().getSubscriptionEntries(contactUuid);

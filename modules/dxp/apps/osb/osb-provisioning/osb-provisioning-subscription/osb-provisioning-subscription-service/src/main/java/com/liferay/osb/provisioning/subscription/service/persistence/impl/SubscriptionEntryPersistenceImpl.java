@@ -651,6 +651,553 @@ public class SubscriptionEntryPersistenceImpl
 	private static final String _FINDER_COLUMN_CONTACTUUID_CONTACTUUID_3 =
 		"(subscriptionEntry.contactUuid IS NULL OR subscriptionEntry.contactUuid = '')";
 
+	private FinderPath _finderPathWithPaginationFindByC_C;
+	private FinderPath _finderPathWithoutPaginationFindByC_C;
+	private FinderPath _finderPathCountByC_C;
+
+	/**
+	 * Returns all the subscription entries where classNameId = &#63; and classPK = &#63;.
+	 *
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
+	 * @return the matching subscription entries
+	 */
+	@Override
+	public List<SubscriptionEntry> findByC_C(long classNameId, long classPK) {
+		return findByC_C(
+			classNameId, classPK, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the subscription entries where classNameId = &#63; and classPK = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>SubscriptionEntryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
+	 * @param start the lower bound of the range of subscription entries
+	 * @param end the upper bound of the range of subscription entries (not inclusive)
+	 * @return the range of matching subscription entries
+	 */
+	@Override
+	public List<SubscriptionEntry> findByC_C(
+		long classNameId, long classPK, int start, int end) {
+
+		return findByC_C(classNameId, classPK, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the subscription entries where classNameId = &#63; and classPK = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>SubscriptionEntryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
+	 * @param start the lower bound of the range of subscription entries
+	 * @param end the upper bound of the range of subscription entries (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching subscription entries
+	 */
+	@Override
+	public List<SubscriptionEntry> findByC_C(
+		long classNameId, long classPK, int start, int end,
+		OrderByComparator<SubscriptionEntry> orderByComparator) {
+
+		return findByC_C(
+			classNameId, classPK, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the subscription entries where classNameId = &#63; and classPK = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>SubscriptionEntryModelImpl</code>.
+	 * </p>
+	 *
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
+	 * @param start the lower bound of the range of subscription entries
+	 * @param end the upper bound of the range of subscription entries (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching subscription entries
+	 */
+	@Override
+	public List<SubscriptionEntry> findByC_C(
+		long classNameId, long classPK, int start, int end,
+		OrderByComparator<SubscriptionEntry> orderByComparator,
+		boolean useFinderCache) {
+
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+			(orderByComparator == null)) {
+
+			if (useFinderCache) {
+				finderPath = _finderPathWithoutPaginationFindByC_C;
+				finderArgs = new Object[] {classNameId, classPK};
+			}
+		}
+		else if (useFinderCache) {
+			finderPath = _finderPathWithPaginationFindByC_C;
+			finderArgs = new Object[] {
+				classNameId, classPK, start, end, orderByComparator
+			};
+		}
+
+		List<SubscriptionEntry> list = null;
+
+		if (useFinderCache) {
+			list = (List<SubscriptionEntry>)finderCache.getResult(
+				finderPath, finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (SubscriptionEntry subscriptionEntry : list) {
+					if ((classNameId != subscriptionEntry.getClassNameId()) ||
+						(classPK != subscriptionEntry.getClassPK())) {
+
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler sb = null;
+
+			if (orderByComparator != null) {
+				sb = new StringBundler(
+					4 + (orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				sb = new StringBundler(4);
+			}
+
+			sb.append(_SQL_SELECT_SUBSCRIPTIONENTRY_WHERE);
+
+			sb.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+
+			sb.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(
+					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+			}
+			else {
+				sb.append(SubscriptionEntryModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				queryPos.add(classNameId);
+
+				queryPos.add(classPK);
+
+				list = (List<SubscriptionEntry>)QueryUtil.list(
+					query, getDialect(), start, end);
+
+				cacheResult(list);
+
+				if (useFinderCache) {
+					finderCache.putResult(finderPath, finderArgs, list);
+				}
+			}
+			catch (Exception exception) {
+				if (useFinderCache) {
+					finderCache.removeResult(finderPath, finderArgs);
+				}
+
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first subscription entry in the ordered set where classNameId = &#63; and classPK = &#63;.
+	 *
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching subscription entry
+	 * @throws NoSuchSubscriptionEntryException if a matching subscription entry could not be found
+	 */
+	@Override
+	public SubscriptionEntry findByC_C_First(
+			long classNameId, long classPK,
+			OrderByComparator<SubscriptionEntry> orderByComparator)
+		throws NoSuchSubscriptionEntryException {
+
+		SubscriptionEntry subscriptionEntry = fetchByC_C_First(
+			classNameId, classPK, orderByComparator);
+
+		if (subscriptionEntry != null) {
+			return subscriptionEntry;
+		}
+
+		StringBundler sb = new StringBundler(6);
+
+		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		sb.append("classNameId=");
+		sb.append(classNameId);
+
+		sb.append(", classPK=");
+		sb.append(classPK);
+
+		sb.append("}");
+
+		throw new NoSuchSubscriptionEntryException(sb.toString());
+	}
+
+	/**
+	 * Returns the first subscription entry in the ordered set where classNameId = &#63; and classPK = &#63;.
+	 *
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching subscription entry, or <code>null</code> if a matching subscription entry could not be found
+	 */
+	@Override
+	public SubscriptionEntry fetchByC_C_First(
+		long classNameId, long classPK,
+		OrderByComparator<SubscriptionEntry> orderByComparator) {
+
+		List<SubscriptionEntry> list = findByC_C(
+			classNameId, classPK, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last subscription entry in the ordered set where classNameId = &#63; and classPK = &#63;.
+	 *
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching subscription entry
+	 * @throws NoSuchSubscriptionEntryException if a matching subscription entry could not be found
+	 */
+	@Override
+	public SubscriptionEntry findByC_C_Last(
+			long classNameId, long classPK,
+			OrderByComparator<SubscriptionEntry> orderByComparator)
+		throws NoSuchSubscriptionEntryException {
+
+		SubscriptionEntry subscriptionEntry = fetchByC_C_Last(
+			classNameId, classPK, orderByComparator);
+
+		if (subscriptionEntry != null) {
+			return subscriptionEntry;
+		}
+
+		StringBundler sb = new StringBundler(6);
+
+		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		sb.append("classNameId=");
+		sb.append(classNameId);
+
+		sb.append(", classPK=");
+		sb.append(classPK);
+
+		sb.append("}");
+
+		throw new NoSuchSubscriptionEntryException(sb.toString());
+	}
+
+	/**
+	 * Returns the last subscription entry in the ordered set where classNameId = &#63; and classPK = &#63;.
+	 *
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching subscription entry, or <code>null</code> if a matching subscription entry could not be found
+	 */
+	@Override
+	public SubscriptionEntry fetchByC_C_Last(
+		long classNameId, long classPK,
+		OrderByComparator<SubscriptionEntry> orderByComparator) {
+
+		int count = countByC_C(classNameId, classPK);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<SubscriptionEntry> list = findByC_C(
+			classNameId, classPK, count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the subscription entries before and after the current subscription entry in the ordered set where classNameId = &#63; and classPK = &#63;.
+	 *
+	 * @param subscriptionEntryId the primary key of the current subscription entry
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next subscription entry
+	 * @throws NoSuchSubscriptionEntryException if a subscription entry with the primary key could not be found
+	 */
+	@Override
+	public SubscriptionEntry[] findByC_C_PrevAndNext(
+			long subscriptionEntryId, long classNameId, long classPK,
+			OrderByComparator<SubscriptionEntry> orderByComparator)
+		throws NoSuchSubscriptionEntryException {
+
+		SubscriptionEntry subscriptionEntry = findByPrimaryKey(
+			subscriptionEntryId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			SubscriptionEntry[] array = new SubscriptionEntryImpl[3];
+
+			array[0] = getByC_C_PrevAndNext(
+				session, subscriptionEntry, classNameId, classPK,
+				orderByComparator, true);
+
+			array[1] = subscriptionEntry;
+
+			array[2] = getByC_C_PrevAndNext(
+				session, subscriptionEntry, classNameId, classPK,
+				orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected SubscriptionEntry getByC_C_PrevAndNext(
+		Session session, SubscriptionEntry subscriptionEntry, long classNameId,
+		long classPK, OrderByComparator<SubscriptionEntry> orderByComparator,
+		boolean previous) {
+
+		StringBundler sb = null;
+
+		if (orderByComparator != null) {
+			sb = new StringBundler(
+				5 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			sb = new StringBundler(4);
+		}
+
+		sb.append(_SQL_SELECT_SUBSCRIPTIONENTRY_WHERE);
+
+		sb.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+
+		sb.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				sb.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				sb.append(_ORDER_BY_ENTITY_ALIAS);
+				sb.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			sb.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				sb.append(_ORDER_BY_ENTITY_ALIAS);
+				sb.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						sb.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC);
+					}
+					else {
+						sb.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			sb.append(SubscriptionEntryModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = sb.toString();
+
+		Query query = session.createQuery(sql);
+
+		query.setFirstResult(0);
+		query.setMaxResults(2);
+
+		QueryPos queryPos = QueryPos.getInstance(query);
+
+		queryPos.add(classNameId);
+
+		queryPos.add(classPK);
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(
+						subscriptionEntry)) {
+
+				queryPos.add(orderByConditionValue);
+			}
+		}
+
+		List<SubscriptionEntry> list = query.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the subscription entries where classNameId = &#63; and classPK = &#63; from the database.
+	 *
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
+	 */
+	@Override
+	public void removeByC_C(long classNameId, long classPK) {
+		for (SubscriptionEntry subscriptionEntry :
+				findByC_C(
+					classNameId, classPK, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+					null)) {
+
+			remove(subscriptionEntry);
+		}
+	}
+
+	/**
+	 * Returns the number of subscription entries where classNameId = &#63; and classPK = &#63;.
+	 *
+	 * @param classNameId the class name ID
+	 * @param classPK the class pk
+	 * @return the number of matching subscription entries
+	 */
+	@Override
+	public int countByC_C(long classNameId, long classPK) {
+		FinderPath finderPath = _finderPathCountByC_C;
+
+		Object[] finderArgs = new Object[] {classNameId, classPK};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler sb = new StringBundler(3);
+
+			sb.append(_SQL_COUNT_SUBSCRIPTIONENTRY_WHERE);
+
+			sb.append(_FINDER_COLUMN_C_C_CLASSNAMEID_2);
+
+			sb.append(_FINDER_COLUMN_C_C_CLASSPK_2);
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				queryPos.add(classNameId);
+
+				queryPos.add(classPK);
+
+				count = (Long)query.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception exception) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_C_C_CLASSNAMEID_2 =
+		"subscriptionEntry.classNameId = ? AND ";
+
+	private static final String _FINDER_COLUMN_C_C_CLASSPK_2 =
+		"subscriptionEntry.classPK = ?";
+
 	private FinderPath _finderPathFetchByC_C_CU;
 	private FinderPath _finderPathCountByC_C_CU;
 
@@ -1299,6 +1846,15 @@ public class SubscriptionEntryPersistenceImpl
 			finderCache.removeResult(
 				_finderPathWithoutPaginationFindByContactUuid, args);
 
+			args = new Object[] {
+				subscriptionEntryModelImpl.getClassNameId(),
+				subscriptionEntryModelImpl.getClassPK()
+			};
+
+			finderCache.removeResult(_finderPathCountByC_C, args);
+			finderCache.removeResult(
+				_finderPathWithoutPaginationFindByC_C, args);
+
 			finderCache.removeResult(_finderPathCountAll, FINDER_ARGS_EMPTY);
 			finderCache.removeResult(
 				_finderPathWithoutPaginationFindAll, FINDER_ARGS_EMPTY);
@@ -1323,6 +1879,29 @@ public class SubscriptionEntryPersistenceImpl
 				finderCache.removeResult(_finderPathCountByContactUuid, args);
 				finderCache.removeResult(
 					_finderPathWithoutPaginationFindByContactUuid, args);
+			}
+
+			if ((subscriptionEntryModelImpl.getColumnBitmask() &
+				 _finderPathWithoutPaginationFindByC_C.getColumnBitmask()) !=
+					 0) {
+
+				Object[] args = new Object[] {
+					subscriptionEntryModelImpl.getOriginalClassNameId(),
+					subscriptionEntryModelImpl.getOriginalClassPK()
+				};
+
+				finderCache.removeResult(_finderPathCountByC_C, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByC_C, args);
+
+				args = new Object[] {
+					subscriptionEntryModelImpl.getClassNameId(),
+					subscriptionEntryModelImpl.getClassPK()
+				};
+
+				finderCache.removeResult(_finderPathCountByC_C, args);
+				finderCache.removeResult(
+					_finderPathWithoutPaginationFindByC_C, args);
 			}
 		}
 
@@ -1639,6 +2218,27 @@ public class SubscriptionEntryPersistenceImpl
 			entityCacheEnabled, finderCacheEnabled, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByContactUuid",
 			new String[] {String.class.getName()});
+
+		_finderPathWithPaginationFindByC_C = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled, SubscriptionEntryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByC_C",
+			new String[] {
+				Long.class.getName(), Long.class.getName(),
+				Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+
+		_finderPathWithoutPaginationFindByC_C = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled, SubscriptionEntryImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByC_C",
+			new String[] {Long.class.getName(), Long.class.getName()},
+			SubscriptionEntryModelImpl.CLASSNAMEID_COLUMN_BITMASK |
+			SubscriptionEntryModelImpl.CLASSPK_COLUMN_BITMASK);
+
+		_finderPathCountByC_C = new FinderPath(
+			entityCacheEnabled, finderCacheEnabled, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
+			new String[] {Long.class.getName(), Long.class.getName()});
 
 		_finderPathFetchByC_C_CU = new FinderPath(
 			entityCacheEnabled, finderCacheEnabled, SubscriptionEntryImpl.class,
