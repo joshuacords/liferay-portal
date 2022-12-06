@@ -1353,11 +1353,11 @@ public class LicenseKeyResourceImpl
 			}
 
 			Date startDate = productPurchase.getStartDate();
-			Date endDate = productPurchase.getOriginalEndDate();
+			Date originalEndDate = productPurchase.getOriginalEndDate();
 
 			if (!productPurchase.getPerpetual() && !allowPermanentLicenses &&
 				(!startDate.equals(licenseKey.getStartDate()) ||
-				 !endDate.equals(licenseKey.getExpirationDate()))) {
+				 !originalEndDate.equals(licenseKey.getExpirationDate()))) {
 
 				throw new PrincipalException("Invalid start or end date");
 			}
