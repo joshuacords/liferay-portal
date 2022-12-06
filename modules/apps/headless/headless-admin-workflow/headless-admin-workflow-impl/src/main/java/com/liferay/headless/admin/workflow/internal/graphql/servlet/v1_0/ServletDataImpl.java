@@ -16,9 +16,15 @@ package com.liferay.headless.admin.workflow.internal.graphql.servlet.v1_0;
 
 import com.liferay.headless.admin.workflow.internal.graphql.mutation.v1_0.Mutation;
 import com.liferay.headless.admin.workflow.internal.graphql.query.v1_0.Query;
+import com.liferay.headless.admin.workflow.internal.resource.v1_0.WorkflowLogResourceImpl;
+import com.liferay.headless.admin.workflow.internal.resource.v1_0.WorkflowTaskResourceImpl;
 import com.liferay.headless.admin.workflow.resource.v1_0.WorkflowLogResource;
 import com.liferay.headless.admin.workflow.resource.v1_0.WorkflowTaskResource;
+import com.liferay.portal.kernel.util.ObjectValuePair;
 import com.liferay.portal.vulcan.graphql.servlet.ServletData;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Generated;
 
@@ -48,6 +54,10 @@ public class ServletDataImpl implements ServletData {
 			_workflowTaskResourceComponentServiceObjects);
 	}
 
+	public String getApplicationName() {
+		return "Liferay.Headless.Admin.Workflow";
+	}
+
 	@Override
 	public Mutation getMutation() {
 		return new Mutation();
@@ -62,6 +72,73 @@ public class ServletDataImpl implements ServletData {
 	public Query getQuery() {
 		return new Query();
 	}
+
+	public ObjectValuePair<Class<?>, String> getResourceMethodObjectValuePair(
+		String methodName, boolean mutation) {
+
+		if (mutation) {
+			return _resourceMethodObjectValuePairs.get(
+				"mutation#" + methodName);
+		}
+
+		return _resourceMethodObjectValuePairs.get("query#" + methodName);
+	}
+
+	private static final Map<String, ObjectValuePair<Class<?>, String>>
+		_resourceMethodObjectValuePairs =
+			new HashMap<String, ObjectValuePair<Class<?>, String>>() {
+				{
+					put(
+						"mutation#createWorkflowTaskAssignToMe",
+						new ObjectValuePair<>(
+							WorkflowTaskResourceImpl.class,
+							"postWorkflowTaskAssignToMe"));
+					put(
+						"mutation#createWorkflowTaskAssignToUser",
+						new ObjectValuePair<>(
+							WorkflowTaskResourceImpl.class,
+							"postWorkflowTaskAssignToUser"));
+					put(
+						"mutation#createWorkflowTaskChangeTransition",
+						new ObjectValuePair<>(
+							WorkflowTaskResourceImpl.class,
+							"postWorkflowTaskChangeTransition"));
+					put(
+						"mutation#createWorkflowTaskUpdateDueDate",
+						new ObjectValuePair<>(
+							WorkflowTaskResourceImpl.class,
+							"postWorkflowTaskUpdateDueDate"));
+
+					put(
+						"query#workflowLog",
+						new ObjectValuePair<>(
+							WorkflowLogResourceImpl.class, "getWorkflowLog"));
+					put(
+						"query#workflowTaskWorkflowLogs",
+						new ObjectValuePair<>(
+							WorkflowLogResourceImpl.class,
+							"getWorkflowTaskWorkflowLogsPage"));
+					put(
+						"query#roleWorkflowTasks",
+						new ObjectValuePair<>(
+							WorkflowTaskResourceImpl.class,
+							"getRoleWorkflowTasksPage"));
+					put(
+						"query#workflowTasksAssignedToMe",
+						new ObjectValuePair<>(
+							WorkflowTaskResourceImpl.class,
+							"getWorkflowTasksAssignedToMePage"));
+					put(
+						"query#workflowTasksAssignedToMyRoles",
+						new ObjectValuePair<>(
+							WorkflowTaskResourceImpl.class,
+							"getWorkflowTasksAssignedToMyRolesPage"));
+					put(
+						"query#workflowTask",
+						new ObjectValuePair<>(
+							WorkflowTaskResourceImpl.class, "getWorkflowTask"));
+				}
+			};
 
 	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
 	private ComponentServiceObjects<WorkflowTaskResource>

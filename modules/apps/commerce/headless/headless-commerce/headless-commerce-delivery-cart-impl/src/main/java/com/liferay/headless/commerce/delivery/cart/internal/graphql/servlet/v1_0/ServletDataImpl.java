@@ -16,11 +16,19 @@ package com.liferay.headless.commerce.delivery.cart.internal.graphql.servlet.v1_
 
 import com.liferay.headless.commerce.delivery.cart.internal.graphql.mutation.v1_0.Mutation;
 import com.liferay.headless.commerce.delivery.cart.internal.graphql.query.v1_0.Query;
+import com.liferay.headless.commerce.delivery.cart.internal.resource.v1_0.AddressResourceImpl;
+import com.liferay.headless.commerce.delivery.cart.internal.resource.v1_0.CartCommentResourceImpl;
+import com.liferay.headless.commerce.delivery.cart.internal.resource.v1_0.CartItemResourceImpl;
+import com.liferay.headless.commerce.delivery.cart.internal.resource.v1_0.CartResourceImpl;
 import com.liferay.headless.commerce.delivery.cart.resource.v1_0.AddressResource;
 import com.liferay.headless.commerce.delivery.cart.resource.v1_0.CartCommentResource;
 import com.liferay.headless.commerce.delivery.cart.resource.v1_0.CartItemResource;
 import com.liferay.headless.commerce.delivery.cart.resource.v1_0.CartResource;
+import com.liferay.portal.kernel.util.ObjectValuePair;
 import com.liferay.portal.vulcan.graphql.servlet.ServletData;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Generated;
 
@@ -58,6 +66,10 @@ public class ServletDataImpl implements ServletData {
 			_cartItemResourceComponentServiceObjects);
 	}
 
+	public String getApplicationName() {
+		return "Liferay.Headless.Commerce.Delivery.Cart";
+	}
+
 	@Override
 	public Mutation getMutation() {
 		return new Mutation();
@@ -72,6 +84,138 @@ public class ServletDataImpl implements ServletData {
 	public Query getQuery() {
 		return new Query();
 	}
+
+	public ObjectValuePair<Class<?>, String> getResourceMethodObjectValuePair(
+		String methodName, boolean mutation) {
+
+		if (mutation) {
+			return _resourceMethodObjectValuePairs.get(
+				"mutation#" + methodName);
+		}
+
+		return _resourceMethodObjectValuePairs.get("query#" + methodName);
+	}
+
+	private static final Map<String, ObjectValuePair<Class<?>, String>>
+		_resourceMethodObjectValuePairs =
+			new HashMap<String, ObjectValuePair<Class<?>, String>>() {
+				{
+					put(
+						"mutation#deleteCart",
+						new ObjectValuePair<>(
+							CartResourceImpl.class, "deleteCart"));
+					put(
+						"mutation#deleteCartBatch",
+						new ObjectValuePair<>(
+							CartResourceImpl.class, "deleteCartBatch"));
+					put(
+						"mutation#patchCart",
+						new ObjectValuePair<>(
+							CartResourceImpl.class, "patchCart"));
+					put(
+						"mutation#updateCart",
+						new ObjectValuePair<>(
+							CartResourceImpl.class, "putCart"));
+					put(
+						"mutation#updateCartBatch",
+						new ObjectValuePair<>(
+							CartResourceImpl.class, "putCartBatch"));
+					put(
+						"mutation#createCartCouponCode",
+						new ObjectValuePair<>(
+							CartResourceImpl.class, "postCartCouponCode"));
+					put(
+						"mutation#createChannelCart",
+						new ObjectValuePair<>(
+							CartResourceImpl.class, "postChannelCart"));
+					put(
+						"mutation#deleteCartComment",
+						new ObjectValuePair<>(
+							CartCommentResourceImpl.class,
+							"deleteCartComment"));
+					put(
+						"mutation#deleteCartCommentBatch",
+						new ObjectValuePair<>(
+							CartCommentResourceImpl.class,
+							"deleteCartCommentBatch"));
+					put(
+						"mutation#patchCartComment",
+						new ObjectValuePair<>(
+							CartCommentResourceImpl.class, "patchCartComment"));
+					put(
+						"mutation#updateCartComment",
+						new ObjectValuePair<>(
+							CartCommentResourceImpl.class, "putCartComment"));
+					put(
+						"mutation#updateCartCommentBatch",
+						new ObjectValuePair<>(
+							CartCommentResourceImpl.class,
+							"putCartCommentBatch"));
+					put(
+						"mutation#createCartComment",
+						new ObjectValuePair<>(
+							CartCommentResourceImpl.class, "postCartComment"));
+					put(
+						"mutation#deleteCartItem",
+						new ObjectValuePair<>(
+							CartItemResourceImpl.class, "deleteCartItem"));
+					put(
+						"mutation#deleteCartItemBatch",
+						new ObjectValuePair<>(
+							CartItemResourceImpl.class, "deleteCartItemBatch"));
+					put(
+						"mutation#patchCartItem",
+						new ObjectValuePair<>(
+							CartItemResourceImpl.class, "patchCartItem"));
+					put(
+						"mutation#updateCartItem",
+						new ObjectValuePair<>(
+							CartItemResourceImpl.class, "putCartItem"));
+					put(
+						"mutation#updateCartItemBatch",
+						new ObjectValuePair<>(
+							CartItemResourceImpl.class, "putCartItemBatch"));
+					put(
+						"mutation#createCartItem",
+						new ObjectValuePair<>(
+							CartItemResourceImpl.class, "postCartItem"));
+
+					put(
+						"query#cartBillingAddres",
+						new ObjectValuePair<>(
+							AddressResourceImpl.class, "getCartBillingAddres"));
+					put(
+						"query#cartShippingAddres",
+						new ObjectValuePair<>(
+							AddressResourceImpl.class,
+							"getCartShippingAddres"));
+					put(
+						"query#cart",
+						new ObjectValuePair<>(
+							CartResourceImpl.class, "getCart"));
+					put(
+						"query#channelCarts",
+						new ObjectValuePair<>(
+							CartResourceImpl.class, "getChannelCartsPage"));
+					put(
+						"query#cartComment",
+						new ObjectValuePair<>(
+							CartCommentResourceImpl.class, "getCartComment"));
+					put(
+						"query#cartComments",
+						new ObjectValuePair<>(
+							CartCommentResourceImpl.class,
+							"getCartCommentsPage"));
+					put(
+						"query#cartItem",
+						new ObjectValuePair<>(
+							CartItemResourceImpl.class, "getCartItem"));
+					put(
+						"query#cartItems",
+						new ObjectValuePair<>(
+							CartItemResourceImpl.class, "getCartItemsPage"));
+				}
+			};
 
 	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
 	private ComponentServiceObjects<CartResource>
