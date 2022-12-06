@@ -1353,7 +1353,7 @@ public class LicenseKeyResourceImpl
 			}
 
 			Date startDate = productPurchase.getStartDate();
-			Date endDate = productPurchase.getEndDate();
+			Date endDate = productPurchase.getOriginalEndDate();
 
 			if (!productPurchase.getPerpetual() && !allowPermanentLicenses &&
 				(!startDate.equals(licenseKey.getStartDate()) ||
