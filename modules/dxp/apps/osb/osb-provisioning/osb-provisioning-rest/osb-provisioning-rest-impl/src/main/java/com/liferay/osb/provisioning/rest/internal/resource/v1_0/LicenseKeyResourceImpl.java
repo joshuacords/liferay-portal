@@ -582,6 +582,12 @@ public class LicenseKeyResourceImpl
 				maxClusterNodes = licenseKey.getMaxClusterNodes();
 			}
 
+			boolean complimentary = false;
+
+			if (licenseKey.getComplimentary() != null) {
+				complimentary = licenseKey.getComplimentary();
+			}
+
 			com.liferay.osb.provisioning.license.model.LicenseKey
 				curLicenseKey = _licenseKeyLocalService.addLicenseKey(
 					StringBundler.concat(
@@ -594,7 +600,7 @@ public class LicenseKeyResourceImpl
 					description, licenseKey.getHostName(),
 					licenseKey.getIpAddresses(), licenseKey.getMacAddresses(),
 					licenseKey.getStartDate(), licenseKey.getExpirationDate(),
-					licenseKey.getComplimentary(), true);
+					complimentary, true);
 
 			curLicenseKeys.add(LicenseKeyUtil.toLicenseKey(curLicenseKey));
 		}
@@ -1287,7 +1293,9 @@ public class LicenseKeyResourceImpl
 				throw new PrincipalException("Invalid product key");
 			}
 
-			if (licenseKey.getComplimentary()) {
+			if ((licenseKey.getComplimentary() != null) &&
+				licenseKey.getComplimentary()) {
+
 				if (!allowComplimentary) {
 					throw new PrincipalException(
 						"Invalid complimentary permissions");
