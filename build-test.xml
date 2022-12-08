@@ -9199,6 +9199,12 @@ go</echo>
 		</for>
 	</target>
 
+	<target name="deploy-osgi-module-to-specific-bundle">
+		<gradle-execute dir="${project.dir}/${module.base.dir}" forcedcacheenabled="false" task="deploy">
+			<arg value="-Pliferay.home=${liferayHome}" />
+		</gradle-execute>
+	</target>
+
 	<target name="deploy-osgi-modules">
 		<if>
 			<not>
