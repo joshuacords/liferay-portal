@@ -205,21 +205,7 @@ public class LocaleUtil {
 		return StringUtil.equalsIgnoreCase(languageId1, languageId2);
 	}
 
-	private Locale _fromLanguageId(String languageId, boolean validate) {
-		return _fromLanguageId(languageId, validate, true);
-	}
-
-	private Locale _fromLanguageId(
-		String languageId, boolean validate, boolean useDefault) {
-
-		if (languageId == null) {
-			if (useDefault) {
-				return _getDefault();
-			}
-
-			return null;
-		}
-
+	private Locale _fromLanguageId(String languageId) {
 		Locale locale = _locales.get(languageId);
 
 		if (locale != null) {
@@ -237,49 +223,64 @@ public class LocaleUtil {
 				languageId, CharPool.MINUS, CharPool.UNDERLINE);
 		}
 
-		try {
-			int pos = languageId.indexOf(CharPool.UNDERLINE);
+		int pos = languageId.indexOf(CharPool.UNDERLINE);
 
-			if (pos == -1) {
-				locale = new Locale(languageId);
+		if (pos == -1) {
+			locale = new Locale(languageId);
+		}
+		else {
+			String[] languageIdParts = StringUtil.split(
+				languageId, CharPool.UNDERLINE);
+
+			String languageCode = languageIdParts[0];
+			String countryCode = languageIdParts[1];
+
+			String variant = null;
+
+			if (languageIdParts.length > 2) {
+				variant = languageIdParts[2];
+			}
+
+			if (Validator.isNotNull(variant)) {
+				locale = new Locale(languageCode, countryCode, variant);
 			}
 			else {
-				String[] languageIdParts = StringUtil.split(
-					languageId, CharPool.UNDERLINE);
-
-				String languageCode = languageIdParts[0];
-				String countryCode = languageIdParts[1];
-
-				String variant = null;
-
-				if (languageIdParts.length > 2) {
-					variant = languageIdParts[2];
-				}
-
-				if (Validator.isNotNull(variant)) {
-					locale = new Locale(languageCode, countryCode, variant);
-				}
-				else {
-					locale = new Locale(languageCode, countryCode);
-				}
+				locale = new Locale(languageCode, countryCode);
 			}
-
-			if (validate && !LanguageUtil.isAvailableLocale(locale)) {
-				throw new IllegalArgumentException("Invalid locale " + locale);
-			}
-
-			_locales.put(languageId, locale);
 		}
-		catch (Exception exception) {
-			locale = null;
 
+		_locales.put(languageId, locale);
+
+		return locale;
+	}
+
+	private Locale _fromLanguageId(String languageId, boolean validate) {
+		return _fromLanguageId(languageId, validate, true);
+	}
+
+	private Locale _fromLanguageId(
+		String languageId, boolean validate, boolean useDefault) {
+
+		if (languageId == null) {
+			if (useDefault) {
+				return _getDefault();
+			}
+
+			return null;
+		}
+
+		Locale locale = _fromLanguageId(languageId);
+
+		if (validate && !LanguageUtil.isAvailableLocale(locale)) {
 			if (_log.isWarnEnabled()) {
 				_log.warn(languageId + " is not a valid language id");
 			}
-		}
 
-		if ((locale == null) && useDefault) {
-			locale = _locale;
+			if (useDefault) {
+				return _locale;
+			}
+
+			return null;
 		}
 
 		return locale;
