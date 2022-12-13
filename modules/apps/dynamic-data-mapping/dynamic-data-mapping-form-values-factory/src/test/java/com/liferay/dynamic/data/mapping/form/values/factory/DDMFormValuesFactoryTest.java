@@ -52,6 +52,7 @@ import org.junit.runner.RunWith;
 
 import org.mockito.Matchers;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -1089,8 +1090,6 @@ public class DDMFormValuesFactoryTest extends PowerMockito {
 			"es_ES"
 		);
 
-		_whenLanguageIsAvailableLocale("en_US");
-		_whenLanguageIsAvailableLocale("pt_BR");
 		_whenLanguageIsAvailableLocale(LocaleUtil.US);
 		_whenLanguageIsAvailableLocale(LocaleUtil.BRAZIL);
 
@@ -1141,15 +1140,14 @@ public class DDMFormValuesFactoryTest extends PowerMockito {
 
 	private void _whenLanguageIsAvailableLocale(Locale locale) {
 		when(
-			_language.isAvailableLocale(Matchers.eq(locale))
+			_language.isAvailableLocale(Mockito.eq(locale))
 		).thenReturn(
 			true
 		);
-	}
 
-	private void _whenLanguageIsAvailableLocale(String languageId) {
 		when(
-			_language.isAvailableLocale(Matchers.eq(languageId))
+			_language.isAvailableLocale(
+				Mockito.eq(LocaleUtil.toLanguageId(locale)))
 		).thenReturn(
 			true
 		);
