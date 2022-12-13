@@ -87,6 +87,9 @@ public class PortletConfigurationPermissionsDisplayContext {
 		_httpServletRequest = httpServletRequest;
 		_renderRequest = renderRequest;
 
+		_themeDisplay = (ThemeDisplay)_httpServletRequest.getAttribute(
+			WebKeys.THEME_DISPLAY);
+
 		long groupId = _getResourceGroupId();
 
 		Group group = GroupLocalServiceUtil.getGroup(groupId);
@@ -105,8 +108,6 @@ public class PortletConfigurationPermissionsDisplayContext {
 		_selLayout = selLayout;
 		_group = group;
 		_groupId = groupId;
-		_themeDisplay = (ThemeDisplay)_httpServletRequest.getAttribute(
-			WebKeys.THEME_DISPLAY);
 	}
 
 	public List<String> getActions() throws PortalException {
