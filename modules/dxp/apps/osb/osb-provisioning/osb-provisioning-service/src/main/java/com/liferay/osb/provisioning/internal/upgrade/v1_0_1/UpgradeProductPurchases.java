@@ -90,7 +90,9 @@ public class UpgradeProductPurchases extends UpgradeProcess {
 		ProductPurchase[] productPurchases = account.getProductPurchases();
 
 		for (ProductPurchase curProductPurchase : productPurchases) {
-			if (now.after(curProductPurchase.getEndDate())) {
+			if ((curProductPurchase.getEndDate() != null) &&
+				now.after(curProductPurchase.getEndDate())) {
+
 				continue;
 			}
 
