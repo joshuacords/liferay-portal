@@ -173,7 +173,9 @@ public class AssignAccountContactRolesMVCActionCommand
 				account);
 
 			if (subscriptionState.equals(
-					ProductPurchaseConstants.STATE_ACTIVE)) {
+					ProductPurchaseConstants.STATE_ACTIVE) ||
+				subscriptionState.equals(
+					ProductPurchaseConstants.STATE_UNACTIVATED)) {
 
 				_contactIdentityProvider.createContact(
 					emailAddress, firstName, StringPool.BLANK, lastName);
