@@ -1610,7 +1610,10 @@ public class LDAPUserImporterImpl implements LDAPUserImporter, UserImporter {
 			serviceContext.setModifiedDate(modifiedDate);
 		}
 
-		_userLocalService.updateEmailAddressVerified(user.getUserId(), true);
+		if (isNew) {
+			_userLocalService.updateEmailAddressVerified(
+				user.getUserId(), true);
+		}
 
 		user = _userLocalService.updateUser(
 			user.getUserId(), password, StringPool.BLANK, StringPool.BLANK,
