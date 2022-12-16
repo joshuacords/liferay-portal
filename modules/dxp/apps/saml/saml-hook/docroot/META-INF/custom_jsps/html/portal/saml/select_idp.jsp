@@ -39,7 +39,7 @@ JSONArray relevantIdpConnectionsJSONArray = samlSsoLoginContext.getJSONArray("re
 			<aui:input name="idpEntityId" type="hidden" value='<%= HtmlUtil.escapeAttribute(relevantIdpConnectionJSONObject.getString("entityId")) %>' />
 
 			<aui:script sandbox="<%= true %>">
-				window.addEventListener("load", (event) => {
+				window.addEventListener("load", function(event) {
 					window.fm.submit();
 				});
 			</aui:script>
