@@ -4,5 +4,6 @@
 	<source-check>
 		<suppress checks="JavaDeprecatedJavadocCheck" files=".*" />
 		<suppress checks="StringMethodsCheck" files="portal-tools-data-partitioning-sql-builder-postgresql/.*" />
+		<suppress checks="XMLServiceFileCheck" files="portal-tools-service-builder-test-service/service\.xml" />
 	</source-check>
 </suppressions>
