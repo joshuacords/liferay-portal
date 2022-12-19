@@ -1602,7 +1602,7 @@ public class SyncDLObjectServiceImpl extends SyncDLObjectServiceBaseImpl {
 		if (innerParameters != null) {
 			for (Map.Entry<String, Object> innerParameter : innerParameters) {
 				try {
-					BeanUtil.setProperty(
+					BeanUtil.pojo.setProperty(
 						serviceContext, innerParameter.getKey(),
 						innerParameter.getValue());
 				}
