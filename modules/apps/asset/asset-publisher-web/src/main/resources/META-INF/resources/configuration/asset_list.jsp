@@ -39,7 +39,7 @@ AssetListEntry assetListEntry = assetPublisherDisplayContext.fetchAssetListEntry
 	<aui:button name="clearAssetListButton" value="clear" />
 </div>
 
-<script>
+<aui:script sandbox="<%= true %>">
 	var assetListEntryId = document.getElementById(
 		'<portlet:namespace />assetListEntryId'
 	);
@@ -94,4 +94,4 @@ AssetListEntry assetListEntry = assetPublisherDisplayContext.fetchAssetListEntry
 			assetListEntryId.value = '';
 		});
 	}
-</script>
+</aui:script>
