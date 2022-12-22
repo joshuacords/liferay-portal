@@ -94,7 +94,9 @@ public class ViewAccountContactsDisplayContext
 				account);
 
 			if (subscriptionState.equals(
-					ProductPurchaseConstants.STATE_ACTIVE)) {
+					ProductPurchaseConstants.STATE_ACTIVE) ||
+				subscriptionState.equals(
+					ProductPurchaseConstants.STATE_UNACTIVATED)) {
 
 				data.put("newContact", true);
 			}
