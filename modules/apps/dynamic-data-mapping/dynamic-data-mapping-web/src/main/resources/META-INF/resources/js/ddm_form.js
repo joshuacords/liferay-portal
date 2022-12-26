@@ -577,8 +577,8 @@ AUI.add(
 
 					instance.syncLabel(displayLocale);
 					instance.syncTranslatedLabelsUI(currentLocale);
-					instance.syncValueUI();
 					instance.syncReadOnlyUI();
+					instance.syncValueUI();
 				},
 
 				_removeFieldValidation(field) {
