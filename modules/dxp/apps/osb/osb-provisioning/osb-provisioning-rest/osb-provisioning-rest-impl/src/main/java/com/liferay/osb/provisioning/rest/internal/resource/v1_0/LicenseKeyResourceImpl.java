@@ -658,6 +658,8 @@ public class LicenseKeyResourceImpl
 
 			_checkAccountManageLicenseKeysPermission(
 				licenseKey.getAccountKey());
+
+			_checkAccountSelfProvisioningPermission(licenseKey.getAccountKey());
 		}
 
 		Contact contact = ProvisioningContactThreadLocal.getContact();
@@ -684,6 +686,8 @@ public class LicenseKeyResourceImpl
 
 			_checkAccountManageLicenseKeysPermission(
 				licenseKey.getAccountKey());
+
+			_checkAccountSelfProvisioningPermission(licenseKey.getAccountKey());
 		}
 
 		Contact contact = ProvisioningContactThreadLocal.getContact();
