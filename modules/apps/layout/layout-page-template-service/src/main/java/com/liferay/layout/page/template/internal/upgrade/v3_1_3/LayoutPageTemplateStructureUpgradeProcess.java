@@ -16,12 +16,8 @@ package com.liferay.layout.page.template.internal.upgrade.v3_1_3;
 
 import com.liferay.portal.dao.orm.common.SQLTransformer;
 import com.liferay.portal.kernel.dao.jdbc.AutoBatchPreparedStatementUtil;
-import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.model.LayoutConstants;
-import com.liferay.portal.kernel.service.LayoutLocalService;
-import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.upgrade.UpgradeProcess;
-import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -34,10 +30,7 @@ import java.util.List;
  */
 public class LayoutPageTemplateStructureUpgradeProcess extends UpgradeProcess {
 
-	public LayoutPageTemplateStructureUpgradeProcess(
-		LayoutLocalService layoutLocalService) {
-
-		_layoutLocalService = layoutLocalService;
+	public LayoutPageTemplateStructureUpgradeProcess() {
 	}
 
 	@Override
@@ -87,9 +80,9 @@ public class LayoutPageTemplateStructureUpgradeProcess extends UpgradeProcess {
 							"(select plid from Layout where type_ = ?)"));
 			PreparedStatement preparedStatement2 =
 				AutoBatchPreparedStatementUtil.autoBatch(
-					connection,
-					"delete from LayoutPageTemplateStructure where classPK = " +
-						"?");
+					connection.prepareStatement(
+						"delete from LayoutPageTemplateStructure where " +
+							"classPK = ?"));
 			PreparedStatement preparedStatement3 =
 				AutoBatchPreparedStatementUtil.concurrentAutoBatch(
 					connection,
@@ -119,22 +112,6 @@ public class LayoutPageTemplateStructureUpgradeProcess extends UpgradeProcess {
 
 			preparedStatement3.executeBatch();
 		}
-
-		ServiceContext serviceContext = new ServiceContext();
-
-		for (long plid : plids) {
-			Layout layout = _layoutLocalService.fetchLayout(plid);
-
-			if (layout.getStatus() != WorkflowConstants.STATUS_DRAFT) {
-				continue;
-			}
-
-			_layoutLocalService.updateStatus(
-				layout.getUserId(), plid, WorkflowConstants.STATUS_APPROVED,
-				serviceContext);
-		}
 	}
-
-	private final LayoutLocalService _layoutLocalService;
 
 }
