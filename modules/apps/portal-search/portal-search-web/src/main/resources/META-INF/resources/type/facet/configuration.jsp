@@ -44,6 +44,7 @@ TypeFacetPortletPreferences typeFacetPortletPreferences = new com.liferay.portal
 	action="<%= configurationActionURL %>"
 	method="post"
 	name="fm"
+	onSubmit='<%= "event.preventDefault(); " + liferayPortletResponse.getNamespace() + "saveConfiguration();" %>'
 >
 	<aui:input name="<%= Constants.CMD %>" type="hidden" value="<%= Constants.UPDATE %>" />
 	<aui:input name="redirect" type="hidden" value="<%= configurationRenderURL %>" />
@@ -77,21 +78,22 @@ TypeFacetPortletPreferences typeFacetPortletPreferences = new com.liferay.portal
 </liferay-frontend:edit-form>
 
 <script>
-	var form = document.<portlet:namespace />fm;
+	function <portlet:namespace />saveConfiguration() {
+		var form = document.<portlet:namespace />fm;
 
-	var currentAssetTypes = Liferay.Util.getFormElement(form, 'currentAssetTypes');
+		var currentAssetTypes = Liferay.Util.getFormElement(
+			form,
+			'currentAssetTypes'
+		);
 
-	if (currentAssetTypes) {
-		form.addEventListener('submit', function(event) {
-			event.preventDefault();
+		var data = {};
 
-			var data = {};
-
+		if (currentAssetTypes) {
 			data[
 				'<%= PortletPreferencesJspUtil.getInputName(TypeFacetPortletPreferences.PREFERENCE_KEY_ASSET_TYPES) %>'
 			] = Liferay.Util.listSelect(currentAssetTypes);
+		}
 
-			Liferay.Util.postForm(form, {data: data});
-		});
+		Liferay.Util.postForm(form, {data: data});
 	}
 </script>
