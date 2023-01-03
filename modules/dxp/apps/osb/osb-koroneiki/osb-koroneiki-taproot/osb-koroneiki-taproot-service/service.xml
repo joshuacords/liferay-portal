@@ -151,7 +151,7 @@
 		<finder name="ContactKey" return-type="Contact" unique="true">
 			<finder-column name="contactKey" />
 		</finder>
-		<finder name="EmailAddress" return-type="Contact">
+		<finder name="EmailAddress" return-type="Contact" unique="true">
 			<finder-column name="emailAddress" />
 		</finder>
 	</entity>
