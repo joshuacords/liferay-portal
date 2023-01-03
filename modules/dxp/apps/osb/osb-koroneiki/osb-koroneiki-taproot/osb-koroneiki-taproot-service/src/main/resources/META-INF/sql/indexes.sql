@@ -12,7 +12,7 @@ create index IX_965A8949 on Koroneiki_AccountNote (accountNoteKey[$COLUMN_LENGTH
 create index IX_ABD56E69 on Koroneiki_AccountNote (uuid_[$COLUMN_LENGTH:75$], companyId);
 
 create unique index IX_F83C6BA9 on Koroneiki_Contact (contactKey[$COLUMN_LENGTH:75$]);
-create index IX_875E5602 on Koroneiki_Contact (emailAddress[$COLUMN_LENGTH:75$]);
+create unique index IX_875E5602 on Koroneiki_Contact (emailAddress[$COLUMN_LENGTH:75$]);
 create index IX_23B9404A on Koroneiki_Contact (uuid_[$COLUMN_LENGTH:75$], companyId);
 
 create index IX_309F9F1F on Koroneiki_ContactAccountRole (accountId);
