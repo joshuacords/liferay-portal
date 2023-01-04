@@ -132,16 +132,8 @@ path.repo: ${liferay.home}/data/elasticsearch7/repo</echo>
 		<sequential>
 			<echo append="true" file="${elasticsearch.dir}/config/elasticsearch.yml">${line.separator}bootstrap.system_call_filter: false
 cluster.name: LiferayElasticsearchCluster
+ingest.geoip.downloader.enabled: false
 xpack.license.self_generated.type: trial</echo>
-			<if>
-				<not>
-					<isset property="suite.elastic.version" />
-				</not>
-				<then>
-					<echo append="true" file="${elasticsearch.dir}/config/elasticsearch.yml">
-ingest.geoip.downloader.enabled: false</echo>
-				</then>
-			</if>
 
 			<get-browser-property property.name="browser.docker.image" />
 
