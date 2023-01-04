@@ -11196,6 +11196,7 @@ session.cookie.use.full.hostname=true
 			ip.address=${ip.address}
 			liferay.home.dir.name=${liferay.home}
 			logger.resources.url=${test.poshi.logger.resources.url}
+			operating.system.type=${operating.system.type}
 			output.dir.name=${selenium.output.dir.name}
 			product.names=${product.names}
 			project.dir=${project.dir}
