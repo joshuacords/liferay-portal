@@ -15,6 +15,7 @@
 package com.liferay.osb.koroneiki.root.identity.management.internal.provider;
 
 import com.liferay.osb.koroneiki.root.identity.management.provider.ContactIdentityProvider;
+import com.liferay.osb.koroneiki.taproot.exception.ContactEmailAddressException;
 import com.liferay.osb.koroneiki.taproot.exception.NoSuchContactException;
 import com.liferay.osb.koroneiki.taproot.model.Contact;
 import com.liferay.osb.koroneiki.taproot.service.ContactLocalService;
@@ -23,6 +24,8 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactory;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.util.ArrayUtil;
@@ -33,6 +36,8 @@ import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.util.Map;
+
+import org.hibernate.exception.ConstraintViolationException;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -123,13 +128,26 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 
 		JSONObject profileJSONObject = jsonObject.getJSONObject("profile");
 
-		return _contactLocalService.addContact(
-			profileJSONObject.getString("uuid"), _getDefaultUserId(),
-			profileJSONObject.getString("firstName"),
-			profileJSONObject.getString("middleName"),
-			profileJSONObject.getString("lastName"), emailAddress,
-			LocaleUtil.toLanguageId(LocaleUtil.US),
-			_isEmailAddressVerified(jsonObject));
+		try {
+			return _contactLocalService.addContact(
+				profileJSONObject.getString("uuid"), _getDefaultUserId(),
+				profileJSONObject.getString("firstName"),
+				profileJSONObject.getString("middleName"),
+				profileJSONObject.getString("lastName"), emailAddress,
+				LocaleUtil.toLanguageId(LocaleUtil.US),
+				_isEmailAddressVerified(jsonObject));
+		}
+		catch (Exception exception) {
+			if (exception instanceof ConstraintViolationException ||
+				exception instanceof ContactEmailAddressException) {
+
+				return fetchContactByEmailAddress(emailAddress);
+			}
+
+			_log.error(exception, exception);
+		}
+
+		return null;
 	}
 
 	private Contact _importContactByUuid(String uuid) throws Exception {
@@ -151,13 +169,27 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 
 		JSONObject profileJSONObject = jsonObject.getJSONObject("profile");
 
-		return _contactLocalService.addContact(
-			uuid, _getDefaultUserId(), profileJSONObject.getString("firstName"),
-			profileJSONObject.getString("middleName"),
-			profileJSONObject.getString("lastName"),
-			profileJSONObject.getString("email"),
-			LocaleUtil.toLanguageId(LocaleUtil.US),
-			_isEmailAddressVerified(jsonObject));
+		try {
+			return _contactLocalService.addContact(
+				uuid, _getDefaultUserId(),
+				profileJSONObject.getString("firstName"),
+				profileJSONObject.getString("middleName"),
+				profileJSONObject.getString("lastName"),
+				profileJSONObject.getString("email"),
+				LocaleUtil.toLanguageId(LocaleUtil.US),
+				_isEmailAddressVerified(jsonObject));
+		}
+		catch (Exception exception) {
+			if (exception instanceof ConstraintViolationException ||
+				exception instanceof ContactEmailAddressException) {
+
+				return fetchContactByUuid(uuid);
+			}
+
+			_log.error(exception, exception);
+		}
+
+		return null;
 	}
 
 	private boolean _isEmailAddressVerified(JSONObject jsonObject)
@@ -204,6 +236,9 @@ public class OktaContactIdentityProvider implements ContactIdentityProvider {
 	};
 
 	private static final String _URL_API_REST_USERS = "/api/v1/users/";
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		OktaContactIdentityProvider.class);
 
 	private String _apiToken;
 
