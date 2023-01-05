@@ -36,6 +36,8 @@ DLPortletInstanceSettingsHelper dlPortletInstanceSettingsHelper = new DLPortletI
 			<c:when test="<%= fileEntry != null %>">
 
 				<%
+				row.setPrimaryKey(String.valueOf(fileEntry.getFileEntryId()));
+
 				String dataOptions = StringPool.BLANK;
 
 				FileVersion fileVersion = fileEntry.getFileVersion();
@@ -135,6 +137,8 @@ DLPortletInstanceSettingsHelper dlPortletInstanceSettingsHelper = new DLPortletI
 
 				<%
 				row.setCssClass("lfr-asset-folder");
+
+				row.setPrimaryKey(String.valueOf(curFolder.getPrimaryKey()));
 				%>
 
 				<liferay-ui:search-container-column-text>
