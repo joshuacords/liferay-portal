@@ -764,9 +764,9 @@ public class SimilarResultsUidsAndDestinationsTest {
 		return new MessageBoardsSimilarResultsContributor() {
 			{
 				setAssetEntryLocalService(_assetEntryLocalService);
+				setHttpHelper(_httpHelper);
 				setMbCategoryLocalService(_mbCategoryLocalService);
 				setMbMessageLocalService(_mbMessageLocalService);
-				setHttpHelper(_httpHelper);
 			}
 		};
 	}
