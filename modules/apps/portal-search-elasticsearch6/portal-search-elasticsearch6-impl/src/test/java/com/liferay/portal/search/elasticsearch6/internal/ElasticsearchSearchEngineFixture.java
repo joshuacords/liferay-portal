@@ -102,10 +102,10 @@ public class ElasticsearchSearchEngineFixture implements SearchEngineFixture {
 	protected void setUpElasticsearchSearchEngine() {
 		_elasticsearchSearchEngine = new ElasticsearchSearchEngine() {
 			{
-				setIndexFactory(createCompanyIndexFactory());
-				setIndexNameBuilder(String::valueOf);
 				setElasticsearchConnectionManager(
 					_elasticsearchConnectionManager);
+				setIndexFactory(createCompanyIndexFactory());
+				setIndexNameBuilder(String::valueOf);
 				setSearchEngineAdapter(_searchEngineAdapter);
 			}
 		};

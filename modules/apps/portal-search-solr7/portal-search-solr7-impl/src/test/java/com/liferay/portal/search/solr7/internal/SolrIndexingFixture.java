@@ -165,10 +165,10 @@ public class SolrIndexingFixture implements IndexingFixture {
 		return new SolrSearchEngineAdapterFixture() {
 			{
 				setFacetProcessor(facetProcessor);
+				setProperties(properties);
 				setQueryTranslator(createSolrQueryTranslator());
 				setSolrClientManager(solrClientManager);
 				setSolrDocumentFactory(new DefaultSolrDocumentFactory());
-				setProperties(properties);
 			}
 		};
 	}
@@ -210,11 +210,11 @@ public class SolrIndexingFixture implements IndexingFixture {
 				setFacetProcessor(_facetProcessor);
 				setProps(createProps());
 				setQuerySuggester(createSolrQuerySuggester(solrClientManager));
+				setSearchEngineAdapter(searchEngineAdapter);
 				setSearchRequestBuilderFactory(
 					new SearchRequestBuilderFactoryImpl());
 				setSearchResponseBuilderFactory(
 					new SearchResponseBuilderFactoryImpl());
-				setSearchEngineAdapter(searchEngineAdapter);
 
 				activate(_properties);
 			}
