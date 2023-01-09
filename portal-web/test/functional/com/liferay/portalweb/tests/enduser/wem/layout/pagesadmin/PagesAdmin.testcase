@@ -24,6 +24,41 @@ definition {
 		}
 	}
 
+	@description = "This is for LPS-150849."
+	@priority = "5"
+	test ChooseColumnTypeAndViewSelectedIcon {
+		ProductMenu.gotoPortlet(
+			category = "Site Builder",
+			panel = "Site Administration",
+			portlet = "Pages");
+
+		SitePages.addPublicPage(pageName = "Test Page Name");
+
+		SitePages.gotoPageMenuItem(
+			menuItem = "Configure",
+			pageName = "Test Page Name");
+
+		Click(
+			key_columnName = "1 Column",
+			locator1 = "SitePagesEditPage#LAYOUT_CARD");
+
+		var backgroundColorStyle = Css.getPseudoElementCssValue(
+			attribute = "background-color",
+			element = "//div[contains(@class,'card card-horizontal')]",
+			pseudo = "::after");
+
+		echo("background color: ${backgroundColorStyle} ");
+
+		if ("${backgroundColorStyle}" != "rgb(11, 95, 255)") {
+			fail("Select icon is not shown");
+		}
+
+		AssertCssValue(
+			locator1 = "//div[contains(@class,'card card-horizontal')]",
+			locator2 = "background-color",
+			value1 = "rgba(247, 248, 249, 1)");
+	}
+
 	@description = "This is a test for LPS-76825. A user can search for a page from pages admin."
 	@priority = "5"
 	test SearchPages {
