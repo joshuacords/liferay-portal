@@ -33,6 +33,7 @@ import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -183,6 +184,8 @@ public class PasswordPoliciesAdminPortlet extends MVCPortlet {
 
 		String redirect = ParamUtil.getString(actionRequest, "redirect");
 
+		redirect = _portal.escapeRedirect(redirect);
+
 		if (Validator.isNotNull(redirect)) {
 			redirect = _http.setParameter(
 				redirect, actionResponse.getNamespace() + "passwordPolicyId",
@@ -305,6 +308,10 @@ public class PasswordPoliciesAdminPortlet extends MVCPortlet {
 	private volatile PasswordPoliciesConfiguration
 		_passwordPoliciesConfiguration;
 	private PasswordPolicyService _passwordPolicyService;
+
+	@Reference
+	private Portal _portal;
+
 	private UserService _userService;
 
 }
