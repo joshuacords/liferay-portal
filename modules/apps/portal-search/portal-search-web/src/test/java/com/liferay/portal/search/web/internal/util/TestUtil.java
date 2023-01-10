@@ -19,6 +19,7 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.search.facet.collector.TermCollector;
 import com.liferay.portal.search.web.internal.facet.display.context.BucketDisplayContext;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.mockito.Mockito;
@@ -83,6 +84,29 @@ public class TestUtil {
 		).getTerm();
 
 		return termCollector;
+	}
+
+	public static List<TermCollector> getTermCollectors(String... terms) {
+		int[] frequencies = new int[terms.length];
+
+		for (int i = 0; i < terms.length; i++) {
+			frequencies[i] = i + 1;
+		}
+
+		return getTermCollectors(terms, frequencies);
+	}
+
+	public static List<TermCollector> getTermCollectors(
+		String[] terms, int[] frequencies) {
+
+		List<TermCollector> termCollectors = new ArrayList<>();
+
+		for (int i = 0; i < terms.length; i++) {
+			termCollectors.add(
+				createTermCollector(terms[i], frequencies[i]));
+		}
+
+		return termCollectors;
 	}
 
 }

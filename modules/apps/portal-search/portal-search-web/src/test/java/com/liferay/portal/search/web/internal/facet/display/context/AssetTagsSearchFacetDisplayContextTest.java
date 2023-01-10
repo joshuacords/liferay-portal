@@ -28,7 +28,6 @@ import com.liferay.portal.search.web.internal.tag.facet.configuration.TagFacetPo
 import com.liferay.portal.search.web.internal.util.TestUtil;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -185,7 +184,7 @@ public class AssetTagsSearchFacetDisplayContextTest {
 
 	@Test
 	public void testOrderByTermFrequencyAscending() throws Exception {
-		List<TermCollector> termCollectors1 = _getTermCollectors(
+		List<TermCollector> termCollectors1 = TestUtil.getTermCollectors(
 			new String[] {"alpha", "delta", "bravo", "charlie"},
 			new int[] {3, 4, 5, 6});
 
@@ -204,7 +203,7 @@ public class AssetTagsSearchFacetDisplayContextTest {
 			bucketDisplayContexts1.toString(),
 			"alpha:3|delta:4|bravo:5|charlie:6", nameFrequencyString1);
 
-		List<TermCollector> termCollectors2 = _getTermCollectors(
+		List<TermCollector> termCollectors2 = TestUtil.getTermCollectors(
 			new String[] {"alpha", "delta", "bravo", "charlie"},
 			new int[] {4, 5, 5, 6});
 
@@ -226,7 +225,7 @@ public class AssetTagsSearchFacetDisplayContextTest {
 
 	@Test
 	public void testOrderByTermFrequencyDescending() throws Exception {
-		List<TermCollector> termCollectors1 = _getTermCollectors(
+		List<TermCollector> termCollectors1 = TestUtil.getTermCollectors(
 			new String[] {"alpha", "charlie", "bravo", "delta"},
 			new int[] {3, 4, 5, 6});
 
@@ -245,7 +244,7 @@ public class AssetTagsSearchFacetDisplayContextTest {
 			bucketDisplayContexts1.toString(),
 			"delta:6|bravo:5|charlie:4|alpha:3", nameFrequencyString1);
 
-		List<TermCollector> termCollectors2 = _getTermCollectors(
+		List<TermCollector> termCollectors2 = TestUtil.getTermCollectors(
 			new String[] {"alpha", "delta", "bravo", "charlie"},
 			new int[] {4, 5, 5, 6});
 
@@ -267,7 +266,7 @@ public class AssetTagsSearchFacetDisplayContextTest {
 
 	@Test
 	public void testOrderByTermValueAscending() throws Exception {
-		List<TermCollector> termCollectors1 = _getTermCollectors(
+		List<TermCollector> termCollectors1 = TestUtil.getTermCollectors(
 			"bravo", "delta", "alpha", "charlie");
 
 		_setUpMultipleTermCollectors(termCollectors1);
@@ -285,7 +284,7 @@ public class AssetTagsSearchFacetDisplayContextTest {
 			bucketDisplayContexts1.toString(),
 			"alpha:3|bravo:1|charlie:4|delta:2", nameFrequencyString1);
 
-		List<TermCollector> termCollectors2 = _getTermCollectors(
+		List<TermCollector> termCollectors2 = TestUtil.getTermCollectors(
 			"bravo", "alpha", "bravo", "charlie");
 
 		_setUpMultipleTermCollectors(termCollectors2);
@@ -306,7 +305,7 @@ public class AssetTagsSearchFacetDisplayContextTest {
 
 	@Test
 	public void testOrderByTermValueDescending() throws Exception {
-		List<TermCollector> termCollectors1 = _getTermCollectors(
+		List<TermCollector> termCollectors1 = TestUtil.getTermCollectors(
 			"bravo", "delta", "alpha", "charlie");
 
 		_setUpMultipleTermCollectors(termCollectors1);
@@ -324,7 +323,7 @@ public class AssetTagsSearchFacetDisplayContextTest {
 			bucketDisplayContexts1.toString(),
 			"delta:2|charlie:4|bravo:1|alpha:3", nameFrequencyString1);
 
-		List<TermCollector> termCollectors2 = _getTermCollectors(
+		List<TermCollector> termCollectors2 = TestUtil.getTermCollectors(
 			"bravo", "alpha", "bravo", "charlie");
 
 		_setUpMultipleTermCollectors(termCollectors2);
@@ -419,29 +418,6 @@ public class AssetTagsSearchFacetDisplayContextTest {
 		).when(
 			_facetCollector
 		).getTermCollectors();
-	}
-
-	private List<TermCollector> _getTermCollectors(String... terms) {
-		int[] frequencies = new int[terms.length];
-
-		for (int i = 0; i < terms.length; i++) {
-			frequencies[i] = i + 1;
-		}
-
-		return _getTermCollectors(terms, frequencies);
-	}
-
-	private List<TermCollector> _getTermCollectors(
-		String[] terms, int[] frequencies) {
-
-		List<TermCollector> termCollectors = new ArrayList<>();
-
-		for (int i = 1; i <= terms.length; i++) {
-			termCollectors.add(
-				TestUtil.createTermCollector(terms[i - 1], frequencies[i - 1]));
-		}
-
-		return termCollectors;
 	}
 
 	private void _setUpMultipleTermCollectors(

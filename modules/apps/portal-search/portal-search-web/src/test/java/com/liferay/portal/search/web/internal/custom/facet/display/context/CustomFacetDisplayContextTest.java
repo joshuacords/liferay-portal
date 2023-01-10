@@ -27,7 +27,6 @@ import com.liferay.portal.search.web.internal.facet.display.context.BucketDispla
 import com.liferay.portal.search.web.internal.util.TestUtil;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -185,7 +184,7 @@ public class CustomFacetDisplayContextTest {
 	@Test
 	public void testOrderByTermFrequencyAscending() throws Exception {
 		_setUpMultipleTermCollectors(
-			_getTermCollectors(
+			TestUtil.getTermCollectors(
 				new String[] {"alpha", "delta", "bravo", "charlie"},
 				new int[] {4, 5, 5, 6}));
 
@@ -204,7 +203,7 @@ public class CustomFacetDisplayContextTest {
 	@Test
 	public void testOrderByTermFrequencyDescending() throws Exception {
 		_setUpMultipleTermCollectors(
-			_getTermCollectors(
+			TestUtil.getTermCollectors(
 				new String[] {"alpha", "delta", "bravo", "charlie"},
 				new int[] {4, 5, 5, 6}));
 
@@ -223,7 +222,7 @@ public class CustomFacetDisplayContextTest {
 	@Test
 	public void testOrderByTermValueAscending() throws Exception {
 		_setUpMultipleTermCollectors(
-			_getTermCollectors("bravo", "alpha", "bravo", "charlie"));
+			TestUtil.getTermCollectors("bravo", "alpha", "bravo", "charlie"));
 
 		CustomFacetDisplayContext customFacetDisplayContext =
 			_createDisplayContext(
@@ -240,7 +239,7 @@ public class CustomFacetDisplayContextTest {
 	@Test
 	public void testOrderByTermValueDescending() throws Exception {
 		_setUpMultipleTermCollectors(
-			_getTermCollectors("bravo", "alpha", "bravo", "charlie"));
+			TestUtil.getTermCollectors("bravo", "alpha", "bravo", "charlie"));
 
 		CustomFacetDisplayContext customFacetDisplayContext =
 			_createDisplayContext(
@@ -301,29 +300,6 @@ public class CustomFacetDisplayContextTest {
 		);
 
 		return httpServletRequest;
-	}
-
-	private List<TermCollector> _getTermCollectors(String... fieldNames) {
-		int[] frequencies = new int[fieldNames.length];
-
-		for (int i = 0; i < fieldNames.length; i++) {
-			frequencies[i] = i + 1;
-		}
-
-		return _getTermCollectors(fieldNames, frequencies);
-	}
-
-	private List<TermCollector> _getTermCollectors(
-		String[] fieldNames, int[] frequencies) {
-
-		List<TermCollector> termCollectors = new ArrayList<>();
-
-		for (int i = 0; i < fieldNames.length; i++) {
-			termCollectors.add(
-				TestUtil.createTermCollector(fieldNames[i], frequencies[i]));
-		}
-
-		return termCollectors;
 	}
 
 	private ThemeDisplay _getThemeDisplay() {

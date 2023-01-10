@@ -27,7 +27,6 @@ import com.liferay.portal.search.web.internal.user.facet.configuration.UserFacet
 import com.liferay.portal.search.web.internal.util.TestUtil;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -179,7 +178,7 @@ public class UserSearchFacetDisplayContextTest {
 		String[] userNames = {"charlie", "delta", "bravo", "alpha"};
 
 		_setUpMultipleTermCollectors(
-			_getTermCollectors(userNames, new int[] {6, 5, 5, 4}));
+			TestUtil.getTermCollectors(userNames, new int[] {6, 5, 5, 4}));
 
 		UserSearchFacetDisplayContext userSearchFacetDisplayContext =
 			_createDisplayContext(StringPool.BLANK, "count:asc");
@@ -196,7 +195,7 @@ public class UserSearchFacetDisplayContextTest {
 		String[] userNames = {"alpha", "delta", "bravo", "charlie"};
 
 		_setUpMultipleTermCollectors(
-			_getTermCollectors(userNames, new int[] {4, 5, 5, 6}));
+			TestUtil.getTermCollectors(userNames, new int[] {4, 5, 5, 6}));
 
 		UserSearchFacetDisplayContext userSearchFacetDisplayContext =
 			_createDisplayContext(StringPool.BLANK, "count:desc");
@@ -212,7 +211,7 @@ public class UserSearchFacetDisplayContextTest {
 	public void testOrderByTermValueAscending() throws Exception {
 		String[] userNames = {"bravo", "alpha", "bravo", "charlie"};
 
-		_setUpMultipleTermCollectors(_getTermCollectors(userNames));
+		_setUpMultipleTermCollectors(TestUtil.getTermCollectors(userNames));
 
 		UserSearchFacetDisplayContext userSearchFacetDisplayContext =
 			_createDisplayContext(StringPool.BLANK, "key:asc");
@@ -228,7 +227,7 @@ public class UserSearchFacetDisplayContextTest {
 	public void testOrderByTermValueDescending() throws Exception {
 		String[] userNames = {"bravo", "alpha", "bravo", "charlie"};
 
-		_setUpMultipleTermCollectors(_getTermCollectors(userNames));
+		_setUpMultipleTermCollectors(TestUtil.getTermCollectors(userNames));
 
 		UserSearchFacetDisplayContext userSearchFacetDisplayContext =
 			_createDisplayContext(StringPool.BLANK, "key:desc");
@@ -291,29 +290,6 @@ public class UserSearchFacetDisplayContextTest {
 		);
 
 		return renderRequest;
-	}
-
-	private List<TermCollector> _getTermCollectors(String... userNames) {
-		int[] frequencies = new int[userNames.length];
-
-		for (int i = 0; i < userNames.length; i++) {
-			frequencies[i] = i + 1;
-		}
-
-		return _getTermCollectors(userNames, frequencies);
-	}
-
-	private List<TermCollector> _getTermCollectors(
-		String[] userNames, int[] frequencies) {
-
-		List<TermCollector> termCollectors = new ArrayList<>();
-
-		for (int i = 0; i < userNames.length; i++) {
-			termCollectors.add(
-				TestUtil.createTermCollector(userNames[i], frequencies[i]));
-		}
-
-		return termCollectors;
 	}
 
 	private ThemeDisplay _getThemeDisplay() throws Exception {
