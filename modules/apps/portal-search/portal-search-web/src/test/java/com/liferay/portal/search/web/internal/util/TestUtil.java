@@ -16,13 +16,21 @@ package com.liferay.portal.search.web.internal.util;
 
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.search.facet.collector.FacetCollector;
 import com.liferay.portal.kernel.search.facet.collector.TermCollector;
+import com.liferay.portal.kernel.theme.PortletDisplay;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.search.web.internal.facet.display.context.BucketDisplayContext;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import javax.portlet.RenderRequest;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.mockito.Mockito;
 
@@ -88,6 +96,55 @@ public class TestUtil {
 		return termCollector;
 	}
 
+	public static HttpServletRequest getHttpServletRequest() {
+		HttpServletRequest httpServletRequest = Mockito.mock(
+			HttpServletRequest.class);
+
+		Mockito.doReturn(
+			getThemeDisplay()
+		).when(
+			httpServletRequest
+		).getAttribute(
+			WebKeys.THEME_DISPLAY
+		);
+
+		return httpServletRequest;
+	}
+
+	public static PortletDisplay getPortletDisplay(
+			Class<?> facetPortletConfiguration)
+		throws ConfigurationException {
+
+		PortletDisplay portletDisplay = Mockito.mock(PortletDisplay.class);
+
+		Mockito.doReturn(
+			Mockito.mock(facetPortletConfiguration)
+		).when(
+			portletDisplay
+		).getPortletInstanceConfiguration(
+			Mockito.any()
+		);
+
+		return portletDisplay;
+	}
+
+	public static RenderRequest getRenderRequest(
+			Class<?> facetPortletConfiguration)
+		throws ConfigurationException {
+
+		RenderRequest renderRequest = Mockito.mock(RenderRequest.class);
+
+		Mockito.doReturn(
+			getThemeDisplay(facetPortletConfiguration)
+		).when(
+			renderRequest
+		).getAttribute(
+			WebKeys.THEME_DISPLAY
+		);
+
+		return renderRequest;
+	}
+
 	public static List<TermCollector> getTermCollectors(String... terms) {
 		int[] frequencies = new int[terms.length];
 
@@ -109,6 +166,33 @@ public class TestUtil {
 		}
 
 		return termCollectors;
+	}
+
+	public static ThemeDisplay getThemeDisplay() {
+		ThemeDisplay themeDisplay = Mockito.mock(ThemeDisplay.class);
+
+		Mockito.doReturn(
+			Mockito.mock(PortletDisplay.class)
+		).when(
+			themeDisplay
+		).getPortletDisplay();
+
+		return themeDisplay;
+	}
+
+	public static ThemeDisplay getThemeDisplay(
+			Class<?> facetPortletConfiguration)
+		throws ConfigurationException {
+
+		ThemeDisplay themeDisplay = Mockito.mock(ThemeDisplay.class);
+
+		Mockito.doReturn(
+			getPortletDisplay(facetPortletConfiguration)
+		).when(
+			themeDisplay
+		).getPortletDisplay();
+
+		return themeDisplay;
 	}
 
 	public static void setUpMultipleTermCollectors(
