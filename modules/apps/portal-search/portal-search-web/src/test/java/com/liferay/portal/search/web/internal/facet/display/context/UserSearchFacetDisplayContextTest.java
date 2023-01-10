@@ -27,7 +27,6 @@ import com.liferay.portal.search.web.internal.user.facet.configuration.UserFacet
 import com.liferay.portal.search.web.internal.util.TestUtil;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
 
-import java.util.Collections;
 import java.util.List;
 
 import javax.portlet.RenderRequest;
@@ -113,7 +112,7 @@ public class UserSearchFacetDisplayContextTest {
 
 		int count = RandomTestUtil.randomInt();
 
-		_setUpOneTermCollector(userName, count);
+		TestUtil.setUpOneTermCollector(_facetCollector, userName, count);
 
 		String paramValue = "";
 
@@ -146,7 +145,7 @@ public class UserSearchFacetDisplayContextTest {
 
 		int count = RandomTestUtil.randomInt();
 
-		_setUpOneTermCollector(userName, count);
+		TestUtil.setUpOneTermCollector(_facetCollector, userName, count);
 
 		String paramValue = userName;
 
@@ -309,15 +308,6 @@ public class UserSearchFacetDisplayContextTest {
 
 		Mockito.doReturn(
 			termCollectors
-		).when(
-			_facetCollector
-		).getTermCollectors();
-	}
-
-	private void _setUpOneTermCollector(String userName, int count) {
-		Mockito.doReturn(
-			Collections.singletonList(
-				TestUtil.createTermCollector(userName, count))
 		).when(
 			_facetCollector
 		).getTermCollectors();

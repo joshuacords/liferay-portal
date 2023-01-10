@@ -30,7 +30,6 @@ import com.liferay.portal.search.web.internal.site.facet.configuration.SiteFacet
 import com.liferay.portal.search.web.internal.util.TestUtil;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -125,7 +124,7 @@ public class ScopeSearchFacetDisplayContextTest {
 
 		int count = RandomTestUtil.randomInt();
 
-		setUpOneTermCollector(groupId, count);
+		TestUtil.setUpOneTermCollector(_facetCollector, groupId, count);
 
 		String parameterValue = "0";
 
@@ -163,7 +162,7 @@ public class ScopeSearchFacetDisplayContextTest {
 
 		int count = RandomTestUtil.randomInt();
 
-		setUpOneTermCollector(groupId, count);
+		TestUtil.setUpOneTermCollector(_facetCollector, groupId, count);
 
 		String parameterValue = String.valueOf(groupId);
 
@@ -435,15 +434,6 @@ public class ScopeSearchFacetDisplayContextTest {
 		).getPortletDisplay();
 
 		return themeDisplay;
-	}
-
-	protected void setUpOneTermCollector(long groupId, int count) {
-		Mockito.doReturn(
-			Collections.singletonList(
-				TestUtil.createTermCollector(groupId, count))
-		).when(
-			_facetCollector
-		).getTermCollectors();
 	}
 
 	private void _addGroup(long groupId, String name) throws Exception {

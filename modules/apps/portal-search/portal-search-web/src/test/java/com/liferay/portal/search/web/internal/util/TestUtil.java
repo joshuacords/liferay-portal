@@ -16,10 +16,12 @@ package com.liferay.portal.search.web.internal.util;
 
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.search.facet.collector.FacetCollector;
 import com.liferay.portal.kernel.search.facet.collector.TermCollector;
 import com.liferay.portal.search.web.internal.facet.display.context.BucketDisplayContext;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.mockito.Mockito;
@@ -107,6 +109,26 @@ public class TestUtil {
 		}
 
 		return termCollectors;
+	}
+
+	public static void setUpOneTermCollector(
+		FacetCollector facetCollector, long id, int count) {
+
+		Mockito.doReturn(
+			Collections.singletonList(createTermCollector(id, count))
+		).when(
+			facetCollector
+		).getTermCollectors();
+	}
+
+	public static void setUpOneTermCollector(
+		FacetCollector facetCollector, String term, int frequency) {
+
+		Mockito.doReturn(
+			Collections.singletonList(createTermCollector(term, frequency))
+		).when(
+			facetCollector
+		).getTermCollectors();
 	}
 
 }

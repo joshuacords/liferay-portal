@@ -28,7 +28,6 @@ import com.liferay.portal.search.web.internal.tag.facet.configuration.TagFacetPo
 import com.liferay.portal.search.web.internal.util.TestUtil;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
 
-import java.util.Collections;
 import java.util.List;
 
 import javax.portlet.RenderRequest;
@@ -117,7 +116,7 @@ public class AssetTagsSearchFacetDisplayContextTest {
 		String term = RandomTestUtil.randomString();
 		int frequency = RandomTestUtil.randomInt();
 
-		setUpOneTermCollector(term, frequency);
+		TestUtil.setUpOneTermCollector(_facetCollector, term, frequency);
 
 		String facetParam = StringPool.BLANK;
 
@@ -152,7 +151,7 @@ public class AssetTagsSearchFacetDisplayContextTest {
 		String term = RandomTestUtil.randomString();
 		int frequency = RandomTestUtil.randomInt();
 
-		setUpOneTermCollector(term, frequency);
+		TestUtil.setUpOneTermCollector(_facetCollector, term, frequency);
 
 		String facetParam = term;
 
@@ -409,15 +408,6 @@ public class AssetTagsSearchFacetDisplayContextTest {
 		).getPortletDisplay();
 
 		return themeDisplay;
-	}
-
-	protected void setUpOneTermCollector(String facetParam, int frequency) {
-		Mockito.doReturn(
-			Collections.singletonList(
-				TestUtil.createTermCollector(facetParam, frequency))
-		).when(
-			_facetCollector
-		).getTermCollectors();
 	}
 
 	private void _setUpMultipleTermCollectors(

@@ -158,7 +158,7 @@ public class FolderSearchFacetDisplayContextTest {
 
 		int count = RandomTestUtil.randomInt();
 
-		setUpOneTermCollector(folderId, count);
+		TestUtil.setUpOneTermCollector(_facetCollector, folderId, count);
 
 		String facetParam = "";
 
@@ -196,7 +196,7 @@ public class FolderSearchFacetDisplayContextTest {
 
 		int count = RandomTestUtil.randomInt();
 
-		setUpOneTermCollector(folderId, count);
+		TestUtil.setUpOneTermCollector(_facetCollector, folderId, count);
 
 		String facetParam = String.valueOf(folderId);
 
@@ -409,15 +409,6 @@ public class FolderSearchFacetDisplayContextTest {
 		).getPortletDisplay();
 
 		return themeDisplay;
-	}
-
-	protected void setUpOneTermCollector(long folderId, int count) {
-		Mockito.doReturn(
-			Collections.singletonList(
-				TestUtil.createTermCollector(folderId, count))
-		).when(
-			_facetCollector
-		).getTermCollectors();
 	}
 
 	private void _addFolder(long folderId, String title) throws Exception {
