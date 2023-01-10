@@ -72,7 +72,7 @@ public class AssetEntriesSearchFacetDisplayContextTest {
 
 		_mockResourceActions(classNames);
 
-		_setUpMultipleTermCollectors(classNames);
+		TestUtil.setUpMultipleTermCollectors(_facetCollector, classNames);
 
 		AssetEntriesSearchFacetDisplayContext
 			assetEntriesSearchFacetDisplayContext = _createDisplayContext(
@@ -100,7 +100,7 @@ public class AssetEntriesSearchFacetDisplayContextTest {
 
 		_mockResourceActions(classNames);
 
-		_setUpMultipleTermCollectors(classNames);
+		TestUtil.setUpMultipleTermCollectors(_facetCollector, classNames);
 
 		AssetEntriesSearchFacetDisplayContext
 			assetEntriesSearchFacetDisplayContext = _createDisplayContext(
@@ -124,7 +124,7 @@ public class AssetEntriesSearchFacetDisplayContextTest {
 
 		_mockResourceActions(classNames);
 
-		_setUpMultipleTermCollectors(classNames);
+		TestUtil.setUpMultipleTermCollectors(_facetCollector, classNames);
 
 		AssetEntriesSearchFacetDisplayContext
 			assetEntriesSearchFacetDisplayContext = _createDisplayContext(
@@ -147,7 +147,7 @@ public class AssetEntriesSearchFacetDisplayContextTest {
 
 		_mockResourceActions(classNames);
 
-		_setUpMultipleTermCollectors(classNames);
+		TestUtil.setUpMultipleTermCollectors(_facetCollector, classNames);
 
 		AssetEntriesSearchFacetDisplayContext
 			assetEntriesSearchFacetDisplayContext1 = _createDisplayContext(
@@ -243,22 +243,6 @@ public class AssetEntriesSearchFacetDisplayContextTest {
 			).getModelResource(
 				Mockito.any(Locale.class), Mockito.eq(className)
 			);
-		}
-	}
-
-	private void _setUpMultipleTermCollectors(String... terms) {
-		int frequency = 1;
-
-		for (String term : terms) {
-			Mockito.doReturn(
-				TestUtil.createTermCollector(term, frequency)
-			).when(
-				_facetCollector
-			).getTermCollector(
-				term
-			);
-
-			frequency++;
 		}
 	}
 

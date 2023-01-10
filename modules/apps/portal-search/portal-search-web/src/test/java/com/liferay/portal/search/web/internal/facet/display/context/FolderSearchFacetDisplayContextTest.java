@@ -231,7 +231,7 @@ public class FolderSearchFacetDisplayContextTest {
 			new String[] {"alpha", "charlie", "bravo", "delta"},
 			new int[] {4, 5, 5, 6});
 
-		_setUpMultipleTermCollectors(termCollectors);
+		TestUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
 
 		FolderSearchFacetDisplayContext folderSearchFacetDisplayContext =
 			createDisplayContext(null, "count:asc");
@@ -253,7 +253,7 @@ public class FolderSearchFacetDisplayContextTest {
 			new String[] {"alpha", "charlie", "bravo", "delta"},
 			new int[] {4, 5, 5, 6});
 
-		_setUpMultipleTermCollectors(termCollectors);
+		TestUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
 
 		FolderSearchFacetDisplayContext folderSearchFacetDisplayContext =
 			createDisplayContext(null, "count:desc");
@@ -274,7 +274,7 @@ public class FolderSearchFacetDisplayContextTest {
 		List<TermCollector> termCollectors = _addFoldersAndCreateTermCollectors(
 			"zeroFolderId", "alpha", "bravo", "charlie", "bravo");
 
-		_setUpMultipleTermCollectors(termCollectors);
+		TestUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
 
 		FolderSearchFacetDisplayContext folderSearchFacetDisplayContext =
 			createDisplayContext(null, "key:asc");
@@ -295,7 +295,7 @@ public class FolderSearchFacetDisplayContextTest {
 		List<TermCollector> termCollectors = _addFoldersAndCreateTermCollectors(
 			"zeroFolderId", "alpha", "bravo", "charlie", "bravo");
 
-		_setUpMultipleTermCollectors(termCollectors);
+		TestUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
 
 		FolderSearchFacetDisplayContext folderSearchFacetDisplayContext =
 			createDisplayContext(null, "key:desc");
@@ -319,7 +319,7 @@ public class FolderSearchFacetDisplayContextTest {
 			"zeroFolderId", null, "null", "", "   ", "assert", "volatile",
 			"alpha");
 
-		_setUpMultipleTermCollectors(termCollectors);
+		TestUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
 
 		FolderSearchFacetDisplayContext folderSearchFacetDisplayContext =
 			createDisplayContext(null);
@@ -483,16 +483,6 @@ public class FolderSearchFacetDisplayContextTest {
 		}
 
 		return total;
-	}
-
-	private void _setUpMultipleTermCollectors(
-		List<TermCollector> termCollectors) {
-
-		Mockito.doReturn(
-			termCollectors
-		).when(
-			_facetCollector
-		).getTermCollectors();
 	}
 
 	private final Facet _facet = Mockito.mock(Facet.class);

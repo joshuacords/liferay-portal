@@ -17,7 +17,6 @@ package com.liferay.portal.search.web.internal.custom.facet.display.context;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.search.facet.Facet;
 import com.liferay.portal.kernel.search.facet.collector.FacetCollector;
-import com.liferay.portal.kernel.search.facet.collector.TermCollector;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -182,7 +181,8 @@ public class CustomFacetDisplayContextTest {
 
 	@Test
 	public void testOrderByTermFrequencyAscending() throws Exception {
-		_setUpMultipleTermCollectors(
+		TestUtil.setUpMultipleTermCollectors(
+			_facetCollector,
 			TestUtil.getTermCollectors(
 				new String[] {"alpha", "delta", "bravo", "charlie"},
 				new int[] {4, 5, 5, 6}));
@@ -201,7 +201,8 @@ public class CustomFacetDisplayContextTest {
 
 	@Test
 	public void testOrderByTermFrequencyDescending() throws Exception {
-		_setUpMultipleTermCollectors(
+		TestUtil.setUpMultipleTermCollectors(
+			_facetCollector,
 			TestUtil.getTermCollectors(
 				new String[] {"alpha", "delta", "bravo", "charlie"},
 				new int[] {4, 5, 5, 6}));
@@ -220,7 +221,8 @@ public class CustomFacetDisplayContextTest {
 
 	@Test
 	public void testOrderByTermValueAscending() throws Exception {
-		_setUpMultipleTermCollectors(
+		TestUtil.setUpMultipleTermCollectors(
+			_facetCollector,
 			TestUtil.getTermCollectors("bravo", "alpha", "bravo", "charlie"));
 
 		CustomFacetDisplayContext customFacetDisplayContext =
@@ -237,7 +239,8 @@ public class CustomFacetDisplayContextTest {
 
 	@Test
 	public void testOrderByTermValueDescending() throws Exception {
-		_setUpMultipleTermCollectors(
+		TestUtil.setUpMultipleTermCollectors(
+			_facetCollector,
 			TestUtil.getTermCollectors("bravo", "alpha", "bravo", "charlie"));
 
 		CustomFacetDisplayContext customFacetDisplayContext =
@@ -311,16 +314,6 @@ public class CustomFacetDisplayContextTest {
 		).getPortletDisplay();
 
 		return themeDisplay;
-	}
-
-	private void _setUpMultipleTermCollectors(
-		List<TermCollector> termCollectors) {
-
-		Mockito.doReturn(
-			termCollectors
-		).when(
-			_facetCollector
-		).getTermCollectors();
 	}
 
 	private final Facet _facet = Mockito.mock(Facet.class);

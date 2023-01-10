@@ -197,7 +197,7 @@ public class ScopeSearchFacetDisplayContextTest {
 			new String[] {"able", "baker", "dog", "charlie"},
 			new int[] {6, 5, 4, 3});
 
-		_setUpMultipleTermCollectors(termCollectors);
+		TestUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
 
 		ScopeSearchFacetDisplayContext scopeSearchFacetDisplayContext =
 			createDisplayContext(StringPool.BLANK, "count:asc");
@@ -216,7 +216,7 @@ public class ScopeSearchFacetDisplayContextTest {
 			new String[] {"charlie", "dog", "baker", "able"},
 			new int[] {6, 5, 5, 4});
 
-		_setUpMultipleTermCollectors(termCollectors);
+		TestUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
 
 		scopeSearchFacetDisplayContext = createDisplayContext(
 			StringPool.BLANK, "count:asc");
@@ -238,7 +238,7 @@ public class ScopeSearchFacetDisplayContextTest {
 			new String[] {"able", "charlie", "baker", "dog"},
 			new int[] {3, 4, 5, 6});
 
-		_setUpMultipleTermCollectors(termCollectors);
+		TestUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
 
 		ScopeSearchFacetDisplayContext scopeSearchFacetDisplayContext =
 			createDisplayContext(StringPool.BLANK, "count:desc");
@@ -257,7 +257,7 @@ public class ScopeSearchFacetDisplayContextTest {
 			new String[] {"able", "dog", "baker", "charlie"},
 			new int[] {4, 5, 5, 6});
 
-		_setUpMultipleTermCollectors(termCollectors);
+		TestUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
 
 		scopeSearchFacetDisplayContext = createDisplayContext(
 			StringPool.BLANK, "count:desc");
@@ -278,7 +278,7 @@ public class ScopeSearchFacetDisplayContextTest {
 		List<TermCollector> termCollectors = TestUtil.getTermCollectors(
 			"baker", "dog", "able", "charlie");
 
-		_setUpMultipleTermCollectors(termCollectors);
+		TestUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
 
 		ScopeSearchFacetDisplayContext scopeSearchFacetDisplayContext =
 			createDisplayContext(StringPool.BLANK, "key:asc");
@@ -296,7 +296,7 @@ public class ScopeSearchFacetDisplayContextTest {
 		termCollectors = TestUtil.getTermCollectors(
 			"baker", "able", "baker", "charlie");
 
-		_setUpMultipleTermCollectors(termCollectors);
+		TestUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
 
 		scopeSearchFacetDisplayContext = createDisplayContext(
 			StringPool.BLANK, "key:asc");
@@ -317,7 +317,7 @@ public class ScopeSearchFacetDisplayContextTest {
 		List<TermCollector> termCollectors = TestUtil.getTermCollectors(
 			"baker", "dog", "able", "charlie");
 
-		_setUpMultipleTermCollectors(termCollectors);
+		TestUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
 
 		ScopeSearchFacetDisplayContext scopeSearchFacetDisplayContext =
 			createDisplayContext(StringPool.BLANK, "key:desc");
@@ -335,7 +335,7 @@ public class ScopeSearchFacetDisplayContextTest {
 		termCollectors = TestUtil.getTermCollectors(
 			"baker", "able", "baker", "charlie");
 
-		_setUpMultipleTermCollectors(termCollectors);
+		TestUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
 
 		scopeSearchFacetDisplayContext = createDisplayContext(
 			StringPool.BLANK, "key:desc");
@@ -444,16 +444,6 @@ public class ScopeSearchFacetDisplayContextTest {
 		).fetchGroup(
 			groupId
 		);
-	}
-
-	private void _setUpMultipleTermCollectors(
-		List<TermCollector> termCollectors) {
-
-		Mockito.doReturn(
-			termCollectors
-		).when(
-			_facetCollector
-		).getTermCollectors();
 	}
 
 	private final Facet _facet = Mockito.mock(Facet.class);

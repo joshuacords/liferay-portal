@@ -17,7 +17,6 @@ package com.liferay.portal.search.web.internal.facet.display.context;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.search.facet.Facet;
 import com.liferay.portal.kernel.search.facet.collector.FacetCollector;
-import com.liferay.portal.kernel.search.facet.collector.TermCollector;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -176,7 +175,8 @@ public class UserSearchFacetDisplayContextTest {
 	public void testOrderByTermFrequencyAscending() throws Exception {
 		String[] userNames = {"charlie", "delta", "bravo", "alpha"};
 
-		_setUpMultipleTermCollectors(
+		TestUtil.setUpMultipleTermCollectors(
+			_facetCollector,
 			TestUtil.getTermCollectors(userNames, new int[] {6, 5, 5, 4}));
 
 		UserSearchFacetDisplayContext userSearchFacetDisplayContext =
@@ -193,7 +193,8 @@ public class UserSearchFacetDisplayContextTest {
 	public void testOrderByTermFrequencyDescending() throws Exception {
 		String[] userNames = {"alpha", "delta", "bravo", "charlie"};
 
-		_setUpMultipleTermCollectors(
+		TestUtil.setUpMultipleTermCollectors(
+			_facetCollector,
 			TestUtil.getTermCollectors(userNames, new int[] {4, 5, 5, 6}));
 
 		UserSearchFacetDisplayContext userSearchFacetDisplayContext =
@@ -210,7 +211,8 @@ public class UserSearchFacetDisplayContextTest {
 	public void testOrderByTermValueAscending() throws Exception {
 		String[] userNames = {"bravo", "alpha", "bravo", "charlie"};
 
-		_setUpMultipleTermCollectors(TestUtil.getTermCollectors(userNames));
+		TestUtil.setUpMultipleTermCollectors(
+			_facetCollector, TestUtil.getTermCollectors(userNames));
 
 		UserSearchFacetDisplayContext userSearchFacetDisplayContext =
 			_createDisplayContext(StringPool.BLANK, "key:asc");
@@ -226,7 +228,8 @@ public class UserSearchFacetDisplayContextTest {
 	public void testOrderByTermValueDescending() throws Exception {
 		String[] userNames = {"bravo", "alpha", "bravo", "charlie"};
 
-		_setUpMultipleTermCollectors(TestUtil.getTermCollectors(userNames));
+		TestUtil.setUpMultipleTermCollectors(
+			_facetCollector, TestUtil.getTermCollectors(userNames));
 
 		UserSearchFacetDisplayContext userSearchFacetDisplayContext =
 			_createDisplayContext(StringPool.BLANK, "key:desc");
@@ -301,16 +304,6 @@ public class UserSearchFacetDisplayContextTest {
 		).getPortletDisplay();
 
 		return themeDisplay;
-	}
-
-	private void _setUpMultipleTermCollectors(
-		List<TermCollector> termCollectors) {
-
-		Mockito.doReturn(
-			termCollectors
-		).when(
-			_facetCollector
-		).getTermCollectors();
 	}
 
 	private final Facet _facet = Mockito.mock(Facet.class);

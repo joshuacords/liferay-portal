@@ -187,7 +187,7 @@ public class AssetTagsSearchFacetDisplayContextTest {
 			new String[] {"alpha", "delta", "bravo", "charlie"},
 			new int[] {3, 4, 5, 6});
 
-		_setUpMultipleTermCollectors(termCollectors1);
+		TestUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors1);
 
 		AssetTagsSearchFacetDisplayContext assetTagsSearchFacetDisplayContext1 =
 			createDisplayContext(StringPool.BLANK, "count:asc");
@@ -206,7 +206,7 @@ public class AssetTagsSearchFacetDisplayContextTest {
 			new String[] {"alpha", "delta", "bravo", "charlie"},
 			new int[] {4, 5, 5, 6});
 
-		_setUpMultipleTermCollectors(termCollectors2);
+		TestUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors2);
 
 		AssetTagsSearchFacetDisplayContext assetTagsSearchFacetDisplayContext2 =
 			createDisplayContext(StringPool.BLANK, "count:asc");
@@ -228,7 +228,7 @@ public class AssetTagsSearchFacetDisplayContextTest {
 			new String[] {"alpha", "charlie", "bravo", "delta"},
 			new int[] {3, 4, 5, 6});
 
-		_setUpMultipleTermCollectors(termCollectors1);
+		TestUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors1);
 
 		AssetTagsSearchFacetDisplayContext assetTagsSearchFacetDisplayContext1 =
 			createDisplayContext(StringPool.BLANK, "count:desc");
@@ -247,7 +247,7 @@ public class AssetTagsSearchFacetDisplayContextTest {
 			new String[] {"alpha", "delta", "bravo", "charlie"},
 			new int[] {4, 5, 5, 6});
 
-		_setUpMultipleTermCollectors(termCollectors2);
+		TestUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors2);
 
 		AssetTagsSearchFacetDisplayContext assetTagsSearchFacetDisplayContext2 =
 			createDisplayContext(StringPool.BLANK, "count:desc");
@@ -268,7 +268,7 @@ public class AssetTagsSearchFacetDisplayContextTest {
 		List<TermCollector> termCollectors1 = TestUtil.getTermCollectors(
 			"bravo", "delta", "alpha", "charlie");
 
-		_setUpMultipleTermCollectors(termCollectors1);
+		TestUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors1);
 
 		AssetTagsSearchFacetDisplayContext assetTagsSearchFacetDisplayContext1 =
 			createDisplayContext(StringPool.BLANK, "key:asc");
@@ -286,7 +286,7 @@ public class AssetTagsSearchFacetDisplayContextTest {
 		List<TermCollector> termCollectors2 = TestUtil.getTermCollectors(
 			"bravo", "alpha", "bravo", "charlie");
 
-		_setUpMultipleTermCollectors(termCollectors2);
+		TestUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors2);
 
 		AssetTagsSearchFacetDisplayContext assetTagsSearchFacetDisplayContext2 =
 			createDisplayContext(StringPool.BLANK, "key:asc");
@@ -307,7 +307,7 @@ public class AssetTagsSearchFacetDisplayContextTest {
 		List<TermCollector> termCollectors1 = TestUtil.getTermCollectors(
 			"bravo", "delta", "alpha", "charlie");
 
-		_setUpMultipleTermCollectors(termCollectors1);
+		TestUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors1);
 
 		AssetTagsSearchFacetDisplayContext assetTagsSearchFacetDisplayContext1 =
 			createDisplayContext(StringPool.BLANK, "key:desc");
@@ -325,7 +325,7 @@ public class AssetTagsSearchFacetDisplayContextTest {
 		List<TermCollector> termCollectors2 = TestUtil.getTermCollectors(
 			"bravo", "alpha", "bravo", "charlie");
 
-		_setUpMultipleTermCollectors(termCollectors2);
+		TestUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors2);
 
 		AssetTagsSearchFacetDisplayContext assetTagsSearchFacetDisplayContext2 =
 			createDisplayContext(StringPool.BLANK, "key:desc");
@@ -408,16 +408,6 @@ public class AssetTagsSearchFacetDisplayContextTest {
 		).getPortletDisplay();
 
 		return themeDisplay;
-	}
-
-	private void _setUpMultipleTermCollectors(
-		List<TermCollector> termCollectors) {
-
-		Mockito.doReturn(
-			termCollectors
-		).when(
-			_facetCollector
-		).getTermCollectors();
 	}
 
 	private final Facet _facet = Mockito.mock(Facet.class);

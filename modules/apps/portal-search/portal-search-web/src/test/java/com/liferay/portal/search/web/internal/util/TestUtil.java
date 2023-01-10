@@ -111,6 +111,34 @@ public class TestUtil {
 		return termCollectors;
 	}
 
+	public static void setUpMultipleTermCollectors(
+		FacetCollector facetCollector, List<TermCollector> termCollectors) {
+
+		Mockito.doReturn(
+			termCollectors
+		).when(
+			facetCollector
+		).getTermCollectors();
+	}
+
+	public static void setUpMultipleTermCollectors(
+		FacetCollector facetCollector, String... terms) {
+
+		int frequency = 1;
+
+		for (String term : terms) {
+			Mockito.doReturn(
+				createTermCollector(term, frequency)
+			).when(
+				facetCollector
+			).getTermCollector(
+				term
+			);
+
+			frequency++;
+		}
+	}
+
 	public static void setUpOneTermCollector(
 		FacetCollector facetCollector, long id, int count) {
 
