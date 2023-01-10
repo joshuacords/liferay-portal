@@ -137,7 +137,6 @@ DLPortletInstanceSettingsHelper dlPortletInstanceSettingsHelper = new DLPortletI
 
 				<%
 				row.setCssClass("lfr-asset-folder");
-
 				row.setPrimaryKey(String.valueOf(curFolder.getPrimaryKey()));
 				%>
 
