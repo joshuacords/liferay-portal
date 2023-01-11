@@ -24,7 +24,7 @@ import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.search.web.internal.facet.display.context.builder.ScopeSearchFacetDisplayContextBuilder;
 import com.liferay.portal.search.web.internal.site.facet.configuration.SiteFacetPortletInstanceConfiguration;
-import com.liferay.portal.search.web.internal.util.TestUtil;
+import com.liferay.portal.search.web.internal.util.FacetDisplayContextTextUtil;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
 
 import java.util.List;
@@ -119,7 +119,7 @@ public class ScopeSearchFacetDisplayContextTest {
 
 		int count = RandomTestUtil.randomInt();
 
-		TestUtil.setUpOneTermCollector(_facetCollector, groupId, count);
+		FacetDisplayContextTextUtil.setUpOneTermCollector(_facetCollector, groupId, count);
 
 		String parameterValue = "0";
 
@@ -157,7 +157,7 @@ public class ScopeSearchFacetDisplayContextTest {
 
 		int count = RandomTestUtil.randomInt();
 
-		TestUtil.setUpOneTermCollector(_facetCollector, groupId, count);
+		FacetDisplayContextTextUtil.setUpOneTermCollector(_facetCollector, groupId, count);
 
 		String parameterValue = String.valueOf(groupId);
 
@@ -188,11 +188,11 @@ public class ScopeSearchFacetDisplayContextTest {
 
 	@Test
 	public void testOrderByTermFrequencyAscending() throws Exception {
-		List<TermCollector> termCollectors = TestUtil.getTermCollectors(
+		List<TermCollector> termCollectors = FacetDisplayContextTextUtil.getTermCollectors(
 			new String[] {"able", "baker", "dog", "charlie"},
 			new int[] {6, 5, 4, 3});
 
-		TestUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
+		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
 
 		ScopeSearchFacetDisplayContext scopeSearchFacetDisplayContext =
 			createDisplayContext(StringPool.BLANK, "count:asc");
@@ -200,18 +200,18 @@ public class ScopeSearchFacetDisplayContextTest {
 		List<BucketDisplayContext> bucketDisplayContexts =
 			scopeSearchFacetDisplayContext.getBucketDisplayContexts();
 
-		String nameFrequencyString = TestUtil.buildNameFrequencyString(
+		String nameFrequencyString = FacetDisplayContextTextUtil.buildNameFrequencyString(
 			bucketDisplayContexts);
 
 		Assert.assertEquals(
 			bucketDisplayContexts.toString(), "charlie:3|dog:4|baker:5|able:6",
 			nameFrequencyString);
 
-		termCollectors = TestUtil.getTermCollectors(
+		termCollectors = FacetDisplayContextTextUtil.getTermCollectors(
 			new String[] {"charlie", "dog", "baker", "able"},
 			new int[] {6, 5, 5, 4});
 
-		TestUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
+		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
 
 		scopeSearchFacetDisplayContext = createDisplayContext(
 			StringPool.BLANK, "count:asc");
@@ -219,7 +219,7 @@ public class ScopeSearchFacetDisplayContextTest {
 		bucketDisplayContexts =
 			scopeSearchFacetDisplayContext.getBucketDisplayContexts();
 
-		nameFrequencyString = TestUtil.buildNameFrequencyString(
+		nameFrequencyString = FacetDisplayContextTextUtil.buildNameFrequencyString(
 			bucketDisplayContexts);
 
 		Assert.assertEquals(
@@ -229,11 +229,11 @@ public class ScopeSearchFacetDisplayContextTest {
 
 	@Test
 	public void testOrderByTermFrequencyDescending() throws Exception {
-		List<TermCollector> termCollectors = TestUtil.getTermCollectors(
+		List<TermCollector> termCollectors = FacetDisplayContextTextUtil.getTermCollectors(
 			new String[] {"able", "charlie", "baker", "dog"},
 			new int[] {3, 4, 5, 6});
 
-		TestUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
+		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
 
 		ScopeSearchFacetDisplayContext scopeSearchFacetDisplayContext =
 			createDisplayContext(StringPool.BLANK, "count:desc");
@@ -241,18 +241,18 @@ public class ScopeSearchFacetDisplayContextTest {
 		List<BucketDisplayContext> bucketDisplayContexts =
 			scopeSearchFacetDisplayContext.getBucketDisplayContexts();
 
-		String nameFrequencyString = TestUtil.buildNameFrequencyString(
+		String nameFrequencyString = FacetDisplayContextTextUtil.buildNameFrequencyString(
 			bucketDisplayContexts);
 
 		Assert.assertEquals(
 			bucketDisplayContexts.toString(), "dog:6|baker:5|charlie:4|able:3",
 			nameFrequencyString);
 
-		termCollectors = TestUtil.getTermCollectors(
+		termCollectors = FacetDisplayContextTextUtil.getTermCollectors(
 			new String[] {"able", "dog", "baker", "charlie"},
 			new int[] {4, 5, 5, 6});
 
-		TestUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
+		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
 
 		scopeSearchFacetDisplayContext = createDisplayContext(
 			StringPool.BLANK, "count:desc");
@@ -260,7 +260,7 @@ public class ScopeSearchFacetDisplayContextTest {
 		bucketDisplayContexts =
 			scopeSearchFacetDisplayContext.getBucketDisplayContexts();
 
-		nameFrequencyString = TestUtil.buildNameFrequencyString(
+		nameFrequencyString = FacetDisplayContextTextUtil.buildNameFrequencyString(
 			bucketDisplayContexts);
 
 		Assert.assertEquals(
@@ -270,10 +270,10 @@ public class ScopeSearchFacetDisplayContextTest {
 
 	@Test
 	public void testOrderByTermValueAscending() throws Exception {
-		List<TermCollector> termCollectors = TestUtil.getTermCollectors(
+		List<TermCollector> termCollectors = FacetDisplayContextTextUtil.getTermCollectors(
 			"baker", "dog", "able", "charlie");
 
-		TestUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
+		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
 
 		ScopeSearchFacetDisplayContext scopeSearchFacetDisplayContext =
 			createDisplayContext(StringPool.BLANK, "key:asc");
@@ -281,17 +281,17 @@ public class ScopeSearchFacetDisplayContextTest {
 		List<BucketDisplayContext> bucketDisplayContexts =
 			scopeSearchFacetDisplayContext.getBucketDisplayContexts();
 
-		String nameFrequencyString = TestUtil.buildNameFrequencyString(
+		String nameFrequencyString = FacetDisplayContextTextUtil.buildNameFrequencyString(
 			bucketDisplayContexts);
 
 		Assert.assertEquals(
 			bucketDisplayContexts.toString(), "able:3|baker:1|charlie:4|dog:2",
 			nameFrequencyString);
 
-		termCollectors = TestUtil.getTermCollectors(
+		termCollectors = FacetDisplayContextTextUtil.getTermCollectors(
 			"baker", "able", "baker", "charlie");
 
-		TestUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
+		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
 
 		scopeSearchFacetDisplayContext = createDisplayContext(
 			StringPool.BLANK, "key:asc");
@@ -299,7 +299,7 @@ public class ScopeSearchFacetDisplayContextTest {
 		bucketDisplayContexts =
 			scopeSearchFacetDisplayContext.getBucketDisplayContexts();
 
-		nameFrequencyString = TestUtil.buildNameFrequencyString(
+		nameFrequencyString = FacetDisplayContextTextUtil.buildNameFrequencyString(
 			bucketDisplayContexts);
 
 		Assert.assertEquals(
@@ -309,10 +309,10 @@ public class ScopeSearchFacetDisplayContextTest {
 
 	@Test
 	public void testOrderByTermValueDescending() throws Exception {
-		List<TermCollector> termCollectors = TestUtil.getTermCollectors(
+		List<TermCollector> termCollectors = FacetDisplayContextTextUtil.getTermCollectors(
 			"baker", "dog", "able", "charlie");
 
-		TestUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
+		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
 
 		ScopeSearchFacetDisplayContext scopeSearchFacetDisplayContext =
 			createDisplayContext(StringPool.BLANK, "key:desc");
@@ -320,17 +320,17 @@ public class ScopeSearchFacetDisplayContextTest {
 		List<BucketDisplayContext> bucketDisplayContexts =
 			scopeSearchFacetDisplayContext.getBucketDisplayContexts();
 
-		String nameFrequencyString = TestUtil.buildNameFrequencyString(
+		String nameFrequencyString = FacetDisplayContextTextUtil.buildNameFrequencyString(
 			bucketDisplayContexts);
 
 		Assert.assertEquals(
 			bucketDisplayContexts.toString(), "dog:2|charlie:4|baker:1|able:3",
 			nameFrequencyString);
 
-		termCollectors = TestUtil.getTermCollectors(
+		termCollectors = FacetDisplayContextTextUtil.getTermCollectors(
 			"baker", "able", "baker", "charlie");
 
-		TestUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
+		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
 
 		scopeSearchFacetDisplayContext = createDisplayContext(
 			StringPool.BLANK, "key:desc");
@@ -338,7 +338,7 @@ public class ScopeSearchFacetDisplayContextTest {
 		bucketDisplayContexts =
 			scopeSearchFacetDisplayContext.getBucketDisplayContexts();
 
-		nameFrequencyString = TestUtil.buildNameFrequencyString(
+		nameFrequencyString = FacetDisplayContextTextUtil.buildNameFrequencyString(
 			bucketDisplayContexts);
 
 		Assert.assertEquals(
@@ -360,7 +360,7 @@ public class ScopeSearchFacetDisplayContextTest {
 		ScopeSearchFacetDisplayContextBuilder
 			scopeSearchFacetDisplayContextBuilder =
 				new ScopeSearchFacetDisplayContextBuilder(
-					TestUtil.getRenderRequest(
+					FacetDisplayContextTextUtil.getRenderRequest(
 						SiteFacetPortletInstanceConfiguration.class));
 
 		scopeSearchFacetDisplayContextBuilder.setFacet(_facet);

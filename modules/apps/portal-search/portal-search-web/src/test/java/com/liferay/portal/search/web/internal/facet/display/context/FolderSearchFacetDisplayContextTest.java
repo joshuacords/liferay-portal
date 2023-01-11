@@ -22,7 +22,7 @@ import com.liferay.portal.kernel.search.facet.collector.TermCollector;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.search.web.internal.facet.display.context.builder.FolderSearchFacetDisplayContextBuilder;
 import com.liferay.portal.search.web.internal.folder.facet.configuration.FolderFacetPortletInstanceConfiguration;
-import com.liferay.portal.search.web.internal.util.TestUtil;
+import com.liferay.portal.search.web.internal.util.FacetDisplayContextTextUtil;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
 
 import java.util.ArrayList;
@@ -152,7 +152,7 @@ public class FolderSearchFacetDisplayContextTest {
 
 		int count = RandomTestUtil.randomInt();
 
-		TestUtil.setUpOneTermCollector(_facetCollector, folderId, count);
+		FacetDisplayContextTextUtil.setUpOneTermCollector(_facetCollector, folderId, count);
 
 		String facetParam = "";
 
@@ -190,7 +190,7 @@ public class FolderSearchFacetDisplayContextTest {
 
 		int count = RandomTestUtil.randomInt();
 
-		TestUtil.setUpOneTermCollector(_facetCollector, folderId, count);
+		FacetDisplayContextTextUtil.setUpOneTermCollector(_facetCollector, folderId, count);
 
 		String facetParam = String.valueOf(folderId);
 
@@ -225,7 +225,7 @@ public class FolderSearchFacetDisplayContextTest {
 			new String[] {"alpha", "charlie", "bravo", "delta"},
 			new int[] {4, 5, 5, 6});
 
-		TestUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
+		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
 
 		FolderSearchFacetDisplayContext folderSearchFacetDisplayContext =
 			createDisplayContext(null, "count:asc");
@@ -233,7 +233,7 @@ public class FolderSearchFacetDisplayContextTest {
 		List<BucketDisplayContext> bucketDisplayContexts =
 			folderSearchFacetDisplayContext.getBucketDisplayContexts();
 
-		String nameFrequencyString = TestUtil.buildNameFrequencyString(
+		String nameFrequencyString = FacetDisplayContextTextUtil.buildNameFrequencyString(
 			bucketDisplayContexts);
 
 		Assert.assertEquals(
@@ -247,7 +247,7 @@ public class FolderSearchFacetDisplayContextTest {
 			new String[] {"alpha", "charlie", "bravo", "delta"},
 			new int[] {4, 5, 5, 6});
 
-		TestUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
+		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
 
 		FolderSearchFacetDisplayContext folderSearchFacetDisplayContext =
 			createDisplayContext(null, "count:desc");
@@ -255,7 +255,7 @@ public class FolderSearchFacetDisplayContextTest {
 		List<BucketDisplayContext> bucketDisplayContexts =
 			folderSearchFacetDisplayContext.getBucketDisplayContexts();
 
-		String nameFrequencyString = TestUtil.buildNameFrequencyString(
+		String nameFrequencyString = FacetDisplayContextTextUtil.buildNameFrequencyString(
 			bucketDisplayContexts);
 
 		Assert.assertEquals(
@@ -268,7 +268,7 @@ public class FolderSearchFacetDisplayContextTest {
 		List<TermCollector> termCollectors = _addFoldersAndCreateTermCollectors(
 			"zeroFolderId", "alpha", "bravo", "charlie", "bravo");
 
-		TestUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
+		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
 
 		FolderSearchFacetDisplayContext folderSearchFacetDisplayContext =
 			createDisplayContext(null, "key:asc");
@@ -276,7 +276,7 @@ public class FolderSearchFacetDisplayContextTest {
 		List<BucketDisplayContext> bucketDisplayContexts =
 			folderSearchFacetDisplayContext.getBucketDisplayContexts();
 
-		String nameFrequencyString = TestUtil.buildNameFrequencyString(
+		String nameFrequencyString = FacetDisplayContextTextUtil.buildNameFrequencyString(
 			bucketDisplayContexts);
 
 		Assert.assertEquals(
@@ -289,7 +289,7 @@ public class FolderSearchFacetDisplayContextTest {
 		List<TermCollector> termCollectors = _addFoldersAndCreateTermCollectors(
 			"zeroFolderId", "alpha", "bravo", "charlie", "bravo");
 
-		TestUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
+		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
 
 		FolderSearchFacetDisplayContext folderSearchFacetDisplayContext =
 			createDisplayContext(null, "key:desc");
@@ -297,7 +297,7 @@ public class FolderSearchFacetDisplayContextTest {
 		List<BucketDisplayContext> bucketDisplayContexts =
 			folderSearchFacetDisplayContext.getBucketDisplayContexts();
 
-		String nameFrequencyString = TestUtil.buildNameFrequencyString(
+		String nameFrequencyString = FacetDisplayContextTextUtil.buildNameFrequencyString(
 			bucketDisplayContexts);
 
 		Assert.assertEquals(
@@ -313,7 +313,7 @@ public class FolderSearchFacetDisplayContextTest {
 			"zeroFolderId", null, "null", "", "   ", "assert", "volatile",
 			"alpha");
 
-		TestUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
+		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
 
 		FolderSearchFacetDisplayContext folderSearchFacetDisplayContext =
 			createDisplayContext(null);
@@ -321,7 +321,7 @@ public class FolderSearchFacetDisplayContextTest {
 		List<BucketDisplayContext> bucketDisplayContexts =
 			folderSearchFacetDisplayContext.getBucketDisplayContexts();
 
-		String nameFrequencyString = TestUtil.buildNameFrequencyString(
+		String nameFrequencyString = FacetDisplayContextTextUtil.buildNameFrequencyString(
 			bucketDisplayContexts);
 
 		Assert.assertEquals(
@@ -350,7 +350,7 @@ public class FolderSearchFacetDisplayContextTest {
 		FolderSearchFacetDisplayContextBuilder
 			folderSearchFacetDisplayContextBuilder =
 				new FolderSearchFacetDisplayContextBuilder(
-					TestUtil.getRenderRequest(
+					FacetDisplayContextTextUtil.getRenderRequest(
 						FolderFacetPortletInstanceConfiguration.class));
 
 		folderSearchFacetDisplayContextBuilder.setFacet(_facet);
@@ -391,7 +391,7 @@ public class FolderSearchFacetDisplayContextTest {
 			int frequency = folderId + 1;
 
 			termCollectors.add(
-				TestUtil.createTermCollector(folderId, frequency));
+				FacetDisplayContextTextUtil.createTermCollector(folderId, frequency));
 
 			folderId++;
 		}
@@ -409,7 +409,7 @@ public class FolderSearchFacetDisplayContextTest {
 			_addFolder(i, folderNames[i - 1]);
 
 			termCollectors.add(
-				TestUtil.createTermCollector(i, frequencies[i - 1]));
+				FacetDisplayContextTextUtil.createTermCollector(i, frequencies[i - 1]));
 		}
 
 		return termCollectors;

@@ -24,7 +24,7 @@ import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.search.web.internal.facet.display.context.builder.AssetEntriesSearchFacetDisplayContextBuilder;
 import com.liferay.portal.search.web.internal.type.facet.configuration.TypeFacetPortletInstanceConfiguration;
-import com.liferay.portal.search.web.internal.util.TestUtil;
+import com.liferay.portal.search.web.internal.util.FacetDisplayContextTextUtil;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
 
 import java.util.List;
@@ -67,7 +67,7 @@ public class AssetEntriesSearchFacetDisplayContextTest {
 
 		_mockResourceActions(classNames);
 
-		TestUtil.setUpMultipleTermCollectors(_facetCollector, classNames);
+		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(_facetCollector, classNames);
 
 		AssetEntriesSearchFacetDisplayContext
 			assetEntriesSearchFacetDisplayContext = _createDisplayContext(
@@ -76,7 +76,7 @@ public class AssetEntriesSearchFacetDisplayContextTest {
 		List<BucketDisplayContext> bucketDisplayContexts =
 			assetEntriesSearchFacetDisplayContext.getBucketDisplayContexts();
 
-		String nameFrequencyString = TestUtil.buildNameFrequencyString(
+		String nameFrequencyString = FacetDisplayContextTextUtil.buildNameFrequencyString(
 			bucketDisplayContexts);
 
 		Assert.assertEquals(
@@ -95,7 +95,7 @@ public class AssetEntriesSearchFacetDisplayContextTest {
 
 		_mockResourceActions(classNames);
 
-		TestUtil.setUpMultipleTermCollectors(_facetCollector, classNames);
+		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(_facetCollector, classNames);
 
 		AssetEntriesSearchFacetDisplayContext
 			assetEntriesSearchFacetDisplayContext = _createDisplayContext(
@@ -104,7 +104,7 @@ public class AssetEntriesSearchFacetDisplayContextTest {
 		List<BucketDisplayContext> bucketDisplayContexts =
 			assetEntriesSearchFacetDisplayContext.getBucketDisplayContexts();
 
-		String nameFrequencyString = TestUtil.buildNameFrequencyString(
+		String nameFrequencyString = FacetDisplayContextTextUtil.buildNameFrequencyString(
 			bucketDisplayContexts);
 
 		Assert.assertEquals(
@@ -119,7 +119,7 @@ public class AssetEntriesSearchFacetDisplayContextTest {
 
 		_mockResourceActions(classNames);
 
-		TestUtil.setUpMultipleTermCollectors(_facetCollector, classNames);
+		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(_facetCollector, classNames);
 
 		AssetEntriesSearchFacetDisplayContext
 			assetEntriesSearchFacetDisplayContext = _createDisplayContext(
@@ -128,7 +128,7 @@ public class AssetEntriesSearchFacetDisplayContextTest {
 		List<BucketDisplayContext> bucketDisplayContexts =
 			assetEntriesSearchFacetDisplayContext.getBucketDisplayContexts();
 
-		String nameFrequencyString = TestUtil.buildNameFrequencyString(
+		String nameFrequencyString = FacetDisplayContextTextUtil.buildNameFrequencyString(
 			bucketDisplayContexts);
 
 		Assert.assertEquals(
@@ -142,7 +142,7 @@ public class AssetEntriesSearchFacetDisplayContextTest {
 
 		_mockResourceActions(classNames);
 
-		TestUtil.setUpMultipleTermCollectors(_facetCollector, classNames);
+		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(_facetCollector, classNames);
 
 		AssetEntriesSearchFacetDisplayContext
 			assetEntriesSearchFacetDisplayContext1 = _createDisplayContext(
@@ -151,7 +151,7 @@ public class AssetEntriesSearchFacetDisplayContextTest {
 		List<BucketDisplayContext> bucketDisplayContexts =
 			assetEntriesSearchFacetDisplayContext1.getBucketDisplayContexts();
 
-		String nameFrequencyString = TestUtil.buildNameFrequencyString(
+		String nameFrequencyString = FacetDisplayContextTextUtil.buildNameFrequencyString(
 			bucketDisplayContexts);
 
 		Assert.assertEquals(
@@ -166,7 +166,7 @@ public class AssetEntriesSearchFacetDisplayContextTest {
 		AssetEntriesSearchFacetDisplayContextBuilder
 			assetEntriesSearchFacetDisplayContextBuilder =
 				new AssetEntriesSearchFacetDisplayContextBuilder(
-					TestUtil.getRenderRequest(
+					FacetDisplayContextTextUtil.getRenderRequest(
 						TypeFacetPortletInstanceConfiguration.class));
 
 		assetEntriesSearchFacetDisplayContextBuilder.setClassNames(classNames);

@@ -37,7 +37,7 @@ import org.mockito.Mockito;
 /**
  * @author Amanda Costa
  */
-public class TestUtil {
+public class FacetDisplayContextTextUtil {
 
 	public static String buildNameFrequencyString(
 		List<BucketDisplayContext> bucketDisplayContexts) {
