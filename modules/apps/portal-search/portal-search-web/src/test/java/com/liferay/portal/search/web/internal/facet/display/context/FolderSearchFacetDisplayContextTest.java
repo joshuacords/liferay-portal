@@ -152,7 +152,8 @@ public class FolderSearchFacetDisplayContextTest {
 
 		int count = RandomTestUtil.randomInt();
 
-		FacetDisplayContextTextUtil.setUpOneTermCollector(_facetCollector, folderId, count);
+		FacetDisplayContextTextUtil.setUpOneTermCollector(
+			_facetCollector, folderId, count);
 
 		String facetParam = "";
 
@@ -190,7 +191,8 @@ public class FolderSearchFacetDisplayContextTest {
 
 		int count = RandomTestUtil.randomInt();
 
-		FacetDisplayContextTextUtil.setUpOneTermCollector(_facetCollector, folderId, count);
+		FacetDisplayContextTextUtil.setUpOneTermCollector(
+			_facetCollector, folderId, count);
 
 		String facetParam = String.valueOf(folderId);
 
@@ -225,7 +227,8 @@ public class FolderSearchFacetDisplayContextTest {
 			new String[] {"alpha", "charlie", "bravo", "delta"},
 			new int[] {4, 5, 5, 6});
 
-		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
+		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(
+			_facetCollector, termCollectors);
 
 		FolderSearchFacetDisplayContext folderSearchFacetDisplayContext =
 			createDisplayContext(null, "count:asc");
@@ -233,8 +236,9 @@ public class FolderSearchFacetDisplayContextTest {
 		List<BucketDisplayContext> bucketDisplayContexts =
 			folderSearchFacetDisplayContext.getBucketDisplayContexts();
 
-		String nameFrequencyString = FacetDisplayContextTextUtil.buildNameFrequencyString(
-			bucketDisplayContexts);
+		String nameFrequencyString =
+			FacetDisplayContextTextUtil.buildNameFrequencyString(
+				bucketDisplayContexts);
 
 		Assert.assertEquals(
 			bucketDisplayContexts.toString(),
@@ -247,7 +251,8 @@ public class FolderSearchFacetDisplayContextTest {
 			new String[] {"alpha", "charlie", "bravo", "delta"},
 			new int[] {4, 5, 5, 6});
 
-		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
+		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(
+			_facetCollector, termCollectors);
 
 		FolderSearchFacetDisplayContext folderSearchFacetDisplayContext =
 			createDisplayContext(null, "count:desc");
@@ -255,8 +260,9 @@ public class FolderSearchFacetDisplayContextTest {
 		List<BucketDisplayContext> bucketDisplayContexts =
 			folderSearchFacetDisplayContext.getBucketDisplayContexts();
 
-		String nameFrequencyString = FacetDisplayContextTextUtil.buildNameFrequencyString(
-			bucketDisplayContexts);
+		String nameFrequencyString =
+			FacetDisplayContextTextUtil.buildNameFrequencyString(
+				bucketDisplayContexts);
 
 		Assert.assertEquals(
 			bucketDisplayContexts.toString(),
@@ -268,7 +274,8 @@ public class FolderSearchFacetDisplayContextTest {
 		List<TermCollector> termCollectors = _addFoldersAndCreateTermCollectors(
 			"zeroFolderId", "alpha", "bravo", "charlie", "bravo");
 
-		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
+		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(
+			_facetCollector, termCollectors);
 
 		FolderSearchFacetDisplayContext folderSearchFacetDisplayContext =
 			createDisplayContext(null, "key:asc");
@@ -276,8 +283,9 @@ public class FolderSearchFacetDisplayContextTest {
 		List<BucketDisplayContext> bucketDisplayContexts =
 			folderSearchFacetDisplayContext.getBucketDisplayContexts();
 
-		String nameFrequencyString = FacetDisplayContextTextUtil.buildNameFrequencyString(
-			bucketDisplayContexts);
+		String nameFrequencyString =
+			FacetDisplayContextTextUtil.buildNameFrequencyString(
+				bucketDisplayContexts);
 
 		Assert.assertEquals(
 			bucketDisplayContexts.toString(),
@@ -289,7 +297,8 @@ public class FolderSearchFacetDisplayContextTest {
 		List<TermCollector> termCollectors = _addFoldersAndCreateTermCollectors(
 			"zeroFolderId", "alpha", "bravo", "charlie", "bravo");
 
-		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
+		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(
+			_facetCollector, termCollectors);
 
 		FolderSearchFacetDisplayContext folderSearchFacetDisplayContext =
 			createDisplayContext(null, "key:desc");
@@ -297,8 +306,9 @@ public class FolderSearchFacetDisplayContextTest {
 		List<BucketDisplayContext> bucketDisplayContexts =
 			folderSearchFacetDisplayContext.getBucketDisplayContexts();
 
-		String nameFrequencyString = FacetDisplayContextTextUtil.buildNameFrequencyString(
-			bucketDisplayContexts);
+		String nameFrequencyString =
+			FacetDisplayContextTextUtil.buildNameFrequencyString(
+				bucketDisplayContexts);
 
 		Assert.assertEquals(
 			bucketDisplayContexts.toString(),
@@ -313,7 +323,8 @@ public class FolderSearchFacetDisplayContextTest {
 			"zeroFolderId", null, "null", "", "   ", "assert", "volatile",
 			"alpha");
 
-		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(_facetCollector, termCollectors);
+		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(
+			_facetCollector, termCollectors);
 
 		FolderSearchFacetDisplayContext folderSearchFacetDisplayContext =
 			createDisplayContext(null);
@@ -321,8 +332,9 @@ public class FolderSearchFacetDisplayContextTest {
 		List<BucketDisplayContext> bucketDisplayContexts =
 			folderSearchFacetDisplayContext.getBucketDisplayContexts();
 
-		String nameFrequencyString = FacetDisplayContextTextUtil.buildNameFrequencyString(
-			bucketDisplayContexts);
+		String nameFrequencyString =
+			FacetDisplayContextTextUtil.buildNameFrequencyString(
+				bucketDisplayContexts);
 
 		Assert.assertEquals(
 			bucketDisplayContexts.toString(), "alpha:8|volatile:7|assert:6",
@@ -391,7 +403,8 @@ public class FolderSearchFacetDisplayContextTest {
 			int frequency = folderId + 1;
 
 			termCollectors.add(
-				FacetDisplayContextTextUtil.createTermCollector(folderId, frequency));
+				FacetDisplayContextTextUtil.createTermCollector(
+					folderId, frequency));
 
 			folderId++;
 		}
@@ -409,7 +422,8 @@ public class FolderSearchFacetDisplayContextTest {
 			_addFolder(i, folderNames[i - 1]);
 
 			termCollectors.add(
-				FacetDisplayContextTextUtil.createTermCollector(i, frequencies[i - 1]));
+				FacetDisplayContextTextUtil.createTermCollector(
+					i, frequencies[i - 1]));
 		}
 
 		return termCollectors;

@@ -67,7 +67,8 @@ public class AssetEntriesSearchFacetDisplayContextTest {
 
 		_mockResourceActions(classNames);
 
-		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(_facetCollector, classNames);
+		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(
+			_facetCollector, classNames);
 
 		AssetEntriesSearchFacetDisplayContext
 			assetEntriesSearchFacetDisplayContext = _createDisplayContext(
@@ -76,8 +77,9 @@ public class AssetEntriesSearchFacetDisplayContextTest {
 		List<BucketDisplayContext> bucketDisplayContexts =
 			assetEntriesSearchFacetDisplayContext.getBucketDisplayContexts();
 
-		String nameFrequencyString = FacetDisplayContextTextUtil.buildNameFrequencyString(
-			bucketDisplayContexts);
+		String nameFrequencyString =
+			FacetDisplayContextTextUtil.buildNameFrequencyString(
+				bucketDisplayContexts);
 
 		Assert.assertEquals(
 			bucketDisplayContexts.toString(),
@@ -95,7 +97,8 @@ public class AssetEntriesSearchFacetDisplayContextTest {
 
 		_mockResourceActions(classNames);
 
-		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(_facetCollector, classNames);
+		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(
+			_facetCollector, classNames);
 
 		AssetEntriesSearchFacetDisplayContext
 			assetEntriesSearchFacetDisplayContext = _createDisplayContext(
@@ -104,8 +107,9 @@ public class AssetEntriesSearchFacetDisplayContextTest {
 		List<BucketDisplayContext> bucketDisplayContexts =
 			assetEntriesSearchFacetDisplayContext.getBucketDisplayContexts();
 
-		String nameFrequencyString = FacetDisplayContextTextUtil.buildNameFrequencyString(
-			bucketDisplayContexts);
+		String nameFrequencyString =
+			FacetDisplayContextTextUtil.buildNameFrequencyString(
+				bucketDisplayContexts);
 
 		Assert.assertEquals(
 			bucketDisplayContexts.toString(),
@@ -119,7 +123,8 @@ public class AssetEntriesSearchFacetDisplayContextTest {
 
 		_mockResourceActions(classNames);
 
-		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(_facetCollector, classNames);
+		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(
+			_facetCollector, classNames);
 
 		AssetEntriesSearchFacetDisplayContext
 			assetEntriesSearchFacetDisplayContext = _createDisplayContext(
@@ -128,8 +133,9 @@ public class AssetEntriesSearchFacetDisplayContextTest {
 		List<BucketDisplayContext> bucketDisplayContexts =
 			assetEntriesSearchFacetDisplayContext.getBucketDisplayContexts();
 
-		String nameFrequencyString = FacetDisplayContextTextUtil.buildNameFrequencyString(
-			bucketDisplayContexts);
+		String nameFrequencyString =
+			FacetDisplayContextTextUtil.buildNameFrequencyString(
+				bucketDisplayContexts);
 
 		Assert.assertEquals(
 			bucketDisplayContexts.toString(),
@@ -142,7 +148,8 @@ public class AssetEntriesSearchFacetDisplayContextTest {
 
 		_mockResourceActions(classNames);
 
-		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(_facetCollector, classNames);
+		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(
+			_facetCollector, classNames);
 
 		AssetEntriesSearchFacetDisplayContext
 			assetEntriesSearchFacetDisplayContext1 = _createDisplayContext(
@@ -151,8 +158,9 @@ public class AssetEntriesSearchFacetDisplayContextTest {
 		List<BucketDisplayContext> bucketDisplayContexts =
 			assetEntriesSearchFacetDisplayContext1.getBucketDisplayContexts();
 
-		String nameFrequencyString = FacetDisplayContextTextUtil.buildNameFrequencyString(
-			bucketDisplayContexts);
+		String nameFrequencyString =
+			FacetDisplayContextTextUtil.buildNameFrequencyString(
+				bucketDisplayContexts);
 
 		Assert.assertEquals(
 			bucketDisplayContexts.toString(),

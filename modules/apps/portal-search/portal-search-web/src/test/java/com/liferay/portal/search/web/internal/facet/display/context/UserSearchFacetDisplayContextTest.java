@@ -106,7 +106,8 @@ public class UserSearchFacetDisplayContextTest {
 
 		int count = RandomTestUtil.randomInt();
 
-		FacetDisplayContextTextUtil.setUpOneTermCollector(_facetCollector, userName, count);
+		FacetDisplayContextTextUtil.setUpOneTermCollector(
+			_facetCollector, userName, count);
 
 		String paramValue = "";
 
@@ -139,7 +140,8 @@ public class UserSearchFacetDisplayContextTest {
 
 		int count = RandomTestUtil.randomInt();
 
-		FacetDisplayContextTextUtil.setUpOneTermCollector(_facetCollector, userName, count);
+		FacetDisplayContextTextUtil.setUpOneTermCollector(
+			_facetCollector, userName, count);
 
 		String paramValue = userName;
 
@@ -172,13 +174,15 @@ public class UserSearchFacetDisplayContextTest {
 
 		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(
 			_facetCollector,
-			FacetDisplayContextTextUtil.getTermCollectors(userNames, new int[] {6, 5, 5, 4}));
+			FacetDisplayContextTextUtil.getTermCollectors(
+				userNames, new int[] {6, 5, 5, 4}));
 
 		UserSearchFacetDisplayContext userSearchFacetDisplayContext =
 			_createDisplayContext(StringPool.BLANK, "count:asc");
 
-		String nameFrequencyString = FacetDisplayContextTextUtil.buildNameFrequencyString(
-			userSearchFacetDisplayContext.getBucketDisplayContexts());
+		String nameFrequencyString =
+			FacetDisplayContextTextUtil.buildNameFrequencyString(
+				userSearchFacetDisplayContext.getBucketDisplayContexts());
 
 		Assert.assertEquals(
 			"alpha:4|bravo:5|delta:5|charlie:6", nameFrequencyString);
@@ -190,13 +194,15 @@ public class UserSearchFacetDisplayContextTest {
 
 		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(
 			_facetCollector,
-			FacetDisplayContextTextUtil.getTermCollectors(userNames, new int[] {4, 5, 5, 6}));
+			FacetDisplayContextTextUtil.getTermCollectors(
+				userNames, new int[] {4, 5, 5, 6}));
 
 		UserSearchFacetDisplayContext userSearchFacetDisplayContext =
 			_createDisplayContext(StringPool.BLANK, "count:desc");
 
-		String nameFrequencyString = FacetDisplayContextTextUtil.buildNameFrequencyString(
-			userSearchFacetDisplayContext.getBucketDisplayContexts());
+		String nameFrequencyString =
+			FacetDisplayContextTextUtil.buildNameFrequencyString(
+				userSearchFacetDisplayContext.getBucketDisplayContexts());
 
 		Assert.assertEquals(
 			"charlie:6|bravo:5|delta:5|alpha:4", nameFrequencyString);
@@ -207,13 +213,15 @@ public class UserSearchFacetDisplayContextTest {
 		String[] userNames = {"bravo", "alpha", "bravo", "charlie"};
 
 		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(
-			_facetCollector, FacetDisplayContextTextUtil.getTermCollectors(userNames));
+			_facetCollector,
+			FacetDisplayContextTextUtil.getTermCollectors(userNames));
 
 		UserSearchFacetDisplayContext userSearchFacetDisplayContext =
 			_createDisplayContext(StringPool.BLANK, "key:asc");
 
-		String nameFrequencyString = FacetDisplayContextTextUtil.buildNameFrequencyString(
-			userSearchFacetDisplayContext.getBucketDisplayContexts());
+		String nameFrequencyString =
+			FacetDisplayContextTextUtil.buildNameFrequencyString(
+				userSearchFacetDisplayContext.getBucketDisplayContexts());
 
 		Assert.assertEquals(
 			"alpha:2|bravo:3|bravo:1|charlie:4", nameFrequencyString);
@@ -224,13 +232,15 @@ public class UserSearchFacetDisplayContextTest {
 		String[] userNames = {"bravo", "alpha", "bravo", "charlie"};
 
 		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(
-			_facetCollector, FacetDisplayContextTextUtil.getTermCollectors(userNames));
+			_facetCollector,
+			FacetDisplayContextTextUtil.getTermCollectors(userNames));
 
 		UserSearchFacetDisplayContext userSearchFacetDisplayContext =
 			_createDisplayContext(StringPool.BLANK, "key:desc");
 
-		String nameFrequencyString = FacetDisplayContextTextUtil.buildNameFrequencyString(
-			userSearchFacetDisplayContext.getBucketDisplayContexts());
+		String nameFrequencyString =
+			FacetDisplayContextTextUtil.buildNameFrequencyString(
+				userSearchFacetDisplayContext.getBucketDisplayContexts());
 
 		Assert.assertEquals(
 			"charlie:4|bravo:3|bravo:1|alpha:2", nameFrequencyString);

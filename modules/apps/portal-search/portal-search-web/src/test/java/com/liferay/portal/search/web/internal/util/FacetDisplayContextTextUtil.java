@@ -161,8 +161,7 @@ public class FacetDisplayContextTextUtil {
 		List<TermCollector> termCollectors = new ArrayList<>();
 
 		for (int i = 0; i < terms.length; i++) {
-			termCollectors.add(
-				createTermCollector(terms[i], frequencies[i]));
+			termCollectors.add(createTermCollector(terms[i], frequencies[i]));
 		}
 
 		return termCollectors;
