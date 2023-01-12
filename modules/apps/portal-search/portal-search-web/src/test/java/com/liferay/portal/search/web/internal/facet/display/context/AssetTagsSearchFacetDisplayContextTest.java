@@ -185,7 +185,7 @@ public class AssetTagsSearchFacetDisplayContextTest {
 				new String[] {"alpha", "delta", "bravo", "charlie"},
 				new int[] {4, 5, 5, 6});
 
-		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(
+		FacetDisplayContextTextUtil.setUpTermCollectors(
 			_facetCollector, termCollectors2);
 
 		AssetTagsSearchFacetDisplayContext assetTagsSearchFacetDisplayContext2 =
@@ -210,7 +210,7 @@ public class AssetTagsSearchFacetDisplayContextTest {
 				new String[] {"alpha", "delta", "bravo", "charlie"},
 				new int[] {4, 5, 5, 6});
 
-		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(
+		FacetDisplayContextTextUtil.setUpTermCollectors(
 			_facetCollector, termCollectors2);
 
 		AssetTagsSearchFacetDisplayContext assetTagsSearchFacetDisplayContext2 =
@@ -235,7 +235,7 @@ public class AssetTagsSearchFacetDisplayContextTest {
 				new String[] {"bravo", "delta", "alpha", "alpha"},
 				new int[] {6, 5, 4, 3});
 
-		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(
+		FacetDisplayContextTextUtil.setUpTermCollectors(
 			_facetCollector, termCollectors1);
 
 		AssetTagsSearchFacetDisplayContext assetTagsSearchFacetDisplayContext1 =
@@ -260,7 +260,7 @@ public class AssetTagsSearchFacetDisplayContextTest {
 				new String[] {"bravo", "alpha", "alpha", "charlie"},
 				new int[] {3, 4, 5, 6});
 
-		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(
+		FacetDisplayContextTextUtil.setUpTermCollectors(
 			_facetCollector, termCollectors1);
 
 		AssetTagsSearchFacetDisplayContext assetTagsSearchFacetDisplayContext1 =

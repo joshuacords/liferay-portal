@@ -178,7 +178,7 @@ public class CustomFacetDisplayContextTest {
 
 	@Test
 	public void testOrderByTermFrequencyAscending() throws Exception {
-		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(
+		FacetDisplayContextTextUtil.setUpTermCollectors(
 			_facetCollector,
 			FacetDisplayContextTextUtil.getTermCollectors(
 				new String[] {"alpha", "delta", "bravo", "charlie"},
@@ -199,7 +199,7 @@ public class CustomFacetDisplayContextTest {
 
 	@Test
 	public void testOrderByTermFrequencyDescending() throws Exception {
-		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(
+		FacetDisplayContextTextUtil.setUpTermCollectors(
 			_facetCollector,
 			FacetDisplayContextTextUtil.getTermCollectors(
 				new String[] {"alpha", "delta", "bravo", "charlie"},
@@ -220,7 +220,7 @@ public class CustomFacetDisplayContextTest {
 
 	@Test
 	public void testOrderByTermValueAscending() throws Exception {
-		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(
+		FacetDisplayContextTextUtil.setUpTermCollectors(
 			_facetCollector,
 			FacetDisplayContextTextUtil.getTermCollectors(
 				new String[] {"bravo", "alpha", "bravo", "charlie"},
@@ -241,7 +241,7 @@ public class CustomFacetDisplayContextTest {
 
 	@Test
 	public void testOrderByTermValueDescending() throws Exception {
-		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(
+		FacetDisplayContextTextUtil.setUpTermCollectors(
 			_facetCollector,
 			FacetDisplayContextTextUtil.getTermCollectors(
 				new String[] {"bravo", "alpha", "bravo", "charlie"},

@@ -227,7 +227,7 @@ public class FolderSearchFacetDisplayContextTest {
 			new String[] {"alpha", "charlie", "bravo", "delta"},
 			new int[] {4, 5, 5, 6});
 
-		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(
+		FacetDisplayContextTextUtil.setUpTermCollectors(
 			_facetCollector, termCollectors);
 
 		FolderSearchFacetDisplayContext folderSearchFacetDisplayContext =
@@ -251,7 +251,7 @@ public class FolderSearchFacetDisplayContextTest {
 			new String[] {"alpha", "charlie", "bravo", "delta"},
 			new int[] {4, 5, 5, 6});
 
-		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(
+		FacetDisplayContextTextUtil.setUpTermCollectors(
 			_facetCollector, termCollectors);
 
 		FolderSearchFacetDisplayContext folderSearchFacetDisplayContext =
@@ -274,7 +274,7 @@ public class FolderSearchFacetDisplayContextTest {
 		List<TermCollector> termCollectors = _addFoldersAndCreateTermCollectors(
 			"zeroFolderId", "alpha", "bravo", "charlie", "bravo");
 
-		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(
+		FacetDisplayContextTextUtil.setUpTermCollectors(
 			_facetCollector, termCollectors);
 
 		FolderSearchFacetDisplayContext folderSearchFacetDisplayContext =
@@ -297,7 +297,7 @@ public class FolderSearchFacetDisplayContextTest {
 		List<TermCollector> termCollectors = _addFoldersAndCreateTermCollectors(
 			"zeroFolderId", "alpha", "bravo", "charlie", "bravo");
 
-		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(
+		FacetDisplayContextTextUtil.setUpTermCollectors(
 			_facetCollector, termCollectors);
 
 		FolderSearchFacetDisplayContext folderSearchFacetDisplayContext =
@@ -323,7 +323,7 @@ public class FolderSearchFacetDisplayContextTest {
 			"zeroFolderId", null, "null", "", "   ", "assert", "volatile",
 			"alpha");
 
-		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(
+		FacetDisplayContextTextUtil.setUpTermCollectors(
 			_facetCollector, termCollectors);
 
 		FolderSearchFacetDisplayContext folderSearchFacetDisplayContext =

@@ -191,7 +191,7 @@ public class ScopeSearchFacetDisplayContextTest {
 
 	@Test
 	public void testOrderByTermFrequencyAscending() throws Exception {
-		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(
+		FacetDisplayContextTextUtil.setUpTermCollectors(
 			_facetCollector,
 			_getTermCollectors(
 				new String[] {"able", "baker", "dog", "charlie"},
@@ -214,7 +214,7 @@ public class ScopeSearchFacetDisplayContextTest {
 
 	@Test
 	public void testOrderByTermFrequencyDescending() throws Exception {
-		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(
+		FacetDisplayContextTextUtil.setUpTermCollectors(
 			_facetCollector,
 			_getTermCollectors(
 				new String[] {"able", "dog", "baker", "charlie"},
@@ -237,7 +237,7 @@ public class ScopeSearchFacetDisplayContextTest {
 
 	@Test
 	public void testOrderByTermValueAscending() throws Exception {
-		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(
+		FacetDisplayContextTextUtil.setUpTermCollectors(
 			_facetCollector,
 			_getTermCollectors(
 				new String[] {"baker", "dog", "able", "baker"},
@@ -260,7 +260,7 @@ public class ScopeSearchFacetDisplayContextTest {
 
 	@Test
 	public void testOrderByTermValueDescending() throws Exception {
-		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(
+		FacetDisplayContextTextUtil.setUpTermCollectors(
 			_facetCollector,
 			_getTermCollectors(
 				new String[] {"baker", "dog", "able", "dog"},

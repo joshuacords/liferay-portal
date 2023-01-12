@@ -172,7 +172,7 @@ public class UserSearchFacetDisplayContextTest {
 	public void testOrderByTermFrequencyAscending() throws Exception {
 		String[] userNames = {"charlie", "delta", "bravo", "alpha"};
 
-		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(
+		FacetDisplayContextTextUtil.setUpTermCollectors(
 			_facetCollector,
 			FacetDisplayContextTextUtil.getTermCollectors(
 				userNames, new int[] {6, 5, 5, 4}));
@@ -192,7 +192,7 @@ public class UserSearchFacetDisplayContextTest {
 	public void testOrderByTermFrequencyDescending() throws Exception {
 		String[] userNames = {"alpha", "delta", "bravo", "charlie"};
 
-		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(
+		FacetDisplayContextTextUtil.setUpTermCollectors(
 			_facetCollector,
 			FacetDisplayContextTextUtil.getTermCollectors(
 				userNames, new int[] {4, 5, 5, 6}));
@@ -210,7 +210,7 @@ public class UserSearchFacetDisplayContextTest {
 
 	@Test
 	public void testOrderByTermValueAscending() throws Exception {
-		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(
+		FacetDisplayContextTextUtil.setUpTermCollectors(
 			_facetCollector,
 			FacetDisplayContextTextUtil.getTermCollectors(
 				new String[] {"bravo", "alpha", "bravo", "charlie"},
@@ -229,7 +229,7 @@ public class UserSearchFacetDisplayContextTest {
 
 	@Test
 	public void testOrderByTermValueDescending() throws Exception {
-		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(
+		FacetDisplayContextTextUtil.setUpTermCollectors(
 			_facetCollector,
 			FacetDisplayContextTextUtil.getTermCollectors(
 				new String[] {"bravo", "alpha", "bravo", "charlie"},
