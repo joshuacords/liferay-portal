@@ -445,7 +445,7 @@ public class ScopeSearchFacetDisplayContextTest {
 
 			termCollectors.add(
 				FacetDisplayContextTextUtil.createTermCollector(
-					i, frequencies[i - 1]));
+					String.valueOf(i), frequencies[i - 1]));
 		}
 
 		return termCollectors;

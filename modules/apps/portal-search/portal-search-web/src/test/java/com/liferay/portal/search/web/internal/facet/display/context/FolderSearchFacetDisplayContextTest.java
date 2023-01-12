@@ -404,7 +404,7 @@ public class FolderSearchFacetDisplayContextTest {
 
 			termCollectors.add(
 				FacetDisplayContextTextUtil.createTermCollector(
-					folderId, frequency));
+					String.valueOf(folderId), frequency));
 
 			folderId++;
 		}
@@ -423,7 +423,7 @@ public class FolderSearchFacetDisplayContextTest {
 
 			termCollectors.add(
 				FacetDisplayContextTextUtil.createTermCollector(
-					i, frequencies[i - 1]));
+					String.valueOf(i), frequencies[i - 1]));
 		}
 
 		return termCollectors;

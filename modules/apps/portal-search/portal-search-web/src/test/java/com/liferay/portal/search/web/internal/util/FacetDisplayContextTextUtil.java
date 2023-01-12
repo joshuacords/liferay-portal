@@ -58,24 +58,6 @@ public class FacetDisplayContextTextUtil {
 		return sb.toString();
 	}
 
-	public static TermCollector createTermCollector(long id, int frequency) {
-		TermCollector termCollector = Mockito.mock(TermCollector.class);
-
-		Mockito.doReturn(
-			frequency
-		).when(
-			termCollector
-		).getFrequency();
-
-		Mockito.doReturn(
-			String.valueOf(id)
-		).when(
-			termCollector
-		).getTerm();
-
-		return termCollector;
-	}
-
 	public static TermCollector createTermCollector(
 		String term, int frequency) {
 
@@ -226,7 +208,8 @@ public class FacetDisplayContextTextUtil {
 		FacetCollector facetCollector, long id, int count) {
 
 		Mockito.doReturn(
-			Collections.singletonList(createTermCollector(id, count))
+			Collections.singletonList(
+				createTermCollector(Long.toString(id), count))
 		).when(
 			facetCollector
 		).getTermCollectors();
