@@ -111,7 +111,7 @@ public class CustomFacetDisplayContextTest {
 		String fieldName = RandomTestUtil.randomString();
 		int count = RandomTestUtil.randomInt();
 
-		FacetDisplayContextTextUtil.setUpOneTermCollector(
+		FacetDisplayContextTextUtil.setUpTermCollector(
 			_facetCollector, fieldName, count);
 
 		String parameterValue = "";
@@ -146,7 +146,7 @@ public class CustomFacetDisplayContextTest {
 		String fieldName = RandomTestUtil.randomString();
 		int count = RandomTestUtil.randomInt();
 
-		FacetDisplayContextTextUtil.setUpOneTermCollector(
+		FacetDisplayContextTextUtil.setUpTermCollector(
 			_facetCollector, fieldName, count);
 
 		String parameterValue = fieldName;

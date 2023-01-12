@@ -157,7 +157,7 @@ public class FacetDisplayContextTextUtil {
 		return themeDisplay;
 	}
 
-	public static void setUpOneTermCollector(
+	public static void setUpTermCollector(
 		FacetCollector facetCollector, long id, int count) {
 
 		Mockito.doReturn(
@@ -168,7 +168,7 @@ public class FacetDisplayContextTextUtil {
 		).getTermCollectors();
 	}
 
-	public static void setUpOneTermCollector(
+	public static void setUpTermCollector(
 		FacetCollector facetCollector, String term, int frequency) {
 
 		Mockito.doReturn(
