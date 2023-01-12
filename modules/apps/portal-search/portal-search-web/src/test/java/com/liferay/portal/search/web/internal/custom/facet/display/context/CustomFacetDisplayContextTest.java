@@ -223,7 +223,8 @@ public class CustomFacetDisplayContextTest {
 		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(
 			_facetCollector,
 			FacetDisplayContextTextUtil.getTermCollectors(
-				"bravo", "alpha", "bravo", "charlie"));
+				new String[] {"bravo", "alpha", "bravo", "charlie"},
+				new int[] {4, 5, 5, 6}));
 
 		CustomFacetDisplayContext customFacetDisplayContext =
 			_createDisplayContext(
@@ -235,7 +236,7 @@ public class CustomFacetDisplayContextTest {
 				customFacetDisplayContext.getBucketDisplayContexts());
 
 		Assert.assertEquals(
-			"alpha:2|bravo:3|bravo:1|charlie:4", nameFrequencyString);
+			"alpha:5|bravo:5|bravo:4|charlie:6", nameFrequencyString);
 	}
 
 	@Test
@@ -243,7 +244,8 @@ public class CustomFacetDisplayContextTest {
 		FacetDisplayContextTextUtil.setUpMultipleTermCollectors(
 			_facetCollector,
 			FacetDisplayContextTextUtil.getTermCollectors(
-				"bravo", "alpha", "bravo", "charlie"));
+				new String[] {"bravo", "alpha", "bravo", "charlie"},
+				new int[] {3, 4, 5, 6}));
 
 		CustomFacetDisplayContext customFacetDisplayContext =
 			_createDisplayContext(
@@ -255,7 +257,7 @@ public class CustomFacetDisplayContextTest {
 				customFacetDisplayContext.getBucketDisplayContexts());
 
 		Assert.assertEquals(
-			"charlie:4|bravo:3|bravo:1|alpha:2", nameFrequencyString);
+			"charlie:6|bravo:5|bravo:3|alpha:4", nameFrequencyString);
 	}
 
 	private CustomFacetDisplayContext _createDisplayContext(

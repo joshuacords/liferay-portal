@@ -127,16 +127,6 @@ public class FacetDisplayContextTextUtil {
 		return renderRequest;
 	}
 
-	public static List<TermCollector> getTermCollectors(String... terms) {
-		int[] frequencies = new int[terms.length];
-
-		for (int i = 0; i < terms.length; i++) {
-			frequencies[i] = i + 1;
-		}
-
-		return getTermCollectors(terms, frequencies);
-	}
-
 	public static List<TermCollector> getTermCollectors(
 		String[] terms, int[] frequencies) {
 
