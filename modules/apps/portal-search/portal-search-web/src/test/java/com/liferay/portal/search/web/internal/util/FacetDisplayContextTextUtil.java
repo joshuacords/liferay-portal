@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.search.facet.collector.TermCollector;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.search.web.internal.custom.facet.configuration.CustomFacetPortletInstanceConfiguration;
 import com.liferay.portal.search.web.internal.facet.display.context.BucketDisplayContext;
 
 import java.util.ArrayList;
@@ -78,12 +79,14 @@ public class FacetDisplayContextTextUtil {
 		return termCollector;
 	}
 
-	public static HttpServletRequest getHttpServletRequest() {
+	public static HttpServletRequest getHttpServletRequest()
+		throws ConfigurationException {
+
 		HttpServletRequest httpServletRequest = Mockito.mock(
 			HttpServletRequest.class);
 
 		Mockito.doReturn(
-			getThemeDisplay()
+			getThemeDisplay(CustomFacetPortletInstanceConfiguration.class)
 		).when(
 			httpServletRequest
 		).getAttribute(
@@ -137,18 +140,6 @@ public class FacetDisplayContextTextUtil {
 		}
 
 		return termCollectors;
-	}
-
-	public static ThemeDisplay getThemeDisplay() {
-		ThemeDisplay themeDisplay = Mockito.mock(ThemeDisplay.class);
-
-		Mockito.doReturn(
-			Mockito.mock(PortletDisplay.class)
-		).when(
-			themeDisplay
-		).getPortletDisplay();
-
-		return themeDisplay;
 	}
 
 	public static ThemeDisplay getThemeDisplay(
