@@ -21,11 +21,16 @@ import com.liferay.portal.kernel.model.Layout;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.Localization;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.search.spi.model.index.contributor.ModelDocumentContributor;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -52,14 +57,19 @@ public class LayoutModelDocumentContributor
 
 		document.addText(
 			Field.DEFAULT_LANGUAGE_ID, layout.getDefaultLanguageId());
-		document.addLocalizedText(Field.NAME, layout.getNameMap());
 		document.addText(
 			"privateLayout", String.valueOf(layout.isPrivateLayout()));
 		document.addKeyword(Field.STATUS, _getStatus(layout));
 		document.addText(Field.TYPE, layout.getType());
 
+		Map<Locale, String> nameMap = layout.getNameMap();
+
 		for (String languageId : layout.getAvailableLanguageIds()) {
 			Locale locale = LocaleUtil.fromLanguageId(languageId);
+
+			document.addText(
+				_localization.getLocalizedName(Field.NAME, languageId),
+				nameMap.get(locale));
 
 			document.addText(
 				Field.getLocalizedName(locale, Field.TITLE),
@@ -70,11 +80,20 @@ public class LayoutModelDocumentContributor
 			_layoutLocalizationLocalService.getLayoutLocalizations(
 				layout.getPlid());
 
+		String[] availableLanguages = layout.getAvailableLanguageIds();
+
+		Set<String> availableLanguagesSet = new HashSet<>(
+			Arrays.asList(availableLanguages));
+
 		for (LayoutLocalization layoutLocalization : layoutLocalizations) {
-			document.addText(
-				Field.getLocalizedName(
-					layoutLocalization.getLanguageId(), Field.CONTENT),
-				layoutLocalization.getContent());
+			if (availableLanguagesSet.contains(
+					layoutLocalization.getLanguageId())) {
+
+				document.addText(
+					Field.getLocalizedName(
+						layoutLocalization.getLanguageId(), Field.CONTENT),
+					layoutLocalization.getContent());
+			}
 		}
 	}
 
@@ -91,5 +110,8 @@ public class LayoutModelDocumentContributor
 
 	@Reference
 	private LayoutLocalizationLocalService _layoutLocalizationLocalService;
+
+	@Reference
+	private Localization _localization;
 
 }
