@@ -188,22 +188,4 @@ public class FacetDisplayContextTextUtil {
 		).getTermCollectors();
 	}
 
-	public static void setUpTermCollectors(
-		FacetCollector facetCollector, String... terms) {
-
-		int frequency = 1;
-
-		for (String term : terms) {
-			Mockito.doReturn(
-				createTermCollector(term, frequency)
-			).when(
-				facetCollector
-			).getTermCollector(
-				term
-			);
-
-			frequency++;
-		}
-	}
-
 }
