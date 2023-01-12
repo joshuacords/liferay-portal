@@ -153,17 +153,8 @@ public class LayoutMultiLanguageSearchTest {
 			});
 	}
 
-	private Map<String, String> _getMapResult(String prefix, String keyWords) {
+	private Map<String, String> _getMapResult(String prefix) {
 		return HashMapBuilder.put(
-			() -> {
-				if (prefix != _TITLE) {
-					return prefix;
-				}
-
-				return null;
-			},
-			keyWords
-		).put(
 			prefix + "_en_US", _ENGLISH_KEYWORD
 		).put(
 			prefix + "_ja_JP", _JAPANESE_KEYWORD
@@ -178,7 +169,7 @@ public class LayoutMultiLanguageSearchTest {
 
 		_addLayoutMultiLanguage();
 
-		Map<String, String> map = _getMapResult(prefix, keyWords);
+		Map<String, String> map = _getMapResult(prefix);
 
 		assertFieldValues(prefix, locale, map, keyWords);
 	}

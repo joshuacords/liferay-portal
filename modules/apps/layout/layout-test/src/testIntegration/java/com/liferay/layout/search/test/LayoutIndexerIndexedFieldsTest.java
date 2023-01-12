@@ -215,8 +215,6 @@ public class LayoutIndexerIndexedFieldsTest {
 	}
 
 	private void _populateName(Layout layout, Map<String, String> map) {
-		map.put(Field.NAME, layout.getName(layout.getDefaultLanguageId()));
-
 		for (String languageId : layout.getAvailableLanguageIds()) {
 			Locale locale = LocaleUtil.fromLanguageId(languageId);
 
