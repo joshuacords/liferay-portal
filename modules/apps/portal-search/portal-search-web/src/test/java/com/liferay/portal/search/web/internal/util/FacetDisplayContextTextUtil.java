@@ -158,17 +158,6 @@ public class FacetDisplayContextTextUtil {
 	}
 
 	public static void setUpTermCollector(
-		FacetCollector facetCollector, long id, int count) {
-
-		Mockito.doReturn(
-			Collections.singletonList(
-				createTermCollector(Long.toString(id), count))
-		).when(
-			facetCollector
-		).getTermCollectors();
-	}
-
-	public static void setUpTermCollector(
 		FacetCollector facetCollector, String term, int frequency) {
 
 		Mockito.doReturn(
