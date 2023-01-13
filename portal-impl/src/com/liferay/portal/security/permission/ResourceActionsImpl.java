@@ -404,13 +404,8 @@ public class ResourceActionsImpl implements ResourceActions {
 		PortletResourceActionsBag portletResourceActionsBag =
 			_getPortletResourceActionsBag(name);
 
-		Set<String> actions =
-			portletResourceActionsBag.getGuestUnsupportedActions();
-
-		actions.add(ActionKeys.CONFIGURATION);
-		actions.add(ActionKeys.PERMISSIONS);
-
-		return new ArrayList<>(actions);
+		return new ArrayList<>(
+			portletResourceActionsBag.getGuestUnsupportedActions());
 	}
 
 	@Override
@@ -680,6 +675,11 @@ public class ResourceActionsImpl implements ResourceActions {
 		}
 	}
 
+	private void _checkPortletGuestUnsupportedActions(Set<String> actions) {
+		actions.add(ActionKeys.CONFIGURATION);
+		actions.add(ActionKeys.PERMISSIONS);
+	}
+
 	private void _checkPortletLayoutManagerActions(Set<String> actions) {
 		if (!actions.contains(ActionKeys.ACCESS_IN_CONTROL_PANEL) &&
 			!actions.contains(ActionKeys.ADD_TO_PAGE)) {
@@ -830,6 +830,9 @@ public class ResourceActionsImpl implements ResourceActions {
 
 			_checkPortletGuestDefaultActions(
 				portletResourceActionsBag.getGuestDefaultActions());
+
+			_checkPortletGuestUnsupportedActions(
+				portletResourceActionsBag.getGuestUnsupportedActions());
 
 			_checkPortletLayoutManagerActions(
 				portletResourceActionsBag.getLayoutManagerActions());
@@ -1108,6 +1111,12 @@ public class ResourceActionsImpl implements ResourceActions {
 		guestUnsupportedActions.clear();
 
 		_readActionKeys(guestUnsupportedActions, guestUnsupportedElement);
+
+		String parentElementName = parentElement.getName();
+
+		if (parentElementName.equals("portlet-resource")) {
+			_checkPortletGuestUnsupportedActions(guestUnsupportedActions);
+		}
 
 		_checkGuestUnsupportedActions(
 			guestUnsupportedActions, guestDefaultActions);
