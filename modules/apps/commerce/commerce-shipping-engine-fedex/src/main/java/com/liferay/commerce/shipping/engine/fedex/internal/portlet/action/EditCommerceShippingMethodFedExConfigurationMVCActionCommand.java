@@ -27,6 +27,7 @@ import com.liferay.portal.kernel.settings.ModifiableSettings;
 import com.liferay.portal.kernel.settings.Settings;
 import com.liferay.portal.kernel.settings.SettingsFactory;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.PropertiesParamUtil;
 import com.liferay.portal.kernel.util.UnicodeProperties;
 
@@ -78,7 +79,13 @@ public class EditCommerceShippingMethodFedExConfigurationMVCActionCommand
 			for (Map.Entry<String, String> entry :
 					engineParameterMap.entrySet()) {
 
-				modifiableSettings.setValue(entry.getKey(), entry.getValue());
+				String value = entry.getValue();
+
+				if (value.equals(Portal.TEMP_OBFUSCATION_VALUE)) {
+					continue;
+				}
+
+				modifiableSettings.setValue(entry.getKey(), value);
 			}
 
 			modifiableSettings.store();
