@@ -71,6 +71,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -1114,7 +1115,7 @@ public class ResourceActionsImpl implements ResourceActions {
 
 		String parentElementName = parentElement.getName();
 
-		if (parentElementName.equals("portlet-resource")) {
+		if (Objects.equals(parentElementName, "portlet-resource")) {
 			_checkPortletGuestUnsupportedActions(guestUnsupportedActions);
 		}
 
