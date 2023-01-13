@@ -65,10 +65,9 @@ public class WorkflowConstants
 		else if (status == STATUS_INACTIVE) {
 			return LABEL_INACTIVE;
 		}
-		else {
-			return com.liferay.portal.kernel.workflow.WorkflowConstants.
-				getStatusLabel(status);
-		}
+
+		return com.liferay.portal.kernel.workflow.WorkflowConstants.
+			getStatusLabel(status);
 	}
 
 }

@@ -734,22 +734,21 @@ public class PortletRequestModel implements Serializable {
 
 			return !map.isEmpty();
 		}
-		else {
-			String objString = String.valueOf(obj);
 
-			if (Validator.isNull(objString)) {
-				return false;
-			}
+		String objString = String.valueOf(obj);
 
-			String hashCode = StringPool.AT.concat(
-				StringUtil.toHexString(obj.hashCode()));
-
-			if (objString.endsWith(hashCode)) {
-				return false;
-			}
-
-			return true;
+		if (Validator.isNull(objString)) {
+			return false;
 		}
+
+		String hashCode = StringPool.AT.concat(
+			StringUtil.toHexString(obj.hashCode()));
+
+		if (objString.endsWith(hashCode)) {
+			return false;
+		}
+
+		return true;
 	}
 
 	private void _initAttributes() {

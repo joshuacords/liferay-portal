@@ -1686,10 +1686,9 @@ public class DLAppHelperLocalServiceImpl
 		else if (syncEvent.equals(DLSyncConstants.EVENT_UPDATE)) {
 			return WorkflowRepositoryEventType.Update.class;
 		}
-		else {
-			throw new IllegalArgumentException(
-				String.format("Unsupported sync event %s", syncEvent));
-		}
+
+		throw new IllegalArgumentException(
+			String.format("Unsupported sync event %s", syncEvent));
 	}
 
 	protected void trashOrRestoreFolder(DLFolder dlFolder, boolean moveToTrash)

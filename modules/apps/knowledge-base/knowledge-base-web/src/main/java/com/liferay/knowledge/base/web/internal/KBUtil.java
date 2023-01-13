@@ -343,10 +343,9 @@ public class KBUtil {
 		else if (status == KBCommentConstants.STATUS_NEW) {
 			return "new";
 		}
-		else {
-			throw new IllegalArgumentException(
-				String.format("Invalid suggestion status %s", status));
-		}
+
+		throw new IllegalArgumentException(
+			String.format("Invalid suggestion status %s", status));
 	}
 
 	public static final String getStatusTransitionLabel(int status) {
@@ -359,10 +358,9 @@ public class KBUtil {
 		else if (status == KBCommentConstants.STATUS_NEW) {
 			return "move-to-new";
 		}
-		else {
-			throw new IllegalArgumentException(
-				String.format("Invalid suggestion status %s", status));
-		}
+
+		throw new IllegalArgumentException(
+			String.format("Invalid suggestion status %s", status));
 	}
 
 	private static long _getCurrentRootKBFolder(

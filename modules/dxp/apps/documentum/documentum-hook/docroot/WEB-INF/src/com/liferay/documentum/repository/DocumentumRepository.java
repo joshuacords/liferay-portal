@@ -1408,10 +1408,9 @@ public class DocumentumRepository
 
 			return (T)new DocumentumFolder(idfFolder, root);
 		}
-		else {
-			throw new RepositoryException(
-				"Unsupported object type " + idfSysObject);
-		}
+
+		throw new RepositoryException(
+			"Unsupported object type " + idfSysObject);
 	}
 
 	protected <T extends ExtRepositoryObject> List<T> toExtRepositoryObjects(

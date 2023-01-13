@@ -367,10 +367,8 @@ public class JournalTransformer {
 				else if (exception instanceof TransformException) {
 					throw (TransformException)exception;
 				}
-				else {
-					throw new TransformException(
-						"Unhandled exception", exception);
-				}
+
+				throw new TransformException("Unhandled exception", exception);
 			}
 			finally {
 				if ((httpServletRequest != null) &&

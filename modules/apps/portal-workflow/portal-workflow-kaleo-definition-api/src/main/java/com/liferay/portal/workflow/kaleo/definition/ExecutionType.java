@@ -37,9 +37,8 @@ public enum ExecutionType {
 		else if (Objects.equals(ON_TIMER.getValue(), value)) {
 			return ON_TIMER;
 		}
-		else {
-			throw new IllegalArgumentException("Invalid value " + value);
-		}
+
+		throw new IllegalArgumentException("Invalid value " + value);
 	}
 
 	public String getValue() {

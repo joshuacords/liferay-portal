@@ -87,9 +87,8 @@ public class LicenseType {
 		else if (type.equals(VIRTUAL_CLUSTER)) {
 			return "Virtual Cluster";
 		}
-		else {
-			return StringPool.BLANK;
-		}
+
+		return StringPool.BLANK;
 	}
 
 }

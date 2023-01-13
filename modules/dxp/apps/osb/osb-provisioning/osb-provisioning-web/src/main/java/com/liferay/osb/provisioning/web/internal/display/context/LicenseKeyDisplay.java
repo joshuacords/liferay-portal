@@ -171,9 +171,8 @@ public class LicenseKeyDisplay {
 		else if (_status.equals("expired")) {
 			return "label-warning";
 		}
-		else {
-			return "label-danger";
-		}
+
+		return "label-danger";
 	}
 
 	public String getType() {

@@ -446,13 +446,12 @@ public class WebServerServlet extends HttpServlet {
 
 			return DLAppServiceUtil.getFileEntry(groupId, folderId, fileName);
 		}
-		else {
-			long groupId = GetterUtil.getLong(pathArray[0]);
 
-			String uuid = pathArray[3];
+		long groupId = GetterUtil.getLong(pathArray[0]);
 
-			return DLAppServiceUtil.getFileEntryByUuidAndGroupId(uuid, groupId);
-		}
+		String uuid = pathArray[3];
+
+		return DLAppServiceUtil.getFileEntryByUuidAndGroupId(uuid, groupId);
 	}
 
 	protected Image getImage(

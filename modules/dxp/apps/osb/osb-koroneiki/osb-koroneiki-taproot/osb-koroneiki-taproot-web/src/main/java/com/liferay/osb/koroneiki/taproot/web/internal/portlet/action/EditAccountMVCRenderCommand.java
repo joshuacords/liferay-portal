@@ -98,9 +98,8 @@ public class EditAccountMVCRenderCommand implements MVCRenderCommand {
 
 				return "/accounts_admin/edit_account_contact_roles.jsp";
 			}
-			else {
-				return "/accounts_admin/edit_account.jsp";
-			}
+
+			return "/accounts_admin/edit_account.jsp";
 		}
 		catch (Exception exception) {
 			SessionErrors.add(renderRequest, exception.getClass());

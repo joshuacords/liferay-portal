@@ -309,20 +309,19 @@ public class WorkflowDefinitionDisplayContext {
 				getConfigureAssignementLink()
 			};
 		}
-		else {
-			int moreAssets = workflowDefinitionLinks.size() - 2;
 
-			WorkflowDefinitionLink workflowDefinitionLink1 =
-				workflowDefinitionLinks.get(0);
-			WorkflowDefinitionLink workflowDefinitionLink2 =
-				workflowDefinitionLinks.get(1);
+		int moreAssets = workflowDefinitionLinks.size() - 2;
 
-			return new Object[] {
-				getLocalizedAssetName(workflowDefinitionLink1.getClassName()),
-				getLocalizedAssetName(workflowDefinitionLink2.getClassName()),
-				moreAssets, getConfigureAssignementLink()
-			};
-		}
+		WorkflowDefinitionLink workflowDefinitionLink1 =
+			workflowDefinitionLinks.get(0);
+		WorkflowDefinitionLink workflowDefinitionLink2 =
+			workflowDefinitionLinks.get(1);
+
+		return new Object[] {
+			getLocalizedAssetName(workflowDefinitionLink1.getClassName()),
+			getLocalizedAssetName(workflowDefinitionLink2.getClassName()),
+			moreAssets, getConfigureAssignementLink()
+		};
 	}
 
 	public String getMessageKey(

@@ -122,10 +122,9 @@ public class FunctionScoreQueryTranslatorImpl
 			return org.elasticsearch.common.lucene.search.function.
 				FunctionScoreQuery.ScoreMode.SUM;
 		}
-		else {
-			throw new IllegalArgumentException(
-				"Invalid FunctionScoreQuery.ScoreMode: " + scoreMode);
-		}
+
+		throw new IllegalArgumentException(
+			"Invalid FunctionScoreQuery.ScoreMode: " + scoreMode);
 	}
 
 	protected FilterFunctionBuilder translateFilterFunction(

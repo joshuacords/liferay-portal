@@ -1070,10 +1070,9 @@ public class IMAPAccessor {
 			else if (recipientType.equals(Message.RecipientType.BCC)) {
 				return InternetAddress.parse(message.getBcc());
 			}
-			else {
-				throw new IllegalArgumentException(
-					"Invalid recipient type " + recipientType);
-			}
+
+			throw new IllegalArgumentException(
+				"Invalid recipient type " + recipientType);
 		}
 		catch (AddressException addressException) {
 			throw new MailException(

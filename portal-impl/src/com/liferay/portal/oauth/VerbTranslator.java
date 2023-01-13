@@ -34,9 +34,8 @@ public class VerbTranslator {
 		else if (verb == Verb.PUT) {
 			return org.scribe.model.Verb.PUT;
 		}
-		else {
-			throw new IllegalArgumentException("Unknown verb " + verb);
-		}
+
+		throw new IllegalArgumentException("Unknown verb " + verb);
 	}
 
 	public static Verb translate(org.scribe.model.Verb verb) {
@@ -52,9 +51,8 @@ public class VerbTranslator {
 		else if (verb == org.scribe.model.Verb.PUT) {
 			return Verb.PUT;
 		}
-		else {
-			throw new IllegalArgumentException("Unknown verb " + verb);
-		}
+
+		throw new IllegalArgumentException("Unknown verb " + verb);
 	}
 
 }

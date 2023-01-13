@@ -87,10 +87,9 @@ public class ContactRolesDisplayContext extends BaseSearchDisplayContext {
 			return com.liferay.osb.koroneiki.phloem.rest.dto.v1_0.ContactRole.
 				Type.TEAM.toString();
 		}
-		else {
-			return com.liferay.osb.koroneiki.phloem.rest.dto.v1_0.ContactRole.
-				Type.ACCOUNT_CUSTOMER.toString();
-		}
+
+		return com.liferay.osb.koroneiki.phloem.rest.dto.v1_0.ContactRole.Type.
+			ACCOUNT_CUSTOMER.toString();
 	}
 
 }

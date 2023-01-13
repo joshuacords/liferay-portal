@@ -61,9 +61,8 @@ public class SalesforceConstants {
 		else if (opportunityType == OPPORTUNITY_TYPE_RENEWAL) {
 			return "renewal";
 		}
-		else {
-			return "unknown-opportunity";
-		}
+
+		return "unknown-opportunity";
 	}
 
 }

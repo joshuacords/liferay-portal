@@ -1505,9 +1505,8 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 			return SalesforceConstants.
 				OPPORTUNITY_TYPE_NEW_PROJECT_EXISTING_BUSINESS;
 		}
-		else {
-			return 0;
-		}
+
+		return 0;
 	}
 
 	protected Account.Region getSupportRegion(
@@ -2576,9 +2575,8 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 		else if (language.equals(Account.Language.SPANISH.toString())) {
 			return "es_ES";
 		}
-		else {
-			return StringPool.BLANK;
-		}
+
+		return StringPool.BLANK;
 	}
 
 	private Product _getProduct(String productName) throws Exception {

@@ -49,9 +49,8 @@ public class LicenseServerId {
 		else if (licenseType.equals(LicenseType.VIRTUAL_CLUSTER)) {
 			return VIRTUAL_CLUSTER;
 		}
-		else {
-			return StringPool.BLANK;
-		}
+
+		return StringPool.BLANK;
 	}
 
 }

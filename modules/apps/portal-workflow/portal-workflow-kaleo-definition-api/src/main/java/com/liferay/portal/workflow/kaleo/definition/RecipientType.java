@@ -43,9 +43,8 @@ public enum RecipientType {
 		else if (Objects.equals(USER.getValue(), value)) {
 			return USER;
 		}
-		else {
-			throw new IllegalArgumentException("Invalid value " + value);
-		}
+
+		throw new IllegalArgumentException("Invalid value " + value);
 	}
 
 	public String getValue() {

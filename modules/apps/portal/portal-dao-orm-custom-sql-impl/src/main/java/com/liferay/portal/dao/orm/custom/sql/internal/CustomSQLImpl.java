@@ -819,10 +819,9 @@ public class CustomSQLImpl implements CustomSQL {
 		else if (wildcardMode == WildcardMode.TRAILING) {
 			return keyword.concat(StringPool.PERCENT);
 		}
-		else {
-			throw new IllegalArgumentException(
-				"Invalid wildcard mode " + wildcardMode);
-		}
+
+		throw new IllegalArgumentException(
+			"Invalid wildcard mode " + wildcardMode);
 	}
 
 	protected String transform(String sql) {
