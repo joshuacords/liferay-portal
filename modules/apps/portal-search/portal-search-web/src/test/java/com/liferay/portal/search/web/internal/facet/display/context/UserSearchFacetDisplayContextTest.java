@@ -196,6 +196,12 @@ public class UserSearchFacetDisplayContextTest
 		UserSearchFacetDisplayContext userSearchFacetDisplayContext =
 			_createDisplayContext(StringPool.BLANK, "count:desc");
 
+		// Individual tests shouldn't need to handle buildNameFrequencyString or
+		// comparing that string to the expected string, instead the Base class
+		// should have its own assert method called in these cases where the
+		// bucketDisplayContexts along with termCollectors are passed in and the
+		// base class knows how to compare them.
+
 		String nameFrequencyString = buildNameFrequencyString(
 			userSearchFacetDisplayContext.getBucketDisplayContexts());
 

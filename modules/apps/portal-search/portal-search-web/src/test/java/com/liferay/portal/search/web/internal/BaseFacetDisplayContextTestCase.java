@@ -57,6 +57,8 @@ public abstract class BaseFacetDisplayContextTestCase {
 		return null;
 	}
 
+	//IF the interface for FacetDisplayContext is okay, then we should pull up a
+	//bunch of tests like this one from the lower levels.
 	@Test
 	public void testEmptySearchResults() throws Exception {
 		String parameterValue = "0";
