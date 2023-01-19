@@ -90,7 +90,7 @@ public class SyncToCustomerPortalMVCActionCommand extends BaseMVCActionCommand {
 					}),
 				new String[] {
 					_accountSyncFilePath, "--context_param",
-					"accountSyncFilter=\"accountKey eq '" + accountKey + "'\""
+					"accountSyncFilter=accountKey eq '" + accountKey + "'"
 				});
 
 			future.get();
