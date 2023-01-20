@@ -14,6 +14,7 @@
 
 package com.liferay.product.navigation.control.menu.web.internal.portlet.action;
 
+import com.liferay.layout.admin.kernel.util.LayoutAdminSearchUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.json.JSONArray;
@@ -91,7 +92,7 @@ public class FindLayoutsMVCResourceCommand extends BaseMVCResourceCommand {
 
 		JSONArray jsonArray = JSONFactoryUtil.createJSONArray();
 
-		List<Layout> layouts = _layoutLocalService.getLayouts(
+		List<Layout> layouts = LayoutAdminSearchUtil.getLayouts(
 			themeDisplay.getScopeGroupId(), keywords,
 			new String[] {
 				LayoutConstants.TYPE_CONTENT, LayoutConstants.TYPE_EMBEDDED,
@@ -100,8 +101,7 @@ public class FindLayoutsMVCResourceCommand extends BaseMVCResourceCommand {
 				LayoutConstants.TYPE_PANEL, LayoutConstants.TYPE_PORTLET,
 				LayoutConstants.TYPE_URL
 			},
-			new int[] {WorkflowConstants.STATUS_ANY},
-			0, 10, null);
+			new int[] {WorkflowConstants.STATUS_ANY}, 0, 10, null);
 
 		for (Layout layout : layouts) {
 			StringBundler sb = new StringBundler(5);
@@ -130,7 +130,7 @@ public class FindLayoutsMVCResourceCommand extends BaseMVCResourceCommand {
 
 		jsonObject.put("layouts", jsonArray);
 
-		int totalCount = _layoutLocalService.getLayoutsCount(
+		int totalCount = LayoutAdminSearchUtil.getLayoutsCount(
 			themeDisplay.getScopeGroupId(), keywords,
 			new String[] {
 				LayoutConstants.TYPE_CONTENT, LayoutConstants.TYPE_EMBEDDED,
