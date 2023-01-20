@@ -779,18 +779,6 @@ public class LayoutsAdminDisplayContext {
 
 		int layoutsCount = LayoutServiceUtil.getLayoutsCount(
 			getSelGroupId(), isPrivateLayout(), getKeywords(),
-			new int[] {WorkflowConstants.STATUS_ANY},
-			new String[] {
-				LayoutConstants.TYPE_CONTENT, LayoutConstants.TYPE_EMBEDDED,
-				LayoutConstants.TYPE_LINK_TO_LAYOUT,
-				LayoutConstants.TYPE_FULL_PAGE_APPLICATION,
-				LayoutConstants.TYPE_PANEL, LayoutConstants.TYPE_PORTLET,
-				LayoutConstants.TYPE_URL
-			});
-
-		List<Layout> layouts = LayoutServiceUtil.getLayouts(
-			getSelGroupId(), isPrivateLayout(), getKeywords(),
-			new int[] {WorkflowConstants.STATUS_ANY},
 			new String[] {
 				LayoutConstants.TYPE_CONTENT, LayoutConstants.TYPE_EMBEDDED,
 				LayoutConstants.TYPE_LINK_TO_LAYOUT,
@@ -798,6 +786,18 @@ public class LayoutsAdminDisplayContext {
 				LayoutConstants.TYPE_PANEL, LayoutConstants.TYPE_PORTLET,
 				LayoutConstants.TYPE_URL
 			},
+			new int[] {WorkflowConstants.STATUS_ANY});
+
+		List<Layout> layouts = LayoutServiceUtil.getLayouts(
+			getSelGroupId(), isPrivateLayout(), getKeywords(),
+			new String[] {
+				LayoutConstants.TYPE_CONTENT, LayoutConstants.TYPE_EMBEDDED,
+				LayoutConstants.TYPE_LINK_TO_LAYOUT,
+				LayoutConstants.TYPE_FULL_PAGE_APPLICATION,
+				LayoutConstants.TYPE_PANEL, LayoutConstants.TYPE_PORTLET,
+				LayoutConstants.TYPE_URL
+			},
+			new int[] {WorkflowConstants.STATUS_ANY},
 			layoutsSearchContainer.getStart(), layoutsSearchContainer.getEnd(),
 			layoutsSearchContainer.getOrderByComparator());
 
