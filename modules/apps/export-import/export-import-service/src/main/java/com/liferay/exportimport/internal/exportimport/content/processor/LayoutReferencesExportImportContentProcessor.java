@@ -1091,10 +1091,11 @@ public class LayoutReferencesExportImportContentProcessor
 				privateLayout = layoutSet.isPrivateLayout();
 			}
 
-			Layout layout = _layoutLocalService.fetchLayoutByFriendlyURL(
-				groupId, privateLayout, url);
+			LayoutFriendlyURL layoutFriendlyURL =
+				_layoutFriendlyURLLocalService.fetchFirstLayoutFriendlyURL(
+					groupId, privateLayout, url);
 
-			if (layout != null) {
+			if (layoutFriendlyURL != null) {
 				continue;
 			}
 
