@@ -70,7 +70,10 @@ import org.osgi.service.component.annotations.Reference;
 /**
  * @author Jürgen Kappler
  */
-@Component(immediate = true, service = InfoDisplayContributor.class)
+@Component(
+	immediate = true, property = "service.ranking:Integer=100",
+	service = InfoDisplayContributor.class
+)
 public class JournalArticleInfoDisplayContributor
 	implements InfoDisplayContributor<JournalArticle> {
 
