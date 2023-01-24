@@ -131,6 +131,16 @@ public class LicenseKeyLocalServiceWrapper
 			expirationDate, complimentary, active);
 	}
 
+	@Override
+	public void addProductConsumption(
+			String userName, String userUuid,
+			com.liferay.osb.provisioning.license.model.LicenseKey licenseKey)
+		throws Exception {
+
+		_licenseKeyLocalService.addProductConsumption(
+			userName, userUuid, licenseKey);
+	}
+
 	/**
 	 * Creates a new license key with the primary key. Does not add the license key to the database.
 	 *
@@ -190,6 +200,16 @@ public class LicenseKeyLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _licenseKeyLocalService.deletePersistedModel(persistedModel);
+	}
+
+	@Override
+	public void deleteProductConsumption(
+			String userName, String userUuid,
+			com.liferay.osb.provisioning.license.model.LicenseKey licenseKey)
+		throws Exception {
+
+		_licenseKeyLocalService.deleteProductConsumption(
+			userName, userUuid, licenseKey);
 	}
 
 	@Override

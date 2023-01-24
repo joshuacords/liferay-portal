@@ -136,6 +136,13 @@ public class LicenseKeyLocalServiceUtil {
 			expirationDate, complimentary, active);
 	}
 
+	public static void addProductConsumption(
+			String userName, String userUuid, LicenseKey licenseKey)
+		throws Exception {
+
+		getService().addProductConsumption(userName, userUuid, licenseKey);
+	}
+
 	/**
 	 * Creates a new license key with the primary key. Does not add the license key to the database.
 	 *
@@ -185,6 +192,13 @@ public class LicenseKeyLocalServiceUtil {
 		throws PortalException {
 
 		return getService().deletePersistedModel(persistedModel);
+	}
+
+	public static void deleteProductConsumption(
+			String userName, String userUuid, LicenseKey licenseKey)
+		throws Exception {
+
+		getService().deleteProductConsumption(userName, userUuid, licenseKey);
 	}
 
 	public static DynamicQuery dynamicQuery() {

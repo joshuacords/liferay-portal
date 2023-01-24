@@ -124,6 +124,10 @@ public interface LicenseKeyLocalService
 			boolean active)
 		throws Exception;
 
+	public void addProductConsumption(
+			String userName, String userUuid, LicenseKey licenseKey)
+		throws Exception;
+
 	/**
 	 * Creates a new license key with the primary key. Does not add the license key to the database.
 	 *
@@ -167,6 +171,10 @@ public interface LicenseKeyLocalService
 	@Override
 	public PersistedModel deletePersistedModel(PersistedModel persistedModel)
 		throws PortalException;
+
+	public void deleteProductConsumption(
+			String userName, String userUuid, LicenseKey licenseKey)
+		throws Exception;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public DynamicQuery dynamicQuery();
