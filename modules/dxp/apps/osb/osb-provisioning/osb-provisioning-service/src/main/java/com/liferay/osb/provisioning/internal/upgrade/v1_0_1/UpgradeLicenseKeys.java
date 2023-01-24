@@ -14,8 +14,10 @@
 
 package com.liferay.osb.provisioning.internal.upgrade.v1_0_1;
 
+import com.liferay.osb.provisioning.koroneiki.web.service.ProductConsumptionWebService;
 import com.liferay.osb.provisioning.license.model.LicenseKey;
 import com.liferay.osb.provisioning.license.service.LicenseKeyLocalService;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.dao.jdbc.DataAccess;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -59,6 +61,11 @@ public class UpgradeLicenseKeys extends UpgradeProcess {
 
 					try {
 						_licenseKeyLocalService.updateLicenseKey(licenseKey);
+
+						_licenseKeyLocalService.deleteProductConsumption(
+							StringPool.BLANK, StringPool.BLANK, licenseKey);
+						_licenseKeyLocalService.addProductConsumption(
+							StringPool.BLANK, StringPool.BLANK, licenseKey);
 					}
 					catch (Exception exception) {
 						_log.error(exception);
@@ -83,5 +90,8 @@ public class UpgradeLicenseKeys extends UpgradeProcess {
 
 	@Reference
 	private LicenseKeyLocalService _licenseKeyLocalService;
+
+	@Reference
+	private ProductConsumptionWebService _productConsumptionWebService;
 
 }

@@ -290,6 +290,67 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 			StringPool.BLANK, complimentary, active);
 	}
 
+	public void addProductConsumption(
+			String userName, String userUuid, LicenseKey licenseKey)
+		throws Exception {
+
+		int count = 1;
+
+		String licenseEntryType = licenseKey.getLicenseEntryType();
+
+		if (licenseEntryType.equals(LicenseType.VIRTUAL_CLUSTER)) {
+			count = licenseKey.getMaxClusterNodes();
+		}
+
+		for (int i = 0; i < count; i++) {
+			ProductConsumption productConsumption = new ProductConsumption();
+
+			productConsumption.setEndDate(licenseKey.getExpirationDate());
+
+			Product product = _productWebService.getProduct(
+				licenseKey.getProductKey());
+
+			productConsumption.setProductKey(product.getKey());
+
+			if (Validator.isNotNull(licenseKey.getProductPurchaseKey())) {
+				productConsumption.setProductPurchaseKey(
+					licenseKey.getProductPurchaseKey());
+			}
+
+			productConsumption.setStartDate(licenseKey.getStartDate());
+
+			ExternalLink externalLink = new ExternalLink();
+
+			externalLink.setDomain(ExternalLinkDomain.PROVISIONING);
+			externalLink.setEntityName(ExternalLinkEntityName.LICENSE_KEY);
+			externalLink.setEntityId(
+				String.valueOf(licenseKey.getLicenseKeyId()));
+
+			productConsumption.setExternalLinks(
+				new ExternalLink[] {externalLink});
+
+			_productConsumptionWebService.addProductConsumption(
+				userName, userUuid, licenseKey.getAccountKey(),
+				productConsumption);
+		}
+	}
+
+	public void deleteProductConsumption(
+			String userName, String userUuid, LicenseKey licenseKey)
+		throws Exception {
+
+		List<ProductConsumption> productConsumptions =
+			_productConsumptionWebService.getProductConsumptions(
+				ExternalLinkDomain.PROVISIONING,
+				ExternalLinkEntityName.LICENSE_KEY,
+				String.valueOf(licenseKey.getLicenseKeyId()), 1, 1000);
+
+		for (ProductConsumption productConsumption : productConsumptions) {
+			_productConsumptionWebService.deleteProductConsumption(
+				userName, userUuid, productConsumption.getKey());
+		}
+	}
+
 	public LicenseKey extendLicenseKey(
 			String userName, String userUuid, long licenseKeyId,
 			String productPurchaseKey, Date startDate, Date expirationDate)
@@ -582,11 +643,11 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 
 		if (active && !licenseKey.isActive()) {
 			if (!licenseKey.isComplimentary()) {
-				_addProductConsumption(userName, userUuid, licenseKey);
+				addProductConsumption(userName, userUuid, licenseKey);
 			}
 		}
 		else if (!active && licenseKey.isActive()) {
-			_deleteProductConsumption(userName, userUuid, licenseKey);
+			deleteProductConsumption(userName, userUuid, licenseKey);
 		}
 
 		licenseKey.setModifiedUserUuid(userUuid);
@@ -873,7 +934,7 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 		licenseKey.setActive(active);
 
 		if (!complimentary && active) {
-			_addProductConsumption(userName, userUuid, licenseKey);
+			addProductConsumption(userName, userUuid, licenseKey);
 		}
 
 		return licenseKeyPersistence.update(licenseKey);
@@ -1057,24 +1118,23 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 			clusterLicenseKey = licenseKeyPersistence.update(clusterLicenseKey);
 
 			if (updateProductPurchaseKey) {
-				_deleteProductConsumption(
-					userName, userUuid, clusterLicenseKey);
+				deleteProductConsumption(userName, userUuid, clusterLicenseKey);
 
 				if (active && !complimentary) {
-					_addProductConsumption(
+					addProductConsumption(
 						userName, userUuid, clusterLicenseKey);
 				}
 			}
 			else if (active) {
 				if (!complimentary && (updateComplimentary || updateActive)) {
-					_addProductConsumption(userName, userUuid, licenseKey);
+					addProductConsumption(userName, userUuid, licenseKey);
 				}
 				else if (complimentary && updateComplimentary) {
-					_deleteProductConsumption(userName, userUuid, licenseKey);
+					deleteProductConsumption(userName, userUuid, licenseKey);
 				}
 			}
 			else if (updateActive) {
-				_deleteProductConsumption(userName, userUuid, licenseKey);
+				deleteProductConsumption(userName, userUuid, licenseKey);
 			}
 		}
 	}
@@ -1285,67 +1345,6 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 						"Invalid MAC addresses");
 				}
 			}
-		}
-	}
-
-	private void _addProductConsumption(
-			String userName, String userUuid, LicenseKey licenseKey)
-		throws Exception {
-
-		int count = 1;
-
-		String licenseEntryType = licenseKey.getLicenseEntryType();
-
-		if (licenseEntryType.equals(LicenseType.VIRTUAL_CLUSTER)) {
-			count = licenseKey.getMaxClusterNodes();
-		}
-
-		for (int i = 0; i < count; i++) {
-			ProductConsumption productConsumption = new ProductConsumption();
-
-			productConsumption.setEndDate(licenseKey.getExpirationDate());
-
-			Product product = _productWebService.getProduct(
-				licenseKey.getProductKey());
-
-			productConsumption.setProductKey(product.getKey());
-
-			if (Validator.isNotNull(licenseKey.getProductPurchaseKey())) {
-				productConsumption.setProductPurchaseKey(
-					licenseKey.getProductPurchaseKey());
-			}
-
-			productConsumption.setStartDate(licenseKey.getStartDate());
-
-			ExternalLink externalLink = new ExternalLink();
-
-			externalLink.setDomain(ExternalLinkDomain.PROVISIONING);
-			externalLink.setEntityName(ExternalLinkEntityName.LICENSE_KEY);
-			externalLink.setEntityId(
-				String.valueOf(licenseKey.getLicenseKeyId()));
-
-			productConsumption.setExternalLinks(
-				new ExternalLink[] {externalLink});
-
-			_productConsumptionWebService.addProductConsumption(
-				userName, userUuid, licenseKey.getAccountKey(),
-				productConsumption);
-		}
-	}
-
-	private void _deleteProductConsumption(
-			String userName, String userUuid, LicenseKey licenseKey)
-		throws Exception {
-
-		List<ProductConsumption> productConsumptions =
-			_productConsumptionWebService.getProductConsumptions(
-				ExternalLinkDomain.PROVISIONING,
-				ExternalLinkEntityName.LICENSE_KEY,
-				String.valueOf(licenseKey.getLicenseKeyId()), 1, 1000);
-
-		for (ProductConsumption productConsumption : productConsumptions) {
-			_productConsumptionWebService.deleteProductConsumption(
-				userName, userUuid, productConsumption.getKey());
 		}
 	}
 
