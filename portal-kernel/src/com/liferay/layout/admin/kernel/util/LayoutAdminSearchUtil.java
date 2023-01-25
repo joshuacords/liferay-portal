@@ -38,7 +38,9 @@ import java.util.List;
 
 /**
  * @author Balázs Sáfrány-Kovalik
+ * @deprecated As of Mueller (7.2.x)
  */
+@Deprecated
 public class LayoutAdminSearchUtil {
 
 	/**
