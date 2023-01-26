@@ -23,7 +23,7 @@ definition {
 
 		AntCommand(
 			locator1 = "build-test.xml",
-			value1 = "deploy-dependency-jars -Dliferay.dependency.jars=${liferayDependencyJars} -Dapp.server.bundle.index=${bundleIndex}");
+			value1 = "deploy-dependency-jars -Dapp.server.bundle.index=${bundleIndex} -Dliferay.dependency.jars=${liferayDependencyJars}");
 
 		Pause(locator1 = "10000");
 	}
@@ -209,7 +209,7 @@ definition {
 
 		AntCommand(
 			locator1 = "build-test.xml",
-			value1 = "portal-ext-properties-update -Dapp.server.bundle.index=${bundleIndex} -Dupdate.properties.original=${propertiesOriginal} -Dupdate.properties=${propertiesUpdate}");
+			value1 = "portal-ext-properties-update -Dapp.server.bundle.index=${bundleIndex} -Dupdate.properties=${propertiesUpdate} -Dupdate.properties.original=${propertiesOriginal}");
 	}
 
 	macro viewClusterStatusInConsole {
