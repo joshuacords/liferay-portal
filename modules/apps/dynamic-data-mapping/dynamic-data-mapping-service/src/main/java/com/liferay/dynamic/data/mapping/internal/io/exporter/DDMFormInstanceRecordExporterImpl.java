@@ -177,7 +177,7 @@ public class DDMFormInstanceRecordExporterImpl
 				ddmFormInstanceRecord.getDDMFormValues();
 
 			Map<String, List<DDMFormFieldValue>> ddmFormFieldValuesMap =
-				ddmFormValues.getDDMFormFieldValuesMap();
+				ddmFormValues.getDDMFormFieldValuesMap(true);
 
 			Map<String, String> ddmFormFieldsValue = new LinkedHashMap<>();
 
