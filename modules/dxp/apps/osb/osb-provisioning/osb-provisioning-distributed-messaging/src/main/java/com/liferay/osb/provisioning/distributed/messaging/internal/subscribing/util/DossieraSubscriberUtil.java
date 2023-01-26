@@ -118,13 +118,9 @@ public class DossieraSubscriberUtil {
 
 		JSONObject projectJSONObject = jsonObject.getJSONObject("_project");
 
-		boolean extendedPatchPolicy = false;
 		String projectSolution = null;
 
 		if (projectJSONObject != null) {
-			extendedPatchPolicy = projectJSONObject.getBoolean(
-				"_extendedPatchPolicy");
-
 			String liferayVersion = projectJSONObject.getString(
 				"_liferayVersion");
 
@@ -137,15 +133,7 @@ public class DossieraSubscriberUtil {
 			projectSolution = projectJSONObject.getString("_projectSolution");
 		}
 		else {
-			extendedPatchPolicy = jsonObject.getBoolean("extendedPatchPolicy");
 			projectSolution = jsonObject.getString("projectSolution");
-		}
-
-		if (extendedPatchPolicy) {
-			properties.put("extendedPatchPolicy", Boolean.TRUE.toString());
-		}
-		else {
-			properties.remove("extendedPatchPolicy");
 		}
 
 		if (Validator.isNotNull(projectSolution)) {
@@ -172,7 +160,6 @@ public class DossieraSubscriberUtil {
 			return;
 		}
 
-		String extendedPatchPolicy = properties.get("extendedPatchPolicy");
 		String projectSolution = properties.get("projectSolution");
 
 		Set<String> criteria = new HashSet<>();
@@ -186,14 +173,6 @@ public class DossieraSubscriberUtil {
 
 		for (ZendeskTicket zendeskTicket : zendeskTickets) {
 			Set<String> tags = zendeskTicket.getTags();
-
-			tags.remove(ZendeskTagConstants.EXTENDED_PATCH_POLICY);
-
-			if (Validator.isNotNull(extendedPatchPolicy) &&
-				extendedPatchPolicy.equals(Boolean.TRUE.toString())) {
-
-				tags.add(ZendeskTagConstants.EXTENDED_PATCH_POLICY);
-			}
 
 			tags.remove(ZendeskTagConstants.COMMERCE_SOLUTION);
 			tags.remove(ZendeskTagConstants.SERVICE_SOLUTION);

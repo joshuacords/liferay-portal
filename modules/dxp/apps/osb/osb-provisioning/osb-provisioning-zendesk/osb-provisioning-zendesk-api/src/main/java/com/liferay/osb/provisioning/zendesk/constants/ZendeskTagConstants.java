@@ -21,8 +21,6 @@ public interface ZendeskTagConstants {
 
 	public static final String COMMERCE_SOLUTION = "commerce_solution";
 
-	public static final String EXTENDED_PATCH_POLICY = "180_day_hotfix";
-
 	public static final String SERVICE_SOLUTION = "service_solution";
 
 }
