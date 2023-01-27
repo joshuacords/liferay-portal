@@ -45,7 +45,7 @@ public class UpgradeCalendarBooking extends UpgradeProcess {
 					SQLTransformer.transform(
 						StringBundler.concat(
 							"select calendarBookingId, startTime, endTime, ",
-							"userId, companyId from CalendarBooking where ",
+							"companyId, userId from CalendarBooking where ",
 							"allDay = [$TRUE$]")));
 			PreparedStatement updatePreparedStatement =
 				AutoBatchPreparedStatementUtil.autoBatch(
