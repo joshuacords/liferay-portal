@@ -312,8 +312,8 @@ public class TemplateResourceExternalizationTest {
 		}
 
 		@Override
-		public Object readObject() {
-			throw new UnsupportedOperationException();
+		public Object readObject() throws IOException {
+			return readUTF();
 		}
 
 	}
@@ -326,8 +326,8 @@ public class TemplateResourceExternalizationTest {
 		}
 
 		@Override
-		public void writeObject(Object obj) {
-			throw new UnsupportedOperationException();
+		public void writeObject(Object obj) throws IOException {
+			writeUTF(String.valueOf(obj));
 		}
 
 	}
