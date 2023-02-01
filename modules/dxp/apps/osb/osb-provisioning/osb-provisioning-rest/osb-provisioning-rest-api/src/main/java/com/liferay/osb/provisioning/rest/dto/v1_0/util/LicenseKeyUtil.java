@@ -45,10 +45,12 @@ public class LicenseKeyUtil {
 				ipAddresses = licenseKey.getIpAddresses();
 				key = licenseKey.getKey();
 
-				LicenseEntry licenseEntry = licenseKey.getLicenseEntry();
+				LicenseEntry licenseEntry = licenseKey.fetchLicenseEntry();
 
-				licenseEntryName = LicenseEntryName.create(
-					licenseEntry.getName());
+				if (licenseEntry != null) {
+					licenseEntryName = LicenseEntryName.create(
+						licenseEntry.getName());
+				}
 
 				licenseEntryType = LicenseEntryType.create(
 					licenseKey.getLicenseEntryType());

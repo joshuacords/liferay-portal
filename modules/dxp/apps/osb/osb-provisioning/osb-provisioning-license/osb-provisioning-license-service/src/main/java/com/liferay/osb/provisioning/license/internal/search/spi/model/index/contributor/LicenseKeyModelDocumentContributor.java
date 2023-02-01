@@ -95,6 +95,12 @@ public class LicenseKeyModelDocumentContributor
 			document.addKeyword("licenseEntryName", licenseEntry.getName());
 			document.addKeyword("licenseEntryType", licenseEntry.getType());
 		}
+		else {
+			document.addKeyword(
+				"licenseEntryName", licenseKey.getLicenseEntryName());
+			document.addKeyword(
+				"licenseEntryType", licenseKey.getLicenseEntryType());
+		}
 
 		document.addKeyword(
 			"macAddresses", StringUtil.split(licenseKey.getMacAddresses()));

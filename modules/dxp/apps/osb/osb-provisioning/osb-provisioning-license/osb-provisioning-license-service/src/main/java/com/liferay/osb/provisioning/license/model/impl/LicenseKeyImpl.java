@@ -31,6 +31,11 @@ public class LicenseKeyImpl extends LicenseKeyBaseImpl {
 	public LicenseKeyImpl() {
 	}
 
+	public LicenseEntry fetchLicenseEntry() throws PortalException {
+		return LicenseEntryLocalServiceUtil.fetchLicenseEntry(
+			getLicenseEntryId());
+	}
+
 	public LicenseEntry getLicenseEntry() throws PortalException {
 		return LicenseEntryLocalServiceUtil.getLicenseEntry(
 			getLicenseEntryId());
