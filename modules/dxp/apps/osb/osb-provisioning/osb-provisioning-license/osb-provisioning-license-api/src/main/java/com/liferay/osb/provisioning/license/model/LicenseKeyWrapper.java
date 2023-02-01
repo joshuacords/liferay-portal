@@ -346,6 +346,13 @@ public class LicenseKeyWrapper
 		}
 	}
 
+	@Override
+	public LicenseEntry fetchLicenseEntry()
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return model.fetchLicenseEntry();
+	}
+
 	/**
 	 * Returns the account key of this license key.
 	 *

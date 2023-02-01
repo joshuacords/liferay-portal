@@ -58,6 +58,9 @@ public interface LicenseKey extends LicenseKeyModel, PersistedModel {
 
 		};
 
+	public LicenseEntry fetchLicenseEntry()
+		throws com.liferay.portal.kernel.exception.PortalException;
+
 	public LicenseEntry getLicenseEntry()
 		throws com.liferay.portal.kernel.exception.PortalException;
 
