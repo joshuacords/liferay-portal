@@ -571,6 +571,7 @@
 		<field docValues="true" indexed="true" name="userId" stored="true" type="string" />
 		<field docValues="true" indexed="true" name="userName" stored="true" type="string" />
 		<field indexed="true" name="version" stored="true" type="string" />
+		<field indexed="true" name="viewCount" stored="true" type="long" />
 		<field indexed="true" name="visible" stored="true" type="string" />
 		<dynamicField docValues="true" indexed="true" name="*_coordinate" stored="false" type="double" />
 		<dynamicField docValues="true" indexed="true" multiValued="false" name="*Date_sortable" stored="true" type="long" />
