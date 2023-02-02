@@ -25,14 +25,15 @@ const singleAttachedLicense = [
 		expirationDate: '2022-06-08',
 		indefinite: false,
 		licenseKeyId: 'licenseKeyID1',
-		licenseKeysGenerated: '0',
+		licenseKeysGenerated: 0,
 		licenseType: 'development',
 		productName: 'DXP 7.0',
 		startDate: '2021-06-03',
 		terms: [
 			{
 				endDate: '',
-				licenseKeysGenerated: '2 / 1',
+				licenseKeysAllowed: 1,
+				licenseKeysGenerated: 2,
 				perpetual: true,
 				productPurchaseKey: 'productPurchaseKey1',
 				startDate: '',
@@ -40,7 +41,8 @@ const singleAttachedLicense = [
 			},
 			{
 				endDate: '2022-07-02',
-				licenseKeysGenerated: '1 / 1',
+				licenseKeysAllowed: 1,
+				licenseKeysGenerated: 1,
 				perpetual: false,
 				productPurchaseKey: 'productPurchaseKey2',
 				startDate: '2021-06-02',
@@ -56,14 +58,15 @@ const multipleAttachedLicenses = [
 		expirationDate: '2022-06-08',
 		indefinite: false,
 		licenseKeyId: 'licenseKeyID1',
-		licenseKeysGenerated: '0',
+		licenseKeysGenerated: 0,
 		licenseType: 'development',
 		productName: 'DXP 7.0',
 		startDate: '2021-06-03',
 		terms: [
 			{
 				endDate: '',
-				licenseKeysGenerated: '2 / 1',
+				licenseKeysAllowed: 1,
+				licenseKeysGenerated: 2,
 				perpetual: true,
 				productPurchaseKey: 'productPurchaseKey1',
 				startDate: '',
@@ -71,7 +74,8 @@ const multipleAttachedLicenses = [
 			},
 			{
 				endDate: '2022-07-02',
-				licenseKeysGenerated: '1 / 1',
+				licenseKeysAllowed: 1,
+				licenseKeysGenerated: 1,
 				perpetual: false,
 				productPurchaseKey: 'productPurchaseKey2',
 				startDate: '2021-06-02',
@@ -84,14 +88,15 @@ const multipleAttachedLicenses = [
 		expirationDate: '2022-06-08',
 		indefinite: false,
 		licenseKeyId: 'licenseKeyID2',
-		licenseKeysGenerated: '0',
+		licenseKeysGenerated: 0,
 		licenseType: 'development',
 		productName: 'DXP 7.0',
 		startDate: '2021-06-03',
 		terms: [
 			{
 				endDate: '',
-				licenseKeysGenerated: '2 / 1',
+				licenseKeysAllowed: 1,
+				licenseKeysGenerated: 2,
 				perpetual: true,
 				productPurchaseKey: 'productPurchaseKey3',
 				startDate: '',
@@ -99,7 +104,8 @@ const multipleAttachedLicenses = [
 			},
 			{
 				endDate: '2022-07-02',
-				licenseKeysGenerated: '1 / 1',
+				licenseKeysAllowed: 1,
+				licenseKeysGenerated: 1,
 				perpetual: false,
 				productPurchaseKey: 'productPurchaseKey4',
 				startDate: '2021-06-02',
@@ -112,14 +118,15 @@ const multipleAttachedLicenses = [
 		expirationDate: '2022-06-08',
 		indefinite: false,
 		licenseKeyId: 'licenseKeyID3',
-		licenseKeysGenerated: '0',
+		licenseKeysGenerated: 0,
 		licenseType: 'development',
 		productName: 'DXP 7.0',
 		startDate: '2021-06-03',
 		terms: [
 			{
 				endDate: '2022-07-02',
-				licenseKeysGenerated: '1 / 1',
+				licenseKeysAllowed: 1,
+				licenseKeysGenerated: 1,
 				perpetual: false,
 				productPurchaseKey: 'productPurchaseKey5',
 				startDate: '2021-06-02',
@@ -135,7 +142,7 @@ const multipleDetachedLicenses = [
 		expirationDate: '2022-06-04',
 		indefinite: false,
 		licenseKeyId: 'licenseKeyID1',
-		licenseKeysGenerated: '0',
+		licenseKeysGenerated: 0,
 		licenseType: 'production',
 		productName: 'DXP Development',
 		startDate: '2021-06-04'
@@ -145,7 +152,7 @@ const multipleDetachedLicenses = [
 		expirationDate: '2027-12-14',
 		indefinite: false,
 		licenseKeyId: 'licenseKeyID2',
-		licenseKeysGenerated: '0',
+		licenseKeysGenerated: 0,
 		licenseType: 'developer',
 		productName: 'DXP Development',
 		startDate: '2021-07-26'
@@ -161,7 +168,7 @@ function renderExtendLicense(props) {
 					expirationDate: '2021-08-21',
 					indefinite: false,
 					licenseKeyId: 'licenseKeyID1',
-					licenseKeysGenerated: '0',
+					licenseKeysGenerated: 0,
 					licenseType: 'development',
 					productName: 'DXP 7.0',
 					startDate: '2021-07-21'
@@ -263,14 +270,15 @@ describe('ExtendLicense', () => {
 						expirationDate: '2022-01-08',
 						indefinite: false,
 						licenseKeyId: 'licenseKeyID1',
-						licenseKeysGenerated: '0',
+						licenseKeysGenerated: 0,
 						licenseType: 'development',
 						productName: 'DXP 7.0',
 						startDate: '2021-01-03',
 						terms: [
 							{
 								endDate: '2022-07-02',
-								licenseKeysGenerated: '1 / 1',
+								licenseKeysAllowed: 1,
+								licenseKeysGenerated: 1,
 								perpetual: false,
 								productPurchaseKey: 'productPurchaseKey2',
 								startDate: '2021-06-02',
@@ -283,14 +291,15 @@ describe('ExtendLicense', () => {
 						expirationDate: '2022-06-08',
 						indefinite: false,
 						licenseKeyId: 'licenseKeyID2',
-						licenseKeysGenerated: '0',
+						licenseKeysGenerated: 0,
 						licenseType: 'development',
 						productName: 'DXP 7.0',
 						startDate: '2021-06-03',
 						terms: [
 							{
 								endDate: '2022-07-02',
-								licenseKeysGenerated: '1 / 1',
+								licenseKeysAllowed: 1,
+								licenseKeysGenerated: 1,
 								perpetual: false,
 								productPurchaseKey: 'productPurchaseKey4',
 								startDate: '2021-06-02',
@@ -382,7 +391,7 @@ describe('ExtendLicense', () => {
 							expirationDate: '2022-06-04',
 							indefinite: false,
 							licenseKeyId: 'licenseKeyID1',
-							licenseKeysGenerated: '0',
+							licenseKeysGenerated: 0,
 							licenseType: 'production',
 							productName: 'DXP Development',
 							startDate: '2021-06-04'
@@ -587,7 +596,7 @@ describe('ExtendLicense', () => {
 						expirationDate: '2022-06-04',
 						indefinite: false,
 						licenseKeyId: 'licenseKeyID1',
-						licenseKeysGenerated: '0',
+						licenseKeysGenerated: 0,
 						licenseType: 'production',
 						productName: 'Commerce Subscription Backup',
 						startDate: '2021-06-04'
@@ -622,18 +631,18 @@ describe('ExtendLicense', () => {
 		getByText('permanent-licenses');
 	});
 
-	it('updates the Liceses Generated value when terms change', () => {
+	it('updates the Licenses Generated value when terms change', () => {
 		const {getByLabelText, getByText, queryByText} = renderExtendLicense({
 			details: singleAttachedLicense
 		});
 
-		getByText('0');
+		getByText('0 / 0');
 
 		fireEvent.change(getByLabelText('subscription-term'), {
 			target: {value: 'productPurchaseKey2'}
 		});
 
-		expect(queryByText('0')).toBeFalsy();
+		expect(queryByText('0 / 0')).toBeFalsy();
 		getByText('1 / 1');
 	});
 
@@ -645,14 +654,15 @@ describe('ExtendLicense', () => {
 					expirationDate: '2122-06-08',
 					indefinite: false,
 					licenseKeyId: 'licenseKeyID1',
-					licenseKeysGenerated: '0',
+					licenseKeysGenerated: 0,
 					licenseType: 'development',
 					productName: 'DXP 7.0',
 					startDate: '2021-06-03',
 					terms: [
 						{
 							endDate: '',
-							licenseKeysGenerated: '2 / 1',
+							licenseKeysAllowed: 1,
+							licenseKeysGenerated: 2,
 							perpetual: true,
 							productPurchaseKey: 'productPurchaseKey1',
 							startDate: '',
@@ -660,7 +670,8 @@ describe('ExtendLicense', () => {
 						},
 						{
 							endDate: '2022-07-02',
-							licenseKeysGenerated: '1 / 1',
+							licenseKeysAllowed: 1,
+							licenseKeysGenerated: 1,
 							perpetual: false,
 							productPurchaseKey: 'productPurchaseKey2',
 							startDate: '2021-06-02',
@@ -683,14 +694,15 @@ describe('ExtendLicense', () => {
 					expirationDate: '2122-06-08',
 					indefinite: false,
 					licenseKeyId: 'licenseKeyID1',
-					licenseKeysGenerated: '0',
+					licenseKeysGenerated: 0,
 					licenseType: 'development',
 					productName: 'DXP 7.0',
 					startDate: '2021-06-03',
 					terms: [
 						{
 							endDate: '',
-							licenseKeysGenerated: '2 / 1',
+							licenseKeysAllowed: 1,
+							licenseKeysGenerated: 2,
 							perpetual: true,
 							productPurchaseKey: 'productPurchaseKey1',
 							startDate: '',
@@ -698,7 +710,8 @@ describe('ExtendLicense', () => {
 						},
 						{
 							endDate: '2022-07-02',
-							licenseKeysGenerated: '1 / 1',
+							licenseKeysAllowed: 1,
+							licenseKeysGenerated: 1,
 							perpetual: false,
 							productPurchaseKey: 'productPurchaseKey2',
 							startDate: '2021-06-02',

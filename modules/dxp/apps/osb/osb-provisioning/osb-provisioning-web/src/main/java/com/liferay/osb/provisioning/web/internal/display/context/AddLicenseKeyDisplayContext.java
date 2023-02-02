@@ -337,10 +337,6 @@ public class AddLicenseKeyDisplayContext {
 							provisionedCount = productConsumptions.size();
 						}
 
-						String licenseKeysGenerated =
-							provisionedCount + " / " +
-								productPurchase.getQuantity();
-
 						productPurchasesJSONArray.put(
 							JSONUtil.put(
 								"endDate",
@@ -348,7 +344,10 @@ public class AddLicenseKeyDisplayContext {
 							).put(
 								"instanceSize", sizing
 							).put(
-								"licenseKeysGenerated", licenseKeysGenerated
+								"licenseKeysAllowed",
+								productPurchase.getQuantity()
+							).put(
+								"licenseKeysGenerated", provisionedCount
 							).put(
 								"perpetual", productPurchase.getPerpetual()
 							).put(

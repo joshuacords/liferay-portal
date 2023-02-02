@@ -144,13 +144,14 @@ function Purchased({purchased}) {
 Purchases.protoType = {
 	detached: PropTypes.shape({
 		instanceSize: PropTypes.arrayOf(PropTypes.number),
-		licenseKeysGenerated: PropTypes.string,
+		licenseKeysGenerated: PropTypes.number,
 		startDate: PropTypes.string
 	}),
 	purchased: PropTypes.arrayOf(
 		PropTypes.shape({
 			endDate: PropTypes.string,
-			licenseKeysGenerated: PropTypes.string,
+			licenseKeysAllowed: PropTypes.number,
+			licenseKeysGenerated: PropTypes.number,
 			perpetual: PropTypes.bool,
 			productPurchaseKey: PropTypes.string,
 			sizing: PropTypes.number,

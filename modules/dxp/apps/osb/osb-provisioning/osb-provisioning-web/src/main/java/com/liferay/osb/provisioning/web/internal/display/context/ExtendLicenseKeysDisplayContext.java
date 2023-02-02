@@ -185,7 +185,7 @@ public class ExtendLicenseKeysDisplayContext {
 		);
 	}
 
-	private String _getLicenseKeysGenerated(
+	private int _getLicenseKeysGenerated(
 			ProductPurchaseView productPurchaseView)
 		throws Exception {
 
@@ -200,7 +200,7 @@ public class ExtendLicenseKeysDisplayContext {
 			}
 		}
 
-		return String.valueOf(provisionedCount);
+		return provisionedCount;
 	}
 
 	private JSONArray _getTerms(
@@ -224,9 +224,10 @@ public class ExtendLicenseKeysDisplayContext {
 					JSONUtil.put(
 						"endDate", _formatDate(productPurchase.getEndDate())
 					).put(
+						"licenseKeysAllowed", productPurchase.getQuantity()
+					).put(
 						"licenseKeysGenerated",
-						_getLicenseKeysGenerated(productPurchaseView) + " / " +
-							productPurchase.getQuantity()
+						_getLicenseKeysGenerated(productPurchaseView)
 					).put(
 						"perpetual", productPurchase.getPerpetual()
 					).put(

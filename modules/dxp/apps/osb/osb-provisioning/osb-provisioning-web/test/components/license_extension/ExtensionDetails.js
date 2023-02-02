@@ -23,7 +23,7 @@ const multipleDetachedLicenses = [
 		expirationDate: new Date('2022-06-04'),
 		indefinite: false,
 		licenseKeyId: 'licenseKeyID1',
-		licenseKeysGenerated: '0',
+		licenseKeysGenerated: 0,
 		licenseType: 'production',
 		productName: 'Commerce Subscription Backup',
 		startDate: new Date('2021-06-04')
@@ -33,7 +33,7 @@ const multipleDetachedLicenses = [
 		expirationDate: new Date('2027-12-14'),
 		indefinite: false,
 		licenseKeyId: 'licenseKeyID2',
-		licenseKeysGenerated: '0',
+		licenseKeysGenerated: 0,
 		licenseType: 'developer',
 		productName: 'DXP Development',
 		startDate: new Date('2021-07-26')
@@ -46,7 +46,7 @@ const singleDetachedLicense = [
 		expirationDate: new Date('2022-06-04'),
 		indefinite: false,
 		licenseKeyId: 'licenseKeyID1',
-		licenseKeysGenerated: '0',
+		licenseKeysGenerated: 0,
 		licenseType: 'production',
 		productName: 'Commerce Subscription Backup',
 		startDate: new Date('2021-06-04')
@@ -59,14 +59,15 @@ const singleAttachedLicense = [
 		expirationDate: new Date('2122-06-08'),
 		indefinite: false,
 		licenseKeyId: 'licenseKeyID1',
-		licenseKeysGenerated: '0',
+		licenseKeysGenerated: 0,
 		licenseType: 'development',
 		productName: 'DXP 7.0',
 		startDate: new Date('2021-06-03'),
 		terms: [
 			{
 				endDate: '',
-				licenseKeysGenerated: '2 / 1',
+				licenseKeysAllowed: 1,
+				licenseKeysGenerated: 2,
 				perpetual: true,
 				productPurchaseKey: 'productPurchaseKey1',
 				startDate: '',
@@ -74,7 +75,8 @@ const singleAttachedLicense = [
 			},
 			{
 				endDate: '2022-07-02',
-				licenseKeysGenerated: '1 / 1',
+				licenseKeysAllowed: 1,
+				licenseKeysGenerated: 1,
 				perpetual: false,
 				productPurchaseKey: 'productPurchaseKey2',
 				startDate: '2021-06-02',

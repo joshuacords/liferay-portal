@@ -26,7 +26,8 @@ function Purchase({
 	instanceSize = '',
 	instanceSizes,
 	licenseExpirationDate,
-	licenseKeysGenerated = DASH,
+	licenseKeysAllowed = 0,
+	licenseKeysGenerated = 0,
 	licenseStartDate,
 	productPurchaseKey = ''
 }) {
@@ -64,6 +65,7 @@ function Purchase({
 				.set('expirationDate', selectedExpirationDate)
 				.set('startDate', selectedStartDate)
 
+				.set('licenseKeysAllowed', licenseKeysAllowed)
 				.set('licenseKeysGenerated', licenseKeysGenerated)
 				.set('productPurchaseKey', productPurchaseKey)
 				.set('sizing', sizing)
@@ -129,7 +131,11 @@ function Purchase({
 					sizing
 				)}
 			</ClayTableCell>
-			<ClayTableCell>{licenseKeysGenerated}</ClayTableCell>
+			<ClayTableCell>
+				{licenseKeysGenerated}
+				{' / '}
+				{licenseKeysAllowed}
+			</ClayTableCell>
 			<ClayTableCell>
 				<button
 					className="btn btn-secondary btn-sm"
@@ -153,7 +159,8 @@ Purchase.protoType = {
 		PropTypes.instanceOf(Date),
 		PropTypes.string
 	]),
-	licenseKeysGenerated: PropTypes.string,
+	licenseKeysAllowed: PropTypes.number,
+	licenseKeysGenerated: PropTypes.number,
 	licenseStartDate: PropTypes.oneOfType([
 		PropTypes.instanceOf(Date),
 		PropTypes.string

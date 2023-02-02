@@ -14,10 +14,7 @@ import PropTypes from 'prop-types';
 import React, {useEffect, useRef, useState} from 'react';
 
 import {useExtendLicenses} from '../../hooks/extendLicenses';
-import {
-	DASH,
-	RESTRICTED_EXPIRATION_DATE_TYPES
-} from '../../utilities/constants';
+import {RESTRICTED_EXPIRATION_DATE_TYPES} from '../../utilities/constants';
 import {
 	convertInputToDate,
 	formatDate,
@@ -43,6 +40,7 @@ function Detail({
 		accountName,
 		expirationDate,
 		licenseKeyId,
+		licenseKeysAllowed,
 		licenseKeysGenerated,
 		licenseType,
 		productName,
@@ -84,6 +82,18 @@ function Detail({
 		setDisableExtend(!validDates || missingTermSelection);
 	}, [missingTermSelection, validDates]);
 
+	function getLicenseKeysAllowed(productPurchaseKey) {
+		const selectedTerm = terms.find(
+			term => term.productPurchaseKey === productPurchaseKey
+		);
+
+		if (selectedTerm) {
+			return selectedTerm.licenseKeysAllowed;
+		}
+
+		return 0;
+	}
+
 	function getLicenseKeysGenerated(productPurchaseKey) {
 		const selectedTerm = terms.find(
 			term => term.productPurchaseKey === productPurchaseKey
@@ -93,7 +103,7 @@ function Detail({
 			return selectedTerm.licenseKeysGenerated;
 		}
 
-		return DASH;
+		return 0;
 	}
 
 	function handleExpirationDateChange(val) {
@@ -145,6 +155,7 @@ function Detail({
 	function handleTermsChange(val) {
 		updateLicense(licenseKeyId, license =>
 			license
+				.set('licenseKeysAllowed', getLicenseKeysAllowed(val))
 				.set('licenseKeysGenerated', getLicenseKeysGenerated(val))
 				.set('productPurchaseKey', val)
 		);
@@ -181,7 +192,11 @@ function Detail({
 					updateValidation={handleValidDates}
 					validDates={validDates}
 				/>
-				<ClayTable.Cell>{licenseKeysGenerated}</ClayTable.Cell>
+				<ClayTable.Cell>
+					{licenseKeysGenerated}
+					{' / '}
+					{licenseKeysAllowed}
+				</ClayTable.Cell>
 				<ClayTable.Cell>
 					{!disableIndividualExtend && (
 						<ExtendButton

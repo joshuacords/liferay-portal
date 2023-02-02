@@ -50,14 +50,15 @@ ExtendLicense.propTypes = {
 			expirationDate: PropTypes.string,
 			indefinite: PropTypes.bool.isRequired,
 			licenseKeyId: PropTypes.string.isRequired,
-			licenseKeysGenerated: PropTypes.string,
+			licenseKeysGenerated: PropTypes.number,
 			licenseType: PropTypes.string.isRequired,
 			productName: PropTypes.string.isRequired,
 			startDate: PropTypes.string,
 			terms: PropTypes.arrayOf(
 				PropTypes.shape({
 					endDate: PropTypes.string,
-					licenseKeysGenerated: PropTypes.string,
+					licenseKeysAllowed: PropTypes.number,
+					licenseKeysGenerated: PropTypes.number,
 					perpetual: PropTypes.bool,
 					productPurchaseKey: PropTypes.string,
 					startDate: PropTypes.string,

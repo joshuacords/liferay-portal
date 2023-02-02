@@ -35,12 +35,14 @@ function SpecificDetails({addLicenseKeyURL, redirect}) {
 	const [license, {updateLicense}] = useNewLicense();
 
 	const [showIPv6Alert, setShowIPv6Alert] = useState(false);
+	const [showProvisionedAlert, setShowProvisionedAlert] = useState(false);
 
 	const {
 		complimentary,
 		description,
 		expirationDate,
 		licenseEntry,
+		licenseKeysAllowed,
 		licenseKeysGenerated,
 		maxClusterNodes,
 		maxHttpSessions,
@@ -70,7 +72,19 @@ function SpecificDetails({addLicenseKeyURL, redirect}) {
 		});
 
 		setShowIPv6Alert(!!ipv6Address);
-	}, [serverIds]);
+
+		const licenseKeysGeneratedTotal = serverIds.size + licenseKeysGenerated;
+
+		if (
+			licenseKeysGeneratedTotal > licenseKeysAllowed &&
+			licenseKeysAllowed > 0
+		) {
+			setShowProvisionedAlert(true);
+		}
+		else {
+			setShowProvisionedAlert(false);
+		}
+	}, [licenseKeysAllowed, licenseKeysGenerated, serverIds]);
 
 	function formatDate(date) {
 		const utcAdjustedDate = getUTCAdjustedDate(new Date(date));
@@ -342,6 +356,7 @@ function SpecificDetails({addLicenseKeyURL, redirect}) {
 
 					<div className="button-holder">
 						<GenerateButton
+							alertError={showProvisionedAlert}
 							formAction={addLicenseKeyURL}
 							redirect={redirect}
 							serverIdValidatable={isDisplayServerIDFields()}
@@ -399,9 +414,23 @@ function SpecificDetails({addLicenseKeyURL, redirect}) {
 								<dt>
 									{Liferay.Language.get('licenses-generated')}
 								</dt>
-								<dd>{licenseKeysGenerated}</dd>
+								<dd>
+									{licenseKeysGenerated}
+									{' / '}
+									{licenseKeysAllowed}
+								</dd>
 							</div>
 						</dl>
+					</div>
+
+					<div className="alert-messages-content">
+						{showProvisionedAlert && (
+							<ClayAlert displayType="danger">
+								{Liferay.Language.get(
+									'the-provisioned-keys-count-is-already-equal-to-or-higher-than-the-purchased-subscriptions'
+								)}
+							</ClayAlert>
+						)}
 					</div>
 				</div>
 			</div>

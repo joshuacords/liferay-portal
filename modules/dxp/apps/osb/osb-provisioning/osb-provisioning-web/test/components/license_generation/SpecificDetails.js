@@ -33,7 +33,8 @@ const dummyLicense = new License({
 		licenseEntryName: 'Test License Entry Name',
 		licenseEntryType: 'developer'
 	},
-	licenseKeysGenerated: '0',
+	licenseKeysAllowed: 1,
+	licenseKeysGenerated: 0,
 	name: 'Test Account',
 	product: {productKey: 'PRODUCT-123', productName: 'Test Product'},
 	productPurchaseKey: 'PPKEY-123',
@@ -131,6 +132,12 @@ describe('SpecificDetails', () => {
 		);
 
 		expect(getAllByText(utcAdjustedDate).length).toBe(2);
+	});
+
+	it('displays the Licenses Generated correctly', () => {
+		const {getByText} = renderSpecificDetails();
+
+		getByText('licenses-generated');
 	});
 
 	it('displays the Complimentary checkbox correctly', () => {
@@ -275,6 +282,45 @@ describe('SpecificDetails', () => {
 				'ipv6-addresses-in-activation-keys-are-currently-ignored-please-enter-a-hostname-or-mac-address-instead'
 			);
 		});
+	});
+
+	it('displays no error message if license keys generated count is lower than the license keys allowed', async () => {
+		const {getByText, queryByText} = renderSpecificDetails();
+
+		getByText('0 / 1');
+
+		expect(
+			queryByText(
+				'the-provisioned-keys-count-is-already-equal-to-or-higher-than-the-purchased-subscriptions'
+			)
+		).toBeFalsy();
+	});
+
+	it('displays an error message if license keys generated count will be higher than or equal to the license keys allowed', async () => {
+		const {getByText} = render(
+			<NewLicenseProvider
+				initialLicense={
+					new License({
+						licenseEntry: {
+							licenseEntryType: 'virtual_cluster'
+						},
+						licenseKeysAllowed: 1,
+						licenseKeysGenerated: 1
+					})
+				}
+			>
+				<SpecificDetails
+					addLicenseKeyURL="add/license/key/url"
+					redirect={'/redirect/url'}
+				/>
+			</NewLicenseProvider>
+		);
+
+		getByText('1 / 1');
+
+		getByText(
+			'the-provisioned-keys-count-is-already-equal-to-or-higher-than-the-purchased-subscriptions'
+		);
 	});
 
 	describe('Generate Button', () => {

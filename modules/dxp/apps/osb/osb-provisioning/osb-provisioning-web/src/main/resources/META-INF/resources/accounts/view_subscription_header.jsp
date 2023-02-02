@@ -72,10 +72,17 @@ ProductPurchaseViewDisplay productPurchaseViewDisplay = viewSubscriptionDisplayC
 			</li>
 			<li>
 				<div class="header-label">
-					<liferay-ui:message key="provisioned" />
+					<liferay-ui:message key="current-provisioned" />
 				</div>
 
-				<a href="<%= productPurchaseViewDisplay.getProvisionedCountURL() %>"><%= productPurchaseViewDisplay.getProvisionedCount() %></a>
+				<a href="<%= productPurchaseViewDisplay.getProvisionedCountURL() %>"><%= productPurchaseViewDisplay.getCurrentProvisionedCount() %></a>
+			</li>
+			<li>
+				<div class="header-label">
+					<liferay-ui:message key="current-purchased" />
+				</div>
+
+				<%= productPurchaseViewDisplay.getCurrentPurchasedCount() %>
 			</li>
 		</ul>
 	</div>

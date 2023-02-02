@@ -21,7 +21,12 @@ import {
 	validateMAC
 } from '../../utilities/helpers';
 
-function GenerateButton({formAction, redirect, serverIdValidatable = false}) {
+function GenerateButton({
+	alertError,
+	formAction,
+	redirect,
+	serverIdValidatable = false
+}) {
 	const [license] = useNewLicense();
 	const {licenseEntryId, licenseEntryType} = license.licenseEntry;
 	const {productKey} = license.product;
@@ -45,17 +50,27 @@ function GenerateButton({formAction, redirect, serverIdValidatable = false}) {
 			startDate: formatDate(license.startDate)
 		};
 
-		request(formAction, params, 'formData')
-			.then(data => {
-				const {redirectURL} = data;
+		if (
+			!alertError ||
+			(alertError &&
+				confirm(
+					Liferay.Language.get(
+						'the-new-provisioned-keys-count-will-be-higher-than-the-purchased-subscriptions'
+					)
+				))
+		) {
+			request(formAction, params, 'formData')
+				.then(data => {
+					const {redirectURL} = data;
 
-				location.assign(redirectURL ? redirectURL : redirect);
-			})
-			.catch(err =>
-				console.error(
-					`Request to generate new license failed with: ${err}`
-				)
-			);
+					location.assign(redirectURL ? redirectURL : redirect);
+				})
+				.catch(err =>
+					console.error(
+						`Request to generate new license failed with: ${err}`
+					)
+				);
+		}
 	}
 
 	function trimHostnames() {
@@ -106,7 +121,8 @@ function GenerateButton({formAction, redirect, serverIdValidatable = false}) {
 	);
 }
 
-GenerateButton.propTypse = {
+GenerateButton.propTypes = {
+	alertError: PropTypes.bool,
 	formAction: PropTypes.string.isRequired,
 	redirect: PropTypes.string.isRequired,
 	serverIdValidatable: PropTypes.bool

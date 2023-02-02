@@ -378,7 +378,7 @@ GeneralInformation.propTypes = {
 		PropTypes.shape({
 			detached: PropTypes.shape({
 				instanceSizes: PropTypes.arrayOf(PropTypes.number),
-				licenseKeysGenerated: PropTypes.string
+				licenseKeysGenerated: PropTypes.number
 			}),
 			productKey: PropTypes.string,
 			productName: PropTypes.string,
@@ -398,7 +398,8 @@ GeneralInformation.propTypes = {
 		[PropTypes.string]: PropTypes.arrayOf(
 			PropTypes.shape({
 				endDate: PropTypes.string,
-				licenseKeysGenerated: PropTypes.string,
+				licenseKeysAllowed: PropTypes.number,
+				licenseKeysGenerated: PropTypes.number,
 				perpetual: PropTypes.bool,
 				productPurchaseKey: PropTypes.string,
 				sizing: PropTypes.number,

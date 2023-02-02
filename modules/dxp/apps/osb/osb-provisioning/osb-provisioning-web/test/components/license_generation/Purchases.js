@@ -42,7 +42,8 @@ function renderPurchases({
 						{
 							endDate: '2020-04-16',
 							instanceSize: 1,
-							licenseKeysGenerated: '0 / 1',
+							licenseKeysAllowed: 1,
+							licenseKeysGenerated: 0,
 							perpetual: false,
 							productPurchaseKey: 'PURCHKEY-123',
 							startDate: '2020-03-17'
@@ -50,7 +51,8 @@ function renderPurchases({
 						{
 							endDate: '',
 							instanceSize: 1,
-							licenseKeysGenerated: '1 / 1',
+							licenseKeysAllowed: 1,
+							licenseKeysGenerated: 1,
 							perpetual: true,
 							productPurchaseKey: 'PURCHKEY-456',
 							startDate: ''
@@ -109,7 +111,8 @@ describe('Purchases', () => {
 					{
 						endDate: '',
 						instanceSize: 1,
-						licenseKeysGenerated: '1 / 1',
+						licenseKeysAllowed: 1,
+						licenseKeysGenerated: 1,
 						perpetual: true,
 						productPurchaseKey: 'PURCHKEY-123',
 						startDate: ''
@@ -117,7 +120,8 @@ describe('Purchases', () => {
 					{
 						endDate: '',
 						instanceSize: 5,
-						licenseKeysGenerated: '1 / 1',
+						licenseKeysAllowed: 1,
+						licenseKeysGenerated: 1,
 						perpetual: true,
 						productPurchaseKey: 'PURCHKEY-456',
 						startDate: ''
@@ -137,7 +141,8 @@ describe('Purchases', () => {
 					{
 						endDate: '2020-04-16',
 						instanceSize: 1,
-						licenseKeysGenerated: '0 / 1',
+						licenseKeysAllowed: 1,
+						licenseKeysGenerated: 0,
 						perpetual: false,
 						productPurchaseKey: 'PURCHKEY-123',
 						startDate: '2020-03-17'
@@ -145,7 +150,8 @@ describe('Purchases', () => {
 					{
 						endDate: '2020-05-16',
 						instanceSize: 2,
-						licenseKeysGenerated: '1 / 1',
+						licenseKeysAllowed: 1,
+						licenseKeysGenerated: 1,
 						perpetual: false,
 						productPurchaseKey: 'PURCHKEY-456',
 						startDate: '2019-05-16'
@@ -158,14 +164,18 @@ describe('Purchases', () => {
 		expect(queryByText('active-subscriptions')).toBeFalsy();
 	});
 
-	it('renders the Detached section with default values (dash for license generated) if no purchased product is provided', () => {
-		const {getByText} = renderPurchases({
+	it('renders the Detached section with default values if no purchased product is provided', () => {
+		const {getByText, queryByText} = renderPurchases({
 			props: {
 				purchased: []
 			}
 		});
 
-		getByText('-');
+		getByText('detached');
+		expect(queryByText('purchased')).toBeFalsy();
+
+		getByText('0 / 0');
+
 		expect(getByText('choose').disabled).toBeTruthy();
 	});
 
@@ -174,7 +184,7 @@ describe('Purchases', () => {
 			props: {
 				detached: {
 					instanceSizes: [0, 1, 2, 3, 4],
-					licenseKeysGenerated: '0'
+					licenseKeysGenerated: 0
 				}
 			}
 		});
@@ -191,7 +201,7 @@ describe('Purchases', () => {
 			props: {
 				detached: {
 					instanceSizes: [0, 1, 2, 3, 4],
-					licenseKeysGenerated: '0'
+					licenseKeysGenerated: 0
 				}
 			}
 		});
@@ -280,7 +290,7 @@ describe('Purchases', () => {
 							props: {
 								detached: {
 									instanceSizes: [1, 2, 3, 4],
-									licenseKeysGenerated: '0'
+									licenseKeysGenerated: 0
 								},
 								purchased: []
 							}
@@ -318,7 +328,7 @@ describe('Purchases', () => {
 							props: {
 								detached: {
 									instanceSizes: [1, 2, 3, 4],
-									licenseKeysGenerated: '0'
+									licenseKeysGenerated: 0
 								},
 								purchased: []
 							}

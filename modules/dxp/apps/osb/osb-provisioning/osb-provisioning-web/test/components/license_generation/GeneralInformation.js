@@ -20,7 +20,7 @@ const licensableProducts = [
 	{
 		detached: {
 			instanceSizes: [1, 2, 3, 4],
-			licenseKeysGenerated: '0'
+			licenseKeysGenerated: 0
 		},
 		productKey: 'KEY-123',
 		productName: 'Product A',
@@ -76,7 +76,8 @@ const purchasedProducts = {
 		{
 			expirationDate: '2022-04-16',
 			instanceSize: 1,
-			licenseKeysGenerated: '0 / 1',
+			licenseKeysAllowed: 1,
+			licenseKeysGenerated: 0,
 			perpetual: false,
 			productPurchaseKey: 'PURCHKEY-123',
 			startDate: '2021-03-17'
@@ -84,7 +85,8 @@ const purchasedProducts = {
 		{
 			expirationDate: '',
 			instanceSize: 1,
-			licenseKeysGenerated: '1 / 1',
+			licenseKeysAllowed: 1,
+			licenseKeysGenerated: 1,
 			perpetual: true,
 			productPurchaseKey: 'PURCHKEY-321',
 			startDate: ''
@@ -94,7 +96,8 @@ const purchasedProducts = {
 		{
 			expirationDate: '',
 			instanceSize: 1,
-			licenseKeysGenerated: '1 / 1',
+			licenseKeysAllowed: 1,
+			licenseKeysGenerated: 1,
 			perpetual: true,
 			productPurchaseKey: 'PURCHKEY-456',
 			startDate: ''
