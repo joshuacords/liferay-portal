@@ -88,7 +88,7 @@ public class JournalFeedReferencesExportImportContentProcessor
 	public void validateContentReferences(long groupId, String content)
 		throws PortalException {
 
-		if (isValidateJournalFeedReferences()) {
+		if (_isValidateJournalFeedReferences()) {
 			validateJournalFeedReferences(groupId, content);
 		}
 	}
@@ -157,22 +157,6 @@ public class JournalFeedReferencesExportImportContentProcessor
 		}
 
 		return map;
-	}
-
-	protected boolean isValidateJournalFeedReferences() {
-		try {
-			ExportImportServiceConfiguration configuration =
-				_configurationProvider.getCompanyConfiguration(
-					ExportImportServiceConfiguration.class,
-					CompanyThreadLocal.getCompanyId());
-
-			return configuration.validateJournalFeedReferences();
-		}
-		catch (Exception exception) {
-			_log.error(exception, exception);
-		}
-
-		return true;
 	}
 
 	protected String replaceExportJournalFeedReferences(
@@ -426,14 +410,50 @@ public class JournalFeedReferencesExportImportContentProcessor
 								class.getName(),
 							new NoSuchFeedException());
 
+				exportImportContentValidationException.setJournalArticleFeedURL(
+					_getJournalFeedReferenceURL(content, beginPos, endPos));
+
 				exportImportContentValidationException.setStagedModelClassName(
 					JournalFeed.class.getName());
+
+				exportImportContentValidationException.setType(
+					ExportImportContentValidationException.
+						JOURNAL_FEED_NOT_FOUND);
 
 				throw exportImportContentValidationException;
 			}
 
 			endPos = beginPos - 1;
 		}
+	}
+
+	private String _getJournalFeedReferenceURL(
+		String content, int beginPos, int endPos) {
+
+		endPos = StringUtil.indexOfAny(
+			content, _JOURNAL_FEED_REFERENCE_STOP_CHARS, beginPos, endPos);
+
+		if (endPos == -1) {
+			return null;
+		}
+
+		return content.substring(beginPos, endPos);
+	}
+
+	private boolean _isValidateJournalFeedReferences() {
+		try {
+			ExportImportServiceConfiguration configuration =
+				_configurationProvider.getCompanyConfiguration(
+					ExportImportServiceConfiguration.class,
+					CompanyThreadLocal.getCompanyId());
+
+			return configuration.validateJournalFeedReferences();
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+		}
+
+		return true;
 	}
 
 	private static final String _JOURNAL_FEED_FRIENDLY_URL = "/-/journal/rss/";
