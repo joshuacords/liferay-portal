@@ -41,6 +41,7 @@ import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.protocol.HttpClientContext;
@@ -77,6 +78,8 @@ public class LayoutCrawler {
 					_TIMEOUT
 				).setSocketTimeout(
 					_TIMEOUT
+				).setCookieSpec(
+					CookieSpecs.STANDARD
 				).build();
 
 			HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
