@@ -211,7 +211,7 @@ public class DLURLHelperImpl implements DLURLHelper {
 			fileName = _trashHelper.getOriginalTitle(fileEntry.getFileName());
 		}
 
-		sb.append(URLCodec.encodeURL(HtmlUtil.unescape(fileName)));
+		sb.append(URLCodec.encodeURL(HtmlUtil.unescape(fileName), true));
 
 		sb.append(StringPool.SLASH);
 		sb.append(URLCodec.encodeURL(fileEntry.getUuid()));
