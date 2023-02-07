@@ -140,18 +140,19 @@ public class SegmentsServicePreAction extends Action {
 						httpServletRequest, httpServletResponse, groupId,
 						classNameId, classPK);
 
-			if(segmentsExperienceIds.length > 0) {
-				Set<Long> segmentsExperienceIdsSegmentsEntryIds = new HashSet<>();
-				
+			if (segmentsExperienceIds.length > 0) {
+				Set<Long> segmentsExperienceIdsSegmentsEntryIds =
+					new HashSet<>();
+
 				for (long segmentsExperienceId : segmentsExperienceIds) {
 					SegmentsExperience segmentsExperience =
 						_segmentsExperienceLocalService.fetchSegmentsExperience(
 							segmentsExperienceId);
-	
+
 					segmentsExperienceIdsSegmentsEntryIds.add(
 						segmentsExperience.getSegmentsEntryId());
 				}
-	
+
 				long[] segmentsEntryIds =
 					_segmentsEntryRetriever.getSegmentsEntryIds(
 						groupId, userId,
@@ -159,12 +160,13 @@ public class SegmentsServicePreAction extends Action {
 						ArrayUtil.toArray(
 							segmentsExperienceIdsSegmentsEntryIds.toArray(
 								new Long[0])));
-	
-				return ArrayUtil.append(_segmentsExperienceRequestProcessorRegistry.
+
+				return ArrayUtil.append(
+					_segmentsExperienceRequestProcessorRegistry.
 						getSegmentsExperienceIds(
 							httpServletRequest, httpServletResponse, groupId,
 							classNameId, classPK, segmentsEntryIds),
-						SegmentsExperienceConstants.ID_DEFAULT);
+					SegmentsExperienceConstants.ID_DEFAULT);
 			}
 		}
 		catch (PortalException portalException) {
@@ -187,7 +189,7 @@ public class SegmentsServicePreAction extends Action {
 
 	@Reference
 	private volatile SegmentsEntryRetriever _segmentsEntryRetriever;
-	
+
 	@Reference
 	private SegmentsExperienceLocalService _segmentsExperienceLocalService;
 

@@ -194,7 +194,7 @@ public class AsahSegmentsEntryProviderTest {
 	}
 
 	@Test
-	public void testGetSegmentsEntryIdsWithUncachedUserSegments() {
+	public void testGetSegmentsEntryIdsWithUncachedUserSegments()
 		throws PortalException {
 
 		String userId = RandomTestUtil.randomString();

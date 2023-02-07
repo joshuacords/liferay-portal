@@ -27,7 +27,6 @@ import com.liferay.segments.provider.SegmentsEntryProvider;
 import com.liferay.segments.provider.SegmentsEntryProviderRegistry;
 import com.liferay.segments.service.SegmentsEntryLocalService;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.osgi.framework.BundleContext;
