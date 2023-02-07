@@ -33,10 +33,14 @@ import com.liferay.segments.configuration.SegmentsConfiguration;
 import com.liferay.segments.constants.SegmentsExperienceConstants;
 import com.liferay.segments.constants.SegmentsWebKeys;
 import com.liferay.segments.context.RequestContextMapper;
+import com.liferay.segments.model.SegmentsExperience;
 import com.liferay.segments.processor.SegmentsExperienceRequestProcessorRegistry;
+import com.liferay.segments.service.SegmentsExperienceLocalService;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -136,18 +140,31 @@ public class SegmentsServicePreAction extends Action {
 						httpServletRequest, httpServletResponse, groupId,
 						classNameId, classPK);
 
-			if (segmentsExperienceIds.length > 0) {
+			if(segmentsExperienceIds.length > 0) {
+				Set<Long> segmentsExperienceIdsSegmentsEntryIds = new HashSet<>();
+				
+				for (long segmentsExperienceId : segmentsExperienceIds) {
+					SegmentsExperience segmentsExperience =
+						_segmentsExperienceLocalService.fetchSegmentsExperience(
+							segmentsExperienceId);
+	
+					segmentsExperienceIdsSegmentsEntryIds.add(
+						segmentsExperience.getSegmentsEntryId());
+				}
+	
 				long[] segmentsEntryIds =
 					_segmentsEntryRetriever.getSegmentsEntryIds(
 						groupId, userId,
-						_requestContextMapper.map(httpServletRequest));
-
-				return ArrayUtil.append(
-					_segmentsExperienceRequestProcessorRegistry.
+						_requestContextMapper.map(httpServletRequest),
+						ArrayUtil.toArray(
+							segmentsExperienceIdsSegmentsEntryIds.toArray(
+								new Long[0])));
+	
+				return ArrayUtil.append(_segmentsExperienceRequestProcessorRegistry.
 						getSegmentsExperienceIds(
 							httpServletRequest, httpServletResponse, groupId,
 							classNameId, classPK, segmentsEntryIds),
-					SegmentsExperienceConstants.ID_DEFAULT);
+						SegmentsExperienceConstants.ID_DEFAULT);
 			}
 		}
 		catch (PortalException portalException) {
@@ -170,6 +187,9 @@ public class SegmentsServicePreAction extends Action {
 
 	@Reference
 	private volatile SegmentsEntryRetriever _segmentsEntryRetriever;
+	
+	@Reference
+	private SegmentsExperienceLocalService _segmentsExperienceLocalService;
 
 	@Reference
 	private SegmentsExperienceRequestProcessorRegistry
