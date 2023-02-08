@@ -487,6 +487,8 @@ NO CSS
 			FragmentsAdmin.selectCollection(collectionName = "Collection Name");
 		}
 
+		SelectFrameTop();
+
 		FragmentsAdminNavigator.gotoCollection(collectionName = "Collection Name");
 
 		FragmentsAdmin.viewEntryPresent(entry = "Button (Copy)");
