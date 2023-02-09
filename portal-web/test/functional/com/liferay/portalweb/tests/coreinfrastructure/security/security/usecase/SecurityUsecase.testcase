@@ -14,7 +14,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -25,7 +25,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-107017."
-	@priority = "4"
+	@priority = 4
 	test CreateUserViaJSONWSAPIUI {
 		var portalURL = PropsUtil.get("portal.url");
 
@@ -58,7 +58,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-83566."
-	@priority = "5"
+	@priority = 5
 	test EscapeUrlRedirectWithGroovyScript {
 		property test.name.skip.portal.instance = "SecurityUsecase#EscapeUrlRedirectWithGroovyScript";
 
@@ -81,7 +81,7 @@ out.println(PortalUtil.escapeRedirect("/"));
 	}
 
 	@description = "This is a use case for LPS-87768."
-	@priority = "5"
+	@priority = 5
 	test NoPermissionFromUnauthorizedURLAsPowerUser {
 		property test.name.skip.portal.instance = "SecurityUsecase#NoPermissionFromUnauthorizedURLAsPowerUser";
 
@@ -136,7 +136,7 @@ out.println(PortalUtil.escapeRedirect("/"));
 	}
 
 	@description = "This is a use case for LPS-80905."
-	@priority = "5"
+	@priority = 5
 	test UserCanAccessPermissionsWindowWithPermissionFromAdmin {
 		property test.name.skip.portal.instance = "SecurityUsecase#UserCanAccessPermissionsWindowWithPermissionFromAdmin";
 
@@ -185,7 +185,7 @@ out.println(PortalUtil.escapeRedirect("/"));
 		CalendarNavigator.viewPermissionsPG(portletName = "Calendar");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ValidateCannotOverwriteOSGiServiceIdentifier {
 		property portal.acceptance = "true";
 
@@ -193,12 +193,12 @@ out.println(PortalUtil.escapeRedirect("/"));
 
 		var url = "${portalURL}/c/portal/json_service?serviceClassName=com.liferay.portal.kernel.service.AccountServiceUtil&serviceMethodName=getOSGiServiceIdentifier&p_auth=";
 
-		Api.gotoPAuthURL(url = "${url}");
+		Api.gotoPAuthURL(url = ${url});
 
 		AssertElementPresent(locator1 = "JSONWS#SECURITY_EMPTY_PAGE");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ValidateCannotStealAdminAccount {
 		property test.name.skip.portal.instance = "SecurityUsecase#ValidateCannotStealAdminAccount";
 
@@ -238,7 +238,7 @@ out.println(PortalUtil.escapeRedirect("/"));
 			value1 = "Forbidden");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ValidateForwardURLPG {
 		property custom.properties = "virtual.hosts.valid.hosts=localhost,127.0.0.1,${ip.address}";
 		property portal.acceptance = "true";
@@ -247,7 +247,7 @@ out.println(PortalUtil.escapeRedirect("/"));
 
 		Navigator.openSpecificURL(url = "${portalURL}/html/common/forward_jsp.jsp?FORWARD_URL=http://www.msn.com");
 
-		Pause(locator1 = "3000");
+		Pause(locator1 = 3000);
 
 		AssertElementPresent(
 			key_pageName = "Home",
@@ -274,7 +274,7 @@ out.println(PortalUtil.escapeRedirect("/"));
 	}
 
 	@description = "This is a use case for LPS-57776."
-	@priority = "5"
+	@priority = 5
 	test ValidateNoLARRemoteCodeExecution {
 		ProductMenu.gotoPortlet(
 			category = "Content & Data",
@@ -293,7 +293,7 @@ out.println(PortalUtil.escapeRedirect("/"));
 	}
 
 	@description = "This is a use case for LPS-85112."
-	@priority = "5"
+	@priority = 5
 	test ValidateViewPermissionCanNotUpdateOtherUsersPassword {
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -337,7 +337,7 @@ out.println(PortalUtil.escapeRedirect("/"));
 	}
 
 	@description = "This is a use case for LPS-55622."
-	@priority = "5"
+	@priority = 5
 	test ViewNoInvokedPortletViaURL {
 		property portal.acceptance = "true";
 

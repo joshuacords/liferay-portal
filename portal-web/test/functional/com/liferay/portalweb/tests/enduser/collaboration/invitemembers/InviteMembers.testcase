@@ -26,7 +26,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -40,7 +40,7 @@ definition {
 
 	@description = "This test is skipping portal instance setup due to LPS-75168"
 	@ignore = "true"
-	@priority = "4"
+	@priority = 4
 	test ViewNewSiteMember {
 		property test.name.skip.portal.instance = "InviteMembers#ViewNewSiteMember";
 
@@ -83,11 +83,11 @@ definition {
 			password = "test",
 			userEmailAddress = "userea@liferay.com");
 
-		Pause(locator1 = "1000");
+		Pause(locator1 = 1000);
 
 		AssertVisible(locator1 = "Notifications#PROFILE_BADGE_COUNT");
 
-		Notifications.viewBadgeCount(notificationCount = "1");
+		Notifications.viewBadgeCount(notificationCount = 1);
 
 		Notifications.gotoNotifications();
 

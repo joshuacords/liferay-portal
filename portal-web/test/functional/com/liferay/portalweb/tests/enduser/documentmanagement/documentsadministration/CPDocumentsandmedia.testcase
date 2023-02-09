@@ -15,7 +15,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -28,7 +28,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-82073."
-	@priority = "5"
+	@priority = 5
 	test AddShortcutToSiteDocument {
 		property portal.acceptance = "true";
 		property testray.component.names = "Training";
@@ -63,7 +63,7 @@ definition {
 	}
 
 	@description = "This test covers LPS-130154. It ensures that the user can search for a document based on the content."
-	@priority = "4"
+	@priority = 4
 	test CanSearchForDocumentBasedOnContent {
 		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
 
@@ -82,7 +82,7 @@ definition {
 	}
 
 	@description = "This test covers LPS-88313 and LPS-92145. It ensures that a user can check in a document without changing versions."
-	@priority = "5"
+	@priority = 5
 	test CheckInDocumentAsCurrentVersion {
 		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
 
@@ -119,7 +119,7 @@ definition {
 	}
 
 	@description = "This test ensures that a user can check in a document as a major version."
-	@priority = "5"
+	@priority = 5
 	test CheckInDocumentAsMajorVersion {
 		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
 
@@ -151,7 +151,7 @@ definition {
 	}
 
 	@description = "This test ensures that a user can check in a document as a minor version."
-	@priority = "5"
+	@priority = 5
 	test CheckInDocumentAsMinorVersion {
 		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
 
@@ -181,7 +181,7 @@ definition {
 	}
 
 	@description = "This test covers LPS-82306. It ensures that a user can check in a document through Management bar and allow to select the change version."
-	@priority = "4"
+	@priority = 4
 	test CheckInDocumentAtManagementBar {
 		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
 
@@ -211,7 +211,7 @@ definition {
 	}
 
 	@description = "This test asserts that major version increment will occur even if only metadata was changed if version increment was selected manually."
-	@priority = "4"
+	@priority = 4
 	test CustomizeVersionNumberMajor {
 		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
 
@@ -242,7 +242,7 @@ definition {
 	}
 
 	@description = "This test asserts that minor version increment will occur even if the actual file was changed if version increment was selected manually."
-	@priority = "4"
+	@priority = 4
 	test CustomizeVersionNumberMinor {
 		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
 
@@ -271,7 +271,7 @@ definition {
 	}
 
 	@description = "This case covers LPS-110213. It ensures that a document file can be downloaded after moving it between folders."
-	@priority = "5"
+	@priority = 5
 	test DownloadDocumentAfterMoveBetweenFolders {
 		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
 
@@ -308,7 +308,7 @@ definition {
 	}
 
 	@description = "This test edits the title and description of a document. It asserts minor version increment because only its metadata was updated."
-	@priority = "5"
+	@priority = 5
 	test EditDocument {
 		property app.server.types = "jboss,tcserver,tomcat,weblogic,websphere,wildfly";
 		property database.types = "db2,hypersonic,mariadb,mysql,oracle,postgresql,sqlserver,sybase";
@@ -342,7 +342,7 @@ definition {
 			dmDocumentVersionNumber = "1.1");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test EditFolder {
 		property portal.acceptance = "true";
 		property testray.component.names = "Training";
@@ -367,7 +367,7 @@ definition {
 	}
 
 	@description = "This test covers LPS-101667. It makes sure that the file size can be displayed correctly in the different versions after editing the document file."
-	@priority = "3"
+	@priority = 3
 	test FileSizeCanBeDisplayedCorrectlyInDifferentVersions {
 		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
 
@@ -399,7 +399,7 @@ definition {
 	}
 
 	@description = "This test covers LPS-94820. This test ensures that only the last two checked in versions of a file are kept when the max version limit is set."
-	@priority = "4"
+	@priority = 4
 	test LimitCheckInMaxFileVersion {
 		property test.name.skip.portal.instance = "CPDocumentsandmedia#LimitCheckInMaxFileVersion";
 
@@ -413,7 +413,7 @@ definition {
 		Type(
 			key_fieldLabel = "Maximum Number Of Versions",
 			locator1 = "TextInput#GENERIC_TEXT_INPUT",
-			value1 = "2");
+			value1 = 2);
 
 		ScrollWebElementIntoView(locator1 = "Button#SAVE");
 
@@ -470,19 +470,19 @@ definition {
 
 		for (var versionNumber : list "3.0,4.0") {
 			AssertElementPresent(
-				key_dmDocumentVersionNumber = "${versionNumber}",
+				key_dmDocumentVersionNumber = ${versionNumber},
 				locator1 = "DocumentsAndMedia#DOCUMENT_VERSION_ANY");
 		}
 
 		for (var versionNumber : list "1.0,2.0") {
 			AssertElementNotPresent(
-				key_dmDocumentVersionNumber = "${versionNumber}",
+				key_dmDocumentVersionNumber = ${versionNumber},
 				locator1 = "DocumentsAndMedia#DOCUMENT_VERSION_ANY");
 		}
 	}
 
 	@description = "This test ensures that only the last two versions of a file are kept when the max version limit is set."
-	@priority = "5"
+	@priority = 5
 	test LimitMaxFileVersion {
 		property test.name.skip.portal.instance = "CPDocumentsandmedia#LimitMaxFileVersion";
 
@@ -496,7 +496,7 @@ definition {
 		Type(
 			key_fieldLabel = "Maximum Number Of Versions",
 			locator1 = "TextInput#GENERIC_TEXT_INPUT",
-			value1 = "2");
+			value1 = 2);
 
 		ScrollWebElementIntoView(locator1 = "Button#SAVE");
 
@@ -529,7 +529,7 @@ definition {
 
 		for (var versionNumber : list "1.2,1.1") {
 			AssertElementPresent(
-				key_dmDocumentVersionNumber = "${versionNumber}",
+				key_dmDocumentVersionNumber = ${versionNumber},
 				locator1 = "DocumentsAndMedia#DOCUMENT_VERSION_ANY");
 		}
 
@@ -539,7 +539,7 @@ definition {
 	}
 
 	@description = "This case covers the folder name of a document can be viewed in the info panel and navigate to it."
-	@priority = "5"
+	@priority = 5
 	test MoveDocumentToFolder {
 		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
 
@@ -583,7 +583,7 @@ definition {
 			locationFieldName = "true");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test MoveFolderToFolder {
 		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
 
@@ -601,7 +601,7 @@ definition {
 			dmFolderName2 = "DM Folder2 Name");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test MoveToRecycleBinDocument {
 		property portal.acceptance = "true";
 
@@ -619,7 +619,7 @@ definition {
 			dmDocumentTitle = "DM Document Title");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test MoveToRecycleBinFolder {
 		property portal.acceptance = "true";
 
@@ -639,7 +639,7 @@ definition {
 	}
 
 	@description = "This is a test for LPS-91751. It ensures that a user cannot preview a file with size that exceeds the preview limit."
-	@priority = "4"
+	@priority = 4
 	test PreviewFileThatExceedsLimit {
 		property test.name.skip.portal.instance = "CPDocumentsandmedia#PreviewFileThatExceedsLimit";
 
@@ -653,7 +653,7 @@ definition {
 		Type(
 			key_fieldLabel = "Previewable Processor Maximum Size",
 			locator1 = "TextInput#GENERIC_TEXT_INPUT",
-			value1 = "1024");
+			value1 = 1024);
 
 		SystemSettings.saveConfiguration();
 
@@ -672,7 +672,7 @@ definition {
 	}
 
 	@description = "This test covers LPS-104957. It ensures that the JPG file can be previewed."
-	@priority = "5"
+	@priority = 5
 	test PreviewJPG {
 		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
 
@@ -691,7 +691,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-88785."
-	@priority = "5"
+	@priority = 5
 	test PreviewPDF {
 		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
 
@@ -705,7 +705,7 @@ definition {
 			locator1 = "Message#INFO",
 			value1 = "Generating preview will take a few minutes.");
 
-		Pause(locator1 = "60000");
+		Pause(locator1 = 60000);
 
 		Refresh();
 
@@ -713,7 +713,7 @@ definition {
 	}
 
 	@description = "This test covers LPS-104957. It ensures that the PNG file can be previewed."
-	@priority = "5"
+	@priority = 5
 	test PreviewPNG {
 		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
 
@@ -732,7 +732,7 @@ definition {
 	}
 
 	@description = "This ensures that the SVG file can be previewed."
-	@priority = "5"
+	@priority = 5
 	test PreviewSVG {
 		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
 
@@ -750,7 +750,7 @@ definition {
 		AssertVisible(locator1 = "DocumentsAndMediaDocument#DOCUMENT_INFO_THUMBNAIL");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test RotateImageViaDMSiteAdmin {
 		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
 
@@ -769,7 +769,7 @@ definition {
 
 		ImageEditor.rotateImage(rotateDirection = "left");
 
-		Pause(locator1 = "3000");
+		Pause(locator1 = 3000);
 
 		ImageEditor.applyChangesAndSaveFile();
 
@@ -780,7 +780,7 @@ definition {
 		DMDocument.viewDocumentVersionNumberCmdPG(dmDocumentVersionNumber = "1.1");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test SearchForDocumentInHomeFolder {
 		JSONDocument.addFile(
 			dmDocumentDescription = "DM Document Description",
@@ -795,13 +795,13 @@ definition {
 	}
 
 	@description = "This test covers LPS-101908. It makes sure that all elements selected on different pages can be checked out and checked in."
-	@priority = "3"
+	@priority = 3
 	test SelectAllAndCheckIn {
 		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
 
 		DMDocument.addMultipleCP(dmDocumentFileList = "Document_1.doc,Document_2.jpg,Document_3.xls,Document_4.txt,Commerce_Black.jpg,Document_3.jpg");
 
-		Pagination.changePagination(itemsPerPage = "5");
+		Pagination.changePagination(itemsPerPage = 5);
 
 		PortletEntry.selectAll();
 
@@ -817,11 +817,11 @@ definition {
 
 		for (var dmDocumentFileList : list "Document_1.doc,Document_2.jpg,Document_3.xls,Document_4.txt,Commerce_Black.jpg,Document_3.jpg") {
 			AssertElementPresent(
-				key_dmDocumentTitle = "${dmDocumentFileList}",
+				key_dmDocumentTitle = ${dmDocumentFileList},
 				locator1 = "DocumentsAndMedia#ICON_DOCUMENT_ICON_LOCKED");
 		}
 
-		Pagination.changePagination(itemsPerPage = "5");
+		Pagination.changePagination(itemsPerPage = 5);
 
 		PortletEntry.selectAll();
 
@@ -833,19 +833,19 @@ definition {
 
 		for (var dmDocumentFileList : list "Document_1.doc,Document_2.jpg,Document_3.xls,Document_4.txt,Commerce_Black.jpg,Document_3.jpg") {
 			AssertElementNotPresent(
-				key_dmDocumentTitle = "${dmDocumentFileList}",
+				key_dmDocumentTitle = ${dmDocumentFileList},
 				locator1 = "DocumentsAndMedia#ICON_DOCUMENT_ICON_LOCKED");
 		}
 	}
 
 	@description = "This test covers LPS-91598. It makes sure that all files are deleted when user selects all."
-	@priority = "4"
+	@priority = 4
 	test SelectAllAndDelete {
 		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
 
 		DMDocument.addMultipleCP(dmDocumentFileList = "Document_1.doc,Document_2.jpg,Document_3.xls,Document_4.txt,Document_1.txt,Document_2.xls,Document_3.jpg,Document_4.jpg,Document_1.xls,Document_2.doc");
 
-		Pagination.changePagination(itemsPerPage = "5");
+		Pagination.changePagination(itemsPerPage = 5);
 
 		Pagination.viewResults(results = "Showing 1 to 5 of 10 entries.");
 
@@ -862,7 +862,7 @@ definition {
 		DMDocument.viewDefaultCP();
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ViewImageEditorControls {
 		property portal.acceptance = "true";
 

@@ -6,7 +6,7 @@ definition {
 		var configs = FileUtil.read("${OSGiConfigFileBaseDir}/${OSGiConfigFileName}");
 		var liferayHome = PropsUtil.get("liferay.home.dir.name");
 
-		FileUtil.write("${liferayHome}/osgi/configs/${OSGiConfigFileName}", "${configs}");
+		FileUtil.write("${liferayHome}/osgi/configs/${OSGiConfigFileName}", ${configs});
 	}
 
 	macro deployOSGiConfigs {
@@ -14,14 +14,14 @@ definition {
 
 		var configList = "";
 
-		for (var OSGiConfig : list "${OSGiConfigs}") {
+		for (var OSGiConfig : list ${OSGiConfigs}) {
 			var configList = '''${OSGiConfig}
 ${configList}''';
 		}
 
 		var liferayHome = PropsUtil.get("liferay.home.dir.name");
 
-		FileUtil.write("${liferayHome}/osgi/configs/${OSGiConfigFileName}", "${configList}");
+		FileUtil.write("${liferayHome}/osgi/configs/${OSGiConfigFileName}", ${configList});
 	}
 
 }

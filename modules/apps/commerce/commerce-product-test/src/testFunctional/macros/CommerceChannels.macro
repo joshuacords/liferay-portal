@@ -2,14 +2,14 @@ definition {
 
 	macro activatePaymentMethod {
 		Click(
-			key_paymentMethod = "${paymentMethod}",
+			key_paymentMethod = ${paymentMethod},
 			locator1 = "CommerceEntry#CHANNEL_PAYMENT_METHOD_NAME");
 
 		SelectFrame(locator1 = "CommerceEntry#IFRAME_SIDE_PANEL");
 
 		Type(
 			locator1 = "TextInput#NAME",
-			value1 = "${paymentMethod}");
+			value1 = ${paymentMethod});
 
 		Type(
 			locator1 = "TextInput#DESCRIPTION",

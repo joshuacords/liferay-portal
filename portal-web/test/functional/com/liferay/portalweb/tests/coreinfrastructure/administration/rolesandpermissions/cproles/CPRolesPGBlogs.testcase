@@ -15,7 +15,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -35,7 +35,7 @@ definition {
 		}
 	}
 
-	@priority = "5"
+	@priority = 5
 	test AddBlogsEntryNoGuestRole {
 		property portal.acceptance = "true";
 
@@ -59,7 +59,7 @@ definition {
 		BlogsEntry.viewNoAddPermissions();
 	}
 
-	@priority = "5"
+	@priority = 5
 	test AddBlogsEntryOrgRole {
 		Permissions.setUpOrgRoleLoginUserPG(
 			orgName = "Organization Name",
@@ -119,7 +119,7 @@ definition {
 			userLoginFullName = "Test Test");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddBlogsEntryOrgRoleInline {
 		Permissions.setUpOrgRoleLoginUserPG(
 			orgName = "Organization Name",
@@ -209,7 +209,7 @@ definition {
 			userLoginFullName = "Test Test");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test AddBlogsEntryRegRole {
 		property portal.acceptance = "true";
 
@@ -257,7 +257,7 @@ definition {
 			userLoginFullName = "Test Test");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddBlogsEntryRegRoleInline {
 		Permissions.setUpRegRoleLoginUserPG(
 			pageName = "Blogs Page",
@@ -327,7 +327,7 @@ definition {
 			userLoginFullName = "Test Test");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test AddBlogsEntrySiteRole {
 		Permissions.setUpSiteRoleLoginUserPG(
 			page = "Public Pages",
@@ -385,7 +385,7 @@ definition {
 			userLoginFullName = "Test Test");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddBlogsEntrySiteRoleInline {
 		Permissions.setUpSiteRoleLoginUserPG(
 			page = "Public Pages",
@@ -469,7 +469,7 @@ definition {
 			userLoginFullName = "Test Test");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddBlogsEntrySiteTeamRoleInline {
 		Permissions.setUpSiteTeamRoleLoginUserPG(
 			page = "Public Pages",
@@ -556,7 +556,7 @@ definition {
 			userLoginFullName = "Test Test");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DeleteBlogsEntryNoGuestRole {
 		ProductMenu.gotoPortlet(
 			category = "Site Builder",
@@ -582,7 +582,7 @@ definition {
 		BlogsEntry.moveToRecycleBinNoPermissionPG(entryTitle = "Blogs Entry Title");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test DeleteBlogsEntryOrgRoleDefaultPermission {
 		property portal.acceptance = "true";
 
@@ -623,7 +623,7 @@ definition {
 			userLoginFullName = "Test Test");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test DeleteBlogsEntryOrgRoleDefinePermission {
 		property portal.acceptance = "true";
 
@@ -692,7 +692,7 @@ definition {
 			userLoginFullName = "Test Test");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DeleteBlogsEntryOrgRoleInline {
 		Permissions.setUpOrgRoleLoginUserPG(
 			orgName = "Organization Name",
@@ -791,7 +791,7 @@ definition {
 			userLoginFullName = "Test Test");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DeleteBlogsEntryOwnerRoleInline {
 		Permissions.setUpRegRoleLoginUserPG(
 			pageName = "Blogs Page",
@@ -863,7 +863,7 @@ definition {
 			entryTitle = "Blogs Entry Title");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DeleteBlogsEntryRegRole {
 		Permissions.setUpRegRoleLoginUserPG(
 			pageName = "Blogs Page",
@@ -928,7 +928,7 @@ definition {
 			userLoginFullName = "Test Test");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DeleteBlogsEntryRegRoleInline {
 		Permissions.setUpRegRoleLoginUserPG(
 			pageName = "Blogs Page",
@@ -1003,7 +1003,7 @@ definition {
 			userLoginFullName = "Test Test");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DeleteBlogsEntrySiteRole {
 		Permissions.setUpSiteRoleLoginUserPG(
 			page = "Public Pages",
@@ -1084,7 +1084,7 @@ definition {
 			userLoginFullName = "Test Test");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DeleteBlogsEntrySiteRoleInline {
 		Permissions.setUpSiteRoleLoginUserPG(
 			page = "Public Pages",
@@ -1177,7 +1177,7 @@ definition {
 			userLoginFullName = "Test Test");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DeleteBlogsEntrySiteTeamRoleInline {
 		Permissions.setUpSiteTeamRoleLoginUserPG(
 			page = "Public Pages",
@@ -1269,7 +1269,7 @@ definition {
 			userLoginFullName = "Test Test");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test EditBlogsEntryOwnerRoleInline {
 		Permissions.setUpRegRoleLoginUserPG(
 			pageName = "Blogs Page",
@@ -1352,7 +1352,7 @@ definition {
 			entryTitle = "Blogs Entry Title Edit");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test SubscribeBlogsRegRole {
 		property portal.acceptance = "true";
 
@@ -1402,7 +1402,7 @@ definition {
 			userLoginFullName = "Test Test");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test SubscribeBlogsRegRoleInline {
 		Permissions.setUpRegRoleLoginUserPG(
 			pageName = "Blogs Page",
@@ -1470,7 +1470,7 @@ definition {
 			userLoginFullName = "Test Test");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test SubscribeBlogsSiteRoleInline {
 		Permissions.setUpSiteMemberRoleLoginUserPG(
 			page = "Public Pages",
@@ -1536,7 +1536,7 @@ definition {
 			userLoginFullName = "Test Test");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ViewBlogsEntryPermissionsOwnerRoleInline {
 		Permissions.setUpRegRoleLoginUserPG(
 			pageName = "Blogs Page",
@@ -1615,7 +1615,7 @@ definition {
 		BlogsEntry.viewPermissionsPG(entryTitle = "Blogs Entry Title");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ViewBlogsPermissionsRegRole {
 		property portal.acceptance = "true";
 		property test.name.skip.portal.instance = "CPRolesPGBlogs#ViewBlogsPermissionsRegRole";
@@ -1676,7 +1676,7 @@ definition {
 			userLoginFullName = "Test Test");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewBlogsPermissionsRegRoleInline {
 		Permissions.setUpRegRoleLoginUserPG(
 			pageName = "Blogs Page",
@@ -1766,7 +1766,7 @@ definition {
 			userLoginFullName = "Test Test");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewBlogsPermissionsSiteRole {
 		Permissions.setUpSiteRoleLoginUserPG(
 			page = "Public Pages",
@@ -1848,7 +1848,7 @@ definition {
 			userLoginFullName = "Test Test");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewBlogsPermissionsSiteRoleInline {
 		Permissions.setUpSiteRoleLoginUserPG(
 			page = "Public Pages",
@@ -1958,7 +1958,7 @@ definition {
 			userLoginFullName = "Test Test");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewBlogsPortletNoGuestRole {
 		ProductMenu.gotoPortlet(
 			category = "Site Builder",

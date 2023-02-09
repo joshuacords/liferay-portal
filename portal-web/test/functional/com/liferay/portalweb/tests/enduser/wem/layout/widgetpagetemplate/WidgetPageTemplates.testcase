@@ -15,7 +15,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -25,7 +25,7 @@ definition {
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddPageTemplate {
 		SitePages.openPagesAdmin(siteURLKey = "global");
 
@@ -39,7 +39,7 @@ definition {
 			pageTemplateName = "Page Template Name");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test AddSitePageTemplate {
 		property portal.acceptance = "true";
 		property testray.component.names = "Training";
@@ -127,9 +127,9 @@ definition {
 		Portlet.viewNoSpecificPG(portletName = "Web Content Display");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DeactivateAndActivatePageTemplate {
-		var siteName = TestCase.getSiteName(siteName = "${siteName}");
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
 
 		SitePages.openPagesAdmin(siteURLKey = "global");
 
@@ -150,7 +150,7 @@ definition {
 			pageTemplateName = "Page Template Name",
 			pageTemplateStatus = "Not Active");
 
-		Navigator.openSiteURL(siteName = "${siteName}");
+		Navigator.openSiteURL(siteName = ${siteName});
 
 		ProductMenu.gotoPortlet(
 			category = "Site Builder",
@@ -178,7 +178,7 @@ definition {
 			pageTemplateName = "Page Template Name",
 			pageTemplateStatus = "Active");
 
-		Navigator.openSiteURL(siteName = "${siteName}");
+		Navigator.openSiteURL(siteName = ${siteName});
 
 		ProductMenu.gotoPortlet(
 			category = "Site Builder",
@@ -192,7 +192,7 @@ definition {
 		Page.viewPageTemplateTypePresent(pageTemplateName = "Page Template Name");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test DeletePageTemplate {
 		property portal.acceptance = "true";
 
@@ -213,7 +213,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-54099."
-	@priority = "5"
+	@priority = 5
 	test EditPageTemplate {
 		property portal.acceptance = "true";
 
@@ -254,7 +254,7 @@ definition {
 			pageTemplateName = "Page Template Name");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test EditPageTemplateDescription {
 		SitePages.openPagesAdmin(siteURLKey = "global");
 
@@ -276,7 +276,7 @@ definition {
 			pageTemplateName = "Page Template Name");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ImportLAR {
 		property testray.component.names = "Training";
 
@@ -296,17 +296,17 @@ definition {
 
 		PageTemplatesAdminGlobalSite.viewCP(pageTemplateName = "Department Landing Page");
 
-		var siteName = TestCase.getSiteName(siteName = "${siteName}");
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
 
 		PageTemplatesAdminGlobalSite.viewPG(
 			pageTemplateName = "College Landing Page",
-			siteName = "${siteName}");
+			siteName = ${siteName});
 
 		Portlet.viewSpecificPG(portletName = "Media Gallery");
 
 		Portlet.viewDuplicatePG(
 			portletName = "Web Content Display",
-			totalPortletCount = "3");
+			totalPortletCount = 3);
 
 		Portlet.viewSpecificPG(portletName = "Asset Publisher");
 
@@ -321,20 +321,20 @@ definition {
 
 		PageTemplatesAdminGlobalSite.viewPG(
 			pageTemplateName = "Department Landing Page",
-			siteName = "${siteName}");
+			siteName = ${siteName});
 
 		Portlet.viewSpecificPG(portletName = "Media Gallery");
 
 		Portlet.viewDuplicatePG(
 			portletName = "Web Content Display",
-			totalPortletCount = "2");
+			totalPortletCount = 2);
 
 		Portlet.viewSpecificPG(portletName = "Members");
 
 		Portlet.viewSpecificPG(portletName = "Navigation Menu");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test LocalizeDefaultPageTemplates {
 		property test.name.skip.portal.instance = "WidgetPageTemplates#LocalizeDefaultPageTemplates";
 
@@ -395,7 +395,7 @@ definition {
 		PageTemplatesAdminGlobalSite.viewDefaultCP();
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewEditedPageTemplatePageName {
 		property testray.component.names = "Page Templates";
 
@@ -410,11 +410,11 @@ definition {
 			pageTemplateActive = "Active",
 			pageTemplateName = "Page Template Name");
 
-		var siteName = TestCase.getSiteName(siteName = "${siteName}");
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
 
 		PageTemplatesAdminGlobalSite.viewPG(
 			pageTemplateName = "Page Template Name",
-			siteName = "${siteName}");
+			siteName = ${siteName});
 
 		SitePages.openPagesAdmin(siteURLKey = "global");
 
@@ -429,7 +429,7 @@ definition {
 
 		PageTemplatesAdminGlobalSite.viewPG(
 			pageTemplateName = "Page Template Name Edit",
-			siteName = "${siteName}");
+			siteName = ${siteName});
 	}
 
 }

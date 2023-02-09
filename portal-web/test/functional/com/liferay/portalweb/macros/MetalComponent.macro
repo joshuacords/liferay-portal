@@ -36,10 +36,10 @@ else {
 		''';
 		var metalComponentReady = "";
 
-		while (("${metalComponentReady}" != "ready") && (maxIterations = "30")) {
-			var metalComponentReady = selenium.getEval("${javaScript}");
+		while ((${metalComponentReady} != "ready") && (maxIterations = "30")) {
+			var metalComponentReady = selenium.getEval(${javaScript});
 
-			Pause(locator1 = "1000");
+			Pause(locator1 = 1000);
 		}
 	}
 

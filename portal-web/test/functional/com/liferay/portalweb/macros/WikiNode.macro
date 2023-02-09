@@ -5,11 +5,11 @@ definition {
 	macro addCP {
 		LexiconEntry.gotoAdd();
 
-		PortletEntry.inputName(name = "${wikiNodeName}");
+		PortletEntry.inputName(name = ${wikiNodeName});
 
 		Button.clickSave();
 
-		var key_wikiNodeName = "${wikiNodeName}";
+		var key_wikiNodeName = ${wikiNodeName};
 
 		Alert.viewSuccessMessage();
 	}
@@ -30,11 +30,11 @@ definition {
 	macro deleteCP {
 		LexiconEntry.changeDisplayStyle(displayStyle = "table");
 
-		var key_wikiNodeName = "${wikiNodeName}";
+		var key_wikiNodeName = ${wikiNodeName};
 
 		AssertTextEquals(
 			locator1 = "Wiki#NODE_TABLE_WIKI_NAME",
-			value1 = "${wikiNodeName}");
+			value1 = ${wikiNodeName});
 
 		Click(locator1 = "Wiki#NODE_TABLE_ACTIONS_DROPDOWN");
 
@@ -46,25 +46,25 @@ definition {
 	}
 
 	macro editCP {
-		var key_wikiNodeName = "${wikiNodeName}";
+		var key_wikiNodeName = ${wikiNodeName};
 
 		LexiconEntry.changeDisplayStyle(displayStyle = "table");
 
 		AssertTextEquals(
 			locator1 = "Wiki#NODE_TABLE_WIKI_NAME",
-			value1 = "${wikiNodeName}");
+			value1 = ${wikiNodeName});
 
 		Click(locator1 = "Wiki#NODE_TABLE_ACTIONS_DROPDOWN");
 
 		MenuItem.click(menuItem = "Edit");
 
-		PortletEntry.inputName(name = "${wikiNodeNameEdit}");
+		PortletEntry.inputName(name = ${wikiNodeNameEdit});
 
-		PortletEntry.inputDescription(description = "${wikiNodeDescriptionEdit}");
+		PortletEntry.inputDescription(description = ${wikiNodeDescriptionEdit});
 
 		Button.clickSave();
 
-		var key_wikiNodeName = "${wikiNodeNameEdit}";
+		var key_wikiNodeName = ${wikiNodeNameEdit};
 
 		Alert.viewSuccessMessage();
 	}
@@ -91,31 +91,31 @@ definition {
 	}
 
 	macro viewCP {
-		var key_wikiNodeName = "${wikiNodeName}";
+		var key_wikiNodeName = ${wikiNodeName};
 
 		LexiconEntry.changeDisplayStyle(displayStyle = "table");
 
 		AssertTextEquals(
 			locator1 = "Wiki#NODE_TABLE_WIKI_NAME",
-			value1 = "${wikiNodeName}");
+			value1 = ${wikiNodeName});
 
 		AssertTextEquals(
 			locator1 = "Wiki#NODE_TABLE_NUMBER_OF_PAGES",
-			value1 = "${numberOfWikiPages}");
+			value1 = ${numberOfWikiPages});
 
 		AssertClick(
 			locator1 = "Wiki#NODE_TABLE_WIKI_NAME",
-			value1 = "${wikiNodeName}");
+			value1 = ${wikiNodeName});
 
-		SiteAdmin.viewPortletTitle(portletTitle = "${wikiNodeName}");
+		SiteAdmin.viewPortletTitle(portletTitle = ${wikiNodeName});
 	}
 
 	macro viewMainNode {
-		var key_wikiNodeName = "${wikiNodeName}";
+		var key_wikiNodeName = ${wikiNodeName};
 
 		AssertTextEquals(
 			locator1 = "Wiki#NODE_TABLE_WIKI_NAME",
-			value1 = "${wikiNodeName}");
+			value1 = ${wikiNodeName});
 
 		AssertElementNotPresent(locator1 = "Wiki#NODE_TABLE_WIKI_GENERIC_2");
 	}

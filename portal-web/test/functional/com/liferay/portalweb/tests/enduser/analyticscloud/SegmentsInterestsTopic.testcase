@@ -39,12 +39,12 @@ definition {
 		task ("Create new pages as interest topics and add documents in each page") {
 			var pageNameList = "vehicles,science,agriculture,delivery,information,technology";
 
-			for (var pageName : list "${pageNameList}") {
-				ACUtils.addPage(layoutName = "${pageName}");
+			for (var pageName : list ${pageNameList}) {
+				ACUtils.addPage(layoutName = ${pageName});
 
 				ACUtils.createDMAndAddToPage(
 					dmDocumentTitle = "DM AC Title ${pageName}",
-					layoutName = "${pageName}");
+					layoutName = ${pageName});
 			}
 		}
 	}
@@ -56,7 +56,7 @@ definition {
 
 		ACUtils.tearDownDXP();
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -66,7 +66,7 @@ definition {
 
 	@description = "Feature ID: Legacy | Automation ID: LRAC-8619 | Test Summary: Each interest topic shows the pages that contribute to the interest"
 	@ignore = "true"
-	@priority = "5"
+	@priority = 5
 	test ViewInterestTopicShowsPagesContributeToInterest {
 
 		// AC Refactor: Interests in the static segment takes too long to appear.
@@ -78,7 +78,7 @@ definition {
 		task ("Connect the DXP to AC") {
 			var propertyName = ACDXPSettings.connectDXPtoAnalyticsCloud(siteName = "Site Name");
 
-			var dataSourceName = StringUtil.replace("${propertyName}", " Combined Property", "");
+			var dataSourceName = StringUtil.replace(${propertyName}, " Combined Property", "");
 		}
 
 		task ("Login with new user and see the pages") {
@@ -86,9 +86,9 @@ definition {
 				userLoginEmailAddress = "${usernameList}@liferay.com",
 				userLoginFullName = "${usernameList} ${usernameList}");
 
-			for (var pageName : list "${pageNameList}") {
+			for (var pageName : list ${pageNameList}) {
 				ACUtils.navigateToSitePage(
-					pageName = "${pageName}",
+					pageName = ${pageName},
 					siteName = "Site Name");
 			}
 		}
@@ -98,7 +98,7 @@ definition {
 
 			ACUtils.launchAC();
 
-			ACProperties.switchProperty(propertyName = "${propertyName}");
+			ACProperties.switchProperty(propertyName = ${propertyName});
 		}
 
 		task ("Create a static segment and add a member to it") {
@@ -112,12 +112,12 @@ definition {
 		}
 
 		task ("Go to interests tab then access each interest topic and see the pages related to it") {
-			for (var interestTopic : list "${pageNameList}") {
+			for (var interestTopic : list ${pageNameList}) {
 				ACNavigation.switchTab(tabName = "Interests");
 
 				// This data takes too long to appear.
 
-				ACInterests.clickInterest(interestTopic = "${interestTopic}");
+				ACInterests.clickInterest(interestTopic = ${interestTopic});
 
 				ACInterests.switchTab(tabName = "Active Pages");
 

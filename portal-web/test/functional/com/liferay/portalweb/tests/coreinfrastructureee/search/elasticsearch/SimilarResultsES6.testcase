@@ -17,7 +17,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 	}
@@ -35,8 +35,8 @@ definition {
 		SearchPortlets.configureSimilarResults(
 			displayTemplate = "Compact Layout",
 			fields = "localized_title_en_US",
-			minimumDocumentFrequency = "1",
-			minimumTermFrequency = "1");
+			minimumDocumentFrequency = 1,
+			minimumTermFrequency = 1);
 
 		AssetPublisherPortlet.clickAssetTitle(assetTitle = "WC Title 1");
 
@@ -106,8 +106,8 @@ definition {
 		SearchPortlets.configureSimilarResults(
 			displayTemplate = "Compact Layout",
 			fields = "localized_title_en_US",
-			minimumDocumentFrequency = "1",
-			minimumTermFrequency = "1");
+			minimumDocumentFrequency = 1,
+			minimumTermFrequency = 1);
 
 		AssetPublisherPortlet.clickAssetTitle(assetTitle = "Similar Results Blogs Title 1");
 
@@ -274,8 +274,8 @@ definition {
 		SearchPortlets.configureSimilarResults(
 			displayTemplate = "Compact Layout",
 			fields = "localized_title_en_US",
-			minimumDocumentFrequency = "3",
-			minimumTermFrequency = "1");
+			minimumDocumentFrequency = 3,
+			minimumTermFrequency = 1);
 
 		AssetPublisherPortlet.clickAssetTitle(assetTitle = "Alpha Bravo Charlie");
 
@@ -292,8 +292,8 @@ definition {
 			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
 
 		SearchPortlets.configureSimilarResults(
-			maximumDocumentFrequency = "2",
-			minimumDocumentFrequency = "1");
+			maximumDocumentFrequency = 2,
+			minimumDocumentFrequency = 1);
 
 		AssertElementPresent(
 			key_linkResultTitle = "Alpha Bravo",
@@ -333,8 +333,8 @@ definition {
 		SearchPortlets.configureSimilarResults(
 			displayTemplate = "Compact Layout",
 			fields = "content_en_US",
-			minimumDocumentFrequency = "1",
-			minimumTermFrequency = "1");
+			minimumDocumentFrequency = 1,
+			minimumTermFrequency = 1);
 
 		AssetPublisherPortlet.clickAssetTitle(assetTitle = "Similar Results Blogs Title");
 
@@ -360,9 +360,9 @@ definition {
 	test ConfigureSimilarResultsMaximumItemDisplay {
 		for (var titleName : list "Alpha,Bravo,Charlie,Delta,Echo,Foxtrot") {
 			JSONWebcontent.addWebContent(
-				content = "${titleName}",
+				content = ${titleName},
 				groupName = "Guest",
-				title = "${titleName}");
+				title = ${titleName});
 		}
 
 		JSONWebcontent.addWebContent(
@@ -375,9 +375,9 @@ definition {
 		SearchPortlets.configureSimilarResults(
 			displayTemplate = "Compact Layout",
 			fields = "localized_title_en_US",
-			maximumItemDisplay = "0",
-			minimumDocumentFrequency = "1",
-			minimumTermFrequency = "1");
+			maximumItemDisplay = 0,
+			minimumDocumentFrequency = 1,
+			minimumTermFrequency = 1);
 
 		AssetPublisherPortlet.clickAssetTitle(assetTitle = "Alpha Bravo Charlie Delta Echo Foxtrot");
 
@@ -386,14 +386,14 @@ definition {
 			locator1 = "Message#INFO_SPECIFIC_WIDGET",
 			value1 = "no similar results available");
 
-		SearchPortlets.configureSimilarResults(maximumItemDisplay = "5");
+		SearchPortlets.configureSimilarResults(maximumItemDisplay = 5);
 
 		AssertElementPresent(
-			key_resultPosition = "5",
+			key_resultPosition = 5,
 			locator1 = "Search#SIMILAR_RESULTS_SPECIFIC_POSITION");
 
 		AssertElementNotPresent(
-			key_resultPosition = "6",
+			key_resultPosition = 6,
 			locator1 = "Search#SIMILAR_RESULTS_SPECIFIC_POSITION");
 	}
 
@@ -402,7 +402,7 @@ definition {
 			JSONWebcontent.addWebContent(
 				content = "WC Content",
 				groupName = "Guest",
-				title = "${count}");
+				title = ${count});
 		}
 
 		JSONWebcontent.addWebContent(
@@ -415,18 +415,18 @@ definition {
 		SearchPortlets.configureSimilarResults(
 			displayTemplate = "Compact Layout",
 			fields = "localized_title_en_US",
-			maximumQueryTerms = "2",
-			minimumDocumentFrequency = "1",
-			minimumTermFrequency = "1");
+			maximumQueryTerms = 2,
+			minimumDocumentFrequency = 1,
+			minimumTermFrequency = 1);
 
 		AssetPublisherPortlet.clickAssetTitle(assetTitle = "One Two Three");
 
 		AssertElementPresent(
-			key_resultPosition = "2",
+			key_resultPosition = 2,
 			locator1 = "Search#SIMILAR_RESULTS_SPECIFIC_POSITION");
 
 		AssertElementNotPresent(
-			key_resultPosition = "3",
+			key_resultPosition = 3,
 			locator1 = "Search#SIMILAR_RESULTS_SPECIFIC_POSITION");
 	}
 
@@ -456,9 +456,9 @@ definition {
 		SearchPortlets.configureSimilarResults(
 			displayTemplate = "Compact Layout",
 			fields = "localized_title_en_US",
-			minimumDocumentFrequency = "1",
+			minimumDocumentFrequency = 1,
 			minimumShouldMatch = "25%",
-			minimumTermFrequency = "1");
+			minimumTermFrequency = 1);
 
 		AssetPublisherPortlet.clickAssetTitle(assetTitle = "Similar Results Web Content");
 
@@ -515,8 +515,8 @@ definition {
 		SearchPortlets.configureSimilarResults(
 			displayTemplate = "Compact Layout",
 			fields = "content_en_US,localized_title_en_US",
-			minimumDocumentFrequency = "1",
-			minimumTermFrequency = "1",
+			minimumDocumentFrequency = 1,
+			minimumTermFrequency = 1,
 			stopWords = "Alpha");
 
 		AssetPublisherPortlet.clickAssetTitle(assetTitle = "Alpha Bravo Charlie");
@@ -553,7 +553,7 @@ definition {
 			JSONWebcontent.addWebContent(
 				content = "WC Content",
 				groupName = "Guest",
-				title = "${count}");
+				title = ${count});
 		}
 
 		JSONWebcontent.addWebContent(
@@ -566,18 +566,18 @@ definition {
 		SearchPortlets.configureSimilarResults(
 			displayTemplate = "Compact Layout",
 			fields = "localized_title_en_US",
-			minimumDocumentFrequency = "1",
-			minimumTermFrequency = "1");
+			minimumDocumentFrequency = 1,
+			minimumTermFrequency = 1);
 
 		AssetPublisherPortlet.clickAssetTitle(assetTitle = "One Two Two Three Three Three");
 
 		for (var count : list "One, Two, Three") {
 			AssertElementPresent(
-				key_linkResultTitle = "${count}",
+				key_linkResultTitle = ${count},
 				locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
 		}
 
-		SearchPortlets.configureSimilarResults(minimumTermFrequency = "3");
+		SearchPortlets.configureSimilarResults(minimumTermFrequency = 3);
 
 		AssertElementPresent(
 			key_linkResultTitle = "Three",
@@ -591,7 +591,7 @@ definition {
 			key_linkResultTitle = "Two",
 			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
 
-		SearchPortlets.configureSimilarResults(minimumTermFrequency = "4");
+		SearchPortlets.configureSimilarResults(minimumTermFrequency = 4);
 
 		AssertElementNotPresent(
 			key_linkResultTitle = "One",
@@ -627,9 +627,9 @@ definition {
 		SearchPortlets.configureSimilarResults(
 			displayTemplate = "Compact Layout",
 			fields = "localized_title_en_US",
-			minimumDocumentFrequency = "1",
-			minimumTermFrequency = "1",
-			minimumWordLength = "6");
+			minimumDocumentFrequency = 1,
+			minimumTermFrequency = 1,
+			minimumWordLength = 6);
 
 		AssetPublisherPortlet.clickAssetTitle(assetTitle = "Alpha Bravo Charlie");
 
@@ -641,7 +641,7 @@ definition {
 			key_linkResultTitle = "Alpha Bravo",
 			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
 
-		SearchPortlets.configureSimilarResults(minimumWordLength = "8");
+		SearchPortlets.configureSimilarResults(minimumWordLength = 8);
 
 		AssertElementNotPresent(
 			key_linkResultTitle = "Alpha Bravo",
@@ -652,8 +652,8 @@ definition {
 			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
 
 		SearchPortlets.configureSimilarResults(
-			maximumWordLength = "5",
-			minimumWordLength = "5");
+			maximumWordLength = 5,
+			minimumWordLength = 5);
 
 		AssertElementPresent(
 			key_linkResultTitle = "Alpha Bravo",
@@ -701,20 +701,20 @@ definition {
 			portlet = "App Manager");
 
 		AppManager.viewAppCP(
-			appName = "${appName}",
+			appName = ${appName},
 			appStatus = "Active",
 			searchTerm = "Similar");
 
-		AppManager.deactivateAppCP(appName = "${appName}");
+		AppManager.deactivateAppCP(appName = ${appName});
 
 		AppManager.viewAppCP(
-			appName = "${appName}",
+			appName = ${appName},
 			appStatus = "Resolved",
 			searchTerm = "Similar");
 
 		AssertConsoleTextPresent(value1 = "STOPPED com.liferay.portal.search.similar.results.web");
 
-		AppManager.activateAppCP(appName = "${appName}");
+		AppManager.activateAppCP(appName = ${appName});
 
 		AssertConsoleTextPresent(value1 = "STARTED com.liferay.portal.search.similar.results.web");
 
@@ -754,12 +754,12 @@ definition {
 		Type(
 			key_fieldLabel = "Minimum Document Frequency",
 			locator1 = "TextInput#GENERIC_NUMBER_INPUT",
-			value1 = "1");
+			value1 = 1);
 
 		Type(
 			key_fieldLabel = "Minimum Term Frequency",
 			locator1 = "TextInput#GENERIC_NUMBER_INPUT",
-			value1 = "1");
+			value1 = 1);
 
 		PortletEntry.save();
 

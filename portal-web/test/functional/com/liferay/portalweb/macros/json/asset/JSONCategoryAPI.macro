@@ -17,13 +17,13 @@ definition {
 				-d categoryProperties=
 		''';
 
-		var categoryId = JSONCurlUtil.post("${curl}", "$.categoryId");
+		var categoryId = JSONCurlUtil.post(${curl}, "$.categoryId");
 
-		var categoryId = StringUtil.replace("${categoryId}", "[\"", "");
+		var categoryId = StringUtil.replace(${categoryId}, "[\"", "");
 
-		var categoryId = StringUtil.replace("${categoryId}", "\"]", "");
+		var categoryId = StringUtil.replace(${categoryId}, "\"]", "");
 
-		return "${categoryId}";
+		return ${categoryId};
 	}
 
 	@summary = "Directly calls the JSON WS API to add a vocabulary"
@@ -42,7 +42,7 @@ definition {
 				-d Settings=
 		''';
 
-		com.liferay.poshi.runner.util.JSONCurlUtil.post("${curl}");
+		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
 	}
 
 	@summary = "Directly calls the JSON WS API to get categoryId"
@@ -62,17 +62,17 @@ definition {
 				-d -obc=
 		''';
 
-		var categoryId = JSONCurlUtil.post("${curl}", "$.[?(@['titleCurrentValue'] == '${categoryName}')]['categoryId']");
+		var categoryId = JSONCurlUtil.post(${curl}, "$.[?(@['titleCurrentValue'] == '${categoryName}')]['categoryId']");
 
-		var categoryId = StringUtil.replace("${categoryId}", "[\"", "");
+		var categoryId = StringUtil.replace(${categoryId}, "[\"", "");
 
-		var categoryId = StringUtil.replace("${categoryId}", "\"]", "");
+		var categoryId = StringUtil.replace(${categoryId}, "\"]", "");
 
-		if ("${categoryId}" == "") {
+		if (${categoryId} == "") {
 			fail("FAIL. Cannot find category.");
 		}
 
-		return "${categoryId}";
+		return ${categoryId};
 	}
 
 	@summary = "Get the categoryId from any categoryby using groupId and vocabularyName"
@@ -87,17 +87,17 @@ definition {
 				-d groupId=${groupId}
 		''';
 
-		var vocabularyId = JSONCurlUtil.post("${curl}", "$.[?(@['titleCurrentValue'] == '${vocabularyName}')]['vocabularyId']");
+		var vocabularyId = JSONCurlUtil.post(${curl}, "$.[?(@['titleCurrentValue'] == '${vocabularyName}')]['vocabularyId']");
 
-		var vocabularyId = StringUtil.replace("${vocabularyId}", "[\"", "");
+		var vocabularyId = StringUtil.replace(${vocabularyId}, "[\"", "");
 
-		var vocabularyId = StringUtil.replace("${vocabularyId}", "\"]", "");
+		var vocabularyId = StringUtil.replace(${vocabularyId}, "\"]", "");
 
-		if ("${vocabularyId}" == "") {
+		if (${vocabularyId} == "") {
 			fail("FAIL. Cannot find vocabulary.");
 		}
 
-		return "${vocabularyId}";
+		return ${vocabularyId};
 	}
 
 	@summary = "Directly calls the JSON WS API to update a category"
@@ -117,7 +117,7 @@ definition {
 				-d categoryProperties=
 		''';
 
-		com.liferay.poshi.runner.util.JSONCurlUtil.post("${curl}");
+		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
 	}
 
 }

@@ -1,11 +1,11 @@
 definition {
 
 	macro assertEquals {
-		echo("${expected}");
+		echo(${expected});
 
-		echo("${actual}");
+		echo(${actual});
 
-		if ("${expected}" == "${actual}") {
+		if (${expected} == ${actual}) {
 			echo("PASSED");
 		}
 		else {
@@ -14,11 +14,11 @@ definition {
 	}
 
 	macro assertNotEquals {
-		echo("${expected}");
+		echo(${expected});
 
-		echo("${actual}");
+		echo(${actual});
 
-		if ("${expected}" != "${actual}") {
+		if (${expected} != ${actual}) {
 			echo("PASSED");
 		}
 		else {
@@ -31,15 +31,15 @@ definition {
 			var message = "FAIL";
 		}
 
-		echo("${message}");
+		echo(${message});
 
-		fail("${message}");
+		fail(${message});
 	}
 
 	macro hardRefresh {
 		var mac = OSDetector.isApple();
 
-		if ("${mac}" == "true") {
+		if (${mac} == "true") {
 			RobotType.robotTypeShortcut(locator1 = "Shift + Command + r");
 		}
 		else {
@@ -50,13 +50,13 @@ definition {
 	}
 
 	macro isGreaterThan {
-		echo("${expected}");
+		echo(${expected});
 
-		echo("${actual}");
+		echo(${actual});
 
-		var result = MathUtil.isGreaterThan("${actual}", "${expected}");
+		var result = MathUtil.isGreaterThan(${actual}, ${expected});
 
-		if ("${result}" == "true") {
+		if (${result} == "true") {
 			echo("PASSED");
 		}
 		else {
@@ -69,7 +69,7 @@ definition {
 			var message = "PASS";
 		}
 
-		echo("${message}");
+		echo(${message});
 	}
 
 	macro typeIntoField {

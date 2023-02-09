@@ -24,7 +24,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -34,7 +34,7 @@ definition {
 
 	@description = "Assert that Asset Lists administration is only accessible on the staging site."
 	@ignore = "true"
-	@priority = "5"
+	@priority = 5
 	test AssertAssetListsAreOnlyEditableInStagingView {
 		task ("Navigate to asset list administration in the staging site.") {
 			ProductMenuHelper.expandPanel(panel = "Site Administration");

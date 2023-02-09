@@ -15,7 +15,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -29,7 +29,7 @@ definition {
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddReportInvalidEmail {
 		Navigator.openURL();
 
@@ -91,7 +91,7 @@ definition {
 			value1 = "Please enter a valid email address.");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddSchedule {
 		Navigator.openURL();
 
@@ -122,7 +122,7 @@ definition {
 			locator1 = "ReportsAdminViewReportEntry#INFO_MESSAGE",
 			value1 = "Processing report. This may take several minutes.");
 
-		Pause(locator1 = "180000");
+		Pause(locator1 = 180000);
 
 		Navigator.openURL();
 
@@ -142,7 +142,7 @@ definition {
 			userName = "Test Test");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ChangeReportName {
 		Navigator.openURL();
 
@@ -178,7 +178,7 @@ definition {
 		ReportsAdmin.viewNoReportEntryFile(reportsFileName = "reports_admin_template_source_sample_class_name");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DeleteReportFile {
 		Navigator.openURL();
 
@@ -224,7 +224,7 @@ definition {
 		ReportsAdmin.viewNoReportEntryFile(reportsFileName = "reports_admin_template_source_sample_class_name.csv");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DeliverReportToEmail {
 		property test.assert.javascript.errors = "false";
 		property test.smtp.server.enabled = "true";
@@ -272,10 +272,10 @@ definition {
 			sender = "Joe Bloggs",
 			subject = "New Report: reports_admin_template_source_sample_class_name.pdf");
 
-		Navigator.openSpecificURL(url = "${portalURL}");
+		Navigator.openSpecificURL(url = ${portalURL});
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DownloadReportCSV {
 		Navigator.openURL();
 
@@ -310,7 +310,7 @@ definition {
 		ReportsAdmin.downloadReportEntryFile(reportsFileName = "reports_admin_template_source_sample_class_name.csv");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DownloadReportHTML {
 		Navigator.openURL();
 
@@ -345,7 +345,7 @@ definition {
 		ReportsAdmin.downloadReportEntryFile(reportsFileName = "reports_admin_template_source_sample_class_name.html");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DownloadReportPDF {
 		Navigator.openURL();
 
@@ -382,7 +382,7 @@ definition {
 			reportsFileName = "reports_admin_template_source_sample_class_name.pdf");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DownloadReportRTF {
 		Navigator.openURL();
 
@@ -417,7 +417,7 @@ definition {
 		ReportsAdmin.downloadReportEntryFile(reportsFileName = "reports_admin_template_source_sample_class_name.rtf");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DownloadReportTXT {
 		Navigator.openURL();
 
@@ -452,7 +452,7 @@ definition {
 		ReportsAdmin.downloadReportEntryFile(reportsFileName = "reports_admin_template_source_sample_class_name.txt");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DownloadReportXLS {
 		Navigator.openURL();
 
@@ -487,7 +487,7 @@ definition {
 		ReportsAdmin.downloadReportEntryFile(reportsFileName = "reports_admin_template_source_sample_class_name.xls");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DownloadReportXML {
 		Navigator.openURL();
 
@@ -523,7 +523,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-43525."
-	@priority = "3"
+	@priority = 3
 	test TestDatabaseConnection {
 		var databasePassword = PropsUtil.get("database.mysql.password");
 		var databaseURL = PropsUtil.get("database.mysql.url");
@@ -541,9 +541,9 @@ definition {
 		ReportsAdmin.addSource(
 			reportsDataSourceClass = "com.mysql.cj.jdbc.Driver",
 			reportsDataSourceName = "Reports Data Source Name",
-			reportsDataSourcePassword = "${databasePassword}",
-			reportsDataSourceURL = "${databaseURL}",
-			reportsDataSourceUser = "${databaseUsername}");
+			reportsDataSourcePassword = ${databasePassword},
+			reportsDataSourceURL = ${databaseURL},
+			reportsDataSourceUser = ${databaseUsername});
 
 		ReportsAdmin.testDatabaseConnection();
 
@@ -551,13 +551,13 @@ definition {
 	}
 
 	@ignore = "true"
-	@priority = "4"
+	@priority = 4
 	test ViewEmailNotificationDelivery {
 		property test.assert.javascript.errors = "false";
 		property test.name.skip.portal.instance = "CPReportsadmin#ViewEmailNotificationDelivery";
 
 		var portalURL = PropsUtil.get("portal.url");
-		var siteName = TestCase.getSiteName(siteName = "${siteName}");
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
 
 		ProductMenu.gotoPortlet(
 			category = "Configuration",
@@ -590,7 +590,7 @@ definition {
 			reportName = "Custom Report Name",
 			reportsDefinitionName = "Reports Definition Name");
 
-		Pause(locator1 = "30000");
+		Pause(locator1 = 30000);
 
 		Gmail.login(
 			userEmailAddress = PropsUtil.get("email.address.2"),
@@ -611,7 +611,7 @@ definition {
 			locator1 = "Gmail#GMAIL_HTML_MODE_MESSAGE_BODY_LINK",
 			value1 = "report");
 
-		Pause(locator1 = "30000");
+		Pause(locator1 = 30000);
 
 		SelectWindow(locator1 = "title=Reports Definition Name - ${siteName}");
 
@@ -626,11 +626,11 @@ definition {
 
 		Gmail.deleteSpecificMail(gmailMessageTitleList = "New Report: Custom Report Name.pdf,Your New Account,Your New Password");
 
-		Navigator.openSpecificURL(url = "${portalURL}");
+		Navigator.openSpecificURL(url = ${portalURL});
 	}
 
 	@ignore = "true"
-	@priority = "4"
+	@priority = 4
 	test ViewEmailRecipientDelivery {
 		property test.name.skip.portal.instance = "CPReportsadmin#ViewEmailRecipientDelivery";
 
@@ -668,7 +668,7 @@ definition {
 			reportFormat = "pdf",
 			reportsDefinitionName = "Reports Definition Name");
 
-		Pause(locator1 = "30000");
+		Pause(locator1 = 30000);
 
 		Gmail.login(
 			userEmailAddress = PropsUtil.get("email.address.4"),
@@ -692,10 +692,10 @@ definition {
 
 		Gmail.deleteSpecificMail(gmailMessageTitleList = "New Report: reports_admin_template_source_sample_class_name.pdf,Your New Account,Your New Password");
 
-		Navigator.openSpecificURL(url = "${portalURL}");
+		Navigator.openSpecificURL(url = ${portalURL});
 	}
 
-	@priority = "3"
+	@priority = 3
 	test ViewReportDefinitionParametersFields {
 		Navigator.openURL();
 

@@ -65,7 +65,7 @@ definition {
 
 		ACUtils.tearDownDXP();
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -74,18 +74,18 @@ definition {
 	}
 
 	@description = "Feature ID: LRAC-4266 | Automation ID: LRAC-10292 | Test Summary: Creating Events from All tab, default tab and custom tab and Event Attributes"
-	@priority = "5"
+	@priority = 5
 	test CreateEventAnalysisFromAllAndDefaultAndCustomTab {
 		var attributeName = "pageTitle";
 		var defaultEventName = "pageViewed";
-		var dataSource = StringUtil.extractFirst("${assignedPropertyName}", " ");
+		var dataSource = StringUtil.extractFirst(${assignedPropertyName}, " ");
 
 		task ("Fill fields and create custom event") {
 			var customEventName = ACCustomEvents.generateCustomEventName();
 
 			ACCustomEvents.createCustomEvent(
-				customEventName = "${customEventName}",
-				timeToSendCustomEvent = "1");
+				customEventName = ${customEventName},
+				timeToSendCustomEvent = 1);
 		}
 
 		task ("Close sessions") {
@@ -95,17 +95,17 @@ definition {
 		task ("Switch the property in AC and go to event analysis") {
 			ACUtils.launchAC();
 
-			ACProperties.switchProperty(propertyName = "${assignedPropertyName}");
+			ACProperties.switchProperty(propertyName = ${assignedPropertyName});
 
 			ACNavigation.goToEventAnalysis();
 		}
 
 		task ("Add the custom event to analysis by the all tab") {
-			ACEventAnalysis.addEvent(customEventName = "${customEventName}");
+			ACEventAnalysis.addEvent(customEventName = ${customEventName});
 		}
 
 		task ("Add the breakdown to analysis") {
-			ACEventAnalysis.addBreakdown(attributeNameList = "${attributeName}");
+			ACEventAnalysis.addBreakdown(attributeNameList = ${attributeName});
 		}
 
 		task ("Check the analysis result appears") {
@@ -117,17 +117,17 @@ definition {
 		}
 
 		task ("Remove the custom event from the analysis") {
-			ACEventAnalysis.removeFromAnalysis(removeValue = "${customEventName}");
+			ACEventAnalysis.removeFromAnalysis(removeValue = ${customEventName});
 		}
 
 		task ("Add the default event to analysis by the default tab") {
 			ACEventAnalysis.addEvent(
-				customEventName = "${defaultEventName}",
+				customEventName = ${defaultEventName},
 				tabName = "Default");
 		}
 
 		task ("Add the breakdown to analysis") {
-			ACEventAnalysis.addBreakdown(attributeNameList = "${attributeName}");
+			ACEventAnalysis.addBreakdown(attributeNameList = ${attributeName});
 		}
 
 		task ("Check the analysis result appears") {
@@ -135,17 +135,17 @@ definition {
 		}
 
 		task ("Remove the default event from the analysis") {
-			ACEventAnalysis.removeFromAnalysis(removeValue = "${defaultEventName}");
+			ACEventAnalysis.removeFromAnalysis(removeValue = ${defaultEventName});
 		}
 
 		task ("Add the custom event for analysis by the custom tab") {
 			ACEventAnalysis.addEvent(
-				customEventName = "${customEventName}",
+				customEventName = ${customEventName},
 				tabName = "Custom");
 		}
 
 		task ("Add the breakdown to analysis") {
-			ACEventAnalysis.addBreakdown(attributeNameList = "${attributeName}");
+			ACEventAnalysis.addBreakdown(attributeNameList = ${attributeName});
 		}
 
 		task ("Check the analysis result appears") {

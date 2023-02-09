@@ -30,7 +30,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -51,7 +51,7 @@ definition {
 	}
 
 	@description = "This is a test for LPS-90999. A user with permissions has access to edit the web content article or display page while viewing the article through its display page."
-	@priority = "5"
+	@priority = 5
 	test EditWhenViewingInDisplayPageAsUser {
 		task ("Add a display page with fragments mapped to Basic Web Content") {
 			DisplayPageTemplatesAdmin.addDisplayPage(displayPageName = "Display Page Name");
@@ -161,19 +161,19 @@ definition {
 			AssertVisible(
 				key_content = "Webcontent Title",
 				key_fragmentClass = "header",
-				key_position = "1",
+				key_position = 1,
 				locator1 = "Fragment#FRAGMENT");
 
 			AssertVisible(
 				key_content = "Webcontent Content",
 				key_fragmentClass = "rich-text",
-				key_position = "2",
+				key_position = 2,
 				locator1 = "Fragment#FRAGMENT");
 
 			AssertVisible(
 				key_content = "This is static text.",
 				key_fragmentClass = "static-text",
-				key_position = "3",
+				key_position = 3,
 				locator1 = "Fragment#FRAGMENT");
 		}
 
@@ -199,19 +199,19 @@ definition {
 			AssertVisible(
 				key_content = "Webcontent Title Edit",
 				key_fragmentClass = "header",
-				key_position = "1",
+				key_position = 1,
 				locator1 = "Fragment#FRAGMENT");
 
 			AssertVisible(
 				key_content = "Webcontent Content Edit",
 				key_fragmentClass = "rich-text",
-				key_position = "2",
+				key_position = 2,
 				locator1 = "Fragment#FRAGMENT");
 
 			AssertVisible(
 				key_content = "This is static text.",
 				key_fragmentClass = "static-text",
-				key_position = "3",
+				key_position = 3,
 				locator1 = "Fragment#FRAGMENT");
 		}
 
@@ -231,7 +231,7 @@ definition {
 	}
 
 	@description = "This is a test for LPS-86550. Users should be able to map author name and author profile image to a fragment editable field in a display page."
-	@priority = "5"
+	@priority = 5
 	test MapWebContentAuthor {
 		task ("Add a display page with author name and profile fields mapped") {
 			DisplayPageTemplatesAdmin.addDisplayPage(displayPageName = "Display Page Name");
@@ -289,13 +289,13 @@ definition {
 			AssertVisible(
 				key_content = "Test Test",
 				key_fragmentClass = "rich-text",
-				key_position = "1",
+				key_position = 1,
 				locator1 = "Fragment#FRAGMENT");
 
 			AssertVisible(
 				key_content = "",
 				key_fragmentClass = "image",
-				key_position = "2",
+				key_position = 2,
 				locator1 = "Fragment#FRAGMENT");
 
 			SikuliAssertElementPresent(locator1 = "Fragment#MARKETPLACE_ICON_PNG");
@@ -303,7 +303,7 @@ definition {
 	}
 
 	@description = "This case ensures a user can map the editable background image of a fragment to an existing image content."
-	@priority = "5"
+	@priority = 5
 	test MapWebContentImageToFragmentBackground {
 		WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
 
@@ -371,7 +371,7 @@ definition {
 	}
 
 	@description = "This case ensures a user can map the layout of a fragment to an existing image content."
-	@priority = "5"
+	@priority = 5
 	test MapWebContentImageToLayoutSection {
 		WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
 
@@ -414,7 +414,7 @@ definition {
 
 		ContentPages.addPage(pageName = "Test Content Page Name");
 
-		PageEditor.addLayoutSection(columnCount = "2");
+		PageEditor.addLayoutSection(columnCount = 2);
 
 		PageEditor.editLayoutSectionImage(
 			assetField = "Web Content Article",
@@ -432,7 +432,7 @@ definition {
 	}
 
 	@description = "This is a test for LPS-86550. Users should be able to map last editor name and author profile image to a fragment editable field in a display page."
-	@priority = "5"
+	@priority = 5
 	test MapWebContentLastEditor {
 		task ("Add a display page with last editor name and profile fields mapped") {
 			DisplayPageTemplatesAdmin.addDisplayPage(displayPageName = "Display Page Name");
@@ -520,13 +520,13 @@ definition {
 			AssertVisible(
 				key_content = "Test Test",
 				key_fragmentClass = "rich-text",
-				key_position = "1",
+				key_position = 1,
 				locator1 = "Fragment#FRAGMENT");
 
 			AssertVisible(
 				key_content = "",
 				key_fragmentClass = "image",
-				key_position = "2",
+				key_position = 2,
 				locator1 = "Fragment#FRAGMENT");
 		}
 
@@ -552,13 +552,13 @@ definition {
 			AssertVisible(
 				key_content = "Userfn Userln",
 				key_fragmentClass = "rich-text",
-				key_position = "1",
+				key_position = 1,
 				locator1 = "Fragment#FRAGMENT");
 
 			AssertVisible(
 				key_content = "",
 				key_fragmentClass = "image",
-				key_position = "2",
+				key_position = 2,
 				locator1 = "Fragment#FRAGMENT");
 
 			SikuliAssertElementPresent(locator1 = "Fragment#DOCUMENT_4_PNG");
@@ -566,7 +566,7 @@ definition {
 	}
 
 	@description = "Add a fragment with multiple editable fields in it."
-	@priority = "4"
+	@priority = 4
 	test ViewDisplayPageWithComplexRichTextFragments {
 		property testray.component.names = "Training";
 
@@ -657,14 +657,14 @@ definition {
 
 			for (var content : list "Webcontent Title,Webcontent Content,tag1,tag2,tag3") {
 				AssertVisible(
-					key_text = "${content}",
+					key_text = ${content},
 					locator1 = "Fragment#EDITABLE_FIELD_CONTENT");
 			}
 		}
 	}
 
 	@description = "Add a fragment with new added structure in it."
-	@priority = "4"
+	@priority = 4
 	test ViewDisplayPageWithNewStructureMapInFragments {
 		property testray.component.names = "Training";
 
@@ -773,7 +773,7 @@ definition {
 	}
 
 	@description = "This is a test for LPS-96187. When there is a Language Selector widget on a display page template, selecting a different language should not redirect the user to a different place."
-	@priority = "4"
+	@priority = 4
 	test ViewlanguageSelectorRedirect {
 		property test.name.skip.portal.instance = "DisplayPagesUseCase#ViewlanguageSelectorRedirect";
 
@@ -842,13 +842,13 @@ definition {
 			AssertVisible(
 				key_content = "Webcontent Title",
 				key_fragmentClass = "header",
-				key_position = "1",
+				key_position = 1,
 				locator1 = "Fragment#FRAGMENT");
 
 			AssertVisible(
 				key_content = "Webcontent Content",
 				key_fragmentClass = "rich-text",
-				key_position = "2",
+				key_position = 2,
 				locator1 = "Fragment#FRAGMENT");
 		}
 
@@ -867,13 +867,13 @@ definition {
 			AssertVisible(
 				key_content = "Webcontent Title",
 				key_fragmentClass = "header",
-				key_position = "1",
+				key_position = 1,
 				locator1 = "Fragment#FRAGMENT");
 
 			AssertVisible(
 				key_content = "Webcontent Content",
 				key_fragmentClass = "rich-text",
-				key_position = "2",
+				key_position = 2,
 				locator1 = "Fragment#FRAGMENT");
 		}
 	}

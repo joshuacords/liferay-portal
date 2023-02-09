@@ -14,7 +14,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -51,16 +51,16 @@ definition {
 
 		OAuth2.viewApplicationInTable(
 			applicationName = "OAuth Application",
-			clientId = "${generatedClientId}",
+			clientId = ${generatedClientId},
 			description = "Registering a new application");
 
 		OAuth2.viewApplication(
 			applicationName = "OAuth Application",
 			callbackURI = "http://www.liferay.com",
 			checkboxCheckList = "Authorization Code,Client Credentials,Refresh Token,Resource Owner Password Credentials",
-			clientId = "${generatedClientId}",
+			clientId = ${generatedClientId},
 			clientProfile = "Web Application",
-			clientSecret = "${generatedClientSecret}",
+			clientSecret = ${generatedClientSecret},
 			description = "Registering a new application",
 			privacyPolicyURL = "http://www.liferay.com",
 			websiteURL = "http://www.liferay.com");
@@ -104,7 +104,7 @@ definition {
 
 		OAuth2.viewApplication(
 			applicationName = "OAuth Application Edited",
-			clientSecret = "${newGeneratedClientSecret}");
+			clientSecret = ${newGeneratedClientSecret});
 
 		OAuth2.deleteApplication(applicationName = "OAuth Application Edited");
 	}
@@ -146,8 +146,8 @@ definition {
 			resourcePanels = "Portal Services");
 
 		var accessToken = OAuth2.getAccessToken(
-			clientId = "${generatedClientId}",
-			clientSecret = "${generatedClientSecret}",
+			clientId = ${generatedClientId},
+			clientSecret = ${generatedClientSecret},
 			grantFlow = "clientCredentials");
 		var portalURL = PropsUtil.get("portal.url");
 
@@ -155,9 +155,9 @@ definition {
 			${portalURL}/api/jsonws/portal/get-version -H 'Authorization: Bearer ${accessToken}'
 		''';
 
-		var portalVersionOutput = JSONCurlUtil.post("${portalVersionCurl}");
+		var portalVersionOutput = JSONCurlUtil.post(${portalVersionCurl});
 
-		if (!(contains("${portalVersionOutput}", "7.2"))) {
+		if (!(contains(${portalVersionOutput}, "7.2"))) {
 			fail("JSON-WS call failed to return Portal version");
 		}
 
@@ -170,9 +170,9 @@ definition {
 			enabled = "false",
 			policyName = "OAUTH2_read.portalversion");
 
-		var portalVersionOutput = JSONCurlUtil.post("${portalVersionCurl}");
+		var portalVersionOutput = JSONCurlUtil.post(${portalVersionCurl});
 
-		if (!(contains("${portalVersionOutput}", "Access denied to com.liferay.portal.kernel.service.PortalService#getVersion"))) {
+		if (!(contains(${portalVersionOutput}, "Access denied to com.liferay.portal.kernel.service.PortalService#getVersion"))) {
 			fail("Access denied message was not returned");
 		}
 
@@ -195,9 +195,9 @@ definition {
 			enabled = "true",
 			policyName = "OAUTH2_read.portalversion");
 
-		var portalVersionOutput = JSONCurlUtil.post("${portalVersionCurl}");
+		var portalVersionOutput = JSONCurlUtil.post(${portalVersionCurl});
 
-		if (!(contains("${portalVersionOutput}", "7.2"))) {
+		if (!(contains(${portalVersionOutput}, "7.2"))) {
 			fail("JSON-WS call failed to return Portal version");
 		}
 
@@ -223,23 +223,23 @@ definition {
 			resourcePanels = "Portal Services");
 
 		var accessToken = OAuth2.getAccessToken(
-			clientId = "${generatedClientId}",
-			clientSecret = "${generatedClientSecret}",
+			clientId = ${generatedClientId},
+			clientSecret = ${generatedClientSecret},
 			grantFlow = "clientCredentials");
 
 		var buildNumberCurl = '''
 			${portalURL}/api/jsonws/portal/get-build-number -H 'Authorization: Bearer ${accessToken}'
 		''';
 
-		var buildNumberOutput = JSONCurlUtil.post("${buildNumberCurl}");
+		var buildNumberOutput = JSONCurlUtil.post(${buildNumberCurl});
 
-		if (!(contains("${buildNumberOutput}", "72"))) {
+		if (!(contains(${buildNumberOutput}, 72))) {
 			fail("JSON-WS call failed to return build number");
 		}
 	}
 
 	@description = "This is a use case for OAUTH2-242."
-	@priority = "5"
+	@priority = 5
 	test AssertAuthorizationCodeWorksInCluster {
 		property app.server.bundles.size = "1";
 		property cluster.enabled = "true";
@@ -260,7 +260,7 @@ definition {
 		Navigator.gotoNavItem(navItem = "Scopes");
 
 		for (var resourcePanel : list "Analytics,Portal Services") {
-			var key_panel = "${resourcePanel}";
+			var key_panel = ${resourcePanel};
 
 			AssertElementPresent(locator1 = "OAuth2#ADMIN_RESOURCE_PANEL_COLLAPSED");
 		}
@@ -268,7 +268,7 @@ definition {
 		User.logoutPG();
 
 		User.loginPG(
-			nodePort = "9080",
+			nodePort = 9080,
 			password = "test",
 			userEmailAddress = "test@liferay.com");
 
@@ -284,12 +284,12 @@ definition {
 		Navigator.gotoNavItem(navItem = "Scopes");
 
 		for (var resourcePanel : list "Analytics,Portal Services") {
-			var key_panel = "${resourcePanel}";
+			var key_panel = ${resourcePanel};
 
 			AssertElementPresent(locator1 = "OAuth2#ADMIN_RESOURCE_PANEL_COLLAPSED");
 		}
 
-		User.logoutPG(nodePort = "9080");
+		User.logoutPG(nodePort = 9080);
 
 		User.loginPG(
 			password = "test",
@@ -315,9 +315,9 @@ definition {
 				--data client_id=abc123&client_secret=abc123&grant_type=authorization_code&code=${authorizationCode}
 		''';
 
-		var reponse = JSONCurlUtil.post("${curl}");
+		var reponse = JSONCurlUtil.post(${curl});
 
-		if (contains("${reponse}", "access_token")) {
+		if (contains(${reponse}, "access_token")) {
 			echo("OAuth2 Authorization Code is working in cluster.");
 		}
 		else {
@@ -326,7 +326,7 @@ definition {
 	}
 
 	@description = "This is a use case for OAUTH2-259."
-	@priority = "4"
+	@priority = 4
 	test AssertClientCredentialsIsUserScoped {
 		property custom.properties = "json.service.serialize.throwable=true";
 
@@ -381,7 +381,7 @@ definition {
 				--data grant_type=client_credentials&client_id=abc123&client_secret=abc123
 		''';
 
-		var accessToken = OAuth2.getAccessToken(tokenCurl = "${tokenCurl}");
+		var accessToken = OAuth2.getAccessToken(tokenCurl = ${tokenCurl});
 		var articleId = JSONWebcontentSetter.setArticleId(
 			groupName = "Guest",
 			title = "WC Title");
@@ -394,9 +394,9 @@ definition {
 				-d articleURL='wc-title'
 		''';
 
-		var deleteOutput1 = JSONCurlUtil.post("${deleteCurl}");
+		var deleteOutput1 = JSONCurlUtil.post(${deleteCurl});
 
-		if (!(contains("${deleteOutput1}", "must have DELETE permission for com.liferay.journal.model.JournalArticle"))) {
+		if (!(contains(${deleteOutput1}, "must have DELETE permission for com.liferay.journal.model.JournalArticle"))) {
 			fail("Could not find message for denied permissions.");
 		}
 
@@ -405,9 +405,9 @@ definition {
 			resourceName = "com.liferay.journal.model.JournalArticle",
 			roleTitle = "Guest");
 
-		var deleteOutput2 = JSONCurlUtil.post("${deleteCurl}");
+		var deleteOutput2 = JSONCurlUtil.post(${deleteCurl});
 
-		if (contains("${deleteOutput2}", "must have DELETE permission for com.liferay.journal.model.JournalArticle")) {
+		if (contains(${deleteOutput2}, "must have DELETE permission for com.liferay.journal.model.JournalArticle")) {
 			fail("Unable to delete journal article");
 		}
 
@@ -420,7 +420,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-110393."
-	@priority = "4"
+	@priority = 4
 	test AssertExpandPanelsOnGlobalScopes {
 		property test.name.skip.portal.instance = "OAuth2#AssertExpandPanelsOnGlobalScopes";
 
@@ -459,7 +459,7 @@ definition {
 		Navigator.gotoNavUnderline(navUnderline = "Global scopes");
 
 		for (var globalPanel : list "analytics.read,analytics.write,everything.write,everything.read,everything") {
-			OAuth2.expandGlobalPanel(globalPanel = "${globalPanel}");
+			OAuth2.expandGlobalPanel(globalPanel = ${globalPanel});
 		}
 	}
 
@@ -493,8 +493,8 @@ definition {
 			clientProfile = "Web Application");
 
 		OAuth2.inputApplicationValues(
-			clientId = "${clientId}",
-			clientSecret = "${clientSecret}");
+			clientId = ${clientId},
+			clientSecret = ${clientSecret});
 
 		Navigator.gotoBack();
 
@@ -507,7 +507,7 @@ definition {
 
 		Type(
 			locator1 = "OAuth2#OAUTH2_TESTER_CLIENT_ID",
-			value1 = "${clientId}");
+			value1 = ${clientId});
 
 		Button.click(button = "Authorize My Application");
 
@@ -515,7 +515,7 @@ definition {
 
 		Type(
 			locator1 = "OAuth2#OAUTH2_TESTER_CLIENT_SECRET",
-			value1 = "${clientSecret}");
+			value1 = ${clientSecret});
 
 		Button.click(button = "Obtain OAuth2 Access");
 
@@ -559,13 +559,13 @@ definition {
 		Navigator.gotoNavUnderline(navUnderline = "Resource scopes");
 
 		for (var resourcePanel : list "Liferay.Bulk.REST,Liferay.Headless.Admin.Taxonomy,Liferay.Headless.Admin.User,Liferay.Headless.Admin.Workflow,Liferay.Headless.Delivery,Liferay.Headless.Form") {
-			var key_panel = "${resourcePanel}";
+			var key_panel = ${resourcePanel};
 
 			AssertElementNotPresent(locator1 = "OAuth2#ADMIN_RESOURCE_PANEL_COLLAPSED");
 		}
 
 		for (var resourcePanel : list "Analytics,Bulk Processing,Content Delivery,Dynamic Data Lists,Forms,Portal Services,Taxonomy Administration,User Administration,Workflow Administration") {
-			var key_panel = "${resourcePanel}";
+			var key_panel = ${resourcePanel};
 
 			AssertElementPresent(locator1 = "OAuth2#ADMIN_RESOURCE_PANEL_COLLAPSED");
 		}
@@ -742,7 +742,7 @@ definition {
 				-d grant_type=client_credentials
 		''';
 
-		com.liferay.poshi.runner.util.JSONCurlUtil.post("${curl}");
+		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
 
 		Navigator.gotoBack();
 
@@ -758,7 +758,7 @@ definition {
 			applicationName = "OAuth Application",
 			noAuthorizations = "true");
 
-		com.liferay.poshi.runner.util.JSONCurlUtil.post("${curl}");
+		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
 
 		OAuth2.viewGrantedAuthViaUser(applicationName = "OAuth Application");
 
@@ -796,7 +796,7 @@ definition {
 			locator1 = "build-test.xml",
 			value1 = "deploy-dependency-jars -Dliferay.dependency.jars=com.liferay.oauth2.provider.sample.jar");
 
-		Pause(locator1 = "10000");
+		Pause(locator1 = 10000);
 
 		LexiconEntry.gotoEntryMenuItem(
 			menuItem = "Edit",

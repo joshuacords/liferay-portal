@@ -16,7 +16,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -24,7 +24,7 @@ definition {
 		}
 	}
 
-	@priority = "5"
+	@priority = 5
 	test AddAndViewStructureAndTemplateWithPermissions {
 		property testray.component.names = "Permissions,Roles,Training,Web Content Administration";
 
@@ -269,7 +269,7 @@ definition {
 			subfolderName = "WC SubFolder Name");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddWebContentRemoveGuestViewPermission {
 		property test.name.skip.portal.instance = "WebContentWithPermissions#AddWebContentRemoveGuestViewPermission";
 		property testray.component.names = "Permissions,Web Content Administration";

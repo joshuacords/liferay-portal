@@ -16,7 +16,7 @@ definition {
 			value1 = "Add New");
 
 		Click(
-			key_assetItem = "${assetType}",
+			key_assetItem = ${assetType},
 			locator1 = "ControlMenuAddPanel#ASSET_ITEM");
 	}
 
@@ -31,20 +31,20 @@ definition {
 
 		Panel.expandSidebarContentPanel();
 
-		var key_assetTitle = "${assetTitle}";
+		var key_assetTitle = ${assetTitle};
 
 		Type(
 			locator1 = "NavBar#CONTENT_SEARCH_FIELD",
-			value1 = "${assetTitle}");
+			value1 = ${assetTitle});
 
 		AssertTextEquals(
 			locator1 = "ControlMenuAddPanel#CONTENT_TITLE",
-			value1 = "${assetTitle}");
+			value1 = ${assetTitle});
 
 		DragAndDrop(
 			locator1 = "ControlMenuAddPanel#CONTENT_TITLE",
 			locator2 = "Home#PAGE_COLUMN_1",
-			value1 = "${assetTitle}");
+			value1 = ${assetTitle});
 	}
 
 }

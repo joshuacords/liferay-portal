@@ -41,7 +41,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -57,7 +57,7 @@ definition {
 		}
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ApproveFrontPageUserEdit {
 		property portal.acceptance = "false";
 
@@ -149,7 +149,7 @@ definition {
 			userLoginFullName = "Test Test");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test RejectFrontPageUserEdit {
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -236,7 +236,7 @@ definition {
 			userLoginFullName = "Test Test");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test RejectWikiPagePG {
 		Navigator.gotoPage(pageName = "Wiki Page");
 

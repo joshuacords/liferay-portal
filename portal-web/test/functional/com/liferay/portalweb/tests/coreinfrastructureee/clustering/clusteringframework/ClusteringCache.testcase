@@ -19,12 +19,12 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DoNotReplicatePut {
 		property custom.properties = "ehcache.replicator.properties.test.cache=replicatePuts=false";
 		property test.name.skip.portal.instance = "ClusteringCache#DoNotReplicatePut";
@@ -32,7 +32,7 @@ definition {
 		Clustering.viewClusterStatusInConsole();
 
 		Clustering.runGroovyScript(
-			nodePort = "8080",
+			nodePort = 8080,
 			scriptFile = "groovy-script-portal-cache-get.groovy");
 
 		AssertTextEquals(
@@ -40,7 +40,7 @@ definition {
 			value1 = "test.cache is empty");
 
 		Clustering.runGroovyScript(
-			nodePort = "9080",
+			nodePort = 9080,
 			scriptFile = "groovy-script-portal-cache-get.groovy");
 
 		AssertTextEquals(
@@ -48,15 +48,15 @@ definition {
 			value1 = "test.cache is empty");
 
 		Clustering.runGroovyScript(
-			nodePort = "8080",
+			nodePort = 8080,
 			scriptFile = "groovy-script-portal-cache-put.groovy");
 
 		Clustering.viewTextPresentOnSpecificNode(
 			expectedText = "Put test.key into test.cache",
-			nodePort = "8080");
+			nodePort = 8080);
 
 		Clustering.runGroovyScript(
-			nodePort = "8080",
+			nodePort = 8080,
 			scriptFile = "groovy-script-portal-cache-get.groovy");
 
 		AssertTextEquals(
@@ -64,7 +64,7 @@ definition {
 			value1 = "test.key=test.value");
 
 		Clustering.runGroovyScript(
-			nodePort = "9080",
+			nodePort = 9080,
 			scriptFile = "groovy-script-portal-cache-get.groovy");
 
 		AssertTextEquals(
@@ -72,15 +72,15 @@ definition {
 			value1 = "test.cache is empty");
 
 		Clustering.runGroovyScript(
-			nodePort = "9080",
+			nodePort = 9080,
 			scriptFile = "groovy-script-portal-cache-update.groovy");
 
 		Clustering.viewTextPresentOnSpecificNode(
 			expectedText = "Put test.key into test.cache",
-			nodePort = "9080");
+			nodePort = 9080);
 
 		Clustering.runGroovyScript(
-			nodePort = "9080",
+			nodePort = 9080,
 			scriptFile = "groovy-script-portal-cache-get.groovy");
 
 		AssertTextEquals(
@@ -88,7 +88,7 @@ definition {
 			value1 = "test.key=test.value.update");
 
 		Clustering.runGroovyScript(
-			nodePort = "8080",
+			nodePort = 8080,
 			scriptFile = "groovy-script-portal-cache-get.groovy");
 
 		AssertTextEquals(
@@ -96,15 +96,15 @@ definition {
 			value1 = "test.key=test.value");
 
 		Clustering.runGroovyScript(
-			nodePort = "8080",
+			nodePort = 8080,
 			scriptFile = "groovy-script-portal-cache-remove.groovy");
 
 		Clustering.viewTextPresentOnSpecificNode(
 			expectedText = "Removed test.key from test.cache",
-			nodePort = "8080");
+			nodePort = 8080);
 
 		Clustering.runGroovyScript(
-			nodePort = "8080",
+			nodePort = 8080,
 			scriptFile = "groovy-script-portal-cache-get.groovy");
 
 		AssertTextEquals(
@@ -113,10 +113,10 @@ definition {
 
 		Clustering.viewTextPresentOnSpecificNode(
 			expectedText = "Removed test.key from test.cache",
-			nodePort = "9080");
+			nodePort = 9080);
 
 		Clustering.runGroovyScript(
-			nodePort = "9080",
+			nodePort = 9080,
 			scriptFile = "groovy-script-portal-cache-get.groovy");
 
 		AssertTextEquals(
@@ -124,7 +124,7 @@ definition {
 			value1 = "test.cache is empty");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ReplicateByCopy {
 		property custom.properties = "ehcache.replicator.properties.test.cache=replicatePutsViaCopy=true";
 		property test.name.skip.portal.instance = "ClusteringCache#ReplicateByCopy";
@@ -132,7 +132,7 @@ definition {
 		Clustering.viewClusterStatusInConsole();
 
 		Clustering.runGroovyScript(
-			nodePort = "8080",
+			nodePort = 8080,
 			scriptFile = "groovy-script-portal-cache-get.groovy");
 
 		AssertTextEquals(
@@ -140,7 +140,7 @@ definition {
 			value1 = "test.cache is empty");
 
 		Clustering.runGroovyScript(
-			nodePort = "9080",
+			nodePort = 9080,
 			scriptFile = "groovy-script-portal-cache-get.groovy");
 
 		AssertTextEquals(
@@ -148,15 +148,15 @@ definition {
 			value1 = "test.cache is empty");
 
 		Clustering.runGroovyScript(
-			nodePort = "8080",
+			nodePort = 8080,
 			scriptFile = "groovy-script-portal-cache-put.groovy");
 
 		Clustering.viewTextPresentOnSpecificNode(
 			expectedText = "Put test.key into test.cache",
-			nodePort = "8080");
+			nodePort = 8080);
 
 		Clustering.runGroovyScript(
-			nodePort = "8080",
+			nodePort = 8080,
 			scriptFile = "groovy-script-portal-cache-get.groovy");
 
 		AssertTextEquals(
@@ -165,10 +165,10 @@ definition {
 
 		Clustering.viewTextPresentOnSpecificNode(
 			expectedText = "Put test.key into test.cache",
-			nodePort = "9080");
+			nodePort = 9080);
 
 		Clustering.runGroovyScript(
-			nodePort = "9080",
+			nodePort = 9080,
 			scriptFile = "groovy-script-portal-cache-get.groovy");
 
 		AssertTextEquals(
@@ -176,15 +176,15 @@ definition {
 			value1 = "test.key=test.value");
 
 		Clustering.runGroovyScript(
-			nodePort = "8080",
+			nodePort = 8080,
 			scriptFile = "groovy-script-portal-cache-remove.groovy");
 
 		Clustering.viewTextPresentOnSpecificNode(
 			expectedText = "Removed test.key from test.cache",
-			nodePort = "8080");
+			nodePort = 8080);
 
 		Clustering.runGroovyScript(
-			nodePort = "8080",
+			nodePort = 8080,
 			scriptFile = "groovy-script-portal-cache-get.groovy");
 
 		AssertTextEquals(
@@ -193,10 +193,10 @@ definition {
 
 		Clustering.viewTextPresentOnSpecificNode(
 			expectedText = "Removed test.key from test.cache",
-			nodePort = "9080");
+			nodePort = 9080);
 
 		Clustering.runGroovyScript(
-			nodePort = "9080",
+			nodePort = 9080,
 			scriptFile = "groovy-script-portal-cache-get.groovy");
 
 		AssertTextEquals(
@@ -204,7 +204,7 @@ definition {
 			value1 = "test.cache is empty");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ReplicateByRemove {
 		property custom.properties = "ehcache.replicator.properties.test.cache=replicatePutsViaCopy=false";
 		property test.name.skip.portal.instance = "ClusteringCache#ReplicateByRemove";
@@ -212,7 +212,7 @@ definition {
 		Clustering.viewClusterStatusInConsole();
 
 		Clustering.runGroovyScript(
-			nodePort = "8080",
+			nodePort = 8080,
 			scriptFile = "groovy-script-portal-cache-get.groovy");
 
 		AssertTextEquals(
@@ -220,7 +220,7 @@ definition {
 			value1 = "test.cache is empty");
 
 		Clustering.runGroovyScript(
-			nodePort = "9080",
+			nodePort = 9080,
 			scriptFile = "groovy-script-portal-cache-get.groovy");
 
 		AssertTextEquals(
@@ -228,15 +228,15 @@ definition {
 			value1 = "test.cache is empty");
 
 		Clustering.runGroovyScript(
-			nodePort = "8080",
+			nodePort = 8080,
 			scriptFile = "groovy-script-portal-cache-put.groovy");
 
 		Clustering.viewTextPresentOnSpecificNode(
 			expectedText = "Put test.key into test.cache",
-			nodePort = "8080");
+			nodePort = 8080);
 
 		Clustering.runGroovyScript(
-			nodePort = "8080",
+			nodePort = 8080,
 			scriptFile = "groovy-script-portal-cache-get.groovy");
 
 		AssertTextEquals(
@@ -245,10 +245,10 @@ definition {
 
 		Clustering.viewTextPresentOnSpecificNode(
 			expectedText = "Removed test.key from test.cache",
-			nodePort = "9080");
+			nodePort = 9080);
 
 		Clustering.runGroovyScript(
-			nodePort = "9080",
+			nodePort = 9080,
 			scriptFile = "groovy-script-portal-cache-get.groovy");
 
 		AssertTextEquals(
@@ -256,15 +256,15 @@ definition {
 			value1 = "test.cache is empty");
 
 		Clustering.runGroovyScript(
-			nodePort = "8080",
+			nodePort = 8080,
 			scriptFile = "groovy-script-portal-cache-remove-all.groovy");
 
 		Clustering.viewTextPresentOnSpecificNode(
 			expectedText = "Cleared test.cache",
-			nodePort = "8080");
+			nodePort = 8080);
 
 		Clustering.runGroovyScript(
-			nodePort = "8080",
+			nodePort = 8080,
 			scriptFile = "groovy-script-portal-cache-get.groovy");
 
 		AssertTextEquals(
@@ -273,10 +273,10 @@ definition {
 
 		Clustering.viewTextPresentOnSpecificNode(
 			expectedText = "Cleared test.cache",
-			nodePort = "9080");
+			nodePort = 9080);
 
 		Clustering.runGroovyScript(
-			nodePort = "9080",
+			nodePort = 9080,
 			scriptFile = "groovy-script-portal-cache-get.groovy");
 
 		AssertTextEquals(

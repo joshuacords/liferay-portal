@@ -37,7 +37,7 @@ definition {
 	macro gotoBodyLinkPG {
 		AssertClick(
 			locator1 = "WikiEntry#BODY_LINK",
-			value1 = "${wikiPageContent}");
+			value1 = ${wikiPageContent});
 	}
 
 	macro gotoChangeParent {
@@ -47,7 +47,7 @@ definition {
 	}
 
 	macro gotoChildPagePG {
-		var key_wikiChildPageTitle = "${wikiChildPageTitle}";
+		var key_wikiChildPageTitle = ${wikiChildPageTitle};
 
 		AssertTextEquals.assertPartialText(
 			locator1 = "Wiki#CHILD_PAGE_HEADER",
@@ -55,13 +55,13 @@ definition {
 
 		AssertClick(
 			locator1 = "Wiki#CHILD_PAGE_TITLE",
-			value1 = "${wikiChildPageTitle}");
+			value1 = ${wikiChildPageTitle});
 	}
 
 	macro gotoCP {
 		Click(locator1 = "Dropdown#FILTER_AND_ORDER");
 
-		if ("${isOrphanPage}" == "true") {
+		if (${isOrphanPage} == "true") {
 			MenuItem.click(menuItem = "Orphan Pages");
 		}
 		else {
@@ -70,13 +70,13 @@ definition {
 
 		LexiconEntry.changeDisplayStyle(displayStyle = "list");
 
-		LexiconList.clickListEntryTitle(listEntry = "${wikiPageTitle}");
+		LexiconList.clickListEntryTitle(listEntry = ${wikiPageTitle});
 
 		AssertElementNotPresent(locator1 = "Button#PLUS");
 
 		AssertVisible(
 			locator1 = "Portlet#HEADER",
-			value1 = "${wikiPageTitle}");
+			value1 = ${wikiPageTitle});
 	}
 
 	macro gotoDraftPagesPG {
@@ -86,7 +86,7 @@ definition {
 	}
 
 	macro gotoEntryCopyViaPGTable {
-		var key_wikiPageTitle = "${wikiPageTitle}";
+		var key_wikiPageTitle = ${wikiPageTitle};
 
 		Click(locator1 = "WikiTable#ALL_PAGES_VERTICAL_ELLIPSIS");
 
@@ -94,7 +94,7 @@ definition {
 	}
 
 	macro gotoEntryEditViaPGTable {
-		var key_wikiPageTitle = "${wikiPageTitle}";
+		var key_wikiPageTitle = ${wikiPageTitle};
 
 		Click(locator1 = "WikiTable#ALL_PAGES_VERTICAL_ELLIPSIS");
 
@@ -104,7 +104,7 @@ definition {
 	macro gotoEntryMoveViaTable {
 		LexiconEntry.changeDisplayStyle(displayStyle = "table");
 
-		var key_wikiPageTitle = "${wikiPageTitle}";
+		var key_wikiPageTitle = ${wikiPageTitle};
 
 		Click(locator1 = "WikiTable#ALL_PAGES_VERTICAL_ELLIPSIS");
 
@@ -112,11 +112,11 @@ definition {
 	}
 
 	macro gotoEntryViaPGTable {
-		var key_wikiPageTitle = "${wikiPageTitle}";
+		var key_wikiPageTitle = ${wikiPageTitle};
 
 		AssertClick(
 			locator1 = "WikiTable#ALL_PAGES_WIKI_PAGE_TITLE",
-			value1 = "${wikiPageTitle}");
+			value1 = ${wikiPageTitle});
 	}
 
 	macro gotoFrontPagePG {
@@ -126,23 +126,23 @@ definition {
 	}
 
 	macro gotoNode {
-		var key_wikiNodeName = "${wikiNodeName}";
+		var key_wikiNodeName = ${wikiNodeName};
 
 		LexiconEntry.changeDisplayStyle(displayStyle = "table");
 
 		AssertTextEquals(
 			locator1 = "Wiki#NODE_TABLE_WIKI_NAME",
-			value1 = "${wikiNodeName}");
+			value1 = ${wikiNodeName});
 
 		AssertClick(
 			locator1 = "Wiki#NODE_TABLE_WIKI_NAME",
-			value1 = "${wikiNodeName}");
+			value1 = ${wikiNodeName});
 
 		AssertElementPresent(locator1 = "Dropdown#FILTER_AND_ORDER");
 	}
 
 	macro gotoPG {
-		if ("${isOrphanPage}" == "true") {
+		if (${isOrphanPage} == "true") {
 			AssertClick(
 				locator1 = "WikiTable#NAVIGATION_ORPHAN_PAGES",
 				value1 = "Orphan Pages");
@@ -151,11 +151,11 @@ definition {
 			WikiNavigator.gotoAllPagesPG();
 		}
 
-		var key_wikiPageTitle = "${wikiPageTitle}";
+		var key_wikiPageTitle = ${wikiPageTitle};
 
 		AssertClick.assertTextClickAt(
 			locator1 = "WikiTable#ALL_PAGES_WIKI_PAGE_TITLE",
-			value1 = "${wikiPageTitle}");
+			value1 = ${wikiPageTitle});
 	}
 
 	macro gotoPGViaWD {
@@ -163,11 +163,11 @@ definition {
 			locator1 = "WikiTable#NAVIGATION_ALL_PAGES",
 			value1 = "All Pages");
 
-		var key_wikiPageTitle = "${wikiPageTitle}";
+		var key_wikiPageTitle = ${wikiPageTitle};
 
 		AssertClick(
 			locator1 = "WikiTable#ALL_PAGES_WIKI_PAGE_TITLE",
-			value1 = "${wikiPageTitle}");
+			value1 = ${wikiPageTitle});
 	}
 
 	macro openWikiAdmin {

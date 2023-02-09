@@ -14,7 +14,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -24,7 +24,7 @@ definition {
 		}
 	}
 
-	@priority = "5"
+	@priority = 5
 	test AddPortalInstance {
 		property test.name.skip.portal.instance = "PortalconfigurationUsecase#AddPortalInstance";
 
@@ -41,7 +41,7 @@ definition {
 		PortalInstances.viewCP(virtualHost = "www.able.com");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test DeletePortalInstance {
 		property test.name.skip.portal.instance = "PortalconfigurationUsecase#DeletePortalInstance";
 
@@ -58,7 +58,7 @@ definition {
 		PortalInstances.deleteCP(virtualHost = "www.able.com");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test PermissionCheckPortalInstances {
 		property test.name.skip.portal.instance = "PortalconfigurationUsecase#PermissionCheckPortalInstances";
 
@@ -100,14 +100,14 @@ definition {
 
 		var documentURL = selenium.getLocation();
 
-		var otherInstanceAccessAttempt = StringUtil.replace("${documentURL}", "able", "baker");
+		var otherInstanceAccessAttempt = StringUtil.replace(${documentURL}, "able", "baker");
 
 		User.firstLoginPG(
 			password = "test",
 			userEmailAddress = "test@www.baker.com",
 			virtualHostsURL = "http://www.baker.com:8080");
 
-		Navigator.openSpecificURL(url = "${otherInstanceAccessAttempt}");
+		Navigator.openSpecificURL(url = ${otherInstanceAccessAttempt});
 
 		Alert.viewRequestFailedToComplete();
 
@@ -116,7 +116,7 @@ definition {
 			value1 = "You do not have the required permissions.");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ViewDeactivatedPortalInstance {
 		property test.name.skip.portal.instance = "PortalconfigurationUsecase#ViewDeactivatedPortalInstance";
 
@@ -231,7 +231,7 @@ definition {
 
 	@description = "This will be ignored until LPS-98456 is fixed."
 	@ignore = "true"
-	@priority = "4"
+	@priority = 4
 	test ViewVirtualHostPrivateSitePage {
 		property custom.properties = "virtual.hosts.valid.hosts=localhost,127.0.0.1,www.able.com,www.baker.com,www.charlie.com";
 		property test.name.skip.portal.instance = "PortalconfigurationUsecase#ViewVirtualHostPrivateSitePage";
@@ -252,7 +252,7 @@ definition {
 
 		Site.addVirtualHostsURLCP(
 			publicPageVirtualHostURL = "www.baker.com",
-			publicVirtualHosts = "${publicPageVirtualHostURL}");
+			publicVirtualHosts = ${publicPageVirtualHostURL});
 
 		Navigator.openURL();
 
@@ -263,7 +263,7 @@ definition {
 
 		Site.addVirtualHostsURLCP(
 			privatePageVirtualHostURL = "www.charlie.com",
-			privateVirtualHosts = "${privatePageVirtualHostURL}");
+			privateVirtualHosts = ${privatePageVirtualHostURL});
 
 		ProductMenu.gotoPortlet(
 			category = "Site Builder",
@@ -297,7 +297,7 @@ definition {
 			userEmailAddress = "test@liferay.com");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewVirtualInstanceInheritsSystemSettings {
 		property test.name.skip.portal.instance = "PortalconfigurationUsecase#ViewVirtualInstanceInheritsSystemSettings";
 

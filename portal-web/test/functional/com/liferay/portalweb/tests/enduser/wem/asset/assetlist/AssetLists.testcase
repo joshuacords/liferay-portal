@@ -16,7 +16,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -25,7 +25,7 @@ definition {
 	}
 
 	@description = "Assert that the UI works correctly for adding Asset Lists."
-	@priority = "5"
+	@priority = 5
 	test AddAssetList {
 		task ("Create a manual asset list") {
 			AssetListsAdmin.openAssetListsAdmin(siteURLKey = "test-site-name");
@@ -53,7 +53,7 @@ definition {
 	}
 
 	@description = "Assert that the UI correctly displays a useful error message when an Asset List is added with a duplicate name."
-	@priority = "3"
+	@priority = 3
 	test AddDuplicateAssetList {
 		task ("Create a manual asset list") {
 			AssetListsAdmin.openAssetListsAdmin(siteURLKey = "test-site-name");
@@ -81,7 +81,7 @@ definition {
 	}
 
 	@description = "Assert that the UI works correctly for deleting Asset Lists."
-	@priority = "5"
+	@priority = 5
 	test DeleteAssetList {
 		task ("Create a manual asset list") {
 			AssetListsAdmin.openAssetListsAdmin(siteURLKey = "test-site-name");
@@ -109,7 +109,7 @@ definition {
 	}
 
 	@description = "Assert that the UI works correctly for renaming Asset Lists."
-	@priority = "5"
+	@priority = 5
 	test RenameAssetList {
 		task ("Create a manual asset list") {
 			AssetListsAdmin.openAssetListsAdmin(siteURLKey = "test-site-name");
@@ -133,7 +133,7 @@ definition {
 	}
 
 	@description = "Assert that Asset Lists correctly display their selected content."
-	@priority = "4"
+	@priority = 4
 	test ViewAssetListContent {
 		task ("Create a web content article") {
 			JSONWebcontent.addWebContent(
@@ -168,7 +168,7 @@ definition {
 	}
 
 	@description = "This is a test for LPS-84331. Assert that Asset Lists correctly display where they are used."
-	@priority = "4"
+	@priority = 4
 	test ViewAssetListUsages {
 		task ("Create a public page") {
 			JSONLayout.addPublicLayout(
@@ -203,7 +203,7 @@ definition {
 
 			AssetListsAdmin.viewUsages(
 				assetListTitle = "Manual Asset List Test",
-				usageAmount = "1",
+				usageAmount = 1,
 				usageType = "All");
 		}
 	}

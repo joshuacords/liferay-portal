@@ -15,7 +15,7 @@ definition {
 			layoutName = "Documents and Media Page");
 
 		JSONLayout.addWidgetToPublicLayout(
-			column = "1",
+			column = 1,
 			groupName = "Guest",
 			layoutName = "Documents and Media Page",
 			widgetName = "Documents and Media");
@@ -30,7 +30,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -43,7 +43,7 @@ definition {
 	}
 
 	@description = "This test adds a tag for a single document via management toolbar"
-	@priority = "4"
+	@priority = 4
 	test AddTagToSingleAsset {
 		DMDocument.addMultiplePG(dmDocumentFileList = "Document_1.jpeg,Document_2.docx");
 
@@ -67,7 +67,7 @@ definition {
 	}
 
 	@description = "This test covers LPS-94956. It ensures that users can delete common category tags by using the bulk append action."
-	@priority = "5"
+	@priority = 5
 	test DeleteCommonCategoryTags {
 		DMDocument.addMultiplePG(dmDocumentFileList = "Document_1.doc,Document_2.jpg");
 
@@ -78,7 +78,7 @@ definition {
 				portlet = "Categories");
 
 			Category.addCP(
-				categoryName = "${categoryName}",
+				categoryName = ${categoryName},
 				vocabularyName = "Topic");
 		}
 
@@ -120,7 +120,7 @@ definition {
 	}
 
 	@description = "This test covers LPS-94955. It ensures that users can edit category tags by using the bulk append action."
-	@priority = "5"
+	@priority = 5
 	test EditAndAppendCategoryTags {
 		DMDocument.addMultiplePG(dmDocumentFileList = "Document_1.doc,Document_2.jpg");
 
@@ -139,11 +139,11 @@ definition {
 
 		DMDocument.editCategoryTags(
 			categoryNameList = "Books",
-			itemNumber = "2",
+			itemNumber = 2,
 			multipleDocuments = "true");
 
 		for (var key_dmDocumentTitle : list "Document_1.doc,Document_2.jpg") {
-			DMNavigator.gotoDocumentPG(dmDocumentTitle = "${key_dmDocumentTitle}");
+			DMNavigator.gotoDocumentPG(dmDocumentTitle = ${key_dmDocumentTitle});
 
 			DMDocument.viewCategoriesPG(categoryName = "Books");
 
@@ -152,7 +152,7 @@ definition {
 	}
 
 	@description = "This test edits tags by bulk using Append action."
-	@priority = "4"
+	@priority = 4
 	test EditAndAppendTags {
 		DMDocument.addMultiplePG(dmDocumentFileList = "Document_1.doc,Document_2.jpg,Document_3.xls,Document_4.txt");
 
@@ -163,12 +163,12 @@ definition {
 		Click(locator1 = "Icon#EDIT_TAGS");
 
 		DMDocument.editTags(
-			itemNumber = "2",
+			itemNumber = 2,
 			multipleDocuments = "true",
 			tagName = "tagone");
 
 		for (var key_dmDocumentTitle : list "Document_2.jpg,Document_4.txt") {
-			DMNavigator.gotoDocumentPG(dmDocumentTitle = "${key_dmDocumentTitle}");
+			DMNavigator.gotoDocumentPG(dmDocumentTitle = ${key_dmDocumentTitle});
 
 			DMDocument.viewTag(tagName = "tagone");
 
@@ -182,12 +182,12 @@ definition {
 		Click(locator1 = "Icon#EDIT_TAGS");
 
 		DMDocument.editTags(
-			itemNumber = "2",
+			itemNumber = 2,
 			multipleDocuments = "true",
 			tagName = "tagtwo");
 
 		for (var key_dmDocumentTitle : list "Document_2.jpg,Document_4.txt") {
-			DMNavigator.gotoDocumentPG(dmDocumentTitle = "${key_dmDocumentTitle}");
+			DMNavigator.gotoDocumentPG(dmDocumentTitle = ${key_dmDocumentTitle});
 
 			DMDocument.viewTag(tagNameList = "tagone,tagtwo");
 
@@ -195,7 +195,7 @@ definition {
 		}
 
 		for (var key_searchTerm : list "tagone,tagtwo") {
-			SearchPortlets.searchEmbedded(searchTerm = "${key_searchTerm}");
+			SearchPortlets.searchEmbedded(searchTerm = ${key_searchTerm});
 
 			SearchResultPortlet.viewSearchResults(
 				searchAssetTitle = "Document_2.jpg",
@@ -208,7 +208,7 @@ definition {
 	}
 
 	@description = "This test edits tags by bulk using Replace action, also covers LPS-91586."
-	@priority = "4"
+	@priority = 4
 	test EditAndReplaceTags {
 		DMDocument.addMultiplePG(dmDocumentFileList = "Document_1.doc,Document_2.jpg,Document_3.xls,Document_4.txt");
 
@@ -248,12 +248,12 @@ definition {
 
 		DMDocument.editTags(
 			editAction = "Replace",
-			itemNumber = "2",
+			itemNumber = 2,
 			multipleDocuments = "true",
 			tagName = "four");
 
 		for (var key_dmDocumentTitle : list "Document_1.doc,Document_3.xls") {
-			DMNavigator.gotoDocumentPG(dmDocumentTitle = "${key_dmDocumentTitle}");
+			DMNavigator.gotoDocumentPG(dmDocumentTitle = ${key_dmDocumentTitle});
 
 			DMDocument.viewTag(tagNameList = "four");
 
@@ -271,9 +271,9 @@ definition {
 			searchAssetType = "Document");
 
 		for (var key_searchTerm : list "one,three") {
-			SearchPortlets.searchEmbedded(searchTerm = "${key_searchTerm}");
+			SearchPortlets.searchEmbedded(searchTerm = ${key_searchTerm});
 
-			SearchResultPortlet.viewNoSearchResults(searchTerm = "${key_searchTerm}");
+			SearchResultPortlet.viewNoSearchResults(searchTerm = ${key_searchTerm});
 		}
 
 		Navigator.gotoPage(pageName = "Documents and Media Page");
@@ -286,12 +286,12 @@ definition {
 
 		DMDocument.editTags(
 			editAction = "Replace",
-			itemNumber = "2",
+			itemNumber = 2,
 			multipleDocuments = "true",
 			tagName = "");
 
 		for (var key_dmDocumentTitle : list "Document_1.doc,Document_2.jpg") {
-			DMNavigator.gotoDocumentPG(dmDocumentTitle = "${key_dmDocumentTitle}");
+			DMNavigator.gotoDocumentPG(dmDocumentTitle = ${key_dmDocumentTitle});
 
 			DMDocument.viewNoTag();
 
@@ -300,7 +300,7 @@ definition {
 	}
 
 	@description = "This test selects multiple documents and moves them into one folder."
-	@priority = "5"
+	@priority = 5
 	test MoveDocumentsToFolder {
 		DMFolder.addPG(
 			dmFolderDescription = "Folder 1",
@@ -332,7 +332,7 @@ definition {
 	}
 
 	@description = "This test covers LPS-94994. It ensures that users can edit category tags by using the bulk append action."
-	@priority = "5"
+	@priority = 5
 	test ReplaceUncommonCategoryTags {
 		DMDocument.addMultiplePG(dmDocumentFileList = "Document_1.doc,Document_2.jpg");
 
@@ -343,7 +343,7 @@ definition {
 				portlet = "Categories");
 
 			Category.addCP(
-				categoryName = "${categoryName}",
+				categoryName = ${categoryName},
 				vocabularyName = "Topic");
 		}
 
@@ -370,13 +370,13 @@ definition {
 		DMDocument.editCategoryTags(
 			categoryNameList = "Furniture",
 			editAction = "Replace",
-			itemNumber = "2",
+			itemNumber = 2,
 			multipleDocuments = "true");
 
 		Navigator.gotoPage(pageName = "Documents and Media Page");
 
 		for (var key_dmDocumentTitle : list "Document_1.doc,Document_2.jpg") {
-			DMNavigator.gotoDocumentPG(dmDocumentTitle = "${key_dmDocumentTitle}");
+			DMNavigator.gotoDocumentPG(dmDocumentTitle = ${key_dmDocumentTitle});
 
 			DMDocument.viewCategoriesPG(categoryNameList = "Books,Furniture");
 
@@ -385,7 +385,7 @@ definition {
 	}
 
 	@description = "This test covers LPS-89636. It saves tags without clicking Enter or adding a Comma."
-	@priority = "4"
+	@priority = 4
 	test SaveTags {
 		DMDocument.addMultiplePG(dmDocumentFileList = "Document_1.doc,Document_2.jpg,Document_3.xls,Document_4.txt");
 
@@ -418,7 +418,7 @@ definition {
 		Alert.viewSuccessMessageText(successMessage = "Changes saved.");
 
 		for (var key_dmDocumentTitle : list "Document_1.doc,Document_2.jpg,Document_3.xls,Document_4.txt") {
-			DMNavigator.gotoDocumentPG(dmDocumentTitle = "${key_dmDocumentTitle}");
+			DMNavigator.gotoDocumentPG(dmDocumentTitle = ${key_dmDocumentTitle});
 
 			DMDocument.viewTag(tagName = "tagone");
 
@@ -427,7 +427,7 @@ definition {
 	}
 
 	@description = "This test covers LPS-91524. It asserts that the Edit Tags icon is disabled when workflow is enabled. "
-	@priority = "4"
+	@priority = 4
 	test ViewEditTagsIconWithWorkflow {
 		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
 

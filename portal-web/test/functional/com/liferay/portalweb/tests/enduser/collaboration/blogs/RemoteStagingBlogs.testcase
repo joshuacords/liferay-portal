@@ -25,7 +25,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -36,7 +36,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-72461."
-	@priority = "5"
+	@priority = 5
 	test StagingRemoteLiveBlogsPG {
 		property custom.properties = "tunneling.servlet.shared.secret=1234567890123456${line.separator}auth.verifier.TunnelAuthVerifier.hosts.allowed=";
 		property test.name.skip.portal.instance = "Staging#StagingRemoteLiveBlogsPG";
@@ -73,7 +73,7 @@ definition {
 
 		Staging.publishToLive();
 
-		Pause(locator1 = "5000");
+		Pause(locator1 = 5000);
 
 		AssertConsoleTextNotPresent(value1 = "RuntimeException");
 
@@ -91,7 +91,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-74206."
-	@priority = "5"
+	@priority = 5
 	test StagingRemoteLiveBlogsWithWorkflow {
 		property custom.properties = "tunneling.servlet.shared.secret=1234567890123456${line.separator}auth.verifier.TunnelAuthVerifier.hosts.allowed=";
 		property test.name.skip.portal.instance = "RemoteStagingBlogs#StagingRemoteLiveBlogsWithWorkflow";
@@ -164,7 +164,7 @@ definition {
 
 		Staging.publishToLive();
 
-		Pause(locator1 = "5000");
+		Pause(locator1 = 5000);
 
 		AssertConsoleTextNotPresent(value1 = "RuntimeException");
 
@@ -182,7 +182,7 @@ definition {
 	}
 
 	@description = "This test covers LPS-83426 and LPS-92488. It views management bar details in the staging site and asserts that a replaced image displays in remote site."
-	@priority = "5"
+	@priority = 5
 	test StagingRemoteLiveChangeBlogsEntryCoverImage {
 		property custom.properties = "tunneling.servlet.shared.secret=1234567890123456${line.separator}auth.verifier.TunnelAuthVerifier.hosts.allowed=";
 		property test.name.skip.portal.instance = "Staging#StagingRemoteLiveChangeBlogsEntryCoverImage";
@@ -228,7 +228,7 @@ definition {
 
 		Button.clickPublish();
 
-		Pause(locator1 = "30000");
+		Pause(locator1 = 30000);
 
 		Staging.gotoPublishToLive();
 

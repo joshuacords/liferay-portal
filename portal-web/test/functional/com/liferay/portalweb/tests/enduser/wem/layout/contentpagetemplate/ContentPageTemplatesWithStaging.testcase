@@ -26,7 +26,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -34,7 +34,7 @@ definition {
 		}
 	}
 
-	@priority = "5"
+	@priority = 5
 	test AssertPageTemplatesAreOnlyEditableInStagingView {
 		task ("Assert content page templates admin is accessible in the staging site") {
 			SitePages.openPagesAdmin(siteURLKey = "test-site-name-staging");

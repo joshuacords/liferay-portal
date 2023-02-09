@@ -14,7 +14,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -26,7 +26,7 @@ definition {
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test IFrameDemo {
 		property testray.component.names = "IFrame Portlet";
 
@@ -60,7 +60,7 @@ definition {
 			value1 = "updated");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test SalesDemo {
 		property testray.component.names = "Web Content Administration,Web Content Display";
 

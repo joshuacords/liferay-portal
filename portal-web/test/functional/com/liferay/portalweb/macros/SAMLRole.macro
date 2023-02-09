@@ -3,11 +3,11 @@ definition {
 	macro configure {
 		Select(
 			locator1 = "CPSAMLAdmin#SAML_ROLE_SELECT",
-			value1 = "${samlRoleType}");
+			value1 = ${samlRoleType});
 
 		Type(
 			locator1 = "CPSAMLAdmin#SAML_ENTITY_ID_FIELD",
-			value1 = "${samlEntityID}");
+			value1 = ${samlEntityID});
 
 		AssertClick(
 			locator1 = "Button#SAVE",
@@ -20,7 +20,7 @@ definition {
 
 	macro configureCertificateAndPrivateKey {
 		AssertClick(
-			key_certificateUsage = "${certificateUsage}",
+			key_certificateUsage = ${certificateUsage},
 			locator1 = "Button#CREATE_CERTIFICATE",
 			value1 = "Create Certificate");
 
@@ -38,7 +38,7 @@ definition {
 			locator1 = "CPSAMLAdmin#CERTIFICATE_AND_PRIVATE_KEY_COUNTRY_FIELD",
 			value1 = "USA");
 
-		if ("${certificateUsage}" == "SIGNING") {
+		if (${certificateUsage} == "SIGNING") {
 			Select(
 				locator1 = "CPSAMLAdmin#CERTIFICATE_AND_PRIVATE_KEY_KEY_ALGORITHM_SELECT",
 				value1 = "RSA");
@@ -46,11 +46,11 @@ definition {
 
 		Select(
 			locator1 = "CPSAMLAdmin#CERTIFICATE_AND_PRIVATE_KEY_KEY_LENGTH_SELECT",
-			value1 = "2048");
+			value1 = 2048);
 
 		Type(
 			locator1 = "CPSAMLAdmin#CERTIFICATE_AND_PRIVATE_KEY_KEY_PASSWORD_FIELD",
-			value1 = "${samlKeyPassword}");
+			value1 = ${samlKeyPassword});
 
 		AssertClick(
 			locator1 = "Button#SUBMIT",
@@ -59,11 +59,11 @@ definition {
 		AssertElementNotPresent(locator1 = "IFrame#DIALOG");
 
 		AssertElementPresent(
-			key_certificateUsage = "${certificateUsage}",
+			key_certificateUsage = ${certificateUsage},
 			locator1 = "Button#DOWNLOAD_CERTIFICATE");
 
 		AssertElementPresent(
-			key_certificateUsage = "${certificateUsage}",
+			key_certificateUsage = ${certificateUsage},
 			locator1 = "Button#REPLACE_CERTIFICATE");
 	}
 
@@ -71,13 +71,13 @@ definition {
 		if (isSet(idpSessionIdleTimeout)) {
 			Type(
 				locator1 = "CPSAMLAdmin#IDENTITY_PROVIDER_SESSION_IDLE_TIMEOUT",
-				value1 = "${idpSessionIdleTimeout}");
+				value1 = ${idpSessionIdleTimeout});
 		}
 
 		if (isSet(idpSessionMaximumAge)) {
 			Type(
 				locator1 = "CPSAMLAdmin#IDENTITY_PROVIDER_SESSION_MAXIMUM_AGE",
-				value1 = "${idpSessionMaximumAge}");
+				value1 = ${idpSessionMaximumAge});
 		}
 
 		AssertClick(
@@ -98,7 +98,7 @@ definition {
 	macro enable {
 		AssertTextEquals(
 			locator1 = "CPSAMLAdmin#SAML_ENTITY_ID_FIELD",
-			value1 = "${samlEntityID}");
+			value1 = ${samlEntityID});
 
 		Check(locator1 = "CPSAMLAdmin#SAML_ENABLED_CHECKBOX");
 

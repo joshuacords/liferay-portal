@@ -15,7 +15,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -37,7 +37,7 @@ definition {
 		}
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ViewBlogsEntryRegRoleInline {
 		property portal.acceptance = "true";
 		property test.name.skip.portal.instance = "CPRolesCPBlogs#ViewBlogsEntryRegRoleInline";
@@ -107,7 +107,7 @@ definition {
 			panel = "Site Administration",
 			portlet = "Blogs");
 
-		Pause(locator = "5000");
+		Pause(locator = 5000);
 
 		BlogsNavigator.gotoBlogsEntryPermissionsCP(entryTitle = "Blogs Entry Title");
 
@@ -135,7 +135,7 @@ definition {
 		LexiconCard.viewCardTitle(card = "Blogs Entry Title");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewBlogsPortletRegRole {
 		Permissions.setUpRegRoleLoginUserCP(
 			portletName = "Blogs",
@@ -169,7 +169,7 @@ definition {
 		BlogsConfiguration.viewNoPermissionCP();
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewBlogsPortletSiteRole {
 		Permissions.setUpSiteRoleLoginUserCP(
 			pageName = "Blogs Page",

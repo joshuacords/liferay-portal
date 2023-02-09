@@ -16,7 +16,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 	}
@@ -80,11 +80,11 @@ definition {
 
 		for (var title : list "Article 1,Article 2,Article 3") {
 			JSONWebcontent.addWebContent(
-				content = "${content}",
+				content = ${content},
 				groupName = "Guest",
-				title = "${title}");
+				title = ${title});
 
-			var content = StringUtil.replaceFirst("${content}", "Article ", "");
+			var content = StringUtil.replaceFirst(${content}, "Article ", "");
 		}
 
 		SearchTuning.openResultRankingsAdmin();
@@ -136,22 +136,22 @@ definition {
 		Navigator.gotoBack();
 
 		for (var query : list "Article 1,Article 2,Article 3,Article 4,Article 5,Article 6,Article 7") {
-			SearchTuning.addResultRanking(searchQuery = "${query}");
+			SearchTuning.addResultRanking(searchQuery = ${query});
 
 			Button.clickSave();
 		}
 
-		Pagination.changePagination(itemsPerPage = "5");
+		Pagination.changePagination(itemsPerPage = 5);
 
 		for (var query : list "Article 1,Article 2,Article 3,Article 4,Article 5") {
 			AssertElementPresent(
-				key_query = "${query}",
+				key_query = ${query},
 				locator1 = "SearchTuning#RESULT_RANKINGS_ENTRY");
 		}
 
 		for (var query : list "Article 6,Article 7") {
 			AssertElementNotPresent(
-				key_query = "${query}",
+				key_query = ${query},
 				locator1 = "SearchTuning#RESULT_RANKINGS_ENTRY");
 		}
 
@@ -161,13 +161,13 @@ definition {
 
 		for (var query : list "Article 6,Article 7") {
 			AssertElementPresent(
-				key_query = "${query}",
+				key_query = ${query},
 				locator1 = "SearchTuning#RESULT_RANKINGS_ENTRY");
 		}
 
 		for (var query : list "Article 1,Article 2,Article 3,Article 4,Article 5") {
 			AssertElementNotPresent(
-				key_query = "${query}",
+				key_query = ${query},
 				locator1 = "SearchTuning#RESULT_RANKINGS_ENTRY");
 		}
 
@@ -181,7 +181,7 @@ definition {
 
 		for (var query : list "Article 1,Article 2,Article 3") {
 			AssertElementNotPresent(
-				key_query = "${query}",
+				key_query = ${query},
 				locator1 = "SearchTuning#RESULT_RANKINGS_ENTRY");
 		}
 
@@ -467,11 +467,11 @@ definition {
 
 		for (var count : list "1,2,3,4") {
 			JSONWebcontent.addWebContent(
-				content = "${content}",
+				content = ${content},
 				groupName = "Guest",
 				title = "Article ${count}");
 
-			var content = StringUtil.replaceFirst("${content}", "Article ", "");
+			var content = StringUtil.replaceFirst(${content}, "Article ", "");
 		}
 
 		SearchTuning.openResultRankingsAdmin();
@@ -793,7 +793,7 @@ definition {
 			rowEntry = "Article");
 
 		for (var title : list "Liferay Journal,New Site Article,New Site Journal") {
-			SearchTuning.unpinResult(assetTitle = "${title}");
+			SearchTuning.unpinResult(assetTitle = ${title});
 		}
 
 		Button.clickSave();
@@ -816,7 +816,7 @@ definition {
 			JSONWebcontent.addWebContent(
 				content = "WC Content",
 				groupName = "Guest",
-				title = "${title}");
+				title = ${title});
 		}
 
 		SearchTuning.openSynonymsAdmin();
@@ -831,12 +831,12 @@ definition {
 
 		var searchTerms = "banana,red apple,blue.berry!,\"xigua\",fruit,sweet";
 
-		for (var searchTerm : list "${searchTerms}") {
-			SearchPortlets.searchEmbedded(searchTerm = "${searchTerm}");
+		for (var searchTerm : list ${searchTerms}) {
+			SearchPortlets.searchEmbedded(searchTerm = ${searchTerm});
 
 			SearchResultPortlet.viewMultipleSearchResults(
 				resultsList = "banana/Web Content Article,red apple/Web Content Article,blue.berry!/Web Content Article,\"xigua\"/Web Content Article",
-				searchTerm = "${searchTerm}");
+				searchTerm = ${searchTerm});
 		}
 
 		SearchTuning.openSynonymsAdmin();

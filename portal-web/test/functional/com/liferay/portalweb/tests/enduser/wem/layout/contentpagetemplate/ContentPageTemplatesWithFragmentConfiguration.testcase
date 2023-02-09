@@ -20,7 +20,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -29,7 +29,7 @@ definition {
 	}
 
 	@description = "This is a test for LPS-99377. User can add a checkbox configuration fragment to a content page template."
-	@priority = "5"
+	@priority = 5
 	test AddCheckboxConfigurationFragmentToContentPageTemplate {
 		property portal.acceptance = "true";
 
@@ -39,9 +39,9 @@ definition {
 
 			JSONFragment.addSection(
 				collectionName = "Collection Name",
-				configuration = "${jsonSnippet}",
+				configuration = ${jsonSnippet},
 				groupName = "Test Site Name",
-				html = "${htmlSnippet}",
+				html = ${htmlSnippet},
 				name = "Checkbox Fragment Example");
 		}
 
@@ -92,9 +92,9 @@ definition {
 
 			JSONFragment.addSection(
 				collectionName = "Collection Name",
-				configuration = "${jsonSnippet}",
+				configuration = ${jsonSnippet},
 				groupName = "Test Site Name",
-				html = "${htmlSnippet}",
+				html = ${htmlSnippet},
 				name = "Text Fragment Example");
 		}
 
@@ -128,7 +128,7 @@ definition {
 	}
 
 	@description = "This is a test for LPS-99543. User can change text fragment configuration in a content page template."
-	@priority = "5"
+	@priority = 5
 	test AddTextConfigurationFragmentToContentPageTemplate {
 
 		// Ignoring test from acceptance until LRQA-52644 is resolved
@@ -141,9 +141,9 @@ definition {
 
 			JSONFragment.addSection(
 				collectionName = "Collection Name",
-				configuration = "${jsonSnippet}",
+				configuration = ${jsonSnippet},
 				groupName = "Test Site Name",
-				html = "${htmlSnippet}",
+				html = ${htmlSnippet},
 				name = "Text Fragment Example");
 		}
 
@@ -176,7 +176,7 @@ definition {
 			AssertVisible(
 				key_content = "Updated fragment text",
 				key_fragmentClass = "configuration",
-				key_position = "1",
+				key_position = 1,
 				locator1 = "Fragment#FRAGMENT");
 		}
 	}

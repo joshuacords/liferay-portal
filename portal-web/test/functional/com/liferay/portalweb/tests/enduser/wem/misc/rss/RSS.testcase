@@ -30,7 +30,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -40,7 +40,7 @@ definition {
 		}
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddFeedBetweenFeeds {
 		property testray.component.names = "RSS";
 
@@ -55,7 +55,7 @@ definition {
 			portletOption = "Configuration");
 
 		RSSPortlet.addFeed(
-			feedRowIndexNumber = "0",
+			feedRowIndexNumber = 0,
 			feedTitle = "Technology",
 			feedType = "file",
 			feedUrlLink = "Technology.xml");
@@ -71,8 +71,8 @@ definition {
 			portletOption = "Configuration");
 
 		RSSPortlet.addFeed(
-			buttonRowIndexNumber = "1",
-			feedRowIndexNumber = "1",
+			buttonRowIndexNumber = 1,
+			feedRowIndexNumber = 1,
 			feedTitle = "Latimes > Technology News",
 			feedType = "file",
 			feedUrlLink = "rss2.0.xml");
@@ -88,8 +88,8 @@ definition {
 			portletOption = "Configuration");
 
 		RSSPortlet.addFeed(
-			buttonRowIndexNumber = "1",
-			feedRowIndexNumber = "2",
+			buttonRowIndexNumber = 1,
+			feedRowIndexNumber = 2,
 			feedTitle = "Reuters > Sports News",
 			feedType = "file",
 			feedUrlLink = "reuters_sports_news.xml");
@@ -101,11 +101,11 @@ definition {
 			siteName = "Site Name");
 
 		for (var feedTitle : list "Technology,Reuters > Sports News,Latimes > Technology News") {
-			RSSPortlet.viewDisplayFeedTitle(feedTitle = "${feedTitle}");
+			RSSPortlet.viewDisplayFeedTitle(feedTitle = ${feedTitle});
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddFeedWithWrongUrl {
 		property testray.component.names = "RSS";
 
@@ -120,7 +120,7 @@ definition {
 			portletOption = "Configuration");
 
 		RSSPortlet.addFeed(
-			feedRowIndexNumber = "0",
+			feedRowIndexNumber = 0,
 			feedTitle = "General Announcement",
 			feedUrlLink = "www.theverge.com/rss/index.xml");
 
@@ -137,7 +137,7 @@ definition {
 			portletOption = "Configuration");
 
 		RSSPortlet.addFeed(
-			feedRowIndexNumber = "0",
+			feedRowIndexNumber = 0,
 			feedTitle = "General Announcement",
 			feedType = "file",
 			feedUrlLink = "theverge.xml");
@@ -151,7 +151,7 @@ definition {
 		RSSPortlet.viewDisplayFeedTitle(feedTitle = "General Announcement");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test AddRSSFeed {
 		property portal.acceptance = "true";
 		property testray.component.names = "RSS";
@@ -176,7 +176,7 @@ definition {
 			portletOption = "Configuration");
 
 		RSSPortlet.addFeed(
-			feedRowIndexNumber = "0",
+			feedRowIndexNumber = 0,
 			feedTitle = "Latimes > Technology News",
 			feedType = "file",
 			feedUrlLink = "rss2.0.xml");
@@ -188,7 +188,7 @@ definition {
 		RSSPortlet.viewDisplayFeedTitle(feedTitle = "Latimes > Technology News");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test ChangeDefaultToNavigationDisplay {
 		property testray.component.names = "RSS";
 
@@ -203,7 +203,7 @@ definition {
 			portletOption = "Configuration");
 
 		RSSPortlet.addFeed(
-			feedRowIndexNumber = "0",
+			feedRowIndexNumber = 0,
 			feedTitle = "Technology",
 			feedType = "file",
 			feedUrlLink = "Technology.xml");
@@ -229,7 +229,7 @@ definition {
 		RSSPortlet.viewNavigationDisplayFeedTitle(feedTitle = "Technology");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test ChangeOrderOfRSSFeeds {
 		property testray.component.names = "RSS";
 
@@ -244,7 +244,7 @@ definition {
 			portletOption = "Configuration");
 
 		RSSPortlet.addFeed(
-			feedRowIndexNumber = "0",
+			feedRowIndexNumber = 0,
 			feedTitle = "Technology",
 			feedType = "file",
 			feedUrlLink = "Technology.xml");
@@ -260,8 +260,8 @@ definition {
 			portletOption = "Configuration");
 
 		RSSPortlet.addFeed(
-			buttonRowIndexNumber = "1",
-			feedRowIndexNumber = "1",
+			buttonRowIndexNumber = 1,
+			feedRowIndexNumber = 1,
 			feedTitle = "NBA",
 			feedType = "file",
 			feedUrlLink = "nba.xml");
@@ -277,19 +277,19 @@ definition {
 			portletOption = "Configuration");
 
 		RSSPortlet.viewPG(
-			feedRowIndexNumber = "0",
+			feedRowIndexNumber = 0,
 			feedTitle = "Technology",
-			rowIndexNumber = "1");
+			rowIndexNumber = 1);
 
 		RSSPortlet.viewPG(
-			feedRowIndexNumber = "1",
+			feedRowIndexNumber = 1,
 			feedTitle = "NBA",
-			rowIndexNumber = "2");
+			rowIndexNumber = 2);
 
 		RSSPortlet.changeFeedsOrder(
-			fromRowNumber = "1",
+			fromRowNumber = 1,
 			rowLocation = "Title",
-			toRowNumber = "2");
+			toRowNumber = 2);
 
 		PortletEntry.save();
 
@@ -302,17 +302,17 @@ definition {
 			portletOption = "Configuration");
 
 		RSSPortlet.viewPG(
-			feedRowIndexNumber = "0",
+			feedRowIndexNumber = 0,
 			feedTitle = "NBA",
-			rowIndexNumber = "1");
+			rowIndexNumber = 1);
 
 		RSSPortlet.viewPG(
-			feedRowIndexNumber = "1",
+			feedRowIndexNumber = 1,
 			feedTitle = "Technology",
-			rowIndexNumber = "2");
+			rowIndexNumber = 2);
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DeleteFeedFromRSS {
 		property testray.component.names = "RSS";
 
@@ -334,7 +334,7 @@ definition {
 			portletOption = "Configuration");
 
 		RSSPortlet.addFeed(
-			feedRowIndexNumber = "0",
+			feedRowIndexNumber = 0,
 			feedTitle = "Latimes > Technology News",
 			feedType = "file",
 			feedUrlLink = "rss2.0.xml");
@@ -349,7 +349,7 @@ definition {
 			portletName = "RSS Publisher",
 			portletOption = "Configuration");
 
-		RSSPortlet.deleteFeed(buttonRowIndexNumber = "1");
+		RSSPortlet.deleteFeed(buttonRowIndexNumber = 1);
 
 		PortletEntry.save();
 
@@ -358,7 +358,7 @@ definition {
 		RSSPortlet.viewDeleteFeed(feedTitle = "Latimes > Technology News");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test DisabledFeedTitle {
 		property testray.component.names = "RSS";
 
@@ -375,7 +375,7 @@ definition {
 			portletOption = "Configuration");
 
 		RSSPortlet.addFeed(
-			feedRowIndexNumber = "0",
+			feedRowIndexNumber = 0,
 			feedTitle = "Technology",
 			feedType = "file",
 			feedUrlLink = "Technology.xml");
@@ -404,12 +404,12 @@ definition {
 	}
 
 	@ignore = "true"
-	@priority = "3"
+	@priority = 3
 	test EnableRSSFeedFromAssetpublisher {
 		property test.name.skip.portal.instance = "RSS#EnableRSSFeedFromAssetpublisher";
 		property testray.component.names = "Asset Publisher,RSS";
 
-		var siteName = TestCase.getSiteName(siteName = "${siteName}");
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
 
 		ProductMenu.gotoPortlet(
 			category = "Site Builder",
@@ -450,7 +450,7 @@ definition {
 
 		var rssFeedUrl = selenium.getAttribute("//div[@class='subscribe-action']/span/a[contains(@href,'asset_publisher')]@href");
 
-		var rssFeedUrl = StringUtil.replace("${rssFeedUrl}", "localhost", "127.0.0.1");
+		var rssFeedUrl = StringUtil.replace(${rssFeedUrl}, "localhost", "127.0.0.1");
 
 		Navigator.gotoSitePage(
 			pageName = "Site Page Name",
@@ -461,9 +461,9 @@ definition {
 			portletOption = "Configuration");
 
 		RSSPortlet.addFeed(
-			feedRowIndexNumber = "0",
+			feedRowIndexNumber = 0,
 			feedTitle = "Web Asset Publisher",
-			feedUrlLink = "${rssFeedUrl}");
+			feedUrlLink = ${rssFeedUrl});
 
 		PortletEntry.save();
 
@@ -475,14 +475,14 @@ definition {
 
 		RSSPortlet.openFeed(
 			feedTitle = "Asset Publisher",
-			siteName = "${siteName}");
+			siteName = ${siteName});
 
 		AssetPublisherPortlet.viewAssetPG(
 			assetContent = "This is the web content test for rss feed",
 			assetTitle = "Web Content Title");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test RemoveRSSPortlet {
 		property testray.component.names = "RSS";
 
@@ -510,12 +510,12 @@ definition {
 		Portlet.viewNoSpecificPG(portletName = "RSS Publisher");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test UpdateRSSFeedViaAssetpublisher {
 		property test.name.skip.portal.instance = "RSS#UpdateRSSFeedViaAssetpublisher";
 		property testray.component.names = "Asset Publisher,RSS";
 
-		var siteName = TestCase.getSiteName(siteName = "${siteName}");
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
 
 		ProductMenu.gotoPortlet(
 			category = "Configuration",
@@ -527,7 +527,7 @@ definition {
 			configurationName = "Cache",
 			configurationScope = "System Scope");
 
-		RSSPortlet.updateFeedTime(feedTime = "1");
+		RSSPortlet.updateFeedTime(feedTime = 1);
 
 		ProductMenu.gotoPortlet(
 			category = "Site Builder",
@@ -575,9 +575,9 @@ definition {
 			portletOption = "Configuration");
 
 		RSSPortlet.addFeed(
-			feedRowIndexNumber = "0",
+			feedRowIndexNumber = 0,
 			feedTitle = "Web Asset Publisher",
-			feedUrlLink = "${rssFeedUrl}");
+			feedUrlLink = ${rssFeedUrl});
 
 		PortletEntry.save();
 

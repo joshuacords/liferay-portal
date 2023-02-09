@@ -93,7 +93,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -124,7 +124,7 @@ definition {
 		}
 	}
 
-	@priority = "5"
+	@priority = 5
 	test AddAllDocumentTypes {
 		property test.name.skip.portal.instance = "CPDocumentum#AddAllDocumentTypes";
 
@@ -132,12 +132,12 @@ definition {
 			DMRepository.gotoCP(dmRepositoryName = "Documentum Repository Name");
 
 			DMDocument.addCP(
-				dmDocumentFile = "${dmDocumentTitle}",
-				dmDocumentTitle = "${dmDocumentTitle}");
+				dmDocumentFile = ${dmDocumentTitle},
+				dmDocumentTitle = ${dmDocumentTitle});
 
-			DMNavigator.gotoDocumentCP(dmDocumentTitle = "${dmDocumentTitle}");
+			DMNavigator.gotoDocumentCP(dmDocumentTitle = ${dmDocumentTitle});
 
-			DMDocument.viewCP(dmDocumentTitle = "${dmDocumentTitle}");
+			DMDocument.viewCP(dmDocumentTitle = ${dmDocumentTitle});
 
 			ProductMenu.gotoPortlet(
 				category = "Content & Data",
@@ -146,7 +146,7 @@ definition {
 		}
 	}
 
-	@priority = "5"
+	@priority = 5
 	test CheckinDocument {
 		property test.name.skip.portal.instance = "CPDocumentum#CheckinDocument";
 
@@ -211,7 +211,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-68454"
-	@priority = "5"
+	@priority = 5
 	test DeleteCheckedoutDocument {
 		DMRepository.gotoCP(dmRepositoryName = "Documentum Repository Name");
 
@@ -252,7 +252,7 @@ definition {
 		DMDocument.cannotViewCP(dmDocumentTitle = "Document_3.txt");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test DeleteDocumentInSubfolder {
 		property portal.acceptance = "false";
 		property test.name.skip.portal.instance = "CPDocumentum#DeleteDocumentInSubfolder";
@@ -309,7 +309,7 @@ definition {
 		DMDocument.viewDefaultCP();
 	}
 
-	@priority = "5"
+	@priority = 5
 	test DeleteSubfolder {
 		property test.name.skip.portal.instance = "CPDocumentum#DeleteSubfolder";
 
@@ -328,7 +328,7 @@ definition {
 		DMFolder.cannotViewCP(dmFolderName = "DM Folder Name");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test EditDocumentFile {
 		property test.name.skip.portal.instance = "CPDocumentum#EditDocumentFile";
 
@@ -372,7 +372,7 @@ definition {
 			recycleBinDisabled = "true");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test EditDocumentTitleFileNameAndFileExtension {
 		DMRepository.gotoCP(dmRepositoryName = "Documentum Repository Name");
 
@@ -413,7 +413,7 @@ definition {
 		DMDocument.viewCP(dmDocumentTitle = "Document_2_Edit.jpg");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test EditDocumentTitleRemoveFileExtension {
 		property test.name.skip.portal.instance = "CPDocumentum#EditDocumentTitleRemoveFileExtension";
 
@@ -443,7 +443,7 @@ definition {
 		DMDocument.viewCP(dmDocumentTitle = "Document_3");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test MoveCheckedoutDocumentToFolder {
 		property test.name.skip.portal.instance = "CPDocumentum#MoveCheckedoutDocumentToFolder";
 
@@ -519,7 +519,7 @@ definition {
 		DMDocument.cancelCheckoutCP(dmRepositoryName = "true");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test MoveDocumentToHome {
 		property test.name.skip.portal.instance = "CPDocumentum#MoveDocumentToHome";
 
@@ -556,7 +556,7 @@ definition {
 		DMDocument.cannotViewCP(dmDocumentTitle = "Document_1.doc");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test SearchDocumentViaHome {
 		property test.name.skip.portal.instance = "CPDocumentum#SearchDocumentViaHome";
 
@@ -575,7 +575,7 @@ definition {
 			dmRepositoryName = "Documentum Repository Name");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ViewEditedCheckedoutDocument {
 		property test.name.skip.portal.instance = "CPDocumentum#ViewEditedCheckedoutDocument";
 
@@ -621,7 +621,7 @@ definition {
 		DMDocument.cancelCheckoutCP(dmRepositoryName = "true");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ViewRepository {
 		property test.name.skip.portal.instance = "CPDocumentum#ViewRepository";
 

@@ -31,7 +31,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -47,7 +47,7 @@ definition {
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewAnnouncementsEntryWithDistributedScope {
 		property custom.properties = "jsonws.web.service.paths.excludes=";
 
@@ -157,7 +157,7 @@ definition {
 			entryTitle = "Announcements Entry2 Scoped Title");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test ViewAnnouncementsPagination {
 		for (var entryCount : list "1,2,3,4,5,6,7") {
 			Navigator.gotoPage(pageName = "Announcements Page");
@@ -171,7 +171,7 @@ definition {
 
 		Navigator.gotoPage(pageName = "Announcements Page");
 
-		AnnouncementsPortlet.configureDisplayCountPG(maxDisplayItems = "5");
+		AnnouncementsPortlet.configureDisplayCountPG(maxDisplayItems = 5);
 
 		Navigator.gotoPage(pageName = "Announcements Page");
 
@@ -230,7 +230,7 @@ definition {
 			panel = "Control Panel",
 			portlet = "Announcements and Alerts");
 
-		AnnouncementsPortlet.configurePaginationCP(itemsPerPage = "5");
+		AnnouncementsPortlet.configurePaginationCP(itemsPerPage = 5);
 
 		for (var viewEntryCount : list "1,2,3,4,5") {
 			AnnouncementsEntry.viewList(

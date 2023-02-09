@@ -15,12 +15,12 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ClusterCanRecoverByShuttingDownAnyNodeWithManualRecovery {
 		property commerce.enabled = "false";
 		property custom.properties = "license.cluster.overload.node.auto.shut.down=false";
@@ -28,10 +28,10 @@ definition {
 		property skip.start-app-server = "false";
 		property test.name.skip.portal.instance = "ClusteringLicense#ClusterCanRecoverByShuttingDownAnyNodeWithManualRecovery";
 
-		Pause(locator1 = "360000");
+		Pause(locator1 = 360000);
 
 		User.loginPG(
-			nodePort = "9080",
+			nodePort = 9080,
 			password = "test",
 			userEmailAddress = "test@liferay.com");
 
@@ -45,9 +45,9 @@ definition {
 			locator1 = "Message#ERROR_2",
 			value1 = "This instance is not registered.");
 
-		Clustering.shutdownSpecificServer(nodePort = "9080");
+		Clustering.shutdownSpecificServer(nodePort = 9080);
 
-		Pause(locator1 = "60000");
+		Pause(locator1 = 60000);
 
 		for (var nodeNumber : list "8,10") {
 			User.loginPG(
@@ -60,7 +60,7 @@ definition {
 	}
 
 	@ignore = "true"
-	@priority = "3"
+	@priority = 3
 	test ExceedDoubleNodeLimit {
 		property app.server.bundles.size = "4";
 		property commerce.enabled = "false";
@@ -86,7 +86,7 @@ definition {
 		for (var nodeNumber : list "12,11,10") {
 			Clustering.waitForNodeShutdown(nodePort = "${nodeNumber}080");
 
-			Pause(locator1 = "60000");
+			Pause(locator1 = 60000);
 		}
 
 		for (var nodeNumber : list "8,9") {
@@ -99,7 +99,7 @@ definition {
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test LimitPreviouslyValidatedClusterNodes {
 		property commerce.enabled = "false";
 		property dxp.license.file = "dxp-license-virtual-cluster.xml";
@@ -107,27 +107,27 @@ definition {
 
 		Clustering.startSpecificServer(
 			deleteLiferayHome = "true",
-			nodePort = "8080");
+			nodePort = 8080);
 
 		Clustering.startSpecificServer(
 			deleteLiferayHome = "true",
-			nodePort = "9080");
+			nodePort = 9080);
 
 		User.firstLoginPG();
 
 		User.loginPG(
-			nodePort = "9080",
+			nodePort = 9080,
 			password = "test",
 			userEmailAddress = "test@liferay.com");
 
-		Clustering.shutdownSpecificServer(nodePort = "9080");
+		Clustering.shutdownSpecificServer(nodePort = 9080);
 
 		Clustering.startSpecificServer(
 			deleteLiferayHome = "true",
-			nodePort = "10080");
+			nodePort = 10080);
 
 		User.loginPG(
-			nodePort = "10080",
+			nodePort = 10080,
 			password = "test",
 			userEmailAddress = "test@liferay.com");
 
@@ -139,7 +139,7 @@ definition {
 
 		Clustering.startSpecificServer(
 			deleteLiferayHome = "false",
-			nodePort = "9080");
+			nodePort = 9080);
 
 		for (var nodeNumber : list "8,9,10") {
 			Clustering.viewTextPresentOnSpecificNode(
@@ -157,21 +157,21 @@ definition {
 		}
 
 		User.loginPG(
-			nodePort = "9080",
+			nodePort = 9080,
 			password = "test",
 			userEmailAddress = "test@liferay.com");
 
 		Alert.viewErrorMessage(errorMessage = "will be automatically deactivated and shut down");
 
-		Clustering.waitForNodeShutdown(nodePort = "9080");
+		Clustering.waitForNodeShutdown(nodePort = 9080);
 
 		// Wait for cluster to notify all nodes that they are no longer overloaded
 
-		Pause(locator1 = "60000");
+		Pause(locator1 = 60000);
 
 		Clustering.viewTextPresentOnSpecificNode(
 			expectedText = "Shutting down current node as it is the latest one",
-			nodePort = "9080");
+			nodePort = 9080);
 
 		for (var nodeNumber : list "8,10") {
 			Clustering.viewTextPresentOnSpecificNode(
@@ -189,7 +189,7 @@ definition {
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test LimitPreviouslyValidatedClusterNodesWithManualRecovery {
 		property commerce.enabled = "false";
 		property custom.properties = "license.cluster.overload.node.auto.shut.down=false";
@@ -198,29 +198,29 @@ definition {
 
 		Clustering.startSpecificServer(
 			deleteLiferayHome = "true",
-			nodePort = "8080");
+			nodePort = 8080);
 
 		Clustering.startSpecificServer(
 			deleteLiferayHome = "true",
-			nodePort = "9080");
+			nodePort = 9080);
 
 		Clustering.viewClusterStatusInConsole();
 
 		User.firstLoginPG();
 
 		User.loginPG(
-			nodePort = "9080",
+			nodePort = 9080,
 			password = "test",
 			userEmailAddress = "test@liferay.com");
 
-		Clustering.shutdownSpecificServer(nodePort = "9080");
+		Clustering.shutdownSpecificServer(nodePort = 9080);
 
 		Clustering.startSpecificServer(
 			deleteLiferayHome = "true",
-			nodePort = "10080");
+			nodePort = 10080);
 
 		User.loginPG(
-			nodePort = "10080",
+			nodePort = 10080,
 			password = "test",
 			userEmailAddress = "test@liferay.com");
 
@@ -232,10 +232,10 @@ definition {
 
 		Clustering.startSpecificServer(
 			deleteLiferayHome = "false",
-			nodePort = "9080");
+			nodePort = 9080);
 
 		User.loginPG(
-			nodePort = "9080",
+			nodePort = 9080,
 			password = "test",
 			userEmailAddress = "test@liferay.com");
 
@@ -245,14 +245,14 @@ definition {
 
 		Alert.viewErrorMessage(errorMessage = "will be automatically deactivated");
 
-		Clustering.waitForNodeShutdown(nodePort = "9080");
+		Clustering.waitForNodeShutdown(nodePort = 9080);
 
 		Navigator.openSpecificURL(url = "http://localhost:8080");
 
-		Page.assertNodePortPG(nodePort = "8080");
+		Page.assertNodePortPG(nodePort = 8080);
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ViewNodeLimit {
 		property commerce.enabled = "false";
 		property custom.properties = "jsonws.web.service.paths.excludes=";
@@ -283,7 +283,7 @@ definition {
 
 		Clustering.viewClusterStatusInConsole();
 
-		Page.assertNodePortPG(nodePort = "8080");
+		Page.assertNodePortPG(nodePort = 8080);
 
 		Alert.viewErrorMessage(errorMessage = "licensed for this cluster has been exceeded");
 
@@ -319,17 +319,17 @@ definition {
 		UserBar.signOut();
 
 		User.loginPG(
-			nodePort = "10080",
+			nodePort = 10080,
 			password = "test",
 			userEmailAddress = "userea@liferay.com");
 
 		AssertElementNotPresent(locator1 = "Message#ERROR");
 
-		Clustering.waitForNodeShutdown(nodePort = "10080");
+		Clustering.waitForNodeShutdown(nodePort = 10080);
 
 		Clustering.viewTextPresentOnSpecificNode(
 			expectedText = "Shutting down current node as it is the latest one",
-			nodePort = "10080");
+			nodePort = 10080);
 
 		for (var nodeNumber : list "8,9") {
 			Clustering.viewTextPresentOnSpecificNode(
@@ -345,7 +345,7 @@ definition {
 		}
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ViewNodeLimitWithManualRecovery {
 		property commerce.enabled = "false";
 		property custom.properties = "license.cluster.overload.node.auto.shut.down=false";
@@ -372,7 +372,7 @@ definition {
 
 		Alert.viewErrorMessage(errorMessage = "will be automatically deactivated");
 
-		Pause(locator1 = "360000");
+		Pause(locator1 = 360000);
 
 		for (var nodeNumber : list "8,9") {
 			User.loginPG(
@@ -391,9 +391,9 @@ definition {
 			locator1 = "Message#ERROR_2",
 			value1 = "This instance is not registered.");
 
-		Clustering.shutdownSpecificServer(nodePort = "10080");
+		Clustering.shutdownSpecificServer(nodePort = 10080);
 
-		Pause(locator1 = "60000");
+		Pause(locator1 = 60000);
 
 		for (var nodeNumber : list "8,9") {
 			User.loginPG(

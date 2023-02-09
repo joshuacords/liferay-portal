@@ -25,7 +25,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -33,7 +33,7 @@ definition {
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test MoveCurrentLanguagesToAvailable {
 		property test.name.skip.portal.instance = "LocalizationUsecase#MoveCurrentLanguagesToAvailable";
 		property testray.component.names = "Localization";
@@ -65,7 +65,7 @@ definition {
 		LanguagePortlet.viewLanguagesPresent(currentLocales = "deutsch-Deutschland,español-España");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewDisplayOptionsViaLanguagePortlet {
 		property test.name.skip.portal.instance = "LocalizationUsecase#ViewDisplayOptionsViaLanguagePortlet";
 		property testray.component.names = "Localization";
@@ -125,7 +125,7 @@ definition {
 		LanguagePortlet.viewDisplayTemplateShortText(languageKey = "hu");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewRemovedCurrentPortalLanguagesViaLanguagePortlet {
 		property test.name.skip.portal.instance = "LocalizationUsecase#ViewRemovedCurrentPortalLanguagesViaLanguagePortlet";
 		property testray.component.names = "Localization";
@@ -158,7 +158,7 @@ definition {
 		LanguagePortlet.configureViewCurrentLanguages(currentLanguages = "Chinese (China),French (France),English (United States)");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewRemovedCurrentSiteLanguagesViaLanguagePortlet {
 		property test.name.skip.portal.instance = "LocalizationUsecase#ViewRemovedCurrentSiteLanguageViaLanguagePortlet";
 		property testray.component.names = "Localization";

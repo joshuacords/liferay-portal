@@ -3,16 +3,16 @@ definition {
 	macro addCP {
 		LexiconEntry.gotoAddMenuItem(menuItem = "Folder");
 
-		PortletEntry.inputName(name = "${kbFolderName}");
+		PortletEntry.inputName(name = ${kbFolderName});
 
-		PortletEntry.inputDescription(description = "${kbFolderDescription}");
+		PortletEntry.inputDescription(description = ${kbFolderDescription});
 
 		if (isSet(customField)) {
 			Panel.expandPanel(panel = "Custom Fields");
 
 			Type(
 				locator1 = "TextInput#CUSTOM_FIELD",
-				value1 = "${customField}");
+				value1 = ${customField});
 		}
 
 		Button.clickSave();
@@ -32,7 +32,7 @@ definition {
 	macro deleteCP {
 		LexiconEntry.gotoEntryMenuItemNoError(
 			menuItem = "Delete",
-			rowEntry = "${kbFolderName}");
+			rowEntry = ${kbFolderName});
 
 		AssertConfirm(value1 = "Are you sure you want to delete this? It will be deleted immediately.");
 
@@ -42,46 +42,46 @@ definition {
 	macro editCP {
 		LexiconEntry.gotoEntryMenuItem(
 			menuItem = "Edit",
-			rowEntry = "${kbFolderName}");
+			rowEntry = ${kbFolderName});
 
-		PortletEntry.inputName(name = "${kbFolderEditedName}");
+		PortletEntry.inputName(name = ${kbFolderEditedName});
 
-		PortletEntry.inputDescription(description = "${kbFolderDescription}");
+		PortletEntry.inputDescription(description = ${kbFolderDescription});
 
 		PortletEntry.save();
 	}
 
 	macro gotoCP {
-		var key_kbFolderName = "${kbFolderName}";
+		var key_kbFolderName = ${kbFolderName};
 
 		AssertClick(
 			locator1 = "KnowledgeBase#FOLDER_DESCRIPTIVE_FOLDER_NAME",
-			value1 = "${kbFolderName}");
+			value1 = ${kbFolderName});
 
 		AssertTextEquals(
-			key_breadcrumbName = "${kbFolderName}",
+			key_breadcrumbName = ${kbFolderName},
 			locator1 = "Breadcrumb#BREADCRUMB_ENTRY",
-			value1 = "${kbFolderName}");
+			value1 = ${kbFolderName});
 	}
 
 	macro gotoViaKBDisplayPG {
-		var key_kbFolderName = "${kbFolderName}";
+		var key_kbFolderName = ${kbFolderName};
 
 		Select(
 			locator1 = "KnowledgeBase#FOLDER_SELECT_DROPDOWN",
-			value1 = "${kbFolderName}");
+			value1 = ${kbFolderName});
 
 		Click.clickNoMouseOver(
-			key_kbFolderName = "${kbFolderName}",
+			key_kbFolderName = ${kbFolderName},
 			locator1 = "KnowledgeBase#FOLDER_SELECT_OPTION");
 	}
 
 	macro selectParentCP {
-		var key_kbArticleTitle = "${kbFolderName}";
+		var key_kbArticleTitle = ${kbFolderName};
 
 		SelectFrame(locator1 = "KnowledgeBaseSelectParent#IFRAME");
 
-		if ("${kbFolderName}" == "Home") {
+		if (${kbFolderName} == "Home") {
 			Click(locator1 = "KnowledgeBaseSelectParent#BREADCRUMB_HOME");
 
 			AssertClick(
@@ -98,7 +98,7 @@ definition {
 
 		AssertTextEquals(
 			locator1 = "KnowledgeBase#MOVE_NEW_PARENT_TITLE_FIELD",
-			value1 = "${kbFolderName}");
+			value1 = ${kbFolderName});
 
 		Click(locator1 = "Button#MOVE");
 
@@ -125,11 +125,11 @@ definition {
 	}
 
 	macro viewFolderNameCP {
-		var key_kbFolderName = "${kbFolderName}";
+		var key_kbFolderName = ${kbFolderName};
 
 		AssertTextEquals(
 			locator1 = "KnowledgeBase#FOLDER_DESCRIPTIVE_FOLDER_NAME",
-			value1 = "${kbFolderName}");
+			value1 = ${kbFolderName});
 	}
 
 }

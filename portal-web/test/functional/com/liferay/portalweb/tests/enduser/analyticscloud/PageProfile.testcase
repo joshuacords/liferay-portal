@@ -27,7 +27,7 @@ definition {
 
 		ACUtils.tearDownDXP();
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -36,7 +36,7 @@ definition {
 	}
 
 	@description = "Feature ID: Legacy | Automation ID: LRAC-8112 | Test Summary: Assert clicking on a page in the pages lists navigates to the page profile"
-	@priority = "5"
+	@priority = 5
 	test ClickOnPageInPagesListsNavigatesToPageProfile {
 		task ("Connect DXP to Analytics Cloud") {
 			ACDXPSettings.connectDXPtoAnalyticsCloud(siteName = "Site Name");
@@ -59,7 +59,7 @@ definition {
 		}
 
 		task ("Navigate to Pages tab in Sites") {
-			ACProperties.switchProperty(propertyName = "${assignedPropertyName}");
+			ACProperties.switchProperty(propertyName = ${assignedPropertyName});
 
 			ACNavigation.goToSites();
 
@@ -73,7 +73,7 @@ definition {
 		}
 
 		task ("Navigate to page report entry") {
-			var dataSourceName = StringUtil.extractFirst("${assignedPropertyName}", " ");
+			var dataSourceName = StringUtil.extractFirst(${assignedPropertyName}, " ");
 
 			ACNavigation.openItem(itemName = "AC Page - Site Name - ${dataSourceName}");
 		}
@@ -82,7 +82,7 @@ definition {
 			ACUtils.assertPageTitle(pageTitle = "AC Page - Site Name - ${dataSourceName}");
 
 			for (var cardTitle : list "Visitors Behavior,Audience,Views by Location,Views by Technology,Displayed Assets") {
-				ACCards.viewCards(cardTitle = "${cardTitle}");
+				ACCards.viewCards(cardTitle = ${cardTitle});
 			}
 		}
 	}

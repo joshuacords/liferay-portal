@@ -17,7 +17,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -25,7 +25,7 @@ definition {
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DeleteWebcontent {
 		JSONWebcontent.addWebContent(
 			content = "WC WebContent Content",
@@ -56,7 +56,7 @@ definition {
 		WebContent.viewDefaultCP(webContentTitle = "WC WebContent Title");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test MoveFolderWithWebContentToRecycleBin {
 		JSONWebcontent.addFolder(
 			folderName = "WC Folder Name",
@@ -84,7 +84,7 @@ definition {
 			deleteUser = "Test Test");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test RecycleWebContentViaDeleteIcon {
 		JSONWebcontent.addWebContent(
 			content = "WC WebContent Content",
@@ -107,7 +107,7 @@ definition {
 			deleteUser = "Test Test");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test RestoreWebcontent {
 		JSONWebcontent.addWebContent(
 			content = "WC WebContent Content",
@@ -141,7 +141,7 @@ definition {
 			webContentTitle = "WC WebContent Title");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test UndoMoveToRecycleBin {
 		JSONWebcontent.addWebContent(
 			content = "WC WebContent Content",
@@ -165,7 +165,7 @@ definition {
 		RecycleBin.viewDefaultCP(assetName = "WC WebContent Title");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test ViewDuplicateAssetNamesInRecycleBin {
 		JSONWebcontent.addWebContent(
 			content = "WC WebContent Content",
@@ -197,7 +197,7 @@ definition {
 		RecycleBin.viewDuplicateNames(assetName = "WC WebContent Title");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewDuplicateFolderNamesInRecycleBin {
 		JSONWebcontent.addFolder(
 			folderName = "WC Folder Name",
@@ -231,7 +231,7 @@ definition {
 		RecycleBin.viewDuplicateNames(assetName = "WC Folder Name");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test ViewRecycleBinEntryViaSuccessMessageLink {
 		JSONWebcontent.addWebContent(
 			content = "WC WebContent Content",

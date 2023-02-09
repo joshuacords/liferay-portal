@@ -67,7 +67,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -76,7 +76,7 @@ definition {
 	}
 
 	@description = "This is a test for LPS-90363. Assert that all page types can be found and counted in the pages finder."
-	@priority = "5"
+	@priority = 5
 	test SearchAllPageTypes {
 		task ("Type search term in pages finder") {
 			PagesFinder.goToFindAPage();

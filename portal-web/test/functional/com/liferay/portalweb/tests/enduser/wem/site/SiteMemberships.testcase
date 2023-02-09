@@ -14,7 +14,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -28,7 +28,7 @@ definition {
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddMember {
 		property testray.component.names = "Site Administration,Users and Organizations";
 
@@ -61,7 +61,7 @@ definition {
 			userScreenName = "usersn");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test AddMemberAssignSiteRole {
 		property testray.component.names = "Site Administration,Training,Users and Organizations";
 
@@ -105,7 +105,7 @@ definition {
 			roleTitle = "Site Content Reviewer");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddMemberOrganization {
 		property testray.component.names = "Site Administration,Users and Organizations";
 
@@ -133,7 +133,7 @@ definition {
 		Site.viewMemberOrganizationCP(orgName = "Organization Name");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test AddMembersSiteUser {
 		property portal.acceptance = "true";
 		property testray.component.names = "Site Administration,Users and Organizations";
@@ -181,7 +181,7 @@ definition {
 			userScreenName = "usersn");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddMemberUserGroup {
 		property testray.component.names = "Site Administration,User Groups";
 
@@ -207,7 +207,7 @@ definition {
 		Site.viewMemberUserGroupCP(userGroupName = "User Group Name");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddMemberUserGroupAssignSiteRole {
 		property testray.component.names = "Site Administration,User Groups";
 
@@ -248,7 +248,7 @@ definition {
 			roleTitle = "Site Content Reviewer");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test LimitMembershipParentSite {
 		property testray.component.names = "Site Administration";
 
@@ -374,7 +374,7 @@ definition {
 			userScreenName = "usersn");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test OrganizationsView {
 		property portal.acceptance = "true";
 		property test.name.skip.portal.instance = "SiteMemberships#OrganizationsView";
@@ -541,7 +541,7 @@ definition {
 		Site.viewMemberOrganizationCP(orgName = "Organization Name 3");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test RemoveMember {
 		property portal.acceptance = "true";
 		property testray.component.names = "Site Administration,Users and Organizations";
@@ -588,7 +588,7 @@ definition {
 			userScreenName = "usersn");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test SiteMembershipSearchOrganization {
 		property testray.component.names = "Site Administration,Users and Organizations";
 
@@ -624,7 +624,7 @@ definition {
 		Site.searchMembershipCP(searchValue = "\"Organization Name 1\"");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test SiteMembershipSearchUserGroup {
 		property testray.component.names = "Site Administration,User Groups";
 
@@ -658,7 +658,7 @@ definition {
 		Site.searchMembershipCP(searchValue = "\"User Group Name 1\"");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test SiteMembershipsPagination {
 		property testray.component.names = "Site Administration,Users and Organizations";
 
@@ -763,7 +763,7 @@ definition {
 		Site.assertMemberListNotVisibleCP(usersEmailsList = "userfn9@liferay.com");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test SiteMembershipsSearch {
 		property testray.component.names = "Site Administration,Users and Organizations";
 
@@ -863,14 +863,14 @@ definition {
 
 		Site.searchMemberCP(
 			userEmailAddress = "4568@liferay.com",
-			userEmailAddressSearchValue = "4",
+			userEmailAddressSearchValue = 4,
 			userFirstName = "userfnTest1",
 			userLastName = "One",
 			userScreenName = "user1");
 
 		Site.searchMemberCP(
 			userEmailAddress = "4568@liferay.com",
-			userEmailAddressSearchValue = "5",
+			userEmailAddressSearchValue = 5,
 			userFirstName = "userfnTest1",
 			userLastName = "One",
 			userScreenName = "user1");
@@ -887,7 +887,7 @@ definition {
 
 		Site.searchMemberCP(
 			userEmailAddress = "4568@liferay.com",
-			userEmailAddressSearchValue = "6",
+			userEmailAddressSearchValue = 6,
 			userFirstName = "userfnTest1",
 			userLastName = "One",
 			userScreenName = "user1");
@@ -899,7 +899,7 @@ definition {
 
 		Site.searchMemberCP(
 			userEmailAddress = "5670@liferay.com",
-			userEmailAddressSearchValue = "7",
+			userEmailAddressSearchValue = 7,
 			userFirstName = "userfnTest2",
 			userLastName = "Two",
 			userScreenName = "screen2");
@@ -911,7 +911,7 @@ definition {
 
 		Site.searchMemberCP(
 			userEmailAddress = "4568@liferay.com",
-			userEmailAddressSearchValue = "8",
+			userEmailAddressSearchValue = 8,
 			userFirstName = "userfnTest1",
 			userLastName = "One",
 			userScreenName = "user1");
@@ -923,14 +923,14 @@ definition {
 
 		Site.searchMemberCP(
 			userEmailAddress = "5670@liferay.com",
-			userEmailAddressSearchValue = "0",
+			userEmailAddressSearchValue = 0,
 			userFirstName = "userfnTest2",
 			userLastName = "Two",
 			userScreenName = "screen2");
 
 		Site.searchMemberCP(
 			userEmailAddress = "4568@liferay.com",
-			userEmailAddressSearchValue = "9",
+			userEmailAddressSearchValue = 9,
 			userFirstName = "userfnTest3",
 			userLastName = "Three",
 			userScreenName = "member3");
@@ -954,7 +954,7 @@ definition {
 			userScreenName = "member3");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test ViewMembershipRequestWithSiteMembershipScope {
 		property testray.component.names = "Site Administration,Users and Organizations";
 
@@ -1024,11 +1024,11 @@ definition {
 		Site.viewNoSiteMembershipsRequest();
 	}
 
-	@priority = "3"
+	@priority = 3
 	test ViewNoManualMembershipManagement {
 		property testray.component.names = "Site Administration";
 
-		var siteName = TestCase.getSiteName(siteName = "${siteName}");
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
 
 		Site.manageMembershipOptions(allowManualMembershipManagement = "true");
 
@@ -1043,7 +1043,7 @@ definition {
 
 		Navigator.openURL();
 
-		SitePages.openPagesAdmin(siteURLKey = "${siteName}");
+		SitePages.openPagesAdmin(siteURLKey = ${siteName});
 
 		AssertNotVisible(
 			locator1 = "ControlMenu#ADMIN_SITE_ADMINISTRATION_USERS",

@@ -17,12 +17,12 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ConfigureAutocompleteWithTextField {
 		property test.name.skip.portal.instance = "FormsDataProvider#ConfigureAutocompleteWithTextField";
 
@@ -188,7 +188,7 @@ definition {
 			locator1 = "FormFields#AUTOCOMPLETE_OPTION");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ConfigureWithSelectField {
 		property test.name.skip.portal.instance = "FormsDataProvider#ConfigureWithSelectField";
 
@@ -288,7 +288,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-75682."
-	@priority = "5"
+	@priority = 5
 	test ViewDataRetrievedForGuestUser {
 		property test.name.skip.portal.instance = "FormsDataProvider#ViewDataRetrievedForGuestUser";
 
@@ -350,9 +350,9 @@ definition {
 
 		FormsAdminNavigator.gotoPublishCopyURLLink();
 
-		var publishedFormPublicURL = Form.getPublishedFormPublicURL(publishedFormPublicURL = "${publishedFormPublicURL}");
+		var publishedFormPublicURL = Form.getPublishedFormPublicURL(publishedFormPublicURL = ${publishedFormPublicURL});
 
-		Navigator.openSpecificURL(url = "${publishedFormPublicURL}");
+		Navigator.openSpecificURL(url = ${publishedFormPublicURL});
 
 		FormFields.viewSelectOptionsList(
 			fieldName = "Countries",
@@ -360,7 +360,7 @@ definition {
 
 		User.logoutPG();
 
-		Navigator.openSpecificURL(url = "${publishedFormPublicURL}");
+		Navigator.openSpecificURL(url = ${publishedFormPublicURL});
 
 		FormFields.viewSelectOptionsList(
 			fieldName = "Countries",

@@ -65,7 +65,7 @@ definition {
 
 		ACUtils.tearDownDXP();
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -74,14 +74,14 @@ definition {
 	}
 
 	@description = "Feature ID: LRAC-4265 | Automation ID: LRAC-10011 | Test Summary: Attributes shown in AC"
-	@priority = "5"
+	@priority = 5
 	test CustomEventAttributeIsShownInACSettings {
 		task ("Fill fields and create custom event") {
 			var customEventName = ACCustomEvents.generateCustomEventName();
 
 			ACCustomEvents.createCustomEvent(
-				customEventName = "${customEventName}",
-				timeToSendCustomEvent = "1");
+				customEventName = ${customEventName},
+				timeToSendCustomEvent = 1);
 		}
 
 		task ("Close sessions") {
@@ -91,7 +91,7 @@ definition {
 		task ("Switch the property in AC") {
 			ACUtils.launchAC();
 
-			ACProperties.switchProperty(propertyName = "${assignedPropertyName}");
+			ACProperties.switchProperty(propertyName = ${assignedPropertyName});
 		}
 
 		task ("Navigation to attributes tab") {
@@ -147,7 +147,7 @@ definition {
 		}
 
 		task ("Check the data related to attribute appears") {
-			ACCustomEvents.viewDataAttribute(attributeValueList = "11");
+			ACCustomEvents.viewDataAttribute(attributeValueList = 11);
 
 			ACCustomEvents.viewDataType(typeValue = "Number");
 		}

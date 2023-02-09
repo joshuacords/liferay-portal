@@ -3,7 +3,7 @@ definition {
 	macro gotoAddCollection {
 		var browserType = PropsUtil.get("browser.type");
 
-		if ("${browserType}" == "internetexplorer") {
+		if (${browserType} == "internetexplorer") {
 			Click(locator1 = "NavNested#NAV_NESTED_PLUS_IE");
 		}
 		else {
@@ -21,17 +21,17 @@ definition {
 	macro gotoCollection {
 		AssertClick.assertPartialTextClickAt(
 			locator1 = "FragmentAdmin#FRAGMENT_COLLECTION",
-			value1 = "${collectionName}");
+			value1 = ${collectionName});
 	}
 
 	macro gotoEntry {
-		LexiconCard.clickCardTitle(card = "${entry}");
+		LexiconCard.clickCardTitle(card = ${entry});
 	}
 
 	macro gotoEntryEllipsisItem {
 		LexiconCard.clickEllipsisItem(
-			card = "${entry}",
-			item = "${item}");
+			card = ${entry},
+			item = ${item});
 	}
 
 	macro gotoImportCollection {

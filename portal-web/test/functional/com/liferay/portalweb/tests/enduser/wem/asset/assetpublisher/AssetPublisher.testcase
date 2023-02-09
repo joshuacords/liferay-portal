@@ -25,7 +25,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -34,7 +34,7 @@ definition {
 	}
 
 	@description = "LPS-96038 - Global Categories do not appear as filters in Asset Publisher Configuration."
-	@priority = "4"
+	@priority = 4
 	test ConfigureAPPortletDisplaysGlobalCategoriesAsFilters {
 		Category.openCategoriesAdmin(siteURLKey = "global");
 
@@ -54,7 +54,7 @@ definition {
 	}
 
 	@description = "This is a test for LPS-93357. The subscribe button can be enabled/disabled."
-	@priority = "3"
+	@priority = 3
 	test enableDisableSubscribeButton {
 		task ("Assert the subscribe button is disabled by default") {
 			Navigator.gotoSitePage(
@@ -78,7 +78,7 @@ definition {
 	}
 
 	@description = "This is a test for LPS-86192. The default asset link behavior should be 'View in Context'."
-	@priority = "4"
+	@priority = 4
 	test ViewDefaultAssetLinkBehavior {
 		task ("## Navigate to Asset Publisher widget display settings.") {
 			Navigator.gotoSitePage(
@@ -98,7 +98,7 @@ definition {
 	}
 
 	@description = "LPS-135554 This test asserts that the Web Content Article Structures should appear after uncheck Search With Index configuration."
-	@priority = "4"
+	@priority = 4
 	test WebContentArticleStructuresCanAppearAfterUncheckingSearchWithIndexConfiguration {
 		property test.name.skip.portal.instance = "AssetPublisher#WebContentArticleStructuresCanAppearAfterUncheckingSearchWithIndexConfiguration";
 

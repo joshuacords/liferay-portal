@@ -22,7 +22,7 @@ definition {
 	}
 
 	@ignore = "true"
-	@priority = "4"
+	@priority = 4
 	test VimeoPortletSmoke {
 		property portlet.plugins.includes = "vimeo-portlet";
 

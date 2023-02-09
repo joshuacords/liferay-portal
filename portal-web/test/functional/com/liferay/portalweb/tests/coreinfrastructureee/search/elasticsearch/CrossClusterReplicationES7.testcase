@@ -21,7 +21,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -33,7 +33,7 @@ definition {
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AssertReplicationAfterReindex {
 		property test.name.skip.portal.instance = "CrossClusterReplicationES7#AssertReplicationAfterReindex";
 
@@ -73,7 +73,7 @@ definition {
 			searchTerm = "Apple");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test BreakWorkflowSLA {
 		property test.name.skip.portal.instance = "CrossClusterReplicationES7#BreakWorkflowSLA";
 
@@ -103,7 +103,7 @@ definition {
 		Click(locator1 = "WorkflowMetricsSLA#ADD_NEW_SLA_BUTTON");
 
 		WorkflowMetrics.fillSLAForm(
-			slaDefinitionDays = "0",
+			slaDefinitionDays = 0,
 			slaDefinitionDescription = "SLA Description",
 			slaDefinitionEnd = "Process Ends: Approved",
 			slaDefinitionHours = "00:02",
@@ -122,29 +122,29 @@ definition {
 		WorkflowMetrics.goToWorkflowProcessMetrics(workflowProcessName = "Single Approver");
 
 		WorkflowMetrics.waitForSLA(
-			key_expectedValue = "0",
+			key_expectedValue = 0,
 			key_status = "ONTIME");
 
 		WorkflowMetrics.checkPendingWorkflowValues(
-			key_ontime = "1",
-			key_overdue = "0",
-			key_pending = "1",
-			key_untracked = "0");
+			key_ontime = 1,
+			key_overdue = 0,
+			key_pending = 1,
+			key_untracked = 0);
 
 		Refresh();
 
 		WorkflowMetrics.waitForSLA(
-			key_expectedValue = "0",
+			key_expectedValue = 0,
 			key_status = "OVERDUE");
 
 		WorkflowMetrics.checkPendingWorkflowValues(
-			key_ontime = "0",
-			key_overdue = "1",
-			key_pending = "1",
-			key_untracked = "0");
+			key_ontime = 0,
+			key_overdue = 1,
+			key_pending = 1,
+			key_untracked = 0);
 	}
 
-	@priority = "3"
+	@priority = 3
 	test CreateBlogsEntryWithNewWorkflow {
 		property test.name.skip.portal.instance = "CrossClusterReplicationES7#CreateBlogsEntryWithNewWorkflow";
 
@@ -193,7 +193,7 @@ definition {
 			searchTerm = "Blogs");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test HotDeployApp {
 		property hot.deploy.osgi.app.includes = "portal-search-elasticsearch-cross-cluster-replication";
 		property osgi.app.includes = "portal-search-elasticsearch7";
@@ -236,27 +236,27 @@ definition {
 			portlet = "App Manager");
 
 		AppManager.viewAppCP(
-			appName = "${appName}",
+			appName = ${appName},
 			appStatus = "Active",
 			searchTerm = "Replication");
 
-		AppManager.deactivateAppCP(appName = "${appName}");
+		AppManager.deactivateAppCP(appName = ${appName});
 
 		AppManager.viewAppCP(
-			appName = "${appName}",
+			appName = ${appName},
 			appStatus = "Resolved",
 			searchTerm = "Replication");
 
 		AssertConsoleTextPresent(value1 = "STOPPED com.liferay.portal.search.elasticsearch.cross.cluster.replication.impl");
 
-		AppManager.activateAppCP(appName = "${appName}");
+		AppManager.activateAppCP(appName = ${appName});
 
 		AssertConsoleTextPresent(value1 = "STARTED com.liferay.portal.search.elasticsearch.cross.cluster.replication.impl");
 
 		AssertConsoleTextNotPresent(value1 = "The portal instance needs to be restarted");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test SearchWithResultRankings {
 		property test.name.skip.portal.instance = "CrossClusterReplicationES7#SearchWithResultRankings";
 
@@ -298,7 +298,7 @@ definition {
 			searchAssetType = "Web Content Article");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test SearchWithSynonyms {
 		property test.name.skip.portal.instance = "CrossClusterReplicationES7#SearchWithSynonyms";
 
@@ -308,7 +308,7 @@ definition {
 			JSONWebcontent.addWebContent(
 				content = "WC Content",
 				groupName = "Guest",
-				title = "${title}");
+				title = ${title});
 		}
 
 		SearchTuning.openSynonymsAdmin();
@@ -321,20 +321,20 @@ definition {
 
 		Navigator.openURL();
 
-		Pause(locator1 = "70000");
+		Pause(locator1 = 70000);
 
 		var searchTerms = "banana,red apple,fruit";
 
-		for (var searchTerm : list "${searchTerms}") {
-			SearchPortlets.searchEmbedded(searchTerm = "${searchTerm}");
+		for (var searchTerm : list ${searchTerms}) {
+			SearchPortlets.searchEmbedded(searchTerm = ${searchTerm});
 
 			SearchResultPortlet.viewMultipleSearchResults(
 				resultsList = "banana/Web Content Article,red apple/Web Content Article",
-				searchTerm = "${searchTerm}");
+				searchTerm = ${searchTerm});
 		}
 	}
 
-	@priority = "3"
+	@priority = 3
 	test SearchWithVirtualInstance {
 		property test.name.skip.portal.instance = "CrossClusterReplicationES7#SearchWithVirtualInstance";
 
@@ -385,7 +385,7 @@ definition {
 			searchAssetType = "Document");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test Smoke {
 		property osgi.module.configuration.file.names = "com.liferay.portal.bundle.blacklist.internal.BundleBlacklistConfiguration.config";
 		property osgi.module.configurations = "blacklistBundleSymbolicNames=\"com.liferay.portal.mobile.device.detection.fiftyonedegrees.api,com.liferay.portal.mobile.device.detection.fiftyonedegrees.enterprise,com.liferay.portal.mobile.device.detection.fiftyonedegrees.enterprise.test.data,com.liferay.portal.mobile.device.detection.fiftyonedegrees,com.liferay.portal.search.elasticsearch6.impl,com.liferay.portal.search.elasticsearch6.spi,com.liferay.portal.search.elasticsearch6.api,com.liferay.portal.search.elasticsearch6.xpack.security.impl,com.liferay.portal.search.elasticsearch6.xpack.monitoring.web,com.liferay.portal.search.tuning.rankings.web\"";

@@ -4,8 +4,8 @@ definition {
 		FragmentsAdminNavigator.gotoAddCollection();
 
 		Collection.editCollection(
-			collectionDescription = "${collectionDescription}",
-			collectionName = "${collectionName}");
+			collectionDescription = ${collectionDescription},
+			collectionName = ${collectionName});
 
 		Button.clickSave();
 	}
@@ -17,7 +17,7 @@ definition {
 
 		UploadCommonFile.uploadCommonFileHiddenNoMouseOver(
 			locator1 = "TextInput#FILE",
-			value1 = "${resourceFile}");
+			value1 = ${resourceFile});
 
 		IFrame.selectTopFrame();
 
@@ -33,17 +33,17 @@ definition {
 			locator1 = "Modal#HEADER",
 			value1 = "Add Section");
 
-		PortletEntry.inputName(name = "${fragmentName}");
+		PortletEntry.inputName(name = ${fragmentName});
 
 		Button.clickSave();
 	}
 
 	macro deleteEntry {
-		LexiconCard.delete(card = "${entry}");
+		LexiconCard.delete(card = ${entry});
 	}
 
 	macro exportCollection {
-		Navigator.gotoNavNested(navNested = "${collectionName}");
+		Navigator.gotoNavNested(navNested = ${collectionName});
 
 		LexiconEntry.gotoEllipsisMenuItem(menuItem = "Export");
 	}
@@ -53,7 +53,7 @@ definition {
 
 		UploadCommonFile(
 			locator1 = "TextInput#FILE",
-			value1 = "${collectionZipFile}");
+			value1 = ${collectionZipFile});
 
 		Button.click(button = "Import");
 
@@ -69,7 +69,7 @@ definition {
 
 		UploadTempFile(
 			locator1 = "TextInput#FILE",
-			value1 = "${collectionsZipFileName}");
+			value1 = ${collectionsZipFileName});
 
 		Button.click(button = "Import");
 
@@ -85,21 +85,21 @@ definition {
 	macro selectCollection {
 		SelectFrame(locator1 = "IFrame#DIALOG");
 
-		LexiconCard.clickCard(card = "${collectionName}");
+		LexiconCard.clickCard(card = ${collectionName});
 	}
 
 	macro viewEntryNotPresent {
-		LexiconCard.viewCardNotPresent(card = "${entry}");
+		LexiconCard.viewCardNotPresent(card = ${entry});
 	}
 
 	macro viewEntryPresent {
-		LexiconCard.viewCardPresent(card = "${entry}");
+		LexiconCard.viewCardPresent(card = ${entry});
 	}
 
 	macro viewEntryWorkflowStatus {
 		LexiconCard.viewCardLabel(
-			card = "${entry}",
-			cardLabel = "${workflowStatus}");
+			card = ${entry},
+			cardLabel = ${workflowStatus});
 	}
 
 }

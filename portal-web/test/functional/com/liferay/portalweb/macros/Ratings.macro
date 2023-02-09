@@ -3,7 +3,7 @@ definition {
 	macro _openToConfigInSiteSettings {
 		var baseURL = PropsUtil.get("portal.url");
 
-		if ("${portlet}" == "Ratings") {
+		if (${portlet} == "Ratings") {
 			var portletKey = "site-configuration-ratings";
 		}
 
@@ -13,12 +13,12 @@ definition {
 	macro configureRatingType {
 		if (isSet(siteURLKey)) {
 			Ratings._openToConfigInSiteSettings(
-				portlet = "${portlet}",
-				siteURLKey = "${siteURLKey}");
+				portlet = ${portlet},
+				siteURLKey = ${siteURLKey});
 		}
 		else {
 			if (isSet(siteName)) {
-				Site.openSiteSettingsAdmin(siteURLKey = "${siteName}");
+				Site.openSiteSettingsAdmin(siteURLKey = ${siteName});
 			}
 			else {
 				Site.openSiteSettingsAdmin(siteURLKey = "guest");
@@ -32,9 +32,9 @@ definition {
 		}
 
 		Select(
-			key_applications = "${applications}",
+			key_applications = ${applications},
 			locator1 = "Select#APPLICATIONS_RATING",
-			value1 = "${ratingType}");
+			value1 = ${ratingType});
 
 		AssertClickNoError(
 			locator1 = "Button#SAVE",
@@ -43,15 +43,15 @@ definition {
 		AssertConfirm(value1 = "Existing ratings data values will be adapted to match the new ratings type even though it may not be accurate. Do you want to continue?");
 
 		AssertSelectedLabel(
-			key_applications = "${applications}",
+			key_applications = ${applications},
 			locator1 = "Select#APPLICATIONS_RATING",
-			value1 = "${ratingType}");
+			value1 = ${ratingType});
 	}
 
 	macro rate {
-		var key_ratingResult = StringUtil.replace("${ratingResult}", " ", "-");
+		var key_ratingResult = StringUtil.replace(${ratingResult}, " ", "-");
 
-		var key_ratingResult = StringUtil.lowerCase("${key_ratingResult}");
+		var key_ratingResult = StringUtil.lowerCase(${key_ratingResult});
 
 		if (isSet(commentRating)) {
 			Click(locator1 = "Ratings#COMMENT_RATING_THUMB");
@@ -69,39 +69,39 @@ definition {
 		}
 
 		Click.clickNoMouseOver(
-			key_ratingStarCount = "${ratingStarCount}",
+			key_ratingStarCount = ${ratingStarCount},
 			locator1 = "Ratings#YOUR_RATING_STAR_COUNT");
 
 		AssertElementPresent(
-			key_ratingStarCount = "${ratingStarCount}",
+			key_ratingStarCount = ${ratingStarCount},
 			locator1 = "Ratings#YOUR_RATING_STAR_RESULT");
 	}
 
 	macro rateThumb {
 		if (isSet(blogCommentRating)) {
 			Click.javaScriptClick(
-				key_ratingResult = "${ratingResult}",
+				key_ratingResult = ${ratingResult},
 				locator1 = "Ratings#COMMENT_RATING_THUMB");
 		}
 		else if (isSet(blogRating)) {
 			Click.javaScriptClick(
-				key_ratingResult = "${ratingResult}",
+				key_ratingResult = ${ratingResult},
 				locator1 = "Ratings#THUMB");
 		}
 		else if (isSet(commentRating)) {
 			Click.clickNoMouseOver(
-				key_ratingResult = "${ratingResult}",
+				key_ratingResult = ${ratingResult},
 				locator1 = "Ratings#COMMENT_RATING_THUMB");
 		}
 		else if (isSet(replyRating)) {
 			Click.javaScriptClick(
-				key_ratingResult = "${ratingResult}",
-				key_threadSubject = "${threadSubject}",
+				key_ratingResult = ${ratingResult},
+				key_threadSubject = ${threadSubject},
 				locator1 = "Ratings#REPLY_RATING_THUMB");
 		}
 		else {
 			Click.javaScriptClick(
-				key_ratingResult = "${ratingResult}",
+				key_ratingResult = ${ratingResult},
 				locator1 = "Ratings#THUMB");
 		}
 	}
@@ -115,26 +115,26 @@ definition {
 	}
 
 	macro viewRating {
-		var key_ratingResult = StringUtil.replace("${ratingResult}", " ", "-");
+		var key_ratingResult = StringUtil.replace(${ratingResult}, " ", "-");
 
-		var key_ratingResult = StringUtil.lowerCase("${key_ratingResult}");
+		var key_ratingResult = StringUtil.lowerCase(${key_ratingResult});
 
 		if (isSet(ratingResult)) {
 			if (isSet(commentRating)) {
 				AssertTextEquals(
 					locator1 = "Ratings#COMMENT_RATING_THUMB",
-					value1 = "${voteCount}");
+					value1 = ${voteCount});
 			}
 			else {
 				AssertTextEquals(
 					locator1 = "Ratings#THUMB",
-					value1 = "${voteCount}");
+					value1 = ${voteCount});
 			}
 		}
 		else {
 			AssertTextEquals(
 				locator1 = "Ratings#DISPLAY_VOTES",
-				value1 = "${voteCount}");
+				value1 = ${voteCount});
 		}
 	}
 
@@ -151,13 +151,13 @@ definition {
 	macro viewRatingWithStarsReadOnly {
 		for (var starCount : list "1,2,3,4,5") {
 			AssertElementNotPresent(
-				key_averageRatingStar = "${starCount}",
+				key_averageRatingStar = ${starCount},
 				locator1 = "Ratings#AVERAGE_STAR");
 		}
 
 		for (var starCount : list "1,2,3,4,5") {
 			AssertElementPresent(
-				key_averageDisableStar = "${starCount}",
+				key_averageDisableStar = ${starCount},
 				locator1 = "Ratings#AVERAGE_STAR_DISABLE");
 		}
 	}

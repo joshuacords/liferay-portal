@@ -17,7 +17,7 @@ definition {
 				-d subtype=
 		''';
 
-		com.liferay.poshi.runner.util.JSONCurlUtil.post("${curl}");
+		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
 	}
 
 	macro _assignRoleToGroup {
@@ -32,7 +32,7 @@ definition {
 				-d groupIds=${groupId}
 		''';
 
-		com.liferay.poshi.runner.util.JSONCurlUtil.post("${curl}");
+		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
 	}
 
 	macro _assignRoleToUser {
@@ -47,7 +47,7 @@ definition {
 				-d userIds=${userId}
 		''';
 
-		com.liferay.poshi.runner.util.JSONCurlUtil.post("${curl}");
+		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
 	}
 
 	macro _assignSiteRoleToUser {
@@ -63,11 +63,11 @@ definition {
 				-d roleIds=[${roleId}]
 		''';
 
-		com.liferay.poshi.runner.util.JSONCurlUtil.post("${curl}");
+		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
 	}
 
 	macro _deleteRoleById {
-		Variables.assertDefined(parameterList = "${roleId}");
+		Variables.assertDefined(parameterList = ${roleId});
 
 		var portalURL = JSONCompany.getPortalURL();
 
@@ -77,11 +77,11 @@ definition {
 				-d roleId=${roleId}
 		''';
 
-		com.liferay.poshi.runner.util.JSONCurlUtil.post("${curl}");
+		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
 	}
 
 	macro _getRoleIdByName {
-		Variables.assertDefined(parameterList = "${name}");
+		Variables.assertDefined(parameterList = ${name});
 
 		var companyId = JSONCompany.getCompanyId();
 		var portalURL = JSONCompany.getPortalURL();
@@ -93,9 +93,9 @@ definition {
 				-d name=${name}
 		''';
 
-		var roleId = JSONCurlUtil.post("${curl}", "$['roleId']");
+		var roleId = JSONCurlUtil.post(${curl}, "$['roleId']");
 
-		return "${roleId}";
+		return ${roleId};
 	}
 
 }

@@ -1,8 +1,8 @@
 definition {
 
 	macro checkContentNameList {
-		for (var contentName : list "${checkContentNameList}") {
-			var key_contentName = "${contentName}";
+		for (var contentName : list ${checkContentNameList}) {
+			var key_contentName = ${contentName};
 
 			Check.checkToggleSwitch(locator1 = "PagesConfiguration#CONTENT_CHOOSE_CONTENT_CHECKBOX_LABEL");
 		}
@@ -11,11 +11,11 @@ definition {
 	macro checkPageName {
 		ContentConfiguration.uncheckPages();
 
-		for (var pageName : list "${checkPageName}") {
-			var key_pageName = "${pageName}";
+		for (var pageName : list ${checkPageName}) {
+			var key_pageName = ${pageName};
 
 			if (IsElementNotPresent(locator1 = "PagesConfiguration#PAGES_SPECIFIC_PAGE_CHECKED")) {
-				var key_pageName = "${pageName}";
+				var key_pageName = ${pageName};
 
 				Click(locator1 = "PagesConfiguration#PAGES_SPECIFIC_PAGE_NAME");
 			}
@@ -31,8 +31,8 @@ definition {
 
 		Click(locator1 = "PagesConfiguration#PAGES_ALL_PRIVATE_PAGES_CHECKBOX");
 
-		for (var pageName : list "${checkPrivatePages}") {
-			var key_pageName = "${pageName}";
+		for (var pageName : list ${checkPrivatePages}) {
+			var key_pageName = ${pageName};
 
 			if (IsElementNotPresent(locator1 = "PagesConfiguration#PAGES_SPECIFIC_PAGE_CHECKED")) {
 				Click(locator1 = "PagesConfiguration#PAGES_SPECIFIC_PAGE_NAME");
@@ -49,8 +49,8 @@ definition {
 
 		Click(locator1 = "PagesConfiguration#PAGES_ALL_PUBLIC_PAGES_CHECKBOX");
 
-		for (var pageName : list "${checkPublicPages}") {
-			var key_pageName = "${pageName}";
+		for (var pageName : list ${checkPublicPages}) {
+			var key_pageName = ${pageName};
 
 			if (IsElementNotPresent(locator1 = "PagesConfiguration#PAGES_SPECIFIC_PAGE_CHECKED")) {
 				Click(locator1 = "PagesConfiguration#PAGES_SPECIFIC_PAGE_NAME");
@@ -63,27 +63,27 @@ definition {
 			ScrollWebElementIntoView(locator1 = "Button#PUBLISH");
 		}
 
-		if ("${contentDateRange}" == "All") {
+		if (${contentDateRange} == "All") {
 			Click(locator1 = "StagingPublishToLive#CONTENT_ALL");
 
 			Click(locator1 = "Link#REFRESH_COUNTS");
 		}
 
-		if ("${contentDateRange}" == "Date Range") {
+		if (${contentDateRange} == "Date Range") {
 			Click(locator1 = "Radio#CHOOSE_CONTENT_DATE_RANGE_CHANGE");
 
-			var key_contentDateRange = "${contentDateRange}";
+			var key_contentDateRange = ${contentDateRange};
 
 			Type(
 				locator1 = "Select#DATE_RANGE_START_DATE",
-				value1 = "${dateRangeStartDate}");
+				value1 = ${dateRangeStartDate});
 
 			Type(
 				locator1 = "Select#DATE_RANGE_END_DATE",
-				value1 = "${dateRangeEndDate}");
+				value1 = ${dateRangeEndDate});
 		}
 
-		if ("${contentDateRange}" == "Last") {
+		if (${contentDateRange} == "Last") {
 			Click.clickNoMouseOverNoWaitForVisible(locator1 = "StagingPublishToLive#CONTENT_LAST");
 
 			Click(locator1 = "Link#REFRESH_COUNTS");
@@ -117,13 +117,13 @@ definition {
 	macro setTitle {
 		Type(
 			locator1 = "StagingPublishToLive#PUBLICATION_TITLE",
-			value1 = "${publicationTitle}");
+			value1 = ${publicationTitle});
 	}
 
 	macro uncheckContentNameList {
-		for (var contentName : list "${uncheckContentNameList}") {
+		for (var contentName : list ${uncheckContentNameList}) {
 			Uncheck.uncheckToggleSwitch(
-				key_contentName = "${contentName}",
+				key_contentName = ${contentName},
 				locator1 = "PagesConfiguration#CONTENT_CHOOSE_CONTENT_CHECKBOX_LABEL");
 		}
 	}
@@ -147,11 +147,11 @@ definition {
 	}
 
 	macro uncheckSubContent {
-		var key_contentName = "${mainContent}";
+		var key_contentName = ${mainContent};
 
 		Click(locator1 = "ExportImport#CONTENT_CHOOSE_CONTENT_CONTENT_CHANGE_LINK");
 
-		var key_subContent = "${uncheckSubContent}";
+		var key_subContent = ${uncheckSubContent};
 
 		Click(locator1 = "ExportImport#CONTENT_CHOOSE_CONTENT_SUBCONTENT_CHECKBOX");
 
@@ -161,7 +161,7 @@ definition {
 	}
 
 	macro uncheckSubSubContent {
-		var key_contentName = "${contentName}";
+		var key_contentName = ${contentName};
 
 		Check(locator1 = "PagesConfiguration#CONTENT_CHOOSE_CONTENT_CONTENT_CHECKBOX");
 
@@ -169,8 +169,8 @@ definition {
 			locator1 = "ExportImport#CONTENT_CHOOSE_CONTENT_CONTENT_CHANGE_LINK",
 			value1 = "Change");
 
-		var key_subContent = "${subContent}";
-		var key_subSubContent = "${uncheckSubSubContent}";
+		var key_subContent = ${subContent};
+		var key_subSubContent = ${uncheckSubSubContent};
 
 		Click(locator1 = "ExportImport#CONTENT_CHOOSE_CONTENT_SUB_SUBCONTENT_CHECKBOX");
 

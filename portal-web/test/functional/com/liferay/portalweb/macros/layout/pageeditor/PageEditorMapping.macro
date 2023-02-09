@@ -8,8 +8,8 @@ definition {
 
 	macro gotoEditableFieldMapping {
 		PageEditor.clickEditableField(
-			fragmentName = "${fragmentName}",
-			id = "${id}");
+			fragmentName = ${fragmentName},
+			id = ${id});
 
 		Click(locator1 = "PageEditor#EDITABLE_FIELD_TOOLBAR_MAP_BUTTON");
 	}
@@ -18,16 +18,16 @@ definition {
 		Click(locator1 = "PageEditor#EDITABLE_FIELD_TOOLBAR_MAP_DROPDOWN");
 
 		Click(
-			key_assetField = "${assetField}",
+			key_assetField = ${assetField},
 			locator1 = "PageEditor#EDITABLE_FIELD_TOOLBAR_MAP_DROPDOWN_ASSET");
 
 		if (isSet(webContentTitle)) {
 			SelectFrame(locator1 = "IFrame#DIALOG");
 
 			AssertClick(
-				key_webContentTitle = "${webContentTitle}",
+				key_webContentTitle = ${webContentTitle},
 				locator1 = "Link#WEB_CONTENT_ARTICLE",
-				value1 = "${webContentTitle}");
+				value1 = ${webContentTitle});
 
 			SelectFrameTop();
 
@@ -43,18 +43,18 @@ definition {
 
 	macro mapEditableTextToField {
 		PageEditorMapping.gotoEditableFieldMapping(
-			fragmentName = "${fragmentName}",
-			id = "${id}");
+			fragmentName = ${fragmentName},
+			id = ${id});
 
 		Select(
 			key_fieldLabel = "Source",
 			locator1 = "Select#GENERIC_SELECT_FIELD",
-			value1 = "${source}");
+			value1 = ${source});
 
 		Select(
 			key_fieldLabel = "Field",
 			locator1 = "Select#GENERIC_SELECT_FIELD",
-			value1 = "${field}");
+			value1 = ${field});
 
 		PageEditor.waitForAutoSave();
 	}

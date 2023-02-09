@@ -15,7 +15,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -23,7 +23,7 @@ definition {
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewWebContentInSampleDrools {
 		property osgi.modules.includes = "portal-rules-engine-sample-web";
 
@@ -36,7 +36,7 @@ definition {
 		User.addAddressViaMyAccount(
 			userAddressCity = "Diamond Bar",
 			userAddressCountry = "United States",
-			userAddressPostalCode = "91765",
+			userAddressPostalCode = 91765,
 			userAddressRegion = "California",
 			userAddressStreet1 = "1400 Montefino Ave",
 			userAddressType = "Personal");

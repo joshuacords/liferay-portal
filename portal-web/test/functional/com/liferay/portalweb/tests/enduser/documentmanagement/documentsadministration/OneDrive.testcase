@@ -27,21 +27,21 @@ definition {
 		Type(
 			key_text = "clientId",
 			locator1 = "TextArea#ANY",
-			value1 = "${oneDriveClientID}");
+			value1 = ${oneDriveClientID});
 
 		var oneDriveClientSecret = PropsUtil.get("onedrive.client.secret");
 
 		Type(
 			key_text = "clientSecret",
 			locator1 = "TextArea#ANY",
-			value1 = "${oneDriveClientSecret}");
+			value1 = ${oneDriveClientSecret});
 
 		var oneDriveTenant = PropsUtil.get("onedrive.tenant");
 
 		Type(
 			key_text = "tenant",
 			locator1 = "TextArea#ANY",
-			value1 = "${oneDriveTenant}");
+			value1 = ${oneDriveTenant});
 
 		ScrollWebElementIntoView(locator1 = "Button#CANCEL");
 
@@ -57,7 +57,7 @@ definition {
 			layoutName = "Documents and Media Page");
 
 		JSONLayout.addWidgetToPublicLayout(
-			column = "1",
+			column = 1,
 			groupName = "Guest",
 			layoutName = "Documents and Media Page",
 			widgetName = "Documents and Media");
@@ -74,7 +74,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -90,7 +90,7 @@ definition {
 
 	@description = "This will be ignored until LPS-111761 is fixed.This test ensures that an Excel sheet can be added via the OneDrive editor."
 	@ignore = "true"
-	@priority = "5"
+	@priority = 5
 	test AddExcelSheet {
 		property test.name.skip.portal.instance = "OneDrive#AddExcelSheet";
 
@@ -125,7 +125,7 @@ definition {
 	}
 
 	@description = "This test ensures that a Powerpoint presentation can be added via the OneDrive editor."
-	@priority = "5"
+	@priority = 5
 	test AddPowerPointPresentation {
 		property test.name.skip.portal.instance = "OneDrive#AddPowerPointPresentation";
 
@@ -160,7 +160,7 @@ definition {
 	}
 
 	@description = "This test ensures that a Word document can be added via the OneDrive editor. "
-	@priority = "5"
+	@priority = 5
 	test AddWordDocument {
 		property test.name.skip.portal.instance = "OneDrive#AddWordDocument";
 
@@ -195,7 +195,7 @@ definition {
 	}
 
 	@description = "This test covers LPS-102478. It ensures that an Office 365 document automatically checks in after the lock is expired."
-	@priority = "4"
+	@priority = 4
 	test AutoCheckinDocumentAfterLockExpiration {
 		property custom.properties = "lock.expiration.time.com.liferay.document.library.kernel.model.DLFileEntry=80000";
 		property test.name.skip.portal.instance = "OneDrive#AutoCheckinDocumentAfterLockExpiration";
@@ -214,7 +214,7 @@ definition {
 
 		Navigator.gotoPage(pageName = "Documents and Media Page");
 
-		Pause(locator1 = "100000");
+		Pause(locator1 = 100000);
 
 		Refresh();
 
@@ -224,7 +224,7 @@ definition {
 	}
 
 	@description = "This test ensures that a Word Document is autotagged once checked in."
-	@priority = "4"
+	@priority = 4
 	test AutoTagWordDocument {
 		property test.name.skip.portal.instance = "OneDrive#AutoTagWordDocument";
 
@@ -258,7 +258,7 @@ definition {
 
 	@description = "This will be ignored until LPS-111761 is fixed.This test ensures that no residual data is left in the Portal UI after canceling checkout under site admin on an Excel document during creation."
 	@ignore = "true"
-	@priority = "4"
+	@priority = 4
 	test CancelCheckoutOnExcelSheet {
 		property test.name.skip.portal.instance = "OneDrive#CancelCheckoutOnExcelSheet";
 
@@ -287,7 +287,7 @@ definition {
 	}
 
 	@description = "This test ensures that no residual data is left in the Portal UI after canceling checkout on a Word document during creation."
-	@priority = "4"
+	@priority = 4
 	test CancelCheckoutOnWordDocument {
 		property test.name.skip.portal.instance = "OneDrive#CancelCheckoutOnWordDocument";
 
@@ -314,7 +314,7 @@ definition {
 
 	@description = "This will be ignored until LPS-111761 is fixed.This test ensures that an Excel sheet can be deleted."
 	@ignore = "true"
-	@priority = "5"
+	@priority = 5
 	test DeleteExcelSheet {
 		property test.name.skip.portal.instance = "OneDrive#DeleteExcelSheet";
 
@@ -340,7 +340,7 @@ definition {
 	}
 
 	@description = "This test ensures that a PowerPoint presentation can be deleted."
-	@priority = "5"
+	@priority = 5
 	test DeletePowerPointPresentation {
 		property test.name.skip.portal.instance = "OneDrive#DeletePowerPointPresentation";
 
@@ -366,7 +366,7 @@ definition {
 	}
 
 	@description = "This test ensures that a Word document can be deleted."
-	@priority = "5"
+	@priority = 5
 	test DeleteWordDocument {
 		property test.name.skip.portal.instance = "OneDrive#DeleteWordDocument";
 
@@ -392,12 +392,12 @@ definition {
 	}
 
 	@description = "This test ensures that an Excel sheet title can be changed via the OneDrive editor."
-	@priority = "4"
+	@priority = 4
 	test EditExcelSheet {
 		property test.name.skip.portal.instance = "OneDrive#EditExcelSheet";
 
 		for (var documentTitle : list "Document_1,Excel Sheet Title Edited") {
-			OneDrive.deleteDocument(dmDocumentTitle = "${documentTitle}");
+			OneDrive.deleteDocument(dmDocumentTitle = ${documentTitle});
 		}
 
 		Navigator.openURL();
@@ -432,12 +432,12 @@ definition {
 	}
 
 	@description = "This test ensures that a Powerpoint presentation title can be changed via the OneDrive editor."
-	@priority = "4"
+	@priority = 4
 	test EditPowerPointPresentation {
 		property test.name.skip.portal.instance = "OneDrive#EditPowerPointPresentation";
 
 		for (var documentTitle : list "Document_2,Powerpoint Presentation Title Edited") {
-			OneDrive.deleteDocument(dmDocumentTitle = "${documentTitle}");
+			OneDrive.deleteDocument(dmDocumentTitle = ${documentTitle});
 		}
 
 		Navigator.openURL();
@@ -472,13 +472,13 @@ definition {
 	}
 
 	@description = "This is not an acceptance test and is temporarily quarantined. This test ensures that a Word document title can be changed via the OneDrive editor."
-	@priority = "4"
+	@priority = 4
 	test EditWordDocument {
 		property portal.acceptance = "quarantine";
 		property test.name.skip.portal.instance = "OneDrive#EditWordDocument";
 
 		for (var documentTitle : list "Document_3,Word Doc Title Edited") {
-			OneDrive.deleteDocument(dmDocumentTitle = "${documentTitle}");
+			OneDrive.deleteDocument(dmDocumentTitle = ${documentTitle});
 		}
 
 		Navigator.openURL();

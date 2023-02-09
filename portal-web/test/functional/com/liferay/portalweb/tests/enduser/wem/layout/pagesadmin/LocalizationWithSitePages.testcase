@@ -14,7 +14,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -22,7 +22,7 @@ definition {
 		}
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddPageAndChildPageTranslations {
 		property test.name.skip.portal.instance = "LocalizationWithSitePages#AddPageAndChildPageTranslations";
 		property testray.component.names = "Localization,Site Administration,Site Localization,Site Pages Administration";
@@ -95,7 +95,7 @@ definition {
 	}
 
 	@description = "LPS-76981 - When editing a Link to URL type page Cancel button will not redirect to the URL."
-	@priority = "4"
+	@priority = 4
 	test CancelEditLinkToURLPageNoRedirectToURL {
 		property custom.properties = "redirect.url.ips.allowed=";
 

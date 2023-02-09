@@ -4,17 +4,17 @@ definition {
 		LexiconEntry.gotoAdd();
 
 		OAuth2.inputApplicationValues(
-			applicationName = "${applicationName}",
-			callbackURI = "${callbackURI}",
-			checkboxUncheckList = "${checkboxUncheckList}",
-			clientProfile = "${clientProfile}",
-			description = "${description}",
-			privacyPolicyURL = "${privacyPolicyURL}",
-			websiteURL = "${websiteURL}");
+			applicationName = ${applicationName},
+			callbackURI = ${callbackURI},
+			checkboxUncheckList = ${checkboxUncheckList},
+			clientProfile = ${clientProfile},
+			description = ${description},
+			privacyPolicyURL = ${privacyPolicyURL},
+			websiteURL = ${websiteURL});
 
 		AssertTextEquals(
 			locator1 = "Portlet#HEADER",
-			value1 = "${applicationName}");
+			value1 = ${applicationName});
 	}
 
 	macro addPrefixHandlerInSystemSettings {
@@ -32,23 +32,23 @@ definition {
 
 		FormFields.editTextMultiline(
 			fieldName = "osgi.jaxrs.name",
-			fieldValue = "${osgiJaxrsName}");
+			fieldValue = ${osgiJaxrsName});
 
-		if ("${symbolicName}" == "false") {
+		if (${symbolicName} == "false") {
 			FormFields.disableCheckbox(fieldName = "Include Bundle Symbolic Name");
 		}
 
 		FormFields.editTextMultiline(
 			fieldName = "excluded.scopes",
-			fieldValue = "${excludedScopesName}");
+			fieldValue = ${excludedScopesName});
 
 		FormFields.editTextMultiline(
 			fieldName = "service.properties",
-			fieldValue = "${serviceProperties}");
+			fieldValue = ${serviceProperties});
 
 		FormFields.editTextMultiline(
 			fieldName = "separator",
-			fieldValue = "${separator}");
+			fieldValue = ${separator});
 
 		PortletEntry.save();
 	}
@@ -56,46 +56,46 @@ definition {
 	macro deleteApplication {
 		LexiconEntry.gotoEntryMenuItemNoError(
 			menuItem = "Delete",
-			rowEntry = "${applicationName}");
+			rowEntry = ${applicationName});
 
 		AssertConfirm.assertPartialConfirmation(value1 = "Are you sure you want to delete the application?");
 
 		AssertElementNotPresent(
-			key_tableName = "${applicationName}",
+			key_tableName = ${applicationName},
 			locator1 = "OAuth2#ADMIN_TABLE_APP_NAME");
 	}
 
 	macro editApplication {
 		LexiconEntry.gotoEntryMenuItem(
 			menuItem = "Edit",
-			rowEntry = "${applicationName}");
+			rowEntry = ${applicationName});
 
 		var newGeneratedClientSecret = OAuth2.inputApplicationValues(
-			applicationName = "${newApplicationName}",
-			callbackURI = "${callbackURI}",
-			checkboxCheckList = "${checkboxCheckList}",
-			checkboxUncheckList = "${checkboxUncheckList}",
-			clientId = "${clientId}",
-			clientProfile = "${clientProfile}",
-			clientSecret = "${clientSecret}",
-			description = "${description}",
-			generateNewSecret = "${generateNewSecret}",
-			privacyPolicyURL = "${privacyPolicyURL}",
-			websiteURL = "${websiteURL}");
+			applicationName = ${newApplicationName},
+			callbackURI = ${callbackURI},
+			checkboxCheckList = ${checkboxCheckList},
+			checkboxUncheckList = ${checkboxUncheckList},
+			clientId = ${clientId},
+			clientProfile = ${clientProfile},
+			clientSecret = ${clientSecret},
+			description = ${description},
+			generateNewSecret = ${generateNewSecret},
+			privacyPolicyURL = ${privacyPolicyURL},
+			websiteURL = ${websiteURL});
 
 		if (isSet(newApplicationName)) {
 			AssertTextEquals(
 				locator1 = "Portlet#HEADER",
-				value1 = "${newApplicationName}");
+				value1 = ${newApplicationName});
 		}
 
-		return "${newGeneratedClientSecret}";
+		return ${newGeneratedClientSecret};
 	}
 
 	macro editScopes {
 		LexiconEntry.gotoEntryMenuItem(
 			menuItem = "Edit",
-			rowEntry = "${applicationName}");
+			rowEntry = ${applicationName});
 
 		AssertClick(
 			key_navItem = "Scopes",
@@ -111,13 +111,13 @@ definition {
 
 			if (isSet(checkGlobalScope)) {
 				Check(
-					key_scopeName = "${checkGlobalScope}",
+					key_scopeName = ${checkGlobalScope},
 					locator1 = "OAuth2#ADMIN_GLOBAL_SCOPE_CHECKBOX");
 			}
 
 			if (isSet(uncheckGlobalScope)) {
 				Uncheck(
-					key_scopeName = "${uncheckGlobalScope}",
+					key_scopeName = ${uncheckGlobalScope},
 					locator1 = "OAuth2#ADMIN_GLOBAL_SCOPE_CHECKBOX");
 			}
 		}
@@ -127,19 +127,19 @@ definition {
 				Navigator.gotoNavUnderline(navUnderline = "Resource scopes");
 			}
 
-			for (var resourcePanel : list "${resourcePanels}") {
-				OAuth2.expandResourcePanel(resourcePanel = "${resourcePanel}");
+			for (var resourcePanel : list ${resourcePanels}) {
+				OAuth2.expandResourcePanel(resourcePanel = ${resourcePanel});
 			}
 
 			if (isSet(checkGlobalScopesViaModal)) {
 				AssertClick.assertPartialTextClickAt(
-					key_scopeText = "${modalLinkScope}",
+					key_scopeText = ${modalLinkScope},
 					locator1 = "OAuth2#ADMIN_MODAL_GLOBAL_SCOPE_LINK",
 					value1 = "assigned via a global scope");
 
-				for (var scopeName : list "${checkGlobalScopesViaModal}") {
+				for (var scopeName : list ${checkGlobalScopesViaModal}) {
 					Check(
-						key_scopeName = "${scopeName}",
+						key_scopeName = ${scopeName},
 						locator1 = "OAuth2#ADMIN_MODAL_GLOBAL_SCOPE_CHECKBOX");
 				}
 
@@ -147,27 +147,27 @@ definition {
 			}
 
 			if (isSet(resourceCheckList)) {
-				for (var scopeName : list "${resourceCheckList}") {
+				for (var scopeName : list ${resourceCheckList}) {
 					Check(
-						key_scopeName = "${scopeName}",
+						key_scopeName = ${scopeName},
 						locator1 = "OAuth2#ADMIN_RESOURCE_SCOPE_CHECKBOX");
 				}
 			}
 
 			if (isSet(resourceUncheckList)) {
-				for (var scopeName : list "${resourceUncheckList}") {
+				for (var scopeName : list ${resourceUncheckList}) {
 					Uncheck(
-						key_scopeName = "${scopeName}",
+						key_scopeName = ${scopeName},
 						locator1 = "OAuth2#ADMIN_RESOURCE_SCOPE_CHECKBOX");
 				}
 			}
 
-			if ("${uncheckAllResourceScopes}" == "true") {
-				var count = "1";
+			if (${uncheckAllResourceScopes} == "true") {
+				var count = 1;
 
-				while (IsElementPresent(key_matchCount = "${count}", locator1 = "OAuth2#ADMIN_RESOURCE_SCOPE_CHECKED")) {
+				while (IsElementPresent(key_matchCount = ${count}, locator1 = "OAuth2#ADMIN_RESOURCE_SCOPE_CHECKED")) {
 					Uncheck(
-						key_matchCount = "${count}",
+						key_matchCount = ${count},
 						locator1 = "OAuth2#ADMIN_RESOURCE_SCOPE_CHECKED");
 
 					var count = ${count} + 1;
@@ -181,7 +181,7 @@ definition {
 	}
 
 	macro expandGlobalPanel {
-		var key_panel = "${globalPanel}";
+		var key_panel = ${globalPanel};
 
 		if ((IsElementPresent(locator1 = "OAuth2#ADMIN_GLOBAL_PANEL_COLLAPSED")) && (IsVisible(locator1 = "OAuth2#ADMIN_GLOBAL_PANEL_COLLAPSED"))) {
 			Click(locator1 = "OAuth2#ADMIN_GLOBAL_PANEL_COLLAPSED");
@@ -191,7 +191,7 @@ definition {
 	}
 
 	macro expandResourcePanel {
-		var key_panel = "${resourcePanel}";
+		var key_panel = ${resourcePanel};
 
 		if ((IsElementPresent(locator1 = "OAuth2#ADMIN_RESOURCE_PANEL_COLLAPSED")) && (IsVisible(locator1 = "OAuth2#ADMIN_RESOURCE_PANEL_COLLAPSED"))) {
 			Click(locator1 = "OAuth2#ADMIN_RESOURCE_PANEL_COLLAPSED");
@@ -203,22 +203,22 @@ definition {
 	macro getAccessToken {
 		var portalURL = PropsUtil.get("portal.url");
 
-		if ("${grantFlow}" == "clientCredentials") {
+		if (${grantFlow} == "clientCredentials") {
 			var tokenCurl = '''
 				${portalURL}/o/oauth2/token \
 					--data grant_type=client_credentials&client_id=${clientId}&client_secret=${clientSecret}
 			''';
 		}
 
-		var response = JSONCurlUtil.post("${tokenCurl}");
+		var response = JSONCurlUtil.post(${tokenCurl});
 
-		var partialResponse = StringUtil.extractFirst("${response}", "\",\"token_type");
+		var partialResponse = StringUtil.extractFirst(${response}, "\",\"token_type");
 
-		var accessToken = StringUtil.extractLast("${partialResponse}", "access_token\":\"");
+		var accessToken = StringUtil.extractLast(${partialResponse}, "access_token\":\"");
 
 		echo("## * Access Token: ${accessToken}");
 
-		return "${accessToken}";
+		return ${accessToken};
 	}
 
 	macro getAuthorizationCode {
@@ -229,19 +229,19 @@ definition {
 
 		Button.click(button = "Authorize");
 
-		Pause(locator1 = "5000");
+		Pause(locator1 = 5000);
 
 		var currentURL = selenium.getCurrentUrl();
 
 		echo("## * Current URL: ${currentURL}");
 
-		return "${currentURL}";
+		return ${currentURL};
 
-		var authorizationCode = StringUtil.extractLast("${currentURL}", "code=");
+		var authorizationCode = StringUtil.extractLast(${currentURL}, "code=");
 
 		echo("## * Authorization Code: ${authorizationCode}");
 
-		return "${authorizationCode}";
+		return ${authorizationCode};
 	}
 
 	macro inputApplicationValues {
@@ -252,7 +252,7 @@ definition {
 
 			Type(
 				locator1 = "OAuth2#ADMIN_INPUT_FORM_CLIENT_ID_EDIT_FIELD",
-				value1 = "${clientId}");
+				value1 = ${clientId});
 
 			Button.clickApply();
 		}
@@ -260,7 +260,7 @@ definition {
 		if (isSet(clientSecret) || isSet(generateNewSecret)) {
 			Click(locator1 = "OAuth2#ADMIN_INPUT_FORM_CLIENT_SECRET_EDIT_BUTTON");
 
-			if ("${generateNewSecret}" == "true") {
+			if (${generateNewSecret} == "true") {
 				Click(locator1 = "OAuth2#ADMIN_INPUT_FORM_GENERATE_NEW_SECRET");
 
 				var newGeneratedClientSecret = selenium.getElementValue("OAuth2#ADMIN_INPUT_FORM_CLIENT_SECRET_EDIT_FIELD");
@@ -270,7 +270,7 @@ definition {
 
 				Type(
 					locator1 = "OAuth2#ADMIN_INPUT_FORM_CLIENT_SECRET_EDIT_FIELD",
-					value1 = "${clientSecret}");
+					value1 = ${clientSecret});
 			}
 
 			Button.clickApply();
@@ -278,53 +278,53 @@ definition {
 
 		// All macros that require return must have return statement that's called.
 
-		return "${newGeneratedClientSecret}";
+		return ${newGeneratedClientSecret};
 
 		if (isSet(applicationName)) {
-			PortletEntry.inputName(name = "${applicationName}");
+			PortletEntry.inputName(name = ${applicationName});
 		}
 
 		if (isSet(websiteURL)) {
 			PortletEntry.inputText(
 				fieldLabel = "Website URL",
-				text = "${websiteURL}");
+				text = ${websiteURL});
 		}
 
 		if (isSet(description)) {
-			PortletEntry.inputDescription(description = "${description}");
+			PortletEntry.inputDescription(description = ${description});
 		}
 
 		if (isSet(callbackURI)) {
 			PortletEntry.inputTextArea(
 				fieldId = "redirectURIs",
-				text = "${callbackURI}");
+				text = ${callbackURI});
 		}
 
 		if (isSet(privacyPolicyURL)) {
 			PortletEntry.inputText(
 				fieldLabel = "Privacy Policy URL",
-				text = "${privacyPolicyURL}");
+				text = ${privacyPolicyURL});
 		}
 
 		if (isSet(clientProfile)) {
 			Select(
 				key_fieldLabel = "Client Profile",
 				locator1 = "Select#GENERIC_SELECT_FIELD",
-				value1 = "${clientProfile}");
+				value1 = ${clientProfile});
 		}
 
 		if (isSet(checkboxCheckList)) {
-			for (var checkboxName : list "${checkboxCheckList}") {
+			for (var checkboxName : list ${checkboxCheckList}) {
 				Check(
-					key_checkboxName = "${checkboxName}",
+					key_checkboxName = ${checkboxName},
 					locator1 = "OAuth2#ADMIN_INPUT_FORM_CHECKBOX");
 			}
 		}
 
 		if (isSet(checkboxUncheckList)) {
-			for (var checkboxName : list "${checkboxUncheckList}") {
+			for (var checkboxName : list ${checkboxUncheckList}) {
 				Uncheck(
-					key_checkboxName = "${checkboxName}",
+					key_checkboxName = ${checkboxName},
 					locator1 = "OAuth2#ADMIN_INPUT_FORM_CHECKBOX");
 			}
 		}
@@ -336,12 +336,12 @@ definition {
 
 			SelectFrame(locator1 = "IFrame#DIALOG");
 
-			Pause(locator1 = "3000");
+			Pause(locator1 = 3000);
 
 			Click(
-				key_clientCredentialsUser = "${clientCredentialsUser}",
+				key_clientCredentialsUser = ${clientCredentialsUser},
 				locator1 = "OAuth2#ADMIN_CLIENT_CREDENTIALS_USER_SELECTED",
-				value1 = "${clientCredentialsUser}");
+				value1 = ${clientCredentialsUser});
 
 			SelectFrame(value1 = "relative=top");
 		}
@@ -352,7 +352,7 @@ definition {
 	macro revokeGrantedAuthViaAdmin {
 		LexiconEntry.gotoEntryMenuItem(
 			menuItem = "Edit",
-			rowEntry = "${applicationName}");
+			rowEntry = ${applicationName});
 
 		AssertClick(
 			key_navItem = "Authorizations",
@@ -364,7 +364,7 @@ definition {
 			locator1 = "NavBar#ACTIVE_NAV_ITEM_LINK");
 
 		AssertClickNoError(
-			key_rowEntry = "${userName}",
+			key_rowEntry = ${userName},
 			locator1 = "OAuth2#ADMIN_AUTHORIZATIONS_REVOKE_BUTTON",
 			value1 = "Revoke");
 
@@ -373,7 +373,7 @@ definition {
 		Alert.viewSuccessMessage();
 
 		AssertElementNotPresent(
-			key_userName = "${userName}",
+			key_userName = ${userName},
 			locator1 = "OAuth2#ADMIN_AUTHORIZATIONS_USER_NAME");
 
 		Navigator.gotoBack();
@@ -384,7 +384,7 @@ definition {
 
 		LexiconEntry.gotoEntryMenuItem(
 			menuItem = "View",
-			rowEntry = "${applicationName}");
+			rowEntry = ${applicationName});
 
 		AssertClickNoError(
 			locator1 = "OAuth2#USER_CONNECTED_APP_REMOVE_ACCESS_BUTTON",
@@ -398,64 +398,64 @@ definition {
 	macro viewApplication {
 		LexiconEntry.gotoEntryMenuItem(
 			menuItem = "Edit",
-			rowEntry = "${applicationName}");
+			rowEntry = ${applicationName});
 
 		if (isSet(clientId)) {
 			AssertTextEquals(
 				locator1 = "OAuth2#ADMIN_INPUT_FORM_CLIENT_ID",
-				value1 = "${clientId}");
+				value1 = ${clientId});
 		}
 
 		if (isSet(clientSecret)) {
 			AssertTextEquals(
 				locator1 = "OAuth2#ADMIN_INPUT_FORM_CLIENT_SECRET",
-				value1 = "${clientSecret}");
+				value1 = ${clientSecret});
 		}
 
 		if (isSet(applicationName)) {
 			AssertTextEquals(
 				locator1 = "TextInput#NAME",
-				value1 = "${applicationName}");
+				value1 = ${applicationName});
 		}
 
 		if (isSet(websiteURL)) {
 			AssertTextEquals(
 				key_fieldLabel = "Website URL",
 				locator1 = "TextInput#GENERIC_TEXT_INPUT",
-				value1 = "${websiteURL}");
+				value1 = ${websiteURL});
 		}
 
 		if (isSet(description)) {
 			AssertTextEquals(
 				locator1 = "TextArea#DESCRIPTION",
-				value1 = "${description}");
+				value1 = ${description});
 		}
 
 		if (isSet(privacyPolicyURL)) {
 			AssertTextEquals(
 				key_fieldLabel = "Privacy Policy URL",
 				locator1 = "TextInput#GENERIC_TEXT_INPUT",
-				value1 = "${privacyPolicyURL}");
+				value1 = ${privacyPolicyURL});
 		}
 
 		if (isSet(callbackURI)) {
 			AssertTextEquals.assertPartialText(
 				key_text = "redirectURIs",
 				locator1 = "TextArea#ANY",
-				value1 = "${callbackURI}");
+				value1 = ${callbackURI});
 		}
 
 		if (isSet(clientProfile)) {
 			AssertSelectedLabel(
 				key_fieldLabel = "Client Profile",
 				locator1 = "Select#GENERIC_SELECT_FIELD",
-				value1 = "${clientProfile}");
+				value1 = ${clientProfile});
 		}
 
 		if (isSet(checkboxCheckList)) {
-			for (var checkboxName : list "${checkboxCheckList}") {
+			for (var checkboxName : list ${checkboxCheckList}) {
 				AssertChecked(
-					key_checkboxName = "${checkboxName}",
+					key_checkboxName = ${checkboxName},
 					locator1 = "OAuth2#ADMIN_INPUT_FORM_CHECKBOX");
 			}
 		}
@@ -465,26 +465,26 @@ definition {
 
 	macro viewApplicationInTable {
 		AssertElementPresent(
-			key_tableName = "${applicationName}",
+			key_tableName = ${applicationName},
 			locator1 = "OAuth2#ADMIN_TABLE_APP_NAME");
 
 		AssertTextEquals(
-			key_tableName = "${applicationName}",
+			key_tableName = ${applicationName},
 			locator1 = "OAuth2#ADMIN_TABLE_APP_DESCRIPTION",
-			value1 = "${description}");
+			value1 = ${description});
 
 		if (isSet(clientId)) {
 			AssertTextEquals(
-				key_tableName = "${applicationName}",
+				key_tableName = ${applicationName},
 				locator1 = "OAuth2#ADMIN_TABLE_APP_CLIENT_ID",
-				value1 = "${clientId}");
+				value1 = ${clientId});
 		}
 	}
 
 	macro viewGrantedAuthViaAdmin {
 		LexiconEntry.gotoEntryMenuItem(
 			menuItem = "Edit",
-			rowEntry = "${applicationName}");
+			rowEntry = ${applicationName});
 
 		AssertClick(
 			key_navItem = "Authorizations",
@@ -495,14 +495,14 @@ definition {
 			key_navItem = "Authorizations",
 			locator1 = "NavBar#ACTIVE_NAV_ITEM_LINK");
 
-		if ("${noAuthorizations}" == "true") {
+		if (${noAuthorizations} == "true") {
 			AssertTextEquals(
 				locator1 = "Message#EMPTY_INFO",
 				value1 = "No authorizations were found.");
 		}
 		else {
 			AssertElementPresent(
-				key_userName = "${userName}",
+				key_userName = ${userName},
 				locator1 = "OAuth2#ADMIN_AUTHORIZATIONS_USER_NAME");
 		}
 
@@ -512,40 +512,40 @@ definition {
 	macro viewGrantedAuthViaUser {
 		UserBar.gotoDropdownItem(dropdownItem = "My Connected Applications");
 
-		if ("${noAuthorizations}" == "true") {
+		if (${noAuthorizations} == "true") {
 			AssertTextEquals(
 				locator1 = "Message#EMPTY_INFO",
 				value1 = "No connected applications were found.");
 		}
 		else {
 			AssertElementPresent(
-				key_appName = "${applicationName}",
+				key_appName = ${applicationName},
 				locator1 = "OAuth2#USER_CONNECTED_APP_TABLE_NAME");
 
 			LexiconEntry.gotoEntryMenuItem(
 				menuItem = "View",
-				rowEntry = "${applicationName}");
+				rowEntry = ${applicationName});
 
 			AssertTextEquals(
 				locator1 = "OAuth2#USER_CONNECTED_APP_VIEW_NAME",
-				value1 = "${applicationName}");
+				value1 = ${applicationName});
 		}
 	}
 
 	macro viewScopeAliases {
 		LexiconEntry.gotoEntryMenuItem(
 			menuItem = "Edit",
-			rowEntry = "${applicationName}");
+			rowEntry = ${applicationName});
 
 		Navigator.gotoNavItem(navItem = "Scopes");
 
-		for (var resourcePanel : list "${resourcePanels}") {
-			OAuth2.expandResourcePanel(resourcePanel = "${resourcePanel}");
+		for (var resourcePanel : list ${resourcePanels}) {
+			OAuth2.expandResourcePanel(resourcePanel = ${resourcePanel});
 		}
 
-		for (var scopeAlias : list "${scopeAliasList}") {
+		for (var scopeAlias : list ${scopeAliasList}) {
 			AssertElementPresent(
-				key_scopeAlias = "${scopeAlias}",
+				key_scopeAlias = ${scopeAlias},
 				locator1 = "OAuth2#ADMIN_RESOURCE_SCOPE_ALIAS");
 		}
 	}
@@ -553,44 +553,44 @@ definition {
 	macro viewScopeMappings {
 		LexiconEntry.gotoEntryMenuItem(
 			menuItem = "Edit",
-			rowEntry = "${applicationName}");
+			rowEntry = ${applicationName});
 
 		Navigator.gotoNavItem(navItem = "Scopes");
 
-		for (var resourcePanel : list "${resourcePanels}") {
-			OAuth2.expandResourcePanel(resourcePanel = "${resourcePanel}");
+		for (var resourcePanel : list ${resourcePanels}) {
+			OAuth2.expandResourcePanel(resourcePanel = ${resourcePanel});
 		}
 
 		if (isSet(scopeTranslation)) {
 			AssertTextEquals(
-				key_resourcePanel = "${resourcePanel}",
+				key_resourcePanel = ${resourcePanel},
 				locator1 = "OAuth2#ADMIN_RESOURCE_SCOPE_TRANSLATION",
-				value1 = "${scopeTranslation}");
+				value1 = ${scopeTranslation});
 		}
 
 		if (isSet(globalScopeLinkValue)) {
-			if (contains("${scopeTranslation}", "+")) {
-				var partialScopeTranslation = StringUtil.extractFirst("${scopeTranslation}", "+");
+			if (contains(${scopeTranslation}, "+")) {
+				var partialScopeTranslation = StringUtil.extractFirst(${scopeTranslation}, "+");
 
-				var partialScopeTranslation = StringUtil.trim("${partialScopeTranslation}");
+				var partialScopeTranslation = StringUtil.trim(${partialScopeTranslation});
 
-				var key_scopeText = "${partialScopeTranslation}";
+				var key_scopeText = ${partialScopeTranslation};
 			}
 			else {
-				var key_scopeText = "${scopeTranslation}";
+				var key_scopeText = ${scopeTranslation};
 			}
 
 			AssertTextEquals(
-				key_scopeText = "${key_scopeText}",
+				key_scopeText = ${key_scopeText},
 				locator1 = "OAuth2#ADMIN_MODAL_GLOBAL_SCOPE_LINK",
-				value1 = "${globalScopeLinkValue}");
+				value1 = ${globalScopeLinkValue});
 		}
 	}
 
 	macro viewScopes {
 		LexiconEntry.gotoEntryMenuItem(
 			menuItem = "Edit",
-			rowEntry = "${applicationName}");
+			rowEntry = ${applicationName});
 
 		AssertClick(
 			key_navItem = "Scopes",
@@ -606,13 +606,13 @@ definition {
 
 			if (isSet(checkedGlobalScope)) {
 				AssertChecked(
-					key_scopeName = "${checkedGlobalScope}",
+					key_scopeName = ${checkedGlobalScope},
 					locator1 = "OAuth2#ADMIN_GLOBAL_SCOPE_CHECKBOX");
 			}
 
 			if (isSet(uncheckedGlobalScope)) {
 				AssertNotChecked(
-					key_scopeName = "${uncheckedGlobalScope}",
+					key_scopeName = ${uncheckedGlobalScope},
 					locator1 = "OAuth2#ADMIN_GLOBAL_SCOPE_CHECKBOX");
 			}
 		}
@@ -622,41 +622,41 @@ definition {
 				Navigator.gotoNavUnderline(navUnderline = "Resource scopes");
 			}
 
-			for (var resourcePanel : list "${resourcePanels}") {
-				OAuth2.expandResourcePanel(resourcePanel = "${resourcePanel}");
+			for (var resourcePanel : list ${resourcePanels}) {
+				OAuth2.expandResourcePanel(resourcePanel = ${resourcePanel});
 			}
 
 			if (isSet(resourceCheckedList)) {
-				for (var scopeName : list "${resourceCheckedList}") {
+				for (var scopeName : list ${resourceCheckedList}) {
 					AssertChecked(
-						key_scopeName = "${scopeName}",
+						key_scopeName = ${scopeName},
 						locator1 = "OAuth2#ADMIN_RESOURCE_SCOPE_CHECKBOX");
 				}
 			}
 
 			if (isSet(resourceUncheckedList)) {
-				for (var scopeName : list "${resourceUncheckedList}") {
+				for (var scopeName : list ${resourceUncheckedList}) {
 					AssertNotChecked(
-						key_scopeName = "${scopeName}",
+						key_scopeName = ${scopeName},
 						locator1 = "OAuth2#ADMIN_RESOURCE_SCOPE_CHECKBOX");
 				}
 			}
 
-			if ("${allResourceScopesUnchecked}" == "true") {
+			if (${allResourceScopesUnchecked} == "true") {
 				AssertElementNotPresent(
-					key_matchCount = "1",
+					key_matchCount = 1,
 					locator1 = "OAuth2#ADMIN_RESOURCE_SCOPE_CHECKED");
 			}
 
 			if (isSet(checkedGlobalScopesViaModal)) {
 				AssertClick.assertPartialTextClickAt(
-					key_scopeText = "${modalLinkScope}",
+					key_scopeText = ${modalLinkScope},
 					locator1 = "OAuth2#ADMIN_MODAL_GLOBAL_SCOPE_LINK",
 					value1 = "assigned via a global scope");
 
-				for (var scopeName : list "${checkedGlobalScopesViaModal}") {
+				for (var scopeName : list ${checkedGlobalScopesViaModal}) {
 					AssertChecked(
-						key_scopeName = "${scopeName}",
+						key_scopeName = ${scopeName},
 						locator1 = "OAuth2#ADMIN_MODAL_GLOBAL_SCOPE_CHECKBOX");
 				}
 
@@ -665,7 +665,7 @@ definition {
 
 			if (isSet(removedScope)) {
 				AssertElementPresent(
-					key_scopeName = "${removedScope}",
+					key_scopeName = ${removedScope},
 					locator1 = "OAuth2#ADMIN_RESOURCE_SCOPE_REMOVED");
 			}
 		}

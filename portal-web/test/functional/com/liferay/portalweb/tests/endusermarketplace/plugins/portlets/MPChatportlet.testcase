@@ -18,7 +18,7 @@ definition {
 		Page.tearDownCP();
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ChatPortletSmoke {
 		property portlet.plugins.includes = "chat-portlet";
 
@@ -29,21 +29,21 @@ definition {
 			panel = "Control Panel",
 			portlet = "App Manager");
 
-		AppManager.deactivateAppCP(appName = "${appName}");
+		AppManager.deactivateAppCP(appName = ${appName});
 
 		ProductMenu.gotoPortlet(
 			category = "Apps",
 			panel = "Control Panel",
 			portlet = "App Manager");
 
-		AppManager.uninstallAppCP(appName = "${appName}");
+		AppManager.uninstallAppCP(appName = ${appName});
 
 		ProductMenu.gotoPortlet(
 			category = "Apps",
 			panel = "Control Panel",
 			portlet = "App Manager");
 
-		AppManager.viewUninstallAppCP(appName = "${appName}");
+		AppManager.viewUninstallAppCP(appName = ${appName});
 	}
 
 }

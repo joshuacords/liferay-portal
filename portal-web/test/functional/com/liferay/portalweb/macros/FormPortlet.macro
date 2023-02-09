@@ -6,7 +6,7 @@ definition {
 		Click(locator1 = "FormPortlet#LOCALIZATION_BUTTON");
 
 		Click(
-			key_locale = "${locale}",
+			key_locale = ${locale},
 			locator1 = "FormPortlet#LOCALIZATION_OPTION");
 	}
 
@@ -27,17 +27,17 @@ definition {
 			locator1 = "Button#NEXT",
 			value1 = "Next");
 
-		var key_formPageName = "${formPageCurrent}";
+		var key_formPageName = ${formPageCurrent};
 
 		AssertTextEquals(
 			locator1 = "FormPortlet#FORM_PAGE_INACTIVE",
-			value1 = "${formPageCurrent}");
+			value1 = ${formPageCurrent});
 
-		var key_formPageName = "${formPageNext}";
+		var key_formPageName = ${formPageNext};
 
 		AssertTextEquals(
 			locator1 = "FormPortlet#FORM_PAGE_ACTIVE",
-			value1 = "${formPageNext}");
+			value1 = ${formPageNext});
 	}
 
 	macro previousPage {
@@ -56,13 +56,13 @@ definition {
 
 		FormPortlet.clickSubmit();
 
-		Pause(locator1 = "5000");
+		Pause(locator1 = 5000);
 	}
 
 	macro submitLocalizedSuccessfully {
 		AssertClick(
 			locator1 = "Button#MAIN_CONTENT_SUBMIT",
-			value1 = "${buttonName}");
+			value1 = ${buttonName});
 
 		Alert.viewSuccessMessage();
 	}
@@ -76,7 +76,7 @@ definition {
 	macro submitWithError {
 		FormPortlet.submit();
 
-		Alert.viewErrorMessage(errorMessage = "${errorMessage}");
+		Alert.viewErrorMessage(errorMessage = ${errorMessage});
 	}
 
 	macro submitWithValidationError {
@@ -84,29 +84,29 @@ definition {
 
 		AssertTextEquals(
 			locator1 = "Message#ERROR_FORM_FIELD_REQUIRED",
-			value1 = "${validationErrorMessage}");
+			value1 = ${validationErrorMessage});
 	}
 
 	macro viewSuccessPage {
-		var key_successPageTitle = "${successPageTitle}";
+		var key_successPageTitle = ${successPageTitle};
 
 		AssertTextEquals(
 			locator1 = "FormPortlet#SUCCESS_PAGE_TITLE",
-			value1 = "${successPageTitle}");
+			value1 = ${successPageTitle});
 
-		var key_successPageDescription = "${successPageDescription}";
+		var key_successPageDescription = ${successPageDescription};
 
 		AssertTextEquals(
 			locator1 = "FormPortlet#SUCCESS_PAGE_DESCRIPTION",
-			value1 = "${successPageDescription}");
+			value1 = ${successPageDescription});
 	}
 
 	macro waitFormRenderer {
-		var key_text = "${text}";
+		var key_text = ${text};
 
 		WaitForElementPresent(locator1 = "Button#ANY_ENABLED");
 
-		Pause(locator1 = "2500");
+		Pause(locator1 = 2500);
 	}
 
 }

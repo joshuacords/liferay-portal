@@ -65,7 +65,7 @@ definition {
 
 		ACUtils.tearDownDXP();
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -74,17 +74,17 @@ definition {
 	}
 
 	@description = "Feature ID: LRAC-7858 | Automation ID: LRAC-10213 | Test Summary: Global attributes data shows sample data and last accessed"
-	@priority = "5"
+	@priority = 5
 	test AssertSampleDataAndLastAccessInGlobalAttributes {
 		var globalAttributeName = "pageTitle";
-		var dataSource = StringUtil.extractFirst("${assignedPropertyName}", " ");
+		var dataSource = StringUtil.extractFirst(${assignedPropertyName}, " ");
 
 		task ("Fill fields and create custom event") {
 			var customEventName = ACCustomEvents.generateCustomEventName();
 
 			ACCustomEvents.createCustomEvent(
-				customEventName = "${customEventName}",
-				timeToSendCustomEvent = "1");
+				customEventName = ${customEventName},
+				timeToSendCustomEvent = 1);
 		}
 
 		task ("Close sessions") {
@@ -94,7 +94,7 @@ definition {
 		task ("Switch the property in AC") {
 			ACUtils.launchAC();
 
-			ACProperties.switchProperty(propertyName = "${assignedPropertyName}");
+			ACProperties.switchProperty(propertyName = ${assignedPropertyName});
 		}
 
 		task ("Navigation to global attributes tab") {
@@ -108,19 +108,19 @@ definition {
 		}
 
 		task ("Select a global attribute") {
-			ACUtils.searchBar(searchItem = "${globalAttributeName}");
+			ACUtils.searchBar(searchItem = ${globalAttributeName});
 
-			var sampleRawDataValue = ACCustomEvents.getSampleRawData(attributeName = "${globalAttributeName}");
+			var sampleRawDataValue = ACCustomEvents.getSampleRawData(attributeName = ${globalAttributeName});
 
-			ACNavigation.openItem(itemName = "${globalAttributeName}");
+			ACNavigation.openItem(itemName = ${globalAttributeName});
 		}
 
 		task ("View the sample data") {
-			ACCustomEvents.viewDataAttribute(attributeValueList = "${sampleRawDataValue}");
+			ACCustomEvents.viewDataAttribute(attributeValueList = ${sampleRawDataValue});
 
 			ACCustomEvents.viewDataAttributeInOrder(
 				attributeValue = "AC Page - Site Name - ${dataSource}",
-				index = "1");
+				index = 1);
 		}
 	}
 

@@ -2,13 +2,13 @@ definition {
 
 	macro addContent {
 		AlloyEditor.typeEditor(
-			content = "${content}",
+			content = ${content},
 			editor = "content");
 	}
 
 	macro addDescription {
 		AlloyEditor.typeEditor(
-			content = "${description}",
+			content = ${description},
 			editor = "description");
 	}
 
@@ -21,7 +21,7 @@ definition {
 
 		Type(
 			locator1 = "AlloyEditor#TEXT_FORMATTING_LINK_INPUT",
-			value1 = "${entryExternalURL}");
+			value1 = ${entryExternalURL});
 
 		Click(locator1 = "AlloyEditor#TEXT_FORMATTING_LINK_INPUT_CONFIRM");
 	}
@@ -33,19 +33,19 @@ definition {
 
 		Type.typeAceEditor(
 			locator1 = "TextArea#ACE_EDITOR",
-			value1 = "${content}");
+			value1 = ${content});
 	}
 
 	macro addTitle {
 		AlloyEditor.typeEditor(
-			content = "${title}",
+			content = ${title},
 			editor = "title");
 	}
 
 	macro addTitleAndContent {
-		AlloyEditor.addTitle(title = "${title}");
+		AlloyEditor.addTitle(title = ${title});
 
-		AlloyEditor.addContent(content = "${content}");
+		AlloyEditor.addContent(content = ${content});
 	}
 
 	macro assertSourceContent {
@@ -82,9 +82,9 @@ definition {
 
 	macro typeEditor {
 		Type.typeEditor(
-			key_editor = "${editor}",
+			key_editor = ${editor},
 			locator1 = "AlloyEditor#EDITOR",
-			value1 = "${content}");
+			value1 = ${content});
 	}
 
 	macro viewNoStylingInAlloyEditor {
@@ -92,19 +92,19 @@ definition {
 
 		if (isSet(boldContent)) {
 			AssertElementNotPresent(
-				key_boldContent = "${boldContent}",
+				key_boldContent = ${boldContent},
 				locator1 = "AlloyEditor#CONTENT_FIELD_BOLD");
 		}
 
 		if (isSet(italicContent)) {
 			AssertElementNotPresent(
-				key_italicContent = "${italicContent}",
+				key_italicContent = ${italicContent},
 				locator1 = "AlloyEditor#CONTENT_FIELD_ITALIC");
 		}
 
 		if (isSet(underlineContent)) {
 			AssertElementNotPresent(
-				key_underlineContent = "${underlineContent}",
+				key_underlineContent = ${underlineContent},
 				locator1 = "AlloyEditor#CONTENT_FIELD_UNDERLINE");
 		}
 	}
@@ -114,19 +114,19 @@ definition {
 
 		if (isSet(boldContent)) {
 			AssertElementPresent(
-				key_boldContent = "${boldContent}",
+				key_boldContent = ${boldContent},
 				locator1 = "AlloyEditor#CONTENT_FIELD_BOLD");
 		}
 
 		if (isSet(italicContent)) {
 			AssertElementPresent(
-				key_italicContent = "${italicContent}",
+				key_italicContent = ${italicContent},
 				locator1 = "AlloyEditor#CONTENT_FIELD_ITALIC");
 		}
 
 		if (isSet(underlineContent)) {
 			AssertElementPresent(
-				key_underlineContent = "${underlineContent}",
+				key_underlineContent = ${underlineContent},
 				locator1 = "AlloyEditor#CONTENT_FIELD_UNDERLINE");
 		}
 	}

@@ -36,7 +36,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-74621."
-	@priority = "3"
+	@priority = 3
 	test CommentDMDocumentOnLiveSite {
 		Navigator.gotoStagedSitePage(
 			pageName = "Staging DM Page",
@@ -78,7 +78,7 @@ definition {
 		DMDocument.viewPG(dmDocumentTitle = "DM Document Title");
 
 		Comments.viewPG(
-			commentCount = "1",
+			commentCount = 1,
 			entryComment = "DM Document Comment",
 			userFullName = "Test Test (You)");
 
@@ -126,13 +126,13 @@ definition {
 		DMDocument.viewPG(dmDocumentTitle = "DM Document Title");
 
 		Comments.viewPG(
-			commentCount = "1",
+			commentCount = 1,
 			entryComment = "DM Document Comment",
 			userFullName = "Test Test (You)");
 	}
 
 	@description = "This is a use case for LPS-79925."
-	@priority = "5"
+	@priority = 5
 	test PublishDocumentFromRestrictedFolder {
 		DMNavigator.gotoDocumentType();
 
@@ -195,7 +195,7 @@ definition {
 	}
 
 	@description = "This test covers LPS-82539."
-	@priority = "5"
+	@priority = 5
 	test PublishFolderWithWorkflow {
 		DMFolder.addCP(
 			dmFolderDescription = "DM Folder Description",
@@ -249,7 +249,7 @@ definition {
 	}
 
 	@description = "This test covers LPS-82532. It ensures documents inside the subfolder that's being published to live are also published."
-	@priority = "5"
+	@priority = 5
 	test PublishSubfolderWithDocumentsViaSAP {
 		property test.name.skip.portal.instance = "StagingDM#PublishSubfolderWithDocumentsViaSAP";
 
@@ -334,7 +334,7 @@ definition {
 	}
 
 	@description = "This test covers LPS-99265. It ensures that a staged document file cannot be shared unless it is first published to Live."
-	@priority = "4"
+	@priority = 4
 	test ShareDMDocumentOnLiveSite {
 		property custom.properties = "jsonws.web.service.paths.excludes=";
 
@@ -400,7 +400,7 @@ definition {
 			password = "test",
 			userEmailAddress = "userea@liferay.com");
 
-		Notifications.viewBadgeCount(notificationCount = "1");
+		Notifications.viewBadgeCount(notificationCount = 1);
 
 		Notifications.gotoNotifications();
 
@@ -411,7 +411,7 @@ definition {
 	}
 
 	@description = "This test covers LPS-90557. It ensures that a basic document and a shortcut pointing to it can be removed and republished when enabling local staging."
-	@priority = "5"
+	@priority = 5
 	test ShortcutDisppearsAfterTargetDeletionIsPublished {
 		JSONDocument.addFileWithUploadedFile(
 			dmDocumentDescription = "DM Document Description",

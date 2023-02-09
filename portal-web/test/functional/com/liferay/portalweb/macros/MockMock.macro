@@ -15,26 +15,26 @@ definition {
 	}
 
 	macro _gotoMailMessage {
-		var key_columnEntry = "${asset}";
+		var key_columnEntry = ${asset};
 
 		if (isSet(recipient)) {
-			var key_recipient = "${recipient}";
+			var key_recipient = ${recipient};
 
 			AssertClick.assertPartialTextClickAt(
 				locator1 = "MockMock#MOCKMOCK_SPECIFIC_RECIPIENT_SUBJECT_FIELD_LINK",
-				value1 = "${asset}");
+				value1 = ${asset});
 		}
 		else {
 			AssertClick.assertPartialTextClickAt(
 				locator1 = "MockMock#MOCKMOCK_SUBJECT_FIELD_LINK",
-				value1 = "${asset}");
+				value1 = ${asset});
 		}
 	}
 
 	macro _viewMailFromInbox {
-		var key_columnEntry = "${asset}";
-		var key_recipient = "${recipient}";
-		var key_sender = "${sender}";
+		var key_columnEntry = ${asset};
+		var key_recipient = ${recipient};
+		var key_sender = ${sender};
 
 		AssertTextEquals.assertPartialText(
 			locator1 = "MockMock#MOCKMOCK_HAVE_EMAILS_MESSAGE",
@@ -42,94 +42,94 @@ definition {
 
 		AssertTextEquals.assertPartialText(
 			locator1 = "MockMock#MOCKMOCK_FROM_FIELD",
-			value1 = "${sender}");
+			value1 = ${sender});
 
 		AssertTextEquals.assertPartialText(
 			locator1 = "MockMock#MOCKMOCK_TO_FIELD",
-			value1 = "${recipient}");
+			value1 = ${recipient});
 
 		AssertTextEquals.assertPartialText(
 			locator1 = "MockMock#MOCKMOCK_SUBJECT_FIELD",
-			value1 = "${asset}");
+			value1 = ${asset});
 	}
 
 	macro _viewMailMessage {
-		var key_asset = "${subject}";
+		var key_asset = ${subject};
 
 		AssertTextEquals.assertPartialText(
 			locator1 = "MockMock#MOCKMOCK_MESSAGE_BODY",
-			value1 = "${subject}");
+			value1 = ${subject});
 
 		AssertTextEquals.assertPartialText(
 			locator1 = "MockMock#MOCKMOCK_MESSAGE_BODY",
-			value1 = "${content}");
+			value1 = ${content});
 	}
 
 	macro clickBodyLink {
-		MockMock._gotoMailMessage(asset = "${asset}");
+		MockMock._gotoMailMessage(asset = ${asset});
 
-		var key_bodyLink = "${bodyLink}";
+		var key_bodyLink = ${bodyLink};
 
 		AssertClick(
 			locator1 = "MockMock#MOCKMOCK_HTML_BODY_LINK",
-			value1 = "${bodyLink}");
+			value1 = ${bodyLink});
 	}
 
 	macro openBodyLink {
-		var key_asset = "${asset}";
+		var key_asset = ${asset};
 
 		MockMock._gotoMail();
 
-		MockMock._gotoMailMessage(asset = "${asset}");
+		MockMock._gotoMailMessage(asset = ${asset});
 
 		MockMock._viewMailMessage(
-			content = "${content}",
-			subject = "${subject}");
+			content = ${content},
+			subject = ${subject});
 
 		var bodyContent = selenium.getText("MockMock#MOCKMOCK_MESSAGE_BODY");
 
-		var bodyContent = StringUtil.extractLast("${bodyContent}", " at ");
+		var bodyContent = StringUtil.extractLast(${bodyContent}, " at ");
 
-		var bodyURL = StringUtil.extractFirst("${bodyContent}", ".");
+		var bodyURL = StringUtil.extractFirst(${bodyContent}, ".");
 
-		Navigator.openSpecificURL(url = "${bodyURL}");
+		Navigator.openSpecificURL(url = ${bodyURL});
 	}
 
 	macro openCalendatBodyLink {
-		var key_asset = "${asset}";
+		var key_asset = ${asset};
 
 		MockMock._gotoMail();
 
-		MockMock._gotoMailMessage(asset = "${asset}");
+		MockMock._gotoMailMessage(asset = ${asset});
 
 		MockMock._viewMailMessage(
-			content = "${content}",
-			subject = "${subject}");
+			content = ${content},
+			subject = ${subject});
 
 		var bodyContent = selenium.getText("MockMock#MOCKMOCK_MESSAGE_BODY");
 
-		var bodyContent = StringUtil.extractLast("${bodyContent}", "href=\"");
+		var bodyContent = StringUtil.extractLast(${bodyContent}, "href=\"");
 
-		var bodyURL = StringUtil.extractFirst("${bodyContent}", "\"");
+		var bodyURL = StringUtil.extractFirst(${bodyContent}, "\"");
 
-		Navigator.openSpecificURL(url = "${bodyURL}");
+		Navigator.openSpecificURL(url = ${bodyURL});
 	}
 
 	macro viewMail {
 		MockMock._gotoMail();
 
 		MockMock._viewMailFromInbox(
-			asset = "${asset}",
-			recipient = "${recipient}",
-			sender = "${sender}");
+			asset = ${asset},
+			recipient = ${recipient},
+			sender = ${sender});
 
 		MockMock._gotoMailMessage(
-			asset = "${asset}",
-			recipient = "${recipient}");
+			asset = ${asset},
+			recipient = ${recipient});
 
 		MockMock._viewMailMessage(
-			content = "${content}",
-			subject = "${subject}");
+			content = ${content},
+			subject = ${subject});
 
 		MockMock._backtoInbox();
 	}

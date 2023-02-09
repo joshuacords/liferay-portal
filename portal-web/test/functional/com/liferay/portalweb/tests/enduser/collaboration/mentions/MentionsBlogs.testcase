@@ -37,7 +37,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -49,7 +49,7 @@ definition {
 		}
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ViewMentionViaBlogsEntry {
 		ProductMenu.gotoPortlet(
 			category = "Site Builder",
@@ -80,7 +80,7 @@ definition {
 			mentionsUserScreenName = "usersn");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ViewMentionViaBlogsEntryComment {
 		ProductMenu.gotoPortlet(
 			category = "Site Builder",
@@ -105,7 +105,7 @@ definition {
 			entryContent = "Blogs Entry Content",
 			entryTitle = "Blogs Entry Title");
 
-		Pause(locator1 = "3000");
+		Pause(locator1 = 3000);
 
 		Mentions.addMentionViaComments(
 			entryComment = "Comment mentioning",

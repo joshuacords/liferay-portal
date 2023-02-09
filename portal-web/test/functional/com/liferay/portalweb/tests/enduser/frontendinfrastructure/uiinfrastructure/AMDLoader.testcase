@@ -14,12 +14,12 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 	}
 
-	@priority = "5"
+	@priority = 5
 	test CheckAMDLoaderLogLevel {
 		property test.name.skip.portal.instance = "AMDLoader#CheckAMDLoaderLogLevel";
 
@@ -39,16 +39,16 @@ definition {
 
 		var logLevel = AMDLoader.getAMDLoaderLogLevel();
 
-		if ("${logLevel}" != "warn") {
+		if (${logLevel} != "warn") {
 			fail("AMD log level isn't set to Warn in JS console.");
 		}
 
 		for (var logLevelOptionName : list "Off,Error,Info,Debug") {
-			var logLevelOptionNameLowercase = StringUtil.lowerCase("${logLevelOptionName}");
+			var logLevelOptionNameLowercase = StringUtil.lowerCase(${logLevelOptionName});
 
 			SystemSettings.selectOptionSetting(
 				fieldName = "Log Level",
-				selectOption = "${logLevelOptionName}");
+				selectOption = ${logLevelOptionName});
 
 			SystemSettings.saveConfiguration();
 
@@ -56,11 +56,11 @@ definition {
 
 			FormFields.viewSelectOption(
 				fieldName = "Log Level",
-				selectOption = "${logLevelOptionName}");
+				selectOption = ${logLevelOptionName});
 
 			var logLevel = AMDLoader.getAMDLoaderLogLevel();
 
-			if ("${logLevel}" != "${logLevelOptionNameLowercase}") {
+			if (${logLevel} != ${logLevelOptionNameLowercase}) {
 				fail("AMD log level isn't set to ${logLevelOptionName} in JS console.");
 			}
 		}

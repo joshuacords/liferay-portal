@@ -9,7 +9,7 @@ definition {
 		TestCase.setUpPortalInstance();
 	}
 
-	@priority = "5"
+	@priority = 5
 	test CASSSOSmoke {
 		property cas.enabled = "true";
 		property dummy.socket.proxy.disabled = "true";
@@ -21,7 +21,7 @@ definition {
 
 		var fileContent = FileUtil.read("${liferayHome}/tomcat-9.0.68/bin/cas.log");
 
-		if (contains("${fileContent}", "org.jasig.cas")) {
+		if (contains(${fileContent}, "org.jasig.cas")) {
 			echo("CAS server started.");
 		}
 		else {
@@ -49,7 +49,7 @@ definition {
 			userScreenName = "test");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test DefaultPortalLandingPage {
 		property test.name.skip.portal.instance = "Login#DefaultPortalLandingPage";
 
@@ -67,9 +67,9 @@ definition {
 			panel = "Control Panel",
 			portlet = "Sites");
 
-		var siteName = TestCase.getSiteName(siteName = "${siteName}");
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
 
-		Navigator.openSiteURL(siteName = "${siteName}");
+		Navigator.openSiteURL(siteName = ${siteName});
 
 		ProductMenu.gotoPortlet(
 			category = "Site Builder",
@@ -90,7 +90,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-39744 and LPS-78508."
-	@priority = "5"
+	@priority = 5
 	test DefaultPortalLandingPageSetByProperty {
 		property custom.properties = "default.landing.page.path=/web/guest/landing${line.separator}company.default.home.url=";
 		property test.name.skip.portal.instance = "Login#DefaultPortalLandingPageSetByProperty";
@@ -117,7 +117,7 @@ definition {
 		AssertConsoleTextNotPresent(value1 = "java.lang.StackOverflowError");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test FacebookSSOSmoke {
 		property dummy.socket.proxy.disabled = "true";
 		property test.name.skip.portal.instance = "Login#FacebookSSOSmoke";
@@ -129,7 +129,7 @@ definition {
 
 		User.firstLoginPG();
 
-		var siteName = TestCase.getSiteName(siteName = "${siteName}");
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
 
 		PortalSettings.gotoConfiguration(
 			configurationCategory = "SSO",
@@ -137,15 +137,15 @@ definition {
 			configurationScope = "Virtual Instance Scope");
 
 		PortalSettings.editConfigurationAuthenticationFacebook(
-			facebookApplicationID = "${facebookApplicationID}",
-			facebookApplicationSecret = "${facebookApplicationSecret}");
+			facebookApplicationID = ${facebookApplicationID},
+			facebookApplicationSecret = ${facebookApplicationSecret});
 
 		User.logoutPG();
 
 		User.loginUserWithFacebookSSOEnabledPG(
-			facebookEmail = "${facebookEmail}",
-			facebookPassword = "${facebookPassword}",
-			siteName = "${siteName}");
+			facebookEmail = ${facebookEmail},
+			facebookPassword = ${facebookPassword},
+			siteName = ${siteName});
 
 		User.logoutUserPG();
 
@@ -155,7 +155,7 @@ definition {
 			userScreenName = "usersn");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test GoogleSSOSmoke {
 		property dummy.socket.proxy.disabled = "true";
 		property osgi.app.includes = "portal-security-sso-google";
@@ -174,14 +174,14 @@ definition {
 			configurationScope = "Virtual Instance Scope");
 
 		PortalSettings.enableGoogleSSOCP(
-			googleClientID = "${googleClientID}",
-			googleClientSecret = "${googleClientSecret}");
+			googleClientID = ${googleClientID},
+			googleClientSecret = ${googleClientSecret});
 
 		User.logoutPG();
 
 		User.loginUserWithGoogleSSOEnabledPG(
-			userEmailAddress = "${userEmailAddress}",
-			userPassword = "${userPassword}");
+			userEmailAddress = ${userEmailAddress},
+			userPassword = ${userPassword});
 
 		User.logoutPG();
 
@@ -191,7 +191,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-72398."
-	@priority = "5"
+	@priority = 5
 	test LoginWithSpanishOnlyEnabledLocale {
 		property test.name.skip.portal.instance = "Login#LoginWithSpanishOnlyEnabledLocale";
 
@@ -220,7 +220,7 @@ definition {
 			userEmailAddress = "test@liferay.com");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test OpenIDConnectSmoke {
 		property dummy.socket.proxy.disabled = "true";
 		property test.name.skip.portal.instance = "Login#OpenIDConnectSmoke";
@@ -234,7 +234,7 @@ definition {
 
 		User.firstLoginPG();
 
-		var siteName = TestCase.getSiteName(siteName = "${siteName}");
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
 
 		PortalSettings.gotoConfiguration(
 			configurationCategory = "SSO",
@@ -244,15 +244,15 @@ definition {
 		PortalSettings.enableOpenIDConnectCP();
 
 		OpenIDConnect.addProviderInSystemSettings(
-			openIDConnectClientID = "${openIDConnectClientID}",
-			openIDConnectClientSecret = "${openIDConnectClientSecret}");
+			openIDConnectClientID = ${openIDConnectClientID},
+			openIDConnectClientSecret = ${openIDConnectClientSecret});
 
 		User.logoutPG();
 
 		User.loginUserWithOpenIDConnectEnabledPG(
-			siteName = "${siteName}",
-			userEmailAddress = "${userEmailAddress}",
-			userPassword = "${userPassword}");
+			siteName = ${siteName},
+			userEmailAddress = ${userEmailAddress},
+			userPassword = ${userPassword});
 
 		User.logoutPG();
 
@@ -262,7 +262,7 @@ definition {
 	}
 
 	@ignore = "true"
-	@priority = "4"
+	@priority = 4
 	test OpenIDSmoke {
 		property dummy.socket.proxy.disabled = "true";
 		property osgi.app.includes = "portal-security-sso-openid";
@@ -285,9 +285,9 @@ definition {
 		User.logoutPG();
 
 		User.createUserViaOpenID(
-			openIDPassword = "${openIDPassword}",
+			openIDPassword = ${openIDPassword},
 			openIDURL = "https://me.yahoo.com/liferayqa",
-			openIDUsername = "${openIDUsername}",
+			openIDUsername = ${openIDUsername},
 			userEmailAddress = "userea@liferay.com",
 			userFirstName = "userfn",
 			userLastName = "userln",
@@ -314,7 +314,7 @@ definition {
 	}
 
 	@ignore = "true"
-	@priority = "5"
+	@priority = 5
 	test OpenSSOSmoke {
 		property dummy.socket.proxy.disabled = "true";
 		property openam.enabled = "true";
@@ -328,25 +328,25 @@ definition {
 			locator1 = "build-test-authentication.xml",
 			value1 = "run-openam-tools");
 
-		var pauseCount = "0";
+		var pauseCount = 0;
 
-		while ((IsElementNotPresent(locator1 = "TextInput#TEXT")) && ("${pauseCount}" != "20")) {
+		while ((IsElementNotPresent(locator1 = "TextInput#TEXT")) && (${pauseCount} != 20)) {
 			Refresh();
 
-			Pause(locator1 = "30000");
+			Pause(locator1 = 30000);
 
 			var pauseCount = ${pauseCount} + 1;
 
 			echo("Pause count: ${pauseCount}");
 		}
 
-		if ("${pauseCount}" == "20") {
+		if (${pauseCount} == 20) {
 			fail("OpenAM setup timed out after 10 minutes.");
 		}
 
 		User.firstLoginPG();
 
-		Pause(locator1 = "30000");
+		Pause(locator1 = 30000);
 
 		PortalSettings.gotoConfiguration(
 			configurationCategory = "SSO",
@@ -373,7 +373,7 @@ definition {
 			userScreenName = "test");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test TokenBasedSSOSmoke {
 		property test.name.skip.portal.instance = "Login#TokenBasedSSOSmoke";
 
@@ -435,7 +435,7 @@ definition {
 			value1 = "verify-token-based-login -Dportal.url=www.able.com:8080/web/guest -Duser.token=test@www.able.com");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test ViewInstanceSettingsAuthentication {
 		property osgi.app.includes = "portal-security-sso-google,portal-security-sso-ntlm,portal-security-sso-openid";
 

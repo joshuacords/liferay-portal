@@ -15,7 +15,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -37,7 +37,7 @@ definition {
 		}
 	}
 
-	@priority = "5"
+	@priority = 5
 	test AdvancedFileSystemStoreSmoke {
 		property custom.properties = "dl.store.impl=com.liferay.portal.store.file.system.AdvancedFileSystemStore";
 		property osgi.module.configuration.file.names = "com.liferay.portal.store.file.system.configuration.AdvancedFileSystemStoreConfiguration.config";
@@ -68,7 +68,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-129271."
-	@priority = "4"
+	@priority = 4
 	test AssertNoErrorMessageAfterExportAndImportSiteLAR {
 		property aws.store.enabled = "true";
 		property test.name.skip.portal.instance = "DocumentLibraryStore#AssertNoErrorMessageAfterExportAndImportSiteLAR";
@@ -105,13 +105,13 @@ definition {
 		JSONGroup.addGroup(groupName = "Site B");
 
 		LAR.importSiteCP(
-			larFileName = "${larFileName}",
+			larFileName = ${larFileName},
 			siteName = "Site B");
 
 		AssertConsoleTextNotPresent(value1 = "java.io.IOException");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test AWSS3StoreSmoke {
 		property aws.store.enabled = "true";
 		property test.name.skip.portal.instance = "DocumentLibraryStore#AWSS3StoreSmoke";
@@ -152,7 +152,7 @@ definition {
 			value1 = "assert-no-document-in-bucket -Daws.bucket.id=${bucketID} -DcompanyId=${companyId} -DgroupId=${groupId}");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test DBStoreSmoke {
 		property custom.properties = "dl.store.impl=com.liferay.portal.store.db.DBStore";
 
@@ -182,7 +182,7 @@ definition {
 		RecycleBin.emptyCP();
 	}
 
-	@priority = "5"
+	@priority = 5
 	test FileSystemStoreSmoke {
 		property custom.properties = "dl.store.impl=com.liferay.portal.store.file.system.FileSystemStore";
 		property osgi.module.configuration.file.names = "com.liferay.portal.store.file.system.configuration.FileSystemStoreConfiguration.config";

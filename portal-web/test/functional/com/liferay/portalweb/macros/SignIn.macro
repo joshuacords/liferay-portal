@@ -13,13 +13,13 @@ definition {
 
 		Type.typePause(
 			locator1 = "TextInput#EMAIL_ADDRESS",
-			value1 = "${userEmailAddress}");
+			value1 = ${userEmailAddress});
 
 		Type.typePause(
 			locator1 = "TextInput#PASSWORD",
-			value1 = "${userPassword}");
+			value1 = ${userPassword});
 
-		if ("${rememberMe}" == "true") {
+		if (${rememberMe} == "true") {
 			Check(locator1 = "Checkbox#REMEMBER_ME");
 		}
 
@@ -43,7 +43,7 @@ definition {
 	macro setPasswordReminder {
 		Type(
 			locator1 = "TextInput#ANSWER",
-			value1 = "${userPasswordReminderAnswer}");
+			value1 = ${userPasswordReminderAnswer});
 
 		Button.clickSave();
 	}
@@ -53,15 +53,15 @@ definition {
 		Navigator.openURL();
 
 		SignIn._signIn(
-			rememberMe = "${rememberMe}",
-			userEmailAddress = "${userEmailAddress}",
-			userPassword = "${userPassword}");
+			rememberMe = ${rememberMe},
+			userEmailAddress = ${userEmailAddress},
+			userPassword = ${userPassword});
 	}
 
 	macro signInPortalInstanceSetUp {
 		var defaultPortalURL = PropsUtil.get("default.portal.url");
 
-		SignIn.signInSpecificURL(url = "${defaultPortalURL}");
+		SignIn.signInSpecificURL(url = ${defaultPortalURL});
 
 		if (IsElementPresent(locator1 = "Button#I_AGREE")) {
 			SignIn.agreeToTermsOfUse();
@@ -76,9 +76,9 @@ definition {
 			panel = "Control Panel",
 			portlet = "Virtual Instances");
 
-		while (IsElementPresent(key_rowNumber = "2", locator1 = "ContentRow#ENTRY_CONTENT_ROW_NUMBER_ELLIPSIS")) {
+		while (IsElementPresent(key_rowNumber = 2, locator1 = "ContentRow#ENTRY_CONTENT_ROW_NUMBER_ELLIPSIS")) {
 			Click.waitForMenuToggleJSClick(
-				key_rowNumber = "2",
+				key_rowNumber = 2,
 				locator1 = "ContentRow#ENTRY_CONTENT_ROW_NUMBER_ELLIPSIS");
 
 			MenuItem.clickNoError(menuItem = "Delete");
@@ -90,21 +90,21 @@ definition {
 
 		var portalURL = PropsUtil.get("portal.url");
 
-		var portalURL = StringUtil.replace("${portalURL}", "http://", "");
+		var portalURL = StringUtil.replace(${portalURL}, "http://", "");
 
-		var portalURL = StringUtil.replace("${portalURL}", ":8080", "");
+		var portalURL = StringUtil.replace(${portalURL}, ":8080", "");
 
 		LexiconEntry.gotoAdd();
 
-		Pause(locator1 = "3000");
+		Pause(locator1 = 3000);
 
 		Type(
 			locator1 = "TextInput#WEB_ID",
-			value1 = "${portalURL}");
+			value1 = ${portalURL});
 
 		Type(
 			locator1 = "TextInput#VIRTUAL_HOST",
-			value1 = "${portalURL}");
+			value1 = ${portalURL});
 
 		Type(
 			locator1 = "TextInput#MAIL_DOMAIN",
@@ -113,7 +113,7 @@ definition {
 		Button.clickSave();
 
 		while (IsElementPresent(locator1 = "//html[contains(@class,'lfr-spa-loading')]")) {
-			Pause(locator1 = "3000");
+			Pause(locator1 = 3000);
 		}
 
 		Alert.viewSuccessMessage();
@@ -122,12 +122,12 @@ definition {
 	}
 
 	macro signInSpecificURL {
-		Navigator.openSpecificURL(url = "${url}");
+		Navigator.openSpecificURL(url = ${url});
 
 		SignIn._signIn(
-			rememberMe = "${rememberMe}",
-			userEmailAddress = "${userEmailAddress}",
-			userPassword = "${userPassword}");
+			rememberMe = ${rememberMe},
+			userEmailAddress = ${userEmailAddress},
+			userPassword = ${userPassword});
 	}
 
 	@summary = "Sign in to Liferay Portal as '${userEmailAddress}' using the password '${userPassword}'"

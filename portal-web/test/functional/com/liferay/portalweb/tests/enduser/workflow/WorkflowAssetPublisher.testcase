@@ -52,7 +52,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -70,7 +70,7 @@ definition {
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ApproveBlogsEntryPG {
 		Navigator.gotoPage(pageName = "Asset Publisher Page");
 
@@ -114,7 +114,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-72846."
-	@priority = "5"
+	@priority = 5
 	test ApproveMessageBoardsThreadPG {
 		Navigator.openURL();
 
@@ -127,7 +127,7 @@ definition {
 			threadBody = "MB Thread Message Body",
 			threadSubject = "MB Thread Message Subject");
 
-		Notifications.viewBadgeCount(notificationCount = "1");
+		Notifications.viewBadgeCount(notificationCount = 1);
 
 		UserBar.gotoDropdownItem(dropdownItem = "My Workflow Tasks");
 
@@ -158,7 +158,7 @@ definition {
 			threadSubject = "MB Thread Message Subject");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ApproveWebContentPG {
 		Navigator.gotoPage(pageName = "Asset Publisher Page");
 
@@ -191,7 +191,7 @@ definition {
 			webContentTitle = "WC WebContent Title");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test RejectBlogsEntryPG {
 		Navigator.gotoPage(pageName = "Asset Publisher Page");
 

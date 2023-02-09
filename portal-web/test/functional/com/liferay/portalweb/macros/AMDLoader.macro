@@ -9,9 +9,9 @@ definition {
 		return logLevel;
 		''';
 
-		var logLevel = selenium.getEval("${javaScript}");
+		var logLevel = selenium.getEval(${javaScript});
 
-		return "${logLevel}";
+		return ${logLevel};
 	}
 
 }

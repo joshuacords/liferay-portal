@@ -4,14 +4,14 @@ definition {
 		Click(locator1 = "Button#PLUS");
 
 		AssertClick(
-			key_plusMenu = "${plusMenu}",
+			key_plusMenu = ${plusMenu},
 			locator1 = "CommerceEntry#PLUS_MENU",
-			value1 = "${plusMenu}");
+			value1 = ${plusMenu});
 
 		CommerceEntry.addProductsEntry(
-			productFullDescription = "${productFullDescription}",
-			productShortDescription = "${productShortDescription}",
-			productTitle = "${productTitle}");
+			productFullDescription = ${productFullDescription},
+			productShortDescription = ${productShortDescription},
+			productTitle = ${productTitle});
 	}
 
 }

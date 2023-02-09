@@ -15,7 +15,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -27,7 +27,7 @@ definition {
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AssertIndexOnStartup {
 		property test.name.skip.portal.instance = "Elasticsearch6#AssertIndexOnStartup";
 
@@ -70,7 +70,7 @@ definition {
 				}'
 		''';
 
-		com.liferay.poshi.runner.util.JSONCurlUtil.post("${curl}");
+		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
 
 		Portlet.shutdownServer();
 
@@ -135,9 +135,9 @@ definition {
 		var serverVersion = Elasticsearch.getServerVersion();
 
 		SearchAdministration.assertEngineVendorAndVersions(
-			clientVersion = "${clientVersion}",
+			clientVersion = ${clientVersion},
 			engineVendor = "Elasticsearch",
-			serverVersion = "${serverVersion}");
+			serverVersion = ${serverVersion});
 
 		Navigator.gotoNavItem(navItem = "Field Mappings");
 
@@ -155,16 +155,16 @@ definition {
 		var liferayIndexName = "liferay-${companyId}";
 
 		Click(
-			key_navNested = "${liferayIndexName}",
+			key_navNested = ${liferayIndexName},
 			locator1 = "NavNested#NAV_NESTED_LINK");
 
 		AssertTextEquals.assertPartialText(
-			indexName = "${liferayIndexName}",
+			indexName = ${liferayIndexName},
 			locator1 = "Search#FIELD_MAPPINGS_EDITOR",
-			value1 = "${liferayIndexName}");
+			value1 = ${liferayIndexName});
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AssertSearchInsightsExplain {
 		JSONWebcontent.addWebContent(
 			content = "WC Content",
@@ -226,14 +226,14 @@ definition {
 			value1 = "_explanation");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ElasticsearchClusteringSmokeTest {
 		property elasticsearch.cluster.size = "2";
 		property portal.acceptance = "true";
 		property remote.elasticsearch.enabled = "true";
 		property test.name.skip.portal.instance = "Elasticsearch6#ElasticsearchClusteringSmokeTest";
 
-		Elasticsearch.viewClusterStatusViaClusterHealthAPI(numberOfNodes = "2");
+		Elasticsearch.viewClusterStatusViaClusterHealthAPI(numberOfNodes = 2);
 
 		Navigator.openURL();
 
@@ -283,7 +283,7 @@ definition {
 			searchAssetType = "Message Boards Message");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test OSGiConfigSmokeTest {
 		property embedded.elasticsearch.only = "true";
 		property osgi.module.configuration.file.names = "com.liferay.portal.search.elasticsearch6.configuration.ElasticsearchConfiguration.config";
@@ -298,7 +298,7 @@ definition {
 	}
 
 	@description = "Assert search is functional after Elasticsearch connector is redeployed from GogoShell"
-	@priority = "3"
+	@priority = 3
 	test SearchAfterRedeployingElasticsearchConnector {
 		property test.assert.warning.exceptions = "true";
 		property test.name.skip.portal.instance = "Elasticsearch6#SearchAfterRedeployingElasticsearchConnector";
@@ -307,13 +307,13 @@ definition {
 
 		var moduleID = GogoShell.getModuleID(moduleName = "com.liferay.portal.search.elasticsearch6.impl");
 
-		GogoShell.stopModule(moduleID = "${moduleID}");
+		GogoShell.stopModule(moduleID = ${moduleID});
 
 		GogoShell.viewModuleStatus(
 			moduleName = "com.liferay.portal.search.elasticsearch6.impl",
 			moduleStatus = "Resolved");
 
-		GogoShell.startModule(moduleID = "${moduleID}");
+		GogoShell.startModule(moduleID = ${moduleID});
 
 		GogoShell.viewModuleStatus(
 			moduleName = "com.liferay.portal.search.elasticsearch6.impl",
@@ -389,7 +389,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-57894."
-	@priority = "3"
+	@priority = 3
 	test UpdateSystemSettingsWithoutPortalRestart {
 		property remote.elasticsearch.enabled = "true";
 		property test.name.skip.portal.instance = "Elasticsearch6#UpdateSystemSettingsWithoutPortalRestart";
@@ -403,17 +403,17 @@ definition {
 			locator1 = "build-test-elasticsearch6.xml",
 			value1 = "stop-elasticsearch");
 
-		var fileContent = FileUtil.read("${elasticsearchYML}");
+		var fileContent = FileUtil.read(${elasticsearchYML});
 
-		var updatedContent = StringUtil.replace("${fileContent}", "LiferayElasticsearchCluster", "LiferayElasticsearchCluster1");
+		var updatedContent = StringUtil.replace(${fileContent}, "LiferayElasticsearchCluster", "LiferayElasticsearchCluster1");
 
-		FileUtil.write("${elasticsearchYML}", "${updatedContent}");
+		FileUtil.write(${elasticsearchYML}, ${updatedContent});
 
 		AntCommand.antCommand(
 			locator1 = "build-test-elasticsearch6.xml",
 			value1 = "start-elasticsearch-node -Delasticsearch.cluster.size=1");
 
-		Pause(locator1 = "30000");
+		Pause(locator1 = 30000);
 
 		ProductMenu.gotoPortlet(
 			category = "Configuration",

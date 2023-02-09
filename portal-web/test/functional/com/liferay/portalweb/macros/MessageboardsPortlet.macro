@@ -12,14 +12,14 @@ definition {
 
 		MenuItem.click(menuItem = "Configuration");
 
-		Pause(locator1 = "10000");
+		Pause(locator1 = 10000);
 
 		SelectFrame(locator1 = "IFrame#CONFIGURATION");
 
-		if ("${anonymousPostingEnabled}" == "true") {
+		if (${anonymousPostingEnabled} == "true") {
 			Check(locator1 = "MessageBoardsAdminConfiguration#GENERAL_ALLOW_ANONYMOUS_POSTING_CHECKBOX");
 		}
-		else if ("${anonymousPostingEnabled}" == "false") {
+		else if (${anonymousPostingEnabled} == "false") {
 			Uncheck(locator1 = "MessageBoardsAdminConfiguration#GENERAL_ALLOW_ANONYMOUS_POSTING_CHECKBOX");
 		}
 
@@ -38,11 +38,11 @@ definition {
 
 		MenuItem.click(menuItem = "Configuration");
 
-		Pause(locator1 = "10000");
+		Pause(locator1 = 10000);
 
 		SelectFrame(locator1 = "IFrame#CONFIGURATION");
 
-		if ("${threadAsQuestionByDefaultEnabled}" == "true") {
+		if (${threadAsQuestionByDefaultEnabled} == "true") {
 			Check(locator1 = "MessageBoardsAdminConfiguration#GENERAL_THREAD_AS_QUESTION_BY_DEFAULT_CHECKBOX");
 		}
 
@@ -67,7 +67,7 @@ definition {
 			locator1 = "MessageBoardsAdminConfiguration#SETUP_NAVIGATION_MESSAGE_ADDED_EMAIL",
 			value1 = "Message Added Email");
 
-		if ("${messageAddedEmailEnabled}" == "false") {
+		if (${messageAddedEmailEnabled} == "false") {
 			Uncheck(locator1 = "MessageBoardsAdminConfiguration#MESSAGE_ADDED_EMAIL_ENABLED_CHECKBOX");
 		}
 		else {
@@ -98,13 +98,13 @@ definition {
 		if (isSet(emailFromName)) {
 			Type(
 				locator1 = "TextInput#EMAIL_FROM_NAME",
-				value1 = "${emailFromName}");
+				value1 = ${emailFromName});
 		}
 
 		if (isSet(emailFromAddress)) {
 			Type(
 				locator1 = "TextInput#EMAIL_FROM_ADDRESS",
-				value1 = "${emailFromAddress}");
+				value1 = ${emailFromAddress});
 		}
 
 		PortletEntry.save();
@@ -128,7 +128,7 @@ definition {
 			locator1 = "MessageBoardsAdminConfiguration#SETUP_NAVIGATION_MESSAGE_UPDATED_EMAIL",
 			value1 = "Message Updated Email");
 
-		if ("${messageUpdatedEmailEnabled}" == "false") {
+		if (${messageUpdatedEmailEnabled} == "false") {
 			Uncheck(locator1 = "MessageBoardsAdminConfiguration#MESSAGE_UPDATED_EMAIL_ENABLED_CHECKBOX");
 		}
 		else {
@@ -140,7 +140,7 @@ definition {
 
 	macro configureScopePG {
 		Portlet.gotoPortletOptions(
-			portletName = "${portletName}",
+			portletName = ${portletName},
 			portletOption = "Configuration");
 
 		SelectFrame(locator1 = "IFrame#CONFIGURATION");
@@ -151,7 +151,7 @@ definition {
 
 		Select(
 			locator1 = "Select#SCOPE",
-			value1 = "${scopeName}");
+			value1 = ${scopeName});
 
 		PortletEntry.save();
 	}
@@ -231,10 +231,10 @@ definition {
 	macro viewAnonymousPostingConfigurationCP {
 		SelectFrame(locator1 = "IFrame#CONFIGURATION");
 
-		if ("${anonymousPostingEnabled}" == "true") {
+		if (${anonymousPostingEnabled} == "true") {
 			AssertChecked(locator1 = "MessageBoardsAdminConfiguration#GENERAL_ALLOW_ANONYMOUS_POSTING_CHECKBOX");
 		}
-		else if ("${anonymousPostingEnabled}" == "false") {
+		else if (${anonymousPostingEnabled} == "false") {
 			AssertNotChecked(locator1 = "MessageBoardsAdminConfiguration#GENERAL_ALLOW_ANONYMOUS_POSTING_CHECKBOX");
 		}
 	}
@@ -249,11 +249,11 @@ definition {
 			locator1 = "MessageBoards#NAVIGATION_BANNED_USERS",
 			value1 = "Banned Users");
 
-		var key_userScreenName = "${userScreenName}";
+		var key_userScreenName = ${userScreenName};
 
 		AssertTextEquals(
 			locator1 = "MessageBoardsBannedUsers#BANNED_USERS_TABLE_BANNED_USER",
-			value1 = "${userScreenName}");
+			value1 = ${userScreenName});
 
 		AssertTextEquals.assertPartialText(
 			locator1 = "MessageBoardsBannedUsers#BANNED_USERS_TABLE_BANNED_BY",
@@ -261,19 +261,19 @@ definition {
 
 		AssertVisible(locator1 = "MessageBoardsBannedUsers#BANNED_USERS_TABLE_UNBAN_DATE");
 
-		LexiconEntry.openEntryMenu(rowEntry = "${userScreenName}");
+		LexiconEntry.openEntryMenu(rowEntry = ${userScreenName});
 
 		MenuItem.viewPresent(menuItem = "Unban This User");
 
 		AssertClick(
 			locator1 = "MessageBoardsBannedUsers#BANNED_USERS_TABLE_BANNED_USER",
-			value1 = "${userScreenName}");
+			value1 = ${userScreenName});
 
-		var key_siteName = "${userScreenName}";
+		var key_siteName = ${userScreenName};
 
 		AssertTextEquals.assertPartialText(
 			locator1 = "SitePages#SITE_NAME",
-			value1 = "${userScreenName}");
+			value1 = ${userScreenName});
 	}
 
 	macro viewDefaultEmailFromCP {
@@ -305,7 +305,7 @@ definition {
 		if (isSet(emailFromAddress)) {
 			Type(
 				locator1 = "TextInput#EMAIL_FROM_ADDRESS",
-				value1 = "${emailFromAddress}");
+				value1 = ${emailFromAddress});
 
 			PortletEntry.save();
 		}
@@ -326,22 +326,22 @@ definition {
 	}
 
 	macro viewNoSearchResultSubjectPG {
-		var key_threadSubject = "${threadSubject}";
+		var key_threadSubject = ${threadSubject};
 
 		AssertElementNotPresent(locator1 = "MessageBoardsSearch#SEARCH_RESULTS_ENTRY_TITLE");
 	}
 
 	macro viewSearchResultPG {
-		var key_threadSubject = "${threadSubject}";
+		var key_threadSubject = ${threadSubject};
 
 		AssertTextEquals(
 			locator1 = "MessageBoards#THREAD_LIST_THREAD",
-			value1 = "${threadSubject}");
+			value1 = ${threadSubject});
 
 		if (isSet(mbThreadAttachment)) {
 			AssertClick(
 				locator1 = "MessageBoards#THREAD_LIST_THREAD",
-				value1 = "${threadSubject}");
+				value1 = ${threadSubject});
 
 			AssertVisible(locator1 = "Link#MESSAGE_BOARDS_ATTACHMENT");
 		}

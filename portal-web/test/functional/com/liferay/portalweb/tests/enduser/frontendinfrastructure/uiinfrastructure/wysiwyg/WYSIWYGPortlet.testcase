@@ -21,7 +21,7 @@ definition {
 		Page.tearDownCP();
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddContent {
 		Navigator.gotoPage(pageName = "WYSIWYG Page");
 
@@ -31,7 +31,7 @@ definition {
 			portletName = "WYSIWYG",
 			portletOption = "Configuration");
 
-		Pause(locator1 = "15000");
+		Pause(locator1 = 15000);
 
 		SelectFrame(locator1 = "IFrame#DIALOG");
 

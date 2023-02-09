@@ -29,7 +29,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -40,7 +40,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-74621."
-	@priority = "3"
+	@priority = 3
 	test CommentAndRateBlogsEntryOnLiveSite {
 		Navigator.gotoStagedSitePage(
 			pageName = "Staging Blogs Page",
@@ -72,7 +72,7 @@ definition {
 			entryContent = "Blogs Entry Content",
 			entryTitle = "Blogs Entry Title");
 
-		Pause(locator1 = "3000");
+		Pause(locator1 = 3000);
 
 		Ratings.rate(ratingResult = "Thumb Up");
 
@@ -88,10 +88,10 @@ definition {
 
 		Ratings.viewRating(
 			ratingResult = "Thumb Up",
-			voteCount = "1");
+			voteCount = 1);
 
 		Comments.viewPG(
-			commentCount = "1",
+			commentCount = 1,
 			entryComment = "Blogs Entry Comment",
 			userFullName = "Test Test (You)");
 
@@ -150,16 +150,16 @@ definition {
 
 		Ratings.viewRating(
 			ratingResult = "Thumb Up",
-			voteCount = "1");
+			voteCount = 1);
 
 		Comments.viewPG(
-			commentCount = "1",
+			commentCount = 1,
 			entryComment = "Blogs Entry Comment",
 			userFullName = "Test Test (You)");
 	}
 
 	@description = "This test covers LPS-79000. It ensures that users can only publish an Approved blog entry. Draft entries should not have the Publish option."
-	@priority = "5"
+	@priority = 5
 	test PublishDraftViaSAP {
 		ProductMenu.gotoPortlet(
 			category = "Content & Data",
@@ -184,7 +184,7 @@ definition {
 	}
 
 	@description = "This test covers LPS-77658. It publishes a blog entry to live via Single Asset Publishing."
-	@priority = "4"
+	@priority = 4
 	test PublishEntryViaSAP {
 		Navigator.gotoStagedSitePage(
 			pageName = "Staging Blogs Page",
@@ -231,7 +231,7 @@ definition {
 
 		Notifications.viewBadgeCount(
 			activePanel = "Notifications",
-			notificationCount = "3");
+			notificationCount = 3);
 
 		Notifications.gotoNotifications();
 
@@ -242,7 +242,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-78833."
-	@priority = "5"
+	@priority = 5
 	test PublishEntryWithDeletedSmallImage {
 		Navigator.gotoStagedSitePage(
 			pageName = "Staging Blogs Page",
@@ -350,16 +350,16 @@ definition {
 		AssertElementPresent(
 			key_cardText = "Document_3.jpg",
 			locator1 = "Card#SPECIFIC_LARGE_TEXT",
-			value1 = "${rowEntry}");
+			value1 = ${rowEntry});
 
 		AssertElementNotPresent(
 			key_cardText = "Document_3 (1).jpg",
 			locator1 = "Card#SPECIFIC_LARGE_TEXT",
-			value1 = "${rowEntry}");
+			value1 = ${rowEntry});
 	}
 
 	@description = "This test covers LPS-99265. It ensures that a staged blogs entry cannot be shared unless it is first published to Live."
-	@priority = "4"
+	@priority = 4
 	test ShareBlogsEntryOnLiveSite {
 		property custom.properties = "jsonws.web.service.paths.excludes=";
 
@@ -434,7 +434,7 @@ definition {
 			password = "test",
 			userEmailAddress = "userea@liferay.com");
 
-		Notifications.viewBadgeCount(notificationCount = "1");
+		Notifications.viewBadgeCount(notificationCount = 1);
 
 		Notifications.gotoNotifications();
 
@@ -444,7 +444,7 @@ definition {
 			ownerName = "Test Test");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test StagingBlogsCP {
 		property portal.acceptance = "true";
 		property testray.component.names = "Training";
@@ -482,7 +482,7 @@ definition {
 		Staging.publishToLive();
 	}
 
-	@priority = "3"
+	@priority = 3
 	test StagingBlogsPG {
 		Navigator.gotoStagedSitePage(
 			pageName = "Staging Blogs Page",
@@ -560,7 +560,7 @@ definition {
 
 		RecentBloggers.viewPG(
 			entryAuthor = "Test Test",
-			postCount = "1");
+			postCount = 1);
 
 		BlogsAggregatorPortlet.viewBlogsEntryViaBAPortletPG(viewEntryTitle = "Blogs Entry Title 1");
 
@@ -586,7 +586,7 @@ definition {
 
 		RecentBloggers.viewPG(
 			entryAuthor = "Test Test",
-			postCount = "1");
+			postCount = 1);
 
 		BlogsAggregatorPortlet.viewBlogsEntryViaBAPortletPG(viewEntryTitle = "Blogs Entry Title 1");
 
@@ -662,7 +662,7 @@ definition {
 			viewNoEntryTitle = "Blogs Entry Title 2");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test StagingBlogsWithScheduledPublishing {
 		property test.name.skip.portal.instance = "BlogsUsecase#StagingBlogsWithScheduledPublishing";
 
@@ -708,7 +708,7 @@ definition {
 
 		Blogs.viewNoEntryCP();
 
-		Pause(locator1 = "180000");
+		Pause(locator1 = 180000);
 
 		Refresh();
 
@@ -718,7 +718,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-72949."
-	@priority = "5"
+	@priority = 5
 	test StagingLocalLiveLockAndEditBlogsEntry {
 		Navigator.gotoStagedSitePage(
 			pageName = "Staging Blogs Page",
@@ -789,7 +789,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-80543."
-	@priority = "5"
+	@priority = 5
 	test ViewBlogsAsAGuestAndSiteMember {
 		property custom.properties = "jsonws.web.service.paths.excludes=";
 
@@ -829,7 +829,7 @@ definition {
 
 		Button.clickPublish();
 
-		Pause(locator1 = "3000");
+		Pause(locator1 = 3000);
 
 		Alert.viewSuccessMessage();
 
@@ -842,7 +842,7 @@ definition {
 			navTab = "Blog Images",
 			uploadFileName = "Document_2.jpg");
 
-		Pause(locator1 = "3000");
+		Pause(locator1 = 3000);
 
 		PortletEntry.publish();
 

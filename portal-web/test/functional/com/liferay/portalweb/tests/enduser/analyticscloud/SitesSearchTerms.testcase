@@ -25,7 +25,7 @@ definition {
 
 		ACUtils.tearDownDXP();
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -34,7 +34,7 @@ definition {
 	}
 
 	@description = "Feature ID: Legacy | Automation ID: LRAC-8298 | Test Summary: Site overview search terms shows what keywords are being searched for"
-	@priority = "5"
+	@priority = 5
 	test ShowsKeywordsBeingSearched {
 		task ("Connect DXP to AC") {
 			var propertyName = ACDXPSettings.connectDXPtoAnalyticsCloud();
@@ -44,7 +44,7 @@ definition {
 			Navigator.openURL();
 
 			for (var keyword : list "liferay,ac") {
-				ContentDashboard.searchValue(webContentTitle = "${keyword}");
+				ContentDashboard.searchValue(webContentTitle = ${keyword});
 			}
 		}
 
@@ -57,7 +57,7 @@ definition {
 		}
 
 		task ("Switch to new property in AC") {
-			ACProperties.switchProperty(propertyName = "${propertyName}");
+			ACProperties.switchProperty(propertyName = ${propertyName});
 		}
 
 		task ("Go to sites pages tab") {
@@ -77,7 +77,7 @@ definition {
 		task ("Assert Keywords Searched") {
 			for (var keyword : list "liferay,ac") {
 				AssertElementPresent(
-					key_keyword = "${keyword}",
+					key_keyword = ${keyword},
 					locator1 = "ACSites#SEARCHED_KEYWORD");
 			}
 		}

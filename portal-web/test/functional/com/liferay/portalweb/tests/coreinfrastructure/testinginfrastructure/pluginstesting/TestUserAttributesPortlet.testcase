@@ -14,7 +14,7 @@ definition {
 		Page.tearDownCP();
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewUserAttributes {
 		ProductMenu.gotoPortlet(
 			category = "Site Builder",

@@ -11,23 +11,23 @@ definition {
 	}
 
 	macro addProperties {
-		var key_propertyOption = "${propertyOption}";
+		var key_propertyOption = ${propertyOption};
 
 		Click(locator1 = "Segmentation#PROPERTIES_SEARCH");
 
 		DragAndDrop.javaScriptDragAndDropToObject(
 			locator1 = "Segmentation#ADD_FIELD_TYPE",
 			locator2 = "Segmentation#ADD_FIELD_POSITION",
-			value1 = "${propertyOption}");
+			value1 = ${propertyOption});
 	}
 
 	macro changeCriterionInputEmailAddress {
-		var key_criterionInputOption = "${criterionInputOption}";
+		var key_criterionInputOption = ${criterionInputOption};
 
 		Click(locator1 = "Segmentation#CRITERION_INPUT");
 
 		Click.clickNoMouseOver(
-			key_criterionInputOption = "${criterionInputOption}",
+			key_criterionInputOption = ${criterionInputOption},
 			locator1 = "Segmentation#CRITERION_INPUT_OPTION");
 	}
 
@@ -42,7 +42,7 @@ definition {
 
 		Type(
 			locator1 = "Segmentation#EMAIL_ADDRESS_FIELD",
-			value1 = "${emailAddressField}");
+			value1 = ${emailAddressField});
 	}
 
 	macro fillProperty {
@@ -50,7 +50,7 @@ definition {
 
 		Type(
 			locator1 = "Segmentation#PROPERTY_FIELD",
-			value1 = "${PropertyField}");
+			value1 = ${PropertyField});
 	}
 
 	macro fillTitle {
@@ -58,7 +58,7 @@ definition {
 
 		Type(
 			locator1 = "Segmentation#TITLE_FIELD",
-			value1 = "${titleField}");
+			value1 = ${titleField});
 	}
 
 	macro tearDown {

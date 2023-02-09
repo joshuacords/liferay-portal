@@ -3,13 +3,13 @@ definition {
 	macro _addTag {
 		Type.sendKeys(
 			locator1 = "AssetCategorization#TAGS_FIELD",
-			value1 = "${tagName}");
+			value1 = ${tagName});
 
 		ScrollWebElementIntoView(locator1 = "AssetCategorization#TAGS_FIELD");
 
-		if (IsElementPresent(key_tagName = "${tagName}", locator1 = "AssetCategorization#TAG_AUTOCOMPLETE_SPECIFIC")) {
+		if (IsElementPresent(key_tagName = ${tagName}, locator1 = "AssetCategorization#TAG_AUTOCOMPLETE_SPECIFIC")) {
 			Click(
-				key_tagName = "${tagName}",
+				key_tagName = ${tagName},
 				locator1 = "AssetCategorization#TAG_AUTOCOMPLETE_SPECIFIC");
 		}
 		else {
@@ -21,22 +21,22 @@ definition {
 
 	macro addCategory {
 		Type.sendKeys(
-			key_vocabularyName = "${vocabularyName}",
+			key_vocabularyName = ${vocabularyName},
 			locator1 = "AssetCategorization#CATEGORIES_FIELD",
-			value1 = "${categoryName}");
+			value1 = ${categoryName});
 
 		Click(
-			key_categoryName = "${categoryName}",
+			key_categoryName = ${categoryName},
 			locator1 = "AssetCategorization#CATEGORY_AUTOCOMPLETE_SPECIFIC");
 
 		AssertTextEquals(
-			key_categoryName = "${categoryName}",
+			key_categoryName = ${categoryName},
 			locator1 = "AssetCategorization#CATEGORY",
-			value1 = "${categoryName}");
+			value1 = ${categoryName});
 	}
 
 	macro addDuplicateTag {
-		AssetCategorization._addTag(tagName = "${tagName}");
+		AssetCategorization._addTag(tagName = ${tagName});
 
 		AssertTextEquals(
 			locator1 = "//div[contains(@class,'help-block')]",
@@ -44,20 +44,20 @@ definition {
 	}
 
 	macro addMultipleCategories {
-		for (var categoryName : list "${categoryNameList}") {
+		for (var categoryName : list ${categoryNameList}) {
 			AssetCategorization.addCategory(
-				categoryName = "${categoryName}",
-				vocabularyName = "${vocabularyName}");
+				categoryName = ${categoryName},
+				vocabularyName = ${vocabularyName});
 		}
 	}
 
 	macro addTag {
-		AssetCategorization._addTag(tagName = "${tagName}");
+		AssetCategorization._addTag(tagName = ${tagName});
 
 		AssertTextEquals(
-			key_tagName = "${tagName}",
+			key_tagName = ${tagName},
 			locator1 = "AssetCategorization#TAG",
-			value1 = "${tagName}");
+			value1 = ${tagName});
 	}
 
 	macro gotoSelectCategory {
@@ -71,11 +71,11 @@ definition {
 	}
 
 	macro removeTag {
-		var key_tagName = "${tagName}";
+		var key_tagName = ${tagName};
 
 		AssertTextEquals(
 			locator1 = "AssetCategorization#TAG",
-			value1 = "${tagName}");
+			value1 = ${tagName});
 
 		Click(locator1 = "AssetCategorization#TAG_REMOVE");
 
@@ -86,8 +86,8 @@ definition {
 		AssetCategorization.gotoSelectCategory();
 
 		Portlet.selectTreeNode(
-			nodeName = "${categoryName}",
-			vocabularyName = "${vocabularyName}");
+			nodeName = ${categoryName},
+			vocabularyName = ${vocabularyName});
 
 		SelectFrameTop();
 
@@ -105,7 +105,7 @@ definition {
 			Click(locator1 = "Icon#CLOSE");
 		}
 
-		Pause(locator1 = "3000");
+		Pause(locator1 = 3000);
 
 		if (IsElementPresent(locator1 = "IFrame#MODAL_IFRAME")) {
 			IFrame.selectModalFrame();
@@ -121,9 +121,9 @@ definition {
 			SelectFrame(locator1 = "IFrame#SELECT_TAG");
 		}
 
-		for (var tagName : list "${tagNameList}") {
+		for (var tagName : list ${tagNameList}) {
 			Check(
-				key_rowEntry = "${tagName}",
+				key_rowEntry = ${tagName},
 				locator1 = "ContentRow#ENTRY_CONTENT_ENTRY_CHECKBOX");
 		}
 
@@ -143,23 +143,23 @@ definition {
 		}
 
 		AssertTextEquals(
-			key_tagName = "${tagName}",
+			key_tagName = ${tagName},
 			locator1 = "AssetCategorization#TAG",
-			value1 = "${tagName}");
+			value1 = ${tagName});
 	}
 
 	macro viewCategory {
 		AssertTextEquals(
-			key_categoryName = "${categoryName}",
+			key_categoryName = ${categoryName},
 			locator1 = "AssetCategorization#CATEGORY",
-			value1 = "${categoryName}");
+			value1 = ${categoryName});
 	}
 
 	macro viewVocabulary {
 		AssertTextEquals(
-			key_vocabularyName = "${vocabularyName}",
+			key_vocabularyName = ${vocabularyName},
 			locator1 = "UsersAndOrganizationsEditUser#VOCABULARY_LABEL",
-			value1 = "${vocabularyName}");
+			value1 = ${vocabularyName});
 	}
 
 }

@@ -6,19 +6,19 @@ definition {
 		Click(locator1 = "Button#PLUS");
 
 		Click(
-			key_menuItem = "${productType}",
+			key_menuItem = ${productType},
 			locator1 = "MenuItem#DROPDOWN_MENU_ITEM",
-			value1 = "${key_menuItem}");
+			value1 = ${key_menuItem});
 
 		if (!(isSet(productCatalog))) {
 			var productCatalog = "Master";
 		}
 
 		CommerceEntry.addProductsEntry(
-			productCatalog = "${productCatalog}",
-			productFullDescription = "${productFullDescription}",
-			productName = "${productName}",
-			productShortDescription = "${productShortDescription}");
+			productCatalog = ${productCatalog},
+			productFullDescription = ${productFullDescription},
+			productName = ${productName},
+			productShortDescription = ${productShortDescription});
 	}
 
 	macro deleteEntries {
@@ -26,7 +26,7 @@ definition {
 
 		ClickNoError(locator1 = "Button#DELETE");
 
-		Confirm(value1 = "${deleteMessage}");
+		Confirm(value1 = ${deleteMessage});
 	}
 
 	macro deleteEntriesViaEllipsisMenu {
@@ -58,7 +58,7 @@ definition {
 	macro searchProduct {
 		Type(
 			locator1 = "CommerceNavigation#SEARCH_FIELD",
-			value1 = "${search}");
+			value1 = ${search});
 
 		KeyPress(
 			locator1 = "CommerceNavigation#SEARCH_FIELD",

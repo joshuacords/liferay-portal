@@ -13,7 +13,7 @@ definition {
 		Page.tearDownCP();
 	}
 
-	@priority = "5"
+	@priority = 5
 	test InstallUninstallApp {
 		property test.name.skip.portal.instance = "AppManagerUsecase#InstallUninstallApp";
 
@@ -25,21 +25,21 @@ definition {
 			portlet = "App Manager");
 
 		AppManager.uploadAppCP(
-			appName = "${appName}",
+			appName = ${appName},
 			warFileName = "${appName}-7.2.0.war");
 
 		AppManager.viewAppCP(
-			appName = "${appName}",
+			appName = ${appName},
 			appStatus = "Active");
 
-		AppManager.uninstallAppCP(appName = "${appName}");
+		AppManager.uninstallAppCP(appName = ${appName});
 
-		AppManager.viewUninstallAppCP(appName = "${appName}");
+		AppManager.viewUninstallAppCP(appName = ${appName});
 
 		AssertConsoleTextPresent(value1 = "STOPPED ${appName}");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewIndependentModulesIsNotNestedWithinItself {
 		property test.name.skip.portal.instance = "AppManagerUsecase#ViewIndependentModulesIsNotNestedWithinItself";
 
@@ -50,13 +50,13 @@ definition {
 
 		AppManager.selectAppCP(appName = "Independent Modules");
 
-		Pause(locator1 = "3000");
+		Pause(locator1 = 3000);
 
 		AppManager.viewNoAppCP(appName = "Independent Modules");
 	}
 
 	@description = "This is a use case for LPS-99031."
-	@priority = "5"
+	@priority = 5
 	test ViewLicenseManager {
 		property test.name.skip.portal.instance = "AppManagerUsecase#ViewLicenseManager";
 
@@ -65,7 +65,7 @@ definition {
 			panel = "Control Panel",
 			portlet = "License Manager");
 
-		Pause(locator1 = "3000");
+		Pause(locator1 = 3000);
 
 		LicenseManager.viewDefaultCP(tableTexts = "Server Info,Host Name,IP Addresses,Licenses Registered,Owner,Start Date");
 

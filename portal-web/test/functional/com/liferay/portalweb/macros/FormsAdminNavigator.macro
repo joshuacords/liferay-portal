@@ -1,7 +1,7 @@
 definition {
 
 	var formName = "Created Form Name";
-	var rowIndexNumber = "1";
+	var rowIndexNumber = 1;
 
 	macro enableLocalNetworkDataProvider {
 		ProductMenu.gotoPortlet(
@@ -24,7 +24,7 @@ definition {
 
 			Button.clickSave();
 
-			Pause(locator1 = "5000");
+			Pause(locator1 = 5000);
 		}
 	}
 
@@ -45,9 +45,9 @@ definition {
 	}
 
 	macro gotoDeleteField {
-		FormsAdminNavigator.gotoEditField(fieldName = "${fieldName}");
+		FormsAdminNavigator.gotoEditField(fieldName = ${fieldName});
 
-		var key_fieldName = "${fieldName}";
+		var key_fieldName = ${fieldName};
 
 		while (IsElementNotPresent(locator1 = "Form#SIDEBAR_MENUITEM_REMOVE_FIELD")) {
 			Click(locator1 = "Form#SIDEBAR_ELLIPSIS");
@@ -57,7 +57,7 @@ definition {
 	}
 
 	macro gotoEditField {
-		var key_fieldName = "${fieldName}";
+		var key_fieldName = ${fieldName};
 
 		Click(locator1 = "Form#FIELD_BODY");
 
@@ -66,9 +66,9 @@ definition {
 
 	macro gotoEditFormByName {
 		AssertClick(
-			key_formName = "${formName}",
+			key_formName = ${formName},
 			locator1 = "FormsAdmin#FORMS_TABLE_NAME",
-			value1 = "${formName}");
+			value1 = ${formName});
 	}
 
 	macro gotoFormBuilder {
@@ -82,7 +82,7 @@ definition {
 	macro gotoPermissions {
 		LexiconEntry.gotoEntryMenuItem(
 			menuItem = "Permissions",
-			rowEntry = "${formName}");
+			rowEntry = ${formName});
 
 		SelectFrame(locator1 = "IFrame#DIALOG");
 	}
@@ -100,9 +100,9 @@ definition {
 	macro gotoPublishedForm {
 		FormsAdminNavigator.gotoPublishCopyURLLink();
 
-		var publishedFormPublicURL = Form.getPublishedFormPublicURL(publishedFormPublicURL = "${publishedFormPublicURL}");
+		var publishedFormPublicURL = Form.getPublishedFormPublicURL(publishedFormPublicURL = ${publishedFormPublicURL});
 
-		Navigator.openSpecificURL(url = "${publishedFormPublicURL}");
+		Navigator.openSpecificURL(url = ${publishedFormPublicURL});
 	}
 
 	macro gotoRules {
@@ -120,7 +120,7 @@ definition {
 	}
 
 	macro gotoView {
-		var key_rowIndexNumber = "${rowIndexNumber}";
+		var key_rowIndexNumber = ${rowIndexNumber};
 
 		AssertElementPresent(locator1 = "Icon#ROW_VERTICAL_ELLIPSIS_N");
 
@@ -141,11 +141,11 @@ definition {
 	macro openPublishURL {
 		FormsAdminNavigator.gotoPublishCopyURLLink();
 
-		Pause(locator1 = "2000");
+		Pause(locator1 = 2000);
 
 		var publishFormURL = selenium.getElementValue("Form#PUBLISH_FORM_PUBLIC_URL");
 
-		Navigator.openSpecificURL(url = "${publishFormURL}");
+		Navigator.openSpecificURL(url = ${publishFormURL});
 	}
 
 }

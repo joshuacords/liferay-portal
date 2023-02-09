@@ -1,7 +1,7 @@
 definition {
 
 	macro initializeAccelerator {
-		CommerceAccelerators.initializeNewSiteViaAccelerator(siteName = "${siteName}");
+		CommerceAccelerators.initializeNewSiteViaAccelerator(siteName = ${siteName});
 	}
 
 	macro initializeNewSiteViaAccelerator {
@@ -12,8 +12,8 @@ definition {
 
 		Site.addCP(
 			membershipType = "Private",
-			siteName = "${siteName}",
-			siteTemplateName = "${siteName}");
+			siteName = ${siteName},
+			siteTemplateName = ${siteName});
 	}
 
 }

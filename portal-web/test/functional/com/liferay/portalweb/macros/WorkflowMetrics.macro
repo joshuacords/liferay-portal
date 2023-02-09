@@ -15,7 +15,7 @@ definition {
 
 		AssertTextPresent(
 			locator1 = "WorkflowMetrics#METRICS_COMPLETION_VELOCITY_CHART_TOOLTIP_UNIT_VALUE",
-			value1 = "${chartVelocityUnit}");
+			value1 = ${chartVelocityUnit});
 	}
 
 	macro assertDefaultChartRangesAndUnits {
@@ -39,78 +39,78 @@ definition {
 	macro checkPendingWorkflowValues {
 		AssertTextEquals(
 			locator1 = "WorkflowMetrics#DASHBOARD_TOTAL_OVERDUE_ITEMS_VALUE",
-			value1 = "${key_overdue}");
+			value1 = ${key_overdue});
 
 		AssertTextEquals(
 			locator1 = "WorkflowMetrics#DASHBOARD_TOTAL_ONTIME_ITEMS_VALUE",
-			value1 = "${key_ontime}");
+			value1 = ${key_ontime});
 
 		AssertTextEquals(
 			locator1 = "WorkflowMetrics#DASHBOARD_TOTAL_PENDING_ITEMS_VALUE",
-			value1 = "${key_pending}");
+			value1 = ${key_pending});
 
 		AssertTextEquals(
 			locator1 = "WorkflowMetrics#DASHBOARD_TOTAL_UNTRACKED_ITEMS_VALUE",
-			value1 = "${key_untracked}");
+			value1 = ${key_untracked});
 	}
 
 	macro fillSLAForm {
-		var key_slaDefinitionDays = "${slaDefinitionDays}";
-		var key_slaDefinitionDescription = "${slaDefinitionDescription}";
-		var key_slaDefinitionEnd = "${slaDefinitionEnd}";
-		var key_slaDefinitionHours = "${slaDefinitionHours}";
-		var key_slaDefinitionName = "${slaDefinitionName}";
-		var key_slaDefinitionStart = "${slaDefinitionStart}";
+		var key_slaDefinitionDays = ${slaDefinitionDays};
+		var key_slaDefinitionDescription = ${slaDefinitionDescription};
+		var key_slaDefinitionEnd = ${slaDefinitionEnd};
+		var key_slaDefinitionHours = ${slaDefinitionHours};
+		var key_slaDefinitionName = ${slaDefinitionName};
+		var key_slaDefinitionStart = ${slaDefinitionStart};
 
 		Type(
 			locator1 = "WorkflowMetricsSLA#SLA_DEFINITION_NAME",
-			value1 = "${key_slaDefinitionName}");
+			value1 = ${key_slaDefinitionName});
 
 		Type(
 			locator1 = "WorkflowMetricsSLA#SLA_DEFINITION_DESCRIPTION",
-			value1 = "${key_slaDefinitionDescription}");
+			value1 = ${key_slaDefinitionDescription});
 
 		Click(locator1 = "WorkflowMetricsSLA#SLA_DEFINITION_START");
 
 		AssertClick(
 			locator1 = "WorkflowMetricsSLA#SLA_DROPDOWN_START_OPTION",
-			value1 = "${key_slaDefinitionStart}");
+			value1 = ${key_slaDefinitionStart});
 
 		Click(locator1 = "WorkflowMetricsSLA#SLA_DEFINITION_STOP");
 
 		AssertClick(
 			locator1 = "WorkflowMetricsSLA#SLA_DROPDOWN_STOP_OPTION",
-			value1 = "${key_slaDefinitionEnd}");
+			value1 = ${key_slaDefinitionEnd});
 
 		Type(
 			locator1 = "WorkflowMetricsSLA#SLA_DEFINITION_DAYS",
-			value1 = "${key_slaDefinitionDays}");
+			value1 = ${key_slaDefinitionDays});
 
 		Type(
 			locator1 = "WorkflowMetricsSLA#SLA_DEFINITION_HOURS",
-			value1 = "${key_slaDefinitionHours}");
+			value1 = ${key_slaDefinitionHours});
 	}
 
 	macro goToCreatedSLAForm {
-		var key_workflowSLAName = "${workflowSLAName}";
+		var key_workflowSLAName = ${workflowSLAName};
 
 		Click(
 			locator1 = "WorkflowMetricsSLA#SLA_CREATED_FORM",
-			value1 = "${workflowSLAName}");
+			value1 = ${workflowSLAName});
 	}
 
 	macro goToDashboardAllItemsWithFilter {
-		var key_workflowProcess = "${workflowProcess}";
-		var key_workflowMetricsTab = "${workflowMetricsTab}";
-		var key_workflowFilterOption = "${workflowFilterOption}";
+		var key_workflowProcess = ${workflowProcess};
+		var key_workflowMetricsTab = ${workflowMetricsTab};
+		var key_workflowFilterOption = ${workflowFilterOption};
 
-		WorkflowMetrics.goToWorkflowProcessMetrics(workflowProcessName = "${key_workflowProcess}");
+		WorkflowMetrics.goToWorkflowProcessMetrics(workflowProcessName = ${key_workflowProcess});
 
-		if ("${workflowMetricsTab}" == "PERFORMANCE") {
+		if (${workflowMetricsTab} == "PERFORMANCE") {
 			Click(locator1 = "WorkflowMetrics#METRICS_PERFORMANCE_TAB");
 		}
 
-		if ("${workflowMetricsTab}" == "DASHBOARD") {
+		if (${workflowMetricsTab} == "DASHBOARD") {
 			Click(locator1 = "WorkflowMetrics#METRICS_DASHBOARD_TAB");
 		}
 
@@ -118,7 +118,7 @@ definition {
 	}
 
 	macro goToWorkflowProcessMetrics {
-		var key_workflowProcessName = "${workflowProcessName}";
+		var key_workflowProcessName = ${workflowProcessName};
 
 		ProductMenu.gotoPortlet(
 			category = "Workflow",
@@ -127,13 +127,13 @@ definition {
 
 		Click(
 			locator1 = "WorkflowMetrics#METRICS_WORKFLOW_PROCESS_NAME",
-			value1 = "${workflowProcessName}");
+			value1 = ${workflowProcessName});
 	}
 
 	macro goToWorkflowSLASettings {
-		var key_workflowProcessName = "${workflowProcessName}";
+		var key_workflowProcessName = ${workflowProcessName};
 
-		WorkflowMetrics.goToWorkflowProcessMetrics(workflowProcessName = "${workflowProcessName}");
+		WorkflowMetrics.goToWorkflowProcessMetrics(workflowProcessName = ${workflowProcessName});
 
 		Click(locator1 = "WorkflowMetricsSLA#METRICS_MENU_SLA");
 
@@ -149,9 +149,9 @@ definition {
 	}
 
 	macro verifyDefaultUnitsForEachDateRange {
-		var key_completionVelocityDateRange = "${completionVelocityDateRange}";
+		var key_completionVelocityDateRange = ${completionVelocityDateRange};
 
-		for (var isUnitPresent : list "${isPresent}") {
+		for (var isUnitPresent : list ${isPresent}) {
 			Click(locator1 = "WorkflowMetrics#METRICS_COMPLETION_VELOCITY_DATE_RANGE_DROPDOWN");
 
 			Click(locator1 = "WorkflowMetrics#METRICS_COMPLETION_VELOCITY_DATE_RANGE_DROPDOWN_OPTION");
@@ -160,7 +160,7 @@ definition {
 
 			AssertElementPresent(locator1 = "WorkflowMetrics#METRICS_COMPLETION_VELOCITY_UNIT_DROPDOWN_OPTION_${isUnitPresent}");
 
-			if ("${isUnitPresent}" == "INST_HOUR") {
+			if (${isUnitPresent} == "INST_HOUR") {
 				Click(locator1 = "WorkflowMetrics#METRICS_COMPLETION_VELOCITY_UNIT_DROPDOWN_OPTION_${isUnitPresent}");
 
 				AssertTextEquals(
@@ -170,7 +170,7 @@ definition {
 				WorkflowMetrics.AssertChartIsPresent(chartVelocityUnit = "Inst / Hour");
 			}
 
-			if ("${isUnitPresent}" == "INST_DAY") {
+			if (${isUnitPresent} == "INST_DAY") {
 				Click(locator1 = "WorkflowMetrics#METRICS_COMPLETION_VELOCITY_UNIT_DROPDOWN_OPTION_${isUnitPresent}");
 
 				AssertTextEquals(
@@ -180,7 +180,7 @@ definition {
 				WorkflowMetrics.AssertChartIsPresent(chartVelocityUnit = "Inst / Day");
 			}
 
-			if ("${isUnitPresent}" == "INST_WEEK") {
+			if (${isUnitPresent} == "INST_WEEK") {
 				Click(locator1 = "WorkflowMetrics#METRICS_COMPLETION_VELOCITY_UNIT_DROPDOWN_OPTION_${isUnitPresent}");
 
 				AssertTextEquals(
@@ -190,7 +190,7 @@ definition {
 				WorkflowMetrics.AssertChartIsPresent(chartVelocityUnit = "Inst / Week");
 			}
 
-			if ("${isUnitPresent}" == "INST_MONTH") {
+			if (${isUnitPresent} == "INST_MONTH") {
 				Click(locator1 = "WorkflowMetrics#METRICS_COMPLETION_VELOCITY_UNIT_DROPDOWN_OPTION_${isUnitPresent}");
 
 				AssertTextEquals(
@@ -200,7 +200,7 @@ definition {
 				WorkflowMetrics.AssertChartIsPresent(chartVelocityUnit = "Inst / Month");
 			}
 
-			if ("${isUnitPresent}" == "INST_YEAR") {
+			if (${isUnitPresent} == "INST_YEAR") {
 				Click(locator1 = "WorkflowMetrics#METRICS_COMPLETION_VELOCITY_UNIT_DROPDOWN_OPTION_${isUnitPresent}");
 
 				AssertTextEquals(
@@ -211,7 +211,7 @@ definition {
 			}
 		}
 
-		for (var isUnitNotPresent : list "${isNotPresent}") {
+		for (var isUnitNotPresent : list ${isNotPresent}) {
 			Click(locator1 = "WorkflowMetrics#METRICS_COMPLETION_VELOCITY_DATE_RANGE_DROPDOWN");
 
 			Click(locator1 = "WorkflowMetrics#METRICS_COMPLETION_VELOCITY_DATE_RANGE_DROPDOWN_OPTION");
@@ -223,21 +223,21 @@ definition {
 	}
 
 	macro verifyFiltersFromDashboard {
-		for (var key_workflowFilterValue : list "${isFilterOptionPresent}") {
+		for (var key_workflowFilterValue : list ${isFilterOptionPresent}) {
 			AssertElementPresent(locator1 = "WorkflowAllItems#WORKFLOW_ALL_ITEMS_FILTER_VALUE");
 		}
 	}
 
 	macro waitForSLA {
-		while ((IsTextEqual(locator1 = "WorkflowMetrics#DASHBOARD_TOTAL_${key_status}_ITEMS_VALUE", value1 = "${key_expectedValue}")) && (maxIterations = "24")) {
+		while ((IsTextEqual(locator1 = "WorkflowMetrics#DASHBOARD_TOTAL_${key_status}_ITEMS_VALUE", value1 = ${key_expectedValue})) && (maxIterations = "24")) {
 			echo("Waiting 5 seconds to recheck");
 
-			Pause(locator1 = "5000");
+			Pause(locator1 = 5000);
 
 			Refresh();
 		}
 
-		if (IsTextEqual(locator1 = "WorkflowMetrics#DASHBOARD_TOTAL_${key_status}_ITEMS_VALUE", value1 = "${key_expectedValue}")) {
+		if (IsTextEqual(locator1 = "WorkflowMetrics#DASHBOARD_TOTAL_${key_status}_ITEMS_VALUE", value1 = ${key_expectedValue})) {
 			echo("timeout exceeded");
 		}
 	}

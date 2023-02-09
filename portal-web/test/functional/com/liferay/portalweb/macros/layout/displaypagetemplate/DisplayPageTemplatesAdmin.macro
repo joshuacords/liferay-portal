@@ -12,21 +12,21 @@ definition {
 
 		Select(
 			locator1 = "//div[contains(.,'Content Type')]/select",
-			value1 = "${contentType}");
+			value1 = ${contentType});
 
 		Select(
 			locator1 = "//div[contains(.,'Subtype')]/select",
-			value1 = "${subType}");
+			value1 = ${subType});
 	}
 
 	macro addDisplayPage {
 		LexiconEntry.gotoAdd();
 
-		PortletEntry.inputName(name = "${displayPageName}");
+		PortletEntry.inputName(name = ${displayPageName});
 
 		DisplayPageTemplatesAdmin._selectMappingTypes(
-			contentType = "${contentType}",
-			subType = "${subType}");
+			contentType = ${contentType},
+			subType = ${subType});
 
 		Button.clickSave();
 
@@ -34,30 +34,30 @@ definition {
 	}
 
 	macro deleteDisplayPage {
-		Pause(locator = "5000");
+		Pause(locator = 5000);
 
-		LexiconCard.delete(card = "${displayPageName}");
+		LexiconCard.delete(card = ${displayPageName});
 	}
 
 	macro gotoDisplayPage {
-		LexiconCard.clickCardTitle(card = "${displayPageName}");
+		LexiconCard.clickCardTitle(card = ${displayPageName});
 	}
 
 	macro gotoDisplayPageEllipsisItem {
-		Pause(locator = "1000");
+		Pause(locator = 1000);
 
 		LexiconCard.clickEllipsisItem(
-			card = "${displayPageName}",
-			item = "${item}");
+			card = ${displayPageName},
+			item = ${item});
 	}
 
 	macro markDisplayPageAsDefault {
 		DisplayPageTemplatesAdmin.gotoDisplayPageEllipsisItem(
-			displayPageName = "${displayPageName}",
+			displayPageName = ${displayPageName},
 			item = "Mark As Default");
 
 		AssertVisible(
-			key_card = "${displayPageName}",
+			key_card = ${displayPageName},
 			locator1 = "LexiconCard#CARD_STICKER");
 	}
 
@@ -67,41 +67,41 @@ definition {
 
 	macro renameDisplayPage {
 		DisplayPageTemplatesAdmin.gotoDisplayPageEllipsisItem(
-			displayPageName = "${displayPageName}",
+			displayPageName = ${displayPageName},
 			item = "Rename");
 
-		PortletEntry.inputName(name = "${newDisplayPageName}");
+		PortletEntry.inputName(name = ${newDisplayPageName});
 
 		Modal.save();
 	}
 
 	macro viewDisplayPageNotPresent {
-		LexiconCard.viewCardNotPresent(card = "${displayPageName}");
+		LexiconCard.viewCardNotPresent(card = ${displayPageName});
 	}
 
 	macro viewDisplayPagePresent {
-		LexiconCard.viewCardPresent(card = "${displayPageName}");
+		LexiconCard.viewCardPresent(card = ${displayPageName});
 	}
 
 	macro viewPGViaAP {
-		var key_assetContent = "${webContentContent}";
-		var key_assetTitle = "${webContentTitle}";
+		var key_assetContent = ${webContentContent};
+		var key_assetTitle = ${webContentTitle};
 
 		AssertTextEquals(
 			locator1 = "AP#ASSET_ABSTRACT_TITLE",
-			value1 = "${webContentTitle}");
+			value1 = ${webContentTitle});
 
 		AssertTextEquals.assertPartialText(
 			locator1 = "AP#ASSET_ABSTRACT_DESCRIPTION",
-			value1 = "${webContentContent}");
+			value1 = ${webContentContent});
 
 		AssertClick(
 			locator1 = "AP#ASSET_ABSTRACT_TITLE",
-			value1 = "${webContentTitle}");
+			value1 = ${webContentTitle});
 
-		for (var content : list "${contentList}") {
+		for (var content : list ${contentList}) {
 			AssertElementPresent(
-				key_text = "${content}",
+				key_text = ${content},
 				locator1 = "Fragment#EDITABLE_FIELD_CONTENT");
 		}
 	}

@@ -12,7 +12,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -22,7 +22,7 @@ definition {
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewCaptchaEnabled {
 		property captcha.enabled = "true";
 
@@ -32,7 +32,7 @@ definition {
 	}
 
 	@description = "This test will deploy an OSGI configuration file to test LPS-84310."
-	@priority = "4"
+	@priority = 4
 	test ViewRecaptchaEnabled {
 		property captcha.enabled = "true";
 		property osgi.module.configuration.file.names = "com.liferay.captcha.configuration.CaptchaConfiguration.config";
@@ -60,11 +60,11 @@ definition {
 
 		SystemSettings.editTextAreaSetting(
 			settingName = "reCAPTCHA Private Key",
-			settingValue = "${recaptchaPrivateKey}");
+			settingValue = ${recaptchaPrivateKey});
 
 		SystemSettings.editTextAreaSetting(
 			settingName = "reCAPTCHA Public Key",
-			settingValue = "${recaptchaPublicKey}");
+			settingValue = ${recaptchaPublicKey});
 
 		SystemSettings.saveConfiguration();
 

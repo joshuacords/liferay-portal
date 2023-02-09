@@ -23,7 +23,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -36,7 +36,7 @@ definition {
 	}
 
 	@description = "LRQA-70845 Verify that cannot bypass workflow by duplicating article."
-	@priority = "5"
+	@priority = 5
 	test CannotBypassWorkflowByduplicatingArticle {
 		property test.name.skip.portal.instance = "WorkflowWebContent#CannotBypassWorkflowByduplicatingArticle";
 
@@ -152,7 +152,7 @@ definition {
 			value1 = "APPROVED");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ConfigureFolderWorkflow {
 		Workflow.configureWCWorkflowViaFolderInfo(workflowDefinition = "Single Approver");
 
@@ -181,7 +181,7 @@ definition {
 			workflowRestriction = "Default Workflow");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test EditWebContentInReviewProcess {
 		property portal.acceptance = "true";
 		property testray.component.names = "Training";

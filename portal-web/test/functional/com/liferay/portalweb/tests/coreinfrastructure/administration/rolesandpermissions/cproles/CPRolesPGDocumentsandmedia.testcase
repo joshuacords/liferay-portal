@@ -14,7 +14,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -36,7 +36,7 @@ definition {
 		}
 	}
 
-	@priority = "5"
+	@priority = 5
 	test AddDMDocumentRegRoleDefaultPermissions {
 		property portal.acceptance = "true";
 
@@ -58,7 +58,7 @@ definition {
 		AssertElementNotPresent(locator1 = "Toolbar#ADD");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test AddDMDocumentRegRoleDefinePermissions {
 		property portal.acceptance = "true";
 
@@ -104,7 +104,7 @@ definition {
 		AssertElementNotPresent(locator1 = "Toolbar#ADD");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddDMDocumentSiteMemberRoleInline {
 		Permissions.setUpSiteMemberRoleLoginUserPG(
 			page = "Public Pages",
@@ -182,7 +182,7 @@ definition {
 			dmDocumentTitle = "Document_2.doc");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddDMDocumentSiteRole {
 		Permissions.setUpSiteRoleLoginUserPG(
 			page = "Public Pages",
@@ -264,7 +264,7 @@ definition {
 		MenuItem.viewNotPresent(menuItem = "File Upload");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test DeleteDMFolderRegRoleInline {
 		property testray.component.names = "Training";
 
@@ -343,7 +343,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-43104."
-	@priority = "5"
+	@priority = 5
 	test ViewDMDocumentNoGuestRole {
 		ProductMenu.gotoPortlet(
 			category = "Site Builder",
@@ -381,7 +381,7 @@ definition {
 		DMPortlet.viewDefaultPG();
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewDMFolderGuestInline {
 		ProductMenu.gotoPortlet(
 			category = "Site Builder",
@@ -421,7 +421,7 @@ definition {
 
 		AssertTextEquals(
 			locator1 = "DocumentsAndMedia#BREADCRUMB_FOLDER_NAME",
-			value1 = "${dmFolderNameUpperCase}");
+			value1 = ${dmFolderNameUpperCase});
 
 		User.loginPG(
 			password = "test",
@@ -475,7 +475,7 @@ definition {
 
 		AssertTextEquals(
 			locator1 = "DocumentsAndMedia#BREADCRUMB_FOLDER_NAME",
-			value1 = "${dmFolderNameUpperCase}");
+			value1 = ${dmFolderNameUpperCase});
 	}
 
 }

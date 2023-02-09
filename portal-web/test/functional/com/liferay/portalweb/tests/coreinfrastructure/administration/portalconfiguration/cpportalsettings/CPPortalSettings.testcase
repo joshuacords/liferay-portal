@@ -15,7 +15,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -38,7 +38,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-79394. This test check that system settings scope is corrected."
-	@priority = "5"
+	@priority = 5
 	test CheckSystemSettingsScopeIsCorrected {
 		property test.name.skip.portal.instance = "SystemSettings#CheckSystemSettingsScopeIsCorrected";
 
@@ -93,7 +93,7 @@ definition {
 		}
 	}
 
-	@priority = "5"
+	@priority = 5
 	test EditDefaultUserAssociationsOrganizationSites {
 		property test.name.skip.portal.instance = "CPPortalSettings#EditDefaultUserAssociationsOrganizationSites";
 
@@ -137,7 +137,7 @@ definition {
 			siteName = "Organization Name");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test EditDefaultUserAssociationsRoles {
 		property test.name.skip.portal.instance = "CPPortalSettings#EditDefaultUserAssociationsRoles";
 
@@ -168,7 +168,7 @@ definition {
 		User.viewUserInfomationRolesCP(roleTitle = "Roles Regrole Name");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test EditDefaultUserAssociationsSites {
 		property test.name.skip.portal.instance = "CPPortalSettings#EditDefaultUserAssociationsSites";
 
@@ -199,7 +199,7 @@ definition {
 		User.viewUserInfomationSitesCP(siteName = "Site Name");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test EditDefaultUserAssociationsUserGroups {
 		property test.name.skip.portal.instance = "CPPortalSettings#EditDefaultUserAssociationsUserGroups";
 
@@ -230,7 +230,7 @@ definition {
 		User.viewUserInfomationUserGroupsCP(userGroupName = "UG UserGroup Name");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test EnterReservedEmailAddress {
 		property portal.acceptance = "true";
 		property test.name.skip.portal.instance = "CPPortalSettings#EnterReservedEmailAddress";
@@ -249,7 +249,7 @@ definition {
 			userScreenName = "usersn");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test EnterReservedScreenName {
 		property portal.acceptance = "true";
 		property test.name.skip.portal.instance = "CPPortalSettings#EnterReservedScreenName";
@@ -270,11 +270,11 @@ definition {
 			userScreenName = "usersn");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewContentSharingDisabledAcrossSitesViaAP {
 		property test.name.skip.portal.instance = "CPPortalSettings#ViewContentSharingDisabledAcrossSitesViaAP";
 
-		var siteName = TestCase.getSiteName(siteName = "${siteName}");
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
 
 		PortalSettings.gotoConfiguration(
 			configurationCategory = "Sharing",
@@ -340,7 +340,7 @@ definition {
 		AssetPublisherPortlet.viewConfigureSiteScopeContentSharingPG(
 			childSite = "true",
 			contentSharingAcrossSitesEnabled = "false",
-			liferaySiteName = "${siteName}",
+			liferaySiteName = ${siteName},
 			liferaySiteType = "Site");
 
 		Navigator.openSiteURL(siteName = "Site Name");
@@ -371,7 +371,7 @@ definition {
 		AssetPublisherPortlet.viewConfigureSiteScopeContentSharingPG(
 			childSite = "true",
 			contentSharingAcrossSitesEnabled = "false",
-			liferaySiteName = "${siteName}",
+			liferaySiteName = ${siteName},
 			liferaySiteType = "Site");
 
 		Navigator.openSiteURL(siteName = "Child SiteName");
@@ -383,11 +383,11 @@ definition {
 			siteScope2 = "Child SiteName");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewContentSharingEnabledAcrossSitesViaAP {
 		property test.name.skip.portal.instance = "CPPortalSettings#ViewContentSharingEnabledAcrossSitesViaAP";
 
-		var siteName = TestCase.getSiteName(siteName = "${siteName}");
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
 
 		PortalSettings.gotoConfiguration(
 			configurationCategory = "Sharing",
@@ -420,7 +420,7 @@ definition {
 
 		AssetPublisherPortlet.viewConfigureSiteScopeContentSharingPG(
 			contentSharingAcrossSitesEnabled = "true",
-			liferaySiteName = "${siteName}",
+			liferaySiteName = ${siteName},
 			liferaySiteType = "Site");
 
 		Navigator.openSiteURL(siteName = "Site Name");
@@ -447,7 +447,7 @@ definition {
 		AssetPublisherPortlet.viewConfigureSiteScopeContentSharingPG(
 			contentSharingAcrossSitesEnabled = "true",
 			currentSite = "true",
-			liferaySiteName = "${siteName}",
+			liferaySiteName = ${siteName},
 			liferaySiteType = "Current Site");
 
 		Navigator.gotoPage(pageName = "AP Test Page");
@@ -460,10 +460,10 @@ definition {
 			assetContent = "Blogs Entry Content",
 			assetTitle = "Blogs Entry Title",
 			siteScope1 = "Site Name",
-			siteScope2 = "${siteName}");
+			siteScope2 = ${siteName});
 	}
 
-	@priority = "3"
+	@priority = 3
 	test ViewDefaultUserAssociations {
 		property test.name.skip.portal.instance = "CPPortalSettings#ViewDefaultUserAssociations";
 
@@ -472,7 +472,7 @@ definition {
 		PortalSettings.viewDefaultUserAssociationsCP();
 	}
 
-	@priority = "3"
+	@priority = 3
 	test ViewEmailNotificationsAccountCreatedNotification {
 		property test.name.skip.portal.instance = "CPPortalSettings#ViewEmailNotificationsAccountCreatedNotification";
 
@@ -481,7 +481,7 @@ definition {
 		PortalSettings.viewEmailNotificationsAccountCreatedNotificationCP();
 	}
 
-	@priority = "3"
+	@priority = 3
 	test ViewEmailNotificationsPasswordChangedNotification {
 		property test.name.skip.portal.instance = "CPPortalSettings#ViewEmailNotificationsPasswordChangedNotification";
 
@@ -490,7 +490,7 @@ definition {
 		PortalSettings.viewEmailNotificationsPasswordChangedNotificationCP();
 	}
 
-	@priority = "3"
+	@priority = 3
 	test ViewEmailNotificationsSender {
 		property test.name.skip.portal.instance = "CPPortalSettings#ViewEmailNotificationsSender";
 
@@ -500,7 +500,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-97907."
-	@priority = "5"
+	@priority = 5
 	test ViewSystemSettingsSavedByKeyboard {
 		property test.name.skip.portal.instance = "CPPortalSettings#ViewSystemSettingsSavedByKeyboard";
 
@@ -516,7 +516,7 @@ definition {
 
 		SystemSettings.editTextSetting(
 			settingName = "Maximum Number of Tags",
-			settingValue = "2");
+			settingValue = 2);
 
 		FormFields.editTextFieldWithEnterKey(fieldName = "maximumNumberOfTags");
 
@@ -536,7 +536,7 @@ definition {
 
 		FormFields.viewTextValue(
 			fieldName = "maximumNumberOfTags",
-			fieldValue = "2");
+			fieldValue = 2);
 	}
 
 }

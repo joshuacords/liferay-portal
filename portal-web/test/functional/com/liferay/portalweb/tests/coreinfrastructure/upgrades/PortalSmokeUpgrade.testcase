@@ -20,7 +20,7 @@ definition {
 		SearchAdministration.executeSearchActions(actionsDescription = "Reindex all search indexes.");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewPortalSmokeArchive625 {
 		property data.archive.type = "data-archive-portal";
 		property database.types = "mariadb,mysql,postgresql";
@@ -31,7 +31,7 @@ definition {
 		Upgrade.viewUpgrade();
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewPortalSmokeArchive704 {
 		property data.archive.type = "data-archive-portal";
 		property database.types = "mariadb,mysql,postgresql";
@@ -42,7 +42,7 @@ definition {
 		Upgrade.viewUpgrade();
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewPortalSmokeArchive713 {
 		property data.archive.type = "data-archive-portal";
 		property database.types = "mariadb,mysql,postgresql";
@@ -53,7 +53,7 @@ definition {
 		Upgrade.viewUpgrade();
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewPortalSmokeArchive720 {
 		property data.archive.type = "data-archive-portal";
 		property database.types = "mariadb,mysql,postgresql";
@@ -64,7 +64,7 @@ definition {
 		Upgrade.viewUpgrade();
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ViewPortalSmokeArchive7110 {
 		property data.archive.type = "data-archive-portal";
 		property portal.upgrades = "true";
@@ -74,7 +74,7 @@ definition {
 		Upgrade.viewUpgrade();
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ViewPortalSmokeArchive7210 {
 		property data.archive.type = "data-archive-portal";
 		property portal.upgrades = "true";
@@ -85,7 +85,7 @@ definition {
 		Upgrade.viewUpgrade();
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ViewPortalSmokeArchive70106 {
 		property data.archive.type = "data-archive-portal";
 		property portal.upgrades = "true";
@@ -96,7 +96,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-105035."
-	@priority = "5"
+	@priority = 5
 	test ViewPortalSmokeArchive71103 {
 		property data.archive.type = "data-archive-portal";
 		property portal.upgrades = "true";
@@ -106,7 +106,7 @@ definition {
 		Upgrade.viewUpgrade();
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewPortalSmokeArchive621015 {
 		property data.archive.type = "data-archive-portal";
 		property database.types = "db2,mariadb,mysql,oracle,postgresql";
@@ -117,7 +117,7 @@ definition {
 		Upgrade.viewUpgrade();
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ViewPortalSmokeArchive621021 {
 		property data.archive.type = "data-archive-portal";
 		property database.types = "db2,mariadb,mysql,oracle,postgresql";

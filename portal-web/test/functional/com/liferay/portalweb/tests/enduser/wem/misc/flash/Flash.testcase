@@ -23,7 +23,7 @@ definition {
 		Page.tearDownCP();
 	}
 
-	@priority = "4"
+	@priority = 4
 	test FlashPortletSmoke {
 		var appName = "Flash";
 

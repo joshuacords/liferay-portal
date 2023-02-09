@@ -17,7 +17,7 @@ definition {
 
 		ACUtils.tearDownDXP();
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -26,17 +26,17 @@ definition {
 	}
 
 	@description = "Bug: LRAC-11142 | Automation ID: LRAC-11162 | Test Summary: New property created when reconnect and old property remains"
-	@priority = "4"
+	@priority = 4
 	test OnlyAvailablePropertiesAppearInDXP {
 		task ("Go to properties page and add 2 new properties") {
 			var propertyList = "Property OnlyAvailablePropertiesAppearInDXP 1,Property OnlyAvailablePropertiesAppearInDXP 2";
 
 			ACNavigation.goToSettings();
 
-			for (var propertyName : list "${propertyList}") {
+			for (var propertyName : list ${propertyList}) {
 				ACSettings.goToProperties();
 
-				ACProperties.addNewProperty(propertyName = "${propertyName}");
+				ACProperties.addNewProperty(propertyName = ${propertyName});
 			}
 		}
 

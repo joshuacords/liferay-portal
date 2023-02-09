@@ -48,7 +48,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -63,7 +63,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-52083."
-	@priority = "3"
+	@priority = 3
 	test AddEvent {
 		CalendarNavigator.gotoAddEvent();
 
@@ -148,7 +148,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-74684."
-	@priority = "5"
+	@priority = 5
 	test InviteUserViaUnpublishedEventAndViewNoResponse {
 		Navigator.openSiteURL(siteName = "Site Name");
 
@@ -232,7 +232,7 @@ definition {
 			userCalendarName = "Test Test");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test SchedulePublishToLiveWithEventAndResource {
 		property portal.acceptance = "true";
 		property testray.component.names = "Training";
@@ -310,7 +310,7 @@ definition {
 			checkContentNameList = "Calendar",
 			scheduleTitleName = "Staging Schedule Title");
 
-		Pause(locator1 = "180000");
+		Pause(locator1 = 180000);
 
 		Navigator.gotoSitePage(
 			pageName = "Staging Test Page",

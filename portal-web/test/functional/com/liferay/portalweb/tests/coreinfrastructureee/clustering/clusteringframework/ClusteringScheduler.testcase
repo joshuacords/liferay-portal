@@ -19,17 +19,17 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test PersistentAndMemoryJobs {
 		property test.name.skip.portal.instance = "ClusteringScheduler#PersistentAndMemoryJobs";
 
 		Clustering.runGroovyScript(
-			nodePort = "8080",
+			nodePort = 8080,
 			scriptFile = "groovy-script-portal-scheduler-persistent-1.groovy");
 
 		AssertTextEquals(
@@ -37,7 +37,7 @@ definition {
 			value1 = "Persistent job 1 is added");
 
 		Clustering.runGroovyScript(
-			nodePort = "9080",
+			nodePort = 9080,
 			scriptFile = "groovy-script-portal-scheduler-persistent-2.groovy");
 
 		AssertTextEquals(
@@ -45,7 +45,7 @@ definition {
 			value1 = "Persistent job 2 is added");
 
 		Clustering.runGroovyScript(
-			nodePort = "8080",
+			nodePort = 8080,
 			scriptFile = "groovy-script-portal-scheduler-memory-1.groovy");
 
 		AssertTextEquals(
@@ -53,7 +53,7 @@ definition {
 			value1 = "Memory job 1 is added");
 
 		Clustering.runGroovyScript(
-			nodePort = "9080",
+			nodePort = 9080,
 			scriptFile = "groovy-script-portal-scheduler-memory-2.groovy");
 
 		AssertTextEquals(
@@ -61,7 +61,7 @@ definition {
 			value1 = "Memory job 2 is added");
 
 		Clustering.runGroovyScript(
-			nodePort = "8080",
+			nodePort = 8080,
 			scriptFile = "groovy-script-portal-scheduler-memory-clustered-1.groovy");
 
 		AssertTextEquals(
@@ -69,7 +69,7 @@ definition {
 			value1 = "Memory clustered job 1 is added");
 
 		Clustering.runGroovyScript(
-			nodePort = "9080",
+			nodePort = 9080,
 			scriptFile = "groovy-script-portal-scheduler-memory-clustered-2.groovy");
 
 		AssertTextEquals(

@@ -58,7 +58,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -76,7 +76,7 @@ definition {
 		}
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ApproveEventWithInvitedUser {
 		property app.server.types = "jboss,tcserver,tomcat,weblogic,websphere,wildfly";
 		property database.types = "db2,hypersonic,mariadb,mysql,oracle,postgresql,sqlserver,sybase";
@@ -90,7 +90,7 @@ definition {
 
 		CalendarEvent.viewSiteRSVPWithUnapprovedWorkflow(
 			eventTitle = "Calendar Event Title",
-			siteCalendarName = "${siteName}");
+			siteCalendarName = ${siteName});
 
 		Navigator.gotoPage(pageName = "Calendar Page");
 
@@ -98,7 +98,7 @@ definition {
 
 		CalendarEvent.viewNoUserInviteWithUnapprovedWorkflow(
 			eventTitle = "Calendar Event Title",
-			siteCalendarName = "${siteName}");
+			siteCalendarName = ${siteName});
 
 		UserBar.gotoDropdownItem(dropdownItem = "My Workflow Tasks");
 
@@ -125,20 +125,20 @@ definition {
 
 		CalendarEvent.viewInvitedUserRSVPWithApprovedWorkflow(
 			eventTitle = "Calendar Event Title",
-			siteCalendarName = "${siteName}",
+			siteCalendarName = ${siteName},
 			userCalendarName = "Test Test");
 	}
 
 	@description = "This is a use case for LPS-59572."
-	@priority = "3"
+	@priority = 3
 	test DeleteAndRestoreEvent {
-		var siteName = TestCase.getSiteName(siteName = "${siteName}");
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
 
 		CalendarNavigator.gotoView(viewType = "Week");
 
 		CalendarEvent.viewSiteRSVPWithUnapprovedWorkflow(
 			eventTitle = "Calendar Event Title",
-			siteCalendarName = "${siteName}");
+			siteCalendarName = ${siteName});
 
 		UserBar.gotoDropdownItem(dropdownItem = "My Workflow Tasks");
 
@@ -180,7 +180,7 @@ definition {
 
 		CalendarEvent.viewSiteRSVPWithUnapprovedWorkflow(
 			eventTitle = "Calendar Event Title",
-			siteCalendarName = "${siteName}");
+			siteCalendarName = ${siteName});
 
 		UserBar.gotoDropdownItem(dropdownItem = "My Workflow Tasks");
 
@@ -227,7 +227,7 @@ definition {
 
 		CalendarEvent.viewSiteRSVPWithUnapprovedWorkflow(
 			eventTitle = "Calendar Event Title",
-			siteCalendarName = "${siteName}");
+			siteCalendarName = ${siteName});
 
 		UserBar.gotoDropdownItem(dropdownItem = "My Workflow Tasks");
 
@@ -252,19 +252,19 @@ definition {
 
 		CalendarEvent.viewInvitedUserRSVPWithApprovedWorkflow(
 			eventTitle = "Calendar Event Title",
-			siteCalendarName = "${siteName}",
+			siteCalendarName = ${siteName},
 			userCalendarName = "Test Test");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test RejectEventWithInvitedUser {
-		var siteName = TestCase.getSiteName(siteName = "${siteName}");
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
 
 		CalendarNavigator.gotoView(viewType = "Week");
 
 		CalendarEvent.viewSiteRSVPWithUnapprovedWorkflow(
 			eventTitle = "Calendar Event Title",
-			siteCalendarName = "${siteName}");
+			siteCalendarName = ${siteName});
 
 		Navigator.gotoPage(pageName = "Calendar Page");
 
@@ -272,7 +272,7 @@ definition {
 
 		CalendarEvent.viewNoUserInviteWithUnapprovedWorkflow(
 			eventTitle = "Calendar Event Title",
-			siteCalendarName = "${siteName}");
+			siteCalendarName = ${siteName});
 
 		UserBar.gotoDropdownItem(dropdownItem = "My Workflow Tasks");
 
@@ -294,15 +294,15 @@ definition {
 
 		CalendarEvent.viewSiteRSVPWithUnapprovedWorkflow(
 			eventTitle = "Calendar Event Title",
-			siteCalendarName = "${siteName}");
+			siteCalendarName = ${siteName});
 
 		CalendarEvent.viewNoUserInviteWithUnapprovedWorkflow(
 			eventTitle = "Calendar Event Title",
-			siteCalendarName = "${siteName}",
+			siteCalendarName = ${siteName},
 			userCalendarName = "Test Test");
 	}
 
-	@priority = "2"
+	@priority = 2
 	test ViewPendingStatusInEventDetails {
 		CalendarNavigator.gotoView(viewType = "Week");
 

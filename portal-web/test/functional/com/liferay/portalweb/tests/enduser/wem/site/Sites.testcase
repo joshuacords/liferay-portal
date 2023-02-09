@@ -15,7 +15,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -23,7 +23,7 @@ definition {
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ActivateSite {
 		property test.name.skip.portal.instance = "Sites#ActivateSite";
 
@@ -68,7 +68,7 @@ definition {
 		AssertTextNotPresent(value1 = "This site is inactive. Please contact the administrator.");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddChildChildSite {
 		JSONGroup.addGroup(groupName = "Site Name");
 
@@ -92,7 +92,7 @@ definition {
 			siteName = "Child SiteName");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddPublicVirtualHostsSiteURL {
 		JSONGroup.addGroup(groupName = "Site Name");
 
@@ -114,7 +114,7 @@ definition {
 			sitePageURL = "http://www.able.com:8080/site-page");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddSiteWithCommaInName {
 		JSONGroup.addGroup(groupName = "Site Name,");
 
@@ -123,7 +123,7 @@ definition {
 		Site.viewCP(siteName = "Site Name,");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddSiteWithInvalidDuplicateName {
 		JSONGroup.addGroup(groupName = "Site Name");
 
@@ -134,18 +134,18 @@ definition {
 			siteNameInvalid = "Duplicate");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddSiteWithInvalidName {
 		for (var siteName : list " ,Site Name*,22222") {
 			Site.openSitesAdmin();
 
 			Site.viewCannotAdd(
-				siteName = "${siteName}",
+				siteName = ${siteName},
 				siteNameInvalid = "Invalid");
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DeleteSiteFriendlyURL {
 		Site.openSitesAdmin();
 
@@ -186,7 +186,7 @@ definition {
 			value1 = "Not Found");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test EditSite {
 		JSONGroup.addGroup(groupName = "Site Name");
 
@@ -201,7 +201,7 @@ definition {
 		Site.viewCP(siteName = "Site Name Edit");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test EditSiteFriendlyURL {
 		var portalURL = PropsUtil.get("portal.url");
 
@@ -236,7 +236,7 @@ definition {
 			sitePageURL = "${portalURL}/group/alpha");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test EditSiteFriendlyURLInvalid {
 		property test.name.skip.portal.instance = "Sites#EditSiteFriendlyURLInvalid";
 
@@ -266,7 +266,7 @@ definition {
 			siteFriendlyURL = "${portalURL}/web/site-name");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test SearchSite {
 		JSONGroup.addGroup(groupName = "Site Name");
 
@@ -275,7 +275,7 @@ definition {
 		Site.searchCP(siteName = "Site Name");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test SiteCannotBeItsOwnParent {
 		JSONGroup.addGroup(groupName = "Site Name");
 
@@ -286,7 +286,7 @@ definition {
 			parentSiteName = "Site Name");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test SiteCannotBeItsOwnParentStaging {
 		JSONGroup.addGroup(groupName = "Site Name");
 
@@ -311,7 +311,7 @@ definition {
 			parentSiteName = "Site Name");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewDefaultGlobalScopeLandingPage {
 		property testray.component.names = "Site Administration";
 
@@ -334,7 +334,7 @@ definition {
 			siteName = "Global");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewDisplayParentSiteViaSitesDirectory {
 		Site.openSitesAdmin();
 
@@ -389,7 +389,7 @@ definition {
 		SitesDirectory.viewDescriptivePG(siteName = "Site Name");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewSiteHierarchiesViaSitesDirectory {
 		Site.openSitesAdmin();
 

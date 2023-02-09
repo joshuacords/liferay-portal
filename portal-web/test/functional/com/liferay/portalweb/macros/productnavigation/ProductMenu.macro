@@ -17,13 +17,13 @@ definition {
 
 		SelectFrame(locator1 = "IFrame#DIALOG");
 
-		Navigator.gotoNavItem(navItem = "${navItem}");
+		Navigator.gotoNavItem(navItem = ${navItem});
 
-		LexiconEntry.changeDisplayStyle(displayStyle = "${displayStyle}");
+		LexiconEntry.changeDisplayStyle(displayStyle = ${displayStyle});
 
-		SiteSelector._searchSite(site = "${site}");
+		SiteSelector._searchSite(site = ${site});
 
-		LexiconEntry.gotoEntry(rowEntry = "${site}");
+		LexiconEntry.gotoEntry(rowEntry = ${site});
 
 		SelectFrameTop();
 
@@ -31,7 +31,7 @@ definition {
 
 		AssertTextEquals.assertPartialText(
 			locator1 = "ProductMenu#PRODUCT_MENU_PANEL_SITE_ADMINISTRATION_SITE_NAME",
-			value1 = "${site}");
+			value1 = ${site});
 	}
 
 	@summary = "Navigate to Product Menu > Profile"
@@ -43,22 +43,22 @@ definition {
 
 	@summary = "Navigate to Product Menu > ${panel} > ${category} > ${portlet}"
 	macro gotoPortlet {
-		ProductMenuHelper.expandPanel(panel = "${panel}");
+		ProductMenuHelper.expandPanel(panel = ${panel});
 
-		ProductMenuHelper.expandCategory(category = "${category}");
+		ProductMenuHelper.expandCategory(category = ${category});
 
-		ProductMenuHelper.gotoPortlet(portlet = "${portlet}");
+		ProductMenuHelper.gotoPortlet(portlet = ${portlet});
 	}
 
 	@summary = "Navigate to Product Menu > ${panel} > ${category} > ${scope} > ${portlet}"
 	macro gotoScopedPortlet {
-		ProductMenuHelper.expandPanel(panel = "${panel}");
+		ProductMenuHelper.expandPanel(panel = ${panel});
 
-		ProductMenuHelper.expandCategory(category = "${category}");
+		ProductMenuHelper.expandCategory(category = ${category});
 
-		ProductMenuHelper.selectScope(scope = "${scope}");
+		ProductMenuHelper.selectScope(scope = ${scope});
 
-		ProductMenuHelper.gotoPortlet(portlet = "${portlet}");
+		ProductMenuHelper.gotoPortlet(portlet = ${portlet});
 	}
 
 	@summary = "Navigate to Product Menu > Sites > Sites Modal > ${site}"
@@ -69,17 +69,17 @@ definition {
 
 		SelectFrame(locator1 = "IFrame#DIALOG");
 
-		Pause(locator1 = "3000");
+		Pause(locator1 = 3000);
 
 		Navigator.gotoNavItem(navItem = "My Sites");
 
-		SiteSelector.selectSite(site = "${site}");
+		SiteSelector.selectSite(site = ${site});
 
 		ProductMenuHelper.expandPanel(panel = "Site Administration");
 
 		AssertTextEquals.assertPartialText(
 			locator1 = "ProductMenu#PRODUCT_MENU_PANEL_SITE_ADMINISTRATION_SITE_NAME",
-			value1 = "${site}");
+			value1 = ${site});
 	}
 
 	@summary = "Navigate to ${site} via the 'Go to Site' link"
@@ -112,7 +112,7 @@ definition {
 			Click(locator1 = "ProductMenu#BACK_ARROW");
 		}
 
-		ProductMenuHelper.viewNoSite(site = "${site}");
+		ProductMenuHelper.viewNoSite(site = ${site});
 	}
 
 }

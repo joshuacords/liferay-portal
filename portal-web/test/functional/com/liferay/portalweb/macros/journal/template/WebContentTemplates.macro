@@ -3,12 +3,12 @@ definition {
 	@summary = "Helper function to add fields '${templateFieldNames}' to the template"
 	macro _addFields {
 		if (isSet(templateFieldNames)) {
-			for (var fieldName : list "${templateFieldNames}") {
-				var key_fieldName = "${fieldName}";
+			for (var fieldName : list ${templateFieldNames}) {
+				var key_fieldName = ${fieldName};
 
 				AssertClick(
 					locator1 = "DDMEditTemplate#SCRIPT_FIELD",
-					value1 = "${fieldName}");
+					value1 = ${fieldName});
 			}
 		}
 	}
@@ -16,7 +16,7 @@ definition {
 	@summary = "Helper function to add description '${description}' to the template"
 	macro _inputDescription {
 		if (isSet(templateDescription)) {
-			PortletEntry.inputDescription(description = "${templateDescription}");
+			PortletEntry.inputDescription(description = ${templateDescription});
 		}
 	}
 
@@ -33,11 +33,11 @@ definition {
 
 			Click(locator1 = "Icon#BASIC_SEARCH");
 
-			var key_ddlDataDefinitionName = "${structureName}";
+			var key_ddlDataDefinitionName = ${structureName};
 
 			AssertClickNoError(
 				locator1 = "DDMSelectStructure#DDM_STRUCTURE_TABLE_NAME_LINK",
-				value1 = "${structureName}");
+				value1 = ${structureName});
 
 			SelectFrameTop();
 		}
@@ -48,7 +48,7 @@ definition {
 		if (isSet(templateFile)) {
 			UploadCommonFile(
 				locator1 = "DDMEditTemplate#SCRIPT_FILE_FIELD",
-				value1 = "${templateFile}");
+				value1 = ${templateFile});
 		}
 	}
 
@@ -57,16 +57,16 @@ definition {
 		LexiconEntry.gotoAdd();
 
 		WebContentTemplates.inputTemplateAddScreenFields(
-			imageSourceURL = "${imageSourceURL}",
-			structureName = "${structureName}",
-			templateDescription = "${templateDescription}",
-			templateFieldNames = "${templateFieldNames}",
-			templateFile = "${templateFile}",
-			templateLanguage = "${templateLanguage}",
-			templateName = "${templateName}",
-			templateScript = "${templateScript}");
+			imageSourceURL = ${imageSourceURL},
+			structureName = ${structureName},
+			templateDescription = ${templateDescription},
+			templateFieldNames = ${templateFieldNames},
+			templateFile = ${templateFile},
+			templateLanguage = ${templateLanguage},
+			templateName = ${templateName},
+			templateScript = ${templateScript});
 
-		DDLDataDefinition.save(changeListEnabled = "${changeListEnabled}");
+		DDLDataDefinition.save(changeListEnabled = ${changeListEnabled});
 	}
 
 	@summary = "Attempt to add a blank template"
@@ -86,20 +86,20 @@ definition {
 	macro addRoleViewPermissions {
 		WebContentTemplates.gotoTemplateEllipsisItem(
 			item = "Permissions",
-			templateName = "${templateName}");
+			templateName = ${templateName});
 
 		SelectFrame(locator1 = "IFrame#DIALOG");
 
 		PermissionsInline.addOrRemoveViewPermissionFromAllRoles(
 			addOrRemoveViewPermission = "Add",
-			roleList = "${roles}");
+			roleList = ${roles});
 
 		SelectFrameTop();
 	}
 
 	@summary = "Attempt to delete the template '${templateName}'"
 	macro deleteCP {
-		var key_ddlTemplateName = "${templateName}";
+		var key_ddlTemplateName = ${templateName};
 
 		Click(locator1 = "Icon#VERTICAL_ELLIPSIS_BUTTON");
 
@@ -107,7 +107,7 @@ definition {
 
 		AssertConfirm(value1 = "Are you sure you want to delete this? It will be deleted immediately.");
 
-		if ("${webContentHasReference}" == "true") {
+		if (${webContentHasReference} == "true") {
 			Alert.viewRequestFailedToComplete();
 
 			AssertTextEquals.assertPartialText(
@@ -122,8 +122,8 @@ definition {
 	@summary = "Click on '${templateName}' ellipsis > '${item}'"
 	macro gotoTemplateEllipsisItem {
 		LexiconCard.clickEllipsisItem(
-			card = "${templateName}",
-			item = "${item}");
+			card = ${templateName},
+			item = ${item});
 	}
 
 	@summary = "Type '${templateScript}' into the template ACE editor field"
@@ -131,35 +131,35 @@ definition {
 		if (isSet(templateScript)) {
 			Type.typeAceEditor(
 				locator1 = "DDMEditTemplate#SCRIPT_CONTENT_FIELD",
-				value1 = "${templateScript}");
+				value1 = ${templateScript});
 		}
 	}
 
 	@summary = "Input most basic fields inside a template"
 	macro inputTemplateAddScreenFields {
 		if (isSet(templateName)) {
-			PortletEntry.inputName(name = "${templateName}");
+			PortletEntry.inputName(name = ${templateName});
 		}
 
 		if (isSet(structureName)) {
-			WebContentTemplates._inputStructure(structureName = "${structureName}");
+			WebContentTemplates._inputStructure(structureName = ${structureName});
 		}
 
-		WebContentTemplates._inputDescription(templateDescription = "${templateDescription}");
+		WebContentTemplates._inputDescription(templateDescription = ${templateDescription});
 
 		if (isSet(imageSourceURL)) {
-			WebContent.addFeaturedImageFromURL(imageSourceURL = "${imageSourceURL}");
+			WebContent.addFeaturedImageFromURL(imageSourceURL = ${imageSourceURL});
 		}
 
-		WebContentTemplates.inputScript(templateScript = "${templateScript}");
+		WebContentTemplates.inputScript(templateScript = ${templateScript});
 
-		if ("${templateLanguage}" == "xsl") {
-			WebContentTemplates._inputTemplateFile(templateFile = "${templateFile}");
+		if (${templateLanguage} == "xsl") {
+			WebContentTemplates._inputTemplateFile(templateFile = ${templateFile});
 		}
 		else {
-			WebContentTemplates._addFields(templateFieldNames = "${templateFieldNames}");
+			WebContentTemplates._addFields(templateFieldNames = ${templateFieldNames});
 
-			WebContentTemplates._inputTemplateFile(templateFile = "${templateFile}");
+			WebContentTemplates._inputTemplateFile(templateFile = ${templateFile});
 		}
 	}
 
@@ -167,26 +167,26 @@ definition {
 	macro localizeTemplateName {
 		LexiconEntry.changeDisplayStyle(displayStyle = "table");
 
-		var key_ddlTemplateName = "${templateName}";
+		var key_ddlTemplateName = ${templateName};
 
-		WebContentNavigator.gotoViewTemplate(templateName = "${templateName}");
+		WebContentNavigator.gotoViewTemplate(templateName = ${templateName});
 
 		AssertTextEquals(
 			locator1 = "TextInput#NAME",
-			value1 = "${templateName}");
+			value1 = ${templateName});
 
-		PortletEntry.changeLocale(locale = "${locale}");
+		PortletEntry.changeLocale(locale = ${locale});
 
 		Type.clickAtType(
 			locator1 = "TextInput#NAME",
-			value1 = "${localization1Name}");
+			value1 = ${localization1Name});
 
 		if (isSet(locale2)) {
-			PortletEntry.changeLocale(locale = "${locale2}");
+			PortletEntry.changeLocale(locale = ${locale2});
 
 			Type.clickAtType(
 				locator1 = "TextInput#NAME",
-				value1 = "${localization2Name}");
+				value1 = ${localization2Name});
 		}
 	}
 
@@ -194,18 +194,18 @@ definition {
 	macro modifyTemplate {
 		WebContentTemplates.gotoTemplateEllipsisItem(
 			item = "Edit",
-			templateName = "${templatePreviousName}");
+			templateName = ${templatePreviousName});
 
 		WebContentTemplates.inputTemplateAddScreenFields(
-			imageSourceURL = "${imageSourceURL}",
-			templateDescription = "${templateDescription}",
-			templateFieldNames = "${templateFieldNames}",
-			templateFile = "${templateFile}",
-			templateLanguage = "${templateLanguage}",
-			templateName = "${templateName}",
-			templateScript = "${templateScript}");
+			imageSourceURL = ${imageSourceURL},
+			templateDescription = ${templateDescription},
+			templateFieldNames = ${templateFieldNames},
+			templateFile = ${templateFile},
+			templateLanguage = ${templateLanguage},
+			templateName = ${templateName},
+			templateScript = ${templateScript});
 
-		DDLDataDefinition.save(changeListEnabled = "${changeListEnabled}");
+		DDLDataDefinition.save(changeListEnabled = ${changeListEnabled});
 	}
 
 	@summary = "Open Web Content Templates admin page for the site '${siteURLKey}'"
@@ -224,7 +224,7 @@ definition {
 
 		Navigator.gotoNavItem(navItem = "Templates");
 
-		Search.searchCP(searchTerm = "2");
+		Search.searchCP(searchTerm = 2);
 
 		while (IsElementNotPresent(locator1 = "Message#EMPTY_INFO")) {
 			PortletEntry.selectAll();
@@ -253,47 +253,47 @@ definition {
 
 	@summary = "Assert that the cards entry for template '${templateName}' is present"
 	macro viewCardsEntryCP {
-		var key_ddlTemplateName = "${templateName}";
+		var key_ddlTemplateName = ${templateName};
 
 		AssertTextEquals(
 			locator1 = "DDMSelectTemplate#TEMPLATE_CARDS_NAME",
-			value1 = "${templateName}");
+			value1 = ${templateName});
 
 		if (isSet(templateSmallImage)) {
 			AssertVisible(
 				locator1 = "DDMSelectTemplate#TEMPLATE_CARDS_SMALL_IMAGE",
-				value1 = "${templateSmallImage}");
+				value1 = ${templateSmallImage});
 		}
 	}
 
 	@summary = "Assert that certain template attributes are present for the template '${templateName}'"
 	macro viewCP {
-		var key_ddlStructureName = "${structureName}";
-		var key_ddlTemplateDescription = "${templateDescription}";
-		var key_ddlTemplateName = "${templateName}";
+		var key_ddlStructureName = ${structureName};
+		var key_ddlTemplateDescription = ${templateDescription};
+		var key_ddlTemplateName = ${templateName};
 
 		LexiconEntry.changeDisplayStyle(displayStyle = "table");
 
 		AssertTextEquals(
 			locator1 = "DDMSelectTemplate#TEMPLATE_TABLE_NAME",
-			value1 = "${templateName}");
+			value1 = ${templateName});
 
 		AssertTextEquals(
 			locator1 = "DDMSelectTemplate#TEMPLATE_TABLE_DESCRIPTION",
-			value1 = "${templateDescription}");
+			value1 = ${templateDescription});
 
 		if (isSet(structureName)) {
 			AssertTextEquals(
 				locator1 = "DDMSelectTemplate#TEMPLATE_TABLE_MODE",
-				value1 = "${structureName}");
+				value1 = ${structureName});
 		}
 
-		if ("${templateLanguage}" == "vm") {
+		if (${templateLanguage} == "vm") {
 			AssertTextEquals(
 				locator1 = "DDMSelectTemplate#TEMPLATE_TABLE_LANGUAGE",
 				value1 = "Velocity");
 		}
-		else if ("${templateLanguage}" == "xsl") {
+		else if (${templateLanguage} == "xsl") {
 			AssertTextEquals(
 				locator1 = "DDMSelectTemplate#TEMPLATE_TABLE_LANGUAGE",
 				value1 = "Extensible Stylesheet Language");
@@ -304,29 +304,29 @@ definition {
 				value1 = "FreeMarker");
 		}
 
-		if ("${userEditPermission}" != "noEditPermission") {
-			WebContentNavigator.gotoViewTemplate(templateName = "${templateName}");
+		if (${userEditPermission} != "noEditPermission") {
+			WebContentNavigator.gotoViewTemplate(templateName = ${templateName});
 
 			AssertTextEquals(
 				locator1 = "TextInput#NAME",
-				value1 = "${templateName}");
+				value1 = ${templateName});
 
 			AssertTextEquals(
 				locator1 = "TextArea#DESCRIPTION",
-				value1 = "${templateDescription}");
+				value1 = ${templateDescription});
 
 			if (isSet(structureName)) {
 				AssertTextEquals.assertValue(
 					locator1 = "DDMEditTemplate#DETAILS_STRUCTURE",
-					value1 = "${structureName}");
+					value1 = ${structureName});
 			}
 
-			if ("${templateLanguage}" == "vm") {
+			if (${templateLanguage} == "vm") {
 				AssertTextEquals.assertPartialText(
 					locator1 = "DDMEditTemplate#DETAILS_LANGUAGE",
 					value1 = "Velocity (.vm)");
 			}
-			else if ("${templateLanguage}" == "xsl") {
+			else if (${templateLanguage} == "xsl") {
 				AssertTextEquals.assertPartialText(
 					locator1 = "DDMEditTemplate#DETAILS_LANGUAGE",
 					value1 = "Extensible Stylesheet Language (.xsl)");
@@ -340,30 +340,30 @@ definition {
 			if (isSet(templateScript)) {
 				AssertTextEquals.assertPartialTextAceEditor(
 					locator1 = "DDMEditTemplate#SCRIPT_CONTENT_FIELD",
-					value1 = "${templateScript}");
+					value1 = ${templateScript});
 			}
 		}
 	}
 
 	@summary = "Assert that the table entry for template '${templateName}' is present"
 	macro viewTableEntryCP {
-		var key_ddlTemplateName = "${templateName}";
+		var key_ddlTemplateName = ${templateName};
 
 		AssertTextEquals(
 			locator1 = "DDMSelectTemplate#TEMPLATE_TABLE_NAME",
-			value1 = "${templateName}");
+			value1 = ${templateName});
 
 		if (isSet(templateSmallImage)) {
 			AssertVisible(
 				locator1 = "DDMSelectTemplate#TEMPLATE_TABLE_DESCRIPTION_SMALL_IMAGE",
-				value1 = "${templateSmallImage}");
+				value1 = ${templateSmallImage});
 		}
 		else {
-			var key_ddlTemplateDescription = "${templateDescription}";
+			var key_ddlTemplateDescription = ${templateDescription};
 
 			AssertTextEquals(
 				locator1 = "DDMSelectTemplate#TEMPLATE_TABLE_DESCRIPTION",
-				value1 = "${templateDescription}");
+				value1 = ${templateDescription});
 		}
 	}
 

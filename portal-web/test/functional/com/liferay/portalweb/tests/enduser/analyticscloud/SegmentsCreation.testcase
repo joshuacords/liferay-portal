@@ -49,7 +49,7 @@ definition {
 
 		ACUtils.tearDownDXP();
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -58,7 +58,7 @@ definition {
 	}
 
 	@description = "Create a dynamic segment with individuals"
-	@priority = "5"
+	@priority = 5
 	test CanCreateDynamicSegmentWithIndividuals {
 		property portal.upstream = "quarantine";
 
@@ -80,7 +80,7 @@ definition {
 
 		ACUtils.launchAC();
 
-		ACProperties.switchProperty(propertyName = "${assignedPropertyName}");
+		ACProperties.switchProperty(propertyName = ${assignedPropertyName});
 
 		ACNavigation.goToSegments();
 
@@ -112,7 +112,7 @@ definition {
 	}
 
 	@description = "Create a static segment with individual"
-	@priority = "5"
+	@priority = 5
 	test CanCreateStaticSegmentWithIndividuals {
 		property test.name.skip.portal.instance = "SegmentsCreation#CanCreateStaticSegmentWithIndividuals";
 
@@ -132,7 +132,7 @@ definition {
 
 		ACUtils.launchAC();
 
-		ACProperties.switchProperty(propertyName = "${assignedPropertyName}");
+		ACProperties.switchProperty(propertyName = ${assignedPropertyName});
 
 		ACNavigation.goToSegments();
 

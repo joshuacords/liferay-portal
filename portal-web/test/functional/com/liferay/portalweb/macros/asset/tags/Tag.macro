@@ -5,15 +5,15 @@ definition {
 
 		AssertElementPresent(locator1 = "TextInput#NAME");
 
-		PortletEntry.inputName(name = "${tagName}");
+		PortletEntry.inputName(name = ${tagName});
 	}
 
 	macro addAutoAssertionTagViaBlogsPG {
 		BlogsNavigator.gotoAddEntry();
 
 		BlogsEntry.addEntryContent(
-			entryContent = "${entryContent}",
-			entryTitle = "${entryTitle}");
+			entryContent = ${entryContent},
+			entryTitle = ${entryTitle});
 
 		Panel.expandPanel(panel = "Categorization");
 
@@ -22,15 +22,15 @@ definition {
 			value1 = "tag ");
 
 		AssertClick(
-			key_tagName = "${tagName}",
+			key_tagName = ${tagName},
 			locator1 = "AssetCategorization#TAG_AUTOCOMPLETE_SPECIFIC",
-			value1 = "${tagName}");
+			value1 = ${tagName});
 
 		PortletEntry.publish();
 	}
 
 	macro addCP {
-		Tag._addCP(tagName = "${tagName}");
+		Tag._addCP(tagName = ${tagName});
 
 		PortletEntry.save();
 	}
@@ -38,13 +38,13 @@ definition {
 	macro addViaSiteCP {
 		Panel.expandPanel(panel = "Categorization");
 
-		AssetCategorization.addTag(tagName = "${tagName}");
+		AssetCategorization.addTag(tagName = ${tagName});
 
 		PortletEntry.save();
 	}
 
 	macro addWithNullTitleCP {
-		Tag._addCP(tagName = "${tagName}");
+		Tag._addCP(tagName = ${tagName});
 
 		Button.clickSave();
 
@@ -54,10 +54,10 @@ definition {
 	}
 
 	macro gotoMerge {
-		if ("${mergeMethod}" == "menuItem") {
+		if (${mergeMethod} == "menuItem") {
 			LexiconEntry.gotoEntryMenuItem(
 				menuItem = "Merge",
-				rowEntry = "${tagName}");
+				rowEntry = ${tagName});
 		}
 		else {
 			Click(locator1 = "Icon#TOOLBAR_ELLIPSIS");
@@ -79,7 +79,7 @@ definition {
 
 		var message = "Are you sure you want to merge \"${tagNameList}\" into \"${mergedTag}\"? This will change all items tagged with \"${tagNameList}\" to instead be tagged with \"${mergedTag}\".";
 
-		AssertConfirm(value1 = "${message}");
+		AssertConfirm(value1 = ${message});
 
 		Alert.viewSuccessMessage();
 	}
@@ -91,7 +91,7 @@ definition {
 
 		SelectFrame(locator1 = "IFrame#DIALOG");
 
-		LexiconEntry.selectEntry(rowEntry = "${tagName}");
+		LexiconEntry.selectEntry(rowEntry = ${tagName});
 
 		SelectFrameTop();
 
@@ -99,7 +99,7 @@ definition {
 	}
 
 	macro tearDownCP {
-		if ("${stagingSite}" == "true") {
+		if (${stagingSite} == "true") {
 			ProductMenu.gotoStagingSite();
 		}
 		else {
@@ -125,11 +125,11 @@ definition {
 	}
 
 	macro viewCP {
-		var key_tagName = "${tagName}";
+		var key_tagName = ${tagName};
 
 		AssertTextEquals(
 			locator1 = "Tags#TAG_ENTRY_TABLE_NAME",
-			value1 = "${tagName}");
+			value1 = ${tagName});
 	}
 
 }

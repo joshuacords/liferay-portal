@@ -26,7 +26,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -35,7 +35,7 @@ definition {
 	}
 
 	@description = "This is a test for LPS-91552."
-	@priority = "5"
+	@priority = 5
 	test CanViewPaginationContentViaAP {
 		task ("Add 3 basic web content articles") {
 			for (var count : list "1,2,3") {
@@ -59,7 +59,7 @@ definition {
 
 			AssetPublisherPortlet.configurePaginationPG(
 				contentPage = "true",
-				paginationNumber = "2",
+				paginationNumber = 2,
 				paginationType = "Regular");
 
 			Portlet.saveAndCloseConfig();
@@ -103,7 +103,7 @@ definition {
 
 			AssetPublisherPortlet.changePagination(
 				currentPageNumber = "2 of 2",
-				paginationItem = "2");
+				paginationItem = 2);
 
 			AssetPublisherPortlet.viewAssetPG(
 				assetContent = "WC Content 1",
@@ -112,7 +112,7 @@ definition {
 	}
 
 	@description = "Change a fragment's editable image field."
-	@priority = "5"
+	@priority = 5
 	test ChangeEditableImage {
 		property testray.component.names = "Training";
 
@@ -141,13 +141,13 @@ definition {
 			AssertVisible(
 				key_fragmentClass = "image",
 				key_image = "Document_1.png",
-				key_position = "1",
+				key_position = 1,
 				locator1 = "Fragment#PAGE_EDITOR_FRAGMENT_IMAGE");
 		}
 	}
 
 	@description = "Change a fragment's editable text field."
-	@priority = "5"
+	@priority = 5
 	test ChangeEditableText {
 		task ("Add a content page template") {
 			PageTemplatesAdmin.addCollection(collectionName = "Page Template Collection");
@@ -179,7 +179,7 @@ definition {
 	}
 
 	@description = "Delete a page template collection."
-	@priority = "5"
+	@priority = 5
 	test DeleteCollection {
 		property portal.acceptance = "true";
 
@@ -195,7 +195,7 @@ definition {
 	}
 
 	@description = "Delete a page template."
-	@priority = "5"
+	@priority = 5
 	test DeletePageTemplate {
 		property portal.acceptance = "true";
 
@@ -221,7 +221,7 @@ definition {
 	}
 
 	@description = "Rename a page template collection."
-	@priority = "4"
+	@priority = 4
 	test RenameCollection {
 		task ("Add a page template collection") {
 			PageTemplatesAdmin.addCollection(
@@ -242,7 +242,7 @@ definition {
 	}
 
 	@description = "Rename a page template."
-	@priority = "4"
+	@priority = 4
 	test RenamePageTemplate {
 		task ("Add a content page template") {
 			PageTemplatesAdmin.addCollection(collectionName = "Page Template Collection");
@@ -268,7 +268,7 @@ definition {
 	}
 
 	@description = "An unpublished fragment should not show up in the fragments sidebar."
-	@priority = "4"
+	@priority = 4
 	test ViewDraftFragmentDoesNotDisplayInSidebar {
 		task ("Add a fragment without publishing it") {
 			FragmentsAdminNavigator.openFragmentsAdmin(siteURLKey = "test-site-name");

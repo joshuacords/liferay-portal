@@ -65,7 +65,7 @@ definition {
 
 		ACUtils.tearDownDXP();
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -74,7 +74,7 @@ definition {
 	}
 
 	@description = "Feature ID: LRAC-6280 | Automation ID: LRAC-10558 | Test Summary: Viewing newly created analysis report"
-	@priority = "5"
+	@priority = 5
 	test CanCreateAnalysisReport {
 		var attributeNameList = "category,url";
 		var filterName = "like";
@@ -83,8 +83,8 @@ definition {
 			var customEventName = ACCustomEvents.generateCustomEventName();
 
 			ACCustomEvents.createCustomEvent(
-				customEventName = "${customEventName}",
-				timeToSendCustomEvent = "1");
+				customEventName = ${customEventName},
+				timeToSendCustomEvent = 1);
 		}
 
 		task ("Close sessions") {
@@ -94,22 +94,22 @@ definition {
 		task ("Switch the property in AC and go to event analysis") {
 			ACUtils.launchAC();
 
-			ACProperties.switchProperty(propertyName = "${assignedPropertyName}");
+			ACProperties.switchProperty(propertyName = ${assignedPropertyName});
 
 			ACNavigation.goToEventAnalysis();
 		}
 
 		task ("Add the custom event to analysis by the all tab") {
-			ACEventAnalysis.addEvent(customEventName = "${customEventName}");
+			ACEventAnalysis.addEvent(customEventName = ${customEventName});
 		}
 
 		task ("Add the breakdown to analysis") {
-			ACEventAnalysis.addBreakdown(attributeNameList = "${attributeNameList}");
+			ACEventAnalysis.addBreakdown(attributeNameList = ${attributeNameList});
 		}
 
 		task ("Add the filter to analysis") {
 			ACEventAnalysis.addFilter(
-				filterName = "${filterName}",
+				filterName = ${filterName},
 				optionValue = "True");
 		}
 
@@ -139,9 +139,9 @@ definition {
 
 		task ("Check that the analysis dashboard contains the event,attribute and filter") {
 			ACEventAnalysis.viewAnalysisDashboard(
-				attributeNameList = "${attributeNameList}",
-				eventName = "${customEventName}",
-				filterNameList = "${filterName}");
+				attributeNameList = ${attributeNameList},
+				eventName = ${customEventName},
+				filterNameList = ${filterName});
 		}
 
 		task ("Check the analysis result appears") {

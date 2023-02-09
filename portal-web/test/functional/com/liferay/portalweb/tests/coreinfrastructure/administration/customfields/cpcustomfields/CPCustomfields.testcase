@@ -14,7 +14,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -24,7 +24,7 @@ definition {
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddCustomFieldsSmoke {
 		property osgi.app.includes = "bookmarks";
 		property portal.release = "false";
@@ -228,7 +228,7 @@ definition {
 			resourceName = "Wiki Page");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test AddCustomFieldUserTextField {
 		ProductMenu.gotoPortlet(
 			category = "Configuration",
@@ -261,7 +261,7 @@ definition {
 			startingValue = "Nickname");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test EditCustomFieldUserTextField {
 		property app.server.types = "jboss,tcserver,tomcat,weblogic,websphere,wildfly";
 		property database.types = "db2,hypersonic,mariadb,mysql,oracle,postgresql,sqlserver,sybase";
@@ -310,7 +310,7 @@ definition {
 			startingValue = "Nickname");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test EditRevertCustomFieldWikiPage {
 		ProductMenu.gotoPortlet(
 			category = "Configuration",
@@ -374,7 +374,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-57830."
-	@priority = "4"
+	@priority = 4
 	test UpdateDocumentWithCustomField {
 		JSONGroup.addGroup(groupName = "Site Name");
 

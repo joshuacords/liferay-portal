@@ -27,7 +27,7 @@ definition {
 
 		ACUtils.tearDownDXP();
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -36,7 +36,7 @@ definition {
 	}
 
 	@description = "Feature ID: Legacy | Automation ID: LRAC-8113 | Test Summary: Assert clicking a blog in the blogs list navigates to the blogs overview page"
-	@priority = "5"
+	@priority = 5
 	test CanNavigatesToBlogsOverviewPage {
 		var propertyName = ACDXPSettings.connectDXPtoAnalyticsCloud(siteName = "Site Name");
 
@@ -62,7 +62,7 @@ definition {
 
 		ACUtils.launchAC();
 
-		ACProperties.switchProperty(propertyName = "${propertyName}");
+		ACProperties.switchProperty(propertyName = ${propertyName});
 
 		ACNavigation.goToAssets();
 
@@ -79,12 +79,12 @@ definition {
 		ACNavigation.viewActiveSwitchTab(tabName = "Overview");
 
 		for (var cardTitle : list "Visitors Behavior,Audience,Views by Location,Views by Technology,Asset Appears On") {
-			ACCards.viewCards(cardTitle = "${cardTitle}");
+			ACCards.viewCards(cardTitle = ${cardTitle});
 		}
 
 		ACAssets.viewVisitorsBehaviorMetric(
 			metricTitle = "Views",
-			metricValue = "4");
+			metricValue = 4);
 	}
 
 }

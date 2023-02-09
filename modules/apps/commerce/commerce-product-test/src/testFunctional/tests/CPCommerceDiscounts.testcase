@@ -23,7 +23,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -67,10 +67,10 @@ definition {
 
 		CommerceEntry.addNewDiscountsEntry(
 			channelsEntryName = "Liferay",
-			discountLevel = "15",
+			discountLevel = 15,
 			discountTarget = "Apply to Product",
 			entryTitle = "New Discount",
-			maximumDiscountAmount = "10");
+			maximumDiscountAmount = 10);
 
 		Button.clickPublish();
 

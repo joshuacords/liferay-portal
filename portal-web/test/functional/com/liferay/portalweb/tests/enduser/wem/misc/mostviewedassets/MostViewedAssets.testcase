@@ -15,12 +15,12 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AssertMostViewedAsset {
 		ProductMenu.gotoPortlet(
 			category = "Sites",
@@ -72,9 +72,9 @@ definition {
 			PortletEntry.publish();
 		}
 
-		var count = "0";
+		var count = 0;
 
-		while ("${count}" != "3") {
+		while (${count} != 3) {
 			Navigator.gotoSitePage(
 				pageName = "Test Page 2",
 				siteName = "Site Name");
@@ -98,9 +98,9 @@ definition {
 			assetTitle = "Web Content Title 2",
 			viewCount = "0 View");
 
-		var count = "0";
+		var count = 0;
 
-		while ("${count}" != "5") {
+		while (${count} != 5) {
 			Navigator.gotoSitePage(
 				pageName = "Test Page 2",
 				siteName = "Site Name");

@@ -3,17 +3,17 @@ definition {
 	@summary = "This calls the JSON WS API to add a Document entry"
 	macro addFile {
 		var portalURL = JSONCompany.getPortalURL();
-		var repositoryId = JSONGroupAPI._getGroupIdByName(groupName = "${groupName}");
+		var repositoryId = JSONGroupAPI._getGroupIdByName(groupName = ${groupName});
 
 		if (isSet(folderName)) {
 			Variables.assertDefined(parameterList = "${folderName},${groupName}");
 
 			var folderId = JSONDocumentAPI._getFolderIdByFolderName(
-				groupName = "${groupName}",
-				name = "${folderName}");
+				groupName = ${groupName},
+				name = ${folderName});
 		}
 		else {
-			var folderId = "0";
+			var folderId = 0;
 		}
 
 		var curl = '''
@@ -35,7 +35,7 @@ definition {
 
 		echo("## * Description: ${dmDocumentDescription}");
 
-		var messageId = JSONCurlUtil.post("${curl}");
+		var messageId = JSONCurlUtil.post(${curl});
 	}
 
 	@summary = "This calls the JSON WS API to add a Document entry with uploaded file"
@@ -43,17 +43,17 @@ definition {
 		Variables.assertDefined(parameterList = "${groupName},${mimeType},${sourceFileName}");
 
 		var portalURL = JSONCompany.getPortalURL();
-		var repositoryId = JSONGroupAPI._getSiteIdByGroupKey(groupName = "${groupName}");
+		var repositoryId = JSONGroupAPI._getSiteIdByGroupKey(groupName = ${groupName});
 
 		if (isSet(folderName)) {
-			Variables.assertDefined(parameterList = "${folderName}");
+			Variables.assertDefined(parameterList = ${folderName});
 
 			var folderId = JSONDocumentAPI._getFolderIdByFolderName(
-				groupName = "${groupName}",
-				name = "${folderName}");
+				groupName = ${groupName},
+				name = ${folderName});
 		}
 		else {
-			var folderId = "0";
+			var folderId = 0;
 		}
 
 		var baseDir = PropsUtil.get("test.base.dir.name");
@@ -62,17 +62,17 @@ definition {
 		var filePath = "${baseDir}${dependenciesDir}/${sourceFileName}";
 
 		if (isSet(dmDocumentDescription)) {
-			var description = "${dmDocumentDescription}";
+			var description = ${dmDocumentDescription};
 		}
 		else {
 			var description = "";
 		}
 
 		var serviceContext = JSONDocumentSetter.setServiceContext(
-			assetCategoryIds = "${assetCategoryIds}",
-			assetTagNames = "${assetTagNames}",
-			serviceContext = "${serviceContext}",
-			workflowAction = "${workflowAction}");
+			assetCategoryIds = ${assetCategoryIds},
+			assetTagNames = ${assetTagNames},
+			serviceContext = ${serviceContext},
+			workflowAction = ${workflowAction});
 
 		var curl = '''
 			${portalURL}/api/jsonws/dlapp/add-file-entry \
@@ -94,16 +94,16 @@ definition {
 
 		echo("## * Description: ${description}");
 
-		var messageId = JSONCurlUtil.post("${curl}");
+		var messageId = JSONCurlUtil.post(${curl});
 	}
 
 	@summary = "This calls the JSON WS API to add a DL Folder"
 	macro addFolder {
 		var portalURL = JSONCompany.getPortalURL();
-		var repositoryId = JSONGroupAPI._getGroupIdByName(groupName = "${groupName}");
+		var repositoryId = JSONGroupAPI._getGroupIdByName(groupName = ${groupName});
 
 		if (!(isSet(parentFolderId))) {
-			var parentFolderId = "0";
+			var parentFolderId = 0;
 		}
 
 		var curl = '''
@@ -121,16 +121,16 @@ definition {
 
 		echo("## * Description: ${dmFolderDescription}");
 
-		var messageId = JSONCurlUtil.post("${curl}");
+		var messageId = JSONCurlUtil.post(${curl});
 	}
 
 	@summary = "This calls the JSON WS API to delete a Document entry"
 	macro deleteFile {
 		var portalURL = JSONCompany.getPortalURL();
-		var groupId = JSONGroupAPI._getGroupIdByName(groupName = "${groupName}");
+		var groupId = JSONGroupAPI._getGroupIdByName(groupName = ${groupName});
 
 		if (!(isSet(folderId))) {
-			var folderId = "0";
+			var folderId = 0;
 		}
 
 		var curl = '''
@@ -141,7 +141,7 @@ definition {
 				-d title=${dmDocumentTitle}
 		''';
 
-		com.liferay.poshi.runner.util.JSONCurlUtil.post("${curl}");
+		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
 	}
 
 	macro getFileEntryId {
@@ -154,12 +154,12 @@ definition {
 		}
 
 		var groupId = JSONGroupAPI._getGroupIdByName(
-			groupName = "${groupName}",
-			portalURL = "${portalURL}",
-			site = "${site}");
+			groupName = ${groupName},
+			portalURL = ${portalURL},
+			site = ${site});
 
 		if (!(isSet(folderId))) {
-			var folderId = "0";
+			var folderId = 0;
 		}
 
 		var curl = '''
@@ -170,9 +170,9 @@ definition {
 				-d title=${dmDocumentTitle}
 		''';
 
-		var fileEntryId = JSONCurlUtil.post("${curl}", "$.[?(@['title'] == '${dmDocumentTitle}')]['fileEntryId']");
+		var fileEntryId = JSONCurlUtil.post(${curl}, "$.[?(@['title'] == '${dmDocumentTitle}')]['fileEntryId']");
 
-		return "${fileEntryId}";
+		return ${fileEntryId};
 
 		echo("## * File Entry ID: ${fileEntryId}");
 	}
@@ -187,12 +187,12 @@ definition {
 		}
 
 		var groupId = JSONGroupAPI._getGroupIdByName(
-			groupName = "${groupName}",
-			portalURL = "${portalURL}",
-			site = "${site}");
+			groupName = ${groupName},
+			portalURL = ${portalURL},
+			site = ${site});
 
 		if (!(isSet(folderId))) {
-			var folderId = "0";
+			var folderId = 0;
 		}
 
 		var curl = '''
@@ -203,9 +203,9 @@ definition {
 				-d title=${dmDocumentTitle}
 		''';
 
-		var fileEntryUuid = JSONCurlUtil.post("${curl}", "$.[?(@['title'] == '${dmDocumentTitle}')]['uuid']");
+		var fileEntryUuid = JSONCurlUtil.post(${curl}, "$.[?(@['title'] == '${dmDocumentTitle}')]['uuid']");
 
-		return "${fileEntryUuid}";
+		return ${fileEntryUuid};
 	}
 
 }

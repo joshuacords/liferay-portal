@@ -14,13 +14,13 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 	}
 
 	@description = "This is a use case for LPS-95157. It checks the nav-bar menu icons on guest page level after page refresh."
-	@priority = "5"
+	@priority = 5
 	test RefreshHomePage {
 		property portal.acceptance = "true";
 
@@ -60,7 +60,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-95157. It checks the nav-bar menu icons on admin page level after page refresh."
-	@priority = "5"
+	@priority = 5
 	test RefreshWebContent {
 		property portal.acceptance = "true";
 
@@ -84,7 +84,7 @@ definition {
 		takeScreenshot();
 	}
 
-	@priority = "5"
+	@priority = 5
 	test RightToLeftSmoke {
 		property portal.acceptance = "false";
 		property test.name.skip.portal.instance = "UIInfrastructureUsecase#RightToLeftSmoke";
@@ -133,7 +133,7 @@ definition {
 	}
 
 	@description = "Ensure that a user can access portlet options and drag and drop portlets."
-	@priority = "5"
+	@priority = 5
 	test Smoke {
 		property portal.acceptance = "true";
 
@@ -186,13 +186,13 @@ definition {
 		}
 
 		Portlet.dragAndDropPortletToColumnPG(
-			columnNumberFrom = "1",
-			columnNumberTo = "2",
+			columnNumberFrom = 1,
+			columnNumberTo = 2,
 			portletName = "Hello World");
 
 		Portlet.dragAndDropPortletToColumnPG(
-			columnNumberFrom = "2",
-			columnNumberTo = "1",
+			columnNumberFrom = 2,
+			columnNumberTo = 1,
 			portletName = "Hello World");
 
 		task ("Removes Hello World Portlets on Test Page and Welcome Page") {
@@ -209,7 +209,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-70390."
-	@priority = "4"
+	@priority = 4
 	test ViewNonASCIICharactersWithSPADisabled {
 		property custom.properties = "javascript.single.page.application.enabled=false";
 
@@ -237,7 +237,7 @@ definition {
 	}
 
 	@description = "Checks for each portlet having defined boundaries."
-	@priority = "5"
+	@priority = 5
 	test ViewPortletBoundaries {
 		property portal.acceptance = "false";
 
@@ -269,15 +269,15 @@ definition {
 		Portlet.addPG(portletName = "Documents and Media");
 
 		Portlet.dragAndDropPortletToColumnPG(
-			columnNumberFrom = "1",
-			columnNumberTo = "2",
+			columnNumberFrom = 1,
+			columnNumberTo = 2,
 			portletName = "Hello World");
 
 		Navigator.gotoPage(pageName = "Test Page");
 
 		Portlet.dragAndDropPortletToColumnPG(
-			columnNumberFrom = "1",
-			columnNumberTo = "3",
+			columnNumberFrom = 1,
+			columnNumberTo = 3,
 			portletName = "Documents and Media");
 
 		MouseOver(

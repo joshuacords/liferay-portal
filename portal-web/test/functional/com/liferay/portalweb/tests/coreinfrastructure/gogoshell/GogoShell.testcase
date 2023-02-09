@@ -14,7 +14,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -24,7 +24,7 @@ definition {
 		}
 	}
 
-	@priority = "5"
+	@priority = 5
 	test AccessGogoShellCommandViaPortlet {
 		property portal.acceptance = "true";
 		property test.name.skip.portal.instance = "GogoShell#AccessGogoShellCommandViaPortlet";
@@ -41,11 +41,11 @@ definition {
 		GogoShell.executeCommand(commandName = "system:check");
 
 		for (var outputContent : list "Declarative Service Soft Circular Dependency Checker check result: No issues were found,Declarative Service Unsatisfied Component Checker check result: No issues were found,Spring Extender Unavailable Component Checker check result: No issues were found") {
-			GogoShell.viewOutput(outputContent = "${outputContent}");
+			GogoShell.viewOutput(outputContent = ${outputContent});
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test GogoShellPortletOnlyOnMainInstance {
 		property test.name.skip.portal.instance = "GogoShell#GogoShellPortletOnlyOnMainInstance";
 
@@ -79,7 +79,7 @@ definition {
 			portlet = "Gogo Shell");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test OmniAdminCanAccessGogoShellCommandViaPortlet {
 		property test.name.skip.portal.instance = "GogoShell#OmniAdminCanAccessGogoShellCommandViaPortlet";
 
@@ -117,7 +117,7 @@ definition {
 		GogoShell.viewOutput(outputContent = "Liferay Portal");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test SiteAdminCannotAccessGogoShellPortlet {
 		property test.name.skip.portal.instance = "GogoShell#SiteAdminCannotAccessGogoShellPortlet";
 
@@ -142,10 +142,10 @@ definition {
 			panel = "Control Panel",
 			portlet = "Users and Organizations");
 
-		var siteName = TestCase.getSiteName(siteName = "${siteName}");
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
 
 		Site.assignUserSitesCP(
-			siteName = "${siteName}",
+			siteName = ${siteName},
 			userScreenName = "usersn");
 
 		ProductMenu.gotoPortlet(

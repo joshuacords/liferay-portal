@@ -5,10 +5,10 @@ definition {
 
 		Panel.expandPanel(panel = "Languages");
 
-		for (var currentLanguage : list "${currentLanguages}") {
+		for (var currentLanguage : list ${currentLanguages}) {
 			AssertTextEquals.assertPartialText(
 				locator1 = "LanguageConfiguration#LANGUAGES_CURRENT",
-				value1 = "${currentLanguage}");
+				value1 = ${currentLanguage});
 		}
 
 		SelectFrame(value1 = "relative=top");
@@ -27,18 +27,18 @@ definition {
 	}
 
 	macro moveLanguagesToCurrent {
-		for (var currentLanguage : list "${currentLanguages}") {
-			var key_currentLanguage = "${currentLanguage}";
+		for (var currentLanguage : list ${currentLanguages}) {
+			var key_currentLanguage = ${currentLanguage};
 
 			Select(
 				locator1 = "LanguageConfiguration#LANGUAGES_AVAILABLE",
-				value1 = "${currentLanguage}");
+				value1 = ${currentLanguage});
 
 			Click(locator1 = "Button#MOVE_AVAILABLE_TO_CURRENT");
 
 			AssertTextEquals.assertPartialText(
 				locator1 = "LanguageConfiguration#LANGUAGES_CURRENT",
-				value1 = "${currentLanguage}");
+				value1 = ${currentLanguage});
 		}
 
 		PortletEntry.save();
@@ -47,18 +47,18 @@ definition {
 	}
 
 	macro selectLanguagePG {
-		var portletName = "${portletName}";
+		var portletName = ${portletName};
 
 		if (!(isSet(portletName))) {
 			var portletName = "LanguagePortlet";
 		}
 
-		if (IsTextNotEqual(key_portletName = "${portletName}", locator1 = "Language#DROPDOWN_LANGUAGE", value1 = "${locale}")) {
+		if (IsTextNotEqual(key_portletName = ${portletName}, locator1 = "Language#DROPDOWN_LANGUAGE", value1 = ${locale})) {
 			Click(
-				key_portletName = "${portletName}",
+				key_portletName = ${portletName},
 				locator1 = "Language#DROPDOWN");
 
-			MenuItem.click(menuItem = "${textIcon}");
+			MenuItem.click(menuItem = ${textIcon});
 		}
 	}
 
@@ -75,7 +75,7 @@ definition {
 
 		Select(
 			locator1 = "Select#DISPLAY_TEMPLATE",
-			value1 = "${displayStyle}");
+			value1 = ${displayStyle});
 
 		Button.clickSave();
 
@@ -83,30 +83,30 @@ definition {
 	}
 
 	macro viewDisplayTemplateLongText {
-		var key_language = "${language}";
+		var key_language = ${language};
 
 		AssertTextEquals.assertPartialText(
 			locator1 = "Language#LONG_TEXT_LINK",
-			value1 = "${language}");
+			value1 = ${language});
 	}
 
 	macro viewDisplayTemplateSelectBox {
 		AssertTextEquals.assertPartialText(
 			locator1 = "Language#LANGUAGE_MENU_SELECT",
-			value1 = "${language}");
+			value1 = ${language});
 	}
 
 	macro viewDisplayTemplateShortText {
-		var key_languageKey = "${languageKey}";
+		var key_languageKey = ${languageKey};
 
 		AssertTextEquals.assertPartialText(
 			locator1 = "Language#SHORT_TEXT_LINK",
-			value1 = "${languageKey}");
+			value1 = ${languageKey});
 	}
 
 	macro viewLanguageCurrent {
 		AssertElementPresent(
-			key_locale = "${locale}",
+			key_locale = ${locale},
 			locator1 = "Language#DROPDOWN_CURRENT_LANGUAGE");
 	}
 
@@ -115,8 +115,8 @@ definition {
 			key_portletName = "LanguagePortlet",
 			locator1 = "Language#DROPDOWN");
 
-		for (var missingLocale : list "${missingLocales}") {
-			MenuItem.viewNotPresent(menuItem = "${missingLocale}");
+		for (var missingLocale : list ${missingLocales}) {
+			MenuItem.viewNotPresent(menuItem = ${missingLocale});
 		}
 
 		Click(
@@ -129,8 +129,8 @@ definition {
 			key_portletName = "LanguagePortlet",
 			locator1 = "Language#DROPDOWN");
 
-		for (var currentLocale : list "${currentLocales}") {
-			MenuItem.viewPresent(menuItem = "${currentLocale}");
+		for (var currentLocale : list ${currentLocales}) {
+			MenuItem.viewPresent(menuItem = ${currentLocale});
 		}
 
 		Click(

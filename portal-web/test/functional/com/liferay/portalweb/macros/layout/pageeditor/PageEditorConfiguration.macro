@@ -7,13 +7,13 @@ definition {
 
 	macro changeConfigColor {
 		Click(
-			fragment_name = "${fragmentName}",
+			fragment_name = ${fragmentName},
 			locator1 = "PageEditor#SECTION_NAME");
 
 		PageEditorConfiguration._toggleConfigurationFloatingToolbar();
 
 		Click(
-			colorPalette = "${colorPalette}",
+			colorPalette = ${colorPalette},
 			locator1 = "FragmentEditor#FRAGMENTS_EDITOR_FLOATING_TOOLBAR_PALETTE_SELECT");
 
 		PageEditorConfiguration._toggleConfigurationFloatingToolbar();
@@ -21,29 +21,29 @@ definition {
 
 	macro changeConfigSelection {
 		Click(
-			fragment_name = "${fragmentName}",
+			fragment_name = ${fragmentName},
 			locator1 = "PageEditor#SECTION_NAME");
 
 		PageEditorConfiguration._toggleConfigurationFloatingToolbar();
 
 		Select(
 			locator1 = "FragmentEditor#FRAGMENTS_EDITOR_FLOATING_TOOLBAR_FIELD_SELECT",
-			value1 = "${optionValue}");
+			value1 = ${optionValue});
 
 		PageEditorConfiguration._toggleConfigurationFloatingToolbar();
 	}
 
 	macro changeConfigText {
 		Click(
-			fragment_name = "${fragmentName}",
+			fragment_name = ${fragmentName},
 			locator1 = "PageEditor#SECTION_NAME");
 
 		PageEditorConfiguration._toggleConfigurationFloatingToolbar();
 
-		while (!(IsTextEqual(key_fieldName = "${textConfigName}", locator1 = "FormFields#TEXT_FIELD", value1 = "${editableText}"))) {
+		while (!(IsTextEqual(key_fieldName = ${textConfigName}, locator1 = "FormFields#TEXT_FIELD", value1 = ${editableText}))) {
 			FormFields.editText(
-				fieldName = "${textConfigName}",
-				fieldValue = "${editableText}");
+				fieldName = ${textConfigName},
+				fieldValue = ${editableText});
 		}
 
 		PageEditorConfiguration._toggleConfigurationFloatingToolbar();
@@ -51,13 +51,13 @@ definition {
 
 	macro checkConfigCheckbox {
 		Click(
-			fragment_name = "${fragmentName}",
+			fragment_name = ${fragmentName},
 			locator1 = "PageEditor#SECTION_NAME");
 
 		PageEditorConfiguration._toggleConfigurationFloatingToolbar();
 
 		Check.checkToggleSwitch(
-			checkboxName = "${checkboxName}",
+			checkboxName = ${checkboxName},
 			locator1 = "Fragment#FRAGMENT_CHECKBOX");
 
 		PageEditorConfiguration._toggleConfigurationFloatingToolbar();
@@ -65,7 +65,7 @@ definition {
 
 	macro restoreConfigValues {
 		Click(
-			fragment_name = "${fragmentName}",
+			fragment_name = ${fragmentName},
 			locator1 = "PageEditor#SECTION_NAME");
 
 		PageEditorConfiguration._toggleConfigurationFloatingToolbar();

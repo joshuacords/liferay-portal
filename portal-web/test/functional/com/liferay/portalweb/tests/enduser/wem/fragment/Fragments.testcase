@@ -37,7 +37,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -46,7 +46,7 @@ definition {
 	}
 
 	@description = "This is a test for LPS-90063. Images can be uploaded and deleted in the resources folder in a fragment collection."
-	@priority = "4"
+	@priority = 4
 	test AddAndDeleteResource {
 		task ("Navigate to the fragment collection") {
 			FragmentsAdminNavigator.gotoCollection(collectionName = "Collection Name");
@@ -74,7 +74,7 @@ definition {
 	}
 
 	@description = "This is a test for LPS-76817. Can namespace the CSS of a Web Fragment to avoid affecting the rest of the page."
-	@priority = "3"
+	@priority = 3
 	test CanCheckTheNamespaceOfCSSInFragments {
 		task ("Edit this fragment with the following codes") {
 			FragmentsAdminNavigator.gotoCollection(collectionName = "Collection Name");
@@ -96,9 +96,9 @@ NO CSS
 { font-size: 40px; }
 		''';
 
-			FragmentsEditor.typeHtmlEditor(content = "${htmlSnippet}");
+			FragmentsEditor.typeHtmlEditor(content = ${htmlSnippet});
 
-			FragmentsEditor.typeCssEditor(content = "${cssSnippet}");
+			FragmentsEditor.typeCssEditor(content = ${cssSnippet});
 		}
 
 		task ("Assert CSS only applies to CSS and not NO CSS in Fragment preview") {
@@ -115,7 +115,7 @@ NO CSS
 	}
 
 	@description = "This is a test for LPS-98241. Basic Component Button can be configured."
-	@priority = "4"
+	@priority = 4
 	test ConfigureBasicComponentButton {
 		task ("Add a content page") {
 			SitePages.openPagesAdmin(siteURLKey = "test-site-name");
@@ -164,7 +164,7 @@ NO CSS
 	}
 
 	@description = "This is a test for LPS-98241. Basic Component Card can be configured."
-	@priority = "3"
+	@priority = 3
 	test ConfigureBasicComponentCard {
 		task ("Add a content page") {
 			SitePages.openPagesAdmin(siteURLKey = "test-site-name");
@@ -181,7 +181,7 @@ NO CSS
 
 			PageEditor.configureFragment(
 				borderRadius = "None",
-				bottomSpacing = "5",
+				bottomSpacing = 5,
 				boxShadow = "Large",
 				contentAlign = "Center",
 				imageSize = "Fit");
@@ -189,12 +189,12 @@ NO CSS
 
 		task ("View the fragment style") {
 			PageEditor.viewFragmentStyle(
-				borderRadius = "0",
-				bottomSpacing = "5",
+				borderRadius = 0,
+				bottomSpacing = 5,
 				boxShadow = "lg",
 				contentAlign = "Center",
 				fragmentName = "card",
-				imageSize = "100");
+				imageSize = 100);
 		}
 
 		task ("Remove the fragment") {
@@ -217,7 +217,7 @@ NO CSS
 	}
 
 	@description = "This is a test for LPS-98241. Contributed fragment components Heading can be configured."
-	@priority = "4"
+	@priority = 4
 	test ConfigureBasicComponentHeading {
 		task ("Add a content page") {
 			SitePages.openPagesAdmin(siteURLKey = "test-site-name");
@@ -266,7 +266,7 @@ NO CSS
 	}
 
 	@description = "This is a test for LPS-98241. Basic Component Image can be configured."
-	@priority = "3"
+	@priority = 3
 	test ConfigureBasicComponentImage {
 		task ("Add a content page") {
 			SitePages.openPagesAdmin(siteURLKey = "test-site-name");
@@ -283,16 +283,16 @@ NO CSS
 
 			PageEditor.configureFragment(
 				alignment = "Center",
-				bottomSpacing = "2",
+				bottomSpacing = 2,
 				imageSize = "Original Size");
 		}
 
 		task ("View the fragment style") {
 			PageEditor.viewFragmentStyle(
 				alignment = "center",
-				bottomSpacing = "2",
+				bottomSpacing = 2,
 				fragmentName = "image",
-				imageSize = "0");
+				imageSize = 0);
 		}
 
 		task ("Remove the fragment") {
@@ -315,7 +315,7 @@ NO CSS
 	}
 
 	@description = "This is a test for LPS-98241. Contributed fragment components Paragraph can be configured."
-	@priority = "4"
+	@priority = 4
 	test ConfigureBasicComponentParagraph {
 		task ("Add a content page") {
 			SitePages.openPagesAdmin(siteURLKey = "test-site-name");
@@ -362,7 +362,7 @@ NO CSS
 	}
 
 	@description = "This is a test for LPS-98241. Contributed fragment components Separator can be configured."
-	@priority = "4"
+	@priority = 4
 	test ConfigureBasicComponentSeparator {
 		task ("Add a content page") {
 			SitePages.openPagesAdmin(siteURLKey = "test-site-name");
@@ -379,14 +379,14 @@ NO CSS
 
 			PageEditor.configureFragment(
 				borderColor = "lighter",
-				verticalSpace = "3");
+				verticalSpace = 3);
 		}
 
 		task ("View the fragment style") {
 			PageEditor.viewFragmentStyle(
 				borderColor = "247, 248, 249",
 				fragmentName = "separator",
-				verticalSpace = "3");
+				verticalSpace = 3);
 		}
 
 		task ("Remove the fragment") {
@@ -409,7 +409,7 @@ NO CSS
 	}
 
 	@description = "This is a test for LPS-98241. Contributed fragment components Spacer can be configured."
-	@priority = "4"
+	@priority = 4
 	test ConfigureBasicComponentSpacer {
 		task ("Add a content page") {
 			SitePages.openPagesAdmin(siteURLKey = "test-site-name");
@@ -428,7 +428,7 @@ NO CSS
 		}
 
 		task ("View the fragment style") {
-			PageEditor.viewFragmentStyle(height = "4");
+			PageEditor.viewFragmentStyle(height = 4);
 		}
 
 		task ("Remove the fragment") {
@@ -451,7 +451,7 @@ NO CSS
 	}
 
 	@description = "This is a test for LPS-90064 and is a supplementary frontend test to the integration tests in LPS-90307. Fragments can be copied."
-	@priority = "5"
+	@priority = 5
 	test CopyFragment {
 		task ("Navigate to the fragment collection") {
 			FragmentsAdminNavigator.gotoCollection(collectionName = "Collection Name");
@@ -473,7 +473,7 @@ NO CSS
 	}
 
 	@description = "This is a test for LPS-102173. Inherited contributed fragments can be copied."
-	@priority = "5"
+	@priority = 5
 	test CopyInheritedContributedFragment {
 		property portal.acceptance = "true";
 
@@ -493,7 +493,7 @@ NO CSS
 	}
 
 	@description = "Fragments can be deleted."
-	@priority = "5"
+	@priority = 5
 	test DeleteFragment {
 		property portal.acceptance = "true";
 
@@ -519,7 +519,7 @@ NO CSS
 	}
 
 	@description = "Fragment collections can be deleted."
-	@priority = "5"
+	@priority = 5
 	test DeleteFragmentCollection {
 		property portal.acceptance = "true";
 
@@ -537,7 +537,7 @@ NO CSS
 	}
 
 	@description = "LPS-79349 - User can propagate the changes of fragment to page templates."
-	@priority = "3"
+	@priority = 3
 	test PropagateChangesOfFragmentToPageTemplates {
 		task ("Navigate to the fragment collection") {
 			FragmentsAdminNavigator.gotoCollection(collectionName = "Collection Name");
@@ -550,7 +550,7 @@ NO CSS
 				collectionName = "Collection Name",
 				fragmentStatus = "Approved",
 				groupName = "Test Site Name",
-				html = "${htmlSnippet}",
+				html = ${htmlSnippet},
 				name = "Test Fragment Name");
 		}
 
@@ -576,7 +576,7 @@ NO CSS
 
 		task ("View the inline text of new fragment at edit mode") {
 			AssertTextEquals(
-				index = "1",
+				index = 1,
 				key_fragmentName = "Test Fragment Name",
 				locator1 = "Fragment#FRAGMENT_BODY",
 				value1 = "TEST");
@@ -595,7 +595,7 @@ NO CSS
 
 			var htmlSnippet = '''<div>EDITED</div>''';
 
-			FragmentsEditor.typeHtmlEditor(content = "${htmlSnippet}");
+			FragmentsEditor.typeHtmlEditor(content = ${htmlSnippet});
 
 			FragmentsEditor.publish();
 		}
@@ -622,7 +622,7 @@ NO CSS
 			PageEditor.assertFragmentSidebarLoaded();
 
 			AssertTextEquals(
-				index = "1",
+				index = 1,
 				key_fragmentName = "Test Fragment Name",
 				locator1 = "Fragment#FRAGMENT_BODY",
 				value1 = "EDITED");
@@ -630,7 +630,7 @@ NO CSS
 	}
 
 	@description = "This is a test for LPS-100540. Global fragments can be propagated to all pages of a site or sites that use the fragments"
-	@priority = "5"
+	@priority = 5
 	test PropagateGlobalFragmentChanges {
 		property osgi.module.configuration.file.names = "com.liferay.fragment.web.internal.configuration.FragmentGlobalPanelAppConfiguration.config";
 		property osgi.module.configurations = "enabled=B\"true\"";
@@ -702,18 +702,18 @@ NO CSS
 		Navigator.openWithAppendToBaseURL(urlAppend = "web/test-site-name/content-page-name");
 
 		for (var button : list "Submit,Cancel") {
-			Button.viewPresent(button = "${button}");
+			Button.viewPresent(button = ${button});
 		}
 
 		Navigator.openWithAppendToBaseURL(urlAppend = "web/test-site-name/content-page-name");
 
 		for (var button : list "Submit,Cancel") {
-			Button.viewPresent(button = "${button}");
+			Button.viewPresent(button = ${button});
 		}
 	}
 
 	@description = "Fragments can be renamed."
-	@priority = "4"
+	@priority = 4
 	test RenameFragment {
 		task ("Navigate to the fragment collection") {
 			FragmentsAdminNavigator.gotoCollection(collectionName = "Collection Name");
@@ -743,7 +743,7 @@ NO CSS
 	}
 
 	@description = "Fragments that are being used cannot be deleted."
-	@priority = "5"
+	@priority = 5
 	test ViewCannotDeleteFragmentInUse {
 		task ("Navigate to page templates admin") {
 			PageTemplatesAdmin.openPageTemplatesAdmin(siteURLKey = "test-site-name");
@@ -783,7 +783,7 @@ NO CSS
 	}
 
 	@description = "Can see contributed fragment collections in fragment administration"
-	@priority = "5"
+	@priority = 5
 	test ViewContributedFragmentCollections {
 		property portal.acceptance = "true";
 
@@ -801,7 +801,7 @@ NO CSS
 	}
 
 	@description = "This is a test for LPS-101230 and LPS-100540. Global fragments are visible in fragment admin and added ones are visible in Test Site Name site. Global fragments "View Site Usages" option is not available if fragment is not used in any page"
-	@priority = "5"
+	@priority = 5
 	test ViewGlobalFragments {
 		property osgi.module.configuration.file.names = "com.liferay.fragment.web.internal.configuration.FragmentGlobalPanelAppConfiguration.config";
 		property osgi.module.configurations = "enabled=B\"true\"";
@@ -865,7 +865,7 @@ NO CSS
 	}
 
 	@description = "This is a test for LPS-100540. Global fragments "View Site Usages" option shows all the Sites that use the fragment and how many usages there are per site"
-	@priority = "5"
+	@priority = 5
 	test ViewGlobalFragmentsSiteUsages {
 		property osgi.module.configuration.file.names = "com.liferay.fragment.web.internal.configuration.FragmentGlobalPanelAppConfiguration.config";
 		property osgi.module.configurations = "enabled=B\"true\"";
@@ -948,7 +948,7 @@ NO CSS
 
 		AssertTextEquals(
 			locator1 = "//tr[1]/td[3]",
-			value1 = "4");
+			value1 = 4);
 
 		AssertTextEquals(
 			locator1 = "//tr[2]/td[2]",
@@ -956,7 +956,7 @@ NO CSS
 
 		AssertTextEquals(
 			locator1 = "//tr[2]/td[3]",
-			value1 = "2");
+			value1 = 2);
 
 		FragmentsAdminNavigator.openFragmentsAdmin(siteURLKey = "global");
 
@@ -970,11 +970,11 @@ NO CSS
 
 		AssertTextEquals(
 			locator1 = "//tr[1]/td[3]",
-			value1 = "4");
+			value1 = 4);
 	}
 
 	@description = "Once fragments are published, they can no longer be saved as draft."
-	@priority = "4"
+	@priority = 4
 	test ViewOnlyDraftFragmentsCanBeSaved {
 		task ("Navigate to the fragment collection") {
 			FragmentsAdminNavigator.gotoCollection(collectionName = "Collection Name");

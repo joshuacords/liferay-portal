@@ -11,7 +11,7 @@ definition {
 		User.firstLoginPG();
 	}
 
-	@priority = "4"
+	@priority = 4
 	test MarketplacePortletContentTargetingSmoke {
 		property extraapps.plugins.includes = "content-targeting";
 

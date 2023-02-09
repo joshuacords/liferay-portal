@@ -25,7 +25,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -37,7 +37,7 @@ definition {
 		}
 	}
 
-	@priority = "5"
+	@priority = 5
 	test WithdrawTaskAssignedToMeByActions {
 		var webContentContent = "WC WebContent Content";
 		var webContentTitle = "WC WebContent Title";
@@ -89,7 +89,7 @@ definition {
 			webContentTitle = "WC WebContent Title");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test WithdrawTaskAssignedToMeByDetails {
 		var webContentContent = "WC WebContent Content";
 		var webContentTitle = "WC WebContent Title";
@@ -143,7 +143,7 @@ definition {
 			webContentTitle = "WC WebContent Title");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test WithdrawTaskAssignedToMyRolesByActions {
 		var webContentContent = "WC WebContent Content";
 		var webContentTitle = "WC WebContent Title";
@@ -188,7 +188,7 @@ definition {
 			webContentTitle = "WC WebContent Title");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test WithdrawTaskAssignedToMyRolesByDetails {
 		var webContentContent = "WC WebContent Content";
 		var webContentTitle = "WC WebContent Title";
@@ -234,7 +234,7 @@ definition {
 			webContentTitle = "WC WebContent Title");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test WithdrawTaskCompletedNoByActions {
 		var webContentContent = "WC WebContent Content";
 		var webContentTitle = "WC WebContent Title";
@@ -277,7 +277,7 @@ definition {
 			workflowTask = "Approved");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test WithdrawTaskCompletedNoByDetails {
 		var webContentContent = "WC WebContent Content";
 		var webContentTitle = "WC WebContent Title";

@@ -21,7 +21,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -29,7 +29,7 @@ definition {
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DeleteExportTemplate {
 		LAR.addExportTemplateCP(
 			exportTemplateDescription = "Export Template Description",
@@ -73,11 +73,11 @@ definition {
 			exportTemplateName = "Export Template Name");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test ExportWithRelaunchedProcess {
 		LAR.exportSiteCP(siteScopeName = "Guest");
 
-		var key_larFileName = "${larFileName}";
+		var key_larFileName = ${larFileName};
 
 		AssertTextEquals.assertPartialText(
 			locator1 = "SitePagesExport#CURRENT_AND_PREVIOUS_STATUS",
@@ -87,20 +87,20 @@ definition {
 
 		echo("value name ${valueName}");
 
-		var larFileName = RegexUtil.replace("${valueName}", "([a-zA-z0-9_.-]*)[(0-9KB)]*", "1");
+		var larFileName = RegexUtil.replace(${valueName}, "([a-zA-z0-9_.-]*)[(0-9KB)]*", 1);
 
 		echo("lar file name ${larFileName}");
 
 		LexiconEntry.gotoEntryMenuItem(
 			menuItem = "Relaunch",
-			rowEntry = "${larFileName}");
+			rowEntry = ${larFileName});
 
 		AssertTextEquals.assertPartialText(
 			locator1 = "SitePagesExport#CURRENT_AND_PREVIOUS_STATUS",
 			value1 = "Successful");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test SearchExportTemplate {
 		LAR.addExportTemplateCP(
 			exportTemplateDescription = "Export Template Description",

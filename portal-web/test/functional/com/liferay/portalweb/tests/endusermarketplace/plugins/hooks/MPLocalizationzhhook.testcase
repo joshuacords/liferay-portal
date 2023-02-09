@@ -7,7 +7,7 @@ definition {
 		User.firstLoginPG();
 	}
 
-	@priority = "4"
+	@priority = 4
 	test LocalizationZHHookSmoke {
 		property hook.plugins.includes = "localization-zh-hook";
 
@@ -18,14 +18,14 @@ definition {
 			panel = "Control Panel",
 			portlet = "App Manager");
 
-		AppManager.uninstallAppCP(appName = "${appName}");
+		AppManager.uninstallAppCP(appName = ${appName});
 
 		ProductMenu.gotoPortlet(
 			category = "Apps",
 			panel = "Control Panel",
 			portlet = "App Manager");
 
-		AppManager.viewUninstallAppCP(appName = "${appName}");
+		AppManager.viewUninstallAppCP(appName = ${appName});
 	}
 
 }

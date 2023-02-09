@@ -2,7 +2,7 @@ definition {
 
 	macro click {
 		Click(
-			key_menuItem = "${menuItem}",
+			key_menuItem = ${menuItem},
 			locator1 = "MenuItem#DROPDOWN_MENU_ITEM");
 	}
 

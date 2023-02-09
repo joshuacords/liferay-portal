@@ -16,7 +16,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -26,7 +26,7 @@ definition {
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test EditFriendlyURL {
 		JSONLayout.addPublicLayout(
 			friendlyURL = "/home",
@@ -65,7 +65,7 @@ definition {
 			value1 = "Not Found");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test VerifyFriendlyURLsOnlyDisplayLocaleOnce {
 		JSONLayout.addPublicLayout(
 			groupName = "Test Site Name",
@@ -103,7 +103,7 @@ definition {
 		AssertLocation(value1 = "${portalURL}/hu/web/test-site-name/teszt-page");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ViewCanonicalURLWithLocalizedFriendlyURL {
 		property portal.acceptance = "true";
 
@@ -124,20 +124,20 @@ definition {
 		Page.assertCanonicalURL(portalURL = "${portalURL}/web/test-site-name");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewFriendlyURLWithSharedLocalesButDifferentLanguages {
 		property custom.properties = "locale.prepend.friendly.url.style=2${line.separator}locales.enabled=en_US,fr_FR,fr_CA";
 		property test.name.skip.portal.instance = "FriendlyURL#ViewFriendlyURLWithSharedLocalesButDifferentLanguages";
 
 		for (var siteName : list "USA Site Name,France Site Name,Canada Site Name") {
-			JSONGroup.addGroup(groupName = "${siteName}");
+			JSONGroup.addGroup(groupName = ${siteName});
 
 			JSONLayout.addPublicLayout(
-				groupName = "${siteName}",
+				groupName = ${siteName},
 				layoutName = "Test Page");
 
 			JSONLayout.addWidgetToPublicLayout(
-				groupName = "${siteName}",
+				groupName = ${siteName},
 				layoutName = "Test Page",
 				widgetName = "Language Selector");
 		}
@@ -184,7 +184,7 @@ definition {
 	}
 
 	@description = "This is a use case for LRQA-52002. FriendlyURLS should support Unicode characters."
-	@priority = "4"
+	@priority = 4
 	test ViewFriendlyURLWithUnicodeChars {
 		JSONLayout.addPublicLayout(
 			friendlyURL = "/⚽⚽⚽",

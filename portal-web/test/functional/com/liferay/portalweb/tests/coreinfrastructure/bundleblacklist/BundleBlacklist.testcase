@@ -16,12 +16,12 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test BlacklistComponent {
 		property test.name.skip.portal.instance = "BundleBlacklist#BlacklistComponent";
 
@@ -46,7 +46,7 @@ definition {
 		AssertConsoleTextPresent(value1 = "Enabling com.liferay.portal.security.ldap.internal.authenticator.LDAPAuth from bundle com.liferay.portal.security.ldap.impl");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test BlacklistModuleBundleSymbolicName {
 		property portal.acceptance = "true";
 		property test.name.skip.portal.instance = "BundleBlacklist#BlacklistModuleJar";
@@ -88,7 +88,7 @@ definition {
 			portlet = "Gogo Shell");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test BlacklistModuleLPKG {
 		property osgi.app.includes = "gogo-shell";
 		property portal.acceptance = "true";
@@ -111,7 +111,7 @@ definition {
 
 		var testRunEnvironment = PropsUtil.get("test.run.environment");
 
-		if ("${testRunEnvironment}" == "EE") {
+		if (${testRunEnvironment} == "EE") {
 			var symbolicName = "Liferay Foundation - Liferay Gogo Shell - Impl";
 			var consoleText = "STOPPED Liferay Foundation - Liferay Gogo Shell - Impl";
 		}
@@ -122,16 +122,16 @@ definition {
 
 		BundleBlacklist.blacklistModuleAndComponentConfiguration(
 			label = "Blacklist Bundle Symbolic Names",
-			symbolicName = "${symbolicName}");
+			symbolicName = ${symbolicName});
 
 		BundleBlacklist.viewProductMenuBlacklistedModule(
 			category = "Configuration",
-			consoleText = "${consoleText}",
+			consoleText = ${consoleText},
 			panel = "Control Panel",
 			portlet = "Gogo Shell");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test BlacklistModuleWar {
 		property test.name.skip.portal.instance = "BundleBlacklist#BlacklistModuleWar";
 
@@ -172,7 +172,7 @@ definition {
 			value1 = "Classic Theme");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ExportBundleBlacklistConfig {
 		property test.name.skip.portal.instance = "BundleBlacklist#ExportBundleBlacklistConfig";
 
@@ -195,7 +195,7 @@ definition {
 		var tempFileDirectory = selenium.getOutputDirName();
 
 		OSGiConfig.deployOSGiConfigFile(
-			OSGiConfigFileBaseDir = "${tempFileDirectory}",
+			OSGiConfigFileBaseDir = ${tempFileDirectory},
 			OSGiConfigFileName = "com.liferay.portal.bundle.blacklist.internal.BundleBlacklistConfiguration.config");
 
 		AssertConsoleTextNotPresent(value1 = "Reinstalling bundle com.liferay.gogo.shell.web");

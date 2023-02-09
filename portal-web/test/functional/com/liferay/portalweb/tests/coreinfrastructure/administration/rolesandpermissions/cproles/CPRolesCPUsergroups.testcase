@@ -14,7 +14,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -32,7 +32,7 @@ definition {
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddUserGroupRegRole {
 		Permissions.setUpRegRoleLoginUserCP(
 			roleTitle = "Regrole Name",
@@ -45,7 +45,7 @@ definition {
 
 		Permissions.definePermissionViaJSONAPI(
 			resourceAction = "VIEW_CONTROL_PANEL",
-			resourceName = "90",
+			resourceName = 90,
 			roleTitle = "Regrole Name");
 
 		Permissions.definePermissionViaJSONAPI(
@@ -66,7 +66,7 @@ definition {
 
 		Permissions.definePermissionViaJSONAPI(
 			resourceAction = "ADD_USER_GROUP",
-			resourceName = "90",
+			resourceName = 90,
 			roleTitle = "Regrole Name");
 
 		Permissions.definePermissionViaJSONAPI(
@@ -87,7 +87,7 @@ definition {
 
 		Permissions.removePermissionViaAPI(
 			resourceAction = "ADD_USER_GROUP",
-			resourceName = "90",
+			resourceName = 90,
 			roleTitle = "Regrole Name");
 
 		Permissions.removePermissionViaAPI(

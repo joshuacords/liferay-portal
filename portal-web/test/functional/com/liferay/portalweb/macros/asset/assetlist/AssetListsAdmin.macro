@@ -5,7 +5,7 @@ definition {
 
 		PortletEntry.inputText(
 			fieldLabel = "Title",
-			text = "${assetListTitle}");
+			text = ${assetListTitle});
 
 		Button.clickSave();
 
@@ -17,7 +17,7 @@ definition {
 
 		PortletEntry.inputText(
 			fieldLabel = "Title",
-			text = "${assetListTitle}");
+			text = ${assetListTitle});
 
 		Button.clickSave();
 
@@ -25,15 +25,15 @@ definition {
 	}
 
 	macro deleteEntry {
-		LexiconList.delete(listEntry = "${assetListTitle}");
+		LexiconList.delete(listEntry = ${assetListTitle});
 
 		Alert.viewSuccessMessage();
 	}
 
 	macro gotoEntryMenuItem {
 		LexiconList.clickEllipsisItem(
-			item = "${item}",
-			listEntry = "${assetListTitle}");
+			item = ${item},
+			listEntry = ${assetListTitle});
 	}
 
 	macro gotoPersonalizationMenuItem {
@@ -50,19 +50,19 @@ definition {
 
 	macro renameAssetList {
 		AssetListsAdmin.gotoEntryMenuItem(
-			assetListTitle = "${oldAssetListTitle}",
+			assetListTitle = ${oldAssetListTitle},
 			item = "Rename");
 
 		PortletEntry.inputText(
 			fieldLabel = "Title",
-			text = "${newAssetListTitle}");
+			text = ${newAssetListTitle});
 
 		Button.clickSave();
 	}
 
 	macro selectAsset {
-		var key_title = "${assetListName}";
-		var key_assetType = "${assetType}";
+		var key_title = ${assetListName};
+		var key_assetType = ${assetType};
 
 		Click(locator1 = "AssetLists#ASSET_LIST_ENTRY_TITLE");
 
@@ -72,7 +72,7 @@ definition {
 
 		SelectFrame(locator1 = "IFrame#DIALOG");
 
-		LexiconEntry.selectEntry(rowEntry = "${assetName}");
+		LexiconEntry.selectEntry(rowEntry = ${assetName});
 
 		SelectFrameTop();
 
@@ -82,21 +82,21 @@ definition {
 	}
 
 	macro viewAssetList {
-		var key_title = "${assetListTitle}";
-		var key_type = "${type}";
+		var key_title = ${assetListTitle};
+		var key_type = ${type};
 
 		AssertTextEquals.assertPartialText(
 			locator1 = "AssetLists#ASSET_LIST_ENTRY_TITLE",
-			value1 = "${assetListTitle}");
+			value1 = ${assetListTitle});
 
 		AssertTextEquals.assertPartialText(
 			locator1 = "AssetLists#ASSET_LIST_ENTRY_TYPE",
-			value1 = "${type}");
+			value1 = ${type});
 	}
 
 	macro viewContent {
 		Click(
-			key_title = "${assetListTitle}",
+			key_title = ${assetListTitle},
 			locator1 = "AssetLists#ASSET_LIST_ENTRY_TITLE");
 
 		AssetListsAdmin.gotoPersonalizationMenuItem();
@@ -105,11 +105,11 @@ definition {
 
 		AssertTextEquals(
 			locator1 = "AssetLists#ASSET_TITLE_ROW",
-			value1 = "${assetTitle}");
+			value1 = ${assetTitle});
 
 		AssertTextEquals(
 			locator1 = "AssetLists#ASSET_TYPE_ROW",
-			value1 = "${assetType}");
+			value1 = ${assetType});
 
 		SelectFrameTop();
 
@@ -118,11 +118,11 @@ definition {
 
 	macro viewUsages {
 		AssetListsAdmin.gotoEntryMenuItem(
-			assetListTitle = "${assetListTitle}",
+			assetListTitle = ${assetListTitle},
 			item = "View Usages");
 
-		var usageAmount = "${usageAmount}";
-		var usageType = "${usageType}";
+		var usageAmount = ${usageAmount};
+		var usageType = ${usageType};
 
 		AssertElementPresent(locator1 = "AssetLists#ASSET_LIST_USAGES");
 	}

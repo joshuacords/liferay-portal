@@ -11,7 +11,7 @@ definition {
 		User.firstLoginPG(localization = "JA");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test LocalizationJAHookSmoke {
 		property hook.plugins.includes = "localization-ja-hook";
 
@@ -19,8 +19,8 @@ definition {
 		var portletName = "localization-ja-hook";
 
 		OSGiSmoke.Smoke(
-			appName = "${portletName}",
-			portletName = "${portletName}");
+			appName = ${portletName},
+			portletName = ${portletName});
 	}
 
 }

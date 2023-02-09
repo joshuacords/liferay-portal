@@ -27,7 +27,7 @@ definition {
 			layoutName = "Documents and Media Page");
 
 		JSONLayout.addWidgetToPublicLayout(
-			column = "1",
+			column = 1,
 			groupName = "Guest",
 			layoutName = "Documents and Media Page",
 			widgetName = "Documents and Media");
@@ -44,7 +44,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -57,7 +57,7 @@ definition {
 	}
 
 	@description = "This test asserts that users get the proper notification based on sharing permissions granted to him, also covers LPS-94448"
-	@priority = "4"
+	@priority = 4
 	test AssertNotifications {
 		DMDocumentSharing.addDocumentWithOnlyOwnerPermissions(
 			dmDocumentDescription = "DM Document Description",
@@ -105,7 +105,7 @@ definition {
 			password = "test",
 			userEmailAddress = "userea@liferay.com");
 
-		Notifications.viewBadgeCount(notificationCount = "3");
+		Notifications.viewBadgeCount(notificationCount = 3);
 
 		Notifications.gotoNotifications();
 
@@ -139,7 +139,7 @@ definition {
 	}
 
 	@description = "This test covers LPS-94858. It asserts deleted entry displays in a user's Shared Content using share button from info panel."
-	@priority = "4"
+	@priority = 4
 	test AssertSingleDeleteEntry {
 		Navigator.gotoPage(pageName = "Documents and Media Page");
 
@@ -164,7 +164,7 @@ definition {
 			password = "test",
 			userEmailAddress = "userea@liferay.com");
 
-		Notifications.viewBadgeCount(notificationCount = "1");
+		Notifications.viewBadgeCount(notificationCount = 1);
 
 		Notifications.gotoNotifications();
 
@@ -194,7 +194,7 @@ definition {
 	}
 
 	@description = "This test asserts only one entry displays in a user's Shared Content app when multiple users share the same document to him."
-	@priority = "4"
+	@priority = 4
 	test AssertSingleEntry {
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -249,7 +249,7 @@ definition {
 			password = "test",
 			userEmailAddress = "userea2@liferay.com");
 
-		Notifications.viewBadgeCount(notificationCount = "2");
+		Notifications.viewBadgeCount(notificationCount = 2);
 
 		Notifications.gotoNotifications();
 
@@ -261,7 +261,7 @@ definition {
 
 		Navigator.openURL();
 
-		Notifications.viewBadgeCount(notificationCount = "1");
+		Notifications.viewBadgeCount(notificationCount = 1);
 
 		Notifications.gotoNotifications();
 
@@ -287,14 +287,14 @@ definition {
 	}
 
 	@description = "This test ensures that users receives an email when a document is shared with them. This email contains a link that navigates user to Shared Content app."
-	@priority = "4"
+	@priority = 4
 	test GoToSharedContentViaEmail {
 		property custom.properties = "message.boards.message.formats.default=html${line.separator}pop.server.notifications.enabled=true${line.separator}pop.server.subdomain=${line.separator}mail.session.mail.smtp.auth=true${line.separator}mail.session.mail.store.protocol=pop3${line.separator}mail.session.mail.transport.protocol=smtp";
 		property dummy.socket.proxy.disabled = "true";
 		property test.name.skip.portal.instance = "DMSharing#GoToSharedContentViaEmail";
 
 		var portalURL = PropsUtil.get("portal.url");
-		var siteName = TestCase.getSiteName(siteName = "${siteName}");
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
 
 		Gmail.login(
 			userEmailAddress = PropsUtil.get("email.address.3"),
@@ -304,7 +304,7 @@ definition {
 
 		Gmail.deleteSpecificMail(gmailMessageTitleList = "Test Test has shared DM Document Title with you for viewing.,Your New Account,Your New Password");
 
-		Navigator.openSpecificURL(url = "${portalURL}");
+		Navigator.openSpecificURL(url = ${portalURL});
 
 		ProductMenu.gotoPortlet(
 			category = "Configuration",
@@ -366,7 +366,7 @@ definition {
 			password = "test",
 			userEmailAddress = PropsUtil.get("email.address.3"));
 
-		Pause(locator1 = "30000");
+		Pause(locator1 = 30000);
 
 		Gmail.gotoHtmlMode();
 
@@ -388,7 +388,7 @@ definition {
 	}
 
 	@description = "This test ensures that users receive a notification in portal when a document is shared to them, and that clicking on that notification navigates them to the Shared Content app."
-	@priority = "4"
+	@priority = 4
 	test GoToSharedContentViaNotifications {
 		DMDocumentSharing.addDocumentWithOnlyOwnerPermissions(
 			dmDocumentDescription = "DM Document Description",
@@ -407,7 +407,7 @@ definition {
 			password = "test",
 			userEmailAddress = "userea@liferay.com");
 
-		Notifications.viewBadgeCount(notificationCount = "1");
+		Notifications.viewBadgeCount(notificationCount = 1);
 
 		Notifications.gotoNotifications();
 
@@ -423,7 +423,7 @@ definition {
 	}
 
 	@description = "This test covers LPS-94294. It ensures that sharing a document to a user, and changing its sharing permissions via Manage Collaborators. This test also covers permissions and making sure users only have access to sharing permissions assigned to him."
-	@priority = "5"
+	@priority = 5
 	test ManageCollaborators {
 		DMDocumentSharing.addDocumentWithOnlyOwnerPermissions(
 			dmDocumentDescription = "DM Document Description",
@@ -515,7 +515,7 @@ definition {
 	}
 
 	@description = "This test covers LPS-101927. It ensures that a user can reply to a comment on an image via shared content"
-	@priority = "4"
+	@priority = 4
 	test ReplyToCommentViaSharedContent {
 		JSONUser.addUser(
 			userEmailAddress = "userea2@liferay.com",
@@ -607,7 +607,7 @@ definition {
 	}
 
 	@description = "This test covers LPS-94284. It ensures that the invalid email still does not add if it has a space."
-	@priority = "4"
+	@priority = 4
 	test ShareViaInvalidAddress {
 		DMDocumentSharing.addDocumentWithOnlyOwnerPermissions(
 			dmDocumentDescription = "DM Document Description",
@@ -636,7 +636,7 @@ definition {
 	}
 
 	@description = "This test covers LPS-94585. It ensures that users can share via Shared Content app."
-	@priority = "5"
+	@priority = 5
 	test ShareViaSharedContent {
 		JSONUser.addUser(
 			userEmailAddress = "userea2@liferay.com",
@@ -776,7 +776,7 @@ definition {
 	}
 
 	@description = "This test share an content to a user and disable the sharing option. This test asserts that a collaborator without sharing permissions will not be able to share this content."
-	@priority = "5"
+	@priority = 5
 	test ShareWithNoSharingPermissions {
 		JSONUser.addUser(
 			userEmailAddress = "userea1@liferay.com",
@@ -825,7 +825,7 @@ definition {
 	}
 
 	@description = "This test covers LPS-94661. It ensures that the user can share a document with an apostrophe in the title."
-	@priority = "3"
+	@priority = 3
 	test ShareWithSpecialCharacter {
 		property test.name.skip.portal.instance = "DMSharing#ShareWithSpecialCharacter";
 
@@ -870,7 +870,7 @@ definition {
 			password = "test",
 			userEmailAddress = "userea@liferay.com");
 
-		Notifications.viewBadgeCount(notificationCount = "1");
+		Notifications.viewBadgeCount(notificationCount = 1);
 
 		Notifications.gotoNotifications();
 
@@ -882,7 +882,7 @@ definition {
 	}
 
 	@description = "This test makes sure all collaborators will view all collaborators of the document that was shared to him. This usecase also tests that a user can successfully remove collaborators through Manage Collaborators and asserts that empty message displays when all collaborators are removed."
-	@priority = "5"
+	@priority = 5
 	test ViewAndRemoveCollaborators {
 		JSONUser.addUser(
 			userEmailAddress = "userea2@liferay.com",

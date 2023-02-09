@@ -2,11 +2,11 @@ definition {
 
 	macro createNewUserAccount {
 		User.createAccount(
-			newPassword = "${newPassword}",
-			userEmailAddress = "${userEmailAddress}",
-			userFirstName = "${userFirstName}",
-			userLastName = "${userLastName}",
-			userScreenName = "${userScreenName}");
+			newPassword = ${newPassword},
+			userEmailAddress = ${userEmailAddress},
+			userFirstName = ${userFirstName},
+			userLastName = ${userLastName},
+			userScreenName = ${userScreenName});
 
 		AssertElementPresent(locator1 = "Message#SUCCESS");
 	}
@@ -27,8 +27,8 @@ definition {
 	}
 
 	macro previewViewContent {
-		var key_fieldLabel = "${fieldLabel}";
-		var key_fieldValue = "${fieldValue}";
+		var key_fieldLabel = ${fieldLabel};
+		var key_fieldValue = ${fieldValue};
 
 		AssertTextEquals(
 			locator1 = "AssetWorkflow#CONTENT_PREVIEW_VIEW",
@@ -36,7 +36,7 @@ definition {
 	}
 
 	macro previewViewContentFieldNotPresent {
-		var key_fieldLabel = "${fieldLabel}";
+		var key_fieldLabel = ${fieldLabel};
 
 		AssertElementNotPresent(locator1 = "AssetWorkflow#CONTENT_FIELD_PREVIEW_VIEW");
 	}
@@ -50,43 +50,43 @@ definition {
 
 		AssertTextEquals(
 			locator1 = "AssetWorkflow#DETAILS_WORKFLOW_STATUS",
-			value1 = "${workflowStatus}");
+			value1 = ${workflowStatus});
 
 		AssertTextEquals.assertPartialText(
 			locator1 = "AssetWorkflow#DETAILS_WORKFLOW_CREATED_BY",
-			value1 = "${userName}");
+			value1 = ${userName});
 	}
 
 	macro viewFormEntryTable {
 		FormsAdmin.viewFormTableEntry(
-			fieldLabel = "${fieldLabel}",
-			fieldValue = "${fieldValue}");
+			fieldLabel = ${fieldLabel},
+			fieldValue = ${fieldValue});
 
-		var key_fieldLabel = "${fieldLabel}";
-		var key_fieldValue = "${fieldValue}";
-		var key_workflowStatus = "${workflowStatus}";
+		var key_fieldLabel = ${fieldLabel};
+		var key_fieldValue = ${fieldValue};
+		var key_workflowStatus = ${workflowStatus};
 
 		AssertTextEquals(
 			locator1 = "FormsAdmin#FORM_ENTRY_WORKFLOW_STATUS",
-			value1 = "${workflowStatus}");
+			value1 = ${workflowStatus});
 	}
 
 	macro viewFormTemplateLabel {
 		AssertTextEquals.assertPartialText(
 			locator1 = "MyWorkflowTasksTask#PREVIEW_CONTENT",
-			value1 = "${workflowFormsTemplateLabel}");
+			value1 = ${workflowFormsTemplateLabel});
 	}
 
 	macro viewNotification {
 		AssertTextEquals(
 			locator1 = "Notifications#NOTIFICATIONS_WORKFLOW_TITLE",
-			value1 = "${contentBody}");
+			value1 = ${contentBody});
 	}
 
 	macro viewUserDetails {
 		AssertTextEquals.assertPartialText(
 			locator1 = "WorkflowSubmissionsTask#PREVIEW_USER",
-			value1 = "${userEmailAddress}");
+			value1 = ${userEmailAddress});
 	}
 
 }

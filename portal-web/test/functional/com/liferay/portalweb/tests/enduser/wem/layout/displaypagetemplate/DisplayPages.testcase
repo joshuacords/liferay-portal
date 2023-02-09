@@ -32,7 +32,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -41,7 +41,7 @@ definition {
 	}
 
 	@description = "User can rename a display page and add a display page."
-	@priority = "3"
+	@priority = 3
 	test AddBlankDisplayPage {
 		task ("Rename the display page") {
 			DisplayPageTemplatesAdmin.openDisplayPagesAdmin(siteURLKey = "test-site-name");
@@ -75,7 +75,7 @@ definition {
 	}
 
 	@description = "User can add a display page with fragments."
-	@priority = "5"
+	@priority = 5
 	test AddDisplayPage {
 		property portal.acceptance = "true";
 
@@ -87,7 +87,7 @@ definition {
 			AssertVisible(
 				key_content = "Lorem ipsum dolor sit amet",
 				key_fragmentClass = "header",
-				key_position = "1",
+				key_position = 1,
 				locator1 = "Fragment#PAGE_EDITOR_FRAGMENT");
 		}
 
@@ -109,13 +109,13 @@ definition {
 			AssertVisible(
 				key_content = "Lorem ipsum dolor sit amet",
 				key_fragmentClass = "header",
-				key_position = "1",
+				key_position = 1,
 				locator1 = "Fragment#PAGE_EDITOR_FRAGMENT");
 		}
 	}
 
 	@description = "User can only map a display page to an asset type once."
-	@priority = "4"
+	@priority = 4
 	test AssertAssetTypeOnlySelectableOnce {
 		task ("Assert the select button to select asset type no longer appears") {
 			PageEditorMapping.assertAssetTypeUnselectable();
@@ -123,7 +123,7 @@ definition {
 	}
 
 	@description = "In the display page editor, user can add and remove fragments, user can remove sections, and user can edit text in fragment editable fields."
-	@priority = "5"
+	@priority = 5
 	test AssertDisplayPageEditorFunctionality {
 		task ("Add the Title, Rich Text, Button, and Content fragments") {
 			PageEditor.addFragment(
@@ -165,19 +165,19 @@ definition {
 			AssertVisible(
 				key_content = "Lorem ipsum dolor sit amet",
 				key_fragmentClass = "header",
-				key_position = "1",
+				key_position = 1,
 				locator1 = "Fragment#PAGE_EDITOR_FRAGMENT");
 
 			AssertVisible(
 				key_content = "Editing Finished",
 				key_fragmentClass = "rich-text",
-				key_position = "2",
+				key_position = 2,
 				locator1 = "Fragment#PAGE_EDITOR_FRAGMENT");
 
 			AssertElementNotPresent(
 				key_content = "Submit",
 				key_fragmentClass = "footer",
-				key_position = "3",
+				key_position = 3,
 				locator1 = "Fragment#PAGE_EDITOR_FRAGMENT");
 
 			Button.viewNotPresent(button = "Submit");
@@ -185,13 +185,13 @@ definition {
 			AssertVisible(
 				key_content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tempus eleifend lacus nec porttitor. Vestibulum pharetra ullamcorper felis volutpat commodo. Nam id ipsum placerat, hendrerit orci eu, congue nisi. Proin.",
 				key_fragmentClass = "body",
-				key_position = "3",
+				key_position = 3,
 				locator1 = "Fragment#PAGE_EDITOR_FRAGMENT");
 		}
 	}
 
 	@description = "This is a test for LPS-86191. User can configure display page settings for any created display page, even if the display page is in draft status."
-	@priority = "5"
+	@priority = 5
 	test ConfigureDraftStatusDisplayPage {
 		task ("Configure the display page template's 'Look and Feel' while it is still in draft status") {
 			PageEditor.gotoTab(tabName = "Look and Feel");
@@ -215,7 +215,7 @@ definition {
 	}
 
 	@description = "User can delete display pages."
-	@priority = "5"
+	@priority = 5
 	test DeleteDisplayPage {
 
 		// Ignoring test from acceptance until LRQA-52642 is resolved
@@ -234,7 +234,7 @@ definition {
 	}
 
 	@description = "User can edit a display page. This includes adding and removing fragments and includes editing text in fragment editable fields."
-	@priority = "5"
+	@priority = 5
 	test EditDisplayPage {
 		task ("Add the Title, Rich Text, and Button fragments") {
 			PageEditor.addFragment(
@@ -300,19 +300,19 @@ definition {
 			AssertVisible(
 				key_content = "Lorem ipsum dolor sit amet",
 				key_fragmentClass = "header",
-				key_position = "1",
+				key_position = 1,
 				locator1 = "Fragment#PAGE_EDITOR_FRAGMENT");
 
 			AssertVisible(
 				key_content = "Editing Finished",
 				key_fragmentClass = "rich-text",
-				key_position = "2",
+				key_position = 2,
 				locator1 = "Fragment#PAGE_EDITOR_FRAGMENT");
 
 			AssertElementNotPresent(
 				key_content = "Submit",
 				key_fragmentClass = "footer",
-				key_position = "3",
+				key_position = 3,
 				locator1 = "Fragment#PAGE_EDITOR_FRAGMENT");
 
 			Button.viewNotPresent(button = "Submit");
@@ -320,13 +320,13 @@ definition {
 			AssertVisible(
 				key_content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tempus eleifend lacus nec porttitor. Vestibulum pharetra ullamcorper felis volutpat commodo. Nam id ipsum placerat, hendrerit orci eu, congue nisi. Proin.",
 				key_fragmentClass = "body",
-				key_position = "3",
+				key_position = 3,
 				locator1 = "Fragment#PAGE_EDITOR_FRAGMENT");
 		}
 	}
 
 	@description = "User cannot delete a display page that is in use by an asset."
-	@priority = "4"
+	@priority = 4
 	test ViewCannotDeleteActiveDisplayPage {
 		task ("Rename the display page") {
 			DisplayPageTemplatesAdmin.openDisplayPagesAdmin(siteURLKey = "test-site-name");

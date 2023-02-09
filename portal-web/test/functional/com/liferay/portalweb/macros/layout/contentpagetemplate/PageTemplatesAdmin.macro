@@ -2,20 +2,20 @@ definition {
 
 	macro _addPageTemplate {
 		if (isSet(pageTemplateType)) {
-			var menuItem = "${pageTemplateType}";
+			var menuItem = ${pageTemplateType};
 		}
 		else {
 			var menuItem = "Content Page Template";
 		}
 
-		if ("${siteTemplate}" == "true") {
+		if (${siteTemplate} == "true") {
 			LexiconEntry.gotoAdd();
 		}
 		else {
-			LexiconEntry.gotoAddMenuItem(menuItem = "${menuItem}");
+			LexiconEntry.gotoAddMenuItem(menuItem = ${menuItem});
 		}
 
-		PortletEntry.inputName(name = "${pageTemplateName}");
+		PortletEntry.inputName(name = ${pageTemplateName});
 
 		Button.clickSave();
 	}
@@ -33,18 +33,18 @@ definition {
 		PageTemplatesAdmin._gotoAddCollection();
 
 		Collection.editCollection(
-			collectionDescription = "${collectionDescription}",
-			collectionName = "${collectionName}");
+			collectionDescription = ${collectionDescription},
+			collectionName = ${collectionName});
 
 		Button.clickSave();
 	}
 
 	macro addDuplicatePageTemplate {
 		PageTemplatesAdmin._addPageTemplate(
-			menuItem = "${menuItem}",
-			pageTemplateName = "${pageTemplateName}",
-			pageTemplateType = "${pageTemplateType}",
-			siteTemplate = "${siteTemplate}");
+			menuItem = ${menuItem},
+			pageTemplateName = ${pageTemplateName},
+			pageTemplateType = ${pageTemplateType},
+			siteTemplate = ${siteTemplate});
 
 		AssertTextEquals(
 			locator1 = "Message#ERROR_MODAL_CONTENT",
@@ -53,12 +53,12 @@ definition {
 
 	macro addPageTemplate {
 		PageTemplatesAdmin._addPageTemplate(
-			menuItem = "${menuItem}",
-			pageTemplateName = "${pageTemplateName}",
-			pageTemplateType = "${pageTemplateType}",
-			siteTemplate = "${siteTemplate}");
+			menuItem = ${menuItem},
+			pageTemplateName = ${pageTemplateName},
+			pageTemplateType = ${pageTemplateType},
+			siteTemplate = ${siteTemplate});
 
-		if ("${pageTemplateType}" == "Content Page Template") {
+		if (${pageTemplateType} == "Content Page Template") {
 			PageEditor.assertFragmentSidebarLoaded();
 		}
 	}
@@ -67,24 +67,24 @@ definition {
 		Click.pauseClickAt(locator1 = "ControlMenu#EDIT_COG");
 
 		Click(
-			key_columnName = "${columnName}",
+			key_columnName = ${columnName},
 			locator1 = "SitePagesEditPage#LAYOUT_CARD");
 
 		PortletEntry.save();
 	}
 
 	macro deletePageTemplate {
-		LexiconCard.delete(card = "${pageTemplateName}");
+		LexiconCard.delete(card = ${pageTemplateName});
 	}
 
 	macro gotoPageTemplate {
-		LexiconCard.clickCardTitle(card = "${pageTemplateName}");
+		LexiconCard.clickCardTitle(card = ${pageTemplateName});
 	}
 
 	macro gotoPageTemplateEllipsisItem {
 		LexiconCard.clickEllipsisItem(
-			card = "${pageTemplateName}",
-			item = "${item}");
+			card = ${pageTemplateName},
+			item = ${item});
 	}
 
 	macro openPageTemplatesAdmin {
@@ -94,19 +94,19 @@ definition {
 	macro renamePageTemplate {
 		PageTemplatesAdmin.gotoPageTemplateEllipsisItem(
 			item = "Rename",
-			pageTemplateName = "${pageTemplateName}");
+			pageTemplateName = ${pageTemplateName});
 
-		PortletEntry.inputName(name = "${newPageTemplateName}");
+		PortletEntry.inputName(name = ${newPageTemplateName});
 
 		Modal.save();
 	}
 
 	macro viewPageTemplateNotPresent {
-		LexiconCard.viewCardNotPresent(card = "${pageTemplateName}");
+		LexiconCard.viewCardNotPresent(card = ${pageTemplateName});
 	}
 
 	macro viewPageTemplatePresent {
-		LexiconCard.viewCardPresent(card = "${pageTemplateName}");
+		LexiconCard.viewCardPresent(card = ${pageTemplateName});
 	}
 
 }

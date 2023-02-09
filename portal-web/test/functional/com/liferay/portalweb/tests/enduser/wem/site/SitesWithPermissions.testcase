@@ -14,7 +14,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -26,7 +26,7 @@ definition {
 		}
 	}
 
-	@priority = "3"
+	@priority = 3
 	test SitesTemplatePermissionPersistence {
 		property testray.component.names = "Permissions,Site Administration";
 
@@ -68,7 +68,7 @@ definition {
 		Portlet.viewTitle(portletName = "Asset Publisher");
 
 		SiteTemplates.resetPageChanges(
-			columnNumberTo = "1",
+			columnNumberTo = 1,
 			portletName = "Asset Publisher");
 
 		Navigator.openSiteURL(siteName = "Site Name");
@@ -111,7 +111,7 @@ definition {
 
 		MessageboardsThread.gotoPG(
 			lastPostUserName = "Test Test",
-			replyCount = "0",
+			replyCount = 0,
 			threadBody = "This is the message boards thread.",
 			threadSubject = "Thread");
 
@@ -129,7 +129,7 @@ definition {
 
 		MessageboardsThread.gotoPG(
 			lastPostUserName = "Test Test",
-			replyCount = "0",
+			replyCount = 0,
 			threadBody = "This is the message boards thread.",
 			threadSubject = "Thread");
 

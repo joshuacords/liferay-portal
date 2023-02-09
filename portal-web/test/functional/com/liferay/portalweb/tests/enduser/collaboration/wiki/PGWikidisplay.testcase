@@ -28,7 +28,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -40,7 +40,7 @@ definition {
 		}
 	}
 
-	@priority = "5"
+	@priority = 5
 	test AddWikiFrontPageChildPage {
 		Navigator.openURL();
 
@@ -82,7 +82,7 @@ definition {
 			wikiPageTitle = "FrontPage");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddWikiFrontPageChildPageFormatHTML {
 		var welcomeToLiferay = '''
 				<p><a href="http://www.liferay.com">Welcome to LIFERAY</a></p>
@@ -123,7 +123,7 @@ definition {
 
 		WikiEntry.addPageTitle(wikiPageTitle = "Wiki FrontPage Child Page Title");
 
-		AlloyEditor.addSourceContent(content = "${welcomeToLiferay}");
+		AlloyEditor.addSourceContent(content = ${welcomeToLiferay});
 
 		PortletEntry.publish();
 
@@ -142,7 +142,7 @@ definition {
 			wikiChildPageTitle = "Wiki FrontPage Child Page Title");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddWikiFrontPageChildPageInvalidTitle {
 		Navigator.openURL();
 
@@ -234,7 +234,7 @@ definition {
 		WikiPage.viewNoChildPagePGViaWD();
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DeleteWikiFrontPage {
 		Navigator.openURL();
 
@@ -273,7 +273,7 @@ definition {
 			wikiPageName = "FrontPage");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewConfigurationSetupPageFrontPage {
 		Navigator.openURL();
 

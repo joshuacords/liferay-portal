@@ -20,7 +20,7 @@ definition {
 		SearchAdministration.executeSearchActions(actionsDescription = "Reindex all search indexes.");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ViewPollsArchive625 {
 		property data.archive.type = "data-archive-polls";
 		property database.types = "mariadb,mysql,postgresql";
@@ -29,7 +29,7 @@ definition {
 		Upgrade.viewPolls();
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ViewPollsArchive621015 {
 		property data.archive.type = "data-archive-polls";
 		property portal.version = "6.2.10.15";
@@ -37,7 +37,7 @@ definition {
 		Upgrade.viewPolls();
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ViewPollsArchive621021 {
 		property data.archive.type = "data-archive-polls";
 		property portal.version = "6.2.10.21";

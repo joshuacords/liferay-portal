@@ -20,7 +20,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -29,7 +29,7 @@ definition {
 	}
 
 	@description = "This is a test for LPS-75059. A user can add a link to a navigation menu."
-	@priority = "4"
+	@priority = 4
 	test AddURLNavigationMenu {
 		task ("Add a page to the site") {
 			JSONLayout.addPublicLayout(
@@ -79,7 +79,7 @@ definition {
 	}
 
 	@description = "This is a test for LPS-76658. A user can edit the existing page items in a navigation menu."
-	@priority = "5"
+	@priority = 5
 	test EditNavigationMenuPageItemName {
 		property portal.acceptance = "true";
 
@@ -155,7 +155,7 @@ definition {
 
 	@description = "This is a test for LPS-76717. The user could view warning message in preview window when no available navigation in site. ignoring this case until LPS-142698 is fixed."
 	@ignore = "true"
-	@priority = "3"
+	@priority = 3
 	test ViewWarningMessageInPreviewWindowWhenNoNavigationAvailable {
 		task ("Add a content page template") {
 			PageTemplatesAdmin.openPageTemplatesAdmin(siteURLKey = "test-site-name");

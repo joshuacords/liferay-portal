@@ -3,7 +3,7 @@ definition {
 	var dmDocumentTypeName = "File Upload";
 
 	macro gotoAddCategoriesPG {
-		for (var key_dmDocumentTitle : list "${dmDocumentTitleList}") {
+		for (var key_dmDocumentTitle : list ${dmDocumentTitleList}) {
 			Check(locator1 = "DocumentsAndMedia#DESCRIPTIVE_LIST_DOCUMENT_CHECKBOX");
 		}
 
@@ -13,17 +13,17 @@ definition {
 	macro gotoAddDocumentTypeCP {
 		LexiconEntry.gotoAdd();
 
-		var key_dmDocumentTypeName = "${dmDocumentTypeName}";
+		var key_dmDocumentTypeName = ${dmDocumentTypeName};
 
-		MenuItem.click(menuItem = "${dmDocumentTypeName}");
+		MenuItem.click(menuItem = ${dmDocumentTypeName});
 	}
 
 	macro gotoAddDocumentTypePG {
 		Portlet.clickPortletPlusIconPG(portletName = "Documents and Media");
 
-		var key_dmDocumentTypeName = "${dmDocumentTypeName}";
+		var key_dmDocumentTypeName = ${dmDocumentTypeName};
 
-		MenuItem.click(menuItem = "${dmDocumentTypeName}");
+		MenuItem.click(menuItem = ${dmDocumentTypeName});
 	}
 
 	macro gotoAddRepositoryCP {
@@ -41,15 +41,15 @@ definition {
 	}
 
 	macro gotoCheckedOutDocument {
-		var key_dmDocumentTitle = "${dmDocumentTitle}";
+		var key_dmDocumentTitle = ${dmDocumentTitle};
 
 		AssertClick(
 			locator1 = "DocumentsAndMedia#DESCRIPTIVE_LIST_DOCUMENT_TITLE",
-			value1 = "${dmCheckedOutDocumentTitle}");
+			value1 = ${dmCheckedOutDocumentTitle});
 	}
 
 	macro gotoDocumentCP {
-		LexiconEntry.gotoEntry(rowEntry = "${dmDocumentTitle}");
+		LexiconEntry.gotoEntry(rowEntry = ${dmDocumentTitle});
 	}
 
 	macro gotoDocumentDetails {
@@ -63,17 +63,17 @@ definition {
 	macro gotoDocumentPermissionsCP {
 		LexiconEntry.gotoEntryMenuItem(
 			menuItem = "Permissions",
-			rowEntry = "${dmDocumentTitle}");
+			rowEntry = ${dmDocumentTitle});
 
 		SelectFrame(locator1 = "IFrame#DIALOG");
 	}
 
 	macro gotoDocumentPG {
-		var key_dmDocumentTitle = "${dmDocumentTitle}";
+		var key_dmDocumentTitle = ${dmDocumentTitle};
 
 		AssertClick(
 			locator1 = "DocumentsAndMedia#DESCRIPTIVE_LIST_DOCUMENT_TITLE",
-			value1 = "${dmDocumentTitle}");
+			value1 = ${dmDocumentTitle});
 	}
 
 	macro gotoDocumentType {
@@ -91,17 +91,17 @@ definition {
 	}
 
 	macro gotoFolder {
-		var key_dmFolderName = "${dmFolderName}";
+		var key_dmFolderName = ${dmFolderName};
 
 		AssertClick(
 			locator1 = "DocumentsAndMedia#DESCRIPTIVE_LIST_FOLDER_TITLE",
-			value1 = "${dmFolderName}");
+			value1 = ${dmFolderName});
 
 		AssertVisible(locator1 = "DocumentsAndMedia#BREADCRUMB_FOLDER_NAME");
 	}
 
 	macro gotoFolderPermissions {
-		var key_dmFolderName = "${dmFolderName}";
+		var key_dmFolderName = ${dmFolderName};
 
 		Click(locator1 = "DocumentsAndMedia#DESCRIPTIVE_LIST_VERTICAL_ELLIPSIS");
 
@@ -111,7 +111,7 @@ definition {
 	}
 
 	macro gotoFolderViaBreadcrumb {
-		var key_dmFolderName = "${dmFolderName}";
+		var key_dmFolderName = ${dmFolderName};
 
 		AssertClick.assertTextClickAt(locator1 = "DocumentsAndMedia#BREADCRUMB_FOLDER_NAME");
 	}
@@ -127,17 +127,17 @@ definition {
 	}
 
 	macro gotoRelatedAssetPG {
-		var key_dmDocumentTitle = "${dmDocumentTitle}";
+		var key_dmDocumentTitle = ${dmDocumentTitle};
 
 		AssertClick(
 			locator1 = "DocumentsAndMedia#DESCRIPTIVE_LIST_DOCUMENT_TITLE",
-			value1 = "${dmDocumentTitle}");
+			value1 = ${dmDocumentTitle});
 
-		var key_assetTitle = "${key_assetTitle}";
+		var key_assetTitle = ${key_assetTitle};
 
 		AssertTextEquals(
 			locator1 = "DocumentsAndMediaDocument#DOCUMENT_INFO_TITLE",
-			value1 = "${dmDocumentTitle}");
+			value1 = ${dmDocumentTitle});
 
 		DMDocument.expandInfo();
 
@@ -147,33 +147,33 @@ definition {
 
 		AssertTextEquals(
 			locator1 = "DocumentsAndMediaDocument#DOCUMENT_INFO_RELATED_ASSETS_TITLE",
-			value1 = "${assetTitle}");
+			value1 = ${assetTitle});
 
 		AssertClick(
 			locator1 = "DocumentsAndMediaDocument#DOCUMENT_INFO_RELATED_ASSETS_TITLE",
-			value1 = "${assetTitle}");
+			value1 = ${assetTitle});
 	}
 
 	macro gotoRepository {
-		var key_dmFolderName = "${dmRepositoryName}";
+		var key_dmFolderName = ${dmRepositoryName};
 
 		AssertClick(
 			locator1 = "DocumentsAndMedia#DESCRIPTIVE_LIST_FOLDER_TITLE",
-			value1 = "${dmRepositoryName}");
+			value1 = ${dmRepositoryName});
 
 		AssertVisible(locator1 = "DocumentsAndMedia#BREADCRUMB_FOLDER_NAME");
 	}
 
 	macro gotoShare {
-		var key_dmDocumentTitle = "${dmDocumentTitle}";
+		var key_dmDocumentTitle = ${dmDocumentTitle};
 
 		AssertElementPresent(locator1 = "DocumentsAndMedia#DESCRIPTIVE_LIST_DOCUMENT_TITLE");
 
 		AssertClick(
 			locator1 = "DocumentsAndMedia#DESCRIPTIVE_LIST_DOCUMENT_TITLE",
-			value1 = "${dmDocumentTitle}");
+			value1 = ${dmDocumentTitle});
 
-		DMDocument.viewDocumentTitleCmdPG(dmDocumentTitle = "${dmDocumentTitle}");
+		DMDocument.viewDocumentTitleCmdPG(dmDocumentTitle = ${dmDocumentTitle});
 
 		var key_text = "Share";
 
@@ -183,13 +183,13 @@ definition {
 	}
 
 	macro gotoShareInfoPanel {
-		var key_dmDocumentTitle = "${dmDocumentTitle}";
+		var key_dmDocumentTitle = ${dmDocumentTitle};
 
 		AssertClick(
 			locator1 = "DocumentsAndMedia#DESCRIPTIVE_LIST_DOCUMENT_TITLE",
-			value1 = "${dmDocumentTitle}");
+			value1 = ${dmDocumentTitle});
 
-		DMDocument.viewDocumentTitleCmdPG(dmDocumentTitle = "${dmDocumentTitle}");
+		DMDocument.viewDocumentTitleCmdPG(dmDocumentTitle = ${dmDocumentTitle});
 
 		Click.clickAt(locator1 = "Icon#INFO");
 
@@ -199,11 +199,11 @@ definition {
 	}
 
 	macro gotoShareViaSharedContent {
-		var key_contentTitle = "${dmDocumentTitle}";
+		var key_contentTitle = ${dmDocumentTitle};
 
 		Click(
 			locator1 = "Sharing#SHARED_CONTENT_CONTENT_OPTIONS",
-			value1 = "${contentTitle}");
+			value1 = ${contentTitle});
 
 		MenuItem.click(menuItem = "Share");
 	}

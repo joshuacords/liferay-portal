@@ -20,7 +20,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -28,7 +28,7 @@ definition {
 		}
 	}
 
-	@priority = "5"
+	@priority = 5
 	test AddLocalizedWebContentViaSourceEditor {
 		property test.name.skip.portal.instance = "LocalizationWithWebContentUI#AddLocalizedWebContentViaSourceEditor";
 		property testray.component.names = "Training,Web Content Administration";
@@ -122,7 +122,7 @@ definition {
 			value1 = "Space Program 大学生涯教育 地球から、宇宙の果てへ");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test AddWCWithTranslation {
 		property portal.acceptance = "true";
 		property test.name.skip.portal.instance = "LocalizationWithWebContent#AddWCWithTranslation";
@@ -170,7 +170,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-130977."
-	@priority = "3"
+	@priority = 3
 	test ViewTranslationWithoutTextChanged {
 		WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
 
@@ -195,7 +195,7 @@ definition {
 			locator1 = "ContentRow#ENTRY_CONTENT_ENTRY_NAME");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test WebContentAdministrationLocalization {
 		property test.name.skip.portal.instance = "LocalizationWithWebContentUI#WebContentAdministrationLocalization";
 		property testray.component.names = "Localization,Web Content Administration";
@@ -222,7 +222,7 @@ definition {
 
 		LexiconEntry.gotoAdd();
 
-		Pause(locator1 = "3000");
+		Pause(locator1 = 3000);
 
 		WebContentStructures.addName(structureName = "WC Structure Name");
 

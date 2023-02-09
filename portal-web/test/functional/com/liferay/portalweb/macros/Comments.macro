@@ -6,7 +6,7 @@ definition {
 			locator1 = "AlloyEditor#EDITOR");
 
 		AlloyEditor.typeEditor(
-			content = "${entryComment}",
+			content = ${entryComment},
 			editor = "postReply");
 
 		AssertClick(
@@ -18,16 +18,16 @@ definition {
 
 	macro addPGAsGuest {
 		BlogsNavigator.gotoEntryPG(
-			entryContent = "${entryContent}",
-			entryTitle = "${entryTitle}");
+			entryContent = ${entryContent},
+			entryTitle = ${entryTitle});
 
-		var entryComment = "${entryComment}";
+		var entryComment = ${entryComment};
 
 		Click(locator1 = "Comments#COMMENT_FIELD");
 
 		Type(
 			locator1 = "Comments#COMMENT_FIELD",
-			value1 = "${entryComment}");
+			value1 = ${entryComment});
 
 		AssertElementPresent(locator1 = "UserBar#USER_SIGN_IN");
 
@@ -43,25 +43,25 @@ definition {
 
 		Type(
 			locator1 = "TextInput#FIRST_NAME",
-			value1 = "${userFirstName}");
+			value1 = ${userFirstName});
 
 		Type(
 			locator1 = "TextInput#LAST_NAME",
-			value1 = "${userLastName}");
+			value1 = ${userLastName});
 
 		Type(
 			locator1 = "TextInput#EMAIL_ADDRESS",
-			value1 = "${userEmailAddress}");
+			value1 = ${userEmailAddress});
 
 		Button.clickSave();
 
 		var uniqueSuccess = "Your comment has already been posted. Would you like to create an account with the provided information?";
 
-		var key_uniqueSuccess = "${uniqueSuccess}";
+		var key_uniqueSuccess = ${uniqueSuccess};
 
 		AssertTextEquals(
 			locator1 = "Message#UNIQUE_SUCCESS",
-			value1 = "${uniqueSuccess}");
+			value1 = ${uniqueSuccess});
 
 		AssertClick(
 			locator1 = "Button#CANCEL",
@@ -73,11 +73,11 @@ definition {
 	}
 
 	macro delete {
-		var key_entryComment = "${entryComment}";
+		var key_entryComment = ${entryComment};
 
 		MouseOver(
 			locator1 = "Comments#COMMENT_BODY_SPECIFIC",
-			value1 = "${entryComment}");
+			value1 = ${entryComment});
 
 		Click(locator1 = "Comments#COMMENT_ACTIONS");
 
@@ -90,11 +90,11 @@ definition {
 
 		Alert.viewSuccessMessage();
 
-		AssertTextNotPresent(value1 = "${entryComment}");
+		AssertTextNotPresent(value1 = ${entryComment});
 	}
 
 	macro edit {
-		var key_entryComment = "${entryComment}";
+		var key_entryComment = ${entryComment};
 
 		MouseOver(locator1 = "Comments#COMMENT_BODY_SPECIFIC");
 
@@ -111,30 +111,30 @@ definition {
 
 		Type(
 			locator1 = "Comments#EDIT_COMMENT_FIELD",
-			value1 = "${entryCommentEdit}");
+			value1 = ${entryCommentEdit});
 
 		AssertClick(
 			key_text = "Save",
 			locator1 = "Comments#ANY_BUTTON_IN_COMMENT",
 			value1 = "Save");
 
-		var key_entryComment = "${entryCommentEdit}";
+		var key_entryComment = ${entryCommentEdit};
 
 		Alert.viewSuccessMessage();
 
 		AssertTextEquals(
 			locator1 = "Comments#COMMENT_BODY_SPECIFIC",
-			value1 = "${entryCommentEdit}");
+			value1 = ${entryCommentEdit});
 	}
 
 	macro getCommentId {
 		var currentURL = selenium.getCurrentUrl();
 
-		var commentId = StringUtil.extractLast("${currentURL}", "message_");
+		var commentId = StringUtil.extractLast(${currentURL}, "message_");
 
 		echo("commentId: ${commentId}");
 
-		return "${commentId}";
+		return ${commentId};
 	}
 
 	macro replyToComment {
@@ -148,7 +148,7 @@ definition {
 
 		Type(
 			locator1 = "CKEditor#BODY",
-			value1 = "${commentReply}");
+			value1 = ${commentReply});
 
 		SelectFrame(value1 = "relative=top");
 
@@ -183,18 +183,18 @@ definition {
 			value1 = "0 COMMENTS");
 
 		AssertElementNotPresent(
-			key_userFullName = "${userFullName}",
+			key_userFullName = ${userFullName},
 			locator1 = "Comments#USER_NAME");
 
 		AssertElementNotPresent(
-			key_entryComment = "${entryComment}",
+			key_entryComment = ${entryComment},
 			locator1 = "Comments#COMMENT_BODY_SPECIFIC");
 	}
 
 	macro viewPG {
-		var key_entryComment = "${entryComment}";
+		var key_entryComment = ${entryComment};
 
-		Pause(locator1 = "1000");
+		Pause(locator1 = 1000);
 
 		if (isSet(noAddPermissions)) {
 			AssertTextNotPresent(
@@ -207,15 +207,15 @@ definition {
 				value1 = "${commentCount} COMMENT");
 		}
 
-		var key_userFullName = "${userFullName}";
+		var key_userFullName = ${userFullName};
 
 		AssertTextEquals.assertPartialText(
 			locator1 = "Comments#USER_NAME",
-			value1 = "${userFullName}");
+			value1 = ${userFullName});
 
 		AssertTextEquals(
 			locator1 = "Comments#COMMENT_BODY_SPECIFIC",
-			value1 = "${entryComment}");
+			value1 = ${entryComment});
 	}
 
 	macro viewSubscribedPG {

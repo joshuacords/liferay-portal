@@ -18,7 +18,7 @@ definition {
 		Page.tearDownCP();
 	}
 
-	@priority = "4"
+	@priority = 4
 	test OpenSocialPortletSmoke {
 		property portlet.plugins.includes = "opensocial-portlet";
 
@@ -45,14 +45,14 @@ definition {
 			panel = "Control Panel",
 			portlet = "App Manager");
 
-		AppManager.uninstallAppCP(appName = "${appName}");
+		AppManager.uninstallAppCP(appName = ${appName});
 
 		ProductMenu.gotoPortlet(
 			category = "Apps",
 			panel = "Control Panel",
 			portlet = "App Manager");
 
-		AppManager.viewUninstallAppCP(appName = "${appName}");
+		AppManager.viewUninstallAppCP(appName = ${appName});
 	}
 
 }

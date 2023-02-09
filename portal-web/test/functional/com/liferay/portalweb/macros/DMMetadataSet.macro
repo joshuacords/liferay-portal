@@ -9,25 +9,25 @@ definition {
 			locator1 = "Dynamicdatamapping#HEADER_TITLE",
 			value1 = "New Metadata Set");
 
-		PortletEntry.inputName(name = "${metadataSetName}");
+		PortletEntry.inputName(name = ${metadataSetName});
 
-		for (var dmMetadataSetFieldName : list "${dmMetadataSetFieldNames}") {
+		for (var dmMetadataSetFieldName : list ${dmMetadataSetFieldNames}) {
 			DMMetadataSet.addField(
-				field = "${dmMetadataSetFieldName}",
-				fieldFieldLabel = "${dmMetadataSetFieldName}",
-				fieldName = StringUtil.replace("${dmMetadataSetFieldName}", " ", ""));
+				field = ${dmMetadataSetFieldName},
+				fieldFieldLabel = ${dmMetadataSetFieldName},
+				fieldName = StringUtil.replace(${dmMetadataSetFieldName}, " ", ""));
 		}
 	}
 
 	macro addField {
-		var key_field = "${field}";
+		var key_field = ${field};
 
 		DragAndDrop(
 			locator1 = "DDMEditStructure#FIELDS_FIELD",
 			locator2 = "DDMEditStructure#FORM_BUILDER",
-			value1 = "${field}");
+			value1 = ${field});
 
-		var key_fieldFieldLabel = "${field}";
+		var key_fieldFieldLabel = ${field};
 
 		Click(locator1 = "DDMEditStructure#FORM_FIELD");
 
@@ -35,7 +35,7 @@ definition {
 
 		Type(
 			locator1 = "DDMEditStructure#SETTINGS_CELL_EDITOR_FIELD",
-			value1 = "${fieldFieldLabel}");
+			value1 = ${fieldFieldLabel});
 
 		AssertClick(
 			locator1 = "DDMEditStructure#SETTINGS_CELL_EDITOR_SAVE_BUTTON",
@@ -43,13 +43,13 @@ definition {
 
 		AssertTextEquals(
 			locator1 = "DDMEditStructure#SETTINGS_FIELD_LABEL",
-			value1 = "${fieldFieldLabel}");
+			value1 = ${fieldFieldLabel});
 
 		DoubleClick(locator1 = "DDMEditStructure#SETTINGS_NAME");
 
 		Type(
 			locator1 = "DDMEditStructure#SETTINGS_CELL_EDITOR_FIELD",
-			value1 = "${fieldName}");
+			value1 = ${fieldName});
 
 		AssertClick(
 			locator1 = "DDMEditStructure#SETTINGS_CELL_EDITOR_SAVE_BUTTON",
@@ -57,7 +57,7 @@ definition {
 
 		AssertTextEquals(
 			locator1 = "DDMEditStructure#SETTINGS_NAME",
-			value1 = "${fieldName}");
+			value1 = ${fieldName});
 
 		AssertClick(
 			locator1 = "DDMEditStructure#FIELDS_LINK",

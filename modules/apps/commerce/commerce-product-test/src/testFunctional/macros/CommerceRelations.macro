@@ -17,8 +17,8 @@ definition {
 
 		WaitForSPARefresh();
 
-		for (var entriesNames : list "${entriesList}") {
-			CommerceItemSelector.selectEntry(entryName = "${entriesNames}");
+		for (var entriesNames : list ${entriesList}) {
+			CommerceItemSelector.selectEntry(entryName = ${entriesNames});
 		}
 
 		Click(
@@ -28,12 +28,12 @@ definition {
 
 	macro assignSingleRelationToProductsEntry {
 		Type(
-			key_title = "${title}",
+			key_title = ${title},
 			locator1 = "CommerceEntry#ADD_RELATION_FIELD",
-			value1 = "${entryName}");
+			value1 = ${entryName});
 
 		ClickNoError(
-			key_title = "${title}",
+			key_title = ${title},
 			locator1 = "CommerceEntry#ADD_RELATION_FIELD_SELECT");
 	}
 

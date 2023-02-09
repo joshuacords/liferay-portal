@@ -39,47 +39,47 @@ definition {
 		Type(
 			key_text = "name",
 			locator1 = "TextArea#ANY",
-			value1 = "${configurationName}");
+			value1 = ${configurationName});
 
 		Type(
 			key_text = "authorizationGrantEndpoint",
 			locator1 = "TextArea#ANY",
-			value1 = "${authorizationGrantEndpoint}");
+			value1 = ${authorizationGrantEndpoint});
 
 		Type(
 			key_text = "authorizationTokenEndpoint",
 			locator1 = "TextArea#ANY",
-			value1 = "${authorizationTokenEndpoint}");
+			value1 = ${authorizationTokenEndpoint});
 
 		Type(
 			key_text = "clientId",
 			locator1 = "TextArea#ANY",
-			value1 = "${clientId}");
+			value1 = ${clientId});
 
 		Type(
 			key_text = "clientSecret",
 			locator1 = "TextArea#ANY",
-			value1 = "${clientSecret}");
+			value1 = ${clientSecret});
 
 		Type(
 			key_text = "scope",
 			locator1 = "TextArea#ANY",
-			value1 = "${configurationScope}");
+			value1 = ${configurationScope});
 
 		Type(
 			key_text = "tenantId",
 			locator1 = "TextArea#ANY",
-			value1 = "${tenantId}");
+			value1 = ${tenantId});
 
 		Type(
 			key_text = "siteDomain",
 			locator1 = "TextArea#ANY",
-			value1 = "${siteDomain}");
+			value1 = ${siteDomain});
 
 		Type(
 			key_text = "resource",
 			locator1 = "TextArea#ANY",
-			value1 = "${configurationResource}");
+			value1 = ${configurationResource});
 
 		Button.clickSave();
 
@@ -97,7 +97,7 @@ definition {
 		Type(
 			key_fieldLabel = "Name",
 			locator1 = "TextInput#GENERIC_TEXT_INPUT",
-			value1 = "${configurationName}");
+			value1 = ${configurationName});
 
 		DMRepository.addSharepoint(
 			dmRepositoryLibraryPath = "Documentos compartidos",
@@ -116,15 +116,15 @@ definition {
 		LexiconEntry.changeDisplayStyle(displayStyle = "list");
 
 		AssertClick(
-			key_dmRepositoryName = "${configurationName}",
+			key_dmRepositoryName = ${configurationName},
 			locator1 = "DocumentsAndMedia#REPOSITORY_FOLDER_NAME_DESCRIPTIVE_VIEW",
-			value1 = "${configurationName}");
+			value1 = ${configurationName});
 
 		MicrosoftLogin.accountSignIn(
-			userEmail = "${userName}",
-			userPassword = "${userPassword}");
+			userEmail = ${userName},
+			userPassword = ${userPassword});
 
-		MicrosoftLogin.confirmSharepointApp(dmRepositoryName = "${configurationName}");
+		MicrosoftLogin.confirmSharepointApp(dmRepositoryName = ${configurationName});
 
 		Navigator.openSpecificURL(url = "https://localhost:8443");
 
@@ -137,12 +137,12 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test CheckinDocument {
 		DMRepository.gotoCP(dmRepositoryName = "Collaboration Test Application");
 
@@ -150,7 +150,7 @@ definition {
 			dmDocumentFile = "Document_3.txt",
 			dmDocumentTitle = "Document_3.txt");
 
-		Pause(locator1 = "5000");
+		Pause(locator1 = 5000);
 
 		DMDocument.checkoutCP(
 			dmDocumentTitle = "Document_3.txt",
@@ -169,7 +169,7 @@ definition {
 
 		DMNavigator.gotoDocumentCP(dmDocumentTitle = "Document_3.txt");
 
-		Pause(locator1 = "5000");
+		Pause(locator1 = 5000);
 
 		DMDocument.viewCheckedoutCP(dmRepositoryName = "true");
 
@@ -195,7 +195,7 @@ definition {
 			dmRepositoryName = "true");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DeleteDocumentInSubfolder {
 		DMRepository.gotoCP(dmRepositoryName = "Collaboration Test Application");
 
@@ -253,7 +253,7 @@ definition {
 		DMDocument.viewDefaultCP();
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DeleteSubfolder {
 		DMRepository.gotoCP(dmRepositoryName = "Collaboration Test Application");
 
@@ -275,7 +275,7 @@ definition {
 		DMFolder.cannotViewCP(dmFolderName = "DM Folder Name");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test EditDocumentFile {
 		DMRepository.gotoCP(dmRepositoryName = "Collaboration Test Application");
 
@@ -324,7 +324,7 @@ definition {
 			metadataLabel = "Content Encoding");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test MoveCheckedoutDocumentToFolder {
 		DMRepository.gotoCP(dmRepositoryName = "Collaboration Test Application");
 
@@ -391,7 +391,7 @@ definition {
 		DMDocument.viewCheckedoutCP(dmRepositoryName = "true");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test MoveDocumentToHome {
 		DMRepository.gotoCP(dmRepositoryName = "Collaboration Test Application");
 
@@ -426,7 +426,7 @@ definition {
 		DMDocument.cannotViewCP(dmDocumentTitle = "Document_1.odt");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test SearchDocumentViaHome {
 		DMRepository.gotoCP(dmRepositoryName = "Collaboration Test Application");
 
@@ -448,7 +448,7 @@ definition {
 			dmRepositoryName = "Collaboration Test Application");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewDocumentAsGuest {
 		ProductMenu.gotoPortlet(
 			category = "Site Builder",
@@ -497,7 +497,7 @@ definition {
 		AssertElementPresent(locator1 = "MicrosoftLogin#LOGIN_EMAIL_FIELD");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewEditedCheckedoutDocument {
 		DMRepository.gotoCP(dmRepositoryName = "Collaboration Test Application");
 
@@ -546,7 +546,7 @@ definition {
 		DMDocument.viewCheckedoutCP(dmRepositoryName = "true");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewOriginalFileExtensionAfterUnsuccessfulExtensionChange {
 		DMRepository.gotoCP(dmRepositoryName = "Collaboration Test Application");
 
@@ -582,7 +582,7 @@ definition {
 		DMDocument.viewCP(dmDocumentTitle = "Document_1.docx");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewOriginalFileExtensionAfterUnsuccessfulExtensionRemoval {
 		DMRepository.gotoCP(dmRepositoryName = "Collaboration Test Application");
 
@@ -618,7 +618,7 @@ definition {
 		DMDocument.viewCP(dmDocumentTitle = "Document_3.docx");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewRepository {
 		DMRepository.gotoCP(dmRepositoryName = "Collaboration Test Application");
 

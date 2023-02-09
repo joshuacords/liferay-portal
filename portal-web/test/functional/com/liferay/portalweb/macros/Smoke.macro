@@ -38,28 +38,28 @@ definition {
 
 		task ("Add a '${portletName}' portlet to the page named '${pageName}'") {
 			Navigator.gotoSitePage(
-				pageName = "${pageName}",
+				pageName = ${pageName},
 				siteName = "Site Name");
 
 			Portlet.addPG(
-				i = "${i}",
-				portletName = "${portletName}");
+				i = ${i},
+				portletName = ${portletName});
 
-			Portlet.viewTitle(portletName = "${portletName}");
+			Portlet.viewTitle(portletName = ${portletName});
 
 			Portlet.viewBody(
-				portletBody = "${portletBody}",
-				portletName = "${portletName}");
+				portletBody = ${portletBody},
+				portletName = ${portletName});
 
 			Navigator.gotoSitePage(
-				pageName = "${pageName}",
+				pageName = ${pageName},
 				siteName = "Site Name");
 
-			Portlet.viewTitle(portletName = "${portletName}");
+			Portlet.viewTitle(portletName = ${portletName});
 
 			Portlet.viewBody(
-				portletBody = "${portletBody}",
-				portletName = "${portletName}");
+				portletBody = ${portletBody},
+				portletName = ${portletName});
 		}
 
 		var portlet = "Web Content";
@@ -70,9 +70,9 @@ definition {
 			ProductMenu.gotoPortlet(
 				category = "Content & Data",
 				panel = "Site Administration",
-				portlet = "${portlet}");
+				portlet = ${portlet});
 
-			SiteAdmin.viewPortletTitle(portletTitle = "${portlet}");
+			SiteAdmin.viewPortletTitle(portletTitle = ${portlet});
 		}
 
 		var webContentContent = "Web Content Content";
@@ -82,12 +82,12 @@ definition {
 			WebContentNavigator.gotoAddCP();
 
 			WebContent.addCP(
-				webContentContent = "${webContentContent}",
-				webContentTitle = "${webContentTitle}");
+				webContentContent = ${webContentContent},
+				webContentTitle = ${webContentTitle});
 
 			PortletEntry.publish();
 
-			WebContent.viewTitle(webContentTitle = "${webContentTitle}");
+			WebContent.viewTitle(webContentTitle = ${webContentTitle});
 		}
 	}
 

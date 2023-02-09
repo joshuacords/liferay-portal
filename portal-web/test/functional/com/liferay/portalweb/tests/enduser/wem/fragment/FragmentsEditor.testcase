@@ -30,7 +30,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -39,7 +39,7 @@ definition {
 	}
 
 	@description = "This is a test for LPS-80503. Assert that when lfr is typed within a tag, a list of choices to autocomplete the fragment are presented."
-	@priority = "4"
+	@priority = 4
 	test AutocompleteFragment {
 		task ("Navigate to the fragment collection") {
 			FragmentsAdminNavigator.gotoCollection(collectionName = "Collection Name");
@@ -54,7 +54,7 @@ definition {
 
 			FragmentsEditor.autocompleteFragmentHTML(
 				autocompleteField = "lfr-editable:image",
-				fragmentHTML = "${fragmentHTML}");
+				fragmentHTML = ${fragmentHTML});
 		}
 
 		task ("Assert the fragment editor has autocomplete for lfr-widget tags") {
@@ -62,7 +62,7 @@ definition {
 
 			FragmentsEditor.autocompleteFragmentHTML(
 				autocompleteField = "lfr-widget-asset-list",
-				fragmentHTML = "${fragmentHTML}");
+				fragmentHTML = ${fragmentHTML});
 		}
 	}
 

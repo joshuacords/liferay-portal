@@ -5,11 +5,11 @@ definition {
 
 		AssertElementPresent(locator1 = "TextInput#NAME");
 
-		PortletEntry.inputName(name = "${contactName}");
+		PortletEntry.inputName(name = ${contactName});
 
 		Type(
 			locator1 = "ContactsCenter#CONTACT_EMAIL_ADDRESS",
-			value1 = "${emailAddress}");
+			value1 = ${emailAddress});
 
 		Button.clickSave();
 
@@ -20,9 +20,9 @@ definition {
 
 	macro editPG {
 		AssertClick(
-			key_contact = "${contactName}",
+			key_contact = ${contactName},
 			locator1 = "ContactsCenter#CONTACT_LIST",
-			value1 = "${contactName}");
+			value1 = ${contactName});
 
 		AssertClick(
 			locator1 = "Button#EDIT",
@@ -31,13 +31,13 @@ definition {
 		AssertElementPresent(locator1 = "TextInput#NAME");
 
 		if (isSet(contactNameEdit)) {
-			PortletEntry.inputName(name = "${contactNameEdit}");
+			PortletEntry.inputName(name = ${contactNameEdit});
 		}
 
 		if (isSet(emailAddressEdit)) {
 			Type(
 				locator1 = "ContactsCenter#CONTACT_EMAIL_ADDRESS",
-				value1 = "${emailAddressEdit}");
+				value1 = ${emailAddressEdit});
 		}
 
 		Button.clickSave();
@@ -71,23 +71,23 @@ definition {
 
 	macro viewContactPG {
 		AssertClick.assertPartialTextClickAt(
-			key_contact = "${contactName}",
+			key_contact = ${contactName},
 			locator1 = "ContactsCenter#CONTACT_LIST",
-			value1 = "${contactName}");
+			value1 = ${contactName});
 
 		AssertTextEquals.assertPartialText(
-			key_contactText = "${contactName}",
+			key_contactText = ${contactName},
 			locator1 = "ContactsCenter#CONTACT_CONTAINER_TEXT",
-			value1 = "${contactName}");
+			value1 = ${contactName});
 
 		AssertTextEquals(
-			key_contactText = "${emailAddress}",
+			key_contactText = ${emailAddress},
 			locator1 = "ContactsCenter#CONTACT_CONTAINER_TEXT",
-			value1 = "${emailAddress}");
+			value1 = ${emailAddress});
 
 		if (isSet(interactButton)) {
-			for (var button : list "${interactButton}") {
-				Button.viewPresent(button = "${button}");
+			for (var button : list ${interactButton}) {
+				Button.viewPresent(button = ${button});
 			}
 		}
 	}

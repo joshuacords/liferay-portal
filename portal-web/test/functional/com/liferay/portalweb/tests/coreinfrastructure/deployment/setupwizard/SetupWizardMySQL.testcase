@@ -7,7 +7,7 @@ definition {
 	property setup.wizard.enabled = "true";
 	property testray.main.component.name = "Setup Wizard";
 
-	@priority = "4"
+	@priority = 4
 	test MySQLtoMySQLEditedAdministratorUser {
 		property test.name.skip.portal.instance = "SetupWizardMySQL#MySQLtoMySQLEditAdministratorUser";
 
@@ -33,13 +33,13 @@ definition {
 		Portlet.shutdownServer();
 
 		Portlet.startServer(
-			base_branch = "${base_branch}",
+			base_branch = ${base_branch},
 			deleteLiferayHome = "false");
 
-		SetupWizard.viewConfiguredDatabaseInConsole(databaseType = "${databaseType}");
+		SetupWizard.viewConfiguredDatabaseInConsole(databaseType = ${databaseType});
 
 		if (isSet(virtualHostsURL)) {
-			Navigator.openSpecificURL(url = "${virtualHostsURL}");
+			Navigator.openSpecificURL(url = ${virtualHostsURL});
 		}
 		else {
 			Navigator.openURL();
@@ -48,9 +48,9 @@ definition {
 		User.acceptEndUserLicenseAgreement();
 
 		User.resetPassword(
-			resetPassword = "${resetPassword}",
-			setupWizardEnabled = "${setupWizardEnabled}",
-			syntaxCheckingEnabled = "${syntaxCheckingEnabled}");
+			resetPassword = ${resetPassword},
+			setupWizardEnabled = ${setupWizardEnabled},
+			syntaxCheckingEnabled = ${syntaxCheckingEnabled});
 
 		User.answerPasswordReminder();
 

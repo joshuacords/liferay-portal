@@ -1,22 +1,22 @@
 definition {
 
 	macro _convertNameToKey {
-		Variables.assertDefined(parameterList = "${name}");
+		Variables.assertDefined(parameterList = ${name});
 
-		var key = StringUtil.replace("${name}", " ", "-");
+		var key = StringUtil.replace(${name}, " ", "-");
 
-		var key = StringUtil.lowerCase("${key}");
+		var key = StringUtil.lowerCase(${key});
 
-		return "${key}";
+		return ${key};
 	}
 
 	macro openEditContentPage {
 		if (!(isSet(siteURLKey))) {
-			var siteURLKey = ContentPagesNavigator._convertNameToKey(name = "${siteName}");
+			var siteURLKey = ContentPagesNavigator._convertNameToKey(name = ${siteName});
 		}
 
 		if (!(isSet(pageFriendlyUrl))) {
-			var pageFriendlyUrl = ContentPagesNavigator._convertNameToKey(name = "${pageName}");
+			var pageFriendlyUrl = ContentPagesNavigator._convertNameToKey(name = ${pageName});
 		}
 
 		Navigator.openWithAppendToBaseURL(urlAppend = "web/${siteURLKey}/${pageFriendlyUrl}?p_l_mode=edit");
@@ -24,11 +24,11 @@ definition {
 
 	macro openViewContentPage {
 		if (!(isSet(siteURLKey))) {
-			var siteURLKey = ContentPagesNavigator._convertNameToKey(name = "${siteName}");
+			var siteURLKey = ContentPagesNavigator._convertNameToKey(name = ${siteName});
 		}
 
 		if (!(isSet(pageFriendlyUrl))) {
-			var pageFriendlyUrl = ContentPagesNavigator._convertNameToKey(name = "${pageName}");
+			var pageFriendlyUrl = ContentPagesNavigator._convertNameToKey(name = ${pageName});
 		}
 
 		Navigator.openWithAppendToBaseURL(urlAppend = "web/${siteURLKey}/${pageFriendlyUrl}");

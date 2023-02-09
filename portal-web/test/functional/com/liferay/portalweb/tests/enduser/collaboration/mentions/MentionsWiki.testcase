@@ -83,7 +83,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -95,7 +95,7 @@ definition {
 		}
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ViewWikiCommentMentionedUser {
 		property test.name.skip.portal.instance = "MentionsWiki#ViewWikiCommentMentionedUser";
 
@@ -126,7 +126,7 @@ definition {
 
 		WikiNavigator.gotoEntryViaPGTable(wikiPageTitle = "Wiki Page Title");
 
-		Pause(locator1 = "30000");
+		Pause(locator1 = 30000);
 
 		Mentions.addMentionViaComments(
 			entryComment = "Comment mentioning",

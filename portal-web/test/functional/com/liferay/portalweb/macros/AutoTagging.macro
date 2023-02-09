@@ -1,19 +1,19 @@
 definition {
 
 	macro assertAutoTagPresent {
-		var key_tagName = "${tagName}";
+		var key_tagName = ${tagName};
 
 		AssertElementPresent(locator1 = "DocumentsAndMedia#TAG");
 	}
 
 	macro assertNoAutoTag {
-		var key_tagName = "${tagName}";
+		var key_tagName = ${tagName};
 
 		AssertElementNotPresent(locator1 = "DocumentsAndMedia#TAG");
 	}
 
 	macro disableAutoTagging {
-		if ("${disableAutoTaggingFor}" == "System Settings") {
+		if (${disableAutoTaggingFor} == "System Settings") {
 			ProductMenu.gotoPortlet(
 				category = "Configuration",
 				panel = "Control Panel",
@@ -26,7 +26,7 @@ definition {
 
 			FormFields.disableCheckbox(fieldName = "enabled");
 		}
-		else if ("${disableAutoTaggingFor}" == "Instance Settings") {
+		else if (${disableAutoTaggingFor} == "Instance Settings") {
 			PortalSettings.gotoConfiguration(
 				configurationCategory = "Assets",
 				configurationName = "Asset Auto Tagging",
@@ -34,7 +34,7 @@ definition {
 
 			Uncheck(locator1 = "Checkbox#ENABLE_AUTO_TAGGING");
 		}
-		else if ("${disableAutoTaggingFor}" == "Settings") {
+		else if (${disableAutoTaggingFor} == "Settings") {
 			ProductMenu.gotoPortlet(
 				category = "Configuration",
 				panel = "Site Administration",
@@ -54,7 +54,7 @@ definition {
 	}
 
 	macro enableAutoTagging {
-		if ("${enableAutoTaggingFor}" == "System Settings") {
+		if (${enableAutoTaggingFor} == "System Settings") {
 			ProductMenu.gotoPortlet(
 				category = "Configuration",
 				panel = "Control Panel",
@@ -70,10 +70,10 @@ definition {
 			if (isSet(maximumNumberOfTags)) {
 				SystemSettings.editTextSetting(
 					settingName = "Maximum Number of Tags",
-					settingValue = "${maximumNumberOfTags}");
+					settingValue = ${maximumNumberOfTags});
 			}
 		}
-		else if ("${enableAutoTaggingFor}" == "Instance Settings") {
+		else if (${enableAutoTaggingFor} == "Instance Settings") {
 			PortalSettings.gotoConfiguration(
 				configurationCategory = "Assets",
 				configurationName = "Asset Auto Tagging",
@@ -84,10 +84,10 @@ definition {
 			if (isSet(maximumNumberOfTags)) {
 				SystemSettings.editTextSetting(
 					settingName = "Maximum Number of Tags",
-					settingValue = "${maximumNumberOfTags}");
+					settingValue = ${maximumNumberOfTags});
 			}
 		}
-		else if ("${enableAutoTaggingFor}" == "Settings") {
+		else if (${enableAutoTaggingFor} == "Settings") {
 			ProductMenu.gotoPortlet(
 				category = "Configuration",
 				panel = "Site Administration",
@@ -110,7 +110,7 @@ definition {
 
 			AssertTextEquals.assertPartialText(
 				locator1 = "Message#ERROR_1",
-				value1 = "${validationError}");
+				value1 = ${validationError});
 		}
 		else {
 			if (IsElementPresent(locator1 = "Button#UPDATE")) {
@@ -136,15 +136,15 @@ definition {
 		if (isSet(confidenceThreshold)) {
 			SystemSettings.editTextSetting(
 				settingName = "Confidence Threshold",
-				settingValue = "${confidenceThreshold}");
+				settingValue = ${confidenceThreshold});
 		}
 
 		Click(locator1 = "Dropdown#TRIGGER");
 
 		AssertClick(
-			key_option = "${assetType}",
+			key_option = ${assetType},
 			locator1 = "Dropdown#RESULT",
-			value1 = "${assetType}");
+			value1 = ${assetType});
 
 		if (IsElementPresent(locator1 = "Button#UPDATE")) {
 			PortletEntry.update();

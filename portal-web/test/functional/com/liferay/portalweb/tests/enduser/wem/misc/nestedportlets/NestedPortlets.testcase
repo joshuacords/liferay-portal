@@ -15,12 +15,12 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ViewWCDNestedPortlets {
 		property testray.component.names = "Training";
 
@@ -46,14 +46,14 @@ definition {
 		Navigator.gotoPage(pageName = "Nested Portlets Page");
 
 		NestedPortlets.dragAndDropPortletToPortletColumnPG(
-			columnNumberFrom = "1",
-			portletColumnNumberTo = "1",
+			columnNumberFrom = 1,
+			portletColumnNumberTo = 1,
 			portletName = "Web Content Display");
 
 		Navigator.gotoPage(pageName = "Nested Portlets Page");
 
 		NestedPortlets.viewPG(
-			portletColumnNumberTo = "1",
+			portletColumnNumberTo = 1,
 			portletName = "Web Content Display");
 	}
 

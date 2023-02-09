@@ -1,7 +1,7 @@
 definition {
 
 	macro gotoPanel {
-		var key_panel = "${panel}";
+		var key_panel = ${panel};
 
 		Click(locator1 = "ApplicationsMenu#PANEL");
 
@@ -14,11 +14,11 @@ definition {
 	macro gotoPortlet {
 		ApplicationsMenuHelper.openApplicationsMenu();
 
-		ApplicationsMenu.gotoPanel(panel = "${panel}");
+		ApplicationsMenu.gotoPanel(panel = ${panel});
 
 		ApplicationsMenuHelper.gotoPortlet(
-			category = "${category}",
-			portlet = "${portlet}");
+			category = ${category},
+			portlet = ${portlet});
 	}
 
 	@summary = "Navigate to Applications Menu > ${site}"
@@ -26,7 +26,7 @@ definition {
 		ApplicationsMenuHelper.openApplicationsMenu();
 
 		Click(
-			key_site = "${site}",
+			key_site = ${site},
 			locator1 = "ApplicationsMenu#SITE_LINK");
 	}
 

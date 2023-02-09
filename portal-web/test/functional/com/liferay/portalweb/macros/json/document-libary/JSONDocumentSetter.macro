@@ -4,12 +4,12 @@ definition {
 		if (!(isSet(serviceContext))) {
 			var serviceContext = JSONServiceContextUtil.setServiceContext(
 				addGuestPermissions = "true",
-				assetCategoryIds = "${assetCategoryIds}",
-				assetTagNames = "${assetTagNames}",
-				workflowAction = "${workflowAction}");
+				assetCategoryIds = ${assetCategoryIds},
+				assetTagNames = ${assetTagNames},
+				workflowAction = ${workflowAction});
 		}
 
-		return "${serviceContext}";
+		return ${serviceContext};
 	}
 
 }

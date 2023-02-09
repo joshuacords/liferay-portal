@@ -15,7 +15,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -30,7 +30,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-51226."
-	@priority = "4"
+	@priority = 4
 	test AddDefinitionNoTemplate {
 		Navigator.openURL();
 
@@ -50,7 +50,7 @@ definition {
 		Alert.viewErrorMessage(errorMessage = "Please enter a valid file.");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DownloadReportPG {
 		Navigator.openURL();
 
@@ -92,7 +92,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-50501."
-	@priority = "4"
+	@priority = 4
 	test ViewDefinitionsPagination {
 		Navigator.openURL();
 
@@ -113,7 +113,7 @@ definition {
 
 		ReportsAdmin.gotoDefinitions();
 
-		Pagination.changePagination(itemsPerPage = "5");
+		Pagination.changePagination(itemsPerPage = 5);
 
 		var key_reportsDefinitionName = "Reports Definition 6";
 
@@ -132,7 +132,7 @@ definition {
 
 	@description = "This is a use case for LPS-51009."
 	@ignore = "true"
-	@priority = "4"
+	@priority = 4
 	test ViewReportEmailNewConfiguration {
 		property test.name.skip.portal.instance = "ReportsUsecase#ViewReportEmailNewConfiguration";
 
@@ -218,7 +218,7 @@ Thanks,<br/>
 			sender = "Liferay QA",
 			subject = "reports_admin_template_source_sample_class_name.pdf");
 
-		Navigator.openSpecificURL(url = "${portalURL}");
+		Navigator.openSpecificURL(url = ${portalURL});
 
 		Navigator.openURL();
 
@@ -230,7 +230,7 @@ Thanks,<br/>
 		ReportsAdmin.tearDownConfiguration();
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewReportPG {
 		Navigator.openURL();
 

@@ -36,7 +36,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -46,7 +46,7 @@ definition {
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test SearchMySitesDirectory {
 		var pageName = "My Sites Directory Page";
 		var userEmailAddress = "userea@liferay.com";
@@ -54,7 +54,7 @@ definition {
 		var userLastName = "userln";
 		var userMiddleName = "usermn";
 		var userScreenName = "usersn";
-		var siteName = TestCase.getSiteName(siteName = "${siteName}");
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
 
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -74,7 +74,7 @@ definition {
 			portlet = "Users and Organizations");
 
 		User.editUserSiteCP(
-			siteName = "${siteName}",
+			siteName = ${siteName},
 			userScreenName = "usersn");
 
 		Navigator.gotoPage(pageName = "My Sites Directory Page");

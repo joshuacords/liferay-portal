@@ -15,7 +15,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -33,7 +33,7 @@ definition {
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddSiteRegRole {
 		Permissions.setUpRegRoleLoginUserCP(
 			page = "Public Pages",
@@ -48,7 +48,7 @@ definition {
 
 		Permissions.definePermissionViaJSONAPI(
 			resourceAction = "VIEW_CONTROL_PANEL",
-			resourceName = "90",
+			resourceName = 90,
 			roleTitle = "Regrole Name");
 
 		Permissions.definePermissionViaJSONAPI(
@@ -74,7 +74,7 @@ definition {
 
 		Permissions.definePermissionViaJSONAPI(
 			resourceAction = "ADD_COMMUNITY",
-			resourceName = "90",
+			resourceName = 90,
 			roleTitle = "Regrole Name");
 
 		ProductMenu.gotoPortlet(
@@ -86,7 +86,7 @@ definition {
 
 		Permissions.removePermissionViaAPI(
 			resourceAction = "ADD_COMMUNITY",
-			resourceName = "90",
+			resourceName = 90,
 			roleTitle = "Regrole Name");
 
 		User.logoutAndLoginPG(
@@ -101,7 +101,7 @@ definition {
 		AssertElementNotPresent(locator1 = "Button#PLUS");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test SearchPermissions {
 		property testray.component.names = "Training";
 
@@ -254,7 +254,7 @@ definition {
 		Site.viewSiteAdminPermissionsCP(siteName = "Child SiteName");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewSiteManageChildSiteSiteRole {
 		Permissions.setUpSiteRoleLoginUserCP(
 			pageName = "Site Page",
@@ -308,12 +308,12 @@ definition {
 
 		Permissions.definePermissionViaJSONAPI(
 			resourceAction = "ADD_COMMUNITY",
-			resourceName = "90",
+			resourceName = 90,
 			roleTitle = "Regrole Name");
 
 		Permissions.definePermissionViaJSONAPI(
 			resourceAction = "VIEW_CONTROL_PANEL",
-			resourceName = "90",
+			resourceName = 90,
 			roleTitle = "Regrole Name");
 
 		Permissions.definePermissionViaJSONAPI(
@@ -465,9 +465,9 @@ definition {
 			value1 = "Child SiteName2");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewSiteManagePagesRegRole {
-		var siteName = TestCase.getSiteName(siteName = "${siteName}");
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
 
 		Permissions.setUpRegRoleLoginUserCP(
 			portletName = "Sites",
@@ -500,7 +500,7 @@ definition {
 
 		Permissions.definePermissionViaJSONAPI(
 			resourceAction = "VIEW_CONTROL_PANEL",
-			resourceName = "90",
+			resourceName = 90,
 			roleTitle = "Regrole Name");
 
 		User.logoutAndLoginPG(
@@ -539,13 +539,13 @@ definition {
 			panel = "Control Panel",
 			portlet = "Sites");
 
-		var key_site = "${siteName}";
+		var key_site = ${siteName};
 
 		AssertTextEquals.assertPartialText(
 			locator1 = "ContentRow#ENTRY_CONTENT_ROW_TD_1_SITE_LINK",
-			value1 = "${siteName}");
+			value1 = ${siteName});
 
-		var key_siteName = "${siteName}";
+		var key_siteName = ${siteName};
 
 		SitePages.openPagesAdmin(siteURLKey = "Site Name");
 

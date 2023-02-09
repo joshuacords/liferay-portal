@@ -26,13 +26,13 @@ definition {
 
 		SearchAdministration.executeSearchActions(actionsDescription = "Reindex all search indexes.");
 
-		Pause(locator1 = "5000");
+		Pause(locator1 = 5000);
 	}
 
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -59,14 +59,14 @@ definition {
 
 		CommerceNavigator.gotoCommercePortletNavItem(navItem = "Options");
 
-		Pause(locator1 = "2000");
+		Pause(locator1 = 2000);
 
 		CPCommerceCatalog.newOptionsEntry(
 			optionDescription = "Option Description",
 			optionFieldType = "Select from List",
 			optionName = "Color",
 			optionValuesList = "Black,Blue,White",
-			valuePriority = "1");
+			valuePriority = 1);
 
 		CommerceNavigator.gotoCommercePortletNavItem(navItem = "Products");
 

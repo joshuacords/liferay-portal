@@ -1,7 +1,7 @@
 definition {
 
 	macro addEntry {
-		Pause(locator1 = "3000");
+		Pause(locator1 = 3000);
 
 		AssertElementPresent(locator1 = "CommerceEntry#NAME_FIELD");
 
@@ -10,9 +10,9 @@ definition {
 		}
 
 		CommerceEntry.addOptionsEntry(
-			optionDescription = "${optionDescription}",
-			optionFieldType = "${optionFieldType}",
-			optionName = "${optionName}");
+			optionDescription = ${optionDescription},
+			optionFieldType = ${optionFieldType},
+			optionName = ${optionName});
 	}
 
 	macro addOptionValueEntry {
@@ -21,8 +21,8 @@ definition {
 		}
 
 		CommerceEntry.addOptionValue(
-			valueName = "${optionValueName}",
-			valuePriority = "${optionValuePriority}");
+			valueName = ${optionValueName},
+			valuePriority = ${optionValuePriority});
 
 		CommerceEntry.saveEntry();
 	}

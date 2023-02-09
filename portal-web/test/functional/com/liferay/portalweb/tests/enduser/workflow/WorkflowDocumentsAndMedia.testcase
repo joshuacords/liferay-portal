@@ -14,7 +14,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -33,7 +33,7 @@ definition {
 		}
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ApproveInDMFolderCustomWorkflow {
 		property portal.release = "false";
 		property test.name.skip.portal.instance = "WorkflowDocumentsAndMedia#ApproveInDMFolderCustomWorkflow";
@@ -112,7 +112,7 @@ definition {
 		Workflow.viewDefinition(
 			workflowDefinitionName = "Quarterly Reports Review Process",
 			workflowDefinitionTitle = "Quarterly Reports Review Process",
-			workflowDefinitionVersionNumber = "1");
+			workflowDefinitionVersionNumber = 1);
 
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -174,7 +174,7 @@ definition {
 			UserBar.gotoDropdownItem(dropdownItem = "My Workflow Tasks");
 
 			Workflow.approveTaskByActions(
-				boardWorkflowTask = "${i}",
+				boardWorkflowTask = ${i},
 				workflowAssetTitle = "Document",
 				workflowAssetType = "Document",
 				workflowTask = "Board Member Review ${i}");
@@ -197,7 +197,7 @@ definition {
 			UserBar.gotoDropdownItem(dropdownItem = "My Workflow Tasks");
 
 			Workflow.approveTaskByActions(
-				boardWorkflowTask = "${i}",
+				boardWorkflowTask = ${i},
 				workflowAssetTitle = "Document",
 				workflowAssetType = "Document",
 				workflowTask = "Board Member Review ${i}");
@@ -220,7 +220,7 @@ definition {
 			UserBar.gotoDropdownItem(dropdownItem = "My Workflow Tasks");
 
 			Workflow.approveTaskByActions(
-				boardWorkflowTask = "${i}",
+				boardWorkflowTask = ${i},
 				workflowAssetTitle = "Document",
 				workflowAssetType = "Document",
 				workflowTask = "Board Member Review ${i}");
@@ -248,7 +248,7 @@ definition {
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ConfigureFolderWorkflow {
 		ProductMenu.gotoPortlet(
 			category = "Content & Data",
@@ -292,7 +292,7 @@ definition {
 	}
 
 	@description = "This test covers LPS-90346. It ensures that the document preview displays correctly after submitting an edit."
-	@priority = "4"
+	@priority = 4
 	test PreviewSubmittedEdit {
 		ProductMenu.gotoPortlet(
 			category = "Content & Data",
@@ -316,7 +316,7 @@ definition {
 
 		Navigator.openURL();
 
-		Notifications.viewBadgeCount(notificationCount = "1");
+		Notifications.viewBadgeCount(notificationCount = 1);
 
 		WorkflowAsset.gotoViaNotification(
 			assetType = "Document",
@@ -360,7 +360,7 @@ definition {
 
 		Navigator.openURL();
 
-		Notifications.viewBadgeCount(notificationCount = "1");
+		Notifications.viewBadgeCount(notificationCount = 1);
 
 		WorkflowAsset.gotoViaNotification(
 			assetType = "Document",
@@ -372,7 +372,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-60870."
-	@priority = "5"
+	@priority = 5
 	test SaveAsDraftAndViewCategories {
 		property custom.properties = "dl.file.entry.drafts.enabled=true";
 		property testray.component.names = "Training";

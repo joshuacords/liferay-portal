@@ -16,7 +16,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -27,7 +27,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-82492."
-	@priority = "5"
+	@priority = 5
 	test AddCreatedStructureForImportedTemplate {
 		property testray.component.names = "Training";
 
@@ -63,7 +63,7 @@ definition {
 		LexiconEntry.changeDisplayStyle(displayStyle = "table");
 
 		for (var templateName : list "Carousel Display,Thumbnail Display,Content List Display") {
-			WebContentNavigator.gotoViewTemplate(templateName = "${templateName}");
+			WebContentNavigator.gotoViewTemplate(templateName = ${templateName});
 
 			WebContentTemplates.inputTemplateAddScreenFields(structureName = "Content List");
 
@@ -78,12 +78,12 @@ definition {
 			WebContentTemplates.viewCP(
 				structureName = "Content List",
 				templateDescription = "",
-				templateName = "${templateName}");
+				templateName = ${templateName});
 		}
 	}
 
 	@description = "This is a use case for LPS-82492."
-	@priority = "5"
+	@priority = 5
 	test AddWebContentFromImportedStructureAndTemplate {
 		property testray.component.names = "Training";
 
@@ -98,7 +98,7 @@ definition {
 		NavItem.gotoStructures();
 
 		for (var structureName : list "3 Columns with Images,Footer Content,1 Column Banner") {
-			WebContentStructures.viewCP(structureName = "${structureName}");
+			WebContentStructures.viewCP(structureName = ${structureName});
 		}
 
 		WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
@@ -112,7 +112,7 @@ definition {
 
 			WebContentTemplates.viewCP(
 				templateDescription = "",
-				templateName = "${templateName}");
+				templateName = ${templateName});
 
 			WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
 		}
@@ -142,7 +142,7 @@ definition {
 			webContentTitle = "S.P.A.C.E. Banner");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ExportLARWithNestedWebContent {
 		property testray.component.names = "Web Content Administration";
 
@@ -212,7 +212,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-95441."
-	@priority = "3"
+	@priority = 3
 	test ExportWebContentWithEditedStructure {
 		WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
 
@@ -264,7 +264,7 @@ definition {
 		LAR.exportPortlet(larFileName = "WebContent_portlet.lar");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ImportAndUseGlobalStructureAndTemplate {
 		property testray.component.names = "Training";
 
@@ -295,7 +295,7 @@ definition {
 			webContentTitle = "Agricultural Science Front Page");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ImportLAR {
 		property testray.component.names = "Web Content Administration";
 
@@ -379,7 +379,7 @@ definition {
 			templateName = "WC Template Name");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ImportLARLinkToPageValidation {
 		property testray.component.names = "Web Content Administration";
 
@@ -440,7 +440,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-88893."
-	@priority = "3"
+	@priority = 3
 	test ImportLARWithTheSameTitle {
 		property testray.component.names = "Training";
 
@@ -492,7 +492,7 @@ definition {
 	}
 
 	@ignore = "true"
-	@priority = "5"
+	@priority = 5
 	test ImportTrainingLAR {
 		property testray.component.names = "Training";
 
@@ -530,7 +530,7 @@ definition {
 		Portlet.viewApplicationDecorator(decorator = "Barebone");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test MoveImportedWebContentArticlesToFolders {
 		property testray.component.names = "Training,Web Content Administration";
 
@@ -555,7 +555,7 @@ definition {
 		WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
 
 		for (var webContentTitle : list "When It All Began...,Stravinksy in Space?,Student Spotlight,Upcoming Press Conference,New Student Orientation,Fall Special Speaker Series") {
-			WebContent.viewTitle(webContentTitle = "${webContentTitle}");
+			WebContent.viewTitle(webContentTitle = ${webContentTitle});
 		}
 
 		WebContent.moveArticlesToFolderCP(
@@ -573,7 +573,7 @@ definition {
 			webContentTitle = "News");
 
 		for (var webContentTitle : list "When It All Began...,Stravinksy in Space?,Student Spotlight") {
-			WebContent.viewTitle(webContentTitle = "${webContentTitle}");
+			WebContent.viewTitle(webContentTitle = ${webContentTitle});
 		}
 
 		WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
@@ -583,12 +583,12 @@ definition {
 			webContentTitle = "Events");
 
 		for (var webContentTitle : list "Upcoming Press Conference,New Student Orientation,Fall Special Speaker Series") {
-			WebContent.viewTitle(webContentTitle = "${webContentTitle}");
+			WebContent.viewTitle(webContentTitle = ${webContentTitle});
 		}
 	}
 
 	@description = "This test ensures that all the default values for an imported structure can be reset."
-	@priority = "4"
+	@priority = 4
 	test ResetImportedStructureDefaultValues {
 		property test.name.skip.portal.instance = "WebContentExportImport#ResetImportedStructureDefaultValues";
 		property testray.component.names = "Web Content Administration";

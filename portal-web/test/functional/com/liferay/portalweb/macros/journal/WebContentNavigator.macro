@@ -2,23 +2,23 @@ definition {
 
 	macro _openDescriptiveMenulistCP {
 		if (isSet(webContentTitleEscapeCharacter)) {
-			var key_webContentTitle = "${webContentTitleEscapeCharacter}";
+			var key_webContentTitle = ${webContentTitleEscapeCharacter};
 		}
 		else {
-			var key_webContentTitle = "${webContentTitle}";
+			var key_webContentTitle = ${webContentTitle};
 		}
 
 		LexiconEntry.changeDisplayStyle(displayStyle = "list");
 
 		AssertTextEquals.assertPartialText(
 			locator1 = "WC#ENTRY_LIST_TITLE",
-			value1 = "${webContentTitle}");
+			value1 = ${webContentTitle});
 
 		Click.waitForMenuToggleJSClick(locator1 = "WC#ENTRY_LIST_MENULIST_ICON");
 	}
 
 	macro gotoAddCP {
-		Pause(locator1 = "3000");
+		Pause(locator1 = 3000);
 
 		LexiconEntry.gotoAdd();
 
@@ -30,15 +30,15 @@ definition {
 	macro gotoAddWithStructureCP {
 		LexiconEntry.gotoAdd();
 
-		if (IsElementPresent(key_menuItem = "${structureName}", locator1 = "MenuItem#ANY_MENU_ITEM")) {
-			MenuItem.click(menuItem = "${structureName}");
+		if (IsElementPresent(key_menuItem = ${structureName}, locator1 = "MenuItem#ANY_MENU_ITEM")) {
+			MenuItem.click(menuItem = ${structureName});
 		}
 		else {
 			Button.clickMore();
 
 			IFrame.selectConfigurationFrame();
 
-			LexiconEntry.gotoEntry(rowEntry = "${structureName}");
+			LexiconEntry.gotoEntry(rowEntry = ${structureName});
 
 			IFrame.selectTopFrame();
 		}
@@ -46,8 +46,8 @@ definition {
 
 	macro gotoEditCP {
 		WebContentNavigator._openDescriptiveMenulistCP(
-			webContentTitle = "${webContentTitle}",
-			webContentTitleEscapeCharacter = "${webContentTitleEscapeCharacter}");
+			webContentTitle = ${webContentTitle},
+			webContentTitleEscapeCharacter = ${webContentTitleEscapeCharacter});
 
 		MenuItem.click(menuItem = "Edit");
 
@@ -56,36 +56,36 @@ definition {
 
 	macro gotoEditFeed {
 		AssertClick(
-			key_feedName = "${feedName}",
+			key_feedName = ${feedName},
 			locator1 = "DDMSelectFeed#FEED_TABLE_NAME_LINK",
-			value1 = "${feedName}");
+			value1 = ${feedName});
 
 		SelectFrame(value1 = "relative=top");
 	}
 
 	macro gotoEditStructure {
 		AssertClick(
-			key_ddlDataDefinitionName = "${structureName}",
+			key_ddlDataDefinitionName = ${structureName},
 			locator1 = "DDMSelectStructure#DDM_STRUCTURE_TABLE_NAME_LINK",
-			value1 = "${structureName}");
+			value1 = ${structureName});
 
 		SelectFrame(value1 = "relative=top");
 	}
 
 	macro gotoEntryMenuItem {
-		Pause(locator1 = "3000");
+		Pause(locator1 = 3000);
 
 		Click.waitForMenuToggleJSClick(
-			key_webContentTitle = "${entry}",
+			key_webContentTitle = ${entry},
 			locator1 = "WC#ENTRY_LIST_MENULIST_ICON");
 
-		MenuItem.clickNoError(menuItem = "${menuItem}");
+		MenuItem.clickNoError(menuItem = ${menuItem});
 	}
 
 	macro gotoManageTemplatesViaStructures {
 		LexiconEntry.gotoEntryMenuItem(
 			menuItem = "Manage Templates",
-			rowEntry = "${structureName}");
+			rowEntry = ${structureName});
 
 		SiteAdmin.viewPortletTitle(portletTitle = "Templates for Structure: ${structureName}");
 	}
@@ -106,14 +106,14 @@ definition {
 
 	macro gotoPreviewEntryCP {
 		WebContentNavigator._openDescriptiveMenulistCP(
-			webContentTitle = "${webContentTitle}",
-			webContentTitleEscapeCharacter = "${webContentTitleEscapeCharacter}");
+			webContentTitle = ${webContentTitle},
+			webContentTitleEscapeCharacter = ${webContentTitleEscapeCharacter});
 
 		MenuItem.click(menuItem = "Preview");
 	}
 
 	macro gotoViewStatus {
-		var key_webContentTitle = "${webContentTitle}";
+		var key_webContentTitle = ${webContentTitle};
 
 		LexiconEntry.changeDisplayStyle(displayStyle = "list");
 
@@ -121,21 +121,21 @@ definition {
 
 		AssertTextEquals(
 			locator1 = "WC#ENTRY_LIST_WORKFLOW_STATUS",
-			value1 = "${webContentStatus}");
+			value1 = ${webContentStatus});
 
-		WebContentNavigator.gotoEditCP(webContentTitle = "${webContentTitle}");
+		WebContentNavigator.gotoEditCP(webContentTitle = ${webContentTitle});
 	}
 
 	macro gotoViewTemplate {
 		AssertClick(
-			key_ddlTemplateName = "${templateName}",
+			key_ddlTemplateName = ${templateName},
 			locator1 = "DDMSelectTemplate#TEMPLATE_TABLE_NAME_LINK",
-			value1 = "${templateName}");
+			value1 = ${templateName});
 	}
 
 	macro openWebContentAdmin {
 		Navigator.openWithAppendToBaseURL(
-			baseURL = "${baseURL}",
+			baseURL = ${baseURL},
 			urlAppend = "group/${siteURLKey}/~/control_panel/manage?p_p_id=com_liferay_journal_web_portlet_JournalPortlet");
 	}
 

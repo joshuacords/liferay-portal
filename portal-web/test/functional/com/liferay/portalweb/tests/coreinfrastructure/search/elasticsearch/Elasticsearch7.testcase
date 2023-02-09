@@ -18,7 +18,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -30,7 +30,7 @@ definition {
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AssertIndexOnStartup {
 		property test.name.skip.portal.instance = "Elasticsearch7#AssertIndexOnStartup";
 
@@ -73,7 +73,7 @@ definition {
 				}'
 		''';
 
-		com.liferay.poshi.runner.util.JSONCurlUtil.post("${curl}");
+		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
 
 		Portlet.shutdownServer();
 
@@ -145,17 +145,17 @@ definition {
 
 		if (IsTextEqual.isPartialText(locator1 = "SearchAdmin#SEARCH_ENGINE_VENDOR", value1 = "Embedded")) {
 			SearchAdministration.assertEngineVendorAndVersions(
-				clientVersion = "${serverVersion}",
+				clientVersion = ${serverVersion},
 				engineVendor = "Elasticsearch",
-				serverVersion = "${serverVersion}");
+				serverVersion = ${serverVersion});
 		}
 		else {
 			var clientVersion = Elasticsearch.getClientVersion();
 
 			SearchAdministration.assertEngineVendorAndVersions(
-				clientVersion = "${clientVersion}",
+				clientVersion = ${clientVersion},
 				engineVendor = "Elasticsearch",
-				serverVersion = "${serverVersion}");
+				serverVersion = ${serverVersion});
 		}
 
 		Navigator.gotoNavItem(navItem = "Field Mappings");
@@ -174,16 +174,16 @@ definition {
 		var liferayIndexName = "liferay-${companyId}";
 
 		Click(
-			key_navNested = "${liferayIndexName}",
+			key_navNested = ${liferayIndexName},
 			locator1 = "NavNested#NAV_NESTED_LINK");
 
 		AssertTextEquals.assertPartialText(
-			indexName = "${liferayIndexName}",
+			indexName = ${liferayIndexName},
 			locator1 = "Search#FIELD_MAPPINGS_EDITOR",
-			value1 = "${liferayIndexName}");
+			value1 = ${liferayIndexName});
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AssertSearchInsightsExplain {
 		JSONWebcontent.addWebContent(
 			content = "WC Content",
@@ -245,14 +245,14 @@ definition {
 			value1 = "_explanation");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ElasticsearchClusteringSmokeTest {
 		property elasticsearch.cluster.size = "2";
 		property portal.acceptance = "true";
 		property remote.elasticsearch7.enabled = "true";
 		property test.name.skip.portal.instance = "Elasticsearch7#ElasticsearchClusteringSmokeTest";
 
-		Elasticsearch.viewClusterStatusViaClusterHealthAPI(numberOfNodes = "2");
+		Elasticsearch.viewClusterStatusViaClusterHealthAPI(numberOfNodes = 2);
 
 		Navigator.openURL();
 
@@ -315,11 +315,11 @@ definition {
 				-u test@liferay.com:test
 		''';
 
-		var portalBuildNumber = JSONCurlUtil.get("${curl}");
+		var portalBuildNumber = JSONCurlUtil.get(${curl});
 
-		var isDXP = StringUtil.startsWith("${portalBuildNumber}", "721");
+		var isDXP = StringUtil.startsWith(${portalBuildNumber}, 721);
 
-		if ("${isDXP}" == "true") {
+		if (${isDXP} == "true") {
 			var appName = "Liferay Connector to Elasticsearch 7";
 		}
 		else {
@@ -339,17 +339,17 @@ definition {
 
 		if (IsTextEqual.isPartialText(locator1 = "SearchAdmin#SEARCH_ENGINE_VENDOR", value1 = "Embedded")) {
 			SearchAdministration.assertEngineVendorAndVersions(
-				clientVersion = "${serverVersion}",
+				clientVersion = ${serverVersion},
 				engineVendor = "Elasticsearch",
-				serverVersion = "${serverVersion}");
+				serverVersion = ${serverVersion});
 		}
 		else {
 			var clientVersion = Elasticsearch.getClientVersion();
 
 			SearchAdministration.assertEngineVendorAndVersions(
-				clientVersion = "${clientVersion}",
+				clientVersion = ${clientVersion},
 				engineVendor = "Elasticsearch",
-				serverVersion = "${serverVersion}");
+				serverVersion = ${serverVersion});
 		}
 
 		ProductMenu.gotoPortlet(
@@ -368,20 +368,20 @@ definition {
 			portlet = "App Manager");
 
 		AppManager.viewAppCP(
-			appName = "${appName}",
+			appName = ${appName},
 			appStatus = "Active",
 			searchTerm = "Elasticsearch");
 
-		AppManager.deactivateAppCP(appName = "${appName}");
+		AppManager.deactivateAppCP(appName = ${appName});
 
 		AppManager.viewAppCP(
-			appName = "${appName}",
+			appName = ${appName},
 			appStatus = "Resolved",
 			searchTerm = "Elasticsearch");
 
 		AssertConsoleTextPresent(value1 = "STOPPED com.liferay.portal.search.elasticsearch7");
 
-		AppManager.activateAppCP(appName = "${appName}");
+		AppManager.activateAppCP(appName = ${appName});
 
 		AssertConsoleTextPresent(value1 = "STARTED com.liferay.portal.search.elasticsearch7");
 
@@ -405,7 +405,7 @@ definition {
 			searchAssetType = "Web Content Article");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test OSGiConfigSmokeTest {
 		property embedded.elasticsearch.only = "true";
 		property osgi.module.configuration.file.names = "com.liferay.portal.search.elasticsearch7.configuration.ElasticsearchConfiguration.config:com.liferay.portal.bundle.blacklist.internal.BundleBlacklistConfiguration.config";
@@ -473,7 +473,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-57894."
-	@priority = "3"
+	@priority = 3
 	test UpdateSystemSettingsWithoutPortalRestart {
 		property remote.elasticsearch7.enabled = "true";
 		property test.name.skip.portal.instance = "Elasticsearch7#UpdateSystemSettingsWithoutPortalRestart";
@@ -487,11 +487,11 @@ definition {
 			locator1 = "build-test-elasticsearch7.xml",
 			value1 = "stop-elasticsearch");
 
-		var fileContent = FileUtil.read("${elasticsearchYML}");
+		var fileContent = FileUtil.read(${elasticsearchYML});
 
-		var updatedContent = StringUtil.replace("${fileContent}", "LiferayElasticsearchCluster", "LiferayElasticsearchCluster1");
+		var updatedContent = StringUtil.replace(${fileContent}, "LiferayElasticsearchCluster", "LiferayElasticsearchCluster1");
 
-		FileUtil.write("${elasticsearchYML}", "${updatedContent}");
+		FileUtil.write(${elasticsearchYML}, ${updatedContent});
 
 		AntCommand.antCommand(
 			locator1 = "build-test-elasticsearch7.xml",

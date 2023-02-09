@@ -1,11 +1,11 @@
 definition {
 
 	macro acceptRequest {
-		var key_requestsTitle = "${requestsTitle}";
+		var key_requestsTitle = ${requestsTitle};
 
 		AssertTextEquals(
 			locator1 = "Notifications#NOTIFICATIONS_TITLE",
-			value1 = "${requestsTitle}");
+			value1 = ${requestsTitle});
 
 		AssertClick(
 			locator1 = "Button#CONFIRM",
@@ -13,7 +13,7 @@ definition {
 	}
 
 	macro deleteNotification {
-		var key_contentBody = "${contentBody}";
+		var key_contentBody = ${contentBody};
 
 		Click(locator1 = "Notifications#NOTIFICATIONS_VERTICAL_ELLIPSIS");
 
@@ -25,7 +25,7 @@ definition {
 	macro goToFilterValues {
 		Click(locator1 = "Dropdown#FILTER_AND_ORDER");
 
-		MenuItem.click(menuItem = "${filterValues}");
+		MenuItem.click(menuItem = ${filterValues});
 	}
 
 	macro gotoNotifications {
@@ -51,17 +51,17 @@ definition {
 	}
 
 	macro navigateToContent {
-		var key_contentBody = "${contentBody}";
+		var key_contentBody = ${contentBody};
 
 		AssertClick.assertPartialTextClickAt(
 			locator1 = "Notifications#NOTIFICATIONS_CONTENT",
-			value1 = "${contentBody}");
+			value1 = ${contentBody});
 	}
 
 	macro tearDownUnreadNotifications {
 		Navigator.gotoNotifications();
 
-		var key_contentBody = "${contentBody}";
+		var key_contentBody = ${contentBody};
 
 		if (IsElementPresent(locator1 = "Notifications#NOTIFICATIONS_CONTENT")) {
 			AssertClick(
@@ -74,33 +74,33 @@ definition {
 		if (IsElementPresent(locator1 = "Notifications#USER_BAR_BADGE_COUNT")) {
 			AssertTextEquals(
 				locator1 = "Notifications#USER_BAR_BADGE_COUNT",
-				value1 = "${notificationCount}");
+				value1 = ${notificationCount});
 		}
 
 		if (IsElementPresent(locator1 = "Notifications#PROFILE_BADGE_COUNT")) {
 			AssertTextEquals(
 				locator1 = "Notifications#PROFILE_BADGE_COUNT",
-				value1 = "${notificationCount}");
+				value1 = ${notificationCount});
 		}
 
 		if (IsElementPresent(locator1 = "Notifications#MY_ACCOUNT_BADGE_COUNT")) {
 			AssertTextEquals(
 				locator1 = "Notifications#MY_ACCOUNT_BADGE_COUNT",
-				value1 = "${notificationCount}");
+				value1 = ${notificationCount});
 		}
 
 		if (IsElementPresent(locator1 = "Notifications#NOTIFICATIONS_BADGE_COUNT")) {
 			if (IsElementPresent.isVisible(locator1 = "Notifications#NOTIFICATIONS_BADGE_COUNT")) {
 				AssertTextEquals(
 					locator1 = "Notifications#NOTIFICATIONS_BADGE_COUNT",
-					value1 = "${notificationCount}");
+					value1 = ${notificationCount});
 			}
 		}
 
 		if (IsElementPresent(locator1 = "Notifications#USER_NAVIGATION_BAR_BADGE_COUNT")) {
 			AssertTextEquals(
 				locator1 = "Notifications#USER_NAVIGATION_BAR_BADGE_COUNT",
-				value1 = "${notificationCount}");
+				value1 = ${notificationCount});
 		}
 	}
 
@@ -111,8 +111,8 @@ definition {
 	}
 
 	macro viewNewComment {
-		var assetType = StringUtil.lowerCase("${assetType}");
-		var key_contentBody = "${contentBody}";
+		var assetType = StringUtil.lowerCase(${assetType});
+		var key_contentBody = ${contentBody};
 
 		if (isSet(fragmentName)) {
 			AssertTextEquals.assertPartialText(
@@ -136,12 +136,12 @@ definition {
 
 		AssertTextEquals.assertPartialText(
 			locator1 = "Notifications#NOTIFICATIONS_CONTENT",
-			value1 = "${contentBody}");
+			value1 = ${contentBody});
 	}
 
 	macro viewNewContent {
-		var assetType = StringUtil.lowerCase("${assetType}");
-		var key_contentBody = "${contentBody}";
+		var assetType = StringUtil.lowerCase(${assetType});
+		var key_contentBody = ${contentBody};
 
 		AssertTextEquals(
 			locator1 = "Notifications#NOTIFICATIONS_TITLE",
@@ -149,13 +149,13 @@ definition {
 
 		AssertTextEquals(
 			locator1 = "Notifications#NOTIFICATIONS_CONTENT",
-			value1 = "${contentBody}");
+			value1 = ${contentBody});
 	}
 
 	macro viewNewSharedContent {
-		var key_contentSharingPermission = "${contentSharingPermission}";
-		var key_contentTitle = "${contentTitle}";
-		var key_ownerName = "${ownerName}";
+		var key_contentSharingPermission = ${contentSharingPermission};
+		var key_contentTitle = ${contentTitle};
+		var key_ownerName = ${ownerName};
 
 		if (isSet(specialCharacter)) {
 			AssertTextEquals(
@@ -184,15 +184,15 @@ definition {
 	}
 
 	macro viewNoNotifications {
-		if ("${activePanel}" == "Profile") {
+		if (${activePanel} == "Profile") {
 			AssertElementNotPresent(locator1 = "Notifications#PROFILE_BADGE_COUNT");
 		}
 
-		if ("${activePanel}" == "My Account") {
+		if (${activePanel} == "My Account") {
 			AssertElementNotPresent(locator1 = "Notifications#MY_ACCOUNT_BADGE_COUNT");
 		}
 
-		if ("${activePanel}" == "Notifications") {
+		if (${activePanel} == "Notifications") {
 			AssertElementNotPresent(locator1 = "Notifications#NOTIFICATIONS_BADGE_COUNT");
 		}
 	}
@@ -210,13 +210,13 @@ definition {
 
 		AssertTextEquals(
 			locator1 = "Notifications#NOTIFICATIONS_TITLE",
-			value1 = "${requestsTitle}");
+			value1 = ${requestsTitle});
 	}
 
 	macro viewSuccessfulPublication {
-		var key_contentBody = "${contentBody}";
-		var key_portletName = "${portletName}";
-		var key_publicationType = "${publicationType}";
+		var key_contentBody = ${contentBody};
+		var key_portletName = ${portletName};
+		var key_publicationType = ${publicationType};
 
 		AssertTextEquals(
 			locator1 = "Notifications#NOTIFICATIONS_TITLE",
@@ -224,8 +224,8 @@ definition {
 	}
 
 	macro viewUpdatedContent {
-		var assetType = StringUtil.lowerCase("${assetType}");
-		var key_contentBody = "${contentBody}";
+		var assetType = StringUtil.lowerCase(${assetType});
+		var key_contentBody = ${contentBody};
 
 		AssertTextEquals(
 			locator1 = "Notifications#NOTIFICATIONS_TITLE",
@@ -233,7 +233,7 @@ definition {
 
 		AssertTextEquals(
 			locator1 = "Notifications#NOTIFICATIONS_CONTENT",
-			value1 = "${contentBody}");
+			value1 = ${contentBody});
 	}
 
 }

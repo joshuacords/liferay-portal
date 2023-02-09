@@ -1,11 +1,11 @@
 definition {
 
 	macro addPageContent {
-		AlloyEditor.addContent(content = "${wikiPageContent}");
+		AlloyEditor.addContent(content = ${wikiPageContent});
 	}
 
 	macro addPageTitle {
-		AlloyEditor.addTitle(title = "${wikiPageTitle}");
+		AlloyEditor.addTitle(title = ${wikiPageTitle});
 	}
 
 	macro cancel {
@@ -32,19 +32,19 @@ definition {
 
 			SelectNoError(
 				locator1 = "Wiki#ADD_PAGE_FORMAT_DROPDOWN",
-				value1 = "${pageFormat}");
+				value1 = ${pageFormat});
 		}
 		else if (IsVisible(locator1 = "Wiki#ADD_PAGE_FORMAT_DROPDOWN")) {
 			SelectNoError(
 				locator1 = "Wiki#ADD_PAGE_FORMAT_DROPDOWN",
-				value1 = "${pageFormat}");
+				value1 = ${pageFormat});
 		}
 	}
 
 	macro viewPageContentBody {
 		AssertTextEquals(
 			locator1 = "WikiEntry#BODY",
-			value1 = "${wikiPageContent}");
+			value1 = ${wikiPageContent});
 	}
 
 }

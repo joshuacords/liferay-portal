@@ -14,12 +14,12 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DeleteCustomExportProcess {
 		LAR.exportSiteCP(
 			larFileName = "CustomExport",
@@ -30,7 +30,7 @@ definition {
 		AssertElementNotPresent(locator1 = "SitePagesExport#CURRENT_AND_PREVIOUS_STATUS");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DeletePortletExportProcess {
 		Navigator.openURL();
 
@@ -50,7 +50,7 @@ definition {
 		AssertElementNotPresent(locator1 = "ExportImport#CURRENT_AND_PREVIOUS_STATUS");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test RelaunchCustomExportProcess {
 		LAR.exportSiteCP(
 			larFileName = "CustomExport",
@@ -59,7 +59,7 @@ definition {
 		LAR.relaunchCurrentAndPreviousProcess(larFileName = "CustomExport");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test ViewExportProcess {
 		LAR.exportSiteCP(
 			larFileName = "CustomExport",

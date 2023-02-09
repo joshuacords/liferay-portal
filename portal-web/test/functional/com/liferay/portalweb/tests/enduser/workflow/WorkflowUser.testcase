@@ -15,7 +15,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -25,7 +25,7 @@ definition {
 		}
 	}
 
-	@priority = "5"
+	@priority = 5
 	test CreateNewUserAccount {
 		property portal.acceptance = "true";
 
@@ -96,7 +96,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-69190."
-	@priority = "4"
+	@priority = 4
 	test ViewUserPreview {
 		Navigator.openURL();
 

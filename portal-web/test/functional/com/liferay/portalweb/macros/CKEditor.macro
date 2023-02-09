@@ -5,7 +5,7 @@ definition {
 
 		KeyPress(
 			locator1 = "CKEditor#BODY",
-			value1 = "${content}");
+			value1 = ${content});
 
 		SelectFrame(value1 = "relative=top");
 	}
@@ -17,7 +17,7 @@ definition {
 	macro viewEntryContent {
 		AssertTextEquals(
 			locator1 = "CKEditor#BODY",
-			value1 = "${content}");
+			value1 = ${content});
 	}
 
 }

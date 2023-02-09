@@ -33,7 +33,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -46,7 +46,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-80085."
-	@priority = "3"
+	@priority = 3
 	test AddWebContentTemplateWithSmallImage {
 		property test.name.skip.portal.instance = "DDMStructuresStaging#AddWebContentTemplateWithSmallImage";
 
@@ -113,7 +113,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-68661 and LPS-77957."
-	@priority = "4"
+	@priority = 4
 	test CreateWebContentStructureAndTemplate {
 		Navigator.gotoStagedSitePage(
 			pageName = "Staging Page",
@@ -193,7 +193,7 @@ definition {
 
 		for (var menuItem : list "Edit,Edit Default Values,Permissions,Copy") {
 			LexiconEntry.viewNoEntryMenuItem(
-				menuItem = "${menuItem}",
+				menuItem = ${menuItem},
 				rowEntry = "WC Structure Name");
 		}
 
@@ -203,7 +203,7 @@ definition {
 
 		for (var menuItem : list "Edit,Permissions,Copy") {
 			LexiconEntry.viewNoEntryMenuItem(
-				menuItem = "${menuItem}",
+				menuItem = ${menuItem},
 				rowEntry = "WC Template Name");
 		}
 	}

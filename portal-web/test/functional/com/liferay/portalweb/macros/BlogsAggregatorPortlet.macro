@@ -9,7 +9,7 @@ definition {
 
 		Select(
 			locator1 = "Configuration#SELECTION_METHOD_SELECT",
-			value1 = "${selectionMethod}");
+			value1 = ${selectionMethod});
 
 		PortletEntry.save();
 
@@ -17,18 +17,18 @@ definition {
 	}
 
 	macro viewBlogsEntryViaBAPortletPG {
-		for (var entryTitle : list "${viewEntryTitle}") {
-			var key_entryTitle = "${entryTitle}";
+		for (var entryTitle : list ${viewEntryTitle}) {
+			var key_entryTitle = ${entryTitle};
 
 			AssertTextEquals(
 				locator1 = "BlogsAggregator#ENTRY_TITLE",
-				value1 = "${entryTitle}");
+				value1 = ${entryTitle});
 		}
 	}
 
 	macro viewParentOrganizationPG {
 		Portlet.gotoPortletOptions(
-			portletName = "${portletName}",
+			portletName = ${portletName},
 			portletOption = "Configuration");
 
 		SelectFrame(locator1 = "IFrame#CONFIGURATION");
@@ -41,15 +41,15 @@ definition {
 
 		SelectFrame(locator1 = "UsersAndOrganizationsSelectOrganization#SELECT_ORGANIZATION_IFRAME");
 
-		var key_orgName = "${orgName}";
+		var key_orgName = ${orgName};
 
 		AssertTextEquals(
 			locator1 = "ContentRow#ORGANIZATION_TABLE_NAME",
-			value1 = "${orgName}");
+			value1 = ${orgName});
 
 		AssertTextEquals(
 			locator1 = "ContentRow#ORGANIZATION_TABLE_NAME_SECOND_COLUMN",
-			value1 = "${parentOrgName}");
+			value1 = ${parentOrgName});
 
 		SelectFrame(value1 = "relative=top");
 	}

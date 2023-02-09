@@ -21,7 +21,7 @@ definition {
 		Page.tearDownCP();
 	}
 
-	@priority = "4"
+	@priority = 4
 	test NetvibesWidgetPortletSmoke {
 		property portlet.plugins.includes = "netvibes-widget-portlet";
 

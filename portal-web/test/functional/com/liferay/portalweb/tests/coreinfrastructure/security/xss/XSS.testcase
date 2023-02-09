@@ -15,7 +15,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -26,7 +26,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-90727."
-	@priority = "5"
+	@priority = 5
 	test AssertXSSVulnerabilityInControlPanel {
 		var portalURL = PropsUtil.get("portal.url");
 
@@ -36,14 +36,14 @@ definition {
 
 		var currentURL = Navigator.getCurrentURL();
 
-		var p_p_authParam = StringUtil.extractLast("${currentURL}", "=");
+		var p_p_authParam = StringUtil.extractLast(${currentURL}, "=");
 
 		Navigator.openSpecificURL(url = "${portalURL}/en/group/control_panel/manage;'*prompt()*'?p_p_id=com_liferay_my_account_web_portlet_MyAccountPortlet&p_p_lifecycle=0&p_p_state=maximized&p_p_auth=${p_p_authParam}");
 
 		AssertAlertNotPresent();
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ValidateXSSVulnerabilities {
 		var portalURL = PropsUtil.get("portal.url");
 
@@ -63,7 +63,7 @@ definition {
 				${portalURL}/web/guest/home?p_p_id=113&p_p_lifecycle=0&p_p_state=maximized&p_p_mode=view&_113_tabs1=background-styles
 			''';
 
-		Navigator.openSpecificURL(url = "${maliciousURL1}");
+		Navigator.openSpecificURL(url = ${maliciousURL1});
 
 		AssertTextEquals(
 			locator1 = "Home#ERROR_MESSAGE_ALERT_ERROR",
@@ -75,7 +75,7 @@ definition {
 
 		AssertElementPresent(locator1 = "Home#URL_ERROR_MESSAGE");
 
-		Navigator.openSpecificURL(url = "${maliciousURL2}");
+		Navigator.openSpecificURL(url = ${maliciousURL2});
 
 		AssertTextEquals(
 			locator1 = "Home#ERROR_MESSAGE_ALERT_ERROR",
@@ -87,7 +87,7 @@ definition {
 
 		AssertElementPresent(locator1 = "Home#URL_ERROR_MESSAGE");
 
-		Navigator.openSpecificURL(url = "${maliciousURL3}");
+		Navigator.openSpecificURL(url = ${maliciousURL3});
 
 		AssertTextEquals(
 			locator1 = "Home#ERROR_MESSAGE_ALERT_ERROR",
@@ -99,7 +99,7 @@ definition {
 
 		AssertElementPresent(locator1 = "Home#URL_ERROR_MESSAGE");
 
-		Navigator.openSpecificURL(url = "${maliciousURL4}");
+		Navigator.openSpecificURL(url = ${maliciousURL4});
 
 		AssertTextEquals(
 			locator1 = "Home#ERROR_MESSAGE_ALERT_ERROR",
@@ -111,7 +111,7 @@ definition {
 
 		AssertElementPresent(locator1 = "Home#URL_ERROR_MESSAGE");
 
-		Navigator.openSpecificURL(url = "${maliciousURL5}");
+		Navigator.openSpecificURL(url = ${maliciousURL5});
 
 		AssertTextEquals(
 			locator1 = "Message#INFO",
@@ -119,7 +119,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-92264."
-	@priority = "5"
+	@priority = 5
 	test ViewAssetPublisherContent {
 		JSONWebcontent.addWebContent(
 			content = "WC Content",
@@ -157,7 +157,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-83273. View forms entry with XSS"
-	@priority = "5"
+	@priority = 5
 	test ViewFormsWithXSS {
 		var formDescription = '''<script>alert(222)</script>''';
 		var formName = '''<script>alert(111)</script>''';
@@ -171,9 +171,9 @@ definition {
 
 		FormsAdminNavigator.gotoAddForm();
 
-		Form.editTitle(formName = "${formName}");
+		Form.editTitle(formName = ${formName});
 
-		Form.editDescription(formDescription = "${formDescription}");
+		Form.editDescription(formDescription = ${formDescription});
 
 		Form.gotoAddField(fieldType = "Text Field");
 
@@ -194,7 +194,7 @@ definition {
 
 		FormPortletNavigator.gotoSelectForm();
 
-		FormPortletConfiguration.selectForm(formName = "${formName}");
+		FormPortletConfiguration.selectForm(formName = ${formName});
 
 		PortletEntry.save();
 
@@ -205,19 +205,19 @@ definition {
 		var actualDescriptionScript = '''<script>alert(222)</script>''';
 		var escapedDescriptionScript = '''&lt;script&gt;alert(222)&lt;/script&gt;''';
 
-		AssertHTMLSourceTextNotPresent(value1 = "${actualDescriptionScript}");
+		AssertHTMLSourceTextNotPresent(value1 = ${actualDescriptionScript});
 
-		AssertHTMLSourceTextPresent(value1 = "${escapedDescriptionScript}");
+		AssertHTMLSourceTextPresent(value1 = ${escapedDescriptionScript});
 
 		var actualNameScript = '''<script>alert(111)</script>''';
 		var escapedNameScript = '''&lt;script&gt;alert(111)&lt;/script&gt;''';
 
-		AssertHTMLSourceTextNotPresent(value1 = "${actualNameScript}");
+		AssertHTMLSourceTextNotPresent(value1 = ${actualNameScript});
 
-		AssertHTMLSourceTextPresent(value1 = "${escapedNameScript}");
+		AssertHTMLSourceTextPresent(value1 = ${escapedNameScript});
 	}
 
-	@priority = "3"
+	@priority = 3
 	test ViewGoogleAnalyticsID {
 		Navigator.openURL();
 
@@ -233,7 +233,7 @@ definition {
 		AssertAlertNotPresent();
 	}
 
-	@priority = "3"
+	@priority = 3
 	test ViewJSONWS {
 		var portalURL = PropsUtil.get("portal.url");
 
@@ -243,7 +243,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-59198."
-	@priority = "3"
+	@priority = 3
 	test ViewLDAP {
 		PortalSettings.gotoConfiguration(
 			configurationCategory = "LDAP",
@@ -257,12 +257,12 @@ definition {
 		var actualScript = '''<script>alert(123);</script>''';
 		var escapedScript = '''&lt;script&gt;alert(123);&lt;/script&gt;''';
 
-		AssertHTMLSourceTextNotPresent(value1 = "${actualScript}");
+		AssertHTMLSourceTextNotPresent(value1 = ${actualScript});
 
-		AssertHTMLSourceTextPresent(value1 = "${escapedScript}");
+		AssertHTMLSourceTextPresent(value1 = ${escapedScript});
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewLiferayPortletList {
 		var portalURL = PropsUtil.get("portal.url");
 
@@ -290,7 +290,7 @@ definition {
 		AssertAlertNotPresent();
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewLookAndFeel {
 		ProductMenu.gotoPortlet(
 			category = "Site Builder",
@@ -312,13 +312,13 @@ definition {
 		var actualScript = '''<script>alert(123);</script>''';
 		var escapedScript = '''&lt;script&gt;alert(123);&lt;/script&gt;''';
 
-		AssertHTMLSourceTextNotPresent(value1 = "${actualScript}");
+		AssertHTMLSourceTextNotPresent(value1 = ${actualScript});
 
-		AssertHTMLSourceTextPresent(value1 = "${escapedScript}");
+		AssertHTMLSourceTextPresent(value1 = ${escapedScript});
 	}
 
 	@description = "This is a use case for LPS-42750."
-	@priority = "3"
+	@priority = 3
 	test ViewMobileDeviceFamilies {
 		ProductMenu.gotoPortlet(
 			category = "Configuration",
@@ -351,13 +351,13 @@ definition {
 		var actualScript = '''<script>alert(123);</script>''';
 		var escapedScript = '''&lt;script&gt;alert(123);&lt;/script&gt;''';
 
-		AssertHTMLSourceTextNotPresent(value1 = "${actualScript}");
+		AssertHTMLSourceTextNotPresent(value1 = ${actualScript});
 
-		AssertHTMLSourceTextPresent(value1 = "${escapedScript}");
+		AssertHTMLSourceTextPresent(value1 = ${escapedScript});
 	}
 
 	@description = "This is a use case for LPS-123822 and LPS-127611."
-	@priority = "3"
+	@priority = 3
 	test ViewPiwik {
 		var portalURL = PropsUtil.get("portal.url");
 
@@ -368,12 +368,12 @@ definition {
 
 		Site.editPiwikCP(piwik = '''<script>alert(123);</script>''');
 
-		Open.openNoError(locator1 = "${portalURL}");
+		Open.openNoError(locator1 = ${portalURL});
 
-		AssertConfirm(value1 = "123");
+		AssertConfirm(value1 = 123);
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewRecycleBin {
 		var entryTitle = '''<script>alert(123);</script>''';
 
@@ -389,7 +389,7 @@ definition {
 		Type(
 			key_editor = "title",
 			locator1 = "AlloyEditor#EDITOR",
-			value1 = "${entryTitle}");
+			value1 = ${entryTitle});
 
 		BlogsEntry.addContent(entryContent = "Blogs Entry Content");
 
@@ -402,7 +402,7 @@ definition {
 			panel = "Site Administration",
 			portlet = "Blogs");
 
-		BlogsNavigator.moveToRecycleBinCP(entryTitle = "${entryTitle}");
+		BlogsNavigator.moveToRecycleBinCP(entryTitle = ${entryTitle});
 
 		Navigator.openURL();
 
@@ -412,7 +412,7 @@ definition {
 			portlet = "Recycle Bin");
 
 		RecycleBin.restoreCP(
-			assetName = "${entryTitle}",
+			assetName = ${entryTitle},
 			assetRestoreLocation = "Blogs",
 			assetType = "Blogs Entry");
 
@@ -421,12 +421,12 @@ definition {
 		var actualScript = '''<script>alert(123);</script>''';
 		var escapedScript = '''&lt;script&gt;alert(123);&lt;/script&gt;''';
 
-		AssertHTMLSourceTextNotPresent(value1 = "${actualScript}");
+		AssertHTMLSourceTextNotPresent(value1 = ${actualScript});
 
-		AssertHTMLSourceTextPresent(value1 = "${escapedScript}");
+		AssertHTMLSourceTextPresent(value1 = ${escapedScript});
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewRoles {
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -456,12 +456,12 @@ definition {
 		var actualScript = ''' <script>alert(123);</script>''';
 		var escapedScript = '''&lt;script&gt;alert(123);&lt;/script&gt;''';
 
-		AssertHTMLSourceTextNotPresent(value1 = "${actualScript}");
+		AssertHTMLSourceTextNotPresent(value1 = ${actualScript});
 
-		AssertHTMLSourceTextPresent(value1 = "${escapedScript}");
+		AssertHTMLSourceTextPresent(value1 = ${escapedScript});
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ViewSearchResults {
 		var siteName = '''<script>alert(123);</script>''';
 
@@ -470,31 +470,31 @@ definition {
 			panel = "Control Panel",
 			portlet = "Sites");
 
-		Site.addBlankCP(siteName = "${siteName}");
+		Site.addBlankCP(siteName = ${siteName});
 
 		ProductMenu.gotoPortlet(
 			category = "Sites",
 			panel = "Control Panel",
 			portlet = "Sites");
 
-		Search.searchCP(searchTerm = "${siteName}");
+		Search.searchCP(searchTerm = ${siteName});
 
 		AssertClick(
-			key_rowEntry = "${siteName}",
+			key_rowEntry = ${siteName},
 			locator1 = "ContentRow#ENTRY_CONTENT_ENTRY_NAME_LINK",
-			value1 = "${siteName}");
+			value1 = ${siteName});
 
 		AssertElementNotPresent(locator1 = "//body[.='XSS']");
 
 		var actualScript = '''	<script>alert(123);</script>''';
 		var escapedScript = '''&lt;script&gt;alert(123);&lt;/script&gt;''';
 
-		AssertHTMLSourceTextNotPresent(value1 = "${actualScript}");
+		AssertHTMLSourceTextNotPresent(value1 = ${actualScript});
 
-		AssertHTMLSourceTextPresent(value1 = "${escapedScript}");
+		AssertHTMLSourceTextPresent(value1 = ${escapedScript});
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewURLValidate {
 		property test.name.skip.portal.instance = "XSSUsecase#ViewURLValidate";
 
@@ -514,11 +514,11 @@ definition {
 				http://localhost:8080/html/portal/progress_poller.jsp?ProgressId=a%3D1%3Balert(document.cookie)%3B%2F%2F
 			''';
 
-		Navigator.openSpecificURL(url = "${maliciousURL1}");
+		Navigator.openSpecificURL(url = ${maliciousURL1});
 
 		AssertAlertNotPresent();
 
-		Navigator.openSpecificURL(url = "${maliciousURL2}");
+		Navigator.openSpecificURL(url = ${maliciousURL2});
 
 		AssertAlertNotPresent();
 
@@ -526,21 +526,21 @@ definition {
 
 		UserBar.gotoDropdownItem(dropdownItem = "Account Settings");
 
-		Navigator.openSpecificURL(url = "${maliciousURL3}");
+		Navigator.openSpecificURL(url = ${maliciousURL3});
 
 		AssertAlertNotPresent();
 
-		Navigator.openSpecificURL(url = "${maliciousURL4}");
+		Navigator.openSpecificURL(url = ${maliciousURL4});
 
 		AssertAlertNotPresent();
 
-		Navigator.openSpecificURL(url = "${maliciousURL5}");
+		Navigator.openSpecificURL(url = ${maliciousURL5});
 
 		AssertAlertNotPresent();
 	}
 
 	@description = "This is a use case for LPS-71236 and LPS-71307."
-	@priority = "5"
+	@priority = 5
 	test ViewWebContent {
 		Navigator.openURL();
 
@@ -584,7 +584,7 @@ definition {
 
 		AssertClick(
 			locator1 = "Link#WEB_CONTENT_ARTICLE",
-			value1 = "${webContentTitle}");
+			value1 = ${webContentTitle});
 
 		AssertAlertNotPresent();
 
@@ -624,7 +624,7 @@ definition {
 		AssertAlertNotPresent();
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ViewWiki {
 		Navigator.openURL();
 
@@ -655,9 +655,9 @@ definition {
 		var actualScript = '''<script>alert(123);</script>''';
 		var escapedScript = '''&lt;script&gt;alert(123);&lt;/script&gt;''';
 
-		AssertHTMLSourceTextNotPresent(value1 = "${actualScript}");
+		AssertHTMLSourceTextNotPresent(value1 = ${actualScript});
 
-		AssertHTMLSourceTextPresent(value1 = "${escapedScript}");
+		AssertHTMLSourceTextPresent(value1 = ${escapedScript});
 	}
 
 }

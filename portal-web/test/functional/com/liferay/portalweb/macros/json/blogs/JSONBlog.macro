@@ -5,7 +5,7 @@ definition {
 		Variables.assertDefined(parameterList = "${entryContent},${entryTitle}");
 
 		var portalURL = JSONCompany.getPortalURL();
-		var contentXML = JSONBlogSetter.setContentXML(content = "${entryContent}");
+		var contentXML = JSONBlogSetter.setContentXML(content = ${entryContent});
 
 		if (!(isSet(entrySubtitle))) {
 			var entrySubtitle = "";
@@ -13,20 +13,20 @@ definition {
 
 		if (isSet(groupName)) {
 			var serviceContext = JSONBlogSetter.setServiceContext(
-				assetCategoryIds = "${assetCategoryIds}",
-				assetTagNames = "${assetTagNames}",
-				groupName = "${groupName}",
-				serviceContext = "${serviceContext}",
-				site = "${site}",
-				workflowAction = "${workflowAction}");
+				assetCategoryIds = ${assetCategoryIds},
+				assetTagNames = ${assetTagNames},
+				groupName = ${groupName},
+				serviceContext = ${serviceContext},
+				site = ${site},
+				workflowAction = ${workflowAction});
 		}
 		else {
 			var serviceContext = JSONBlogSetter.setServiceContext(
-				assetCategoryIds = "${assetCategoryIds}",
-				assetTagNames = "${assetTagNames}",
+				assetCategoryIds = ${assetCategoryIds},
+				assetTagNames = ${assetTagNames},
 				groupName = "Guest",
-				serviceContext = "${serviceContext}",
-				workflowAction = "${workflowAction}");
+				serviceContext = ${serviceContext},
+				workflowAction = ${workflowAction});
 		}
 
 		if (!(isSet(userEmailAddress))) {
@@ -64,7 +64,7 @@ definition {
 
 		echo("## * Content: ${entryContent}");
 
-		var messageId = JSONCurlUtil.post("${curl}");
+		var messageId = JSONCurlUtil.post(${curl});
 	}
 
 	macro getBlogEntryId {
@@ -73,8 +73,8 @@ definition {
 		}
 
 		var groupId = JSONGroupAPI._getGroupIdByName(
-			groupName = "${groupName}",
-			site = "${site}");
+			groupName = ${groupName},
+			site = ${site});
 		var portalURL = JSONCompany.getPortalURL();
 
 		if (isSet(friendlyURL)) {
@@ -94,9 +94,9 @@ definition {
 			''';
 		}
 
-		var entryId = JSONCurlUtil.post("${curl}", "$.[?(@['title'] == '${entryTitle}')]['entryId']");
+		var entryId = JSONCurlUtil.post(${curl}, "$.[?(@['title'] == '${entryTitle}')]['entryId']");
 
-		return "${entryId}";
+		return ${entryId};
 
 		echo("## * Blogs ID: ${entryId}");
 	}
@@ -105,9 +105,9 @@ definition {
 		Variables.assertDefined(parameterList = "${entryTitle},${groupName}");
 
 		var entryId = JSONBlog.getBlogEntryId(
-			entryTitle = "${entryTitle}",
-			friendlyURL = "${friendlyURL}",
-			groupName = "${groupName}");
+			entryTitle = ${entryTitle},
+			friendlyURL = ${friendlyURL},
+			groupName = ${groupName});
 		var portalURL = JSONCompany.getPortalURL();
 
 		if (!(isSet(userEmailAddress))) {
@@ -124,7 +124,7 @@ definition {
 				-d entryId=${entryId} \
 		''';
 
-		var messageId = JSONCurlUtil.post("${curl}");
+		var messageId = JSONCurlUtil.post(${curl});
 	}
 
 }

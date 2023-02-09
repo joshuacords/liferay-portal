@@ -12,23 +12,23 @@ definition {
 				-u test@liferay.com:test
 		''';
 
-		var companyId = JSONCurlUtil.get("${curl}", "$['companyId']");
+		var companyId = JSONCurlUtil.get(${curl}, "$['companyId']");
 
-		return "${companyId}";
+		return ${companyId};
 	}
 
 	macro getPortalInstanceName {
 		var testNameSkipPortalInstance = PropsUtil.get("test.name.skip.portal.instance");
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if (("${testPortalInstance}" == "true") && !(IsTestName(locator1 = "", value1 = "${testNameSkipPortalInstance}"))) {
+		if ((${testPortalInstance} == "true") && !(IsTestName(locator1 = "", value1 = ${testNameSkipPortalInstance}))) {
 			var portalURL = JSONCompany.getPortalURL();
 
-			var portalInstanceName = StringUtil.replace("${portalURL}", "http://", "");
+			var portalInstanceName = StringUtil.replace(${portalURL}, "http://", "");
 
-			var portalInstanceName = StringUtil.replace("${portalInstanceName}", ":8080", "");
+			var portalInstanceName = StringUtil.replace(${portalInstanceName}, ":8080", "");
 
-			return "${portalInstanceName}";
+			return ${portalInstanceName};
 		}
 		else {
 			return "localhost";
@@ -38,7 +38,7 @@ definition {
 	macro getPortalURL {
 		var portalURL = PropsUtil.get("portal.url");
 
-		return "${portalURL}";
+		return ${portalURL};
 	}
 
 }

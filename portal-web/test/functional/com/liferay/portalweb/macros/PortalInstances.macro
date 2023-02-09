@@ -5,23 +5,23 @@ definition {
 
 		Type(
 			locator1 = "TextInput#WEB_ID",
-			value1 = "${webId}");
+			value1 = ${webId});
 
 		Type(
 			locator1 = "TextInput#VIRTUAL_HOST",
-			value1 = "${virtualHost}");
+			value1 = ${virtualHost});
 
 		Type(
 			locator1 = "TextInput#MAIL_DOMAIN",
-			value1 = "${mailDomain}");
+			value1 = ${mailDomain});
 
-		if ("${maxUsers}" == "true") {
+		if (${maxUsers} == "true") {
 			Type(
 				locator1 = "TextInput#MAX_USERS",
-				value1 = "${maxUserNumber}");
+				value1 = ${maxUserNumber});
 		}
 
-		if ("${portalInstanceActive}" == "false") {
+		if (${portalInstanceActive} == "false") {
 			Uncheck(locator1 = "Checkbox#ACTIVE");
 		}
 
@@ -29,9 +29,9 @@ definition {
 	}
 
 	macro deactivatePortalInstance {
-		var key_virtualHost = "${virtualHost}";
+		var key_virtualHost = ${virtualHost};
 
-		LexiconEntry.openEntryMenu(rowEntry = "${virtualHost}");
+		LexiconEntry.openEntryMenu(rowEntry = ${virtualHost});
 
 		MenuItem.click(menuItem = "Edit");
 
@@ -45,13 +45,13 @@ definition {
 	}
 
 	macro deleteCP {
-		var key_virtualHost = "${virtualHost}";
+		var key_virtualHost = ${virtualHost};
 
 		AssertTextEquals(
 			locator1 = "PortalInstances#INSTANCE_TABLE_VIRTUAL_HOST",
-			value1 = "${virtualHost}");
+			value1 = ${virtualHost});
 
-		LexiconEntry.openEntryMenu(rowEntry = "${virtualHost}");
+		LexiconEntry.openEntryMenu(rowEntry = ${virtualHost});
 
 		MenuItem.clickNoError(menuItem = "Delete");
 
@@ -61,21 +61,21 @@ definition {
 
 		AssertTextNotPresent(
 			locator1 = "PortalInstances#INSTANCE_TABLE_VIRTUAL_HOST",
-			value1 = "${virtualHost}");
+			value1 = ${virtualHost});
 	}
 
 	macro editCP {
-		var key_virtualHost = "${virtualHost}";
+		var key_virtualHost = ${virtualHost};
 
 		AssertTextEquals(
 			locator1 = "PortalInstances#INSTANCE_TABLE_VIRTUAL_HOST",
-			value1 = "${virtualHost}");
+			value1 = ${virtualHost});
 
 		LexiconEntry.gotoEllipsisMenuItem(menuItem = "Edit");
 
 		Type(
 			locator1 = "TextInput#MAIL_DOMAIN",
-			value1 = "${mailDomain}");
+			value1 = ${mailDomain});
 
 		AssertClick(
 			locator1 = "Button#SAVE",
@@ -91,18 +91,18 @@ definition {
 	macro tearDownCP {
 		var defaultPortalURL = PropsUtil.get("default.portal.url");
 
-		SignOut.signOutOfSpecificURL(url = "${defaultPortalURL}");
+		SignOut.signOutOfSpecificURL(url = ${defaultPortalURL});
 
-		SignIn.signInSpecificURL(url = "${defaultPortalURL}");
+		SignIn.signInSpecificURL(url = ${defaultPortalURL});
 
 		ProductMenu.gotoPortlet(
 			category = "Configuration",
 			panel = "Control Panel",
 			portlet = "Virtual Instances");
 
-		while (IsElementPresent(key_rowNumber = "2", locator1 = "ContentRow#ENTRY_CONTENT_ROW_NUMBER_ELLIPSIS")) {
+		while (IsElementPresent(key_rowNumber = 2, locator1 = "ContentRow#ENTRY_CONTENT_ROW_NUMBER_ELLIPSIS")) {
 			Click.waitForMenuToggleJSClick(
-				key_rowNumber = "2",
+				key_rowNumber = 2,
 				locator1 = "ContentRow#ENTRY_CONTENT_ROW_NUMBER_ELLIPSIS");
 
 			MenuItem.clickNoError(menuItem = "Delete");
@@ -114,19 +114,19 @@ definition {
 	}
 
 	macro viewCP {
-		var key_virtualHost = "${virtualHost}";
+		var key_virtualHost = ${virtualHost};
 
 		AssertTextEquals(
 			locator1 = "PortalInstances#INSTANCE_TABLE_WEB_ID",
-			value1 = "${virtualHost}");
+			value1 = ${virtualHost});
 
 		AssertTextEquals(
 			locator1 = "PortalInstances#INSTANCE_TABLE_VIRTUAL_HOST",
-			value1 = "${virtualHost}");
+			value1 = ${virtualHost});
 
 		AssertTextEquals(
 			locator1 = "PortalInstances#INSTANCE_TABLE_MAIL_DOMAIN",
-			value1 = "${virtualHost}");
+			value1 = ${virtualHost});
 	}
 
 }

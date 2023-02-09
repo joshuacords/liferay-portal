@@ -9,17 +9,17 @@ definition {
 	}
 
 	macro changeDisplayStyle {
-		ManagementBar.changeDisplayStyle(displayStyle = "${displayStyle}");
+		ManagementBar.changeDisplayStyle(displayStyle = ${displayStyle});
 	}
 
 	macro clickEntryEllipsis {
-		LexiconList.clickEllipsis(listEntry = "${entry}");
+		LexiconList.clickEllipsis(listEntry = ${entry});
 	}
 
 	macro clickEntryEllipsisItem {
 		LexiconList.clickEllipsisItem(
-			item = "${item}",
-			listEntry = "${entry}");
+			item = ${item},
+			listEntry = ${entry});
 	}
 
 	macro clickSelectAllCheckbox {
@@ -27,12 +27,12 @@ definition {
 	}
 
 	macro gotoEntry {
-		LexiconList.clickListEntryTitle(listEntry = "${entry}");
+		LexiconList.clickListEntryTitle(listEntry = ${entry});
 	}
 
 	macro moveEntryToRecycleBin {
 		WebContentAdmin.clickEntryEllipsisItem(
-			entry = "${entry}",
+			entry = ${entry},
 			item = "Move to Recycle Bin");
 
 		Confirm();
@@ -43,17 +43,17 @@ definition {
 	}
 
 	macro viewEntryNotPresent {
-		LexiconList.viewListEntryNotPresent(listEntry = "${entry}");
+		LexiconList.viewListEntryNotPresent(listEntry = ${entry});
 	}
 
 	macro viewEntryTitle {
-		LexiconList.viewListEntryTitle(listEntry = "${entry}");
+		LexiconList.viewListEntryTitle(listEntry = ${entry});
 	}
 
 	macro viewEntryWorkflowStatus {
 		LexiconList.viewListEntryLabel(
-			listEntry = "${entry}",
-			listEntryLabel = "${workflowStatus}");
+			listEntry = ${entry},
+			listEntryLabel = ${workflowStatus});
 	}
 
 }

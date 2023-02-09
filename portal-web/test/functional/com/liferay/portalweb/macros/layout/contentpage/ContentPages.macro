@@ -2,9 +2,9 @@ definition {
 
 	macro _selectCard {
 		if (isSet(collectionName)) {
-			Navigator.gotoNavNested(navNested = "${collectionName}");
+			Navigator.gotoNavNested(navNested = ${collectionName});
 
-			LexiconCard.clickCard(card = "${pageTemplateName}");
+			LexiconCard.clickCard(card = ${pageTemplateName});
 		}
 		else {
 			Navigator.gotoNavNested(navNested = "Basic Pages");
@@ -16,7 +16,7 @@ definition {
 	macro addPage {
 		var key_breadcrumbName = "Pages";
 
-		Pause(locator1 = "3000");
+		Pause(locator1 = 3000);
 
 		if (IsElementPresent(locator1 = "Message#EMPTY_INFO_TAGLIB")) {
 			SitePages.gotoAddFirstPage(pageType = "Public Page");
@@ -30,17 +30,17 @@ definition {
 		}
 
 		ContentPages._selectCard(
-			collectionName = "${collectionName}",
-			pageTemplateName = "${pageTemplateName}");
+			collectionName = ${collectionName},
+			pageTemplateName = ${pageTemplateName});
 
 		SelectFrame(locator1 = "IFrame#DIALOG");
 
-		PortletEntry.inputName(name = "${pageName}");
+		PortletEntry.inputName(name = ${pageName});
 
 		if (isSet(categoryName)) {
 			AssetCategorization.addCategory(
-				categoryName = "${categoryName}",
-				vocabularyName = "${vocabularyName}");
+				categoryName = ${categoryName},
+				vocabularyName = ${vocabularyName});
 		}
 
 		Button.clickAdd();

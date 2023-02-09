@@ -27,7 +27,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -35,7 +35,7 @@ definition {
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddCategories {
 		JSONCategory.addCategory(
 			groupName = "Test Site Name",
@@ -72,7 +72,7 @@ definition {
 	}
 
 	@description = "Ensure that a user can add a category."
-	@priority = "4"
+	@priority = 4
 	test AddCategory {
 		JSONCategory.addCategory(
 			groupName = "Test Site Name",
@@ -86,7 +86,7 @@ definition {
 			vocabularyName = "Vocabulary Name");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddCategoryProperties {
 		JSONCategory.addCategory(
 			groupName = "Test Site Name",
@@ -103,7 +103,7 @@ definition {
 			categoryName = "Category Name 1",
 			propertiesKeyField = "Category Property",
 			propertiesValueField = "Category Property",
-			propertyNumber = "2");
+			propertyNumber = 2);
 
 		Category.openCategoriesAdmin(siteURLKey = "test-site-name");
 
@@ -111,7 +111,7 @@ definition {
 			categoryName = "Category Name 1",
 			propertiesKeyField = "Category Property",
 			propertiesValueField = "Category Property",
-			propertyNumber = "1",
+			propertyNumber = 1,
 			vocabularyName = "Vocabulary Name");
 
 		Category.openCategoriesAdmin(siteURLKey = "test-site-name");
@@ -120,11 +120,11 @@ definition {
 			categoryName = "Category Name",
 			propertiesKeyField = "Category Property",
 			propertiesValueField = "Category Property",
-			propertyNumber = "2",
+			propertyNumber = 2,
 			vocabularyName = "Vocabulary Name");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddCategoryProperty {
 		JSONCategory.addCategory(
 			groupName = "Test Site Name",
@@ -141,7 +141,7 @@ definition {
 			categoryName = "Category Name 1",
 			propertiesKeyField = "Category Property",
 			propertiesValueField = "Category Property",
-			propertyNumber = "0");
+			propertyNumber = 0);
 
 		Category.openCategoriesAdmin(siteURLKey = "test-site-name");
 
@@ -149,11 +149,11 @@ definition {
 			categoryName = "Category Name 1",
 			propertiesKeyField = "Category Property",
 			propertiesValueField = "Category Property",
-			propertyNumber = "0",
+			propertyNumber = 0,
 			vocabularyName = "Vocabulary Name");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddCategoryViewableByAnyone {
 		Category.addCategoryViewableByCP(
 			categoryName = "Category Name",
@@ -168,7 +168,7 @@ definition {
 			vocabularyName = "Vocabulary Name");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddCategoryViewableByOwner {
 		Category.addCategoryViewableByCP(
 			categoryName = "Category Name",
@@ -183,7 +183,7 @@ definition {
 			vocabularyName = "Vocabulary Name");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddCategoryViewableBySiteMembers {
 		Category.addCategoryViewableByCP(
 			categoryName = "Category Name",
@@ -198,7 +198,7 @@ definition {
 			vocabularyName = "Vocabulary Name");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddSubcategories {
 		JSONCategory.addCategory(
 			groupName = "Test Site Name",
@@ -255,7 +255,7 @@ definition {
 			vocabularyName = "Vocabulary Name");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddVocabularies {
 		JSONCategory.addVocabulary(
 			groupName = "Test Site Name",
@@ -278,7 +278,7 @@ definition {
 		Vocabulary.viewCP(vocabularyName = "Vocabulary Name 3");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddVocabularyAssetTypeAllAssetTypes {
 		Vocabulary.addWithAssociatedAssetTypeCP(
 			assetType = "All Asset Types",
@@ -289,7 +289,7 @@ definition {
 			vocabularyName = "Vocabulary Name 1");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddVocabularyAssetTypeBlogsEntry {
 		Vocabulary.addWithAssociatedAssetTypeCP(
 			assetType = "Blogs Entry",
@@ -300,7 +300,7 @@ definition {
 			vocabularyName = "Vocabulary Name 1");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddVocabularyAssetTypeBookmarksEntry {
 		property portal.release = "false";
 
@@ -315,7 +315,7 @@ definition {
 			vocabularyName = "Vocabulary Name 1");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddVocabularyAssetTypeDocument {
 		Vocabulary.addWithAssociatedAssetTypeCP(
 			assetType = "Document",
@@ -326,7 +326,7 @@ definition {
 			vocabularyName = "Vocabulary Name 1");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddVocabularyAssetTypes {
 		Vocabulary.addWithAssociatedAssetTypeCP(
 			assetType = "Blogs Entry",
@@ -347,7 +347,7 @@ definition {
 			vocabularyName = "Vocabulary Name 2");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddVocabularyAssetTypeUser {
 		Vocabulary.addWithAssociatedAssetTypeCP(
 			assetType = "User",
@@ -358,7 +358,7 @@ definition {
 			vocabularyName = "Vocabulary Name 1");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddVocabularyAssetTypeWebContent {
 		Vocabulary.addWithAssociatedAssetTypeCP(
 			assetType = "Web Content Article",
@@ -369,7 +369,7 @@ definition {
 			vocabularyName = "Vocabulary Name 1");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddVocabularyAssetTypeWikiPage {
 		Vocabulary.addWithAssociatedAssetTypeCP(
 			assetType = "Wiki Page",
@@ -380,7 +380,7 @@ definition {
 			vocabularyName = "Vocabulary Name 1");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddVocabularyDisallowMultipleCategories {
 		Vocabulary.addCP(
 			allowMultipleCategories = "false",
@@ -393,7 +393,7 @@ definition {
 			vocabularyName = "Vocabulary Name 2");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddVocabularyViewableByGuest {
 		Vocabulary.addViewableByCP(
 			viewableBy = "Anyone (Guest Role)",
@@ -406,7 +406,7 @@ definition {
 			vocabularyName = "Vocabulary Name 1");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddVocabularyViewableByOwner {
 		Vocabulary.addViewableByCP(
 			viewableBy = "Owner",
@@ -419,7 +419,7 @@ definition {
 			vocabularyName = "Vocabulary Name 1");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddVocabularyViewableBySiteMembers {
 		Vocabulary.addViewableByCP(
 			viewableBy = "Site Members",
@@ -432,17 +432,17 @@ definition {
 			vocabularyName = "Vocabulary Name 1");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test CannotAddCategoryWithNullTitle {
 		Category.addWithNullTitleCP(vocabularyName = "Vocabulary Name");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test CannotAddVocabularyWithNullTitle {
 		Vocabulary.addVocabularyWithNullTitle();
 	}
 
-	@priority = "3"
+	@priority = 3
 	test DeleteAssociatedAssetTypeViaVocabulary {
 		LexiconEntry.gotoAdd();
 
@@ -457,7 +457,7 @@ definition {
 		Vocabulary.addAssociatedAssetType(
 			assetType = "Web Content Article",
 			required = "true",
-			rowNumber = "2");
+			rowNumber = 2);
 
 		Button.clickSave();
 
@@ -470,7 +470,7 @@ definition {
 			vocabularyName = "Vocabulary Name 1");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DeleteCategories {
 		JSONCategory.addCategory(
 			groupName = "Test Site Name",
@@ -492,7 +492,7 @@ definition {
 		Category.deleteCategoriesCP(vocabularyName = "Vocabulary Name");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test DeleteCategory {
 		JSONCategory.addCategory(
 			groupName = "Test Site Name",
@@ -506,7 +506,7 @@ definition {
 			vocabularyName = "Vocabulary Name");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DeleteCategoryByMenu {
 		JSONCategory.addCategory(
 			groupName = "Test Site Name",
@@ -520,7 +520,7 @@ definition {
 			vocabularyName = "Vocabulary Name");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test DeleteCategoryProperty2 {
 		JSONCategory.addCategory(
 			groupName = "Test Site Name",
@@ -537,7 +537,7 @@ definition {
 			categoryName = "Category Name 1",
 			propertiesKeyField = "Category Property",
 			propertiesValueField = "Category Property",
-			propertyNumber = "2");
+			propertyNumber = 2);
 
 		Category.openCategoriesAdmin(siteURLKey = "test-site-name");
 
@@ -551,17 +551,17 @@ definition {
 			categoryName = "Category Name 1",
 			propertiesKeyField = "Category Property",
 			propertiesValueField = "Category Property",
-			propertyNumber = "1",
+			propertyNumber = 1,
 			vocabularyName = "Vocabulary Name");
 
-		var key_pathNumber = "1";
+		var key_pathNumber = 1;
 
 		AssertElementNotPresent(locator1 = "Categories#CATEGORY_DETAILS_PROPERTY_KEY_2");
 
 		AssertElementNotPresent(locator1 = "Categories#CATEGORY_DETAILS_PROPERTY_VALUE_2");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test DeleteSubcategoryViaIcon {
 		JSONCategory.addCategory(
 			groupName = "Test Site Name",
@@ -582,7 +582,7 @@ definition {
 			vocabularyName = "Vocabulary Name");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test DeleteSubcategoryViaMenu {
 		JSONCategory.addCategory(
 			groupName = "Test Site Name",
@@ -603,19 +603,19 @@ definition {
 			vocabularyName = "Vocabulary Name");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test DeleteVocabulary {
 		property portal.acceptance = "true";
 
 		Vocabulary.deleteByIconCP(vocabularyName = "Vocabulary Name");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DeleteVocabularyByMenu {
 		Vocabulary.deleteByMenuCP(vocabularyName = "Vocabulary Name");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test EditCategory {
 		property portal.acceptance = "true";
 
@@ -631,7 +631,7 @@ definition {
 			vocabularyName = "Vocabulary Name");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test EditCategoryProperty {
 		JSONCategory.addCategory(
 			groupName = "Test Site Name",
@@ -648,7 +648,7 @@ definition {
 			categoryName = "Category Name 1",
 			propertiesKeyField = "Category Key",
 			propertiesValueField = "Category Value",
-			propertyNumber = "1");
+			propertyNumber = 1);
 
 		Category.openCategoriesAdmin(siteURLKey = "test-site-name");
 
@@ -656,7 +656,7 @@ definition {
 			categoryName = "Category Name 1",
 			propertiesKeyField = "Category Key",
 			propertiesValueField = "Category Value",
-			propertyNumber = "1",
+			propertyNumber = 1,
 			vocabularyName = "Vocabulary Name");
 
 		Category.openCategoriesAdmin(siteURLKey = "test-site-name");
@@ -680,11 +680,11 @@ definition {
 			categoryName = "Category Name Edit",
 			propertiesKeyField = "Category Key Edit",
 			propertiesValueField = "Category Value Edit",
-			propertyNumber = "1",
+			propertyNumber = 1,
 			vocabularyName = "Vocabulary Name");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test EditSubcategory {
 		property portal.acceptance = "true";
 		property testray.component.names = "Training";
@@ -709,7 +709,7 @@ definition {
 			vocabularyName = "Vocabulary Name");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test EditVocabulary {
 		property portal.acceptance = "true";
 
@@ -718,7 +718,7 @@ definition {
 			vocabularyNameEdit = "Vocabulary Name Edit");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test MoveCategoryViaEdit {
 		JSONCategory.addVocabulary(
 			groupName = "Test Site Name",
@@ -743,7 +743,7 @@ definition {
 			vocabularyName = "Vocabulary Name 2");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test ValidateClickingCloseButtonDoesNotSaveVocabulary {
 		LexiconEntry.gotoAdd();
 

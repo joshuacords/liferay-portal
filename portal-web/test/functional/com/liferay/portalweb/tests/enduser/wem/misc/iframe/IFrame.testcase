@@ -26,12 +26,12 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 	}
 
-	@priority = "3"
+	@priority = 3
 	test ViewIFramePortlet {
 		Navigator.gotoPage(pageName = "IFrame Page");
 

@@ -5,11 +5,11 @@ definition {
 
 		if (isSet(text)) {
 			AssertTextEquals(
-				locator1 = "${fragmentLocator}",
-				value1 = "${text}");
+				locator1 = ${fragmentLocator},
+				value1 = ${text});
 		}
 		else {
-			AssertElementPresent(locator1 = "${fragmentLocator}");
+			AssertElementPresent(locator1 = ${fragmentLocator});
 		}
 
 		SelectFrame.selectFrameTop();
@@ -21,15 +21,15 @@ definition {
 
 		Type.typeAceEditorNoError(
 			locator1 = "FragmentEditor#HTML_EDITOR",
-			value1 = "${htmlSnippet}");
+			value1 = ${htmlSnippet});
 
 		Click(
-			autocompleteField = "${autocompleteField}",
+			autocompleteField = ${autocompleteField},
 			locator1 = "FragmentEditor#AUTOCOMPLETE_FIELD");
 
 		AssertTextEquals.assertPartialText(
 			locator1 = "FragmentEditor#HTML_EDITOR_CONTENT",
-			value1 = "${fragmentHTML}");
+			value1 = ${fragmentHTML});
 	}
 
 	macro gotoCodeTab {
@@ -47,55 +47,55 @@ definition {
 	macro typeConfigurationEditor {
 		Type.typeAceEditorNoError(
 			locator1 = "FragmentEditor#CONFIGURATION_EDITOR",
-			value1 = "${content}");
+			value1 = ${content});
 	}
 
 	macro typeCssEditor {
 		Type.typeAceEditorNoError(
 			locator1 = "FragmentEditor#CSS_EDITOR",
-			value1 = "${content}");
+			value1 = ${content});
 	}
 
 	macro typeFileContent {
-		var content = TestCase.getFileContent(fileName = "${fileName}");
-		var fileExtension = File.getFileExtension(fileName = "${fileName}");
+		var content = TestCase.getFileContent(fileName = ${fileName});
+		var fileExtension = File.getFileExtension(fileName = ${fileName});
 		var browserType = PropsUtil.get("browser.type");
 
-		if ("${browserType}" == "internetexplorer") {
-			if ("${fileExtension}" == "html") {
+		if (${browserType} == "internetexplorer") {
+			if (${fileExtension} == "html") {
 				Type.typeAceEditorNoError(
-					key_editorNumber = "1",
+					key_editorNumber = 1,
 					locator1 = "FragmentEditor#FRAGMENTS_EDITOR_IE",
-					value1 = "${content}");
+					value1 = ${content});
 			}
-			else if ("${fileExtension}" == "css") {
+			else if (${fileExtension} == "css") {
 				Type.typeAceEditorNoError(
-					key_editorNumber = "2",
+					key_editorNumber = 2,
 					locator1 = "FragmentEditor#FRAGMENTS_EDITOR_IE",
-					value1 = "${content}");
+					value1 = ${content});
 			}
-			else if ("${fileExtension}" == "js") {
+			else if (${fileExtension} == "js") {
 				Type.typeAceEditorNoError(
-					key_editorNumber = "3",
+					key_editorNumber = 3,
 					locator1 = "FragmentEditor#FRAGMENTS_EDITOR_IE",
-					value1 = "${content}");
+					value1 = ${content});
 			}
 			else {
 				fail("Invalid file extension. Expected: html, css, js, or json. Got ${fileExtension}");
 			}
 		}
 		else {
-			if ("${fileExtension}" == "html") {
-				FragmentsEditor.typeHtmlEditor(content = "${content}");
+			if (${fileExtension} == "html") {
+				FragmentsEditor.typeHtmlEditor(content = ${content});
 			}
-			else if ("${fileExtension}" == "css") {
-				FragmentsEditor.typeCssEditor(content = "${content}");
+			else if (${fileExtension} == "css") {
+				FragmentsEditor.typeCssEditor(content = ${content});
 			}
-			else if ("${fileExtension}" == "js") {
-				FragmentsEditor.typeJsEditor(content = "${content}");
+			else if (${fileExtension} == "js") {
+				FragmentsEditor.typeJsEditor(content = ${content});
 			}
-			else if ("${fileExtension}" == "json") {
-				FragmentsEditor.typeConfigurationEditor(content = "${content}");
+			else if (${fileExtension} == "json") {
+				FragmentsEditor.typeConfigurationEditor(content = ${content});
 			}
 			else {
 				fail("Invalid file extension. Expected: html, css, js, or json. Got ${fileExtension}");
@@ -106,13 +106,13 @@ definition {
 	macro typeHtmlEditor {
 		Type.typeAceEditorNoError(
 			locator1 = "FragmentEditor#HTML_EDITOR",
-			value1 = "${content}");
+			value1 = ${content});
 	}
 
 	macro typeJsEditor {
 		Type.typeAceEditorNoError(
 			locator1 = "FragmentEditor#JS_EDITOR",
-			value1 = "${content}");
+			value1 = ${content});
 	}
 
 }

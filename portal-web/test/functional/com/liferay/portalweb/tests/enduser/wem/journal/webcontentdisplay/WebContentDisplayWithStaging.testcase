@@ -19,7 +19,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -27,7 +27,7 @@ definition {
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test StagingPublishExpiredWebContentViaWCD {
 		property testray.component.names = "Staging,Web Content Administration";
 
@@ -96,7 +96,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-77769."
-	@priority = "5"
+	@priority = 5
 	test StagingPublishWCWithImageFieldEdit {
 		JSONLayout.addPublicLayout(
 			groupName = "Test Site Name",
@@ -221,7 +221,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-101289."
-	@priority = "4"
+	@priority = 4
 	test ViewCommentAfterEditingViaStage {
 		JSONGroup.addGroup(groupName = "Site Name");
 
@@ -333,7 +333,7 @@ definition {
 			siteName = "Site Name");
 
 		Comments.viewPG(
-			commentCount = "1",
+			commentCount = 1,
 			entryComment = "WC WebContent Content Comment",
 			userFullName = "Test Test (You)");
 	}

@@ -6,13 +6,13 @@ definition {
 		PageEditor.expandFragmentCollection(collectionName = "Basic Components");
 
 		DragAndDrop(
-			fragmentName = "${fragmentName}",
+			fragmentName = ${fragmentName},
 			locator1 = "PageEditor#SECTION_BUILDER_BASIC_COMPONENTS_FRAGMENT",
 			locator2 = "PageEditor#FRAGMENT_DROP_TARGET",
 			value1 = "");
 
 		AssertElementPresent(
-			key_fragmentName = "${fragmentName}",
+			key_fragmentName = ${fragmentName},
 			locator1 = "Fragment#FRAGMENT_HEADER");
 
 		PageEditor.waitForAutoSave();
@@ -22,56 +22,56 @@ definition {
 		PageEditor.gotoTab(tabName = "Comments");
 
 		Click(
-			key_content = "${content}",
-			key_fragmentClass = "${fragmentClass}",
-			key_position = "${position}",
+			key_content = ${content},
+			key_fragmentClass = ${fragmentClass},
+			key_position = ${position},
 			locator1 = "Fragment#FRAGMENT");
 
 		AssertElementPresent(
-			key_fragmentName = "${fragmentName}",
+			key_fragmentName = ${fragmentName},
 			locator1 = "PageEditor#FRAGMENT_SIDEBAR_COMMENT_SECTION_NAME");
 
 		Click.clickAt(locator1 = "PageEditor#FRAGMENT_SIDEBAR_COMMENTS");
 
 		Type(
 			locator1 = "PageEditor#FRAGMENT_SIDEBAR_COMMENTS",
-			value1 = "${fragmentComment}");
+			value1 = ${fragmentComment});
 
 		Button.clickComment();
 
 		AssertElementNotPresent(
-			key_fragmentComment = "${fragmentComment}",
+			key_fragmentComment = ${fragmentComment},
 			locator1 = "PageEditor#FRAGMENT_SIDEBAR_COMMENT_ENTRY_INPUT");
 	}
 
 	macro addCommentViaFragment {
 		PageEditor.gotoCommentViaFragment(
-			key_content = "${content}",
-			key_fragmentClass = "${fragmentClass}",
-			key_position = "${position}");
+			key_content = ${content},
+			key_fragmentClass = ${fragmentClass},
+			key_position = ${position});
 
 		AssertElementPresent(
-			key_fragmentName = "${fragmentName}",
+			key_fragmentName = ${fragmentName},
 			locator1 = "PageEditor#FRAGMENT_SIDEBAR_COMMENT_SECTION_NAME");
 
 		Click.clickAt(locator1 = "PageEditor#FRAGMENT_SIDEBAR_COMMENTS");
 
 		Type(
 			locator1 = "PageEditor#FRAGMENT_SIDEBAR_COMMENTS",
-			value1 = "${fragmentComment}");
+			value1 = ${fragmentComment});
 
 		Button.clickComment();
 
 		AssertElementNotPresent(
-			key_fragmentComment = "${fragmentComment}",
+			key_fragmentComment = ${fragmentComment},
 			locator1 = "PageEditor#FRAGMENT_SIDEBAR_COMMENT_ENTRY_INPUT");
 	}
 
 	macro addEntryWithLink {
 		PageEditor.gotoEditableFieldEdit(
-			contributed = "${contributed}",
-			fragmentName = "${fragmentName}",
-			id = "${id}");
+			contributed = ${contributed},
+			fragmentName = ${fragmentName},
+			id = ${id});
 
 		SelectFieldText(
 			key_editor = "content",
@@ -81,7 +81,7 @@ definition {
 
 		Type(
 			locator1 = "AlloyEditor#TEXT_FORMATTING_LINK_INPUT",
-			value1 = "${entryExternalURL}");
+			value1 = ${entryExternalURL});
 
 		Click(locator1 = "AlloyEditor#TEXT_FORMATTING_LINK_INPUT_CONFIRM");
 
@@ -91,8 +91,8 @@ definition {
 	}
 
 	macro addExperience {
-		var key_experienceName = "${experienceName}";
-		var key_segmentName = "${segmentName}";
+		var key_experienceName = ${experienceName};
+		var key_segmentName = ${segmentName};
 
 		AssertTextEquals(
 			locator1 = "PageEditor#EXPERIENCE_LABEL",
@@ -106,34 +106,34 @@ definition {
 
 		Type(
 			locator1 = "PageEditor#EXPERIENCE_NAME",
-			value1 = "${experienceName}");
+			value1 = ${experienceName});
 
 		Click(locator1 = "PageEditor#EXPERIENCE_SEGMENT_ANYONE");
 
 		Click.clickNoMouseOver(
-			key_segmentName = "${segmentName}",
+			key_segmentName = ${segmentName},
 			locator1 = "PageEditor#EXPERIENCE_SELECT_SEGMENT");
 
 		Button.clickSave();
 
 		AssertClick(
 			locator1 = "PageEditor#EXPERIENCE_BUTTON_NAME",
-			value1 = "${experienceName}");
+			value1 = ${experienceName});
 
 		AssertElementPresent(
-			key_experienceName = "${experienceName}",
+			key_experienceName = ${experienceName},
 			locator1 = "PageEditor#EXPERIENCE_SELECT_ITEM");
 	}
 
 	macro addFragment {
-		PageEditor.expandFragmentCollection(collectionName = "${collectionName}");
+		PageEditor.expandFragmentCollection(collectionName = ${collectionName});
 
 		Click.clickNoMouseOverNoWaitForVisible(
-			key_fragmentName = "${fragmentName}",
+			key_fragmentName = ${fragmentName},
 			locator1 = "PageEditor#FRAGMENT_SIDEBAR_ADD_FRAGMENT_BUTTON");
 
 		AssertElementPresent(
-			key_fragmentName = "${fragmentName}",
+			key_fragmentName = ${fragmentName},
 			locator1 = "Fragment#FRAGMENT_HEADER");
 
 		PageEditor.waitForAutoSave();
@@ -150,14 +150,14 @@ definition {
 			value1 = "");
 
 		AssertVisible(
-			key_position = "1",
+			key_position = 1,
 			locator1 = "PageEditor#SECTION");
 	}
 
 	macro addVideoFragmentURL {
 		FormFields.editText(
 			fieldName = "url",
-			fieldValue = "${videoLink}");
+			fieldValue = ${videoLink});
 
 		Click(locator1 = "//input[@type='text' and contains(@id,'width')]");
 
@@ -169,19 +169,19 @@ definition {
 
 		Type.sendKeysApplicationSearch(
 			locator1 = "PageEditor#WIDGETS_APPLICATION_SEARCH_FIELD",
-			value1 = "${portletName}");
+			value1 = ${portletName});
 
-		var key_portletName = "${portletName}";
+		var key_portletName = ${portletName};
 
 		DragAndDrop(
 			locator1 = "PageEditor#WIDGETS_ADD_PORTLET_DRAG_LINK",
 			locator2 = "PageEditor#FRAGMENT_DROP_TARGET",
-			value1 = "${portletName}");
+			value1 = ${portletName});
 
 		PageEditor.waitForAutoSave();
 
 		AssertElementPresent(
-			key_fragmentName = "${portletName}",
+			key_fragmentName = ${portletName},
 			locator1 = "Fragment#FRAGMENT_HEADER");
 
 		PageEditor.closeSidebar(tabName = "Widgets");
@@ -194,20 +194,20 @@ definition {
 
 		Type.sendKeysApplicationSearch(
 			locator1 = "PageEditor#WIDGETS_APPLICATION_SEARCH_FIELD",
-			value1 = "${portletName}");
+			value1 = ${portletName});
 
-		var key_portletCategory = "${portletCategory}";
-		var key_portletName = "${portletName}";
+		var key_portletCategory = ${portletCategory};
+		var key_portletName = ${portletName};
 
 		DragAndDrop(
 			locator1 = "PageEditor#WIDGETS_ADD_PORTLET_DRAG_LINK_SPECIFIC",
 			locator2 = "PageEditor#FRAGMENT_DROP_TARGET",
-			value1 = "${portletName}");
+			value1 = ${portletName});
 
 		PageEditor.waitForAutoSave();
 
 		AssertElementPresent(
-			key_fragmentName = "${portletName}",
+			key_fragmentName = ${portletName},
 			locator1 = "Fragment#FRAGMENT_HEADER");
 
 		PageEditor.closeSidebar(tabName = "Widgets");
@@ -218,7 +218,7 @@ definition {
 	}
 
 	macro changeExperience {
-		var key_experienceName = "${newExperience}";
+		var key_experienceName = ${newExperience};
 
 		Click(locator1 = "PageEditor#EXPERIENCE_LABEL");
 
@@ -235,7 +235,7 @@ definition {
 
 	macro clickConfigurableField {
 		Click(
-			key_fragmentName = "${fragmentName}",
+			key_fragmentName = ${fragmentName},
 			locator1 = "Fragment#CONFIGURABLE_FIELD");
 	}
 
@@ -247,20 +247,20 @@ definition {
 
 	macro clickEditableField {
 		Click(
-			key_fragmentName = "${fragmentName}",
+			key_fragmentName = ${fragmentName},
 			locator1 = "Fragment#FRAGMENT_BODY");
 
 		Click(
-			key_fragmentName = "${fragmentName}",
-			key_id = "${id}",
+			key_fragmentName = ${fragmentName},
+			key_id = ${id},
 			locator1 = "Fragment#EDITABLE_FIELD");
 	}
 
 	macro clickFragmentTopper {
-		PageEditor.clickConfigurableField(fragmentName = "${fragmentName}");
+		PageEditor.clickConfigurableField(fragmentName = ${fragmentName});
 
 		Click(
-			key_fragmentName = "${fragmentName}",
+			key_fragmentName = ${fragmentName},
 			locator1 = "Fragment#FRAGMENT_TOPPER");
 	}
 
@@ -270,7 +270,7 @@ definition {
 
 	macro closeSidebar {
 		Click(
-			key_tabName = "${tabName}",
+			key_tabName = ${tabName},
 			locator1 = "PageEditor#FRAGMENT_SIDEBAR_TAB_BUTTON");
 
 		AssertElementPresent(locator1 = "PageEditor#FRAGMENT_SIDEBAR_COLLAPSED");
@@ -281,12 +281,12 @@ definition {
 			Select(
 				key_fieldLabel = "Align",
 				locator1 = "Select#GENERIC_SELECT_FIELD",
-				value1 = "${alignment}");
+				value1 = ${alignment});
 		}
 
 		if (isSet(borderColor)) {
 			Click(
-				key_paletteItem = "${borderColor}",
+				key_paletteItem = ${borderColor},
 				locator1 = "Button#PALETTE_ITEM");
 		}
 
@@ -294,54 +294,54 @@ definition {
 			Select(
 				key_fieldLabel = "Border Radius",
 				locator1 = "Select#GENERIC_SELECT_FIELD",
-				value1 = "${borderRadius}");
+				value1 = ${borderRadius});
 		}
 
 		if (isSet(bottomSpacing)) {
 			Select(
 				key_fieldLabel = "Bottom Spacing",
 				locator1 = "Select#GENERIC_SELECT_FIELD",
-				value1 = "${bottomSpacing}");
+				value1 = ${bottomSpacing});
 		}
 
 		if (isSet(boxShadow)) {
 			Select(
 				key_fieldLabel = "Box Shadow",
 				locator1 = "Select#GENERIC_SELECT_FIELD",
-				value1 = "${boxShadow}");
+				value1 = ${boxShadow});
 		}
 
 		if (isSet(headingLevel)) {
 			Select(
 				key_fieldLabel = "Heading Level",
 				locator1 = "Select#GENERIC_SELECT_FIELD",
-				value1 = "${headingLevel}");
+				value1 = ${headingLevel});
 		}
 
 		if (isSet(height)) {
 			Select(
 				key_fieldLabel = "Height",
 				locator1 = "Select#GENERIC_SELECT_FIELD",
-				value1 = "${height}");
+				value1 = ${height});
 		}
 
 		if (isSet(imageSize)) {
 			Select(
 				key_fieldLabel = "Image Size",
 				locator1 = "Select#GENERIC_SELECT_FIELD",
-				value1 = "${imageSize}");
+				value1 = ${imageSize});
 		}
 
 		if (isSet(size)) {
 			Select(
 				key_fieldLabel = "Size",
 				locator1 = "Select#GENERIC_SELECT_FIELD",
-				value1 = "${size}");
+				value1 = ${size});
 		}
 
 		if (isSet(textColor)) {
 			Click(
-				key_paletteItem = "${textColor}",
+				key_paletteItem = ${textColor},
 				locator1 = "Button#PALETTE_ITEM");
 		}
 
@@ -349,21 +349,21 @@ definition {
 			Select(
 				key_fieldLabel = "Text Align",
 				locator1 = "Select#GENERIC_SELECT_FIELD",
-				value1 = "${textAlign}");
+				value1 = ${textAlign});
 		}
 
 		if (isSet(type)) {
 			Select(
 				key_fieldLabel = "Type",
 				locator1 = "Select#GENERIC_SELECT_FIELD",
-				value1 = "${type}");
+				value1 = ${type});
 		}
 
 		if (isSet(verticalSpace)) {
 			Select(
 				key_fieldLabel = "Vertical Space",
 				locator1 = "Select#GENERIC_SELECT_FIELD",
-				value1 = "${verticalSpace}");
+				value1 = ${verticalSpace});
 		}
 
 		PageEditor.waitForAutoSave();
@@ -393,11 +393,11 @@ definition {
 			Click(locator1 = "Button#DELETE_FRAGMENT_COMMENT");
 		}
 
-		AssertTextNotPresent(value1 = "${fragmentComment}");
+		AssertTextNotPresent(value1 = ${fragmentComment});
 	}
 
 	macro deleteExperience {
-		var key_experienceName = "${newExperience}";
+		var key_experienceName = ${newExperience};
 
 		Click(locator1 = "PageEditor#EXPERIENCE_DEFAULT_BUTTON_NAME");
 
@@ -410,14 +410,14 @@ definition {
 		Click(locator1 = "PageEditor#EXPERIENCE_DEFAULT_BUTTON_NAME");
 
 		AssertElementNotPresent(
-			key_experienceName = "${newExperience}",
+			key_experienceName = ${newExperience},
 			locator1 = "PageEditor#EXPERIENCE_SELECT_ITEM");
 
 		Click(locator1 = "PageEditor#EXPERIENCE_DEFAULT_BUTTON_NAME");
 	}
 
 	macro duplicateExperience {
-		var key_experienceName = "${experienceName}";
+		var key_experienceName = ${experienceName};
 
 		AssertTextEquals(
 			locator1 = "PageEditor#EXPERIENCE_LABEL",
@@ -425,7 +425,7 @@ definition {
 
 		AssertClick(
 			locator1 = "PageEditor#EXPERIENCE_BUTTON_NAME",
-			value1 = "${experienceName}");
+			value1 = ${experienceName});
 
 		Click(locator1 = "PageEditor#EXPERIENCE_DUPLICATE_BUTTON");
 
@@ -445,13 +445,13 @@ definition {
 
 		Type(
 			locator1 = "PageEditor#FRAGMENT_SIDEBAR_COMMENTS_EDITOR",
-			value1 = "${fragmentCommentEdit}");
+			value1 = ${fragmentCommentEdit});
 
 		Click(locator1 = "Button#UPDATE");
 	}
 
 	macro editExperience {
-		var key_experienceName = "${newExperience}";
+		var key_experienceName = ${newExperience};
 
 		Click(locator1 = "PageEditor#EXPERIENCE_DEFAULT_BUTTON_NAME");
 
@@ -471,14 +471,14 @@ definition {
 
 		Type(
 			locator1 = "PageEditor#EXPERIENCE_NAME",
-			value1 = "${key_experienceName}");
+			value1 = ${key_experienceName});
 
 		Click(locator1 = "Button#SAVE");
 
 		Click(locator1 = "PageEditor#EXPERIENCE_DEFAULT_BUTTON_NAME");
 
 		AssertElementPresent(
-			key_experienceName = "${newExperience}",
+			key_experienceName = ${newExperience},
 			locator1 = "PageEditor#EXPERIENCE_SELECT_ITEM");
 
 		Click(locator1 = "PageEditor#EXPERIENCE_DEFAULT_BUTTON_NAME");
@@ -486,14 +486,14 @@ definition {
 
 	macro editFragmentHTML {
 		PageEditor.gotoEditableFieldEdit(
-			fragmentName = "${fragmentName}",
-			id = "${editableId}");
+			fragmentName = ${fragmentName},
+			id = ${editableId});
 
-		var content = TestCase.getFileContent(fileName = "${fileName}");
+		var content = TestCase.getFileContent(fileName = ${fileName});
 
 		Type.typeAceEditorNoError(
 			locator1 = "Fragment#EDITABLE_HTML_FRAGMENT_FIELD",
-			value1 = "${content}");
+			value1 = ${content});
 
 		Click(locator1 = "Button#SAVE");
 
@@ -502,8 +502,8 @@ definition {
 
 	macro editFragmentImage {
 		PageEditor.gotoEditableFieldImageProperties(
-			fragmentName = "${fragmentName}",
-			id = "${id}");
+			fragmentName = ${fragmentName},
+			id = ${id});
 
 		Button.clickSelect();
 
@@ -513,9 +513,9 @@ definition {
 
 		UploadCommonFile.uploadCommonFileHiddenNoMouseOver(
 			locator1 = "TextInput#FILE",
-			value1 = "${fileName}");
+			value1 = ${fileName});
 
-		Pause(locator1 = "3000");
+		Pause(locator1 = 3000);
 
 		SelectFrameTop();
 
@@ -526,15 +526,15 @@ definition {
 
 	macro editFragmentText {
 		PageEditor.gotoEditableFieldEdit(
-			fragmentName = "${fragmentName}",
-			id = "${id}");
+			fragmentName = ${fragmentName},
+			id = ${id});
 
 		if (isSet(text)) {
 			Type(
-				key_fragmentName = "${fragmentName}",
-				key_id = "${id}",
+				key_fragmentName = ${fragmentName},
+				key_id = ${id},
 				locator1 = "Fragment#EDITABLE_FIELD_CK_EDITOR",
-				value1 = "${text}");
+				value1 = ${text});
 		}
 
 		if (isSet(style)) {
@@ -545,7 +545,7 @@ definition {
 			Click(locator1 = "AlloyEditor#TEXT_FORMATTING_STYLE");
 
 			Click(
-				key_styleFormat = "${style}",
+				key_styleFormat = ${style},
 				locator1 = "AlloyEditor#TEXT_FORMATTING_STYLE_DROPDOWN");
 		}
 
@@ -554,7 +554,7 @@ definition {
 
 	macro editLayoutSectionImage {
 		Click(
-			key_position = "1",
+			key_position = 1,
 			locator1 = "PageEditor#SECTION");
 
 		Click(locator1 = "PageEditor#EDITABLE_FIELD_TOOLBAR_LAYOUT_BACKGROUND_IMAGE_BUTTON");
@@ -566,16 +566,16 @@ definition {
 		Click(locator1 = "PageEditor#EDITABLE_FIELD_TOOLBAR_MAP_DROPDOWN");
 
 		Click(
-			key_assetField = "${assetField}",
+			key_assetField = ${assetField},
 			locator1 = "PageEditor#EDITABLE_FIELD_TOOLBAR_MAP_DROPDOWN_ASSET");
 
 		if (isSet(webContentTitle)) {
 			SelectFrame(locator1 = "IFrame#DIALOG");
 
 			AssertClick(
-				key_webContentTitle = "${webContentTitle}",
+				key_webContentTitle = ${webContentTitle},
 				locator1 = "Link#WEB_CONTENT_ARTICLE",
-				value1 = "${webContentTitle}");
+				value1 = ${webContentTitle});
 		}
 
 		Select(
@@ -589,7 +589,7 @@ definition {
 
 	macro editLayoutSectionSpacing {
 		Click(
-			key_position = "1",
+			key_position = 1,
 			locator1 = "PageEditor#SECTION");
 
 		Click(
@@ -600,37 +600,37 @@ definition {
 			Select(
 				key_fieldLabel = "Number of Columns",
 				locator1 = "Select#GENERIC_SELECT_FIELD",
-				value1 = "${numberOfColumns}");
+				value1 = ${numberOfColumns});
 		}
 
 		if (isSet(container)) {
 			Select(
 				key_fieldLabel = "Container",
 				locator1 = "Select#GENERIC_SELECT_FIELD",
-				value1 = "${container}");
+				value1 = ${container});
 		}
 
 		if (isSet(paddingV)) {
 			Select(
 				key_fieldLabel = "Padding V",
 				locator1 = "Select#GENERIC_SELECT_FIELD",
-				value1 = "${paddingV}");
+				value1 = ${paddingV});
 		}
 
 		if (isSet(paddingH)) {
 			Select(
 				key_fieldLabel = "Padding H",
 				locator1 = "Select#GENERIC_SELECT_FIELD",
-				value1 = "${paddingH}");
+				value1 = ${paddingH});
 		}
 
-		if ("${spaceBetweenColumns}" == "true") {
+		if (${spaceBetweenColumns} == "true") {
 			Check.checkToggleSwitch(
 				checkboxName = "Space Between Columns",
 				locator1 = "Checkbox#ANY_CHECKBOX");
 		}
 
-		if ("${spaceBetweenColumns}" == "false") {
+		if (${spaceBetweenColumns} == "false") {
 			Uncheck.uncheckToggleSwitch(
 				checkboxName = "Space Between Columns",
 				locator1 = "Checkbox#ANY_CHECKBOX");
@@ -641,18 +641,18 @@ definition {
 
 	macro expandFragmentCollection {
 		AssertVisible(
-			key_collectionName = "${collectionName}",
+			key_collectionName = ${collectionName},
 			locator1 = "PageEditor#FRAGMENT_SIDEBAR_COLLECTION_PANEL");
 
-		if (IsElementPresent(key_collectionName = "${collectionName}", locator1 = "PageEditor#FRAGMENT_SIDEBAR_COLLECTION_PANEL_COLLAPSED")) {
+		if (IsElementPresent(key_collectionName = ${collectionName}, locator1 = "PageEditor#FRAGMENT_SIDEBAR_COLLECTION_PANEL_COLLAPSED")) {
 			AssertClick(
-				key_collectionName = "${collectionName}",
+				key_collectionName = ${collectionName},
 				locator1 = "PageEditor#FRAGMENT_SIDEBAR_COLLECTION_PANEL_COLLAPSED",
-				value1 = "${collectionName}");
+				value1 = ${collectionName});
 		}
 
 		AssertElementPresent(
-			key_collectionName = "${collectionName}",
+			key_collectionName = ${collectionName},
 			locator1 = "PageEditor#FRAGMENT_SIDEBAR_COLLECTION_PANEL_EXPANDED");
 	}
 
@@ -668,31 +668,31 @@ definition {
 		PageEditor.gotoTab(tabName = "Comments");
 
 		Click(
-			key_content = "${content}",
-			key_fragmentClass = "${fragmentClass}",
-			key_position = "${position}",
+			key_content = ${content},
+			key_fragmentClass = ${fragmentClass},
+			key_position = ${position},
 			locator1 = "Fragment#FRAGMENT");
 	}
 
 	macro gotoConfiguration {
-		PageEditor.clickConfigurableField(fragmentName = "${fragmentName}");
+		PageEditor.clickConfigurableField(fragmentName = ${fragmentName});
 
 		PageEditor.gotoTab(tabName = "Page Structure");
 
 		Click(
-			key_text = "${fragmentName}",
+			key_text = ${fragmentName},
 			locator1 = "Button#ANY");
 
 		Click(locator1 = "PageEditor#EDITABLE_FIELD_TOOLBAR_CONFIGURATION_BUTTON");
 	}
 
 	macro gotoDuplicate {
-		PageEditor.clickConfigurableField(fragmentName = "${fragmentName}");
+		PageEditor.clickConfigurableField(fragmentName = ${fragmentName});
 
 		PageEditor.gotoTab(tabName = "Page Structure");
 
 		Click(
-			key_text = "${fragmentName}",
+			key_text = ${fragmentName},
 			locator1 = "Button#ANY");
 
 		Click(locator1 = "PageEditor#EDITABLE_FIELD_TOOLBAR_DUPLICATE_BUTTON");
@@ -700,24 +700,24 @@ definition {
 
 	macro gotoEditableFieldEdit {
 		PageEditor.clickEditableField(
-			fragmentName = "${fragmentName}",
-			id = "${id}");
+			fragmentName = ${fragmentName},
+			id = ${id});
 
 		Click(locator1 = "PageEditor#EDITABLE_FIELD_TOOLBAR_EDIT_BUTTON");
 	}
 
 	macro gotoEditableFieldImageProperties {
 		PageEditor.clickEditableField(
-			fragmentName = "${fragmentName}",
-			id = "${id}");
+			fragmentName = ${fragmentName},
+			id = ${id});
 
 		Click(locator1 = "PageEditor#EDITABLE_FIELD_TOOLBAR_IMAGE_PROPERTIES_BUTTON");
 	}
 
 	macro gotoTab {
-		if (IsElementNotPresent(key_tabName = "${tabName}", locator1 = "PageEditor#FRAGMENT_SIDEBAR_TAB_BUTTON_ACTIVE")) {
+		if (IsElementNotPresent(key_tabName = ${tabName}, locator1 = "PageEditor#FRAGMENT_SIDEBAR_TAB_BUTTON_ACTIVE")) {
 			Click(
-				key_tabName = "${tabName}",
+				key_tabName = ${tabName},
 				locator1 = "PageEditor#FRAGMENT_SIDEBAR_TAB_BUTTON");
 		}
 	}
@@ -728,15 +728,15 @@ definition {
 
 	macro removeFragment {
 		MouseOver.mouseOverNotVisible(
-			key_fragmentName = "${fragmentName}",
+			key_fragmentName = ${fragmentName},
 			locator1 = "Fragment#FRAGMENT_HEADER");
 
 		Click(
-			key_fragmentName = "${fragmentName}",
+			key_fragmentName = ${fragmentName},
 			locator1 = "Fragment#FRAGMENT_HEADER_DELETE_BUTTON");
 
 		AssertElementNotPresent(
-			key_fragmentName = "${fragmentName}",
+			key_fragmentName = ${fragmentName},
 			locator1 = "Fragment#FRAGMENT_HEADER");
 
 		PageEditor.waitForAutoSave();
@@ -744,15 +744,15 @@ definition {
 
 	macro removeFragmentWithContentPageCommentEnable {
 		MouseOver.mouseOverNotVisible(
-			key_fragmentName = "${fragmentName}",
+			key_fragmentName = ${fragmentName},
 			locator1 = "Fragment#FRAGMENT_HEADER");
 
 		Click(
-			key_fragmentName = "${fragmentName}",
+			key_fragmentName = ${fragmentName},
 			locator1 = "Fragment#FRAGMENT_HEADER_DELETE_BUTTON_WITH_CONTENT_PAGE_COMMENT_ENABLE");
 
 		AssertElementNotPresent(
-			key_fragmentName = "${fragmentName}",
+			key_fragmentName = ${fragmentName},
 			locator1 = "Fragment#FRAGMENT_HEADER");
 
 		PageEditor.waitForAutoSave();
@@ -760,11 +760,11 @@ definition {
 
 	macro removeSection {
 		MouseOver.mouseOverNotVisible(
-			key_position = "${position}",
+			key_position = ${position},
 			locator1 = "PageEditor#SECTION");
 
 		Click(
-			key_position = "${position}",
+			key_position = ${position},
 			locator1 = "PageEditor#SECTION_HEADER_DELETE_BUTTON");
 
 		PageEditor.waitForAutoSave();
@@ -778,14 +778,14 @@ definition {
 		Click(locator1 = "PageEditor#FRAGMENT_SIDEBAR_SHOW_RESOLVED_COMMENTS_LABEL");
 
 		AssertTextEquals(
-			key_fragmentComment = "${fragmentComment}",
+			key_fragmentComment = ${fragmentComment},
 			locator1 = "PageEditor#FRAGMENT_SIDEBAR_RESOLVED_COMMENTS_ENTRY",
-			value1 = "${fragmentComment}");
+			value1 = ${fragmentComment});
 
 		AssertTextEquals(
-			key_commentReply = "${commentReply}",
+			key_commentReply = ${commentReply},
 			locator1 = "PageEditor#FRAGMENT_SIDEBAR_REPLY_RESOLVED_COMMENTS_ENTRY",
-			value1 = "${commentReply}");
+			value1 = ${commentReply});
 
 		AssertElementPresent(locator1 = "Button#REPLY_DISABLED");
 
@@ -801,7 +801,7 @@ definition {
 
 		Type(
 			locator1 = "PageEditor#FRAGMENT_SIDEBAR_REPLY_COMMENTS_EDITOR",
-			value1 = "${commentReply}");
+			value1 = ${commentReply});
 
 		AssertClick(
 			locator1 = "Button#REPLY",
@@ -813,22 +813,22 @@ definition {
 
 		Click.clickNoMouseOver(locator1 = "Button#RESOLVE");
 
-		AssertTextNotPresent(value1 = "${fragmentComment}");
+		AssertTextNotPresent(value1 = ${fragmentComment});
 	}
 
 	macro selectColorSwatchItem {
 		Click(
-			inputFieldId = "${fieldLabel}",
+			inputFieldId = ${fieldLabel},
 			locator1 = "TextInput#INPUT_ID");
 
-		if ("${colorLeftLabel}" == "true") {
+		if (${colorLeftLabel} == "true") {
 			Click(
-				key_colorCode = "${colorSwatchItem}",
+				key_colorCode = ${colorSwatchItem},
 				locator1 = "DDMField#COLOR_PICKER_COLOR_Last");
 		}
 		else {
 			Click(
-				key_colorCode = "${colorSwatchItem}",
+				key_colorCode = ${colorSwatchItem},
 				locator1 = "DDMField#COLOR_PICKER_COLOR_1");
 		}
 	}
@@ -841,7 +841,7 @@ definition {
 
 	macro viewCollectionNotPresent {
 		AssertElementNotPresent(
-			key_collectionName = "${collectionName}",
+			key_collectionName = ${collectionName},
 			locator1 = "PageEditor#FRAGMENT_SIDEBAR_COLLECTION_PANEL");
 	}
 
@@ -849,15 +849,15 @@ definition {
 		if (isSet(fragmentComment)) {
 			if (isSet(fromNotifications)) {
 				AssertTextEquals(
-					key_fragmentComment = "${fragmentComment}",
+					key_fragmentComment = ${fragmentComment},
 					locator1 = "PageEditor#FRAGMENT_SIDEBAR_COMMENT_ENTRY_HIGHLIGHTED",
-					value1 = "${fragmentComment}");
+					value1 = ${fragmentComment});
 			}
 			else {
 				AssertTextEquals(
-					key_fragmentComment = "${fragmentComment}",
+					key_fragmentComment = ${fragmentComment},
 					locator1 = "PageEditor#FRAGMENT_SIDEBAR_COMMENT_ENTRY",
-					value1 = "${fragmentComment}");
+					value1 = ${fragmentComment});
 			}
 		}
 		else {
@@ -883,18 +883,18 @@ definition {
 
 	macro viewCommentList {
 		AssertTextEquals(
-			key_fragmentName = "${fragmentName}",
+			key_fragmentName = ${fragmentName},
 			locator1 = "PageEditor#FRAGMENT_SIDEBAR_COMMENT_LIST_HEADING",
-			value1 = "${fragmentName}");
+			value1 = ${fragmentName});
 
 		AssertTextEquals(
-			key_commentCount = "${commentCount}",
+			key_commentCount = ${commentCount},
 			locator1 = "PageEditor#FRAGMENT_SIDEBAR_COMMENT_LIST_SECONDARY_TEXT",
-			value1 = "${commentCount}");
+			value1 = ${commentCount});
 
 		if (isSet(openComment)) {
 			Click(
-				key_fragmentName = "${fragmentName}",
+				key_fragmentName = ${fragmentName},
 				locator1 = "PageEditor#FRAGMENT_SIDEBAR_COMMENT_LIST_HEADING");
 		}
 	}
@@ -902,26 +902,26 @@ definition {
 	macro viewCommentReply {
 		if (isSet(fromNotifications)) {
 			AssertTextEquals(
-				key_commentReply = "${commentReply}",
+				key_commentReply = ${commentReply},
 				locator1 = "PageEditor#FRAGMENT_SIDEBAR_REPLY_COMMENTS_ENTRY_HIGHLIGHTED",
-				value1 = "${commentReply}");
+				value1 = ${commentReply});
 		}
 		else {
 			AssertTextEquals(
-				key_commentReply = "${commentReply}",
+				key_commentReply = ${commentReply},
 				locator1 = "PageEditor#FRAGMENT_SIDEBAR_REPLY_COMMENTS_ENTRY",
-				value1 = "${commentReply}");
+				value1 = ${commentReply});
 		}
 
 		AssertTextEquals(
-			key_commentReply = "${commentReply}",
+			key_commentReply = ${commentReply},
 			locator1 = "PageEditor#FRAGMENT_SIDEBAR_REPLY_COMMENTS_ENTRY_AUTHOR",
-			value1 = "${user}");
+			value1 = ${user});
 	}
 
 	macro viewDuplicateFragment {
 		AssertElementPresent(
-			key_fragmentName = "${fragmentName}",
+			key_fragmentName = ${fragmentName},
 			locator1 = "Fragment#FRAGMENT_HEADER_2");
 	}
 
@@ -931,67 +931,67 @@ definition {
 
 	macro viewFragment {
 		AssertElementPresent(
-			key_fragmentName = "${fragmentName}",
+			key_fragmentName = ${fragmentName},
 			locator1 = "Fragment#FRAGMENT_HEADER");
 	}
 
 	macro viewFragmentEditableText {
 		AssertTextEquals(
-			key_fragmentName = "${fragmentName}",
-			key_id = "${id}",
+			key_fragmentName = ${fragmentName},
+			key_id = ${id},
 			locator1 = "Fragment#EDITABLE_FIELD",
-			value1 = "${editableText}");
+			value1 = ${editableText});
 
 		if (isSet(style)) {
 			AssertVisible(
-				id = "${id}",
-				key_position = "${position}",
-				key_style = "${style}",
-				key_text = "${editableText}",
+				id = ${id},
+				key_position = ${position},
+				key_style = ${style},
+				key_text = ${editableText},
 				locator1 = "Fragment#FRAGMENT_INLINE_RICH_TEXT_STYLE");
 		}
 	}
 
 	macro viewFragmentOrder {
 		AssertElementPresent(
-			key_fragmentName = "${fragmentName}",
-			key_position = "${position}",
+			key_fragmentName = ${fragmentName},
+			key_position = ${position},
 			locator1 = "Fragment#FRAGMENT_HEADER_POSITION");
 	}
 
 	macro viewFragmentStyle {
 		if (isSet(alignment)) {
 			AssertElementPresent(
-				key_alignment = "${alignment}",
-				key_fragmentName = "${fragmentName}",
+				key_alignment = ${alignment},
+				key_fragmentName = ${fragmentName},
 				locator1 = "Fragment#FRAGMENT_CONFIGURATION_ALIGNMENT");
 		}
 
 		if (isSet(borderColor)) {
 			AssertElementPresent(
-				key_borderColor = "${borderColor}",
-				key_fragmentName = "${fragmentName}",
+				key_borderColor = ${borderColor},
+				key_fragmentName = ${fragmentName},
 				locator1 = "Fragment#FRAGMENT_CONFIGURATION_BORDER_COLOR");
 		}
 
 		if (isSet(borderRadius)) {
 			AssertElementPresent(
-				key_borderRadius = "${borderRadius}",
-				key_fragmentName = "${fragmentName}",
+				key_borderRadius = ${borderRadius},
+				key_fragmentName = ${fragmentName},
 				locator1 = "Fragment#FRAGMENT_CONFIGURATION_BORDER_RADIUS");
 		}
 
 		if (isSet(bottomSpacing)) {
 			AssertElementPresent(
-				key_bottomSpacing = "${bottomSpacing}",
-				key_fragmentName = "${fragmentName}",
+				key_bottomSpacing = ${bottomSpacing},
+				key_fragmentName = ${fragmentName},
 				locator1 = "Fragment#FRAGMENT_CONFIGURATION_BOTTOM_SPACING");
 		}
 
 		if (isSet(boxShadow)) {
 			AssertElementPresent(
-				key_boxShadow = "${boxShadow}",
-				key_fragmentName = "${fragmentName}",
+				key_boxShadow = ${boxShadow},
+				key_fragmentName = ${fragmentName},
 				locator1 = "Fragment#FRAGMENT_CONFIGURATION_BOX_SHADOW");
 		}
 
@@ -999,40 +999,40 @@ definition {
 			Select(
 				key_fieldLabel = "Content Align",
 				locator1 = "Select#GENERIC_SELECT_FIELD",
-				value1 = "${contentAlign}");
+				value1 = ${contentAlign});
 		}
 
 		if (isSet(headingLevel)) {
 			AssertElementPresent(
-				key_fragmentName = "${fragmentName}",
-				key_headingLevel = "${headingLevel}",
+				key_fragmentName = ${fragmentName},
+				key_headingLevel = ${headingLevel},
 				locator1 = "Fragment#FRAGMENT_CONFIGURATION_HEADER");
 		}
 
 		if (isSet(height)) {
 			AssertElementPresent(
-				key_height = "${height}",
+				key_height = ${height},
 				locator1 = "Fragment#FRAGMENT_CONFIGURATION_HEIGHT");
 		}
 
 		if (isSet(imageSize)) {
 			AssertElementPresent(
-				key_fragmentName = "${fragmentName}",
-				key_imageSize = "${imageSize}",
+				key_fragmentName = ${fragmentName},
+				key_imageSize = ${imageSize},
 				locator1 = "Fragment#FRAGMENT_CONFIGURATION_IMAGE_SIZE");
 		}
 
 		if (isSet(size)) {
 			AssertElementPresent(
-				key_fragmentName = "${fragmentName}",
-				key_size = "${size}",
+				key_fragmentName = ${fragmentName},
+				key_size = ${size},
 				locator1 = "Fragment#FRAGMENT_CONFIGURATION_SIZE");
 		}
 
 		if (isSet(textColor)) {
 			AssertElementPresent(
-				key_fragmentName = "${fragmentName}",
-				key_textColor = "${textColor}",
+				key_fragmentName = ${fragmentName},
+				key_textColor = ${textColor},
 				locator1 = "Fragment#FRAGMENT_CONFIGURATION_TEXT_COLOR");
 		}
 
@@ -1040,26 +1040,26 @@ definition {
 			Select(
 				key_fieldLabel = "Text Align",
 				locator1 = "Select#GENERIC_SELECT_FIELD",
-				value1 = "${textAlign}");
+				value1 = ${textAlign});
 		}
 
 		if (isSet(type)) {
 			AssertElementPresent(
-				key_fragmentName = "${fragmentName}",
-				key_type = "${type}",
+				key_fragmentName = ${fragmentName},
+				key_type = ${type},
 				locator1 = "Fragment#FRAGMENT_CONFIGURATION_TYPE");
 		}
 
 		if (isSet(verticalSpace)) {
 			AssertElementPresent(
-				key_fragmentName = "${fragmentName}",
-				key_verticalSpace = "${verticalSpace}",
+				key_fragmentName = ${fragmentName},
+				key_verticalSpace = ${verticalSpace},
 				locator1 = "Fragment#FRAGMENT_CONFIGURATION_VERTICAL_SPACE");
 		}
 	}
 
 	macro waitForAutoSave {
-		Pause(locator1 = "1000");
+		Pause(locator1 = 1000);
 
 		AssertTextEquals.assertPartialText(
 			locator1 = "PageEditor#AUTOSAVE_MESSAGE",

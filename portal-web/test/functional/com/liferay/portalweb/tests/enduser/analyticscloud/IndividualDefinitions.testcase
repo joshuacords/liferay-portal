@@ -23,21 +23,21 @@ definition {
 
 		ACUtils.tearDownDXP();
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 	}
 
 	@description = "Assert a newly connected data source is listed as a source of individual attributes in Definitions > Individuals."
-	@priority = "5"
+	@priority = 5
 	test AssertNewSourceInSourceListForIndividualAttribute {
 		var propertyName = ACDXPSettings.connectDXPtoAnalyticsCloud();
 
-		var dataSource = StringUtil.replace("${propertyName}", " Combined Property", "");
+		var dataSource = StringUtil.replace(${propertyName}, " Combined Property", "");
 
 		ACUtils.launchAC();
 
-		ACProperties.switchProperty(propertyName = "${propertyName}");
+		ACProperties.switchProperty(propertyName = ${propertyName});
 
 		ACNavigation.goToSettings();
 
@@ -47,7 +47,7 @@ definition {
 
 		ACDefinitions.assertIndividualAttributesSource(
 			attributeList = "additionalName,address,birthDate,classPK,contactId,createDate,email,familyName,gender,givenName,jobTitle,modifiedDate,telephone,timeZoneId,userId,uuid",
-			dataSourceName = "${dataSource}");
+			dataSourceName = ${dataSource});
 	}
 
 }

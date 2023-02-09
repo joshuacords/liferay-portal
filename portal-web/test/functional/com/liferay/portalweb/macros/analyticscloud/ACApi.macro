@@ -8,9 +8,9 @@ definition {
 				-H "Authorization: Bearer ${token}"
 		''';
 
-		static var apiResponse = JSONCurlUtil.get("${curl}", "$");
+		static var apiResponse = JSONCurlUtil.get(${curl}, "$");
 
-		return "${apiResponse}";
+		return ${apiResponse};
 	}
 
 	macro createQueryData {
@@ -20,9 +20,9 @@ definition {
 			${analyticsCloudURL}/api/reports -H "Authorization: Bearer ${token}"
 		''';
 
-		static var apiResponse = JSONCurlUtil.get("${curl}", "$");
+		static var apiResponse = JSONCurlUtil.get(${curl}, "$");
 
-		return "${apiResponse}";
+		return ${apiResponse};
 	}
 
 	macro getTokenValue {
@@ -36,14 +36,14 @@ definition {
 
 		var token = selenium.getAttribute("//button[@aria-label='Click to Copy']@data-clipboard-text");
 
-		return "${token}";
+		return ${token};
 	}
 
 	macro viewApiResponseForError {
 
 		// Checks if the API response message explains the reason for the error
 
-		if (contains("${apiResponse}", "${message}")) {
+		if (contains(${apiResponse}, ${message})) {
 			echo("Correct error message - PASSED");
 		}
 		else {
@@ -52,7 +52,7 @@ definition {
 
 		// Checks if the status value is ERROR
 
-		if (contains("${apiResponse}", "status=ERROR")) {
+		if (contains(${apiResponse}, "status=ERROR")) {
 			echo("Correct status - PASSED");
 		}
 		else {
@@ -64,7 +64,7 @@ definition {
 
 		// Checks if the API response message is correct
 
-		if (contains("${apiResponse}", "${message}")) {
+		if (contains(${apiResponse}, ${message})) {
 			echo("Correct message - PASSED");
 		}
 		else {
@@ -73,7 +73,7 @@ definition {
 
 		// Checks if the fromDate value is the same as the one used to create the schedule
 
-		if (contains("${apiResponse}", "fromDate=${startDate}T${startTime}Z")) {
+		if (contains(${apiResponse}, "fromDate=${startDate}T${startTime}Z")) {
 			echo("Correct fromDate - PASSED");
 		}
 		else {
@@ -82,7 +82,7 @@ definition {
 
 		// Checks if the toDate value is the same as the one used to create the schedule
 
-		if (contains("${apiResponse}", "toDate=${endDate}T${endTime}Z")) {
+		if (contains(${apiResponse}, "toDate=${endDate}T${endTime}Z")) {
 			echo("Correct toDate - PASSED");
 		}
 		else {
@@ -91,7 +91,7 @@ definition {
 
 		// Checks if the type value is the same as the one used to create the schedule
 
-		if (contains("${apiResponse}", "type=${upperCaseType}")) {
+		if (contains(${apiResponse}, "type=${upperCaseType}")) {
 			echo("Correct type - PASSED");
 		}
 		else {
@@ -100,7 +100,7 @@ definition {
 
 		// Checks if the status value is the same as the one used to create the schedule
 
-		if (contains("${apiResponse}", "status=${status}")) {
+		if (contains(${apiResponse}, "status=${status}")) {
 			echo("Correct status - PASSED");
 		}
 		else {
@@ -109,12 +109,12 @@ definition {
 	}
 
 	macro viewApiResponseForQueryData {
-		for (var type : list "${typeList}") {
-			if (contains("${apiResponse}", "${type}={href=http://osbasahbackend:8080/api/reports/${type}}")) {
+		for (var type : list ${typeList}) {
+			if (contains(${apiResponse}, "${type}={href=http://osbasahbackend:8080/api/reports/${type}}")) {
 				echo("${type} - PASSED");
 			}
 			else {
-				fail("${apiResponse}");
+				fail(${apiResponse});
 			}
 		}
 	}

@@ -14,7 +14,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -24,7 +24,7 @@ definition {
 		}
 	}
 
-	@priority = "5"
+	@priority = 5
 	test AddFrontPage {
 		property portal.acceptance = "true";
 
@@ -50,7 +50,7 @@ definition {
 			wikiNodeName = "Main");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddNode {
 		WikiNavigator.openWikiAdmin(siteURLKey = "guest");
 
@@ -59,11 +59,11 @@ definition {
 		WikiNavigator.openWikiAdmin(siteURLKey = "guest");
 
 		WikiNode.viewCP(
-			numberOfWikiPages = "0",
+			numberOfWikiPages = 0,
 			wikiNodeName = "Wiki Node Name");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test AddPageToNode {
 		WikiNavigator.openWikiAdmin(siteURLKey = "guest");
 
@@ -82,7 +82,7 @@ definition {
 		WikiNavigator.openWikiAdmin(siteURLKey = "guest");
 
 		WikiNode.viewCP(
-			numberOfWikiPages = "2",
+			numberOfWikiPages = 2,
 			wikiNodeName = "Wiki Node Name");
 
 		WikiNavigator.gotoCP(wikiPageTitle = "Wiki Page Title");
@@ -93,7 +93,7 @@ definition {
 	}
 
 	@description = "This test covers LPS-89884. It ensures that a DL image can be added to a wiki page via URL."
-	@priority = "5"
+	@priority = 5
 	test AddPageWithDMImageViaURL {
 		property test.name.skip.portal.instance = "CPWiki#AddPageWithDMImageViaURL";
 
@@ -131,7 +131,7 @@ definition {
 			locator1 = "Wiki#CONTENT_IMAGE_NAME");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test CKEditorSmoke {
 		property test.name.skip.portal.instance = "CPWiki#CKEditorSmoke";
 
@@ -146,11 +146,11 @@ definition {
 			configurationScope = "Site Scope");
 
 		PortalSettings.configureWikiService(
-			counter = "12",
+			counter = 12,
 			editor = "ckeditor_creole");
 
 		PortalSettings.configureWikiService(
-			counter = "13",
+			counter = 13,
 			editor = "creole");
 
 		PortletEntry.save();
@@ -176,7 +176,7 @@ definition {
 			wikiPageTitle = "CKEditor Wiki Page Title");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ComparePageVersions {
 		WikiNavigator.openWikiAdmin(siteURLKey = "guest");
 
@@ -223,7 +223,7 @@ definition {
 			wikiPageVersionOld = "1.0");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test DeleteFrontPage {
 		WikiNavigator.openWikiAdmin(siteURLKey = "guest");
 
@@ -272,7 +272,7 @@ definition {
 		WikiPage.viewFrontPageDefaultCP(wikiPageTitle = "FrontPage");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test DeleteNode {
 		property portal.acceptance = "true";
 
@@ -299,7 +299,7 @@ definition {
 		WikiNode.viewMainNode(wikiNodeName = "Main");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test EditNode {
 		property portal.acceptance = "true";
 		property testray.component.names = "Training";
@@ -317,11 +317,11 @@ definition {
 		WikiNavigator.openWikiAdmin(siteURLKey = "guest");
 
 		WikiNode.viewCP(
-			numberOfWikiPages = "0",
+			numberOfWikiPages = 0,
 			wikiNodeName = "Wiki Node Name Edit");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ImportLarAndViewPages {
 		property testray.component.names = "Training";
 
@@ -358,7 +358,7 @@ definition {
 		for (var wikiPageTitle : list "FrontPage,Board of Governors,Board of Governors,The Space Program,Antony Carelli,Dr. Harold Vance,Victoria Allen,Dr. Asmund Grey") {
 			WikiNavigator.gotoAllPagesPG();
 
-			WikiNavigator.gotoPG(wikiPageTitle = "${wikiPageTitle}");
+			WikiNavigator.gotoPG(wikiPageTitle = ${wikiPageTitle});
 		}
 
 		WikiPage.viewPG(
@@ -366,7 +366,7 @@ definition {
 			wikiPageTitle = "Dr. Asmund Grey");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test MovePageUnderNewParentPage {
 		WikiNavigator.openWikiAdmin(siteURLKey = "guest");
 
@@ -415,7 +415,7 @@ definition {
 		WikiEntry.viewPageContentBody(wikiPageContent = "Wiki Page Content 2");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test RestoreDeletedPage {
 		WikiNavigator.openWikiAdmin(siteURLKey = "guest");
 
@@ -479,7 +479,7 @@ definition {
 	}
 
 	@ignore = "true"
-	@priority = "4"
+	@priority = 4
 	test ViewPageRSS {
 		Navigator.openURL();
 

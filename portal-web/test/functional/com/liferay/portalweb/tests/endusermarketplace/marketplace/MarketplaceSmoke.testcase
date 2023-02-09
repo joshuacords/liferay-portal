@@ -12,7 +12,7 @@ definition {
 		BlogsEntry.tearDownCP();
 	}
 
-	@priority = "5"
+	@priority = 5
 	test MarketplaceSmoke {
 		Marketplace.smoke();
 	}

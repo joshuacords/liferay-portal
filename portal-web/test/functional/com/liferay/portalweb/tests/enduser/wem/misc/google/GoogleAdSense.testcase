@@ -22,7 +22,7 @@ definition {
 		Page.tearDownCP();
 	}
 
-	@priority = "4"
+	@priority = 4
 	test GoogleAdSensePortletSmoke {
 		property portlet.plugins.includes = "google-adsense-portlet";
 

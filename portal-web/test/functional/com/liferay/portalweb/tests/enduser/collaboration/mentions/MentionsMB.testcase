@@ -36,7 +36,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -49,7 +49,7 @@ definition {
 	}
 
 	@description = "This test covers LPS-117986. It ensures that multiple mentions can be added to thread."
-	@priority = "4"
+	@priority = 4
 	test MultipleMentionsCanBeAddedToThread {
 		JSONUser.addUser(
 			userEmailAddress = "userea2@liferay.com",
@@ -92,7 +92,7 @@ definition {
 			mentionsUserScreenName = "usersn2");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ViewMentionViaMessageBoardsThread {
 		Navigator.openURL();
 
@@ -120,7 +120,7 @@ definition {
 			mentionsUserScreenName = "usersn");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ViewMentionViaMessageBoardsThreadReply {
 		Navigator.openURL();
 
@@ -156,7 +156,7 @@ definition {
 		MessageboardsThread.gotoCP(threadSubject = "Thread Subject");
 
 		MessageboardsThread.viewReplyCP(
-			replyCount = "2",
+			replyCount = 2,
 			threadBody = "Thread Body",
 			threadBody2 = "Thread Reply Body",
 			threadSubject = "Thread Subject",
@@ -168,7 +168,7 @@ definition {
 			mentionsUserScreenName = "usersn");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ViewMentionViaUpdatedMessageBoardsThread {
 		Navigator.openURL();
 
@@ -202,7 +202,7 @@ definition {
 			portlet = "Message Boards");
 
 		MessageboardsThread.viewCP(
-			replyCount = "0",
+			replyCount = 0,
 			threadBody = "Thread Body",
 			threadSubject = "Thread Subject");
 

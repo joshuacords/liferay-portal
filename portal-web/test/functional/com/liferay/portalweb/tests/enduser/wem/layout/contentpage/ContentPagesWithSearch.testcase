@@ -49,7 +49,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -58,7 +58,7 @@ definition {
 	}
 
 	@description = "This is a test for LPS-78928. Content pages will appear when users filter search results by page facet."
-	@priority = "5"
+	@priority = 5
 	test FilterByPageFacet {
 		property portal.acceptance = "true";
 		property test.name.skip.portal.instance = "ContentPagesWithSearch#FilterByPageFacet";
@@ -108,7 +108,7 @@ definition {
 	}
 
 	@description = "This is a test for LPS-91405. Content page associated with category will not display after category deleted."
-	@priority = "3"
+	@priority = 3
 	test SearchContentPagesWithDeletedCategory {
 		property test.name.skip.portal.instance = "ContentPagesWithSearch#SearchContentPagesWithDeletedCategory";
 
@@ -178,7 +178,7 @@ definition {
 	}
 
 	@description = "This is a test for LPS-78928. Editable text in content pages is searchable."
-	@priority = "5"
+	@priority = 5
 	test SearchEditableText {
 		property portal.acceptance = "true";
 		property test.name.skip.portal.instance = "ContentPagesWithSearch#SearchEditableText";
@@ -242,7 +242,7 @@ definition {
 	}
 
 	@description = "This is a test for LPS-78928. Static text in content pages is searchable."
-	@priority = "5"
+	@priority = 5
 	test SearchStaticText {
 		property portal.acceptance = "true";
 		property test.name.skip.portal.instance = "ContentPagesWithSearch#SearchStaticText";

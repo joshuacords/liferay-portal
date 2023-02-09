@@ -15,13 +15,13 @@ definition {
 
 		ACUtils.tearDownAC();
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 	}
 
 	@description = "Automation ID: LRAC-8129 | Test Summary: Show data source lists"
-	@priority = "5"
+	@priority = 5
 	test DataSourceListShowsAllDataSources {
 		var dataSourceList = "";
 
@@ -34,9 +34,9 @@ definition {
 
 			var propertyName = ACDXPSettings.connectDXPtoAnalyticsCloud();
 
-			var dataSource = StringUtil.replace("${propertyName}", " Combined Property", "");
+			var dataSource = StringUtil.replace(${propertyName}, " Combined Property", "");
 
-			var dataSourceList = StringUtil.add("${dataSourceList}", "${dataSource}");
+			var dataSourceList = StringUtil.add(${dataSourceList}, ${dataSource});
 
 			ACDXPSettings.disconnectDXPFromAnalyticsCloud();
 
@@ -44,11 +44,11 @@ definition {
 
 			ACNavigation.goToSettings();
 
-			ACUtils.assertDataSourceName(dataSourceName = "${dataSource}");
+			ACUtils.assertDataSourceName(dataSourceName = ${dataSource});
 		}
 
-		for (var dataSourceName : list "${dataSourceList}") {
-			ACUtils.assertDataSourceName(dataSourceName = "${dataSourceName}");
+		for (var dataSourceName : list ${dataSourceList}) {
+			ACUtils.assertDataSourceName(dataSourceName = ${dataSourceName});
 		}
 	}
 

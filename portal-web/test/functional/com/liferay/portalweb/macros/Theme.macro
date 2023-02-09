@@ -1,12 +1,12 @@
 definition {
 
 	macro configureLookAndFeelShowHeaderSearch {
-		if ("${showHeaderSearch}" == "true") {
+		if (${showHeaderSearch} == "true") {
 			Check.checkToggleSwitch(
 				key_toggleSwitchLabel = "Show Header Search",
 				locator1 = "ToggleSwitch#ANY_TOGGLE_SWITCH");
 		}
-		else if ("${showHeaderSearch}" == "false") {
+		else if (${showHeaderSearch} == "false") {
 			Uncheck.uncheckToggleSwitch(
 				key_toggleSwitchLabel = "Show Header Search",
 				locator1 = "ToggleSwitch#ANY_TOGGLE_SWITCH");
@@ -14,12 +14,12 @@ definition {
 	}
 
 	macro configureLookAndFeelShowMaxMinAppLinks {
-		if ("${showMaxMinAppLinks}" == "true") {
+		if (${showMaxMinAppLinks} == "true") {
 			Check.checkToggleSwitch(
 				key_toggleSwitchLabel = "Show Maximize/Minimize Application Links",
 				locator1 = "ToggleSwitch#ANY_TOGGLE_SWITCH");
 		}
-		else if ("${showMaxMinAppLinks}" == "false") {
+		else if (${showMaxMinAppLinks} == "false") {
 			Uncheck.uncheckToggleSwitch(
 				key_toggleSwitchLabel = "Show Maximize/Minimize Application Links",
 				locator1 = "ToggleSwitch#ANY_TOGGLE_SWITCH");

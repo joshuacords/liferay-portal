@@ -14,7 +14,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -30,7 +30,7 @@ definition {
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ChangeSocialBookmarkSitesForKBArticle {
 		property osgi.app.includes = "social-bookmarks,knowledge-base";
 
@@ -83,7 +83,7 @@ definition {
 		SocialBookmarks.viewBookmarksNotPresent(socialBookmarks = "Twitter,Reddit,Slashdot");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test ViewBlogsEntryWithSocialBookmarksSites {
 		property osgi.app.includes = "social-bookmarks";
 		property test.assert.warning.exceptions = "true";
@@ -131,7 +131,7 @@ definition {
 		SocialBookmarks.viewBookmarkMenuItems(socialBookmarks = "AddThis,Delicious,Digg,Evernote,Reddit,Slashdot");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test ViewKBArticleWithAllSocialBookmarkSites {
 		property osgi.app.includes = "social-bookmarks,knowledge-base";
 

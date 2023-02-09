@@ -24,7 +24,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -37,7 +37,7 @@ definition {
 	}
 
 	@description = "This is a test case for LPS-80625. The fragment importer should not allow invalid zip files to be imported."
-	@priority = "5"
+	@priority = 5
 	test CannotImportInvalidZip {
 		property portal.acceptance = "true";
 
@@ -61,7 +61,7 @@ definition {
 	}
 
 	@description = "This is a test case for LPS-80625. The fragment importer should not allow non-zip files to be imported."
-	@priority = "5"
+	@priority = 5
 	test CannotImportNonZip {
 		property portal.acceptance = "true";
 
@@ -85,7 +85,7 @@ definition {
 	}
 
 	@description = "Fragment collections can be exported and imported."
-	@priority = "5"
+	@priority = 5
 	test ExportImportCollectionViewFragment {
 		property portal.acceptance = "true";
 
@@ -139,7 +139,7 @@ definition {
 			SelectFrame.selectFrameNoLoading(locator1 = "FragmentEditor#PREVIEW_IFRAME");
 
 			for (var button : list "Submit,Cancel") {
-				Button.viewPresent(button = "${button}");
+				Button.viewPresent(button = ${button});
 			}
 
 			IFrame.selectTopFrame();
@@ -147,7 +147,7 @@ definition {
 	}
 
 	@description = "This is a testcase for LPS-96113. All fragments in dependencies should validate successfully."
-	@priority = "5"
+	@priority = 5
 	test ValidateDependenciesFragments {
 		property portal.acceptance = "true";
 

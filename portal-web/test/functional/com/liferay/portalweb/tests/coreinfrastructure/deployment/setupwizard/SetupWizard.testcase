@@ -6,7 +6,7 @@ definition {
 	property test.prepare.bundle.properties = "false";
 	property testray.main.component.name = "Setup Wizard";
 
-	@priority = "4"
+	@priority = 4
 	test BasicConfigurationVisualLook {
 		property database.types = "mysql";
 		property test.name.skip.portal.instance = "SetupWizard#BasicConfigurationVisualLook";
@@ -20,7 +20,7 @@ definition {
 		takeScreenshot();
 	}
 
-	@priority = "4"
+	@priority = 4
 	test HypersonicToMySQL {
 		property database.types = "mysql";
 		property test.name.skip.portal.instance = "SetupWizard#HypersonicToMySQL";
@@ -40,7 +40,7 @@ definition {
 		Smoke.runSmoke();
 	}
 
-	@priority = "3"
+	@priority = 3
 	test HypersonicWithSpecialContent {
 		property database.types = "hypersonic";
 		property test.name.skip.portal.instance = "SetupWizard#HypersonicWithSpecialContent";
@@ -64,7 +64,7 @@ definition {
 		SetupWizard.finishConfigurationPG();
 
 		for (var fieldName : list "Portal Name,First Name,Last Name,Email,JDBC URL,JDBC Driver Class Name") {
-			var key_fieldName = "${fieldName}";
+			var key_fieldName = ${fieldName};
 
 			AssertTextEquals.assertPartialText(
 				locator1 = "TextInput#REQUIRED_ALERT",
@@ -107,7 +107,7 @@ definition {
 			value1 = "Please enter a valid email address.");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ViewConfiguredSetupWizardValue {
 		property database.types = "mysql";
 		property test.name.skip.portal.instance = "SetupWizard#ViewConfiguredSetupWizardValue";
@@ -137,10 +137,10 @@ definition {
 		Portlet.shutdownServer();
 
 		Portlet.startServer(
-			base_branch = "${base_branch}",
+			base_branch = ${base_branch},
 			deleteLiferayHome = "false");
 
-		SetupWizard.viewConfiguredDatabaseInConsole(databaseType = "${databaseType}");
+		SetupWizard.viewConfiguredDatabaseInConsole(databaseType = ${databaseType});
 
 		User.firstLoginPG(
 			localization = "ES",
@@ -158,7 +158,7 @@ definition {
 
 		var fileContent = FileUtil.read("${liferayHome}/portal-setup-wizard.properties");
 
-		if (contains("${fileContent}", "admin.email.from.address=user@liferay.com") && contains("${fileContent}", "admin.email.from.name=User User") && contains("${fileContent}", "default.admin.email.address.prefix=user") && contains("${fileContent}", "default.admin.first.name=User") && contains("${fileContent}", "default.admin.last.name=User") && contains("${fileContent}", "company.default.locale=es_ES") && contains("${fileContent}", "company.default.name=Custom")) {
+		if (contains(${fileContent}, "admin.email.from.address=user@liferay.com") && contains(${fileContent}, "admin.email.from.name=User User") && contains(${fileContent}, "default.admin.email.address.prefix=user") && contains(${fileContent}, "default.admin.first.name=User") && contains(${fileContent}, "default.admin.last.name=User") && contains(${fileContent}, "company.default.locale=es_ES") && contains(${fileContent}, "company.default.name=Custom")) {
 			echo("The configuration was saved successfully in portal-setup-wizard.properties!");
 		}
 		else {

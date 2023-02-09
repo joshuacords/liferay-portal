@@ -11,11 +11,11 @@ definition {
 	macro add {
 		CalendarNavigator.gotoAddResource();
 
-		CalendarResource.editResourceName(calendarResourceName = "${calendarResourceName}");
+		CalendarResource.editResourceName(calendarResourceName = ${calendarResourceName});
 
 		CalendarResource.save();
 
-		CalendarResource.view(calendarResourceName = "${calendarResourceName}");
+		CalendarResource.view(calendarResourceName = ${calendarResourceName});
 	}
 
 	macro deactivate {
@@ -27,13 +27,13 @@ definition {
 	macro delete {
 		CalendarNavigator.gotoResources();
 
-		var key_calendarResourceName = "${calendarResourceName}";
+		var key_calendarResourceName = ${calendarResourceName};
 
 		AssertTextEquals(
 			locator1 = "CalendarResources#RESOURCE_TABLE_NAME",
-			value1 = "${calendarResourceName}");
+			value1 = ${calendarResourceName});
 
-		LexiconEntry.openEntryMenu(rowEntry = "${calendarResourceName}");
+		LexiconEntry.openEntryMenu(rowEntry = ${calendarResourceName});
 
 		MenuItem.clickNoError(menuItem = "Delete");
 
@@ -43,41 +43,41 @@ definition {
 
 		AssertElementNotPresent(locator1 = "CalendarResources#RESOURCE_TABLE_NAME");
 
-		AssertTextNotPresent(value1 = "${calendarResourceName}");
+		AssertTextNotPresent(value1 = ${calendarResourceName});
 	}
 
 	macro edit {
 		CalendarNavigator.gotoResources();
 
-		var key_calendarResourceName = "${calendarResourceName}";
+		var key_calendarResourceName = ${calendarResourceName};
 
 		AssertTextEquals(
 			locator1 = "CalendarResources#RESOURCE_TABLE_NAME",
-			value1 = "${calendarResourceName}");
+			value1 = ${calendarResourceName});
 
-		LexiconEntry.openEntryMenu(rowEntry = "${calendarResourceName}");
+		LexiconEntry.openEntryMenu(rowEntry = ${calendarResourceName});
 
 		MenuItem.click(menuItem = "Edit");
 
 		AssertTextEquals(
 			locator1 = "Portlet#H3_HEADER",
-			value1 = "${calendarResourceName}");
+			value1 = ${calendarResourceName});
 
-		PortletEntry.inputName(name = "${calendarResourceNameEdit}");
+		PortletEntry.inputName(name = ${calendarResourceNameEdit});
 
 		CalendarResource.save();
 
-		CalendarResource.view(calendarResourceName = "${calendarResourceNameEdit}");
+		CalendarResource.view(calendarResourceName = ${calendarResourceNameEdit});
 	}
 
 	macro editResourceName {
-		PortletEntry.inputName(name = "${calendarResourceName}");
+		PortletEntry.inputName(name = ${calendarResourceName});
 	}
 
 	macro save {
 		Click(locator1 = "Button#SAVE");
 
-		var key_calendarResourceName = "${calendarResourceName}";
+		var key_calendarResourceName = ${calendarResourceName};
 
 		Alert.viewSuccessMessage();
 	}
@@ -103,11 +103,11 @@ definition {
 	macro view {
 		CalendarNavigator.gotoResources();
 
-		var key_calendarResourceName = "${calendarResourceName}";
+		var key_calendarResourceName = ${calendarResourceName};
 
 		AssertTextEquals(
 			locator1 = "CalendarResources#RESOURCE_TABLE_NAME",
-			value1 = "${calendarResourceName}");
+			value1 = ${calendarResourceName});
 
 		AssertTextEquals(
 			locator1 = "CalendarResources#RESOURCE_TABLE_DESCRIPTION",
@@ -123,7 +123,7 @@ definition {
 	macro viewDefault {
 		CalendarNavigator.gotoResources();
 
-		var key_calendarResourceName = "${calendarResourceName}";
+		var key_calendarResourceName = ${calendarResourceName};
 
 		AssertTextEquals(
 			locator1 = "Message#EMPTY_INFO",
@@ -133,11 +133,11 @@ definition {
 	}
 
 	macro viewResourceCalendars {
-		var key_calendarResourceName = "${calendarResourceName}";
+		var key_calendarResourceName = ${calendarResourceName};
 
 		AssertTextEquals(
 			locator1 = "CalendarResources#RESOURCE_TABLE_NAME",
-			value1 = "${calendarResourceName}");
+			value1 = ${calendarResourceName});
 
 		AssertTextEquals(
 			locator1 = "Portlet#H3_HEADER",
@@ -145,19 +145,19 @@ definition {
 	}
 
 	macro viewResourceName {
-		var key_calendarResourceName = "${calendarResourceName}";
+		var key_calendarResourceName = ${calendarResourceName};
 
 		AssertTextEquals(
 			locator1 = "CalendarResources#RESOURCE_TABLE_NAME",
-			value1 = "${calendarResourceName}");
+			value1 = ${calendarResourceName});
 	}
 
 	macro viewResourceNameNotPresent {
-		var key_calendarResourceName = "${calendarResourceName}";
+		var key_calendarResourceName = ${calendarResourceName};
 
 		AssertElementNotPresent(locator1 = "CalendarResources#RESOURCE_TABLE_NAME");
 
-		AssertTextNotPresent(value1 = "${calendarResourceName}");
+		AssertTextNotPresent(value1 = ${calendarResourceName});
 	}
 
 }

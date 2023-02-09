@@ -20,7 +20,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -29,7 +29,7 @@ definition {
 	}
 
 	@description = "This is a test for LPS-102526. User can activate fragment configuration by clicking on topper."
-	@priority = "5"
+	@priority = 5
 	test ActivateFragmentConfigurationViaTopper {
 		property portal.acceptance = "true";
 
@@ -50,7 +50,7 @@ definition {
 	}
 
 	@description = "This is a test for LPS-99377. User can change checkbox fragment configuration."
-	@priority = "5"
+	@priority = 5
 	test AddCheckboxConfigurationFragmentToContentPage {
 		property portal.acceptance = "true";
 
@@ -60,9 +60,9 @@ definition {
 
 			JSONFragment.addSection(
 				collectionName = "Collection Name",
-				configuration = "${jsonSnippet}",
+				configuration = ${jsonSnippet},
 				groupName = "Test Site Name",
-				html = "${htmlSnippet}",
+				html = ${htmlSnippet},
 				name = "Checkbox Fragment Example");
 		}
 
@@ -98,7 +98,7 @@ definition {
 	}
 
 	@description = "This is a test for LPS-97179. User can change colorPalette fragment configuration."
-	@priority = "5"
+	@priority = 5
 	test AddColorPlatteConfigurationFragmentToContentPage {
 		task ("Add a section fragment to the fragment collection via JSON") {
 			var htmlSnippet = FragmentsAPI.getFragmentFileContent(fileName = "colorPalette_configuration.html");
@@ -106,9 +106,9 @@ definition {
 
 			JSONFragment.addSection(
 				collectionName = "Collection Name",
-				configuration = "${jsonSnippet}",
+				configuration = ${jsonSnippet},
 				groupName = "Test Site Name",
-				html = "${htmlSnippet}",
+				html = ${htmlSnippet},
 				name = "ColorPalette Fragment Example");
 		}
 
@@ -158,7 +158,7 @@ definition {
 	}
 
 	@description = "This is a test for LPS-101326. Add placeholder in fragment configuration and assert there the placeholder text is present."
-	@priority = "5"
+	@priority = 5
 	test AddPlaceholderConfigurationFragmentToContentPage {
 		task ("Add a section fragment to the fragment collection via JSON") {
 			var htmlSnippet = FragmentsAPI.getFragmentFileContent(fileName = "text_configuration.html");
@@ -166,9 +166,9 @@ definition {
 
 			JSONFragment.addSection(
 				collectionName = "Collection Name",
-				configuration = "${jsonSnippet}",
+				configuration = ${jsonSnippet},
 				groupName = "Test Site Name",
-				html = "${htmlSnippet}",
+				html = ${htmlSnippet},
 				name = "Text Fragment Example");
 		}
 
@@ -201,9 +201,9 @@ definition {
 
 			JSONFragment.addSection(
 				collectionName = "Collection Name",
-				configuration = "${jsonSnippet}",
+				configuration = ${jsonSnippet},
 				groupName = "Test Site Name",
-				html = "${htmlSnippet}",
+				html = ${htmlSnippet},
 				name = "Text Fragment Example");
 		}
 
@@ -231,7 +231,7 @@ definition {
 	}
 
 	@description = "This is a test for LPS-99543. User can change text fragment configuration."
-	@priority = "5"
+	@priority = 5
 	test AddTextConfigurationFragmentToContentPage {
 		property portal.acceptance = "true";
 
@@ -241,9 +241,9 @@ definition {
 
 			JSONFragment.addSection(
 				collectionName = "Collection Name",
-				configuration = "${jsonSnippet}",
+				configuration = ${jsonSnippet},
 				groupName = "Test Site Name",
-				html = "${htmlSnippet}",
+				html = ${htmlSnippet},
 				name = "Text Fragment Example");
 		}
 
@@ -270,13 +270,13 @@ definition {
 			AssertVisible(
 				key_content = "Updated fragment text",
 				key_fragmentClass = "configuration",
-				key_position = "1",
+				key_position = 1,
 				locator1 = "Fragment#FRAGMENT");
 		}
 	}
 
 	@description = "This is a use case for LPS-96391."
-	@priority = "5"
+	@priority = 5
 	test ExportImportContentPageWithWCDOnFragment {
 		property test.name.skip.portal.instance = "ContentPagesWithFragmentConfiguration#ExportImportContentPageWithWCDOnFragment";
 
@@ -290,7 +290,7 @@ definition {
 
 		FragmentsEditor.autocompleteFragmentHTML(
 			autocompleteField = "lfr-widget-web-content",
-			fragmentHTML = "${fragmentHTML}");
+			fragmentHTML = ${fragmentHTML});
 
 		PortletEntry.publish();
 
@@ -319,7 +319,7 @@ definition {
 
 		LAR.exportSiteCP(siteScopeName = "Test Site Name");
 
-		var key_larFileName = "${larFileName}";
+		var key_larFileName = ${larFileName};
 		var larFileName = LAR.getLarFileName();
 
 		LAR.downloadLar();
@@ -327,7 +327,7 @@ definition {
 		JSONGroup.addGroup(groupName = "New Site");
 
 		LAR.importSiteCP(
-			larFileName = "${larFileName}",
+			larFileName = ${larFileName},
 			siteName = "New Site");
 
 		WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
@@ -349,7 +349,7 @@ definition {
 	}
 
 	@description = "This is a test for LPS-96685. User can restore and change fragment configuration value."
-	@priority = "5"
+	@priority = 5
 	test RestoreAndChangeConfigurationFragmentToContentPage {
 		property portal.acceptance = "true";
 
@@ -359,9 +359,9 @@ definition {
 
 			JSONFragment.addSection(
 				collectionName = "Collection Name",
-				configuration = "${jsonSnippet}",
+				configuration = ${jsonSnippet},
 				groupName = "Test Site Name",
-				html = "${htmlSnippet}",
+				html = ${htmlSnippet},
 				name = "Text Fragment Example");
 		}
 

@@ -1,8 +1,8 @@
 definition {
 
 	macro addFromURL {
-		var key_imageSourceURL = "${imageSourceURL}";
-		var key_navTab = "${navTab}";
+		var key_imageSourceURL = ${imageSourceURL};
+		var key_navTab = ${navTab};
 
 		SelectFrame(locator1 = "ItemSelector#ITEM_SELECTOR_IFRAME");
 
@@ -14,17 +14,17 @@ definition {
 
 		Type(
 			locator1 = "TextInput#URL",
-			value1 = "${imageSourceURL}");
+			value1 = ${imageSourceURL});
 
 		AssertTextEquals(
 			locator1 = "TextInput#URL",
-			value1 = "${imageSourceURL}");
+			value1 = ${imageSourceURL});
 
 		AssertClick(
 			locator1 = "Button#ENTER",
 			value1 = "Enter");
 
-		if (("${type}" == "Audio") || ("${type}" == "Video")) {
+		if ((${type} == "Audio") || (${type} == "Video")) {
 			SelectFrameTop(value1 = "relative=top");
 
 			AssertElementPresent.pauseAssertVisible(
@@ -59,7 +59,7 @@ definition {
 	}
 
 	macro searchBlogImages {
-		var key_imageFileName = "${imageFileName}";
+		var key_imageFileName = ${imageFileName};
 
 		SelectFrame(locator1 = "ItemSelector#ITEM_SELECTOR_IFRAME");
 
@@ -79,7 +79,7 @@ definition {
 
 		Type(
 			locator1 = "TextInput#SEARCH",
-			value1 = "${imageFileName}");
+			value1 = ${imageFileName});
 
 		KeyPress(
 			locator1 = "TextInput#SEARCH",
@@ -95,8 +95,8 @@ definition {
 	}
 
 	macro searchDMImages {
-		var key_imageFileName = "${imageFileName}";
-		var key_uploadFileName = "${imageFileName}";
+		var key_imageFileName = ${imageFileName};
+		var key_uploadFileName = ${imageFileName};
 
 		SelectFrame(locator1 = "ItemSelector#ITEM_SELECTOR_IFRAME");
 
@@ -106,7 +106,7 @@ definition {
 			locator1 = "ItemSelector#NAVIGATION_SPECIFIC_TAB",
 			value1 = "Blog Images");
 
-		LexiconCard.viewCardNotPresent(card = "${imageFileName}");
+		LexiconCard.viewCardNotPresent(card = ${imageFileName});
 
 		var key_navTab = "Documents and Media";
 
@@ -116,7 +116,7 @@ definition {
 
 		Type(
 			locator1 = "TextInput#SEARCH",
-			value1 = "${imageFileName}");
+			value1 = ${imageFileName});
 
 		KeyPress(
 			locator1 = "TextInput#SEARCH",
@@ -126,15 +126,15 @@ definition {
 			locator1 = "Search#SEARCH_INFO",
 			value1 = "1 Results for ${imageFileName}");
 
-		LexiconCard.viewCardPresent(card = "${imageFileName}");
+		LexiconCard.viewCardPresent(card = ${imageFileName});
 
 		SelectFrameTop(value1 = "relative=top");
 	}
 
 	macro selectBlogImage {
-		var key_imageFileName = "${imageFileName}";
-		var key_navTab = "${navTab}";
-		var key_uploadFileName = "${imageFileName}";
+		var key_imageFileName = ${imageFileName};
+		var key_navTab = ${navTab};
+		var key_uploadFileName = ${imageFileName};
 
 		SelectFrame(locator1 = "ItemSelector#ITEM_SELECTOR_IFRAME");
 
@@ -146,7 +146,7 @@ definition {
 
 		AssertTextEquals(
 			locator1 = "ItemSelector#CAPTION",
-			value1 = "${imageFileName}");
+			value1 = ${imageFileName});
 
 		SelectFrameTop(value1 = "relative=top");
 
@@ -156,8 +156,8 @@ definition {
 	}
 
 	macro selectDMImage {
-		var key_navTab = "${navTab}";
-		var key_uploadFileName = "${imageFileName}";
+		var key_navTab = ${navTab};
+		var key_uploadFileName = ${imageFileName};
 
 		SelectFrame(locator1 = "ItemSelector#ITEM_SELECTOR_IFRAME");
 
@@ -166,28 +166,28 @@ definition {
 			value1 = "Documents and Media");
 
 		if (isSet(dmFolderName)) {
-			var key_dmFolderName = "${dmFolderName}";
+			var key_dmFolderName = ${dmFolderName};
 
 			AssertClick(
 				locator1 = "DocumentsAndMedia#ICON_FOLDER_TITLE",
-				value1 = "${dmFolderName}");
+				value1 = ${dmFolderName});
 		}
 
 		if (isSet(dmSubFolderName)) {
-			var key_dmFolderName = "${dmSubFolderName}";
+			var key_dmFolderName = ${dmSubFolderName};
 
 			AssertClick(
 				locator1 = "DocumentsAndMedia#ICON_FOLDER_TITLE",
-				value1 = "${dmSubFolderName}");
+				value1 = ${dmSubFolderName});
 		}
 
-		var key_imageFileName = StringUtil.replace("${imageFileName}", " ", "+");
+		var key_imageFileName = StringUtil.replace(${imageFileName}, " ", "+");
 
-		LexiconCard.clickCard(card = "${imageFileName}");
+		LexiconCard.clickCard(card = ${imageFileName});
 
 		AssertTextEquals.assertPartialText(
 			locator1 = "ItemSelector#CAPTION",
-			value1 = "${imageFileName}");
+			value1 = ${imageFileName});
 
 		SelectFrameTop(value1 = "relative=top");
 
@@ -195,26 +195,26 @@ definition {
 	}
 
 	macro uploadFile {
-		var key_navTab = "${navTab}";
-		var key_uploadFileName = "${uploadFileName}";
+		var key_navTab = ${navTab};
+		var key_uploadFileName = ${uploadFileName};
 
 		SelectFrame(locator1 = "ItemSelector#ITEM_SELECTOR_IFRAME");
 
 		if (IsElementPresent(locator1 = "ItemSelector#NAVIGATION_SPECIFIC_TAB")) {
 			AssertClick(
 				locator1 = "ItemSelector#NAVIGATION_SPECIFIC_TAB",
-				value1 = "${navTab}");
+				value1 = ${navTab});
 		}
 
 		AssertElementPresent(locator1 = "ItemSelector#SELECT_FILE_UPLOAD_IMAGE");
 
 		UploadCommonFile.uploadCommonFileHiddenNoMouseOver(
 			locator1 = "TextInput#FILE",
-			value1 = "${uploadFileName}");
+			value1 = ${uploadFileName});
 
 		AssertTextEquals(
 			locator1 = "ItemSelector#FILE_UPLOAD_CAPTION",
-			value1 = "${uploadFileName}");
+			value1 = ${uploadFileName});
 
 		SelectFrame(locator1 = "ItemSelector#ITEM_SELECTOR_MODAL_FOOTER");
 
@@ -226,20 +226,20 @@ definition {
 	}
 
 	macro viewBlogImageDetails {
-		var key_imageFileName = "${imageFileName}";
-		var key_uploadFileName = "${uploadFileName}";
+		var key_imageFileName = ${imageFileName};
+		var key_uploadFileName = ${uploadFileName};
 
 		SelectFrame(locator1 = "ItemSelector#ITEM_SELECTOR_IFRAME");
 
 		Click(
 			locator1 = "ItemSelector#SELECT_FILE_IMAGE_PREVIEW",
-			value1 = "${imageFileName}");
+			value1 = ${imageFileName});
 
 		AssertElementPresent(locator1 = "ItemSelector#SELECT_IMAGE_PREVIEW");
 
 		AssertTextEquals(
 			locator1 = "ItemSelector#CAPTION",
-			value1 = "${uploadFileName}");
+			value1 = ${uploadFileName});
 
 		Click(locator1 = "ItemSelector#FILE_INFO_ICON");
 
@@ -253,19 +253,19 @@ definition {
 
 		AssertTextEquals(
 			locator1 = "ItemSelector#SIDEBAR_FILE_INFO_FORMAT",
-			value1 = "${imageFormat}");
+			value1 = ${imageFormat});
 
 		AssertTextEquals(
 			locator1 = "ItemSelector#SIDEBAR_FILE_INFO_SIZE",
-			value1 = "${imageSize}");
+			value1 = ${imageSize});
 
 		AssertTextEquals(
 			locator1 = "ItemSelector#SIDEBAR_FILE_INFO_NAME",
-			value1 = "${uploadFileName}");
+			value1 = ${uploadFileName});
 
 		AssertTextEquals.assertPartialText(
 			locator1 = "ItemSelector#SIDEBAR_FILE_INFO_MODIFIED",
-			value1 = "${lastModifiedBy}");
+			value1 = ${lastModifiedBy});
 
 		var key_tab = "Version";
 
@@ -275,17 +275,17 @@ definition {
 
 		AssertTextEquals(
 			locator1 = "ItemSelector#SIDEBAR_VERSION_VERSION",
-			value1 = "${versionNumber}");
+			value1 = ${versionNumber});
 
 		AssertTextEquals(
 			locator1 = "ItemSelector#SIDEBAR_VERSION_STATUS",
-			value1 = "${imageStatus}");
+			value1 = ${imageStatus});
 
 		SelectFrameTop(value1 = "relative=top");
 	}
 
 	macro viewWikiAttachment {
-		var key_imageFileName = "${imageFileName}";
+		var key_imageFileName = ${imageFileName};
 
 		AlloyEditor.clickContentField();
 
@@ -298,7 +298,7 @@ definition {
 		LexiconEntry.changeDisplayStyle(displayStyle = "cards");
 
 		AssertElementPresent(
-			key_imageFileName = "${imageFileName}",
+			key_imageFileName = ${imageFileName},
 			locator1 = "ItemSelector#SELECT_FILE_IMAGE_PREVIEW");
 	}
 

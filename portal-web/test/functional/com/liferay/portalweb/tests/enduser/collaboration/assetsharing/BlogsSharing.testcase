@@ -35,7 +35,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -44,7 +44,7 @@ definition {
 	}
 
 	@description = "This test asserts that proper notifications are sent based on sharing permissions granted."
-	@priority = "5"
+	@priority = 5
 	test AssertNotifications {
 		BlogsNavigator.gotoShare(entryTitle = "Blogs Entry Title");
 
@@ -77,7 +77,7 @@ definition {
 			password = "test",
 			userEmailAddress = "userea@liferay.com");
 
-		Notifications.viewBadgeCount(notificationCount = "3");
+		Notifications.viewBadgeCount(notificationCount = 3);
 
 		Notifications.gotoNotifications();
 
@@ -102,7 +102,7 @@ definition {
 	}
 
 	@description = "This case ensures that sharing permissions can be updated through Shared by Me."
-	@priority = "4"
+	@priority = 4
 	test ChangePermissionsViaSharedByMe {
 		BlogsNavigator.gotoShare(entryTitle = "Blogs Entry Title");
 
@@ -130,7 +130,7 @@ definition {
 			password = "test",
 			userEmailAddress = "userea@liferay.com");
 
-		Notifications.viewBadgeCount(notificationCount = "2");
+		Notifications.viewBadgeCount(notificationCount = 2);
 
 		Notifications.gotoNotifications();
 
@@ -147,7 +147,7 @@ definition {
 	}
 
 	@description = "This test ensures a user can only comment on a blog entry once it is shared with him."
-	@priority = "5"
+	@priority = 5
 	test ShareWithCommentPermissions {
 		BlogsNavigator.gotoShare(entryTitle = "Blogs Entry Title");
 
@@ -162,7 +162,7 @@ definition {
 			password = "test",
 			userEmailAddress = "userea@liferay.com");
 
-		Notifications.viewBadgeCount(notificationCount = "1");
+		Notifications.viewBadgeCount(notificationCount = 1);
 
 		Notifications.gotoNotifications();
 
@@ -181,7 +181,7 @@ definition {
 	}
 
 	@description = "This test ensures a user can update a blog entry once it is shared with him."
-	@priority = "5"
+	@priority = 5
 	test ShareWithUpdatePermissions {
 		BlogsNavigator.gotoShare(entryTitle = "Blogs Entry Title");
 
@@ -196,7 +196,7 @@ definition {
 			password = "test",
 			userEmailAddress = "userea@liferay.com");
 
-		Notifications.viewBadgeCount(notificationCount = "1");
+		Notifications.viewBadgeCount(notificationCount = 1);
 
 		Notifications.gotoNotifications();
 
@@ -226,7 +226,7 @@ definition {
 	}
 
 	@description = "This test ensures that when a blog entry that was shared is deleted, it cannot be accessed."
-	@priority = "5"
+	@priority = 5
 	test ViewDeletedEntry {
 		BlogsNavigator.gotoShare(entryTitle = "Blogs Entry Title");
 
@@ -248,7 +248,7 @@ definition {
 			password = "test",
 			userEmailAddress = "userea@liferay.com");
 
-		Notifications.viewBadgeCount(notificationCount = "1");
+		Notifications.viewBadgeCount(notificationCount = 1);
 
 		Notifications.gotoNotifications();
 
@@ -262,7 +262,7 @@ definition {
 	}
 
 	@description = "This case ensures that the latest sharing permissions set for a user persists across all notification entries."
-	@priority = "4"
+	@priority = 4
 	test ViewUpdatedPermissions {
 		BlogsNavigator.gotoShare(entryTitle = "Blogs Entry Title");
 
@@ -290,7 +290,7 @@ definition {
 			password = "test",
 			userEmailAddress = "userea@liferay.com");
 
-		Notifications.viewBadgeCount(notificationCount = "2");
+		Notifications.viewBadgeCount(notificationCount = 2);
 
 		Notifications.gotoNotifications();
 

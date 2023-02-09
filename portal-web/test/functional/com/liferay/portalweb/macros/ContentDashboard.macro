@@ -5,7 +5,7 @@ definition {
 
 		Type(
 			locator1 = "ContentDashboard#SEARCH_FIELD",
-			value1 = "${webContentTitle}");
+			value1 = ${webContentTitle});
 
 		KeyPress(
 			locator1 = "ContentDashboard#SEARCH_FIELD",

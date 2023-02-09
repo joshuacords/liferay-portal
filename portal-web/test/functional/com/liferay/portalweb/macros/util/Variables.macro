@@ -6,15 +6,15 @@ definition {
 			fail("Please define a parameter list in 'parameterList'");
 		}
 
-		for (var parameter : list "${parameterList}") {
+		for (var parameter : list ${parameterList}) {
 
 			// Regex will find an unset varable, we cannot use isSet
 
-			var isSet = StringUtil.regexReplaceFirst("${parameter}", "\$\{[^\$\{\s]*\}", "false");
+			var isSet = StringUtil.regexReplaceFirst(${parameter}, "\$\{[^\$\{\s]*\}", "false");
 
 			// Only fail if match found and parameter was not set to false
 
-			if (("${isSet}" == "false") && ("${parameter}" != "false")) {
+			if ((${isSet} == "false") && (${parameter} != "false")) {
 				fail("Please set '${parameter}'");
 			}
 		}

@@ -14,7 +14,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -24,7 +24,7 @@ definition {
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddAutoAssertionTagViaBlogs {
 		property testray.component.names = "Blogs,Tags";
 
@@ -50,7 +50,7 @@ definition {
 				panel = "Site Administration",
 				portlet = "Tags");
 
-			Tag.addCP(tagName = "${tagName}");
+			Tag.addCP(tagName = ${tagName});
 		}
 
 		Navigator.gotoSitePage(
@@ -78,7 +78,7 @@ definition {
 			tagName = "tag name 3");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddFrontPageTag {
 		property testray.component.names = "Tags,Wiki";
 
@@ -108,7 +108,7 @@ definition {
 			wikiPageContent = "Wiki FrontPage Content");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddMultipleTagsViaBlogs {
 		property testray.component.names = "Blogs,Tags";
 
@@ -149,11 +149,11 @@ definition {
 			BlogsEntry.viewTagPG(
 				entryContent = "Entry Content",
 				entryTitle = "Entry Title",
-				tagName = "${tagName}");
+				tagName = ${tagName});
 		}
 	}
 
-	@priority = "5"
+	@priority = 5
 	test AddSelectTagViaBlogs {
 		property portal.acceptance = "true";
 		property testray.component.names = "Blogs,Tags";
@@ -180,7 +180,7 @@ definition {
 				panel = "Site Administration",
 				portlet = "Tags");
 
-			Tag.addCP(tagName = "${tagName}");
+			Tag.addCP(tagName = ${tagName});
 		}
 
 		Navigator.gotoSitePage(
@@ -211,11 +211,11 @@ definition {
 
 			BlogsEntry.viewTagPG(
 				entryTitle = "Entry Title",
-				tagName = "${tagName}");
+				tagName = ${tagName});
 		}
 	}
 
-	@priority = "5"
+	@priority = 5
 	test AddTagViaBlogs {
 		property portal.acceptance = "true";
 		property testray.component.names = "Blogs,Tags";
@@ -260,7 +260,7 @@ definition {
 			tagName = "tag name");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test DisplayTagCloud {
 		property testray.component.names = "Tags";
 
@@ -295,7 +295,7 @@ definition {
 				panel = "Site Administration",
 				portlet = "Tags");
 
-			Tag.addCP(tagName = "${tagName}");
+			Tag.addCP(tagName = ${tagName});
 		}
 
 		Navigator.openURL();
@@ -328,18 +328,18 @@ definition {
 
 		TagsNavigationPortlet.viewTagCloud(
 			tagName = "first tag (2)",
-			tagPopularityLevel = "6");
+			tagPopularityLevel = 6);
 
 		TagsNavigationPortlet.viewTagCloud(
 			tagName = "second tag (1)",
-			tagPopularityLevel = "3");
+			tagPopularityLevel = 3);
 
 		TagsNavigationPortlet.viewTagCloud(
 			tagName = "third tag (0)",
-			tagPopularityLevel = "1");
+			tagPopularityLevel = 1);
 	}
 
-	@priority = "3"
+	@priority = 3
 	test DisplayTagUsageStatistics {
 		property testray.component.names = "Tags";
 
@@ -372,7 +372,7 @@ definition {
 				panel = "Site Administration",
 				portlet = "Tags");
 
-			Tag.addCP(tagName = "${tagName}");
+			Tag.addCP(tagName = ${tagName});
 		}
 
 		Navigator.openURL();
@@ -414,7 +414,7 @@ definition {
 			tagName = "second tag");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test DisplayUnusedTags {
 		property testray.component.names = "Tags";
 
@@ -437,7 +437,7 @@ definition {
 				panel = "Site Administration",
 				portlet = "Tags");
 
-			Tag.addCP(tagName = "${tagName}");
+			Tag.addCP(tagName = ${tagName});
 		}
 
 		Navigator.gotoPage(pageName = "Tags Navigation Page");
@@ -449,7 +449,7 @@ definition {
 		TagsNavigationPortlet.viewDefaultPG(tagNameList = "tag name 1,tag name 2,tag name 3");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test RemoveSelectTagViaBlogs {
 		property testray.component.names = "Blogs,Tags";
 
@@ -494,7 +494,7 @@ definition {
 			BlogsEntry.viewTagPG(
 				entryContent = "Entry Content",
 				entryTitle = "Entry Title",
-				tagName = "${tagName}");
+				tagName = ${tagName});
 		}
 
 		Navigator.gotoSitePage(
@@ -506,7 +506,7 @@ definition {
 		Panel.expandPanel(panel = "Categorization");
 
 		for (var tagName : list "tag name 1,tag name 3") {
-			AssetCategorization.removeTag(tagName = "${tagName}");
+			AssetCategorization.removeTag(tagName = ${tagName});
 		}
 
 		PortletEntry.publish();
@@ -524,7 +524,7 @@ definition {
 		AssertTextNotPresent(value1 = "tag name 3");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test RemoveTagViaBlogs {
 		property portal.acceptance = "true";
 		property testray.component.names = "Blogs,Tags";
@@ -566,7 +566,7 @@ definition {
 			BlogsEntry.viewTagPG(
 				entryContent = "Entry Content",
 				entryTitle = "Entry Title",
-				tagName = "${tagName}");
+				tagName = ${tagName});
 		}
 
 		Navigator.gotoSitePage(
@@ -592,7 +592,7 @@ definition {
 		AssertTextNotPresent(value1 = "tag name 1");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test SearchMultipleTagsViaBlogs {
 		property testray.component.names = "Blogs,Tags";
 
@@ -664,7 +664,7 @@ definition {
 			searchAssetType = "Blogs Entry");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ViewTagCloudDisplayConfiguration {
 		property testray.component.names = "Tags";
 
@@ -684,7 +684,7 @@ definition {
 		TagsNavigationPortlet.viewTagCloudConfiguration(displayTemplate = "Cloud");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ViewTagCloudIncrease {
 		property portal.acceptance = "true";
 		property testray.component.names = "Tags";
@@ -720,7 +720,7 @@ definition {
 				panel = "Site Administration",
 				portlet = "Tags");
 
-			Tag.addCP(tagName = "${tagName}");
+			Tag.addCP(tagName = ${tagName});
 		}
 
 		Navigator.openURL();
@@ -753,11 +753,11 @@ definition {
 
 		TagsNavigationPortlet.viewTagCloud(
 			tagName = "first tag (2)",
-			tagPopularityLevel = "6");
+			tagPopularityLevel = 6);
 
 		TagsNavigationPortlet.viewTagCloud(
 			tagName = "second tag (1)",
-			tagPopularityLevel = "3");
+			tagPopularityLevel = 3);
 
 		Navigator.openURL();
 
@@ -777,11 +777,11 @@ definition {
 
 		TagsNavigationPortlet.viewTagCloud(
 			tagName = "first tag (3)",
-			tagPopularityLevel = "6");
+			tagPopularityLevel = 6);
 
 		TagsNavigationPortlet.viewTagCloud(
 			tagName = "second tag (2)",
-			tagPopularityLevel = "4");
+			tagPopularityLevel = 4);
 	}
 
 }

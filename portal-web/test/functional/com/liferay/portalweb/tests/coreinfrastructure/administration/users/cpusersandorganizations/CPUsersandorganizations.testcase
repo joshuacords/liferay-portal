@@ -14,7 +14,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -28,7 +28,7 @@ definition {
 		}
 	}
 
-	@priority = "5"
+	@priority = 5
 	test AddMember {
 		property portal.acceptance = "true";
 		property testray.component.names = "Training";
@@ -76,7 +76,7 @@ definition {
 		Organization.viewAssignMemberCP(userName = "userfn userln");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test AddOrganization {
 		property testray.component.names = "Training";
 
@@ -105,7 +105,7 @@ definition {
 			orgType = "Organization");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddOrganizationComment {
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -122,7 +122,7 @@ definition {
 			orgType = "Organization");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddOrganizationNameDuplicate {
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -159,7 +159,7 @@ definition {
 			orgType = "Organization");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddOrganizations {
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -234,7 +234,7 @@ definition {
 			orgType = "Organization");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test AddOrganizationSite {
 		property testray.component.names = "Training";
 
@@ -267,7 +267,7 @@ definition {
 			siteType = "Private");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddOrganizationSitePrivatePage {
 		var portalURL = PropsUtil.get("portal.url");
 
@@ -307,7 +307,7 @@ definition {
 			privacy = "Private Pages");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddOrganizationSitePublicPage {
 		var portalURL = PropsUtil.get("portal.url");
 
@@ -347,7 +347,7 @@ definition {
 			privacy = "Public Pages");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test AddOrganizationTeam {
 		property portal.acceptance = "true";
 		property test.name.skip.portal.instance = "CPUsersandorganizations#AddOrganizationTeam";
@@ -425,7 +425,7 @@ definition {
 			teamName = "Site Team Name");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test AddSuborganization {
 		property portal.acceptance = "true";
 		property testray.component.names = "Training";
@@ -479,7 +479,7 @@ definition {
 			suborgType = "Organization");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test AddUser {
 		property testray.component.names = "Training";
 
@@ -504,7 +504,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-95340."
-	@priority = "5"
+	@priority = 5
 	test AddUserAfterPublishContentPageWithAP {
 		JSONGroup.addGroup(groupName = "Test Site Name");
 
@@ -529,7 +529,7 @@ definition {
 		AssertConsoleTextNotPresent(value1 = "FileNotFoundException");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddUserDisplaySettings {
 		JSONUser.addUser(
 			userEmailAddress = "userea@liferay.com",
@@ -548,7 +548,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-102425."
-	@priority = "4"
+	@priority = 4
 	test AddUserEmailAddressApostrophe {
 		JSONUser.addUser(
 			userEmailAddress = "user1@liferay.com",
@@ -578,7 +578,7 @@ definition {
 			layoutName = "Message Boards Page");
 
 		JSONLayout.addWidgetToPublicLayout(
-			column = "1",
+			column = 1,
 			groupName = "Guest",
 			layoutName = "Message Boards Page",
 			widgetName = "Message Boards");
@@ -653,7 +653,7 @@ definition {
 			userLoginFullName = "test test");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddUserEmailAddressAt {
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -677,7 +677,7 @@ definition {
 			userScreenName = "usersn");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddUserEmailAddressBackSlash {
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -692,7 +692,7 @@ definition {
 			userScreenName = "usersn");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddUserEmailAddressBackTick {
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -706,7 +706,7 @@ definition {
 			userScreenName = "usersn");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddUserEmailAddressCaret {
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -720,7 +720,7 @@ definition {
 			userScreenName = "usersn");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddUserEmailAddressCloseBracket {
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -735,7 +735,7 @@ definition {
 			userScreenName = "usersn");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddUserEmailAddressCloseCurlyBrace {
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -749,7 +749,7 @@ definition {
 			userScreenName = "usersn");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddUserEmailAddressCloseParenthesis {
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -764,7 +764,7 @@ definition {
 			userScreenName = "usersn");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddUserEmailAddressColon {
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -779,7 +779,7 @@ definition {
 			userScreenName = "usersn");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddUserEmailAddressDash {
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -793,7 +793,7 @@ definition {
 			userScreenName = "usersn");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddUserEmailAddressEqual {
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -818,7 +818,7 @@ definition {
 			userScreenName = "usersn");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddUserEmailAddressGreaterThan {
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -833,7 +833,7 @@ definition {
 			userScreenName = "usersn");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddUserEmailAddressMinus {
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -847,7 +847,7 @@ definition {
 			userScreenName = "usersn");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddUserEmailAddressNull {
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -862,7 +862,7 @@ definition {
 			userScreenName = "usersn");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddUserEmailAddressOpenBracket {
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -877,7 +877,7 @@ definition {
 			userScreenName = "usersn");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddUserEmailAddressOpenCurlyBrace {
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -891,7 +891,7 @@ definition {
 			userScreenName = "usersn");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddUserEmailAddressOpenParenthesis {
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -906,7 +906,7 @@ definition {
 			userScreenName = "usersn");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddUserEmailAddressPeriod {
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -930,7 +930,7 @@ definition {
 			userScreenName = "usersn");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddUserEmailAddressRoot {
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -945,7 +945,7 @@ definition {
 			userScreenName = "usersn");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddUserEmailAddressSemicolon {
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -960,7 +960,7 @@ definition {
 			userScreenName = "usersn");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddUserEmailAddressUnderline {
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -985,11 +985,11 @@ definition {
 			userScreenName = "usersn");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddUsers {
-		var count = "1";
+		var count = 1;
 
-		while ("${count}" != "4") {
+		while (${count} != 4) {
 			ProductMenu.gotoPortlet(
 				category = "Users",
 				panel = "Control Panel",
@@ -1004,9 +1004,9 @@ definition {
 			var count = ${count} + 1;
 		}
 
-		var count = "1";
+		var count = 1;
 
-		while ("${count}" != "4") {
+		while (${count} != 4) {
 			ProductMenu.gotoPortlet(
 				category = "Users",
 				panel = "Control Panel",
@@ -1022,7 +1022,7 @@ definition {
 		}
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddUserScreenNameInvalid {
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -1046,7 +1046,7 @@ definition {
 			userScreenNameVariation = "Invalid");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddUserScreenNameNumber {
 		property custom.properties = "users.screen.name.allow.numeric=true";
 
@@ -1054,7 +1054,7 @@ definition {
 			userEmailAddress = "userea@liferay.com",
 			userFirstName = "userfn",
 			userLastName = "userln",
-			userScreenName = "11111");
+			userScreenName = 11111);
 
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -1065,12 +1065,12 @@ definition {
 			userEmailAddress = "userea@liferay.com",
 			userFirstName = "userfn",
 			userLastName = "userln",
-			userScreenName = "11111");
+			userScreenName = 11111);
 	}
 
 	@description = "This is a use case for LPS-130750."
 	@ignore = "true"
-	@priority = "2"
+	@priority = 2
 	test AssertRelevanceSortOptionDisplaysWhenSearching {
 		JSONUser.addUser(
 			userEmailAddress = "userea1@liferay.com",
@@ -1093,7 +1093,7 @@ definition {
 		ManagementBar.viewFilterAndOrderItem(menuItem = "Relevance");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ChangeUserPassword {
 		JSONUser.addUser(
 			userEmailAddress = "userea@liferay.com",
@@ -1121,7 +1121,7 @@ definition {
 		User.changePasswordCP(userEmailAddress = "userea@liferay.com");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ChangeUserPasswordInvalid {
 		JSONUser.addUser(
 			userEmailAddress = "userea@liferay.com",
@@ -1151,7 +1151,7 @@ definition {
 			userPassword = "Invalid");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test DeleteOrganization {
 		property portal.acceptance = "true";
 
@@ -1183,7 +1183,7 @@ definition {
 		Organization.viewNoOrganizationsFoundCP();
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DeleteOrganizationSite {
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -1221,7 +1221,7 @@ definition {
 		Site.deleteCP(siteName = "Organization Name");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test DeleteUser {
 		property portal.acceptance = "true";
 
@@ -1270,7 +1270,7 @@ definition {
 		User.viewNoUsersFoundCP();
 	}
 
-	@priority = "5"
+	@priority = 5
 	test EditOrganizationSite {
 		property portal.acceptance = "true";
 		property testray.component.names = "Training";
@@ -1330,7 +1330,7 @@ definition {
 			orgType = "Organization");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test EditOrganizationSiteTeam {
 		JSONUser.addUser(
 			userEmailAddress = "userea@liferay.com",
@@ -1414,7 +1414,7 @@ definition {
 			teamName = "Site Team Name Edit");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test EditUserSite {
 		property app.server.types = "jboss,tcserver,tomcat,weblogic,websphere,wildfly";
 		property database.types = "db2,hypersonic,mariadb,mysql,oracle,postgresql,sqlserver,sybase";
@@ -1454,7 +1454,7 @@ definition {
 		User.viewUserInfomationSitesCP(siteName = "Site Name");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ErrorAddUserScreenNameNumberSiteId {
 		property custom.properties = "users.screen.name.allow.numeric=false";
 
@@ -1482,14 +1482,14 @@ definition {
 			portlet = "Users and Organizations");
 
 		User.addScreenNameNumberSiteIdCP(
-			siteID = "${siteID}",
+			siteID = ${siteID},
 			userEmailAddress = "userea@liferay.com",
 			userFirstName = "userfn",
 			userLastName = "userln",
-			userScreenName = "${SiteID}");
+			userScreenName = ${SiteID});
 	}
 
-	@priority = "4"
+	@priority = 4
 	test LoginUser {
 		JSONUser.addUser(
 			userEmailAddress = "userea@liferay.com",
@@ -1518,7 +1518,7 @@ definition {
 			userScreenName = "usersn");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test RemoveMember {
 		JSONUser.addUser(
 			userEmailAddress = "userea@liferay.com",
@@ -1569,7 +1569,7 @@ definition {
 			userFirstName = "userfn");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test SearchOrganization {
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -1592,7 +1592,7 @@ definition {
 			searchTerm = "Organization Name");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test SearchUser {
 		JSONUser.addUser(
 			userEmailAddress = "userea@liferay.com",
@@ -1612,7 +1612,7 @@ definition {
 			userScreenName = "usersn");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test SearchUserFullName {
 		JSONUser.addUser(
 			userEmailAddress = "userea@liferay.com",
@@ -1634,7 +1634,7 @@ definition {
 			userScreenName = "usersn");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test SearchUserQuotes {
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -1696,7 +1696,7 @@ definition {
 		AssertElementNotPresent(locator1 = "UsersAndOrganizations#USER_TABLE_SCREEN_NAME");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test SearchUsersInOrganization {
 		JSONUser.addUser(
 			userEmailAddress = "userea@liferay.com",
@@ -1749,7 +1749,7 @@ definition {
 		Organization.viewMembersNotFoundCP();
 	}
 
-	@priority = "3"
+	@priority = 3
 	test ViewBack {
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -1765,7 +1765,7 @@ definition {
 		takeScreenshot();
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewInvalidLoginForDeactivatedUserViaActionsMenu {
 		JSONUser.addUser(
 			userEmailAddress = "userea@liferay.com",
@@ -1800,7 +1800,7 @@ definition {
 		User.loginUserPG();
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ViewLoginForActivatedUser {
 		property portal.acceptance = "true";
 		property testray.component.names = "Training";
@@ -1848,7 +1848,7 @@ definition {
 		User.loginUserPG();
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewLoginForDeactivatedUserViaDeactivateButton {
 		var portalURL = PropsUtil.get("portal.url");
 
@@ -1886,7 +1886,7 @@ definition {
 			userScreenName = "usersn");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewOrganizationSiteViaSitesDirectory {
 		ProductMenu.gotoPortlet(
 			category = "Site Builder",
@@ -1937,14 +1937,14 @@ definition {
 
 		Navigator.gotoPage(pageName = "Sites Directory Page");
 
-		var siteName = TestCase.getSiteName(siteName = "${siteName}");
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
 
-		var key_siteName = "${siteName}";
+		var key_siteName = ${siteName};
 		var key_orgName = "Organization Name 1";
 
 		AssertTextEquals.assertPartialText(
 			locator1 = "SitesDirectory#SITE_ENTRY",
-			value1 = "${siteName}");
+			value1 = ${siteName});
 
 		AssertTextEquals(
 			locator1 = "SitesDirectory#ORG_SITE_ENTRY",
@@ -1969,7 +1969,7 @@ definition {
 			value1 = "Organization Name 1");
 
 		Breadcrumb.viewPG(
-			breadcrumbListNotVisible = "${siteName}",
+			breadcrumbListNotVisible = ${siteName},
 			breadcrumbListVisible = "Organization Name 1",
 			pathLocator = "CURRENT_LOCATION");
 
@@ -1978,7 +1978,7 @@ definition {
 			pathLocator = "PAGE");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewUpdateUserViaJSONWS {
 		property test.name.skip.portal.instance = "CPUsersandorganizations#ViewUpdateUserViaJSONWS";
 
@@ -2007,18 +2007,18 @@ definition {
 		Api.apiJsonwsUserView();
 
 		Api.editJsonwsUserView(
-			userBirthdayDay = "24",
-			userBirthdayMonth = "10",
-			userBirthdayYear = "1984",
+			userBirthdayDay = 24,
+			userBirthdayMonth = 10,
+			userBirthdayYear = 1984,
 			userEmailAddress = "test1@liferay.com",
-			userFacebookId = "0",
+			userFacebookId = 0,
 			userFirstName = "test1",
-			userId = "${userId}",
+			userId = ${userId},
 			userLastName = "test1",
-			userPrefixId = "0",
+			userPrefixId = 0,
 			userRoleTitles = "Administrator,Power User",
 			userScreenName = "test1",
-			userSuffixId = "0");
+			userSuffixId = 0);
 
 		Navigator.openURL();
 
@@ -2035,7 +2035,7 @@ definition {
 
 		AssertValue(
 			locator1 = "UsersAndOrganizationsEditUser#DETAILS_USER_ID_FIELD",
-			value1 = "${userId}");
+			value1 = ${userId});
 
 		AssertValue(
 			locator1 = "UsersAndOrganizationsEditUser#DETAILS_FIRST_NAME_FIELD",

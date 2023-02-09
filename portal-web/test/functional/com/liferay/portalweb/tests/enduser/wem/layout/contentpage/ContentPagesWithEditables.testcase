@@ -16,7 +16,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -25,7 +25,7 @@ definition {
 	}
 
 	@description = "This is a test for LPS-101333. Freemarker code should not be executed in an html fragment."
-	@priority = "5"
+	@priority = 5
 	test AddContentPageWithHTMLFragment {
 		property portal.acceptance = "true";
 
@@ -59,7 +59,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-127732. Edit the inline content style of rich text fragment."
-	@priority = "4"
+	@priority = 4
 	test EditInlineContentStyleOfRichTextFragment {
 		task ("Add a Paragraph fragment to page") {
 			JSONLayout.addPublicLayout(

@@ -20,7 +20,7 @@ definition {
 		Page.tearDownCP();
 	}
 
-	@priority = "4"
+	@priority = 4
 	test KnowledgeBasePortletSmoke {
 		property portlet.plugins.includes = "knowledge-base-portlet";
 

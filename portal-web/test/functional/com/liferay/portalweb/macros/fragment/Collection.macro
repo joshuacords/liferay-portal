@@ -1,7 +1,7 @@
 definition {
 
 	macro deleteCollection {
-		Navigator.gotoNavNested(navNested = "${collectionName}");
+		Navigator.gotoNavNested(navNested = ${collectionName});
 
 		LexiconEntry.gotoEllipsisMenuItemNoError(menuItem = "Delete");
 
@@ -9,34 +9,34 @@ definition {
 	}
 
 	macro editCollection {
-		PortletEntry.inputName(name = "${collectionName}");
+		PortletEntry.inputName(name = ${collectionName});
 
 		if (isSet(collectionDescription)) {
-			PortletEntry.inputDescription(description = "${collectionDescription}");
+			PortletEntry.inputDescription(description = ${collectionDescription});
 		}
 	}
 
 	macro renameCollection {
-		Navigator.gotoNavNested(navNested = "${collectionName}");
+		Navigator.gotoNavNested(navNested = ${collectionName});
 
 		LexiconEntry.gotoEllipsisMenuItem(menuItem = "Edit");
 
 		Collection.editCollection(
-			collectionDescription = "${collectionDescription}",
-			collectionName = "${collectionNameEdit}");
+			collectionDescription = ${collectionDescription},
+			collectionName = ${collectionNameEdit});
 
 		PortletEntry.save();
 	}
 
 	macro viewNotPresent {
 		AssertElementNotPresent(
-			key_navNested = "${collectionName}",
+			key_navNested = ${collectionName},
 			locator1 = "NavNested#NAV_NESTED_LINK");
 	}
 
 	macro viewPresent {
 		AssertElementPresent(
-			key_navNested = "${collectionName}",
+			key_navNested = ${collectionName},
 			locator1 = "NavNested#NAV_NESTED_LINK");
 	}
 

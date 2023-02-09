@@ -14,7 +14,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -31,7 +31,7 @@ definition {
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddPollsQuestionWithExpirationDate {
 		var pollsQuestionTitle = '''"Derivative"''';
 
@@ -52,7 +52,7 @@ definition {
 			pollsQuestionChoiceE = '''"None of the previous"''',
 			pollsQuestionTitle = '''"Derivative"''');
 
-		var key_pollsQuestionTitle = "${pollsQuestionTitle}";
+		var key_pollsQuestionTitle = ${pollsQuestionTitle};
 
 		Click(locator1 = "Polls#POLLS_TABLE_ACTION");
 
@@ -67,7 +67,7 @@ definition {
 			value1 = "01/02/3000");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddPollsQuestionWithSpecialCharacters {
 		var pollsQuestionChoiceA = '''"Black"''';
 		var pollsQuestionChoiceB = '''"Brown"''';
@@ -94,11 +94,11 @@ definition {
 			pollsQuestionChoiceE = '''"Other"''',
 			pollsQuestionTitle = '''"Hair Color"''');
 
-		var key_pollsQuestionTitle = "${pollsQuestionTitle}";
+		var key_pollsQuestionTitle = ${pollsQuestionTitle};
 
 		AssertTextEquals(
 			locator1 = "Polls#POLLS_TABLE_TITLE",
-			value1 = "${pollsQuestionTitle}");
+			value1 = ${pollsQuestionTitle});
 
 		Navigator.openURL();
 
@@ -119,7 +119,7 @@ definition {
 
 		Polls.viewPollPG(
 			pollsQuestion = '''"What is your hair color? Frank & John want to know."''',
-			pollsQuestionChoiceList = "${pollsQuestionChoiceList}");
+			pollsQuestionChoiceList = ${pollsQuestionChoiceList});
 
 		Polls.votePollPG(pollsQuestionChoice = '''"Blonde"''');
 
@@ -127,13 +127,13 @@ definition {
 
 		Polls.viewVotedPollPG(
 			pollsQuestionChoice = '''"Blonde"''',
-			pollsQuestionTotalVotes = "1",
-			pollsQuestionVoteCount = "1",
+			pollsQuestionTotalVotes = 1,
+			pollsQuestionVoteCount = 1,
 			pollsQuestionVotePercent = "100%");
 	}
 
 	@description = "This is a use case for LPS-66544."
-	@priority = "3"
+	@priority = 3
 	test AddPollWithEmptyChoicesAndViewErrorMessage {
 		Navigator.openURL();
 
@@ -162,7 +162,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-60143."
-	@priority = "4"
+	@priority = 4
 	test AddViaPollDisplay {
 		Navigator.openURL();
 
@@ -199,12 +199,12 @@ definition {
 
 		Polls.viewVotedPollPG(
 			pollsQuestionChoice = "Yes",
-			pollsQuestionTotalVotes = "1",
-			pollsQuestionVoteCount = "1",
+			pollsQuestionTotalVotes = 1,
+			pollsQuestionVoteCount = 1,
 			pollsQuestionVotePercent = "100%");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewChart {
 		Navigator.openURL();
 
@@ -261,7 +261,7 @@ definition {
 		Polls.viewPollChartArea(pollsQuestionTitle = "Color");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test VotePollsQuestionWithGuestPermissions {
 		Navigator.openURL();
 
@@ -350,8 +350,8 @@ definition {
 
 		Polls.viewVotedPollPG(
 			pollsQuestionChoice = "Blogs",
-			pollsQuestionTotalVotes = "1",
-			pollsQuestionVoteCount = "1",
+			pollsQuestionTotalVotes = 1,
+			pollsQuestionVoteCount = 1,
 			pollsQuestionVotePercent = "100%");
 
 		User.loginPG();

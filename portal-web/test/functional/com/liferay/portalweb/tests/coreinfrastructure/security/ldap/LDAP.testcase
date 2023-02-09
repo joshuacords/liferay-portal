@@ -14,7 +14,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -25,7 +25,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-65498."
-	@priority = "5"
+	@priority = 5
 	test ImportLDAPUserWithBlankPassword {
 		property apacheds.blank.user.password.enabled = "true";
 		property apacheds.enabled = "true";
@@ -43,9 +43,9 @@ definition {
 
 		var enableSettingList = "enabled,ldapImportEnabled,importOnStartup";
 
-		PortalSettings.configureLDAPSetting(enableSettingList = "${enableSettingList}");
+		PortalSettings.configureLDAPSetting(enableSettingList = ${enableSettingList});
 
-		PortalSettings.viewEnabledLDAPSetting(enableSettingList = "${enableSettingList}");
+		PortalSettings.viewEnabledLDAPSetting(enableSettingList = ${enableSettingList});
 
 		Portlet.shutdownServer();
 
@@ -77,7 +77,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-30529."
-	@priority = "4"
+	@priority = 4
 	test ResetFieldsValueForImportedLDAPUser {
 		property apacheds.enabled = "true";
 		property custom.properties = "field.enable.com.liferay.portal.kernel.model.Contact.male=true";
@@ -91,9 +91,9 @@ definition {
 
 		var enableSettingList = "enabled,ldapImportEnabled,importOnStartup";
 
-		PortalSettings.configureLDAPSetting(enableSettingList = "${enableSettingList}");
+		PortalSettings.configureLDAPSetting(enableSettingList = ${enableSettingList});
 
-		PortalSettings.viewEnabledLDAPSetting(enableSettingList = "${enableSettingList}");
+		PortalSettings.viewEnabledLDAPSetting(enableSettingList = ${enableSettingList});
 
 		Portlet.shutdownServer();
 
@@ -167,7 +167,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-73381."
-	@priority = "4"
+	@priority = 4
 	test ViewHiddenSecurityCredential {
 		property test.name.skip.portal.instance = "LDAP#ViewHiddenSecurityCredential";
 
@@ -181,10 +181,10 @@ definition {
 			configurationName = "Servers",
 			configurationScope = "Virtual Instance Scope");
 
-		SystemSettings.editSecurityCredential(securityCredential = "123456");
+		SystemSettings.editSecurityCredential(securityCredential = 123456);
 	}
 
-	@priority = "3"
+	@priority = 3
 	test ViewLDAPInstanceSettingsDoNotAffectSystemSettings {
 		property test.name.skip.portal.instance = "LDAP#ViewInstanceSettingsEnableLDAPAuthNotAffectSystemSetting";
 

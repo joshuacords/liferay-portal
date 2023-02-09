@@ -14,7 +14,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -27,7 +27,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-67094."
-	@priority = "4"
+	@priority = 4
 	test ViewCacheableCheckbox {
 		ProductMenu.gotoPortlet(
 			category = "Content & Data",

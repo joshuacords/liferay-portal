@@ -34,7 +34,7 @@ definition {
 
 		ACUtils.tearDownDXP();
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -43,7 +43,7 @@ definition {
 	}
 
 	@description = "Web content visitor behavior card shows expected amount of views"
-	@priority = "5"
+	@priority = 5
 	test VisitorBehaviorCardShowsExpectedAmountOfViewsInWC {
 		property test.name.skip.portal.instance = "AssetsWebContent#VisitorBehaviorCardShowsExpectedAmountOfViewsInWC";
 
@@ -64,7 +64,7 @@ definition {
 		task ("Navigate to AC property") {
 			ACUtils.launchAC();
 
-			ACProperties.switchProperty(propertyName = "${assignedPropertyName}");
+			ACProperties.switchProperty(propertyName = ${assignedPropertyName});
 		}
 
 		task ("Navigate to Web Content tab in Assets") {
@@ -84,7 +84,7 @@ definition {
 		task ("Confirm the Views number is correct") {
 			ACAssets.viewVisitorsBehaviorMetric(
 				metricTitle = "Views",
-				metricValue = "3");
+				metricValue = 3);
 		}
 	}
 

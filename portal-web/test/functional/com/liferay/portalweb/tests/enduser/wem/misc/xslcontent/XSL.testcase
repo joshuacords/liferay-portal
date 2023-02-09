@@ -50,7 +50,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -62,7 +62,7 @@ definition {
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddXSL {
 		property test.name.skip.portal.instance = "XSL#AddXSL";
 
@@ -119,7 +119,7 @@ definition {
 
 		echo("value name ${valueName}");
 
-		var xmlURL = RegexUtil.replace("${valueName}", "(localhost:\d+\/)(documents\/.*)", "2");
+		var xmlURL = RegexUtil.replace(${valueName}, "(localhost:\d+\/)(documents\/.*)", 2);
 
 		echo("xml url ${xmlURL}");
 
@@ -134,7 +134,7 @@ definition {
 
 		echo("value name ${valueName}");
 
-		var xslURL = RegexUtil.replace("${valueName}", "(localhost:\d+\/)(documents\/.*)", "2");
+		var xslURL = RegexUtil.replace(${valueName}, "(localhost:\d+\/)(documents\/.*)", 2);
 
 		echo("xsl url ${xslURL}");
 
@@ -168,16 +168,16 @@ definition {
 			tableArtistEntry = "Dallán Forgaill",
 			tableCountryEntry = "Ireland",
 			tableTitleEntry = "Be Thou my Vision",
-			tableYearEntry = "700");
+			tableYearEntry = 700);
 
 		XSLContent.viewXSLPortletHymnDisplay(
 			tableArtistEntry = "Stanley Gai",
 			tableCountryEntry = "US",
 			tableTitleEntry = "Say Something",
-			tableYearEntry = "2015");
+			tableYearEntry = 2015);
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ConfigurePortletWithCorruptXML {
 		property ignore.errors = "must be terminated by the matching end-tag";
 		property test.name.skip.portal.instance = "XSL#ConfigurePortletWithCorruptXML";
@@ -235,7 +235,7 @@ definition {
 
 		echo("value name ${valueName}");
 
-		var xmlURL = RegexUtil.replace("${valueName}", "(localhost:\d+\/)(documents\/.*)", "2");
+		var xmlURL = RegexUtil.replace(${valueName}, "(localhost:\d+\/)(documents\/.*)", 2);
 
 		echo("xml url ${xmlURL}");
 
@@ -250,7 +250,7 @@ definition {
 
 		echo("value name ${valueName}");
 
-		var xslURL = RegexUtil.replace("${valueName}", "(localhost:\d+\/)(documents\/.*)", "2");
+		var xslURL = RegexUtil.replace(${valueName}, "(localhost:\d+\/)(documents\/.*)", 2);
 
 		echo("xsl url ${xslURL}");
 
@@ -283,7 +283,7 @@ definition {
 		XSLContent.viewErrorMessage();
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ConfigurePortletWithCorruptXSL {
 		property ignore.errors = "must be terminated by the matching end-tag";
 		property test.name.skip.portal.instance = "XSL#ConfigurePortletWithCorruptXSL";
@@ -341,7 +341,7 @@ definition {
 
 		echo("value name ${valueName}");
 
-		var xmlURL = RegexUtil.replace("${valueName}", "(localhost:\d+\/)(documents\/.*)", "2");
+		var xmlURL = RegexUtil.replace(${valueName}, "(localhost:\d+\/)(documents\/.*)", 2);
 
 		echo("xml url ${xmlURL}");
 
@@ -356,7 +356,7 @@ definition {
 
 		echo("value name ${valueName}");
 
-		var xslURL = RegexUtil.replace("${valueName}", "(localhost:\d+\/)(documents\/.*)", "2");
+		var xslURL = RegexUtil.replace(${valueName}, "(localhost:\d+\/)(documents\/.*)", 2);
 
 		echo("xsl url ${xslURL}");
 
@@ -389,7 +389,7 @@ definition {
 		XSLContent.viewErrorMessage();
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ConfigurePortletWithIncorrectVersionXmlAndXsl {
 		property test.name.skip.portal.instance = "XSL#ConfigurePortletWithIncorrectVersionXmlAndXsl";
 
@@ -446,7 +446,7 @@ definition {
 
 		echo("value name ${valueName}");
 
-		var xmlURL = RegexUtil.replace("${valueName}", "(localhost:\d+\/)(documents\/.*)", "2");
+		var xmlURL = RegexUtil.replace(${valueName}, "(localhost:\d+\/)(documents\/.*)", 2);
 
 		echo("xml url ${xmlURL}");
 
@@ -461,7 +461,7 @@ definition {
 
 		echo("value name ${valueName}");
 
-		var xslURL = RegexUtil.replace("${valueName}", "(localhost:\d+\/)(documents\/.*)", "2");
+		var xslURL = RegexUtil.replace(${valueName}, "(localhost:\d+\/)(documents\/.*)", 2);
 
 		echo("xsl url ${xslURL}");
 
@@ -496,7 +496,7 @@ definition {
 		XSLContent.viewConsoleError(consoleTextError = "only XML 1.0 is supported");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewXSLDefaultContent {
 		property test.name.skip.portal.instance = "XSL#ViewXSLDefaultContent";
 

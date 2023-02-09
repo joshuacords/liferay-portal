@@ -14,7 +14,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -24,7 +24,7 @@ definition {
 		}
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ViewBlogsPortletAsGuestPG {
 		property app.server.types = "jboss,tcserver,tomcat,weblogic,websphere,wildfly";
 		property database.types = "db2,hypersonic,mariadb,mysql,oracle,postgresql,sqlserver,sybase";
@@ -54,14 +54,14 @@ definition {
 		var browserType = PropsUtil.get("browser.type");
 		var key_portletName = "Blogs";
 
-		if (("${browserType}" == "internetexplorer") && (IsElementNotPresent(locator1 = "Home#PORTLET"))) {
+		if ((${browserType} == "internetexplorer") && (IsElementNotPresent(locator1 = "Home#PORTLET"))) {
 			Refresh();
 		}
 
 		BlogsConfiguration.viewNoPermissionPG();
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewNoDisplayPortletConfigurationPermission {
 		property custom.properties = "virtual.hosts.default.site.name=Guest";
 		property test.assert.javascript.errors = "false";
@@ -81,11 +81,11 @@ definition {
 
 		User.logoutPG();
 
-		Navigator.openSpecificURL(url = "${url1}");
+		Navigator.openSpecificURL(url = ${url1});
 
 		Alert.viewErrorMessage(errorMessage = "You do not have the required permissions.");
 
-		Navigator.openSpecificURL(url = "${url2}");
+		Navigator.openSpecificURL(url = ${url2});
 
 		AssertTextEquals(
 			locator1 = "Message#ERROR",

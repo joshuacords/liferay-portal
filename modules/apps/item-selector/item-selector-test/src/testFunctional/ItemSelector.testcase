@@ -14,7 +14,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -25,14 +25,14 @@ definition {
 	}
 
 	@description = "This ensures that the SVG image can be added to a fragment background."
-	@priority = "5"
+	@priority = 5
 	test AddSVGImageToFragmentBackground {
 		JSONLayout.addPublicLayout(
 			groupName = "Guest",
 			layoutName = "Documents and Media Page");
 
 		JSONLayout.addWidgetToPublicLayout(
-			column = "1",
+			column = 1,
 			groupName = "Guest",
 			layoutName = "Documents and Media Page",
 			widgetName = "Documents and Media");
@@ -52,7 +52,7 @@ definition {
 
 		ContentPages.addPage(pageName = "Test Content Page Name");
 
-		PageEditor.addLayoutSection(columnCount = "2");
+		PageEditor.addLayoutSection(columnCount = 2);
 
 		PageEditor.selectLayoutSectionImage(
 			entryTitle = "Document_1.svg",
@@ -68,7 +68,7 @@ definition {
 	}
 
 	@description = "This ensures that users can preview the SVG image in item selector."
-	@priority = "5"
+	@priority = 5
 	test PreviewSVG {
 		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
 

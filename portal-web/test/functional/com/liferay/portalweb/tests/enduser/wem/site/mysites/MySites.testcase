@@ -20,7 +20,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -31,7 +31,7 @@ definition {
 	}
 
 	@description = "Assert that pagination is working for the MySites widget"
-	@priority = "3"
+	@priority = 3
 	test DisplayMySitesPagination {
 		property testray.component.names = "Site Administration";
 
@@ -57,13 +57,13 @@ definition {
 
 		Pagination.viewResults(results = "Showing 1 to 20 of 25 entries.");
 
-		Pagination.changePagination(itemsPerPage = "5");
+		Pagination.changePagination(itemsPerPage = 5);
 
 		Pagination.viewResults(results = "Showing 1 to 5 of 25 entries.");
 	}
 
 	@description = "Assert a default user can join a normal open site"
-	@priority = "4"
+	@priority = 4
 	test JoinSiteOpen {
 		property testray.component.names = "Site Administration,Users and Organizations";
 
@@ -109,7 +109,7 @@ definition {
 	}
 
 	@description = "Assert a default user cannot join a normal private site"
-	@priority = "5"
+	@priority = 5
 	test JoinSitePrivateNo {
 		property portal.acceptance = "true";
 		property testray.component.names = "Site Administration,Users and Organizations";
@@ -161,7 +161,7 @@ definition {
 	}
 
 	@description = "Assert joining a restricted site requires admin approval"
-	@priority = "5"
+	@priority = 5
 	test JoinSiteRestricted {
 		property testray.component.names = "Site Administration,Users and Organizations";
 
@@ -239,7 +239,7 @@ definition {
 		UserBar.gotoDropdownItem(dropdownItem = "My Dashboard");
 
 		Site.viewMySitesViaMySitesPG(
-			memberCount = "2",
+			memberCount = 2,
 			siteName = "Site Name");
 
 		// Relog in to superadmin
@@ -252,7 +252,7 @@ definition {
 	}
 
 	@description = "Assert a default user can leave a site"
-	@priority = "5"
+	@priority = 5
 	test LeaveSite {
 		property portal.acceptance = "true";
 		property testray.component.names = "Site Administration,Users and Organizations";
@@ -307,7 +307,7 @@ definition {
 	}
 
 	@description = "Search for a site using MySites widget"
-	@priority = "4"
+	@priority = 4
 	test SearchSite {
 		property testray.component.names = "Site Administration";
 
@@ -334,12 +334,12 @@ definition {
 			searchTerm = "Site Name");
 
 		Site.viewMySitesViaMySitesPG(
-			memberCount = "1",
+			memberCount = 1,
 			siteName = "Site Name");
 	}
 
 	@description = "Asssign site membership to a user in multiple ways via CP"
-	@priority = "3"
+	@priority = 3
 	test ViewMembershipAssignViaSiteCP {
 		property testray.component.names = "Site Administration,Users and Organizations";
 
@@ -405,12 +405,12 @@ definition {
 			siteName = "Home Site");
 
 		Site.viewMySitesViaMySitesPG(
-			memberCount = "2",
+			memberCount = 2,
 			siteName = "Site Name");
 	}
 
 	@description = "Assert inactive sites are not searchable"
-	@priority = "3"
+	@priority = 3
 	test ViewNoInactiveSite {
 		property testray.component.names = "Site Administration";
 
@@ -437,12 +437,12 @@ definition {
 		Search.searchCP(searchTerm = "Site Name");
 
 		Site.viewNoMySitesViaMySitesPG(
-			memberCount = "1",
+			memberCount = 1,
 			siteName = "Site Name");
 	}
 
 	@description = "Assert a user cannot join a site with manual membership management disabled"
-	@priority = "3"
+	@priority = 3
 	test ViewNoJoinOption {
 		property testray.component.names = "Site Administration,Users and Organizations";
 
@@ -505,7 +505,7 @@ definition {
 	}
 
 	@description = "Assert a user cannot leave a site with manual membership management disabled"
-	@priority = "3"
+	@priority = 3
 	test ViewNoLeaveOption {
 		property testray.component.names = "Site Administration";
 
@@ -537,7 +537,7 @@ definition {
 	}
 
 	@description = "Assert a user can navigate to a Site's public or private pages via MySites widget"
-	@priority = "3"
+	@priority = 3
 	test ViewSitePages {
 		property testray.component.names = "Site Administration";
 
@@ -579,7 +579,7 @@ definition {
 	}
 
 	@description = "Assert that site tags appear in MySites widget"
-	@priority = "4"
+	@priority = 4
 	test ViewSiteWithTags {
 		property testray.component.names = "Site Administration,Tags";
 
@@ -590,7 +590,7 @@ definition {
 		Site.openSiteSettingsAdmin(siteURLKey = "site-name");
 
 		for (var tagName : list "apple,banana,mango") {
-			Tag.addViaSiteCP(tagName = "${tagName}");
+			Tag.addViaSiteCP(tagName = ${tagName});
 		}
 
 		// Add MySites widget
@@ -604,11 +604,11 @@ definition {
 		// View Site tags via MySites widget
 
 		Site.viewMySitesViaMySitesPG(
-			memberCount = "1",
+			memberCount = 1,
 			siteName = "Site Name");
 
 		for (var tagName : list "apple,banana,mango") {
-			MySites.viewTags(tagName = "${tagName}");
+			MySites.viewTags(tagName = ${tagName});
 		}
 	}
 

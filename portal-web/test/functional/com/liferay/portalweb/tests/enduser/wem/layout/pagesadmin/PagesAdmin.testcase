@@ -16,7 +16,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -25,7 +25,7 @@ definition {
 	}
 
 	@description = "This is for LPS-150849."
-	@priority = "5"
+	@priority = 5
 	test ChooseColumnTypeAndViewSelectedIcon {
 		ProductMenu.gotoPortlet(
 			category = "Site Builder",
@@ -49,7 +49,7 @@ definition {
 
 		echo("background color: ${backgroundColorStyle} ");
 
-		if ("${backgroundColorStyle}" != "rgb(11, 95, 255)") {
+		if (${backgroundColorStyle} != "rgb(11, 95, 255)") {
 			fail("Select icon is not shown");
 		}
 
@@ -60,7 +60,7 @@ definition {
 	}
 
 	@description = "This is a test for LPS-76825. A user can search for a page from pages admin."
-	@priority = "5"
+	@priority = 5
 	test SearchPages {
 		task ("Add two pages to root and add one child page") {
 			JSONLayout.addPublicLayout(

@@ -20,7 +20,7 @@ definition {
 				-d friendlyURL=${friendlyURL}
 		''';
 
-		com.liferay.poshi.runner.util.JSONCurlUtil.post("${curl}");
+		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
 	}
 
 	@summary = "Directly calls the JSON WS API to delete a layout"
@@ -38,7 +38,7 @@ definition {
 				-d serviceContext=${serviceContext}
 		''';
 
-		com.liferay.poshi.runner.util.JSONCurlUtil.post("${curl}");
+		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
 	}
 
 	@summary = "Get the default plid from a site by using groupId"
@@ -54,15 +54,15 @@ definition {
 				-d privateLayout=${privateLayout}
 		''';
 
-		var defaultPlid = JSONCurlUtil.post("${curl}");
+		var defaultPlid = JSONCurlUtil.post(${curl});
 
-		var defaultPlid = StringUtil.extractDigits("${defaultPlid}");
+		var defaultPlid = StringUtil.extractDigits(${defaultPlid});
 
-		if ("${defaultPlid}" == "") {
+		if (${defaultPlid} == "") {
 			fail("FAIL. Cannot find defaultPlid.");
 		}
 
-		return "${defaultPlid}";
+		return ${defaultPlid};
 	}
 
 	@summary = "Get the layoutId from a layout by using groupId and layoutName"
@@ -78,17 +78,17 @@ definition {
 				-d privateLayout=${privateLayout}
 		''';
 
-		var layoutId = JSONCurlUtil.post("${curl}", "$.[?(@['nameCurrentValue'] == '${layoutName}')]['layoutId']");
+		var layoutId = JSONCurlUtil.post(${curl}, "$.[?(@['nameCurrentValue'] == '${layoutName}')]['layoutId']");
 
-		var layoutId = StringUtil.replace("${layoutId}", "[\"", "");
+		var layoutId = StringUtil.replace(${layoutId}, "[\"", "");
 
-		var layoutId = StringUtil.replace("${layoutId}", "\"]", "");
+		var layoutId = StringUtil.replace(${layoutId}, "\"]", "");
 
-		if ("${layoutId}" == "") {
+		if (${layoutId} == "") {
 			fail("FAIL. Cannot find layout.");
 		}
 
-		return "${layoutId}";
+		return ${layoutId};
 	}
 
 	@summary = "Get the typeSettings from a layout by using groupId and layoutName"
@@ -104,17 +104,17 @@ definition {
 				-d privateLayout=${privateLayout}
 		''';
 
-		var typeSettings = JSONCurlUtil.post("${curl}", "$.[?(@['nameCurrentValue'] == '${layoutName}')]['typeSettings']");
+		var typeSettings = JSONCurlUtil.post(${curl}, "$.[?(@['nameCurrentValue'] == '${layoutName}')]['typeSettings']");
 
-		var typeSettings = StringUtil.replace("${typeSettings}", "[\"", "");
+		var typeSettings = StringUtil.replace(${typeSettings}, "[\"", "");
 
-		var typeSettings = StringUtil.replace("${typeSettings}", "\"]", "");
+		var typeSettings = StringUtil.replace(${typeSettings}, "\"]", "");
 
-		if ("${typeSettings}" == "") {
+		if (${typeSettings} == "") {
 			fail("FAIL. Cannot find layout.");
 		}
 
-		return "${typeSettings}";
+		return ${typeSettings};
 	}
 
 	@summary = "Directly calls the JavaScript API to update typeSettings"
@@ -132,7 +132,7 @@ definition {
 				-d typeSettings=${typeSettings}
 		''';
 
-		com.liferay.poshi.runner.util.JSONCurlUtil.post("${curl}");
+		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
 	}
 
 }

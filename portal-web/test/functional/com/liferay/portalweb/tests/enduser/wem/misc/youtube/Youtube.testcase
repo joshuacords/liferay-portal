@@ -22,7 +22,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -30,7 +30,7 @@ definition {
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddYoutubeVideo {
 		Navigator.gotoPage(pageName = "Test Page Name");
 
@@ -57,7 +57,7 @@ definition {
 		IFrame.closeFrame();
 	}
 
-	@priority = "4"
+	@priority = 4
 	test YoutubePortletSmoke {
 		Navigator.gotoPage(pageName = "Test Page Name");
 

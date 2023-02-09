@@ -3,7 +3,7 @@ definition {
 	macro search {
 		Type(
 			locator1 = "TextInput#SEARCH_2",
-			value1 = "${webContentSearchTerm}");
+			value1 = ${webContentSearchTerm});
 
 		AssertClick(
 			locator1 = "Button#SEARCH",
@@ -17,15 +17,15 @@ definition {
 	}
 
 	macro viewResultsEntry {
-		var key_webContentTitle = "${webContentTitle}";
+		var key_webContentTitle = ${webContentTitle};
 
 		AssertTextEquals(
 			locator1 = "WebContentSearchResults#TITLE",
-			value1 = "${webContentTitle}");
+			value1 = ${webContentTitle});
 
 		AssertTextEquals.assertPartialText(
 			locator1 = "WebContentSearchResults#CONTENT",
-			value1 = "${webContentContent}");
+			value1 = ${webContentContent});
 	}
 
 }

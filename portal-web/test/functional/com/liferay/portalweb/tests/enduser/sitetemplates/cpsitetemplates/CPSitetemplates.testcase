@@ -15,7 +15,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -25,7 +25,7 @@ definition {
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddSiteTemplate {
 		property portal.acceptance = "true";
 
@@ -45,7 +45,7 @@ definition {
 			siteTemplateName = "Site Template Name");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddSiteTemplateApplySiteTemplateChangesToSite {
 		property portal.acceptance = "true";
 		property portal.release = "false";
@@ -89,7 +89,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-74307."
-	@priority = "5"
+	@priority = 5
 	test AddSiteTemplateChangeCurrentTheme {
 		property osgi.app.includes = "frontend-theme-fjord";
 
@@ -121,7 +121,7 @@ definition {
 			themeName = "Fjord");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddSiteTemplateDisablePageModification {
 		property portal.acceptance = "true";
 
@@ -148,7 +148,7 @@ definition {
 
 	@description = "This is a use case for LPS-118486."
 	@ignore = "true"
-	@priority = "3"
+	@priority = 3
 	test AssertNoChildPageOptionForPageDerivedFromSiteTemplate {
 		SiteTemplates.addCP(siteTemplateName = "Site Template Name");
 
@@ -197,12 +197,12 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-121139."
-	@priority = "4"
+	@priority = 4
 	test AssertPartialSiteTemplatePropagation {
 		property database.types = "mysql";
 		property test.name.skip.portal.instance = "CPSitetemplates#AssertPartialSiteTemplatePropagation";
 
-		var siteName = TestCase.getSiteName(siteName = "${siteName}");
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
 
 		SiteTemplates.addCP(siteTemplateName = "Site Template Name");
 
@@ -212,7 +212,7 @@ definition {
 
 		SiteTemplatesNavigator.gotoSiteTemplatesPage(
 			pageName = "Widget Page Name",
-			siteName = "${siteName}",
+			siteName = ${siteName},
 			siteTemplateName = "Site Template Name");
 
 		Portlet.addPG(portletName = "Asset Publisher");
@@ -235,7 +235,7 @@ definition {
 
 		SiteTemplatesNavigator.gotoSiteTemplatesPage(
 			pageName = "Widget Page Name",
-			siteName = "${siteName}",
+			siteName = ${siteName},
 			siteTemplateName = "Site Template Name");
 
 		Portlet.addPG(portletName = "Web Content Display");
@@ -259,17 +259,17 @@ definition {
 			groupName = "Site Name",
 			pageNameFilter = "%Widget Page Name%");
 
-		if ("${widgetPageModificationDate2}" != "${widgetPageModificationDate1}") {
+		if (${widgetPageModificationDate2} != ${widgetPageModificationDate1}) {
 			echo("The modification date of widget page is updated.");
 		}
 
-		if ("${homePageModificationDate2}" != "${homePageModificationDate1}") {
+		if (${homePageModificationDate2} != ${homePageModificationDate1}) {
 			fail("The modification date of home page should not be updated.");
 		}
 
 		SiteTemplatesNavigator.gotoSiteTemplatesPage(
 			pageName = "Home",
-			siteName = "${siteName}",
+			siteName = ${siteName},
 			siteTemplateName = "Site Template Name");
 
 		Portlet.addPG(portletName = "Asset Publisher");
@@ -293,17 +293,17 @@ definition {
 			groupName = "Site Name",
 			pageNameFilter = "%Widget Page Name%");
 
-		if ("${widgetPageModificationDate3}" != "${widgetPageModificationDate2}") {
+		if (${widgetPageModificationDate3} != ${widgetPageModificationDate2}) {
 			fail("The modification date of widget page should not be updated.");
 		}
 
-		if ("${homePageModificationDate3}" != "${homePageModificationDate1}") {
+		if (${homePageModificationDate3} != ${homePageModificationDate1}) {
 			echo("The modification date of home page is updated.");
 		}
 	}
 
 	@description = "This is a use case for LPS-131903 and LPS-132256 - Verified that users can not attempt to edit pages when disable changes."
-	@priority = "3"
+	@priority = 3
 	test CannotEditSiteLinkedToDisabledPageModificationSiteTemplate {
 		property portal.acceptance = "true";
 
@@ -337,7 +337,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-84497."
-	@priority = "3"
+	@priority = 3
 	test DeactivateActivateSiteTemplate {
 		SiteTemplates.addCP(
 			siteTemplateActive = "Yes",
@@ -368,7 +368,7 @@ definition {
 			siteTemplateName = "Site Template Name");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DeactivateDefaultSiteTemplate {
 		property portal.acceptance = "true";
 
@@ -406,7 +406,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-87081."
-	@priority = "5"
+	@priority = 5
 	test DeleteSiteTemplate {
 		property portal.acceptance = "true";
 
@@ -437,7 +437,7 @@ definition {
 		SiteTemplates.viewDefaultCP(siteTemplateNameList = "Intranet Site,Community Site");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DeleteSiteTemplateAssociatedWithASite {
 		property portal.acceptance = "true";
 
@@ -472,7 +472,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-98548."
-	@priority = "4"
+	@priority = 4
 	test DeleteSiteTemplateImportedToVirtualInstance {
 		property test.name.skip.portal.instance = "CPSitetemplates#DeleteSiteTemplateImportedToVirtualInstance";
 
@@ -517,7 +517,7 @@ definition {
 		SiteTemplates.viewNoTemplatesDisplay(siteTemplateName = "Site Template Name");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test EditSiteTemplate {
 		property portal.acceptance = "true";
 
@@ -548,7 +548,7 @@ definition {
 			siteTemplateName = "Site Template Name Edit");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test EditSiteTemplateStatus {
 		property portal.acceptance = "true";
 
@@ -584,7 +584,7 @@ definition {
 			siteTemplateName = "Site Template Name");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test LocalizeDefaultSiteTemplates {
 		property test.name.skip.portal.instance = "CPSitetemplates#LocalizeDefaultSiteTemplates";
 
@@ -632,7 +632,7 @@ definition {
 		SiteTemplates.viewDefaultCP(siteTemplateNameList = "Community Site,Intranet Site");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test OnlySiteAdminCanModifyPageAssociatedWithSiteTemplate {
 		property portal.acceptance = "true";
 
@@ -694,16 +694,16 @@ definition {
 		User.loginUserPG();
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ResetPageChanges {
 		property portal.acceptance = "true";
 		property testray.component.names = "Training";
 
-		var siteName = TestCase.getSiteName(siteName = "${siteName}");
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
 
 		SiteTemplatesNavigator.gotoSiteTemplatesPage(
 			pageName = "Home",
-			siteName = "${siteName}",
+			siteName = ${siteName},
 			siteTemplateName = "Community Site");
 
 		Portlet.addPG(portletName = "Asset Publisher");
@@ -723,26 +723,26 @@ definition {
 		ProductMenu.gotoSiteViaLink(site = "Community Site");
 
 		Portlet.dragAndDropPortletToColumnPG(
-			columnNumberFrom = "1",
-			columnNumberTo = "2",
+			columnNumberFrom = 1,
+			columnNumberTo = 2,
 			portletName = "Asset Publisher");
 
 		ProductMenu.gotoSiteViaLink(site = "Community Site");
 
 		SiteTemplates.viewResetPageChanges(
-			columnNumberFrom = "2",
+			columnNumberFrom = 2,
 			portletName = "Asset Publisher");
 
 		Portlet.dragAndDropPortletToColumnPG(
-			columnNumberFrom = "1",
-			columnNumberTo = "2",
+			columnNumberFrom = 1,
+			columnNumberTo = 2,
 			portletName = "Message Boards");
 
 		ProductMenu.gotoSiteViaLink(site = "Community Site");
 
 		Portlet.dragAndDropPortletToColumnPG(
-			columnNumberFrom = "2",
-			columnNumberTo = "1",
+			columnNumberFrom = 2,
+			columnNumberTo = 1,
 			portletName = "Message Boards");
 
 		ProductMenu.gotoPortlet(
@@ -755,25 +755,25 @@ definition {
 		Navigator.openSiteURL(siteName = "Site Name");
 
 		Portlet.dragAndDropPortletToColumnPG(
-			columnNumberFrom = "1",
-			columnNumberTo = "2",
+			columnNumberFrom = 1,
+			columnNumberTo = 2,
 			portletName = "Message Boards");
 
 		Navigator.openSiteURL(siteName = "Site Name");
 
 		SiteTemplates.resetPageChanges(
-			columnNumberTo = "2",
+			columnNumberTo = 2,
 			portletName = "Message Boards");
 
 		Navigator.openSiteURL(siteName = "Site Name");
 
 		SiteTemplates.viewResetPageChanges(
-			columnNumberFrom = "1",
+			columnNumberFrom = 1,
 			portletName = "Message Boards");
 	}
 
 	@description = "This is a use case for LPS-44550"
-	@priority = "4"
+	@priority = 4
 	test SiteTemplateXSS {
 		SiteTemplates.addCP(
 			siteTemplateActive = "Yes",
@@ -802,13 +802,13 @@ definition {
 		var actualScript = '''<script>alert(123);</script>''';
 		var escapedScript = '''&lt;script&gt;alert(123);&lt;/script&gt;''';
 
-		AssertHTMLSourceTextNotPresent(value1 = "${actualScript}");
+		AssertHTMLSourceTextNotPresent(value1 = ${actualScript});
 
-		AssertHTMLSourceTextPresent(value1 = "${escapedScript}");
+		AssertHTMLSourceTextPresent(value1 = ${escapedScript});
 	}
 
 	@description = "This is a use case for LPS-133675."
-	@priority = "3"
+	@priority = 3
 	test ViewJavaScriptPropagateviaSiteTemplate {
 		var javascript = '''alert("alert!");''';
 
@@ -817,7 +817,7 @@ definition {
 		SiteTemplates.gotoSettingsCP(siteTemplateName = "Site Template Name");
 
 		SiteTemplates.AddSiteTemplateJavaScript(
-			javaScript = "${javascript}",
+			javaScript = ${javascript},
 			pageName = "Pages");
 
 		ProductMenu.gotoPortlet(
@@ -841,7 +841,7 @@ definition {
 			siteTemplateName = "Site Template Name");
 
 		SiteTemplates.ViewSiteTemplateJavaScript(
-			javaScript = "${javascript}",
+			javaScript = ${javascript},
 			pageName = "Public Pages");
 	}
 

@@ -16,7 +16,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -26,7 +26,7 @@ definition {
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewResourceActionsCP {
 		property test.name.skip.portal.instance = "CPAuditreportsUsecaseEE#ViewResourceActionsCP";
 
@@ -37,7 +37,7 @@ definition {
 
 		SearchAdministration.executeSearchActions(actionsDescription = "Reindex all search indexes.");
 
-		var siteName = TestCase.getSiteName(siteName = "${siteName}");
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
 
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -50,7 +50,7 @@ definition {
 			locator1 = "UsersAndOrganizations#USER_TABLE_SCREEN_NAME",
 			value1 = "test");
 
-		Pause(locator1 = "5000");
+		Pause(locator1 = 5000);
 
 		var userId = selenium.getElementValue("UsersAndOrganizationsEditUser#DETAILS_USER_ID_FIELD");
 
@@ -60,8 +60,8 @@ definition {
 			portlet = "Audit");
 
 		Audit.searchCP(
-			searchTerm = "${userId}",
-			userId = "${userId}",
+			searchTerm = ${userId},
+			userId = ${userId},
 			userName = "Test Test");
 
 		ProductMenu.gotoPortlet(
@@ -79,8 +79,8 @@ definition {
 			portlet = "Audit");
 
 		Audit.searchCP(
-			resourceId = "${userId}",
-			searchTerm = "${userId}",
+			resourceId = ${userId},
+			searchTerm = ${userId},
 			userName = "Test Test");
 
 		ProductMenu.gotoPortlet(
@@ -151,7 +151,7 @@ definition {
 			portlet = "Users and Organizations");
 
 		User.impersonateCP(
-			siteName = "${siteName}",
+			siteName = ${siteName},
 			userScreenName = "test1");
 
 		Close.closeWindow(locator1 = "title=Welcome - ${siteName}");

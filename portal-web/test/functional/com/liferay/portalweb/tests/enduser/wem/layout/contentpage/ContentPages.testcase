@@ -26,7 +26,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -35,7 +35,7 @@ definition {
 	}
 
 	@description = "Add a content page with fragments."
-	@priority = "5"
+	@priority = 5
 	test AddContentPage {
 		property portal.acceptance = "true";
 		property testray.component.names = "Training";
@@ -76,7 +76,7 @@ definition {
 			AssertVisible(
 				key_content = "Lorem ipsum dolor sit amet",
 				key_fragmentClass = "header",
-				key_position = "1",
+				key_position = 1,
 				locator1 = "Fragment#FRAGMENT");
 		}
 
@@ -84,7 +84,7 @@ definition {
 			AssertVisible(
 				key_content = "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
 				key_fragmentClass = "rich-text",
-				key_position = "2",
+				key_position = 2,
 				locator1 = "Fragment#FRAGMENT");
 		}
 
@@ -92,25 +92,25 @@ definition {
 			AssertVisible(
 				key_content = "Submit",
 				key_fragmentClass = "footer",
-				key_position = "3",
+				key_position = 3,
 				locator1 = "Fragment#FRAGMENT");
 
 			AssertVisible(
 				key_content = "Cancel",
 				key_fragmentClass = "footer",
-				key_position = "3",
+				key_position = 3,
 				locator1 = "Fragment#FRAGMENT");
 		}
 
 		task ("Assert the Submit and Cancel buttons in the Button fragment is present") {
 			for (var button : list "Submit,Cancel") {
-				Button.viewPresent(button = "${button}");
+				Button.viewPresent(button = ${button});
 			}
 		}
 	}
 
 	@description = "Create a content page from a page template with fragments."
-	@priority = "5"
+	@priority = 5
 	test AddContentPageFromPageTemplate {
 		property portal.acceptance = "true";
 
@@ -149,7 +149,7 @@ definition {
 
 		task ("Assert the Button fragment is present and the buttons work") {
 			for (var button : list "Submit,Cancel") {
-				Button.viewPresent(button = "${button}");
+				Button.viewPresent(button = ${button});
 			}
 
 			Button.clickNoError(button = "Submit");
@@ -159,7 +159,7 @@ definition {
 	}
 
 	@description = "Add a content page and edit its fragment immediately. This is a variation of the steps from LPS-85872."
-	@priority = "5"
+	@priority = 5
 	test AddContentPageWithEditedFragmentText {
 		property testray.component.names = "Training";
 
@@ -194,13 +194,13 @@ definition {
 			AssertVisible(
 				key_content = "New editable fragment text",
 				key_fragmentClass = "body",
-				key_position = "1",
+				key_position = 1,
 				locator1 = "Fragment#FRAGMENT");
 		}
 	}
 
 	@description = "This is a test for LPS-95045. A user should be able to add an image fragment and change the image in the fragment."
-	@priority = "5"
+	@priority = 5
 	test AddContentPageWithImageFragment {
 		property portal.acceptance = "true";
 
@@ -227,7 +227,7 @@ definition {
 			AssertVisible(
 				key_fragmentClass = "image",
 				key_image = "Document_1.png",
-				key_position = "1",
+				key_position = 1,
 				locator1 = "Fragment#PAGE_EDITOR_FRAGMENT_IMAGE");
 		}
 
@@ -243,7 +243,7 @@ definition {
 			AssertVisible(
 				key_fragmentClass = "image",
 				key_image = "Document_1.png",
-				key_position = "1",
+				key_position = 1,
 				locator1 = "Fragment#FRAGMENT_IMAGE");
 		}
 
@@ -255,13 +255,13 @@ definition {
 			AssertVisible(
 				key_fragmentClass = "image",
 				key_image = "Document_1.png",
-				key_position = "1",
+				key_position = 1,
 				locator1 = "Fragment#PAGE_EDITOR_FRAGMENT_IMAGE");
 		}
 	}
 
 	@description = "This is a test for LPS-95042. Liferay should come out of the box with fragments."
-	@priority = "5"
+	@priority = 5
 	test AddContentPageWithOOTBFragment {
 		property portal.acceptance = "true";
 
@@ -291,7 +291,7 @@ definition {
 	}
 
 	@description = "Users can only edit content pages in edit mode."
-	@priority = "5"
+	@priority = 5
 	test CannotEditInViewMode {
 		task ("Add a content page") {
 			SitePages.openPagesAdmin(siteURLKey = "test-site-name");
@@ -325,7 +325,7 @@ definition {
 	}
 
 	@description = "This is a test for LPS-91000 and LPS-95002. User can edit number of columns a section has as well as padding options."
-	@priority = "5"
+	@priority = 5
 	test ChangeLayoutSectionProperties {
 		property portal.acceptance = "true";
 
@@ -336,7 +336,7 @@ definition {
 		}
 
 		task ("Add a 2 column layout") {
-			PageEditor.addLayoutSection(columnCount = "2");
+			PageEditor.addLayoutSection(columnCount = 2);
 		}
 
 		task ("Assert the layout has exactly 2 columns") {
@@ -357,9 +357,9 @@ definition {
 
 		task ("Edit the layout's spacing properties") {
 			PageEditor.editLayoutSectionSpacing(
-				numberOfColumns = "3",
-				paddingH = "10",
-				paddingV = "4",
+				numberOfColumns = 3,
+				paddingH = 10,
+				paddingV = 4,
 				spaceBetweenColumns = "false");
 		}
 
@@ -387,7 +387,7 @@ definition {
 	}
 
 	@description = "This is a test for LPS-78726. Discarding a draft will revert a content page back to its most recent published version."
-	@priority = "5"
+	@priority = 5
 	test DiscardContentPageDraft {
 		property portal.acceptance = "true";
 
@@ -421,7 +421,7 @@ definition {
 			AssertElementNotPresent(
 				key_content = "Lorem ipsum dolor sit amet",
 				key_fragmentClass = "header",
-				key_position = "1",
+				key_position = 1,
 				locator1 = "Fragment#FRAGMENT");
 		}
 
@@ -498,7 +498,7 @@ definition {
 			AssertVisible(
 				key_content = "Lorem ipsum dolor sit amet",
 				key_fragmentClass = "header",
-				key_position = "1",
+				key_position = 1,
 				locator1 = "Fragment#FRAGMENT");
 		}
 
@@ -536,7 +536,7 @@ definition {
 			AssertElementNotPresent(
 				key_content = "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
 				key_fragmentClass = "rich-text",
-				key_position = "2",
+				key_position = 2,
 				locator1 = "Fragment#FRAGMENT");
 		}
 
@@ -552,7 +552,7 @@ definition {
 	}
 
 	@description = "Edit an existing content page that has fragments. This testcase covers the bug found in LPS-85872. This test has been extended to cover LPS-78726. Changes to content pages only appear after they are published. LPS-76741 - Validate content page can be edited by Edit/View mode."
-	@priority = "5"
+	@priority = 5
 	test EditContentPage {
 		property portal.acceptance = "true";
 		property testray.component.names = "Training";
@@ -583,7 +583,7 @@ definition {
 			AssertElementNotPresent(
 				key_content = "Lorem ipsum dolor sit amet",
 				key_fragmentClass = "header",
-				key_position = "1",
+				key_position = 1,
 				locator1 = "Fragment#FRAGMENT");
 		}
 
@@ -591,7 +591,7 @@ definition {
 			AssertElementNotPresent(
 				key_content = "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
 				key_fragmentClass = "rich-text",
-				key_position = "2",
+				key_position = 2,
 				locator1 = "Fragment#FRAGMENT");
 		}
 
@@ -607,7 +607,7 @@ definition {
 			AssertVisible(
 				key_content = "Lorem ipsum dolor sit amet",
 				key_fragmentClass = "header",
-				key_position = "1",
+				key_position = 1,
 				locator1 = "Fragment#FRAGMENT");
 		}
 
@@ -615,7 +615,7 @@ definition {
 			AssertVisible(
 				key_content = "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
 				key_fragmentClass = "rich-text",
-				key_position = "2",
+				key_position = 2,
 				locator1 = "Fragment#FRAGMENT");
 		}
 
@@ -644,7 +644,7 @@ definition {
 			AssertVisible(
 				key_content = "Lorem ipsum dolor sit amet",
 				key_fragmentClass = "header",
-				key_position = "1",
+				key_position = 1,
 				locator1 = "Fragment#FRAGMENT");
 		}
 
@@ -652,7 +652,7 @@ definition {
 			AssertVisible(
 				key_content = "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
 				key_fragmentClass = "rich-text",
-				key_position = "2",
+				key_position = 2,
 				locator1 = "Fragment#FRAGMENT");
 		}
 
@@ -660,7 +660,7 @@ definition {
 			AssertElementNotPresent(
 				key_content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tempus eleifend lacus nec porttitor. Vestibulum pharetra ullamcorper felis volutpat commodo. Nam id ipsum placerat, hendrerit orci eu, congue nisi. Proin.",
 				key_fragmentClass = "body",
-				key_position = "3",
+				key_position = 3,
 				locator1 = "Fragment#FRAGMENT");
 		}
 
@@ -676,7 +676,7 @@ definition {
 			AssertVisible(
 				key_content = "Lorem ipsum dolor sit amet",
 				key_fragmentClass = "header",
-				key_position = "1",
+				key_position = 1,
 				locator1 = "Fragment#FRAGMENT");
 		}
 
@@ -684,7 +684,7 @@ definition {
 			AssertVisible(
 				key_content = "New editable fragment text",
 				key_fragmentClass = "rich-text",
-				key_position = "2",
+				key_position = 2,
 				locator1 = "Fragment#FRAGMENT");
 		}
 
@@ -692,7 +692,7 @@ definition {
 			AssertVisible(
 				key_content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tempus eleifend lacus nec porttitor. Vestibulum pharetra ullamcorper felis volutpat commodo. Nam id ipsum placerat, hendrerit orci eu, congue nisi. Proin.",
 				key_fragmentClass = "body",
-				key_position = "3",
+				key_position = 3,
 				locator1 = "Fragment#FRAGMENT");
 		}
 
@@ -722,7 +722,7 @@ definition {
 	}
 
 	@description = "This is a test for LPS-81870. In edit mode the page should still show the elements of the page that are not from the page itself, like the header, footer, or elements defined by the theme."
-	@priority = "5"
+	@priority = 5
 	test ViewEditModeHeaderFooterTheme {
 		property test.name.skip.portal.instance = "ContentPages#ViewEditModeHeaderFooterTheme";
 
@@ -802,7 +802,7 @@ definition {
 	}
 
 	@description = "This is a test for LPS-101328. Editable image name should be visible in the floating toolbar."
-	@priority = "5"
+	@priority = 5
 	test ViewSelectedImageName {
 		property portal.acceptance = "true";
 

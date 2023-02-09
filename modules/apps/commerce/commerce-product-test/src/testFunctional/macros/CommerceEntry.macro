@@ -2,24 +2,24 @@ definition {
 
 	macro addFullDescriptionViaAlloyEditor {
 		AlloyEditor.typeEditor(
-			content = "${entryFullDescription}",
+			content = ${entryFullDescription},
 			editor = "description");
 	}
 
 	macro addNewAccountGroupsEntry {
 		Type(
 			locator1 = "CommerceEntry#NAME_FIELD",
-			value1 = "${entryName}");
+			value1 = ${entryName});
 	}
 
 	macro addNewAccountsEntry {
 		Type(
 			locator1 = "CommerceEntry#NAME_FIELD",
-			value1 = "${entryName}");
+			value1 = ${entryName});
 
 		Select(
 			locator1 = "Select#TYPE",
-			value1 = "${criteriaType}");
+			value1 = ${criteriaType});
 
 		Button.clickSave();
 
@@ -27,7 +27,7 @@ definition {
 
 		Click(locator1 = "Button#PLUS");
 
-		CommerceItemSelector.selectEntry(entryName = "${user}");
+		CommerceItemSelector.selectEntry(entryName = ${user});
 
 		AssertClick(
 			locator1 = "ItemSelector#ADD_BUTTON",
@@ -37,7 +37,7 @@ definition {
 	macro addNewAvailabilityEstimatesEntry {
 		Type(
 			locator1 = "CommerceEntry#TITLE_FIELD",
-			value1 = "${entryName}");
+			value1 = ${entryName});
 	}
 
 	macro addNewCatalogsEntry {
@@ -45,36 +45,36 @@ definition {
 
 		Type(
 			locator1 = "CommerceEntry#NAME_FIELD",
-			value1 = "${catalogName}");
+			value1 = ${catalogName});
 
 		Select(
 			key_title = "Default Catalog Language",
 			locator1 = "CommerceEntry#CATALOGS_FORM",
-			value1 = "${catalogLanguage}");
+			value1 = ${catalogLanguage});
 
 		Select(
 			key_title = "Currency",
 			locator1 = "CommerceEntry#CATALOGS_FORM",
-			value1 = "${catalogCurrency}");
+			value1 = ${catalogCurrency});
 	}
 
 	macro addNewChannelsEntry {
 		IFrame.selectModalFrame();
 
-		Pause(locator1 = "3000");
+		Pause(locator1 = 3000);
 
 		Type(
 			locator1 = "TextInput#NAME",
-			value1 = "${channelName}");
+			value1 = ${channelName});
 
 		Select(
 			key_fieldLabel = "Currency",
 			locator1 = "Select#GENERIC_SELECT_FIELD",
-			value1 = "${channelCurrency}");
+			value1 = ${channelCurrency});
 
 		Select(
 			locator1 = "Select#TYPE",
-			value1 = "${channelType}");
+			value1 = ${channelType});
 
 		Click(
 			key_text = "Add",
@@ -92,7 +92,7 @@ definition {
 			IFrame.selectModalFrame();
 
 			Click(
-				key_siteName = "${siteName}",
+				key_siteName = ${siteName},
 				locator1 = "CommerceNavigation#CHOOSE_SITE_BUTTON");
 
 			SelectFrameTop(value1 = "relative=top");
@@ -100,13 +100,13 @@ definition {
 			Button.clickSave();
 		}
 
-		Pause(locator1 = "5000");
+		Pause(locator1 = 5000);
 	}
 
 	macro addNewCountriesEntry {
 		Type(
 			locator1 = "CommerceEntry#NAME_FIELD",
-			value1 = "${entryName}");
+			value1 = ${entryName});
 
 		Check.checkToggleSwitch(locator1 = "CommerceEntry#BILLING_ALLOWED_CHECKBOX");
 
@@ -122,7 +122,7 @@ definition {
 
 		Type(
 			locator1 = "CommerceEntry#NUMERIC_ISO_CODE_FIELD",
-			value1 = "001");
+			value1 = 001);
 
 		Check.checkToggleSwitch(locator1 = "CommerceEntry#SUBJECT_TO_VAT_CHECKBOX");
 
@@ -132,11 +132,11 @@ definition {
 	macro addNewCurrenciesEntry {
 		Type(
 			locator1 = "CommerceEntry#NAME_FIELD",
-			value1 = "${entryName}");
+			value1 = ${entryName});
 
 		Type(
 			locator1 = "CommerceEntry#CODE_FIELD",
-			value1 = "${code}");
+			value1 = ${code});
 
 		Check.checkToggleSwitch(locator1 = "CommerceEntry#PRIMARY_CHECKBOX");
 
@@ -146,11 +146,11 @@ definition {
 	macro addNewDimensionUnit {
 		Type(
 			locator1 = "CommerceEntry#NAME_FIELD",
-			value1 = "${entryName}");
+			value1 = ${entryName});
 
 		Type(
 			locator1 = "CommerceEntry#KEY_FIELD",
-			value1 = "${entryName}");
+			value1 = ${entryName});
 
 		Check.checkToggleSwitch(locator1 = "CommerceEntry#PRIMARY_CHECKBOX");
 	}
@@ -158,14 +158,14 @@ definition {
 	macro addNewDiscountsEntry {
 		Type(
 			locator1 = "CommerceEntry#TITLE_FIELD",
-			value1 = "${entryTitle}");
+			value1 = ${entryTitle});
 
 		Select(
 			locator1 = "CommerceEntry#DISCOUNT_TARGET_SELECT",
-			value1 = "${discountTarget}");
+			value1 = ${discountTarget});
 
 		Check.checkToggleSwitch(
-			checkboxName = "${channelsEntryName}",
+			checkboxName = ${channelsEntryName},
 			locator1 = "Checkbox#ANY_CHECKBOX");
 
 		if (isSet(accountGroup)) {
@@ -173,7 +173,7 @@ definition {
 				locator1 = "Button#SELECT",
 				value1 = "Select");
 
-			CommerceItemSelector.selectEntry(entryName = "${accountGroup}");
+			CommerceItemSelector.selectEntry(entryName = ${accountGroup});
 
 			Click(
 				locator1 = "ItemSelector#ADD_BUTTON",
@@ -182,11 +182,11 @@ definition {
 
 		Type(
 			locator1 = "CommerceEntry#MAXIMUM_DISCOUNT_AMOUNT_FIELD",
-			value1 = "${maximumDiscountAmount}");
+			value1 = ${maximumDiscountAmount});
 
 		Type(
 			locator1 = "CommerceEntry#DISCOUNT_LEVEL_1_FIELD",
-			value1 = "${discountLevel}");
+			value1 = ${discountLevel});
 
 		Check.checkToggleSwitch(locator1 = "CommerceEntry#ACTIVE_CHECKBOX");
 	}
@@ -194,7 +194,7 @@ definition {
 	macro addNewNotificationTemplate {
 		Type(
 			locator1 = "CommerceEntry#NAME_FIELD",
-			value1 = "${entryName}");
+			value1 = ${entryName});
 
 		Type(
 			locator1 = "TextArea#DESCRIPTION",
@@ -202,7 +202,7 @@ definition {
 
 		Click(locator1 = "Button#SELECT");
 
-		CommerceItemSelector.selectEntry(entryName = "${accountGroup}");
+		CommerceItemSelector.selectEntry(entryName = ${accountGroup});
 
 		Click(
 			locator1 = "ItemSelector#ADD_BUTTON",
@@ -210,35 +210,35 @@ definition {
 
 		Type(
 			locator1 = "CommerceEntry#NOTIFICATION_TEMPLATE_FROM_ADDRESS_FIELD",
-			value1 = "${fromAddress}");
+			value1 = ${fromAddress});
 
 		Type(
 			locator1 = "CommerceEntry#NOTIFICATION_TEMPLATE_FROM_NAME_FIELD",
-			value1 = "${fromName}");
+			value1 = ${fromName});
 
 		Select(
 			locator1 = "Select#TYPE",
-			value1 = "${notificationType}");
+			value1 = ${notificationType});
 	}
 
 	macro addNewPriceListsEntry {
 		Type(
 			locator1 = "CommerceEntry#NAME_FIELD",
-			value1 = "${entryName}");
+			value1 = ${entryName});
 
 		Select(
 			locator1 = "CommerceEntry#CURRENCY_SELECT",
-			value1 = "${currencyCode}");
+			value1 = ${currencyCode});
 	}
 
 	macro addNewRegionsEntry {
 		Type(
 			locator1 = "CommerceEntry#NAME_FIELD",
-			value1 = "${entryName}");
+			value1 = ${entryName});
 
 		Type(
 			locator1 = "CommerceEntry#CODE_FIELD",
-			value1 = "${code}");
+			value1 = ${code});
 
 		Check.checkToggleSwitch(locator1 = "CommerceEntry#ACTIVE_CHECKBOX");
 	}
@@ -246,11 +246,11 @@ definition {
 	macro addNewWeightUnit {
 		Type(
 			locator1 = "CommerceEntry#NAME_FIELD",
-			value1 = "${entryName}");
+			value1 = ${entryName});
 
 		Type(
 			locator1 = "CommerceEntry#KEY_FIELD",
-			value1 = "${entryName}");
+			value1 = ${entryName});
 
 		Check.checkToggleSwitch(locator1 = "CommerceEntry#PRIMARY_CHECKBOX");
 	}
@@ -258,15 +258,15 @@ definition {
 	macro addOptionsEntry {
 		Type(
 			locator1 = "CommerceEntry#NAME_FIELD",
-			value1 = "${optionName}");
+			value1 = ${optionName});
 
 		Type(
 			locator1 = "CommerceEntry#DESCRIPTION_FIELD",
-			value1 = "${optionDescription}");
+			value1 = ${optionDescription});
 
 		Select(
 			locator1 = "CommerceEntry#FIELD_TYPE_SELECT",
-			value1 = "${optionFieldType}");
+			value1 = ${optionFieldType});
 
 		Check.checkToggleSwitch(locator1 = "CommerceEntry#FACETABLE_CHECKBOX");
 
@@ -278,17 +278,17 @@ definition {
 	macro addOptionValue {
 		Type(
 			locator1 = "CommerceEntry#MODAL_NAME_FIELD",
-			value1 = "${valueName}");
+			value1 = ${valueName});
 
 		Type(
 			locator1 = "CommerceEntry#PRIORITY_FIELD",
-			value1 = "${valuePriority}");
+			value1 = ${valuePriority});
 	}
 
 	macro addPricingEntry {
 		Type(
 			locator1 = "CommerceEntry#PRICE_FIELD",
-			value1 = "${price}");
+			value1 = ${price});
 	}
 
 	macro addProductsEntry {
@@ -296,49 +296,49 @@ definition {
 
 		Type(
 			locator1 = "CommerceEntry#NAME_FIELD",
-			value1 = "${productName}");
+			value1 = ${productName});
 
 		Type(
 			locator1 = "CommerceEntry#CREATE_NEW_PRODUCT_CATALOG_FIELD",
-			value1 = "${productCatalog}");
+			value1 = ${productCatalog});
 
 		Click(
-			key_menuItem = "${productCatalog}",
+			key_menuItem = ${productCatalog},
 			locator1 = "MenuItem#DROPDOWN_MENU_ITEM");
 
 		Click(locator1 = "Button#SUBMIT");
 
-		Pause(locator1 = "2000");
+		Pause(locator1 = 2000);
 
 		Refresh();
 
 		AssertSelectedLabel(
 			key_fieldLabel = "Catalog",
 			locator1 = "Select#GENERIC_SELECT_FIELD",
-			value1 = "${productCatalog}");
+			value1 = ${productCatalog});
 
 		AssertTextEquals(
 			locator1 = "CommerceEntry#NAME_FIELD",
-			value1 = "${productName}");
+			value1 = ${productName});
 
 		Type(
 			locator1 = "CommerceEntry#SHORT_DESCRIPTION_FIELD",
-			value1 = "${productShortDescription}");
+			value1 = ${productShortDescription});
 
-		CommerceEntry.addFullDescriptionViaAlloyEditor(entryFullDescription = "${productFullDescription}");
+		CommerceEntry.addFullDescriptionViaAlloyEditor(entryFullDescription = ${productFullDescription});
 	}
 
 	macro addSKUsEntry {
 		Type(
 			locator1 = "CommerceEntry#SKU_FIELD",
-			value1 = "${productSKU}");
+			value1 = ${productSKU});
 
-		CommerceEntry.selectAssociatedOptionsValue(optionValue = "${optionValue}");
+		CommerceEntry.selectAssociatedOptionsValue(optionValue = ${optionValue});
 	}
 
 	macro clickNoError {
 		ClickNoError(
-			key_menuItem = "${menuItem}",
+			key_menuItem = ${menuItem},
 			locator1 = "CommerceEntry#ANY_MENU_ITEM");
 	}
 
@@ -351,9 +351,9 @@ definition {
 		Click(locator1 = "Button#PLUS");
 
 		CommerceEntry.addNewAccountsEntry(
-			criteriaType = "${accountCriteriaType}",
-			entryName = "${accountsEntryName}",
-			user = "${user}");
+			criteriaType = ${accountCriteriaType},
+			entryName = ${accountsEntryName},
+			user = ${user});
 
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -362,7 +362,7 @@ definition {
 
 		Click(locator1 = "Button#PLUS");
 
-		CommerceEntry.addNewAccountGroupsEntry(entryName = "${accountGroupsEntryName}");
+		CommerceEntry.addNewAccountGroupsEntry(entryName = ${accountGroupsEntryName});
 
 		Button.clickSave();
 
@@ -372,7 +372,7 @@ definition {
 
 		Click(locator1 = "Button#PLUS");
 
-		CommerceItemSelector.selectEntry(entryName = "${accountsEntryName}");
+		CommerceItemSelector.selectEntry(entryName = ${accountsEntryName});
 
 		Click(
 			locator1 = "ItemSelector#ADD_BUTTON",
@@ -390,8 +390,8 @@ definition {
 		Click(locator1 = "Button#PLUS");
 
 		CommerceEntry.addNewCurrenciesEntry(
-			code = "${code}",
-			entryName = "${entryName}");
+			code = ${code},
+			entryName = ${entryName});
 
 		Button.clickSave();
 
@@ -404,12 +404,12 @@ definition {
 		Type(
 			key_fieldLabel = "Title",
 			locator1 = "TextInput#GENERIC_TEXT_INPUT",
-			value1 = "${specificationTitle}");
+			value1 = ${specificationTitle});
 
 		Type(
 			key_fieldLabel = "Description",
 			locator1 = "TextInput#GENERIC_TEXT_INPUT",
-			value1 = "${specificationDescription}");
+			value1 = ${specificationDescription});
 
 		ClickNoError(locator1 = "CommerceEntry#SAVE_BUTTON");
 	}
@@ -420,11 +420,11 @@ definition {
 		Type(
 			key_fieldLabel = "Label",
 			locator1 = "TextInput#GENERIC_TEXT_INPUT",
-			value1 = "${specificationTitle}");
+			value1 = ${specificationTitle});
 
 		Type(
 			locator1 = "CommerceEntry#DESCRIPTION_FIELD",
-			value1 = "${specificationDescription}");
+			value1 = ${specificationDescription});
 
 		Button.clickSave();
 	}
@@ -444,40 +444,40 @@ definition {
 	}
 
 	macro editEntryFullDescription {
-		CommerceEntry.addFullDescriptionViaAlloyEditor(entryFullDescription = "${newEntryFullDescription}");
+		CommerceEntry.addFullDescriptionViaAlloyEditor(entryFullDescription = ${newEntryFullDescription});
 	}
 
 	macro editEntryName {
 		Type(
 			locator1 = "CommerceEntry#NAME_FIELD",
-			value1 = "${newEntryName}");
+			value1 = ${newEntryName});
 	}
 
 	macro editEntryShortDescription {
 		Type(
 			locator1 = "CommerceEntry#SHORT_DESCRIPTION_FIELD",
-			value1 = "${newEntryShortDescription}");
+			value1 = ${newEntryShortDescription});
 	}
 
 	macro gotoBreadcrumb {
 		Click(
-			key_breadcrumb = "${breadcrumb}",
+			key_breadcrumb = ${breadcrumb},
 			locator1 = "CommerceEntry#BREADCRUMBS",
-			value1 = "${breadcrumb}");
+			value1 = ${breadcrumb});
 	}
 
 	macro gotoMenuTab {
 		AssertClick(
-			key_menuTab = "${menuTab}",
+			key_menuTab = ${menuTab},
 			locator1 = "CommerceEntry#MENU_TAB",
-			value1 = "${menuTab}");
+			value1 = ${menuTab});
 	}
 
 	macro gotoNestedMenu {
 		AssertClick(
-			key_nestedMenu = "${nestedMenu}",
+			key_nestedMenu = ${nestedMenu},
 			locator1 = "CommerceEntry#NESTED_MENU",
-			value1 = "${nestedMenu}");
+			value1 = ${nestedMenu});
 	}
 
 	macro publishEntry {
@@ -488,12 +488,12 @@ definition {
 		}
 		else {
 			AssertTextEquals(
-				key_status = "${status}",
+				key_status = ${status},
 				locator1 = "CommerceEntry#WORKFLOW_STATUS",
-				value1 = "${status}");
+				value1 = ${status});
 		}
 
-		Pause(locator1 = "3000");
+		Pause(locator1 = 3000);
 	}
 
 	macro publishProductImage {
@@ -507,7 +507,7 @@ definition {
 
 		AssertElementPresent(locator1 = "Message#SUCCESS");
 
-		Pause(locator1 = "3000");
+		Pause(locator1 = 3000);
 	}
 
 	macro saveEntry {
@@ -515,7 +515,7 @@ definition {
 
 		AssertElementPresent(locator1 = "Message#SUCCESS");
 
-		Pause(locator1 = "3000");
+		Pause(locator1 = 3000);
 	}
 
 	macro saveEntryAsDraft {
@@ -526,12 +526,12 @@ definition {
 		}
 		else {
 			AssertTextEquals(
-				key_status = "${status}",
+				key_status = ${status},
 				locator1 = "CommerceEntry#WORKFLOW_STATUS",
-				value1 = "${status}");
+				value1 = ${status});
 		}
 
-		Pause(locator1 = "3000");
+		Pause(locator1 = 3000);
 	}
 
 	macro selectAssociatedOptionsValue {
@@ -539,21 +539,21 @@ definition {
 			Click(locator1 = "CommerceEntry#OPTION_SELECT");
 
 			Click(
-				key_selectValue = "${optionValue}",
+				key_selectValue = ${optionValue},
 				locator1 = "CommerceEntry#OPTIONS_SELECT_LIST");
 		}
 
-		if (IsElementPresent(key_optionType = "checkbox_multiple", key_optionValue = "${optionValue}", locator1 = "CommerceEntry#OPTION_VALUE")) {
+		if (IsElementPresent(key_optionType = "checkbox_multiple", key_optionValue = ${optionValue}, locator1 = "CommerceEntry#OPTION_VALUE")) {
 			Click(
 				key_optionType = "checkbox_multiple",
-				key_optionValue = "${optionValue}",
+				key_optionValue = ${optionValue},
 				locator1 = "CommerceEntry#OPTION_VALUE");
 		}
 
-		if (IsElementPresent(key_optionType = "radio", key_optionValue = "${optionValue}", locator1 = "CommerceEntry#OPTION_VALUE")) {
+		if (IsElementPresent(key_optionType = "radio", key_optionValue = ${optionValue}, locator1 = "CommerceEntry#OPTION_VALUE")) {
 			Click(
 				key_optionType = "radio",
-				key_optionValue = "${optionValue}",
+				key_optionValue = ${optionValue},
 				locator1 = "CommerceEntry#OPTION_VALUE");
 		}
 	}
@@ -563,44 +563,44 @@ definition {
 			locator1 = "CommerceEntry#PRODUCT_IMAGE_SELECT_FILE",
 			value1 = "Select File");
 
-		CommerceItemSelector.uploadSingleFile(uploadFileName = "${uploadFileName}");
+		CommerceItemSelector.uploadSingleFile(uploadFileName = ${uploadFileName});
 	}
 
 	macro viewAccountsEntry {
 		AssertTextEquals(
 			locator1 = "TextInput#NAME",
-			value1 = "${accountName}");
+			value1 = ${accountName});
 
 		AssertTextEquals(
 			locator1 = "TextInput#EMAIL",
-			value1 = "${accountEmail}");
+			value1 = ${accountEmail});
 
 		AssertSelectedLabel(
 			locator1 = "Select#TYPE",
-			value1 = "${accountType}");
+			value1 = ${accountType});
 
 		if (isSet(accountVATNumber)) {
 			AssertTextEquals(
 				key_fieldLabel = "VAT Number",
 				locator1 = "TextInput#GENERIC_TEXT_INPUT",
-				value1 = "${accountVATNumber}");
+				value1 = ${accountVATNumber});
 		}
 
 		if (isSet(accountDefaultBilling)) {
 			AssertSelectedLabel(
 				key_fieldLabel = "Default Billing",
 				locator1 = "Select#GENERIC_SELECT_FIELD",
-				value1 = "${accountDefaultBilling}");
+				value1 = ${accountDefaultBilling});
 		}
 
 		if (isSet(accountDefaultShipping)) {
 			AssertSelectedLabel(
 				key_fieldLabel = "Default Shipping",
 				locator1 = "Select#GENERIC_SELECT_FIELD",
-				value1 = "${accountDefaultShipping}");
+				value1 = ${accountDefaultShipping});
 		}
 
-		if ("${isAccountActive}" == "true") {
+		if (${isAccountActive} == "true") {
 			AssertChecked(locator1 = "Checkbox#ACTIVE");
 		}
 		else {
@@ -611,34 +611,34 @@ definition {
 	macro viewCatalogsEntry {
 		AssertTextEquals(
 			locator1 = "CommerceEntry#NAME_FIELD",
-			value1 = "${catalogName}");
+			value1 = ${catalogName});
 
 		AssertSelectedLabel(
 			key_title = "Default Catalog Language",
 			locator1 = "CommerceEntry#CATALOGS_FORM",
-			value1 = "${catalogLanguage}");
+			value1 = ${catalogLanguage});
 
 		AssertSelectedLabel(
 			key_title = "Currency",
 			locator1 = "CommerceEntry#CATALOGS_FORM",
-			value1 = "${catalogCurrency}");
+			value1 = ${catalogCurrency});
 	}
 
 	macro viewChannelsEntry {
 		AssertTextEquals(
 			locator1 = "TextInput#NAME",
-			value1 = "${channelName}");
+			value1 = ${channelName});
 
 		AssertSelectedLabel(
 			key_fieldLabel = "Currency",
 			locator1 = "Select#GENERIC_SELECT_FIELD",
-			value1 = "${channelCurrency}");
+			value1 = ${channelCurrency});
 
 		if (isSet(commerceSiteType)) {
 			AssertSelectedLabel(
 				key_fieldLabel = "Commerce Site Type",
 				locator1 = "Select#GENERIC_SELECT_FIELD",
-				value1 = "${commerceSiteType}");
+				value1 = ${commerceSiteType});
 		}
 
 		Click(
@@ -647,11 +647,11 @@ definition {
 
 		AssertTextEquals(
 			locator1 = "CommerceEntry#CHANNEL_TYPE_VALUE",
-			value1 = "${channelType}");
+			value1 = ${channelType});
 
 		if (isSet(channelSiteName)) {
 			AssertElementPresent(
-				key_rowEntry = "${channelSiteName}",
+				key_rowEntry = ${channelSiteName},
 				locator1 = "ContentRow#ENTRY_CONTENT_ENTRY_NAME");
 		}
 	}
@@ -659,63 +659,63 @@ definition {
 	macro viewDiscountsEntry {
 		AssertTextEquals(
 			locator1 = "CommerceEntry#TITLE_FIELD",
-			value1 = "${entryTitle}");
+			value1 = ${entryTitle});
 
 		AssertSelectedLabel(
 			locator1 = "CommerceEntry#DISCOUNT_TARGET_SELECT",
-			value1 = "${discountTarget}");
+			value1 = ${discountTarget});
 
 		AssertChecked(
-			checkboxName = "${channelsEntryName}",
+			checkboxName = ${channelsEntryName},
 			locator1 = "Checkbox#ANY_CHECKBOX");
 
 		AssertValue(
 			locator1 = "CommerceEntry#MAXIMUM_DISCOUNT_AMOUNT_FIELD",
-			value1 = "${maximumDiscountAmount}");
+			value1 = ${maximumDiscountAmount});
 
 		AssertValue(
 			locator1 = "CommerceEntry#DISCOUNT_LEVEL_1_FIELD",
-			value1 = "${discountLevel}");
+			value1 = ${discountLevel});
 	}
 
 	macro viewOptionsEntry {
 		AssertTextEquals(
 			locator1 = "CommerceEntry#NAME_FIELD",
-			value1 = "${optionName}");
+			value1 = ${optionName});
 
 		if (isSet(optionDescription)) {
 			AssertTextEquals(
 				locator1 = "CommerceEntry#DESCRIPTION_FIELD",
-				value1 = "${optionDescription}");
+				value1 = ${optionDescription});
 		}
 	}
 
 	macro viewPaginationResults {
 		AssertTextEquals(
 			locator1 = "CommerceEntry#PAGINATION_RESULTS",
-			value1 = "${results}");
+			value1 = ${results});
 	}
 
 	macro viewPriceListEntry {
 		AssertTextEquals(
 			locator1 = "CommerceEntry#NAME_FIELD",
-			value1 = "${entryName}");
+			value1 = ${entryName});
 
 		AssertSelectedLabel(
 			locator1 = "CommerceEntry#CURRENCY_SELECT",
-			value1 = "${currencyCode}");
+			value1 = ${currencyCode});
 	}
 
 	macro viewProductOptions {
 		Click(
-			key_entryName = "${optionName}",
+			key_entryName = ${optionName},
 			locator1 = "CommerceEntry#PRODUCT_DETAIL_VIEW_OPTION_2");
 
 		SelectFrame(locator1 = "CommerceEntry#IFRAME_SIDE_PANEL");
 
 		AssertTextEquals(
 			locator1 = "CommerceEntry#NAME_FIELD",
-			value1 = "${optionName}");
+			value1 = ${optionName});
 
 		AssertChecked.assertCheckedNotVisible(
 			key_toggleSwitchLabel = "Use in Faceted Navigation",
@@ -729,9 +729,9 @@ definition {
 			key_toggleSwitchLabel = "SKU Contributor",
 			locator1 = "ToggleSwitch#ANY_TOGGLE_SWITCH");
 
-		for (var optionList : list "${optionList}") {
+		for (var optionList : list ${optionList}) {
 			IsElementPresent(
-				key_entryName = "${optionList}",
+				key_entryName = ${optionList},
 				locator1 = "CommerceNavigation#ENTRY_NAME");
 		}
 
@@ -743,33 +743,33 @@ definition {
 	macro viewProductsEntry {
 		AssertTextEquals(
 			locator1 = "CommerceEntry#NAME_FIELD",
-			value1 = "${productName}");
+			value1 = ${productName});
 
 		AssertTextEquals(
 			locator1 = "CommerceEntry#SHORT_DESCRIPTION_FIELD",
-			value1 = "${productShortDescription}");
+			value1 = ${productShortDescription});
 	}
 
 	macro viewProductSkus {
-		for (var skusList : list "${skusList}") {
-			var sku = StringUtil.extractFirst("${skusList}", ":");
-			var price = StringUtil.extractLast("${skusList}", ":");
+		for (var skusList : list ${skusList}) {
+			var sku = StringUtil.extractFirst(${skusList}, ":");
+			var price = StringUtil.extractLast(${skusList}, ":");
 
 			Refresh();
 
 			Click(
-				key_entryName = "${sku}",
+				key_entryName = ${sku},
 				locator1 = "CommerceNavigation#DATASET_DISPLAY_ENTRY_NAME");
 
 			SelectFrame(locator1 = "CommerceEntry#IFRAME_SIDE_PANEL");
 
 			AssertTextEquals(
 				locator1 = "CommerceEntry#SKU_FIELD",
-				value1 = "${sku}");
+				value1 = ${sku});
 
 			AssertTextEquals(
 				locator1 = "CommerceEntry#INPUT_PRICE",
-				value1 = "${price}");
+				value1 = ${price});
 
 			Click(locator1 = "Icon#CLOSE");
 		}
@@ -777,57 +777,57 @@ definition {
 
 	macro viewSpecificationGroups {
 		Click(
-			key_entry = "${specificationTitle}",
+			key_entry = ${specificationTitle},
 			locator1 = "CommerceNavigation#ANY_ENTRY_NAME");
 
 		AssertTextEquals(
 			key_fieldLabel = "Title",
 			locator1 = "TextInput#GENERIC_TEXT_INPUT",
-			value1 = "${specificationTitle}");
+			value1 = ${specificationTitle});
 
 		AssertTextEquals(
 			key_fieldLabel = "Description",
 			locator1 = "TextInput#GENERIC_TEXT_INPUT",
-			value1 = "${specificationDescription}");
+			value1 = ${specificationDescription});
 
 		AssertTextEquals(
 			key_fieldLabel = "Key",
 			locator1 = "TextInput#GENERIC_TEXT_INPUT",
-			value1 = "${specificationTitle}");
+			value1 = ${specificationTitle});
 	}
 
 	macro viewSpecificationGroupsEntries {
-		for (var specificationGroupsEntry : list "${specificationGroupsEntries}") {
+		for (var specificationGroupsEntry : list ${specificationGroupsEntries}) {
 			AssertElementPresent(
-				key_rowEntry = "${specificationGroupsEntry}",
+				key_rowEntry = ${specificationGroupsEntry},
 				locator1 = "ContentRow#ENTRY_CONTENT_ENTRY_NAME_LINK");
 		}
 	}
 
 	macro viewSpecificationLabels {
 		Click(
-			key_entry = "${specificationTitle}",
+			key_entry = ${specificationTitle},
 			locator1 = "CommerceNavigation#ANY_ENTRY_NAME");
 
 		AssertTextEquals(
 			key_fieldLabel = "Label",
 			locator1 = "TextInput#GENERIC_TEXT_INPUT",
-			value1 = "${specificationTitle}");
+			value1 = ${specificationTitle});
 
 		AssertTextEquals(
 			locator1 = "CommerceEntry#DESCRIPTION_FIELD",
-			value1 = "${specificationDescription}");
+			value1 = ${specificationDescription});
 
 		AssertTextEquals(
 			key_fieldLabel = "Key",
 			locator1 = "TextInput#GENERIC_TEXT_INPUT",
-			value1 = "${specificationTitle}");
+			value1 = ${specificationTitle});
 	}
 
 	macro viewSpecificationLabelsEntries {
-		for (var specificationLabelsEntry : list "${specificationLabelsEntries}") {
+		for (var specificationLabelsEntry : list ${specificationLabelsEntries}) {
 			AssertElementPresent(
-				key_rowEntry = "${specificationLabelsEntry}",
+				key_rowEntry = ${specificationLabelsEntry},
 				locator1 = "ContentRow#ENTRY_CONTENT_ENTRY_NAME_LINK");
 		}
 	}

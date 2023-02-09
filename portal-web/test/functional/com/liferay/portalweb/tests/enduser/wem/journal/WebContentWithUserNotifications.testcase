@@ -44,7 +44,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -56,13 +56,13 @@ definition {
 
 			WebContentStructures.tearDownCP();
 
-			WebContentStructures.tearDownCP(siteScopeName = "${globalSiteName}");
+			WebContentStructures.tearDownCP(siteScopeName = ${globalSiteName});
 
 			Page.tearDownCP();
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewArticleEmailNotification {
 		property test.smtp.server.enabled = "true";
 		property testray.component.names = "Web Content Administration";
@@ -107,7 +107,7 @@ definition {
 			subject = "WC WebContent Title");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewEditArticleEmailNotification {
 		property test.smtp.server.enabled = "true";
 		property testray.component.names = "Web Content Administration";
@@ -165,7 +165,7 @@ definition {
 			subject = "WC WebContent Title Edit");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewMoveArticleEmailNotification {
 		property test.smtp.server.enabled = "true";
 		property testray.component.names = "Web Content Administration";

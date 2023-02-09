@@ -16,7 +16,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -26,7 +26,7 @@ definition {
 		}
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddEmbeddedPortletFreemarkerTemplate {
 		property osgi.app.includes = "currency-converter";
 		property testray.component.names = "Web Content Administration";
@@ -63,7 +63,7 @@ definition {
 
 		var templateScript = '''<@liferay_portlet["runtime"] portletName="com_liferay_hello_world_web_portlet_HelloWorldPortlet" />''';
 
-		WebContentTemplates.inputScript(templateScript = "${templateScript}");
+		WebContentTemplates.inputScript(templateScript = ${templateScript});
 
 		PortletEntry.save();
 
@@ -90,7 +90,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-52248."
-	@priority = "4"
+	@priority = 4
 	test AddStructureWithSeparatorField {
 		WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
 
@@ -134,7 +134,7 @@ definition {
 		AssertConsoleTextNotPresent(value1 = "freemarker.core.NonStringException");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddStructureWithSubfield {
 		property testray.component.names = "Web Content Administration";
 
@@ -174,7 +174,7 @@ definition {
 		WebContent.addWithStructureCP(
 			structureName = "WC Structure Name",
 			templateName = "WC Template Name",
-			webContentInteger = "123",
+			webContentInteger = 123,
 			webContentText = "Text",
 			webContentTitle = "WC WebContent Title");
 
@@ -189,7 +189,7 @@ definition {
 		WebContent.viewNestedField(
 			fieldName = "Text",
 			nestedField = "Integer",
-			nestedFieldData = "123");
+			nestedFieldData = 123);
 
 		WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
 
@@ -203,12 +203,12 @@ definition {
 
 		for (var structureFieldName : list "Text,Integer") {
 			DynamicDataMapping.viewField(
-				fieldFieldLabel = "${structureFieldName}",
-				fieldName = "${structureFieldName}");
+				fieldFieldLabel = ${structureFieldName},
+				fieldName = ${structureFieldName});
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddStructureWithUnlocalizableFields {
 		property testray.component.names = "Localization,Web Content Administration";
 
@@ -222,9 +222,9 @@ definition {
 
 		for (var structureFieldName : list "Text,Text Box") {
 			DynamicDataMapping.addField(
-				field = "${structureFieldName}",
-				fieldFieldLabel = "${structureFieldName}",
-				fieldName = StringUtil.replace("${structureFieldName}", " ", ""));
+				field = ${structureFieldName},
+				fieldFieldLabel = ${structureFieldName},
+				fieldName = StringUtil.replace(${structureFieldName}, " ", ""));
 		}
 
 		WebContentStructures.saveCP(structureName = "WC Structure Name");
@@ -236,7 +236,7 @@ definition {
 		WebContentNavigator.gotoEditStructure(structureName = "WC Structure Name");
 
 		for (var structureFieldName : list "Text Box") {
-			DynamicDataMapping.editFieldLocalizable(fieldFieldLabel = "${structureFieldName}");
+			DynamicDataMapping.editFieldLocalizable(fieldFieldLabel = ${structureFieldName});
 		}
 
 		WebContentStructures.saveCP();
@@ -307,7 +307,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-69560."
-	@priority = "5"
+	@priority = 5
 	test AddStructureWithWebContentAndGeolocationFields {
 		property testray.component.names = "Web Content Administration";
 
@@ -375,7 +375,7 @@ definition {
 	}
 
 	@description = "LPS-102795 - Adding Translations to removable fields sets contents to null."
-	@priority = "4"
+	@priority = 4
 	test AddTranslationsToRemovableFields {
 		JSONLayout.addPublicLayout(
 			groupName = "Test Site Name",
@@ -415,7 +415,7 @@ definition {
 
 		WebContentTemplates.addCP(
 			templateName = "WC Template Name",
-			templateScript = "${templateScript}");
+			templateScript = ${templateScript});
 
 		WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
 
@@ -476,7 +476,7 @@ definition {
 			portletName = "WC Title");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddWebContentViaWCDWithGlobalStructureAndLocalTemplate {
 		property testray.component.names = "Web Content Administration";
 
@@ -527,7 +527,7 @@ definition {
 			webContentTitle = "WC WebContent Title");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddWebContentWithColorField {
 		property testray.component.names = "Web Content Administration";
 
@@ -583,7 +583,7 @@ definition {
 		WebContent.viewPGViaWCD(webContentContent = "#FFFFFF");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test AddWebContentWithGlobalStructureAndEditedDefaultValues {
 		property testray.component.names = "Web Content Administration";
 
@@ -680,7 +680,7 @@ definition {
 		WebContent.viewTitle(webContentTitle = "Web Content Title");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddWebContentWithImageField {
 		property test.name.skip.portal.instance = "WebContentWithCustomStructures#AddWebContentWithImageField";
 		property testray.component.names = "Web Content Administration";
@@ -744,7 +744,7 @@ definition {
 	}
 
 	@description = "This is a test for LPS-86223. A user can create web content without having a template, and web content without templates will display using an automatically defined template."
-	@priority = "4"
+	@priority = 4
 	test AddWebContentWithoutTemplate {
 		property testray.component.names = "Web Content Administration";
 
@@ -814,7 +814,7 @@ definition {
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddWebContentWithStructure {
 		property testray.component.names = "Web Content Administration";
 
@@ -858,7 +858,7 @@ definition {
 		WebContent.viewTitle(webContentTitle = "WC WebContent Title");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DeleteTemplateAndStructureWithReferencedWebContent {
 		property testray.component.names = "Web Content Administration";
 
@@ -922,7 +922,7 @@ definition {
 			webContentHasReference = "true");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test EditArticleMadeFromGlobalStructure {
 		property testray.component.names = "Web Content Administration";
 
@@ -988,7 +988,7 @@ definition {
 			webContentTitleEdit = "WC WebContent Title Edit");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test EditContentWithTitleAndAllFieldsNull {
 		property testray.component.names = "Training,Web Content Administration";
 
@@ -1002,9 +1002,9 @@ definition {
 
 		for (var structureFieldName : list "Boolean,Date,Decimal,Documents and Media,HTML,Image,Integer,Link to Page,Number,Radio,Select,Text,Text Box") {
 			DynamicDataMapping.addField(
-				field = "${structureFieldName}",
-				fieldFieldLabel = "${structureFieldName}",
-				fieldName = StringUtil.replace("${structureFieldName}", " ", ""));
+				field = ${structureFieldName},
+				fieldFieldLabel = ${structureFieldName},
+				fieldName = StringUtil.replace(${structureFieldName}, " ", ""));
 		}
 
 		WebContentStructures.saveCP(structureName = "WC Structure Name");
@@ -1041,7 +1041,7 @@ definition {
 			webContentTitleEdit = "WC WebContent Title Edit");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test EditGlobalWebContentTemplate {
 		property testray.component.names = "Web Content Administration";
 
@@ -1111,7 +1111,7 @@ definition {
 			webContentTitle = "WC WebContent Title");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test EditWebContentTemplate {
 		property testray.component.names = "Web Content Administration";
 
@@ -1182,7 +1182,7 @@ definition {
 	}
 
 	@description = "LPS-102867 - Repeatable Select loses options"
-	@priority = "4"
+	@priority = 4
 	test RepeatableSelectDisplaysOptions {
 		WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
 
@@ -1229,7 +1229,7 @@ definition {
 			AssertElementPresent(
 				key_selectFieldLabel = "Select",
 				locator1 = "Select#ANY",
-				value1 = "${selectFieldValue1}");
+				value1 = ${selectFieldValue1});
 		}
 
 		DDLRecord.addRepeatableField(fieldName = "Color");
@@ -1242,12 +1242,12 @@ definition {
 			Select(
 				key_selectFieldLabel = "Select",
 				locator1 = "Select#ANY_2",
-				value1 = "${selectFieldValue2}");
+				value1 = ${selectFieldValue2});
 		}
 	}
 
 	@description = "This test ensures that all the default values for a structure can be reset."
-	@priority = "4"
+	@priority = 4
 	test ResetStructureDefaultValues {
 		property testray.component.names = "Web Content Administration";
 
@@ -1326,7 +1326,7 @@ definition {
 			value1 = "This field is required.");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test UseStructureAndTemplateFromParentSiteHierarchy {
 		property test.name.skip.portal.instance = "WebContentWithCustomStructures#UseStructureAndtemplateFromParentSiteHierarchy";
 		property testray.component.names = "Web Content Administration";
@@ -1407,7 +1407,7 @@ definition {
 		WebContent.viewTitle(webContentTitle = "WC WebContent Title");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test ViewGlobalStructureViaAddMenuInLiferaySite {
 		property testray.component.names = "Web Content Administration";
 
@@ -1431,7 +1431,7 @@ definition {
 		WebContent.viewStructureViaAddMenuCP(structureName = "WC Structure Name");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewSourceContainsNoGarbageData {
 		property testray.component.names = "Web Content Administration";
 
@@ -1536,7 +1536,7 @@ definition {
 		AssertElementNotPresent(locator1 = "WC#SOURCE_GARBAGE_DATA");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test WebContentAdministrationDataValidation {
 		property testray.component.names = "Web Content Administration";
 

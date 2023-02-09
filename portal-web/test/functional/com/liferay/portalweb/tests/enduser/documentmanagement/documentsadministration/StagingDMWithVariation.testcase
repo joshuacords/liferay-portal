@@ -22,7 +22,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -30,7 +30,7 @@ definition {
 		}
 	}
 
-	@priority = "5"
+	@priority = 5
 	test StagingDemoDocumentsAndMedia {
 		property custom.properties = "default.layout.template.id=1_column";
 		property portal.acceptance = "true";
@@ -47,7 +47,7 @@ definition {
 		Type(
 			key_fieldLabel = "Maximum File Size",
 			locator1 = "TextInput#GENERIC_TEXT_INPUT",
-			value1 = "30000000");
+			value1 = 30000000);
 
 		ScrollWebElementIntoView(locator1 = "Button#SAVE");
 
@@ -134,7 +134,7 @@ definition {
 			dmDocumentFile = "Document_1.mp3",
 			dmDocumentTitle = "DM Document Title",
 			dmDocumentTypeName = "DM Document Type Name",
-			numberField = "1234",
+			numberField = 1234,
 			textField = "Text");
 
 		Staging.gotoPublishToLive();
@@ -161,7 +161,7 @@ definition {
 
 		DMDocument.viewDocumentTypePG(booleanValue = "Yes");
 
-		DMDocument.viewDocumentTypePG(numberValue = "1234");
+		DMDocument.viewDocumentTypePG(numberValue = 1234);
 
 		DMDocument.viewDocumentTypePG(textContent = "Text");
 	}

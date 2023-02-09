@@ -26,12 +26,12 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 	}
 
-	@priority = "2"
+	@priority = 2
 	test SearchDNSDomain {
 		Navigator.gotoPage(pageName = "Network Utilities Page");
 

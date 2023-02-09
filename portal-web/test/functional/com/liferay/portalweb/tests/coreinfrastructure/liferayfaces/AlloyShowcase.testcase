@@ -36,7 +36,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -44,7 +44,7 @@ definition {
 		}
 	}
 
-	@priority = "5"
+	@priority = 5
 	test ButtonSmoke {
 
 		// ButtonGeneral
@@ -78,7 +78,7 @@ definition {
 		AlloyShowcase.clickButton(buttonRow = "true");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test DataListSmoke {
 		Navigator.openWithAppendToBaseURL(urlAppend = "web/guest/alloy-showcase/-/alloy-tag/alloy/datalist/general");
 
@@ -93,7 +93,7 @@ definition {
 		AlloyShowcase.viewDataSelection();
 	}
 
-	@priority = "5"
+	@priority = 5
 	test DataTableSmoke {
 		Navigator.openWithAppendToBaseURL(urlAppend = "web/guest/alloy-showcase/-/alloy-tag/alloy/datatable/lazy");
 
@@ -142,14 +142,14 @@ definition {
 			screenName4 = "William");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test InputFileSmoke {
 		Navigator.openWithAppendToBaseURL(urlAppend = "web/guest/alloy-showcase/-/alloy-tag/alloy/inputfile/multiple");
 
 		JSFShowcase.uploadAndDeleteFile(fileName = "Document_2.jpeg");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test LinkSmoke {
 
 		// LinkGeneral

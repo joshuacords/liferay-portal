@@ -14,7 +14,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -24,7 +24,7 @@ definition {
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddADTViaBreadcrumb {
 		property testray.component.names = "Breadcrumb,Content and Appliation Templates";
 
@@ -60,7 +60,7 @@ definition {
 		AssertElementPresent(locator1 = "Select#DISPLAY_TEMPLATE");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test ConfigureNoSave {
 		property test.name.skip.portal.instance = "Breadcrumb#ConfigureNoSave";
 		property testray.component.names = "Breadcrumb";
@@ -95,7 +95,7 @@ definition {
 
 		Breadcrumb.configureBreadcrumb(uncheckSetupName = "Show Current Site,Show Guest Site,Show Page,Show Parent Sites,Show Application Breadcrumb");
 
-		var siteName = TestCase.getSiteName(siteName = "${siteName}");
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
 
 		Breadcrumb.viewConfigurationPreview(breadcrumbListNotVisible = "${siteName},Site Name,Parent Page Name,Child Page Name");
 
@@ -106,7 +106,7 @@ definition {
 		Breadcrumb.viewConfigurationPreview(breadcrumbListVisible = "${siteName},Site Name,Parent Page Name,Child Page Name");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DisableShowApplicationBreadcrumb {
 		property custom.properties = "default.layout.template.id=1_column";
 		property testray.component.names = "Breadcrumb";
@@ -159,12 +159,12 @@ definition {
 		MessageboardsCategory.viewPG(
 			categoryDescription = "MB Subcategory Description",
 			categoryName = "MB Subcategory Name",
-			threadCount = "0");
+			threadCount = 0);
 
 		MessageboardsCategory.viewPG(
 			categoryDescription = "MB Subcategory Subcategory Description",
 			categoryName = "MB Subcategory Subcategory Name",
-			threadCount = "0");
+			threadCount = 0);
 
 		Breadcrumb.viewPG(
 			breadcrumbListVisible = "Site Name,Page Name,MB Category Name,MB Subcategory Name,MB Subcategory Subcategory Name",
@@ -191,12 +191,12 @@ definition {
 		MessageboardsCategory.viewPG(
 			categoryDescription = "MB Subcategory Description",
 			categoryName = "MB Subcategory Name",
-			threadCount = "0");
+			threadCount = 0);
 
 		MessageboardsCategory.viewPG(
 			categoryDescription = "MB Subcategory Subcategory Description",
 			categoryName = "MB Subcategory Subcategory Name",
-			threadCount = "0");
+			threadCount = 0);
 
 		Breadcrumb.viewSpecificPG(
 			breadcrumbListNotVisible = "MB Category Name,MB Subcategory Name,MB Subcategory Subcategory Name",
@@ -220,19 +220,19 @@ definition {
 		MessageboardsCategory.viewPG(
 			categoryDescription = "MB Subcategory Description",
 			categoryName = "MB Subcategory Name",
-			threadCount = "0");
+			threadCount = 0);
 
 		MessageboardsCategory.viewPG(
 			categoryDescription = "MB Subcategory Subcategory Description",
 			categoryName = "MB Subcategory Subcategory Name",
-			threadCount = "0");
+			threadCount = 0);
 
 		Breadcrumb.viewPG(
 			breadcrumbListVisible = "Site Name,Page Name,MB Category Name,MB Subcategory Name,MB Subcategory Subcategory Name",
 			pathLocator = "EMBEDDED");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test DisableShowCurrentSite {
 		property portal.acceptance = "true";
 		property testray.component.names = "Breadcrumb";
@@ -305,7 +305,7 @@ definition {
 			pathLocator = "PAGE");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test DisableShowPage {
 
 		// Ignoring test from acceptance until LRQA-52643 is resolved
@@ -336,13 +336,13 @@ definition {
 
 		Breadcrumb.configureBreadcrumb(checkSetupName = "Show Guest Site");
 
-		var siteName = TestCase.getSiteName(siteName = "${siteName}");
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
 
 		Breadcrumb.viewConfigurationPreview(breadcrumbListVisible = "${siteName},Home,Child Page Name");
 
 		Breadcrumb.configureBreadcrumb(uncheckSetupName = "Show Page");
 
-		Breadcrumb.viewConfigurationPreview(breadcrumbListVisible = "${siteName}");
+		Breadcrumb.viewConfigurationPreview(breadcrumbListVisible = ${siteName});
 
 		Breadcrumb.saveDisplayPreview();
 
@@ -354,11 +354,11 @@ definition {
 
 		Breadcrumb.viewPG(
 			breadcrumbListNotVisible = "Home,Child Page Name",
-			breadcrumbListVisible = "${siteName}",
+			breadcrumbListVisible = ${siteName},
 			pathLocator = "PAGE");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DisableShowParentSite {
 		property testray.component.names = "Breadcrumb";
 
@@ -426,7 +426,7 @@ definition {
 			pathLocator = "PAGE");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DisplayTemplateWithHorizontalStyle {
 		property testray.component.names = "Breadcrumb";
 
@@ -466,7 +466,7 @@ definition {
 			pathLocator = "PAGE");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test DisplayTemplateWithVerticalStyle {
 		property testray.component.names = "Breadcrumb";
 
@@ -506,7 +506,7 @@ definition {
 			pathLocator = "PAGE");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test EnableShowGuestSite {
 		property test.name.skip.portal.instance = "Breadcrumb#EnableShowGuestSite";
 		property testray.component.names = "Breadcrumb";
@@ -532,9 +532,9 @@ definition {
 
 		Breadcrumb.viewConfigurationPreview(breadcrumbListVisible = "Home,Child Page Name");
 
-		var siteName = TestCase.getSiteName(siteName = "${siteName}");
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
 
-		Breadcrumb.viewConfigurationPreview(breadcrumbListNotVisible = "${siteName}");
+		Breadcrumb.viewConfigurationPreview(breadcrumbListNotVisible = ${siteName});
 
 		Breadcrumb.configureBreadcrumb(checkSetupName = "Show Guest Site");
 

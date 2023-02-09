@@ -14,7 +14,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -44,7 +44,7 @@ definition {
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddBlogsEntriesWithPortalScopeWorkflowAndAssertWorkflowScope {
 		ProductMenu.gotoPortlet(
 			category = "Workflow",
@@ -203,7 +203,7 @@ definition {
 			workflowTask = "Review");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddBlogsEntriesWithSiteScopeWorkflowAndAssertWorkflowScope {
 		ProductMenu.gotoPortlet(
 			category = "Sites",
@@ -294,7 +294,7 @@ definition {
 		Workflow.viewCompletedTasksTaskNotPresentCP(workflowAssetTitle = "Blogs Entry Title - Site Name");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test AddDDLRecordWithDoubleApproverDefinition {
 		property portal.acceptance = "false";
 		property test.name.skip.portal.instance = "WorkflowUsecase#AddDDLRecordWithDoubleApproverDefinition";
@@ -316,7 +316,7 @@ definition {
 
 		Workflow.viewDefinition(
 			workflowDefinitionTitle = "Double Approver Definition",
-			workflowDefinitionVersionNumber = "1");
+			workflowDefinitionVersionNumber = 1);
 
 		Navigator.openURL();
 
@@ -452,7 +452,7 @@ definition {
 			panel = "Site Administration",
 			portlet = "Dynamic Data Lists");
 
-		DDLNavigator.gotoListRecords(ddlListName = "${ddlListName}");
+		DDLNavigator.gotoListRecords(ddlListName = ${ddlListName});
 
 		DDLRecord.viewFirstFieldCP(
 			ddlRecordFieldData = "Yes",
@@ -461,7 +461,7 @@ definition {
 			fieldName = "Boolean");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddWebContentWithCategorySpecificDefinition {
 		property test.name.skip.portal.instance = "WorkflowUsecase#AddWebContentWithCategorySpecificDefinition";
 
@@ -476,7 +476,7 @@ definition {
 
 		Workflow.viewDefinition(
 			workflowDefinitionTitle = "Category Specific",
-			workflowDefinitionVersionNumber = "1");
+			workflowDefinitionVersionNumber = 1);
 
 		Navigator.openURL();
 
@@ -627,9 +627,9 @@ definition {
 			workflowTask = "content-review");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test AddWikiPageAsSiteUser {
-		var siteName = TestCase.getSiteName(siteName = "${siteName}");
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
 
 		Navigator.openURL();
 
@@ -679,7 +679,7 @@ definition {
 			portlet = "Users and Organizations");
 
 		User.editUserSiteCP(
-			siteName = "${siteName}",
+			siteName = ${siteName},
 			userScreenName = "usersn");
 
 		User.logoutPG();
@@ -791,7 +791,7 @@ definition {
 			wikiPageTitle = "Wiki Page Title");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test UnpublishAndDeleteUploadedDefinition {
 		property test.name.skip.portal.instance = "WorkflowUsecase#UnpublishAndDeleteUploadedDefinition";
 
@@ -838,7 +838,7 @@ definition {
 		Workflow.deleteWorkflowDefinition(workflowDefinitionTitle = "New Uploaded Definition");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test ViewBlogsEntryWorkflowViaNotifications {
 		Navigator.openURL();
 
@@ -869,7 +869,7 @@ definition {
 
 		Navigator.gotoPage(pageName = "Blogs Page");
 
-		Notifications.viewBadgeCount(notificationCount = "1");
+		Notifications.viewBadgeCount(notificationCount = 1);
 
 		WorkflowAsset.gotoViaNotification(
 			assetType = "Blogs Entry",
@@ -881,7 +881,7 @@ definition {
 
 		Navigator.gotoPage(pageName = "Blogs Page");
 
-		Notifications.viewBadgeCount(notificationCount = "0");
+		Notifications.viewBadgeCount(notificationCount = 0);
 
 		UserBar.gotoDropdownItem(dropdownItem = "My Workflow Tasks");
 
@@ -907,10 +907,10 @@ definition {
 			entryContent = "Blogs Entry Content",
 			entryTitle = "Blogs Entry Title");
 
-		Notifications.viewBadgeCount(notificationCount = "0");
+		Notifications.viewBadgeCount(notificationCount = 0);
 	}
 
-	@priority = "4"
+	@priority = 4
 	test ViewInvalidDefinitionAlert {
 		property test.name.skip.portal.instance = "WorkflowUsecase#ViewInvalidDefinitionAlert";
 
@@ -945,7 +945,7 @@ definition {
 		}
 	}
 
-	@priority = "3"
+	@priority = 3
 	test ViewTaskCount {
 		Navigator.openURL();
 
@@ -1017,14 +1017,14 @@ definition {
 
 		AssertElementPresent(locator1 = "xpath=(//div[contains(@id,'workflowTasksSearchContainer')]//tr[contains(@class,'entry-display-style')])[6]");
 
-		Pagination.changePagination(itemsPerPage = "5");
+		Pagination.changePagination(itemsPerPage = 5);
 
 		Pagination.viewResults(results = "Showing 1 to 5 of 6 entries.");
 
 		AssertElementNotPresent(locator1 = "xpath=(//div[contains(@id,'workflowTasksSearchContainer')]//tr[contains(@class,'entry-display-style')])[6]");
 	}
 
-	@priority = "3"
+	@priority = 3
 	test ViewWebContentConfigurationCP {
 		Navigator.openURL();
 
@@ -1055,7 +1055,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-59108."
-	@priority = "4"
+	@priority = 4
 	test ViewWorkflowConfigurationScope {
 		ProductMenu.gotoPortlet(
 			category = "Sites",
@@ -1129,9 +1129,9 @@ definition {
 	}
 
 	@description = "This is a use case for LRQA-13519."
-	@priority = "5"
+	@priority = 5
 	test ViewWorkflowSubmissionsFromDifferentUsers {
-		var siteName = TestCase.getSiteName(siteName = "${siteName}");
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
 
 		ProductMenu.gotoPortlet(
 			category = "Workflow",
@@ -1184,7 +1184,7 @@ definition {
 				portlet = "Users and Organizations");
 
 			User.editUserSiteCP(
-				siteName = "${siteName}",
+				siteName = ${siteName},
 				userScreenName = "usersn${n}");
 
 			ProductMenu.gotoPortlet(
@@ -1292,9 +1292,9 @@ definition {
 		Workflow.viewSubmissionNotPresent(workflowAssetTitle = "User 1 Blog Title Approved");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test XSSScriptWebContent {
-		var siteName = TestCase.getSiteName(siteName = "${siteName}");
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
 
 		Navigator.openURL();
 
@@ -1329,9 +1329,9 @@ definition {
 		var actualScript = '''<script>alert(123);</script>''';
 		var escapedScript = '''&lt;script&gt;alert(123);&lt;/script&gt;''';
 
-		AssertHTMLSourceTextNotPresent(value1 = "${actualScript}");
+		AssertHTMLSourceTextNotPresent(value1 = ${actualScript});
 
-		AssertHTMLSourceTextPresent(value1 = "${escapedScript}");
+		AssertHTMLSourceTextPresent(value1 = ${escapedScript});
 
 		UserBar.gotoDropdownItem(dropdownItem = "My Workflow Tasks");
 
@@ -1346,9 +1346,9 @@ definition {
 		var actualScript = '''<script>alert(123);</script>''';
 		var escapedScript = '''&lt;script&gt;alert(123);&lt;/script&gt;''';
 
-		AssertHTMLSourceTextNotPresent(value1 = "${actualScript}");
+		AssertHTMLSourceTextNotPresent(value1 = ${actualScript});
 
-		AssertHTMLSourceTextPresent(value1 = "${escapedScript}");
+		AssertHTMLSourceTextPresent(value1 = ${escapedScript});
 
 		UserBar.gotoDropdownItem(dropdownItem = "My Workflow Tasks");
 
@@ -1363,9 +1363,9 @@ definition {
 		var actualScript = '''<script>alert(123);</script>''';
 		var escapedScript = '''&lt;script&gt;alert(123);&lt;/script&gt;''';
 
-		AssertHTMLSourceTextNotPresent(value1 = "${actualScript}");
+		AssertHTMLSourceTextNotPresent(value1 = ${actualScript});
 
-		AssertHTMLSourceTextPresent(value1 = "${escapedScript}");
+		AssertHTMLSourceTextPresent(value1 = ${escapedScript});
 
 		Navigator.openURL();
 
@@ -1385,9 +1385,9 @@ definition {
 		var actualScript = '''<script>alert(123);</script>''';
 		var escapedScript = '''&lt;script&gt;alert(123);&lt;/script&gt;''';
 
-		AssertHTMLSourceTextNotPresent(value1 = "${actualScript}");
+		AssertHTMLSourceTextNotPresent(value1 = ${actualScript});
 
-		AssertHTMLSourceTextPresent(value1 = "${escapedScript}");
+		AssertHTMLSourceTextPresent(value1 = ${escapedScript});
 
 		ProductMenu.gotoPortlet(
 			category = "Sites",
@@ -1403,7 +1403,7 @@ definition {
 
 		Navigator.gotoPage(
 			pageName = "Asset Publisher Test Page",
-			siteName = "${siteName}");
+			siteName = ${siteName});
 
 		Navigator.gotoPage(pageName = "Asset Publisher Test Page");
 
@@ -1418,9 +1418,9 @@ definition {
 		var actualScript = ''' <script>alert(123);</script>''';
 		var escapedScript = '''&lt;script&gt;alert(123);&lt;/script&gt;''';
 
-		AssertHTMLSourceTextNotPresent(value1 = "${actualScript}");
+		AssertHTMLSourceTextNotPresent(value1 = ${actualScript});
 
-		AssertHTMLSourceTextPresent(value1 = "${escapedScript}");
+		AssertHTMLSourceTextPresent(value1 = ${escapedScript});
 	}
 
 }

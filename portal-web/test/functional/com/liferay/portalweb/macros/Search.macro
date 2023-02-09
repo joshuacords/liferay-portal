@@ -19,7 +19,7 @@ definition {
 
 		Type(
 			locator1 = "TextInput#SEARCH",
-			value1 = "${searchTerm}");
+			value1 = ${searchTerm});
 
 		KeyPress(
 			locator1 = "TextInput#SEARCH",
@@ -27,13 +27,13 @@ definition {
 	}
 
 	macro searchPG {
-		var key_portletName = "${portletName}";
+		var key_portletName = ${portletName};
 
 		AssertElementPresent(locator1 = "Portlet#SEARCH_FIELD");
 
 		Type(
 			locator1 = "Portlet#SEARCH_FIELD",
-			value1 = "${searchTerm}");
+			value1 = ${searchTerm});
 
 		KeyPress(
 			locator1 = "Portlet#SEARCH_FIELD",
@@ -42,16 +42,16 @@ definition {
 
 	macro viewNoResultAssetTitle {
 		AssertElementNotPresent(
-			key_searchAssetTitle = "${searchAssetTitle}",
+			key_searchAssetTitle = ${searchAssetTitle},
 			locator1 = "SearchResults#ASSET_ENTRY_TABLE_TITLE");
 	}
 
 	macro viewResultAssetTitle {
-		var key_searchAssetTitle = "${searchAssetTitle}";
+		var key_searchAssetTitle = ${searchAssetTitle};
 
 		AssertTextEquals(
 			locator1 = "SearchResults#ASSET_ENTRY_TABLE_TITLE",
-			value1 = "${searchAssetTitle}");
+			value1 = ${searchAssetTitle});
 	}
 
 }

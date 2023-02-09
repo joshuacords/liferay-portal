@@ -3,97 +3,97 @@ definition {
 	macro assertEngineVendorAndVersions {
 		AssertTextEquals.assertPartialText(
 			locator1 = "SearchAdmin#SEARCH_ENGINE_INFORMATION",
-			position = "1",
-			searchInformation = "${engineVendor}",
-			value1 = "${engineVendor}");
+			position = 1,
+			searchInformation = ${engineVendor},
+			value1 = ${engineVendor});
 
 		AssertTextEquals.assertPartialText(
 			locator1 = "SearchAdmin#SEARCH_ENGINE_INFORMATION",
-			position = "2",
-			searchInformation = "${clientVersion}",
-			value1 = "${clientVersion}");
+			position = 2,
+			searchInformation = ${clientVersion},
+			value1 = ${clientVersion});
 
 		AssertTextEquals.assertPartialText(
 			locator1 = "SearchAdmin#SEARCH_ENGINE_INFORMATION",
-			position = "3",
-			searchInformation = "${serverVersion}",
-			value1 = "${serverVersion}");
+			position = 3,
+			searchInformation = ${serverVersion},
+			value1 = ${serverVersion});
 	}
 
 	macro executeSearchActions {
-		var reindexElapsedTime = "0";
+		var reindexElapsedTime = 0;
 
-		while ((("${reindexElapsedTime}" == "0") || ("${reindexElapsedTime}" == "10") || ("${reindexElapsedTime}" == "480")) && (maxIterations = "2")) {
+		while (((${reindexElapsedTime} == 0) || (${reindexElapsedTime} == 10) || (${reindexElapsedTime} == 480)) && (maxIterations = "2")) {
 			AssertTextEquals(
 				locator1 = "Portlet#HEADER",
 				value1 = "Search");
 
 			AssertClick.assertTextClickAt(
-				key_actionsDescription = "${actionsDescription}",
+				key_actionsDescription = ${actionsDescription},
 				locator1 = "Button#EXECUTE_ACTION",
 				value1 = "Execute");
 
-			var reindexElapsedTime = "0";
-			var reindexStartTime = "0";
+			var reindexElapsedTime = 0;
+			var reindexStartTime = 0;
 			var searchEngineVendor = selenium.getText("SearchAdmin#SEARCH_ENGINE_VENDOR");
 
-			if (contains("${searchEngineVendor}", "Elasticsearch")) {
+			if (contains(${searchEngineVendor}, "Elasticsearch")) {
 				echo("Current Elasticsearch Tasks:");
 
 				var portalHostname = PropsUtil.get("portal.hostname");
 
 				var curl = "http://${portalHostname}:9200/_tasks";
 
-				var elasticsearchTasks = JSONCurlUtil.get("${curl}");
+				var elasticsearchTasks = JSONCurlUtil.get(${curl});
 
-				while (!(contains("${elasticsearchTasks}", "indices:data/write/bulk")) && ("${reindexStartTime}" != "60")) {
-					Pause.pauseNoSPARefresh(locator1 = "5000");
+				while (!(contains(${elasticsearchTasks}, "indices:data/write/bulk")) && (${reindexStartTime} != 60)) {
+					Pause.pauseNoSPARefresh(locator1 = 5000);
 
 					var reindexStartTime = ${reindexStartTime} + 5;
 
 					echo("Current Elasticsearch Tasks:");
 
-					var elasticsearchTasks = JSONCurlUtil.get("${curl}");
+					var elasticsearchTasks = JSONCurlUtil.get(${curl});
 				}
 
-				if ("${reindexStartTime}" == "60") {
+				if (${reindexStartTime} == 60) {
 					echo("Elasticsearch failed to receive reindex request after 60 seconds.");
 				}
 				else {
 					echo("Started reindexing ${reindexStartTime} second(s) after clicking 'Execute'.");
 				}
 
-				while (((contains("${elasticsearchTasks}", "indices:data/write/bulk") || (IsElementPresent.pauseIsElementPresent(locator1 = "ControlMenu#RELOAD_TOOLTIP"))) && ("${reindexElapsedTime}" != "480")) && (maxIterations = "48")) {
-					Pause.pauseNoSPARefresh(locator1 = "10000");
+				while (((contains(${elasticsearchTasks}, "indices:data/write/bulk") || (IsElementPresent.pauseIsElementPresent(locator1 = "ControlMenu#RELOAD_TOOLTIP"))) && (${reindexElapsedTime} != 480)) && (maxIterations = "48")) {
+					Pause.pauseNoSPARefresh(locator1 = 10000);
 
 					var reindexElapsedTime = ${reindexElapsedTime} + 10;
 
 					echo("Current Elasticsearch Tasks:");
 
-					var elasticsearchTasks = JSONCurlUtil.get("${curl}");
+					var elasticsearchTasks = JSONCurlUtil.get(${curl});
 
 					Refresh();
 				}
 			}
-			else if (contains("${searchEngineVendor}", "Solr") && contains("${actionsDescription}", "spell check")) {
-				Pause.pauseNoSPARefresh(locator1 = "60000");
+			else if (contains(${searchEngineVendor}, "Solr") && contains(${actionsDescription}, "spell check")) {
+				Pause.pauseNoSPARefresh(locator1 = 60000);
 			}
-			else if (contains("${searchEngineVendor}", "Solr")) {
-				while ((IsElementNotPresent(locator1 = "ControlMenu#RELOAD_TOOLTIP")) && ("${reindexStartTime}" != "60")) {
-					Pause.pauseNoSPARefresh(locator1 = "5000");
+			else if (contains(${searchEngineVendor}, "Solr")) {
+				while ((IsElementNotPresent(locator1 = "ControlMenu#RELOAD_TOOLTIP")) && (${reindexStartTime} != 60)) {
+					Pause.pauseNoSPARefresh(locator1 = 5000);
 
 					var reindexStartTime = ${reindexStartTime} + 5;
 				}
 
-				if ("${reindexStartTime}" == "60") {
+				if (${reindexStartTime} == 60) {
 					echo("Solr failed to receive reindex request after 60 seconds.");
 				}
 				else {
 					echo("Started reindexing ${reindexStartTime} second(s) after clicking 'Execute'.");
 				}
 
-				while (((IsElementPresent(locator1 = "ControlMenu#RELOAD_TOOLTIP")) && ("${reindexElapsedTime}" != "480")) && (maxIterations = "48")) {
-					Pause.pauseNoSPARefresh(locator1 = "10000");
+				while (((IsElementPresent(locator1 = "ControlMenu#RELOAD_TOOLTIP")) && (${reindexElapsedTime} != 480)) && (maxIterations = "48")) {
+					Pause.pauseNoSPARefresh(locator1 = 10000);
 
 					var reindexElapsedTime = ${reindexElapsedTime} + 10;
 
@@ -103,7 +103,7 @@ definition {
 
 			takeScreenshot();
 
-			if ("${reindexElapsedTime}" == "480") {
+			if (${reindexElapsedTime} == 480) {
 				echo("Reindex timed out after 480 seconds.");
 			}
 			else {
@@ -122,7 +122,7 @@ definition {
 
 		var serverVersion = selenium.getText("//div[contains(@class,'alert alert-info')]//strong[3]");
 
-		return "${serverVersion}";
+		return ${serverVersion};
 	}
 
 	macro viewActiveConnectionsError {

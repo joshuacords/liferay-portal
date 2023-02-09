@@ -25,7 +25,7 @@ definition {
 
 		ACUtils.tearDownDXP();
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -35,7 +35,7 @@ definition {
 
 	@description = "Feature ID: Legacy | Automation ID: LRAC-8548 | Test Summary: Add segment using an organization property 'date modified'"
 	@ignore = "true"
-	@priority = "4"
+	@priority = 4
 	test CanCreateSegmentUsingOrganizationPropertyDateModified {
 
 		// AC Refactor: Team not sure of which steps should be done to assert Date modified
@@ -69,7 +69,7 @@ definition {
 		task ("Launch AC and enter in the new property") {
 			ACUtils.launchAC();
 
-			ACProperties.switchProperty(propertyName = "${propertyName}");
+			ACProperties.switchProperty(propertyName = ${propertyName});
 		}
 
 		task ("Add a new segment using the organization property date modified") {
@@ -93,7 +93,7 @@ definition {
 
 	@description = "Feature ID: Legacy | Automation ID: LRAC-8550 | Test Summary: Add segment using an organization property 'hierarchy path'"
 	@ignore = "true"
-	@priority = "4"
+	@priority = 4
 	test CanCreateSegmentUsingOrganizationPropertyHierarchyPath {
 
 		// AC Refactor: Team not sure of which values or what steps are expected in this test
@@ -179,7 +179,7 @@ definition {
 		task ("Launch AC and enter in the new property") {
 			ACUtils.launchAC();
 
-			ACProperties.switchProperty(propertyName = "${propertyName}");
+			ACProperties.switchProperty(propertyName = ${propertyName});
 		}
 
 		task ("Add a new segment using the organization property Hierarchy Path") {
@@ -209,7 +209,7 @@ definition {
 
 	@description = "Feature ID: Legacy | Automation ID: LRAC-8549 | Test Summary: Add segment using an organization property 'name'"
 	@ignore = "true"
-	@priority = "4"
+	@priority = 4
 	test CanCreateSegmentUsingOrganizationPropertyName {
 
 		// AC Refactor: Team not sure of which steps should be done to assert property Name, please check steps and update if necessary
@@ -278,7 +278,7 @@ definition {
 		task ("Launch AC and enter in the new property") {
 			ACUtils.launchAC();
 
-			ACProperties.switchProperty(propertyName = "${propertyName}");
+			ACProperties.switchProperty(propertyName = ${propertyName});
 		}
 
 		task ("Add a new segment using the organization roperty Name for Organization Name 1") {
@@ -333,26 +333,26 @@ definition {
 			ACNavigation.goToSegments();
 
 			ACSegments.assertMembershipValue(
-				membership = "1",
+				membership = 1,
 				segmentName = "Dynamic Segment Test 1");
 
 			ACSegments.assertTotalActivitiesValue(
 				segmentName = "Dynamic Segment Test 1",
-				totalActivities = "1");
+				totalActivities = 1);
 
 			ACSegments.assertMembershipValue(
-				membership = "0",
+				membership = 0,
 				segmentName = "Dynamic Segment Test 2");
 
 			ACSegments.assertTotalActivitiesValue(
 				segmentName = "Dynamic Segment Test 2",
-				totalActivities = "0");
+				totalActivities = 0);
 		}
 	}
 
 	@description = "Feature ID: Legacy | Automation ID: LRAC-8551 | Test Summary: Add segment using an organization property 'organization'"
 	@ignore = "true"
-	@priority = "4"
+	@priority = 4
 	test CanCreateSegmentUsingOrganizationPropertyOrganization {
 
 		// AC Refactor: the data takes some time to appear in the segment
@@ -402,7 +402,7 @@ definition {
 		task ("Launch AC and enter in the new property") {
 			ACUtils.launchAC();
 
-			ACProperties.switchProperty(propertyName = "${propertyName}");
+			ACProperties.switchProperty(propertyName = ${propertyName});
 		}
 
 		task ("Add a new dynamic segment using the parent organization criteria") {
@@ -433,18 +433,18 @@ definition {
 			ACNavigation.goToSegments();
 
 			ACSegments.assertMembershipValue(
-				membership = "1",
+				membership = 1,
 				segmentName = "Dynamic Segment Test");
 
 			ACSegments.assertTotalActivitiesValue(
 				segmentName = "Dynamic Segment Test",
-				totalActivities = "1");
+				totalActivities = 1);
 		}
 	}
 
 	@description = "Feature ID: Legacy | Automation ID: LRAC-8552 | Test Summary: Add segment using an organization property 'parent organization'"
 	@ignore = "true"
-	@priority = "4"
+	@priority = 4
 	test CanCreateSegmentUsingOrganizationPropertyParentOrganization {
 
 		// AC Refactor: the data takes some time to appear in the segment
@@ -498,7 +498,7 @@ definition {
 		task ("Launch AC and enter in the new property") {
 			ACUtils.launchAC();
 
-			ACProperties.switchProperty(propertyName = "${propertyName}");
+			ACProperties.switchProperty(propertyName = ${propertyName});
 		}
 
 		task ("Add a new dynamic segment using the parent organization criteria") {
@@ -529,18 +529,18 @@ definition {
 			ACNavigation.goToSegments();
 
 			ACSegments.assertMembershipValue(
-				membership = "1",
+				membership = 1,
 				segmentName = "Dynamic Segment Test");
 
 			ACSegments.assertTotalActivitiesValue(
 				segmentName = "Dynamic Segment Test",
-				totalActivities = "1");
+				totalActivities = 1);
 		}
 	}
 
 	@description = "Feature ID: Legacy | Automation ID: LRAC-8553 | Test Summary: Add segment using an organization property 'type'"
 	@ignore = "true"
-	@priority = "4"
+	@priority = 4
 	test CanCreateSegmentUsingOrganizationPropertyType {
 
 		// AC Refactor: Team not sure of which steps should be done to assert property Type, please check steps and update if necessary
@@ -592,7 +592,7 @@ definition {
 		task ("Launch AC and enter in the new property") {
 			ACUtils.launchAC();
 
-			ACProperties.switchProperty(propertyName = "${propertyName}");
+			ACProperties.switchProperty(propertyName = ${propertyName});
 		}
 
 		task ("Add a new segment using the organization property Type") {
@@ -623,12 +623,12 @@ definition {
 			ACNavigation.goToSegments();
 
 			ACSegments.assertMembershipValue(
-				membership = "1",
+				membership = 1,
 				segmentName = "Dynamic Segment Test");
 
 			ACSegments.assertTotalActivitiesValue(
 				segmentName = "Dynamic Segment Test",
-				totalActivities = "1");
+				totalActivities = 1);
 		}
 	}
 

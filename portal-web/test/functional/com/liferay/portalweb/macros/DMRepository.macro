@@ -9,11 +9,11 @@ definition {
 
 		Type(
 			locator1 = "DocumentsAndMediaEditRepository#CABINET_FIELD",
-			value1 = "${dmCabinetName}");
+			value1 = ${dmCabinetName});
 
 		Type(
 			locator1 = "DocumentsAndMediaEditRepository#REPOSITORY_FIELD",
-			value1 = "${dmRepositoryFieldName}");
+			value1 = ${dmRepositoryFieldName});
 	}
 
 	macro addSharepoint {
@@ -21,48 +21,48 @@ definition {
 
 		Select(
 			locator1 = "DocumentsAndMediaEditRepository#REPOSITORY_TYPE_SELECT",
-			value1 = "${dmRepositoryName}");
+			value1 = ${dmRepositoryName});
 
 		if (isSet(dmRepositorySiteAbsoluteURL)) {
 			Type(
 				key_fieldLabel = "Site Absolute URL",
 				locator1 = "TextInput#GENERIC_TEXT_INPUT",
-				value1 = "${dmRepositorySiteAbsoluteURL}");
+				value1 = ${dmRepositorySiteAbsoluteURL});
 
 			Type(
 				key_fieldLabel = "Library Path",
 				locator1 = "TextInput#GENERIC_TEXT_INPUT",
-				value1 = "${dmRepositoryLibraryPath}");
+				value1 = ${dmRepositoryLibraryPath});
 		}
 		else {
 			Type(
 				locator1 = "DocumentsAndMediaEditRepository#SITE_URL_FIELD",
-				value1 = "${dmRepositorySiteURL}");
+				value1 = ${dmRepositorySiteURL});
 
 			Type(
 				locator1 = "DocumentsAndMediaEditRepository#LIBRARY_NAME_FIELD",
-				value1 = "${dmRepositoryLibraryName}");
+				value1 = ${dmRepositoryLibraryName});
 		}
 	}
 
 	macro edit {
-		PortletEntry.inputName(name = "${dmRepositoryName}");
+		PortletEntry.inputName(name = ${dmRepositoryName});
 	}
 
 	macro gotoCP {
-		var key_dmRepositoryName = "${dmRepositoryName}";
+		var key_dmRepositoryName = ${dmRepositoryName};
 
 		AssertClick.assertTextClickAtAndPause(
 			locator1 = "DocumentsAndMedia#REPOSITORY_FOLDER_NAME_DESCRIPTIVE_VIEW",
-			value1 = "${dmRepositoryName}");
+			value1 = ${dmRepositoryName});
 
-		var key_dmFolderName = "${dmRepositoryName}";
+		var key_dmFolderName = ${dmRepositoryName};
 
 		AssertVisible(locator1 = "DocumentsAndMedia#BREADCRUMB_FOLDER_NAME");
 
 		AssertTextEquals(
 			locator1 = "Portlet#HEADER",
-			value1 = "${dmRepositoryName}");
+			value1 = ${dmRepositoryName});
 	}
 
 	macro tearDownCP {
@@ -76,12 +76,12 @@ definition {
 		while (IsElementPresent(locator1 = "DocumentsAndMedia#FILTER_REPOSITORY_GENERIC")) {
 			Click(locator1 = "DocumentsAndMedia#FILTER_REPOSITORY_GENERIC");
 
-			Pause(locator1 = "1000");
+			Pause(locator1 = 1000);
 
 			if (IsElementPresent(locator1 = "DocumentsAndMedia#ICON_DOCUMENT_GENERIC")) {
 				Check(locator1 = "DocumentsAndMedia#TOOLBAR_SELECT_ALL_CHECKBOX");
 
-				Pause(locator1 = "1000");
+				Pause(locator1 = 1000);
 
 				AssertClick.waitForDMHomeAssertTextEqualsClick(
 					locator1 = "DocumentsAndMedia#TOOLBAR_ACTIONS",
@@ -105,11 +105,11 @@ definition {
 	}
 
 	macro viewBreadcrumb {
-		var key_dmFolderName = "${dmRepositoryName}";
+		var key_dmFolderName = ${dmRepositoryName};
 
 		AssertTextEquals(
 			locator1 = "DocumentsAndMedia#BREADCRUMB_FOLDER_NAME",
-			value1 = "${dmRepositoryName}");
+			value1 = ${dmRepositoryName});
 	}
 
 }

@@ -62,7 +62,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -71,7 +71,7 @@ definition {
 	}
 
 	@description = "This case ensures that the user is notified when someone comments on their content page fragment."
-	@priority = "5"
+	@priority = 5
 	test ViewComment {
 		property test.name.skip.portal.instance = "ContentPageReview#ViewComment";
 
@@ -98,7 +98,7 @@ definition {
 			fragmentClass = "header",
 			fragmentComment = "Comment by User 2",
 			fragmentName = "Title",
-			position = "1");
+			position = 1);
 
 		User.logoutPG();
 
@@ -108,7 +108,7 @@ definition {
 
 		Notifications.viewBadgeCount(
 			activePanel = "Notifications",
-			notificationCount = "1");
+			notificationCount = 1);
 
 		Notifications.gotoNotifications();
 
@@ -125,7 +125,7 @@ definition {
 	}
 
 	@description = "This test covers LPS-101493. It ensures that a user who replies to a comment will receive further reply notifications."
-	@priority = "4"
+	@priority = 4
 	test ViewCommentFurtherReply {
 		property test.name.skip.portal.instance = "ContentPageReviewNotifications#ViewCommentFurtherReply";
 
@@ -142,7 +142,7 @@ definition {
 			fragmentClass = "header",
 			fragmentComment = "Comment By User 1",
 			fragmentName = "Title",
-			position = "1");
+			position = 1);
 
 		User.logoutPG();
 
@@ -159,7 +159,7 @@ definition {
 		Click(
 			key_content = "Lorem ipsum dolor sit amet",
 			key_fragmentClass = "header",
-			key_position = "1",
+			key_position = 1,
 			locator1 = "Fragment#FRAGMENT");
 
 		PageEditor.replyToComment(commentReply = "Reply from User 2");
@@ -179,7 +179,7 @@ definition {
 		Click(
 			key_content = "Lorem ipsum dolor sit amet",
 			key_fragmentClass = "header",
-			key_position = "1",
+			key_position = 1,
 			locator1 = "Fragment#FRAGMENT");
 
 		PageEditor.replyToComment(commentReply = "Reply from User Test");
@@ -194,7 +194,7 @@ definition {
 
 		Notifications.viewBadgeCount(
 			activePanel = "Notifications",
-			notificationCount = "1");
+			notificationCount = 1);
 
 		Notifications.gotoNotifications();
 
@@ -211,7 +211,7 @@ definition {
 	}
 
 	@description = "This case ensures that a user is notified when a reply is added to their comment."
-	@priority = "5"
+	@priority = 5
 	test ViewCommentReply {
 		property test.name.skip.portal.instance = "ContentPageReview#ViewCommentReply";
 
@@ -228,7 +228,7 @@ definition {
 			fragmentClass = "header",
 			fragmentComment = "Comment By User 1",
 			fragmentName = "Title",
-			position = "1");
+			position = 1);
 
 		User.logoutPG();
 
@@ -245,7 +245,7 @@ definition {
 		Click(
 			key_content = "Lorem ipsum dolor sit amet",
 			key_fragmentClass = "header",
-			key_position = "1",
+			key_position = 1,
 			locator1 = "Fragment#FRAGMENT");
 
 		PageEditor.replyToComment(commentReply = "Reply from User 2");
@@ -258,7 +258,7 @@ definition {
 
 		Notifications.viewBadgeCount(
 			activePanel = "Notifications",
-			notificationCount = "1");
+			notificationCount = 1);
 
 		Notifications.gotoNotifications();
 

@@ -3,14 +3,14 @@ definition {
 	macro addPriceToSKU {
 		Type(
 			locator1 = "CommerceEntry#INPUT_PRICE",
-			value1 = "${price}");
+			value1 = ${price});
 	}
 
 	macro addSKU {
-		for (var optionValues : list "${optionValuesList}") {
-			var optionValue = StringUtil.extractFirst("${optionValues}", ":");
-			var price = StringUtil.extractLast("${optionValues}", ":");
-			var optionValueUppercase = StringUtil.upperCase("${optionValue}");
+		for (var optionValues : list ${optionValuesList}) {
+			var optionValue = StringUtil.extractFirst(${optionValues}, ":");
+			var price = StringUtil.extractLast(${optionValues}, ":");
+			var optionValueUppercase = StringUtil.upperCase(${optionValue});
 
 			Refresh();
 
@@ -19,15 +19,15 @@ definition {
 			AssertClick(
 				key_menuItem = "Add SKU",
 				locator1 = "MenuItem#DROPDOWN_MENU_ITEM",
-				value1 = "${key_menuItem}");
+				value1 = ${key_menuItem});
 
 			SelectFrame(locator1 = "CommerceEntry#IFRAME_SIDE_PANEL");
 
 			CommerceEntry.addSKUsEntry(
-				optionValue = "${optionValue}",
+				optionValue = ${optionValue},
 				productSKU = "${optionValueUppercase}SKU");
 
-			CommerceSKUs.addPriceToSKU(price = "${price}");
+			CommerceSKUs.addPriceToSKU(price = ${price});
 
 			CommerceEntry.publishEntry();
 

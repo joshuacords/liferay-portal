@@ -22,7 +22,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -38,7 +38,7 @@ definition {
 		}
 	}
 
-	@priority = "4"
+	@priority = 4
 	test StagingDemoLocalLive1 {
 		Navigator.openSiteURL(siteName = "Site Name");
 
@@ -55,7 +55,7 @@ definition {
 
 		for (var resourceActionIndex : list "PERMISSIONS,OVERRIDE_CHECKOUT,DELETE_DISCUSSION,DELETE,ADD_DISCUSSION,VIEW,UPDATE_DISCUSSION,UPDATE") {
 			Permissions.definePermissionViaJSONAPI(
-				resourceAction = "${resourceActionIndex}",
+				resourceAction = ${resourceActionIndex},
 				resourceName = "com.liferay.document.library.kernel.model.DLFileEntry",
 				roleTitle = "Staging Admin",
 				roleType = "site");
@@ -63,7 +63,7 @@ definition {
 
 		for (var resourceActionIndex : list "DELETE,PERMISSIONS,CONFIGURE_PORTLETS,MANAGE_TEAMS,VIEW_STAGING,ASSIGN_USER_ROLES,MANAGE_SUBGROUPS,VIEW_SITE_ADMINISTRATION,ASSIGN_MEMBERS,MANAGE_STAGING,VIEW_MEMBERS,ADD_LAYOUT_SET_BRANCH,MANAGE_LAYOUTS,VIEW,ADD_LAYOUT_BRANCH,MANAGE_ARCHIVED_SETUPS,UPDATE,ADD_LAYOUT,MANAGE_ANNOUNCEMENTS,PUBLISH_STAGING,ADD_COMMUNITY,EXPORT_IMPORT_PORTLET_INFO,PUBLISH_PORTLET_INFO,EXPORT_IMPORT_LAYOUTS,PREVIEW_IN_DEVICE") {
 			Permissions.definePermissionViaJSONAPI(
-				resourceAction = "${resourceActionIndex}",
+				resourceAction = ${resourceActionIndex},
 				resourceName = "com.liferay.portal.kernel.model.Group",
 				roleTitle = "Staging Admin",
 				roleType = "site");
@@ -71,7 +71,7 @@ definition {
 
 		for (var resourceActionIndex : list "UPDATE_DISCUSSION,UPDATE,PERMISSIONS,DELETE_DISCUSSION,DELETE,CUSTOMIZE,CONFIGURE_PORTLETS,ADD_LAYOUT,ADD_DISCUSSION,VIEW") {
 			Permissions.definePermissionViaJSONAPI(
-				resourceAction = "${resourceActionIndex}",
+				resourceAction = ${resourceActionIndex},
 				resourceName = "com.liferay.portal.kernel.model.Layout",
 				roleTitle = "Staging Admin",
 				roleType = "site");
@@ -79,7 +79,7 @@ definition {
 
 		for (var resourceActionIndex : list "UPDATE,PERMISSIONS,DELETE") {
 			Permissions.definePermissionViaJSONAPI(
-				resourceAction = "${resourceActionIndex}",
+				resourceAction = ${resourceActionIndex},
 				resourceName = "com.liferay.portal.kernel.model.LayoutBranch",
 				roleTitle = "Staging Admin",
 				roleType = "site");
@@ -87,7 +87,7 @@ definition {
 
 		for (var resourceActionIndex : list "UPDATE,PERMISSIONS,MERGE,DELETE") {
 			Permissions.definePermissionViaJSONAPI(
-				resourceAction = "${resourceActionIndex}",
+				resourceAction = ${resourceActionIndex},
 				resourceName = "com.liferay.portal.kernel.model.LayoutSetBranch",
 				roleTitle = "Staging Admin",
 				roleType = "site");
@@ -95,7 +95,7 @@ definition {
 
 		for (var resourceActionIndex : list "ACCESS_IN_CONTROL_PANEL,VIEW,PREFERENCES,PERMISSIONS,CONFIGURATION,ADD_TO_PAGE") {
 			Permissions.definePermissionViaJSONAPI(
-				resourceAction = "${resourceActionIndex}",
+				resourceAction = ${resourceActionIndex},
 				resourceName = "com_liferay_layout_admin_web_portlet_GroupPagesPortlet",
 				roleTitle = "Staging Admin",
 				roleType = "site");
@@ -208,7 +208,7 @@ definition {
 			dmDocumentTitle = "DM Document Title");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test StagingDemoLocalLive2 {
 		ProductMenu.gotoPortlet(
 			category = "Sites",
@@ -326,7 +326,7 @@ definition {
 		Page.viewPageLayoutColumn(columnName = "1 Column");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test StagingDemoLocalLive3 {
 		ProductMenu.gotoPortlet(
 			category = "Sites",
@@ -555,7 +555,7 @@ definition {
 			privacy = "Public Pages");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test StagingDemoLocalLive4 {
 		property portal.acceptance = "true";
 		property testray.component.names = "Training";
@@ -660,7 +660,7 @@ definition {
 			AssertElementNotPresent(locator1 = "Home#PAGE_2_GUEST_VIEW");
 		}
 
-		Pause(locator1 = "180000");
+		Pause(locator1 = 180000);
 
 		Navigator.gotoSitePage(
 			pageName = "Home",
@@ -672,7 +672,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-82564."
-	@priority = "4"
+	@priority = 4
 	test StagingLocalLiveWebContent {
 		Navigator.openSiteURL(siteName = "Site Name");
 
@@ -708,63 +708,63 @@ definition {
 
 		for (var resourceActionIndex : list "VIEW,UPDATE,PERMISSIONS,DELETE") {
 			Permissions.definePermissionViaJSONAPI(
-				resourceAction = "${resourceActionIndex}",
+				resourceAction = ${resourceActionIndex},
 				resourceName = "com.liferay.dynamic.data.mapping.model.DDMStructure-com.liferay.journal.model.JournalArticle",
 				roleTitle = "Web Content Administrator Role");
 		}
 
 		for (var resourceActionIndex : list "VIEW,UPDATE,PERMISSIONS,DELETE") {
 			Permissions.definePermissionViaJSONAPI(
-				resourceAction = "${resourceActionIndex}",
+				resourceAction = ${resourceActionIndex},
 				resourceName = "com.liferay.dynamic.data.mapping.model.DDMTemplate-com.liferay.journal.model.JournalArticle",
 				roleTitle = "Web Content Administrator Role");
 		}
 
 		for (var resourceActionIndex : list "ADD_STRUCTURE,ADD_FOLDER,ADD_FEED,ADD_ARTICLE,VIEW,UPDATE,SUBSCRIBE,PERMISSIONS,ADD_TEMPLATE") {
 			Permissions.definePermissionViaJSONAPI(
-				resourceAction = "${resourceActionIndex}",
+				resourceAction = ${resourceActionIndex},
 				resourceName = "com.liferay.journal",
 				roleTitle = "Web Content Administrator Role");
 		}
 
 		for (var resourceActionIndex : list "ADD_DISCUSSION,VIEW,UPDATE_DISCUSSION,UPDATE,SUBSCRIBE,PERMISSIONS,EXPIRE,DELETE_DISCUSSION,DELETE") {
 			Permissions.definePermissionViaJSONAPI(
-				resourceAction = "${resourceActionIndex}",
+				resourceAction = ${resourceActionIndex},
 				resourceName = "com.liferay.journal.model.JournalArticle",
 				roleTitle = "Web Content Administrator Role");
 		}
 
 		for (var resourceActionIndex : list "VIEW,UPDATE,PERMISSIONS,DELETE") {
 			Permissions.definePermissionViaJSONAPI(
-				resourceAction = "${resourceActionIndex}",
+				resourceAction = ${resourceActionIndex},
 				resourceName = "com.liferay.journal.model.JournalFeed",
 				roleTitle = "Web Content Administrator Role");
 		}
 
 		for (var resourceActionIndex : list "VIEW,UPDATE,SUBSCRIBE,PERMISSIONS,DELETE,ADD_SUBFOLDER,ADD_ARTICLE,ACCESS") {
 			Permissions.definePermissionViaJSONAPI(
-				resourceAction = "${resourceActionIndex}",
+				resourceAction = ${resourceActionIndex},
 				resourceName = "com.liferay.journal.model.JournalFolder",
 				roleTitle = "Web Content Administrator Role");
 		}
 
 		for (var resourceActionIndex : list "DELETE,PERMISSIONS,CONFIGURE_PORTLETS,MANAGE_TEAMS,VIEW_STAGING,ASSIGN_USER_ROLES,MANAGE_SUBGROUPS,VIEW_SITE_ADMINISTRATION,ASSIGN_MEMBERS,MANAGE_STAGING,VIEW_MEMBERS,ADD_LAYOUT_SET_BRANCH,MANAGE_LAYOUTS,VIEW,ADD_LAYOUT_BRANCH,MANAGE_ARCHIVED_SETUPS,UPDATE,ADD_LAYOUT,MANAGE_ANNOUNCEMENTS,PUBLISH_STAGING,ADD_COMMUNITY,EXPORT_IMPORT_PORTLET_INFO,PUBLISH_PORTLET_INFO,EXPORT_IMPORT_LAYOUTS,PREVIEW_IN_DEVICE") {
 			Permissions.definePermissionViaJSONAPI(
-				resourceAction = "${resourceActionIndex}",
+				resourceAction = ${resourceActionIndex},
 				resourceName = "com.liferay.portal.kernel.model.Group",
 				roleTitle = "Web Content Administrator Role");
 		}
 
 		for (var resourceActionIndex : list "VIEW,PREFERENCES,PERMISSIONS,CONFIGURATION,ADD_TO_PAGE,ACCESS_IN_CONTROL_PANEL") {
 			Permissions.definePermissionViaJSONAPI(
-				resourceAction = "${resourceActionIndex}",
+				resourceAction = ${resourceActionIndex},
 				resourceName = "com_liferay_journal_web_portlet_JournalPortlet",
 				roleTitle = "Web Content Administrator Role");
 		}
 
 		for (var resourceActionIndex : list "VIEW,PREFERENCES,PERMISSIONS,CONFIGURATION,ADD_TO_PAGE,ACCESS_IN_CONTROL_PANEL") {
 			Permissions.definePermissionViaJSONAPI(
-				resourceAction = "${resourceActionIndex}",
+				resourceAction = ${resourceActionIndex},
 				resourceName = "com_liferay_site_admin_web_portlet_SiteAdminPortlet",
 				roleTitle = "Web Content Administrator Role");
 		}
@@ -820,7 +820,7 @@ definition {
 			webContentTitle = "Web Content Title");
 	}
 
-	@priority = "4"
+	@priority = 4
 	test StagingLocalLiveWorkflow {
 		ProductMenu.gotoPortlet(
 			category = "Sites",
@@ -872,7 +872,7 @@ definition {
 
 		for (var resourceActionIndex : list "VIEW_SITE_ADMINISTRATION,MANAGE_ANNOUNCEMENTS,VIEW_MEMBERS,EXPORT_IMPORT_PORTLET_INFO,VIEW,EXPORT_IMPORT_LAYOUTS,UPDATE,DELETE,PUBLISH_STAGING,CONFIGURE_PORTLETS,PUBLISH_PORTLET_INFO,ASSIGN_USER_ROLES,PREVIEW_IN_DEVICE,ASSIGN_MEMBERS,PERMISSIONS,ADD_LAYOUT_SET_BRANCH,MANAGE_TEAMS,ADD_LAYOUT_BRANCH,MANAGE_SUBGROUPS,ADD_LAYOUT,MANAGE_STAGING,ADD_COMMUNITY,MANAGE_LAYOUTS,VIEW_STAGING,MANAGE_ARCHIVED_SETUPS") {
 			Permissions.definePermissionViaJSONAPI(
-				resourceAction = "${resourceActionIndex}",
+				resourceAction = ${resourceActionIndex},
 				resourceName = "com.liferay.portal.kernel.model.Group",
 				roleTitle = "Staging Admin",
 				roleType = "site");
@@ -880,7 +880,7 @@ definition {
 
 		for (var resourceActionIndex : list "ADD_LAYOUT,ADD_DISCUSSION,VIEW,UPDATE_DISCUSSION,UPDATE,PERMISSIONS,DELETE_DISCUSSION,DELETE,CUSTOMIZE,CONFIGURE_PORTLETS") {
 			Permissions.definePermissionViaJSONAPI(
-				resourceAction = "${resourceActionIndex}",
+				resourceAction = ${resourceActionIndex},
 				resourceName = "com.liferay.portal.kernel.model.Layout",
 				roleTitle = "Staging Admin",
 				roleType = "site");
@@ -888,7 +888,7 @@ definition {
 
 		for (var resourceActionIndex : list "UPDATE,PERMISSIONS,DELETE") {
 			Permissions.definePermissionViaJSONAPI(
-				resourceAction = "${resourceActionIndex}",
+				resourceAction = ${resourceActionIndex},
 				resourceName = "com.liferay.portal.kernel.model.LayoutBranch",
 				roleTitle = "Staging Admin",
 				roleType = "site");
@@ -896,7 +896,7 @@ definition {
 
 		for (var resourceActionIndex : list "UPDATE,PERMISSIONS,MERGE,DELETE") {
 			Permissions.definePermissionViaJSONAPI(
-				resourceAction = "${resourceActionIndex}",
+				resourceAction = ${resourceActionIndex},
 				resourceName = "com.liferay.portal.kernel.model.LayoutSetBranch",
 				roleTitle = "Staging Admin",
 				roleType = "site");
@@ -904,7 +904,7 @@ definition {
 
 		for (var resourceActionIndex : list "VIEW,PREFERENCES,PERMISSIONS,CONFIGURATION,ADD_TO_PAGE,ACCESS_IN_CONTROL_PANEL") {
 			Permissions.definePermissionViaJSONAPI(
-				resourceAction = "${resourceActionIndex}",
+				resourceAction = ${resourceActionIndex},
 				resourceName = "com_liferay_layout_admin_web_portlet_GroupPagesPortlet",
 				roleTitle = "Staging Admin",
 				roleType = "site");
@@ -916,7 +916,7 @@ definition {
 
 		for (var resourceActionIndex : list "PERMISSIONS,ADD_TEMPLATE,ADD_STRUCTURE,ADD_FOLDER,ADD_FEED,ADD_ARTICLE,VIEW,UPDATE,SUBSCRIBE") {
 			Permissions.definePermissionViaJSONAPI(
-				resourceAction = "${resourceActionIndex}",
+				resourceAction = ${resourceActionIndex},
 				resourceName = "com.liferay.journal",
 				roleTitle = "Content Creator",
 				roleType = "site");
@@ -924,7 +924,7 @@ definition {
 
 		for (var resourceActionIndex : list "DELETE,ADD_DISCUSSION,VIEW,UPDATE_DISCUSSION,UPDATE,SUBSCRIBE,PERMISSIONS,EXPIRE,DELETE_DISCUSSION") {
 			Permissions.definePermissionViaJSONAPI(
-				resourceAction = "${resourceActionIndex}",
+				resourceAction = ${resourceActionIndex},
 				resourceName = "com.liferay.journal.model.JournalArticle",
 				roleTitle = "Content Creator",
 				roleType = "site");
@@ -932,7 +932,7 @@ definition {
 
 		for (var resourceActionIndex : list "VIEW,UPDATE,PERMISSIONS,DELETE") {
 			Permissions.definePermissionViaJSONAPI(
-				resourceAction = "${resourceActionIndex}",
+				resourceAction = ${resourceActionIndex},
 				resourceName = "com.liferay.journal.model.JournalFeed",
 				roleTitle = "Content Creator",
 				roleType = "site");
@@ -940,7 +940,7 @@ definition {
 
 		for (var resourceActionIndex : list "VIEW,UPDATE,SUBSCRIBE,PERMISSIONS,DELETE,ADD_SUBFOLDER,ADD_ARTICLE,ACCESS") {
 			Permissions.definePermissionViaJSONAPI(
-				resourceAction = "${resourceActionIndex}",
+				resourceAction = ${resourceActionIndex},
 				resourceName = "com.liferay.journal.model.JournalFolder",
 				roleTitle = "Content Creator",
 				roleType = "site");
@@ -954,7 +954,7 @@ definition {
 
 		for (var resourceActionIndex : list "ACCESS_IN_CONTROL_PANEL,VIEW,PREFERENCES,PERMISSIONS,CONFIGURATION") {
 			Permissions.definePermissionViaJSONAPI(
-				resourceAction = "${resourceActionIndex}",
+				resourceAction = ${resourceActionIndex},
 				resourceName = "com_liferay_journal_web_portlet_JournalPortlet",
 				roleTitle = "Content Creator",
 				roleType = "site");
@@ -1160,7 +1160,7 @@ definition {
 			workflowTask = "Review");
 	}
 
-	@priority = "5"
+	@priority = 5
 	test StagingPublishPage {
 		property portal.acceptance = "true";
 		property testray.component.names = "Training";
@@ -1254,7 +1254,7 @@ definition {
 	}
 
 	@description = "This is a use case for LPS-88004."
-	@priority = "3"
+	@priority = 3
 	test UpdateAndDeleteWebContentCommentOnLiveSite {
 		Navigator.openSiteURL(siteName = "Site Name");
 
@@ -1330,7 +1330,7 @@ definition {
 
 		for (var resourceActionIndex : list "UPDATE_DISCUSSION,DELETE_DISCUSSION") {
 			Permissions.definePermissionViaJSONAPI(
-				resourceAction = "${resourceActionIndex}",
+				resourceAction = ${resourceActionIndex},
 				resourceName = "com.liferay.journal.model.JournalArticle",
 				roleTitle = "Web Content Comment Reviewer");
 		}

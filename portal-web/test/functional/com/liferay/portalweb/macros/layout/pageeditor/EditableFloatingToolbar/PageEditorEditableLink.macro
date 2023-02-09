@@ -11,12 +11,12 @@ definition {
 		Click(locator1 = "PageEditorEditableLink#ASSET_SELECT_BUTTON");
 
 		Click(
-			assetType = "${assetType}",
+			assetType = ${assetType},
 			locator1 = "PageEditorEditableLink#ASSET_SELECTION");
 
 		SelectFrame(locator1 = "IFrame#DIALOG");
 
-		LexiconEntry.gotoEntry(rowEntry = "${assetName}");
+		LexiconEntry.gotoEntry(rowEntry = ${assetName});
 
 		SelectFrameTop();
 	}
@@ -24,13 +24,13 @@ definition {
 	macro _selectField {
 		Select(
 			locator1 = "PageEditorEditableLink#FIELD",
-			value1 = "${field}");
+			value1 = ${field});
 	}
 
 	macro gotoEditableFieldLink {
 		PageEditor.clickEditableField(
-			fragmentName = "${fragmentName}",
-			id = "${id}");
+			fragmentName = ${fragmentName},
+			id = ${id});
 
 		Click(locator1 = "PageEditor#EDITABLE_FIELD_TOOLBAR_LINK_BUTTON");
 	}
@@ -41,18 +41,18 @@ definition {
 		PageEditorEditableLink._gotoFromContentField();
 
 		PageEditorEditableLink._selectContent(
-			assetName = "${assetName}",
-			assetType = "${assetType}");
+			assetName = ${assetName},
+			assetType = ${assetType});
 
-		PageEditorEditableLink._selectField(field = "${field}");
+		PageEditorEditableLink._selectField(field = ${field});
 	}
 
 	macro updateURL {
-		Variables.assertDefined(parameterList = "${url}");
+		Variables.assertDefined(parameterList = ${url});
 
 		Type(
 			locator1 = "PageEditorEditableLink#URL",
-			value1 = "${url}");
+			value1 = ${url});
 
 		PageEditor.waitForAutoSave();
 	}

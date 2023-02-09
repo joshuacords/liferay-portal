@@ -3,19 +3,19 @@ definition {
 	macro configureBreadcrumb {
 		SelectFrame(locator1 = "IFrame#CONFIGURATION");
 
-		Pause(locator1 = "3000");
+		Pause(locator1 = 3000);
 
 		if (isSet(checkSetupName)) {
-			for (var checkSetupName : list "${checkSetupName}") {
-				var key_checkSetupName = "${checkSetupName}";
+			for (var checkSetupName : list ${checkSetupName}) {
+				var key_checkSetupName = ${checkSetupName};
 
 				Check.checkToggleSwitch(locator1 = "ToggleSwitch#SHOW_SPECIFIC_TOGGLE_SWITCH");
 			}
 		}
 
 		if (isSet(uncheckSetupName)) {
-			for (var uncheckSetupName : list "${uncheckSetupName}") {
-				var key_checkSetupName = "${uncheckSetupName}";
+			for (var uncheckSetupName : list ${uncheckSetupName}) {
+				var key_checkSetupName = ${uncheckSetupName};
 
 				Uncheck.uncheckToggleSwitch(locator1 = "ToggleSwitch#SHOW_SPECIFIC_TOGGLE_SWITCH");
 			}
@@ -24,12 +24,12 @@ definition {
 		if (isSet(selectADTType)) {
 			Select(
 				locator1 = "Select#DISPLAY_TEMPLATE",
-				value1 = "${selectADTType}");
+				value1 = ${selectADTType});
 		}
 
-		Pause(locator1 = "3000");
+		Pause(locator1 = 3000);
 
-		if ("${configureWithoutSave}" == "true") {
+		if (${configureWithoutSave} == "true") {
 			echo("Configuring Breadcrumb without saving to check bug.");
 		}
 		else {
@@ -44,7 +44,7 @@ definition {
 
 		Select(
 			locator1 = "Select#DISPLAY_TEMPLATE",
-			value1 = "${displayStyle}");
+			value1 = ${displayStyle});
 
 		SelectFrame(value1 = "relative=top");
 	}
@@ -60,11 +60,11 @@ definition {
 	macro viewActiveEntry {
 		AssertTextEquals(
 			locator1 = "Breadcrumb#BREADCRUMB_ENTRY_ACTIVE_ENTRY",
-			value1 = "${breadcrumbName}");
+			value1 = ${breadcrumbName});
 	}
 
 	macro viewADTApplied {
-		var key_breadcrumbADTType = "${breadcrumbADTType}";
+		var key_breadcrumbADTType = ${breadcrumbADTType};
 
 		AssertElementPresent(locator1 = "BreadcrumbPortlet#BREADCRUMB_ADT");
 	}
@@ -73,16 +73,16 @@ definition {
 		SelectFrame(locator1 = "IFrame#CONFIGURATION");
 
 		if (isSet(checkSetupName)) {
-			for (var checkSetupName : list "${checkSetupName}") {
-				var key_checkSetupName = "${checkSetupName}";
+			for (var checkSetupName : list ${checkSetupName}) {
+				var key_checkSetupName = ${checkSetupName};
 
 				AssertChecked.assertCheckedNotVisible(locator1 = "ToggleSwitch#SHOW_SPECIFIC_TOGGLE_SWITCH");
 			}
 		}
 
 		if (isSet(uncheckSetupName)) {
-			for (var uncheckSetupName : list "${uncheckSetupName}") {
-				var key_checkSetupName = "${uncheckSetupName}";
+			for (var uncheckSetupName : list ${uncheckSetupName}) {
+				var key_checkSetupName = ${uncheckSetupName};
 
 				AssertNotChecked.assertNotCheckedNotVisible(locator1 = "ToggleSwitch#SHOW_SPECIFIC_TOGGLE_SWITCH");
 			}
@@ -105,17 +105,17 @@ definition {
 				SelectFrame(locator1 = "IFrame#CONFIGURATION");
 			}
 
-			for (var breadcrumbName : list "${breadcrumbListVisible}") {
-				Breadcrumb.viewEntry(breadcrumbName = "${breadcrumbName}");
+			for (var breadcrumbName : list ${breadcrumbListVisible}) {
+				Breadcrumb.viewEntry(breadcrumbName = ${breadcrumbName});
 			}
 		}
 
 		if (isSet(breadcrumbListNotVisible)) {
-			for (var breadcrumbName : list "${breadcrumbListNotVisible}") {
-				var key_breadcrumbName = "${breadcrumbName}";
+			for (var breadcrumbName : list ${breadcrumbListNotVisible}) {
+				var key_breadcrumbName = ${breadcrumbName};
 
 				AssertElementNotPresent(
-					key_breadcrumbName = "${breadcrumbName}",
+					key_breadcrumbName = ${breadcrumbName},
 					locator1 = "BreadcrumbPortlet#BREADCRUMB_SPECIFIC_ENTRY");
 			}
 		}
@@ -125,26 +125,26 @@ definition {
 
 	macro viewEntry {
 		AssertTextEquals(
-			key_breadcrumbName = "${breadcrumbName}",
+			key_breadcrumbName = ${breadcrumbName},
 			locator1 = "BreadcrumbPortlet#BREADCRUMB_SPECIFIC_ENTRY",
-			value1 = "${breadcrumbName}");
+			value1 = ${breadcrumbName});
 	}
 
 	macro viewPG {
 		if (isSet(breadcrumbListVisible)) {
-			for (var breadcrumbName : list "${breadcrumbListVisible}") {
-				var key_breadcrumbName = "${breadcrumbName}";
+			for (var breadcrumbName : list ${breadcrumbListVisible}) {
+				var key_breadcrumbName = ${breadcrumbName};
 
 				AssertTextEquals(
 					locator1 = "BreadcrumbPortlet#BREADCRUMB_SPECIFIC_ENTRY",
-					value1 = "${breadcrumbName}");
+					value1 = ${breadcrumbName});
 			}
 		}
 
 		if (isSet(breadcrumbListNotVisible)) {
-			for (var breadcrumbName : list "${breadcrumbListNotVisible}") {
+			for (var breadcrumbName : list ${breadcrumbListNotVisible}) {
 				AssertElementNotPresent(
-					key_breadcrumbName = "${breadcrumbName}",
+					key_breadcrumbName = ${breadcrumbName},
 					locator1 = "BreadcrumbPortlet#BREADCRUMB_SPECIFIC_ENTRY");
 			}
 		}
@@ -152,17 +152,17 @@ definition {
 
 	macro viewSpecificPG {
 		if (isSet(breadcrumbListNotVisible)) {
-			for (var breadcrumbName : list "${breadcrumbListNotVisible}") {
+			for (var breadcrumbName : list ${breadcrumbListNotVisible}) {
 				AssertElementNotPresent(
-					key_breadcrumbName = "${breadcrumbName}",
+					key_breadcrumbName = ${breadcrumbName},
 					locator1 = "BreadcrumbPortlet#BREADCRUMB_SPECIFIC_ENTRY");
 			}
 		}
 
 		if (isSet(breadcrumListVisible)) {
-			for (var breadcrumbName : list "${breadcrumbListVisible}") {
+			for (var breadcrumbName : list ${breadcrumbListVisible}) {
 				AssertElementPresent(
-					key_breadcrumbName = "${breadcrumbName}",
+					key_breadcrumbName = ${breadcrumbName},
 					locator1 = "BreadcrumbPortlet#BREADCRUMB_SPECIFIC_ENTRY");
 			}
 		}

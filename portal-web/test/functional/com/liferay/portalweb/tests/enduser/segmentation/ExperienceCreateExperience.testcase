@@ -45,7 +45,7 @@ definition {
 	tearDown {
 		var testPortalInstance = PropsUtil.get("test.portal.instance");
 
-		if ("${testPortalInstance}" == "true") {
+		if (${testPortalInstance} == "true") {
 			PortalInstances.tearDownCP();
 		}
 		else {
@@ -54,7 +54,7 @@ definition {
 	}
 
 	@description = "When the user creates a new experience, it is always placed in the last position of the list, always below the default experience and always set as non-active"
-	@priority = "5"
+	@priority = 5
 	test AddNewAnyoneExperience {
 		property portal.acceptance = "true";
 
@@ -104,7 +104,7 @@ definition {
 	}
 
 	@description = "When the user clicks on the Duplicate option of an experience, a new experience with [the same name] + Copy and the same audience (Segment) appears in the last position of the list, always below the default experience"
-	@priority = "5"
+	@priority = 5
 	test DuplicateExperience {
 		property portal.acceptance = "true";
 
@@ -126,7 +126,7 @@ definition {
 	}
 
 	@description = "Validate experience edition and deletion"
-	@priority = "5"
+	@priority = 5
 	test EditAndDeleteExperience {
 		property portal.acceptance = "true";
 
