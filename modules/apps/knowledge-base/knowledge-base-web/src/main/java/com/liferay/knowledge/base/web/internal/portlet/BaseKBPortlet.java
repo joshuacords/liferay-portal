@@ -49,6 +49,7 @@ import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
+import com.liferay.portal.kernel.servlet.HttpHeaders;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.theme.PortletDisplay;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
@@ -300,7 +301,8 @@ public abstract class BaseKBPortlet extends MVCPortlet {
 
 		PortletResponseUtil.sendFile(
 			resourceRequest, resourceResponse, null,
-			rss.getBytes(StringPool.UTF8), ContentTypes.TEXT_XML_UTF8);
+			rss.getBytes(StringPool.UTF8), ContentTypes.TEXT_XML_UTF8, null,
+			HttpHeaders.CACHE_CONTROL_NO_CACHE_VALUE);
 	}
 
 	@Override
