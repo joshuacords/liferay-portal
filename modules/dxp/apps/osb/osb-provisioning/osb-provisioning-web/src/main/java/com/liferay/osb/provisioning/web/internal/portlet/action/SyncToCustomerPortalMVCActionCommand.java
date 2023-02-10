@@ -81,10 +81,7 @@ public class SyncToCustomerPortalMVCActionCommand extends BaseMVCActionCommand {
 			Future<?> future = ProcessUtil.execute(
 				new LoggingOutputProcessor(
 					(stdErr, line) -> {
-						if (stdErr) {
-							_log.error(line);
-						}
-						else if (_log.isInfoEnabled()) {
+						if (_log.isInfoEnabled()) {
 							_log.info(line);
 						}
 					}),
