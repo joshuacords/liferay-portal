@@ -1166,15 +1166,23 @@ public class WebServerServlet extends HttpServlet {
 
 		// Send file
 
+		String cacheControlValue = HttpHeaders.CACHE_CONTROL_PRIVATE_VALUE;
+
+		boolean download = ParamUtil.getBoolean(httpServletRequest, "download");
+
+		if (download) {
+			cacheControlValue = HttpHeaders.CACHE_CONTROL_NO_CACHE_VALUE;
+		}
+
+		httpServletResponse.addHeader(
+			HttpHeaders.CACHE_CONTROL, cacheControlValue);
+
 		if (isSupportsRangeHeader(contentType)) {
 			ServletResponseUtil.sendFileWithRangeHeader(
 				httpServletRequest, httpServletResponse, fileName, inputStream,
 				contentLength, contentType);
 		}
 		else {
-			boolean download = ParamUtil.getBoolean(
-				httpServletRequest, "download");
-
 			if (download) {
 				ServletResponseUtil.sendFile(
 					httpServletRequest, httpServletResponse, fileName,
