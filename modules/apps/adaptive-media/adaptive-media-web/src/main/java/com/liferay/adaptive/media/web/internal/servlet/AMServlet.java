@@ -82,6 +82,18 @@ public class AMServlet extends HttpServlet {
 			AdaptiveMedia<?> adaptiveMedia = adaptiveMediaOptional.orElseThrow(
 				AMException.AMNotFound::new);
 
+			boolean download = ParamUtil.getBoolean(
+				httpServletRequest, "download");
+
+			String cacheControlValue = HttpHeaders.CACHE_CONTROL_PRIVATE_VALUE;
+
+			if (download) {
+				cacheControlValue = HttpHeaders.CACHE_CONTROL_NO_CACHE_VALUE;
+			}
+
+			httpServletResponse.addHeader(
+				HttpHeaders.CACHE_CONTROL, cacheControlValue);
+
 			Optional<Long> contentLengthOptional =
 				adaptiveMedia.getValueOptional(
 					AMAttribute.getContentLengthAMAttribute());
@@ -99,9 +111,6 @@ public class AMServlet extends HttpServlet {
 				AMAttribute.getFileNameAMAttribute());
 
 			String fileName = fileNameOptional.orElse(null);
-
-			boolean download = ParamUtil.getBoolean(
-				httpServletRequest, "download");
 
 			if (download) {
 				ServletResponseUtil.sendFile(
