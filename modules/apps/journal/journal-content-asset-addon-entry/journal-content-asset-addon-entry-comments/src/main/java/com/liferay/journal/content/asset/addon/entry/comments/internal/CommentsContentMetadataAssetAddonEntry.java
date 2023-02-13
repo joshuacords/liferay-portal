@@ -34,7 +34,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
@@ -43,8 +42,7 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(
 	configurationPid = "com.liferay.journal.configuration.JournalServiceConfiguration",
-	configurationPolicy = ConfigurationPolicy.OPTIONAL, immediate = true,
-	service = ContentMetadataAssetAddonEntry.class
+	immediate = true, service = ContentMetadataAssetAddonEntry.class
 )
 public class CommentsContentMetadataAssetAddonEntry
 	extends BaseJSPAssetAddonEntry implements ContentMetadataAssetAddonEntry {

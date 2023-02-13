@@ -50,7 +50,6 @@ import org.apache.http.impl.client.HttpClientBuilder;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.ConfigurationPolicy;
 import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
@@ -59,8 +58,7 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(
 	configurationPid = "com.liferay.commerce.machine.learning.internal.configuration.CommerceMLConfiguration",
-	configurationPolicy = ConfigurationPolicy.OPTIONAL, immediate = true,
-	service = CommerceMLGatewayClient.class
+	immediate = true, service = CommerceMLGatewayClient.class
 )
 public class CommerceMLGatewayClientImpl implements CommerceMLGatewayClient {
 
