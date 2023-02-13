@@ -68,7 +68,8 @@ create unique index IX_EC00543C on Company (webId[$COLUMN_LENGTH:75$]);
 
 create index IX_B8C28C53 on Contact_ (accountId);
 create index IX_791914FA on Contact_ (classNameId, classPK);
-create index IX_66D496A3 on Contact_ (companyId);
+create index IX_FD2E9BDD on Contact_ (companyId, userId);
+create index IX_42F94F9F on Contact_ (userId);
 
 create unique index IX_717B97E1 on Country (a2[$COLUMN_LENGTH:75$]);
 create unique index IX_717B9BA2 on Country (a3[$COLUMN_LENGTH:75$]);

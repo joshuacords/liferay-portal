@@ -167,7 +167,9 @@ public class ContactModelImpl
 
 	public static final long COMPANYID_COLUMN_BITMASK = 8L;
 
-	public static final long CONTACTID_COLUMN_BITMASK = 16L;
+	public static final long USERID_COLUMN_BITMASK = 16L;
+
+	public static final long CONTACTID_COLUMN_BITMASK = 32L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -496,6 +498,14 @@ public class ContactModelImpl
 
 	@Override
 	public void setUserId(long userId) {
+		_columnBitmask |= USERID_COLUMN_BITMASK;
+
+		if (!_setOriginalUserId) {
+			_setOriginalUserId = true;
+
+			_originalUserId = _userId;
+		}
+
 		_userId = userId;
 	}
 
@@ -513,6 +523,10 @@ public class ContactModelImpl
 
 	@Override
 	public void setUserUuid(String userUuid) {
+	}
+
+	public long getOriginalUserId() {
+		return _originalUserId;
 	}
 
 	@JSON
@@ -1068,6 +1082,10 @@ public class ContactModelImpl
 
 		_setOriginalCompanyId = false;
 
+		_originalUserId = _userId;
+
+		_setOriginalUserId = false;
+
 		_setModifiedDate = false;
 		_originalClassNameId = _classNameId;
 
@@ -1355,6 +1373,8 @@ public class ContactModelImpl
 	private long _originalCompanyId;
 	private boolean _setOriginalCompanyId;
 	private long _userId;
+	private long _originalUserId;
+	private boolean _setOriginalUserId;
 	private String _userName;
 	private Date _createDate;
 	private Date _modifiedDate;

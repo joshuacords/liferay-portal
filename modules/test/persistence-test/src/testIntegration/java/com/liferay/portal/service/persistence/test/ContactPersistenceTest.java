@@ -255,10 +255,25 @@ public class ContactPersistenceTest {
 	}
 
 	@Test
+	public void testCountByUserId() throws Exception {
+		_persistence.countByUserId(RandomTestUtil.nextLong());
+
+		_persistence.countByUserId(0L);
+	}
+
+	@Test
 	public void testCountByAccountId() throws Exception {
 		_persistence.countByAccountId(RandomTestUtil.nextLong());
 
 		_persistence.countByAccountId(0L);
+	}
+
+	@Test
+	public void testCountByC_U() throws Exception {
+		_persistence.countByC_U(
+			RandomTestUtil.nextLong(), RandomTestUtil.nextLong());
+
+		_persistence.countByC_U(0L, 0L);
 	}
 
 	@Test
