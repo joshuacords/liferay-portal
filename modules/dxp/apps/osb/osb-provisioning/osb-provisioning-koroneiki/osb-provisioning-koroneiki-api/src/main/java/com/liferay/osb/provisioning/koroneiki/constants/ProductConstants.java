@@ -144,11 +144,14 @@ public class ProductConstants {
 	public static final String NAME_LXC_SUBSCRIPTION_TRANSACT_SITE =
 		"LXC Subscription - Transact Site";
 
-	public static final String NAME_MANAGED_SERVICES_DEVELOPER_SUPPORT =
-		"Managed Services - Developer Support";
+	public static final String NAME_MANAGED_SERVICES =
+		"Professional Services - Managed Services";
 
-	public static final String NAME_MANAGED_SERVICES_STANDARD =
-		"Managed Services - Standard";
+	public static final String NAME_MANAGED_SERVICES_DXP =
+		"Managed Services for Liferay DXP - Self-Hosted";
+
+	public static final String NAME_MANAGED_SERVICES_LXC_SM =
+		"Managed Services for Liferay Experience Cloud - Self Managed";
 
 	public static final String NAME_PLATINUM = "Platinum Subscription";
 

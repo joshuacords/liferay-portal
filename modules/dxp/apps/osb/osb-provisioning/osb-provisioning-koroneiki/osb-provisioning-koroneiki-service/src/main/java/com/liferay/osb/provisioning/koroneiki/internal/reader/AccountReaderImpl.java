@@ -121,11 +121,11 @@ public class AccountReaderImpl implements AccountReader {
 
 				supportSeatAddons += productPurchase.getQuantity();
 			}
-			else if (curName.equals(
-						ProductConstants.
-							NAME_MANAGED_SERVICES_DEVELOPER_SUPPORT) ||
+			else if (curName.equals(ProductConstants.NAME_MANAGED_SERVICES) ||
 					 curName.equals(
-						 ProductConstants.NAME_MANAGED_SERVICES_STANDARD)) {
+						 ProductConstants.NAME_MANAGED_SERVICES_DXP) ||
+					 curName.equals(
+						 ProductConstants.NAME_MANAGED_SERVICES_LXC_SM)) {
 
 				managedServices = true;
 			}
