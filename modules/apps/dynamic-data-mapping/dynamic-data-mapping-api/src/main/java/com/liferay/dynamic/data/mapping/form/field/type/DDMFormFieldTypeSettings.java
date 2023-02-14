@@ -49,7 +49,11 @@ public interface DDMFormFieldTypeSettings {
 	)
 	public String dataType();
 
-	@DDMFormField(label = "%field-name", required = true)
+	@DDMFormField(
+		label = "%field-name",
+		properties = "alertMessage=%by-changing-the-fieldName-it-will-also-break-the-rule-that-is-using-it",
+		required = true
+	)
 	public String name();
 
 	@DDMFormField(required = true, visibilityExpression = "FALSE")

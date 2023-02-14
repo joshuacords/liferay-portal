@@ -29,7 +29,6 @@ import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -55,7 +54,23 @@ public class TextDDMFormFieldTemplateContextContributor
 		DDMFormField ddmFormField,
 		DDMFormFieldRenderingContext ddmFormFieldRenderingContext) {
 
-		Map<String, Object> parameters = new HashMap<>();
+		Map<String, Object> parameters = HashMapBuilder.<String, Object>put(
+			"alertMessage",
+			() -> {
+				Object alertMessage = ddmFormField.getProperty("alertMessage");
+
+				if (Validator.isNull(alertMessage) ||
+					!(alertMessage instanceof LocalizedValue)) {
+
+					return null;
+				}
+
+				return getValueString(
+					(LocalizedValue)alertMessage,
+					ddmFormFieldRenderingContext.getLocale(),
+					ddmFormFieldRenderingContext);
+			}
+		).build();
 
 		if (ddmFormFieldRenderingContext.isReturnFullContext()) {
 			parameters.put(

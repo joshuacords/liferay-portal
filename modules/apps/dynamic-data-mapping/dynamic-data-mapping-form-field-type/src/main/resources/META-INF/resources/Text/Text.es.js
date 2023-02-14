@@ -223,6 +223,12 @@ class Text extends Component {
 		}, 300);
 	}
 
+	_handleFieldClicked() {
+		if (this.alertMessage) {
+			this.showAlertMessage = true;
+		}
+	}
+
 	_handleFieldFocused(event) {
 		if (this.isMultilineTextRenderedByIE(event)) {
 			event.target.value = this.value;
@@ -241,6 +247,14 @@ Text.STATE = {
 	 */
 
 	_cursorPosition: Config.number().value(0),
+
+	/**
+	 * @default undefined
+	 * @instance
+	 * @memberof Text
+	 * @type {?(string|undefined)}
+	 */
+	alertMessage: Config.string(),
 
 	/**
 	 * @default undefined
@@ -398,6 +412,15 @@ Text.STATE = {
 	 */
 
 	required: Config.bool().value(false),
+
+	/**
+	 * @default false
+	 * @instance
+	 * @memberof Text
+	 * @type {?bool}
+	 */
+
+	showAlertMessage: Config.bool().value(false),
 
 	/**
 	 * @default true

@@ -1,0 +1,5 @@
+.form-feedback-item.text-warning
+{
+    display: flex;
+    word-spacing: 10px;
+}

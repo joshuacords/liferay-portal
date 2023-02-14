@@ -4,12 +4,14 @@
 	{@param name: string}
 	{@param? _handleFieldBlurred: any}
 	{@param? _handleFieldChanged: any}
+	{@param? _handleFieldClicked: any}
 	{@param? _handleFieldFocused: any}
 	{@param? _handleAutocompleteSelected: any}
 	{@param? _handleAutocompleteFieldFocused: any}
 	{@param? _handleAutocompleteFieldBlurred: any}
 	{@param? _handleAutocompleteFieldChanged: any}
 	{@param? _handleAutocompleteFilteredItemsChanged: any}
+	{@param? alertMessage: string}
 	{@param? autocompleteEnabled: bool}
 	{@param? displayErrors: bool}
 	{@param? displayStyle: string}
@@ -22,6 +24,7 @@
 	{@param? readOnly: bool}
 	{@param? repeatable: bool}
 	{@param? required: bool}
+	{@param? showAlertMessage: bool}
 	{@param? showLabel: bool}
 	{@param? spritemap: string}
 	{@param? tip: string}
@@ -36,12 +39,14 @@
 			{call .content}
 				{param _handleFieldBlurred: $_handleFieldBlurred /}
 				{param _handleFieldChanged: $_handleFieldChanged /}
+				{param _handleFieldClicked : $_handleFieldClicked /}
 				{param _handleFieldFocused: $_handleFieldFocused /}
 				{param _handleAutocompleteSelected: $_handleAutocompleteSelected /}
 				{param _handleAutocompleteFieldFocused: $_handleAutocompleteFieldFocused /}
 				{param _handleAutocompleteFieldBlurred: $_handleAutocompleteFieldBlurred /}
 				{param _handleAutocompleteFieldChanged: $_handleAutocompleteFieldChanged /}
 				{param _handleAutocompleteFilteredItemsChanged: $_handleAutocompleteFilteredItemsChanged /}
+				{param alertMessage: $alertMessage /}
 				{param autocompleteEnabled: $autocompleteEnabled /}
 				{param displayStyle: $displayStyle /}
 				{param errorMessage: $errorMessage /}
@@ -52,6 +57,8 @@
 				{param placeholder: $placeholder /}
 				{param readOnly: $readOnly /}
 				{param required: $required /}
+				{param showAlertMessage: $showAlertMessage /}
+				{param spritemap: $spritemap /}
 				{param tip: $tip /}
 				{param value: $value /}
 				{param valid: $valid /}
@@ -79,12 +86,14 @@
 	{@param name: string}
 	{@param? _handleFieldBlurred: any}
 	{@param? _handleFieldChanged: any}
+	{@param? _handleFieldClicked: any}
 	{@param? _handleFieldFocused: any}
 	{@param? _handleAutocompleteSelected: any}
 	{@param? _handleAutocompleteFieldFocused: any}
 	{@param? _handleAutocompleteFieldBlurred: any}
 	{@param? _handleAutocompleteFieldChanged: any}
 	{@param? _handleAutocompleteFilteredItemsChanged: any}
+	{@param? alertMessage: string}
 	{@param? autocompleteEnabled: bool}
 	{@param? displayStyle: string}
 	{@param? errorMessage: string}
@@ -94,6 +103,8 @@
 	{@param? placeholder: string}
 	{@param? required: bool}
 	{@param? readOnly: bool}
+	{@param? showAlertMessage: bool}
+	{@param? spritemap: string}
 	{@param? tip: string}
 	{@param? value: string}
 	{@param? valid: bool}
@@ -133,6 +144,8 @@
 
 		data-onblur="{$_handleFieldBlurred}"
 
+		data-onclick="{$_handleFieldClicked}"
+
 		{if $readOnly}
 			disabled="disabled"
 		{/if}
@@ -148,6 +161,20 @@
 		</div>
 	{elseif ($displayStyle == 'singleline' and $readOnly) or not($autocompleteEnabled)}
 		<input {$attributes}>
+
+		{if $showAlertMessage and $spritemap}
+			<div class="form-feedback-item text-warning">
+				{call ClayIcon.render}
+					{param spritemap: $spritemap /}
+					{param symbol: 'warning-full' /}
+				{/call}
+
+				<span class="ml-1">
+					{$alertMessage}
+				</span>
+			</div>
+		{/if}
+
 	{elseif $autocompleteEnabled and isNonnull($options)}
 		{if length($options) == 0}
 			<input {$attributes}>
