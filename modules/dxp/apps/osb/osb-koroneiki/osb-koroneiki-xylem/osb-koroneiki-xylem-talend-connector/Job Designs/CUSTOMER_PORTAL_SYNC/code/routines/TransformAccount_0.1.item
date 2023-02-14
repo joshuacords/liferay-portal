@@ -324,6 +324,7 @@ public class TransformAccount {
 		boolean managedServices = false;
 		int supportSeatAddons = 0;
 		int productionInstances = 0;
+		int maxSupportSeatCount = 0;
 
 		JSONArray jsonArray = new JSONArray(productPurchases);
 
@@ -414,6 +415,17 @@ public class TransformAccount {
 
 				productionInstances += quantity;
 			}
+            else if (curName.equals(ProductConstants.NAME_LXC_PRO_PLAN)) {
+			    maxSupportSeatCount = 2;
+            }
+            else if (curName.equals(ProductConstants.NAME_LXC_BUSINESS_PLAN)) {
+                maxSupportSeatCount = 15;
+            }
+            else if (curName.equals(
+					ProductConstants.NAME_LXC_ENTERPRISE_PLAN)) {
+
+                maxSupportSeatCount = 18;
+            }
 		}
 
 		if (managedServices) {
@@ -421,69 +433,67 @@ public class TransformAccount {
 		}
 
 		if (productionInstances <= 0) {
-			return 0;
+			return maxSupportSeatCount;
 		}
-
-		int maxSupportSeatCount = 0;
 
 		if (name.equals(ProductConstants.NAME_GOLD)) {
 			if (productionInstances <= 4) {
-				maxSupportSeatCount = 2;
+				maxSupportSeatCount += 2;
 			}
 			else if (productionInstances <= 8) {
-				maxSupportSeatCount = 4;
+				maxSupportSeatCount += 4;
 			}
 			else if (productionInstances <= 12) {
-				maxSupportSeatCount = 6;
+				maxSupportSeatCount += 6;
 			}
 			else if (productionInstances <= 16) {
-				maxSupportSeatCount = 8;
+				maxSupportSeatCount += 8;
 			}
 			else if (productionInstances <= 20) {
-				maxSupportSeatCount = 10;
+				maxSupportSeatCount += 10;
 			}
 			else {
-				maxSupportSeatCount = 12;
+				maxSupportSeatCount += 12;
 			}
 		}
 		else if (name.equals(ProductConstants.NAME_PLATINUM)) {
 			if (productionInstances <= 4) {
-				maxSupportSeatCount = 3;
+				maxSupportSeatCount += 3;
 			}
 			else if (productionInstances <= 8) {
-				maxSupportSeatCount = 6;
+				maxSupportSeatCount += 6;
 			}
 			else if (productionInstances <= 12) {
-				maxSupportSeatCount = 9;
+				maxSupportSeatCount += 9;
 			}
 			else if (productionInstances <= 16) {
-				maxSupportSeatCount = 12;
+				maxSupportSeatCount += 12;
 			}
 			else if (productionInstances <= 20) {
-				maxSupportSeatCount = 15;
+				maxSupportSeatCount += 15;
 			}
 			else {
-				maxSupportSeatCount = 18;
+				maxSupportSeatCount += 18;
 			}
 		}
 		else if (name.equals(ProductConstants.NAME_PREMIUM)) {
 			if (productionInstances <= 3) {
-				maxSupportSeatCount = 3;
+				maxSupportSeatCount += 3;
 			}
 			else if (productionInstances <= 6) {
-				maxSupportSeatCount = 6;
+				maxSupportSeatCount += 6;
 			}
 			else if (productionInstances <= 9) {
-				maxSupportSeatCount = 9;
+				maxSupportSeatCount += 9;
 			}
 			else if (productionInstances <= 12) {
-				maxSupportSeatCount = 12;
+				maxSupportSeatCount += 12;
 			}
 			else if (productionInstances <= 15) {
-				maxSupportSeatCount = 15;
+				maxSupportSeatCount += 15;
 			}
 			else {
-				maxSupportSeatCount = 18;
+				maxSupportSeatCount += 18;
 			}
 		}
 

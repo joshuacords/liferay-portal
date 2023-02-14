@@ -23,8 +23,6 @@ public class ProductConstants {
 
 	public static final String GROUP_NAME_DXP = "DXP";
 
-	public static final String GROUP_NAME_DXP_CLOUD = "DXP Cloud";
-
 	public static final String GROUP_NAME_PORTAL = "Portal";
 
 	public static final String NAME_ANALYTICS_CLOUD_BASIC =
@@ -98,6 +96,8 @@ public class ProductConstants {
 
 	public static final String NAME_LIMITED = "Limited Subscription";
 
+	public static final String NAME_LXC_BUSINESS_PLAN = "LXC - Business Plan";
+
 	public static final String NAME_LXC_CSP_CUSTOM_USER_TIER =
 		"LXC - CSP - Custom User Tier";
 
@@ -118,6 +118,11 @@ public class ProductConstants {
 
 	public static final String NAME_LXC_CSP_UP_TO_500_USERS =
 		"LXC - CSP - Up to 500 Users";
+
+	public static final String NAME_LXC_ENTERPRISE_PLAN =
+		"LXC - Enterprise Plan";
+
+	public static final String NAME_LXC_PRO_PLAN = "LXC - Pro Plan";
 
 	public static final String NAME_LXC_SM = "LXC SM";
 
