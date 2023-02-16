@@ -59,7 +59,7 @@ public interface PriceListAccountGroupResource {
 	public void deletePriceListAccountGroup(Long id) throws Exception;
 
 	public Response deletePriceListAccountGroupBatch(
-			Long id, String callbackURL, Object object)
+			String callbackURL, Object object)
 		throws Exception;
 
 	public Page<PriceListAccountGroup>
@@ -83,7 +83,7 @@ public interface PriceListAccountGroupResource {
 		throws Exception;
 
 	public Response postPriceListIdPriceListAccountGroupBatch(
-			Long id, String callbackURL, Object object)
+			String callbackURL, Object object)
 		throws Exception;
 
 	public default void setContextAcceptLanguage(

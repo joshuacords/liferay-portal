@@ -45,12 +45,11 @@ public interface DiscountChannelResource {
 	public HttpInvoker.HttpResponse deleteDiscountChannelHttpResponse(Long id)
 		throws Exception;
 
-	public void deleteDiscountChannelBatch(
-			Long id, String callbackURL, Object object)
+	public void deleteDiscountChannelBatch(String callbackURL, Object object)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse deleteDiscountChannelBatchHttpResponse(
-			Long id, String callbackURL, Object object)
+			String callbackURL, Object object)
 		throws Exception;
 
 	public Page<DiscountChannel>
@@ -92,12 +91,12 @@ public interface DiscountChannelResource {
 		throws Exception;
 
 	public void postDiscountIdDiscountChannelBatch(
-			Long id, String callbackURL, Object object)
+			String callbackURL, Object object)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
 			postDiscountIdDiscountChannelBatchHttpResponse(
-				Long id, String callbackURL, Object object)
+				String callbackURL, Object object)
 		throws Exception;
 
 	public static class Builder {
@@ -259,11 +258,11 @@ public interface DiscountChannelResource {
 		}
 
 		public void deleteDiscountChannelBatch(
-				Long id, String callbackURL, Object object)
+				String callbackURL, Object object)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				deleteDiscountChannelBatchHttpResponse(id, callbackURL, object);
+				deleteDiscountChannelBatchHttpResponse(callbackURL, object);
 
 			String content = httpResponse.getContent();
 
@@ -292,7 +291,7 @@ public interface DiscountChannelResource {
 		}
 
 		public HttpInvoker.HttpResponse deleteDiscountChannelBatchHttpResponse(
-				Long id, String callbackURL, Object object)
+				String callbackURL, Object object)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -327,8 +326,6 @@ public interface DiscountChannelResource {
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port + _builder._contextPath +
 						"/o/headless-commerce-admin-pricing/v2.0/discount-channels/batch");
-
-			httpInvoker.path("id", id);
 
 			httpInvoker.userNameAndPassword(
 				_builder._login + ":" + _builder._password);
@@ -708,12 +705,12 @@ public interface DiscountChannelResource {
 		}
 
 		public void postDiscountIdDiscountChannelBatch(
-				Long id, String callbackURL, Object object)
+				String callbackURL, Object object)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
 				postDiscountIdDiscountChannelBatchHttpResponse(
-					id, callbackURL, object);
+					callbackURL, object);
 
 			String content = httpResponse.getContent();
 
@@ -743,7 +740,7 @@ public interface DiscountChannelResource {
 
 		public HttpInvoker.HttpResponse
 				postDiscountIdDiscountChannelBatchHttpResponse(
-					Long id, String callbackURL, Object object)
+					String callbackURL, Object object)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -778,8 +775,6 @@ public interface DiscountChannelResource {
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port + _builder._contextPath +
 						"/o/headless-commerce-admin-pricing/v2.0/discounts/discount-channels/batch");
-
-			httpInvoker.path("id", id);
 
 			httpInvoker.userNameAndPassword(
 				_builder._login + ":" + _builder._password);

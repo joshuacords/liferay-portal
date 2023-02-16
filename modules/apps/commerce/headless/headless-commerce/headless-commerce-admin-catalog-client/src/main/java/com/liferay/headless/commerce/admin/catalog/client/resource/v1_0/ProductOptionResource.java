@@ -47,12 +47,11 @@ public interface ProductOptionResource {
 	public HttpInvoker.HttpResponse deleteProductOptionHttpResponse(Long id)
 		throws Exception;
 
-	public void deleteProductOptionBatch(
-			Long id, String callbackURL, Object object)
+	public void deleteProductOptionBatch(String callbackURL, Object object)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse deleteProductOptionBatchHttpResponse(
-			Long id, String callbackURL, Object object)
+			String callbackURL, Object object)
 		throws Exception;
 
 	public ProductOption getProductOption(Long id) throws Exception;
@@ -249,12 +248,11 @@ public interface ProductOptionResource {
 			return httpInvoker.invoke();
 		}
 
-		public void deleteProductOptionBatch(
-				Long id, String callbackURL, Object object)
+		public void deleteProductOptionBatch(String callbackURL, Object object)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				deleteProductOptionBatchHttpResponse(id, callbackURL, object);
+				deleteProductOptionBatchHttpResponse(callbackURL, object);
 
 			String content = httpResponse.getContent();
 
@@ -283,7 +281,7 @@ public interface ProductOptionResource {
 		}
 
 		public HttpInvoker.HttpResponse deleteProductOptionBatchHttpResponse(
-				Long id, String callbackURL, Object object)
+				String callbackURL, Object object)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -318,8 +316,6 @@ public interface ProductOptionResource {
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port + _builder._contextPath +
 						"/o/headless-commerce-admin-catalog/v1.0/productOptions/batch");
-
-			httpInvoker.path("id", id);
 
 			httpInvoker.userNameAndPassword(
 				_builder._login + ":" + _builder._password);

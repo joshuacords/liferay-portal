@@ -179,7 +179,6 @@ public class Mutation {
 
 	@GraphQLField
 	public Response deleteWarehouseItemBatch(
-			@GraphQLName("id") Long id,
 			@GraphQLName("callbackURL") String callbackURL,
 			@GraphQLName("object") Object object)
 		throws Exception {
@@ -189,7 +188,7 @@ public class Mutation {
 			this::_populateResourceContext,
 			warehouseItemResource ->
 				warehouseItemResource.deleteWarehouseItemBatch(
-					id, callbackURL, object));
+					callbackURL, object));
 	}
 
 	@GraphQLField

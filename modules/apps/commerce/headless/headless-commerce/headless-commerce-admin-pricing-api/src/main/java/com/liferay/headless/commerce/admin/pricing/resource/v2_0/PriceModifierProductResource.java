@@ -59,7 +59,7 @@ public interface PriceModifierProductResource {
 	public void deletePriceModifierProduct(Long id) throws Exception;
 
 	public Response deletePriceModifierProductBatch(
-			Long id, String callbackURL, Object object)
+			String callbackURL, Object object)
 		throws Exception;
 
 	public Page<PriceModifierProduct>
@@ -84,7 +84,7 @@ public interface PriceModifierProductResource {
 		throws Exception;
 
 	public Response postPriceModifierIdPriceModifierProductBatch(
-			Long id, String callbackURL, Object object)
+			String callbackURL, Object object)
 		throws Exception;
 
 	public default void setContextAcceptLanguage(

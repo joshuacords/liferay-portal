@@ -59,7 +59,7 @@ public interface DiscountAccountGroupResource {
 	public void deleteDiscountAccountGroup(Long id) throws Exception;
 
 	public Response deleteDiscountAccountGroupBatch(
-			Long id, String callbackURL, Object object)
+			String callbackURL, Object object)
 		throws Exception;
 
 	public Page<DiscountAccountGroup>
@@ -83,7 +83,7 @@ public interface DiscountAccountGroupResource {
 		throws Exception;
 
 	public Response postDiscountIdDiscountAccountGroupBatch(
-			Long id, String callbackURL, Object object)
+			String callbackURL, Object object)
 		throws Exception;
 
 	public default void setContextAcceptLanguage(

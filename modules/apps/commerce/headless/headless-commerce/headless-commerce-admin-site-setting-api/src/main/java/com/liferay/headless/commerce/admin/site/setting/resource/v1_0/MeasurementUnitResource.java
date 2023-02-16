@@ -68,7 +68,7 @@ public interface MeasurementUnitResource {
 	public Response deleteMeasurementUnit(Long id) throws Exception;
 
 	public Response deleteMeasurementUnitBatch(
-			Long id, String callbackURL, Object object)
+			String callbackURL, Object object)
 		throws Exception;
 
 	public MeasurementUnit getMeasurementUnit(Long id) throws Exception;
@@ -76,8 +76,7 @@ public interface MeasurementUnitResource {
 	public Response putMeasurementUnit(Long id, MeasurementUnit measurementUnit)
 		throws Exception;
 
-	public Response putMeasurementUnitBatch(
-			Long id, String callbackURL, Object object)
+	public Response putMeasurementUnitBatch(String callbackURL, Object object)
 		throws Exception;
 
 	public default void setContextAcceptLanguage(

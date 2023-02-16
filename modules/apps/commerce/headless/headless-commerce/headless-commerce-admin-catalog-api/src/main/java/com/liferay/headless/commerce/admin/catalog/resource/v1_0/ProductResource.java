@@ -83,8 +83,7 @@ public interface ProductResource {
 
 	public Response deleteProduct(Long id) throws Exception;
 
-	public Response deleteProductBatch(
-			Long id, String callbackURL, Object object)
+	public Response deleteProductBatch(String callbackURL, Object object)
 		throws Exception;
 
 	public Product getProduct(Long id) throws Exception;

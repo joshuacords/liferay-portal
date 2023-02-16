@@ -59,7 +59,7 @@ public interface DiscountChannelResource {
 	public void deleteDiscountChannel(Long id) throws Exception;
 
 	public Response deleteDiscountChannelBatch(
-			Long id, String callbackURL, Object object)
+			String callbackURL, Object object)
 		throws Exception;
 
 	public Page<DiscountChannel>
@@ -81,7 +81,7 @@ public interface DiscountChannelResource {
 		throws Exception;
 
 	public Response postDiscountIdDiscountChannelBatch(
-			Long id, String callbackURL, Object object)
+			String callbackURL, Object object)
 		throws Exception;
 
 	public default void setContextAcceptLanguage(

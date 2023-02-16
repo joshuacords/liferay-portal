@@ -72,7 +72,7 @@ public interface OptionValueResource {
 		throws Exception;
 
 	public Response postOptionIdOptionValueBatch(
-			Long id, String callbackURL, Object object)
+			String callbackURL, Object object)
 		throws Exception;
 
 	public default void setContextAcceptLanguage(

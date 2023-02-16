@@ -96,7 +96,6 @@ public class Mutation {
 
 	@GraphQLField
 	public Response deleteAvailabilityEstimateBatch(
-			@GraphQLName("id") Long id,
 			@GraphQLName("callbackURL") String callbackURL,
 			@GraphQLName("object") Object object)
 		throws Exception {
@@ -106,7 +105,7 @@ public class Mutation {
 			this::_populateResourceContext,
 			availabilityEstimateResource ->
 				availabilityEstimateResource.deleteAvailabilityEstimateBatch(
-					id, callbackURL, object));
+					callbackURL, object));
 	}
 
 	@GraphQLField
@@ -126,7 +125,6 @@ public class Mutation {
 
 	@GraphQLField
 	public Response updateAvailabilityEstimateBatch(
-			@GraphQLName("id") Long id,
 			@GraphQLName("callbackURL") String callbackURL,
 			@GraphQLName("object") Object object)
 		throws Exception {
@@ -136,7 +134,7 @@ public class Mutation {
 			this::_populateResourceContext,
 			availabilityEstimateResource ->
 				availabilityEstimateResource.putAvailabilityEstimateBatch(
-					id, callbackURL, object));
+					callbackURL, object));
 	}
 
 	@GraphQLField
@@ -184,7 +182,6 @@ public class Mutation {
 
 	@GraphQLField
 	public Response deleteMeasurementUnitBatch(
-			@GraphQLName("id") Long id,
 			@GraphQLName("callbackURL") String callbackURL,
 			@GraphQLName("object") Object object)
 		throws Exception {
@@ -194,7 +191,7 @@ public class Mutation {
 			this::_populateResourceContext,
 			measurementUnitResource ->
 				measurementUnitResource.deleteMeasurementUnitBatch(
-					id, callbackURL, object));
+					callbackURL, object));
 	}
 
 	@GraphQLField
@@ -213,7 +210,6 @@ public class Mutation {
 
 	@GraphQLField
 	public Response updateMeasurementUnitBatch(
-			@GraphQLName("id") Long id,
 			@GraphQLName("callbackURL") String callbackURL,
 			@GraphQLName("object") Object object)
 		throws Exception {
@@ -223,7 +219,7 @@ public class Mutation {
 			this::_populateResourceContext,
 			measurementUnitResource ->
 				measurementUnitResource.putMeasurementUnitBatch(
-					id, callbackURL, object));
+					callbackURL, object));
 	}
 
 	@GraphQLField
@@ -253,7 +249,6 @@ public class Mutation {
 
 	@GraphQLField
 	public Response deleteTaxCategoryBatch(
-			@GraphQLName("id") Long id,
 			@GraphQLName("callbackURL") String callbackURL,
 			@GraphQLName("object") Object object)
 		throws Exception {
@@ -262,7 +257,7 @@ public class Mutation {
 			_taxCategoryResourceComponentServiceObjects,
 			this::_populateResourceContext,
 			taxCategoryResource -> taxCategoryResource.deleteTaxCategoryBatch(
-				id, callbackURL, object));
+				callbackURL, object));
 	}
 
 	@GraphQLField
@@ -280,7 +275,6 @@ public class Mutation {
 
 	@GraphQLField
 	public Response updateTaxCategoryBatch(
-			@GraphQLName("id") Long id,
 			@GraphQLName("callbackURL") String callbackURL,
 			@GraphQLName("object") Object object)
 		throws Exception {
@@ -289,7 +283,7 @@ public class Mutation {
 			_taxCategoryResourceComponentServiceObjects,
 			this::_populateResourceContext,
 			taxCategoryResource -> taxCategoryResource.putTaxCategoryBatch(
-				id, callbackURL, object));
+				callbackURL, object));
 	}
 
 	@GraphQLField
@@ -318,7 +312,6 @@ public class Mutation {
 
 	@GraphQLField
 	public Response deleteWarehouseBatch(
-			@GraphQLName("id") Long id,
 			@GraphQLName("callbackURL") String callbackURL,
 			@GraphQLName("object") Object object)
 		throws Exception {
@@ -327,7 +320,7 @@ public class Mutation {
 			_warehouseResourceComponentServiceObjects,
 			this::_populateResourceContext,
 			warehouseResource -> warehouseResource.deleteWarehouseBatch(
-				id, callbackURL, object));
+				callbackURL, object));
 	}
 
 	@GraphQLField
@@ -344,7 +337,6 @@ public class Mutation {
 
 	@GraphQLField
 	public Response updateWarehouseBatch(
-			@GraphQLName("id") Long id,
 			@GraphQLName("callbackURL") String callbackURL,
 			@GraphQLName("object") Object object)
 		throws Exception {
@@ -353,7 +345,7 @@ public class Mutation {
 			_warehouseResourceComponentServiceObjects,
 			this::_populateResourceContext,
 			warehouseResource -> warehouseResource.putWarehouseBatch(
-				id, callbackURL, object));
+				callbackURL, object));
 	}
 
 	private <T, R, E1 extends Throwable, E2 extends Throwable> R

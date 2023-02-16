@@ -45,12 +45,11 @@ public interface DiscountProductResource {
 	public HttpInvoker.HttpResponse deleteDiscountProductHttpResponse(Long id)
 		throws Exception;
 
-	public void deleteDiscountProductBatch(
-			Long id, String callbackURL, Object object)
+	public void deleteDiscountProductBatch(String callbackURL, Object object)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse deleteDiscountProductBatchHttpResponse(
-			Long id, String callbackURL, Object object)
+			String callbackURL, Object object)
 		throws Exception;
 
 	public Page<DiscountProduct>
@@ -92,12 +91,12 @@ public interface DiscountProductResource {
 		throws Exception;
 
 	public void postDiscountIdDiscountProductBatch(
-			Long id, String callbackURL, Object object)
+			String callbackURL, Object object)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
 			postDiscountIdDiscountProductBatchHttpResponse(
-				Long id, String callbackURL, Object object)
+				String callbackURL, Object object)
 		throws Exception;
 
 	public static class Builder {
@@ -259,11 +258,11 @@ public interface DiscountProductResource {
 		}
 
 		public void deleteDiscountProductBatch(
-				Long id, String callbackURL, Object object)
+				String callbackURL, Object object)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
-				deleteDiscountProductBatchHttpResponse(id, callbackURL, object);
+				deleteDiscountProductBatchHttpResponse(callbackURL, object);
 
 			String content = httpResponse.getContent();
 
@@ -292,7 +291,7 @@ public interface DiscountProductResource {
 		}
 
 		public HttpInvoker.HttpResponse deleteDiscountProductBatchHttpResponse(
-				Long id, String callbackURL, Object object)
+				String callbackURL, Object object)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -327,8 +326,6 @@ public interface DiscountProductResource {
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port + _builder._contextPath +
 						"/o/headless-commerce-admin-pricing/v2.0/discount-products/batch");
-
-			httpInvoker.path("id", id);
 
 			httpInvoker.userNameAndPassword(
 				_builder._login + ":" + _builder._password);
@@ -708,12 +705,12 @@ public interface DiscountProductResource {
 		}
 
 		public void postDiscountIdDiscountProductBatch(
-				Long id, String callbackURL, Object object)
+				String callbackURL, Object object)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
 				postDiscountIdDiscountProductBatchHttpResponse(
-					id, callbackURL, object);
+					callbackURL, object);
 
 			String content = httpResponse.getContent();
 
@@ -743,7 +740,7 @@ public interface DiscountProductResource {
 
 		public HttpInvoker.HttpResponse
 				postDiscountIdDiscountProductBatchHttpResponse(
-					Long id, String callbackURL, Object object)
+					String callbackURL, Object object)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -778,8 +775,6 @@ public interface DiscountProductResource {
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port + _builder._contextPath +
 						"/o/headless-commerce-admin-pricing/v2.0/discounts/discount-products/batch");
-
-			httpInvoker.path("id", id);
 
 			httpInvoker.userNameAndPassword(
 				_builder._login + ":" + _builder._password);
