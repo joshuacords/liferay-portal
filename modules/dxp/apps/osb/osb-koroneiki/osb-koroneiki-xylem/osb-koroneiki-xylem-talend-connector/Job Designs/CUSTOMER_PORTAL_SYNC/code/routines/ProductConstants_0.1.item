@@ -74,7 +74,7 @@ public class ProductConstants {
 		"LXC - CSP - Up to 500 Users";
 
 	public static final String NAME_LXC_ENTERPRISE_PLAN =
-	    "LXC - Enterprise Plan";
+		"LXC - Enterprise Plan";
 
 	public static final String NAME_LXC_PRO_PLAN = "LXC - Pro Plan";
 

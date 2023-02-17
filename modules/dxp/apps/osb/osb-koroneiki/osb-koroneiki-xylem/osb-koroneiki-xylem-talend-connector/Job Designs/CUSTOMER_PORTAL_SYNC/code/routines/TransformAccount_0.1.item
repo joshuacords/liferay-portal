@@ -415,17 +415,17 @@ public class TransformAccount {
 
 				productionInstances += quantity;
 			}
-            else if (curName.equals(ProductConstants.NAME_LXC_PRO_PLAN)) {
-			    maxSupportSeatCount = 2;
-            }
-            else if (curName.equals(ProductConstants.NAME_LXC_BUSINESS_PLAN)) {
-                maxSupportSeatCount = 15;
-            }
-            else if (curName.equals(
-					ProductConstants.NAME_LXC_ENTERPRISE_PLAN)) {
+			else if (curName.equals(ProductConstants.NAME_LXC_PRO_PLAN)) {
+				maxSupportSeatCount = 2;
+			}
+			else if (curName.equals(ProductConstants.NAME_LXC_BUSINESS_PLAN)) {
+				maxSupportSeatCount = 15;
+			}
+			else if (curName.equals(
+						ProductConstants.NAME_LXC_ENTERPRISE_PLAN)) {
 
-                maxSupportSeatCount = 18;
-            }
+				maxSupportSeatCount = 18;
+			}
 		}
 
 		if (managedServices) {
