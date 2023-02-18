@@ -198,10 +198,16 @@ public abstract class BaseCategoryResourceTestCase {
 		Category postCategory = testGetDiscountIdCategoryPage_addCategory();
 
 		Category getCategory = categoryResource.getDiscountIdCategoryPage(
-			postCategory.getId());
+			testGetDiscountIdCategoryPage_getId(postCategory));
 
 		assertEquals(postCategory, getCategory);
 		assertValid(getCategory);
+	}
+
+	protected Long testGetDiscountIdCategoryPage_getId(Category category)
+		throws Exception {
+
+		return category.getId();
 	}
 
 	protected Category testGetDiscountIdCategoryPage_addCategory()
@@ -225,11 +231,20 @@ public abstract class BaseCategoryResourceTestCase {
 								"discountIdCategoryPage",
 								new HashMap<String, Object>() {
 									{
-										put("id", category.getId());
+										put(
+											"id",
+											testGraphQLGetDiscountIdCategoryPage_getId(
+												category));
 									}
 								},
 								getGraphQLFields())),
 						"JSONObject/data", "Object/discountIdCategoryPage"))));
+	}
+
+	protected Long testGraphQLGetDiscountIdCategoryPage_getId(Category category)
+		throws Exception {
+
+		return category.getId();
 	}
 
 	@Test
@@ -265,10 +280,16 @@ public abstract class BaseCategoryResourceTestCase {
 		Category postCategory = testGetPriceModifierIdCategory_addCategory();
 
 		Category getCategory = categoryResource.getPriceModifierIdCategory(
-			postCategory.getId());
+			testGetPriceModifierIdCategory_getId(postCategory));
 
 		assertEquals(postCategory, getCategory);
 		assertValid(getCategory);
+	}
+
+	protected Long testGetPriceModifierIdCategory_getId(Category category)
+		throws Exception {
+
+		return category.getId();
 	}
 
 	protected Category testGetPriceModifierIdCategory_addCategory()
@@ -292,11 +313,21 @@ public abstract class BaseCategoryResourceTestCase {
 								"priceModifierIdCategory",
 								new HashMap<String, Object>() {
 									{
-										put("id", category.getId());
+										put(
+											"id",
+											testGraphQLGetPriceModifierIdCategory_getId(
+												category));
 									}
 								},
 								getGraphQLFields())),
 						"JSONObject/data", "Object/priceModifierIdCategory"))));
+	}
+
+	protected Long testGraphQLGetPriceModifierIdCategory_getId(
+			Category category)
+		throws Exception {
+
+		return category.getId();
 	}
 
 	@Test

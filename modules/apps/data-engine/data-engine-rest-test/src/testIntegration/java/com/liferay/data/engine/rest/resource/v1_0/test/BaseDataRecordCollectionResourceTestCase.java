@@ -796,11 +796,19 @@ public abstract class BaseDataRecordCollectionResourceTestCase {
 
 		DataRecordCollection getDataRecordCollection =
 			dataRecordCollectionResource.getSiteDataRecordCollection(
-				postDataRecordCollection.getSiteId(),
+				testGetSiteDataRecordCollection_getSiteId(
+					postDataRecordCollection),
 				postDataRecordCollection.getDataRecordCollectionKey());
 
 		assertEquals(postDataRecordCollection, getDataRecordCollection);
 		assertValid(getDataRecordCollection);
+	}
+
+	protected Long testGetSiteDataRecordCollection_getSiteId(
+			DataRecordCollection dataRecordCollection)
+		throws Exception {
+
+		return dataRecordCollection.getSiteId();
 	}
 
 	protected DataRecordCollection
@@ -829,8 +837,10 @@ public abstract class BaseDataRecordCollectionResourceTestCase {
 										put(
 											"siteKey",
 											"\"" +
-												dataRecordCollection.
-													getSiteId() + "\"");
+												testGraphQLGetSiteDataRecordCollection_getSiteId(
+													dataRecordCollection) +
+														"\"");
+
 										put(
 											"dataRecordCollectionKey",
 											"\"" +
@@ -842,6 +852,13 @@ public abstract class BaseDataRecordCollectionResourceTestCase {
 								getGraphQLFields())),
 						"JSONObject/data",
 						"Object/siteDataRecordCollection"))));
+	}
+
+	protected Long testGraphQLGetSiteDataRecordCollection_getSiteId(
+			DataRecordCollection dataRecordCollection)
+		throws Exception {
+
+		return dataRecordCollection.getSiteId();
 	}
 
 	@Test

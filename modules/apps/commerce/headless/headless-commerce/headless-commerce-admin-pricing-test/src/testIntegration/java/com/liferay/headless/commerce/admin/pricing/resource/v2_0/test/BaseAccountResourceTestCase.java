@@ -194,10 +194,16 @@ public abstract class BaseAccountResourceTestCase {
 		Account postAccount = testGetDiscountIdAccount_addAccount();
 
 		Account getAccount = accountResource.getDiscountIdAccount(
-			postAccount.getId());
+			testGetDiscountIdAccount_getId(postAccount));
 
 		assertEquals(postAccount, getAccount);
 		assertValid(getAccount);
+	}
+
+	protected Long testGetDiscountIdAccount_getId(Account account)
+		throws Exception {
+
+		return account.getId();
 	}
 
 	protected Account testGetDiscountIdAccount_addAccount() throws Exception {
@@ -219,11 +225,20 @@ public abstract class BaseAccountResourceTestCase {
 								"discountIdAccount",
 								new HashMap<String, Object>() {
 									{
-										put("id", account.getId());
+										put(
+											"id",
+											testGraphQLGetDiscountIdAccount_getId(
+												account));
 									}
 								},
 								getGraphQLFields())),
 						"JSONObject/data", "Object/discountIdAccount"))));
+	}
+
+	protected Long testGraphQLGetDiscountIdAccount_getId(Account account)
+		throws Exception {
+
+		return account.getId();
 	}
 
 	@Test
@@ -257,10 +272,16 @@ public abstract class BaseAccountResourceTestCase {
 		Account postAccount = testGetPriceListIdAccount_addAccount();
 
 		Account getAccount = accountResource.getPriceListIdAccount(
-			postAccount.getId());
+			testGetPriceListIdAccount_getId(postAccount));
 
 		assertEquals(postAccount, getAccount);
 		assertValid(getAccount);
+	}
+
+	protected Long testGetPriceListIdAccount_getId(Account account)
+		throws Exception {
+
+		return account.getId();
 	}
 
 	protected Account testGetPriceListIdAccount_addAccount() throws Exception {
@@ -282,11 +303,20 @@ public abstract class BaseAccountResourceTestCase {
 								"priceListIdAccount",
 								new HashMap<String, Object>() {
 									{
-										put("id", account.getId());
+										put(
+											"id",
+											testGraphQLGetPriceListIdAccount_getId(
+												account));
 									}
 								},
 								getGraphQLFields())),
 						"JSONObject/data", "Object/priceListIdAccount"))));
+	}
+
+	protected Long testGraphQLGetPriceListIdAccount_getId(Account account)
+		throws Exception {
+
+		return account.getId();
 	}
 
 	@Test

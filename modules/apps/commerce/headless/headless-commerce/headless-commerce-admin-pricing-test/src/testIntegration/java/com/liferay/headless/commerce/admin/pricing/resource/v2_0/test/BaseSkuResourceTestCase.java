@@ -197,10 +197,15 @@ public abstract class BaseSkuResourceTestCase {
 	public void testGetPriceEntryIdSku() throws Exception {
 		Sku postSku = testGetPriceEntryIdSku_addSku();
 
-		Sku getSku = skuResource.getPriceEntryIdSku(postSku.getId());
+		Sku getSku = skuResource.getPriceEntryIdSku(
+			testGetPriceEntryIdSku_getId(postSku));
 
 		assertEquals(postSku, getSku);
 		assertValid(getSku);
+	}
+
+	protected Long testGetPriceEntryIdSku_getId(Sku sku) throws Exception {
+		return sku.getId();
 	}
 
 	protected Sku testGetPriceEntryIdSku_addSku() throws Exception {
@@ -222,11 +227,20 @@ public abstract class BaseSkuResourceTestCase {
 								"priceEntryIdSku",
 								new HashMap<String, Object>() {
 									{
-										put("id", sku.getId());
+										put(
+											"id",
+											testGraphQLGetPriceEntryIdSku_getId(
+												sku));
 									}
 								},
 								getGraphQLFields())),
 						"JSONObject/data", "Object/priceEntryIdSku"))));
+	}
+
+	protected Long testGraphQLGetPriceEntryIdSku_getId(Sku sku)
+		throws Exception {
+
+		return sku.getId();
 	}
 
 	@Test

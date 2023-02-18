@@ -202,10 +202,19 @@ public abstract class BaseChannelResourceTestCase {
 
 		Channel getChannel =
 			channelResource.getOrderByExternalReferenceCodeChannel(
-				postChannel.getExternalReferenceCode());
+				testGetOrderByExternalReferenceCodeChannel_getExternalReferenceCode(
+					postChannel));
 
 		assertEquals(postChannel, getChannel);
 		assertValid(getChannel);
+	}
+
+	protected String
+			testGetOrderByExternalReferenceCodeChannel_getExternalReferenceCode(
+				Channel channel)
+		throws Exception {
+
+		return channel.getExternalReferenceCode();
 	}
 
 	protected Channel testGetOrderByExternalReferenceCodeChannel_addChannel()
@@ -235,14 +244,21 @@ public abstract class BaseChannelResourceTestCase {
 										put(
 											"externalReferenceCode",
 											"\"" +
-												channel.
-													getExternalReferenceCode() +
-														"\"");
+												testGraphQLGetOrderByExternalReferenceCodeChannel_getExternalReferenceCode(
+													channel) + "\"");
 									}
 								},
 								getGraphQLFields())),
 						"JSONObject/data",
 						"Object/orderByExternalReferenceCodeChannel"))));
+	}
+
+	protected String
+			testGraphQLGetOrderByExternalReferenceCodeChannel_getExternalReferenceCode(
+				Channel channel)
+		throws Exception {
+
+		return channel.getExternalReferenceCode();
 	}
 
 	@Test
@@ -282,10 +298,16 @@ public abstract class BaseChannelResourceTestCase {
 		Channel postChannel = testGetOrderIdChannel_addChannel();
 
 		Channel getChannel = channelResource.getOrderIdChannel(
-			postChannel.getId());
+			testGetOrderIdChannel_getId(postChannel));
 
 		assertEquals(postChannel, getChannel);
 		assertValid(getChannel);
+	}
+
+	protected Long testGetOrderIdChannel_getId(Channel channel)
+		throws Exception {
+
+		return channel.getId();
 	}
 
 	protected Channel testGetOrderIdChannel_addChannel() throws Exception {
@@ -307,11 +329,20 @@ public abstract class BaseChannelResourceTestCase {
 								"orderIdChannel",
 								new HashMap<String, Object>() {
 									{
-										put("id", channel.getId());
+										put(
+											"id",
+											testGraphQLGetOrderIdChannel_getId(
+												channel));
 									}
 								},
 								getGraphQLFields())),
 						"JSONObject/data", "Object/orderIdChannel"))));
+	}
+
+	protected Long testGraphQLGetOrderIdChannel_getId(Channel channel)
+		throws Exception {
+
+		return channel.getId();
 	}
 
 	@Test

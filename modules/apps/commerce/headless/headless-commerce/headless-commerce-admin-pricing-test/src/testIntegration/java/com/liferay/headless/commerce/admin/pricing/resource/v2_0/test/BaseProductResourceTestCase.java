@@ -196,10 +196,16 @@ public abstract class BaseProductResourceTestCase {
 		Product postProduct = testGetDiscountIdProductPage_addProduct();
 
 		Product getProduct = productResource.getDiscountIdProductPage(
-			postProduct.getId());
+			testGetDiscountIdProductPage_getId(postProduct));
 
 		assertEquals(postProduct, getProduct);
 		assertValid(getProduct);
+	}
+
+	protected Long testGetDiscountIdProductPage_getId(Product product)
+		throws Exception {
+
+		return product.getId();
 	}
 
 	protected Product testGetDiscountIdProductPage_addProduct()
@@ -223,11 +229,20 @@ public abstract class BaseProductResourceTestCase {
 								"discountIdProductPage",
 								new HashMap<String, Object>() {
 									{
-										put("id", product.getId());
+										put(
+											"id",
+											testGraphQLGetDiscountIdProductPage_getId(
+												product));
 									}
 								},
 								getGraphQLFields())),
 						"JSONObject/data", "Object/discountIdProductPage"))));
+	}
+
+	protected Long testGraphQLGetDiscountIdProductPage_getId(Product product)
+		throws Exception {
+
+		return product.getId();
 	}
 
 	@Test
@@ -261,10 +276,16 @@ public abstract class BaseProductResourceTestCase {
 		Product postProduct = testGetPriceEntryIdProduct_addProduct();
 
 		Product getProduct = productResource.getPriceEntryIdProduct(
-			postProduct.getId());
+			testGetPriceEntryIdProduct_getId(postProduct));
 
 		assertEquals(postProduct, getProduct);
 		assertValid(getProduct);
+	}
+
+	protected Long testGetPriceEntryIdProduct_getId(Product product)
+		throws Exception {
+
+		return product.getId();
 	}
 
 	protected Product testGetPriceEntryIdProduct_addProduct() throws Exception {
@@ -286,11 +307,20 @@ public abstract class BaseProductResourceTestCase {
 								"priceEntryIdProduct",
 								new HashMap<String, Object>() {
 									{
-										put("id", product.getId());
+										put(
+											"id",
+											testGraphQLGetPriceEntryIdProduct_getId(
+												product));
 									}
 								},
 								getGraphQLFields())),
 						"JSONObject/data", "Object/priceEntryIdProduct"))));
+	}
+
+	protected Long testGraphQLGetPriceEntryIdProduct_getId(Product product)
+		throws Exception {
+
+		return product.getId();
 	}
 
 	@Test
@@ -324,10 +354,16 @@ public abstract class BaseProductResourceTestCase {
 		Product postProduct = testGetPriceModifierIdProduct_addProduct();
 
 		Product getProduct = productResource.getPriceModifierIdProduct(
-			postProduct.getId());
+			testGetPriceModifierIdProduct_getId(postProduct));
 
 		assertEquals(postProduct, getProduct);
 		assertValid(getProduct);
+	}
+
+	protected Long testGetPriceModifierIdProduct_getId(Product product)
+		throws Exception {
+
+		return product.getId();
 	}
 
 	protected Product testGetPriceModifierIdProduct_addProduct()
@@ -351,11 +387,20 @@ public abstract class BaseProductResourceTestCase {
 								"priceModifierIdProduct",
 								new HashMap<String, Object>() {
 									{
-										put("id", product.getId());
+										put(
+											"id",
+											testGraphQLGetPriceModifierIdProduct_getId(
+												product));
 									}
 								},
 								getGraphQLFields())),
 						"JSONObject/data", "Object/priceModifierIdProduct"))));
+	}
+
+	protected Long testGraphQLGetPriceModifierIdProduct_getId(Product product)
+		throws Exception {
+
+		return product.getId();
 	}
 
 	@Test

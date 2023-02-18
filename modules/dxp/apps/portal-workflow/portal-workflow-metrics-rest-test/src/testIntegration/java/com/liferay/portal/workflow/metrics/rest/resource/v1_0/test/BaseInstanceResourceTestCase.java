@@ -302,10 +302,17 @@ public abstract class BaseInstanceResourceTestCase {
 		Instance postInstance = testGetProcessInstance_addInstance();
 
 		Instance getInstance = instanceResource.getProcessInstance(
-			postInstance.getProcessId(), postInstance.getId());
+			testGetProcessInstance_getProcessId(postInstance),
+			postInstance.getId());
 
 		assertEquals(postInstance, getInstance);
 		assertValid(getInstance);
+	}
+
+	protected Long testGetProcessInstance_getProcessId(Instance instance)
+		throws Exception {
+
+		return instance.getProcessId();
 	}
 
 	protected Instance testGetProcessInstance_addInstance() throws Exception {
@@ -329,12 +336,20 @@ public abstract class BaseInstanceResourceTestCase {
 									{
 										put(
 											"processId",
-											instance.getProcessId());
+											testGraphQLGetProcessInstance_getProcessId(
+												instance));
+
 										put("instanceId", instance.getId());
 									}
 								},
 								getGraphQLFields())),
 						"JSONObject/data", "Object/processInstance"))));
+	}
+
+	protected Long testGraphQLGetProcessInstance_getProcessId(Instance instance)
+		throws Exception {
+
+		return instance.getProcessId();
 	}
 
 	@Test

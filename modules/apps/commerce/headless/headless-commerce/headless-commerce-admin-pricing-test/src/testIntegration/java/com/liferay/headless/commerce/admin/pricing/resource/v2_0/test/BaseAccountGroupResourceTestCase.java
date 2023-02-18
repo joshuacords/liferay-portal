@@ -196,10 +196,17 @@ public abstract class BaseAccountGroupResourceTestCase {
 
 		AccountGroup getAccountGroup =
 			accountGroupResource.getDiscountIdAccountGroup(
-				postAccountGroup.getId());
+				testGetDiscountIdAccountGroup_getId(postAccountGroup));
 
 		assertEquals(postAccountGroup, getAccountGroup);
 		assertValid(getAccountGroup);
+	}
+
+	protected Long testGetDiscountIdAccountGroup_getId(
+			AccountGroup accountGroup)
+		throws Exception {
+
+		return accountGroup.getId();
 	}
 
 	protected AccountGroup testGetDiscountIdAccountGroup_addAccountGroup()
@@ -224,11 +231,21 @@ public abstract class BaseAccountGroupResourceTestCase {
 								"discountIdAccountGroup",
 								new HashMap<String, Object>() {
 									{
-										put("id", accountGroup.getId());
+										put(
+											"id",
+											testGraphQLGetDiscountIdAccountGroup_getId(
+												accountGroup));
 									}
 								},
 								getGraphQLFields())),
 						"JSONObject/data", "Object/discountIdAccountGroup"))));
+	}
+
+	protected Long testGraphQLGetDiscountIdAccountGroup_getId(
+			AccountGroup accountGroup)
+		throws Exception {
+
+		return accountGroup.getId();
 	}
 
 	@Test
@@ -267,10 +284,17 @@ public abstract class BaseAccountGroupResourceTestCase {
 
 		AccountGroup getAccountGroup =
 			accountGroupResource.getPriceListIdAccountGroup(
-				postAccountGroup.getId());
+				testGetPriceListIdAccountGroup_getId(postAccountGroup));
 
 		assertEquals(postAccountGroup, getAccountGroup);
 		assertValid(getAccountGroup);
+	}
+
+	protected Long testGetPriceListIdAccountGroup_getId(
+			AccountGroup accountGroup)
+		throws Exception {
+
+		return accountGroup.getId();
 	}
 
 	protected AccountGroup testGetPriceListIdAccountGroup_addAccountGroup()
@@ -295,11 +319,21 @@ public abstract class BaseAccountGroupResourceTestCase {
 								"priceListIdAccountGroup",
 								new HashMap<String, Object>() {
 									{
-										put("id", accountGroup.getId());
+										put(
+											"id",
+											testGraphQLGetPriceListIdAccountGroup_getId(
+												accountGroup));
 									}
 								},
 								getGraphQLFields())),
 						"JSONObject/data", "Object/priceListIdAccountGroup"))));
+	}
+
+	protected Long testGraphQLGetPriceListIdAccountGroup_getId(
+			AccountGroup accountGroup)
+		throws Exception {
+
+		return accountGroup.getId();
 	}
 
 	@Test

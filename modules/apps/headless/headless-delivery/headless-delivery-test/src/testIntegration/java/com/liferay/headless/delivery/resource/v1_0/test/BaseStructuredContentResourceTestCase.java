@@ -1068,11 +1068,19 @@ public abstract class BaseStructuredContentResourceTestCase {
 
 		StructuredContent getStructuredContent =
 			structuredContentResource.getSiteStructuredContentByKey(
-				postStructuredContent.getSiteId(),
+				testGetSiteStructuredContentByKey_getSiteId(
+					postStructuredContent),
 				postStructuredContent.getKey());
 
 		assertEquals(postStructuredContent, getStructuredContent);
 		assertValid(getStructuredContent);
+	}
+
+	protected Long testGetSiteStructuredContentByKey_getSiteId(
+			StructuredContent structuredContent)
+		throws Exception {
+
+		return structuredContent.getSiteId();
 	}
 
 	protected StructuredContent
@@ -1101,8 +1109,9 @@ public abstract class BaseStructuredContentResourceTestCase {
 										put(
 											"siteKey",
 											"\"" +
-												structuredContent.getSiteId() +
-													"\"");
+												testGraphQLGetSiteStructuredContentByKey_getSiteId(
+													structuredContent) + "\"");
+
 										put(
 											"key",
 											"\"" + structuredContent.getKey() +
@@ -1111,6 +1120,13 @@ public abstract class BaseStructuredContentResourceTestCase {
 								},
 								getGraphQLFields())),
 						"JSONObject/data", "Object/structuredContentByKey"))));
+	}
+
+	protected Long testGraphQLGetSiteStructuredContentByKey_getSiteId(
+			StructuredContent structuredContent)
+		throws Exception {
+
+		return structuredContent.getSiteId();
 	}
 
 	@Test
@@ -1152,11 +1168,19 @@ public abstract class BaseStructuredContentResourceTestCase {
 
 		StructuredContent getStructuredContent =
 			structuredContentResource.getSiteStructuredContentByUuid(
-				postStructuredContent.getSiteId(),
+				testGetSiteStructuredContentByUuid_getSiteId(
+					postStructuredContent),
 				postStructuredContent.getUuid());
 
 		assertEquals(postStructuredContent, getStructuredContent);
 		assertValid(getStructuredContent);
+	}
+
+	protected Long testGetSiteStructuredContentByUuid_getSiteId(
+			StructuredContent structuredContent)
+		throws Exception {
+
+		return structuredContent.getSiteId();
 	}
 
 	protected StructuredContent
@@ -1185,8 +1209,9 @@ public abstract class BaseStructuredContentResourceTestCase {
 										put(
 											"siteKey",
 											"\"" +
-												structuredContent.getSiteId() +
-													"\"");
+												testGraphQLGetSiteStructuredContentByUuid_getSiteId(
+													structuredContent) + "\"");
+
 										put(
 											"uuid",
 											"\"" + structuredContent.getUuid() +
@@ -1195,6 +1220,13 @@ public abstract class BaseStructuredContentResourceTestCase {
 								},
 								getGraphQLFields())),
 						"JSONObject/data", "Object/structuredContentByUuid"))));
+	}
+
+	protected Long testGraphQLGetSiteStructuredContentByUuid_getSiteId(
+			StructuredContent structuredContent)
+		throws Exception {
+
+		return structuredContent.getSiteId();
 	}
 
 	@Test

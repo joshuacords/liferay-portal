@@ -200,10 +200,16 @@ public abstract class BaseChannelResourceTestCase {
 		Channel postChannel = testGetDiscountIdChannel_addChannel();
 
 		Channel getChannel = channelResource.getDiscountIdChannel(
-			postChannel.getId());
+			testGetDiscountIdChannel_getId(postChannel));
 
 		assertEquals(postChannel, getChannel);
 		assertValid(getChannel);
+	}
+
+	protected Long testGetDiscountIdChannel_getId(Channel channel)
+		throws Exception {
+
+		return channel.getId();
 	}
 
 	protected Channel testGetDiscountIdChannel_addChannel() throws Exception {
@@ -225,11 +231,20 @@ public abstract class BaseChannelResourceTestCase {
 								"discountIdChannel",
 								new HashMap<String, Object>() {
 									{
-										put("id", channel.getId());
+										put(
+											"id",
+											testGraphQLGetDiscountIdChannel_getId(
+												channel));
 									}
 								},
 								getGraphQLFields())),
 						"JSONObject/data", "Object/discountIdChannel"))));
+	}
+
+	protected Long testGraphQLGetDiscountIdChannel_getId(Channel channel)
+		throws Exception {
+
+		return channel.getId();
 	}
 
 	@Test
@@ -263,10 +278,16 @@ public abstract class BaseChannelResourceTestCase {
 		Channel postChannel = testGetPriceListIdChannel_addChannel();
 
 		Channel getChannel = channelResource.getPriceListIdChannel(
-			postChannel.getId());
+			testGetPriceListIdChannel_getId(postChannel));
 
 		assertEquals(postChannel, getChannel);
 		assertValid(getChannel);
+	}
+
+	protected Long testGetPriceListIdChannel_getId(Channel channel)
+		throws Exception {
+
+		return channel.getId();
 	}
 
 	protected Channel testGetPriceListIdChannel_addChannel() throws Exception {
@@ -288,11 +309,20 @@ public abstract class BaseChannelResourceTestCase {
 								"priceListIdChannel",
 								new HashMap<String, Object>() {
 									{
-										put("id", channel.getId());
+										put(
+											"id",
+											testGraphQLGetPriceListIdChannel_getId(
+												channel));
 									}
 								},
 								getGraphQLFields())),
 						"JSONObject/data", "Object/priceListIdChannel"))));
+	}
+
+	protected Long testGraphQLGetPriceListIdChannel_getId(Channel channel)
+		throws Exception {
+
+		return channel.getId();
 	}
 
 	@Test

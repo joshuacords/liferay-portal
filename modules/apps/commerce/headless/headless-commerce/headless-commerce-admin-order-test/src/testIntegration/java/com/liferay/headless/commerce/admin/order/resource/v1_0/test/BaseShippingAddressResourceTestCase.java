@@ -220,10 +220,19 @@ public abstract class BaseShippingAddressResourceTestCase {
 		ShippingAddress getShippingAddress =
 			shippingAddressResource.
 				getOrderByExternalReferenceCodeShippingAddress(
-					postShippingAddress.getExternalReferenceCode());
+					testGetOrderByExternalReferenceCodeShippingAddress_getExternalReferenceCode(
+						postShippingAddress));
 
 		assertEquals(postShippingAddress, getShippingAddress);
 		assertValid(getShippingAddress);
+	}
+
+	protected String
+			testGetOrderByExternalReferenceCodeShippingAddress_getExternalReferenceCode(
+				ShippingAddress shippingAddress)
+		throws Exception {
+
+		return shippingAddress.getExternalReferenceCode();
 	}
 
 	protected ShippingAddress
@@ -254,14 +263,21 @@ public abstract class BaseShippingAddressResourceTestCase {
 										put(
 											"externalReferenceCode",
 											"\"" +
-												shippingAddress.
-													getExternalReferenceCode() +
-														"\"");
+												testGraphQLGetOrderByExternalReferenceCodeShippingAddress_getExternalReferenceCode(
+													shippingAddress) + "\"");
 									}
 								},
 								getGraphQLFields())),
 						"JSONObject/data",
 						"Object/orderByExternalReferenceCodeShippingAddress"))));
+	}
+
+	protected String
+			testGraphQLGetOrderByExternalReferenceCodeShippingAddress_getExternalReferenceCode(
+				ShippingAddress shippingAddress)
+		throws Exception {
+
+		return shippingAddress.getExternalReferenceCode();
 	}
 
 	@Test
@@ -310,10 +326,17 @@ public abstract class BaseShippingAddressResourceTestCase {
 
 		ShippingAddress getShippingAddress =
 			shippingAddressResource.getOrderIdShippingAddress(
-				postShippingAddress.getId());
+				testGetOrderIdShippingAddress_getId(postShippingAddress));
 
 		assertEquals(postShippingAddress, getShippingAddress);
 		assertValid(getShippingAddress);
+	}
+
+	protected Long testGetOrderIdShippingAddress_getId(
+			ShippingAddress shippingAddress)
+		throws Exception {
+
+		return shippingAddress.getId();
 	}
 
 	protected ShippingAddress testGetOrderIdShippingAddress_addShippingAddress()
@@ -338,11 +361,21 @@ public abstract class BaseShippingAddressResourceTestCase {
 								"orderIdShippingAddress",
 								new HashMap<String, Object>() {
 									{
-										put("id", shippingAddress.getId());
+										put(
+											"id",
+											testGraphQLGetOrderIdShippingAddress_getId(
+												shippingAddress));
 									}
 								},
 								getGraphQLFields())),
 						"JSONObject/data", "Object/orderIdShippingAddress"))));
+	}
+
+	protected Long testGraphQLGetOrderIdShippingAddress_getId(
+			ShippingAddress shippingAddress)
+		throws Exception {
+
+		return shippingAddress.getId();
 	}
 
 	@Test

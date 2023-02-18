@@ -192,10 +192,17 @@ public abstract class BaseProductGroupResourceTestCase {
 
 		ProductGroup getProductGroup =
 			productGroupResource.getDiscountIdProductGroupPage(
-				postProductGroup.getId());
+				testGetDiscountIdProductGroupPage_getId(postProductGroup));
 
 		assertEquals(postProductGroup, getProductGroup);
 		assertValid(getProductGroup);
+	}
+
+	protected Long testGetDiscountIdProductGroupPage_getId(
+			ProductGroup productGroup)
+		throws Exception {
+
+		return productGroup.getId();
 	}
 
 	protected ProductGroup testGetDiscountIdProductGroupPage_addProductGroup()
@@ -220,12 +227,22 @@ public abstract class BaseProductGroupResourceTestCase {
 								"discountIdProductGroupPage",
 								new HashMap<String, Object>() {
 									{
-										put("id", productGroup.getId());
+										put(
+											"id",
+											testGraphQLGetDiscountIdProductGroupPage_getId(
+												productGroup));
 									}
 								},
 								getGraphQLFields())),
 						"JSONObject/data",
 						"Object/discountIdProductGroupPage"))));
+	}
+
+	protected Long testGraphQLGetDiscountIdProductGroupPage_getId(
+			ProductGroup productGroup)
+		throws Exception {
+
+		return productGroup.getId();
 	}
 
 	@Test
@@ -264,10 +281,17 @@ public abstract class BaseProductGroupResourceTestCase {
 
 		ProductGroup getProductGroup =
 			productGroupResource.getPriceModifierIdProductGroup(
-				postProductGroup.getId());
+				testGetPriceModifierIdProductGroup_getId(postProductGroup));
 
 		assertEquals(postProductGroup, getProductGroup);
 		assertValid(getProductGroup);
+	}
+
+	protected Long testGetPriceModifierIdProductGroup_getId(
+			ProductGroup productGroup)
+		throws Exception {
+
+		return productGroup.getId();
 	}
 
 	protected ProductGroup testGetPriceModifierIdProductGroup_addProductGroup()
@@ -292,12 +316,22 @@ public abstract class BaseProductGroupResourceTestCase {
 								"priceModifierIdProductGroup",
 								new HashMap<String, Object>() {
 									{
-										put("id", productGroup.getId());
+										put(
+											"id",
+											testGraphQLGetPriceModifierIdProductGroup_getId(
+												productGroup));
 									}
 								},
 								getGraphQLFields())),
 						"JSONObject/data",
 						"Object/priceModifierIdProductGroup"))));
+	}
+
+	protected Long testGraphQLGetPriceModifierIdProductGroup_getId(
+			ProductGroup productGroup)
+		throws Exception {
+
+		return productGroup.getId();
 	}
 
 	@Test
