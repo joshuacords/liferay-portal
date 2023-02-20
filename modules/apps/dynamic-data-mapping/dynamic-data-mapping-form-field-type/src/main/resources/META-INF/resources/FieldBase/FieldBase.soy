@@ -91,17 +91,18 @@
 			</div>
 		{/if}
 
-		{let $showFor: $type and ($type == 'text' or $type == 'numeric') or $type == 'select' /}
+		{let $showFor: $type and ($type == 'text' or $type == 'numeric' or $type == 'select') /}
+		{let $readFieldDetails: not $showFor or $type == 'select' /}
 
 		{let $labelAttributes kind="attributes"}
-			{if $showFor}
+			{if $readFieldDetails}
+				tabindex="0"
+			{elseif $showFor}
 				{if $id}
 					for="{$id}"
 				{else}
 					for="{$name}"
 				{/if}
-			{else}
-				tabindex="0"
 			{/if}
 
 			aria-labelledby="{$fieldDetailsId}"
