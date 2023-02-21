@@ -56,6 +56,7 @@ import java.text.DateFormat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -386,7 +387,9 @@ public abstract class BaseCartItemResourceTestCase {
 			assertEquals(
 				Arrays.asList(irrelevantCartItem),
 				(List<CartItem>)page.getItems());
-			assertValid(page);
+			assertValid(
+				page,
+				testGetCartItemsPage_getExpectedActions(irrelevantCartId));
 		}
 
 		CartItem cartItem1 = testGetCartItemsPage_addCartItem(
@@ -402,11 +405,20 @@ public abstract class BaseCartItemResourceTestCase {
 		assertEqualsIgnoringOrder(
 			Arrays.asList(cartItem1, cartItem2),
 			(List<CartItem>)page.getItems());
-		assertValid(page);
+		assertValid(page, testGetCartItemsPage_getExpectedActions(cartId));
 
 		cartItemResource.deleteCartItem(cartItem1.getId());
 
 		cartItemResource.deleteCartItem(cartItem2.getId());
+	}
+
+	protected Map<String, Map> testGetCartItemsPage_getExpectedActions(
+			Long cartId)
+		throws Exception {
+
+		Map<String, Map> expectedActions = new HashMap<>();
+
+		return expectedActions;
 	}
 
 	@Test
@@ -715,6 +727,12 @@ public abstract class BaseCartItemResourceTestCase {
 	}
 
 	protected void assertValid(Page<CartItem> page) {
+		assertValid(page, Collections.emptyMap());
+	}
+
+	protected void assertValid(
+		Page<CartItem> page, Map<String, Map> expectedActions) {
+
 		boolean valid = false;
 
 		java.util.Collection<CartItem> cartItems = page.getItems();
@@ -729,6 +747,20 @@ public abstract class BaseCartItemResourceTestCase {
 		}
 
 		Assert.assertTrue(valid);
+
+		Map<String, Map> actions = page.getActions();
+
+		for (String key : expectedActions.keySet()) {
+			Map action = actions.get(key);
+
+			Assert.assertNotNull(key + " does not contain an action", action);
+
+			Map expectedAction = expectedActions.get(key);
+
+			Assert.assertEquals(
+				expectedAction.get("method"), action.get("method"));
+			Assert.assertEquals(expectedAction.get("href"), action.get("href"));
+		}
 	}
 
 	protected String[] getAdditionalAssertFieldNames() {

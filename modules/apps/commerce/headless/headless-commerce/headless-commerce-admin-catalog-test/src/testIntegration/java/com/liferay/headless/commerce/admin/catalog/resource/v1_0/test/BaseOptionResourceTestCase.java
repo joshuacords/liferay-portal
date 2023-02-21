@@ -217,11 +217,19 @@ public abstract class BaseOptionResourceTestCase {
 
 		assertContains(option1, (List<Option>)page.getItems());
 		assertContains(option2, (List<Option>)page.getItems());
-		assertValid(page);
+		assertValid(page, testGetOptionsPage_getExpectedActions());
 
 		optionResource.deleteOption(option1.getId());
 
 		optionResource.deleteOption(option2.getId());
+	}
+
+	protected Map<String, Map> testGetOptionsPage_getExpectedActions()
+		throws Exception {
+
+		Map<String, Map> expectedActions = new HashMap<>();
+
+		return expectedActions;
 	}
 
 	@Test
@@ -929,6 +937,12 @@ public abstract class BaseOptionResourceTestCase {
 	}
 
 	protected void assertValid(Page<Option> page) {
+		assertValid(page, Collections.emptyMap());
+	}
+
+	protected void assertValid(
+		Page<Option> page, Map<String, Map> expectedActions) {
+
 		boolean valid = false;
 
 		java.util.Collection<Option> options = page.getItems();
@@ -943,6 +957,20 @@ public abstract class BaseOptionResourceTestCase {
 		}
 
 		Assert.assertTrue(valid);
+
+		Map<String, Map> actions = page.getActions();
+
+		for (String key : expectedActions.keySet()) {
+			Map action = actions.get(key);
+
+			Assert.assertNotNull(key + " does not contain an action", action);
+
+			Map expectedAction = expectedActions.get(key);
+
+			Assert.assertEquals(
+				expectedAction.get("method"), action.get("method"));
+			Assert.assertEquals(expectedAction.get("href"), action.get("href"));
+		}
 	}
 
 	protected String[] getAdditionalAssertFieldNames() {

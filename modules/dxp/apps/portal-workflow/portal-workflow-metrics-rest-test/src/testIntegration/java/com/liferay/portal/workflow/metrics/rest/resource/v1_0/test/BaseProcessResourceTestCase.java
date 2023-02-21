@@ -213,7 +213,15 @@ public abstract class BaseProcessResourceTestCase {
 
 		assertContains(process1, (List<Process>)page.getItems());
 		assertContains(process2, (List<Process>)page.getItems());
-		assertValid(page);
+		assertValid(page, testGetProcessesPage_getExpectedActions());
+	}
+
+	protected Map<String, Map> testGetProcessesPage_getExpectedActions()
+		throws Exception {
+
+		Map<String, Map> expectedActions = new HashMap<>();
+
+		return expectedActions;
 	}
 
 	@Test
@@ -626,6 +634,12 @@ public abstract class BaseProcessResourceTestCase {
 	}
 
 	protected void assertValid(Page<Process> page) {
+		assertValid(page, Collections.emptyMap());
+	}
+
+	protected void assertValid(
+		Page<Process> page, Map<String, Map> expectedActions) {
+
 		boolean valid = false;
 
 		java.util.Collection<Process> processes = page.getItems();
@@ -640,6 +654,20 @@ public abstract class BaseProcessResourceTestCase {
 		}
 
 		Assert.assertTrue(valid);
+
+		Map<String, Map> actions = page.getActions();
+
+		for (String key : expectedActions.keySet()) {
+			Map action = actions.get(key);
+
+			Assert.assertNotNull(key + " does not contain an action", action);
+
+			Map expectedAction = expectedActions.get(key);
+
+			Assert.assertEquals(
+				expectedAction.get("method"), action.get("method"));
+			Assert.assertEquals(expectedAction.get("href"), action.get("href"));
+		}
 	}
 
 	protected String[] getAdditionalAssertFieldNames() {

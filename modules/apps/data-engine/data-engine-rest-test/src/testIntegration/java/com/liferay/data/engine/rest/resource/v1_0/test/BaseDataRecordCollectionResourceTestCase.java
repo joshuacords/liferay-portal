@@ -58,6 +58,7 @@ import java.text.DateFormat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -232,7 +233,10 @@ public abstract class BaseDataRecordCollectionResourceTestCase {
 			assertEquals(
 				Arrays.asList(irrelevantDataRecordCollection),
 				(List<DataRecordCollection>)page.getItems());
-			assertValid(page);
+			assertValid(
+				page,
+				testGetDataDefinitionDataRecordCollectionsPage_getExpectedActions(
+					irrelevantDataDefinitionId));
 		}
 
 		DataRecordCollection dataRecordCollection1 =
@@ -253,13 +257,36 @@ public abstract class BaseDataRecordCollectionResourceTestCase {
 		assertEqualsIgnoringOrder(
 			Arrays.asList(dataRecordCollection1, dataRecordCollection2),
 			(List<DataRecordCollection>)page.getItems());
-		assertValid(page);
+		assertValid(
+			page,
+			testGetDataDefinitionDataRecordCollectionsPage_getExpectedActions(
+				dataDefinitionId));
 
 		dataRecordCollectionResource.deleteDataRecordCollection(
 			dataRecordCollection1.getId());
 
 		dataRecordCollectionResource.deleteDataRecordCollection(
 			dataRecordCollection2.getId());
+	}
+
+	protected Map<String, Map>
+			testGetDataDefinitionDataRecordCollectionsPage_getExpectedActions(
+				Long dataDefinitionId)
+		throws Exception {
+
+		Map<String, Map> expectedActions = new HashMap<>();
+
+		Map createBatchAction = new HashMap<>();
+		createBatchAction.put("method", "POST");
+		createBatchAction.put(
+			"href",
+			"http://localhost:8080/o/data-engine/v1.0/data-definitions/{dataDefinitionId}/data-record-collections/batch".
+				replace(
+					"{dataDefinitionId}", String.valueOf(dataDefinitionId)));
+
+		expectedActions.put("createBatch", createBatchAction);
+
+		return expectedActions;
 	}
 
 	@Test
@@ -636,7 +663,10 @@ public abstract class BaseDataRecordCollectionResourceTestCase {
 			assertEquals(
 				Arrays.asList(irrelevantDataRecordCollection),
 				(List<DataRecordCollection>)page.getItems());
-			assertValid(page);
+			assertValid(
+				page,
+				testGetSiteDataRecordCollectionsPage_getExpectedActions(
+					irrelevantSiteId));
 		}
 
 		DataRecordCollection dataRecordCollection1 =
@@ -655,13 +685,24 @@ public abstract class BaseDataRecordCollectionResourceTestCase {
 		assertEqualsIgnoringOrder(
 			Arrays.asList(dataRecordCollection1, dataRecordCollection2),
 			(List<DataRecordCollection>)page.getItems());
-		assertValid(page);
+		assertValid(
+			page,
+			testGetSiteDataRecordCollectionsPage_getExpectedActions(siteId));
 
 		dataRecordCollectionResource.deleteDataRecordCollection(
 			dataRecordCollection1.getId());
 
 		dataRecordCollectionResource.deleteDataRecordCollection(
 			dataRecordCollection2.getId());
+	}
+
+	protected Map<String, Map>
+			testGetSiteDataRecordCollectionsPage_getExpectedActions(Long siteId)
+		throws Exception {
+
+		Map<String, Map> expectedActions = new HashMap<>();
+
+		return expectedActions;
 	}
 
 	@Test
@@ -1047,6 +1088,12 @@ public abstract class BaseDataRecordCollectionResourceTestCase {
 	}
 
 	protected void assertValid(Page<DataRecordCollection> page) {
+		assertValid(page, Collections.emptyMap());
+	}
+
+	protected void assertValid(
+		Page<DataRecordCollection> page, Map<String, Map> expectedActions) {
+
 		boolean valid = false;
 
 		java.util.Collection<DataRecordCollection> dataRecordCollections =
@@ -1062,6 +1109,20 @@ public abstract class BaseDataRecordCollectionResourceTestCase {
 		}
 
 		Assert.assertTrue(valid);
+
+		Map<String, Map> actions = page.getActions();
+
+		for (String key : expectedActions.keySet()) {
+			Map action = actions.get(key);
+
+			Assert.assertNotNull(key + " does not contain an action", action);
+
+			Map expectedAction = expectedActions.get(key);
+
+			Assert.assertEquals(
+				expectedAction.get("method"), action.get("method"));
+			Assert.assertEquals(expectedAction.get("href"), action.get("href"));
+		}
 	}
 
 	protected String[] getAdditionalAssertFieldNames() {

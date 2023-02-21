@@ -54,6 +54,7 @@ import java.text.DateFormat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -213,7 +214,9 @@ public abstract class BaseLanguageResourceTestCase {
 			assertEquals(
 				Arrays.asList(irrelevantLanguage),
 				(List<Language>)page.getItems());
-			assertValid(page);
+			assertValid(
+				page,
+				testGetSiteLanguagesPage_getExpectedActions(irrelevantSiteId));
 		}
 
 		Language language1 = testGetSiteLanguagesPage_addLanguage(
@@ -229,7 +232,16 @@ public abstract class BaseLanguageResourceTestCase {
 		assertEqualsIgnoringOrder(
 			Arrays.asList(language1, language2),
 			(List<Language>)page.getItems());
-		assertValid(page);
+		assertValid(page, testGetSiteLanguagesPage_getExpectedActions(siteId));
+	}
+
+	protected Map<String, Map> testGetSiteLanguagesPage_getExpectedActions(
+			Long siteId)
+		throws Exception {
+
+		Map<String, Map> expectedActions = new HashMap<>();
+
+		return expectedActions;
 	}
 
 	protected Language testGetSiteLanguagesPage_addLanguage(
@@ -418,6 +430,12 @@ public abstract class BaseLanguageResourceTestCase {
 	}
 
 	protected void assertValid(Page<Language> page) {
+		assertValid(page, Collections.emptyMap());
+	}
+
+	protected void assertValid(
+		Page<Language> page, Map<String, Map> expectedActions) {
+
 		boolean valid = false;
 
 		java.util.Collection<Language> languages = page.getItems();
@@ -432,6 +450,20 @@ public abstract class BaseLanguageResourceTestCase {
 		}
 
 		Assert.assertTrue(valid);
+
+		Map<String, Map> actions = page.getActions();
+
+		for (String key : expectedActions.keySet()) {
+			Map action = actions.get(key);
+
+			Assert.assertNotNull(key + " does not contain an action", action);
+
+			Map expectedAction = expectedActions.get(key);
+
+			Assert.assertEquals(
+				expectedAction.get("method"), action.get("method"));
+			Assert.assertEquals(expectedAction.get("href"), action.get("href"));
+		}
 	}
 
 	protected String[] getAdditionalAssertFieldNames() {

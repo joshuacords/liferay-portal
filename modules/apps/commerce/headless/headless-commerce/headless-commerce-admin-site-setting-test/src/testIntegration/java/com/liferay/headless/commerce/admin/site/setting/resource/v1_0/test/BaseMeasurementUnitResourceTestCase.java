@@ -56,6 +56,7 @@ import java.text.DateFormat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -223,7 +224,10 @@ public abstract class BaseMeasurementUnitResourceTestCase {
 			assertEquals(
 				Arrays.asList(irrelevantMeasurementUnit),
 				(List<MeasurementUnit>)page.getItems());
-			assertValid(page);
+			assertValid(
+				page,
+				testGetCommerceAdminSiteSettingGroupMeasurementUnitPage_getExpectedActions(
+					irrelevantGroupId));
 		}
 
 		MeasurementUnit measurementUnit1 =
@@ -244,11 +248,24 @@ public abstract class BaseMeasurementUnitResourceTestCase {
 		assertEqualsIgnoringOrder(
 			Arrays.asList(measurementUnit1, measurementUnit2),
 			(List<MeasurementUnit>)page.getItems());
-		assertValid(page);
+		assertValid(
+			page,
+			testGetCommerceAdminSiteSettingGroupMeasurementUnitPage_getExpectedActions(
+				groupId));
 
 		measurementUnitResource.deleteMeasurementUnit(measurementUnit1.getId());
 
 		measurementUnitResource.deleteMeasurementUnit(measurementUnit2.getId());
+	}
+
+	protected Map<String, Map>
+			testGetCommerceAdminSiteSettingGroupMeasurementUnitPage_getExpectedActions(
+				Long groupId)
+		throws Exception {
+
+		Map<String, Map> expectedActions = new HashMap<>();
+
+		return expectedActions;
 	}
 
 	@Test
@@ -647,6 +664,12 @@ public abstract class BaseMeasurementUnitResourceTestCase {
 	}
 
 	protected void assertValid(Page<MeasurementUnit> page) {
+		assertValid(page, Collections.emptyMap());
+	}
+
+	protected void assertValid(
+		Page<MeasurementUnit> page, Map<String, Map> expectedActions) {
+
 		boolean valid = false;
 
 		java.util.Collection<MeasurementUnit> measurementUnits =
@@ -662,6 +685,20 @@ public abstract class BaseMeasurementUnitResourceTestCase {
 		}
 
 		Assert.assertTrue(valid);
+
+		Map<String, Map> actions = page.getActions();
+
+		for (String key : expectedActions.keySet()) {
+			Map action = actions.get(key);
+
+			Assert.assertNotNull(key + " does not contain an action", action);
+
+			Map expectedAction = expectedActions.get(key);
+
+			Assert.assertEquals(
+				expectedAction.get("method"), action.get("method"));
+			Assert.assertEquals(expectedAction.get("href"), action.get("href"));
+		}
 	}
 
 	protected String[] getAdditionalAssertFieldNames() {

@@ -55,6 +55,7 @@ import java.text.DateFormat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -224,7 +225,10 @@ public abstract class BaseOptionValueResourceTestCase {
 			assertEquals(
 				Arrays.asList(irrelevantOptionValue),
 				(List<OptionValue>)page.getItems());
-			assertValid(page);
+			assertValid(
+				page,
+				testGetOptionByExternalReferenceCodeOptionValuesPage_getExpectedActions(
+					irrelevantExternalReferenceCode));
 		}
 
 		OptionValue optionValue1 =
@@ -245,7 +249,20 @@ public abstract class BaseOptionValueResourceTestCase {
 		assertEqualsIgnoringOrder(
 			Arrays.asList(optionValue1, optionValue2),
 			(List<OptionValue>)page.getItems());
-		assertValid(page);
+		assertValid(
+			page,
+			testGetOptionByExternalReferenceCodeOptionValuesPage_getExpectedActions(
+				externalReferenceCode));
+	}
+
+	protected Map<String, Map>
+			testGetOptionByExternalReferenceCodeOptionValuesPage_getExpectedActions(
+				String externalReferenceCode)
+		throws Exception {
+
+		Map<String, Map> expectedActions = new HashMap<>();
+
+		return expectedActions;
 	}
 
 	@Test
@@ -368,7 +385,10 @@ public abstract class BaseOptionValueResourceTestCase {
 			assertEquals(
 				Arrays.asList(irrelevantOptionValue),
 				(List<OptionValue>)page.getItems());
-			assertValid(page);
+			assertValid(
+				page,
+				testGetOptionIdOptionValuesPage_getExpectedActions(
+					irrelevantId));
 		}
 
 		OptionValue optionValue1 =
@@ -387,7 +407,17 @@ public abstract class BaseOptionValueResourceTestCase {
 		assertEqualsIgnoringOrder(
 			Arrays.asList(optionValue1, optionValue2),
 			(List<OptionValue>)page.getItems());
-		assertValid(page);
+		assertValid(
+			page, testGetOptionIdOptionValuesPage_getExpectedActions(id));
+	}
+
+	protected Map<String, Map>
+			testGetOptionIdOptionValuesPage_getExpectedActions(Long id)
+		throws Exception {
+
+		Map<String, Map> expectedActions = new HashMap<>();
+
+		return expectedActions;
 	}
 
 	@Test
@@ -600,6 +630,12 @@ public abstract class BaseOptionValueResourceTestCase {
 	}
 
 	protected void assertValid(Page<OptionValue> page) {
+		assertValid(page, Collections.emptyMap());
+	}
+
+	protected void assertValid(
+		Page<OptionValue> page, Map<String, Map> expectedActions) {
+
 		boolean valid = false;
 
 		java.util.Collection<OptionValue> optionValues = page.getItems();
@@ -614,6 +650,20 @@ public abstract class BaseOptionValueResourceTestCase {
 		}
 
 		Assert.assertTrue(valid);
+
+		Map<String, Map> actions = page.getActions();
+
+		for (String key : expectedActions.keySet()) {
+			Map action = actions.get(key);
+
+			Assert.assertNotNull(key + " does not contain an action", action);
+
+			Map expectedAction = expectedActions.get(key);
+
+			Assert.assertEquals(
+				expectedAction.get("method"), action.get("method"));
+			Assert.assertEquals(expectedAction.get("href"), action.get("href"));
+		}
 	}
 
 	protected String[] getAdditionalAssertFieldNames() {

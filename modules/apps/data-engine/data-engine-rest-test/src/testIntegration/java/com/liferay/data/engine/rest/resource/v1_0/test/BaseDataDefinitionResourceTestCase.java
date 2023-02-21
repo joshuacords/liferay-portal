@@ -462,7 +462,10 @@ public abstract class BaseDataDefinitionResourceTestCase {
 			assertEquals(
 				Arrays.asList(irrelevantDataDefinition),
 				(List<DataDefinition>)page.getItems());
-			assertValid(page);
+			assertValid(
+				page,
+				testGetSiteDataDefinitionsPage_getExpectedActions(
+					irrelevantSiteId));
 		}
 
 		DataDefinition dataDefinition1 =
@@ -481,11 +484,30 @@ public abstract class BaseDataDefinitionResourceTestCase {
 		assertEqualsIgnoringOrder(
 			Arrays.asList(dataDefinition1, dataDefinition2),
 			(List<DataDefinition>)page.getItems());
-		assertValid(page);
+		assertValid(
+			page, testGetSiteDataDefinitionsPage_getExpectedActions(siteId));
 
 		dataDefinitionResource.deleteDataDefinition(dataDefinition1.getId());
 
 		dataDefinitionResource.deleteDataDefinition(dataDefinition2.getId());
+	}
+
+	protected Map<String, Map>
+			testGetSiteDataDefinitionsPage_getExpectedActions(Long siteId)
+		throws Exception {
+
+		Map<String, Map> expectedActions = new HashMap<>();
+
+		Map createBatchAction = new HashMap<>();
+		createBatchAction.put("method", "POST");
+		createBatchAction.put(
+			"href",
+			"http://localhost:8080/o/data-engine/v1.0/sites/{siteId}/data-definitions/batch".
+				replace("{siteId}", String.valueOf(siteId)));
+
+		expectedActions.put("createBatch", createBatchAction);
+
+		return expectedActions;
 	}
 
 	@Test
@@ -1166,6 +1188,12 @@ public abstract class BaseDataDefinitionResourceTestCase {
 	}
 
 	protected void assertValid(Page<DataDefinition> page) {
+		assertValid(page, Collections.emptyMap());
+	}
+
+	protected void assertValid(
+		Page<DataDefinition> page, Map<String, Map> expectedActions) {
+
 		boolean valid = false;
 
 		java.util.Collection<DataDefinition> dataDefinitions = page.getItems();
@@ -1180,6 +1208,20 @@ public abstract class BaseDataDefinitionResourceTestCase {
 		}
 
 		Assert.assertTrue(valid);
+
+		Map<String, Map> actions = page.getActions();
+
+		for (String key : expectedActions.keySet()) {
+			Map action = actions.get(key);
+
+			Assert.assertNotNull(key + " does not contain an action", action);
+
+			Map expectedAction = expectedActions.get(key);
+
+			Assert.assertEquals(
+				expectedAction.get("method"), action.get("method"));
+			Assert.assertEquals(expectedAction.get("href"), action.get("href"));
+		}
 	}
 
 	protected String[] getAdditionalAssertFieldNames() {

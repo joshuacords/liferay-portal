@@ -221,7 +221,10 @@ public abstract class BaseTaskResourceTestCase {
 
 			assertEquals(
 				Arrays.asList(irrelevantTask), (List<Task>)page.getItems());
-			assertValid(page);
+			assertValid(
+				page,
+				testGetProcessTasksPage_getExpectedActions(
+					irrelevantProcessId));
 		}
 
 		Task task1 = testGetProcessTasksPage_addTask(processId, randomTask());
@@ -235,7 +238,17 @@ public abstract class BaseTaskResourceTestCase {
 
 		assertEqualsIgnoringOrder(
 			Arrays.asList(task1, task2), (List<Task>)page.getItems());
-		assertValid(page);
+		assertValid(
+			page, testGetProcessTasksPage_getExpectedActions(processId));
+	}
+
+	protected Map<String, Map> testGetProcessTasksPage_getExpectedActions(
+			Long processId)
+		throws Exception {
+
+		Map<String, Map> expectedActions = new HashMap<>();
+
+		return expectedActions;
 	}
 
 	@Test
@@ -548,6 +561,12 @@ public abstract class BaseTaskResourceTestCase {
 	}
 
 	protected void assertValid(Page<Task> page) {
+		assertValid(page, Collections.emptyMap());
+	}
+
+	protected void assertValid(
+		Page<Task> page, Map<String, Map> expectedActions) {
+
 		boolean valid = false;
 
 		java.util.Collection<Task> tasks = page.getItems();
@@ -562,6 +581,20 @@ public abstract class BaseTaskResourceTestCase {
 		}
 
 		Assert.assertTrue(valid);
+
+		Map<String, Map> actions = page.getActions();
+
+		for (String key : expectedActions.keySet()) {
+			Map action = actions.get(key);
+
+			Assert.assertNotNull(key + " does not contain an action", action);
+
+			Map expectedAction = expectedActions.get(key);
+
+			Assert.assertEquals(
+				expectedAction.get("method"), action.get("method"));
+			Assert.assertEquals(expectedAction.get("href"), action.get("href"));
+		}
 	}
 
 	protected String[] getAdditionalAssertFieldNames() {

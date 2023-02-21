@@ -54,6 +54,7 @@ import java.text.DateFormat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -214,7 +215,10 @@ public abstract class BaseWebUrlResourceTestCase {
 
 			assertEquals(
 				Arrays.asList(irrelevantWebUrl), (List<WebUrl>)page.getItems());
-			assertValid(page);
+			assertValid(
+				page,
+				testGetOrganizationWebUrlsPage_getExpectedActions(
+					irrelevantOrganizationId));
 		}
 
 		WebUrl webUrl1 = testGetOrganizationWebUrlsPage_addWebUrl(
@@ -229,7 +233,19 @@ public abstract class BaseWebUrlResourceTestCase {
 
 		assertEqualsIgnoringOrder(
 			Arrays.asList(webUrl1, webUrl2), (List<WebUrl>)page.getItems());
-		assertValid(page);
+		assertValid(
+			page,
+			testGetOrganizationWebUrlsPage_getExpectedActions(organizationId));
+	}
+
+	protected Map<String, Map>
+			testGetOrganizationWebUrlsPage_getExpectedActions(
+				Long organizationId)
+		throws Exception {
+
+		Map<String, Map> expectedActions = new HashMap<>();
+
+		return expectedActions;
 	}
 
 	protected WebUrl testGetOrganizationWebUrlsPage_addWebUrl(
@@ -275,7 +291,10 @@ public abstract class BaseWebUrlResourceTestCase {
 
 			assertEquals(
 				Arrays.asList(irrelevantWebUrl), (List<WebUrl>)page.getItems());
-			assertValid(page);
+			assertValid(
+				page,
+				testGetUserAccountWebUrlsPage_getExpectedActions(
+					irrelevantUserAccountId));
 		}
 
 		WebUrl webUrl1 = testGetUserAccountWebUrlsPage_addWebUrl(
@@ -290,7 +309,18 @@ public abstract class BaseWebUrlResourceTestCase {
 
 		assertEqualsIgnoringOrder(
 			Arrays.asList(webUrl1, webUrl2), (List<WebUrl>)page.getItems());
-		assertValid(page);
+		assertValid(
+			page,
+			testGetUserAccountWebUrlsPage_getExpectedActions(userAccountId));
+	}
+
+	protected Map<String, Map> testGetUserAccountWebUrlsPage_getExpectedActions(
+			Long userAccountId)
+		throws Exception {
+
+		Map<String, Map> expectedActions = new HashMap<>();
+
+		return expectedActions;
 	}
 
 	protected WebUrl testGetUserAccountWebUrlsPage_addWebUrl(
@@ -481,6 +511,12 @@ public abstract class BaseWebUrlResourceTestCase {
 	}
 
 	protected void assertValid(Page<WebUrl> page) {
+		assertValid(page, Collections.emptyMap());
+	}
+
+	protected void assertValid(
+		Page<WebUrl> page, Map<String, Map> expectedActions) {
+
 		boolean valid = false;
 
 		java.util.Collection<WebUrl> webUrls = page.getItems();
@@ -495,6 +531,20 @@ public abstract class BaseWebUrlResourceTestCase {
 		}
 
 		Assert.assertTrue(valid);
+
+		Map<String, Map> actions = page.getActions();
+
+		for (String key : expectedActions.keySet()) {
+			Map action = actions.get(key);
+
+			Assert.assertNotNull(key + " does not contain an action", action);
+
+			Map expectedAction = expectedActions.get(key);
+
+			Assert.assertEquals(
+				expectedAction.get("method"), action.get("method"));
+			Assert.assertEquals(expectedAction.get("href"), action.get("href"));
+		}
 	}
 
 	protected String[] getAdditionalAssertFieldNames() {

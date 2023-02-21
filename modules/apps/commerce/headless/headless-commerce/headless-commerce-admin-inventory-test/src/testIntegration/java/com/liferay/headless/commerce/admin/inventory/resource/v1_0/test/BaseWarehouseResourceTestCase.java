@@ -443,7 +443,15 @@ public abstract class BaseWarehouseResourceTestCase {
 
 		assertContains(warehouse1, (List<Warehouse>)page.getItems());
 		assertContains(warehouse2, (List<Warehouse>)page.getItems());
-		assertValid(page);
+		assertValid(page, testGetWarehousesPage_getExpectedActions());
+	}
+
+	protected Map<String, Map> testGetWarehousesPage_getExpectedActions()
+		throws Exception {
+
+		Map<String, Map> expectedActions = new HashMap<>();
+
+		return expectedActions;
 	}
 
 	@Test
@@ -985,6 +993,12 @@ public abstract class BaseWarehouseResourceTestCase {
 	}
 
 	protected void assertValid(Page<Warehouse> page) {
+		assertValid(page, Collections.emptyMap());
+	}
+
+	protected void assertValid(
+		Page<Warehouse> page, Map<String, Map> expectedActions) {
+
 		boolean valid = false;
 
 		java.util.Collection<Warehouse> warehouses = page.getItems();
@@ -999,6 +1013,20 @@ public abstract class BaseWarehouseResourceTestCase {
 		}
 
 		Assert.assertTrue(valid);
+
+		Map<String, Map> actions = page.getActions();
+
+		for (String key : expectedActions.keySet()) {
+			Map action = actions.get(key);
+
+			Assert.assertNotNull(key + " does not contain an action", action);
+
+			Map expectedAction = expectedActions.get(key);
+
+			Assert.assertEquals(
+				expectedAction.get("method"), action.get("method"));
+			Assert.assertEquals(expectedAction.get("href"), action.get("href"));
+		}
 	}
 
 	protected String[] getAdditionalAssertFieldNames() {

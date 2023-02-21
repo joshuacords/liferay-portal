@@ -57,6 +57,7 @@ import java.text.DateFormat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -517,7 +518,10 @@ public abstract class BaseWarehouseItemResourceTestCase {
 			assertEquals(
 				Arrays.asList(irrelevantWarehouseItem),
 				(List<WarehouseItem>)page.getItems());
-			assertValid(page);
+			assertValid(
+				page,
+				testGetWarehousByExternalReferenceCodeWarehouseItemsPage_getExpectedActions(
+					irrelevantExternalReferenceCode));
 		}
 
 		WarehouseItem warehouseItem1 =
@@ -538,11 +542,24 @@ public abstract class BaseWarehouseItemResourceTestCase {
 		assertEqualsIgnoringOrder(
 			Arrays.asList(warehouseItem1, warehouseItem2),
 			(List<WarehouseItem>)page.getItems());
-		assertValid(page);
+		assertValid(
+			page,
+			testGetWarehousByExternalReferenceCodeWarehouseItemsPage_getExpectedActions(
+				externalReferenceCode));
 
 		warehouseItemResource.deleteWarehouseItem(warehouseItem1.getId());
 
 		warehouseItemResource.deleteWarehouseItem(warehouseItem2.getId());
+	}
+
+	protected Map<String, Map>
+			testGetWarehousByExternalReferenceCodeWarehouseItemsPage_getExpectedActions(
+				String externalReferenceCode)
+		throws Exception {
+
+		Map<String, Map> expectedActions = new HashMap<>();
+
+		return expectedActions;
 	}
 
 	@Test
@@ -670,7 +687,10 @@ public abstract class BaseWarehouseItemResourceTestCase {
 			assertEquals(
 				Arrays.asList(irrelevantWarehouseItem),
 				(List<WarehouseItem>)page.getItems());
-			assertValid(page);
+			assertValid(
+				page,
+				testGetWarehousIdWarehouseItemsPage_getExpectedActions(
+					irrelevantId));
 		}
 
 		WarehouseItem warehouseItem1 =
@@ -689,11 +709,21 @@ public abstract class BaseWarehouseItemResourceTestCase {
 		assertEqualsIgnoringOrder(
 			Arrays.asList(warehouseItem1, warehouseItem2),
 			(List<WarehouseItem>)page.getItems());
-		assertValid(page);
+		assertValid(
+			page, testGetWarehousIdWarehouseItemsPage_getExpectedActions(id));
 
 		warehouseItemResource.deleteWarehouseItem(warehouseItem1.getId());
 
 		warehouseItemResource.deleteWarehouseItem(warehouseItem2.getId());
+	}
+
+	protected Map<String, Map>
+			testGetWarehousIdWarehouseItemsPage_getExpectedActions(Long id)
+		throws Exception {
+
+		Map<String, Map> expectedActions = new HashMap<>();
+
+		return expectedActions;
 	}
 
 	@Test
@@ -811,11 +841,21 @@ public abstract class BaseWarehouseItemResourceTestCase {
 
 		assertContains(warehouseItem1, (List<WarehouseItem>)page.getItems());
 		assertContains(warehouseItem2, (List<WarehouseItem>)page.getItems());
-		assertValid(page);
+		assertValid(
+			page, testGetWarehouseItemsUpdatedPage_getExpectedActions());
 
 		warehouseItemResource.deleteWarehouseItem(warehouseItem1.getId());
 
 		warehouseItemResource.deleteWarehouseItem(warehouseItem2.getId());
+	}
+
+	protected Map<String, Map>
+			testGetWarehouseItemsUpdatedPage_getExpectedActions()
+		throws Exception {
+
+		Map<String, Map> expectedActions = new HashMap<>();
+
+		return expectedActions;
 	}
 
 	@Test
@@ -1036,6 +1076,12 @@ public abstract class BaseWarehouseItemResourceTestCase {
 	}
 
 	protected void assertValid(Page<WarehouseItem> page) {
+		assertValid(page, Collections.emptyMap());
+	}
+
+	protected void assertValid(
+		Page<WarehouseItem> page, Map<String, Map> expectedActions) {
+
 		boolean valid = false;
 
 		java.util.Collection<WarehouseItem> warehouseItems = page.getItems();
@@ -1050,6 +1096,20 @@ public abstract class BaseWarehouseItemResourceTestCase {
 		}
 
 		Assert.assertTrue(valid);
+
+		Map<String, Map> actions = page.getActions();
+
+		for (String key : expectedActions.keySet()) {
+			Map action = actions.get(key);
+
+			Assert.assertNotNull(key + " does not contain an action", action);
+
+			Map expectedAction = expectedActions.get(key);
+
+			Assert.assertEquals(
+				expectedAction.get("method"), action.get("method"));
+			Assert.assertEquals(expectedAction.get("href"), action.get("href"));
+		}
 	}
 
 	protected String[] getAdditionalAssertFieldNames() {

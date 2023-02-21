@@ -226,7 +226,10 @@ public abstract class BaseTaxonomyVocabularyResourceTestCase {
 			assertEquals(
 				Arrays.asList(irrelevantTaxonomyVocabulary),
 				(List<TaxonomyVocabulary>)page.getItems());
-			assertValid(page);
+			assertValid(
+				page,
+				testGetSiteTaxonomyVocabulariesPage_getExpectedActions(
+					irrelevantSiteId));
 		}
 
 		TaxonomyVocabulary taxonomyVocabulary1 =
@@ -245,13 +248,33 @@ public abstract class BaseTaxonomyVocabularyResourceTestCase {
 		assertEqualsIgnoringOrder(
 			Arrays.asList(taxonomyVocabulary1, taxonomyVocabulary2),
 			(List<TaxonomyVocabulary>)page.getItems());
-		assertValid(page);
+		assertValid(
+			page,
+			testGetSiteTaxonomyVocabulariesPage_getExpectedActions(siteId));
 
 		taxonomyVocabularyResource.deleteTaxonomyVocabulary(
 			taxonomyVocabulary1.getId());
 
 		taxonomyVocabularyResource.deleteTaxonomyVocabulary(
 			taxonomyVocabulary2.getId());
+	}
+
+	protected Map<String, Map>
+			testGetSiteTaxonomyVocabulariesPage_getExpectedActions(Long siteId)
+		throws Exception {
+
+		Map<String, Map> expectedActions = new HashMap<>();
+
+		Map createBatchAction = new HashMap<>();
+		createBatchAction.put("method", "POST");
+		createBatchAction.put(
+			"href",
+			"http://localhost:8080/o/headless-admin-taxonomy/v1.0/sites/{siteId}/taxonomy-vocabularies/batch".
+				replace("{siteId}", String.valueOf(siteId)));
+
+		expectedActions.put("createBatch", createBatchAction);
+
+		return expectedActions;
 	}
 
 	@Test
@@ -1173,6 +1196,12 @@ public abstract class BaseTaxonomyVocabularyResourceTestCase {
 	}
 
 	protected void assertValid(Page<TaxonomyVocabulary> page) {
+		assertValid(page, Collections.emptyMap());
+	}
+
+	protected void assertValid(
+		Page<TaxonomyVocabulary> page, Map<String, Map> expectedActions) {
+
 		boolean valid = false;
 
 		java.util.Collection<TaxonomyVocabulary> taxonomyVocabularies =
@@ -1188,6 +1217,20 @@ public abstract class BaseTaxonomyVocabularyResourceTestCase {
 		}
 
 		Assert.assertTrue(valid);
+
+		Map<String, Map> actions = page.getActions();
+
+		for (String key : expectedActions.keySet()) {
+			Map action = actions.get(key);
+
+			Assert.assertNotNull(key + " does not contain an action", action);
+
+			Map expectedAction = expectedActions.get(key);
+
+			Assert.assertEquals(
+				expectedAction.get("method"), action.get("method"));
+			Assert.assertEquals(expectedAction.get("href"), action.get("href"));
+		}
 	}
 
 	protected String[] getAdditionalAssertFieldNames() {

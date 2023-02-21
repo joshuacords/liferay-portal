@@ -56,6 +56,7 @@ import java.text.DateFormat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -213,7 +214,10 @@ public abstract class BaseDataRecordResourceTestCase {
 			assertEquals(
 				Arrays.asList(irrelevantDataRecord),
 				(List<DataRecord>)page.getItems());
-			assertValid(page);
+			assertValid(
+				page,
+				testGetDataDefinitionDataRecordsPage_getExpectedActions(
+					irrelevantDataDefinitionId));
 		}
 
 		DataRecord dataRecord1 =
@@ -232,11 +236,34 @@ public abstract class BaseDataRecordResourceTestCase {
 		assertEqualsIgnoringOrder(
 			Arrays.asList(dataRecord1, dataRecord2),
 			(List<DataRecord>)page.getItems());
-		assertValid(page);
+		assertValid(
+			page,
+			testGetDataDefinitionDataRecordsPage_getExpectedActions(
+				dataDefinitionId));
 
 		dataRecordResource.deleteDataRecord(dataRecord1.getId());
 
 		dataRecordResource.deleteDataRecord(dataRecord2.getId());
+	}
+
+	protected Map<String, Map>
+			testGetDataDefinitionDataRecordsPage_getExpectedActions(
+				Long dataDefinitionId)
+		throws Exception {
+
+		Map<String, Map> expectedActions = new HashMap<>();
+
+		Map createBatchAction = new HashMap<>();
+		createBatchAction.put("method", "POST");
+		createBatchAction.put(
+			"href",
+			"http://localhost:8080/o/data-engine/v1.0/data-definitions/{dataDefinitionId}/data-records/batch".
+				replace(
+					"{dataDefinitionId}", String.valueOf(dataDefinitionId)));
+
+		expectedActions.put("createBatch", createBatchAction);
+
+		return expectedActions;
 	}
 
 	@Test
@@ -354,7 +381,10 @@ public abstract class BaseDataRecordResourceTestCase {
 			assertEquals(
 				Arrays.asList(irrelevantDataRecord),
 				(List<DataRecord>)page.getItems());
-			assertValid(page);
+			assertValid(
+				page,
+				testGetDataRecordCollectionDataRecordsPage_getExpectedActions(
+					irrelevantDataRecordCollectionId));
 		}
 
 		DataRecord dataRecord1 =
@@ -373,11 +403,35 @@ public abstract class BaseDataRecordResourceTestCase {
 		assertEqualsIgnoringOrder(
 			Arrays.asList(dataRecord1, dataRecord2),
 			(List<DataRecord>)page.getItems());
-		assertValid(page);
+		assertValid(
+			page,
+			testGetDataRecordCollectionDataRecordsPage_getExpectedActions(
+				dataRecordCollectionId));
 
 		dataRecordResource.deleteDataRecord(dataRecord1.getId());
 
 		dataRecordResource.deleteDataRecord(dataRecord2.getId());
+	}
+
+	protected Map<String, Map>
+			testGetDataRecordCollectionDataRecordsPage_getExpectedActions(
+				Long dataRecordCollectionId)
+		throws Exception {
+
+		Map<String, Map> expectedActions = new HashMap<>();
+
+		Map createBatchAction = new HashMap<>();
+		createBatchAction.put("method", "POST");
+		createBatchAction.put(
+			"href",
+			"http://localhost:8080/o/data-engine/v1.0/data-record-collections/{dataRecordCollectionId}/data-records/batch".
+				replace(
+					"{dataRecordCollectionId}",
+					String.valueOf(dataRecordCollectionId)));
+
+		expectedActions.put("createBatch", createBatchAction);
+
+		return expectedActions;
 	}
 
 	@Test
@@ -733,6 +787,12 @@ public abstract class BaseDataRecordResourceTestCase {
 	}
 
 	protected void assertValid(Page<DataRecord> page) {
+		assertValid(page, Collections.emptyMap());
+	}
+
+	protected void assertValid(
+		Page<DataRecord> page, Map<String, Map> expectedActions) {
+
 		boolean valid = false;
 
 		java.util.Collection<DataRecord> dataRecords = page.getItems();
@@ -747,6 +807,20 @@ public abstract class BaseDataRecordResourceTestCase {
 		}
 
 		Assert.assertTrue(valid);
+
+		Map<String, Map> actions = page.getActions();
+
+		for (String key : expectedActions.keySet()) {
+			Map action = actions.get(key);
+
+			Assert.assertNotNull(key + " does not contain an action", action);
+
+			Map expectedAction = expectedActions.get(key);
+
+			Assert.assertEquals(
+				expectedAction.get("method"), action.get("method"));
+			Assert.assertEquals(expectedAction.get("href"), action.get("href"));
+		}
 	}
 
 	protected String[] getAdditionalAssertFieldNames() {

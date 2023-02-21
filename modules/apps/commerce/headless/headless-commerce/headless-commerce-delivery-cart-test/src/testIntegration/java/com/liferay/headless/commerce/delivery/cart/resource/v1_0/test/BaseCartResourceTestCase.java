@@ -56,6 +56,7 @@ import java.text.DateFormat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -414,7 +415,10 @@ public abstract class BaseCartResourceTestCase {
 
 			assertEquals(
 				Arrays.asList(irrelevantCart), (List<Cart>)page.getItems());
-			assertValid(page);
+			assertValid(
+				page,
+				testGetChannelCartsPage_getExpectedActions(
+					irrelevantChannelId));
 		}
 
 		Cart cart1 = testGetChannelCartsPage_addCart(channelId, randomCart());
@@ -428,11 +432,21 @@ public abstract class BaseCartResourceTestCase {
 
 		assertEqualsIgnoringOrder(
 			Arrays.asList(cart1, cart2), (List<Cart>)page.getItems());
-		assertValid(page);
+		assertValid(
+			page, testGetChannelCartsPage_getExpectedActions(channelId));
 
 		cartResource.deleteCart(cart1.getId());
 
 		cartResource.deleteCart(cart2.getId());
+	}
+
+	protected Map<String, Map> testGetChannelCartsPage_getExpectedActions(
+			Long channelId)
+		throws Exception {
+
+		Map<String, Map> expectedActions = new HashMap<>();
+
+		return expectedActions;
 	}
 
 	@Test
@@ -844,6 +858,12 @@ public abstract class BaseCartResourceTestCase {
 	}
 
 	protected void assertValid(Page<Cart> page) {
+		assertValid(page, Collections.emptyMap());
+	}
+
+	protected void assertValid(
+		Page<Cart> page, Map<String, Map> expectedActions) {
+
 		boolean valid = false;
 
 		java.util.Collection<Cart> carts = page.getItems();
@@ -858,6 +878,20 @@ public abstract class BaseCartResourceTestCase {
 		}
 
 		Assert.assertTrue(valid);
+
+		Map<String, Map> actions = page.getActions();
+
+		for (String key : expectedActions.keySet()) {
+			Map action = actions.get(key);
+
+			Assert.assertNotNull(key + " does not contain an action", action);
+
+			Map expectedAction = expectedActions.get(key);
+
+			Assert.assertEquals(
+				expectedAction.get("method"), action.get("method"));
+			Assert.assertEquals(expectedAction.get("href"), action.get("href"));
+		}
 	}
 
 	protected String[] getAdditionalAssertFieldNames() {

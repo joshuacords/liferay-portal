@@ -276,7 +276,10 @@ public abstract class BasePriceListChannelResourceTestCase {
 			assertEquals(
 				Arrays.asList(irrelevantPriceListChannel),
 				(List<PriceListChannel>)page.getItems());
-			assertValid(page);
+			assertValid(
+				page,
+				testGetPriceListByExternalReferenceCodePriceListChannelsPage_getExpectedActions(
+					irrelevantExternalReferenceCode));
 		}
 
 		PriceListChannel priceListChannel1 =
@@ -297,13 +300,26 @@ public abstract class BasePriceListChannelResourceTestCase {
 		assertEqualsIgnoringOrder(
 			Arrays.asList(priceListChannel1, priceListChannel2),
 			(List<PriceListChannel>)page.getItems());
-		assertValid(page);
+		assertValid(
+			page,
+			testGetPriceListByExternalReferenceCodePriceListChannelsPage_getExpectedActions(
+				externalReferenceCode));
 
 		priceListChannelResource.deletePriceListChannel(
 			priceListChannel1.getId());
 
 		priceListChannelResource.deletePriceListChannel(
 			priceListChannel2.getId());
+	}
+
+	protected Map<String, Map>
+			testGetPriceListByExternalReferenceCodePriceListChannelsPage_getExpectedActions(
+				String externalReferenceCode)
+		throws Exception {
+
+		Map<String, Map> expectedActions = new HashMap<>();
+
+		return expectedActions;
 	}
 
 	@Test
@@ -432,7 +448,10 @@ public abstract class BasePriceListChannelResourceTestCase {
 			assertEquals(
 				Arrays.asList(irrelevantPriceListChannel),
 				(List<PriceListChannel>)page.getItems());
-			assertValid(page);
+			assertValid(
+				page,
+				testGetPriceListIdPriceListChannelsPage_getExpectedActions(
+					irrelevantId));
 		}
 
 		PriceListChannel priceListChannel1 =
@@ -451,13 +470,24 @@ public abstract class BasePriceListChannelResourceTestCase {
 		assertEqualsIgnoringOrder(
 			Arrays.asList(priceListChannel1, priceListChannel2),
 			(List<PriceListChannel>)page.getItems());
-		assertValid(page);
+		assertValid(
+			page,
+			testGetPriceListIdPriceListChannelsPage_getExpectedActions(id));
 
 		priceListChannelResource.deletePriceListChannel(
 			priceListChannel1.getId());
 
 		priceListChannelResource.deletePriceListChannel(
 			priceListChannel2.getId());
+	}
+
+	protected Map<String, Map>
+			testGetPriceListIdPriceListChannelsPage_getExpectedActions(Long id)
+		throws Exception {
+
+		Map<String, Map> expectedActions = new HashMap<>();
+
+		return expectedActions;
 	}
 
 	@Test
@@ -973,6 +1003,12 @@ public abstract class BasePriceListChannelResourceTestCase {
 	}
 
 	protected void assertValid(Page<PriceListChannel> page) {
+		assertValid(page, Collections.emptyMap());
+	}
+
+	protected void assertValid(
+		Page<PriceListChannel> page, Map<String, Map> expectedActions) {
+
 		boolean valid = false;
 
 		java.util.Collection<PriceListChannel> priceListChannels =
@@ -988,6 +1024,20 @@ public abstract class BasePriceListChannelResourceTestCase {
 		}
 
 		Assert.assertTrue(valid);
+
+		Map<String, Map> actions = page.getActions();
+
+		for (String key : expectedActions.keySet()) {
+			Map action = actions.get(key);
+
+			Assert.assertNotNull(key + " does not contain an action", action);
+
+			Map expectedAction = expectedActions.get(key);
+
+			Assert.assertEquals(
+				expectedAction.get("method"), action.get("method"));
+			Assert.assertEquals(expectedAction.get("href"), action.get("href"));
+		}
 	}
 
 	protected String[] getAdditionalAssertFieldNames() {

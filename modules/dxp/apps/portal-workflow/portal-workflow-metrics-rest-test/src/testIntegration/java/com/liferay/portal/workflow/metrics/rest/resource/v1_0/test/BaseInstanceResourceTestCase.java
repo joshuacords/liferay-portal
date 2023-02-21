@@ -55,6 +55,7 @@ import java.text.DateFormat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -220,7 +221,10 @@ public abstract class BaseInstanceResourceTestCase {
 			assertEquals(
 				Arrays.asList(irrelevantInstance),
 				(List<Instance>)page.getItems());
-			assertValid(page);
+			assertValid(
+				page,
+				testGetProcessInstancesPage_getExpectedActions(
+					irrelevantProcessId));
 		}
 
 		Instance instance1 = testGetProcessInstancesPage_addInstance(
@@ -238,7 +242,17 @@ public abstract class BaseInstanceResourceTestCase {
 		assertEqualsIgnoringOrder(
 			Arrays.asList(instance1, instance2),
 			(List<Instance>)page.getItems());
-		assertValid(page);
+		assertValid(
+			page, testGetProcessInstancesPage_getExpectedActions(processId));
+	}
+
+	protected Map<String, Map> testGetProcessInstancesPage_getExpectedActions(
+			Long processId)
+		throws Exception {
+
+		Map<String, Map> expectedActions = new HashMap<>();
+
+		return expectedActions;
 	}
 
 	@Test
@@ -551,6 +565,12 @@ public abstract class BaseInstanceResourceTestCase {
 	}
 
 	protected void assertValid(Page<Instance> page) {
+		assertValid(page, Collections.emptyMap());
+	}
+
+	protected void assertValid(
+		Page<Instance> page, Map<String, Map> expectedActions) {
+
 		boolean valid = false;
 
 		java.util.Collection<Instance> instances = page.getItems();
@@ -565,6 +585,20 @@ public abstract class BaseInstanceResourceTestCase {
 		}
 
 		Assert.assertTrue(valid);
+
+		Map<String, Map> actions = page.getActions();
+
+		for (String key : expectedActions.keySet()) {
+			Map action = actions.get(key);
+
+			Assert.assertNotNull(key + " does not contain an action", action);
+
+			Map expectedAction = expectedActions.get(key);
+
+			Assert.assertEquals(
+				expectedAction.get("method"), action.get("method"));
+			Assert.assertEquals(expectedAction.get("href"), action.get("href"));
+		}
 	}
 
 	protected String[] getAdditionalAssertFieldNames() {
