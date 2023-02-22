@@ -158,7 +158,8 @@ public class SearchBarPortletDisplayContextFactoryTest {
 				_searchBarPrecedenceHelper, _searchCapabilities);
 
 		Assert.assertEquals(
-			layoutFriendlyURL, searchBarPortletDisplayContext.getSearchURL());
+			layoutFriendlyURL,
+			searchBarPortletDisplayContext.getDestinationURL());
 
 		Assert.assertFalse(
 			searchBarPortletDisplayContext.isDestinationUnreachable());
@@ -186,7 +187,8 @@ public class SearchBarPortletDisplayContextFactoryTest {
 				_searchBarPrecedenceHelper, _searchCapabilities);
 
 		Assert.assertEquals(
-			layoutFriendlyURL, searchBarPortletDisplayContext.getSearchURL());
+			layoutFriendlyURL,
+			searchBarPortletDisplayContext.getDestinationURL());
 
 		Assert.assertFalse(
 			searchBarPortletDisplayContext.isDestinationUnreachable());
@@ -215,7 +217,8 @@ public class SearchBarPortletDisplayContextFactoryTest {
 			searchBarPortletDisplayContext.isDestinationUnreachable());
 
 		Assert.assertEquals(
-			"/web/guest/home", searchBarPortletDisplayContext.getSearchURL());
+			"/web/guest/home",
+			searchBarPortletDisplayContext.getDestinationURL());
 	}
 
 	@Test

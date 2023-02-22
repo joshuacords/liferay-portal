@@ -56,7 +56,7 @@ SearchBarPortletDisplayContext searchBarPortletDisplayContext = (SearchBarPortle
 		</div>
 	</c:when>
 	<c:otherwise>
-		<aui:form action="<%= searchBarPortletDisplayContext.getSearchURL() %>" method="get" name="fm">
+		<aui:form action="<%= searchBarPortletDisplayContext.getDestinationURL() %>" method="get" name="fm">
 			<c:if test="<%= !Validator.isBlank(searchBarPortletDisplayContext.getPaginationStartParameterName()) %>">
 				<input class="search-bar-reset-start-page" name="<%= searchBarPortletDisplayContext.getPaginationStartParameterName() %>" type="hidden" value="0" />
 			</c:if>
@@ -105,7 +105,7 @@ SearchBarPortletDisplayContext searchBarPortletDisplayContext = (SearchBarPortle
 									).put(
 										"scopeParameterStringEverything", searchBarPortletDisplayContext.getEverythingSearchScopeParameterString()
 									).put(
-										"searchURL", searchBarPortletDisplayContext.getSearchURL()
+										"searchURL", searchBarPortletDisplayContext.getDestinationURL()
 									).put(
 										"selectedEverythingSearchScope", searchBarPortletDisplayContext.isSelectedEverythingSearchScope()
 									).put(

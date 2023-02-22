@@ -99,7 +99,7 @@ public class SearchBarPortletDisplayContextFactory {
 			_searchBarPortletInstanceConfiguration.destination();
 
 		if (Validator.isBlank(destination)) {
-			searchBarPortletDisplayContext.setSearchURL(
+			searchBarPortletDisplayContext.setDestinationURL(
 				_getURLCurrentPath(themeDisplay));
 		}
 		else {
@@ -113,7 +113,7 @@ public class SearchBarPortletDisplayContextFactory {
 				return searchBarPortletDisplayContext;
 			}
 
-			searchBarPortletDisplayContext.setSearchURL(destinationURL);
+			searchBarPortletDisplayContext.setDestinationURL(destinationURL);
 		}
 
 		SearchBarPortletPreferences searchBarPortletPreferences =
