@@ -29,6 +29,10 @@ public class SearchBarPortletDisplayContext {
 		return _destinationFriendlyURL;
 	}
 
+	public String getDestinationURL() {
+		return _destinationURL;
+	}
+
 	public long getDisplayStyleGroupId() {
 		return _displayStyleGroupId;
 	}
@@ -65,10 +69,6 @@ public class SearchBarPortletDisplayContext {
 		getSearchBarPortletInstanceConfiguration() {
 
 		return _searchBarPortletInstanceConfiguration;
-	}
-
-	public String getSearchURL() {
-		return _searchURL;
 	}
 
 	public String getSuggestionsContributorConfiguration() {
@@ -148,6 +148,10 @@ public class SearchBarPortletDisplayContext {
 		_destinationUnreachable = destinationUnreachable;
 	}
 
+	public void setDestinationURL(String destinationURL) {
+		_destinationURL = destinationURL;
+	}
+
 	public void setDisplayStyleGroupId(long displayStyleGroupId) {
 		_displayStyleGroupId = displayStyleGroupId;
 	}
@@ -220,10 +224,6 @@ public class SearchBarPortletDisplayContext {
 		_searchExperiencesSupported = searchExperiencesSupported;
 	}
 
-	public void setSearchURL(String searchURL) {
-		_searchURL = searchURL;
-	}
-
 	public void setSelectedCurrentSiteSearchScope(
 		boolean selectedCurrentSiteSearchScope) {
 
@@ -267,6 +267,7 @@ public class SearchBarPortletDisplayContext {
 	private String _currentSiteSearchScopeParameterString;
 	private String _destinationFriendlyURL;
 	private boolean _destinationUnreachable;
+	private String _destinationURL;
 	private long _displayStyleGroupId;
 	private boolean _displayWarningIgnoredConfiguration;
 	private boolean _emptySearchEnabled;
@@ -282,7 +283,6 @@ public class SearchBarPortletDisplayContext {
 	private SearchBarPortletInstanceConfiguration
 		_searchBarPortletInstanceConfiguration;
 	private boolean _searchExperiencesSupported;
-	private String _searchURL;
 	private boolean _selectedCurrentSiteSearchScope;
 	private boolean _selectedEverythingSearchScope;
 	private String _suggestionsContributorConfiguration;
