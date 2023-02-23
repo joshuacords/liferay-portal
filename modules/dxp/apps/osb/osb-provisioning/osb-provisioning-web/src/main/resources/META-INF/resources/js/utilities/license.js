@@ -72,7 +72,7 @@ export function deriveLicenseDates(
  */
 export function getDetachedLicenseDates() {
 	return {
-		licenseExpirationDate: generateNewDateByYear(CURRENT_TIME),
+		licenseExpirationDate: generateNewDateByYear(CURRENT_TIME, 100),
 		licenseStartDate: CURRENT_TIME
 	};
 }

@@ -564,7 +564,7 @@ describe('ExtendLicense', () => {
 					{
 						target: {
 							value: formatDate(
-								generateNewDateByYear(CURRENT_TIME, 2)
+								generateNewDateByYear(CURRENT_TIME, 100)
 							)
 						}
 					}

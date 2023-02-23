@@ -178,15 +178,15 @@ describe('Dates for Detached licenses', () => {
 		);
 	});
 
-	it('displays Expiration Date as one year after the Start Date', () => {
+	it('displays Expiration Date as 100 years after the Start Date', () => {
 		const dates = getDetachedLicenseDates();
 		const {
 			licenseExpirationDate: expirationDate,
 			licenseStartDate: startDate
 		} = dates;
 
-		const derivedEXpirationDate = generateNewDateByYear(startDate);
+		const derivedExpirationDate = generateNewDateByYear(startDate, 100);
 
-		expect(derivedEXpirationDate).toStrictEqual(expirationDate);
+		expect(derivedExpirationDate).toStrictEqual(expirationDate);
 	});
 });
