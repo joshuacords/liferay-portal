@@ -39,6 +39,9 @@
 	{/let}
 
 	{let $fieldDetailsId: $name + '_fieldDetails' /}
+	{let $fieldDetailsId: $id ?? $name /}
+
+	{let $fieldDetailsId: $fieldDetailsId + '_fieldDetails' /}
 
 	{let $renderlabel: ($label and $showLabel) or $required or $tooltip or $repeatable /}
 
