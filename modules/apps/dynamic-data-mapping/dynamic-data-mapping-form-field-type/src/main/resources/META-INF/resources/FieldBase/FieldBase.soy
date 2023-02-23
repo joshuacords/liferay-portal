@@ -38,10 +38,7 @@
 		{/if}
 	{/let}
 
-	{let $fieldDetailsId: $name + '_fieldDetails' /}
-	{let $fieldDetailsId: $id ?? $name /}
-
-	{let $fieldDetailsId: $fieldDetailsId + '_fieldDetails' /}
+	{let $fieldDetailsId: ($id == null) ? ($name + '_fieldDetails') : ($id + '_fieldDetails') /}
 
 	{let $renderlabel: ($label and $showLabel) or $required or $tooltip or $repeatable /}
 
