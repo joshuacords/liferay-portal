@@ -38,7 +38,9 @@
 		{/if}
 	{/let}
 
-	{let $fieldDetailsId: ($id == null) ? ($name + '_fieldDetails') : ($id + '_fieldDetails') /}
+	{let $fieldNameOrId: $id ? $id : $name /}
+
+	{let $fieldDetailsId: $fieldNameOrId + '_fieldDetails' /}
 
 	{let $renderlabel: ($label and $showLabel) or $required or $tooltip or $repeatable /}
 
@@ -97,15 +99,11 @@
 		{let $labelAttributes kind="attributes"}
 			{if $readFieldDetails}
 				tabindex="0"
-			{elseif $showFor}
-				{if $id}
-					for="{$id}"
-				{else}
-					for="{$name}"
-				{/if}
-			{/if}
 
-			aria-labelledby="{$fieldDetailsId}"
+				aria-labelledby="{$fieldDetailsId}"
+			{elseif $showFor}
+				for="{$fieldNameOrId}"
+			{/if}
 
 			{if not $showLabel and not $required}
 				class="ddm-empty"
@@ -164,9 +162,10 @@
 			{$contentRenderer}
 		{/if}
 
-		{let $hasError: $displayErrors and ($errorMessage != null and $errorMessage != '') and not $valid/}
+		{let $hasError: $displayErrors and ($errorMessage != null and $errorMessage != '') and not $valid /}
+		{let $hasFieldDetails: $readFieldDetails and ($label or $tip or $text or $hasError) /}
 
-		{if $label or $tip or $text or $hasError}
+		{if $hasFieldDetails}
 			<span id="{$fieldDetailsId}" class="sr-only">
 				{if $label}{sp}{$label}{/if}
 
@@ -178,13 +177,15 @@
 			</span>
 		{/if}
 
+		{let $ariaHidden: $hasFieldDetails ? 'true' : 'false' /}
+
 		{if $tip}
-			<span class="form-text" aria-hidden="true">{$tip}</span>
+			<span id="{$fieldNameOrId + '_fieldHelp'}" class="form-text" aria-hidden="{$ariaHidden}">{$tip}</span>
 		{/if}
 
 		{if $displayErrors and $errorMessage and $valid == false}
 			<div class="form-feedback-group">
-				<div class="form-feedback-item help-block" aria-hidden="true">{$errorMessage}</div>
+				<div id="{$fieldNameOrId + '_fieldError'}" role="alert" class="form-feedback-item help-block" aria-hidden="{$ariaHidden}">{$errorMessage}</div>
 			</div>
 		{/if}
 	</div>

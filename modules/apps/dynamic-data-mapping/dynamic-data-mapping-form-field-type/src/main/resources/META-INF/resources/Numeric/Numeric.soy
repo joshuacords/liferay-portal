@@ -29,11 +29,15 @@
 				{param _handleFieldBlurred: $_handleFieldBlurred /}
 				{param _handleFieldChanged: $_handleFieldChanged /}
 				{param _handleFieldFocused: $_handleFieldFocused /}
+				{param errorMessage: $errorMessage /}
 				{param id: $id /}
 				{param name: $name /}
 				{param placeholder: $placeholder /}
 				{param predefinedValue: $predefinedValue /}
+				{param required: $required /}
 				{param readOnly: $readOnly /}
+				{param tip: $tip /}
+				{param valid: $valid /}
 				{param value: $_value /}
 			{/call}
 		{/param}
@@ -59,13 +63,30 @@
 	{@param? _handleFieldBlurred: any}
 	{@param? _handleFieldChanged: any}
 	{@param? _handleFieldFocused: any}
+	{@param? errorMessage: string}
 	{@param? id: string}
 	{@param? placeholder: string}
 	{@param? predefinedValue: any}
+	{@param? required: bool}
 	{@param? readOnly: bool}
+	{@param? tip: string}
+	{@param? valid: bool}
 	{@param? value: any}
 
+	{let $fieldNameOrId: $id ? $id : $name /}
 	{let $attributes kind="attributes"}
+		{if $tip}
+			aria-describedby="{$fieldNameOrId + '_fieldHelp'}"
+		{/if}
+
+		{if $errorMessage}
+			aria-errormessage="{$fieldNameOrId + '_fieldError'}"
+		{/if}
+
+		aria-invalid="{$valid ? 'false' : 'true'}"
+
+		aria-required="{$required ? 'true' : 'false'}"
+
 		class="form-control"
 
 		data-onblur="{$_handleFieldBlurred}"
@@ -76,11 +97,7 @@
 			disabled="disabled"
 		{/if}
 
-		{if $id}
-			id="{$id}"
-		{else}
-			id="{$name}"
-		{/if}
+		id="{$fieldNameOrId}"
 
 		name="{$name}"
 

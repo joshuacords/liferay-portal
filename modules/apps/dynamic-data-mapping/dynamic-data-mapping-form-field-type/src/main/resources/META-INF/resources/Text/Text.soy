@@ -44,13 +44,17 @@
 				{param _handleAutocompleteFilteredItemsChanged: $_handleAutocompleteFilteredItemsChanged /}
 				{param autocompleteEnabled: $autocompleteEnabled /}
 				{param displayStyle: $displayStyle /}
+				{param errorMessage: $errorMessage /}
 				{param filteredItems: $filteredItems /}
 				{param id: $id /}
 				{param name: $name /}
 				{param options: $options/}
 				{param placeholder: $placeholder /}
 				{param readOnly: $readOnly /}
+				{param required: $required /}
+				{param tip: $tip /}
 				{param value: $value /}
+				{param valid: $valid /}
 			{/call}
 		{/param}
 		{param displayErrors: $displayErrors /}
@@ -83,15 +87,31 @@
 	{@param? _handleAutocompleteFilteredItemsChanged: any}
 	{@param? autocompleteEnabled: bool}
 	{@param? displayStyle: string}
+	{@param? errorMessage: string}
 	{@param? filteredItems: list<?>}
 	{@param? id: string}
 	{@param? options: list<?>}
 	{@param? placeholder: string}
+	{@param? required: bool}
 	{@param? readOnly: bool}
+	{@param? tip: string}
 	{@param? value: string}
+	{@param? valid: bool}
 
 	{let $inputValue: isNonnull($value) and $value != '' ? $value : ''/}
+	{let $fieldNameOrId: $id ? $id : $name /}
 	{let $attributes kind="attributes"}
+		{if $tip}
+			aria-describedby="{$fieldNameOrId + '_fieldHelp'}"
+		{/if}
+
+		{if $errorMessage}
+			aria-errormessage="{$fieldNameOrId + '_fieldError'}"
+		{/if}
+
+		aria-invalid="{$valid ? 'false' : 'true'}"
+
+		aria-required="{$required ? 'true' : 'false'}"
 
 		class="ddm-field-text form-control"
 
@@ -103,11 +123,7 @@
 
 		data-onfocus="{$_handleFieldFocused}"
 
-		{if $id}
-			id="{$id}"
-		{else}
-			id="{$name}"
-		{/if}
+		id="{$fieldNameOrId}"
 
 		{if $placeholder}
 			placeholder="{$placeholder}"
