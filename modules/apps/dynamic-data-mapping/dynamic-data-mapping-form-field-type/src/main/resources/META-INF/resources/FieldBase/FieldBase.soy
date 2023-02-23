@@ -94,7 +94,7 @@
 			</div>
 		{/if}
 
-		{let $showFor: $type and ($type == 'text' or $type == 'numeric') /}
+		{let $showFor: $type and ($type == 'text' or $type == 'numeric') or $type == 'select' /}
 
 		{let $labelAttributes kind="attributes"}
 			{if $showFor}
