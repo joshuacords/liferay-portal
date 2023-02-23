@@ -41,7 +41,7 @@ public class SharedSessionServletRequest extends HttpServletRequestWrapper {
 
 	@Override
 	public HttpSession getSession(boolean create) {
-		if (_shared || !create) {
+		if (!create || _shared) {
 			return _getPortalHttpSession(create);
 		}
 

@@ -40,14 +40,14 @@ public class SharedSessionServletRequestTest {
 
 	@Test
 	public void testGetSharedSession() {
-		_testGetSharedSession(true);
 		_testGetSharedSession(false);
+		_testGetSharedSession(true);
 	}
 
 	@Test
 	public void testInvalidateSession() {
-		_testInvalidateSession(true);
 		_testInvalidateSession(false);
+		_testInvalidateSession(true);
 	}
 
 	private void _testGetSharedSession(boolean shared) {
@@ -79,7 +79,6 @@ public class SharedSessionServletRequestTest {
 			true);
 
 		Assert.assertNotNull(newHttpSession);
-
 		Assert.assertNotSame(httpSession, newHttpSession);
 	}
 
