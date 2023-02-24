@@ -124,8 +124,8 @@ AUI.add(
 				}
 
 				list.forEach(item => {
-					var key = item[selectId];
-					var value = item[selectDesc];
+					var key = Liferay.Util.escapeHTML(item[selectId]);
+					var value = Liferay.Util.escapeHTML(item[selectDesc]);
 
 					var selected = '';
 
