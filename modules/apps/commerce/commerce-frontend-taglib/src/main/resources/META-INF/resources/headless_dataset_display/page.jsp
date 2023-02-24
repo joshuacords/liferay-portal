@@ -24,11 +24,11 @@
 	datasetDisplay.default('<%= containerId %>', '<%= containerId %>', {
 		views: <%= jsonSerializer.serializeDeep(clayDataSetDisplayViewsContext) %>,
 		filters: <%= jsonSerializer.serializeDeep(clayDataSetFiltersContext) %>,
-		apiUrl: '<%= apiUrl %>',
+		apiUrl: '<%= HtmlUtil.escapeJS(apiUrl) %>',
 		bulkActions: <%= jsonSerializer.serializeDeep(bulkActions) %>,
 		creationMenuItems: <%= jsonSerializer.serializeDeep(clayCreationMenu.getClayCreationMenuActionItems()) %>,
 		currentUrl: '<%= currentURL %>',
-		formId: '<%= formId %>',
+		formId: '<%= HtmlUtil.escapeJS(formId) %>',
 		id: '<%= id %>',
 		itemsActions: <%= jsonSerializer.serializeDeep(clayHeadlessDataSetActionTemplates) %>,
 		filters: <%= jsonSerializer.serializeDeep(clayDataSetFiltersContext) %>,
@@ -37,7 +37,7 @@
 		if (Validator.isNotNull(nestedItemsKey)) {
 		%>
 
-			nestedItemsKey: '<%= nestedItemsKey %>',
+			nestedItemsKey: '<%= HtmlUtil.escapeJS(nestedItemsKey) %>',
 
 			<%
 			}
@@ -45,7 +45,8 @@
 			if (Validator.isNotNull(nestedItemsReferenceKey)) {
 			%>
 
-			nestedItemsReferenceKey: '<%= nestedItemsReferenceKey %>',
+			nestedItemsReferenceKey:
+				'<%= HtmlUtil.escapeJS(nestedItemsReferenceKey) %>',
 
 		<%
 		}
@@ -61,7 +62,7 @@
 		},
 		portletId: '<%= portletDisplay.getRootPortletId() %>',
 		namespace: '<%= namespace %>',
-		portletURL: '<%= portletURL %>',
+		portletURL: '<%= HtmlUtil.escapeJS(portletURL.toString()) %>',
 		selectedItems: <%= jsonSerializer.serializeDeep(selectedItems) %>,
 		selectedItemsKey: '<%= selectedItemsKey %>',
 		selectionType: '<%= selectionType %>',

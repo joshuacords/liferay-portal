@@ -299,10 +299,14 @@ String myWorkflowTasksPortletNamespace = PortalUtil.getPortletNamespace(PortletK
 											.getElementById('<%= HtmlUtil.escapeJS(actionId) %>')
 											.addEventListener('click', function(e) {
 												e.preventDefault();
-												var form = document.getElementById('<%= HtmlUtil.escapeJS(action.getFormId()) %>');
+												var form = document.getElementById(
+													'<%= HtmlUtil.escapeJS(action.getFormId()) %>'
+												);
 												if (!form) {
 													throw new Error(
-														'Form with id: ' + <%= HtmlUtil.escapeJS(action.getFormId()) %> + ' not found!'
+														'Form with id: ' +
+															<%= HtmlUtil.escapeJS(action.getFormId()) %> +
+															' not found!'
 													);
 												}
 												submitForm(form);

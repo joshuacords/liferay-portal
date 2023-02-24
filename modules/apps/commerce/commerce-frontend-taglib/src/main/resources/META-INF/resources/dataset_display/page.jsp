@@ -23,11 +23,11 @@
 <aui:script require="commerce-frontend-js/components/dataset_display/entry as datasetDisplay">
 	datasetDisplay.default('<%= containerId %>', '<%= containerId %>', {
 		views: <%= jsonSerializer.serializeDeep(clayDataSetDisplayViewsContext) %>,
-		apiUrl: '<%= dataSetAPI %>',
+		apiUrl: '<%= HtmlUtil.escapeJS(dataSetAPI) %>',
 		bulkActions: <%= jsonSerializer.serializeDeep(bulkActions) %>,
 		creationMenuItems: <%= jsonSerializer.serializeDeep(clayCreationMenu.getClayCreationMenuActionItems()) %>,
 		currentUrl: '<%= currentURL %>',
-		formId: '<%= formId %>',
+		formId: '<%= HtmlUtil.escapeJS(formId) %>',
 		dataProviderKey: '<%= dataProviderKey %>',
 		id: '<%= id %>',
 
@@ -35,7 +35,7 @@
 		if (Validator.isNotNull(nestedItemsKey)) {
 		%>
 
-			nestedItemsKey: '<%= nestedItemsKey %>',
+			nestedItemsKey: '<%= HtmlUtil.escapeJS(nestedItemsKey) %>',
 
 			<%
 			}
@@ -43,7 +43,8 @@
 			if (Validator.isNotNull(nestedItemsReferenceKey)) {
 			%>
 
-			nestedItemsReferenceKey: '<%= nestedItemsReferenceKey %>',
+			nestedItemsReferenceKey:
+				'<%= HtmlUtil.escapeJS(nestedItemsReferenceKey) %>',
 
 		<%
 		}
@@ -59,7 +60,7 @@
 		},
 		portletId: '<%= portletDisplay.getRootPortletId() %>',
 		namespace: '<%= namespace %>',
-		portletURL: '<%= portletURL %>',
+		portletURL: '<%= HtmlUtil.escapeJS(portletURL.toString()) %>',
 		selectedItems: <%= jsonSerializer.serializeDeep(selectedItems) %>,
 		selectedItemsKey: '<%= selectedItemsKey %>',
 		selectionType: '<%= selectionType %>',
