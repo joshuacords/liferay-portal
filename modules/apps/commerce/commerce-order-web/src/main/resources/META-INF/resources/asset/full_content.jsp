@@ -45,7 +45,7 @@ CommerceOrder commerceOrder = (CommerceOrder)request.getAttribute(CommerceOrderC
 			<liferay-ui:search-container-column-text
 				cssClass="table-cell-content"
 				name="name"
-				value="<%= commerceOrderItem.getName(locale) %>"
+				value="<%= HtmlUtil.escape(commerceOrderItem.getName(locale)) %>"
 			/>
 
 			<liferay-ui:search-container-column-text
@@ -60,7 +60,7 @@ CommerceOrder commerceOrder = (CommerceOrder)request.getAttribute(CommerceOrderC
 			<liferay-ui:search-container-column-text
 				cssClass="table-cell-content"
 				name="price"
-				value="<%= finalPriceMoney.format(locale) %>"
+				value="<%= HtmlUtil.escape(finalPriceMoney.format(locale)) %>"
 			/>
 		</liferay-ui:search-container-row>
 
