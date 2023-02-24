@@ -117,8 +117,6 @@
 
 		name="{$name}"
 
-		type="text"
-
 		data-oninput="{$_handleFieldChanged}"
 
 		data-onfocus="{$_handleFieldFocused}"
@@ -129,7 +127,9 @@
 			placeholder="{$placeholder}"
 		{/if}
 
-		type="text"
+		{if $displayStyle != 'multiline'}
+			type="text"
+		{/if}
 
 		data-onblur="{$_handleFieldBlurred}"
 
