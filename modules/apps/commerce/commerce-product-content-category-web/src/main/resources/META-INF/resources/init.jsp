@@ -29,6 +29,7 @@ page import="com.liferay.commerce.product.content.category.web.internal.display.
 page import="com.liferay.commerce.product.content.category.web.internal.portlet.CPCategoryContentPortlet" %><%@
 page import="com.liferay.portal.kernel.language.LanguageUtil" %><%@
 page import="com.liferay.portal.kernel.util.Constants" %><%@
+page import="com.liferay.portal.kernel.util.HtmlUtil" %><%@
 page import="com.liferay.portal.kernel.util.PortalUtil" %><%@
 page import="com.liferay.portal.kernel.util.Validator" %><%@
 page import="com.liferay.portal.kernel.util.WebKeys" %>
