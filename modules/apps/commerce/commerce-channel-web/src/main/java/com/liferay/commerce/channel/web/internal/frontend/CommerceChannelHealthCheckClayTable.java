@@ -195,12 +195,10 @@ public class CommerceChannelHealthCheckClayTable
 			healthChecks.add(
 				new HealthCheck(
 					commerceChannelHealthStatus.getKey(),
-					HtmlUtil.escape(
-						commerceChannelHealthStatus.getName(
-							_portal.getLocale(httpServletRequest))),
-					HtmlUtil.escape(
-						commerceChannelHealthStatus.getDescription(
-							_portal.getLocale(httpServletRequest)))));
+					commerceChannelHealthStatus.getName(
+						_portal.getLocale(httpServletRequest)),
+					commerceChannelHealthStatus.getDescription(
+						_portal.getLocale(httpServletRequest))));
 		}
 
 		return healthChecks;
