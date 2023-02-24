@@ -31,6 +31,7 @@ page import="com.liferay.commerce.payment.web.internal.display.context.CommerceP
 page import="com.liferay.commerce.payment.web.internal.frontend.CommercePaymentRestrictionsPageClayTable" %><%@
 page import="com.liferay.portal.kernel.bean.BeanParamUtil" %><%@
 page import="com.liferay.portal.kernel.util.Constants" %><%@
+page import="com.liferay.portal.kernel.util.HtmlUtil" %><%@
 page import="com.liferay.portal.kernel.util.Validator" %><%@
 page import="com.liferay.portal.kernel.util.WebKeys" %>
 
