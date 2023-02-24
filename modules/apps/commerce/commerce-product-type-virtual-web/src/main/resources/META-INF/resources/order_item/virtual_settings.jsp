@@ -156,7 +156,8 @@ if ((commerceVirtualOrderItem != null) && (commerceVirtualOrderItem.getDuration(
 
 						fileEntryRemove.removeClass('hide');
 
-						fileEntryNameInput.html('<a>' + value.title + '</a>');
+						fileEntryNameInput.innerText =
+							'<a>' + Liferay.Util.escape(value.title) + '</a>';
 					}
 				}
 			},
@@ -177,7 +178,7 @@ if ((commerceVirtualOrderItem != null) && (commerceVirtualOrderItem.getDuration(
 
 		$('#lfr-virtual-order-item-button-row-message').removeClass('hide');
 
-		fileEntryNameInput.html('<liferay-ui:message key="none" />');
+		fileEntryNameInput.innerText = '<liferay-ui:message key="none" />';
 
 		fileEntryRemove.addClass('hide');
 	});

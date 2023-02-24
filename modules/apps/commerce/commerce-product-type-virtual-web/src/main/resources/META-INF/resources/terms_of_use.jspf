@@ -106,7 +106,7 @@
 
 				journalArticleRemove.removeClass('hide');
 
-				journalArticleNameInput.html(event.assettitle);
+				journalArticleNameInput.innerText = event.assettitle;
 			}
 		);
 	});
@@ -116,7 +116,7 @@
 
 		$('#<portlet:namespace />termsOfUseJournalArticleResourcePrimKey').val(0);
 
-		journalArticleNameInput.html('<liferay-ui:message key="none" />');
+		journalArticleNameInput.innerText = '<liferay-ui:message key="none" />';
 
 		journalArticleRemove.addClass('hide');
 	});
