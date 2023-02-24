@@ -139,7 +139,7 @@ CommerceBOMAdminDisplayContext commerceBOMAdminDisplayContext = (CommerceBOMAdmi
 						cssClass="important table-cell-content"
 						href="<%= rowURL %>"
 						name="name"
-						value="<%= commerceBOMDefinition.getName() %>"
+						value="<%= HtmlUtil.escape(commerceBOMDefinition.getName()) %>"
 					/>
 
 					<liferay-ui:search-container-column-jsp
@@ -159,7 +159,7 @@ CommerceBOMAdminDisplayContext commerceBOMAdminDisplayContext = (CommerceBOMAdmi
 						cssClass="important table-cell-content"
 						href="<%= rowURL %>"
 						name="name"
-						value="<%= commerceBOMFolder.getName() %>"
+						value="<%= HtmlUtil.escape(commerceBOMFolder.getName()) %>"
 					/>
 
 					<liferay-ui:search-container-column-jsp
