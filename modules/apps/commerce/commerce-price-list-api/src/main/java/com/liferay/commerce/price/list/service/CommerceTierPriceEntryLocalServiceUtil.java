@@ -328,13 +328,7 @@ public class CommerceTierPriceEntryLocalServiceUtil {
 			commerceTierPriceEntryId);
 	}
 
-	/**
-	 * Returns the commerce tier price entry with the matching external reference code and company.
-	 *
-	 * @param companyId the primary key of the company
-	 * @param externalReferenceCode the commerce tier price entry's external reference code
-	 * @return the matching commerce tier price entry, or <code>null</code> if a matching commerce tier price entry could not be found
-	 */
+	@Deprecated
 	public static CommerceTierPriceEntry
 		fetchCommerceTierPriceEntryByExternalReferenceCode(
 			long companyId, String externalReferenceCode) {
@@ -343,9 +337,6 @@ public class CommerceTierPriceEntryLocalServiceUtil {
 			companyId, externalReferenceCode);
 	}
 
-	/**
-	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #fetchCommerceTierPriceEntryByExternalReferenceCode(long, String)}
-	 */
 	@Deprecated
 	public static CommerceTierPriceEntry
 		fetchCommerceTierPriceEntryByReferenceCode(
@@ -459,14 +450,7 @@ public class CommerceTierPriceEntryLocalServiceUtil {
 		return getService().getCommerceTierPriceEntry(commerceTierPriceEntryId);
 	}
 
-	/**
-	 * Returns the commerce tier price entry with the matching external reference code and company.
-	 *
-	 * @param companyId the primary key of the company
-	 * @param externalReferenceCode the commerce tier price entry's external reference code
-	 * @return the matching commerce tier price entry
-	 * @throws PortalException if a matching commerce tier price entry could not be found
-	 */
+	@Deprecated
 	public static CommerceTierPriceEntry
 			getCommerceTierPriceEntryByExternalReferenceCode(
 				long companyId, String externalReferenceCode)

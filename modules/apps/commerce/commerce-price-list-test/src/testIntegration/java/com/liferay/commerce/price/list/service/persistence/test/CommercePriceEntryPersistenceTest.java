@@ -15,6 +15,7 @@
 package com.liferay.commerce.price.list.service.persistence.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.commerce.price.list.exception.DuplicateCommercePriceEntryExternalReferenceCodeException;
 import com.liferay.commerce.price.list.exception.NoSuchPriceEntryException;
 import com.liferay.commerce.price.list.model.CommercePriceEntry;
 import com.liferay.commerce.price.list.service.CommercePriceEntryLocalServiceUtil;
@@ -26,6 +27,7 @@ import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
@@ -279,6 +281,28 @@ public class CommercePriceEntryPersistenceTest {
 		Assert.assertEquals(
 			Time.getShortTimestamp(existingCommercePriceEntry.getStatusDate()),
 			Time.getShortTimestamp(newCommercePriceEntry.getStatusDate()));
+	}
+
+	@Test(
+		expected = DuplicateCommercePriceEntryExternalReferenceCodeException.class
+	)
+	public void testUpdateWithExistingExternalReferenceCode() throws Exception {
+		CommercePriceEntry commercePriceEntry = addCommercePriceEntry();
+
+		CommercePriceEntry newCommercePriceEntry = addCommercePriceEntry();
+
+		newCommercePriceEntry.setCompanyId(commercePriceEntry.getCompanyId());
+
+		newCommercePriceEntry = _persistence.update(newCommercePriceEntry);
+
+		Session session = _persistence.getCurrentSession();
+
+		session.evict(newCommercePriceEntry);
+
+		newCommercePriceEntry.setExternalReferenceCode(
+			commercePriceEntry.getExternalReferenceCode());
+
+		_persistence.update(newCommercePriceEntry);
 	}
 
 	@Test

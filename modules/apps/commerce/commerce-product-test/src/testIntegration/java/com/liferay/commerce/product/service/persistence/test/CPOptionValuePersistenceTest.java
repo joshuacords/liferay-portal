@@ -15,6 +15,7 @@
 package com.liferay.commerce.product.service.persistence.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.commerce.product.exception.DuplicateCPOptionValueExternalReferenceCodeException;
 import com.liferay.commerce.product.exception.NoSuchCPOptionValueException;
 import com.liferay.commerce.product.model.CPOptionValue;
 import com.liferay.commerce.product.service.CPOptionValueLocalServiceUtil;
@@ -26,6 +27,7 @@ import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.test.AssertUtils;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
@@ -189,6 +191,26 @@ public class CPOptionValuePersistenceTest {
 		Assert.assertEquals(
 			Time.getShortTimestamp(existingCPOptionValue.getLastPublishDate()),
 			Time.getShortTimestamp(newCPOptionValue.getLastPublishDate()));
+	}
+
+	@Test(expected = DuplicateCPOptionValueExternalReferenceCodeException.class)
+	public void testUpdateWithExistingExternalReferenceCode() throws Exception {
+		CPOptionValue cpOptionValue = addCPOptionValue();
+
+		CPOptionValue newCPOptionValue = addCPOptionValue();
+
+		newCPOptionValue.setCompanyId(cpOptionValue.getCompanyId());
+
+		newCPOptionValue = _persistence.update(newCPOptionValue);
+
+		Session session = _persistence.getCurrentSession();
+
+		session.evict(newCPOptionValue);
+
+		newCPOptionValue.setExternalReferenceCode(
+			cpOptionValue.getExternalReferenceCode());
+
+		_persistence.update(newCPOptionValue);
 	}
 
 	@Test

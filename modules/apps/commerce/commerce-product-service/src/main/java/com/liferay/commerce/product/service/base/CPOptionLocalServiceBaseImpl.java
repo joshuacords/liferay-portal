@@ -279,13 +279,7 @@ public abstract class CPOptionLocalServiceBaseImpl
 		return cpOptionPersistence.fetchByUuid_C_First(uuid, companyId, null);
 	}
 
-	/**
-	 * Returns the cp option with the matching external reference code and company.
-	 *
-	 * @param companyId the primary key of the company
-	 * @param externalReferenceCode the cp option's external reference code
-	 * @return the matching cp option, or <code>null</code> if a matching cp option could not be found
-	 */
+	@Deprecated
 	@Override
 	public CPOption fetchCPOptionByExternalReferenceCode(
 		long companyId, String externalReferenceCode) {
@@ -294,9 +288,6 @@ public abstract class CPOptionLocalServiceBaseImpl
 			companyId, externalReferenceCode);
 	}
 
-	/**
-	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #fetchCPOptionByExternalReferenceCode(long, String)}
-	 */
 	@Deprecated
 	@Override
 	public CPOption fetchCPOptionByReferenceCode(
@@ -306,14 +297,7 @@ public abstract class CPOptionLocalServiceBaseImpl
 			companyId, externalReferenceCode);
 	}
 
-	/**
-	 * Returns the cp option with the matching external reference code and company.
-	 *
-	 * @param companyId the primary key of the company
-	 * @param externalReferenceCode the cp option's external reference code
-	 * @return the matching cp option
-	 * @throws PortalException if a matching cp option could not be found
-	 */
+	@Deprecated
 	@Override
 	public CPOption getCPOptionByExternalReferenceCode(
 			long companyId, String externalReferenceCode)

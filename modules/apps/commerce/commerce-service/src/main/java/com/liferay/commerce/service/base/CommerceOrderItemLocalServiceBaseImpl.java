@@ -262,13 +262,7 @@ public abstract class CommerceOrderItemLocalServiceBaseImpl
 			commerceOrderItemId);
 	}
 
-	/**
-	 * Returns the commerce order item with the matching external reference code and company.
-	 *
-	 * @param companyId the primary key of the company
-	 * @param externalReferenceCode the commerce order item's external reference code
-	 * @return the matching commerce order item, or <code>null</code> if a matching commerce order item could not be found
-	 */
+	@Deprecated
 	@Override
 	public CommerceOrderItem fetchCommerceOrderItemByExternalReferenceCode(
 		long companyId, String externalReferenceCode) {
@@ -277,9 +271,6 @@ public abstract class CommerceOrderItemLocalServiceBaseImpl
 			companyId, externalReferenceCode);
 	}
 
-	/**
-	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #fetchCommerceOrderItemByExternalReferenceCode(long, String)}
-	 */
 	@Deprecated
 	@Override
 	public CommerceOrderItem fetchCommerceOrderItemByReferenceCode(
@@ -289,14 +280,7 @@ public abstract class CommerceOrderItemLocalServiceBaseImpl
 			companyId, externalReferenceCode);
 	}
 
-	/**
-	 * Returns the commerce order item with the matching external reference code and company.
-	 *
-	 * @param companyId the primary key of the company
-	 * @param externalReferenceCode the commerce order item's external reference code
-	 * @return the matching commerce order item
-	 * @throws PortalException if a matching commerce order item could not be found
-	 */
+	@Deprecated
 	@Override
 	public CommerceOrderItem getCommerceOrderItemByExternalReferenceCode(
 			long companyId, String externalReferenceCode)

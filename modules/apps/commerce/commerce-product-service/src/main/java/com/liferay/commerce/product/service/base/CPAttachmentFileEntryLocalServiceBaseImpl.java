@@ -304,13 +304,7 @@ public abstract class CPAttachmentFileEntryLocalServiceBaseImpl
 		return cpAttachmentFileEntryPersistence.fetchByUUID_G(uuid, groupId);
 	}
 
-	/**
-	 * Returns the cp attachment file entry with the matching external reference code and company.
-	 *
-	 * @param companyId the primary key of the company
-	 * @param externalReferenceCode the cp attachment file entry's external reference code
-	 * @return the matching cp attachment file entry, or <code>null</code> if a matching cp attachment file entry could not be found
-	 */
+	@Deprecated
 	@Override
 	public CPAttachmentFileEntry
 		fetchCPAttachmentFileEntryByExternalReferenceCode(
@@ -320,9 +314,6 @@ public abstract class CPAttachmentFileEntryLocalServiceBaseImpl
 			companyId, externalReferenceCode);
 	}
 
-	/**
-	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #fetchCPAttachmentFileEntryByExternalReferenceCode(long, String)}
-	 */
 	@Deprecated
 	@Override
 	public CPAttachmentFileEntry fetchCPAttachmentFileEntryByReferenceCode(
@@ -332,14 +323,7 @@ public abstract class CPAttachmentFileEntryLocalServiceBaseImpl
 			companyId, externalReferenceCode);
 	}
 
-	/**
-	 * Returns the cp attachment file entry with the matching external reference code and company.
-	 *
-	 * @param companyId the primary key of the company
-	 * @param externalReferenceCode the cp attachment file entry's external reference code
-	 * @return the matching cp attachment file entry
-	 * @throws PortalException if a matching cp attachment file entry could not be found
-	 */
+	@Deprecated
 	@Override
 	public CPAttachmentFileEntry
 			getCPAttachmentFileEntryByExternalReferenceCode(

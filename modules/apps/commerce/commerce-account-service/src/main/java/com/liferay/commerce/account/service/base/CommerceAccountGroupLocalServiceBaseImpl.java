@@ -256,13 +256,7 @@ public abstract class CommerceAccountGroupLocalServiceBaseImpl
 			commerceAccountGroupId);
 	}
 
-	/**
-	 * Returns the commerce account group with the matching external reference code and company.
-	 *
-	 * @param companyId the primary key of the company
-	 * @param externalReferenceCode the commerce account group's external reference code
-	 * @return the matching commerce account group, or <code>null</code> if a matching commerce account group could not be found
-	 */
+	@Deprecated
 	@Override
 	public CommerceAccountGroup
 		fetchCommerceAccountGroupByExternalReferenceCode(
@@ -272,9 +266,6 @@ public abstract class CommerceAccountGroupLocalServiceBaseImpl
 			companyId, externalReferenceCode);
 	}
 
-	/**
-	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #fetchCommerceAccountGroupByExternalReferenceCode(long, String)}
-	 */
 	@Deprecated
 	@Override
 	public CommerceAccountGroup fetchCommerceAccountGroupByReferenceCode(
@@ -284,14 +275,7 @@ public abstract class CommerceAccountGroupLocalServiceBaseImpl
 			companyId, externalReferenceCode);
 	}
 
-	/**
-	 * Returns the commerce account group with the matching external reference code and company.
-	 *
-	 * @param companyId the primary key of the company
-	 * @param externalReferenceCode the commerce account group's external reference code
-	 * @return the matching commerce account group
-	 * @throws PortalException if a matching commerce account group could not be found
-	 */
+	@Deprecated
 	@Override
 	public CommerceAccountGroup getCommerceAccountGroupByExternalReferenceCode(
 			long companyId, String externalReferenceCode)

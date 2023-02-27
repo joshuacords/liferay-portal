@@ -15,6 +15,7 @@
 package com.liferay.commerce.discount.service.persistence.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.commerce.discount.exception.DuplicateCommerceDiscountExternalReferenceCodeException;
 import com.liferay.commerce.discount.exception.NoSuchDiscountException;
 import com.liferay.commerce.discount.model.CommerceDiscount;
 import com.liferay.commerce.discount.service.CommerceDiscountLocalServiceUtil;
@@ -26,6 +27,7 @@ import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
@@ -296,6 +298,28 @@ public class CommerceDiscountPersistenceTest {
 		Assert.assertEquals(
 			Time.getShortTimestamp(existingCommerceDiscount.getStatusDate()),
 			Time.getShortTimestamp(newCommerceDiscount.getStatusDate()));
+	}
+
+	@Test(
+		expected = DuplicateCommerceDiscountExternalReferenceCodeException.class
+	)
+	public void testUpdateWithExistingExternalReferenceCode() throws Exception {
+		CommerceDiscount commerceDiscount = addCommerceDiscount();
+
+		CommerceDiscount newCommerceDiscount = addCommerceDiscount();
+
+		newCommerceDiscount.setCompanyId(commerceDiscount.getCompanyId());
+
+		newCommerceDiscount = _persistence.update(newCommerceDiscount);
+
+		Session session = _persistence.getCurrentSession();
+
+		session.evict(newCommerceDiscount);
+
+		newCommerceDiscount.setExternalReferenceCode(
+			commerceDiscount.getExternalReferenceCode());
+
+		_persistence.update(newCommerceDiscount);
 	}
 
 	@Test

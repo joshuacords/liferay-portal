@@ -15,6 +15,7 @@
 package com.liferay.commerce.service.persistence.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.commerce.exception.DuplicateCommerceOrderExternalReferenceCodeException;
 import com.liferay.commerce.exception.NoSuchOrderException;
 import com.liferay.commerce.model.CommerceOrder;
 import com.liferay.commerce.service.CommerceOrderLocalServiceUtil;
@@ -26,6 +27,7 @@ import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
@@ -524,6 +526,26 @@ public class CommerceOrderPersistenceTest {
 		Assert.assertEquals(
 			Time.getShortTimestamp(existingCommerceOrder.getStatusDate()),
 			Time.getShortTimestamp(newCommerceOrder.getStatusDate()));
+	}
+
+	@Test(expected = DuplicateCommerceOrderExternalReferenceCodeException.class)
+	public void testUpdateWithExistingExternalReferenceCode() throws Exception {
+		CommerceOrder commerceOrder = addCommerceOrder();
+
+		CommerceOrder newCommerceOrder = addCommerceOrder();
+
+		newCommerceOrder.setCompanyId(commerceOrder.getCompanyId());
+
+		newCommerceOrder = _persistence.update(newCommerceOrder);
+
+		Session session = _persistence.getCurrentSession();
+
+		session.evict(newCommerceOrder);
+
+		newCommerceOrder.setExternalReferenceCode(
+			commerceOrder.getExternalReferenceCode());
+
+		_persistence.update(newCommerceOrder);
 	}
 
 	@Test

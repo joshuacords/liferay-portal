@@ -250,13 +250,7 @@ public class CommerceAccountGroupCommerceAccountRelLocalServiceUtil {
 			commerceAccountGroupId, commerceAccountId);
 	}
 
-	/**
-	 * Returns the commerce account group commerce account rel with the matching external reference code and company.
-	 *
-	 * @param companyId the primary key of the company
-	 * @param externalReferenceCode the commerce account group commerce account rel's external reference code
-	 * @return the matching commerce account group commerce account rel, or <code>null</code> if a matching commerce account group commerce account rel could not be found
-	 */
+	@Deprecated
 	public static CommerceAccountGroupCommerceAccountRel
 		fetchCommerceAccountGroupCommerceAccountRelByExternalReferenceCode(
 			long companyId, String externalReferenceCode) {
@@ -266,9 +260,6 @@ public class CommerceAccountGroupCommerceAccountRelLocalServiceUtil {
 				companyId, externalReferenceCode);
 	}
 
-	/**
-	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #fetchCommerceAccountGroupCommerceAccountRelByExternalReferenceCode(long, String)}
-	 */
 	@Deprecated
 	public static CommerceAccountGroupCommerceAccountRel
 		fetchCommerceAccountGroupCommerceAccountRelByReferenceCode(
@@ -310,14 +301,7 @@ public class CommerceAccountGroupCommerceAccountRelLocalServiceUtil {
 			commerceAccountGroupId, commerceAccountId);
 	}
 
-	/**
-	 * Returns the commerce account group commerce account rel with the matching external reference code and company.
-	 *
-	 * @param companyId the primary key of the company
-	 * @param externalReferenceCode the commerce account group commerce account rel's external reference code
-	 * @return the matching commerce account group commerce account rel
-	 * @throws PortalException if a matching commerce account group commerce account rel could not be found
-	 */
+	@Deprecated
 	public static CommerceAccountGroupCommerceAccountRel
 			getCommerceAccountGroupCommerceAccountRelByExternalReferenceCode(
 				long companyId, String externalReferenceCode)

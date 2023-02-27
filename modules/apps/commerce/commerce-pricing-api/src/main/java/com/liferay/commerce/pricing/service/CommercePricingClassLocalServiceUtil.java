@@ -237,13 +237,7 @@ public class CommercePricingClassLocalServiceUtil {
 		return getService().fetchCommercePricingClass(commercePricingClassId);
 	}
 
-	/**
-	 * Returns the commerce pricing class with the matching external reference code and company.
-	 *
-	 * @param companyId the primary key of the company
-	 * @param externalReferenceCode the commerce pricing class's external reference code
-	 * @return the matching commerce pricing class, or <code>null</code> if a matching commerce pricing class could not be found
-	 */
+	@Deprecated
 	public static CommercePricingClass
 		fetchCommercePricingClassByExternalReferenceCode(
 			long companyId, String externalReferenceCode) {
@@ -252,9 +246,6 @@ public class CommercePricingClassLocalServiceUtil {
 			companyId, externalReferenceCode);
 	}
 
-	/**
-	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #fetchCommercePricingClassByExternalReferenceCode(long, String)}
-	 */
 	@Deprecated
 	public static CommercePricingClass fetchCommercePricingClassByReferenceCode(
 		long companyId, String externalReferenceCode) {
@@ -305,14 +296,7 @@ public class CommercePricingClassLocalServiceUtil {
 			cpDefinitionId);
 	}
 
-	/**
-	 * Returns the commerce pricing class with the matching external reference code and company.
-	 *
-	 * @param companyId the primary key of the company
-	 * @param externalReferenceCode the commerce pricing class's external reference code
-	 * @return the matching commerce pricing class
-	 * @throws PortalException if a matching commerce pricing class could not be found
-	 */
+	@Deprecated
 	public static CommercePricingClass
 			getCommercePricingClassByExternalReferenceCode(
 				long companyId, String externalReferenceCode)

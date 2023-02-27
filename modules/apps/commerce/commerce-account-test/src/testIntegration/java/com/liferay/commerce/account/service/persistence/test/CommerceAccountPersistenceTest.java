@@ -15,6 +15,7 @@
 package com.liferay.commerce.account.service.persistence.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.commerce.account.exception.DuplicateCommerceAccountExternalReferenceCodeException;
 import com.liferay.commerce.account.exception.NoSuchAccountException;
 import com.liferay.commerce.account.model.CommerceAccount;
 import com.liferay.commerce.account.service.CommerceAccountLocalServiceUtil;
@@ -26,6 +27,7 @@ import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
@@ -241,6 +243,28 @@ public class CommerceAccountPersistenceTest {
 		Assert.assertEquals(
 			Time.getShortTimestamp(existingCommerceAccount.getStatusDate()),
 			Time.getShortTimestamp(newCommerceAccount.getStatusDate()));
+	}
+
+	@Test(
+		expected = DuplicateCommerceAccountExternalReferenceCodeException.class
+	)
+	public void testUpdateWithExistingExternalReferenceCode() throws Exception {
+		CommerceAccount commerceAccount = addCommerceAccount();
+
+		CommerceAccount newCommerceAccount = addCommerceAccount();
+
+		newCommerceAccount.setCompanyId(commerceAccount.getCompanyId());
+
+		newCommerceAccount = _persistence.update(newCommerceAccount);
+
+		Session session = _persistence.getCurrentSession();
+
+		session.evict(newCommerceAccount);
+
+		newCommerceAccount.setExternalReferenceCode(
+			commerceAccount.getExternalReferenceCode());
+
+		_persistence.update(newCommerceAccount);
 	}
 
 	@Test

@@ -15,6 +15,7 @@
 package com.liferay.commerce.product.service.persistence.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.commerce.product.exception.DuplicateCPAttachmentFileEntryExternalReferenceCodeException;
 import com.liferay.commerce.product.exception.NoSuchCPAttachmentFileEntryException;
 import com.liferay.commerce.product.model.CPAttachmentFileEntry;
 import com.liferay.commerce.product.service.CPAttachmentFileEntryLocalServiceUtil;
@@ -26,6 +27,7 @@ import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.test.AssertUtils;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
@@ -258,6 +260,32 @@ public class CPAttachmentFileEntryPersistenceTest {
 			Time.getShortTimestamp(
 				existingCPAttachmentFileEntry.getStatusDate()),
 			Time.getShortTimestamp(newCPAttachmentFileEntry.getStatusDate()));
+	}
+
+	@Test(
+		expected = DuplicateCPAttachmentFileEntryExternalReferenceCodeException.class
+	)
+	public void testUpdateWithExistingExternalReferenceCode() throws Exception {
+		CPAttachmentFileEntry cpAttachmentFileEntry =
+			addCPAttachmentFileEntry();
+
+		CPAttachmentFileEntry newCPAttachmentFileEntry =
+			addCPAttachmentFileEntry();
+
+		newCPAttachmentFileEntry.setCompanyId(
+			cpAttachmentFileEntry.getCompanyId());
+
+		newCPAttachmentFileEntry = _persistence.update(
+			newCPAttachmentFileEntry);
+
+		Session session = _persistence.getCurrentSession();
+
+		session.evict(newCPAttachmentFileEntry);
+
+		newCPAttachmentFileEntry.setExternalReferenceCode(
+			cpAttachmentFileEntry.getExternalReferenceCode());
+
+		_persistence.update(newCPAttachmentFileEntry);
 	}
 
 	@Test

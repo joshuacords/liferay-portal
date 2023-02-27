@@ -15,6 +15,7 @@
 package com.liferay.commerce.product.service.persistence.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.commerce.product.exception.DuplicateCPInstanceExternalReferenceCodeException;
 import com.liferay.commerce.product.exception.NoSuchCPInstanceException;
 import com.liferay.commerce.product.model.CPInstance;
 import com.liferay.commerce.product.service.CPInstanceLocalServiceUtil;
@@ -26,6 +27,7 @@ import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.test.AssertUtils;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
@@ -328,6 +330,26 @@ public class CPInstancePersistenceTest {
 		Assert.assertEquals(
 			Time.getShortTimestamp(existingCPInstance.getStatusDate()),
 			Time.getShortTimestamp(newCPInstance.getStatusDate()));
+	}
+
+	@Test(expected = DuplicateCPInstanceExternalReferenceCodeException.class)
+	public void testUpdateWithExistingExternalReferenceCode() throws Exception {
+		CPInstance cpInstance = addCPInstance();
+
+		CPInstance newCPInstance = addCPInstance();
+
+		newCPInstance.setCompanyId(cpInstance.getCompanyId());
+
+		newCPInstance = _persistence.update(newCPInstance);
+
+		Session session = _persistence.getCurrentSession();
+
+		session.evict(newCPInstance);
+
+		newCPInstance.setExternalReferenceCode(
+			cpInstance.getExternalReferenceCode());
+
+		_persistence.update(newCPInstance);
 	}
 
 	@Test

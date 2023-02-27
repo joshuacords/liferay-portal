@@ -799,13 +799,7 @@ public class CPInstanceLocalServiceWrapper
 		return _cpInstanceLocalService.fetchCPInstance(CPInstanceId);
 	}
 
-	/**
-	 * Returns the cp instance with the matching external reference code and company.
-	 *
-	 * @param companyId the primary key of the company
-	 * @param externalReferenceCode the cp instance's external reference code
-	 * @return the matching cp instance, or <code>null</code> if a matching cp instance could not be found
-	 */
+	@Deprecated
 	@Override
 	public com.liferay.commerce.product.model.CPInstance
 		fetchCPInstanceByExternalReferenceCode(
@@ -815,9 +809,6 @@ public class CPInstanceLocalServiceWrapper
 			companyId, externalReferenceCode);
 	}
 
-	/**
-	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #fetchCPInstanceByExternalReferenceCode(long, String)}
-	 */
 	@Deprecated
 	@Override
 	public com.liferay.commerce.product.model.CPInstance
@@ -942,14 +933,7 @@ public class CPInstanceLocalServiceWrapper
 		return _cpInstanceLocalService.getCPInstance(cpDefinitionId, sku);
 	}
 
-	/**
-	 * Returns the cp instance with the matching external reference code and company.
-	 *
-	 * @param companyId the primary key of the company
-	 * @param externalReferenceCode the cp instance's external reference code
-	 * @return the matching cp instance
-	 * @throws PortalException if a matching cp instance could not be found
-	 */
+	@Deprecated
 	@Override
 	public com.liferay.commerce.product.model.CPInstance
 			getCPInstanceByExternalReferenceCode(

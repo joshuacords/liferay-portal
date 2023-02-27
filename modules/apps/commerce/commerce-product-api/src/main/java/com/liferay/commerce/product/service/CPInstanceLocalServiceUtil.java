@@ -766,13 +766,7 @@ public class CPInstanceLocalServiceUtil {
 		return getService().fetchCPInstance(CPInstanceId);
 	}
 
-	/**
-	 * Returns the cp instance with the matching external reference code and company.
-	 *
-	 * @param companyId the primary key of the company
-	 * @param externalReferenceCode the cp instance's external reference code
-	 * @return the matching cp instance, or <code>null</code> if a matching cp instance could not be found
-	 */
+	@Deprecated
 	public static CPInstance fetchCPInstanceByExternalReferenceCode(
 		long companyId, String externalReferenceCode) {
 
@@ -780,9 +774,6 @@ public class CPInstanceLocalServiceUtil {
 			companyId, externalReferenceCode);
 	}
 
-	/**
-	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #fetchCPInstanceByExternalReferenceCode(long, String)}
-	 */
 	@Deprecated
 	public static CPInstance fetchCPInstanceByReferenceCode(
 		long companyId, String externalReferenceCode) {
@@ -889,14 +880,7 @@ public class CPInstanceLocalServiceUtil {
 		return getService().getCPInstance(cpDefinitionId, sku);
 	}
 
-	/**
-	 * Returns the cp instance with the matching external reference code and company.
-	 *
-	 * @param companyId the primary key of the company
-	 * @param externalReferenceCode the cp instance's external reference code
-	 * @return the matching cp instance
-	 * @throws PortalException if a matching cp instance could not be found
-	 */
+	@Deprecated
 	public static CPInstance getCPInstanceByExternalReferenceCode(
 			long companyId, String externalReferenceCode)
 		throws PortalException {
