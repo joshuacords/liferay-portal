@@ -382,7 +382,11 @@ public class CustomerPortalReleaseImpl implements CustomerPortalRelease {
 			return LanguageUtil.format(
 				resourceBundle,
 				"you-have-been-invited-to-the-liferay-project-x",
-				HtmlUtil.escape(account.getName()));
+				StringBundler.concat(
+					"<br /><a href=\"https://support.liferay.com/project/#/",
+					HtmlUtil.escape(account.getKey()),
+					"\" style=\"text-decoration: none\">",
+					HtmlUtil.escape(account.getName()), "</a>"));
 		}
 
 		StringBundler sb = new StringBundler();
@@ -391,15 +395,15 @@ public class CustomerPortalReleaseImpl implements CustomerPortalRelease {
 			LanguageUtil.get(
 				resourceBundle,
 				"you-have-been-invited-to-the-following-liferay-projects"));
-		sb.append("<br /><ul>");
+		sb.append("<br />");
 
 		for (Account account : accounts) {
-			sb.append("<li>");
+			sb.append("<a href=\"https://support.liferay.com/project/#/");
+			sb.append(HtmlUtil.escape(account.getKey()));
+			sb.append("\" style=\"text-decoration: none\">");
 			sb.append(HtmlUtil.escape(account.getName()));
-			sb.append("</li>");
+			sb.append("</a><br />");
 		}
-
-		sb.append("</ul>");
 
 		return sb.toString();
 	}
@@ -725,6 +729,8 @@ public class CustomerPortalReleaseImpl implements CustomerPortalRelease {
 			Account account = accounts[0];
 
 			subscriptionSender.setContextAttribute(
+				"[$ACCOUNT_KEY$]", account.getKey());
+			subscriptionSender.setContextAttribute(
 				"[$ACCOUNT_NAME$]", account.getName());
 		}
 
@@ -734,8 +740,6 @@ public class CustomerPortalReleaseImpl implements CustomerPortalRelease {
 		subscriptionSender.setContextAttribute(
 			"[$CONTACT_ROLE_ACTIONS_LIST$]",
 			_getRoleActionsList(contact, accounts, resourceBundle), false);
-		subscriptionSender.setContextAttributes(
-			"[$TO_NAME$]", _getContactFullName(contact));
 		subscriptionSender.setFrom(
 			provisioningEmailAddress, "Liferay Provisioning");
 		subscriptionSender.setHtmlFormat(true);

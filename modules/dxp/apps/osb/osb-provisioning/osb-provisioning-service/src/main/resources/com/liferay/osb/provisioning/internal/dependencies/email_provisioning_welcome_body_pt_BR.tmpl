@@ -1,46 +1,120 @@
-<img src="https://www.liferay.com/osb-portlet/images/top_image.png"
-	height="78"
-	width="78"
-/>
+<div class="center">
+	<img src="https://www.liferay.com/osb-portlet/images/header_logo.png"
+		alt="Liferay"
+		flex="none"
+		height="47"
+		left="48"
+		top="48"
+		width="147"
+	/>
+</div>
 
 <br />
 
-<img src="https://www.liferay.com/osb-portlet/images/header_logo.png"
-	alt="Liferay"
-	height="47"
-	style="margin-left: 50px;"
-	width="147"
-/>
+<div class="line"></div>
 
 <br /><br />
 
-<div style="margin-left: 50px; margin-right: 50px;">
-	Hi [$TO_NAME$],<br /><br />
+<div class="text">
+	<div class="header">
+		[$ACCOUNT_INVITATION_MESSAGE$]
+	</div>
 
-	[$ACCOUNT_INVITATION_MESSAGE$] Access your project pages in Liferay's <a href="https://support.liferay.com">Help Center</a> in order to:
-	
+	<br />
+
+	<b>Faça login ou crie uma conta em Liferay.com para:</b><br />
 	[$CONTACT_ROLE_ACTIONS_LIST$]
 
-	We're excited to see what experiences you'll create with Liferay.<br /><br />
+	<br /><br />
 
-	Sincerely,<br />
-	Liferay Support
+	<a href="https://support.liferay.com/project/#/[$ACCOUNT_KEY$]" class="button" style="text-decoration: none"><span class="button-text">Começar →</span></a>
+
+	<br />
+
+	<div class="secondary-text">
+		OU copie e cole o link abaixo em seu navegador<br /><br />
+		<a href="https://support.liferay.com/project/#/[$ACCOUNT_KEY$]"><span class="secondary-text">https://support.liferay.com/project/#/[$ACCOUNT_KEY$]</span></a><br /><br />
+	</div>
+
+	<br />
+
+	Contatos que não existam no sistema receberão um e-mail separadamente para ativar as contas. Em breve você receberá um e-mail nosso na sua caixa de entrada.<br /><br />
+
+	Caso você não receba o e-mail, por favor entre em <a href="mailto:customer.service@liferay.com">contato com o nosso suporte</a>.
 </div>
 
 <br /><br />
 
-<img src="https://www.liferay.com/osb-portlet/images/footer_image.png"
-	height="18"
-	width="100%"
-/>
+<div class="line"></div>
 
 <br /><br />
 
-<a href="https://www.liferay.com" style="margin-left: 50px;">www.liferay.com</a>
+<div class="center">
+	<div class="secondary-text">
+		This email was sent by <a href="https://liferay.com">Liferay, Inc.</a>
+	</div>
 
-<img src="https://www.liferay.com/osb-portlet/images/footer_logo.png"
-	align="right"
-	height="23"
-	style="margin-right: 50px;"
-	width="72"
-/>
+	<br /><br />
+
+	<img src="https://www.liferay.com/osb-portlet/images/header_logo.png"
+		alt="Liferay"
+		flex="none"
+		height="47"
+		left="48"
+		top="48"
+		width="147"
+	/>
+
+	<br /><br />
+
+	<div class="secondary-text">
+		Copyright© Liferay, Inc.<br />
+		1400 Montefino Ave<br />
+		Diamond Bar, CA 91765
+	</div>
+</div>
+
+<style>
+	.button {
+		align-items: center;
+		background: #0B5FFF;
+		border-radius: 4px;
+		display: flex;
+		gap: 8px;
+		height: 21px;
+		justify-content: center;
+		padding: 10px 25px;
+		width: 117px;
+	}
+
+	.button-text {
+		color: #ffffff;
+		font-size: 15px;
+	}
+
+	.center {
+		text-align: center;
+	}
+
+	.header {
+		font-weight: 700;
+		font-size: 25px;
+		line-height: 125%;
+	}
+
+	.line {
+		border-bottom:1px solid #000
+	}
+
+	.secondary-text {
+		color: #6B6C7E;
+		font-size: small;
+	}
+
+	.text {
+		font-family: 'sans-serif';
+		font-style: normal;
+		margin-left: 50px;
+		margin-right: 50px;
+	}
+</style>
