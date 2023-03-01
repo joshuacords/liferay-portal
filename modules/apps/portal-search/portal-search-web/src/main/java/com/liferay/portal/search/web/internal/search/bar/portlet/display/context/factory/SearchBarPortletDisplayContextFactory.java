@@ -354,10 +354,10 @@ public class SearchBarPortletDisplayContextFactory {
 	}
 
 	private String _getDestinationURL(
-		String destinationString, ThemeDisplay themeDisplay) {
+		String destinationFriendlyURL, ThemeDisplay themeDisplay) {
 
 		Layout layout = fetchLayoutByFriendlyURL(
-			themeDisplay.getScopeGroupId(), _slashify(destinationString));
+			themeDisplay.getScopeGroupId(), _slashify(destinationFriendlyURL));
 
 		if (layout == null) {
 			return null;
