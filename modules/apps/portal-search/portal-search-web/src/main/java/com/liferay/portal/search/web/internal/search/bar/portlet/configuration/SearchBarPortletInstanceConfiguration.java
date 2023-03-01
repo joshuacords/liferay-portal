@@ -58,6 +58,6 @@ public interface SearchBarPortletInstanceConfiguration {
 	public int suggestionsDisplayThreshold();
 
 	@Meta.AD(deflt = "", name = "destination", required = false)
-	public String destination();
+	public String destinationFriendlyURL();
 
 }
