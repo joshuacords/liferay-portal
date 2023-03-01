@@ -95,16 +95,16 @@ public class SearchBarPortletDisplayContextFactory {
 		ThemeDisplay themeDisplay = (ThemeDisplay)_renderRequest.getAttribute(
 			WebKeys.THEME_DISPLAY);
 
-		String destination =
-			_searchBarPortletInstanceConfiguration.destination();
+		String destinationFriendlyURL =
+			_searchBarPortletInstanceConfiguration.destinationFriendlyURL();
 
-		if (Validator.isBlank(destination)) {
+		if (Validator.isBlank(destinationFriendlyURL)) {
 			searchBarPortletDisplayContext.setDestinationURL(
 				_getURLCurrentPath(themeDisplay));
 		}
 		else {
 			String destinationURL = _getDestinationURL(
-				destination, themeDisplay);
+				destinationFriendlyURL, themeDisplay);
 
 			if (destinationURL == null) {
 				searchBarPortletDisplayContext.setDestinationUnreachable(true);
@@ -132,7 +132,8 @@ public class SearchBarPortletDisplayContextFactory {
 			isAvailableEverythingSearchScope());
 		searchBarPortletDisplayContext.setCurrentSiteSearchScopeParameterString(
 			SearchScope.THIS_SITE.getParameterString());
-		searchBarPortletDisplayContext.setDestinationFriendlyURL(destination);
+		searchBarPortletDisplayContext.setDestinationFriendlyURL(
+			destinationFriendlyURL);
 		searchBarPortletDisplayContext.setDisplayStyleGroupId(
 			getDisplayStyleGroupId(
 				searchBarPortletInstanceConfiguration, themeDisplay));
