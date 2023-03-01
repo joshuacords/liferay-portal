@@ -381,11 +381,11 @@ public abstract class BaseKeywordResourceTestCase {
 		keywordResource.deleteKeyword(keyword2.getId());
 	}
 
-	protected Map<String, Map> testGetSiteKeywordsPage_getExpectedActions(
-			Long siteId)
+	protected Map<String, Map<String, String>>
+			testGetSiteKeywordsPage_getExpectedActions(Long siteId)
 		throws Exception {
 
-		Map<String, Map> expectedActions = new HashMap<>();
+		Map<String, Map<String, String>> expectedActions = new HashMap<>();
 
 		Map createBatchAction = new HashMap<>();
 		createBatchAction.put("method", "POST");
@@ -963,7 +963,7 @@ public abstract class BaseKeywordResourceTestCase {
 	}
 
 	protected void assertValid(
-		Page<Keyword> page, Map<String, Map> expectedActions) {
+		Page<Keyword> page, Map<String, Map<String, String>> expectedActions) {
 
 		boolean valid = false;
 
@@ -980,7 +980,7 @@ public abstract class BaseKeywordResourceTestCase {
 
 		Assert.assertTrue(valid);
 
-		Map<String, Map> actions = page.getActions();
+		Map<String, Map<String, String>> actions = page.getActions();
 
 		for (String key : expectedActions.keySet()) {
 			Map action = actions.get(key);

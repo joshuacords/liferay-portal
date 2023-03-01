@@ -268,12 +268,12 @@ public abstract class BaseDocumentResourceTestCase {
 		documentResource.deleteDocument(document2.getId());
 	}
 
-	protected Map<String, Map>
+	protected Map<String, Map<String, String>>
 			testGetDocumentFolderDocumentsPage_getExpectedActions(
 				Long documentFolderId)
 		throws Exception {
 
-		Map<String, Map> expectedActions = new HashMap<>();
+		Map<String, Map<String, String>> expectedActions = new HashMap<>();
 
 		Map createBatchAction = new HashMap<>();
 		createBatchAction.put("method", "POST");
@@ -865,11 +865,11 @@ public abstract class BaseDocumentResourceTestCase {
 		documentResource.deleteDocument(document2.getId());
 	}
 
-	protected Map<String, Map> testGetSiteDocumentsPage_getExpectedActions(
-			Long siteId)
+	protected Map<String, Map<String, String>>
+			testGetSiteDocumentsPage_getExpectedActions(Long siteId)
 		throws Exception {
 
-		Map<String, Map> expectedActions = new HashMap<>();
+		Map<String, Map<String, String>> expectedActions = new HashMap<>();
 
 		Map createBatchAction = new HashMap<>();
 		createBatchAction.put("method", "POST");
@@ -1646,7 +1646,7 @@ public abstract class BaseDocumentResourceTestCase {
 	}
 
 	protected void assertValid(
-		Page<Document> page, Map<String, Map> expectedActions) {
+		Page<Document> page, Map<String, Map<String, String>> expectedActions) {
 
 		boolean valid = false;
 
@@ -1663,7 +1663,7 @@ public abstract class BaseDocumentResourceTestCase {
 
 		Assert.assertTrue(valid);
 
-		Map<String, Map> actions = page.getActions();
+		Map<String, Map<String, String>> actions = page.getActions();
 
 		for (String key : expectedActions.keySet()) {
 			Map action = actions.get(key);

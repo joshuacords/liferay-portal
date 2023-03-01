@@ -248,11 +248,11 @@ public abstract class BaseWorkflowTaskResourceTestCase {
 			page, testGetRoleWorkflowTasksPage_getExpectedActions(roleId));
 	}
 
-	protected Map<String, Map> testGetRoleWorkflowTasksPage_getExpectedActions(
-			Long roleId)
+	protected Map<String, Map<String, String>>
+			testGetRoleWorkflowTasksPage_getExpectedActions(Long roleId)
 		throws Exception {
 
-		Map<String, Map> expectedActions = new HashMap<>();
+		Map<String, Map<String, String>> expectedActions = new HashMap<>();
 
 		return expectedActions;
 	}
@@ -350,11 +350,11 @@ public abstract class BaseWorkflowTaskResourceTestCase {
 			page, testGetWorkflowTasksAssignedToMePage_getExpectedActions());
 	}
 
-	protected Map<String, Map>
+	protected Map<String, Map<String, String>>
 			testGetWorkflowTasksAssignedToMePage_getExpectedActions()
 		throws Exception {
 
-		Map<String, Map> expectedActions = new HashMap<>();
+		Map<String, Map<String, String>> expectedActions = new HashMap<>();
 
 		return expectedActions;
 	}
@@ -447,11 +447,11 @@ public abstract class BaseWorkflowTaskResourceTestCase {
 			testGetWorkflowTasksAssignedToMyRolesPage_getExpectedActions());
 	}
 
-	protected Map<String, Map>
+	protected Map<String, Map<String, String>>
 			testGetWorkflowTasksAssignedToMyRolesPage_getExpectedActions()
 		throws Exception {
 
-		Map<String, Map> expectedActions = new HashMap<>();
+		Map<String, Map<String, String>> expectedActions = new HashMap<>();
 
 		return expectedActions;
 	}
@@ -830,7 +830,8 @@ public abstract class BaseWorkflowTaskResourceTestCase {
 	}
 
 	protected void assertValid(
-		Page<WorkflowTask> page, Map<String, Map> expectedActions) {
+		Page<WorkflowTask> page,
+		Map<String, Map<String, String>> expectedActions) {
 
 		boolean valid = false;
 
@@ -847,7 +848,7 @@ public abstract class BaseWorkflowTaskResourceTestCase {
 
 		Assert.assertTrue(valid);
 
-		Map<String, Map> actions = page.getActions();
+		Map<String, Map<String, String>> actions = page.getActions();
 
 		for (String key : expectedActions.keySet()) {
 			Map action = actions.get(key);

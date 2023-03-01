@@ -249,11 +249,11 @@ public abstract class BaseContentElementResourceTestCase {
 			page, testGetSiteContentElementsPage_getExpectedActions(siteId));
 	}
 
-	protected Map<String, Map>
+	protected Map<String, Map<String, String>>
 			testGetSiteContentElementsPage_getExpectedActions(Long siteId)
 		throws Exception {
 
-		Map<String, Map> expectedActions = new HashMap<>();
+		Map<String, Map<String, String>> expectedActions = new HashMap<>();
 
 		return expectedActions;
 	}
@@ -753,7 +753,8 @@ public abstract class BaseContentElementResourceTestCase {
 	}
 
 	protected void assertValid(
-		Page<ContentElement> page, Map<String, Map> expectedActions) {
+		Page<ContentElement> page,
+		Map<String, Map<String, String>> expectedActions) {
 
 		boolean valid = false;
 
@@ -770,7 +771,7 @@ public abstract class BaseContentElementResourceTestCase {
 
 		Assert.assertTrue(valid);
 
-		Map<String, Map> actions = page.getActions();
+		Map<String, Map<String, String>> actions = page.getActions();
 
 		for (String key : expectedActions.keySet()) {
 			Map action = actions.get(key);

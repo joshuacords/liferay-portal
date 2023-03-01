@@ -226,10 +226,11 @@ public abstract class BaseAccountGroupResourceTestCase {
 		accountGroupResource.deleteAccountGroup(accountGroup2.getId());
 	}
 
-	protected Map<String, Map> testGetAccountGroupsPage_getExpectedActions()
+	protected Map<String, Map<String, String>>
+			testGetAccountGroupsPage_getExpectedActions()
 		throws Exception {
 
-		Map<String, Map> expectedActions = new HashMap<>();
+		Map<String, Map<String, String>> expectedActions = new HashMap<>();
 
 		return expectedActions;
 	}
@@ -955,7 +956,8 @@ public abstract class BaseAccountGroupResourceTestCase {
 	}
 
 	protected void assertValid(
-		Page<AccountGroup> page, Map<String, Map> expectedActions) {
+		Page<AccountGroup> page,
+		Map<String, Map<String, String>> expectedActions) {
 
 		boolean valid = false;
 
@@ -972,7 +974,7 @@ public abstract class BaseAccountGroupResourceTestCase {
 
 		Assert.assertTrue(valid);
 
-		Map<String, Map> actions = page.getActions();
+		Map<String, Map<String, String>> actions = page.getActions();
 
 		for (String key : expectedActions.keySet()) {
 			Map action = actions.get(key);

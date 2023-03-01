@@ -265,12 +265,12 @@ public abstract class BaseWarehouseResourceTestCase {
 		warehouseResource.deleteWarehouse(warehouse2.getId());
 	}
 
-	protected Map<String, Map>
+	protected Map<String, Map<String, String>>
 			testGetCommerceAdminSiteSettingGroupWarehousePage_getExpectedActions(
 				Long groupId)
 		throws Exception {
 
-		Map<String, Map> expectedActions = new HashMap<>();
+		Map<String, Map<String, String>> expectedActions = new HashMap<>();
 
 		return expectedActions;
 	}
@@ -708,7 +708,8 @@ public abstract class BaseWarehouseResourceTestCase {
 	}
 
 	protected void assertValid(
-		Page<Warehouse> page, Map<String, Map> expectedActions) {
+		Page<Warehouse> page,
+		Map<String, Map<String, String>> expectedActions) {
 
 		boolean valid = false;
 
@@ -725,7 +726,7 @@ public abstract class BaseWarehouseResourceTestCase {
 
 		Assert.assertTrue(valid);
 
-		Map<String, Map> actions = page.getActions();
+		Map<String, Map<String, String>> actions = page.getActions();
 
 		for (String key : expectedActions.keySet()) {
 			Map action = actions.get(key);

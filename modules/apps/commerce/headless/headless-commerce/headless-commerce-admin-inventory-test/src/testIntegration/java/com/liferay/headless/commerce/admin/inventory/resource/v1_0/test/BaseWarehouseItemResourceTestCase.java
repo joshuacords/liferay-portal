@@ -552,12 +552,12 @@ public abstract class BaseWarehouseItemResourceTestCase {
 		warehouseItemResource.deleteWarehouseItem(warehouseItem2.getId());
 	}
 
-	protected Map<String, Map>
+	protected Map<String, Map<String, String>>
 			testGetWarehousByExternalReferenceCodeWarehouseItemsPage_getExpectedActions(
 				String externalReferenceCode)
 		throws Exception {
 
-		Map<String, Map> expectedActions = new HashMap<>();
+		Map<String, Map<String, String>> expectedActions = new HashMap<>();
 
 		return expectedActions;
 	}
@@ -717,11 +717,11 @@ public abstract class BaseWarehouseItemResourceTestCase {
 		warehouseItemResource.deleteWarehouseItem(warehouseItem2.getId());
 	}
 
-	protected Map<String, Map>
+	protected Map<String, Map<String, String>>
 			testGetWarehousIdWarehouseItemsPage_getExpectedActions(Long id)
 		throws Exception {
 
-		Map<String, Map> expectedActions = new HashMap<>();
+		Map<String, Map<String, String>> expectedActions = new HashMap<>();
 
 		return expectedActions;
 	}
@@ -849,11 +849,11 @@ public abstract class BaseWarehouseItemResourceTestCase {
 		warehouseItemResource.deleteWarehouseItem(warehouseItem2.getId());
 	}
 
-	protected Map<String, Map>
+	protected Map<String, Map<String, String>>
 			testGetWarehouseItemsUpdatedPage_getExpectedActions()
 		throws Exception {
 
-		Map<String, Map> expectedActions = new HashMap<>();
+		Map<String, Map<String, String>> expectedActions = new HashMap<>();
 
 		return expectedActions;
 	}
@@ -1080,7 +1080,8 @@ public abstract class BaseWarehouseItemResourceTestCase {
 	}
 
 	protected void assertValid(
-		Page<WarehouseItem> page, Map<String, Map> expectedActions) {
+		Page<WarehouseItem> page,
+		Map<String, Map<String, String>> expectedActions) {
 
 		boolean valid = false;
 
@@ -1097,7 +1098,7 @@ public abstract class BaseWarehouseItemResourceTestCase {
 
 		Assert.assertTrue(valid);
 
-		Map<String, Map> actions = page.getActions();
+		Map<String, Map<String, String>> actions = page.getActions();
 
 		for (String key : expectedActions.keySet()) {
 			Map action = actions.get(key);

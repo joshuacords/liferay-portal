@@ -268,12 +268,12 @@ public abstract class BaseTaxonomyCategoryResourceTestCase {
 			taxonomyCategory2.getId());
 	}
 
-	protected Map<String, Map>
+	protected Map<String, Map<String, String>>
 			testGetTaxonomyCategoryTaxonomyCategoriesPage_getExpectedActions(
 				Long parentTaxonomyCategoryId)
 		throws Exception {
 
-		Map<String, Map> expectedActions = new HashMap<>();
+		Map<String, Map<String, String>> expectedActions = new HashMap<>();
 
 		return expectedActions;
 	}
@@ -911,12 +911,12 @@ public abstract class BaseTaxonomyCategoryResourceTestCase {
 			taxonomyCategory2.getId());
 	}
 
-	protected Map<String, Map>
+	protected Map<String, Map<String, String>>
 			testGetTaxonomyVocabularyTaxonomyCategoriesPage_getExpectedActions(
 				Long taxonomyVocabularyId)
 		throws Exception {
 
-		Map<String, Map> expectedActions = new HashMap<>();
+		Map<String, Map<String, String>> expectedActions = new HashMap<>();
 
 		Map createBatchAction = new HashMap<>();
 		createBatchAction.put("method", "POST");
@@ -1499,7 +1499,8 @@ public abstract class BaseTaxonomyCategoryResourceTestCase {
 	}
 
 	protected void assertValid(
-		Page<TaxonomyCategory> page, Map<String, Map> expectedActions) {
+		Page<TaxonomyCategory> page,
+		Map<String, Map<String, String>> expectedActions) {
 
 		boolean valid = false;
 
@@ -1517,7 +1518,7 @@ public abstract class BaseTaxonomyCategoryResourceTestCase {
 
 		Assert.assertTrue(valid);
 
-		Map<String, Map> actions = page.getActions();
+		Map<String, Map<String, String>> actions = page.getActions();
 
 		for (String key : expectedActions.keySet()) {
 			Map action = actions.get(key);

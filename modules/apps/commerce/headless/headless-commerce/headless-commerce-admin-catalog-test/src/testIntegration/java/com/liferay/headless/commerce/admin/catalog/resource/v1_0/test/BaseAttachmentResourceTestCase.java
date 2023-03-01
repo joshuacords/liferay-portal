@@ -257,12 +257,12 @@ public abstract class BaseAttachmentResourceTestCase {
 				externalReferenceCode));
 	}
 
-	protected Map<String, Map>
+	protected Map<String, Map<String, String>>
 			testGetProductByExternalReferenceCodeAttachmentsPage_getExpectedActions(
 				String externalReferenceCode)
 		throws Exception {
 
-		Map<String, Map> expectedActions = new HashMap<>();
+		Map<String, Map<String, String>> expectedActions = new HashMap<>();
 
 		return expectedActions;
 	}
@@ -464,12 +464,12 @@ public abstract class BaseAttachmentResourceTestCase {
 				externalReferenceCode));
 	}
 
-	protected Map<String, Map>
+	protected Map<String, Map<String, String>>
 			testGetProductByExternalReferenceCodeImagesPage_getExpectedActions(
 				String externalReferenceCode)
 		throws Exception {
 
-		Map<String, Map> expectedActions = new HashMap<>();
+		Map<String, Map<String, String>> expectedActions = new HashMap<>();
 
 		return expectedActions;
 	}
@@ -658,11 +658,11 @@ public abstract class BaseAttachmentResourceTestCase {
 			page, testGetProductIdAttachmentsPage_getExpectedActions(id));
 	}
 
-	protected Map<String, Map>
+	protected Map<String, Map<String, String>>
 			testGetProductIdAttachmentsPage_getExpectedActions(Long id)
 		throws Exception {
 
-		Map<String, Map> expectedActions = new HashMap<>();
+		Map<String, Map<String, String>> expectedActions = new HashMap<>();
 
 		return expectedActions;
 	}
@@ -827,11 +827,11 @@ public abstract class BaseAttachmentResourceTestCase {
 		assertValid(page, testGetProductIdImagesPage_getExpectedActions(id));
 	}
 
-	protected Map<String, Map> testGetProductIdImagesPage_getExpectedActions(
-			Long id)
+	protected Map<String, Map<String, String>>
+			testGetProductIdImagesPage_getExpectedActions(Long id)
 		throws Exception {
 
-		Map<String, Map> expectedActions = new HashMap<>();
+		Map<String, Map<String, String>> expectedActions = new HashMap<>();
 
 		return expectedActions;
 	}
@@ -1136,7 +1136,8 @@ public abstract class BaseAttachmentResourceTestCase {
 	}
 
 	protected void assertValid(
-		Page<Attachment> page, Map<String, Map> expectedActions) {
+		Page<Attachment> page,
+		Map<String, Map<String, String>> expectedActions) {
 
 		boolean valid = false;
 
@@ -1153,7 +1154,7 @@ public abstract class BaseAttachmentResourceTestCase {
 
 		Assert.assertTrue(valid);
 
-		Map<String, Map> actions = page.getActions();
+		Map<String, Map<String, String>> actions = page.getActions();
 
 		for (String key : expectedActions.keySet()) {
 			Map action = actions.get(key);

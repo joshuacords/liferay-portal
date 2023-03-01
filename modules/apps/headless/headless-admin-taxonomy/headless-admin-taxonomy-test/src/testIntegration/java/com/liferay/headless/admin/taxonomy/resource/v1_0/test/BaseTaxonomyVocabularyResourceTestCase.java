@@ -259,11 +259,11 @@ public abstract class BaseTaxonomyVocabularyResourceTestCase {
 			taxonomyVocabulary2.getId());
 	}
 
-	protected Map<String, Map>
+	protected Map<String, Map<String, String>>
 			testGetSiteTaxonomyVocabulariesPage_getExpectedActions(Long siteId)
 		throws Exception {
 
-		Map<String, Map> expectedActions = new HashMap<>();
+		Map<String, Map<String, String>> expectedActions = new HashMap<>();
 
 		Map createBatchAction = new HashMap<>();
 		createBatchAction.put("method", "POST");
@@ -1200,7 +1200,8 @@ public abstract class BaseTaxonomyVocabularyResourceTestCase {
 	}
 
 	protected void assertValid(
-		Page<TaxonomyVocabulary> page, Map<String, Map> expectedActions) {
+		Page<TaxonomyVocabulary> page,
+		Map<String, Map<String, String>> expectedActions) {
 
 		boolean valid = false;
 
@@ -1218,7 +1219,7 @@ public abstract class BaseTaxonomyVocabularyResourceTestCase {
 
 		Assert.assertTrue(valid);
 
-		Map<String, Map> actions = page.getActions();
+		Map<String, Map<String, String>> actions = page.getActions();
 
 		for (String key : expectedActions.keySet()) {
 			Map action = actions.get(key);

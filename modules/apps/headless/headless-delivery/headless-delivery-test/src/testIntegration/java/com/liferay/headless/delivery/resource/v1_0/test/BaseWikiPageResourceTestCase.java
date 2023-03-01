@@ -255,11 +255,11 @@ public abstract class BaseWikiPageResourceTestCase {
 		wikiPageResource.deleteWikiPage(wikiPage2.getId());
 	}
 
-	protected Map<String, Map> testGetWikiNodeWikiPagesPage_getExpectedActions(
-			Long wikiNodeId)
+	protected Map<String, Map<String, String>>
+			testGetWikiNodeWikiPagesPage_getExpectedActions(Long wikiNodeId)
 		throws Exception {
 
-		Map<String, Map> expectedActions = new HashMap<>();
+		Map<String, Map<String, String>> expectedActions = new HashMap<>();
 
 		Map createBatchAction = new HashMap<>();
 		createBatchAction.put("method", "POST");
@@ -665,11 +665,12 @@ public abstract class BaseWikiPageResourceTestCase {
 		wikiPageResource.deleteWikiPage(wikiPage2.getId());
 	}
 
-	protected Map<String, Map> testGetWikiPageWikiPagesPage_getExpectedActions(
-			Long parentWikiPageId)
+	protected Map<String, Map<String, String>>
+			testGetWikiPageWikiPagesPage_getExpectedActions(
+				Long parentWikiPageId)
 		throws Exception {
 
-		Map<String, Map> expectedActions = new HashMap<>();
+		Map<String, Map<String, String>> expectedActions = new HashMap<>();
 
 		return expectedActions;
 	}
@@ -1104,7 +1105,7 @@ public abstract class BaseWikiPageResourceTestCase {
 	}
 
 	protected void assertValid(
-		Page<WikiPage> page, Map<String, Map> expectedActions) {
+		Page<WikiPage> page, Map<String, Map<String, String>> expectedActions) {
 
 		boolean valid = false;
 
@@ -1121,7 +1122,7 @@ public abstract class BaseWikiPageResourceTestCase {
 
 		Assert.assertTrue(valid);
 
-		Map<String, Map> actions = page.getActions();
+		Map<String, Map<String, String>> actions = page.getActions();
 
 		for (String key : expectedActions.keySet()) {
 			Map action = actions.get(key);

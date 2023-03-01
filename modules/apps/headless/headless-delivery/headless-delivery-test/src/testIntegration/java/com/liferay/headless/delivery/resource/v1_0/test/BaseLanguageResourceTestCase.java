@@ -235,11 +235,11 @@ public abstract class BaseLanguageResourceTestCase {
 		assertValid(page, testGetSiteLanguagesPage_getExpectedActions(siteId));
 	}
 
-	protected Map<String, Map> testGetSiteLanguagesPage_getExpectedActions(
-			Long siteId)
+	protected Map<String, Map<String, String>>
+			testGetSiteLanguagesPage_getExpectedActions(Long siteId)
 		throws Exception {
 
-		Map<String, Map> expectedActions = new HashMap<>();
+		Map<String, Map<String, String>> expectedActions = new HashMap<>();
 
 		return expectedActions;
 	}
@@ -434,7 +434,7 @@ public abstract class BaseLanguageResourceTestCase {
 	}
 
 	protected void assertValid(
-		Page<Language> page, Map<String, Map> expectedActions) {
+		Page<Language> page, Map<String, Map<String, String>> expectedActions) {
 
 		boolean valid = false;
 
@@ -451,7 +451,7 @@ public abstract class BaseLanguageResourceTestCase {
 
 		Assert.assertTrue(valid);
 
-		Map<String, Map> actions = page.getActions();
+		Map<String, Map<String, String>> actions = page.getActions();
 
 		for (String key : expectedActions.keySet()) {
 			Map action = actions.get(key);

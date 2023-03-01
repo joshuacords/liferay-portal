@@ -246,12 +246,12 @@ public abstract class BaseDataRecordResourceTestCase {
 		dataRecordResource.deleteDataRecord(dataRecord2.getId());
 	}
 
-	protected Map<String, Map>
+	protected Map<String, Map<String, String>>
 			testGetDataDefinitionDataRecordsPage_getExpectedActions(
 				Long dataDefinitionId)
 		throws Exception {
 
-		Map<String, Map> expectedActions = new HashMap<>();
+		Map<String, Map<String, String>> expectedActions = new HashMap<>();
 
 		Map createBatchAction = new HashMap<>();
 		createBatchAction.put("method", "POST");
@@ -413,12 +413,12 @@ public abstract class BaseDataRecordResourceTestCase {
 		dataRecordResource.deleteDataRecord(dataRecord2.getId());
 	}
 
-	protected Map<String, Map>
+	protected Map<String, Map<String, String>>
 			testGetDataRecordCollectionDataRecordsPage_getExpectedActions(
 				Long dataRecordCollectionId)
 		throws Exception {
 
-		Map<String, Map> expectedActions = new HashMap<>();
+		Map<String, Map<String, String>> expectedActions = new HashMap<>();
 
 		Map createBatchAction = new HashMap<>();
 		createBatchAction.put("method", "POST");
@@ -791,7 +791,8 @@ public abstract class BaseDataRecordResourceTestCase {
 	}
 
 	protected void assertValid(
-		Page<DataRecord> page, Map<String, Map> expectedActions) {
+		Page<DataRecord> page,
+		Map<String, Map<String, String>> expectedActions) {
 
 		boolean valid = false;
 
@@ -808,7 +809,7 @@ public abstract class BaseDataRecordResourceTestCase {
 
 		Assert.assertTrue(valid);
 
-		Map<String, Map> actions = page.getActions();
+		Map<String, Map<String, String>> actions = page.getActions();
 
 		for (String key : expectedActions.keySet()) {
 			Map action = actions.get(key);
