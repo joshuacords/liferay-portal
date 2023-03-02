@@ -340,9 +340,11 @@ public class TransformProductPurchases {
 	private static class Subscription {
 
 		public Subscription(
-			String accountKey, String displayGroupName, String name) {
+			String accountKey, String productKey, String displayGroupName,
+			String name) {
 
 			this.accountKey = accountKey;
+			this.productKey = productKey;
 			this.name = name;
 
 			this.accountSubscriptionGroupExternalReferenceCode =
@@ -408,6 +410,7 @@ public class TransformProductPurchases {
 			jsonObject.put("externalReferenceCode", externalReferenceCode);
 			jsonObject.put("instanceSize", instanceSize);
 			jsonObject.put("name", name);
+			jsonObject.put("productKey", productKey);
 			jsonObject.put("quantity", quantity);
 			jsonObject.put("startDate", DateUtil.format(startDate));
 
@@ -438,6 +441,7 @@ public class TransformProductPurchases {
 		public String externalReferenceCode;
 		public String instanceSize;
 		public String name;
+		public String productKey;
 		public int quantity;
 		public Date startDate;
 		public List<SubscriptionTerm> subscriptionTerms = new ArrayList<>();
@@ -478,6 +482,8 @@ public class TransformProductPurchases {
 				JSONObject productJSONObject = jsonObject.getJSONObject(
 					"product");
 
+				String productKey = productJSONObject.getString("key");
+
 				JSONObject productPropertiesJSONObject =
 					productJSONObject.getJSONObject("properties");
 
@@ -488,14 +494,13 @@ public class TransformProductPurchases {
 					subscriptionName = productJSONObject.getString("name");
 				}
 
-				Subscription subscription = subscriptionsMap.get(
-					subscriptionName);
+				Subscription subscription = subscriptionsMap.get(productKey);
 
 				if (subscription == null) {
 					subscription = new Subscription(
-						accountKey, name, subscriptionName);
+						accountKey, productKey, name, subscriptionName);
 
-					subscriptionsMap.put(subscriptionName, subscription);
+					subscriptionsMap.put(productKey, subscription);
 				}
 
 				subscription.addSubscriptionTerm(jsonObject);
