@@ -572,6 +572,16 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 			account.setTier(Account.Tier.T4);
 		}
 
+		String soldBy = jsonObject.getString("_salesforceOpportunitySoldBy");
+
+		if (soldBy.equals("Liferay Brazil") || soldBy.equals("Liferay China") ||
+			soldBy.equals("Liferay India")) {
+
+			Map<String, String> properties = account.getProperties();
+
+			properties.put("allowPermanentLicenses", StringPool.FALSE);
+		}
+
 		account.setAssignedTeams(partnerTeams);
 
 		return _accountWebService.addAccount(
@@ -1868,6 +1878,8 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 			return contacts;
 		}
 
+		String soldBy = jsonObject.getString("_salesforceOpportunitySoldBy");
+
 		for (int i = 0; i < contactsJSONArray.length(); i++) {
 			JSONObject contactJSONObject = contactsJSONArray.getJSONObject(i);
 
@@ -1881,7 +1893,9 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 
 			String contactRoleName = null;
 
-			if (customerPortal2Account) {
+			if (customerPortal2Account && !soldBy.equals("Liferay India") &&
+				!soldBy.equals("Liferay Singapore")) {
+
 				contactRoleName =
 					ContactRoleConstants.NAME_SUPPORT_ADMINISTRATOR;
 			}
