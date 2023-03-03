@@ -16,8 +16,13 @@ package com.liferay.osb.provisioning.rest.internal.graphql.servlet.v1_0;
 
 import com.liferay.osb.provisioning.rest.internal.graphql.mutation.v1_0.Mutation;
 import com.liferay.osb.provisioning.rest.internal.graphql.query.v1_0.Query;
+import com.liferay.osb.provisioning.rest.internal.resource.v1_0.LicenseKeyResourceImpl;
 import com.liferay.osb.provisioning.rest.resource.v1_0.LicenseKeyResource;
+import com.liferay.portal.kernel.util.ObjectValuePair;
 import com.liferay.portal.vulcan.graphql.servlet.ServletData;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.Generated;
 
@@ -45,6 +50,10 @@ public class ServletDataImpl implements ServletData {
 			_licenseKeyResourceComponentServiceObjects);
 	}
 
+	public String getApplicationName() {
+		return "Liferay.Provisioning.REST";
+	}
+
 	@Override
 	public Mutation getMutation() {
 		return new Mutation();
@@ -59,6 +68,105 @@ public class ServletDataImpl implements ServletData {
 	public Query getQuery() {
 		return new Query();
 	}
+
+	public ObjectValuePair<Class<?>, String> getResourceMethodObjectValuePair(
+		String methodName, boolean mutation) {
+
+		if (mutation) {
+			return _resourceMethodObjectValuePairs.get(
+				"mutation#" + methodName);
+		}
+
+		return _resourceMethodObjectValuePairs.get("query#" + methodName);
+	}
+
+	private static final Map<String, ObjectValuePair<Class<?>, String>>
+		_resourceMethodObjectValuePairs =
+			new HashMap<String, ObjectValuePair<Class<?>, String>>() {
+				{
+					put(
+						"mutation#createAccountAccountKeyLicenseKeysPage",
+						new ObjectValuePair<>(
+							LicenseKeyResourceImpl.class,
+							"postAccountAccountKeyLicenseKeysPage"));
+					put(
+						"mutation#updateLicenseKeyActivate",
+						new ObjectValuePair<>(
+							LicenseKeyResourceImpl.class,
+							"putLicenseKeyActivate"));
+					put(
+						"mutation#updateLicenseKeyDeactivate",
+						new ObjectValuePair<>(
+							LicenseKeyResourceImpl.class,
+							"putLicenseKeyDeactivate"));
+					put(
+						"mutation#createLicenseKeysExtendPage",
+						new ObjectValuePair<>(
+							LicenseKeyResourceImpl.class,
+							"postLicenseKeysExtendPage"));
+					put(
+						"mutation#deleteLicenseKeySubscription",
+						new ObjectValuePair<>(
+							LicenseKeyResourceImpl.class,
+							"deleteLicenseKeySubscription"));
+					put(
+						"mutation#updateLicenseKeySubscription",
+						new ObjectValuePair<>(
+							LicenseKeyResourceImpl.class,
+							"putLicenseKeySubscription"));
+
+					put(
+						"query#accountAccountKeyLicenseKeys",
+						new ObjectValuePair<>(
+							LicenseKeyResourceImpl.class,
+							"getAccountAccountKeyLicenseKeysPage"));
+					put(
+						"query#accountAccountKeyLicenseKeyExport",
+						new ObjectValuePair<>(
+							LicenseKeyResourceImpl.class,
+							"getAccountAccountKeyLicenseKeyExport"));
+					put(
+						"query#accountAccountKeyProductGroupProductGroupNameGenerateForm",
+						new ObjectValuePair<>(
+							LicenseKeyResourceImpl.class,
+							"getAccountAccountKeyProductGroupProductGroupNameGenerateForm"));
+					put(
+						"query#accountAccountKeyProductGroupProductGroupNameProductVersionDevelopmentLicenseKey",
+						new ObjectValuePair<>(
+							LicenseKeyResourceImpl.class,
+							"getAccountAccountKeyProductGroupProductGroupNameProductVersionDevelopmentLicenseKey"));
+					put(
+						"query#accountAccountKeyProductProductKeyUsage",
+						new ObjectValuePair<>(
+							LicenseKeyResourceImpl.class,
+							"getAccountAccountKeyProductProductKeyUsage"));
+					put(
+						"query#licenseKeyDownload",
+						new ObjectValuePair<>(
+							LicenseKeyResourceImpl.class,
+							"getLicenseKeyDownload"));
+					put(
+						"query#licenseKeyDownloadZip",
+						new ObjectValuePair<>(
+							LicenseKeyResourceImpl.class,
+							"getLicenseKeyDownloadZip"));
+					put(
+						"query#licenseKeyExport",
+						new ObjectValuePair<>(
+							LicenseKeyResourceImpl.class,
+							"getLicenseKeyExport"));
+					put(
+						"query#licenseKeyDownload",
+						new ObjectValuePair<>(
+							LicenseKeyResourceImpl.class,
+							"getLicenseKeyDownload"));
+					put(
+						"query#productGroupProductGroupNameDevelopmentLicenseKey",
+						new ObjectValuePair<>(
+							LicenseKeyResourceImpl.class,
+							"getProductGroupProductGroupNameDevelopmentLicenseKey"));
+				}
+			};
 
 	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
 	private ComponentServiceObjects<LicenseKeyResource>

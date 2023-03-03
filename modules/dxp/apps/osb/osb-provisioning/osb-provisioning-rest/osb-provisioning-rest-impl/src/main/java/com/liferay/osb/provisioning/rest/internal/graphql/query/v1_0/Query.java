@@ -159,6 +159,27 @@ public class Query {
 	/**
 	 * Invoke this method with the command line:
 	 *
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {accountAccountKeyProductProductKeyUsage(accountKey: ___, productKey: ___){}}"}' -u 'test@liferay.com:test'
+	 */
+	@GraphQLField(
+		description = "Gets the max concurrent purchased count and consumed count per year for the previous, current and next year. Also includes the current usage at the time of invoking this API."
+	)
+	public Response accountAccountKeyProductProductKeyUsage(
+			@GraphQLName("accountKey") String accountKey,
+			@GraphQLName("productKey") String productKey)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_licenseKeyResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			licenseKeyResource ->
+				licenseKeyResource.getAccountAccountKeyProductProductKeyUsage(
+					accountKey, productKey));
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
 	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {licenseKeyDownload(licenseKeyIds: ___){}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField(
@@ -267,7 +288,7 @@ public class Query {
 		}
 
 		@GraphQLField
-		protected Map<String, Map> actions;
+		protected Map<String, Map<String, String>> actions;
 
 		@GraphQLField
 		protected java.util.Collection<LicenseKey> items;

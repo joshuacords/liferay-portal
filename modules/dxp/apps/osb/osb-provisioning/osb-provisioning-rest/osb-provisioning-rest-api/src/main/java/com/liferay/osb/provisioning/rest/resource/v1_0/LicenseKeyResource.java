@@ -80,6 +80,10 @@ public interface LicenseKeyResource {
 				String productVersion)
 		throws Exception;
 
+	public Response getAccountAccountKeyProductProductKeyUsage(
+			String accountKey, String productKey)
+		throws Exception;
+
 	public void putLicenseKeyActivate(Long[] licenseKeyIds) throws Exception;
 
 	public void putLicenseKeyDeactivate(Long[] licenseKeyIds) throws Exception;

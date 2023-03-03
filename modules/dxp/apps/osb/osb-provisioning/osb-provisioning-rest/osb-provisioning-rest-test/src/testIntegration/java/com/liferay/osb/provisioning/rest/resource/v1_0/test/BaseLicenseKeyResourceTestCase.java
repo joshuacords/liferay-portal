@@ -263,7 +263,10 @@ public abstract class BaseLicenseKeyResourceTestCase {
 			assertEquals(
 				Arrays.asList(irrelevantLicenseKey),
 				(List<LicenseKey>)page.getItems());
-			assertValid(page);
+			assertValid(
+				page,
+				testGetAccountAccountKeyLicenseKeysPage_getExpectedActions(
+					irrelevantAccountKey));
 		}
 
 		LicenseKey licenseKey1 =
@@ -282,7 +285,20 @@ public abstract class BaseLicenseKeyResourceTestCase {
 		assertEqualsIgnoringOrder(
 			Arrays.asList(licenseKey1, licenseKey2),
 			(List<LicenseKey>)page.getItems());
-		assertValid(page);
+		assertValid(
+			page,
+			testGetAccountAccountKeyLicenseKeysPage_getExpectedActions(
+				accountKey));
+	}
+
+	protected Map<String, Map<String, String>>
+			testGetAccountAccountKeyLicenseKeysPage_getExpectedActions(
+				String accountKey)
+		throws Exception {
+
+		Map<String, Map<String, String>> expectedActions = new HashMap<>();
+
+		return expectedActions;
 	}
 
 	@Test
@@ -610,6 +626,13 @@ public abstract class BaseLicenseKeyResourceTestCase {
 
 	@Test
 	public void testGetAccountAccountKeyProductGroupProductGroupNameProductVersionDevelopmentLicenseKey()
+		throws Exception {
+
+		Assert.assertTrue(false);
+	}
+
+	@Test
+	public void testGetAccountAccountKeyProductProductKeyUsage()
 		throws Exception {
 
 		Assert.assertTrue(false);
@@ -1143,6 +1166,13 @@ public abstract class BaseLicenseKeyResourceTestCase {
 	}
 
 	protected void assertValid(Page<LicenseKey> page) {
+		assertValid(page, Collections.emptyMap());
+	}
+
+	protected void assertValid(
+		Page<LicenseKey> page,
+		Map<String, Map<String, String>> expectedActions) {
+
 		boolean valid = false;
 
 		java.util.Collection<LicenseKey> licenseKeys = page.getItems();
@@ -1157,6 +1187,20 @@ public abstract class BaseLicenseKeyResourceTestCase {
 		}
 
 		Assert.assertTrue(valid);
+
+		Map<String, Map<String, String>> actions = page.getActions();
+
+		for (String key : expectedActions.keySet()) {
+			Map action = actions.get(key);
+
+			Assert.assertNotNull(key + " does not contain an action", action);
+
+			Map expectedAction = expectedActions.get(key);
+
+			Assert.assertEquals(
+				expectedAction.get("method"), action.get("method"));
+			Assert.assertEquals(expectedAction.get("href"), action.get("href"));
+		}
 	}
 
 	protected void assertValid(LicenseKeyGenerateForm licenseKeyGenerateForm) {
@@ -1802,6 +1846,10 @@ public abstract class BaseLicenseKeyResourceTestCase {
 
 		EntityModel entityModel = entityModelResource.getEntityModel(
 			new MultivaluedHashMap());
+
+		if (entityModel == null) {
+			return Collections.emptyList();
+		}
 
 		Map<String, EntityField> entityFieldsMap =
 			entityModel.getEntityFieldsMap();
