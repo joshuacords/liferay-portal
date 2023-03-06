@@ -17,10 +17,6 @@ package com.liferay.portal.search.web.internal.search.request;
 import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.SearchContext;
-import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.search.constants.SearchContextAttributes;
 import com.liferay.portal.search.legacy.searcher.SearchRequestBuilderFactory;
 import com.liferay.portal.search.searcher.SearchRequestBuilder;
 import com.liferay.portal.search.searcher.SearchResponse;
@@ -75,21 +71,8 @@ public class SearchRequestImpl {
 		searchContext.setEnd(searchContainer.getEnd());
 		searchContext.setStart(searchContainer.getStart());
 
-		SearchResponse searchResponse = null;
-
-		String keywords = StringUtil.trim(searchContext.getKeywords());
-
-		if (Validator.isBlank(keywords) &&
-			!GetterUtil.getBoolean(
-				searchContext.getAttribute(
-					SearchContextAttributes.ATTRIBUTE_KEY_EMPTY_SEARCH))) {
-
-			searchResponse = new EmptySearchResponseImpl(
-				searchRequestBuilder.build());
-		}
-		else {
-			searchResponse = _searcher.search(searchRequestBuilder.build());
-		}
+		SearchResponse searchResponse = _searcher.search(
+			searchRequestBuilder.build());
 
 		_populateSearchContainer(searchContainer, searchResponse);
 
