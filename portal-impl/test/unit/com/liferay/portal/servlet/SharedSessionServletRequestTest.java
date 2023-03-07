@@ -39,6 +39,12 @@ public class SharedSessionServletRequestTest {
 			CodeCoverageAssertor.INSTANCE, LiferayUnitTestRule.INSTANCE);
 
 	@Test
+	public void testCheckPortalSession() {
+		_testCheckPortalSession(false);
+		_testCheckPortalSession(true);
+	}
+
+	@Test
 	public void testGetSharedSession() {
 		_testGetSharedSession(false);
 		_testGetSharedSession(true);
@@ -48,6 +54,16 @@ public class SharedSessionServletRequestTest {
 	public void testInvalidateSession() {
 		_testInvalidateSession(false);
 		_testInvalidateSession(true);
+	}
+
+	private void _testCheckPortalSession(boolean shared) {
+		MockHttpServletRequest mockHttpServletRequest =
+			new MockHttpServletRequest();
+
+		SharedSessionServletRequest sharedSessionServletRequest =
+			new SharedSessionServletRequest(mockHttpServletRequest, shared);
+
+		sharedSessionServletRequest.checkPortalSession();
 	}
 
 	private void _testGetSharedSession(boolean shared) {
