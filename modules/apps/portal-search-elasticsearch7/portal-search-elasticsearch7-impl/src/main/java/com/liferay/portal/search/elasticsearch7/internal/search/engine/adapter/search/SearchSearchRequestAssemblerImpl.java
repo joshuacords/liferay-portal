@@ -31,7 +31,6 @@ import com.liferay.portal.search.engine.adapter.search.SearchSearchRequest;
 import com.liferay.portal.search.groupby.GroupByRequest;
 import com.liferay.portal.search.legacy.groupby.GroupByRequestFactory;
 import com.liferay.portal.search.legacy.stats.StatsRequestBuilderFactory;
-import com.liferay.portal.search.searcher.SearchTimeValue;
 import com.liferay.portal.search.sort.Sort;
 import com.liferay.portal.search.sort.SortFieldTranslator;
 import com.liferay.portal.search.stats.StatsRequest;
@@ -198,13 +197,13 @@ public class SearchSearchRequestAssemblerImpl
 	private void _setScroll(
 		SearchRequest searchRequest, SearchSearchRequest searchSearchRequest) {
 
-		SearchTimeValue scrollTimeValue =
-			searchSearchRequest.getScrollSearchTimeValue();
+		String scrollKeepAliveTime =
+			searchSearchRequest.getScrollKeepAliveTime();
 
-		if (scrollTimeValue != null) {
+		if (scrollKeepAliveTime != null) {
 			searchRequest.scroll(
 				TimeValue.timeValueMinutes(
-					SearchExecutorUtil.getMinutes(scrollTimeValue)));
+					SearchExecutorUtil.getMinutes(scrollKeepAliveTime)));
 		}
 	}
 

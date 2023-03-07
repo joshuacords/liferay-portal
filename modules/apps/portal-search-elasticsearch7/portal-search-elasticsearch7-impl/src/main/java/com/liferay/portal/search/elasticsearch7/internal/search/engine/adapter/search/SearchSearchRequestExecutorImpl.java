@@ -50,7 +50,9 @@ public class SearchSearchRequestExecutorImpl
 		SearchSearchResponse searchSearchResponse = new SearchSearchResponse();
 		String searchRequestString = "";
 
-		if (searchSearchRequest.getScrollId() != null) {
+		if ((searchSearchRequest.getScrollId() != null) &&
+			(searchSearchRequest.getScrollKeepAliveTime() != null)) {
+
 			searchResponse = _getScrollSearchResponse(searchSearchRequest);
 
 			searchRequestString = searchSearchRequest.getScrollId();
@@ -122,7 +124,7 @@ public class SearchSearchRequestExecutorImpl
 		searchScrollRequest.scroll(
 			TimeValue.timeValueMinutes(
 				SearchExecutorUtil.getMinutes(
-					searchSearchRequest.getScrollSearchTimeValue())));
+					searchSearchRequest.getScrollKeepAliveTime())));
 
 		try {
 			return restHighLevelClient.scroll(

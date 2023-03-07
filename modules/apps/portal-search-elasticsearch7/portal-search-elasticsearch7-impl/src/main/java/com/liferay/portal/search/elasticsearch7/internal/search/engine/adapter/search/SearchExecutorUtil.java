@@ -15,7 +15,7 @@
 package com.liferay.portal.search.elasticsearch7.internal.search.engine.adapter.search;
 
 import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.search.searcher.SearchTimeValue;
+import com.liferay.portal.kernel.util.GetterUtil;
 
 import java.util.concurrent.TimeUnit;
 
@@ -27,10 +27,22 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
  */
 public class SearchExecutorUtil {
 
-	protected static long getMinutes(SearchTimeValue searchTimeValue) {
-		TimeUnit timeUnit = searchTimeValue.getTimeUnit();
+	protected static long getMinutes(String timeString) {
+		int num = GetterUtil.getInteger(
+			timeString.substring(0, timeString.length() - 1));
+		String unitString = timeString.substring(timeString.length() - 1);
 
-		return timeUnit.toMinutes(searchTimeValue.getDuration());
+		if (unitString.equals("s")) {
+			return TimeUnit.SECONDS.toMinutes(num);
+		}
+		else if (unitString.equals("m")) {
+			return num;
+		}
+		else if (unitString.equals("h")) {
+			return TimeUnit.HOURS.toMinutes(num);
+		}
+
+		throw new IllegalArgumentException("Invalid time unit " + unitString);
 	}
 
 	protected static String toString(
