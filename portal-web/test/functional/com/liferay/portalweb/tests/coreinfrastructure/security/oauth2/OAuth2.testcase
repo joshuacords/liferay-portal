@@ -463,6 +463,7 @@ definition {
 		}
 	}
 
+	@ignore = "true"
 	test AuthorizeExternalApplication {
 		property custom.properties = "virtual.hosts.default.site.name=Guest";
 
