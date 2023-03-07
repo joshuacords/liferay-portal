@@ -412,9 +412,9 @@ class Sidebar extends Component {
 		cancelChangesModal.show();
 	}
 
-	_deleteField(indexes) {
+	_deleteField(fieldName) {
 		const {dispatch} = this.context;
-		dispatch('fieldDeleted', indexes);
+		dispatch('fieldDeleted', {fieldName});
 	}
 
 	dispatchFieldBlurred() {
@@ -703,11 +703,11 @@ class Sidebar extends Component {
 						.querySelector('.dropdown-menu.show')
 						.classList.remove('show');
 
-					this.refs.existingRuleModal.data = indexes;
+					this.refs.existingRuleModal.data = fieldName;
 					this.refs.existingRuleModal.show();
 				}
 				else {
-					this._deleteField(indexes);
+					this._deleteField(fieldName);
 				}
 			}
 			else if (settingsItem === 'cancel-field-changes') {

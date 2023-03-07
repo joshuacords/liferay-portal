@@ -24,7 +24,7 @@ import Component from 'metal-jsx';
 import {Config} from 'metal-state';
 
 import {pageStructure, ruleStructure} from '../../util/config.es';
-import {getFieldIndexes, getFieldProperties} from '../../util/fieldSupport.es';
+import {getFieldProperties} from '../../util/fieldSupport.es';
 import {setLocalizedValue} from '../../util/i18n.es';
 import RulesSupport from '../RuleBuilder/RulesSupport.es';
 import handleColumnResized from './handlers/columnResizedHandler.es';
@@ -371,17 +371,14 @@ class LayoutProvider extends Component {
 			},
 			{
 				action: fieldName => {
-					const {pages} = this.state;
 					const {rules} = this.state;
 
-					const indexes = getFieldIndexes(pages, fieldName);
-
 					if (RulesSupport.findRuleByFieldName(fieldName, rules)) {
-						this.refs.existingRuleModal.data = indexes;
+						this.refs.existingRuleModal.data = fieldName;
 						this.refs.existingRuleModal.show();
 					}
 					else {
-						this.dispatch('fieldDeleted', indexes);
+						this.dispatch('fieldDeleted', {fieldName});
 					}
 				},
 				label: Liferay.Language.get('delete')
@@ -478,7 +475,7 @@ class LayoutProvider extends Component {
 	}
 
 	_handleFieldDeleted(event) {
-		this.setState(handleFieldDeleted(this.state, event));
+		this.setState(handleFieldDeleted(this.props, this.state, event));
 	}
 
 	_handleFieldDuplicated(event) {
