@@ -555,6 +555,35 @@ paths:
                                 format: binary
                                 type: string
             tags: ["LicenseKey"]
+    "/accounts/{accountKey}/product/{productKey}/usage":
+        get:
+            description:
+                Gets the max concurrent purchased count and consumed count per year for the previous, current and next
+                year. Also includes the current usage at the time of invoking this API.
+            operationId: getAccountAccountKeyProductProductKeyUsage
+            parameters:
+                - in: path
+                  name: accountKey
+                  required: true
+                  schema:
+                      type: string
+                - in: path
+                  name: productKey
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                format: binary
+                                type: string
+                        application/xml:
+                            schema:
+                                format: binary
+                                type: string
+            tags: ["LicenseKey"]
     "/license-keys/activate":
         put:
             description:

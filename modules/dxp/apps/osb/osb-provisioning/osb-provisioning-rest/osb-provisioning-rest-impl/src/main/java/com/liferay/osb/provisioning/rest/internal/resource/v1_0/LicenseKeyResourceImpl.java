@@ -17,6 +17,7 @@ package com.liferay.osb.provisioning.rest.internal.resource.v1_0;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Account;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Contact;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Product;
+import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ProductConsumption;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ProductPurchase;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ProductPurchaseView;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Team;
@@ -55,6 +56,9 @@ import com.liferay.osb.provisioning.util.CustomerPortalRelease;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.search.filter.Filter;
@@ -67,6 +71,7 @@ import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.DateUtil;
 import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Time;
 import com.liferay.portal.kernel.util.Validator;
@@ -85,13 +90,18 @@ import java.io.InputStream;
 import java.time.temporal.ChronoUnit;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
@@ -249,6 +259,122 @@ public class LicenseKeyResourceImpl
 			"content-disposition", "attachment; filename=\"" + fileName + "\""
 		).type(
 			ContentTypes.TEXT_XML
+		).build();
+	}
+
+	@Override
+	public Response getAccountAccountKeyProductProductKeyUsage(
+			String accountKey, String productKey)
+		throws Exception {
+
+		FilterQuery filterQuery = new FilterQuery();
+
+		filterQuery.addEquals(true, "accountKey", accountKey);
+		filterQuery.addEquals(true, "productKey", productKey);
+
+		List<ProductPurchaseView> productPurchaseViews =
+			_productPurchaseViewWebService.search(
+				StringPool.BLANK, filterQuery, 1, 1, StringPool.BLANK);
+
+		if (productPurchaseViews.isEmpty()) {
+			return Response.status(
+				Response.Status.NOT_FOUND
+			).build();
+		}
+
+		Calendar calendar = Calendar.getInstance();
+
+		int currentYear = calendar.get(Calendar.YEAR);
+
+		ProductPurchaseView productPurchaseView = productPurchaseViews.get(0);
+
+		TreeMap<Date, Integer> consumptionTermedCountsMap = new TreeMap<>();
+
+		for (ProductConsumption productConsumption :
+				productPurchaseView.getProductConsumptions()) {
+
+			_consolidateTermCounts(
+				consumptionTermedCountsMap, currentYear,
+				productConsumption.getStartDate(),
+				productConsumption.getEndDate(), 1);
+		}
+
+		TreeMap<Date, Integer> subscriptionTermedCountsMap = new TreeMap<>();
+
+		for (ProductPurchase productPurchase :
+				productPurchaseView.getProductPurchases()) {
+
+			if (productPurchase.getStatus() !=
+					ProductPurchase.Status.APPROVED) {
+
+				continue;
+			}
+
+			_consolidateTermCounts(
+				subscriptionTermedCountsMap, currentYear,
+				productPurchase.getStartDate(),
+				productPurchase.getOriginalEndDate(),
+				productPurchase.getQuantity());
+		}
+
+		Map<Integer, Integer> consumptionMaxConcurrentCountMap =
+			_getMaxConcurrentCountMap(consumptionTermedCountsMap, currentYear);
+
+		Map<Integer, Integer> subscriptionMaxConcurrentCountMap =
+			_getMaxConcurrentCountMap(subscriptionTermedCountsMap, currentYear);
+
+		JSONArray jsonArray = JSONUtil.putAll(
+			JSONUtil.put(
+				"maxConcurrentConsumption",
+				GetterUtil.getInteger(
+					consumptionMaxConcurrentCountMap.get(currentYear - 1))
+			).put(
+				"maxConcurrentQuantity",
+				GetterUtil.getInteger(
+					subscriptionMaxConcurrentCountMap.get(currentYear - 1))
+			).put(
+				"year", currentYear - 1
+			),
+			JSONUtil.put(
+				"maxConcurrentConsumption",
+				GetterUtil.getInteger(
+					consumptionMaxConcurrentCountMap.get(currentYear))
+			).put(
+				"maxConcurrentQuantity",
+				GetterUtil.getInteger(
+					subscriptionMaxConcurrentCountMap.get(currentYear))
+			).put(
+				"year", currentYear
+			),
+			JSONUtil.put(
+				"maxConcurrentConsumption",
+				GetterUtil.getInteger(
+					consumptionMaxConcurrentCountMap.get(currentYear + 1))
+			).put(
+				"maxConcurrentQuantity",
+				GetterUtil.getInteger(
+					subscriptionMaxConcurrentCountMap.get(currentYear + 1))
+			).put(
+				"year", currentYear + 1
+			));
+
+		Map.Entry<Date, Integer> currentConsumptionCount =
+			consumptionTermedCountsMap.floorEntry(calendar.getTime());
+
+		int currentConsumption = 0;
+
+		if (currentConsumptionCount != null) {
+			currentConsumption = currentConsumptionCount.getValue();
+		}
+
+		JSONObject jsonObject = JSONUtil.put(
+			"annualSubscriptions", jsonArray
+		).put(
+			"currentConsumption", currentConsumption
+		);
+
+		return Response.ok(
+			jsonObject.toString(), MediaType.APPLICATION_JSON
 		).build();
 	}
 
@@ -810,6 +936,67 @@ public class LicenseKeyResourceImpl
 		throw new PrincipalException();
 	}
 
+	private void _consolidateTermCounts(
+		TreeMap<Date, Integer> termedCountsMap, int currentYear, Date startDate,
+		Date endDate, int count) {
+
+		if (startDate == null) {
+			startDate = _portal.getDate(0, 1, currentYear - 1);
+		}
+
+		if (endDate == null) {
+			endDate = _portal.getDate(0, 1, currentYear + 1);
+		}
+
+		Date validDate = _portal.getDate(0, 1, currentYear - 1);
+
+		if (endDate.before(validDate)) {
+			return;
+		}
+
+		Map.Entry<Date, Integer> previousTermedCount =
+			termedCountsMap.floorEntry(startDate);
+		Map.Entry<Date, Integer> nextTermedCount = termedCountsMap.higherEntry(
+			startDate);
+
+		int previousTermCount = 0;
+
+		if (previousTermedCount != null) {
+			previousTermCount = previousTermedCount.getValue();
+		}
+
+		if (nextTermedCount == null) {
+			termedCountsMap.put(endDate, previousTermCount);
+			termedCountsMap.put(startDate, count + previousTermCount);
+		}
+		else {
+			termedCountsMap.put(startDate, count + previousTermCount);
+
+			Date nextTermDate = nextTermedCount.getKey();
+
+			int curTermCount = 0;
+
+			while (nextTermDate.before(endDate)) {
+				termedCountsMap.put(
+					nextTermDate, nextTermedCount.getValue() + count);
+
+				curTermCount = nextTermedCount.getValue();
+
+				nextTermedCount = termedCountsMap.higherEntry(nextTermDate);
+
+				if (nextTermedCount == null) {
+					break;
+				}
+
+				nextTermDate = nextTermedCount.getKey();
+			}
+
+			if ((nextTermedCount == null) || !nextTermDate.equals(endDate)) {
+				termedCountsMap.put(endDate, curTermCount);
+			}
+		}
+	}
+
 	private String _formatCsvFields(Object... objects) {
 		StringBundler sb = new StringBundler(4 * objects.length);
 
@@ -838,6 +1025,80 @@ public class LicenseKeyResourceImpl
 		}
 
 		return _flsTeamRoleKey;
+	}
+
+	private Map<Integer, Integer> _getMaxConcurrentCountMap(
+		TreeMap<Date, Integer> termedCountsMap, int currentYear) {
+
+		if (termedCountsMap.isEmpty()) {
+			return Collections.emptyMap();
+		}
+
+		Map<Integer, Integer> annualMaxConcurrentCount = new HashMap<>();
+
+		Map.Entry<Date, Integer> previousEntry = null;
+
+		for (Map.Entry<Date, Integer> entry : termedCountsMap.entrySet()) {
+			if (previousEntry != null) {
+				Calendar startCalendar = Calendar.getInstance();
+
+				startCalendar.setTime(previousEntry.getKey());
+
+				int startYear = startCalendar.get(Calendar.YEAR);
+
+				int endYear = currentYear + 1;
+
+				Calendar endCalendar = Calendar.getInstance();
+
+				endCalendar.setTime(entry.getKey());
+
+				if (endCalendar.get(Calendar.YEAR) < endYear) {
+					endYear = endCalendar.get(Calendar.YEAR);
+				}
+
+				while (startYear <= endYear) {
+					Integer maxConcurrentCount = annualMaxConcurrentCount.get(
+						startYear);
+
+					if ((maxConcurrentCount == null) ||
+						(maxConcurrentCount < previousEntry.getValue())) {
+
+						maxConcurrentCount = previousEntry.getValue();
+					}
+
+					annualMaxConcurrentCount.put(startYear, maxConcurrentCount);
+
+					startYear++;
+				}
+			}
+
+			previousEntry = entry;
+		}
+
+		Calendar startCalendar = Calendar.getInstance();
+
+		startCalendar.setTime(previousEntry.getKey());
+
+		int startYear = startCalendar.get(Calendar.YEAR);
+
+		int endYear = currentYear + 1;
+
+		while (startYear <= endYear) {
+			Integer maxConcurrentCount = annualMaxConcurrentCount.get(
+				startYear);
+
+			if ((maxConcurrentCount == null) ||
+				(maxConcurrentCount < previousEntry.getValue())) {
+
+				maxConcurrentCount = previousEntry.getValue();
+			}
+
+			annualMaxConcurrentCount.put(startYear, maxConcurrentCount);
+
+			startYear++;
+		}
+
+		return annualMaxConcurrentCount;
 	}
 
 	private Contact _getOmniContact() {
@@ -1421,6 +1682,9 @@ public class LicenseKeyResourceImpl
 
 	@Reference
 	private LicenseKeyLocalService _licenseKeyLocalService;
+
+	@Reference
+	private Portal _portal;
 
 	@Reference
 	private ProductConsumptionWebService _productConsumptionWebService;
