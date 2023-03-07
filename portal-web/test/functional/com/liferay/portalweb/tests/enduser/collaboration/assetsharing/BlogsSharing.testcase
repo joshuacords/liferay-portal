@@ -220,6 +220,8 @@ definition {
 
 		Button.clickPublish();
 
+		SelectFrameTop();
+
 		BlogsEntry.viewSharedAsset(
 			entryContent = "Blogs Entry Content Edit",
 			entryTitle = "Blogs Entry Title Edit");

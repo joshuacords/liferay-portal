@@ -578,6 +578,8 @@ definition {
 				value1 = ${webContentTitle});
 		}
 
+		SelectFrame(value1 = "relative=top");
+
 		Select(
 			locator1 = "PageEditorEditableLink#LAYOUT_BACKGROUND_IMAGE_FIELD",
 			value1 = "Image");

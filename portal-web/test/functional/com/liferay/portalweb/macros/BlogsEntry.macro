@@ -187,6 +187,8 @@ definition {
 			Navigator.gotoPage(pageName = "Blogs Page");
 		}
 
+		SelectFrameTop();
+
 		BlogsNavigator.gotoAddEntry();
 
 		BlogsEntry.addEntryContent(

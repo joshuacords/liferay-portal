@@ -130,6 +130,8 @@ definition {
 
 		Button.clickPublish();
 
+		SelectFrame(value1 = "relative=top");
+
 		Notifications.gotoNotifications();
 
 		Notifications.viewNewSharedContent(
