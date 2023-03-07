@@ -31,6 +31,7 @@ import com.liferay.portal.search.engine.adapter.search.SearchSearchRequest;
 import com.liferay.portal.search.groupby.GroupByRequest;
 import com.liferay.portal.search.legacy.groupby.GroupByRequestFactory;
 import com.liferay.portal.search.legacy.stats.StatsRequestBuilderFactory;
+import com.liferay.portal.search.searcher.SearchTimeValue;
 import com.liferay.portal.search.sort.Sort;
 import com.liferay.portal.search.sort.SortFieldTranslator;
 import com.liferay.portal.search.stats.StatsRequest;
@@ -40,6 +41,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.core.TimeValue;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.SortBuilder;
 
@@ -67,6 +69,7 @@ public class SearchSearchRequestAssemblerImpl
 		_setHighlighter(searchSourceBuilder, searchSearchRequest);
 		_setPagination(searchSourceBuilder, searchSearchRequest);
 		_setPreference(searchRequest, searchSearchRequest);
+		_setScroll(searchRequest, searchSearchRequest);
 		_setSorts(searchSourceBuilder, searchSearchRequest);
 		_setStats(searchSourceBuilder, searchSearchRequest);
 		_setStoredFields(searchSourceBuilder, searchSearchRequest);
@@ -189,6 +192,19 @@ public class SearchSearchRequestAssemblerImpl
 
 		if (!Validator.isBlank(preference)) {
 			searchRequest.preference(preference);
+		}
+	}
+
+	private void _setScroll(
+		SearchRequest searchRequest, SearchSearchRequest searchSearchRequest) {
+
+		SearchTimeValue scrollTimeValue =
+			searchSearchRequest.getScrollSearchTimeValue();
+
+		if (scrollTimeValue != null) {
+			searchRequest.scroll(
+				TimeValue.timeValueMinutes(
+					SearchExecutorUtil.getMinutes(scrollTimeValue)));
 		}
 	}
 
