@@ -14,19 +14,14 @@
 
 package com.liferay.portal.search.elasticsearch7.internal.search.engine.adapter.search;
 
-import com.liferay.portal.search.engine.adapter.search.SearchSearchRequest;
-import com.liferay.portal.search.engine.adapter.search.SearchSearchResponse;
-
-import org.elasticsearch.action.search.SearchResponse;
+import com.liferay.portal.search.engine.adapter.search.ClearScrollRequest;
+import com.liferay.portal.search.engine.adapter.search.ClearScrollResponse;
 
 /**
- * @author Michael C. Han
+ * @author Gustavo Lima
  */
-public interface SearchSearchResponseAssembler {
+public interface ClearScrollRequestExecutor {
 
-	public void assemble(
-		String searchRequestString, SearchResponse searchResponse,
-		SearchSearchRequest searchSearchRequest,
-		SearchSearchResponse searchSearchResponse);
+	public ClearScrollResponse execute(ClearScrollRequest clearScrollRequest);
 
 }

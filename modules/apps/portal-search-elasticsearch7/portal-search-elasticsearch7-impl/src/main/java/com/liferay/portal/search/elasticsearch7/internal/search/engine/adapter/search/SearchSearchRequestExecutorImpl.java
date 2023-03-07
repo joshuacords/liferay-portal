@@ -26,8 +26,10 @@ import java.io.IOException;
 
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.search.SearchScrollRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.core.TimeValue;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 import org.osgi.service.component.annotations.Component;
@@ -44,32 +46,44 @@ public class SearchSearchRequestExecutorImpl
 	public SearchSearchResponse execute(
 		SearchSearchRequest searchSearchRequest) {
 
-		SearchRequest searchRequest = new SearchRequest(
-			searchSearchRequest.getIndexNames());
-
-		if (searchSearchRequest.isRequestCache()) {
-			searchRequest.requestCache(searchSearchRequest.isRequestCache());
-		}
-
-		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-
-		_searchSearchRequestAssembler.assemble(
-			searchSourceBuilder, searchSearchRequest, searchRequest);
-
-		if (_log.isTraceEnabled()) {
-			String prettyPrintedRequestString = _getPrettyPrintedRequestString(
-				searchSourceBuilder);
-
-			_log.trace("Search query: " + prettyPrintedRequestString);
-		}
-
-		SearchResponse searchResponse = getSearchResponse(
-			searchRequest, searchSearchRequest);
-
+		SearchResponse searchResponse = null;
 		SearchSearchResponse searchSearchResponse = new SearchSearchResponse();
+		String searchRequestString = "";
+
+		if (searchSearchRequest.getScrollId() != null) {
+			searchResponse = _getScrollSearchResponse(searchSearchRequest);
+
+			searchRequestString = searchSearchRequest.getScrollId();
+		}
+		else {
+			SearchRequest searchRequest = new SearchRequest();
+
+			if (searchSearchRequest.isRequestCache()) {
+				searchRequest.requestCache(
+					searchSearchRequest.isRequestCache());
+			}
+
+			SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+
+			_searchSearchRequestAssembler.assemble(
+				searchSourceBuilder, searchSearchRequest, searchRequest);
+
+			if (_log.isTraceEnabled()) {
+				String prettyPrintedRequestString =
+					_getPrettyPrintedRequestString(searchSourceBuilder);
+
+				_log.trace("Search query: " + prettyPrintedRequestString);
+			}
+
+			searchResponse = _getSearchResponse(
+				searchRequest, searchSearchRequest);
+
+			searchRequestString = SearchExecutorUtil.toString(
+				searchSourceBuilder, _log);
+		}
 
 		_searchSearchResponseAssembler.assemble(
-			searchSourceBuilder, searchResponse, searchSearchRequest,
+			searchRequestString, searchResponse, searchSearchRequest,
 			searchSearchResponse);
 
 		if (_log.isDebugEnabled()) {
@@ -83,7 +97,43 @@ public class SearchSearchRequestExecutorImpl
 		return searchSearchResponse;
 	}
 
-	protected SearchResponse getSearchResponse(
+	private String _getPrettyPrintedRequestString(
+		SearchSourceBuilder searchSourceBuilder) {
+
+		try {
+			return JSONUtil.getPrettyPrintedJSONString(searchSourceBuilder);
+		}
+		catch (Exception exception) {
+			return exception.getMessage();
+		}
+	}
+
+	private SearchResponse _getScrollSearchResponse(
+		SearchSearchRequest searchSearchRequest) {
+
+		RestHighLevelClient restHighLevelClient =
+			_elasticsearchClientResolver.getRestHighLevelClient(
+				searchSearchRequest.getConnectionId(),
+				searchSearchRequest.isPreferLocalCluster());
+
+		SearchScrollRequest searchScrollRequest = new SearchScrollRequest(
+			searchSearchRequest.getScrollId());
+
+		searchScrollRequest.scroll(
+			TimeValue.timeValueMinutes(
+				SearchExecutorUtil.getMinutes(
+					searchSearchRequest.getScrollSearchTimeValue())));
+
+		try {
+			return restHighLevelClient.scroll(
+				searchScrollRequest, RequestOptions.DEFAULT);
+		}
+		catch (IOException ioException) {
+			throw new RuntimeException(ioException);
+		}
+	}
+
+	private SearchResponse _getSearchResponse(
 		SearchRequest searchRequest, SearchSearchRequest searchSearchRequest) {
 
 		RestHighLevelClient restHighLevelClient =
@@ -97,17 +147,6 @@ public class SearchSearchRequestExecutorImpl
 		}
 		catch (IOException ioException) {
 			throw new RuntimeException(ioException);
-		}
-	}
-
-	private String _getPrettyPrintedRequestString(
-		SearchSourceBuilder searchSourceBuilder) {
-
-		try {
-			return JSONUtil.getPrettyPrintedJSONString(searchSourceBuilder);
-		}
-		catch (Exception exception) {
-			return exception.getMessage();
 		}
 	}
 
