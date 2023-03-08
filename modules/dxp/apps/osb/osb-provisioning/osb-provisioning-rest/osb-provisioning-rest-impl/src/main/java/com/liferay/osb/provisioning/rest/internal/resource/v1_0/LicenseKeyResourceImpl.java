@@ -57,6 +57,7 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
+import com.liferay.portal.kernel.json.JSONFactory;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.search.Field;
@@ -323,7 +324,9 @@ public class LicenseKeyResourceImpl
 		Map<Integer, Integer> subscriptionMaxConcurrentCountMap =
 			_getMaxConcurrentCountMap(subscriptionTermedCountsMap, currentYear);
 
-		JSONArray jsonArray = JSONUtil.putAll(
+		JSONArray jsonArray = _jsonFactory.createJSONArray();
+
+		jsonArray.put(
 			JSONUtil.put(
 				"maxConcurrentConsumption",
 				GetterUtil.getInteger(
@@ -334,7 +337,8 @@ public class LicenseKeyResourceImpl
 					subscriptionMaxConcurrentCountMap.get(currentYear - 1))
 			).put(
 				"year", currentYear - 1
-			),
+			)
+		).put(
 			JSONUtil.put(
 				"maxConcurrentConsumption",
 				GetterUtil.getInteger(
@@ -345,7 +349,8 @@ public class LicenseKeyResourceImpl
 					subscriptionMaxConcurrentCountMap.get(currentYear))
 			).put(
 				"year", currentYear
-			),
+			)
+		).put(
 			JSONUtil.put(
 				"maxConcurrentConsumption",
 				GetterUtil.getInteger(
@@ -356,7 +361,8 @@ public class LicenseKeyResourceImpl
 					subscriptionMaxConcurrentCountMap.get(currentYear + 1))
 			).put(
 				"year", currentYear + 1
-			));
+			)
+		);
 
 		Map.Entry<Date, Integer> currentConsumptionCount =
 			consumptionTermedCountsMap.floorEntry(calendar.getTime());
@@ -1673,6 +1679,9 @@ public class LicenseKeyResourceImpl
 	private CustomerPortalRelease _customerPortalRelease;
 
 	private String _flsTeamRoleKey;
+
+	@Reference
+	private JSONFactory _jsonFactory;
 
 	@Reference
 	private LicenseEntryLocalService _licenseEntryLocalService;
