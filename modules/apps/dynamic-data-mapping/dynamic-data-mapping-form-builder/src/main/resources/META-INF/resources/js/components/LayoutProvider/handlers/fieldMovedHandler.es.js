@@ -25,13 +25,23 @@ export default (props, state, event) => {
 		targetIndexes,
 		targetParentFieldName
 	} = event;
-	const deletedState = handleFieldDeleted(props, state, {
-		fieldName: sourceFieldName
-	});
+
 	const sourceField = FormSupport.findFieldByName(
 		state.pages,
 		sourceFieldName
 	);
+
+	if (sourceFieldName === targetFieldName) {
+		return {
+			focusedField: sourceField,
+			pages: state.pages,
+			previousFocusedField: sourceField
+		};
+	}
+
+	const deletedState = handleFieldDeleted(props, state, {
+		fieldName: sourceFieldName
+	});
 
 	if (targetFieldName) {
 		return {
