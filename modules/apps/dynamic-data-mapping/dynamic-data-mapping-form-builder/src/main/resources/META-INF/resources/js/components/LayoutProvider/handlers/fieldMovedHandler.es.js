@@ -14,6 +14,7 @@
 
 import * as FormSupport from 'dynamic-data-mapping-form-renderer/js/components/FormRenderer/FormSupport.es';
 
+import RulesSupport from '../../RuleBuilder/RulesSupport.es';
 import {addField} from './fieldAddedHandler.es';
 import handleFieldDeleted from './fieldDeletedHandler.es';
 import handleSectionAdded from './sectionAddedHandler.es';
@@ -38,6 +39,8 @@ export default (props, state, event) => {
 			previousFocusedField: sourceField
 		};
 	}
+
+	const previousRules = state.rules;
 
 	const deletedState = handleFieldDeleted(props, state, {
 		fieldName: sourceFieldName
@@ -69,6 +72,7 @@ export default (props, state, event) => {
 			newField: sourceField,
 			pages: deletedState.pages,
 			parentFieldName: targetParentFieldName
-		})
+		}),
+		rules: RulesSupport.formatRules(state.pages, previousRules)
 	};
 };
