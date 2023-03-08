@@ -1132,13 +1132,25 @@ public class LicenseKeyResourceImpl
 
 		FilterQuery filterQuery3 = new FilterQuery();
 
-		filterQuery3.addGreaterThanEquals(
-			true, "endDate", productPurchase.getOriginalEndDate());
+		if (productPurchase.getOriginalEndDate() != null) {
+			filterQuery3.addGreaterThanEquals(
+				true, "endDate", productPurchase.getOriginalEndDate());
+		}
+		else {
+			filterQuery3.addEquals(true, "endDate", (String)null);
+		}
+
 		filterQuery3.addEquals(
 			true, "productKey", productPurchase.getProductKey());
 		filterQuery3.addEquals(true, "productPurchaseKey", (String)null);
-		filterQuery3.addLessThanEquals(
-			true, "startDate", productPurchase.getStartDate());
+
+		if (productPurchase.getStartDate() != null) {
+			filterQuery3.addLessThanEquals(
+				true, "startDate", productPurchase.getStartDate());
+		}
+		else {
+			filterQuery3.addEquals(true, "startDate", (String)null);
+		}
 
 		filterQuery2.addFilterQuery(false, filterQuery3);
 
