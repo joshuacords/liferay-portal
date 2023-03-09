@@ -106,7 +106,10 @@ function init(
 									.getAnnotations();
 
 								const errorAnnotations = annotations.filter(
-									annotation => annotation.type === 'error'
+									annotation =>
+										annotation.type === 'error' &&
+										annotation.text !==
+											'Named entity expected. Got none.'
 								);
 
 								if (errorAnnotations.length) {
