@@ -82,13 +82,13 @@ public class CommerceAccountGroupLocalServiceImpl
 		CommerceAccountGroup commerceAccountGroup =
 			commerceAccountGroupPersistence.create(commerceAccountGroupId);
 
+		commerceAccountGroup.setExternalReferenceCode(externalReferenceCode);
 		commerceAccountGroup.setCompanyId(companyId);
 		commerceAccountGroup.setUserId(user.getUserId());
 		commerceAccountGroup.setUserName(user.getFullName());
 		commerceAccountGroup.setName(name);
 		commerceAccountGroup.setType(type);
 		commerceAccountGroup.setSystem(system);
-		commerceAccountGroup.setExternalReferenceCode(externalReferenceCode);
 		commerceAccountGroup.setExpandoBridgeAttributes(serviceContext);
 
 		commerceAccountGroup = commerceAccountGroupPersistence.update(

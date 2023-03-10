@@ -137,6 +137,7 @@ public class CommerceAccountLocalServiceImpl
 		CommerceAccount commerceAccount = commerceAccountPersistence.create(
 			commerceAccountId);
 
+		commerceAccount.setExternalReferenceCode(externalReferenceCode);
 		commerceAccount.setCompanyId(user.getCompanyId());
 		commerceAccount.setUserId(user.getUserId());
 		commerceAccount.setUserName(user.getFullName());
@@ -146,7 +147,6 @@ public class CommerceAccountLocalServiceImpl
 		commerceAccount.setTaxId(taxId);
 		commerceAccount.setType(type);
 		commerceAccount.setActive(active);
-		commerceAccount.setExternalReferenceCode(externalReferenceCode);
 		commerceAccount.setExpandoBridgeAttributes(serviceContext);
 
 		commerceAccount = commerceAccountPersistence.update(commerceAccount);

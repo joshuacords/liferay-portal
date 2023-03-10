@@ -1075,10 +1075,10 @@ public class CommerceOrderLocalServiceImpl
 			}
 		}
 
+		commerceOrder.setExternalReferenceCode(externalReferenceCode);
 		commerceOrder.setTotal(total);
 		commerceOrder.setTotalWithTaxAmount(totalWithTaxAmount);
 		commerceOrder.setAdvanceStatus(advanceStatus);
-		commerceOrder.setExternalReferenceCode(externalReferenceCode);
 
 		return commerceOrderPersistence.update(commerceOrder);
 	}
@@ -1160,9 +1160,9 @@ public class CommerceOrderLocalServiceImpl
 			}
 		}
 
+		commerceOrder.setExternalReferenceCode(externalReferenceCode);
 		commerceOrder.setTotal(total);
 		commerceOrder.setAdvanceStatus(advanceStatus);
-		commerceOrder.setExternalReferenceCode(externalReferenceCode);
 
 		return commerceOrderPersistence.update(commerceOrder);
 	}

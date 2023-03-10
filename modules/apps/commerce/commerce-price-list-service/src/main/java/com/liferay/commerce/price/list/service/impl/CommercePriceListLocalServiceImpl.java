@@ -186,6 +186,7 @@ public class CommercePriceListLocalServiceImpl
 		CommercePriceList commercePriceList =
 			commercePriceListPersistence.create(commercePriceListId);
 
+		commercePriceList.setExternalReferenceCode(externalReferenceCode);
 		commercePriceList.setGroupId(groupId);
 		commercePriceList.setCompanyId(user.getCompanyId());
 		commercePriceList.setUserId(user.getUserId());
@@ -200,7 +201,6 @@ public class CommercePriceListLocalServiceImpl
 		commercePriceList.setPriority(priority);
 		commercePriceList.setDisplayDate(displayDate);
 		commercePriceList.setExpirationDate(expirationDate);
-		commercePriceList.setExternalReferenceCode(externalReferenceCode);
 
 		if ((expirationDate == null) || expirationDate.after(now)) {
 			commercePriceList.setStatus(WorkflowConstants.STATUS_DRAFT);

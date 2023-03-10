@@ -248,6 +248,7 @@ public class CommerceDiscountLocalServiceImpl
 			commerceDiscount.setLevel4(level4);
 		}
 
+		commerceDiscount.setExternalReferenceCode(externalReferenceCode);
 		commerceDiscount.setLimitationType(limitationType);
 		commerceDiscount.setLimitationTimes(limitationTimes);
 		commerceDiscount.setLimitationTimesPerAccount(
@@ -256,7 +257,6 @@ public class CommerceDiscountLocalServiceImpl
 		commerceDiscount.setActive(active);
 		commerceDiscount.setDisplayDate(displayDate);
 		commerceDiscount.setExpirationDate(expirationDate);
-		commerceDiscount.setExternalReferenceCode(externalReferenceCode);
 
 		if ((expirationDate == null) || expirationDate.after(now)) {
 			commerceDiscount.setStatus(WorkflowConstants.STATUS_DRAFT);

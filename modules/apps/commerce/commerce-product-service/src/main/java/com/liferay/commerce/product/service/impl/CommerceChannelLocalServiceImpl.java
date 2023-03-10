@@ -83,11 +83,11 @@ public class CommerceChannelLocalServiceImpl
 		commerceChannel.setName(name);
 		commerceChannel.setType(type);
 		commerceChannel.setTypeSettingsProperties(typeSettingsProperties);
+		commerceChannel.setExternalReferenceCode(externalReferenceCode);
 		commerceChannel.setCommerceCurrencyCode(commerceCurrencyCode);
 		commerceChannel.setPriceDisplayType(
 			CommercePricingConstants.TAX_EXCLUDED_FROM_PRICE);
 		commerceChannel.setDiscountsTargetNetPrice(true);
-		commerceChannel.setExternalReferenceCode(externalReferenceCode);
 
 		commerceChannel = commerceChannelPersistence.update(commerceChannel);
 
