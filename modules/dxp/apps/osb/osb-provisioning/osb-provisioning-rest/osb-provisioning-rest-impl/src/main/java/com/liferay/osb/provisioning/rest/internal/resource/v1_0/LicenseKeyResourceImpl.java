@@ -268,6 +268,8 @@ public class LicenseKeyResourceImpl
 			String accountKey, String productKey)
 		throws Exception {
 
+		_checkAccountViewPermission(accountKey);
+
 		FilterQuery filterQuery = new FilterQuery();
 
 		filterQuery.addEquals(true, "accountKey", accountKey);
