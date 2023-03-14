@@ -83,7 +83,9 @@ public class ElasticsearchIndexSearcherTest {
 				_searchRequestBuilderFactory.builder(
 					searchContext
 				).build(),
-				searchContext, Mockito.mock(Query.class), 0, 0);
+				searchContext, Mockito.mock(Query.class));
+
+		_elasticsearchIndexSearcher.setStartAndSize(searchSearchRequest, 0, 0);
 
 		Assert.assertTrue(searchSearchRequest.isBasicFacetSelection());
 		Assert.assertTrue(searchSearchRequest.isLuceneSyntax());

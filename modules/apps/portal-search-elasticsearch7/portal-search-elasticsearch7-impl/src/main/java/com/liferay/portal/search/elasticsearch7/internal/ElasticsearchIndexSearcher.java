@@ -117,10 +117,11 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 
 			Hits hits = null;
 
+			SearchSearchRequest searchSearchRequest = createSearchSearchRequest(
+				searchRequest, searchContext, query);
+
 			while (true) {
-				SearchSearchRequest searchSearchRequest =
-					createSearchSearchRequest(
-						searchRequest, searchContext, query, start, end);
+				setStartAndSize(searchSearchRequest, start, end);
 
 				SearchSearchResponse searchSearchResponse =
 					_searchEngineAdapter.execute(searchSearchRequest);
@@ -235,8 +236,7 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 	}
 
 	protected SearchSearchRequest createSearchSearchRequest(
-		SearchRequest searchRequest, SearchContext searchContext, Query query,
-		int start, int end) {
+		SearchRequest searchRequest, SearchContext searchContext, Query query) {
 
 		SearchSearchRequest searchSearchRequest = new SearchSearchRequest();
 
@@ -262,6 +262,7 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 			searchRequest.getGroupByRequests());
 		searchSearchRequest.setHighlightEnabled(
 			queryConfig.isHighlightEnabled());
+
 		searchSearchRequest.setHighlightFieldNames(
 			queryConfig.getHighlightFieldNames());
 		searchSearchRequest.setHighlightFragmentSize(
@@ -288,11 +289,6 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 		searchSearchRequest.setSelectedFieldNames(
 			queryConfig.getSelectedFieldNames());
 
-		int size = end - start;
-
-		searchSearchRequest.setSize(size);
-
-		searchSearchRequest.setStart(start);
 		searchSearchRequest.setSorts(searchContext.getSorts());
 		searchSearchRequest.setSorts(searchRequest.getSorts());
 		searchSearchRequest.setStats(searchContext.getStats());
@@ -343,6 +339,18 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 		BaseSearchRequest baseSearchRequest, SearchRequest searchRequest) {
 
 		baseSearchRequest.setQuery(searchRequest.getQuery());
+	}
+
+	protected SearchSearchRequest setStartAndSize(
+		SearchSearchRequest searchSearchRequest, int start, int end) {
+
+		int size = end - start;
+
+		searchSearchRequest.setSize(size);
+
+		searchSearchRequest.setStart(start);
+
+		return searchSearchRequest;
 	}
 
 	private CountSearchRequest _createCountSearchRequest(
