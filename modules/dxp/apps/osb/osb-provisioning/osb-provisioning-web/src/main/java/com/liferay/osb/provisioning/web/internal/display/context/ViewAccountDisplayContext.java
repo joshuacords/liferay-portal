@@ -194,9 +194,13 @@ public class ViewAccountDisplayContext {
 
 		List<String> liferayVersionNames = new ArrayList<>();
 
+		liferayVersionNames.add(ProductVersion.PORTAL_VERSION_6_2_10);
+
 		for (String version : ProductVersion.DXP_VERSIONS) {
 			liferayVersionNames.add("DXP " + version);
 		}
+
+		liferayVersionNames.add(ProductVersion.LXC);
 
 		data.put("liferayVersionNames", liferayVersionNames);
 

@@ -118,22 +118,28 @@ public class DossieraSubscriberUtil {
 
 		JSONObject projectJSONObject = jsonObject.getJSONObject("_project");
 
+		String liferayVersion = null;
 		String projectSolution = null;
 
 		if (projectJSONObject != null) {
-			String liferayVersion = projectJSONObject.getString(
-				"_liferayVersion");
+			liferayVersion = projectJSONObject.getString("_liferayVersion");
 
-			if (Validator.isNotNull(liferayVersion) &&
-				liferayVersion.contains("DXP")) {
-
+			if (Validator.isNotNull(liferayVersion)) {
 				properties.put("liferayVersion", liferayVersion);
 			}
 
 			projectSolution = projectJSONObject.getString("_projectSolution");
 		}
 		else {
+			liferayVersion = jsonObject.getString("currentLiferayVersion");
 			projectSolution = jsonObject.getString("projectSolution");
+		}
+
+		if (Validator.isNotNull(liferayVersion)) {
+			properties.put("liferayVersion", liferayVersion);
+		}
+		else {
+			properties.remove("liferayVersion");
 		}
 
 		if (Validator.isNotNull(projectSolution)) {

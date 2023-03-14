@@ -2253,7 +2253,15 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 
 		Account account = _accountWebService.getAccount(accountKey);
 
-		if (Validator.isNull(account.getContactEmailAddress()) ||
+		Map<String, String> accountProperties = account.getProperties();
+
+		String liferayVersion = accountProperties.getOrDefault(
+			"liferayVersion", StringPool.BLANK);
+
+		JSONObject projectJSONObject = jsonObject.getJSONObject("_project");
+
+		if (!liferayVersion.equals(projectJSONObject.get("_liferayVersion")) ||
+			Validator.isNull(account.getContactEmailAddress()) ||
 			Validator.isNull(account.getRegion()) || (parentAccount != null)) {
 
 			if (parentAccount != null) {
@@ -2272,6 +2280,10 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 			if (Validator.isNull(account.getRegion())) {
 				account.setRegion(region);
 			}
+
+			account.setProperties(
+				_dossieraSubscriberUtil.getAccountProperties(
+					account, jsonObject));
 
 			_accountWebService.updateAccount(
 				StringPool.BLANK, StringPool.BLANK, accountKey, account);

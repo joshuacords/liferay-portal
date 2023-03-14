@@ -39,6 +39,8 @@ public class ProductVersion {
 		DXP_VERSION_7_4
 	};
 
+	public static final String LXC = "LXC";
+
 	public static final String PORTAL_VERSION_5_1_3 = "5.1";
 
 	public static final String PORTAL_VERSION_5_1_4 = "5.1 SP1";
