@@ -40,13 +40,17 @@ import com.liferay.portal.search.elasticsearch7.internal.configuration.Elasticse
 import com.liferay.portal.search.engine.adapter.SearchEngineAdapter;
 import com.liferay.portal.search.engine.adapter.search.BaseSearchRequest;
 import com.liferay.portal.search.engine.adapter.search.BaseSearchResponse;
+import com.liferay.portal.search.engine.adapter.search.ClosePointInTimeRequest;
 import com.liferay.portal.search.engine.adapter.search.CountSearchRequest;
 import com.liferay.portal.search.engine.adapter.search.CountSearchResponse;
+import com.liferay.portal.search.engine.adapter.search.OpenPointInTimeRequest;
+import com.liferay.portal.search.engine.adapter.search.OpenPointInTimeResponse;
 import com.liferay.portal.search.engine.adapter.search.SearchSearchRequest;
 import com.liferay.portal.search.engine.adapter.search.SearchSearchResponse;
 import com.liferay.portal.search.index.IndexNameBuilder;
 import com.liferay.portal.search.legacy.searcher.SearchRequestBuilderFactory;
 import com.liferay.portal.search.legacy.searcher.SearchResponseBuilderFactory;
+import com.liferay.portal.search.pit.PointInTime;
 import com.liferay.portal.search.searcher.SearchRequest;
 import com.liferay.portal.search.searcher.SearchRequestBuilder;
 import com.liferay.portal.search.searcher.SearchResponseBuilder;
@@ -120,6 +124,9 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 			SearchSearchRequest searchSearchRequest = createSearchSearchRequest(
 				searchRequest, searchContext, query);
 
+			PointInTime pointInTime = _getPointInTime(
+				searchContext, searchRequest);
+
 			while (true) {
 				setStartAndSize(searchSearchRequest, start, end);
 
@@ -154,6 +161,11 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 				start = startAndEnd[0];
 				end = startAndEnd[1];
 			}
+
+			ClosePointInTimeRequest closePointInTimeRequest =
+				new ClosePointInTimeRequest(pointInTime.getPitId());
+
+			_searchEngineAdapter.execute(closePointInTimeRequest);
 
 			hits.setStart(stopWatch.getStartTime());
 
@@ -388,6 +400,27 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 			searchContext.getCompanyId());
 
 		return new String[] {indexName};
+	}
+
+	private PointInTime _getPointInTime(
+		SearchContext searchContext, SearchRequest searchRequest) {
+
+		OpenPointInTimeRequest openPointInTimeRequest =
+			new OpenPointInTimeRequest();
+
+		openPointInTimeRequest.setIndices(
+			_getIndexes(searchRequest, searchContext));
+		openPointInTimeRequest.setKeepAliveMinutes(1);
+
+		OpenPointInTimeResponse openPointInTimeResponse =
+			_searchEngineAdapter.execute(openPointInTimeRequest);
+
+		PointInTime pointInTime = new PointInTime(
+			openPointInTimeResponse.pitId());
+
+		pointInTime.setKeepAlive("1m");
+
+		return pointInTime;
 	}
 
 	private SearchRequest _getSearchRequest(SearchContext searchContext) {
