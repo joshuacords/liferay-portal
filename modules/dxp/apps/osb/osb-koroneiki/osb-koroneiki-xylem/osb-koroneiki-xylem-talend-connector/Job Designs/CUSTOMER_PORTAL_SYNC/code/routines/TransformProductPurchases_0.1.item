@@ -320,7 +320,8 @@ public class TransformProductPurchases {
 					Constants.
 						EXTERNAL_LINK_ENTITY_NAME_SALESFORCE_OPPORTUNITY)) {
 
-				return externalLinkJSONObject.getString("entityId");
+				return accountKey + "_" +
+					externalLinkJSONObject.getString("entityId");
 			}
 		}
 
