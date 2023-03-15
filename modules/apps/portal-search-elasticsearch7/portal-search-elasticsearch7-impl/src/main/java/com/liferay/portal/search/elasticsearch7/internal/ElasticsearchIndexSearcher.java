@@ -16,17 +16,16 @@ package com.liferay.portal.search.elasticsearch7.internal;
 
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
-import com.liferay.portal.kernel.dao.search.SearchPaginationUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.BaseIndexSearcher;
-import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.HitsImpl;
 import com.liferay.portal.kernel.search.IndexSearcher;
 import com.liferay.portal.kernel.search.Query;
 import com.liferay.portal.kernel.search.QueryConfig;
 import com.liferay.portal.kernel.search.SearchContext;
+import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.search.suggest.QuerySuggester;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Props;
@@ -47,6 +46,8 @@ import com.liferay.portal.search.engine.adapter.search.OpenPointInTimeRequest;
 import com.liferay.portal.search.engine.adapter.search.OpenPointInTimeResponse;
 import com.liferay.portal.search.engine.adapter.search.SearchSearchRequest;
 import com.liferay.portal.search.engine.adapter.search.SearchSearchResponse;
+import com.liferay.portal.search.hits.SearchHit;
+import com.liferay.portal.search.hits.SearchHits;
 import com.liferay.portal.search.index.IndexNameBuilder;
 import com.liferay.portal.search.legacy.searcher.SearchRequestBuilderFactory;
 import com.liferay.portal.search.legacy.searcher.SearchResponseBuilderFactory;
@@ -54,6 +55,7 @@ import com.liferay.portal.search.pit.PointInTime;
 import com.liferay.portal.search.searcher.SearchRequest;
 import com.liferay.portal.search.searcher.SearchRequestBuilder;
 import com.liferay.portal.search.searcher.SearchResponseBuilder;
+import com.liferay.portal.search.sort.Sorts;
 
 import java.util.List;
 import java.util.Map;
@@ -119,48 +121,69 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 			SearchResponseBuilder searchResponseBuilder =
 				_getSearchResponseBuilder(searchContext);
 
-			Hits hits = null;
-
 			SearchSearchRequest searchSearchRequest = createSearchSearchRequest(
 				searchRequest, searchContext, query);
 
 			PointInTime pointInTime = _getPointInTime(
 				searchContext, searchRequest);
 
-			while (true) {
-				setStartAndSize(searchSearchRequest, start, end);
+			int loop;
+			int searchAfterSize;
+			int searchAfterStart;
 
-				SearchSearchResponse searchSearchResponse =
-					_searchEngineAdapter.execute(searchSearchRequest);
+			SearchSearchResponse searchSearchResponse = null;
 
-				if (_log.isInfoEnabled()) {
-					_log.info(
-						StringBundler.concat(
-							"The search engine processed ",
-							searchSearchResponse.getSearchRequestString(),
-							" in ", searchSearchResponse.getExecutionTime(),
-							" ms"));
+			int maxWindow = 10000;
+
+			if (end > maxWindow) {
+				searchAfterStart = 9999;
+				searchAfterSize = 1;
+				loop = end / maxWindow;
+				start = start % maxWindow;
+				end = end % maxWindow;
+
+				for (int i = 0; i < loop; i++) {
+					searchSearchRequest.setStart(searchAfterStart);
+					searchSearchRequest.setSize(searchAfterSize);
+
+					searchSearchResponse = _searchEngineAdapter.execute(
+						searchSearchRequest);
+
+					_populateResponse(
+						searchSearchResponse, searchResponseBuilder);
+
+					_searchAfter(searchSearchRequest, searchSearchResponse);
+
+					searchAfterSize = maxWindow;
+					searchAfterStart = 0;
 				}
+			}
+
+			if (start != 0) {
+				searchAfterSize = start - 1;
+
+				searchSearchRequest.setStart(0);
+				searchSearchRequest.setSize(searchAfterSize);
+
+				searchSearchResponse = _searchEngineAdapter.execute(
+					searchSearchRequest);
 
 				_populateResponse(searchSearchResponse, searchResponseBuilder);
 
-				searchResponseBuilder.searchHits(
-					searchSearchResponse.getSearchHits());
-
-				hits = searchSearchResponse.getHits();
-
-				Document[] documents = hits.getDocs();
-
-				if ((documents.length != 0) || (start == 0)) {
-					break;
-				}
-
-				int[] startAndEnd = SearchPaginationUtil.calculateStartAndEnd(
-					start, end, hits.getLength());
-
-				start = startAndEnd[0];
-				end = startAndEnd[1];
+				_searchAfter(searchSearchRequest, searchSearchResponse);
 			}
+
+			searchAfterSize = end - start;
+
+			searchSearchRequest.setStart(0);
+			searchSearchRequest.setSize(searchAfterSize);
+
+			searchSearchResponse = _searchEngineAdapter.execute(
+				searchSearchRequest);
+
+			_populateResponse(searchSearchResponse, searchResponseBuilder);
+
+			Hits hits = searchSearchResponse.getHits();
 
 			ClosePointInTimeRequest closePointInTimeRequest =
 				new ClosePointInTimeRequest(pointInTime.getPitId());
@@ -301,8 +324,19 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 		searchSearchRequest.setSelectedFieldNames(
 			queryConfig.getSelectedFieldNames());
 
-		searchSearchRequest.setSorts(searchContext.getSorts());
-		searchSearchRequest.setSorts(searchRequest.getSorts());
+		Sort[] sortsKernel = searchContext.getSorts();
+		List<com.liferay.portal.search.sort.Sort> sortsSearch =
+			searchRequest.getSorts();
+
+
+		searchSearchRequest.setSorts(sortsKernel);
+		searchSearchRequest.setSorts(sortsSearch);
+
+		if (sortsKernel == null && sortsSearch.isEmpty()) {
+			searchSearchRequest.addSorts(_sorts.field("_scores"));
+			searchSearchRequest.addSorts(_sorts.field("modified_sortable"));
+		}
+
 		searchSearchRequest.setStats(searchContext.getStats());
 
 		return searchSearchRequest;
@@ -351,18 +385,6 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 		BaseSearchRequest baseSearchRequest, SearchRequest searchRequest) {
 
 		baseSearchRequest.setQuery(searchRequest.getQuery());
-	}
-
-	protected SearchSearchRequest setStartAndSize(
-		SearchSearchRequest searchSearchRequest, int start, int end) {
-
-		int size = end - start;
-
-		searchSearchRequest.setSize(size);
-
-		searchSearchRequest.setStart(start);
-
-		return searchSearchRequest;
 	}
 
 	private CountSearchRequest _createCountSearchRequest(
@@ -500,6 +522,19 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 		setQuery(baseSearchRequest, searchRequest);
 	}
 
+	private void _searchAfter(
+		SearchSearchRequest searchSearchRequest,
+		SearchSearchResponse searchSearchResponse) {
+
+		SearchHits searchHits = searchSearchResponse.getSearchHits();
+
+		List<SearchHit> searchHitList = searchHits.getSearchHits();
+
+		SearchHit lastSearchHit = searchHitList.get(searchHitList.size() - 1);
+
+		searchSearchRequest.setSearchAfter(lastSearchHit.getSortValues());
+	}
+
 	private void _setAggregations(
 		BaseSearchRequest baseSearchRequest, SearchRequest searchRequest) {
 
@@ -565,5 +600,8 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 
 	@Reference
 	private SearchResponseBuilderFactory _searchResponseBuilderFactory;
+
+	@Reference
+	private Sorts _sorts;
 
 }

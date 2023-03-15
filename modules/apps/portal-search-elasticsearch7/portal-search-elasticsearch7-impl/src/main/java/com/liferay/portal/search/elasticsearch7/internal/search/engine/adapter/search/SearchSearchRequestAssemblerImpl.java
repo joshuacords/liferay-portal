@@ -197,7 +197,9 @@ public class SearchSearchRequestAssemblerImpl
 		SearchSourceBuilder searchSourceBuilder,
 		SearchSearchRequest searchSearchRequest) {
 
-		if (searchSearchRequest.getSearchAfter() != null) {
+		if ((searchSearchRequest.getSearchAfter() != null) &&
+			ArrayUtil.isNotEmpty(searchSearchRequest.getSearchAfter())) {
+
 			searchSourceBuilder.searchAfter(
 				searchSearchRequest.getSearchAfter());
 		}
