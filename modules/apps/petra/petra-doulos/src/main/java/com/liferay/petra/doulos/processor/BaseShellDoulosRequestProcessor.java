@@ -201,11 +201,17 @@ public abstract class BaseShellDoulosRequestProcessor
 	protected void populateResponseJSONObject(
 		JSONObject responseJSONObject, ShellStatus shellStatus) {
 
-		responseJSONObject.put("exception", shellStatus.exception);
-		responseJSONObject.put("exitValue", shellStatus.exitValue);
-		responseJSONObject.put("output", shellStatus.output);
-		responseJSONObject.put("shellCommands", shellStatus.shellCommands);
-		responseJSONObject.put("status", shellStatus.status);
+		responseJSONObject.put(
+			"exception", shellStatus.exception
+		).put(
+			"exitValue", shellStatus.exitValue
+		).put(
+			"output", shellStatus.output
+		).put(
+			"shellCommands", shellStatus.shellCommands
+		).put(
+			"status", shellStatus.status
+		);
 	}
 
 	protected ShellStatus queue(JSONObject payloadJSONObject) {
