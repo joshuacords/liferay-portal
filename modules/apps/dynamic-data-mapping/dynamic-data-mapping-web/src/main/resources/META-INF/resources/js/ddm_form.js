@@ -4449,7 +4449,11 @@ AUI.add(
 
 					var currentLocale = repeatedField.get('displayLocale');
 
-					var localizations = Object.keys(totalLocalizations);
+					var localizations = [];
+
+					if (originalField && originalField.get('localizable')) {
+						localizations = Object.keys(totalLocalizations);
+					}
 
 					localizations.push(currentLocale);
 
