@@ -120,7 +120,7 @@ public abstract class BaseSiteResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/sites/by-friendly-url-path/{friendlyUrlPath: .+}'  -u 'test@liferay.com:test'
+	 * curl -X 'GET' 'http://localhost:8080/o/headless-admin-user/v1.0/sites/by-friendly-url-path/{friendlyUrlPath}'  -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
@@ -132,7 +132,7 @@ public abstract class BaseSiteResourceImpl
 	)
 	@io.swagger.v3.oas.annotations.tags.Tags(value = {})
 	@javax.ws.rs.GET
-	@javax.ws.rs.Path("/sites/by-friendly-url-path/{friendlyUrlPath: .+}")
+	@javax.ws.rs.Path("/sites/by-friendly-url-path/{friendlyUrlPath}")
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
 	public Site getSiteByFriendlyUrlPath(
