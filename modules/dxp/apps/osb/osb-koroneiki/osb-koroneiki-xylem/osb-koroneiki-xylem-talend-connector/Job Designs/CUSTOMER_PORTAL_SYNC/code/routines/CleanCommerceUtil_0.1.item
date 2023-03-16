@@ -8,8 +8,9 @@ import routines.system.JSONObject;
  */
 public class CleanCommerceUtil {
 
-	public static String getCommerceOrderERC(
-		JSONArray commerceOrdersJSONArray, String externalReferenceCode) {
+	public static String getCommerceOrderId(
+		JSONArray commerceOrdersJSONArray, String orderId,
+		String externalReferenceCode) {
 
 		for (int i = 0; i < commerceOrdersJSONArray.length(); i++) {
 			JSONObject commerceOrderJSONObject =
@@ -23,7 +24,7 @@ public class CleanCommerceUtil {
 			}
 		}
 
-		return externalReferenceCode;
+		return orderId;
 	}
 
 	public static String getCommerceOrderItemERC(
