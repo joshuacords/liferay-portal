@@ -118,77 +118,60 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 				throw new IllegalArgumentException("Invalid end " + end);
 			}
 
-			SearchResponseBuilder searchResponseBuilder =
-				_getSearchResponseBuilder(searchContext);
-
 			SearchSearchRequest searchSearchRequest = createSearchSearchRequest(
 				searchRequest, searchContext, query);
 
-			PointInTime pointInTime = _getPointInTime(
+			PointInTime pointInTime = _createPointInTime(
 				searchContext, searchRequest);
-
-			int loop;
-			int searchAfterSize;
-			int searchAfterStart;
 
 			SearchSearchResponse searchSearchResponse = null;
 
 			int maxWindow = 10000;
 
 			if (end > maxWindow) {
-				searchAfterStart = 9999;
-				searchAfterSize = 1;
-				loop = end / maxWindow;
-				start = start % maxWindow;
+				int searchAfterStart = 9999;
+				int maxWindowPages = end / maxWindow;
 				end = end % maxWindow;
+				size = 1;
+				start = start % maxWindow;
 
-				for (int i = 0; i < loop; i++) {
-					searchSearchRequest.setStart(searchAfterStart);
-					searchSearchRequest.setSize(searchAfterSize);
+				for (int i = 0; i < maxWindowPages; i++) {
+					_setStartAndSize(
+						searchSearchRequest, searchAfterStart, size);
 
 					searchSearchResponse = _searchEngineAdapter.execute(
 						searchSearchRequest);
 
-					_populateResponse(
-						searchSearchResponse, searchResponseBuilder);
-
 					_searchAfter(searchSearchRequest, searchSearchResponse);
 
-					searchAfterSize = maxWindow;
+					size = maxWindow;
 					searchAfterStart = 0;
 				}
 			}
 
 			if (start != 0) {
-				searchAfterSize = start - 1;
+				size = start - 1;
 
-				searchSearchRequest.setStart(0);
-				searchSearchRequest.setSize(searchAfterSize);
+				_setStartAndSize(searchSearchRequest, 0, size);
 
 				searchSearchResponse = _searchEngineAdapter.execute(
 					searchSearchRequest);
 
-				_populateResponse(searchSearchResponse, searchResponseBuilder);
-
 				_searchAfter(searchSearchRequest, searchSearchResponse);
 			}
 
-			searchAfterSize = end - start;
+			size = end - start;
 
-			searchSearchRequest.setStart(0);
-			searchSearchRequest.setSize(searchAfterSize);
+			_setStartAndSize(searchSearchRequest, 0, size);
 
 			searchSearchResponse = _searchEngineAdapter.execute(
 				searchSearchRequest);
 
-			_populateResponse(searchSearchResponse, searchResponseBuilder);
+			_populateResponse(searchSearchResponse, searchContext);
+
+			_closePointInTime(pointInTime);
 
 			Hits hits = searchSearchResponse.getHits();
-
-			ClosePointInTimeRequest closePointInTimeRequest =
-				new ClosePointInTimeRequest(pointInTime.getPitId());
-
-			_searchEngineAdapter.execute(closePointInTimeRequest);
 
 			hits.setStart(stopWatch.getStartTime());
 
@@ -328,11 +311,10 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 		List<com.liferay.portal.search.sort.Sort> sortsSearch =
 			searchRequest.getSorts();
 
-
 		searchSearchRequest.setSorts(sortsKernel);
 		searchSearchRequest.setSorts(sortsSearch);
 
-		if (sortsKernel == null && sortsSearch.isEmpty()) {
+		if ((sortsKernel == null) && sortsSearch.isEmpty()) {
 			searchSearchRequest.addSorts(_sorts.field("_scores"));
 			searchSearchRequest.addSorts(_sorts.field("modified_sortable"));
 		}
@@ -387,6 +369,13 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 		baseSearchRequest.setQuery(searchRequest.getQuery());
 	}
 
+	private void _closePointInTime(PointInTime pointInTime) {
+		ClosePointInTimeRequest closePointInTimeRequest =
+			new ClosePointInTimeRequest(pointInTime.getPitId());
+
+		_searchEngineAdapter.execute(closePointInTimeRequest);
+	}
+
 	private CountSearchRequest _createCountSearchRequest(
 		SearchContext searchContext, Query query) {
 
@@ -397,6 +386,27 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 			searchContext);
 
 		return countSearchRequest;
+	}
+
+	private PointInTime _createPointInTime(
+		SearchContext searchContext, SearchRequest searchRequest) {
+
+		OpenPointInTimeRequest openPointInTimeRequest =
+			new OpenPointInTimeRequest();
+
+		openPointInTimeRequest.setIndices(
+			_getIndexes(searchRequest, searchContext));
+		openPointInTimeRequest.setKeepAliveMinutes(1);
+
+		OpenPointInTimeResponse openPointInTimeResponse =
+			_searchEngineAdapter.execute(openPointInTimeRequest);
+
+		PointInTime pointInTime = new PointInTime(
+			openPointInTimeResponse.pitId());
+
+		pointInTime.setKeepAlive("1m");
+
+		return pointInTime;
 	}
 
 	private String _getExceptionMessage(RuntimeException runtimeException) {
@@ -422,27 +432,6 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 			searchContext.getCompanyId());
 
 		return new String[] {indexName};
-	}
-
-	private PointInTime _getPointInTime(
-		SearchContext searchContext, SearchRequest searchRequest) {
-
-		OpenPointInTimeRequest openPointInTimeRequest =
-			new OpenPointInTimeRequest();
-
-		openPointInTimeRequest.setIndices(
-			_getIndexes(searchRequest, searchContext));
-		openPointInTimeRequest.setKeepAliveMinutes(1);
-
-		OpenPointInTimeResponse openPointInTimeResponse =
-			_searchEngineAdapter.execute(openPointInTimeRequest);
-
-		PointInTime pointInTime = new PointInTime(
-			openPointInTimeResponse.pitId());
-
-		pointInTime.setKeepAlive("1m");
-
-		return pointInTime;
 	}
 
 	private SearchRequest _getSearchRequest(SearchContext searchContext) {
@@ -485,7 +474,10 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 
 	private void _populateResponse(
 		SearchSearchResponse searchSearchResponse,
-		SearchResponseBuilder searchResponseBuilder) {
+		SearchContext searchContext) {
+
+		SearchResponseBuilder searchResponseBuilder = _getSearchResponseBuilder(
+			searchContext);
 
 		_populateResponse(
 			(BaseSearchResponse)searchSearchResponse, searchResponseBuilder);
@@ -574,6 +566,13 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 		for (PipelineAggregation aggregation : map.values()) {
 			baseSearchRequest.addPipelineAggregation(aggregation);
 		}
+	}
+
+	private void _setStartAndSize(
+		SearchSearchRequest searchSearchRequest, int start, Integer size) {
+
+		searchSearchRequest.setStart(start);
+		searchSearchRequest.setSize(size);
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
