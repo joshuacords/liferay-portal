@@ -228,7 +228,7 @@ public class SearchHitImpl implements SearchHit, Serializable {
 		_score = score;
 	}
 
-	private void _setSortValues(Object[] sort) {
+	private void _setSortValues(Object[] sort) {//rename sortValues
 		_sortValues = sort;
 	}
 

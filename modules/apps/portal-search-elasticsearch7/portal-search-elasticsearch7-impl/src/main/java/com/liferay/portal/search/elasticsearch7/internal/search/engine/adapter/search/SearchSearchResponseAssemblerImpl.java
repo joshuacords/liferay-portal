@@ -171,7 +171,7 @@ public class SearchSearchResponseAssemblerImpl
 
 		SearchHits elasticsearchSearchHits = searchResponse.getHits();
 
-		searchSearchResponse.setSearchHits(
+		searchSearchResponse.setSearchHits(//doesn't this wipe out previous searchHits? How are we adding to search hits each followup search?
 			searchHitsTranslator.translate(
 				elasticsearchSearchHits,
 				searchSearchRequest.getAlternateUidFieldName()));
