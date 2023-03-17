@@ -136,7 +136,7 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 				start = start % maxWindow;
 
 				for (int i = 0; i < maxWindowPages; i++) {
-					_setStartAndSize(
+					setStartAndSize(
 						searchSearchRequest, searchAfterStart, size);
 
 					searchSearchResponse = _searchEngineAdapter.execute(
@@ -152,7 +152,7 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 			if (start != 0) {
 				size = start - 1;
 
-				_setStartAndSize(searchSearchRequest, 0, size);
+				setStartAndSize(searchSearchRequest, 0, size);
 
 				searchSearchResponse = _searchEngineAdapter.execute(
 					searchSearchRequest);
@@ -162,7 +162,7 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 
 			size = end - start;
 
-			_setStartAndSize(searchSearchRequest, 0, size);
+			setStartAndSize(searchSearchRequest, 0, size);
 
 			searchSearchResponse = _searchEngineAdapter.execute(
 				searchSearchRequest);
@@ -369,6 +369,13 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 		baseSearchRequest.setQuery(searchRequest.getQuery());
 	}
 
+	protected void setStartAndSize(
+		SearchSearchRequest searchSearchRequest, int start, Integer size) {
+
+		searchSearchRequest.setStart(start);
+		searchSearchRequest.setSize(size);
+	}
+
 	private void _closePointInTime(PointInTime pointInTime) {
 		ClosePointInTimeRequest closePointInTimeRequest =
 			new ClosePointInTimeRequest(pointInTime.getPitId());
@@ -566,13 +573,6 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 		for (PipelineAggregation aggregation : map.values()) {
 			baseSearchRequest.addPipelineAggregation(aggregation);
 		}
-	}
-
-	private void _setStartAndSize(
-		SearchSearchRequest searchSearchRequest, int start, Integer size) {
-
-		searchSearchRequest.setStart(start);
-		searchSearchRequest.setSize(size);
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
