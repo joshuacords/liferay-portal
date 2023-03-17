@@ -96,7 +96,7 @@ public class SearchRequestExecutorFixture {
 			statsTranslator, "_statsResponseBuilderFactory",
 			new StatsResponseBuilderFactoryImpl());
 
-		_searchRequestExecutor = _createSearchRequestExecutor(
+		_searchRequestExecutor = _createClosePointInTimeRequestExecutor(
 			createComplexQueryBuilderFactory(new QueriesImpl()),
 			_elasticsearchClientResolver, elasticsearchQueryTranslator,
 			elasticsearchSortFieldTranslatorFixture.
@@ -217,6 +217,76 @@ public class SearchRequestExecutorFixture {
 		return defaultFacetTranslator;
 	}
 
+	private SearchRequestExecutor _createClosePointInTimeRequestExecutor(
+		ComplexQueryBuilderFactory complexQueryBuilderFactory,
+		ElasticsearchClientResolver elasticsearchClientResolver,
+		ElasticsearchQueryTranslator elasticsearchQueryTranslator,
+		ElasticsearchSortFieldTranslator elasticsearchSortFieldTranslator,
+		FacetProcessor<?> facetProcessor,
+		StatsRequestBuilderFactory statsRequestBuilderFactory,
+		StatsTranslator statsTranslator) {
+
+		CommonSearchSourceBuilderAssembler commonSearchSourceBuilderAssembler =
+			createCommonSearchSourceBuilderAssembler(
+				elasticsearchQueryTranslator, facetProcessor, statsTranslator,
+				complexQueryBuilderFactory);
+
+		SearchSearchRequestAssembler searchSearchRequestAssembler =
+			_createSearchSearchRequestAssembler(
+				elasticsearchQueryTranslator, elasticsearchSortFieldTranslator,
+				commonSearchSourceBuilderAssembler, statsRequestBuilderFactory,
+				statsTranslator);
+
+		SearchSearchResponseAssembler searchSearchResponseAssembler =
+			_createSearchSearchResponseAssembler(
+				statsRequestBuilderFactory, statsTranslator);
+
+		SearchRequestExecutor searchRequestExecutor =
+			new ElasticsearchSearchRequestExecutor();
+
+		ReflectionTestUtil.setFieldValue(
+			searchRequestExecutor, "_closePointInTimeRequestExecutor",
+			_createClosePointInTimeRequestExecutor(
+				elasticsearchClientResolver));
+		ReflectionTestUtil.setFieldValue(
+			searchRequestExecutor, "_countSearchRequestExecutor",
+			_createCountSearchRequestExecutor(
+				elasticsearchClientResolver, commonSearchSourceBuilderAssembler,
+				statsTranslator));
+		ReflectionTestUtil.setFieldValue(
+			searchRequestExecutor, "_multisearchSearchRequestExecutor",
+			_createMultisearchSearchRequestExecutor(
+				elasticsearchClientResolver, searchSearchRequestAssembler,
+				searchSearchResponseAssembler));
+		ReflectionTestUtil.setFieldValue(
+			searchRequestExecutor, "_openPointInTimeRequestExecutor",
+			_createOpenPointInTimeRequestExecutor(elasticsearchClientResolver));
+		ReflectionTestUtil.setFieldValue(
+			searchRequestExecutor, "_searchSearchRequestExecutor",
+			_createSearchSearchRequestExecutor(
+				elasticsearchClientResolver, searchSearchRequestAssembler,
+				searchSearchResponseAssembler));
+		ReflectionTestUtil.setFieldValue(
+			searchRequestExecutor, "_suggestSearchRequestExecutor",
+			_createSuggestSearchRequestExecutor(elasticsearchClientResolver));
+
+		return searchRequestExecutor;
+	}
+
+	private ClosePointInTimeRequestExecutor
+		_createClosePointInTimeRequestExecutor(
+			ElasticsearchClientResolver elasticsearchClientResolver) {
+
+		ClosePointInTimeRequestExecutor closePointInTimeRequestExecutor =
+			new ClosePointInTimeRequestExecutorImpl();
+
+		ReflectionTestUtil.setFieldValue(
+			closePointInTimeRequestExecutor, "_elasticsearchClientResolver",
+			elasticsearchClientResolver);
+
+		return closePointInTimeRequestExecutor;
+	}
+
 	private CountSearchRequestExecutor _createCountSearchRequestExecutor(
 		ElasticsearchClientResolver elasticsearchClientResolver,
 		CommonSearchSourceBuilderAssembler commonSearchSourceBuilderAssembler,
@@ -267,53 +337,18 @@ public class SearchRequestExecutorFixture {
 		return multisearchSearchRequestExecutor;
 	}
 
-	private SearchRequestExecutor _createSearchRequestExecutor(
-		ComplexQueryBuilderFactory complexQueryBuilderFactory,
-		ElasticsearchClientResolver elasticsearchClientResolver,
-		ElasticsearchQueryTranslator elasticsearchQueryTranslator,
-		ElasticsearchSortFieldTranslator elasticsearchSortFieldTranslator,
-		FacetProcessor<?> facetProcessor,
-		StatsRequestBuilderFactory statsRequestBuilderFactory,
-		StatsTranslator statsTranslator) {
+	private OpenPointInTimeRequestExecutor
+		_createOpenPointInTimeRequestExecutor(
+			ElasticsearchClientResolver elasticsearchClientResolver) {
 
-		CommonSearchSourceBuilderAssembler commonSearchSourceBuilderAssembler =
-			createCommonSearchSourceBuilderAssembler(
-				elasticsearchQueryTranslator, facetProcessor, statsTranslator,
-				complexQueryBuilderFactory);
-
-		SearchSearchRequestAssembler searchSearchRequestAssembler =
-			_createSearchSearchRequestAssembler(
-				elasticsearchQueryTranslator, elasticsearchSortFieldTranslator,
-				commonSearchSourceBuilderAssembler, statsRequestBuilderFactory,
-				statsTranslator);
-
-		SearchSearchResponseAssembler searchSearchResponseAssembler =
-			_createSearchSearchResponseAssembler(
-				statsRequestBuilderFactory, statsTranslator);
-
-		SearchRequestExecutor searchRequestExecutor =
-			new ElasticsearchSearchRequestExecutor();
+		OpenPointInTimeRequestExecutor openPointInTimeRequestExecutor =
+			new OpenPointInTimeRequestExecutorImpl();
 
 		ReflectionTestUtil.setFieldValue(
-			searchRequestExecutor, "_countSearchRequestExecutor",
-			_createCountSearchRequestExecutor(
-				elasticsearchClientResolver, commonSearchSourceBuilderAssembler,
-				statsTranslator));
-		ReflectionTestUtil.setFieldValue(
-			searchRequestExecutor, "_multisearchSearchRequestExecutor",
-			_createMultisearchSearchRequestExecutor(
-				elasticsearchClientResolver, searchSearchRequestAssembler,
-				searchSearchResponseAssembler));
-		ReflectionTestUtil.setFieldValue(
-			searchRequestExecutor, "_searchSearchRequestExecutor",
-			_createSearchSearchRequestExecutor(
-				elasticsearchClientResolver, searchSearchRequestAssembler,
-				searchSearchResponseAssembler));
-		ReflectionTestUtil.setFieldValue(
-			searchRequestExecutor, "_suggestSearchRequestExecutor",
-			_createSuggestSearchRequestExecutor(elasticsearchClientResolver));
+			openPointInTimeRequestExecutor, "_elasticsearchClientResolver",
+			elasticsearchClientResolver);
 
-		return searchRequestExecutor;
+		return openPointInTimeRequestExecutor;
 	}
 
 	private SearchSearchRequestAssembler _createSearchSearchRequestAssembler(
