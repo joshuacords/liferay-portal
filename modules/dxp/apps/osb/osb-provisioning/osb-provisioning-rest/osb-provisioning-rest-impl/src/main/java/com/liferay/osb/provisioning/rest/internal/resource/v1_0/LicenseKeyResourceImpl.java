@@ -291,6 +291,21 @@ public class LicenseKeyResourceImpl
 
 		ProductPurchaseView productPurchaseView = productPurchaseViews.get(0);
 
+		Product product = productPurchaseView.getProduct();
+
+		Map<String, String> properties = product.getProperties();
+
+		String displayGroupName = properties.get("display-group-name");
+
+		if (Validator.isNull(displayGroupName) ||
+			(!displayGroupName.equals(ProductConstants.GROUP_NAME_DXP) &&
+			 !displayGroupName.equals(ProductConstants.GROUP_NAME_PORTAL))) {
+
+			return Response.status(
+				Response.Status.NOT_FOUND
+			).build();
+		}
+
 		TreeMap<Date, Integer> consumptionTermedCountsMap = new TreeMap<>();
 
 		for (ProductConsumption productConsumption :
