@@ -50,8 +50,8 @@ public class SearchSearchRequestExecutorImpl
 		SearchSearchResponse searchSearchResponse = new SearchSearchResponse();
 		String searchRequestString = "";
 
-		if ((searchSearchRequest.getScrollId() != null) &&
-			(searchSearchRequest.getScrollKeepAliveTime() != null)) {
+		if ((searchSearchRequest.getScrollId() != null) &&//shouldn't we be checking the searchResponse??
+			(searchSearchRequest.getScrollKeepAliveMinutes() > 0)) {//if this is the second search, we don't need keepAlive
 
 			searchResponse = _getScrollSearchResponse(searchSearchRequest);
 
@@ -123,8 +123,7 @@ public class SearchSearchRequestExecutorImpl
 
 		searchScrollRequest.scroll(
 			TimeValue.timeValueMinutes(
-				SearchExecutorUtil.getMinutes(
-					searchSearchRequest.getScrollKeepAliveTime())));
+				searchSearchRequest.getScrollKeepAliveMinutes()));
 
 		try {
 			return restHighLevelClient.scroll(

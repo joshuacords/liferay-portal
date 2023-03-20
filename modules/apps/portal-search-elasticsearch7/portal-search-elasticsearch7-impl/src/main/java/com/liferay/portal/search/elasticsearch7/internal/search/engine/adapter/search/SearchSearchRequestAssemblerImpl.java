@@ -197,13 +197,12 @@ public class SearchSearchRequestAssemblerImpl
 	private void _setScroll(
 		SearchRequest searchRequest, SearchSearchRequest searchSearchRequest) {
 
-		String scrollKeepAliveTime =
-			searchSearchRequest.getScrollKeepAliveTime();
+		long scrollKeepAliveTime =
+			searchSearchRequest.getScrollKeepAliveMinutes();
 
-		if (scrollKeepAliveTime != null) {
+		if (scrollKeepAliveTime > 0) {//do I check here
 			searchRequest.scroll(
-				TimeValue.timeValueMinutes(
-					SearchExecutorUtil.getMinutes(scrollKeepAliveTime)));
+				TimeValue.timeValueMinutes(scrollKeepAliveTime));
 		}
 	}
 
