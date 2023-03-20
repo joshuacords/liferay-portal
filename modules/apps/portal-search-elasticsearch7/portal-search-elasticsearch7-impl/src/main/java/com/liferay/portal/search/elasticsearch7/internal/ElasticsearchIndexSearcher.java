@@ -40,10 +40,13 @@ import com.liferay.portal.search.elasticsearch7.internal.configuration.Elasticse
 import com.liferay.portal.search.engine.adapter.SearchEngineAdapter;
 import com.liferay.portal.search.engine.adapter.search.BaseSearchRequest;
 import com.liferay.portal.search.engine.adapter.search.BaseSearchResponse;
+import com.liferay.portal.search.engine.adapter.search.ClearScrollRequest;
 import com.liferay.portal.search.engine.adapter.search.CountSearchRequest;
 import com.liferay.portal.search.engine.adapter.search.CountSearchResponse;
 import com.liferay.portal.search.engine.adapter.search.SearchSearchRequest;
 import com.liferay.portal.search.engine.adapter.search.SearchSearchResponse;
+import com.liferay.portal.search.hits.SearchHit;
+import com.liferay.portal.search.hits.SearchHits;
 import com.liferay.portal.search.index.IndexNameBuilder;
 import com.liferay.portal.search.legacy.searcher.SearchRequestBuilderFactory;
 import com.liferay.portal.search.legacy.searcher.SearchResponseBuilderFactory;
@@ -79,6 +82,8 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 
 		stopWatch.start();
 
+		String scrollId = null;
+
 		try {
 			int end = searchContext.getEnd();
 			int start = searchContext.getStart();
@@ -112,18 +117,44 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 				throw new IllegalArgumentException("Invalid end " + end);
 			}
 
-			SearchResponseBuilder searchResponseBuilder =
-				_getSearchResponseBuilder(searchContext);
+			SearchSearchRequest searchSearchRequest = createSearchSearchRequest(
+				searchRequest, searchContext, query);
+
+			SearchSearchResponse searchSearchResponse = null;
+
+			int maxWindow = 10000;
+
+			if (end > maxWindow) {
+				int maxWindowPages = end / maxWindow;
+				//int lastEnd = end % maxWindow;
+
+				searchSearchRequest.setStart(0);
+				searchSearchRequest.setSize(maxWindow);
+				searchSearchRequest.setScrollKeepAliveMinutes(1);
+
+				for (int i = 0; i < maxWindowPages; i++) {//for each windowPage
+
+					searchSearchResponse = _searchEngineAdapter.execute(
+						searchSearchRequest);
+
+					scrollId = searchSearchResponse.getScrollId();
+
+					searchSearchRequest.setScrollId(scrollId);
+
+					_log.error("Iteration: " + i);
+					_log.error(	"Scroll Id: " + scrollId);
+					_logLastHit(searchSearchResponse);
+				}
+			}
 
 			Hits hits = null;
 
 			while (true) {
-				SearchSearchRequest searchSearchRequest =
-					createSearchSearchRequest(
-						searchRequest, searchContext, query, start, end);
+				searchSearchRequest = createSearchSearchRequest(
+					searchRequest, searchContext, query);
 
-				SearchSearchResponse searchSearchResponse =
-					_searchEngineAdapter.execute(searchSearchRequest);
+				searchSearchResponse = _searchEngineAdapter.execute(
+					searchSearchRequest);
 
 				if (_log.isInfoEnabled()) {
 					_log.info(
@@ -133,6 +164,9 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 							" in ", searchSearchResponse.getExecutionTime(),
 							" ms"));
 				}
+
+				SearchResponseBuilder searchResponseBuilder =
+					_getSearchResponseBuilder(searchContext);
 
 				_populateResponse(searchSearchResponse, searchResponseBuilder);
 
@@ -175,6 +209,10 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 			return new HitsImpl();
 		}
 		finally {
+			if (scrollId != null) {
+				_clearScroll(scrollId);
+			}
+
 			if (_log.isInfoEnabled()) {
 				stopWatch.stop();
 
@@ -183,6 +221,13 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 						"Searching took ", stopWatch.getTime(), " ms"));
 			}
 		}
+	}
+
+	private void _clearScroll(String scrollId) {
+		ClearScrollRequest clearScrollRequest =
+			new ClearScrollRequest(scrollId);
+
+		_searchEngineAdapter.execute(clearScrollRequest);
 	}
 
 	@Override
@@ -235,8 +280,7 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 	}
 
 	protected SearchSearchRequest createSearchSearchRequest(
-		SearchRequest searchRequest, SearchContext searchContext, Query query,
-		int start, int end) {
+		SearchRequest searchRequest, SearchContext searchContext, Query query) {
 
 		SearchSearchRequest searchSearchRequest = new SearchSearchRequest();
 
@@ -288,11 +332,6 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 		searchSearchRequest.setSelectedFieldNames(
 			queryConfig.getSelectedFieldNames());
 
-		int size = end - start;
-
-		searchSearchRequest.setSize(size);
-
-		searchSearchRequest.setStart(start);
 		searchSearchRequest.setSorts(searchContext.getSorts());
 		searchSearchRequest.setSorts(searchRequest.getSorts());
 		searchSearchRequest.setStats(searchContext.getStats());
@@ -399,6 +438,23 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 		SearchContext searchContext) {
 
 		return _searchResponseBuilderFactory.builder(searchContext);
+	}
+
+	private void _logLastHit(SearchSearchResponse searchSearchResponse) {
+		SearchHits searchHits = searchSearchResponse.getSearchHits();
+
+		List<SearchHit> searchHitList = searchHits.getSearchHits();
+
+		_log.error("Hits amount: " + searchHitList.size());
+
+		SearchHit lastSearchHit = searchHitList.get(searchHitList.size() - 1);
+
+		_log.error(
+			"Last Hit: " +
+				lastSearchHit.getDocument(
+				).getString(
+					"localized_title_en_US"
+				));
 	}
 
 	private void _populateResponse(
