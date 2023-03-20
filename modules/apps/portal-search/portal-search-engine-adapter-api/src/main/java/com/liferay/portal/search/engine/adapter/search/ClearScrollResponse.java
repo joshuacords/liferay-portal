@@ -19,14 +19,14 @@ package com.liferay.portal.search.engine.adapter.search;
  */
 public class ClearScrollResponse implements SearchResponse {
 
-	public ClearScrollResponse(boolean succeeded) {
-		_succeeded = succeeded;
+	public ClearScrollResponse(int numFreed) {
+		_numFreed = numFreed;
 	}
 
-	public boolean isSucceeded() {
-		return _succeeded;
+	public int getNumFreed() {
+		return _numFreed;
 	}
 
-	private final boolean _succeeded;
+	private final int _numFreed;
 
 }
