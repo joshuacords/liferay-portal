@@ -299,7 +299,12 @@ export default Component => {
 					event.target
 						.querySelectorAll('input[type=checkbox]')
 						.forEach(node => {
-							if (!node.hasAttribute('value')) {
+							if (
+								!node.hasAttribute('value') ||
+								(node.hasAttribute('value') &&
+									(node.value === 'true' ||
+										node.value === 'false'))
+							) {
 								if (node.checked) {
 									node.value = 'true';
 								}
