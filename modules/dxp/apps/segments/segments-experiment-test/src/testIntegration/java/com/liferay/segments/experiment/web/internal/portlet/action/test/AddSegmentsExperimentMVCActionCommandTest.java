@@ -256,11 +256,11 @@ public class AddSegmentsExperimentMVCActionCommandTest {
 
 		@Override
 		public String getString(long companyId, String name) {
-			if (Objects.equals("liferayAnalyticsFaroBackendURL", name)) {
+			if (Objects.equals(name, "liferayAnalyticsFaroBackendURL")) {
 				return null;
 			}
 
-			if (Objects.equals("liferayAnalyticsURL", name)) {
+			if (Objects.equals(name, "liferayAnalyticsURL")) {
 				return _liferayAnalyticsURL;
 			}
 

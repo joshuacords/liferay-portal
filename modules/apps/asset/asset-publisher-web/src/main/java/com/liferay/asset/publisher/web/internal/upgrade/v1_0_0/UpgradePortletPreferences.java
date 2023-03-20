@@ -135,7 +135,7 @@ public class UpgradePortletPreferences extends BaseUpgradePortletPreferences {
 			return false;
 		}
 
-		if (Objects.equals("ddm-date", ddmFormField.getType())) {
+		if (Objects.equals(ddmFormField.getType(), "ddm-date")) {
 			return true;
 		}
 

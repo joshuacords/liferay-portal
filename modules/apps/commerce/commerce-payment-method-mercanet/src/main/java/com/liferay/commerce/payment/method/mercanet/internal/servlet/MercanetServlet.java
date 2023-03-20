@@ -116,7 +116,7 @@ public class MercanetServlet extends HttpServlet {
 
 			Map<String, String> parameterMap = _getResponseParameters(data);
 
-			if (Objects.equals("normal", type)) {
+			if (Objects.equals(type, "normal")) {
 				HttpSession httpSession = httpServletRequest.getSession();
 
 				if (PortalSessionThreadLocal.getHttpSession() == null) {
@@ -148,7 +148,7 @@ public class MercanetServlet extends HttpServlet {
 				httpServletResponse.sendRedirect(redirect);
 			}
 
-			if (Objects.equals("automatic", type)) {
+			if (Objects.equals(type, "automatic")) {
 				CommerceOrder commerceOrder =
 					_commercePaymentHttpHelper.getCommerceOrder(
 						httpServletRequest);

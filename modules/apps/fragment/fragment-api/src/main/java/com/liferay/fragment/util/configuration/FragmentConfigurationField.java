@@ -51,7 +51,7 @@ public class FragmentConfigurationField {
 			return _defaultValue;
 		}
 
-		if (Objects.equals("colorPalette", _type)) {
+		if (Objects.equals(_type, "colorPalette")) {
 			return _getColorPaletteDefaultValue();
 		}
 

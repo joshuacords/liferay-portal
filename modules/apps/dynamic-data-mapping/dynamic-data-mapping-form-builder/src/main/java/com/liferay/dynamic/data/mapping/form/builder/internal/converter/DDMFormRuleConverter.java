@@ -142,12 +142,12 @@ public class DDMFormRuleConverter {
 	}
 
 	protected String convertOperand(DDMFormRuleCondition.Operand operand) {
-		if (Objects.equals("field", operand.getType())) {
+		if (Objects.equals(operand.getType(), "field")) {
 			return String.format(
 				_FUNCTION_CALL_UNARY_EXPRESSION_FORMAT, "getValue",
 				StringUtil.quote(operand.getValue()));
 		}
-		else if (Objects.equals("json", operand.getType())) {
+		else if (Objects.equals(operand.getType(), "json")) {
 			return String.format(
 				_FUNCTION_CALL_UNARY_EXPRESSION_FORMAT, "getJSONValue",
 				StringUtil.quote(operand.getValue()));

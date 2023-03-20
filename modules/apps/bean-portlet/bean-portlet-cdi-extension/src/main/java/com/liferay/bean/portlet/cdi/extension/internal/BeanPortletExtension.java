@@ -1193,7 +1193,7 @@ public class BeanPortletExtension implements Extension {
 		}
 
 		for (String portletName : portletNames) {
-			if (Objects.equals("*", portletName)) {
+			if (Objects.equals(portletName, "*")) {
 				continue;
 			}
 
