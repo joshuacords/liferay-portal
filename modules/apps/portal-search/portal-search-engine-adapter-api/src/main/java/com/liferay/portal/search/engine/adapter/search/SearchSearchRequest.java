@@ -110,8 +110,8 @@ public class SearchSearchRequest
 		return _scrollId;
 	}
 
-	public String getScrollKeepAliveTime() {
-		return _scrollKeepAliveTime;
+	public long getScrollKeepAliveMinutes() {
+		return _scrollKeepAliveMinutes;
 	}
 
 	public String[] getSelectedFieldNames() {
@@ -262,8 +262,8 @@ public class SearchSearchRequest
 		_scrollId = scrollId;
 	}
 
-	public void setScrollKeepAliveTime(String scrollKeepAliveTime) {
-		_scrollKeepAliveTime = scrollKeepAliveTime;
+	public void setScrollKeepAliveMinutes(long scrollKeepAliveMinutes) {
+		_scrollKeepAliveMinutes = scrollKeepAliveMinutes;
 	}
 
 	public void setSelectedFieldNames(String... selectedFieldNames) {
@@ -322,7 +322,7 @@ public class SearchSearchRequest
 	private String _preference;
 	private Boolean _scoreEnabled;
 	private String _scrollId;
-	private String _scrollKeepAliveTime;
+	private long _scrollKeepAliveMinutes;
 	private String[] _selectedFieldNames;
 	private Integer _size;
 	private List<Sort> _sorts = new ArrayList<>();
