@@ -43,14 +43,9 @@ public class ClearScrollRequestExecutorImpl
 			clearScrollResponse = getClearScrollResponse(
 				clearScrollRequest, elasticsearchClearScrollRequest);
 
-		if (_log.isDebugEnabled() && clearScrollResponse.isSucceeded()) {
-			_log.debug(
-				"Clear scroll request to scrollId:" +
-					clearScrollRequest.getScrollId() + " executed");
-		}
-		else if (_log.isWarnEnabled() && !clearScrollResponse.isSucceeded()) {
+		if (_log.isWarnEnabled() && !clearScrollResponse.isSucceeded()) {
 			_log.warn(
-				"Clear scroll request to scrollId:" +
+				"Clear scroll request for scrollId " +
 					clearScrollRequest.getScrollId() + " failed");
 		}
 
