@@ -127,7 +127,7 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 
 				searchSearchRequest.setStart(0);
 				searchSearchRequest.setSize(maxWindow);
-				searchSearchRequest.setScrollKeepAliveTime("1m"); //would be better as
+				searchSearchRequest.setScrollKeepAliveMinutes(1);
 
 				for (int i = 0; i < maxWindowPages; i++) {//for each windowPage
 
