@@ -23,10 +23,10 @@ public class ClosePointInTimeRequest
 	extends CrossClusterRequest
 	implements SearchRequest<ClosePointInTimeResponse> {
 
-	public ClosePointInTimeRequest(String pitId) {
+	public ClosePointInTimeRequest(String pointInTimeId) {
 		setPreferLocalCluster(true);
 
-		_pitId = pitId;
+		_pointInTimeId = pointInTimeId;
 	}
 
 	@Override
@@ -36,10 +36,10 @@ public class ClosePointInTimeRequest
 		return searchRequestExecutor.executeSearchRequest(this);
 	}
 
-	public String getPitId() {
-		return _pitId;
+	public String getPointInTimeId() {
+		return _pointInTimeId;
 	}
 
-	private final String _pitId;
+	private final String _pointInTimeId;
 
 }
