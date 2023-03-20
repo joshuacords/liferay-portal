@@ -36,15 +36,15 @@ public class ClearScrollRequestExecutorImpl
 	@Override
 	public ClearScrollResponse execute(ClearScrollRequest clearScrollRequest) {
 		org.elasticsearch.action.search.ClearScrollRequest
-			elasticsearchClearScrollRequest =
-				_getElasticsearchClearScrollRequest(clearScrollRequest);
+			elasticsearchClearScrollRequest = createClearScrollRequest(
+				clearScrollRequest);
 
 		org.elasticsearch.action.search.ClearScrollResponse
-			clearScrollResponse = _getElasticsearchClearScrollResponse(
+			clearScrollResponse = getClearScrollResponse(
 				clearScrollRequest, elasticsearchClearScrollRequest);
 
-		if (_log.isInfoEnabled() && clearScrollResponse.isSucceeded()) {
-			_log.info(
+		if (_log.isDebugEnabled() && clearScrollResponse.isSucceeded()) {
+			_log.debug(
 				"Clear scroll request to scrollId:" +
 					clearScrollRequest.getScrollId() + " executed");
 		}
@@ -57,9 +57,8 @@ public class ClearScrollRequestExecutorImpl
 		return new ClearScrollResponse(clearScrollResponse.isSucceeded());
 	}
 
-	private org.elasticsearch.action.search.ClearScrollRequest
-		_getElasticsearchClearScrollRequest(
-			ClearScrollRequest clearScrollRequest) {
+	protected org.elasticsearch.action.search.ClearScrollRequest
+		createClearScrollRequest(ClearScrollRequest clearScrollRequest) {
 
 		org.elasticsearch.action.search.ClearScrollRequest
 			elasticsearchClearScrollRequest =
@@ -71,8 +70,8 @@ public class ClearScrollRequestExecutorImpl
 		return elasticsearchClearScrollRequest;
 	}
 
-	private org.elasticsearch.action.search.ClearScrollResponse
-		_getElasticsearchClearScrollResponse(
+	protected org.elasticsearch.action.search.ClearScrollResponse
+		getClearScrollResponse(
 			ClearScrollRequest clearScrollRequest,
 			org.elasticsearch.action.search.ClearScrollRequest
 				elasticsearchClearScrollRequest) {
