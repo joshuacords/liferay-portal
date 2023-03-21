@@ -15,9 +15,6 @@
 package com.liferay.portal.search.elasticsearch7.internal.search.engine.adapter.search;
 
 import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.util.GetterUtil;
-
-import java.util.concurrent.TimeUnit;
 
 import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.search.builder.SearchSourceBuilder;

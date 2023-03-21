@@ -106,9 +106,8 @@ public class MultisearchSearchRequestExecutorImpl
 				searchRequestHolder.getSearchSearchRequest();
 
 			_searchSearchResponseAssembler.assemble(
-				SearchExecutorUtil.toString(
-					searchRequestHolder.getSearchSourceBuilder(), _log),
-				searchResponse, searchSearchRequest, searchSearchResponse);
+				searchRequestHolder.getSearchSourceBuilder(), searchResponse,
+				searchSearchRequest, searchSearchResponse);
 
 			if (_log.isDebugEnabled()) {
 				_log.debug(

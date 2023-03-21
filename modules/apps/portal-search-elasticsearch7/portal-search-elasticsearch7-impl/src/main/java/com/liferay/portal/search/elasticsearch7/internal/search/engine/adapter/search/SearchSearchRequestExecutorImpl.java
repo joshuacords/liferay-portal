@@ -50,12 +50,12 @@ public class SearchSearchRequestExecutorImpl
 		SearchSearchResponse searchSearchResponse = new SearchSearchResponse();
 		String searchRequestString = "";
 
-		if ((searchSearchRequest.getScrollId() != null) &&//shouldn't we be checking the searchResponse??
-			(searchSearchRequest.getScrollKeepAliveMinutes() > 0)) {//if this is the second search, we don't need keepAlive
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
+		if (searchSearchRequest.getScrollId() != null) {
 			searchResponse = _getScrollSearchResponse(searchSearchRequest);
 
-			searchRequestString = searchSearchRequest.getScrollId();
+			searchRequestString = searchSearchRequest.getScrollId(); //what is this?? Gustavo introduced this, at least this is a bad name, but is this even necessary?
 		}
 		else {
 			SearchRequest searchRequest = new SearchRequest();
@@ -65,10 +65,8 @@ public class SearchSearchRequestExecutorImpl
 					searchSearchRequest.isRequestCache());
 			}
 
-			SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-
 			_searchSearchRequestAssembler.assemble(
-				searchSourceBuilder, searchSearchRequest, searchRequest);
+				searchSourceBuilder, searchSearchRequest, searchRequest);//move this out and down
 
 			if (_log.isTraceEnabled()) {
 				String prettyPrintedRequestString =
@@ -80,12 +78,12 @@ public class SearchSearchRequestExecutorImpl
 			searchResponse = _getSearchResponse(
 				searchRequest, searchSearchRequest);
 
-			searchRequestString = SearchExecutorUtil.toString(
+			searchRequestString = SearchExecutorUtil.toString(//what does this do?
 				searchSourceBuilder, _log);
 		}
 
 		_searchSearchResponseAssembler.assemble(
-			searchRequestString, searchResponse, searchSearchRequest,
+			searchSourceBuilder, searchResponse, searchSearchRequest,
 			searchSearchResponse);
 
 		if (_log.isDebugEnabled()) {
@@ -121,9 +119,11 @@ public class SearchSearchRequestExecutorImpl
 		SearchScrollRequest searchScrollRequest = new SearchScrollRequest(
 			searchSearchRequest.getScrollId());
 
-		searchScrollRequest.scroll(
-			TimeValue.timeValueMinutes(
-				searchSearchRequest.getScrollKeepAliveMinutes()));
+		if (searchSearchRequest.getScrollKeepAliveMinutes() > 0) { //test with no value
+			searchScrollRequest.scroll(
+				TimeValue.timeValueMinutes(
+					searchSearchRequest.getScrollKeepAliveMinutes()));
+		}
 
 		try {
 			return restHighLevelClient.scroll(

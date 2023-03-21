@@ -198,9 +198,9 @@ public class SearchSearchRequestAssemblerImpl
 		SearchRequest searchRequest, SearchSearchRequest searchSearchRequest) {
 
 		long scrollKeepAliveMinutes =
-			searchSearchRequest.getScrollKeepAliveMinutes();//right now we're using scrollKeepAliveTime as a flag for using scroll, is there something else we should do?
+			searchSearchRequest.getScrollKeepAliveMinutes(); //right now we're using scrollKeepAliveTime as a flag for using scroll, is there something else we should do?
 
-		if (scrollKeepAliveMinutes > 0) {//do I check here
+		if (scrollKeepAliveMinutes > 0) {//do I check here - what if it's not set on followup searches?
 			searchRequest.scroll(
 				TimeValue.timeValueMinutes(scrollKeepAliveMinutes));
 		}

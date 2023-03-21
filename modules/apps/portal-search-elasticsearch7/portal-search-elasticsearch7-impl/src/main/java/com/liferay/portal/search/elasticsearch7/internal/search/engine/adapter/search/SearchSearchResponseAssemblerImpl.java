@@ -46,6 +46,7 @@ import org.apache.lucene.search.TotalHits;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.core.TimeValue;
 import org.elasticsearch.search.aggregations.Aggregations;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -61,12 +62,12 @@ public class SearchSearchResponseAssemblerImpl
 
 	@Override
 	public void assemble(
-		String searchRequestString, SearchResponse searchResponse,
+		SearchSourceBuilder searchRequestBuilder, SearchResponse searchResponse,
 		SearchSearchRequest searchSearchRequest,
 		SearchSearchResponse searchSearchResponse) {
 
 		_commonSearchResponseAssembler.assemble(
-			searchRequestString, searchResponse, searchSearchRequest,
+			searchRequestBuilder, searchResponse, searchSearchRequest,
 			searchSearchResponse);
 
 		_addAggregations(
