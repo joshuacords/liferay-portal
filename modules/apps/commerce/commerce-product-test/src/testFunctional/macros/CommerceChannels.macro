@@ -5,7 +5,7 @@ definition {
 			key_paymentMethod = ${paymentMethod},
 			locator1 = "CommerceEntry#CHANNEL_PAYMENT_METHOD_NAME");
 
-		SelectFrame(locator1 = "CommerceEntry#IFRAME_SIDE_PANEL");
+		SelectFrame.selectFrameNoLoading(locator1 = "CommerceEntry#IFRAME_SIDE_PANEL");
 
 		Type(
 			locator1 = "TextInput#NAME",
