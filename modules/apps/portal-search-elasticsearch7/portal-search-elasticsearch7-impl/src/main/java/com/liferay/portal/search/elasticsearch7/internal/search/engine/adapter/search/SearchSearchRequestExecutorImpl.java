@@ -18,6 +18,7 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.search.elasticsearch7.internal.connection.ElasticsearchClientResolver;
+import com.liferay.portal.search.elasticsearch7.internal.util.JSONUtil;
 import com.liferay.portal.search.engine.adapter.search.SearchSearchRequest;
 import com.liferay.portal.search.engine.adapter.search.SearchSearchResponse;
 
@@ -45,7 +46,7 @@ public class SearchSearchRequestExecutorImpl
 	public SearchSearchResponse execute(
 		SearchSearchRequest searchSearchRequest) {
 
-		SearchRequest searchRequest = new SearchRequest();
+		SearchRequest searchRequest = new SearchRequest(); ///we removed searchSearchRequest.getIndexNames(), what adds them?
 
 		if (searchSearchRequest.isRequestCache()) {
 			searchRequest.requestCache(searchSearchRequest.isRequestCache());
@@ -55,6 +56,12 @@ public class SearchSearchRequestExecutorImpl
 
 		_searchSearchRequestAssembler.assemble(
 			searchSourceBuilder, searchSearchRequest, searchRequest);
+
+		if (_log.isTraceEnabled()) {
+			String prettyPrintedRequestString = _getPrettyPrintedRequestString(
+				searchSourceBuilder);
+			_log.trace("Search query: " + prettyPrintedRequestString);
+		}
 
 		SearchResponse searchResponse = null;
 
@@ -83,6 +90,16 @@ public class SearchSearchRequestExecutorImpl
 		return searchSearchResponse;
 	}
 
+	private String _getPrettyPrintedRequestString(
+		SearchSourceBuilder searchSourceBuilder) {
+
+		try {
+			return JSONUtil.getPrettyPrintedJSONString(searchSourceBuilder);
+		}
+		catch (Exception exception) {
+			return exception.getMessage();
+		}
+	}
 	private SearchResponse _getScrollSearchResponse(
 		SearchSearchRequest searchSearchRequest) {
 
@@ -94,7 +111,7 @@ public class SearchSearchRequestExecutorImpl
 		SearchScrollRequest searchScrollRequest = new SearchScrollRequest(
 			searchSearchRequest.getScrollId());
 
-		if (searchSearchRequest.getScrollKeepAliveMinutes() > 0) { //test with no value
+		if (searchSearchRequest.getScrollKeepAliveMinutes() > 0) {
 			searchScrollRequest.scroll(
 				TimeValue.timeValueMinutes(
 					searchSearchRequest.getScrollKeepAliveMinutes()));
