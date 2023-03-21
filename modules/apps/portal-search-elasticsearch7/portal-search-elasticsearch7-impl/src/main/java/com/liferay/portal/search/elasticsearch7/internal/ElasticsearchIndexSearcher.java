@@ -134,12 +134,12 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 					searchSearchResponse = _searchEngineAdapter.execute(
 						searchSearchRequest);
 
-					_log.error(
-						StringBundler.concat(
-							"The search engine processed scroll request ",
-							searchSearchResponse.getSearchRequestString(),
-							" in ", searchSearchResponse.getExecutionTime(),
-							" ms"));
+//					_log.error(
+//						StringBundler.concat(
+//							"The search engine processed scroll request ",
+//							searchSearchResponse.getSearchRequestString(),
+//							" in ", searchSearchResponse.getExecutionTime(),
+//							" ms"));
 
 					searchSearchRequest.setScrollId(
 						searchSearchResponse.getScrollId());
