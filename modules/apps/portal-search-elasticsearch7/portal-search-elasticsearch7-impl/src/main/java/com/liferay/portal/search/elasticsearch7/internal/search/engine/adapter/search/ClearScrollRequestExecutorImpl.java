@@ -49,6 +49,9 @@ public class ClearScrollRequestExecutorImpl
 					clearScrollRequest.getScrollId() + " failed");
 		}
 
+		_log.error("ClearScrollRequest freed " +
+		 	clearScrollResponse.getNumFreed());
+
 		return new ClearScrollResponse(clearScrollResponse.getNumFreed());
 	}
 

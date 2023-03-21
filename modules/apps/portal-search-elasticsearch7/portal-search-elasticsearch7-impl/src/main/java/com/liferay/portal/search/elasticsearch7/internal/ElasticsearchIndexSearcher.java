@@ -40,6 +40,7 @@ import com.liferay.portal.search.elasticsearch7.internal.configuration.Elasticse
 import com.liferay.portal.search.engine.adapter.SearchEngineAdapter;
 import com.liferay.portal.search.engine.adapter.search.BaseSearchRequest;
 import com.liferay.portal.search.engine.adapter.search.BaseSearchResponse;
+import com.liferay.portal.search.engine.adapter.search.ClearScrollRequest;
 import com.liferay.portal.search.engine.adapter.search.CountSearchRequest;
 import com.liferay.portal.search.engine.adapter.search.CountSearchResponse;
 import com.liferay.portal.search.engine.adapter.search.SearchSearchRequest;
@@ -80,6 +81,8 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 		StopWatch stopWatch = new StopWatch();
 
 		stopWatch.start();
+
+		String scrollId = null;
 
 		try {
 			int end = searchContext.getEnd();
@@ -141,12 +144,13 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 //							" in ", searchSearchResponse.getExecutionTime(),
 //							" ms"));
 
-					searchSearchRequest.setScrollId(
-						searchSearchResponse.getScrollId());
+					scrollId = searchSearchResponse.getScrollId();
+
+					searchSearchRequest.setScrollId(scrollId);
 
 					_log.error("Iteration: " + i);
 					_log.error(
-						"Scroll Id: " + searchSearchResponse.getScrollId());
+						"Scroll Id: " + scrollId);
 					_logLastHit(searchSearchResponse);
 				}
 			}
@@ -213,6 +217,10 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 			return new HitsImpl();
 		}
 		finally {
+			if (scrollId != null) {
+				_clearScroll(scrollId);
+			}
+
 			if (_log.isInfoEnabled()) {
 				stopWatch.stop();
 
@@ -221,6 +229,13 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 						"Searching took ", stopWatch.getTime(), " ms"));
 			}
 		}
+	}
+
+	private void _clearScroll(String scrollId) {
+		ClearScrollRequest clearScrollRequest =
+			new ClearScrollRequest(scrollId);
+
+		_searchEngineAdapter.execute(clearScrollRequest);
 	}
 
 	@Override
