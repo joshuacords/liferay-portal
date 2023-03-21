@@ -179,9 +179,11 @@ definition {
 		Copy(locator1 = "BlogsEntry#COMMENTS_TRACKBACK_URL");
 
 		if (${virtualHosts} == "true") {
-			Navigator.gotoSpecificURLPage(
-				pageName = "Blogs Page",
-				url = ${virtualHostsURL});
+			var currentURL = Navigator.getCurrentURL();
+
+			var blogpageURL = StringUtil.extractFirst(${currentURL}, "/-/");
+
+			Navigator.openSpecificURL(url = ${blogpageURL});
 		}
 		else {
 			Navigator.gotoPage(pageName = "Blogs Page");
