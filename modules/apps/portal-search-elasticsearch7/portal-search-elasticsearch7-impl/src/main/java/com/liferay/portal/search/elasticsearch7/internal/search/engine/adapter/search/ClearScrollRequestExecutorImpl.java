@@ -49,7 +49,7 @@ public class ClearScrollRequestExecutorImpl
 					clearScrollRequest.getScrollId() + " failed");
 		}
 
-		return new ClearScrollResponse(clearScrollResponse.isSucceeded());
+		return new ClearScrollResponse(clearScrollResponse.getNumFreed());
 	}
 
 	protected org.elasticsearch.action.search.ClearScrollRequest
