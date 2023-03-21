@@ -124,8 +124,10 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 
 			int maxWindow = 10000;
 
+			Hits hits = null;
+
 			if (end > maxWindow) {
-				int maxWindowPages = end / maxWindow;
+				int maxWindowPages = end / maxWindow + 1;
 				//int lastEnd = end % maxWindow;
 
 				searchSearchRequest.setStart(0);
@@ -152,49 +154,71 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 					_log.error(
 						"Scroll Id: " + scrollId);
 					_logLastHit(searchSearchResponse);
+
+					if (i == (maxWindowPages - 1)) {
+						SearchResponseBuilder searchResponseBuilder =
+							_getSearchResponseBuilder(searchContext);
+
+						_populateResponse(searchSearchResponse, searchResponseBuilder);
+
+						searchResponseBuilder.searchHits(
+							searchSearchResponse.getSearchHits());
+
+						hits = searchSearchResponse.getHits();
+
+//						Document[] documents = hits.getDocs();
+
+//						if ((documents.length != 0) || (start == 0)) {
+//							break;
+//						}
+//
+//						int[] startAndEnd = SearchPaginationUtil.calculateStartAndEnd(
+//							start, end, hits.getLength());
+//
+//						start = startAndEnd[0];
+//						end = startAndEnd[1];
+					}
 				}
 			}
 
-			Hits hits = null;
-
-			while (true) {
-				searchSearchRequest = createSearchSearchRequest(
-					searchRequest, searchContext, query);
-
-				searchSearchResponse = _searchEngineAdapter.execute(
-					searchSearchRequest);
-
-				if (_log.isInfoEnabled()) {
-					_log.info(
-						StringBundler.concat(
-							"The search engine processed ",
-							searchSearchResponse.getSearchRequestString(),
-							" in ", searchSearchResponse.getExecutionTime(),
-							" ms"));
-				}
-
-				SearchResponseBuilder searchResponseBuilder =
-					_getSearchResponseBuilder(searchContext);
-
-				_populateResponse(searchSearchResponse, searchResponseBuilder);
-
-				searchResponseBuilder.searchHits(
-					searchSearchResponse.getSearchHits());
-
-				hits = searchSearchResponse.getHits();
-
-				Document[] documents = hits.getDocs();
-
-				if ((documents.length != 0) || (start == 0)) {
-					break;
-				}
-
-				int[] startAndEnd = SearchPaginationUtil.calculateStartAndEnd(
-					start, end, hits.getLength());
-
-				start = startAndEnd[0];
-				end = startAndEnd[1];
-			}
+//			while (true) {
+//				searchSearchRequest = createSearchSearchRequest(
+//					searchRequest, searchContext, query);
+//
+//				searchSearchResponse = _searchEngineAdapter.execute(
+//					searchSearchRequest);
+//
+//				if (_log.isInfoEnabled()) {
+//					_log.info(
+//						StringBundler.concat(
+//							"The search engine processed ",
+//							searchSearchResponse.getSearchRequestString(),
+//							" in ", searchSearchResponse.getExecutionTime(),
+//							" ms"));
+//				}
+//
+//				SearchResponseBuilder searchResponseBuilder =
+//					_getSearchResponseBuilder(searchContext);
+//
+//				_populateResponse(searchSearchResponse, searchResponseBuilder);
+//
+//				searchResponseBuilder.searchHits(
+//					searchSearchResponse.getSearchHits());
+//
+//				hits = searchSearchResponse.getHits();
+//
+//				Document[] documents = hits.getDocs();
+//
+//				if ((documents.length != 0) || (start == 0)) {
+//					break;
+//				}
+//
+//				int[] startAndEnd = SearchPaginationUtil.calculateStartAndEnd(
+//					start, end, hits.getLength());
+//
+//				start = startAndEnd[0];
+//				end = startAndEnd[1];
+//			}
 
 			hits.setStart(stopWatch.getStartTime());
 
