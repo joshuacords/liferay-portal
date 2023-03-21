@@ -46,7 +46,8 @@ public class SearchSearchRequestExecutorImpl
 	public SearchSearchResponse execute(
 		SearchSearchRequest searchSearchRequest) {
 
-		SearchRequest searchRequest = new SearchRequest(); ///we removed searchSearchRequest.getIndexNames(), what adds them?
+		SearchRequest searchRequest = new SearchRequest(
+			searchSearchRequest.getIndexNames());
 
 		if (searchSearchRequest.isRequestCache()) {
 			searchRequest.requestCache(searchSearchRequest.isRequestCache());
