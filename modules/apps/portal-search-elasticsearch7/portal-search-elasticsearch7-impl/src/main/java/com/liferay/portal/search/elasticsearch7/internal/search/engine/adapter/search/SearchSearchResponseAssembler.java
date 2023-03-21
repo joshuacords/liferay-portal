@@ -26,7 +26,7 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 public interface SearchSearchResponseAssembler {
 
 	public void assemble(
-		SearchSourceBuilder searchRequestBuilder, SearchResponse searchResponse,
+		SearchSourceBuilder searchSourceBuilder, SearchResponse searchResponse,
 		SearchSearchRequest searchSearchRequest,
 		SearchSearchResponse searchSearchResponse);
 
