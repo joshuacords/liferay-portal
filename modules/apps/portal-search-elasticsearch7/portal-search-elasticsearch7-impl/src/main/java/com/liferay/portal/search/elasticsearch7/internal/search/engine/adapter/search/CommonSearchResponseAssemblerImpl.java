@@ -201,7 +201,7 @@ public class CommonSearchResponseAssemblerImpl
 	private void _setScrollId(
 		SearchResponse searchResponse, BaseSearchResponse baseSearchResponse) {
 
-		if (searchResponse.getScrollId() != null) {
+		if (searchResponse.getScrollId() != null) { //first search hits here too
 			baseSearchResponse.setScrollId(searchResponse.getScrollId());
 		}
 	}

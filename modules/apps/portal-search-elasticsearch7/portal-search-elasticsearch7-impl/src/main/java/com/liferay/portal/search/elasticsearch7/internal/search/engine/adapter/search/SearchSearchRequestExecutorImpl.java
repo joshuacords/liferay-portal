@@ -18,7 +18,6 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.search.elasticsearch7.internal.connection.ElasticsearchClientResolver;
-import com.liferay.portal.search.elasticsearch7.internal.util.JSONUtil;
 import com.liferay.portal.search.engine.adapter.search.SearchSearchRequest;
 import com.liferay.portal.search.engine.adapter.search.SearchSearchResponse;
 
@@ -46,41 +45,28 @@ public class SearchSearchRequestExecutorImpl
 	public SearchSearchResponse execute(
 		SearchSearchRequest searchSearchRequest) {
 
-		SearchResponse searchResponse = null;
-		SearchSearchResponse searchSearchResponse = new SearchSearchResponse();
-		String searchRequestString = "";
+		SearchRequest searchRequest = new SearchRequest();
+
+		if (searchSearchRequest.isRequestCache()) {
+			searchRequest.requestCache(searchSearchRequest.isRequestCache());
+		}
 
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
 
+		_searchSearchRequestAssembler.assemble(
+			searchSourceBuilder, searchSearchRequest, searchRequest);
+
+		SearchResponse searchResponse = null;
+
 		if (searchSearchRequest.getScrollId() != null) {
 			searchResponse = _getScrollSearchResponse(searchSearchRequest);
-
-			searchRequestString = searchSearchRequest.getScrollId(); //what is this?? Gustavo introduced this, at least this is a bad name, but is this even necessary?
 		}
 		else {
-			SearchRequest searchRequest = new SearchRequest();
-
-			if (searchSearchRequest.isRequestCache()) {
-				searchRequest.requestCache(
-					searchSearchRequest.isRequestCache());
-			}
-
-			_searchSearchRequestAssembler.assemble(
-				searchSourceBuilder, searchSearchRequest, searchRequest);//move this out and down
-
-			if (_log.isTraceEnabled()) {
-				String prettyPrintedRequestString =
-					_getPrettyPrintedRequestString(searchSourceBuilder);
-
-				_log.trace("Search query: " + prettyPrintedRequestString);
-			}
-
 			searchResponse = _getSearchResponse(
 				searchRequest, searchSearchRequest);
-
-			searchRequestString = SearchExecutorUtil.toString(//what does this do?
-				searchSourceBuilder, _log);
 		}
+
+		SearchSearchResponse searchSearchResponse = new SearchSearchResponse();
 
 		_searchSearchResponseAssembler.assemble(
 			searchSourceBuilder, searchResponse, searchSearchRequest,
@@ -95,17 +81,6 @@ public class SearchSearchRequestExecutorImpl
 		}
 
 		return searchSearchResponse;
-	}
-
-	private String _getPrettyPrintedRequestString(
-		SearchSourceBuilder searchSourceBuilder) {
-
-		try {
-			return JSONUtil.getPrettyPrintedJSONString(searchSourceBuilder);
-		}
-		catch (Exception exception) {
-			return exception.getMessage();
-		}
 	}
 
 	private SearchResponse _getScrollSearchResponse(
