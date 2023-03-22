@@ -92,6 +92,14 @@ const withMoveableFields = ChildComponent => {
 			}
 
 			if (target) {
+				const nestedTarget = target.querySelector(
+					'.ddm-form-builder .ddm-target.targetOver'
+				);
+
+				if (nestedTarget) {
+					target = nestedTarget;
+				}
+
 				source.innerHTML = '';
 
 				const sourceFieldNode = dom.closest(
