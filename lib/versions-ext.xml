@@ -719,6 +719,19 @@
 				</licenses>
 			</library>
 			<library>
+				<file-name>lib/development/reflections.jar</file-name>
+				<version>0.9.11</version>
+				<project-name>Reflections</project-name>
+				<project-url>http://github.com/ronmamo/reflections</project-url>
+				<licenses>
+					<license>
+						<license-name>http://www.wtfpl.net/, http://www.opensource.org/licenses/bsd-license.html</license-name>
+					</license>
+				</licenses>
+				<current-version-publish-date>2017-03-24 12:37:31</current-version-publish-date>
+				<latest-version-publish-date>2021-10-25 14:23:23</latest-version-publish-date>
+			</library>
+			<library>
 				<file-name>lib/development/qdox.jar</file-name>
 				<version>1.12.1</version>
 				<project-name>QDox</project-name>
