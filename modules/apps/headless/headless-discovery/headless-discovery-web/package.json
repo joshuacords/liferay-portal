@@ -1,10 +1,10 @@
 {
 	"dependencies": {
-		"@clayui/button": "3.2.0",
+		"@clayui/button": "3.83.0",
 		"@clayui/drop-down": "3.2.0",
-		"@clayui/icon": "3.0.3",
-		"@clayui/link": "3.0.3",
-		"@clayui/modal": "3.2.0",
+		"@clayui/icon": "3.56.0",
+		"@clayui/link": "3.88.0",
+		"@clayui/modal": "3.89.0",
 		"@clayui/layout": "3.1.1",
 		"@clayui/navigation-bar": "3.0.6",
 		"frontend-js-react-web": "*",
