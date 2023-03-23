@@ -140,7 +140,9 @@ const _handleFieldBlurred = function(properties) {
 		fieldName: fieldInstance.fieldName,
 		focusDuration: dateNow - (this.fieldFocusDate || dateNow),
 		formId: this.getFormId(),
-		page: this.activePage
+		formPageTitle: this.getFormPageTitle(),
+		page: this.activePage,
+		title: this.getFormTitle()
 	});
 };
 
@@ -159,7 +161,9 @@ const _handleFieldFocused = function(properties) {
 	Liferay.fire('ddmFieldFocus', {
 		fieldName: fieldInstance.fieldName,
 		formId: this.getFormId(),
-		page: this.activePage
+		formPageTitle: this.getFormPageTitle(),
+		page: this.activePage,
+		title: this.getFormTitle()
 	});
 };
 
@@ -205,7 +209,8 @@ export default Component => {
 			Liferay.fire('ddmFormPageShow', {
 				formId: this.getFormId(),
 				page: this.activePage,
-				title: this.pages[this.activePage].title
+				formPageTitle: this.getFormPageTitle(),
+				title: this.getFormTitle()
 			});
 		}
 
@@ -250,6 +255,20 @@ export default Component => {
 
 		getFormNode() {
 			return dom.closest(this.element, 'form');
+		}
+
+		getFormPageTitle() {
+			return this.pages[this.activePage].title;
+		}
+
+		getFormTitle() {
+			const formTitle = document.querySelector('[data-form-title]');
+
+			if (!formTitle) {
+				return;
+			}
+
+			return formTitle.innerText;
 		}
 
 		toJSON() {
