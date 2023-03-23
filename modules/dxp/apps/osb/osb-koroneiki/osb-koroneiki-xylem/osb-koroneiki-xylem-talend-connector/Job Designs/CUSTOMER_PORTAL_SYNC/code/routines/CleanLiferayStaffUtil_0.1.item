@@ -32,7 +32,7 @@ public class CleanLiferayStaffUtil {
 
 			String curEmailAddress = jsonObject.getString("emailAddress");
 
-			if (emailAddress.equals(curEmailAddress)) {
+			if (emailAddress.equalsIgnoreCase(curEmailAddress)) {
 				return "";
 			}
 		}
