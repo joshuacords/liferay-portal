@@ -208,8 +208,8 @@ export default Component => {
 
 			Liferay.fire('ddmFormPageShow', {
 				formId: this.getFormId(),
-				page: this.activePage,
 				formPageTitle: this.getFormPageTitle(),
+				page: this.activePage,
 				title: this.getFormTitle()
 			});
 		}
