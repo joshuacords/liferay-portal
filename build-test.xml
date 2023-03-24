@@ -6120,7 +6120,6 @@ org.apache.catalina.startup.ClassLoaderFactory.level=INFO]]>
 									<isset property="operating.system.docker.image" />
 									<then>
 										<sequential>
-											<get-app-server-property property.name="max.log.size.in.mb" />
 											<get-operating-system-property property.name="operating.system.docker.shell.path" />
 											<get-operating-system-property property.name="operating.system.host" />
 
