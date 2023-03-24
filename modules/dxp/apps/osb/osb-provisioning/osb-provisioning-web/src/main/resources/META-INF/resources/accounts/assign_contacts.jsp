@@ -42,6 +42,15 @@ AccountDisplay accountDisplay = viewAccountContactsDisplayContext.getAccountDisp
 		</div>
 	</c:if>
 
+	<liferay-ui:error exception="<%= IllegalArgumentException.class %>">
+
+		<%
+		IllegalArgumentException illegalArgumentException = (IllegalArgumentException)errorException;
+		%>
+
+		<%= illegalArgumentException.getMessage() %>
+	</liferay-ui:error>
+
 	<liferay-ui:error exception="<%= NoSuchContactException.class %>" message="the-contact-could-not-be-found.new-contacts-can-only-be-added-to-active-or-future-accounts" />
 
 	<liferay-ui:error exception="<%= Problem.ProblemException.class %>">

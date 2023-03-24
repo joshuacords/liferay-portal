@@ -119,6 +119,7 @@ public class AssignAccountContactRolesMVCActionCommand
 				exception instanceof ContactEmailAddressException ||
 				exception instanceof ContactNameException ||
 				exception instanceof DuplicateContactRoleException ||
+				exception instanceof IllegalArgumentException ||
 				exception instanceof NoSuchContactException ||
 				exception instanceof Problem.ProblemException ||
 				exception instanceof RequiredContactRoleException) {
