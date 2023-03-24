@@ -36,6 +36,7 @@ import com.liferay.portal.kernel.search.Hits;
 import com.liferay.portal.kernel.search.IndexWriterHelper;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistryUtil;
+import com.liferay.portal.kernel.search.QueryConfig;
 import com.liferay.portal.kernel.search.RelatedEntryIndexer;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchException;
@@ -52,6 +53,7 @@ import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.Localization;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.search.localization.SearchLocalizationHelper;
 import com.liferay.portal.search.model.uid.UIDFactory;
 import com.liferay.portal.search.spi.model.index.contributor.ModelDocumentContributor;
 import com.liferay.wiki.model.WikiNode;
@@ -215,6 +217,12 @@ public class WikiPageIndexer
 		addSearchLocalizedTerm(
 			searchQuery, searchContext, Field.CONTENT, false);
 		addSearchLocalizedTerm(searchQuery, searchContext, Field.TITLE, false);
+
+		QueryConfig queryConfig = searchContext.getQueryConfig();
+
+		queryConfig.addHighlightFieldNames(
+			_searchLocalizationHelper.getLocalizedFieldNames(
+				new String[] {Field.CONTENT, Field.TITLE}, searchContext));
 	}
 
 	@Override
@@ -439,6 +447,9 @@ public class WikiPageIndexer
 		_modelDocumentContributors = new CopyOnWriteArrayList<>();
 	private final RelatedEntryIndexer _relatedEntryIndexer =
 		new BaseRelatedEntryIndexer();
+
+	@Reference
+	private SearchLocalizationHelper _searchLocalizationHelper;
 
 	@Reference
 	private WikiNodeLocalService _wikiNodeLocalService;
