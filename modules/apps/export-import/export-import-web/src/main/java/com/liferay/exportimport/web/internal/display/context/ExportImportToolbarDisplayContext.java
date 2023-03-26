@@ -55,7 +55,6 @@ public class ExportImportToolbarDisplayContext {
 		LiferayPortletResponse portletResponse) {
 
 		_httpServletRequest = httpServletRequest;
-
 		_portletResponse = portletResponse;
 
 		Portlet portlet = portletResponse.getPortlet();
