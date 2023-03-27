@@ -59,8 +59,20 @@ public class ServletDataImpl implements ServletData {
 
 	@Activate
 	public void activate(BundleContext bundleContext) {
+		Mutation.setAssigneeUserResourceComponentServiceObjects(
+			_assigneeUserResourceComponentServiceObjects);
+		Mutation.setCalendarResourceComponentServiceObjects(
+			_calendarResourceComponentServiceObjects);
+		Mutation.setInstanceResourceComponentServiceObjects(
+			_instanceResourceComponentServiceObjects);
+		Mutation.setNodeResourceComponentServiceObjects(
+			_nodeResourceComponentServiceObjects);
 		Mutation.setSLAResourceComponentServiceObjects(
 			_slaResourceComponentServiceObjects);
+		Mutation.setTaskResourceComponentServiceObjects(
+			_taskResourceComponentServiceObjects);
+		Mutation.setTimeRangeResourceComponentServiceObjects(
+			_timeRangeResourceComponentServiceObjects);
 
 		Query.setAssigneeUserResourceComponentServiceObjects(
 			_assigneeUserResourceComponentServiceObjects);
@@ -117,6 +129,31 @@ public class ServletDataImpl implements ServletData {
 			new HashMap<String, ObjectValuePair<Class<?>, String>>() {
 				{
 					put(
+						"mutation#createProcessAssigneeUsersPageExportBatch",
+						new ObjectValuePair<>(
+							AssigneeUserResourceImpl.class,
+							"postProcessAssigneeUsersPageExportBatch"));
+					put(
+						"mutation#createCalendarsPageExportBatch",
+						new ObjectValuePair<>(
+							CalendarResourceImpl.class,
+							"postCalendarsPageExportBatch"));
+					put(
+						"mutation#createProcessInstancesPageExportBatch",
+						new ObjectValuePair<>(
+							InstanceResourceImpl.class,
+							"postProcessInstancesPageExportBatch"));
+					put(
+						"mutation#createProcessNodesPageExportBatch",
+						new ObjectValuePair<>(
+							NodeResourceImpl.class,
+							"postProcessNodesPageExportBatch"));
+					put(
+						"mutation#createProcessSLAsPageExportBatch",
+						new ObjectValuePair<>(
+							SLAResourceImpl.class,
+							"postProcessSLAsPageExportBatch"));
+					put(
 						"mutation#createProcessSLA",
 						new ObjectValuePair<>(
 							SLAResourceImpl.class, "postProcessSLA"));
@@ -139,6 +176,16 @@ public class ServletDataImpl implements ServletData {
 						"mutation#updateSLABatch",
 						new ObjectValuePair<>(
 							SLAResourceImpl.class, "putSLABatch"));
+					put(
+						"mutation#createProcessTasksPageExportBatch",
+						new ObjectValuePair<>(
+							TaskResourceImpl.class,
+							"postProcessTasksPageExportBatch"));
+					put(
+						"mutation#createTimeRangesPageExportBatch",
+						new ObjectValuePair<>(
+							TimeRangeResourceImpl.class,
+							"postTimeRangesPageExportBatch"));
 
 					put(
 						"query#processAssigneeUsers",
@@ -197,10 +244,6 @@ public class ServletDataImpl implements ServletData {
 			};
 
 	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
-	private ComponentServiceObjects<SLAResource>
-		_slaResourceComponentServiceObjects;
-
-	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
 	private ComponentServiceObjects<AssigneeUserResource>
 		_assigneeUserResourceComponentServiceObjects;
 
@@ -213,16 +256,12 @@ public class ServletDataImpl implements ServletData {
 		_instanceResourceComponentServiceObjects;
 
 	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
-	private ComponentServiceObjects<MetricResource>
-		_metricResourceComponentServiceObjects;
-
-	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
 	private ComponentServiceObjects<NodeResource>
 		_nodeResourceComponentServiceObjects;
 
 	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
-	private ComponentServiceObjects<ProcessResource>
-		_processResourceComponentServiceObjects;
+	private ComponentServiceObjects<SLAResource>
+		_slaResourceComponentServiceObjects;
 
 	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
 	private ComponentServiceObjects<TaskResource>
@@ -231,5 +270,13 @@ public class ServletDataImpl implements ServletData {
 	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
 	private ComponentServiceObjects<TimeRangeResource>
 		_timeRangeResourceComponentServiceObjects;
+
+	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
+	private ComponentServiceObjects<MetricResource>
+		_metricResourceComponentServiceObjects;
+
+	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
+	private ComponentServiceObjects<ProcessResource>
+		_processResourceComponentServiceObjects;
 
 }

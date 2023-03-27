@@ -60,6 +60,11 @@ public interface OptionResource {
 			String search, Filter filter, Pagination pagination, Sort[] sorts)
 		throws Exception;
 
+	public Response postOptionsPageExportBatch(
+			String search, Filter filter, Sort[] sorts, String callbackURL,
+			String contentType, String fieldNames)
+		throws Exception;
+
 	public Option postOption(Option option) throws Exception;
 
 	public Response postOptionBatch(String callbackURL, Object object)

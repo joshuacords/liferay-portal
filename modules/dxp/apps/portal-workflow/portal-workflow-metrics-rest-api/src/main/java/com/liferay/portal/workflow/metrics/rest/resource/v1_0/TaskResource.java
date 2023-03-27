@@ -40,6 +40,7 @@ import javax.annotation.Generated;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.osgi.annotation.versioning.ProviderType;
@@ -59,6 +60,12 @@ public interface TaskResource {
 	public Page<Task> getProcessTasksPage(
 			Long processId, Boolean completed, Date dateEnd, Date dateStart,
 			String key, Pagination pagination, Sort[] sorts)
+		throws Exception;
+
+	public Response postProcessTasksPageExportBatch(
+			Long processId, Boolean completed, Date dateEnd, Date dateStart,
+			String key, Sort[] sorts, String callbackURL, String contentType,
+			String fieldNames)
 		throws Exception;
 
 	public default void setContextAcceptLanguage(

@@ -62,6 +62,11 @@ public interface CommentResource {
 			Filter filter, Pagination pagination, Sort[] sorts)
 		throws Exception;
 
+	public Response postBlogPostingCommentsPageExportBatch(
+			Long blogPostingId, String search, Filter filter, Sort[] sorts,
+			String callbackURL, String contentType, String fieldNames)
+		throws Exception;
+
 	public Comment postBlogPostingComment(Long blogPostingId, Comment comment)
 		throws Exception;
 
@@ -96,6 +101,11 @@ public interface CommentResource {
 			Filter filter, Pagination pagination, Sort[] sorts)
 		throws Exception;
 
+	public Response postDocumentCommentsPageExportBatch(
+			Long documentId, String search, Filter filter, Sort[] sorts,
+			String callbackURL, String contentType, String fieldNames)
+		throws Exception;
+
 	public Comment postDocumentComment(Long documentId, Comment comment)
 		throws Exception;
 
@@ -107,6 +117,12 @@ public interface CommentResource {
 			Long structuredContentId, String search,
 			com.liferay.portal.vulcan.aggregation.Aggregation aggregation,
 			Filter filter, Pagination pagination, Sort[] sorts)
+		throws Exception;
+
+	public Response postStructuredContentCommentsPageExportBatch(
+			Long structuredContentId, String search, Filter filter,
+			Sort[] sorts, String callbackURL, String contentType,
+			String fieldNames)
 		throws Exception;
 
 	public Comment postStructuredContentComment(

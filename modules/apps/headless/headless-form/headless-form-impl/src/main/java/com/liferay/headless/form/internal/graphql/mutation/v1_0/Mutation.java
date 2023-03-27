@@ -20,6 +20,7 @@ import com.liferay.headless.form.dto.v1_0.FormRecord;
 import com.liferay.headless.form.resource.v1_0.FormDocumentResource;
 import com.liferay.headless.form.resource.v1_0.FormRecordResource;
 import com.liferay.headless.form.resource.v1_0.FormResource;
+import com.liferay.headless.form.resource.v1_0.FormStructureResource;
 import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.portal.kernel.search.Sort;
@@ -37,6 +38,8 @@ import javax.annotation.Generated;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import javax.validation.constraints.NotEmpty;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -74,6 +77,14 @@ public class Mutation {
 			formRecordResourceComponentServiceObjects;
 	}
 
+	public static void setFormStructureResourceComponentServiceObjects(
+		ComponentServiceObjects<FormStructureResource>
+			formStructureResourceComponentServiceObjects) {
+
+		_formStructureResourceComponentServiceObjects =
+			formStructureResourceComponentServiceObjects;
+	}
+
 	@GraphQLField
 	public FormContext createFormEvaluateContext(
 			@GraphQLName("formId") Long formId,
@@ -101,6 +112,21 @@ public class Mutation {
 			this::_populateResourceContext,
 			formResource -> formResource.postFormFormDocument(
 				formId, multipartBody));
+	}
+
+	@GraphQLField
+	public Response createSiteFormsPageExportBatch(
+			@GraphQLName("siteKey") @NotEmpty String siteKey,
+			@GraphQLName("callbackURL") String callbackURL,
+			@GraphQLName("contentType") String contentType,
+			@GraphQLName("fieldNames") String fieldNames)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_formResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			formResource -> formResource.postSiteFormsPageExportBatch(
+				Long.valueOf(siteKey), callbackURL, contentType, fieldNames));
 	}
 
 	@GraphQLField
@@ -158,6 +184,22 @@ public class Mutation {
 	}
 
 	@GraphQLField
+	public Response createFormFormRecordsPageExportBatch(
+			@GraphQLName("formId") Long formId,
+			@GraphQLName("callbackURL") String callbackURL,
+			@GraphQLName("contentType") String contentType,
+			@GraphQLName("fieldNames") String fieldNames)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_formRecordResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			formRecordResource ->
+				formRecordResource.postFormFormRecordsPageExportBatch(
+					formId, callbackURL, contentType, fieldNames));
+	}
+
+	@GraphQLField
 	public FormRecord createFormFormRecord(
 			@GraphQLName("formId") Long formId,
 			@GraphQLName("formRecord") FormRecord formRecord)
@@ -182,6 +224,23 @@ public class Mutation {
 			this::_populateResourceContext,
 			formRecordResource -> formRecordResource.postFormFormRecordBatch(
 				formId, callbackURL, object));
+	}
+
+	@GraphQLField
+	public Response createSiteFormStructuresPageExportBatch(
+			@GraphQLName("siteKey") @NotEmpty String siteKey,
+			@GraphQLName("callbackURL") String callbackURL,
+			@GraphQLName("contentType") String contentType,
+			@GraphQLName("fieldNames") String fieldNames)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_formStructureResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			formStructureResource ->
+				formStructureResource.postSiteFormStructuresPageExportBatch(
+					Long.valueOf(siteKey), callbackURL, contentType,
+					fieldNames));
 	}
 
 	private <T, R, E1 extends Throwable, E2 extends Throwable> R
@@ -272,12 +331,32 @@ public class Mutation {
 			_vulcanBatchEngineImportTaskResource);
 	}
 
+	private void _populateResourceContext(
+			FormStructureResource formStructureResource)
+		throws Exception {
+
+		formStructureResource.setContextAcceptLanguage(_acceptLanguage);
+		formStructureResource.setContextCompany(_company);
+		formStructureResource.setContextHttpServletRequest(_httpServletRequest);
+		formStructureResource.setContextHttpServletResponse(
+			_httpServletResponse);
+		formStructureResource.setContextUriInfo(_uriInfo);
+		formStructureResource.setContextUser(_user);
+		formStructureResource.setGroupLocalService(_groupLocalService);
+		formStructureResource.setRoleLocalService(_roleLocalService);
+
+		formStructureResource.setVulcanBatchEngineImportTaskResource(
+			_vulcanBatchEngineImportTaskResource);
+	}
+
 	private static ComponentServiceObjects<FormResource>
 		_formResourceComponentServiceObjects;
 	private static ComponentServiceObjects<FormDocumentResource>
 		_formDocumentResourceComponentServiceObjects;
 	private static ComponentServiceObjects<FormRecordResource>
 		_formRecordResourceComponentServiceObjects;
+	private static ComponentServiceObjects<FormStructureResource>
+		_formStructureResourceComponentServiceObjects;
 
 	private AcceptLanguage _acceptLanguage;
 	private com.liferay.portal.kernel.model.Company _company;

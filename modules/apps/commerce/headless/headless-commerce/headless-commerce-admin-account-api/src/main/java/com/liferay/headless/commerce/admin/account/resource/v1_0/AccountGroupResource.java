@@ -61,6 +61,11 @@ public interface AccountGroupResource {
 			Filter filter, Pagination pagination, Sort[] sorts)
 		throws Exception;
 
+	public Response postAccountGroupsPageExportBatch(
+			Filter filter, Sort[] sorts, String callbackURL, String contentType,
+			String fieldNames)
+		throws Exception;
+
 	public AccountGroup postAccountGroup(AccountGroup accountGroup)
 		throws Exception;
 

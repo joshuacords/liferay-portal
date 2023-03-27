@@ -119,6 +119,12 @@ public interface MessageBoardMessageResource {
 				Filter filter, Pagination pagination, Sort[] sorts)
 		throws Exception;
 
+	public Response postMessageBoardThreadMessageBoardMessagesPageExportBatch(
+			Long messageBoardThreadId, String search, Filter filter,
+			Sort[] sorts, String callbackURL, String contentType,
+			String fieldNames)
+		throws Exception;
+
 	public MessageBoardMessage postMessageBoardThreadMessageBoardMessage(
 			Long messageBoardThreadId, MessageBoardMessage messageBoardMessage)
 		throws Exception;
@@ -131,6 +137,11 @@ public interface MessageBoardMessageResource {
 			Long siteId, Boolean flatten, String search,
 			com.liferay.portal.vulcan.aggregation.Aggregation aggregation,
 			Filter filter, Pagination pagination, Sort[] sorts)
+		throws Exception;
+
+	public Response postSiteMessageBoardMessagesPageExportBatch(
+			Long siteId, String search, Filter filter, Sort[] sorts,
+			String callbackURL, String contentType, String fieldNames)
 		throws Exception;
 
 	public default void setContextAcceptLanguage(

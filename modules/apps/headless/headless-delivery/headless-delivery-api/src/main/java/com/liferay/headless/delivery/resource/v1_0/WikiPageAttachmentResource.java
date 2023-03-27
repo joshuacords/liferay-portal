@@ -70,6 +70,11 @@ public interface WikiPageAttachmentResource {
 			Long wikiPageId)
 		throws Exception;
 
+	public Response postWikiPageWikiPageAttachmentsPageExportBatch(
+			Long wikiPageId, String callbackURL, String contentType,
+			String fieldNames)
+		throws Exception;
+
 	public WikiPageAttachment postWikiPageWikiPageAttachment(
 			Long wikiPageId, MultipartBody multipartBody)
 		throws Exception;

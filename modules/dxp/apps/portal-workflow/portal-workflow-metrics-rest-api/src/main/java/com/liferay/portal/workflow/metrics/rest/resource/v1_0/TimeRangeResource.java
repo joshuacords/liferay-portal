@@ -38,6 +38,7 @@ import javax.annotation.Generated;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.osgi.annotation.versioning.ProviderType;
@@ -55,6 +56,10 @@ import org.osgi.annotation.versioning.ProviderType;
 public interface TimeRangeResource {
 
 	public Page<TimeRange> getTimeRangesPage() throws Exception;
+
+	public Response postTimeRangesPageExportBatch(
+			String callbackURL, String contentType, String fieldNames)
+		throws Exception;
 
 	public default void setContextAcceptLanguage(
 		AcceptLanguage contextAcceptLanguage) {

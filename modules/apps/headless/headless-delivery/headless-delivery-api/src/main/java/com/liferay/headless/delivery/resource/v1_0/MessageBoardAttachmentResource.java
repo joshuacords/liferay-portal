@@ -72,6 +72,12 @@ public interface MessageBoardAttachmentResource {
 				Long messageBoardMessageId)
 		throws Exception;
 
+	public Response
+			postMessageBoardMessageMessageBoardAttachmentsPageExportBatch(
+				Long messageBoardMessageId, String callbackURL,
+				String contentType, String fieldNames)
+		throws Exception;
+
 	public MessageBoardAttachment postMessageBoardMessageMessageBoardAttachment(
 			Long messageBoardMessageId, MultipartBody multipartBody)
 		throws Exception;
@@ -84,6 +90,12 @@ public interface MessageBoardAttachmentResource {
 	public Page<MessageBoardAttachment>
 			getMessageBoardThreadMessageBoardAttachmentsPage(
 				Long messageBoardThreadId)
+		throws Exception;
+
+	public Response
+			postMessageBoardThreadMessageBoardAttachmentsPageExportBatch(
+				Long messageBoardThreadId, String callbackURL,
+				String contentType, String fieldNames)
 		throws Exception;
 
 	public MessageBoardAttachment postMessageBoardThreadMessageBoardAttachment(

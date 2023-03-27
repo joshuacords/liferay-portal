@@ -61,6 +61,12 @@ public interface KnowledgeBaseAttachmentResource {
 				Long knowledgeBaseArticleId)
 		throws Exception;
 
+	public Response
+			postKnowledgeBaseArticleKnowledgeBaseAttachmentsPageExportBatch(
+				Long knowledgeBaseArticleId, String callbackURL,
+				String contentType, String fieldNames)
+		throws Exception;
+
 	public KnowledgeBaseAttachment
 			postKnowledgeBaseArticleKnowledgeBaseAttachment(
 				Long knowledgeBaseArticleId, MultipartBody multipartBody)

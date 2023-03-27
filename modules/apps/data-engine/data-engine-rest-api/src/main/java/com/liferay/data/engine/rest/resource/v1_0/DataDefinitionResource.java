@@ -89,6 +89,11 @@ public interface DataDefinitionResource {
 			Long siteId, String keywords, Pagination pagination, Sort[] sorts)
 		throws Exception;
 
+	public Response postSiteDataDefinitionsPageExportBatch(
+			Long siteId, String keywords, Sort[] sorts, String callbackURL,
+			String contentType, String fieldNames)
+		throws Exception;
+
 	public DataDefinition postSiteDataDefinition(
 			Long siteId, DataDefinition dataDefinition)
 		throws Exception;

@@ -15,6 +15,7 @@
 package com.liferay.headless.commerce.bom.internal.graphql.mutation.v1_0;
 
 import com.liferay.headless.commerce.bom.dto.v1_0.Spot;
+import com.liferay.headless.commerce.bom.resource.v1_0.ProductResource;
 import com.liferay.headless.commerce.bom.resource.v1_0.SpotResource;
 import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
@@ -45,12 +46,35 @@ import org.osgi.service.component.ComponentServiceObjects;
 @Generated("")
 public class Mutation {
 
+	public static void setProductResourceComponentServiceObjects(
+		ComponentServiceObjects<ProductResource>
+			productResourceComponentServiceObjects) {
+
+		_productResourceComponentServiceObjects =
+			productResourceComponentServiceObjects;
+	}
+
 	public static void setSpotResourceComponentServiceObjects(
 		ComponentServiceObjects<SpotResource>
 			spotResourceComponentServiceObjects) {
 
 		_spotResourceComponentServiceObjects =
 			spotResourceComponentServiceObjects;
+	}
+
+	@GraphQLField
+	public Response createProductsPageExportBatch(
+			@GraphQLName("q") String q,
+			@GraphQLName("callbackURL") String callbackURL,
+			@GraphQLName("contentType") String contentType,
+			@GraphQLName("fieldNames") String fieldNames)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_productResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			productResource -> productResource.postProductsPageExportBatch(
+				q, callbackURL, contentType, fieldNames));
 	}
 
 	@GraphQLField
@@ -138,6 +162,22 @@ public class Mutation {
 		}
 	}
 
+	private void _populateResourceContext(ProductResource productResource)
+		throws Exception {
+
+		productResource.setContextAcceptLanguage(_acceptLanguage);
+		productResource.setContextCompany(_company);
+		productResource.setContextHttpServletRequest(_httpServletRequest);
+		productResource.setContextHttpServletResponse(_httpServletResponse);
+		productResource.setContextUriInfo(_uriInfo);
+		productResource.setContextUser(_user);
+		productResource.setGroupLocalService(_groupLocalService);
+		productResource.setRoleLocalService(_roleLocalService);
+
+		productResource.setVulcanBatchEngineImportTaskResource(
+			_vulcanBatchEngineImportTaskResource);
+	}
+
 	private void _populateResourceContext(SpotResource spotResource)
 		throws Exception {
 
@@ -154,6 +194,8 @@ public class Mutation {
 			_vulcanBatchEngineImportTaskResource);
 	}
 
+	private static ComponentServiceObjects<ProductResource>
+		_productResourceComponentServiceObjects;
 	private static ComponentServiceObjects<SpotResource>
 		_spotResourceComponentServiceObjects;
 

@@ -38,6 +38,7 @@ import javax.annotation.Generated;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.osgi.annotation.versioning.ProviderType;
@@ -57,9 +58,19 @@ public interface PhoneResource {
 	public Page<Phone> getOrganizationPhonesPage(Long organizationId)
 		throws Exception;
 
+	public Response postOrganizationPhonesPageExportBatch(
+			Long organizationId, String callbackURL, String contentType,
+			String fieldNames)
+		throws Exception;
+
 	public Phone getPhone(Long phoneId) throws Exception;
 
 	public Page<Phone> getUserAccountPhonesPage(Long userAccountId)
+		throws Exception;
+
+	public Response postUserAccountPhonesPageExportBatch(
+			Long userAccountId, String callbackURL, String contentType,
+			String fieldNames)
 		throws Exception;
 
 	public default void setContextAcceptLanguage(

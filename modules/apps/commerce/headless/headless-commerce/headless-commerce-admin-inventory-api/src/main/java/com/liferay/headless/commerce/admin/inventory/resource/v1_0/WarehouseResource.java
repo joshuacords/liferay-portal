@@ -79,6 +79,11 @@ public interface WarehouseResource {
 			Filter filter, Pagination pagination, Sort[] sorts)
 		throws Exception;
 
+	public Response postWarehousesPageExportBatch(
+			Filter filter, Sort[] sorts, String callbackURL, String contentType,
+			String fieldNames)
+		throws Exception;
+
 	public Warehouse postWarehous(Warehouse warehouse) throws Exception;
 
 	public default void setContextAcceptLanguage(

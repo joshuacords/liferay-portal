@@ -61,6 +61,11 @@ public interface DataListViewResource {
 			Sort[] sorts)
 		throws Exception;
 
+	public Response postDataDefinitionDataListViewsPageExportBatch(
+			Long dataDefinitionId, String keywords, Sort[] sorts,
+			String callbackURL, String contentType, String fieldNames)
+		throws Exception;
+
 	public DataListView postDataDefinitionDataListView(
 			Long dataDefinitionId, DataListView dataListView)
 		throws Exception;

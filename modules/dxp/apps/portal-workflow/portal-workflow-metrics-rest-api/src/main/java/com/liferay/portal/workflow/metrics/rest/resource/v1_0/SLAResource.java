@@ -60,6 +60,11 @@ public interface SLAResource {
 			Long processId, Integer status, Pagination pagination)
 		throws Exception;
 
+	public Response postProcessSLAsPageExportBatch(
+			Long processId, Integer status, String callbackURL,
+			String contentType, String fieldNames)
+		throws Exception;
+
 	public SLA postProcessSLA(Long processId, SLA sla) throws Exception;
 
 	public Response postProcessSLABatch(

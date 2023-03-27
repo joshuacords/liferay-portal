@@ -63,10 +63,20 @@ public interface StructuredContentResource {
 			Filter filter, Pagination pagination, Sort[] sorts)
 		throws Exception;
 
+	public Response postContentStructureStructuredContentsPageExportBatch(
+			Long contentStructureId, String search, Filter filter, Sort[] sorts,
+			String callbackURL, String contentType, String fieldNames)
+		throws Exception;
+
 	public Page<StructuredContent> getSiteStructuredContentsPage(
 			Long siteId, Boolean flatten, String search,
 			com.liferay.portal.vulcan.aggregation.Aggregation aggregation,
 			Filter filter, Pagination pagination, Sort[] sorts)
+		throws Exception;
+
+	public Response postSiteStructuredContentsPageExportBatch(
+			Long siteId, String search, Filter filter, Sort[] sorts,
+			String callbackURL, String contentType, String fieldNames)
 		throws Exception;
 
 	public StructuredContent postSiteStructuredContent(
@@ -90,6 +100,13 @@ public interface StructuredContentResource {
 				Long structuredContentFolderId, Boolean flatten, String search,
 				com.liferay.portal.vulcan.aggregation.Aggregation aggregation,
 				Filter filter, Pagination pagination, Sort[] sorts)
+		throws Exception;
+
+	public Response
+			postStructuredContentFolderStructuredContentsPageExportBatch(
+				Long structuredContentFolderId, String search, Filter filter,
+				Sort[] sorts, String callbackURL, String contentType,
+				String fieldNames)
 		throws Exception;
 
 	public StructuredContent postStructuredContentFolderStructuredContent(

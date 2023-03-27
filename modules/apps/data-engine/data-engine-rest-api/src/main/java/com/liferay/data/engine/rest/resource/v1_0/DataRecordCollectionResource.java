@@ -62,6 +62,11 @@ public interface DataRecordCollectionResource {
 				Long dataDefinitionId, String keywords, Pagination pagination)
 		throws Exception;
 
+	public Response postDataDefinitionDataRecordCollectionsPageExportBatch(
+			Long dataDefinitionId, String keywords, String callbackURL,
+			String contentType, String fieldNames)
+		throws Exception;
+
 	public DataRecordCollection postDataDefinitionDataRecordCollection(
 			Long dataDefinitionId, DataRecordCollection dataRecordCollection)
 		throws Exception;
@@ -102,6 +107,11 @@ public interface DataRecordCollectionResource {
 
 	public Page<DataRecordCollection> getSiteDataRecordCollectionsPage(
 			Long siteId, String keywords, Pagination pagination)
+		throws Exception;
+
+	public Response postSiteDataRecordCollectionsPageExportBatch(
+			Long siteId, String keywords, String callbackURL,
+			String contentType, String fieldNames)
 		throws Exception;
 
 	public DataRecordCollection getSiteDataRecordCollection(

@@ -38,6 +38,7 @@ import javax.annotation.Generated;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.osgi.annotation.versioning.ProviderType;
@@ -57,7 +58,17 @@ public interface WebUrlResource {
 	public Page<WebUrl> getOrganizationWebUrlsPage(Long organizationId)
 		throws Exception;
 
+	public Response postOrganizationWebUrlsPageExportBatch(
+			Long organizationId, String callbackURL, String contentType,
+			String fieldNames)
+		throws Exception;
+
 	public Page<WebUrl> getUserAccountWebUrlsPage(Long userAccountId)
+		throws Exception;
+
+	public Response postUserAccountWebUrlsPageExportBatch(
+			Long userAccountId, String callbackURL, String contentType,
+			String fieldNames)
 		throws Exception;
 
 	public WebUrl getWebUrl(Long webUrlId) throws Exception;

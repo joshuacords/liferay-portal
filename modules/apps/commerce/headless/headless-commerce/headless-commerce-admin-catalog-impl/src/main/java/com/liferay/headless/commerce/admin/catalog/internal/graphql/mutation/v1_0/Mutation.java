@@ -480,6 +480,25 @@ public class Mutation {
 	}
 
 	@GraphQLField
+	public Response createCatalogsPageExportBatch(
+			@GraphQLName("search") String search,
+			@GraphQLName("filter") String filterString,
+			@GraphQLName("sort") String sortsString,
+			@GraphQLName("callbackURL") String callbackURL,
+			@GraphQLName("contentType") String contentType,
+			@GraphQLName("fieldNames") String fieldNames)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_catalogResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			catalogResource -> catalogResource.postCatalogsPageExportBatch(
+				search, _filterBiFunction.apply(catalogResource, filterString),
+				_sortsBiFunction.apply(catalogResource, sortsString),
+				callbackURL, contentType, fieldNames));
+	}
+
+	@GraphQLField
 	public Catalog createCatalog(@GraphQLName("catalog") Catalog catalog)
 		throws Exception {
 
@@ -527,6 +546,25 @@ public class Mutation {
 			this::_populateResourceContext,
 			categoryResource -> categoryResource.patchProductIdCategory(
 				id, categories));
+	}
+
+	@GraphQLField
+	public Response createOptionsPageExportBatch(
+			@GraphQLName("search") String search,
+			@GraphQLName("filter") String filterString,
+			@GraphQLName("sort") String sortsString,
+			@GraphQLName("callbackURL") String callbackURL,
+			@GraphQLName("contentType") String contentType,
+			@GraphQLName("fieldNames") String fieldNames)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_optionResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			optionResource -> optionResource.postOptionsPageExportBatch(
+				search, _filterBiFunction.apply(optionResource, filterString),
+				_sortsBiFunction.apply(optionResource, sortsString),
+				callbackURL, contentType, fieldNames));
 	}
 
 	@GraphQLField
@@ -717,6 +755,25 @@ public class Mutation {
 	}
 
 	@GraphQLField
+	public Response createProductsPageExportBatch(
+			@GraphQLName("search") String search,
+			@GraphQLName("filter") String filterString,
+			@GraphQLName("sort") String sortsString,
+			@GraphQLName("callbackURL") String callbackURL,
+			@GraphQLName("contentType") String contentType,
+			@GraphQLName("fieldNames") String fieldNames)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_productResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			productResource -> productResource.postProductsPageExportBatch(
+				search, _filterBiFunction.apply(productResource, filterString),
+				_sortsBiFunction.apply(productResource, sortsString),
+				callbackURL, contentType, fieldNames));
+	}
+
+	@GraphQLField
 	public Product createProduct(@GraphQLName("product") Product product)
 		throws Exception {
 
@@ -854,6 +911,27 @@ public class Mutation {
 			productConfigurationResource ->
 				productConfigurationResource.patchProductIdConfiguration(
 					id, productConfiguration));
+	}
+
+	@GraphQLField
+	public Response createProductGroupsPageExportBatch(
+			@GraphQLName("search") String search,
+			@GraphQLName("filter") String filterString,
+			@GraphQLName("sort") String sortsString,
+			@GraphQLName("callbackURL") String callbackURL,
+			@GraphQLName("contentType") String contentType,
+			@GraphQLName("fieldNames") String fieldNames)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_productGroupResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			productGroupResource ->
+				productGroupResource.postProductGroupsPageExportBatch(
+					search,
+					_filterBiFunction.apply(productGroupResource, filterString),
+					_sortsBiFunction.apply(productGroupResource, sortsString),
+					callbackURL, contentType, fieldNames));
 	}
 
 	@GraphQLField
@@ -1368,6 +1446,24 @@ public class Mutation {
 	}
 
 	@GraphQLField
+	public Response createSkusPageExportBatch(
+			@GraphQLName("search") String search,
+			@GraphQLName("filter") String filterString,
+			@GraphQLName("sort") String sortsString,
+			@GraphQLName("callbackURL") String callbackURL,
+			@GraphQLName("contentType") String contentType,
+			@GraphQLName("fieldNames") String fieldNames)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_skuResourceComponentServiceObjects, this::_populateResourceContext,
+			skuResource -> skuResource.postSkusPageExportBatch(
+				search, _filterBiFunction.apply(skuResource, filterString),
+				_sortsBiFunction.apply(skuResource, sortsString), callbackURL,
+				contentType, fieldNames));
+	}
+
+	@GraphQLField
 	public Response deleteSkuByExternalReferenceCode(
 			@GraphQLName("externalReferenceCode") String externalReferenceCode)
 		throws Exception {
@@ -1416,6 +1512,28 @@ public class Mutation {
 		return _applyComponentServiceObjects(
 			_skuResourceComponentServiceObjects, this::_populateResourceContext,
 			skuResource -> skuResource.patchSku(id, sku));
+	}
+
+	@GraphQLField
+	public Response createSpecificationsPageExportBatch(
+			@GraphQLName("search") String search,
+			@GraphQLName("filter") String filterString,
+			@GraphQLName("sort") String sortsString,
+			@GraphQLName("callbackURL") String callbackURL,
+			@GraphQLName("contentType") String contentType,
+			@GraphQLName("fieldNames") String fieldNames)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_specificationResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			specificationResource ->
+				specificationResource.postSpecificationsPageExportBatch(
+					search,
+					_filterBiFunction.apply(
+						specificationResource, filterString),
+					_sortsBiFunction.apply(specificationResource, sortsString),
+					callbackURL, contentType, fieldNames));
 	}
 
 	@GraphQLField

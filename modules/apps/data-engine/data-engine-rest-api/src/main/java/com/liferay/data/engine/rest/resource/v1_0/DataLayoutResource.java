@@ -62,6 +62,11 @@ public interface DataLayoutResource {
 			Sort[] sorts)
 		throws Exception;
 
+	public Response postDataDefinitionDataLayoutsPageExportBatch(
+			Long dataDefinitionId, String keywords, Sort[] sorts,
+			String callbackURL, String contentType, String fieldNames)
+		throws Exception;
+
 	public DataLayout postDataDefinitionDataLayout(
 			Long dataDefinitionId, DataLayout dataLayout)
 		throws Exception;
@@ -95,6 +100,11 @@ public interface DataLayoutResource {
 
 	public Page<DataLayout> getSiteDataLayoutsPage(
 			Long siteId, String keywords, Pagination pagination, Sort[] sorts)
+		throws Exception;
+
+	public Response postSiteDataLayoutsPageExportBatch(
+			Long siteId, String keywords, Sort[] sorts, String callbackURL,
+			String contentType, String fieldNames)
 		throws Exception;
 
 	public DataLayout getSiteDataLayout(Long siteId, String dataLayoutKey)

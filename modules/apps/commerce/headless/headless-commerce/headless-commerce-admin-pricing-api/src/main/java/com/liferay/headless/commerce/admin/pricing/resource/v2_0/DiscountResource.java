@@ -60,6 +60,11 @@ public interface DiscountResource {
 			String search, Filter filter, Pagination pagination, Sort[] sorts)
 		throws Exception;
 
+	public Response postDiscountsPageExportBatch(
+			String search, Filter filter, Sort[] sorts, String callbackURL,
+			String contentType, String fieldNames)
+		throws Exception;
+
 	public Discount postDiscount(Discount discount) throws Exception;
 
 	public Response postDiscountBatch(String callbackURL, Object object)

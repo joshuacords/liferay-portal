@@ -73,6 +73,11 @@ public interface KeywordResource {
 			Sort[] sorts)
 		throws Exception;
 
+	public Response postSiteKeywordsPageExportBatch(
+			Long siteId, String search, Filter filter, Sort[] sorts,
+			String callbackURL, String contentType, String fieldNames)
+		throws Exception;
+
 	public Keyword postSiteKeyword(Long siteId, Keyword keyword)
 		throws Exception;
 

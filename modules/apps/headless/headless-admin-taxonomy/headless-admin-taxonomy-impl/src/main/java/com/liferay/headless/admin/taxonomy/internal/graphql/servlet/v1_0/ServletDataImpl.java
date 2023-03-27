@@ -113,6 +113,11 @@ public class ServletDataImpl implements ServletData {
 						new ObjectValuePair<>(
 							KeywordResourceImpl.class, "putKeywordBatch"));
 					put(
+						"mutation#createSiteKeywordsPageExportBatch",
+						new ObjectValuePair<>(
+							KeywordResourceImpl.class,
+							"postSiteKeywordsPageExportBatch"));
+					put(
 						"mutation#createSiteKeyword",
 						new ObjectValuePair<>(
 							KeywordResourceImpl.class, "postSiteKeyword"));

@@ -62,6 +62,11 @@ public interface WikiNodeResource {
 			Filter filter, Pagination pagination, Sort[] sorts)
 		throws Exception;
 
+	public Response postSiteWikiNodesPageExportBatch(
+			Long siteId, String search, Filter filter, Sort[] sorts,
+			String callbackURL, String contentType, String fieldNames)
+		throws Exception;
+
 	public WikiNode postSiteWikiNode(Long siteId, WikiNode wikiNode)
 		throws Exception;
 

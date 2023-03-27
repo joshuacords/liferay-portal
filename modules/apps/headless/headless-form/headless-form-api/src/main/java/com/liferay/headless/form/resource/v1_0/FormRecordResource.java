@@ -68,6 +68,11 @@ public interface FormRecordResource {
 			Long formId, Pagination pagination)
 		throws Exception;
 
+	public Response postFormFormRecordsPageExportBatch(
+			Long formId, String callbackURL, String contentType,
+			String fieldNames)
+		throws Exception;
+
 	public FormRecord postFormFormRecord(Long formId, FormRecord formRecord)
 		throws Exception;
 

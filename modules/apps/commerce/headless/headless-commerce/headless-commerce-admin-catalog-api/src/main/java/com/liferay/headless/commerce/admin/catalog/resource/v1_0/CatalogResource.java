@@ -81,6 +81,11 @@ public interface CatalogResource {
 			String search, Filter filter, Pagination pagination, Sort[] sorts)
 		throws Exception;
 
+	public Response postCatalogsPageExportBatch(
+			String search, Filter filter, Sort[] sorts, String callbackURL,
+			String contentType, String fieldNames)
+		throws Exception;
+
 	public Catalog postCatalog(Catalog catalog) throws Exception;
 
 	public Response postCatalogBatch(String callbackURL, Object object)

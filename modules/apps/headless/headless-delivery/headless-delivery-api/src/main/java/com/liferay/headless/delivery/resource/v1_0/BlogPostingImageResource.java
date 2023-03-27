@@ -73,6 +73,11 @@ public interface BlogPostingImageResource {
 			Filter filter, Pagination pagination, Sort[] sorts)
 		throws Exception;
 
+	public Response postSiteBlogPostingImagesPageExportBatch(
+			Long siteId, String search, Filter filter, Sort[] sorts,
+			String callbackURL, String contentType, String fieldNames)
+		throws Exception;
+
 	public BlogPostingImage postSiteBlogPostingImage(
 			Long siteId, MultipartBody multipartBody)
 		throws Exception;

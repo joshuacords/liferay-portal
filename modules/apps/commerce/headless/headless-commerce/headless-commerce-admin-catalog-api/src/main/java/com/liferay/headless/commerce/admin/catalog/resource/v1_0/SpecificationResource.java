@@ -60,6 +60,11 @@ public interface SpecificationResource {
 			String search, Filter filter, Pagination pagination, Sort[] sorts)
 		throws Exception;
 
+	public Response postSpecificationsPageExportBatch(
+			String search, Filter filter, Sort[] sorts, String callbackURL,
+			String contentType, String fieldNames)
+		throws Exception;
+
 	public Specification postSpecification(Specification specification)
 		throws Exception;
 
