@@ -14,6 +14,8 @@
 
 package routines;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import routines.system.JSONArray;
@@ -56,7 +58,7 @@ public class ContactRoleParser {
 	}
 
 	public static String getAccountRoleId(
-		Map<String, Object> globalMap, String contactRoleName) {
+		Map<String, String> accountRoleIdMap, String contactRoleName) {
 
 		if ((contactRoleName == null) || contactRoleName.isEmpty()) {
 			return "";
@@ -65,7 +67,7 @@ public class ContactRoleParser {
 		if (contactRoleName.equals(
 				ContactRoleConstants.NAME_ADMINISTRATOR_PROVISIONING)) {
 
-			return String.valueOf(globalMap.get("supportAdministratorRoleId"));
+			return accountRoleIdMap.get("supportAdministratorRoleId");
 		}
 		else if (contactRoleName.equals(
 					ContactRoleConstants.
@@ -73,30 +75,49 @@ public class ContactRoleParser {
 				 contactRoleName.equals(
 					 ContactRoleConstants.NAME_LIFERAY_SALES_PROVISIONING)) {
 
-			return String.valueOf(globalMap.get("provisioningRoleId"));
+			return accountRoleIdMap.get("provisioningRoleId");
 		}
 		else if (contactRoleName.equals(
 					ContactRoleConstants.NAME_MEMBER_PROVISIONING)) {
 
-			return String.valueOf(globalMap.get("supportUserRoleId"));
+			return accountRoleIdMap.get("supportUserRoleId");
 		}
 		else if (contactRoleName.equals(
 					ContactRoleConstants.NAME_PARTNER_MANAGER_PROVISIONING)) {
 
-			return String.valueOf(globalMap.get("partnerManagerRoleId"));
+			return accountRoleIdMap.get("partnerManagerRoleId");
 		}
 		else if (contactRoleName.equals(
 					ContactRoleConstants.NAME_PARTNER_MEMBER_PROVISIONING)) {
 
-			return String.valueOf(globalMap.get("partnerMemberRoleId"));
+			return accountRoleIdMap.get("partnerMemberRoleId");
 		}
 		else if (contactRoleName.equals(
 					ContactRoleConstants.NAME_REQUESTER_PROVISIONING)) {
 
-			return String.valueOf(globalMap.get("supportRequesterRoleId"));
+			return accountRoleIdMap.get("supportRequesterRoleId");
 		}
 
 		return "";
+	}
+
+	public static List<String> getAccountRoleIdList(
+		Map<String, String> accountRoleMap, String contactRoles) {
+
+		List<String> accountRoleIdList = new ArrayList<>();
+
+		JSONArray jsonArray = new JSONArray(contactRoles);
+
+		for (int i = 0; i < jsonArray.length(); i++) {
+			JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+			String contactRoleName = jsonObject.getString("name");
+
+			accountRoleIdList.add(
+				getAccountRoleId(accountRoleMap, contactRoleName));
+		}
+
+		return accountRoleIdList;
 	}
 
 }
