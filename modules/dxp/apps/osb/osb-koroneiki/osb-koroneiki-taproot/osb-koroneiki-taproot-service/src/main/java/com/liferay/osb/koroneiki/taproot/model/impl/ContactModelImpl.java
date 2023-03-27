@@ -279,64 +279,70 @@ public class ContactModelImpl
 
 	private static final Map<String, Function<Contact, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Contact, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<Contact, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<Contact, Object>>();
+
+		attributeGetterFunctions.put("mvccVersion", Contact::getMvccVersion);
+		attributeGetterFunctions.put("uuid", Contact::getUuid);
+		attributeGetterFunctions.put("contactId", Contact::getContactId);
+		attributeGetterFunctions.put("companyId", Contact::getCompanyId);
+		attributeGetterFunctions.put("userId", Contact::getUserId);
+		attributeGetterFunctions.put("createDate", Contact::getCreateDate);
+		attributeGetterFunctions.put("modifiedDate", Contact::getModifiedDate);
+		attributeGetterFunctions.put("contactKey", Contact::getContactKey);
+		attributeGetterFunctions.put("firstName", Contact::getFirstName);
+		attributeGetterFunctions.put("middleName", Contact::getMiddleName);
+		attributeGetterFunctions.put("lastName", Contact::getLastName);
+		attributeGetterFunctions.put("emailAddress", Contact::getEmailAddress);
+		attributeGetterFunctions.put("languageId", Contact::getLanguageId);
+		attributeGetterFunctions.put(
+			"emailAddressVerified", Contact::getEmailAddressVerified);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<Contact, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<Contact, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Contact, ?>>();
 
-		attributeGetterFunctions.put("mvccVersion", Contact::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion", (BiConsumer<Contact, Long>)Contact::setMvccVersion);
-		attributeGetterFunctions.put("uuid", Contact::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<Contact, String>)Contact::setUuid);
-		attributeGetterFunctions.put("contactId", Contact::getContactId);
 		attributeSetterBiConsumers.put(
 			"contactId", (BiConsumer<Contact, Long>)Contact::setContactId);
-		attributeGetterFunctions.put("companyId", Contact::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<Contact, Long>)Contact::setCompanyId);
-		attributeGetterFunctions.put("userId", Contact::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<Contact, Long>)Contact::setUserId);
-		attributeGetterFunctions.put("createDate", Contact::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate", (BiConsumer<Contact, Date>)Contact::setCreateDate);
-		attributeGetterFunctions.put("modifiedDate", Contact::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<Contact, Date>)Contact::setModifiedDate);
-		attributeGetterFunctions.put("contactKey", Contact::getContactKey);
 		attributeSetterBiConsumers.put(
 			"contactKey", (BiConsumer<Contact, String>)Contact::setContactKey);
-		attributeGetterFunctions.put("firstName", Contact::getFirstName);
 		attributeSetterBiConsumers.put(
 			"firstName", (BiConsumer<Contact, String>)Contact::setFirstName);
-		attributeGetterFunctions.put("middleName", Contact::getMiddleName);
 		attributeSetterBiConsumers.put(
 			"middleName", (BiConsumer<Contact, String>)Contact::setMiddleName);
-		attributeGetterFunctions.put("lastName", Contact::getLastName);
 		attributeSetterBiConsumers.put(
 			"lastName", (BiConsumer<Contact, String>)Contact::setLastName);
-		attributeGetterFunctions.put("emailAddress", Contact::getEmailAddress);
 		attributeSetterBiConsumers.put(
 			"emailAddress",
 			(BiConsumer<Contact, String>)Contact::setEmailAddress);
-		attributeGetterFunctions.put("languageId", Contact::getLanguageId);
 		attributeSetterBiConsumers.put(
 			"languageId", (BiConsumer<Contact, String>)Contact::setLanguageId);
-		attributeGetterFunctions.put(
-			"emailAddressVerified", Contact::getEmailAddressVerified);
 		attributeSetterBiConsumers.put(
 			"emailAddressVerified",
 			(BiConsumer<Contact, Boolean>)Contact::setEmailAddressVerified);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

@@ -45,6 +45,7 @@ import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 
@@ -2405,7 +2406,7 @@ public class ContactPersistenceImpl
 				QueryPos queryPos = QueryPos.getInstance(query);
 
 				if (bindEmailAddress) {
-					queryPos.add(emailAddress);
+					queryPos.add(StringUtil.toLowerCase(emailAddress));
 				}
 
 				List<Contact> list = query.list();
@@ -2504,7 +2505,7 @@ public class ContactPersistenceImpl
 				QueryPos queryPos = QueryPos.getInstance(query);
 
 				if (bindEmailAddress) {
-					queryPos.add(emailAddress);
+					queryPos.add(StringUtil.toLowerCase(emailAddress));
 				}
 
 				count = (Long)query.uniqueResult();
@@ -2525,7 +2526,7 @@ public class ContactPersistenceImpl
 	}
 
 	private static final String _FINDER_COLUMN_EMAILADDRESS_EMAILADDRESS_2 =
-		"contact.emailAddress = ?";
+		"lower(contact.emailAddress) = ?";
 
 	private static final String _FINDER_COLUMN_EMAILADDRESS_EMAILADDRESS_3 =
 		"(contact.emailAddress IS NULL OR contact.emailAddress = '')";

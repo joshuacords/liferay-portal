@@ -299,92 +299,98 @@ public class AccountNoteModelImpl
 
 	private static final Map<String, Function<AccountNote, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<AccountNote, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<AccountNote, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<AccountNote, Object>>();
-		Map<String, BiConsumer<AccountNote, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<AccountNote, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", AccountNote::getMvccVersion);
-		attributeSetterBiConsumers.put(
-			"mvccVersion",
-			(BiConsumer<AccountNote, Long>)AccountNote::setMvccVersion);
 		attributeGetterFunctions.put("uuid", AccountNote::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<AccountNote, String>)AccountNote::setUuid);
 		attributeGetterFunctions.put(
 			"accountNoteId", AccountNote::getAccountNoteId);
-		attributeSetterBiConsumers.put(
-			"accountNoteId",
-			(BiConsumer<AccountNote, Long>)AccountNote::setAccountNoteId);
 		attributeGetterFunctions.put("companyId", AccountNote::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId",
-			(BiConsumer<AccountNote, Long>)AccountNote::setCompanyId);
 		attributeGetterFunctions.put("userId", AccountNote::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<AccountNote, Long>)AccountNote::setUserId);
 		attributeGetterFunctions.put("createDate", AccountNote::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<AccountNote, Date>)AccountNote::setCreateDate);
 		attributeGetterFunctions.put("creatorUID", AccountNote::getCreatorUID);
-		attributeSetterBiConsumers.put(
-			"creatorUID",
-			(BiConsumer<AccountNote, String>)AccountNote::setCreatorUID);
 		attributeGetterFunctions.put(
 			"creatorName", AccountNote::getCreatorName);
-		attributeSetterBiConsumers.put(
-			"creatorName",
-			(BiConsumer<AccountNote, String>)AccountNote::setCreatorName);
 		attributeGetterFunctions.put(
 			"modifiedDate", AccountNote::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<AccountNote, Date>)AccountNote::setModifiedDate);
 		attributeGetterFunctions.put(
 			"modifierUID", AccountNote::getModifierUID);
-		attributeSetterBiConsumers.put(
-			"modifierUID",
-			(BiConsumer<AccountNote, String>)AccountNote::setModifierUID);
 		attributeGetterFunctions.put(
 			"modifierName", AccountNote::getModifierName);
-		attributeSetterBiConsumers.put(
-			"modifierName",
-			(BiConsumer<AccountNote, String>)AccountNote::setModifierName);
 		attributeGetterFunctions.put(
 			"accountNoteKey", AccountNote::getAccountNoteKey);
-		attributeSetterBiConsumers.put(
-			"accountNoteKey",
-			(BiConsumer<AccountNote, String>)AccountNote::setAccountNoteKey);
 		attributeGetterFunctions.put("accountId", AccountNote::getAccountId);
-		attributeSetterBiConsumers.put(
-			"accountId",
-			(BiConsumer<AccountNote, Long>)AccountNote::setAccountId);
 		attributeGetterFunctions.put("type", AccountNote::getType);
-		attributeSetterBiConsumers.put(
-			"type", (BiConsumer<AccountNote, String>)AccountNote::setType);
 		attributeGetterFunctions.put("priority", AccountNote::getPriority);
-		attributeSetterBiConsumers.put(
-			"priority",
-			(BiConsumer<AccountNote, Integer>)AccountNote::setPriority);
 		attributeGetterFunctions.put("content", AccountNote::getContent);
-		attributeSetterBiConsumers.put(
-			"content",
-			(BiConsumer<AccountNote, String>)AccountNote::setContent);
 		attributeGetterFunctions.put("format", AccountNote::getFormat);
-		attributeSetterBiConsumers.put(
-			"format", (BiConsumer<AccountNote, String>)AccountNote::setFormat);
 		attributeGetterFunctions.put("status", AccountNote::getStatus);
-		attributeSetterBiConsumers.put(
-			"status", (BiConsumer<AccountNote, String>)AccountNote::setStatus);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<AccountNote, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<AccountNote, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<AccountNote, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"mvccVersion",
+			(BiConsumer<AccountNote, Long>)AccountNote::setMvccVersion);
+		attributeSetterBiConsumers.put(
+			"uuid", (BiConsumer<AccountNote, String>)AccountNote::setUuid);
+		attributeSetterBiConsumers.put(
+			"accountNoteId",
+			(BiConsumer<AccountNote, Long>)AccountNote::setAccountNoteId);
+		attributeSetterBiConsumers.put(
+			"companyId",
+			(BiConsumer<AccountNote, Long>)AccountNote::setCompanyId);
+		attributeSetterBiConsumers.put(
+			"userId", (BiConsumer<AccountNote, Long>)AccountNote::setUserId);
+		attributeSetterBiConsumers.put(
+			"createDate",
+			(BiConsumer<AccountNote, Date>)AccountNote::setCreateDate);
+		attributeSetterBiConsumers.put(
+			"creatorUID",
+			(BiConsumer<AccountNote, String>)AccountNote::setCreatorUID);
+		attributeSetterBiConsumers.put(
+			"creatorName",
+			(BiConsumer<AccountNote, String>)AccountNote::setCreatorName);
+		attributeSetterBiConsumers.put(
+			"modifiedDate",
+			(BiConsumer<AccountNote, Date>)AccountNote::setModifiedDate);
+		attributeSetterBiConsumers.put(
+			"modifierUID",
+			(BiConsumer<AccountNote, String>)AccountNote::setModifierUID);
+		attributeSetterBiConsumers.put(
+			"modifierName",
+			(BiConsumer<AccountNote, String>)AccountNote::setModifierName);
+		attributeSetterBiConsumers.put(
+			"accountNoteKey",
+			(BiConsumer<AccountNote, String>)AccountNote::setAccountNoteKey);
+		attributeSetterBiConsumers.put(
+			"accountId",
+			(BiConsumer<AccountNote, Long>)AccountNote::setAccountId);
+		attributeSetterBiConsumers.put(
+			"type", (BiConsumer<AccountNote, String>)AccountNote::setType);
+		attributeSetterBiConsumers.put(
+			"priority",
+			(BiConsumer<AccountNote, Integer>)AccountNote::setPriority);
+		attributeSetterBiConsumers.put(
+			"content",
+			(BiConsumer<AccountNote, String>)AccountNote::setContent);
+		attributeSetterBiConsumers.put(
+			"format", (BiConsumer<AccountNote, String>)AccountNote::setFormat);
+		attributeSetterBiConsumers.put(
+			"status", (BiConsumer<AccountNote, String>)AccountNote::setStatus);
+
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

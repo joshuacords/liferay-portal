@@ -276,66 +276,72 @@ public class ContactRoleModelImpl
 
 	private static final Map<String, Function<ContactRole, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<ContactRole, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<ContactRole, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<ContactRole, Object>>();
-		Map<String, BiConsumer<ContactRole, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<ContactRole, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", ContactRole::getMvccVersion);
-		attributeSetterBiConsumers.put(
-			"mvccVersion",
-			(BiConsumer<ContactRole, Long>)ContactRole::setMvccVersion);
 		attributeGetterFunctions.put("uuid", ContactRole::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<ContactRole, String>)ContactRole::setUuid);
 		attributeGetterFunctions.put(
 			"contactRoleId", ContactRole::getContactRoleId);
-		attributeSetterBiConsumers.put(
-			"contactRoleId",
-			(BiConsumer<ContactRole, Long>)ContactRole::setContactRoleId);
 		attributeGetterFunctions.put("companyId", ContactRole::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId",
-			(BiConsumer<ContactRole, Long>)ContactRole::setCompanyId);
 		attributeGetterFunctions.put("userId", ContactRole::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<ContactRole, Long>)ContactRole::setUserId);
 		attributeGetterFunctions.put("createDate", ContactRole::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<ContactRole, Date>)ContactRole::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", ContactRole::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<ContactRole, Date>)ContactRole::setModifiedDate);
 		attributeGetterFunctions.put(
 			"contactRoleKey", ContactRole::getContactRoleKey);
-		attributeSetterBiConsumers.put(
-			"contactRoleKey",
-			(BiConsumer<ContactRole, String>)ContactRole::setContactRoleKey);
 		attributeGetterFunctions.put("name", ContactRole::getName);
-		attributeSetterBiConsumers.put(
-			"name", (BiConsumer<ContactRole, String>)ContactRole::setName);
 		attributeGetterFunctions.put(
 			"description", ContactRole::getDescription);
-		attributeSetterBiConsumers.put(
-			"description",
-			(BiConsumer<ContactRole, String>)ContactRole::setDescription);
 		attributeGetterFunctions.put("type", ContactRole::getType);
-		attributeSetterBiConsumers.put(
-			"type", (BiConsumer<ContactRole, String>)ContactRole::setType);
 		attributeGetterFunctions.put("system", ContactRole::getSystem);
-		attributeSetterBiConsumers.put(
-			"system", (BiConsumer<ContactRole, Boolean>)ContactRole::setSystem);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<ContactRole, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<ContactRole, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<ContactRole, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"mvccVersion",
+			(BiConsumer<ContactRole, Long>)ContactRole::setMvccVersion);
+		attributeSetterBiConsumers.put(
+			"uuid", (BiConsumer<ContactRole, String>)ContactRole::setUuid);
+		attributeSetterBiConsumers.put(
+			"contactRoleId",
+			(BiConsumer<ContactRole, Long>)ContactRole::setContactRoleId);
+		attributeSetterBiConsumers.put(
+			"companyId",
+			(BiConsumer<ContactRole, Long>)ContactRole::setCompanyId);
+		attributeSetterBiConsumers.put(
+			"userId", (BiConsumer<ContactRole, Long>)ContactRole::setUserId);
+		attributeSetterBiConsumers.put(
+			"createDate",
+			(BiConsumer<ContactRole, Date>)ContactRole::setCreateDate);
+		attributeSetterBiConsumers.put(
+			"modifiedDate",
+			(BiConsumer<ContactRole, Date>)ContactRole::setModifiedDate);
+		attributeSetterBiConsumers.put(
+			"contactRoleKey",
+			(BiConsumer<ContactRole, String>)ContactRole::setContactRoleKey);
+		attributeSetterBiConsumers.put(
+			"name", (BiConsumer<ContactRole, String>)ContactRole::setName);
+		attributeSetterBiConsumers.put(
+			"description",
+			(BiConsumer<ContactRole, String>)ContactRole::setDescription);
+		attributeSetterBiConsumers.put(
+			"type", (BiConsumer<ContactRole, String>)ContactRole::setType);
+		attributeSetterBiConsumers.put(
+			"system", (BiConsumer<ContactRole, Boolean>)ContactRole::setSystem);
+
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

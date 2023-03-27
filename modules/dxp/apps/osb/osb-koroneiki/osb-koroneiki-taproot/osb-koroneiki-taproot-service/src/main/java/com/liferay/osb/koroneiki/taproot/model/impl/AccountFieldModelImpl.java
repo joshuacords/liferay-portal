@@ -256,45 +256,51 @@ public class AccountFieldModelImpl
 
 	private static final Map<String, Function<AccountField, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<AccountField, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<AccountField, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<AccountField, Object>>();
-		Map<String, BiConsumer<AccountField, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<AccountField, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", AccountField::getMvccVersion);
-		attributeSetterBiConsumers.put(
-			"mvccVersion",
-			(BiConsumer<AccountField, Long>)AccountField::setMvccVersion);
 		attributeGetterFunctions.put(
 			"accountFieldId", AccountField::getAccountFieldId);
-		attributeSetterBiConsumers.put(
-			"accountFieldId",
-			(BiConsumer<AccountField, Long>)AccountField::setAccountFieldId);
 		attributeGetterFunctions.put("companyId", AccountField::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId",
-			(BiConsumer<AccountField, Long>)AccountField::setCompanyId);
 		attributeGetterFunctions.put("userId", AccountField::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<AccountField, Long>)AccountField::setUserId);
 		attributeGetterFunctions.put("accountId", AccountField::getAccountId);
-		attributeSetterBiConsumers.put(
-			"accountId",
-			(BiConsumer<AccountField, Long>)AccountField::setAccountId);
 		attributeGetterFunctions.put("name", AccountField::getName);
-		attributeSetterBiConsumers.put(
-			"name", (BiConsumer<AccountField, String>)AccountField::setName);
 		attributeGetterFunctions.put("value", AccountField::getValue);
-		attributeSetterBiConsumers.put(
-			"value", (BiConsumer<AccountField, String>)AccountField::setValue);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<AccountField, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<AccountField, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<AccountField, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"mvccVersion",
+			(BiConsumer<AccountField, Long>)AccountField::setMvccVersion);
+		attributeSetterBiConsumers.put(
+			"accountFieldId",
+			(BiConsumer<AccountField, Long>)AccountField::setAccountFieldId);
+		attributeSetterBiConsumers.put(
+			"companyId",
+			(BiConsumer<AccountField, Long>)AccountField::setCompanyId);
+		attributeSetterBiConsumers.put(
+			"userId", (BiConsumer<AccountField, Long>)AccountField::setUserId);
+		attributeSetterBiConsumers.put(
+			"accountId",
+			(BiConsumer<AccountField, Long>)AccountField::setAccountId);
+		attributeSetterBiConsumers.put(
+			"name", (BiConsumer<AccountField, String>)AccountField::setName);
+		attributeSetterBiConsumers.put(
+			"value", (BiConsumer<AccountField, String>)AccountField::setValue);
+
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

@@ -250,45 +250,51 @@ public class ContactAccountRoleModelImpl
 
 	private static final Map<String, Function<ContactAccountRole, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<ContactAccountRole, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<ContactAccountRole, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<ContactAccountRole, Object>>();
+
+		attributeGetterFunctions.put(
+			"mvccVersion", ContactAccountRole::getMvccVersion);
+		attributeGetterFunctions.put(
+			"contactId", ContactAccountRole::getContactId);
+		attributeGetterFunctions.put(
+			"accountId", ContactAccountRole::getAccountId);
+		attributeGetterFunctions.put(
+			"contactRoleId", ContactAccountRole::getContactRoleId);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<ContactAccountRole, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<ContactAccountRole, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<ContactAccountRole, ?>>();
 
-		attributeGetterFunctions.put(
-			"mvccVersion", ContactAccountRole::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<ContactAccountRole, Long>)
 				ContactAccountRole::setMvccVersion);
-		attributeGetterFunctions.put(
-			"contactId", ContactAccountRole::getContactId);
 		attributeSetterBiConsumers.put(
 			"contactId",
 			(BiConsumer<ContactAccountRole, Long>)
 				ContactAccountRole::setContactId);
-		attributeGetterFunctions.put(
-			"accountId", ContactAccountRole::getAccountId);
 		attributeSetterBiConsumers.put(
 			"accountId",
 			(BiConsumer<ContactAccountRole, Long>)
 				ContactAccountRole::setAccountId);
-		attributeGetterFunctions.put(
-			"contactRoleId", ContactAccountRole::getContactRoleId);
 		attributeSetterBiConsumers.put(
 			"contactRoleId",
 			(BiConsumer<ContactAccountRole, Long>)
 				ContactAccountRole::setContactRoleId);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}
