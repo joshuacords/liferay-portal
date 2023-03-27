@@ -32,6 +32,7 @@ import com.liferay.portal.kernel.search.IndexerRegistryUtil;
 import com.liferay.portal.kernel.search.QueryConfig;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.Sort;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.io.Serializable;
@@ -61,6 +62,10 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 		throws PortalException {
 
 		User user = userLocalService.getUser(userId);
+
+		if (emailAddress != null) {
+			emailAddress = StringUtil.toLowerCase(emailAddress.trim());
+		}
 
 		validate(0, emailAddress);
 
@@ -251,6 +256,10 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 			String lastName, String emailAddress, String languageId,
 			boolean emailAddressVerified)
 		throws PortalException {
+
+		if (emailAddress != null) {
+			emailAddress = StringUtil.toLowerCase(emailAddress.trim());
+		}
 
 		validate(contactId, emailAddress);
 
