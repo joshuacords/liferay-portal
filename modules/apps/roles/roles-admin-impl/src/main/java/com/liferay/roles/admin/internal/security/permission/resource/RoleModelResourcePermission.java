@@ -40,7 +40,7 @@ public class RoleModelResourcePermission
 			PermissionChecker permissionChecker, long roleId, String actionId)
 		throws PortalException {
 
-		rolePermission.check(permissionChecker, roleId, actionId);
+		_rolePermission.check(permissionChecker, roleId, actionId);
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class RoleModelResourcePermission
 			PermissionChecker permissionChecker, Role role, String actionId)
 		throws PortalException {
 
-		rolePermission.check(permissionChecker, role.getRoleId(), actionId);
+		_rolePermission.check(permissionChecker, role.getRoleId(), actionId);
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class RoleModelResourcePermission
 			PermissionChecker permissionChecker, long roleId, String actionId)
 		throws PortalException {
 
-		return rolePermission.contains(permissionChecker, roleId, actionId);
+		return _rolePermission.contains(permissionChecker, roleId, actionId);
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public class RoleModelResourcePermission
 			PermissionChecker permissionChecker, Role role, String actionId)
 		throws PortalException {
 
-		return rolePermission.contains(
+		return _rolePermission.contains(
 			permissionChecker, role.getRoleId(), actionId);
 	}
 
@@ -79,6 +79,6 @@ public class RoleModelResourcePermission
 	}
 
 	@Reference
-	protected RolePermission rolePermission;
+	private RolePermission _rolePermission;
 
 }
