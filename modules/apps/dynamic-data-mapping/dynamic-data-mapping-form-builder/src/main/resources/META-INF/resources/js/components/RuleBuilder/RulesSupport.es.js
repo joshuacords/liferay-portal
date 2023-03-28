@@ -79,15 +79,19 @@ const formatRules = (pages, rules) => {
 
 			const secondOperand = condition.operands[1];
 
-			visitor.mapFields(({fieldName}) => {
-				if (condition.operands[0].value === fieldName) {
-					firstOperandFieldExists = true;
-				}
+			visitor.mapFields(
+				({fieldName}) => {
+					if (condition.operands[0].value === fieldName) {
+						firstOperandFieldExists = true;
+					}
 
-				if (secondOperand && secondOperand.value === fieldName) {
-					secondOperandFieldExists = true;
-				}
-			});
+					if (secondOperand && secondOperand.value === fieldName) {
+						secondOperandFieldExists = true;
+					}
+				},
+				true,
+				true
+			);
 
 			const firstOperandFieldType = getFieldType(
 				condition.operands[0].value,
@@ -209,11 +213,15 @@ const syncActions = (pages, actions) => {
 		else {
 			let targetFieldExists = false;
 
-			visitor.mapFields(({fieldName}) => {
-				if (action.target === fieldName) {
-					targetFieldExists = true;
-				}
-			});
+			visitor.mapFields(
+				({fieldName}) => {
+					if (action.target === fieldName) {
+						targetFieldExists = true;
+					}
+				},
+				true,
+				true
+			);
 
 			if (!targetFieldExists) {
 				actions = clearTargetValue(actions, index);

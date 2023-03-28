@@ -47,22 +47,25 @@ export default (props, state, event) => {
 	});
 
 	if (targetFieldName) {
-		return {
-			...handleSectionAdded(
-				props,
-				{
-					...state,
-					pages: deletedState.pages
+		const addedSection = handleSectionAdded(
+			props,
+			{
+				...state,
+				pages: deletedState.pages
+			},
+			{
+				data: {
+					fieldName: targetFieldName,
+					parentFieldName: targetParentFieldName
 				},
-				{
-					data: {
-						fieldName: targetFieldName,
-						parentFieldName: targetParentFieldName
-					},
-					indexes: targetIndexes,
-					newField: sourceField
-				}
-			)
+				indexes: targetIndexes,
+				newField: sourceField
+			}
+		);
+
+		return {
+			...addedSection,
+			rules: RulesSupport.formatRules(addedSection.pages, previousRules)
 		};
 	}
 
