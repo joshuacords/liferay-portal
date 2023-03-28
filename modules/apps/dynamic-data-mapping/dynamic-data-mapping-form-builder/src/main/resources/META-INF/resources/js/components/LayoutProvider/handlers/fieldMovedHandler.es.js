@@ -40,7 +40,7 @@ export default (props, state, event) => {
 		};
 	}
 
-	const previousRules = state.rules;
+	const previousRules = JSON.parse(JSON.stringify(state.rules));
 
 	const deletedState = handleFieldDeleted(props, state, {
 		fieldName: sourceFieldName
