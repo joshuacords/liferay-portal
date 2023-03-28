@@ -65,18 +65,10 @@ public class ServletDataImpl implements ServletData {
 	public void activate(BundleContext bundleContext) {
 		Mutation.setOrganizationResourceComponentServiceObjects(
 			_organizationResourceComponentServiceObjects);
-		Mutation.setPhoneResourceComponentServiceObjects(
-			_phoneResourceComponentServiceObjects);
-		Mutation.setRoleResourceComponentServiceObjects(
-			_roleResourceComponentServiceObjects);
-		Mutation.setSegmentResourceComponentServiceObjects(
-			_segmentResourceComponentServiceObjects);
 		Mutation.setSubscriptionResourceComponentServiceObjects(
 			_subscriptionResourceComponentServiceObjects);
 		Mutation.setUserAccountResourceComponentServiceObjects(
 			_userAccountResourceComponentServiceObjects);
-		Mutation.setWebUrlResourceComponentServiceObjects(
-			_webUrlResourceComponentServiceObjects);
 
 		Query.setEmailAddressResourceComponentServiceObjects(
 			_emailAddressResourceComponentServiceObjects);
@@ -137,11 +129,6 @@ public class ServletDataImpl implements ServletData {
 			new HashMap<String, ObjectValuePair<Class<?>, String>>() {
 				{
 					put(
-						"mutation#createOrganizationsPageExportBatch",
-						new ObjectValuePair<>(
-							OrganizationResourceImpl.class,
-							"postOrganizationsPageExportBatch"));
-					put(
 						"mutation#createOrganization",
 						new ObjectValuePair<>(
 							OrganizationResourceImpl.class,
@@ -176,45 +163,10 @@ public class ServletDataImpl implements ServletData {
 							OrganizationResourceImpl.class,
 							"putOrganizationBatch"));
 					put(
-						"mutation#createOrganizationPhonesPageExportBatch",
-						new ObjectValuePair<>(
-							PhoneResourceImpl.class,
-							"postOrganizationPhonesPageExportBatch"));
-					put(
-						"mutation#createUserAccountPhonesPageExportBatch",
-						new ObjectValuePair<>(
-							PhoneResourceImpl.class,
-							"postUserAccountPhonesPageExportBatch"));
-					put(
-						"mutation#createRolesPageExportBatch",
-						new ObjectValuePair<>(
-							RoleResourceImpl.class,
-							"postRolesPageExportBatch"));
-					put(
-						"mutation#createSiteSegmentsPageExportBatch",
-						new ObjectValuePair<>(
-							SegmentResourceImpl.class,
-							"postSiteSegmentsPageExportBatch"));
-					put(
 						"mutation#deleteMyUserAccountSubscription",
 						new ObjectValuePair<>(
 							SubscriptionResourceImpl.class,
 							"deleteMyUserAccountSubscription"));
-					put(
-						"mutation#createOrganizationUserAccountsPageExportBatch",
-						new ObjectValuePair<>(
-							UserAccountResourceImpl.class,
-							"postOrganizationUserAccountsPageExportBatch"));
-					put(
-						"mutation#createSiteUserAccountsPageExportBatch",
-						new ObjectValuePair<>(
-							UserAccountResourceImpl.class,
-							"postSiteUserAccountsPageExportBatch"));
-					put(
-						"mutation#createUserAccountsPageExportBatch",
-						new ObjectValuePair<>(
-							UserAccountResourceImpl.class,
-							"postUserAccountsPageExportBatch"));
 					put(
 						"mutation#createUserAccount",
 						new ObjectValuePair<>(
@@ -247,16 +199,6 @@ public class ServletDataImpl implements ServletData {
 						new ObjectValuePair<>(
 							UserAccountResourceImpl.class,
 							"putUserAccountBatch"));
-					put(
-						"mutation#createOrganizationWebUrlsPageExportBatch",
-						new ObjectValuePair<>(
-							WebUrlResourceImpl.class,
-							"postOrganizationWebUrlsPageExportBatch"));
-					put(
-						"mutation#createUserAccountWebUrlsPageExportBatch",
-						new ObjectValuePair<>(
-							WebUrlResourceImpl.class,
-							"postUserAccountWebUrlsPageExportBatch"));
 
 					put(
 						"query#emailAddress",
@@ -406,8 +348,24 @@ public class ServletDataImpl implements ServletData {
 		_organizationResourceComponentServiceObjects;
 
 	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
+	private ComponentServiceObjects<SubscriptionResource>
+		_subscriptionResourceComponentServiceObjects;
+
+	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
+	private ComponentServiceObjects<UserAccountResource>
+		_userAccountResourceComponentServiceObjects;
+
+	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
+	private ComponentServiceObjects<EmailAddressResource>
+		_emailAddressResourceComponentServiceObjects;
+
+	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
 	private ComponentServiceObjects<PhoneResource>
 		_phoneResourceComponentServiceObjects;
+
+	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
+	private ComponentServiceObjects<PostalAddressResource>
+		_postalAddressResourceComponentServiceObjects;
 
 	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
 	private ComponentServiceObjects<RoleResource>
@@ -418,31 +376,15 @@ public class ServletDataImpl implements ServletData {
 		_segmentResourceComponentServiceObjects;
 
 	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
-	private ComponentServiceObjects<SubscriptionResource>
-		_subscriptionResourceComponentServiceObjects;
-
-	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
-	private ComponentServiceObjects<UserAccountResource>
-		_userAccountResourceComponentServiceObjects;
-
-	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
-	private ComponentServiceObjects<WebUrlResource>
-		_webUrlResourceComponentServiceObjects;
-
-	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
-	private ComponentServiceObjects<EmailAddressResource>
-		_emailAddressResourceComponentServiceObjects;
-
-	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
-	private ComponentServiceObjects<PostalAddressResource>
-		_postalAddressResourceComponentServiceObjects;
-
-	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
 	private ComponentServiceObjects<SegmentUserResource>
 		_segmentUserResourceComponentServiceObjects;
 
 	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
 	private ComponentServiceObjects<SiteResource>
 		_siteResourceComponentServiceObjects;
+
+	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
+	private ComponentServiceObjects<WebUrlResource>
+		_webUrlResourceComponentServiceObjects;
 
 }

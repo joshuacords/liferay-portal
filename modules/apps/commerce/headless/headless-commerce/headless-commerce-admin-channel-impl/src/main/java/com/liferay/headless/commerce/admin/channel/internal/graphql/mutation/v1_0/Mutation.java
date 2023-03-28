@@ -54,25 +54,6 @@ public class Mutation {
 	}
 
 	@GraphQLField
-	public Response createChannelsPageExportBatch(
-			@GraphQLName("search") String search,
-			@GraphQLName("filter") String filterString,
-			@GraphQLName("sort") String sortsString,
-			@GraphQLName("callbackURL") String callbackURL,
-			@GraphQLName("contentType") String contentType,
-			@GraphQLName("fieldNames") String fieldNames)
-		throws Exception {
-
-		return _applyComponentServiceObjects(
-			_channelResourceComponentServiceObjects,
-			this::_populateResourceContext,
-			channelResource -> channelResource.postChannelsPageExportBatch(
-				search, _filterBiFunction.apply(channelResource, filterString),
-				_sortsBiFunction.apply(channelResource, sortsString),
-				callbackURL, contentType, fieldNames));
-	}
-
-	@GraphQLField
 	public Channel createChannel(@GraphQLName("channel") Channel channel)
 		throws Exception {
 

@@ -62,11 +62,6 @@ public interface StructuredContentFolderResource {
 			Filter filter, Pagination pagination, Sort[] sorts)
 		throws Exception;
 
-	public Response postSiteStructuredContentFoldersPageExportBatch(
-			Long siteId, String search, Filter filter, Sort[] sorts,
-			String callbackURL, String contentType, String fieldNames)
-		throws Exception;
-
 	public StructuredContentFolder postSiteStructuredContentFolder(
 			Long siteId, StructuredContentFolder structuredContentFolder)
 		throws Exception;

@@ -60,11 +60,6 @@ public interface OrderResource {
 			String search, Filter filter, Pagination pagination, Sort[] sorts)
 		throws Exception;
 
-	public Response postOrdersPageExportBatch(
-			String search, Filter filter, Sort[] sorts, String callbackURL,
-			String contentType, String fieldNames)
-		throws Exception;
-
 	public Order postOrder(Order order) throws Exception;
 
 	public Response postOrderBatch(String callbackURL, Object object)

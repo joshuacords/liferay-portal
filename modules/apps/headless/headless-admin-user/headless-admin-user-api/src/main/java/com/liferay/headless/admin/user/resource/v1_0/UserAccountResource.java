@@ -63,28 +63,13 @@ public interface UserAccountResource {
 			Pagination pagination, Sort[] sorts)
 		throws Exception;
 
-	public Response postOrganizationUserAccountsPageExportBatch(
-			Long organizationId, String search, Filter filter, Sort[] sorts,
-			String callbackURL, String contentType, String fieldNames)
-		throws Exception;
-
 	public Page<UserAccount> getSiteUserAccountsPage(
 			Long siteId, String search, Filter filter, Pagination pagination,
 			Sort[] sorts)
 		throws Exception;
 
-	public Response postSiteUserAccountsPageExportBatch(
-			Long siteId, String search, Filter filter, Sort[] sorts,
-			String callbackURL, String contentType, String fieldNames)
-		throws Exception;
-
 	public Page<UserAccount> getUserAccountsPage(
 			String search, Filter filter, Pagination pagination, Sort[] sorts)
-		throws Exception;
-
-	public Response postUserAccountsPageExportBatch(
-			String search, Filter filter, Sort[] sorts, String callbackURL,
-			String contentType, String fieldNames)
 		throws Exception;
 
 	public UserAccount postUserAccount(UserAccount userAccount)

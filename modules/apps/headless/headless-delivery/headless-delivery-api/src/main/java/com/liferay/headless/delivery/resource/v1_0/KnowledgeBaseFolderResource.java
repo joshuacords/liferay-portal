@@ -93,11 +93,6 @@ public interface KnowledgeBaseFolderResource {
 			Long siteId, Pagination pagination)
 		throws Exception;
 
-	public Response postSiteKnowledgeBaseFoldersPageExportBatch(
-			Long siteId, String callbackURL, String contentType,
-			String fieldNames)
-		throws Exception;
-
 	public KnowledgeBaseFolder postSiteKnowledgeBaseFolder(
 			Long siteId, KnowledgeBaseFolder knowledgeBaseFolder)
 		throws Exception;

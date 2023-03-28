@@ -39,7 +39,6 @@ import javax.annotation.Generated;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.osgi.annotation.versioning.ProviderType;
@@ -57,11 +56,6 @@ import org.osgi.annotation.versioning.ProviderType;
 public interface SegmentResource {
 
 	public Page<Segment> getSiteSegmentsPage(Long siteId, Pagination pagination)
-		throws Exception;
-
-	public Response postSiteSegmentsPageExportBatch(
-			Long siteId, String callbackURL, String contentType,
-			String fieldNames)
 		throws Exception;
 
 	public Page<Segment> getSiteUserAccountSegmentsPage(

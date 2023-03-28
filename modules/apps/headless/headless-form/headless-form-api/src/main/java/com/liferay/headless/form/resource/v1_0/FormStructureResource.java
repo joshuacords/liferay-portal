@@ -39,7 +39,6 @@ import javax.annotation.Generated;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.osgi.annotation.versioning.ProviderType;
@@ -61,11 +60,6 @@ public interface FormStructureResource {
 
 	public Page<FormStructure> getSiteFormStructuresPage(
 			Long siteId, Pagination pagination)
-		throws Exception;
-
-	public Response postSiteFormStructuresPageExportBatch(
-			Long siteId, String callbackURL, String contentType,
-			String fieldNames)
 		throws Exception;
 
 	public default void setContextAcceptLanguage(

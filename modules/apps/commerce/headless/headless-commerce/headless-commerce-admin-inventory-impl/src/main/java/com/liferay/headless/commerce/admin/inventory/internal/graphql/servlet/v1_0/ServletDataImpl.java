@@ -109,11 +109,6 @@ public class ServletDataImpl implements ServletData {
 						new ObjectValuePair<>(
 							WarehouseResourceImpl.class, "patchWarehousId"));
 					put(
-						"mutation#createWarehousesPageExportBatch",
-						new ObjectValuePair<>(
-							WarehouseResourceImpl.class,
-							"postWarehousesPageExportBatch"));
-					put(
 						"mutation#createWarehous",
 						new ObjectValuePair<>(
 							WarehouseResourceImpl.class, "postWarehous"));

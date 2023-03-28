@@ -60,11 +60,6 @@ public interface PriceListResource {
 			Filter filter, Pagination pagination, Sort[] sorts)
 		throws Exception;
 
-	public Response postPriceListsPageExportBatch(
-			Filter filter, Sort[] sorts, String callbackURL, String contentType,
-			String fieldNames)
-		throws Exception;
-
 	public PriceList postPriceList(PriceList priceList) throws Exception;
 
 	public Response postPriceListBatch(String callbackURL, Object object)

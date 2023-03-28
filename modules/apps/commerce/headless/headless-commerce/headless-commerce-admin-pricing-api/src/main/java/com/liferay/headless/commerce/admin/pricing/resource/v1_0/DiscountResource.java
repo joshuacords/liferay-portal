@@ -59,10 +59,6 @@ public interface DiscountResource {
 	public Page<Discount> getDiscountsPage(Pagination pagination)
 		throws Exception;
 
-	public Response postDiscountsPageExportBatch(
-			String callbackURL, String contentType, String fieldNames)
-		throws Exception;
-
 	public Discount postDiscount(Discount discount) throws Exception;
 
 	public Response postDiscountBatch(String callbackURL, Object object)

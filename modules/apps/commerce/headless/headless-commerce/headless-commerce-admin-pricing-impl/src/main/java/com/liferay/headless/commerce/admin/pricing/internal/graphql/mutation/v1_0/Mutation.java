@@ -134,20 +134,6 @@ public class Mutation {
 	}
 
 	@GraphQLField
-	public Response createDiscountsPageExportBatch(
-			@GraphQLName("callbackURL") String callbackURL,
-			@GraphQLName("contentType") String contentType,
-			@GraphQLName("fieldNames") String fieldNames)
-		throws Exception {
-
-		return _applyComponentServiceObjects(
-			_discountResourceComponentServiceObjects,
-			this::_populateResourceContext,
-			discountResource -> discountResource.postDiscountsPageExportBatch(
-				callbackURL, contentType, fieldNames));
-	}
-
-	@GraphQLField
 	public Discount createDiscount(@GraphQLName("discount") Discount discount)
 		throws Exception {
 
@@ -628,25 +614,6 @@ public class Mutation {
 			priceEntryResource ->
 				priceEntryResource.postPriceListIdPriceEntryBatch(
 					callbackURL, object));
-	}
-
-	@GraphQLField
-	public Response createPriceListsPageExportBatch(
-			@GraphQLName("filter") String filterString,
-			@GraphQLName("sort") String sortsString,
-			@GraphQLName("callbackURL") String callbackURL,
-			@GraphQLName("contentType") String contentType,
-			@GraphQLName("fieldNames") String fieldNames)
-		throws Exception {
-
-		return _applyComponentServiceObjects(
-			_priceListResourceComponentServiceObjects,
-			this::_populateResourceContext,
-			priceListResource ->
-				priceListResource.postPriceListsPageExportBatch(
-					_filterBiFunction.apply(priceListResource, filterString),
-					_sortsBiFunction.apply(priceListResource, sortsString),
-					callbackURL, contentType, fieldNames));
 	}
 
 	@GraphQLField

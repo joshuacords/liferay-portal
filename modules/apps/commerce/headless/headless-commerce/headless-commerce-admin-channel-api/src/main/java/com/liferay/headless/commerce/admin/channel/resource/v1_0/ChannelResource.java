@@ -60,11 +60,6 @@ public interface ChannelResource {
 			String search, Filter filter, Pagination pagination, Sort[] sorts)
 		throws Exception;
 
-	public Response postChannelsPageExportBatch(
-			String search, Filter filter, Sort[] sorts, String callbackURL,
-			String contentType, String fieldNames)
-		throws Exception;
-
 	public Channel postChannel(Channel channel) throws Exception;
 
 	public Response postChannelBatch(String callbackURL, Object object)

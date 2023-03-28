@@ -129,27 +129,6 @@ public class Mutation {
 				callbackURL, object));
 	}
 
-	@GraphQLField
-	public Response createSiteKeywordsPageExportBatch(
-			@GraphQLName("siteKey") @NotEmpty String siteKey,
-			@GraphQLName("search") String search,
-			@GraphQLName("filter") String filterString,
-			@GraphQLName("sort") String sortsString,
-			@GraphQLName("callbackURL") String callbackURL,
-			@GraphQLName("contentType") String contentType,
-			@GraphQLName("fieldNames") String fieldNames)
-		throws Exception {
-
-		return _applyComponentServiceObjects(
-			_keywordResourceComponentServiceObjects,
-			this::_populateResourceContext,
-			keywordResource -> keywordResource.postSiteKeywordsPageExportBatch(
-				Long.valueOf(siteKey), search,
-				_filterBiFunction.apply(keywordResource, filterString),
-				_sortsBiFunction.apply(keywordResource, sortsString),
-				callbackURL, contentType, fieldNames));
-	}
-
 	@GraphQLField(description = "Inserts a new keyword in a Site.")
 	public Keyword createSiteKeyword(
 			@GraphQLName("siteKey") @NotEmpty String siteKey,

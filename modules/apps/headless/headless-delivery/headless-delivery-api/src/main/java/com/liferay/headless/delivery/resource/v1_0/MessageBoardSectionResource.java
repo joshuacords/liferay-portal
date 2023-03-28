@@ -103,11 +103,6 @@ public interface MessageBoardSectionResource {
 			Filter filter, Pagination pagination, Sort[] sorts)
 		throws Exception;
 
-	public Response postSiteMessageBoardSectionsPageExportBatch(
-			Long siteId, String search, Filter filter, Sort[] sorts,
-			String callbackURL, String contentType, String fieldNames)
-		throws Exception;
-
 	public MessageBoardSection postSiteMessageBoardSection(
 			Long siteId, MessageBoardSection messageBoardSection)
 		throws Exception;

@@ -114,25 +114,6 @@ public class Mutation {
 	}
 
 	@GraphQLField
-	public Response createWarehousesPageExportBatch(
-			@GraphQLName("filter") String filterString,
-			@GraphQLName("sort") String sortsString,
-			@GraphQLName("callbackURL") String callbackURL,
-			@GraphQLName("contentType") String contentType,
-			@GraphQLName("fieldNames") String fieldNames)
-		throws Exception {
-
-		return _applyComponentServiceObjects(
-			_warehouseResourceComponentServiceObjects,
-			this::_populateResourceContext,
-			warehouseResource ->
-				warehouseResource.postWarehousesPageExportBatch(
-					_filterBiFunction.apply(warehouseResource, filterString),
-					_sortsBiFunction.apply(warehouseResource, sortsString),
-					callbackURL, contentType, fieldNames));
-	}
-
-	@GraphQLField
 	public Warehouse createWarehous(
 			@GraphQLName("warehouse") Warehouse warehouse)
 		throws Exception {

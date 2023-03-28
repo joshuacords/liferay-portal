@@ -49,8 +49,6 @@ public class ServletDataImpl implements ServletData {
 
 	@Activate
 	public void activate(BundleContext bundleContext) {
-		Mutation.setProductResourceComponentServiceObjects(
-			_productResourceComponentServiceObjects);
 		Mutation.setSpotResourceComponentServiceObjects(
 			_spotResourceComponentServiceObjects);
 
@@ -97,11 +95,6 @@ public class ServletDataImpl implements ServletData {
 			new HashMap<String, ObjectValuePair<Class<?>, String>>() {
 				{
 					put(
-						"mutation#createProductsPageExportBatch",
-						new ObjectValuePair<>(
-							ProductResourceImpl.class,
-							"postProductsPageExportBatch"));
-					put(
 						"mutation#createAreaIdSpot",
 						new ObjectValuePair<>(
 							SpotResourceImpl.class, "postAreaIdSpot"));
@@ -134,10 +127,6 @@ public class ServletDataImpl implements ServletData {
 			};
 
 	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
-	private ComponentServiceObjects<ProductResource>
-		_productResourceComponentServiceObjects;
-
-	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
 	private ComponentServiceObjects<SpotResource>
 		_spotResourceComponentServiceObjects;
 
@@ -148,5 +137,9 @@ public class ServletDataImpl implements ServletData {
 	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
 	private ComponentServiceObjects<FolderResource>
 		_folderResourceComponentServiceObjects;
+
+	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
+	private ComponentServiceObjects<ProductResource>
+		_productResourceComponentServiceObjects;
 
 }

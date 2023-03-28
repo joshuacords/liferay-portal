@@ -221,11 +221,6 @@ public class ServletDataImpl implements ServletData {
 			new HashMap<String, ObjectValuePair<Class<?>, String>>() {
 				{
 					put(
-						"mutation#createDiscountsPageExportBatch",
-						new ObjectValuePair<>(
-							DiscountResourceImpl.class,
-							"postDiscountsPageExportBatch"));
-					put(
 						"mutation#createDiscount",
 						new ObjectValuePair<>(
 							DiscountResourceImpl.class, "postDiscount"));
@@ -473,11 +468,6 @@ public class ServletDataImpl implements ServletData {
 						new ObjectValuePair<>(
 							PriceEntryResourceImpl.class,
 							"postPriceListIdPriceEntryBatch"));
-					put(
-						"mutation#createPriceListsPageExportBatch",
-						new ObjectValuePair<>(
-							PriceListResourceImpl.class,
-							"postPriceListsPageExportBatch"));
 					put(
 						"mutation#createPriceList",
 						new ObjectValuePair<>(

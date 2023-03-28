@@ -135,25 +135,6 @@ public class Mutation {
 	}
 
 	@GraphQLField
-	public Response createAccountsPageExportBatch(
-			@GraphQLName("search") String search,
-			@GraphQLName("filter") String filterString,
-			@GraphQLName("sort") String sortsString,
-			@GraphQLName("callbackURL") String callbackURL,
-			@GraphQLName("contentType") String contentType,
-			@GraphQLName("fieldNames") String fieldNames)
-		throws Exception {
-
-		return _applyComponentServiceObjects(
-			_accountResourceComponentServiceObjects,
-			this::_populateResourceContext,
-			accountResource -> accountResource.postAccountsPageExportBatch(
-				search, _filterBiFunction.apply(accountResource, filterString),
-				_sortsBiFunction.apply(accountResource, sortsString),
-				callbackURL, contentType, fieldNames));
-	}
-
-	@GraphQLField
 	public Account createAccount(@GraphQLName("account") Account account)
 		throws Exception {
 
@@ -402,25 +383,6 @@ public class Mutation {
 			accountAddressResource ->
 				accountAddressResource.postAccountIdAccountAddressBatch(
 					callbackURL, object));
-	}
-
-	@GraphQLField
-	public Response createAccountGroupsPageExportBatch(
-			@GraphQLName("filter") String filterString,
-			@GraphQLName("sort") String sortsString,
-			@GraphQLName("callbackURL") String callbackURL,
-			@GraphQLName("contentType") String contentType,
-			@GraphQLName("fieldNames") String fieldNames)
-		throws Exception {
-
-		return _applyComponentServiceObjects(
-			_accountGroupResourceComponentServiceObjects,
-			this::_populateResourceContext,
-			accountGroupResource ->
-				accountGroupResource.postAccountGroupsPageExportBatch(
-					_filterBiFunction.apply(accountGroupResource, filterString),
-					_sortsBiFunction.apply(accountGroupResource, sortsString),
-					callbackURL, contentType, fieldNames));
 	}
 
 	@GraphQLField

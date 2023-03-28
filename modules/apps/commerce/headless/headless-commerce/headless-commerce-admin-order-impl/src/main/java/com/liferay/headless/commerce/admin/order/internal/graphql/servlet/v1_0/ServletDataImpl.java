@@ -127,11 +127,6 @@ public class ServletDataImpl implements ServletData {
 							BillingAddressResourceImpl.class,
 							"patchOrderIdBillingAddress"));
 					put(
-						"mutation#createOrdersPageExportBatch",
-						new ObjectValuePair<>(
-							OrderResourceImpl.class,
-							"postOrdersPageExportBatch"));
-					put(
 						"mutation#createOrder",
 						new ObjectValuePair<>(
 							OrderResourceImpl.class, "postOrder"));

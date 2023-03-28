@@ -89,11 +89,6 @@ public class ServletDataImpl implements ServletData {
 			new HashMap<String, ObjectValuePair<Class<?>, String>>() {
 				{
 					put(
-						"mutation#createChannelsPageExportBatch",
-						new ObjectValuePair<>(
-							ChannelResourceImpl.class,
-							"postChannelsPageExportBatch"));
-					put(
 						"mutation#createChannel",
 						new ObjectValuePair<>(
 							ChannelResourceImpl.class, "postChannel"));

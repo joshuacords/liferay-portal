@@ -64,12 +64,6 @@ public interface MessageBoardThreadResource {
 				Filter filter, Pagination pagination, Sort[] sorts)
 		throws Exception;
 
-	public Response postMessageBoardSectionMessageBoardThreadsPageExportBatch(
-			Long messageBoardSectionId, String search, Filter filter,
-			Sort[] sorts, String callbackURL, String contentType,
-			String fieldNames)
-		throws Exception;
-
 	public MessageBoardThread postMessageBoardSectionMessageBoardThread(
 			Long messageBoardSectionId, MessageBoardThread messageBoardThread)
 		throws Exception;
@@ -124,11 +118,6 @@ public interface MessageBoardThreadResource {
 			Long siteId, Boolean flatten, String search,
 			com.liferay.portal.vulcan.aggregation.Aggregation aggregation,
 			Filter filter, Pagination pagination, Sort[] sorts)
-		throws Exception;
-
-	public Response postSiteMessageBoardThreadsPageExportBatch(
-			Long siteId, String search, Filter filter, Sort[] sorts,
-			String callbackURL, String contentType, String fieldNames)
 		throws Exception;
 
 	public MessageBoardThread postSiteMessageBoardThread(

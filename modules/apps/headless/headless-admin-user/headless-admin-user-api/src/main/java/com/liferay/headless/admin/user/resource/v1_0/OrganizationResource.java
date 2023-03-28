@@ -61,11 +61,6 @@ public interface OrganizationResource {
 			Pagination pagination, Sort[] sorts)
 		throws Exception;
 
-	public Response postOrganizationsPageExportBatch(
-			String search, Filter filter, Sort[] sorts, String callbackURL,
-			String contentType, String fieldNames)
-		throws Exception;
-
 	public Organization postOrganization(Organization organization)
 		throws Exception;
 

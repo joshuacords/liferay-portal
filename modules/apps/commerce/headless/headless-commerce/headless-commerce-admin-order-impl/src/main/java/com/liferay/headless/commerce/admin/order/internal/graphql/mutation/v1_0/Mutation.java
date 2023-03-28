@@ -123,25 +123,6 @@ public class Mutation {
 	}
 
 	@GraphQLField
-	public Response createOrdersPageExportBatch(
-			@GraphQLName("search") String search,
-			@GraphQLName("filter") String filterString,
-			@GraphQLName("sort") String sortsString,
-			@GraphQLName("callbackURL") String callbackURL,
-			@GraphQLName("contentType") String contentType,
-			@GraphQLName("fieldNames") String fieldNames)
-		throws Exception {
-
-		return _applyComponentServiceObjects(
-			_orderResourceComponentServiceObjects,
-			this::_populateResourceContext,
-			orderResource -> orderResource.postOrdersPageExportBatch(
-				search, _filterBiFunction.apply(orderResource, filterString),
-				_sortsBiFunction.apply(orderResource, sortsString), callbackURL,
-				contentType, fieldNames));
-	}
-
-	@GraphQLField
 	public Order createOrder(@GraphQLName("order") Order order)
 		throws Exception {
 
