@@ -49,6 +49,8 @@ import com.liferay.portal.workflow.metrics.rest.resource.v1_0.TaskResource;
 
 import java.io.Serializable;
 
+import java.lang.reflect.Array;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -457,7 +459,12 @@ public abstract class BaseTaskResourceImpl
 	protected <T, R, E extends Throwable> long[] transformToLongArray(
 		Collection<T> collection, UnsafeFunction<T, R, E> unsafeFunction) {
 
-		return TransformUtil.transformToLongArray(collection, unsafeFunction);
+		try {
+			return unsafeTransformToLongArray(collection, unsafeFunction);
+		}
+		catch (Throwable throwable) {
+			throw new RuntimeException(throwable);
+		}
 	}
 
 	protected <T, R, E extends Throwable> List<R> unsafeTransform(
@@ -490,6 +497,14 @@ public abstract class BaseTaskResourceImpl
 		return TransformUtil.unsafeTransformToList(array, unsafeFunction);
 	}
 
+	protected <T, R, E extends Throwable> long[] unsafeTransformToLongArray(
+			Collection<T> collection, UnsafeFunction<T, R, E> unsafeFunction)
+		throws E {
+
+		return (long[])_unsafeTransformToPrimitiveArray(
+			collection, unsafeFunction, long[].class);
+	}
+
 	protected AcceptLanguage contextAcceptLanguage;
 	protected UnsafeBiConsumer
 		<Collection<Task>, UnsafeConsumer<Task, Exception>, Exception>
@@ -509,6 +524,23 @@ public abstract class BaseTaskResourceImpl
 	protected SortParserProvider sortParserProvider;
 	protected VulcanBatchEngineImportTaskResource
 		vulcanBatchEngineImportTaskResource;
+
+	private <T, R, E extends Throwable> Object _unsafeTransformToPrimitiveArray(
+			Collection<T> collection, UnsafeFunction<T, R, E> unsafeFunction,
+			Class<?> clazz)
+		throws E {
+
+		List<R> list = unsafeTransform(collection, unsafeFunction);
+
+		Object array = clazz.cast(
+			Array.newInstance(clazz.getComponentType(), list.size()));
+
+		for (int i = 0; i < list.size(); i++) {
+			Array.set(array, i, list.get(i));
+		}
+
+		return array;
+	}
 
 	private static final com.liferay.portal.kernel.log.Log _log =
 		LogFactoryUtil.getLog(BaseTaskResourceImpl.class);
