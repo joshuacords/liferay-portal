@@ -546,6 +546,16 @@ definition {
 
 		WebContent.addCP(webContentTitle = "Netz Inhalt3 Titel");
 
+		PortletEntry.publish();
+
+		WebContent.viewTitle(webContentTitle = "Web Content3 Title");
+
+		WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
+
+		WebContentNavigator.gotoEditCP(webContentTitle = "Web Content3 Title");
+
+		PortletEntry.changeLocale(locale = "de-DE");
+
 		Type(
 			key_fieldName = "Integer",
 			locator1 = "TextInput#DDM",
