@@ -133,7 +133,8 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 	}
 
 	public Contact fetchContactByEmailAddress(String emailAddress) {
-		return contactPersistence.fetchByEmailAddress(emailAddress);
+		return contactPersistence.fetchByEmailAddress(
+			StringUtil.toLowerCase(emailAddress));
 	}
 
 	public Contact fetchContactByUuid(String uuid) {
@@ -176,7 +177,8 @@ public class ContactLocalServiceImpl extends ContactLocalServiceBaseImpl {
 	public Contact getContactByEmailAddress(String emailAddress)
 		throws PortalException {
 
-		return contactPersistence.findByEmailAddress(emailAddress);
+		return contactPersistence.findByEmailAddress(
+			StringUtil.toLowerCase(emailAddress));
 	}
 
 	public Contact getContactByUuid(String uuid) throws PortalException {
