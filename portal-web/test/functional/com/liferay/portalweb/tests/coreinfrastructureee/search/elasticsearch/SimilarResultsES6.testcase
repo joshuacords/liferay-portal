@@ -666,7 +666,6 @@ definition {
 
 	test HotDeploySimilarResultsApp {
 		property hot.deploy.osgi.app.includes = "portal-search-similar-results";
-		property osgi.app.includes = "";
 		property test.assert.warning.exceptions = "true";
 		property test.name.skip.portal.instance = "SimilarResultsES6#HotDeploySimilarResultsApp";
 
