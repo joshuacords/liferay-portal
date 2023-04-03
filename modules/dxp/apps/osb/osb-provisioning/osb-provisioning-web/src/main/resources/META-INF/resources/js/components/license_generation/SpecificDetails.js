@@ -73,7 +73,10 @@ function SpecificDetails({addLicenseKeyURL, redirect}) {
 
 		setShowIPv6Alert(!!ipv6Address);
 
-		const licenseKeysGeneratedTotal = serverIds.size + licenseKeysGenerated;
+		const licenseKeysGeneratedTotal =
+			+maxClusterNodes > 0
+				? +maxClusterNodes + licenseKeysGenerated
+				: serverIds.size + licenseKeysGenerated;
 
 		if (
 			licenseKeysGeneratedTotal > licenseKeysAllowed &&
@@ -84,7 +87,7 @@ function SpecificDetails({addLicenseKeyURL, redirect}) {
 		else {
 			setShowProvisionedAlert(false);
 		}
-	}, [licenseKeysAllowed, licenseKeysGenerated, serverIds]);
+	}, [licenseKeysAllowed, licenseKeysGenerated, maxClusterNodes, serverIds]);
 
 	function formatDate(date) {
 		const utcAdjustedDate = getUTCAdjustedDate(new Date(date));

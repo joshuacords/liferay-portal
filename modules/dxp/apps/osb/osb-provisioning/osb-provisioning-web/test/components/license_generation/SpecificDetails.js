@@ -323,6 +323,40 @@ describe('SpecificDetails', () => {
 		);
 	});
 
+	it('displays an error message if Max Cluster Nodes count will be higher than the license keys allowed', async () => {
+		const {getByLabelText, getByText, queryByText} = render(
+			<NewLicenseProvider
+				initialLicense={
+					new License({
+						licenseEntry: {
+							licenseEntryType: 'virtual_cluster'
+						},
+						licenseKeysAllowed: 1
+					})
+				}
+			>
+				<SpecificDetails
+					addLicenseKeyURL="add/license/key/url"
+					redirect={'/redirect/url'}
+				/>
+			</NewLicenseProvider>
+		);
+
+		expect(
+			queryByText(
+				'the-provisioned-keys-count-is-already-equal-to-or-higher-than-the-purchased-subscriptions'
+			)
+		).toBeFalsy();
+
+		fireEvent.change(getByLabelText('maximum-cluster-nodes'), {
+			target: {value: '2'}
+		});
+
+		getByText(
+			'the-provisioned-keys-count-is-already-equal-to-or-higher-than-the-purchased-subscriptions'
+		);
+	});
+
 	describe('Generate Button', () => {
 		it('displays a Generate button', () => {
 			const {getByText} = renderSpecificDetails();
