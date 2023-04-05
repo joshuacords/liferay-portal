@@ -76,6 +76,8 @@ import com.liferay.portal.search.test.util.BasePermissionSearchTestCase;
 import com.liferay.portal.search.test.util.BaseSearchTestCase;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
+import com.liferay.portal.kernel.model.Role;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -179,6 +181,22 @@ public class JournalArticlePermissionSearchTest extends
 			RandomTestUtil.randomString(50), approved, serviceContext);
 	}
 
+	@Override
+	protected String getPrimKey(BaseModel<?> baseModel) {
+		if (baseModel instanceof JournalArticle) {
+			JournalArticle journalArticle = (JournalArticle)baseModel;
+
+			return String.valueOf(journalArticle.getResourcePrimKey());
+		}
+		else if (baseModel instanceof JournalFolder) {
+			JournalFolder journalFolder = (JournalFolder)baseModel;
+
+			return String.valueOf(journalFolder.getFolderId());
+		}
+
+		return null;
+	}
+
 	protected void assertEquals(
 			long length, BooleanQuery query, SearchContext searchContext)
 		throws Exception {
@@ -220,6 +238,18 @@ public class JournalArticlePermissionSearchTest extends
 	protected BaseModel<?> getParentBaseModel(
 			Group group, ServiceContext serviceContext)
 		throws Exception {
+
+		return JournalTestUtil.addFolder(
+			JournalFolderConstants.DEFAULT_PARENT_FOLDER_ID,
+			RandomTestUtil.randomString(), serviceContext);
+	}
+
+	@Override
+	protected BaseModel<?> getParentBaseModel(
+		Group group, Role role, ServiceContext serviceContext)
+		throws Exception {
+
+
 
 		return JournalTestUtil.addFolder(
 			JournalFolderConstants.DEFAULT_PARENT_FOLDER_ID,
