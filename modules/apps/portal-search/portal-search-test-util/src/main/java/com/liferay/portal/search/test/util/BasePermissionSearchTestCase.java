@@ -40,6 +40,9 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Eudaldo Alonso
  * @author Tibor Lipusz
@@ -81,6 +84,23 @@ public abstract class BasePermissionSearchTestCase {
 			BaseModel<?> parentBaseModel, boolean approved, String keywords,
 			ServiceContext serviceContext)
 		throws Exception;
+
+	protected void addBaseParentAndBaseModel(
+		boolean addBaseModelPermission, boolean addParentBaseModelPermission,
+		ServiceContext serviceContext) throws Exception {
+
+		serviceContext.setAddGroupPermissions(addParentBaseModelPermission);
+		serviceContext.setAddGuestPermissions(addParentBaseModelPermission);
+
+		BaseModel<?> parentBaseModel = getParentBaseModel(
+			group, serviceContext);
+
+		serviceContext.setAddGroupPermissions(addBaseModelPermission);
+		serviceContext.setAddGuestPermissions(addBaseModelPermission);
+
+		baseModelList.add(addBaseModel(
+			parentBaseModel, true, getSearchKeywords(), serviceContext));
+	}
 
 	protected void assertPermissionFilteringOfSearchEngine(
 			SearchContext searchContext)
@@ -162,17 +182,12 @@ public abstract class BasePermissionSearchTestCase {
 
 		searchContext.setKeywords(getSearchKeywords());
 
-		serviceContext.setAddGroupPermissions(addParentBaseModelPermission);
-		serviceContext.setAddGuestPermissions(addParentBaseModelPermission);
+		//Add Control
+		addBaseParentAndBaseModel(true, true, serviceContext);
 
-		BaseModel<?> parentBaseModel = getParentBaseModel(
-			group, serviceContext);
-
-		serviceContext.setAddGroupPermissions(addBaseModelPermission);
-		serviceContext.setAddGuestPermissions(addBaseModelPermission);
-
-		baseModel = addBaseModel(
-			parentBaseModel, true, getSearchKeywords(), serviceContext);
+		addBaseParentAndBaseModel(
+			addBaseModelPermission, addParentBaseModelPermission,
+			serviceContext);
 
 		User user = UserTestUtil.addUser(null, 0);
 
@@ -195,7 +210,7 @@ public abstract class BasePermissionSearchTestCase {
 		UserLocalServiceUtil.deleteUser(user);
 	}
 
-	protected BaseModel<?> baseModel;
+	protected List<BaseModel<?>> baseModelList = new ArrayList<>();
 
 	@DeleteAfterTestRun
 	protected Group group;
