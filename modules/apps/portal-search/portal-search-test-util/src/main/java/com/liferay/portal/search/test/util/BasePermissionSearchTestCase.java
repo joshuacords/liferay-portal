@@ -90,6 +90,57 @@ public abstract class BasePermissionSearchTestCase {
 	}
 
 	@Test
+	public void testGuestBridge() throws Exception {
+		ServiceContext serviceContext =
+			ServiceContextTestUtil.getServiceContext(group.getGroupId());
+
+		SearchContext searchContext = SearchContextTestUtil.getSearchContext(
+			group.getGroupId());
+
+		searchContext.setKeywords(getSearchKeywords());
+
+		addControlModel(serviceContext);
+
+		serviceContext.setAddGroupPermissions(false);
+		serviceContext.setAddGuestPermissions(false);
+
+		BaseModel<?> topParentBaseModel = getParentBaseModel(
+			group, serviceContext);
+
+		long topParentBaseModelRoleId = RoleTestUtil.addRegularRole(
+			TestPropsValues.getGroupId());
+
+		addRoleViewPermission(
+			topParentBaseModel, group, topParentBaseModelRoleId);
+
+		serviceContext.setAddGroupPermissions(true);
+		serviceContext.setAddGuestPermissions(true);
+
+		BaseModel<?> parentBaseModel = getParentBaseModel(
+			group, topParentBaseModel, serviceContext);
+
+		serviceContext.setAddGroupPermissions(false);
+		serviceContext.setAddGuestPermissions(false);
+
+		BaseModel<?> baseModel = addBaseModel(
+			parentBaseModel, true, getSearchKeywords(), serviceContext);
+
+		long baseModelRoleId = RoleTestUtil.addRegularRole(
+			TestPropsValues.getGroupId());
+
+		addRoleViewPermission(baseModel, group, baseModelRoleId);
+
+		baseModelList.add(baseModel);
+
+		User user = UserTestUtil.addUser(null, 0);
+
+		assertOnlyRoleCombinationReturnsResults(
+			baseModelRoleId, topParentBaseModelRoleId, searchContext, user);
+
+		UserLocalServiceUtil.deleteUser(user);
+	}
+
+	@Test
 	public void testInheritedGuest() throws Exception {
 		testUserPermissions(false, true);
 	}
@@ -254,6 +305,10 @@ public abstract class BasePermissionSearchTestCase {
 
 		return group;
 	}
+
+	protected abstract BaseModel<?> getParentBaseModel(
+		Group group, BaseModel<?> baseModel, ServiceContext serviceContext)
+		throws Exception;
 
 	protected String getPrimKey(BaseModel<?> baseModel) {
 		return null;
