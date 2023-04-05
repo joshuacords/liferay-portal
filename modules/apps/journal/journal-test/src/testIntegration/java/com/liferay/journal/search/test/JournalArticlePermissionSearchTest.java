@@ -246,10 +246,25 @@ public class JournalArticlePermissionSearchTest extends
 
 	@Override
 	protected BaseModel<?> getParentBaseModel(
-		Group group, Role role, ServiceContext serviceContext)
+		Group group, BaseModel<?> parentBaseModel, ServiceContext serviceContext)
 		throws Exception {
 
+		JournalFolder folder = (JournalFolder)parentBaseModel;
 
+		long folderId = JournalFolderConstants.DEFAULT_PARENT_FOLDER_ID;
+
+		if (folder != null) {
+			folderId = folder.getFolderId();
+		}
+
+		return JournalTestUtil.addFolder(
+			folderId, RandomTestUtil.randomString(), serviceContext);
+	}
+
+	@Override
+	protected BaseModel<?> getParentBaseModel(
+		Group group, Role role, ServiceContext serviceContext)
+		throws Exception {
 
 		return JournalTestUtil.addFolder(
 			JournalFolderConstants.DEFAULT_PARENT_FOLDER_ID,
