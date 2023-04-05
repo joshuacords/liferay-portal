@@ -55,8 +55,13 @@ public abstract class BasePermissionSearchTestCase {
 	}
 
 	@Test
-	public void testParentBaseModelUserPermissions() throws Exception {
+	public void testInheritedPermission() throws Exception {
 		testUserPermissions(true, false);
+	}
+
+	@Test
+	public void testInheritedGuest() throws Exception {
+		testUserPermissions(false, true);
 	}
 
 	@Rule
