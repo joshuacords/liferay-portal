@@ -14,10 +14,7 @@
 
 package com.liferay.portal.search.test.util;
 
-import com.liferay.petra.string.StringPool;
-import com.liferay.portal.kernel.comment.CommentManagerUtil;
 import com.liferay.portal.kernel.model.BaseModel;
-import com.liferay.portal.kernel.model.ClassedModel;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Hits;
@@ -29,17 +26,15 @@ import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.PermissionCheckerFactoryUtil;
 import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
-import com.liferay.portal.kernel.service.IdentityServiceContextFunction;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
 import com.liferay.portal.kernel.test.util.GroupTestUtil;
-import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.SearchContextTestUtil;
 import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
-import com.liferay.portal.kernel.test.util.TestPropsValues;
 import com.liferay.portal.kernel.test.util.UserTestUtil;
 import com.liferay.portal.kernel.workflow.WorkflowThreadLocal;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -56,30 +51,10 @@ public abstract class BasePermissionSearchTestCase {
 		group = GroupTestUtil.addGroup();
 	}
 
-//	@Test
-//	public void testBaseModelUserPermissions() throws Exception {
-//		testUserPermissions(false, true);
-//	}
-
 	@Test
 	public void testParentBaseModelUserPermissions() throws Exception {
 		testUserPermissions(true, false);
 	}
-//
-//	@Test
-//	public void testSearchBaseModel() throws Exception {
-//		searchBaseModel();
-//	}
-//
-//	@Test
-//	public void testSearchByKeywords() throws Exception {
-//		searchByKeywords();
-//	}
-
-//	@Test
-//	public void testSearchBaseModelInPermissionedFolder() throws Exception {
-//		searchBaseModelInPermissionedFolder();
-//	}
 
 	@Rule
 	public SearchTestRule searchTestRule = new SearchTestRule();
@@ -107,81 +82,21 @@ public abstract class BasePermissionSearchTestCase {
 			ServiceContext serviceContext)
 		throws Exception;
 
-	protected void addComment(
-			ClassedModel classedModel, String body,
-			ServiceContext serviceContext)
-		throws Exception {
-
-		User user = TestPropsValues.getUser();
-
-		CommentManagerUtil.addComment(
-			user.getUserId(), serviceContext.getScopeGroupId(),
-			getBaseModelClassName(), getBaseModelClassPK(classedModel), body,
-			new IdentityServiceContextFunction(serviceContext));
-	}
-
-	protected void assertBaseModelsPostPermissionFilteredCount(
-			int expectedCount, SearchContext searchContext)
-		throws Exception {
-
-		Hits hits = searchBaseModelsCount(searchContext);
-
-		Assert.assertEquals(
-			searchContext.getAttribute("queryString") + "->" + hits,
-			expectedCount, hits.getLength());
-	}
-
-	protected void assertBaseModelsDirectCount(
-		int expectedCount, SearchContext searchContext)
-		throws Exception {
-
-		Hits hits = searchBaseModelsDirectCount(searchContext);
-
-		Assert.assertEquals(
-			searchContext.getAttribute("queryString") + "->" + hits,
-			expectedCount, hits.getLength());
-	}
-
 	protected void assertPermissionFilteringOfSearchEngine(
-		SearchContext searchContext)
+			SearchContext searchContext)
 		throws Exception {
 
-		Hits filteredHits = searchBaseModelsCount(searchContext);
+		Hits filteredHits = searchBaseModelsPermissionFilteredCount(
+			searchContext);
 
-		Hits unfilteredHits = searchBaseModelsDirectCount(searchContext);
+		Hits unfilteredHits = searchBaseModelsSearchEngineCount(searchContext);
 
 		Assert.assertEquals(
 			"Documents have been filtered out.", filteredHits.getLength(),
 			unfilteredHits.getLength());
-
-	}
-
-
-	protected void deleteBaseModel(BaseModel<?> baseModel) throws Exception {
-		deleteBaseModel((Long)baseModel.getPrimaryKeyObj());
-	}
-
-	protected void deleteBaseModel(long primaryKey) throws Exception {
 	}
 
 	protected abstract Class<?> getBaseModelClass();
-
-	protected String getBaseModelClassName() {
-		Class<?> clazz = getBaseModelClass();
-
-		return clazz.getName();
-	}
-
-	protected Long getBaseModelClassPK(ClassedModel classedModel) {
-		return (Long)classedModel.getPrimaryKeyObj();
-	}
-
-	protected BaseModel<?> getParentBaseModel(
-			BaseModel<?> parentBaseModel, ServiceContext serviceContext)
-		throws Exception {
-
-		return parentBaseModel;
-	}
 
 	protected BaseModel<?> getParentBaseModel(
 			Group group, ServiceContext serviceContext)
@@ -190,84 +105,9 @@ public abstract class BasePermissionSearchTestCase {
 		return group;
 	}
 
-	protected BaseModel<?> getPermissionedParentBaseModel(
-		Group group, ServiceContext serviceContext)
-		throws Exception {
-
-		return group;
-	}
-
-	protected String getParentBaseModelClassName() {
-		return StringPool.BLANK;
-	}
-
 	protected abstract String getSearchKeywords();
 
-	protected boolean isCheckBaseModelPermission() {
-		return CHECK_BASE_MODEL_PERMISSION;
-	}
-
-	protected void moveBaseModelToTrash(long primaryKey) throws Exception {
-	}
-
-	protected void moveParentBaseModelToTrash(long primaryKey)
-		throws Exception {
-	}
-
-	protected void searchBaseModel() throws Exception {
-		searchBaseModel(0);
-	}
-
-	protected void searchBaseModelInPermissionedFolder() throws Exception {
-		searchBaseModelInPermissionedFolder(0);
-	}
-
-	protected void searchBaseModelInPermissionedFolder(int initialBaseModelsSearchCount)
-		throws Exception {
-
-		ServiceContext serviceContext =
-			ServiceContextTestUtil.getServiceContext(group.getGroupId());
-
-		SearchContext searchContext = SearchContextTestUtil.getSearchContext(
-			group.getGroupId());
-
-//		BaseModel<?> parentBaseModel = getParentBaseModel(
-//			group, serviceContext);
-
-		BaseModel<?> permissionedParentBaseModel = getPermissionedParentBaseModel(
-			group, serviceContext);
-
-		assertBaseModelsPostPermissionFilteredCount(initialBaseModelsSearchCount, searchContext);
-
-		baseModel = addBaseModel(
-			permissionedParentBaseModel, true, RandomTestUtil.randomString(),
-			serviceContext);
-
-		assertBaseModelsPostPermissionFilteredCount(initialBaseModelsSearchCount + 1, searchContext);
-	}
-
-	protected void searchBaseModel(int initialBaseModelsSearchCount)
-		throws Exception {
-
-		ServiceContext serviceContext =
-			ServiceContextTestUtil.getServiceContext(group.getGroupId());
-
-		SearchContext searchContext = SearchContextTestUtil.getSearchContext(
-			group.getGroupId());
-
-		BaseModel<?> parentBaseModel = getParentBaseModel(
-			group, serviceContext);
-
-		assertBaseModelsPostPermissionFilteredCount(initialBaseModelsSearchCount, searchContext);
-
-		baseModel = addBaseModel(
-			parentBaseModel, true, RandomTestUtil.randomString(),
-			serviceContext);
-
-		assertBaseModelsPostPermissionFilteredCount(initialBaseModelsSearchCount + 1, searchContext);
-	}
-
-	protected Hits searchBaseModelsCount(
+	protected Hits searchBaseModelsPermissionFilteredCount(
 			Class<?> clazz, long groupId, SearchContext searchContext)
 		throws Exception {
 
@@ -278,11 +118,21 @@ public abstract class BasePermissionSearchTestCase {
 		return indexer.search(searchContext);
 	}
 
-	protected Hits searchBaseModelsDirectCount
-		(Class<?> clazz, long groupId, SearchContext searchContext)
+	protected Hits searchBaseModelsPermissionFilteredCount(
+			SearchContext searchContext)
+		throws Exception {
+
+		return searchBaseModelsPermissionFilteredCount(
+			getBaseModelClass(), group.getGroupId(), searchContext);
+	}
+
+	protected Hits searchBaseModelsSearchEngineCount(
+			Class<?> clazz, long groupId, SearchContext searchContext)
 		throws Exception {
 
 		Indexer<?> indexer = IndexerRegistryUtil.getIndexer(clazz);
+
+		searchContext.setGroupIds(new long[] {groupId});
 
 		Query fullQuery = indexer.getFullQuery(searchContext);
 
@@ -291,42 +141,16 @@ public abstract class BasePermissionSearchTestCase {
 		return IndexSearcherHelperUtil.search(searchContext, fullQuery);
 	}
 
-	protected Hits searchBaseModelsCount(SearchContext searchContext)
+	protected Hits searchBaseModelsSearchEngineCount(
+			SearchContext searchContext)
 		throws Exception {
 
-		return searchBaseModelsCount(
+		return searchBaseModelsSearchEngineCount(
 			getBaseModelClass(), group.getGroupId(), searchContext);
-	}
-
-	protected Hits searchBaseModelsDirectCount(SearchContext searchContext)
-		throws Exception {
-
-		return searchBaseModelsDirectCount(
-			getBaseModelClass(), group.getGroupId(), searchContext);
-	}
-
-	protected void searchByKeywords() throws Exception {
-		ServiceContext serviceContext =
-			ServiceContextTestUtil.getServiceContext(group.getGroupId());
-
-		SearchContext searchContext = SearchContextTestUtil.getSearchContext(
-			group.getGroupId());
-
-		searchContext.setKeywords(getSearchKeywords());
-
-		int initialBaseModelsSearchCount = 0;
-
-		assertBaseModelsPostPermissionFilteredCount(initialBaseModelsSearchCount, searchContext);
-
-		baseModel = addBaseModel(
-			getParentBaseModel(group, serviceContext), true,
-			getSearchKeywords(), serviceContext);
-
-		assertBaseModelsPostPermissionFilteredCount(initialBaseModelsSearchCount + 1, searchContext);
 	}
 
 	protected void testUserPermissions(
-			boolean addBaseModelPermission,//false means only owner role will be given
+			boolean addBaseModelPermission,
 			boolean addParentBaseModelPermission)
 		throws Exception {
 
@@ -371,19 +195,89 @@ public abstract class BasePermissionSearchTestCase {
 		UserLocalServiceUtil.deleteUser(user);
 	}
 
-	protected BaseModel<?> updateBaseModel(
-			BaseModel<?> baseModel, String keywords,
-			ServiceContext serviceContext)
-		throws Exception {
-
-		return baseModel;
-	}
-
-	protected static final boolean CHECK_BASE_MODEL_PERMISSION = true;
-
 	protected BaseModel<?> baseModel;
 
 	@DeleteAfterTestRun
 	protected Group group;
 
+	//	protected void assertBaseModelsPostPermissionFilteredCount(
+	//			int expectedCount, SearchContext searchContext)
+	//		throws Exception {
+	//
+	//		Hits hits = searchBaseModelsCount(searchContext);
+
+	//
+	//		Assert.assertEquals(
+	//			searchContext.getAttribute("queryString") + "->" + hits,
+	//			expectedCount, hits.getLength());
+	//	}
+	//
+
+	// 	@Test
+
+	//	public void testSearchBaseModelInPermissionedFolder() throws Exception {
+	//		searchBaseModelInPermissionedFolder();
+	//	}
+	//
+	//	protected BaseModel<?> getParentBaseModel(
+	//			BaseModel<?> parentBaseModel, ServiceContext serviceContext)
+	//		throws Exception {
+	//
+	//		return parentBaseModel;
+	//	}
+	//
+	//	protected BaseModel<?> getPermissionedParentBaseModel(
+	//		Group group, ServiceContext serviceContext)
+	//		throws Exception {
+	//
+	//		return group;
+	//	}
+	//
+	//	protected String getParentBaseModelClassName() {
+	//		return StringPool.BLANK;
+	//	}
+	//
+	//	protected void searchBaseModel() throws Exception {
+	//		searchBaseModel(0);
+	//	}
+	//
+	//	protected void searchBaseModelInPermissionedFolder() throws Exception {
+	//		searchBaseModelInPermissionedFolder(0);
+	//	}
+	//
+
+	// 	protected void searchBaseModelInPermissionedFolder(int initialBaseModelsSearchCount)
+
+	//		throws Exception {
+	//
+
+	// 		ServiceContext serviceContext =
+
+	//			ServiceContextTestUtil.getServiceContext(group.getGroupId());
+	//
+	//		SearchContext searchContext = SearchContextTestUtil.getSearchContext(
+	//			group.getGroupId());
+	//
+	////		BaseModel<?> parentBaseModel = getParentBaseModel(
+	////			group, serviceContext);
+	//
+	//		BaseModel<?> permissionedParentBaseModel = getPermissionedParentBaseModel(
+	//			group, serviceContext);
+	//
+	//		assertBaseModelsPostPermissionFilteredCount(initialBaseModelsSearchCount, searchContext);
+	//
+	//		baseModel = addBaseModel(
+	//			permissionedParentBaseModel, true, RandomTestUtil.randomString(),
+	//			serviceContext);
+	//
+	//		assertBaseModelsPostPermissionFilteredCount(initialBaseModelsSearchCount + 1, searchContext);
+	//	}
+	//
+	//	protected BaseModel<?> updateBaseModel(
+	//			BaseModel<?> baseModel, String keywords,
+	//			ServiceContext serviceContext)
+	//		throws Exception {
+	//
+	//		return baseModel;
+	//	}
 }

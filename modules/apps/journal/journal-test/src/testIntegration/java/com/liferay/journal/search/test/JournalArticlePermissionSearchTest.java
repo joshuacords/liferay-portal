@@ -189,37 +189,32 @@ public class JournalArticlePermissionSearchTest extends
 	}
 
 	@Override
-	protected void deleteBaseModel(BaseModel<?> baseModel) throws Exception {
-		JournalArticleLocalServiceUtil.deleteArticle((JournalArticle)baseModel);
-	}
-
-	@Override
 	protected Class<?> getBaseModelClass() {
 		return JournalArticle.class;
 	}
 
-	@Override
-	protected Long getBaseModelClassPK(ClassedModel classedModel) {
-		JournalArticle article = (JournalArticle)classedModel;
+//	@Override
+//	protected Long getBaseModelClassPK(ClassedModel classedModel) {
+//		JournalArticle article = (JournalArticle)classedModel;
+//
+//		if ((article.isDraft() || article.isPending()) &&
+//			(article.getVersion() != JournalArticleConstants.VERSION_DEFAULT)) {
+//
+//			return article.getPrimaryKey();
+//		}
+//
+//		return article.getResourcePrimKey();
+//	}
 
-		if ((article.isDraft() || article.isPending()) &&
-			(article.getVersion() != JournalArticleConstants.VERSION_DEFAULT)) {
-
-			return article.getPrimaryKey();
-		}
-
-		return article.getResourcePrimKey();
-	}
-
-	@Override
-	protected BaseModel<?> getParentBaseModel(
-			BaseModel<?> parentBaseModel, ServiceContext serviceContext)
-		throws Exception {
-
-		return JournalTestUtil.addFolder(
-			(Long)parentBaseModel.getPrimaryKeyObj(),
-			RandomTestUtil.randomString(), serviceContext);
-	}
+//	@Override
+//	protected BaseModel<?> getParentBaseModel(
+//			BaseModel<?> parentBaseModel, ServiceContext serviceContext)
+//		throws Exception {
+//
+//		return JournalTestUtil.addFolder(
+//			(Long)parentBaseModel.getPrimaryKeyObj(),
+//			RandomTestUtil.randomString(), serviceContext);
+//	}
 
 	@Override
 	protected BaseModel<?> getParentBaseModel(
@@ -231,51 +226,37 @@ public class JournalArticlePermissionSearchTest extends
 			RandomTestUtil.randomString(), serviceContext);
 	}
 
-	protected BaseModel<?> getPermissionedParentBaseModel(
-		Group group, ServiceContext serviceContext)
-		throws Exception {
+//	protected BaseModel<?> getPermissionedParentBaseModel(
+//		Group group, ServiceContext serviceContext)
+//		throws Exception {
+//
+//		return JournalTestUtil.addFolder(
+//			JournalFolderConstants.DEFAULT_PARENT_FOLDER_ID,
+//			RandomTestUtil.randomString(), serviceContext);
+//	}
 
-		return JournalTestUtil.addFolder(
-			JournalFolderConstants.DEFAULT_PARENT_FOLDER_ID,
-			RandomTestUtil.randomString(), serviceContext);
-	}
-
-	@Override
-	protected String getParentBaseModelClassName() {
-		return JournalFolder.class.getName();
-	}
+//	@Override
+//	protected String getParentBaseModelClassName() {
+//		return JournalFolder.class.getName();
+//	}
 
 	@Override
 	protected String getSearchKeywords() {
 		return "Title";
 	}
 
-	@Override
-	protected void moveBaseModelToTrash(long primaryKey) throws Exception {
-		JournalArticleLocalServiceUtil.moveArticleToTrash(
-			TestPropsValues.getUserId(),
-			JournalArticleLocalServiceUtil.getArticle(primaryKey));
-	}
-
-	@Override
-	protected void moveParentBaseModelToTrash(long primaryKey)
-		throws Exception {
-
-		JournalFolderServiceUtil.moveFolderToTrash(primaryKey);
-	}
-
-	@Override
-	protected BaseModel<?> updateBaseModel(
-			BaseModel<?> baseModel, String keywords,
-			ServiceContext serviceContext)
-		throws Exception {
-
-		JournalArticle article = (JournalArticle)baseModel;
-
-		return JournalTestUtil.updateArticle(
-			article, keywords, article.getContent(), false, true,
-			serviceContext);
-	}
+//	@Override
+//	protected BaseModel<?> updateBaseModel(
+//			BaseModel<?> baseModel, String keywords,
+//			ServiceContext serviceContext)
+//		throws Exception {
+//
+//		JournalArticle article = (JournalArticle)baseModel;
+//
+//		return JournalTestUtil.updateArticle(
+//			article, keywords, article.getContent(), false, true,
+//			serviceContext);
+//	}
 
 	private JournalServiceConfiguration _journalServiceConfiguration;
 	private String _originalPortalPreferencesXML;
