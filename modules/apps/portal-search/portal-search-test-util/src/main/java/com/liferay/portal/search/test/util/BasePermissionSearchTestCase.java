@@ -115,8 +115,6 @@ public abstract class BasePermissionSearchTestCase {
 
 		addRoleViewPermission(baseModel, baseModelRoleId);
 
-		baseModelList.add(baseModel);
-
 		User user = UserTestUtil.addUser(null, 0);
 
 		assertOnlyRoleCombinationReturnsResults(
@@ -168,8 +166,6 @@ public abstract class BasePermissionSearchTestCase {
 			TestPropsValues.getGroupId());
 
 		addRoleViewPermission(baseModel, baseModelRoleId);
-
-		baseModelList.add(baseModel);
 
 		User user = UserTestUtil.addUser(null, 0);
 
@@ -224,8 +220,7 @@ public abstract class BasePermissionSearchTestCase {
 		serviceContext.setAddGuestPermissions(
 			addBaseModelGroupAndGuestPermission);
 
-		baseModelList.add(
-			addBaseModel(parentBaseModel, true, getSearchKeywords()));
+		addBaseModel(parentBaseModel, true, getSearchKeywords());
 	}
 
 	protected void addBaseParentAndBaseModels(
@@ -251,8 +246,6 @@ public abstract class BasePermissionSearchTestCase {
 		if (modelRoleId > 0) {
 			addRoleViewPermission(baseModel, modelRoleId);
 		}
-
-		baseModelList.add(baseModel);
 	}
 
 	protected void addControlBaseModelAndParent() throws Exception {
@@ -351,10 +344,6 @@ public abstract class BasePermissionSearchTestCase {
 	protected abstract BaseModel<?> getParentBaseModel(BaseModel<?> baseModel)
 		throws Exception;
 
-	protected BaseModel<?> getParentBaseModel(Role role) throws Exception {
-		return group;
-	}
-
 	protected String getPrimKey(BaseModel<?> baseModel) {
 		return null;
 	}
@@ -426,8 +415,6 @@ public abstract class BasePermissionSearchTestCase {
 
 		UserLocalServiceUtil.deleteUser(user);
 	}
-
-	protected List<BaseModel<?>> baseModelList = new ArrayList<>();
 
 	@DeleteAfterTestRun
 	protected Group group;
