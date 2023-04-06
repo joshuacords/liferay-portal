@@ -66,11 +66,24 @@ export function deriveLicenseDates(
  * associated with any purchased product). The start date should always be the
  * current date at midnight to match the selection results from the date
  * picker. The expiration date should be 365 days from the start date at
- * midnight.
+ * midnight if the license is a restricted type, or 1 year from the start date
+ * if the license is an unrestricted type.
+ * @param {string} type The license type
  * @returns {Object} An object of dates representing the start and expiration
  * dates of a detached license.
  */
-export function getDetachedLicenseDates() {
+export function getDetachedLicenseDates(type) {
+	const restricted = RESTRICTED_EXPIRATION_DATE_TYPES.find(
+		restrictedType => restrictedType === type
+	);
+
+	if (restricted) {
+		return {
+			licenseExpirationDate: generateNewDateByYear(CURRENT_TIME),
+			licenseStartDate: CURRENT_TIME
+		};
+	}
+
 	return {
 		licenseExpirationDate: generateNewDateByYear(CURRENT_TIME, 100),
 		licenseStartDate: CURRENT_TIME

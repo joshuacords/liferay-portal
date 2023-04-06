@@ -34,7 +34,7 @@ const ExtendLicensesContext = createContext();
 
 function createLicenseRecord(license) {
 	if (!license.terms) {
-		const licenseDates = getDetachedLicenseDates();
+		const licenseDates = getDetachedLicenseDates(license.licenseType);
 		const {
 			licenseExpirationDate: expirationDate,
 			licenseStartDate: startDate

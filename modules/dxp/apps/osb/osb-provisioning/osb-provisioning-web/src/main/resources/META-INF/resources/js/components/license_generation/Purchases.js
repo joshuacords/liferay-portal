@@ -57,10 +57,12 @@ function Purchases({detached, purchased}) {
 }
 
 function Detached({detached}) {
+	const [{licenseEntry}] = useNewLicense();
+
 	let licenseDates = {};
 
 	if (detached) {
-		licenseDates = getDetachedLicenseDates();
+		licenseDates = getDetachedLicenseDates(licenseEntry.licenseEntryType);
 	}
 
 	return (
