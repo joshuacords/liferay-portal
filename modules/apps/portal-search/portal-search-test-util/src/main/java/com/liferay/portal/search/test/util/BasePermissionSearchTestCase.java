@@ -150,6 +150,70 @@ public abstract class BasePermissionSearchTestCase {
 		testUserPermissions(true, false);
 	}
 
+	@Test
+	public void testTripleLevelCombination() throws Exception {
+		ServiceContext serviceContext =
+			ServiceContextTestUtil.getServiceContext(group.getGroupId());
+
+		SearchContext searchContext = SearchContextTestUtil.getSearchContext(
+			group.getGroupId());
+
+		searchContext.setKeywords(getSearchKeywords());
+
+		addControlModel(serviceContext);
+
+		serviceContext.setAddGroupPermissions(false);
+		serviceContext.setAddGuestPermissions(false);
+
+		BaseModel<?> topParentBaseModel = getParentBaseModel(
+			group, serviceContext);
+
+		long topParentBaseModelRoleId = RoleTestUtil.addRegularRole(
+			TestPropsValues.getGroupId());
+
+		addRoleViewPermission(
+			topParentBaseModel, group, topParentBaseModelRoleId);
+
+		BaseModel<?> parentBaseModel = getParentBaseModel(
+			group, topParentBaseModel, serviceContext);
+
+		long parentBaseModelRoleId1 = RoleTestUtil.addRegularRole(
+			TestPropsValues.getGroupId());
+
+		addRoleViewPermission(
+			parentBaseModel, group, parentBaseModelRoleId1);
+
+		long parentBaseModelRoleId2 = RoleTestUtil.addRegularRole(
+			TestPropsValues.getGroupId());
+
+		addRoleViewPermission(
+			parentBaseModel, group, parentBaseModelRoleId2);
+
+		BaseModel<?> baseModel = addBaseModel(
+			parentBaseModel, true, getSearchKeywords(), serviceContext);
+
+		addRoleViewPermission(baseModel, group, parentBaseModelRoleId1);
+
+		long baseModelRoleId = RoleTestUtil.addRegularRole(
+			TestPropsValues.getGroupId());
+
+		addRoleViewPermission(baseModel, group, baseModelRoleId);
+
+		baseModelList.add(baseModel);
+
+		User user = UserTestUtil.addUser(null, 0);
+
+		assertOnlyRoleCombinationReturnsResults(
+			parentBaseModelRoleId1, topParentBaseModelRoleId, searchContext,
+			user);
+
+		assertOnlyRoleCombinationReturnsResults(
+			baseModelRoleId, parentBaseModelRoleId2, topParentBaseModelRoleId,
+			searchContext, user);
+
+		UserLocalServiceUtil.deleteUser(user);
+	}
+
 	@Rule
 	public SearchTestRule searchTestRule = new SearchTestRule();
 
@@ -240,6 +304,41 @@ public abstract class BasePermissionSearchTestCase {
 	}
 
 	protected void assertOnlyRoleCombinationReturnsResults(
+			long roleId1, long roleId2, long roleId3,
+			SearchContext searchContext, User user)
+		throws Exception {
+
+		assertOnlyRoleCombinationReturnsResults(
+			roleId1, roleId2, searchContext, user);
+
+		assertOnlyRoleCombinationReturnsResults(
+			roleId1, roleId3, searchContext, user);
+
+		assertOnlyRoleCombinationReturnsResults(
+			roleId2, roleId3, searchContext, user);
+
+		PermissionChecker originalPermissionChecker =
+			PermissionThreadLocal.getPermissionChecker();
+
+		try {
+			PermissionThreadLocal.setPermissionChecker(
+				PermissionCheckerFactoryUtil.create(user));
+
+			searchContext.setUserId(user.getUserId());
+
+			UserLocalServiceUtil.addRoleUser(roleId1, user);
+			UserLocalServiceUtil.addRoleUser(roleId2, user);
+			UserLocalServiceUtil.addRoleUser(roleId3, user);
+
+			assertPermissionFilteringOfSearchEngine(searchContext);
+		}
+		finally {
+			PermissionThreadLocal.setPermissionChecker(
+				originalPermissionChecker);
+		}
+	}
+
+	protected void assertOnlyRoleCombinationReturnsResults(
 			long roleId1, long roleId2, SearchContext searchContext, User user)
 		throws Exception {
 
@@ -269,6 +368,8 @@ public abstract class BasePermissionSearchTestCase {
 			// Assert that with just role2, the user can't view content
 
 			assertPermissionFilteringOfSearchEngine(searchContext);
+
+			UserLocalServiceUtil.deleteRoleUser(roleId2, user);
 		}
 		finally {
 			PermissionThreadLocal.setPermissionChecker(
@@ -292,6 +393,10 @@ public abstract class BasePermissionSearchTestCase {
 
 	protected abstract Class<?> getBaseModelClass();
 
+	protected abstract BaseModel<?> getParentBaseModel(
+			Group group, BaseModel<?> baseModel, ServiceContext serviceContext)
+		throws Exception;
+
 	protected BaseModel<?> getParentBaseModel(
 			Group group, Role role, ServiceContext serviceContext)
 		throws Exception {
@@ -305,10 +410,6 @@ public abstract class BasePermissionSearchTestCase {
 
 		return group;
 	}
-
-	protected abstract BaseModel<?> getParentBaseModel(
-		Group group, BaseModel<?> baseModel, ServiceContext serviceContext)
-		throws Exception;
 
 	protected String getPrimKey(BaseModel<?> baseModel) {
 		return null;
