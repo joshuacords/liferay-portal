@@ -23,7 +23,6 @@ import com.liferay.journal.model.JournalFolder;
 import com.liferay.journal.test.util.JournalTestUtil;
 import com.liferay.portal.configuration.test.util.ConfigurationTestUtil;
 import com.liferay.portal.kernel.model.BaseModel;
-import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.module.configuration.ConfigurationProviderUtil;
 import com.liferay.portal.kernel.portlet.PortalPreferences;
@@ -125,8 +124,7 @@ public class JournalArticlePermissionSearchTest
 
 	@Override
 	protected BaseModel<?> addBaseModelWithWorkflow(
-			BaseModel<?> parentBaseModel, boolean approved, String keywords,
-			ServiceContext serviceContext)
+			BaseModel<?> parentBaseModel, boolean approved, String keywords)
 		throws Exception {
 
 		JournalFolder folder = (JournalFolder)parentBaseModel;
@@ -157,9 +155,14 @@ public class JournalArticlePermissionSearchTest
 	}
 
 	@Override
-	protected BaseModel<?> getParentBaseModel(
-			Group group, BaseModel<?> parentBaseModel,
-			ServiceContext serviceContext)
+	protected BaseModel<?> getParentBaseModel() throws Exception {
+		return JournalTestUtil.addFolder(
+			JournalFolderConstants.DEFAULT_PARENT_FOLDER_ID,
+			RandomTestUtil.randomString(), serviceContext);
+	}
+
+	@Override
+	protected BaseModel<?> getParentBaseModel(BaseModel<?> parentBaseModel)
 		throws Exception {
 
 		JournalFolder folder = (JournalFolder)parentBaseModel;
@@ -175,20 +178,7 @@ public class JournalArticlePermissionSearchTest
 	}
 
 	@Override
-	protected BaseModel<?> getParentBaseModel(
-			Group group, Role role, ServiceContext serviceContext)
-		throws Exception {
-
-		return JournalTestUtil.addFolder(
-			JournalFolderConstants.DEFAULT_PARENT_FOLDER_ID,
-			RandomTestUtil.randomString(), serviceContext);
-	}
-
-	@Override
-	protected BaseModel<?> getParentBaseModel(
-			Group group, ServiceContext serviceContext)
-		throws Exception {
-
+	protected BaseModel<?> getParentBaseModel(Role role) throws Exception {
 		return JournalTestUtil.addFolder(
 			JournalFolderConstants.DEFAULT_PARENT_FOLDER_ID,
 			RandomTestUtil.randomString(), serviceContext);
