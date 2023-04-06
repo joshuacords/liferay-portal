@@ -66,7 +66,7 @@ public abstract class BasePermissionSearchTestCase {
 
 		searchContext.setKeywords(getSearchKeywords());
 
-		addControlBaseModelAndParent(serviceContext);
+		addControlBaseModelAndParent();
 	}
 
 	@Test
@@ -77,13 +77,12 @@ public abstract class BasePermissionSearchTestCase {
 			TestPropsValues.getGroupId());
 
 		addBaseParentAndBaseModels(
-			baseModelRoleId, parentBaseModelRoleId, false, false,
-			serviceContext);
+			baseModelRoleId, parentBaseModelRoleId, false, false);
 
 		User user = UserTestUtil.addUser(null, 0);
 
 		assertOnlyRoleCombinationReturnsResults(
-			baseModelRoleId, parentBaseModelRoleId, searchContext, user);
+			baseModelRoleId, parentBaseModelRoleId, user);
 
 		UserLocalServiceUtil.deleteUser(user);
 	}
@@ -93,38 +92,35 @@ public abstract class BasePermissionSearchTestCase {
 		serviceContext.setAddGroupPermissions(false);
 		serviceContext.setAddGuestPermissions(false);
 
-		BaseModel<?> topParentBaseModel = getParentBaseModel(
-			group, serviceContext);
+		BaseModel<?> topParentBaseModel = getParentBaseModel();
 
 		long topParentBaseModelRoleId = RoleTestUtil.addRegularRole(
 			TestPropsValues.getGroupId());
 
-		addRoleViewPermission(
-			topParentBaseModel, group, topParentBaseModelRoleId);
+		addRoleViewPermission(topParentBaseModel, topParentBaseModelRoleId);
 
 		serviceContext.setAddGroupPermissions(true);
 		serviceContext.setAddGuestPermissions(true);
 
-		BaseModel<?> parentBaseModel = getParentBaseModel(
-			group, topParentBaseModel, serviceContext);
+		BaseModel<?> parentBaseModel = getParentBaseModel(topParentBaseModel);
 
 		serviceContext.setAddGroupPermissions(false);
 		serviceContext.setAddGuestPermissions(false);
 
 		BaseModel<?> baseModel = addBaseModel(
-			parentBaseModel, true, getSearchKeywords(), serviceContext);
+			parentBaseModel, true, getSearchKeywords());
 
 		long baseModelRoleId = RoleTestUtil.addRegularRole(
 			TestPropsValues.getGroupId());
 
-		addRoleViewPermission(baseModel, group, baseModelRoleId);
+		addRoleViewPermission(baseModel, baseModelRoleId);
 
 		baseModelList.add(baseModel);
 
 		User user = UserTestUtil.addUser(null, 0);
 
 		assertOnlyRoleCombinationReturnsResults(
-			baseModelRoleId, topParentBaseModelRoleId, searchContext, user);
+			baseModelRoleId, topParentBaseModelRoleId, user);
 
 		UserLocalServiceUtil.deleteUser(user);
 	}
@@ -144,49 +140,45 @@ public abstract class BasePermissionSearchTestCase {
 		serviceContext.setAddGroupPermissions(false);
 		serviceContext.setAddGuestPermissions(false);
 
-		BaseModel<?> topParentBaseModel = getParentBaseModel(
-			group, serviceContext);
+		BaseModel<?> topParentBaseModel = getParentBaseModel();
 
 		long topParentBaseModelRoleId = RoleTestUtil.addRegularRole(
 			TestPropsValues.getGroupId());
 
-		addRoleViewPermission(
-			topParentBaseModel, group, topParentBaseModelRoleId);
+		addRoleViewPermission(topParentBaseModel, topParentBaseModelRoleId);
 
-		BaseModel<?> parentBaseModel = getParentBaseModel(
-			group, topParentBaseModel, serviceContext);
+		BaseModel<?> parentBaseModel = getParentBaseModel(topParentBaseModel);
 
 		long parentBaseModelRoleId1 = RoleTestUtil.addRegularRole(
 			TestPropsValues.getGroupId());
 
-		addRoleViewPermission(parentBaseModel, group, parentBaseModelRoleId1);
+		addRoleViewPermission(parentBaseModel, parentBaseModelRoleId1);
 
 		long parentBaseModelRoleId2 = RoleTestUtil.addRegularRole(
 			TestPropsValues.getGroupId());
 
-		addRoleViewPermission(parentBaseModel, group, parentBaseModelRoleId2);
+		addRoleViewPermission(parentBaseModel, parentBaseModelRoleId2);
 
 		BaseModel<?> baseModel = addBaseModel(
-			parentBaseModel, true, getSearchKeywords(), serviceContext);
+			parentBaseModel, true, getSearchKeywords());
 
-		addRoleViewPermission(baseModel, group, parentBaseModelRoleId1);
+		addRoleViewPermission(baseModel, parentBaseModelRoleId1);
 
 		long baseModelRoleId = RoleTestUtil.addRegularRole(
 			TestPropsValues.getGroupId());
 
-		addRoleViewPermission(baseModel, group, baseModelRoleId);
+		addRoleViewPermission(baseModel, baseModelRoleId);
 
 		baseModelList.add(baseModel);
 
 		User user = UserTestUtil.addUser(null, 0);
 
 		assertOnlyRoleCombinationReturnsResults(
-			parentBaseModelRoleId1, topParentBaseModelRoleId, searchContext,
-			user);
+			parentBaseModelRoleId1, topParentBaseModelRoleId, user);
 
 		assertOnlyRoleCombinationReturnsResults(
 			baseModelRoleId, parentBaseModelRoleId2, topParentBaseModelRoleId,
-			searchContext, user);
+			user);
 
 		UserLocalServiceUtil.deleteUser(user);
 	}
@@ -195,8 +187,7 @@ public abstract class BasePermissionSearchTestCase {
 	public SearchTestRule searchTestRule = new SearchTestRule();
 
 	protected BaseModel<?> addBaseModel(
-			BaseModel<?> parentBaseModel, boolean approved, String keywords,
-			ServiceContext serviceContext)
+			BaseModel<?> parentBaseModel, boolean approved, String keywords)
 		throws Exception {
 
 		boolean workflowEnabled = WorkflowThreadLocal.isEnabled();
@@ -205,7 +196,7 @@ public abstract class BasePermissionSearchTestCase {
 			WorkflowThreadLocal.setEnabled(true);
 
 			return addBaseModelWithWorkflow(
-				parentBaseModel, approved, keywords, serviceContext);
+				parentBaseModel, approved, keywords);
 		}
 		finally {
 			WorkflowThreadLocal.setEnabled(workflowEnabled);
@@ -213,14 +204,12 @@ public abstract class BasePermissionSearchTestCase {
 	}
 
 	protected abstract BaseModel<?> addBaseModelWithWorkflow(
-			BaseModel<?> parentBaseModel, boolean approved, String keywords,
-			ServiceContext serviceContext)
+			BaseModel<?> parentBaseModel, boolean approved, String keywords)
 		throws Exception;
 
 	protected void addBaseParentAndBaseModels(
 			boolean addBaseModelGroupAndGuestPermission,
-			boolean addParentBaseModelGroupAndGuestPermission,
-			ServiceContext serviceContext)
+			boolean addParentBaseModelGroupAndGuestPermission)
 		throws Exception {
 
 		serviceContext.setAddGroupPermissions(
@@ -228,8 +217,7 @@ public abstract class BasePermissionSearchTestCase {
 		serviceContext.setAddGuestPermissions(
 			addParentBaseModelGroupAndGuestPermission);
 
-		BaseModel<?> parentBaseModel = getParentBaseModel(
-			group, serviceContext);
+		BaseModel<?> parentBaseModel = getParentBaseModel();
 
 		serviceContext.setAddGroupPermissions(
 			addBaseModelGroupAndGuestPermission);
@@ -237,46 +225,41 @@ public abstract class BasePermissionSearchTestCase {
 			addBaseModelGroupAndGuestPermission);
 
 		baseModelList.add(
-			addBaseModel(
-				parentBaseModel, true, getSearchKeywords(), serviceContext));
+			addBaseModel(parentBaseModel, true, getSearchKeywords()));
 	}
 
 	protected void addBaseParentAndBaseModels(
 			long modelRoleId, long parentRoleId, boolean addBaseModelPermission,
-			boolean addParentBaseModelPermission, ServiceContext serviceContext)
+			boolean addParentBaseModelPermission)
 		throws Exception {
 
 		serviceContext.setAddGroupPermissions(addParentBaseModelPermission);
 		serviceContext.setAddGuestPermissions(addParentBaseModelPermission);
 
-		BaseModel<?> parentBaseModel = getParentBaseModel(
-			group, serviceContext);
+		BaseModel<?> parentBaseModel = getParentBaseModel();
 
 		if (parentRoleId > 0) {
-			addRoleViewPermission(parentBaseModel, group, parentRoleId);
+			addRoleViewPermission(parentBaseModel, parentRoleId);
 		}
 
 		serviceContext.setAddGroupPermissions(addBaseModelPermission);
 		serviceContext.setAddGuestPermissions(addBaseModelPermission);
 
 		BaseModel<?> baseModel = addBaseModel(
-			parentBaseModel, true, getSearchKeywords(), serviceContext);
+			parentBaseModel, true, getSearchKeywords());
 
 		if (modelRoleId > 0) {
-			addRoleViewPermission(baseModel, group, modelRoleId);
+			addRoleViewPermission(baseModel, modelRoleId);
 		}
 
 		baseModelList.add(baseModel);
 	}
 
-	protected void addControlBaseModelAndParent(ServiceContext serviceContext)
-		throws Exception {
-
-		addBaseParentAndBaseModels(true, true, serviceContext);
+	protected void addControlBaseModelAndParent() throws Exception {
+		addBaseParentAndBaseModels(true, true);
 	}
 
-	protected void addRoleViewPermission(
-			BaseModel<?> baseModel, Group group, long roleId)
+	protected void addRoleViewPermission(BaseModel<?> baseModel, long roleId)
 		throws Exception {
 
 		ResourcePermissionLocalServiceUtil.setResourcePermissions(
@@ -286,18 +269,14 @@ public abstract class BasePermissionSearchTestCase {
 	}
 
 	protected void assertOnlyRoleCombinationReturnsResults(
-			long roleId1, long roleId2, long roleId3,
-			SearchContext searchContext, User user)
+			long roleId1, long roleId2, long roleId3, User user)
 		throws Exception {
 
-		assertOnlyRoleCombinationReturnsResults(
-			roleId1, roleId2, searchContext, user);
+		assertOnlyRoleCombinationReturnsResults(roleId1, roleId2, user);
 
-		assertOnlyRoleCombinationReturnsResults(
-			roleId1, roleId3, searchContext, user);
+		assertOnlyRoleCombinationReturnsResults(roleId1, roleId3, user);
 
-		assertOnlyRoleCombinationReturnsResults(
-			roleId2, roleId3, searchContext, user);
+		assertOnlyRoleCombinationReturnsResults(roleId2, roleId3, user);
 
 		PermissionChecker originalPermissionChecker =
 			PermissionThreadLocal.getPermissionChecker();
@@ -312,7 +291,7 @@ public abstract class BasePermissionSearchTestCase {
 			UserLocalServiceUtil.addRoleUser(roleId2, user);
 			UserLocalServiceUtil.addRoleUser(roleId3, user);
 
-			assertPermissionFilteringOfSearchEngine(searchContext);
+			assertPermissionFilteringOfSearchEngine();
 		}
 		finally {
 			PermissionThreadLocal.setPermissionChecker(
@@ -321,7 +300,7 @@ public abstract class BasePermissionSearchTestCase {
 	}
 
 	protected void assertOnlyRoleCombinationReturnsResults(
-			long roleId1, long roleId2, SearchContext searchContext, User user)
+			long roleId1, long roleId2, User user)
 		throws Exception {
 
 		PermissionChecker originalPermissionChecker =
@@ -335,15 +314,15 @@ public abstract class BasePermissionSearchTestCase {
 
 			UserLocalServiceUtil.addRoleUser(roleId1, user);
 
-			assertPermissionFilteringOfSearchEngine(searchContext);
+			assertPermissionFilteringOfSearchEngine();
 
 			UserLocalServiceUtil.addRoleUser(roleId2, user);
 
-			assertPermissionFilteringOfSearchEngine(searchContext);
+			assertPermissionFilteringOfSearchEngine();
 
 			UserLocalServiceUtil.deleteRoleUser(roleId1, user);
 
-			assertPermissionFilteringOfSearchEngine(searchContext);
+			assertPermissionFilteringOfSearchEngine();
 
 			UserLocalServiceUtil.deleteRoleUser(roleId2, user);
 		}
@@ -353,14 +332,10 @@ public abstract class BasePermissionSearchTestCase {
 		}
 	}
 
-	protected void assertPermissionFilteringOfSearchEngine(
-			SearchContext searchContext)
-		throws Exception {
+	protected void assertPermissionFilteringOfSearchEngine() throws Exception {
+		Hits filteredHits = searchBaseModelsPermissionFilteredCount();
 
-		Hits filteredHits = searchBaseModelsPermissionFilteredCount(
-			searchContext);
-
-		Hits unfilteredHits = searchBaseModelsSearchEngineCount(searchContext);
+		Hits unfilteredHits = searchBaseModelsSearchEngineCount();
 
 		Assert.assertEquals(
 			"Documents have been filtered out: " + unfilteredHits,
@@ -369,21 +344,14 @@ public abstract class BasePermissionSearchTestCase {
 
 	protected abstract Class<?> getBaseModelClass();
 
-	protected abstract BaseModel<?> getParentBaseModel(
-			Group group, BaseModel<?> baseModel, ServiceContext serviceContext)
-		throws Exception;
-
-	protected BaseModel<?> getParentBaseModel(
-			Group group, Role role, ServiceContext serviceContext)
-		throws Exception {
-
+	protected BaseModel<?> getParentBaseModel() throws Exception {
 		return group;
 	}
 
-	protected BaseModel<?> getParentBaseModel(
-			Group group, ServiceContext serviceContext)
-		throws Exception {
+	protected abstract BaseModel<?> getParentBaseModel(BaseModel<?> baseModel)
+		throws Exception;
 
+	protected BaseModel<?> getParentBaseModel(Role role) throws Exception {
 		return group;
 	}
 
@@ -393,8 +361,13 @@ public abstract class BasePermissionSearchTestCase {
 
 	protected abstract String getSearchKeywords();
 
+	protected Hits searchBaseModelsPermissionFilteredCount() throws Exception {
+		return searchBaseModelsPermissionFilteredCount(
+			getBaseModelClass(), group.getGroupId());
+	}
+
 	protected Hits searchBaseModelsPermissionFilteredCount(
-			Class<?> clazz, long groupId, SearchContext searchContext)
+			Class<?> clazz, long groupId)
 		throws Exception {
 
 		Indexer<?> indexer = IndexerRegistryUtil.getIndexer(clazz);
@@ -404,16 +377,13 @@ public abstract class BasePermissionSearchTestCase {
 		return indexer.search(searchContext);
 	}
 
-	protected Hits searchBaseModelsPermissionFilteredCount(
-			SearchContext searchContext)
-		throws Exception {
-
-		return searchBaseModelsPermissionFilteredCount(
-			getBaseModelClass(), group.getGroupId(), searchContext);
+	protected Hits searchBaseModelsSearchEngineCount() throws Exception {
+		return searchBaseModelsSearchEngineCount(
+			getBaseModelClass(), group.getGroupId());
 	}
 
 	protected Hits searchBaseModelsSearchEngineCount(
-			Class<?> clazz, long groupId, SearchContext searchContext)
+			Class<?> clazz, long groupId)
 		throws Exception {
 
 		Indexer<?> indexer = IndexerRegistryUtil.getIndexer(clazz);
@@ -427,14 +397,6 @@ public abstract class BasePermissionSearchTestCase {
 		return IndexSearcherHelperUtil.search(searchContext, fullQuery);
 	}
 
-	protected Hits searchBaseModelsSearchEngineCount(
-			SearchContext searchContext)
-		throws Exception {
-
-		return searchBaseModelsSearchEngineCount(
-			getBaseModelClass(), group.getGroupId(), searchContext);
-	}
-
 	protected void testUserPermissions(
 			boolean addBaseModelGroupAndGuestPermission,
 			boolean addParentBaseModelGroupAndGuestPermission)
@@ -442,7 +404,7 @@ public abstract class BasePermissionSearchTestCase {
 
 		addBaseParentAndBaseModels(
 			addBaseModelGroupAndGuestPermission,
-			addParentBaseModelGroupAndGuestPermission, serviceContext);
+			addParentBaseModelGroupAndGuestPermission);
 
 		User user = UserTestUtil.addUser(null, 0);
 
@@ -455,7 +417,7 @@ public abstract class BasePermissionSearchTestCase {
 
 			searchContext.setUserId(user.getUserId());
 
-			assertPermissionFilteringOfSearchEngine(searchContext);
+			assertPermissionFilteringOfSearchEngine();
 		}
 		finally {
 			PermissionThreadLocal.setPermissionChecker(
