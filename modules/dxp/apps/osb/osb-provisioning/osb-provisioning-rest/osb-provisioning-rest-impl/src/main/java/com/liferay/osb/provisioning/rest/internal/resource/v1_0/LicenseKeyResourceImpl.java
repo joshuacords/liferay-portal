@@ -1514,7 +1514,7 @@ public class LicenseKeyResourceImpl
 		sb.append("Product Version,Product Name,License Key Id,IP Addresses,");
 		sb.append("MAC Addresses,Host Name,Instance Sizing,");
 		sb.append("License Start Date,License Expiration Date,License Status,");
-		sb.append("Max Servers,Complimentary");
+		sb.append("Max Servers/Cluster Nodes,Complimentary");
 		sb.append(StringPool.NEW_LINE);
 
 		for (com.liferay.osb.provisioning.license.model.LicenseKey licenseKey :
@@ -1529,6 +1529,14 @@ public class LicenseKeyResourceImpl
 				status = "Inactive";
 			}
 
+			String licenseEntryType = licenseKey.getLicenseEntryType();
+
+			int maxServersOrNodes = licenseKey.getMaxServers();
+
+			if (licenseEntryType.equals(LicenseType.VIRTUAL_CLUSTER)) {
+				maxServersOrNodes = licenseKey.getMaxClusterNodes();
+			}
+
 			String formattedCsvFields = _formatCsvFields(
 				licenseKey.getAccountName(), licenseKey.getAccountKey(),
 				_accountReader.getSubscriptionState(account),
@@ -1538,8 +1546,7 @@ public class LicenseKeyResourceImpl
 				licenseKey.getIpAddresses(), licenseKey.getMacAddresses(),
 				licenseKey.getHostName(), licenseKey.getSizing(),
 				licenseKey.getStartDate(), licenseKey.getExpirationDate(),
-				status, licenseKey.getMaxServers(),
-				licenseKey.getComplimentary());
+				status, maxServersOrNodes, licenseKey.getComplimentary());
 
 			sb.append(formattedCsvFields);
 		}
