@@ -41,19 +41,21 @@ definition {
 	macro viewClusterStatusViaClusterHealthAPI {
 		var portalHostname = PropsUtil.get("portal.hostname");
 
-		Navigator.openSpecificURL(url = "http://${portalHostname}:9200/_cluster/health?level=indices&pretty");
+		var curl = "http://${portalHostname}:9200/_cluster/health?level=indices";
 
-		AssertTextEquals.assertPartialText(
-			locator1 = "//body",
-			value1 = "\"cluster_name\" : \"LiferayElasticsearchCluster\"");
+		var clusterHealth = JSONCurlUtil.get(${curl});
 
-		AssertTextEquals.assertPartialText(
-			locator1 = "//body",
-			value1 = "\"number_of_nodes\" : ${numberOfNodes}");
+		TestUtils.assertPartialEquals(
+			actual = ${clusterHealth},
+			expected = "\"cluster_name\":\"LiferayElasticsearchCluster\"");
 
-		AssertTextEquals.assertPartialText(
-			locator1 = "//body",
-			value1 = "\"number_of_data_nodes\" : ${numberOfNodes}");
+		TestUtils.assertPartialEquals(
+			actual = ${clusterHealth},
+			expected = "\"number_of_nodes\":${numberOfNodes}");
+
+		TestUtils.assertPartialEquals(
+			actual = ${clusterHealth},
+			expected = "\"number_of_data_nodes\":${numberOfNodes}");
 	}
 
 }
