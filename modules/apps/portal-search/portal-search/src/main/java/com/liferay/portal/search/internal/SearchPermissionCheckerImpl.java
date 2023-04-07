@@ -48,7 +48,6 @@ import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
-import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.search.configuration.SearchPermissionCheckerConfiguration;
 import com.liferay.portal.search.permission.SearchPermissionDocumentContributor;
 import com.liferay.portal.search.spi.model.permission.SearchPermissionFilterContributor;
@@ -77,10 +76,7 @@ import org.osgi.service.component.annotations.Reference;
  * @author Amos Fong
  * @author Preston Crary
  */
-@Component(
-	configurationPid = "com.liferay.portal.search.configuration.SearchPermissionCheckerConfiguration",
-	service = SearchPermissionChecker.class
-)
+@Component(service = SearchPermissionChecker.class)
 public class SearchPermissionCheckerImpl implements SearchPermissionChecker {
 
 	@Override
@@ -141,14 +137,6 @@ public class SearchPermissionCheckerImpl implements SearchPermissionChecker {
 		_searchPermissionCheckerConfiguration =
 			ConfigurableUtil.createConfigurable(
 				SearchPermissionCheckerConfiguration.class, properties);
-	}
-
-	protected PermissionChecker getPermissionChecker() {
-		if (permissionChecker != null) {
-			return permissionChecker;
-		}
-
-		return PermissionThreadLocal.getPermissionChecker();
 	}
 
 	protected PermissionChecker permissionChecker;
