@@ -101,17 +101,9 @@
 			<echo file="${elasticsearch.dir}-2/config/elasticsearch.yml">${line.separator}bootstrap.system_call_filter: false
 cluster.name: LiferayElasticsearchClusterTwo
 http.port: 9202
+ingest.geoip.downloader.enabled: false
 transport.port: 9500-9600
 xpack.license.self_generated.type: trial</echo>
-			<if>
-				<not>
-					<isset property="suite.elastic.version" />
-				</not>
-				<then>
-					<echo append="true" file="${elasticsearch.dir}-2/config/elasticsearch.yml">
-ingest.geoip.downloader.enabled: false</echo>
-				</then>
-			</if>
 		</sequential>
 	</macrodef>
 
