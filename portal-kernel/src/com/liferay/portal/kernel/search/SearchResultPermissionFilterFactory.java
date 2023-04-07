@@ -26,4 +26,6 @@ public interface SearchResultPermissionFilterFactory {
 			searchResultPermissionFilterSearcher,
 		PermissionChecker permissionChecker);
 
+	public boolean inheritedPermissionIndexing();
+
 }
