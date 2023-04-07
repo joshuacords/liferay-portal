@@ -48,6 +48,8 @@ import com.liferay.portal.kernel.util.Validator;
 
 import java.net.URL;
 
+import java.time.Year;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -734,12 +736,17 @@ public class CustomerPortalReleaseImpl implements CustomerPortalRelease {
 				"[$ACCOUNT_NAME$]", account.getName());
 		}
 
+		Year year = Year.now();
+
+		int curYear = year.getValue();
+
 		subscriptionSender.setContextAttribute(
 			"[$ACCOUNT_INVITATION_MESSAGE$]",
 			_getAccountInvitationMessage(accounts, resourceBundle), false);
 		subscriptionSender.setContextAttribute(
 			"[$CONTACT_ROLE_ACTIONS_LIST$]",
 			_getRoleActionsList(contact, accounts, resourceBundle), false);
+		subscriptionSender.setContextAttribute("[$YEAR$]", curYear, false);
 		subscriptionSender.setFrom(
 			provisioningEmailAddress, "Liferay Provisioning");
 		subscriptionSender.setHtmlFormat(true);
