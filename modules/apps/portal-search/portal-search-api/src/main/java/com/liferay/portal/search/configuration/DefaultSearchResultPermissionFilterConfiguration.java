@@ -33,6 +33,13 @@ import org.osgi.annotation.versioning.ProviderType;
 public interface DefaultSearchResultPermissionFilterConfiguration {
 
 	@Meta.AD(
+		deflt = "false",
+		description = "enable-inherited-permission-indexing-description",
+		name = "enable-inherited-permission-indexing", required = false
+	)
+	public boolean inheritedPermissionIndexing();
+
+	@Meta.AD(
 		deflt = "0",
 		description = "permission-filtered-search-result-accurate-count-threshold-help",
 		name = "permission-filtered-search-result-accurate-count-threshold",
