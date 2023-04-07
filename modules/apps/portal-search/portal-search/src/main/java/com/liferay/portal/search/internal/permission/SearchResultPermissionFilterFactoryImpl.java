@@ -61,6 +61,12 @@ public class SearchResultPermissionFilterFactoryImpl
 			_defaultSearchResultPermissionFilterConfiguration);
 	}
 
+	@Override
+	public boolean inheritedPermissionIndexing() {
+		return _defaultSearchResultPermissionFilterConfiguration.
+			inheritedPermissionIndexing();
+	}
+
 	@Activate
 	@Modified
 	protected void activate(Map<String, Object> properties) {
