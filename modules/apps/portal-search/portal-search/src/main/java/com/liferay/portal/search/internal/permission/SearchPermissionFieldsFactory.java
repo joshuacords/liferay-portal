@@ -52,7 +52,27 @@ public class SearchPermissionFieldsFactory {
 			String viewActionId)
 		throws PortalException {
 
-		SearchPermissionFields searchPermissionFields = null;
+		List<Role> roles = _resourcePermissionLocalService.getRoles(
+			companyId, permissionName, ResourceConstants.SCOPE_INDIVIDUAL,
+			resourcePrimKey, viewActionId);
+
+		List<Long> roleIds = new ArrayList<>();
+		List<String> groupRoleIds = new ArrayList<>();
+		Set<Set<String>> inheritedRoleIdCombinations = null;
+
+		if (!roles.isEmpty()) {
+			for (Role role : roles) {
+				if ((role.getType() == RoleConstants.TYPE_ORGANIZATION) ||
+					(role.getType() == RoleConstants.TYPE_SITE)) {
+
+					groupRoleIds.add(
+						groupId + StringPool.DASH + role.getRoleId());
+				}
+				else {
+					roleIds.add(role.getRoleId());
+				}
+			}
+		}
 
 		if (_searchResultPermissionFilterFactory.
 				inheritedPermissionIndexing()) {
@@ -67,40 +87,13 @@ public class SearchPermissionFieldsFactory {
 					companyId, groupId, resourcePrimKey, entryClassPK,
 					searchPermissionDefinition);
 
-			Set<Set<String>> roleIdSets =
+			inheritedRoleIdCombinations =
 				roleSetContributorContextImpl.getRoleIdSets();
-
-			if (searchPermissionFields != null) {
-				return searchPermissionFields;
-			}
 		}
 
-		List<Role> roles = _resourcePermissionLocalService.getRoles(
-			companyId, permissionName, ResourceConstants.SCOPE_INDIVIDUAL,
-			resourcePrimKey, viewActionId);
-
-		if (!roles.isEmpty()) {
-			List<Long> roleIds = new ArrayList<>();
-			List<String> groupRoleIds = new ArrayList<>();
-
-			for (Role role : roles) {
-				if ((role.getType() == RoleConstants.TYPE_ORGANIZATION) ||
-					(role.getType() == RoleConstants.TYPE_SITE)) {
-
-					groupRoleIds.add(
-						groupId + StringPool.DASH + role.getRoleId());
-				}
-				else {
-					roleIds.add(role.getRoleId());
-				}
-			}
-
-			searchPermissionFields = new SearchPermissionFields(
-				groupRoleIds.toArray(new String[0]),
-				roleIds.toArray(new Long[0]));
-		}
-
-		return searchPermissionFields;
+		return new SearchPermissionFields(
+			groupRoleIds.toArray(new String[0]), inheritedRoleIdCombinations,
+			roleIds.toArray(new Long[0]));
 	}
 
 	@Activate
