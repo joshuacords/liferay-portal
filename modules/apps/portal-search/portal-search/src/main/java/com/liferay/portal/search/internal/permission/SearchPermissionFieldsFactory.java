@@ -17,29 +17,37 @@ package com.liferay.portal.search.internal.permission;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapFactory;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.role.RoleConstants;
+import com.liferay.portal.kernel.search.SearchResultPermissionFilterFactory;
 import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.search.configuration.DefaultSearchResultPermissionFilterConfiguration;
 import com.liferay.portal.search.spi.model.permission.SearchPermissionDefinition;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
+import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
 /**
  * @author Preston Crary
  */
-@Component(service = SearchPermissionFieldsFactory.class)
+@Component(
+	configurationPid = "com.liferay.portal.search.configuration.DefaultSearchResultPermissionFilterConfiguration",
+	service = SearchPermissionFieldsFactory.class
+)
 public class SearchPermissionFieldsFactory {
 
 	public SearchPermissionFields createSearchPermissionFields(
@@ -50,21 +58,25 @@ public class SearchPermissionFieldsFactory {
 
 		SearchPermissionFields searchPermissionFields = null;
 
-		SearchPermissionDefinition<?> searchPermissionDefinition =
-			_serviceTrackerMap.getService(className);
+		if (_searchResultPermissionFilterFactory.
+				inheritedPermissionIndexing()) {
 
-		//check searchPermissionDefinition not null
+			SearchPermissionDefinition<?> searchPermissionDefinition =
+				_serviceTrackerMap.getService(className);
 
-		RoleSetContributorContextImpl roleSetContributorContextImpl =
-			_getRoleSetContributorContextImpl(
-				companyId, groupId, resourcePrimKey, entryClassPK,
-				searchPermissionDefinition);
+			// check searchPermissionDefinition not null
 
-		Set<Set<String>> roleIdSets =
-			roleSetContributorContextImpl.getRoleIdSets();
+			RoleSetContributorContextImpl roleSetContributorContextImpl =
+				_getRoleSetContributorContextImpl(
+					companyId, groupId, resourcePrimKey, entryClassPK,
+					searchPermissionDefinition);
 
-		if (searchPermissionFields != null) {
-			return searchPermissionFields;
+			Set<Set<String>> roleIdSets =
+				roleSetContributorContextImpl.getRoleIdSets();
+
+			if (searchPermissionFields != null) {
+				return searchPermissionFields;
+			}
 		}
 
 		List<Role> roles = _resourcePermissionLocalService.getRoles(
@@ -148,6 +160,10 @@ public class SearchPermissionFieldsFactory {
 
 		return roleSetContributorContextImpl;
 	}
+
+	@Reference
+	private SearchResultPermissionFilterFactory
+		_searchResultPermissionFilterFactory;
 
 	@Reference
 	private ResourcePermissionLocalService _resourcePermissionLocalService;
