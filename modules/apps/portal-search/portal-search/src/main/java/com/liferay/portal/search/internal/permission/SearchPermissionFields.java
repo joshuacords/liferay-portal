@@ -14,18 +14,35 @@
 
 package com.liferay.portal.search.internal.permission;
 
+import java.util.Set;
+
 /**
  * @author Preston Crary
  */
 public class SearchPermissionFields {
 
-	public SearchPermissionFields(Long[] roleIds, String[] groupRoleIds) {
-		_roleIds = roleIds;
+	public SearchPermissionFields(String[] groupRoleIds, Long[] roleIds) {
 		_groupRoleIds = groupRoleIds;
+		_roleIds = roleIds;
+
+		_inheritedRoleIdCombinations = null;
+	}
+
+	public SearchPermissionFields(
+		String[] groupRoleIds, Set<Set<String>> inheritedRoleIdCombinations,
+		Long[] roleIds) {
+
+		_groupRoleIds = groupRoleIds;
+		_inheritedRoleIdCombinations = inheritedRoleIdCombinations;
+		_roleIds = roleIds;
 	}
 
 	public String[] getGroupRoleIds() {
 		return _groupRoleIds;
+	}
+
+	public Set<Set<String>> getInheritedRoleIdCombinations() {
+		return _inheritedRoleIdCombinations;
 	}
 
 	public Long[] getRoleIds() {
@@ -33,6 +50,7 @@ public class SearchPermissionFields {
 	}
 
 	private final String[] _groupRoleIds;
+	private final Set<Set<String>> _inheritedRoleIdCombinations;
 	private final Long[] _roleIds;
 
 }

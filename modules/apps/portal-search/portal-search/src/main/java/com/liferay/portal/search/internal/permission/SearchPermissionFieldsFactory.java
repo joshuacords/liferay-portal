@@ -17,7 +17,6 @@ package com.liferay.portal.search.internal.permission;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMap;
 import com.liferay.osgi.service.tracker.collections.map.ServiceTrackerMapFactory;
 import com.liferay.petra.string.StringPool;
-import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.Role;
@@ -26,19 +25,16 @@ import com.liferay.portal.kernel.search.SearchResultPermissionFilterFactory;
 import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.search.configuration.DefaultSearchResultPermissionFilterConfiguration;
 import com.liferay.portal.search.spi.model.permission.SearchPermissionDefinition;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.osgi.framework.BundleContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
-import org.osgi.service.component.annotations.Modified;
 import org.osgi.service.component.annotations.Reference;
 
 /**
@@ -100,8 +96,8 @@ public class SearchPermissionFieldsFactory {
 			}
 
 			searchPermissionFields = new SearchPermissionFields(
-				roleIds.toArray(new Long[0]),
-				groupRoleIds.toArray(new String[0]));
+				groupRoleIds.toArray(new String[0]),
+				roleIds.toArray(new Long[0]));
 		}
 
 		return searchPermissionFields;
@@ -162,14 +158,14 @@ public class SearchPermissionFieldsFactory {
 	}
 
 	@Reference
-	private SearchResultPermissionFilterFactory
-		_searchResultPermissionFilterFactory;
-
-	@Reference
 	private ResourcePermissionLocalService _resourcePermissionLocalService;
 
 	@Reference
 	private RoleLocalService _roleLocalService;
+
+	@Reference
+	private SearchResultPermissionFilterFactory
+		_searchResultPermissionFilterFactory;
 
 	private ServiceTrackerMap<String, SearchPermissionDefinition<?>>
 		_serviceTrackerMap;
