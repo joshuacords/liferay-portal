@@ -204,7 +204,6 @@ definition {
 
 	@priority = 5
 	test XPackPkiAuthenticationSmokeTest {
-		property browser.chrome.version = "86.0";
 		property elastic.pki.authentication.enabled = "true";
 		property elastic.xpack.enabled = "true";
 		property osgi.app.includes = "portal-search-elasticsearch6-xpack-monitoring,portal-search-elasticsearch7";
@@ -231,7 +230,6 @@ definition {
 
 	@priority = 5
 	test XPackSmokeTest {
-		property browser.chrome.version = "86.0";
 		property elastic.xpack.enabled = "true";
 		property osgi.app.includes = "portal-search-elasticsearch6-xpack-monitoring,portal-search-elasticsearch7";
 		property osgi.module.configuration.file.names = "com.liferay.portal.bundle.blacklist.internal.BundleBlacklistConfiguration.config";
@@ -281,7 +279,6 @@ definition {
 	@description = "This is a use case for LPS-151205."
 	@priority = 5
 	test XPackWithRestrictedCipherSuitesAndTLSVersions {
-		property browser.chrome.version = "86.0";
 		property elastic.xpack.configure.tls.cipher.suites = "true";
 		property elastic.xpack.enabled = "true";
 		property osgi.app.includes = "portal-search-elasticsearch6-xpack-monitoring,portal-search-elasticsearch7";
