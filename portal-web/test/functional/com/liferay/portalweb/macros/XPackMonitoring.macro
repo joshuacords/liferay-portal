@@ -17,16 +17,14 @@ definition {
 
 		Navigator.gotoPage(pageName = "X-Pack Monitoring Page");
 
+		ProductMenuHelper.closeProductMenu();
+
 		SelectFrame.selectFrameNoLoading(locator1 = "IFrame#XPACK_MONITORING");
 
 		if (IsElementPresent(ariaLabel = "Closes this modal window", locator1 = "Button#ANY_WITH_ARIA_LABEL")) {
-			SetWindowSize(value1 = "500,500");
-
 			Click(
 				ariaLabel = "Closes this modal window",
 				locator1 = "Button#ANY_WITH_ARIA_LABEL");
-
-			SetWindowSize(value1 = "800,800");
 		}
 
 		AssertTextPresent(
