@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.search.FieldArray;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistry;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.SortedArrayList;
@@ -41,6 +42,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author Michael C. Han
@@ -153,26 +155,31 @@ public class SearchPermissionDocumentContributorImpl
 
 	private void _addInheritedRoleIdCombinations(
 		Document document, SearchPermissionFields searchPermissionFields) {
-		//FieldArray lowerFieldArray = new FieldArray("");
-
-		com.liferay.portal.kernel.search.Field lowerFieldArray =
-			new com.liferay.portal.kernel.search.Field(StringPool.BLANK);
-
-		List<Field> fields = new ArrayList<>();
-
-		fields.add(
-			new com.liferay.portal.kernel.search.Field(
-				"roleIds", new String[] {"222", "333"}));
-
-		fields.add(
-			new com.liferay.portal.kernel.search.Field(
-				"requiredMatches", "2"));
-
-		fields.forEach(lowerFieldArray::addField);
 
 		FieldArray fieldArray = new FieldArray("inheritedRoleIdArray");
 
-		fieldArray.addField(lowerFieldArray);
+		for (Set<String> inhertiedRoleIdCombination :
+			 searchPermissionFields.getInheritedRoleIdCombinations()) {
+
+			com.liferay.portal.kernel.search.Field lowerFieldArray =
+				new com.liferay.portal.kernel.search.Field(StringPool.BLANK);
+
+			List<Field> fields = new ArrayList<>();
+
+			fields.add(
+				new com.liferay.portal.kernel.search.Field(
+					"roleIds",
+					ArrayUtil.toStringArray(inhertiedRoleIdCombination)));
+
+			fields.add(
+				new com.liferay.portal.kernel.search.Field(
+					"requiredMatches",
+					String.valueOf(inhertiedRoleIdCombination.size())));
+
+			fields.forEach(lowerFieldArray::addField);
+
+			fieldArray.addField(lowerFieldArray);
+		}
 
 		document.add(fieldArray);
 	}
