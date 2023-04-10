@@ -1448,7 +1448,7 @@
 					},
 					"roleIds" : {
 						"store" : true,
-						"type" : "text"
+						"type" : "keyword"
 					}
 				}
 			},
