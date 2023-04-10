@@ -1439,6 +1439,19 @@
 				"store": true,
 				"type": "keyword"
 			},
+			"inheritedRoleIdArray" : {
+				"type" : "nested",
+				"properties" : {
+					"requiredMatches" : {
+						"store" : true,
+						"type" : "long"
+					},
+					"roleIds" : {
+						"store" : true,
+						"type" : "text"
+					}
+				}
+			},
 			"languageId": {
 				"store": true,
 				"type": "keyword"
