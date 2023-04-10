@@ -225,17 +225,20 @@ public class RolesAdminPortlet extends MVCPortlet {
 				roleTypeContributor.getClassName(), 0, name, titleMap,
 				descriptionMap, type, subtype, serviceContext);
 
-			String redirect = ParamUtil.getString(actionRequest, "redirect");
-
-			redirect = _http.setParameter(
-				redirect, actionResponse.getNamespace() + "roleId",
-				role.getRoleId());
-
-			actionRequest.setAttribute(WebKeys.REDIRECT, redirect);
+			String redirect = _portal.escapeRedirect(
+				ParamUtil.getString(actionRequest, "redirect"));
 
 			SessionMessages.add(actionRequest, "roleCreated");
 
-			actionResponse.sendRedirect(redirect);
+			if (Validator.isNotNull(redirect)) {
+				redirect = _http.setParameter(
+					redirect, actionResponse.getNamespace() + "roleId",
+					role.getRoleId());
+
+				actionRequest.setAttribute(WebKeys.REDIRECT, redirect);
+
+				actionResponse.sendRedirect(redirect);
+			}
 
 			return role;
 		}
