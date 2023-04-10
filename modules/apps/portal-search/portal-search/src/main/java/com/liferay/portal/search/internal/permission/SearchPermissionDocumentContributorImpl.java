@@ -15,16 +15,20 @@
 package com.liferay.portal.search.internal.permission;
 
 import com.liferay.petra.string.StringBundler;
+import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.exception.NoSuchResourceException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.search.DocumentImpl;
 import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.FieldArray;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistry;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.kernel.util.SortedArrayList;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.search.internal.SearchPermissionFieldContributorRegistry;
 import com.liferay.portal.search.permission.SearchPermissionDocumentContributor;
@@ -32,6 +36,11 @@ import com.liferay.portal.search.spi.model.permission.SearchPermissionFieldContr
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Michael C. Han
@@ -135,7 +144,63 @@ public class SearchPermissionDocumentContributorImpl
 				Field.ROLE_ID, searchPermissionFields.getRoleIds());
 			document.addKeyword(
 				Field.GROUP_ROLE_ID, searchPermissionFields.getGroupRoleIds());
+
+			if (searchPermissionFields.getInheritedRoleIdCombinations() != null) {
+				_addInheritedRoleIdCombinations(document, searchPermissionFields);
+			}
 		}
+	}
+
+	private void _addInheritedRoleIdCombinations(
+		Document document, SearchPermissionFields searchPermissionFields) {
+		//FieldArray lowerFieldArray = new FieldArray("");
+
+		com.liferay.portal.kernel.search.Field lowerFieldArray =
+			new com.liferay.portal.kernel.search.Field(StringPool.BLANK);
+
+		List<Field> fields = new ArrayList<>();
+
+		fields.add(
+			new com.liferay.portal.kernel.search.Field(
+				"roleIds", new String[] {"222", "333"}));
+
+		fields.add(
+			new com.liferay.portal.kernel.search.Field(
+				"requiredMatches", "2"));
+
+		fields.forEach(lowerFieldArray::addField);
+
+		FieldArray fieldArray = new FieldArray("inheritedRoleIdArray");
+
+		fieldArray.addField(lowerFieldArray);
+
+		document.add(fieldArray);
+	}
+
+	private void _addInheritedRoleIdCombinations1(
+		Document document, SearchPermissionFields searchPermissionFields) {
+		FieldArray fieldArray = new FieldArray("inheritedRoleIdArray");
+
+		com.liferay.portal.kernel.search.Field nestedRoleCombinationsField =
+			new com.liferay.portal.kernel.search.Field(StringPool.BLANK);
+
+		String[] inheritedRoleIdCombinations = {"11111", "22222"};
+
+		List<Field> fields = new ArrayList<>();
+
+		fields.add(
+			new com.liferay.portal.kernel.search.Field(
+				"roleIds", inheritedRoleIdCombinations));
+
+		fields.add(
+			new com.liferay.portal.kernel.search.Field(
+				"requiredMatches", "2"));
+
+		fields.forEach(nestedRoleCombinationsField::addField);
+
+		fieldArray.addField(nestedRoleCombinationsField);
+
+		document.add(fieldArray);
 	}
 
 	private String _getPermissionName(Document document, String defaultValue) {
