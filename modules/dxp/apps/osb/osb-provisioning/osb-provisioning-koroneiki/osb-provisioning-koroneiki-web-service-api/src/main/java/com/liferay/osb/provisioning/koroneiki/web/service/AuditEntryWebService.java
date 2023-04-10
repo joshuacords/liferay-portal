@@ -28,6 +28,8 @@ public interface AuditEntryWebService {
 			String accountKey, int page, int pageSize)
 		throws Exception;
 
+	public long getAccountAuditEntriesCount(String accountKey) throws Exception;
+
 	public Page<AuditEntry> postAccountAuditEntries(
 			String agentName, String agentUID, String accountKey,
 			AuditEntry[] auditEntries)

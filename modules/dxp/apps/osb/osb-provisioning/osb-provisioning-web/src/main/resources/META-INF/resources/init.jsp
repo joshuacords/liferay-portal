@@ -78,7 +78,6 @@ page import="com.liferay.osb.provisioning.web.internal.display.context.AddLicens
 page import="com.liferay.osb.provisioning.web.internal.display.context.AssignProductBundleProductsDisplayContext" %><%@
 page import="com.liferay.osb.provisioning.web.internal.display.context.AssignProductPurchaseProductsDisplayContext" %><%@
 page import="com.liferay.osb.provisioning.web.internal.display.context.AssignTeamContactsDisplayContext" %><%@
-page import="com.liferay.osb.provisioning.web.internal.display.context.AuditEntryDisplay" %><%@
 page import="com.liferay.osb.provisioning.web.internal.display.context.ContactDisplay" %><%@
 page import="com.liferay.osb.provisioning.web.internal.display.context.ContactSearchDisplayContext" %><%@
 page import="com.liferay.osb.provisioning.web.internal.display.context.DownloadLicenseKeysDisplayContext" %><%@

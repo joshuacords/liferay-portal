@@ -56,6 +56,20 @@ public class AuditEntryWebServiceImpl implements AuditEntryWebService {
 		return Collections.emptyList();
 	}
 
+	public long getAccountAuditEntriesCount(String accountKey)
+		throws Exception {
+
+		Page<AuditEntry> auditEntriesPage =
+			_auditEntryResource.getAccountAccountKeyAuditEntriesPage(
+				accountKey, Pagination.of(1, 1));
+
+		if (auditEntriesPage != null) {
+			return auditEntriesPage.getTotalCount();
+		}
+
+		return 0;
+	}
+
 	public Page<AuditEntry> postAccountAuditEntries(
 			String agentName, String agentUID, String accountKey,
 			AuditEntry[] auditEntries)

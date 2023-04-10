@@ -248,12 +248,34 @@ public class ViewAccountDisplayContext {
 		return portletURL.toString();
 	}
 
-	public List<AuditEntryDisplay> getAuditEntryDisplays() throws Exception {
-		return TransformUtil.transform(
-			auditEntryWebService.getAccountAuditEntries(
-				account.getKey(), 1, 1000),
-			auditEntry -> new AuditEntryDisplay(
-				httpServletRequest, auditEntry));
+	public long getAuditEntryDisplaysCount() throws Exception {
+		return auditEntryWebService.getAccountAuditEntriesCount(
+			account.getKey());
+	}
+
+	public SearchContainer getAuditEntryDisplaysSearchContainer()
+		throws Exception {
+
+		SearchContainer searchContainer = new SearchContainer(
+			renderRequest, currentURLObj, Collections.emptyList(),
+			"there-is-no-account-history-yet");
+
+		searchContainer.setDelta(100);
+
+		searchContainer.setResults(
+			TransformUtil.transform(
+				auditEntryWebService.getAccountAuditEntries(
+					account.getKey(), searchContainer.getCur(),
+					searchContainer.getEnd() - searchContainer.getStart()),
+				auditEntry -> new AuditEntryDisplay(
+					httpServletRequest, auditEntry)));
+
+		int count = (int)auditEntryWebService.getAccountAuditEntriesCount(
+			account.getKey());
+
+		searchContainer.setTotal(count);
+
+		return searchContainer;
 	}
 
 	public String getClearResultsURL() {
