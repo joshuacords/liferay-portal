@@ -60,6 +60,8 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactory;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.search.filter.Filter;
@@ -895,6 +897,8 @@ public class LicenseKeyResourceImpl
 			return;
 		}
 
+		_logPermissionError(contact);
+
 		throw new PrincipalException();
 	}
 
@@ -955,6 +959,8 @@ public class LicenseKeyResourceImpl
 		else if (_isOmniAdmin()) {
 			return;
 		}
+
+		_logPermissionError(contact);
 
 		throw new PrincipalException();
 	}
@@ -1503,6 +1509,28 @@ public class LicenseKeyResourceImpl
 		return false;
 	}
 
+	private void _logPermissionError(Contact contact) {
+		StringBundler sb = new StringBundler(9);
+
+		if (contact != null) {
+			sb.append(contact.getEmailAddress());
+			sb.append(StringPool.SPACE);
+		}
+
+		sb.append(contextHttpServletRequest.getRemoteAddr());
+		sb.append(" does not have permissions to ");
+		sb.append(contextHttpServletRequest.getMethod());
+		sb.append(StringPool.SPACE);
+		sb.append(contextHttpServletRequest.getRequestURI());
+
+		if (Validator.isNotNull(contextHttpServletRequest.getQueryString())) {
+			sb.append(StringPool.QUESTION);
+			sb.append(contextHttpServletRequest.getQueryString());
+		}
+
+		_log.error(sb.toString());
+	}
+
 	private String _toCsv(
 			Collection<com.liferay.osb.provisioning.license.model.LicenseKey>
 				licenseKeys)
@@ -1699,6 +1727,9 @@ public class LicenseKeyResourceImpl
 			}
 		}
 	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		LicenseKeyResourceImpl.class);
 
 	private static final EntityModel _entityModel = new LicenseKeyEntityModel();
 

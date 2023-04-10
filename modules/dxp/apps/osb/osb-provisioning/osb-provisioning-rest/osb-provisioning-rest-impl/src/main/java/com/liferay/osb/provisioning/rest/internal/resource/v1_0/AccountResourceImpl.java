@@ -42,6 +42,7 @@ import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -248,6 +249,26 @@ public class AccountResourceImpl extends BaseAccountResourceImpl {
 		else if (_isOmniAdmin()) {
 			return;
 		}
+
+		StringBundler sb = new StringBundler(9);
+
+		if (contact != null) {
+			sb.append(contact.getEmailAddress());
+			sb.append(StringPool.SPACE);
+		}
+
+		sb.append(contextHttpServletRequest.getRemoteAddr());
+		sb.append(" does not have permissions to ");
+		sb.append(contextHttpServletRequest.getMethod());
+		sb.append(StringPool.SPACE);
+		sb.append(contextHttpServletRequest.getRequestURI());
+
+		if (Validator.isNotNull(contextHttpServletRequest.getQueryString())) {
+			sb.append(StringPool.QUESTION);
+			sb.append(contextHttpServletRequest.getQueryString());
+		}
+
+		_log.error(sb.toString());
 
 		throw new PrincipalException();
 	}

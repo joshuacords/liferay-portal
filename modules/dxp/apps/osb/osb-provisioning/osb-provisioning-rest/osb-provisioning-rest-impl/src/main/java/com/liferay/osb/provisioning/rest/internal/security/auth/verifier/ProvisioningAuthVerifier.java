@@ -148,7 +148,7 @@ public class ProvisioningAuthVerifier implements AuthVerifier {
 
 			if (Validator.isNotNull(emailAddress)) {
 				sb.append(emailAddress);
-				sb.append(StringPool.BLANK);
+				sb.append(StringPool.SPACE);
 			}
 
 			sb.append(httpServletRequest.getRemoteAddr());
