@@ -118,6 +118,8 @@ public class Field implements Serializable {
 
 	public static final String HIDDEN = "hidden";
 
+	public static final String INHERITED_ROLE_ID_ARRAY = "inheritedRoleIdArray";
+
 	public static final String KEYWORD_SEARCH = "keywordSearch";
 
 	public static final String[] KEYWORDS = {
