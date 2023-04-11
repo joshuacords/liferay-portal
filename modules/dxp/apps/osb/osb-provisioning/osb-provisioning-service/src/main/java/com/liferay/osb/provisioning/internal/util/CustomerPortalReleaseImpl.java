@@ -738,15 +738,14 @@ public class CustomerPortalReleaseImpl implements CustomerPortalRelease {
 
 		Year year = Year.now();
 
-		int curYear = year.getValue();
-
 		subscriptionSender.setContextAttribute(
 			"[$ACCOUNT_INVITATION_MESSAGE$]",
 			_getAccountInvitationMessage(accounts, resourceBundle), false);
 		subscriptionSender.setContextAttribute(
 			"[$CONTACT_ROLE_ACTIONS_LIST$]",
 			_getRoleActionsList(contact, accounts, resourceBundle), false);
-		subscriptionSender.setContextAttribute("[$YEAR$]", curYear, false);
+		subscriptionSender.setContextAttribute(
+			"[$YEAR$]", year.getValue(), false);
 		subscriptionSender.setFrom(
 			provisioningEmailAddress, "Liferay Provisioning");
 		subscriptionSender.setHtmlFormat(true);
