@@ -34,6 +34,7 @@ import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistry;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchPermissionChecker;
+import com.liferay.portal.kernel.search.SearchResultPermissionFilterFactory;
 import com.liferay.portal.kernel.search.filter.BooleanFilter;
 import com.liferay.portal.kernel.search.filter.TermFilter;
 import com.liferay.portal.kernel.search.filter.TermsFilter;
@@ -49,12 +50,17 @@ import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.search.configuration.SearchPermissionCheckerConfiguration;
+import com.liferay.portal.search.filter.FilterBuilders;
+import com.liferay.portal.search.filter.TermsSetFilter;
+import com.liferay.portal.search.filter.TermsSetFilterBuilder;
+import com.liferay.portal.search.internal.filter.TermsSetFilterImpl;
 import com.liferay.portal.search.permission.SearchPermissionDocumentContributor;
 import com.liferay.portal.search.spi.model.permission.SearchPermissionFilterContributor;
 
 import java.io.Serializable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -280,7 +286,8 @@ public class SearchPermissionCheckerImpl implements SearchPermissionChecker {
 			}
 		}
 
-		return new SearchPermissionContext(roles, usersGroupIdsRoles);
+		return new SearchPermissionContext(
+			roles, _filterBuilders, usersGroupIdsRoles);
 	}
 
 	private BooleanFilter _getPermissionBooleanFilter(
@@ -446,9 +453,17 @@ public class SearchPermissionCheckerImpl implements SearchPermissionChecker {
 			}
 		}
 
-		_add(booleanFilter, groupRolesTermsFilter);
-		_add(booleanFilter, groupsTermsFilter);
-		_add(booleanFilter, rolesTermsFilter);
+		_add(booleanFilter, groupsTermsFilter);//what's this?
+
+		if (_searchResultPermissionFilterFactory.inheritedPermissionIndexing()) {
+			_addNestedTermsSetQuery(
+				booleanFilter,
+				searchPermissionContext._inheritedRolesTermSetFilter);
+		}
+		else {
+			_add(booleanFilter, groupRolesTermsFilter);
+			_add(booleanFilter, rolesTermsFilter);
+		}
 
 		for (SearchPermissionFilterContributor
 				searchPermissionFilterContributor : _serviceTrackerList) {
@@ -463,6 +478,14 @@ public class SearchPermissionCheckerImpl implements SearchPermissionChecker {
 		}
 
 		return booleanFilter;
+	}
+
+	private void _addNestedTermsSetQuery(
+		BooleanFilter booleanFilter, TermsSetFilter termsSetFilter) {
+
+		//add nested wrapper
+
+		booleanFilter.add(termsSetFilter);
 	}
 
 	private String _getPermissionName(
@@ -494,6 +517,11 @@ public class SearchPermissionCheckerImpl implements SearchPermissionChecker {
 
 	private volatile SearchPermissionCheckerConfiguration
 		_searchPermissionCheckerConfiguration;
+
+	@Reference
+	private SearchResultPermissionFilterFactory
+		_searchResultPermissionFilterFactory;
+
 	private ServiceTrackerList<SearchPermissionFilterContributor>
 		_serviceTrackerList;
 
@@ -513,7 +541,10 @@ public class SearchPermissionCheckerImpl implements SearchPermissionChecker {
 		}
 
 		private SearchPermissionContext(
-			Set<Role> roles, List<UsersGroupIdRoles> usersGroupIdsRoles) {
+			Set<Role> roles, FilterBuilders filterBuilders,
+			List<UsersGroupIdRoles> usersGroupIdsRoles) {
+
+			_filterBuilders = filterBuilders;
 
 			_usersGroupIdsRoles = usersGroupIdsRoles;
 
@@ -527,6 +558,8 @@ public class SearchPermissionCheckerImpl implements SearchPermissionChecker {
 					regularRoleIds.add(role.getRoleId());
 				}
 
+				_inheritedRolesList.add(
+					String.valueOf(role.getRoleId()));
 				_rolesTermsFilter.addValue(String.valueOf(role.getRoleId()));
 			}
 
@@ -538,16 +571,39 @@ public class SearchPermissionCheckerImpl implements SearchPermissionChecker {
 				List<Role> groupRoles = usersGroupIdRoles._groupRoles;
 
 				for (Role groupRole : groupRoles) {
-					_groupRolesTermsFilter.addValue(
-						groupId + StringPool.DASH + groupRole.getRoleId());
+					String groupRoleId =
+						groupId + StringPool.DASH + groupRole.getRoleId();
+
+					_groupRolesTermsFilter.addValue(groupRoleId);
+					_inheritedRolesList.add(groupRoleId);
 				}
 			}
+
+			_createInheritedRolesTermsSetFilter();
 		}
+
+		private void _createInheritedRolesTermsSetFilter() {
+			TermsSetFilterBuilder termsSetFilterBuilder =
+				_filterBuilders.termsSetFilterBuilder();
+
+			termsSetFilterBuilder.setFieldName(
+				Field.INHERITED_ROLE_ID_ARRAY + StringPool.PERIOD + "roleIds");
+			termsSetFilterBuilder.setMinimumShouldMatchField(
+				Field.INHERITED_ROLE_ID_ARRAY + StringPool.PERIOD + "requiredMatches");
+			termsSetFilterBuilder.setValues(_inheritedRolesList);
+
+			_inheritedRolesTermSetFilter = termsSetFilterBuilder.build();
+		}
+
+		private FilterBuilders _filterBuilders;
 
 		private static final long serialVersionUID = 1L;
 
 		private final TermsFilter _groupRolesTermsFilter = new TermsFilter(
 			Field.GROUP_ROLE_ID);
+		private final List<String> _inheritedRolesList = new ArrayList<>();
+
+		private TermsSetFilter _inheritedRolesTermSetFilter;
 		private final long[] _regularRoleIds;
 		private final long[] _roleIds;
 		private final TermsFilter _rolesTermsFilter = new TermsFilter(
@@ -555,6 +611,9 @@ public class SearchPermissionCheckerImpl implements SearchPermissionChecker {
 		private final List<UsersGroupIdRoles> _usersGroupIdsRoles;
 
 	}
+
+	@Reference
+	private FilterBuilders _filterBuilders;
 
 	private static class UsersGroupIdRoles implements Serializable {
 
