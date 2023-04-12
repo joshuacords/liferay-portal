@@ -16,6 +16,7 @@ package com.liferay.portal.search.internal.filter;
 
 import com.liferay.portal.search.filter.DateRangeFilterBuilder;
 import com.liferay.portal.search.filter.FilterBuilders;
+import com.liferay.portal.search.filter.QueryFilterBuilder;
 import com.liferay.portal.search.filter.TermsSetFilterBuilder;
 
 import org.osgi.service.component.annotations.Component;
@@ -29,6 +30,11 @@ public class FilterBuildersImpl implements FilterBuilders {
 	@Override
 	public DateRangeFilterBuilder dateRangeFilterBuilder() {
 		return new DateRangeFilterBuilderImpl();
+	}
+
+	@Override
+	public QueryFilterBuilder queryFilterBuilder() {
+		return new QueryFilterBuilderImpl();
 	}
 
 	@Override
