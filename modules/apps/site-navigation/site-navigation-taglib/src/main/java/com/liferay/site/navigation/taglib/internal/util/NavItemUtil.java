@@ -175,8 +175,10 @@ public class NavItemUtil {
 							rootLayoutUuid, layout.getGroupId(), true);
 				}
 
-				rootNavItem = new NavItem(
-					httpServletRequest, themeDisplay, rootLayout, null);
+				if (rootLayout != null) {
+					rootNavItem = new NavItem(
+						httpServletRequest, themeDisplay, rootLayout, null);
+				}
 			}
 			else {
 				navItems = NavItem.fromLayouts(
