@@ -32,12 +32,18 @@ import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Indexer;
 import com.liferay.portal.kernel.search.IndexerRegistry;
+import com.liferay.portal.kernel.search.Query;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchPermissionChecker;
 import com.liferay.portal.kernel.search.SearchResultPermissionFilterFactory;
+import com.liferay.portal.kernel.search.TermQuery;
 import com.liferay.portal.kernel.search.filter.BooleanFilter;
+import com.liferay.portal.kernel.search.filter.QueryFilter;
 import com.liferay.portal.kernel.search.filter.TermFilter;
 import com.liferay.portal.kernel.search.filter.TermsFilter;
+import com.liferay.portal.kernel.search.generic.NestedQuery;
+import com.liferay.portal.kernel.search.generic.StringQuery;
+import com.liferay.portal.kernel.search.generic.TermQueryImpl;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.PermissionCheckerFactory;
@@ -54,7 +60,10 @@ import com.liferay.portal.search.filter.FilterBuilders;
 import com.liferay.portal.search.filter.TermsSetFilter;
 import com.liferay.portal.search.filter.TermsSetFilterBuilder;
 import com.liferay.portal.search.internal.filter.TermsSetFilterImpl;
+import com.liferay.portal.search.internal.query.NestedQueryImpl;
+import com.liferay.portal.search.internal.query.TermsSetQueryImpl;
 import com.liferay.portal.search.permission.SearchPermissionDocumentContributor;
+import com.liferay.portal.search.query.TermsSetQuery;
 import com.liferay.portal.search.spi.model.permission.SearchPermissionFilterContributor;
 
 import java.io.Serializable;
@@ -483,9 +492,18 @@ public class SearchPermissionCheckerImpl implements SearchPermissionChecker {
 	private void _addNestedTermsSetQuery(
 		BooleanFilter booleanFilter, TermsSetFilter termsSetFilter) {
 
-		//add nested wrapper
+		TermsSetQuery termsSetQuery = new TermsSetQueryImpl(
+			Field.INHERITED_ROLE_ID_ARRAY + StringPool.PERIOD + "roleIds",
+			Arrays.asList("20107")
+		);
 
-		booleanFilter.add(termsSetFilter);
+		NestedQuery nestedQuery =
+			new NestedQuery(
+				Field.INHERITED_ROLE_ID_ARRAY, termsSetQuery);
+
+		QueryFilter queryFilter = new QueryFilter(nestedQuery);
+
+		booleanFilter.add(queryFilter);
 	}
 
 	private String _getPermissionName(
