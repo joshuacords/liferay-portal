@@ -11330,6 +11330,17 @@ session.cookie.use.full.hostname=true
 				</echo>
 			</then>
 			<elseif>
+				<and>
+					<equals arg1="${test.liferay.virtual.instance}" arg2="true" />
+					<isset property="env.JENKINS_HOME" />
+				</and>
+				<then>
+					<echo append="true" file="${test.ext.properties.file}">
+						test.skip.tear.down=false
+					</echo>
+				</then>
+			</elseif>
+			<elseif>
 				<isset property="test.skip.tear.down" />
 				<then>
 					<echo append="true" file="${test.ext.properties.file}">
@@ -11366,6 +11377,17 @@ session.cookie.use.full.hostname=true
 					</echo>
 				</then>
 			</elseif>
+		</if>
+
+		<get-testcase-property property.name="test.liferay.virtual.instance" />
+
+		<if>
+			<isset property="${test.liferay.virtual.instance}" />
+			<then>
+				<echo append="true" file="${test.ext.properties.file}">
+					test.liferay.virtual.instance=${test.liferay.virtual.instance}
+				</echo>
+			</then>
 		</if>
 
 		<if>
