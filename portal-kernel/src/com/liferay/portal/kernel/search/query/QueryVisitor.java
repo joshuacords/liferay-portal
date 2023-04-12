@@ -39,6 +39,8 @@ public interface QueryVisitor<T> {
 
 	public T visitQuery(FuzzyQuery fuzzyQuery);
 
+	public T visitQuery(LegacyQuery legacyQuery);
+
 	public T visitQuery(MatchAllQuery matchAllQuery);
 
 	public T visitQuery(MatchQuery matchQuery);
