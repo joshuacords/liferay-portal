@@ -24,6 +24,8 @@ public interface FilterBuilders {
 
 	public DateRangeFilterBuilder dateRangeFilterBuilder();
 
+	public QueryFilterBuilder queryFilterBuilder();
+
 	public TermsSetFilterBuilder termsSetFilterBuilder();
 
 }
