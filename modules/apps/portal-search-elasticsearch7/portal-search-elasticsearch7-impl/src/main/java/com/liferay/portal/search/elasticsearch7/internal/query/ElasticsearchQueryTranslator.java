@@ -14,7 +14,6 @@
 
 package com.liferay.portal.search.elasticsearch7.internal.query;
 
-import com.liferay.portal.kernel.search.TermRangeQuery;
 import com.liferay.portal.search.query.BooleanQuery;
 import com.liferay.portal.search.query.BoostingQuery;
 import com.liferay.portal.search.query.CommonTermsQuery;
@@ -83,95 +82,6 @@ public class ElasticsearchQueryTranslator
 		}
 
 		return queryBuilder;
-	}
-
-	@Override
-	public QueryBuilder visitQuery(com.liferay.portal.kernel.search.Query query) {
-//		QueryBuilder queryBuilder = query.accept(this);
-//
-//		if (queryBuilder == null) {
-////			queryBuilder = ElasticsearchQueryTranslator.visitQuery(query);
-//		}
-//
-//		return queryBuilder;
-
-		return null;
-	}
-
-	@Override
-	public QueryBuilder visit(Query query) {
-		return null;
-	}
-
-	@Override
-	public Object visitQuery(
-		com.liferay.portal.kernel.search.BooleanQuery booleanQuery) {
-		return null;
-	}
-
-	@Override
-	public Object visitQuery(
-		com.liferay.portal.kernel.search.generic.DisMaxQuery disMaxQuery) {
-		return null;
-	}
-
-	@Override
-	public Object visitQuery(
-		com.liferay.portal.kernel.search.generic.FuzzyQuery fuzzyQuery) {
-		return null;
-	}
-
-	@Override
-	public Object visitQuery(
-		com.liferay.portal.kernel.search.generic.MatchAllQuery matchAllQuery) {
-		return null;
-	}
-
-	@Override
-	public Object visitQuery(
-		com.liferay.portal.kernel.search.generic.MatchQuery matchQuery) {
-		return null;
-	}
-
-	@Override
-	public Object visitQuery(
-		com.liferay.portal.kernel.search.generic.MoreLikeThisQuery moreLikeThisQuery) {
-		return null;
-	}
-
-	@Override
-	public Object visitQuery(
-		com.liferay.portal.kernel.search.generic.MultiMatchQuery multiMatchQuery) {
-		return null;
-	}
-
-	@Override
-	public Object visitQuery(
-		com.liferay.portal.kernel.search.generic.NestedQuery nestedQuery) {
-		return null;
-	}
-
-	@Override
-	public Object visitQuery(
-		com.liferay.portal.kernel.search.generic.StringQuery stringQuery) {
-		return null;
-	}
-
-	@Override
-	public Object visitQuery(
-		com.liferay.portal.kernel.search.TermQuery termQuery) {
-		return null;
-	}
-
-	@Override
-	public Object visitQuery(TermRangeQuery termRangeQuery) {
-		return null;
-	}
-
-	@Override
-	public Object visitQuery(
-		com.liferay.portal.kernel.search.WildcardQuery wildcardQuery) {
-		return null;
 	}
 
 	@Override

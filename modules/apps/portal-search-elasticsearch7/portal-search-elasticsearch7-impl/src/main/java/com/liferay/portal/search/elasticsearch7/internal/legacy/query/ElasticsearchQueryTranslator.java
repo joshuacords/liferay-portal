@@ -112,18 +112,6 @@ public class ElasticsearchQueryTranslator
 		return nestedQueryTranslator.translate(nestedQuery, this);
 	}
 
-
-	@Override
-	public QueryBuilder visitQuery(Query query) {
-		QueryBuilder queryBuilder = query.accept(this);
-
-		if (queryBuilder == null) {
-//			queryBuilder = ElasticsearchQueryTranslator.visitQuery(query);
-		}
-
-		return queryBuilder;
-	}
-
 	@Override
 	public QueryBuilder visitQuery(StringQuery stringQuery) {
 		return stringQueryTranslator.translate(stringQuery);
