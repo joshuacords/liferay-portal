@@ -33,17 +33,13 @@ import com.liferay.portal.kernel.search.generic.StringQuery;
  */
 public interface QueryVisitor<T> {
 
-//	public T visitQuery(
-//		com.liferay.portal.kernel.search.query.QueryVisitor<T>
-//			queryVisitor);
-
-	public T visitQuery(com.liferay.portal.kernel.search.Query query);
-
 	public T visitQuery(BooleanQuery booleanQuery);
 
 	public T visitQuery(DisMaxQuery disMaxQuery);
 
 	public T visitQuery(FuzzyQuery fuzzyQuery);
+
+	public T visitQuery(LegacyQuery legacyQuery);
 
 	public T visitQuery(MatchAllQuery matchAllQuery);
 
