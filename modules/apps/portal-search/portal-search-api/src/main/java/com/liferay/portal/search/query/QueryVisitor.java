@@ -14,6 +14,7 @@
 
 package com.liferay.portal.search.query;
 
+import com.liferay.portal.search.filter.FilterVisitor;
 import org.osgi.annotation.versioning.ProviderType;
 
 /**
@@ -21,7 +22,16 @@ import org.osgi.annotation.versioning.ProviderType;
  * @author Miguel Angelo Caldas Gallindo
  */
 @ProviderType
-public interface QueryVisitor<T> {
+public interface QueryVisitor<T> extends com.liferay.portal.kernel.search.query.QueryVisitor {
+
+	public default T visitQuery(com.liferay.portal.kernel.search.Query query) {
+//		com.liferay.portal.kernel.search.query.QueryVisitor<T>
+//			queryVisitor) {
+
+		return (T)visit((Query)query);
+	}
+
+	public T visit(Query query);
 
 	public T visit(BooleanQuery booleanQuery);
 
