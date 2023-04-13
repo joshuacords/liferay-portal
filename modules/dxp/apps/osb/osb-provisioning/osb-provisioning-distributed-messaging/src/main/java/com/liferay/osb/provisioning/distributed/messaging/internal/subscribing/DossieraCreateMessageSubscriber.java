@@ -2260,7 +2260,9 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 
 		JSONObject projectJSONObject = jsonObject.getJSONObject("_project");
 
-		if (!liferayVersion.equals(projectJSONObject.get("_liferayVersion")) ||
+		if (((projectJSONObject != null) &&
+			 !liferayVersion.equals(
+				 projectJSONObject.get("_liferayVersion"))) ||
 			Validator.isNull(account.getContactEmailAddress()) ||
 			Validator.isNull(account.getRegion()) || (parentAccount != null)) {
 
