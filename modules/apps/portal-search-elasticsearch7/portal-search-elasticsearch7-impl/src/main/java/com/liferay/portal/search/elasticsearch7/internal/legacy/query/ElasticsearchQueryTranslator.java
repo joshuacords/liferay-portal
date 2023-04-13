@@ -34,7 +34,6 @@ import com.liferay.portal.kernel.util.HashMapDictionary;
 import com.liferay.portal.search.elasticsearch7.internal.filter.QueryFilterTranslator;
 import com.liferay.portal.search.elasticsearch7.internal.filter.QueryFilterTranslatorImpl;
 
-import com.liferay.portal.search.query.LegacyQuery;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 
@@ -66,10 +65,6 @@ public class ElasticsearchQueryTranslator
 		}
 
 		return queryBuilder;
-	}
-
-	public QueryBuilder visitQuery(LegacyQuery legacyQuery) {
-		return null;
 	}
 
 	@Override
