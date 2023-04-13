@@ -16,13 +16,13 @@ public class LegacyQueryImpl implements LegacyQuery {
 
 	@Override
 	public <T> T accept(QueryVisitor<T> queryVisitor) {
-		return ((com.liferay.portal.search.query.QueryVisitor<T>)queryVisitor).visitQuery(this);
-	}
+		Class<?> clazz = queryVisitor.getClass();
+		if (clazz.getSimpleName().equals("com..liferay.portal.search.elasticsearch7.internal.legacy.query.ElasticsearchQueryTranslator")) {
+			return ((ElasticsearchQueryTranslator)queryVisitor).visitQuery(this);
+		}
 
-//	@Override
-//	public <T> T accept(com.liferay.portal.kernel.search.query.QueryVisitor<T> queryVisitor) {
-//		return ((com.liferay.portal.search.query.QueryVisitor<T>)queryVisitor).visitQuery(this);
-//	}
+		return null;
+	}
 
 	@Override
 	public float getBoost() {
