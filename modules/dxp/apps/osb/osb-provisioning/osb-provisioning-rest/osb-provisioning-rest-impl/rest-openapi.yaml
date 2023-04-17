@@ -345,6 +345,14 @@ paths:
                       items:
                           type: string
                       type: array
+                - in: query
+                  name: firstName
+                  schema:
+                      type: string
+                - in: query
+                  name: lastName
+                  schema:
+                      type: string
             responses:
                 204:
                     content:

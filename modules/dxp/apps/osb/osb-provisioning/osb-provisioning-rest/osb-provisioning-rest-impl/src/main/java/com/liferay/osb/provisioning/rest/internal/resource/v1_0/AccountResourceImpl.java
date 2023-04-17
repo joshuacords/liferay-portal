@@ -92,14 +92,15 @@ public class AccountResourceImpl extends BaseAccountResourceImpl {
 	@Override
 	public void putAccountContactByEmailAddresContactEmailAddressRole(
 			String accountKey, String contactEmailAddress,
-			String[] contactRoleNames)
+			String[] contactRoleNames, String firstName, String lastName)
 		throws Exception {
 
 		_checkAccountAdminContactRole(accountKey);
 
 		try {
 			_assignAccountContactRole(
-				accountKey, contactEmailAddress, contactRoleNames);
+				accountKey, contactEmailAddress, contactRoleNames, firstName,
+				lastName);
 		}
 		catch (Exception exception) {
 			if (exception instanceof ContactAccountRoleAlreadyExistsException ||
@@ -130,7 +131,7 @@ public class AccountResourceImpl extends BaseAccountResourceImpl {
 
 	private void _assignAccountContactRole(
 			String accountKey, String contactEmailAddress,
-			String[] contactRoleNames)
+			String[] contactRoleNames, String firstName, String lastName)
 		throws Exception {
 
 		String domain = contactEmailAddress.substring(
@@ -186,6 +187,11 @@ public class AccountResourceImpl extends BaseAccountResourceImpl {
 			}
 		}
 		else {
+			if (Validator.isNull(firstName) || Validator.isNull(lastName)) {
+				throw new ValidationException(
+					"New contact creation needs first and last name");
+			}
+
 			String subscriptionState = _accountReader.getSubscriptionState(
 				account);
 
@@ -193,8 +199,7 @@ public class AccountResourceImpl extends BaseAccountResourceImpl {
 					ProductPurchaseConstants.STATE_ACTIVE)) {
 
 				_contactIdentityProvider.createContact(
-					contactEmailAddress, contactEmailAddress, StringPool.BLANK,
-					contactEmailAddress);
+					contactEmailAddress, firstName, StringPool.BLANK, lastName);
 			}
 			else {
 				throw new NoSuchContactException(
