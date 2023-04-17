@@ -52,7 +52,7 @@ export function formatDate(date) {
  * indicated.
  * @param {Object|string} startDate Starting point in which to generate the new
  * date from. If invalid or missing, will default to today's date.
- * @param {number} offset Offset in years (positive or negative) from the
+ * @param {number} offset Offset in days (positive or negative) from the
  * starting date.
  * @returns {Object} Date object.
  */

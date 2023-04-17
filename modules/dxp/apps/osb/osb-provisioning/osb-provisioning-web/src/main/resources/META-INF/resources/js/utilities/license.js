@@ -54,6 +54,9 @@ export function deriveLicenseDates(
 	if (isUnrestrictedPermanentLicenseType) {
 		expirationDate = generateNewDateByYear(expirationDate, 100);
 	}
+	else {
+		expirationDate = generateNewDateByDay(expirationDate, 150);
+	}
 
 	return {
 		licenseExpirationDate: expirationDate,
