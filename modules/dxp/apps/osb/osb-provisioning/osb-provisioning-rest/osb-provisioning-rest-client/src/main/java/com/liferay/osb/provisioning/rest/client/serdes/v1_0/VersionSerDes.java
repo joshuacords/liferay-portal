@@ -23,7 +23,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.stream.Stream;
 
 import javax.annotation.Generated;
 
@@ -148,14 +147,17 @@ public class VersionSerDes {
 			}
 			else if (Objects.equals(jsonParserFieldName, "types")) {
 				if (jsonParserFieldValue != null) {
-					version.setTypes(
-						Stream.of(
-							toStrings((Object[])jsonParserFieldValue)
-						).map(
-							object -> TypeSerDes.toDTO((String)object)
-						).toArray(
-							size -> new Type[size]
-						));
+					Object[] jsonParserFieldValues =
+						(Object[])jsonParserFieldValue;
+
+					Type[] typesArray = new Type[jsonParserFieldValues.length];
+
+					for (int i = 0; i < typesArray.length; i++) {
+						typesArray[i] = TypeSerDes.toDTO(
+							(String)jsonParserFieldValues[i]);
+					}
+
+					version.setTypes(typesArray);
 				}
 			}
 		}

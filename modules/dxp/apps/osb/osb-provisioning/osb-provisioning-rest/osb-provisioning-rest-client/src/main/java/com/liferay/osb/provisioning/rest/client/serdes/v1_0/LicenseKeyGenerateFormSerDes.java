@@ -24,7 +24,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.stream.Stream;
 
 import javax.annotation.Generated;
 
@@ -223,27 +222,36 @@ public class LicenseKeyGenerateFormSerDes {
 			}
 			else if (Objects.equals(jsonParserFieldName, "subscriptionTerms")) {
 				if (jsonParserFieldValue != null) {
+					Object[] jsonParserFieldValues =
+						(Object[])jsonParserFieldValue;
+
+					SubscriptionTerm[] subscriptionTermsArray =
+						new SubscriptionTerm[jsonParserFieldValues.length];
+
+					for (int i = 0; i < subscriptionTermsArray.length; i++) {
+						subscriptionTermsArray[i] =
+							SubscriptionTermSerDes.toDTO(
+								(String)jsonParserFieldValues[i]);
+					}
+
 					licenseKeyGenerateForm.setSubscriptionTerms(
-						Stream.of(
-							toStrings((Object[])jsonParserFieldValue)
-						).map(
-							object -> SubscriptionTermSerDes.toDTO(
-								(String)object)
-						).toArray(
-							size -> new SubscriptionTerm[size]
-						));
+						subscriptionTermsArray);
 				}
 			}
 			else if (Objects.equals(jsonParserFieldName, "versions")) {
 				if (jsonParserFieldValue != null) {
-					licenseKeyGenerateForm.setVersions(
-						Stream.of(
-							toStrings((Object[])jsonParserFieldValue)
-						).map(
-							object -> VersionSerDes.toDTO((String)object)
-						).toArray(
-							size -> new Version[size]
-						));
+					Object[] jsonParserFieldValues =
+						(Object[])jsonParserFieldValue;
+
+					Version[] versionsArray =
+						new Version[jsonParserFieldValues.length];
+
+					for (int i = 0; i < versionsArray.length; i++) {
+						versionsArray[i] = VersionSerDes.toDTO(
+							(String)jsonParserFieldValues[i]);
+					}
+
+					licenseKeyGenerateForm.setVersions(versionsArray);
 				}
 			}
 		}

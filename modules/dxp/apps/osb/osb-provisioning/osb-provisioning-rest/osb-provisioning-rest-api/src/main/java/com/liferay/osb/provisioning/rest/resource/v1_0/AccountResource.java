@@ -58,7 +58,7 @@ public interface AccountResource {
 
 	public void putAccountContactByEmailAddresContactEmailAddressRole(
 			String accountKey, String contactEmailAddress,
-			String[] contactRoleNames)
+			String[] contactRoleNames, String firstName, String lastName)
 		throws Exception;
 
 	public default void setContextAcceptLanguage(

@@ -22,8 +22,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.annotation.Generated;
 
@@ -51,13 +49,13 @@ public interface AccountResource {
 
 	public void putAccountContactByEmailAddresContactEmailAddressRole(
 			String accountKey, String contactEmailAddress,
-			String[] contactRoleNames)
+			String[] contactRoleNames, String firstName, String lastName)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse
 			putAccountContactByEmailAddresContactEmailAddressRoleHttpResponse(
 				String accountKey, String contactEmailAddress,
-				String[] contactRoleNames)
+				String[] contactRoleNames, String firstName, String lastName)
 		throws Exception;
 
 	public static class Builder {
@@ -192,16 +190,6 @@ public interface AccountResource {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
 
-			httpInvoker.body(
-				Stream.of(
-					contactRoleNames
-				).map(
-					value -> "\"" + String.valueOf(value) + "\""
-				).collect(
-					Collectors.toList()
-				).toString(),
-				"application/json");
-
 			if (_builder._locale != null) {
 				httpInvoker.header(
 					"Accept-Language", _builder._locale.toLanguageTag());
@@ -245,12 +233,13 @@ public interface AccountResource {
 
 		public void putAccountContactByEmailAddresContactEmailAddressRole(
 				String accountKey, String contactEmailAddress,
-				String[] contactRoleNames)
+				String[] contactRoleNames, String firstName, String lastName)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
 				putAccountContactByEmailAddresContactEmailAddressRoleHttpResponse(
-					accountKey, contactEmailAddress, contactRoleNames);
+					accountKey, contactEmailAddress, contactRoleNames,
+					firstName, lastName);
 
 			String content = httpResponse.getContent();
 
@@ -292,20 +281,11 @@ public interface AccountResource {
 		public HttpInvoker.HttpResponse
 				putAccountContactByEmailAddresContactEmailAddressRoleHttpResponse(
 					String accountKey, String contactEmailAddress,
-					String[] contactRoleNames)
+					String[] contactRoleNames, String firstName,
+					String lastName)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
-
-			httpInvoker.body(
-				Stream.of(
-					contactRoleNames
-				).map(
-					value -> "\"" + String.valueOf(value) + "\""
-				).collect(
-					Collectors.toList()
-				).toString(),
-				"application/json");
 
 			if (_builder._locale != null) {
 				httpInvoker.header(
@@ -332,6 +312,14 @@ public interface AccountResource {
 						"contactRoleNames",
 						String.valueOf(contactRoleNames[i]));
 				}
+			}
+
+			if (firstName != null) {
+				httpInvoker.parameter("firstName", String.valueOf(firstName));
+			}
+
+			if (lastName != null) {
+				httpInvoker.parameter("lastName", String.valueOf(lastName));
 			}
 
 			httpInvoker.path(
