@@ -149,11 +149,7 @@ definition {
 		var testLiferayVirtualInstance = PropsUtil.get("test.liferay.virtual.instance");
 
 		if (${testLiferayVirtualInstance} == "true") {
-			HeadlessPortalInstanceAPI.cleanAllPortalInstances(authenticationMethod = ${authenticationMethod});
-
-			if (${testPortalInstance} == "true") {
-				SignIn.signInPortalInstanceSetUp();
-			}
+			SignIn.signInPortalInstanceSetUp();
 		}
 	}
 
