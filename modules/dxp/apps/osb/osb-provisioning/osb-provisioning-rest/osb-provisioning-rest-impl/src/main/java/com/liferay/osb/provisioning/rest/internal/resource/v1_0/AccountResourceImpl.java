@@ -187,16 +187,16 @@ public class AccountResourceImpl extends BaseAccountResourceImpl {
 			}
 		}
 		else {
-			if (Validator.isNull(firstName) || Validator.isNull(lastName)) {
-				throw new ValidationException(
-					"New contact creation needs first and last name");
-			}
-
 			String subscriptionState = _accountReader.getSubscriptionState(
 				account);
 
 			if (subscriptionState.equals(
 					ProductPurchaseConstants.STATE_ACTIVE)) {
+
+				if (Validator.isNull(firstName) && Validator.isNull(lastName)) {
+					firstName = contactEmailAddress;
+					lastName = contactEmailAddress;
+				}
 
 				_contactIdentityProvider.createContact(
 					contactEmailAddress, firstName, StringPool.BLANK, lastName);
