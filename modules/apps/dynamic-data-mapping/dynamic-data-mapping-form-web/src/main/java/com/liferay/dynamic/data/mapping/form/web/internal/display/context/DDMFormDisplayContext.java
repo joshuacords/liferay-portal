@@ -49,10 +49,14 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.model.Role;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.model.role.RoleConstants;
 import com.liferay.portal.kernel.portlet.LiferayPortletURL;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.service.GroupLocalService;
+import com.liferay.portal.kernel.service.RoleLocalService;
+import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.service.WorkflowDefinitionLinkLocalService;
 import com.liferay.portal.kernel.service.permission.PortletPermissionUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
@@ -104,6 +108,7 @@ public class DDMFormDisplayContext {
 		DDMFormValuesMerger ddmFormValuesMerger,
 		DDMFormWebConfiguration ddmFormWebConfiguration,
 		GroupLocalService groupLocalService, JSONFactory jsonFactory,
+		RoleLocalService roleLocalService, UserLocalService userLocalService,
 		WorkflowDefinitionLinkLocalService workflowDefinitionLinkLocalService,
 		Portal portal) {
 
@@ -122,6 +127,8 @@ public class DDMFormDisplayContext {
 		_ddmFormWebConfiguration = ddmFormWebConfiguration;
 		_groupLocalService = groupLocalService;
 		_jsonFactory = jsonFactory;
+		_roleLocalService = roleLocalService;
+		_userLocalService = userLocalService;
 		_workflowDefinitionLinkLocalService =
 			workflowDefinitionLinkLocalService;
 		_portal = portal;
@@ -399,10 +406,15 @@ public class DDMFormDisplayContext {
 			if ((group != null) && group.isStagedRemotely()) {
 				ThemeDisplay themeDisplay = getThemeDisplay();
 
+				Role role = _roleLocalService.getRole(
+					themeDisplay.getCompanyId(), RoleConstants.ADMINISTRATOR);
+
+				List<User> users = _userLocalService.getRoleUsers(
+					role.getRoleId());
+
 				if (!DDMFormInstanceStagingUtil.
 						isFormInstancePublishedToRemoteLive(
-							group, themeDisplay.getUser(),
-							formInstance.getUuid())) {
+							group, users.get(0), formInstance.getUuid())) {
 
 					return false;
 				}
@@ -825,7 +837,9 @@ public class DDMFormDisplayContext {
 	private final Portal _portal;
 	private final RenderRequest _renderRequest;
 	private final RenderResponse _renderResponse;
+	private final RoleLocalService _roleLocalService;
 	private Boolean _showConfigurationIcon;
+	private final UserLocalService _userLocalService;
 	private final WorkflowDefinitionLinkLocalService
 		_workflowDefinitionLinkLocalService;
 
