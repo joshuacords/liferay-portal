@@ -321,6 +321,7 @@ public class TransformAccount {
 			return 0;
 		}
 
+		boolean analyticsCloud = false;
 		boolean managedServices = false;
 		int supportSeatAddons = 0;
 		int productionInstances = 0;
@@ -351,7 +352,7 @@ public class TransformAccount {
 				curName.equals(
 					ProductConstants.NAME_ANALYTICS_CLOUD_ENTERPRISE)) {
 
-				return -1;
+				analyticsCloud = true;
 			}
 
 			if (curName.equals(
@@ -433,6 +434,10 @@ public class TransformAccount {
 		}
 
 		if (productionInstances <= 0) {
+			if (analyticsCloud) {
+				return -1;
+			}
+
 			return maxSupportSeatCount;
 		}
 
