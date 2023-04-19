@@ -906,10 +906,10 @@ definition {
 
 		Click(
 			key_append = "",
-			key_URL = "/DM+Document+Title.jpg",
+			key_URL = "/DM%20Document%20Title.jpg",
 			locator1 = "Fragment#FRAGMENT_LINK");
 
-		AssertElementPresent(locator1 = "//img[contains(@src,'DM+Document+Title.jpg')]");
+		AssertElementPresent(locator1 = "//img[contains(@src,'DM%20Document%20Title.jpg')]");
 	}
 
 	@priority = 5
