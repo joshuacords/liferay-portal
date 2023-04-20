@@ -332,21 +332,6 @@ public abstract class BaseTaxonomyCategoryResourceImpl
 		TaxonomyCategory existingTaxonomyCategory = getTaxonomyCategory(
 			taxonomyCategoryId);
 
-		if (taxonomyCategory.getAvailableLanguages() != null) {
-			existingTaxonomyCategory.setAvailableLanguages(
-				taxonomyCategory.getAvailableLanguages());
-		}
-
-		if (taxonomyCategory.getDateCreated() != null) {
-			existingTaxonomyCategory.setDateCreated(
-				taxonomyCategory.getDateCreated());
-		}
-
-		if (taxonomyCategory.getDateModified() != null) {
-			existingTaxonomyCategory.setDateModified(
-				taxonomyCategory.getDateModified());
-		}
-
 		if (taxonomyCategory.getDescription() != null) {
 			existingTaxonomyCategory.setDescription(
 				taxonomyCategory.getDescription());
@@ -364,11 +349,6 @@ public abstract class BaseTaxonomyCategoryResourceImpl
 		if (taxonomyCategory.getName_i18n() != null) {
 			existingTaxonomyCategory.setName_i18n(
 				taxonomyCategory.getName_i18n());
-		}
-
-		if (taxonomyCategory.getNumberOfTaxonomyCategories() != null) {
-			existingTaxonomyCategory.setNumberOfTaxonomyCategories(
-				taxonomyCategory.getNumberOfTaxonomyCategories());
 		}
 
 		if (taxonomyCategory.getViewableBy() != null) {

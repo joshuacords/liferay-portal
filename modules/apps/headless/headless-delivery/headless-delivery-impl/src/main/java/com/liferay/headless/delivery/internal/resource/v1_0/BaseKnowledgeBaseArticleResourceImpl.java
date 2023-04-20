@@ -239,34 +239,14 @@ public abstract class BaseKnowledgeBaseArticleResourceImpl
 		KnowledgeBaseArticle existingKnowledgeBaseArticle =
 			getKnowledgeBaseArticle(knowledgeBaseArticleId);
 
-		if (knowledgeBaseArticle.getActions() != null) {
-			existingKnowledgeBaseArticle.setActions(
-				knowledgeBaseArticle.getActions());
-		}
-
 		if (knowledgeBaseArticle.getArticleBody() != null) {
 			existingKnowledgeBaseArticle.setArticleBody(
 				knowledgeBaseArticle.getArticleBody());
 		}
 
-		if (knowledgeBaseArticle.getDateCreated() != null) {
-			existingKnowledgeBaseArticle.setDateCreated(
-				knowledgeBaseArticle.getDateCreated());
-		}
-
-		if (knowledgeBaseArticle.getDateModified() != null) {
-			existingKnowledgeBaseArticle.setDateModified(
-				knowledgeBaseArticle.getDateModified());
-		}
-
 		if (knowledgeBaseArticle.getDescription() != null) {
 			existingKnowledgeBaseArticle.setDescription(
 				knowledgeBaseArticle.getDescription());
-		}
-
-		if (knowledgeBaseArticle.getEncodingFormat() != null) {
-			existingKnowledgeBaseArticle.setEncodingFormat(
-				knowledgeBaseArticle.getEncodingFormat());
 		}
 
 		if (knowledgeBaseArticle.getFriendlyUrlPath() != null) {
@@ -279,29 +259,9 @@ public abstract class BaseKnowledgeBaseArticleResourceImpl
 				knowledgeBaseArticle.getKeywords());
 		}
 
-		if (knowledgeBaseArticle.getNumberOfAttachments() != null) {
-			existingKnowledgeBaseArticle.setNumberOfAttachments(
-				knowledgeBaseArticle.getNumberOfAttachments());
-		}
-
-		if (knowledgeBaseArticle.getNumberOfKnowledgeBaseArticles() != null) {
-			existingKnowledgeBaseArticle.setNumberOfKnowledgeBaseArticles(
-				knowledgeBaseArticle.getNumberOfKnowledgeBaseArticles());
-		}
-
 		if (knowledgeBaseArticle.getParentKnowledgeBaseFolderId() != null) {
 			existingKnowledgeBaseArticle.setParentKnowledgeBaseFolderId(
 				knowledgeBaseArticle.getParentKnowledgeBaseFolderId());
-		}
-
-		if (knowledgeBaseArticle.getSiteId() != null) {
-			existingKnowledgeBaseArticle.setSiteId(
-				knowledgeBaseArticle.getSiteId());
-		}
-
-		if (knowledgeBaseArticle.getSubscribed() != null) {
-			existingKnowledgeBaseArticle.setSubscribed(
-				knowledgeBaseArticle.getSubscribed());
 		}
 
 		if (knowledgeBaseArticle.getTaxonomyCategoryIds() != null) {

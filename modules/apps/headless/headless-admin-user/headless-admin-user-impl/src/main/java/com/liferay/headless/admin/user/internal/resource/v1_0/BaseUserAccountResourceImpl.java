@@ -483,18 +483,6 @@ public abstract class BaseUserAccountResourceImpl
 			existingUserAccount.setBirthDate(userAccount.getBirthDate());
 		}
 
-		if (userAccount.getDashboardURL() != null) {
-			existingUserAccount.setDashboardURL(userAccount.getDashboardURL());
-		}
-
-		if (userAccount.getDateCreated() != null) {
-			existingUserAccount.setDateCreated(userAccount.getDateCreated());
-		}
-
-		if (userAccount.getDateModified() != null) {
-			existingUserAccount.setDateModified(userAccount.getDateModified());
-		}
-
 		if (userAccount.getEmailAddress() != null) {
 			existingUserAccount.setEmailAddress(userAccount.getEmailAddress());
 		}
@@ -517,24 +505,8 @@ public abstract class BaseUserAccountResourceImpl
 				userAccount.getHonorificSuffix());
 		}
 
-		if (userAccount.getImage() != null) {
-			existingUserAccount.setImage(userAccount.getImage());
-		}
-
 		if (userAccount.getJobTitle() != null) {
 			existingUserAccount.setJobTitle(userAccount.getJobTitle());
-		}
-
-		if (userAccount.getKeywords() != null) {
-			existingUserAccount.setKeywords(userAccount.getKeywords());
-		}
-
-		if (userAccount.getName() != null) {
-			existingUserAccount.setName(userAccount.getName());
-		}
-
-		if (userAccount.getProfileURL() != null) {
-			existingUserAccount.setProfileURL(userAccount.getProfileURL());
 		}
 
 		preparePatch(userAccount, existingUserAccount);

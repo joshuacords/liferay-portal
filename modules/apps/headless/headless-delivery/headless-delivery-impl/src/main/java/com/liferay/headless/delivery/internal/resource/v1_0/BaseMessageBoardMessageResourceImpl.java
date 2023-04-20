@@ -239,11 +239,6 @@ public abstract class BaseMessageBoardMessageResourceImpl
 		MessageBoardMessage existingMessageBoardMessage =
 			getMessageBoardMessage(messageBoardMessageId);
 
-		if (messageBoardMessage.getActions() != null) {
-			existingMessageBoardMessage.setActions(
-				messageBoardMessage.getActions());
-		}
-
 		if (messageBoardMessage.getAnonymous() != null) {
 			existingMessageBoardMessage.setAnonymous(
 				messageBoardMessage.getAnonymous());
@@ -252,21 +247,6 @@ public abstract class BaseMessageBoardMessageResourceImpl
 		if (messageBoardMessage.getArticleBody() != null) {
 			existingMessageBoardMessage.setArticleBody(
 				messageBoardMessage.getArticleBody());
-		}
-
-		if (messageBoardMessage.getDateCreated() != null) {
-			existingMessageBoardMessage.setDateCreated(
-				messageBoardMessage.getDateCreated());
-		}
-
-		if (messageBoardMessage.getDateModified() != null) {
-			existingMessageBoardMessage.setDateModified(
-				messageBoardMessage.getDateModified());
-		}
-
-		if (messageBoardMessage.getEncodingFormat() != null) {
-			existingMessageBoardMessage.setEncodingFormat(
-				messageBoardMessage.getEncodingFormat());
 		}
 
 		if (messageBoardMessage.getHeadline() != null) {
@@ -279,21 +259,6 @@ public abstract class BaseMessageBoardMessageResourceImpl
 				messageBoardMessage.getKeywords());
 		}
 
-		if (messageBoardMessage.getMessageBoardThreadId() != null) {
-			existingMessageBoardMessage.setMessageBoardThreadId(
-				messageBoardMessage.getMessageBoardThreadId());
-		}
-
-		if (messageBoardMessage.getNumberOfMessageBoardAttachments() != null) {
-			existingMessageBoardMessage.setNumberOfMessageBoardAttachments(
-				messageBoardMessage.getNumberOfMessageBoardAttachments());
-		}
-
-		if (messageBoardMessage.getNumberOfMessageBoardMessages() != null) {
-			existingMessageBoardMessage.setNumberOfMessageBoardMessages(
-				messageBoardMessage.getNumberOfMessageBoardMessages());
-		}
-
 		if (messageBoardMessage.getParentMessageBoardMessageId() != null) {
 			existingMessageBoardMessage.setParentMessageBoardMessageId(
 				messageBoardMessage.getParentMessageBoardMessageId());
@@ -302,16 +267,6 @@ public abstract class BaseMessageBoardMessageResourceImpl
 		if (messageBoardMessage.getShowAsAnswer() != null) {
 			existingMessageBoardMessage.setShowAsAnswer(
 				messageBoardMessage.getShowAsAnswer());
-		}
-
-		if (messageBoardMessage.getSiteId() != null) {
-			existingMessageBoardMessage.setSiteId(
-				messageBoardMessage.getSiteId());
-		}
-
-		if (messageBoardMessage.getSubscribed() != null) {
-			existingMessageBoardMessage.setSubscribed(
-				messageBoardMessage.getSubscribed());
 		}
 
 		if (messageBoardMessage.getViewableBy() != null) {

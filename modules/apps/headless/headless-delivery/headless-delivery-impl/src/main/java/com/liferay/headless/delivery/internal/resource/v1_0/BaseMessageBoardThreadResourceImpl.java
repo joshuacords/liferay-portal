@@ -397,29 +397,9 @@ public abstract class BaseMessageBoardThreadResourceImpl
 		MessageBoardThread existingMessageBoardThread = getMessageBoardThread(
 			messageBoardThreadId);
 
-		if (messageBoardThread.getActions() != null) {
-			existingMessageBoardThread.setActions(
-				messageBoardThread.getActions());
-		}
-
 		if (messageBoardThread.getArticleBody() != null) {
 			existingMessageBoardThread.setArticleBody(
 				messageBoardThread.getArticleBody());
-		}
-
-		if (messageBoardThread.getDateCreated() != null) {
-			existingMessageBoardThread.setDateCreated(
-				messageBoardThread.getDateCreated());
-		}
-
-		if (messageBoardThread.getDateModified() != null) {
-			existingMessageBoardThread.setDateModified(
-				messageBoardThread.getDateModified());
-		}
-
-		if (messageBoardThread.getEncodingFormat() != null) {
-			existingMessageBoardThread.setEncodingFormat(
-				messageBoardThread.getEncodingFormat());
 		}
 
 		if (messageBoardThread.getHeadline() != null) {
@@ -432,29 +412,9 @@ public abstract class BaseMessageBoardThreadResourceImpl
 				messageBoardThread.getKeywords());
 		}
 
-		if (messageBoardThread.getNumberOfMessageBoardAttachments() != null) {
-			existingMessageBoardThread.setNumberOfMessageBoardAttachments(
-				messageBoardThread.getNumberOfMessageBoardAttachments());
-		}
-
-		if (messageBoardThread.getNumberOfMessageBoardMessages() != null) {
-			existingMessageBoardThread.setNumberOfMessageBoardMessages(
-				messageBoardThread.getNumberOfMessageBoardMessages());
-		}
-
 		if (messageBoardThread.getShowAsQuestion() != null) {
 			existingMessageBoardThread.setShowAsQuestion(
 				messageBoardThread.getShowAsQuestion());
-		}
-
-		if (messageBoardThread.getSiteId() != null) {
-			existingMessageBoardThread.setSiteId(
-				messageBoardThread.getSiteId());
-		}
-
-		if (messageBoardThread.getSubscribed() != null) {
-			existingMessageBoardThread.setSubscribed(
-				messageBoardThread.getSubscribed());
 		}
 
 		if (messageBoardThread.getTaxonomyCategoryIds() != null) {
@@ -465,11 +425,6 @@ public abstract class BaseMessageBoardThreadResourceImpl
 		if (messageBoardThread.getThreadType() != null) {
 			existingMessageBoardThread.setThreadType(
 				messageBoardThread.getThreadType());
-		}
-
-		if (messageBoardThread.getViewCount() != null) {
-			existingMessageBoardThread.setViewCount(
-				messageBoardThread.getViewCount());
 		}
 
 		if (messageBoardThread.getViewableBy() != null) {
