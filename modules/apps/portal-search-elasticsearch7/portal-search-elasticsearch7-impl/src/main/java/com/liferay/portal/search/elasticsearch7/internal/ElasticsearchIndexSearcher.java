@@ -28,7 +28,9 @@ import com.liferay.portal.kernel.search.IndexSearcher;
 import com.liferay.portal.kernel.search.Query;
 import com.liferay.portal.kernel.search.QueryConfig;
 import com.liferay.portal.kernel.search.SearchContext;
+import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.search.suggest.QuerySuggester;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Props;
 import com.liferay.portal.kernel.util.PropsKeys;
@@ -41,18 +43,25 @@ import com.liferay.portal.search.elasticsearch7.internal.configuration.Elasticse
 import com.liferay.portal.search.engine.adapter.SearchEngineAdapter;
 import com.liferay.portal.search.engine.adapter.search.BaseSearchRequest;
 import com.liferay.portal.search.engine.adapter.search.BaseSearchResponse;
+import com.liferay.portal.search.engine.adapter.search.ClosePointInTimeRequest;
 import com.liferay.portal.search.engine.adapter.search.CountSearchRequest;
 import com.liferay.portal.search.engine.adapter.search.CountSearchResponse;
+import com.liferay.portal.search.engine.adapter.search.OpenPointInTimeRequest;
+import com.liferay.portal.search.engine.adapter.search.OpenPointInTimeResponse;
 import com.liferay.portal.search.engine.adapter.search.SearchSearchRequest;
 import com.liferay.portal.search.engine.adapter.search.SearchSearchResponse;
+import com.liferay.portal.search.hits.SearchHit;
+import com.liferay.portal.search.hits.SearchHits;
 import com.liferay.portal.search.index.IndexNameBuilder;
 import com.liferay.portal.search.legacy.searcher.SearchRequestBuilderFactory;
 import com.liferay.portal.search.legacy.searcher.SearchResponseBuilderFactory;
+import com.liferay.portal.search.pit.PointInTime;
 import com.liferay.portal.search.searcher.SearchRequest;
 import com.liferay.portal.search.searcher.SearchRequestBuilder;
 import com.liferay.portal.search.searcher.SearchResponseBuilder;
+import com.liferay.portal.search.sort.Sorts;
 
-import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -120,8 +129,13 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 			Hits hits = null;
 
 			if (FeatureFlagManagerUtil.isEnabled("LPS-172416")) {
-				// TODO: LPS-172416
-			} else {
+				hits = _searchAfter(
+					searchRequest, searchContext, query, end, start);
+			}
+			else {
+
+				// We can continue using that code to search less
+				// 	than 10.000 documents
 
 				while (true) {
 					SearchSearchRequest searchSearchRequest =
@@ -184,6 +198,12 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 			return new HitsImpl();
 		}
 		finally {
+			if (FeatureFlagManagerUtil.isEnabled("LPS-172416") &&
+				(_pointInTime != null)) {
+
+				_closePointInTime(_pointInTime);
+			}
+
 			if (_log.isInfoEnabled()) {
 				stopWatch.stop();
 
@@ -244,58 +264,57 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 	}
 
 	protected SearchSearchRequest createSearchSearchRequest(
+		SearchRequest searchRequest, SearchContext searchContext, Query query) {
+
+		SearchSearchRequest searchSearchRequest =
+			_createInitialSearchSearchRequest(
+				searchRequest, searchContext, query);
+
+		Sort[] sortsKernel = searchContext.getSorts();
+		List<com.liferay.portal.search.sort.Sort> sortsSearch =
+			searchRequest.getSorts();
+
+		// searchSearchRequest.addSorts(_sorts.field("_score", SortOrder.DESC));
+		// field _score should exist but it throws an exception saying that
+		// it does not exist
+
+		if ((sortsKernel == null) && sortsSearch.isEmpty()) {
+			searchSearchRequest.addSorts(_sorts.field("_scores"));
+			searchSearchRequest.addSorts(_sorts.field("modified_sortable"));
+
+			// this tiebreaker is necessary
+
+		}
+		else {
+			searchSearchRequest.setSorts(sortsSearch);
+			searchSearchRequest.setSorts(sortsKernel);
+
+			searchSearchRequest.addSorts(_sorts.field("modified_sortable"));
+		}
+		//	https://www.elastic.co/guide/en/elasticsearch
+		//	/reference/current/paginate-search-results.html
+
+		// All PIT search requests add an implicit sort tiebreaker
+		// 	field called _shard_doc, which can also be provided explicitly.
+		// If you cannot use a PIT, we recommend
+
+		// 	that you include a tiebreaker field in your sort.
+		// This tiebreaker field should contain a unique value for each
+		// document. If you don't include a tiebreaker field, your paged
+		// results could miss or duplicate hits.
+
+		searchSearchRequest.setStats(searchContext.getStats());
+
+		return searchSearchRequest;
+	}
+
+	protected SearchSearchRequest createSearchSearchRequest(
 		SearchRequest searchRequest, SearchContext searchContext, Query query,
 		int start, int end) {
 
-		SearchSearchRequest searchSearchRequest = new SearchSearchRequest();
-
-		_prepare(searchSearchRequest, searchRequest, query, searchContext);
-
-		QueryConfig queryConfig = searchContext.getQueryConfig();
-
-		searchSearchRequest.setAlternateUidFieldName(
-			queryConfig.getAlternateUidFieldName());
-
-		searchSearchRequest.setBasicFacetSelection(
-			searchRequest.isBasicFacetSelection());
-
-		searchSearchRequest.putAllFacets(searchContext.getFacets());
-
-		searchSearchRequest.setFetchSource(searchRequest.getFetchSource());
-		searchSearchRequest.setFetchSourceExcludes(
-			searchRequest.getFetchSourceExcludes());
-		searchSearchRequest.setFetchSourceIncludes(
-			searchRequest.getFetchSourceIncludes());
-		searchSearchRequest.setGroupBy(searchContext.getGroupBy());
-		searchSearchRequest.setGroupByRequests(
-			searchRequest.getGroupByRequests());
-		searchSearchRequest.setHighlightEnabled(
-			queryConfig.isHighlightEnabled());
-		searchSearchRequest.setHighlightFieldNames(
-			queryConfig.getHighlightFieldNames());
-		searchSearchRequest.setHighlightFragmentSize(
-			queryConfig.getHighlightFragmentSize());
-		searchSearchRequest.setHighlightSnippetSize(
-			queryConfig.getHighlightSnippetSize());
-		searchSearchRequest.setLocale(queryConfig.getLocale());
-		searchSearchRequest.setHighlightRequireFieldMatch(
-			queryConfig.isHighlightRequireFieldMatch());
-		searchSearchRequest.setLuceneSyntax(
-			GetterUtil.getBoolean(
-				searchContext.getAttribute(
-					SearchContextAttributes.ATTRIBUTE_KEY_LUCENE_SYNTAX)));
-
-		String preference = (String)searchContext.getAttribute(
-			ElasticsearchSearchContextAttributes.
-				ATTRIBUTE_KEY_SEARCH_REQUEST_PREFERENCE);
-
-		if (!Validator.isBlank(preference)) {
-			searchSearchRequest.setPreference(preference);
-		}
-
-		searchSearchRequest.setScoreEnabled(queryConfig.isScoreEnabled());
-		searchSearchRequest.setSelectedFieldNames(
-			queryConfig.getSelectedFieldNames());
+		SearchSearchRequest searchSearchRequest =
+			_createInitialSearchSearchRequest(
+				searchRequest, searchContext, query);
 
 		int size = end - start;
 
@@ -354,6 +373,13 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 		baseSearchRequest.setQuery(searchRequest.getQuery());
 	}
 
+	private void _closePointInTime(PointInTime pointInTime) {
+		ClosePointInTimeRequest closePointInTimeRequest =
+			new ClosePointInTimeRequest(pointInTime.getPointInTimeId());
+
+		_searchEngineAdapter.execute(closePointInTimeRequest);
+	}
+
 	private CountSearchRequest _createCountSearchRequest(
 		SearchContext searchContext, Query query) {
 
@@ -364,6 +390,85 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 			searchContext);
 
 		return countSearchRequest;
+	}
+
+	private SearchSearchRequest _createInitialSearchSearchRequest(
+		SearchRequest searchRequest, SearchContext searchContext, Query query) {
+
+		SearchSearchRequest searchSearchRequest = new SearchSearchRequest();
+
+		_prepare(searchSearchRequest, searchRequest, query, searchContext);
+
+		QueryConfig queryConfig = searchContext.getQueryConfig();
+
+		searchSearchRequest.setAlternateUidFieldName(
+			queryConfig.getAlternateUidFieldName());
+
+		searchSearchRequest.setBasicFacetSelection(
+			searchRequest.isBasicFacetSelection());
+
+		searchSearchRequest.putAllFacets(searchContext.getFacets());
+
+		searchSearchRequest.setFetchSource(searchRequest.getFetchSource());
+		searchSearchRequest.setFetchSourceExcludes(
+			searchRequest.getFetchSourceExcludes());
+		searchSearchRequest.setFetchSourceIncludes(
+			searchRequest.getFetchSourceIncludes());
+		searchSearchRequest.setGroupBy(searchContext.getGroupBy());
+		searchSearchRequest.setGroupByRequests(
+			searchRequest.getGroupByRequests());
+		searchSearchRequest.setHighlightEnabled(
+			queryConfig.isHighlightEnabled());
+
+		searchSearchRequest.setHighlightFieldNames(
+			queryConfig.getHighlightFieldNames());
+		searchSearchRequest.setHighlightFragmentSize(
+			queryConfig.getHighlightFragmentSize());
+		searchSearchRequest.setHighlightSnippetSize(
+			queryConfig.getHighlightSnippetSize());
+		searchSearchRequest.setLocale(queryConfig.getLocale());
+		searchSearchRequest.setHighlightRequireFieldMatch(
+			queryConfig.isHighlightRequireFieldMatch());
+		searchSearchRequest.setLuceneSyntax(
+			GetterUtil.getBoolean(
+				searchContext.getAttribute(
+					SearchContextAttributes.ATTRIBUTE_KEY_LUCENE_SYNTAX)));
+
+		String preference = (String)searchContext.getAttribute(
+			ElasticsearchSearchContextAttributes.
+				ATTRIBUTE_KEY_SEARCH_REQUEST_PREFERENCE);
+
+		if (!Validator.isBlank(preference)) {
+			searchSearchRequest.setPreference(preference);
+		}
+
+		searchSearchRequest.setScoreEnabled(queryConfig.isScoreEnabled());
+		searchSearchRequest.setSelectedFieldNames(
+			queryConfig.getSelectedFieldNames());
+
+		return searchSearchRequest;
+	}
+
+	private PointInTime _createPointInTime(
+		SearchContext searchContext, SearchRequest searchRequest) {
+
+		OpenPointInTimeRequest openPointInTimeRequest =
+			new OpenPointInTimeRequest(1);
+
+		openPointInTimeRequest.setIndices(
+			_getIndexes(searchRequest, searchContext));
+
+		OpenPointInTimeResponse openPointInTimeResponse =
+			_searchEngineAdapter.execute(openPointInTimeRequest);
+
+		PointInTime pointInTime = new PointInTime(
+			openPointInTimeResponse.pitId());
+
+		// this should be configurable
+
+		pointInTime.setKeepAlive("10m");
+
+		return pointInTime;
 	}
 
 	private String _getExceptionMessage(RuntimeException runtimeException) {
@@ -389,6 +494,16 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 			searchContext.getCompanyId());
 
 		return new String[] {indexName};
+	}
+
+	private SearchHit _getLastSearchHit(
+		SearchSearchResponse searchSearchResponse) {
+
+		SearchHits searchHits = searchSearchResponse.getSearchHits();
+
+		List<SearchHit> searchHitList = searchHits.getSearchHits();
+
+		return searchHitList.get(searchHitList.size() - 1);
 	}
 
 	private SearchRequest _getSearchRequest(SearchContext searchContext) {
@@ -468,6 +583,127 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 		setQuery(baseSearchRequest, searchRequest);
 	}
 
+	private Hits _searchAfter(
+		SearchRequest searchRequest, SearchContext searchContext, Query query,
+		int end, int start) {
+
+		SearchSearchRequest searchSearchRequest = createSearchSearchRequest(
+			searchRequest, searchContext, query);
+
+		// point in time
+
+		_pointInTime = _createPointInTime(searchContext, searchRequest);
+
+		searchSearchRequest.setPointInTime(_pointInTime);
+
+		// declase necessary variables
+
+		SearchSearchResponse searchSearchResponse = null;
+		Hits hits = null;
+		Document[] docs = null;
+		float[] scores = null;
+		float searchTime = 0;
+		int size = end - start;
+
+		// just use search after if we need more than 10000 documents
+		// otherwise we can just use the normal search with default values
+		// of start and end variables
+
+		if (end > 10000) {
+
+			// Get the first 10000 documents
+
+			searchSearchRequest.setStart(0);
+			searchSearchRequest.setSize(10000);
+
+			searchSearchResponse = _searchEngineAdapter.execute(
+				searchSearchRequest);
+
+			// save all info necessary to update hits in the end
+
+			hits = searchSearchResponse.getHits();
+
+			docs = hits.getDocs();
+			scores = hits.getScores();
+			searchTime = hits.getSearchTime();
+
+			// calculate how many windows of 10000 documents is left
+
+			int maxWindowPages = end / 10000;
+
+			// search all left windows
+
+			for (int i = 1; i < maxWindowPages; i++) {
+				SearchHit lastSearchHit = _getLastSearchHit(
+					searchSearchResponse);
+
+				searchSearchRequest.setSearchAfter(
+					lastSearchHit.getSortValues());
+
+				searchSearchResponse = _searchEngineAdapter.execute(
+					searchSearchRequest);
+
+				// save all info necessary to update hits in the end
+
+				hits = searchSearchResponse.getHits();
+
+				// stop if doc == 0
+
+				docs = ArrayUtil.append(docs, hits.getDocs());
+				scores = ArrayUtil.append(scores, hits.getScores());
+				searchTime += hits.getSearchTime();
+			}
+
+			// set search after from the first document of the last window
+			// and set the size to the remaining documents until the last
+			// document from the page we want to display skipDocuments + size
+
+			SearchHit lastSearchHit = _getLastSearchHit(searchSearchResponse);
+
+			searchSearchRequest.setSearchAfter(lastSearchHit.getSortValues());
+
+			int skipDocuments = start % 10000; // remaining documents to skip
+
+			// end % 10000 == skipDocuments + size???
+
+			searchSearchRequest.setStart(0);
+			searchSearchRequest.setSize(skipDocuments + size);
+		}
+		else {
+			searchSearchRequest.setStart(start);
+			searchSearchRequest.setSize(size);
+		}
+
+		searchSearchResponse = _searchEngineAdapter.execute(
+			searchSearchRequest);
+
+		// after the last search if we are search up to 10000 documents
+		// we need to add all the documents searched before to the hits
+		// so if we want to search from 0 to 20000 we will be able to
+
+		if (end > 10000) {
+			hits = searchSearchResponse.getHits();
+
+			docs = ArrayUtil.append(docs, hits.getDocs());
+			scores = ArrayUtil.append(scores, hits.getScores());
+			searchTime += hits.getSearchTime();
+
+			int totalDocuments = docs.length;
+
+			docs = Arrays.copyOfRange(docs, start, totalDocuments); // get only page documents
+			scores = Arrays.copyOfRange(scores, start, totalDocuments); // get only page scores
+
+			_updateHits(docs, hits, scores, size, searchTime); // update hits
+		}
+
+		// should we use _populateResponse every time or just in the end?
+
+		_populateResponse(
+			searchSearchResponse, _getSearchResponseBuilder(searchContext));
+
+		return searchSearchResponse.getHits();
+	}
+
 	private void _setAggregations(
 		BaseSearchRequest baseSearchRequest, SearchRequest searchRequest) {
 
@@ -509,6 +745,16 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 		}
 	}
 
+	private void _updateHits(
+		Document[] documents, Hits hits, float[] scores, int size,
+		float startTime) {
+
+		hits.setDocs(documents);
+		hits.setScores(scores);
+		hits.setLength(size);
+		hits.setSearchTime(startTime);
+	}
+
 	private static final Log _log = LogFactoryUtil.getLog(
 		ElasticsearchIndexSearcher.class);
 
@@ -518,6 +764,8 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 
 	@Reference
 	private IndexNameBuilder _indexNameBuilder;
+
+	private PointInTime _pointInTime;
 
 	@Reference
 	private Props _props;
@@ -533,5 +781,8 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 
 	@Reference
 	private SearchResponseBuilderFactory _searchResponseBuilderFactory;
+
+	@Reference
+	private Sorts _sorts;
 
 }
