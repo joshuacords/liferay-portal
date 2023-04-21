@@ -312,6 +312,26 @@ public class TransformAccount {
 		return "";
 	}
 
+	public static String getLXCProjectId(String externalLinks) {
+		JSONArray jsonArray = new JSONArray(externalLinks);
+
+		for (int i = 0; i < jsonArray.length(); i++) {
+			JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+			String domain = jsonObject.getString("domain");
+			String entityName = jsonObject.getString("entityName");
+
+			if (domain.equals(Constants.EXTERNAL_LINK_DOMAIN_LXC) &&
+				entityName.equals(
+					Constants.EXTERNAL_LINK_ENTITY_NAME_LXC_PROJECT_ID)) {
+
+				return jsonObject.getString("entityId");
+			}
+		}
+
+		return "";
+	}
+
 	public static int getMaxRequestors(String productPurchases)
 		throws Exception {
 

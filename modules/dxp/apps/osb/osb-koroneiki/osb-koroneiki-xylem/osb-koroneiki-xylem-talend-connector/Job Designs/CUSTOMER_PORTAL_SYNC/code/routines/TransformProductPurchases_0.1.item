@@ -459,16 +459,28 @@ public class TransformProductPurchases {
 			this.name = name;
 
 			if (name.equals(SubscriptionConstants.GROUP_NAME_ANALYTICS_CLOUD)) {
-				this.manageContactsURL =
-					"https://analytics.liferay.com/workspace/" +
-						TransformAccount.getACWorkspaceGroupId(externalLinks) +
-							"/sites";
+				String acWorkspaceId = TransformAccount.getACWorkspaceGroupId(
+					externalLinks);
+
+				if (!acWorkspaceId.isEmpty()) {
+					this.manageContactsURL =
+						"https://analytics.liferay.com/workspace/" +
+							acWorkspaceId + "/sites";
+				}
 			}
 			else if (name.equals(
 						SubscriptionConstants.
-							GROUP_NAME_LIFERAY_EXPERIENCE_CLOUD) ||
-					 name.equals(SubscriptionConstants.GROUP_NAME_LXC_SM)) {
+							GROUP_NAME_LIFERAY_EXPERIENCE_CLOUD)) {
 
+				String lxcProjectId = TransformAccount.getLXCProjectId(
+					externalLinks);
+
+				if (!lxcProjectId.isEmpty()) {
+					this.manageContactsURL =
+						"https://" + lxcProjectId + ".lxc.liferay.com";
+				}
+			}
+			else if (name.equals(SubscriptionConstants.GROUP_NAME_LXC_SM)) {
 				this.manageContactsURL = "https://console.liferay.cloud";
 			}
 
@@ -549,7 +561,7 @@ public class TransformProductPurchases {
 
 		public String accountKey;
 		public String externalReferenceCode;
-		public String manageContactsURL;
+		public String manageContactsURL = "";
 		public String name;
 		public Map<String, Subscription> subscriptionsMap = new HashMap<>();
 
