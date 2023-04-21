@@ -133,7 +133,7 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 					searchRequest, searchContext, query, end, start);
 			}
 			else {
-
+				// Extract this old code to another method, we may even call this method from _searchAfter in cases where search is less than 10k
 				// We can continue using that code to search less
 				// 	than 10.000 documents
 
@@ -591,7 +591,7 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 			searchRequest, searchContext, query);
 
 		// point in time
-
+		// Lets make pointInTime a local variable. Move the close logic and a wrapping try into this method
 		_pointInTime = _createPointInTime(searchContext, searchRequest);
 
 		searchSearchRequest.setPointInTime(_pointInTime);
@@ -609,6 +609,8 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 		// otherwise we can just use the normal search with default values
 		// of start and end variables
 
+		// For performance, we need logic to only ask for the last document on searches that don't need results 1-10000, so if the start is 10020, we just grab the last doc in the first search
+		// Additionally, we should consider that 10000 is an Elasticsearch setting, we should add a configuration instead of hardcoding 10000 if it doesn't cause logical problems - let's look into this later
 		if (end > 10000) {
 
 			// Get the first 10000 documents
@@ -648,7 +650,13 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 				hits = searchSearchResponse.getHits();
 
 				// stop if doc == 0
+				// Some thoughts on expected behavior that we might want to write into a test:
+				// 1. When searching with range [0, 20000] and 20000 docs exist, all should be returned.
+				// 2. When searching with range [10020, 10040] and all docs exists, only docs 10020-10040 should be returned.
+				// 3. When searching with range [20020, 20040] and no docs exists, the search may be able to "quickly fail" and return no docs.
+				// 4. When searching with range [10020, 10040] and only docs 10020 and 10021 exists, only those 2 docs should be returned.
 
+				// I'm trusting this is working for now
 				docs = ArrayUtil.append(docs, hits.getDocs());
 				scores = ArrayUtil.append(scores, hits.getScores());
 				searchTime += hits.getSearchTime();
@@ -668,6 +676,7 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 
 			searchSearchRequest.setStart(0);
 			searchSearchRequest.setSize(skipDocuments + size);
+			// yes, but we need a way to re-adjust the requested start, so we only return the range requested, see expected behavior 2 and 4
 		}
 		else {
 			searchSearchRequest.setStart(start);
@@ -696,7 +705,7 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 			_updateHits(docs, hits, scores, size, searchTime); // update hits
 		}
 
-		// should we use _populateResponse every time or just in the end?
+		// should we use _populateResponse every time or just in the end? - probably just the end
 
 		_populateResponse(
 			searchSearchResponse, _getSearchResponseBuilder(searchContext));
