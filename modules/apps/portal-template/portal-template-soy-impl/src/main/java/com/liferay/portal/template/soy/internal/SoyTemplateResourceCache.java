@@ -31,7 +31,7 @@ import org.osgi.service.component.annotations.Reference;
  * @author Tina Tian
  */
 @Component(
-	configurationPid = "com.liferay.portal.template.soy.configuration.SoyTemplateEngineConfiguration",
+	configurationPid = "com.liferay.portal.template.soy.internal.configuration.SoyTemplateEngineConfiguration",
 	immediate = true, service = SoyTemplateResourceCache.class
 )
 public class SoyTemplateResourceCache extends BaseTemplateResourceCache {

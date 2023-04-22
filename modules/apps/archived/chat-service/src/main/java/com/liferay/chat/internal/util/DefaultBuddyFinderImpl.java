@@ -36,7 +36,7 @@ import org.osgi.service.component.annotations.Modified;
  * @author Peter Fellwock
  */
 @Component(
-	configurationPid = "com.liferay.chat.configuration.ChatConfiguration",
+	configurationPid = "com.liferay.chat.internal.configuration.ChatGroupServiceConfiguration",
 	enabled = false, immediate = true, service = BuddyFinder.class
 )
 public class DefaultBuddyFinderImpl implements BuddyFinder {

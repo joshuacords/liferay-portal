@@ -53,7 +53,7 @@ import org.osgi.service.component.annotations.Reference;
  * @author Alessio Antonio Rendina
  */
 @Component(
-	configurationPid = "com.liferay.user.admin.configuration.UserFileUploadsConfiguration",
+	configurationPid = "com.liferay.users.admin.configuration.UserFileUploadsConfiguration",
 	immediate = true,
 	property = {
 		"com.liferay.fragment.entry.processor.portlet.alias=commerce-account-portlet",

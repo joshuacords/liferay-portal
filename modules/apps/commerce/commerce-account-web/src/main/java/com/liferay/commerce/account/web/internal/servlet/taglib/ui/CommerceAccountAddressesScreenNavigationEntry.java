@@ -51,7 +51,7 @@ import org.osgi.service.component.annotations.Reference;
  * @author Alessio Antonio Rendina
  */
 @Component(
-	configurationPid = "com.liferay.user.admin.configuration.UserFileUploadsConfiguration",
+	configurationPid = "com.liferay.users.admin.configuration.UserFileUploadsConfiguration",
 	property = {
 		"screen.navigation.category.order:Integer=30",
 		"screen.navigation.entry.order:Integer=10"

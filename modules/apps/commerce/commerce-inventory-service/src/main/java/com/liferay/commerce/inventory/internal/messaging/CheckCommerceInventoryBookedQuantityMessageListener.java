@@ -39,7 +39,7 @@ import org.osgi.service.component.annotations.Reference;
  * @author Luca Pellizzon
  */
 @Component(
-	configurationPid = "com.liferay.commerce.inventory.configuration.CommerceInventorySystemConfiguration",
+	configurationPid = "com.liferay.commerce.inventory.internal.configuration.CommerceInventorySystemConfiguration",
 	immediate = true,
 	service = CheckCommerceInventoryBookedQuantityMessageListener.class
 )

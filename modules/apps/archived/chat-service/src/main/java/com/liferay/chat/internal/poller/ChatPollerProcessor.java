@@ -64,7 +64,7 @@ import org.osgi.service.component.annotations.Reference;
  * @author Peter Fellwock
  */
 @Component(
-	configurationPid = "com.liferay.chat.configuration.ChatConfiguration",
+	configurationPid = "com.liferay.chat.internal.configuration.ChatGroupServiceConfiguration",
 	enabled = false, immediate = true,
 	property = "javax.portlet.name=" + ChatPortletKeys.CHAT,
 	service = PollerProcessor.class

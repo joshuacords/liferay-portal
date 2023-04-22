@@ -59,7 +59,7 @@ import org.osgi.util.tracker.ServiceTrackerCustomizer;
  * @author Rodolfo Roza Miranda
  */
 @Component(
-	configurationPid = "com.liferay.frontend.js.loader.modules.extender.internal.Details",
+	configurationPid = "com.liferay.frontend.js.loader.modules.extender.internal.configuration.Details",
 	immediate = true, service = BrowserModulesResolver.class
 )
 public class BrowserModulesResolver {
