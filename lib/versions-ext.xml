@@ -77,7 +77,6 @@
 				</licenses>
 			</library>
 			<library>
-			<library>
 				<file-name>lib/development/asm-commons.jar</file-name>
 				<version>7.0</version>
 				<project-name>ASM</project-name>
