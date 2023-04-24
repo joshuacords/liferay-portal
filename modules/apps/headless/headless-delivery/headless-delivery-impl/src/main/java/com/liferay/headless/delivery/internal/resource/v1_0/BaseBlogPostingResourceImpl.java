@@ -819,14 +819,14 @@ public abstract class BaseBlogPostingResourceImpl
 		if ("PARTIAL_UPDATE".equalsIgnoreCase(updateStrategy)) {
 			blogPostingUnsafeConsumer = blogPosting -> patchBlogPosting(
 				blogPosting.getId() != null ? blogPosting.getId() :
-					Long.parseLong((String)parameters.get("blogPostingId")),
+					_parseLong((String)parameters.get("blogPostingId")),
 				blogPosting);
 		}
 
 		if ("UPDATE".equalsIgnoreCase(updateStrategy)) {
 			blogPostingUnsafeConsumer = blogPosting -> putBlogPosting(
 				blogPosting.getId() != null ? blogPosting.getId() :
-					Long.parseLong((String)parameters.get("blogPostingId")),
+					_parseLong((String)parameters.get("blogPostingId")),
 				blogPosting);
 		}
 
@@ -845,6 +845,14 @@ public abstract class BaseBlogPostingResourceImpl
 				blogPostingUnsafeConsumer.accept(blogPosting);
 			}
 		}
+	}
+
+	private Long _parseLong(String value) {
+		if (value != null) {
+			return Long.parseLong(value);
+		}
+
+		return null;
 	}
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {

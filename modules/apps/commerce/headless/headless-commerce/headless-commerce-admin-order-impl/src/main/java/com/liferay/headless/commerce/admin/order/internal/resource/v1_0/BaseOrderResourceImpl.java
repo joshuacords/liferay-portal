@@ -539,7 +539,7 @@ public abstract class BaseOrderResourceImpl
 		if ("PARTIAL_UPDATE".equalsIgnoreCase(updateStrategy)) {
 			orderUnsafeConsumer = order -> patchOrder(
 				order.getId() != null ? order.getId() :
-					Long.parseLong((String)parameters.get("orderId")),
+					_parseLong((String)parameters.get("orderId")),
 				order);
 		}
 
@@ -557,6 +557,14 @@ public abstract class BaseOrderResourceImpl
 				orderUnsafeConsumer.accept(order);
 			}
 		}
+	}
+
+	private Long _parseLong(String value) {
+		if (value != null) {
+			return Long.parseLong(value);
+		}
+
+		return null;
 	}
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {

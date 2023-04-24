@@ -838,18 +838,16 @@ public abstract class BaseCommentResourceImpl
 		if ("INSERT".equalsIgnoreCase(createStrategy)) {
 			if (parameters.containsKey("blogPostingId")) {
 				commentUnsafeConsumer = comment -> postBlogPostingComment(
-					Long.parseLong((String)parameters.get("blogPostingId")),
+					_parseLong((String)parameters.get("blogPostingId")),
 					comment);
 			}
 			else if (parameters.containsKey("documentId")) {
 				commentUnsafeConsumer = comment -> postDocumentComment(
-					Long.parseLong((String)parameters.get("documentId")),
-					comment);
+					_parseLong((String)parameters.get("documentId")), comment);
 			}
 			else if (parameters.containsKey("structuredContentId")) {
 				commentUnsafeConsumer = comment -> postStructuredContentComment(
-					Long.parseLong(
-						(String)parameters.get("structuredContentId")),
+					_parseLong((String)parameters.get("structuredContentId")),
 					comment);
 			}
 			else {
@@ -919,17 +917,17 @@ public abstract class BaseCommentResourceImpl
 
 		if (parameters.containsKey("blogPostingId")) {
 			return getBlogPostingCommentsPage(
-				Long.parseLong((String)parameters.get("blogPostingId")), search,
+				_parseLong((String)parameters.get("blogPostingId")), search,
 				null, filter, pagination, sorts);
 		}
 		else if (parameters.containsKey("documentId")) {
 			return getDocumentCommentsPage(
-				Long.parseLong((String)parameters.get("documentId")), search,
-				null, filter, pagination, sorts);
+				_parseLong((String)parameters.get("documentId")), search, null,
+				filter, pagination, sorts);
 		}
 		else if (parameters.containsKey("structuredContentId")) {
 			return getStructuredContentCommentsPage(
-				Long.parseLong((String)parameters.get("structuredContentId")),
+				_parseLong((String)parameters.get("structuredContentId")),
 				search, null, filter, pagination, sorts);
 		}
 		else {
@@ -973,7 +971,7 @@ public abstract class BaseCommentResourceImpl
 		if ("UPDATE".equalsIgnoreCase(updateStrategy)) {
 			commentUnsafeConsumer = comment -> putComment(
 				comment.getId() != null ? comment.getId() :
-					Long.parseLong((String)parameters.get("commentId")),
+					_parseLong((String)parameters.get("commentId")),
 				comment);
 		}
 
@@ -991,6 +989,14 @@ public abstract class BaseCommentResourceImpl
 				commentUnsafeConsumer.accept(comment);
 			}
 		}
+	}
+
+	private Long _parseLong(String value) {
+		if (value != null) {
+			return Long.parseLong(value);
+		}
+
+		return null;
 	}
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {

@@ -231,11 +231,11 @@ public abstract class BaseWebUrlResourceImpl
 
 		if (parameters.containsKey("organizationId")) {
 			return getOrganizationWebUrlsPage(
-				Long.parseLong((String)parameters.get("organizationId")));
+				_parseLong((String)parameters.get("organizationId")));
 		}
 		else if (parameters.containsKey("userAccountId")) {
 			return getUserAccountWebUrlsPage(
-				Long.parseLong((String)parameters.get("userAccountId")));
+				_parseLong((String)parameters.get("userAccountId")));
 		}
 		else {
 			throw new NotSupportedException(
@@ -272,6 +272,14 @@ public abstract class BaseWebUrlResourceImpl
 
 		throw new UnsupportedOperationException(
 			"This method needs to be implemented");
+	}
+
+	private Long _parseLong(String value) {
+		if (value != null) {
+			return Long.parseLong(value);
+		}
+
+		return null;
 	}
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {

@@ -542,7 +542,7 @@ public abstract class BaseAccountGroupResourceImpl
 		if ("PARTIAL_UPDATE".equalsIgnoreCase(updateStrategy)) {
 			accountGroupUnsafeConsumer = accountGroup -> patchAccountGroup(
 				accountGroup.getId() != null ? accountGroup.getId() :
-					Long.parseLong((String)parameters.get("accountGroupId")),
+					_parseLong((String)parameters.get("accountGroupId")),
 				accountGroup);
 		}
 
@@ -561,6 +561,14 @@ public abstract class BaseAccountGroupResourceImpl
 				accountGroupUnsafeConsumer.accept(accountGroup);
 			}
 		}
+	}
+
+	private Long _parseLong(String value) {
+		if (value != null) {
+			return Long.parseLong(value);
+		}
+
+		return null;
 	}
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {

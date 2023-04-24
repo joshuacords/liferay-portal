@@ -419,7 +419,7 @@ public abstract class BaseSLAResourceImpl
 		if ("INSERT".equalsIgnoreCase(createStrategy)) {
 			if (parameters.containsKey("processId")) {
 				slaUnsafeConsumer = sla -> postProcessSLA(
-					Long.parseLong((String)parameters.get("processId")), sla);
+					_parseLong((String)parameters.get("processId")), sla);
 			}
 			else {
 				throw new NotSupportedException(
@@ -488,8 +488,8 @@ public abstract class BaseSLAResourceImpl
 
 		if (parameters.containsKey("processId")) {
 			return getProcessSLAsPage(
-				Long.parseLong((String)parameters.get("processId")),
-				Integer.parseInt((String)parameters.get("status")), pagination);
+				_parseLong((String)parameters.get("processId")),
+				_parseInteger((String)parameters.get("status")), pagination);
 		}
 		else {
 			throw new NotSupportedException(
@@ -532,7 +532,7 @@ public abstract class BaseSLAResourceImpl
 		if ("UPDATE".equalsIgnoreCase(updateStrategy)) {
 			slaUnsafeConsumer = sla -> putSLA(
 				sla.getId() != null ? sla.getId() :
-					Long.parseLong((String)parameters.get("slaId")),
+					_parseLong((String)parameters.get("slaId")),
 				sla);
 		}
 
@@ -550,6 +550,22 @@ public abstract class BaseSLAResourceImpl
 				slaUnsafeConsumer.accept(sla);
 			}
 		}
+	}
+
+	private Integer _parseInteger(String value) {
+		if (value != null) {
+			return Integer.parseInt(value);
+		}
+
+		return null;
+	}
+
+	private Long _parseLong(String value) {
+		if (value != null) {
+			return Long.parseLong(value);
+		}
+
+		return null;
 	}
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {

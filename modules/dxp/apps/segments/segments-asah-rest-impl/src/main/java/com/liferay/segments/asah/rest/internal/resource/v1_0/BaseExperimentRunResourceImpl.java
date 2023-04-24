@@ -182,7 +182,7 @@ public abstract class BaseExperimentRunResourceImpl
 
 		if ("INSERT".equalsIgnoreCase(createStrategy)) {
 			experimentRunUnsafeConsumer = experimentRun -> postExperimentRun(
-				Long.parseLong((String)parameters.get("experimentId")),
+				_parseLong((String)parameters.get("experimentId")),
 				experimentRun);
 		}
 
@@ -280,6 +280,14 @@ public abstract class BaseExperimentRunResourceImpl
 
 		throw new UnsupportedOperationException(
 			"This method needs to be implemented");
+	}
+
+	private Long _parseLong(String value) {
+		if (value != null) {
+			return Long.parseLong(value);
+		}
+
+		return null;
 	}
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {

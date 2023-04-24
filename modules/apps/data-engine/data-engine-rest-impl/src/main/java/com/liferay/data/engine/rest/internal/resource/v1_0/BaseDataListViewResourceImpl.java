@@ -411,8 +411,7 @@ public abstract class BaseDataListViewResourceImpl
 			if (parameters.containsKey("dataDefinitionId")) {
 				dataListViewUnsafeConsumer =
 					dataListView -> postDataDefinitionDataListView(
-						Long.parseLong(
-							(String)parameters.get("dataDefinitionId")),
+						_parseLong((String)parameters.get("dataDefinitionId")),
 						dataListView);
 			}
 			else {
@@ -484,7 +483,7 @@ public abstract class BaseDataListViewResourceImpl
 
 		if (parameters.containsKey("dataDefinitionId")) {
 			return getDataDefinitionDataListViewsPage(
-				Long.parseLong((String)parameters.get("dataDefinitionId")),
+				_parseLong((String)parameters.get("dataDefinitionId")),
 				(String)parameters.get("keywords"), pagination, sorts);
 		}
 		else {
@@ -530,7 +529,7 @@ public abstract class BaseDataListViewResourceImpl
 		if ("UPDATE".equalsIgnoreCase(updateStrategy)) {
 			dataListViewUnsafeConsumer = dataListView -> putDataListView(
 				dataListView.getId() != null ? dataListView.getId() :
-					Long.parseLong((String)parameters.get("dataListViewId")),
+					_parseLong((String)parameters.get("dataListViewId")),
 				dataListView);
 		}
 
@@ -549,6 +548,14 @@ public abstract class BaseDataListViewResourceImpl
 				dataListViewUnsafeConsumer.accept(dataListView);
 			}
 		}
+	}
+
+	private Long _parseLong(String value) {
+		if (value != null) {
+			return Long.parseLong(value);
+		}
+
+		return null;
 	}
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {

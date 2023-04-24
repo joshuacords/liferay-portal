@@ -688,7 +688,7 @@ public abstract class BaseAccountResourceImpl
 		if ("PARTIAL_UPDATE".equalsIgnoreCase(updateStrategy)) {
 			accountUnsafeConsumer = account -> patchAccount(
 				account.getId() != null ? account.getId() :
-					Long.parseLong((String)parameters.get("accountId")),
+					_parseLong((String)parameters.get("accountId")),
 				account);
 		}
 
@@ -706,6 +706,14 @@ public abstract class BaseAccountResourceImpl
 				accountUnsafeConsumer.accept(account);
 			}
 		}
+	}
+
+	private Long _parseLong(String value) {
+		if (value != null) {
+			return Long.parseLong(value);
+		}
+
+		return null;
 	}
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {

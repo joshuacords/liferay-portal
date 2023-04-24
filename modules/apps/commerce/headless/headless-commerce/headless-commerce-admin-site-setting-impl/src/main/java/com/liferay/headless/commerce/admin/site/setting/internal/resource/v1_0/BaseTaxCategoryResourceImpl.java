@@ -426,7 +426,7 @@ public abstract class BaseTaxCategoryResourceImpl
 		if ("UPDATE".equalsIgnoreCase(updateStrategy)) {
 			taxCategoryUnsafeConsumer = taxCategory -> putTaxCategory(
 				taxCategory.getId() != null ? taxCategory.getId() :
-					Long.parseLong((String)parameters.get("taxCategoryId")),
+					_parseLong((String)parameters.get("taxCategoryId")),
 				taxCategory);
 		}
 
@@ -445,6 +445,14 @@ public abstract class BaseTaxCategoryResourceImpl
 				taxCategoryUnsafeConsumer.accept(taxCategory);
 			}
 		}
+	}
+
+	private Long _parseLong(String value) {
+		if (value != null) {
+			return Long.parseLong(value);
+		}
+
+		return null;
 	}
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {

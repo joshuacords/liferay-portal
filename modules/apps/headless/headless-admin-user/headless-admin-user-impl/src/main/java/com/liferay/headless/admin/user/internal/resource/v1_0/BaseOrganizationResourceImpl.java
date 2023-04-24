@@ -583,8 +583,8 @@ public abstract class BaseOrganizationResourceImpl
 		throws Exception {
 
 		return getOrganizationsPage(
-			Boolean.parseBoolean((String)parameters.get("flatten")), search,
-			filter, pagination, sorts);
+			_parseBoolean((String)parameters.get("flatten")), search, filter,
+			pagination, sorts);
 	}
 
 	@Override
@@ -624,14 +624,14 @@ public abstract class BaseOrganizationResourceImpl
 		if ("PARTIAL_UPDATE".equalsIgnoreCase(updateStrategy)) {
 			organizationUnsafeConsumer = organization -> patchOrganization(
 				organization.getId() != null ? organization.getId() :
-					Long.parseLong((String)parameters.get("organizationId")),
+					_parseLong((String)parameters.get("organizationId")),
 				organization);
 		}
 
 		if ("UPDATE".equalsIgnoreCase(updateStrategy)) {
 			organizationUnsafeConsumer = organization -> putOrganization(
 				organization.getId() != null ? organization.getId() :
-					Long.parseLong((String)parameters.get("organizationId")),
+					_parseLong((String)parameters.get("organizationId")),
 				organization);
 		}
 
@@ -650,6 +650,22 @@ public abstract class BaseOrganizationResourceImpl
 				organizationUnsafeConsumer.accept(organization);
 			}
 		}
+	}
+
+	private Boolean _parseBoolean(String value) {
+		if (value != null) {
+			return Boolean.parseBoolean(value);
+		}
+
+		return null;
+	}
+
+	private Long _parseLong(String value) {
+		if (value != null) {
+			return Long.parseLong(value);
+		}
+
+		return null;
 	}
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {

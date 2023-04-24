@@ -53,6 +53,7 @@ import java.lang.reflect.Array;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -140,10 +141,10 @@ public abstract class BaseInstanceResourceImpl
 			Long[] assigneeUserIds,
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.ws.rs.QueryParam("dateEnd")
-			java.util.Date dateEnd,
+			Date dateEnd,
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.ws.rs.QueryParam("dateStart")
-			java.util.Date dateStart,
+			Date dateStart,
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.ws.rs.QueryParam("slaStatuses")
 			String[] slaStatuses,
@@ -253,10 +254,10 @@ public abstract class BaseInstanceResourceImpl
 
 		if (parameters.containsKey("processId")) {
 			return getProcessInstancesPage(
-				Long.parseLong((String)parameters.get("processId")),
+				_parseLong((String)parameters.get("processId")),
 				(Long[])parameters.get("assigneeUserIds"),
-				new java.util.Date((String)parameters.get("dateEnd")),
-				new java.util.Date((String)parameters.get("dateStart")),
+				_parseDate((String)parameters.get("dateEnd")),
+				_parseDate((String)parameters.get("dateStart")),
 				(String[])parameters.get("slaStatuses"),
 				(String[])parameters.get("statuses"),
 				(String[])parameters.get("taskKeys"), pagination);
@@ -297,6 +298,22 @@ public abstract class BaseInstanceResourceImpl
 
 		throw new UnsupportedOperationException(
 			"This method needs to be implemented");
+	}
+
+	private Date _parseDate(String value) {
+		if (value != null) {
+			return new Date(value);
+		}
+
+		return null;
+	}
+
+	private Long _parseLong(String value) {
+		if (value != null) {
+			return Long.parseLong(value);
+		}
+
+		return null;
 	}
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {

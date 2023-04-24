@@ -53,6 +53,7 @@ import java.lang.reflect.Array;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -136,10 +137,10 @@ public abstract class BaseTaskResourceImpl
 			Boolean completed,
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.ws.rs.QueryParam("dateEnd")
-			java.util.Date dateEnd,
+			Date dateEnd,
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.ws.rs.QueryParam("dateStart")
-			java.util.Date dateStart,
+			Date dateStart,
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.ws.rs.QueryParam("key")
 			String key,
@@ -204,10 +205,10 @@ public abstract class BaseTaskResourceImpl
 
 		if (parameters.containsKey("processId")) {
 			return getProcessTasksPage(
-				Long.parseLong((String)parameters.get("processId")),
-				Boolean.parseBoolean((String)parameters.get("completed")),
-				new java.util.Date((String)parameters.get("dateEnd")),
-				new java.util.Date((String)parameters.get("dateStart")),
+				_parseLong((String)parameters.get("processId")),
+				_parseBoolean((String)parameters.get("completed")),
+				_parseDate((String)parameters.get("dateEnd")),
+				_parseDate((String)parameters.get("dateStart")),
 				(String)parameters.get("key"), pagination, sorts);
 		}
 		else {
@@ -245,6 +246,30 @@ public abstract class BaseTaskResourceImpl
 
 		throw new UnsupportedOperationException(
 			"This method needs to be implemented");
+	}
+
+	private Boolean _parseBoolean(String value) {
+		if (value != null) {
+			return Boolean.parseBoolean(value);
+		}
+
+		return null;
+	}
+
+	private Date _parseDate(String value) {
+		if (value != null) {
+			return new Date(value);
+		}
+
+		return null;
+	}
+
+	private Long _parseLong(String value) {
+		if (value != null) {
+			return Long.parseLong(value);
+		}
+
+		return null;
 	}
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {

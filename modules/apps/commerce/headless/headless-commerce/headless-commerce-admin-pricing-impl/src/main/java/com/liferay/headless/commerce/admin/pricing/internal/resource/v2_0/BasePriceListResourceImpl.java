@@ -531,7 +531,7 @@ public abstract class BasePriceListResourceImpl
 		if ("PARTIAL_UPDATE".equalsIgnoreCase(updateStrategy)) {
 			priceListUnsafeConsumer = priceList -> patchPriceList(
 				priceList.getId() != null ? priceList.getId() :
-					Long.parseLong((String)parameters.get("priceListId")),
+					_parseLong((String)parameters.get("priceListId")),
 				priceList);
 		}
 
@@ -550,6 +550,14 @@ public abstract class BasePriceListResourceImpl
 				priceListUnsafeConsumer.accept(priceList);
 			}
 		}
+	}
+
+	private Long _parseLong(String value) {
+		if (value != null) {
+			return Long.parseLong(value);
+		}
+
+		return null;
 	}
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {

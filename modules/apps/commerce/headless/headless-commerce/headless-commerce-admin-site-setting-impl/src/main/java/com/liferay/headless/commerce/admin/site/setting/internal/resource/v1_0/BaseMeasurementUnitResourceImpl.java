@@ -450,8 +450,7 @@ public abstract class BaseMeasurementUnitResourceImpl
 			measurementUnitUnsafeConsumer =
 				measurementUnit -> putMeasurementUnit(
 					measurementUnit.getId() != null ? measurementUnit.getId() :
-						Long.parseLong(
-							(String)parameters.get("measurementUnitId")),
+						_parseLong((String)parameters.get("measurementUnitId")),
 					measurementUnit);
 		}
 
@@ -470,6 +469,14 @@ public abstract class BaseMeasurementUnitResourceImpl
 				measurementUnitUnsafeConsumer.accept(measurementUnit);
 			}
 		}
+	}
+
+	private Long _parseLong(String value) {
+		if (value != null) {
+			return Long.parseLong(value);
+		}
+
+		return null;
 	}
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {

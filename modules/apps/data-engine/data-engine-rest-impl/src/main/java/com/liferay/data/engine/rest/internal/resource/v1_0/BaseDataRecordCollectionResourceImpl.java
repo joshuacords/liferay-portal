@@ -625,7 +625,7 @@ public abstract class BaseDataRecordCollectionResourceImpl
 				dataRecordCollectionUnsafeConsumer =
 					dataRecordCollection ->
 						postDataDefinitionDataRecordCollection(
-							Long.parseLong(
+							_parseLong(
 								(String)parameters.get("dataDefinitionId")),
 							dataRecordCollection);
 			}
@@ -707,7 +707,7 @@ public abstract class BaseDataRecordCollectionResourceImpl
 		}
 		else if (parameters.containsKey("dataDefinitionId")) {
 			return getDataDefinitionDataRecordCollectionsPage(
-				Long.parseLong((String)parameters.get("dataDefinitionId")),
+				_parseLong((String)parameters.get("dataDefinitionId")),
 				(String)parameters.get("keywords"), pagination);
 		}
 		else {
@@ -755,7 +755,7 @@ public abstract class BaseDataRecordCollectionResourceImpl
 				dataRecordCollection -> putDataRecordCollection(
 					dataRecordCollection.getId() != null ?
 						dataRecordCollection.getId() :
-							Long.parseLong(
+							_parseLong(
 								(String)parameters.get(
 									"dataRecordCollectionId")),
 					dataRecordCollection);
@@ -778,6 +778,14 @@ public abstract class BaseDataRecordCollectionResourceImpl
 				dataRecordCollectionUnsafeConsumer.accept(dataRecordCollection);
 			}
 		}
+	}
+
+	private Long _parseLong(String value) {
+		if (value != null) {
+			return Long.parseLong(value);
+		}
+
+		return null;
 	}
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {

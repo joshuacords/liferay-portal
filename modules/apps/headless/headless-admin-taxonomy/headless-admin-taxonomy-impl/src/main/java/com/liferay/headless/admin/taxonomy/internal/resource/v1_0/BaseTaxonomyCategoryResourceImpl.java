@@ -620,7 +620,7 @@ public abstract class BaseTaxonomyCategoryResourceImpl
 			if (parameters.containsKey("taxonomyVocabularyId")) {
 				taxonomyCategoryUnsafeConsumer =
 					taxonomyCategory -> postTaxonomyVocabularyTaxonomyCategory(
-						Long.parseLong(
+						_parseLong(
 							(String)parameters.get("taxonomyVocabularyId")),
 						taxonomyCategory);
 			}
@@ -734,7 +734,7 @@ public abstract class BaseTaxonomyCategoryResourceImpl
 				taxonomyCategory -> patchTaxonomyCategory(
 					taxonomyCategory.getId() != null ?
 						taxonomyCategory.getId() :
-							Long.parseLong(
+							_parseLong(
 								(String)parameters.get("taxonomyCategoryId")),
 					taxonomyCategory);
 		}
@@ -744,7 +744,7 @@ public abstract class BaseTaxonomyCategoryResourceImpl
 				taxonomyCategory -> putTaxonomyCategory(
 					taxonomyCategory.getId() != null ?
 						taxonomyCategory.getId() :
-							Long.parseLong(
+							_parseLong(
 								(String)parameters.get("taxonomyCategoryId")),
 					taxonomyCategory);
 		}
@@ -764,6 +764,14 @@ public abstract class BaseTaxonomyCategoryResourceImpl
 				taxonomyCategoryUnsafeConsumer.accept(taxonomyCategory);
 			}
 		}
+	}
+
+	private Long _parseLong(String value) {
+		if (value != null) {
+			return Long.parseLong(value);
+		}
+
+		return null;
 	}
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {

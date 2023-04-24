@@ -539,7 +539,7 @@ public abstract class BaseKeywordResourceImpl
 		if ("UPDATE".equalsIgnoreCase(updateStrategy)) {
 			keywordUnsafeConsumer = keyword -> putKeyword(
 				keyword.getId() != null ? keyword.getId() :
-					Long.parseLong((String)parameters.get("keywordId")),
+					_parseLong((String)parameters.get("keywordId")),
 				keyword);
 		}
 
@@ -557,6 +557,14 @@ public abstract class BaseKeywordResourceImpl
 				keywordUnsafeConsumer.accept(keyword);
 			}
 		}
+	}
+
+	private Long _parseLong(String value) {
+		if (value != null) {
+			return Long.parseLong(value);
+		}
+
+		return null;
 	}
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {

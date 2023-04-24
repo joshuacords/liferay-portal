@@ -460,7 +460,7 @@ public abstract class BaseSpecificationResourceImpl
 		if ("PARTIAL_UPDATE".equalsIgnoreCase(updateStrategy)) {
 			specificationUnsafeConsumer = specification -> patchSpecification(
 				specification.getId() != null ? specification.getId() :
-					Long.parseLong((String)parameters.get("specificationId")),
+					_parseLong((String)parameters.get("specificationId")),
 				specification);
 		}
 
@@ -479,6 +479,14 @@ public abstract class BaseSpecificationResourceImpl
 				specificationUnsafeConsumer.accept(specification);
 			}
 		}
+	}
+
+	private Long _parseLong(String value) {
+		if (value != null) {
+			return Long.parseLong(value);
+		}
+
+		return null;
 	}
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {
