@@ -22,7 +22,6 @@ import com.liferay.dynamic.data.mapping.storage.DDMFormFieldValue;
 import com.liferay.dynamic.data.mapping.util.DDMFormFieldValueTransformer;
 import com.liferay.exportimport.kernel.lar.PortletDataContext;
 import com.liferay.journal.model.JournalArticle;
-import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -32,16 +31,8 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.StagedModel;
 import com.liferay.portal.kernel.repository.model.FileEntry;
-import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.kernel.xml.Document;
-import com.liferay.portal.kernel.xml.DocumentException;
-import com.liferay.portal.kernel.xml.Element;
-import com.liferay.portal.kernel.xml.Node;
-import com.liferay.portal.kernel.xml.SAXReaderUtil;
-import com.liferay.portal.kernel.xml.XPath;
 
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -52,18 +43,12 @@ public class ImageImportDDMFormFieldValueTransformer
 	implements DDMFormFieldValueTransformer {
 
 	public ImageImportDDMFormFieldValueTransformer(
-		String content, DLAppService dlAppService,
-		PortletDataContext portletDataContext, StagedModel stagedModel) {
+		DLAppService dlAppService, PortletDataContext portletDataContext,
+		StagedModel stagedModel) {
 
 		_dlAppService = dlAppService;
 		_portletDataContext = portletDataContext;
 		_stagedModel = stagedModel;
-
-		_setContent(content);
-	}
-
-	public String getContent() {
-		return _document.asXML();
 	}
 
 	@Override
@@ -78,12 +63,11 @@ public class ImageImportDDMFormFieldValueTransformer
 		Value value = ddmFormFieldValue.getValue();
 
 		for (Locale locale : value.getAvailableLocales()) {
-			String valueString = value.getString(locale);
-
 			JSONObject jsonObject = null;
 
 			try {
-				jsonObject = JSONFactoryUtil.createJSONObject(valueString);
+				jsonObject = JSONFactoryUtil.createJSONObject(
+					value.getString(locale));
 			}
 			catch (JSONException jsonException) {
 				if (_log.isDebugEnabled()) {
@@ -101,30 +85,11 @@ public class ImageImportDDMFormFieldValueTransformer
 				continue;
 			}
 
-			String fileEntryJSON = toJSON(
-				importedFileEntry, jsonObject.getString("type"),
-				jsonObject.getString("alt"));
-
-			value.addString(locale, fileEntryJSON);
-
-			StringBundler sb = new StringBundler(4);
-
-			sb.append("//dynamic-element[@type='image']");
-			sb.append("/dynamic-content[contains(text(),");
-			sb.append(HtmlUtil.escapeXPathAttribute(valueString));
-			sb.append(")]");
-
-			XPath xPath = SAXReaderUtil.createXPath(sb.toString());
-
-			List<Node> imageNodes = xPath.selectNodes(_document);
-
-			for (Node imageNode : imageNodes) {
-				Element imageElement = (Element)imageNode;
-
-				imageElement.clearContent();
-
-				imageElement.addCDATA(fileEntryJSON);
-			}
+			value.addString(
+				locale,
+				toJSON(
+					importedFileEntry, jsonObject.getString("type"),
+					jsonObject.getString("alt")));
 		}
 	}
 
@@ -183,22 +148,10 @@ public class ImageImportDDMFormFieldValueTransformer
 		return jsonObject.toString();
 	}
 
-	private void _setContent(String content) {
-		try {
-			_document = SAXReaderUtil.read(content);
-		}
-		catch (DocumentException documentException) {
-			if (_log.isDebugEnabled()) {
-				_log.debug("Invalid content:\n" + content);
-			}
-		}
-	}
-
 	private static final Log _log = LogFactoryUtil.getLog(
 		ImageImportDDMFormFieldValueTransformer.class);
 
 	private final DLAppService _dlAppService;
-	private Document _document;
 	private final PortletDataContext _portletDataContext;
 	private final StagedModel _stagedModel;
 
