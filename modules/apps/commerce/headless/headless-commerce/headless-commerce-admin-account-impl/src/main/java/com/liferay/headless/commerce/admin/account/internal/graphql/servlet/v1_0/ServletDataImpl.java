@@ -399,6 +399,47 @@ public class ServletDataImpl implements ServletData {
 						new ObjectValuePair<>(
 							AccountOrganizationResourceImpl.class,
 							"getAccountIdAccountOrganization"));
+
+					put(
+						"query#Account.groupByExternalReferenceCode",
+						new ObjectValuePair<>(
+							AccountGroupResourceImpl.class,
+							"getAccountGroupByExternalReferenceCode"));
+					put(
+						"query#Account.byExternalReferenceCodeAccountMember",
+						new ObjectValuePair<>(
+							AccountMemberResourceImpl.class,
+							"getAccountByExternalReferenceCodeAccountMember"));
+					put(
+						"query#Account.byExternalReferenceCodeAccountOrganization",
+						new ObjectValuePair<>(
+							AccountOrganizationResourceImpl.class,
+							"getAccountByExternalReferenceCodeAccountOrganization"));
+					put(
+						"query#Account.byExternalReferenceCodeAccountMembers",
+						new ObjectValuePair<>(
+							AccountMemberResourceImpl.class,
+							"getAccountByExternalReferenceCodeAccountMembersPage"));
+					put(
+						"query#Account.byExternalReferenceCodeAccountAddresses",
+						new ObjectValuePair<>(
+							AccountAddressResourceImpl.class,
+							"getAccountByExternalReferenceCodeAccountAddressesPage"));
+					put(
+						"query#Account.byExternalReferenceCodeAccountOrganizations",
+						new ObjectValuePair<>(
+							AccountOrganizationResourceImpl.class,
+							"getAccountByExternalReferenceCodeAccountOrganizationsPage"));
+					put(
+						"query#AccountAddress.accountByExternalReferenceCode",
+						new ObjectValuePair<>(
+							AccountResourceImpl.class,
+							"getAccountByExternalReferenceCode"));
+					put(
+						"query#Account.addressByExternalReferenceCode",
+						new ObjectValuePair<>(
+							AccountAddressResourceImpl.class,
+							"getAccountAddressByExternalReferenceCode"));
 				}
 			};
 

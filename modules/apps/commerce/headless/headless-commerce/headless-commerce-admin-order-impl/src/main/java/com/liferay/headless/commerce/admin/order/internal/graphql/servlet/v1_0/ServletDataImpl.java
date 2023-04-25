@@ -332,6 +332,52 @@ public class ServletDataImpl implements ServletData {
 						new ObjectValuePair<>(
 							ShippingAddressResourceImpl.class,
 							"getOrderIdShippingAddress"));
+
+					put(
+						"query#Order.itemByExternalReferenceCode",
+						new ObjectValuePair<>(
+							OrderItemResourceImpl.class,
+							"getOrderItemByExternalReferenceCode"));
+					put(
+						"query#Order.byExternalReferenceCodeChannel",
+						new ObjectValuePair<>(
+							ChannelResourceImpl.class,
+							"getOrderByExternalReferenceCodeChannel"));
+					put(
+						"query#Order.byExternalReferenceCodeAccount",
+						new ObjectValuePair<>(
+							AccountResourceImpl.class,
+							"getOrderByExternalReferenceCodeAccount"));
+					put(
+						"query#OrderItem.orderByExternalReferenceCode",
+						new ObjectValuePair<>(
+							OrderResourceImpl.class,
+							"getOrderByExternalReferenceCode"));
+					put(
+						"query#Order.noteByExternalReferenceCode",
+						new ObjectValuePair<>(
+							OrderNoteResourceImpl.class,
+							"getOrderNoteByExternalReferenceCode"));
+					put(
+						"query#Order.byExternalReferenceCodeBillingAddress",
+						new ObjectValuePair<>(
+							BillingAddressResourceImpl.class,
+							"getOrderByExternalReferenceCodeBillingAddress"));
+					put(
+						"query#Order.byExternalReferenceCodeOrderNotes",
+						new ObjectValuePair<>(
+							OrderNoteResourceImpl.class,
+							"getOrderByExternalReferenceCodeOrderNotesPage"));
+					put(
+						"query#Order.byExternalReferenceCodeShippingAddress",
+						new ObjectValuePair<>(
+							ShippingAddressResourceImpl.class,
+							"getOrderByExternalReferenceCodeShippingAddress"));
+					put(
+						"query#Order.byExternalReferenceCodeOrderItems",
+						new ObjectValuePair<>(
+							OrderItemResourceImpl.class,
+							"getOrderByExternalReferenceCodeOrderItemsPage"));
 				}
 			};
 

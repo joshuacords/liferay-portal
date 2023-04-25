@@ -174,6 +174,16 @@ public class ServletDataImpl implements ServletData {
 						new ObjectValuePair<>(
 							FormStructureResourceImpl.class,
 							"getSiteFormStructuresPage"));
+
+					put(
+						"query#Form.formRecordByLatestDraft",
+						new ObjectValuePair<>(
+							FormRecordResourceImpl.class,
+							"getFormFormRecordByLatestDraft"));
+					put(
+						"query#FormRecord.form",
+						new ObjectValuePair<>(
+							FormResourceImpl.class, "getForm"));
 				}
 			};
 

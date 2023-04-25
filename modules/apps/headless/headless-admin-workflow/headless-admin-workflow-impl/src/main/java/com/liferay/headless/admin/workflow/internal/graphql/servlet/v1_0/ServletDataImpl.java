@@ -137,6 +137,12 @@ public class ServletDataImpl implements ServletData {
 						"query#workflowTask",
 						new ObjectValuePair<>(
 							WorkflowTaskResourceImpl.class, "getWorkflowTask"));
+
+					put(
+						"query#WorkflowTask.workflowLogs",
+						new ObjectValuePair<>(
+							WorkflowLogResourceImpl.class,
+							"getWorkflowTaskWorkflowLogsPage"));
 				}
 			};
 

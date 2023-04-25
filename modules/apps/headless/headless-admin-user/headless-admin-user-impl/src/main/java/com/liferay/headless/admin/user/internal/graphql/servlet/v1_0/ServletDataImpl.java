@@ -340,6 +340,75 @@ public class ServletDataImpl implements ServletData {
 						"query#webUrl",
 						new ObjectValuePair<>(
 							WebUrlResourceImpl.class, "getWebUrl"));
+
+					put(
+						"query#UserAccount.phones",
+						new ObjectValuePair<>(
+							PhoneResourceImpl.class,
+							"getUserAccountPhonesPage"));
+					put(
+						"query#Site.userAccounts",
+						new ObjectValuePair<>(
+							UserAccountResourceImpl.class,
+							"getSiteUserAccountsPage"));
+					put(
+						"query#Site.segments",
+						new ObjectValuePair<>(
+							SegmentResourceImpl.class, "getSiteSegmentsPage"));
+					put(
+						"query#Site.userAccountSegments",
+						new ObjectValuePair<>(
+							SegmentResourceImpl.class,
+							"getSiteUserAccountSegmentsPage"));
+					put(
+						"query#UserAccount.postalAddresses",
+						new ObjectValuePair<>(
+							PostalAddressResourceImpl.class,
+							"getUserAccountPostalAddressesPage"));
+					put(
+						"query#UserAccount.emailAddresses",
+						new ObjectValuePair<>(
+							EmailAddressResourceImpl.class,
+							"getUserAccountEmailAddressesPage"));
+					put(
+						"query#Organization.webUrls",
+						new ObjectValuePair<>(
+							WebUrlResourceImpl.class,
+							"getOrganizationWebUrlsPage"));
+					put(
+						"query#Organization.userAccounts",
+						new ObjectValuePair<>(
+							UserAccountResourceImpl.class,
+							"getOrganizationUserAccountsPage"));
+					put(
+						"query#Organization.postalAddresses",
+						new ObjectValuePair<>(
+							PostalAddressResourceImpl.class,
+							"getOrganizationPostalAddressesPage"));
+					put(
+						"query#Organization.organizations",
+						new ObjectValuePair<>(
+							OrganizationResourceImpl.class,
+							"getOrganizationOrganizationsPage"));
+					put(
+						"query#Subscription.site",
+						new ObjectValuePair<>(
+							SiteResourceImpl.class, "getSite"));
+					put(
+						"query#UserAccount.webUrls",
+						new ObjectValuePair<>(
+							WebUrlResourceImpl.class,
+							"getUserAccountWebUrlsPage"));
+					put(
+						"query#Organization.emailAddresses",
+						new ObjectValuePair<>(
+							EmailAddressResourceImpl.class,
+							"getOrganizationEmailAddressesPage"));
+					put(
+						"query#Organization.phones",
+						new ObjectValuePair<>(
+							PhoneResourceImpl.class,
+							"getOrganizationPhonesPage"));
 				}
 			};
 

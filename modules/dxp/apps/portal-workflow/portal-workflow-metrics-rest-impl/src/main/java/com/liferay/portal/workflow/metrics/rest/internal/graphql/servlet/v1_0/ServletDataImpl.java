@@ -193,6 +193,11 @@ public class ServletDataImpl implements ServletData {
 						"query#timeRanges",
 						new ObjectValuePair<>(
 							TimeRangeResourceImpl.class, "getTimeRangesPage"));
+
+					put(
+						"query#SLA.process",
+						new ObjectValuePair<>(
+							ProcessResourceImpl.class, "getProcess"));
 				}
 			};
 

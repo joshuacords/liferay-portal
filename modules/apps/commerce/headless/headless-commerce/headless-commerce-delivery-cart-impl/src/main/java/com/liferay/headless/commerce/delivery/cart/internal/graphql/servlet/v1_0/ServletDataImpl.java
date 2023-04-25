@@ -214,6 +214,25 @@ public class ServletDataImpl implements ServletData {
 						"query#cartItems",
 						new ObjectValuePair<>(
 							CartItemResourceImpl.class, "getCartItemsPage"));
+
+					put(
+						"query#Cart.comments",
+						new ObjectValuePair<>(
+							CartCommentResourceImpl.class,
+							"getCartCommentsPage"));
+					put(
+						"query#Cart.shippingAddres",
+						new ObjectValuePair<>(
+							AddressResourceImpl.class,
+							"getCartShippingAddres"));
+					put(
+						"query#Cart.items",
+						new ObjectValuePair<>(
+							CartItemResourceImpl.class, "getCartItemsPage"));
+					put(
+						"query#Cart.billingAddres",
+						new ObjectValuePair<>(
+							AddressResourceImpl.class, "getCartBillingAddres"));
 				}
 			};
 

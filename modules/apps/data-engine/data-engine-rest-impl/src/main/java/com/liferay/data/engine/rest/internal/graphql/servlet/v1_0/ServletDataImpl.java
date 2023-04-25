@@ -380,6 +380,47 @@ public class ServletDataImpl implements ServletData {
 						new ObjectValuePair<>(
 							DataRecordCollectionResourceImpl.class,
 							"getSiteDataRecordCollection"));
+
+					put(
+						"query#DataRecordCollection.dataDefinition",
+						new ObjectValuePair<>(
+							DataDefinitionResourceImpl.class,
+							"getDataDefinition"));
+					put(
+						"query#DataDefinition.dataListViews",
+						new ObjectValuePair<>(
+							DataListViewResourceImpl.class,
+							"getDataDefinitionDataListViewsPage"));
+					put(
+						"query#DataDefinition.dataRecords",
+						new ObjectValuePair<>(
+							DataRecordResourceImpl.class,
+							"getDataDefinitionDataRecordsPage"));
+					put(
+						"query#DataDefinition.dataRecordCollections",
+						new ObjectValuePair<>(
+							DataRecordCollectionResourceImpl.class,
+							"getDataDefinitionDataRecordCollectionsPage"));
+					put(
+						"query#DataDefinition.dataLayouts",
+						new ObjectValuePair<>(
+							DataLayoutResourceImpl.class,
+							"getDataDefinitionDataLayoutsPage"));
+					put(
+						"query#DataRecordCollection.dataRecords",
+						new ObjectValuePair<>(
+							DataRecordResourceImpl.class,
+							"getDataRecordCollectionDataRecordsPage"));
+					put(
+						"query#DataRecord.collection",
+						new ObjectValuePair<>(
+							DataRecordCollectionResourceImpl.class,
+							"getDataRecordCollection"));
+					put(
+						"query#DataRecordCollection.dataRecordExport",
+						new ObjectValuePair<>(
+							DataRecordResourceImpl.class,
+							"getDataRecordCollectionDataRecordExport"));
 				}
 			};
 
