@@ -18,12 +18,11 @@ import com.liferay.document.library.kernel.exception.NoSuchFileEntryException;
 import com.liferay.document.library.kernel.service.DLAppService;
 import com.liferay.dynamic.data.mapping.model.DDMFormFieldType;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
-import com.liferay.dynamic.data.mapping.model.Value;
 import com.liferay.dynamic.data.mapping.service.DDMStructureLocalService;
-import com.liferay.dynamic.data.mapping.storage.DDMFormFieldValue;
 import com.liferay.dynamic.data.mapping.storage.DDMFormValues;
 import com.liferay.dynamic.data.mapping.storage.Field;
 import com.liferay.dynamic.data.mapping.storage.Fields;
+import com.liferay.dynamic.data.mapping.util.DDMFormValuesToFieldsConverter;
 import com.liferay.dynamic.data.mapping.util.DDMFormValuesTransformer;
 import com.liferay.exportimport.content.processor.ExportImportContentProcessor;
 import com.liferay.exportimport.kernel.exception.ExportImportContentValidationException;
@@ -54,7 +53,6 @@ import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.Portal;
-import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.xml.Document;
 import com.liferay.portal.kernel.xml.DocumentException;
@@ -212,27 +210,8 @@ public class JournalArticleExportImportContentProcessor
 		replaceImportJournalArticleReferences(
 			fields, portletDataContext, stagedModel);
 
-		content = _journalConverter.getContent(
-			ddmStructure, fields, ddmStructure.getGroupId());
-
 		DDMFormValues ddmFormValues = _journalConverter.getDDMFormValues(
 			ddmStructure, fields);
-
-		List<String> originalContents = _fetchContentsFromDDMFormValues(
-			ddmFormValues.getDDMFormFieldValues());
-
-		ddmFormValues =
-			_ddmFormValuesExportImportContentProcessor.
-				replaceImportContentReferences(
-					portletDataContext, stagedModel, ddmFormValues);
-
-		List<String> modifiedContents = _fetchContentsFromDDMFormValues(
-			ddmFormValues.getDDMFormFieldValues());
-
-		for (int i = 0; i < originalContents.size(); i++) {
-			content = StringUtil.replace(
-				content, originalContents.get(i), modifiedContents.get(i));
-		}
 
 		DDMFormValuesTransformer ddmFormValuesTransformer =
 			new DDMFormValuesTransformer(ddmFormValues);
@@ -240,14 +219,23 @@ public class JournalArticleExportImportContentProcessor
 		ImageImportDDMFormFieldValueTransformer
 			imageImportDDMFormFieldValueTransformer =
 				new ImageImportDDMFormFieldValueTransformer(
-					content, _dlAppService, portletDataContext, stagedModel);
+					_dlAppService, portletDataContext, stagedModel);
 
 		ddmFormValuesTransformer.addTransformer(
 			imageImportDDMFormFieldValueTransformer);
 
 		ddmFormValuesTransformer.transform();
 
-		content = imageImportDDMFormFieldValueTransformer.getContent();
+		ddmFormValues =
+			_ddmFormValuesExportImportContentProcessor.
+				replaceImportContentReferences(
+					portletDataContext, stagedModel, ddmFormValues);
+
+		content = _journalConverter.getContent(
+			ddmStructure,
+			_ddmFormValuesToFieldsConverter.convert(
+				ddmStructure, ddmFormValues),
+			ddmStructure.getGroupId());
 
 		return _defaultTextExportImportContentProcessor.
 			replaceImportContentReferences(
@@ -666,36 +654,6 @@ public class JournalArticleExportImportContentProcessor
 		return newArticleJSONObject.toString();
 	}
 
-	private List<String> _fetchContentsFromDDMFormValues(
-		List<DDMFormFieldValue> ddmFormFieldValues) {
-
-		return _fetchContentsFromDDMFormValues(
-			new ArrayList<String>(), ddmFormFieldValues);
-	}
-
-	private List<String> _fetchContentsFromDDMFormValues(
-		List<String> contents, List<DDMFormFieldValue> ddmFormFieldValues) {
-
-		for (DDMFormFieldValue ddmFormFieldValue : ddmFormFieldValues) {
-			contents = _fetchContentsFromDDMFormValues(
-				contents, ddmFormFieldValue.getNestedDDMFormFieldValues());
-
-			Value value = ddmFormFieldValue.getValue();
-
-			if (value == null) {
-				contents.add(StringPool.BLANK);
-
-				continue;
-			}
-
-			for (Locale locale : value.getAvailableLocales()) {
-				contents.add(value.getString(locale));
-			}
-		}
-
-		return contents;
-	}
-
 	private DDMStructure _fetchDDMStructure(
 		PortletDataContext portletDataContext, JournalArticle article) {
 
@@ -758,6 +716,9 @@ public class JournalArticleExportImportContentProcessor
 	)
 	private ExportImportContentProcessor<DDMFormValues>
 		_ddmFormValuesExportImportContentProcessor;
+
+	@Reference
+	private DDMFormValuesToFieldsConverter _ddmFormValuesToFieldsConverter;
 
 	@Reference
 	private DDMStructureLocalService _ddmStructureLocalService;
