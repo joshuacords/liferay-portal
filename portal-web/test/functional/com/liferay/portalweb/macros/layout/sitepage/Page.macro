@@ -326,13 +326,7 @@ definition {
 	}
 
 	macro gotoChildPagePG {
-		MouseOver(
-			key_pageName = ${pageName},
-			locator1 = "Home#PAGE");
-
-		MouseOver(locator1 = "Home#SITE_NAME");
-
-		MouseOver(
+		MouseOver.javaScriptMouseOver(
 			key_pageName = ${pageName},
 			locator1 = "Home#PAGE");
 
