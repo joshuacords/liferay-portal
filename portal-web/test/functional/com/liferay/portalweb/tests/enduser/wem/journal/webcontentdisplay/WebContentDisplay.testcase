@@ -449,6 +449,11 @@ definition {
 			groupName = "Test Site Name",
 			layoutName = "Site Page Name");
 
+		JSONLayout.addWidgetToPublicLayout(
+			groupName = "Test Site Name",
+			layoutName = "Site Page Name",
+			widgetName = "Language Selector");
+
 		WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
 
 		WebContentNavigator.gotoAddCP();
@@ -457,7 +462,7 @@ definition {
 
 		var portalURL = PropsUtil.get("portal.url");
 
-		AlloyEditor.addSourceContent(content = '''<p><span><a href="${portalURL}/web/test-site-name/site-page-name/-/testportlet">text</a></span></p>''');
+		AlloyEditor.addSourceContent(content = '''<p><span><a href="${portalURL}/web/test-site-name/site-page-name/-/com_liferay_site_navigation_language_web_portlet_SiteNavigationLanguagePortlet">text</a></span></p>''');
 
 		PortletEntry.publish();
 
@@ -479,7 +484,7 @@ definition {
 			key_contentText = "text",
 			locator1 = "WCD#WEB_CONTENT_TEXT_LINK_URL");
 
-		Portlet.viewTitle(portletName = "testportlet");
+		Portlet.viewTitle(portletName = "Language Selector");
 	}
 
 	@description = "Add a web content article with a custom DDM structure and template and display it in the web content display widget."
