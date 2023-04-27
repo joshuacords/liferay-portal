@@ -1140,7 +1140,8 @@ public class LicenseKeyResourceImpl
 		return contact;
 	}
 
-	private int _getProductConsumptionsCount(ProductPurchase productPurchase)
+	private int _getProductConsumptionsCount(
+			ProductPurchase productPurchase, boolean includeDetached)
 		throws Exception {
 
 		FilterQuery filterQuery = new FilterQuery();
@@ -1153,29 +1154,31 @@ public class LicenseKeyResourceImpl
 		filterQuery2.addEquals(
 			false, "productPurchaseKey", productPurchase.getKey());
 
-		FilterQuery filterQuery3 = new FilterQuery();
+		if (includeDetached) {
+			FilterQuery filterQuery3 = new FilterQuery();
 
-		if (productPurchase.getOriginalEndDate() != null) {
-			filterQuery3.addGreaterThanEquals(
-				true, "endDate", productPurchase.getOriginalEndDate());
-		}
-		else {
-			filterQuery3.addEquals(true, "endDate", (String)null);
-		}
+			if (productPurchase.getOriginalEndDate() != null) {
+				filterQuery3.addGreaterThanEquals(
+					true, "endDate", productPurchase.getOriginalEndDate());
+			}
+			else {
+				filterQuery3.addEquals(true, "endDate", (String)null);
+			}
 
-		filterQuery3.addEquals(
-			true, "productKey", productPurchase.getProductKey());
-		filterQuery3.addEquals(true, "productPurchaseKey", (String)null);
+			filterQuery3.addEquals(
+				true, "productKey", productPurchase.getProductKey());
+			filterQuery3.addEquals(true, "productPurchaseKey", (String)null);
 
-		if (productPurchase.getStartDate() != null) {
-			filterQuery3.addLessThanEquals(
-				true, "startDate", productPurchase.getStartDate());
-		}
-		else {
-			filterQuery3.addEquals(true, "startDate", (String)null);
-		}
+			if (productPurchase.getStartDate() != null) {
+				filterQuery3.addLessThanEquals(
+					true, "startDate", productPurchase.getStartDate());
+			}
+			else {
+				filterQuery3.addEquals(true, "startDate", (String)null);
+			}
 
-		filterQuery2.addFilterQuery(false, filterQuery3);
+			filterQuery2.addFilterQuery(false, filterQuery3);
+		}
 
 		filterQuery.addFilterQuery(true, filterQuery2);
 
@@ -1299,19 +1302,70 @@ public class LicenseKeyResourceImpl
 
 				SubscriptionTerm subscriptionTerm = new SubscriptionTerm();
 
-				subscriptionTerm.setEndDate(
-					productPurchase.getOriginalEndDate());
-
 				Map<String, String> properties =
 					productPurchase.getProperties();
 
-				if (properties != null) {
-					int sizing = GetterUtil.getInteger(
-						properties.get("sizing"));
+				int sizing = 0;
 
-					if (sizing > 0) {
-						subscriptionTerm.setInstanceSize(sizing);
+				if (properties != null) {
+					sizing = GetterUtil.getInteger(properties.get("sizing"));
+				}
+
+				boolean isGroup = false;
+
+				for (SubscriptionTerm curSubscriptionTerm : subscriptionTerms) {
+					String productKey = curSubscriptionTerm.getProductKey();
+
+					if (!productKey.equals(productPurchase.getProductKey())) {
+						continue;
 					}
+
+					Date curEndDate = curSubscriptionTerm.getEndDate();
+
+					if (curEndDate.equals(
+							productPurchase.getOriginalEndDate()) &&
+						(curSubscriptionTerm.getInstanceSize() == sizing)) {
+
+						int productConsumptionsCount =
+							_getProductConsumptionsCount(
+								productPurchase, false);
+
+						if (productConsumptionsCount <
+								productPurchase.getQuantity()) {
+
+							curSubscriptionTerm.setProductPurchaseKey(
+								productPurchase.getKey());
+						}
+
+						curSubscriptionTerm.setProvisionedCount(
+							curSubscriptionTerm.getProvisionedCount() +
+								productConsumptionsCount);
+						curSubscriptionTerm.setQuantity(
+							curSubscriptionTerm.getQuantity() +
+								productPurchase.getQuantity());
+
+						Date startDate = curSubscriptionTerm.getStartDate();
+
+						if (startDate.after(productPurchase.getStartDate())) {
+							subscriptionTerm.setStartDate(
+								productPurchase.getStartDate());
+						}
+
+						isGroup = true;
+
+						break;
+					}
+				}
+
+				if (isGroup) {
+					continue;
+				}
+
+				subscriptionTerm.setEndDate(
+					productPurchase.getOriginalEndDate());
+
+				if (sizing > 0) {
+					subscriptionTerm.setInstanceSize(sizing);
 				}
 
 				subscriptionTerm.setPerpetual(productPurchase.getPerpetual());
@@ -1319,7 +1373,7 @@ public class LicenseKeyResourceImpl
 				subscriptionTerm.setProductPurchaseKey(
 					productPurchase.getKey());
 				subscriptionTerm.setProvisionedCount(
-					_getProductConsumptionsCount(productPurchase));
+					_getProductConsumptionsCount(productPurchase, true));
 				subscriptionTerm.setQuantity(productPurchase.getQuantity());
 				subscriptionTerm.setStartDate(productPurchase.getStartDate());
 
@@ -1711,7 +1765,7 @@ public class LicenseKeyResourceImpl
 			}
 
 			int productionConsumptionsCount = _getProductConsumptionsCount(
-				productPurchase);
+				productPurchase, true);
 
 			int serverCount = 1;
 
