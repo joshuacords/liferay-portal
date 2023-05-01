@@ -400,7 +400,7 @@ public class UserIndexerTest {
 		String screenName = RandomTestUtil.randomString();
 
 		addUserWithScreenName(screenName);
-		//test signing
+
 		assertScreenNameFieldValue(
 			screenName,
 			byAttribute("screenName", StringUtil.toLowerCase(screenName)));
