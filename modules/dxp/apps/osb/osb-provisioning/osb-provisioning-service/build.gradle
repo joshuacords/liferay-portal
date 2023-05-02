@@ -21,4 +21,5 @@ dependencies {
 	compileOnly project(":dxp:apps:osb:osb-provisioning:osb-provisioning-koroneiki:osb-provisioning-koroneiki-api")
 	compileOnly project(":dxp:apps:osb:osb-provisioning:osb-provisioning-koroneiki:osb-provisioning-koroneiki-web-service-api")
 	compileOnly project(":dxp:apps:osb:osb-provisioning:osb-provisioning-license:osb-provisioning-license-api")
+	compileOnly project(":dxp:apps:osb:osb-provisioning:osb-provisioning-license:osb-provisioning-license-helper-api")
 }

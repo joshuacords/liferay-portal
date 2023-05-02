@@ -76,4 +76,25 @@ public class LicenseSizing {
 		return sizing;
 	}
 
+	public static int getSizing(String sizing) {
+		if (Validator.isNull(sizing)) {
+			return 0;
+		}
+
+		if (sizing.equals(SIZING_ONE) || sizing.equals("sizing-1")) {
+			return 1;
+		}
+		else if (sizing.equals(SIZING_TWO) || sizing.equals("sizing-2")) {
+			return 2;
+		}
+		else if (sizing.equals(SIZING_THREE) || sizing.equals("sizing-3")) {
+			return 3;
+		}
+		else if (sizing.equals(SIZING_FOUR) || sizing.equals("sizing-4")) {
+			return 4;
+		}
+
+		return 0;
+	}
+
 }

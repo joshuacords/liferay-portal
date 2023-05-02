@@ -18,6 +18,7 @@ import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Account;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Contact;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ContactRole;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ProductPurchase;
+import com.liferay.osb.provisioning.license.model.LicenseKey;
 
 import java.util.List;
 import java.util.Set;
@@ -46,6 +47,9 @@ public interface CustomerPortalRelease {
 			List<ContactRole> currentContactRoles,
 			List<ContactRole> addContactRoles)
 		throws Exception;
+
+	public void sendContactAccountActivationKeyEmail(
+		Contact contact, Account account, LicenseKey licenseKey);
 
 	public void sendContactAssignedWelcomeEmail(
 			Contact contact, Account account,

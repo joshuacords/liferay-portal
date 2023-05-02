@@ -14,6 +14,8 @@
 
 package com.liferay.osb.provisioning.license.helper.constants;
 
+import com.liferay.petra.string.StringPool;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -109,6 +111,20 @@ public class ProductVersion {
 		}
 
 		return -1;
+	}
+
+	public static final String getProductGroup(String productVersion) {
+		if (productVersion.equals(COMMERCE_LICENSE_VERSION_1)) {
+			return "Commerce";
+		}
+		else if (_orderedDXPVersions.contains(productVersion)) {
+			return "DXP";
+		}
+		else if (_orderedPortalVersions.contains(productVersion)) {
+			return "Portal";
+		}
+
+		return StringPool.BLANK;
 	}
 
 	public static final String[] getProductGroupVersions(
