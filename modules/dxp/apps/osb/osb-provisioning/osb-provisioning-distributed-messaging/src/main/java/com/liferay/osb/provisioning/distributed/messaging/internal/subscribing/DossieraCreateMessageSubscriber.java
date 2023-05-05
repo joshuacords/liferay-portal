@@ -76,6 +76,7 @@ import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.FastDateFormatFactoryUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.ResourceBundleUtil;
 import com.liferay.portal.kernel.util.StackTraceUtil;
@@ -2253,16 +2254,17 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 
 		Account account = _accountWebService.getAccount(accountKey);
 
-		Map<String, String> accountProperties = account.getProperties();
+		Map<String, String> oldProperties = new HashMap<>();
 
-		String liferayVersion = accountProperties.getOrDefault(
-			"liferayVersion", StringPool.BLANK);
+		MapUtil.copy(account.getProperties(), oldProperties);
+
+		Map<String, String> newProperties =
+			_dossieraSubscriberUtil.getAccountProperties(account, jsonObject);
 
 		JSONObject projectJSONObject = jsonObject.getJSONObject("_project");
 
 		if (((projectJSONObject != null) &&
-			 !liferayVersion.equals(
-				 projectJSONObject.get("_liferayVersion"))) ||
+			 !oldProperties.equals(newProperties)) ||
 			Validator.isNull(account.getContactEmailAddress()) ||
 			Validator.isNull(account.getRegion()) || (parentAccount != null)) {
 
@@ -2283,12 +2285,14 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 				account.setRegion(region);
 			}
 
-			account.setProperties(
-				_dossieraSubscriberUtil.getAccountProperties(
-					account, jsonObject));
+			account.setProperties(newProperties);
 
 			_accountWebService.updateAccount(
 				StringPool.BLANK, StringPool.BLANK, accountKey, account);
+
+			if (!oldProperties.equals(newProperties)) {
+				_dossieraSubscriberUtil.updateTickets(account, newProperties);
+			}
 		}
 
 		PostalAddress primaryPostalAddress = null;

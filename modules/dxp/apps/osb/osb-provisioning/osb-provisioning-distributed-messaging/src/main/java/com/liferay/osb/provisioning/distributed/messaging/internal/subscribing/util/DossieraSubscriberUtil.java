@@ -122,6 +122,13 @@ public class DossieraSubscriberUtil {
 		String projectSolution = null;
 
 		if (projectJSONObject != null) {
+			if (projectJSONObject.getBoolean("_gsInvolved")) {
+				properties.put("gsOpportunity", "true");
+			}
+			else {
+				properties.remove("gsOpportunity");
+			}
+
 			liferayVersion = projectJSONObject.getString("_liferayVersion");
 
 			if (Validator.isNotNull(liferayVersion)) {
@@ -166,6 +173,7 @@ public class DossieraSubscriberUtil {
 			return;
 		}
 
+		String gsOpportunity = properties.get("gsOpportunity");
 		String projectSolution = properties.get("projectSolution");
 
 		Set<String> criteria = new HashSet<>();
@@ -180,8 +188,13 @@ public class DossieraSubscriberUtil {
 		for (ZendeskTicket zendeskTicket : zendeskTickets) {
 			Set<String> tags = zendeskTicket.getTags();
 
+			tags.remove(ZendeskTagConstants.GS_OPPORTUNITY);
 			tags.remove(ZendeskTagConstants.COMMERCE_SOLUTION);
 			tags.remove(ZendeskTagConstants.SERVICE_SOLUTION);
+
+			if (Validator.isNotNull(gsOpportunity)) {
+				tags.add(ZendeskTagConstants.GS_OPPORTUNITY);
+			}
 
 			if (Validator.isNotNull(projectSolution)) {
 				tags.add(_toZendeskTag(projectSolution));
