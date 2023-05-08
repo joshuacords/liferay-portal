@@ -303,10 +303,6 @@ public class SetupWizardUtil {
 			String password, String jndiName)
 		throws Exception {
 
-		if (Validator.isNull(jndiName)) {
-			Class.forName(driverClassName);
-		}
-
 		DataSource dataSource = null;
 		Connection connection = null;
 
