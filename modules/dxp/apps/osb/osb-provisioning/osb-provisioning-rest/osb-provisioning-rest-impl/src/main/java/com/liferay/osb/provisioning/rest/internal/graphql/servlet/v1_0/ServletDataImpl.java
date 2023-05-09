@@ -156,6 +156,11 @@ public class ServletDataImpl implements ServletData {
 							LicenseKeyResourceImpl.class,
 							"getLicenseKeyExport"));
 					put(
+						"query#licenseKeySubscription",
+						new ObjectValuePair<>(
+							LicenseKeyResourceImpl.class,
+							"getLicenseKeySubscription"));
+					put(
 						"query#licenseKeyDownload",
 						new ObjectValuePair<>(
 							LicenseKeyResourceImpl.class,

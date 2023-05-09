@@ -18,7 +18,6 @@ import com.liferay.osb.provisioning.rest.client.dto.v1_0.Type;
 import com.liferay.osb.provisioning.rest.client.http.HttpInvoker;
 import com.liferay.osb.provisioning.rest.client.pagination.Page;
 import com.liferay.osb.provisioning.rest.client.resource.v1_0.AccountResource;
-import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.petra.reflect.ReflectionUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -38,6 +37,7 @@ import com.liferay.portal.odata.entity.EntityModel;
 import com.liferay.portal.test.rule.Inject;
 import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
+import com.liferay.portal.vulcan.util.TransformUtil;
 
 import java.lang.reflect.Method;
 

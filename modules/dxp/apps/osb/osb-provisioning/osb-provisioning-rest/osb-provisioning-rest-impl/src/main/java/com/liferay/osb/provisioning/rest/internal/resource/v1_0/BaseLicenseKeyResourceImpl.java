@@ -36,6 +36,8 @@ import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.util.ActionUtil;
 import com.liferay.portal.vulcan.util.TransformUtil;
 
+import java.lang.reflect.Array;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -560,6 +562,39 @@ public abstract class BaseLicenseKeyResourceImpl implements LicenseKeyResource {
 	/**
 	 * Invoke this method with the command line:
 	 *
+	 * curl -X 'GET' 'http://localhost:8080/o/provisioning-rest/v1.0/license-keys/subscriptions'  -u 'test@liferay.com:test'
+	 */
+	@io.swagger.v3.oas.annotations.Operation(
+		description = "Gets the subscriptions to the license keys."
+	)
+	@io.swagger.v3.oas.annotations.Parameters(
+		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "licenseKeyId"
+			)
+		}
+	)
+	@io.swagger.v3.oas.annotations.tags.Tags(
+		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "LicenseKey")}
+	)
+	@javax.ws.rs.GET
+	@javax.ws.rs.Path("/license-keys/subscriptions")
+	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@Override
+	public Boolean getLicenseKeySubscription(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.QueryParam("licenseKeyId")
+			Long licenseKeyId)
+		throws Exception {
+
+		return false;
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
 	 * curl -X 'PUT' 'http://localhost:8080/o/provisioning-rest/v1.0/license-keys/subscriptions'  -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Operation(
@@ -804,6 +839,17 @@ public abstract class BaseLicenseKeyResourceImpl implements LicenseKeyResource {
 		return TransformUtil.transformToList(array, unsafeFunction);
 	}
 
+	protected <T, R, E extends Throwable> long[] transformToLongArray(
+		Collection<T> collection, UnsafeFunction<T, R, E> unsafeFunction) {
+
+		try {
+			return unsafeTransformToLongArray(collection, unsafeFunction);
+		}
+		catch (Throwable throwable) {
+			throw new RuntimeException(throwable);
+		}
+	}
+
 	protected <T, R, E extends Throwable> List<R> unsafeTransform(
 			Collection<T> collection, UnsafeFunction<T, R, E> unsafeFunction)
 		throws E {
@@ -834,6 +880,14 @@ public abstract class BaseLicenseKeyResourceImpl implements LicenseKeyResource {
 		return TransformUtil.unsafeTransformToList(array, unsafeFunction);
 	}
 
+	protected <T, R, E extends Throwable> long[] unsafeTransformToLongArray(
+			Collection<T> collection, UnsafeFunction<T, R, E> unsafeFunction)
+		throws E {
+
+		return (long[])_unsafeTransformToPrimitiveArray(
+			collection, unsafeFunction, long[].class);
+	}
+
 	protected AcceptLanguage contextAcceptLanguage;
 	protected com.liferay.portal.kernel.model.Company contextCompany;
 	protected HttpServletRequest contextHttpServletRequest;
@@ -848,6 +902,23 @@ public abstract class BaseLicenseKeyResourceImpl implements LicenseKeyResource {
 	protected ResourcePermissionLocalService resourcePermissionLocalService;
 	protected RoleLocalService roleLocalService;
 	protected SortParserProvider sortParserProvider;
+
+	private <T, R, E extends Throwable> Object _unsafeTransformToPrimitiveArray(
+			Collection<T> collection, UnsafeFunction<T, R, E> unsafeFunction,
+			Class<?> clazz)
+		throws E {
+
+		List<R> list = unsafeTransform(collection, unsafeFunction);
+
+		Object array = clazz.cast(
+			Array.newInstance(clazz.getComponentType(), list.size()));
+
+		for (int i = 0; i < list.size(); i++) {
+			Array.set(array, i, list.get(i));
+		}
+
+		return array;
+	}
 
 	private static final com.liferay.portal.kernel.log.Log _log =
 		LogFactoryUtil.getLog(BaseLicenseKeyResourceImpl.class);

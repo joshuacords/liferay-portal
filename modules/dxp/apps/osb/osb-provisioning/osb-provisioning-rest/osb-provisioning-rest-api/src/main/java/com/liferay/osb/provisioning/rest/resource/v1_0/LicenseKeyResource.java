@@ -102,6 +102,9 @@ public interface LicenseKeyResource {
 	public void deleteLicenseKeySubscription(Long[] licenseKeyIds)
 		throws Exception;
 
+	public Boolean getLicenseKeySubscription(Long licenseKeyId)
+		throws Exception;
+
 	public void putLicenseKeySubscription(Long[] licenseKeyIds)
 		throws Exception;
 
