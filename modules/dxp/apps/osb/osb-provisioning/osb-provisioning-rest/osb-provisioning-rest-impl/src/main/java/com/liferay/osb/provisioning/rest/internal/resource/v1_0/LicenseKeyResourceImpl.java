@@ -51,6 +51,7 @@ import com.liferay.osb.provisioning.rest.dto.v1_0.util.LicenseKeyUtil;
 import com.liferay.osb.provisioning.rest.internal.odata.entity.v1_0.LicenseKeyEntityModel;
 import com.liferay.osb.provisioning.rest.resource.v1_0.LicenseKeyResource;
 import com.liferay.osb.provisioning.search.FilterQuery;
+import com.liferay.osb.provisioning.subscription.model.SubscriptionEntry;
 import com.liferay.osb.provisioning.subscription.service.SubscriptionEntryLocalService;
 import com.liferay.osb.provisioning.util.CustomerPortalRelease;
 import com.liferay.petra.string.StringBundler;
@@ -691,6 +692,26 @@ public class LicenseKeyResourceImpl
 		).type(
 			ContentTypes.TEXT_CSV
 		).build();
+	}
+
+	@Override
+	public Boolean getLicenseKeySubscription(Long licenseKeyId)
+		throws Exception {
+
+		long classNameId = _classNameLocalService.getClassNameId(
+			com.liferay.osb.provisioning.license.model.LicenseKey.class);
+
+		Contact contact = ProvisioningContactThreadLocal.getContact();
+
+		SubscriptionEntry subscriptionEntry =
+			_subscriptionServiceLocalService.fetchSubscriptionEntry(
+				classNameId, licenseKeyId, contact.getUuid());
+
+		if (subscriptionEntry != null) {
+			return true;
+		}
+
+		return false;
 	}
 
 	@Override

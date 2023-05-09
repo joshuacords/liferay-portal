@@ -750,6 +750,27 @@ paths:
                         application/json: {}
                         application/xml: {}
             tags: ["LicenseKey"]
+        get:
+            description:
+                Gets the subscriptions to the license keys.
+            operationId: getLicenseKeySubscription
+            parameters:
+                - in: query
+                  name: licenseKeyId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                type: boolean
+                        application/xml:
+                            schema:
+                                type: boolean
+            tags: ["LicenseKey"]
         put:
             description:
                 Subscribes to license keys.

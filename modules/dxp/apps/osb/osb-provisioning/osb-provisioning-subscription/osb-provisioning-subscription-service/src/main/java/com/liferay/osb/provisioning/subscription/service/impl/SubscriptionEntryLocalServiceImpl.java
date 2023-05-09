@@ -75,6 +75,13 @@ public class SubscriptionEntryLocalServiceImpl
 			classNameId, classPK, contactUuid);
 	}
 
+	public SubscriptionEntry fetchSubscriptionEntry(
+		long classNameId, long classPK, String contactUuid) {
+
+		return subscriptionEntryPersistence.fetchByC_C_CU(
+			classNameId, classPK, contactUuid);
+	}
+
 	public List<SubscriptionEntry> getSubscriptionEntries(
 		long classNameId, long classPK) {
 
