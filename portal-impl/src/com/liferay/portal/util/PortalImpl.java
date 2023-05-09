@@ -6059,8 +6059,8 @@ public class PortalImpl implements Portal {
 				portletURL.setWindowState(WindowState.MAXIMIZED);
 
 				userName = StringBundler.concat(
-					"<a href=\"", portletURL.toString(), "\">",
-					HtmlUtil.escape(userName), "</a>");
+					"<a href=\"", portletURL, "\">", HtmlUtil.escape(userName),
+					"</a>");
 			}
 		}
 		catch (Exception exception) {

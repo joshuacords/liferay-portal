@@ -1242,7 +1242,7 @@ public class PluginPackageUtil {
 				_log.error(
 					StringBundler.concat(
 						"Unable to load repository ", repositoryURL, " ",
-						pluginPackageException.toString()));
+						pluginPackageException));
 			}
 		}
 

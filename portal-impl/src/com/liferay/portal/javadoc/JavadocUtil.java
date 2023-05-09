@@ -87,7 +87,7 @@ public class JavadocUtil {
 			return sb.toString() + className;
 		}
 
-		return StringBundler.concat(sb.toString(), "L", className, ";");
+		return StringBundler.concat(sb, "L", className, ";");
 	}
 
 	private static int _getPrimitiveIndex(String className) {

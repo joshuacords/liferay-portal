@@ -1392,7 +1392,7 @@ public class TemplateContextHelper {
 			if (!HTTP.equals(protocol) && !HTTPS.equals(protocol)) {
 				throw new IOException(
 					StringBundler.concat(
-						"Denied access to resource ", url.toString(),
+						"Denied access to resource ", url,
 						". $httpUtil template variable supports only HTTP and ",
 						"HTTPS protocols."));
 			}
@@ -1400,7 +1400,7 @@ public class TemplateContextHelper {
 			if (isLocationAccessDenied(url.toString())) {
 				throw new IOException(
 					StringBundler.concat(
-						"Denied access to resource ", url.toString(),
+						"Denied access to resource ", url,
 						" using $httpUtil variable from a template. Please ",
 						"use restricted variable $httpUtilUnsafe to access ",
 						"local network."));

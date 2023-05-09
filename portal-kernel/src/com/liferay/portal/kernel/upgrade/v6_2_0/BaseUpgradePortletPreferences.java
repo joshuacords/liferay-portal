@@ -147,7 +147,7 @@ public abstract class BaseUpgradePortletPreferences
 			rightTableName,
 			".companyId as companyId from PortletPreferences inner join ",
 			rightTableName, " on PortletPreferences.", leftColumnName, " = ",
-			rightTableName, StringPool.PERIOD, rightColumnName, sb.toString());
+			rightTableName, StringPool.PERIOD, rightColumnName, sb);
 
 		try (LoggingTimer loggingTimer = new LoggingTimer()) {
 			try (PreparedStatement ps1 = connection.prepareStatement(sql);

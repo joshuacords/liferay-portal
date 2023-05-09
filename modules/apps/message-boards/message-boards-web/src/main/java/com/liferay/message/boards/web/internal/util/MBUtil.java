@@ -180,8 +180,8 @@ public class MBUtil {
 		portletURL.setParameter("messageId", String.valueOf(messageId));
 
 		return StringBundler.concat(
-			portletURL.toString(), StringPool.POUND,
-			portletDisplay.getNamespace(), "message_", messageId);
+			portletURL, StringPool.POUND, portletDisplay.getNamespace(),
+			"message_", messageId);
 	}
 
 	public static String getMBMessageURL(
@@ -194,8 +194,8 @@ public class MBUtil {
 		portletURL.setParameter("messageId", String.valueOf(messageId));
 
 		return StringBundler.concat(
-			portletURL.toString(), StringPool.POUND,
-			renderResponse.getNamespace(), "message_", messageId);
+			portletURL, StringPool.POUND, renderResponse.getNamespace(),
+			"message_", messageId);
 	}
 
 	public static String getMBMessageURL(

@@ -543,8 +543,7 @@ public class JournalArticleExportImportContentProcessor
 		if (_log.isDebugEnabled()) {
 			_log.debug(
 				StringBundler.concat(
-					"Replacing ", json, " with ",
-					newArticleJSONObject.toString()));
+					"Replacing ", json, " with ", newArticleJSONObject));
 		}
 
 		if (exportReferencedContent) {
