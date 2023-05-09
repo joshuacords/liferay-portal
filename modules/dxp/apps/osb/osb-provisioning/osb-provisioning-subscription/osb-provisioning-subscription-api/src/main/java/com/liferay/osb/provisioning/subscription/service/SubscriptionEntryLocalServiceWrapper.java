@@ -239,6 +239,15 @@ public class SubscriptionEntryLocalServiceWrapper
 	}
 
 	@Override
+	public com.liferay.osb.provisioning.subscription.model.SubscriptionEntry
+		fetchSubscriptionEntry(
+			long classNameId, long classPK, String contactUuid) {
+
+		return _subscriptionEntryLocalService.fetchSubscriptionEntry(
+			classNameId, classPK, contactUuid);
+	}
+
+	@Override
 	public com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
 

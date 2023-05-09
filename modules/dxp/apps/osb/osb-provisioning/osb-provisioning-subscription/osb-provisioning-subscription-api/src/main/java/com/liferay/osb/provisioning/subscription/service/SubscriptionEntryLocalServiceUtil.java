@@ -214,6 +214,13 @@ public class SubscriptionEntryLocalServiceUtil {
 		return getService().fetchSubscriptionEntry(subscriptionEntryId);
 	}
 
+	public static SubscriptionEntry fetchSubscriptionEntry(
+		long classNameId, long classPK, String contactUuid) {
+
+		return getService().fetchSubscriptionEntry(
+			classNameId, classPK, contactUuid);
+	}
+
 	public static com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery
 		getActionableDynamicQuery() {
 

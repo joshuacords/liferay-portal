@@ -198,6 +198,10 @@ public interface SubscriptionEntryLocalService
 	public SubscriptionEntry fetchSubscriptionEntry(long subscriptionEntryId);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public SubscriptionEntry fetchSubscriptionEntry(
+		long classNameId, long classPK, String contactUuid);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ActionableDynamicQuery getActionableDynamicQuery();
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
