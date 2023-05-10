@@ -193,6 +193,12 @@ components:
                                     The size of the instance.
                                 readOnly: true
                                 type: integer
+                            licenseKeyEndDate:
+                                description:
+                                    The date a license key attached to this subscription term ends.
+                                format: date-time
+                                readOnly: true
+                                type: string
                             perpetual:
                                 description:
                                     If the subscription is perpetual.

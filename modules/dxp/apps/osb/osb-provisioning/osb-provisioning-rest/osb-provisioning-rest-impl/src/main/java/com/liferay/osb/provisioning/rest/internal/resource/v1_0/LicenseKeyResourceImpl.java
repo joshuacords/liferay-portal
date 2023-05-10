@@ -1385,6 +1385,13 @@ public class LicenseKeyResourceImpl
 				subscriptionTerm.setEndDate(
 					productPurchase.getOriginalEndDate());
 
+				Calendar calendar = Calendar.getInstance();
+
+				calendar.setTime(productPurchase.getOriginalEndDate());
+				calendar.add(Calendar.DAY_OF_YEAR, 180);
+
+				subscriptionTerm.setLicenseKeyEndDate(calendar.getTime());
+
 				if (sizing > 0) {
 					subscriptionTerm.setInstanceSize(sizing);
 				}
