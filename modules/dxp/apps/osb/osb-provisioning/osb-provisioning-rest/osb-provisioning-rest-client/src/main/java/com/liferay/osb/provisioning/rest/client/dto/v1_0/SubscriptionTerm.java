@@ -77,6 +77,27 @@ public class SubscriptionTerm implements Cloneable, Serializable {
 
 	protected Integer instanceSize;
 
+	public Date getLicenseKeyEndDate() {
+		return licenseKeyEndDate;
+	}
+
+	public void setLicenseKeyEndDate(Date licenseKeyEndDate) {
+		this.licenseKeyEndDate = licenseKeyEndDate;
+	}
+
+	public void setLicenseKeyEndDate(
+		UnsafeSupplier<Date, Exception> licenseKeyEndDateUnsafeSupplier) {
+
+		try {
+			licenseKeyEndDate = licenseKeyEndDateUnsafeSupplier.get();
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected Date licenseKeyEndDate;
+
 	public Boolean getPerpetual() {
 		return perpetual;
 	}

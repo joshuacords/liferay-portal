@@ -86,6 +86,22 @@ public class SubscriptionTermSerDes {
 			sb.append(subscriptionTerm.getInstanceSize());
 		}
 
+		if (subscriptionTerm.getLicenseKeyEndDate() != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"licenseKeyEndDate\": ");
+
+			sb.append("\"");
+
+			sb.append(
+				liferayToJSONDateFormat.format(
+					subscriptionTerm.getLicenseKeyEndDate()));
+
+			sb.append("\"");
+		}
+
 		if (subscriptionTerm.getPerpetual() != null) {
 			if (sb.length() > 1) {
 				sb.append(", ");
@@ -200,6 +216,16 @@ public class SubscriptionTermSerDes {
 				String.valueOf(subscriptionTerm.getInstanceSize()));
 		}
 
+		if (subscriptionTerm.getLicenseKeyEndDate() == null) {
+			map.put("licenseKeyEndDate", null);
+		}
+		else {
+			map.put(
+				"licenseKeyEndDate",
+				liferayToJSONDateFormat.format(
+					subscriptionTerm.getLicenseKeyEndDate()));
+		}
+
 		if (subscriptionTerm.getPerpetual() == null) {
 			map.put("perpetual", null);
 		}
@@ -282,6 +308,12 @@ public class SubscriptionTermSerDes {
 				if (jsonParserFieldValue != null) {
 					subscriptionTerm.setInstanceSize(
 						Integer.valueOf((String)jsonParserFieldValue));
+				}
+			}
+			else if (Objects.equals(jsonParserFieldName, "licenseKeyEndDate")) {
+				if (jsonParserFieldValue != null) {
+					subscriptionTerm.setLicenseKeyEndDate(
+						toDate((String)jsonParserFieldValue));
 				}
 			}
 			else if (Objects.equals(jsonParserFieldName, "perpetual")) {

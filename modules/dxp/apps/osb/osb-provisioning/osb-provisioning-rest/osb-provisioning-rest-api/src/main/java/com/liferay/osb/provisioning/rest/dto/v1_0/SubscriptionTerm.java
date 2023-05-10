@@ -119,6 +119,38 @@ public class SubscriptionTerm implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Integer instanceSize;
 
+	@Schema(
+		description = "The date a license key attached to this subscription term ends."
+	)
+	public Date getLicenseKeyEndDate() {
+		return licenseKeyEndDate;
+	}
+
+	public void setLicenseKeyEndDate(Date licenseKeyEndDate) {
+		this.licenseKeyEndDate = licenseKeyEndDate;
+	}
+
+	@JsonIgnore
+	public void setLicenseKeyEndDate(
+		UnsafeSupplier<Date, Exception> licenseKeyEndDateUnsafeSupplier) {
+
+		try {
+			licenseKeyEndDate = licenseKeyEndDateUnsafeSupplier.get();
+		}
+		catch (RuntimeException re) {
+			throw re;
+		}
+		catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@GraphQLField(
+		description = "The date a license key attached to this subscription term ends."
+	)
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	protected Date licenseKeyEndDate;
+
 	@Schema(description = "If the subscription is perpetual.")
 	public Boolean getPerpetual() {
 		return perpetual;
@@ -347,6 +379,20 @@ public class SubscriptionTerm implements Serializable {
 			sb.append("\"instanceSize\": ");
 
 			sb.append(instanceSize);
+		}
+
+		if (licenseKeyEndDate != null) {
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append("\"licenseKeyEndDate\": ");
+
+			sb.append("\"");
+
+			sb.append(liferayToJSONDateFormat.format(licenseKeyEndDate));
+
+			sb.append("\"");
 		}
 
 		if (perpetual != null) {
