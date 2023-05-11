@@ -18,7 +18,6 @@
 
 <%
 String tabs1 = ParamUtil.getString(request, "tabs1");
-String tabs2 = ParamUtil.getString(request, "tabs2", "commerce");
 
 PortletURL portletURL = renderResponse.createRenderURL();
 
@@ -27,12 +26,12 @@ portletURL.setParameter("tabs1", tabs1);
 
 <liferay-ui:tabs
 	names="commerce,elasticsearch"
-	param="tabs2"
+	param="tabs1"
 	portletURL="<%= portletURL %>"
 />
 
 <c:choose>
-	<c:when test='<%= tabs2.equals("elasticsearch") %>'>
+	<c:when test='<%= tabs1.equals("elasticsearch") %>'>
 		<portlet:actionURL name="/admin/upload_elasticsearch_license" var="uploadElasticsearchLicenseURL">
 			<portlet:param name="redirect" value="<%= currentURL %>" />
 		</portlet:actionURL>
@@ -50,6 +49,7 @@ portletURL.setParameter("tabs1", tabs1);
 		</aui:form>
 
 		<liferay-ui:search-container
+			iteratorURL="<%= portletURL %>"
 			total="<%= CommonLicenseKeyLocalServiceUtil.getCommonLicenseKeysCount(ProductGroup.Name.ENTERPRISE_SEARCH.toString()) %>"
 		>
 			<liferay-ui:search-container-results
@@ -121,6 +121,7 @@ portletURL.setParameter("tabs1", tabs1);
 		</aui:form>
 
 		<liferay-ui:search-container
+			iteratorURL="<%= portletURL %>"
 			total="<%= CommonLicenseKeyLocalServiceUtil.getCommonLicenseKeysCount(ProductGroup.Name.COMMERCE.toString()) %>"
 		>
 			<liferay-ui:search-container-results
