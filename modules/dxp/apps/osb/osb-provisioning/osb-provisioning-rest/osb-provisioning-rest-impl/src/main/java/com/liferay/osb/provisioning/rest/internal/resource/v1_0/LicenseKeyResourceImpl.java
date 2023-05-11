@@ -1326,9 +1326,9 @@ public class LicenseKeyResourceImpl
 				Map<String, String> properties =
 					productPurchase.getProperties();
 
-				int sizing = 0;
+				Integer sizing = null;
 
-				if (properties != null) {
+				if ((properties != null) && properties.containsKey("sizing")) {
 					sizing = GetterUtil.getInteger(properties.get("sizing"));
 				}
 
