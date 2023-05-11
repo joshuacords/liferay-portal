@@ -72,6 +72,7 @@ page import="com.liferay.portal.util.PrefsPropsUtil" %><%@
 page import="com.liferay.portal.util.PropsUtil" %><%@
 page import="com.liferay.portal.util.PropsValues" %><%@
 page import="com.liferay.portal.util.ShutdownUtil" %><%@
+page import="com.liferay.server.admin.web.internal.constants.ImageMagickResourceLimitConstants" %><%@
 page import="com.liferay.server.admin.web.internal.display.context.ServerDisplayContext" %>
 
 <%@ page import="java.text.NumberFormat" %>
