@@ -323,7 +323,7 @@ public class TransformAccount {
 
 			if (domain.equals(Constants.EXTERNAL_LINK_DOMAIN_LXC) &&
 				entityName.equals(
-					Constants.EXTERNAL_LINK_ENTITY_NAME_LXC_PROJECT_ID)) {
+					Constants.EXTERNAL_LINK_ENTITY_NAME_LXC_PROJECT)) {
 
 				return jsonObject.getString("entityId");
 			}

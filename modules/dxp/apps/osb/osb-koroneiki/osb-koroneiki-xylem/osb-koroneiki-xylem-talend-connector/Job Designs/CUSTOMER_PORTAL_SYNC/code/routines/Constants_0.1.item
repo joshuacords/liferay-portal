@@ -35,8 +35,8 @@ public class Constants {
 
 	public static final String EXTERNAL_LINK_ENTITY_NAME_AC_GROUP = "group";
 
-	public static final String EXTERNAL_LINK_ENTITY_NAME_LXC_PROJECT_ID =
-		"project-id";
+	public static final String EXTERNAL_LINK_ENTITY_NAME_LXC_PROJECT =
+		"project";
 
 	public static final String
 		EXTERNAL_LINK_ENTITY_NAME_SALESFORCE_OPPORTUNITY = "opportunity";
