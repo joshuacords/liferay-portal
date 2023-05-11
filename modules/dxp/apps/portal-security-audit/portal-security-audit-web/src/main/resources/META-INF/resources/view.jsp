@@ -36,7 +36,6 @@
 			<portlet:param name="eventType" value="<%= eventType %>" />
 			<portlet:param name="serverName" value="<%= serverName %>" />
 			<portlet:param name="serverPort" value="<%= String.valueOf(serverPort) %>" />
-			<portlet:param name="sessionID" value="<%= sessionID %>" />
 			<portlet:param name="startDateAmPm" value="<%= String.valueOf(startDateAmPm) %>" />
 			<portlet:param name="startDateDay" value="<%= String.valueOf(startDateDay) %>" />
 			<portlet:param name="startDateHour" value="<%= String.valueOf(startDateHour) %>" />
@@ -68,22 +67,22 @@
 			DisplayTerms displayTerms = searchContainer.getDisplayTerms();
 
 			if (displayTerms.isAdvancedSearch()) {
-				total = AuditEventManagerUtil.getAuditEventsCount(themeDisplay.getCompanyId(), userId, userName, startDate, endDate, eventType, className, classPK, clientHost, clientIP, serverName, serverPort, sessionID, displayTerms.isAndOperator());
+				total = AuditEventManagerUtil.getAuditEventsCount(themeDisplay.getCompanyId(), userId, userName, startDate, endDate, eventType, className, classPK, clientHost, clientIP, serverName, serverPort, null, displayTerms.isAndOperator());
 
 				searchContainer.setTotal(total);
 
-				searchContainer.setResults(AuditEventManagerUtil.getAuditEvents(themeDisplay.getCompanyId(), userId, userName, startDate, endDate, eventType, className, classPK, clientHost, clientIP, serverName, serverPort, sessionID, displayTerms.isAndOperator(), searchContainer.getStart(), searchContainer.getEnd(), new AuditEventCreateDateComparator()));
+				searchContainer.setResults(AuditEventManagerUtil.getAuditEvents(themeDisplay.getCompanyId(), userId, userName, startDate, endDate, eventType, className, classPK, clientHost, clientIP, serverName, serverPort, null, displayTerms.isAndOperator(), searchContainer.getStart(), searchContainer.getEnd(), new AuditEventCreateDateComparator()));
 			}
 			else {
 				String keywords = displayTerms.getKeywords();
 
 				String number = Validator.isNumber(keywords) ? keywords : String.valueOf(0);
 
-				total = AuditEventManagerUtil.getAuditEventsCount(themeDisplay.getCompanyId(), Long.valueOf(number), keywords, null, null, keywords, keywords, keywords, keywords, keywords, keywords, Integer.valueOf(number), keywords, false);
+				total = AuditEventManagerUtil.getAuditEventsCount(themeDisplay.getCompanyId(), Long.valueOf(number), keywords, null, null, keywords, keywords, keywords, keywords, keywords, keywords, Integer.valueOf(number), null, false);
 
 				searchContainer.setTotal(total);
 
-				searchContainer.setResults(AuditEventManagerUtil.getAuditEvents(themeDisplay.getCompanyId(), Long.valueOf(number), keywords, null, null, keywords, keywords, keywords, keywords, keywords, keywords, Integer.valueOf(number), keywords, false, searchContainer.getStart(), searchContainer.getEnd(), new AuditEventCreateDateComparator()));
+				searchContainer.setResults(AuditEventManagerUtil.getAuditEvents(themeDisplay.getCompanyId(), Long.valueOf(number), keywords, null, null, keywords, keywords, keywords, keywords, keywords, keywords, Integer.valueOf(number), null, false, searchContainer.getStart(), searchContainer.getEnd(), new AuditEventCreateDateComparator()));
 			}
 			%>
 
