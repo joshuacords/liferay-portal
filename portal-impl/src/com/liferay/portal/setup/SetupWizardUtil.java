@@ -15,6 +15,7 @@
 package com.liferay.portal.setup;
 
 import com.liferay.petra.string.CharPool;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.events.EventsProcessorUtil;
 import com.liferay.portal.kernel.dao.jdbc.DataAccess;
@@ -313,7 +314,10 @@ public class SetupWizardUtil {
 
 		if (!DriverClassNamesHolder.contains(driverClassName)) {
 			throw new Exception(
-				driverClassName + " is not a valid driver class name");
+				StringBundler.concat(
+					driverClassName,
+					" is not a specified in the portal property \"",
+					PropsKeys.SETUP_DATABASE_DRIVER_CLASS_NAME, "\""));
 		}
 
 		try {
