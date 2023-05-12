@@ -313,7 +313,7 @@ public class SetupWizardUtil {
 
 		if (!DriverClassNamesHolder.contains(driverClassName)) {
 			throw new Exception(
-				driverClassName + " is not a valid driver class name!");
+				driverClassName + " is not a valid driver class name");
 		}
 
 		try {
