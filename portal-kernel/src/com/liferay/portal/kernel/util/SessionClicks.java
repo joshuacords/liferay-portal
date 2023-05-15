@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.portlet.PortalPreferences;
 import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
 
 import java.util.ConcurrentModificationException;
+import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -141,13 +142,46 @@ public class SessionClicks {
 	public static void put(
 		HttpSession session, String namespace, String key, String value) {
 
-		String sessionKey = namespace.concat(
-			StringPool.COLON
-		).concat(
-			key
-		);
+		if ((key.length() > _SESSION_CLICKS_MAX_SIZE_TERMS) ||
+			(value.length() > _SESSION_CLICKS_MAX_SIZE_TERMS)) {
 
-		session.setAttribute(sessionKey, value);
+			if (_log.isWarnEnabled()) {
+				_log.warn(
+					StringBundler.concat(
+						"Session clicks has attempted to exceed the maximum ",
+						"size allowed for keys or values with {key=", key,
+						", value=", value, "}"));
+			}
+
+			return;
+		}
+
+		Enumeration<String> enumeration = session.getAttributeNames();
+
+		int size = 0;
+
+		while (enumeration.hasMoreElements()) {
+			enumeration.nextElement();
+
+			size++;
+		}
+
+		if (size < _SESSION_CLICKS_MAX_ALLOWED_VALUES) {
+			String sessionKey = StringBundler.concat(
+				namespace, StringPool.COLON, key);
+
+			session.setAttribute(sessionKey, value);
+
+			return;
+		}
+
+		if (_log.isWarnEnabled()) {
+			_log.warn(
+				StringBundler.concat(
+					"Session clicks has attempted to exceed the maximum ",
+					"number of allowed values with {key=", key, ", value=",
+					value, "}"));
+		}
 	}
 
 	private static final String _DEFAULT_NAMESPACE =
