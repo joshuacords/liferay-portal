@@ -144,7 +144,7 @@
 				},
 				title: '<liferay-ui:message key="preview" />',
 				uri:
-					'<%= selectAssetDisplayPageDisplayContext.getURLViewInContext() %>'
+					'<%= HtmlUtil.escapeJS(selectAssetDisplayPageDisplayContext.getURLViewInContext()) %>'
 			});
 		});
 	}
@@ -160,7 +160,7 @@
 				},
 				title: '<liferay-ui:message key="preview" />',
 				uri:
-					'<%= selectAssetDisplayPageDisplayContext.getURLViewInContext() %>'
+					'<%= HtmlUtil.escapeJS(selectAssetDisplayPageDisplayContext.getURLViewInContext()) %>'
 			});
 		});
 	}
