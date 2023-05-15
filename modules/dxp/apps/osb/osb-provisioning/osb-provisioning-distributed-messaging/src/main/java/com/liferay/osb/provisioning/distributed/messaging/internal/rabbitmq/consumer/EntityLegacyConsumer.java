@@ -29,6 +29,7 @@ import org.osgi.service.component.annotations.Reference;
 	property = {
 		"exchange=is_entity_exchange", "exclusive=true",
 		"queue=is_osb_provisioning_entity_queue",
+		"routing.key=koroneiki.account.contactrole.unassigned",
 		"routing.key=koroneiki.entitlement.create",
 		"routing.key=koroneiki.entitlement.delete",
 		"routing.key=koroneiki.product.delete"

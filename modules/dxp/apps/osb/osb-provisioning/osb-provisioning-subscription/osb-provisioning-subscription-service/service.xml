@@ -28,6 +28,10 @@
 			<finder-column name="classNameId" />
 			<finder-column name="classPK" />
 		</finder>
+		<finder name="C_CU" return-type="Collection">
+			<finder-column name="classNameId" />
+			<finder-column name="contactUuid" />
+		</finder>
 		<finder name="C_C_CU" return-type="SubscriptionEntry">
 			<finder-column name="classNameId" />
 			<finder-column name="classPK" />

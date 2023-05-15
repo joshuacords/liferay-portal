@@ -134,7 +134,7 @@ public class LicenseKeyResourceImpl
 
 		if (contact != null) {
 			for (long licenseKeyId : licenseKeyIds) {
-				_subscriptionServiceLocalService.deleteSubscriptionEntry(
+				_subscriptionEntryLocalService.deleteSubscriptionEntry(
 					classNameId, licenseKeyId, contact.getUuid());
 			}
 		}
@@ -704,7 +704,7 @@ public class LicenseKeyResourceImpl
 		Contact contact = ProvisioningContactThreadLocal.getContact();
 
 		SubscriptionEntry subscriptionEntry =
-			_subscriptionServiceLocalService.fetchSubscriptionEntry(
+			_subscriptionEntryLocalService.fetchSubscriptionEntry(
 				classNameId, licenseKeyId, contact.getUuid());
 
 		if (subscriptionEntry != null) {
@@ -896,7 +896,7 @@ public class LicenseKeyResourceImpl
 
 		if (contact != null) {
 			for (long licenseKeyId : licenseKeyIds) {
-				_subscriptionServiceLocalService.addSubscriptionEntry(
+				_subscriptionEntryLocalService.addSubscriptionEntry(
 					classNameId, licenseKeyId, contact.getUuid());
 			}
 		}
@@ -1854,7 +1854,7 @@ public class LicenseKeyResourceImpl
 	private ProductPurchaseWebService _productPurchaseWebService;
 
 	@Reference
-	private SubscriptionEntryLocalService _subscriptionServiceLocalService;
+	private SubscriptionEntryLocalService _subscriptionEntryLocalService;
 
 	@Reference
 	private TeamRoleWebService _teamRoleWebService;

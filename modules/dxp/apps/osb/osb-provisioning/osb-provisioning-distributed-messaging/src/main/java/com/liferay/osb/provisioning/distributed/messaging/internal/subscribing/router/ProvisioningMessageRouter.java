@@ -16,6 +16,7 @@ package com.liferay.osb.provisioning.distributed.messaging.internal.subscribing.
 
 import com.liferay.osb.distributed.messaging.subscribing.router.BaseMessageRouter;
 import com.liferay.osb.distributed.messaging.subscribing.router.MessageRouter;
+import com.liferay.osb.provisioning.distributed.messaging.internal.subscribing.ContactMessageSubscriber;
 import com.liferay.osb.provisioning.distributed.messaging.internal.subscribing.DossieraCreateMessageSubscriber;
 import com.liferay.osb.provisioning.distributed.messaging.internal.subscribing.DossieraUpdateMessageSubscriber;
 import com.liferay.osb.provisioning.distributed.messaging.internal.subscribing.EntitlementCreateMessageSubscriber;
@@ -33,6 +34,14 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(immediate = true, service = MessageRouter.class)
 public class ProvisioningMessageRouter extends BaseMessageRouter {
+
+	@Reference(unbind = "-")
+	protected void setContactMessageSubscriber(
+		ContactMessageSubscriber contactMessageSubscriber,
+		Map<String, Object> properties) {
+
+		addRoute(contactMessageSubscriber, properties);
+	}
 
 	@Reference(unbind = "-")
 	protected void setDossieraCreateMessageSubscriber(

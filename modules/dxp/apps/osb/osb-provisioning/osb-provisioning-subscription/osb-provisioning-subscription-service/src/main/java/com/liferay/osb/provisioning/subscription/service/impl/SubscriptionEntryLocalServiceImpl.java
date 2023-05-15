@@ -88,6 +88,13 @@ public class SubscriptionEntryLocalServiceImpl
 		return subscriptionEntryPersistence.findByC_C(classNameId, classPK);
 	}
 
+	public List<SubscriptionEntry> getSubscriptionEntries(
+		long classNameId, String contactUuid) {
+
+		return subscriptionEntryPersistence.findByC_CU(
+			classNameId, contactUuid);
+	}
+
 	public List<SubscriptionEntry> getSubscriptionEntries(String contactUuid) {
 		return subscriptionEntryPersistence.findByContactUuid(contactUuid);
 	}
