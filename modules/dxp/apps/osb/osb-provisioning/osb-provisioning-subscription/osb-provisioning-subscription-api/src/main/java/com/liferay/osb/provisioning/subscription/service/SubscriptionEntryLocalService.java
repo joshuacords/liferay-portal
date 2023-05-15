@@ -241,6 +241,10 @@ public interface SubscriptionEntryLocalService
 		long classNameId, long classPK);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<SubscriptionEntry> getSubscriptionEntries(
+		long classNameId, String contactUuid);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<SubscriptionEntry> getSubscriptionEntries(String contactUuid);
 
 	/**

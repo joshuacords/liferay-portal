@@ -276,6 +276,12 @@ public class SubscriptionEntryLocalServiceUtil {
 	}
 
 	public static List<SubscriptionEntry> getSubscriptionEntries(
+		long classNameId, String contactUuid) {
+
+		return getService().getSubscriptionEntries(classNameId, contactUuid);
+	}
+
+	public static List<SubscriptionEntry> getSubscriptionEntries(
 		String contactUuid) {
 
 		return getService().getSubscriptionEntries(contactUuid);

@@ -1,2 +1,3 @@
 create index IX_B623950D on Provisioning_SubscriptionEntry (classNameId, classPK, contactUuid[$COLUMN_LENGTH:75$]);
+create index IX_4F911526 on Provisioning_SubscriptionEntry (classNameId, contactUuid[$COLUMN_LENGTH:75$]);
 create index IX_39C15082 on Provisioning_SubscriptionEntry (contactUuid[$COLUMN_LENGTH:75$]);
