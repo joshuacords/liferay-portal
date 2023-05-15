@@ -14,10 +14,10 @@
 
 package com.liferay.portal.kernel.util;
 
-import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.portlet.PortalPreferences;
 import com.liferay.portal.kernel.portlet.PortletPreferencesFactory;
 import com.liferay.portal.kernel.portlet.PortletPreferencesFactoryUtil;
+import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
 import com.liferay.portal.test.rule.PortalProps;
 import com.liferay.portlet.PortalPreferencesImpl;
@@ -45,7 +45,7 @@ public class SessionClicksTest {
 		properties = PropsKeys.SESSION_CLICKS_MAX_ALLOWED_VALUES + "=" + _MAX_ALLOWED_VALUES
 	)
 	@Test
-	public void testPutForMaxAllowedValues() {
+	public void testPut() {
 		PortalPreferences portalPreferences = new PortalPreferencesImpl();
 
 		PortletPreferencesFactoryUtil portletPreferencesFactoryUtil =
@@ -71,17 +71,16 @@ public class SessionClicksTest {
 		HttpServletRequest httpServletRequest = new MockHttpServletRequest();
 
 		for (int i = 1; i <= _MAX_ALLOWED_VALUES; i++) {
-			SessionClicks.put(httpServletRequest, "key" + i, "value" + i);
+			SessionClicks.put(
+				httpServletRequest, RandomTestUtil.randomString(),
+				RandomTestUtil.randomString());
 		}
 
-		SessionClicks.put(httpServletRequest, "keyExceedMax", "valueExceedMax");
+		SessionClicks.put(
+			httpServletRequest, RandomTestUtil.randomString(),
+			RandomTestUtil.randomString());
 
-		Assert.assertEquals(
-			StringBundler.concat(
-				"The size of key-values in PortalPreferences should not ",
-				"exceed session.clicks.max.allowed.values=",
-				_MAX_ALLOWED_VALUES, " when putting through SessionClicks."),
-			_MAX_ALLOWED_VALUES, portalPreferences.size());
+		Assert.assertEquals(_MAX_ALLOWED_VALUES, portalPreferences.size());
 	}
 
 	private static final int _MAX_ALLOWED_VALUES = 10;
