@@ -156,8 +156,8 @@ public class SessionClicks {
 			_log.warn(
 				StringBundler.concat(
 					"Session clicks has attempted to exceed the maximum size ",
-					"allowed for keys or values with {key=", key, ", value=",
-					value, "}"));
+					"allowed for keys or values with key \"", key,
+					"\" and value \"", value, "\""));
 		}
 
 		return false;
@@ -172,8 +172,8 @@ public class SessionClicks {
 			_log.warn(
 				StringBundler.concat(
 					"Session clicks has attempted to exceed the maximum ",
-					"number of allowed values with {key=", key, ", value=",
-					value, "}"));
+					"number of allowed values with key \"", key,
+					"\" and value \"", value, "\""));
 		}
 
 		return false;
