@@ -167,25 +167,18 @@ public class EditUserMVCActionCommand extends BaseMVCActionCommand {
 		long[] deleteUserIds = StringUtil.split(
 			ParamUtil.getString(actionRequest, "deleteUserIds"), 0L);
 
-		for (long deleteUserId : deleteUserIds) {
-			if (cmd.equals(Constants.DEACTIVATE) ||
-				cmd.equals(Constants.RESTORE)) {
-
-				int status = WorkflowConstants.STATUS_APPROVED;
-
-				if (cmd.equals(Constants.DEACTIVATE)) {
-					status = WorkflowConstants.STATUS_INACTIVE;
-				}
-
-				ServiceContext serviceContext =
-					ServiceContextFactory.getInstance(
-						User.class.getName(), actionRequest);
-
-				_userService.updateStatus(deleteUserId, status, serviceContext);
-			}
-			else {
-				_userService.deleteUser(deleteUserId);
-			}
+		if (cmd.equals(Constants.DEACTIVATE)) {
+			_updateUsers(
+				actionRequest, deleteUserIds,
+				WorkflowConstants.STATUS_INACTIVE);
+		}
+		else if (cmd.equals(Constants.RESTORE)) {
+			_updateUsers(
+				actionRequest, deleteUserIds,
+				WorkflowConstants.STATUS_APPROVED);
+		}
+		else if (cmd.equals(Constants.DELETE)) {
+			_deleteUsers(deleteUserIds);
 		}
 	}
 
@@ -531,6 +524,24 @@ public class EditUserMVCActionCommand extends BaseMVCActionCommand {
 	protected Portal portal;
 
 	protected UserLocalService userLocalService;
+	private void _deleteUsers(long[] accountUserIds) throws Exception {
+		for (long accountUserId : accountUserIds) {
+			_userService.deleteUser(accountUserId);
+		}
+	}
+
+	}
+
+	private void _updateUsers(
+			ActionRequest actionRequest, long[] accountUserIds, int status)
+		throws Exception {
+
+		for (long accountUserId : accountUserIds) {
+			_userService.updateStatus(
+				accountUserId, status,
+				ServiceContextFactory.getInstance(
+					User.class.getName(), actionRequest));
+		}
 
 	private ActionRequest _wrapActionRequest(ActionRequest actionRequest)
 		throws Exception {
