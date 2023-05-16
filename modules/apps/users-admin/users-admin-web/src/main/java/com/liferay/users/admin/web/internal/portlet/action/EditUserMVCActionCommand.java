@@ -179,8 +179,7 @@ public class EditUserMVCActionCommand extends BaseMVCActionCommand {
 			ThemeDisplay themeDisplay =
 				(ThemeDisplay)actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
 
-			_userLocalService.validateMaxUsers(
-				themeDisplay.getCompanyId());
+			_userLocalService.validateMaxUsers(themeDisplay.getCompanyId());
 
 			_updateUsers(
 				actionRequest, deleteUserIds,
@@ -530,6 +529,7 @@ public class EditUserMVCActionCommand extends BaseMVCActionCommand {
 	protected Portal portal;
 
 	protected UserLocalService userLocalService;
+
 	private void _deleteUsers(long[] accountUserIds) throws Exception {
 		for (long accountUserId : accountUserIds) {
 			_userService.deleteUser(accountUserId);
@@ -572,6 +572,7 @@ public class EditUserMVCActionCommand extends BaseMVCActionCommand {
 
 	@Reference
 	private UserLocalService _userLocalService;
+
 	private UserService _userService;
 
 }
