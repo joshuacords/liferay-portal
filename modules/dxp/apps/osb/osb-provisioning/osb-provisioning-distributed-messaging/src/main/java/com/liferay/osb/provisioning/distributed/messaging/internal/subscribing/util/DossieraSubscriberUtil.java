@@ -165,6 +165,10 @@ public class DossieraSubscriberUtil {
 		AccountEntry accountEntry = _accountEntryWebService.fetchAccountEntry(
 			account.getKey());
 
+		if (accountEntry == null) {
+			return;
+		}
+
 		ZendeskOrganization zendeskOrganization =
 			_zendeskOrganizationWebService.getZendeskOrganization(
 				String.valueOf(accountEntry.getAccountEntryId()));
