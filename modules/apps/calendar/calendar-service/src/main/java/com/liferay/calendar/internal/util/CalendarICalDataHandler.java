@@ -58,12 +58,14 @@ import java.time.temporal.TemporalAmount;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.TimeZone;
 
 import net.fortuna.ical4j.data.CalendarBuilder;
@@ -558,7 +560,20 @@ public class CalendarICalDataHandler implements CalendarDataHandler {
 		List<CalendarComponent> calendarComponents =
 			iCalCalendar.getComponents();
 
+		Set<String> timeZoneIds = new HashSet<>();
+
 		for (CalendarBooking calendarBooking : calendarBookings) {
+			TimeZone timeZone = calendarBooking.getTimeZone();
+
+			String timeZoneId = timeZone.getID();
+
+			if (timeZoneIds.add(timeZoneId)) {
+				net.fortuna.ical4j.model.TimeZone icalTimeZone =
+					_toICalTimeZone(timeZone);
+
+				calendarComponents.add(icalTimeZone.getVTimeZone());
+			}
+
 			calendarComponents.add(toICalEvent(calendarBooking));
 		}
 
