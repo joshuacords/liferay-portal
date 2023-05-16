@@ -80,7 +80,7 @@ public class CKEditorConfigContributor extends BaseCKEditorConfigContributor {
 
 		String extraPlugins = StringBundler.concat(
 			"a11yhelpbtn,about,bidi,colordialog,div,elementspath,entities,",
-			"filebrowser,find,flash,floatingspace,forms,htmlwriter,iframe,",
+			"filebrowser,find,floatingspace,forms,htmlwriter,iframe,",
 			"itemselector,lfrpopup,maximize,media,newpage,preview,print,save,",
 			"selectall,showblocks,showborders,smiley,specialchar,stylescombo,",
 			"templates");
