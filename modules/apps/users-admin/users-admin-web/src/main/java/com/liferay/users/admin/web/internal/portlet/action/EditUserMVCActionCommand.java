@@ -172,19 +172,19 @@ public class EditUserMVCActionCommand extends BaseMVCActionCommand {
 				actionRequest, deleteUserIds,
 				WorkflowConstants.STATUS_INACTIVE);
 		}
+		else if (cmd.equals(Constants.DELETE)) {
+			_deleteUsers(deleteUserIds);
+		}
 		else if (cmd.equals(Constants.RESTORE)) {
 			ThemeDisplay themeDisplay =
 				(ThemeDisplay)actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
 
-			_userLocalService.validateCompanyMaxUsers(
+			_userLocalService.validateMaxUsers(
 				themeDisplay.getCompanyId());
 
 			_updateUsers(
 				actionRequest, deleteUserIds,
 				WorkflowConstants.STATUS_APPROVED);
-		}
-		else if (cmd.equals(Constants.DELETE)) {
-			_deleteUsers(deleteUserIds);
 		}
 	}
 

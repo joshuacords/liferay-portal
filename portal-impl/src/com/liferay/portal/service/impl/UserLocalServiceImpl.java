@@ -5541,7 +5541,7 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 		return user;
 	}
 
-	public void validateCompanyMaxUsers(long companyId) throws PortalException {
+	public void validateMaxUsers(long companyId) throws PortalException {
 		Company company = companyPersistence.findByPrimaryKey(companyId);
 
 		if (company.isSystem() || (company.getMaxUsers() == 0)) {
@@ -6778,7 +6778,7 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 			Locale locale)
 		throws PortalException {
 
-		validateCompanyMaxUsers(companyId);
+		validateMaxUsers(companyId);
 
 		if (!autoScreenName) {
 			validateScreenName(companyId, userId, screenName);
