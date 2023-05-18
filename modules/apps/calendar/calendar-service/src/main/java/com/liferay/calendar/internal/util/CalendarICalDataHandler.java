@@ -565,9 +565,7 @@ public class CalendarICalDataHandler implements CalendarDataHandler {
 		for (CalendarBooking calendarBooking : calendarBookings) {
 			TimeZone timeZone = calendarBooking.getTimeZone();
 
-			String timeZoneId = timeZone.getID();
-
-			if (timeZoneIds.add(timeZoneId)) {
+			if (timeZoneIds.add(timeZone.getID())) {
 				net.fortuna.ical4j.model.TimeZone icalTimeZone =
 					_toICalTimeZone(timeZone);
 
