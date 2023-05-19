@@ -358,6 +358,20 @@ public class SXPElementLocalServiceUtil {
 		return getService().getSXPElementsCount();
 	}
 
+	public static SXPElement previewSXPElement(
+			String externalReferenceCode,
+			Map<java.util.Locale, String> descriptionMap,
+			String elementDefinitionJSON, boolean readOnly,
+			String schemaVersion, Map<java.util.Locale, String> titleMap,
+			int type,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().previewSXPElement(
+			externalReferenceCode, descriptionMap, elementDefinitionJSON,
+			readOnly, schemaVersion, titleMap, type, serviceContext);
+	}
+
 	public static SXPElement updateStatus(
 			long userId, long sxpElementId, int status)
 		throws PortalException {

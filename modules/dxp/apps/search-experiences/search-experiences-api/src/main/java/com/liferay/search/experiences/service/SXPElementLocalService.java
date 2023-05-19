@@ -313,6 +313,13 @@ public interface SXPElementLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getSXPElementsCount();
 
+	public SXPElement previewSXPElement(
+			String externalReferenceCode, Map<Locale, String> descriptionMap,
+			String elementDefinitionJSON, boolean readOnly,
+			String schemaVersion, Map<Locale, String> titleMap, int type,
+			ServiceContext serviceContext)
+		throws PortalException;
+
 	@Indexable(type = IndexableType.REINDEX)
 	public SXPElement updateStatus(long userId, long sxpElementId, int status)
 		throws PortalException;
