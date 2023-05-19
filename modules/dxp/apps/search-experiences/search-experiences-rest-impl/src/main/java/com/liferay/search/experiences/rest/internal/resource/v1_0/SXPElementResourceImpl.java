@@ -274,6 +274,31 @@ public class SXPElementResourceImpl extends BaseSXPElementResourceImpl {
 	}
 
 	@Override
+	public SXPElement postSXPElementPreview(String json) throws Exception {
+		SXPElement sxpElement = SXPElementUtil.toSXPElement(json);
+
+		return _sxpElementDTOConverter.toDTO(
+			new DefaultDTOConverterContext(
+				contextAcceptLanguage.isAcceptAllLanguages(), new HashMap<>(),
+				_dtoConverterRegistry, contextHttpServletRequest,
+				sxpElement.getId(), contextAcceptLanguage.getPreferredLocale(),
+				contextUriInfo, contextUser),
+			_sxpElementService.previewSXPElement(
+				sxpElement.getExternalReferenceCode(),
+				LocalizedMapUtil.getLocalizedMap(
+					contextAcceptLanguage.getPreferredLocale(),
+					sxpElement.getDescription(),
+					sxpElement.getDescription_i18n()),
+				_getElementDefinitionJSON(sxpElement), false,
+				_getSchemaVersion(),
+				LocalizedMapUtil.getLocalizedMap(
+					contextAcceptLanguage.getPreferredLocale(),
+					sxpElement.getTitle(), sxpElement.getTitle_i18n()),
+				GetterUtil.getInteger(sxpElement.getType()),
+				ServiceContextFactory.getInstance(contextHttpServletRequest)));
+	}
+
+	@Override
 	public SXPElement postSXPElementValidate(String json) throws Exception {
 		return SXPElementUtil.toSXPElement(json);
 	}
