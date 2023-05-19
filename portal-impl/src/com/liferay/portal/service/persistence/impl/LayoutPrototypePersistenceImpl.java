@@ -48,7 +48,6 @@ import com.liferay.portal.model.impl.LayoutPrototypeModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
@@ -4758,33 +4757,17 @@ public class LayoutPrototypePersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_A",
 			new String[] {Long.class.getName(), Boolean.class.getName()});
 
-		_setLayoutPrototypeUtilPersistence(this);
+		LayoutPrototypeUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setLayoutPrototypeUtilPersistence(null);
+		LayoutPrototypeUtil.setPersistence(null);
 
 		EntityCacheUtil.removeCache(LayoutPrototypeImpl.class.getName());
 
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setLayoutPrototypeUtilPersistence(
-		LayoutPrototypePersistence layoutPrototypePersistence) {
-
-		try {
-			Field field = LayoutPrototypeUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, layoutPrototypePersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	private static final String _SQL_SELECT_LAYOUTPROTOTYPE =

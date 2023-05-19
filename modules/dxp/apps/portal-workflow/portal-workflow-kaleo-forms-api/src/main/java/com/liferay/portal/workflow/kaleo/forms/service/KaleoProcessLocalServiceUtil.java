@@ -485,6 +485,10 @@ public class KaleoProcessLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(KaleoProcessLocalService service) {
+		_service = service;
+	}
+
 	private static volatile KaleoProcessLocalService _service;
 
 }

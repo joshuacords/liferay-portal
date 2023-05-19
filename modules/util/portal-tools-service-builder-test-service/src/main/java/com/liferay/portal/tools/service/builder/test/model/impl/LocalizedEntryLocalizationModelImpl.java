@@ -224,61 +224,67 @@ public class LocalizedEntryLocalizationModelImpl
 	private static final Map
 		<String, Function<LocalizedEntryLocalization, Object>>
 			_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<LocalizedEntryLocalization, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<LocalizedEntryLocalization, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<LocalizedEntryLocalization, Object>>();
+
+		attributeGetterFunctions.put(
+			"mvccVersion", LocalizedEntryLocalization::getMvccVersion);
+		attributeGetterFunctions.put(
+			"localizedEntryLocalizationId",
+			LocalizedEntryLocalization::getLocalizedEntryLocalizationId);
+		attributeGetterFunctions.put(
+			"localizedEntryId",
+			LocalizedEntryLocalization::getLocalizedEntryId);
+		attributeGetterFunctions.put(
+			"languageId", LocalizedEntryLocalization::getLanguageId);
+		attributeGetterFunctions.put(
+			"title", LocalizedEntryLocalization::getTitle);
+		attributeGetterFunctions.put(
+			"content", LocalizedEntryLocalization::getContent);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<LocalizedEntryLocalization, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<LocalizedEntryLocalization, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<LocalizedEntryLocalization, ?>>();
 
-		attributeGetterFunctions.put(
-			"mvccVersion", LocalizedEntryLocalization::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<LocalizedEntryLocalization, Long>)
 				LocalizedEntryLocalization::setMvccVersion);
-		attributeGetterFunctions.put(
-			"localizedEntryLocalizationId",
-			LocalizedEntryLocalization::getLocalizedEntryLocalizationId);
 		attributeSetterBiConsumers.put(
 			"localizedEntryLocalizationId",
 			(BiConsumer<LocalizedEntryLocalization, Long>)
 				LocalizedEntryLocalization::setLocalizedEntryLocalizationId);
-		attributeGetterFunctions.put(
-			"localizedEntryId",
-			LocalizedEntryLocalization::getLocalizedEntryId);
 		attributeSetterBiConsumers.put(
 			"localizedEntryId",
 			(BiConsumer<LocalizedEntryLocalization, Long>)
 				LocalizedEntryLocalization::setLocalizedEntryId);
-		attributeGetterFunctions.put(
-			"languageId", LocalizedEntryLocalization::getLanguageId);
 		attributeSetterBiConsumers.put(
 			"languageId",
 			(BiConsumer<LocalizedEntryLocalization, String>)
 				LocalizedEntryLocalization::setLanguageId);
-		attributeGetterFunctions.put(
-			"title", LocalizedEntryLocalization::getTitle);
 		attributeSetterBiConsumers.put(
 			"title",
 			(BiConsumer<LocalizedEntryLocalization, String>)
 				LocalizedEntryLocalization::setTitle);
-		attributeGetterFunctions.put(
-			"content", LocalizedEntryLocalization::getContent);
 		attributeSetterBiConsumers.put(
 			"content",
 			(BiConsumer<LocalizedEntryLocalization, String>)
 				LocalizedEntryLocalization::setContent);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

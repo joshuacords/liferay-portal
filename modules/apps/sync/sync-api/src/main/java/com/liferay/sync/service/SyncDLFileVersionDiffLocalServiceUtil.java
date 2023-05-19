@@ -327,6 +327,10 @@ public class SyncDLFileVersionDiffLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(SyncDLFileVersionDiffLocalService service) {
+		_service = service;
+	}
+
 	private static volatile SyncDLFileVersionDiffLocalService _service;
 
 }

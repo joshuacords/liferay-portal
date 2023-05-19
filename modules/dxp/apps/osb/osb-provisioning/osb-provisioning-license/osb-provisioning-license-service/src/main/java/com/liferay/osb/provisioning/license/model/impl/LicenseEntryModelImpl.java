@@ -269,62 +269,68 @@ public class LicenseEntryModelImpl
 
 	private static final Map<String, Function<LicenseEntry, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<LicenseEntry, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<LicenseEntry, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<LicenseEntry, Object>>();
-		Map<String, BiConsumer<LicenseEntry, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<LicenseEntry, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", LicenseEntry::getMvccVersion);
+		attributeGetterFunctions.put(
+			"licenseEntryId", LicenseEntry::getLicenseEntryId);
+		attributeGetterFunctions.put("userId", LicenseEntry::getUserId);
+		attributeGetterFunctions.put("userName", LicenseEntry::getUserName);
+		attributeGetterFunctions.put("createDate", LicenseEntry::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", LicenseEntry::getModifiedDate);
+		attributeGetterFunctions.put("productKey", LicenseEntry::getProductKey);
+		attributeGetterFunctions.put("name", LicenseEntry::getName);
+		attributeGetterFunctions.put("type", LicenseEntry::getType);
+		attributeGetterFunctions.put("versionMin", LicenseEntry::getVersionMin);
+		attributeGetterFunctions.put("versionMax", LicenseEntry::getVersionMax);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<LicenseEntry, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<LicenseEntry, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<LicenseEntry, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<LicenseEntry, Long>)LicenseEntry::setMvccVersion);
-		attributeGetterFunctions.put(
-			"licenseEntryId", LicenseEntry::getLicenseEntryId);
 		attributeSetterBiConsumers.put(
 			"licenseEntryId",
 			(BiConsumer<LicenseEntry, Long>)LicenseEntry::setLicenseEntryId);
-		attributeGetterFunctions.put("userId", LicenseEntry::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<LicenseEntry, Long>)LicenseEntry::setUserId);
-		attributeGetterFunctions.put("userName", LicenseEntry::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<LicenseEntry, String>)LicenseEntry::setUserName);
-		attributeGetterFunctions.put("createDate", LicenseEntry::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<LicenseEntry, Date>)LicenseEntry::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", LicenseEntry::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<LicenseEntry, Date>)LicenseEntry::setModifiedDate);
-		attributeGetterFunctions.put("productKey", LicenseEntry::getProductKey);
 		attributeSetterBiConsumers.put(
 			"productKey",
 			(BiConsumer<LicenseEntry, String>)LicenseEntry::setProductKey);
-		attributeGetterFunctions.put("name", LicenseEntry::getName);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<LicenseEntry, String>)LicenseEntry::setName);
-		attributeGetterFunctions.put("type", LicenseEntry::getType);
 		attributeSetterBiConsumers.put(
 			"type", (BiConsumer<LicenseEntry, String>)LicenseEntry::setType);
-		attributeGetterFunctions.put("versionMin", LicenseEntry::getVersionMin);
 		attributeSetterBiConsumers.put(
 			"versionMin",
 			(BiConsumer<LicenseEntry, String>)LicenseEntry::setVersionMin);
-		attributeGetterFunctions.put("versionMax", LicenseEntry::getVersionMax);
 		attributeSetterBiConsumers.put(
 			"versionMax",
 			(BiConsumer<LicenseEntry, String>)LicenseEntry::setVersionMax);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

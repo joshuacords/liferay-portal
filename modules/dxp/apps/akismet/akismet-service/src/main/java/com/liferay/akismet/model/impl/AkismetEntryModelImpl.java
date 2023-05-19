@@ -225,60 +225,66 @@ public class AkismetEntryModelImpl
 
 	private static final Map<String, Function<AkismetEntry, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<AkismetEntry, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<AkismetEntry, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<AkismetEntry, Object>>();
-		Map<String, BiConsumer<AkismetEntry, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<AkismetEntry, ?>>();
 
 		attributeGetterFunctions.put(
 			"akismetEntryId", AkismetEntry::getAkismetEntryId);
+		attributeGetterFunctions.put(
+			"modifiedDate", AkismetEntry::getModifiedDate);
+		attributeGetterFunctions.put(
+			"classNameId", AkismetEntry::getClassNameId);
+		attributeGetterFunctions.put("classPK", AkismetEntry::getClassPK);
+		attributeGetterFunctions.put("type", AkismetEntry::getType);
+		attributeGetterFunctions.put("permalink", AkismetEntry::getPermalink);
+		attributeGetterFunctions.put("referrer", AkismetEntry::getReferrer);
+		attributeGetterFunctions.put("userAgent", AkismetEntry::getUserAgent);
+		attributeGetterFunctions.put("userIP", AkismetEntry::getUserIP);
+		attributeGetterFunctions.put("userURL", AkismetEntry::getUserURL);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<AkismetEntry, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<AkismetEntry, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<AkismetEntry, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"akismetEntryId",
 			(BiConsumer<AkismetEntry, Long>)AkismetEntry::setAkismetEntryId);
-		attributeGetterFunctions.put(
-			"modifiedDate", AkismetEntry::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<AkismetEntry, Date>)AkismetEntry::setModifiedDate);
-		attributeGetterFunctions.put(
-			"classNameId", AkismetEntry::getClassNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<AkismetEntry, Long>)AkismetEntry::setClassNameId);
-		attributeGetterFunctions.put("classPK", AkismetEntry::getClassPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<AkismetEntry, Long>)AkismetEntry::setClassPK);
-		attributeGetterFunctions.put("type", AkismetEntry::getType);
 		attributeSetterBiConsumers.put(
 			"type", (BiConsumer<AkismetEntry, String>)AkismetEntry::setType);
-		attributeGetterFunctions.put("permalink", AkismetEntry::getPermalink);
 		attributeSetterBiConsumers.put(
 			"permalink",
 			(BiConsumer<AkismetEntry, String>)AkismetEntry::setPermalink);
-		attributeGetterFunctions.put("referrer", AkismetEntry::getReferrer);
 		attributeSetterBiConsumers.put(
 			"referrer",
 			(BiConsumer<AkismetEntry, String>)AkismetEntry::setReferrer);
-		attributeGetterFunctions.put("userAgent", AkismetEntry::getUserAgent);
 		attributeSetterBiConsumers.put(
 			"userAgent",
 			(BiConsumer<AkismetEntry, String>)AkismetEntry::setUserAgent);
-		attributeGetterFunctions.put("userIP", AkismetEntry::getUserIP);
 		attributeSetterBiConsumers.put(
 			"userIP",
 			(BiConsumer<AkismetEntry, String>)AkismetEntry::setUserIP);
-		attributeGetterFunctions.put("userURL", AkismetEntry::getUserURL);
 		attributeSetterBiConsumers.put(
 			"userURL",
 			(BiConsumer<AkismetEntry, String>)AkismetEntry::setUserURL);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

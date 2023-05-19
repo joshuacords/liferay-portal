@@ -56,8 +56,6 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -664,14 +662,15 @@ public abstract class CommerceCurrencyLocalServiceBaseImpl
 			"com.liferay.commerce.currency.model.CommerceCurrency",
 			commerceCurrencyLocalService);
 
-		_setLocalServiceUtilService(commerceCurrencyLocalService);
+		CommerceCurrencyLocalServiceUtil.setService(
+			commerceCurrencyLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"com.liferay.commerce.currency.model.CommerceCurrency");
 
-		_setLocalServiceUtilService(null);
+		CommerceCurrencyLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -713,23 +712,6 @@ public abstract class CommerceCurrencyLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		CommerceCurrencyLocalService commerceCurrencyLocalService) {
-
-		try {
-			Field field =
-				CommerceCurrencyLocalServiceUtil.class.getDeclaredField(
-					"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, commerceCurrencyLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

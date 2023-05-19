@@ -841,6 +841,10 @@ public class ExternalLinkUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(ExternalLinkPersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile ExternalLinkPersistence _persistence;
 
 }

@@ -15,6 +15,7 @@
 package com.liferay.portlet.asset.service.persistence.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.asset.kernel.exception.DuplicateAssetCategoryExternalReferenceCodeException;
 import com.liferay.asset.kernel.exception.NoSuchCategoryException;
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.service.AssetCategoryLocalServiceUtil;
@@ -26,6 +27,7 @@ import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
@@ -204,6 +206,26 @@ public class AssetCategoryPersistenceTest {
 		Assert.assertEquals(
 			Time.getShortTimestamp(existingAssetCategory.getLastPublishDate()),
 			Time.getShortTimestamp(newAssetCategory.getLastPublishDate()));
+	}
+
+	@Test(expected = DuplicateAssetCategoryExternalReferenceCodeException.class)
+	public void testUpdateWithExistingExternalReferenceCode() throws Exception {
+		AssetCategory assetCategory = addAssetCategory();
+
+		AssetCategory newAssetCategory = addAssetCategory();
+
+		newAssetCategory.setCompanyId(assetCategory.getCompanyId());
+
+		newAssetCategory = _persistence.update(newAssetCategory);
+
+		Session session = _persistence.getCurrentSession();
+
+		session.evict(newAssetCategory);
+
+		newAssetCategory.setExternalReferenceCode(
+			assetCategory.getExternalReferenceCode());
+
+		_persistence.update(newAssetCategory);
 	}
 
 	@Test

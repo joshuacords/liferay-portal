@@ -272,50 +272,56 @@ public class ResourceBlockModelImpl
 
 	private static final Map<String, Function<ResourceBlock, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<ResourceBlock, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<ResourceBlock, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<ResourceBlock, Object>>();
-		Map<String, BiConsumer<ResourceBlock, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<ResourceBlock, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", ResourceBlock::getMvccVersion);
+		attributeGetterFunctions.put(
+			"resourceBlockId", ResourceBlock::getResourceBlockId);
+		attributeGetterFunctions.put("companyId", ResourceBlock::getCompanyId);
+		attributeGetterFunctions.put("groupId", ResourceBlock::getGroupId);
+		attributeGetterFunctions.put("name", ResourceBlock::getName);
+		attributeGetterFunctions.put(
+			"permissionsHash", ResourceBlock::getPermissionsHash);
+		attributeGetterFunctions.put(
+			"referenceCount", ResourceBlock::getReferenceCount);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<ResourceBlock, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<ResourceBlock, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<ResourceBlock, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<ResourceBlock, Long>)ResourceBlock::setMvccVersion);
-		attributeGetterFunctions.put(
-			"resourceBlockId", ResourceBlock::getResourceBlockId);
 		attributeSetterBiConsumers.put(
 			"resourceBlockId",
 			(BiConsumer<ResourceBlock, Long>)ResourceBlock::setResourceBlockId);
-		attributeGetterFunctions.put("companyId", ResourceBlock::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<ResourceBlock, Long>)ResourceBlock::setCompanyId);
-		attributeGetterFunctions.put("groupId", ResourceBlock::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<ResourceBlock, Long>)ResourceBlock::setGroupId);
-		attributeGetterFunctions.put("name", ResourceBlock::getName);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<ResourceBlock, String>)ResourceBlock::setName);
-		attributeGetterFunctions.put(
-			"permissionsHash", ResourceBlock::getPermissionsHash);
 		attributeSetterBiConsumers.put(
 			"permissionsHash",
 			(BiConsumer<ResourceBlock, String>)
 				ResourceBlock::setPermissionsHash);
-		attributeGetterFunctions.put(
-			"referenceCount", ResourceBlock::getReferenceCount);
 		attributeSetterBiConsumers.put(
 			"referenceCount",
 			(BiConsumer<ResourceBlock, Long>)ResourceBlock::setReferenceCount);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

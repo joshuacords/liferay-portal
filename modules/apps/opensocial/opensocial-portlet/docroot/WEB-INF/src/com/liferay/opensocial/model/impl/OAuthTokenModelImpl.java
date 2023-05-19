@@ -235,75 +235,81 @@ public class OAuthTokenModelImpl
 
 	private static final Map<String, Function<OAuthToken, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<OAuthToken, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<OAuthToken, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<OAuthToken, Object>>();
-		Map<String, BiConsumer<OAuthToken, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<OAuthToken, ?>>();
 
 		attributeGetterFunctions.put(
 			"oAuthTokenId", OAuthToken::getOAuthTokenId);
+		attributeGetterFunctions.put("companyId", OAuthToken::getCompanyId);
+		attributeGetterFunctions.put("userId", OAuthToken::getUserId);
+		attributeGetterFunctions.put("userName", OAuthToken::getUserName);
+		attributeGetterFunctions.put("createDate", OAuthToken::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", OAuthToken::getModifiedDate);
+		attributeGetterFunctions.put("gadgetKey", OAuthToken::getGadgetKey);
+		attributeGetterFunctions.put("serviceName", OAuthToken::getServiceName);
+		attributeGetterFunctions.put("moduleId", OAuthToken::getModuleId);
+		attributeGetterFunctions.put("accessToken", OAuthToken::getAccessToken);
+		attributeGetterFunctions.put("tokenName", OAuthToken::getTokenName);
+		attributeGetterFunctions.put("tokenSecret", OAuthToken::getTokenSecret);
+		attributeGetterFunctions.put(
+			"sessionHandle", OAuthToken::getSessionHandle);
+		attributeGetterFunctions.put("expiration", OAuthToken::getExpiration);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<OAuthToken, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<OAuthToken, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<OAuthToken, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"oAuthTokenId",
 			(BiConsumer<OAuthToken, Long>)OAuthToken::setOAuthTokenId);
-		attributeGetterFunctions.put("companyId", OAuthToken::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<OAuthToken, Long>)OAuthToken::setCompanyId);
-		attributeGetterFunctions.put("userId", OAuthToken::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<OAuthToken, Long>)OAuthToken::setUserId);
-		attributeGetterFunctions.put("userName", OAuthToken::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<OAuthToken, String>)OAuthToken::setUserName);
-		attributeGetterFunctions.put("createDate", OAuthToken::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<OAuthToken, Date>)OAuthToken::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", OAuthToken::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<OAuthToken, Date>)OAuthToken::setModifiedDate);
-		attributeGetterFunctions.put("gadgetKey", OAuthToken::getGadgetKey);
 		attributeSetterBiConsumers.put(
 			"gadgetKey",
 			(BiConsumer<OAuthToken, String>)OAuthToken::setGadgetKey);
-		attributeGetterFunctions.put("serviceName", OAuthToken::getServiceName);
 		attributeSetterBiConsumers.put(
 			"serviceName",
 			(BiConsumer<OAuthToken, String>)OAuthToken::setServiceName);
-		attributeGetterFunctions.put("moduleId", OAuthToken::getModuleId);
 		attributeSetterBiConsumers.put(
 			"moduleId", (BiConsumer<OAuthToken, Long>)OAuthToken::setModuleId);
-		attributeGetterFunctions.put("accessToken", OAuthToken::getAccessToken);
 		attributeSetterBiConsumers.put(
 			"accessToken",
 			(BiConsumer<OAuthToken, String>)OAuthToken::setAccessToken);
-		attributeGetterFunctions.put("tokenName", OAuthToken::getTokenName);
 		attributeSetterBiConsumers.put(
 			"tokenName",
 			(BiConsumer<OAuthToken, String>)OAuthToken::setTokenName);
-		attributeGetterFunctions.put("tokenSecret", OAuthToken::getTokenSecret);
 		attributeSetterBiConsumers.put(
 			"tokenSecret",
 			(BiConsumer<OAuthToken, String>)OAuthToken::setTokenSecret);
-		attributeGetterFunctions.put(
-			"sessionHandle", OAuthToken::getSessionHandle);
 		attributeSetterBiConsumers.put(
 			"sessionHandle",
 			(BiConsumer<OAuthToken, String>)OAuthToken::setSessionHandle);
-		attributeGetterFunctions.put("expiration", OAuthToken::getExpiration);
 		attributeSetterBiConsumers.put(
 			"expiration",
 			(BiConsumer<OAuthToken, Long>)OAuthToken::setExpiration);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

@@ -838,6 +838,10 @@ public class StatusUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(StatusPersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile StatusPersistence _persistence;
 
 }

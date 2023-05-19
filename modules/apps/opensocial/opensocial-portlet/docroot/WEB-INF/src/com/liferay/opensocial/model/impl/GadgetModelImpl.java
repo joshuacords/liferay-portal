@@ -269,49 +269,55 @@ public class GadgetModelImpl
 
 	private static final Map<String, Function<Gadget, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Gadget, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<Gadget, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<Gadget, Object>>();
+
+		attributeGetterFunctions.put("uuid", Gadget::getUuid);
+		attributeGetterFunctions.put("gadgetId", Gadget::getGadgetId);
+		attributeGetterFunctions.put("companyId", Gadget::getCompanyId);
+		attributeGetterFunctions.put("createDate", Gadget::getCreateDate);
+		attributeGetterFunctions.put("modifiedDate", Gadget::getModifiedDate);
+		attributeGetterFunctions.put("name", Gadget::getName);
+		attributeGetterFunctions.put("url", Gadget::getUrl);
+		attributeGetterFunctions.put(
+			"portletCategoryNames", Gadget::getPortletCategoryNames);
+		attributeGetterFunctions.put(
+			"lastPublishDate", Gadget::getLastPublishDate);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<Gadget, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<Gadget, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Gadget, ?>>();
 
-		attributeGetterFunctions.put("uuid", Gadget::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<Gadget, String>)Gadget::setUuid);
-		attributeGetterFunctions.put("gadgetId", Gadget::getGadgetId);
 		attributeSetterBiConsumers.put(
 			"gadgetId", (BiConsumer<Gadget, Long>)Gadget::setGadgetId);
-		attributeGetterFunctions.put("companyId", Gadget::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<Gadget, Long>)Gadget::setCompanyId);
-		attributeGetterFunctions.put("createDate", Gadget::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate", (BiConsumer<Gadget, Date>)Gadget::setCreateDate);
-		attributeGetterFunctions.put("modifiedDate", Gadget::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate", (BiConsumer<Gadget, Date>)Gadget::setModifiedDate);
-		attributeGetterFunctions.put("name", Gadget::getName);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<Gadget, String>)Gadget::setName);
-		attributeGetterFunctions.put("url", Gadget::getUrl);
 		attributeSetterBiConsumers.put(
 			"url", (BiConsumer<Gadget, String>)Gadget::setUrl);
-		attributeGetterFunctions.put(
-			"portletCategoryNames", Gadget::getPortletCategoryNames);
 		attributeSetterBiConsumers.put(
 			"portletCategoryNames",
 			(BiConsumer<Gadget, String>)Gadget::setPortletCategoryNames);
-		attributeGetterFunctions.put(
-			"lastPublishDate", Gadget::getLastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<Gadget, Date>)Gadget::setLastPublishDate);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

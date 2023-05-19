@@ -50,7 +50,6 @@ import com.liferay.wiki.service.persistence.impl.constants.WikiPersistenceConsta
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
@@ -5548,33 +5547,18 @@ public class WikiNodePersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_S",
 			new String[] {Long.class.getName(), Integer.class.getName()});
 
-		_setWikiNodeUtilPersistence(this);
+		WikiNodeUtil.setPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
-		_setWikiNodeUtilPersistence(null);
+		WikiNodeUtil.setPersistence(null);
 
 		entityCache.removeCache(WikiNodeImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setWikiNodeUtilPersistence(
-		WikiNodePersistence wikiNodePersistence) {
-
-		try {
-			Field field = WikiNodeUtil.class.getDeclaredField("_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, wikiNodePersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@Override

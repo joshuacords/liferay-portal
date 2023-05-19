@@ -304,114 +304,120 @@ public class LayoutSetBranchModelImpl
 
 	private static final Map<String, Function<LayoutSetBranch, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<LayoutSetBranch, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<LayoutSetBranch, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap<String, Function<LayoutSetBranch, Object>>();
-		Map<String, BiConsumer<LayoutSetBranch, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<LayoutSetBranch, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", LayoutSetBranch::getMvccVersion);
+		attributeGetterFunctions.put(
+			"layoutSetBranchId", LayoutSetBranch::getLayoutSetBranchId);
+		attributeGetterFunctions.put("groupId", LayoutSetBranch::getGroupId);
+		attributeGetterFunctions.put(
+			"companyId", LayoutSetBranch::getCompanyId);
+		attributeGetterFunctions.put("userId", LayoutSetBranch::getUserId);
+		attributeGetterFunctions.put("userName", LayoutSetBranch::getUserName);
+		attributeGetterFunctions.put(
+			"createDate", LayoutSetBranch::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", LayoutSetBranch::getModifiedDate);
+		attributeGetterFunctions.put(
+			"privateLayout", LayoutSetBranch::getPrivateLayout);
+		attributeGetterFunctions.put("name", LayoutSetBranch::getName);
+		attributeGetterFunctions.put(
+			"description", LayoutSetBranch::getDescription);
+		attributeGetterFunctions.put("master", LayoutSetBranch::getMaster);
+		attributeGetterFunctions.put("logoId", LayoutSetBranch::getLogoId);
+		attributeGetterFunctions.put("themeId", LayoutSetBranch::getThemeId);
+		attributeGetterFunctions.put(
+			"colorSchemeId", LayoutSetBranch::getColorSchemeId);
+		attributeGetterFunctions.put("css", LayoutSetBranch::getCss);
+		attributeGetterFunctions.put("settings", LayoutSetBranch::getSettings);
+		attributeGetterFunctions.put(
+			"layoutSetPrototypeUuid",
+			LayoutSetBranch::getLayoutSetPrototypeUuid);
+		attributeGetterFunctions.put(
+			"layoutSetPrototypeLinkEnabled",
+			LayoutSetBranch::getLayoutSetPrototypeLinkEnabled);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<LayoutSetBranch, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<LayoutSetBranch, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<LayoutSetBranch, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<LayoutSetBranch, Long>)LayoutSetBranch::setMvccVersion);
-		attributeGetterFunctions.put(
-			"layoutSetBranchId", LayoutSetBranch::getLayoutSetBranchId);
 		attributeSetterBiConsumers.put(
 			"layoutSetBranchId",
 			(BiConsumer<LayoutSetBranch, Long>)
 				LayoutSetBranch::setLayoutSetBranchId);
-		attributeGetterFunctions.put("groupId", LayoutSetBranch::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<LayoutSetBranch, Long>)LayoutSetBranch::setGroupId);
-		attributeGetterFunctions.put(
-			"companyId", LayoutSetBranch::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<LayoutSetBranch, Long>)LayoutSetBranch::setCompanyId);
-		attributeGetterFunctions.put("userId", LayoutSetBranch::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<LayoutSetBranch, Long>)LayoutSetBranch::setUserId);
-		attributeGetterFunctions.put("userName", LayoutSetBranch::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<LayoutSetBranch, String>)LayoutSetBranch::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", LayoutSetBranch::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<LayoutSetBranch, Date>)LayoutSetBranch::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", LayoutSetBranch::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<LayoutSetBranch, Date>)
 				LayoutSetBranch::setModifiedDate);
-		attributeGetterFunctions.put(
-			"privateLayout", LayoutSetBranch::getPrivateLayout);
 		attributeSetterBiConsumers.put(
 			"privateLayout",
 			(BiConsumer<LayoutSetBranch, Boolean>)
 				LayoutSetBranch::setPrivateLayout);
-		attributeGetterFunctions.put("name", LayoutSetBranch::getName);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<LayoutSetBranch, String>)LayoutSetBranch::setName);
-		attributeGetterFunctions.put(
-			"description", LayoutSetBranch::getDescription);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<LayoutSetBranch, String>)
 				LayoutSetBranch::setDescription);
-		attributeGetterFunctions.put("master", LayoutSetBranch::getMaster);
 		attributeSetterBiConsumers.put(
 			"master",
 			(BiConsumer<LayoutSetBranch, Boolean>)LayoutSetBranch::setMaster);
-		attributeGetterFunctions.put("logoId", LayoutSetBranch::getLogoId);
 		attributeSetterBiConsumers.put(
 			"logoId",
 			(BiConsumer<LayoutSetBranch, Long>)LayoutSetBranch::setLogoId);
-		attributeGetterFunctions.put("themeId", LayoutSetBranch::getThemeId);
 		attributeSetterBiConsumers.put(
 			"themeId",
 			(BiConsumer<LayoutSetBranch, String>)LayoutSetBranch::setThemeId);
-		attributeGetterFunctions.put(
-			"colorSchemeId", LayoutSetBranch::getColorSchemeId);
 		attributeSetterBiConsumers.put(
 			"colorSchemeId",
 			(BiConsumer<LayoutSetBranch, String>)
 				LayoutSetBranch::setColorSchemeId);
-		attributeGetterFunctions.put("css", LayoutSetBranch::getCss);
 		attributeSetterBiConsumers.put(
 			"css",
 			(BiConsumer<LayoutSetBranch, String>)LayoutSetBranch::setCss);
-		attributeGetterFunctions.put("settings", LayoutSetBranch::getSettings);
 		attributeSetterBiConsumers.put(
 			"settings",
 			(BiConsumer<LayoutSetBranch, String>)LayoutSetBranch::setSettings);
-		attributeGetterFunctions.put(
-			"layoutSetPrototypeUuid",
-			LayoutSetBranch::getLayoutSetPrototypeUuid);
 		attributeSetterBiConsumers.put(
 			"layoutSetPrototypeUuid",
 			(BiConsumer<LayoutSetBranch, String>)
 				LayoutSetBranch::setLayoutSetPrototypeUuid);
-		attributeGetterFunctions.put(
-			"layoutSetPrototypeLinkEnabled",
-			LayoutSetBranch::getLayoutSetPrototypeLinkEnabled);
 		attributeSetterBiConsumers.put(
 			"layoutSetPrototypeLinkEnabled",
 			(BiConsumer<LayoutSetBranch, Boolean>)
 				LayoutSetBranch::setLayoutSetPrototypeLinkEnabled);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

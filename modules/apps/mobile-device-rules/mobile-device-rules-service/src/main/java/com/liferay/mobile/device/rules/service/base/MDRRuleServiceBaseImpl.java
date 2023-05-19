@@ -32,8 +32,6 @@ import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiServic
 import com.liferay.portal.kernel.service.BaseServiceImpl;
 import com.liferay.portal.kernel.util.PortalUtil;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 import org.osgi.service.component.annotations.Deactivate;
@@ -61,7 +59,7 @@ public abstract class MDRRuleServiceBaseImpl
 	 */
 	@Deactivate
 	protected void deactivate() {
-		_setServiceUtilService(null);
+		MDRRuleServiceUtil.setService(null);
 	}
 
 	@Override
@@ -75,7 +73,7 @@ public abstract class MDRRuleServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		mdrRuleService = (MDRRuleService)aopProxy;
 
-		_setServiceUtilService(mdrRuleService);
+		MDRRuleServiceUtil.setService(mdrRuleService);
 	}
 
 	/**
@@ -117,19 +115,6 @@ public abstract class MDRRuleServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setServiceUtilService(MDRRuleService mdrRuleService) {
-		try {
-			Field field = MDRRuleServiceUtil.class.getDeclaredField("_service");
-
-			field.setAccessible(true);
-
-			field.set(null, mdrRuleService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

@@ -137,6 +137,10 @@ public class ProductEntryServiceUtil {
 		return _service;
 	}
 
+	public static void setService(ProductEntryService service) {
+		_service = service;
+	}
+
 	private static volatile ProductEntryService _service;
 
 }

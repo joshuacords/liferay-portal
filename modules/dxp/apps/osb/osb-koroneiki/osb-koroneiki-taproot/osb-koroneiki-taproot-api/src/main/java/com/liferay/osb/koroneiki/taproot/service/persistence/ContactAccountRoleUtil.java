@@ -1011,6 +1011,12 @@ public class ContactAccountRoleUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(
+		ContactAccountRolePersistence persistence) {
+
+		_persistence = persistence;
+	}
+
 	private static volatile ContactAccountRolePersistence _persistence;
 
 }

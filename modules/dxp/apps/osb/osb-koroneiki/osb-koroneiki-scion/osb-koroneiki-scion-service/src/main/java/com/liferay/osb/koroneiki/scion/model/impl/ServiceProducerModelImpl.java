@@ -265,59 +265,65 @@ public class ServiceProducerModelImpl
 
 	private static final Map<String, Function<ServiceProducer, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<ServiceProducer, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<ServiceProducer, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap<String, Function<ServiceProducer, Object>>();
-		Map<String, BiConsumer<ServiceProducer, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<ServiceProducer, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", ServiceProducer::getMvccVersion);
+		attributeGetterFunctions.put("uuid", ServiceProducer::getUuid);
+		attributeGetterFunctions.put(
+			"serviceProducerId", ServiceProducer::getServiceProducerId);
+		attributeGetterFunctions.put(
+			"companyId", ServiceProducer::getCompanyId);
+		attributeGetterFunctions.put("userId", ServiceProducer::getUserId);
+		attributeGetterFunctions.put(
+			"authorizationUserId", ServiceProducer::getAuthorizationUserId);
+		attributeGetterFunctions.put("name", ServiceProducer::getName);
+		attributeGetterFunctions.put(
+			"description", ServiceProducer::getDescription);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<ServiceProducer, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<ServiceProducer, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<ServiceProducer, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<ServiceProducer, Long>)ServiceProducer::setMvccVersion);
-		attributeGetterFunctions.put("uuid", ServiceProducer::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<ServiceProducer, String>)ServiceProducer::setUuid);
-		attributeGetterFunctions.put(
-			"serviceProducerId", ServiceProducer::getServiceProducerId);
 		attributeSetterBiConsumers.put(
 			"serviceProducerId",
 			(BiConsumer<ServiceProducer, Long>)
 				ServiceProducer::setServiceProducerId);
-		attributeGetterFunctions.put(
-			"companyId", ServiceProducer::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<ServiceProducer, Long>)ServiceProducer::setCompanyId);
-		attributeGetterFunctions.put("userId", ServiceProducer::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<ServiceProducer, Long>)ServiceProducer::setUserId);
-		attributeGetterFunctions.put(
-			"authorizationUserId", ServiceProducer::getAuthorizationUserId);
 		attributeSetterBiConsumers.put(
 			"authorizationUserId",
 			(BiConsumer<ServiceProducer, Long>)
 				ServiceProducer::setAuthorizationUserId);
-		attributeGetterFunctions.put("name", ServiceProducer::getName);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<ServiceProducer, String>)ServiceProducer::setName);
-		attributeGetterFunctions.put(
-			"description", ServiceProducer::getDescription);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<ServiceProducer, String>)
 				ServiceProducer::setDescription);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

@@ -46,8 +46,6 @@ import com.liferay.subscription.service.persistence.SubscriptionPersistence;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -361,7 +359,7 @@ public abstract class SubscriptionLocalServiceBaseImpl
 
 	@Deactivate
 	protected void deactivate() {
-		_setLocalServiceUtilService(null);
+		SubscriptionLocalServiceUtil.setService(null);
 	}
 
 	@Override
@@ -376,7 +374,7 @@ public abstract class SubscriptionLocalServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		subscriptionLocalService = (SubscriptionLocalService)aopProxy;
 
-		_setLocalServiceUtilService(subscriptionLocalService);
+		SubscriptionLocalServiceUtil.setService(subscriptionLocalService);
 	}
 
 	/**
@@ -418,22 +416,6 @@ public abstract class SubscriptionLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		SubscriptionLocalService subscriptionLocalService) {
-
-		try {
-			Field field = SubscriptionLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, subscriptionLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

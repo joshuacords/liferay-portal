@@ -243,99 +243,105 @@ public class UserNotificationEventModelImpl
 
 	private static final Map<String, Function<UserNotificationEvent, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<UserNotificationEvent, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<UserNotificationEvent, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<UserNotificationEvent, Object>>();
+
+		attributeGetterFunctions.put(
+			"mvccVersion", UserNotificationEvent::getMvccVersion);
+		attributeGetterFunctions.put("uuid", UserNotificationEvent::getUuid);
+		attributeGetterFunctions.put(
+			"userNotificationEventId",
+			UserNotificationEvent::getUserNotificationEventId);
+		attributeGetterFunctions.put(
+			"companyId", UserNotificationEvent::getCompanyId);
+		attributeGetterFunctions.put(
+			"userId", UserNotificationEvent::getUserId);
+		attributeGetterFunctions.put("type", UserNotificationEvent::getType);
+		attributeGetterFunctions.put(
+			"timestamp", UserNotificationEvent::getTimestamp);
+		attributeGetterFunctions.put(
+			"deliveryType", UserNotificationEvent::getDeliveryType);
+		attributeGetterFunctions.put(
+			"deliverBy", UserNotificationEvent::getDeliverBy);
+		attributeGetterFunctions.put(
+			"delivered", UserNotificationEvent::getDelivered);
+		attributeGetterFunctions.put(
+			"payload", UserNotificationEvent::getPayload);
+		attributeGetterFunctions.put(
+			"actionRequired", UserNotificationEvent::getActionRequired);
+		attributeGetterFunctions.put(
+			"archived", UserNotificationEvent::getArchived);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<UserNotificationEvent, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<UserNotificationEvent, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<UserNotificationEvent, ?>>();
 
-		attributeGetterFunctions.put(
-			"mvccVersion", UserNotificationEvent::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<UserNotificationEvent, Long>)
 				UserNotificationEvent::setMvccVersion);
-		attributeGetterFunctions.put("uuid", UserNotificationEvent::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<UserNotificationEvent, String>)
 				UserNotificationEvent::setUuid);
-		attributeGetterFunctions.put(
-			"userNotificationEventId",
-			UserNotificationEvent::getUserNotificationEventId);
 		attributeSetterBiConsumers.put(
 			"userNotificationEventId",
 			(BiConsumer<UserNotificationEvent, Long>)
 				UserNotificationEvent::setUserNotificationEventId);
-		attributeGetterFunctions.put(
-			"companyId", UserNotificationEvent::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<UserNotificationEvent, Long>)
 				UserNotificationEvent::setCompanyId);
-		attributeGetterFunctions.put(
-			"userId", UserNotificationEvent::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<UserNotificationEvent, Long>)
 				UserNotificationEvent::setUserId);
-		attributeGetterFunctions.put("type", UserNotificationEvent::getType);
 		attributeSetterBiConsumers.put(
 			"type",
 			(BiConsumer<UserNotificationEvent, String>)
 				UserNotificationEvent::setType);
-		attributeGetterFunctions.put(
-			"timestamp", UserNotificationEvent::getTimestamp);
 		attributeSetterBiConsumers.put(
 			"timestamp",
 			(BiConsumer<UserNotificationEvent, Long>)
 				UserNotificationEvent::setTimestamp);
-		attributeGetterFunctions.put(
-			"deliveryType", UserNotificationEvent::getDeliveryType);
 		attributeSetterBiConsumers.put(
 			"deliveryType",
 			(BiConsumer<UserNotificationEvent, Integer>)
 				UserNotificationEvent::setDeliveryType);
-		attributeGetterFunctions.put(
-			"deliverBy", UserNotificationEvent::getDeliverBy);
 		attributeSetterBiConsumers.put(
 			"deliverBy",
 			(BiConsumer<UserNotificationEvent, Long>)
 				UserNotificationEvent::setDeliverBy);
-		attributeGetterFunctions.put(
-			"delivered", UserNotificationEvent::getDelivered);
 		attributeSetterBiConsumers.put(
 			"delivered",
 			(BiConsumer<UserNotificationEvent, Boolean>)
 				UserNotificationEvent::setDelivered);
-		attributeGetterFunctions.put(
-			"payload", UserNotificationEvent::getPayload);
 		attributeSetterBiConsumers.put(
 			"payload",
 			(BiConsumer<UserNotificationEvent, String>)
 				UserNotificationEvent::setPayload);
-		attributeGetterFunctions.put(
-			"actionRequired", UserNotificationEvent::getActionRequired);
 		attributeSetterBiConsumers.put(
 			"actionRequired",
 			(BiConsumer<UserNotificationEvent, Boolean>)
 				UserNotificationEvent::setActionRequired);
-		attributeGetterFunctions.put(
-			"archived", UserNotificationEvent::getArchived);
 		attributeSetterBiConsumers.put(
 			"archived",
 			(BiConsumer<UserNotificationEvent, Boolean>)
 				UserNotificationEvent::setArchived);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

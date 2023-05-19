@@ -752,6 +752,12 @@ public class ResourceTypePermissionUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(
+		ResourceTypePermissionPersistence persistence) {
+
+		_persistence = persistence;
+	}
+
 	private static volatile ResourceTypePermissionPersistence _persistence;
 
 }

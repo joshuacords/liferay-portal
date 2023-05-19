@@ -249,56 +249,62 @@ public class LVEntryVersionModelImpl
 
 	private static final Map<String, Function<LVEntryVersion, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<LVEntryVersion, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<LVEntryVersion, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<LVEntryVersion, Object>>();
-		Map<String, BiConsumer<LVEntryVersion, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<LVEntryVersion, ?>>();
 
 		attributeGetterFunctions.put(
 			"lvEntryVersionId", LVEntryVersion::getLvEntryVersionId);
+		attributeGetterFunctions.put("version", LVEntryVersion::getVersion);
+		attributeGetterFunctions.put("uuid", LVEntryVersion::getUuid);
+		attributeGetterFunctions.put(
+			"defaultLanguageId", LVEntryVersion::getDefaultLanguageId);
+		attributeGetterFunctions.put("lvEntryId", LVEntryVersion::getLvEntryId);
+		attributeGetterFunctions.put("groupId", LVEntryVersion::getGroupId);
+		attributeGetterFunctions.put("companyId", LVEntryVersion::getCompanyId);
+		attributeGetterFunctions.put(
+			"uniqueGroupKey", LVEntryVersion::getUniqueGroupKey);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<LVEntryVersion, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<LVEntryVersion, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<LVEntryVersion, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"lvEntryVersionId",
 			(BiConsumer<LVEntryVersion, Long>)
 				LVEntryVersion::setLvEntryVersionId);
-		attributeGetterFunctions.put("version", LVEntryVersion::getVersion);
 		attributeSetterBiConsumers.put(
 			"version",
 			(BiConsumer<LVEntryVersion, Integer>)LVEntryVersion::setVersion);
-		attributeGetterFunctions.put("uuid", LVEntryVersion::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<LVEntryVersion, String>)LVEntryVersion::setUuid);
-		attributeGetterFunctions.put(
-			"defaultLanguageId", LVEntryVersion::getDefaultLanguageId);
 		attributeSetterBiConsumers.put(
 			"defaultLanguageId",
 			(BiConsumer<LVEntryVersion, String>)
 				LVEntryVersion::setDefaultLanguageId);
-		attributeGetterFunctions.put("lvEntryId", LVEntryVersion::getLvEntryId);
 		attributeSetterBiConsumers.put(
 			"lvEntryId",
 			(BiConsumer<LVEntryVersion, Long>)LVEntryVersion::setLvEntryId);
-		attributeGetterFunctions.put("groupId", LVEntryVersion::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<LVEntryVersion, Long>)LVEntryVersion::setGroupId);
-		attributeGetterFunctions.put("companyId", LVEntryVersion::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<LVEntryVersion, Long>)LVEntryVersion::setCompanyId);
-		attributeGetterFunctions.put(
-			"uniqueGroupKey", LVEntryVersion::getUniqueGroupKey);
 		attributeSetterBiConsumers.put(
 			"uniqueGroupKey",
 			(BiConsumer<LVEntryVersion, String>)
 				LVEntryVersion::setUniqueGroupKey);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

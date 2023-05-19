@@ -73,6 +73,10 @@ public class KaleoDefinitionServiceUtil {
 		return _service;
 	}
 
+	public static void setService(KaleoDefinitionService service) {
+		_service = service;
+	}
+
 	private static volatile KaleoDefinitionService _service;
 
 }

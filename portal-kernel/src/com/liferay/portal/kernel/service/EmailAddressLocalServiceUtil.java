@@ -347,6 +347,10 @@ public class EmailAddressLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(EmailAddressLocalService service) {
+		_service = service;
+	}
+
 	private static volatile EmailAddressLocalService _service;
 
 }

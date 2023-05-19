@@ -47,6 +47,10 @@ public class CommonLicenseKeyServiceUtil {
 		return _service;
 	}
 
+	public static void setService(CommonLicenseKeyService service) {
+		_service = service;
+	}
+
 	private static volatile CommonLicenseKeyService _service;
 
 }

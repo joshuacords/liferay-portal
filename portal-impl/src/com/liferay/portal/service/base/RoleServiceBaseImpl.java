@@ -49,8 +49,6 @@ import com.liferay.portal.kernel.service.persistence.UserGroupRolePersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 /**
@@ -981,11 +979,11 @@ public abstract class RoleServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
-		_setServiceUtilService(roleService);
+		RoleServiceUtil.setService(roleService);
 	}
 
 	public void destroy() {
-		_setServiceUtilService(null);
+		RoleServiceUtil.setService(null);
 	}
 
 	/**
@@ -1027,19 +1025,6 @@ public abstract class RoleServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setServiceUtilService(RoleService roleService) {
-		try {
-			Field field = RoleServiceUtil.class.getDeclaredField("_service");
-
-			field.setAccessible(true);
-
-			field.set(null, roleService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

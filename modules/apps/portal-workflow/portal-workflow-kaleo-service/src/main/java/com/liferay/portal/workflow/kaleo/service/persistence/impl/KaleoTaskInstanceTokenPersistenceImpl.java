@@ -46,7 +46,6 @@ import com.liferay.portal.workflow.kaleo.service.persistence.impl.constants.Kale
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
@@ -3408,34 +3407,18 @@ public class KaleoTaskInstanceTokenPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCN_CPK",
 			new String[] {String.class.getName(), Long.class.getName()});
 
-		_setKaleoTaskInstanceTokenUtilPersistence(this);
+		KaleoTaskInstanceTokenUtil.setPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
-		_setKaleoTaskInstanceTokenUtilPersistence(null);
+		KaleoTaskInstanceTokenUtil.setPersistence(null);
 
 		entityCache.removeCache(KaleoTaskInstanceTokenImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setKaleoTaskInstanceTokenUtilPersistence(
-		KaleoTaskInstanceTokenPersistence kaleoTaskInstanceTokenPersistence) {
-
-		try {
-			Field field = KaleoTaskInstanceTokenUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, kaleoTaskInstanceTokenPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@Override

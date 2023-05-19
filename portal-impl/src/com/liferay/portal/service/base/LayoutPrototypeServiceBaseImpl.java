@@ -36,8 +36,6 @@ import com.liferay.portal.kernel.service.persistence.UserFinder;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 /**
@@ -406,11 +404,11 @@ public abstract class LayoutPrototypeServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
-		_setServiceUtilService(layoutPrototypeService);
+		LayoutPrototypeServiceUtil.setService(layoutPrototypeService);
 	}
 
 	public void destroy() {
-		_setServiceUtilService(null);
+		LayoutPrototypeServiceUtil.setService(null);
 	}
 
 	/**
@@ -452,22 +450,6 @@ public abstract class LayoutPrototypeServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setServiceUtilService(
-		LayoutPrototypeService layoutPrototypeService) {
-
-		try {
-			Field field = LayoutPrototypeServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, layoutPrototypeService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

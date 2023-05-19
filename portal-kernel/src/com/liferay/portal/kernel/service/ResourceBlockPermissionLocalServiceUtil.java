@@ -344,6 +344,10 @@ public class ResourceBlockPermissionLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(ResourceBlockPermissionLocalService service) {
+		_service = service;
+	}
+
 	private static volatile ResourceBlockPermissionLocalService _service;
 
 }

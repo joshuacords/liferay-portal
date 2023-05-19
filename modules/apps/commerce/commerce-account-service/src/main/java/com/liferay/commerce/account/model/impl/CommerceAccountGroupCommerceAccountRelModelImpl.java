@@ -329,9 +329,6 @@ public class CommerceAccountGroupCommerceAccountRelModelImpl
 	private static final Map
 		<String, Function<CommerceAccountGroupCommerceAccountRel, Object>>
 			_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<CommerceAccountGroupCommerceAccountRel, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommerceAccountGroupCommerceAccountRel, Object>>
@@ -340,11 +337,6 @@ public class CommerceAccountGroupCommerceAccountRelModelImpl
 					<String,
 					 Function
 						 <CommerceAccountGroupCommerceAccountRel, Object>>();
-		Map<String, BiConsumer<CommerceAccountGroupCommerceAccountRel, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String,
-					 BiConsumer<CommerceAccountGroupCommerceAccountRel, ?>>();
 
 		attributeGetterFunctions.put(
 			"externalReferenceCode",
@@ -360,6 +352,132 @@ public class CommerceAccountGroupCommerceAccountRelModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"commerceAccountGroupCommerceAccountRelId",
+			new Function<CommerceAccountGroupCommerceAccountRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceAccountGroupCommerceAccountRel
+						commerceAccountGroupCommerceAccountRel) {
+
+					return commerceAccountGroupCommerceAccountRel.
+						getCommerceAccountGroupCommerceAccountRelId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommerceAccountGroupCommerceAccountRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceAccountGroupCommerceAccountRel
+						commerceAccountGroupCommerceAccountRel) {
+
+					return commerceAccountGroupCommerceAccountRel.
+						getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommerceAccountGroupCommerceAccountRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceAccountGroupCommerceAccountRel
+						commerceAccountGroupCommerceAccountRel) {
+
+					return commerceAccountGroupCommerceAccountRel.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommerceAccountGroupCommerceAccountRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceAccountGroupCommerceAccountRel
+						commerceAccountGroupCommerceAccountRel) {
+
+					return commerceAccountGroupCommerceAccountRel.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommerceAccountGroupCommerceAccountRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceAccountGroupCommerceAccountRel
+						commerceAccountGroupCommerceAccountRel) {
+
+					return commerceAccountGroupCommerceAccountRel.
+						getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommerceAccountGroupCommerceAccountRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceAccountGroupCommerceAccountRel
+						commerceAccountGroupCommerceAccountRel) {
+
+					return commerceAccountGroupCommerceAccountRel.
+						getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceAccountGroupId",
+			new Function<CommerceAccountGroupCommerceAccountRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceAccountGroupCommerceAccountRel
+						commerceAccountGroupCommerceAccountRel) {
+
+					return commerceAccountGroupCommerceAccountRel.
+						getCommerceAccountGroupId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceAccountId",
+			new Function<CommerceAccountGroupCommerceAccountRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceAccountGroupCommerceAccountRel
+						commerceAccountGroupCommerceAccountRel) {
+
+					return commerceAccountGroupCommerceAccountRel.
+						getCommerceAccountId();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<CommerceAccountGroupCommerceAccountRel, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommerceAccountGroupCommerceAccountRel, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap
+					<String,
+					 BiConsumer<CommerceAccountGroupCommerceAccountRel, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"externalReferenceCode",
 			new BiConsumer<CommerceAccountGroupCommerceAccountRel, Object>() {
@@ -373,20 +491,6 @@ public class CommerceAccountGroupCommerceAccountRelModelImpl
 					commerceAccountGroupCommerceAccountRel.
 						setExternalReferenceCode(
 							(String)externalReferenceCodeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commerceAccountGroupCommerceAccountRelId",
-			new Function<CommerceAccountGroupCommerceAccountRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceAccountGroupCommerceAccountRel
-						commerceAccountGroupCommerceAccountRel) {
-
-					return commerceAccountGroupCommerceAccountRel.
-						getCommerceAccountGroupCommerceAccountRelId();
 				}
 
 			});
@@ -407,20 +511,6 @@ public class CommerceAccountGroupCommerceAccountRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommerceAccountGroupCommerceAccountRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceAccountGroupCommerceAccountRel
-						commerceAccountGroupCommerceAccountRel) {
-
-					return commerceAccountGroupCommerceAccountRel.
-						getCompanyId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"companyId",
 			new BiConsumer<CommerceAccountGroupCommerceAccountRel, Object>() {
@@ -433,19 +523,6 @@ public class CommerceAccountGroupCommerceAccountRelModelImpl
 
 					commerceAccountGroupCommerceAccountRel.setCompanyId(
 						(Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommerceAccountGroupCommerceAccountRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceAccountGroupCommerceAccountRel
-						commerceAccountGroupCommerceAccountRel) {
-
-					return commerceAccountGroupCommerceAccountRel.getUserId();
 				}
 
 			});
@@ -464,19 +541,6 @@ public class CommerceAccountGroupCommerceAccountRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommerceAccountGroupCommerceAccountRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceAccountGroupCommerceAccountRel
-						commerceAccountGroupCommerceAccountRel) {
-
-					return commerceAccountGroupCommerceAccountRel.getUserName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userName",
 			new BiConsumer<CommerceAccountGroupCommerceAccountRel, Object>() {
@@ -489,20 +553,6 @@ public class CommerceAccountGroupCommerceAccountRelModelImpl
 
 					commerceAccountGroupCommerceAccountRel.setUserName(
 						(String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommerceAccountGroupCommerceAccountRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceAccountGroupCommerceAccountRel
-						commerceAccountGroupCommerceAccountRel) {
-
-					return commerceAccountGroupCommerceAccountRel.
-						getCreateDate();
 				}
 
 			});
@@ -521,20 +571,6 @@ public class CommerceAccountGroupCommerceAccountRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommerceAccountGroupCommerceAccountRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceAccountGroupCommerceAccountRel
-						commerceAccountGroupCommerceAccountRel) {
-
-					return commerceAccountGroupCommerceAccountRel.
-						getModifiedDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			new BiConsumer<CommerceAccountGroupCommerceAccountRel, Object>() {
@@ -547,20 +583,6 @@ public class CommerceAccountGroupCommerceAccountRelModelImpl
 
 					commerceAccountGroupCommerceAccountRel.setModifiedDate(
 						(Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commerceAccountGroupId",
-			new Function<CommerceAccountGroupCommerceAccountRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceAccountGroupCommerceAccountRel
-						commerceAccountGroupCommerceAccountRel) {
-
-					return commerceAccountGroupCommerceAccountRel.
-						getCommerceAccountGroupId();
 				}
 
 			});
@@ -580,20 +602,6 @@ public class CommerceAccountGroupCommerceAccountRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"commerceAccountId",
-			new Function<CommerceAccountGroupCommerceAccountRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceAccountGroupCommerceAccountRel
-						commerceAccountGroupCommerceAccountRel) {
-
-					return commerceAccountGroupCommerceAccountRel.
-						getCommerceAccountId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"commerceAccountId",
 			new BiConsumer<CommerceAccountGroupCommerceAccountRel, Object>() {
@@ -610,8 +618,6 @@ public class CommerceAccountGroupCommerceAccountRelModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

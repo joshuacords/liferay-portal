@@ -58,7 +58,6 @@ import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
@@ -22831,33 +22830,18 @@ public class MBMessagePersistenceImpl
 				Long.class.getName(), Integer.class.getName()
 			});
 
-		_setMBMessageUtilPersistence(this);
+		MBMessageUtil.setPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
-		_setMBMessageUtilPersistence(null);
+		MBMessageUtil.setPersistence(null);
 
 		entityCache.removeCache(MBMessageImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setMBMessageUtilPersistence(
-		MBMessagePersistence mbMessagePersistence) {
-
-		try {
-			Field field = MBMessageUtil.class.getDeclaredField("_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, mbMessagePersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@Override

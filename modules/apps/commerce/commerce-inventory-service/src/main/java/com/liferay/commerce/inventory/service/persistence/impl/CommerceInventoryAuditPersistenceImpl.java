@@ -2092,33 +2092,17 @@ public class CommerceInventoryAuditPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_S",
 			new String[] {Long.class.getName(), String.class.getName()});
 
-		_setCommerceInventoryAuditUtilPersistence(this);
+		CommerceInventoryAuditUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setCommerceInventoryAuditUtilPersistence(null);
+		CommerceInventoryAuditUtil.setPersistence(null);
 
 		entityCache.removeCache(CommerceInventoryAuditImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setCommerceInventoryAuditUtilPersistence(
-		CommerceInventoryAuditPersistence commerceInventoryAuditPersistence) {
-
-		try {
-			Field field = CommerceInventoryAuditUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, commerceInventoryAuditPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

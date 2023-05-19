@@ -258,36 +258,42 @@ public class RegionModelImpl
 
 	private static final Map<String, Function<Region, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Region, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<Region, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<Region, Object>>();
-		Map<String, BiConsumer<Region, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Region, ?>>();
 
 		attributeGetterFunctions.put("mvccVersion", Region::getMvccVersion);
-		attributeSetterBiConsumers.put(
-			"mvccVersion", (BiConsumer<Region, Long>)Region::setMvccVersion);
 		attributeGetterFunctions.put("regionId", Region::getRegionId);
-		attributeSetterBiConsumers.put(
-			"regionId", (BiConsumer<Region, Long>)Region::setRegionId);
 		attributeGetterFunctions.put("countryId", Region::getCountryId);
-		attributeSetterBiConsumers.put(
-			"countryId", (BiConsumer<Region, Long>)Region::setCountryId);
 		attributeGetterFunctions.put("regionCode", Region::getRegionCode);
-		attributeSetterBiConsumers.put(
-			"regionCode", (BiConsumer<Region, String>)Region::setRegionCode);
 		attributeGetterFunctions.put("name", Region::getName);
-		attributeSetterBiConsumers.put(
-			"name", (BiConsumer<Region, String>)Region::setName);
 		attributeGetterFunctions.put("active", Region::getActive);
-		attributeSetterBiConsumers.put(
-			"active", (BiConsumer<Region, Boolean>)Region::setActive);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<Region, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<Region, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<Region, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"mvccVersion", (BiConsumer<Region, Long>)Region::setMvccVersion);
+		attributeSetterBiConsumers.put(
+			"regionId", (BiConsumer<Region, Long>)Region::setRegionId);
+		attributeSetterBiConsumers.put(
+			"countryId", (BiConsumer<Region, Long>)Region::setCountryId);
+		attributeSetterBiConsumers.put(
+			"regionCode", (BiConsumer<Region, String>)Region::setRegionCode);
+		attributeSetterBiConsumers.put(
+			"name", (BiConsumer<Region, String>)Region::setName);
+		attributeSetterBiConsumers.put(
+			"active", (BiConsumer<Region, Boolean>)Region::setActive);
+
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

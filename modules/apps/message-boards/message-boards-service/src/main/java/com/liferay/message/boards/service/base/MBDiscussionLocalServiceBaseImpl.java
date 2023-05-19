@@ -54,8 +54,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -523,7 +521,7 @@ public abstract class MBDiscussionLocalServiceBaseImpl
 
 	@Deactivate
 	protected void deactivate() {
-		_setLocalServiceUtilService(null);
+		MBDiscussionLocalServiceUtil.setService(null);
 	}
 
 	@Override
@@ -538,7 +536,7 @@ public abstract class MBDiscussionLocalServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		mbDiscussionLocalService = (MBDiscussionLocalService)aopProxy;
 
-		_setLocalServiceUtilService(mbDiscussionLocalService);
+		MBDiscussionLocalServiceUtil.setService(mbDiscussionLocalService);
 	}
 
 	/**
@@ -580,22 +578,6 @@ public abstract class MBDiscussionLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		MBDiscussionLocalService mbDiscussionLocalService) {
-
-		try {
-			Field field = MBDiscussionLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, mbDiscussionLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

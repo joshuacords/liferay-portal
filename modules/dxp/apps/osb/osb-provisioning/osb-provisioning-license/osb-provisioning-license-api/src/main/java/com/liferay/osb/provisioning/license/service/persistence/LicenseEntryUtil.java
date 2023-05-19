@@ -846,6 +846,10 @@ public class LicenseEntryUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(LicenseEntryPersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile LicenseEntryPersistence _persistence;
 
 }

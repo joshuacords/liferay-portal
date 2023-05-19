@@ -322,15 +322,11 @@ public class CommerceChannelModelImpl
 
 	private static final Map<String, Function<CommerceChannel, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CommerceChannel, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommerceChannel, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap<String, Function<CommerceChannel, Object>>();
-		Map<String, BiConsumer<CommerceChannel, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<CommerceChannel, ?>>();
 
 		attributeGetterFunctions.put(
 			"externalReferenceCode",
@@ -342,6 +338,148 @@ public class CommerceChannelModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"commerceChannelId",
+			new Function<CommerceChannel, Object>() {
+
+				@Override
+				public Object apply(CommerceChannel commerceChannel) {
+					return commerceChannel.getCommerceChannelId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommerceChannel, Object>() {
+
+				@Override
+				public Object apply(CommerceChannel commerceChannel) {
+					return commerceChannel.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommerceChannel, Object>() {
+
+				@Override
+				public Object apply(CommerceChannel commerceChannel) {
+					return commerceChannel.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommerceChannel, Object>() {
+
+				@Override
+				public Object apply(CommerceChannel commerceChannel) {
+					return commerceChannel.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommerceChannel, Object>() {
+
+				@Override
+				public Object apply(CommerceChannel commerceChannel) {
+					return commerceChannel.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommerceChannel, Object>() {
+
+				@Override
+				public Object apply(CommerceChannel commerceChannel) {
+					return commerceChannel.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"siteGroupId",
+			new Function<CommerceChannel, Object>() {
+
+				@Override
+				public Object apply(CommerceChannel commerceChannel) {
+					return commerceChannel.getSiteGroupId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"name",
+			new Function<CommerceChannel, Object>() {
+
+				@Override
+				public Object apply(CommerceChannel commerceChannel) {
+					return commerceChannel.getName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"type",
+			new Function<CommerceChannel, Object>() {
+
+				@Override
+				public Object apply(CommerceChannel commerceChannel) {
+					return commerceChannel.getType();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"typeSettings",
+			new Function<CommerceChannel, Object>() {
+
+				@Override
+				public Object apply(CommerceChannel commerceChannel) {
+					return commerceChannel.getTypeSettings();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceCurrencyCode",
+			new Function<CommerceChannel, Object>() {
+
+				@Override
+				public Object apply(CommerceChannel commerceChannel) {
+					return commerceChannel.getCommerceCurrencyCode();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"priceDisplayType",
+			new Function<CommerceChannel, Object>() {
+
+				@Override
+				public Object apply(CommerceChannel commerceChannel) {
+					return commerceChannel.getPriceDisplayType();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"discountsTargetNetPrice",
+			new Function<CommerceChannel, Object>() {
+
+				@Override
+				public Object apply(CommerceChannel commerceChannel) {
+					return commerceChannel.getDiscountsTargetNetPrice();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<CommerceChannel, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommerceChannel, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<CommerceChannel, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"externalReferenceCode",
 			new BiConsumer<CommerceChannel, Object>() {
@@ -353,16 +491,6 @@ public class CommerceChannelModelImpl
 
 					commerceChannel.setExternalReferenceCode(
 						(String)externalReferenceCodeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commerceChannelId",
-			new Function<CommerceChannel, Object>() {
-
-				@Override
-				public Object apply(CommerceChannel commerceChannel) {
-					return commerceChannel.getCommerceChannelId();
 				}
 
 			});
@@ -380,16 +508,6 @@ public class CommerceChannelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommerceChannel, Object>() {
-
-				@Override
-				public Object apply(CommerceChannel commerceChannel) {
-					return commerceChannel.getCompanyId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"companyId",
 			new BiConsumer<CommerceChannel, Object>() {
@@ -399,16 +517,6 @@ public class CommerceChannelModelImpl
 					CommerceChannel commerceChannel, Object companyIdObject) {
 
 					commerceChannel.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommerceChannel, Object>() {
-
-				@Override
-				public Object apply(CommerceChannel commerceChannel) {
-					return commerceChannel.getUserId();
 				}
 
 			});
@@ -424,16 +532,6 @@ public class CommerceChannelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommerceChannel, Object>() {
-
-				@Override
-				public Object apply(CommerceChannel commerceChannel) {
-					return commerceChannel.getUserName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userName",
 			new BiConsumer<CommerceChannel, Object>() {
@@ -446,16 +544,6 @@ public class CommerceChannelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommerceChannel, Object>() {
-
-				@Override
-				public Object apply(CommerceChannel commerceChannel) {
-					return commerceChannel.getCreateDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"createDate",
 			new BiConsumer<CommerceChannel, Object>() {
@@ -465,16 +553,6 @@ public class CommerceChannelModelImpl
 					CommerceChannel commerceChannel, Object createDateObject) {
 
 					commerceChannel.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommerceChannel, Object>() {
-
-				@Override
-				public Object apply(CommerceChannel commerceChannel) {
-					return commerceChannel.getModifiedDate();
 				}
 
 			});
@@ -491,16 +569,6 @@ public class CommerceChannelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"siteGroupId",
-			new Function<CommerceChannel, Object>() {
-
-				@Override
-				public Object apply(CommerceChannel commerceChannel) {
-					return commerceChannel.getSiteGroupId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"siteGroupId",
 			new BiConsumer<CommerceChannel, Object>() {
@@ -510,16 +578,6 @@ public class CommerceChannelModelImpl
 					CommerceChannel commerceChannel, Object siteGroupIdObject) {
 
 					commerceChannel.setSiteGroupId((Long)siteGroupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"name",
-			new Function<CommerceChannel, Object>() {
-
-				@Override
-				public Object apply(CommerceChannel commerceChannel) {
-					return commerceChannel.getName();
 				}
 
 			});
@@ -535,16 +593,6 @@ public class CommerceChannelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"type",
-			new Function<CommerceChannel, Object>() {
-
-				@Override
-				public Object apply(CommerceChannel commerceChannel) {
-					return commerceChannel.getType();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"type",
 			new BiConsumer<CommerceChannel, Object>() {
@@ -554,16 +602,6 @@ public class CommerceChannelModelImpl
 					CommerceChannel commerceChannel, Object typeObject) {
 
 					commerceChannel.setType((String)typeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"typeSettings",
-			new Function<CommerceChannel, Object>() {
-
-				@Override
-				public Object apply(CommerceChannel commerceChannel) {
-					return commerceChannel.getTypeSettings();
 				}
 
 			});
@@ -577,16 +615,6 @@ public class CommerceChannelModelImpl
 					Object typeSettingsObject) {
 
 					commerceChannel.setTypeSettings((String)typeSettingsObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commerceCurrencyCode",
-			new Function<CommerceChannel, Object>() {
-
-				@Override
-				public Object apply(CommerceChannel commerceChannel) {
-					return commerceChannel.getCommerceCurrencyCode();
 				}
 
 			});
@@ -604,16 +632,6 @@ public class CommerceChannelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"priceDisplayType",
-			new Function<CommerceChannel, Object>() {
-
-				@Override
-				public Object apply(CommerceChannel commerceChannel) {
-					return commerceChannel.getPriceDisplayType();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"priceDisplayType",
 			new BiConsumer<CommerceChannel, Object>() {
@@ -625,16 +643,6 @@ public class CommerceChannelModelImpl
 
 					commerceChannel.setPriceDisplayType(
 						(String)priceDisplayTypeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"discountsTargetNetPrice",
-			new Function<CommerceChannel, Object>() {
-
-				@Override
-				public Object apply(CommerceChannel commerceChannel) {
-					return commerceChannel.getDiscountsTargetNetPrice();
 				}
 
 			});
@@ -653,8 +661,6 @@ public class CommerceChannelModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

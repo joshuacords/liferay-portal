@@ -57,8 +57,6 @@ import com.liferay.portal.reports.engine.console.service.persistence.SourcePersi
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -491,7 +489,7 @@ public abstract class SourceLocalServiceBaseImpl
 
 	@Deactivate
 	protected void deactivate() {
-		_setLocalServiceUtilService(null);
+		SourceLocalServiceUtil.setService(null);
 	}
 
 	@Override
@@ -506,7 +504,7 @@ public abstract class SourceLocalServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		sourceLocalService = (SourceLocalService)aopProxy;
 
-		_setLocalServiceUtilService(sourceLocalService);
+		SourceLocalServiceUtil.setService(sourceLocalService);
 	}
 
 	/**
@@ -548,22 +546,6 @@ public abstract class SourceLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		SourceLocalService sourceLocalService) {
-
-		try {
-			Field field = SourceLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, sourceLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

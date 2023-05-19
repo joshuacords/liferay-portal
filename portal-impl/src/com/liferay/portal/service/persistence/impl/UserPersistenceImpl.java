@@ -57,7 +57,6 @@ import com.liferay.portal.model.impl.UserModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.sql.Timestamp;
@@ -11214,11 +11213,11 @@ public class UserPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_ERC",
 			new String[] {Long.class.getName(), String.class.getName()});
 
-		_setUserUtilPersistence(this);
+		UserUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setUserUtilPersistence(null);
+		UserUtil.setPersistence(null);
 
 		EntityCacheUtil.removeCache(UserImpl.class.getName());
 
@@ -11231,19 +11230,6 @@ public class UserPersistenceImpl
 		TableMapperFactory.removeTableMapper("Users_Roles");
 		TableMapperFactory.removeTableMapper("Users_Teams");
 		TableMapperFactory.removeTableMapper("Users_UserGroups");
-	}
-
-	private void _setUserUtilPersistence(UserPersistence userPersistence) {
-		try {
-			Field field = UserUtil.class.getDeclaredField("_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, userPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@BeanReference(type = GroupPersistence.class)

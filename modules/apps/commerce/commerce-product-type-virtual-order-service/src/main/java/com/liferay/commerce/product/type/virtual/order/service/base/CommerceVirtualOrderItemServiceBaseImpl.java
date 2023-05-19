@@ -34,8 +34,6 @@ import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 /**
@@ -368,11 +366,12 @@ public abstract class CommerceVirtualOrderItemServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
-		_setServiceUtilService(commerceVirtualOrderItemService);
+		CommerceVirtualOrderItemServiceUtil.setService(
+			commerceVirtualOrderItemService);
 	}
 
 	public void destroy() {
-		_setServiceUtilService(null);
+		CommerceVirtualOrderItemServiceUtil.setService(null);
 	}
 
 	/**
@@ -415,23 +414,6 @@ public abstract class CommerceVirtualOrderItemServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setServiceUtilService(
-		CommerceVirtualOrderItemService commerceVirtualOrderItemService) {
-
-		try {
-			Field field =
-				CommerceVirtualOrderItemServiceUtil.class.getDeclaredField(
-					"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, commerceVirtualOrderItemService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

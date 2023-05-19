@@ -402,6 +402,10 @@ public class RepositoryEntryLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(RepositoryEntryLocalService service) {
+		_service = service;
+	}
+
 	private static volatile RepositoryEntryLocalService _service;
 
 }

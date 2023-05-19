@@ -213,42 +213,48 @@ public class ResourceActionModelImpl
 
 	private static final Map<String, Function<ResourceAction, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<ResourceAction, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<ResourceAction, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<ResourceAction, Object>>();
-		Map<String, BiConsumer<ResourceAction, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<ResourceAction, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", ResourceAction::getMvccVersion);
+		attributeGetterFunctions.put(
+			"resourceActionId", ResourceAction::getResourceActionId);
+		attributeGetterFunctions.put("name", ResourceAction::getName);
+		attributeGetterFunctions.put("actionId", ResourceAction::getActionId);
+		attributeGetterFunctions.put(
+			"bitwiseValue", ResourceAction::getBitwiseValue);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<ResourceAction, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<ResourceAction, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<ResourceAction, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<ResourceAction, Long>)ResourceAction::setMvccVersion);
-		attributeGetterFunctions.put(
-			"resourceActionId", ResourceAction::getResourceActionId);
 		attributeSetterBiConsumers.put(
 			"resourceActionId",
 			(BiConsumer<ResourceAction, Long>)
 				ResourceAction::setResourceActionId);
-		attributeGetterFunctions.put("name", ResourceAction::getName);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<ResourceAction, String>)ResourceAction::setName);
-		attributeGetterFunctions.put("actionId", ResourceAction::getActionId);
 		attributeSetterBiConsumers.put(
 			"actionId",
 			(BiConsumer<ResourceAction, String>)ResourceAction::setActionId);
-		attributeGetterFunctions.put(
-			"bitwiseValue", ResourceAction::getBitwiseValue);
 		attributeSetterBiConsumers.put(
 			"bitwiseValue",
 			(BiConsumer<ResourceAction, Long>)ResourceAction::setBitwiseValue);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

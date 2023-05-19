@@ -292,97 +292,103 @@ public class BackgroundTaskModelImpl
 
 	private static final Map<String, Function<BackgroundTask, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<BackgroundTask, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<BackgroundTask, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<BackgroundTask, Object>>();
-		Map<String, BiConsumer<BackgroundTask, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<BackgroundTask, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", BackgroundTask::getMvccVersion);
+		attributeGetterFunctions.put(
+			"backgroundTaskId", BackgroundTask::getBackgroundTaskId);
+		attributeGetterFunctions.put("groupId", BackgroundTask::getGroupId);
+		attributeGetterFunctions.put("companyId", BackgroundTask::getCompanyId);
+		attributeGetterFunctions.put("userId", BackgroundTask::getUserId);
+		attributeGetterFunctions.put("userName", BackgroundTask::getUserName);
+		attributeGetterFunctions.put(
+			"createDate", BackgroundTask::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", BackgroundTask::getModifiedDate);
+		attributeGetterFunctions.put("name", BackgroundTask::getName);
+		attributeGetterFunctions.put(
+			"servletContextNames", BackgroundTask::getServletContextNames);
+		attributeGetterFunctions.put(
+			"taskExecutorClassName", BackgroundTask::getTaskExecutorClassName);
+		attributeGetterFunctions.put(
+			"taskContextMap", BackgroundTask::getTaskContextMap);
+		attributeGetterFunctions.put("completed", BackgroundTask::getCompleted);
+		attributeGetterFunctions.put(
+			"completionDate", BackgroundTask::getCompletionDate);
+		attributeGetterFunctions.put("status", BackgroundTask::getStatus);
+		attributeGetterFunctions.put(
+			"statusMessage", BackgroundTask::getStatusMessage);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<BackgroundTask, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<BackgroundTask, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<BackgroundTask, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<BackgroundTask, Long>)BackgroundTask::setMvccVersion);
-		attributeGetterFunctions.put(
-			"backgroundTaskId", BackgroundTask::getBackgroundTaskId);
 		attributeSetterBiConsumers.put(
 			"backgroundTaskId",
 			(BiConsumer<BackgroundTask, Long>)
 				BackgroundTask::setBackgroundTaskId);
-		attributeGetterFunctions.put("groupId", BackgroundTask::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<BackgroundTask, Long>)BackgroundTask::setGroupId);
-		attributeGetterFunctions.put("companyId", BackgroundTask::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<BackgroundTask, Long>)BackgroundTask::setCompanyId);
-		attributeGetterFunctions.put("userId", BackgroundTask::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<BackgroundTask, Long>)BackgroundTask::setUserId);
-		attributeGetterFunctions.put("userName", BackgroundTask::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<BackgroundTask, String>)BackgroundTask::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", BackgroundTask::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<BackgroundTask, Date>)BackgroundTask::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", BackgroundTask::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<BackgroundTask, Date>)BackgroundTask::setModifiedDate);
-		attributeGetterFunctions.put("name", BackgroundTask::getName);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<BackgroundTask, String>)BackgroundTask::setName);
-		attributeGetterFunctions.put(
-			"servletContextNames", BackgroundTask::getServletContextNames);
 		attributeSetterBiConsumers.put(
 			"servletContextNames",
 			(BiConsumer<BackgroundTask, String>)
 				BackgroundTask::setServletContextNames);
-		attributeGetterFunctions.put(
-			"taskExecutorClassName", BackgroundTask::getTaskExecutorClassName);
 		attributeSetterBiConsumers.put(
 			"taskExecutorClassName",
 			(BiConsumer<BackgroundTask, String>)
 				BackgroundTask::setTaskExecutorClassName);
-		attributeGetterFunctions.put(
-			"taskContextMap", BackgroundTask::getTaskContextMap);
 		attributeSetterBiConsumers.put(
 			"taskContextMap",
 			(BiConsumer<BackgroundTask, Map<String, Serializable>>)
 				BackgroundTask::setTaskContextMap);
-		attributeGetterFunctions.put("completed", BackgroundTask::getCompleted);
 		attributeSetterBiConsumers.put(
 			"completed",
 			(BiConsumer<BackgroundTask, Boolean>)BackgroundTask::setCompleted);
-		attributeGetterFunctions.put(
-			"completionDate", BackgroundTask::getCompletionDate);
 		attributeSetterBiConsumers.put(
 			"completionDate",
 			(BiConsumer<BackgroundTask, Date>)
 				BackgroundTask::setCompletionDate);
-		attributeGetterFunctions.put("status", BackgroundTask::getStatus);
 		attributeSetterBiConsumers.put(
 			"status",
 			(BiConsumer<BackgroundTask, Integer>)BackgroundTask::setStatus);
-		attributeGetterFunctions.put(
-			"statusMessage", BackgroundTask::getStatusMessage);
 		attributeSetterBiConsumers.put(
 			"statusMessage",
 			(BiConsumer<BackgroundTask, String>)
 				BackgroundTask::setStatusMessage);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

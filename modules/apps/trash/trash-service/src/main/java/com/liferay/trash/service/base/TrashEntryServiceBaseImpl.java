@@ -31,8 +31,6 @@ import com.liferay.trash.service.TrashEntryServiceUtil;
 import com.liferay.trash.service.persistence.TrashEntryPersistence;
 import com.liferay.trash.service.persistence.TrashVersionPersistence;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 import org.osgi.service.component.annotations.Deactivate;
@@ -60,7 +58,7 @@ public abstract class TrashEntryServiceBaseImpl
 	 */
 	@Deactivate
 	protected void deactivate() {
-		_setServiceUtilService(null);
+		TrashEntryServiceUtil.setService(null);
 	}
 
 	@Override
@@ -74,7 +72,7 @@ public abstract class TrashEntryServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		trashEntryService = (TrashEntryService)aopProxy;
 
-		_setServiceUtilService(trashEntryService);
+		TrashEntryServiceUtil.setService(trashEntryService);
 	}
 
 	/**
@@ -116,20 +114,6 @@ public abstract class TrashEntryServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setServiceUtilService(TrashEntryService trashEntryService) {
-		try {
-			Field field = TrashEntryServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, trashEntryService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

@@ -50,8 +50,6 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -602,14 +600,15 @@ public abstract class CommerceWishListItemLocalServiceBaseImpl
 			"com.liferay.commerce.wish.list.model.CommerceWishListItem",
 			commerceWishListItemLocalService);
 
-		_setLocalServiceUtilService(commerceWishListItemLocalService);
+		CommerceWishListItemLocalServiceUtil.setService(
+			commerceWishListItemLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"com.liferay.commerce.wish.list.model.CommerceWishListItem");
 
-		_setLocalServiceUtilService(null);
+		CommerceWishListItemLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -652,23 +651,6 @@ public abstract class CommerceWishListItemLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		CommerceWishListItemLocalService commerceWishListItemLocalService) {
-
-		try {
-			Field field =
-				CommerceWishListItemLocalServiceUtil.class.getDeclaredField(
-					"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, commerceWishListItemLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

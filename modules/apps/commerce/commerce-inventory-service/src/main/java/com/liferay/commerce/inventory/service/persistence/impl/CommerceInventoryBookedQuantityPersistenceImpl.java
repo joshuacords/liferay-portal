@@ -2766,11 +2766,11 @@ public class CommerceInventoryBookedQuantityPersistenceImpl
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_S",
 			new String[] {Long.class.getName(), String.class.getName()});
 
-		_setCommerceInventoryBookedQuantityUtilPersistence(this);
+		CommerceInventoryBookedQuantityUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setCommerceInventoryBookedQuantityUtilPersistence(null);
+		CommerceInventoryBookedQuantityUtil.setPersistence(null);
 
 		entityCache.removeCache(
 			CommerceInventoryBookedQuantityImpl.class.getName());
@@ -2778,24 +2778,6 @@ public class CommerceInventoryBookedQuantityPersistenceImpl
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setCommerceInventoryBookedQuantityUtilPersistence(
-		CommerceInventoryBookedQuantityPersistence
-			commerceInventoryBookedQuantityPersistence) {
-
-		try {
-			Field field =
-				CommerceInventoryBookedQuantityUtil.class.getDeclaredField(
-					"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, commerceInventoryBookedQuantityPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

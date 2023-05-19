@@ -1820,6 +1820,12 @@ public class CPFriendlyURLEntryUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(
+		CPFriendlyURLEntryPersistence persistence) {
+
+		_persistence = persistence;
+	}
+
 	private static volatile CPFriendlyURLEntryPersistence _persistence;
 
 }

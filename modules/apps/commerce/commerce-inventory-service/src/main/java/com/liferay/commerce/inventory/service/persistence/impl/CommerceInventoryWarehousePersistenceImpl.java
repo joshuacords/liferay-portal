@@ -5599,34 +5599,17 @@ public class CommerceInventoryWarehousePersistenceImpl
 			"countByC_ERC",
 			new String[] {Long.class.getName(), String.class.getName()});
 
-		_setCommerceInventoryWarehouseUtilPersistence(this);
+		CommerceInventoryWarehouseUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setCommerceInventoryWarehouseUtilPersistence(null);
+		CommerceInventoryWarehouseUtil.setPersistence(null);
 
 		entityCache.removeCache(CommerceInventoryWarehouseImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setCommerceInventoryWarehouseUtilPersistence(
-		CommerceInventoryWarehousePersistence
-			commerceInventoryWarehousePersistence) {
-
-		try {
-			Field field = CommerceInventoryWarehouseUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, commerceInventoryWarehousePersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

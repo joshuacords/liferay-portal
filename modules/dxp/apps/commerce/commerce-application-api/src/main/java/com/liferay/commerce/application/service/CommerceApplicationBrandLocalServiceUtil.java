@@ -322,6 +322,12 @@ public class CommerceApplicationBrandLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(
+		CommerceApplicationBrandLocalService service) {
+
+		_service = service;
+	}
+
 	private static volatile CommerceApplicationBrandLocalService _service;
 
 }

@@ -206,56 +206,62 @@ public class AnalyticsMessageModelImpl
 
 	private static final Map<String, Function<AnalyticsMessage, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<AnalyticsMessage, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<AnalyticsMessage, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap<String, Function<AnalyticsMessage, Object>>();
+
+		attributeGetterFunctions.put(
+			"mvccVersion", AnalyticsMessage::getMvccVersion);
+		attributeGetterFunctions.put(
+			"analyticsMessageId", AnalyticsMessage::getAnalyticsMessageId);
+		attributeGetterFunctions.put(
+			"companyId", AnalyticsMessage::getCompanyId);
+		attributeGetterFunctions.put("userId", AnalyticsMessage::getUserId);
+		attributeGetterFunctions.put("userName", AnalyticsMessage::getUserName);
+		attributeGetterFunctions.put(
+			"createDate", AnalyticsMessage::getCreateDate);
+		attributeGetterFunctions.put("body", AnalyticsMessage::getBody);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<AnalyticsMessage, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<AnalyticsMessage, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<AnalyticsMessage, ?>>();
 
-		attributeGetterFunctions.put(
-			"mvccVersion", AnalyticsMessage::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<AnalyticsMessage, Long>)
 				AnalyticsMessage::setMvccVersion);
-		attributeGetterFunctions.put(
-			"analyticsMessageId", AnalyticsMessage::getAnalyticsMessageId);
 		attributeSetterBiConsumers.put(
 			"analyticsMessageId",
 			(BiConsumer<AnalyticsMessage, Long>)
 				AnalyticsMessage::setAnalyticsMessageId);
-		attributeGetterFunctions.put(
-			"companyId", AnalyticsMessage::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<AnalyticsMessage, Long>)AnalyticsMessage::setCompanyId);
-		attributeGetterFunctions.put("userId", AnalyticsMessage::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<AnalyticsMessage, Long>)AnalyticsMessage::setUserId);
-		attributeGetterFunctions.put("userName", AnalyticsMessage::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<AnalyticsMessage, String>)
 				AnalyticsMessage::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", AnalyticsMessage::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<AnalyticsMessage, Date>)
 				AnalyticsMessage::setCreateDate);
-		attributeGetterFunctions.put("body", AnalyticsMessage::getBody);
 		attributeSetterBiConsumers.put(
 			"body",
 			(BiConsumer<AnalyticsMessage, Blob>)AnalyticsMessage::setBody);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

@@ -33,8 +33,6 @@ import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiServic
 import com.liferay.portal.kernel.service.BaseServiceImpl;
 import com.liferay.portal.kernel.util.PortalUtil;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 import org.osgi.service.component.annotations.Deactivate;
@@ -62,7 +60,7 @@ public abstract class PollsQuestionServiceBaseImpl
 	 */
 	@Deactivate
 	protected void deactivate() {
-		_setServiceUtilService(null);
+		PollsQuestionServiceUtil.setService(null);
 	}
 
 	@Override
@@ -76,7 +74,7 @@ public abstract class PollsQuestionServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		pollsQuestionService = (PollsQuestionService)aopProxy;
 
-		_setServiceUtilService(pollsQuestionService);
+		PollsQuestionServiceUtil.setService(pollsQuestionService);
 	}
 
 	/**
@@ -118,22 +116,6 @@ public abstract class PollsQuestionServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setServiceUtilService(
-		PollsQuestionService pollsQuestionService) {
-
-		try {
-			Field field = PollsQuestionServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, pollsQuestionService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

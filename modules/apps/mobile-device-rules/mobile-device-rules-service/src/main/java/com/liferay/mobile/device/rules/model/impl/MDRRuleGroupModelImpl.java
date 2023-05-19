@@ -282,68 +282,74 @@ public class MDRRuleGroupModelImpl
 
 	private static final Map<String, Function<MDRRuleGroup, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<MDRRuleGroup, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<MDRRuleGroup, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<MDRRuleGroup, Object>>();
-		Map<String, BiConsumer<MDRRuleGroup, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<MDRRuleGroup, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", MDRRuleGroup::getMvccVersion);
+		attributeGetterFunctions.put("uuid", MDRRuleGroup::getUuid);
+		attributeGetterFunctions.put(
+			"ruleGroupId", MDRRuleGroup::getRuleGroupId);
+		attributeGetterFunctions.put("groupId", MDRRuleGroup::getGroupId);
+		attributeGetterFunctions.put("companyId", MDRRuleGroup::getCompanyId);
+		attributeGetterFunctions.put("userId", MDRRuleGroup::getUserId);
+		attributeGetterFunctions.put("userName", MDRRuleGroup::getUserName);
+		attributeGetterFunctions.put("createDate", MDRRuleGroup::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", MDRRuleGroup::getModifiedDate);
+		attributeGetterFunctions.put("name", MDRRuleGroup::getName);
+		attributeGetterFunctions.put(
+			"description", MDRRuleGroup::getDescription);
+		attributeGetterFunctions.put(
+			"lastPublishDate", MDRRuleGroup::getLastPublishDate);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<MDRRuleGroup, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<MDRRuleGroup, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<MDRRuleGroup, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<MDRRuleGroup, Long>)MDRRuleGroup::setMvccVersion);
-		attributeGetterFunctions.put("uuid", MDRRuleGroup::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<MDRRuleGroup, String>)MDRRuleGroup::setUuid);
-		attributeGetterFunctions.put(
-			"ruleGroupId", MDRRuleGroup::getRuleGroupId);
 		attributeSetterBiConsumers.put(
 			"ruleGroupId",
 			(BiConsumer<MDRRuleGroup, Long>)MDRRuleGroup::setRuleGroupId);
-		attributeGetterFunctions.put("groupId", MDRRuleGroup::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<MDRRuleGroup, Long>)MDRRuleGroup::setGroupId);
-		attributeGetterFunctions.put("companyId", MDRRuleGroup::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<MDRRuleGroup, Long>)MDRRuleGroup::setCompanyId);
-		attributeGetterFunctions.put("userId", MDRRuleGroup::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<MDRRuleGroup, Long>)MDRRuleGroup::setUserId);
-		attributeGetterFunctions.put("userName", MDRRuleGroup::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<MDRRuleGroup, String>)MDRRuleGroup::setUserName);
-		attributeGetterFunctions.put("createDate", MDRRuleGroup::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<MDRRuleGroup, Date>)MDRRuleGroup::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", MDRRuleGroup::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<MDRRuleGroup, Date>)MDRRuleGroup::setModifiedDate);
-		attributeGetterFunctions.put("name", MDRRuleGroup::getName);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<MDRRuleGroup, String>)MDRRuleGroup::setName);
-		attributeGetterFunctions.put(
-			"description", MDRRuleGroup::getDescription);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<MDRRuleGroup, String>)MDRRuleGroup::setDescription);
-		attributeGetterFunctions.put(
-			"lastPublishDate", MDRRuleGroup::getLastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<MDRRuleGroup, Date>)MDRRuleGroup::setLastPublishDate);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

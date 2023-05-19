@@ -29,8 +29,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.screens.service.ScreensCommentService;
 import com.liferay.screens.service.ScreensCommentServiceUtil;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 import org.osgi.service.component.annotations.Deactivate;
@@ -58,7 +56,7 @@ public abstract class ScreensCommentServiceBaseImpl
 	 */
 	@Deactivate
 	protected void deactivate() {
-		_setServiceUtilService(null);
+		ScreensCommentServiceUtil.setService(null);
 	}
 
 	@Override
@@ -72,7 +70,7 @@ public abstract class ScreensCommentServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		screensCommentService = (ScreensCommentService)aopProxy;
 
-		_setServiceUtilService(screensCommentService);
+		ScreensCommentServiceUtil.setService(screensCommentService);
 	}
 
 	/**
@@ -106,22 +104,6 @@ public abstract class ScreensCommentServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setServiceUtilService(
-		ScreensCommentService screensCommentService) {
-
-		try {
-			Field field = ScreensCommentServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, screensCommentService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

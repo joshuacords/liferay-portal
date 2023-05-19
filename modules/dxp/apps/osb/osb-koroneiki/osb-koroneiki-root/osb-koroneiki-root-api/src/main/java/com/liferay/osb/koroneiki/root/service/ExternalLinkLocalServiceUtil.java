@@ -356,6 +356,10 @@ public class ExternalLinkLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(ExternalLinkLocalService service) {
+		_service = service;
+	}
+
 	private static volatile ExternalLinkLocalService _service;
 
 }

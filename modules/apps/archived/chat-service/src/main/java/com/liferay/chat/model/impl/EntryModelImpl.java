@@ -202,36 +202,42 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	private static final Map<String, Function<Entry, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Entry, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<Entry, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<Entry, Object>>();
-		Map<String, BiConsumer<Entry, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Entry, ?>>();
 
 		attributeGetterFunctions.put("entryId", Entry::getEntryId);
-		attributeSetterBiConsumers.put(
-			"entryId", (BiConsumer<Entry, Long>)Entry::setEntryId);
 		attributeGetterFunctions.put("createDate", Entry::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate", (BiConsumer<Entry, Long>)Entry::setCreateDate);
 		attributeGetterFunctions.put("fromUserId", Entry::getFromUserId);
-		attributeSetterBiConsumers.put(
-			"fromUserId", (BiConsumer<Entry, Long>)Entry::setFromUserId);
 		attributeGetterFunctions.put("toUserId", Entry::getToUserId);
-		attributeSetterBiConsumers.put(
-			"toUserId", (BiConsumer<Entry, Long>)Entry::setToUserId);
 		attributeGetterFunctions.put("content", Entry::getContent);
-		attributeSetterBiConsumers.put(
-			"content", (BiConsumer<Entry, String>)Entry::setContent);
 		attributeGetterFunctions.put("flag", Entry::getFlag);
-		attributeSetterBiConsumers.put(
-			"flag", (BiConsumer<Entry, Integer>)Entry::setFlag);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<Entry, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<Entry, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<Entry, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"entryId", (BiConsumer<Entry, Long>)Entry::setEntryId);
+		attributeSetterBiConsumers.put(
+			"createDate", (BiConsumer<Entry, Long>)Entry::setCreateDate);
+		attributeSetterBiConsumers.put(
+			"fromUserId", (BiConsumer<Entry, Long>)Entry::setFromUserId);
+		attributeSetterBiConsumers.put(
+			"toUserId", (BiConsumer<Entry, Long>)Entry::setToUserId);
+		attributeSetterBiConsumers.put(
+			"content", (BiConsumer<Entry, String>)Entry::setContent);
+		attributeSetterBiConsumers.put(
+			"flag", (BiConsumer<Entry, Integer>)Entry::setFlag);
+
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

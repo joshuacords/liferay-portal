@@ -309,56 +309,62 @@ public class TeamModelImpl extends BaseModelImpl<Team> implements TeamModel {
 
 	private static final Map<String, Function<Team, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Team, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<Team, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<Team, Object>>();
+
+		attributeGetterFunctions.put("mvccVersion", Team::getMvccVersion);
+		attributeGetterFunctions.put("uuid", Team::getUuid);
+		attributeGetterFunctions.put("teamId", Team::getTeamId);
+		attributeGetterFunctions.put("companyId", Team::getCompanyId);
+		attributeGetterFunctions.put("userId", Team::getUserId);
+		attributeGetterFunctions.put("userName", Team::getUserName);
+		attributeGetterFunctions.put("createDate", Team::getCreateDate);
+		attributeGetterFunctions.put("modifiedDate", Team::getModifiedDate);
+		attributeGetterFunctions.put("groupId", Team::getGroupId);
+		attributeGetterFunctions.put("name", Team::getName);
+		attributeGetterFunctions.put("description", Team::getDescription);
+		attributeGetterFunctions.put(
+			"lastPublishDate", Team::getLastPublishDate);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<Team, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<Team, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Team, ?>>();
 
-		attributeGetterFunctions.put("mvccVersion", Team::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion", (BiConsumer<Team, Long>)Team::setMvccVersion);
-		attributeGetterFunctions.put("uuid", Team::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<Team, String>)Team::setUuid);
-		attributeGetterFunctions.put("teamId", Team::getTeamId);
 		attributeSetterBiConsumers.put(
 			"teamId", (BiConsumer<Team, Long>)Team::setTeamId);
-		attributeGetterFunctions.put("companyId", Team::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<Team, Long>)Team::setCompanyId);
-		attributeGetterFunctions.put("userId", Team::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<Team, Long>)Team::setUserId);
-		attributeGetterFunctions.put("userName", Team::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName", (BiConsumer<Team, String>)Team::setUserName);
-		attributeGetterFunctions.put("createDate", Team::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate", (BiConsumer<Team, Date>)Team::setCreateDate);
-		attributeGetterFunctions.put("modifiedDate", Team::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate", (BiConsumer<Team, Date>)Team::setModifiedDate);
-		attributeGetterFunctions.put("groupId", Team::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<Team, Long>)Team::setGroupId);
-		attributeGetterFunctions.put("name", Team::getName);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<Team, String>)Team::setName);
-		attributeGetterFunctions.put("description", Team::getDescription);
 		attributeSetterBiConsumers.put(
 			"description", (BiConsumer<Team, String>)Team::setDescription);
-		attributeGetterFunctions.put(
-			"lastPublishDate", Team::getLastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<Team, Date>)Team::setLastPublishDate);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

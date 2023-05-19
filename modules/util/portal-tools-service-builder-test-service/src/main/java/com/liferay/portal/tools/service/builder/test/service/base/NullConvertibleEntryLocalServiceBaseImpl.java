@@ -47,8 +47,6 @@ import com.liferay.portal.tools.service.builder.test.service.persistence.NullCon
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -450,14 +448,15 @@ public abstract class NullConvertibleEntryLocalServiceBaseImpl
 			"com.liferay.portal.tools.service.builder.test.model.NullConvertibleEntry",
 			nullConvertibleEntryLocalService);
 
-		_setLocalServiceUtilService(nullConvertibleEntryLocalService);
+		NullConvertibleEntryLocalServiceUtil.setService(
+			nullConvertibleEntryLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"com.liferay.portal.tools.service.builder.test.model.NullConvertibleEntry");
 
-		_setLocalServiceUtilService(null);
+		NullConvertibleEntryLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -500,23 +499,6 @@ public abstract class NullConvertibleEntryLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		NullConvertibleEntryLocalService nullConvertibleEntryLocalService) {
-
-		try {
-			Field field =
-				NullConvertibleEntryLocalServiceUtil.class.getDeclaredField(
-					"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, nullConvertibleEntryLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

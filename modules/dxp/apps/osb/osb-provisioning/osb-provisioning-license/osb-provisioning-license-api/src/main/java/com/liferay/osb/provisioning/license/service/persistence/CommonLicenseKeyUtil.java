@@ -1123,6 +1123,10 @@ public class CommonLicenseKeyUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(CommonLicenseKeyPersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile CommonLicenseKeyPersistence _persistence;
 
 }

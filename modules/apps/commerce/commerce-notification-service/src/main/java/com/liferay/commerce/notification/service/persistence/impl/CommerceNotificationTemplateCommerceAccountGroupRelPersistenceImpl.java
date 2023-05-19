@@ -2694,12 +2694,12 @@ public class CommerceNotificationTemplateCommerceAccountGroupRelPersistenceImpl
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
-		_setCommerceNotificationTemplateCommerceAccountGroupRelUtilPersistence(
+		CommerceNotificationTemplateCommerceAccountGroupRelUtil.setPersistence(
 			this);
 	}
 
 	public void destroy() {
-		_setCommerceNotificationTemplateCommerceAccountGroupRelUtilPersistence(
+		CommerceNotificationTemplateCommerceAccountGroupRelUtil.setPersistence(
 			null);
 
 		entityCache.removeCache(
@@ -2709,27 +2709,6 @@ public class CommerceNotificationTemplateCommerceAccountGroupRelPersistenceImpl
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void
-		_setCommerceNotificationTemplateCommerceAccountGroupRelUtilPersistence(
-			CommerceNotificationTemplateCommerceAccountGroupRelPersistence
-				commerceNotificationTemplateCommerceAccountGroupRelPersistence) {
-
-		try {
-			Field field =
-				CommerceNotificationTemplateCommerceAccountGroupRelUtil.class.
-					getDeclaredField("_persistence");
-
-			field.setAccessible(true);
-
-			field.set(
-				null,
-				commerceNotificationTemplateCommerceAccountGroupRelPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

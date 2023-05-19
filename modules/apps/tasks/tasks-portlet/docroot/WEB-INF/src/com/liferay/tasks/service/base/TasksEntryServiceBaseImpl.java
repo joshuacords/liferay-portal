@@ -36,8 +36,6 @@ import com.liferay.tasks.service.TasksEntryServiceUtil;
 import com.liferay.tasks.service.persistence.TasksEntryFinder;
 import com.liferay.tasks.service.persistence.TasksEntryPersistence;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 /**
@@ -490,11 +488,11 @@ public abstract class TasksEntryServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
-		_setServiceUtilService(tasksEntryService);
+		TasksEntryServiceUtil.setService(tasksEntryService);
 	}
 
 	public void destroy() {
-		_setServiceUtilService(null);
+		TasksEntryServiceUtil.setService(null);
 	}
 
 	/**
@@ -536,20 +534,6 @@ public abstract class TasksEntryServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setServiceUtilService(TasksEntryService tasksEntryService) {
-		try {
-			Field field = TasksEntryServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, tasksEntryService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

@@ -336,6 +336,10 @@ public class LazyBlobEntryLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(LazyBlobEntryLocalService service) {
+		_service = service;
+	}
+
 	private static volatile LazyBlobEntryLocalService _service;
 
 }

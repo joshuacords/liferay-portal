@@ -205,43 +205,49 @@ public class MBStatsUserModelImpl
 
 	private static final Map<String, Function<MBStatsUser, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<MBStatsUser, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<MBStatsUser, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<MBStatsUser, Object>>();
-		Map<String, BiConsumer<MBStatsUser, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<MBStatsUser, ?>>();
 
 		attributeGetterFunctions.put(
 			"statsUserId", MBStatsUser::getStatsUserId);
+		attributeGetterFunctions.put("groupId", MBStatsUser::getGroupId);
+		attributeGetterFunctions.put("companyId", MBStatsUser::getCompanyId);
+		attributeGetterFunctions.put("userId", MBStatsUser::getUserId);
+		attributeGetterFunctions.put(
+			"messageCount", MBStatsUser::getMessageCount);
+		attributeGetterFunctions.put(
+			"lastPostDate", MBStatsUser::getLastPostDate);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<MBStatsUser, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<MBStatsUser, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<MBStatsUser, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"statsUserId",
 			(BiConsumer<MBStatsUser, Long>)MBStatsUser::setStatsUserId);
-		attributeGetterFunctions.put("groupId", MBStatsUser::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<MBStatsUser, Long>)MBStatsUser::setGroupId);
-		attributeGetterFunctions.put("companyId", MBStatsUser::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<MBStatsUser, Long>)MBStatsUser::setCompanyId);
-		attributeGetterFunctions.put("userId", MBStatsUser::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<MBStatsUser, Long>)MBStatsUser::setUserId);
-		attributeGetterFunctions.put(
-			"messageCount", MBStatsUser::getMessageCount);
 		attributeSetterBiConsumers.put(
 			"messageCount",
 			(BiConsumer<MBStatsUser, Integer>)MBStatsUser::setMessageCount);
-		attributeGetterFunctions.put(
-			"lastPostDate", MBStatsUser::getLastPostDate);
 		attributeSetterBiConsumers.put(
 			"lastPostDate",
 			(BiConsumer<MBStatsUser, Date>)MBStatsUser::setLastPostDate);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

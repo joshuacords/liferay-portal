@@ -206,41 +206,47 @@ public class ClusterGroupModelImpl
 
 	private static final Map<String, Function<ClusterGroup, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<ClusterGroup, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<ClusterGroup, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<ClusterGroup, Object>>();
-		Map<String, BiConsumer<ClusterGroup, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<ClusterGroup, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", ClusterGroup::getMvccVersion);
+		attributeGetterFunctions.put(
+			"clusterGroupId", ClusterGroup::getClusterGroupId);
+		attributeGetterFunctions.put("name", ClusterGroup::getName);
+		attributeGetterFunctions.put(
+			"clusterNodeIds", ClusterGroup::getClusterNodeIds);
+		attributeGetterFunctions.put(
+			"wholeCluster", ClusterGroup::getWholeCluster);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<ClusterGroup, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<ClusterGroup, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<ClusterGroup, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<ClusterGroup, Long>)ClusterGroup::setMvccVersion);
-		attributeGetterFunctions.put(
-			"clusterGroupId", ClusterGroup::getClusterGroupId);
 		attributeSetterBiConsumers.put(
 			"clusterGroupId",
 			(BiConsumer<ClusterGroup, Long>)ClusterGroup::setClusterGroupId);
-		attributeGetterFunctions.put("name", ClusterGroup::getName);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<ClusterGroup, String>)ClusterGroup::setName);
-		attributeGetterFunctions.put(
-			"clusterNodeIds", ClusterGroup::getClusterNodeIds);
 		attributeSetterBiConsumers.put(
 			"clusterNodeIds",
 			(BiConsumer<ClusterGroup, String>)ClusterGroup::setClusterNodeIds);
-		attributeGetterFunctions.put(
-			"wholeCluster", ClusterGroup::getWholeCluster);
 		attributeSetterBiConsumers.put(
 			"wholeCluster",
 			(BiConsumer<ClusterGroup, Boolean>)ClusterGroup::setWholeCluster);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

@@ -45,7 +45,6 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
@@ -2380,33 +2379,17 @@ public class CommerceOrderNotePersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_ERC",
 			new String[] {Long.class.getName(), String.class.getName()});
 
-		_setCommerceOrderNoteUtilPersistence(this);
+		CommerceOrderNoteUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setCommerceOrderNoteUtilPersistence(null);
+		CommerceOrderNoteUtil.setPersistence(null);
 
 		entityCache.removeCache(CommerceOrderNoteImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setCommerceOrderNoteUtilPersistence(
-		CommerceOrderNotePersistence commerceOrderNotePersistence) {
-
-		try {
-			Field field = CommerceOrderNoteUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, commerceOrderNotePersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

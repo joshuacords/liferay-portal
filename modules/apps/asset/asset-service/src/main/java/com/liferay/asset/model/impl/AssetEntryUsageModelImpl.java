@@ -222,81 +222,87 @@ public class AssetEntryUsageModelImpl
 
 	private static final Map<String, Function<AssetEntryUsage, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<AssetEntryUsage, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<AssetEntryUsage, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap<String, Function<AssetEntryUsage, Object>>();
-		Map<String, BiConsumer<AssetEntryUsage, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<AssetEntryUsage, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", AssetEntryUsage::getMvccVersion);
+		attributeGetterFunctions.put("uuid", AssetEntryUsage::getUuid);
+		attributeGetterFunctions.put(
+			"assetEntryUsageId", AssetEntryUsage::getAssetEntryUsageId);
+		attributeGetterFunctions.put("groupId", AssetEntryUsage::getGroupId);
+		attributeGetterFunctions.put(
+			"createDate", AssetEntryUsage::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", AssetEntryUsage::getModifiedDate);
+		attributeGetterFunctions.put(
+			"assetEntryId", AssetEntryUsage::getAssetEntryId);
+		attributeGetterFunctions.put(
+			"containerType", AssetEntryUsage::getContainerType);
+		attributeGetterFunctions.put(
+			"containerKey", AssetEntryUsage::getContainerKey);
+		attributeGetterFunctions.put("plid", AssetEntryUsage::getPlid);
+		attributeGetterFunctions.put("type", AssetEntryUsage::getType);
+		attributeGetterFunctions.put(
+			"lastPublishDate", AssetEntryUsage::getLastPublishDate);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<AssetEntryUsage, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<AssetEntryUsage, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<AssetEntryUsage, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<AssetEntryUsage, Long>)AssetEntryUsage::setMvccVersion);
-		attributeGetterFunctions.put("uuid", AssetEntryUsage::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<AssetEntryUsage, String>)AssetEntryUsage::setUuid);
-		attributeGetterFunctions.put(
-			"assetEntryUsageId", AssetEntryUsage::getAssetEntryUsageId);
 		attributeSetterBiConsumers.put(
 			"assetEntryUsageId",
 			(BiConsumer<AssetEntryUsage, Long>)
 				AssetEntryUsage::setAssetEntryUsageId);
-		attributeGetterFunctions.put("groupId", AssetEntryUsage::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<AssetEntryUsage, Long>)AssetEntryUsage::setGroupId);
-		attributeGetterFunctions.put(
-			"createDate", AssetEntryUsage::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<AssetEntryUsage, Date>)AssetEntryUsage::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", AssetEntryUsage::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<AssetEntryUsage, Date>)
 				AssetEntryUsage::setModifiedDate);
-		attributeGetterFunctions.put(
-			"assetEntryId", AssetEntryUsage::getAssetEntryId);
 		attributeSetterBiConsumers.put(
 			"assetEntryId",
 			(BiConsumer<AssetEntryUsage, Long>)
 				AssetEntryUsage::setAssetEntryId);
-		attributeGetterFunctions.put(
-			"containerType", AssetEntryUsage::getContainerType);
 		attributeSetterBiConsumers.put(
 			"containerType",
 			(BiConsumer<AssetEntryUsage, Long>)
 				AssetEntryUsage::setContainerType);
-		attributeGetterFunctions.put(
-			"containerKey", AssetEntryUsage::getContainerKey);
 		attributeSetterBiConsumers.put(
 			"containerKey",
 			(BiConsumer<AssetEntryUsage, String>)
 				AssetEntryUsage::setContainerKey);
-		attributeGetterFunctions.put("plid", AssetEntryUsage::getPlid);
 		attributeSetterBiConsumers.put(
 			"plid",
 			(BiConsumer<AssetEntryUsage, Long>)AssetEntryUsage::setPlid);
-		attributeGetterFunctions.put("type", AssetEntryUsage::getType);
 		attributeSetterBiConsumers.put(
 			"type",
 			(BiConsumer<AssetEntryUsage, Integer>)AssetEntryUsage::setType);
-		attributeGetterFunctions.put(
-			"lastPublishDate", AssetEntryUsage::getLastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<AssetEntryUsage, Date>)
 				AssetEntryUsage::setLastPublishDate);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

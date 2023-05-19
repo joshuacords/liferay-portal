@@ -239,135 +239,141 @@ public class SamlIdpSpConnectionModelImpl
 
 	private static final Map<String, Function<SamlIdpSpConnection, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<SamlIdpSpConnection, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<SamlIdpSpConnection, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<SamlIdpSpConnection, Object>>();
-		Map<String, BiConsumer<SamlIdpSpConnection, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap<String, BiConsumer<SamlIdpSpConnection, ?>>();
 
 		attributeGetterFunctions.put(
 			"samlIdpSpConnectionId",
 			SamlIdpSpConnection::getSamlIdpSpConnectionId);
+		attributeGetterFunctions.put(
+			"companyId", SamlIdpSpConnection::getCompanyId);
+		attributeGetterFunctions.put("userId", SamlIdpSpConnection::getUserId);
+		attributeGetterFunctions.put(
+			"userName", SamlIdpSpConnection::getUserName);
+		attributeGetterFunctions.put(
+			"createDate", SamlIdpSpConnection::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", SamlIdpSpConnection::getModifiedDate);
+		attributeGetterFunctions.put(
+			"samlSpEntityId", SamlIdpSpConnection::getSamlSpEntityId);
+		attributeGetterFunctions.put(
+			"assertionLifetime", SamlIdpSpConnection::getAssertionLifetime);
+		attributeGetterFunctions.put(
+			"attributeNames", SamlIdpSpConnection::getAttributeNames);
+		attributeGetterFunctions.put(
+			"attributesEnabled", SamlIdpSpConnection::getAttributesEnabled);
+		attributeGetterFunctions.put(
+			"attributesNamespaceEnabled",
+			SamlIdpSpConnection::getAttributesNamespaceEnabled);
+		attributeGetterFunctions.put(
+			"enabled", SamlIdpSpConnection::getEnabled);
+		attributeGetterFunctions.put(
+			"encryptionForced", SamlIdpSpConnection::getEncryptionForced);
+		attributeGetterFunctions.put(
+			"metadataUrl", SamlIdpSpConnection::getMetadataUrl);
+		attributeGetterFunctions.put(
+			"metadataXml", SamlIdpSpConnection::getMetadataXml);
+		attributeGetterFunctions.put(
+			"metadataUpdatedDate", SamlIdpSpConnection::getMetadataUpdatedDate);
+		attributeGetterFunctions.put("name", SamlIdpSpConnection::getName);
+		attributeGetterFunctions.put(
+			"nameIdAttribute", SamlIdpSpConnection::getNameIdAttribute);
+		attributeGetterFunctions.put(
+			"nameIdFormat", SamlIdpSpConnection::getNameIdFormat);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<SamlIdpSpConnection, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<SamlIdpSpConnection, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<SamlIdpSpConnection, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"samlIdpSpConnectionId",
 			(BiConsumer<SamlIdpSpConnection, Long>)
 				SamlIdpSpConnection::setSamlIdpSpConnectionId);
-		attributeGetterFunctions.put(
-			"companyId", SamlIdpSpConnection::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<SamlIdpSpConnection, Long>)
 				SamlIdpSpConnection::setCompanyId);
-		attributeGetterFunctions.put("userId", SamlIdpSpConnection::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<SamlIdpSpConnection, Long>)
 				SamlIdpSpConnection::setUserId);
-		attributeGetterFunctions.put(
-			"userName", SamlIdpSpConnection::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<SamlIdpSpConnection, String>)
 				SamlIdpSpConnection::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", SamlIdpSpConnection::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<SamlIdpSpConnection, Date>)
 				SamlIdpSpConnection::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", SamlIdpSpConnection::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<SamlIdpSpConnection, Date>)
 				SamlIdpSpConnection::setModifiedDate);
-		attributeGetterFunctions.put(
-			"samlSpEntityId", SamlIdpSpConnection::getSamlSpEntityId);
 		attributeSetterBiConsumers.put(
 			"samlSpEntityId",
 			(BiConsumer<SamlIdpSpConnection, String>)
 				SamlIdpSpConnection::setSamlSpEntityId);
-		attributeGetterFunctions.put(
-			"assertionLifetime", SamlIdpSpConnection::getAssertionLifetime);
 		attributeSetterBiConsumers.put(
 			"assertionLifetime",
 			(BiConsumer<SamlIdpSpConnection, Integer>)
 				SamlIdpSpConnection::setAssertionLifetime);
-		attributeGetterFunctions.put(
-			"attributeNames", SamlIdpSpConnection::getAttributeNames);
 		attributeSetterBiConsumers.put(
 			"attributeNames",
 			(BiConsumer<SamlIdpSpConnection, String>)
 				SamlIdpSpConnection::setAttributeNames);
-		attributeGetterFunctions.put(
-			"attributesEnabled", SamlIdpSpConnection::getAttributesEnabled);
 		attributeSetterBiConsumers.put(
 			"attributesEnabled",
 			(BiConsumer<SamlIdpSpConnection, Boolean>)
 				SamlIdpSpConnection::setAttributesEnabled);
-		attributeGetterFunctions.put(
-			"attributesNamespaceEnabled",
-			SamlIdpSpConnection::getAttributesNamespaceEnabled);
 		attributeSetterBiConsumers.put(
 			"attributesNamespaceEnabled",
 			(BiConsumer<SamlIdpSpConnection, Boolean>)
 				SamlIdpSpConnection::setAttributesNamespaceEnabled);
-		attributeGetterFunctions.put(
-			"enabled", SamlIdpSpConnection::getEnabled);
 		attributeSetterBiConsumers.put(
 			"enabled",
 			(BiConsumer<SamlIdpSpConnection, Boolean>)
 				SamlIdpSpConnection::setEnabled);
-		attributeGetterFunctions.put(
-			"encryptionForced", SamlIdpSpConnection::getEncryptionForced);
 		attributeSetterBiConsumers.put(
 			"encryptionForced",
 			(BiConsumer<SamlIdpSpConnection, Boolean>)
 				SamlIdpSpConnection::setEncryptionForced);
-		attributeGetterFunctions.put(
-			"metadataUrl", SamlIdpSpConnection::getMetadataUrl);
 		attributeSetterBiConsumers.put(
 			"metadataUrl",
 			(BiConsumer<SamlIdpSpConnection, String>)
 				SamlIdpSpConnection::setMetadataUrl);
-		attributeGetterFunctions.put(
-			"metadataXml", SamlIdpSpConnection::getMetadataXml);
 		attributeSetterBiConsumers.put(
 			"metadataXml",
 			(BiConsumer<SamlIdpSpConnection, String>)
 				SamlIdpSpConnection::setMetadataXml);
-		attributeGetterFunctions.put(
-			"metadataUpdatedDate", SamlIdpSpConnection::getMetadataUpdatedDate);
 		attributeSetterBiConsumers.put(
 			"metadataUpdatedDate",
 			(BiConsumer<SamlIdpSpConnection, Date>)
 				SamlIdpSpConnection::setMetadataUpdatedDate);
-		attributeGetterFunctions.put("name", SamlIdpSpConnection::getName);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<SamlIdpSpConnection, String>)
 				SamlIdpSpConnection::setName);
-		attributeGetterFunctions.put(
-			"nameIdAttribute", SamlIdpSpConnection::getNameIdAttribute);
 		attributeSetterBiConsumers.put(
 			"nameIdAttribute",
 			(BiConsumer<SamlIdpSpConnection, String>)
 				SamlIdpSpConnection::setNameIdAttribute);
-		attributeGetterFunctions.put(
-			"nameIdFormat", SamlIdpSpConnection::getNameIdFormat);
 		attributeSetterBiConsumers.put(
 			"nameIdFormat",
 			(BiConsumer<SamlIdpSpConnection, String>)
 				SamlIdpSpConnection::setNameIdFormat);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

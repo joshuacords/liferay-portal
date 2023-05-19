@@ -535,6 +535,10 @@ public class SubscriptionLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(SubscriptionLocalService service) {
+		_service = service;
+	}
+
 	private static volatile SubscriptionLocalService _service;
 
 }

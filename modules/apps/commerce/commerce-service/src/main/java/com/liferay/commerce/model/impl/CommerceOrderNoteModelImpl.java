@@ -315,17 +315,12 @@ public class CommerceOrderNoteModelImpl
 
 	private static final Map<String, Function<CommerceOrderNote, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CommerceOrderNote, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommerceOrderNote, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<CommerceOrderNote, Object>>();
-		Map<String, BiConsumer<CommerceOrderNote, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap<String, BiConsumer<CommerceOrderNote, ?>>();
 
 		attributeGetterFunctions.put(
 			"externalReferenceCode",
@@ -337,6 +332,119 @@ public class CommerceOrderNoteModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"commerceOrderNoteId",
+			new Function<CommerceOrderNote, Object>() {
+
+				@Override
+				public Object apply(CommerceOrderNote commerceOrderNote) {
+					return commerceOrderNote.getCommerceOrderNoteId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"groupId",
+			new Function<CommerceOrderNote, Object>() {
+
+				@Override
+				public Object apply(CommerceOrderNote commerceOrderNote) {
+					return commerceOrderNote.getGroupId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommerceOrderNote, Object>() {
+
+				@Override
+				public Object apply(CommerceOrderNote commerceOrderNote) {
+					return commerceOrderNote.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommerceOrderNote, Object>() {
+
+				@Override
+				public Object apply(CommerceOrderNote commerceOrderNote) {
+					return commerceOrderNote.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommerceOrderNote, Object>() {
+
+				@Override
+				public Object apply(CommerceOrderNote commerceOrderNote) {
+					return commerceOrderNote.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommerceOrderNote, Object>() {
+
+				@Override
+				public Object apply(CommerceOrderNote commerceOrderNote) {
+					return commerceOrderNote.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommerceOrderNote, Object>() {
+
+				@Override
+				public Object apply(CommerceOrderNote commerceOrderNote) {
+					return commerceOrderNote.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceOrderId",
+			new Function<CommerceOrderNote, Object>() {
+
+				@Override
+				public Object apply(CommerceOrderNote commerceOrderNote) {
+					return commerceOrderNote.getCommerceOrderId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"content",
+			new Function<CommerceOrderNote, Object>() {
+
+				@Override
+				public Object apply(CommerceOrderNote commerceOrderNote) {
+					return commerceOrderNote.getContent();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"restricted",
+			new Function<CommerceOrderNote, Object>() {
+
+				@Override
+				public Object apply(CommerceOrderNote commerceOrderNote) {
+					return commerceOrderNote.getRestricted();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<CommerceOrderNote, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommerceOrderNote, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<CommerceOrderNote, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"externalReferenceCode",
 			new BiConsumer<CommerceOrderNote, Object>() {
@@ -348,16 +456,6 @@ public class CommerceOrderNoteModelImpl
 
 					commerceOrderNote.setExternalReferenceCode(
 						(String)externalReferenceCodeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commerceOrderNoteId",
-			new Function<CommerceOrderNote, Object>() {
-
-				@Override
-				public Object apply(CommerceOrderNote commerceOrderNote) {
-					return commerceOrderNote.getCommerceOrderNoteId();
 				}
 
 			});
@@ -375,16 +473,6 @@ public class CommerceOrderNoteModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<CommerceOrderNote, Object>() {
-
-				@Override
-				public Object apply(CommerceOrderNote commerceOrderNote) {
-					return commerceOrderNote.getGroupId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"groupId",
 			new BiConsumer<CommerceOrderNote, Object>() {
@@ -394,16 +482,6 @@ public class CommerceOrderNoteModelImpl
 					CommerceOrderNote commerceOrderNote, Object groupIdObject) {
 
 					commerceOrderNote.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommerceOrderNote, Object>() {
-
-				@Override
-				public Object apply(CommerceOrderNote commerceOrderNote) {
-					return commerceOrderNote.getCompanyId();
 				}
 
 			});
@@ -420,16 +498,6 @@ public class CommerceOrderNoteModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommerceOrderNote, Object>() {
-
-				@Override
-				public Object apply(CommerceOrderNote commerceOrderNote) {
-					return commerceOrderNote.getUserId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userId",
 			new BiConsumer<CommerceOrderNote, Object>() {
@@ -439,16 +507,6 @@ public class CommerceOrderNoteModelImpl
 					CommerceOrderNote commerceOrderNote, Object userIdObject) {
 
 					commerceOrderNote.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommerceOrderNote, Object>() {
-
-				@Override
-				public Object apply(CommerceOrderNote commerceOrderNote) {
-					return commerceOrderNote.getUserName();
 				}
 
 			});
@@ -465,16 +523,6 @@ public class CommerceOrderNoteModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommerceOrderNote, Object>() {
-
-				@Override
-				public Object apply(CommerceOrderNote commerceOrderNote) {
-					return commerceOrderNote.getCreateDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"createDate",
 			new BiConsumer<CommerceOrderNote, Object>() {
@@ -488,16 +536,6 @@ public class CommerceOrderNoteModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommerceOrderNote, Object>() {
-
-				@Override
-				public Object apply(CommerceOrderNote commerceOrderNote) {
-					return commerceOrderNote.getModifiedDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			new BiConsumer<CommerceOrderNote, Object>() {
@@ -508,16 +546,6 @@ public class CommerceOrderNoteModelImpl
 					Object modifiedDateObject) {
 
 					commerceOrderNote.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commerceOrderId",
-			new Function<CommerceOrderNote, Object>() {
-
-				@Override
-				public Object apply(CommerceOrderNote commerceOrderNote) {
-					return commerceOrderNote.getCommerceOrderId();
 				}
 
 			});
@@ -535,16 +563,6 @@ public class CommerceOrderNoteModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"content",
-			new Function<CommerceOrderNote, Object>() {
-
-				@Override
-				public Object apply(CommerceOrderNote commerceOrderNote) {
-					return commerceOrderNote.getContent();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"content",
 			new BiConsumer<CommerceOrderNote, Object>() {
@@ -554,16 +572,6 @@ public class CommerceOrderNoteModelImpl
 					CommerceOrderNote commerceOrderNote, Object contentObject) {
 
 					commerceOrderNote.setContent((String)contentObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"restricted",
-			new Function<CommerceOrderNote, Object>() {
-
-				@Override
-				public Object apply(CommerceOrderNote commerceOrderNote) {
-					return commerceOrderNote.getRestricted();
 				}
 
 			});
@@ -581,8 +589,6 @@ public class CommerceOrderNoteModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

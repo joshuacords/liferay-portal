@@ -974,6 +974,12 @@ public class CPDefinitionGroupedEntryUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(
+		CPDefinitionGroupedEntryPersistence persistence) {
+
+		_persistence = persistence;
+	}
+
 	private static volatile CPDefinitionGroupedEntryPersistence _persistence;
 
 }

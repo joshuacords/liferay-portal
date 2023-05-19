@@ -1453,33 +1453,17 @@ public class CommerceDiscountRulePersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByCommerceDiscountId", new String[] {Long.class.getName()});
 
-		_setCommerceDiscountRuleUtilPersistence(this);
+		CommerceDiscountRuleUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setCommerceDiscountRuleUtilPersistence(null);
+		CommerceDiscountRuleUtil.setPersistence(null);
 
 		entityCache.removeCache(CommerceDiscountRuleImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setCommerceDiscountRuleUtilPersistence(
-		CommerceDiscountRulePersistence commerceDiscountRulePersistence) {
-
-		try {
-			Field field = CommerceDiscountRuleUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, commerceDiscountRulePersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

@@ -1037,6 +1037,10 @@ public class OAuthApplicationUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(OAuthApplicationPersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile OAuthApplicationPersistence _persistence;
 
 }

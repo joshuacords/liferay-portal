@@ -46,8 +46,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -412,14 +410,14 @@ public abstract class AccountLocalServiceBaseImpl
 		persistedModelLocalServiceRegistry.register(
 			"com.liferay.portal.kernel.model.Account", accountLocalService);
 
-		_setLocalServiceUtilService(accountLocalService);
+		AccountLocalServiceUtil.setService(accountLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"com.liferay.portal.kernel.model.Account");
 
-		_setLocalServiceUtilService(null);
+		AccountLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -461,22 +459,6 @@ public abstract class AccountLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		AccountLocalService accountLocalService) {
-
-		try {
-			Field field = AccountLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, accountLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

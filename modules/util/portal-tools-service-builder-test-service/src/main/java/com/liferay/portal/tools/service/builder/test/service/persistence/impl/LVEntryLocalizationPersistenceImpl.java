@@ -41,7 +41,6 @@ import com.liferay.portal.tools.service.builder.test.service.persistence.LVEntry
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.List;
@@ -1819,33 +1818,17 @@ public class LVEntryLocalizationPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByHeadId",
 			new String[] {Long.class.getName()});
 
-		_setLVEntryLocalizationUtilPersistence(this);
+		LVEntryLocalizationUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setLVEntryLocalizationUtilPersistence(null);
+		LVEntryLocalizationUtil.setPersistence(null);
 
 		entityCache.removeCache(LVEntryLocalizationImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setLVEntryLocalizationUtilPersistence(
-		LVEntryLocalizationPersistence lvEntryLocalizationPersistence) {
-
-		try {
-			Field field = LVEntryLocalizationUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, lvEntryLocalizationPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

@@ -214,82 +214,88 @@ public class OpenIdConnectSessionModelImpl
 
 	private static final Map<String, Function<OpenIdConnectSession, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<OpenIdConnectSession, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<OpenIdConnectSession, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<OpenIdConnectSession, Object>>();
+
+		attributeGetterFunctions.put(
+			"mvccVersion", OpenIdConnectSession::getMvccVersion);
+		attributeGetterFunctions.put(
+			"openIdConnectSessionId",
+			OpenIdConnectSession::getOpenIdConnectSessionId);
+		attributeGetterFunctions.put(
+			"companyId", OpenIdConnectSession::getCompanyId);
+		attributeGetterFunctions.put("userId", OpenIdConnectSession::getUserId);
+		attributeGetterFunctions.put(
+			"modifiedDate", OpenIdConnectSession::getModifiedDate);
+		attributeGetterFunctions.put(
+			"accessToken", OpenIdConnectSession::getAccessToken);
+		attributeGetterFunctions.put(
+			"configurationPid", OpenIdConnectSession::getConfigurationPid);
+		attributeGetterFunctions.put(
+			"idToken", OpenIdConnectSession::getIdToken);
+		attributeGetterFunctions.put(
+			"providerName", OpenIdConnectSession::getProviderName);
+		attributeGetterFunctions.put(
+			"refreshToken", OpenIdConnectSession::getRefreshToken);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<OpenIdConnectSession, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<OpenIdConnectSession, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<OpenIdConnectSession, ?>>();
 
-		attributeGetterFunctions.put(
-			"mvccVersion", OpenIdConnectSession::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<OpenIdConnectSession, Long>)
 				OpenIdConnectSession::setMvccVersion);
-		attributeGetterFunctions.put(
-			"openIdConnectSessionId",
-			OpenIdConnectSession::getOpenIdConnectSessionId);
 		attributeSetterBiConsumers.put(
 			"openIdConnectSessionId",
 			(BiConsumer<OpenIdConnectSession, Long>)
 				OpenIdConnectSession::setOpenIdConnectSessionId);
-		attributeGetterFunctions.put(
-			"companyId", OpenIdConnectSession::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<OpenIdConnectSession, Long>)
 				OpenIdConnectSession::setCompanyId);
-		attributeGetterFunctions.put("userId", OpenIdConnectSession::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<OpenIdConnectSession, Long>)
 				OpenIdConnectSession::setUserId);
-		attributeGetterFunctions.put(
-			"modifiedDate", OpenIdConnectSession::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<OpenIdConnectSession, Date>)
 				OpenIdConnectSession::setModifiedDate);
-		attributeGetterFunctions.put(
-			"accessToken", OpenIdConnectSession::getAccessToken);
 		attributeSetterBiConsumers.put(
 			"accessToken",
 			(BiConsumer<OpenIdConnectSession, String>)
 				OpenIdConnectSession::setAccessToken);
-		attributeGetterFunctions.put(
-			"configurationPid", OpenIdConnectSession::getConfigurationPid);
 		attributeSetterBiConsumers.put(
 			"configurationPid",
 			(BiConsumer<OpenIdConnectSession, String>)
 				OpenIdConnectSession::setConfigurationPid);
-		attributeGetterFunctions.put(
-			"idToken", OpenIdConnectSession::getIdToken);
 		attributeSetterBiConsumers.put(
 			"idToken",
 			(BiConsumer<OpenIdConnectSession, String>)
 				OpenIdConnectSession::setIdToken);
-		attributeGetterFunctions.put(
-			"providerName", OpenIdConnectSession::getProviderName);
 		attributeSetterBiConsumers.put(
 			"providerName",
 			(BiConsumer<OpenIdConnectSession, String>)
 				OpenIdConnectSession::setProviderName);
-		attributeGetterFunctions.put(
-			"refreshToken", OpenIdConnectSession::getRefreshToken);
 		attributeSetterBiConsumers.put(
 			"refreshToken",
 			(BiConsumer<OpenIdConnectSession, String>)
 				OpenIdConnectSession::setRefreshToken);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

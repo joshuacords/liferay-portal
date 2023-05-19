@@ -8642,6 +8642,10 @@ public class LayoutVersionUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(LayoutVersionPersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile LayoutVersionPersistence _persistence;
 
 }

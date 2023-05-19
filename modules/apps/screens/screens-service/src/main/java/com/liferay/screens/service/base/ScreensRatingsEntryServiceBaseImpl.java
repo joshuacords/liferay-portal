@@ -29,8 +29,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.screens.service.ScreensRatingsEntryService;
 import com.liferay.screens.service.ScreensRatingsEntryServiceUtil;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 import org.osgi.service.component.annotations.Deactivate;
@@ -58,7 +56,7 @@ public abstract class ScreensRatingsEntryServiceBaseImpl
 	 */
 	@Deactivate
 	protected void deactivate() {
-		_setServiceUtilService(null);
+		ScreensRatingsEntryServiceUtil.setService(null);
 	}
 
 	@Override
@@ -72,7 +70,7 @@ public abstract class ScreensRatingsEntryServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		screensRatingsEntryService = (ScreensRatingsEntryService)aopProxy;
 
-		_setServiceUtilService(screensRatingsEntryService);
+		ScreensRatingsEntryServiceUtil.setService(screensRatingsEntryService);
 	}
 
 	/**
@@ -106,22 +104,6 @@ public abstract class ScreensRatingsEntryServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setServiceUtilService(
-		ScreensRatingsEntryService screensRatingsEntryService) {
-
-		try {
-			Field field = ScreensRatingsEntryServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, screensRatingsEntryService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

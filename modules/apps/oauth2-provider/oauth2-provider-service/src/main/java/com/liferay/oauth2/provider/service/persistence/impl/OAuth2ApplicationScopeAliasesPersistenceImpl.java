@@ -46,7 +46,6 @@ import com.liferay.portal.kernel.util.SetUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
@@ -1885,12 +1884,12 @@ public class OAuth2ApplicationScopeAliasesPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByOAuth2ApplicationId", new String[] {Long.class.getName()});
 
-		_setOAuth2ApplicationScopeAliasesUtilPersistence(this);
+		OAuth2ApplicationScopeAliasesUtil.setPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
-		_setOAuth2ApplicationScopeAliasesUtilPersistence(null);
+		OAuth2ApplicationScopeAliasesUtil.setPersistence(null);
 
 		entityCache.removeCache(
 			OAuth2ApplicationScopeAliasesImpl.class.getName());
@@ -1898,24 +1897,6 @@ public class OAuth2ApplicationScopeAliasesPersistenceImpl
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setOAuth2ApplicationScopeAliasesUtilPersistence(
-		OAuth2ApplicationScopeAliasesPersistence
-			oAuth2ApplicationScopeAliasesPersistence) {
-
-		try {
-			Field field =
-				OAuth2ApplicationScopeAliasesUtil.class.getDeclaredField(
-					"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, oAuth2ApplicationScopeAliasesPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@Override

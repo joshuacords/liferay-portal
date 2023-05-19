@@ -396,92 +396,98 @@ public class GroupModelImpl extends BaseModelImpl<Group> implements GroupModel {
 
 	private static final Map<String, Function<Group, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Group, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<Group, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<Group, Object>>();
-		Map<String, BiConsumer<Group, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Group, ?>>();
 
 		attributeGetterFunctions.put("mvccVersion", Group::getMvccVersion);
-		attributeSetterBiConsumers.put(
-			"mvccVersion", (BiConsumer<Group, Long>)Group::setMvccVersion);
 		attributeGetterFunctions.put("uuid", Group::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Group, String>)Group::setUuid);
 		attributeGetterFunctions.put("groupId", Group::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId", (BiConsumer<Group, Long>)Group::setGroupId);
 		attributeGetterFunctions.put("companyId", Group::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId", (BiConsumer<Group, Long>)Group::setCompanyId);
 		attributeGetterFunctions.put("creatorUserId", Group::getCreatorUserId);
-		attributeSetterBiConsumers.put(
-			"creatorUserId", (BiConsumer<Group, Long>)Group::setCreatorUserId);
 		attributeGetterFunctions.put("classNameId", Group::getClassNameId);
-		attributeSetterBiConsumers.put(
-			"classNameId", (BiConsumer<Group, Long>)Group::setClassNameId);
 		attributeGetterFunctions.put("classPK", Group::getClassPK);
-		attributeSetterBiConsumers.put(
-			"classPK", (BiConsumer<Group, Long>)Group::setClassPK);
 		attributeGetterFunctions.put("parentGroupId", Group::getParentGroupId);
-		attributeSetterBiConsumers.put(
-			"parentGroupId", (BiConsumer<Group, Long>)Group::setParentGroupId);
 		attributeGetterFunctions.put("liveGroupId", Group::getLiveGroupId);
-		attributeSetterBiConsumers.put(
-			"liveGroupId", (BiConsumer<Group, Long>)Group::setLiveGroupId);
 		attributeGetterFunctions.put("treePath", Group::getTreePath);
-		attributeSetterBiConsumers.put(
-			"treePath", (BiConsumer<Group, String>)Group::setTreePath);
 		attributeGetterFunctions.put("groupKey", Group::getGroupKey);
-		attributeSetterBiConsumers.put(
-			"groupKey", (BiConsumer<Group, String>)Group::setGroupKey);
 		attributeGetterFunctions.put("name", Group::getName);
-		attributeSetterBiConsumers.put(
-			"name", (BiConsumer<Group, String>)Group::setName);
 		attributeGetterFunctions.put("description", Group::getDescription);
-		attributeSetterBiConsumers.put(
-			"description", (BiConsumer<Group, String>)Group::setDescription);
 		attributeGetterFunctions.put("type", Group::getType);
-		attributeSetterBiConsumers.put(
-			"type", (BiConsumer<Group, Integer>)Group::setType);
 		attributeGetterFunctions.put("typeSettings", Group::getTypeSettings);
-		attributeSetterBiConsumers.put(
-			"typeSettings", (BiConsumer<Group, String>)Group::setTypeSettings);
 		attributeGetterFunctions.put(
 			"manualMembership", Group::getManualMembership);
-		attributeSetterBiConsumers.put(
-			"manualMembership",
-			(BiConsumer<Group, Boolean>)Group::setManualMembership);
 		attributeGetterFunctions.put(
 			"membershipRestriction", Group::getMembershipRestriction);
-		attributeSetterBiConsumers.put(
-			"membershipRestriction",
-			(BiConsumer<Group, Integer>)Group::setMembershipRestriction);
 		attributeGetterFunctions.put("friendlyURL", Group::getFriendlyURL);
-		attributeSetterBiConsumers.put(
-			"friendlyURL", (BiConsumer<Group, String>)Group::setFriendlyURL);
 		attributeGetterFunctions.put("site", Group::getSite);
-		attributeSetterBiConsumers.put(
-			"site", (BiConsumer<Group, Boolean>)Group::setSite);
 		attributeGetterFunctions.put(
 			"remoteStagingGroupCount", Group::getRemoteStagingGroupCount);
-		attributeSetterBiConsumers.put(
-			"remoteStagingGroupCount",
-			(BiConsumer<Group, Integer>)Group::setRemoteStagingGroupCount);
 		attributeGetterFunctions.put(
 			"inheritContent", Group::getInheritContent);
-		attributeSetterBiConsumers.put(
-			"inheritContent",
-			(BiConsumer<Group, Boolean>)Group::setInheritContent);
 		attributeGetterFunctions.put("active", Group::getActive);
-		attributeSetterBiConsumers.put(
-			"active", (BiConsumer<Group, Boolean>)Group::setActive);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<Group, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<Group, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<Group, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"mvccVersion", (BiConsumer<Group, Long>)Group::setMvccVersion);
+		attributeSetterBiConsumers.put(
+			"uuid", (BiConsumer<Group, String>)Group::setUuid);
+		attributeSetterBiConsumers.put(
+			"groupId", (BiConsumer<Group, Long>)Group::setGroupId);
+		attributeSetterBiConsumers.put(
+			"companyId", (BiConsumer<Group, Long>)Group::setCompanyId);
+		attributeSetterBiConsumers.put(
+			"creatorUserId", (BiConsumer<Group, Long>)Group::setCreatorUserId);
+		attributeSetterBiConsumers.put(
+			"classNameId", (BiConsumer<Group, Long>)Group::setClassNameId);
+		attributeSetterBiConsumers.put(
+			"classPK", (BiConsumer<Group, Long>)Group::setClassPK);
+		attributeSetterBiConsumers.put(
+			"parentGroupId", (BiConsumer<Group, Long>)Group::setParentGroupId);
+		attributeSetterBiConsumers.put(
+			"liveGroupId", (BiConsumer<Group, Long>)Group::setLiveGroupId);
+		attributeSetterBiConsumers.put(
+			"treePath", (BiConsumer<Group, String>)Group::setTreePath);
+		attributeSetterBiConsumers.put(
+			"groupKey", (BiConsumer<Group, String>)Group::setGroupKey);
+		attributeSetterBiConsumers.put(
+			"name", (BiConsumer<Group, String>)Group::setName);
+		attributeSetterBiConsumers.put(
+			"description", (BiConsumer<Group, String>)Group::setDescription);
+		attributeSetterBiConsumers.put(
+			"type", (BiConsumer<Group, Integer>)Group::setType);
+		attributeSetterBiConsumers.put(
+			"typeSettings", (BiConsumer<Group, String>)Group::setTypeSettings);
+		attributeSetterBiConsumers.put(
+			"manualMembership",
+			(BiConsumer<Group, Boolean>)Group::setManualMembership);
+		attributeSetterBiConsumers.put(
+			"membershipRestriction",
+			(BiConsumer<Group, Integer>)Group::setMembershipRestriction);
+		attributeSetterBiConsumers.put(
+			"friendlyURL", (BiConsumer<Group, String>)Group::setFriendlyURL);
+		attributeSetterBiConsumers.put(
+			"site", (BiConsumer<Group, Boolean>)Group::setSite);
+		attributeSetterBiConsumers.put(
+			"remoteStagingGroupCount",
+			(BiConsumer<Group, Integer>)Group::setRemoteStagingGroupCount);
+		attributeSetterBiConsumers.put(
+			"inheritContent",
+			(BiConsumer<Group, Boolean>)Group::setInheritContent);
+		attributeSetterBiConsumers.put(
+			"active", (BiConsumer<Group, Boolean>)Group::setActive);
+
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

@@ -44,7 +44,6 @@ import com.liferay.portal.model.impl.SystemEventModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
@@ -3164,33 +3163,17 @@ public class SystemEventPersistenceImpl
 				Long.class.getName(), Integer.class.getName()
 			});
 
-		_setSystemEventUtilPersistence(this);
+		SystemEventUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setSystemEventUtilPersistence(null);
+		SystemEventUtil.setPersistence(null);
 
 		EntityCacheUtil.removeCache(SystemEventImpl.class.getName());
 
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setSystemEventUtilPersistence(
-		SystemEventPersistence systemEventPersistence) {
-
-		try {
-			Field field = SystemEventUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, systemEventPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	private static final String _SQL_SELECT_SYSTEMEVENT =

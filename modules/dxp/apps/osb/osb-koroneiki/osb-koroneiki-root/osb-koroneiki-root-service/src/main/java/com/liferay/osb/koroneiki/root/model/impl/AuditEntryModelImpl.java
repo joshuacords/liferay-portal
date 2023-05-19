@@ -301,103 +301,109 @@ public class AuditEntryModelImpl
 
 	private static final Map<String, Function<AuditEntry, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<AuditEntry, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<AuditEntry, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<AuditEntry, Object>>();
+
+		attributeGetterFunctions.put("mvccVersion", AuditEntry::getMvccVersion);
+		attributeGetterFunctions.put(
+			"auditEntryId", AuditEntry::getAuditEntryId);
+		attributeGetterFunctions.put("companyId", AuditEntry::getCompanyId);
+		attributeGetterFunctions.put("userId", AuditEntry::getUserId);
+		attributeGetterFunctions.put("createDate", AuditEntry::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", AuditEntry::getModifiedDate);
+		attributeGetterFunctions.put(
+			"auditEntryKey", AuditEntry::getAuditEntryKey);
+		attributeGetterFunctions.put("agentName", AuditEntry::getAgentName);
+		attributeGetterFunctions.put("agentUID", AuditEntry::getAgentUID);
+		attributeGetterFunctions.put("classNameId", AuditEntry::getClassNameId);
+		attributeGetterFunctions.put("classPK", AuditEntry::getClassPK);
+		attributeGetterFunctions.put("auditSetId", AuditEntry::getAuditSetId);
+		attributeGetterFunctions.put(
+			"fieldClassNameId", AuditEntry::getFieldClassNameId);
+		attributeGetterFunctions.put(
+			"fieldClassPK", AuditEntry::getFieldClassPK);
+		attributeGetterFunctions.put("action", AuditEntry::getAction);
+		attributeGetterFunctions.put("field", AuditEntry::getField);
+		attributeGetterFunctions.put("oldLabel", AuditEntry::getOldLabel);
+		attributeGetterFunctions.put("oldValue", AuditEntry::getOldValue);
+		attributeGetterFunctions.put("newLabel", AuditEntry::getNewLabel);
+		attributeGetterFunctions.put("newValue", AuditEntry::getNewValue);
+		attributeGetterFunctions.put("description", AuditEntry::getDescription);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<AuditEntry, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<AuditEntry, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<AuditEntry, ?>>();
 
-		attributeGetterFunctions.put("mvccVersion", AuditEntry::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<AuditEntry, Long>)AuditEntry::setMvccVersion);
-		attributeGetterFunctions.put(
-			"auditEntryId", AuditEntry::getAuditEntryId);
 		attributeSetterBiConsumers.put(
 			"auditEntryId",
 			(BiConsumer<AuditEntry, Long>)AuditEntry::setAuditEntryId);
-		attributeGetterFunctions.put("companyId", AuditEntry::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<AuditEntry, Long>)AuditEntry::setCompanyId);
-		attributeGetterFunctions.put("userId", AuditEntry::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<AuditEntry, Long>)AuditEntry::setUserId);
-		attributeGetterFunctions.put("createDate", AuditEntry::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<AuditEntry, Date>)AuditEntry::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", AuditEntry::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<AuditEntry, Date>)AuditEntry::setModifiedDate);
-		attributeGetterFunctions.put(
-			"auditEntryKey", AuditEntry::getAuditEntryKey);
 		attributeSetterBiConsumers.put(
 			"auditEntryKey",
 			(BiConsumer<AuditEntry, String>)AuditEntry::setAuditEntryKey);
-		attributeGetterFunctions.put("agentName", AuditEntry::getAgentName);
 		attributeSetterBiConsumers.put(
 			"agentName",
 			(BiConsumer<AuditEntry, String>)AuditEntry::setAgentName);
-		attributeGetterFunctions.put("agentUID", AuditEntry::getAgentUID);
 		attributeSetterBiConsumers.put(
 			"agentUID",
 			(BiConsumer<AuditEntry, String>)AuditEntry::setAgentUID);
-		attributeGetterFunctions.put("classNameId", AuditEntry::getClassNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<AuditEntry, Long>)AuditEntry::setClassNameId);
-		attributeGetterFunctions.put("classPK", AuditEntry::getClassPK);
 		attributeSetterBiConsumers.put(
 			"classPK", (BiConsumer<AuditEntry, Long>)AuditEntry::setClassPK);
-		attributeGetterFunctions.put("auditSetId", AuditEntry::getAuditSetId);
 		attributeSetterBiConsumers.put(
 			"auditSetId",
 			(BiConsumer<AuditEntry, Long>)AuditEntry::setAuditSetId);
-		attributeGetterFunctions.put(
-			"fieldClassNameId", AuditEntry::getFieldClassNameId);
 		attributeSetterBiConsumers.put(
 			"fieldClassNameId",
 			(BiConsumer<AuditEntry, Long>)AuditEntry::setFieldClassNameId);
-		attributeGetterFunctions.put(
-			"fieldClassPK", AuditEntry::getFieldClassPK);
 		attributeSetterBiConsumers.put(
 			"fieldClassPK",
 			(BiConsumer<AuditEntry, Long>)AuditEntry::setFieldClassPK);
-		attributeGetterFunctions.put("action", AuditEntry::getAction);
 		attributeSetterBiConsumers.put(
 			"action", (BiConsumer<AuditEntry, String>)AuditEntry::setAction);
-		attributeGetterFunctions.put("field", AuditEntry::getField);
 		attributeSetterBiConsumers.put(
 			"field", (BiConsumer<AuditEntry, String>)AuditEntry::setField);
-		attributeGetterFunctions.put("oldLabel", AuditEntry::getOldLabel);
 		attributeSetterBiConsumers.put(
 			"oldLabel",
 			(BiConsumer<AuditEntry, String>)AuditEntry::setOldLabel);
-		attributeGetterFunctions.put("oldValue", AuditEntry::getOldValue);
 		attributeSetterBiConsumers.put(
 			"oldValue",
 			(BiConsumer<AuditEntry, String>)AuditEntry::setOldValue);
-		attributeGetterFunctions.put("newLabel", AuditEntry::getNewLabel);
 		attributeSetterBiConsumers.put(
 			"newLabel",
 			(BiConsumer<AuditEntry, String>)AuditEntry::setNewLabel);
-		attributeGetterFunctions.put("newValue", AuditEntry::getNewValue);
 		attributeSetterBiConsumers.put(
 			"newValue",
 			(BiConsumer<AuditEntry, String>)AuditEntry::setNewValue);
-		attributeGetterFunctions.put("description", AuditEntry::getDescription);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<AuditEntry, String>)AuditEntry::setDescription);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

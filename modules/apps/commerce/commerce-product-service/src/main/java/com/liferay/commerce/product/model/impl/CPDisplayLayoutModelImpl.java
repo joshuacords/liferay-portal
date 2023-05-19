@@ -321,15 +321,11 @@ public class CPDisplayLayoutModelImpl
 
 	private static final Map<String, Function<CPDisplayLayout, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CPDisplayLayout, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CPDisplayLayout, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap<String, Function<CPDisplayLayout, Object>>();
-		Map<String, BiConsumer<CPDisplayLayout, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<CPDisplayLayout, ?>>();
 
 		attributeGetterFunctions.put(
 			"uuid",
@@ -341,6 +337,118 @@ public class CPDisplayLayoutModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"CPDisplayLayoutId",
+			new Function<CPDisplayLayout, Object>() {
+
+				@Override
+				public Object apply(CPDisplayLayout cpDisplayLayout) {
+					return cpDisplayLayout.getCPDisplayLayoutId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"groupId",
+			new Function<CPDisplayLayout, Object>() {
+
+				@Override
+				public Object apply(CPDisplayLayout cpDisplayLayout) {
+					return cpDisplayLayout.getGroupId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CPDisplayLayout, Object>() {
+
+				@Override
+				public Object apply(CPDisplayLayout cpDisplayLayout) {
+					return cpDisplayLayout.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CPDisplayLayout, Object>() {
+
+				@Override
+				public Object apply(CPDisplayLayout cpDisplayLayout) {
+					return cpDisplayLayout.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CPDisplayLayout, Object>() {
+
+				@Override
+				public Object apply(CPDisplayLayout cpDisplayLayout) {
+					return cpDisplayLayout.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CPDisplayLayout, Object>() {
+
+				@Override
+				public Object apply(CPDisplayLayout cpDisplayLayout) {
+					return cpDisplayLayout.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CPDisplayLayout, Object>() {
+
+				@Override
+				public Object apply(CPDisplayLayout cpDisplayLayout) {
+					return cpDisplayLayout.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"classNameId",
+			new Function<CPDisplayLayout, Object>() {
+
+				@Override
+				public Object apply(CPDisplayLayout cpDisplayLayout) {
+					return cpDisplayLayout.getClassNameId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"classPK",
+			new Function<CPDisplayLayout, Object>() {
+
+				@Override
+				public Object apply(CPDisplayLayout cpDisplayLayout) {
+					return cpDisplayLayout.getClassPK();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"layoutUuid",
+			new Function<CPDisplayLayout, Object>() {
+
+				@Override
+				public Object apply(CPDisplayLayout cpDisplayLayout) {
+					return cpDisplayLayout.getLayoutUuid();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<CPDisplayLayout, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CPDisplayLayout, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<CPDisplayLayout, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"uuid",
 			new BiConsumer<CPDisplayLayout, Object>() {
@@ -350,16 +458,6 @@ public class CPDisplayLayoutModelImpl
 					CPDisplayLayout cpDisplayLayout, Object uuidObject) {
 
 					cpDisplayLayout.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"CPDisplayLayoutId",
-			new Function<CPDisplayLayout, Object>() {
-
-				@Override
-				public Object apply(CPDisplayLayout cpDisplayLayout) {
-					return cpDisplayLayout.getCPDisplayLayoutId();
 				}
 
 			});
@@ -377,16 +475,6 @@ public class CPDisplayLayoutModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<CPDisplayLayout, Object>() {
-
-				@Override
-				public Object apply(CPDisplayLayout cpDisplayLayout) {
-					return cpDisplayLayout.getGroupId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"groupId",
 			new BiConsumer<CPDisplayLayout, Object>() {
@@ -396,16 +484,6 @@ public class CPDisplayLayoutModelImpl
 					CPDisplayLayout cpDisplayLayout, Object groupIdObject) {
 
 					cpDisplayLayout.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CPDisplayLayout, Object>() {
-
-				@Override
-				public Object apply(CPDisplayLayout cpDisplayLayout) {
-					return cpDisplayLayout.getCompanyId();
 				}
 
 			});
@@ -421,16 +499,6 @@ public class CPDisplayLayoutModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CPDisplayLayout, Object>() {
-
-				@Override
-				public Object apply(CPDisplayLayout cpDisplayLayout) {
-					return cpDisplayLayout.getUserId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userId",
 			new BiConsumer<CPDisplayLayout, Object>() {
@@ -440,16 +508,6 @@ public class CPDisplayLayoutModelImpl
 					CPDisplayLayout cpDisplayLayout, Object userIdObject) {
 
 					cpDisplayLayout.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CPDisplayLayout, Object>() {
-
-				@Override
-				public Object apply(CPDisplayLayout cpDisplayLayout) {
-					return cpDisplayLayout.getUserName();
 				}
 
 			});
@@ -465,16 +523,6 @@ public class CPDisplayLayoutModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CPDisplayLayout, Object>() {
-
-				@Override
-				public Object apply(CPDisplayLayout cpDisplayLayout) {
-					return cpDisplayLayout.getCreateDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"createDate",
 			new BiConsumer<CPDisplayLayout, Object>() {
@@ -484,16 +532,6 @@ public class CPDisplayLayoutModelImpl
 					CPDisplayLayout cpDisplayLayout, Object createDateObject) {
 
 					cpDisplayLayout.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CPDisplayLayout, Object>() {
-
-				@Override
-				public Object apply(CPDisplayLayout cpDisplayLayout) {
-					return cpDisplayLayout.getModifiedDate();
 				}
 
 			});
@@ -510,16 +548,6 @@ public class CPDisplayLayoutModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"classNameId",
-			new Function<CPDisplayLayout, Object>() {
-
-				@Override
-				public Object apply(CPDisplayLayout cpDisplayLayout) {
-					return cpDisplayLayout.getClassNameId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			new BiConsumer<CPDisplayLayout, Object>() {
@@ -532,16 +560,6 @@ public class CPDisplayLayoutModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"classPK",
-			new Function<CPDisplayLayout, Object>() {
-
-				@Override
-				public Object apply(CPDisplayLayout cpDisplayLayout) {
-					return cpDisplayLayout.getClassPK();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"classPK",
 			new BiConsumer<CPDisplayLayout, Object>() {
@@ -551,16 +569,6 @@ public class CPDisplayLayoutModelImpl
 					CPDisplayLayout cpDisplayLayout, Object classPKObject) {
 
 					cpDisplayLayout.setClassPK((Long)classPKObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"layoutUuid",
-			new Function<CPDisplayLayout, Object>() {
-
-				@Override
-				public Object apply(CPDisplayLayout cpDisplayLayout) {
-					return cpDisplayLayout.getLayoutUuid();
 				}
 
 			});
@@ -577,8 +585,6 @@ public class CPDisplayLayoutModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

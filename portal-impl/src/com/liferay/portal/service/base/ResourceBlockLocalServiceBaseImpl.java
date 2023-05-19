@@ -53,8 +53,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -688,14 +686,14 @@ public abstract class ResourceBlockLocalServiceBaseImpl
 			"com.liferay.portal.kernel.model.ResourceBlock",
 			resourceBlockLocalService);
 
-		_setLocalServiceUtilService(resourceBlockLocalService);
+		ResourceBlockLocalServiceUtil.setService(resourceBlockLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"com.liferay.portal.kernel.model.ResourceBlock");
 
-		_setLocalServiceUtilService(null);
+		ResourceBlockLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -737,22 +735,6 @@ public abstract class ResourceBlockLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		ResourceBlockLocalService resourceBlockLocalService) {
-
-		try {
-			Field field = ResourceBlockLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, resourceBlockLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

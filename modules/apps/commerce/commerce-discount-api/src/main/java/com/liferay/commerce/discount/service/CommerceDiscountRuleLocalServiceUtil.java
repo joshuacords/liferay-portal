@@ -362,6 +362,10 @@ public class CommerceDiscountRuleLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(CommerceDiscountRuleLocalService service) {
+		_service = service;
+	}
+
 	private static volatile CommerceDiscountRuleLocalService _service;
 
 }

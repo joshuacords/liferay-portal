@@ -497,6 +497,10 @@ public class FolderUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(FolderPersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile FolderPersistence _persistence;
 
 }

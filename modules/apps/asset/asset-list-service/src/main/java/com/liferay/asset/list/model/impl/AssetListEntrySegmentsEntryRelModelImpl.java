@@ -231,9 +231,6 @@ public class AssetListEntrySegmentsEntryRelModelImpl
 	private static final Map
 		<String, Function<AssetListEntrySegmentsEntryRel, Object>>
 			_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<AssetListEntrySegmentsEntryRel, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<AssetListEntrySegmentsEntryRel, Object>>
@@ -241,98 +238,107 @@ public class AssetListEntrySegmentsEntryRelModelImpl
 				new LinkedHashMap
 					<String,
 					 Function<AssetListEntrySegmentsEntryRel, Object>>();
+
+		attributeGetterFunctions.put(
+			"mvccVersion", AssetListEntrySegmentsEntryRel::getMvccVersion);
+		attributeGetterFunctions.put(
+			"uuid", AssetListEntrySegmentsEntryRel::getUuid);
+		attributeGetterFunctions.put(
+			"assetListEntrySegmentsEntryRelId",
+			AssetListEntrySegmentsEntryRel::
+				getAssetListEntrySegmentsEntryRelId);
+		attributeGetterFunctions.put(
+			"groupId", AssetListEntrySegmentsEntryRel::getGroupId);
+		attributeGetterFunctions.put(
+			"companyId", AssetListEntrySegmentsEntryRel::getCompanyId);
+		attributeGetterFunctions.put(
+			"userId", AssetListEntrySegmentsEntryRel::getUserId);
+		attributeGetterFunctions.put(
+			"userName", AssetListEntrySegmentsEntryRel::getUserName);
+		attributeGetterFunctions.put(
+			"createDate", AssetListEntrySegmentsEntryRel::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", AssetListEntrySegmentsEntryRel::getModifiedDate);
+		attributeGetterFunctions.put(
+			"assetListEntryId",
+			AssetListEntrySegmentsEntryRel::getAssetListEntryId);
+		attributeGetterFunctions.put(
+			"segmentsEntryId",
+			AssetListEntrySegmentsEntryRel::getSegmentsEntryId);
+		attributeGetterFunctions.put(
+			"typeSettings", AssetListEntrySegmentsEntryRel::getTypeSettings);
+		attributeGetterFunctions.put(
+			"lastPublishDate",
+			AssetListEntrySegmentsEntryRel::getLastPublishDate);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<AssetListEntrySegmentsEntryRel, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<AssetListEntrySegmentsEntryRel, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<AssetListEntrySegmentsEntryRel, ?>>();
 
-		attributeGetterFunctions.put(
-			"mvccVersion", AssetListEntrySegmentsEntryRel::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<AssetListEntrySegmentsEntryRel, Long>)
 				AssetListEntrySegmentsEntryRel::setMvccVersion);
-		attributeGetterFunctions.put(
-			"uuid", AssetListEntrySegmentsEntryRel::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<AssetListEntrySegmentsEntryRel, String>)
 				AssetListEntrySegmentsEntryRel::setUuid);
-		attributeGetterFunctions.put(
-			"assetListEntrySegmentsEntryRelId",
-			AssetListEntrySegmentsEntryRel::
-				getAssetListEntrySegmentsEntryRelId);
 		attributeSetterBiConsumers.put(
 			"assetListEntrySegmentsEntryRelId",
 			(BiConsumer<AssetListEntrySegmentsEntryRel, Long>)
 				AssetListEntrySegmentsEntryRel::
 					setAssetListEntrySegmentsEntryRelId);
-		attributeGetterFunctions.put(
-			"groupId", AssetListEntrySegmentsEntryRel::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<AssetListEntrySegmentsEntryRel, Long>)
 				AssetListEntrySegmentsEntryRel::setGroupId);
-		attributeGetterFunctions.put(
-			"companyId", AssetListEntrySegmentsEntryRel::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<AssetListEntrySegmentsEntryRel, Long>)
 				AssetListEntrySegmentsEntryRel::setCompanyId);
-		attributeGetterFunctions.put(
-			"userId", AssetListEntrySegmentsEntryRel::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<AssetListEntrySegmentsEntryRel, Long>)
 				AssetListEntrySegmentsEntryRel::setUserId);
-		attributeGetterFunctions.put(
-			"userName", AssetListEntrySegmentsEntryRel::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<AssetListEntrySegmentsEntryRel, String>)
 				AssetListEntrySegmentsEntryRel::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", AssetListEntrySegmentsEntryRel::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<AssetListEntrySegmentsEntryRel, Date>)
 				AssetListEntrySegmentsEntryRel::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", AssetListEntrySegmentsEntryRel::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<AssetListEntrySegmentsEntryRel, Date>)
 				AssetListEntrySegmentsEntryRel::setModifiedDate);
-		attributeGetterFunctions.put(
-			"assetListEntryId",
-			AssetListEntrySegmentsEntryRel::getAssetListEntryId);
 		attributeSetterBiConsumers.put(
 			"assetListEntryId",
 			(BiConsumer<AssetListEntrySegmentsEntryRel, Long>)
 				AssetListEntrySegmentsEntryRel::setAssetListEntryId);
-		attributeGetterFunctions.put(
-			"segmentsEntryId",
-			AssetListEntrySegmentsEntryRel::getSegmentsEntryId);
 		attributeSetterBiConsumers.put(
 			"segmentsEntryId",
 			(BiConsumer<AssetListEntrySegmentsEntryRel, Long>)
 				AssetListEntrySegmentsEntryRel::setSegmentsEntryId);
-		attributeGetterFunctions.put(
-			"typeSettings", AssetListEntrySegmentsEntryRel::getTypeSettings);
 		attributeSetterBiConsumers.put(
 			"typeSettings",
 			(BiConsumer<AssetListEntrySegmentsEntryRel, String>)
 				AssetListEntrySegmentsEntryRel::setTypeSettings);
-		attributeGetterFunctions.put(
-			"lastPublishDate",
-			AssetListEntrySegmentsEntryRel::getLastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<AssetListEntrySegmentsEntryRel, Date>)
 				AssetListEntrySegmentsEntryRel::setLastPublishDate);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

@@ -46,8 +46,6 @@ import com.liferay.portal.lock.service.persistence.LockPersistence;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -376,7 +374,7 @@ public abstract class LockLocalServiceBaseImpl
 
 	@Deactivate
 	protected void deactivate() {
-		_setLocalServiceUtilService(null);
+		LockLocalServiceUtil.setService(null);
 	}
 
 	@Override
@@ -391,7 +389,7 @@ public abstract class LockLocalServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		lockLocalService = (LockLocalService)aopProxy;
 
-		_setLocalServiceUtilService(lockLocalService);
+		LockLocalServiceUtil.setService(lockLocalService);
 	}
 
 	/**
@@ -433,22 +431,6 @@ public abstract class LockLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		LockLocalService lockLocalService) {
-
-		try {
-			Field field = LockLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, lockLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

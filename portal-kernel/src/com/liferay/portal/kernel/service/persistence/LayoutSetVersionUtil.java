@@ -2355,6 +2355,10 @@ public class LayoutSetVersionUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(LayoutSetVersionPersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile LayoutSetVersionPersistence _persistence;
 
 }

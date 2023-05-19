@@ -41,7 +41,6 @@ import com.liferay.portal.model.impl.UserNotificationDeliveryModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.List;
@@ -1679,11 +1678,11 @@ public class UserNotificationDeliveryPersistenceImpl
 				Integer.class.getName()
 			});
 
-		_setUserNotificationDeliveryUtilPersistence(this);
+		UserNotificationDeliveryUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setUserNotificationDeliveryUtilPersistence(null);
+		UserNotificationDeliveryUtil.setPersistence(null);
 
 		EntityCacheUtil.removeCache(
 			UserNotificationDeliveryImpl.class.getName());
@@ -1691,23 +1690,6 @@ public class UserNotificationDeliveryPersistenceImpl
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setUserNotificationDeliveryUtilPersistence(
-		UserNotificationDeliveryPersistence
-			userNotificationDeliveryPersistence) {
-
-		try {
-			Field field = UserNotificationDeliveryUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, userNotificationDeliveryPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	private static final String _SQL_SELECT_USERNOTIFICATIONDELIVERY =

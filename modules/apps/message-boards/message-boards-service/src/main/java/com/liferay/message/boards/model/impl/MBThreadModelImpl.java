@@ -314,102 +314,108 @@ public class MBThreadModelImpl
 
 	private static final Map<String, Function<MBThread, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<MBThread, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<MBThread, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<MBThread, Object>>();
-		Map<String, BiConsumer<MBThread, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<MBThread, ?>>();
 
 		attributeGetterFunctions.put("uuid", MBThread::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<MBThread, String>)MBThread::setUuid);
 		attributeGetterFunctions.put("threadId", MBThread::getThreadId);
-		attributeSetterBiConsumers.put(
-			"threadId", (BiConsumer<MBThread, Long>)MBThread::setThreadId);
 		attributeGetterFunctions.put("groupId", MBThread::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId", (BiConsumer<MBThread, Long>)MBThread::setGroupId);
 		attributeGetterFunctions.put("companyId", MBThread::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId", (BiConsumer<MBThread, Long>)MBThread::setCompanyId);
 		attributeGetterFunctions.put("userId", MBThread::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<MBThread, Long>)MBThread::setUserId);
 		attributeGetterFunctions.put("userName", MBThread::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName", (BiConsumer<MBThread, String>)MBThread::setUserName);
 		attributeGetterFunctions.put("createDate", MBThread::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate", (BiConsumer<MBThread, Date>)MBThread::setCreateDate);
 		attributeGetterFunctions.put("modifiedDate", MBThread::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<MBThread, Date>)MBThread::setModifiedDate);
 		attributeGetterFunctions.put("categoryId", MBThread::getCategoryId);
-		attributeSetterBiConsumers.put(
-			"categoryId", (BiConsumer<MBThread, Long>)MBThread::setCategoryId);
 		attributeGetterFunctions.put(
 			"rootMessageId", MBThread::getRootMessageId);
-		attributeSetterBiConsumers.put(
-			"rootMessageId",
-			(BiConsumer<MBThread, Long>)MBThread::setRootMessageId);
 		attributeGetterFunctions.put(
 			"rootMessageUserId", MBThread::getRootMessageUserId);
-		attributeSetterBiConsumers.put(
-			"rootMessageUserId",
-			(BiConsumer<MBThread, Long>)MBThread::setRootMessageUserId);
 		attributeGetterFunctions.put("title", MBThread::getTitle);
-		attributeSetterBiConsumers.put(
-			"title", (BiConsumer<MBThread, String>)MBThread::setTitle);
 		attributeGetterFunctions.put("messageCount", MBThread::getMessageCount);
-		attributeSetterBiConsumers.put(
-			"messageCount",
-			(BiConsumer<MBThread, Integer>)MBThread::setMessageCount);
 		attributeGetterFunctions.put("viewCount", MBThread::getViewCount);
-		attributeSetterBiConsumers.put(
-			"viewCount", (BiConsumer<MBThread, Integer>)MBThread::setViewCount);
 		attributeGetterFunctions.put(
 			"lastPostByUserId", MBThread::getLastPostByUserId);
-		attributeSetterBiConsumers.put(
-			"lastPostByUserId",
-			(BiConsumer<MBThread, Long>)MBThread::setLastPostByUserId);
 		attributeGetterFunctions.put("lastPostDate", MBThread::getLastPostDate);
-		attributeSetterBiConsumers.put(
-			"lastPostDate",
-			(BiConsumer<MBThread, Date>)MBThread::setLastPostDate);
 		attributeGetterFunctions.put("priority", MBThread::getPriority);
-		attributeSetterBiConsumers.put(
-			"priority", (BiConsumer<MBThread, Double>)MBThread::setPriority);
 		attributeGetterFunctions.put("question", MBThread::getQuestion);
-		attributeSetterBiConsumers.put(
-			"question", (BiConsumer<MBThread, Boolean>)MBThread::setQuestion);
 		attributeGetterFunctions.put(
 			"lastPublishDate", MBThread::getLastPublishDate);
-		attributeSetterBiConsumers.put(
-			"lastPublishDate",
-			(BiConsumer<MBThread, Date>)MBThread::setLastPublishDate);
 		attributeGetterFunctions.put("status", MBThread::getStatus);
-		attributeSetterBiConsumers.put(
-			"status", (BiConsumer<MBThread, Integer>)MBThread::setStatus);
 		attributeGetterFunctions.put(
 			"statusByUserId", MBThread::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<MBThread, Long>)MBThread::setStatusByUserId);
 		attributeGetterFunctions.put(
 			"statusByUserName", MBThread::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<MBThread, String>)MBThread::setStatusByUserName);
 		attributeGetterFunctions.put("statusDate", MBThread::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate", (BiConsumer<MBThread, Date>)MBThread::setStatusDate);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<MBThread, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<MBThread, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<MBThread, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"uuid", (BiConsumer<MBThread, String>)MBThread::setUuid);
+		attributeSetterBiConsumers.put(
+			"threadId", (BiConsumer<MBThread, Long>)MBThread::setThreadId);
+		attributeSetterBiConsumers.put(
+			"groupId", (BiConsumer<MBThread, Long>)MBThread::setGroupId);
+		attributeSetterBiConsumers.put(
+			"companyId", (BiConsumer<MBThread, Long>)MBThread::setCompanyId);
+		attributeSetterBiConsumers.put(
+			"userId", (BiConsumer<MBThread, Long>)MBThread::setUserId);
+		attributeSetterBiConsumers.put(
+			"userName", (BiConsumer<MBThread, String>)MBThread::setUserName);
+		attributeSetterBiConsumers.put(
+			"createDate", (BiConsumer<MBThread, Date>)MBThread::setCreateDate);
+		attributeSetterBiConsumers.put(
+			"modifiedDate",
+			(BiConsumer<MBThread, Date>)MBThread::setModifiedDate);
+		attributeSetterBiConsumers.put(
+			"categoryId", (BiConsumer<MBThread, Long>)MBThread::setCategoryId);
+		attributeSetterBiConsumers.put(
+			"rootMessageId",
+			(BiConsumer<MBThread, Long>)MBThread::setRootMessageId);
+		attributeSetterBiConsumers.put(
+			"rootMessageUserId",
+			(BiConsumer<MBThread, Long>)MBThread::setRootMessageUserId);
+		attributeSetterBiConsumers.put(
+			"title", (BiConsumer<MBThread, String>)MBThread::setTitle);
+		attributeSetterBiConsumers.put(
+			"messageCount",
+			(BiConsumer<MBThread, Integer>)MBThread::setMessageCount);
+		attributeSetterBiConsumers.put(
+			"viewCount", (BiConsumer<MBThread, Integer>)MBThread::setViewCount);
+		attributeSetterBiConsumers.put(
+			"lastPostByUserId",
+			(BiConsumer<MBThread, Long>)MBThread::setLastPostByUserId);
+		attributeSetterBiConsumers.put(
+			"lastPostDate",
+			(BiConsumer<MBThread, Date>)MBThread::setLastPostDate);
+		attributeSetterBiConsumers.put(
+			"priority", (BiConsumer<MBThread, Double>)MBThread::setPriority);
+		attributeSetterBiConsumers.put(
+			"question", (BiConsumer<MBThread, Boolean>)MBThread::setQuestion);
+		attributeSetterBiConsumers.put(
+			"lastPublishDate",
+			(BiConsumer<MBThread, Date>)MBThread::setLastPublishDate);
+		attributeSetterBiConsumers.put(
+			"status", (BiConsumer<MBThread, Integer>)MBThread::setStatus);
+		attributeSetterBiConsumers.put(
+			"statusByUserId",
+			(BiConsumer<MBThread, Long>)MBThread::setStatusByUserId);
+		attributeSetterBiConsumers.put(
+			"statusByUserName",
+			(BiConsumer<MBThread, String>)MBThread::setStatusByUserName);
+		attributeSetterBiConsumers.put(
+			"statusDate", (BiConsumer<MBThread, Date>)MBThread::setStatusDate);
+
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

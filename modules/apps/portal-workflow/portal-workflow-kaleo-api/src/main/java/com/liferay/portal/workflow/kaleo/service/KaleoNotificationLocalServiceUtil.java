@@ -327,6 +327,10 @@ public class KaleoNotificationLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(KaleoNotificationLocalService service) {
+		_service = service;
+	}
+
 	private static volatile KaleoNotificationLocalService _service;
 
 }

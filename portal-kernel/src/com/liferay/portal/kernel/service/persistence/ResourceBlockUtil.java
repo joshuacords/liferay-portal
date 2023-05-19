@@ -753,6 +753,10 @@ public class ResourceBlockUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(ResourceBlockPersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile ResourceBlockPersistence _persistence;
 
 }

@@ -220,60 +220,66 @@ public class ResourceBlockPermissionModelImpl
 
 	private static final Map<String, Function<ResourceBlockPermission, Object>>
 		_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<ResourceBlockPermission, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<ResourceBlockPermission, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<ResourceBlockPermission, Object>>();
+
+		attributeGetterFunctions.put(
+			"mvccVersion", ResourceBlockPermission::getMvccVersion);
+		attributeGetterFunctions.put(
+			"resourceBlockPermissionId",
+			ResourceBlockPermission::getResourceBlockPermissionId);
+		attributeGetterFunctions.put(
+			"companyId", ResourceBlockPermission::getCompanyId);
+		attributeGetterFunctions.put(
+			"resourceBlockId", ResourceBlockPermission::getResourceBlockId);
+		attributeGetterFunctions.put(
+			"roleId", ResourceBlockPermission::getRoleId);
+		attributeGetterFunctions.put(
+			"actionIds", ResourceBlockPermission::getActionIds);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<ResourceBlockPermission, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<ResourceBlockPermission, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<ResourceBlockPermission, ?>>();
 
-		attributeGetterFunctions.put(
-			"mvccVersion", ResourceBlockPermission::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<ResourceBlockPermission, Long>)
 				ResourceBlockPermission::setMvccVersion);
-		attributeGetterFunctions.put(
-			"resourceBlockPermissionId",
-			ResourceBlockPermission::getResourceBlockPermissionId);
 		attributeSetterBiConsumers.put(
 			"resourceBlockPermissionId",
 			(BiConsumer<ResourceBlockPermission, Long>)
 				ResourceBlockPermission::setResourceBlockPermissionId);
-		attributeGetterFunctions.put(
-			"companyId", ResourceBlockPermission::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<ResourceBlockPermission, Long>)
 				ResourceBlockPermission::setCompanyId);
-		attributeGetterFunctions.put(
-			"resourceBlockId", ResourceBlockPermission::getResourceBlockId);
 		attributeSetterBiConsumers.put(
 			"resourceBlockId",
 			(BiConsumer<ResourceBlockPermission, Long>)
 				ResourceBlockPermission::setResourceBlockId);
-		attributeGetterFunctions.put(
-			"roleId", ResourceBlockPermission::getRoleId);
 		attributeSetterBiConsumers.put(
 			"roleId",
 			(BiConsumer<ResourceBlockPermission, Long>)
 				ResourceBlockPermission::setRoleId);
-		attributeGetterFunctions.put(
-			"actionIds", ResourceBlockPermission::getActionIds);
 		attributeSetterBiConsumers.put(
 			"actionIds",
 			(BiConsumer<ResourceBlockPermission, Long>)
 				ResourceBlockPermission::setActionIds);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

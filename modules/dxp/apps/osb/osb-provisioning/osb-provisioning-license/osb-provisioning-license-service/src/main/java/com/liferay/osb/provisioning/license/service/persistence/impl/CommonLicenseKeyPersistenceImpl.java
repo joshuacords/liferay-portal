@@ -49,7 +49,6 @@ import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.sql.Timestamp;
@@ -3727,34 +3726,18 @@ public class CommonLicenseKeyPersistenceImpl
 				Date.class.getName()
 			});
 
-		_setCommonLicenseKeyUtilPersistence(this);
+		CommonLicenseKeyUtil.setPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
-		_setCommonLicenseKeyUtilPersistence(null);
+		CommonLicenseKeyUtil.setPersistence(null);
 
 		entityCache.removeCache(CommonLicenseKeyImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setCommonLicenseKeyUtilPersistence(
-		CommonLicenseKeyPersistence commonLicenseKeyPersistence) {
-
-		try {
-			Field field = CommonLicenseKeyUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, commonLicenseKeyPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@Override

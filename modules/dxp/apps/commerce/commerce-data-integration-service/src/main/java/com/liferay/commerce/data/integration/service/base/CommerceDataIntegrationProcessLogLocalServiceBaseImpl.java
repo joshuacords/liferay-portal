@@ -50,8 +50,6 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -634,7 +632,7 @@ public abstract class CommerceDataIntegrationProcessLogLocalServiceBaseImpl
 			"com.liferay.commerce.data.integration.model.CommerceDataIntegrationProcessLog",
 			commerceDataIntegrationProcessLogLocalService);
 
-		_setLocalServiceUtilService(
+		CommerceDataIntegrationProcessLogLocalServiceUtil.setService(
 			commerceDataIntegrationProcessLogLocalService);
 	}
 
@@ -642,7 +640,7 @@ public abstract class CommerceDataIntegrationProcessLogLocalServiceBaseImpl
 		persistedModelLocalServiceRegistry.unregister(
 			"com.liferay.commerce.data.integration.model.CommerceDataIntegrationProcessLog");
 
-		_setLocalServiceUtilService(null);
+		CommerceDataIntegrationProcessLogLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -685,24 +683,6 @@ public abstract class CommerceDataIntegrationProcessLogLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		CommerceDataIntegrationProcessLogLocalService
-			commerceDataIntegrationProcessLogLocalService) {
-
-		try {
-			Field field =
-				CommerceDataIntegrationProcessLogLocalServiceUtil.class.
-					getDeclaredField("_service");
-
-			field.setAccessible(true);
-
-			field.set(null, commerceDataIntegrationProcessLogLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

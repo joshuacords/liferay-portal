@@ -708,6 +708,12 @@ public class CommerceDataIntegrationProcessLogUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(
+		CommerceDataIntegrationProcessLogPersistence persistence) {
+
+		_persistence = persistence;
+	}
+
 	private static volatile CommerceDataIntegrationProcessLogPersistence
 		_persistence;
 

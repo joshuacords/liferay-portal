@@ -5027,33 +5027,17 @@ public class CommerceOrderItemPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_ERC",
 			new String[] {Long.class.getName(), String.class.getName()});
 
-		_setCommerceOrderItemUtilPersistence(this);
+		CommerceOrderItemUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setCommerceOrderItemUtilPersistence(null);
+		CommerceOrderItemUtil.setPersistence(null);
 
 		entityCache.removeCache(CommerceOrderItemImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setCommerceOrderItemUtilPersistence(
-		CommerceOrderItemPersistence commerceOrderItemPersistence) {
-
-		try {
-			Field field = CommerceOrderItemUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, commerceOrderItemPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

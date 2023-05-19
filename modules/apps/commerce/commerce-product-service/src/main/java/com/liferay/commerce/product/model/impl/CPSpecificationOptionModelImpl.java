@@ -334,18 +334,12 @@ public class CPSpecificationOptionModelImpl
 
 	private static final Map<String, Function<CPSpecificationOption, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CPSpecificationOption, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CPSpecificationOption, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<CPSpecificationOption, Object>>();
-		Map<String, BiConsumer<CPSpecificationOption, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String, BiConsumer<CPSpecificationOption, ?>>();
 
 		attributeGetterFunctions.put(
 			"uuid",
@@ -359,6 +353,164 @@ public class CPSpecificationOptionModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"CPSpecificationOptionId",
+			new Function<CPSpecificationOption, Object>() {
+
+				@Override
+				public Object apply(
+					CPSpecificationOption cpSpecificationOption) {
+
+					return cpSpecificationOption.getCPSpecificationOptionId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CPSpecificationOption, Object>() {
+
+				@Override
+				public Object apply(
+					CPSpecificationOption cpSpecificationOption) {
+
+					return cpSpecificationOption.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CPSpecificationOption, Object>() {
+
+				@Override
+				public Object apply(
+					CPSpecificationOption cpSpecificationOption) {
+
+					return cpSpecificationOption.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CPSpecificationOption, Object>() {
+
+				@Override
+				public Object apply(
+					CPSpecificationOption cpSpecificationOption) {
+
+					return cpSpecificationOption.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CPSpecificationOption, Object>() {
+
+				@Override
+				public Object apply(
+					CPSpecificationOption cpSpecificationOption) {
+
+					return cpSpecificationOption.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CPSpecificationOption, Object>() {
+
+				@Override
+				public Object apply(
+					CPSpecificationOption cpSpecificationOption) {
+
+					return cpSpecificationOption.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"CPOptionCategoryId",
+			new Function<CPSpecificationOption, Object>() {
+
+				@Override
+				public Object apply(
+					CPSpecificationOption cpSpecificationOption) {
+
+					return cpSpecificationOption.getCPOptionCategoryId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"title",
+			new Function<CPSpecificationOption, Object>() {
+
+				@Override
+				public Object apply(
+					CPSpecificationOption cpSpecificationOption) {
+
+					return cpSpecificationOption.getTitle();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"description",
+			new Function<CPSpecificationOption, Object>() {
+
+				@Override
+				public Object apply(
+					CPSpecificationOption cpSpecificationOption) {
+
+					return cpSpecificationOption.getDescription();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"facetable",
+			new Function<CPSpecificationOption, Object>() {
+
+				@Override
+				public Object apply(
+					CPSpecificationOption cpSpecificationOption) {
+
+					return cpSpecificationOption.getFacetable();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"key",
+			new Function<CPSpecificationOption, Object>() {
+
+				@Override
+				public Object apply(
+					CPSpecificationOption cpSpecificationOption) {
+
+					return cpSpecificationOption.getKey();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"lastPublishDate",
+			new Function<CPSpecificationOption, Object>() {
+
+				@Override
+				public Object apply(
+					CPSpecificationOption cpSpecificationOption) {
+
+					return cpSpecificationOption.getLastPublishDate();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<CPSpecificationOption, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CPSpecificationOption, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap
+					<String, BiConsumer<CPSpecificationOption, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"uuid",
 			new BiConsumer<CPSpecificationOption, Object>() {
@@ -369,18 +521,6 @@ public class CPSpecificationOptionModelImpl
 					Object uuidObject) {
 
 					cpSpecificationOption.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"CPSpecificationOptionId",
-			new Function<CPSpecificationOption, Object>() {
-
-				@Override
-				public Object apply(
-					CPSpecificationOption cpSpecificationOption) {
-
-					return cpSpecificationOption.getCPSpecificationOptionId();
 				}
 
 			});
@@ -398,18 +538,6 @@ public class CPSpecificationOptionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CPSpecificationOption, Object>() {
-
-				@Override
-				public Object apply(
-					CPSpecificationOption cpSpecificationOption) {
-
-					return cpSpecificationOption.getCompanyId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"companyId",
 			new BiConsumer<CPSpecificationOption, Object>() {
@@ -420,18 +548,6 @@ public class CPSpecificationOptionModelImpl
 					Object companyIdObject) {
 
 					cpSpecificationOption.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CPSpecificationOption, Object>() {
-
-				@Override
-				public Object apply(
-					CPSpecificationOption cpSpecificationOption) {
-
-					return cpSpecificationOption.getUserId();
 				}
 
 			});
@@ -448,18 +564,6 @@ public class CPSpecificationOptionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CPSpecificationOption, Object>() {
-
-				@Override
-				public Object apply(
-					CPSpecificationOption cpSpecificationOption) {
-
-					return cpSpecificationOption.getUserName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userName",
 			new BiConsumer<CPSpecificationOption, Object>() {
@@ -473,18 +577,6 @@ public class CPSpecificationOptionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CPSpecificationOption, Object>() {
-
-				@Override
-				public Object apply(
-					CPSpecificationOption cpSpecificationOption) {
-
-					return cpSpecificationOption.getCreateDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"createDate",
 			new BiConsumer<CPSpecificationOption, Object>() {
@@ -495,18 +587,6 @@ public class CPSpecificationOptionModelImpl
 					Object createDateObject) {
 
 					cpSpecificationOption.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CPSpecificationOption, Object>() {
-
-				@Override
-				public Object apply(
-					CPSpecificationOption cpSpecificationOption) {
-
-					return cpSpecificationOption.getModifiedDate();
 				}
 
 			});
@@ -524,18 +604,6 @@ public class CPSpecificationOptionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"CPOptionCategoryId",
-			new Function<CPSpecificationOption, Object>() {
-
-				@Override
-				public Object apply(
-					CPSpecificationOption cpSpecificationOption) {
-
-					return cpSpecificationOption.getCPOptionCategoryId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"CPOptionCategoryId",
 			new BiConsumer<CPSpecificationOption, Object>() {
@@ -550,18 +618,6 @@ public class CPSpecificationOptionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"title",
-			new Function<CPSpecificationOption, Object>() {
-
-				@Override
-				public Object apply(
-					CPSpecificationOption cpSpecificationOption) {
-
-					return cpSpecificationOption.getTitle();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"title",
 			new BiConsumer<CPSpecificationOption, Object>() {
@@ -572,18 +628,6 @@ public class CPSpecificationOptionModelImpl
 					Object titleObject) {
 
 					cpSpecificationOption.setTitle((String)titleObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"description",
-			new Function<CPSpecificationOption, Object>() {
-
-				@Override
-				public Object apply(
-					CPSpecificationOption cpSpecificationOption) {
-
-					return cpSpecificationOption.getDescription();
 				}
 
 			});
@@ -601,18 +645,6 @@ public class CPSpecificationOptionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"facetable",
-			new Function<CPSpecificationOption, Object>() {
-
-				@Override
-				public Object apply(
-					CPSpecificationOption cpSpecificationOption) {
-
-					return cpSpecificationOption.getFacetable();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"facetable",
 			new BiConsumer<CPSpecificationOption, Object>() {
@@ -627,18 +659,6 @@ public class CPSpecificationOptionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"key",
-			new Function<CPSpecificationOption, Object>() {
-
-				@Override
-				public Object apply(
-					CPSpecificationOption cpSpecificationOption) {
-
-					return cpSpecificationOption.getKey();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"key",
 			new BiConsumer<CPSpecificationOption, Object>() {
@@ -649,18 +669,6 @@ public class CPSpecificationOptionModelImpl
 					Object keyObject) {
 
 					cpSpecificationOption.setKey((String)keyObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"lastPublishDate",
-			new Function<CPSpecificationOption, Object>() {
-
-				@Override
-				public Object apply(
-					CPSpecificationOption cpSpecificationOption) {
-
-					return cpSpecificationOption.getLastPublishDate();
 				}
 
 			});
@@ -679,8 +687,6 @@ public class CPSpecificationOptionModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

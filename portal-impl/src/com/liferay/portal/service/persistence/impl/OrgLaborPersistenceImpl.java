@@ -41,7 +41,6 @@ import com.liferay.portal.model.impl.OrgLaborModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.List;
@@ -1190,32 +1189,17 @@ public class OrgLaborPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByOrganizationId",
 			new String[] {Long.class.getName()});
 
-		_setOrgLaborUtilPersistence(this);
+		OrgLaborUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setOrgLaborUtilPersistence(null);
+		OrgLaborUtil.setPersistence(null);
 
 		EntityCacheUtil.removeCache(OrgLaborImpl.class.getName());
 
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setOrgLaborUtilPersistence(
-		OrgLaborPersistence orgLaborPersistence) {
-
-		try {
-			Field field = OrgLaborUtil.class.getDeclaredField("_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, orgLaborPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	private static final String _SQL_SELECT_ORGLABOR =

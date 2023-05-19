@@ -52,8 +52,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -600,14 +598,14 @@ public abstract class AssetLinkLocalServiceBaseImpl
 		persistedModelLocalServiceRegistry.register(
 			"com.liferay.asset.kernel.model.AssetLink", assetLinkLocalService);
 
-		_setLocalServiceUtilService(assetLinkLocalService);
+		AssetLinkLocalServiceUtil.setService(assetLinkLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"com.liferay.asset.kernel.model.AssetLink");
 
-		_setLocalServiceUtilService(null);
+		AssetLinkLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -649,22 +647,6 @@ public abstract class AssetLinkLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		AssetLinkLocalService assetLinkLocalService) {
-
-		try {
-			Field field = AssetLinkLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, assetLinkLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

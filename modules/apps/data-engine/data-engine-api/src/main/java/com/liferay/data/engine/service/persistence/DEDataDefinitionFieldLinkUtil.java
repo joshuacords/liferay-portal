@@ -621,6 +621,12 @@ public class DEDataDefinitionFieldLinkUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(
+		DEDataDefinitionFieldLinkPersistence persistence) {
+
+		_persistence = persistence;
+	}
+
 	private static volatile DEDataDefinitionFieldLinkPersistence _persistence;
 
 }

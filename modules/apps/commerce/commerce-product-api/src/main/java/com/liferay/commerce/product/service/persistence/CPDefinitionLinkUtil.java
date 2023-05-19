@@ -1513,6 +1513,10 @@ public class CPDefinitionLinkUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(CPDefinitionLinkPersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile CPDefinitionLinkPersistence _persistence;
 
 }

@@ -443,6 +443,10 @@ public class MDRRuleLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(MDRRuleLocalService service) {
+		_service = service;
+	}
+
 	private static volatile MDRRuleLocalService _service;
 
 }

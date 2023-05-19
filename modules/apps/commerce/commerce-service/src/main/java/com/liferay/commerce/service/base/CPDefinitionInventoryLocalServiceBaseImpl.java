@@ -75,8 +75,6 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -1472,14 +1470,15 @@ public abstract class CPDefinitionInventoryLocalServiceBaseImpl
 			"com.liferay.commerce.model.CPDefinitionInventory",
 			cpDefinitionInventoryLocalService);
 
-		_setLocalServiceUtilService(cpDefinitionInventoryLocalService);
+		CPDefinitionInventoryLocalServiceUtil.setService(
+			cpDefinitionInventoryLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"com.liferay.commerce.model.CPDefinitionInventory");
 
-		_setLocalServiceUtilService(null);
+		CPDefinitionInventoryLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -1522,23 +1521,6 @@ public abstract class CPDefinitionInventoryLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		CPDefinitionInventoryLocalService cpDefinitionInventoryLocalService) {
-
-		try {
-			Field field =
-				CPDefinitionInventoryLocalServiceUtil.class.getDeclaredField(
-					"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, cpDefinitionInventoryLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

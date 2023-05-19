@@ -337,6 +337,12 @@ public class DEDataDefinitionFieldLinkLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(
+		DEDataDefinitionFieldLinkLocalService service) {
+
+		_service = service;
+	}
+
 	private static volatile DEDataDefinitionFieldLinkLocalService _service;
 
 }

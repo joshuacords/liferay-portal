@@ -437,6 +437,10 @@ public class CPFriendlyURLEntryLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(CPFriendlyURLEntryLocalService service) {
+		_service = service;
+	}
+
 	private static volatile CPFriendlyURLEntryLocalService _service;
 
 }

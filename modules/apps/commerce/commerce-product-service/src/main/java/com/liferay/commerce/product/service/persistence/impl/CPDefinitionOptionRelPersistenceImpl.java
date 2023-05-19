@@ -6000,33 +6000,17 @@ public class CPDefinitionOptionRelPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_K",
 			new String[] {Long.class.getName(), String.class.getName()});
 
-		_setCPDefinitionOptionRelUtilPersistence(this);
+		CPDefinitionOptionRelUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setCPDefinitionOptionRelUtilPersistence(null);
+		CPDefinitionOptionRelUtil.setPersistence(null);
 
 		entityCache.removeCache(CPDefinitionOptionRelImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setCPDefinitionOptionRelUtilPersistence(
-		CPDefinitionOptionRelPersistence cpDefinitionOptionRelPersistence) {
-
-		try {
-			Field field = CPDefinitionOptionRelUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, cpDefinitionOptionRelPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

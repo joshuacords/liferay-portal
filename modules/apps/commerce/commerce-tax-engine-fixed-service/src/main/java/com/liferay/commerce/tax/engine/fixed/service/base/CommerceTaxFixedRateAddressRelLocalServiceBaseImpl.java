@@ -51,8 +51,6 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -645,14 +643,15 @@ public abstract class CommerceTaxFixedRateAddressRelLocalServiceBaseImpl
 			"com.liferay.commerce.tax.engine.fixed.model.CommerceTaxFixedRateAddressRel",
 			commerceTaxFixedRateAddressRelLocalService);
 
-		_setLocalServiceUtilService(commerceTaxFixedRateAddressRelLocalService);
+		CommerceTaxFixedRateAddressRelLocalServiceUtil.setService(
+			commerceTaxFixedRateAddressRelLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"com.liferay.commerce.tax.engine.fixed.model.CommerceTaxFixedRateAddressRel");
 
-		_setLocalServiceUtilService(null);
+		CommerceTaxFixedRateAddressRelLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -695,24 +694,6 @@ public abstract class CommerceTaxFixedRateAddressRelLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		CommerceTaxFixedRateAddressRelLocalService
-			commerceTaxFixedRateAddressRelLocalService) {
-
-		try {
-			Field field =
-				CommerceTaxFixedRateAddressRelLocalServiceUtil.class.
-					getDeclaredField("_service");
-
-			field.setAccessible(true);
-
-			field.set(null, commerceTaxFixedRateAddressRelLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

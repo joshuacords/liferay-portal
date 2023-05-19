@@ -317,16 +317,11 @@ public class CommerceWishListModelImpl
 
 	private static final Map<String, Function<CommerceWishList, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CommerceWishList, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommerceWishList, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap<String, Function<CommerceWishList, Object>>();
-		Map<String, BiConsumer<CommerceWishList, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap<String, BiConsumer<CommerceWishList, ?>>();
 
 		attributeGetterFunctions.put(
 			"uuid",
@@ -338,6 +333,109 @@ public class CommerceWishListModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"commerceWishListId",
+			new Function<CommerceWishList, Object>() {
+
+				@Override
+				public Object apply(CommerceWishList commerceWishList) {
+					return commerceWishList.getCommerceWishListId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"groupId",
+			new Function<CommerceWishList, Object>() {
+
+				@Override
+				public Object apply(CommerceWishList commerceWishList) {
+					return commerceWishList.getGroupId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommerceWishList, Object>() {
+
+				@Override
+				public Object apply(CommerceWishList commerceWishList) {
+					return commerceWishList.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommerceWishList, Object>() {
+
+				@Override
+				public Object apply(CommerceWishList commerceWishList) {
+					return commerceWishList.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommerceWishList, Object>() {
+
+				@Override
+				public Object apply(CommerceWishList commerceWishList) {
+					return commerceWishList.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommerceWishList, Object>() {
+
+				@Override
+				public Object apply(CommerceWishList commerceWishList) {
+					return commerceWishList.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommerceWishList, Object>() {
+
+				@Override
+				public Object apply(CommerceWishList commerceWishList) {
+					return commerceWishList.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"name",
+			new Function<CommerceWishList, Object>() {
+
+				@Override
+				public Object apply(CommerceWishList commerceWishList) {
+					return commerceWishList.getName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"defaultWishList",
+			new Function<CommerceWishList, Object>() {
+
+				@Override
+				public Object apply(CommerceWishList commerceWishList) {
+					return commerceWishList.getDefaultWishList();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<CommerceWishList, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommerceWishList, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<CommerceWishList, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"uuid",
 			new BiConsumer<CommerceWishList, Object>() {
@@ -347,16 +445,6 @@ public class CommerceWishListModelImpl
 					CommerceWishList commerceWishList, Object uuidObject) {
 
 					commerceWishList.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commerceWishListId",
-			new Function<CommerceWishList, Object>() {
-
-				@Override
-				public Object apply(CommerceWishList commerceWishList) {
-					return commerceWishList.getCommerceWishListId();
 				}
 
 			});
@@ -374,16 +462,6 @@ public class CommerceWishListModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<CommerceWishList, Object>() {
-
-				@Override
-				public Object apply(CommerceWishList commerceWishList) {
-					return commerceWishList.getGroupId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"groupId",
 			new BiConsumer<CommerceWishList, Object>() {
@@ -393,16 +471,6 @@ public class CommerceWishListModelImpl
 					CommerceWishList commerceWishList, Object groupIdObject) {
 
 					commerceWishList.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommerceWishList, Object>() {
-
-				@Override
-				public Object apply(CommerceWishList commerceWishList) {
-					return commerceWishList.getCompanyId();
 				}
 
 			});
@@ -418,16 +486,6 @@ public class CommerceWishListModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommerceWishList, Object>() {
-
-				@Override
-				public Object apply(CommerceWishList commerceWishList) {
-					return commerceWishList.getUserId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userId",
 			new BiConsumer<CommerceWishList, Object>() {
@@ -440,16 +498,6 @@ public class CommerceWishListModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommerceWishList, Object>() {
-
-				@Override
-				public Object apply(CommerceWishList commerceWishList) {
-					return commerceWishList.getUserName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userName",
 			new BiConsumer<CommerceWishList, Object>() {
@@ -459,16 +507,6 @@ public class CommerceWishListModelImpl
 					CommerceWishList commerceWishList, Object userNameObject) {
 
 					commerceWishList.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommerceWishList, Object>() {
-
-				@Override
-				public Object apply(CommerceWishList commerceWishList) {
-					return commerceWishList.getCreateDate();
 				}
 
 			});
@@ -485,16 +523,6 @@ public class CommerceWishListModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommerceWishList, Object>() {
-
-				@Override
-				public Object apply(CommerceWishList commerceWishList) {
-					return commerceWishList.getModifiedDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			new BiConsumer<CommerceWishList, Object>() {
@@ -508,16 +536,6 @@ public class CommerceWishListModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"name",
-			new Function<CommerceWishList, Object>() {
-
-				@Override
-				public Object apply(CommerceWishList commerceWishList) {
-					return commerceWishList.getName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"name",
 			new BiConsumer<CommerceWishList, Object>() {
@@ -527,16 +545,6 @@ public class CommerceWishListModelImpl
 					CommerceWishList commerceWishList, Object nameObject) {
 
 					commerceWishList.setName((String)nameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"defaultWishList",
-			new Function<CommerceWishList, Object>() {
-
-				@Override
-				public Object apply(CommerceWishList commerceWishList) {
-					return commerceWishList.getDefaultWishList();
 				}
 
 			});
@@ -555,8 +563,6 @@ public class CommerceWishListModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

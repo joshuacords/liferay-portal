@@ -3322,6 +3322,10 @@ public class TasksEntryUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(TasksEntryPersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile TasksEntryPersistence _persistence;
 
 }

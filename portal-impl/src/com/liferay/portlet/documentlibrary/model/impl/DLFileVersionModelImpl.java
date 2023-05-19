@@ -342,146 +342,152 @@ public class DLFileVersionModelImpl
 
 	private static final Map<String, Function<DLFileVersion, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<DLFileVersion, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<DLFileVersion, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<DLFileVersion, Object>>();
-		Map<String, BiConsumer<DLFileVersion, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<DLFileVersion, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", DLFileVersion::getMvccVersion);
+		attributeGetterFunctions.put("uuid", DLFileVersion::getUuid);
+		attributeGetterFunctions.put(
+			"fileVersionId", DLFileVersion::getFileVersionId);
+		attributeGetterFunctions.put("groupId", DLFileVersion::getGroupId);
+		attributeGetterFunctions.put("companyId", DLFileVersion::getCompanyId);
+		attributeGetterFunctions.put("userId", DLFileVersion::getUserId);
+		attributeGetterFunctions.put("userName", DLFileVersion::getUserName);
+		attributeGetterFunctions.put(
+			"createDate", DLFileVersion::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", DLFileVersion::getModifiedDate);
+		attributeGetterFunctions.put(
+			"repositoryId", DLFileVersion::getRepositoryId);
+		attributeGetterFunctions.put("folderId", DLFileVersion::getFolderId);
+		attributeGetterFunctions.put(
+			"fileEntryId", DLFileVersion::getFileEntryId);
+		attributeGetterFunctions.put("treePath", DLFileVersion::getTreePath);
+		attributeGetterFunctions.put("fileName", DLFileVersion::getFileName);
+		attributeGetterFunctions.put("extension", DLFileVersion::getExtension);
+		attributeGetterFunctions.put("mimeType", DLFileVersion::getMimeType);
+		attributeGetterFunctions.put("title", DLFileVersion::getTitle);
+		attributeGetterFunctions.put(
+			"description", DLFileVersion::getDescription);
+		attributeGetterFunctions.put("changeLog", DLFileVersion::getChangeLog);
+		attributeGetterFunctions.put(
+			"extraSettings", DLFileVersion::getExtraSettings);
+		attributeGetterFunctions.put(
+			"fileEntryTypeId", DLFileVersion::getFileEntryTypeId);
+		attributeGetterFunctions.put("version", DLFileVersion::getVersion);
+		attributeGetterFunctions.put("size", DLFileVersion::getSize);
+		attributeGetterFunctions.put("checksum", DLFileVersion::getChecksum);
+		attributeGetterFunctions.put(
+			"lastPublishDate", DLFileVersion::getLastPublishDate);
+		attributeGetterFunctions.put("status", DLFileVersion::getStatus);
+		attributeGetterFunctions.put(
+			"statusByUserId", DLFileVersion::getStatusByUserId);
+		attributeGetterFunctions.put(
+			"statusByUserName", DLFileVersion::getStatusByUserName);
+		attributeGetterFunctions.put(
+			"statusDate", DLFileVersion::getStatusDate);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<DLFileVersion, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<DLFileVersion, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<DLFileVersion, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<DLFileVersion, Long>)DLFileVersion::setMvccVersion);
-		attributeGetterFunctions.put("uuid", DLFileVersion::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<DLFileVersion, String>)DLFileVersion::setUuid);
-		attributeGetterFunctions.put(
-			"fileVersionId", DLFileVersion::getFileVersionId);
 		attributeSetterBiConsumers.put(
 			"fileVersionId",
 			(BiConsumer<DLFileVersion, Long>)DLFileVersion::setFileVersionId);
-		attributeGetterFunctions.put("groupId", DLFileVersion::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<DLFileVersion, Long>)DLFileVersion::setGroupId);
-		attributeGetterFunctions.put("companyId", DLFileVersion::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<DLFileVersion, Long>)DLFileVersion::setCompanyId);
-		attributeGetterFunctions.put("userId", DLFileVersion::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<DLFileVersion, Long>)DLFileVersion::setUserId);
-		attributeGetterFunctions.put("userName", DLFileVersion::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<DLFileVersion, String>)DLFileVersion::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", DLFileVersion::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<DLFileVersion, Date>)DLFileVersion::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", DLFileVersion::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<DLFileVersion, Date>)DLFileVersion::setModifiedDate);
-		attributeGetterFunctions.put(
-			"repositoryId", DLFileVersion::getRepositoryId);
 		attributeSetterBiConsumers.put(
 			"repositoryId",
 			(BiConsumer<DLFileVersion, Long>)DLFileVersion::setRepositoryId);
-		attributeGetterFunctions.put("folderId", DLFileVersion::getFolderId);
 		attributeSetterBiConsumers.put(
 			"folderId",
 			(BiConsumer<DLFileVersion, Long>)DLFileVersion::setFolderId);
-		attributeGetterFunctions.put(
-			"fileEntryId", DLFileVersion::getFileEntryId);
 		attributeSetterBiConsumers.put(
 			"fileEntryId",
 			(BiConsumer<DLFileVersion, Long>)DLFileVersion::setFileEntryId);
-		attributeGetterFunctions.put("treePath", DLFileVersion::getTreePath);
 		attributeSetterBiConsumers.put(
 			"treePath",
 			(BiConsumer<DLFileVersion, String>)DLFileVersion::setTreePath);
-		attributeGetterFunctions.put("fileName", DLFileVersion::getFileName);
 		attributeSetterBiConsumers.put(
 			"fileName",
 			(BiConsumer<DLFileVersion, String>)DLFileVersion::setFileName);
-		attributeGetterFunctions.put("extension", DLFileVersion::getExtension);
 		attributeSetterBiConsumers.put(
 			"extension",
 			(BiConsumer<DLFileVersion, String>)DLFileVersion::setExtension);
-		attributeGetterFunctions.put("mimeType", DLFileVersion::getMimeType);
 		attributeSetterBiConsumers.put(
 			"mimeType",
 			(BiConsumer<DLFileVersion, String>)DLFileVersion::setMimeType);
-		attributeGetterFunctions.put("title", DLFileVersion::getTitle);
 		attributeSetterBiConsumers.put(
 			"title",
 			(BiConsumer<DLFileVersion, String>)DLFileVersion::setTitle);
-		attributeGetterFunctions.put(
-			"description", DLFileVersion::getDescription);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<DLFileVersion, String>)DLFileVersion::setDescription);
-		attributeGetterFunctions.put("changeLog", DLFileVersion::getChangeLog);
 		attributeSetterBiConsumers.put(
 			"changeLog",
 			(BiConsumer<DLFileVersion, String>)DLFileVersion::setChangeLog);
-		attributeGetterFunctions.put(
-			"extraSettings", DLFileVersion::getExtraSettings);
 		attributeSetterBiConsumers.put(
 			"extraSettings",
 			(BiConsumer<DLFileVersion, String>)DLFileVersion::setExtraSettings);
-		attributeGetterFunctions.put(
-			"fileEntryTypeId", DLFileVersion::getFileEntryTypeId);
 		attributeSetterBiConsumers.put(
 			"fileEntryTypeId",
 			(BiConsumer<DLFileVersion, Long>)DLFileVersion::setFileEntryTypeId);
-		attributeGetterFunctions.put("version", DLFileVersion::getVersion);
 		attributeSetterBiConsumers.put(
 			"version",
 			(BiConsumer<DLFileVersion, String>)DLFileVersion::setVersion);
-		attributeGetterFunctions.put("size", DLFileVersion::getSize);
 		attributeSetterBiConsumers.put(
 			"size", (BiConsumer<DLFileVersion, Long>)DLFileVersion::setSize);
-		attributeGetterFunctions.put("checksum", DLFileVersion::getChecksum);
 		attributeSetterBiConsumers.put(
 			"checksum",
 			(BiConsumer<DLFileVersion, String>)DLFileVersion::setChecksum);
-		attributeGetterFunctions.put(
-			"lastPublishDate", DLFileVersion::getLastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<DLFileVersion, Date>)DLFileVersion::setLastPublishDate);
-		attributeGetterFunctions.put("status", DLFileVersion::getStatus);
 		attributeSetterBiConsumers.put(
 			"status",
 			(BiConsumer<DLFileVersion, Integer>)DLFileVersion::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", DLFileVersion::getStatusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
 			(BiConsumer<DLFileVersion, Long>)DLFileVersion::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", DLFileVersion::getStatusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
 			(BiConsumer<DLFileVersion, String>)
 				DLFileVersion::setStatusByUserName);
-		attributeGetterFunctions.put(
-			"statusDate", DLFileVersion::getStatusDate);
 		attributeSetterBiConsumers.put(
 			"statusDate",
 			(BiConsumer<DLFileVersion, Date>)DLFileVersion::setStatusDate);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

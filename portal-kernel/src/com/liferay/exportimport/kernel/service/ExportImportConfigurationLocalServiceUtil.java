@@ -464,6 +464,12 @@ public class ExportImportConfigurationLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(
+		ExportImportConfigurationLocalService service) {
+
+		_service = service;
+	}
+
 	private static volatile ExportImportConfigurationLocalService _service;
 
 }

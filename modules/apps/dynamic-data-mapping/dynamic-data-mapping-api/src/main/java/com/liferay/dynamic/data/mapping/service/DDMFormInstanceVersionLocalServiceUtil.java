@@ -343,6 +343,10 @@ public class DDMFormInstanceVersionLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(DDMFormInstanceVersionLocalService service) {
+		_service = service;
+	}
+
 	private static volatile DDMFormInstanceVersionLocalService _service;
 
 }

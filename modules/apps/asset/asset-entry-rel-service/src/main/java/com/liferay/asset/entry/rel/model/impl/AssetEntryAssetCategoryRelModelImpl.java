@@ -207,54 +207,60 @@ public class AssetEntryAssetCategoryRelModelImpl
 	private static final Map
 		<String, Function<AssetEntryAssetCategoryRel, Object>>
 			_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<AssetEntryAssetCategoryRel, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<AssetEntryAssetCategoryRel, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<AssetEntryAssetCategoryRel, Object>>();
+
+		attributeGetterFunctions.put(
+			"mvccVersion", AssetEntryAssetCategoryRel::getMvccVersion);
+		attributeGetterFunctions.put(
+			"assetEntryAssetCategoryRelId",
+			AssetEntryAssetCategoryRel::getAssetEntryAssetCategoryRelId);
+		attributeGetterFunctions.put(
+			"assetEntryId", AssetEntryAssetCategoryRel::getAssetEntryId);
+		attributeGetterFunctions.put(
+			"assetCategoryId", AssetEntryAssetCategoryRel::getAssetCategoryId);
+		attributeGetterFunctions.put(
+			"priority", AssetEntryAssetCategoryRel::getPriority);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<AssetEntryAssetCategoryRel, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<AssetEntryAssetCategoryRel, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<AssetEntryAssetCategoryRel, ?>>();
 
-		attributeGetterFunctions.put(
-			"mvccVersion", AssetEntryAssetCategoryRel::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<AssetEntryAssetCategoryRel, Long>)
 				AssetEntryAssetCategoryRel::setMvccVersion);
-		attributeGetterFunctions.put(
-			"assetEntryAssetCategoryRelId",
-			AssetEntryAssetCategoryRel::getAssetEntryAssetCategoryRelId);
 		attributeSetterBiConsumers.put(
 			"assetEntryAssetCategoryRelId",
 			(BiConsumer<AssetEntryAssetCategoryRel, Long>)
 				AssetEntryAssetCategoryRel::setAssetEntryAssetCategoryRelId);
-		attributeGetterFunctions.put(
-			"assetEntryId", AssetEntryAssetCategoryRel::getAssetEntryId);
 		attributeSetterBiConsumers.put(
 			"assetEntryId",
 			(BiConsumer<AssetEntryAssetCategoryRel, Long>)
 				AssetEntryAssetCategoryRel::setAssetEntryId);
-		attributeGetterFunctions.put(
-			"assetCategoryId", AssetEntryAssetCategoryRel::getAssetCategoryId);
 		attributeSetterBiConsumers.put(
 			"assetCategoryId",
 			(BiConsumer<AssetEntryAssetCategoryRel, Long>)
 				AssetEntryAssetCategoryRel::setAssetCategoryId);
-		attributeGetterFunctions.put(
-			"priority", AssetEntryAssetCategoryRel::getPriority);
 		attributeSetterBiConsumers.put(
 			"priority",
 			(BiConsumer<AssetEntryAssetCategoryRel, Integer>)
 				AssetEntryAssetCategoryRel::setPriority);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

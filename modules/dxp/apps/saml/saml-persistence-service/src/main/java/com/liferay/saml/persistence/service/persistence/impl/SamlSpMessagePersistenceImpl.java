@@ -44,7 +44,6 @@ import com.liferay.saml.persistence.service.persistence.SamlSpMessageUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.sql.Timestamp;
@@ -1601,33 +1600,17 @@ public class SamlSpMessagePersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBySIEI_SIRK",
 			new String[] {String.class.getName(), String.class.getName()});
 
-		_setSamlSpMessageUtilPersistence(this);
+		SamlSpMessageUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setSamlSpMessageUtilPersistence(null);
+		SamlSpMessageUtil.setPersistence(null);
 
 		entityCache.removeCache(SamlSpMessageImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setSamlSpMessageUtilPersistence(
-		SamlSpMessagePersistence samlSpMessagePersistence) {
-
-		try {
-			Field field = SamlSpMessageUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, samlSpMessagePersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

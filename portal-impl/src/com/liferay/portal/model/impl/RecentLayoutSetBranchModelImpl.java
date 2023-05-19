@@ -226,65 +226,71 @@ public class RecentLayoutSetBranchModelImpl
 
 	private static final Map<String, Function<RecentLayoutSetBranch, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<RecentLayoutSetBranch, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<RecentLayoutSetBranch, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<RecentLayoutSetBranch, Object>>();
+
+		attributeGetterFunctions.put(
+			"mvccVersion", RecentLayoutSetBranch::getMvccVersion);
+		attributeGetterFunctions.put(
+			"recentLayoutSetBranchId",
+			RecentLayoutSetBranch::getRecentLayoutSetBranchId);
+		attributeGetterFunctions.put(
+			"groupId", RecentLayoutSetBranch::getGroupId);
+		attributeGetterFunctions.put(
+			"companyId", RecentLayoutSetBranch::getCompanyId);
+		attributeGetterFunctions.put(
+			"userId", RecentLayoutSetBranch::getUserId);
+		attributeGetterFunctions.put(
+			"layoutSetBranchId", RecentLayoutSetBranch::getLayoutSetBranchId);
+		attributeGetterFunctions.put(
+			"layoutSetId", RecentLayoutSetBranch::getLayoutSetId);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<RecentLayoutSetBranch, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<RecentLayoutSetBranch, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<RecentLayoutSetBranch, ?>>();
 
-		attributeGetterFunctions.put(
-			"mvccVersion", RecentLayoutSetBranch::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<RecentLayoutSetBranch, Long>)
 				RecentLayoutSetBranch::setMvccVersion);
-		attributeGetterFunctions.put(
-			"recentLayoutSetBranchId",
-			RecentLayoutSetBranch::getRecentLayoutSetBranchId);
 		attributeSetterBiConsumers.put(
 			"recentLayoutSetBranchId",
 			(BiConsumer<RecentLayoutSetBranch, Long>)
 				RecentLayoutSetBranch::setRecentLayoutSetBranchId);
-		attributeGetterFunctions.put(
-			"groupId", RecentLayoutSetBranch::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<RecentLayoutSetBranch, Long>)
 				RecentLayoutSetBranch::setGroupId);
-		attributeGetterFunctions.put(
-			"companyId", RecentLayoutSetBranch::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<RecentLayoutSetBranch, Long>)
 				RecentLayoutSetBranch::setCompanyId);
-		attributeGetterFunctions.put(
-			"userId", RecentLayoutSetBranch::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<RecentLayoutSetBranch, Long>)
 				RecentLayoutSetBranch::setUserId);
-		attributeGetterFunctions.put(
-			"layoutSetBranchId", RecentLayoutSetBranch::getLayoutSetBranchId);
 		attributeSetterBiConsumers.put(
 			"layoutSetBranchId",
 			(BiConsumer<RecentLayoutSetBranch, Long>)
 				RecentLayoutSetBranch::setLayoutSetBranchId);
-		attributeGetterFunctions.put(
-			"layoutSetId", RecentLayoutSetBranch::getLayoutSetId);
 		attributeSetterBiConsumers.put(
 			"layoutSetId",
 			(BiConsumer<RecentLayoutSetBranch, Long>)
 				RecentLayoutSetBranch::setLayoutSetId);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

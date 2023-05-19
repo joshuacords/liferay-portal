@@ -32,8 +32,6 @@ import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiServic
 import com.liferay.portal.kernel.service.BaseServiceImpl;
 import com.liferay.portal.kernel.util.PortalUtil;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 import org.osgi.service.component.annotations.Deactivate;
@@ -61,7 +59,7 @@ public abstract class DDLRecordVersionServiceBaseImpl
 	 */
 	@Deactivate
 	protected void deactivate() {
-		_setServiceUtilService(null);
+		DDLRecordVersionServiceUtil.setService(null);
 	}
 
 	@Override
@@ -75,7 +73,7 @@ public abstract class DDLRecordVersionServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		ddlRecordVersionService = (DDLRecordVersionService)aopProxy;
 
-		_setServiceUtilService(ddlRecordVersionService);
+		DDLRecordVersionServiceUtil.setService(ddlRecordVersionService);
 	}
 
 	/**
@@ -117,22 +115,6 @@ public abstract class DDLRecordVersionServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setServiceUtilService(
-		DDLRecordVersionService ddlRecordVersionService) {
-
-		try {
-			Field field = DDLRecordVersionServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, ddlRecordVersionService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

@@ -240,136 +240,142 @@ public class SamlSpIdpConnectionModelImpl
 
 	private static final Map<String, Function<SamlSpIdpConnection, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<SamlSpIdpConnection, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<SamlSpIdpConnection, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<SamlSpIdpConnection, Object>>();
-		Map<String, BiConsumer<SamlSpIdpConnection, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap<String, BiConsumer<SamlSpIdpConnection, ?>>();
 
 		attributeGetterFunctions.put(
 			"samlSpIdpConnectionId",
 			SamlSpIdpConnection::getSamlSpIdpConnectionId);
+		attributeGetterFunctions.put(
+			"companyId", SamlSpIdpConnection::getCompanyId);
+		attributeGetterFunctions.put("userId", SamlSpIdpConnection::getUserId);
+		attributeGetterFunctions.put(
+			"userName", SamlSpIdpConnection::getUserName);
+		attributeGetterFunctions.put(
+			"createDate", SamlSpIdpConnection::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", SamlSpIdpConnection::getModifiedDate);
+		attributeGetterFunctions.put(
+			"samlIdpEntityId", SamlSpIdpConnection::getSamlIdpEntityId);
+		attributeGetterFunctions.put(
+			"assertionSignatureRequired",
+			SamlSpIdpConnection::getAssertionSignatureRequired);
+		attributeGetterFunctions.put(
+			"clockSkew", SamlSpIdpConnection::getClockSkew);
+		attributeGetterFunctions.put(
+			"enabled", SamlSpIdpConnection::getEnabled);
+		attributeGetterFunctions.put(
+			"forceAuthn", SamlSpIdpConnection::getForceAuthn);
+		attributeGetterFunctions.put(
+			"ldapImportEnabled", SamlSpIdpConnection::getLdapImportEnabled);
+		attributeGetterFunctions.put(
+			"metadataUrl", SamlSpIdpConnection::getMetadataUrl);
+		attributeGetterFunctions.put(
+			"metadataXml", SamlSpIdpConnection::getMetadataXml);
+		attributeGetterFunctions.put(
+			"metadataUpdatedDate", SamlSpIdpConnection::getMetadataUpdatedDate);
+		attributeGetterFunctions.put("name", SamlSpIdpConnection::getName);
+		attributeGetterFunctions.put(
+			"nameIdFormat", SamlSpIdpConnection::getNameIdFormat);
+		attributeGetterFunctions.put(
+			"signAuthnRequest", SamlSpIdpConnection::getSignAuthnRequest);
+		attributeGetterFunctions.put(
+			"userAttributeMappings",
+			SamlSpIdpConnection::getUserAttributeMappings);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<SamlSpIdpConnection, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<SamlSpIdpConnection, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<SamlSpIdpConnection, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"samlSpIdpConnectionId",
 			(BiConsumer<SamlSpIdpConnection, Long>)
 				SamlSpIdpConnection::setSamlSpIdpConnectionId);
-		attributeGetterFunctions.put(
-			"companyId", SamlSpIdpConnection::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<SamlSpIdpConnection, Long>)
 				SamlSpIdpConnection::setCompanyId);
-		attributeGetterFunctions.put("userId", SamlSpIdpConnection::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<SamlSpIdpConnection, Long>)
 				SamlSpIdpConnection::setUserId);
-		attributeGetterFunctions.put(
-			"userName", SamlSpIdpConnection::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<SamlSpIdpConnection, String>)
 				SamlSpIdpConnection::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", SamlSpIdpConnection::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<SamlSpIdpConnection, Date>)
 				SamlSpIdpConnection::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", SamlSpIdpConnection::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<SamlSpIdpConnection, Date>)
 				SamlSpIdpConnection::setModifiedDate);
-		attributeGetterFunctions.put(
-			"samlIdpEntityId", SamlSpIdpConnection::getSamlIdpEntityId);
 		attributeSetterBiConsumers.put(
 			"samlIdpEntityId",
 			(BiConsumer<SamlSpIdpConnection, String>)
 				SamlSpIdpConnection::setSamlIdpEntityId);
-		attributeGetterFunctions.put(
-			"assertionSignatureRequired",
-			SamlSpIdpConnection::getAssertionSignatureRequired);
 		attributeSetterBiConsumers.put(
 			"assertionSignatureRequired",
 			(BiConsumer<SamlSpIdpConnection, Boolean>)
 				SamlSpIdpConnection::setAssertionSignatureRequired);
-		attributeGetterFunctions.put(
-			"clockSkew", SamlSpIdpConnection::getClockSkew);
 		attributeSetterBiConsumers.put(
 			"clockSkew",
 			(BiConsumer<SamlSpIdpConnection, Long>)
 				SamlSpIdpConnection::setClockSkew);
-		attributeGetterFunctions.put(
-			"enabled", SamlSpIdpConnection::getEnabled);
 		attributeSetterBiConsumers.put(
 			"enabled",
 			(BiConsumer<SamlSpIdpConnection, Boolean>)
 				SamlSpIdpConnection::setEnabled);
-		attributeGetterFunctions.put(
-			"forceAuthn", SamlSpIdpConnection::getForceAuthn);
 		attributeSetterBiConsumers.put(
 			"forceAuthn",
 			(BiConsumer<SamlSpIdpConnection, Boolean>)
 				SamlSpIdpConnection::setForceAuthn);
-		attributeGetterFunctions.put(
-			"ldapImportEnabled", SamlSpIdpConnection::getLdapImportEnabled);
 		attributeSetterBiConsumers.put(
 			"ldapImportEnabled",
 			(BiConsumer<SamlSpIdpConnection, Boolean>)
 				SamlSpIdpConnection::setLdapImportEnabled);
-		attributeGetterFunctions.put(
-			"metadataUrl", SamlSpIdpConnection::getMetadataUrl);
 		attributeSetterBiConsumers.put(
 			"metadataUrl",
 			(BiConsumer<SamlSpIdpConnection, String>)
 				SamlSpIdpConnection::setMetadataUrl);
-		attributeGetterFunctions.put(
-			"metadataXml", SamlSpIdpConnection::getMetadataXml);
 		attributeSetterBiConsumers.put(
 			"metadataXml",
 			(BiConsumer<SamlSpIdpConnection, String>)
 				SamlSpIdpConnection::setMetadataXml);
-		attributeGetterFunctions.put(
-			"metadataUpdatedDate", SamlSpIdpConnection::getMetadataUpdatedDate);
 		attributeSetterBiConsumers.put(
 			"metadataUpdatedDate",
 			(BiConsumer<SamlSpIdpConnection, Date>)
 				SamlSpIdpConnection::setMetadataUpdatedDate);
-		attributeGetterFunctions.put("name", SamlSpIdpConnection::getName);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<SamlSpIdpConnection, String>)
 				SamlSpIdpConnection::setName);
-		attributeGetterFunctions.put(
-			"nameIdFormat", SamlSpIdpConnection::getNameIdFormat);
 		attributeSetterBiConsumers.put(
 			"nameIdFormat",
 			(BiConsumer<SamlSpIdpConnection, String>)
 				SamlSpIdpConnection::setNameIdFormat);
-		attributeGetterFunctions.put(
-			"signAuthnRequest", SamlSpIdpConnection::getSignAuthnRequest);
 		attributeSetterBiConsumers.put(
 			"signAuthnRequest",
 			(BiConsumer<SamlSpIdpConnection, Boolean>)
 				SamlSpIdpConnection::setSignAuthnRequest);
-		attributeGetterFunctions.put(
-			"userAttributeMappings",
-			SamlSpIdpConnection::getUserAttributeMappings);
 		attributeSetterBiConsumers.put(
 			"userAttributeMappings",
 			(BiConsumer<SamlSpIdpConnection, String>)
 				SamlSpIdpConnection::setUserAttributeMappings);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

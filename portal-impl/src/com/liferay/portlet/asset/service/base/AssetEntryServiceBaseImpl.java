@@ -44,8 +44,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.social.kernel.service.persistence.SocialActivityCounterFinder;
 import com.liferay.social.kernel.service.persistence.SocialActivityCounterPersistence;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 /**
@@ -690,11 +688,11 @@ public abstract class AssetEntryServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
-		_setServiceUtilService(assetEntryService);
+		AssetEntryServiceUtil.setService(assetEntryService);
 	}
 
 	public void destroy() {
-		_setServiceUtilService(null);
+		AssetEntryServiceUtil.setService(null);
 	}
 
 	/**
@@ -736,20 +734,6 @@ public abstract class AssetEntryServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setServiceUtilService(AssetEntryService assetEntryService) {
-		try {
-			Field field = AssetEntryServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, assetEntryService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

@@ -318,6 +318,10 @@ public class StatusLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(StatusLocalService service) {
+		_service = service;
+	}
+
 	private static volatile StatusLocalService _service;
 
 }

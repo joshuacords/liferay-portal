@@ -29,8 +29,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.screens.service.ScreensJournalArticleService;
 import com.liferay.screens.service.ScreensJournalArticleServiceUtil;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 import org.osgi.service.component.annotations.Deactivate;
@@ -59,7 +57,7 @@ public abstract class ScreensJournalArticleServiceBaseImpl
 	 */
 	@Deactivate
 	protected void deactivate() {
-		_setServiceUtilService(null);
+		ScreensJournalArticleServiceUtil.setService(null);
 	}
 
 	@Override
@@ -73,7 +71,8 @@ public abstract class ScreensJournalArticleServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		screensJournalArticleService = (ScreensJournalArticleService)aopProxy;
 
-		_setServiceUtilService(screensJournalArticleService);
+		ScreensJournalArticleServiceUtil.setService(
+			screensJournalArticleService);
 	}
 
 	/**
@@ -107,23 +106,6 @@ public abstract class ScreensJournalArticleServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setServiceUtilService(
-		ScreensJournalArticleService screensJournalArticleService) {
-
-		try {
-			Field field =
-				ScreensJournalArticleServiceUtil.class.getDeclaredField(
-					"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, screensJournalArticleService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

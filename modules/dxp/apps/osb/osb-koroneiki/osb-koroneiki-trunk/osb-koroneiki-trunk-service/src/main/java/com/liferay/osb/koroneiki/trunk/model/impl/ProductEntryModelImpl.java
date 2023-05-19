@@ -270,55 +270,61 @@ public class ProductEntryModelImpl
 
 	private static final Map<String, Function<ProductEntry, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<ProductEntry, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<ProductEntry, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<ProductEntry, Object>>();
-		Map<String, BiConsumer<ProductEntry, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<ProductEntry, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", ProductEntry::getMvccVersion);
-		attributeSetterBiConsumers.put(
-			"mvccVersion",
-			(BiConsumer<ProductEntry, Long>)ProductEntry::setMvccVersion);
 		attributeGetterFunctions.put("uuid", ProductEntry::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<ProductEntry, String>)ProductEntry::setUuid);
 		attributeGetterFunctions.put(
 			"productEntryId", ProductEntry::getProductEntryId);
-		attributeSetterBiConsumers.put(
-			"productEntryId",
-			(BiConsumer<ProductEntry, Long>)ProductEntry::setProductEntryId);
 		attributeGetterFunctions.put("companyId", ProductEntry::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId",
-			(BiConsumer<ProductEntry, Long>)ProductEntry::setCompanyId);
 		attributeGetterFunctions.put("userId", ProductEntry::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<ProductEntry, Long>)ProductEntry::setUserId);
 		attributeGetterFunctions.put("createDate", ProductEntry::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<ProductEntry, Date>)ProductEntry::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", ProductEntry::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<ProductEntry, Date>)ProductEntry::setModifiedDate);
 		attributeGetterFunctions.put(
 			"productEntryKey", ProductEntry::getProductEntryKey);
-		attributeSetterBiConsumers.put(
-			"productEntryKey",
-			(BiConsumer<ProductEntry, String>)ProductEntry::setProductEntryKey);
 		attributeGetterFunctions.put("name", ProductEntry::getName);
-		attributeSetterBiConsumers.put(
-			"name", (BiConsumer<ProductEntry, String>)ProductEntry::setName);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<ProductEntry, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<ProductEntry, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<ProductEntry, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"mvccVersion",
+			(BiConsumer<ProductEntry, Long>)ProductEntry::setMvccVersion);
+		attributeSetterBiConsumers.put(
+			"uuid", (BiConsumer<ProductEntry, String>)ProductEntry::setUuid);
+		attributeSetterBiConsumers.put(
+			"productEntryId",
+			(BiConsumer<ProductEntry, Long>)ProductEntry::setProductEntryId);
+		attributeSetterBiConsumers.put(
+			"companyId",
+			(BiConsumer<ProductEntry, Long>)ProductEntry::setCompanyId);
+		attributeSetterBiConsumers.put(
+			"userId", (BiConsumer<ProductEntry, Long>)ProductEntry::setUserId);
+		attributeSetterBiConsumers.put(
+			"createDate",
+			(BiConsumer<ProductEntry, Date>)ProductEntry::setCreateDate);
+		attributeSetterBiConsumers.put(
+			"modifiedDate",
+			(BiConsumer<ProductEntry, Date>)ProductEntry::setModifiedDate);
+		attributeSetterBiConsumers.put(
+			"productEntryKey",
+			(BiConsumer<ProductEntry, String>)ProductEntry::setProductEntryKey);
+		attributeSetterBiConsumers.put(
+			"name", (BiConsumer<ProductEntry, String>)ProductEntry::setName);
+
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

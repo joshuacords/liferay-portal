@@ -188,6 +188,10 @@ public class CommercePricingClassServiceUtil {
 		return _service;
 	}
 
+	public static void setService(CommercePricingClassService service) {
+		_service = service;
+	}
+
 	private static volatile CommercePricingClassService _service;
 
 }

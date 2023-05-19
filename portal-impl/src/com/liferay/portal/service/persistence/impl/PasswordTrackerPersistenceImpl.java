@@ -44,7 +44,6 @@ import com.liferay.portal.model.impl.PasswordTrackerModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
@@ -1229,33 +1228,17 @@ public class PasswordTrackerPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByUserId",
 			new String[] {Long.class.getName()});
 
-		_setPasswordTrackerUtilPersistence(this);
+		PasswordTrackerUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setPasswordTrackerUtilPersistence(null);
+		PasswordTrackerUtil.setPersistence(null);
 
 		EntityCacheUtil.removeCache(PasswordTrackerImpl.class.getName());
 
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setPasswordTrackerUtilPersistence(
-		PasswordTrackerPersistence passwordTrackerPersistence) {
-
-		try {
-			Field field = PasswordTrackerUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, passwordTrackerPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	private static final String _SQL_SELECT_PASSWORDTRACKER =

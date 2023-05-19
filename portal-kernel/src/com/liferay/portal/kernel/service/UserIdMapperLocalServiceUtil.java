@@ -305,6 +305,10 @@ public class UserIdMapperLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(UserIdMapperLocalService service) {
+		_service = service;
+	}
+
 	private static volatile UserIdMapperLocalService _service;
 
 }

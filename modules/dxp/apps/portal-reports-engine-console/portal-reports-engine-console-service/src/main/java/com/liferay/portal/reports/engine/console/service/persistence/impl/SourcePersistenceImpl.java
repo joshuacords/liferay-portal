@@ -50,7 +50,6 @@ import com.liferay.portal.reports.engine.console.service.persistence.impl.consta
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
@@ -3658,33 +3657,18 @@ public class SourcePersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
 			new String[] {Long.class.getName()});
 
-		_setSourceUtilPersistence(this);
+		SourceUtil.setPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
-		_setSourceUtilPersistence(null);
+		SourceUtil.setPersistence(null);
 
 		entityCache.removeCache(SourceImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setSourceUtilPersistence(
-		SourcePersistence sourcePersistence) {
-
-		try {
-			Field field = SourceUtil.class.getDeclaredField("_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, sourcePersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@Override

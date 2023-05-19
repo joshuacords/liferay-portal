@@ -227,60 +227,66 @@ public class OAuth2ScopeGrantModelImpl
 
 	private static final Map<String, Function<OAuth2ScopeGrant, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<OAuth2ScopeGrant, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<OAuth2ScopeGrant, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap<String, Function<OAuth2ScopeGrant, Object>>();
+
+		attributeGetterFunctions.put(
+			"oAuth2ScopeGrantId", OAuth2ScopeGrant::getOAuth2ScopeGrantId);
+		attributeGetterFunctions.put(
+			"companyId", OAuth2ScopeGrant::getCompanyId);
+		attributeGetterFunctions.put(
+			"oAuth2ApplicationScopeAliasesId",
+			OAuth2ScopeGrant::getOAuth2ApplicationScopeAliasesId);
+		attributeGetterFunctions.put(
+			"applicationName", OAuth2ScopeGrant::getApplicationName);
+		attributeGetterFunctions.put(
+			"bundleSymbolicName", OAuth2ScopeGrant::getBundleSymbolicName);
+		attributeGetterFunctions.put("scope", OAuth2ScopeGrant::getScope);
+		attributeGetterFunctions.put(
+			"scopeAliases", OAuth2ScopeGrant::getScopeAliases);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<OAuth2ScopeGrant, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<OAuth2ScopeGrant, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<OAuth2ScopeGrant, ?>>();
 
-		attributeGetterFunctions.put(
-			"oAuth2ScopeGrantId", OAuth2ScopeGrant::getOAuth2ScopeGrantId);
 		attributeSetterBiConsumers.put(
 			"oAuth2ScopeGrantId",
 			(BiConsumer<OAuth2ScopeGrant, Long>)
 				OAuth2ScopeGrant::setOAuth2ScopeGrantId);
-		attributeGetterFunctions.put(
-			"companyId", OAuth2ScopeGrant::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<OAuth2ScopeGrant, Long>)OAuth2ScopeGrant::setCompanyId);
-		attributeGetterFunctions.put(
-			"oAuth2ApplicationScopeAliasesId",
-			OAuth2ScopeGrant::getOAuth2ApplicationScopeAliasesId);
 		attributeSetterBiConsumers.put(
 			"oAuth2ApplicationScopeAliasesId",
 			(BiConsumer<OAuth2ScopeGrant, Long>)
 				OAuth2ScopeGrant::setOAuth2ApplicationScopeAliasesId);
-		attributeGetterFunctions.put(
-			"applicationName", OAuth2ScopeGrant::getApplicationName);
 		attributeSetterBiConsumers.put(
 			"applicationName",
 			(BiConsumer<OAuth2ScopeGrant, String>)
 				OAuth2ScopeGrant::setApplicationName);
-		attributeGetterFunctions.put(
-			"bundleSymbolicName", OAuth2ScopeGrant::getBundleSymbolicName);
 		attributeSetterBiConsumers.put(
 			"bundleSymbolicName",
 			(BiConsumer<OAuth2ScopeGrant, String>)
 				OAuth2ScopeGrant::setBundleSymbolicName);
-		attributeGetterFunctions.put("scope", OAuth2ScopeGrant::getScope);
 		attributeSetterBiConsumers.put(
 			"scope",
 			(BiConsumer<OAuth2ScopeGrant, String>)OAuth2ScopeGrant::setScope);
-		attributeGetterFunctions.put(
-			"scopeAliases", OAuth2ScopeGrant::getScopeAliases);
 		attributeSetterBiConsumers.put(
 			"scopeAliases",
 			(BiConsumer<OAuth2ScopeGrant, String>)
 				OAuth2ScopeGrant::setScopeAliases);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

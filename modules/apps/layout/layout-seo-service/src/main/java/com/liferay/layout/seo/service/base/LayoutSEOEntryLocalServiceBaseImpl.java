@@ -52,8 +52,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -496,7 +494,7 @@ public abstract class LayoutSEOEntryLocalServiceBaseImpl
 
 	@Deactivate
 	protected void deactivate() {
-		_setLocalServiceUtilService(null);
+		LayoutSEOEntryLocalServiceUtil.setService(null);
 	}
 
 	@Override
@@ -511,7 +509,7 @@ public abstract class LayoutSEOEntryLocalServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		layoutSEOEntryLocalService = (LayoutSEOEntryLocalService)aopProxy;
 
-		_setLocalServiceUtilService(layoutSEOEntryLocalService);
+		LayoutSEOEntryLocalServiceUtil.setService(layoutSEOEntryLocalService);
 	}
 
 	/**
@@ -553,22 +551,6 @@ public abstract class LayoutSEOEntryLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		LayoutSEOEntryLocalService layoutSEOEntryLocalService) {
-
-		try {
-			Field field = LayoutSEOEntryLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, layoutSEOEntryLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

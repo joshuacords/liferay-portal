@@ -661,6 +661,12 @@ public class CommerceAccountUserRelUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(
+		CommerceAccountUserRelPersistence persistence) {
+
+		_persistence = persistence;
+	}
+
 	private static volatile CommerceAccountUserRelPersistence _persistence;
 
 }

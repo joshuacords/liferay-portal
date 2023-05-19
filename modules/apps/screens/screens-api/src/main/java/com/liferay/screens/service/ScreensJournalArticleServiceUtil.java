@@ -72,6 +72,10 @@ public class ScreensJournalArticleServiceUtil {
 		return _service;
 	}
 
+	public static void setService(ScreensJournalArticleService service) {
+		_service = service;
+	}
+
 	private static volatile ScreensJournalArticleService _service;
 
 }

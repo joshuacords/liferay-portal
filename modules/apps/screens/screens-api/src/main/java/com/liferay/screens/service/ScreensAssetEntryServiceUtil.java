@@ -80,6 +80,10 @@ public class ScreensAssetEntryServiceUtil {
 		return _service;
 	}
 
+	public static void setService(ScreensAssetEntryService service) {
+		_service = service;
+	}
+
 	private static volatile ScreensAssetEntryService _service;
 
 }

@@ -881,6 +881,10 @@ public class CommercePriceEntryLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(CommercePriceEntryLocalService service) {
+		_service = service;
+	}
+
 	private static volatile CommercePriceEntryLocalService _service;
 
 }

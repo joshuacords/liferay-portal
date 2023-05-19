@@ -869,6 +869,10 @@ public class MBStatsUserUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(MBStatsUserPersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile MBStatsUserPersistence _persistence;
 
 }

@@ -35,8 +35,6 @@ import com.liferay.portal.reports.engine.console.service.persistence.EntryPersis
 import com.liferay.portal.reports.engine.console.service.persistence.SourceFinder;
 import com.liferay.portal.reports.engine.console.service.persistence.SourcePersistence;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 import org.osgi.service.component.annotations.Deactivate;
@@ -64,7 +62,7 @@ public abstract class SourceServiceBaseImpl
 	 */
 	@Deactivate
 	protected void deactivate() {
-		_setServiceUtilService(null);
+		SourceServiceUtil.setService(null);
 	}
 
 	@Override
@@ -78,7 +76,7 @@ public abstract class SourceServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		sourceService = (SourceService)aopProxy;
 
-		_setServiceUtilService(sourceService);
+		SourceServiceUtil.setService(sourceService);
 	}
 
 	/**
@@ -120,19 +118,6 @@ public abstract class SourceServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setServiceUtilService(SourceService sourceService) {
-		try {
-			Field field = SourceServiceUtil.class.getDeclaredField("_service");
-
-			field.setAccessible(true);
-
-			field.set(null, sourceService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

@@ -41,7 +41,6 @@ import com.liferay.portal.model.impl.ResourceBlockPermissionModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.List;
@@ -2127,11 +2126,11 @@ public class ResourceBlockPermissionPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByR_R",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
-		_setResourceBlockPermissionUtilPersistence(this);
+		ResourceBlockPermissionUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setResourceBlockPermissionUtilPersistence(null);
+		ResourceBlockPermissionUtil.setPersistence(null);
 
 		EntityCacheUtil.removeCache(
 			ResourceBlockPermissionImpl.class.getName());
@@ -2139,22 +2138,6 @@ public class ResourceBlockPermissionPersistenceImpl
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setResourceBlockPermissionUtilPersistence(
-		ResourceBlockPermissionPersistence resourceBlockPermissionPersistence) {
-
-		try {
-			Field field = ResourceBlockPermissionUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, resourceBlockPermissionPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	private static final String _SQL_SELECT_RESOURCEBLOCKPERMISSION =

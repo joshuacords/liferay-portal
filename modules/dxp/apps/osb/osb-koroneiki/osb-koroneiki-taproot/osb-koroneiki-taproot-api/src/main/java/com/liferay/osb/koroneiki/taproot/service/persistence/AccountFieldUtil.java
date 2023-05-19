@@ -444,6 +444,10 @@ public class AccountFieldUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(AccountFieldPersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile AccountFieldPersistence _persistence;
 
 }

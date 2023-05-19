@@ -48,7 +48,6 @@ import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
@@ -6157,33 +6156,18 @@ public class LicenseKeyPersistenceImpl
 				String.class.getName(), Boolean.class.getName()
 			});
 
-		_setLicenseKeyUtilPersistence(this);
+		LicenseKeyUtil.setPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
-		_setLicenseKeyUtilPersistence(null);
+		LicenseKeyUtil.setPersistence(null);
 
 		entityCache.removeCache(LicenseKeyImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setLicenseKeyUtilPersistence(
-		LicenseKeyPersistence licenseKeyPersistence) {
-
-		try {
-			Field field = LicenseKeyUtil.class.getDeclaredField("_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, licenseKeyPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@Override

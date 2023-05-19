@@ -425,6 +425,10 @@ public class CPOptionLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(CPOptionLocalService service) {
+		_service = service;
+	}
+
 	private static volatile CPOptionLocalService _service;
 
 }

@@ -48,7 +48,6 @@ import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
@@ -2584,34 +2583,18 @@ public class BatchEngineImportTaskPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByExecuteStatus",
 			new String[] {String.class.getName()});
 
-		_setBatchEngineImportTaskUtilPersistence(this);
+		BatchEngineImportTaskUtil.setPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
-		_setBatchEngineImportTaskUtilPersistence(null);
+		BatchEngineImportTaskUtil.setPersistence(null);
 
 		entityCache.removeCache(BatchEngineImportTaskImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setBatchEngineImportTaskUtilPersistence(
-		BatchEngineImportTaskPersistence batchEngineImportTaskPersistence) {
-
-		try {
-			Field field = BatchEngineImportTaskUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, batchEngineImportTaskPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@Override

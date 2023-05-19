@@ -417,14 +417,10 @@ public class CPInstanceModelImpl
 
 	private static final Map<String, Function<CPInstance, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CPInstance, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CPInstance, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<CPInstance, Object>>();
-		Map<String, BiConsumer<CPInstance, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<CPInstance, ?>>();
 
 		attributeGetterFunctions.put(
 			"uuid",
@@ -436,16 +432,6 @@ public class CPInstanceModelImpl
 				}
 
 			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<CPInstance, Object>() {
-
-				@Override
-				public void accept(CPInstance cpInstance, Object uuidObject) {
-					cpInstance.setUuid((String)uuidObject);
-				}
-
-			});
 		attributeGetterFunctions.put(
 			"externalReferenceCode",
 			new Function<CPInstance, Object>() {
@@ -453,6 +439,428 @@ public class CPInstanceModelImpl
 				@Override
 				public Object apply(CPInstance cpInstance) {
 					return cpInstance.getExternalReferenceCode();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"CPInstanceId",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getCPInstanceId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"groupId",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getGroupId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"CPDefinitionId",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getCPDefinitionId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"CPInstanceUuid",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getCPInstanceUuid();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"sku",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getSku();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"gtin",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getGtin();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"manufacturerPartNumber",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getManufacturerPartNumber();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"purchasable",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getPurchasable();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"width",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getWidth();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"height",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getHeight();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"depth",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getDepth();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"weight",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getWeight();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"price",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getPrice();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"promoPrice",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getPromoPrice();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"cost",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getCost();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"published",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getPublished();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"displayDate",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getDisplayDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"expirationDate",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getExpirationDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"lastPublishDate",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getLastPublishDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"overrideSubscriptionInfo",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getOverrideSubscriptionInfo();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"subscriptionEnabled",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getSubscriptionEnabled();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"subscriptionLength",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getSubscriptionLength();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"subscriptionType",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getSubscriptionType();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"subscriptionTypeSettings",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getSubscriptionTypeSettings();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"maxSubscriptionCycles",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getMaxSubscriptionCycles();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"deliverySubscriptionEnabled",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getDeliverySubscriptionEnabled();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"deliverySubscriptionLength",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getDeliverySubscriptionLength();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"deliverySubscriptionType",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getDeliverySubscriptionType();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"deliverySubscriptionTypeSettings",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getDeliverySubscriptionTypeSettings();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"deliveryMaxSubscriptionCycles",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getDeliveryMaxSubscriptionCycles();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"unspsc",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getUnspsc();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"status",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getStatus();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"statusByUserId",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getStatusByUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"statusByUserName",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getStatusByUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"statusDate",
+			new Function<CPInstance, Object>() {
+
+				@Override
+				public Object apply(CPInstance cpInstance) {
+					return cpInstance.getStatusDate();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<CPInstance, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CPInstance, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<CPInstance, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"uuid",
+			new BiConsumer<CPInstance, Object>() {
+
+				@Override
+				public void accept(CPInstance cpInstance, Object uuidObject) {
+					cpInstance.setUuid((String)uuidObject);
 				}
 
 			});
@@ -469,16 +877,6 @@ public class CPInstanceModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"CPInstanceId",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getCPInstanceId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"CPInstanceId",
 			new BiConsumer<CPInstance, Object>() {
@@ -488,16 +886,6 @@ public class CPInstanceModelImpl
 					CPInstance cpInstance, Object CPInstanceIdObject) {
 
 					cpInstance.setCPInstanceId((Long)CPInstanceIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getGroupId();
 				}
 
 			});
@@ -513,16 +901,6 @@ public class CPInstanceModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getCompanyId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"companyId",
 			new BiConsumer<CPInstance, Object>() {
@@ -535,16 +913,6 @@ public class CPInstanceModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getUserId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userId",
 			new BiConsumer<CPInstance, Object>() {
@@ -552,16 +920,6 @@ public class CPInstanceModelImpl
 				@Override
 				public void accept(CPInstance cpInstance, Object userIdObject) {
 					cpInstance.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getUserName();
 				}
 
 			});
@@ -577,16 +935,6 @@ public class CPInstanceModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getCreateDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"createDate",
 			new BiConsumer<CPInstance, Object>() {
@@ -596,16 +944,6 @@ public class CPInstanceModelImpl
 					CPInstance cpInstance, Object createDateObject) {
 
 					cpInstance.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getModifiedDate();
 				}
 
 			});
@@ -621,16 +959,6 @@ public class CPInstanceModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"CPDefinitionId",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getCPDefinitionId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"CPDefinitionId",
 			new BiConsumer<CPInstance, Object>() {
@@ -640,16 +968,6 @@ public class CPInstanceModelImpl
 					CPInstance cpInstance, Object CPDefinitionIdObject) {
 
 					cpInstance.setCPDefinitionId((Long)CPDefinitionIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"CPInstanceUuid",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getCPInstanceUuid();
 				}
 
 			});
@@ -665,16 +983,6 @@ public class CPInstanceModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"sku",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getSku();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"sku",
 			new BiConsumer<CPInstance, Object>() {
@@ -685,16 +993,6 @@ public class CPInstanceModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"gtin",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getGtin();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"gtin",
 			new BiConsumer<CPInstance, Object>() {
@@ -702,16 +1000,6 @@ public class CPInstanceModelImpl
 				@Override
 				public void accept(CPInstance cpInstance, Object gtinObject) {
 					cpInstance.setGtin((String)gtinObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"manufacturerPartNumber",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getManufacturerPartNumber();
 				}
 
 			});
@@ -729,16 +1017,6 @@ public class CPInstanceModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"purchasable",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getPurchasable();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"purchasable",
 			new BiConsumer<CPInstance, Object>() {
@@ -748,16 +1026,6 @@ public class CPInstanceModelImpl
 					CPInstance cpInstance, Object purchasableObject) {
 
 					cpInstance.setPurchasable((Boolean)purchasableObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"width",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getWidth();
 				}
 
 			});
@@ -771,16 +1039,6 @@ public class CPInstanceModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"height",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getHeight();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"height",
 			new BiConsumer<CPInstance, Object>() {
@@ -788,16 +1046,6 @@ public class CPInstanceModelImpl
 				@Override
 				public void accept(CPInstance cpInstance, Object heightObject) {
 					cpInstance.setHeight((Double)heightObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"depth",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getDepth();
 				}
 
 			});
@@ -811,16 +1059,6 @@ public class CPInstanceModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"weight",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getWeight();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"weight",
 			new BiConsumer<CPInstance, Object>() {
@@ -831,16 +1069,6 @@ public class CPInstanceModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"price",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getPrice();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"price",
 			new BiConsumer<CPInstance, Object>() {
@@ -848,16 +1076,6 @@ public class CPInstanceModelImpl
 				@Override
 				public void accept(CPInstance cpInstance, Object priceObject) {
 					cpInstance.setPrice((BigDecimal)priceObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"promoPrice",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getPromoPrice();
 				}
 
 			});
@@ -873,16 +1091,6 @@ public class CPInstanceModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"cost",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getCost();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"cost",
 			new BiConsumer<CPInstance, Object>() {
@@ -890,16 +1098,6 @@ public class CPInstanceModelImpl
 				@Override
 				public void accept(CPInstance cpInstance, Object costObject) {
 					cpInstance.setCost((BigDecimal)costObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"published",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getPublished();
 				}
 
 			});
@@ -915,16 +1113,6 @@ public class CPInstanceModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"displayDate",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getDisplayDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"displayDate",
 			new BiConsumer<CPInstance, Object>() {
@@ -934,16 +1122,6 @@ public class CPInstanceModelImpl
 					CPInstance cpInstance, Object displayDateObject) {
 
 					cpInstance.setDisplayDate((Date)displayDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"expirationDate",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getExpirationDate();
 				}
 
 			});
@@ -959,16 +1137,6 @@ public class CPInstanceModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"lastPublishDate",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getLastPublishDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			new BiConsumer<CPInstance, Object>() {
@@ -978,16 +1146,6 @@ public class CPInstanceModelImpl
 					CPInstance cpInstance, Object lastPublishDateObject) {
 
 					cpInstance.setLastPublishDate((Date)lastPublishDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"overrideSubscriptionInfo",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getOverrideSubscriptionInfo();
 				}
 
 			});
@@ -1005,16 +1163,6 @@ public class CPInstanceModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"subscriptionEnabled",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getSubscriptionEnabled();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"subscriptionEnabled",
 			new BiConsumer<CPInstance, Object>() {
@@ -1025,16 +1173,6 @@ public class CPInstanceModelImpl
 
 					cpInstance.setSubscriptionEnabled(
 						(Boolean)subscriptionEnabledObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"subscriptionLength",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getSubscriptionLength();
 				}
 
 			});
@@ -1051,16 +1189,6 @@ public class CPInstanceModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"subscriptionType",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getSubscriptionType();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"subscriptionType",
 			new BiConsumer<CPInstance, Object>() {
@@ -1071,16 +1199,6 @@ public class CPInstanceModelImpl
 
 					cpInstance.setSubscriptionType(
 						(String)subscriptionTypeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"subscriptionTypeSettings",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getSubscriptionTypeSettings();
 				}
 
 			});
@@ -1098,16 +1216,6 @@ public class CPInstanceModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"maxSubscriptionCycles",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getMaxSubscriptionCycles();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"maxSubscriptionCycles",
 			new BiConsumer<CPInstance, Object>() {
@@ -1118,16 +1226,6 @@ public class CPInstanceModelImpl
 
 					cpInstance.setMaxSubscriptionCycles(
 						(Long)maxSubscriptionCyclesObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"deliverySubscriptionEnabled",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getDeliverySubscriptionEnabled();
 				}
 
 			});
@@ -1145,16 +1243,6 @@ public class CPInstanceModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"deliverySubscriptionLength",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getDeliverySubscriptionLength();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"deliverySubscriptionLength",
 			new BiConsumer<CPInstance, Object>() {
@@ -1166,16 +1254,6 @@ public class CPInstanceModelImpl
 
 					cpInstance.setDeliverySubscriptionLength(
 						(Integer)deliverySubscriptionLengthObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"deliverySubscriptionType",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getDeliverySubscriptionType();
 				}
 
 			});
@@ -1193,16 +1271,6 @@ public class CPInstanceModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"deliverySubscriptionTypeSettings",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getDeliverySubscriptionTypeSettings();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"deliverySubscriptionTypeSettings",
 			new BiConsumer<CPInstance, Object>() {
@@ -1214,16 +1282,6 @@ public class CPInstanceModelImpl
 
 					cpInstance.setDeliverySubscriptionTypeSettings(
 						(String)deliverySubscriptionTypeSettingsObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"deliveryMaxSubscriptionCycles",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getDeliveryMaxSubscriptionCycles();
 				}
 
 			});
@@ -1241,16 +1299,6 @@ public class CPInstanceModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"unspsc",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getUnspsc();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"unspsc",
 			new BiConsumer<CPInstance, Object>() {
@@ -1258,16 +1306,6 @@ public class CPInstanceModelImpl
 				@Override
 				public void accept(CPInstance cpInstance, Object unspscObject) {
 					cpInstance.setUnspsc((String)unspscObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getStatus();
 				}
 
 			});
@@ -1281,16 +1319,6 @@ public class CPInstanceModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getStatusByUserId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
 			new BiConsumer<CPInstance, Object>() {
@@ -1300,16 +1328,6 @@ public class CPInstanceModelImpl
 					CPInstance cpInstance, Object statusByUserIdObject) {
 
 					cpInstance.setStatusByUserId((Long)statusByUserIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getStatusByUserName();
 				}
 
 			});
@@ -1326,16 +1344,6 @@ public class CPInstanceModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<CPInstance, Object>() {
-
-				@Override
-				public Object apply(CPInstance cpInstance) {
-					return cpInstance.getStatusDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"statusDate",
 			new BiConsumer<CPInstance, Object>() {
@@ -1349,8 +1357,6 @@ public class CPInstanceModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

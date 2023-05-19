@@ -6134,34 +6134,17 @@ public class CommerceSubscriptionEntryPersistenceImpl
 				Long.class.getName()
 			});
 
-		_setCommerceSubscriptionEntryUtilPersistence(this);
+		CommerceSubscriptionEntryUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setCommerceSubscriptionEntryUtilPersistence(null);
+		CommerceSubscriptionEntryUtil.setPersistence(null);
 
 		entityCache.removeCache(CommerceSubscriptionEntryImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setCommerceSubscriptionEntryUtilPersistence(
-		CommerceSubscriptionEntryPersistence
-			commerceSubscriptionEntryPersistence) {
-
-		try {
-			Field field = CommerceSubscriptionEntryUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, commerceSubscriptionEntryPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

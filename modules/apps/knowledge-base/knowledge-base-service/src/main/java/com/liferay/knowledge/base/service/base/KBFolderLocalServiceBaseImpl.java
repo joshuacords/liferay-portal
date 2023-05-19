@@ -57,8 +57,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -492,7 +490,7 @@ public abstract class KBFolderLocalServiceBaseImpl
 
 	@Deactivate
 	protected void deactivate() {
-		_setLocalServiceUtilService(null);
+		KBFolderLocalServiceUtil.setService(null);
 	}
 
 	@Override
@@ -507,7 +505,7 @@ public abstract class KBFolderLocalServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		kbFolderLocalService = (KBFolderLocalService)aopProxy;
 
-		_setLocalServiceUtilService(kbFolderLocalService);
+		KBFolderLocalServiceUtil.setService(kbFolderLocalService);
 	}
 
 	/**
@@ -549,22 +547,6 @@ public abstract class KBFolderLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		KBFolderLocalService kbFolderLocalService) {
-
-		try {
-			Field field = KBFolderLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, kbFolderLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

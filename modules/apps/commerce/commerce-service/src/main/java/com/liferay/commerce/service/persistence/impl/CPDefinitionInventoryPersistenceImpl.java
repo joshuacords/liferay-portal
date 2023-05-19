@@ -2731,33 +2731,17 @@ public class CPDefinitionInventoryPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCPDefinitionId",
 			new String[] {Long.class.getName()});
 
-		_setCPDefinitionInventoryUtilPersistence(this);
+		CPDefinitionInventoryUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setCPDefinitionInventoryUtilPersistence(null);
+		CPDefinitionInventoryUtil.setPersistence(null);
 
 		entityCache.removeCache(CPDefinitionInventoryImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setCPDefinitionInventoryUtilPersistence(
-		CPDefinitionInventoryPersistence cpDefinitionInventoryPersistence) {
-
-		try {
-			Field field = CPDefinitionInventoryUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, cpDefinitionInventoryPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

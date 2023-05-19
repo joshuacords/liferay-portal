@@ -303,180 +303,186 @@ public class LayoutVersionModelImpl
 
 	private static final Map<String, Function<LayoutVersion, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<LayoutVersion, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<LayoutVersion, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<LayoutVersion, Object>>();
-		Map<String, BiConsumer<LayoutVersion, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<LayoutVersion, ?>>();
 
 		attributeGetterFunctions.put(
 			"layoutVersionId", LayoutVersion::getLayoutVersionId);
+		attributeGetterFunctions.put("version", LayoutVersion::getVersion);
+		attributeGetterFunctions.put("uuid", LayoutVersion::getUuid);
+		attributeGetterFunctions.put("plid", LayoutVersion::getPlid);
+		attributeGetterFunctions.put("groupId", LayoutVersion::getGroupId);
+		attributeGetterFunctions.put("companyId", LayoutVersion::getCompanyId);
+		attributeGetterFunctions.put("userId", LayoutVersion::getUserId);
+		attributeGetterFunctions.put("userName", LayoutVersion::getUserName);
+		attributeGetterFunctions.put(
+			"createDate", LayoutVersion::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", LayoutVersion::getModifiedDate);
+		attributeGetterFunctions.put(
+			"parentPlid", LayoutVersion::getParentPlid);
+		attributeGetterFunctions.put(
+			"privateLayout", LayoutVersion::getPrivateLayout);
+		attributeGetterFunctions.put("layoutId", LayoutVersion::getLayoutId);
+		attributeGetterFunctions.put(
+			"parentLayoutId", LayoutVersion::getParentLayoutId);
+		attributeGetterFunctions.put(
+			"classNameId", LayoutVersion::getClassNameId);
+		attributeGetterFunctions.put("classPK", LayoutVersion::getClassPK);
+		attributeGetterFunctions.put("name", LayoutVersion::getName);
+		attributeGetterFunctions.put("title", LayoutVersion::getTitle);
+		attributeGetterFunctions.put(
+			"description", LayoutVersion::getDescription);
+		attributeGetterFunctions.put("keywords", LayoutVersion::getKeywords);
+		attributeGetterFunctions.put("robots", LayoutVersion::getRobots);
+		attributeGetterFunctions.put("type", LayoutVersion::getType);
+		attributeGetterFunctions.put(
+			"typeSettings", LayoutVersion::getTypeSettings);
+		attributeGetterFunctions.put("hidden", LayoutVersion::getHidden);
+		attributeGetterFunctions.put("system", LayoutVersion::getSystem);
+		attributeGetterFunctions.put(
+			"friendlyURL", LayoutVersion::getFriendlyURL);
+		attributeGetterFunctions.put(
+			"iconImageId", LayoutVersion::getIconImageId);
+		attributeGetterFunctions.put("themeId", LayoutVersion::getThemeId);
+		attributeGetterFunctions.put(
+			"colorSchemeId", LayoutVersion::getColorSchemeId);
+		attributeGetterFunctions.put("css", LayoutVersion::getCss);
+		attributeGetterFunctions.put("priority", LayoutVersion::getPriority);
+		attributeGetterFunctions.put(
+			"layoutPrototypeUuid", LayoutVersion::getLayoutPrototypeUuid);
+		attributeGetterFunctions.put(
+			"layoutPrototypeLinkEnabled",
+			LayoutVersion::getLayoutPrototypeLinkEnabled);
+		attributeGetterFunctions.put(
+			"sourcePrototypeLayoutUuid",
+			LayoutVersion::getSourcePrototypeLayoutUuid);
+		attributeGetterFunctions.put(
+			"publishDate", LayoutVersion::getPublishDate);
+		attributeGetterFunctions.put(
+			"lastPublishDate", LayoutVersion::getLastPublishDate);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<LayoutVersion, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<LayoutVersion, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<LayoutVersion, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"layoutVersionId",
 			(BiConsumer<LayoutVersion, Long>)LayoutVersion::setLayoutVersionId);
-		attributeGetterFunctions.put("version", LayoutVersion::getVersion);
 		attributeSetterBiConsumers.put(
 			"version",
 			(BiConsumer<LayoutVersion, Integer>)LayoutVersion::setVersion);
-		attributeGetterFunctions.put("uuid", LayoutVersion::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<LayoutVersion, String>)LayoutVersion::setUuid);
-		attributeGetterFunctions.put("plid", LayoutVersion::getPlid);
 		attributeSetterBiConsumers.put(
 			"plid", (BiConsumer<LayoutVersion, Long>)LayoutVersion::setPlid);
-		attributeGetterFunctions.put("groupId", LayoutVersion::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<LayoutVersion, Long>)LayoutVersion::setGroupId);
-		attributeGetterFunctions.put("companyId", LayoutVersion::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<LayoutVersion, Long>)LayoutVersion::setCompanyId);
-		attributeGetterFunctions.put("userId", LayoutVersion::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<LayoutVersion, Long>)LayoutVersion::setUserId);
-		attributeGetterFunctions.put("userName", LayoutVersion::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<LayoutVersion, String>)LayoutVersion::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", LayoutVersion::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<LayoutVersion, Date>)LayoutVersion::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", LayoutVersion::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<LayoutVersion, Date>)LayoutVersion::setModifiedDate);
-		attributeGetterFunctions.put(
-			"parentPlid", LayoutVersion::getParentPlid);
 		attributeSetterBiConsumers.put(
 			"parentPlid",
 			(BiConsumer<LayoutVersion, Long>)LayoutVersion::setParentPlid);
-		attributeGetterFunctions.put(
-			"privateLayout", LayoutVersion::getPrivateLayout);
 		attributeSetterBiConsumers.put(
 			"privateLayout",
 			(BiConsumer<LayoutVersion, Boolean>)
 				LayoutVersion::setPrivateLayout);
-		attributeGetterFunctions.put("layoutId", LayoutVersion::getLayoutId);
 		attributeSetterBiConsumers.put(
 			"layoutId",
 			(BiConsumer<LayoutVersion, Long>)LayoutVersion::setLayoutId);
-		attributeGetterFunctions.put(
-			"parentLayoutId", LayoutVersion::getParentLayoutId);
 		attributeSetterBiConsumers.put(
 			"parentLayoutId",
 			(BiConsumer<LayoutVersion, Long>)LayoutVersion::setParentLayoutId);
-		attributeGetterFunctions.put(
-			"classNameId", LayoutVersion::getClassNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<LayoutVersion, Long>)LayoutVersion::setClassNameId);
-		attributeGetterFunctions.put("classPK", LayoutVersion::getClassPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<LayoutVersion, Long>)LayoutVersion::setClassPK);
-		attributeGetterFunctions.put("name", LayoutVersion::getName);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<LayoutVersion, String>)LayoutVersion::setName);
-		attributeGetterFunctions.put("title", LayoutVersion::getTitle);
 		attributeSetterBiConsumers.put(
 			"title",
 			(BiConsumer<LayoutVersion, String>)LayoutVersion::setTitle);
-		attributeGetterFunctions.put(
-			"description", LayoutVersion::getDescription);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<LayoutVersion, String>)LayoutVersion::setDescription);
-		attributeGetterFunctions.put("keywords", LayoutVersion::getKeywords);
 		attributeSetterBiConsumers.put(
 			"keywords",
 			(BiConsumer<LayoutVersion, String>)LayoutVersion::setKeywords);
-		attributeGetterFunctions.put("robots", LayoutVersion::getRobots);
 		attributeSetterBiConsumers.put(
 			"robots",
 			(BiConsumer<LayoutVersion, String>)LayoutVersion::setRobots);
-		attributeGetterFunctions.put("type", LayoutVersion::getType);
 		attributeSetterBiConsumers.put(
 			"type", (BiConsumer<LayoutVersion, String>)LayoutVersion::setType);
-		attributeGetterFunctions.put(
-			"typeSettings", LayoutVersion::getTypeSettings);
 		attributeSetterBiConsumers.put(
 			"typeSettings",
 			(BiConsumer<LayoutVersion, String>)LayoutVersion::setTypeSettings);
-		attributeGetterFunctions.put("hidden", LayoutVersion::getHidden);
 		attributeSetterBiConsumers.put(
 			"hidden",
 			(BiConsumer<LayoutVersion, Boolean>)LayoutVersion::setHidden);
-		attributeGetterFunctions.put("system", LayoutVersion::getSystem);
 		attributeSetterBiConsumers.put(
 			"system",
 			(BiConsumer<LayoutVersion, Boolean>)LayoutVersion::setSystem);
-		attributeGetterFunctions.put(
-			"friendlyURL", LayoutVersion::getFriendlyURL);
 		attributeSetterBiConsumers.put(
 			"friendlyURL",
 			(BiConsumer<LayoutVersion, String>)LayoutVersion::setFriendlyURL);
-		attributeGetterFunctions.put(
-			"iconImageId", LayoutVersion::getIconImageId);
 		attributeSetterBiConsumers.put(
 			"iconImageId",
 			(BiConsumer<LayoutVersion, Long>)LayoutVersion::setIconImageId);
-		attributeGetterFunctions.put("themeId", LayoutVersion::getThemeId);
 		attributeSetterBiConsumers.put(
 			"themeId",
 			(BiConsumer<LayoutVersion, String>)LayoutVersion::setThemeId);
-		attributeGetterFunctions.put(
-			"colorSchemeId", LayoutVersion::getColorSchemeId);
 		attributeSetterBiConsumers.put(
 			"colorSchemeId",
 			(BiConsumer<LayoutVersion, String>)LayoutVersion::setColorSchemeId);
-		attributeGetterFunctions.put("css", LayoutVersion::getCss);
 		attributeSetterBiConsumers.put(
 			"css", (BiConsumer<LayoutVersion, String>)LayoutVersion::setCss);
-		attributeGetterFunctions.put("priority", LayoutVersion::getPriority);
 		attributeSetterBiConsumers.put(
 			"priority",
 			(BiConsumer<LayoutVersion, Integer>)LayoutVersion::setPriority);
-		attributeGetterFunctions.put(
-			"layoutPrototypeUuid", LayoutVersion::getLayoutPrototypeUuid);
 		attributeSetterBiConsumers.put(
 			"layoutPrototypeUuid",
 			(BiConsumer<LayoutVersion, String>)
 				LayoutVersion::setLayoutPrototypeUuid);
-		attributeGetterFunctions.put(
-			"layoutPrototypeLinkEnabled",
-			LayoutVersion::getLayoutPrototypeLinkEnabled);
 		attributeSetterBiConsumers.put(
 			"layoutPrototypeLinkEnabled",
 			(BiConsumer<LayoutVersion, Boolean>)
 				LayoutVersion::setLayoutPrototypeLinkEnabled);
-		attributeGetterFunctions.put(
-			"sourcePrototypeLayoutUuid",
-			LayoutVersion::getSourcePrototypeLayoutUuid);
 		attributeSetterBiConsumers.put(
 			"sourcePrototypeLayoutUuid",
 			(BiConsumer<LayoutVersion, String>)
 				LayoutVersion::setSourcePrototypeLayoutUuid);
-		attributeGetterFunctions.put(
-			"publishDate", LayoutVersion::getPublishDate);
 		attributeSetterBiConsumers.put(
 			"publishDate",
 			(BiConsumer<LayoutVersion, Date>)LayoutVersion::setPublishDate);
-		attributeGetterFunctions.put(
-			"lastPublishDate", LayoutVersion::getLastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<LayoutVersion, Date>)LayoutVersion::setLastPublishDate);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

@@ -321,18 +321,12 @@ public class CommerceShipmentItemModelImpl
 
 	private static final Map<String, Function<CommerceShipmentItem, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CommerceShipmentItem, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommerceShipmentItem, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<CommerceShipmentItem, Object>>();
-		Map<String, BiConsumer<CommerceShipmentItem, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String, BiConsumer<CommerceShipmentItem, ?>>();
 
 		attributeGetterFunctions.put(
 			"commerceShipmentItemId",
@@ -344,6 +338,121 @@ public class CommerceShipmentItemModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"groupId",
+			new Function<CommerceShipmentItem, Object>() {
+
+				@Override
+				public Object apply(CommerceShipmentItem commerceShipmentItem) {
+					return commerceShipmentItem.getGroupId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommerceShipmentItem, Object>() {
+
+				@Override
+				public Object apply(CommerceShipmentItem commerceShipmentItem) {
+					return commerceShipmentItem.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommerceShipmentItem, Object>() {
+
+				@Override
+				public Object apply(CommerceShipmentItem commerceShipmentItem) {
+					return commerceShipmentItem.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommerceShipmentItem, Object>() {
+
+				@Override
+				public Object apply(CommerceShipmentItem commerceShipmentItem) {
+					return commerceShipmentItem.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommerceShipmentItem, Object>() {
+
+				@Override
+				public Object apply(CommerceShipmentItem commerceShipmentItem) {
+					return commerceShipmentItem.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommerceShipmentItem, Object>() {
+
+				@Override
+				public Object apply(CommerceShipmentItem commerceShipmentItem) {
+					return commerceShipmentItem.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceShipmentId",
+			new Function<CommerceShipmentItem, Object>() {
+
+				@Override
+				public Object apply(CommerceShipmentItem commerceShipmentItem) {
+					return commerceShipmentItem.getCommerceShipmentId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceOrderItemId",
+			new Function<CommerceShipmentItem, Object>() {
+
+				@Override
+				public Object apply(CommerceShipmentItem commerceShipmentItem) {
+					return commerceShipmentItem.getCommerceOrderItemId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceInventoryWarehouseId",
+			new Function<CommerceShipmentItem, Object>() {
+
+				@Override
+				public Object apply(CommerceShipmentItem commerceShipmentItem) {
+					return commerceShipmentItem.
+						getCommerceInventoryWarehouseId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"quantity",
+			new Function<CommerceShipmentItem, Object>() {
+
+				@Override
+				public Object apply(CommerceShipmentItem commerceShipmentItem) {
+					return commerceShipmentItem.getQuantity();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<CommerceShipmentItem, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommerceShipmentItem, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap
+					<String, BiConsumer<CommerceShipmentItem, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"commerceShipmentItemId",
 			new BiConsumer<CommerceShipmentItem, Object>() {
@@ -355,16 +464,6 @@ public class CommerceShipmentItemModelImpl
 
 					commerceShipmentItem.setCommerceShipmentItemId(
 						(Long)commerceShipmentItemIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<CommerceShipmentItem, Object>() {
-
-				@Override
-				public Object apply(CommerceShipmentItem commerceShipmentItem) {
-					return commerceShipmentItem.getGroupId();
 				}
 
 			});
@@ -381,16 +480,6 @@ public class CommerceShipmentItemModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommerceShipmentItem, Object>() {
-
-				@Override
-				public Object apply(CommerceShipmentItem commerceShipmentItem) {
-					return commerceShipmentItem.getCompanyId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"companyId",
 			new BiConsumer<CommerceShipmentItem, Object>() {
@@ -401,16 +490,6 @@ public class CommerceShipmentItemModelImpl
 					Object companyIdObject) {
 
 					commerceShipmentItem.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommerceShipmentItem, Object>() {
-
-				@Override
-				public Object apply(CommerceShipmentItem commerceShipmentItem) {
-					return commerceShipmentItem.getUserId();
 				}
 
 			});
@@ -427,16 +506,6 @@ public class CommerceShipmentItemModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommerceShipmentItem, Object>() {
-
-				@Override
-				public Object apply(CommerceShipmentItem commerceShipmentItem) {
-					return commerceShipmentItem.getUserName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userName",
 			new BiConsumer<CommerceShipmentItem, Object>() {
@@ -450,16 +519,6 @@ public class CommerceShipmentItemModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommerceShipmentItem, Object>() {
-
-				@Override
-				public Object apply(CommerceShipmentItem commerceShipmentItem) {
-					return commerceShipmentItem.getCreateDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"createDate",
 			new BiConsumer<CommerceShipmentItem, Object>() {
@@ -470,16 +529,6 @@ public class CommerceShipmentItemModelImpl
 					Object createDateObject) {
 
 					commerceShipmentItem.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommerceShipmentItem, Object>() {
-
-				@Override
-				public Object apply(CommerceShipmentItem commerceShipmentItem) {
-					return commerceShipmentItem.getModifiedDate();
 				}
 
 			});
@@ -497,16 +546,6 @@ public class CommerceShipmentItemModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"commerceShipmentId",
-			new Function<CommerceShipmentItem, Object>() {
-
-				@Override
-				public Object apply(CommerceShipmentItem commerceShipmentItem) {
-					return commerceShipmentItem.getCommerceShipmentId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"commerceShipmentId",
 			new BiConsumer<CommerceShipmentItem, Object>() {
@@ -518,16 +557,6 @@ public class CommerceShipmentItemModelImpl
 
 					commerceShipmentItem.setCommerceShipmentId(
 						(Long)commerceShipmentIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commerceOrderItemId",
-			new Function<CommerceShipmentItem, Object>() {
-
-				@Override
-				public Object apply(CommerceShipmentItem commerceShipmentItem) {
-					return commerceShipmentItem.getCommerceOrderItemId();
 				}
 
 			});
@@ -545,17 +574,6 @@ public class CommerceShipmentItemModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"commerceInventoryWarehouseId",
-			new Function<CommerceShipmentItem, Object>() {
-
-				@Override
-				public Object apply(CommerceShipmentItem commerceShipmentItem) {
-					return commerceShipmentItem.
-						getCommerceInventoryWarehouseId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"commerceInventoryWarehouseId",
 			new BiConsumer<CommerceShipmentItem, Object>() {
@@ -567,16 +585,6 @@ public class CommerceShipmentItemModelImpl
 
 					commerceShipmentItem.setCommerceInventoryWarehouseId(
 						(Long)commerceInventoryWarehouseIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"quantity",
-			new Function<CommerceShipmentItem, Object>() {
-
-				@Override
-				public Object apply(CommerceShipmentItem commerceShipmentItem) {
-					return commerceShipmentItem.getQuantity();
 				}
 
 			});
@@ -594,8 +602,6 @@ public class CommerceShipmentItemModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

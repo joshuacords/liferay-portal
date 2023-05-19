@@ -331,115 +331,121 @@ public class MBMessageModelImpl
 
 	private static final Map<String, Function<MBMessage, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<MBMessage, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<MBMessage, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<MBMessage, Object>>();
+
+		attributeGetterFunctions.put("uuid", MBMessage::getUuid);
+		attributeGetterFunctions.put("messageId", MBMessage::getMessageId);
+		attributeGetterFunctions.put("groupId", MBMessage::getGroupId);
+		attributeGetterFunctions.put("companyId", MBMessage::getCompanyId);
+		attributeGetterFunctions.put("userId", MBMessage::getUserId);
+		attributeGetterFunctions.put("userName", MBMessage::getUserName);
+		attributeGetterFunctions.put("createDate", MBMessage::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", MBMessage::getModifiedDate);
+		attributeGetterFunctions.put("classNameId", MBMessage::getClassNameId);
+		attributeGetterFunctions.put("classPK", MBMessage::getClassPK);
+		attributeGetterFunctions.put("categoryId", MBMessage::getCategoryId);
+		attributeGetterFunctions.put("threadId", MBMessage::getThreadId);
+		attributeGetterFunctions.put(
+			"rootMessageId", MBMessage::getRootMessageId);
+		attributeGetterFunctions.put(
+			"parentMessageId", MBMessage::getParentMessageId);
+		attributeGetterFunctions.put("subject", MBMessage::getSubject);
+		attributeGetterFunctions.put("body", MBMessage::getBody);
+		attributeGetterFunctions.put("format", MBMessage::getFormat);
+		attributeGetterFunctions.put("anonymous", MBMessage::getAnonymous);
+		attributeGetterFunctions.put("priority", MBMessage::getPriority);
+		attributeGetterFunctions.put(
+			"allowPingbacks", MBMessage::getAllowPingbacks);
+		attributeGetterFunctions.put("answer", MBMessage::getAnswer);
+		attributeGetterFunctions.put(
+			"lastPublishDate", MBMessage::getLastPublishDate);
+		attributeGetterFunctions.put("status", MBMessage::getStatus);
+		attributeGetterFunctions.put(
+			"statusByUserId", MBMessage::getStatusByUserId);
+		attributeGetterFunctions.put(
+			"statusByUserName", MBMessage::getStatusByUserName);
+		attributeGetterFunctions.put("statusDate", MBMessage::getStatusDate);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<MBMessage, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<MBMessage, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<MBMessage, ?>>();
 
-		attributeGetterFunctions.put("uuid", MBMessage::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<MBMessage, String>)MBMessage::setUuid);
-		attributeGetterFunctions.put("messageId", MBMessage::getMessageId);
 		attributeSetterBiConsumers.put(
 			"messageId", (BiConsumer<MBMessage, Long>)MBMessage::setMessageId);
-		attributeGetterFunctions.put("groupId", MBMessage::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<MBMessage, Long>)MBMessage::setGroupId);
-		attributeGetterFunctions.put("companyId", MBMessage::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<MBMessage, Long>)MBMessage::setCompanyId);
-		attributeGetterFunctions.put("userId", MBMessage::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<MBMessage, Long>)MBMessage::setUserId);
-		attributeGetterFunctions.put("userName", MBMessage::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName", (BiConsumer<MBMessage, String>)MBMessage::setUserName);
-		attributeGetterFunctions.put("createDate", MBMessage::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<MBMessage, Date>)MBMessage::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", MBMessage::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<MBMessage, Date>)MBMessage::setModifiedDate);
-		attributeGetterFunctions.put("classNameId", MBMessage::getClassNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<MBMessage, Long>)MBMessage::setClassNameId);
-		attributeGetterFunctions.put("classPK", MBMessage::getClassPK);
 		attributeSetterBiConsumers.put(
 			"classPK", (BiConsumer<MBMessage, Long>)MBMessage::setClassPK);
-		attributeGetterFunctions.put("categoryId", MBMessage::getCategoryId);
 		attributeSetterBiConsumers.put(
 			"categoryId",
 			(BiConsumer<MBMessage, Long>)MBMessage::setCategoryId);
-		attributeGetterFunctions.put("threadId", MBMessage::getThreadId);
 		attributeSetterBiConsumers.put(
 			"threadId", (BiConsumer<MBMessage, Long>)MBMessage::setThreadId);
-		attributeGetterFunctions.put(
-			"rootMessageId", MBMessage::getRootMessageId);
 		attributeSetterBiConsumers.put(
 			"rootMessageId",
 			(BiConsumer<MBMessage, Long>)MBMessage::setRootMessageId);
-		attributeGetterFunctions.put(
-			"parentMessageId", MBMessage::getParentMessageId);
 		attributeSetterBiConsumers.put(
 			"parentMessageId",
 			(BiConsumer<MBMessage, Long>)MBMessage::setParentMessageId);
-		attributeGetterFunctions.put("subject", MBMessage::getSubject);
 		attributeSetterBiConsumers.put(
 			"subject", (BiConsumer<MBMessage, String>)MBMessage::setSubject);
-		attributeGetterFunctions.put("body", MBMessage::getBody);
 		attributeSetterBiConsumers.put(
 			"body", (BiConsumer<MBMessage, String>)MBMessage::setBody);
-		attributeGetterFunctions.put("format", MBMessage::getFormat);
 		attributeSetterBiConsumers.put(
 			"format", (BiConsumer<MBMessage, String>)MBMessage::setFormat);
-		attributeGetterFunctions.put("anonymous", MBMessage::getAnonymous);
 		attributeSetterBiConsumers.put(
 			"anonymous",
 			(BiConsumer<MBMessage, Boolean>)MBMessage::setAnonymous);
-		attributeGetterFunctions.put("priority", MBMessage::getPriority);
 		attributeSetterBiConsumers.put(
 			"priority", (BiConsumer<MBMessage, Double>)MBMessage::setPriority);
-		attributeGetterFunctions.put(
-			"allowPingbacks", MBMessage::getAllowPingbacks);
 		attributeSetterBiConsumers.put(
 			"allowPingbacks",
 			(BiConsumer<MBMessage, Boolean>)MBMessage::setAllowPingbacks);
-		attributeGetterFunctions.put("answer", MBMessage::getAnswer);
 		attributeSetterBiConsumers.put(
 			"answer", (BiConsumer<MBMessage, Boolean>)MBMessage::setAnswer);
-		attributeGetterFunctions.put(
-			"lastPublishDate", MBMessage::getLastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<MBMessage, Date>)MBMessage::setLastPublishDate);
-		attributeGetterFunctions.put("status", MBMessage::getStatus);
 		attributeSetterBiConsumers.put(
 			"status", (BiConsumer<MBMessage, Integer>)MBMessage::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", MBMessage::getStatusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
 			(BiConsumer<MBMessage, Long>)MBMessage::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", MBMessage::getStatusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
 			(BiConsumer<MBMessage, String>)MBMessage::setStatusByUserName);
-		attributeGetterFunctions.put("statusDate", MBMessage::getStatusDate);
 		attributeSetterBiConsumers.put(
 			"statusDate",
 			(BiConsumer<MBMessage, Date>)MBMessage::setStatusDate);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

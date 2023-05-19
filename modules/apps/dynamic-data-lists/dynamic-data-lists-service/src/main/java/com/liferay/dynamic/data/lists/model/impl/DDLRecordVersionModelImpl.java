@@ -294,110 +294,116 @@ public class DDLRecordVersionModelImpl
 
 	private static final Map<String, Function<DDLRecordVersion, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<DDLRecordVersion, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<DDLRecordVersion, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap<String, Function<DDLRecordVersion, Object>>();
+
+		attributeGetterFunctions.put(
+			"mvccVersion", DDLRecordVersion::getMvccVersion);
+		attributeGetterFunctions.put(
+			"recordVersionId", DDLRecordVersion::getRecordVersionId);
+		attributeGetterFunctions.put("groupId", DDLRecordVersion::getGroupId);
+		attributeGetterFunctions.put(
+			"companyId", DDLRecordVersion::getCompanyId);
+		attributeGetterFunctions.put("userId", DDLRecordVersion::getUserId);
+		attributeGetterFunctions.put("userName", DDLRecordVersion::getUserName);
+		attributeGetterFunctions.put(
+			"createDate", DDLRecordVersion::getCreateDate);
+		attributeGetterFunctions.put(
+			"DDMStorageId", DDLRecordVersion::getDDMStorageId);
+		attributeGetterFunctions.put(
+			"recordSetId", DDLRecordVersion::getRecordSetId);
+		attributeGetterFunctions.put(
+			"recordSetVersion", DDLRecordVersion::getRecordSetVersion);
+		attributeGetterFunctions.put("recordId", DDLRecordVersion::getRecordId);
+		attributeGetterFunctions.put("version", DDLRecordVersion::getVersion);
+		attributeGetterFunctions.put(
+			"displayIndex", DDLRecordVersion::getDisplayIndex);
+		attributeGetterFunctions.put("status", DDLRecordVersion::getStatus);
+		attributeGetterFunctions.put(
+			"statusByUserId", DDLRecordVersion::getStatusByUserId);
+		attributeGetterFunctions.put(
+			"statusByUserName", DDLRecordVersion::getStatusByUserName);
+		attributeGetterFunctions.put(
+			"statusDate", DDLRecordVersion::getStatusDate);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<DDLRecordVersion, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<DDLRecordVersion, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<DDLRecordVersion, ?>>();
 
-		attributeGetterFunctions.put(
-			"mvccVersion", DDLRecordVersion::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<DDLRecordVersion, Long>)
 				DDLRecordVersion::setMvccVersion);
-		attributeGetterFunctions.put(
-			"recordVersionId", DDLRecordVersion::getRecordVersionId);
 		attributeSetterBiConsumers.put(
 			"recordVersionId",
 			(BiConsumer<DDLRecordVersion, Long>)
 				DDLRecordVersion::setRecordVersionId);
-		attributeGetterFunctions.put("groupId", DDLRecordVersion::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<DDLRecordVersion, Long>)DDLRecordVersion::setGroupId);
-		attributeGetterFunctions.put(
-			"companyId", DDLRecordVersion::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<DDLRecordVersion, Long>)DDLRecordVersion::setCompanyId);
-		attributeGetterFunctions.put("userId", DDLRecordVersion::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<DDLRecordVersion, Long>)DDLRecordVersion::setUserId);
-		attributeGetterFunctions.put("userName", DDLRecordVersion::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<DDLRecordVersion, String>)
 				DDLRecordVersion::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", DDLRecordVersion::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<DDLRecordVersion, Date>)
 				DDLRecordVersion::setCreateDate);
-		attributeGetterFunctions.put(
-			"DDMStorageId", DDLRecordVersion::getDDMStorageId);
 		attributeSetterBiConsumers.put(
 			"DDMStorageId",
 			(BiConsumer<DDLRecordVersion, Long>)
 				DDLRecordVersion::setDDMStorageId);
-		attributeGetterFunctions.put(
-			"recordSetId", DDLRecordVersion::getRecordSetId);
 		attributeSetterBiConsumers.put(
 			"recordSetId",
 			(BiConsumer<DDLRecordVersion, Long>)
 				DDLRecordVersion::setRecordSetId);
-		attributeGetterFunctions.put(
-			"recordSetVersion", DDLRecordVersion::getRecordSetVersion);
 		attributeSetterBiConsumers.put(
 			"recordSetVersion",
 			(BiConsumer<DDLRecordVersion, String>)
 				DDLRecordVersion::setRecordSetVersion);
-		attributeGetterFunctions.put("recordId", DDLRecordVersion::getRecordId);
 		attributeSetterBiConsumers.put(
 			"recordId",
 			(BiConsumer<DDLRecordVersion, Long>)DDLRecordVersion::setRecordId);
-		attributeGetterFunctions.put("version", DDLRecordVersion::getVersion);
 		attributeSetterBiConsumers.put(
 			"version",
 			(BiConsumer<DDLRecordVersion, String>)DDLRecordVersion::setVersion);
-		attributeGetterFunctions.put(
-			"displayIndex", DDLRecordVersion::getDisplayIndex);
 		attributeSetterBiConsumers.put(
 			"displayIndex",
 			(BiConsumer<DDLRecordVersion, Integer>)
 				DDLRecordVersion::setDisplayIndex);
-		attributeGetterFunctions.put("status", DDLRecordVersion::getStatus);
 		attributeSetterBiConsumers.put(
 			"status",
 			(BiConsumer<DDLRecordVersion, Integer>)DDLRecordVersion::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", DDLRecordVersion::getStatusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
 			(BiConsumer<DDLRecordVersion, Long>)
 				DDLRecordVersion::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", DDLRecordVersion::getStatusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
 			(BiConsumer<DDLRecordVersion, String>)
 				DDLRecordVersion::setStatusByUserName);
-		attributeGetterFunctions.put(
-			"statusDate", DDLRecordVersion::getStatusDate);
 		attributeSetterBiConsumers.put(
 			"statusDate",
 			(BiConsumer<DDLRecordVersion, Date>)
 				DDLRecordVersion::setStatusDate);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

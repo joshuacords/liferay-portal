@@ -283,67 +283,73 @@ public class KBFolderModelImpl
 
 	private static final Map<String, Function<KBFolder, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<KBFolder, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<KBFolder, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<KBFolder, Object>>();
+
+		attributeGetterFunctions.put("mvccVersion", KBFolder::getMvccVersion);
+		attributeGetterFunctions.put("uuid", KBFolder::getUuid);
+		attributeGetterFunctions.put("kbFolderId", KBFolder::getKbFolderId);
+		attributeGetterFunctions.put("groupId", KBFolder::getGroupId);
+		attributeGetterFunctions.put("companyId", KBFolder::getCompanyId);
+		attributeGetterFunctions.put("userId", KBFolder::getUserId);
+		attributeGetterFunctions.put("userName", KBFolder::getUserName);
+		attributeGetterFunctions.put("createDate", KBFolder::getCreateDate);
+		attributeGetterFunctions.put("modifiedDate", KBFolder::getModifiedDate);
+		attributeGetterFunctions.put(
+			"parentKBFolderId", KBFolder::getParentKBFolderId);
+		attributeGetterFunctions.put("name", KBFolder::getName);
+		attributeGetterFunctions.put("urlTitle", KBFolder::getUrlTitle);
+		attributeGetterFunctions.put("description", KBFolder::getDescription);
+		attributeGetterFunctions.put(
+			"lastPublishDate", KBFolder::getLastPublishDate);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<KBFolder, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<KBFolder, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<KBFolder, ?>>();
 
-		attributeGetterFunctions.put("mvccVersion", KBFolder::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<KBFolder, Long>)KBFolder::setMvccVersion);
-		attributeGetterFunctions.put("uuid", KBFolder::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<KBFolder, String>)KBFolder::setUuid);
-		attributeGetterFunctions.put("kbFolderId", KBFolder::getKbFolderId);
 		attributeSetterBiConsumers.put(
 			"kbFolderId", (BiConsumer<KBFolder, Long>)KBFolder::setKbFolderId);
-		attributeGetterFunctions.put("groupId", KBFolder::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<KBFolder, Long>)KBFolder::setGroupId);
-		attributeGetterFunctions.put("companyId", KBFolder::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<KBFolder, Long>)KBFolder::setCompanyId);
-		attributeGetterFunctions.put("userId", KBFolder::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<KBFolder, Long>)KBFolder::setUserId);
-		attributeGetterFunctions.put("userName", KBFolder::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName", (BiConsumer<KBFolder, String>)KBFolder::setUserName);
-		attributeGetterFunctions.put("createDate", KBFolder::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate", (BiConsumer<KBFolder, Date>)KBFolder::setCreateDate);
-		attributeGetterFunctions.put("modifiedDate", KBFolder::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<KBFolder, Date>)KBFolder::setModifiedDate);
-		attributeGetterFunctions.put(
-			"parentKBFolderId", KBFolder::getParentKBFolderId);
 		attributeSetterBiConsumers.put(
 			"parentKBFolderId",
 			(BiConsumer<KBFolder, Long>)KBFolder::setParentKBFolderId);
-		attributeGetterFunctions.put("name", KBFolder::getName);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<KBFolder, String>)KBFolder::setName);
-		attributeGetterFunctions.put("urlTitle", KBFolder::getUrlTitle);
 		attributeSetterBiConsumers.put(
 			"urlTitle", (BiConsumer<KBFolder, String>)KBFolder::setUrlTitle);
-		attributeGetterFunctions.put("description", KBFolder::getDescription);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<KBFolder, String>)KBFolder::setDescription);
-		attributeGetterFunctions.put(
-			"lastPublishDate", KBFolder::getLastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<KBFolder, Date>)KBFolder::setLastPublishDate);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

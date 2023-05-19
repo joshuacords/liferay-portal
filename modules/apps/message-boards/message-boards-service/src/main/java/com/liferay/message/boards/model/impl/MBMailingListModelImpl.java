@@ -244,142 +244,148 @@ public class MBMailingListModelImpl
 
 	private static final Map<String, Function<MBMailingList, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<MBMailingList, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<MBMailingList, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<MBMailingList, Object>>();
+
+		attributeGetterFunctions.put("uuid", MBMailingList::getUuid);
+		attributeGetterFunctions.put(
+			"mailingListId", MBMailingList::getMailingListId);
+		attributeGetterFunctions.put("groupId", MBMailingList::getGroupId);
+		attributeGetterFunctions.put("companyId", MBMailingList::getCompanyId);
+		attributeGetterFunctions.put("userId", MBMailingList::getUserId);
+		attributeGetterFunctions.put("userName", MBMailingList::getUserName);
+		attributeGetterFunctions.put(
+			"createDate", MBMailingList::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", MBMailingList::getModifiedDate);
+		attributeGetterFunctions.put(
+			"categoryId", MBMailingList::getCategoryId);
+		attributeGetterFunctions.put(
+			"emailAddress", MBMailingList::getEmailAddress);
+		attributeGetterFunctions.put(
+			"inProtocol", MBMailingList::getInProtocol);
+		attributeGetterFunctions.put(
+			"inServerName", MBMailingList::getInServerName);
+		attributeGetterFunctions.put(
+			"inServerPort", MBMailingList::getInServerPort);
+		attributeGetterFunctions.put("inUseSSL", MBMailingList::getInUseSSL);
+		attributeGetterFunctions.put(
+			"inUserName", MBMailingList::getInUserName);
+		attributeGetterFunctions.put(
+			"inPassword", MBMailingList::getInPassword);
+		attributeGetterFunctions.put(
+			"inReadInterval", MBMailingList::getInReadInterval);
+		attributeGetterFunctions.put(
+			"outEmailAddress", MBMailingList::getOutEmailAddress);
+		attributeGetterFunctions.put("outCustom", MBMailingList::getOutCustom);
+		attributeGetterFunctions.put(
+			"outServerName", MBMailingList::getOutServerName);
+		attributeGetterFunctions.put(
+			"outServerPort", MBMailingList::getOutServerPort);
+		attributeGetterFunctions.put("outUseSSL", MBMailingList::getOutUseSSL);
+		attributeGetterFunctions.put(
+			"outUserName", MBMailingList::getOutUserName);
+		attributeGetterFunctions.put(
+			"outPassword", MBMailingList::getOutPassword);
+		attributeGetterFunctions.put(
+			"allowAnonymous", MBMailingList::getAllowAnonymous);
+		attributeGetterFunctions.put("active", MBMailingList::getActive);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<MBMailingList, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<MBMailingList, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<MBMailingList, ?>>();
 
-		attributeGetterFunctions.put("uuid", MBMailingList::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<MBMailingList, String>)MBMailingList::setUuid);
-		attributeGetterFunctions.put(
-			"mailingListId", MBMailingList::getMailingListId);
 		attributeSetterBiConsumers.put(
 			"mailingListId",
 			(BiConsumer<MBMailingList, Long>)MBMailingList::setMailingListId);
-		attributeGetterFunctions.put("groupId", MBMailingList::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<MBMailingList, Long>)MBMailingList::setGroupId);
-		attributeGetterFunctions.put("companyId", MBMailingList::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<MBMailingList, Long>)MBMailingList::setCompanyId);
-		attributeGetterFunctions.put("userId", MBMailingList::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<MBMailingList, Long>)MBMailingList::setUserId);
-		attributeGetterFunctions.put("userName", MBMailingList::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<MBMailingList, String>)MBMailingList::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", MBMailingList::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<MBMailingList, Date>)MBMailingList::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", MBMailingList::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<MBMailingList, Date>)MBMailingList::setModifiedDate);
-		attributeGetterFunctions.put(
-			"categoryId", MBMailingList::getCategoryId);
 		attributeSetterBiConsumers.put(
 			"categoryId",
 			(BiConsumer<MBMailingList, Long>)MBMailingList::setCategoryId);
-		attributeGetterFunctions.put(
-			"emailAddress", MBMailingList::getEmailAddress);
 		attributeSetterBiConsumers.put(
 			"emailAddress",
 			(BiConsumer<MBMailingList, String>)MBMailingList::setEmailAddress);
-		attributeGetterFunctions.put(
-			"inProtocol", MBMailingList::getInProtocol);
 		attributeSetterBiConsumers.put(
 			"inProtocol",
 			(BiConsumer<MBMailingList, String>)MBMailingList::setInProtocol);
-		attributeGetterFunctions.put(
-			"inServerName", MBMailingList::getInServerName);
 		attributeSetterBiConsumers.put(
 			"inServerName",
 			(BiConsumer<MBMailingList, String>)MBMailingList::setInServerName);
-		attributeGetterFunctions.put(
-			"inServerPort", MBMailingList::getInServerPort);
 		attributeSetterBiConsumers.put(
 			"inServerPort",
 			(BiConsumer<MBMailingList, Integer>)MBMailingList::setInServerPort);
-		attributeGetterFunctions.put("inUseSSL", MBMailingList::getInUseSSL);
 		attributeSetterBiConsumers.put(
 			"inUseSSL",
 			(BiConsumer<MBMailingList, Boolean>)MBMailingList::setInUseSSL);
-		attributeGetterFunctions.put(
-			"inUserName", MBMailingList::getInUserName);
 		attributeSetterBiConsumers.put(
 			"inUserName",
 			(BiConsumer<MBMailingList, String>)MBMailingList::setInUserName);
-		attributeGetterFunctions.put(
-			"inPassword", MBMailingList::getInPassword);
 		attributeSetterBiConsumers.put(
 			"inPassword",
 			(BiConsumer<MBMailingList, String>)MBMailingList::setInPassword);
-		attributeGetterFunctions.put(
-			"inReadInterval", MBMailingList::getInReadInterval);
 		attributeSetterBiConsumers.put(
 			"inReadInterval",
 			(BiConsumer<MBMailingList, Integer>)
 				MBMailingList::setInReadInterval);
-		attributeGetterFunctions.put(
-			"outEmailAddress", MBMailingList::getOutEmailAddress);
 		attributeSetterBiConsumers.put(
 			"outEmailAddress",
 			(BiConsumer<MBMailingList, String>)
 				MBMailingList::setOutEmailAddress);
-		attributeGetterFunctions.put("outCustom", MBMailingList::getOutCustom);
 		attributeSetterBiConsumers.put(
 			"outCustom",
 			(BiConsumer<MBMailingList, Boolean>)MBMailingList::setOutCustom);
-		attributeGetterFunctions.put(
-			"outServerName", MBMailingList::getOutServerName);
 		attributeSetterBiConsumers.put(
 			"outServerName",
 			(BiConsumer<MBMailingList, String>)MBMailingList::setOutServerName);
-		attributeGetterFunctions.put(
-			"outServerPort", MBMailingList::getOutServerPort);
 		attributeSetterBiConsumers.put(
 			"outServerPort",
 			(BiConsumer<MBMailingList, Integer>)
 				MBMailingList::setOutServerPort);
-		attributeGetterFunctions.put("outUseSSL", MBMailingList::getOutUseSSL);
 		attributeSetterBiConsumers.put(
 			"outUseSSL",
 			(BiConsumer<MBMailingList, Boolean>)MBMailingList::setOutUseSSL);
-		attributeGetterFunctions.put(
-			"outUserName", MBMailingList::getOutUserName);
 		attributeSetterBiConsumers.put(
 			"outUserName",
 			(BiConsumer<MBMailingList, String>)MBMailingList::setOutUserName);
-		attributeGetterFunctions.put(
-			"outPassword", MBMailingList::getOutPassword);
 		attributeSetterBiConsumers.put(
 			"outPassword",
 			(BiConsumer<MBMailingList, String>)MBMailingList::setOutPassword);
-		attributeGetterFunctions.put(
-			"allowAnonymous", MBMailingList::getAllowAnonymous);
 		attributeSetterBiConsumers.put(
 			"allowAnonymous",
 			(BiConsumer<MBMailingList, Boolean>)
 				MBMailingList::setAllowAnonymous);
-		attributeGetterFunctions.put("active", MBMailingList::getActive);
 		attributeSetterBiConsumers.put(
 			"active",
 			(BiConsumer<MBMailingList, Boolean>)MBMailingList::setActive);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

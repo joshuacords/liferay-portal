@@ -5147,33 +5147,17 @@ public class CPDisplayLayoutPersistenceImpl
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			});
 
-		_setCPDisplayLayoutUtilPersistence(this);
+		CPDisplayLayoutUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setCPDisplayLayoutUtilPersistence(null);
+		CPDisplayLayoutUtil.setPersistence(null);
 
 		entityCache.removeCache(CPDisplayLayoutImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setCPDisplayLayoutUtilPersistence(
-		CPDisplayLayoutPersistence cpDisplayLayoutPersistence) {
-
-		try {
-			Field field = CPDisplayLayoutUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, cpDisplayLayoutPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

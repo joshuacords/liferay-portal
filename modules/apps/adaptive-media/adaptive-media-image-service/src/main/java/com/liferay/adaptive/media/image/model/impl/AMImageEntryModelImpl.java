@@ -217,63 +217,69 @@ public class AMImageEntryModelImpl
 
 	private static final Map<String, Function<AMImageEntry, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<AMImageEntry, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<AMImageEntry, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<AMImageEntry, Object>>();
+
+		attributeGetterFunctions.put("uuid", AMImageEntry::getUuid);
+		attributeGetterFunctions.put(
+			"amImageEntryId", AMImageEntry::getAmImageEntryId);
+		attributeGetterFunctions.put("groupId", AMImageEntry::getGroupId);
+		attributeGetterFunctions.put("companyId", AMImageEntry::getCompanyId);
+		attributeGetterFunctions.put("createDate", AMImageEntry::getCreateDate);
+		attributeGetterFunctions.put(
+			"configurationUuid", AMImageEntry::getConfigurationUuid);
+		attributeGetterFunctions.put(
+			"fileVersionId", AMImageEntry::getFileVersionId);
+		attributeGetterFunctions.put("mimeType", AMImageEntry::getMimeType);
+		attributeGetterFunctions.put("height", AMImageEntry::getHeight);
+		attributeGetterFunctions.put("width", AMImageEntry::getWidth);
+		attributeGetterFunctions.put("size", AMImageEntry::getSize);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<AMImageEntry, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<AMImageEntry, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<AMImageEntry, ?>>();
 
-		attributeGetterFunctions.put("uuid", AMImageEntry::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<AMImageEntry, String>)AMImageEntry::setUuid);
-		attributeGetterFunctions.put(
-			"amImageEntryId", AMImageEntry::getAmImageEntryId);
 		attributeSetterBiConsumers.put(
 			"amImageEntryId",
 			(BiConsumer<AMImageEntry, Long>)AMImageEntry::setAmImageEntryId);
-		attributeGetterFunctions.put("groupId", AMImageEntry::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<AMImageEntry, Long>)AMImageEntry::setGroupId);
-		attributeGetterFunctions.put("companyId", AMImageEntry::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<AMImageEntry, Long>)AMImageEntry::setCompanyId);
-		attributeGetterFunctions.put("createDate", AMImageEntry::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<AMImageEntry, Date>)AMImageEntry::setCreateDate);
-		attributeGetterFunctions.put(
-			"configurationUuid", AMImageEntry::getConfigurationUuid);
 		attributeSetterBiConsumers.put(
 			"configurationUuid",
 			(BiConsumer<AMImageEntry, String>)
 				AMImageEntry::setConfigurationUuid);
-		attributeGetterFunctions.put(
-			"fileVersionId", AMImageEntry::getFileVersionId);
 		attributeSetterBiConsumers.put(
 			"fileVersionId",
 			(BiConsumer<AMImageEntry, Long>)AMImageEntry::setFileVersionId);
-		attributeGetterFunctions.put("mimeType", AMImageEntry::getMimeType);
 		attributeSetterBiConsumers.put(
 			"mimeType",
 			(BiConsumer<AMImageEntry, String>)AMImageEntry::setMimeType);
-		attributeGetterFunctions.put("height", AMImageEntry::getHeight);
 		attributeSetterBiConsumers.put(
 			"height",
 			(BiConsumer<AMImageEntry, Integer>)AMImageEntry::setHeight);
-		attributeGetterFunctions.put("width", AMImageEntry::getWidth);
 		attributeSetterBiConsumers.put(
 			"width", (BiConsumer<AMImageEntry, Integer>)AMImageEntry::setWidth);
-		attributeGetterFunctions.put("size", AMImageEntry::getSize);
 		attributeSetterBiConsumers.put(
 			"size", (BiConsumer<AMImageEntry, Long>)AMImageEntry::setSize);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

@@ -2872,6 +2872,10 @@ public class MicroblogsEntryUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(MicroblogsEntryPersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile MicroblogsEntryPersistence _persistence;
 
 }

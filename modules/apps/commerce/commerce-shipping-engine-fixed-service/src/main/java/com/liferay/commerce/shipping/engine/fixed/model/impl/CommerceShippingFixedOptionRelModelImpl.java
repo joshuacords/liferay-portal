@@ -347,9 +347,6 @@ public class CommerceShippingFixedOptionRelModelImpl
 	private static final Map
 		<String, Function<CommerceShippingFixedOptionRel, Object>>
 			_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<CommerceShippingFixedOptionRel, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommerceShippingFixedOptionRel, Object>>
@@ -357,10 +354,6 @@ public class CommerceShippingFixedOptionRelModelImpl
 				new LinkedHashMap
 					<String,
 					 Function<CommerceShippingFixedOptionRel, Object>>();
-		Map<String, BiConsumer<CommerceShippingFixedOptionRel, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String, BiConsumer<CommerceShippingFixedOptionRel, ?>>();
 
 		attributeGetterFunctions.put(
 			"commerceShippingFixedOptionRelId",
@@ -376,6 +369,247 @@ public class CommerceShippingFixedOptionRelModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"groupId",
+			new Function<CommerceShippingFixedOptionRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingFixedOptionRel
+						commerceShippingFixedOptionRel) {
+
+					return commerceShippingFixedOptionRel.getGroupId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommerceShippingFixedOptionRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingFixedOptionRel
+						commerceShippingFixedOptionRel) {
+
+					return commerceShippingFixedOptionRel.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommerceShippingFixedOptionRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingFixedOptionRel
+						commerceShippingFixedOptionRel) {
+
+					return commerceShippingFixedOptionRel.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommerceShippingFixedOptionRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingFixedOptionRel
+						commerceShippingFixedOptionRel) {
+
+					return commerceShippingFixedOptionRel.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommerceShippingFixedOptionRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingFixedOptionRel
+						commerceShippingFixedOptionRel) {
+
+					return commerceShippingFixedOptionRel.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommerceShippingFixedOptionRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingFixedOptionRel
+						commerceShippingFixedOptionRel) {
+
+					return commerceShippingFixedOptionRel.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceShippingMethodId",
+			new Function<CommerceShippingFixedOptionRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingFixedOptionRel
+						commerceShippingFixedOptionRel) {
+
+					return commerceShippingFixedOptionRel.
+						getCommerceShippingMethodId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceShippingFixedOptionId",
+			new Function<CommerceShippingFixedOptionRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingFixedOptionRel
+						commerceShippingFixedOptionRel) {
+
+					return commerceShippingFixedOptionRel.
+						getCommerceShippingFixedOptionId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceInventoryWarehouseId",
+			new Function<CommerceShippingFixedOptionRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingFixedOptionRel
+						commerceShippingFixedOptionRel) {
+
+					return commerceShippingFixedOptionRel.
+						getCommerceInventoryWarehouseId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceCountryId",
+			new Function<CommerceShippingFixedOptionRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingFixedOptionRel
+						commerceShippingFixedOptionRel) {
+
+					return commerceShippingFixedOptionRel.
+						getCommerceCountryId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceRegionId",
+			new Function<CommerceShippingFixedOptionRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingFixedOptionRel
+						commerceShippingFixedOptionRel) {
+
+					return commerceShippingFixedOptionRel.getCommerceRegionId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"zip",
+			new Function<CommerceShippingFixedOptionRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingFixedOptionRel
+						commerceShippingFixedOptionRel) {
+
+					return commerceShippingFixedOptionRel.getZip();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"weightFrom",
+			new Function<CommerceShippingFixedOptionRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingFixedOptionRel
+						commerceShippingFixedOptionRel) {
+
+					return commerceShippingFixedOptionRel.getWeightFrom();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"weightTo",
+			new Function<CommerceShippingFixedOptionRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingFixedOptionRel
+						commerceShippingFixedOptionRel) {
+
+					return commerceShippingFixedOptionRel.getWeightTo();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"fixedPrice",
+			new Function<CommerceShippingFixedOptionRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingFixedOptionRel
+						commerceShippingFixedOptionRel) {
+
+					return commerceShippingFixedOptionRel.getFixedPrice();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"rateUnitWeightPrice",
+			new Function<CommerceShippingFixedOptionRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingFixedOptionRel
+						commerceShippingFixedOptionRel) {
+
+					return commerceShippingFixedOptionRel.
+						getRateUnitWeightPrice();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"ratePercentage",
+			new Function<CommerceShippingFixedOptionRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingFixedOptionRel
+						commerceShippingFixedOptionRel) {
+
+					return commerceShippingFixedOptionRel.getRatePercentage();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<CommerceShippingFixedOptionRel, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommerceShippingFixedOptionRel, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap
+					<String, BiConsumer<CommerceShippingFixedOptionRel, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"commerceShippingFixedOptionRelId",
 			new BiConsumer<CommerceShippingFixedOptionRel, Object>() {
@@ -389,19 +623,6 @@ public class CommerceShippingFixedOptionRelModelImpl
 					commerceShippingFixedOptionRel.
 						setCommerceShippingFixedOptionRelId(
 							(Long)commerceShippingFixedOptionRelIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<CommerceShippingFixedOptionRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingFixedOptionRel
-						commerceShippingFixedOptionRel) {
-
-					return commerceShippingFixedOptionRel.getGroupId();
 				}
 
 			});
@@ -420,19 +641,6 @@ public class CommerceShippingFixedOptionRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommerceShippingFixedOptionRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingFixedOptionRel
-						commerceShippingFixedOptionRel) {
-
-					return commerceShippingFixedOptionRel.getCompanyId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"companyId",
 			new BiConsumer<CommerceShippingFixedOptionRel, Object>() {
@@ -445,19 +653,6 @@ public class CommerceShippingFixedOptionRelModelImpl
 
 					commerceShippingFixedOptionRel.setCompanyId(
 						(Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommerceShippingFixedOptionRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingFixedOptionRel
-						commerceShippingFixedOptionRel) {
-
-					return commerceShippingFixedOptionRel.getUserId();
 				}
 
 			});
@@ -476,19 +671,6 @@ public class CommerceShippingFixedOptionRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommerceShippingFixedOptionRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingFixedOptionRel
-						commerceShippingFixedOptionRel) {
-
-					return commerceShippingFixedOptionRel.getUserName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userName",
 			new BiConsumer<CommerceShippingFixedOptionRel, Object>() {
@@ -501,19 +683,6 @@ public class CommerceShippingFixedOptionRelModelImpl
 
 					commerceShippingFixedOptionRel.setUserName(
 						(String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommerceShippingFixedOptionRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingFixedOptionRel
-						commerceShippingFixedOptionRel) {
-
-					return commerceShippingFixedOptionRel.getCreateDate();
 				}
 
 			});
@@ -532,19 +701,6 @@ public class CommerceShippingFixedOptionRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommerceShippingFixedOptionRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingFixedOptionRel
-						commerceShippingFixedOptionRel) {
-
-					return commerceShippingFixedOptionRel.getModifiedDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			new BiConsumer<CommerceShippingFixedOptionRel, Object>() {
@@ -560,20 +716,6 @@ public class CommerceShippingFixedOptionRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"commerceShippingMethodId",
-			new Function<CommerceShippingFixedOptionRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingFixedOptionRel
-						commerceShippingFixedOptionRel) {
-
-					return commerceShippingFixedOptionRel.
-						getCommerceShippingMethodId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"commerceShippingMethodId",
 			new BiConsumer<CommerceShippingFixedOptionRel, Object>() {
@@ -586,20 +728,6 @@ public class CommerceShippingFixedOptionRelModelImpl
 
 					commerceShippingFixedOptionRel.setCommerceShippingMethodId(
 						(Long)commerceShippingMethodIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commerceShippingFixedOptionId",
-			new Function<CommerceShippingFixedOptionRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingFixedOptionRel
-						commerceShippingFixedOptionRel) {
-
-					return commerceShippingFixedOptionRel.
-						getCommerceShippingFixedOptionId();
 				}
 
 			});
@@ -619,20 +747,6 @@ public class CommerceShippingFixedOptionRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"commerceInventoryWarehouseId",
-			new Function<CommerceShippingFixedOptionRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingFixedOptionRel
-						commerceShippingFixedOptionRel) {
-
-					return commerceShippingFixedOptionRel.
-						getCommerceInventoryWarehouseId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"commerceInventoryWarehouseId",
 			new BiConsumer<CommerceShippingFixedOptionRel, Object>() {
@@ -646,20 +760,6 @@ public class CommerceShippingFixedOptionRelModelImpl
 					commerceShippingFixedOptionRel.
 						setCommerceInventoryWarehouseId(
 							(Long)commerceInventoryWarehouseIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commerceCountryId",
-			new Function<CommerceShippingFixedOptionRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingFixedOptionRel
-						commerceShippingFixedOptionRel) {
-
-					return commerceShippingFixedOptionRel.
-						getCommerceCountryId();
 				}
 
 			});
@@ -678,19 +778,6 @@ public class CommerceShippingFixedOptionRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"commerceRegionId",
-			new Function<CommerceShippingFixedOptionRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingFixedOptionRel
-						commerceShippingFixedOptionRel) {
-
-					return commerceShippingFixedOptionRel.getCommerceRegionId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"commerceRegionId",
 			new BiConsumer<CommerceShippingFixedOptionRel, Object>() {
@@ -706,19 +793,6 @@ public class CommerceShippingFixedOptionRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"zip",
-			new Function<CommerceShippingFixedOptionRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingFixedOptionRel
-						commerceShippingFixedOptionRel) {
-
-					return commerceShippingFixedOptionRel.getZip();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"zip",
 			new BiConsumer<CommerceShippingFixedOptionRel, Object>() {
@@ -730,19 +804,6 @@ public class CommerceShippingFixedOptionRelModelImpl
 					Object zipObject) {
 
 					commerceShippingFixedOptionRel.setZip((String)zipObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"weightFrom",
-			new Function<CommerceShippingFixedOptionRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingFixedOptionRel
-						commerceShippingFixedOptionRel) {
-
-					return commerceShippingFixedOptionRel.getWeightFrom();
 				}
 
 			});
@@ -761,19 +822,6 @@ public class CommerceShippingFixedOptionRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"weightTo",
-			new Function<CommerceShippingFixedOptionRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingFixedOptionRel
-						commerceShippingFixedOptionRel) {
-
-					return commerceShippingFixedOptionRel.getWeightTo();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"weightTo",
 			new BiConsumer<CommerceShippingFixedOptionRel, Object>() {
@@ -786,19 +834,6 @@ public class CommerceShippingFixedOptionRelModelImpl
 
 					commerceShippingFixedOptionRel.setWeightTo(
 						(Double)weightToObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"fixedPrice",
-			new Function<CommerceShippingFixedOptionRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingFixedOptionRel
-						commerceShippingFixedOptionRel) {
-
-					return commerceShippingFixedOptionRel.getFixedPrice();
 				}
 
 			});
@@ -817,20 +852,6 @@ public class CommerceShippingFixedOptionRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"rateUnitWeightPrice",
-			new Function<CommerceShippingFixedOptionRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingFixedOptionRel
-						commerceShippingFixedOptionRel) {
-
-					return commerceShippingFixedOptionRel.
-						getRateUnitWeightPrice();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"rateUnitWeightPrice",
 			new BiConsumer<CommerceShippingFixedOptionRel, Object>() {
@@ -843,19 +864,6 @@ public class CommerceShippingFixedOptionRelModelImpl
 
 					commerceShippingFixedOptionRel.setRateUnitWeightPrice(
 						(BigDecimal)rateUnitWeightPriceObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"ratePercentage",
-			new Function<CommerceShippingFixedOptionRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingFixedOptionRel
-						commerceShippingFixedOptionRel) {
-
-					return commerceShippingFixedOptionRel.getRatePercentage();
 				}
 
 			});
@@ -875,8 +883,6 @@ public class CommerceShippingFixedOptionRelModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

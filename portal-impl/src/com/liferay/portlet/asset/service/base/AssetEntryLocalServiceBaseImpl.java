@@ -60,8 +60,6 @@ import com.liferay.social.kernel.service.persistence.SocialActivityCounterPersis
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -1131,14 +1129,14 @@ public abstract class AssetEntryLocalServiceBaseImpl
 			"com.liferay.asset.kernel.model.AssetEntry",
 			assetEntryLocalService);
 
-		_setLocalServiceUtilService(assetEntryLocalService);
+		AssetEntryLocalServiceUtil.setService(assetEntryLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"com.liferay.asset.kernel.model.AssetEntry");
 
-		_setLocalServiceUtilService(null);
+		AssetEntryLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -1180,22 +1178,6 @@ public abstract class AssetEntryLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		AssetEntryLocalService assetEntryLocalService) {
-
-		try {
-			Field field = AssetEntryLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, assetEntryLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

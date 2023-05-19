@@ -6566,6 +6566,10 @@ public class BlogsEntryUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(BlogsEntryPersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile BlogsEntryPersistence _persistence;
 
 }

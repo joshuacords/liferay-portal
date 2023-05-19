@@ -2580,11 +2580,11 @@ public class CommerceDiscountCommerceAccountGroupRelPersistenceImpl
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
-		_setCommerceDiscountCommerceAccountGroupRelUtilPersistence(this);
+		CommerceDiscountCommerceAccountGroupRelUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setCommerceDiscountCommerceAccountGroupRelUtilPersistence(null);
+		CommerceDiscountCommerceAccountGroupRelUtil.setPersistence(null);
 
 		entityCache.removeCache(
 			CommerceDiscountCommerceAccountGroupRelImpl.class.getName());
@@ -2592,24 +2592,6 @@ public class CommerceDiscountCommerceAccountGroupRelPersistenceImpl
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setCommerceDiscountCommerceAccountGroupRelUtilPersistence(
-		CommerceDiscountCommerceAccountGroupRelPersistence
-			commerceDiscountCommerceAccountGroupRelPersistence) {
-
-		try {
-			Field field =
-				CommerceDiscountCommerceAccountGroupRelUtil.class.
-					getDeclaredField("_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, commerceDiscountCommerceAccountGroupRelPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

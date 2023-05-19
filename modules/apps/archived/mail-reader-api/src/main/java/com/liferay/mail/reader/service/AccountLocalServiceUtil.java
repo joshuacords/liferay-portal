@@ -328,6 +328,10 @@ public class AccountLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(AccountLocalService service) {
+		_service = service;
+	}
+
 	private static volatile AccountLocalService _service;
 
 }

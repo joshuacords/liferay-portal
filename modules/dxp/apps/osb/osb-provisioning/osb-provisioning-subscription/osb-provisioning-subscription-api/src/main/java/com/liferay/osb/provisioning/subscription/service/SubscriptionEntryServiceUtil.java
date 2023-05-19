@@ -47,6 +47,10 @@ public class SubscriptionEntryServiceUtil {
 		return _service;
 	}
 
+	public static void setService(SubscriptionEntryService service) {
+		_service = service;
+	}
+
 	private static volatile SubscriptionEntryService _service;
 
 }

@@ -328,9 +328,6 @@ public class CommerceInventoryReplenishmentItemModelImpl
 	private static final Map
 		<String, Function<CommerceInventoryReplenishmentItem, Object>>
 			_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<CommerceInventoryReplenishmentItem, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommerceInventoryReplenishmentItem, Object>>
@@ -338,11 +335,6 @@ public class CommerceInventoryReplenishmentItemModelImpl
 				new LinkedHashMap
 					<String,
 					 Function<CommerceInventoryReplenishmentItem, Object>>();
-		Map<String, BiConsumer<CommerceInventoryReplenishmentItem, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String,
-					 BiConsumer<CommerceInventoryReplenishmentItem, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion",
@@ -357,6 +349,155 @@ public class CommerceInventoryReplenishmentItemModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"commerceInventoryReplenishmentItemId",
+			new Function<CommerceInventoryReplenishmentItem, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryReplenishmentItem
+						commerceInventoryReplenishmentItem) {
+
+					return commerceInventoryReplenishmentItem.
+						getCommerceInventoryReplenishmentItemId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommerceInventoryReplenishmentItem, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryReplenishmentItem
+						commerceInventoryReplenishmentItem) {
+
+					return commerceInventoryReplenishmentItem.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommerceInventoryReplenishmentItem, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryReplenishmentItem
+						commerceInventoryReplenishmentItem) {
+
+					return commerceInventoryReplenishmentItem.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommerceInventoryReplenishmentItem, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryReplenishmentItem
+						commerceInventoryReplenishmentItem) {
+
+					return commerceInventoryReplenishmentItem.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommerceInventoryReplenishmentItem, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryReplenishmentItem
+						commerceInventoryReplenishmentItem) {
+
+					return commerceInventoryReplenishmentItem.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommerceInventoryReplenishmentItem, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryReplenishmentItem
+						commerceInventoryReplenishmentItem) {
+
+					return commerceInventoryReplenishmentItem.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceInventoryWarehouseId",
+			new Function<CommerceInventoryReplenishmentItem, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryReplenishmentItem
+						commerceInventoryReplenishmentItem) {
+
+					return commerceInventoryReplenishmentItem.
+						getCommerceInventoryWarehouseId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"sku",
+			new Function<CommerceInventoryReplenishmentItem, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryReplenishmentItem
+						commerceInventoryReplenishmentItem) {
+
+					return commerceInventoryReplenishmentItem.getSku();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"availabilityDate",
+			new Function<CommerceInventoryReplenishmentItem, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryReplenishmentItem
+						commerceInventoryReplenishmentItem) {
+
+					return commerceInventoryReplenishmentItem.
+						getAvailabilityDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"quantity",
+			new Function<CommerceInventoryReplenishmentItem, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryReplenishmentItem
+						commerceInventoryReplenishmentItem) {
+
+					return commerceInventoryReplenishmentItem.getQuantity();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<CommerceInventoryReplenishmentItem, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommerceInventoryReplenishmentItem, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap
+					<String,
+					 BiConsumer<CommerceInventoryReplenishmentItem, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			new BiConsumer<CommerceInventoryReplenishmentItem, Object>() {
@@ -369,20 +510,6 @@ public class CommerceInventoryReplenishmentItemModelImpl
 
 					commerceInventoryReplenishmentItem.setMvccVersion(
 						(Long)mvccVersionObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commerceInventoryReplenishmentItemId",
-			new Function<CommerceInventoryReplenishmentItem, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryReplenishmentItem
-						commerceInventoryReplenishmentItem) {
-
-					return commerceInventoryReplenishmentItem.
-						getCommerceInventoryReplenishmentItemId();
 				}
 
 			});
@@ -402,19 +529,6 @@ public class CommerceInventoryReplenishmentItemModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommerceInventoryReplenishmentItem, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryReplenishmentItem
-						commerceInventoryReplenishmentItem) {
-
-					return commerceInventoryReplenishmentItem.getCompanyId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"companyId",
 			new BiConsumer<CommerceInventoryReplenishmentItem, Object>() {
@@ -427,19 +541,6 @@ public class CommerceInventoryReplenishmentItemModelImpl
 
 					commerceInventoryReplenishmentItem.setCompanyId(
 						(Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommerceInventoryReplenishmentItem, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryReplenishmentItem
-						commerceInventoryReplenishmentItem) {
-
-					return commerceInventoryReplenishmentItem.getUserId();
 				}
 
 			});
@@ -458,19 +559,6 @@ public class CommerceInventoryReplenishmentItemModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommerceInventoryReplenishmentItem, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryReplenishmentItem
-						commerceInventoryReplenishmentItem) {
-
-					return commerceInventoryReplenishmentItem.getUserName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userName",
 			new BiConsumer<CommerceInventoryReplenishmentItem, Object>() {
@@ -483,19 +571,6 @@ public class CommerceInventoryReplenishmentItemModelImpl
 
 					commerceInventoryReplenishmentItem.setUserName(
 						(String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommerceInventoryReplenishmentItem, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryReplenishmentItem
-						commerceInventoryReplenishmentItem) {
-
-					return commerceInventoryReplenishmentItem.getCreateDate();
 				}
 
 			});
@@ -514,19 +589,6 @@ public class CommerceInventoryReplenishmentItemModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommerceInventoryReplenishmentItem, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryReplenishmentItem
-						commerceInventoryReplenishmentItem) {
-
-					return commerceInventoryReplenishmentItem.getModifiedDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			new BiConsumer<CommerceInventoryReplenishmentItem, Object>() {
@@ -539,20 +601,6 @@ public class CommerceInventoryReplenishmentItemModelImpl
 
 					commerceInventoryReplenishmentItem.setModifiedDate(
 						(Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commerceInventoryWarehouseId",
-			new Function<CommerceInventoryReplenishmentItem, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryReplenishmentItem
-						commerceInventoryReplenishmentItem) {
-
-					return commerceInventoryReplenishmentItem.
-						getCommerceInventoryWarehouseId();
 				}
 
 			});
@@ -572,19 +620,6 @@ public class CommerceInventoryReplenishmentItemModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"sku",
-			new Function<CommerceInventoryReplenishmentItem, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryReplenishmentItem
-						commerceInventoryReplenishmentItem) {
-
-					return commerceInventoryReplenishmentItem.getSku();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"sku",
 			new BiConsumer<CommerceInventoryReplenishmentItem, Object>() {
@@ -600,20 +635,6 @@ public class CommerceInventoryReplenishmentItemModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"availabilityDate",
-			new Function<CommerceInventoryReplenishmentItem, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryReplenishmentItem
-						commerceInventoryReplenishmentItem) {
-
-					return commerceInventoryReplenishmentItem.
-						getAvailabilityDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"availabilityDate",
 			new BiConsumer<CommerceInventoryReplenishmentItem, Object>() {
@@ -626,19 +647,6 @@ public class CommerceInventoryReplenishmentItemModelImpl
 
 					commerceInventoryReplenishmentItem.setAvailabilityDate(
 						(Date)availabilityDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"quantity",
-			new Function<CommerceInventoryReplenishmentItem, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryReplenishmentItem
-						commerceInventoryReplenishmentItem) {
-
-					return commerceInventoryReplenishmentItem.getQuantity();
 				}
 
 			});
@@ -658,8 +666,6 @@ public class CommerceInventoryReplenishmentItemModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

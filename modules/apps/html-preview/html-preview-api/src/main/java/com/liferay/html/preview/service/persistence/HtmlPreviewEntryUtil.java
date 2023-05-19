@@ -353,6 +353,10 @@ public class HtmlPreviewEntryUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(HtmlPreviewEntryPersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile HtmlPreviewEntryPersistence _persistence;
 
 }

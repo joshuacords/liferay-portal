@@ -219,47 +219,53 @@ public class VersionedEntryVersionModelImpl
 
 	private static final Map<String, Function<VersionedEntryVersion, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<VersionedEntryVersion, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<VersionedEntryVersion, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<VersionedEntryVersion, Object>>();
+
+		attributeGetterFunctions.put(
+			"versionedEntryVersionId",
+			VersionedEntryVersion::getVersionedEntryVersionId);
+		attributeGetterFunctions.put(
+			"version", VersionedEntryVersion::getVersion);
+		attributeGetterFunctions.put(
+			"versionedEntryId", VersionedEntryVersion::getVersionedEntryId);
+		attributeGetterFunctions.put(
+			"groupId", VersionedEntryVersion::getGroupId);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<VersionedEntryVersion, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<VersionedEntryVersion, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<VersionedEntryVersion, ?>>();
 
-		attributeGetterFunctions.put(
-			"versionedEntryVersionId",
-			VersionedEntryVersion::getVersionedEntryVersionId);
 		attributeSetterBiConsumers.put(
 			"versionedEntryVersionId",
 			(BiConsumer<VersionedEntryVersion, Long>)
 				VersionedEntryVersion::setVersionedEntryVersionId);
-		attributeGetterFunctions.put(
-			"version", VersionedEntryVersion::getVersion);
 		attributeSetterBiConsumers.put(
 			"version",
 			(BiConsumer<VersionedEntryVersion, Integer>)
 				VersionedEntryVersion::setVersion);
-		attributeGetterFunctions.put(
-			"versionedEntryId", VersionedEntryVersion::getVersionedEntryId);
 		attributeSetterBiConsumers.put(
 			"versionedEntryId",
 			(BiConsumer<VersionedEntryVersion, Long>)
 				VersionedEntryVersion::setVersionedEntryId);
-		attributeGetterFunctions.put(
-			"groupId", VersionedEntryVersion::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<VersionedEntryVersion, Long>)
 				VersionedEntryVersion::setGroupId);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

@@ -85,6 +85,12 @@ public class CommerceApplicationModelCProductRelServiceUtil {
 		return _service;
 	}
 
+	public static void setService(
+		CommerceApplicationModelCProductRelService service) {
+
+		_service = service;
+	}
+
 	private static volatile CommerceApplicationModelCProductRelService _service;
 
 }

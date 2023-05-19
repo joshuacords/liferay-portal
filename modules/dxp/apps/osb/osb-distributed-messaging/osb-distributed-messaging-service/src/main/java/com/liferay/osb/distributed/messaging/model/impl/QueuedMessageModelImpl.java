@@ -204,48 +204,54 @@ public class QueuedMessageModelImpl
 
 	private static final Map<String, Function<QueuedMessage, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<QueuedMessage, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<QueuedMessage, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<QueuedMessage, Object>>();
-		Map<String, BiConsumer<QueuedMessage, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<QueuedMessage, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", QueuedMessage::getMvccVersion);
+		attributeGetterFunctions.put(
+			"queuedMessageId", QueuedMessage::getQueuedMessageId);
+		attributeGetterFunctions.put(
+			"createDate", QueuedMessage::getCreateDate);
+		attributeGetterFunctions.put(
+			"messageBrokerClassName", QueuedMessage::getMessageBrokerClassName);
+		attributeGetterFunctions.put("topic", QueuedMessage::getTopic);
+		attributeGetterFunctions.put(
+			"messageObject", QueuedMessage::getMessageObject);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<QueuedMessage, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<QueuedMessage, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<QueuedMessage, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<QueuedMessage, Long>)QueuedMessage::setMvccVersion);
-		attributeGetterFunctions.put(
-			"queuedMessageId", QueuedMessage::getQueuedMessageId);
 		attributeSetterBiConsumers.put(
 			"queuedMessageId",
 			(BiConsumer<QueuedMessage, Long>)QueuedMessage::setQueuedMessageId);
-		attributeGetterFunctions.put(
-			"createDate", QueuedMessage::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<QueuedMessage, Date>)QueuedMessage::setCreateDate);
-		attributeGetterFunctions.put(
-			"messageBrokerClassName", QueuedMessage::getMessageBrokerClassName);
 		attributeSetterBiConsumers.put(
 			"messageBrokerClassName",
 			(BiConsumer<QueuedMessage, String>)
 				QueuedMessage::setMessageBrokerClassName);
-		attributeGetterFunctions.put("topic", QueuedMessage::getTopic);
 		attributeSetterBiConsumers.put(
 			"topic",
 			(BiConsumer<QueuedMessage, String>)QueuedMessage::setTopic);
-		attributeGetterFunctions.put(
-			"messageObject", QueuedMessage::getMessageObject);
 		attributeSetterBiConsumers.put(
 			"messageObject",
 			(BiConsumer<QueuedMessage, Blob>)QueuedMessage::setMessageObject);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

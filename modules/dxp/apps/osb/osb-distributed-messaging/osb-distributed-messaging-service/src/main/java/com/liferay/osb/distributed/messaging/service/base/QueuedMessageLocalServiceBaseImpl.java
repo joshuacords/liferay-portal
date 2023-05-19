@@ -53,8 +53,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import java.io.InputStream;
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.sql.Blob;
 
 import java.util.List;
@@ -430,7 +428,7 @@ public abstract class QueuedMessageLocalServiceBaseImpl
 
 	@Deactivate
 	protected void deactivate() {
-		_setLocalServiceUtilService(null);
+		QueuedMessageLocalServiceUtil.setService(null);
 	}
 
 	@Override
@@ -445,7 +443,7 @@ public abstract class QueuedMessageLocalServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		queuedMessageLocalService = (QueuedMessageLocalService)aopProxy;
 
-		_setLocalServiceUtilService(queuedMessageLocalService);
+		QueuedMessageLocalServiceUtil.setService(queuedMessageLocalService);
 	}
 
 	/**
@@ -487,22 +485,6 @@ public abstract class QueuedMessageLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		QueuedMessageLocalService queuedMessageLocalService) {
-
-		try {
-			Field field = QueuedMessageLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, queuedMessageLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

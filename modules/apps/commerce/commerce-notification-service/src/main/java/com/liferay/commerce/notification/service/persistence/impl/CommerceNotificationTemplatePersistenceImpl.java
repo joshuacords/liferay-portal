@@ -5695,11 +5695,11 @@ public class CommerceNotificationTemplatePersistenceImpl
 				Boolean.class.getName()
 			});
 
-		_setCommerceNotificationTemplateUtilPersistence(this);
+		CommerceNotificationTemplateUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setCommerceNotificationTemplateUtilPersistence(null);
+		CommerceNotificationTemplateUtil.setPersistence(null);
 
 		entityCache.removeCache(
 			CommerceNotificationTemplateImpl.class.getName());
@@ -5707,24 +5707,6 @@ public class CommerceNotificationTemplatePersistenceImpl
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setCommerceNotificationTemplateUtilPersistence(
-		CommerceNotificationTemplatePersistence
-			commerceNotificationTemplatePersistence) {
-
-		try {
-			Field field =
-				CommerceNotificationTemplateUtil.class.getDeclaredField(
-					"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, commerceNotificationTemplatePersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

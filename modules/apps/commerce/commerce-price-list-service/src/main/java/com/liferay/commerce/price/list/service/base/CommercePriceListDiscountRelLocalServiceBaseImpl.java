@@ -65,8 +65,6 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -1070,14 +1068,15 @@ public abstract class CommercePriceListDiscountRelLocalServiceBaseImpl
 			"com.liferay.commerce.price.list.model.CommercePriceListDiscountRel",
 			commercePriceListDiscountRelLocalService);
 
-		_setLocalServiceUtilService(commercePriceListDiscountRelLocalService);
+		CommercePriceListDiscountRelLocalServiceUtil.setService(
+			commercePriceListDiscountRelLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"com.liferay.commerce.price.list.model.CommercePriceListDiscountRel");
 
-		_setLocalServiceUtilService(null);
+		CommercePriceListDiscountRelLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -1120,24 +1119,6 @@ public abstract class CommercePriceListDiscountRelLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		CommercePriceListDiscountRelLocalService
-			commercePriceListDiscountRelLocalService) {
-
-		try {
-			Field field =
-				CommercePriceListDiscountRelLocalServiceUtil.class.
-					getDeclaredField("_service");
-
-			field.setAccessible(true);
-
-			field.set(null, commercePriceListDiscountRelLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

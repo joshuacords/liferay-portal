@@ -291,99 +291,105 @@ public class DDMDataProviderInstanceModelImpl
 
 	private static final Map<String, Function<DDMDataProviderInstance, Object>>
 		_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<DDMDataProviderInstance, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<DDMDataProviderInstance, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<DDMDataProviderInstance, Object>>();
+
+		attributeGetterFunctions.put(
+			"mvccVersion", DDMDataProviderInstance::getMvccVersion);
+		attributeGetterFunctions.put("uuid", DDMDataProviderInstance::getUuid);
+		attributeGetterFunctions.put(
+			"dataProviderInstanceId",
+			DDMDataProviderInstance::getDataProviderInstanceId);
+		attributeGetterFunctions.put(
+			"groupId", DDMDataProviderInstance::getGroupId);
+		attributeGetterFunctions.put(
+			"companyId", DDMDataProviderInstance::getCompanyId);
+		attributeGetterFunctions.put(
+			"userId", DDMDataProviderInstance::getUserId);
+		attributeGetterFunctions.put(
+			"userName", DDMDataProviderInstance::getUserName);
+		attributeGetterFunctions.put(
+			"createDate", DDMDataProviderInstance::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", DDMDataProviderInstance::getModifiedDate);
+		attributeGetterFunctions.put("name", DDMDataProviderInstance::getName);
+		attributeGetterFunctions.put(
+			"description", DDMDataProviderInstance::getDescription);
+		attributeGetterFunctions.put(
+			"definition", DDMDataProviderInstance::getDefinition);
+		attributeGetterFunctions.put("type", DDMDataProviderInstance::getType);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<DDMDataProviderInstance, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<DDMDataProviderInstance, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<DDMDataProviderInstance, ?>>();
 
-		attributeGetterFunctions.put(
-			"mvccVersion", DDMDataProviderInstance::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<DDMDataProviderInstance, Long>)
 				DDMDataProviderInstance::setMvccVersion);
-		attributeGetterFunctions.put("uuid", DDMDataProviderInstance::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<DDMDataProviderInstance, String>)
 				DDMDataProviderInstance::setUuid);
-		attributeGetterFunctions.put(
-			"dataProviderInstanceId",
-			DDMDataProviderInstance::getDataProviderInstanceId);
 		attributeSetterBiConsumers.put(
 			"dataProviderInstanceId",
 			(BiConsumer<DDMDataProviderInstance, Long>)
 				DDMDataProviderInstance::setDataProviderInstanceId);
-		attributeGetterFunctions.put(
-			"groupId", DDMDataProviderInstance::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<DDMDataProviderInstance, Long>)
 				DDMDataProviderInstance::setGroupId);
-		attributeGetterFunctions.put(
-			"companyId", DDMDataProviderInstance::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<DDMDataProviderInstance, Long>)
 				DDMDataProviderInstance::setCompanyId);
-		attributeGetterFunctions.put(
-			"userId", DDMDataProviderInstance::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<DDMDataProviderInstance, Long>)
 				DDMDataProviderInstance::setUserId);
-		attributeGetterFunctions.put(
-			"userName", DDMDataProviderInstance::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<DDMDataProviderInstance, String>)
 				DDMDataProviderInstance::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", DDMDataProviderInstance::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<DDMDataProviderInstance, Date>)
 				DDMDataProviderInstance::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", DDMDataProviderInstance::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<DDMDataProviderInstance, Date>)
 				DDMDataProviderInstance::setModifiedDate);
-		attributeGetterFunctions.put("name", DDMDataProviderInstance::getName);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<DDMDataProviderInstance, String>)
 				DDMDataProviderInstance::setName);
-		attributeGetterFunctions.put(
-			"description", DDMDataProviderInstance::getDescription);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<DDMDataProviderInstance, String>)
 				DDMDataProviderInstance::setDescription);
-		attributeGetterFunctions.put(
-			"definition", DDMDataProviderInstance::getDefinition);
 		attributeSetterBiConsumers.put(
 			"definition",
 			(BiConsumer<DDMDataProviderInstance, String>)
 				DDMDataProviderInstance::setDefinition);
-		attributeGetterFunctions.put("type", DDMDataProviderInstance::getType);
 		attributeSetterBiConsumers.put(
 			"type",
 			(BiConsumer<DDMDataProviderInstance, String>)
 				DDMDataProviderInstance::setType);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

@@ -362,6 +362,10 @@ public class SamlSpIdpConnectionLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(SamlSpIdpConnectionLocalService service) {
+		_service = service;
+	}
+
 	private static volatile SamlSpIdpConnectionLocalService _service;
 
 }

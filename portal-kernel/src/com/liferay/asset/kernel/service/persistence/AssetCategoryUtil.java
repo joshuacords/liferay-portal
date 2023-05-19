@@ -4047,6 +4047,10 @@ public class AssetCategoryUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(AssetCategoryPersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile AssetCategoryPersistence _persistence;
 
 }

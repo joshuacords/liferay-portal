@@ -1088,6 +1088,10 @@ public class CommerceShipmentUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(CommerceShipmentPersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile CommerceShipmentPersistence _persistence;
 
 }

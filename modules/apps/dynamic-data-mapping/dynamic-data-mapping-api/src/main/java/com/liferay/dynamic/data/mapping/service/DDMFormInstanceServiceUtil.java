@@ -211,6 +211,10 @@ public class DDMFormInstanceServiceUtil {
 		return _service;
 	}
 
+	public static void setService(DDMFormInstanceService service) {
+		_service = service;
+	}
+
 	private static volatile DDMFormInstanceService _service;
 
 }

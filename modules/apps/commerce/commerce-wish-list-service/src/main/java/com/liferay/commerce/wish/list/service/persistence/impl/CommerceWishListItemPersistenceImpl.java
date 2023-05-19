@@ -44,7 +44,6 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
@@ -4282,33 +4281,17 @@ public class CommerceWishListItemPersistenceImpl
 				Long.class.getName()
 			});
 
-		_setCommerceWishListItemUtilPersistence(this);
+		CommerceWishListItemUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setCommerceWishListItemUtilPersistence(null);
+		CommerceWishListItemUtil.setPersistence(null);
 
 		entityCache.removeCache(CommerceWishListItemImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setCommerceWishListItemUtilPersistence(
-		CommerceWishListItemPersistence commerceWishListItemPersistence) {
-
-		try {
-			Field field = CommerceWishListItemUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, commerceWishListItemPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

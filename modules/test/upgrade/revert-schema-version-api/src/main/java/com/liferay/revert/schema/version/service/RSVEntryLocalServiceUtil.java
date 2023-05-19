@@ -274,6 +274,10 @@ public class RSVEntryLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(RSVEntryLocalService service) {
+		_service = service;
+	}
+
 	private static volatile RSVEntryLocalService _service;
 
 }

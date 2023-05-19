@@ -241,80 +241,86 @@ public class SystemEventModelImpl
 
 	private static final Map<String, Function<SystemEvent, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<SystemEvent, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<SystemEvent, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<SystemEvent, Object>>();
-		Map<String, BiConsumer<SystemEvent, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<SystemEvent, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", SystemEvent::getMvccVersion);
+		attributeGetterFunctions.put(
+			"systemEventId", SystemEvent::getSystemEventId);
+		attributeGetterFunctions.put("groupId", SystemEvent::getGroupId);
+		attributeGetterFunctions.put("companyId", SystemEvent::getCompanyId);
+		attributeGetterFunctions.put("userId", SystemEvent::getUserId);
+		attributeGetterFunctions.put("userName", SystemEvent::getUserName);
+		attributeGetterFunctions.put("createDate", SystemEvent::getCreateDate);
+		attributeGetterFunctions.put(
+			"classNameId", SystemEvent::getClassNameId);
+		attributeGetterFunctions.put("classPK", SystemEvent::getClassPK);
+		attributeGetterFunctions.put("classUuid", SystemEvent::getClassUuid);
+		attributeGetterFunctions.put(
+			"referrerClassNameId", SystemEvent::getReferrerClassNameId);
+		attributeGetterFunctions.put(
+			"parentSystemEventId", SystemEvent::getParentSystemEventId);
+		attributeGetterFunctions.put(
+			"systemEventSetKey", SystemEvent::getSystemEventSetKey);
+		attributeGetterFunctions.put("type", SystemEvent::getType);
+		attributeGetterFunctions.put("extraData", SystemEvent::getExtraData);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<SystemEvent, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<SystemEvent, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<SystemEvent, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<SystemEvent, Long>)SystemEvent::setMvccVersion);
-		attributeGetterFunctions.put(
-			"systemEventId", SystemEvent::getSystemEventId);
 		attributeSetterBiConsumers.put(
 			"systemEventId",
 			(BiConsumer<SystemEvent, Long>)SystemEvent::setSystemEventId);
-		attributeGetterFunctions.put("groupId", SystemEvent::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<SystemEvent, Long>)SystemEvent::setGroupId);
-		attributeGetterFunctions.put("companyId", SystemEvent::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<SystemEvent, Long>)SystemEvent::setCompanyId);
-		attributeGetterFunctions.put("userId", SystemEvent::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<SystemEvent, Long>)SystemEvent::setUserId);
-		attributeGetterFunctions.put("userName", SystemEvent::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<SystemEvent, String>)SystemEvent::setUserName);
-		attributeGetterFunctions.put("createDate", SystemEvent::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<SystemEvent, Date>)SystemEvent::setCreateDate);
-		attributeGetterFunctions.put(
-			"classNameId", SystemEvent::getClassNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<SystemEvent, Long>)SystemEvent::setClassNameId);
-		attributeGetterFunctions.put("classPK", SystemEvent::getClassPK);
 		attributeSetterBiConsumers.put(
 			"classPK", (BiConsumer<SystemEvent, Long>)SystemEvent::setClassPK);
-		attributeGetterFunctions.put("classUuid", SystemEvent::getClassUuid);
 		attributeSetterBiConsumers.put(
 			"classUuid",
 			(BiConsumer<SystemEvent, String>)SystemEvent::setClassUuid);
-		attributeGetterFunctions.put(
-			"referrerClassNameId", SystemEvent::getReferrerClassNameId);
 		attributeSetterBiConsumers.put(
 			"referrerClassNameId",
 			(BiConsumer<SystemEvent, Long>)SystemEvent::setReferrerClassNameId);
-		attributeGetterFunctions.put(
-			"parentSystemEventId", SystemEvent::getParentSystemEventId);
 		attributeSetterBiConsumers.put(
 			"parentSystemEventId",
 			(BiConsumer<SystemEvent, Long>)SystemEvent::setParentSystemEventId);
-		attributeGetterFunctions.put(
-			"systemEventSetKey", SystemEvent::getSystemEventSetKey);
 		attributeSetterBiConsumers.put(
 			"systemEventSetKey",
 			(BiConsumer<SystemEvent, Long>)SystemEvent::setSystemEventSetKey);
-		attributeGetterFunctions.put("type", SystemEvent::getType);
 		attributeSetterBiConsumers.put(
 			"type", (BiConsumer<SystemEvent, Integer>)SystemEvent::setType);
-		attributeGetterFunctions.put("extraData", SystemEvent::getExtraData);
 		attributeSetterBiConsumers.put(
 			"extraData",
 			(BiConsumer<SystemEvent, String>)SystemEvent::setExtraData);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

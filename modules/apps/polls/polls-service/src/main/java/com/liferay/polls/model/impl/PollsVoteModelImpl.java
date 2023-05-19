@@ -279,64 +279,70 @@ public class PollsVoteModelImpl
 
 	private static final Map<String, Function<PollsVote, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<PollsVote, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<PollsVote, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<PollsVote, Object>>();
-		Map<String, BiConsumer<PollsVote, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<PollsVote, ?>>();
 
 		attributeGetterFunctions.put("mvccVersion", PollsVote::getMvccVersion);
-		attributeSetterBiConsumers.put(
-			"mvccVersion",
-			(BiConsumer<PollsVote, Long>)PollsVote::setMvccVersion);
 		attributeGetterFunctions.put("uuid", PollsVote::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<PollsVote, String>)PollsVote::setUuid);
 		attributeGetterFunctions.put("voteId", PollsVote::getVoteId);
-		attributeSetterBiConsumers.put(
-			"voteId", (BiConsumer<PollsVote, Long>)PollsVote::setVoteId);
 		attributeGetterFunctions.put("groupId", PollsVote::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId", (BiConsumer<PollsVote, Long>)PollsVote::setGroupId);
 		attributeGetterFunctions.put("companyId", PollsVote::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId", (BiConsumer<PollsVote, Long>)PollsVote::setCompanyId);
 		attributeGetterFunctions.put("userId", PollsVote::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<PollsVote, Long>)PollsVote::setUserId);
 		attributeGetterFunctions.put("userName", PollsVote::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName", (BiConsumer<PollsVote, String>)PollsVote::setUserName);
 		attributeGetterFunctions.put("createDate", PollsVote::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<PollsVote, Date>)PollsVote::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", PollsVote::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<PollsVote, Date>)PollsVote::setModifiedDate);
 		attributeGetterFunctions.put("questionId", PollsVote::getQuestionId);
-		attributeSetterBiConsumers.put(
-			"questionId",
-			(BiConsumer<PollsVote, Long>)PollsVote::setQuestionId);
 		attributeGetterFunctions.put("choiceId", PollsVote::getChoiceId);
-		attributeSetterBiConsumers.put(
-			"choiceId", (BiConsumer<PollsVote, Long>)PollsVote::setChoiceId);
 		attributeGetterFunctions.put(
 			"lastPublishDate", PollsVote::getLastPublishDate);
-		attributeSetterBiConsumers.put(
-			"lastPublishDate",
-			(BiConsumer<PollsVote, Date>)PollsVote::setLastPublishDate);
 		attributeGetterFunctions.put("voteDate", PollsVote::getVoteDate);
-		attributeSetterBiConsumers.put(
-			"voteDate", (BiConsumer<PollsVote, Date>)PollsVote::setVoteDate);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<PollsVote, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<PollsVote, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<PollsVote, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"mvccVersion",
+			(BiConsumer<PollsVote, Long>)PollsVote::setMvccVersion);
+		attributeSetterBiConsumers.put(
+			"uuid", (BiConsumer<PollsVote, String>)PollsVote::setUuid);
+		attributeSetterBiConsumers.put(
+			"voteId", (BiConsumer<PollsVote, Long>)PollsVote::setVoteId);
+		attributeSetterBiConsumers.put(
+			"groupId", (BiConsumer<PollsVote, Long>)PollsVote::setGroupId);
+		attributeSetterBiConsumers.put(
+			"companyId", (BiConsumer<PollsVote, Long>)PollsVote::setCompanyId);
+		attributeSetterBiConsumers.put(
+			"userId", (BiConsumer<PollsVote, Long>)PollsVote::setUserId);
+		attributeSetterBiConsumers.put(
+			"userName", (BiConsumer<PollsVote, String>)PollsVote::setUserName);
+		attributeSetterBiConsumers.put(
+			"createDate",
+			(BiConsumer<PollsVote, Date>)PollsVote::setCreateDate);
+		attributeSetterBiConsumers.put(
+			"modifiedDate",
+			(BiConsumer<PollsVote, Date>)PollsVote::setModifiedDate);
+		attributeSetterBiConsumers.put(
+			"questionId",
+			(BiConsumer<PollsVote, Long>)PollsVote::setQuestionId);
+		attributeSetterBiConsumers.put(
+			"choiceId", (BiConsumer<PollsVote, Long>)PollsVote::setChoiceId);
+		attributeSetterBiConsumers.put(
+			"lastPublishDate",
+			(BiConsumer<PollsVote, Date>)PollsVote::setLastPublishDate);
+		attributeSetterBiConsumers.put(
+			"voteDate", (BiConsumer<PollsVote, Date>)PollsVote::setVoteDate);
+
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

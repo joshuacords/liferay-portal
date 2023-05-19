@@ -51,8 +51,6 @@ import com.liferay.powwow.service.persistence.PowwowServerPersistence;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -648,14 +646,15 @@ public abstract class PowwowParticipantLocalServiceBaseImpl
 			"com.liferay.powwow.model.PowwowParticipant",
 			powwowParticipantLocalService);
 
-		_setLocalServiceUtilService(powwowParticipantLocalService);
+		PowwowParticipantLocalServiceUtil.setService(
+			powwowParticipantLocalService);
 	}
 
 	public void destroy() {
 		PersistedModelLocalServiceRegistryUtil.unregister(
 			"com.liferay.powwow.model.PowwowParticipant");
 
-		_setLocalServiceUtilService(null);
+		PowwowParticipantLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -698,23 +697,6 @@ public abstract class PowwowParticipantLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		PowwowParticipantLocalService powwowParticipantLocalService) {
-
-		try {
-			Field field =
-				PowwowParticipantLocalServiceUtil.class.getDeclaredField(
-					"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, powwowParticipantLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

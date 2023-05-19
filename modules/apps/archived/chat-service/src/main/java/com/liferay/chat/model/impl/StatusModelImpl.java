@@ -205,44 +205,50 @@ public class StatusModelImpl
 
 	private static final Map<String, Function<Status, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Status, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<Status, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<Status, Object>>();
-		Map<String, BiConsumer<Status, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Status, ?>>();
 
 		attributeGetterFunctions.put("statusId", Status::getStatusId);
-		attributeSetterBiConsumers.put(
-			"statusId", (BiConsumer<Status, Long>)Status::setStatusId);
 		attributeGetterFunctions.put("userId", Status::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<Status, Long>)Status::setUserId);
 		attributeGetterFunctions.put("modifiedDate", Status::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate", (BiConsumer<Status, Long>)Status::setModifiedDate);
 		attributeGetterFunctions.put("online", Status::getOnline);
-		attributeSetterBiConsumers.put(
-			"online", (BiConsumer<Status, Boolean>)Status::setOnline);
 		attributeGetterFunctions.put("awake", Status::getAwake);
-		attributeSetterBiConsumers.put(
-			"awake", (BiConsumer<Status, Boolean>)Status::setAwake);
 		attributeGetterFunctions.put(
 			"activePanelIds", Status::getActivePanelIds);
-		attributeSetterBiConsumers.put(
-			"activePanelIds",
-			(BiConsumer<Status, String>)Status::setActivePanelIds);
 		attributeGetterFunctions.put("message", Status::getMessage);
-		attributeSetterBiConsumers.put(
-			"message", (BiConsumer<Status, String>)Status::setMessage);
 		attributeGetterFunctions.put("playSound", Status::getPlaySound);
-		attributeSetterBiConsumers.put(
-			"playSound", (BiConsumer<Status, Boolean>)Status::setPlaySound);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<Status, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<Status, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<Status, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"statusId", (BiConsumer<Status, Long>)Status::setStatusId);
+		attributeSetterBiConsumers.put(
+			"userId", (BiConsumer<Status, Long>)Status::setUserId);
+		attributeSetterBiConsumers.put(
+			"modifiedDate", (BiConsumer<Status, Long>)Status::setModifiedDate);
+		attributeSetterBiConsumers.put(
+			"online", (BiConsumer<Status, Boolean>)Status::setOnline);
+		attributeSetterBiConsumers.put(
+			"awake", (BiConsumer<Status, Boolean>)Status::setAwake);
+		attributeSetterBiConsumers.put(
+			"activePanelIds",
+			(BiConsumer<Status, String>)Status::setActivePanelIds);
+		attributeSetterBiConsumers.put(
+			"message", (BiConsumer<Status, String>)Status::setMessage);
+		attributeSetterBiConsumers.put(
+			"playSound", (BiConsumer<Status, Boolean>)Status::setPlaySound);
+
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

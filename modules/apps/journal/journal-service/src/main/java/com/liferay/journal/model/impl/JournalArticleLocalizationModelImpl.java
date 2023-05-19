@@ -210,66 +210,72 @@ public class JournalArticleLocalizationModelImpl
 	private static final Map
 		<String, Function<JournalArticleLocalization, Object>>
 			_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<JournalArticleLocalization, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<JournalArticleLocalization, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<JournalArticleLocalization, Object>>();
+
+		attributeGetterFunctions.put(
+			"mvccVersion", JournalArticleLocalization::getMvccVersion);
+		attributeGetterFunctions.put(
+			"articleLocalizationId",
+			JournalArticleLocalization::getArticleLocalizationId);
+		attributeGetterFunctions.put(
+			"companyId", JournalArticleLocalization::getCompanyId);
+		attributeGetterFunctions.put(
+			"articlePK", JournalArticleLocalization::getArticlePK);
+		attributeGetterFunctions.put(
+			"title", JournalArticleLocalization::getTitle);
+		attributeGetterFunctions.put(
+			"description", JournalArticleLocalization::getDescription);
+		attributeGetterFunctions.put(
+			"languageId", JournalArticleLocalization::getLanguageId);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<JournalArticleLocalization, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<JournalArticleLocalization, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<JournalArticleLocalization, ?>>();
 
-		attributeGetterFunctions.put(
-			"mvccVersion", JournalArticleLocalization::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<JournalArticleLocalization, Long>)
 				JournalArticleLocalization::setMvccVersion);
-		attributeGetterFunctions.put(
-			"articleLocalizationId",
-			JournalArticleLocalization::getArticleLocalizationId);
 		attributeSetterBiConsumers.put(
 			"articleLocalizationId",
 			(BiConsumer<JournalArticleLocalization, Long>)
 				JournalArticleLocalization::setArticleLocalizationId);
-		attributeGetterFunctions.put(
-			"companyId", JournalArticleLocalization::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<JournalArticleLocalization, Long>)
 				JournalArticleLocalization::setCompanyId);
-		attributeGetterFunctions.put(
-			"articlePK", JournalArticleLocalization::getArticlePK);
 		attributeSetterBiConsumers.put(
 			"articlePK",
 			(BiConsumer<JournalArticleLocalization, Long>)
 				JournalArticleLocalization::setArticlePK);
-		attributeGetterFunctions.put(
-			"title", JournalArticleLocalization::getTitle);
 		attributeSetterBiConsumers.put(
 			"title",
 			(BiConsumer<JournalArticleLocalization, String>)
 				JournalArticleLocalization::setTitle);
-		attributeGetterFunctions.put(
-			"description", JournalArticleLocalization::getDescription);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<JournalArticleLocalization, String>)
 				JournalArticleLocalization::setDescription);
-		attributeGetterFunctions.put(
-			"languageId", JournalArticleLocalization::getLanguageId);
 		attributeSetterBiConsumers.put(
 			"languageId",
 			(BiConsumer<JournalArticleLocalization, String>)
 				JournalArticleLocalization::setLanguageId);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

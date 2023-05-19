@@ -261,14 +261,10 @@ public class CProductModelImpl
 
 	private static final Map<String, Function<CProduct, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CProduct, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CProduct, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<CProduct, Object>>();
-		Map<String, BiConsumer<CProduct, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<CProduct, ?>>();
 
 		attributeGetterFunctions.put(
 			"uuid",
@@ -280,16 +276,6 @@ public class CProductModelImpl
 				}
 
 			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<CProduct, Object>() {
-
-				@Override
-				public void accept(CProduct cProduct, Object uuidObject) {
-					cProduct.setUuid((String)uuidObject);
-				}
-
-			});
 		attributeGetterFunctions.put(
 			"externalReferenceCode",
 			new Function<CProduct, Object>() {
@@ -297,6 +283,118 @@ public class CProductModelImpl
 				@Override
 				public Object apply(CProduct cProduct) {
 					return cProduct.getExternalReferenceCode();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"CProductId",
+			new Function<CProduct, Object>() {
+
+				@Override
+				public Object apply(CProduct cProduct) {
+					return cProduct.getCProductId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"groupId",
+			new Function<CProduct, Object>() {
+
+				@Override
+				public Object apply(CProduct cProduct) {
+					return cProduct.getGroupId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CProduct, Object>() {
+
+				@Override
+				public Object apply(CProduct cProduct) {
+					return cProduct.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CProduct, Object>() {
+
+				@Override
+				public Object apply(CProduct cProduct) {
+					return cProduct.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CProduct, Object>() {
+
+				@Override
+				public Object apply(CProduct cProduct) {
+					return cProduct.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CProduct, Object>() {
+
+				@Override
+				public Object apply(CProduct cProduct) {
+					return cProduct.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CProduct, Object>() {
+
+				@Override
+				public Object apply(CProduct cProduct) {
+					return cProduct.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"publishedCPDefinitionId",
+			new Function<CProduct, Object>() {
+
+				@Override
+				public Object apply(CProduct cProduct) {
+					return cProduct.getPublishedCPDefinitionId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"latestVersion",
+			new Function<CProduct, Object>() {
+
+				@Override
+				public Object apply(CProduct cProduct) {
+					return cProduct.getLatestVersion();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<CProduct, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CProduct, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<CProduct, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"uuid",
+			new BiConsumer<CProduct, Object>() {
+
+				@Override
+				public void accept(CProduct cProduct, Object uuidObject) {
+					cProduct.setUuid((String)uuidObject);
 				}
 
 			});
@@ -313,16 +411,6 @@ public class CProductModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"CProductId",
-			new Function<CProduct, Object>() {
-
-				@Override
-				public Object apply(CProduct cProduct) {
-					return cProduct.getCProductId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"CProductId",
 			new BiConsumer<CProduct, Object>() {
@@ -330,16 +418,6 @@ public class CProductModelImpl
 				@Override
 				public void accept(CProduct cProduct, Object CProductIdObject) {
 					cProduct.setCProductId((Long)CProductIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<CProduct, Object>() {
-
-				@Override
-				public Object apply(CProduct cProduct) {
-					return cProduct.getGroupId();
 				}
 
 			});
@@ -353,16 +431,6 @@ public class CProductModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CProduct, Object>() {
-
-				@Override
-				public Object apply(CProduct cProduct) {
-					return cProduct.getCompanyId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"companyId",
 			new BiConsumer<CProduct, Object>() {
@@ -370,16 +438,6 @@ public class CProductModelImpl
 				@Override
 				public void accept(CProduct cProduct, Object companyIdObject) {
 					cProduct.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CProduct, Object>() {
-
-				@Override
-				public Object apply(CProduct cProduct) {
-					return cProduct.getUserId();
 				}
 
 			});
@@ -393,16 +451,6 @@ public class CProductModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CProduct, Object>() {
-
-				@Override
-				public Object apply(CProduct cProduct) {
-					return cProduct.getUserName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userName",
 			new BiConsumer<CProduct, Object>() {
@@ -410,16 +458,6 @@ public class CProductModelImpl
 				@Override
 				public void accept(CProduct cProduct, Object userNameObject) {
 					cProduct.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CProduct, Object>() {
-
-				@Override
-				public Object apply(CProduct cProduct) {
-					return cProduct.getCreateDate();
 				}
 
 			});
@@ -433,16 +471,6 @@ public class CProductModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CProduct, Object>() {
-
-				@Override
-				public Object apply(CProduct cProduct) {
-					return cProduct.getModifiedDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			new BiConsumer<CProduct, Object>() {
@@ -452,16 +480,6 @@ public class CProductModelImpl
 					CProduct cProduct, Object modifiedDateObject) {
 
 					cProduct.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"publishedCPDefinitionId",
-			new Function<CProduct, Object>() {
-
-				@Override
-				public Object apply(CProduct cProduct) {
-					return cProduct.getPublishedCPDefinitionId();
 				}
 
 			});
@@ -478,16 +496,6 @@ public class CProductModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"latestVersion",
-			new Function<CProduct, Object>() {
-
-				@Override
-				public Object apply(CProduct cProduct) {
-					return cProduct.getLatestVersion();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"latestVersion",
 			new BiConsumer<CProduct, Object>() {
@@ -501,8 +509,6 @@ public class CProductModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

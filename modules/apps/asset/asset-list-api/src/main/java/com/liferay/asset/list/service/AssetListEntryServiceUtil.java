@@ -231,6 +231,10 @@ public class AssetListEntryServiceUtil {
 		return _service;
 	}
 
+	public static void setService(AssetListEntryService service) {
+		_service = service;
+	}
+
 	private static volatile AssetListEntryService _service;
 
 }

@@ -367,6 +367,10 @@ public class CompanyServiceUtil {
 		return _service;
 	}
 
+	public static void setService(CompanyService service) {
+		_service = service;
+	}
+
 	private static volatile CompanyService _service;
 
 }

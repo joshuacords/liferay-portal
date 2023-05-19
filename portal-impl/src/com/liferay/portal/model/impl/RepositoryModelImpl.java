@@ -298,82 +298,88 @@ public class RepositoryModelImpl
 
 	private static final Map<String, Function<Repository, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Repository, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<Repository, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<Repository, Object>>();
+
+		attributeGetterFunctions.put("mvccVersion", Repository::getMvccVersion);
+		attributeGetterFunctions.put("uuid", Repository::getUuid);
+		attributeGetterFunctions.put(
+			"repositoryId", Repository::getRepositoryId);
+		attributeGetterFunctions.put("groupId", Repository::getGroupId);
+		attributeGetterFunctions.put("companyId", Repository::getCompanyId);
+		attributeGetterFunctions.put("userId", Repository::getUserId);
+		attributeGetterFunctions.put("userName", Repository::getUserName);
+		attributeGetterFunctions.put("createDate", Repository::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", Repository::getModifiedDate);
+		attributeGetterFunctions.put("classNameId", Repository::getClassNameId);
+		attributeGetterFunctions.put("name", Repository::getName);
+		attributeGetterFunctions.put("description", Repository::getDescription);
+		attributeGetterFunctions.put("portletId", Repository::getPortletId);
+		attributeGetterFunctions.put(
+			"typeSettings", Repository::getTypeSettings);
+		attributeGetterFunctions.put("dlFolderId", Repository::getDlFolderId);
+		attributeGetterFunctions.put(
+			"lastPublishDate", Repository::getLastPublishDate);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<Repository, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<Repository, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Repository, ?>>();
 
-		attributeGetterFunctions.put("mvccVersion", Repository::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<Repository, Long>)Repository::setMvccVersion);
-		attributeGetterFunctions.put("uuid", Repository::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<Repository, String>)Repository::setUuid);
-		attributeGetterFunctions.put(
-			"repositoryId", Repository::getRepositoryId);
 		attributeSetterBiConsumers.put(
 			"repositoryId",
 			(BiConsumer<Repository, Long>)Repository::setRepositoryId);
-		attributeGetterFunctions.put("groupId", Repository::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<Repository, Long>)Repository::setGroupId);
-		attributeGetterFunctions.put("companyId", Repository::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<Repository, Long>)Repository::setCompanyId);
-		attributeGetterFunctions.put("userId", Repository::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<Repository, Long>)Repository::setUserId);
-		attributeGetterFunctions.put("userName", Repository::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<Repository, String>)Repository::setUserName);
-		attributeGetterFunctions.put("createDate", Repository::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<Repository, Date>)Repository::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", Repository::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<Repository, Date>)Repository::setModifiedDate);
-		attributeGetterFunctions.put("classNameId", Repository::getClassNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<Repository, Long>)Repository::setClassNameId);
-		attributeGetterFunctions.put("name", Repository::getName);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<Repository, String>)Repository::setName);
-		attributeGetterFunctions.put("description", Repository::getDescription);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<Repository, String>)Repository::setDescription);
-		attributeGetterFunctions.put("portletId", Repository::getPortletId);
 		attributeSetterBiConsumers.put(
 			"portletId",
 			(BiConsumer<Repository, String>)Repository::setPortletId);
-		attributeGetterFunctions.put(
-			"typeSettings", Repository::getTypeSettings);
 		attributeSetterBiConsumers.put(
 			"typeSettings",
 			(BiConsumer<Repository, String>)Repository::setTypeSettings);
-		attributeGetterFunctions.put("dlFolderId", Repository::getDlFolderId);
 		attributeSetterBiConsumers.put(
 			"dlFolderId",
 			(BiConsumer<Repository, Long>)Repository::setDlFolderId);
-		attributeGetterFunctions.put(
-			"lastPublishDate", Repository::getLastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<Repository, Date>)Repository::setLastPublishDate);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

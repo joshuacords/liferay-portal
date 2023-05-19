@@ -468,6 +468,10 @@ public class PortletLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(PortletLocalService service) {
+		_service = service;
+	}
+
 	private static volatile PortletLocalService _service;
 
 }

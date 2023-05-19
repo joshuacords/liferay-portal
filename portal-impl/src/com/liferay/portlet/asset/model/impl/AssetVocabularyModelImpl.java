@@ -301,87 +301,93 @@ public class AssetVocabularyModelImpl
 
 	private static final Map<String, Function<AssetVocabulary, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<AssetVocabulary, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<AssetVocabulary, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap<String, Function<AssetVocabulary, Object>>();
+
+		attributeGetterFunctions.put("uuid", AssetVocabulary::getUuid);
+		attributeGetterFunctions.put(
+			"externalReferenceCode", AssetVocabulary::getExternalReferenceCode);
+		attributeGetterFunctions.put(
+			"vocabularyId", AssetVocabulary::getVocabularyId);
+		attributeGetterFunctions.put("groupId", AssetVocabulary::getGroupId);
+		attributeGetterFunctions.put(
+			"companyId", AssetVocabulary::getCompanyId);
+		attributeGetterFunctions.put("userId", AssetVocabulary::getUserId);
+		attributeGetterFunctions.put("userName", AssetVocabulary::getUserName);
+		attributeGetterFunctions.put(
+			"createDate", AssetVocabulary::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", AssetVocabulary::getModifiedDate);
+		attributeGetterFunctions.put("name", AssetVocabulary::getName);
+		attributeGetterFunctions.put("title", AssetVocabulary::getTitle);
+		attributeGetterFunctions.put(
+			"description", AssetVocabulary::getDescription);
+		attributeGetterFunctions.put("settings", AssetVocabulary::getSettings);
+		attributeGetterFunctions.put(
+			"lastPublishDate", AssetVocabulary::getLastPublishDate);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<AssetVocabulary, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<AssetVocabulary, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<AssetVocabulary, ?>>();
 
-		attributeGetterFunctions.put("uuid", AssetVocabulary::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<AssetVocabulary, String>)AssetVocabulary::setUuid);
-		attributeGetterFunctions.put(
-			"externalReferenceCode", AssetVocabulary::getExternalReferenceCode);
 		attributeSetterBiConsumers.put(
 			"externalReferenceCode",
 			(BiConsumer<AssetVocabulary, String>)
 				AssetVocabulary::setExternalReferenceCode);
-		attributeGetterFunctions.put(
-			"vocabularyId", AssetVocabulary::getVocabularyId);
 		attributeSetterBiConsumers.put(
 			"vocabularyId",
 			(BiConsumer<AssetVocabulary, Long>)
 				AssetVocabulary::setVocabularyId);
-		attributeGetterFunctions.put("groupId", AssetVocabulary::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<AssetVocabulary, Long>)AssetVocabulary::setGroupId);
-		attributeGetterFunctions.put(
-			"companyId", AssetVocabulary::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<AssetVocabulary, Long>)AssetVocabulary::setCompanyId);
-		attributeGetterFunctions.put("userId", AssetVocabulary::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<AssetVocabulary, Long>)AssetVocabulary::setUserId);
-		attributeGetterFunctions.put("userName", AssetVocabulary::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<AssetVocabulary, String>)AssetVocabulary::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", AssetVocabulary::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<AssetVocabulary, Date>)AssetVocabulary::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", AssetVocabulary::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<AssetVocabulary, Date>)
 				AssetVocabulary::setModifiedDate);
-		attributeGetterFunctions.put("name", AssetVocabulary::getName);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<AssetVocabulary, String>)AssetVocabulary::setName);
-		attributeGetterFunctions.put("title", AssetVocabulary::getTitle);
 		attributeSetterBiConsumers.put(
 			"title",
 			(BiConsumer<AssetVocabulary, String>)AssetVocabulary::setTitle);
-		attributeGetterFunctions.put(
-			"description", AssetVocabulary::getDescription);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<AssetVocabulary, String>)
 				AssetVocabulary::setDescription);
-		attributeGetterFunctions.put("settings", AssetVocabulary::getSettings);
 		attributeSetterBiConsumers.put(
 			"settings",
 			(BiConsumer<AssetVocabulary, String>)AssetVocabulary::setSettings);
-		attributeGetterFunctions.put(
-			"lastPublishDate", AssetVocabulary::getLastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<AssetVocabulary, Date>)
 				AssetVocabulary::setLastPublishDate);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

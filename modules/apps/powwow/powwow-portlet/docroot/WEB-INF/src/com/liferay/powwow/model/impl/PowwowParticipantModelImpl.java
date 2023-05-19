@@ -290,90 +290,96 @@ public class PowwowParticipantModelImpl
 
 	private static final Map<String, Function<PowwowParticipant, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<PowwowParticipant, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<PowwowParticipant, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<PowwowParticipant, Object>>();
+
+		attributeGetterFunctions.put(
+			"powwowParticipantId", PowwowParticipant::getPowwowParticipantId);
+		attributeGetterFunctions.put("groupId", PowwowParticipant::getGroupId);
+		attributeGetterFunctions.put(
+			"companyId", PowwowParticipant::getCompanyId);
+		attributeGetterFunctions.put("userId", PowwowParticipant::getUserId);
+		attributeGetterFunctions.put(
+			"userName", PowwowParticipant::getUserName);
+		attributeGetterFunctions.put(
+			"createDate", PowwowParticipant::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", PowwowParticipant::getModifiedDate);
+		attributeGetterFunctions.put(
+			"powwowMeetingId", PowwowParticipant::getPowwowMeetingId);
+		attributeGetterFunctions.put("name", PowwowParticipant::getName);
+		attributeGetterFunctions.put(
+			"participantUserId", PowwowParticipant::getParticipantUserId);
+		attributeGetterFunctions.put(
+			"emailAddress", PowwowParticipant::getEmailAddress);
+		attributeGetterFunctions.put("type", PowwowParticipant::getType);
+		attributeGetterFunctions.put("status", PowwowParticipant::getStatus);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<PowwowParticipant, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<PowwowParticipant, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<PowwowParticipant, ?>>();
 
-		attributeGetterFunctions.put(
-			"powwowParticipantId", PowwowParticipant::getPowwowParticipantId);
 		attributeSetterBiConsumers.put(
 			"powwowParticipantId",
 			(BiConsumer<PowwowParticipant, Long>)
 				PowwowParticipant::setPowwowParticipantId);
-		attributeGetterFunctions.put("groupId", PowwowParticipant::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<PowwowParticipant, Long>)PowwowParticipant::setGroupId);
-		attributeGetterFunctions.put(
-			"companyId", PowwowParticipant::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<PowwowParticipant, Long>)
 				PowwowParticipant::setCompanyId);
-		attributeGetterFunctions.put("userId", PowwowParticipant::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<PowwowParticipant, Long>)PowwowParticipant::setUserId);
-		attributeGetterFunctions.put(
-			"userName", PowwowParticipant::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<PowwowParticipant, String>)
 				PowwowParticipant::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", PowwowParticipant::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<PowwowParticipant, Date>)
 				PowwowParticipant::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", PowwowParticipant::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<PowwowParticipant, Date>)
 				PowwowParticipant::setModifiedDate);
-		attributeGetterFunctions.put(
-			"powwowMeetingId", PowwowParticipant::getPowwowMeetingId);
 		attributeSetterBiConsumers.put(
 			"powwowMeetingId",
 			(BiConsumer<PowwowParticipant, Long>)
 				PowwowParticipant::setPowwowMeetingId);
-		attributeGetterFunctions.put("name", PowwowParticipant::getName);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<PowwowParticipant, String>)PowwowParticipant::setName);
-		attributeGetterFunctions.put(
-			"participantUserId", PowwowParticipant::getParticipantUserId);
 		attributeSetterBiConsumers.put(
 			"participantUserId",
 			(BiConsumer<PowwowParticipant, Long>)
 				PowwowParticipant::setParticipantUserId);
-		attributeGetterFunctions.put(
-			"emailAddress", PowwowParticipant::getEmailAddress);
 		attributeSetterBiConsumers.put(
 			"emailAddress",
 			(BiConsumer<PowwowParticipant, String>)
 				PowwowParticipant::setEmailAddress);
-		attributeGetterFunctions.put("type", PowwowParticipant::getType);
 		attributeSetterBiConsumers.put(
 			"type",
 			(BiConsumer<PowwowParticipant, Integer>)PowwowParticipant::setType);
-		attributeGetterFunctions.put("status", PowwowParticipant::getStatus);
 		attributeSetterBiConsumers.put(
 			"status",
 			(BiConsumer<PowwowParticipant, Integer>)
 				PowwowParticipant::setStatus);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

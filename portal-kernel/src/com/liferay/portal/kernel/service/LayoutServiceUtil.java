@@ -912,6 +912,10 @@ public class LayoutServiceUtil {
 		return _service;
 	}
 
+	public static void setService(LayoutService service) {
+		_service = service;
+	}
+
 	private static volatile LayoutService _service;
 
 }

@@ -833,13 +833,7 @@ public interface UserLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public User fetchUserByEmailAddress(long companyId, String emailAddress);
 
-	/**
-	 * Returns the user with the matching external reference code and company.
-	 *
-	 * @param companyId the primary key of the company
-	 * @param externalReferenceCode the user's external reference code
-	 * @return the matching user, or <code>null</code> if a matching user could not be found
-	 */
+	@Deprecated
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public User fetchUserByExternalReferenceCode(
 		long companyId, String externalReferenceCode);
@@ -897,9 +891,6 @@ public interface UserLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public User fetchUserByPortraitId(long portraitId);
 
-	/**
-	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #fetchUserByExternalReferenceCode(long, String)}
-	 */
 	@Deprecated
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public User fetchUserByReferenceCode(
@@ -1397,14 +1388,7 @@ public interface UserLocalService
 	public User getUserByEmailAddress(long companyId, String emailAddress)
 		throws PortalException;
 
-	/**
-	 * Returns the user with the matching external reference code and company.
-	 *
-	 * @param companyId the primary key of the company
-	 * @param externalReferenceCode the user's external reference code
-	 * @return the matching user
-	 * @throws PortalException if a matching user could not be found
-	 */
+	@Deprecated
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public User getUserByExternalReferenceCode(
 			long companyId, String externalReferenceCode)

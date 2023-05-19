@@ -52,7 +52,6 @@ import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
@@ -4761,34 +4760,18 @@ public class DDLRecordSetPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_R",
 			new String[] {Long.class.getName(), String.class.getName()});
 
-		_setDDLRecordSetUtilPersistence(this);
+		DDLRecordSetUtil.setPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
-		_setDDLRecordSetUtilPersistence(null);
+		DDLRecordSetUtil.setPersistence(null);
 
 		entityCache.removeCache(DDLRecordSetImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setDDLRecordSetUtilPersistence(
-		DDLRecordSetPersistence ddlRecordSetPersistence) {
-
-		try {
-			Field field = DDLRecordSetUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, ddlRecordSetPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@Override

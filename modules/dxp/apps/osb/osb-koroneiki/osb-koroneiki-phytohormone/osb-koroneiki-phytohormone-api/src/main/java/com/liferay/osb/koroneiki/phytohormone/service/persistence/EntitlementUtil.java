@@ -647,6 +647,10 @@ public class EntitlementUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(EntitlementPersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile EntitlementPersistence _persistence;
 
 }

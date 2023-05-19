@@ -46,8 +46,6 @@ import com.liferay.portal.security.audit.storage.service.persistence.AuditEventP
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -356,7 +354,7 @@ public abstract class AuditEventLocalServiceBaseImpl
 
 	@Deactivate
 	protected void deactivate() {
-		_setLocalServiceUtilService(null);
+		AuditEventLocalServiceUtil.setService(null);
 	}
 
 	@Override
@@ -371,7 +369,7 @@ public abstract class AuditEventLocalServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		auditEventLocalService = (AuditEventLocalService)aopProxy;
 
-		_setLocalServiceUtilService(auditEventLocalService);
+		AuditEventLocalServiceUtil.setService(auditEventLocalService);
 	}
 
 	/**
@@ -413,22 +411,6 @@ public abstract class AuditEventLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		AuditEventLocalService auditEventLocalService) {
-
-		try {
-			Field field = AuditEventLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, auditEventLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

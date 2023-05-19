@@ -45,8 +45,6 @@ import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiServic
 import com.liferay.portal.kernel.service.BaseServiceImpl;
 import com.liferay.portal.kernel.util.PortalUtil;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 import org.osgi.service.component.annotations.Deactivate;
@@ -74,7 +72,7 @@ public abstract class ContactRoleServiceBaseImpl
 	 */
 	@Deactivate
 	protected void deactivate() {
-		_setServiceUtilService(null);
+		ContactRoleServiceUtil.setService(null);
 	}
 
 	@Override
@@ -88,7 +86,7 @@ public abstract class ContactRoleServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		contactRoleService = (ContactRoleService)aopProxy;
 
-		_setServiceUtilService(contactRoleService);
+		ContactRoleServiceUtil.setService(contactRoleService);
 	}
 
 	/**
@@ -130,20 +128,6 @@ public abstract class ContactRoleServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setServiceUtilService(ContactRoleService contactRoleService) {
-		try {
-			Field field = ContactRoleServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, contactRoleService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

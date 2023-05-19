@@ -4966,34 +4966,17 @@ public class CPInstanceOptionValueRelPersistenceImpl
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			});
 
-		_setCPInstanceOptionValueRelUtilPersistence(this);
+		CPInstanceOptionValueRelUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setCPInstanceOptionValueRelUtilPersistence(null);
+		CPInstanceOptionValueRelUtil.setPersistence(null);
 
 		entityCache.removeCache(CPInstanceOptionValueRelImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setCPInstanceOptionValueRelUtilPersistence(
-		CPInstanceOptionValueRelPersistence
-			cpInstanceOptionValueRelPersistence) {
-
-		try {
-			Field field = CPInstanceOptionValueRelUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, cpInstanceOptionValueRelPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

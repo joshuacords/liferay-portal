@@ -35,8 +35,6 @@ import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.trash.kernel.service.persistence.TrashEntryPersistence;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 /**
@@ -505,11 +503,12 @@ public abstract class ExportImportConfigurationServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
-		_setServiceUtilService(exportImportConfigurationService);
+		ExportImportConfigurationServiceUtil.setService(
+			exportImportConfigurationService);
 	}
 
 	public void destroy() {
-		_setServiceUtilService(null);
+		ExportImportConfigurationServiceUtil.setService(null);
 	}
 
 	/**
@@ -552,23 +551,6 @@ public abstract class ExportImportConfigurationServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setServiceUtilService(
-		ExportImportConfigurationService exportImportConfigurationService) {
-
-		try {
-			Field field =
-				ExportImportConfigurationServiceUtil.class.getDeclaredField(
-					"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, exportImportConfigurationService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

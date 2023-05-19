@@ -47,6 +47,10 @@ public class AccountFieldServiceUtil {
 		return _service;
 	}
 
+	public static void setService(AccountFieldService service) {
+		_service = service;
+	}
+
 	private static volatile AccountFieldService _service;
 
 }

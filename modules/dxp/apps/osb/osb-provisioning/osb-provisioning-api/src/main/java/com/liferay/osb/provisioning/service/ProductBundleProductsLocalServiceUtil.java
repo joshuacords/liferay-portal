@@ -339,6 +339,10 @@ public class ProductBundleProductsLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(ProductBundleProductsLocalService service) {
+		_service = service;
+	}
+
 	private static volatile ProductBundleProductsLocalService _service;
 
 }

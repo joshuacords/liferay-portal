@@ -345,6 +345,12 @@ public class CommerceApplicationModelCProductRelLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(
+		CommerceApplicationModelCProductRelLocalService service) {
+
+		_service = service;
+	}
+
 	private static volatile CommerceApplicationModelCProductRelLocalService
 		_service;
 

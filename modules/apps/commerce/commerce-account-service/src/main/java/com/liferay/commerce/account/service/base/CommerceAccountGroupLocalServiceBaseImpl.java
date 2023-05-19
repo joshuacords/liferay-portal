@@ -58,8 +58,6 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -960,14 +958,15 @@ public abstract class CommerceAccountGroupLocalServiceBaseImpl
 			"com.liferay.commerce.account.model.CommerceAccountGroup",
 			commerceAccountGroupLocalService);
 
-		_setLocalServiceUtilService(commerceAccountGroupLocalService);
+		CommerceAccountGroupLocalServiceUtil.setService(
+			commerceAccountGroupLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"com.liferay.commerce.account.model.CommerceAccountGroup");
 
-		_setLocalServiceUtilService(null);
+		CommerceAccountGroupLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -1010,23 +1009,6 @@ public abstract class CommerceAccountGroupLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		CommerceAccountGroupLocalService commerceAccountGroupLocalService) {
-
-		try {
-			Field field =
-				CommerceAccountGroupLocalServiceUtil.class.getDeclaredField(
-					"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, commerceAccountGroupLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

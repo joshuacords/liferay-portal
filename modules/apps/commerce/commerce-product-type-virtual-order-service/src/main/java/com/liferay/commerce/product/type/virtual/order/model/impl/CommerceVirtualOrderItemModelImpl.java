@@ -344,19 +344,12 @@ public class CommerceVirtualOrderItemModelImpl
 
 	private static final Map<String, Function<CommerceVirtualOrderItem, Object>>
 		_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<CommerceVirtualOrderItem, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommerceVirtualOrderItem, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<CommerceVirtualOrderItem, Object>>();
-		Map<String, BiConsumer<CommerceVirtualOrderItem, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String, BiConsumer<CommerceVirtualOrderItem, ?>>();
 
 		attributeGetterFunctions.put(
 			"uuid",
@@ -370,19 +363,6 @@ public class CommerceVirtualOrderItemModelImpl
 				}
 
 			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<CommerceVirtualOrderItem, Object>() {
-
-				@Override
-				public void accept(
-					CommerceVirtualOrderItem commerceVirtualOrderItem,
-					Object uuidObject) {
-
-					commerceVirtualOrderItem.setUuid((String)uuidObject);
-				}
-
-			});
 		attributeGetterFunctions.put(
 			"commerceVirtualOrderItemId",
 			new Function<CommerceVirtualOrderItem, Object>() {
@@ -393,6 +373,226 @@ public class CommerceVirtualOrderItemModelImpl
 
 					return commerceVirtualOrderItem.
 						getCommerceVirtualOrderItemId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"groupId",
+			new Function<CommerceVirtualOrderItem, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceVirtualOrderItem commerceVirtualOrderItem) {
+
+					return commerceVirtualOrderItem.getGroupId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommerceVirtualOrderItem, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceVirtualOrderItem commerceVirtualOrderItem) {
+
+					return commerceVirtualOrderItem.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommerceVirtualOrderItem, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceVirtualOrderItem commerceVirtualOrderItem) {
+
+					return commerceVirtualOrderItem.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommerceVirtualOrderItem, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceVirtualOrderItem commerceVirtualOrderItem) {
+
+					return commerceVirtualOrderItem.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommerceVirtualOrderItem, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceVirtualOrderItem commerceVirtualOrderItem) {
+
+					return commerceVirtualOrderItem.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommerceVirtualOrderItem, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceVirtualOrderItem commerceVirtualOrderItem) {
+
+					return commerceVirtualOrderItem.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceOrderItemId",
+			new Function<CommerceVirtualOrderItem, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceVirtualOrderItem commerceVirtualOrderItem) {
+
+					return commerceVirtualOrderItem.getCommerceOrderItemId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"fileEntryId",
+			new Function<CommerceVirtualOrderItem, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceVirtualOrderItem commerceVirtualOrderItem) {
+
+					return commerceVirtualOrderItem.getFileEntryId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"url",
+			new Function<CommerceVirtualOrderItem, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceVirtualOrderItem commerceVirtualOrderItem) {
+
+					return commerceVirtualOrderItem.getUrl();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"activationStatus",
+			new Function<CommerceVirtualOrderItem, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceVirtualOrderItem commerceVirtualOrderItem) {
+
+					return commerceVirtualOrderItem.getActivationStatus();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"duration",
+			new Function<CommerceVirtualOrderItem, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceVirtualOrderItem commerceVirtualOrderItem) {
+
+					return commerceVirtualOrderItem.getDuration();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"usages",
+			new Function<CommerceVirtualOrderItem, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceVirtualOrderItem commerceVirtualOrderItem) {
+
+					return commerceVirtualOrderItem.getUsages();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"maxUsages",
+			new Function<CommerceVirtualOrderItem, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceVirtualOrderItem commerceVirtualOrderItem) {
+
+					return commerceVirtualOrderItem.getMaxUsages();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"active",
+			new Function<CommerceVirtualOrderItem, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceVirtualOrderItem commerceVirtualOrderItem) {
+
+					return commerceVirtualOrderItem.getActive();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"startDate",
+			new Function<CommerceVirtualOrderItem, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceVirtualOrderItem commerceVirtualOrderItem) {
+
+					return commerceVirtualOrderItem.getStartDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"endDate",
+			new Function<CommerceVirtualOrderItem, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceVirtualOrderItem commerceVirtualOrderItem) {
+
+					return commerceVirtualOrderItem.getEndDate();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<CommerceVirtualOrderItem, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommerceVirtualOrderItem, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap
+					<String, BiConsumer<CommerceVirtualOrderItem, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"uuid",
+			new BiConsumer<CommerceVirtualOrderItem, Object>() {
+
+				@Override
+				public void accept(
+					CommerceVirtualOrderItem commerceVirtualOrderItem,
+					Object uuidObject) {
+
+					commerceVirtualOrderItem.setUuid((String)uuidObject);
 				}
 
 			});
@@ -410,18 +610,6 @@ public class CommerceVirtualOrderItemModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<CommerceVirtualOrderItem, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceVirtualOrderItem commerceVirtualOrderItem) {
-
-					return commerceVirtualOrderItem.getGroupId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"groupId",
 			new BiConsumer<CommerceVirtualOrderItem, Object>() {
@@ -432,18 +620,6 @@ public class CommerceVirtualOrderItemModelImpl
 					Object groupIdObject) {
 
 					commerceVirtualOrderItem.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommerceVirtualOrderItem, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceVirtualOrderItem commerceVirtualOrderItem) {
-
-					return commerceVirtualOrderItem.getCompanyId();
 				}
 
 			});
@@ -461,18 +637,6 @@ public class CommerceVirtualOrderItemModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommerceVirtualOrderItem, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceVirtualOrderItem commerceVirtualOrderItem) {
-
-					return commerceVirtualOrderItem.getUserId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userId",
 			new BiConsumer<CommerceVirtualOrderItem, Object>() {
@@ -483,18 +647,6 @@ public class CommerceVirtualOrderItemModelImpl
 					Object userIdObject) {
 
 					commerceVirtualOrderItem.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommerceVirtualOrderItem, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceVirtualOrderItem commerceVirtualOrderItem) {
-
-					return commerceVirtualOrderItem.getUserName();
 				}
 
 			});
@@ -512,18 +664,6 @@ public class CommerceVirtualOrderItemModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommerceVirtualOrderItem, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceVirtualOrderItem commerceVirtualOrderItem) {
-
-					return commerceVirtualOrderItem.getCreateDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"createDate",
 			new BiConsumer<CommerceVirtualOrderItem, Object>() {
@@ -535,18 +675,6 @@ public class CommerceVirtualOrderItemModelImpl
 
 					commerceVirtualOrderItem.setCreateDate(
 						(Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommerceVirtualOrderItem, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceVirtualOrderItem commerceVirtualOrderItem) {
-
-					return commerceVirtualOrderItem.getModifiedDate();
 				}
 
 			});
@@ -564,18 +692,6 @@ public class CommerceVirtualOrderItemModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"commerceOrderItemId",
-			new Function<CommerceVirtualOrderItem, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceVirtualOrderItem commerceVirtualOrderItem) {
-
-					return commerceVirtualOrderItem.getCommerceOrderItemId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"commerceOrderItemId",
 			new BiConsumer<CommerceVirtualOrderItem, Object>() {
@@ -587,18 +703,6 @@ public class CommerceVirtualOrderItemModelImpl
 
 					commerceVirtualOrderItem.setCommerceOrderItemId(
 						(Long)commerceOrderItemIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"fileEntryId",
-			new Function<CommerceVirtualOrderItem, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceVirtualOrderItem commerceVirtualOrderItem) {
-
-					return commerceVirtualOrderItem.getFileEntryId();
 				}
 
 			});
@@ -616,18 +720,6 @@ public class CommerceVirtualOrderItemModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"url",
-			new Function<CommerceVirtualOrderItem, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceVirtualOrderItem commerceVirtualOrderItem) {
-
-					return commerceVirtualOrderItem.getUrl();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"url",
 			new BiConsumer<CommerceVirtualOrderItem, Object>() {
@@ -638,18 +730,6 @@ public class CommerceVirtualOrderItemModelImpl
 					Object urlObject) {
 
 					commerceVirtualOrderItem.setUrl((String)urlObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"activationStatus",
-			new Function<CommerceVirtualOrderItem, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceVirtualOrderItem commerceVirtualOrderItem) {
-
-					return commerceVirtualOrderItem.getActivationStatus();
 				}
 
 			});
@@ -667,18 +747,6 @@ public class CommerceVirtualOrderItemModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"duration",
-			new Function<CommerceVirtualOrderItem, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceVirtualOrderItem commerceVirtualOrderItem) {
-
-					return commerceVirtualOrderItem.getDuration();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"duration",
 			new BiConsumer<CommerceVirtualOrderItem, Object>() {
@@ -692,18 +760,6 @@ public class CommerceVirtualOrderItemModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"usages",
-			new Function<CommerceVirtualOrderItem, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceVirtualOrderItem commerceVirtualOrderItem) {
-
-					return commerceVirtualOrderItem.getUsages();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"usages",
 			new BiConsumer<CommerceVirtualOrderItem, Object>() {
@@ -714,18 +770,6 @@ public class CommerceVirtualOrderItemModelImpl
 					Object usagesObject) {
 
 					commerceVirtualOrderItem.setUsages((Integer)usagesObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"maxUsages",
-			new Function<CommerceVirtualOrderItem, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceVirtualOrderItem commerceVirtualOrderItem) {
-
-					return commerceVirtualOrderItem.getMaxUsages();
 				}
 
 			});
@@ -743,18 +787,6 @@ public class CommerceVirtualOrderItemModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"active",
-			new Function<CommerceVirtualOrderItem, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceVirtualOrderItem commerceVirtualOrderItem) {
-
-					return commerceVirtualOrderItem.getActive();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"active",
 			new BiConsumer<CommerceVirtualOrderItem, Object>() {
@@ -765,18 +797,6 @@ public class CommerceVirtualOrderItemModelImpl
 					Object activeObject) {
 
 					commerceVirtualOrderItem.setActive((Boolean)activeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"startDate",
-			new Function<CommerceVirtualOrderItem, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceVirtualOrderItem commerceVirtualOrderItem) {
-
-					return commerceVirtualOrderItem.getStartDate();
 				}
 
 			});
@@ -794,18 +814,6 @@ public class CommerceVirtualOrderItemModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"endDate",
-			new Function<CommerceVirtualOrderItem, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceVirtualOrderItem commerceVirtualOrderItem) {
-
-					return commerceVirtualOrderItem.getEndDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"endDate",
 			new BiConsumer<CommerceVirtualOrderItem, Object>() {
@@ -820,8 +828,6 @@ public class CommerceVirtualOrderItemModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

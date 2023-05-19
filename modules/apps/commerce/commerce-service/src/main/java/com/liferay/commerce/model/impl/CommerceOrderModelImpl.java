@@ -522,14 +522,10 @@ public class CommerceOrderModelImpl
 
 	private static final Map<String, Function<CommerceOrder, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CommerceOrder, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommerceOrder, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<CommerceOrder, Object>>();
-		Map<String, BiConsumer<CommerceOrder, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<CommerceOrder, ?>>();
 
 		attributeGetterFunctions.put(
 			"uuid",
@@ -541,6 +537,700 @@ public class CommerceOrderModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"externalReferenceCode",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getExternalReferenceCode();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceOrderId",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getCommerceOrderId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"groupId",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getGroupId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceAccountId",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getCommerceAccountId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceCurrencyId",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getCommerceCurrencyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"billingAddressId",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getBillingAddressId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"shippingAddressId",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getShippingAddressId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commercePaymentMethodKey",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getCommercePaymentMethodKey();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"transactionId",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getTransactionId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceShippingMethodId",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getCommerceShippingMethodId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"shippingOptionName",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getShippingOptionName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"purchaseOrderNumber",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getPurchaseOrderNumber();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"couponCode",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getCouponCode();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"lastPriceUpdateDate",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getLastPriceUpdateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"subtotal",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getSubtotal();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"subtotalDiscountAmount",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getSubtotalDiscountAmount();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"subtotalDiscountPercentageLevel1",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getSubtotalDiscountPercentageLevel1();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"subtotalDiscountPercentageLevel2",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getSubtotalDiscountPercentageLevel2();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"subtotalDiscountPercentageLevel3",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getSubtotalDiscountPercentageLevel3();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"subtotalDiscountPercentageLevel4",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getSubtotalDiscountPercentageLevel4();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"shippingAmount",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getShippingAmount();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"shippingDiscountAmount",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getShippingDiscountAmount();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"shippingDiscountPercentageLevel1",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getShippingDiscountPercentageLevel1();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"shippingDiscountPercentageLevel2",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getShippingDiscountPercentageLevel2();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"shippingDiscountPercentageLevel3",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getShippingDiscountPercentageLevel3();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"shippingDiscountPercentageLevel4",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getShippingDiscountPercentageLevel4();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"taxAmount",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getTaxAmount();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"total",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getTotal();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"totalDiscountAmount",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getTotalDiscountAmount();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"totalDiscountPercentageLevel1",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getTotalDiscountPercentageLevel1();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"totalDiscountPercentageLevel2",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getTotalDiscountPercentageLevel2();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"totalDiscountPercentageLevel3",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getTotalDiscountPercentageLevel3();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"totalDiscountPercentageLevel4",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getTotalDiscountPercentageLevel4();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"subtotalWithTaxAmount",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getSubtotalWithTaxAmount();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"subtotalDiscountWithTaxAmount",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getSubtotalDiscountWithTaxAmount();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"subtotalDiscountPercentageLevel1WithTaxAmount",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.
+						getSubtotalDiscountPercentageLevel1WithTaxAmount();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"subtotalDiscountPercentageLevel2WithTaxAmount",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.
+						getSubtotalDiscountPercentageLevel2WithTaxAmount();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"subtotalDiscountPercentageLevel3WithTaxAmount",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.
+						getSubtotalDiscountPercentageLevel3WithTaxAmount();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"subtotalDiscountPercentageLevel4WithTaxAmount",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.
+						getSubtotalDiscountPercentageLevel4WithTaxAmount();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"shippingWithTaxAmount",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getShippingWithTaxAmount();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"shippingDiscountWithTaxAmount",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getShippingDiscountWithTaxAmount();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"shippingDiscountPercentageLevel1WithTaxAmount",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.
+						getShippingDiscountPercentageLevel1WithTaxAmount();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"shippingDiscountPercentageLevel2WithTaxAmount",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.
+						getShippingDiscountPercentageLevel2WithTaxAmount();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"shippingDiscountPercentageLevel3WithTaxAmount",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.
+						getShippingDiscountPercentageLevel3WithTaxAmount();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"shippingDiscountPercentageLevel4WithTaxAmount",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.
+						getShippingDiscountPercentageLevel4WithTaxAmount();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"totalWithTaxAmount",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getTotalWithTaxAmount();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"totalDiscountWithTaxAmount",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getTotalDiscountWithTaxAmount();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"totalDiscountPercentageLevel1WithTaxAmount",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.
+						getTotalDiscountPercentageLevel1WithTaxAmount();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"totalDiscountPercentageLevel2WithTaxAmount",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.
+						getTotalDiscountPercentageLevel2WithTaxAmount();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"totalDiscountPercentageLevel3WithTaxAmount",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.
+						getTotalDiscountPercentageLevel3WithTaxAmount();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"totalDiscountPercentageLevel4WithTaxAmount",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.
+						getTotalDiscountPercentageLevel4WithTaxAmount();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"advanceStatus",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getAdvanceStatus();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"paymentStatus",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getPaymentStatus();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"orderDate",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getOrderDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"orderStatus",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getOrderStatus();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"printedNote",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getPrintedNote();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"requestedDeliveryDate",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getRequestedDeliveryDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"manuallyAdjusted",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getManuallyAdjusted();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"status",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getStatus();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"statusByUserId",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getStatusByUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"statusByUserName",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getStatusByUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"statusDate",
+			new Function<CommerceOrder, Object>() {
+
+				@Override
+				public Object apply(CommerceOrder commerceOrder) {
+					return commerceOrder.getStatusDate();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<CommerceOrder, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommerceOrder, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<CommerceOrder, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"uuid",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -550,16 +1240,6 @@ public class CommerceOrderModelImpl
 					CommerceOrder commerceOrder, Object uuidObject) {
 
 					commerceOrder.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"externalReferenceCode",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getExternalReferenceCode();
 				}
 
 			});
@@ -577,16 +1257,6 @@ public class CommerceOrderModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"commerceOrderId",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getCommerceOrderId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"commerceOrderId",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -597,16 +1267,6 @@ public class CommerceOrderModelImpl
 
 					commerceOrder.setCommerceOrderId(
 						(Long)commerceOrderIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getGroupId();
 				}
 
 			});
@@ -622,16 +1282,6 @@ public class CommerceOrderModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getCompanyId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"companyId",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -641,16 +1291,6 @@ public class CommerceOrderModelImpl
 					CommerceOrder commerceOrder, Object companyIdObject) {
 
 					commerceOrder.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getUserId();
 				}
 
 			});
@@ -666,16 +1306,6 @@ public class CommerceOrderModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getUserName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userName",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -685,16 +1315,6 @@ public class CommerceOrderModelImpl
 					CommerceOrder commerceOrder, Object userNameObject) {
 
 					commerceOrder.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getCreateDate();
 				}
 
 			});
@@ -710,16 +1330,6 @@ public class CommerceOrderModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getModifiedDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -729,16 +1339,6 @@ public class CommerceOrderModelImpl
 					CommerceOrder commerceOrder, Object modifiedDateObject) {
 
 					commerceOrder.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commerceAccountId",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getCommerceAccountId();
 				}
 
 			});
@@ -756,16 +1356,6 @@ public class CommerceOrderModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"commerceCurrencyId",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getCommerceCurrencyId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"commerceCurrencyId",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -777,16 +1367,6 @@ public class CommerceOrderModelImpl
 
 					commerceOrder.setCommerceCurrencyId(
 						(Long)commerceCurrencyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"billingAddressId",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getBillingAddressId();
 				}
 
 			});
@@ -804,16 +1384,6 @@ public class CommerceOrderModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"shippingAddressId",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getShippingAddressId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"shippingAddressId",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -825,16 +1395,6 @@ public class CommerceOrderModelImpl
 
 					commerceOrder.setShippingAddressId(
 						(Long)shippingAddressIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commercePaymentMethodKey",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getCommercePaymentMethodKey();
 				}
 
 			});
@@ -852,16 +1412,6 @@ public class CommerceOrderModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"transactionId",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getTransactionId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"transactionId",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -871,16 +1421,6 @@ public class CommerceOrderModelImpl
 					CommerceOrder commerceOrder, Object transactionIdObject) {
 
 					commerceOrder.setTransactionId((String)transactionIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commerceShippingMethodId",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getCommerceShippingMethodId();
 				}
 
 			});
@@ -898,16 +1438,6 @@ public class CommerceOrderModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"shippingOptionName",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getShippingOptionName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"shippingOptionName",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -919,16 +1449,6 @@ public class CommerceOrderModelImpl
 
 					commerceOrder.setShippingOptionName(
 						(String)shippingOptionNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"purchaseOrderNumber",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getPurchaseOrderNumber();
 				}
 
 			});
@@ -946,16 +1466,6 @@ public class CommerceOrderModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"couponCode",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getCouponCode();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"couponCode",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -965,16 +1475,6 @@ public class CommerceOrderModelImpl
 					CommerceOrder commerceOrder, Object couponCodeObject) {
 
 					commerceOrder.setCouponCode((String)couponCodeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"lastPriceUpdateDate",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getLastPriceUpdateDate();
 				}
 
 			});
@@ -992,16 +1492,6 @@ public class CommerceOrderModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"subtotal",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getSubtotal();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"subtotal",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -1011,16 +1501,6 @@ public class CommerceOrderModelImpl
 					CommerceOrder commerceOrder, Object subtotalObject) {
 
 					commerceOrder.setSubtotal((BigDecimal)subtotalObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"subtotalDiscountAmount",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getSubtotalDiscountAmount();
 				}
 
 			});
@@ -1038,16 +1518,6 @@ public class CommerceOrderModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"subtotalDiscountPercentageLevel1",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getSubtotalDiscountPercentageLevel1();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"subtotalDiscountPercentageLevel1",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -1059,16 +1529,6 @@ public class CommerceOrderModelImpl
 
 					commerceOrder.setSubtotalDiscountPercentageLevel1(
 						(BigDecimal)subtotalDiscountPercentageLevel1Object);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"subtotalDiscountPercentageLevel2",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getSubtotalDiscountPercentageLevel2();
 				}
 
 			});
@@ -1086,16 +1546,6 @@ public class CommerceOrderModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"subtotalDiscountPercentageLevel3",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getSubtotalDiscountPercentageLevel3();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"subtotalDiscountPercentageLevel3",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -1107,16 +1557,6 @@ public class CommerceOrderModelImpl
 
 					commerceOrder.setSubtotalDiscountPercentageLevel3(
 						(BigDecimal)subtotalDiscountPercentageLevel3Object);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"subtotalDiscountPercentageLevel4",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getSubtotalDiscountPercentageLevel4();
 				}
 
 			});
@@ -1134,16 +1574,6 @@ public class CommerceOrderModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"shippingAmount",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getShippingAmount();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"shippingAmount",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -1154,16 +1584,6 @@ public class CommerceOrderModelImpl
 
 					commerceOrder.setShippingAmount(
 						(BigDecimal)shippingAmountObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"shippingDiscountAmount",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getShippingDiscountAmount();
 				}
 
 			});
@@ -1181,16 +1601,6 @@ public class CommerceOrderModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"shippingDiscountPercentageLevel1",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getShippingDiscountPercentageLevel1();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"shippingDiscountPercentageLevel1",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -1202,16 +1612,6 @@ public class CommerceOrderModelImpl
 
 					commerceOrder.setShippingDiscountPercentageLevel1(
 						(BigDecimal)shippingDiscountPercentageLevel1Object);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"shippingDiscountPercentageLevel2",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getShippingDiscountPercentageLevel2();
 				}
 
 			});
@@ -1229,16 +1629,6 @@ public class CommerceOrderModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"shippingDiscountPercentageLevel3",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getShippingDiscountPercentageLevel3();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"shippingDiscountPercentageLevel3",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -1250,16 +1640,6 @@ public class CommerceOrderModelImpl
 
 					commerceOrder.setShippingDiscountPercentageLevel3(
 						(BigDecimal)shippingDiscountPercentageLevel3Object);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"shippingDiscountPercentageLevel4",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getShippingDiscountPercentageLevel4();
 				}
 
 			});
@@ -1277,16 +1657,6 @@ public class CommerceOrderModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"taxAmount",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getTaxAmount();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"taxAmount",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -1299,16 +1669,6 @@ public class CommerceOrderModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"total",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getTotal();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"total",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -1318,16 +1678,6 @@ public class CommerceOrderModelImpl
 					CommerceOrder commerceOrder, Object totalObject) {
 
 					commerceOrder.setTotal((BigDecimal)totalObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"totalDiscountAmount",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getTotalDiscountAmount();
 				}
 
 			});
@@ -1345,16 +1695,6 @@ public class CommerceOrderModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"totalDiscountPercentageLevel1",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getTotalDiscountPercentageLevel1();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"totalDiscountPercentageLevel1",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -1366,16 +1706,6 @@ public class CommerceOrderModelImpl
 
 					commerceOrder.setTotalDiscountPercentageLevel1(
 						(BigDecimal)totalDiscountPercentageLevel1Object);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"totalDiscountPercentageLevel2",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getTotalDiscountPercentageLevel2();
 				}
 
 			});
@@ -1393,16 +1723,6 @@ public class CommerceOrderModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"totalDiscountPercentageLevel3",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getTotalDiscountPercentageLevel3();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"totalDiscountPercentageLevel3",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -1414,16 +1734,6 @@ public class CommerceOrderModelImpl
 
 					commerceOrder.setTotalDiscountPercentageLevel3(
 						(BigDecimal)totalDiscountPercentageLevel3Object);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"totalDiscountPercentageLevel4",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getTotalDiscountPercentageLevel4();
 				}
 
 			});
@@ -1441,16 +1751,6 @@ public class CommerceOrderModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"subtotalWithTaxAmount",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getSubtotalWithTaxAmount();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"subtotalWithTaxAmount",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -1465,16 +1765,6 @@ public class CommerceOrderModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"subtotalDiscountWithTaxAmount",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getSubtotalDiscountWithTaxAmount();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"subtotalDiscountWithTaxAmount",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -1486,17 +1776,6 @@ public class CommerceOrderModelImpl
 
 					commerceOrder.setSubtotalDiscountWithTaxAmount(
 						(BigDecimal)subtotalDiscountWithTaxAmountObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"subtotalDiscountPercentageLevel1WithTaxAmount",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.
-						getSubtotalDiscountPercentageLevel1WithTaxAmount();
 				}
 
 			});
@@ -1517,17 +1796,6 @@ public class CommerceOrderModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"subtotalDiscountPercentageLevel2WithTaxAmount",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.
-						getSubtotalDiscountPercentageLevel2WithTaxAmount();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"subtotalDiscountPercentageLevel2WithTaxAmount",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -1542,17 +1810,6 @@ public class CommerceOrderModelImpl
 						setSubtotalDiscountPercentageLevel2WithTaxAmount(
 							(BigDecimal)
 								subtotalDiscountPercentageLevel2WithTaxAmountObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"subtotalDiscountPercentageLevel3WithTaxAmount",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.
-						getSubtotalDiscountPercentageLevel3WithTaxAmount();
 				}
 
 			});
@@ -1573,17 +1830,6 @@ public class CommerceOrderModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"subtotalDiscountPercentageLevel4WithTaxAmount",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.
-						getSubtotalDiscountPercentageLevel4WithTaxAmount();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"subtotalDiscountPercentageLevel4WithTaxAmount",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -1601,16 +1847,6 @@ public class CommerceOrderModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"shippingWithTaxAmount",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getShippingWithTaxAmount();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"shippingWithTaxAmount",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -1625,16 +1861,6 @@ public class CommerceOrderModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"shippingDiscountWithTaxAmount",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getShippingDiscountWithTaxAmount();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"shippingDiscountWithTaxAmount",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -1646,17 +1872,6 @@ public class CommerceOrderModelImpl
 
 					commerceOrder.setShippingDiscountWithTaxAmount(
 						(BigDecimal)shippingDiscountWithTaxAmountObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"shippingDiscountPercentageLevel1WithTaxAmount",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.
-						getShippingDiscountPercentageLevel1WithTaxAmount();
 				}
 
 			});
@@ -1677,17 +1892,6 @@ public class CommerceOrderModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"shippingDiscountPercentageLevel2WithTaxAmount",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.
-						getShippingDiscountPercentageLevel2WithTaxAmount();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"shippingDiscountPercentageLevel2WithTaxAmount",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -1702,17 +1906,6 @@ public class CommerceOrderModelImpl
 						setShippingDiscountPercentageLevel2WithTaxAmount(
 							(BigDecimal)
 								shippingDiscountPercentageLevel2WithTaxAmountObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"shippingDiscountPercentageLevel3WithTaxAmount",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.
-						getShippingDiscountPercentageLevel3WithTaxAmount();
 				}
 
 			});
@@ -1733,17 +1926,6 @@ public class CommerceOrderModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"shippingDiscountPercentageLevel4WithTaxAmount",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.
-						getShippingDiscountPercentageLevel4WithTaxAmount();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"shippingDiscountPercentageLevel4WithTaxAmount",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -1761,16 +1943,6 @@ public class CommerceOrderModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"totalWithTaxAmount",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getTotalWithTaxAmount();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"totalWithTaxAmount",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -1785,16 +1957,6 @@ public class CommerceOrderModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"totalDiscountWithTaxAmount",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getTotalDiscountWithTaxAmount();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"totalDiscountWithTaxAmount",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -1806,17 +1968,6 @@ public class CommerceOrderModelImpl
 
 					commerceOrder.setTotalDiscountWithTaxAmount(
 						(BigDecimal)totalDiscountWithTaxAmountObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"totalDiscountPercentageLevel1WithTaxAmount",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.
-						getTotalDiscountPercentageLevel1WithTaxAmount();
 				}
 
 			});
@@ -1835,17 +1986,6 @@ public class CommerceOrderModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"totalDiscountPercentageLevel2WithTaxAmount",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.
-						getTotalDiscountPercentageLevel2WithTaxAmount();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"totalDiscountPercentageLevel2WithTaxAmount",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -1858,17 +1998,6 @@ public class CommerceOrderModelImpl
 					commerceOrder.setTotalDiscountPercentageLevel2WithTaxAmount(
 						(BigDecimal)
 							totalDiscountPercentageLevel2WithTaxAmountObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"totalDiscountPercentageLevel3WithTaxAmount",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.
-						getTotalDiscountPercentageLevel3WithTaxAmount();
 				}
 
 			});
@@ -1887,17 +2016,6 @@ public class CommerceOrderModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"totalDiscountPercentageLevel4WithTaxAmount",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.
-						getTotalDiscountPercentageLevel4WithTaxAmount();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"totalDiscountPercentageLevel4WithTaxAmount",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -1913,16 +2031,6 @@ public class CommerceOrderModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"advanceStatus",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getAdvanceStatus();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"advanceStatus",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -1932,16 +2040,6 @@ public class CommerceOrderModelImpl
 					CommerceOrder commerceOrder, Object advanceStatusObject) {
 
 					commerceOrder.setAdvanceStatus((String)advanceStatusObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"paymentStatus",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getPaymentStatus();
 				}
 
 			});
@@ -1958,16 +2056,6 @@ public class CommerceOrderModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"orderDate",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getOrderDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"orderDate",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -1977,16 +2065,6 @@ public class CommerceOrderModelImpl
 					CommerceOrder commerceOrder, Object orderDateObject) {
 
 					commerceOrder.setOrderDate((Date)orderDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"orderStatus",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getOrderStatus();
 				}
 
 			});
@@ -2002,16 +2080,6 @@ public class CommerceOrderModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"printedNote",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getPrintedNote();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"printedNote",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -2021,16 +2089,6 @@ public class CommerceOrderModelImpl
 					CommerceOrder commerceOrder, Object printedNoteObject) {
 
 					commerceOrder.setPrintedNote((String)printedNoteObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"requestedDeliveryDate",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getRequestedDeliveryDate();
 				}
 
 			});
@@ -2048,16 +2106,6 @@ public class CommerceOrderModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"manuallyAdjusted",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getManuallyAdjusted();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"manuallyAdjusted",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -2069,16 +2117,6 @@ public class CommerceOrderModelImpl
 
 					commerceOrder.setManuallyAdjusted(
 						(Boolean)manuallyAdjustedObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getStatus();
 				}
 
 			});
@@ -2094,16 +2132,6 @@ public class CommerceOrderModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getStatusByUserId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -2113,16 +2141,6 @@ public class CommerceOrderModelImpl
 					CommerceOrder commerceOrder, Object statusByUserIdObject) {
 
 					commerceOrder.setStatusByUserId((Long)statusByUserIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getStatusByUserName();
 				}
 
 			});
@@ -2140,16 +2158,6 @@ public class CommerceOrderModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<CommerceOrder, Object>() {
-
-				@Override
-				public Object apply(CommerceOrder commerceOrder) {
-					return commerceOrder.getStatusDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"statusDate",
 			new BiConsumer<CommerceOrder, Object>() {
@@ -2163,8 +2171,6 @@ public class CommerceOrderModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

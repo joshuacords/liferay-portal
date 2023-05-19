@@ -113,6 +113,10 @@ public class PortalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(PortalService service) {
+		_service = service;
+	}
+
 	private static volatile PortalService _service;
 
 }

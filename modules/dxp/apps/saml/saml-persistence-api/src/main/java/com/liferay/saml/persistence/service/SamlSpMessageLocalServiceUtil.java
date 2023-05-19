@@ -309,6 +309,10 @@ public class SamlSpMessageLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(SamlSpMessageLocalService service) {
+		_service = service;
+	}
+
 	private static volatile SamlSpMessageLocalService _service;
 
 }

@@ -212,34 +212,40 @@ public class NullConvertibleEntryModelImpl
 
 	private static final Map<String, Function<NullConvertibleEntry, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<NullConvertibleEntry, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<NullConvertibleEntry, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<NullConvertibleEntry, Object>>();
+
+		attributeGetterFunctions.put(
+			"nullConvertibleEntryId",
+			NullConvertibleEntry::getNullConvertibleEntryId);
+		attributeGetterFunctions.put("name", NullConvertibleEntry::getName);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<NullConvertibleEntry, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<NullConvertibleEntry, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<NullConvertibleEntry, ?>>();
 
-		attributeGetterFunctions.put(
-			"nullConvertibleEntryId",
-			NullConvertibleEntry::getNullConvertibleEntryId);
 		attributeSetterBiConsumers.put(
 			"nullConvertibleEntryId",
 			(BiConsumer<NullConvertibleEntry, Long>)
 				NullConvertibleEntry::setNullConvertibleEntryId);
-		attributeGetterFunctions.put("name", NullConvertibleEntry::getName);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<NullConvertibleEntry, String>)
 				NullConvertibleEntry::setName);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

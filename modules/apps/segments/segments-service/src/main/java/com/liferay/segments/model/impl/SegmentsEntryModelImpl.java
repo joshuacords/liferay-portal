@@ -303,91 +303,97 @@ public class SegmentsEntryModelImpl
 
 	private static final Map<String, Function<SegmentsEntry, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<SegmentsEntry, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<SegmentsEntry, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<SegmentsEntry, Object>>();
-		Map<String, BiConsumer<SegmentsEntry, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<SegmentsEntry, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", SegmentsEntry::getMvccVersion);
+		attributeGetterFunctions.put("uuid", SegmentsEntry::getUuid);
+		attributeGetterFunctions.put(
+			"segmentsEntryId", SegmentsEntry::getSegmentsEntryId);
+		attributeGetterFunctions.put("groupId", SegmentsEntry::getGroupId);
+		attributeGetterFunctions.put("companyId", SegmentsEntry::getCompanyId);
+		attributeGetterFunctions.put("userId", SegmentsEntry::getUserId);
+		attributeGetterFunctions.put("userName", SegmentsEntry::getUserName);
+		attributeGetterFunctions.put(
+			"createDate", SegmentsEntry::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", SegmentsEntry::getModifiedDate);
+		attributeGetterFunctions.put(
+			"segmentsEntryKey", SegmentsEntry::getSegmentsEntryKey);
+		attributeGetterFunctions.put("name", SegmentsEntry::getName);
+		attributeGetterFunctions.put(
+			"description", SegmentsEntry::getDescription);
+		attributeGetterFunctions.put("active", SegmentsEntry::getActive);
+		attributeGetterFunctions.put("criteria", SegmentsEntry::getCriteria);
+		attributeGetterFunctions.put("source", SegmentsEntry::getSource);
+		attributeGetterFunctions.put("type", SegmentsEntry::getType);
+		attributeGetterFunctions.put(
+			"lastPublishDate", SegmentsEntry::getLastPublishDate);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<SegmentsEntry, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<SegmentsEntry, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<SegmentsEntry, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<SegmentsEntry, Long>)SegmentsEntry::setMvccVersion);
-		attributeGetterFunctions.put("uuid", SegmentsEntry::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<SegmentsEntry, String>)SegmentsEntry::setUuid);
-		attributeGetterFunctions.put(
-			"segmentsEntryId", SegmentsEntry::getSegmentsEntryId);
 		attributeSetterBiConsumers.put(
 			"segmentsEntryId",
 			(BiConsumer<SegmentsEntry, Long>)SegmentsEntry::setSegmentsEntryId);
-		attributeGetterFunctions.put("groupId", SegmentsEntry::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<SegmentsEntry, Long>)SegmentsEntry::setGroupId);
-		attributeGetterFunctions.put("companyId", SegmentsEntry::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<SegmentsEntry, Long>)SegmentsEntry::setCompanyId);
-		attributeGetterFunctions.put("userId", SegmentsEntry::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<SegmentsEntry, Long>)SegmentsEntry::setUserId);
-		attributeGetterFunctions.put("userName", SegmentsEntry::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<SegmentsEntry, String>)SegmentsEntry::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", SegmentsEntry::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<SegmentsEntry, Date>)SegmentsEntry::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", SegmentsEntry::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<SegmentsEntry, Date>)SegmentsEntry::setModifiedDate);
-		attributeGetterFunctions.put(
-			"segmentsEntryKey", SegmentsEntry::getSegmentsEntryKey);
 		attributeSetterBiConsumers.put(
 			"segmentsEntryKey",
 			(BiConsumer<SegmentsEntry, String>)
 				SegmentsEntry::setSegmentsEntryKey);
-		attributeGetterFunctions.put("name", SegmentsEntry::getName);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<SegmentsEntry, String>)SegmentsEntry::setName);
-		attributeGetterFunctions.put(
-			"description", SegmentsEntry::getDescription);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<SegmentsEntry, String>)SegmentsEntry::setDescription);
-		attributeGetterFunctions.put("active", SegmentsEntry::getActive);
 		attributeSetterBiConsumers.put(
 			"active",
 			(BiConsumer<SegmentsEntry, Boolean>)SegmentsEntry::setActive);
-		attributeGetterFunctions.put("criteria", SegmentsEntry::getCriteria);
 		attributeSetterBiConsumers.put(
 			"criteria",
 			(BiConsumer<SegmentsEntry, String>)SegmentsEntry::setCriteria);
-		attributeGetterFunctions.put("source", SegmentsEntry::getSource);
 		attributeSetterBiConsumers.put(
 			"source",
 			(BiConsumer<SegmentsEntry, String>)SegmentsEntry::setSource);
-		attributeGetterFunctions.put("type", SegmentsEntry::getType);
 		attributeSetterBiConsumers.put(
 			"type", (BiConsumer<SegmentsEntry, String>)SegmentsEntry::setType);
-		attributeGetterFunctions.put(
-			"lastPublishDate", SegmentsEntry::getLastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<SegmentsEntry, Date>)SegmentsEntry::setLastPublishDate);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

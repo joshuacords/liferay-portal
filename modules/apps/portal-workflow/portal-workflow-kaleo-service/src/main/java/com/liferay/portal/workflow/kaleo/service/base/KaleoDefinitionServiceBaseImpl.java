@@ -49,8 +49,6 @@ import com.liferay.portal.workflow.kaleo.service.persistence.KaleoTimerInstanceT
 import com.liferay.portal.workflow.kaleo.service.persistence.KaleoTimerPersistence;
 import com.liferay.portal.workflow.kaleo.service.persistence.KaleoTransitionPersistence;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 import org.osgi.service.component.annotations.Deactivate;
@@ -80,7 +78,7 @@ public abstract class KaleoDefinitionServiceBaseImpl
 	 */
 	@Deactivate
 	protected void deactivate() {
-		_setServiceUtilService(null);
+		KaleoDefinitionServiceUtil.setService(null);
 	}
 
 	@Override
@@ -94,7 +92,7 @@ public abstract class KaleoDefinitionServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		kaleoDefinitionService = (KaleoDefinitionService)aopProxy;
 
-		_setServiceUtilService(kaleoDefinitionService);
+		KaleoDefinitionServiceUtil.setService(kaleoDefinitionService);
 	}
 
 	/**
@@ -136,22 +134,6 @@ public abstract class KaleoDefinitionServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setServiceUtilService(
-		KaleoDefinitionService kaleoDefinitionService) {
-
-		try {
-			Field field = KaleoDefinitionServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, kaleoDefinitionService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

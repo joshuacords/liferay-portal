@@ -348,15 +348,11 @@ public class CommerceCountryModelImpl
 
 	private static final Map<String, Function<CommerceCountry, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CommerceCountry, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommerceCountry, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap<String, Function<CommerceCountry, Object>>();
-		Map<String, BiConsumer<CommerceCountry, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<CommerceCountry, ?>>();
 
 		attributeGetterFunctions.put(
 			"uuid",
@@ -368,6 +364,188 @@ public class CommerceCountryModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"commerceCountryId",
+			new Function<CommerceCountry, Object>() {
+
+				@Override
+				public Object apply(CommerceCountry commerceCountry) {
+					return commerceCountry.getCommerceCountryId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommerceCountry, Object>() {
+
+				@Override
+				public Object apply(CommerceCountry commerceCountry) {
+					return commerceCountry.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommerceCountry, Object>() {
+
+				@Override
+				public Object apply(CommerceCountry commerceCountry) {
+					return commerceCountry.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommerceCountry, Object>() {
+
+				@Override
+				public Object apply(CommerceCountry commerceCountry) {
+					return commerceCountry.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommerceCountry, Object>() {
+
+				@Override
+				public Object apply(CommerceCountry commerceCountry) {
+					return commerceCountry.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommerceCountry, Object>() {
+
+				@Override
+				public Object apply(CommerceCountry commerceCountry) {
+					return commerceCountry.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"name",
+			new Function<CommerceCountry, Object>() {
+
+				@Override
+				public Object apply(CommerceCountry commerceCountry) {
+					return commerceCountry.getName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"billingAllowed",
+			new Function<CommerceCountry, Object>() {
+
+				@Override
+				public Object apply(CommerceCountry commerceCountry) {
+					return commerceCountry.getBillingAllowed();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"shippingAllowed",
+			new Function<CommerceCountry, Object>() {
+
+				@Override
+				public Object apply(CommerceCountry commerceCountry) {
+					return commerceCountry.getShippingAllowed();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"twoLettersISOCode",
+			new Function<CommerceCountry, Object>() {
+
+				@Override
+				public Object apply(CommerceCountry commerceCountry) {
+					return commerceCountry.getTwoLettersISOCode();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"threeLettersISOCode",
+			new Function<CommerceCountry, Object>() {
+
+				@Override
+				public Object apply(CommerceCountry commerceCountry) {
+					return commerceCountry.getThreeLettersISOCode();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"numericISOCode",
+			new Function<CommerceCountry, Object>() {
+
+				@Override
+				public Object apply(CommerceCountry commerceCountry) {
+					return commerceCountry.getNumericISOCode();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"subjectToVAT",
+			new Function<CommerceCountry, Object>() {
+
+				@Override
+				public Object apply(CommerceCountry commerceCountry) {
+					return commerceCountry.getSubjectToVAT();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"priority",
+			new Function<CommerceCountry, Object>() {
+
+				@Override
+				public Object apply(CommerceCountry commerceCountry) {
+					return commerceCountry.getPriority();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"active",
+			new Function<CommerceCountry, Object>() {
+
+				@Override
+				public Object apply(CommerceCountry commerceCountry) {
+					return commerceCountry.getActive();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"lastPublishDate",
+			new Function<CommerceCountry, Object>() {
+
+				@Override
+				public Object apply(CommerceCountry commerceCountry) {
+					return commerceCountry.getLastPublishDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"channelFilterEnabled",
+			new Function<CommerceCountry, Object>() {
+
+				@Override
+				public Object apply(CommerceCountry commerceCountry) {
+					return commerceCountry.getChannelFilterEnabled();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<CommerceCountry, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommerceCountry, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<CommerceCountry, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"uuid",
 			new BiConsumer<CommerceCountry, Object>() {
@@ -377,16 +555,6 @@ public class CommerceCountryModelImpl
 					CommerceCountry commerceCountry, Object uuidObject) {
 
 					commerceCountry.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commerceCountryId",
-			new Function<CommerceCountry, Object>() {
-
-				@Override
-				public Object apply(CommerceCountry commerceCountry) {
-					return commerceCountry.getCommerceCountryId();
 				}
 
 			});
@@ -404,16 +572,6 @@ public class CommerceCountryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommerceCountry, Object>() {
-
-				@Override
-				public Object apply(CommerceCountry commerceCountry) {
-					return commerceCountry.getCompanyId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"companyId",
 			new BiConsumer<CommerceCountry, Object>() {
@@ -423,16 +581,6 @@ public class CommerceCountryModelImpl
 					CommerceCountry commerceCountry, Object companyIdObject) {
 
 					commerceCountry.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommerceCountry, Object>() {
-
-				@Override
-				public Object apply(CommerceCountry commerceCountry) {
-					return commerceCountry.getUserId();
 				}
 
 			});
@@ -448,16 +596,6 @@ public class CommerceCountryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommerceCountry, Object>() {
-
-				@Override
-				public Object apply(CommerceCountry commerceCountry) {
-					return commerceCountry.getUserName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userName",
 			new BiConsumer<CommerceCountry, Object>() {
@@ -470,16 +608,6 @@ public class CommerceCountryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommerceCountry, Object>() {
-
-				@Override
-				public Object apply(CommerceCountry commerceCountry) {
-					return commerceCountry.getCreateDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"createDate",
 			new BiConsumer<CommerceCountry, Object>() {
@@ -489,16 +617,6 @@ public class CommerceCountryModelImpl
 					CommerceCountry commerceCountry, Object createDateObject) {
 
 					commerceCountry.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommerceCountry, Object>() {
-
-				@Override
-				public Object apply(CommerceCountry commerceCountry) {
-					return commerceCountry.getModifiedDate();
 				}
 
 			});
@@ -515,16 +633,6 @@ public class CommerceCountryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"name",
-			new Function<CommerceCountry, Object>() {
-
-				@Override
-				public Object apply(CommerceCountry commerceCountry) {
-					return commerceCountry.getName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"name",
 			new BiConsumer<CommerceCountry, Object>() {
@@ -534,16 +642,6 @@ public class CommerceCountryModelImpl
 					CommerceCountry commerceCountry, Object nameObject) {
 
 					commerceCountry.setName((String)nameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"billingAllowed",
-			new Function<CommerceCountry, Object>() {
-
-				@Override
-				public Object apply(CommerceCountry commerceCountry) {
-					return commerceCountry.getBillingAllowed();
 				}
 
 			});
@@ -561,16 +659,6 @@ public class CommerceCountryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"shippingAllowed",
-			new Function<CommerceCountry, Object>() {
-
-				@Override
-				public Object apply(CommerceCountry commerceCountry) {
-					return commerceCountry.getShippingAllowed();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"shippingAllowed",
 			new BiConsumer<CommerceCountry, Object>() {
@@ -582,16 +670,6 @@ public class CommerceCountryModelImpl
 
 					commerceCountry.setShippingAllowed(
 						(Boolean)shippingAllowedObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"twoLettersISOCode",
-			new Function<CommerceCountry, Object>() {
-
-				@Override
-				public Object apply(CommerceCountry commerceCountry) {
-					return commerceCountry.getTwoLettersISOCode();
 				}
 
 			});
@@ -609,16 +687,6 @@ public class CommerceCountryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"threeLettersISOCode",
-			new Function<CommerceCountry, Object>() {
-
-				@Override
-				public Object apply(CommerceCountry commerceCountry) {
-					return commerceCountry.getThreeLettersISOCode();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"threeLettersISOCode",
 			new BiConsumer<CommerceCountry, Object>() {
@@ -630,16 +698,6 @@ public class CommerceCountryModelImpl
 
 					commerceCountry.setThreeLettersISOCode(
 						(String)threeLettersISOCodeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"numericISOCode",
-			new Function<CommerceCountry, Object>() {
-
-				@Override
-				public Object apply(CommerceCountry commerceCountry) {
-					return commerceCountry.getNumericISOCode();
 				}
 
 			});
@@ -657,16 +715,6 @@ public class CommerceCountryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"subjectToVAT",
-			new Function<CommerceCountry, Object>() {
-
-				@Override
-				public Object apply(CommerceCountry commerceCountry) {
-					return commerceCountry.getSubjectToVAT();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"subjectToVAT",
 			new BiConsumer<CommerceCountry, Object>() {
@@ -678,16 +726,6 @@ public class CommerceCountryModelImpl
 
 					commerceCountry.setSubjectToVAT(
 						(Boolean)subjectToVATObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"priority",
-			new Function<CommerceCountry, Object>() {
-
-				@Override
-				public Object apply(CommerceCountry commerceCountry) {
-					return commerceCountry.getPriority();
 				}
 
 			});
@@ -703,16 +741,6 @@ public class CommerceCountryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"active",
-			new Function<CommerceCountry, Object>() {
-
-				@Override
-				public Object apply(CommerceCountry commerceCountry) {
-					return commerceCountry.getActive();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"active",
 			new BiConsumer<CommerceCountry, Object>() {
@@ -722,16 +750,6 @@ public class CommerceCountryModelImpl
 					CommerceCountry commerceCountry, Object activeObject) {
 
 					commerceCountry.setActive((Boolean)activeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"lastPublishDate",
-			new Function<CommerceCountry, Object>() {
-
-				@Override
-				public Object apply(CommerceCountry commerceCountry) {
-					return commerceCountry.getLastPublishDate();
 				}
 
 			});
@@ -746,16 +764,6 @@ public class CommerceCountryModelImpl
 
 					commerceCountry.setLastPublishDate(
 						(Date)lastPublishDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"channelFilterEnabled",
-			new Function<CommerceCountry, Object>() {
-
-				@Override
-				public Object apply(CommerceCountry commerceCountry) {
-					return commerceCountry.getChannelFilterEnabled();
 				}
 
 			});
@@ -774,8 +782,6 @@ public class CommerceCountryModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

@@ -31,8 +31,6 @@ import com.liferay.portal.security.wedeploy.auth.service.WeDeployAuthAppServiceU
 import com.liferay.portal.security.wedeploy.auth.service.persistence.WeDeployAuthAppPersistence;
 import com.liferay.portal.security.wedeploy.auth.service.persistence.WeDeployAuthTokenPersistence;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 import org.osgi.service.component.annotations.Deactivate;
@@ -60,7 +58,7 @@ public abstract class WeDeployAuthAppServiceBaseImpl
 	 */
 	@Deactivate
 	protected void deactivate() {
-		_setServiceUtilService(null);
+		WeDeployAuthAppServiceUtil.setService(null);
 	}
 
 	@Override
@@ -74,7 +72,7 @@ public abstract class WeDeployAuthAppServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		weDeployAuthAppService = (WeDeployAuthAppService)aopProxy;
 
-		_setServiceUtilService(weDeployAuthAppService);
+		WeDeployAuthAppServiceUtil.setService(weDeployAuthAppService);
 	}
 
 	/**
@@ -116,22 +114,6 @@ public abstract class WeDeployAuthAppServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setServiceUtilService(
-		WeDeployAuthAppService weDeployAuthAppService) {
-
-		try {
-			Field field = WeDeployAuthAppServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, weDeployAuthAppService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

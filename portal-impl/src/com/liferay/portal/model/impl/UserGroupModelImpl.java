@@ -339,69 +339,75 @@ public class UserGroupModelImpl
 
 	private static final Map<String, Function<UserGroup, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<UserGroup, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<UserGroup, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<UserGroup, Object>>();
+
+		attributeGetterFunctions.put("mvccVersion", UserGroup::getMvccVersion);
+		attributeGetterFunctions.put("uuid", UserGroup::getUuid);
+		attributeGetterFunctions.put(
+			"externalReferenceCode", UserGroup::getExternalReferenceCode);
+		attributeGetterFunctions.put("userGroupId", UserGroup::getUserGroupId);
+		attributeGetterFunctions.put("companyId", UserGroup::getCompanyId);
+		attributeGetterFunctions.put("userId", UserGroup::getUserId);
+		attributeGetterFunctions.put("userName", UserGroup::getUserName);
+		attributeGetterFunctions.put("createDate", UserGroup::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", UserGroup::getModifiedDate);
+		attributeGetterFunctions.put(
+			"parentUserGroupId", UserGroup::getParentUserGroupId);
+		attributeGetterFunctions.put("name", UserGroup::getName);
+		attributeGetterFunctions.put("description", UserGroup::getDescription);
+		attributeGetterFunctions.put(
+			"addedByLDAPImport", UserGroup::getAddedByLDAPImport);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<UserGroup, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<UserGroup, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<UserGroup, ?>>();
 
-		attributeGetterFunctions.put("mvccVersion", UserGroup::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<UserGroup, Long>)UserGroup::setMvccVersion);
-		attributeGetterFunctions.put("uuid", UserGroup::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<UserGroup, String>)UserGroup::setUuid);
-		attributeGetterFunctions.put(
-			"externalReferenceCode", UserGroup::getExternalReferenceCode);
 		attributeSetterBiConsumers.put(
 			"externalReferenceCode",
 			(BiConsumer<UserGroup, String>)UserGroup::setExternalReferenceCode);
-		attributeGetterFunctions.put("userGroupId", UserGroup::getUserGroupId);
 		attributeSetterBiConsumers.put(
 			"userGroupId",
 			(BiConsumer<UserGroup, Long>)UserGroup::setUserGroupId);
-		attributeGetterFunctions.put("companyId", UserGroup::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<UserGroup, Long>)UserGroup::setCompanyId);
-		attributeGetterFunctions.put("userId", UserGroup::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<UserGroup, Long>)UserGroup::setUserId);
-		attributeGetterFunctions.put("userName", UserGroup::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName", (BiConsumer<UserGroup, String>)UserGroup::setUserName);
-		attributeGetterFunctions.put("createDate", UserGroup::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<UserGroup, Date>)UserGroup::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", UserGroup::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<UserGroup, Date>)UserGroup::setModifiedDate);
-		attributeGetterFunctions.put(
-			"parentUserGroupId", UserGroup::getParentUserGroupId);
 		attributeSetterBiConsumers.put(
 			"parentUserGroupId",
 			(BiConsumer<UserGroup, Long>)UserGroup::setParentUserGroupId);
-		attributeGetterFunctions.put("name", UserGroup::getName);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<UserGroup, String>)UserGroup::setName);
-		attributeGetterFunctions.put("description", UserGroup::getDescription);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<UserGroup, String>)UserGroup::setDescription);
-		attributeGetterFunctions.put(
-			"addedByLDAPImport", UserGroup::getAddedByLDAPImport);
 		attributeSetterBiConsumers.put(
 			"addedByLDAPImport",
 			(BiConsumer<UserGroup, Boolean>)UserGroup::setAddedByLDAPImport);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

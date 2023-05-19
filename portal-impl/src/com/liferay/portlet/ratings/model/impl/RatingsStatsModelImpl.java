@@ -218,49 +218,55 @@ public class RatingsStatsModelImpl
 
 	private static final Map<String, Function<RatingsStats, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<RatingsStats, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<RatingsStats, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<RatingsStats, Object>>();
+
+		attributeGetterFunctions.put("statsId", RatingsStats::getStatsId);
+		attributeGetterFunctions.put("companyId", RatingsStats::getCompanyId);
+		attributeGetterFunctions.put(
+			"classNameId", RatingsStats::getClassNameId);
+		attributeGetterFunctions.put("classPK", RatingsStats::getClassPK);
+		attributeGetterFunctions.put(
+			"totalEntries", RatingsStats::getTotalEntries);
+		attributeGetterFunctions.put("totalScore", RatingsStats::getTotalScore);
+		attributeGetterFunctions.put(
+			"averageScore", RatingsStats::getAverageScore);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<RatingsStats, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<RatingsStats, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<RatingsStats, ?>>();
 
-		attributeGetterFunctions.put("statsId", RatingsStats::getStatsId);
 		attributeSetterBiConsumers.put(
 			"statsId",
 			(BiConsumer<RatingsStats, Long>)RatingsStats::setStatsId);
-		attributeGetterFunctions.put("companyId", RatingsStats::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<RatingsStats, Long>)RatingsStats::setCompanyId);
-		attributeGetterFunctions.put(
-			"classNameId", RatingsStats::getClassNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<RatingsStats, Long>)RatingsStats::setClassNameId);
-		attributeGetterFunctions.put("classPK", RatingsStats::getClassPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<RatingsStats, Long>)RatingsStats::setClassPK);
-		attributeGetterFunctions.put(
-			"totalEntries", RatingsStats::getTotalEntries);
 		attributeSetterBiConsumers.put(
 			"totalEntries",
 			(BiConsumer<RatingsStats, Integer>)RatingsStats::setTotalEntries);
-		attributeGetterFunctions.put("totalScore", RatingsStats::getTotalScore);
 		attributeSetterBiConsumers.put(
 			"totalScore",
 			(BiConsumer<RatingsStats, Double>)RatingsStats::setTotalScore);
-		attributeGetterFunctions.put(
-			"averageScore", RatingsStats::getAverageScore);
 		attributeSetterBiConsumers.put(
 			"averageScore",
 			(BiConsumer<RatingsStats, Double>)RatingsStats::setAverageScore);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

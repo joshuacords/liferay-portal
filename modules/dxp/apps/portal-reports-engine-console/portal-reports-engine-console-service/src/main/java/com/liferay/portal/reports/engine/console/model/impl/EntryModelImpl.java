@@ -280,88 +280,94 @@ public class EntryModelImpl extends BaseModelImpl<Entry> implements EntryModel {
 
 	private static final Map<String, Function<Entry, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Entry, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<Entry, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<Entry, Object>>();
-		Map<String, BiConsumer<Entry, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Entry, ?>>();
 
 		attributeGetterFunctions.put("entryId", Entry::getEntryId);
-		attributeSetterBiConsumers.put(
-			"entryId", (BiConsumer<Entry, Long>)Entry::setEntryId);
 		attributeGetterFunctions.put("groupId", Entry::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId", (BiConsumer<Entry, Long>)Entry::setGroupId);
 		attributeGetterFunctions.put("companyId", Entry::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId", (BiConsumer<Entry, Long>)Entry::setCompanyId);
 		attributeGetterFunctions.put("userId", Entry::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<Entry, Long>)Entry::setUserId);
 		attributeGetterFunctions.put("userName", Entry::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName", (BiConsumer<Entry, String>)Entry::setUserName);
 		attributeGetterFunctions.put("createDate", Entry::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate", (BiConsumer<Entry, Date>)Entry::setCreateDate);
 		attributeGetterFunctions.put("modifiedDate", Entry::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate", (BiConsumer<Entry, Date>)Entry::setModifiedDate);
 		attributeGetterFunctions.put("definitionId", Entry::getDefinitionId);
-		attributeSetterBiConsumers.put(
-			"definitionId", (BiConsumer<Entry, Long>)Entry::setDefinitionId);
 		attributeGetterFunctions.put("format", Entry::getFormat);
-		attributeSetterBiConsumers.put(
-			"format", (BiConsumer<Entry, String>)Entry::setFormat);
 		attributeGetterFunctions.put(
 			"scheduleRequest", Entry::getScheduleRequest);
-		attributeSetterBiConsumers.put(
-			"scheduleRequest",
-			(BiConsumer<Entry, Boolean>)Entry::setScheduleRequest);
 		attributeGetterFunctions.put("startDate", Entry::getStartDate);
-		attributeSetterBiConsumers.put(
-			"startDate", (BiConsumer<Entry, Date>)Entry::setStartDate);
 		attributeGetterFunctions.put("endDate", Entry::getEndDate);
-		attributeSetterBiConsumers.put(
-			"endDate", (BiConsumer<Entry, Date>)Entry::setEndDate);
 		attributeGetterFunctions.put("repeating", Entry::getRepeating);
-		attributeSetterBiConsumers.put(
-			"repeating", (BiConsumer<Entry, Boolean>)Entry::setRepeating);
 		attributeGetterFunctions.put("recurrence", Entry::getRecurrence);
-		attributeSetterBiConsumers.put(
-			"recurrence", (BiConsumer<Entry, String>)Entry::setRecurrence);
 		attributeGetterFunctions.put(
 			"emailNotifications", Entry::getEmailNotifications);
-		attributeSetterBiConsumers.put(
-			"emailNotifications",
-			(BiConsumer<Entry, String>)Entry::setEmailNotifications);
 		attributeGetterFunctions.put("emailDelivery", Entry::getEmailDelivery);
-		attributeSetterBiConsumers.put(
-			"emailDelivery",
-			(BiConsumer<Entry, String>)Entry::setEmailDelivery);
 		attributeGetterFunctions.put("portletId", Entry::getPortletId);
-		attributeSetterBiConsumers.put(
-			"portletId", (BiConsumer<Entry, String>)Entry::setPortletId);
 		attributeGetterFunctions.put("pageURL", Entry::getPageURL);
-		attributeSetterBiConsumers.put(
-			"pageURL", (BiConsumer<Entry, String>)Entry::setPageURL);
 		attributeGetterFunctions.put(
 			"reportParameters", Entry::getReportParameters);
-		attributeSetterBiConsumers.put(
-			"reportParameters",
-			(BiConsumer<Entry, String>)Entry::setReportParameters);
 		attributeGetterFunctions.put("errorMessage", Entry::getErrorMessage);
-		attributeSetterBiConsumers.put(
-			"errorMessage", (BiConsumer<Entry, String>)Entry::setErrorMessage);
 		attributeGetterFunctions.put("status", Entry::getStatus);
-		attributeSetterBiConsumers.put(
-			"status", (BiConsumer<Entry, String>)Entry::setStatus);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<Entry, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<Entry, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<Entry, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"entryId", (BiConsumer<Entry, Long>)Entry::setEntryId);
+		attributeSetterBiConsumers.put(
+			"groupId", (BiConsumer<Entry, Long>)Entry::setGroupId);
+		attributeSetterBiConsumers.put(
+			"companyId", (BiConsumer<Entry, Long>)Entry::setCompanyId);
+		attributeSetterBiConsumers.put(
+			"userId", (BiConsumer<Entry, Long>)Entry::setUserId);
+		attributeSetterBiConsumers.put(
+			"userName", (BiConsumer<Entry, String>)Entry::setUserName);
+		attributeSetterBiConsumers.put(
+			"createDate", (BiConsumer<Entry, Date>)Entry::setCreateDate);
+		attributeSetterBiConsumers.put(
+			"modifiedDate", (BiConsumer<Entry, Date>)Entry::setModifiedDate);
+		attributeSetterBiConsumers.put(
+			"definitionId", (BiConsumer<Entry, Long>)Entry::setDefinitionId);
+		attributeSetterBiConsumers.put(
+			"format", (BiConsumer<Entry, String>)Entry::setFormat);
+		attributeSetterBiConsumers.put(
+			"scheduleRequest",
+			(BiConsumer<Entry, Boolean>)Entry::setScheduleRequest);
+		attributeSetterBiConsumers.put(
+			"startDate", (BiConsumer<Entry, Date>)Entry::setStartDate);
+		attributeSetterBiConsumers.put(
+			"endDate", (BiConsumer<Entry, Date>)Entry::setEndDate);
+		attributeSetterBiConsumers.put(
+			"repeating", (BiConsumer<Entry, Boolean>)Entry::setRepeating);
+		attributeSetterBiConsumers.put(
+			"recurrence", (BiConsumer<Entry, String>)Entry::setRecurrence);
+		attributeSetterBiConsumers.put(
+			"emailNotifications",
+			(BiConsumer<Entry, String>)Entry::setEmailNotifications);
+		attributeSetterBiConsumers.put(
+			"emailDelivery",
+			(BiConsumer<Entry, String>)Entry::setEmailDelivery);
+		attributeSetterBiConsumers.put(
+			"portletId", (BiConsumer<Entry, String>)Entry::setPortletId);
+		attributeSetterBiConsumers.put(
+			"pageURL", (BiConsumer<Entry, String>)Entry::setPageURL);
+		attributeSetterBiConsumers.put(
+			"reportParameters",
+			(BiConsumer<Entry, String>)Entry::setReportParameters);
+		attributeSetterBiConsumers.put(
+			"errorMessage", (BiConsumer<Entry, String>)Entry::setErrorMessage);
+		attributeSetterBiConsumers.put(
+			"status", (BiConsumer<Entry, String>)Entry::setStatus);
+
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

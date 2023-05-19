@@ -212,33 +212,39 @@ public class CacheFieldEntryModelImpl
 
 	private static final Map<String, Function<CacheFieldEntry, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CacheFieldEntry, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CacheFieldEntry, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap<String, Function<CacheFieldEntry, Object>>();
-		Map<String, BiConsumer<CacheFieldEntry, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<CacheFieldEntry, ?>>();
 
 		attributeGetterFunctions.put(
 			"cacheFieldEntryId", CacheFieldEntry::getCacheFieldEntryId);
+		attributeGetterFunctions.put("groupId", CacheFieldEntry::getGroupId);
+		attributeGetterFunctions.put("name", CacheFieldEntry::getName);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<CacheFieldEntry, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CacheFieldEntry, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<CacheFieldEntry, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"cacheFieldEntryId",
 			(BiConsumer<CacheFieldEntry, Long>)
 				CacheFieldEntry::setCacheFieldEntryId);
-		attributeGetterFunctions.put("groupId", CacheFieldEntry::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<CacheFieldEntry, Long>)CacheFieldEntry::setGroupId);
-		attributeGetterFunctions.put("name", CacheFieldEntry::getName);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<CacheFieldEntry, String>)CacheFieldEntry::setName);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

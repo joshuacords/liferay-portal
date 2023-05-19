@@ -47,6 +47,10 @@ public class ServiceProducerServiceUtil {
 		return _service;
 	}
 
+	public static void setService(ServiceProducerService service) {
+		_service = service;
+	}
+
 	private static volatile ServiceProducerService _service;
 
 }

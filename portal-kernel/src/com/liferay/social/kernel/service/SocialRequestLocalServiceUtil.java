@@ -629,6 +629,10 @@ public class SocialRequestLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(SocialRequestLocalService service) {
+		_service = service;
+	}
+
 	private static volatile SocialRequestLocalService _service;
 
 }

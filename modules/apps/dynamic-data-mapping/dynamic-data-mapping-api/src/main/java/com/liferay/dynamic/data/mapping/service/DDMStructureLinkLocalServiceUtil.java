@@ -423,6 +423,10 @@ public class DDMStructureLinkLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(DDMStructureLinkLocalService service) {
+		_service = service;
+	}
+
 	private static volatile DDMStructureLinkLocalService _service;
 
 }

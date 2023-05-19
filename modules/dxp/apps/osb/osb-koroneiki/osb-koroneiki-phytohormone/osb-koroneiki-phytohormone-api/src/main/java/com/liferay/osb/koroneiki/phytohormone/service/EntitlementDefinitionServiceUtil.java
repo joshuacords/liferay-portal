@@ -73,6 +73,10 @@ public class EntitlementDefinitionServiceUtil {
 		return _service;
 	}
 
+	public static void setService(EntitlementDefinitionService service) {
+		_service = service;
+	}
+
 	private static volatile EntitlementDefinitionService _service;
 
 }

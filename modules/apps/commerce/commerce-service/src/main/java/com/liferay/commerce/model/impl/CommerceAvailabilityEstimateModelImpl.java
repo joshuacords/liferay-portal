@@ -326,19 +326,12 @@ public class CommerceAvailabilityEstimateModelImpl
 	private static final Map
 		<String, Function<CommerceAvailabilityEstimate, Object>>
 			_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<CommerceAvailabilityEstimate, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommerceAvailabilityEstimate, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<CommerceAvailabilityEstimate, Object>>();
-		Map<String, BiConsumer<CommerceAvailabilityEstimate, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String, BiConsumer<CommerceAvailabilityEstimate, ?>>();
 
 		attributeGetterFunctions.put(
 			"uuid",
@@ -352,19 +345,6 @@ public class CommerceAvailabilityEstimateModelImpl
 				}
 
 			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<CommerceAvailabilityEstimate, Object>() {
-
-				@Override
-				public void accept(
-					CommerceAvailabilityEstimate commerceAvailabilityEstimate,
-					Object uuidObject) {
-
-					commerceAvailabilityEstimate.setUuid((String)uuidObject);
-				}
-
-			});
 		attributeGetterFunctions.put(
 			"commerceAvailabilityEstimateId",
 			new Function<CommerceAvailabilityEstimate, Object>() {
@@ -375,6 +355,130 @@ public class CommerceAvailabilityEstimateModelImpl
 
 					return commerceAvailabilityEstimate.
 						getCommerceAvailabilityEstimateId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommerceAvailabilityEstimate, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceAvailabilityEstimate commerceAvailabilityEstimate) {
+
+					return commerceAvailabilityEstimate.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommerceAvailabilityEstimate, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceAvailabilityEstimate commerceAvailabilityEstimate) {
+
+					return commerceAvailabilityEstimate.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommerceAvailabilityEstimate, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceAvailabilityEstimate commerceAvailabilityEstimate) {
+
+					return commerceAvailabilityEstimate.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommerceAvailabilityEstimate, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceAvailabilityEstimate commerceAvailabilityEstimate) {
+
+					return commerceAvailabilityEstimate.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommerceAvailabilityEstimate, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceAvailabilityEstimate commerceAvailabilityEstimate) {
+
+					return commerceAvailabilityEstimate.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"title",
+			new Function<CommerceAvailabilityEstimate, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceAvailabilityEstimate commerceAvailabilityEstimate) {
+
+					return commerceAvailabilityEstimate.getTitle();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"priority",
+			new Function<CommerceAvailabilityEstimate, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceAvailabilityEstimate commerceAvailabilityEstimate) {
+
+					return commerceAvailabilityEstimate.getPriority();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"lastPublishDate",
+			new Function<CommerceAvailabilityEstimate, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceAvailabilityEstimate commerceAvailabilityEstimate) {
+
+					return commerceAvailabilityEstimate.getLastPublishDate();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<CommerceAvailabilityEstimate, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommerceAvailabilityEstimate, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap
+					<String, BiConsumer<CommerceAvailabilityEstimate, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"uuid",
+			new BiConsumer<CommerceAvailabilityEstimate, Object>() {
+
+				@Override
+				public void accept(
+					CommerceAvailabilityEstimate commerceAvailabilityEstimate,
+					Object uuidObject) {
+
+					commerceAvailabilityEstimate.setUuid((String)uuidObject);
 				}
 
 			});
@@ -393,18 +497,6 @@ public class CommerceAvailabilityEstimateModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommerceAvailabilityEstimate, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceAvailabilityEstimate commerceAvailabilityEstimate) {
-
-					return commerceAvailabilityEstimate.getCompanyId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"companyId",
 			new BiConsumer<CommerceAvailabilityEstimate, Object>() {
@@ -419,18 +511,6 @@ public class CommerceAvailabilityEstimateModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommerceAvailabilityEstimate, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceAvailabilityEstimate commerceAvailabilityEstimate) {
-
-					return commerceAvailabilityEstimate.getUserId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userId",
 			new BiConsumer<CommerceAvailabilityEstimate, Object>() {
@@ -441,18 +521,6 @@ public class CommerceAvailabilityEstimateModelImpl
 					Object userIdObject) {
 
 					commerceAvailabilityEstimate.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommerceAvailabilityEstimate, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceAvailabilityEstimate commerceAvailabilityEstimate) {
-
-					return commerceAvailabilityEstimate.getUserName();
 				}
 
 			});
@@ -470,18 +538,6 @@ public class CommerceAvailabilityEstimateModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommerceAvailabilityEstimate, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceAvailabilityEstimate commerceAvailabilityEstimate) {
-
-					return commerceAvailabilityEstimate.getCreateDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"createDate",
 			new BiConsumer<CommerceAvailabilityEstimate, Object>() {
@@ -493,18 +549,6 @@ public class CommerceAvailabilityEstimateModelImpl
 
 					commerceAvailabilityEstimate.setCreateDate(
 						(Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommerceAvailabilityEstimate, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceAvailabilityEstimate commerceAvailabilityEstimate) {
-
-					return commerceAvailabilityEstimate.getModifiedDate();
 				}
 
 			});
@@ -522,18 +566,6 @@ public class CommerceAvailabilityEstimateModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"title",
-			new Function<CommerceAvailabilityEstimate, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceAvailabilityEstimate commerceAvailabilityEstimate) {
-
-					return commerceAvailabilityEstimate.getTitle();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"title",
 			new BiConsumer<CommerceAvailabilityEstimate, Object>() {
@@ -544,18 +576,6 @@ public class CommerceAvailabilityEstimateModelImpl
 					Object titleObject) {
 
 					commerceAvailabilityEstimate.setTitle((String)titleObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"priority",
-			new Function<CommerceAvailabilityEstimate, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceAvailabilityEstimate commerceAvailabilityEstimate) {
-
-					return commerceAvailabilityEstimate.getPriority();
 				}
 
 			});
@@ -570,18 +590,6 @@ public class CommerceAvailabilityEstimateModelImpl
 
 					commerceAvailabilityEstimate.setPriority(
 						(Double)priorityObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"lastPublishDate",
-			new Function<CommerceAvailabilityEstimate, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceAvailabilityEstimate commerceAvailabilityEstimate) {
-
-					return commerceAvailabilityEstimate.getLastPublishDate();
 				}
 
 			});
@@ -600,8 +608,6 @@ public class CommerceAvailabilityEstimateModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

@@ -323,14 +323,10 @@ public class CommerceRegionModelImpl
 
 	private static final Map<String, Function<CommerceRegion, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CommerceRegion, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommerceRegion, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<CommerceRegion, Object>>();
-		Map<String, BiConsumer<CommerceRegion, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<CommerceRegion, ?>>();
 
 		attributeGetterFunctions.put(
 			"uuid",
@@ -342,6 +338,138 @@ public class CommerceRegionModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"commerceRegionId",
+			new Function<CommerceRegion, Object>() {
+
+				@Override
+				public Object apply(CommerceRegion commerceRegion) {
+					return commerceRegion.getCommerceRegionId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommerceRegion, Object>() {
+
+				@Override
+				public Object apply(CommerceRegion commerceRegion) {
+					return commerceRegion.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommerceRegion, Object>() {
+
+				@Override
+				public Object apply(CommerceRegion commerceRegion) {
+					return commerceRegion.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommerceRegion, Object>() {
+
+				@Override
+				public Object apply(CommerceRegion commerceRegion) {
+					return commerceRegion.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommerceRegion, Object>() {
+
+				@Override
+				public Object apply(CommerceRegion commerceRegion) {
+					return commerceRegion.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommerceRegion, Object>() {
+
+				@Override
+				public Object apply(CommerceRegion commerceRegion) {
+					return commerceRegion.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceCountryId",
+			new Function<CommerceRegion, Object>() {
+
+				@Override
+				public Object apply(CommerceRegion commerceRegion) {
+					return commerceRegion.getCommerceCountryId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"name",
+			new Function<CommerceRegion, Object>() {
+
+				@Override
+				public Object apply(CommerceRegion commerceRegion) {
+					return commerceRegion.getName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"code",
+			new Function<CommerceRegion, Object>() {
+
+				@Override
+				public Object apply(CommerceRegion commerceRegion) {
+					return commerceRegion.getCode();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"priority",
+			new Function<CommerceRegion, Object>() {
+
+				@Override
+				public Object apply(CommerceRegion commerceRegion) {
+					return commerceRegion.getPriority();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"active",
+			new Function<CommerceRegion, Object>() {
+
+				@Override
+				public Object apply(CommerceRegion commerceRegion) {
+					return commerceRegion.getActive();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"lastPublishDate",
+			new Function<CommerceRegion, Object>() {
+
+				@Override
+				public Object apply(CommerceRegion commerceRegion) {
+					return commerceRegion.getLastPublishDate();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<CommerceRegion, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommerceRegion, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<CommerceRegion, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"uuid",
 			new BiConsumer<CommerceRegion, Object>() {
@@ -351,16 +479,6 @@ public class CommerceRegionModelImpl
 					CommerceRegion commerceRegion, Object uuidObject) {
 
 					commerceRegion.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commerceRegionId",
-			new Function<CommerceRegion, Object>() {
-
-				@Override
-				public Object apply(CommerceRegion commerceRegion) {
-					return commerceRegion.getCommerceRegionId();
 				}
 
 			});
@@ -378,16 +496,6 @@ public class CommerceRegionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommerceRegion, Object>() {
-
-				@Override
-				public Object apply(CommerceRegion commerceRegion) {
-					return commerceRegion.getCompanyId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"companyId",
 			new BiConsumer<CommerceRegion, Object>() {
@@ -397,16 +505,6 @@ public class CommerceRegionModelImpl
 					CommerceRegion commerceRegion, Object companyIdObject) {
 
 					commerceRegion.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommerceRegion, Object>() {
-
-				@Override
-				public Object apply(CommerceRegion commerceRegion) {
-					return commerceRegion.getUserId();
 				}
 
 			});
@@ -422,16 +520,6 @@ public class CommerceRegionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommerceRegion, Object>() {
-
-				@Override
-				public Object apply(CommerceRegion commerceRegion) {
-					return commerceRegion.getUserName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userName",
 			new BiConsumer<CommerceRegion, Object>() {
@@ -441,16 +529,6 @@ public class CommerceRegionModelImpl
 					CommerceRegion commerceRegion, Object userNameObject) {
 
 					commerceRegion.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommerceRegion, Object>() {
-
-				@Override
-				public Object apply(CommerceRegion commerceRegion) {
-					return commerceRegion.getCreateDate();
 				}
 
 			});
@@ -466,16 +544,6 @@ public class CommerceRegionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommerceRegion, Object>() {
-
-				@Override
-				public Object apply(CommerceRegion commerceRegion) {
-					return commerceRegion.getModifiedDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			new BiConsumer<CommerceRegion, Object>() {
@@ -485,16 +553,6 @@ public class CommerceRegionModelImpl
 					CommerceRegion commerceRegion, Object modifiedDateObject) {
 
 					commerceRegion.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commerceCountryId",
-			new Function<CommerceRegion, Object>() {
-
-				@Override
-				public Object apply(CommerceRegion commerceRegion) {
-					return commerceRegion.getCommerceCountryId();
 				}
 
 			});
@@ -512,16 +570,6 @@ public class CommerceRegionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"name",
-			new Function<CommerceRegion, Object>() {
-
-				@Override
-				public Object apply(CommerceRegion commerceRegion) {
-					return commerceRegion.getName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"name",
 			new BiConsumer<CommerceRegion, Object>() {
@@ -531,16 +579,6 @@ public class CommerceRegionModelImpl
 					CommerceRegion commerceRegion, Object nameObject) {
 
 					commerceRegion.setName((String)nameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"code",
-			new Function<CommerceRegion, Object>() {
-
-				@Override
-				public Object apply(CommerceRegion commerceRegion) {
-					return commerceRegion.getCode();
 				}
 
 			});
@@ -556,16 +594,6 @@ public class CommerceRegionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"priority",
-			new Function<CommerceRegion, Object>() {
-
-				@Override
-				public Object apply(CommerceRegion commerceRegion) {
-					return commerceRegion.getPriority();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"priority",
 			new BiConsumer<CommerceRegion, Object>() {
@@ -578,16 +606,6 @@ public class CommerceRegionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"active",
-			new Function<CommerceRegion, Object>() {
-
-				@Override
-				public Object apply(CommerceRegion commerceRegion) {
-					return commerceRegion.getActive();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"active",
 			new BiConsumer<CommerceRegion, Object>() {
@@ -597,16 +615,6 @@ public class CommerceRegionModelImpl
 					CommerceRegion commerceRegion, Object activeObject) {
 
 					commerceRegion.setActive((Boolean)activeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"lastPublishDate",
-			new Function<CommerceRegion, Object>() {
-
-				@Override
-				public Object apply(CommerceRegion commerceRegion) {
-					return commerceRegion.getLastPublishDate();
 				}
 
 			});
@@ -625,8 +633,6 @@ public class CommerceRegionModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

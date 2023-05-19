@@ -218,55 +218,61 @@ public class PasswordPolicyRelModelImpl
 
 	private static final Map<String, Function<PasswordPolicyRel, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<PasswordPolicyRel, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<PasswordPolicyRel, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<PasswordPolicyRel, Object>>();
+
+		attributeGetterFunctions.put(
+			"mvccVersion", PasswordPolicyRel::getMvccVersion);
+		attributeGetterFunctions.put(
+			"passwordPolicyRelId", PasswordPolicyRel::getPasswordPolicyRelId);
+		attributeGetterFunctions.put(
+			"companyId", PasswordPolicyRel::getCompanyId);
+		attributeGetterFunctions.put(
+			"passwordPolicyId", PasswordPolicyRel::getPasswordPolicyId);
+		attributeGetterFunctions.put(
+			"classNameId", PasswordPolicyRel::getClassNameId);
+		attributeGetterFunctions.put("classPK", PasswordPolicyRel::getClassPK);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<PasswordPolicyRel, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<PasswordPolicyRel, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<PasswordPolicyRel, ?>>();
 
-		attributeGetterFunctions.put(
-			"mvccVersion", PasswordPolicyRel::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<PasswordPolicyRel, Long>)
 				PasswordPolicyRel::setMvccVersion);
-		attributeGetterFunctions.put(
-			"passwordPolicyRelId", PasswordPolicyRel::getPasswordPolicyRelId);
 		attributeSetterBiConsumers.put(
 			"passwordPolicyRelId",
 			(BiConsumer<PasswordPolicyRel, Long>)
 				PasswordPolicyRel::setPasswordPolicyRelId);
-		attributeGetterFunctions.put(
-			"companyId", PasswordPolicyRel::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<PasswordPolicyRel, Long>)
 				PasswordPolicyRel::setCompanyId);
-		attributeGetterFunctions.put(
-			"passwordPolicyId", PasswordPolicyRel::getPasswordPolicyId);
 		attributeSetterBiConsumers.put(
 			"passwordPolicyId",
 			(BiConsumer<PasswordPolicyRel, Long>)
 				PasswordPolicyRel::setPasswordPolicyId);
-		attributeGetterFunctions.put(
-			"classNameId", PasswordPolicyRel::getClassNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<PasswordPolicyRel, Long>)
 				PasswordPolicyRel::setClassNameId);
-		attributeGetterFunctions.put("classPK", PasswordPolicyRel::getClassPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<PasswordPolicyRel, Long>)PasswordPolicyRel::setClassPK);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

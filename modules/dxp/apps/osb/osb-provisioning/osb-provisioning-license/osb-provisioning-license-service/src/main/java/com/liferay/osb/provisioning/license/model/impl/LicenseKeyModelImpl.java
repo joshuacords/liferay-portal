@@ -361,198 +361,204 @@ public class LicenseKeyModelImpl
 
 	private static final Map<String, Function<LicenseKey, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<LicenseKey, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<LicenseKey, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<LicenseKey, Object>>();
+
+		attributeGetterFunctions.put("mvccVersion", LicenseKey::getMvccVersion);
+		attributeGetterFunctions.put("uuid", LicenseKey::getUuid);
+		attributeGetterFunctions.put(
+			"licenseKeyId", LicenseKey::getLicenseKeyId);
+		attributeGetterFunctions.put("companyId", LicenseKey::getCompanyId);
+		attributeGetterFunctions.put("userUuid", LicenseKey::getUserUuid);
+		attributeGetterFunctions.put("userName", LicenseKey::getUserName);
+		attributeGetterFunctions.put("createDate", LicenseKey::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedUserUuid", LicenseKey::getModifiedUserUuid);
+		attributeGetterFunctions.put(
+			"modifiedUserName", LicenseKey::getModifiedUserName);
+		attributeGetterFunctions.put(
+			"modifiedDate", LicenseKey::getModifiedDate);
+		attributeGetterFunctions.put(
+			"assetReceiptLicenseUuid", LicenseKey::getAssetReceiptLicenseUuid);
+		attributeGetterFunctions.put("accountKey", LicenseKey::getAccountKey);
+		attributeGetterFunctions.put(
+			"productPurchaseKey", LicenseKey::getProductPurchaseKey);
+		attributeGetterFunctions.put(
+			"licenseEntryId", LicenseKey::getLicenseEntryId);
+		attributeGetterFunctions.put("productKey", LicenseKey::getProductKey);
+		attributeGetterFunctions.put("accountName", LicenseKey::getAccountName);
+		attributeGetterFunctions.put(
+			"licenseEntryName", LicenseKey::getLicenseEntryName);
+		attributeGetterFunctions.put(
+			"licenseEntryType", LicenseKey::getLicenseEntryType);
+		attributeGetterFunctions.put(
+			"licenseVersion", LicenseKey::getLicenseVersion);
+		attributeGetterFunctions.put("productName", LicenseKey::getProductName);
+		attributeGetterFunctions.put("productId", LicenseKey::getProductId);
+		attributeGetterFunctions.put(
+			"productVersion", LicenseKey::getProductVersion);
+		attributeGetterFunctions.put("clusterId", LicenseKey::getClusterId);
+		attributeGetterFunctions.put("name", LicenseKey::getName);
+		attributeGetterFunctions.put("owner", LicenseKey::getOwner);
+		attributeGetterFunctions.put(
+			"maxClusterNodes", LicenseKey::getMaxClusterNodes);
+		attributeGetterFunctions.put("maxServers", LicenseKey::getMaxServers);
+		attributeGetterFunctions.put(
+			"maxConcurrentUsers", LicenseKey::getMaxConcurrentUsers);
+		attributeGetterFunctions.put("maxUsers", LicenseKey::getMaxUsers);
+		attributeGetterFunctions.put(
+			"maxHttpSessions", LicenseKey::getMaxHttpSessions);
+		attributeGetterFunctions.put("sizing", LicenseKey::getSizing);
+		attributeGetterFunctions.put("description", LicenseKey::getDescription);
+		attributeGetterFunctions.put("hostName", LicenseKey::getHostName);
+		attributeGetterFunctions.put("ipAddresses", LicenseKey::getIpAddresses);
+		attributeGetterFunctions.put(
+			"macAddresses", LicenseKey::getMacAddresses);
+		attributeGetterFunctions.put("serverId", LicenseKey::getServerId);
+		attributeGetterFunctions.put("key", LicenseKey::getKey);
+		attributeGetterFunctions.put("startDate", LicenseKey::getStartDate);
+		attributeGetterFunctions.put(
+			"expirationDate", LicenseKey::getExpirationDate);
+		attributeGetterFunctions.put(
+			"additionalInfo", LicenseKey::getAdditionalInfo);
+		attributeGetterFunctions.put(
+			"complimentary", LicenseKey::getComplimentary);
+		attributeGetterFunctions.put("active", LicenseKey::getActive);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<LicenseKey, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<LicenseKey, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<LicenseKey, ?>>();
 
-		attributeGetterFunctions.put("mvccVersion", LicenseKey::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<LicenseKey, Long>)LicenseKey::setMvccVersion);
-		attributeGetterFunctions.put("uuid", LicenseKey::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<LicenseKey, String>)LicenseKey::setUuid);
-		attributeGetterFunctions.put(
-			"licenseKeyId", LicenseKey::getLicenseKeyId);
 		attributeSetterBiConsumers.put(
 			"licenseKeyId",
 			(BiConsumer<LicenseKey, Long>)LicenseKey::setLicenseKeyId);
-		attributeGetterFunctions.put("companyId", LicenseKey::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<LicenseKey, Long>)LicenseKey::setCompanyId);
-		attributeGetterFunctions.put("userUuid", LicenseKey::getUserUuid);
 		attributeSetterBiConsumers.put(
 			"userUuid",
 			(BiConsumer<LicenseKey, String>)LicenseKey::setUserUuid);
-		attributeGetterFunctions.put("userName", LicenseKey::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<LicenseKey, String>)LicenseKey::setUserName);
-		attributeGetterFunctions.put("createDate", LicenseKey::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<LicenseKey, Date>)LicenseKey::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedUserUuid", LicenseKey::getModifiedUserUuid);
 		attributeSetterBiConsumers.put(
 			"modifiedUserUuid",
 			(BiConsumer<LicenseKey, String>)LicenseKey::setModifiedUserUuid);
-		attributeGetterFunctions.put(
-			"modifiedUserName", LicenseKey::getModifiedUserName);
 		attributeSetterBiConsumers.put(
 			"modifiedUserName",
 			(BiConsumer<LicenseKey, String>)LicenseKey::setModifiedUserName);
-		attributeGetterFunctions.put(
-			"modifiedDate", LicenseKey::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<LicenseKey, Date>)LicenseKey::setModifiedDate);
-		attributeGetterFunctions.put(
-			"assetReceiptLicenseUuid", LicenseKey::getAssetReceiptLicenseUuid);
 		attributeSetterBiConsumers.put(
 			"assetReceiptLicenseUuid",
 			(BiConsumer<LicenseKey, String>)
 				LicenseKey::setAssetReceiptLicenseUuid);
-		attributeGetterFunctions.put("accountKey", LicenseKey::getAccountKey);
 		attributeSetterBiConsumers.put(
 			"accountKey",
 			(BiConsumer<LicenseKey, String>)LicenseKey::setAccountKey);
-		attributeGetterFunctions.put(
-			"productPurchaseKey", LicenseKey::getProductPurchaseKey);
 		attributeSetterBiConsumers.put(
 			"productPurchaseKey",
 			(BiConsumer<LicenseKey, String>)LicenseKey::setProductPurchaseKey);
-		attributeGetterFunctions.put(
-			"licenseEntryId", LicenseKey::getLicenseEntryId);
 		attributeSetterBiConsumers.put(
 			"licenseEntryId",
 			(BiConsumer<LicenseKey, Long>)LicenseKey::setLicenseEntryId);
-		attributeGetterFunctions.put("productKey", LicenseKey::getProductKey);
 		attributeSetterBiConsumers.put(
 			"productKey",
 			(BiConsumer<LicenseKey, String>)LicenseKey::setProductKey);
-		attributeGetterFunctions.put("accountName", LicenseKey::getAccountName);
 		attributeSetterBiConsumers.put(
 			"accountName",
 			(BiConsumer<LicenseKey, String>)LicenseKey::setAccountName);
-		attributeGetterFunctions.put(
-			"licenseEntryName", LicenseKey::getLicenseEntryName);
 		attributeSetterBiConsumers.put(
 			"licenseEntryName",
 			(BiConsumer<LicenseKey, String>)LicenseKey::setLicenseEntryName);
-		attributeGetterFunctions.put(
-			"licenseEntryType", LicenseKey::getLicenseEntryType);
 		attributeSetterBiConsumers.put(
 			"licenseEntryType",
 			(BiConsumer<LicenseKey, String>)LicenseKey::setLicenseEntryType);
-		attributeGetterFunctions.put(
-			"licenseVersion", LicenseKey::getLicenseVersion);
 		attributeSetterBiConsumers.put(
 			"licenseVersion",
 			(BiConsumer<LicenseKey, Integer>)LicenseKey::setLicenseVersion);
-		attributeGetterFunctions.put("productName", LicenseKey::getProductName);
 		attributeSetterBiConsumers.put(
 			"productName",
 			(BiConsumer<LicenseKey, String>)LicenseKey::setProductName);
-		attributeGetterFunctions.put("productId", LicenseKey::getProductId);
 		attributeSetterBiConsumers.put(
 			"productId",
 			(BiConsumer<LicenseKey, String>)LicenseKey::setProductId);
-		attributeGetterFunctions.put(
-			"productVersion", LicenseKey::getProductVersion);
 		attributeSetterBiConsumers.put(
 			"productVersion",
 			(BiConsumer<LicenseKey, String>)LicenseKey::setProductVersion);
-		attributeGetterFunctions.put("clusterId", LicenseKey::getClusterId);
 		attributeSetterBiConsumers.put(
 			"clusterId",
 			(BiConsumer<LicenseKey, Long>)LicenseKey::setClusterId);
-		attributeGetterFunctions.put("name", LicenseKey::getName);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<LicenseKey, String>)LicenseKey::setName);
-		attributeGetterFunctions.put("owner", LicenseKey::getOwner);
 		attributeSetterBiConsumers.put(
 			"owner", (BiConsumer<LicenseKey, String>)LicenseKey::setOwner);
-		attributeGetterFunctions.put(
-			"maxClusterNodes", LicenseKey::getMaxClusterNodes);
 		attributeSetterBiConsumers.put(
 			"maxClusterNodes",
 			(BiConsumer<LicenseKey, Integer>)LicenseKey::setMaxClusterNodes);
-		attributeGetterFunctions.put("maxServers", LicenseKey::getMaxServers);
 		attributeSetterBiConsumers.put(
 			"maxServers",
 			(BiConsumer<LicenseKey, Integer>)LicenseKey::setMaxServers);
-		attributeGetterFunctions.put(
-			"maxConcurrentUsers", LicenseKey::getMaxConcurrentUsers);
 		attributeSetterBiConsumers.put(
 			"maxConcurrentUsers",
 			(BiConsumer<LicenseKey, Long>)LicenseKey::setMaxConcurrentUsers);
-		attributeGetterFunctions.put("maxUsers", LicenseKey::getMaxUsers);
 		attributeSetterBiConsumers.put(
 			"maxUsers", (BiConsumer<LicenseKey, Long>)LicenseKey::setMaxUsers);
-		attributeGetterFunctions.put(
-			"maxHttpSessions", LicenseKey::getMaxHttpSessions);
 		attributeSetterBiConsumers.put(
 			"maxHttpSessions",
 			(BiConsumer<LicenseKey, Integer>)LicenseKey::setMaxHttpSessions);
-		attributeGetterFunctions.put("sizing", LicenseKey::getSizing);
 		attributeSetterBiConsumers.put(
 			"sizing", (BiConsumer<LicenseKey, String>)LicenseKey::setSizing);
-		attributeGetterFunctions.put("description", LicenseKey::getDescription);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<LicenseKey, String>)LicenseKey::setDescription);
-		attributeGetterFunctions.put("hostName", LicenseKey::getHostName);
 		attributeSetterBiConsumers.put(
 			"hostName",
 			(BiConsumer<LicenseKey, String>)LicenseKey::setHostName);
-		attributeGetterFunctions.put("ipAddresses", LicenseKey::getIpAddresses);
 		attributeSetterBiConsumers.put(
 			"ipAddresses",
 			(BiConsumer<LicenseKey, String>)LicenseKey::setIpAddresses);
-		attributeGetterFunctions.put(
-			"macAddresses", LicenseKey::getMacAddresses);
 		attributeSetterBiConsumers.put(
 			"macAddresses",
 			(BiConsumer<LicenseKey, String>)LicenseKey::setMacAddresses);
-		attributeGetterFunctions.put("serverId", LicenseKey::getServerId);
 		attributeSetterBiConsumers.put(
 			"serverId",
 			(BiConsumer<LicenseKey, String>)LicenseKey::setServerId);
-		attributeGetterFunctions.put("key", LicenseKey::getKey);
 		attributeSetterBiConsumers.put(
 			"key", (BiConsumer<LicenseKey, String>)LicenseKey::setKey);
-		attributeGetterFunctions.put("startDate", LicenseKey::getStartDate);
 		attributeSetterBiConsumers.put(
 			"startDate",
 			(BiConsumer<LicenseKey, Date>)LicenseKey::setStartDate);
-		attributeGetterFunctions.put(
-			"expirationDate", LicenseKey::getExpirationDate);
 		attributeSetterBiConsumers.put(
 			"expirationDate",
 			(BiConsumer<LicenseKey, Date>)LicenseKey::setExpirationDate);
-		attributeGetterFunctions.put(
-			"additionalInfo", LicenseKey::getAdditionalInfo);
 		attributeSetterBiConsumers.put(
 			"additionalInfo",
 			(BiConsumer<LicenseKey, String>)LicenseKey::setAdditionalInfo);
-		attributeGetterFunctions.put(
-			"complimentary", LicenseKey::getComplimentary);
 		attributeSetterBiConsumers.put(
 			"complimentary",
 			(BiConsumer<LicenseKey, Boolean>)LicenseKey::setComplimentary);
-		attributeGetterFunctions.put("active", LicenseKey::getActive);
 		attributeSetterBiConsumers.put(
 			"active", (BiConsumer<LicenseKey, Boolean>)LicenseKey::setActive);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

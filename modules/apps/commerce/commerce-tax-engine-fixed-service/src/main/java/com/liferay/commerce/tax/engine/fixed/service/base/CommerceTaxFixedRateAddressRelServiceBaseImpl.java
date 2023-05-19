@@ -35,8 +35,6 @@ import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 /**
@@ -400,11 +398,12 @@ public abstract class CommerceTaxFixedRateAddressRelServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
-		_setServiceUtilService(commerceTaxFixedRateAddressRelService);
+		CommerceTaxFixedRateAddressRelServiceUtil.setService(
+			commerceTaxFixedRateAddressRelService);
 	}
 
 	public void destroy() {
-		_setServiceUtilService(null);
+		CommerceTaxFixedRateAddressRelServiceUtil.setService(null);
 	}
 
 	/**
@@ -447,24 +446,6 @@ public abstract class CommerceTaxFixedRateAddressRelServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setServiceUtilService(
-		CommerceTaxFixedRateAddressRelService
-			commerceTaxFixedRateAddressRelService) {
-
-		try {
-			Field field =
-				CommerceTaxFixedRateAddressRelServiceUtil.class.
-					getDeclaredField("_service");
-
-			field.setAccessible(true);
-
-			field.set(null, commerceTaxFixedRateAddressRelService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

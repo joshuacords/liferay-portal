@@ -219,84 +219,90 @@ public class KaleoConditionModelImpl
 
 	private static final Map<String, Function<KaleoCondition, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<KaleoCondition, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<KaleoCondition, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<KaleoCondition, Object>>();
-		Map<String, BiConsumer<KaleoCondition, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<KaleoCondition, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", KaleoCondition::getMvccVersion);
+		attributeGetterFunctions.put(
+			"kaleoConditionId", KaleoCondition::getKaleoConditionId);
+		attributeGetterFunctions.put("groupId", KaleoCondition::getGroupId);
+		attributeGetterFunctions.put("companyId", KaleoCondition::getCompanyId);
+		attributeGetterFunctions.put("userId", KaleoCondition::getUserId);
+		attributeGetterFunctions.put("userName", KaleoCondition::getUserName);
+		attributeGetterFunctions.put(
+			"createDate", KaleoCondition::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", KaleoCondition::getModifiedDate);
+		attributeGetterFunctions.put(
+			"kaleoDefinitionVersionId",
+			KaleoCondition::getKaleoDefinitionVersionId);
+		attributeGetterFunctions.put(
+			"kaleoNodeId", KaleoCondition::getKaleoNodeId);
+		attributeGetterFunctions.put("script", KaleoCondition::getScript);
+		attributeGetterFunctions.put(
+			"scriptLanguage", KaleoCondition::getScriptLanguage);
+		attributeGetterFunctions.put(
+			"scriptRequiredContexts",
+			KaleoCondition::getScriptRequiredContexts);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<KaleoCondition, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<KaleoCondition, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<KaleoCondition, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<KaleoCondition, Long>)KaleoCondition::setMvccVersion);
-		attributeGetterFunctions.put(
-			"kaleoConditionId", KaleoCondition::getKaleoConditionId);
 		attributeSetterBiConsumers.put(
 			"kaleoConditionId",
 			(BiConsumer<KaleoCondition, Long>)
 				KaleoCondition::setKaleoConditionId);
-		attributeGetterFunctions.put("groupId", KaleoCondition::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<KaleoCondition, Long>)KaleoCondition::setGroupId);
-		attributeGetterFunctions.put("companyId", KaleoCondition::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<KaleoCondition, Long>)KaleoCondition::setCompanyId);
-		attributeGetterFunctions.put("userId", KaleoCondition::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<KaleoCondition, Long>)KaleoCondition::setUserId);
-		attributeGetterFunctions.put("userName", KaleoCondition::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<KaleoCondition, String>)KaleoCondition::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", KaleoCondition::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<KaleoCondition, Date>)KaleoCondition::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", KaleoCondition::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<KaleoCondition, Date>)KaleoCondition::setModifiedDate);
-		attributeGetterFunctions.put(
-			"kaleoDefinitionVersionId",
-			KaleoCondition::getKaleoDefinitionVersionId);
 		attributeSetterBiConsumers.put(
 			"kaleoDefinitionVersionId",
 			(BiConsumer<KaleoCondition, Long>)
 				KaleoCondition::setKaleoDefinitionVersionId);
-		attributeGetterFunctions.put(
-			"kaleoNodeId", KaleoCondition::getKaleoNodeId);
 		attributeSetterBiConsumers.put(
 			"kaleoNodeId",
 			(BiConsumer<KaleoCondition, Long>)KaleoCondition::setKaleoNodeId);
-		attributeGetterFunctions.put("script", KaleoCondition::getScript);
 		attributeSetterBiConsumers.put(
 			"script",
 			(BiConsumer<KaleoCondition, String>)KaleoCondition::setScript);
-		attributeGetterFunctions.put(
-			"scriptLanguage", KaleoCondition::getScriptLanguage);
 		attributeSetterBiConsumers.put(
 			"scriptLanguage",
 			(BiConsumer<KaleoCondition, String>)
 				KaleoCondition::setScriptLanguage);
-		attributeGetterFunctions.put(
-			"scriptRequiredContexts",
-			KaleoCondition::getScriptRequiredContexts);
 		attributeSetterBiConsumers.put(
 			"scriptRequiredContexts",
 			(BiConsumer<KaleoCondition, String>)
 				KaleoCondition::setScriptRequiredContexts);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

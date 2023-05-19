@@ -48,8 +48,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -360,7 +358,7 @@ public abstract class ExternalLinkLocalServiceBaseImpl
 
 	@Deactivate
 	protected void deactivate() {
-		_setLocalServiceUtilService(null);
+		ExternalLinkLocalServiceUtil.setService(null);
 	}
 
 	@Override
@@ -375,7 +373,7 @@ public abstract class ExternalLinkLocalServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		externalLinkLocalService = (ExternalLinkLocalService)aopProxy;
 
-		_setLocalServiceUtilService(externalLinkLocalService);
+		ExternalLinkLocalServiceUtil.setService(externalLinkLocalService);
 	}
 
 	/**
@@ -417,22 +415,6 @@ public abstract class ExternalLinkLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		ExternalLinkLocalService externalLinkLocalService) {
-
-		try {
-			Field field = ExternalLinkLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, externalLinkLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

@@ -346,19 +346,12 @@ public class CommerceInventoryWarehouseModelImpl
 	private static final Map
 		<String, Function<CommerceInventoryWarehouse, Object>>
 			_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<CommerceInventoryWarehouse, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommerceInventoryWarehouse, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<CommerceInventoryWarehouse, Object>>();
-		Map<String, BiConsumer<CommerceInventoryWarehouse, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String, BiConsumer<CommerceInventoryWarehouse, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion",
@@ -372,6 +365,264 @@ public class CommerceInventoryWarehouseModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"externalReferenceCode",
+			new Function<CommerceInventoryWarehouse, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryWarehouse commerceInventoryWarehouse) {
+
+					return commerceInventoryWarehouse.
+						getExternalReferenceCode();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceInventoryWarehouseId",
+			new Function<CommerceInventoryWarehouse, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryWarehouse commerceInventoryWarehouse) {
+
+					return commerceInventoryWarehouse.
+						getCommerceInventoryWarehouseId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommerceInventoryWarehouse, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryWarehouse commerceInventoryWarehouse) {
+
+					return commerceInventoryWarehouse.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommerceInventoryWarehouse, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryWarehouse commerceInventoryWarehouse) {
+
+					return commerceInventoryWarehouse.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommerceInventoryWarehouse, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryWarehouse commerceInventoryWarehouse) {
+
+					return commerceInventoryWarehouse.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommerceInventoryWarehouse, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryWarehouse commerceInventoryWarehouse) {
+
+					return commerceInventoryWarehouse.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommerceInventoryWarehouse, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryWarehouse commerceInventoryWarehouse) {
+
+					return commerceInventoryWarehouse.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"name",
+			new Function<CommerceInventoryWarehouse, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryWarehouse commerceInventoryWarehouse) {
+
+					return commerceInventoryWarehouse.getName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"description",
+			new Function<CommerceInventoryWarehouse, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryWarehouse commerceInventoryWarehouse) {
+
+					return commerceInventoryWarehouse.getDescription();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"active",
+			new Function<CommerceInventoryWarehouse, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryWarehouse commerceInventoryWarehouse) {
+
+					return commerceInventoryWarehouse.getActive();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"street1",
+			new Function<CommerceInventoryWarehouse, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryWarehouse commerceInventoryWarehouse) {
+
+					return commerceInventoryWarehouse.getStreet1();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"street2",
+			new Function<CommerceInventoryWarehouse, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryWarehouse commerceInventoryWarehouse) {
+
+					return commerceInventoryWarehouse.getStreet2();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"street3",
+			new Function<CommerceInventoryWarehouse, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryWarehouse commerceInventoryWarehouse) {
+
+					return commerceInventoryWarehouse.getStreet3();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"city",
+			new Function<CommerceInventoryWarehouse, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryWarehouse commerceInventoryWarehouse) {
+
+					return commerceInventoryWarehouse.getCity();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"zip",
+			new Function<CommerceInventoryWarehouse, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryWarehouse commerceInventoryWarehouse) {
+
+					return commerceInventoryWarehouse.getZip();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceRegionCode",
+			new Function<CommerceInventoryWarehouse, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryWarehouse commerceInventoryWarehouse) {
+
+					return commerceInventoryWarehouse.getCommerceRegionCode();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"countryTwoLettersISOCode",
+			new Function<CommerceInventoryWarehouse, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryWarehouse commerceInventoryWarehouse) {
+
+					return commerceInventoryWarehouse.
+						getCountryTwoLettersISOCode();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"latitude",
+			new Function<CommerceInventoryWarehouse, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryWarehouse commerceInventoryWarehouse) {
+
+					return commerceInventoryWarehouse.getLatitude();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"longitude",
+			new Function<CommerceInventoryWarehouse, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryWarehouse commerceInventoryWarehouse) {
+
+					return commerceInventoryWarehouse.getLongitude();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"type",
+			new Function<CommerceInventoryWarehouse, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryWarehouse commerceInventoryWarehouse) {
+
+					return commerceInventoryWarehouse.getType();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<CommerceInventoryWarehouse, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommerceInventoryWarehouse, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap
+					<String, BiConsumer<CommerceInventoryWarehouse, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			new BiConsumer<CommerceInventoryWarehouse, Object>() {
@@ -383,19 +634,6 @@ public class CommerceInventoryWarehouseModelImpl
 
 					commerceInventoryWarehouse.setMvccVersion(
 						(Long)mvccVersionObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"externalReferenceCode",
-			new Function<CommerceInventoryWarehouse, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryWarehouse commerceInventoryWarehouse) {
-
-					return commerceInventoryWarehouse.
-						getExternalReferenceCode();
 				}
 
 			});
@@ -413,19 +651,6 @@ public class CommerceInventoryWarehouseModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"commerceInventoryWarehouseId",
-			new Function<CommerceInventoryWarehouse, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryWarehouse commerceInventoryWarehouse) {
-
-					return commerceInventoryWarehouse.
-						getCommerceInventoryWarehouseId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"commerceInventoryWarehouseId",
 			new BiConsumer<CommerceInventoryWarehouse, Object>() {
@@ -437,18 +662,6 @@ public class CommerceInventoryWarehouseModelImpl
 
 					commerceInventoryWarehouse.setCommerceInventoryWarehouseId(
 						(Long)commerceInventoryWarehouseIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommerceInventoryWarehouse, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryWarehouse commerceInventoryWarehouse) {
-
-					return commerceInventoryWarehouse.getCompanyId();
 				}
 
 			});
@@ -466,18 +679,6 @@ public class CommerceInventoryWarehouseModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommerceInventoryWarehouse, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryWarehouse commerceInventoryWarehouse) {
-
-					return commerceInventoryWarehouse.getUserId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userId",
 			new BiConsumer<CommerceInventoryWarehouse, Object>() {
@@ -488,18 +689,6 @@ public class CommerceInventoryWarehouseModelImpl
 					Object userIdObject) {
 
 					commerceInventoryWarehouse.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommerceInventoryWarehouse, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryWarehouse commerceInventoryWarehouse) {
-
-					return commerceInventoryWarehouse.getUserName();
 				}
 
 			});
@@ -517,18 +706,6 @@ public class CommerceInventoryWarehouseModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommerceInventoryWarehouse, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryWarehouse commerceInventoryWarehouse) {
-
-					return commerceInventoryWarehouse.getCreateDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"createDate",
 			new BiConsumer<CommerceInventoryWarehouse, Object>() {
@@ -540,18 +717,6 @@ public class CommerceInventoryWarehouseModelImpl
 
 					commerceInventoryWarehouse.setCreateDate(
 						(Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommerceInventoryWarehouse, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryWarehouse commerceInventoryWarehouse) {
-
-					return commerceInventoryWarehouse.getModifiedDate();
 				}
 
 			});
@@ -569,18 +734,6 @@ public class CommerceInventoryWarehouseModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"name",
-			new Function<CommerceInventoryWarehouse, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryWarehouse commerceInventoryWarehouse) {
-
-					return commerceInventoryWarehouse.getName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"name",
 			new BiConsumer<CommerceInventoryWarehouse, Object>() {
@@ -591,18 +744,6 @@ public class CommerceInventoryWarehouseModelImpl
 					Object nameObject) {
 
 					commerceInventoryWarehouse.setName((String)nameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"description",
-			new Function<CommerceInventoryWarehouse, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryWarehouse commerceInventoryWarehouse) {
-
-					return commerceInventoryWarehouse.getDescription();
 				}
 
 			});
@@ -620,18 +761,6 @@ public class CommerceInventoryWarehouseModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"active",
-			new Function<CommerceInventoryWarehouse, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryWarehouse commerceInventoryWarehouse) {
-
-					return commerceInventoryWarehouse.getActive();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"active",
 			new BiConsumer<CommerceInventoryWarehouse, Object>() {
@@ -642,18 +771,6 @@ public class CommerceInventoryWarehouseModelImpl
 					Object activeObject) {
 
 					commerceInventoryWarehouse.setActive((Boolean)activeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"street1",
-			new Function<CommerceInventoryWarehouse, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryWarehouse commerceInventoryWarehouse) {
-
-					return commerceInventoryWarehouse.getStreet1();
 				}
 
 			});
@@ -671,18 +788,6 @@ public class CommerceInventoryWarehouseModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"street2",
-			new Function<CommerceInventoryWarehouse, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryWarehouse commerceInventoryWarehouse) {
-
-					return commerceInventoryWarehouse.getStreet2();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"street2",
 			new BiConsumer<CommerceInventoryWarehouse, Object>() {
@@ -694,18 +799,6 @@ public class CommerceInventoryWarehouseModelImpl
 
 					commerceInventoryWarehouse.setStreet2(
 						(String)street2Object);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"street3",
-			new Function<CommerceInventoryWarehouse, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryWarehouse commerceInventoryWarehouse) {
-
-					return commerceInventoryWarehouse.getStreet3();
 				}
 
 			});
@@ -723,18 +816,6 @@ public class CommerceInventoryWarehouseModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"city",
-			new Function<CommerceInventoryWarehouse, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryWarehouse commerceInventoryWarehouse) {
-
-					return commerceInventoryWarehouse.getCity();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"city",
 			new BiConsumer<CommerceInventoryWarehouse, Object>() {
@@ -748,18 +829,6 @@ public class CommerceInventoryWarehouseModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"zip",
-			new Function<CommerceInventoryWarehouse, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryWarehouse commerceInventoryWarehouse) {
-
-					return commerceInventoryWarehouse.getZip();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"zip",
 			new BiConsumer<CommerceInventoryWarehouse, Object>() {
@@ -770,18 +839,6 @@ public class CommerceInventoryWarehouseModelImpl
 					Object zipObject) {
 
 					commerceInventoryWarehouse.setZip((String)zipObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commerceRegionCode",
-			new Function<CommerceInventoryWarehouse, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryWarehouse commerceInventoryWarehouse) {
-
-					return commerceInventoryWarehouse.getCommerceRegionCode();
 				}
 
 			});
@@ -799,19 +856,6 @@ public class CommerceInventoryWarehouseModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"countryTwoLettersISOCode",
-			new Function<CommerceInventoryWarehouse, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryWarehouse commerceInventoryWarehouse) {
-
-					return commerceInventoryWarehouse.
-						getCountryTwoLettersISOCode();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"countryTwoLettersISOCode",
 			new BiConsumer<CommerceInventoryWarehouse, Object>() {
@@ -823,18 +867,6 @@ public class CommerceInventoryWarehouseModelImpl
 
 					commerceInventoryWarehouse.setCountryTwoLettersISOCode(
 						(String)countryTwoLettersISOCodeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"latitude",
-			new Function<CommerceInventoryWarehouse, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryWarehouse commerceInventoryWarehouse) {
-
-					return commerceInventoryWarehouse.getLatitude();
 				}
 
 			});
@@ -852,18 +884,6 @@ public class CommerceInventoryWarehouseModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"longitude",
-			new Function<CommerceInventoryWarehouse, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryWarehouse commerceInventoryWarehouse) {
-
-					return commerceInventoryWarehouse.getLongitude();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"longitude",
 			new BiConsumer<CommerceInventoryWarehouse, Object>() {
@@ -875,18 +895,6 @@ public class CommerceInventoryWarehouseModelImpl
 
 					commerceInventoryWarehouse.setLongitude(
 						(Double)longitudeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"type",
-			new Function<CommerceInventoryWarehouse, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryWarehouse commerceInventoryWarehouse) {
-
-					return commerceInventoryWarehouse.getType();
 				}
 
 			});
@@ -904,8 +912,6 @@ public class CommerceInventoryWarehouseModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

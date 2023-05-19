@@ -1461,6 +1461,12 @@ public class CPInstanceOptionValueRelUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(
+		CPInstanceOptionValueRelPersistence persistence) {
+
+		_persistence = persistence;
+	}
+
 	private static volatile CPInstanceOptionValueRelPersistence _persistence;
 
 }

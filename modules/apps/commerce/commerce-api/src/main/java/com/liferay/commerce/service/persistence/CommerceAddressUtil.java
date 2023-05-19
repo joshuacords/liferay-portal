@@ -1963,6 +1963,10 @@ public class CommerceAddressUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(CommerceAddressPersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile CommerceAddressPersistence _persistence;
 
 }

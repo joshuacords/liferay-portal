@@ -237,99 +237,105 @@ public class SamlSpSessionModelImpl
 
 	private static final Map<String, Function<SamlSpSession, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<SamlSpSession, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<SamlSpSession, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<SamlSpSession, Object>>();
-		Map<String, BiConsumer<SamlSpSession, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<SamlSpSession, ?>>();
 
 		attributeGetterFunctions.put(
 			"samlSpSessionId", SamlSpSession::getSamlSpSessionId);
+		attributeGetterFunctions.put("companyId", SamlSpSession::getCompanyId);
+		attributeGetterFunctions.put("userId", SamlSpSession::getUserId);
+		attributeGetterFunctions.put("userName", SamlSpSession::getUserName);
+		attributeGetterFunctions.put(
+			"createDate", SamlSpSession::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", SamlSpSession::getModifiedDate);
+		attributeGetterFunctions.put(
+			"samlIdpEntityId", SamlSpSession::getSamlIdpEntityId);
+		attributeGetterFunctions.put(
+			"samlSpSessionKey", SamlSpSession::getSamlSpSessionKey);
+		attributeGetterFunctions.put(
+			"assertionXml", SamlSpSession::getAssertionXml);
+		attributeGetterFunctions.put(
+			"jSessionId", SamlSpSession::getJSessionId);
+		attributeGetterFunctions.put(
+			"nameIdFormat", SamlSpSession::getNameIdFormat);
+		attributeGetterFunctions.put(
+			"nameIdNameQualifier", SamlSpSession::getNameIdNameQualifier);
+		attributeGetterFunctions.put(
+			"nameIdSPNameQualifier", SamlSpSession::getNameIdSPNameQualifier);
+		attributeGetterFunctions.put(
+			"nameIdValue", SamlSpSession::getNameIdValue);
+		attributeGetterFunctions.put(
+			"sessionIndex", SamlSpSession::getSessionIndex);
+		attributeGetterFunctions.put(
+			"terminated", SamlSpSession::getTerminated);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<SamlSpSession, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<SamlSpSession, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<SamlSpSession, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"samlSpSessionId",
 			(BiConsumer<SamlSpSession, Long>)SamlSpSession::setSamlSpSessionId);
-		attributeGetterFunctions.put("companyId", SamlSpSession::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<SamlSpSession, Long>)SamlSpSession::setCompanyId);
-		attributeGetterFunctions.put("userId", SamlSpSession::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<SamlSpSession, Long>)SamlSpSession::setUserId);
-		attributeGetterFunctions.put("userName", SamlSpSession::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<SamlSpSession, String>)SamlSpSession::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", SamlSpSession::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<SamlSpSession, Date>)SamlSpSession::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", SamlSpSession::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<SamlSpSession, Date>)SamlSpSession::setModifiedDate);
-		attributeGetterFunctions.put(
-			"samlIdpEntityId", SamlSpSession::getSamlIdpEntityId);
 		attributeSetterBiConsumers.put(
 			"samlIdpEntityId",
 			(BiConsumer<SamlSpSession, String>)
 				SamlSpSession::setSamlIdpEntityId);
-		attributeGetterFunctions.put(
-			"samlSpSessionKey", SamlSpSession::getSamlSpSessionKey);
 		attributeSetterBiConsumers.put(
 			"samlSpSessionKey",
 			(BiConsumer<SamlSpSession, String>)
 				SamlSpSession::setSamlSpSessionKey);
-		attributeGetterFunctions.put(
-			"assertionXml", SamlSpSession::getAssertionXml);
 		attributeSetterBiConsumers.put(
 			"assertionXml",
 			(BiConsumer<SamlSpSession, String>)SamlSpSession::setAssertionXml);
-		attributeGetterFunctions.put(
-			"jSessionId", SamlSpSession::getJSessionId);
 		attributeSetterBiConsumers.put(
 			"jSessionId",
 			(BiConsumer<SamlSpSession, String>)SamlSpSession::setJSessionId);
-		attributeGetterFunctions.put(
-			"nameIdFormat", SamlSpSession::getNameIdFormat);
 		attributeSetterBiConsumers.put(
 			"nameIdFormat",
 			(BiConsumer<SamlSpSession, String>)SamlSpSession::setNameIdFormat);
-		attributeGetterFunctions.put(
-			"nameIdNameQualifier", SamlSpSession::getNameIdNameQualifier);
 		attributeSetterBiConsumers.put(
 			"nameIdNameQualifier",
 			(BiConsumer<SamlSpSession, String>)
 				SamlSpSession::setNameIdNameQualifier);
-		attributeGetterFunctions.put(
-			"nameIdSPNameQualifier", SamlSpSession::getNameIdSPNameQualifier);
 		attributeSetterBiConsumers.put(
 			"nameIdSPNameQualifier",
 			(BiConsumer<SamlSpSession, String>)
 				SamlSpSession::setNameIdSPNameQualifier);
-		attributeGetterFunctions.put(
-			"nameIdValue", SamlSpSession::getNameIdValue);
 		attributeSetterBiConsumers.put(
 			"nameIdValue",
 			(BiConsumer<SamlSpSession, String>)SamlSpSession::setNameIdValue);
-		attributeGetterFunctions.put(
-			"sessionIndex", SamlSpSession::getSessionIndex);
 		attributeSetterBiConsumers.put(
 			"sessionIndex",
 			(BiConsumer<SamlSpSession, String>)SamlSpSession::setSessionIndex);
-		attributeGetterFunctions.put(
-			"terminated", SamlSpSession::getTerminated);
 		attributeSetterBiConsumers.put(
 			"terminated",
 			(BiConsumer<SamlSpSession, Boolean>)SamlSpSession::setTerminated);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

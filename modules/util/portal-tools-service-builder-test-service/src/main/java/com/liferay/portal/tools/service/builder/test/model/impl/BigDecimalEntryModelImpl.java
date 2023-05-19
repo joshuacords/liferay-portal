@@ -233,36 +233,42 @@ public class BigDecimalEntryModelImpl
 
 	private static final Map<String, Function<BigDecimalEntry, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<BigDecimalEntry, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<BigDecimalEntry, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap<String, Function<BigDecimalEntry, Object>>();
-		Map<String, BiConsumer<BigDecimalEntry, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<BigDecimalEntry, ?>>();
 
 		attributeGetterFunctions.put(
 			"bigDecimalEntryId", BigDecimalEntry::getBigDecimalEntryId);
+		attributeGetterFunctions.put(
+			"companyId", BigDecimalEntry::getCompanyId);
+		attributeGetterFunctions.put(
+			"bigDecimalValue", BigDecimalEntry::getBigDecimalValue);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<BigDecimalEntry, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<BigDecimalEntry, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<BigDecimalEntry, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"bigDecimalEntryId",
 			(BiConsumer<BigDecimalEntry, Long>)
 				BigDecimalEntry::setBigDecimalEntryId);
-		attributeGetterFunctions.put(
-			"companyId", BigDecimalEntry::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<BigDecimalEntry, Long>)BigDecimalEntry::setCompanyId);
-		attributeGetterFunctions.put(
-			"bigDecimalValue", BigDecimalEntry::getBigDecimalValue);
 		attributeSetterBiConsumers.put(
 			"bigDecimalValue",
 			(BiConsumer<BigDecimalEntry, BigDecimal>)
 				BigDecimalEntry::setBigDecimalValue);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

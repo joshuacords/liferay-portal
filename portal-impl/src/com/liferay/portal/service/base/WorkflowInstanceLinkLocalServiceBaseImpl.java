@@ -49,8 +49,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -555,14 +553,15 @@ public abstract class WorkflowInstanceLinkLocalServiceBaseImpl
 			"com.liferay.portal.kernel.model.WorkflowInstanceLink",
 			workflowInstanceLinkLocalService);
 
-		_setLocalServiceUtilService(workflowInstanceLinkLocalService);
+		WorkflowInstanceLinkLocalServiceUtil.setService(
+			workflowInstanceLinkLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"com.liferay.portal.kernel.model.WorkflowInstanceLink");
 
-		_setLocalServiceUtilService(null);
+		WorkflowInstanceLinkLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -605,23 +604,6 @@ public abstract class WorkflowInstanceLinkLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		WorkflowInstanceLinkLocalService workflowInstanceLinkLocalService) {
-
-		try {
-			Field field =
-				WorkflowInstanceLinkLocalServiceUtil.class.getDeclaredField(
-					"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, workflowInstanceLinkLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

@@ -218,40 +218,46 @@ public class AssetTagStatsModelImpl
 
 	private static final Map<String, Function<AssetTagStats, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<AssetTagStats, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<AssetTagStats, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<AssetTagStats, Object>>();
-		Map<String, BiConsumer<AssetTagStats, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<AssetTagStats, ?>>();
 
 		attributeGetterFunctions.put(
 			"tagStatsId", AssetTagStats::getTagStatsId);
+		attributeGetterFunctions.put("companyId", AssetTagStats::getCompanyId);
+		attributeGetterFunctions.put("tagId", AssetTagStats::getTagId);
+		attributeGetterFunctions.put(
+			"classNameId", AssetTagStats::getClassNameId);
+		attributeGetterFunctions.put(
+			"assetCount", AssetTagStats::getAssetCount);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<AssetTagStats, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<AssetTagStats, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<AssetTagStats, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"tagStatsId",
 			(BiConsumer<AssetTagStats, Long>)AssetTagStats::setTagStatsId);
-		attributeGetterFunctions.put("companyId", AssetTagStats::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<AssetTagStats, Long>)AssetTagStats::setCompanyId);
-		attributeGetterFunctions.put("tagId", AssetTagStats::getTagId);
 		attributeSetterBiConsumers.put(
 			"tagId", (BiConsumer<AssetTagStats, Long>)AssetTagStats::setTagId);
-		attributeGetterFunctions.put(
-			"classNameId", AssetTagStats::getClassNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<AssetTagStats, Long>)AssetTagStats::setClassNameId);
-		attributeGetterFunctions.put(
-			"assetCount", AssetTagStats::getAssetCount);
 		attributeSetterBiConsumers.put(
 			"assetCount",
 			(BiConsumer<AssetTagStats, Integer>)AssetTagStats::setAssetCount);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

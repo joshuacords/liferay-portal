@@ -53,8 +53,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -519,7 +517,7 @@ public abstract class FragmentCollectionLocalServiceBaseImpl
 
 	@Deactivate
 	protected void deactivate() {
-		_setLocalServiceUtilService(null);
+		FragmentCollectionLocalServiceUtil.setService(null);
 	}
 
 	@Override
@@ -535,7 +533,8 @@ public abstract class FragmentCollectionLocalServiceBaseImpl
 		fragmentCollectionLocalService =
 			(FragmentCollectionLocalService)aopProxy;
 
-		_setLocalServiceUtilService(fragmentCollectionLocalService);
+		FragmentCollectionLocalServiceUtil.setService(
+			fragmentCollectionLocalService);
 	}
 
 	/**
@@ -578,23 +577,6 @@ public abstract class FragmentCollectionLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		FragmentCollectionLocalService fragmentCollectionLocalService) {
-
-		try {
-			Field field =
-				FragmentCollectionLocalServiceUtil.class.getDeclaredField(
-					"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, fragmentCollectionLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

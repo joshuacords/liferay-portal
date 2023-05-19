@@ -41,8 +41,6 @@ import com.liferay.portal.kernel.service.persistence.WorkflowDefinitionLinkPersi
 import com.liferay.portal.kernel.service.persistence.WorkflowInstanceLinkPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 /**
@@ -690,11 +688,11 @@ public abstract class DLFileEntryTypeServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
-		_setServiceUtilService(dlFileEntryTypeService);
+		DLFileEntryTypeServiceUtil.setService(dlFileEntryTypeService);
 	}
 
 	public void destroy() {
-		_setServiceUtilService(null);
+		DLFileEntryTypeServiceUtil.setService(null);
 	}
 
 	/**
@@ -736,22 +734,6 @@ public abstract class DLFileEntryTypeServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setServiceUtilService(
-		DLFileEntryTypeService dlFileEntryTypeService) {
-
-		try {
-			Field field = DLFileEntryTypeServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, dlFileEntryTypeService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

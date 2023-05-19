@@ -41,7 +41,6 @@ import com.liferay.portlet.expando.model.impl.ExpandoTableModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.List;
@@ -1599,33 +1598,17 @@ public class ExpandoTablePersistenceImpl
 				String.class.getName()
 			});
 
-		_setExpandoTableUtilPersistence(this);
+		ExpandoTableUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setExpandoTableUtilPersistence(null);
+		ExpandoTableUtil.setPersistence(null);
 
 		EntityCacheUtil.removeCache(ExpandoTableImpl.class.getName());
 
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setExpandoTableUtilPersistence(
-		ExpandoTablePersistence expandoTablePersistence) {
-
-		try {
-			Field field = ExpandoTableUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, expandoTablePersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	private static final String _SQL_SELECT_EXPANDOTABLE =

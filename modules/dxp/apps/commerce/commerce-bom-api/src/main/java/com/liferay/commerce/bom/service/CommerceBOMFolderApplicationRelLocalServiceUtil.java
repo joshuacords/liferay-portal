@@ -363,6 +363,12 @@ public class CommerceBOMFolderApplicationRelLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(
+		CommerceBOMFolderApplicationRelLocalService service) {
+
+		_service = service;
+	}
+
 	private static volatile CommerceBOMFolderApplicationRelLocalService
 		_service;
 

@@ -274,64 +274,70 @@ public class SyncDeviceModelImpl
 
 	private static final Map<String, Function<SyncDevice, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<SyncDevice, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<SyncDevice, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<SyncDevice, Object>>();
-		Map<String, BiConsumer<SyncDevice, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<SyncDevice, ?>>();
 
 		attributeGetterFunctions.put("uuid", SyncDevice::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<SyncDevice, String>)SyncDevice::setUuid);
 		attributeGetterFunctions.put(
 			"syncDeviceId", SyncDevice::getSyncDeviceId);
-		attributeSetterBiConsumers.put(
-			"syncDeviceId",
-			(BiConsumer<SyncDevice, Long>)SyncDevice::setSyncDeviceId);
 		attributeGetterFunctions.put("companyId", SyncDevice::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId",
-			(BiConsumer<SyncDevice, Long>)SyncDevice::setCompanyId);
 		attributeGetterFunctions.put("userId", SyncDevice::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<SyncDevice, Long>)SyncDevice::setUserId);
 		attributeGetterFunctions.put("userName", SyncDevice::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName",
-			(BiConsumer<SyncDevice, String>)SyncDevice::setUserName);
 		attributeGetterFunctions.put("createDate", SyncDevice::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<SyncDevice, Date>)SyncDevice::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", SyncDevice::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<SyncDevice, Date>)SyncDevice::setModifiedDate);
 		attributeGetterFunctions.put("type", SyncDevice::getType);
-		attributeSetterBiConsumers.put(
-			"type", (BiConsumer<SyncDevice, String>)SyncDevice::setType);
 		attributeGetterFunctions.put("buildNumber", SyncDevice::getBuildNumber);
-		attributeSetterBiConsumers.put(
-			"buildNumber",
-			(BiConsumer<SyncDevice, Long>)SyncDevice::setBuildNumber);
 		attributeGetterFunctions.put("featureSet", SyncDevice::getFeatureSet);
-		attributeSetterBiConsumers.put(
-			"featureSet",
-			(BiConsumer<SyncDevice, Integer>)SyncDevice::setFeatureSet);
 		attributeGetterFunctions.put("hostname", SyncDevice::getHostname);
-		attributeSetterBiConsumers.put(
-			"hostname",
-			(BiConsumer<SyncDevice, String>)SyncDevice::setHostname);
 		attributeGetterFunctions.put("status", SyncDevice::getStatus);
-		attributeSetterBiConsumers.put(
-			"status", (BiConsumer<SyncDevice, Integer>)SyncDevice::setStatus);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<SyncDevice, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<SyncDevice, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<SyncDevice, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"uuid", (BiConsumer<SyncDevice, String>)SyncDevice::setUuid);
+		attributeSetterBiConsumers.put(
+			"syncDeviceId",
+			(BiConsumer<SyncDevice, Long>)SyncDevice::setSyncDeviceId);
+		attributeSetterBiConsumers.put(
+			"companyId",
+			(BiConsumer<SyncDevice, Long>)SyncDevice::setCompanyId);
+		attributeSetterBiConsumers.put(
+			"userId", (BiConsumer<SyncDevice, Long>)SyncDevice::setUserId);
+		attributeSetterBiConsumers.put(
+			"userName",
+			(BiConsumer<SyncDevice, String>)SyncDevice::setUserName);
+		attributeSetterBiConsumers.put(
+			"createDate",
+			(BiConsumer<SyncDevice, Date>)SyncDevice::setCreateDate);
+		attributeSetterBiConsumers.put(
+			"modifiedDate",
+			(BiConsumer<SyncDevice, Date>)SyncDevice::setModifiedDate);
+		attributeSetterBiConsumers.put(
+			"type", (BiConsumer<SyncDevice, String>)SyncDevice::setType);
+		attributeSetterBiConsumers.put(
+			"buildNumber",
+			(BiConsumer<SyncDevice, Long>)SyncDevice::setBuildNumber);
+		attributeSetterBiConsumers.put(
+			"featureSet",
+			(BiConsumer<SyncDevice, Integer>)SyncDevice::setFeatureSet);
+		attributeSetterBiConsumers.put(
+			"hostname",
+			(BiConsumer<SyncDevice, String>)SyncDevice::setHostname);
+		attributeSetterBiConsumers.put(
+			"status", (BiConsumer<SyncDevice, Integer>)SyncDevice::setStatus);
+
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

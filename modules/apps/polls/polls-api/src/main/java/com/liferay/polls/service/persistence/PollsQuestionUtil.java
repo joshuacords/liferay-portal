@@ -927,6 +927,10 @@ public class PollsQuestionUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(PollsQuestionPersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile PollsQuestionPersistence _persistence;
 
 }

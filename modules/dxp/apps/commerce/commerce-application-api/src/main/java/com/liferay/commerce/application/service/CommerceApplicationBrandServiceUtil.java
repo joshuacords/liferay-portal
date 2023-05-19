@@ -93,6 +93,10 @@ public class CommerceApplicationBrandServiceUtil {
 		return _service;
 	}
 
+	public static void setService(CommerceApplicationBrandService service) {
+		_service = service;
+	}
+
 	private static volatile CommerceApplicationBrandService _service;
 
 }

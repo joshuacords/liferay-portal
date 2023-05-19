@@ -179,6 +179,10 @@ public class ProductPurchaseServiceUtil {
 		return _service;
 	}
 
+	public static void setService(ProductPurchaseService service) {
+		_service = service;
+	}
+
 	private static volatile ProductPurchaseService _service;
 
 }

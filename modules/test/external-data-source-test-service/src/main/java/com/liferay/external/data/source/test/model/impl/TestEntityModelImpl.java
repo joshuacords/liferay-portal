@@ -196,24 +196,30 @@ public class TestEntityModelImpl
 
 	private static final Map<String, Function<TestEntity, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<TestEntity, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<TestEntity, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<TestEntity, Object>>();
-		Map<String, BiConsumer<TestEntity, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<TestEntity, ?>>();
 
 		attributeGetterFunctions.put("id", TestEntity::getId);
-		attributeSetterBiConsumers.put(
-			"id", (BiConsumer<TestEntity, Long>)TestEntity::setId);
 		attributeGetterFunctions.put("data", TestEntity::getData);
-		attributeSetterBiConsumers.put(
-			"data", (BiConsumer<TestEntity, String>)TestEntity::setData);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<TestEntity, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<TestEntity, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<TestEntity, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"id", (BiConsumer<TestEntity, Long>)TestEntity::setId);
+		attributeSetterBiConsumers.put(
+			"data", (BiConsumer<TestEntity, String>)TestEntity::setData);
+
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

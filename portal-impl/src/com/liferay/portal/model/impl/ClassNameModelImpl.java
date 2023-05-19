@@ -254,29 +254,35 @@ public class ClassNameModelImpl
 
 	private static final Map<String, Function<ClassName, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<ClassName, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<ClassName, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<ClassName, Object>>();
-		Map<String, BiConsumer<ClassName, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<ClassName, ?>>();
 
 		attributeGetterFunctions.put("mvccVersion", ClassName::getMvccVersion);
-		attributeSetterBiConsumers.put(
-			"mvccVersion",
-			(BiConsumer<ClassName, Long>)ClassName::setMvccVersion);
 		attributeGetterFunctions.put("classNameId", ClassName::getClassNameId);
-		attributeSetterBiConsumers.put(
-			"classNameId",
-			(BiConsumer<ClassName, Long>)ClassName::setClassNameId);
 		attributeGetterFunctions.put("value", ClassName::getValue);
-		attributeSetterBiConsumers.put(
-			"value", (BiConsumer<ClassName, String>)ClassName::setValue);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<ClassName, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<ClassName, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<ClassName, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"mvccVersion",
+			(BiConsumer<ClassName, Long>)ClassName::setMvccVersion);
+		attributeSetterBiConsumers.put(
+			"classNameId",
+			(BiConsumer<ClassName, Long>)ClassName::setClassNameId);
+		attributeSetterBiConsumers.put(
+			"value", (BiConsumer<ClassName, String>)ClassName::setValue);
+
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

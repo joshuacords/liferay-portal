@@ -217,49 +217,55 @@ public class SamlSpMessageModelImpl
 
 	private static final Map<String, Function<SamlSpMessage, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<SamlSpMessage, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<SamlSpMessage, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<SamlSpMessage, Object>>();
-		Map<String, BiConsumer<SamlSpMessage, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<SamlSpMessage, ?>>();
 
 		attributeGetterFunctions.put(
 			"samlSpMessageId", SamlSpMessage::getSamlSpMessageId);
+		attributeGetterFunctions.put("companyId", SamlSpMessage::getCompanyId);
+		attributeGetterFunctions.put(
+			"createDate", SamlSpMessage::getCreateDate);
+		attributeGetterFunctions.put(
+			"samlIdpEntityId", SamlSpMessage::getSamlIdpEntityId);
+		attributeGetterFunctions.put(
+			"samlIdpResponseKey", SamlSpMessage::getSamlIdpResponseKey);
+		attributeGetterFunctions.put(
+			"expirationDate", SamlSpMessage::getExpirationDate);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<SamlSpMessage, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<SamlSpMessage, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<SamlSpMessage, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"samlSpMessageId",
 			(BiConsumer<SamlSpMessage, Long>)SamlSpMessage::setSamlSpMessageId);
-		attributeGetterFunctions.put("companyId", SamlSpMessage::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<SamlSpMessage, Long>)SamlSpMessage::setCompanyId);
-		attributeGetterFunctions.put(
-			"createDate", SamlSpMessage::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<SamlSpMessage, Date>)SamlSpMessage::setCreateDate);
-		attributeGetterFunctions.put(
-			"samlIdpEntityId", SamlSpMessage::getSamlIdpEntityId);
 		attributeSetterBiConsumers.put(
 			"samlIdpEntityId",
 			(BiConsumer<SamlSpMessage, String>)
 				SamlSpMessage::setSamlIdpEntityId);
-		attributeGetterFunctions.put(
-			"samlIdpResponseKey", SamlSpMessage::getSamlIdpResponseKey);
 		attributeSetterBiConsumers.put(
 			"samlIdpResponseKey",
 			(BiConsumer<SamlSpMessage, String>)
 				SamlSpMessage::setSamlIdpResponseKey);
-		attributeGetterFunctions.put(
-			"expirationDate", SamlSpMessage::getExpirationDate);
 		attributeSetterBiConsumers.put(
 			"expirationDate",
 			(BiConsumer<SamlSpMessage, Date>)SamlSpMessage::setExpirationDate);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

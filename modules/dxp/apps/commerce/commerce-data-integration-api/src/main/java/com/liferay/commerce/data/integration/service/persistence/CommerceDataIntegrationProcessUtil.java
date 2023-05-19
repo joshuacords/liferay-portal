@@ -905,6 +905,12 @@ public class CommerceDataIntegrationProcessUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(
+		CommerceDataIntegrationProcessPersistence persistence) {
+
+		_persistence = persistence;
+	}
+
 	private static volatile CommerceDataIntegrationProcessPersistence
 		_persistence;
 

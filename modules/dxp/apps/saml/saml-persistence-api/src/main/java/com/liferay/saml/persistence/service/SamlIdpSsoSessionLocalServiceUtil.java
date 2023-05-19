@@ -322,6 +322,10 @@ public class SamlIdpSsoSessionLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(SamlIdpSsoSessionLocalService service) {
+		_service = service;
+	}
+
 	private static volatile SamlIdpSsoSessionLocalService _service;
 
 }

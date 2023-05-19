@@ -381,6 +381,10 @@ public class EntitlementDefinitionLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(EntitlementDefinitionLocalService service) {
+		_service = service;
+	}
+
 	private static volatile EntitlementDefinitionLocalService _service;
 
 }

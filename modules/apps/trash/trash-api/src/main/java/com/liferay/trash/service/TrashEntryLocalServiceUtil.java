@@ -464,6 +464,10 @@ public class TrashEntryLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(TrashEntryLocalService service) {
+		_service = service;
+	}
+
 	private static volatile TrashEntryLocalService _service;
 
 }

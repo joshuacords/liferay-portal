@@ -3213,6 +3213,10 @@ public class OrganizationUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(OrganizationPersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile OrganizationPersistence _persistence;
 
 }

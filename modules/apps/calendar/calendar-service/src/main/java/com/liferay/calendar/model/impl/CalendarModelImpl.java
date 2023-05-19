@@ -296,86 +296,92 @@ public class CalendarModelImpl
 
 	private static final Map<String, Function<Calendar, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Calendar, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<Calendar, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<Calendar, Object>>();
+
+		attributeGetterFunctions.put("mvccVersion", Calendar::getMvccVersion);
+		attributeGetterFunctions.put("uuid", Calendar::getUuid);
+		attributeGetterFunctions.put("calendarId", Calendar::getCalendarId);
+		attributeGetterFunctions.put("groupId", Calendar::getGroupId);
+		attributeGetterFunctions.put("companyId", Calendar::getCompanyId);
+		attributeGetterFunctions.put("userId", Calendar::getUserId);
+		attributeGetterFunctions.put("userName", Calendar::getUserName);
+		attributeGetterFunctions.put("createDate", Calendar::getCreateDate);
+		attributeGetterFunctions.put("modifiedDate", Calendar::getModifiedDate);
+		attributeGetterFunctions.put(
+			"calendarResourceId", Calendar::getCalendarResourceId);
+		attributeGetterFunctions.put("name", Calendar::getName);
+		attributeGetterFunctions.put("description", Calendar::getDescription);
+		attributeGetterFunctions.put("timeZoneId", Calendar::getTimeZoneId);
+		attributeGetterFunctions.put("color", Calendar::getColor);
+		attributeGetterFunctions.put(
+			"defaultCalendar", Calendar::getDefaultCalendar);
+		attributeGetterFunctions.put(
+			"enableComments", Calendar::getEnableComments);
+		attributeGetterFunctions.put(
+			"enableRatings", Calendar::getEnableRatings);
+		attributeGetterFunctions.put(
+			"lastPublishDate", Calendar::getLastPublishDate);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<Calendar, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<Calendar, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Calendar, ?>>();
 
-		attributeGetterFunctions.put("mvccVersion", Calendar::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<Calendar, Long>)Calendar::setMvccVersion);
-		attributeGetterFunctions.put("uuid", Calendar::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<Calendar, String>)Calendar::setUuid);
-		attributeGetterFunctions.put("calendarId", Calendar::getCalendarId);
 		attributeSetterBiConsumers.put(
 			"calendarId", (BiConsumer<Calendar, Long>)Calendar::setCalendarId);
-		attributeGetterFunctions.put("groupId", Calendar::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<Calendar, Long>)Calendar::setGroupId);
-		attributeGetterFunctions.put("companyId", Calendar::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<Calendar, Long>)Calendar::setCompanyId);
-		attributeGetterFunctions.put("userId", Calendar::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<Calendar, Long>)Calendar::setUserId);
-		attributeGetterFunctions.put("userName", Calendar::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName", (BiConsumer<Calendar, String>)Calendar::setUserName);
-		attributeGetterFunctions.put("createDate", Calendar::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate", (BiConsumer<Calendar, Date>)Calendar::setCreateDate);
-		attributeGetterFunctions.put("modifiedDate", Calendar::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<Calendar, Date>)Calendar::setModifiedDate);
-		attributeGetterFunctions.put(
-			"calendarResourceId", Calendar::getCalendarResourceId);
 		attributeSetterBiConsumers.put(
 			"calendarResourceId",
 			(BiConsumer<Calendar, Long>)Calendar::setCalendarResourceId);
-		attributeGetterFunctions.put("name", Calendar::getName);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<Calendar, String>)Calendar::setName);
-		attributeGetterFunctions.put("description", Calendar::getDescription);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<Calendar, String>)Calendar::setDescription);
-		attributeGetterFunctions.put("timeZoneId", Calendar::getTimeZoneId);
 		attributeSetterBiConsumers.put(
 			"timeZoneId",
 			(BiConsumer<Calendar, String>)Calendar::setTimeZoneId);
-		attributeGetterFunctions.put("color", Calendar::getColor);
 		attributeSetterBiConsumers.put(
 			"color", (BiConsumer<Calendar, Integer>)Calendar::setColor);
-		attributeGetterFunctions.put(
-			"defaultCalendar", Calendar::getDefaultCalendar);
 		attributeSetterBiConsumers.put(
 			"defaultCalendar",
 			(BiConsumer<Calendar, Boolean>)Calendar::setDefaultCalendar);
-		attributeGetterFunctions.put(
-			"enableComments", Calendar::getEnableComments);
 		attributeSetterBiConsumers.put(
 			"enableComments",
 			(BiConsumer<Calendar, Boolean>)Calendar::setEnableComments);
-		attributeGetterFunctions.put(
-			"enableRatings", Calendar::getEnableRatings);
 		attributeSetterBiConsumers.put(
 			"enableRatings",
 			(BiConsumer<Calendar, Boolean>)Calendar::setEnableRatings);
-		attributeGetterFunctions.put(
-			"lastPublishDate", Calendar::getLastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<Calendar, Date>)Calendar::setLastPublishDate);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

@@ -41,7 +41,6 @@ import com.liferay.portal.tools.service.builder.test.service.persistence.Redunda
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.List;
@@ -982,33 +981,17 @@ public class RedundantIndexEntryPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_N",
 			new String[] {Long.class.getName(), String.class.getName()});
 
-		_setRedundantIndexEntryUtilPersistence(this);
+		RedundantIndexEntryUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setRedundantIndexEntryUtilPersistence(null);
+		RedundantIndexEntryUtil.setPersistence(null);
 
 		entityCache.removeCache(RedundantIndexEntryImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setRedundantIndexEntryUtilPersistence(
-		RedundantIndexEntryPersistence redundantIndexEntryPersistence) {
-
-		try {
-			Field field = RedundantIndexEntryUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, redundantIndexEntryPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

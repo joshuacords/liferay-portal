@@ -45,7 +45,6 @@ import com.liferay.portal.kernel.util.StringUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
@@ -2259,34 +2258,18 @@ public class SubscriptionEntryPersistenceImpl
 				String.class.getName()
 			});
 
-		_setSubscriptionEntryUtilPersistence(this);
+		SubscriptionEntryUtil.setPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
-		_setSubscriptionEntryUtilPersistence(null);
+		SubscriptionEntryUtil.setPersistence(null);
 
 		entityCache.removeCache(SubscriptionEntryImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setSubscriptionEntryUtilPersistence(
-		SubscriptionEntryPersistence subscriptionEntryPersistence) {
-
-		try {
-			Field field = SubscriptionEntryUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, subscriptionEntryPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@Override

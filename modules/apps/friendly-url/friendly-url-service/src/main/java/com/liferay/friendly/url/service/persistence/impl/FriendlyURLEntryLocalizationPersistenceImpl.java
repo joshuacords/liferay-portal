@@ -43,7 +43,6 @@ import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.List;
@@ -2003,12 +2002,12 @@ public class FriendlyURLEntryLocalizationPersistenceImpl
 				String.class.getName()
 			});
 
-		_setFriendlyURLEntryLocalizationUtilPersistence(this);
+		FriendlyURLEntryLocalizationUtil.setPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
-		_setFriendlyURLEntryLocalizationUtilPersistence(null);
+		FriendlyURLEntryLocalizationUtil.setPersistence(null);
 
 		entityCache.removeCache(
 			FriendlyURLEntryLocalizationImpl.class.getName());
@@ -2016,24 +2015,6 @@ public class FriendlyURLEntryLocalizationPersistenceImpl
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setFriendlyURLEntryLocalizationUtilPersistence(
-		FriendlyURLEntryLocalizationPersistence
-			friendlyURLEntryLocalizationPersistence) {
-
-		try {
-			Field field =
-				FriendlyURLEntryLocalizationUtil.class.getDeclaredField(
-					"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, friendlyURLEntryLocalizationPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@Override

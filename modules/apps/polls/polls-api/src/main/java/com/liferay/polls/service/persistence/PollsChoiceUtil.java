@@ -913,6 +913,10 @@ public class PollsChoiceUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(PollsChoicePersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile PollsChoicePersistence _persistence;
 
 }

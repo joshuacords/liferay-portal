@@ -364,15 +364,11 @@ public class CommerceAddressModelImpl
 
 	private static final Map<String, Function<CommerceAddress, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CommerceAddress, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommerceAddress, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap<String, Function<CommerceAddress, Object>>();
-		Map<String, BiConsumer<CommerceAddress, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<CommerceAddress, ?>>();
 
 		attributeGetterFunctions.put(
 			"externalReferenceCode",
@@ -384,6 +380,258 @@ public class CommerceAddressModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"commerceAddressId",
+			new Function<CommerceAddress, Object>() {
+
+				@Override
+				public Object apply(CommerceAddress commerceAddress) {
+					return commerceAddress.getCommerceAddressId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"groupId",
+			new Function<CommerceAddress, Object>() {
+
+				@Override
+				public Object apply(CommerceAddress commerceAddress) {
+					return commerceAddress.getGroupId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommerceAddress, Object>() {
+
+				@Override
+				public Object apply(CommerceAddress commerceAddress) {
+					return commerceAddress.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommerceAddress, Object>() {
+
+				@Override
+				public Object apply(CommerceAddress commerceAddress) {
+					return commerceAddress.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommerceAddress, Object>() {
+
+				@Override
+				public Object apply(CommerceAddress commerceAddress) {
+					return commerceAddress.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommerceAddress, Object>() {
+
+				@Override
+				public Object apply(CommerceAddress commerceAddress) {
+					return commerceAddress.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommerceAddress, Object>() {
+
+				@Override
+				public Object apply(CommerceAddress commerceAddress) {
+					return commerceAddress.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"classNameId",
+			new Function<CommerceAddress, Object>() {
+
+				@Override
+				public Object apply(CommerceAddress commerceAddress) {
+					return commerceAddress.getClassNameId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"classPK",
+			new Function<CommerceAddress, Object>() {
+
+				@Override
+				public Object apply(CommerceAddress commerceAddress) {
+					return commerceAddress.getClassPK();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"name",
+			new Function<CommerceAddress, Object>() {
+
+				@Override
+				public Object apply(CommerceAddress commerceAddress) {
+					return commerceAddress.getName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"description",
+			new Function<CommerceAddress, Object>() {
+
+				@Override
+				public Object apply(CommerceAddress commerceAddress) {
+					return commerceAddress.getDescription();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"street1",
+			new Function<CommerceAddress, Object>() {
+
+				@Override
+				public Object apply(CommerceAddress commerceAddress) {
+					return commerceAddress.getStreet1();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"street2",
+			new Function<CommerceAddress, Object>() {
+
+				@Override
+				public Object apply(CommerceAddress commerceAddress) {
+					return commerceAddress.getStreet2();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"street3",
+			new Function<CommerceAddress, Object>() {
+
+				@Override
+				public Object apply(CommerceAddress commerceAddress) {
+					return commerceAddress.getStreet3();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"city",
+			new Function<CommerceAddress, Object>() {
+
+				@Override
+				public Object apply(CommerceAddress commerceAddress) {
+					return commerceAddress.getCity();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"zip",
+			new Function<CommerceAddress, Object>() {
+
+				@Override
+				public Object apply(CommerceAddress commerceAddress) {
+					return commerceAddress.getZip();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceRegionId",
+			new Function<CommerceAddress, Object>() {
+
+				@Override
+				public Object apply(CommerceAddress commerceAddress) {
+					return commerceAddress.getCommerceRegionId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceCountryId",
+			new Function<CommerceAddress, Object>() {
+
+				@Override
+				public Object apply(CommerceAddress commerceAddress) {
+					return commerceAddress.getCommerceCountryId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"latitude",
+			new Function<CommerceAddress, Object>() {
+
+				@Override
+				public Object apply(CommerceAddress commerceAddress) {
+					return commerceAddress.getLatitude();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"longitude",
+			new Function<CommerceAddress, Object>() {
+
+				@Override
+				public Object apply(CommerceAddress commerceAddress) {
+					return commerceAddress.getLongitude();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"phoneNumber",
+			new Function<CommerceAddress, Object>() {
+
+				@Override
+				public Object apply(CommerceAddress commerceAddress) {
+					return commerceAddress.getPhoneNumber();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"defaultBilling",
+			new Function<CommerceAddress, Object>() {
+
+				@Override
+				public Object apply(CommerceAddress commerceAddress) {
+					return commerceAddress.getDefaultBilling();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"defaultShipping",
+			new Function<CommerceAddress, Object>() {
+
+				@Override
+				public Object apply(CommerceAddress commerceAddress) {
+					return commerceAddress.getDefaultShipping();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"type",
+			new Function<CommerceAddress, Object>() {
+
+				@Override
+				public Object apply(CommerceAddress commerceAddress) {
+					return commerceAddress.getType();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<CommerceAddress, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommerceAddress, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<CommerceAddress, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"externalReferenceCode",
 			new BiConsumer<CommerceAddress, Object>() {
@@ -395,16 +643,6 @@ public class CommerceAddressModelImpl
 
 					commerceAddress.setExternalReferenceCode(
 						(String)externalReferenceCodeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commerceAddressId",
-			new Function<CommerceAddress, Object>() {
-
-				@Override
-				public Object apply(CommerceAddress commerceAddress) {
-					return commerceAddress.getCommerceAddressId();
 				}
 
 			});
@@ -422,16 +660,6 @@ public class CommerceAddressModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<CommerceAddress, Object>() {
-
-				@Override
-				public Object apply(CommerceAddress commerceAddress) {
-					return commerceAddress.getGroupId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"groupId",
 			new BiConsumer<CommerceAddress, Object>() {
@@ -441,16 +669,6 @@ public class CommerceAddressModelImpl
 					CommerceAddress commerceAddress, Object groupIdObject) {
 
 					commerceAddress.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommerceAddress, Object>() {
-
-				@Override
-				public Object apply(CommerceAddress commerceAddress) {
-					return commerceAddress.getCompanyId();
 				}
 
 			});
@@ -466,16 +684,6 @@ public class CommerceAddressModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommerceAddress, Object>() {
-
-				@Override
-				public Object apply(CommerceAddress commerceAddress) {
-					return commerceAddress.getUserId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userId",
 			new BiConsumer<CommerceAddress, Object>() {
@@ -485,16 +693,6 @@ public class CommerceAddressModelImpl
 					CommerceAddress commerceAddress, Object userIdObject) {
 
 					commerceAddress.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommerceAddress, Object>() {
-
-				@Override
-				public Object apply(CommerceAddress commerceAddress) {
-					return commerceAddress.getUserName();
 				}
 
 			});
@@ -510,16 +708,6 @@ public class CommerceAddressModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommerceAddress, Object>() {
-
-				@Override
-				public Object apply(CommerceAddress commerceAddress) {
-					return commerceAddress.getCreateDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"createDate",
 			new BiConsumer<CommerceAddress, Object>() {
@@ -529,16 +717,6 @@ public class CommerceAddressModelImpl
 					CommerceAddress commerceAddress, Object createDateObject) {
 
 					commerceAddress.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommerceAddress, Object>() {
-
-				@Override
-				public Object apply(CommerceAddress commerceAddress) {
-					return commerceAddress.getModifiedDate();
 				}
 
 			});
@@ -555,16 +733,6 @@ public class CommerceAddressModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"classNameId",
-			new Function<CommerceAddress, Object>() {
-
-				@Override
-				public Object apply(CommerceAddress commerceAddress) {
-					return commerceAddress.getClassNameId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			new BiConsumer<CommerceAddress, Object>() {
@@ -574,16 +742,6 @@ public class CommerceAddressModelImpl
 					CommerceAddress commerceAddress, Object classNameIdObject) {
 
 					commerceAddress.setClassNameId((Long)classNameIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"classPK",
-			new Function<CommerceAddress, Object>() {
-
-				@Override
-				public Object apply(CommerceAddress commerceAddress) {
-					return commerceAddress.getClassPK();
 				}
 
 			});
@@ -599,16 +757,6 @@ public class CommerceAddressModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"name",
-			new Function<CommerceAddress, Object>() {
-
-				@Override
-				public Object apply(CommerceAddress commerceAddress) {
-					return commerceAddress.getName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"name",
 			new BiConsumer<CommerceAddress, Object>() {
@@ -618,16 +766,6 @@ public class CommerceAddressModelImpl
 					CommerceAddress commerceAddress, Object nameObject) {
 
 					commerceAddress.setName((String)nameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"description",
-			new Function<CommerceAddress, Object>() {
-
-				@Override
-				public Object apply(CommerceAddress commerceAddress) {
-					return commerceAddress.getDescription();
 				}
 
 			});
@@ -643,16 +781,6 @@ public class CommerceAddressModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"street1",
-			new Function<CommerceAddress, Object>() {
-
-				@Override
-				public Object apply(CommerceAddress commerceAddress) {
-					return commerceAddress.getStreet1();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"street1",
 			new BiConsumer<CommerceAddress, Object>() {
@@ -662,16 +790,6 @@ public class CommerceAddressModelImpl
 					CommerceAddress commerceAddress, Object street1Object) {
 
 					commerceAddress.setStreet1((String)street1Object);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"street2",
-			new Function<CommerceAddress, Object>() {
-
-				@Override
-				public Object apply(CommerceAddress commerceAddress) {
-					return commerceAddress.getStreet2();
 				}
 
 			});
@@ -687,16 +805,6 @@ public class CommerceAddressModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"street3",
-			new Function<CommerceAddress, Object>() {
-
-				@Override
-				public Object apply(CommerceAddress commerceAddress) {
-					return commerceAddress.getStreet3();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"street3",
 			new BiConsumer<CommerceAddress, Object>() {
@@ -706,16 +814,6 @@ public class CommerceAddressModelImpl
 					CommerceAddress commerceAddress, Object street3Object) {
 
 					commerceAddress.setStreet3((String)street3Object);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"city",
-			new Function<CommerceAddress, Object>() {
-
-				@Override
-				public Object apply(CommerceAddress commerceAddress) {
-					return commerceAddress.getCity();
 				}
 
 			});
@@ -731,16 +829,6 @@ public class CommerceAddressModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"zip",
-			new Function<CommerceAddress, Object>() {
-
-				@Override
-				public Object apply(CommerceAddress commerceAddress) {
-					return commerceAddress.getZip();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"zip",
 			new BiConsumer<CommerceAddress, Object>() {
@@ -750,16 +838,6 @@ public class CommerceAddressModelImpl
 					CommerceAddress commerceAddress, Object zipObject) {
 
 					commerceAddress.setZip((String)zipObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commerceRegionId",
-			new Function<CommerceAddress, Object>() {
-
-				@Override
-				public Object apply(CommerceAddress commerceAddress) {
-					return commerceAddress.getCommerceRegionId();
 				}
 
 			});
@@ -777,16 +855,6 @@ public class CommerceAddressModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"commerceCountryId",
-			new Function<CommerceAddress, Object>() {
-
-				@Override
-				public Object apply(CommerceAddress commerceAddress) {
-					return commerceAddress.getCommerceCountryId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"commerceCountryId",
 			new BiConsumer<CommerceAddress, Object>() {
@@ -798,16 +866,6 @@ public class CommerceAddressModelImpl
 
 					commerceAddress.setCommerceCountryId(
 						(Long)commerceCountryIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"latitude",
-			new Function<CommerceAddress, Object>() {
-
-				@Override
-				public Object apply(CommerceAddress commerceAddress) {
-					return commerceAddress.getLatitude();
 				}
 
 			});
@@ -823,16 +881,6 @@ public class CommerceAddressModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"longitude",
-			new Function<CommerceAddress, Object>() {
-
-				@Override
-				public Object apply(CommerceAddress commerceAddress) {
-					return commerceAddress.getLongitude();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"longitude",
 			new BiConsumer<CommerceAddress, Object>() {
@@ -845,16 +893,6 @@ public class CommerceAddressModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"phoneNumber",
-			new Function<CommerceAddress, Object>() {
-
-				@Override
-				public Object apply(CommerceAddress commerceAddress) {
-					return commerceAddress.getPhoneNumber();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"phoneNumber",
 			new BiConsumer<CommerceAddress, Object>() {
@@ -864,16 +902,6 @@ public class CommerceAddressModelImpl
 					CommerceAddress commerceAddress, Object phoneNumberObject) {
 
 					commerceAddress.setPhoneNumber((String)phoneNumberObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"defaultBilling",
-			new Function<CommerceAddress, Object>() {
-
-				@Override
-				public Object apply(CommerceAddress commerceAddress) {
-					return commerceAddress.getDefaultBilling();
 				}
 
 			});
@@ -891,16 +919,6 @@ public class CommerceAddressModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"defaultShipping",
-			new Function<CommerceAddress, Object>() {
-
-				@Override
-				public Object apply(CommerceAddress commerceAddress) {
-					return commerceAddress.getDefaultShipping();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"defaultShipping",
 			new BiConsumer<CommerceAddress, Object>() {
@@ -912,16 +930,6 @@ public class CommerceAddressModelImpl
 
 					commerceAddress.setDefaultShipping(
 						(Boolean)defaultShippingObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"type",
-			new Function<CommerceAddress, Object>() {
-
-				@Override
-				public Object apply(CommerceAddress commerceAddress) {
-					return commerceAddress.getType();
 				}
 
 			});
@@ -938,8 +946,6 @@ public class CommerceAddressModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

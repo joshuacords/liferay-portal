@@ -272,80 +272,86 @@ public class AssetCategoryPropertyModelImpl
 
 	private static final Map<String, Function<AssetCategoryProperty, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<AssetCategoryProperty, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<AssetCategoryProperty, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<AssetCategoryProperty, Object>>();
+
+		attributeGetterFunctions.put(
+			"mvccVersion", AssetCategoryProperty::getMvccVersion);
+		attributeGetterFunctions.put(
+			"categoryPropertyId", AssetCategoryProperty::getCategoryPropertyId);
+		attributeGetterFunctions.put(
+			"companyId", AssetCategoryProperty::getCompanyId);
+		attributeGetterFunctions.put(
+			"userId", AssetCategoryProperty::getUserId);
+		attributeGetterFunctions.put(
+			"userName", AssetCategoryProperty::getUserName);
+		attributeGetterFunctions.put(
+			"createDate", AssetCategoryProperty::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", AssetCategoryProperty::getModifiedDate);
+		attributeGetterFunctions.put(
+			"categoryId", AssetCategoryProperty::getCategoryId);
+		attributeGetterFunctions.put("key", AssetCategoryProperty::getKey);
+		attributeGetterFunctions.put("value", AssetCategoryProperty::getValue);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<AssetCategoryProperty, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<AssetCategoryProperty, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<AssetCategoryProperty, ?>>();
 
-		attributeGetterFunctions.put(
-			"mvccVersion", AssetCategoryProperty::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<AssetCategoryProperty, Long>)
 				AssetCategoryProperty::setMvccVersion);
-		attributeGetterFunctions.put(
-			"categoryPropertyId", AssetCategoryProperty::getCategoryPropertyId);
 		attributeSetterBiConsumers.put(
 			"categoryPropertyId",
 			(BiConsumer<AssetCategoryProperty, Long>)
 				AssetCategoryProperty::setCategoryPropertyId);
-		attributeGetterFunctions.put(
-			"companyId", AssetCategoryProperty::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<AssetCategoryProperty, Long>)
 				AssetCategoryProperty::setCompanyId);
-		attributeGetterFunctions.put(
-			"userId", AssetCategoryProperty::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<AssetCategoryProperty, Long>)
 				AssetCategoryProperty::setUserId);
-		attributeGetterFunctions.put(
-			"userName", AssetCategoryProperty::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<AssetCategoryProperty, String>)
 				AssetCategoryProperty::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", AssetCategoryProperty::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<AssetCategoryProperty, Date>)
 				AssetCategoryProperty::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", AssetCategoryProperty::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<AssetCategoryProperty, Date>)
 				AssetCategoryProperty::setModifiedDate);
-		attributeGetterFunctions.put(
-			"categoryId", AssetCategoryProperty::getCategoryId);
 		attributeSetterBiConsumers.put(
 			"categoryId",
 			(BiConsumer<AssetCategoryProperty, Long>)
 				AssetCategoryProperty::setCategoryId);
-		attributeGetterFunctions.put("key", AssetCategoryProperty::getKey);
 		attributeSetterBiConsumers.put(
 			"key",
 			(BiConsumer<AssetCategoryProperty, String>)
 				AssetCategoryProperty::setKey);
-		attributeGetterFunctions.put("value", AssetCategoryProperty::getValue);
 		attributeSetterBiConsumers.put(
 			"value",
 			(BiConsumer<AssetCategoryProperty, String>)
 				AssetCategoryProperty::setValue);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

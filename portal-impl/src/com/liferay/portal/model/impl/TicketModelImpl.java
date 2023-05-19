@@ -222,50 +222,56 @@ public class TicketModelImpl
 
 	private static final Map<String, Function<Ticket, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Ticket, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<Ticket, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<Ticket, Object>>();
+
+		attributeGetterFunctions.put("mvccVersion", Ticket::getMvccVersion);
+		attributeGetterFunctions.put("ticketId", Ticket::getTicketId);
+		attributeGetterFunctions.put("companyId", Ticket::getCompanyId);
+		attributeGetterFunctions.put("createDate", Ticket::getCreateDate);
+		attributeGetterFunctions.put("classNameId", Ticket::getClassNameId);
+		attributeGetterFunctions.put("classPK", Ticket::getClassPK);
+		attributeGetterFunctions.put("key", Ticket::getKey);
+		attributeGetterFunctions.put("type", Ticket::getType);
+		attributeGetterFunctions.put("extraInfo", Ticket::getExtraInfo);
+		attributeGetterFunctions.put(
+			"expirationDate", Ticket::getExpirationDate);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<Ticket, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<Ticket, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Ticket, ?>>();
 
-		attributeGetterFunctions.put("mvccVersion", Ticket::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion", (BiConsumer<Ticket, Long>)Ticket::setMvccVersion);
-		attributeGetterFunctions.put("ticketId", Ticket::getTicketId);
 		attributeSetterBiConsumers.put(
 			"ticketId", (BiConsumer<Ticket, Long>)Ticket::setTicketId);
-		attributeGetterFunctions.put("companyId", Ticket::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<Ticket, Long>)Ticket::setCompanyId);
-		attributeGetterFunctions.put("createDate", Ticket::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate", (BiConsumer<Ticket, Date>)Ticket::setCreateDate);
-		attributeGetterFunctions.put("classNameId", Ticket::getClassNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId", (BiConsumer<Ticket, Long>)Ticket::setClassNameId);
-		attributeGetterFunctions.put("classPK", Ticket::getClassPK);
 		attributeSetterBiConsumers.put(
 			"classPK", (BiConsumer<Ticket, Long>)Ticket::setClassPK);
-		attributeGetterFunctions.put("key", Ticket::getKey);
 		attributeSetterBiConsumers.put(
 			"key", (BiConsumer<Ticket, String>)Ticket::setKey);
-		attributeGetterFunctions.put("type", Ticket::getType);
 		attributeSetterBiConsumers.put(
 			"type", (BiConsumer<Ticket, Integer>)Ticket::setType);
-		attributeGetterFunctions.put("extraInfo", Ticket::getExtraInfo);
 		attributeSetterBiConsumers.put(
 			"extraInfo", (BiConsumer<Ticket, String>)Ticket::setExtraInfo);
-		attributeGetterFunctions.put(
-			"expirationDate", Ticket::getExpirationDate);
 		attributeSetterBiConsumers.put(
 			"expirationDate",
 			(BiConsumer<Ticket, Date>)Ticket::setExpirationDate);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

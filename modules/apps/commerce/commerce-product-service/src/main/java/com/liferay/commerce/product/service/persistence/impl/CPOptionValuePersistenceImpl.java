@@ -3866,33 +3866,17 @@ public class CPOptionValuePersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_ERC",
 			new String[] {Long.class.getName(), String.class.getName()});
 
-		_setCPOptionValueUtilPersistence(this);
+		CPOptionValueUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setCPOptionValueUtilPersistence(null);
+		CPOptionValueUtil.setPersistence(null);
 
 		entityCache.removeCache(CPOptionValueImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setCPOptionValueUtilPersistence(
-		CPOptionValuePersistence cpOptionValuePersistence) {
-
-		try {
-			Field field = CPOptionValueUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, cpOptionValuePersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

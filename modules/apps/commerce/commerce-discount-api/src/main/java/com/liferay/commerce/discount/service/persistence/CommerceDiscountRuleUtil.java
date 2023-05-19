@@ -467,6 +467,12 @@ public class CommerceDiscountRuleUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(
+		CommerceDiscountRulePersistence persistence) {
+
+		_persistence = persistence;
+	}
+
 	private static volatile CommerceDiscountRulePersistence _persistence;
 
 }

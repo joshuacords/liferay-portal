@@ -37,8 +37,6 @@ import com.liferay.portal.kernel.service.persistence.RoleFinder;
 import com.liferay.portal.kernel.service.persistence.RolePersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 /**
@@ -451,11 +449,11 @@ public abstract class ResourceBlockServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
-		_setServiceUtilService(resourceBlockService);
+		ResourceBlockServiceUtil.setService(resourceBlockService);
 	}
 
 	public void destroy() {
-		_setServiceUtilService(null);
+		ResourceBlockServiceUtil.setService(null);
 	}
 
 	/**
@@ -497,22 +495,6 @@ public abstract class ResourceBlockServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setServiceUtilService(
-		ResourceBlockService resourceBlockService) {
-
-		try {
-			Field field = ResourceBlockServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, resourceBlockService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

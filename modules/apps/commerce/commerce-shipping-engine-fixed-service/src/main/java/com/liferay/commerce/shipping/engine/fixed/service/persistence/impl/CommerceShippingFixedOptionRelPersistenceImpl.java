@@ -2160,11 +2160,11 @@ public class CommerceShippingFixedOptionRelPersistenceImpl
 			"countByCommerceShippingFixedOptionId",
 			new String[] {Long.class.getName()});
 
-		_setCommerceShippingFixedOptionRelUtilPersistence(this);
+		CommerceShippingFixedOptionRelUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setCommerceShippingFixedOptionRelUtilPersistence(null);
+		CommerceShippingFixedOptionRelUtil.setPersistence(null);
 
 		entityCache.removeCache(
 			CommerceShippingFixedOptionRelImpl.class.getName());
@@ -2172,24 +2172,6 @@ public class CommerceShippingFixedOptionRelPersistenceImpl
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setCommerceShippingFixedOptionRelUtilPersistence(
-		CommerceShippingFixedOptionRelPersistence
-			commerceShippingFixedOptionRelPersistence) {
-
-		try {
-			Field field =
-				CommerceShippingFixedOptionRelUtil.class.getDeclaredField(
-					"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, commerceShippingFixedOptionRelPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

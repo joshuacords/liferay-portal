@@ -283,73 +283,79 @@ public class AccountModelImpl
 
 	private static final Map<String, Function<Account, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Account, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<Account, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<Account, Object>>();
-		Map<String, BiConsumer<Account, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Account, ?>>();
 
 		attributeGetterFunctions.put("mvccVersion", Account::getMvccVersion);
-		attributeSetterBiConsumers.put(
-			"mvccVersion", (BiConsumer<Account, Long>)Account::setMvccVersion);
 		attributeGetterFunctions.put("accountId", Account::getAccountId);
-		attributeSetterBiConsumers.put(
-			"accountId", (BiConsumer<Account, Long>)Account::setAccountId);
 		attributeGetterFunctions.put("companyId", Account::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId", (BiConsumer<Account, Long>)Account::setCompanyId);
 		attributeGetterFunctions.put("userId", Account::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<Account, Long>)Account::setUserId);
 		attributeGetterFunctions.put("userName", Account::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName", (BiConsumer<Account, String>)Account::setUserName);
 		attributeGetterFunctions.put("createDate", Account::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate", (BiConsumer<Account, Date>)Account::setCreateDate);
 		attributeGetterFunctions.put("modifiedDate", Account::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<Account, Date>)Account::setModifiedDate);
 		attributeGetterFunctions.put(
 			"parentAccountId", Account::getParentAccountId);
-		attributeSetterBiConsumers.put(
-			"parentAccountId",
-			(BiConsumer<Account, Long>)Account::setParentAccountId);
 		attributeGetterFunctions.put("name", Account::getName);
-		attributeSetterBiConsumers.put(
-			"name", (BiConsumer<Account, String>)Account::setName);
 		attributeGetterFunctions.put("legalName", Account::getLegalName);
-		attributeSetterBiConsumers.put(
-			"legalName", (BiConsumer<Account, String>)Account::setLegalName);
 		attributeGetterFunctions.put("legalId", Account::getLegalId);
-		attributeSetterBiConsumers.put(
-			"legalId", (BiConsumer<Account, String>)Account::setLegalId);
 		attributeGetterFunctions.put("legalType", Account::getLegalType);
-		attributeSetterBiConsumers.put(
-			"legalType", (BiConsumer<Account, String>)Account::setLegalType);
 		attributeGetterFunctions.put("sicCode", Account::getSicCode);
-		attributeSetterBiConsumers.put(
-			"sicCode", (BiConsumer<Account, String>)Account::setSicCode);
 		attributeGetterFunctions.put("tickerSymbol", Account::getTickerSymbol);
-		attributeSetterBiConsumers.put(
-			"tickerSymbol",
-			(BiConsumer<Account, String>)Account::setTickerSymbol);
 		attributeGetterFunctions.put("industry", Account::getIndustry);
-		attributeSetterBiConsumers.put(
-			"industry", (BiConsumer<Account, String>)Account::setIndustry);
 		attributeGetterFunctions.put("type", Account::getType);
-		attributeSetterBiConsumers.put(
-			"type", (BiConsumer<Account, String>)Account::setType);
 		attributeGetterFunctions.put("size", Account::getSize);
-		attributeSetterBiConsumers.put(
-			"size", (BiConsumer<Account, String>)Account::setSize);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<Account, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<Account, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<Account, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"mvccVersion", (BiConsumer<Account, Long>)Account::setMvccVersion);
+		attributeSetterBiConsumers.put(
+			"accountId", (BiConsumer<Account, Long>)Account::setAccountId);
+		attributeSetterBiConsumers.put(
+			"companyId", (BiConsumer<Account, Long>)Account::setCompanyId);
+		attributeSetterBiConsumers.put(
+			"userId", (BiConsumer<Account, Long>)Account::setUserId);
+		attributeSetterBiConsumers.put(
+			"userName", (BiConsumer<Account, String>)Account::setUserName);
+		attributeSetterBiConsumers.put(
+			"createDate", (BiConsumer<Account, Date>)Account::setCreateDate);
+		attributeSetterBiConsumers.put(
+			"modifiedDate",
+			(BiConsumer<Account, Date>)Account::setModifiedDate);
+		attributeSetterBiConsumers.put(
+			"parentAccountId",
+			(BiConsumer<Account, Long>)Account::setParentAccountId);
+		attributeSetterBiConsumers.put(
+			"name", (BiConsumer<Account, String>)Account::setName);
+		attributeSetterBiConsumers.put(
+			"legalName", (BiConsumer<Account, String>)Account::setLegalName);
+		attributeSetterBiConsumers.put(
+			"legalId", (BiConsumer<Account, String>)Account::setLegalId);
+		attributeSetterBiConsumers.put(
+			"legalType", (BiConsumer<Account, String>)Account::setLegalType);
+		attributeSetterBiConsumers.put(
+			"sicCode", (BiConsumer<Account, String>)Account::setSicCode);
+		attributeSetterBiConsumers.put(
+			"tickerSymbol",
+			(BiConsumer<Account, String>)Account::setTickerSymbol);
+		attributeSetterBiConsumers.put(
+			"industry", (BiConsumer<Account, String>)Account::setIndustry);
+		attributeSetterBiConsumers.put(
+			"type", (BiConsumer<Account, String>)Account::setType);
+		attributeSetterBiConsumers.put(
+			"size", (BiConsumer<Account, String>)Account::setSize);
+
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

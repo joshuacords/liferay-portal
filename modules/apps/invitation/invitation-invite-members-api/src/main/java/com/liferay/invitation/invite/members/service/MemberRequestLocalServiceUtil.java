@@ -365,6 +365,10 @@ public class MemberRequestLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(MemberRequestLocalService service) {
+		_service = service;
+	}
+
 	private static volatile MemberRequestLocalService _service;
 
 }

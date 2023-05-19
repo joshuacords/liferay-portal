@@ -47,7 +47,6 @@ import com.liferay.portal.security.wedeploy.auth.service.persistence.impl.consta
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
@@ -1421,34 +1420,18 @@ public class WeDeployAuthTokenPersistenceImpl
 				Integer.class.getName()
 			});
 
-		_setWeDeployAuthTokenUtilPersistence(this);
+		WeDeployAuthTokenUtil.setPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
-		_setWeDeployAuthTokenUtilPersistence(null);
+		WeDeployAuthTokenUtil.setPersistence(null);
 
 		entityCache.removeCache(WeDeployAuthTokenImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setWeDeployAuthTokenUtilPersistence(
-		WeDeployAuthTokenPersistence weDeployAuthTokenPersistence) {
-
-		try {
-			Field field = WeDeployAuthTokenUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, weDeployAuthTokenPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@Override

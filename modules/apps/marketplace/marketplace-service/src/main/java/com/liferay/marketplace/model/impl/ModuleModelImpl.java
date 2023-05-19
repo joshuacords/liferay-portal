@@ -208,42 +208,48 @@ public class ModuleModelImpl
 
 	private static final Map<String, Function<Module, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Module, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<Module, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<Module, Object>>();
-		Map<String, BiConsumer<Module, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Module, ?>>();
 
 		attributeGetterFunctions.put("uuid", Module::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Module, String>)Module::setUuid);
 		attributeGetterFunctions.put("moduleId", Module::getModuleId);
-		attributeSetterBiConsumers.put(
-			"moduleId", (BiConsumer<Module, Long>)Module::setModuleId);
 		attributeGetterFunctions.put("companyId", Module::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId", (BiConsumer<Module, Long>)Module::setCompanyId);
 		attributeGetterFunctions.put("appId", Module::getAppId);
-		attributeSetterBiConsumers.put(
-			"appId", (BiConsumer<Module, Long>)Module::setAppId);
 		attributeGetterFunctions.put(
 			"bundleSymbolicName", Module::getBundleSymbolicName);
-		attributeSetterBiConsumers.put(
-			"bundleSymbolicName",
-			(BiConsumer<Module, String>)Module::setBundleSymbolicName);
 		attributeGetterFunctions.put("bundleVersion", Module::getBundleVersion);
-		attributeSetterBiConsumers.put(
-			"bundleVersion",
-			(BiConsumer<Module, String>)Module::setBundleVersion);
 		attributeGetterFunctions.put("contextName", Module::getContextName);
-		attributeSetterBiConsumers.put(
-			"contextName", (BiConsumer<Module, String>)Module::setContextName);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<Module, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<Module, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<Module, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"uuid", (BiConsumer<Module, String>)Module::setUuid);
+		attributeSetterBiConsumers.put(
+			"moduleId", (BiConsumer<Module, Long>)Module::setModuleId);
+		attributeSetterBiConsumers.put(
+			"companyId", (BiConsumer<Module, Long>)Module::setCompanyId);
+		attributeSetterBiConsumers.put(
+			"appId", (BiConsumer<Module, Long>)Module::setAppId);
+		attributeSetterBiConsumers.put(
+			"bundleSymbolicName",
+			(BiConsumer<Module, String>)Module::setBundleSymbolicName);
+		attributeSetterBiConsumers.put(
+			"bundleVersion",
+			(BiConsumer<Module, String>)Module::setBundleVersion);
+		attributeSetterBiConsumers.put(
+			"contextName", (BiConsumer<Module, String>)Module::setContextName);
+
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

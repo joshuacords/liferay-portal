@@ -55,8 +55,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -461,7 +459,7 @@ public abstract class LicenseKeyLocalServiceBaseImpl
 
 	@Deactivate
 	protected void deactivate() {
-		_setLocalServiceUtilService(null);
+		LicenseKeyLocalServiceUtil.setService(null);
 	}
 
 	@Override
@@ -476,7 +474,7 @@ public abstract class LicenseKeyLocalServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		licenseKeyLocalService = (LicenseKeyLocalService)aopProxy;
 
-		_setLocalServiceUtilService(licenseKeyLocalService);
+		LicenseKeyLocalServiceUtil.setService(licenseKeyLocalService);
 	}
 
 	/**
@@ -518,22 +516,6 @@ public abstract class LicenseKeyLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		LicenseKeyLocalService licenseKeyLocalService) {
-
-		try {
-			Field field = LicenseKeyLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, licenseKeyLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

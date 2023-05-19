@@ -55,8 +55,6 @@ import com.liferay.saml.persistence.service.persistence.SamlSpSessionPersistence
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -819,14 +817,15 @@ public abstract class SamlSpIdpConnectionLocalServiceBaseImpl
 			"com.liferay.saml.persistence.model.SamlSpIdpConnection",
 			samlSpIdpConnectionLocalService);
 
-		_setLocalServiceUtilService(samlSpIdpConnectionLocalService);
+		SamlSpIdpConnectionLocalServiceUtil.setService(
+			samlSpIdpConnectionLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"com.liferay.saml.persistence.model.SamlSpIdpConnection");
 
-		_setLocalServiceUtilService(null);
+		SamlSpIdpConnectionLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -869,23 +868,6 @@ public abstract class SamlSpIdpConnectionLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		SamlSpIdpConnectionLocalService samlSpIdpConnectionLocalService) {
-
-		try {
-			Field field =
-				SamlSpIdpConnectionLocalServiceUtil.class.getDeclaredField(
-					"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, samlSpIdpConnectionLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

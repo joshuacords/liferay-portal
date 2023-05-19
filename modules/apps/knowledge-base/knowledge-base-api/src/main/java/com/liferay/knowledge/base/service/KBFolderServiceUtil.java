@@ -171,6 +171,10 @@ public class KBFolderServiceUtil {
 		return _service;
 	}
 
+	public static void setService(KBFolderService service) {
+		_service = service;
+	}
+
 	private static volatile KBFolderService _service;
 
 }

@@ -2759,11 +2759,11 @@ public class CommerceAvailabilityEstimatePersistenceImpl
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByCompanyId", new String[] {Long.class.getName()});
 
-		_setCommerceAvailabilityEstimateUtilPersistence(this);
+		CommerceAvailabilityEstimateUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setCommerceAvailabilityEstimateUtilPersistence(null);
+		CommerceAvailabilityEstimateUtil.setPersistence(null);
 
 		entityCache.removeCache(
 			CommerceAvailabilityEstimateImpl.class.getName());
@@ -2771,24 +2771,6 @@ public class CommerceAvailabilityEstimatePersistenceImpl
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setCommerceAvailabilityEstimateUtilPersistence(
-		CommerceAvailabilityEstimatePersistence
-			commerceAvailabilityEstimatePersistence) {
-
-		try {
-			Field field =
-				CommerceAvailabilityEstimateUtil.class.getDeclaredField(
-					"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, commerceAvailabilityEstimatePersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

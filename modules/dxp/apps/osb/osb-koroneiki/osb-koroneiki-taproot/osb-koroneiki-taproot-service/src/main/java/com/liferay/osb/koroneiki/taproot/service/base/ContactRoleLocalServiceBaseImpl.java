@@ -67,8 +67,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -479,7 +477,7 @@ public abstract class ContactRoleLocalServiceBaseImpl
 
 	@Deactivate
 	protected void deactivate() {
-		_setLocalServiceUtilService(null);
+		ContactRoleLocalServiceUtil.setService(null);
 	}
 
 	@Override
@@ -494,7 +492,7 @@ public abstract class ContactRoleLocalServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		contactRoleLocalService = (ContactRoleLocalService)aopProxy;
 
-		_setLocalServiceUtilService(contactRoleLocalService);
+		ContactRoleLocalServiceUtil.setService(contactRoleLocalService);
 	}
 
 	/**
@@ -536,22 +534,6 @@ public abstract class ContactRoleLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		ContactRoleLocalService contactRoleLocalService) {
-
-		try {
-			Field field = ContactRoleLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, contactRoleLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

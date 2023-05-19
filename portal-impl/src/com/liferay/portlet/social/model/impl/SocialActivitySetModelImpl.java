@@ -233,79 +233,85 @@ public class SocialActivitySetModelImpl
 
 	private static final Map<String, Function<SocialActivitySet, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<SocialActivitySet, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<SocialActivitySet, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<SocialActivitySet, Object>>();
+
+		attributeGetterFunctions.put(
+			"activitySetId", SocialActivitySet::getActivitySetId);
+		attributeGetterFunctions.put("groupId", SocialActivitySet::getGroupId);
+		attributeGetterFunctions.put(
+			"companyId", SocialActivitySet::getCompanyId);
+		attributeGetterFunctions.put("userId", SocialActivitySet::getUserId);
+		attributeGetterFunctions.put(
+			"createDate", SocialActivitySet::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", SocialActivitySet::getModifiedDate);
+		attributeGetterFunctions.put(
+			"classNameId", SocialActivitySet::getClassNameId);
+		attributeGetterFunctions.put("classPK", SocialActivitySet::getClassPK);
+		attributeGetterFunctions.put("type", SocialActivitySet::getType);
+		attributeGetterFunctions.put(
+			"extraData", SocialActivitySet::getExtraData);
+		attributeGetterFunctions.put(
+			"activityCount", SocialActivitySet::getActivityCount);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<SocialActivitySet, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<SocialActivitySet, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<SocialActivitySet, ?>>();
 
-		attributeGetterFunctions.put(
-			"activitySetId", SocialActivitySet::getActivitySetId);
 		attributeSetterBiConsumers.put(
 			"activitySetId",
 			(BiConsumer<SocialActivitySet, Long>)
 				SocialActivitySet::setActivitySetId);
-		attributeGetterFunctions.put("groupId", SocialActivitySet::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<SocialActivitySet, Long>)SocialActivitySet::setGroupId);
-		attributeGetterFunctions.put(
-			"companyId", SocialActivitySet::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<SocialActivitySet, Long>)
 				SocialActivitySet::setCompanyId);
-		attributeGetterFunctions.put("userId", SocialActivitySet::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<SocialActivitySet, Long>)SocialActivitySet::setUserId);
-		attributeGetterFunctions.put(
-			"createDate", SocialActivitySet::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<SocialActivitySet, Long>)
 				SocialActivitySet::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", SocialActivitySet::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<SocialActivitySet, Long>)
 				SocialActivitySet::setModifiedDate);
-		attributeGetterFunctions.put(
-			"classNameId", SocialActivitySet::getClassNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<SocialActivitySet, Long>)
 				SocialActivitySet::setClassNameId);
-		attributeGetterFunctions.put("classPK", SocialActivitySet::getClassPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<SocialActivitySet, Long>)SocialActivitySet::setClassPK);
-		attributeGetterFunctions.put("type", SocialActivitySet::getType);
 		attributeSetterBiConsumers.put(
 			"type",
 			(BiConsumer<SocialActivitySet, Integer>)SocialActivitySet::setType);
-		attributeGetterFunctions.put(
-			"extraData", SocialActivitySet::getExtraData);
 		attributeSetterBiConsumers.put(
 			"extraData",
 			(BiConsumer<SocialActivitySet, String>)
 				SocialActivitySet::setExtraData);
-		attributeGetterFunctions.put(
-			"activityCount", SocialActivitySet::getActivityCount);
 		attributeSetterBiConsumers.put(
 			"activityCount",
 			(BiConsumer<SocialActivitySet, Integer>)
 				SocialActivitySet::setActivityCount);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

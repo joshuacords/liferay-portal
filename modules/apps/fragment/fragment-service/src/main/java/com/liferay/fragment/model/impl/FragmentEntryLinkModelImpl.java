@@ -315,146 +315,152 @@ public class FragmentEntryLinkModelImpl
 
 	private static final Map<String, Function<FragmentEntryLink, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<FragmentEntryLink, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<FragmentEntryLink, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<FragmentEntryLink, Object>>();
+
+		attributeGetterFunctions.put(
+			"mvccVersion", FragmentEntryLink::getMvccVersion);
+		attributeGetterFunctions.put("uuid", FragmentEntryLink::getUuid);
+		attributeGetterFunctions.put(
+			"fragmentEntryLinkId", FragmentEntryLink::getFragmentEntryLinkId);
+		attributeGetterFunctions.put("groupId", FragmentEntryLink::getGroupId);
+		attributeGetterFunctions.put(
+			"companyId", FragmentEntryLink::getCompanyId);
+		attributeGetterFunctions.put("userId", FragmentEntryLink::getUserId);
+		attributeGetterFunctions.put(
+			"userName", FragmentEntryLink::getUserName);
+		attributeGetterFunctions.put(
+			"createDate", FragmentEntryLink::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", FragmentEntryLink::getModifiedDate);
+		attributeGetterFunctions.put(
+			"originalFragmentEntryLinkId",
+			FragmentEntryLink::getOriginalFragmentEntryLinkId);
+		attributeGetterFunctions.put(
+			"fragmentEntryId", FragmentEntryLink::getFragmentEntryId);
+		attributeGetterFunctions.put(
+			"classNameId", FragmentEntryLink::getClassNameId);
+		attributeGetterFunctions.put("classPK", FragmentEntryLink::getClassPK);
+		attributeGetterFunctions.put("css", FragmentEntryLink::getCss);
+		attributeGetterFunctions.put("html", FragmentEntryLink::getHtml);
+		attributeGetterFunctions.put("js", FragmentEntryLink::getJs);
+		attributeGetterFunctions.put(
+			"configuration", FragmentEntryLink::getConfiguration);
+		attributeGetterFunctions.put(
+			"editableValues", FragmentEntryLink::getEditableValues);
+		attributeGetterFunctions.put(
+			"namespace", FragmentEntryLink::getNamespace);
+		attributeGetterFunctions.put(
+			"position", FragmentEntryLink::getPosition);
+		attributeGetterFunctions.put(
+			"rendererKey", FragmentEntryLink::getRendererKey);
+		attributeGetterFunctions.put(
+			"lastPropagationDate", FragmentEntryLink::getLastPropagationDate);
+		attributeGetterFunctions.put(
+			"lastPublishDate", FragmentEntryLink::getLastPublishDate);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<FragmentEntryLink, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<FragmentEntryLink, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<FragmentEntryLink, ?>>();
 
-		attributeGetterFunctions.put(
-			"mvccVersion", FragmentEntryLink::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<FragmentEntryLink, Long>)
 				FragmentEntryLink::setMvccVersion);
-		attributeGetterFunctions.put("uuid", FragmentEntryLink::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<FragmentEntryLink, String>)FragmentEntryLink::setUuid);
-		attributeGetterFunctions.put(
-			"fragmentEntryLinkId", FragmentEntryLink::getFragmentEntryLinkId);
 		attributeSetterBiConsumers.put(
 			"fragmentEntryLinkId",
 			(BiConsumer<FragmentEntryLink, Long>)
 				FragmentEntryLink::setFragmentEntryLinkId);
-		attributeGetterFunctions.put("groupId", FragmentEntryLink::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<FragmentEntryLink, Long>)FragmentEntryLink::setGroupId);
-		attributeGetterFunctions.put(
-			"companyId", FragmentEntryLink::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<FragmentEntryLink, Long>)
 				FragmentEntryLink::setCompanyId);
-		attributeGetterFunctions.put("userId", FragmentEntryLink::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<FragmentEntryLink, Long>)FragmentEntryLink::setUserId);
-		attributeGetterFunctions.put(
-			"userName", FragmentEntryLink::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<FragmentEntryLink, String>)
 				FragmentEntryLink::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", FragmentEntryLink::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<FragmentEntryLink, Date>)
 				FragmentEntryLink::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", FragmentEntryLink::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<FragmentEntryLink, Date>)
 				FragmentEntryLink::setModifiedDate);
-		attributeGetterFunctions.put(
-			"originalFragmentEntryLinkId",
-			FragmentEntryLink::getOriginalFragmentEntryLinkId);
 		attributeSetterBiConsumers.put(
 			"originalFragmentEntryLinkId",
 			(BiConsumer<FragmentEntryLink, Long>)
 				FragmentEntryLink::setOriginalFragmentEntryLinkId);
-		attributeGetterFunctions.put(
-			"fragmentEntryId", FragmentEntryLink::getFragmentEntryId);
 		attributeSetterBiConsumers.put(
 			"fragmentEntryId",
 			(BiConsumer<FragmentEntryLink, Long>)
 				FragmentEntryLink::setFragmentEntryId);
-		attributeGetterFunctions.put(
-			"classNameId", FragmentEntryLink::getClassNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<FragmentEntryLink, Long>)
 				FragmentEntryLink::setClassNameId);
-		attributeGetterFunctions.put("classPK", FragmentEntryLink::getClassPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<FragmentEntryLink, Long>)FragmentEntryLink::setClassPK);
-		attributeGetterFunctions.put("css", FragmentEntryLink::getCss);
 		attributeSetterBiConsumers.put(
 			"css",
 			(BiConsumer<FragmentEntryLink, String>)FragmentEntryLink::setCss);
-		attributeGetterFunctions.put("html", FragmentEntryLink::getHtml);
 		attributeSetterBiConsumers.put(
 			"html",
 			(BiConsumer<FragmentEntryLink, String>)FragmentEntryLink::setHtml);
-		attributeGetterFunctions.put("js", FragmentEntryLink::getJs);
 		attributeSetterBiConsumers.put(
 			"js",
 			(BiConsumer<FragmentEntryLink, String>)FragmentEntryLink::setJs);
-		attributeGetterFunctions.put(
-			"configuration", FragmentEntryLink::getConfiguration);
 		attributeSetterBiConsumers.put(
 			"configuration",
 			(BiConsumer<FragmentEntryLink, String>)
 				FragmentEntryLink::setConfiguration);
-		attributeGetterFunctions.put(
-			"editableValues", FragmentEntryLink::getEditableValues);
 		attributeSetterBiConsumers.put(
 			"editableValues",
 			(BiConsumer<FragmentEntryLink, String>)
 				FragmentEntryLink::setEditableValues);
-		attributeGetterFunctions.put(
-			"namespace", FragmentEntryLink::getNamespace);
 		attributeSetterBiConsumers.put(
 			"namespace",
 			(BiConsumer<FragmentEntryLink, String>)
 				FragmentEntryLink::setNamespace);
-		attributeGetterFunctions.put(
-			"position", FragmentEntryLink::getPosition);
 		attributeSetterBiConsumers.put(
 			"position",
 			(BiConsumer<FragmentEntryLink, Integer>)
 				FragmentEntryLink::setPosition);
-		attributeGetterFunctions.put(
-			"rendererKey", FragmentEntryLink::getRendererKey);
 		attributeSetterBiConsumers.put(
 			"rendererKey",
 			(BiConsumer<FragmentEntryLink, String>)
 				FragmentEntryLink::setRendererKey);
-		attributeGetterFunctions.put(
-			"lastPropagationDate", FragmentEntryLink::getLastPropagationDate);
 		attributeSetterBiConsumers.put(
 			"lastPropagationDate",
 			(BiConsumer<FragmentEntryLink, Date>)
 				FragmentEntryLink::setLastPropagationDate);
-		attributeGetterFunctions.put(
-			"lastPublishDate", FragmentEntryLink::getLastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<FragmentEntryLink, Date>)
 				FragmentEntryLink::setLastPublishDate);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

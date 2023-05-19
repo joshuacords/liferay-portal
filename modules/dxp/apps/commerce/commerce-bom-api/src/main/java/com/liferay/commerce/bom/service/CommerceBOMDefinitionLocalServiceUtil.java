@@ -319,6 +319,10 @@ public class CommerceBOMDefinitionLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(CommerceBOMDefinitionLocalService service) {
+		_service = service;
+	}
+
 	private static volatile CommerceBOMDefinitionLocalService _service;
 
 }

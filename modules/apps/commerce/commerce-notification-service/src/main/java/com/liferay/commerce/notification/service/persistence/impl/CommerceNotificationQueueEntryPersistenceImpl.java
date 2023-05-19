@@ -3970,11 +3970,11 @@ public class CommerceNotificationQueueEntryPersistenceImpl
 				Long.class.getName(), Boolean.class.getName()
 			});
 
-		_setCommerceNotificationQueueEntryUtilPersistence(this);
+		CommerceNotificationQueueEntryUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setCommerceNotificationQueueEntryUtilPersistence(null);
+		CommerceNotificationQueueEntryUtil.setPersistence(null);
 
 		entityCache.removeCache(
 			CommerceNotificationQueueEntryImpl.class.getName());
@@ -3982,24 +3982,6 @@ public class CommerceNotificationQueueEntryPersistenceImpl
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setCommerceNotificationQueueEntryUtilPersistence(
-		CommerceNotificationQueueEntryPersistence
-			commerceNotificationQueueEntryPersistence) {
-
-		try {
-			Field field =
-				CommerceNotificationQueueEntryUtil.class.getDeclaredField(
-					"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, commerceNotificationQueueEntryPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

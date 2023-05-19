@@ -30,8 +30,6 @@ import com.liferay.portal.kernel.service.CountryServiceUtil;
 import com.liferay.portal.kernel.service.persistence.CountryPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 /**
@@ -114,11 +112,11 @@ public abstract class CountryServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
-		_setServiceUtilService(countryService);
+		CountryServiceUtil.setService(countryService);
 	}
 
 	public void destroy() {
-		_setServiceUtilService(null);
+		CountryServiceUtil.setService(null);
 	}
 
 	/**
@@ -160,19 +158,6 @@ public abstract class CountryServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setServiceUtilService(CountryService countryService) {
-		try {
-			Field field = CountryServiceUtil.class.getDeclaredField("_service");
-
-			field.setAccessible(true);
-
-			field.set(null, countryService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

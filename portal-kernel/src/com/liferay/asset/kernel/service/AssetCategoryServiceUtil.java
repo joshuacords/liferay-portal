@@ -388,6 +388,10 @@ public class AssetCategoryServiceUtil {
 		return _service;
 	}
 
+	public static void setService(AssetCategoryService service) {
+		_service = service;
+	}
+
 	private static volatile AssetCategoryService _service;
 
 }

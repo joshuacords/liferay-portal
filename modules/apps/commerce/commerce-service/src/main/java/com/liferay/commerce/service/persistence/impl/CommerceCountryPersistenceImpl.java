@@ -5202,33 +5202,17 @@ public class CommerceCountryPersistenceImpl
 				Boolean.class.getName()
 			});
 
-		_setCommerceCountryUtilPersistence(this);
+		CommerceCountryUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setCommerceCountryUtilPersistence(null);
+		CommerceCountryUtil.setPersistence(null);
 
 		entityCache.removeCache(CommerceCountryImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setCommerceCountryUtilPersistence(
-		CommerceCountryPersistence commerceCountryPersistence) {
-
-		try {
-			Field field = CommerceCountryUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, commerceCountryPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

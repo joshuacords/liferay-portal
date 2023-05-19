@@ -52,8 +52,6 @@ import com.liferay.tasks.service.persistence.TasksEntryPersistence;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -684,14 +682,14 @@ public abstract class TasksEntryLocalServiceBaseImpl
 		PersistedModelLocalServiceRegistryUtil.register(
 			"com.liferay.tasks.model.TasksEntry", tasksEntryLocalService);
 
-		_setLocalServiceUtilService(tasksEntryLocalService);
+		TasksEntryLocalServiceUtil.setService(tasksEntryLocalService);
 	}
 
 	public void destroy() {
 		PersistedModelLocalServiceRegistryUtil.unregister(
 			"com.liferay.tasks.model.TasksEntry");
 
-		_setLocalServiceUtilService(null);
+		TasksEntryLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -733,22 +731,6 @@ public abstract class TasksEntryLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		TasksEntryLocalService tasksEntryLocalService) {
-
-		try {
-			Field field = TasksEntryLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, tasksEntryLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

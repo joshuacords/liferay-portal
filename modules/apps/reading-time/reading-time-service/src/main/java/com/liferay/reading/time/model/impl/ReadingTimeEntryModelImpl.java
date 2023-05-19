@@ -277,67 +277,73 @@ public class ReadingTimeEntryModelImpl
 
 	private static final Map<String, Function<ReadingTimeEntry, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<ReadingTimeEntry, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<ReadingTimeEntry, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap<String, Function<ReadingTimeEntry, Object>>();
+
+		attributeGetterFunctions.put("uuid", ReadingTimeEntry::getUuid);
+		attributeGetterFunctions.put(
+			"readingTimeEntryId", ReadingTimeEntry::getReadingTimeEntryId);
+		attributeGetterFunctions.put("groupId", ReadingTimeEntry::getGroupId);
+		attributeGetterFunctions.put(
+			"companyId", ReadingTimeEntry::getCompanyId);
+		attributeGetterFunctions.put(
+			"createDate", ReadingTimeEntry::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", ReadingTimeEntry::getModifiedDate);
+		attributeGetterFunctions.put(
+			"classNameId", ReadingTimeEntry::getClassNameId);
+		attributeGetterFunctions.put("classPK", ReadingTimeEntry::getClassPK);
+		attributeGetterFunctions.put(
+			"readingTime", ReadingTimeEntry::getReadingTime);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<ReadingTimeEntry, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<ReadingTimeEntry, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<ReadingTimeEntry, ?>>();
 
-		attributeGetterFunctions.put("uuid", ReadingTimeEntry::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<ReadingTimeEntry, String>)ReadingTimeEntry::setUuid);
-		attributeGetterFunctions.put(
-			"readingTimeEntryId", ReadingTimeEntry::getReadingTimeEntryId);
 		attributeSetterBiConsumers.put(
 			"readingTimeEntryId",
 			(BiConsumer<ReadingTimeEntry, Long>)
 				ReadingTimeEntry::setReadingTimeEntryId);
-		attributeGetterFunctions.put("groupId", ReadingTimeEntry::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<ReadingTimeEntry, Long>)ReadingTimeEntry::setGroupId);
-		attributeGetterFunctions.put(
-			"companyId", ReadingTimeEntry::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<ReadingTimeEntry, Long>)ReadingTimeEntry::setCompanyId);
-		attributeGetterFunctions.put(
-			"createDate", ReadingTimeEntry::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<ReadingTimeEntry, Date>)
 				ReadingTimeEntry::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", ReadingTimeEntry::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<ReadingTimeEntry, Date>)
 				ReadingTimeEntry::setModifiedDate);
-		attributeGetterFunctions.put(
-			"classNameId", ReadingTimeEntry::getClassNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<ReadingTimeEntry, Long>)
 				ReadingTimeEntry::setClassNameId);
-		attributeGetterFunctions.put("classPK", ReadingTimeEntry::getClassPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<ReadingTimeEntry, Long>)ReadingTimeEntry::setClassPK);
-		attributeGetterFunctions.put(
-			"readingTime", ReadingTimeEntry::getReadingTime);
 		attributeSetterBiConsumers.put(
 			"readingTime",
 			(BiConsumer<ReadingTimeEntry, Long>)
 				ReadingTimeEntry::setReadingTime);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

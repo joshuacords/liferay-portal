@@ -459,6 +459,10 @@ public class QueuedMessageUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(QueuedMessagePersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile QueuedMessagePersistence _persistence;
 
 }

@@ -107,6 +107,12 @@ public class CommerceDataIntegrationProcessLogServiceUtil {
 		return _service;
 	}
 
+	public static void setService(
+		CommerceDataIntegrationProcessLogService service) {
+
+		_service = service;
+	}
+
 	private static volatile CommerceDataIntegrationProcessLogService _service;
 
 }

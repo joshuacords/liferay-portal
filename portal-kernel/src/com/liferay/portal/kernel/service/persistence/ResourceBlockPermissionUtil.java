@@ -713,6 +713,12 @@ public class ResourceBlockPermissionUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(
+		ResourceBlockPermissionPersistence persistence) {
+
+		_persistence = persistence;
+	}
+
 	private static volatile ResourceBlockPermissionPersistence _persistence;
 
 }

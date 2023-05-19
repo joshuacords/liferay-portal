@@ -321,19 +321,12 @@ public class CPDAvailabilityEstimateModelImpl
 
 	private static final Map<String, Function<CPDAvailabilityEstimate, Object>>
 		_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<CPDAvailabilityEstimate, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CPDAvailabilityEstimate, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<CPDAvailabilityEstimate, Object>>();
-		Map<String, BiConsumer<CPDAvailabilityEstimate, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String, BiConsumer<CPDAvailabilityEstimate, ?>>();
 
 		attributeGetterFunctions.put(
 			"uuid",
@@ -347,19 +340,6 @@ public class CPDAvailabilityEstimateModelImpl
 				}
 
 			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<CPDAvailabilityEstimate, Object>() {
-
-				@Override
-				public void accept(
-					CPDAvailabilityEstimate cpdAvailabilityEstimate,
-					Object uuidObject) {
-
-					cpdAvailabilityEstimate.setUuid((String)uuidObject);
-				}
-
-			});
 		attributeGetterFunctions.put(
 			"CPDAvailabilityEstimateId",
 			new Function<CPDAvailabilityEstimate, Object>() {
@@ -370,6 +350,131 @@ public class CPDAvailabilityEstimateModelImpl
 
 					return cpdAvailabilityEstimate.
 						getCPDAvailabilityEstimateId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CPDAvailabilityEstimate, Object>() {
+
+				@Override
+				public Object apply(
+					CPDAvailabilityEstimate cpdAvailabilityEstimate) {
+
+					return cpdAvailabilityEstimate.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CPDAvailabilityEstimate, Object>() {
+
+				@Override
+				public Object apply(
+					CPDAvailabilityEstimate cpdAvailabilityEstimate) {
+
+					return cpdAvailabilityEstimate.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CPDAvailabilityEstimate, Object>() {
+
+				@Override
+				public Object apply(
+					CPDAvailabilityEstimate cpdAvailabilityEstimate) {
+
+					return cpdAvailabilityEstimate.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CPDAvailabilityEstimate, Object>() {
+
+				@Override
+				public Object apply(
+					CPDAvailabilityEstimate cpdAvailabilityEstimate) {
+
+					return cpdAvailabilityEstimate.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CPDAvailabilityEstimate, Object>() {
+
+				@Override
+				public Object apply(
+					CPDAvailabilityEstimate cpdAvailabilityEstimate) {
+
+					return cpdAvailabilityEstimate.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceAvailabilityEstimateId",
+			new Function<CPDAvailabilityEstimate, Object>() {
+
+				@Override
+				public Object apply(
+					CPDAvailabilityEstimate cpdAvailabilityEstimate) {
+
+					return cpdAvailabilityEstimate.
+						getCommerceAvailabilityEstimateId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"CProductId",
+			new Function<CPDAvailabilityEstimate, Object>() {
+
+				@Override
+				public Object apply(
+					CPDAvailabilityEstimate cpdAvailabilityEstimate) {
+
+					return cpdAvailabilityEstimate.getCProductId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"lastPublishDate",
+			new Function<CPDAvailabilityEstimate, Object>() {
+
+				@Override
+				public Object apply(
+					CPDAvailabilityEstimate cpdAvailabilityEstimate) {
+
+					return cpdAvailabilityEstimate.getLastPublishDate();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<CPDAvailabilityEstimate, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CPDAvailabilityEstimate, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap
+					<String, BiConsumer<CPDAvailabilityEstimate, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"uuid",
+			new BiConsumer<CPDAvailabilityEstimate, Object>() {
+
+				@Override
+				public void accept(
+					CPDAvailabilityEstimate cpdAvailabilityEstimate,
+					Object uuidObject) {
+
+					cpdAvailabilityEstimate.setUuid((String)uuidObject);
 				}
 
 			});
@@ -387,18 +492,6 @@ public class CPDAvailabilityEstimateModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CPDAvailabilityEstimate, Object>() {
-
-				@Override
-				public Object apply(
-					CPDAvailabilityEstimate cpdAvailabilityEstimate) {
-
-					return cpdAvailabilityEstimate.getCompanyId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"companyId",
 			new BiConsumer<CPDAvailabilityEstimate, Object>() {
@@ -409,18 +502,6 @@ public class CPDAvailabilityEstimateModelImpl
 					Object companyIdObject) {
 
 					cpdAvailabilityEstimate.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CPDAvailabilityEstimate, Object>() {
-
-				@Override
-				public Object apply(
-					CPDAvailabilityEstimate cpdAvailabilityEstimate) {
-
-					return cpdAvailabilityEstimate.getUserId();
 				}
 
 			});
@@ -437,18 +518,6 @@ public class CPDAvailabilityEstimateModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CPDAvailabilityEstimate, Object>() {
-
-				@Override
-				public Object apply(
-					CPDAvailabilityEstimate cpdAvailabilityEstimate) {
-
-					return cpdAvailabilityEstimate.getUserName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userName",
 			new BiConsumer<CPDAvailabilityEstimate, Object>() {
@@ -459,18 +528,6 @@ public class CPDAvailabilityEstimateModelImpl
 					Object userNameObject) {
 
 					cpdAvailabilityEstimate.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CPDAvailabilityEstimate, Object>() {
-
-				@Override
-				public Object apply(
-					CPDAvailabilityEstimate cpdAvailabilityEstimate) {
-
-					return cpdAvailabilityEstimate.getCreateDate();
 				}
 
 			});
@@ -488,18 +545,6 @@ public class CPDAvailabilityEstimateModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CPDAvailabilityEstimate, Object>() {
-
-				@Override
-				public Object apply(
-					CPDAvailabilityEstimate cpdAvailabilityEstimate) {
-
-					return cpdAvailabilityEstimate.getModifiedDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			new BiConsumer<CPDAvailabilityEstimate, Object>() {
@@ -511,19 +556,6 @@ public class CPDAvailabilityEstimateModelImpl
 
 					cpdAvailabilityEstimate.setModifiedDate(
 						(Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commerceAvailabilityEstimateId",
-			new Function<CPDAvailabilityEstimate, Object>() {
-
-				@Override
-				public Object apply(
-					CPDAvailabilityEstimate cpdAvailabilityEstimate) {
-
-					return cpdAvailabilityEstimate.
-						getCommerceAvailabilityEstimateId();
 				}
 
 			});
@@ -541,18 +573,6 @@ public class CPDAvailabilityEstimateModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"CProductId",
-			new Function<CPDAvailabilityEstimate, Object>() {
-
-				@Override
-				public Object apply(
-					CPDAvailabilityEstimate cpdAvailabilityEstimate) {
-
-					return cpdAvailabilityEstimate.getCProductId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"CProductId",
 			new BiConsumer<CPDAvailabilityEstimate, Object>() {
@@ -564,18 +584,6 @@ public class CPDAvailabilityEstimateModelImpl
 
 					cpdAvailabilityEstimate.setCProductId(
 						(Long)CProductIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"lastPublishDate",
-			new Function<CPDAvailabilityEstimate, Object>() {
-
-				@Override
-				public Object apply(
-					CPDAvailabilityEstimate cpdAvailabilityEstimate) {
-
-					return cpdAvailabilityEstimate.getLastPublishDate();
 				}
 
 			});
@@ -594,8 +602,6 @@ public class CPDAvailabilityEstimateModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

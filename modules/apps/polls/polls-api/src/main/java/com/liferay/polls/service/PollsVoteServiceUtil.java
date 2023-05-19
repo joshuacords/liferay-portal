@@ -57,6 +57,10 @@ public class PollsVoteServiceUtil {
 		return _service;
 	}
 
+	public static void setService(PollsVoteService service) {
+		_service = service;
+	}
+
 	private static volatile PollsVoteService _service;
 
 }

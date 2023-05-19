@@ -315,6 +315,10 @@ public class RatingsStatsLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(RatingsStatsLocalService service) {
+		_service = service;
+	}
+
 	private static volatile RatingsStatsLocalService _service;
 
 }

@@ -45,7 +45,6 @@ import com.liferay.saml.persistence.service.persistence.SamlSpSessionUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
@@ -2175,33 +2174,17 @@ public class SamlSpSessionPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBySessionIndex",
 			new String[] {String.class.getName()});
 
-		_setSamlSpSessionUtilPersistence(this);
+		SamlSpSessionUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setSamlSpSessionUtilPersistence(null);
+		SamlSpSessionUtil.setPersistence(null);
 
 		entityCache.removeCache(SamlSpSessionImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setSamlSpSessionUtilPersistence(
-		SamlSpSessionPersistence samlSpSessionPersistence) {
-
-		try {
-			Field field = SamlSpSessionUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, samlSpSessionPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

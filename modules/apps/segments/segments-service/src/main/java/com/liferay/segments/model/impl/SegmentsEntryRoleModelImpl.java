@@ -210,71 +210,77 @@ public class SegmentsEntryRoleModelImpl
 
 	private static final Map<String, Function<SegmentsEntryRole, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<SegmentsEntryRole, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<SegmentsEntryRole, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<SegmentsEntryRole, Object>>();
+
+		attributeGetterFunctions.put(
+			"mvccVersion", SegmentsEntryRole::getMvccVersion);
+		attributeGetterFunctions.put(
+			"segmentsEntryRoleId", SegmentsEntryRole::getSegmentsEntryRoleId);
+		attributeGetterFunctions.put(
+			"companyId", SegmentsEntryRole::getCompanyId);
+		attributeGetterFunctions.put("userId", SegmentsEntryRole::getUserId);
+		attributeGetterFunctions.put(
+			"userName", SegmentsEntryRole::getUserName);
+		attributeGetterFunctions.put(
+			"createDate", SegmentsEntryRole::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", SegmentsEntryRole::getModifiedDate);
+		attributeGetterFunctions.put(
+			"segmentsEntryId", SegmentsEntryRole::getSegmentsEntryId);
+		attributeGetterFunctions.put("roleId", SegmentsEntryRole::getRoleId);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<SegmentsEntryRole, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<SegmentsEntryRole, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<SegmentsEntryRole, ?>>();
 
-		attributeGetterFunctions.put(
-			"mvccVersion", SegmentsEntryRole::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<SegmentsEntryRole, Long>)
 				SegmentsEntryRole::setMvccVersion);
-		attributeGetterFunctions.put(
-			"segmentsEntryRoleId", SegmentsEntryRole::getSegmentsEntryRoleId);
 		attributeSetterBiConsumers.put(
 			"segmentsEntryRoleId",
 			(BiConsumer<SegmentsEntryRole, Long>)
 				SegmentsEntryRole::setSegmentsEntryRoleId);
-		attributeGetterFunctions.put(
-			"companyId", SegmentsEntryRole::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<SegmentsEntryRole, Long>)
 				SegmentsEntryRole::setCompanyId);
-		attributeGetterFunctions.put("userId", SegmentsEntryRole::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<SegmentsEntryRole, Long>)SegmentsEntryRole::setUserId);
-		attributeGetterFunctions.put(
-			"userName", SegmentsEntryRole::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<SegmentsEntryRole, String>)
 				SegmentsEntryRole::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", SegmentsEntryRole::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<SegmentsEntryRole, Date>)
 				SegmentsEntryRole::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", SegmentsEntryRole::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<SegmentsEntryRole, Date>)
 				SegmentsEntryRole::setModifiedDate);
-		attributeGetterFunctions.put(
-			"segmentsEntryId", SegmentsEntryRole::getSegmentsEntryId);
 		attributeSetterBiConsumers.put(
 			"segmentsEntryId",
 			(BiConsumer<SegmentsEntryRole, Long>)
 				SegmentsEntryRole::setSegmentsEntryId);
-		attributeGetterFunctions.put("roleId", SegmentsEntryRole::getRoleId);
 		attributeSetterBiConsumers.put(
 			"roleId",
 			(BiConsumer<SegmentsEntryRole, Long>)SegmentsEntryRole::setRoleId);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

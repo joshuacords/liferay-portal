@@ -270,61 +270,67 @@ public class EntitlementModelImpl
 
 	private static final Map<String, Function<Entitlement, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Entitlement, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<Entitlement, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<Entitlement, Object>>();
-		Map<String, BiConsumer<Entitlement, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Entitlement, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", Entitlement::getMvccVersion);
+		attributeGetterFunctions.put(
+			"entitlementId", Entitlement::getEntitlementId);
+		attributeGetterFunctions.put("companyId", Entitlement::getCompanyId);
+		attributeGetterFunctions.put("userId", Entitlement::getUserId);
+		attributeGetterFunctions.put("createDate", Entitlement::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", Entitlement::getModifiedDate);
+		attributeGetterFunctions.put(
+			"entitlementDefinitionId", Entitlement::getEntitlementDefinitionId);
+		attributeGetterFunctions.put(
+			"classNameId", Entitlement::getClassNameId);
+		attributeGetterFunctions.put("classPK", Entitlement::getClassPK);
+		attributeGetterFunctions.put("name", Entitlement::getName);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<Entitlement, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<Entitlement, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<Entitlement, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<Entitlement, Long>)Entitlement::setMvccVersion);
-		attributeGetterFunctions.put(
-			"entitlementId", Entitlement::getEntitlementId);
 		attributeSetterBiConsumers.put(
 			"entitlementId",
 			(BiConsumer<Entitlement, Long>)Entitlement::setEntitlementId);
-		attributeGetterFunctions.put("companyId", Entitlement::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<Entitlement, Long>)Entitlement::setCompanyId);
-		attributeGetterFunctions.put("userId", Entitlement::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<Entitlement, Long>)Entitlement::setUserId);
-		attributeGetterFunctions.put("createDate", Entitlement::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<Entitlement, Date>)Entitlement::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", Entitlement::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<Entitlement, Date>)Entitlement::setModifiedDate);
-		attributeGetterFunctions.put(
-			"entitlementDefinitionId", Entitlement::getEntitlementDefinitionId);
 		attributeSetterBiConsumers.put(
 			"entitlementDefinitionId",
 			(BiConsumer<Entitlement, Long>)
 				Entitlement::setEntitlementDefinitionId);
-		attributeGetterFunctions.put(
-			"classNameId", Entitlement::getClassNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<Entitlement, Long>)Entitlement::setClassNameId);
-		attributeGetterFunctions.put("classPK", Entitlement::getClassPK);
 		attributeSetterBiConsumers.put(
 			"classPK", (BiConsumer<Entitlement, Long>)Entitlement::setClassPK);
-		attributeGetterFunctions.put("name", Entitlement::getName);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<Entitlement, String>)Entitlement::setName);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

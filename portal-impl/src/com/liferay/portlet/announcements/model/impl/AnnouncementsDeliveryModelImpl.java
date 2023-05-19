@@ -278,61 +278,67 @@ public class AnnouncementsDeliveryModelImpl
 
 	private static final Map<String, Function<AnnouncementsDelivery, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<AnnouncementsDelivery, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<AnnouncementsDelivery, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<AnnouncementsDelivery, Object>>();
+
+		attributeGetterFunctions.put(
+			"deliveryId", AnnouncementsDelivery::getDeliveryId);
+		attributeGetterFunctions.put(
+			"companyId", AnnouncementsDelivery::getCompanyId);
+		attributeGetterFunctions.put(
+			"userId", AnnouncementsDelivery::getUserId);
+		attributeGetterFunctions.put("type", AnnouncementsDelivery::getType);
+		attributeGetterFunctions.put("email", AnnouncementsDelivery::getEmail);
+		attributeGetterFunctions.put("sms", AnnouncementsDelivery::getSms);
+		attributeGetterFunctions.put(
+			"website", AnnouncementsDelivery::getWebsite);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<AnnouncementsDelivery, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<AnnouncementsDelivery, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<AnnouncementsDelivery, ?>>();
 
-		attributeGetterFunctions.put(
-			"deliveryId", AnnouncementsDelivery::getDeliveryId);
 		attributeSetterBiConsumers.put(
 			"deliveryId",
 			(BiConsumer<AnnouncementsDelivery, Long>)
 				AnnouncementsDelivery::setDeliveryId);
-		attributeGetterFunctions.put(
-			"companyId", AnnouncementsDelivery::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<AnnouncementsDelivery, Long>)
 				AnnouncementsDelivery::setCompanyId);
-		attributeGetterFunctions.put(
-			"userId", AnnouncementsDelivery::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<AnnouncementsDelivery, Long>)
 				AnnouncementsDelivery::setUserId);
-		attributeGetterFunctions.put("type", AnnouncementsDelivery::getType);
 		attributeSetterBiConsumers.put(
 			"type",
 			(BiConsumer<AnnouncementsDelivery, String>)
 				AnnouncementsDelivery::setType);
-		attributeGetterFunctions.put("email", AnnouncementsDelivery::getEmail);
 		attributeSetterBiConsumers.put(
 			"email",
 			(BiConsumer<AnnouncementsDelivery, Boolean>)
 				AnnouncementsDelivery::setEmail);
-		attributeGetterFunctions.put("sms", AnnouncementsDelivery::getSms);
 		attributeSetterBiConsumers.put(
 			"sms",
 			(BiConsumer<AnnouncementsDelivery, Boolean>)
 				AnnouncementsDelivery::setSms);
-		attributeGetterFunctions.put(
-			"website", AnnouncementsDelivery::getWebsite);
 		attributeSetterBiConsumers.put(
 			"website",
 			(BiConsumer<AnnouncementsDelivery, Boolean>)
 				AnnouncementsDelivery::setWebsite);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

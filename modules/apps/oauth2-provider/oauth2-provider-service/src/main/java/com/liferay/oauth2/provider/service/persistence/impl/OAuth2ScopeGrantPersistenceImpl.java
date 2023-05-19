@@ -50,7 +50,6 @@ import com.liferay.portal.kernel.util.StringUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
@@ -2138,12 +2137,12 @@ public class OAuth2ScopeGrantPersistenceImpl
 				String.class.getName()
 			});
 
-		_setOAuth2ScopeGrantUtilPersistence(this);
+		OAuth2ScopeGrantUtil.setPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
-		_setOAuth2ScopeGrantUtilPersistence(null);
+		OAuth2ScopeGrantUtil.setPersistence(null);
 
 		entityCache.removeCache(OAuth2ScopeGrantImpl.class.getName());
 
@@ -2153,22 +2152,6 @@ public class OAuth2ScopeGrantPersistenceImpl
 
 		TableMapperFactory.removeTableMapper(
 			"OA2Auths_OA2ScopeGrants#oAuth2ScopeGrantId");
-	}
-
-	private void _setOAuth2ScopeGrantUtilPersistence(
-		OAuth2ScopeGrantPersistence oAuth2ScopeGrantPersistence) {
-
-		try {
-			Field field = OAuth2ScopeGrantUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, oAuth2ScopeGrantPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@Override

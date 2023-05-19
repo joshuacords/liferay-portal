@@ -58,7 +58,6 @@ import com.liferay.portlet.asset.model.impl.AssetCategoryModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
@@ -14138,11 +14137,11 @@ public class AssetCategoryPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_ERC",
 			new String[] {Long.class.getName(), String.class.getName()});
 
-		_setAssetCategoryUtilPersistence(this);
+		AssetCategoryUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setAssetCategoryUtilPersistence(null);
+		AssetCategoryUtil.setPersistence(null);
 
 		EntityCacheUtil.removeCache(AssetCategoryImpl.class.getName());
 
@@ -14151,22 +14150,6 @@ public class AssetCategoryPersistenceImpl
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		TableMapperFactory.removeTableMapper("AssetEntries_AssetCategories");
-	}
-
-	private void _setAssetCategoryUtilPersistence(
-		AssetCategoryPersistence assetCategoryPersistence) {
-
-		try {
-			Field field = AssetCategoryUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, assetCategoryPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@BeanReference(type = AssetEntryPersistence.class)

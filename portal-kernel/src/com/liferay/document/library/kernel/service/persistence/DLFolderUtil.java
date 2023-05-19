@@ -4863,6 +4863,10 @@ public class DLFolderUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(DLFolderPersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile DLFolderPersistence _persistence;
 
 }

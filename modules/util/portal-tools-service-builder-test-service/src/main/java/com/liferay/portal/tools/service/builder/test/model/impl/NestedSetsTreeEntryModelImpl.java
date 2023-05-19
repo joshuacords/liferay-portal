@@ -210,55 +210,61 @@ public class NestedSetsTreeEntryModelImpl
 
 	private static final Map<String, Function<NestedSetsTreeEntry, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<NestedSetsTreeEntry, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<NestedSetsTreeEntry, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<NestedSetsTreeEntry, Object>>();
-		Map<String, BiConsumer<NestedSetsTreeEntry, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap<String, BiConsumer<NestedSetsTreeEntry, ?>>();
 
 		attributeGetterFunctions.put(
 			"nestedSetsTreeEntryId",
 			NestedSetsTreeEntry::getNestedSetsTreeEntryId);
+		attributeGetterFunctions.put(
+			"groupId", NestedSetsTreeEntry::getGroupId);
+		attributeGetterFunctions.put(
+			"parentNestedSetsTreeEntryId",
+			NestedSetsTreeEntry::getParentNestedSetsTreeEntryId);
+		attributeGetterFunctions.put(
+			"leftNestedSetsTreeEntryId",
+			NestedSetsTreeEntry::getLeftNestedSetsTreeEntryId);
+		attributeGetterFunctions.put(
+			"rightNestedSetsTreeEntryId",
+			NestedSetsTreeEntry::getRightNestedSetsTreeEntryId);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<NestedSetsTreeEntry, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<NestedSetsTreeEntry, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<NestedSetsTreeEntry, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"nestedSetsTreeEntryId",
 			(BiConsumer<NestedSetsTreeEntry, Long>)
 				NestedSetsTreeEntry::setNestedSetsTreeEntryId);
-		attributeGetterFunctions.put(
-			"groupId", NestedSetsTreeEntry::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<NestedSetsTreeEntry, Long>)
 				NestedSetsTreeEntry::setGroupId);
-		attributeGetterFunctions.put(
-			"parentNestedSetsTreeEntryId",
-			NestedSetsTreeEntry::getParentNestedSetsTreeEntryId);
 		attributeSetterBiConsumers.put(
 			"parentNestedSetsTreeEntryId",
 			(BiConsumer<NestedSetsTreeEntry, Long>)
 				NestedSetsTreeEntry::setParentNestedSetsTreeEntryId);
-		attributeGetterFunctions.put(
-			"leftNestedSetsTreeEntryId",
-			NestedSetsTreeEntry::getLeftNestedSetsTreeEntryId);
 		attributeSetterBiConsumers.put(
 			"leftNestedSetsTreeEntryId",
 			(BiConsumer<NestedSetsTreeEntry, Long>)
 				NestedSetsTreeEntry::setLeftNestedSetsTreeEntryId);
-		attributeGetterFunctions.put(
-			"rightNestedSetsTreeEntryId",
-			NestedSetsTreeEntry::getRightNestedSetsTreeEntryId);
 		attributeSetterBiConsumers.put(
 			"rightNestedSetsTreeEntryId",
 			(BiConsumer<NestedSetsTreeEntry, Long>)
 				NestedSetsTreeEntry::setRightNestedSetsTreeEntryId);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

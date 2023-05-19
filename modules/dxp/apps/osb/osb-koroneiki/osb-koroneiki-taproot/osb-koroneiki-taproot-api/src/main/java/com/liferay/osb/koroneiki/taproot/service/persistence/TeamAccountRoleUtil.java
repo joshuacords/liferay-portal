@@ -986,6 +986,10 @@ public class TeamAccountRoleUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(TeamAccountRolePersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile TeamAccountRolePersistence _persistence;
 
 }

@@ -352,6 +352,10 @@ public class DLFileVersionPreviewLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(DLFileVersionPreviewLocalService service) {
+		_service = service;
+	}
+
 	private static volatile DLFileVersionPreviewLocalService _service;
 
 }

@@ -318,9 +318,6 @@ public class CommercePricingClassCPDefinitionRelModelImpl
 	private static final Map
 		<String, Function<CommercePricingClassCPDefinitionRel, Object>>
 			_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<CommercePricingClassCPDefinitionRel, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommercePricingClassCPDefinitionRel, Object>>
@@ -328,11 +325,6 @@ public class CommercePricingClassCPDefinitionRelModelImpl
 				new LinkedHashMap
 					<String,
 					 Function<CommercePricingClassCPDefinitionRel, Object>>();
-		Map<String, BiConsumer<CommercePricingClassCPDefinitionRel, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String,
-					 BiConsumer<CommercePricingClassCPDefinitionRel, ?>>();
 
 		attributeGetterFunctions.put(
 			"CommercePricingClassCPDefinitionRelId",
@@ -348,6 +340,116 @@ public class CommercePricingClassCPDefinitionRelModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommercePricingClassCPDefinitionRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePricingClassCPDefinitionRel
+						commercePricingClassCPDefinitionRel) {
+
+					return commercePricingClassCPDefinitionRel.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommercePricingClassCPDefinitionRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePricingClassCPDefinitionRel
+						commercePricingClassCPDefinitionRel) {
+
+					return commercePricingClassCPDefinitionRel.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommercePricingClassCPDefinitionRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePricingClassCPDefinitionRel
+						commercePricingClassCPDefinitionRel) {
+
+					return commercePricingClassCPDefinitionRel.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommercePricingClassCPDefinitionRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePricingClassCPDefinitionRel
+						commercePricingClassCPDefinitionRel) {
+
+					return commercePricingClassCPDefinitionRel.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommercePricingClassCPDefinitionRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePricingClassCPDefinitionRel
+						commercePricingClassCPDefinitionRel) {
+
+					return commercePricingClassCPDefinitionRel.
+						getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commercePricingClassId",
+			new Function<CommercePricingClassCPDefinitionRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePricingClassCPDefinitionRel
+						commercePricingClassCPDefinitionRel) {
+
+					return commercePricingClassCPDefinitionRel.
+						getCommercePricingClassId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"CPDefinitionId",
+			new Function<CommercePricingClassCPDefinitionRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePricingClassCPDefinitionRel
+						commercePricingClassCPDefinitionRel) {
+
+					return commercePricingClassCPDefinitionRel.
+						getCPDefinitionId();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<CommercePricingClassCPDefinitionRel, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommercePricingClassCPDefinitionRel, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap
+					<String,
+					 BiConsumer<CommercePricingClassCPDefinitionRel, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"CommercePricingClassCPDefinitionRelId",
 			new BiConsumer<CommercePricingClassCPDefinitionRel, Object>() {
@@ -361,19 +463,6 @@ public class CommercePricingClassCPDefinitionRelModelImpl
 					commercePricingClassCPDefinitionRel.
 						setCommercePricingClassCPDefinitionRelId(
 							(Long)CommercePricingClassCPDefinitionRelIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommercePricingClassCPDefinitionRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePricingClassCPDefinitionRel
-						commercePricingClassCPDefinitionRel) {
-
-					return commercePricingClassCPDefinitionRel.getCompanyId();
 				}
 
 			});
@@ -392,19 +481,6 @@ public class CommercePricingClassCPDefinitionRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommercePricingClassCPDefinitionRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePricingClassCPDefinitionRel
-						commercePricingClassCPDefinitionRel) {
-
-					return commercePricingClassCPDefinitionRel.getUserId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userId",
 			new BiConsumer<CommercePricingClassCPDefinitionRel, Object>() {
@@ -417,19 +493,6 @@ public class CommercePricingClassCPDefinitionRelModelImpl
 
 					commercePricingClassCPDefinitionRel.setUserId(
 						(Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommercePricingClassCPDefinitionRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePricingClassCPDefinitionRel
-						commercePricingClassCPDefinitionRel) {
-
-					return commercePricingClassCPDefinitionRel.getUserName();
 				}
 
 			});
@@ -448,19 +511,6 @@ public class CommercePricingClassCPDefinitionRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommercePricingClassCPDefinitionRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePricingClassCPDefinitionRel
-						commercePricingClassCPDefinitionRel) {
-
-					return commercePricingClassCPDefinitionRel.getCreateDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"createDate",
 			new BiConsumer<CommercePricingClassCPDefinitionRel, Object>() {
@@ -476,20 +526,6 @@ public class CommercePricingClassCPDefinitionRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommercePricingClassCPDefinitionRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePricingClassCPDefinitionRel
-						commercePricingClassCPDefinitionRel) {
-
-					return commercePricingClassCPDefinitionRel.
-						getModifiedDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			new BiConsumer<CommercePricingClassCPDefinitionRel, Object>() {
@@ -502,20 +538,6 @@ public class CommercePricingClassCPDefinitionRelModelImpl
 
 					commercePricingClassCPDefinitionRel.setModifiedDate(
 						(Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commercePricingClassId",
-			new Function<CommercePricingClassCPDefinitionRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePricingClassCPDefinitionRel
-						commercePricingClassCPDefinitionRel) {
-
-					return commercePricingClassCPDefinitionRel.
-						getCommercePricingClassId();
 				}
 
 			});
@@ -535,20 +557,6 @@ public class CommercePricingClassCPDefinitionRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"CPDefinitionId",
-			new Function<CommercePricingClassCPDefinitionRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePricingClassCPDefinitionRel
-						commercePricingClassCPDefinitionRel) {
-
-					return commercePricingClassCPDefinitionRel.
-						getCPDefinitionId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"CPDefinitionId",
 			new BiConsumer<CommercePricingClassCPDefinitionRel, Object>() {
@@ -565,8 +573,6 @@ public class CommercePricingClassCPDefinitionRelModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

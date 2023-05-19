@@ -79,6 +79,10 @@ public class ScreensRatingsEntryServiceUtil {
 		return _service;
 	}
 
+	public static void setService(ScreensRatingsEntryService service) {
+		_service = service;
+	}
+
 	private static volatile ScreensRatingsEntryService _service;
 
 }

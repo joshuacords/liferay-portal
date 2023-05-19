@@ -369,18 +369,12 @@ public class CommercePriceModifierModelImpl
 
 	private static final Map<String, Function<CommercePriceModifier, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CommercePriceModifier, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommercePriceModifier, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<CommercePriceModifier, Object>>();
-		Map<String, BiConsumer<CommercePriceModifier, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String, BiConsumer<CommercePriceModifier, ?>>();
 
 		attributeGetterFunctions.put(
 			"uuid",
@@ -394,6 +388,284 @@ public class CommercePriceModifierModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"externalReferenceCode",
+			new Function<CommercePriceModifier, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePriceModifier commercePriceModifier) {
+
+					return commercePriceModifier.getExternalReferenceCode();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commercePriceModifierId",
+			new Function<CommercePriceModifier, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePriceModifier commercePriceModifier) {
+
+					return commercePriceModifier.getCommercePriceModifierId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"groupId",
+			new Function<CommercePriceModifier, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePriceModifier commercePriceModifier) {
+
+					return commercePriceModifier.getGroupId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommercePriceModifier, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePriceModifier commercePriceModifier) {
+
+					return commercePriceModifier.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommercePriceModifier, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePriceModifier commercePriceModifier) {
+
+					return commercePriceModifier.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommercePriceModifier, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePriceModifier commercePriceModifier) {
+
+					return commercePriceModifier.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommercePriceModifier, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePriceModifier commercePriceModifier) {
+
+					return commercePriceModifier.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommercePriceModifier, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePriceModifier commercePriceModifier) {
+
+					return commercePriceModifier.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commercePriceListId",
+			new Function<CommercePriceModifier, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePriceModifier commercePriceModifier) {
+
+					return commercePriceModifier.getCommercePriceListId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"title",
+			new Function<CommercePriceModifier, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePriceModifier commercePriceModifier) {
+
+					return commercePriceModifier.getTitle();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"target",
+			new Function<CommercePriceModifier, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePriceModifier commercePriceModifier) {
+
+					return commercePriceModifier.getTarget();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifierAmount",
+			new Function<CommercePriceModifier, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePriceModifier commercePriceModifier) {
+
+					return commercePriceModifier.getModifierAmount();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifierType",
+			new Function<CommercePriceModifier, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePriceModifier commercePriceModifier) {
+
+					return commercePriceModifier.getModifierType();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"priority",
+			new Function<CommercePriceModifier, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePriceModifier commercePriceModifier) {
+
+					return commercePriceModifier.getPriority();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"active",
+			new Function<CommercePriceModifier, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePriceModifier commercePriceModifier) {
+
+					return commercePriceModifier.getActive();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"displayDate",
+			new Function<CommercePriceModifier, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePriceModifier commercePriceModifier) {
+
+					return commercePriceModifier.getDisplayDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"expirationDate",
+			new Function<CommercePriceModifier, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePriceModifier commercePriceModifier) {
+
+					return commercePriceModifier.getExpirationDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"lastPublishDate",
+			new Function<CommercePriceModifier, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePriceModifier commercePriceModifier) {
+
+					return commercePriceModifier.getLastPublishDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"status",
+			new Function<CommercePriceModifier, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePriceModifier commercePriceModifier) {
+
+					return commercePriceModifier.getStatus();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"statusByUserId",
+			new Function<CommercePriceModifier, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePriceModifier commercePriceModifier) {
+
+					return commercePriceModifier.getStatusByUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"statusByUserName",
+			new Function<CommercePriceModifier, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePriceModifier commercePriceModifier) {
+
+					return commercePriceModifier.getStatusByUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"statusDate",
+			new Function<CommercePriceModifier, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePriceModifier commercePriceModifier) {
+
+					return commercePriceModifier.getStatusDate();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<CommercePriceModifier, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommercePriceModifier, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap
+					<String, BiConsumer<CommercePriceModifier, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"uuid",
 			new BiConsumer<CommercePriceModifier, Object>() {
@@ -404,18 +676,6 @@ public class CommercePriceModifierModelImpl
 					Object uuidObject) {
 
 					commercePriceModifier.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"externalReferenceCode",
-			new Function<CommercePriceModifier, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePriceModifier commercePriceModifier) {
-
-					return commercePriceModifier.getExternalReferenceCode();
 				}
 
 			});
@@ -433,18 +693,6 @@ public class CommercePriceModifierModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"commercePriceModifierId",
-			new Function<CommercePriceModifier, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePriceModifier commercePriceModifier) {
-
-					return commercePriceModifier.getCommercePriceModifierId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"commercePriceModifierId",
 			new BiConsumer<CommercePriceModifier, Object>() {
@@ -456,18 +704,6 @@ public class CommercePriceModifierModelImpl
 
 					commercePriceModifier.setCommercePriceModifierId(
 						(Long)commercePriceModifierIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<CommercePriceModifier, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePriceModifier commercePriceModifier) {
-
-					return commercePriceModifier.getGroupId();
 				}
 
 			});
@@ -484,18 +720,6 @@ public class CommercePriceModifierModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommercePriceModifier, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePriceModifier commercePriceModifier) {
-
-					return commercePriceModifier.getCompanyId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"companyId",
 			new BiConsumer<CommercePriceModifier, Object>() {
@@ -506,18 +730,6 @@ public class CommercePriceModifierModelImpl
 					Object companyIdObject) {
 
 					commercePriceModifier.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommercePriceModifier, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePriceModifier commercePriceModifier) {
-
-					return commercePriceModifier.getUserId();
 				}
 
 			});
@@ -534,18 +746,6 @@ public class CommercePriceModifierModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommercePriceModifier, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePriceModifier commercePriceModifier) {
-
-					return commercePriceModifier.getUserName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userName",
 			new BiConsumer<CommercePriceModifier, Object>() {
@@ -559,18 +759,6 @@ public class CommercePriceModifierModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommercePriceModifier, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePriceModifier commercePriceModifier) {
-
-					return commercePriceModifier.getCreateDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"createDate",
 			new BiConsumer<CommercePriceModifier, Object>() {
@@ -581,18 +769,6 @@ public class CommercePriceModifierModelImpl
 					Object createDateObject) {
 
 					commercePriceModifier.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommercePriceModifier, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePriceModifier commercePriceModifier) {
-
-					return commercePriceModifier.getModifiedDate();
 				}
 
 			});
@@ -610,18 +786,6 @@ public class CommercePriceModifierModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"commercePriceListId",
-			new Function<CommercePriceModifier, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePriceModifier commercePriceModifier) {
-
-					return commercePriceModifier.getCommercePriceListId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"commercePriceListId",
 			new BiConsumer<CommercePriceModifier, Object>() {
@@ -633,18 +797,6 @@ public class CommercePriceModifierModelImpl
 
 					commercePriceModifier.setCommercePriceListId(
 						(Long)commercePriceListIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"title",
-			new Function<CommercePriceModifier, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePriceModifier commercePriceModifier) {
-
-					return commercePriceModifier.getTitle();
 				}
 
 			});
@@ -661,18 +813,6 @@ public class CommercePriceModifierModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"target",
-			new Function<CommercePriceModifier, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePriceModifier commercePriceModifier) {
-
-					return commercePriceModifier.getTarget();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"target",
 			new BiConsumer<CommercePriceModifier, Object>() {
@@ -683,18 +823,6 @@ public class CommercePriceModifierModelImpl
 					Object targetObject) {
 
 					commercePriceModifier.setTarget((String)targetObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifierAmount",
-			new Function<CommercePriceModifier, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePriceModifier commercePriceModifier) {
-
-					return commercePriceModifier.getModifierAmount();
 				}
 
 			});
@@ -712,18 +840,6 @@ public class CommercePriceModifierModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"modifierType",
-			new Function<CommercePriceModifier, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePriceModifier commercePriceModifier) {
-
-					return commercePriceModifier.getModifierType();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"modifierType",
 			new BiConsumer<CommercePriceModifier, Object>() {
@@ -735,18 +851,6 @@ public class CommercePriceModifierModelImpl
 
 					commercePriceModifier.setModifierType(
 						(String)modifierTypeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"priority",
-			new Function<CommercePriceModifier, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePriceModifier commercePriceModifier) {
-
-					return commercePriceModifier.getPriority();
 				}
 
 			});
@@ -763,18 +867,6 @@ public class CommercePriceModifierModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"active",
-			new Function<CommercePriceModifier, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePriceModifier commercePriceModifier) {
-
-					return commercePriceModifier.getActive();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"active",
 			new BiConsumer<CommercePriceModifier, Object>() {
@@ -785,18 +877,6 @@ public class CommercePriceModifierModelImpl
 					Object activeObject) {
 
 					commercePriceModifier.setActive((Boolean)activeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"displayDate",
-			new Function<CommercePriceModifier, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePriceModifier commercePriceModifier) {
-
-					return commercePriceModifier.getDisplayDate();
 				}
 
 			});
@@ -814,18 +894,6 @@ public class CommercePriceModifierModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"expirationDate",
-			new Function<CommercePriceModifier, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePriceModifier commercePriceModifier) {
-
-					return commercePriceModifier.getExpirationDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"expirationDate",
 			new BiConsumer<CommercePriceModifier, Object>() {
@@ -837,18 +905,6 @@ public class CommercePriceModifierModelImpl
 
 					commercePriceModifier.setExpirationDate(
 						(Date)expirationDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"lastPublishDate",
-			new Function<CommercePriceModifier, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePriceModifier commercePriceModifier) {
-
-					return commercePriceModifier.getLastPublishDate();
 				}
 
 			});
@@ -866,18 +922,6 @@ public class CommercePriceModifierModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<CommercePriceModifier, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePriceModifier commercePriceModifier) {
-
-					return commercePriceModifier.getStatus();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"status",
 			new BiConsumer<CommercePriceModifier, Object>() {
@@ -888,18 +932,6 @@ public class CommercePriceModifierModelImpl
 					Object statusObject) {
 
 					commercePriceModifier.setStatus((Integer)statusObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<CommercePriceModifier, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePriceModifier commercePriceModifier) {
-
-					return commercePriceModifier.getStatusByUserId();
 				}
 
 			});
@@ -917,18 +949,6 @@ public class CommercePriceModifierModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<CommercePriceModifier, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePriceModifier commercePriceModifier) {
-
-					return commercePriceModifier.getStatusByUserName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
 			new BiConsumer<CommercePriceModifier, Object>() {
@@ -940,18 +960,6 @@ public class CommercePriceModifierModelImpl
 
 					commercePriceModifier.setStatusByUserName(
 						(String)statusByUserNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<CommercePriceModifier, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePriceModifier commercePriceModifier) {
-
-					return commercePriceModifier.getStatusDate();
 				}
 
 			});
@@ -969,8 +977,6 @@ public class CommercePriceModifierModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

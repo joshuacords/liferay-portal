@@ -51,7 +51,6 @@ import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
@@ -5564,34 +5563,18 @@ public class EntitlementDefinitionPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_S",
 			new String[] {Long.class.getName(), Integer.class.getName()});
 
-		_setEntitlementDefinitionUtilPersistence(this);
+		EntitlementDefinitionUtil.setPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
-		_setEntitlementDefinitionUtilPersistence(null);
+		EntitlementDefinitionUtil.setPersistence(null);
 
 		entityCache.removeCache(EntitlementDefinitionImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setEntitlementDefinitionUtilPersistence(
-		EntitlementDefinitionPersistence entitlementDefinitionPersistence) {
-
-		try {
-			Field field = EntitlementDefinitionUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, entitlementDefinitionPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@Override

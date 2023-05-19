@@ -47,8 +47,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -359,7 +357,7 @@ public abstract class EntitlementLocalServiceBaseImpl
 
 	@Deactivate
 	protected void deactivate() {
-		_setLocalServiceUtilService(null);
+		EntitlementLocalServiceUtil.setService(null);
 	}
 
 	@Override
@@ -374,7 +372,7 @@ public abstract class EntitlementLocalServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		entitlementLocalService = (EntitlementLocalService)aopProxy;
 
-		_setLocalServiceUtilService(entitlementLocalService);
+		EntitlementLocalServiceUtil.setService(entitlementLocalService);
 	}
 
 	/**
@@ -416,22 +414,6 @@ public abstract class EntitlementLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		EntitlementLocalService entitlementLocalService) {
-
-		try {
-			Field field = EntitlementLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, entitlementLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

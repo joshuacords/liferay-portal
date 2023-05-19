@@ -696,6 +696,10 @@ public class ServiceProducerUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(ServiceProducerPersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile ServiceProducerPersistence _persistence;
 
 }

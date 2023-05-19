@@ -347,6 +347,10 @@ public class AddressLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(AddressLocalService service) {
+		_service = service;
+	}
+
 	private static volatile AddressLocalService _service;
 
 }

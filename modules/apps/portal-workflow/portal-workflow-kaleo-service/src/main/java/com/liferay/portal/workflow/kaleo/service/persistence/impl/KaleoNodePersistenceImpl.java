@@ -46,7 +46,6 @@ import com.liferay.portal.workflow.kaleo.service.persistence.impl.constants.Kale
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
@@ -2416,33 +2415,18 @@ public class KaleoNodePersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_KDVI",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
-		_setKaleoNodeUtilPersistence(this);
+		KaleoNodeUtil.setPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
-		_setKaleoNodeUtilPersistence(null);
+		KaleoNodeUtil.setPersistence(null);
 
 		entityCache.removeCache(KaleoNodeImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setKaleoNodeUtilPersistence(
-		KaleoNodePersistence kaleoNodePersistence) {
-
-		try {
-			Field field = KaleoNodeUtil.class.getDeclaredField("_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, kaleoNodePersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@Override

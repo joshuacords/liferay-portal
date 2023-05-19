@@ -36,8 +36,6 @@ import com.liferay.segments.service.persistence.SegmentsExperimentFinder;
 import com.liferay.segments.service.persistence.SegmentsExperimentPersistence;
 import com.liferay.segments.service.persistence.SegmentsExperimentRelPersistence;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 import org.osgi.service.component.annotations.Deactivate;
@@ -66,7 +64,7 @@ public abstract class SegmentsExperimentRelServiceBaseImpl
 	 */
 	@Deactivate
 	protected void deactivate() {
-		_setServiceUtilService(null);
+		SegmentsExperimentRelServiceUtil.setService(null);
 	}
 
 	@Override
@@ -80,7 +78,8 @@ public abstract class SegmentsExperimentRelServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		segmentsExperimentRelService = (SegmentsExperimentRelService)aopProxy;
 
-		_setServiceUtilService(segmentsExperimentRelService);
+		SegmentsExperimentRelServiceUtil.setService(
+			segmentsExperimentRelService);
 	}
 
 	/**
@@ -123,23 +122,6 @@ public abstract class SegmentsExperimentRelServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setServiceUtilService(
-		SegmentsExperimentRelService segmentsExperimentRelService) {
-
-		try {
-			Field field =
-				SegmentsExperimentRelServiceUtil.class.getDeclaredField(
-					"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, segmentsExperimentRelService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

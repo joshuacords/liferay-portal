@@ -330,18 +330,12 @@ public class CommerceShippingMethodModelImpl
 
 	private static final Map<String, Function<CommerceShippingMethod, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CommerceShippingMethod, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommerceShippingMethod, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<CommerceShippingMethod, Object>>();
-		Map<String, BiConsumer<CommerceShippingMethod, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String, BiConsumer<CommerceShippingMethod, ?>>();
 
 		attributeGetterFunctions.put(
 			"commerceShippingMethodId",
@@ -355,6 +349,164 @@ public class CommerceShippingMethodModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"groupId",
+			new Function<CommerceShippingMethod, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingMethod commerceShippingMethod) {
+
+					return commerceShippingMethod.getGroupId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommerceShippingMethod, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingMethod commerceShippingMethod) {
+
+					return commerceShippingMethod.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommerceShippingMethod, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingMethod commerceShippingMethod) {
+
+					return commerceShippingMethod.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommerceShippingMethod, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingMethod commerceShippingMethod) {
+
+					return commerceShippingMethod.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommerceShippingMethod, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingMethod commerceShippingMethod) {
+
+					return commerceShippingMethod.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommerceShippingMethod, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingMethod commerceShippingMethod) {
+
+					return commerceShippingMethod.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"name",
+			new Function<CommerceShippingMethod, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingMethod commerceShippingMethod) {
+
+					return commerceShippingMethod.getName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"description",
+			new Function<CommerceShippingMethod, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingMethod commerceShippingMethod) {
+
+					return commerceShippingMethod.getDescription();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"imageId",
+			new Function<CommerceShippingMethod, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingMethod commerceShippingMethod) {
+
+					return commerceShippingMethod.getImageId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"engineKey",
+			new Function<CommerceShippingMethod, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingMethod commerceShippingMethod) {
+
+					return commerceShippingMethod.getEngineKey();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"priority",
+			new Function<CommerceShippingMethod, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingMethod commerceShippingMethod) {
+
+					return commerceShippingMethod.getPriority();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"active",
+			new Function<CommerceShippingMethod, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingMethod commerceShippingMethod) {
+
+					return commerceShippingMethod.getActive();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<CommerceShippingMethod, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommerceShippingMethod, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap
+					<String, BiConsumer<CommerceShippingMethod, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"commerceShippingMethodId",
 			new BiConsumer<CommerceShippingMethod, Object>() {
@@ -366,18 +518,6 @@ public class CommerceShippingMethodModelImpl
 
 					commerceShippingMethod.setCommerceShippingMethodId(
 						(Long)commerceShippingMethodIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<CommerceShippingMethod, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingMethod commerceShippingMethod) {
-
-					return commerceShippingMethod.getGroupId();
 				}
 
 			});
@@ -394,18 +534,6 @@ public class CommerceShippingMethodModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommerceShippingMethod, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingMethod commerceShippingMethod) {
-
-					return commerceShippingMethod.getCompanyId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"companyId",
 			new BiConsumer<CommerceShippingMethod, Object>() {
@@ -416,18 +544,6 @@ public class CommerceShippingMethodModelImpl
 					Object companyIdObject) {
 
 					commerceShippingMethod.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommerceShippingMethod, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingMethod commerceShippingMethod) {
-
-					return commerceShippingMethod.getUserId();
 				}
 
 			});
@@ -444,18 +560,6 @@ public class CommerceShippingMethodModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommerceShippingMethod, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingMethod commerceShippingMethod) {
-
-					return commerceShippingMethod.getUserName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userName",
 			new BiConsumer<CommerceShippingMethod, Object>() {
@@ -466,18 +570,6 @@ public class CommerceShippingMethodModelImpl
 					Object userNameObject) {
 
 					commerceShippingMethod.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommerceShippingMethod, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingMethod commerceShippingMethod) {
-
-					return commerceShippingMethod.getCreateDate();
 				}
 
 			});
@@ -495,18 +587,6 @@ public class CommerceShippingMethodModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommerceShippingMethod, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingMethod commerceShippingMethod) {
-
-					return commerceShippingMethod.getModifiedDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			new BiConsumer<CommerceShippingMethod, Object>() {
@@ -521,18 +601,6 @@ public class CommerceShippingMethodModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"name",
-			new Function<CommerceShippingMethod, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingMethod commerceShippingMethod) {
-
-					return commerceShippingMethod.getName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"name",
 			new BiConsumer<CommerceShippingMethod, Object>() {
@@ -543,18 +611,6 @@ public class CommerceShippingMethodModelImpl
 					Object nameObject) {
 
 					commerceShippingMethod.setName((String)nameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"description",
-			new Function<CommerceShippingMethod, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingMethod commerceShippingMethod) {
-
-					return commerceShippingMethod.getDescription();
 				}
 
 			});
@@ -572,18 +628,6 @@ public class CommerceShippingMethodModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"imageId",
-			new Function<CommerceShippingMethod, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingMethod commerceShippingMethod) {
-
-					return commerceShippingMethod.getImageId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"imageId",
 			new BiConsumer<CommerceShippingMethod, Object>() {
@@ -594,18 +638,6 @@ public class CommerceShippingMethodModelImpl
 					Object imageIdObject) {
 
 					commerceShippingMethod.setImageId((Long)imageIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"engineKey",
-			new Function<CommerceShippingMethod, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingMethod commerceShippingMethod) {
-
-					return commerceShippingMethod.getEngineKey();
 				}
 
 			});
@@ -623,18 +655,6 @@ public class CommerceShippingMethodModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"priority",
-			new Function<CommerceShippingMethod, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingMethod commerceShippingMethod) {
-
-					return commerceShippingMethod.getPriority();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"priority",
 			new BiConsumer<CommerceShippingMethod, Object>() {
@@ -645,18 +665,6 @@ public class CommerceShippingMethodModelImpl
 					Object priorityObject) {
 
 					commerceShippingMethod.setPriority((Double)priorityObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"active",
-			new Function<CommerceShippingMethod, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingMethod commerceShippingMethod) {
-
-					return commerceShippingMethod.getActive();
 				}
 
 			});
@@ -674,8 +682,6 @@ public class CommerceShippingMethodModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

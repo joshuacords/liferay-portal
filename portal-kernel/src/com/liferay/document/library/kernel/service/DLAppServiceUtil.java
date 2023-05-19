@@ -2388,6 +2388,10 @@ public class DLAppServiceUtil {
 		return _service;
 	}
 
+	public static void setService(DLAppService service) {
+		_service = service;
+	}
+
 	private static volatile DLAppService _service;
 
 }

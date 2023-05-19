@@ -51,7 +51,6 @@ import com.liferay.portal.kernel.util.SetUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
@@ -3342,12 +3341,12 @@ public class OAuth2AuthorizationPersistenceImpl
 			"countByRefreshTokenContentHash",
 			new String[] {Long.class.getName()});
 
-		_setOAuth2AuthorizationUtilPersistence(this);
+		OAuth2AuthorizationUtil.setPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
-		_setOAuth2AuthorizationUtilPersistence(null);
+		OAuth2AuthorizationUtil.setPersistence(null);
 
 		entityCache.removeCache(OAuth2AuthorizationImpl.class.getName());
 
@@ -3357,22 +3356,6 @@ public class OAuth2AuthorizationPersistenceImpl
 
 		TableMapperFactory.removeTableMapper(
 			"OA2Auths_OA2ScopeGrants#oAuth2AuthorizationId");
-	}
-
-	private void _setOAuth2AuthorizationUtilPersistence(
-		OAuth2AuthorizationPersistence oAuth2AuthorizationPersistence) {
-
-		try {
-			Field field = OAuth2AuthorizationUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, oAuth2AuthorizationPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@Override

@@ -255,18 +255,12 @@ public class CommerceOrderPaymentModelImpl
 
 	private static final Map<String, Function<CommerceOrderPayment, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CommerceOrderPayment, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommerceOrderPayment, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<CommerceOrderPayment, Object>>();
-		Map<String, BiConsumer<CommerceOrderPayment, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String, BiConsumer<CommerceOrderPayment, ?>>();
 
 		attributeGetterFunctions.put(
 			"commerceOrderPaymentId",
@@ -278,6 +272,120 @@ public class CommerceOrderPaymentModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"groupId",
+			new Function<CommerceOrderPayment, Object>() {
+
+				@Override
+				public Object apply(CommerceOrderPayment commerceOrderPayment) {
+					return commerceOrderPayment.getGroupId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommerceOrderPayment, Object>() {
+
+				@Override
+				public Object apply(CommerceOrderPayment commerceOrderPayment) {
+					return commerceOrderPayment.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommerceOrderPayment, Object>() {
+
+				@Override
+				public Object apply(CommerceOrderPayment commerceOrderPayment) {
+					return commerceOrderPayment.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommerceOrderPayment, Object>() {
+
+				@Override
+				public Object apply(CommerceOrderPayment commerceOrderPayment) {
+					return commerceOrderPayment.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommerceOrderPayment, Object>() {
+
+				@Override
+				public Object apply(CommerceOrderPayment commerceOrderPayment) {
+					return commerceOrderPayment.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommerceOrderPayment, Object>() {
+
+				@Override
+				public Object apply(CommerceOrderPayment commerceOrderPayment) {
+					return commerceOrderPayment.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceOrderId",
+			new Function<CommerceOrderPayment, Object>() {
+
+				@Override
+				public Object apply(CommerceOrderPayment commerceOrderPayment) {
+					return commerceOrderPayment.getCommerceOrderId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commercePaymentMethodKey",
+			new Function<CommerceOrderPayment, Object>() {
+
+				@Override
+				public Object apply(CommerceOrderPayment commerceOrderPayment) {
+					return commerceOrderPayment.getCommercePaymentMethodKey();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"content",
+			new Function<CommerceOrderPayment, Object>() {
+
+				@Override
+				public Object apply(CommerceOrderPayment commerceOrderPayment) {
+					return commerceOrderPayment.getContent();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"status",
+			new Function<CommerceOrderPayment, Object>() {
+
+				@Override
+				public Object apply(CommerceOrderPayment commerceOrderPayment) {
+					return commerceOrderPayment.getStatus();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<CommerceOrderPayment, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommerceOrderPayment, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap
+					<String, BiConsumer<CommerceOrderPayment, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"commerceOrderPaymentId",
 			new BiConsumer<CommerceOrderPayment, Object>() {
@@ -289,16 +397,6 @@ public class CommerceOrderPaymentModelImpl
 
 					commerceOrderPayment.setCommerceOrderPaymentId(
 						(Long)commerceOrderPaymentIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<CommerceOrderPayment, Object>() {
-
-				@Override
-				public Object apply(CommerceOrderPayment commerceOrderPayment) {
-					return commerceOrderPayment.getGroupId();
 				}
 
 			});
@@ -315,16 +413,6 @@ public class CommerceOrderPaymentModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommerceOrderPayment, Object>() {
-
-				@Override
-				public Object apply(CommerceOrderPayment commerceOrderPayment) {
-					return commerceOrderPayment.getCompanyId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"companyId",
 			new BiConsumer<CommerceOrderPayment, Object>() {
@@ -335,16 +423,6 @@ public class CommerceOrderPaymentModelImpl
 					Object companyIdObject) {
 
 					commerceOrderPayment.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommerceOrderPayment, Object>() {
-
-				@Override
-				public Object apply(CommerceOrderPayment commerceOrderPayment) {
-					return commerceOrderPayment.getUserId();
 				}
 
 			});
@@ -361,16 +439,6 @@ public class CommerceOrderPaymentModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommerceOrderPayment, Object>() {
-
-				@Override
-				public Object apply(CommerceOrderPayment commerceOrderPayment) {
-					return commerceOrderPayment.getUserName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userName",
 			new BiConsumer<CommerceOrderPayment, Object>() {
@@ -384,16 +452,6 @@ public class CommerceOrderPaymentModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommerceOrderPayment, Object>() {
-
-				@Override
-				public Object apply(CommerceOrderPayment commerceOrderPayment) {
-					return commerceOrderPayment.getCreateDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"createDate",
 			new BiConsumer<CommerceOrderPayment, Object>() {
@@ -404,16 +462,6 @@ public class CommerceOrderPaymentModelImpl
 					Object createDateObject) {
 
 					commerceOrderPayment.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommerceOrderPayment, Object>() {
-
-				@Override
-				public Object apply(CommerceOrderPayment commerceOrderPayment) {
-					return commerceOrderPayment.getModifiedDate();
 				}
 
 			});
@@ -431,16 +479,6 @@ public class CommerceOrderPaymentModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"commerceOrderId",
-			new Function<CommerceOrderPayment, Object>() {
-
-				@Override
-				public Object apply(CommerceOrderPayment commerceOrderPayment) {
-					return commerceOrderPayment.getCommerceOrderId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"commerceOrderId",
 			new BiConsumer<CommerceOrderPayment, Object>() {
@@ -452,16 +490,6 @@ public class CommerceOrderPaymentModelImpl
 
 					commerceOrderPayment.setCommerceOrderId(
 						(Long)commerceOrderIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commercePaymentMethodKey",
-			new Function<CommerceOrderPayment, Object>() {
-
-				@Override
-				public Object apply(CommerceOrderPayment commerceOrderPayment) {
-					return commerceOrderPayment.getCommercePaymentMethodKey();
 				}
 
 			});
@@ -479,16 +507,6 @@ public class CommerceOrderPaymentModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"content",
-			new Function<CommerceOrderPayment, Object>() {
-
-				@Override
-				public Object apply(CommerceOrderPayment commerceOrderPayment) {
-					return commerceOrderPayment.getContent();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"content",
 			new BiConsumer<CommerceOrderPayment, Object>() {
@@ -499,16 +517,6 @@ public class CommerceOrderPaymentModelImpl
 					Object contentObject) {
 
 					commerceOrderPayment.setContent((String)contentObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<CommerceOrderPayment, Object>() {
-
-				@Override
-				public Object apply(CommerceOrderPayment commerceOrderPayment) {
-					return commerceOrderPayment.getStatus();
 				}
 
 			});
@@ -526,8 +534,6 @@ public class CommerceOrderPaymentModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

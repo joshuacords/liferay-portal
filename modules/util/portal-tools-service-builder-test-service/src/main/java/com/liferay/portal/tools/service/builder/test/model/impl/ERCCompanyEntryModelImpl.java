@@ -217,40 +217,46 @@ public class ERCCompanyEntryModelImpl
 
 	private static final Map<String, Function<ERCCompanyEntry, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<ERCCompanyEntry, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<ERCCompanyEntry, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap<String, Function<ERCCompanyEntry, Object>>();
+
+		attributeGetterFunctions.put("uuid", ERCCompanyEntry::getUuid);
+		attributeGetterFunctions.put(
+			"externalReferenceCode", ERCCompanyEntry::getExternalReferenceCode);
+		attributeGetterFunctions.put(
+			"ercCompanyEntryId", ERCCompanyEntry::getErcCompanyEntryId);
+		attributeGetterFunctions.put(
+			"companyId", ERCCompanyEntry::getCompanyId);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<ERCCompanyEntry, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<ERCCompanyEntry, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<ERCCompanyEntry, ?>>();
 
-		attributeGetterFunctions.put("uuid", ERCCompanyEntry::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<ERCCompanyEntry, String>)ERCCompanyEntry::setUuid);
-		attributeGetterFunctions.put(
-			"externalReferenceCode", ERCCompanyEntry::getExternalReferenceCode);
 		attributeSetterBiConsumers.put(
 			"externalReferenceCode",
 			(BiConsumer<ERCCompanyEntry, String>)
 				ERCCompanyEntry::setExternalReferenceCode);
-		attributeGetterFunctions.put(
-			"ercCompanyEntryId", ERCCompanyEntry::getErcCompanyEntryId);
 		attributeSetterBiConsumers.put(
 			"ercCompanyEntryId",
 			(BiConsumer<ERCCompanyEntry, Long>)
 				ERCCompanyEntry::setErcCompanyEntryId);
-		attributeGetterFunctions.put(
-			"companyId", ERCCompanyEntry::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<ERCCompanyEntry, Long>)ERCCompanyEntry::setCompanyId);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

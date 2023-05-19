@@ -92,6 +92,10 @@ public class RegionServiceUtil {
 		return _service;
 	}
 
+	public static void setService(RegionService service) {
+		_service = service;
+	}
+
 	private static volatile RegionService _service;
 
 }

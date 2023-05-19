@@ -331,160 +331,166 @@ public class LayoutPageTemplateEntryModelImpl
 
 	private static final Map<String, Function<LayoutPageTemplateEntry, Object>>
 		_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<LayoutPageTemplateEntry, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<LayoutPageTemplateEntry, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<LayoutPageTemplateEntry, Object>>();
+
+		attributeGetterFunctions.put(
+			"mvccVersion", LayoutPageTemplateEntry::getMvccVersion);
+		attributeGetterFunctions.put("uuid", LayoutPageTemplateEntry::getUuid);
+		attributeGetterFunctions.put(
+			"layoutPageTemplateEntryId",
+			LayoutPageTemplateEntry::getLayoutPageTemplateEntryId);
+		attributeGetterFunctions.put(
+			"groupId", LayoutPageTemplateEntry::getGroupId);
+		attributeGetterFunctions.put(
+			"companyId", LayoutPageTemplateEntry::getCompanyId);
+		attributeGetterFunctions.put(
+			"userId", LayoutPageTemplateEntry::getUserId);
+		attributeGetterFunctions.put(
+			"userName", LayoutPageTemplateEntry::getUserName);
+		attributeGetterFunctions.put(
+			"createDate", LayoutPageTemplateEntry::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", LayoutPageTemplateEntry::getModifiedDate);
+		attributeGetterFunctions.put(
+			"layoutPageTemplateCollectionId",
+			LayoutPageTemplateEntry::getLayoutPageTemplateCollectionId);
+		attributeGetterFunctions.put(
+			"classNameId", LayoutPageTemplateEntry::getClassNameId);
+		attributeGetterFunctions.put(
+			"classTypeId", LayoutPageTemplateEntry::getClassTypeId);
+		attributeGetterFunctions.put("name", LayoutPageTemplateEntry::getName);
+		attributeGetterFunctions.put("type", LayoutPageTemplateEntry::getType);
+		attributeGetterFunctions.put(
+			"previewFileEntryId",
+			LayoutPageTemplateEntry::getPreviewFileEntryId);
+		attributeGetterFunctions.put(
+			"defaultTemplate", LayoutPageTemplateEntry::getDefaultTemplate);
+		attributeGetterFunctions.put(
+			"layoutPrototypeId", LayoutPageTemplateEntry::getLayoutPrototypeId);
+		attributeGetterFunctions.put("plid", LayoutPageTemplateEntry::getPlid);
+		attributeGetterFunctions.put(
+			"lastPublishDate", LayoutPageTemplateEntry::getLastPublishDate);
+		attributeGetterFunctions.put(
+			"status", LayoutPageTemplateEntry::getStatus);
+		attributeGetterFunctions.put(
+			"statusByUserId", LayoutPageTemplateEntry::getStatusByUserId);
+		attributeGetterFunctions.put(
+			"statusByUserName", LayoutPageTemplateEntry::getStatusByUserName);
+		attributeGetterFunctions.put(
+			"statusDate", LayoutPageTemplateEntry::getStatusDate);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<LayoutPageTemplateEntry, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<LayoutPageTemplateEntry, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<LayoutPageTemplateEntry, ?>>();
 
-		attributeGetterFunctions.put(
-			"mvccVersion", LayoutPageTemplateEntry::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<LayoutPageTemplateEntry, Long>)
 				LayoutPageTemplateEntry::setMvccVersion);
-		attributeGetterFunctions.put("uuid", LayoutPageTemplateEntry::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<LayoutPageTemplateEntry, String>)
 				LayoutPageTemplateEntry::setUuid);
-		attributeGetterFunctions.put(
-			"layoutPageTemplateEntryId",
-			LayoutPageTemplateEntry::getLayoutPageTemplateEntryId);
 		attributeSetterBiConsumers.put(
 			"layoutPageTemplateEntryId",
 			(BiConsumer<LayoutPageTemplateEntry, Long>)
 				LayoutPageTemplateEntry::setLayoutPageTemplateEntryId);
-		attributeGetterFunctions.put(
-			"groupId", LayoutPageTemplateEntry::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<LayoutPageTemplateEntry, Long>)
 				LayoutPageTemplateEntry::setGroupId);
-		attributeGetterFunctions.put(
-			"companyId", LayoutPageTemplateEntry::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<LayoutPageTemplateEntry, Long>)
 				LayoutPageTemplateEntry::setCompanyId);
-		attributeGetterFunctions.put(
-			"userId", LayoutPageTemplateEntry::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<LayoutPageTemplateEntry, Long>)
 				LayoutPageTemplateEntry::setUserId);
-		attributeGetterFunctions.put(
-			"userName", LayoutPageTemplateEntry::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<LayoutPageTemplateEntry, String>)
 				LayoutPageTemplateEntry::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", LayoutPageTemplateEntry::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<LayoutPageTemplateEntry, Date>)
 				LayoutPageTemplateEntry::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", LayoutPageTemplateEntry::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<LayoutPageTemplateEntry, Date>)
 				LayoutPageTemplateEntry::setModifiedDate);
-		attributeGetterFunctions.put(
-			"layoutPageTemplateCollectionId",
-			LayoutPageTemplateEntry::getLayoutPageTemplateCollectionId);
 		attributeSetterBiConsumers.put(
 			"layoutPageTemplateCollectionId",
 			(BiConsumer<LayoutPageTemplateEntry, Long>)
 				LayoutPageTemplateEntry::setLayoutPageTemplateCollectionId);
-		attributeGetterFunctions.put(
-			"classNameId", LayoutPageTemplateEntry::getClassNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<LayoutPageTemplateEntry, Long>)
 				LayoutPageTemplateEntry::setClassNameId);
-		attributeGetterFunctions.put(
-			"classTypeId", LayoutPageTemplateEntry::getClassTypeId);
 		attributeSetterBiConsumers.put(
 			"classTypeId",
 			(BiConsumer<LayoutPageTemplateEntry, Long>)
 				LayoutPageTemplateEntry::setClassTypeId);
-		attributeGetterFunctions.put("name", LayoutPageTemplateEntry::getName);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<LayoutPageTemplateEntry, String>)
 				LayoutPageTemplateEntry::setName);
-		attributeGetterFunctions.put("type", LayoutPageTemplateEntry::getType);
 		attributeSetterBiConsumers.put(
 			"type",
 			(BiConsumer<LayoutPageTemplateEntry, Integer>)
 				LayoutPageTemplateEntry::setType);
-		attributeGetterFunctions.put(
-			"previewFileEntryId",
-			LayoutPageTemplateEntry::getPreviewFileEntryId);
 		attributeSetterBiConsumers.put(
 			"previewFileEntryId",
 			(BiConsumer<LayoutPageTemplateEntry, Long>)
 				LayoutPageTemplateEntry::setPreviewFileEntryId);
-		attributeGetterFunctions.put(
-			"defaultTemplate", LayoutPageTemplateEntry::getDefaultTemplate);
 		attributeSetterBiConsumers.put(
 			"defaultTemplate",
 			(BiConsumer<LayoutPageTemplateEntry, Boolean>)
 				LayoutPageTemplateEntry::setDefaultTemplate);
-		attributeGetterFunctions.put(
-			"layoutPrototypeId", LayoutPageTemplateEntry::getLayoutPrototypeId);
 		attributeSetterBiConsumers.put(
 			"layoutPrototypeId",
 			(BiConsumer<LayoutPageTemplateEntry, Long>)
 				LayoutPageTemplateEntry::setLayoutPrototypeId);
-		attributeGetterFunctions.put("plid", LayoutPageTemplateEntry::getPlid);
 		attributeSetterBiConsumers.put(
 			"plid",
 			(BiConsumer<LayoutPageTemplateEntry, Long>)
 				LayoutPageTemplateEntry::setPlid);
-		attributeGetterFunctions.put(
-			"lastPublishDate", LayoutPageTemplateEntry::getLastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<LayoutPageTemplateEntry, Date>)
 				LayoutPageTemplateEntry::setLastPublishDate);
-		attributeGetterFunctions.put(
-			"status", LayoutPageTemplateEntry::getStatus);
 		attributeSetterBiConsumers.put(
 			"status",
 			(BiConsumer<LayoutPageTemplateEntry, Integer>)
 				LayoutPageTemplateEntry::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", LayoutPageTemplateEntry::getStatusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
 			(BiConsumer<LayoutPageTemplateEntry, Long>)
 				LayoutPageTemplateEntry::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", LayoutPageTemplateEntry::getStatusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
 			(BiConsumer<LayoutPageTemplateEntry, String>)
 				LayoutPageTemplateEntry::setStatusByUserName);
-		attributeGetterFunctions.put(
-			"statusDate", LayoutPageTemplateEntry::getStatusDate);
 		attributeSetterBiConsumers.put(
 			"statusDate",
 			(BiConsumer<LayoutPageTemplateEntry, Date>)
 				LayoutPageTemplateEntry::setStatusDate);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

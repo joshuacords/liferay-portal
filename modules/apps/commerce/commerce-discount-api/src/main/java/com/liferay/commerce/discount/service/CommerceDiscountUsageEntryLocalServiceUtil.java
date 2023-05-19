@@ -357,6 +357,12 @@ public class CommerceDiscountUsageEntryLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(
+		CommerceDiscountUsageEntryLocalService service) {
+
+		_service = service;
+	}
+
 	private static volatile CommerceDiscountUsageEntryLocalService _service;
 
 }

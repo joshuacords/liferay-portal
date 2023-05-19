@@ -353,6 +353,10 @@ public class PasswordPolicyRelLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(PasswordPolicyRelLocalService service) {
+		_service = service;
+	}
+
 	private static volatile PasswordPolicyRelLocalService _service;
 
 }

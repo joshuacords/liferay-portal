@@ -311,17 +311,12 @@ public class CommerceChannelRelModelImpl
 
 	private static final Map<String, Function<CommerceChannelRel, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CommerceChannelRel, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommerceChannelRel, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<CommerceChannelRel, Object>>();
-		Map<String, BiConsumer<CommerceChannelRel, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap<String, BiConsumer<CommerceChannelRel, ?>>();
 
 		attributeGetterFunctions.put(
 			"commerceChannelRelId",
@@ -333,6 +328,99 @@ public class CommerceChannelRelModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommerceChannelRel, Object>() {
+
+				@Override
+				public Object apply(CommerceChannelRel commerceChannelRel) {
+					return commerceChannelRel.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommerceChannelRel, Object>() {
+
+				@Override
+				public Object apply(CommerceChannelRel commerceChannelRel) {
+					return commerceChannelRel.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommerceChannelRel, Object>() {
+
+				@Override
+				public Object apply(CommerceChannelRel commerceChannelRel) {
+					return commerceChannelRel.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommerceChannelRel, Object>() {
+
+				@Override
+				public Object apply(CommerceChannelRel commerceChannelRel) {
+					return commerceChannelRel.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommerceChannelRel, Object>() {
+
+				@Override
+				public Object apply(CommerceChannelRel commerceChannelRel) {
+					return commerceChannelRel.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"classNameId",
+			new Function<CommerceChannelRel, Object>() {
+
+				@Override
+				public Object apply(CommerceChannelRel commerceChannelRel) {
+					return commerceChannelRel.getClassNameId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"classPK",
+			new Function<CommerceChannelRel, Object>() {
+
+				@Override
+				public Object apply(CommerceChannelRel commerceChannelRel) {
+					return commerceChannelRel.getClassPK();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceChannelId",
+			new Function<CommerceChannelRel, Object>() {
+
+				@Override
+				public Object apply(CommerceChannelRel commerceChannelRel) {
+					return commerceChannelRel.getCommerceChannelId();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<CommerceChannelRel, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommerceChannelRel, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<CommerceChannelRel, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"commerceChannelRelId",
 			new BiConsumer<CommerceChannelRel, Object>() {
@@ -344,16 +432,6 @@ public class CommerceChannelRelModelImpl
 
 					commerceChannelRel.setCommerceChannelRelId(
 						(Long)commerceChannelRelIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommerceChannelRel, Object>() {
-
-				@Override
-				public Object apply(CommerceChannelRel commerceChannelRel) {
-					return commerceChannelRel.getCompanyId();
 				}
 
 			});
@@ -370,16 +448,6 @@ public class CommerceChannelRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommerceChannelRel, Object>() {
-
-				@Override
-				public Object apply(CommerceChannelRel commerceChannelRel) {
-					return commerceChannelRel.getUserId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userId",
 			new BiConsumer<CommerceChannelRel, Object>() {
@@ -390,16 +458,6 @@ public class CommerceChannelRelModelImpl
 					Object userIdObject) {
 
 					commerceChannelRel.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommerceChannelRel, Object>() {
-
-				@Override
-				public Object apply(CommerceChannelRel commerceChannelRel) {
-					return commerceChannelRel.getUserName();
 				}
 
 			});
@@ -416,16 +474,6 @@ public class CommerceChannelRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommerceChannelRel, Object>() {
-
-				@Override
-				public Object apply(CommerceChannelRel commerceChannelRel) {
-					return commerceChannelRel.getCreateDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"createDate",
 			new BiConsumer<CommerceChannelRel, Object>() {
@@ -436,16 +484,6 @@ public class CommerceChannelRelModelImpl
 					Object createDateObject) {
 
 					commerceChannelRel.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommerceChannelRel, Object>() {
-
-				@Override
-				public Object apply(CommerceChannelRel commerceChannelRel) {
-					return commerceChannelRel.getModifiedDate();
 				}
 
 			});
@@ -463,16 +501,6 @@ public class CommerceChannelRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"classNameId",
-			new Function<CommerceChannelRel, Object>() {
-
-				@Override
-				public Object apply(CommerceChannelRel commerceChannelRel) {
-					return commerceChannelRel.getClassNameId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			new BiConsumer<CommerceChannelRel, Object>() {
@@ -486,16 +514,6 @@ public class CommerceChannelRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"classPK",
-			new Function<CommerceChannelRel, Object>() {
-
-				@Override
-				public Object apply(CommerceChannelRel commerceChannelRel) {
-					return commerceChannelRel.getClassPK();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"classPK",
 			new BiConsumer<CommerceChannelRel, Object>() {
@@ -506,16 +524,6 @@ public class CommerceChannelRelModelImpl
 					Object classPKObject) {
 
 					commerceChannelRel.setClassPK((Long)classPKObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commerceChannelId",
-			new Function<CommerceChannelRel, Object>() {
-
-				@Override
-				public Object apply(CommerceChannelRel commerceChannelRel) {
-					return commerceChannelRel.getCommerceChannelId();
 				}
 
 			});
@@ -534,8 +542,6 @@ public class CommerceChannelRelModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

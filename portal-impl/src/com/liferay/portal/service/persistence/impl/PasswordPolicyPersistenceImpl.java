@@ -49,7 +49,6 @@ import com.liferay.portal.model.impl.PasswordPolicyModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
@@ -4360,33 +4359,17 @@ public class PasswordPolicyPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_N",
 			new String[] {Long.class.getName(), String.class.getName()});
 
-		_setPasswordPolicyUtilPersistence(this);
+		PasswordPolicyUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setPasswordPolicyUtilPersistence(null);
+		PasswordPolicyUtil.setPersistence(null);
 
 		EntityCacheUtil.removeCache(PasswordPolicyImpl.class.getName());
 
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setPasswordPolicyUtilPersistence(
-		PasswordPolicyPersistence passwordPolicyPersistence) {
-
-		try {
-			Field field = PasswordPolicyUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, passwordPolicyPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	private static final String _SQL_SELECT_PASSWORDPOLICY =

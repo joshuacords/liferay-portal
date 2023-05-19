@@ -468,6 +468,10 @@ public class MDRRuleGroupLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(MDRRuleGroupLocalService service) {
+		_service = service;
+	}
+
 	private static volatile MDRRuleGroupLocalService _service;
 
 }

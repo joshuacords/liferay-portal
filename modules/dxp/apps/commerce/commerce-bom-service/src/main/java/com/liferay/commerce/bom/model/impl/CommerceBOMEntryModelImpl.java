@@ -314,16 +314,11 @@ public class CommerceBOMEntryModelImpl
 
 	private static final Map<String, Function<CommerceBOMEntry, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CommerceBOMEntry, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommerceBOMEntry, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap<String, Function<CommerceBOMEntry, Object>>();
-		Map<String, BiConsumer<CommerceBOMEntry, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap<String, BiConsumer<CommerceBOMEntry, ?>>();
 
 		attributeGetterFunctions.put(
 			"commerceBOMEntryId",
@@ -335,6 +330,139 @@ public class CommerceBOMEntryModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommerceBOMEntry, Object>() {
+
+				@Override
+				public Object apply(CommerceBOMEntry commerceBOMEntry) {
+					return commerceBOMEntry.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommerceBOMEntry, Object>() {
+
+				@Override
+				public Object apply(CommerceBOMEntry commerceBOMEntry) {
+					return commerceBOMEntry.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommerceBOMEntry, Object>() {
+
+				@Override
+				public Object apply(CommerceBOMEntry commerceBOMEntry) {
+					return commerceBOMEntry.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommerceBOMEntry, Object>() {
+
+				@Override
+				public Object apply(CommerceBOMEntry commerceBOMEntry) {
+					return commerceBOMEntry.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommerceBOMEntry, Object>() {
+
+				@Override
+				public Object apply(CommerceBOMEntry commerceBOMEntry) {
+					return commerceBOMEntry.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"number",
+			new Function<CommerceBOMEntry, Object>() {
+
+				@Override
+				public Object apply(CommerceBOMEntry commerceBOMEntry) {
+					return commerceBOMEntry.getNumber();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"CPInstanceUuid",
+			new Function<CommerceBOMEntry, Object>() {
+
+				@Override
+				public Object apply(CommerceBOMEntry commerceBOMEntry) {
+					return commerceBOMEntry.getCPInstanceUuid();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"CProductId",
+			new Function<CommerceBOMEntry, Object>() {
+
+				@Override
+				public Object apply(CommerceBOMEntry commerceBOMEntry) {
+					return commerceBOMEntry.getCProductId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceBOMDefinitionId",
+			new Function<CommerceBOMEntry, Object>() {
+
+				@Override
+				public Object apply(CommerceBOMEntry commerceBOMEntry) {
+					return commerceBOMEntry.getCommerceBOMDefinitionId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"positionX",
+			new Function<CommerceBOMEntry, Object>() {
+
+				@Override
+				public Object apply(CommerceBOMEntry commerceBOMEntry) {
+					return commerceBOMEntry.getPositionX();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"positionY",
+			new Function<CommerceBOMEntry, Object>() {
+
+				@Override
+				public Object apply(CommerceBOMEntry commerceBOMEntry) {
+					return commerceBOMEntry.getPositionY();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"radius",
+			new Function<CommerceBOMEntry, Object>() {
+
+				@Override
+				public Object apply(CommerceBOMEntry commerceBOMEntry) {
+					return commerceBOMEntry.getRadius();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<CommerceBOMEntry, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommerceBOMEntry, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<CommerceBOMEntry, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"commerceBOMEntryId",
 			new BiConsumer<CommerceBOMEntry, Object>() {
@@ -346,16 +474,6 @@ public class CommerceBOMEntryModelImpl
 
 					commerceBOMEntry.setCommerceBOMEntryId(
 						(Long)commerceBOMEntryIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommerceBOMEntry, Object>() {
-
-				@Override
-				public Object apply(CommerceBOMEntry commerceBOMEntry) {
-					return commerceBOMEntry.getCompanyId();
 				}
 
 			});
@@ -371,16 +489,6 @@ public class CommerceBOMEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommerceBOMEntry, Object>() {
-
-				@Override
-				public Object apply(CommerceBOMEntry commerceBOMEntry) {
-					return commerceBOMEntry.getUserId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userId",
 			new BiConsumer<CommerceBOMEntry, Object>() {
@@ -393,16 +501,6 @@ public class CommerceBOMEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommerceBOMEntry, Object>() {
-
-				@Override
-				public Object apply(CommerceBOMEntry commerceBOMEntry) {
-					return commerceBOMEntry.getUserName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userName",
 			new BiConsumer<CommerceBOMEntry, Object>() {
@@ -412,16 +510,6 @@ public class CommerceBOMEntryModelImpl
 					CommerceBOMEntry commerceBOMEntry, Object userNameObject) {
 
 					commerceBOMEntry.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommerceBOMEntry, Object>() {
-
-				@Override
-				public Object apply(CommerceBOMEntry commerceBOMEntry) {
-					return commerceBOMEntry.getCreateDate();
 				}
 
 			});
@@ -438,16 +526,6 @@ public class CommerceBOMEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommerceBOMEntry, Object>() {
-
-				@Override
-				public Object apply(CommerceBOMEntry commerceBOMEntry) {
-					return commerceBOMEntry.getModifiedDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			new BiConsumer<CommerceBOMEntry, Object>() {
@@ -461,16 +539,6 @@ public class CommerceBOMEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"number",
-			new Function<CommerceBOMEntry, Object>() {
-
-				@Override
-				public Object apply(CommerceBOMEntry commerceBOMEntry) {
-					return commerceBOMEntry.getNumber();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"number",
 			new BiConsumer<CommerceBOMEntry, Object>() {
@@ -480,16 +548,6 @@ public class CommerceBOMEntryModelImpl
 					CommerceBOMEntry commerceBOMEntry, Object numberObject) {
 
 					commerceBOMEntry.setNumber((Integer)numberObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"CPInstanceUuid",
-			new Function<CommerceBOMEntry, Object>() {
-
-				@Override
-				public Object apply(CommerceBOMEntry commerceBOMEntry) {
-					return commerceBOMEntry.getCPInstanceUuid();
 				}
 
 			});
@@ -507,16 +565,6 @@ public class CommerceBOMEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"CProductId",
-			new Function<CommerceBOMEntry, Object>() {
-
-				@Override
-				public Object apply(CommerceBOMEntry commerceBOMEntry) {
-					return commerceBOMEntry.getCProductId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"CProductId",
 			new BiConsumer<CommerceBOMEntry, Object>() {
@@ -527,16 +575,6 @@ public class CommerceBOMEntryModelImpl
 					Object CProductIdObject) {
 
 					commerceBOMEntry.setCProductId((Long)CProductIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commerceBOMDefinitionId",
-			new Function<CommerceBOMEntry, Object>() {
-
-				@Override
-				public Object apply(CommerceBOMEntry commerceBOMEntry) {
-					return commerceBOMEntry.getCommerceBOMDefinitionId();
 				}
 
 			});
@@ -554,16 +592,6 @@ public class CommerceBOMEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"positionX",
-			new Function<CommerceBOMEntry, Object>() {
-
-				@Override
-				public Object apply(CommerceBOMEntry commerceBOMEntry) {
-					return commerceBOMEntry.getPositionX();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"positionX",
 			new BiConsumer<CommerceBOMEntry, Object>() {
@@ -576,16 +604,6 @@ public class CommerceBOMEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"positionY",
-			new Function<CommerceBOMEntry, Object>() {
-
-				@Override
-				public Object apply(CommerceBOMEntry commerceBOMEntry) {
-					return commerceBOMEntry.getPositionY();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"positionY",
 			new BiConsumer<CommerceBOMEntry, Object>() {
@@ -595,16 +613,6 @@ public class CommerceBOMEntryModelImpl
 					CommerceBOMEntry commerceBOMEntry, Object positionYObject) {
 
 					commerceBOMEntry.setPositionY((Double)positionYObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"radius",
-			new Function<CommerceBOMEntry, Object>() {
-
-				@Override
-				public Object apply(CommerceBOMEntry commerceBOMEntry) {
-					return commerceBOMEntry.getRadius();
 				}
 
 			});
@@ -621,8 +629,6 @@ public class CommerceBOMEntryModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

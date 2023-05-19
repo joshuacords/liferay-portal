@@ -425,6 +425,10 @@ public class TasksEntryLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(TasksEntryLocalService service) {
+		_service = service;
+	}
+
 	private static volatile TasksEntryLocalService _service;
 
 }

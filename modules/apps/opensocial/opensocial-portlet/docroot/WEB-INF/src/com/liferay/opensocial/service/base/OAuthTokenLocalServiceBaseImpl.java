@@ -50,8 +50,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -611,14 +609,14 @@ public abstract class OAuthTokenLocalServiceBaseImpl
 		PersistedModelLocalServiceRegistryUtil.register(
 			"com.liferay.opensocial.model.OAuthToken", oAuthTokenLocalService);
 
-		_setLocalServiceUtilService(oAuthTokenLocalService);
+		OAuthTokenLocalServiceUtil.setService(oAuthTokenLocalService);
 	}
 
 	public void destroy() {
 		PersistedModelLocalServiceRegistryUtil.unregister(
 			"com.liferay.opensocial.model.OAuthToken");
 
-		_setLocalServiceUtilService(null);
+		OAuthTokenLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -660,22 +658,6 @@ public abstract class OAuthTokenLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		OAuthTokenLocalService oAuthTokenLocalService) {
-
-		try {
-			Field field = OAuthTokenLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, oAuthTokenLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

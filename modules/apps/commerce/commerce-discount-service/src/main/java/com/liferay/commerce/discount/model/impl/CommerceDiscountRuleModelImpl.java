@@ -310,18 +310,12 @@ public class CommerceDiscountRuleModelImpl
 
 	private static final Map<String, Function<CommerceDiscountRule, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CommerceDiscountRule, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommerceDiscountRule, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<CommerceDiscountRule, Object>>();
-		Map<String, BiConsumer<CommerceDiscountRule, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String, BiConsumer<CommerceDiscountRule, ?>>();
 
 		attributeGetterFunctions.put(
 			"commerceDiscountRuleId",
@@ -333,6 +327,110 @@ public class CommerceDiscountRuleModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommerceDiscountRule, Object>() {
+
+				@Override
+				public Object apply(CommerceDiscountRule commerceDiscountRule) {
+					return commerceDiscountRule.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommerceDiscountRule, Object>() {
+
+				@Override
+				public Object apply(CommerceDiscountRule commerceDiscountRule) {
+					return commerceDiscountRule.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommerceDiscountRule, Object>() {
+
+				@Override
+				public Object apply(CommerceDiscountRule commerceDiscountRule) {
+					return commerceDiscountRule.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommerceDiscountRule, Object>() {
+
+				@Override
+				public Object apply(CommerceDiscountRule commerceDiscountRule) {
+					return commerceDiscountRule.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommerceDiscountRule, Object>() {
+
+				@Override
+				public Object apply(CommerceDiscountRule commerceDiscountRule) {
+					return commerceDiscountRule.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"name",
+			new Function<CommerceDiscountRule, Object>() {
+
+				@Override
+				public Object apply(CommerceDiscountRule commerceDiscountRule) {
+					return commerceDiscountRule.getName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceDiscountId",
+			new Function<CommerceDiscountRule, Object>() {
+
+				@Override
+				public Object apply(CommerceDiscountRule commerceDiscountRule) {
+					return commerceDiscountRule.getCommerceDiscountId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"type",
+			new Function<CommerceDiscountRule, Object>() {
+
+				@Override
+				public Object apply(CommerceDiscountRule commerceDiscountRule) {
+					return commerceDiscountRule.getType();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"typeSettings",
+			new Function<CommerceDiscountRule, Object>() {
+
+				@Override
+				public Object apply(CommerceDiscountRule commerceDiscountRule) {
+					return commerceDiscountRule.getTypeSettings();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<CommerceDiscountRule, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommerceDiscountRule, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap
+					<String, BiConsumer<CommerceDiscountRule, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"commerceDiscountRuleId",
 			new BiConsumer<CommerceDiscountRule, Object>() {
@@ -344,16 +442,6 @@ public class CommerceDiscountRuleModelImpl
 
 					commerceDiscountRule.setCommerceDiscountRuleId(
 						(Long)commerceDiscountRuleIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommerceDiscountRule, Object>() {
-
-				@Override
-				public Object apply(CommerceDiscountRule commerceDiscountRule) {
-					return commerceDiscountRule.getCompanyId();
 				}
 
 			});
@@ -370,16 +458,6 @@ public class CommerceDiscountRuleModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommerceDiscountRule, Object>() {
-
-				@Override
-				public Object apply(CommerceDiscountRule commerceDiscountRule) {
-					return commerceDiscountRule.getUserId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userId",
 			new BiConsumer<CommerceDiscountRule, Object>() {
@@ -390,16 +468,6 @@ public class CommerceDiscountRuleModelImpl
 					Object userIdObject) {
 
 					commerceDiscountRule.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommerceDiscountRule, Object>() {
-
-				@Override
-				public Object apply(CommerceDiscountRule commerceDiscountRule) {
-					return commerceDiscountRule.getUserName();
 				}
 
 			});
@@ -416,16 +484,6 @@ public class CommerceDiscountRuleModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommerceDiscountRule, Object>() {
-
-				@Override
-				public Object apply(CommerceDiscountRule commerceDiscountRule) {
-					return commerceDiscountRule.getCreateDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"createDate",
 			new BiConsumer<CommerceDiscountRule, Object>() {
@@ -436,16 +494,6 @@ public class CommerceDiscountRuleModelImpl
 					Object createDateObject) {
 
 					commerceDiscountRule.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommerceDiscountRule, Object>() {
-
-				@Override
-				public Object apply(CommerceDiscountRule commerceDiscountRule) {
-					return commerceDiscountRule.getModifiedDate();
 				}
 
 			});
@@ -463,16 +511,6 @@ public class CommerceDiscountRuleModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"name",
-			new Function<CommerceDiscountRule, Object>() {
-
-				@Override
-				public Object apply(CommerceDiscountRule commerceDiscountRule) {
-					return commerceDiscountRule.getName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"name",
 			new BiConsumer<CommerceDiscountRule, Object>() {
@@ -483,16 +521,6 @@ public class CommerceDiscountRuleModelImpl
 					Object nameObject) {
 
 					commerceDiscountRule.setName((String)nameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commerceDiscountId",
-			new Function<CommerceDiscountRule, Object>() {
-
-				@Override
-				public Object apply(CommerceDiscountRule commerceDiscountRule) {
-					return commerceDiscountRule.getCommerceDiscountId();
 				}
 
 			});
@@ -510,16 +538,6 @@ public class CommerceDiscountRuleModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"type",
-			new Function<CommerceDiscountRule, Object>() {
-
-				@Override
-				public Object apply(CommerceDiscountRule commerceDiscountRule) {
-					return commerceDiscountRule.getType();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"type",
 			new BiConsumer<CommerceDiscountRule, Object>() {
@@ -530,16 +548,6 @@ public class CommerceDiscountRuleModelImpl
 					Object typeObject) {
 
 					commerceDiscountRule.setType((String)typeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"typeSettings",
-			new Function<CommerceDiscountRule, Object>() {
-
-				@Override
-				public Object apply(CommerceDiscountRule commerceDiscountRule) {
-					return commerceDiscountRule.getTypeSettings();
 				}
 
 			});
@@ -558,8 +566,6 @@ public class CommerceDiscountRuleModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

@@ -276,83 +276,89 @@ public class AuthenticationTokenModelImpl
 
 	private static final Map<String, Function<AuthenticationToken, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<AuthenticationToken, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<AuthenticationToken, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<AuthenticationToken, Object>>();
+
+		attributeGetterFunctions.put(
+			"mvccVersion", AuthenticationToken::getMvccVersion);
+		attributeGetterFunctions.put(
+			"authenticationTokenId",
+			AuthenticationToken::getAuthenticationTokenId);
+		attributeGetterFunctions.put(
+			"companyId", AuthenticationToken::getCompanyId);
+		attributeGetterFunctions.put("userId", AuthenticationToken::getUserId);
+		attributeGetterFunctions.put(
+			"createDate", AuthenticationToken::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", AuthenticationToken::getModifiedDate);
+		attributeGetterFunctions.put(
+			"serviceProducerId", AuthenticationToken::getServiceProducerId);
+		attributeGetterFunctions.put("name", AuthenticationToken::getName);
+		attributeGetterFunctions.put("prefix", AuthenticationToken::getPrefix);
+		attributeGetterFunctions.put("digest", AuthenticationToken::getDigest);
+		attributeGetterFunctions.put("status", AuthenticationToken::getStatus);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<AuthenticationToken, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<AuthenticationToken, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<AuthenticationToken, ?>>();
 
-		attributeGetterFunctions.put(
-			"mvccVersion", AuthenticationToken::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<AuthenticationToken, Long>)
 				AuthenticationToken::setMvccVersion);
-		attributeGetterFunctions.put(
-			"authenticationTokenId",
-			AuthenticationToken::getAuthenticationTokenId);
 		attributeSetterBiConsumers.put(
 			"authenticationTokenId",
 			(BiConsumer<AuthenticationToken, Long>)
 				AuthenticationToken::setAuthenticationTokenId);
-		attributeGetterFunctions.put(
-			"companyId", AuthenticationToken::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<AuthenticationToken, Long>)
 				AuthenticationToken::setCompanyId);
-		attributeGetterFunctions.put("userId", AuthenticationToken::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<AuthenticationToken, Long>)
 				AuthenticationToken::setUserId);
-		attributeGetterFunctions.put(
-			"createDate", AuthenticationToken::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<AuthenticationToken, Date>)
 				AuthenticationToken::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", AuthenticationToken::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<AuthenticationToken, Date>)
 				AuthenticationToken::setModifiedDate);
-		attributeGetterFunctions.put(
-			"serviceProducerId", AuthenticationToken::getServiceProducerId);
 		attributeSetterBiConsumers.put(
 			"serviceProducerId",
 			(BiConsumer<AuthenticationToken, Long>)
 				AuthenticationToken::setServiceProducerId);
-		attributeGetterFunctions.put("name", AuthenticationToken::getName);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<AuthenticationToken, String>)
 				AuthenticationToken::setName);
-		attributeGetterFunctions.put("prefix", AuthenticationToken::getPrefix);
 		attributeSetterBiConsumers.put(
 			"prefix",
 			(BiConsumer<AuthenticationToken, String>)
 				AuthenticationToken::setPrefix);
-		attributeGetterFunctions.put("digest", AuthenticationToken::getDigest);
 		attributeSetterBiConsumers.put(
 			"digest",
 			(BiConsumer<AuthenticationToken, String>)
 				AuthenticationToken::setDigest);
-		attributeGetterFunctions.put("status", AuthenticationToken::getStatus);
 		attributeSetterBiConsumers.put(
 			"status",
 			(BiConsumer<AuthenticationToken, Integer>)
 				AuthenticationToken::setStatus);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

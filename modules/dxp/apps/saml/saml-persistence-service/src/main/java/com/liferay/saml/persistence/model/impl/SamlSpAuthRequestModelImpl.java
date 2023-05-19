@@ -215,51 +215,57 @@ public class SamlSpAuthRequestModelImpl
 
 	private static final Map<String, Function<SamlSpAuthRequest, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<SamlSpAuthRequest, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<SamlSpAuthRequest, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<SamlSpAuthRequest, Object>>();
+
+		attributeGetterFunctions.put(
+			"samlSpAuthnRequestId", SamlSpAuthRequest::getSamlSpAuthnRequestId);
+		attributeGetterFunctions.put(
+			"companyId", SamlSpAuthRequest::getCompanyId);
+		attributeGetterFunctions.put(
+			"createDate", SamlSpAuthRequest::getCreateDate);
+		attributeGetterFunctions.put(
+			"samlIdpEntityId", SamlSpAuthRequest::getSamlIdpEntityId);
+		attributeGetterFunctions.put(
+			"samlSpAuthRequestKey", SamlSpAuthRequest::getSamlSpAuthRequestKey);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<SamlSpAuthRequest, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<SamlSpAuthRequest, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<SamlSpAuthRequest, ?>>();
 
-		attributeGetterFunctions.put(
-			"samlSpAuthnRequestId", SamlSpAuthRequest::getSamlSpAuthnRequestId);
 		attributeSetterBiConsumers.put(
 			"samlSpAuthnRequestId",
 			(BiConsumer<SamlSpAuthRequest, Long>)
 				SamlSpAuthRequest::setSamlSpAuthnRequestId);
-		attributeGetterFunctions.put(
-			"companyId", SamlSpAuthRequest::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<SamlSpAuthRequest, Long>)
 				SamlSpAuthRequest::setCompanyId);
-		attributeGetterFunctions.put(
-			"createDate", SamlSpAuthRequest::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<SamlSpAuthRequest, Date>)
 				SamlSpAuthRequest::setCreateDate);
-		attributeGetterFunctions.put(
-			"samlIdpEntityId", SamlSpAuthRequest::getSamlIdpEntityId);
 		attributeSetterBiConsumers.put(
 			"samlIdpEntityId",
 			(BiConsumer<SamlSpAuthRequest, String>)
 				SamlSpAuthRequest::setSamlIdpEntityId);
-		attributeGetterFunctions.put(
-			"samlSpAuthRequestKey", SamlSpAuthRequest::getSamlSpAuthRequestKey);
 		attributeSetterBiConsumers.put(
 			"samlSpAuthRequestKey",
 			(BiConsumer<SamlSpAuthRequest, String>)
 				SamlSpAuthRequest::setSamlSpAuthRequestKey);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

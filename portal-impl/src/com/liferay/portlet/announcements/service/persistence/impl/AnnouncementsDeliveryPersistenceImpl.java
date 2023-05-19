@@ -42,7 +42,6 @@ import com.liferay.portlet.announcements.model.impl.AnnouncementsDeliveryModelIm
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.HashMap;
@@ -2140,33 +2139,17 @@ public class AnnouncementsDeliveryPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_T",
 			new String[] {Long.class.getName(), String.class.getName()});
 
-		_setAnnouncementsDeliveryUtilPersistence(this);
+		AnnouncementsDeliveryUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setAnnouncementsDeliveryUtilPersistence(null);
+		AnnouncementsDeliveryUtil.setPersistence(null);
 
 		EntityCacheUtil.removeCache(AnnouncementsDeliveryImpl.class.getName());
 
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setAnnouncementsDeliveryUtilPersistence(
-		AnnouncementsDeliveryPersistence announcementsDeliveryPersistence) {
-
-		try {
-			Field field = AnnouncementsDeliveryUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, announcementsDeliveryPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	private static final String _SQL_SELECT_ANNOUNCEMENTSDELIVERY =

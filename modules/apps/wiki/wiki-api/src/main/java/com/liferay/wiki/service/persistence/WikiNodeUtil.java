@@ -1598,6 +1598,10 @@ public class WikiNodeUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(WikiNodePersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile WikiNodePersistence _persistence;
 
 }

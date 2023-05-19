@@ -1498,6 +1498,12 @@ public class EntitlementDefinitionUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(
+		EntitlementDefinitionPersistence persistence) {
+
+		_persistence = persistence;
+	}
+
 	private static volatile EntitlementDefinitionPersistence _persistence;
 
 }

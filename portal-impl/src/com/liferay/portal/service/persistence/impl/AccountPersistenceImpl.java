@@ -43,7 +43,6 @@ import com.liferay.portal.model.impl.AccountModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
@@ -668,32 +667,17 @@ public class AccountPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_setAccountUtilPersistence(this);
+		AccountUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setAccountUtilPersistence(null);
+		AccountUtil.setPersistence(null);
 
 		EntityCacheUtil.removeCache(AccountImpl.class.getName());
 
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setAccountUtilPersistence(
-		AccountPersistence accountPersistence) {
-
-		try {
-			Field field = AccountUtil.class.getDeclaredField("_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, accountPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	private static final String _SQL_SELECT_ACCOUNT =

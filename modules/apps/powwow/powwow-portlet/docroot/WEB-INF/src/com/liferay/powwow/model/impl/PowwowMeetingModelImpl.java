@@ -294,88 +294,94 @@ public class PowwowMeetingModelImpl
 
 	private static final Map<String, Function<PowwowMeeting, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<PowwowMeeting, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<PowwowMeeting, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<PowwowMeeting, Object>>();
-		Map<String, BiConsumer<PowwowMeeting, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<PowwowMeeting, ?>>();
 
 		attributeGetterFunctions.put(
 			"powwowMeetingId", PowwowMeeting::getPowwowMeetingId);
+		attributeGetterFunctions.put("groupId", PowwowMeeting::getGroupId);
+		attributeGetterFunctions.put("companyId", PowwowMeeting::getCompanyId);
+		attributeGetterFunctions.put("userId", PowwowMeeting::getUserId);
+		attributeGetterFunctions.put("userName", PowwowMeeting::getUserName);
+		attributeGetterFunctions.put(
+			"createDate", PowwowMeeting::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", PowwowMeeting::getModifiedDate);
+		attributeGetterFunctions.put(
+			"powwowServerId", PowwowMeeting::getPowwowServerId);
+		attributeGetterFunctions.put("name", PowwowMeeting::getName);
+		attributeGetterFunctions.put(
+			"description", PowwowMeeting::getDescription);
+		attributeGetterFunctions.put(
+			"providerType", PowwowMeeting::getProviderType);
+		attributeGetterFunctions.put(
+			"providerTypeMetadata", PowwowMeeting::getProviderTypeMetadata);
+		attributeGetterFunctions.put(
+			"languageId", PowwowMeeting::getLanguageId);
+		attributeGetterFunctions.put(
+			"calendarBookingId", PowwowMeeting::getCalendarBookingId);
+		attributeGetterFunctions.put("status", PowwowMeeting::getStatus);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<PowwowMeeting, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<PowwowMeeting, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<PowwowMeeting, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"powwowMeetingId",
 			(BiConsumer<PowwowMeeting, Long>)PowwowMeeting::setPowwowMeetingId);
-		attributeGetterFunctions.put("groupId", PowwowMeeting::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<PowwowMeeting, Long>)PowwowMeeting::setGroupId);
-		attributeGetterFunctions.put("companyId", PowwowMeeting::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<PowwowMeeting, Long>)PowwowMeeting::setCompanyId);
-		attributeGetterFunctions.put("userId", PowwowMeeting::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<PowwowMeeting, Long>)PowwowMeeting::setUserId);
-		attributeGetterFunctions.put("userName", PowwowMeeting::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<PowwowMeeting, String>)PowwowMeeting::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", PowwowMeeting::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<PowwowMeeting, Date>)PowwowMeeting::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", PowwowMeeting::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<PowwowMeeting, Date>)PowwowMeeting::setModifiedDate);
-		attributeGetterFunctions.put(
-			"powwowServerId", PowwowMeeting::getPowwowServerId);
 		attributeSetterBiConsumers.put(
 			"powwowServerId",
 			(BiConsumer<PowwowMeeting, Long>)PowwowMeeting::setPowwowServerId);
-		attributeGetterFunctions.put("name", PowwowMeeting::getName);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<PowwowMeeting, String>)PowwowMeeting::setName);
-		attributeGetterFunctions.put(
-			"description", PowwowMeeting::getDescription);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<PowwowMeeting, String>)PowwowMeeting::setDescription);
-		attributeGetterFunctions.put(
-			"providerType", PowwowMeeting::getProviderType);
 		attributeSetterBiConsumers.put(
 			"providerType",
 			(BiConsumer<PowwowMeeting, String>)PowwowMeeting::setProviderType);
-		attributeGetterFunctions.put(
-			"providerTypeMetadata", PowwowMeeting::getProviderTypeMetadata);
 		attributeSetterBiConsumers.put(
 			"providerTypeMetadata",
 			(BiConsumer<PowwowMeeting, String>)
 				PowwowMeeting::setProviderTypeMetadata);
-		attributeGetterFunctions.put(
-			"languageId", PowwowMeeting::getLanguageId);
 		attributeSetterBiConsumers.put(
 			"languageId",
 			(BiConsumer<PowwowMeeting, String>)PowwowMeeting::setLanguageId);
-		attributeGetterFunctions.put(
-			"calendarBookingId", PowwowMeeting::getCalendarBookingId);
 		attributeSetterBiConsumers.put(
 			"calendarBookingId",
 			(BiConsumer<PowwowMeeting, Long>)
 				PowwowMeeting::setCalendarBookingId);
-		attributeGetterFunctions.put("status", PowwowMeeting::getStatus);
 		attributeSetterBiConsumers.put(
 			"status",
 			(BiConsumer<PowwowMeeting, Integer>)PowwowMeeting::setStatus);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

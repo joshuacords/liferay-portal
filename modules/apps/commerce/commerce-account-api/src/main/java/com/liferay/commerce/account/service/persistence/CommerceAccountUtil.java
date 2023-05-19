@@ -859,6 +859,10 @@ public class CommerceAccountUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(CommerceAccountPersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile CommerceAccountPersistence _persistence;
 
 }

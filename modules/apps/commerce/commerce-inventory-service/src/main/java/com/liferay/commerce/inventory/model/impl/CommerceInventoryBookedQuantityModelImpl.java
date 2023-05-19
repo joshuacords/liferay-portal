@@ -322,9 +322,6 @@ public class CommerceInventoryBookedQuantityModelImpl
 	private static final Map
 		<String, Function<CommerceInventoryBookedQuantity, Object>>
 			_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<CommerceInventoryBookedQuantity, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommerceInventoryBookedQuantity, Object>>
@@ -332,10 +329,6 @@ public class CommerceInventoryBookedQuantityModelImpl
 				new LinkedHashMap
 					<String,
 					 Function<CommerceInventoryBookedQuantity, Object>>();
-		Map<String, BiConsumer<CommerceInventoryBookedQuantity, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String, BiConsumer<CommerceInventoryBookedQuantity, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion",
@@ -350,6 +343,152 @@ public class CommerceInventoryBookedQuantityModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"commerceInventoryBookedQuantityId",
+			new Function<CommerceInventoryBookedQuantity, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryBookedQuantity
+						commerceInventoryBookedQuantity) {
+
+					return commerceInventoryBookedQuantity.
+						getCommerceInventoryBookedQuantityId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommerceInventoryBookedQuantity, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryBookedQuantity
+						commerceInventoryBookedQuantity) {
+
+					return commerceInventoryBookedQuantity.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommerceInventoryBookedQuantity, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryBookedQuantity
+						commerceInventoryBookedQuantity) {
+
+					return commerceInventoryBookedQuantity.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommerceInventoryBookedQuantity, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryBookedQuantity
+						commerceInventoryBookedQuantity) {
+
+					return commerceInventoryBookedQuantity.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommerceInventoryBookedQuantity, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryBookedQuantity
+						commerceInventoryBookedQuantity) {
+
+					return commerceInventoryBookedQuantity.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommerceInventoryBookedQuantity, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryBookedQuantity
+						commerceInventoryBookedQuantity) {
+
+					return commerceInventoryBookedQuantity.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"sku",
+			new Function<CommerceInventoryBookedQuantity, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryBookedQuantity
+						commerceInventoryBookedQuantity) {
+
+					return commerceInventoryBookedQuantity.getSku();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"quantity",
+			new Function<CommerceInventoryBookedQuantity, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryBookedQuantity
+						commerceInventoryBookedQuantity) {
+
+					return commerceInventoryBookedQuantity.getQuantity();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"expirationDate",
+			new Function<CommerceInventoryBookedQuantity, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryBookedQuantity
+						commerceInventoryBookedQuantity) {
+
+					return commerceInventoryBookedQuantity.getExpirationDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"bookedNote",
+			new Function<CommerceInventoryBookedQuantity, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryBookedQuantity
+						commerceInventoryBookedQuantity) {
+
+					return commerceInventoryBookedQuantity.getBookedNote();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<CommerceInventoryBookedQuantity, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommerceInventoryBookedQuantity, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap
+					<String, BiConsumer<CommerceInventoryBookedQuantity, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			new BiConsumer<CommerceInventoryBookedQuantity, Object>() {
@@ -362,20 +501,6 @@ public class CommerceInventoryBookedQuantityModelImpl
 
 					commerceInventoryBookedQuantity.setMvccVersion(
 						(Long)mvccVersionObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commerceInventoryBookedQuantityId",
-			new Function<CommerceInventoryBookedQuantity, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryBookedQuantity
-						commerceInventoryBookedQuantity) {
-
-					return commerceInventoryBookedQuantity.
-						getCommerceInventoryBookedQuantityId();
 				}
 
 			});
@@ -395,19 +520,6 @@ public class CommerceInventoryBookedQuantityModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommerceInventoryBookedQuantity, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryBookedQuantity
-						commerceInventoryBookedQuantity) {
-
-					return commerceInventoryBookedQuantity.getCompanyId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"companyId",
 			new BiConsumer<CommerceInventoryBookedQuantity, Object>() {
@@ -420,19 +532,6 @@ public class CommerceInventoryBookedQuantityModelImpl
 
 					commerceInventoryBookedQuantity.setCompanyId(
 						(Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommerceInventoryBookedQuantity, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryBookedQuantity
-						commerceInventoryBookedQuantity) {
-
-					return commerceInventoryBookedQuantity.getUserId();
 				}
 
 			});
@@ -451,19 +550,6 @@ public class CommerceInventoryBookedQuantityModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommerceInventoryBookedQuantity, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryBookedQuantity
-						commerceInventoryBookedQuantity) {
-
-					return commerceInventoryBookedQuantity.getUserName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userName",
 			new BiConsumer<CommerceInventoryBookedQuantity, Object>() {
@@ -476,19 +562,6 @@ public class CommerceInventoryBookedQuantityModelImpl
 
 					commerceInventoryBookedQuantity.setUserName(
 						(String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommerceInventoryBookedQuantity, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryBookedQuantity
-						commerceInventoryBookedQuantity) {
-
-					return commerceInventoryBookedQuantity.getCreateDate();
 				}
 
 			});
@@ -507,19 +580,6 @@ public class CommerceInventoryBookedQuantityModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommerceInventoryBookedQuantity, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryBookedQuantity
-						commerceInventoryBookedQuantity) {
-
-					return commerceInventoryBookedQuantity.getModifiedDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			new BiConsumer<CommerceInventoryBookedQuantity, Object>() {
@@ -535,19 +595,6 @@ public class CommerceInventoryBookedQuantityModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"sku",
-			new Function<CommerceInventoryBookedQuantity, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryBookedQuantity
-						commerceInventoryBookedQuantity) {
-
-					return commerceInventoryBookedQuantity.getSku();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"sku",
 			new BiConsumer<CommerceInventoryBookedQuantity, Object>() {
@@ -559,19 +606,6 @@ public class CommerceInventoryBookedQuantityModelImpl
 					Object skuObject) {
 
 					commerceInventoryBookedQuantity.setSku((String)skuObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"quantity",
-			new Function<CommerceInventoryBookedQuantity, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryBookedQuantity
-						commerceInventoryBookedQuantity) {
-
-					return commerceInventoryBookedQuantity.getQuantity();
 				}
 
 			});
@@ -590,19 +624,6 @@ public class CommerceInventoryBookedQuantityModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"expirationDate",
-			new Function<CommerceInventoryBookedQuantity, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryBookedQuantity
-						commerceInventoryBookedQuantity) {
-
-					return commerceInventoryBookedQuantity.getExpirationDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"expirationDate",
 			new BiConsumer<CommerceInventoryBookedQuantity, Object>() {
@@ -615,19 +636,6 @@ public class CommerceInventoryBookedQuantityModelImpl
 
 					commerceInventoryBookedQuantity.setExpirationDate(
 						(Date)expirationDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"bookedNote",
-			new Function<CommerceInventoryBookedQuantity, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryBookedQuantity
-						commerceInventoryBookedQuantity) {
-
-					return commerceInventoryBookedQuantity.getBookedNote();
 				}
 
 			});
@@ -647,8 +655,6 @@ public class CommerceInventoryBookedQuantityModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

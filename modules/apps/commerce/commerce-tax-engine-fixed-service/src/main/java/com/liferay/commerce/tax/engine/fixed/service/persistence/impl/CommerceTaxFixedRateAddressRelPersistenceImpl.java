@@ -2678,11 +2678,11 @@ public class CommerceTaxFixedRateAddressRelPersistenceImpl
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByCommerceCountryId", new String[] {Long.class.getName()});
 
-		_setCommerceTaxFixedRateAddressRelUtilPersistence(this);
+		CommerceTaxFixedRateAddressRelUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setCommerceTaxFixedRateAddressRelUtilPersistence(null);
+		CommerceTaxFixedRateAddressRelUtil.setPersistence(null);
 
 		entityCache.removeCache(
 			CommerceTaxFixedRateAddressRelImpl.class.getName());
@@ -2690,24 +2690,6 @@ public class CommerceTaxFixedRateAddressRelPersistenceImpl
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setCommerceTaxFixedRateAddressRelUtilPersistence(
-		CommerceTaxFixedRateAddressRelPersistence
-			commerceTaxFixedRateAddressRelPersistence) {
-
-		try {
-			Field field =
-				CommerceTaxFixedRateAddressRelUtil.class.getDeclaredField(
-					"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, commerceTaxFixedRateAddressRelPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

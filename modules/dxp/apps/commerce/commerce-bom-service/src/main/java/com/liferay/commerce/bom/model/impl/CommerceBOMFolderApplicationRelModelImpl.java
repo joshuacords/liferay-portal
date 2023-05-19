@@ -316,9 +316,6 @@ public class CommerceBOMFolderApplicationRelModelImpl
 	private static final Map
 		<String, Function<CommerceBOMFolderApplicationRel, Object>>
 			_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<CommerceBOMFolderApplicationRel, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommerceBOMFolderApplicationRel, Object>>
@@ -326,10 +323,6 @@ public class CommerceBOMFolderApplicationRelModelImpl
 				new LinkedHashMap
 					<String,
 					 Function<CommerceBOMFolderApplicationRel, Object>>();
-		Map<String, BiConsumer<CommerceBOMFolderApplicationRel, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String, BiConsumer<CommerceBOMFolderApplicationRel, ?>>();
 
 		attributeGetterFunctions.put(
 			"commerceBOMFolderApplicationRelId",
@@ -345,6 +338,114 @@ public class CommerceBOMFolderApplicationRelModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommerceBOMFolderApplicationRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceBOMFolderApplicationRel
+						commerceBOMFolderApplicationRel) {
+
+					return commerceBOMFolderApplicationRel.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommerceBOMFolderApplicationRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceBOMFolderApplicationRel
+						commerceBOMFolderApplicationRel) {
+
+					return commerceBOMFolderApplicationRel.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommerceBOMFolderApplicationRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceBOMFolderApplicationRel
+						commerceBOMFolderApplicationRel) {
+
+					return commerceBOMFolderApplicationRel.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommerceBOMFolderApplicationRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceBOMFolderApplicationRel
+						commerceBOMFolderApplicationRel) {
+
+					return commerceBOMFolderApplicationRel.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommerceBOMFolderApplicationRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceBOMFolderApplicationRel
+						commerceBOMFolderApplicationRel) {
+
+					return commerceBOMFolderApplicationRel.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceBOMFolderId",
+			new Function<CommerceBOMFolderApplicationRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceBOMFolderApplicationRel
+						commerceBOMFolderApplicationRel) {
+
+					return commerceBOMFolderApplicationRel.
+						getCommerceBOMFolderId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceApplicationModelId",
+			new Function<CommerceBOMFolderApplicationRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceBOMFolderApplicationRel
+						commerceBOMFolderApplicationRel) {
+
+					return commerceBOMFolderApplicationRel.
+						getCommerceApplicationModelId();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<CommerceBOMFolderApplicationRel, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommerceBOMFolderApplicationRel, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap
+					<String, BiConsumer<CommerceBOMFolderApplicationRel, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"commerceBOMFolderApplicationRelId",
 			new BiConsumer<CommerceBOMFolderApplicationRel, Object>() {
@@ -358,19 +459,6 @@ public class CommerceBOMFolderApplicationRelModelImpl
 					commerceBOMFolderApplicationRel.
 						setCommerceBOMFolderApplicationRelId(
 							(Long)commerceBOMFolderApplicationRelIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommerceBOMFolderApplicationRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceBOMFolderApplicationRel
-						commerceBOMFolderApplicationRel) {
-
-					return commerceBOMFolderApplicationRel.getCompanyId();
 				}
 
 			});
@@ -389,19 +477,6 @@ public class CommerceBOMFolderApplicationRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommerceBOMFolderApplicationRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceBOMFolderApplicationRel
-						commerceBOMFolderApplicationRel) {
-
-					return commerceBOMFolderApplicationRel.getUserId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userId",
 			new BiConsumer<CommerceBOMFolderApplicationRel, Object>() {
@@ -414,19 +489,6 @@ public class CommerceBOMFolderApplicationRelModelImpl
 
 					commerceBOMFolderApplicationRel.setUserId(
 						(Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommerceBOMFolderApplicationRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceBOMFolderApplicationRel
-						commerceBOMFolderApplicationRel) {
-
-					return commerceBOMFolderApplicationRel.getUserName();
 				}
 
 			});
@@ -445,19 +507,6 @@ public class CommerceBOMFolderApplicationRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommerceBOMFolderApplicationRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceBOMFolderApplicationRel
-						commerceBOMFolderApplicationRel) {
-
-					return commerceBOMFolderApplicationRel.getCreateDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"createDate",
 			new BiConsumer<CommerceBOMFolderApplicationRel, Object>() {
@@ -470,19 +519,6 @@ public class CommerceBOMFolderApplicationRelModelImpl
 
 					commerceBOMFolderApplicationRel.setCreateDate(
 						(Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommerceBOMFolderApplicationRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceBOMFolderApplicationRel
-						commerceBOMFolderApplicationRel) {
-
-					return commerceBOMFolderApplicationRel.getModifiedDate();
 				}
 
 			});
@@ -501,20 +537,6 @@ public class CommerceBOMFolderApplicationRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"commerceBOMFolderId",
-			new Function<CommerceBOMFolderApplicationRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceBOMFolderApplicationRel
-						commerceBOMFolderApplicationRel) {
-
-					return commerceBOMFolderApplicationRel.
-						getCommerceBOMFolderId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"commerceBOMFolderId",
 			new BiConsumer<CommerceBOMFolderApplicationRel, Object>() {
@@ -527,20 +549,6 @@ public class CommerceBOMFolderApplicationRelModelImpl
 
 					commerceBOMFolderApplicationRel.setCommerceBOMFolderId(
 						(Long)commerceBOMFolderIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commerceApplicationModelId",
-			new Function<CommerceBOMFolderApplicationRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceBOMFolderApplicationRel
-						commerceBOMFolderApplicationRel) {
-
-					return commerceBOMFolderApplicationRel.
-						getCommerceApplicationModelId();
 				}
 
 			});
@@ -561,8 +569,6 @@ public class CommerceBOMFolderApplicationRelModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

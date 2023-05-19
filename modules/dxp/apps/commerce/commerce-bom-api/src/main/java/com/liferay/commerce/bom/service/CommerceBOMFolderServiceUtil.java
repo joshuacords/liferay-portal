@@ -106,6 +106,10 @@ public class CommerceBOMFolderServiceUtil {
 		return _service;
 	}
 
+	public static void setService(CommerceBOMFolderService service) {
+		_service = service;
+	}
+
 	private static volatile CommerceBOMFolderService _service;
 
 }

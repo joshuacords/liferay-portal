@@ -47,8 +47,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -472,14 +470,15 @@ public abstract class AssetCategoryPropertyLocalServiceBaseImpl
 			"com.liferay.asset.kernel.model.AssetCategoryProperty",
 			assetCategoryPropertyLocalService);
 
-		_setLocalServiceUtilService(assetCategoryPropertyLocalService);
+		AssetCategoryPropertyLocalServiceUtil.setService(
+			assetCategoryPropertyLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"com.liferay.asset.kernel.model.AssetCategoryProperty");
 
-		_setLocalServiceUtilService(null);
+		AssetCategoryPropertyLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -522,23 +521,6 @@ public abstract class AssetCategoryPropertyLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		AssetCategoryPropertyLocalService assetCategoryPropertyLocalService) {
-
-		try {
-			Field field =
-				AssetCategoryPropertyLocalServiceUtil.class.getDeclaredField(
-					"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, assetCategoryPropertyLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

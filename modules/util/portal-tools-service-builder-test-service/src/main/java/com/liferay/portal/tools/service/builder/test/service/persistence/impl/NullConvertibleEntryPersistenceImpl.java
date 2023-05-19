@@ -40,7 +40,6 @@ import com.liferay.portal.tools.service.builder.test.service.persistence.NullCon
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.List;
@@ -956,33 +955,17 @@ public class NullConvertibleEntryPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByName",
 			new String[] {String.class.getName()});
 
-		_setNullConvertibleEntryUtilPersistence(this);
+		NullConvertibleEntryUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setNullConvertibleEntryUtilPersistence(null);
+		NullConvertibleEntryUtil.setPersistence(null);
 
 		entityCache.removeCache(NullConvertibleEntryImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setNullConvertibleEntryUtilPersistence(
-		NullConvertibleEntryPersistence nullConvertibleEntryPersistence) {
-
-		try {
-			Field field = NullConvertibleEntryUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, nullConvertibleEntryPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

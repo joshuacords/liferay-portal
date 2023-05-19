@@ -647,6 +647,10 @@ public class ProductFieldUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(ProductFieldPersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile ProductFieldPersistence _persistence;
 
 }

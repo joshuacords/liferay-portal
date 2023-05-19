@@ -61,8 +61,6 @@ import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 /**
@@ -1867,11 +1865,12 @@ public abstract class CPAttachmentFileEntryServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
-		_setServiceUtilService(cpAttachmentFileEntryService);
+		CPAttachmentFileEntryServiceUtil.setService(
+			cpAttachmentFileEntryService);
 	}
 
 	public void destroy() {
-		_setServiceUtilService(null);
+		CPAttachmentFileEntryServiceUtil.setService(null);
 	}
 
 	/**
@@ -1914,23 +1913,6 @@ public abstract class CPAttachmentFileEntryServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setServiceUtilService(
-		CPAttachmentFileEntryService cpAttachmentFileEntryService) {
-
-		try {
-			Field field =
-				CPAttachmentFileEntryServiceUtil.class.getDeclaredField(
-					"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, cpAttachmentFileEntryService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

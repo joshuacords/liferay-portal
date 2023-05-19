@@ -326,9 +326,6 @@ public class CommerceDataIntegrationProcessLogModelImpl
 	private static final Map
 		<String, Function<CommerceDataIntegrationProcessLog, Object>>
 			_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<CommerceDataIntegrationProcessLog, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommerceDataIntegrationProcessLog, Object>>
@@ -336,11 +333,6 @@ public class CommerceDataIntegrationProcessLogModelImpl
 				new LinkedHashMap
 					<String,
 					 Function<CommerceDataIntegrationProcessLog, Object>>();
-		Map<String, BiConsumer<CommerceDataIntegrationProcessLog, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String,
-					 BiConsumer<CommerceDataIntegrationProcessLog, ?>>();
 
 		attributeGetterFunctions.put(
 			"commerceDataIntegrationProcessLogId",
@@ -356,6 +348,166 @@ public class CommerceDataIntegrationProcessLogModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommerceDataIntegrationProcessLog, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceDataIntegrationProcessLog
+						commerceDataIntegrationProcessLog) {
+
+					return commerceDataIntegrationProcessLog.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommerceDataIntegrationProcessLog, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceDataIntegrationProcessLog
+						commerceDataIntegrationProcessLog) {
+
+					return commerceDataIntegrationProcessLog.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommerceDataIntegrationProcessLog, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceDataIntegrationProcessLog
+						commerceDataIntegrationProcessLog) {
+
+					return commerceDataIntegrationProcessLog.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommerceDataIntegrationProcessLog, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceDataIntegrationProcessLog
+						commerceDataIntegrationProcessLog) {
+
+					return commerceDataIntegrationProcessLog.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommerceDataIntegrationProcessLog, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceDataIntegrationProcessLog
+						commerceDataIntegrationProcessLog) {
+
+					return commerceDataIntegrationProcessLog.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"CDataIntegrationProcessId",
+			new Function<CommerceDataIntegrationProcessLog, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceDataIntegrationProcessLog
+						commerceDataIntegrationProcessLog) {
+
+					return commerceDataIntegrationProcessLog.
+						getCDataIntegrationProcessId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"error",
+			new Function<CommerceDataIntegrationProcessLog, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceDataIntegrationProcessLog
+						commerceDataIntegrationProcessLog) {
+
+					return commerceDataIntegrationProcessLog.getError();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"output",
+			new Function<CommerceDataIntegrationProcessLog, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceDataIntegrationProcessLog
+						commerceDataIntegrationProcessLog) {
+
+					return commerceDataIntegrationProcessLog.getOutput();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"startDate",
+			new Function<CommerceDataIntegrationProcessLog, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceDataIntegrationProcessLog
+						commerceDataIntegrationProcessLog) {
+
+					return commerceDataIntegrationProcessLog.getStartDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"endDate",
+			new Function<CommerceDataIntegrationProcessLog, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceDataIntegrationProcessLog
+						commerceDataIntegrationProcessLog) {
+
+					return commerceDataIntegrationProcessLog.getEndDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"status",
+			new Function<CommerceDataIntegrationProcessLog, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceDataIntegrationProcessLog
+						commerceDataIntegrationProcessLog) {
+
+					return commerceDataIntegrationProcessLog.getStatus();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<CommerceDataIntegrationProcessLog, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommerceDataIntegrationProcessLog, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap
+					<String,
+					 BiConsumer<CommerceDataIntegrationProcessLog, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"commerceDataIntegrationProcessLogId",
 			new BiConsumer<CommerceDataIntegrationProcessLog, Object>() {
@@ -369,19 +521,6 @@ public class CommerceDataIntegrationProcessLogModelImpl
 					commerceDataIntegrationProcessLog.
 						setCommerceDataIntegrationProcessLogId(
 							(Long)commerceDataIntegrationProcessLogIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommerceDataIntegrationProcessLog, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceDataIntegrationProcessLog
-						commerceDataIntegrationProcessLog) {
-
-					return commerceDataIntegrationProcessLog.getCompanyId();
 				}
 
 			});
@@ -400,19 +539,6 @@ public class CommerceDataIntegrationProcessLogModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommerceDataIntegrationProcessLog, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceDataIntegrationProcessLog
-						commerceDataIntegrationProcessLog) {
-
-					return commerceDataIntegrationProcessLog.getUserId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userId",
 			new BiConsumer<CommerceDataIntegrationProcessLog, Object>() {
@@ -425,19 +551,6 @@ public class CommerceDataIntegrationProcessLogModelImpl
 
 					commerceDataIntegrationProcessLog.setUserId(
 						(Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommerceDataIntegrationProcessLog, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceDataIntegrationProcessLog
-						commerceDataIntegrationProcessLog) {
-
-					return commerceDataIntegrationProcessLog.getUserName();
 				}
 
 			});
@@ -456,19 +569,6 @@ public class CommerceDataIntegrationProcessLogModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommerceDataIntegrationProcessLog, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceDataIntegrationProcessLog
-						commerceDataIntegrationProcessLog) {
-
-					return commerceDataIntegrationProcessLog.getCreateDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"createDate",
 			new BiConsumer<CommerceDataIntegrationProcessLog, Object>() {
@@ -484,19 +584,6 @@ public class CommerceDataIntegrationProcessLogModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommerceDataIntegrationProcessLog, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceDataIntegrationProcessLog
-						commerceDataIntegrationProcessLog) {
-
-					return commerceDataIntegrationProcessLog.getModifiedDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			new BiConsumer<CommerceDataIntegrationProcessLog, Object>() {
@@ -509,20 +596,6 @@ public class CommerceDataIntegrationProcessLogModelImpl
 
 					commerceDataIntegrationProcessLog.setModifiedDate(
 						(Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"CDataIntegrationProcessId",
-			new Function<CommerceDataIntegrationProcessLog, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceDataIntegrationProcessLog
-						commerceDataIntegrationProcessLog) {
-
-					return commerceDataIntegrationProcessLog.
-						getCDataIntegrationProcessId();
 				}
 
 			});
@@ -542,19 +615,6 @@ public class CommerceDataIntegrationProcessLogModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"error",
-			new Function<CommerceDataIntegrationProcessLog, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceDataIntegrationProcessLog
-						commerceDataIntegrationProcessLog) {
-
-					return commerceDataIntegrationProcessLog.getError();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"error",
 			new BiConsumer<CommerceDataIntegrationProcessLog, Object>() {
@@ -567,19 +627,6 @@ public class CommerceDataIntegrationProcessLogModelImpl
 
 					commerceDataIntegrationProcessLog.setError(
 						(String)errorObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"output",
-			new Function<CommerceDataIntegrationProcessLog, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceDataIntegrationProcessLog
-						commerceDataIntegrationProcessLog) {
-
-					return commerceDataIntegrationProcessLog.getOutput();
 				}
 
 			});
@@ -598,19 +645,6 @@ public class CommerceDataIntegrationProcessLogModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"startDate",
-			new Function<CommerceDataIntegrationProcessLog, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceDataIntegrationProcessLog
-						commerceDataIntegrationProcessLog) {
-
-					return commerceDataIntegrationProcessLog.getStartDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"startDate",
 			new BiConsumer<CommerceDataIntegrationProcessLog, Object>() {
@@ -626,19 +660,6 @@ public class CommerceDataIntegrationProcessLogModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"endDate",
-			new Function<CommerceDataIntegrationProcessLog, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceDataIntegrationProcessLog
-						commerceDataIntegrationProcessLog) {
-
-					return commerceDataIntegrationProcessLog.getEndDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"endDate",
 			new BiConsumer<CommerceDataIntegrationProcessLog, Object>() {
@@ -651,19 +672,6 @@ public class CommerceDataIntegrationProcessLogModelImpl
 
 					commerceDataIntegrationProcessLog.setEndDate(
 						(Date)endDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<CommerceDataIntegrationProcessLog, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceDataIntegrationProcessLog
-						commerceDataIntegrationProcessLog) {
-
-					return commerceDataIntegrationProcessLog.getStatus();
 				}
 
 			});
@@ -683,8 +691,6 @@ public class CommerceDataIntegrationProcessLogModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

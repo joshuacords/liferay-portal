@@ -1503,6 +1503,12 @@ public class CommerceOrderItemUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(
+		CommerceOrderItemPersistence persistence) {
+
+		_persistence = persistence;
+	}
+
 	private static volatile CommerceOrderItemPersistence _persistence;
 
 }

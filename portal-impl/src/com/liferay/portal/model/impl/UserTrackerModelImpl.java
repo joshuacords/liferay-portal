@@ -224,56 +224,62 @@ public class UserTrackerModelImpl
 
 	private static final Map<String, Function<UserTracker, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<UserTracker, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<UserTracker, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<UserTracker, Object>>();
-		Map<String, BiConsumer<UserTracker, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<UserTracker, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", UserTracker::getMvccVersion);
+		attributeGetterFunctions.put(
+			"userTrackerId", UserTracker::getUserTrackerId);
+		attributeGetterFunctions.put("companyId", UserTracker::getCompanyId);
+		attributeGetterFunctions.put("userId", UserTracker::getUserId);
+		attributeGetterFunctions.put(
+			"modifiedDate", UserTracker::getModifiedDate);
+		attributeGetterFunctions.put("sessionId", UserTracker::getSessionId);
+		attributeGetterFunctions.put("remoteAddr", UserTracker::getRemoteAddr);
+		attributeGetterFunctions.put("remoteHost", UserTracker::getRemoteHost);
+		attributeGetterFunctions.put("userAgent", UserTracker::getUserAgent);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<UserTracker, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<UserTracker, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<UserTracker, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<UserTracker, Long>)UserTracker::setMvccVersion);
-		attributeGetterFunctions.put(
-			"userTrackerId", UserTracker::getUserTrackerId);
 		attributeSetterBiConsumers.put(
 			"userTrackerId",
 			(BiConsumer<UserTracker, Long>)UserTracker::setUserTrackerId);
-		attributeGetterFunctions.put("companyId", UserTracker::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<UserTracker, Long>)UserTracker::setCompanyId);
-		attributeGetterFunctions.put("userId", UserTracker::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<UserTracker, Long>)UserTracker::setUserId);
-		attributeGetterFunctions.put(
-			"modifiedDate", UserTracker::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<UserTracker, Date>)UserTracker::setModifiedDate);
-		attributeGetterFunctions.put("sessionId", UserTracker::getSessionId);
 		attributeSetterBiConsumers.put(
 			"sessionId",
 			(BiConsumer<UserTracker, String>)UserTracker::setSessionId);
-		attributeGetterFunctions.put("remoteAddr", UserTracker::getRemoteAddr);
 		attributeSetterBiConsumers.put(
 			"remoteAddr",
 			(BiConsumer<UserTracker, String>)UserTracker::setRemoteAddr);
-		attributeGetterFunctions.put("remoteHost", UserTracker::getRemoteHost);
 		attributeSetterBiConsumers.put(
 			"remoteHost",
 			(BiConsumer<UserTracker, String>)UserTracker::setRemoteHost);
-		attributeGetterFunctions.put("userAgent", UserTracker::getUserAgent);
 		attributeSetterBiConsumers.put(
 			"userAgent",
 			(BiConsumer<UserTracker, String>)UserTracker::setUserAgent);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

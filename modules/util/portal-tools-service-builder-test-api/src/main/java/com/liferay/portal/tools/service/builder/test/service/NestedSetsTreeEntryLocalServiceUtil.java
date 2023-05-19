@@ -293,6 +293,10 @@ public class NestedSetsTreeEntryLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(NestedSetsTreeEntryLocalService service) {
+		_service = service;
+	}
+
 	private static volatile NestedSetsTreeEntryLocalService _service;
 
 }

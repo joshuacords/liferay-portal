@@ -79,6 +79,10 @@ public class GadgetServiceUtil {
 		return _service;
 	}
 
+	public static void setService(GadgetService service) {
+		_service = service;
+	}
+
 	private static volatile GadgetService _service;
 
 }

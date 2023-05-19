@@ -77,8 +77,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -279,13 +277,7 @@ public abstract class OrganizationLocalServiceBaseImpl
 			uuid, companyId, null);
 	}
 
-	/**
-	 * Returns the organization with the matching external reference code and company.
-	 *
-	 * @param companyId the primary key of the company
-	 * @param externalReferenceCode the organization's external reference code
-	 * @return the matching organization, or <code>null</code> if a matching organization could not be found
-	 */
+	@Deprecated
 	@Override
 	public Organization fetchOrganizationByExternalReferenceCode(
 		long companyId, String externalReferenceCode) {
@@ -294,9 +286,6 @@ public abstract class OrganizationLocalServiceBaseImpl
 			companyId, externalReferenceCode);
 	}
 
-	/**
-	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #fetchOrganizationByExternalReferenceCode(long, String)}
-	 */
 	@Deprecated
 	@Override
 	public Organization fetchOrganizationByReferenceCode(
@@ -306,14 +295,7 @@ public abstract class OrganizationLocalServiceBaseImpl
 			companyId, externalReferenceCode);
 	}
 
-	/**
-	 * Returns the organization with the matching external reference code and company.
-	 *
-	 * @param companyId the primary key of the company
-	 * @param externalReferenceCode the organization's external reference code
-	 * @return the matching organization
-	 * @throws PortalException if a matching organization could not be found
-	 */
+	@Deprecated
 	@Override
 	public Organization getOrganizationByExternalReferenceCode(
 			long companyId, String externalReferenceCode)
@@ -1699,14 +1681,14 @@ public abstract class OrganizationLocalServiceBaseImpl
 			"com.liferay.portal.kernel.model.Organization",
 			organizationLocalService);
 
-		_setLocalServiceUtilService(organizationLocalService);
+		OrganizationLocalServiceUtil.setService(organizationLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"com.liferay.portal.kernel.model.Organization");
 
-		_setLocalServiceUtilService(null);
+		OrganizationLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -1748,22 +1730,6 @@ public abstract class OrganizationLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		OrganizationLocalService organizationLocalService) {
-
-		try {
-			Field field = OrganizationLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, organizationLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

@@ -64,8 +64,6 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -582,7 +580,7 @@ public abstract class MBMessageLocalServiceBaseImpl
 
 	@Deactivate
 	protected void deactivate() {
-		_setLocalServiceUtilService(null);
+		MBMessageLocalServiceUtil.setService(null);
 	}
 
 	@Override
@@ -597,7 +595,7 @@ public abstract class MBMessageLocalServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		mbMessageLocalService = (MBMessageLocalService)aopProxy;
 
-		_setLocalServiceUtilService(mbMessageLocalService);
+		MBMessageLocalServiceUtil.setService(mbMessageLocalService);
 	}
 
 	/**
@@ -639,22 +637,6 @@ public abstract class MBMessageLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		MBMessageLocalService mbMessageLocalService) {
-
-		try {
-			Field field = MBMessageLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, mbMessageLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

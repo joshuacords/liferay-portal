@@ -303,104 +303,110 @@ public class JournalFolderModelImpl
 
 	private static final Map<String, Function<JournalFolder, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<JournalFolder, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<JournalFolder, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<JournalFolder, Object>>();
-		Map<String, BiConsumer<JournalFolder, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<JournalFolder, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", JournalFolder::getMvccVersion);
+		attributeGetterFunctions.put("uuid", JournalFolder::getUuid);
+		attributeGetterFunctions.put("folderId", JournalFolder::getFolderId);
+		attributeGetterFunctions.put("groupId", JournalFolder::getGroupId);
+		attributeGetterFunctions.put("companyId", JournalFolder::getCompanyId);
+		attributeGetterFunctions.put("userId", JournalFolder::getUserId);
+		attributeGetterFunctions.put("userName", JournalFolder::getUserName);
+		attributeGetterFunctions.put(
+			"createDate", JournalFolder::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", JournalFolder::getModifiedDate);
+		attributeGetterFunctions.put(
+			"parentFolderId", JournalFolder::getParentFolderId);
+		attributeGetterFunctions.put("treePath", JournalFolder::getTreePath);
+		attributeGetterFunctions.put("name", JournalFolder::getName);
+		attributeGetterFunctions.put(
+			"description", JournalFolder::getDescription);
+		attributeGetterFunctions.put(
+			"restrictionType", JournalFolder::getRestrictionType);
+		attributeGetterFunctions.put(
+			"lastPublishDate", JournalFolder::getLastPublishDate);
+		attributeGetterFunctions.put("status", JournalFolder::getStatus);
+		attributeGetterFunctions.put(
+			"statusByUserId", JournalFolder::getStatusByUserId);
+		attributeGetterFunctions.put(
+			"statusByUserName", JournalFolder::getStatusByUserName);
+		attributeGetterFunctions.put(
+			"statusDate", JournalFolder::getStatusDate);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<JournalFolder, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<JournalFolder, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<JournalFolder, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<JournalFolder, Long>)JournalFolder::setMvccVersion);
-		attributeGetterFunctions.put("uuid", JournalFolder::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<JournalFolder, String>)JournalFolder::setUuid);
-		attributeGetterFunctions.put("folderId", JournalFolder::getFolderId);
 		attributeSetterBiConsumers.put(
 			"folderId",
 			(BiConsumer<JournalFolder, Long>)JournalFolder::setFolderId);
-		attributeGetterFunctions.put("groupId", JournalFolder::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<JournalFolder, Long>)JournalFolder::setGroupId);
-		attributeGetterFunctions.put("companyId", JournalFolder::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<JournalFolder, Long>)JournalFolder::setCompanyId);
-		attributeGetterFunctions.put("userId", JournalFolder::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<JournalFolder, Long>)JournalFolder::setUserId);
-		attributeGetterFunctions.put("userName", JournalFolder::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<JournalFolder, String>)JournalFolder::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", JournalFolder::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<JournalFolder, Date>)JournalFolder::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", JournalFolder::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<JournalFolder, Date>)JournalFolder::setModifiedDate);
-		attributeGetterFunctions.put(
-			"parentFolderId", JournalFolder::getParentFolderId);
 		attributeSetterBiConsumers.put(
 			"parentFolderId",
 			(BiConsumer<JournalFolder, Long>)JournalFolder::setParentFolderId);
-		attributeGetterFunctions.put("treePath", JournalFolder::getTreePath);
 		attributeSetterBiConsumers.put(
 			"treePath",
 			(BiConsumer<JournalFolder, String>)JournalFolder::setTreePath);
-		attributeGetterFunctions.put("name", JournalFolder::getName);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<JournalFolder, String>)JournalFolder::setName);
-		attributeGetterFunctions.put(
-			"description", JournalFolder::getDescription);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<JournalFolder, String>)JournalFolder::setDescription);
-		attributeGetterFunctions.put(
-			"restrictionType", JournalFolder::getRestrictionType);
 		attributeSetterBiConsumers.put(
 			"restrictionType",
 			(BiConsumer<JournalFolder, Integer>)
 				JournalFolder::setRestrictionType);
-		attributeGetterFunctions.put(
-			"lastPublishDate", JournalFolder::getLastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<JournalFolder, Date>)JournalFolder::setLastPublishDate);
-		attributeGetterFunctions.put("status", JournalFolder::getStatus);
 		attributeSetterBiConsumers.put(
 			"status",
 			(BiConsumer<JournalFolder, Integer>)JournalFolder::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", JournalFolder::getStatusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
 			(BiConsumer<JournalFolder, Long>)JournalFolder::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", JournalFolder::getStatusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
 			(BiConsumer<JournalFolder, String>)
 				JournalFolder::setStatusByUserName);
-		attributeGetterFunctions.put(
-			"statusDate", JournalFolder::getStatusDate);
 		attributeSetterBiConsumers.put(
 			"statusDate",
 			(BiConsumer<JournalFolder, Date>)JournalFolder::setStatusDate);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

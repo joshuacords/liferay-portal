@@ -433,6 +433,10 @@ public class FragmentCollectionLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(FragmentCollectionLocalService service) {
+		_service = service;
+	}
+
 	private static volatile FragmentCollectionLocalService _service;
 
 }

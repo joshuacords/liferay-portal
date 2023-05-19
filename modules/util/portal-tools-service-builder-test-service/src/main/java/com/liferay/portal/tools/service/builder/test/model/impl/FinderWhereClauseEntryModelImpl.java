@@ -215,40 +215,46 @@ public class FinderWhereClauseEntryModelImpl
 
 	private static final Map<String, Function<FinderWhereClauseEntry, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<FinderWhereClauseEntry, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<FinderWhereClauseEntry, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<FinderWhereClauseEntry, Object>>();
+
+		attributeGetterFunctions.put(
+			"finderWhereClauseEntryId",
+			FinderWhereClauseEntry::getFinderWhereClauseEntryId);
+		attributeGetterFunctions.put("name", FinderWhereClauseEntry::getName);
+		attributeGetterFunctions.put(
+			"nickname", FinderWhereClauseEntry::getNickname);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<FinderWhereClauseEntry, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<FinderWhereClauseEntry, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<FinderWhereClauseEntry, ?>>();
 
-		attributeGetterFunctions.put(
-			"finderWhereClauseEntryId",
-			FinderWhereClauseEntry::getFinderWhereClauseEntryId);
 		attributeSetterBiConsumers.put(
 			"finderWhereClauseEntryId",
 			(BiConsumer<FinderWhereClauseEntry, Long>)
 				FinderWhereClauseEntry::setFinderWhereClauseEntryId);
-		attributeGetterFunctions.put("name", FinderWhereClauseEntry::getName);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<FinderWhereClauseEntry, String>)
 				FinderWhereClauseEntry::setName);
-		attributeGetterFunctions.put(
-			"nickname", FinderWhereClauseEntry::getNickname);
 		attributeSetterBiConsumers.put(
 			"nickname",
 			(BiConsumer<FinderWhereClauseEntry, String>)
 				FinderWhereClauseEntry::setNickname);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

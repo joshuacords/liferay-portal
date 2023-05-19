@@ -139,6 +139,10 @@ public class CPOptionServiceUtil {
 		return _service;
 	}
 
+	public static void setService(CPOptionService service) {
+		_service = service;
+	}
+
 	private static volatile CPOptionService _service;
 
 }

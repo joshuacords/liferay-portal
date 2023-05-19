@@ -47,6 +47,10 @@ public class EntitlementServiceUtil {
 		return _service;
 	}
 
+	public static void setService(EntitlementService service) {
+		_service = service;
+	}
+
 	private static volatile EntitlementService _service;
 
 }

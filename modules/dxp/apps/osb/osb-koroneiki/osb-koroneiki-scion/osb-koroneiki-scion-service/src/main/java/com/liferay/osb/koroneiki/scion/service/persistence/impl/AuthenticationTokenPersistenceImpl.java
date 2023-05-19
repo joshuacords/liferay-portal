@@ -48,7 +48,6 @@ import com.liferay.portal.kernel.util.StringUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
@@ -1995,34 +1994,18 @@ public class AuthenticationTokenPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByD_S",
 			new String[] {String.class.getName(), Integer.class.getName()});
 
-		_setAuthenticationTokenUtilPersistence(this);
+		AuthenticationTokenUtil.setPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
-		_setAuthenticationTokenUtilPersistence(null);
+		AuthenticationTokenUtil.setPersistence(null);
 
 		entityCache.removeCache(AuthenticationTokenImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setAuthenticationTokenUtilPersistence(
-		AuthenticationTokenPersistence authenticationTokenPersistence) {
-
-		try {
-			Field field = AuthenticationTokenUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, authenticationTokenPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@Override

@@ -6393,33 +6393,17 @@ public class CommerceAddressPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_ERC",
 			new String[] {Long.class.getName(), String.class.getName()});
 
-		_setCommerceAddressUtilPersistence(this);
+		CommerceAddressUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setCommerceAddressUtilPersistence(null);
+		CommerceAddressUtil.setPersistence(null);
 
 		entityCache.removeCache(CommerceAddressImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setCommerceAddressUtilPersistence(
-		CommerceAddressPersistence commerceAddressPersistence) {
-
-		try {
-			Field field = CommerceAddressUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, commerceAddressPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

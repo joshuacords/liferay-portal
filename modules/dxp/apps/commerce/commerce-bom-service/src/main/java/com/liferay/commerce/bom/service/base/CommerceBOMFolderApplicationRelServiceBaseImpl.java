@@ -36,8 +36,6 @@ import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 /**
@@ -510,11 +508,12 @@ public abstract class CommerceBOMFolderApplicationRelServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
-		_setServiceUtilService(commerceBOMFolderApplicationRelService);
+		CommerceBOMFolderApplicationRelServiceUtil.setService(
+			commerceBOMFolderApplicationRelService);
 	}
 
 	public void destroy() {
-		_setServiceUtilService(null);
+		CommerceBOMFolderApplicationRelServiceUtil.setService(null);
 	}
 
 	/**
@@ -557,24 +556,6 @@ public abstract class CommerceBOMFolderApplicationRelServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setServiceUtilService(
-		CommerceBOMFolderApplicationRelService
-			commerceBOMFolderApplicationRelService) {
-
-		try {
-			Field field =
-				CommerceBOMFolderApplicationRelServiceUtil.class.
-					getDeclaredField("_service");
-
-			field.setAccessible(true);
-
-			field.set(null, commerceBOMFolderApplicationRelService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

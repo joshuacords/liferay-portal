@@ -352,108 +352,114 @@ public class DLFolderModelImpl
 
 	private static final Map<String, Function<DLFolder, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<DLFolder, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<DLFolder, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<DLFolder, Object>>();
-		Map<String, BiConsumer<DLFolder, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<DLFolder, ?>>();
 
 		attributeGetterFunctions.put("mvccVersion", DLFolder::getMvccVersion);
-		attributeSetterBiConsumers.put(
-			"mvccVersion",
-			(BiConsumer<DLFolder, Long>)DLFolder::setMvccVersion);
 		attributeGetterFunctions.put("uuid", DLFolder::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<DLFolder, String>)DLFolder::setUuid);
 		attributeGetterFunctions.put("folderId", DLFolder::getFolderId);
-		attributeSetterBiConsumers.put(
-			"folderId", (BiConsumer<DLFolder, Long>)DLFolder::setFolderId);
 		attributeGetterFunctions.put("groupId", DLFolder::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId", (BiConsumer<DLFolder, Long>)DLFolder::setGroupId);
 		attributeGetterFunctions.put("companyId", DLFolder::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId", (BiConsumer<DLFolder, Long>)DLFolder::setCompanyId);
 		attributeGetterFunctions.put("userId", DLFolder::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<DLFolder, Long>)DLFolder::setUserId);
 		attributeGetterFunctions.put("userName", DLFolder::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName", (BiConsumer<DLFolder, String>)DLFolder::setUserName);
 		attributeGetterFunctions.put("createDate", DLFolder::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate", (BiConsumer<DLFolder, Date>)DLFolder::setCreateDate);
 		attributeGetterFunctions.put("modifiedDate", DLFolder::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<DLFolder, Date>)DLFolder::setModifiedDate);
 		attributeGetterFunctions.put("repositoryId", DLFolder::getRepositoryId);
-		attributeSetterBiConsumers.put(
-			"repositoryId",
-			(BiConsumer<DLFolder, Long>)DLFolder::setRepositoryId);
 		attributeGetterFunctions.put("mountPoint", DLFolder::getMountPoint);
-		attributeSetterBiConsumers.put(
-			"mountPoint",
-			(BiConsumer<DLFolder, Boolean>)DLFolder::setMountPoint);
 		attributeGetterFunctions.put(
 			"parentFolderId", DLFolder::getParentFolderId);
-		attributeSetterBiConsumers.put(
-			"parentFolderId",
-			(BiConsumer<DLFolder, Long>)DLFolder::setParentFolderId);
 		attributeGetterFunctions.put("treePath", DLFolder::getTreePath);
-		attributeSetterBiConsumers.put(
-			"treePath", (BiConsumer<DLFolder, String>)DLFolder::setTreePath);
 		attributeGetterFunctions.put("name", DLFolder::getName);
-		attributeSetterBiConsumers.put(
-			"name", (BiConsumer<DLFolder, String>)DLFolder::setName);
 		attributeGetterFunctions.put("description", DLFolder::getDescription);
-		attributeSetterBiConsumers.put(
-			"description",
-			(BiConsumer<DLFolder, String>)DLFolder::setDescription);
 		attributeGetterFunctions.put("lastPostDate", DLFolder::getLastPostDate);
-		attributeSetterBiConsumers.put(
-			"lastPostDate",
-			(BiConsumer<DLFolder, Date>)DLFolder::setLastPostDate);
 		attributeGetterFunctions.put(
 			"defaultFileEntryTypeId", DLFolder::getDefaultFileEntryTypeId);
-		attributeSetterBiConsumers.put(
-			"defaultFileEntryTypeId",
-			(BiConsumer<DLFolder, Long>)DLFolder::setDefaultFileEntryTypeId);
 		attributeGetterFunctions.put("hidden", DLFolder::getHidden);
-		attributeSetterBiConsumers.put(
-			"hidden", (BiConsumer<DLFolder, Boolean>)DLFolder::setHidden);
 		attributeGetterFunctions.put(
 			"restrictionType", DLFolder::getRestrictionType);
-		attributeSetterBiConsumers.put(
-			"restrictionType",
-			(BiConsumer<DLFolder, Integer>)DLFolder::setRestrictionType);
 		attributeGetterFunctions.put(
 			"lastPublishDate", DLFolder::getLastPublishDate);
-		attributeSetterBiConsumers.put(
-			"lastPublishDate",
-			(BiConsumer<DLFolder, Date>)DLFolder::setLastPublishDate);
 		attributeGetterFunctions.put("status", DLFolder::getStatus);
-		attributeSetterBiConsumers.put(
-			"status", (BiConsumer<DLFolder, Integer>)DLFolder::setStatus);
 		attributeGetterFunctions.put(
 			"statusByUserId", DLFolder::getStatusByUserId);
-		attributeSetterBiConsumers.put(
-			"statusByUserId",
-			(BiConsumer<DLFolder, Long>)DLFolder::setStatusByUserId);
 		attributeGetterFunctions.put(
 			"statusByUserName", DLFolder::getStatusByUserName);
-		attributeSetterBiConsumers.put(
-			"statusByUserName",
-			(BiConsumer<DLFolder, String>)DLFolder::setStatusByUserName);
 		attributeGetterFunctions.put("statusDate", DLFolder::getStatusDate);
-		attributeSetterBiConsumers.put(
-			"statusDate", (BiConsumer<DLFolder, Date>)DLFolder::setStatusDate);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<DLFolder, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<DLFolder, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<DLFolder, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"mvccVersion",
+			(BiConsumer<DLFolder, Long>)DLFolder::setMvccVersion);
+		attributeSetterBiConsumers.put(
+			"uuid", (BiConsumer<DLFolder, String>)DLFolder::setUuid);
+		attributeSetterBiConsumers.put(
+			"folderId", (BiConsumer<DLFolder, Long>)DLFolder::setFolderId);
+		attributeSetterBiConsumers.put(
+			"groupId", (BiConsumer<DLFolder, Long>)DLFolder::setGroupId);
+		attributeSetterBiConsumers.put(
+			"companyId", (BiConsumer<DLFolder, Long>)DLFolder::setCompanyId);
+		attributeSetterBiConsumers.put(
+			"userId", (BiConsumer<DLFolder, Long>)DLFolder::setUserId);
+		attributeSetterBiConsumers.put(
+			"userName", (BiConsumer<DLFolder, String>)DLFolder::setUserName);
+		attributeSetterBiConsumers.put(
+			"createDate", (BiConsumer<DLFolder, Date>)DLFolder::setCreateDate);
+		attributeSetterBiConsumers.put(
+			"modifiedDate",
+			(BiConsumer<DLFolder, Date>)DLFolder::setModifiedDate);
+		attributeSetterBiConsumers.put(
+			"repositoryId",
+			(BiConsumer<DLFolder, Long>)DLFolder::setRepositoryId);
+		attributeSetterBiConsumers.put(
+			"mountPoint",
+			(BiConsumer<DLFolder, Boolean>)DLFolder::setMountPoint);
+		attributeSetterBiConsumers.put(
+			"parentFolderId",
+			(BiConsumer<DLFolder, Long>)DLFolder::setParentFolderId);
+		attributeSetterBiConsumers.put(
+			"treePath", (BiConsumer<DLFolder, String>)DLFolder::setTreePath);
+		attributeSetterBiConsumers.put(
+			"name", (BiConsumer<DLFolder, String>)DLFolder::setName);
+		attributeSetterBiConsumers.put(
+			"description",
+			(BiConsumer<DLFolder, String>)DLFolder::setDescription);
+		attributeSetterBiConsumers.put(
+			"lastPostDate",
+			(BiConsumer<DLFolder, Date>)DLFolder::setLastPostDate);
+		attributeSetterBiConsumers.put(
+			"defaultFileEntryTypeId",
+			(BiConsumer<DLFolder, Long>)DLFolder::setDefaultFileEntryTypeId);
+		attributeSetterBiConsumers.put(
+			"hidden", (BiConsumer<DLFolder, Boolean>)DLFolder::setHidden);
+		attributeSetterBiConsumers.put(
+			"restrictionType",
+			(BiConsumer<DLFolder, Integer>)DLFolder::setRestrictionType);
+		attributeSetterBiConsumers.put(
+			"lastPublishDate",
+			(BiConsumer<DLFolder, Date>)DLFolder::setLastPublishDate);
+		attributeSetterBiConsumers.put(
+			"status", (BiConsumer<DLFolder, Integer>)DLFolder::setStatus);
+		attributeSetterBiConsumers.put(
+			"statusByUserId",
+			(BiConsumer<DLFolder, Long>)DLFolder::setStatusByUserId);
+		attributeSetterBiConsumers.put(
+			"statusByUserName",
+			(BiConsumer<DLFolder, String>)DLFolder::setStatusByUserName);
+		attributeSetterBiConsumers.put(
+			"statusDate", (BiConsumer<DLFolder, Date>)DLFolder::setStatusDate);
+
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

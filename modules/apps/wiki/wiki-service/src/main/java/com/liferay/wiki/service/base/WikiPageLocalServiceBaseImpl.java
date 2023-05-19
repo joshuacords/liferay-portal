@@ -65,8 +65,6 @@ import com.liferay.wiki.service.persistence.WikiPageResourcePersistence;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -572,7 +570,7 @@ public abstract class WikiPageLocalServiceBaseImpl
 
 	@Deactivate
 	protected void deactivate() {
-		_setLocalServiceUtilService(null);
+		WikiPageLocalServiceUtil.setService(null);
 	}
 
 	@Override
@@ -587,7 +585,7 @@ public abstract class WikiPageLocalServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		wikiPageLocalService = (WikiPageLocalService)aopProxy;
 
-		_setLocalServiceUtilService(wikiPageLocalService);
+		WikiPageLocalServiceUtil.setService(wikiPageLocalService);
 	}
 
 	/**
@@ -629,22 +627,6 @@ public abstract class WikiPageLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		WikiPageLocalService wikiPageLocalService) {
-
-		try {
-			Field field = WikiPageLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, wikiPageLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

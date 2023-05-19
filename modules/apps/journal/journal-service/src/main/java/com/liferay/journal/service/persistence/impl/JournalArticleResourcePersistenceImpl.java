@@ -46,7 +46,6 @@ import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.HashMap;
@@ -3144,34 +3143,18 @@ public class JournalArticleResourcePersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_A",
 			new String[] {Long.class.getName(), String.class.getName()});
 
-		_setJournalArticleResourceUtilPersistence(this);
+		JournalArticleResourceUtil.setPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
-		_setJournalArticleResourceUtilPersistence(null);
+		JournalArticleResourceUtil.setPersistence(null);
 
 		entityCache.removeCache(JournalArticleResourceImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setJournalArticleResourceUtilPersistence(
-		JournalArticleResourcePersistence journalArticleResourcePersistence) {
-
-		try {
-			Field field = JournalArticleResourceUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, journalArticleResourcePersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@Override

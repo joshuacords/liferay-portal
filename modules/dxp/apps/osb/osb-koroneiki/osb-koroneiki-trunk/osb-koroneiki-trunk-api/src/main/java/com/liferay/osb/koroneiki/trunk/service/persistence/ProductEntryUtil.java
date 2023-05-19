@@ -910,6 +910,10 @@ public class ProductEntryUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(ProductEntryPersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile ProductEntryPersistence _persistence;
 
 }

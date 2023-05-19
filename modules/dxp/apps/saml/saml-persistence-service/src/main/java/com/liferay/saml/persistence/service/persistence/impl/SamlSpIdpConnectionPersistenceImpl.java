@@ -44,7 +44,6 @@ import com.liferay.saml.persistence.service.persistence.SamlSpIdpConnectionUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
@@ -1605,33 +1604,17 @@ public class SamlSpIdpConnectionPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_SIEI",
 			new String[] {Long.class.getName(), String.class.getName()});
 
-		_setSamlSpIdpConnectionUtilPersistence(this);
+		SamlSpIdpConnectionUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setSamlSpIdpConnectionUtilPersistence(null);
+		SamlSpIdpConnectionUtil.setPersistence(null);
 
 		entityCache.removeCache(SamlSpIdpConnectionImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setSamlSpIdpConnectionUtilPersistence(
-		SamlSpIdpConnectionPersistence samlSpIdpConnectionPersistence) {
-
-		try {
-			Field field = SamlSpIdpConnectionUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, samlSpIdpConnectionPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

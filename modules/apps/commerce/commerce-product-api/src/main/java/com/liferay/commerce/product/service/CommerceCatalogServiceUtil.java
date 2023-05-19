@@ -134,6 +134,10 @@ public class CommerceCatalogServiceUtil {
 		return _service;
 	}
 
+	public static void setService(CommerceCatalogService service) {
+		_service = service;
+	}
+
 	private static volatile CommerceCatalogService _service;
 
 }

@@ -334,19 +334,12 @@ public class CommerceShippingFixedOptionModelImpl
 	private static final Map
 		<String, Function<CommerceShippingFixedOption, Object>>
 			_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<CommerceShippingFixedOption, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommerceShippingFixedOption, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<CommerceShippingFixedOption, Object>>();
-		Map<String, BiConsumer<CommerceShippingFixedOption, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String, BiConsumer<CommerceShippingFixedOption, ?>>();
 
 		attributeGetterFunctions.put(
 			"commerceShippingFixedOptionId",
@@ -358,21 +351,6 @@ public class CommerceShippingFixedOptionModelImpl
 
 					return commerceShippingFixedOption.
 						getCommerceShippingFixedOptionId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"commerceShippingFixedOptionId",
-			new BiConsumer<CommerceShippingFixedOption, Object>() {
-
-				@Override
-				public void accept(
-					CommerceShippingFixedOption commerceShippingFixedOption,
-					Object commerceShippingFixedOptionIdObject) {
-
-					commerceShippingFixedOption.
-						setCommerceShippingFixedOptionId(
-							(Long)commerceShippingFixedOptionIdObject);
 				}
 
 			});
@@ -388,6 +366,157 @@ public class CommerceShippingFixedOptionModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommerceShippingFixedOption, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingFixedOption commerceShippingFixedOption) {
+
+					return commerceShippingFixedOption.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommerceShippingFixedOption, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingFixedOption commerceShippingFixedOption) {
+
+					return commerceShippingFixedOption.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommerceShippingFixedOption, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingFixedOption commerceShippingFixedOption) {
+
+					return commerceShippingFixedOption.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommerceShippingFixedOption, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingFixedOption commerceShippingFixedOption) {
+
+					return commerceShippingFixedOption.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommerceShippingFixedOption, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingFixedOption commerceShippingFixedOption) {
+
+					return commerceShippingFixedOption.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceShippingMethodId",
+			new Function<CommerceShippingFixedOption, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingFixedOption commerceShippingFixedOption) {
+
+					return commerceShippingFixedOption.
+						getCommerceShippingMethodId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"name",
+			new Function<CommerceShippingFixedOption, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingFixedOption commerceShippingFixedOption) {
+
+					return commerceShippingFixedOption.getName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"description",
+			new Function<CommerceShippingFixedOption, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingFixedOption commerceShippingFixedOption) {
+
+					return commerceShippingFixedOption.getDescription();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"amount",
+			new Function<CommerceShippingFixedOption, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingFixedOption commerceShippingFixedOption) {
+
+					return commerceShippingFixedOption.getAmount();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"priority",
+			new Function<CommerceShippingFixedOption, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceShippingFixedOption commerceShippingFixedOption) {
+
+					return commerceShippingFixedOption.getPriority();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<CommerceShippingFixedOption, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommerceShippingFixedOption, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap
+					<String, BiConsumer<CommerceShippingFixedOption, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"commerceShippingFixedOptionId",
+			new BiConsumer<CommerceShippingFixedOption, Object>() {
+
+				@Override
+				public void accept(
+					CommerceShippingFixedOption commerceShippingFixedOption,
+					Object commerceShippingFixedOptionIdObject) {
+
+					commerceShippingFixedOption.
+						setCommerceShippingFixedOptionId(
+							(Long)commerceShippingFixedOptionIdObject);
+				}
+
+			});
 		attributeSetterBiConsumers.put(
 			"groupId",
 			new BiConsumer<CommerceShippingFixedOption, Object>() {
@@ -398,18 +527,6 @@ public class CommerceShippingFixedOptionModelImpl
 					Object groupIdObject) {
 
 					commerceShippingFixedOption.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommerceShippingFixedOption, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingFixedOption commerceShippingFixedOption) {
-
-					return commerceShippingFixedOption.getCompanyId();
 				}
 
 			});
@@ -427,18 +544,6 @@ public class CommerceShippingFixedOptionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommerceShippingFixedOption, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingFixedOption commerceShippingFixedOption) {
-
-					return commerceShippingFixedOption.getUserId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userId",
 			new BiConsumer<CommerceShippingFixedOption, Object>() {
@@ -449,18 +554,6 @@ public class CommerceShippingFixedOptionModelImpl
 					Object userIdObject) {
 
 					commerceShippingFixedOption.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommerceShippingFixedOption, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingFixedOption commerceShippingFixedOption) {
-
-					return commerceShippingFixedOption.getUserName();
 				}
 
 			});
@@ -478,18 +571,6 @@ public class CommerceShippingFixedOptionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommerceShippingFixedOption, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingFixedOption commerceShippingFixedOption) {
-
-					return commerceShippingFixedOption.getCreateDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"createDate",
 			new BiConsumer<CommerceShippingFixedOption, Object>() {
@@ -501,18 +582,6 @@ public class CommerceShippingFixedOptionModelImpl
 
 					commerceShippingFixedOption.setCreateDate(
 						(Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommerceShippingFixedOption, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingFixedOption commerceShippingFixedOption) {
-
-					return commerceShippingFixedOption.getModifiedDate();
 				}
 
 			});
@@ -530,19 +599,6 @@ public class CommerceShippingFixedOptionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"commerceShippingMethodId",
-			new Function<CommerceShippingFixedOption, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingFixedOption commerceShippingFixedOption) {
-
-					return commerceShippingFixedOption.
-						getCommerceShippingMethodId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"commerceShippingMethodId",
 			new BiConsumer<CommerceShippingFixedOption, Object>() {
@@ -557,18 +613,6 @@ public class CommerceShippingFixedOptionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"name",
-			new Function<CommerceShippingFixedOption, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingFixedOption commerceShippingFixedOption) {
-
-					return commerceShippingFixedOption.getName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"name",
 			new BiConsumer<CommerceShippingFixedOption, Object>() {
@@ -579,18 +623,6 @@ public class CommerceShippingFixedOptionModelImpl
 					Object nameObject) {
 
 					commerceShippingFixedOption.setName((String)nameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"description",
-			new Function<CommerceShippingFixedOption, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingFixedOption commerceShippingFixedOption) {
-
-					return commerceShippingFixedOption.getDescription();
 				}
 
 			});
@@ -608,18 +640,6 @@ public class CommerceShippingFixedOptionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"amount",
-			new Function<CommerceShippingFixedOption, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingFixedOption commerceShippingFixedOption) {
-
-					return commerceShippingFixedOption.getAmount();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"amount",
 			new BiConsumer<CommerceShippingFixedOption, Object>() {
@@ -631,18 +651,6 @@ public class CommerceShippingFixedOptionModelImpl
 
 					commerceShippingFixedOption.setAmount(
 						(BigDecimal)amountObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"priority",
-			new Function<CommerceShippingFixedOption, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceShippingFixedOption commerceShippingFixedOption) {
-
-					return commerceShippingFixedOption.getPriority();
 				}
 
 			});
@@ -661,8 +669,6 @@ public class CommerceShippingFixedOptionModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

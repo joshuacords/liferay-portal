@@ -4335,33 +4335,17 @@ public class CommerceAccountGroupPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_ERC",
 			new String[] {Long.class.getName(), String.class.getName()});
 
-		_setCommerceAccountGroupUtilPersistence(this);
+		CommerceAccountGroupUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setCommerceAccountGroupUtilPersistence(null);
+		CommerceAccountGroupUtil.setPersistence(null);
 
 		entityCache.removeCache(CommerceAccountGroupImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setCommerceAccountGroupUtilPersistence(
-		CommerceAccountGroupPersistence commerceAccountGroupPersistence) {
-
-		try {
-			Field field = CommerceAccountGroupUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, commerceAccountGroupPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

@@ -1201,6 +1201,10 @@ public class PollsVoteUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(PollsVotePersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile PollsVotePersistence _persistence;
 
 }

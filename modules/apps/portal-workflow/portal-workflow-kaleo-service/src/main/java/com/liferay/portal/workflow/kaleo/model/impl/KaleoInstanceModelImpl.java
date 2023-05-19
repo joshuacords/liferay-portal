@@ -239,103 +239,109 @@ public class KaleoInstanceModelImpl
 
 	private static final Map<String, Function<KaleoInstance, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<KaleoInstance, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<KaleoInstance, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<KaleoInstance, Object>>();
-		Map<String, BiConsumer<KaleoInstance, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<KaleoInstance, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", KaleoInstance::getMvccVersion);
-		attributeSetterBiConsumers.put(
-			"mvccVersion",
-			(BiConsumer<KaleoInstance, Long>)KaleoInstance::setMvccVersion);
 		attributeGetterFunctions.put(
 			"kaleoInstanceId", KaleoInstance::getKaleoInstanceId);
-		attributeSetterBiConsumers.put(
-			"kaleoInstanceId",
-			(BiConsumer<KaleoInstance, Long>)KaleoInstance::setKaleoInstanceId);
 		attributeGetterFunctions.put("groupId", KaleoInstance::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId",
-			(BiConsumer<KaleoInstance, Long>)KaleoInstance::setGroupId);
 		attributeGetterFunctions.put("companyId", KaleoInstance::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId",
-			(BiConsumer<KaleoInstance, Long>)KaleoInstance::setCompanyId);
 		attributeGetterFunctions.put("userId", KaleoInstance::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId",
-			(BiConsumer<KaleoInstance, Long>)KaleoInstance::setUserId);
 		attributeGetterFunctions.put("userName", KaleoInstance::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName",
-			(BiConsumer<KaleoInstance, String>)KaleoInstance::setUserName);
 		attributeGetterFunctions.put(
 			"createDate", KaleoInstance::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<KaleoInstance, Date>)KaleoInstance::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", KaleoInstance::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<KaleoInstance, Date>)KaleoInstance::setModifiedDate);
 		attributeGetterFunctions.put(
 			"kaleoDefinitionVersionId",
 			KaleoInstance::getKaleoDefinitionVersionId);
+		attributeGetterFunctions.put(
+			"kaleoDefinitionName", KaleoInstance::getKaleoDefinitionName);
+		attributeGetterFunctions.put(
+			"kaleoDefinitionVersion", KaleoInstance::getKaleoDefinitionVersion);
+		attributeGetterFunctions.put(
+			"rootKaleoInstanceTokenId",
+			KaleoInstance::getRootKaleoInstanceTokenId);
+		attributeGetterFunctions.put("className", KaleoInstance::getClassName);
+		attributeGetterFunctions.put("classPK", KaleoInstance::getClassPK);
+		attributeGetterFunctions.put("completed", KaleoInstance::getCompleted);
+		attributeGetterFunctions.put(
+			"completionDate", KaleoInstance::getCompletionDate);
+		attributeGetterFunctions.put(
+			"workflowContext", KaleoInstance::getWorkflowContext);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<KaleoInstance, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<KaleoInstance, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<KaleoInstance, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"mvccVersion",
+			(BiConsumer<KaleoInstance, Long>)KaleoInstance::setMvccVersion);
+		attributeSetterBiConsumers.put(
+			"kaleoInstanceId",
+			(BiConsumer<KaleoInstance, Long>)KaleoInstance::setKaleoInstanceId);
+		attributeSetterBiConsumers.put(
+			"groupId",
+			(BiConsumer<KaleoInstance, Long>)KaleoInstance::setGroupId);
+		attributeSetterBiConsumers.put(
+			"companyId",
+			(BiConsumer<KaleoInstance, Long>)KaleoInstance::setCompanyId);
+		attributeSetterBiConsumers.put(
+			"userId",
+			(BiConsumer<KaleoInstance, Long>)KaleoInstance::setUserId);
+		attributeSetterBiConsumers.put(
+			"userName",
+			(BiConsumer<KaleoInstance, String>)KaleoInstance::setUserName);
+		attributeSetterBiConsumers.put(
+			"createDate",
+			(BiConsumer<KaleoInstance, Date>)KaleoInstance::setCreateDate);
+		attributeSetterBiConsumers.put(
+			"modifiedDate",
+			(BiConsumer<KaleoInstance, Date>)KaleoInstance::setModifiedDate);
 		attributeSetterBiConsumers.put(
 			"kaleoDefinitionVersionId",
 			(BiConsumer<KaleoInstance, Long>)
 				KaleoInstance::setKaleoDefinitionVersionId);
-		attributeGetterFunctions.put(
-			"kaleoDefinitionName", KaleoInstance::getKaleoDefinitionName);
 		attributeSetterBiConsumers.put(
 			"kaleoDefinitionName",
 			(BiConsumer<KaleoInstance, String>)
 				KaleoInstance::setKaleoDefinitionName);
-		attributeGetterFunctions.put(
-			"kaleoDefinitionVersion", KaleoInstance::getKaleoDefinitionVersion);
 		attributeSetterBiConsumers.put(
 			"kaleoDefinitionVersion",
 			(BiConsumer<KaleoInstance, Integer>)
 				KaleoInstance::setKaleoDefinitionVersion);
-		attributeGetterFunctions.put(
-			"rootKaleoInstanceTokenId",
-			KaleoInstance::getRootKaleoInstanceTokenId);
 		attributeSetterBiConsumers.put(
 			"rootKaleoInstanceTokenId",
 			(BiConsumer<KaleoInstance, Long>)
 				KaleoInstance::setRootKaleoInstanceTokenId);
-		attributeGetterFunctions.put("className", KaleoInstance::getClassName);
 		attributeSetterBiConsumers.put(
 			"className",
 			(BiConsumer<KaleoInstance, String>)KaleoInstance::setClassName);
-		attributeGetterFunctions.put("classPK", KaleoInstance::getClassPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<KaleoInstance, Long>)KaleoInstance::setClassPK);
-		attributeGetterFunctions.put("completed", KaleoInstance::getCompleted);
 		attributeSetterBiConsumers.put(
 			"completed",
 			(BiConsumer<KaleoInstance, Boolean>)KaleoInstance::setCompleted);
-		attributeGetterFunctions.put(
-			"completionDate", KaleoInstance::getCompletionDate);
 		attributeSetterBiConsumers.put(
 			"completionDate",
 			(BiConsumer<KaleoInstance, Date>)KaleoInstance::setCompletionDate);
-		attributeGetterFunctions.put(
-			"workflowContext", KaleoInstance::getWorkflowContext);
 		attributeSetterBiConsumers.put(
 			"workflowContext",
 			(BiConsumer<KaleoInstance, String>)
 				KaleoInstance::setWorkflowContext);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

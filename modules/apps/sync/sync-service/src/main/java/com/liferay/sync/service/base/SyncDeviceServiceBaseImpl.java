@@ -33,8 +33,6 @@ import com.liferay.sync.service.persistence.SyncDLObjectFinder;
 import com.liferay.sync.service.persistence.SyncDLObjectPersistence;
 import com.liferay.sync.service.persistence.SyncDevicePersistence;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 import org.osgi.service.component.annotations.Deactivate;
@@ -62,7 +60,7 @@ public abstract class SyncDeviceServiceBaseImpl
 	 */
 	@Deactivate
 	protected void deactivate() {
-		_setServiceUtilService(null);
+		SyncDeviceServiceUtil.setService(null);
 	}
 
 	@Override
@@ -76,7 +74,7 @@ public abstract class SyncDeviceServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		syncDeviceService = (SyncDeviceService)aopProxy;
 
-		_setServiceUtilService(syncDeviceService);
+		SyncDeviceServiceUtil.setService(syncDeviceService);
 	}
 
 	/**
@@ -118,20 +116,6 @@ public abstract class SyncDeviceServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setServiceUtilService(SyncDeviceService syncDeviceService) {
-		try {
-			Field field = SyncDeviceServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, syncDeviceService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

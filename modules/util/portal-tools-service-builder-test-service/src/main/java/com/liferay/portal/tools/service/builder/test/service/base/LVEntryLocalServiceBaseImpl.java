@@ -56,8 +56,6 @@ import com.liferay.portal.tools.service.builder.test.service.persistence.LVEntry
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -860,14 +858,14 @@ public abstract class LVEntryLocalServiceBaseImpl
 
 		registerListener(new LVEntryLocalizationVersionServiceListener());
 
-		_setLocalServiceUtilService(lvEntryLocalService);
+		LVEntryLocalServiceUtil.setService(lvEntryLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"com.liferay.portal.tools.service.builder.test.model.LVEntry");
 
-		_setLocalServiceUtilService(null);
+		LVEntryLocalServiceUtil.setService(null);
 	}
 
 	@Indexable(type = IndexableType.REINDEX)
@@ -1258,22 +1256,6 @@ public abstract class LVEntryLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		LVEntryLocalService lvEntryLocalService) {
-
-		try {
-			Field field = LVEntryLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, lvEntryLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

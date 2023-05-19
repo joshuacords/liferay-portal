@@ -362,6 +362,10 @@ public class CommonLicenseKeyLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(CommonLicenseKeyLocalService service) {
+		_service = service;
+	}
+
 	private static volatile CommonLicenseKeyLocalService _service;
 
 }

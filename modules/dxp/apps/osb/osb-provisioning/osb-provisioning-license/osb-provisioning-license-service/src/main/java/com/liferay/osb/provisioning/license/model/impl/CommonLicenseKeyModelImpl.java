@@ -290,92 +290,98 @@ public class CommonLicenseKeyModelImpl
 
 	private static final Map<String, Function<CommonLicenseKey, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CommonLicenseKey, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommonLicenseKey, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap<String, Function<CommonLicenseKey, Object>>();
+
+		attributeGetterFunctions.put(
+			"mvccVersion", CommonLicenseKey::getMvccVersion);
+		attributeGetterFunctions.put("uuid", CommonLicenseKey::getUuid);
+		attributeGetterFunctions.put(
+			"commonLicenseKeyId", CommonLicenseKey::getCommonLicenseKeyId);
+		attributeGetterFunctions.put(
+			"companyId", CommonLicenseKey::getCompanyId);
+		attributeGetterFunctions.put("userId", CommonLicenseKey::getUserId);
+		attributeGetterFunctions.put("userName", CommonLicenseKey::getUserName);
+		attributeGetterFunctions.put(
+			"createDate", CommonLicenseKey::getCreateDate);
+		attributeGetterFunctions.put(
+			"productGroup", CommonLicenseKey::getProductGroup);
+		attributeGetterFunctions.put(
+			"productEnvironment", CommonLicenseKey::getProductEnvironment);
+		attributeGetterFunctions.put(
+			"productVersion", CommonLicenseKey::getProductVersion);
+		attributeGetterFunctions.put(
+			"startDate", CommonLicenseKey::getStartDate);
+		attributeGetterFunctions.put("endDate", CommonLicenseKey::getEndDate);
+		attributeGetterFunctions.put("fileName", CommonLicenseKey::getFileName);
+		attributeGetterFunctions.put("fileSize", CommonLicenseKey::getFileSize);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<CommonLicenseKey, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<CommonLicenseKey, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<CommonLicenseKey, ?>>();
 
-		attributeGetterFunctions.put(
-			"mvccVersion", CommonLicenseKey::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<CommonLicenseKey, Long>)
 				CommonLicenseKey::setMvccVersion);
-		attributeGetterFunctions.put("uuid", CommonLicenseKey::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<CommonLicenseKey, String>)CommonLicenseKey::setUuid);
-		attributeGetterFunctions.put(
-			"commonLicenseKeyId", CommonLicenseKey::getCommonLicenseKeyId);
 		attributeSetterBiConsumers.put(
 			"commonLicenseKeyId",
 			(BiConsumer<CommonLicenseKey, Long>)
 				CommonLicenseKey::setCommonLicenseKeyId);
-		attributeGetterFunctions.put(
-			"companyId", CommonLicenseKey::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<CommonLicenseKey, Long>)CommonLicenseKey::setCompanyId);
-		attributeGetterFunctions.put("userId", CommonLicenseKey::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<CommonLicenseKey, Long>)CommonLicenseKey::setUserId);
-		attributeGetterFunctions.put("userName", CommonLicenseKey::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<CommonLicenseKey, String>)
 				CommonLicenseKey::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", CommonLicenseKey::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<CommonLicenseKey, Date>)
 				CommonLicenseKey::setCreateDate);
-		attributeGetterFunctions.put(
-			"productGroup", CommonLicenseKey::getProductGroup);
 		attributeSetterBiConsumers.put(
 			"productGroup",
 			(BiConsumer<CommonLicenseKey, String>)
 				CommonLicenseKey::setProductGroup);
-		attributeGetterFunctions.put(
-			"productEnvironment", CommonLicenseKey::getProductEnvironment);
 		attributeSetterBiConsumers.put(
 			"productEnvironment",
 			(BiConsumer<CommonLicenseKey, String>)
 				CommonLicenseKey::setProductEnvironment);
-		attributeGetterFunctions.put(
-			"productVersion", CommonLicenseKey::getProductVersion);
 		attributeSetterBiConsumers.put(
 			"productVersion",
 			(BiConsumer<CommonLicenseKey, String>)
 				CommonLicenseKey::setProductVersion);
-		attributeGetterFunctions.put(
-			"startDate", CommonLicenseKey::getStartDate);
 		attributeSetterBiConsumers.put(
 			"startDate",
 			(BiConsumer<CommonLicenseKey, Date>)CommonLicenseKey::setStartDate);
-		attributeGetterFunctions.put("endDate", CommonLicenseKey::getEndDate);
 		attributeSetterBiConsumers.put(
 			"endDate",
 			(BiConsumer<CommonLicenseKey, Date>)CommonLicenseKey::setEndDate);
-		attributeGetterFunctions.put("fileName", CommonLicenseKey::getFileName);
 		attributeSetterBiConsumers.put(
 			"fileName",
 			(BiConsumer<CommonLicenseKey, String>)
 				CommonLicenseKey::setFileName);
-		attributeGetterFunctions.put("fileSize", CommonLicenseKey::getFileSize);
 		attributeSetterBiConsumers.put(
 			"fileSize",
 			(BiConsumer<CommonLicenseKey, Long>)CommonLicenseKey::setFileSize);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

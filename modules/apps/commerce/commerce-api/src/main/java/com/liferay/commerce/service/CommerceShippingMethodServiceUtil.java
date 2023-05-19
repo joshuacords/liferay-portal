@@ -202,6 +202,10 @@ public class CommerceShippingMethodServiceUtil {
 		return _service;
 	}
 
+	public static void setService(CommerceShippingMethodService service) {
+		_service = service;
+	}
+
 	private static volatile CommerceShippingMethodService _service;
 
 }

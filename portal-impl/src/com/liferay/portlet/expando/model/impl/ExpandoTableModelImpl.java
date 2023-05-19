@@ -214,34 +214,40 @@ public class ExpandoTableModelImpl
 
 	private static final Map<String, Function<ExpandoTable, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<ExpandoTable, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<ExpandoTable, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<ExpandoTable, Object>>();
-		Map<String, BiConsumer<ExpandoTable, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<ExpandoTable, ?>>();
 
 		attributeGetterFunctions.put("tableId", ExpandoTable::getTableId);
-		attributeSetterBiConsumers.put(
-			"tableId",
-			(BiConsumer<ExpandoTable, Long>)ExpandoTable::setTableId);
 		attributeGetterFunctions.put("companyId", ExpandoTable::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId",
-			(BiConsumer<ExpandoTable, Long>)ExpandoTable::setCompanyId);
 		attributeGetterFunctions.put(
 			"classNameId", ExpandoTable::getClassNameId);
-		attributeSetterBiConsumers.put(
-			"classNameId",
-			(BiConsumer<ExpandoTable, Long>)ExpandoTable::setClassNameId);
 		attributeGetterFunctions.put("name", ExpandoTable::getName);
-		attributeSetterBiConsumers.put(
-			"name", (BiConsumer<ExpandoTable, String>)ExpandoTable::setName);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<ExpandoTable, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<ExpandoTable, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<ExpandoTable, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"tableId",
+			(BiConsumer<ExpandoTable, Long>)ExpandoTable::setTableId);
+		attributeSetterBiConsumers.put(
+			"companyId",
+			(BiConsumer<ExpandoTable, Long>)ExpandoTable::setCompanyId);
+		attributeSetterBiConsumers.put(
+			"classNameId",
+			(BiConsumer<ExpandoTable, Long>)ExpandoTable::setClassNameId);
+		attributeSetterBiConsumers.put(
+			"name", (BiConsumer<ExpandoTable, String>)ExpandoTable::setName);
+
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

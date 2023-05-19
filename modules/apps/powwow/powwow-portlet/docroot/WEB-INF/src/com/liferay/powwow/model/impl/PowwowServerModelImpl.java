@@ -225,66 +225,72 @@ public class PowwowServerModelImpl
 
 	private static final Map<String, Function<PowwowServer, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<PowwowServer, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<PowwowServer, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<PowwowServer, Object>>();
-		Map<String, BiConsumer<PowwowServer, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<PowwowServer, ?>>();
 
 		attributeGetterFunctions.put(
 			"powwowServerId", PowwowServer::getPowwowServerId);
+		attributeGetterFunctions.put("companyId", PowwowServer::getCompanyId);
+		attributeGetterFunctions.put("userId", PowwowServer::getUserId);
+		attributeGetterFunctions.put("userName", PowwowServer::getUserName);
+		attributeGetterFunctions.put("createDate", PowwowServer::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", PowwowServer::getModifiedDate);
+		attributeGetterFunctions.put("name", PowwowServer::getName);
+		attributeGetterFunctions.put(
+			"providerType", PowwowServer::getProviderType);
+		attributeGetterFunctions.put("url", PowwowServer::getUrl);
+		attributeGetterFunctions.put("apiKey", PowwowServer::getApiKey);
+		attributeGetterFunctions.put("secret", PowwowServer::getSecret);
+		attributeGetterFunctions.put("active", PowwowServer::getActive);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<PowwowServer, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<PowwowServer, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<PowwowServer, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"powwowServerId",
 			(BiConsumer<PowwowServer, Long>)PowwowServer::setPowwowServerId);
-		attributeGetterFunctions.put("companyId", PowwowServer::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<PowwowServer, Long>)PowwowServer::setCompanyId);
-		attributeGetterFunctions.put("userId", PowwowServer::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<PowwowServer, Long>)PowwowServer::setUserId);
-		attributeGetterFunctions.put("userName", PowwowServer::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<PowwowServer, String>)PowwowServer::setUserName);
-		attributeGetterFunctions.put("createDate", PowwowServer::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<PowwowServer, Date>)PowwowServer::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", PowwowServer::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<PowwowServer, Date>)PowwowServer::setModifiedDate);
-		attributeGetterFunctions.put("name", PowwowServer::getName);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<PowwowServer, String>)PowwowServer::setName);
-		attributeGetterFunctions.put(
-			"providerType", PowwowServer::getProviderType);
 		attributeSetterBiConsumers.put(
 			"providerType",
 			(BiConsumer<PowwowServer, String>)PowwowServer::setProviderType);
-		attributeGetterFunctions.put("url", PowwowServer::getUrl);
 		attributeSetterBiConsumers.put(
 			"url", (BiConsumer<PowwowServer, String>)PowwowServer::setUrl);
-		attributeGetterFunctions.put("apiKey", PowwowServer::getApiKey);
 		attributeSetterBiConsumers.put(
 			"apiKey",
 			(BiConsumer<PowwowServer, String>)PowwowServer::setApiKey);
-		attributeGetterFunctions.put("secret", PowwowServer::getSecret);
 		attributeSetterBiConsumers.put(
 			"secret",
 			(BiConsumer<PowwowServer, String>)PowwowServer::setSecret);
-		attributeGetterFunctions.put("active", PowwowServer::getActive);
 		attributeSetterBiConsumers.put(
 			"active",
 			(BiConsumer<PowwowServer, Boolean>)PowwowServer::setActive);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

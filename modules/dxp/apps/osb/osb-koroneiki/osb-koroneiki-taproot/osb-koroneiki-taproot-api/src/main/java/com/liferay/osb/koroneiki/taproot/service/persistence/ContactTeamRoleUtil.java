@@ -990,6 +990,10 @@ public class ContactTeamRoleUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(ContactTeamRolePersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile ContactTeamRolePersistence _persistence;
 
 }

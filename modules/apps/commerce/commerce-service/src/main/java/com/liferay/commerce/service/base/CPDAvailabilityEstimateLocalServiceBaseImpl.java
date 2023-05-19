@@ -75,8 +75,6 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -1448,14 +1446,15 @@ public abstract class CPDAvailabilityEstimateLocalServiceBaseImpl
 			"com.liferay.commerce.model.CPDAvailabilityEstimate",
 			cpdAvailabilityEstimateLocalService);
 
-		_setLocalServiceUtilService(cpdAvailabilityEstimateLocalService);
+		CPDAvailabilityEstimateLocalServiceUtil.setService(
+			cpdAvailabilityEstimateLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"com.liferay.commerce.model.CPDAvailabilityEstimate");
 
-		_setLocalServiceUtilService(null);
+		CPDAvailabilityEstimateLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -1498,24 +1497,6 @@ public abstract class CPDAvailabilityEstimateLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		CPDAvailabilityEstimateLocalService
-			cpdAvailabilityEstimateLocalService) {
-
-		try {
-			Field field =
-				CPDAvailabilityEstimateLocalServiceUtil.class.getDeclaredField(
-					"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, cpdAvailabilityEstimateLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

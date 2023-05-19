@@ -1770,6 +1770,12 @@ public class CommerceSubscriptionEntryUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(
+		CommerceSubscriptionEntryPersistence persistence) {
+
+		_persistence = persistence;
+	}
+
 	private static volatile CommerceSubscriptionEntryPersistence _persistence;
 
 }

@@ -334,6 +334,10 @@ public class VirtualHostLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(VirtualHostLocalService service) {
+		_service = service;
+	}
+
 	private static volatile VirtualHostLocalService _service;
 
 }

@@ -457,6 +457,10 @@ public class PowwowServerUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(PowwowServerPersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile PowwowServerPersistence _persistence;
 
 }

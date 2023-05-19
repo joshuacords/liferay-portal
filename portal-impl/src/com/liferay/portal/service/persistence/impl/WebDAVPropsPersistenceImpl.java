@@ -43,7 +43,6 @@ import com.liferay.portal.model.impl.WebDAVPropsModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
@@ -958,33 +957,17 @@ public class WebDAVPropsPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_C",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
-		_setWebDAVPropsUtilPersistence(this);
+		WebDAVPropsUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setWebDAVPropsUtilPersistence(null);
+		WebDAVPropsUtil.setPersistence(null);
 
 		EntityCacheUtil.removeCache(WebDAVPropsImpl.class.getName());
 
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setWebDAVPropsUtilPersistence(
-		WebDAVPropsPersistence webDAVPropsPersistence) {
-
-		try {
-			Field field = WebDAVPropsUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, webDAVPropsPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	private static final String _SQL_SELECT_WEBDAVPROPS =

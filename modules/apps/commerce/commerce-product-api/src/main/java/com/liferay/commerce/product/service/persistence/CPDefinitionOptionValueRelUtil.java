@@ -1891,6 +1891,12 @@ public class CPDefinitionOptionValueRelUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(
+		CPDefinitionOptionValueRelPersistence persistence) {
+
+		_persistence = persistence;
+	}
+
 	private static volatile CPDefinitionOptionValueRelPersistence _persistence;
 
 }

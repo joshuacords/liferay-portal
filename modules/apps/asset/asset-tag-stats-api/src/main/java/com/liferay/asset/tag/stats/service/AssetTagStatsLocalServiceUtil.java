@@ -380,6 +380,10 @@ public class AssetTagStatsLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(AssetTagStatsLocalService service) {
+		_service = service;
+	}
+
 	private static volatile AssetTagStatsLocalService _service;
 
 }

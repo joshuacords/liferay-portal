@@ -35,8 +35,6 @@ import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiServic
 import com.liferay.portal.kernel.service.BaseServiceImpl;
 import com.liferay.portal.kernel.util.PortalUtil;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 import org.osgi.service.component.annotations.Deactivate;
@@ -64,7 +62,7 @@ public abstract class KBArticleServiceBaseImpl
 	 */
 	@Deactivate
 	protected void deactivate() {
-		_setServiceUtilService(null);
+		KBArticleServiceUtil.setService(null);
 	}
 
 	@Override
@@ -78,7 +76,7 @@ public abstract class KBArticleServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		kbArticleService = (KBArticleService)aopProxy;
 
-		_setServiceUtilService(kbArticleService);
+		KBArticleServiceUtil.setService(kbArticleService);
 	}
 
 	/**
@@ -120,20 +118,6 @@ public abstract class KBArticleServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setServiceUtilService(KBArticleService kbArticleService) {
-		try {
-			Field field = KBArticleServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, kbArticleService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

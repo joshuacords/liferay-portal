@@ -55,8 +55,6 @@ import com.liferay.saml.persistence.service.persistence.SamlSpSessionPersistence
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -794,14 +792,14 @@ public abstract class SamlSpMessageLocalServiceBaseImpl
 			"com.liferay.saml.persistence.model.SamlSpMessage",
 			samlSpMessageLocalService);
 
-		_setLocalServiceUtilService(samlSpMessageLocalService);
+		SamlSpMessageLocalServiceUtil.setService(samlSpMessageLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"com.liferay.saml.persistence.model.SamlSpMessage");
 
-		_setLocalServiceUtilService(null);
+		SamlSpMessageLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -843,22 +841,6 @@ public abstract class SamlSpMessageLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		SamlSpMessageLocalService samlSpMessageLocalService) {
-
-		try {
-			Field field = SamlSpMessageLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, samlSpMessageLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

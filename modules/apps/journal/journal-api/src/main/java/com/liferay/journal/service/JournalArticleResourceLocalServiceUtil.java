@@ -399,6 +399,10 @@ public class JournalArticleResourceLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(JournalArticleResourceLocalService service) {
+		_service = service;
+	}
+
 	private static volatile JournalArticleResourceLocalService _service;
 
 }

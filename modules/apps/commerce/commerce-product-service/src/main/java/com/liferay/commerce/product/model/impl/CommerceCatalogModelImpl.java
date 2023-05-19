@@ -314,15 +314,11 @@ public class CommerceCatalogModelImpl
 
 	private static final Map<String, Function<CommerceCatalog, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CommerceCatalog, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommerceCatalog, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap<String, Function<CommerceCatalog, Object>>();
-		Map<String, BiConsumer<CommerceCatalog, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<CommerceCatalog, ?>>();
 
 		attributeGetterFunctions.put(
 			"externalReferenceCode",
@@ -334,6 +330,118 @@ public class CommerceCatalogModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"commerceCatalogId",
+			new Function<CommerceCatalog, Object>() {
+
+				@Override
+				public Object apply(CommerceCatalog commerceCatalog) {
+					return commerceCatalog.getCommerceCatalogId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommerceCatalog, Object>() {
+
+				@Override
+				public Object apply(CommerceCatalog commerceCatalog) {
+					return commerceCatalog.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommerceCatalog, Object>() {
+
+				@Override
+				public Object apply(CommerceCatalog commerceCatalog) {
+					return commerceCatalog.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommerceCatalog, Object>() {
+
+				@Override
+				public Object apply(CommerceCatalog commerceCatalog) {
+					return commerceCatalog.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommerceCatalog, Object>() {
+
+				@Override
+				public Object apply(CommerceCatalog commerceCatalog) {
+					return commerceCatalog.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommerceCatalog, Object>() {
+
+				@Override
+				public Object apply(CommerceCatalog commerceCatalog) {
+					return commerceCatalog.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"name",
+			new Function<CommerceCatalog, Object>() {
+
+				@Override
+				public Object apply(CommerceCatalog commerceCatalog) {
+					return commerceCatalog.getName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceCurrencyCode",
+			new Function<CommerceCatalog, Object>() {
+
+				@Override
+				public Object apply(CommerceCatalog commerceCatalog) {
+					return commerceCatalog.getCommerceCurrencyCode();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"catalogDefaultLanguageId",
+			new Function<CommerceCatalog, Object>() {
+
+				@Override
+				public Object apply(CommerceCatalog commerceCatalog) {
+					return commerceCatalog.getCatalogDefaultLanguageId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"system",
+			new Function<CommerceCatalog, Object>() {
+
+				@Override
+				public Object apply(CommerceCatalog commerceCatalog) {
+					return commerceCatalog.getSystem();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<CommerceCatalog, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommerceCatalog, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<CommerceCatalog, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"externalReferenceCode",
 			new BiConsumer<CommerceCatalog, Object>() {
@@ -345,16 +453,6 @@ public class CommerceCatalogModelImpl
 
 					commerceCatalog.setExternalReferenceCode(
 						(String)externalReferenceCodeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commerceCatalogId",
-			new Function<CommerceCatalog, Object>() {
-
-				@Override
-				public Object apply(CommerceCatalog commerceCatalog) {
-					return commerceCatalog.getCommerceCatalogId();
 				}
 
 			});
@@ -372,16 +470,6 @@ public class CommerceCatalogModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommerceCatalog, Object>() {
-
-				@Override
-				public Object apply(CommerceCatalog commerceCatalog) {
-					return commerceCatalog.getCompanyId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"companyId",
 			new BiConsumer<CommerceCatalog, Object>() {
@@ -391,16 +479,6 @@ public class CommerceCatalogModelImpl
 					CommerceCatalog commerceCatalog, Object companyIdObject) {
 
 					commerceCatalog.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommerceCatalog, Object>() {
-
-				@Override
-				public Object apply(CommerceCatalog commerceCatalog) {
-					return commerceCatalog.getUserId();
 				}
 
 			});
@@ -416,16 +494,6 @@ public class CommerceCatalogModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommerceCatalog, Object>() {
-
-				@Override
-				public Object apply(CommerceCatalog commerceCatalog) {
-					return commerceCatalog.getUserName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userName",
 			new BiConsumer<CommerceCatalog, Object>() {
@@ -438,16 +506,6 @@ public class CommerceCatalogModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommerceCatalog, Object>() {
-
-				@Override
-				public Object apply(CommerceCatalog commerceCatalog) {
-					return commerceCatalog.getCreateDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"createDate",
 			new BiConsumer<CommerceCatalog, Object>() {
@@ -457,16 +515,6 @@ public class CommerceCatalogModelImpl
 					CommerceCatalog commerceCatalog, Object createDateObject) {
 
 					commerceCatalog.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommerceCatalog, Object>() {
-
-				@Override
-				public Object apply(CommerceCatalog commerceCatalog) {
-					return commerceCatalog.getModifiedDate();
 				}
 
 			});
@@ -483,16 +531,6 @@ public class CommerceCatalogModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"name",
-			new Function<CommerceCatalog, Object>() {
-
-				@Override
-				public Object apply(CommerceCatalog commerceCatalog) {
-					return commerceCatalog.getName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"name",
 			new BiConsumer<CommerceCatalog, Object>() {
@@ -502,16 +540,6 @@ public class CommerceCatalogModelImpl
 					CommerceCatalog commerceCatalog, Object nameObject) {
 
 					commerceCatalog.setName((String)nameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commerceCurrencyCode",
-			new Function<CommerceCatalog, Object>() {
-
-				@Override
-				public Object apply(CommerceCatalog commerceCatalog) {
-					return commerceCatalog.getCommerceCurrencyCode();
 				}
 
 			});
@@ -529,16 +557,6 @@ public class CommerceCatalogModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"catalogDefaultLanguageId",
-			new Function<CommerceCatalog, Object>() {
-
-				@Override
-				public Object apply(CommerceCatalog commerceCatalog) {
-					return commerceCatalog.getCatalogDefaultLanguageId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"catalogDefaultLanguageId",
 			new BiConsumer<CommerceCatalog, Object>() {
@@ -550,16 +568,6 @@ public class CommerceCatalogModelImpl
 
 					commerceCatalog.setCatalogDefaultLanguageId(
 						(String)catalogDefaultLanguageIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"system",
-			new Function<CommerceCatalog, Object>() {
-
-				@Override
-				public Object apply(CommerceCatalog commerceCatalog) {
-					return commerceCatalog.getSystem();
 				}
 
 			});
@@ -576,8 +584,6 @@ public class CommerceCatalogModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

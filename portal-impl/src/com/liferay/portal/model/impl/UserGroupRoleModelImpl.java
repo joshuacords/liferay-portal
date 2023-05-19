@@ -264,39 +264,45 @@ public class UserGroupRoleModelImpl
 
 	private static final Map<String, Function<UserGroupRole, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<UserGroupRole, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<UserGroupRole, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<UserGroupRole, Object>>();
-		Map<String, BiConsumer<UserGroupRole, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<UserGroupRole, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", UserGroupRole::getMvccVersion);
+		attributeGetterFunctions.put("userId", UserGroupRole::getUserId);
+		attributeGetterFunctions.put("groupId", UserGroupRole::getGroupId);
+		attributeGetterFunctions.put("roleId", UserGroupRole::getRoleId);
+		attributeGetterFunctions.put("companyId", UserGroupRole::getCompanyId);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<UserGroupRole, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<UserGroupRole, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<UserGroupRole, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<UserGroupRole, Long>)UserGroupRole::setMvccVersion);
-		attributeGetterFunctions.put("userId", UserGroupRole::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<UserGroupRole, Long>)UserGroupRole::setUserId);
-		attributeGetterFunctions.put("groupId", UserGroupRole::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<UserGroupRole, Long>)UserGroupRole::setGroupId);
-		attributeGetterFunctions.put("roleId", UserGroupRole::getRoleId);
 		attributeSetterBiConsumers.put(
 			"roleId",
 			(BiConsumer<UserGroupRole, Long>)UserGroupRole::setRoleId);
-		attributeGetterFunctions.put("companyId", UserGroupRole::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<UserGroupRole, Long>)UserGroupRole::setCompanyId);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

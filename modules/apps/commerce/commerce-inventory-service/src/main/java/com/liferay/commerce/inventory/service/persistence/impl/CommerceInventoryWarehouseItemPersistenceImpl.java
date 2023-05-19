@@ -3480,11 +3480,11 @@ public class CommerceInventoryWarehouseItemPersistenceImpl
 			"countByC_ERC",
 			new String[] {Long.class.getName(), String.class.getName()});
 
-		_setCommerceInventoryWarehouseItemUtilPersistence(this);
+		CommerceInventoryWarehouseItemUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setCommerceInventoryWarehouseItemUtilPersistence(null);
+		CommerceInventoryWarehouseItemUtil.setPersistence(null);
 
 		entityCache.removeCache(
 			CommerceInventoryWarehouseItemImpl.class.getName());
@@ -3492,24 +3492,6 @@ public class CommerceInventoryWarehouseItemPersistenceImpl
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setCommerceInventoryWarehouseItemUtilPersistence(
-		CommerceInventoryWarehouseItemPersistence
-			commerceInventoryWarehouseItemPersistence) {
-
-		try {
-			Field field =
-				CommerceInventoryWarehouseItemUtil.class.getDeclaredField(
-					"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, commerceInventoryWarehouseItemPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

@@ -47,8 +47,6 @@ import com.liferay.portal.security.wedeploy.auth.service.persistence.WeDeployAut
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -364,7 +362,7 @@ public abstract class WeDeployAuthAppLocalServiceBaseImpl
 
 	@Deactivate
 	protected void deactivate() {
-		_setLocalServiceUtilService(null);
+		WeDeployAuthAppLocalServiceUtil.setService(null);
 	}
 
 	@Override
@@ -379,7 +377,7 @@ public abstract class WeDeployAuthAppLocalServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		weDeployAuthAppLocalService = (WeDeployAuthAppLocalService)aopProxy;
 
-		_setLocalServiceUtilService(weDeployAuthAppLocalService);
+		WeDeployAuthAppLocalServiceUtil.setService(weDeployAuthAppLocalService);
 	}
 
 	/**
@@ -421,23 +419,6 @@ public abstract class WeDeployAuthAppLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		WeDeployAuthAppLocalService weDeployAuthAppLocalService) {
-
-		try {
-			Field field =
-				WeDeployAuthAppLocalServiceUtil.class.getDeclaredField(
-					"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, weDeployAuthAppLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

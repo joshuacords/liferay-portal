@@ -326,9 +326,6 @@ public class CommerceInventoryWarehouseItemModelImpl
 	private static final Map
 		<String, Function<CommerceInventoryWarehouseItem, Object>>
 			_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<CommerceInventoryWarehouseItem, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommerceInventoryWarehouseItem, Object>>
@@ -336,10 +333,6 @@ public class CommerceInventoryWarehouseItemModelImpl
 				new LinkedHashMap
 					<String,
 					 Function<CommerceInventoryWarehouseItem, Object>>();
-		Map<String, BiConsumer<CommerceInventoryWarehouseItem, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String, BiConsumer<CommerceInventoryWarehouseItem, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion",
@@ -351,21 +344,6 @@ public class CommerceInventoryWarehouseItemModelImpl
 						commerceInventoryWarehouseItem) {
 
 					return commerceInventoryWarehouseItem.getMvccVersion();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"mvccVersion",
-			new BiConsumer<CommerceInventoryWarehouseItem, Object>() {
-
-				@Override
-				public void accept(
-					CommerceInventoryWarehouseItem
-						commerceInventoryWarehouseItem,
-					Object mvccVersionObject) {
-
-					commerceInventoryWarehouseItem.setMvccVersion(
-						(Long)mvccVersionObject);
 				}
 
 			});
@@ -383,6 +361,168 @@ public class CommerceInventoryWarehouseItemModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"commerceInventoryWarehouseItemId",
+			new Function<CommerceInventoryWarehouseItem, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryWarehouseItem
+						commerceInventoryWarehouseItem) {
+
+					return commerceInventoryWarehouseItem.
+						getCommerceInventoryWarehouseItemId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommerceInventoryWarehouseItem, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryWarehouseItem
+						commerceInventoryWarehouseItem) {
+
+					return commerceInventoryWarehouseItem.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommerceInventoryWarehouseItem, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryWarehouseItem
+						commerceInventoryWarehouseItem) {
+
+					return commerceInventoryWarehouseItem.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommerceInventoryWarehouseItem, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryWarehouseItem
+						commerceInventoryWarehouseItem) {
+
+					return commerceInventoryWarehouseItem.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommerceInventoryWarehouseItem, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryWarehouseItem
+						commerceInventoryWarehouseItem) {
+
+					return commerceInventoryWarehouseItem.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommerceInventoryWarehouseItem, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryWarehouseItem
+						commerceInventoryWarehouseItem) {
+
+					return commerceInventoryWarehouseItem.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceInventoryWarehouseId",
+			new Function<CommerceInventoryWarehouseItem, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryWarehouseItem
+						commerceInventoryWarehouseItem) {
+
+					return commerceInventoryWarehouseItem.
+						getCommerceInventoryWarehouseId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"sku",
+			new Function<CommerceInventoryWarehouseItem, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryWarehouseItem
+						commerceInventoryWarehouseItem) {
+
+					return commerceInventoryWarehouseItem.getSku();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"quantity",
+			new Function<CommerceInventoryWarehouseItem, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryWarehouseItem
+						commerceInventoryWarehouseItem) {
+
+					return commerceInventoryWarehouseItem.getQuantity();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"reservedQuantity",
+			new Function<CommerceInventoryWarehouseItem, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryWarehouseItem
+						commerceInventoryWarehouseItem) {
+
+					return commerceInventoryWarehouseItem.getReservedQuantity();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<CommerceInventoryWarehouseItem, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommerceInventoryWarehouseItem, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap
+					<String, BiConsumer<CommerceInventoryWarehouseItem, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"mvccVersion",
+			new BiConsumer<CommerceInventoryWarehouseItem, Object>() {
+
+				@Override
+				public void accept(
+					CommerceInventoryWarehouseItem
+						commerceInventoryWarehouseItem,
+					Object mvccVersionObject) {
+
+					commerceInventoryWarehouseItem.setMvccVersion(
+						(Long)mvccVersionObject);
+				}
+
+			});
 		attributeSetterBiConsumers.put(
 			"externalReferenceCode",
 			new BiConsumer<CommerceInventoryWarehouseItem, Object>() {
@@ -395,20 +535,6 @@ public class CommerceInventoryWarehouseItemModelImpl
 
 					commerceInventoryWarehouseItem.setExternalReferenceCode(
 						(String)externalReferenceCodeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commerceInventoryWarehouseItemId",
-			new Function<CommerceInventoryWarehouseItem, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryWarehouseItem
-						commerceInventoryWarehouseItem) {
-
-					return commerceInventoryWarehouseItem.
-						getCommerceInventoryWarehouseItemId();
 				}
 
 			});
@@ -428,19 +554,6 @@ public class CommerceInventoryWarehouseItemModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommerceInventoryWarehouseItem, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryWarehouseItem
-						commerceInventoryWarehouseItem) {
-
-					return commerceInventoryWarehouseItem.getCompanyId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"companyId",
 			new BiConsumer<CommerceInventoryWarehouseItem, Object>() {
@@ -453,19 +566,6 @@ public class CommerceInventoryWarehouseItemModelImpl
 
 					commerceInventoryWarehouseItem.setCompanyId(
 						(Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommerceInventoryWarehouseItem, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryWarehouseItem
-						commerceInventoryWarehouseItem) {
-
-					return commerceInventoryWarehouseItem.getUserId();
 				}
 
 			});
@@ -484,19 +584,6 @@ public class CommerceInventoryWarehouseItemModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommerceInventoryWarehouseItem, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryWarehouseItem
-						commerceInventoryWarehouseItem) {
-
-					return commerceInventoryWarehouseItem.getUserName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userName",
 			new BiConsumer<CommerceInventoryWarehouseItem, Object>() {
@@ -509,19 +596,6 @@ public class CommerceInventoryWarehouseItemModelImpl
 
 					commerceInventoryWarehouseItem.setUserName(
 						(String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommerceInventoryWarehouseItem, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryWarehouseItem
-						commerceInventoryWarehouseItem) {
-
-					return commerceInventoryWarehouseItem.getCreateDate();
 				}
 
 			});
@@ -540,19 +614,6 @@ public class CommerceInventoryWarehouseItemModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommerceInventoryWarehouseItem, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryWarehouseItem
-						commerceInventoryWarehouseItem) {
-
-					return commerceInventoryWarehouseItem.getModifiedDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			new BiConsumer<CommerceInventoryWarehouseItem, Object>() {
@@ -565,20 +626,6 @@ public class CommerceInventoryWarehouseItemModelImpl
 
 					commerceInventoryWarehouseItem.setModifiedDate(
 						(Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commerceInventoryWarehouseId",
-			new Function<CommerceInventoryWarehouseItem, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryWarehouseItem
-						commerceInventoryWarehouseItem) {
-
-					return commerceInventoryWarehouseItem.
-						getCommerceInventoryWarehouseId();
 				}
 
 			});
@@ -598,19 +645,6 @@ public class CommerceInventoryWarehouseItemModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"sku",
-			new Function<CommerceInventoryWarehouseItem, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryWarehouseItem
-						commerceInventoryWarehouseItem) {
-
-					return commerceInventoryWarehouseItem.getSku();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"sku",
 			new BiConsumer<CommerceInventoryWarehouseItem, Object>() {
@@ -622,19 +656,6 @@ public class CommerceInventoryWarehouseItemModelImpl
 					Object skuObject) {
 
 					commerceInventoryWarehouseItem.setSku((String)skuObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"quantity",
-			new Function<CommerceInventoryWarehouseItem, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryWarehouseItem
-						commerceInventoryWarehouseItem) {
-
-					return commerceInventoryWarehouseItem.getQuantity();
 				}
 
 			});
@@ -650,19 +671,6 @@ public class CommerceInventoryWarehouseItemModelImpl
 
 					commerceInventoryWarehouseItem.setQuantity(
 						(Integer)quantityObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"reservedQuantity",
-			new Function<CommerceInventoryWarehouseItem, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryWarehouseItem
-						commerceInventoryWarehouseItem) {
-
-					return commerceInventoryWarehouseItem.getReservedQuantity();
 				}
 
 			});
@@ -682,8 +690,6 @@ public class CommerceInventoryWarehouseItemModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

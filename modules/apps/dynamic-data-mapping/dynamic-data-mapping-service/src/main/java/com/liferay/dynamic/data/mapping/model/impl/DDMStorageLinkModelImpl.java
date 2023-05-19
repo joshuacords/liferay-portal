@@ -214,56 +214,62 @@ public class DDMStorageLinkModelImpl
 
 	private static final Map<String, Function<DDMStorageLink, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<DDMStorageLink, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<DDMStorageLink, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<DDMStorageLink, Object>>();
-		Map<String, BiConsumer<DDMStorageLink, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<DDMStorageLink, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", DDMStorageLink::getMvccVersion);
+		attributeGetterFunctions.put("uuid", DDMStorageLink::getUuid);
+		attributeGetterFunctions.put(
+			"storageLinkId", DDMStorageLink::getStorageLinkId);
+		attributeGetterFunctions.put("companyId", DDMStorageLink::getCompanyId);
+		attributeGetterFunctions.put(
+			"classNameId", DDMStorageLink::getClassNameId);
+		attributeGetterFunctions.put("classPK", DDMStorageLink::getClassPK);
+		attributeGetterFunctions.put(
+			"structureId", DDMStorageLink::getStructureId);
+		attributeGetterFunctions.put(
+			"structureVersionId", DDMStorageLink::getStructureVersionId);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<DDMStorageLink, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<DDMStorageLink, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<DDMStorageLink, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<DDMStorageLink, Long>)DDMStorageLink::setMvccVersion);
-		attributeGetterFunctions.put("uuid", DDMStorageLink::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<DDMStorageLink, String>)DDMStorageLink::setUuid);
-		attributeGetterFunctions.put(
-			"storageLinkId", DDMStorageLink::getStorageLinkId);
 		attributeSetterBiConsumers.put(
 			"storageLinkId",
 			(BiConsumer<DDMStorageLink, Long>)DDMStorageLink::setStorageLinkId);
-		attributeGetterFunctions.put("companyId", DDMStorageLink::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<DDMStorageLink, Long>)DDMStorageLink::setCompanyId);
-		attributeGetterFunctions.put(
-			"classNameId", DDMStorageLink::getClassNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<DDMStorageLink, Long>)DDMStorageLink::setClassNameId);
-		attributeGetterFunctions.put("classPK", DDMStorageLink::getClassPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<DDMStorageLink, Long>)DDMStorageLink::setClassPK);
-		attributeGetterFunctions.put(
-			"structureId", DDMStorageLink::getStructureId);
 		attributeSetterBiConsumers.put(
 			"structureId",
 			(BiConsumer<DDMStorageLink, Long>)DDMStorageLink::setStructureId);
-		attributeGetterFunctions.put(
-			"structureVersionId", DDMStorageLink::getStructureVersionId);
 		attributeSetterBiConsumers.put(
 			"structureVersionId",
 			(BiConsumer<DDMStorageLink, Long>)
 				DDMStorageLink::setStructureVersionId);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

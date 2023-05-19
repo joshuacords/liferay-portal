@@ -46,8 +46,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -382,7 +380,7 @@ public abstract class DLFileVersionPreviewLocalServiceBaseImpl
 
 	@Deactivate
 	protected void deactivate() {
-		_setLocalServiceUtilService(null);
+		DLFileVersionPreviewLocalServiceUtil.setService(null);
 	}
 
 	@Override
@@ -398,7 +396,8 @@ public abstract class DLFileVersionPreviewLocalServiceBaseImpl
 		dlFileVersionPreviewLocalService =
 			(DLFileVersionPreviewLocalService)aopProxy;
 
-		_setLocalServiceUtilService(dlFileVersionPreviewLocalService);
+		DLFileVersionPreviewLocalServiceUtil.setService(
+			dlFileVersionPreviewLocalService);
 	}
 
 	/**
@@ -441,23 +440,6 @@ public abstract class DLFileVersionPreviewLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		DLFileVersionPreviewLocalService dlFileVersionPreviewLocalService) {
-
-		try {
-			Field field =
-				DLFileVersionPreviewLocalServiceUtil.class.getDeclaredField(
-					"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, dlFileVersionPreviewLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

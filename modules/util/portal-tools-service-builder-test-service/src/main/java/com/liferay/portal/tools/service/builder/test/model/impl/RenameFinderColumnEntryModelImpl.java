@@ -215,42 +215,48 @@ public class RenameFinderColumnEntryModelImpl
 
 	private static final Map<String, Function<RenameFinderColumnEntry, Object>>
 		_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<RenameFinderColumnEntry, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<RenameFinderColumnEntry, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<RenameFinderColumnEntry, Object>>();
+
+		attributeGetterFunctions.put(
+			"renameFinderColumnEntryId",
+			RenameFinderColumnEntry::getRenameFinderColumnEntryId);
+		attributeGetterFunctions.put(
+			"groupId", RenameFinderColumnEntry::getGroupId);
+		attributeGetterFunctions.put(
+			"renamedColumn", RenameFinderColumnEntry::getRenamedColumn);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<RenameFinderColumnEntry, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<RenameFinderColumnEntry, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<RenameFinderColumnEntry, ?>>();
 
-		attributeGetterFunctions.put(
-			"renameFinderColumnEntryId",
-			RenameFinderColumnEntry::getRenameFinderColumnEntryId);
 		attributeSetterBiConsumers.put(
 			"renameFinderColumnEntryId",
 			(BiConsumer<RenameFinderColumnEntry, Long>)
 				RenameFinderColumnEntry::setRenameFinderColumnEntryId);
-		attributeGetterFunctions.put(
-			"groupId", RenameFinderColumnEntry::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<RenameFinderColumnEntry, Long>)
 				RenameFinderColumnEntry::setGroupId);
-		attributeGetterFunctions.put(
-			"renamedColumn", RenameFinderColumnEntry::getRenamedColumn);
 		attributeSetterBiConsumers.put(
 			"renamedColumn",
 			(BiConsumer<RenameFinderColumnEntry, String>)
 				RenameFinderColumnEntry::setRenamedColumn);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

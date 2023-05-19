@@ -839,6 +839,12 @@ public class CommerceApplicationModelUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(
+		CommerceApplicationModelPersistence persistence) {
+
+		_persistence = persistence;
+	}
+
 	private static volatile CommerceApplicationModelPersistence _persistence;
 
 }

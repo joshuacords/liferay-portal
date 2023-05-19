@@ -214,52 +214,58 @@ public class ProductBundleModelImpl
 
 	private static final Map<String, Function<ProductBundle, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<ProductBundle, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<ProductBundle, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<ProductBundle, Object>>();
-		Map<String, BiConsumer<ProductBundle, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<ProductBundle, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", ProductBundle::getMvccVersion);
-		attributeSetterBiConsumers.put(
-			"mvccVersion",
-			(BiConsumer<ProductBundle, Long>)ProductBundle::setMvccVersion);
 		attributeGetterFunctions.put("uuid", ProductBundle::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<ProductBundle, String>)ProductBundle::setUuid);
 		attributeGetterFunctions.put(
 			"productBundleId", ProductBundle::getProductBundleId);
-		attributeSetterBiConsumers.put(
-			"productBundleId",
-			(BiConsumer<ProductBundle, Long>)ProductBundle::setProductBundleId);
 		attributeGetterFunctions.put("companyId", ProductBundle::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId",
-			(BiConsumer<ProductBundle, Long>)ProductBundle::setCompanyId);
 		attributeGetterFunctions.put("userId", ProductBundle::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId",
-			(BiConsumer<ProductBundle, Long>)ProductBundle::setUserId);
 		attributeGetterFunctions.put(
 			"createDate", ProductBundle::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<ProductBundle, Date>)ProductBundle::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", ProductBundle::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<ProductBundle, Date>)ProductBundle::setModifiedDate);
 		attributeGetterFunctions.put("name", ProductBundle::getName);
-		attributeSetterBiConsumers.put(
-			"name", (BiConsumer<ProductBundle, String>)ProductBundle::setName);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<ProductBundle, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<ProductBundle, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<ProductBundle, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"mvccVersion",
+			(BiConsumer<ProductBundle, Long>)ProductBundle::setMvccVersion);
+		attributeSetterBiConsumers.put(
+			"uuid", (BiConsumer<ProductBundle, String>)ProductBundle::setUuid);
+		attributeSetterBiConsumers.put(
+			"productBundleId",
+			(BiConsumer<ProductBundle, Long>)ProductBundle::setProductBundleId);
+		attributeSetterBiConsumers.put(
+			"companyId",
+			(BiConsumer<ProductBundle, Long>)ProductBundle::setCompanyId);
+		attributeSetterBiConsumers.put(
+			"userId",
+			(BiConsumer<ProductBundle, Long>)ProductBundle::setUserId);
+		attributeSetterBiConsumers.put(
+			"createDate",
+			(BiConsumer<ProductBundle, Date>)ProductBundle::setCreateDate);
+		attributeSetterBiConsumers.put(
+			"modifiedDate",
+			(BiConsumer<ProductBundle, Date>)ProductBundle::setModifiedDate);
+		attributeSetterBiConsumers.put(
+			"name", (BiConsumer<ProductBundle, String>)ProductBundle::setName);
+
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

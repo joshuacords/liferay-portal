@@ -321,19 +321,12 @@ public class CommerceAddressRestrictionModelImpl
 	private static final Map
 		<String, Function<CommerceAddressRestriction, Object>>
 			_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<CommerceAddressRestriction, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommerceAddressRestriction, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<CommerceAddressRestriction, Object>>();
-		Map<String, BiConsumer<CommerceAddressRestriction, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String, BiConsumer<CommerceAddressRestriction, ?>>();
 
 		attributeGetterFunctions.put(
 			"commerceAddressRestrictionId",
@@ -345,20 +338,6 @@ public class CommerceAddressRestrictionModelImpl
 
 					return commerceAddressRestriction.
 						getCommerceAddressRestrictionId();
-				}
-
-			});
-		attributeSetterBiConsumers.put(
-			"commerceAddressRestrictionId",
-			new BiConsumer<CommerceAddressRestriction, Object>() {
-
-				@Override
-				public void accept(
-					CommerceAddressRestriction commerceAddressRestriction,
-					Object commerceAddressRestrictionIdObject) {
-
-					commerceAddressRestriction.setCommerceAddressRestrictionId(
-						(Long)commerceAddressRestrictionIdObject);
 				}
 
 			});
@@ -374,6 +353,131 @@ public class CommerceAddressRestrictionModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommerceAddressRestriction, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceAddressRestriction commerceAddressRestriction) {
+
+					return commerceAddressRestriction.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommerceAddressRestriction, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceAddressRestriction commerceAddressRestriction) {
+
+					return commerceAddressRestriction.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommerceAddressRestriction, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceAddressRestriction commerceAddressRestriction) {
+
+					return commerceAddressRestriction.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommerceAddressRestriction, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceAddressRestriction commerceAddressRestriction) {
+
+					return commerceAddressRestriction.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommerceAddressRestriction, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceAddressRestriction commerceAddressRestriction) {
+
+					return commerceAddressRestriction.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"classNameId",
+			new Function<CommerceAddressRestriction, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceAddressRestriction commerceAddressRestriction) {
+
+					return commerceAddressRestriction.getClassNameId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"classPK",
+			new Function<CommerceAddressRestriction, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceAddressRestriction commerceAddressRestriction) {
+
+					return commerceAddressRestriction.getClassPK();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceCountryId",
+			new Function<CommerceAddressRestriction, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceAddressRestriction commerceAddressRestriction) {
+
+					return commerceAddressRestriction.getCommerceCountryId();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<CommerceAddressRestriction, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommerceAddressRestriction, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap
+					<String, BiConsumer<CommerceAddressRestriction, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"commerceAddressRestrictionId",
+			new BiConsumer<CommerceAddressRestriction, Object>() {
+
+				@Override
+				public void accept(
+					CommerceAddressRestriction commerceAddressRestriction,
+					Object commerceAddressRestrictionIdObject) {
+
+					commerceAddressRestriction.setCommerceAddressRestrictionId(
+						(Long)commerceAddressRestrictionIdObject);
+				}
+
+			});
 		attributeSetterBiConsumers.put(
 			"groupId",
 			new BiConsumer<CommerceAddressRestriction, Object>() {
@@ -384,18 +488,6 @@ public class CommerceAddressRestrictionModelImpl
 					Object groupIdObject) {
 
 					commerceAddressRestriction.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommerceAddressRestriction, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceAddressRestriction commerceAddressRestriction) {
-
-					return commerceAddressRestriction.getCompanyId();
 				}
 
 			});
@@ -413,18 +505,6 @@ public class CommerceAddressRestrictionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommerceAddressRestriction, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceAddressRestriction commerceAddressRestriction) {
-
-					return commerceAddressRestriction.getUserId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userId",
 			new BiConsumer<CommerceAddressRestriction, Object>() {
@@ -435,18 +515,6 @@ public class CommerceAddressRestrictionModelImpl
 					Object userIdObject) {
 
 					commerceAddressRestriction.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommerceAddressRestriction, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceAddressRestriction commerceAddressRestriction) {
-
-					return commerceAddressRestriction.getUserName();
 				}
 
 			});
@@ -464,18 +532,6 @@ public class CommerceAddressRestrictionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommerceAddressRestriction, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceAddressRestriction commerceAddressRestriction) {
-
-					return commerceAddressRestriction.getCreateDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"createDate",
 			new BiConsumer<CommerceAddressRestriction, Object>() {
@@ -487,18 +543,6 @@ public class CommerceAddressRestrictionModelImpl
 
 					commerceAddressRestriction.setCreateDate(
 						(Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommerceAddressRestriction, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceAddressRestriction commerceAddressRestriction) {
-
-					return commerceAddressRestriction.getModifiedDate();
 				}
 
 			});
@@ -516,18 +560,6 @@ public class CommerceAddressRestrictionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"classNameId",
-			new Function<CommerceAddressRestriction, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceAddressRestriction commerceAddressRestriction) {
-
-					return commerceAddressRestriction.getClassNameId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			new BiConsumer<CommerceAddressRestriction, Object>() {
@@ -542,18 +574,6 @@ public class CommerceAddressRestrictionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"classPK",
-			new Function<CommerceAddressRestriction, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceAddressRestriction commerceAddressRestriction) {
-
-					return commerceAddressRestriction.getClassPK();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"classPK",
 			new BiConsumer<CommerceAddressRestriction, Object>() {
@@ -564,18 +584,6 @@ public class CommerceAddressRestrictionModelImpl
 					Object classPKObject) {
 
 					commerceAddressRestriction.setClassPK((Long)classPKObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commerceCountryId",
-			new Function<CommerceAddressRestriction, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceAddressRestriction commerceAddressRestriction) {
-
-					return commerceAddressRestriction.getCommerceCountryId();
 				}
 
 			});
@@ -594,8 +602,6 @@ public class CommerceAddressRestrictionModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

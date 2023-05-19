@@ -57,8 +57,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -746,14 +744,14 @@ public abstract class GadgetLocalServiceBaseImpl
 		PersistedModelLocalServiceRegistryUtil.register(
 			"com.liferay.opensocial.model.Gadget", gadgetLocalService);
 
-		_setLocalServiceUtilService(gadgetLocalService);
+		GadgetLocalServiceUtil.setService(gadgetLocalService);
 	}
 
 	public void destroy() {
 		PersistedModelLocalServiceRegistryUtil.unregister(
 			"com.liferay.opensocial.model.Gadget");
 
-		_setLocalServiceUtilService(null);
+		GadgetLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -795,22 +793,6 @@ public abstract class GadgetLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		GadgetLocalService gadgetLocalService) {
-
-		try {
-			Field field = GadgetLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, gadgetLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

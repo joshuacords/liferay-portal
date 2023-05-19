@@ -1288,6 +1288,12 @@ public class CommerceAccountGroupUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(
+		CommerceAccountGroupPersistence persistence) {
+
+		_persistence = persistence;
+	}
+
 	private static volatile CommerceAccountGroupPersistence _persistence;
 
 }

@@ -34,8 +34,6 @@ import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 /**
@@ -415,11 +413,12 @@ public abstract class CPDefinitionVirtualSettingServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
-		_setServiceUtilService(cpDefinitionVirtualSettingService);
+		CPDefinitionVirtualSettingServiceUtil.setService(
+			cpDefinitionVirtualSettingService);
 	}
 
 	public void destroy() {
-		_setServiceUtilService(null);
+		CPDefinitionVirtualSettingServiceUtil.setService(null);
 	}
 
 	/**
@@ -462,23 +461,6 @@ public abstract class CPDefinitionVirtualSettingServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setServiceUtilService(
-		CPDefinitionVirtualSettingService cpDefinitionVirtualSettingService) {
-
-		try {
-			Field field =
-				CPDefinitionVirtualSettingServiceUtil.class.getDeclaredField(
-					"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, cpDefinitionVirtualSettingService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

@@ -259,36 +259,42 @@ public class PortletModelImpl
 
 	private static final Map<String, Function<Portlet, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Portlet, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<Portlet, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<Portlet, Object>>();
-		Map<String, BiConsumer<Portlet, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Portlet, ?>>();
 
 		attributeGetterFunctions.put("mvccVersion", Portlet::getMvccVersion);
-		attributeSetterBiConsumers.put(
-			"mvccVersion", (BiConsumer<Portlet, Long>)Portlet::setMvccVersion);
 		attributeGetterFunctions.put("id", Portlet::getId);
-		attributeSetterBiConsumers.put(
-			"id", (BiConsumer<Portlet, Long>)Portlet::setId);
 		attributeGetterFunctions.put("companyId", Portlet::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId", (BiConsumer<Portlet, Long>)Portlet::setCompanyId);
 		attributeGetterFunctions.put("portletId", Portlet::getPortletId);
-		attributeSetterBiConsumers.put(
-			"portletId", (BiConsumer<Portlet, String>)Portlet::setPortletId);
 		attributeGetterFunctions.put("roles", Portlet::getRoles);
-		attributeSetterBiConsumers.put(
-			"roles", (BiConsumer<Portlet, String>)Portlet::setRoles);
 		attributeGetterFunctions.put("active", Portlet::getActive);
-		attributeSetterBiConsumers.put(
-			"active", (BiConsumer<Portlet, Boolean>)Portlet::setActive);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<Portlet, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<Portlet, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<Portlet, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"mvccVersion", (BiConsumer<Portlet, Long>)Portlet::setMvccVersion);
+		attributeSetterBiConsumers.put(
+			"id", (BiConsumer<Portlet, Long>)Portlet::setId);
+		attributeSetterBiConsumers.put(
+			"companyId", (BiConsumer<Portlet, Long>)Portlet::setCompanyId);
+		attributeSetterBiConsumers.put(
+			"portletId", (BiConsumer<Portlet, String>)Portlet::setPortletId);
+		attributeSetterBiConsumers.put(
+			"roles", (BiConsumer<Portlet, String>)Portlet::setRoles);
+		attributeSetterBiConsumers.put(
+			"active", (BiConsumer<Portlet, Boolean>)Portlet::setActive);
+
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

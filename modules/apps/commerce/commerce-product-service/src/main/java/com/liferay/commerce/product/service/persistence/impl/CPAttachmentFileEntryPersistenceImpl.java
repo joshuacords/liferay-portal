@@ -6367,33 +6367,17 @@ public class CPAttachmentFileEntryPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_ERC",
 			new String[] {Long.class.getName(), String.class.getName()});
 
-		_setCPAttachmentFileEntryUtilPersistence(this);
+		CPAttachmentFileEntryUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setCPAttachmentFileEntryUtilPersistence(null);
+		CPAttachmentFileEntryUtil.setPersistence(null);
 
 		entityCache.removeCache(CPAttachmentFileEntryImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setCPAttachmentFileEntryUtilPersistence(
-		CPAttachmentFileEntryPersistence cpAttachmentFileEntryPersistence) {
-
-		try {
-			Field field = CPAttachmentFileEntryUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, cpAttachmentFileEntryPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

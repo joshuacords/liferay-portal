@@ -305,126 +305,132 @@ public class SegmentsExperimentModelImpl
 
 	private static final Map<String, Function<SegmentsExperiment, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<SegmentsExperiment, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<SegmentsExperiment, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<SegmentsExperiment, Object>>();
+
+		attributeGetterFunctions.put(
+			"mvccVersion", SegmentsExperiment::getMvccVersion);
+		attributeGetterFunctions.put("uuid", SegmentsExperiment::getUuid);
+		attributeGetterFunctions.put(
+			"segmentsExperimentId",
+			SegmentsExperiment::getSegmentsExperimentId);
+		attributeGetterFunctions.put("groupId", SegmentsExperiment::getGroupId);
+		attributeGetterFunctions.put(
+			"companyId", SegmentsExperiment::getCompanyId);
+		attributeGetterFunctions.put("userId", SegmentsExperiment::getUserId);
+		attributeGetterFunctions.put(
+			"userName", SegmentsExperiment::getUserName);
+		attributeGetterFunctions.put(
+			"createDate", SegmentsExperiment::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", SegmentsExperiment::getModifiedDate);
+		attributeGetterFunctions.put(
+			"segmentsEntryId", SegmentsExperiment::getSegmentsEntryId);
+		attributeGetterFunctions.put(
+			"segmentsExperienceId",
+			SegmentsExperiment::getSegmentsExperienceId);
+		attributeGetterFunctions.put(
+			"segmentsExperimentKey",
+			SegmentsExperiment::getSegmentsExperimentKey);
+		attributeGetterFunctions.put(
+			"classNameId", SegmentsExperiment::getClassNameId);
+		attributeGetterFunctions.put("classPK", SegmentsExperiment::getClassPK);
+		attributeGetterFunctions.put("name", SegmentsExperiment::getName);
+		attributeGetterFunctions.put(
+			"description", SegmentsExperiment::getDescription);
+		attributeGetterFunctions.put(
+			"typeSettings", SegmentsExperiment::getTypeSettings);
+		attributeGetterFunctions.put("status", SegmentsExperiment::getStatus);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<SegmentsExperiment, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<SegmentsExperiment, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<SegmentsExperiment, ?>>();
 
-		attributeGetterFunctions.put(
-			"mvccVersion", SegmentsExperiment::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<SegmentsExperiment, Long>)
 				SegmentsExperiment::setMvccVersion);
-		attributeGetterFunctions.put("uuid", SegmentsExperiment::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<SegmentsExperiment, String>)
 				SegmentsExperiment::setUuid);
-		attributeGetterFunctions.put(
-			"segmentsExperimentId",
-			SegmentsExperiment::getSegmentsExperimentId);
 		attributeSetterBiConsumers.put(
 			"segmentsExperimentId",
 			(BiConsumer<SegmentsExperiment, Long>)
 				SegmentsExperiment::setSegmentsExperimentId);
-		attributeGetterFunctions.put("groupId", SegmentsExperiment::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<SegmentsExperiment, Long>)
 				SegmentsExperiment::setGroupId);
-		attributeGetterFunctions.put(
-			"companyId", SegmentsExperiment::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<SegmentsExperiment, Long>)
 				SegmentsExperiment::setCompanyId);
-		attributeGetterFunctions.put("userId", SegmentsExperiment::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<SegmentsExperiment, Long>)
 				SegmentsExperiment::setUserId);
-		attributeGetterFunctions.put(
-			"userName", SegmentsExperiment::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<SegmentsExperiment, String>)
 				SegmentsExperiment::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", SegmentsExperiment::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<SegmentsExperiment, Date>)
 				SegmentsExperiment::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", SegmentsExperiment::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<SegmentsExperiment, Date>)
 				SegmentsExperiment::setModifiedDate);
-		attributeGetterFunctions.put(
-			"segmentsEntryId", SegmentsExperiment::getSegmentsEntryId);
 		attributeSetterBiConsumers.put(
 			"segmentsEntryId",
 			(BiConsumer<SegmentsExperiment, Long>)
 				SegmentsExperiment::setSegmentsEntryId);
-		attributeGetterFunctions.put(
-			"segmentsExperienceId",
-			SegmentsExperiment::getSegmentsExperienceId);
 		attributeSetterBiConsumers.put(
 			"segmentsExperienceId",
 			(BiConsumer<SegmentsExperiment, Long>)
 				SegmentsExperiment::setSegmentsExperienceId);
-		attributeGetterFunctions.put(
-			"segmentsExperimentKey",
-			SegmentsExperiment::getSegmentsExperimentKey);
 		attributeSetterBiConsumers.put(
 			"segmentsExperimentKey",
 			(BiConsumer<SegmentsExperiment, String>)
 				SegmentsExperiment::setSegmentsExperimentKey);
-		attributeGetterFunctions.put(
-			"classNameId", SegmentsExperiment::getClassNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<SegmentsExperiment, Long>)
 				SegmentsExperiment::setClassNameId);
-		attributeGetterFunctions.put("classPK", SegmentsExperiment::getClassPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<SegmentsExperiment, Long>)
 				SegmentsExperiment::setClassPK);
-		attributeGetterFunctions.put("name", SegmentsExperiment::getName);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<SegmentsExperiment, String>)
 				SegmentsExperiment::setName);
-		attributeGetterFunctions.put(
-			"description", SegmentsExperiment::getDescription);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<SegmentsExperiment, String>)
 				SegmentsExperiment::setDescription);
-		attributeGetterFunctions.put(
-			"typeSettings", SegmentsExperiment::getTypeSettings);
 		attributeSetterBiConsumers.put(
 			"typeSettings",
 			(BiConsumer<SegmentsExperiment, String>)
 				SegmentsExperiment::setTypeSettings);
-		attributeGetterFunctions.put("status", SegmentsExperiment::getStatus);
 		attributeSetterBiConsumers.put(
 			"status",
 			(BiConsumer<SegmentsExperiment, Integer>)
 				SegmentsExperiment::setStatus);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

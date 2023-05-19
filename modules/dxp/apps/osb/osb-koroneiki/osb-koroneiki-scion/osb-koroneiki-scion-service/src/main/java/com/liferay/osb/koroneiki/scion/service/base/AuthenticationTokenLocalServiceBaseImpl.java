@@ -47,8 +47,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -385,7 +383,7 @@ public abstract class AuthenticationTokenLocalServiceBaseImpl
 
 	@Deactivate
 	protected void deactivate() {
-		_setLocalServiceUtilService(null);
+		AuthenticationTokenLocalServiceUtil.setService(null);
 	}
 
 	@Override
@@ -401,7 +399,8 @@ public abstract class AuthenticationTokenLocalServiceBaseImpl
 		authenticationTokenLocalService =
 			(AuthenticationTokenLocalService)aopProxy;
 
-		_setLocalServiceUtilService(authenticationTokenLocalService);
+		AuthenticationTokenLocalServiceUtil.setService(
+			authenticationTokenLocalService);
 	}
 
 	/**
@@ -444,23 +443,6 @@ public abstract class AuthenticationTokenLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		AuthenticationTokenLocalService authenticationTokenLocalService) {
-
-		try {
-			Field field =
-				AuthenticationTokenLocalServiceUtil.class.getDeclaredField(
-					"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, authenticationTokenLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

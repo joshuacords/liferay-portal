@@ -7694,33 +7694,17 @@ public class CommercePriceModifierPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_ERC",
 			new String[] {Long.class.getName(), String.class.getName()});
 
-		_setCommercePriceModifierUtilPersistence(this);
+		CommercePriceModifierUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setCommercePriceModifierUtilPersistence(null);
+		CommercePriceModifierUtil.setPersistence(null);
 
 		entityCache.removeCache(CommercePriceModifierImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setCommercePriceModifierUtilPersistence(
-		CommercePriceModifierPersistence commercePriceModifierPersistence) {
-
-		try {
-			Field field = CommercePriceModifierUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, commercePriceModifierPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

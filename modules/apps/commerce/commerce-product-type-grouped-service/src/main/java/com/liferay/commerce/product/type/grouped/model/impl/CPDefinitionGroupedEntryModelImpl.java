@@ -326,19 +326,12 @@ public class CPDefinitionGroupedEntryModelImpl
 
 	private static final Map<String, Function<CPDefinitionGroupedEntry, Object>>
 		_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<CPDefinitionGroupedEntry, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CPDefinitionGroupedEntry, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<CPDefinitionGroupedEntry, Object>>();
-		Map<String, BiConsumer<CPDefinitionGroupedEntry, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String, BiConsumer<CPDefinitionGroupedEntry, ?>>();
 
 		attributeGetterFunctions.put(
 			"uuid",
@@ -352,19 +345,6 @@ public class CPDefinitionGroupedEntryModelImpl
 				}
 
 			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<CPDefinitionGroupedEntry, Object>() {
-
-				@Override
-				public void accept(
-					CPDefinitionGroupedEntry cpDefinitionGroupedEntry,
-					Object uuidObject) {
-
-					cpDefinitionGroupedEntry.setUuid((String)uuidObject);
-				}
-
-			});
 		attributeGetterFunctions.put(
 			"CPDefinitionGroupedEntryId",
 			new Function<CPDefinitionGroupedEntry, Object>() {
@@ -375,6 +355,154 @@ public class CPDefinitionGroupedEntryModelImpl
 
 					return cpDefinitionGroupedEntry.
 						getCPDefinitionGroupedEntryId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"groupId",
+			new Function<CPDefinitionGroupedEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionGroupedEntry cpDefinitionGroupedEntry) {
+
+					return cpDefinitionGroupedEntry.getGroupId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CPDefinitionGroupedEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionGroupedEntry cpDefinitionGroupedEntry) {
+
+					return cpDefinitionGroupedEntry.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CPDefinitionGroupedEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionGroupedEntry cpDefinitionGroupedEntry) {
+
+					return cpDefinitionGroupedEntry.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CPDefinitionGroupedEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionGroupedEntry cpDefinitionGroupedEntry) {
+
+					return cpDefinitionGroupedEntry.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CPDefinitionGroupedEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionGroupedEntry cpDefinitionGroupedEntry) {
+
+					return cpDefinitionGroupedEntry.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CPDefinitionGroupedEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionGroupedEntry cpDefinitionGroupedEntry) {
+
+					return cpDefinitionGroupedEntry.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"CPDefinitionId",
+			new Function<CPDefinitionGroupedEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionGroupedEntry cpDefinitionGroupedEntry) {
+
+					return cpDefinitionGroupedEntry.getCPDefinitionId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"entryCProductId",
+			new Function<CPDefinitionGroupedEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionGroupedEntry cpDefinitionGroupedEntry) {
+
+					return cpDefinitionGroupedEntry.getEntryCProductId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"priority",
+			new Function<CPDefinitionGroupedEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionGroupedEntry cpDefinitionGroupedEntry) {
+
+					return cpDefinitionGroupedEntry.getPriority();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"quantity",
+			new Function<CPDefinitionGroupedEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionGroupedEntry cpDefinitionGroupedEntry) {
+
+					return cpDefinitionGroupedEntry.getQuantity();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<CPDefinitionGroupedEntry, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CPDefinitionGroupedEntry, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap
+					<String, BiConsumer<CPDefinitionGroupedEntry, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"uuid",
+			new BiConsumer<CPDefinitionGroupedEntry, Object>() {
+
+				@Override
+				public void accept(
+					CPDefinitionGroupedEntry cpDefinitionGroupedEntry,
+					Object uuidObject) {
+
+					cpDefinitionGroupedEntry.setUuid((String)uuidObject);
 				}
 
 			});
@@ -392,18 +520,6 @@ public class CPDefinitionGroupedEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<CPDefinitionGroupedEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionGroupedEntry cpDefinitionGroupedEntry) {
-
-					return cpDefinitionGroupedEntry.getGroupId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"groupId",
 			new BiConsumer<CPDefinitionGroupedEntry, Object>() {
@@ -414,18 +530,6 @@ public class CPDefinitionGroupedEntryModelImpl
 					Object groupIdObject) {
 
 					cpDefinitionGroupedEntry.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CPDefinitionGroupedEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionGroupedEntry cpDefinitionGroupedEntry) {
-
-					return cpDefinitionGroupedEntry.getCompanyId();
 				}
 
 			});
@@ -443,18 +547,6 @@ public class CPDefinitionGroupedEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CPDefinitionGroupedEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionGroupedEntry cpDefinitionGroupedEntry) {
-
-					return cpDefinitionGroupedEntry.getUserId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userId",
 			new BiConsumer<CPDefinitionGroupedEntry, Object>() {
@@ -465,18 +557,6 @@ public class CPDefinitionGroupedEntryModelImpl
 					Object userIdObject) {
 
 					cpDefinitionGroupedEntry.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CPDefinitionGroupedEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionGroupedEntry cpDefinitionGroupedEntry) {
-
-					return cpDefinitionGroupedEntry.getUserName();
 				}
 
 			});
@@ -494,18 +574,6 @@ public class CPDefinitionGroupedEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CPDefinitionGroupedEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionGroupedEntry cpDefinitionGroupedEntry) {
-
-					return cpDefinitionGroupedEntry.getCreateDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"createDate",
 			new BiConsumer<CPDefinitionGroupedEntry, Object>() {
@@ -517,18 +585,6 @@ public class CPDefinitionGroupedEntryModelImpl
 
 					cpDefinitionGroupedEntry.setCreateDate(
 						(Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CPDefinitionGroupedEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionGroupedEntry cpDefinitionGroupedEntry) {
-
-					return cpDefinitionGroupedEntry.getModifiedDate();
 				}
 
 			});
@@ -546,18 +602,6 @@ public class CPDefinitionGroupedEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"CPDefinitionId",
-			new Function<CPDefinitionGroupedEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionGroupedEntry cpDefinitionGroupedEntry) {
-
-					return cpDefinitionGroupedEntry.getCPDefinitionId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"CPDefinitionId",
 			new BiConsumer<CPDefinitionGroupedEntry, Object>() {
@@ -569,18 +613,6 @@ public class CPDefinitionGroupedEntryModelImpl
 
 					cpDefinitionGroupedEntry.setCPDefinitionId(
 						(Long)CPDefinitionIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"entryCProductId",
-			new Function<CPDefinitionGroupedEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionGroupedEntry cpDefinitionGroupedEntry) {
-
-					return cpDefinitionGroupedEntry.getEntryCProductId();
 				}
 
 			});
@@ -598,18 +630,6 @@ public class CPDefinitionGroupedEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"priority",
-			new Function<CPDefinitionGroupedEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionGroupedEntry cpDefinitionGroupedEntry) {
-
-					return cpDefinitionGroupedEntry.getPriority();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"priority",
 			new BiConsumer<CPDefinitionGroupedEntry, Object>() {
@@ -621,18 +641,6 @@ public class CPDefinitionGroupedEntryModelImpl
 
 					cpDefinitionGroupedEntry.setPriority(
 						(Double)priorityObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"quantity",
-			new Function<CPDefinitionGroupedEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionGroupedEntry cpDefinitionGroupedEntry) {
-
-					return cpDefinitionGroupedEntry.getQuantity();
 				}
 
 			});
@@ -651,8 +659,6 @@ public class CPDefinitionGroupedEntryModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

@@ -202,39 +202,45 @@ public class SpringEntryModelImpl
 
 	private static final Map<String, Function<SpringEntry, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<SpringEntry, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<SpringEntry, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<SpringEntry, Object>>();
-		Map<String, BiConsumer<SpringEntry, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<SpringEntry, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", SpringEntry::getMvccVersion);
+		attributeGetterFunctions.put("uuid", SpringEntry::getUuid);
+		attributeGetterFunctions.put(
+			"springEntryId", SpringEntry::getSpringEntryId);
+		attributeGetterFunctions.put("companyId", SpringEntry::getCompanyId);
+		attributeGetterFunctions.put("createDate", SpringEntry::getCreateDate);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<SpringEntry, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<SpringEntry, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<SpringEntry, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<SpringEntry, Long>)SpringEntry::setMvccVersion);
-		attributeGetterFunctions.put("uuid", SpringEntry::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<SpringEntry, String>)SpringEntry::setUuid);
-		attributeGetterFunctions.put(
-			"springEntryId", SpringEntry::getSpringEntryId);
 		attributeSetterBiConsumers.put(
 			"springEntryId",
 			(BiConsumer<SpringEntry, Long>)SpringEntry::setSpringEntryId);
-		attributeGetterFunctions.put("companyId", SpringEntry::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<SpringEntry, Long>)SpringEntry::setCompanyId);
-		attributeGetterFunctions.put("createDate", SpringEntry::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<SpringEntry, Date>)SpringEntry::setCreateDate);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

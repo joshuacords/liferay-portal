@@ -52,8 +52,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -487,7 +485,7 @@ public abstract class DDMContentLocalServiceBaseImpl
 
 	@Deactivate
 	protected void deactivate() {
-		_setLocalServiceUtilService(null);
+		DDMContentLocalServiceUtil.setService(null);
 	}
 
 	@Override
@@ -502,7 +500,7 @@ public abstract class DDMContentLocalServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		ddmContentLocalService = (DDMContentLocalService)aopProxy;
 
-		_setLocalServiceUtilService(ddmContentLocalService);
+		DDMContentLocalServiceUtil.setService(ddmContentLocalService);
 	}
 
 	/**
@@ -544,22 +542,6 @@ public abstract class DDMContentLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		DDMContentLocalService ddmContentLocalService) {
-
-		try {
-			Field field = DDMContentLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, ddmContentLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

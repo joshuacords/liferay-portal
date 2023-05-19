@@ -452,6 +452,12 @@ public class LayoutPageTemplateStructureRelLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(
+		LayoutPageTemplateStructureRelLocalService service) {
+
+		_service = service;
+	}
+
 	private static volatile LayoutPageTemplateStructureRelLocalService _service;
 
 }

@@ -244,35 +244,41 @@ public class EagerBlobEntryModelImpl
 
 	private static final Map<String, Function<EagerBlobEntry, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<EagerBlobEntry, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<EagerBlobEntry, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<EagerBlobEntry, Object>>();
+
+		attributeGetterFunctions.put("uuid", EagerBlobEntry::getUuid);
+		attributeGetterFunctions.put(
+			"eagerBlobEntryId", EagerBlobEntry::getEagerBlobEntryId);
+		attributeGetterFunctions.put("groupId", EagerBlobEntry::getGroupId);
+		attributeGetterFunctions.put("blob", EagerBlobEntry::getBlob);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<EagerBlobEntry, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<EagerBlobEntry, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<EagerBlobEntry, ?>>();
 
-		attributeGetterFunctions.put("uuid", EagerBlobEntry::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<EagerBlobEntry, String>)EagerBlobEntry::setUuid);
-		attributeGetterFunctions.put(
-			"eagerBlobEntryId", EagerBlobEntry::getEagerBlobEntryId);
 		attributeSetterBiConsumers.put(
 			"eagerBlobEntryId",
 			(BiConsumer<EagerBlobEntry, Long>)
 				EagerBlobEntry::setEagerBlobEntryId);
-		attributeGetterFunctions.put("groupId", EagerBlobEntry::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<EagerBlobEntry, Long>)EagerBlobEntry::setGroupId);
-		attributeGetterFunctions.put("blob", EagerBlobEntry::getBlob);
 		attributeSetterBiConsumers.put(
 			"blob", (BiConsumer<EagerBlobEntry, Blob>)EagerBlobEntry::setBlob);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

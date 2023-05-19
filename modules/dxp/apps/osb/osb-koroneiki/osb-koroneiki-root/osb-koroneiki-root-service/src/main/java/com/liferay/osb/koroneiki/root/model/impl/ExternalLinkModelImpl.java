@@ -276,67 +276,73 @@ public class ExternalLinkModelImpl
 
 	private static final Map<String, Function<ExternalLink, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<ExternalLink, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<ExternalLink, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<ExternalLink, Object>>();
-		Map<String, BiConsumer<ExternalLink, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<ExternalLink, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", ExternalLink::getMvccVersion);
+		attributeGetterFunctions.put(
+			"externalLinkId", ExternalLink::getExternalLinkId);
+		attributeGetterFunctions.put("companyId", ExternalLink::getCompanyId);
+		attributeGetterFunctions.put("createDate", ExternalLink::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", ExternalLink::getModifiedDate);
+		attributeGetterFunctions.put(
+			"externalLinkKey", ExternalLink::getExternalLinkKey);
+		attributeGetterFunctions.put(
+			"classNameId", ExternalLink::getClassNameId);
+		attributeGetterFunctions.put("classPK", ExternalLink::getClassPK);
+		attributeGetterFunctions.put("domain", ExternalLink::getDomain);
+		attributeGetterFunctions.put("entityName", ExternalLink::getEntityName);
+		attributeGetterFunctions.put("entityId", ExternalLink::getEntityId);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<ExternalLink, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<ExternalLink, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<ExternalLink, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<ExternalLink, Long>)ExternalLink::setMvccVersion);
-		attributeGetterFunctions.put(
-			"externalLinkId", ExternalLink::getExternalLinkId);
 		attributeSetterBiConsumers.put(
 			"externalLinkId",
 			(BiConsumer<ExternalLink, Long>)ExternalLink::setExternalLinkId);
-		attributeGetterFunctions.put("companyId", ExternalLink::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<ExternalLink, Long>)ExternalLink::setCompanyId);
-		attributeGetterFunctions.put("createDate", ExternalLink::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<ExternalLink, Date>)ExternalLink::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", ExternalLink::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<ExternalLink, Date>)ExternalLink::setModifiedDate);
-		attributeGetterFunctions.put(
-			"externalLinkKey", ExternalLink::getExternalLinkKey);
 		attributeSetterBiConsumers.put(
 			"externalLinkKey",
 			(BiConsumer<ExternalLink, String>)ExternalLink::setExternalLinkKey);
-		attributeGetterFunctions.put(
-			"classNameId", ExternalLink::getClassNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<ExternalLink, Long>)ExternalLink::setClassNameId);
-		attributeGetterFunctions.put("classPK", ExternalLink::getClassPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<ExternalLink, Long>)ExternalLink::setClassPK);
-		attributeGetterFunctions.put("domain", ExternalLink::getDomain);
 		attributeSetterBiConsumers.put(
 			"domain",
 			(BiConsumer<ExternalLink, String>)ExternalLink::setDomain);
-		attributeGetterFunctions.put("entityName", ExternalLink::getEntityName);
 		attributeSetterBiConsumers.put(
 			"entityName",
 			(BiConsumer<ExternalLink, String>)ExternalLink::setEntityName);
-		attributeGetterFunctions.put("entityId", ExternalLink::getEntityId);
 		attributeSetterBiConsumers.put(
 			"entityId",
 			(BiConsumer<ExternalLink, String>)ExternalLink::setEntityId);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

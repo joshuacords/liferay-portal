@@ -208,37 +208,43 @@ public class UADPartialEntryModelImpl
 
 	private static final Map<String, Function<UADPartialEntry, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<UADPartialEntry, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<UADPartialEntry, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap<String, Function<UADPartialEntry, Object>>();
-		Map<String, BiConsumer<UADPartialEntry, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<UADPartialEntry, ?>>();
 
 		attributeGetterFunctions.put(
 			"uadPartialEntryId", UADPartialEntry::getUadPartialEntryId);
+		attributeGetterFunctions.put("userId", UADPartialEntry::getUserId);
+		attributeGetterFunctions.put("userName", UADPartialEntry::getUserName);
+		attributeGetterFunctions.put("message", UADPartialEntry::getMessage);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<UADPartialEntry, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<UADPartialEntry, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<UADPartialEntry, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"uadPartialEntryId",
 			(BiConsumer<UADPartialEntry, Long>)
 				UADPartialEntry::setUadPartialEntryId);
-		attributeGetterFunctions.put("userId", UADPartialEntry::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<UADPartialEntry, Long>)UADPartialEntry::setUserId);
-		attributeGetterFunctions.put("userName", UADPartialEntry::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<UADPartialEntry, String>)UADPartialEntry::setUserName);
-		attributeGetterFunctions.put("message", UADPartialEntry::getMessage);
 		attributeSetterBiConsumers.put(
 			"message",
 			(BiConsumer<UADPartialEntry, String>)UADPartialEntry::setMessage);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

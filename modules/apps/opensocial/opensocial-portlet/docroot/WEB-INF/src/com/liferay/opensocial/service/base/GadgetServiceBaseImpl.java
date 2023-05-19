@@ -35,8 +35,6 @@ import com.liferay.portal.kernel.service.persistence.PortletPersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 /**
@@ -438,11 +436,11 @@ public abstract class GadgetServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
-		_setServiceUtilService(gadgetService);
+		GadgetServiceUtil.setService(gadgetService);
 	}
 
 	public void destroy() {
-		_setServiceUtilService(null);
+		GadgetServiceUtil.setService(null);
 	}
 
 	/**
@@ -484,19 +482,6 @@ public abstract class GadgetServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setServiceUtilService(GadgetService gadgetService) {
-		try {
-			Field field = GadgetServiceUtil.class.getDeclaredField("_service");
-
-			field.setAccessible(true);
-
-			field.set(null, gadgetService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

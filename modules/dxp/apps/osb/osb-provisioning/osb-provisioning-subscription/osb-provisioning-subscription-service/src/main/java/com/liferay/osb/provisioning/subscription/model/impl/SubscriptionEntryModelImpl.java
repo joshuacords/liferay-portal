@@ -259,55 +259,61 @@ public class SubscriptionEntryModelImpl
 
 	private static final Map<String, Function<SubscriptionEntry, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<SubscriptionEntry, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<SubscriptionEntry, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<SubscriptionEntry, Object>>();
+
+		attributeGetterFunctions.put(
+			"mvccVersion", SubscriptionEntry::getMvccVersion);
+		attributeGetterFunctions.put(
+			"subscriptionEntryId", SubscriptionEntry::getSubscriptionEntryId);
+		attributeGetterFunctions.put(
+			"createDate", SubscriptionEntry::getCreateDate);
+		attributeGetterFunctions.put(
+			"classNameId", SubscriptionEntry::getClassNameId);
+		attributeGetterFunctions.put("classPK", SubscriptionEntry::getClassPK);
+		attributeGetterFunctions.put(
+			"contactUuid", SubscriptionEntry::getContactUuid);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<SubscriptionEntry, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<SubscriptionEntry, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<SubscriptionEntry, ?>>();
 
-		attributeGetterFunctions.put(
-			"mvccVersion", SubscriptionEntry::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<SubscriptionEntry, Long>)
 				SubscriptionEntry::setMvccVersion);
-		attributeGetterFunctions.put(
-			"subscriptionEntryId", SubscriptionEntry::getSubscriptionEntryId);
 		attributeSetterBiConsumers.put(
 			"subscriptionEntryId",
 			(BiConsumer<SubscriptionEntry, Long>)
 				SubscriptionEntry::setSubscriptionEntryId);
-		attributeGetterFunctions.put(
-			"createDate", SubscriptionEntry::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<SubscriptionEntry, Date>)
 				SubscriptionEntry::setCreateDate);
-		attributeGetterFunctions.put(
-			"classNameId", SubscriptionEntry::getClassNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<SubscriptionEntry, Long>)
 				SubscriptionEntry::setClassNameId);
-		attributeGetterFunctions.put("classPK", SubscriptionEntry::getClassPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<SubscriptionEntry, Long>)SubscriptionEntry::setClassPK);
-		attributeGetterFunctions.put(
-			"contactUuid", SubscriptionEntry::getContactUuid);
 		attributeSetterBiConsumers.put(
 			"contactUuid",
 			(BiConsumer<SubscriptionEntry, String>)
 				SubscriptionEntry::setContactUuid);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

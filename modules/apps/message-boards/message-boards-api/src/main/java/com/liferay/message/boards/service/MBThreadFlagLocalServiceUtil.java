@@ -383,6 +383,10 @@ public class MBThreadFlagLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(MBThreadFlagLocalService service) {
+		_service = service;
+	}
+
 	private static volatile MBThreadFlagLocalService _service;
 
 }

@@ -55,7 +55,6 @@ import com.liferay.portal.model.impl.TeamModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
@@ -4075,11 +4074,11 @@ public class TeamPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByG_N",
 			new String[] {Long.class.getName(), String.class.getName()});
 
-		_setTeamUtilPersistence(this);
+		TeamUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setTeamUtilPersistence(null);
+		TeamUtil.setPersistence(null);
 
 		EntityCacheUtil.removeCache(TeamImpl.class.getName());
 
@@ -4089,19 +4088,6 @@ public class TeamPersistenceImpl
 
 		TableMapperFactory.removeTableMapper("Users_Teams");
 		TableMapperFactory.removeTableMapper("UserGroups_Teams");
-	}
-
-	private void _setTeamUtilPersistence(TeamPersistence teamPersistence) {
-		try {
-			Field field = TeamUtil.class.getDeclaredField("_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, teamPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@BeanReference(type = UserPersistence.class)

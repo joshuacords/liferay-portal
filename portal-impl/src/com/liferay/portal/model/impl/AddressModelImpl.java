@@ -313,79 +313,85 @@ public class AddressModelImpl
 
 	private static final Map<String, Function<Address, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Address, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<Address, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<Address, Object>>();
-		Map<String, BiConsumer<Address, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Address, ?>>();
 
 		attributeGetterFunctions.put("mvccVersion", Address::getMvccVersion);
-		attributeSetterBiConsumers.put(
-			"mvccVersion", (BiConsumer<Address, Long>)Address::setMvccVersion);
 		attributeGetterFunctions.put("uuid", Address::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<Address, String>)Address::setUuid);
 		attributeGetterFunctions.put("addressId", Address::getAddressId);
-		attributeSetterBiConsumers.put(
-			"addressId", (BiConsumer<Address, Long>)Address::setAddressId);
 		attributeGetterFunctions.put("companyId", Address::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId", (BiConsumer<Address, Long>)Address::setCompanyId);
 		attributeGetterFunctions.put("userId", Address::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<Address, Long>)Address::setUserId);
 		attributeGetterFunctions.put("userName", Address::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName", (BiConsumer<Address, String>)Address::setUserName);
 		attributeGetterFunctions.put("createDate", Address::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate", (BiConsumer<Address, Date>)Address::setCreateDate);
 		attributeGetterFunctions.put("modifiedDate", Address::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<Address, Date>)Address::setModifiedDate);
 		attributeGetterFunctions.put("classNameId", Address::getClassNameId);
-		attributeSetterBiConsumers.put(
-			"classNameId", (BiConsumer<Address, Long>)Address::setClassNameId);
 		attributeGetterFunctions.put("classPK", Address::getClassPK);
-		attributeSetterBiConsumers.put(
-			"classPK", (BiConsumer<Address, Long>)Address::setClassPK);
 		attributeGetterFunctions.put("street1", Address::getStreet1);
-		attributeSetterBiConsumers.put(
-			"street1", (BiConsumer<Address, String>)Address::setStreet1);
 		attributeGetterFunctions.put("street2", Address::getStreet2);
-		attributeSetterBiConsumers.put(
-			"street2", (BiConsumer<Address, String>)Address::setStreet2);
 		attributeGetterFunctions.put("street3", Address::getStreet3);
-		attributeSetterBiConsumers.put(
-			"street3", (BiConsumer<Address, String>)Address::setStreet3);
 		attributeGetterFunctions.put("city", Address::getCity);
-		attributeSetterBiConsumers.put(
-			"city", (BiConsumer<Address, String>)Address::setCity);
 		attributeGetterFunctions.put("zip", Address::getZip);
-		attributeSetterBiConsumers.put(
-			"zip", (BiConsumer<Address, String>)Address::setZip);
 		attributeGetterFunctions.put("regionId", Address::getRegionId);
-		attributeSetterBiConsumers.put(
-			"regionId", (BiConsumer<Address, Long>)Address::setRegionId);
 		attributeGetterFunctions.put("countryId", Address::getCountryId);
-		attributeSetterBiConsumers.put(
-			"countryId", (BiConsumer<Address, Long>)Address::setCountryId);
 		attributeGetterFunctions.put("typeId", Address::getTypeId);
-		attributeSetterBiConsumers.put(
-			"typeId", (BiConsumer<Address, Long>)Address::setTypeId);
 		attributeGetterFunctions.put("mailing", Address::getMailing);
-		attributeSetterBiConsumers.put(
-			"mailing", (BiConsumer<Address, Boolean>)Address::setMailing);
 		attributeGetterFunctions.put("primary", Address::getPrimary);
-		attributeSetterBiConsumers.put(
-			"primary", (BiConsumer<Address, Boolean>)Address::setPrimary);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<Address, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<Address, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<Address, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"mvccVersion", (BiConsumer<Address, Long>)Address::setMvccVersion);
+		attributeSetterBiConsumers.put(
+			"uuid", (BiConsumer<Address, String>)Address::setUuid);
+		attributeSetterBiConsumers.put(
+			"addressId", (BiConsumer<Address, Long>)Address::setAddressId);
+		attributeSetterBiConsumers.put(
+			"companyId", (BiConsumer<Address, Long>)Address::setCompanyId);
+		attributeSetterBiConsumers.put(
+			"userId", (BiConsumer<Address, Long>)Address::setUserId);
+		attributeSetterBiConsumers.put(
+			"userName", (BiConsumer<Address, String>)Address::setUserName);
+		attributeSetterBiConsumers.put(
+			"createDate", (BiConsumer<Address, Date>)Address::setCreateDate);
+		attributeSetterBiConsumers.put(
+			"modifiedDate",
+			(BiConsumer<Address, Date>)Address::setModifiedDate);
+		attributeSetterBiConsumers.put(
+			"classNameId", (BiConsumer<Address, Long>)Address::setClassNameId);
+		attributeSetterBiConsumers.put(
+			"classPK", (BiConsumer<Address, Long>)Address::setClassPK);
+		attributeSetterBiConsumers.put(
+			"street1", (BiConsumer<Address, String>)Address::setStreet1);
+		attributeSetterBiConsumers.put(
+			"street2", (BiConsumer<Address, String>)Address::setStreet2);
+		attributeSetterBiConsumers.put(
+			"street3", (BiConsumer<Address, String>)Address::setStreet3);
+		attributeSetterBiConsumers.put(
+			"city", (BiConsumer<Address, String>)Address::setCity);
+		attributeSetterBiConsumers.put(
+			"zip", (BiConsumer<Address, String>)Address::setZip);
+		attributeSetterBiConsumers.put(
+			"regionId", (BiConsumer<Address, Long>)Address::setRegionId);
+		attributeSetterBiConsumers.put(
+			"countryId", (BiConsumer<Address, Long>)Address::setCountryId);
+		attributeSetterBiConsumers.put(
+			"typeId", (BiConsumer<Address, Long>)Address::setTypeId);
+		attributeSetterBiConsumers.put(
+			"mailing", (BiConsumer<Address, Boolean>)Address::setMailing);
+		attributeSetterBiConsumers.put(
+			"primary", (BiConsumer<Address, Boolean>)Address::setPrimary);
+
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

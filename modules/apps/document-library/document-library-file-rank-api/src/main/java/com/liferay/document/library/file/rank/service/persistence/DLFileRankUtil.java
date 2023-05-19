@@ -1080,6 +1080,10 @@ public class DLFileRankUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(DLFileRankPersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile DLFileRankPersistence _persistence;
 
 }

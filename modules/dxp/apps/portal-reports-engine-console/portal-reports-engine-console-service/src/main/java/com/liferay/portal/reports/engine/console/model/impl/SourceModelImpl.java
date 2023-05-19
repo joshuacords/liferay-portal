@@ -280,68 +280,74 @@ public class SourceModelImpl
 
 	private static final Map<String, Function<Source, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Source, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<Source, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<Source, Object>>();
+
+		attributeGetterFunctions.put("uuid", Source::getUuid);
+		attributeGetterFunctions.put("sourceId", Source::getSourceId);
+		attributeGetterFunctions.put("groupId", Source::getGroupId);
+		attributeGetterFunctions.put("companyId", Source::getCompanyId);
+		attributeGetterFunctions.put("userId", Source::getUserId);
+		attributeGetterFunctions.put("userName", Source::getUserName);
+		attributeGetterFunctions.put("createDate", Source::getCreateDate);
+		attributeGetterFunctions.put("modifiedDate", Source::getModifiedDate);
+		attributeGetterFunctions.put(
+			"lastPublishDate", Source::getLastPublishDate);
+		attributeGetterFunctions.put("name", Source::getName);
+		attributeGetterFunctions.put(
+			"driverClassName", Source::getDriverClassName);
+		attributeGetterFunctions.put("driverUrl", Source::getDriverUrl);
+		attributeGetterFunctions.put(
+			"driverUserName", Source::getDriverUserName);
+		attributeGetterFunctions.put(
+			"driverPassword", Source::getDriverPassword);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<Source, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<Source, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<Source, ?>>();
 
-		attributeGetterFunctions.put("uuid", Source::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<Source, String>)Source::setUuid);
-		attributeGetterFunctions.put("sourceId", Source::getSourceId);
 		attributeSetterBiConsumers.put(
 			"sourceId", (BiConsumer<Source, Long>)Source::setSourceId);
-		attributeGetterFunctions.put("groupId", Source::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<Source, Long>)Source::setGroupId);
-		attributeGetterFunctions.put("companyId", Source::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<Source, Long>)Source::setCompanyId);
-		attributeGetterFunctions.put("userId", Source::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<Source, Long>)Source::setUserId);
-		attributeGetterFunctions.put("userName", Source::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName", (BiConsumer<Source, String>)Source::setUserName);
-		attributeGetterFunctions.put("createDate", Source::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate", (BiConsumer<Source, Date>)Source::setCreateDate);
-		attributeGetterFunctions.put("modifiedDate", Source::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate", (BiConsumer<Source, Date>)Source::setModifiedDate);
-		attributeGetterFunctions.put(
-			"lastPublishDate", Source::getLastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<Source, Date>)Source::setLastPublishDate);
-		attributeGetterFunctions.put("name", Source::getName);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<Source, String>)Source::setName);
-		attributeGetterFunctions.put(
-			"driverClassName", Source::getDriverClassName);
 		attributeSetterBiConsumers.put(
 			"driverClassName",
 			(BiConsumer<Source, String>)Source::setDriverClassName);
-		attributeGetterFunctions.put("driverUrl", Source::getDriverUrl);
 		attributeSetterBiConsumers.put(
 			"driverUrl", (BiConsumer<Source, String>)Source::setDriverUrl);
-		attributeGetterFunctions.put(
-			"driverUserName", Source::getDriverUserName);
 		attributeSetterBiConsumers.put(
 			"driverUserName",
 			(BiConsumer<Source, String>)Source::setDriverUserName);
-		attributeGetterFunctions.put(
-			"driverPassword", Source::getDriverPassword);
 		attributeSetterBiConsumers.put(
 			"driverPassword",
 			(BiConsumer<Source, String>)Source::setDriverPassword);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

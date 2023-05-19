@@ -212,49 +212,55 @@ public class UserTrackerPathModelImpl
 
 	private static final Map<String, Function<UserTrackerPath, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<UserTrackerPath, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<UserTrackerPath, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap<String, Function<UserTrackerPath, Object>>();
-		Map<String, BiConsumer<UserTrackerPath, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<UserTrackerPath, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", UserTrackerPath::getMvccVersion);
+		attributeGetterFunctions.put(
+			"userTrackerPathId", UserTrackerPath::getUserTrackerPathId);
+		attributeGetterFunctions.put(
+			"companyId", UserTrackerPath::getCompanyId);
+		attributeGetterFunctions.put(
+			"userTrackerId", UserTrackerPath::getUserTrackerId);
+		attributeGetterFunctions.put("path", UserTrackerPath::getPath);
+		attributeGetterFunctions.put("pathDate", UserTrackerPath::getPathDate);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<UserTrackerPath, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<UserTrackerPath, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<UserTrackerPath, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<UserTrackerPath, Long>)UserTrackerPath::setMvccVersion);
-		attributeGetterFunctions.put(
-			"userTrackerPathId", UserTrackerPath::getUserTrackerPathId);
 		attributeSetterBiConsumers.put(
 			"userTrackerPathId",
 			(BiConsumer<UserTrackerPath, Long>)
 				UserTrackerPath::setUserTrackerPathId);
-		attributeGetterFunctions.put(
-			"companyId", UserTrackerPath::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<UserTrackerPath, Long>)UserTrackerPath::setCompanyId);
-		attributeGetterFunctions.put(
-			"userTrackerId", UserTrackerPath::getUserTrackerId);
 		attributeSetterBiConsumers.put(
 			"userTrackerId",
 			(BiConsumer<UserTrackerPath, Long>)
 				UserTrackerPath::setUserTrackerId);
-		attributeGetterFunctions.put("path", UserTrackerPath::getPath);
 		attributeSetterBiConsumers.put(
 			"path",
 			(BiConsumer<UserTrackerPath, String>)UserTrackerPath::setPath);
-		attributeGetterFunctions.put("pathDate", UserTrackerPath::getPathDate);
 		attributeSetterBiConsumers.put(
 			"pathDate",
 			(BiConsumer<UserTrackerPath, Date>)UserTrackerPath::setPathDate);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

@@ -63,6 +63,10 @@ public class OAuthUserServiceUtil {
 		return _service;
 	}
 
+	public static void setService(OAuthUserService service) {
+		_service = service;
+	}
+
 	private static volatile OAuthUserService _service;
 
 }

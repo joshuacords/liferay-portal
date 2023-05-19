@@ -46,8 +46,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -427,14 +425,14 @@ public abstract class SubscriptionLocalServiceBaseImpl
 			"com.liferay.portal.kernel.model.Subscription",
 			subscriptionLocalService);
 
-		_setLocalServiceUtilService(subscriptionLocalService);
+		SubscriptionLocalServiceUtil.setService(subscriptionLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"com.liferay.portal.kernel.model.Subscription");
 
-		_setLocalServiceUtilService(null);
+		SubscriptionLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -476,22 +474,6 @@ public abstract class SubscriptionLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		SubscriptionLocalService subscriptionLocalService) {
-
-		try {
-			Field field = SubscriptionLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, subscriptionLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

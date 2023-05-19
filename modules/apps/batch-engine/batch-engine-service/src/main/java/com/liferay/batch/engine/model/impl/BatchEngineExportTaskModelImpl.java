@@ -232,131 +232,137 @@ public class BatchEngineExportTaskModelImpl
 
 	private static final Map<String, Function<BatchEngineExportTask, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<BatchEngineExportTask, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<BatchEngineExportTask, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<BatchEngineExportTask, Object>>();
+
+		attributeGetterFunctions.put(
+			"mvccVersion", BatchEngineExportTask::getMvccVersion);
+		attributeGetterFunctions.put("uuid", BatchEngineExportTask::getUuid);
+		attributeGetterFunctions.put(
+			"batchEngineExportTaskId",
+			BatchEngineExportTask::getBatchEngineExportTaskId);
+		attributeGetterFunctions.put(
+			"companyId", BatchEngineExportTask::getCompanyId);
+		attributeGetterFunctions.put(
+			"userId", BatchEngineExportTask::getUserId);
+		attributeGetterFunctions.put(
+			"createDate", BatchEngineExportTask::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", BatchEngineExportTask::getModifiedDate);
+		attributeGetterFunctions.put(
+			"callbackURL", BatchEngineExportTask::getCallbackURL);
+		attributeGetterFunctions.put(
+			"className", BatchEngineExportTask::getClassName);
+		attributeGetterFunctions.put(
+			"content", BatchEngineExportTask::getContent);
+		attributeGetterFunctions.put(
+			"contentType", BatchEngineExportTask::getContentType);
+		attributeGetterFunctions.put(
+			"endTime", BatchEngineExportTask::getEndTime);
+		attributeGetterFunctions.put(
+			"errorMessage", BatchEngineExportTask::getErrorMessage);
+		attributeGetterFunctions.put(
+			"fieldNames", BatchEngineExportTask::getFieldNames);
+		attributeGetterFunctions.put(
+			"executeStatus", BatchEngineExportTask::getExecuteStatus);
+		attributeGetterFunctions.put(
+			"parameters", BatchEngineExportTask::getParameters);
+		attributeGetterFunctions.put(
+			"startTime", BatchEngineExportTask::getStartTime);
+		attributeGetterFunctions.put(
+			"taskItemDelegateName",
+			BatchEngineExportTask::getTaskItemDelegateName);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<BatchEngineExportTask, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<BatchEngineExportTask, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<BatchEngineExportTask, ?>>();
 
-		attributeGetterFunctions.put(
-			"mvccVersion", BatchEngineExportTask::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<BatchEngineExportTask, Long>)
 				BatchEngineExportTask::setMvccVersion);
-		attributeGetterFunctions.put("uuid", BatchEngineExportTask::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<BatchEngineExportTask, String>)
 				BatchEngineExportTask::setUuid);
-		attributeGetterFunctions.put(
-			"batchEngineExportTaskId",
-			BatchEngineExportTask::getBatchEngineExportTaskId);
 		attributeSetterBiConsumers.put(
 			"batchEngineExportTaskId",
 			(BiConsumer<BatchEngineExportTask, Long>)
 				BatchEngineExportTask::setBatchEngineExportTaskId);
-		attributeGetterFunctions.put(
-			"companyId", BatchEngineExportTask::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<BatchEngineExportTask, Long>)
 				BatchEngineExportTask::setCompanyId);
-		attributeGetterFunctions.put(
-			"userId", BatchEngineExportTask::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<BatchEngineExportTask, Long>)
 				BatchEngineExportTask::setUserId);
-		attributeGetterFunctions.put(
-			"createDate", BatchEngineExportTask::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<BatchEngineExportTask, Date>)
 				BatchEngineExportTask::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", BatchEngineExportTask::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<BatchEngineExportTask, Date>)
 				BatchEngineExportTask::setModifiedDate);
-		attributeGetterFunctions.put(
-			"callbackURL", BatchEngineExportTask::getCallbackURL);
 		attributeSetterBiConsumers.put(
 			"callbackURL",
 			(BiConsumer<BatchEngineExportTask, String>)
 				BatchEngineExportTask::setCallbackURL);
-		attributeGetterFunctions.put(
-			"className", BatchEngineExportTask::getClassName);
 		attributeSetterBiConsumers.put(
 			"className",
 			(BiConsumer<BatchEngineExportTask, String>)
 				BatchEngineExportTask::setClassName);
-		attributeGetterFunctions.put(
-			"content", BatchEngineExportTask::getContent);
 		attributeSetterBiConsumers.put(
 			"content",
 			(BiConsumer<BatchEngineExportTask, Blob>)
 				BatchEngineExportTask::setContent);
-		attributeGetterFunctions.put(
-			"contentType", BatchEngineExportTask::getContentType);
 		attributeSetterBiConsumers.put(
 			"contentType",
 			(BiConsumer<BatchEngineExportTask, String>)
 				BatchEngineExportTask::setContentType);
-		attributeGetterFunctions.put(
-			"endTime", BatchEngineExportTask::getEndTime);
 		attributeSetterBiConsumers.put(
 			"endTime",
 			(BiConsumer<BatchEngineExportTask, Date>)
 				BatchEngineExportTask::setEndTime);
-		attributeGetterFunctions.put(
-			"errorMessage", BatchEngineExportTask::getErrorMessage);
 		attributeSetterBiConsumers.put(
 			"errorMessage",
 			(BiConsumer<BatchEngineExportTask, String>)
 				BatchEngineExportTask::setErrorMessage);
-		attributeGetterFunctions.put(
-			"fieldNames", BatchEngineExportTask::getFieldNames);
 		attributeSetterBiConsumers.put(
 			"fieldNames",
 			(BiConsumer<BatchEngineExportTask, String>)
 				BatchEngineExportTask::setFieldNames);
-		attributeGetterFunctions.put(
-			"executeStatus", BatchEngineExportTask::getExecuteStatus);
 		attributeSetterBiConsumers.put(
 			"executeStatus",
 			(BiConsumer<BatchEngineExportTask, String>)
 				BatchEngineExportTask::setExecuteStatus);
-		attributeGetterFunctions.put(
-			"parameters", BatchEngineExportTask::getParameters);
 		attributeSetterBiConsumers.put(
 			"parameters",
 			(BiConsumer<BatchEngineExportTask, Map<String, Serializable>>)
 				BatchEngineExportTask::setParameters);
-		attributeGetterFunctions.put(
-			"startTime", BatchEngineExportTask::getStartTime);
 		attributeSetterBiConsumers.put(
 			"startTime",
 			(BiConsumer<BatchEngineExportTask, Date>)
 				BatchEngineExportTask::setStartTime);
-		attributeGetterFunctions.put(
-			"taskItemDelegateName",
-			BatchEngineExportTask::getTaskItemDelegateName);
 		attributeSetterBiConsumers.put(
 			"taskItemDelegateName",
 			(BiConsumer<BatchEngineExportTask, String>)
 				BatchEngineExportTask::setTaskItemDelegateName);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

@@ -273,50 +273,56 @@ public class AnnouncementsFlagModelImpl
 
 	private static final Map<String, Function<AnnouncementsFlag, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<AnnouncementsFlag, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<AnnouncementsFlag, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<AnnouncementsFlag, Object>>();
+
+		attributeGetterFunctions.put("flagId", AnnouncementsFlag::getFlagId);
+		attributeGetterFunctions.put(
+			"companyId", AnnouncementsFlag::getCompanyId);
+		attributeGetterFunctions.put("userId", AnnouncementsFlag::getUserId);
+		attributeGetterFunctions.put(
+			"createDate", AnnouncementsFlag::getCreateDate);
+		attributeGetterFunctions.put("entryId", AnnouncementsFlag::getEntryId);
+		attributeGetterFunctions.put("value", AnnouncementsFlag::getValue);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<AnnouncementsFlag, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<AnnouncementsFlag, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<AnnouncementsFlag, ?>>();
 
-		attributeGetterFunctions.put("flagId", AnnouncementsFlag::getFlagId);
 		attributeSetterBiConsumers.put(
 			"flagId",
 			(BiConsumer<AnnouncementsFlag, Long>)AnnouncementsFlag::setFlagId);
-		attributeGetterFunctions.put(
-			"companyId", AnnouncementsFlag::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<AnnouncementsFlag, Long>)
 				AnnouncementsFlag::setCompanyId);
-		attributeGetterFunctions.put("userId", AnnouncementsFlag::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<AnnouncementsFlag, Long>)AnnouncementsFlag::setUserId);
-		attributeGetterFunctions.put(
-			"createDate", AnnouncementsFlag::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<AnnouncementsFlag, Date>)
 				AnnouncementsFlag::setCreateDate);
-		attributeGetterFunctions.put("entryId", AnnouncementsFlag::getEntryId);
 		attributeSetterBiConsumers.put(
 			"entryId",
 			(BiConsumer<AnnouncementsFlag, Long>)AnnouncementsFlag::setEntryId);
-		attributeGetterFunctions.put("value", AnnouncementsFlag::getValue);
 		attributeSetterBiConsumers.put(
 			"value",
 			(BiConsumer<AnnouncementsFlag, Integer>)
 				AnnouncementsFlag::setValue);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

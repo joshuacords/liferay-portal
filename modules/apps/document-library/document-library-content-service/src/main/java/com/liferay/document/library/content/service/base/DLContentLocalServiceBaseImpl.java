@@ -53,8 +53,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 import java.io.InputStream;
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.sql.Blob;
 
 import java.util.List;
@@ -420,7 +418,7 @@ public abstract class DLContentLocalServiceBaseImpl
 
 	@Deactivate
 	protected void deactivate() {
-		_setLocalServiceUtilService(null);
+		DLContentLocalServiceUtil.setService(null);
 	}
 
 	@Override
@@ -435,7 +433,7 @@ public abstract class DLContentLocalServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		dlContentLocalService = (DLContentLocalService)aopProxy;
 
-		_setLocalServiceUtilService(dlContentLocalService);
+		DLContentLocalServiceUtil.setService(dlContentLocalService);
 	}
 
 	/**
@@ -477,22 +475,6 @@ public abstract class DLContentLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		DLContentLocalService dlContentLocalService) {
-
-		try {
-			Field field = DLContentLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, dlContentLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

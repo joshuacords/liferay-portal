@@ -47,8 +47,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -465,14 +463,14 @@ public abstract class WebDAVPropsLocalServiceBaseImpl
 			"com.liferay.portal.kernel.model.WebDAVProps",
 			webDAVPropsLocalService);
 
-		_setLocalServiceUtilService(webDAVPropsLocalService);
+		WebDAVPropsLocalServiceUtil.setService(webDAVPropsLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"com.liferay.portal.kernel.model.WebDAVProps");
 
-		_setLocalServiceUtilService(null);
+		WebDAVPropsLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -514,22 +512,6 @@ public abstract class WebDAVPropsLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		WebDAVPropsLocalService webDAVPropsLocalService) {
-
-		try {
-			Field field = WebDAVPropsLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, webDAVPropsLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

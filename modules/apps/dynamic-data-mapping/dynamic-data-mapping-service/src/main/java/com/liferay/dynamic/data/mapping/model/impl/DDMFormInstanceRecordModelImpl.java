@@ -297,119 +297,125 @@ public class DDMFormInstanceRecordModelImpl
 
 	private static final Map<String, Function<DDMFormInstanceRecord, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<DDMFormInstanceRecord, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<DDMFormInstanceRecord, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<DDMFormInstanceRecord, Object>>();
+
+		attributeGetterFunctions.put(
+			"mvccVersion", DDMFormInstanceRecord::getMvccVersion);
+		attributeGetterFunctions.put("uuid", DDMFormInstanceRecord::getUuid);
+		attributeGetterFunctions.put(
+			"formInstanceRecordId",
+			DDMFormInstanceRecord::getFormInstanceRecordId);
+		attributeGetterFunctions.put(
+			"groupId", DDMFormInstanceRecord::getGroupId);
+		attributeGetterFunctions.put(
+			"companyId", DDMFormInstanceRecord::getCompanyId);
+		attributeGetterFunctions.put(
+			"userId", DDMFormInstanceRecord::getUserId);
+		attributeGetterFunctions.put(
+			"userName", DDMFormInstanceRecord::getUserName);
+		attributeGetterFunctions.put(
+			"versionUserId", DDMFormInstanceRecord::getVersionUserId);
+		attributeGetterFunctions.put(
+			"versionUserName", DDMFormInstanceRecord::getVersionUserName);
+		attributeGetterFunctions.put(
+			"createDate", DDMFormInstanceRecord::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", DDMFormInstanceRecord::getModifiedDate);
+		attributeGetterFunctions.put(
+			"formInstanceId", DDMFormInstanceRecord::getFormInstanceId);
+		attributeGetterFunctions.put(
+			"formInstanceVersion",
+			DDMFormInstanceRecord::getFormInstanceVersion);
+		attributeGetterFunctions.put(
+			"storageId", DDMFormInstanceRecord::getStorageId);
+		attributeGetterFunctions.put(
+			"version", DDMFormInstanceRecord::getVersion);
+		attributeGetterFunctions.put(
+			"lastPublishDate", DDMFormInstanceRecord::getLastPublishDate);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<DDMFormInstanceRecord, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<DDMFormInstanceRecord, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<DDMFormInstanceRecord, ?>>();
 
-		attributeGetterFunctions.put(
-			"mvccVersion", DDMFormInstanceRecord::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<DDMFormInstanceRecord, Long>)
 				DDMFormInstanceRecord::setMvccVersion);
-		attributeGetterFunctions.put("uuid", DDMFormInstanceRecord::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<DDMFormInstanceRecord, String>)
 				DDMFormInstanceRecord::setUuid);
-		attributeGetterFunctions.put(
-			"formInstanceRecordId",
-			DDMFormInstanceRecord::getFormInstanceRecordId);
 		attributeSetterBiConsumers.put(
 			"formInstanceRecordId",
 			(BiConsumer<DDMFormInstanceRecord, Long>)
 				DDMFormInstanceRecord::setFormInstanceRecordId);
-		attributeGetterFunctions.put(
-			"groupId", DDMFormInstanceRecord::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<DDMFormInstanceRecord, Long>)
 				DDMFormInstanceRecord::setGroupId);
-		attributeGetterFunctions.put(
-			"companyId", DDMFormInstanceRecord::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<DDMFormInstanceRecord, Long>)
 				DDMFormInstanceRecord::setCompanyId);
-		attributeGetterFunctions.put(
-			"userId", DDMFormInstanceRecord::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<DDMFormInstanceRecord, Long>)
 				DDMFormInstanceRecord::setUserId);
-		attributeGetterFunctions.put(
-			"userName", DDMFormInstanceRecord::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<DDMFormInstanceRecord, String>)
 				DDMFormInstanceRecord::setUserName);
-		attributeGetterFunctions.put(
-			"versionUserId", DDMFormInstanceRecord::getVersionUserId);
 		attributeSetterBiConsumers.put(
 			"versionUserId",
 			(BiConsumer<DDMFormInstanceRecord, Long>)
 				DDMFormInstanceRecord::setVersionUserId);
-		attributeGetterFunctions.put(
-			"versionUserName", DDMFormInstanceRecord::getVersionUserName);
 		attributeSetterBiConsumers.put(
 			"versionUserName",
 			(BiConsumer<DDMFormInstanceRecord, String>)
 				DDMFormInstanceRecord::setVersionUserName);
-		attributeGetterFunctions.put(
-			"createDate", DDMFormInstanceRecord::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<DDMFormInstanceRecord, Date>)
 				DDMFormInstanceRecord::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", DDMFormInstanceRecord::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<DDMFormInstanceRecord, Date>)
 				DDMFormInstanceRecord::setModifiedDate);
-		attributeGetterFunctions.put(
-			"formInstanceId", DDMFormInstanceRecord::getFormInstanceId);
 		attributeSetterBiConsumers.put(
 			"formInstanceId",
 			(BiConsumer<DDMFormInstanceRecord, Long>)
 				DDMFormInstanceRecord::setFormInstanceId);
-		attributeGetterFunctions.put(
-			"formInstanceVersion",
-			DDMFormInstanceRecord::getFormInstanceVersion);
 		attributeSetterBiConsumers.put(
 			"formInstanceVersion",
 			(BiConsumer<DDMFormInstanceRecord, String>)
 				DDMFormInstanceRecord::setFormInstanceVersion);
-		attributeGetterFunctions.put(
-			"storageId", DDMFormInstanceRecord::getStorageId);
 		attributeSetterBiConsumers.put(
 			"storageId",
 			(BiConsumer<DDMFormInstanceRecord, Long>)
 				DDMFormInstanceRecord::setStorageId);
-		attributeGetterFunctions.put(
-			"version", DDMFormInstanceRecord::getVersion);
 		attributeSetterBiConsumers.put(
 			"version",
 			(BiConsumer<DDMFormInstanceRecord, String>)
 				DDMFormInstanceRecord::setVersion);
-		attributeGetterFunctions.put(
-			"lastPublishDate", DDMFormInstanceRecord::getLastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<DDMFormInstanceRecord, Date>)
 				DDMFormInstanceRecord::setLastPublishDate);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

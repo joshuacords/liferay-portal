@@ -337,17 +337,12 @@ public class CPMeasurementUnitModelImpl
 
 	private static final Map<String, Function<CPMeasurementUnit, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CPMeasurementUnit, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CPMeasurementUnit, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<CPMeasurementUnit, Object>>();
-		Map<String, BiConsumer<CPMeasurementUnit, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap<String, BiConsumer<CPMeasurementUnit, ?>>();
 
 		attributeGetterFunctions.put(
 			"uuid",
@@ -359,6 +354,159 @@ public class CPMeasurementUnitModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"CPMeasurementUnitId",
+			new Function<CPMeasurementUnit, Object>() {
+
+				@Override
+				public Object apply(CPMeasurementUnit cpMeasurementUnit) {
+					return cpMeasurementUnit.getCPMeasurementUnitId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"groupId",
+			new Function<CPMeasurementUnit, Object>() {
+
+				@Override
+				public Object apply(CPMeasurementUnit cpMeasurementUnit) {
+					return cpMeasurementUnit.getGroupId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CPMeasurementUnit, Object>() {
+
+				@Override
+				public Object apply(CPMeasurementUnit cpMeasurementUnit) {
+					return cpMeasurementUnit.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CPMeasurementUnit, Object>() {
+
+				@Override
+				public Object apply(CPMeasurementUnit cpMeasurementUnit) {
+					return cpMeasurementUnit.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CPMeasurementUnit, Object>() {
+
+				@Override
+				public Object apply(CPMeasurementUnit cpMeasurementUnit) {
+					return cpMeasurementUnit.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CPMeasurementUnit, Object>() {
+
+				@Override
+				public Object apply(CPMeasurementUnit cpMeasurementUnit) {
+					return cpMeasurementUnit.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CPMeasurementUnit, Object>() {
+
+				@Override
+				public Object apply(CPMeasurementUnit cpMeasurementUnit) {
+					return cpMeasurementUnit.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"name",
+			new Function<CPMeasurementUnit, Object>() {
+
+				@Override
+				public Object apply(CPMeasurementUnit cpMeasurementUnit) {
+					return cpMeasurementUnit.getName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"key",
+			new Function<CPMeasurementUnit, Object>() {
+
+				@Override
+				public Object apply(CPMeasurementUnit cpMeasurementUnit) {
+					return cpMeasurementUnit.getKey();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"rate",
+			new Function<CPMeasurementUnit, Object>() {
+
+				@Override
+				public Object apply(CPMeasurementUnit cpMeasurementUnit) {
+					return cpMeasurementUnit.getRate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"primary",
+			new Function<CPMeasurementUnit, Object>() {
+
+				@Override
+				public Object apply(CPMeasurementUnit cpMeasurementUnit) {
+					return cpMeasurementUnit.getPrimary();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"priority",
+			new Function<CPMeasurementUnit, Object>() {
+
+				@Override
+				public Object apply(CPMeasurementUnit cpMeasurementUnit) {
+					return cpMeasurementUnit.getPriority();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"type",
+			new Function<CPMeasurementUnit, Object>() {
+
+				@Override
+				public Object apply(CPMeasurementUnit cpMeasurementUnit) {
+					return cpMeasurementUnit.getType();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"lastPublishDate",
+			new Function<CPMeasurementUnit, Object>() {
+
+				@Override
+				public Object apply(CPMeasurementUnit cpMeasurementUnit) {
+					return cpMeasurementUnit.getLastPublishDate();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<CPMeasurementUnit, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CPMeasurementUnit, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<CPMeasurementUnit, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"uuid",
 			new BiConsumer<CPMeasurementUnit, Object>() {
@@ -368,16 +516,6 @@ public class CPMeasurementUnitModelImpl
 					CPMeasurementUnit cpMeasurementUnit, Object uuidObject) {
 
 					cpMeasurementUnit.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"CPMeasurementUnitId",
-			new Function<CPMeasurementUnit, Object>() {
-
-				@Override
-				public Object apply(CPMeasurementUnit cpMeasurementUnit) {
-					return cpMeasurementUnit.getCPMeasurementUnitId();
 				}
 
 			});
@@ -395,16 +533,6 @@ public class CPMeasurementUnitModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<CPMeasurementUnit, Object>() {
-
-				@Override
-				public Object apply(CPMeasurementUnit cpMeasurementUnit) {
-					return cpMeasurementUnit.getGroupId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"groupId",
 			new BiConsumer<CPMeasurementUnit, Object>() {
@@ -414,16 +542,6 @@ public class CPMeasurementUnitModelImpl
 					CPMeasurementUnit cpMeasurementUnit, Object groupIdObject) {
 
 					cpMeasurementUnit.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CPMeasurementUnit, Object>() {
-
-				@Override
-				public Object apply(CPMeasurementUnit cpMeasurementUnit) {
-					return cpMeasurementUnit.getCompanyId();
 				}
 
 			});
@@ -440,16 +558,6 @@ public class CPMeasurementUnitModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CPMeasurementUnit, Object>() {
-
-				@Override
-				public Object apply(CPMeasurementUnit cpMeasurementUnit) {
-					return cpMeasurementUnit.getUserId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userId",
 			new BiConsumer<CPMeasurementUnit, Object>() {
@@ -459,16 +567,6 @@ public class CPMeasurementUnitModelImpl
 					CPMeasurementUnit cpMeasurementUnit, Object userIdObject) {
 
 					cpMeasurementUnit.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CPMeasurementUnit, Object>() {
-
-				@Override
-				public Object apply(CPMeasurementUnit cpMeasurementUnit) {
-					return cpMeasurementUnit.getUserName();
 				}
 
 			});
@@ -485,16 +583,6 @@ public class CPMeasurementUnitModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CPMeasurementUnit, Object>() {
-
-				@Override
-				public Object apply(CPMeasurementUnit cpMeasurementUnit) {
-					return cpMeasurementUnit.getCreateDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"createDate",
 			new BiConsumer<CPMeasurementUnit, Object>() {
@@ -505,16 +593,6 @@ public class CPMeasurementUnitModelImpl
 					Object createDateObject) {
 
 					cpMeasurementUnit.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CPMeasurementUnit, Object>() {
-
-				@Override
-				public Object apply(CPMeasurementUnit cpMeasurementUnit) {
-					return cpMeasurementUnit.getModifiedDate();
 				}
 
 			});
@@ -531,16 +609,6 @@ public class CPMeasurementUnitModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"name",
-			new Function<CPMeasurementUnit, Object>() {
-
-				@Override
-				public Object apply(CPMeasurementUnit cpMeasurementUnit) {
-					return cpMeasurementUnit.getName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"name",
 			new BiConsumer<CPMeasurementUnit, Object>() {
@@ -550,16 +618,6 @@ public class CPMeasurementUnitModelImpl
 					CPMeasurementUnit cpMeasurementUnit, Object nameObject) {
 
 					cpMeasurementUnit.setName((String)nameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"key",
-			new Function<CPMeasurementUnit, Object>() {
-
-				@Override
-				public Object apply(CPMeasurementUnit cpMeasurementUnit) {
-					return cpMeasurementUnit.getKey();
 				}
 
 			});
@@ -575,16 +633,6 @@ public class CPMeasurementUnitModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"rate",
-			new Function<CPMeasurementUnit, Object>() {
-
-				@Override
-				public Object apply(CPMeasurementUnit cpMeasurementUnit) {
-					return cpMeasurementUnit.getRate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"rate",
 			new BiConsumer<CPMeasurementUnit, Object>() {
@@ -597,16 +645,6 @@ public class CPMeasurementUnitModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"primary",
-			new Function<CPMeasurementUnit, Object>() {
-
-				@Override
-				public Object apply(CPMeasurementUnit cpMeasurementUnit) {
-					return cpMeasurementUnit.getPrimary();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"primary",
 			new BiConsumer<CPMeasurementUnit, Object>() {
@@ -616,16 +654,6 @@ public class CPMeasurementUnitModelImpl
 					CPMeasurementUnit cpMeasurementUnit, Object primaryObject) {
 
 					cpMeasurementUnit.setPrimary((Boolean)primaryObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"priority",
-			new Function<CPMeasurementUnit, Object>() {
-
-				@Override
-				public Object apply(CPMeasurementUnit cpMeasurementUnit) {
-					return cpMeasurementUnit.getPriority();
 				}
 
 			});
@@ -642,16 +670,6 @@ public class CPMeasurementUnitModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"type",
-			new Function<CPMeasurementUnit, Object>() {
-
-				@Override
-				public Object apply(CPMeasurementUnit cpMeasurementUnit) {
-					return cpMeasurementUnit.getType();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"type",
 			new BiConsumer<CPMeasurementUnit, Object>() {
@@ -661,16 +679,6 @@ public class CPMeasurementUnitModelImpl
 					CPMeasurementUnit cpMeasurementUnit, Object typeObject) {
 
 					cpMeasurementUnit.setType((Integer)typeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"lastPublishDate",
-			new Function<CPMeasurementUnit, Object>() {
-
-				@Override
-				public Object apply(CPMeasurementUnit cpMeasurementUnit) {
-					return cpMeasurementUnit.getLastPublishDate();
 				}
 
 			});
@@ -689,8 +697,6 @@ public class CPMeasurementUnitModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

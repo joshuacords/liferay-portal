@@ -46,7 +46,6 @@ import com.liferay.portal.workflow.kaleo.service.persistence.impl.constants.Kale
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
@@ -3879,34 +3878,18 @@ public class KaleoTaskFormInstancePersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByKaleoTaskFormId",
 			new String[] {Long.class.getName()});
 
-		_setKaleoTaskFormInstanceUtilPersistence(this);
+		KaleoTaskFormInstanceUtil.setPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
-		_setKaleoTaskFormInstanceUtilPersistence(null);
+		KaleoTaskFormInstanceUtil.setPersistence(null);
 
 		entityCache.removeCache(KaleoTaskFormInstanceImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setKaleoTaskFormInstanceUtilPersistence(
-		KaleoTaskFormInstancePersistence kaleoTaskFormInstancePersistence) {
-
-		try {
-			Field field = KaleoTaskFormInstanceUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, kaleoTaskFormInstancePersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@Override

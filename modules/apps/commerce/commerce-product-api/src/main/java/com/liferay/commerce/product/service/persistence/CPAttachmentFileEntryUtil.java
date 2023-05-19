@@ -1918,6 +1918,12 @@ public class CPAttachmentFileEntryUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(
+		CPAttachmentFileEntryPersistence persistence) {
+
+		_persistence = persistence;
+	}
+
 	private static volatile CPAttachmentFileEntryPersistence _persistence;
 
 }

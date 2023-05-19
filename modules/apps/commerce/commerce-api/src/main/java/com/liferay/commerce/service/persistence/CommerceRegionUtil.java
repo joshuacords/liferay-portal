@@ -1056,6 +1056,10 @@ public class CommerceRegionUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(CommerceRegionPersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile CommerceRegionPersistence _persistence;
 
 }

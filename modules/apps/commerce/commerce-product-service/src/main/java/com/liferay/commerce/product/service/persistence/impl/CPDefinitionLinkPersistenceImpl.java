@@ -5209,33 +5209,17 @@ public class CPDefinitionLinkPersistenceImpl
 				String.class.getName()
 			});
 
-		_setCPDefinitionLinkUtilPersistence(this);
+		CPDefinitionLinkUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setCPDefinitionLinkUtilPersistence(null);
+		CPDefinitionLinkUtil.setPersistence(null);
 
 		entityCache.removeCache(CPDefinitionLinkImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setCPDefinitionLinkUtilPersistence(
-		CPDefinitionLinkPersistence cpDefinitionLinkPersistence) {
-
-		try {
-			Field field = CPDefinitionLinkUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, cpDefinitionLinkPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

@@ -783,6 +783,12 @@ public class PowwowParticipantUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(
+		PowwowParticipantPersistence persistence) {
+
+		_persistence = persistence;
+	}
+
 	private static volatile PowwowParticipantPersistence _persistence;
 
 }

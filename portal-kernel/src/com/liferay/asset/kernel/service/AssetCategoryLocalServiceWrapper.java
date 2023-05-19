@@ -371,13 +371,7 @@ public class AssetCategoryLocalServiceWrapper
 		return _assetCategoryLocalService.fetchAssetCategory(categoryId);
 	}
 
-	/**
-	 * Returns the asset category with the matching external reference code and company.
-	 *
-	 * @param companyId the primary key of the company
-	 * @param externalReferenceCode the asset category's external reference code
-	 * @return the matching asset category, or <code>null</code> if a matching asset category could not be found
-	 */
+	@Deprecated
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory
 		fetchAssetCategoryByExternalReferenceCode(
@@ -388,9 +382,6 @@ public class AssetCategoryLocalServiceWrapper
 				companyId, externalReferenceCode);
 	}
 
-	/**
-	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #fetchAssetCategoryByExternalReferenceCode(long, String)}
-	 */
 	@Deprecated
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory
@@ -518,14 +509,7 @@ public class AssetCategoryLocalServiceWrapper
 		return _assetCategoryLocalService.getAssetCategory(categoryId);
 	}
 
-	/**
-	 * Returns the asset category with the matching external reference code and company.
-	 *
-	 * @param companyId the primary key of the company
-	 * @param externalReferenceCode the asset category's external reference code
-	 * @return the matching asset category
-	 * @throws PortalException if a matching asset category could not be found
-	 */
+	@Deprecated
 	@Override
 	public com.liferay.asset.kernel.model.AssetCategory
 			getAssetCategoryByExternalReferenceCode(

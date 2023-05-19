@@ -242,6 +242,10 @@ public class AssetVocabularyServiceUtil {
 		return _service;
 	}
 
+	public static void setService(AssetVocabularyService service) {
+		_service = service;
+	}
+
 	private static volatile AssetVocabularyService _service;
 
 }

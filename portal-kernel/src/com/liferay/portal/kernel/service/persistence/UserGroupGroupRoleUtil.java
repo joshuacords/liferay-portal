@@ -1188,6 +1188,12 @@ public class UserGroupGroupRoleUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(
+		UserGroupGroupRolePersistence persistence) {
+
+		_persistence = persistence;
+	}
+
 	private static volatile UserGroupGroupRolePersistence _persistence;
 
 }

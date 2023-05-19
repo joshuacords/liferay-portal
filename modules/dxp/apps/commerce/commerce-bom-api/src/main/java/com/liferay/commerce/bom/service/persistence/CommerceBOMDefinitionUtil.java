@@ -545,6 +545,12 @@ public class CommerceBOMDefinitionUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(
+		CommerceBOMDefinitionPersistence persistence) {
+
+		_persistence = persistence;
+	}
+
 	private static volatile CommerceBOMDefinitionPersistence _persistence;
 
 }

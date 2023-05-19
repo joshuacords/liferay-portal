@@ -45,8 +45,6 @@ import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiServic
 import com.liferay.portal.kernel.service.BaseServiceImpl;
 import com.liferay.portal.kernel.util.PortalUtil;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 import org.osgi.service.component.annotations.Deactivate;
@@ -74,7 +72,7 @@ public abstract class TeamAccountRoleServiceBaseImpl
 	 */
 	@Deactivate
 	protected void deactivate() {
-		_setServiceUtilService(null);
+		TeamAccountRoleServiceUtil.setService(null);
 	}
 
 	@Override
@@ -88,7 +86,7 @@ public abstract class TeamAccountRoleServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		teamAccountRoleService = (TeamAccountRoleService)aopProxy;
 
-		_setServiceUtilService(teamAccountRoleService);
+		TeamAccountRoleServiceUtil.setService(teamAccountRoleService);
 	}
 
 	/**
@@ -130,22 +128,6 @@ public abstract class TeamAccountRoleServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setServiceUtilService(
-		TeamAccountRoleService teamAccountRoleService) {
-
-		try {
-			Field field = TeamAccountRoleServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, teamAccountRoleService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

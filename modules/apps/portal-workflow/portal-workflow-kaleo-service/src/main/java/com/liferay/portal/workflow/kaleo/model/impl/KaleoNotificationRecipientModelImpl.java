@@ -234,140 +234,146 @@ public class KaleoNotificationRecipientModelImpl
 	private static final Map
 		<String, Function<KaleoNotificationRecipient, Object>>
 			_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<KaleoNotificationRecipient, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<KaleoNotificationRecipient, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<KaleoNotificationRecipient, Object>>();
+
+		attributeGetterFunctions.put(
+			"mvccVersion", KaleoNotificationRecipient::getMvccVersion);
+		attributeGetterFunctions.put(
+			"kaleoNotificationRecipientId",
+			KaleoNotificationRecipient::getKaleoNotificationRecipientId);
+		attributeGetterFunctions.put(
+			"groupId", KaleoNotificationRecipient::getGroupId);
+		attributeGetterFunctions.put(
+			"companyId", KaleoNotificationRecipient::getCompanyId);
+		attributeGetterFunctions.put(
+			"userId", KaleoNotificationRecipient::getUserId);
+		attributeGetterFunctions.put(
+			"userName", KaleoNotificationRecipient::getUserName);
+		attributeGetterFunctions.put(
+			"createDate", KaleoNotificationRecipient::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", KaleoNotificationRecipient::getModifiedDate);
+		attributeGetterFunctions.put(
+			"kaleoDefinitionVersionId",
+			KaleoNotificationRecipient::getKaleoDefinitionVersionId);
+		attributeGetterFunctions.put(
+			"kaleoNotificationId",
+			KaleoNotificationRecipient::getKaleoNotificationId);
+		attributeGetterFunctions.put(
+			"recipientClassName",
+			KaleoNotificationRecipient::getRecipientClassName);
+		attributeGetterFunctions.put(
+			"recipientClassPK",
+			KaleoNotificationRecipient::getRecipientClassPK);
+		attributeGetterFunctions.put(
+			"recipientRoleType",
+			KaleoNotificationRecipient::getRecipientRoleType);
+		attributeGetterFunctions.put(
+			"recipientScript", KaleoNotificationRecipient::getRecipientScript);
+		attributeGetterFunctions.put(
+			"recipientScriptLanguage",
+			KaleoNotificationRecipient::getRecipientScriptLanguage);
+		attributeGetterFunctions.put(
+			"recipientScriptContexts",
+			KaleoNotificationRecipient::getRecipientScriptContexts);
+		attributeGetterFunctions.put(
+			"address", KaleoNotificationRecipient::getAddress);
+		attributeGetterFunctions.put(
+			"notificationReceptionType",
+			KaleoNotificationRecipient::getNotificationReceptionType);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<KaleoNotificationRecipient, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<KaleoNotificationRecipient, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<KaleoNotificationRecipient, ?>>();
 
-		attributeGetterFunctions.put(
-			"mvccVersion", KaleoNotificationRecipient::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<KaleoNotificationRecipient, Long>)
 				KaleoNotificationRecipient::setMvccVersion);
-		attributeGetterFunctions.put(
-			"kaleoNotificationRecipientId",
-			KaleoNotificationRecipient::getKaleoNotificationRecipientId);
 		attributeSetterBiConsumers.put(
 			"kaleoNotificationRecipientId",
 			(BiConsumer<KaleoNotificationRecipient, Long>)
 				KaleoNotificationRecipient::setKaleoNotificationRecipientId);
-		attributeGetterFunctions.put(
-			"groupId", KaleoNotificationRecipient::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<KaleoNotificationRecipient, Long>)
 				KaleoNotificationRecipient::setGroupId);
-		attributeGetterFunctions.put(
-			"companyId", KaleoNotificationRecipient::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<KaleoNotificationRecipient, Long>)
 				KaleoNotificationRecipient::setCompanyId);
-		attributeGetterFunctions.put(
-			"userId", KaleoNotificationRecipient::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<KaleoNotificationRecipient, Long>)
 				KaleoNotificationRecipient::setUserId);
-		attributeGetterFunctions.put(
-			"userName", KaleoNotificationRecipient::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<KaleoNotificationRecipient, String>)
 				KaleoNotificationRecipient::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", KaleoNotificationRecipient::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<KaleoNotificationRecipient, Date>)
 				KaleoNotificationRecipient::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", KaleoNotificationRecipient::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<KaleoNotificationRecipient, Date>)
 				KaleoNotificationRecipient::setModifiedDate);
-		attributeGetterFunctions.put(
-			"kaleoDefinitionVersionId",
-			KaleoNotificationRecipient::getKaleoDefinitionVersionId);
 		attributeSetterBiConsumers.put(
 			"kaleoDefinitionVersionId",
 			(BiConsumer<KaleoNotificationRecipient, Long>)
 				KaleoNotificationRecipient::setKaleoDefinitionVersionId);
-		attributeGetterFunctions.put(
-			"kaleoNotificationId",
-			KaleoNotificationRecipient::getKaleoNotificationId);
 		attributeSetterBiConsumers.put(
 			"kaleoNotificationId",
 			(BiConsumer<KaleoNotificationRecipient, Long>)
 				KaleoNotificationRecipient::setKaleoNotificationId);
-		attributeGetterFunctions.put(
-			"recipientClassName",
-			KaleoNotificationRecipient::getRecipientClassName);
 		attributeSetterBiConsumers.put(
 			"recipientClassName",
 			(BiConsumer<KaleoNotificationRecipient, String>)
 				KaleoNotificationRecipient::setRecipientClassName);
-		attributeGetterFunctions.put(
-			"recipientClassPK",
-			KaleoNotificationRecipient::getRecipientClassPK);
 		attributeSetterBiConsumers.put(
 			"recipientClassPK",
 			(BiConsumer<KaleoNotificationRecipient, Long>)
 				KaleoNotificationRecipient::setRecipientClassPK);
-		attributeGetterFunctions.put(
-			"recipientRoleType",
-			KaleoNotificationRecipient::getRecipientRoleType);
 		attributeSetterBiConsumers.put(
 			"recipientRoleType",
 			(BiConsumer<KaleoNotificationRecipient, Integer>)
 				KaleoNotificationRecipient::setRecipientRoleType);
-		attributeGetterFunctions.put(
-			"recipientScript", KaleoNotificationRecipient::getRecipientScript);
 		attributeSetterBiConsumers.put(
 			"recipientScript",
 			(BiConsumer<KaleoNotificationRecipient, String>)
 				KaleoNotificationRecipient::setRecipientScript);
-		attributeGetterFunctions.put(
-			"recipientScriptLanguage",
-			KaleoNotificationRecipient::getRecipientScriptLanguage);
 		attributeSetterBiConsumers.put(
 			"recipientScriptLanguage",
 			(BiConsumer<KaleoNotificationRecipient, String>)
 				KaleoNotificationRecipient::setRecipientScriptLanguage);
-		attributeGetterFunctions.put(
-			"recipientScriptContexts",
-			KaleoNotificationRecipient::getRecipientScriptContexts);
 		attributeSetterBiConsumers.put(
 			"recipientScriptContexts",
 			(BiConsumer<KaleoNotificationRecipient, String>)
 				KaleoNotificationRecipient::setRecipientScriptContexts);
-		attributeGetterFunctions.put(
-			"address", KaleoNotificationRecipient::getAddress);
 		attributeSetterBiConsumers.put(
 			"address",
 			(BiConsumer<KaleoNotificationRecipient, String>)
 				KaleoNotificationRecipient::setAddress);
-		attributeGetterFunctions.put(
-			"notificationReceptionType",
-			KaleoNotificationRecipient::getNotificationReceptionType);
 		attributeSetterBiConsumers.put(
 			"notificationReceptionType",
 			(BiConsumer<KaleoNotificationRecipient, String>)
 				KaleoNotificationRecipient::setNotificationReceptionType);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

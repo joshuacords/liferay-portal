@@ -316,6 +316,10 @@ public class ProductFieldLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(ProductFieldLocalService service) {
+		_service = service;
+	}
+
 	private static volatile ProductFieldLocalService _service;
 
 }

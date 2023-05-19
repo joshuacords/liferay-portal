@@ -49,8 +49,6 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -529,14 +527,14 @@ public abstract class AkismetEntryLocalServiceBaseImpl
 		persistedModelLocalServiceRegistry.register(
 			"com.liferay.akismet.model.AkismetEntry", akismetEntryLocalService);
 
-		_setLocalServiceUtilService(akismetEntryLocalService);
+		AkismetEntryLocalServiceUtil.setService(akismetEntryLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"com.liferay.akismet.model.AkismetEntry");
 
-		_setLocalServiceUtilService(null);
+		AkismetEntryLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -578,22 +576,6 @@ public abstract class AkismetEntryLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		AkismetEntryLocalService akismetEntryLocalService) {
-
-		try {
-			Field field = AkismetEntryLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, akismetEntryLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

@@ -336,6 +336,10 @@ public class DLFileRankLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(DLFileRankLocalService service) {
+		_service = service;
+	}
+
 	private static volatile DLFileRankLocalService _service;
 
 }

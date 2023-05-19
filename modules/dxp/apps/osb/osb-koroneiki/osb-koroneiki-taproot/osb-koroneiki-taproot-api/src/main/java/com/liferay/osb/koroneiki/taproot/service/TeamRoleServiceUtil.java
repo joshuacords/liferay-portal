@@ -107,6 +107,10 @@ public class TeamRoleServiceUtil {
 		return _service;
 	}
 
+	public static void setService(TeamRoleService service) {
+		_service = service;
+	}
+
 	private static volatile TeamRoleService _service;
 
 }

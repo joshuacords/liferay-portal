@@ -30,8 +30,6 @@ import com.liferay.portal.kernel.service.persistence.PluginSettingPersistence;
 import com.liferay.portal.kernel.util.InfrastructureUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 /**
@@ -207,11 +205,11 @@ public abstract class ThemeServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
-		_setServiceUtilService(themeService);
+		ThemeServiceUtil.setService(themeService);
 	}
 
 	public void destroy() {
-		_setServiceUtilService(null);
+		ThemeServiceUtil.setService(null);
 	}
 
 	/**
@@ -245,19 +243,6 @@ public abstract class ThemeServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setServiceUtilService(ThemeService themeService) {
-		try {
-			Field field = ThemeServiceUtil.class.getDeclaredField("_service");
-
-			field.setAccessible(true);
-
-			field.set(null, themeService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

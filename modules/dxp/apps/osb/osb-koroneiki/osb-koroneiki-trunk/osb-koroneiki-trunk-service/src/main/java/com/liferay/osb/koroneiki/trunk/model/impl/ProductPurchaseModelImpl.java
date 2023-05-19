@@ -289,94 +289,100 @@ public class ProductPurchaseModelImpl
 
 	private static final Map<String, Function<ProductPurchase, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<ProductPurchase, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<ProductPurchase, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap<String, Function<ProductPurchase, Object>>();
-		Map<String, BiConsumer<ProductPurchase, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<ProductPurchase, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", ProductPurchase::getMvccVersion);
+		attributeGetterFunctions.put("uuid", ProductPurchase::getUuid);
+		attributeGetterFunctions.put(
+			"productPurchaseId", ProductPurchase::getProductPurchaseId);
+		attributeGetterFunctions.put(
+			"companyId", ProductPurchase::getCompanyId);
+		attributeGetterFunctions.put("userId", ProductPurchase::getUserId);
+		attributeGetterFunctions.put(
+			"createDate", ProductPurchase::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", ProductPurchase::getModifiedDate);
+		attributeGetterFunctions.put(
+			"productPurchaseKey", ProductPurchase::getProductPurchaseKey);
+		attributeGetterFunctions.put(
+			"accountId", ProductPurchase::getAccountId);
+		attributeGetterFunctions.put(
+			"productEntryId", ProductPurchase::getProductEntryId);
+		attributeGetterFunctions.put(
+			"startDate", ProductPurchase::getStartDate);
+		attributeGetterFunctions.put("endDate", ProductPurchase::getEndDate);
+		attributeGetterFunctions.put(
+			"originalEndDate", ProductPurchase::getOriginalEndDate);
+		attributeGetterFunctions.put("quantity", ProductPurchase::getQuantity);
+		attributeGetterFunctions.put("status", ProductPurchase::getStatus);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<ProductPurchase, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<ProductPurchase, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<ProductPurchase, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<ProductPurchase, Long>)ProductPurchase::setMvccVersion);
-		attributeGetterFunctions.put("uuid", ProductPurchase::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<ProductPurchase, String>)ProductPurchase::setUuid);
-		attributeGetterFunctions.put(
-			"productPurchaseId", ProductPurchase::getProductPurchaseId);
 		attributeSetterBiConsumers.put(
 			"productPurchaseId",
 			(BiConsumer<ProductPurchase, Long>)
 				ProductPurchase::setProductPurchaseId);
-		attributeGetterFunctions.put(
-			"companyId", ProductPurchase::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<ProductPurchase, Long>)ProductPurchase::setCompanyId);
-		attributeGetterFunctions.put("userId", ProductPurchase::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<ProductPurchase, Long>)ProductPurchase::setUserId);
-		attributeGetterFunctions.put(
-			"createDate", ProductPurchase::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<ProductPurchase, Date>)ProductPurchase::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", ProductPurchase::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<ProductPurchase, Date>)
 				ProductPurchase::setModifiedDate);
-		attributeGetterFunctions.put(
-			"productPurchaseKey", ProductPurchase::getProductPurchaseKey);
 		attributeSetterBiConsumers.put(
 			"productPurchaseKey",
 			(BiConsumer<ProductPurchase, String>)
 				ProductPurchase::setProductPurchaseKey);
-		attributeGetterFunctions.put(
-			"accountId", ProductPurchase::getAccountId);
 		attributeSetterBiConsumers.put(
 			"accountId",
 			(BiConsumer<ProductPurchase, Long>)ProductPurchase::setAccountId);
-		attributeGetterFunctions.put(
-			"productEntryId", ProductPurchase::getProductEntryId);
 		attributeSetterBiConsumers.put(
 			"productEntryId",
 			(BiConsumer<ProductPurchase, Long>)
 				ProductPurchase::setProductEntryId);
-		attributeGetterFunctions.put(
-			"startDate", ProductPurchase::getStartDate);
 		attributeSetterBiConsumers.put(
 			"startDate",
 			(BiConsumer<ProductPurchase, Date>)ProductPurchase::setStartDate);
-		attributeGetterFunctions.put("endDate", ProductPurchase::getEndDate);
 		attributeSetterBiConsumers.put(
 			"endDate",
 			(BiConsumer<ProductPurchase, Date>)ProductPurchase::setEndDate);
-		attributeGetterFunctions.put(
-			"originalEndDate", ProductPurchase::getOriginalEndDate);
 		attributeSetterBiConsumers.put(
 			"originalEndDate",
 			(BiConsumer<ProductPurchase, Date>)
 				ProductPurchase::setOriginalEndDate);
-		attributeGetterFunctions.put("quantity", ProductPurchase::getQuantity);
 		attributeSetterBiConsumers.put(
 			"quantity",
 			(BiConsumer<ProductPurchase, Integer>)ProductPurchase::setQuantity);
-		attributeGetterFunctions.put("status", ProductPurchase::getStatus);
 		attributeSetterBiConsumers.put(
 			"status",
 			(BiConsumer<ProductPurchase, Integer>)ProductPurchase::setStatus);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

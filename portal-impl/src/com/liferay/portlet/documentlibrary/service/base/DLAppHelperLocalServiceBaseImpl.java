@@ -49,8 +49,6 @@ import com.liferay.ratings.kernel.service.persistence.RatingsStatsPersistence;
 import com.liferay.trash.kernel.service.persistence.TrashEntryPersistence;
 import com.liferay.trash.kernel.service.persistence.TrashVersionPersistence;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 /**
@@ -836,11 +834,11 @@ public abstract class DLAppHelperLocalServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
-		_setLocalServiceUtilService(dlAppHelperLocalService);
+		DLAppHelperLocalServiceUtil.setService(dlAppHelperLocalService);
 	}
 
 	public void destroy() {
-		_setLocalServiceUtilService(null);
+		DLAppHelperLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -874,22 +872,6 @@ public abstract class DLAppHelperLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		DLAppHelperLocalService dlAppHelperLocalService) {
-
-		try {
-			Field field = DLAppHelperLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, dlAppHelperLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

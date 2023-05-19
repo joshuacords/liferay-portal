@@ -226,76 +226,82 @@ public class SamlIdpSpSessionModelImpl
 
 	private static final Map<String, Function<SamlIdpSpSession, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<SamlIdpSpSession, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<SamlIdpSpSession, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap<String, Function<SamlIdpSpSession, Object>>();
+
+		attributeGetterFunctions.put(
+			"samlIdpSpSessionId", SamlIdpSpSession::getSamlIdpSpSessionId);
+		attributeGetterFunctions.put(
+			"companyId", SamlIdpSpSession::getCompanyId);
+		attributeGetterFunctions.put("userId", SamlIdpSpSession::getUserId);
+		attributeGetterFunctions.put("userName", SamlIdpSpSession::getUserName);
+		attributeGetterFunctions.put(
+			"createDate", SamlIdpSpSession::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", SamlIdpSpSession::getModifiedDate);
+		attributeGetterFunctions.put(
+			"samlIdpSsoSessionId", SamlIdpSpSession::getSamlIdpSsoSessionId);
+		attributeGetterFunctions.put(
+			"samlSpEntityId", SamlIdpSpSession::getSamlSpEntityId);
+		attributeGetterFunctions.put(
+			"nameIdFormat", SamlIdpSpSession::getNameIdFormat);
+		attributeGetterFunctions.put(
+			"nameIdValue", SamlIdpSpSession::getNameIdValue);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<SamlIdpSpSession, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<SamlIdpSpSession, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<SamlIdpSpSession, ?>>();
 
-		attributeGetterFunctions.put(
-			"samlIdpSpSessionId", SamlIdpSpSession::getSamlIdpSpSessionId);
 		attributeSetterBiConsumers.put(
 			"samlIdpSpSessionId",
 			(BiConsumer<SamlIdpSpSession, Long>)
 				SamlIdpSpSession::setSamlIdpSpSessionId);
-		attributeGetterFunctions.put(
-			"companyId", SamlIdpSpSession::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<SamlIdpSpSession, Long>)SamlIdpSpSession::setCompanyId);
-		attributeGetterFunctions.put("userId", SamlIdpSpSession::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<SamlIdpSpSession, Long>)SamlIdpSpSession::setUserId);
-		attributeGetterFunctions.put("userName", SamlIdpSpSession::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<SamlIdpSpSession, String>)
 				SamlIdpSpSession::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", SamlIdpSpSession::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<SamlIdpSpSession, Date>)
 				SamlIdpSpSession::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", SamlIdpSpSession::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<SamlIdpSpSession, Date>)
 				SamlIdpSpSession::setModifiedDate);
-		attributeGetterFunctions.put(
-			"samlIdpSsoSessionId", SamlIdpSpSession::getSamlIdpSsoSessionId);
 		attributeSetterBiConsumers.put(
 			"samlIdpSsoSessionId",
 			(BiConsumer<SamlIdpSpSession, Long>)
 				SamlIdpSpSession::setSamlIdpSsoSessionId);
-		attributeGetterFunctions.put(
-			"samlSpEntityId", SamlIdpSpSession::getSamlSpEntityId);
 		attributeSetterBiConsumers.put(
 			"samlSpEntityId",
 			(BiConsumer<SamlIdpSpSession, String>)
 				SamlIdpSpSession::setSamlSpEntityId);
-		attributeGetterFunctions.put(
-			"nameIdFormat", SamlIdpSpSession::getNameIdFormat);
 		attributeSetterBiConsumers.put(
 			"nameIdFormat",
 			(BiConsumer<SamlIdpSpSession, String>)
 				SamlIdpSpSession::setNameIdFormat);
-		attributeGetterFunctions.put(
-			"nameIdValue", SamlIdpSpSession::getNameIdValue);
 		attributeSetterBiConsumers.put(
 			"nameIdValue",
 			(BiConsumer<SamlIdpSpSession, String>)
 				SamlIdpSpSession::setNameIdValue);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

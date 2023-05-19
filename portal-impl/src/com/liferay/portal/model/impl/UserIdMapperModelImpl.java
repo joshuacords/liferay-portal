@@ -221,48 +221,54 @@ public class UserIdMapperModelImpl
 
 	private static final Map<String, Function<UserIdMapper, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<UserIdMapper, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<UserIdMapper, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<UserIdMapper, Object>>();
-		Map<String, BiConsumer<UserIdMapper, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<UserIdMapper, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", UserIdMapper::getMvccVersion);
+		attributeGetterFunctions.put(
+			"userIdMapperId", UserIdMapper::getUserIdMapperId);
+		attributeGetterFunctions.put("companyId", UserIdMapper::getCompanyId);
+		attributeGetterFunctions.put("userId", UserIdMapper::getUserId);
+		attributeGetterFunctions.put("type", UserIdMapper::getType);
+		attributeGetterFunctions.put(
+			"description", UserIdMapper::getDescription);
+		attributeGetterFunctions.put(
+			"externalUserId", UserIdMapper::getExternalUserId);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<UserIdMapper, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<UserIdMapper, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<UserIdMapper, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<UserIdMapper, Long>)UserIdMapper::setMvccVersion);
-		attributeGetterFunctions.put(
-			"userIdMapperId", UserIdMapper::getUserIdMapperId);
 		attributeSetterBiConsumers.put(
 			"userIdMapperId",
 			(BiConsumer<UserIdMapper, Long>)UserIdMapper::setUserIdMapperId);
-		attributeGetterFunctions.put("companyId", UserIdMapper::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<UserIdMapper, Long>)UserIdMapper::setCompanyId);
-		attributeGetterFunctions.put("userId", UserIdMapper::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<UserIdMapper, Long>)UserIdMapper::setUserId);
-		attributeGetterFunctions.put("type", UserIdMapper::getType);
 		attributeSetterBiConsumers.put(
 			"type", (BiConsumer<UserIdMapper, String>)UserIdMapper::setType);
-		attributeGetterFunctions.put(
-			"description", UserIdMapper::getDescription);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<UserIdMapper, String>)UserIdMapper::setDescription);
-		attributeGetterFunctions.put(
-			"externalUserId", UserIdMapper::getExternalUserId);
 		attributeSetterBiConsumers.put(
 			"externalUserId",
 			(BiConsumer<UserIdMapper, String>)UserIdMapper::setExternalUserId);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

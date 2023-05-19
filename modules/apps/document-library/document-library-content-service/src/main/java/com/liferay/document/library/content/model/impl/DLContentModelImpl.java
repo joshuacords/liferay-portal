@@ -209,48 +209,54 @@ public class DLContentModelImpl
 
 	private static final Map<String, Function<DLContent, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<DLContent, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<DLContent, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<DLContent, Object>>();
-		Map<String, BiConsumer<DLContent, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<DLContent, ?>>();
 
 		attributeGetterFunctions.put("mvccVersion", DLContent::getMvccVersion);
-		attributeSetterBiConsumers.put(
-			"mvccVersion",
-			(BiConsumer<DLContent, Long>)DLContent::setMvccVersion);
 		attributeGetterFunctions.put("contentId", DLContent::getContentId);
-		attributeSetterBiConsumers.put(
-			"contentId", (BiConsumer<DLContent, Long>)DLContent::setContentId);
 		attributeGetterFunctions.put("groupId", DLContent::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId", (BiConsumer<DLContent, Long>)DLContent::setGroupId);
 		attributeGetterFunctions.put("companyId", DLContent::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId", (BiConsumer<DLContent, Long>)DLContent::setCompanyId);
 		attributeGetterFunctions.put(
 			"repositoryId", DLContent::getRepositoryId);
-		attributeSetterBiConsumers.put(
-			"repositoryId",
-			(BiConsumer<DLContent, Long>)DLContent::setRepositoryId);
 		attributeGetterFunctions.put("path", DLContent::getPath);
-		attributeSetterBiConsumers.put(
-			"path", (BiConsumer<DLContent, String>)DLContent::setPath);
 		attributeGetterFunctions.put("version", DLContent::getVersion);
-		attributeSetterBiConsumers.put(
-			"version", (BiConsumer<DLContent, String>)DLContent::setVersion);
 		attributeGetterFunctions.put("data", DLContent::getData);
-		attributeSetterBiConsumers.put(
-			"data", (BiConsumer<DLContent, Blob>)DLContent::setData);
 		attributeGetterFunctions.put("size", DLContent::getSize);
-		attributeSetterBiConsumers.put(
-			"size", (BiConsumer<DLContent, Long>)DLContent::setSize);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<DLContent, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<DLContent, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<DLContent, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"mvccVersion",
+			(BiConsumer<DLContent, Long>)DLContent::setMvccVersion);
+		attributeSetterBiConsumers.put(
+			"contentId", (BiConsumer<DLContent, Long>)DLContent::setContentId);
+		attributeSetterBiConsumers.put(
+			"groupId", (BiConsumer<DLContent, Long>)DLContent::setGroupId);
+		attributeSetterBiConsumers.put(
+			"companyId", (BiConsumer<DLContent, Long>)DLContent::setCompanyId);
+		attributeSetterBiConsumers.put(
+			"repositoryId",
+			(BiConsumer<DLContent, Long>)DLContent::setRepositoryId);
+		attributeSetterBiConsumers.put(
+			"path", (BiConsumer<DLContent, String>)DLContent::setPath);
+		attributeSetterBiConsumers.put(
+			"version", (BiConsumer<DLContent, String>)DLContent::setVersion);
+		attributeSetterBiConsumers.put(
+			"data", (BiConsumer<DLContent, Blob>)DLContent::setData);
+		attributeSetterBiConsumers.put(
+			"size", (BiConsumer<DLContent, Long>)DLContent::setSize);
+
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

@@ -255,19 +255,12 @@ public class CPDefinitionLocalizationModelImpl
 
 	private static final Map<String, Function<CPDefinitionLocalization, Object>>
 		_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<CPDefinitionLocalization, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CPDefinitionLocalization, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<CPDefinitionLocalization, Object>>();
-		Map<String, BiConsumer<CPDefinitionLocalization, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String, BiConsumer<CPDefinitionLocalization, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion",
@@ -281,6 +274,142 @@ public class CPDefinitionLocalizationModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"cpDefinitionLocalizationId",
+			new Function<CPDefinitionLocalization, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionLocalization cpDefinitionLocalization) {
+
+					return cpDefinitionLocalization.
+						getCpDefinitionLocalizationId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CPDefinitionLocalization, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionLocalization cpDefinitionLocalization) {
+
+					return cpDefinitionLocalization.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"CPDefinitionId",
+			new Function<CPDefinitionLocalization, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionLocalization cpDefinitionLocalization) {
+
+					return cpDefinitionLocalization.getCPDefinitionId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"languageId",
+			new Function<CPDefinitionLocalization, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionLocalization cpDefinitionLocalization) {
+
+					return cpDefinitionLocalization.getLanguageId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"name",
+			new Function<CPDefinitionLocalization, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionLocalization cpDefinitionLocalization) {
+
+					return cpDefinitionLocalization.getName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"shortDescription",
+			new Function<CPDefinitionLocalization, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionLocalization cpDefinitionLocalization) {
+
+					return cpDefinitionLocalization.getShortDescription();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"description",
+			new Function<CPDefinitionLocalization, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionLocalization cpDefinitionLocalization) {
+
+					return cpDefinitionLocalization.getDescription();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"metaTitle",
+			new Function<CPDefinitionLocalization, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionLocalization cpDefinitionLocalization) {
+
+					return cpDefinitionLocalization.getMetaTitle();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"metaDescription",
+			new Function<CPDefinitionLocalization, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionLocalization cpDefinitionLocalization) {
+
+					return cpDefinitionLocalization.getMetaDescription();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"metaKeywords",
+			new Function<CPDefinitionLocalization, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionLocalization cpDefinitionLocalization) {
+
+					return cpDefinitionLocalization.getMetaKeywords();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<CPDefinitionLocalization, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CPDefinitionLocalization, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap
+					<String, BiConsumer<CPDefinitionLocalization, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			new BiConsumer<CPDefinitionLocalization, Object>() {
@@ -292,19 +421,6 @@ public class CPDefinitionLocalizationModelImpl
 
 					cpDefinitionLocalization.setMvccVersion(
 						(Long)mvccVersionObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"cpDefinitionLocalizationId",
-			new Function<CPDefinitionLocalization, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionLocalization cpDefinitionLocalization) {
-
-					return cpDefinitionLocalization.
-						getCpDefinitionLocalizationId();
 				}
 
 			});
@@ -322,18 +438,6 @@ public class CPDefinitionLocalizationModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CPDefinitionLocalization, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionLocalization cpDefinitionLocalization) {
-
-					return cpDefinitionLocalization.getCompanyId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"companyId",
 			new BiConsumer<CPDefinitionLocalization, Object>() {
@@ -345,18 +449,6 @@ public class CPDefinitionLocalizationModelImpl
 
 					cpDefinitionLocalization.setCompanyId(
 						(Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"CPDefinitionId",
-			new Function<CPDefinitionLocalization, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionLocalization cpDefinitionLocalization) {
-
-					return cpDefinitionLocalization.getCPDefinitionId();
 				}
 
 			});
@@ -374,18 +466,6 @@ public class CPDefinitionLocalizationModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"languageId",
-			new Function<CPDefinitionLocalization, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionLocalization cpDefinitionLocalization) {
-
-					return cpDefinitionLocalization.getLanguageId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"languageId",
 			new BiConsumer<CPDefinitionLocalization, Object>() {
@@ -400,18 +480,6 @@ public class CPDefinitionLocalizationModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"name",
-			new Function<CPDefinitionLocalization, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionLocalization cpDefinitionLocalization) {
-
-					return cpDefinitionLocalization.getName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"name",
 			new BiConsumer<CPDefinitionLocalization, Object>() {
@@ -422,18 +490,6 @@ public class CPDefinitionLocalizationModelImpl
 					Object nameObject) {
 
 					cpDefinitionLocalization.setName((String)nameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"shortDescription",
-			new Function<CPDefinitionLocalization, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionLocalization cpDefinitionLocalization) {
-
-					return cpDefinitionLocalization.getShortDescription();
 				}
 
 			});
@@ -451,18 +507,6 @@ public class CPDefinitionLocalizationModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"description",
-			new Function<CPDefinitionLocalization, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionLocalization cpDefinitionLocalization) {
-
-					return cpDefinitionLocalization.getDescription();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"description",
 			new BiConsumer<CPDefinitionLocalization, Object>() {
@@ -474,18 +518,6 @@ public class CPDefinitionLocalizationModelImpl
 
 					cpDefinitionLocalization.setDescription(
 						(String)descriptionObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"metaTitle",
-			new Function<CPDefinitionLocalization, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionLocalization cpDefinitionLocalization) {
-
-					return cpDefinitionLocalization.getMetaTitle();
 				}
 
 			});
@@ -503,18 +535,6 @@ public class CPDefinitionLocalizationModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"metaDescription",
-			new Function<CPDefinitionLocalization, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionLocalization cpDefinitionLocalization) {
-
-					return cpDefinitionLocalization.getMetaDescription();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"metaDescription",
 			new BiConsumer<CPDefinitionLocalization, Object>() {
@@ -526,18 +546,6 @@ public class CPDefinitionLocalizationModelImpl
 
 					cpDefinitionLocalization.setMetaDescription(
 						(String)metaDescriptionObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"metaKeywords",
-			new Function<CPDefinitionLocalization, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionLocalization cpDefinitionLocalization) {
-
-					return cpDefinitionLocalization.getMetaKeywords();
 				}
 
 			});
@@ -556,8 +564,6 @@ public class CPDefinitionLocalizationModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

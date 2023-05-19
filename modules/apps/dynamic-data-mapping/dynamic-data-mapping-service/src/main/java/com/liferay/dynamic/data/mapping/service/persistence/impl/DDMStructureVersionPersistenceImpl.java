@@ -46,7 +46,6 @@ import com.liferay.portal.kernel.util.SetUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
@@ -2193,34 +2192,18 @@ public class DDMStructureVersionPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByS_S",
 			new String[] {Long.class.getName(), Integer.class.getName()});
 
-		_setDDMStructureVersionUtilPersistence(this);
+		DDMStructureVersionUtil.setPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
-		_setDDMStructureVersionUtilPersistence(null);
+		DDMStructureVersionUtil.setPersistence(null);
 
 		entityCache.removeCache(DDMStructureVersionImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setDDMStructureVersionUtilPersistence(
-		DDMStructureVersionPersistence ddmStructureVersionPersistence) {
-
-		try {
-			Field field = DDMStructureVersionUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, ddmStructureVersionPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@Override

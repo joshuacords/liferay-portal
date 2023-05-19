@@ -388,6 +388,10 @@ public class MBBanLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(MBBanLocalService service) {
+		_service = service;
+	}
+
 	private static volatile MBBanLocalService _service;
 
 }

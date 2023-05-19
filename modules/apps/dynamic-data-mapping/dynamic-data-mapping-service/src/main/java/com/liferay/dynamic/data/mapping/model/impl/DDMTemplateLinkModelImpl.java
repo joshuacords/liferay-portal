@@ -206,49 +206,55 @@ public class DDMTemplateLinkModelImpl
 
 	private static final Map<String, Function<DDMTemplateLink, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<DDMTemplateLink, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<DDMTemplateLink, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap<String, Function<DDMTemplateLink, Object>>();
-		Map<String, BiConsumer<DDMTemplateLink, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<DDMTemplateLink, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", DDMTemplateLink::getMvccVersion);
+		attributeGetterFunctions.put(
+			"templateLinkId", DDMTemplateLink::getTemplateLinkId);
+		attributeGetterFunctions.put(
+			"companyId", DDMTemplateLink::getCompanyId);
+		attributeGetterFunctions.put(
+			"classNameId", DDMTemplateLink::getClassNameId);
+		attributeGetterFunctions.put("classPK", DDMTemplateLink::getClassPK);
+		attributeGetterFunctions.put(
+			"templateId", DDMTemplateLink::getTemplateId);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<DDMTemplateLink, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<DDMTemplateLink, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<DDMTemplateLink, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<DDMTemplateLink, Long>)DDMTemplateLink::setMvccVersion);
-		attributeGetterFunctions.put(
-			"templateLinkId", DDMTemplateLink::getTemplateLinkId);
 		attributeSetterBiConsumers.put(
 			"templateLinkId",
 			(BiConsumer<DDMTemplateLink, Long>)
 				DDMTemplateLink::setTemplateLinkId);
-		attributeGetterFunctions.put(
-			"companyId", DDMTemplateLink::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<DDMTemplateLink, Long>)DDMTemplateLink::setCompanyId);
-		attributeGetterFunctions.put(
-			"classNameId", DDMTemplateLink::getClassNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<DDMTemplateLink, Long>)DDMTemplateLink::setClassNameId);
-		attributeGetterFunctions.put("classPK", DDMTemplateLink::getClassPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<DDMTemplateLink, Long>)DDMTemplateLink::setClassPK);
-		attributeGetterFunctions.put(
-			"templateId", DDMTemplateLink::getTemplateId);
 		attributeSetterBiConsumers.put(
 			"templateId",
 			(BiConsumer<DDMTemplateLink, Long>)DDMTemplateLink::setTemplateId);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

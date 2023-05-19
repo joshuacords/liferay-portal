@@ -21,6 +21,8 @@ import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.Session;
+import com.liferay.portal.kernel.exception.DuplicateOrganizationExternalReferenceCodeException;
 import com.liferay.portal.kernel.exception.NoSuchOrganizationException;
 import com.liferay.portal.kernel.model.Organization;
 import com.liferay.portal.kernel.service.OrganizationLocalServiceUtil;
@@ -210,6 +212,26 @@ public class OrganizationPersistenceTest {
 			existingOrganization.getComments(), newOrganization.getComments());
 		Assert.assertEquals(
 			existingOrganization.getLogoId(), newOrganization.getLogoId());
+	}
+
+	@Test(expected = DuplicateOrganizationExternalReferenceCodeException.class)
+	public void testUpdateWithExistingExternalReferenceCode() throws Exception {
+		Organization organization = addOrganization();
+
+		Organization newOrganization = addOrganization();
+
+		newOrganization.setCompanyId(organization.getCompanyId());
+
+		newOrganization = _persistence.update(newOrganization);
+
+		Session session = _persistence.getCurrentSession();
+
+		session.evict(newOrganization);
+
+		newOrganization.setExternalReferenceCode(
+			organization.getExternalReferenceCode());
+
+		_persistence.update(newOrganization);
 	}
 
 	@Test

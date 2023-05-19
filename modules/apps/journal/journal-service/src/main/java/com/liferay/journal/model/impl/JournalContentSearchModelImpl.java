@@ -216,70 +216,76 @@ public class JournalContentSearchModelImpl
 
 	private static final Map<String, Function<JournalContentSearch, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<JournalContentSearch, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<JournalContentSearch, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<JournalContentSearch, Object>>();
+
+		attributeGetterFunctions.put(
+			"mvccVersion", JournalContentSearch::getMvccVersion);
+		attributeGetterFunctions.put(
+			"contentSearchId", JournalContentSearch::getContentSearchId);
+		attributeGetterFunctions.put(
+			"groupId", JournalContentSearch::getGroupId);
+		attributeGetterFunctions.put(
+			"companyId", JournalContentSearch::getCompanyId);
+		attributeGetterFunctions.put(
+			"privateLayout", JournalContentSearch::getPrivateLayout);
+		attributeGetterFunctions.put(
+			"layoutId", JournalContentSearch::getLayoutId);
+		attributeGetterFunctions.put(
+			"portletId", JournalContentSearch::getPortletId);
+		attributeGetterFunctions.put(
+			"articleId", JournalContentSearch::getArticleId);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<JournalContentSearch, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<JournalContentSearch, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<JournalContentSearch, ?>>();
 
-		attributeGetterFunctions.put(
-			"mvccVersion", JournalContentSearch::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<JournalContentSearch, Long>)
 				JournalContentSearch::setMvccVersion);
-		attributeGetterFunctions.put(
-			"contentSearchId", JournalContentSearch::getContentSearchId);
 		attributeSetterBiConsumers.put(
 			"contentSearchId",
 			(BiConsumer<JournalContentSearch, Long>)
 				JournalContentSearch::setContentSearchId);
-		attributeGetterFunctions.put(
-			"groupId", JournalContentSearch::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<JournalContentSearch, Long>)
 				JournalContentSearch::setGroupId);
-		attributeGetterFunctions.put(
-			"companyId", JournalContentSearch::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<JournalContentSearch, Long>)
 				JournalContentSearch::setCompanyId);
-		attributeGetterFunctions.put(
-			"privateLayout", JournalContentSearch::getPrivateLayout);
 		attributeSetterBiConsumers.put(
 			"privateLayout",
 			(BiConsumer<JournalContentSearch, Boolean>)
 				JournalContentSearch::setPrivateLayout);
-		attributeGetterFunctions.put(
-			"layoutId", JournalContentSearch::getLayoutId);
 		attributeSetterBiConsumers.put(
 			"layoutId",
 			(BiConsumer<JournalContentSearch, Long>)
 				JournalContentSearch::setLayoutId);
-		attributeGetterFunctions.put(
-			"portletId", JournalContentSearch::getPortletId);
 		attributeSetterBiConsumers.put(
 			"portletId",
 			(BiConsumer<JournalContentSearch, String>)
 				JournalContentSearch::setPortletId);
-		attributeGetterFunctions.put(
-			"articleId", JournalContentSearch::getArticleId);
 		attributeSetterBiConsumers.put(
 			"articleId",
 			(BiConsumer<JournalContentSearch, String>)
 				JournalContentSearch::setArticleId);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

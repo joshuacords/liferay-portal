@@ -366,19 +366,12 @@ public class CPDefinitionVirtualSettingModelImpl
 	private static final Map
 		<String, Function<CPDefinitionVirtualSetting, Object>>
 			_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<CPDefinitionVirtualSetting, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CPDefinitionVirtualSetting, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<CPDefinitionVirtualSetting, Object>>();
-		Map<String, BiConsumer<CPDefinitionVirtualSetting, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String, BiConsumer<CPDefinitionVirtualSetting, ?>>();
 
 		attributeGetterFunctions.put(
 			"uuid",
@@ -392,19 +385,6 @@ public class CPDefinitionVirtualSettingModelImpl
 				}
 
 			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<CPDefinitionVirtualSetting, Object>() {
-
-				@Override
-				public void accept(
-					CPDefinitionVirtualSetting cpDefinitionVirtualSetting,
-					Object uuidObject) {
-
-					cpDefinitionVirtualSetting.setUuid((String)uuidObject);
-				}
-
-			});
 		attributeGetterFunctions.put(
 			"CPDefinitionVirtualSettingId",
 			new Function<CPDefinitionVirtualSetting, Object>() {
@@ -415,6 +395,287 @@ public class CPDefinitionVirtualSettingModelImpl
 
 					return cpDefinitionVirtualSetting.
 						getCPDefinitionVirtualSettingId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"groupId",
+			new Function<CPDefinitionVirtualSetting, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
+
+					return cpDefinitionVirtualSetting.getGroupId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CPDefinitionVirtualSetting, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
+
+					return cpDefinitionVirtualSetting.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CPDefinitionVirtualSetting, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
+
+					return cpDefinitionVirtualSetting.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CPDefinitionVirtualSetting, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
+
+					return cpDefinitionVirtualSetting.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CPDefinitionVirtualSetting, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
+
+					return cpDefinitionVirtualSetting.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CPDefinitionVirtualSetting, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
+
+					return cpDefinitionVirtualSetting.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"classNameId",
+			new Function<CPDefinitionVirtualSetting, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
+
+					return cpDefinitionVirtualSetting.getClassNameId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"classPK",
+			new Function<CPDefinitionVirtualSetting, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
+
+					return cpDefinitionVirtualSetting.getClassPK();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"fileEntryId",
+			new Function<CPDefinitionVirtualSetting, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
+
+					return cpDefinitionVirtualSetting.getFileEntryId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"url",
+			new Function<CPDefinitionVirtualSetting, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
+
+					return cpDefinitionVirtualSetting.getUrl();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"activationStatus",
+			new Function<CPDefinitionVirtualSetting, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
+
+					return cpDefinitionVirtualSetting.getActivationStatus();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"duration",
+			new Function<CPDefinitionVirtualSetting, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
+
+					return cpDefinitionVirtualSetting.getDuration();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"maxUsages",
+			new Function<CPDefinitionVirtualSetting, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
+
+					return cpDefinitionVirtualSetting.getMaxUsages();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"useSample",
+			new Function<CPDefinitionVirtualSetting, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
+
+					return cpDefinitionVirtualSetting.getUseSample();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"sampleFileEntryId",
+			new Function<CPDefinitionVirtualSetting, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
+
+					return cpDefinitionVirtualSetting.getSampleFileEntryId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"sampleUrl",
+			new Function<CPDefinitionVirtualSetting, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
+
+					return cpDefinitionVirtualSetting.getSampleUrl();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"termsOfUseRequired",
+			new Function<CPDefinitionVirtualSetting, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
+
+					return cpDefinitionVirtualSetting.getTermsOfUseRequired();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"termsOfUseContent",
+			new Function<CPDefinitionVirtualSetting, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
+
+					return cpDefinitionVirtualSetting.getTermsOfUseContent();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"termsOfUseJournalArticleResourcePrimKey",
+			new Function<CPDefinitionVirtualSetting, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
+
+					return cpDefinitionVirtualSetting.
+						getTermsOfUseJournalArticleResourcePrimKey();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"override",
+			new Function<CPDefinitionVirtualSetting, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
+
+					return cpDefinitionVirtualSetting.getOverride();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"lastPublishDate",
+			new Function<CPDefinitionVirtualSetting, Object>() {
+
+				@Override
+				public Object apply(
+					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
+
+					return cpDefinitionVirtualSetting.getLastPublishDate();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<CPDefinitionVirtualSetting, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CPDefinitionVirtualSetting, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap
+					<String, BiConsumer<CPDefinitionVirtualSetting, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"uuid",
+			new BiConsumer<CPDefinitionVirtualSetting, Object>() {
+
+				@Override
+				public void accept(
+					CPDefinitionVirtualSetting cpDefinitionVirtualSetting,
+					Object uuidObject) {
+
+					cpDefinitionVirtualSetting.setUuid((String)uuidObject);
 				}
 
 			});
@@ -432,18 +693,6 @@ public class CPDefinitionVirtualSettingModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<CPDefinitionVirtualSetting, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
-
-					return cpDefinitionVirtualSetting.getGroupId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"groupId",
 			new BiConsumer<CPDefinitionVirtualSetting, Object>() {
@@ -454,18 +703,6 @@ public class CPDefinitionVirtualSettingModelImpl
 					Object groupIdObject) {
 
 					cpDefinitionVirtualSetting.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CPDefinitionVirtualSetting, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
-
-					return cpDefinitionVirtualSetting.getCompanyId();
 				}
 
 			});
@@ -483,18 +720,6 @@ public class CPDefinitionVirtualSettingModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CPDefinitionVirtualSetting, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
-
-					return cpDefinitionVirtualSetting.getUserId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userId",
 			new BiConsumer<CPDefinitionVirtualSetting, Object>() {
@@ -505,18 +730,6 @@ public class CPDefinitionVirtualSettingModelImpl
 					Object userIdObject) {
 
 					cpDefinitionVirtualSetting.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CPDefinitionVirtualSetting, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
-
-					return cpDefinitionVirtualSetting.getUserName();
 				}
 
 			});
@@ -534,18 +747,6 @@ public class CPDefinitionVirtualSettingModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CPDefinitionVirtualSetting, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
-
-					return cpDefinitionVirtualSetting.getCreateDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"createDate",
 			new BiConsumer<CPDefinitionVirtualSetting, Object>() {
@@ -557,18 +758,6 @@ public class CPDefinitionVirtualSettingModelImpl
 
 					cpDefinitionVirtualSetting.setCreateDate(
 						(Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CPDefinitionVirtualSetting, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
-
-					return cpDefinitionVirtualSetting.getModifiedDate();
 				}
 
 			});
@@ -586,18 +775,6 @@ public class CPDefinitionVirtualSettingModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"classNameId",
-			new Function<CPDefinitionVirtualSetting, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
-
-					return cpDefinitionVirtualSetting.getClassNameId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			new BiConsumer<CPDefinitionVirtualSetting, Object>() {
@@ -612,18 +789,6 @@ public class CPDefinitionVirtualSettingModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"classPK",
-			new Function<CPDefinitionVirtualSetting, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
-
-					return cpDefinitionVirtualSetting.getClassPK();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"classPK",
 			new BiConsumer<CPDefinitionVirtualSetting, Object>() {
@@ -634,18 +799,6 @@ public class CPDefinitionVirtualSettingModelImpl
 					Object classPKObject) {
 
 					cpDefinitionVirtualSetting.setClassPK((Long)classPKObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"fileEntryId",
-			new Function<CPDefinitionVirtualSetting, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
-
-					return cpDefinitionVirtualSetting.getFileEntryId();
 				}
 
 			});
@@ -663,18 +816,6 @@ public class CPDefinitionVirtualSettingModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"url",
-			new Function<CPDefinitionVirtualSetting, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
-
-					return cpDefinitionVirtualSetting.getUrl();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"url",
 			new BiConsumer<CPDefinitionVirtualSetting, Object>() {
@@ -685,18 +826,6 @@ public class CPDefinitionVirtualSettingModelImpl
 					Object urlObject) {
 
 					cpDefinitionVirtualSetting.setUrl((String)urlObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"activationStatus",
-			new Function<CPDefinitionVirtualSetting, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
-
-					return cpDefinitionVirtualSetting.getActivationStatus();
 				}
 
 			});
@@ -714,18 +843,6 @@ public class CPDefinitionVirtualSettingModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"duration",
-			new Function<CPDefinitionVirtualSetting, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
-
-					return cpDefinitionVirtualSetting.getDuration();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"duration",
 			new BiConsumer<CPDefinitionVirtualSetting, Object>() {
@@ -737,18 +854,6 @@ public class CPDefinitionVirtualSettingModelImpl
 
 					cpDefinitionVirtualSetting.setDuration(
 						(Long)durationObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"maxUsages",
-			new Function<CPDefinitionVirtualSetting, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
-
-					return cpDefinitionVirtualSetting.getMaxUsages();
 				}
 
 			});
@@ -766,18 +871,6 @@ public class CPDefinitionVirtualSettingModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"useSample",
-			new Function<CPDefinitionVirtualSetting, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
-
-					return cpDefinitionVirtualSetting.getUseSample();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"useSample",
 			new BiConsumer<CPDefinitionVirtualSetting, Object>() {
@@ -789,18 +882,6 @@ public class CPDefinitionVirtualSettingModelImpl
 
 					cpDefinitionVirtualSetting.setUseSample(
 						(Boolean)useSampleObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"sampleFileEntryId",
-			new Function<CPDefinitionVirtualSetting, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
-
-					return cpDefinitionVirtualSetting.getSampleFileEntryId();
 				}
 
 			});
@@ -818,18 +899,6 @@ public class CPDefinitionVirtualSettingModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"sampleUrl",
-			new Function<CPDefinitionVirtualSetting, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
-
-					return cpDefinitionVirtualSetting.getSampleUrl();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"sampleUrl",
 			new BiConsumer<CPDefinitionVirtualSetting, Object>() {
@@ -841,18 +910,6 @@ public class CPDefinitionVirtualSettingModelImpl
 
 					cpDefinitionVirtualSetting.setSampleUrl(
 						(String)sampleUrlObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"termsOfUseRequired",
-			new Function<CPDefinitionVirtualSetting, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
-
-					return cpDefinitionVirtualSetting.getTermsOfUseRequired();
 				}
 
 			});
@@ -870,18 +927,6 @@ public class CPDefinitionVirtualSettingModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"termsOfUseContent",
-			new Function<CPDefinitionVirtualSetting, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
-
-					return cpDefinitionVirtualSetting.getTermsOfUseContent();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"termsOfUseContent",
 			new BiConsumer<CPDefinitionVirtualSetting, Object>() {
@@ -893,19 +938,6 @@ public class CPDefinitionVirtualSettingModelImpl
 
 					cpDefinitionVirtualSetting.setTermsOfUseContent(
 						(String)termsOfUseContentObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"termsOfUseJournalArticleResourcePrimKey",
-			new Function<CPDefinitionVirtualSetting, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
-
-					return cpDefinitionVirtualSetting.
-						getTermsOfUseJournalArticleResourcePrimKey();
 				}
 
 			});
@@ -925,18 +957,6 @@ public class CPDefinitionVirtualSettingModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"override",
-			new Function<CPDefinitionVirtualSetting, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
-
-					return cpDefinitionVirtualSetting.getOverride();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"override",
 			new BiConsumer<CPDefinitionVirtualSetting, Object>() {
@@ -948,18 +968,6 @@ public class CPDefinitionVirtualSettingModelImpl
 
 					cpDefinitionVirtualSetting.setOverride(
 						(Boolean)overrideObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"lastPublishDate",
-			new Function<CPDefinitionVirtualSetting, Object>() {
-
-				@Override
-				public Object apply(
-					CPDefinitionVirtualSetting cpDefinitionVirtualSetting) {
-
-					return cpDefinitionVirtualSetting.getLastPublishDate();
 				}
 
 			});
@@ -978,8 +986,6 @@ public class CPDefinitionVirtualSettingModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

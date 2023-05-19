@@ -49,8 +49,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -403,7 +401,7 @@ public abstract class CommonLicenseKeyLocalServiceBaseImpl
 
 	@Deactivate
 	protected void deactivate() {
-		_setLocalServiceUtilService(null);
+		CommonLicenseKeyLocalServiceUtil.setService(null);
 	}
 
 	@Override
@@ -418,7 +416,8 @@ public abstract class CommonLicenseKeyLocalServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		commonLicenseKeyLocalService = (CommonLicenseKeyLocalService)aopProxy;
 
-		_setLocalServiceUtilService(commonLicenseKeyLocalService);
+		CommonLicenseKeyLocalServiceUtil.setService(
+			commonLicenseKeyLocalService);
 	}
 
 	/**
@@ -460,23 +459,6 @@ public abstract class CommonLicenseKeyLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		CommonLicenseKeyLocalService commonLicenseKeyLocalService) {
-
-		try {
-			Field field =
-				CommonLicenseKeyLocalServiceUtil.class.getDeclaredField(
-					"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, commonLicenseKeyLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

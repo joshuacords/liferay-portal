@@ -33,8 +33,6 @@ import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 /**
@@ -302,11 +300,12 @@ public abstract class CPDefinitionGroupedEntryServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
-		_setServiceUtilService(cpDefinitionGroupedEntryService);
+		CPDefinitionGroupedEntryServiceUtil.setService(
+			cpDefinitionGroupedEntryService);
 	}
 
 	public void destroy() {
-		_setServiceUtilService(null);
+		CPDefinitionGroupedEntryServiceUtil.setService(null);
 	}
 
 	/**
@@ -349,23 +348,6 @@ public abstract class CPDefinitionGroupedEntryServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setServiceUtilService(
-		CPDefinitionGroupedEntryService cpDefinitionGroupedEntryService) {
-
-		try {
-			Field field =
-				CPDefinitionGroupedEntryServiceUtil.class.getDeclaredField(
-					"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, cpDefinitionGroupedEntryService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

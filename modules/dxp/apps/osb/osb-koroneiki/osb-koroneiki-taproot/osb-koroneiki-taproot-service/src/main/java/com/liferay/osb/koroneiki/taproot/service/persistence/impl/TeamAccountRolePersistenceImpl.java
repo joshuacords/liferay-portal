@@ -44,7 +44,6 @@ import com.liferay.portal.kernel.util.SetUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.List;
@@ -2899,34 +2898,18 @@ public class TeamAccountRolePersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByTI_AI",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
-		_setTeamAccountRoleUtilPersistence(this);
+		TeamAccountRoleUtil.setPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
-		_setTeamAccountRoleUtilPersistence(null);
+		TeamAccountRoleUtil.setPersistence(null);
 
 		entityCache.removeCache(TeamAccountRoleImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setTeamAccountRoleUtilPersistence(
-		TeamAccountRolePersistence teamAccountRolePersistence) {
-
-		try {
-			Field field = TeamAccountRoleUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, teamAccountRolePersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@Override

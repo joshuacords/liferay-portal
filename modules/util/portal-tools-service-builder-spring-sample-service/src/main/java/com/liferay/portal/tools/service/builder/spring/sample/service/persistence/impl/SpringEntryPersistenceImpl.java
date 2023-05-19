@@ -48,7 +48,6 @@ import com.liferay.portal.tools.service.builder.spring.sample.service.persistenc
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
@@ -2449,34 +2448,18 @@ public class SpringEntryPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCompanyId",
 			new String[] {Long.class.getName()});
 
-		_setSpringEntryUtilPersistence(this);
+		SpringEntryUtil.setPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
-		_setSpringEntryUtilPersistence(null);
+		SpringEntryUtil.setPersistence(null);
 
 		entityCache.removeCache(SpringEntryImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setSpringEntryUtilPersistence(
-		SpringEntryPersistence springEntryPersistence) {
-
-		try {
-			Field field = SpringEntryUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, springEntryPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@Override

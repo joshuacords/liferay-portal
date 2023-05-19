@@ -230,9 +230,6 @@ public class LayoutPageTemplateStructureRelModelImpl
 	private static final Map
 		<String, Function<LayoutPageTemplateStructureRel, Object>>
 			_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<LayoutPageTemplateStructureRel, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<LayoutPageTemplateStructureRel, Object>>
@@ -240,92 +237,101 @@ public class LayoutPageTemplateStructureRelModelImpl
 				new LinkedHashMap
 					<String,
 					 Function<LayoutPageTemplateStructureRel, Object>>();
+
+		attributeGetterFunctions.put(
+			"mvccVersion", LayoutPageTemplateStructureRel::getMvccVersion);
+		attributeGetterFunctions.put(
+			"uuid", LayoutPageTemplateStructureRel::getUuid);
+		attributeGetterFunctions.put(
+			"layoutPageTemplateStructureRelId",
+			LayoutPageTemplateStructureRel::
+				getLayoutPageTemplateStructureRelId);
+		attributeGetterFunctions.put(
+			"groupId", LayoutPageTemplateStructureRel::getGroupId);
+		attributeGetterFunctions.put(
+			"companyId", LayoutPageTemplateStructureRel::getCompanyId);
+		attributeGetterFunctions.put(
+			"userId", LayoutPageTemplateStructureRel::getUserId);
+		attributeGetterFunctions.put(
+			"userName", LayoutPageTemplateStructureRel::getUserName);
+		attributeGetterFunctions.put(
+			"createDate", LayoutPageTemplateStructureRel::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", LayoutPageTemplateStructureRel::getModifiedDate);
+		attributeGetterFunctions.put(
+			"layoutPageTemplateStructureId",
+			LayoutPageTemplateStructureRel::getLayoutPageTemplateStructureId);
+		attributeGetterFunctions.put(
+			"segmentsExperienceId",
+			LayoutPageTemplateStructureRel::getSegmentsExperienceId);
+		attributeGetterFunctions.put(
+			"data", LayoutPageTemplateStructureRel::getData);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<LayoutPageTemplateStructureRel, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<LayoutPageTemplateStructureRel, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<LayoutPageTemplateStructureRel, ?>>();
 
-		attributeGetterFunctions.put(
-			"mvccVersion", LayoutPageTemplateStructureRel::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<LayoutPageTemplateStructureRel, Long>)
 				LayoutPageTemplateStructureRel::setMvccVersion);
-		attributeGetterFunctions.put(
-			"uuid", LayoutPageTemplateStructureRel::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<LayoutPageTemplateStructureRel, String>)
 				LayoutPageTemplateStructureRel::setUuid);
-		attributeGetterFunctions.put(
-			"layoutPageTemplateStructureRelId",
-			LayoutPageTemplateStructureRel::
-				getLayoutPageTemplateStructureRelId);
 		attributeSetterBiConsumers.put(
 			"layoutPageTemplateStructureRelId",
 			(BiConsumer<LayoutPageTemplateStructureRel, Long>)
 				LayoutPageTemplateStructureRel::
 					setLayoutPageTemplateStructureRelId);
-		attributeGetterFunctions.put(
-			"groupId", LayoutPageTemplateStructureRel::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<LayoutPageTemplateStructureRel, Long>)
 				LayoutPageTemplateStructureRel::setGroupId);
-		attributeGetterFunctions.put(
-			"companyId", LayoutPageTemplateStructureRel::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<LayoutPageTemplateStructureRel, Long>)
 				LayoutPageTemplateStructureRel::setCompanyId);
-		attributeGetterFunctions.put(
-			"userId", LayoutPageTemplateStructureRel::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<LayoutPageTemplateStructureRel, Long>)
 				LayoutPageTemplateStructureRel::setUserId);
-		attributeGetterFunctions.put(
-			"userName", LayoutPageTemplateStructureRel::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<LayoutPageTemplateStructureRel, String>)
 				LayoutPageTemplateStructureRel::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", LayoutPageTemplateStructureRel::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<LayoutPageTemplateStructureRel, Date>)
 				LayoutPageTemplateStructureRel::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", LayoutPageTemplateStructureRel::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<LayoutPageTemplateStructureRel, Date>)
 				LayoutPageTemplateStructureRel::setModifiedDate);
-		attributeGetterFunctions.put(
-			"layoutPageTemplateStructureId",
-			LayoutPageTemplateStructureRel::getLayoutPageTemplateStructureId);
 		attributeSetterBiConsumers.put(
 			"layoutPageTemplateStructureId",
 			(BiConsumer<LayoutPageTemplateStructureRel, Long>)
 				LayoutPageTemplateStructureRel::
 					setLayoutPageTemplateStructureId);
-		attributeGetterFunctions.put(
-			"segmentsExperienceId",
-			LayoutPageTemplateStructureRel::getSegmentsExperienceId);
 		attributeSetterBiConsumers.put(
 			"segmentsExperienceId",
 			(BiConsumer<LayoutPageTemplateStructureRel, Long>)
 				LayoutPageTemplateStructureRel::setSegmentsExperienceId);
-		attributeGetterFunctions.put(
-			"data", LayoutPageTemplateStructureRel::getData);
 		attributeSetterBiConsumers.put(
 			"data",
 			(BiConsumer<LayoutPageTemplateStructureRel, String>)
 				LayoutPageTemplateStructureRel::setData);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

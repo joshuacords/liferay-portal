@@ -200,40 +200,46 @@ public class ProductBundleProductsModelImpl
 
 	private static final Map<String, Function<ProductBundleProducts, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<ProductBundleProducts, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<ProductBundleProducts, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<ProductBundleProducts, Object>>();
+
+		attributeGetterFunctions.put(
+			"mvccVersion", ProductBundleProducts::getMvccVersion);
+		attributeGetterFunctions.put(
+			"productBundleId", ProductBundleProducts::getProductBundleId);
+		attributeGetterFunctions.put(
+			"productKey", ProductBundleProducts::getProductKey);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<ProductBundleProducts, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<ProductBundleProducts, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<ProductBundleProducts, ?>>();
 
-		attributeGetterFunctions.put(
-			"mvccVersion", ProductBundleProducts::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<ProductBundleProducts, Long>)
 				ProductBundleProducts::setMvccVersion);
-		attributeGetterFunctions.put(
-			"productBundleId", ProductBundleProducts::getProductBundleId);
 		attributeSetterBiConsumers.put(
 			"productBundleId",
 			(BiConsumer<ProductBundleProducts, Long>)
 				ProductBundleProducts::setProductBundleId);
-		attributeGetterFunctions.put(
-			"productKey", ProductBundleProducts::getProductKey);
 		attributeSetterBiConsumers.put(
 			"productKey",
 			(BiConsumer<ProductBundleProducts, String>)
 				ProductBundleProducts::setProductKey);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

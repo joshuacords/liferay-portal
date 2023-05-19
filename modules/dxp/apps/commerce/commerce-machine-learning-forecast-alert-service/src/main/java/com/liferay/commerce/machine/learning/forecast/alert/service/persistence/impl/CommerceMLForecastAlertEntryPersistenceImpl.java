@@ -5614,11 +5614,11 @@ public class CommerceMLForecastAlertEntryPersistenceImpl
 				Double.class.getName(), Integer.class.getName()
 			});
 
-		_setCommerceMLForecastAlertEntryUtilPersistence(this);
+		CommerceMLForecastAlertEntryUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setCommerceMLForecastAlertEntryUtilPersistence(null);
+		CommerceMLForecastAlertEntryUtil.setPersistence(null);
 
 		entityCache.removeCache(
 			CommerceMLForecastAlertEntryImpl.class.getName());
@@ -5626,24 +5626,6 @@ public class CommerceMLForecastAlertEntryPersistenceImpl
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setCommerceMLForecastAlertEntryUtilPersistence(
-		CommerceMLForecastAlertEntryPersistence
-			commerceMLForecastAlertEntryPersistence) {
-
-		try {
-			Field field =
-				CommerceMLForecastAlertEntryUtil.class.getDeclaredField(
-					"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, commerceMLForecastAlertEntryPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

@@ -292,6 +292,10 @@ public class WebDAVPropsLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(WebDAVPropsLocalService service) {
+		_service = service;
+	}
+
 	private static volatile WebDAVPropsLocalService _service;
 
 }

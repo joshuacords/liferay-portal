@@ -216,48 +216,54 @@ public class PasswordTrackerModelImpl
 
 	private static final Map<String, Function<PasswordTracker, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<PasswordTracker, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<PasswordTracker, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap<String, Function<PasswordTracker, Object>>();
-		Map<String, BiConsumer<PasswordTracker, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<PasswordTracker, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", PasswordTracker::getMvccVersion);
+		attributeGetterFunctions.put(
+			"passwordTrackerId", PasswordTracker::getPasswordTrackerId);
+		attributeGetterFunctions.put(
+			"companyId", PasswordTracker::getCompanyId);
+		attributeGetterFunctions.put("userId", PasswordTracker::getUserId);
+		attributeGetterFunctions.put(
+			"createDate", PasswordTracker::getCreateDate);
+		attributeGetterFunctions.put("password", PasswordTracker::getPassword);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<PasswordTracker, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<PasswordTracker, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<PasswordTracker, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<PasswordTracker, Long>)PasswordTracker::setMvccVersion);
-		attributeGetterFunctions.put(
-			"passwordTrackerId", PasswordTracker::getPasswordTrackerId);
 		attributeSetterBiConsumers.put(
 			"passwordTrackerId",
 			(BiConsumer<PasswordTracker, Long>)
 				PasswordTracker::setPasswordTrackerId);
-		attributeGetterFunctions.put(
-			"companyId", PasswordTracker::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<PasswordTracker, Long>)PasswordTracker::setCompanyId);
-		attributeGetterFunctions.put("userId", PasswordTracker::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<PasswordTracker, Long>)PasswordTracker::setUserId);
-		attributeGetterFunctions.put(
-			"createDate", PasswordTracker::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<PasswordTracker, Date>)PasswordTracker::setCreateDate);
-		attributeGetterFunctions.put("password", PasswordTracker::getPassword);
 		attributeSetterBiConsumers.put(
 			"password",
 			(BiConsumer<PasswordTracker, String>)PasswordTracker::setPassword);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

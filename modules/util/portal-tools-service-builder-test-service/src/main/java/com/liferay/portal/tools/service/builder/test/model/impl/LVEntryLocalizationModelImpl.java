@@ -230,68 +230,74 @@ public class LVEntryLocalizationModelImpl
 
 	private static final Map<String, Function<LVEntryLocalization, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<LVEntryLocalization, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<LVEntryLocalization, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<LVEntryLocalization, Object>>();
+
+		attributeGetterFunctions.put(
+			"mvccVersion", LVEntryLocalization::getMvccVersion);
+		attributeGetterFunctions.put("headId", LVEntryLocalization::getHeadId);
+		attributeGetterFunctions.put(
+			"lvEntryLocalizationId",
+			LVEntryLocalization::getLvEntryLocalizationId);
+		attributeGetterFunctions.put(
+			"companyId", LVEntryLocalization::getCompanyId);
+		attributeGetterFunctions.put(
+			"lvEntryId", LVEntryLocalization::getLvEntryId);
+		attributeGetterFunctions.put(
+			"languageId", LVEntryLocalization::getLanguageId);
+		attributeGetterFunctions.put("title", LVEntryLocalization::getTitle);
+		attributeGetterFunctions.put(
+			"content", LVEntryLocalization::getContent);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<LVEntryLocalization, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<LVEntryLocalization, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<LVEntryLocalization, ?>>();
 
-		attributeGetterFunctions.put(
-			"mvccVersion", LVEntryLocalization::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<LVEntryLocalization, Long>)
 				LVEntryLocalization::setMvccVersion);
-		attributeGetterFunctions.put("headId", LVEntryLocalization::getHeadId);
 		attributeSetterBiConsumers.put(
 			"headId",
 			(BiConsumer<LVEntryLocalization, Long>)
 				LVEntryLocalization::setHeadId);
-		attributeGetterFunctions.put(
-			"lvEntryLocalizationId",
-			LVEntryLocalization::getLvEntryLocalizationId);
 		attributeSetterBiConsumers.put(
 			"lvEntryLocalizationId",
 			(BiConsumer<LVEntryLocalization, Long>)
 				LVEntryLocalization::setLvEntryLocalizationId);
-		attributeGetterFunctions.put(
-			"companyId", LVEntryLocalization::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<LVEntryLocalization, Long>)
 				LVEntryLocalization::setCompanyId);
-		attributeGetterFunctions.put(
-			"lvEntryId", LVEntryLocalization::getLvEntryId);
 		attributeSetterBiConsumers.put(
 			"lvEntryId",
 			(BiConsumer<LVEntryLocalization, Long>)
 				LVEntryLocalization::setLvEntryId);
-		attributeGetterFunctions.put(
-			"languageId", LVEntryLocalization::getLanguageId);
 		attributeSetterBiConsumers.put(
 			"languageId",
 			(BiConsumer<LVEntryLocalization, String>)
 				LVEntryLocalization::setLanguageId);
-		attributeGetterFunctions.put("title", LVEntryLocalization::getTitle);
 		attributeSetterBiConsumers.put(
 			"title",
 			(BiConsumer<LVEntryLocalization, String>)
 				LVEntryLocalization::setTitle);
-		attributeGetterFunctions.put(
-			"content", LVEntryLocalization::getContent);
 		attributeSetterBiConsumers.put(
 			"content",
 			(BiConsumer<LVEntryLocalization, String>)
 				LVEntryLocalization::setContent);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

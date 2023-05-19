@@ -265,36 +265,42 @@ public class LazyBlobEntryModelImpl
 
 	private static final Map<String, Function<LazyBlobEntry, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<LazyBlobEntry, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<LazyBlobEntry, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<LazyBlobEntry, Object>>();
-		Map<String, BiConsumer<LazyBlobEntry, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<LazyBlobEntry, ?>>();
 
 		attributeGetterFunctions.put("uuid", LazyBlobEntry::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<LazyBlobEntry, String>)LazyBlobEntry::setUuid);
 		attributeGetterFunctions.put(
 			"lazyBlobEntryId", LazyBlobEntry::getLazyBlobEntryId);
-		attributeSetterBiConsumers.put(
-			"lazyBlobEntryId",
-			(BiConsumer<LazyBlobEntry, Long>)LazyBlobEntry::setLazyBlobEntryId);
 		attributeGetterFunctions.put("groupId", LazyBlobEntry::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId",
-			(BiConsumer<LazyBlobEntry, Long>)LazyBlobEntry::setGroupId);
 		attributeGetterFunctions.put("blob1", LazyBlobEntry::getBlob1);
-		attributeSetterBiConsumers.put(
-			"blob1", (BiConsumer<LazyBlobEntry, Blob>)LazyBlobEntry::setBlob1);
 		attributeGetterFunctions.put("blob2", LazyBlobEntry::getBlob2);
-		attributeSetterBiConsumers.put(
-			"blob2", (BiConsumer<LazyBlobEntry, Blob>)LazyBlobEntry::setBlob2);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<LazyBlobEntry, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<LazyBlobEntry, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<LazyBlobEntry, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"uuid", (BiConsumer<LazyBlobEntry, String>)LazyBlobEntry::setUuid);
+		attributeSetterBiConsumers.put(
+			"lazyBlobEntryId",
+			(BiConsumer<LazyBlobEntry, Long>)LazyBlobEntry::setLazyBlobEntryId);
+		attributeSetterBiConsumers.put(
+			"groupId",
+			(BiConsumer<LazyBlobEntry, Long>)LazyBlobEntry::setGroupId);
+		attributeSetterBiConsumers.put(
+			"blob1", (BiConsumer<LazyBlobEntry, Blob>)LazyBlobEntry::setBlob1);
+		attributeSetterBiConsumers.put(
+			"blob2", (BiConsumer<LazyBlobEntry, Blob>)LazyBlobEntry::setBlob2);
+
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

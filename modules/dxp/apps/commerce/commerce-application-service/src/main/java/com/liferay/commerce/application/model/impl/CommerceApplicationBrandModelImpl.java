@@ -307,19 +307,12 @@ public class CommerceApplicationBrandModelImpl
 
 	private static final Map<String, Function<CommerceApplicationBrand, Object>>
 		_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<CommerceApplicationBrand, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommerceApplicationBrand, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<CommerceApplicationBrand, Object>>();
-		Map<String, BiConsumer<CommerceApplicationBrand, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String, BiConsumer<CommerceApplicationBrand, ?>>();
 
 		attributeGetterFunctions.put(
 			"commerceApplicationBrandId",
@@ -334,6 +327,105 @@ public class CommerceApplicationBrandModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommerceApplicationBrand, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceApplicationBrand commerceApplicationBrand) {
+
+					return commerceApplicationBrand.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommerceApplicationBrand, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceApplicationBrand commerceApplicationBrand) {
+
+					return commerceApplicationBrand.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommerceApplicationBrand, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceApplicationBrand commerceApplicationBrand) {
+
+					return commerceApplicationBrand.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommerceApplicationBrand, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceApplicationBrand commerceApplicationBrand) {
+
+					return commerceApplicationBrand.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommerceApplicationBrand, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceApplicationBrand commerceApplicationBrand) {
+
+					return commerceApplicationBrand.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"name",
+			new Function<CommerceApplicationBrand, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceApplicationBrand commerceApplicationBrand) {
+
+					return commerceApplicationBrand.getName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"logoId",
+			new Function<CommerceApplicationBrand, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceApplicationBrand commerceApplicationBrand) {
+
+					return commerceApplicationBrand.getLogoId();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<CommerceApplicationBrand, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommerceApplicationBrand, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap
+					<String, BiConsumer<CommerceApplicationBrand, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"commerceApplicationBrandId",
 			new BiConsumer<CommerceApplicationBrand, Object>() {
@@ -345,18 +437,6 @@ public class CommerceApplicationBrandModelImpl
 
 					commerceApplicationBrand.setCommerceApplicationBrandId(
 						(Long)commerceApplicationBrandIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommerceApplicationBrand, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceApplicationBrand commerceApplicationBrand) {
-
-					return commerceApplicationBrand.getCompanyId();
 				}
 
 			});
@@ -374,18 +454,6 @@ public class CommerceApplicationBrandModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommerceApplicationBrand, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceApplicationBrand commerceApplicationBrand) {
-
-					return commerceApplicationBrand.getUserId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userId",
 			new BiConsumer<CommerceApplicationBrand, Object>() {
@@ -396,18 +464,6 @@ public class CommerceApplicationBrandModelImpl
 					Object userIdObject) {
 
 					commerceApplicationBrand.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommerceApplicationBrand, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceApplicationBrand commerceApplicationBrand) {
-
-					return commerceApplicationBrand.getUserName();
 				}
 
 			});
@@ -425,18 +481,6 @@ public class CommerceApplicationBrandModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommerceApplicationBrand, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceApplicationBrand commerceApplicationBrand) {
-
-					return commerceApplicationBrand.getCreateDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"createDate",
 			new BiConsumer<CommerceApplicationBrand, Object>() {
@@ -448,18 +492,6 @@ public class CommerceApplicationBrandModelImpl
 
 					commerceApplicationBrand.setCreateDate(
 						(Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommerceApplicationBrand, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceApplicationBrand commerceApplicationBrand) {
-
-					return commerceApplicationBrand.getModifiedDate();
 				}
 
 			});
@@ -477,18 +509,6 @@ public class CommerceApplicationBrandModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"name",
-			new Function<CommerceApplicationBrand, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceApplicationBrand commerceApplicationBrand) {
-
-					return commerceApplicationBrand.getName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"name",
 			new BiConsumer<CommerceApplicationBrand, Object>() {
@@ -499,18 +519,6 @@ public class CommerceApplicationBrandModelImpl
 					Object nameObject) {
 
 					commerceApplicationBrand.setName((String)nameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"logoId",
-			new Function<CommerceApplicationBrand, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceApplicationBrand commerceApplicationBrand) {
-
-					return commerceApplicationBrand.getLogoId();
 				}
 
 			});
@@ -528,8 +536,6 @@ public class CommerceApplicationBrandModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

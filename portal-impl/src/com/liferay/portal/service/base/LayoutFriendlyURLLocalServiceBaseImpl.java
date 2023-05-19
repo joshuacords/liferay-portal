@@ -54,8 +54,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -630,14 +628,15 @@ public abstract class LayoutFriendlyURLLocalServiceBaseImpl
 			"com.liferay.portal.kernel.model.LayoutFriendlyURL",
 			layoutFriendlyURLLocalService);
 
-		_setLocalServiceUtilService(layoutFriendlyURLLocalService);
+		LayoutFriendlyURLLocalServiceUtil.setService(
+			layoutFriendlyURLLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"com.liferay.portal.kernel.model.LayoutFriendlyURL");
 
-		_setLocalServiceUtilService(null);
+		LayoutFriendlyURLLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -680,23 +679,6 @@ public abstract class LayoutFriendlyURLLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		LayoutFriendlyURLLocalService layoutFriendlyURLLocalService) {
-
-		try {
-			Field field =
-				LayoutFriendlyURLLocalServiceUtil.class.getDeclaredField(
-					"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, layoutFriendlyURLLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

@@ -213,49 +213,55 @@ public class PortalPreferencesModelImpl
 
 	private static final Map<String, Function<PortalPreferences, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<PortalPreferences, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<PortalPreferences, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<PortalPreferences, Object>>();
+
+		attributeGetterFunctions.put(
+			"mvccVersion", PortalPreferences::getMvccVersion);
+		attributeGetterFunctions.put(
+			"portalPreferencesId", PortalPreferences::getPortalPreferencesId);
+		attributeGetterFunctions.put("ownerId", PortalPreferences::getOwnerId);
+		attributeGetterFunctions.put(
+			"ownerType", PortalPreferences::getOwnerType);
+		attributeGetterFunctions.put(
+			"preferences", PortalPreferences::getPreferences);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<PortalPreferences, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<PortalPreferences, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<PortalPreferences, ?>>();
 
-		attributeGetterFunctions.put(
-			"mvccVersion", PortalPreferences::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<PortalPreferences, Long>)
 				PortalPreferences::setMvccVersion);
-		attributeGetterFunctions.put(
-			"portalPreferencesId", PortalPreferences::getPortalPreferencesId);
 		attributeSetterBiConsumers.put(
 			"portalPreferencesId",
 			(BiConsumer<PortalPreferences, Long>)
 				PortalPreferences::setPortalPreferencesId);
-		attributeGetterFunctions.put("ownerId", PortalPreferences::getOwnerId);
 		attributeSetterBiConsumers.put(
 			"ownerId",
 			(BiConsumer<PortalPreferences, Long>)PortalPreferences::setOwnerId);
-		attributeGetterFunctions.put(
-			"ownerType", PortalPreferences::getOwnerType);
 		attributeSetterBiConsumers.put(
 			"ownerType",
 			(BiConsumer<PortalPreferences, Integer>)
 				PortalPreferences::setOwnerType);
-		attributeGetterFunctions.put(
-			"preferences", PortalPreferences::getPreferences);
 		attributeSetterBiConsumers.put(
 			"preferences",
 			(BiConsumer<PortalPreferences, String>)
 				PortalPreferences::setPreferences);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

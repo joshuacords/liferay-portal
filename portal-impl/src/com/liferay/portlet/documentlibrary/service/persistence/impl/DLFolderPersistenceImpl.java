@@ -55,7 +55,6 @@ import com.liferay.portlet.documentlibrary.model.impl.DLFolderModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
@@ -15881,11 +15880,11 @@ public class DLFolderPersistenceImpl
 				Integer.class.getName()
 			});
 
-		_setDLFolderUtilPersistence(this);
+		DLFolderUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setDLFolderUtilPersistence(null);
+		DLFolderUtil.setPersistence(null);
 
 		EntityCacheUtil.removeCache(DLFolderImpl.class.getName());
 
@@ -15894,21 +15893,6 @@ public class DLFolderPersistenceImpl
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
 
 		TableMapperFactory.removeTableMapper("DLFileEntryTypes_DLFolders");
-	}
-
-	private void _setDLFolderUtilPersistence(
-		DLFolderPersistence dlFolderPersistence) {
-
-		try {
-			Field field = DLFolderUtil.class.getDeclaredField("_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, dlFolderPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@BeanReference(type = DLFileEntryTypePersistence.class)

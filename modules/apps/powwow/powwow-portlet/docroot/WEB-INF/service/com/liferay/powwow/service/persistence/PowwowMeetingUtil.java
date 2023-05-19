@@ -1226,6 +1226,10 @@ public class PowwowMeetingUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(PowwowMeetingPersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile PowwowMeetingPersistence _persistence;
 
 }

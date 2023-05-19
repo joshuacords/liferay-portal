@@ -83,8 +83,6 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -1737,14 +1735,15 @@ public abstract class CPFriendlyURLEntryLocalServiceBaseImpl
 			"com.liferay.commerce.product.model.CPFriendlyURLEntry",
 			cpFriendlyURLEntryLocalService);
 
-		_setLocalServiceUtilService(cpFriendlyURLEntryLocalService);
+		CPFriendlyURLEntryLocalServiceUtil.setService(
+			cpFriendlyURLEntryLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"com.liferay.commerce.product.model.CPFriendlyURLEntry");
 
-		_setLocalServiceUtilService(null);
+		CPFriendlyURLEntryLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -1787,23 +1786,6 @@ public abstract class CPFriendlyURLEntryLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		CPFriendlyURLEntryLocalService cpFriendlyURLEntryLocalService) {
-
-		try {
-			Field field =
-				CPFriendlyURLEntryLocalServiceUtil.class.getDeclaredField(
-					"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, cpFriendlyURLEntryLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

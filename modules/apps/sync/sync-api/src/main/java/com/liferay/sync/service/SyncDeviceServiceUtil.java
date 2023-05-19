@@ -64,6 +64,10 @@ public class SyncDeviceServiceUtil {
 		return _service;
 	}
 
+	public static void setService(SyncDeviceService service) {
+		_service = service;
+	}
+
 	private static volatile SyncDeviceService _service;
 
 }

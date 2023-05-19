@@ -151,6 +151,10 @@ public class LayoutSetServiceUtil {
 		return _service;
 	}
 
+	public static void setService(LayoutSetService service) {
+		_service = service;
+	}
+
 	private static volatile LayoutSetService _service;
 
 }

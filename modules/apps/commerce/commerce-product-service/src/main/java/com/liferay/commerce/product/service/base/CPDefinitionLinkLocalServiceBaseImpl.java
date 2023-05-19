@@ -82,8 +82,6 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -1743,14 +1741,15 @@ public abstract class CPDefinitionLinkLocalServiceBaseImpl
 			"com.liferay.commerce.product.model.CPDefinitionLink",
 			cpDefinitionLinkLocalService);
 
-		_setLocalServiceUtilService(cpDefinitionLinkLocalService);
+		CPDefinitionLinkLocalServiceUtil.setService(
+			cpDefinitionLinkLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"com.liferay.commerce.product.model.CPDefinitionLink");
 
-		_setLocalServiceUtilService(null);
+		CPDefinitionLinkLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -1792,23 +1791,6 @@ public abstract class CPDefinitionLinkLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		CPDefinitionLinkLocalService cpDefinitionLinkLocalService) {
-
-		try {
-			Field field =
-				CPDefinitionLinkLocalServiceUtil.class.getDeclaredField(
-					"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, cpDefinitionLinkLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

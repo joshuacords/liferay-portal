@@ -325,19 +325,12 @@ public class CommerceDiscountAccountRelModelImpl
 	private static final Map
 		<String, Function<CommerceDiscountAccountRel, Object>>
 			_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<CommerceDiscountAccountRel, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommerceDiscountAccountRel, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<CommerceDiscountAccountRel, Object>>();
-		Map<String, BiConsumer<CommerceDiscountAccountRel, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String, BiConsumer<CommerceDiscountAccountRel, ?>>();
 
 		attributeGetterFunctions.put(
 			"uuid",
@@ -351,19 +344,6 @@ public class CommerceDiscountAccountRelModelImpl
 				}
 
 			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<CommerceDiscountAccountRel, Object>() {
-
-				@Override
-				public void accept(
-					CommerceDiscountAccountRel commerceDiscountAccountRel,
-					Object uuidObject) {
-
-					commerceDiscountAccountRel.setUuid((String)uuidObject);
-				}
-
-			});
 		attributeGetterFunctions.put(
 			"commerceDiscountAccountRelId",
 			new Function<CommerceDiscountAccountRel, Object>() {
@@ -374,6 +354,142 @@ public class CommerceDiscountAccountRelModelImpl
 
 					return commerceDiscountAccountRel.
 						getCommerceDiscountAccountRelId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommerceDiscountAccountRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceDiscountAccountRel commerceDiscountAccountRel) {
+
+					return commerceDiscountAccountRel.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommerceDiscountAccountRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceDiscountAccountRel commerceDiscountAccountRel) {
+
+					return commerceDiscountAccountRel.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommerceDiscountAccountRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceDiscountAccountRel commerceDiscountAccountRel) {
+
+					return commerceDiscountAccountRel.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommerceDiscountAccountRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceDiscountAccountRel commerceDiscountAccountRel) {
+
+					return commerceDiscountAccountRel.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommerceDiscountAccountRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceDiscountAccountRel commerceDiscountAccountRel) {
+
+					return commerceDiscountAccountRel.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceAccountId",
+			new Function<CommerceDiscountAccountRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceDiscountAccountRel commerceDiscountAccountRel) {
+
+					return commerceDiscountAccountRel.getCommerceAccountId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceDiscountId",
+			new Function<CommerceDiscountAccountRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceDiscountAccountRel commerceDiscountAccountRel) {
+
+					return commerceDiscountAccountRel.getCommerceDiscountId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"order",
+			new Function<CommerceDiscountAccountRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceDiscountAccountRel commerceDiscountAccountRel) {
+
+					return commerceDiscountAccountRel.getOrder();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"lastPublishDate",
+			new Function<CommerceDiscountAccountRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceDiscountAccountRel commerceDiscountAccountRel) {
+
+					return commerceDiscountAccountRel.getLastPublishDate();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<CommerceDiscountAccountRel, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommerceDiscountAccountRel, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap
+					<String, BiConsumer<CommerceDiscountAccountRel, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"uuid",
+			new BiConsumer<CommerceDiscountAccountRel, Object>() {
+
+				@Override
+				public void accept(
+					CommerceDiscountAccountRel commerceDiscountAccountRel,
+					Object uuidObject) {
+
+					commerceDiscountAccountRel.setUuid((String)uuidObject);
 				}
 
 			});
@@ -391,18 +507,6 @@ public class CommerceDiscountAccountRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommerceDiscountAccountRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceDiscountAccountRel commerceDiscountAccountRel) {
-
-					return commerceDiscountAccountRel.getCompanyId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"companyId",
 			new BiConsumer<CommerceDiscountAccountRel, Object>() {
@@ -417,18 +521,6 @@ public class CommerceDiscountAccountRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommerceDiscountAccountRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceDiscountAccountRel commerceDiscountAccountRel) {
-
-					return commerceDiscountAccountRel.getUserId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userId",
 			new BiConsumer<CommerceDiscountAccountRel, Object>() {
@@ -439,18 +531,6 @@ public class CommerceDiscountAccountRelModelImpl
 					Object userIdObject) {
 
 					commerceDiscountAccountRel.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommerceDiscountAccountRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceDiscountAccountRel commerceDiscountAccountRel) {
-
-					return commerceDiscountAccountRel.getUserName();
 				}
 
 			});
@@ -468,18 +548,6 @@ public class CommerceDiscountAccountRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommerceDiscountAccountRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceDiscountAccountRel commerceDiscountAccountRel) {
-
-					return commerceDiscountAccountRel.getCreateDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"createDate",
 			new BiConsumer<CommerceDiscountAccountRel, Object>() {
@@ -491,18 +559,6 @@ public class CommerceDiscountAccountRelModelImpl
 
 					commerceDiscountAccountRel.setCreateDate(
 						(Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommerceDiscountAccountRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceDiscountAccountRel commerceDiscountAccountRel) {
-
-					return commerceDiscountAccountRel.getModifiedDate();
 				}
 
 			});
@@ -520,18 +576,6 @@ public class CommerceDiscountAccountRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"commerceAccountId",
-			new Function<CommerceDiscountAccountRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceDiscountAccountRel commerceDiscountAccountRel) {
-
-					return commerceDiscountAccountRel.getCommerceAccountId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"commerceAccountId",
 			new BiConsumer<CommerceDiscountAccountRel, Object>() {
@@ -543,18 +587,6 @@ public class CommerceDiscountAccountRelModelImpl
 
 					commerceDiscountAccountRel.setCommerceAccountId(
 						(Long)commerceAccountIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commerceDiscountId",
-			new Function<CommerceDiscountAccountRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceDiscountAccountRel commerceDiscountAccountRel) {
-
-					return commerceDiscountAccountRel.getCommerceDiscountId();
 				}
 
 			});
@@ -572,18 +604,6 @@ public class CommerceDiscountAccountRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"order",
-			new Function<CommerceDiscountAccountRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceDiscountAccountRel commerceDiscountAccountRel) {
-
-					return commerceDiscountAccountRel.getOrder();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"order",
 			new BiConsumer<CommerceDiscountAccountRel, Object>() {
@@ -594,18 +614,6 @@ public class CommerceDiscountAccountRelModelImpl
 					Object orderObject) {
 
 					commerceDiscountAccountRel.setOrder((Integer)orderObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"lastPublishDate",
-			new Function<CommerceDiscountAccountRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceDiscountAccountRel commerceDiscountAccountRel) {
-
-					return commerceDiscountAccountRel.getLastPublishDate();
 				}
 
 			});
@@ -624,8 +632,6 @@ public class CommerceDiscountAccountRelModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

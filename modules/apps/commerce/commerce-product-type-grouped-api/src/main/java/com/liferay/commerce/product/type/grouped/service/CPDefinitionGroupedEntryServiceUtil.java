@@ -100,6 +100,10 @@ public class CPDefinitionGroupedEntryServiceUtil {
 		return _service;
 	}
 
+	public static void setService(CPDefinitionGroupedEntryService service) {
+		_service = service;
+	}
+
 	private static volatile CPDefinitionGroupedEntryService _service;
 
 }

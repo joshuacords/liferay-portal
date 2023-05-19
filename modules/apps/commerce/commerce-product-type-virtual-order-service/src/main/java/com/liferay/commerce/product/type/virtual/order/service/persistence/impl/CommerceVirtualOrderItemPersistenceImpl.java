@@ -2767,34 +2767,17 @@ public class CommerceVirtualOrderItemPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByCommerceOrderItemId", new String[] {Long.class.getName()});
 
-		_setCommerceVirtualOrderItemUtilPersistence(this);
+		CommerceVirtualOrderItemUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setCommerceVirtualOrderItemUtilPersistence(null);
+		CommerceVirtualOrderItemUtil.setPersistence(null);
 
 		entityCache.removeCache(CommerceVirtualOrderItemImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setCommerceVirtualOrderItemUtilPersistence(
-		CommerceVirtualOrderItemPersistence
-			commerceVirtualOrderItemPersistence) {
-
-		try {
-			Field field = CommerceVirtualOrderItemUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, commerceVirtualOrderItemPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

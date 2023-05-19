@@ -491,6 +491,10 @@ public class KBCommentLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(KBCommentLocalService service) {
+		_service = service;
+	}
+
 	private static volatile KBCommentLocalService _service;
 
 }

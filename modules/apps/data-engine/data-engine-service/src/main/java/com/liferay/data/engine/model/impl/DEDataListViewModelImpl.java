@@ -231,79 +231,85 @@ public class DEDataListViewModelImpl
 
 	private static final Map<String, Function<DEDataListView, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<DEDataListView, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<DEDataListView, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<DEDataListView, Object>>();
+
+		attributeGetterFunctions.put("uuid", DEDataListView::getUuid);
+		attributeGetterFunctions.put(
+			"deDataListViewId", DEDataListView::getDeDataListViewId);
+		attributeGetterFunctions.put("groupId", DEDataListView::getGroupId);
+		attributeGetterFunctions.put("companyId", DEDataListView::getCompanyId);
+		attributeGetterFunctions.put("userId", DEDataListView::getUserId);
+		attributeGetterFunctions.put("userName", DEDataListView::getUserName);
+		attributeGetterFunctions.put(
+			"createDate", DEDataListView::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", DEDataListView::getModifiedDate);
+		attributeGetterFunctions.put(
+			"appliedFilters", DEDataListView::getAppliedFilters);
+		attributeGetterFunctions.put(
+			"ddmStructureId", DEDataListView::getDdmStructureId);
+		attributeGetterFunctions.put(
+			"fieldNames", DEDataListView::getFieldNames);
+		attributeGetterFunctions.put("name", DEDataListView::getName);
+		attributeGetterFunctions.put("sortField", DEDataListView::getSortField);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<DEDataListView, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<DEDataListView, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<DEDataListView, ?>>();
 
-		attributeGetterFunctions.put("uuid", DEDataListView::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<DEDataListView, String>)DEDataListView::setUuid);
-		attributeGetterFunctions.put(
-			"deDataListViewId", DEDataListView::getDeDataListViewId);
 		attributeSetterBiConsumers.put(
 			"deDataListViewId",
 			(BiConsumer<DEDataListView, Long>)
 				DEDataListView::setDeDataListViewId);
-		attributeGetterFunctions.put("groupId", DEDataListView::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<DEDataListView, Long>)DEDataListView::setGroupId);
-		attributeGetterFunctions.put("companyId", DEDataListView::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<DEDataListView, Long>)DEDataListView::setCompanyId);
-		attributeGetterFunctions.put("userId", DEDataListView::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<DEDataListView, Long>)DEDataListView::setUserId);
-		attributeGetterFunctions.put("userName", DEDataListView::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<DEDataListView, String>)DEDataListView::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", DEDataListView::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<DEDataListView, Date>)DEDataListView::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", DEDataListView::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<DEDataListView, Date>)DEDataListView::setModifiedDate);
-		attributeGetterFunctions.put(
-			"appliedFilters", DEDataListView::getAppliedFilters);
 		attributeSetterBiConsumers.put(
 			"appliedFilters",
 			(BiConsumer<DEDataListView, String>)
 				DEDataListView::setAppliedFilters);
-		attributeGetterFunctions.put(
-			"ddmStructureId", DEDataListView::getDdmStructureId);
 		attributeSetterBiConsumers.put(
 			"ddmStructureId",
 			(BiConsumer<DEDataListView, Long>)
 				DEDataListView::setDdmStructureId);
-		attributeGetterFunctions.put(
-			"fieldNames", DEDataListView::getFieldNames);
 		attributeSetterBiConsumers.put(
 			"fieldNames",
 			(BiConsumer<DEDataListView, String>)DEDataListView::setFieldNames);
-		attributeGetterFunctions.put("name", DEDataListView::getName);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<DEDataListView, String>)DEDataListView::setName);
-		attributeGetterFunctions.put("sortField", DEDataListView::getSortField);
 		attributeSetterBiConsumers.put(
 			"sortField",
 			(BiConsumer<DEDataListView, String>)DEDataListView::setSortField);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

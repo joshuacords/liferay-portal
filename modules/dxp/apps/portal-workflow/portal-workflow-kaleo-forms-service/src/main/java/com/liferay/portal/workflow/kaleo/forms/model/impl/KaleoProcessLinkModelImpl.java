@@ -211,44 +211,50 @@ public class KaleoProcessLinkModelImpl
 
 	private static final Map<String, Function<KaleoProcessLink, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<KaleoProcessLink, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<KaleoProcessLink, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap<String, Function<KaleoProcessLink, Object>>();
+
+		attributeGetterFunctions.put(
+			"kaleoProcessLinkId", KaleoProcessLink::getKaleoProcessLinkId);
+		attributeGetterFunctions.put(
+			"kaleoProcessId", KaleoProcessLink::getKaleoProcessId);
+		attributeGetterFunctions.put(
+			"workflowTaskName", KaleoProcessLink::getWorkflowTaskName);
+		attributeGetterFunctions.put(
+			"DDMTemplateId", KaleoProcessLink::getDDMTemplateId);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<KaleoProcessLink, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<KaleoProcessLink, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<KaleoProcessLink, ?>>();
 
-		attributeGetterFunctions.put(
-			"kaleoProcessLinkId", KaleoProcessLink::getKaleoProcessLinkId);
 		attributeSetterBiConsumers.put(
 			"kaleoProcessLinkId",
 			(BiConsumer<KaleoProcessLink, Long>)
 				KaleoProcessLink::setKaleoProcessLinkId);
-		attributeGetterFunctions.put(
-			"kaleoProcessId", KaleoProcessLink::getKaleoProcessId);
 		attributeSetterBiConsumers.put(
 			"kaleoProcessId",
 			(BiConsumer<KaleoProcessLink, Long>)
 				KaleoProcessLink::setKaleoProcessId);
-		attributeGetterFunctions.put(
-			"workflowTaskName", KaleoProcessLink::getWorkflowTaskName);
 		attributeSetterBiConsumers.put(
 			"workflowTaskName",
 			(BiConsumer<KaleoProcessLink, String>)
 				KaleoProcessLink::setWorkflowTaskName);
-		attributeGetterFunctions.put(
-			"DDMTemplateId", KaleoProcessLink::getDDMTemplateId);
 		attributeSetterBiConsumers.put(
 			"DDMTemplateId",
 			(BiConsumer<KaleoProcessLink, Long>)
 				KaleoProcessLink::setDDMTemplateId);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

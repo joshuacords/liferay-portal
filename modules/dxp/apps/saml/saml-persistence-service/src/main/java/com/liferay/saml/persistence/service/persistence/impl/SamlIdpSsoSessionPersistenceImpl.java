@@ -44,7 +44,6 @@ import com.liferay.saml.persistence.service.persistence.SamlIdpSsoSessionUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.sql.Timestamp;
@@ -1576,33 +1575,17 @@ public class SamlIdpSsoSessionPersistenceImpl
 			"countBySamlIdpSsoSessionKey",
 			new String[] {String.class.getName()});
 
-		_setSamlIdpSsoSessionUtilPersistence(this);
+		SamlIdpSsoSessionUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setSamlIdpSsoSessionUtilPersistence(null);
+		SamlIdpSsoSessionUtil.setPersistence(null);
 
 		entityCache.removeCache(SamlIdpSsoSessionImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setSamlIdpSsoSessionUtilPersistence(
-		SamlIdpSsoSessionPersistence samlIdpSsoSessionPersistence) {
-
-		try {
-			Field field = SamlIdpSsoSessionUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, samlIdpSsoSessionPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

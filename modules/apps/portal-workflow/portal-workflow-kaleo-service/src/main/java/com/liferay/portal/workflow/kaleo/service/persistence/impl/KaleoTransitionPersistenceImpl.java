@@ -46,7 +46,6 @@ import com.liferay.portal.workflow.kaleo.service.persistence.impl.constants.Kale
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
@@ -3018,34 +3017,18 @@ public class KaleoTransitionPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByKNI_DT",
 			new String[] {Long.class.getName(), Boolean.class.getName()});
 
-		_setKaleoTransitionUtilPersistence(this);
+		KaleoTransitionUtil.setPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
-		_setKaleoTransitionUtilPersistence(null);
+		KaleoTransitionUtil.setPersistence(null);
 
 		entityCache.removeCache(KaleoTransitionImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setKaleoTransitionUtilPersistence(
-		KaleoTransitionPersistence kaleoTransitionPersistence) {
-
-		try {
-			Field field = KaleoTransitionUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, kaleoTransitionPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@Override

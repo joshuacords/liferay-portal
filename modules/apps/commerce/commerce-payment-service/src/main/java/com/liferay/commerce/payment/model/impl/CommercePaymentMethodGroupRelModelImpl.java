@@ -333,19 +333,12 @@ public class CommercePaymentMethodGroupRelModelImpl
 	private static final Map
 		<String, Function<CommercePaymentMethodGroupRel, Object>>
 			_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<CommercePaymentMethodGroupRel, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommercePaymentMethodGroupRel, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<CommercePaymentMethodGroupRel, Object>>();
-		Map<String, BiConsumer<CommercePaymentMethodGroupRel, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String, BiConsumer<CommercePaymentMethodGroupRel, ?>>();
 
 		attributeGetterFunctions.put(
 			"commercePaymentMethodGroupRelId",
@@ -361,6 +354,177 @@ public class CommercePaymentMethodGroupRelModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"groupId",
+			new Function<CommercePaymentMethodGroupRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePaymentMethodGroupRel
+						commercePaymentMethodGroupRel) {
+
+					return commercePaymentMethodGroupRel.getGroupId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommercePaymentMethodGroupRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePaymentMethodGroupRel
+						commercePaymentMethodGroupRel) {
+
+					return commercePaymentMethodGroupRel.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommercePaymentMethodGroupRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePaymentMethodGroupRel
+						commercePaymentMethodGroupRel) {
+
+					return commercePaymentMethodGroupRel.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommercePaymentMethodGroupRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePaymentMethodGroupRel
+						commercePaymentMethodGroupRel) {
+
+					return commercePaymentMethodGroupRel.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommercePaymentMethodGroupRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePaymentMethodGroupRel
+						commercePaymentMethodGroupRel) {
+
+					return commercePaymentMethodGroupRel.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommercePaymentMethodGroupRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePaymentMethodGroupRel
+						commercePaymentMethodGroupRel) {
+
+					return commercePaymentMethodGroupRel.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"name",
+			new Function<CommercePaymentMethodGroupRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePaymentMethodGroupRel
+						commercePaymentMethodGroupRel) {
+
+					return commercePaymentMethodGroupRel.getName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"description",
+			new Function<CommercePaymentMethodGroupRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePaymentMethodGroupRel
+						commercePaymentMethodGroupRel) {
+
+					return commercePaymentMethodGroupRel.getDescription();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"imageId",
+			new Function<CommercePaymentMethodGroupRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePaymentMethodGroupRel
+						commercePaymentMethodGroupRel) {
+
+					return commercePaymentMethodGroupRel.getImageId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"engineKey",
+			new Function<CommercePaymentMethodGroupRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePaymentMethodGroupRel
+						commercePaymentMethodGroupRel) {
+
+					return commercePaymentMethodGroupRel.getEngineKey();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"priority",
+			new Function<CommercePaymentMethodGroupRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePaymentMethodGroupRel
+						commercePaymentMethodGroupRel) {
+
+					return commercePaymentMethodGroupRel.getPriority();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"active",
+			new Function<CommercePaymentMethodGroupRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommercePaymentMethodGroupRel
+						commercePaymentMethodGroupRel) {
+
+					return commercePaymentMethodGroupRel.getActive();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<CommercePaymentMethodGroupRel, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommercePaymentMethodGroupRel, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap
+					<String, BiConsumer<CommercePaymentMethodGroupRel, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"commercePaymentMethodGroupRelId",
 			new BiConsumer<CommercePaymentMethodGroupRel, Object>() {
@@ -373,19 +537,6 @@ public class CommercePaymentMethodGroupRelModelImpl
 					commercePaymentMethodGroupRel.
 						setCommercePaymentMethodGroupRelId(
 							(Long)commercePaymentMethodGroupRelIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<CommercePaymentMethodGroupRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePaymentMethodGroupRel
-						commercePaymentMethodGroupRel) {
-
-					return commercePaymentMethodGroupRel.getGroupId();
 				}
 
 			});
@@ -403,19 +554,6 @@ public class CommercePaymentMethodGroupRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommercePaymentMethodGroupRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePaymentMethodGroupRel
-						commercePaymentMethodGroupRel) {
-
-					return commercePaymentMethodGroupRel.getCompanyId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"companyId",
 			new BiConsumer<CommercePaymentMethodGroupRel, Object>() {
@@ -430,19 +568,6 @@ public class CommercePaymentMethodGroupRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommercePaymentMethodGroupRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePaymentMethodGroupRel
-						commercePaymentMethodGroupRel) {
-
-					return commercePaymentMethodGroupRel.getUserId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userId",
 			new BiConsumer<CommercePaymentMethodGroupRel, Object>() {
@@ -453,19 +578,6 @@ public class CommercePaymentMethodGroupRelModelImpl
 					Object userIdObject) {
 
 					commercePaymentMethodGroupRel.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommercePaymentMethodGroupRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePaymentMethodGroupRel
-						commercePaymentMethodGroupRel) {
-
-					return commercePaymentMethodGroupRel.getUserName();
 				}
 
 			});
@@ -483,19 +595,6 @@ public class CommercePaymentMethodGroupRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommercePaymentMethodGroupRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePaymentMethodGroupRel
-						commercePaymentMethodGroupRel) {
-
-					return commercePaymentMethodGroupRel.getCreateDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"createDate",
 			new BiConsumer<CommercePaymentMethodGroupRel, Object>() {
@@ -507,19 +606,6 @@ public class CommercePaymentMethodGroupRelModelImpl
 
 					commercePaymentMethodGroupRel.setCreateDate(
 						(Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommercePaymentMethodGroupRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePaymentMethodGroupRel
-						commercePaymentMethodGroupRel) {
-
-					return commercePaymentMethodGroupRel.getModifiedDate();
 				}
 
 			});
@@ -537,19 +623,6 @@ public class CommercePaymentMethodGroupRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"name",
-			new Function<CommercePaymentMethodGroupRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePaymentMethodGroupRel
-						commercePaymentMethodGroupRel) {
-
-					return commercePaymentMethodGroupRel.getName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"name",
 			new BiConsumer<CommercePaymentMethodGroupRel, Object>() {
@@ -560,19 +633,6 @@ public class CommercePaymentMethodGroupRelModelImpl
 					Object nameObject) {
 
 					commercePaymentMethodGroupRel.setName((String)nameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"description",
-			new Function<CommercePaymentMethodGroupRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePaymentMethodGroupRel
-						commercePaymentMethodGroupRel) {
-
-					return commercePaymentMethodGroupRel.getDescription();
 				}
 
 			});
@@ -590,19 +650,6 @@ public class CommercePaymentMethodGroupRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"imageId",
-			new Function<CommercePaymentMethodGroupRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePaymentMethodGroupRel
-						commercePaymentMethodGroupRel) {
-
-					return commercePaymentMethodGroupRel.getImageId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"imageId",
 			new BiConsumer<CommercePaymentMethodGroupRel, Object>() {
@@ -614,19 +661,6 @@ public class CommercePaymentMethodGroupRelModelImpl
 
 					commercePaymentMethodGroupRel.setImageId(
 						(Long)imageIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"engineKey",
-			new Function<CommercePaymentMethodGroupRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePaymentMethodGroupRel
-						commercePaymentMethodGroupRel) {
-
-					return commercePaymentMethodGroupRel.getEngineKey();
 				}
 
 			});
@@ -644,19 +678,6 @@ public class CommercePaymentMethodGroupRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"priority",
-			new Function<CommercePaymentMethodGroupRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePaymentMethodGroupRel
-						commercePaymentMethodGroupRel) {
-
-					return commercePaymentMethodGroupRel.getPriority();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"priority",
 			new BiConsumer<CommercePaymentMethodGroupRel, Object>() {
@@ -668,19 +689,6 @@ public class CommercePaymentMethodGroupRelModelImpl
 
 					commercePaymentMethodGroupRel.setPriority(
 						(Double)priorityObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"active",
-			new Function<CommercePaymentMethodGroupRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommercePaymentMethodGroupRel
-						commercePaymentMethodGroupRel) {
-
-					return commercePaymentMethodGroupRel.getActive();
 				}
 
 			});
@@ -699,8 +707,6 @@ public class CommercePaymentMethodGroupRelModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

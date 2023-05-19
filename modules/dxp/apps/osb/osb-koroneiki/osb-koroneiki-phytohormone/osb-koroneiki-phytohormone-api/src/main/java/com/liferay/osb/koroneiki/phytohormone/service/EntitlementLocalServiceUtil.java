@@ -301,6 +301,10 @@ public class EntitlementLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(EntitlementLocalService service) {
+		_service = service;
+	}
+
 	private static volatile EntitlementLocalService _service;
 
 }

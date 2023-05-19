@@ -54,8 +54,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -492,7 +490,7 @@ public abstract class PollsChoiceLocalServiceBaseImpl
 
 	@Deactivate
 	protected void deactivate() {
-		_setLocalServiceUtilService(null);
+		PollsChoiceLocalServiceUtil.setService(null);
 	}
 
 	@Override
@@ -507,7 +505,7 @@ public abstract class PollsChoiceLocalServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		pollsChoiceLocalService = (PollsChoiceLocalService)aopProxy;
 
-		_setLocalServiceUtilService(pollsChoiceLocalService);
+		PollsChoiceLocalServiceUtil.setService(pollsChoiceLocalService);
 	}
 
 	/**
@@ -549,22 +547,6 @@ public abstract class PollsChoiceLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		PollsChoiceLocalService pollsChoiceLocalService) {
-
-		try {
-			Field field = PollsChoiceLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, pollsChoiceLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

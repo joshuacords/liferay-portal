@@ -41,7 +41,6 @@ import com.liferay.portal.model.impl.RecentLayoutSetBranchModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.List;
@@ -2676,33 +2675,17 @@ public class RecentLayoutSetBranchPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_L",
 			new String[] {Long.class.getName(), Long.class.getName()});
 
-		_setRecentLayoutSetBranchUtilPersistence(this);
+		RecentLayoutSetBranchUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setRecentLayoutSetBranchUtilPersistence(null);
+		RecentLayoutSetBranchUtil.setPersistence(null);
 
 		EntityCacheUtil.removeCache(RecentLayoutSetBranchImpl.class.getName());
 
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setRecentLayoutSetBranchUtilPersistence(
-		RecentLayoutSetBranchPersistence recentLayoutSetBranchPersistence) {
-
-		try {
-			Field field = RecentLayoutSetBranchUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, recentLayoutSetBranchPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	private static final String _SQL_SELECT_RECENTLAYOUTSETBRANCH =

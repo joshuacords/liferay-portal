@@ -2034,6 +2034,12 @@ public class FragmentEntryLinkUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(
+		FragmentEntryLinkPersistence persistence) {
+
+		_persistence = persistence;
+	}
+
 	private static volatile FragmentEntryLinkPersistence _persistence;
 
 }

@@ -352,6 +352,10 @@ public class AnnouncementsDeliveryLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(AnnouncementsDeliveryLocalService service) {
+		_service = service;
+	}
+
 	private static volatile AnnouncementsDeliveryLocalService _service;
 
 }

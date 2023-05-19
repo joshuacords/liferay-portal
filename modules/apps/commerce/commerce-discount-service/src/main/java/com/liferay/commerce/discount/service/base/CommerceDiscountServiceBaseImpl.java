@@ -45,8 +45,6 @@ import com.liferay.portal.kernel.service.persistence.WorkflowInstanceLinkPersist
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 /**
@@ -840,11 +838,11 @@ public abstract class CommerceDiscountServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
-		_setServiceUtilService(commerceDiscountService);
+		CommerceDiscountServiceUtil.setService(commerceDiscountService);
 	}
 
 	public void destroy() {
-		_setServiceUtilService(null);
+		CommerceDiscountServiceUtil.setService(null);
 	}
 
 	/**
@@ -886,22 +884,6 @@ public abstract class CommerceDiscountServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setServiceUtilService(
-		CommerceDiscountService commerceDiscountService) {
-
-		try {
-			Field field = CommerceDiscountServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, commerceDiscountService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

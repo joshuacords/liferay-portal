@@ -435,6 +435,10 @@ public class ProductConsumptionLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(ProductConsumptionLocalService service) {
+		_service = service;
+	}
+
 	private static volatile ProductConsumptionLocalService _service;
 
 }

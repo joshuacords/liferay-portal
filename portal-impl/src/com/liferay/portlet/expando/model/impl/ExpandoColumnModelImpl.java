@@ -261,46 +261,52 @@ public class ExpandoColumnModelImpl
 
 	private static final Map<String, Function<ExpandoColumn, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<ExpandoColumn, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<ExpandoColumn, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<ExpandoColumn, Object>>();
+
+		attributeGetterFunctions.put("columnId", ExpandoColumn::getColumnId);
+		attributeGetterFunctions.put("companyId", ExpandoColumn::getCompanyId);
+		attributeGetterFunctions.put("tableId", ExpandoColumn::getTableId);
+		attributeGetterFunctions.put("name", ExpandoColumn::getName);
+		attributeGetterFunctions.put("type", ExpandoColumn::getType);
+		attributeGetterFunctions.put(
+			"defaultData", ExpandoColumn::getDefaultData);
+		attributeGetterFunctions.put(
+			"typeSettings", ExpandoColumn::getTypeSettings);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<ExpandoColumn, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<ExpandoColumn, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<ExpandoColumn, ?>>();
 
-		attributeGetterFunctions.put("columnId", ExpandoColumn::getColumnId);
 		attributeSetterBiConsumers.put(
 			"columnId",
 			(BiConsumer<ExpandoColumn, Long>)ExpandoColumn::setColumnId);
-		attributeGetterFunctions.put("companyId", ExpandoColumn::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<ExpandoColumn, Long>)ExpandoColumn::setCompanyId);
-		attributeGetterFunctions.put("tableId", ExpandoColumn::getTableId);
 		attributeSetterBiConsumers.put(
 			"tableId",
 			(BiConsumer<ExpandoColumn, Long>)ExpandoColumn::setTableId);
-		attributeGetterFunctions.put("name", ExpandoColumn::getName);
 		attributeSetterBiConsumers.put(
 			"name", (BiConsumer<ExpandoColumn, String>)ExpandoColumn::setName);
-		attributeGetterFunctions.put("type", ExpandoColumn::getType);
 		attributeSetterBiConsumers.put(
 			"type", (BiConsumer<ExpandoColumn, Integer>)ExpandoColumn::setType);
-		attributeGetterFunctions.put(
-			"defaultData", ExpandoColumn::getDefaultData);
 		attributeSetterBiConsumers.put(
 			"defaultData",
 			(BiConsumer<ExpandoColumn, String>)ExpandoColumn::setDefaultData);
-		attributeGetterFunctions.put(
-			"typeSettings", ExpandoColumn::getTypeSettings);
 		attributeSetterBiConsumers.put(
 			"typeSettings",
 			(BiConsumer<ExpandoColumn, String>)ExpandoColumn::setTypeSettings);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

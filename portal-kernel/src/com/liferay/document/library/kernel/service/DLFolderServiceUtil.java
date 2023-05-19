@@ -366,6 +366,10 @@ public class DLFolderServiceUtil {
 		return _service;
 	}
 
+	public static void setService(DLFolderService service) {
+		_service = service;
+	}
+
 	private static volatile DLFolderService _service;
 
 }

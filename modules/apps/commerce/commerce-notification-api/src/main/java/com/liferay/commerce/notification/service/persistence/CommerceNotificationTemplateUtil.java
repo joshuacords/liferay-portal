@@ -1562,6 +1562,12 @@ public class CommerceNotificationTemplateUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(
+		CommerceNotificationTemplatePersistence persistence) {
+
+		_persistence = persistence;
+	}
+
 	private static volatile CommerceNotificationTemplatePersistence
 		_persistence;
 

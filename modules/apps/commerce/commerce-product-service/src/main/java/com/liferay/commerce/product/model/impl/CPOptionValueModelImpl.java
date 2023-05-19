@@ -330,14 +330,10 @@ public class CPOptionValueModelImpl
 
 	private static final Map<String, Function<CPOptionValue, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CPOptionValue, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CPOptionValue, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<CPOptionValue, Object>>();
-		Map<String, BiConsumer<CPOptionValue, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<CPOptionValue, ?>>();
 
 		attributeGetterFunctions.put(
 			"uuid",
@@ -349,6 +345,138 @@ public class CPOptionValueModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"externalReferenceCode",
+			new Function<CPOptionValue, Object>() {
+
+				@Override
+				public Object apply(CPOptionValue cpOptionValue) {
+					return cpOptionValue.getExternalReferenceCode();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"CPOptionValueId",
+			new Function<CPOptionValue, Object>() {
+
+				@Override
+				public Object apply(CPOptionValue cpOptionValue) {
+					return cpOptionValue.getCPOptionValueId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CPOptionValue, Object>() {
+
+				@Override
+				public Object apply(CPOptionValue cpOptionValue) {
+					return cpOptionValue.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CPOptionValue, Object>() {
+
+				@Override
+				public Object apply(CPOptionValue cpOptionValue) {
+					return cpOptionValue.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CPOptionValue, Object>() {
+
+				@Override
+				public Object apply(CPOptionValue cpOptionValue) {
+					return cpOptionValue.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CPOptionValue, Object>() {
+
+				@Override
+				public Object apply(CPOptionValue cpOptionValue) {
+					return cpOptionValue.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CPOptionValue, Object>() {
+
+				@Override
+				public Object apply(CPOptionValue cpOptionValue) {
+					return cpOptionValue.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"CPOptionId",
+			new Function<CPOptionValue, Object>() {
+
+				@Override
+				public Object apply(CPOptionValue cpOptionValue) {
+					return cpOptionValue.getCPOptionId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"name",
+			new Function<CPOptionValue, Object>() {
+
+				@Override
+				public Object apply(CPOptionValue cpOptionValue) {
+					return cpOptionValue.getName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"priority",
+			new Function<CPOptionValue, Object>() {
+
+				@Override
+				public Object apply(CPOptionValue cpOptionValue) {
+					return cpOptionValue.getPriority();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"key",
+			new Function<CPOptionValue, Object>() {
+
+				@Override
+				public Object apply(CPOptionValue cpOptionValue) {
+					return cpOptionValue.getKey();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"lastPublishDate",
+			new Function<CPOptionValue, Object>() {
+
+				@Override
+				public Object apply(CPOptionValue cpOptionValue) {
+					return cpOptionValue.getLastPublishDate();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<CPOptionValue, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CPOptionValue, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<CPOptionValue, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"uuid",
 			new BiConsumer<CPOptionValue, Object>() {
@@ -358,16 +486,6 @@ public class CPOptionValueModelImpl
 					CPOptionValue cpOptionValue, Object uuidObject) {
 
 					cpOptionValue.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"externalReferenceCode",
-			new Function<CPOptionValue, Object>() {
-
-				@Override
-				public Object apply(CPOptionValue cpOptionValue) {
-					return cpOptionValue.getExternalReferenceCode();
 				}
 
 			});
@@ -385,16 +503,6 @@ public class CPOptionValueModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"CPOptionValueId",
-			new Function<CPOptionValue, Object>() {
-
-				@Override
-				public Object apply(CPOptionValue cpOptionValue) {
-					return cpOptionValue.getCPOptionValueId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"CPOptionValueId",
 			new BiConsumer<CPOptionValue, Object>() {
@@ -405,16 +513,6 @@ public class CPOptionValueModelImpl
 
 					cpOptionValue.setCPOptionValueId(
 						(Long)CPOptionValueIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CPOptionValue, Object>() {
-
-				@Override
-				public Object apply(CPOptionValue cpOptionValue) {
-					return cpOptionValue.getCompanyId();
 				}
 
 			});
@@ -430,16 +528,6 @@ public class CPOptionValueModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CPOptionValue, Object>() {
-
-				@Override
-				public Object apply(CPOptionValue cpOptionValue) {
-					return cpOptionValue.getUserId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userId",
 			new BiConsumer<CPOptionValue, Object>() {
@@ -449,16 +537,6 @@ public class CPOptionValueModelImpl
 					CPOptionValue cpOptionValue, Object userIdObject) {
 
 					cpOptionValue.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CPOptionValue, Object>() {
-
-				@Override
-				public Object apply(CPOptionValue cpOptionValue) {
-					return cpOptionValue.getUserName();
 				}
 
 			});
@@ -474,16 +552,6 @@ public class CPOptionValueModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CPOptionValue, Object>() {
-
-				@Override
-				public Object apply(CPOptionValue cpOptionValue) {
-					return cpOptionValue.getCreateDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"createDate",
 			new BiConsumer<CPOptionValue, Object>() {
@@ -493,16 +561,6 @@ public class CPOptionValueModelImpl
 					CPOptionValue cpOptionValue, Object createDateObject) {
 
 					cpOptionValue.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CPOptionValue, Object>() {
-
-				@Override
-				public Object apply(CPOptionValue cpOptionValue) {
-					return cpOptionValue.getModifiedDate();
 				}
 
 			});
@@ -518,16 +576,6 @@ public class CPOptionValueModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"CPOptionId",
-			new Function<CPOptionValue, Object>() {
-
-				@Override
-				public Object apply(CPOptionValue cpOptionValue) {
-					return cpOptionValue.getCPOptionId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"CPOptionId",
 			new BiConsumer<CPOptionValue, Object>() {
@@ -537,16 +585,6 @@ public class CPOptionValueModelImpl
 					CPOptionValue cpOptionValue, Object CPOptionIdObject) {
 
 					cpOptionValue.setCPOptionId((Long)CPOptionIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"name",
-			new Function<CPOptionValue, Object>() {
-
-				@Override
-				public Object apply(CPOptionValue cpOptionValue) {
-					return cpOptionValue.getName();
 				}
 
 			});
@@ -562,16 +600,6 @@ public class CPOptionValueModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"priority",
-			new Function<CPOptionValue, Object>() {
-
-				@Override
-				public Object apply(CPOptionValue cpOptionValue) {
-					return cpOptionValue.getPriority();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"priority",
 			new BiConsumer<CPOptionValue, Object>() {
@@ -584,16 +612,6 @@ public class CPOptionValueModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"key",
-			new Function<CPOptionValue, Object>() {
-
-				@Override
-				public Object apply(CPOptionValue cpOptionValue) {
-					return cpOptionValue.getKey();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"key",
 			new BiConsumer<CPOptionValue, Object>() {
@@ -603,16 +621,6 @@ public class CPOptionValueModelImpl
 					CPOptionValue cpOptionValue, Object keyObject) {
 
 					cpOptionValue.setKey((String)keyObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"lastPublishDate",
-			new Function<CPOptionValue, Object>() {
-
-				@Override
-				public Object apply(CPOptionValue cpOptionValue) {
-					return cpOptionValue.getLastPublishDate();
 				}
 
 			});
@@ -630,8 +638,6 @@ public class CPOptionValueModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

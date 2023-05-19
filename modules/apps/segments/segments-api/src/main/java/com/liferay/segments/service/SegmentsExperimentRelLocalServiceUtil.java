@@ -363,6 +363,10 @@ public class SegmentsExperimentRelLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(SegmentsExperimentRelLocalService service) {
+		_service = service;
+	}
+
 	private static volatile SegmentsExperimentRelLocalService _service;
 
 }

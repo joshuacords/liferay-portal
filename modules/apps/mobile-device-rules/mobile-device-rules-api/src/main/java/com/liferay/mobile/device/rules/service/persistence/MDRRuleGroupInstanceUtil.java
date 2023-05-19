@@ -1714,6 +1714,12 @@ public class MDRRuleGroupInstanceUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(
+		MDRRuleGroupInstancePersistence persistence) {
+
+		_persistence = persistence;
+	}
+
 	private static volatile MDRRuleGroupInstancePersistence _persistence;
 
 }

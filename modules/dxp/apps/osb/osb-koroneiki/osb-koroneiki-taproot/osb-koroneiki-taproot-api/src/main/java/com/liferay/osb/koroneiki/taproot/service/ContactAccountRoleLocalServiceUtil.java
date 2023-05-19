@@ -328,6 +328,10 @@ public class ContactAccountRoleLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(ContactAccountRoleLocalService service) {
+		_service = service;
+	}
+
 	private static volatile ContactAccountRoleLocalService _service;
 
 }

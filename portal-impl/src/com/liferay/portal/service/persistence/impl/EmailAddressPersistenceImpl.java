@@ -46,7 +46,6 @@ import com.liferay.portal.model.impl.EmailAddressModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
@@ -4969,33 +4968,17 @@ public class EmailAddressPersistenceImpl
 				Long.class.getName(), Boolean.class.getName()
 			});
 
-		_setEmailAddressUtilPersistence(this);
+		EmailAddressUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setEmailAddressUtilPersistence(null);
+		EmailAddressUtil.setPersistence(null);
 
 		EntityCacheUtil.removeCache(EmailAddressImpl.class.getName());
 
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setEmailAddressUtilPersistence(
-		EmailAddressPersistence emailAddressPersistence) {
-
-		try {
-			Field field = EmailAddressUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, emailAddressPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	private static final String _SQL_SELECT_EMAILADDRESS =

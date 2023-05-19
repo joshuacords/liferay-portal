@@ -298,6 +298,10 @@ public class AccountFieldLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(AccountFieldLocalService service) {
+		_service = service;
+	}
+
 	private static volatile AccountFieldLocalService _service;
 
 }

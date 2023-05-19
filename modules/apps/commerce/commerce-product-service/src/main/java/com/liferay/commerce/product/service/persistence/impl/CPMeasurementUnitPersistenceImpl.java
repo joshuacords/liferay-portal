@@ -4603,33 +4603,17 @@ public class CPMeasurementUnitPersistenceImpl
 				Integer.class.getName()
 			});
 
-		_setCPMeasurementUnitUtilPersistence(this);
+		CPMeasurementUnitUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setCPMeasurementUnitUtilPersistence(null);
+		CPMeasurementUnitUtil.setPersistence(null);
 
 		entityCache.removeCache(CPMeasurementUnitImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setCPMeasurementUnitUtilPersistence(
-		CPMeasurementUnitPersistence cpMeasurementUnitPersistence) {
-
-		try {
-			Field field = CPMeasurementUnitUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, cpMeasurementUnitPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

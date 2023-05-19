@@ -552,6 +552,10 @@ public class OAuthTokenUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(OAuthTokenPersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile OAuthTokenPersistence _persistence;
 
 }

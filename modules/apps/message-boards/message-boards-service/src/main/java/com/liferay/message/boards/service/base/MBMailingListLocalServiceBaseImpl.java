@@ -52,8 +52,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -493,7 +491,7 @@ public abstract class MBMailingListLocalServiceBaseImpl
 
 	@Deactivate
 	protected void deactivate() {
-		_setLocalServiceUtilService(null);
+		MBMailingListLocalServiceUtil.setService(null);
 	}
 
 	@Override
@@ -508,7 +506,7 @@ public abstract class MBMailingListLocalServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		mbMailingListLocalService = (MBMailingListLocalService)aopProxy;
 
-		_setLocalServiceUtilService(mbMailingListLocalService);
+		MBMailingListLocalServiceUtil.setService(mbMailingListLocalService);
 	}
 
 	/**
@@ -550,22 +548,6 @@ public abstract class MBMailingListLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		MBMailingListLocalService mbMailingListLocalService) {
-
-		try {
-			Field field = MBMailingListLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, mbMailingListLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

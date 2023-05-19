@@ -339,134 +339,140 @@ public class KBArticleModelImpl
 
 	private static final Map<String, Function<KBArticle, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<KBArticle, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<KBArticle, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<KBArticle, Object>>();
-		Map<String, BiConsumer<KBArticle, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<KBArticle, ?>>();
 
 		attributeGetterFunctions.put("mvccVersion", KBArticle::getMvccVersion);
-		attributeSetterBiConsumers.put(
-			"mvccVersion",
-			(BiConsumer<KBArticle, Long>)KBArticle::setMvccVersion);
 		attributeGetterFunctions.put("uuid", KBArticle::getUuid);
-		attributeSetterBiConsumers.put(
-			"uuid", (BiConsumer<KBArticle, String>)KBArticle::setUuid);
 		attributeGetterFunctions.put("kbArticleId", KBArticle::getKbArticleId);
-		attributeSetterBiConsumers.put(
-			"kbArticleId",
-			(BiConsumer<KBArticle, Long>)KBArticle::setKbArticleId);
 		attributeGetterFunctions.put(
 			"resourcePrimKey", KBArticle::getResourcePrimKey);
-		attributeSetterBiConsumers.put(
-			"resourcePrimKey",
-			(BiConsumer<KBArticle, Long>)KBArticle::setResourcePrimKey);
 		attributeGetterFunctions.put("groupId", KBArticle::getGroupId);
-		attributeSetterBiConsumers.put(
-			"groupId", (BiConsumer<KBArticle, Long>)KBArticle::setGroupId);
 		attributeGetterFunctions.put("companyId", KBArticle::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId", (BiConsumer<KBArticle, Long>)KBArticle::setCompanyId);
 		attributeGetterFunctions.put("userId", KBArticle::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<KBArticle, Long>)KBArticle::setUserId);
 		attributeGetterFunctions.put("userName", KBArticle::getUserName);
-		attributeSetterBiConsumers.put(
-			"userName", (BiConsumer<KBArticle, String>)KBArticle::setUserName);
 		attributeGetterFunctions.put("createDate", KBArticle::getCreateDate);
-		attributeSetterBiConsumers.put(
-			"createDate",
-			(BiConsumer<KBArticle, Date>)KBArticle::setCreateDate);
 		attributeGetterFunctions.put(
 			"modifiedDate", KBArticle::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<KBArticle, Date>)KBArticle::setModifiedDate);
 		attributeGetterFunctions.put(
 			"rootResourcePrimKey", KBArticle::getRootResourcePrimKey);
-		attributeSetterBiConsumers.put(
-			"rootResourcePrimKey",
-			(BiConsumer<KBArticle, Long>)KBArticle::setRootResourcePrimKey);
 		attributeGetterFunctions.put(
 			"parentResourceClassNameId",
 			KBArticle::getParentResourceClassNameId);
+		attributeGetterFunctions.put(
+			"parentResourcePrimKey", KBArticle::getParentResourcePrimKey);
+		attributeGetterFunctions.put("kbFolderId", KBArticle::getKbFolderId);
+		attributeGetterFunctions.put("version", KBArticle::getVersion);
+		attributeGetterFunctions.put("title", KBArticle::getTitle);
+		attributeGetterFunctions.put("urlTitle", KBArticle::getUrlTitle);
+		attributeGetterFunctions.put("content", KBArticle::getContent);
+		attributeGetterFunctions.put("description", KBArticle::getDescription);
+		attributeGetterFunctions.put("priority", KBArticle::getPriority);
+		attributeGetterFunctions.put("sections", KBArticle::getSections);
+		attributeGetterFunctions.put("viewCount", KBArticle::getViewCount);
+		attributeGetterFunctions.put("latest", KBArticle::getLatest);
+		attributeGetterFunctions.put("main", KBArticle::getMain);
+		attributeGetterFunctions.put("sourceURL", KBArticle::getSourceURL);
+		attributeGetterFunctions.put(
+			"lastPublishDate", KBArticle::getLastPublishDate);
+		attributeGetterFunctions.put("status", KBArticle::getStatus);
+		attributeGetterFunctions.put(
+			"statusByUserId", KBArticle::getStatusByUserId);
+		attributeGetterFunctions.put(
+			"statusByUserName", KBArticle::getStatusByUserName);
+		attributeGetterFunctions.put("statusDate", KBArticle::getStatusDate);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<KBArticle, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<KBArticle, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<KBArticle, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"mvccVersion",
+			(BiConsumer<KBArticle, Long>)KBArticle::setMvccVersion);
+		attributeSetterBiConsumers.put(
+			"uuid", (BiConsumer<KBArticle, String>)KBArticle::setUuid);
+		attributeSetterBiConsumers.put(
+			"kbArticleId",
+			(BiConsumer<KBArticle, Long>)KBArticle::setKbArticleId);
+		attributeSetterBiConsumers.put(
+			"resourcePrimKey",
+			(BiConsumer<KBArticle, Long>)KBArticle::setResourcePrimKey);
+		attributeSetterBiConsumers.put(
+			"groupId", (BiConsumer<KBArticle, Long>)KBArticle::setGroupId);
+		attributeSetterBiConsumers.put(
+			"companyId", (BiConsumer<KBArticle, Long>)KBArticle::setCompanyId);
+		attributeSetterBiConsumers.put(
+			"userId", (BiConsumer<KBArticle, Long>)KBArticle::setUserId);
+		attributeSetterBiConsumers.put(
+			"userName", (BiConsumer<KBArticle, String>)KBArticle::setUserName);
+		attributeSetterBiConsumers.put(
+			"createDate",
+			(BiConsumer<KBArticle, Date>)KBArticle::setCreateDate);
+		attributeSetterBiConsumers.put(
+			"modifiedDate",
+			(BiConsumer<KBArticle, Date>)KBArticle::setModifiedDate);
+		attributeSetterBiConsumers.put(
+			"rootResourcePrimKey",
+			(BiConsumer<KBArticle, Long>)KBArticle::setRootResourcePrimKey);
 		attributeSetterBiConsumers.put(
 			"parentResourceClassNameId",
 			(BiConsumer<KBArticle, Long>)
 				KBArticle::setParentResourceClassNameId);
-		attributeGetterFunctions.put(
-			"parentResourcePrimKey", KBArticle::getParentResourcePrimKey);
 		attributeSetterBiConsumers.put(
 			"parentResourcePrimKey",
 			(BiConsumer<KBArticle, Long>)KBArticle::setParentResourcePrimKey);
-		attributeGetterFunctions.put("kbFolderId", KBArticle::getKbFolderId);
 		attributeSetterBiConsumers.put(
 			"kbFolderId",
 			(BiConsumer<KBArticle, Long>)KBArticle::setKbFolderId);
-		attributeGetterFunctions.put("version", KBArticle::getVersion);
 		attributeSetterBiConsumers.put(
 			"version", (BiConsumer<KBArticle, Integer>)KBArticle::setVersion);
-		attributeGetterFunctions.put("title", KBArticle::getTitle);
 		attributeSetterBiConsumers.put(
 			"title", (BiConsumer<KBArticle, String>)KBArticle::setTitle);
-		attributeGetterFunctions.put("urlTitle", KBArticle::getUrlTitle);
 		attributeSetterBiConsumers.put(
 			"urlTitle", (BiConsumer<KBArticle, String>)KBArticle::setUrlTitle);
-		attributeGetterFunctions.put("content", KBArticle::getContent);
 		attributeSetterBiConsumers.put(
 			"content", (BiConsumer<KBArticle, String>)KBArticle::setContent);
-		attributeGetterFunctions.put("description", KBArticle::getDescription);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<KBArticle, String>)KBArticle::setDescription);
-		attributeGetterFunctions.put("priority", KBArticle::getPriority);
 		attributeSetterBiConsumers.put(
 			"priority", (BiConsumer<KBArticle, Double>)KBArticle::setPriority);
-		attributeGetterFunctions.put("sections", KBArticle::getSections);
 		attributeSetterBiConsumers.put(
 			"sections", (BiConsumer<KBArticle, String>)KBArticle::setSections);
-		attributeGetterFunctions.put("viewCount", KBArticle::getViewCount);
 		attributeSetterBiConsumers.put(
 			"viewCount",
 			(BiConsumer<KBArticle, Integer>)KBArticle::setViewCount);
-		attributeGetterFunctions.put("latest", KBArticle::getLatest);
 		attributeSetterBiConsumers.put(
 			"latest", (BiConsumer<KBArticle, Boolean>)KBArticle::setLatest);
-		attributeGetterFunctions.put("main", KBArticle::getMain);
 		attributeSetterBiConsumers.put(
 			"main", (BiConsumer<KBArticle, Boolean>)KBArticle::setMain);
-		attributeGetterFunctions.put("sourceURL", KBArticle::getSourceURL);
 		attributeSetterBiConsumers.put(
 			"sourceURL",
 			(BiConsumer<KBArticle, String>)KBArticle::setSourceURL);
-		attributeGetterFunctions.put(
-			"lastPublishDate", KBArticle::getLastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<KBArticle, Date>)KBArticle::setLastPublishDate);
-		attributeGetterFunctions.put("status", KBArticle::getStatus);
 		attributeSetterBiConsumers.put(
 			"status", (BiConsumer<KBArticle, Integer>)KBArticle::setStatus);
-		attributeGetterFunctions.put(
-			"statusByUserId", KBArticle::getStatusByUserId);
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
 			(BiConsumer<KBArticle, Long>)KBArticle::setStatusByUserId);
-		attributeGetterFunctions.put(
-			"statusByUserName", KBArticle::getStatusByUserName);
 		attributeSetterBiConsumers.put(
 			"statusByUserName",
 			(BiConsumer<KBArticle, String>)KBArticle::setStatusByUserName);
-		attributeGetterFunctions.put("statusDate", KBArticle::getStatusDate);
 		attributeSetterBiConsumers.put(
 			"statusDate",
 			(BiConsumer<KBArticle, Date>)KBArticle::setStatusDate);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

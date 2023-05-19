@@ -33,8 +33,6 @@ import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 /**
@@ -293,11 +291,11 @@ public abstract class CommerceTaxMethodServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
-		_setServiceUtilService(commerceTaxMethodService);
+		CommerceTaxMethodServiceUtil.setService(commerceTaxMethodService);
 	}
 
 	public void destroy() {
-		_setServiceUtilService(null);
+		CommerceTaxMethodServiceUtil.setService(null);
 	}
 
 	/**
@@ -340,22 +338,6 @@ public abstract class CommerceTaxMethodServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setServiceUtilService(
-		CommerceTaxMethodService commerceTaxMethodService) {
-
-		try {
-			Field field = CommerceTaxMethodServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, commerceTaxMethodService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

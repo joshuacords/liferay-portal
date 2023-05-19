@@ -392,19 +392,12 @@ public class CommerceSubscriptionEntryModelImpl
 	private static final Map
 		<String, Function<CommerceSubscriptionEntry, Object>>
 			_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<CommerceSubscriptionEntry, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommerceSubscriptionEntry, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<CommerceSubscriptionEntry, Object>>();
-		Map<String, BiConsumer<CommerceSubscriptionEntry, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String, BiConsumer<CommerceSubscriptionEntry, ?>>();
 
 		attributeGetterFunctions.put(
 			"uuid",
@@ -418,19 +411,6 @@ public class CommerceSubscriptionEntryModelImpl
 				}
 
 			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<CommerceSubscriptionEntry, Object>() {
-
-				@Override
-				public void accept(
-					CommerceSubscriptionEntry commerceSubscriptionEntry,
-					Object uuidObject) {
-
-					commerceSubscriptionEntry.setUuid((String)uuidObject);
-				}
-
-			});
 		attributeGetterFunctions.put(
 			"commerceSubscriptionEntryId",
 			new Function<CommerceSubscriptionEntry, Object>() {
@@ -441,6 +421,366 @@ public class CommerceSubscriptionEntryModelImpl
 
 					return commerceSubscriptionEntry.
 						getCommerceSubscriptionEntryId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"groupId",
+			new Function<CommerceSubscriptionEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceSubscriptionEntry commerceSubscriptionEntry) {
+
+					return commerceSubscriptionEntry.getGroupId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommerceSubscriptionEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceSubscriptionEntry commerceSubscriptionEntry) {
+
+					return commerceSubscriptionEntry.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommerceSubscriptionEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceSubscriptionEntry commerceSubscriptionEntry) {
+
+					return commerceSubscriptionEntry.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommerceSubscriptionEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceSubscriptionEntry commerceSubscriptionEntry) {
+
+					return commerceSubscriptionEntry.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommerceSubscriptionEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceSubscriptionEntry commerceSubscriptionEntry) {
+
+					return commerceSubscriptionEntry.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommerceSubscriptionEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceSubscriptionEntry commerceSubscriptionEntry) {
+
+					return commerceSubscriptionEntry.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"CPInstanceUuid",
+			new Function<CommerceSubscriptionEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceSubscriptionEntry commerceSubscriptionEntry) {
+
+					return commerceSubscriptionEntry.getCPInstanceUuid();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"CProductId",
+			new Function<CommerceSubscriptionEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceSubscriptionEntry commerceSubscriptionEntry) {
+
+					return commerceSubscriptionEntry.getCProductId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceOrderItemId",
+			new Function<CommerceSubscriptionEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceSubscriptionEntry commerceSubscriptionEntry) {
+
+					return commerceSubscriptionEntry.getCommerceOrderItemId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"subscriptionLength",
+			new Function<CommerceSubscriptionEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceSubscriptionEntry commerceSubscriptionEntry) {
+
+					return commerceSubscriptionEntry.getSubscriptionLength();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"subscriptionType",
+			new Function<CommerceSubscriptionEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceSubscriptionEntry commerceSubscriptionEntry) {
+
+					return commerceSubscriptionEntry.getSubscriptionType();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"subscriptionTypeSettings",
+			new Function<CommerceSubscriptionEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceSubscriptionEntry commerceSubscriptionEntry) {
+
+					return commerceSubscriptionEntry.
+						getSubscriptionTypeSettings();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"currentCycle",
+			new Function<CommerceSubscriptionEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceSubscriptionEntry commerceSubscriptionEntry) {
+
+					return commerceSubscriptionEntry.getCurrentCycle();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"maxSubscriptionCycles",
+			new Function<CommerceSubscriptionEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceSubscriptionEntry commerceSubscriptionEntry) {
+
+					return commerceSubscriptionEntry.getMaxSubscriptionCycles();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"subscriptionStatus",
+			new Function<CommerceSubscriptionEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceSubscriptionEntry commerceSubscriptionEntry) {
+
+					return commerceSubscriptionEntry.getSubscriptionStatus();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"lastIterationDate",
+			new Function<CommerceSubscriptionEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceSubscriptionEntry commerceSubscriptionEntry) {
+
+					return commerceSubscriptionEntry.getLastIterationDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"nextIterationDate",
+			new Function<CommerceSubscriptionEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceSubscriptionEntry commerceSubscriptionEntry) {
+
+					return commerceSubscriptionEntry.getNextIterationDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"startDate",
+			new Function<CommerceSubscriptionEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceSubscriptionEntry commerceSubscriptionEntry) {
+
+					return commerceSubscriptionEntry.getStartDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"deliverySubscriptionLength",
+			new Function<CommerceSubscriptionEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceSubscriptionEntry commerceSubscriptionEntry) {
+
+					return commerceSubscriptionEntry.
+						getDeliverySubscriptionLength();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"deliverySubscriptionType",
+			new Function<CommerceSubscriptionEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceSubscriptionEntry commerceSubscriptionEntry) {
+
+					return commerceSubscriptionEntry.
+						getDeliverySubscriptionType();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"deliverySubscriptionTypeSettings",
+			new Function<CommerceSubscriptionEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceSubscriptionEntry commerceSubscriptionEntry) {
+
+					return commerceSubscriptionEntry.
+						getDeliverySubscriptionTypeSettings();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"deliveryCurrentCycle",
+			new Function<CommerceSubscriptionEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceSubscriptionEntry commerceSubscriptionEntry) {
+
+					return commerceSubscriptionEntry.getDeliveryCurrentCycle();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"deliveryMaxSubscriptionCycles",
+			new Function<CommerceSubscriptionEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceSubscriptionEntry commerceSubscriptionEntry) {
+
+					return commerceSubscriptionEntry.
+						getDeliveryMaxSubscriptionCycles();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"deliverySubscriptionStatus",
+			new Function<CommerceSubscriptionEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceSubscriptionEntry commerceSubscriptionEntry) {
+
+					return commerceSubscriptionEntry.
+						getDeliverySubscriptionStatus();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"deliveryLastIterationDate",
+			new Function<CommerceSubscriptionEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceSubscriptionEntry commerceSubscriptionEntry) {
+
+					return commerceSubscriptionEntry.
+						getDeliveryLastIterationDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"deliveryNextIterationDate",
+			new Function<CommerceSubscriptionEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceSubscriptionEntry commerceSubscriptionEntry) {
+
+					return commerceSubscriptionEntry.
+						getDeliveryNextIterationDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"deliveryStartDate",
+			new Function<CommerceSubscriptionEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceSubscriptionEntry commerceSubscriptionEntry) {
+
+					return commerceSubscriptionEntry.getDeliveryStartDate();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<CommerceSubscriptionEntry, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommerceSubscriptionEntry, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap
+					<String, BiConsumer<CommerceSubscriptionEntry, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"uuid",
+			new BiConsumer<CommerceSubscriptionEntry, Object>() {
+
+				@Override
+				public void accept(
+					CommerceSubscriptionEntry commerceSubscriptionEntry,
+					Object uuidObject) {
+
+					commerceSubscriptionEntry.setUuid((String)uuidObject);
 				}
 
 			});
@@ -458,18 +798,6 @@ public class CommerceSubscriptionEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<CommerceSubscriptionEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceSubscriptionEntry commerceSubscriptionEntry) {
-
-					return commerceSubscriptionEntry.getGroupId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"groupId",
 			new BiConsumer<CommerceSubscriptionEntry, Object>() {
@@ -480,18 +808,6 @@ public class CommerceSubscriptionEntryModelImpl
 					Object groupIdObject) {
 
 					commerceSubscriptionEntry.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommerceSubscriptionEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceSubscriptionEntry commerceSubscriptionEntry) {
-
-					return commerceSubscriptionEntry.getCompanyId();
 				}
 
 			});
@@ -509,18 +825,6 @@ public class CommerceSubscriptionEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommerceSubscriptionEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceSubscriptionEntry commerceSubscriptionEntry) {
-
-					return commerceSubscriptionEntry.getUserId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userId",
 			new BiConsumer<CommerceSubscriptionEntry, Object>() {
@@ -531,18 +835,6 @@ public class CommerceSubscriptionEntryModelImpl
 					Object userIdObject) {
 
 					commerceSubscriptionEntry.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommerceSubscriptionEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceSubscriptionEntry commerceSubscriptionEntry) {
-
-					return commerceSubscriptionEntry.getUserName();
 				}
 
 			});
@@ -560,18 +852,6 @@ public class CommerceSubscriptionEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommerceSubscriptionEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceSubscriptionEntry commerceSubscriptionEntry) {
-
-					return commerceSubscriptionEntry.getCreateDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"createDate",
 			new BiConsumer<CommerceSubscriptionEntry, Object>() {
@@ -583,18 +863,6 @@ public class CommerceSubscriptionEntryModelImpl
 
 					commerceSubscriptionEntry.setCreateDate(
 						(Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommerceSubscriptionEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceSubscriptionEntry commerceSubscriptionEntry) {
-
-					return commerceSubscriptionEntry.getModifiedDate();
 				}
 
 			});
@@ -612,18 +880,6 @@ public class CommerceSubscriptionEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"CPInstanceUuid",
-			new Function<CommerceSubscriptionEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceSubscriptionEntry commerceSubscriptionEntry) {
-
-					return commerceSubscriptionEntry.getCPInstanceUuid();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"CPInstanceUuid",
 			new BiConsumer<CommerceSubscriptionEntry, Object>() {
@@ -635,18 +891,6 @@ public class CommerceSubscriptionEntryModelImpl
 
 					commerceSubscriptionEntry.setCPInstanceUuid(
 						(String)CPInstanceUuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"CProductId",
-			new Function<CommerceSubscriptionEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceSubscriptionEntry commerceSubscriptionEntry) {
-
-					return commerceSubscriptionEntry.getCProductId();
 				}
 
 			});
@@ -664,18 +908,6 @@ public class CommerceSubscriptionEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"commerceOrderItemId",
-			new Function<CommerceSubscriptionEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceSubscriptionEntry commerceSubscriptionEntry) {
-
-					return commerceSubscriptionEntry.getCommerceOrderItemId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"commerceOrderItemId",
 			new BiConsumer<CommerceSubscriptionEntry, Object>() {
@@ -687,18 +919,6 @@ public class CommerceSubscriptionEntryModelImpl
 
 					commerceSubscriptionEntry.setCommerceOrderItemId(
 						(Long)commerceOrderItemIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"subscriptionLength",
-			new Function<CommerceSubscriptionEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceSubscriptionEntry commerceSubscriptionEntry) {
-
-					return commerceSubscriptionEntry.getSubscriptionLength();
 				}
 
 			});
@@ -716,18 +936,6 @@ public class CommerceSubscriptionEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"subscriptionType",
-			new Function<CommerceSubscriptionEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceSubscriptionEntry commerceSubscriptionEntry) {
-
-					return commerceSubscriptionEntry.getSubscriptionType();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"subscriptionType",
 			new BiConsumer<CommerceSubscriptionEntry, Object>() {
@@ -739,19 +947,6 @@ public class CommerceSubscriptionEntryModelImpl
 
 					commerceSubscriptionEntry.setSubscriptionType(
 						(String)subscriptionTypeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"subscriptionTypeSettings",
-			new Function<CommerceSubscriptionEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceSubscriptionEntry commerceSubscriptionEntry) {
-
-					return commerceSubscriptionEntry.
-						getSubscriptionTypeSettings();
 				}
 
 			});
@@ -769,18 +964,6 @@ public class CommerceSubscriptionEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"currentCycle",
-			new Function<CommerceSubscriptionEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceSubscriptionEntry commerceSubscriptionEntry) {
-
-					return commerceSubscriptionEntry.getCurrentCycle();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"currentCycle",
 			new BiConsumer<CommerceSubscriptionEntry, Object>() {
@@ -792,18 +975,6 @@ public class CommerceSubscriptionEntryModelImpl
 
 					commerceSubscriptionEntry.setCurrentCycle(
 						(Long)currentCycleObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"maxSubscriptionCycles",
-			new Function<CommerceSubscriptionEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceSubscriptionEntry commerceSubscriptionEntry) {
-
-					return commerceSubscriptionEntry.getMaxSubscriptionCycles();
 				}
 
 			});
@@ -821,18 +992,6 @@ public class CommerceSubscriptionEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"subscriptionStatus",
-			new Function<CommerceSubscriptionEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceSubscriptionEntry commerceSubscriptionEntry) {
-
-					return commerceSubscriptionEntry.getSubscriptionStatus();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"subscriptionStatus",
 			new BiConsumer<CommerceSubscriptionEntry, Object>() {
@@ -844,18 +1003,6 @@ public class CommerceSubscriptionEntryModelImpl
 
 					commerceSubscriptionEntry.setSubscriptionStatus(
 						(Integer)subscriptionStatusObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"lastIterationDate",
-			new Function<CommerceSubscriptionEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceSubscriptionEntry commerceSubscriptionEntry) {
-
-					return commerceSubscriptionEntry.getLastIterationDate();
 				}
 
 			});
@@ -873,18 +1020,6 @@ public class CommerceSubscriptionEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"nextIterationDate",
-			new Function<CommerceSubscriptionEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceSubscriptionEntry commerceSubscriptionEntry) {
-
-					return commerceSubscriptionEntry.getNextIterationDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"nextIterationDate",
 			new BiConsumer<CommerceSubscriptionEntry, Object>() {
@@ -896,18 +1031,6 @@ public class CommerceSubscriptionEntryModelImpl
 
 					commerceSubscriptionEntry.setNextIterationDate(
 						(Date)nextIterationDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"startDate",
-			new Function<CommerceSubscriptionEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceSubscriptionEntry commerceSubscriptionEntry) {
-
-					return commerceSubscriptionEntry.getStartDate();
 				}
 
 			});
@@ -925,19 +1048,6 @@ public class CommerceSubscriptionEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"deliverySubscriptionLength",
-			new Function<CommerceSubscriptionEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceSubscriptionEntry commerceSubscriptionEntry) {
-
-					return commerceSubscriptionEntry.
-						getDeliverySubscriptionLength();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"deliverySubscriptionLength",
 			new BiConsumer<CommerceSubscriptionEntry, Object>() {
@@ -952,19 +1062,6 @@ public class CommerceSubscriptionEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"deliverySubscriptionType",
-			new Function<CommerceSubscriptionEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceSubscriptionEntry commerceSubscriptionEntry) {
-
-					return commerceSubscriptionEntry.
-						getDeliverySubscriptionType();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"deliverySubscriptionType",
 			new BiConsumer<CommerceSubscriptionEntry, Object>() {
@@ -976,19 +1073,6 @@ public class CommerceSubscriptionEntryModelImpl
 
 					commerceSubscriptionEntry.setDeliverySubscriptionType(
 						(String)deliverySubscriptionTypeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"deliverySubscriptionTypeSettings",
-			new Function<CommerceSubscriptionEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceSubscriptionEntry commerceSubscriptionEntry) {
-
-					return commerceSubscriptionEntry.
-						getDeliverySubscriptionTypeSettings();
 				}
 
 			});
@@ -1007,18 +1091,6 @@ public class CommerceSubscriptionEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"deliveryCurrentCycle",
-			new Function<CommerceSubscriptionEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceSubscriptionEntry commerceSubscriptionEntry) {
-
-					return commerceSubscriptionEntry.getDeliveryCurrentCycle();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"deliveryCurrentCycle",
 			new BiConsumer<CommerceSubscriptionEntry, Object>() {
@@ -1030,19 +1102,6 @@ public class CommerceSubscriptionEntryModelImpl
 
 					commerceSubscriptionEntry.setDeliveryCurrentCycle(
 						(Long)deliveryCurrentCycleObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"deliveryMaxSubscriptionCycles",
-			new Function<CommerceSubscriptionEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceSubscriptionEntry commerceSubscriptionEntry) {
-
-					return commerceSubscriptionEntry.
-						getDeliveryMaxSubscriptionCycles();
 				}
 
 			});
@@ -1060,19 +1119,6 @@ public class CommerceSubscriptionEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"deliverySubscriptionStatus",
-			new Function<CommerceSubscriptionEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceSubscriptionEntry commerceSubscriptionEntry) {
-
-					return commerceSubscriptionEntry.
-						getDeliverySubscriptionStatus();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"deliverySubscriptionStatus",
 			new BiConsumer<CommerceSubscriptionEntry, Object>() {
@@ -1084,19 +1130,6 @@ public class CommerceSubscriptionEntryModelImpl
 
 					commerceSubscriptionEntry.setDeliverySubscriptionStatus(
 						(Integer)deliverySubscriptionStatusObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"deliveryLastIterationDate",
-			new Function<CommerceSubscriptionEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceSubscriptionEntry commerceSubscriptionEntry) {
-
-					return commerceSubscriptionEntry.
-						getDeliveryLastIterationDate();
 				}
 
 			});
@@ -1114,19 +1147,6 @@ public class CommerceSubscriptionEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"deliveryNextIterationDate",
-			new Function<CommerceSubscriptionEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceSubscriptionEntry commerceSubscriptionEntry) {
-
-					return commerceSubscriptionEntry.
-						getDeliveryNextIterationDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"deliveryNextIterationDate",
 			new BiConsumer<CommerceSubscriptionEntry, Object>() {
@@ -1138,18 +1158,6 @@ public class CommerceSubscriptionEntryModelImpl
 
 					commerceSubscriptionEntry.setDeliveryNextIterationDate(
 						(Date)deliveryNextIterationDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"deliveryStartDate",
-			new Function<CommerceSubscriptionEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceSubscriptionEntry commerceSubscriptionEntry) {
-
-					return commerceSubscriptionEntry.getDeliveryStartDate();
 				}
 
 			});
@@ -1168,8 +1176,6 @@ public class CommerceSubscriptionEntryModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

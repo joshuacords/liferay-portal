@@ -313,18 +313,12 @@ public class CommerceInventoryAuditModelImpl
 
 	private static final Map<String, Function<CommerceInventoryAudit, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CommerceInventoryAudit, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommerceInventoryAudit, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<CommerceInventoryAudit, Object>>();
-		Map<String, BiConsumer<CommerceInventoryAudit, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String, BiConsumer<CommerceInventoryAudit, ?>>();
 
 		attributeGetterFunctions.put(
 			"commerceInventoryAuditId",
@@ -338,6 +332,128 @@ public class CommerceInventoryAuditModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommerceInventoryAudit, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryAudit commerceInventoryAudit) {
+
+					return commerceInventoryAudit.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommerceInventoryAudit, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryAudit commerceInventoryAudit) {
+
+					return commerceInventoryAudit.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommerceInventoryAudit, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryAudit commerceInventoryAudit) {
+
+					return commerceInventoryAudit.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommerceInventoryAudit, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryAudit commerceInventoryAudit) {
+
+					return commerceInventoryAudit.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommerceInventoryAudit, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryAudit commerceInventoryAudit) {
+
+					return commerceInventoryAudit.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"sku",
+			new Function<CommerceInventoryAudit, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryAudit commerceInventoryAudit) {
+
+					return commerceInventoryAudit.getSku();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"logType",
+			new Function<CommerceInventoryAudit, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryAudit commerceInventoryAudit) {
+
+					return commerceInventoryAudit.getLogType();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"logTypeSettings",
+			new Function<CommerceInventoryAudit, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryAudit commerceInventoryAudit) {
+
+					return commerceInventoryAudit.getLogTypeSettings();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"quantity",
+			new Function<CommerceInventoryAudit, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceInventoryAudit commerceInventoryAudit) {
+
+					return commerceInventoryAudit.getQuantity();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<CommerceInventoryAudit, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommerceInventoryAudit, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap
+					<String, BiConsumer<CommerceInventoryAudit, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"commerceInventoryAuditId",
 			new BiConsumer<CommerceInventoryAudit, Object>() {
@@ -349,18 +465,6 @@ public class CommerceInventoryAuditModelImpl
 
 					commerceInventoryAudit.setCommerceInventoryAuditId(
 						(Long)commerceInventoryAuditIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommerceInventoryAudit, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryAudit commerceInventoryAudit) {
-
-					return commerceInventoryAudit.getCompanyId();
 				}
 
 			});
@@ -377,18 +481,6 @@ public class CommerceInventoryAuditModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommerceInventoryAudit, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryAudit commerceInventoryAudit) {
-
-					return commerceInventoryAudit.getUserId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userId",
 			new BiConsumer<CommerceInventoryAudit, Object>() {
@@ -402,18 +494,6 @@ public class CommerceInventoryAuditModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommerceInventoryAudit, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryAudit commerceInventoryAudit) {
-
-					return commerceInventoryAudit.getUserName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userName",
 			new BiConsumer<CommerceInventoryAudit, Object>() {
@@ -424,18 +504,6 @@ public class CommerceInventoryAuditModelImpl
 					Object userNameObject) {
 
 					commerceInventoryAudit.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommerceInventoryAudit, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryAudit commerceInventoryAudit) {
-
-					return commerceInventoryAudit.getCreateDate();
 				}
 
 			});
@@ -453,18 +521,6 @@ public class CommerceInventoryAuditModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommerceInventoryAudit, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryAudit commerceInventoryAudit) {
-
-					return commerceInventoryAudit.getModifiedDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			new BiConsumer<CommerceInventoryAudit, Object>() {
@@ -476,18 +532,6 @@ public class CommerceInventoryAuditModelImpl
 
 					commerceInventoryAudit.setModifiedDate(
 						(Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"sku",
-			new Function<CommerceInventoryAudit, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryAudit commerceInventoryAudit) {
-
-					return commerceInventoryAudit.getSku();
 				}
 
 			});
@@ -504,18 +548,6 @@ public class CommerceInventoryAuditModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"logType",
-			new Function<CommerceInventoryAudit, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryAudit commerceInventoryAudit) {
-
-					return commerceInventoryAudit.getLogType();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"logType",
 			new BiConsumer<CommerceInventoryAudit, Object>() {
@@ -526,18 +558,6 @@ public class CommerceInventoryAuditModelImpl
 					Object logTypeObject) {
 
 					commerceInventoryAudit.setLogType((String)logTypeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"logTypeSettings",
-			new Function<CommerceInventoryAudit, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryAudit commerceInventoryAudit) {
-
-					return commerceInventoryAudit.getLogTypeSettings();
 				}
 
 			});
@@ -555,18 +575,6 @@ public class CommerceInventoryAuditModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"quantity",
-			new Function<CommerceInventoryAudit, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceInventoryAudit commerceInventoryAudit) {
-
-					return commerceInventoryAudit.getQuantity();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"quantity",
 			new BiConsumer<CommerceInventoryAudit, Object>() {
@@ -581,8 +589,6 @@ public class CommerceInventoryAuditModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

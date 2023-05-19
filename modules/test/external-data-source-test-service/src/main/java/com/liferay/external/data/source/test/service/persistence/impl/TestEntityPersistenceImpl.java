@@ -39,8 +39,6 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -618,32 +616,17 @@ public class TestEntityPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll",
 			new String[0]);
 
-		_setTestEntityUtilPersistence(this);
+		TestEntityUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setTestEntityUtilPersistence(null);
+		TestEntityUtil.setPersistence(null);
 
 		entityCache.removeCache(TestEntityImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setTestEntityUtilPersistence(
-		TestEntityPersistence testEntityPersistence) {
-
-		try {
-			Field field = TestEntityUtil.class.getDeclaredField("_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, testEntityPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

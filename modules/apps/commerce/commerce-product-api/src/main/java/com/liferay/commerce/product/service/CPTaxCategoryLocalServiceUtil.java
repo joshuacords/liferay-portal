@@ -334,6 +334,10 @@ public class CPTaxCategoryLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(CPTaxCategoryLocalService service) {
+		_service = service;
+	}
+
 	private static volatile CPTaxCategoryLocalService _service;
 
 }

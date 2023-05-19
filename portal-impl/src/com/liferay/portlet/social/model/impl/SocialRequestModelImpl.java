@@ -300,72 +300,78 @@ public class SocialRequestModelImpl
 
 	private static final Map<String, Function<SocialRequest, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<SocialRequest, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<SocialRequest, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<SocialRequest, Object>>();
+
+		attributeGetterFunctions.put("uuid", SocialRequest::getUuid);
+		attributeGetterFunctions.put("requestId", SocialRequest::getRequestId);
+		attributeGetterFunctions.put("groupId", SocialRequest::getGroupId);
+		attributeGetterFunctions.put("companyId", SocialRequest::getCompanyId);
+		attributeGetterFunctions.put("userId", SocialRequest::getUserId);
+		attributeGetterFunctions.put(
+			"createDate", SocialRequest::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", SocialRequest::getModifiedDate);
+		attributeGetterFunctions.put(
+			"classNameId", SocialRequest::getClassNameId);
+		attributeGetterFunctions.put("classPK", SocialRequest::getClassPK);
+		attributeGetterFunctions.put("type", SocialRequest::getType);
+		attributeGetterFunctions.put("extraData", SocialRequest::getExtraData);
+		attributeGetterFunctions.put(
+			"receiverUserId", SocialRequest::getReceiverUserId);
+		attributeGetterFunctions.put("status", SocialRequest::getStatus);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<SocialRequest, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<SocialRequest, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<SocialRequest, ?>>();
 
-		attributeGetterFunctions.put("uuid", SocialRequest::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<SocialRequest, String>)SocialRequest::setUuid);
-		attributeGetterFunctions.put("requestId", SocialRequest::getRequestId);
 		attributeSetterBiConsumers.put(
 			"requestId",
 			(BiConsumer<SocialRequest, Long>)SocialRequest::setRequestId);
-		attributeGetterFunctions.put("groupId", SocialRequest::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<SocialRequest, Long>)SocialRequest::setGroupId);
-		attributeGetterFunctions.put("companyId", SocialRequest::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<SocialRequest, Long>)SocialRequest::setCompanyId);
-		attributeGetterFunctions.put("userId", SocialRequest::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<SocialRequest, Long>)SocialRequest::setUserId);
-		attributeGetterFunctions.put(
-			"createDate", SocialRequest::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<SocialRequest, Long>)SocialRequest::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", SocialRequest::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<SocialRequest, Long>)SocialRequest::setModifiedDate);
-		attributeGetterFunctions.put(
-			"classNameId", SocialRequest::getClassNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<SocialRequest, Long>)SocialRequest::setClassNameId);
-		attributeGetterFunctions.put("classPK", SocialRequest::getClassPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<SocialRequest, Long>)SocialRequest::setClassPK);
-		attributeGetterFunctions.put("type", SocialRequest::getType);
 		attributeSetterBiConsumers.put(
 			"type", (BiConsumer<SocialRequest, Integer>)SocialRequest::setType);
-		attributeGetterFunctions.put("extraData", SocialRequest::getExtraData);
 		attributeSetterBiConsumers.put(
 			"extraData",
 			(BiConsumer<SocialRequest, String>)SocialRequest::setExtraData);
-		attributeGetterFunctions.put(
-			"receiverUserId", SocialRequest::getReceiverUserId);
 		attributeSetterBiConsumers.put(
 			"receiverUserId",
 			(BiConsumer<SocialRequest, Long>)SocialRequest::setReceiverUserId);
-		attributeGetterFunctions.put("status", SocialRequest::getStatus);
 		attributeSetterBiConsumers.put(
 			"status",
 			(BiConsumer<SocialRequest, Integer>)SocialRequest::setStatus);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

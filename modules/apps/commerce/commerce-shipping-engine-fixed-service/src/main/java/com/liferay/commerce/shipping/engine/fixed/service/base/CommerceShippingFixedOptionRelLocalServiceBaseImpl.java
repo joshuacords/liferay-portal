@@ -51,8 +51,6 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -649,14 +647,15 @@ public abstract class CommerceShippingFixedOptionRelLocalServiceBaseImpl
 			"com.liferay.commerce.shipping.engine.fixed.model.CommerceShippingFixedOptionRel",
 			commerceShippingFixedOptionRelLocalService);
 
-		_setLocalServiceUtilService(commerceShippingFixedOptionRelLocalService);
+		CommerceShippingFixedOptionRelLocalServiceUtil.setService(
+			commerceShippingFixedOptionRelLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"com.liferay.commerce.shipping.engine.fixed.model.CommerceShippingFixedOptionRel");
 
-		_setLocalServiceUtilService(null);
+		CommerceShippingFixedOptionRelLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -699,24 +698,6 @@ public abstract class CommerceShippingFixedOptionRelLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		CommerceShippingFixedOptionRelLocalService
-			commerceShippingFixedOptionRelLocalService) {
-
-		try {
-			Field field =
-				CommerceShippingFixedOptionRelLocalServiceUtil.class.
-					getDeclaredField("_service");
-
-			field.setAccessible(true);
-
-			field.set(null, commerceShippingFixedOptionRelLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

@@ -1152,6 +1152,10 @@ public class TeamRoleUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(TeamRolePersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile TeamRolePersistence _persistence;
 
 }

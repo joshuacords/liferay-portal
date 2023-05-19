@@ -55,8 +55,6 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -857,14 +855,15 @@ public abstract class CommerceInventoryWarehouseItemLocalServiceBaseImpl
 			"com.liferay.commerce.inventory.model.CommerceInventoryWarehouseItem",
 			commerceInventoryWarehouseItemLocalService);
 
-		_setLocalServiceUtilService(commerceInventoryWarehouseItemLocalService);
+		CommerceInventoryWarehouseItemLocalServiceUtil.setService(
+			commerceInventoryWarehouseItemLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"com.liferay.commerce.inventory.model.CommerceInventoryWarehouseItem");
 
-		_setLocalServiceUtilService(null);
+		CommerceInventoryWarehouseItemLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -907,24 +906,6 @@ public abstract class CommerceInventoryWarehouseItemLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		CommerceInventoryWarehouseItemLocalService
-			commerceInventoryWarehouseItemLocalService) {
-
-		try {
-			Field field =
-				CommerceInventoryWarehouseItemLocalServiceUtil.class.
-					getDeclaredField("_service");
-
-			field.setAccessible(true);
-
-			field.set(null, commerceInventoryWarehouseItemLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

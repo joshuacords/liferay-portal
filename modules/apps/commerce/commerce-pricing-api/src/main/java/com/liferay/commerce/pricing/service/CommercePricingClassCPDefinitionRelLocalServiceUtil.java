@@ -386,6 +386,12 @@ public class CommercePricingClassCPDefinitionRelLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(
+		CommercePricingClassCPDefinitionRelLocalService service) {
+
+		_service = service;
+	}
+
 	private static volatile CommercePricingClassCPDefinitionRelLocalService
 		_service;
 

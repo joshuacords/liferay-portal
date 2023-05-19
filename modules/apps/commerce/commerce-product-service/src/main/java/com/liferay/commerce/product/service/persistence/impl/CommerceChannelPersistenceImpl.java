@@ -2421,33 +2421,17 @@ public class CommerceChannelPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_ERC",
 			new String[] {Long.class.getName(), String.class.getName()});
 
-		_setCommerceChannelUtilPersistence(this);
+		CommerceChannelUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setCommerceChannelUtilPersistence(null);
+		CommerceChannelUtil.setPersistence(null);
 
 		entityCache.removeCache(CommerceChannelImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setCommerceChannelUtilPersistence(
-		CommerceChannelPersistence commerceChannelPersistence) {
-
-		try {
-			Field field = CommerceChannelUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, commerceChannelPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

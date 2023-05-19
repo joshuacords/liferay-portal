@@ -322,16 +322,11 @@ public class CPDefinitionLinkModelImpl
 
 	private static final Map<String, Function<CPDefinitionLink, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CPDefinitionLink, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CPDefinitionLink, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap<String, Function<CPDefinitionLink, Object>>();
-		Map<String, BiConsumer<CPDefinitionLink, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap<String, BiConsumer<CPDefinitionLink, ?>>();
 
 		attributeGetterFunctions.put(
 			"uuid",
@@ -343,6 +338,129 @@ public class CPDefinitionLinkModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"CPDefinitionLinkId",
+			new Function<CPDefinitionLink, Object>() {
+
+				@Override
+				public Object apply(CPDefinitionLink cpDefinitionLink) {
+					return cpDefinitionLink.getCPDefinitionLinkId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"groupId",
+			new Function<CPDefinitionLink, Object>() {
+
+				@Override
+				public Object apply(CPDefinitionLink cpDefinitionLink) {
+					return cpDefinitionLink.getGroupId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CPDefinitionLink, Object>() {
+
+				@Override
+				public Object apply(CPDefinitionLink cpDefinitionLink) {
+					return cpDefinitionLink.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CPDefinitionLink, Object>() {
+
+				@Override
+				public Object apply(CPDefinitionLink cpDefinitionLink) {
+					return cpDefinitionLink.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CPDefinitionLink, Object>() {
+
+				@Override
+				public Object apply(CPDefinitionLink cpDefinitionLink) {
+					return cpDefinitionLink.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CPDefinitionLink, Object>() {
+
+				@Override
+				public Object apply(CPDefinitionLink cpDefinitionLink) {
+					return cpDefinitionLink.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CPDefinitionLink, Object>() {
+
+				@Override
+				public Object apply(CPDefinitionLink cpDefinitionLink) {
+					return cpDefinitionLink.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"CPDefinitionId",
+			new Function<CPDefinitionLink, Object>() {
+
+				@Override
+				public Object apply(CPDefinitionLink cpDefinitionLink) {
+					return cpDefinitionLink.getCPDefinitionId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"CProductId",
+			new Function<CPDefinitionLink, Object>() {
+
+				@Override
+				public Object apply(CPDefinitionLink cpDefinitionLink) {
+					return cpDefinitionLink.getCProductId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"priority",
+			new Function<CPDefinitionLink, Object>() {
+
+				@Override
+				public Object apply(CPDefinitionLink cpDefinitionLink) {
+					return cpDefinitionLink.getPriority();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"type",
+			new Function<CPDefinitionLink, Object>() {
+
+				@Override
+				public Object apply(CPDefinitionLink cpDefinitionLink) {
+					return cpDefinitionLink.getType();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<CPDefinitionLink, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CPDefinitionLink, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<CPDefinitionLink, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"uuid",
 			new BiConsumer<CPDefinitionLink, Object>() {
@@ -352,16 +470,6 @@ public class CPDefinitionLinkModelImpl
 					CPDefinitionLink cpDefinitionLink, Object uuidObject) {
 
 					cpDefinitionLink.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"CPDefinitionLinkId",
-			new Function<CPDefinitionLink, Object>() {
-
-				@Override
-				public Object apply(CPDefinitionLink cpDefinitionLink) {
-					return cpDefinitionLink.getCPDefinitionLinkId();
 				}
 
 			});
@@ -379,16 +487,6 @@ public class CPDefinitionLinkModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<CPDefinitionLink, Object>() {
-
-				@Override
-				public Object apply(CPDefinitionLink cpDefinitionLink) {
-					return cpDefinitionLink.getGroupId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"groupId",
 			new BiConsumer<CPDefinitionLink, Object>() {
@@ -398,16 +496,6 @@ public class CPDefinitionLinkModelImpl
 					CPDefinitionLink cpDefinitionLink, Object groupIdObject) {
 
 					cpDefinitionLink.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CPDefinitionLink, Object>() {
-
-				@Override
-				public Object apply(CPDefinitionLink cpDefinitionLink) {
-					return cpDefinitionLink.getCompanyId();
 				}
 
 			});
@@ -423,16 +511,6 @@ public class CPDefinitionLinkModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CPDefinitionLink, Object>() {
-
-				@Override
-				public Object apply(CPDefinitionLink cpDefinitionLink) {
-					return cpDefinitionLink.getUserId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userId",
 			new BiConsumer<CPDefinitionLink, Object>() {
@@ -445,16 +523,6 @@ public class CPDefinitionLinkModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CPDefinitionLink, Object>() {
-
-				@Override
-				public Object apply(CPDefinitionLink cpDefinitionLink) {
-					return cpDefinitionLink.getUserName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userName",
 			new BiConsumer<CPDefinitionLink, Object>() {
@@ -464,16 +532,6 @@ public class CPDefinitionLinkModelImpl
 					CPDefinitionLink cpDefinitionLink, Object userNameObject) {
 
 					cpDefinitionLink.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CPDefinitionLink, Object>() {
-
-				@Override
-				public Object apply(CPDefinitionLink cpDefinitionLink) {
-					return cpDefinitionLink.getCreateDate();
 				}
 
 			});
@@ -490,16 +548,6 @@ public class CPDefinitionLinkModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CPDefinitionLink, Object>() {
-
-				@Override
-				public Object apply(CPDefinitionLink cpDefinitionLink) {
-					return cpDefinitionLink.getModifiedDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			new BiConsumer<CPDefinitionLink, Object>() {
@@ -510,16 +558,6 @@ public class CPDefinitionLinkModelImpl
 					Object modifiedDateObject) {
 
 					cpDefinitionLink.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"CPDefinitionId",
-			new Function<CPDefinitionLink, Object>() {
-
-				@Override
-				public Object apply(CPDefinitionLink cpDefinitionLink) {
-					return cpDefinitionLink.getCPDefinitionId();
 				}
 
 			});
@@ -537,16 +575,6 @@ public class CPDefinitionLinkModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"CProductId",
-			new Function<CPDefinitionLink, Object>() {
-
-				@Override
-				public Object apply(CPDefinitionLink cpDefinitionLink) {
-					return cpDefinitionLink.getCProductId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"CProductId",
 			new BiConsumer<CPDefinitionLink, Object>() {
@@ -560,16 +588,6 @@ public class CPDefinitionLinkModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"priority",
-			new Function<CPDefinitionLink, Object>() {
-
-				@Override
-				public Object apply(CPDefinitionLink cpDefinitionLink) {
-					return cpDefinitionLink.getPriority();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"priority",
 			new BiConsumer<CPDefinitionLink, Object>() {
@@ -579,16 +597,6 @@ public class CPDefinitionLinkModelImpl
 					CPDefinitionLink cpDefinitionLink, Object priorityObject) {
 
 					cpDefinitionLink.setPriority((Double)priorityObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"type",
-			new Function<CPDefinitionLink, Object>() {
-
-				@Override
-				public Object apply(CPDefinitionLink cpDefinitionLink) {
-					return cpDefinitionLink.getType();
 				}
 
 			});
@@ -605,8 +613,6 @@ public class CPDefinitionLinkModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

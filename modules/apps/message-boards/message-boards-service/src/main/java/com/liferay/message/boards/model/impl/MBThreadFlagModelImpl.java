@@ -220,59 +220,65 @@ public class MBThreadFlagModelImpl
 
 	private static final Map<String, Function<MBThreadFlag, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<MBThreadFlag, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<MBThreadFlag, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<MBThreadFlag, Object>>();
+
+		attributeGetterFunctions.put("uuid", MBThreadFlag::getUuid);
+		attributeGetterFunctions.put(
+			"threadFlagId", MBThreadFlag::getThreadFlagId);
+		attributeGetterFunctions.put("groupId", MBThreadFlag::getGroupId);
+		attributeGetterFunctions.put("companyId", MBThreadFlag::getCompanyId);
+		attributeGetterFunctions.put("userId", MBThreadFlag::getUserId);
+		attributeGetterFunctions.put("userName", MBThreadFlag::getUserName);
+		attributeGetterFunctions.put("createDate", MBThreadFlag::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", MBThreadFlag::getModifiedDate);
+		attributeGetterFunctions.put("threadId", MBThreadFlag::getThreadId);
+		attributeGetterFunctions.put(
+			"lastPublishDate", MBThreadFlag::getLastPublishDate);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<MBThreadFlag, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<MBThreadFlag, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<MBThreadFlag, ?>>();
 
-		attributeGetterFunctions.put("uuid", MBThreadFlag::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<MBThreadFlag, String>)MBThreadFlag::setUuid);
-		attributeGetterFunctions.put(
-			"threadFlagId", MBThreadFlag::getThreadFlagId);
 		attributeSetterBiConsumers.put(
 			"threadFlagId",
 			(BiConsumer<MBThreadFlag, Long>)MBThreadFlag::setThreadFlagId);
-		attributeGetterFunctions.put("groupId", MBThreadFlag::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<MBThreadFlag, Long>)MBThreadFlag::setGroupId);
-		attributeGetterFunctions.put("companyId", MBThreadFlag::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<MBThreadFlag, Long>)MBThreadFlag::setCompanyId);
-		attributeGetterFunctions.put("userId", MBThreadFlag::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<MBThreadFlag, Long>)MBThreadFlag::setUserId);
-		attributeGetterFunctions.put("userName", MBThreadFlag::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<MBThreadFlag, String>)MBThreadFlag::setUserName);
-		attributeGetterFunctions.put("createDate", MBThreadFlag::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<MBThreadFlag, Date>)MBThreadFlag::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", MBThreadFlag::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<MBThreadFlag, Date>)MBThreadFlag::setModifiedDate);
-		attributeGetterFunctions.put("threadId", MBThreadFlag::getThreadId);
 		attributeSetterBiConsumers.put(
 			"threadId",
 			(BiConsumer<MBThreadFlag, Long>)MBThreadFlag::setThreadId);
-		attributeGetterFunctions.put(
-			"lastPublishDate", MBThreadFlag::getLastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<MBThreadFlag, Date>)MBThreadFlag::setLastPublishDate);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

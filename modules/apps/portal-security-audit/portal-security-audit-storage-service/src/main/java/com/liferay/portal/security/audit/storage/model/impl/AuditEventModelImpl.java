@@ -274,77 +274,83 @@ public class AuditEventModelImpl
 
 	private static final Map<String, Function<AuditEvent, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<AuditEvent, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<AuditEvent, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<AuditEvent, Object>>();
-		Map<String, BiConsumer<AuditEvent, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<AuditEvent, ?>>();
 
 		attributeGetterFunctions.put(
 			"auditEventId", AuditEvent::getAuditEventId);
+		attributeGetterFunctions.put("companyId", AuditEvent::getCompanyId);
+		attributeGetterFunctions.put("userId", AuditEvent::getUserId);
+		attributeGetterFunctions.put("userName", AuditEvent::getUserName);
+		attributeGetterFunctions.put("createDate", AuditEvent::getCreateDate);
+		attributeGetterFunctions.put("eventType", AuditEvent::getEventType);
+		attributeGetterFunctions.put("className", AuditEvent::getClassName);
+		attributeGetterFunctions.put("classPK", AuditEvent::getClassPK);
+		attributeGetterFunctions.put("message", AuditEvent::getMessage);
+		attributeGetterFunctions.put("clientHost", AuditEvent::getClientHost);
+		attributeGetterFunctions.put("clientIP", AuditEvent::getClientIP);
+		attributeGetterFunctions.put("serverName", AuditEvent::getServerName);
+		attributeGetterFunctions.put("serverPort", AuditEvent::getServerPort);
+		attributeGetterFunctions.put("sessionID", AuditEvent::getSessionID);
+		attributeGetterFunctions.put(
+			"additionalInfo", AuditEvent::getAdditionalInfo);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<AuditEvent, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<AuditEvent, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<AuditEvent, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"auditEventId",
 			(BiConsumer<AuditEvent, Long>)AuditEvent::setAuditEventId);
-		attributeGetterFunctions.put("companyId", AuditEvent::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<AuditEvent, Long>)AuditEvent::setCompanyId);
-		attributeGetterFunctions.put("userId", AuditEvent::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<AuditEvent, Long>)AuditEvent::setUserId);
-		attributeGetterFunctions.put("userName", AuditEvent::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<AuditEvent, String>)AuditEvent::setUserName);
-		attributeGetterFunctions.put("createDate", AuditEvent::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<AuditEvent, Date>)AuditEvent::setCreateDate);
-		attributeGetterFunctions.put("eventType", AuditEvent::getEventType);
 		attributeSetterBiConsumers.put(
 			"eventType",
 			(BiConsumer<AuditEvent, String>)AuditEvent::setEventType);
-		attributeGetterFunctions.put("className", AuditEvent::getClassName);
 		attributeSetterBiConsumers.put(
 			"className",
 			(BiConsumer<AuditEvent, String>)AuditEvent::setClassName);
-		attributeGetterFunctions.put("classPK", AuditEvent::getClassPK);
 		attributeSetterBiConsumers.put(
 			"classPK", (BiConsumer<AuditEvent, String>)AuditEvent::setClassPK);
-		attributeGetterFunctions.put("message", AuditEvent::getMessage);
 		attributeSetterBiConsumers.put(
 			"message", (BiConsumer<AuditEvent, String>)AuditEvent::setMessage);
-		attributeGetterFunctions.put("clientHost", AuditEvent::getClientHost);
 		attributeSetterBiConsumers.put(
 			"clientHost",
 			(BiConsumer<AuditEvent, String>)AuditEvent::setClientHost);
-		attributeGetterFunctions.put("clientIP", AuditEvent::getClientIP);
 		attributeSetterBiConsumers.put(
 			"clientIP",
 			(BiConsumer<AuditEvent, String>)AuditEvent::setClientIP);
-		attributeGetterFunctions.put("serverName", AuditEvent::getServerName);
 		attributeSetterBiConsumers.put(
 			"serverName",
 			(BiConsumer<AuditEvent, String>)AuditEvent::setServerName);
-		attributeGetterFunctions.put("serverPort", AuditEvent::getServerPort);
 		attributeSetterBiConsumers.put(
 			"serverPort",
 			(BiConsumer<AuditEvent, Integer>)AuditEvent::setServerPort);
-		attributeGetterFunctions.put("sessionID", AuditEvent::getSessionID);
 		attributeSetterBiConsumers.put(
 			"sessionID",
 			(BiConsumer<AuditEvent, String>)AuditEvent::setSessionID);
-		attributeGetterFunctions.put(
-			"additionalInfo", AuditEvent::getAdditionalInfo);
 		attributeSetterBiConsumers.put(
 			"additionalInfo",
 			(BiConsumer<AuditEvent, String>)AuditEvent::setAdditionalInfo);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

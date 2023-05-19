@@ -81,8 +81,6 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -1725,14 +1723,15 @@ public abstract class CPInstanceOptionValueRelLocalServiceBaseImpl
 			"com.liferay.commerce.product.model.CPInstanceOptionValueRel",
 			cpInstanceOptionValueRelLocalService);
 
-		_setLocalServiceUtilService(cpInstanceOptionValueRelLocalService);
+		CPInstanceOptionValueRelLocalServiceUtil.setService(
+			cpInstanceOptionValueRelLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"com.liferay.commerce.product.model.CPInstanceOptionValueRel");
 
-		_setLocalServiceUtilService(null);
+		CPInstanceOptionValueRelLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -1775,24 +1774,6 @@ public abstract class CPInstanceOptionValueRelLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		CPInstanceOptionValueRelLocalService
-			cpInstanceOptionValueRelLocalService) {
-
-		try {
-			Field field =
-				CPInstanceOptionValueRelLocalServiceUtil.class.getDeclaredField(
-					"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, cpInstanceOptionValueRelLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

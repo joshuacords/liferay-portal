@@ -309,6 +309,10 @@ public class QueuedMessageLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(QueuedMessageLocalService service) {
+		_service = service;
+	}
+
 	private static volatile QueuedMessageLocalService _service;
 
 }

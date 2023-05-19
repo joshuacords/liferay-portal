@@ -223,73 +223,79 @@ public class FriendlyURLEntryModelImpl
 
 	private static final Map<String, Function<FriendlyURLEntry, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<FriendlyURLEntry, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<FriendlyURLEntry, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap<String, Function<FriendlyURLEntry, Object>>();
+
+		attributeGetterFunctions.put(
+			"mvccVersion", FriendlyURLEntry::getMvccVersion);
+		attributeGetterFunctions.put("uuid", FriendlyURLEntry::getUuid);
+		attributeGetterFunctions.put(
+			"defaultLanguageId", FriendlyURLEntry::getDefaultLanguageId);
+		attributeGetterFunctions.put(
+			"friendlyURLEntryId", FriendlyURLEntry::getFriendlyURLEntryId);
+		attributeGetterFunctions.put("groupId", FriendlyURLEntry::getGroupId);
+		attributeGetterFunctions.put(
+			"companyId", FriendlyURLEntry::getCompanyId);
+		attributeGetterFunctions.put(
+			"createDate", FriendlyURLEntry::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", FriendlyURLEntry::getModifiedDate);
+		attributeGetterFunctions.put(
+			"classNameId", FriendlyURLEntry::getClassNameId);
+		attributeGetterFunctions.put("classPK", FriendlyURLEntry::getClassPK);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<FriendlyURLEntry, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<FriendlyURLEntry, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<FriendlyURLEntry, ?>>();
 
-		attributeGetterFunctions.put(
-			"mvccVersion", FriendlyURLEntry::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<FriendlyURLEntry, Long>)
 				FriendlyURLEntry::setMvccVersion);
-		attributeGetterFunctions.put("uuid", FriendlyURLEntry::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<FriendlyURLEntry, String>)FriendlyURLEntry::setUuid);
-		attributeGetterFunctions.put(
-			"defaultLanguageId", FriendlyURLEntry::getDefaultLanguageId);
 		attributeSetterBiConsumers.put(
 			"defaultLanguageId",
 			(BiConsumer<FriendlyURLEntry, String>)
 				FriendlyURLEntry::setDefaultLanguageId);
-		attributeGetterFunctions.put(
-			"friendlyURLEntryId", FriendlyURLEntry::getFriendlyURLEntryId);
 		attributeSetterBiConsumers.put(
 			"friendlyURLEntryId",
 			(BiConsumer<FriendlyURLEntry, Long>)
 				FriendlyURLEntry::setFriendlyURLEntryId);
-		attributeGetterFunctions.put("groupId", FriendlyURLEntry::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<FriendlyURLEntry, Long>)FriendlyURLEntry::setGroupId);
-		attributeGetterFunctions.put(
-			"companyId", FriendlyURLEntry::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<FriendlyURLEntry, Long>)FriendlyURLEntry::setCompanyId);
-		attributeGetterFunctions.put(
-			"createDate", FriendlyURLEntry::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<FriendlyURLEntry, Date>)
 				FriendlyURLEntry::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", FriendlyURLEntry::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<FriendlyURLEntry, Date>)
 				FriendlyURLEntry::setModifiedDate);
-		attributeGetterFunctions.put(
-			"classNameId", FriendlyURLEntry::getClassNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<FriendlyURLEntry, Long>)
 				FriendlyURLEntry::setClassNameId);
-		attributeGetterFunctions.put("classPK", FriendlyURLEntry::getClassPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<FriendlyURLEntry, Long>)FriendlyURLEntry::setClassPK);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

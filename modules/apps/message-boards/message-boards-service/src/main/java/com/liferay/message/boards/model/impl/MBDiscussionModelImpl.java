@@ -226,68 +226,74 @@ public class MBDiscussionModelImpl
 
 	private static final Map<String, Function<MBDiscussion, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<MBDiscussion, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<MBDiscussion, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<MBDiscussion, Object>>();
+
+		attributeGetterFunctions.put("uuid", MBDiscussion::getUuid);
+		attributeGetterFunctions.put(
+			"discussionId", MBDiscussion::getDiscussionId);
+		attributeGetterFunctions.put("groupId", MBDiscussion::getGroupId);
+		attributeGetterFunctions.put("companyId", MBDiscussion::getCompanyId);
+		attributeGetterFunctions.put("userId", MBDiscussion::getUserId);
+		attributeGetterFunctions.put("userName", MBDiscussion::getUserName);
+		attributeGetterFunctions.put("createDate", MBDiscussion::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", MBDiscussion::getModifiedDate);
+		attributeGetterFunctions.put(
+			"classNameId", MBDiscussion::getClassNameId);
+		attributeGetterFunctions.put("classPK", MBDiscussion::getClassPK);
+		attributeGetterFunctions.put("threadId", MBDiscussion::getThreadId);
+		attributeGetterFunctions.put(
+			"lastPublishDate", MBDiscussion::getLastPublishDate);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<MBDiscussion, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<MBDiscussion, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<MBDiscussion, ?>>();
 
-		attributeGetterFunctions.put("uuid", MBDiscussion::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<MBDiscussion, String>)MBDiscussion::setUuid);
-		attributeGetterFunctions.put(
-			"discussionId", MBDiscussion::getDiscussionId);
 		attributeSetterBiConsumers.put(
 			"discussionId",
 			(BiConsumer<MBDiscussion, Long>)MBDiscussion::setDiscussionId);
-		attributeGetterFunctions.put("groupId", MBDiscussion::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<MBDiscussion, Long>)MBDiscussion::setGroupId);
-		attributeGetterFunctions.put("companyId", MBDiscussion::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<MBDiscussion, Long>)MBDiscussion::setCompanyId);
-		attributeGetterFunctions.put("userId", MBDiscussion::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<MBDiscussion, Long>)MBDiscussion::setUserId);
-		attributeGetterFunctions.put("userName", MBDiscussion::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<MBDiscussion, String>)MBDiscussion::setUserName);
-		attributeGetterFunctions.put("createDate", MBDiscussion::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<MBDiscussion, Date>)MBDiscussion::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", MBDiscussion::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<MBDiscussion, Date>)MBDiscussion::setModifiedDate);
-		attributeGetterFunctions.put(
-			"classNameId", MBDiscussion::getClassNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<MBDiscussion, Long>)MBDiscussion::setClassNameId);
-		attributeGetterFunctions.put("classPK", MBDiscussion::getClassPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<MBDiscussion, Long>)MBDiscussion::setClassPK);
-		attributeGetterFunctions.put("threadId", MBDiscussion::getThreadId);
 		attributeSetterBiConsumers.put(
 			"threadId",
 			(BiConsumer<MBDiscussion, Long>)MBDiscussion::setThreadId);
-		attributeGetterFunctions.put(
-			"lastPublishDate", MBDiscussion::getLastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<MBDiscussion, Date>)MBDiscussion::setLastPublishDate);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

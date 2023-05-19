@@ -207,55 +207,61 @@ public class DDMDataProviderInstanceLinkModelImpl
 	private static final Map
 		<String, Function<DDMDataProviderInstanceLink, Object>>
 			_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<DDMDataProviderInstanceLink, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<DDMDataProviderInstanceLink, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<DDMDataProviderInstanceLink, Object>>();
+
+		attributeGetterFunctions.put(
+			"mvccVersion", DDMDataProviderInstanceLink::getMvccVersion);
+		attributeGetterFunctions.put(
+			"dataProviderInstanceLinkId",
+			DDMDataProviderInstanceLink::getDataProviderInstanceLinkId);
+		attributeGetterFunctions.put(
+			"companyId", DDMDataProviderInstanceLink::getCompanyId);
+		attributeGetterFunctions.put(
+			"dataProviderInstanceId",
+			DDMDataProviderInstanceLink::getDataProviderInstanceId);
+		attributeGetterFunctions.put(
+			"structureId", DDMDataProviderInstanceLink::getStructureId);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<DDMDataProviderInstanceLink, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<DDMDataProviderInstanceLink, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<DDMDataProviderInstanceLink, ?>>();
 
-		attributeGetterFunctions.put(
-			"mvccVersion", DDMDataProviderInstanceLink::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<DDMDataProviderInstanceLink, Long>)
 				DDMDataProviderInstanceLink::setMvccVersion);
-		attributeGetterFunctions.put(
-			"dataProviderInstanceLinkId",
-			DDMDataProviderInstanceLink::getDataProviderInstanceLinkId);
 		attributeSetterBiConsumers.put(
 			"dataProviderInstanceLinkId",
 			(BiConsumer<DDMDataProviderInstanceLink, Long>)
 				DDMDataProviderInstanceLink::setDataProviderInstanceLinkId);
-		attributeGetterFunctions.put(
-			"companyId", DDMDataProviderInstanceLink::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<DDMDataProviderInstanceLink, Long>)
 				DDMDataProviderInstanceLink::setCompanyId);
-		attributeGetterFunctions.put(
-			"dataProviderInstanceId",
-			DDMDataProviderInstanceLink::getDataProviderInstanceId);
 		attributeSetterBiConsumers.put(
 			"dataProviderInstanceId",
 			(BiConsumer<DDMDataProviderInstanceLink, Long>)
 				DDMDataProviderInstanceLink::setDataProviderInstanceId);
-		attributeGetterFunctions.put(
-			"structureId", DDMDataProviderInstanceLink::getStructureId);
 		attributeSetterBiConsumers.put(
 			"structureId",
 			(BiConsumer<DDMDataProviderInstanceLink, Long>)
 				DDMDataProviderInstanceLink::setStructureId);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

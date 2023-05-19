@@ -322,13 +322,7 @@ public class AssetCategoryLocalServiceUtil {
 		return getService().fetchAssetCategory(categoryId);
 	}
 
-	/**
-	 * Returns the asset category with the matching external reference code and company.
-	 *
-	 * @param companyId the primary key of the company
-	 * @param externalReferenceCode the asset category's external reference code
-	 * @return the matching asset category, or <code>null</code> if a matching asset category could not be found
-	 */
+	@Deprecated
 	public static AssetCategory fetchAssetCategoryByExternalReferenceCode(
 		long companyId, String externalReferenceCode) {
 
@@ -336,9 +330,6 @@ public class AssetCategoryLocalServiceUtil {
 			companyId, externalReferenceCode);
 	}
 
-	/**
-	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #fetchAssetCategoryByExternalReferenceCode(long, String)}
-	 */
 	@Deprecated
 	public static AssetCategory fetchAssetCategoryByReferenceCode(
 		long companyId, String externalReferenceCode) {
@@ -446,14 +437,7 @@ public class AssetCategoryLocalServiceUtil {
 		return getService().getAssetCategory(categoryId);
 	}
 
-	/**
-	 * Returns the asset category with the matching external reference code and company.
-	 *
-	 * @param companyId the primary key of the company
-	 * @param externalReferenceCode the asset category's external reference code
-	 * @return the matching asset category
-	 * @throws PortalException if a matching asset category could not be found
-	 */
+	@Deprecated
 	public static AssetCategory getAssetCategoryByExternalReferenceCode(
 			long companyId, String externalReferenceCode)
 		throws PortalException {
@@ -786,6 +770,10 @@ public class AssetCategoryLocalServiceUtil {
 
 	public static AssetCategoryLocalService getService() {
 		return _service;
+	}
+
+	public static void setService(AssetCategoryLocalService service) {
+		_service = service;
 	}
 
 	private static volatile AssetCategoryLocalService _service;

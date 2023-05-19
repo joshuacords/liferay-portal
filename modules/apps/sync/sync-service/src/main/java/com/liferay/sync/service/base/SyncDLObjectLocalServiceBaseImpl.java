@@ -49,8 +49,6 @@ import com.liferay.sync.service.persistence.SyncDevicePersistence;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -361,7 +359,7 @@ public abstract class SyncDLObjectLocalServiceBaseImpl
 
 	@Deactivate
 	protected void deactivate() {
-		_setLocalServiceUtilService(null);
+		SyncDLObjectLocalServiceUtil.setService(null);
 	}
 
 	@Override
@@ -376,7 +374,7 @@ public abstract class SyncDLObjectLocalServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		syncDLObjectLocalService = (SyncDLObjectLocalService)aopProxy;
 
-		_setLocalServiceUtilService(syncDLObjectLocalService);
+		SyncDLObjectLocalServiceUtil.setService(syncDLObjectLocalService);
 	}
 
 	/**
@@ -418,22 +416,6 @@ public abstract class SyncDLObjectLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		SyncDLObjectLocalService syncDLObjectLocalService) {
-
-		try {
-			Field field = SyncDLObjectLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, syncDLObjectLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

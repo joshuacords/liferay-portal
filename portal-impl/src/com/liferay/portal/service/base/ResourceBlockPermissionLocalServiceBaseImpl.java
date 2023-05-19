@@ -48,8 +48,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -525,14 +523,15 @@ public abstract class ResourceBlockPermissionLocalServiceBaseImpl
 			"com.liferay.portal.kernel.model.ResourceBlockPermission",
 			resourceBlockPermissionLocalService);
 
-		_setLocalServiceUtilService(resourceBlockPermissionLocalService);
+		ResourceBlockPermissionLocalServiceUtil.setService(
+			resourceBlockPermissionLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"com.liferay.portal.kernel.model.ResourceBlockPermission");
 
-		_setLocalServiceUtilService(null);
+		ResourceBlockPermissionLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -575,24 +574,6 @@ public abstract class ResourceBlockPermissionLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		ResourceBlockPermissionLocalService
-			resourceBlockPermissionLocalService) {
-
-		try {
-			Field field =
-				ResourceBlockPermissionLocalServiceUtil.class.getDeclaredField(
-					"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, resourceBlockPermissionLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

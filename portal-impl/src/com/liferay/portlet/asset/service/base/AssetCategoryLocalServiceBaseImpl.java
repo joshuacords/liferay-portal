@@ -59,8 +59,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -257,13 +255,7 @@ public abstract class AssetCategoryLocalServiceBaseImpl
 		return assetCategoryPersistence.fetchByUUID_G(uuid, groupId);
 	}
 
-	/**
-	 * Returns the asset category with the matching external reference code and company.
-	 *
-	 * @param companyId the primary key of the company
-	 * @param externalReferenceCode the asset category's external reference code
-	 * @return the matching asset category, or <code>null</code> if a matching asset category could not be found
-	 */
+	@Deprecated
 	@Override
 	public AssetCategory fetchAssetCategoryByExternalReferenceCode(
 		long companyId, String externalReferenceCode) {
@@ -272,9 +264,6 @@ public abstract class AssetCategoryLocalServiceBaseImpl
 			companyId, externalReferenceCode);
 	}
 
-	/**
-	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #fetchAssetCategoryByExternalReferenceCode(long, String)}
-	 */
 	@Deprecated
 	@Override
 	public AssetCategory fetchAssetCategoryByReferenceCode(
@@ -284,14 +273,7 @@ public abstract class AssetCategoryLocalServiceBaseImpl
 			companyId, externalReferenceCode);
 	}
 
-	/**
-	 * Returns the asset category with the matching external reference code and company.
-	 *
-	 * @param companyId the primary key of the company
-	 * @param externalReferenceCode the asset category's external reference code
-	 * @return the matching asset category
-	 * @throws PortalException if a matching asset category could not be found
-	 */
+	@Deprecated
 	@Override
 	public AssetCategory getAssetCategoryByExternalReferenceCode(
 			long companyId, String externalReferenceCode)
@@ -955,14 +937,14 @@ public abstract class AssetCategoryLocalServiceBaseImpl
 			"com.liferay.asset.kernel.model.AssetCategory",
 			assetCategoryLocalService);
 
-		_setLocalServiceUtilService(assetCategoryLocalService);
+		AssetCategoryLocalServiceUtil.setService(assetCategoryLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"com.liferay.asset.kernel.model.AssetCategory");
 
-		_setLocalServiceUtilService(null);
+		AssetCategoryLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -1004,22 +986,6 @@ public abstract class AssetCategoryLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		AssetCategoryLocalService assetCategoryLocalService) {
-
-		try {
-			Field field = AssetCategoryLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, assetCategoryLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

@@ -3044,6 +3044,10 @@ public class SegmentsEntryUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(SegmentsEntryPersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile SegmentsEntryPersistence _persistence;
 
 }

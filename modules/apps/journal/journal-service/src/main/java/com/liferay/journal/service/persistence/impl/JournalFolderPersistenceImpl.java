@@ -51,7 +51,6 @@ import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
@@ -8489,34 +8488,18 @@ public class JournalFolderPersistenceImpl
 				Long.class.getName(), Integer.class.getName()
 			});
 
-		_setJournalFolderUtilPersistence(this);
+		JournalFolderUtil.setPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
-		_setJournalFolderUtilPersistence(null);
+		JournalFolderUtil.setPersistence(null);
 
 		entityCache.removeCache(JournalFolderImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setJournalFolderUtilPersistence(
-		JournalFolderPersistence journalFolderPersistence) {
-
-		try {
-			Field field = JournalFolderUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, journalFolderPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@Override

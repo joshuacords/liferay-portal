@@ -141,6 +141,10 @@ public class ContactServiceUtil {
 		return _service;
 	}
 
+	public static void setService(ContactService service) {
+		_service = service;
+	}
+
 	private static volatile ContactService _service;
 
 }

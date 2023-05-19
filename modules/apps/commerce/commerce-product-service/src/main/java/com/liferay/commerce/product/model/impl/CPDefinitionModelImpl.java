@@ -430,14 +430,10 @@ public class CPDefinitionModelImpl
 
 	private static final Map<String, Function<CPDefinition, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CPDefinition, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CPDefinition, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<CPDefinition, Object>>();
-		Map<String, BiConsumer<CPDefinition, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<CPDefinition, ?>>();
 
 		attributeGetterFunctions.put(
 			"uuid",
@@ -449,6 +445,468 @@ public class CPDefinitionModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"defaultLanguageId",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getDefaultLanguageId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"CPDefinitionId",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getCPDefinitionId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"groupId",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getGroupId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"CProductId",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getCProductId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"CPTaxCategoryId",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getCPTaxCategoryId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"productTypeName",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getProductTypeName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"availableIndividually",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getAvailableIndividually();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"ignoreSKUCombinations",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getIgnoreSKUCombinations();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"shippable",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getShippable();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"freeShipping",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getFreeShipping();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"shipSeparately",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getShipSeparately();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"shippingExtraPrice",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getShippingExtraPrice();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"width",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getWidth();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"height",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getHeight();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"depth",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getDepth();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"weight",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getWeight();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"taxExempt",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getTaxExempt();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"telcoOrElectronics",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getTelcoOrElectronics();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"DDMStructureKey",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getDDMStructureKey();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"published",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getPublished();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"displayDate",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getDisplayDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"expirationDate",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getExpirationDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"lastPublishDate",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getLastPublishDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"subscriptionEnabled",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getSubscriptionEnabled();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"subscriptionLength",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getSubscriptionLength();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"subscriptionType",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getSubscriptionType();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"subscriptionTypeSettings",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getSubscriptionTypeSettings();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"maxSubscriptionCycles",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getMaxSubscriptionCycles();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"deliverySubscriptionEnabled",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getDeliverySubscriptionEnabled();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"deliverySubscriptionLength",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getDeliverySubscriptionLength();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"deliverySubscriptionType",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getDeliverySubscriptionType();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"deliverySubscriptionTypeSettings",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getDeliverySubscriptionTypeSettings();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"deliveryMaxSubscriptionCycles",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getDeliveryMaxSubscriptionCycles();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"accountGroupFilterEnabled",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getAccountGroupFilterEnabled();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"channelFilterEnabled",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getChannelFilterEnabled();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"version",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getVersion();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"status",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getStatus();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"statusByUserId",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getStatusByUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"statusByUserName",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getStatusByUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"statusDate",
+			new Function<CPDefinition, Object>() {
+
+				@Override
+				public Object apply(CPDefinition cpDefinition) {
+					return cpDefinition.getStatusDate();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<CPDefinition, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CPDefinition, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<CPDefinition, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"uuid",
 			new BiConsumer<CPDefinition, Object>() {
@@ -458,16 +916,6 @@ public class CPDefinitionModelImpl
 					CPDefinition cpDefinition, Object uuidObject) {
 
 					cpDefinition.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"defaultLanguageId",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getDefaultLanguageId();
 				}
 
 			});
@@ -484,16 +932,6 @@ public class CPDefinitionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"CPDefinitionId",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getCPDefinitionId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"CPDefinitionId",
 			new BiConsumer<CPDefinition, Object>() {
@@ -503,16 +941,6 @@ public class CPDefinitionModelImpl
 					CPDefinition cpDefinition, Object CPDefinitionIdObject) {
 
 					cpDefinition.setCPDefinitionId((Long)CPDefinitionIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getGroupId();
 				}
 
 			});
@@ -528,16 +956,6 @@ public class CPDefinitionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getCompanyId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"companyId",
 			new BiConsumer<CPDefinition, Object>() {
@@ -547,16 +965,6 @@ public class CPDefinitionModelImpl
 					CPDefinition cpDefinition, Object companyIdObject) {
 
 					cpDefinition.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getUserId();
 				}
 
 			});
@@ -572,16 +980,6 @@ public class CPDefinitionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getUserName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userName",
 			new BiConsumer<CPDefinition, Object>() {
@@ -591,16 +989,6 @@ public class CPDefinitionModelImpl
 					CPDefinition cpDefinition, Object userNameObject) {
 
 					cpDefinition.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getCreateDate();
 				}
 
 			});
@@ -616,16 +1004,6 @@ public class CPDefinitionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getModifiedDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			new BiConsumer<CPDefinition, Object>() {
@@ -638,16 +1016,6 @@ public class CPDefinitionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"CProductId",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getCProductId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"CProductId",
 			new BiConsumer<CPDefinition, Object>() {
@@ -657,16 +1025,6 @@ public class CPDefinitionModelImpl
 					CPDefinition cpDefinition, Object CProductIdObject) {
 
 					cpDefinition.setCProductId((Long)CProductIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"CPTaxCategoryId",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getCPTaxCategoryId();
 				}
 
 			});
@@ -683,16 +1041,6 @@ public class CPDefinitionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"productTypeName",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getProductTypeName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"productTypeName",
 			new BiConsumer<CPDefinition, Object>() {
@@ -703,16 +1051,6 @@ public class CPDefinitionModelImpl
 
 					cpDefinition.setProductTypeName(
 						(String)productTypeNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"availableIndividually",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getAvailableIndividually();
 				}
 
 			});
@@ -730,16 +1068,6 @@ public class CPDefinitionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"ignoreSKUCombinations",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getIgnoreSKUCombinations();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"ignoreSKUCombinations",
 			new BiConsumer<CPDefinition, Object>() {
@@ -751,16 +1079,6 @@ public class CPDefinitionModelImpl
 
 					cpDefinition.setIgnoreSKUCombinations(
 						(Boolean)ignoreSKUCombinationsObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"shippable",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getShippable();
 				}
 
 			});
@@ -776,16 +1094,6 @@ public class CPDefinitionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"freeShipping",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getFreeShipping();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"freeShipping",
 			new BiConsumer<CPDefinition, Object>() {
@@ -795,16 +1103,6 @@ public class CPDefinitionModelImpl
 					CPDefinition cpDefinition, Object freeShippingObject) {
 
 					cpDefinition.setFreeShipping((Boolean)freeShippingObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"shipSeparately",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getShipSeparately();
 				}
 
 			});
@@ -818,16 +1116,6 @@ public class CPDefinitionModelImpl
 
 					cpDefinition.setShipSeparately(
 						(Boolean)shipSeparatelyObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"shippingExtraPrice",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getShippingExtraPrice();
 				}
 
 			});
@@ -845,16 +1133,6 @@ public class CPDefinitionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"width",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getWidth();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"width",
 			new BiConsumer<CPDefinition, Object>() {
@@ -864,16 +1142,6 @@ public class CPDefinitionModelImpl
 					CPDefinition cpDefinition, Object widthObject) {
 
 					cpDefinition.setWidth((Double)widthObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"height",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getHeight();
 				}
 
 			});
@@ -889,16 +1157,6 @@ public class CPDefinitionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"depth",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getDepth();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"depth",
 			new BiConsumer<CPDefinition, Object>() {
@@ -908,16 +1166,6 @@ public class CPDefinitionModelImpl
 					CPDefinition cpDefinition, Object depthObject) {
 
 					cpDefinition.setDepth((Double)depthObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"weight",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getWeight();
 				}
 
 			});
@@ -933,16 +1181,6 @@ public class CPDefinitionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"taxExempt",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getTaxExempt();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"taxExempt",
 			new BiConsumer<CPDefinition, Object>() {
@@ -952,16 +1190,6 @@ public class CPDefinitionModelImpl
 					CPDefinition cpDefinition, Object taxExemptObject) {
 
 					cpDefinition.setTaxExempt((Boolean)taxExemptObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"telcoOrElectronics",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getTelcoOrElectronics();
 				}
 
 			});
@@ -979,16 +1207,6 @@ public class CPDefinitionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"DDMStructureKey",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getDDMStructureKey();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"DDMStructureKey",
 			new BiConsumer<CPDefinition, Object>() {
@@ -999,16 +1217,6 @@ public class CPDefinitionModelImpl
 
 					cpDefinition.setDDMStructureKey(
 						(String)DDMStructureKeyObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"published",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getPublished();
 				}
 
 			});
@@ -1024,16 +1232,6 @@ public class CPDefinitionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"displayDate",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getDisplayDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"displayDate",
 			new BiConsumer<CPDefinition, Object>() {
@@ -1043,16 +1241,6 @@ public class CPDefinitionModelImpl
 					CPDefinition cpDefinition, Object displayDateObject) {
 
 					cpDefinition.setDisplayDate((Date)displayDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"expirationDate",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getExpirationDate();
 				}
 
 			});
@@ -1068,16 +1256,6 @@ public class CPDefinitionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"lastPublishDate",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getLastPublishDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			new BiConsumer<CPDefinition, Object>() {
@@ -1088,16 +1266,6 @@ public class CPDefinitionModelImpl
 
 					cpDefinition.setLastPublishDate(
 						(Date)lastPublishDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"subscriptionEnabled",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getSubscriptionEnabled();
 				}
 
 			});
@@ -1115,16 +1283,6 @@ public class CPDefinitionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"subscriptionLength",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getSubscriptionLength();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"subscriptionLength",
 			new BiConsumer<CPDefinition, Object>() {
@@ -1139,16 +1297,6 @@ public class CPDefinitionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"subscriptionType",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getSubscriptionType();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"subscriptionType",
 			new BiConsumer<CPDefinition, Object>() {
@@ -1159,16 +1307,6 @@ public class CPDefinitionModelImpl
 
 					cpDefinition.setSubscriptionType(
 						(String)subscriptionTypeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"subscriptionTypeSettings",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getSubscriptionTypeSettings();
 				}
 
 			});
@@ -1186,16 +1324,6 @@ public class CPDefinitionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"maxSubscriptionCycles",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getMaxSubscriptionCycles();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"maxSubscriptionCycles",
 			new BiConsumer<CPDefinition, Object>() {
@@ -1207,16 +1335,6 @@ public class CPDefinitionModelImpl
 
 					cpDefinition.setMaxSubscriptionCycles(
 						(Long)maxSubscriptionCyclesObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"deliverySubscriptionEnabled",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getDeliverySubscriptionEnabled();
 				}
 
 			});
@@ -1234,16 +1352,6 @@ public class CPDefinitionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"deliverySubscriptionLength",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getDeliverySubscriptionLength();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"deliverySubscriptionLength",
 			new BiConsumer<CPDefinition, Object>() {
@@ -1255,16 +1363,6 @@ public class CPDefinitionModelImpl
 
 					cpDefinition.setDeliverySubscriptionLength(
 						(Integer)deliverySubscriptionLengthObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"deliverySubscriptionType",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getDeliverySubscriptionType();
 				}
 
 			});
@@ -1282,16 +1380,6 @@ public class CPDefinitionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"deliverySubscriptionTypeSettings",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getDeliverySubscriptionTypeSettings();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"deliverySubscriptionTypeSettings",
 			new BiConsumer<CPDefinition, Object>() {
@@ -1303,16 +1391,6 @@ public class CPDefinitionModelImpl
 
 					cpDefinition.setDeliverySubscriptionTypeSettings(
 						(String)deliverySubscriptionTypeSettingsObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"deliveryMaxSubscriptionCycles",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getDeliveryMaxSubscriptionCycles();
 				}
 
 			});
@@ -1330,16 +1408,6 @@ public class CPDefinitionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"accountGroupFilterEnabled",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getAccountGroupFilterEnabled();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"accountGroupFilterEnabled",
 			new BiConsumer<CPDefinition, Object>() {
@@ -1351,16 +1419,6 @@ public class CPDefinitionModelImpl
 
 					cpDefinition.setAccountGroupFilterEnabled(
 						(Boolean)accountGroupFilterEnabledObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"channelFilterEnabled",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getChannelFilterEnabled();
 				}
 
 			});
@@ -1378,16 +1436,6 @@ public class CPDefinitionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"version",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getVersion();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"version",
 			new BiConsumer<CPDefinition, Object>() {
@@ -1397,16 +1445,6 @@ public class CPDefinitionModelImpl
 					CPDefinition cpDefinition, Object versionObject) {
 
 					cpDefinition.setVersion((Integer)versionObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getStatus();
 				}
 
 			});
@@ -1422,16 +1460,6 @@ public class CPDefinitionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"statusByUserId",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getStatusByUserId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"statusByUserId",
 			new BiConsumer<CPDefinition, Object>() {
@@ -1441,16 +1469,6 @@ public class CPDefinitionModelImpl
 					CPDefinition cpDefinition, Object statusByUserIdObject) {
 
 					cpDefinition.setStatusByUserId((Long)statusByUserIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"statusByUserName",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getStatusByUserName();
 				}
 
 			});
@@ -1467,16 +1485,6 @@ public class CPDefinitionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"statusDate",
-			new Function<CPDefinition, Object>() {
-
-				@Override
-				public Object apply(CPDefinition cpDefinition) {
-					return cpDefinition.getStatusDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"statusDate",
 			new BiConsumer<CPDefinition, Object>() {
@@ -1490,8 +1498,6 @@ public class CPDefinitionModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

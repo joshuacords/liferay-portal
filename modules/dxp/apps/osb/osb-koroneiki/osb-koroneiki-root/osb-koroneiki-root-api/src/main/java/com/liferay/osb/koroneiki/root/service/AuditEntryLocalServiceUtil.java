@@ -324,6 +324,10 @@ public class AuditEntryLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(AuditEntryLocalService service) {
+		_service = service;
+	}
+
 	private static volatile AuditEntryLocalService _service;
 
 }

@@ -2237,6 +2237,12 @@ public class ProductConsumptionUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(
+		ProductConsumptionPersistence persistence) {
+
+		_persistence = persistence;
+	}
+
 	private static volatile ProductConsumptionPersistence _persistence;
 
 }

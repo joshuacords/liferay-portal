@@ -47,7 +47,6 @@ import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
@@ -2201,34 +2200,18 @@ public class ServiceProducerPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
 			"countByAuthorizationUserId", new String[] {Long.class.getName()});
 
-		_setServiceProducerUtilPersistence(this);
+		ServiceProducerUtil.setPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
-		_setServiceProducerUtilPersistence(null);
+		ServiceProducerUtil.setPersistence(null);
 
 		entityCache.removeCache(ServiceProducerImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setServiceProducerUtilPersistence(
-		ServiceProducerPersistence serviceProducerPersistence) {
-
-		try {
-			Field field = ServiceProducerUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, serviceProducerPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@Override

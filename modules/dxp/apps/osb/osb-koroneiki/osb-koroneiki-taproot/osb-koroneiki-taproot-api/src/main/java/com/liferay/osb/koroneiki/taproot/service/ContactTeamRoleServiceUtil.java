@@ -71,6 +71,10 @@ public class ContactTeamRoleServiceUtil {
 		return _service;
 	}
 
+	public static void setService(ContactTeamRoleService service) {
+		_service = service;
+	}
+
 	private static volatile ContactTeamRoleService _service;
 
 }

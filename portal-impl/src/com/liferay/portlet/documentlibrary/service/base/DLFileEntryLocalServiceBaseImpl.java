@@ -77,8 +77,6 @@ import com.liferay.ratings.kernel.service.persistence.RatingsStatsPersistence;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -1442,14 +1440,14 @@ public abstract class DLFileEntryLocalServiceBaseImpl
 			"com.liferay.document.library.kernel.model.DLFileEntry",
 			dlFileEntryLocalService);
 
-		_setLocalServiceUtilService(dlFileEntryLocalService);
+		DLFileEntryLocalServiceUtil.setService(dlFileEntryLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"com.liferay.document.library.kernel.model.DLFileEntry");
 
-		_setLocalServiceUtilService(null);
+		DLFileEntryLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -1491,22 +1489,6 @@ public abstract class DLFileEntryLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		DLFileEntryLocalService dlFileEntryLocalService) {
-
-		try {
-			Field field = DLFileEntryLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, dlFileEntryLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

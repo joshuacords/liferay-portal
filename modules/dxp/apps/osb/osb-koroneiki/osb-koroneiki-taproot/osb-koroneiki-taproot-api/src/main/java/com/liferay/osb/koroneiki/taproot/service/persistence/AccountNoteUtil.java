@@ -1191,6 +1191,10 @@ public class AccountNoteUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(AccountNotePersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile AccountNotePersistence _persistence;
 
 }

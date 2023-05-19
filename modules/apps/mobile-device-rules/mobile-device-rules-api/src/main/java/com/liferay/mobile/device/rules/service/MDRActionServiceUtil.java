@@ -113,6 +113,10 @@ public class MDRActionServiceUtil {
 		return _service;
 	}
 
+	public static void setService(MDRActionService service) {
+		_service = service;
+	}
+
 	private static volatile MDRActionService _service;
 
 }

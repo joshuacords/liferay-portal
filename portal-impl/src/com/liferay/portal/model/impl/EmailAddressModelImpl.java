@@ -296,71 +296,77 @@ public class EmailAddressModelImpl
 
 	private static final Map<String, Function<EmailAddress, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<EmailAddress, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<EmailAddress, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<EmailAddress, Object>>();
-		Map<String, BiConsumer<EmailAddress, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<EmailAddress, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", EmailAddress::getMvccVersion);
+		attributeGetterFunctions.put("uuid", EmailAddress::getUuid);
+		attributeGetterFunctions.put(
+			"emailAddressId", EmailAddress::getEmailAddressId);
+		attributeGetterFunctions.put("companyId", EmailAddress::getCompanyId);
+		attributeGetterFunctions.put("userId", EmailAddress::getUserId);
+		attributeGetterFunctions.put("userName", EmailAddress::getUserName);
+		attributeGetterFunctions.put("createDate", EmailAddress::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", EmailAddress::getModifiedDate);
+		attributeGetterFunctions.put(
+			"classNameId", EmailAddress::getClassNameId);
+		attributeGetterFunctions.put("classPK", EmailAddress::getClassPK);
+		attributeGetterFunctions.put("address", EmailAddress::getAddress);
+		attributeGetterFunctions.put("typeId", EmailAddress::getTypeId);
+		attributeGetterFunctions.put("primary", EmailAddress::getPrimary);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<EmailAddress, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<EmailAddress, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<EmailAddress, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<EmailAddress, Long>)EmailAddress::setMvccVersion);
-		attributeGetterFunctions.put("uuid", EmailAddress::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<EmailAddress, String>)EmailAddress::setUuid);
-		attributeGetterFunctions.put(
-			"emailAddressId", EmailAddress::getEmailAddressId);
 		attributeSetterBiConsumers.put(
 			"emailAddressId",
 			(BiConsumer<EmailAddress, Long>)EmailAddress::setEmailAddressId);
-		attributeGetterFunctions.put("companyId", EmailAddress::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<EmailAddress, Long>)EmailAddress::setCompanyId);
-		attributeGetterFunctions.put("userId", EmailAddress::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<EmailAddress, Long>)EmailAddress::setUserId);
-		attributeGetterFunctions.put("userName", EmailAddress::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<EmailAddress, String>)EmailAddress::setUserName);
-		attributeGetterFunctions.put("createDate", EmailAddress::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<EmailAddress, Date>)EmailAddress::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", EmailAddress::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<EmailAddress, Date>)EmailAddress::setModifiedDate);
-		attributeGetterFunctions.put(
-			"classNameId", EmailAddress::getClassNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<EmailAddress, Long>)EmailAddress::setClassNameId);
-		attributeGetterFunctions.put("classPK", EmailAddress::getClassPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<EmailAddress, Long>)EmailAddress::setClassPK);
-		attributeGetterFunctions.put("address", EmailAddress::getAddress);
 		attributeSetterBiConsumers.put(
 			"address",
 			(BiConsumer<EmailAddress, String>)EmailAddress::setAddress);
-		attributeGetterFunctions.put("typeId", EmailAddress::getTypeId);
 		attributeSetterBiConsumers.put(
 			"typeId", (BiConsumer<EmailAddress, Long>)EmailAddress::setTypeId);
-		attributeGetterFunctions.put("primary", EmailAddress::getPrimary);
 		attributeSetterBiConsumers.put(
 			"primary",
 			(BiConsumer<EmailAddress, Boolean>)EmailAddress::setPrimary);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

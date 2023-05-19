@@ -340,6 +340,10 @@ public class AuditEventLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(AuditEventLocalService service) {
+		_service = service;
+	}
+
 	private static volatile AuditEventLocalService _service;
 
 }

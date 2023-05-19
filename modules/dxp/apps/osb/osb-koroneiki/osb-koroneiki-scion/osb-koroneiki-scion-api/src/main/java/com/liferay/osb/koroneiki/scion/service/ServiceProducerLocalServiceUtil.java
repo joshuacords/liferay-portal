@@ -345,6 +345,10 @@ public class ServiceProducerLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(ServiceProducerLocalService service) {
+		_service = service;
+	}
+
 	private static volatile ServiceProducerLocalService _service;
 
 }

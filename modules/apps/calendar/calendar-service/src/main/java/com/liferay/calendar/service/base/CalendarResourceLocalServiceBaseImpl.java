@@ -60,8 +60,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -541,7 +539,7 @@ public abstract class CalendarResourceLocalServiceBaseImpl
 
 	@Deactivate
 	protected void deactivate() {
-		_setLocalServiceUtilService(null);
+		CalendarResourceLocalServiceUtil.setService(null);
 	}
 
 	@Override
@@ -556,7 +554,8 @@ public abstract class CalendarResourceLocalServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		calendarResourceLocalService = (CalendarResourceLocalService)aopProxy;
 
-		_setLocalServiceUtilService(calendarResourceLocalService);
+		CalendarResourceLocalServiceUtil.setService(
+			calendarResourceLocalService);
 	}
 
 	/**
@@ -598,23 +597,6 @@ public abstract class CalendarResourceLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		CalendarResourceLocalService calendarResourceLocalService) {
-
-		try {
-			Field field =
-				CalendarResourceLocalServiceUtil.class.getDeclaredField(
-					"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, calendarResourceLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

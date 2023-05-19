@@ -50,7 +50,6 @@ import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
@@ -4313,34 +4312,18 @@ public class FragmentCollectionPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "countByG_LikeN",
 			new String[] {Long.class.getName(), String.class.getName()});
 
-		_setFragmentCollectionUtilPersistence(this);
+		FragmentCollectionUtil.setPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
-		_setFragmentCollectionUtilPersistence(null);
+		FragmentCollectionUtil.setPersistence(null);
 
 		entityCache.removeCache(FragmentCollectionImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setFragmentCollectionUtilPersistence(
-		FragmentCollectionPersistence fragmentCollectionPersistence) {
-
-		try {
-			Field field = FragmentCollectionUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, fragmentCollectionPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@Override

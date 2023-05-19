@@ -637,6 +637,12 @@ public class FriendlyURLEntryLocalizationUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(
+		FriendlyURLEntryLocalizationPersistence persistence) {
+
+		_persistence = persistence;
+	}
+
 	private static volatile FriendlyURLEntryLocalizationPersistence
 		_persistence;
 

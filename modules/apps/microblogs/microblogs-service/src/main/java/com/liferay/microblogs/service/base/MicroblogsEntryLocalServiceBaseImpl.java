@@ -47,8 +47,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -366,7 +364,7 @@ public abstract class MicroblogsEntryLocalServiceBaseImpl
 
 	@Deactivate
 	protected void deactivate() {
-		_setLocalServiceUtilService(null);
+		MicroblogsEntryLocalServiceUtil.setService(null);
 	}
 
 	@Override
@@ -381,7 +379,7 @@ public abstract class MicroblogsEntryLocalServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		microblogsEntryLocalService = (MicroblogsEntryLocalService)aopProxy;
 
-		_setLocalServiceUtilService(microblogsEntryLocalService);
+		MicroblogsEntryLocalServiceUtil.setService(microblogsEntryLocalService);
 	}
 
 	/**
@@ -423,23 +421,6 @@ public abstract class MicroblogsEntryLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		MicroblogsEntryLocalService microblogsEntryLocalService) {
-
-		try {
-			Field field =
-				MicroblogsEntryLocalServiceUtil.class.getDeclaredField(
-					"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, microblogsEntryLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

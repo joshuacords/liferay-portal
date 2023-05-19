@@ -58,8 +58,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -546,7 +544,7 @@ public abstract class CalendarNotificationTemplateLocalServiceBaseImpl
 
 	@Deactivate
 	protected void deactivate() {
-		_setLocalServiceUtilService(null);
+		CalendarNotificationTemplateLocalServiceUtil.setService(null);
 	}
 
 	@Override
@@ -562,7 +560,8 @@ public abstract class CalendarNotificationTemplateLocalServiceBaseImpl
 		calendarNotificationTemplateLocalService =
 			(CalendarNotificationTemplateLocalService)aopProxy;
 
-		_setLocalServiceUtilService(calendarNotificationTemplateLocalService);
+		CalendarNotificationTemplateLocalServiceUtil.setService(
+			calendarNotificationTemplateLocalService);
 	}
 
 	/**
@@ -605,24 +604,6 @@ public abstract class CalendarNotificationTemplateLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		CalendarNotificationTemplateLocalService
-			calendarNotificationTemplateLocalService) {
-
-		try {
-			Field field =
-				CalendarNotificationTemplateLocalServiceUtil.class.
-					getDeclaredField("_service");
-
-			field.setAccessible(true);
-
-			field.set(null, calendarNotificationTemplateLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

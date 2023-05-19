@@ -338,19 +338,12 @@ public class CommerceMLForecastAlertEntryModelImpl
 	private static final Map
 		<String, Function<CommerceMLForecastAlertEntry, Object>>
 			_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<CommerceMLForecastAlertEntry, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommerceMLForecastAlertEntry, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<CommerceMLForecastAlertEntry, Object>>();
-		Map<String, BiConsumer<CommerceMLForecastAlertEntry, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String, BiConsumer<CommerceMLForecastAlertEntry, ?>>();
 
 		attributeGetterFunctions.put(
 			"uuid",
@@ -364,19 +357,6 @@ public class CommerceMLForecastAlertEntryModelImpl
 				}
 
 			});
-		attributeSetterBiConsumers.put(
-			"uuid",
-			new BiConsumer<CommerceMLForecastAlertEntry, Object>() {
-
-				@Override
-				public void accept(
-					CommerceMLForecastAlertEntry commerceMLForecastAlertEntry,
-					Object uuidObject) {
-
-					commerceMLForecastAlertEntry.setUuid((String)uuidObject);
-				}
-
-			});
 		attributeGetterFunctions.put(
 			"commerceMLForecastAlertEntryId",
 			new Function<CommerceMLForecastAlertEntry, Object>() {
@@ -387,6 +367,166 @@ public class CommerceMLForecastAlertEntryModelImpl
 
 					return commerceMLForecastAlertEntry.
 						getCommerceMLForecastAlertEntryId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommerceMLForecastAlertEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceMLForecastAlertEntry commerceMLForecastAlertEntry) {
+
+					return commerceMLForecastAlertEntry.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommerceMLForecastAlertEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceMLForecastAlertEntry commerceMLForecastAlertEntry) {
+
+					return commerceMLForecastAlertEntry.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommerceMLForecastAlertEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceMLForecastAlertEntry commerceMLForecastAlertEntry) {
+
+					return commerceMLForecastAlertEntry.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommerceMLForecastAlertEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceMLForecastAlertEntry commerceMLForecastAlertEntry) {
+
+					return commerceMLForecastAlertEntry.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommerceMLForecastAlertEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceMLForecastAlertEntry commerceMLForecastAlertEntry) {
+
+					return commerceMLForecastAlertEntry.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceAccountId",
+			new Function<CommerceMLForecastAlertEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceMLForecastAlertEntry commerceMLForecastAlertEntry) {
+
+					return commerceMLForecastAlertEntry.getCommerceAccountId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"actual",
+			new Function<CommerceMLForecastAlertEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceMLForecastAlertEntry commerceMLForecastAlertEntry) {
+
+					return commerceMLForecastAlertEntry.getActual();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"forecast",
+			new Function<CommerceMLForecastAlertEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceMLForecastAlertEntry commerceMLForecastAlertEntry) {
+
+					return commerceMLForecastAlertEntry.getForecast();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"timestamp",
+			new Function<CommerceMLForecastAlertEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceMLForecastAlertEntry commerceMLForecastAlertEntry) {
+
+					return commerceMLForecastAlertEntry.getTimestamp();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"relativeChange",
+			new Function<CommerceMLForecastAlertEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceMLForecastAlertEntry commerceMLForecastAlertEntry) {
+
+					return commerceMLForecastAlertEntry.getRelativeChange();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"status",
+			new Function<CommerceMLForecastAlertEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceMLForecastAlertEntry commerceMLForecastAlertEntry) {
+
+					return commerceMLForecastAlertEntry.getStatus();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<CommerceMLForecastAlertEntry, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommerceMLForecastAlertEntry, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap
+					<String, BiConsumer<CommerceMLForecastAlertEntry, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"uuid",
+			new BiConsumer<CommerceMLForecastAlertEntry, Object>() {
+
+				@Override
+				public void accept(
+					CommerceMLForecastAlertEntry commerceMLForecastAlertEntry,
+					Object uuidObject) {
+
+					commerceMLForecastAlertEntry.setUuid((String)uuidObject);
 				}
 
 			});
@@ -405,18 +545,6 @@ public class CommerceMLForecastAlertEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommerceMLForecastAlertEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceMLForecastAlertEntry commerceMLForecastAlertEntry) {
-
-					return commerceMLForecastAlertEntry.getCompanyId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"companyId",
 			new BiConsumer<CommerceMLForecastAlertEntry, Object>() {
@@ -431,18 +559,6 @@ public class CommerceMLForecastAlertEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommerceMLForecastAlertEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceMLForecastAlertEntry commerceMLForecastAlertEntry) {
-
-					return commerceMLForecastAlertEntry.getUserId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userId",
 			new BiConsumer<CommerceMLForecastAlertEntry, Object>() {
@@ -453,18 +569,6 @@ public class CommerceMLForecastAlertEntryModelImpl
 					Object userIdObject) {
 
 					commerceMLForecastAlertEntry.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommerceMLForecastAlertEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceMLForecastAlertEntry commerceMLForecastAlertEntry) {
-
-					return commerceMLForecastAlertEntry.getUserName();
 				}
 
 			});
@@ -482,18 +586,6 @@ public class CommerceMLForecastAlertEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommerceMLForecastAlertEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceMLForecastAlertEntry commerceMLForecastAlertEntry) {
-
-					return commerceMLForecastAlertEntry.getCreateDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"createDate",
 			new BiConsumer<CommerceMLForecastAlertEntry, Object>() {
@@ -505,18 +597,6 @@ public class CommerceMLForecastAlertEntryModelImpl
 
 					commerceMLForecastAlertEntry.setCreateDate(
 						(Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommerceMLForecastAlertEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceMLForecastAlertEntry commerceMLForecastAlertEntry) {
-
-					return commerceMLForecastAlertEntry.getModifiedDate();
 				}
 
 			});
@@ -534,18 +614,6 @@ public class CommerceMLForecastAlertEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"commerceAccountId",
-			new Function<CommerceMLForecastAlertEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceMLForecastAlertEntry commerceMLForecastAlertEntry) {
-
-					return commerceMLForecastAlertEntry.getCommerceAccountId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"commerceAccountId",
 			new BiConsumer<CommerceMLForecastAlertEntry, Object>() {
@@ -557,18 +625,6 @@ public class CommerceMLForecastAlertEntryModelImpl
 
 					commerceMLForecastAlertEntry.setCommerceAccountId(
 						(Long)commerceAccountIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"actual",
-			new Function<CommerceMLForecastAlertEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceMLForecastAlertEntry commerceMLForecastAlertEntry) {
-
-					return commerceMLForecastAlertEntry.getActual();
 				}
 
 			});
@@ -586,18 +642,6 @@ public class CommerceMLForecastAlertEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"forecast",
-			new Function<CommerceMLForecastAlertEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceMLForecastAlertEntry commerceMLForecastAlertEntry) {
-
-					return commerceMLForecastAlertEntry.getForecast();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"forecast",
 			new BiConsumer<CommerceMLForecastAlertEntry, Object>() {
@@ -609,18 +653,6 @@ public class CommerceMLForecastAlertEntryModelImpl
 
 					commerceMLForecastAlertEntry.setForecast(
 						(Double)forecastObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"timestamp",
-			new Function<CommerceMLForecastAlertEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceMLForecastAlertEntry commerceMLForecastAlertEntry) {
-
-					return commerceMLForecastAlertEntry.getTimestamp();
 				}
 
 			});
@@ -638,18 +670,6 @@ public class CommerceMLForecastAlertEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"relativeChange",
-			new Function<CommerceMLForecastAlertEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceMLForecastAlertEntry commerceMLForecastAlertEntry) {
-
-					return commerceMLForecastAlertEntry.getRelativeChange();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"relativeChange",
 			new BiConsumer<CommerceMLForecastAlertEntry, Object>() {
@@ -661,18 +681,6 @@ public class CommerceMLForecastAlertEntryModelImpl
 
 					commerceMLForecastAlertEntry.setRelativeChange(
 						(Double)relativeChangeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"status",
-			new Function<CommerceMLForecastAlertEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceMLForecastAlertEntry commerceMLForecastAlertEntry) {
-
-					return commerceMLForecastAlertEntry.getStatus();
 				}
 
 			});
@@ -691,8 +699,6 @@ public class CommerceMLForecastAlertEntryModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

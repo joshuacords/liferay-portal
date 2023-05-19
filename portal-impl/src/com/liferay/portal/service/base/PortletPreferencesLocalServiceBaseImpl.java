@@ -54,8 +54,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -713,14 +711,15 @@ public abstract class PortletPreferencesLocalServiceBaseImpl
 			"com.liferay.portal.kernel.model.PortletPreferences",
 			portletPreferencesLocalService);
 
-		_setLocalServiceUtilService(portletPreferencesLocalService);
+		PortletPreferencesLocalServiceUtil.setService(
+			portletPreferencesLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"com.liferay.portal.kernel.model.PortletPreferences");
 
-		_setLocalServiceUtilService(null);
+		PortletPreferencesLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -763,23 +762,6 @@ public abstract class PortletPreferencesLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		PortletPreferencesLocalService portletPreferencesLocalService) {
-
-		try {
-			Field field =
-				PortletPreferencesLocalServiceUtil.class.getDeclaredField(
-					"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, portletPreferencesLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

@@ -207,36 +207,42 @@ public class ExpandoRowModelImpl
 
 	private static final Map<String, Function<ExpandoRow, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<ExpandoRow, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<ExpandoRow, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<ExpandoRow, Object>>();
-		Map<String, BiConsumer<ExpandoRow, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<ExpandoRow, ?>>();
 
 		attributeGetterFunctions.put("rowId", ExpandoRow::getRowId);
-		attributeSetterBiConsumers.put(
-			"rowId", (BiConsumer<ExpandoRow, Long>)ExpandoRow::setRowId);
 		attributeGetterFunctions.put("companyId", ExpandoRow::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId",
-			(BiConsumer<ExpandoRow, Long>)ExpandoRow::setCompanyId);
 		attributeGetterFunctions.put(
 			"modifiedDate", ExpandoRow::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate",
-			(BiConsumer<ExpandoRow, Date>)ExpandoRow::setModifiedDate);
 		attributeGetterFunctions.put("tableId", ExpandoRow::getTableId);
-		attributeSetterBiConsumers.put(
-			"tableId", (BiConsumer<ExpandoRow, Long>)ExpandoRow::setTableId);
 		attributeGetterFunctions.put("classPK", ExpandoRow::getClassPK);
-		attributeSetterBiConsumers.put(
-			"classPK", (BiConsumer<ExpandoRow, Long>)ExpandoRow::setClassPK);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<ExpandoRow, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<ExpandoRow, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<ExpandoRow, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"rowId", (BiConsumer<ExpandoRow, Long>)ExpandoRow::setRowId);
+		attributeSetterBiConsumers.put(
+			"companyId",
+			(BiConsumer<ExpandoRow, Long>)ExpandoRow::setCompanyId);
+		attributeSetterBiConsumers.put(
+			"modifiedDate",
+			(BiConsumer<ExpandoRow, Date>)ExpandoRow::setModifiedDate);
+		attributeSetterBiConsumers.put(
+			"tableId", (BiConsumer<ExpandoRow, Long>)ExpandoRow::setTableId);
+		attributeSetterBiConsumers.put(
+			"classPK", (BiConsumer<ExpandoRow, Long>)ExpandoRow::setClassPK);
+
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

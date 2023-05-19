@@ -234,78 +234,84 @@ public class UserNotificationDeliveryModelImpl
 
 	private static final Map<String, Function<UserNotificationDelivery, Object>>
 		_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<UserNotificationDelivery, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<UserNotificationDelivery, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<UserNotificationDelivery, Object>>();
+
+		attributeGetterFunctions.put(
+			"mvccVersion", UserNotificationDelivery::getMvccVersion);
+		attributeGetterFunctions.put(
+			"userNotificationDeliveryId",
+			UserNotificationDelivery::getUserNotificationDeliveryId);
+		attributeGetterFunctions.put(
+			"companyId", UserNotificationDelivery::getCompanyId);
+		attributeGetterFunctions.put(
+			"userId", UserNotificationDelivery::getUserId);
+		attributeGetterFunctions.put(
+			"portletId", UserNotificationDelivery::getPortletId);
+		attributeGetterFunctions.put(
+			"classNameId", UserNotificationDelivery::getClassNameId);
+		attributeGetterFunctions.put(
+			"notificationType", UserNotificationDelivery::getNotificationType);
+		attributeGetterFunctions.put(
+			"deliveryType", UserNotificationDelivery::getDeliveryType);
+		attributeGetterFunctions.put(
+			"deliver", UserNotificationDelivery::getDeliver);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<UserNotificationDelivery, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<UserNotificationDelivery, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<UserNotificationDelivery, ?>>();
 
-		attributeGetterFunctions.put(
-			"mvccVersion", UserNotificationDelivery::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<UserNotificationDelivery, Long>)
 				UserNotificationDelivery::setMvccVersion);
-		attributeGetterFunctions.put(
-			"userNotificationDeliveryId",
-			UserNotificationDelivery::getUserNotificationDeliveryId);
 		attributeSetterBiConsumers.put(
 			"userNotificationDeliveryId",
 			(BiConsumer<UserNotificationDelivery, Long>)
 				UserNotificationDelivery::setUserNotificationDeliveryId);
-		attributeGetterFunctions.put(
-			"companyId", UserNotificationDelivery::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<UserNotificationDelivery, Long>)
 				UserNotificationDelivery::setCompanyId);
-		attributeGetterFunctions.put(
-			"userId", UserNotificationDelivery::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<UserNotificationDelivery, Long>)
 				UserNotificationDelivery::setUserId);
-		attributeGetterFunctions.put(
-			"portletId", UserNotificationDelivery::getPortletId);
 		attributeSetterBiConsumers.put(
 			"portletId",
 			(BiConsumer<UserNotificationDelivery, String>)
 				UserNotificationDelivery::setPortletId);
-		attributeGetterFunctions.put(
-			"classNameId", UserNotificationDelivery::getClassNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<UserNotificationDelivery, Long>)
 				UserNotificationDelivery::setClassNameId);
-		attributeGetterFunctions.put(
-			"notificationType", UserNotificationDelivery::getNotificationType);
 		attributeSetterBiConsumers.put(
 			"notificationType",
 			(BiConsumer<UserNotificationDelivery, Integer>)
 				UserNotificationDelivery::setNotificationType);
-		attributeGetterFunctions.put(
-			"deliveryType", UserNotificationDelivery::getDeliveryType);
 		attributeSetterBiConsumers.put(
 			"deliveryType",
 			(BiConsumer<UserNotificationDelivery, Integer>)
 				UserNotificationDelivery::setDeliveryType);
-		attributeGetterFunctions.put(
-			"deliver", UserNotificationDelivery::getDeliver);
 		attributeSetterBiConsumers.put(
 			"deliver",
 			(BiConsumer<UserNotificationDelivery, Boolean>)
 				UserNotificationDelivery::setDeliver);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

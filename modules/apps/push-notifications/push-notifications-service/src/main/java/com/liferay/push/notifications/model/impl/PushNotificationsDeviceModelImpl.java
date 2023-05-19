@@ -266,60 +266,66 @@ public class PushNotificationsDeviceModelImpl
 
 	private static final Map<String, Function<PushNotificationsDevice, Object>>
 		_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<PushNotificationsDevice, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<PushNotificationsDevice, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<PushNotificationsDevice, Object>>();
+
+		attributeGetterFunctions.put(
+			"pushNotificationsDeviceId",
+			PushNotificationsDevice::getPushNotificationsDeviceId);
+		attributeGetterFunctions.put(
+			"companyId", PushNotificationsDevice::getCompanyId);
+		attributeGetterFunctions.put(
+			"userId", PushNotificationsDevice::getUserId);
+		attributeGetterFunctions.put(
+			"createDate", PushNotificationsDevice::getCreateDate);
+		attributeGetterFunctions.put(
+			"platform", PushNotificationsDevice::getPlatform);
+		attributeGetterFunctions.put(
+			"token", PushNotificationsDevice::getToken);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<PushNotificationsDevice, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<PushNotificationsDevice, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<PushNotificationsDevice, ?>>();
 
-		attributeGetterFunctions.put(
-			"pushNotificationsDeviceId",
-			PushNotificationsDevice::getPushNotificationsDeviceId);
 		attributeSetterBiConsumers.put(
 			"pushNotificationsDeviceId",
 			(BiConsumer<PushNotificationsDevice, Long>)
 				PushNotificationsDevice::setPushNotificationsDeviceId);
-		attributeGetterFunctions.put(
-			"companyId", PushNotificationsDevice::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<PushNotificationsDevice, Long>)
 				PushNotificationsDevice::setCompanyId);
-		attributeGetterFunctions.put(
-			"userId", PushNotificationsDevice::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<PushNotificationsDevice, Long>)
 				PushNotificationsDevice::setUserId);
-		attributeGetterFunctions.put(
-			"createDate", PushNotificationsDevice::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<PushNotificationsDevice, Date>)
 				PushNotificationsDevice::setCreateDate);
-		attributeGetterFunctions.put(
-			"platform", PushNotificationsDevice::getPlatform);
 		attributeSetterBiConsumers.put(
 			"platform",
 			(BiConsumer<PushNotificationsDevice, String>)
 				PushNotificationsDevice::setPlatform);
-		attributeGetterFunctions.put(
-			"token", PushNotificationsDevice::getToken);
 		attributeSetterBiConsumers.put(
 			"token",
 			(BiConsumer<PushNotificationsDevice, String>)
 				PushNotificationsDevice::setToken);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

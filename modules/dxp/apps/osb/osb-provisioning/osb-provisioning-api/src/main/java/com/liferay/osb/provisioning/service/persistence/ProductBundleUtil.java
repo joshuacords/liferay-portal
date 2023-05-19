@@ -689,6 +689,10 @@ public class ProductBundleUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(ProductBundlePersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile ProductBundlePersistence _persistence;
 
 }

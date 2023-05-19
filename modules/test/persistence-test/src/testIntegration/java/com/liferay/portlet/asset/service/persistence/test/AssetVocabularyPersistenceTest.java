@@ -15,6 +15,7 @@
 package com.liferay.portlet.asset.service.persistence.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.asset.kernel.exception.DuplicateAssetVocabularyExternalReferenceCodeException;
 import com.liferay.asset.kernel.exception.NoSuchVocabularyException;
 import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalServiceUtil;
@@ -26,6 +27,7 @@ import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
@@ -194,6 +196,28 @@ public class AssetVocabularyPersistenceTest {
 			Time.getShortTimestamp(
 				existingAssetVocabulary.getLastPublishDate()),
 			Time.getShortTimestamp(newAssetVocabulary.getLastPublishDate()));
+	}
+
+	@Test(
+		expected = DuplicateAssetVocabularyExternalReferenceCodeException.class
+	)
+	public void testUpdateWithExistingExternalReferenceCode() throws Exception {
+		AssetVocabulary assetVocabulary = addAssetVocabulary();
+
+		AssetVocabulary newAssetVocabulary = addAssetVocabulary();
+
+		newAssetVocabulary.setCompanyId(assetVocabulary.getCompanyId());
+
+		newAssetVocabulary = _persistence.update(newAssetVocabulary);
+
+		Session session = _persistence.getCurrentSession();
+
+		session.evict(newAssetVocabulary);
+
+		newAssetVocabulary.setExternalReferenceCode(
+			assetVocabulary.getExternalReferenceCode());
+
+		_persistence.update(newAssetVocabulary);
 	}
 
 	@Test

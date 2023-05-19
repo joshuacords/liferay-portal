@@ -2609,6 +2609,10 @@ public class JournalArticleServiceUtil {
 		return _service;
 	}
 
+	public static void setService(JournalArticleService service) {
+		_service = service;
+	}
+
 	private static volatile JournalArticleService _service;
 
 }

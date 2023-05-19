@@ -347,16 +347,11 @@ public class CommerceCurrencyModelImpl
 
 	private static final Map<String, Function<CommerceCurrency, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CommerceCurrency, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommerceCurrency, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap<String, Function<CommerceCurrency, Object>>();
-		Map<String, BiConsumer<CommerceCurrency, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap<String, BiConsumer<CommerceCurrency, ?>>();
 
 		attributeGetterFunctions.put(
 			"uuid",
@@ -368,6 +363,199 @@ public class CommerceCurrencyModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"commerceCurrencyId",
+			new Function<CommerceCurrency, Object>() {
+
+				@Override
+				public Object apply(CommerceCurrency commerceCurrency) {
+					return commerceCurrency.getCommerceCurrencyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommerceCurrency, Object>() {
+
+				@Override
+				public Object apply(CommerceCurrency commerceCurrency) {
+					return commerceCurrency.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommerceCurrency, Object>() {
+
+				@Override
+				public Object apply(CommerceCurrency commerceCurrency) {
+					return commerceCurrency.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommerceCurrency, Object>() {
+
+				@Override
+				public Object apply(CommerceCurrency commerceCurrency) {
+					return commerceCurrency.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommerceCurrency, Object>() {
+
+				@Override
+				public Object apply(CommerceCurrency commerceCurrency) {
+					return commerceCurrency.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommerceCurrency, Object>() {
+
+				@Override
+				public Object apply(CommerceCurrency commerceCurrency) {
+					return commerceCurrency.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"code",
+			new Function<CommerceCurrency, Object>() {
+
+				@Override
+				public Object apply(CommerceCurrency commerceCurrency) {
+					return commerceCurrency.getCode();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"name",
+			new Function<CommerceCurrency, Object>() {
+
+				@Override
+				public Object apply(CommerceCurrency commerceCurrency) {
+					return commerceCurrency.getName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"symbol",
+			new Function<CommerceCurrency, Object>() {
+
+				@Override
+				public Object apply(CommerceCurrency commerceCurrency) {
+					return commerceCurrency.getSymbol();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"rate",
+			new Function<CommerceCurrency, Object>() {
+
+				@Override
+				public Object apply(CommerceCurrency commerceCurrency) {
+					return commerceCurrency.getRate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"formatPattern",
+			new Function<CommerceCurrency, Object>() {
+
+				@Override
+				public Object apply(CommerceCurrency commerceCurrency) {
+					return commerceCurrency.getFormatPattern();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"maxFractionDigits",
+			new Function<CommerceCurrency, Object>() {
+
+				@Override
+				public Object apply(CommerceCurrency commerceCurrency) {
+					return commerceCurrency.getMaxFractionDigits();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"minFractionDigits",
+			new Function<CommerceCurrency, Object>() {
+
+				@Override
+				public Object apply(CommerceCurrency commerceCurrency) {
+					return commerceCurrency.getMinFractionDigits();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"roundingMode",
+			new Function<CommerceCurrency, Object>() {
+
+				@Override
+				public Object apply(CommerceCurrency commerceCurrency) {
+					return commerceCurrency.getRoundingMode();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"primary",
+			new Function<CommerceCurrency, Object>() {
+
+				@Override
+				public Object apply(CommerceCurrency commerceCurrency) {
+					return commerceCurrency.getPrimary();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"priority",
+			new Function<CommerceCurrency, Object>() {
+
+				@Override
+				public Object apply(CommerceCurrency commerceCurrency) {
+					return commerceCurrency.getPriority();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"active",
+			new Function<CommerceCurrency, Object>() {
+
+				@Override
+				public Object apply(CommerceCurrency commerceCurrency) {
+					return commerceCurrency.getActive();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"lastPublishDate",
+			new Function<CommerceCurrency, Object>() {
+
+				@Override
+				public Object apply(CommerceCurrency commerceCurrency) {
+					return commerceCurrency.getLastPublishDate();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<CommerceCurrency, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommerceCurrency, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<CommerceCurrency, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"uuid",
 			new BiConsumer<CommerceCurrency, Object>() {
@@ -377,16 +565,6 @@ public class CommerceCurrencyModelImpl
 					CommerceCurrency commerceCurrency, Object uuidObject) {
 
 					commerceCurrency.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commerceCurrencyId",
-			new Function<CommerceCurrency, Object>() {
-
-				@Override
-				public Object apply(CommerceCurrency commerceCurrency) {
-					return commerceCurrency.getCommerceCurrencyId();
 				}
 
 			});
@@ -404,16 +582,6 @@ public class CommerceCurrencyModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommerceCurrency, Object>() {
-
-				@Override
-				public Object apply(CommerceCurrency commerceCurrency) {
-					return commerceCurrency.getCompanyId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"companyId",
 			new BiConsumer<CommerceCurrency, Object>() {
@@ -423,16 +591,6 @@ public class CommerceCurrencyModelImpl
 					CommerceCurrency commerceCurrency, Object companyIdObject) {
 
 					commerceCurrency.setCompanyId((Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommerceCurrency, Object>() {
-
-				@Override
-				public Object apply(CommerceCurrency commerceCurrency) {
-					return commerceCurrency.getUserId();
 				}
 
 			});
@@ -448,16 +606,6 @@ public class CommerceCurrencyModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommerceCurrency, Object>() {
-
-				@Override
-				public Object apply(CommerceCurrency commerceCurrency) {
-					return commerceCurrency.getUserName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userName",
 			new BiConsumer<CommerceCurrency, Object>() {
@@ -467,16 +615,6 @@ public class CommerceCurrencyModelImpl
 					CommerceCurrency commerceCurrency, Object userNameObject) {
 
 					commerceCurrency.setUserName((String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommerceCurrency, Object>() {
-
-				@Override
-				public Object apply(CommerceCurrency commerceCurrency) {
-					return commerceCurrency.getCreateDate();
 				}
 
 			});
@@ -493,16 +631,6 @@ public class CommerceCurrencyModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommerceCurrency, Object>() {
-
-				@Override
-				public Object apply(CommerceCurrency commerceCurrency) {
-					return commerceCurrency.getModifiedDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			new BiConsumer<CommerceCurrency, Object>() {
@@ -513,16 +641,6 @@ public class CommerceCurrencyModelImpl
 					Object modifiedDateObject) {
 
 					commerceCurrency.setModifiedDate((Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"code",
-			new Function<CommerceCurrency, Object>() {
-
-				@Override
-				public Object apply(CommerceCurrency commerceCurrency) {
-					return commerceCurrency.getCode();
 				}
 
 			});
@@ -538,16 +656,6 @@ public class CommerceCurrencyModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"name",
-			new Function<CommerceCurrency, Object>() {
-
-				@Override
-				public Object apply(CommerceCurrency commerceCurrency) {
-					return commerceCurrency.getName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"name",
 			new BiConsumer<CommerceCurrency, Object>() {
@@ -557,16 +665,6 @@ public class CommerceCurrencyModelImpl
 					CommerceCurrency commerceCurrency, Object nameObject) {
 
 					commerceCurrency.setName((String)nameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"symbol",
-			new Function<CommerceCurrency, Object>() {
-
-				@Override
-				public Object apply(CommerceCurrency commerceCurrency) {
-					return commerceCurrency.getSymbol();
 				}
 
 			});
@@ -582,16 +680,6 @@ public class CommerceCurrencyModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"rate",
-			new Function<CommerceCurrency, Object>() {
-
-				@Override
-				public Object apply(CommerceCurrency commerceCurrency) {
-					return commerceCurrency.getRate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"rate",
 			new BiConsumer<CommerceCurrency, Object>() {
@@ -601,16 +689,6 @@ public class CommerceCurrencyModelImpl
 					CommerceCurrency commerceCurrency, Object rateObject) {
 
 					commerceCurrency.setRate((BigDecimal)rateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"formatPattern",
-			new Function<CommerceCurrency, Object>() {
-
-				@Override
-				public Object apply(CommerceCurrency commerceCurrency) {
-					return commerceCurrency.getFormatPattern();
 				}
 
 			});
@@ -628,16 +706,6 @@ public class CommerceCurrencyModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"maxFractionDigits",
-			new Function<CommerceCurrency, Object>() {
-
-				@Override
-				public Object apply(CommerceCurrency commerceCurrency) {
-					return commerceCurrency.getMaxFractionDigits();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"maxFractionDigits",
 			new BiConsumer<CommerceCurrency, Object>() {
@@ -649,16 +717,6 @@ public class CommerceCurrencyModelImpl
 
 					commerceCurrency.setMaxFractionDigits(
 						(Integer)maxFractionDigitsObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"minFractionDigits",
-			new Function<CommerceCurrency, Object>() {
-
-				@Override
-				public Object apply(CommerceCurrency commerceCurrency) {
-					return commerceCurrency.getMinFractionDigits();
 				}
 
 			});
@@ -676,16 +734,6 @@ public class CommerceCurrencyModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"roundingMode",
-			new Function<CommerceCurrency, Object>() {
-
-				@Override
-				public Object apply(CommerceCurrency commerceCurrency) {
-					return commerceCurrency.getRoundingMode();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"roundingMode",
 			new BiConsumer<CommerceCurrency, Object>() {
@@ -697,16 +745,6 @@ public class CommerceCurrencyModelImpl
 
 					commerceCurrency.setRoundingMode(
 						(String)roundingModeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"primary",
-			new Function<CommerceCurrency, Object>() {
-
-				@Override
-				public Object apply(CommerceCurrency commerceCurrency) {
-					return commerceCurrency.getPrimary();
 				}
 
 			});
@@ -722,16 +760,6 @@ public class CommerceCurrencyModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"priority",
-			new Function<CommerceCurrency, Object>() {
-
-				@Override
-				public Object apply(CommerceCurrency commerceCurrency) {
-					return commerceCurrency.getPriority();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"priority",
 			new BiConsumer<CommerceCurrency, Object>() {
@@ -744,16 +772,6 @@ public class CommerceCurrencyModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"active",
-			new Function<CommerceCurrency, Object>() {
-
-				@Override
-				public Object apply(CommerceCurrency commerceCurrency) {
-					return commerceCurrency.getActive();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"active",
 			new BiConsumer<CommerceCurrency, Object>() {
@@ -763,16 +781,6 @@ public class CommerceCurrencyModelImpl
 					CommerceCurrency commerceCurrency, Object activeObject) {
 
 					commerceCurrency.setActive((Boolean)activeObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"lastPublishDate",
-			new Function<CommerceCurrency, Object>() {
-
-				@Override
-				public Object apply(CommerceCurrency commerceCurrency) {
-					return commerceCurrency.getLastPublishDate();
 				}
 
 			});
@@ -791,8 +799,6 @@ public class CommerceCurrencyModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

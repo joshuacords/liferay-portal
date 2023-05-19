@@ -289,73 +289,79 @@ public class KaleoProcessModelImpl
 
 	private static final Map<String, Function<KaleoProcess, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<KaleoProcess, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<KaleoProcess, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<KaleoProcess, Object>>();
+
+		attributeGetterFunctions.put("uuid", KaleoProcess::getUuid);
+		attributeGetterFunctions.put(
+			"kaleoProcessId", KaleoProcess::getKaleoProcessId);
+		attributeGetterFunctions.put("groupId", KaleoProcess::getGroupId);
+		attributeGetterFunctions.put("companyId", KaleoProcess::getCompanyId);
+		attributeGetterFunctions.put("userId", KaleoProcess::getUserId);
+		attributeGetterFunctions.put("userName", KaleoProcess::getUserName);
+		attributeGetterFunctions.put("createDate", KaleoProcess::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", KaleoProcess::getModifiedDate);
+		attributeGetterFunctions.put(
+			"DDLRecordSetId", KaleoProcess::getDDLRecordSetId);
+		attributeGetterFunctions.put(
+			"DDMTemplateId", KaleoProcess::getDDMTemplateId);
+		attributeGetterFunctions.put(
+			"workflowDefinitionName", KaleoProcess::getWorkflowDefinitionName);
+		attributeGetterFunctions.put(
+			"workflowDefinitionVersion",
+			KaleoProcess::getWorkflowDefinitionVersion);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<KaleoProcess, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<KaleoProcess, ?>> attributeSetterBiConsumers =
 			new LinkedHashMap<String, BiConsumer<KaleoProcess, ?>>();
 
-		attributeGetterFunctions.put("uuid", KaleoProcess::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid", (BiConsumer<KaleoProcess, String>)KaleoProcess::setUuid);
-		attributeGetterFunctions.put(
-			"kaleoProcessId", KaleoProcess::getKaleoProcessId);
 		attributeSetterBiConsumers.put(
 			"kaleoProcessId",
 			(BiConsumer<KaleoProcess, Long>)KaleoProcess::setKaleoProcessId);
-		attributeGetterFunctions.put("groupId", KaleoProcess::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<KaleoProcess, Long>)KaleoProcess::setGroupId);
-		attributeGetterFunctions.put("companyId", KaleoProcess::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<KaleoProcess, Long>)KaleoProcess::setCompanyId);
-		attributeGetterFunctions.put("userId", KaleoProcess::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId", (BiConsumer<KaleoProcess, Long>)KaleoProcess::setUserId);
-		attributeGetterFunctions.put("userName", KaleoProcess::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<KaleoProcess, String>)KaleoProcess::setUserName);
-		attributeGetterFunctions.put("createDate", KaleoProcess::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<KaleoProcess, Date>)KaleoProcess::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", KaleoProcess::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<KaleoProcess, Date>)KaleoProcess::setModifiedDate);
-		attributeGetterFunctions.put(
-			"DDLRecordSetId", KaleoProcess::getDDLRecordSetId);
 		attributeSetterBiConsumers.put(
 			"DDLRecordSetId",
 			(BiConsumer<KaleoProcess, Long>)KaleoProcess::setDDLRecordSetId);
-		attributeGetterFunctions.put(
-			"DDMTemplateId", KaleoProcess::getDDMTemplateId);
 		attributeSetterBiConsumers.put(
 			"DDMTemplateId",
 			(BiConsumer<KaleoProcess, Long>)KaleoProcess::setDDMTemplateId);
-		attributeGetterFunctions.put(
-			"workflowDefinitionName", KaleoProcess::getWorkflowDefinitionName);
 		attributeSetterBiConsumers.put(
 			"workflowDefinitionName",
 			(BiConsumer<KaleoProcess, String>)
 				KaleoProcess::setWorkflowDefinitionName);
-		attributeGetterFunctions.put(
-			"workflowDefinitionVersion",
-			KaleoProcess::getWorkflowDefinitionVersion);
 		attributeSetterBiConsumers.put(
 			"workflowDefinitionVersion",
 			(BiConsumer<KaleoProcess, Integer>)
 				KaleoProcess::setWorkflowDefinitionVersion);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

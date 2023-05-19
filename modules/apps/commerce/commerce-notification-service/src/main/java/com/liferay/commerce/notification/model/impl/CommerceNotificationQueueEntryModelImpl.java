@@ -356,9 +356,6 @@ public class CommerceNotificationQueueEntryModelImpl
 	private static final Map
 		<String, Function<CommerceNotificationQueueEntry, Object>>
 			_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<CommerceNotificationQueueEntry, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommerceNotificationQueueEntry, Object>>
@@ -366,10 +363,6 @@ public class CommerceNotificationQueueEntryModelImpl
 				new LinkedHashMap
 					<String,
 					 Function<CommerceNotificationQueueEntry, Object>>();
-		Map<String, BiConsumer<CommerceNotificationQueueEntry, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String, BiConsumer<CommerceNotificationQueueEntry, ?>>();
 
 		attributeGetterFunctions.put(
 			"commerceNotificationQueueEntryId",
@@ -385,6 +378,282 @@ public class CommerceNotificationQueueEntryModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"groupId",
+			new Function<CommerceNotificationQueueEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceNotificationQueueEntry
+						commerceNotificationQueueEntry) {
+
+					return commerceNotificationQueueEntry.getGroupId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommerceNotificationQueueEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceNotificationQueueEntry
+						commerceNotificationQueueEntry) {
+
+					return commerceNotificationQueueEntry.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommerceNotificationQueueEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceNotificationQueueEntry
+						commerceNotificationQueueEntry) {
+
+					return commerceNotificationQueueEntry.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommerceNotificationQueueEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceNotificationQueueEntry
+						commerceNotificationQueueEntry) {
+
+					return commerceNotificationQueueEntry.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommerceNotificationQueueEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceNotificationQueueEntry
+						commerceNotificationQueueEntry) {
+
+					return commerceNotificationQueueEntry.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommerceNotificationQueueEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceNotificationQueueEntry
+						commerceNotificationQueueEntry) {
+
+					return commerceNotificationQueueEntry.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"classNameId",
+			new Function<CommerceNotificationQueueEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceNotificationQueueEntry
+						commerceNotificationQueueEntry) {
+
+					return commerceNotificationQueueEntry.getClassNameId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"classPK",
+			new Function<CommerceNotificationQueueEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceNotificationQueueEntry
+						commerceNotificationQueueEntry) {
+
+					return commerceNotificationQueueEntry.getClassPK();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceNotificationTemplateId",
+			new Function<CommerceNotificationQueueEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceNotificationQueueEntry
+						commerceNotificationQueueEntry) {
+
+					return commerceNotificationQueueEntry.
+						getCommerceNotificationTemplateId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"from",
+			new Function<CommerceNotificationQueueEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceNotificationQueueEntry
+						commerceNotificationQueueEntry) {
+
+					return commerceNotificationQueueEntry.getFrom();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"fromName",
+			new Function<CommerceNotificationQueueEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceNotificationQueueEntry
+						commerceNotificationQueueEntry) {
+
+					return commerceNotificationQueueEntry.getFromName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"to",
+			new Function<CommerceNotificationQueueEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceNotificationQueueEntry
+						commerceNotificationQueueEntry) {
+
+					return commerceNotificationQueueEntry.getTo();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"toName",
+			new Function<CommerceNotificationQueueEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceNotificationQueueEntry
+						commerceNotificationQueueEntry) {
+
+					return commerceNotificationQueueEntry.getToName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"cc",
+			new Function<CommerceNotificationQueueEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceNotificationQueueEntry
+						commerceNotificationQueueEntry) {
+
+					return commerceNotificationQueueEntry.getCc();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"bcc",
+			new Function<CommerceNotificationQueueEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceNotificationQueueEntry
+						commerceNotificationQueueEntry) {
+
+					return commerceNotificationQueueEntry.getBcc();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"subject",
+			new Function<CommerceNotificationQueueEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceNotificationQueueEntry
+						commerceNotificationQueueEntry) {
+
+					return commerceNotificationQueueEntry.getSubject();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"body",
+			new Function<CommerceNotificationQueueEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceNotificationQueueEntry
+						commerceNotificationQueueEntry) {
+
+					return commerceNotificationQueueEntry.getBody();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"priority",
+			new Function<CommerceNotificationQueueEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceNotificationQueueEntry
+						commerceNotificationQueueEntry) {
+
+					return commerceNotificationQueueEntry.getPriority();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"sent",
+			new Function<CommerceNotificationQueueEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceNotificationQueueEntry
+						commerceNotificationQueueEntry) {
+
+					return commerceNotificationQueueEntry.getSent();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"sentDate",
+			new Function<CommerceNotificationQueueEntry, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceNotificationQueueEntry
+						commerceNotificationQueueEntry) {
+
+					return commerceNotificationQueueEntry.getSentDate();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<CommerceNotificationQueueEntry, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommerceNotificationQueueEntry, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap
+					<String, BiConsumer<CommerceNotificationQueueEntry, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"commerceNotificationQueueEntryId",
 			new BiConsumer<CommerceNotificationQueueEntry, Object>() {
@@ -398,19 +667,6 @@ public class CommerceNotificationQueueEntryModelImpl
 					commerceNotificationQueueEntry.
 						setCommerceNotificationQueueEntryId(
 							(Long)commerceNotificationQueueEntryIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<CommerceNotificationQueueEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceNotificationQueueEntry
-						commerceNotificationQueueEntry) {
-
-					return commerceNotificationQueueEntry.getGroupId();
 				}
 
 			});
@@ -429,19 +685,6 @@ public class CommerceNotificationQueueEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommerceNotificationQueueEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceNotificationQueueEntry
-						commerceNotificationQueueEntry) {
-
-					return commerceNotificationQueueEntry.getCompanyId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"companyId",
 			new BiConsumer<CommerceNotificationQueueEntry, Object>() {
@@ -454,19 +697,6 @@ public class CommerceNotificationQueueEntryModelImpl
 
 					commerceNotificationQueueEntry.setCompanyId(
 						(Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommerceNotificationQueueEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceNotificationQueueEntry
-						commerceNotificationQueueEntry) {
-
-					return commerceNotificationQueueEntry.getUserId();
 				}
 
 			});
@@ -485,19 +715,6 @@ public class CommerceNotificationQueueEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommerceNotificationQueueEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceNotificationQueueEntry
-						commerceNotificationQueueEntry) {
-
-					return commerceNotificationQueueEntry.getUserName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userName",
 			new BiConsumer<CommerceNotificationQueueEntry, Object>() {
@@ -510,19 +727,6 @@ public class CommerceNotificationQueueEntryModelImpl
 
 					commerceNotificationQueueEntry.setUserName(
 						(String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommerceNotificationQueueEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceNotificationQueueEntry
-						commerceNotificationQueueEntry) {
-
-					return commerceNotificationQueueEntry.getCreateDate();
 				}
 
 			});
@@ -541,19 +745,6 @@ public class CommerceNotificationQueueEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommerceNotificationQueueEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceNotificationQueueEntry
-						commerceNotificationQueueEntry) {
-
-					return commerceNotificationQueueEntry.getModifiedDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			new BiConsumer<CommerceNotificationQueueEntry, Object>() {
@@ -566,19 +757,6 @@ public class CommerceNotificationQueueEntryModelImpl
 
 					commerceNotificationQueueEntry.setModifiedDate(
 						(Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"classNameId",
-			new Function<CommerceNotificationQueueEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceNotificationQueueEntry
-						commerceNotificationQueueEntry) {
-
-					return commerceNotificationQueueEntry.getClassNameId();
 				}
 
 			});
@@ -597,19 +775,6 @@ public class CommerceNotificationQueueEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"classPK",
-			new Function<CommerceNotificationQueueEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceNotificationQueueEntry
-						commerceNotificationQueueEntry) {
-
-					return commerceNotificationQueueEntry.getClassPK();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"classPK",
 			new BiConsumer<CommerceNotificationQueueEntry, Object>() {
@@ -622,20 +787,6 @@ public class CommerceNotificationQueueEntryModelImpl
 
 					commerceNotificationQueueEntry.setClassPK(
 						(Long)classPKObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commerceNotificationTemplateId",
-			new Function<CommerceNotificationQueueEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceNotificationQueueEntry
-						commerceNotificationQueueEntry) {
-
-					return commerceNotificationQueueEntry.
-						getCommerceNotificationTemplateId();
 				}
 
 			});
@@ -655,19 +806,6 @@ public class CommerceNotificationQueueEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"from",
-			new Function<CommerceNotificationQueueEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceNotificationQueueEntry
-						commerceNotificationQueueEntry) {
-
-					return commerceNotificationQueueEntry.getFrom();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"from",
 			new BiConsumer<CommerceNotificationQueueEntry, Object>() {
@@ -679,19 +817,6 @@ public class CommerceNotificationQueueEntryModelImpl
 					Object fromObject) {
 
 					commerceNotificationQueueEntry.setFrom((String)fromObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"fromName",
-			new Function<CommerceNotificationQueueEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceNotificationQueueEntry
-						commerceNotificationQueueEntry) {
-
-					return commerceNotificationQueueEntry.getFromName();
 				}
 
 			});
@@ -710,19 +835,6 @@ public class CommerceNotificationQueueEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"to",
-			new Function<CommerceNotificationQueueEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceNotificationQueueEntry
-						commerceNotificationQueueEntry) {
-
-					return commerceNotificationQueueEntry.getTo();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"to",
 			new BiConsumer<CommerceNotificationQueueEntry, Object>() {
@@ -734,19 +846,6 @@ public class CommerceNotificationQueueEntryModelImpl
 					Object toObject) {
 
 					commerceNotificationQueueEntry.setTo((String)toObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"toName",
-			new Function<CommerceNotificationQueueEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceNotificationQueueEntry
-						commerceNotificationQueueEntry) {
-
-					return commerceNotificationQueueEntry.getToName();
 				}
 
 			});
@@ -765,19 +864,6 @@ public class CommerceNotificationQueueEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"cc",
-			new Function<CommerceNotificationQueueEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceNotificationQueueEntry
-						commerceNotificationQueueEntry) {
-
-					return commerceNotificationQueueEntry.getCc();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"cc",
 			new BiConsumer<CommerceNotificationQueueEntry, Object>() {
@@ -792,19 +878,6 @@ public class CommerceNotificationQueueEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"bcc",
-			new Function<CommerceNotificationQueueEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceNotificationQueueEntry
-						commerceNotificationQueueEntry) {
-
-					return commerceNotificationQueueEntry.getBcc();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"bcc",
 			new BiConsumer<CommerceNotificationQueueEntry, Object>() {
@@ -816,19 +889,6 @@ public class CommerceNotificationQueueEntryModelImpl
 					Object bccObject) {
 
 					commerceNotificationQueueEntry.setBcc((String)bccObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"subject",
-			new Function<CommerceNotificationQueueEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceNotificationQueueEntry
-						commerceNotificationQueueEntry) {
-
-					return commerceNotificationQueueEntry.getSubject();
 				}
 
 			});
@@ -847,19 +907,6 @@ public class CommerceNotificationQueueEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"body",
-			new Function<CommerceNotificationQueueEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceNotificationQueueEntry
-						commerceNotificationQueueEntry) {
-
-					return commerceNotificationQueueEntry.getBody();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"body",
 			new BiConsumer<CommerceNotificationQueueEntry, Object>() {
@@ -871,19 +918,6 @@ public class CommerceNotificationQueueEntryModelImpl
 					Object bodyObject) {
 
 					commerceNotificationQueueEntry.setBody((String)bodyObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"priority",
-			new Function<CommerceNotificationQueueEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceNotificationQueueEntry
-						commerceNotificationQueueEntry) {
-
-					return commerceNotificationQueueEntry.getPriority();
 				}
 
 			});
@@ -902,19 +936,6 @@ public class CommerceNotificationQueueEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"sent",
-			new Function<CommerceNotificationQueueEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceNotificationQueueEntry
-						commerceNotificationQueueEntry) {
-
-					return commerceNotificationQueueEntry.getSent();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"sent",
 			new BiConsumer<CommerceNotificationQueueEntry, Object>() {
@@ -926,19 +947,6 @@ public class CommerceNotificationQueueEntryModelImpl
 					Object sentObject) {
 
 					commerceNotificationQueueEntry.setSent((Boolean)sentObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"sentDate",
-			new Function<CommerceNotificationQueueEntry, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceNotificationQueueEntry
-						commerceNotificationQueueEntry) {
-
-					return commerceNotificationQueueEntry.getSentDate();
 				}
 
 			});
@@ -958,8 +966,6 @@ public class CommerceNotificationQueueEntryModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

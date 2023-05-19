@@ -44,7 +44,6 @@ import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
@@ -1292,34 +1291,18 @@ public class QueuedMessagePersistenceImpl
 			"countByMessageBrokerClassName",
 			new String[] {String.class.getName()});
 
-		_setQueuedMessageUtilPersistence(this);
+		QueuedMessageUtil.setPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
-		_setQueuedMessageUtilPersistence(null);
+		QueuedMessageUtil.setPersistence(null);
 
 		entityCache.removeCache(QueuedMessageImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setQueuedMessageUtilPersistence(
-		QueuedMessagePersistence queuedMessagePersistence) {
-
-		try {
-			Field field = QueuedMessageUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, queuedMessagePersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@Override

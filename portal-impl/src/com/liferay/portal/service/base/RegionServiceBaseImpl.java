@@ -31,8 +31,6 @@ import com.liferay.portal.kernel.service.persistence.CountryPersistence;
 import com.liferay.portal.kernel.service.persistence.RegionPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 /**
@@ -155,11 +153,11 @@ public abstract class RegionServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
-		_setServiceUtilService(regionService);
+		RegionServiceUtil.setService(regionService);
 	}
 
 	public void destroy() {
-		_setServiceUtilService(null);
+		RegionServiceUtil.setService(null);
 	}
 
 	/**
@@ -201,19 +199,6 @@ public abstract class RegionServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setServiceUtilService(RegionService regionService) {
-		try {
-			Field field = RegionServiceUtil.class.getDeclaredField("_service");
-
-			field.setAccessible(true);
-
-			field.set(null, regionService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

@@ -50,7 +50,6 @@ import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
@@ -8113,34 +8112,18 @@ public class ProductConsumptionPersistenceImpl
 				Long.class.getName(), Long.class.getName(), Long.class.getName()
 			});
 
-		_setProductConsumptionUtilPersistence(this);
+		ProductConsumptionUtil.setPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
-		_setProductConsumptionUtilPersistence(null);
+		ProductConsumptionUtil.setPersistence(null);
 
 		entityCache.removeCache(ProductConsumptionImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setProductConsumptionUtilPersistence(
-		ProductConsumptionPersistence productConsumptionPersistence) {
-
-		try {
-			Field field = ProductConsumptionUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, productConsumptionPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@Override

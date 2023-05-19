@@ -79,6 +79,10 @@ public class AuthenticationTokenServiceUtil {
 		return _service;
 	}
 
+	public static void setService(AuthenticationTokenService service) {
+		_service = service;
+	}
+
 	private static volatile AuthenticationTokenService _service;
 
 }

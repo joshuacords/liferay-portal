@@ -273,6 +273,10 @@ public class LicenseKeyServiceUtil {
 		return _service;
 	}
 
+	public static void setService(LicenseKeyService service) {
+		_service = service;
+	}
+
 	private static volatile LicenseKeyService _service;
 
 }

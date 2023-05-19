@@ -290,6 +290,10 @@ public class RedundantIndexEntryLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(RedundantIndexEntryLocalService service) {
+		_service = service;
+	}
+
 	private static volatile RedundantIndexEntryLocalService _service;
 
 }

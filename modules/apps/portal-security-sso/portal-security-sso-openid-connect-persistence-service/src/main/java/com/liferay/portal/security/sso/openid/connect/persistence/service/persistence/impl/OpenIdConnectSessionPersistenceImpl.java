@@ -45,7 +45,6 @@ import com.liferay.portal.security.sso.openid.connect.persistence.service.persis
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
@@ -2185,34 +2184,18 @@ public class OpenIdConnectSessionPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByU_C",
 			new String[] {Long.class.getName(), String.class.getName()});
 
-		_setOpenIdConnectSessionUtilPersistence(this);
+		OpenIdConnectSessionUtil.setPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
-		_setOpenIdConnectSessionUtilPersistence(null);
+		OpenIdConnectSessionUtil.setPersistence(null);
 
 		entityCache.removeCache(OpenIdConnectSessionImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setOpenIdConnectSessionUtilPersistence(
-		OpenIdConnectSessionPersistence openIdConnectSessionPersistence) {
-
-		try {
-			Field field = OpenIdConnectSessionUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, openIdConnectSessionPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@Override

@@ -42,8 +42,6 @@ import com.liferay.portal.kernel.service.persistence.UserGroupPersistence;
 import com.liferay.portal.kernel.service.persistence.UserPersistence;
 import com.liferay.portal.kernel.util.PortalUtil;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 /**
@@ -699,11 +697,11 @@ public abstract class UserGroupServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
-		_setServiceUtilService(userGroupService);
+		UserGroupServiceUtil.setService(userGroupService);
 	}
 
 	public void destroy() {
-		_setServiceUtilService(null);
+		UserGroupServiceUtil.setService(null);
 	}
 
 	/**
@@ -745,20 +743,6 @@ public abstract class UserGroupServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setServiceUtilService(UserGroupService userGroupService) {
-		try {
-			Field field = UserGroupServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, userGroupService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

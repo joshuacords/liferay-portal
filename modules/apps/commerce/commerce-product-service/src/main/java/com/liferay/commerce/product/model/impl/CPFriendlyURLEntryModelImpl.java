@@ -274,17 +274,12 @@ public class CPFriendlyURLEntryModelImpl
 
 	private static final Map<String, Function<CPFriendlyURLEntry, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CPFriendlyURLEntry, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CPFriendlyURLEntry, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<CPFriendlyURLEntry, Object>>();
-		Map<String, BiConsumer<CPFriendlyURLEntry, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap<String, BiConsumer<CPFriendlyURLEntry, ?>>();
 
 		attributeGetterFunctions.put(
 			"uuid",
@@ -296,6 +291,139 @@ public class CPFriendlyURLEntryModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"CPFriendlyURLEntryId",
+			new Function<CPFriendlyURLEntry, Object>() {
+
+				@Override
+				public Object apply(CPFriendlyURLEntry cpFriendlyURLEntry) {
+					return cpFriendlyURLEntry.getCPFriendlyURLEntryId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"groupId",
+			new Function<CPFriendlyURLEntry, Object>() {
+
+				@Override
+				public Object apply(CPFriendlyURLEntry cpFriendlyURLEntry) {
+					return cpFriendlyURLEntry.getGroupId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CPFriendlyURLEntry, Object>() {
+
+				@Override
+				public Object apply(CPFriendlyURLEntry cpFriendlyURLEntry) {
+					return cpFriendlyURLEntry.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CPFriendlyURLEntry, Object>() {
+
+				@Override
+				public Object apply(CPFriendlyURLEntry cpFriendlyURLEntry) {
+					return cpFriendlyURLEntry.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CPFriendlyURLEntry, Object>() {
+
+				@Override
+				public Object apply(CPFriendlyURLEntry cpFriendlyURLEntry) {
+					return cpFriendlyURLEntry.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CPFriendlyURLEntry, Object>() {
+
+				@Override
+				public Object apply(CPFriendlyURLEntry cpFriendlyURLEntry) {
+					return cpFriendlyURLEntry.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CPFriendlyURLEntry, Object>() {
+
+				@Override
+				public Object apply(CPFriendlyURLEntry cpFriendlyURLEntry) {
+					return cpFriendlyURLEntry.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"classNameId",
+			new Function<CPFriendlyURLEntry, Object>() {
+
+				@Override
+				public Object apply(CPFriendlyURLEntry cpFriendlyURLEntry) {
+					return cpFriendlyURLEntry.getClassNameId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"classPK",
+			new Function<CPFriendlyURLEntry, Object>() {
+
+				@Override
+				public Object apply(CPFriendlyURLEntry cpFriendlyURLEntry) {
+					return cpFriendlyURLEntry.getClassPK();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"languageId",
+			new Function<CPFriendlyURLEntry, Object>() {
+
+				@Override
+				public Object apply(CPFriendlyURLEntry cpFriendlyURLEntry) {
+					return cpFriendlyURLEntry.getLanguageId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"urlTitle",
+			new Function<CPFriendlyURLEntry, Object>() {
+
+				@Override
+				public Object apply(CPFriendlyURLEntry cpFriendlyURLEntry) {
+					return cpFriendlyURLEntry.getUrlTitle();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"main",
+			new Function<CPFriendlyURLEntry, Object>() {
+
+				@Override
+				public Object apply(CPFriendlyURLEntry cpFriendlyURLEntry) {
+					return cpFriendlyURLEntry.getMain();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<CPFriendlyURLEntry, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CPFriendlyURLEntry, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap<String, BiConsumer<CPFriendlyURLEntry, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"uuid",
 			new BiConsumer<CPFriendlyURLEntry, Object>() {
@@ -305,16 +433,6 @@ public class CPFriendlyURLEntryModelImpl
 					CPFriendlyURLEntry cpFriendlyURLEntry, Object uuidObject) {
 
 					cpFriendlyURLEntry.setUuid((String)uuidObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"CPFriendlyURLEntryId",
-			new Function<CPFriendlyURLEntry, Object>() {
-
-				@Override
-				public Object apply(CPFriendlyURLEntry cpFriendlyURLEntry) {
-					return cpFriendlyURLEntry.getCPFriendlyURLEntryId();
 				}
 
 			});
@@ -332,16 +450,6 @@ public class CPFriendlyURLEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<CPFriendlyURLEntry, Object>() {
-
-				@Override
-				public Object apply(CPFriendlyURLEntry cpFriendlyURLEntry) {
-					return cpFriendlyURLEntry.getGroupId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"groupId",
 			new BiConsumer<CPFriendlyURLEntry, Object>() {
@@ -352,16 +460,6 @@ public class CPFriendlyURLEntryModelImpl
 					Object groupIdObject) {
 
 					cpFriendlyURLEntry.setGroupId((Long)groupIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CPFriendlyURLEntry, Object>() {
-
-				@Override
-				public Object apply(CPFriendlyURLEntry cpFriendlyURLEntry) {
-					return cpFriendlyURLEntry.getCompanyId();
 				}
 
 			});
@@ -378,16 +476,6 @@ public class CPFriendlyURLEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CPFriendlyURLEntry, Object>() {
-
-				@Override
-				public Object apply(CPFriendlyURLEntry cpFriendlyURLEntry) {
-					return cpFriendlyURLEntry.getUserId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userId",
 			new BiConsumer<CPFriendlyURLEntry, Object>() {
@@ -398,16 +486,6 @@ public class CPFriendlyURLEntryModelImpl
 					Object userIdObject) {
 
 					cpFriendlyURLEntry.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CPFriendlyURLEntry, Object>() {
-
-				@Override
-				public Object apply(CPFriendlyURLEntry cpFriendlyURLEntry) {
-					return cpFriendlyURLEntry.getUserName();
 				}
 
 			});
@@ -424,16 +502,6 @@ public class CPFriendlyURLEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CPFriendlyURLEntry, Object>() {
-
-				@Override
-				public Object apply(CPFriendlyURLEntry cpFriendlyURLEntry) {
-					return cpFriendlyURLEntry.getCreateDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"createDate",
 			new BiConsumer<CPFriendlyURLEntry, Object>() {
@@ -444,16 +512,6 @@ public class CPFriendlyURLEntryModelImpl
 					Object createDateObject) {
 
 					cpFriendlyURLEntry.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CPFriendlyURLEntry, Object>() {
-
-				@Override
-				public Object apply(CPFriendlyURLEntry cpFriendlyURLEntry) {
-					return cpFriendlyURLEntry.getModifiedDate();
 				}
 
 			});
@@ -471,16 +529,6 @@ public class CPFriendlyURLEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"classNameId",
-			new Function<CPFriendlyURLEntry, Object>() {
-
-				@Override
-				public Object apply(CPFriendlyURLEntry cpFriendlyURLEntry) {
-					return cpFriendlyURLEntry.getClassNameId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			new BiConsumer<CPFriendlyURLEntry, Object>() {
@@ -491,16 +539,6 @@ public class CPFriendlyURLEntryModelImpl
 					Object classNameIdObject) {
 
 					cpFriendlyURLEntry.setClassNameId((Long)classNameIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"classPK",
-			new Function<CPFriendlyURLEntry, Object>() {
-
-				@Override
-				public Object apply(CPFriendlyURLEntry cpFriendlyURLEntry) {
-					return cpFriendlyURLEntry.getClassPK();
 				}
 
 			});
@@ -517,16 +555,6 @@ public class CPFriendlyURLEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"languageId",
-			new Function<CPFriendlyURLEntry, Object>() {
-
-				@Override
-				public Object apply(CPFriendlyURLEntry cpFriendlyURLEntry) {
-					return cpFriendlyURLEntry.getLanguageId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"languageId",
 			new BiConsumer<CPFriendlyURLEntry, Object>() {
@@ -537,16 +565,6 @@ public class CPFriendlyURLEntryModelImpl
 					Object languageIdObject) {
 
 					cpFriendlyURLEntry.setLanguageId((String)languageIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"urlTitle",
-			new Function<CPFriendlyURLEntry, Object>() {
-
-				@Override
-				public Object apply(CPFriendlyURLEntry cpFriendlyURLEntry) {
-					return cpFriendlyURLEntry.getUrlTitle();
 				}
 
 			});
@@ -563,16 +581,6 @@ public class CPFriendlyURLEntryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"main",
-			new Function<CPFriendlyURLEntry, Object>() {
-
-				@Override
-				public Object apply(CPFriendlyURLEntry cpFriendlyURLEntry) {
-					return cpFriendlyURLEntry.getMain();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"main",
 			new BiConsumer<CPFriendlyURLEntry, Object>() {
@@ -586,8 +594,6 @@ public class CPFriendlyURLEntryModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

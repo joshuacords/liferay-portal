@@ -612,6 +612,12 @@ public class AuthenticationTokenUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(
+		AuthenticationTokenPersistence persistence) {
+
+		_persistence = persistence;
+	}
+
 	private static volatile AuthenticationTokenPersistence _persistence;
 
 }

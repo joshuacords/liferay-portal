@@ -405,6 +405,10 @@ public class CPDAvailabilityEstimateLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(CPDAvailabilityEstimateLocalService service) {
+		_service = service;
+	}
+
 	private static volatile CPDAvailabilityEstimateLocalService _service;
 
 }

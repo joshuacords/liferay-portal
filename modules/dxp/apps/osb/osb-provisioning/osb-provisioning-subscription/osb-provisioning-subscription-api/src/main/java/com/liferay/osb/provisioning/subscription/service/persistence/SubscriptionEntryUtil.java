@@ -731,6 +731,12 @@ public class SubscriptionEntryUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(
+		SubscriptionEntryPersistence persistence) {
+
+		_persistence = persistence;
+	}
+
 	private static volatile SubscriptionEntryPersistence _persistence;
 
 }

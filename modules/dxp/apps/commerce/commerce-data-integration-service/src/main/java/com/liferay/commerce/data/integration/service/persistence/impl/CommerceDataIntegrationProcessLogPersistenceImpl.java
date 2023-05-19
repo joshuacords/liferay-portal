@@ -2203,11 +2203,11 @@ public class CommerceDataIntegrationProcessLogPersistenceImpl
 			Long.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_S",
 			new String[] {Long.class.getName(), Integer.class.getName()});
 
-		_setCommerceDataIntegrationProcessLogUtilPersistence(this);
+		CommerceDataIntegrationProcessLogUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setCommerceDataIntegrationProcessLogUtilPersistence(null);
+		CommerceDataIntegrationProcessLogUtil.setPersistence(null);
 
 		entityCache.removeCache(
 			CommerceDataIntegrationProcessLogImpl.class.getName());
@@ -2215,24 +2215,6 @@ public class CommerceDataIntegrationProcessLogPersistenceImpl
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setCommerceDataIntegrationProcessLogUtilPersistence(
-		CommerceDataIntegrationProcessLogPersistence
-			commerceDataIntegrationProcessLogPersistence) {
-
-		try {
-			Field field =
-				CommerceDataIntegrationProcessLogUtil.class.getDeclaredField(
-					"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, commerceDataIntegrationProcessLogPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

@@ -1012,6 +1012,10 @@ public class CommercePriceListLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(CommercePriceListLocalService service) {
+		_service = service;
+	}
+
 	private static volatile CommercePriceListLocalService _service;
 
 }

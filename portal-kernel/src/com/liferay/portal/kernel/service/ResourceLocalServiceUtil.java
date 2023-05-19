@@ -473,6 +473,10 @@ public class ResourceLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(ResourceLocalService service) {
+		_service = service;
+	}
+
 	private static volatile ResourceLocalService _service;
 
 }

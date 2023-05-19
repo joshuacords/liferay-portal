@@ -47,6 +47,10 @@ public class LicenseEntryServiceUtil {
 		return _service;
 	}
 
+	public static void setService(LicenseEntryService service) {
+		_service = service;
+	}
+
 	private static volatile LicenseEntryService _service;
 
 }

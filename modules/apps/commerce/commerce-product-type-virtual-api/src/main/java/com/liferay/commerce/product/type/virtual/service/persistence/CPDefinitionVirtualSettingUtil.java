@@ -795,6 +795,12 @@ public class CPDefinitionVirtualSettingUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(
+		CPDefinitionVirtualSettingPersistence persistence) {
+
+		_persistence = persistence;
+	}
+
 	private static volatile CPDefinitionVirtualSettingPersistence _persistence;
 
 }

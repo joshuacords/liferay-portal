@@ -6444,34 +6444,17 @@ public class CPDefinitionOptionValueRelPersistenceImpl
 			"countByCDORI_P",
 			new String[] {Long.class.getName(), Boolean.class.getName()});
 
-		_setCPDefinitionOptionValueRelUtilPersistence(this);
+		CPDefinitionOptionValueRelUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setCPDefinitionOptionValueRelUtilPersistence(null);
+		CPDefinitionOptionValueRelUtil.setPersistence(null);
 
 		entityCache.removeCache(CPDefinitionOptionValueRelImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setCPDefinitionOptionValueRelUtilPersistence(
-		CPDefinitionOptionValueRelPersistence
-			cpDefinitionOptionValueRelPersistence) {
-
-		try {
-			Field field = CPDefinitionOptionValueRelUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, cpDefinitionOptionValueRelPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

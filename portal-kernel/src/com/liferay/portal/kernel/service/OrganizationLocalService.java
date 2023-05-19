@@ -328,20 +328,11 @@ public interface OrganizationLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Organization fetchOrganization(long companyId, String name);
 
-	/**
-	 * Returns the organization with the matching external reference code and company.
-	 *
-	 * @param companyId the primary key of the company
-	 * @param externalReferenceCode the organization's external reference code
-	 * @return the matching organization, or <code>null</code> if a matching organization could not be found
-	 */
+	@Deprecated
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Organization fetchOrganizationByExternalReferenceCode(
 		long companyId, String externalReferenceCode);
 
-	/**
-	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #fetchOrganizationByExternalReferenceCode(long, String)}
-	 */
 	@Deprecated
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Organization fetchOrganizationByReferenceCode(
@@ -425,14 +416,7 @@ public interface OrganizationLocalService
 	public Organization getOrganization(long companyId, String name)
 		throws PortalException;
 
-	/**
-	 * Returns the organization with the matching external reference code and company.
-	 *
-	 * @param companyId the primary key of the company
-	 * @param externalReferenceCode the organization's external reference code
-	 * @return the matching organization
-	 * @throws PortalException if a matching organization could not be found
-	 */
+	@Deprecated
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Organization getOrganizationByExternalReferenceCode(
 			long companyId, String externalReferenceCode)

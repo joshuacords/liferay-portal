@@ -313,18 +313,12 @@ public class CommerceBOMDefinitionModelImpl
 
 	private static final Map<String, Function<CommerceBOMDefinition, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CommerceBOMDefinition, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommerceBOMDefinition, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<CommerceBOMDefinition, Object>>();
-		Map<String, BiConsumer<CommerceBOMDefinition, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String, BiConsumer<CommerceBOMDefinition, ?>>();
 
 		attributeGetterFunctions.put(
 			"commerceBOMDefinitionId",
@@ -338,6 +332,128 @@ public class CommerceBOMDefinitionModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommerceBOMDefinition, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceBOMDefinition commerceBOMDefinition) {
+
+					return commerceBOMDefinition.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommerceBOMDefinition, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceBOMDefinition commerceBOMDefinition) {
+
+					return commerceBOMDefinition.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommerceBOMDefinition, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceBOMDefinition commerceBOMDefinition) {
+
+					return commerceBOMDefinition.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommerceBOMDefinition, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceBOMDefinition commerceBOMDefinition) {
+
+					return commerceBOMDefinition.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommerceBOMDefinition, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceBOMDefinition commerceBOMDefinition) {
+
+					return commerceBOMDefinition.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceBOMFolderId",
+			new Function<CommerceBOMDefinition, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceBOMDefinition commerceBOMDefinition) {
+
+					return commerceBOMDefinition.getCommerceBOMFolderId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"CPAttachmentFileEntryId",
+			new Function<CommerceBOMDefinition, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceBOMDefinition commerceBOMDefinition) {
+
+					return commerceBOMDefinition.getCPAttachmentFileEntryId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"name",
+			new Function<CommerceBOMDefinition, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceBOMDefinition commerceBOMDefinition) {
+
+					return commerceBOMDefinition.getName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"friendlyUrl",
+			new Function<CommerceBOMDefinition, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceBOMDefinition commerceBOMDefinition) {
+
+					return commerceBOMDefinition.getFriendlyUrl();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<CommerceBOMDefinition, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommerceBOMDefinition, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap
+					<String, BiConsumer<CommerceBOMDefinition, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"commerceBOMDefinitionId",
 			new BiConsumer<CommerceBOMDefinition, Object>() {
@@ -349,18 +465,6 @@ public class CommerceBOMDefinitionModelImpl
 
 					commerceBOMDefinition.setCommerceBOMDefinitionId(
 						(Long)commerceBOMDefinitionIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommerceBOMDefinition, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceBOMDefinition commerceBOMDefinition) {
-
-					return commerceBOMDefinition.getCompanyId();
 				}
 
 			});
@@ -377,18 +481,6 @@ public class CommerceBOMDefinitionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommerceBOMDefinition, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceBOMDefinition commerceBOMDefinition) {
-
-					return commerceBOMDefinition.getUserId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userId",
 			new BiConsumer<CommerceBOMDefinition, Object>() {
@@ -399,18 +491,6 @@ public class CommerceBOMDefinitionModelImpl
 					Object userIdObject) {
 
 					commerceBOMDefinition.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommerceBOMDefinition, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceBOMDefinition commerceBOMDefinition) {
-
-					return commerceBOMDefinition.getUserName();
 				}
 
 			});
@@ -427,18 +507,6 @@ public class CommerceBOMDefinitionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommerceBOMDefinition, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceBOMDefinition commerceBOMDefinition) {
-
-					return commerceBOMDefinition.getCreateDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"createDate",
 			new BiConsumer<CommerceBOMDefinition, Object>() {
@@ -449,18 +517,6 @@ public class CommerceBOMDefinitionModelImpl
 					Object createDateObject) {
 
 					commerceBOMDefinition.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommerceBOMDefinition, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceBOMDefinition commerceBOMDefinition) {
-
-					return commerceBOMDefinition.getModifiedDate();
 				}
 
 			});
@@ -478,18 +534,6 @@ public class CommerceBOMDefinitionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"commerceBOMFolderId",
-			new Function<CommerceBOMDefinition, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceBOMDefinition commerceBOMDefinition) {
-
-					return commerceBOMDefinition.getCommerceBOMFolderId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"commerceBOMFolderId",
 			new BiConsumer<CommerceBOMDefinition, Object>() {
@@ -501,18 +545,6 @@ public class CommerceBOMDefinitionModelImpl
 
 					commerceBOMDefinition.setCommerceBOMFolderId(
 						(Long)commerceBOMFolderIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"CPAttachmentFileEntryId",
-			new Function<CommerceBOMDefinition, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceBOMDefinition commerceBOMDefinition) {
-
-					return commerceBOMDefinition.getCPAttachmentFileEntryId();
 				}
 
 			});
@@ -530,18 +562,6 @@ public class CommerceBOMDefinitionModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"name",
-			new Function<CommerceBOMDefinition, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceBOMDefinition commerceBOMDefinition) {
-
-					return commerceBOMDefinition.getName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"name",
 			new BiConsumer<CommerceBOMDefinition, Object>() {
@@ -552,18 +572,6 @@ public class CommerceBOMDefinitionModelImpl
 					Object nameObject) {
 
 					commerceBOMDefinition.setName((String)nameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"friendlyUrl",
-			new Function<CommerceBOMDefinition, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceBOMDefinition commerceBOMDefinition) {
-
-					return commerceBOMDefinition.getFriendlyUrl();
 				}
 
 			});
@@ -582,8 +590,6 @@ public class CommerceBOMDefinitionModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

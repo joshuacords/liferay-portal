@@ -227,66 +227,72 @@ public class SocialActivityAchievementModelImpl
 	private static final Map
 		<String, Function<SocialActivityAchievement, Object>>
 			_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<SocialActivityAchievement, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<SocialActivityAchievement, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<SocialActivityAchievement, Object>>();
+
+		attributeGetterFunctions.put(
+			"activityAchievementId",
+			SocialActivityAchievement::getActivityAchievementId);
+		attributeGetterFunctions.put(
+			"groupId", SocialActivityAchievement::getGroupId);
+		attributeGetterFunctions.put(
+			"companyId", SocialActivityAchievement::getCompanyId);
+		attributeGetterFunctions.put(
+			"userId", SocialActivityAchievement::getUserId);
+		attributeGetterFunctions.put(
+			"createDate", SocialActivityAchievement::getCreateDate);
+		attributeGetterFunctions.put(
+			"name", SocialActivityAchievement::getName);
+		attributeGetterFunctions.put(
+			"firstInGroup", SocialActivityAchievement::getFirstInGroup);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<SocialActivityAchievement, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<SocialActivityAchievement, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<SocialActivityAchievement, ?>>();
 
-		attributeGetterFunctions.put(
-			"activityAchievementId",
-			SocialActivityAchievement::getActivityAchievementId);
 		attributeSetterBiConsumers.put(
 			"activityAchievementId",
 			(BiConsumer<SocialActivityAchievement, Long>)
 				SocialActivityAchievement::setActivityAchievementId);
-		attributeGetterFunctions.put(
-			"groupId", SocialActivityAchievement::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<SocialActivityAchievement, Long>)
 				SocialActivityAchievement::setGroupId);
-		attributeGetterFunctions.put(
-			"companyId", SocialActivityAchievement::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<SocialActivityAchievement, Long>)
 				SocialActivityAchievement::setCompanyId);
-		attributeGetterFunctions.put(
-			"userId", SocialActivityAchievement::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<SocialActivityAchievement, Long>)
 				SocialActivityAchievement::setUserId);
-		attributeGetterFunctions.put(
-			"createDate", SocialActivityAchievement::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<SocialActivityAchievement, Long>)
 				SocialActivityAchievement::setCreateDate);
-		attributeGetterFunctions.put(
-			"name", SocialActivityAchievement::getName);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<SocialActivityAchievement, String>)
 				SocialActivityAchievement::setName);
-		attributeGetterFunctions.put(
-			"firstInGroup", SocialActivityAchievement::getFirstInGroup);
 		attributeSetterBiConsumers.put(
 			"firstInGroup",
 			(BiConsumer<SocialActivityAchievement, Boolean>)
 				SocialActivityAchievement::setFirstInGroup);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

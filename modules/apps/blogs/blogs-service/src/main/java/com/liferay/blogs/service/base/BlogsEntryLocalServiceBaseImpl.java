@@ -62,8 +62,6 @@ import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -558,7 +556,7 @@ public abstract class BlogsEntryLocalServiceBaseImpl
 
 	@Deactivate
 	protected void deactivate() {
-		_setLocalServiceUtilService(null);
+		BlogsEntryLocalServiceUtil.setService(null);
 	}
 
 	@Override
@@ -573,7 +571,7 @@ public abstract class BlogsEntryLocalServiceBaseImpl
 	public void setAopProxy(Object aopProxy) {
 		blogsEntryLocalService = (BlogsEntryLocalService)aopProxy;
 
-		_setLocalServiceUtilService(blogsEntryLocalService);
+		BlogsEntryLocalServiceUtil.setService(blogsEntryLocalService);
 	}
 
 	/**
@@ -615,22 +613,6 @@ public abstract class BlogsEntryLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		BlogsEntryLocalService blogsEntryLocalService) {
-
-		try {
-			Field field = BlogsEntryLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, blogsEntryLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

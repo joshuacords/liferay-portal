@@ -3160,33 +3160,17 @@ public class CommerceAccountPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByC_ERC",
 			new String[] {Long.class.getName(), String.class.getName()});
 
-		_setCommerceAccountUtilPersistence(this);
+		CommerceAccountUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setCommerceAccountUtilPersistence(null);
+		CommerceAccountUtil.setPersistence(null);
 
 		entityCache.removeCache(CommerceAccountImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setCommerceAccountUtilPersistence(
-		CommerceAccountPersistence commerceAccountPersistence) {
-
-		try {
-			Field field = CommerceAccountUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, commerceAccountPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

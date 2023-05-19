@@ -539,6 +539,12 @@ public class SegmentsExperimentRelUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(
+		SegmentsExperimentRelPersistence persistence) {
+
+		_persistence = persistence;
+	}
+
 	private static volatile SegmentsExperimentRelPersistence _persistence;
 
 }

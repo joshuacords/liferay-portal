@@ -965,6 +965,10 @@ public class SyncDeviceUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(SyncDevicePersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile SyncDevicePersistence _persistence;
 
 }

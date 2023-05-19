@@ -257,42 +257,48 @@ public class ImageModelImpl extends BaseModelImpl<Image> implements ImageModel {
 
 	private static final Map<String, Function<Image, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<Image, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<Image, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<Image, Object>>();
-		Map<String, BiConsumer<Image, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<Image, ?>>();
 
 		attributeGetterFunctions.put("mvccVersion", Image::getMvccVersion);
-		attributeSetterBiConsumers.put(
-			"mvccVersion", (BiConsumer<Image, Long>)Image::setMvccVersion);
 		attributeGetterFunctions.put("imageId", Image::getImageId);
-		attributeSetterBiConsumers.put(
-			"imageId", (BiConsumer<Image, Long>)Image::setImageId);
 		attributeGetterFunctions.put("companyId", Image::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId", (BiConsumer<Image, Long>)Image::setCompanyId);
 		attributeGetterFunctions.put("modifiedDate", Image::getModifiedDate);
-		attributeSetterBiConsumers.put(
-			"modifiedDate", (BiConsumer<Image, Date>)Image::setModifiedDate);
 		attributeGetterFunctions.put("type", Image::getType);
-		attributeSetterBiConsumers.put(
-			"type", (BiConsumer<Image, String>)Image::setType);
 		attributeGetterFunctions.put("height", Image::getHeight);
-		attributeSetterBiConsumers.put(
-			"height", (BiConsumer<Image, Integer>)Image::setHeight);
 		attributeGetterFunctions.put("width", Image::getWidth);
-		attributeSetterBiConsumers.put(
-			"width", (BiConsumer<Image, Integer>)Image::setWidth);
 		attributeGetterFunctions.put("size", Image::getSize);
-		attributeSetterBiConsumers.put(
-			"size", (BiConsumer<Image, Integer>)Image::setSize);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<Image, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<Image, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<Image, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"mvccVersion", (BiConsumer<Image, Long>)Image::setMvccVersion);
+		attributeSetterBiConsumers.put(
+			"imageId", (BiConsumer<Image, Long>)Image::setImageId);
+		attributeSetterBiConsumers.put(
+			"companyId", (BiConsumer<Image, Long>)Image::setCompanyId);
+		attributeSetterBiConsumers.put(
+			"modifiedDate", (BiConsumer<Image, Date>)Image::setModifiedDate);
+		attributeSetterBiConsumers.put(
+			"type", (BiConsumer<Image, String>)Image::setType);
+		attributeSetterBiConsumers.put(
+			"height", (BiConsumer<Image, Integer>)Image::setHeight);
+		attributeSetterBiConsumers.put(
+			"width", (BiConsumer<Image, Integer>)Image::setWidth);
+		attributeSetterBiConsumers.put(
+			"size", (BiConsumer<Image, Integer>)Image::setSize);
+
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

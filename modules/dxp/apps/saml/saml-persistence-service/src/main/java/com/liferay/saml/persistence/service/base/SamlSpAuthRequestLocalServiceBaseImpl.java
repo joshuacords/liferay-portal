@@ -55,8 +55,6 @@ import com.liferay.saml.persistence.service.persistence.SamlSpSessionPersistence
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -808,14 +806,15 @@ public abstract class SamlSpAuthRequestLocalServiceBaseImpl
 			"com.liferay.saml.persistence.model.SamlSpAuthRequest",
 			samlSpAuthRequestLocalService);
 
-		_setLocalServiceUtilService(samlSpAuthRequestLocalService);
+		SamlSpAuthRequestLocalServiceUtil.setService(
+			samlSpAuthRequestLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"com.liferay.saml.persistence.model.SamlSpAuthRequest");
 
-		_setLocalServiceUtilService(null);
+		SamlSpAuthRequestLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -858,23 +857,6 @@ public abstract class SamlSpAuthRequestLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		SamlSpAuthRequestLocalService samlSpAuthRequestLocalService) {
-
-		try {
-			Field field =
-				SamlSpAuthRequestLocalServiceUtil.class.getDeclaredField(
-					"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, samlSpAuthRequestLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

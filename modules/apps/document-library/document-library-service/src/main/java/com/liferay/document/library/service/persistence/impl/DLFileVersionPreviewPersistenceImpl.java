@@ -42,7 +42,6 @@ import com.liferay.portal.kernel.util.ProxyUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.List;
@@ -2417,34 +2416,18 @@ public class DLFileVersionPreviewPersistenceImpl
 				Integer.class.getName()
 			});
 
-		_setDLFileVersionPreviewUtilPersistence(this);
+		DLFileVersionPreviewUtil.setPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
-		_setDLFileVersionPreviewUtilPersistence(null);
+		DLFileVersionPreviewUtil.setPersistence(null);
 
 		entityCache.removeCache(DLFileVersionPreviewImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setDLFileVersionPreviewUtilPersistence(
-		DLFileVersionPreviewPersistence dlFileVersionPreviewPersistence) {
-
-		try {
-			Field field = DLFileVersionPreviewUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, dlFileVersionPreviewPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@Override

@@ -328,9 +328,6 @@ public class CommerceTaxFixedRateAddressRelModelImpl
 	private static final Map
 		<String, Function<CommerceTaxFixedRateAddressRel, Object>>
 			_attributeGetterFunctions;
-	private static final Map
-		<String, BiConsumer<CommerceTaxFixedRateAddressRel, Object>>
-			_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CommerceTaxFixedRateAddressRel, Object>>
@@ -338,10 +335,6 @@ public class CommerceTaxFixedRateAddressRelModelImpl
 				new LinkedHashMap
 					<String,
 					 Function<CommerceTaxFixedRateAddressRel, Object>>();
-		Map<String, BiConsumer<CommerceTaxFixedRateAddressRel, ?>>
-			attributeSetterBiConsumers =
-				new LinkedHashMap
-					<String, BiConsumer<CommerceTaxFixedRateAddressRel, ?>>();
 
 		attributeGetterFunctions.put(
 			"commerceTaxFixedRateAddressRelId",
@@ -357,6 +350,179 @@ public class CommerceTaxFixedRateAddressRelModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"groupId",
+			new Function<CommerceTaxFixedRateAddressRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceTaxFixedRateAddressRel
+						commerceTaxFixedRateAddressRel) {
+
+					return commerceTaxFixedRateAddressRel.getGroupId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CommerceTaxFixedRateAddressRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceTaxFixedRateAddressRel
+						commerceTaxFixedRateAddressRel) {
+
+					return commerceTaxFixedRateAddressRel.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CommerceTaxFixedRateAddressRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceTaxFixedRateAddressRel
+						commerceTaxFixedRateAddressRel) {
+
+					return commerceTaxFixedRateAddressRel.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CommerceTaxFixedRateAddressRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceTaxFixedRateAddressRel
+						commerceTaxFixedRateAddressRel) {
+
+					return commerceTaxFixedRateAddressRel.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CommerceTaxFixedRateAddressRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceTaxFixedRateAddressRel
+						commerceTaxFixedRateAddressRel) {
+
+					return commerceTaxFixedRateAddressRel.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CommerceTaxFixedRateAddressRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceTaxFixedRateAddressRel
+						commerceTaxFixedRateAddressRel) {
+
+					return commerceTaxFixedRateAddressRel.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceTaxMethodId",
+			new Function<CommerceTaxFixedRateAddressRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceTaxFixedRateAddressRel
+						commerceTaxFixedRateAddressRel) {
+
+					return commerceTaxFixedRateAddressRel.
+						getCommerceTaxMethodId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"CPTaxCategoryId",
+			new Function<CommerceTaxFixedRateAddressRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceTaxFixedRateAddressRel
+						commerceTaxFixedRateAddressRel) {
+
+					return commerceTaxFixedRateAddressRel.getCPTaxCategoryId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceCountryId",
+			new Function<CommerceTaxFixedRateAddressRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceTaxFixedRateAddressRel
+						commerceTaxFixedRateAddressRel) {
+
+					return commerceTaxFixedRateAddressRel.
+						getCommerceCountryId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"commerceRegionId",
+			new Function<CommerceTaxFixedRateAddressRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceTaxFixedRateAddressRel
+						commerceTaxFixedRateAddressRel) {
+
+					return commerceTaxFixedRateAddressRel.getCommerceRegionId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"zip",
+			new Function<CommerceTaxFixedRateAddressRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceTaxFixedRateAddressRel
+						commerceTaxFixedRateAddressRel) {
+
+					return commerceTaxFixedRateAddressRel.getZip();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"rate",
+			new Function<CommerceTaxFixedRateAddressRel, Object>() {
+
+				@Override
+				public Object apply(
+					CommerceTaxFixedRateAddressRel
+						commerceTaxFixedRateAddressRel) {
+
+					return commerceTaxFixedRateAddressRel.getRate();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map
+		<String, BiConsumer<CommerceTaxFixedRateAddressRel, Object>>
+			_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CommerceTaxFixedRateAddressRel, ?>>
+			attributeSetterBiConsumers =
+				new LinkedHashMap
+					<String, BiConsumer<CommerceTaxFixedRateAddressRel, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"commerceTaxFixedRateAddressRelId",
 			new BiConsumer<CommerceTaxFixedRateAddressRel, Object>() {
@@ -370,19 +536,6 @@ public class CommerceTaxFixedRateAddressRelModelImpl
 					commerceTaxFixedRateAddressRel.
 						setCommerceTaxFixedRateAddressRelId(
 							(Long)commerceTaxFixedRateAddressRelIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"groupId",
-			new Function<CommerceTaxFixedRateAddressRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceTaxFixedRateAddressRel
-						commerceTaxFixedRateAddressRel) {
-
-					return commerceTaxFixedRateAddressRel.getGroupId();
 				}
 
 			});
@@ -401,19 +554,6 @@ public class CommerceTaxFixedRateAddressRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CommerceTaxFixedRateAddressRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceTaxFixedRateAddressRel
-						commerceTaxFixedRateAddressRel) {
-
-					return commerceTaxFixedRateAddressRel.getCompanyId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"companyId",
 			new BiConsumer<CommerceTaxFixedRateAddressRel, Object>() {
@@ -426,19 +566,6 @@ public class CommerceTaxFixedRateAddressRelModelImpl
 
 					commerceTaxFixedRateAddressRel.setCompanyId(
 						(Long)companyIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CommerceTaxFixedRateAddressRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceTaxFixedRateAddressRel
-						commerceTaxFixedRateAddressRel) {
-
-					return commerceTaxFixedRateAddressRel.getUserId();
 				}
 
 			});
@@ -457,19 +584,6 @@ public class CommerceTaxFixedRateAddressRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CommerceTaxFixedRateAddressRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceTaxFixedRateAddressRel
-						commerceTaxFixedRateAddressRel) {
-
-					return commerceTaxFixedRateAddressRel.getUserName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userName",
 			new BiConsumer<CommerceTaxFixedRateAddressRel, Object>() {
@@ -482,19 +596,6 @@ public class CommerceTaxFixedRateAddressRelModelImpl
 
 					commerceTaxFixedRateAddressRel.setUserName(
 						(String)userNameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CommerceTaxFixedRateAddressRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceTaxFixedRateAddressRel
-						commerceTaxFixedRateAddressRel) {
-
-					return commerceTaxFixedRateAddressRel.getCreateDate();
 				}
 
 			});
@@ -513,19 +614,6 @@ public class CommerceTaxFixedRateAddressRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CommerceTaxFixedRateAddressRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceTaxFixedRateAddressRel
-						commerceTaxFixedRateAddressRel) {
-
-					return commerceTaxFixedRateAddressRel.getModifiedDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			new BiConsumer<CommerceTaxFixedRateAddressRel, Object>() {
@@ -538,20 +626,6 @@ public class CommerceTaxFixedRateAddressRelModelImpl
 
 					commerceTaxFixedRateAddressRel.setModifiedDate(
 						(Date)modifiedDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commerceTaxMethodId",
-			new Function<CommerceTaxFixedRateAddressRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceTaxFixedRateAddressRel
-						commerceTaxFixedRateAddressRel) {
-
-					return commerceTaxFixedRateAddressRel.
-						getCommerceTaxMethodId();
 				}
 
 			});
@@ -570,19 +644,6 @@ public class CommerceTaxFixedRateAddressRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"CPTaxCategoryId",
-			new Function<CommerceTaxFixedRateAddressRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceTaxFixedRateAddressRel
-						commerceTaxFixedRateAddressRel) {
-
-					return commerceTaxFixedRateAddressRel.getCPTaxCategoryId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"CPTaxCategoryId",
 			new BiConsumer<CommerceTaxFixedRateAddressRel, Object>() {
@@ -595,20 +656,6 @@ public class CommerceTaxFixedRateAddressRelModelImpl
 
 					commerceTaxFixedRateAddressRel.setCPTaxCategoryId(
 						(Long)CPTaxCategoryIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"commerceCountryId",
-			new Function<CommerceTaxFixedRateAddressRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceTaxFixedRateAddressRel
-						commerceTaxFixedRateAddressRel) {
-
-					return commerceTaxFixedRateAddressRel.
-						getCommerceCountryId();
 				}
 
 			});
@@ -627,19 +674,6 @@ public class CommerceTaxFixedRateAddressRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"commerceRegionId",
-			new Function<CommerceTaxFixedRateAddressRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceTaxFixedRateAddressRel
-						commerceTaxFixedRateAddressRel) {
-
-					return commerceTaxFixedRateAddressRel.getCommerceRegionId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"commerceRegionId",
 			new BiConsumer<CommerceTaxFixedRateAddressRel, Object>() {
@@ -655,19 +689,6 @@ public class CommerceTaxFixedRateAddressRelModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"zip",
-			new Function<CommerceTaxFixedRateAddressRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceTaxFixedRateAddressRel
-						commerceTaxFixedRateAddressRel) {
-
-					return commerceTaxFixedRateAddressRel.getZip();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"zip",
 			new BiConsumer<CommerceTaxFixedRateAddressRel, Object>() {
@@ -679,19 +700,6 @@ public class CommerceTaxFixedRateAddressRelModelImpl
 					Object zipObject) {
 
 					commerceTaxFixedRateAddressRel.setZip((String)zipObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"rate",
-			new Function<CommerceTaxFixedRateAddressRel, Object>() {
-
-				@Override
-				public Object apply(
-					CommerceTaxFixedRateAddressRel
-						commerceTaxFixedRateAddressRel) {
-
-					return commerceTaxFixedRateAddressRel.getRate();
 				}
 
 			});
@@ -710,8 +718,6 @@ public class CommerceTaxFixedRateAddressRelModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

@@ -5396,33 +5396,17 @@ public class CommerceWishListPersistenceImpl
 				Boolean.class.getName()
 			});
 
-		_setCommerceWishListUtilPersistence(this);
+		CommerceWishListUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setCommerceWishListUtilPersistence(null);
+		CommerceWishListUtil.setPersistence(null);
 
 		entityCache.removeCache(CommerceWishListImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setCommerceWishListUtilPersistence(
-		CommerceWishListPersistence commerceWishListPersistence) {
-
-		try {
-			Field field = CommerceWishListUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, commerceWishListPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

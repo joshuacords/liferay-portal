@@ -306,14 +306,10 @@ public class CPTaxCategoryModelImpl
 
 	private static final Map<String, Function<CPTaxCategory, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<CPTaxCategory, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<CPTaxCategory, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<CPTaxCategory, Object>>();
-		Map<String, BiConsumer<CPTaxCategory, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<CPTaxCategory, ?>>();
 
 		attributeGetterFunctions.put(
 			"CPTaxCategoryId",
@@ -325,6 +321,88 @@ public class CPTaxCategoryModelImpl
 				}
 
 			});
+		attributeGetterFunctions.put(
+			"companyId",
+			new Function<CPTaxCategory, Object>() {
+
+				@Override
+				public Object apply(CPTaxCategory cpTaxCategory) {
+					return cpTaxCategory.getCompanyId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userId",
+			new Function<CPTaxCategory, Object>() {
+
+				@Override
+				public Object apply(CPTaxCategory cpTaxCategory) {
+					return cpTaxCategory.getUserId();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"userName",
+			new Function<CPTaxCategory, Object>() {
+
+				@Override
+				public Object apply(CPTaxCategory cpTaxCategory) {
+					return cpTaxCategory.getUserName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"createDate",
+			new Function<CPTaxCategory, Object>() {
+
+				@Override
+				public Object apply(CPTaxCategory cpTaxCategory) {
+					return cpTaxCategory.getCreateDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"modifiedDate",
+			new Function<CPTaxCategory, Object>() {
+
+				@Override
+				public Object apply(CPTaxCategory cpTaxCategory) {
+					return cpTaxCategory.getModifiedDate();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"name",
+			new Function<CPTaxCategory, Object>() {
+
+				@Override
+				public Object apply(CPTaxCategory cpTaxCategory) {
+					return cpTaxCategory.getName();
+				}
+
+			});
+		attributeGetterFunctions.put(
+			"description",
+			new Function<CPTaxCategory, Object>() {
+
+				@Override
+				public Object apply(CPTaxCategory cpTaxCategory) {
+					return cpTaxCategory.getDescription();
+				}
+
+			});
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<CPTaxCategory, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<CPTaxCategory, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<CPTaxCategory, ?>>();
+
 		attributeSetterBiConsumers.put(
 			"CPTaxCategoryId",
 			new BiConsumer<CPTaxCategory, Object>() {
@@ -335,16 +413,6 @@ public class CPTaxCategoryModelImpl
 
 					cpTaxCategory.setCPTaxCategoryId(
 						(Long)CPTaxCategoryIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"companyId",
-			new Function<CPTaxCategory, Object>() {
-
-				@Override
-				public Object apply(CPTaxCategory cpTaxCategory) {
-					return cpTaxCategory.getCompanyId();
 				}
 
 			});
@@ -360,16 +428,6 @@ public class CPTaxCategoryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"userId",
-			new Function<CPTaxCategory, Object>() {
-
-				@Override
-				public Object apply(CPTaxCategory cpTaxCategory) {
-					return cpTaxCategory.getUserId();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"userId",
 			new BiConsumer<CPTaxCategory, Object>() {
@@ -379,16 +437,6 @@ public class CPTaxCategoryModelImpl
 					CPTaxCategory cpTaxCategory, Object userIdObject) {
 
 					cpTaxCategory.setUserId((Long)userIdObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"userName",
-			new Function<CPTaxCategory, Object>() {
-
-				@Override
-				public Object apply(CPTaxCategory cpTaxCategory) {
-					return cpTaxCategory.getUserName();
 				}
 
 			});
@@ -404,16 +452,6 @@ public class CPTaxCategoryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"createDate",
-			new Function<CPTaxCategory, Object>() {
-
-				@Override
-				public Object apply(CPTaxCategory cpTaxCategory) {
-					return cpTaxCategory.getCreateDate();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"createDate",
 			new BiConsumer<CPTaxCategory, Object>() {
@@ -423,16 +461,6 @@ public class CPTaxCategoryModelImpl
 					CPTaxCategory cpTaxCategory, Object createDateObject) {
 
 					cpTaxCategory.setCreateDate((Date)createDateObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"modifiedDate",
-			new Function<CPTaxCategory, Object>() {
-
-				@Override
-				public Object apply(CPTaxCategory cpTaxCategory) {
-					return cpTaxCategory.getModifiedDate();
 				}
 
 			});
@@ -448,16 +476,6 @@ public class CPTaxCategoryModelImpl
 				}
 
 			});
-		attributeGetterFunctions.put(
-			"name",
-			new Function<CPTaxCategory, Object>() {
-
-				@Override
-				public Object apply(CPTaxCategory cpTaxCategory) {
-					return cpTaxCategory.getName();
-				}
-
-			});
 		attributeSetterBiConsumers.put(
 			"name",
 			new BiConsumer<CPTaxCategory, Object>() {
@@ -467,16 +485,6 @@ public class CPTaxCategoryModelImpl
 					CPTaxCategory cpTaxCategory, Object nameObject) {
 
 					cpTaxCategory.setName((String)nameObject);
-				}
-
-			});
-		attributeGetterFunctions.put(
-			"description",
-			new Function<CPTaxCategory, Object>() {
-
-				@Override
-				public Object apply(CPTaxCategory cpTaxCategory) {
-					return cpTaxCategory.getDescription();
 				}
 
 			});
@@ -493,8 +501,6 @@ public class CPTaxCategoryModelImpl
 
 			});
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

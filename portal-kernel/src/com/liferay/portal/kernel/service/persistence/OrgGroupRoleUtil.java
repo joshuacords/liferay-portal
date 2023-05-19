@@ -607,6 +607,10 @@ public class OrgGroupRoleUtil {
 		return _persistence;
 	}
 
+	public static void setPersistence(OrgGroupRolePersistence persistence) {
+		_persistence = persistence;
+	}
+
 	private static volatile OrgGroupRolePersistence _persistence;
 
 }

@@ -1058,6 +1058,10 @@ public class SocialActivityLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(SocialActivityLocalService service) {
+		_service = service;
+	}
+
 	private static volatile SocialActivityLocalService _service;
 
 }

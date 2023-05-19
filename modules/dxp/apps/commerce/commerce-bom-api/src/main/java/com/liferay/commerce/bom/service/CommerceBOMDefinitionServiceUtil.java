@@ -94,6 +94,10 @@ public class CommerceBOMDefinitionServiceUtil {
 		return _service;
 	}
 
+	public static void setService(CommerceBOMDefinitionService service) {
+		_service = service;
+	}
+
 	private static volatile CommerceBOMDefinitionService _service;
 
 }

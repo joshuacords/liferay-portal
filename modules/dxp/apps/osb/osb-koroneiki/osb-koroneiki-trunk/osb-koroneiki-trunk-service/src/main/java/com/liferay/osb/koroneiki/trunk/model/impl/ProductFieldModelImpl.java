@@ -265,50 +265,56 @@ public class ProductFieldModelImpl
 
 	private static final Map<String, Function<ProductField, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<ProductField, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<ProductField, Object>> attributeGetterFunctions =
 			new LinkedHashMap<String, Function<ProductField, Object>>();
-		Map<String, BiConsumer<ProductField, ?>> attributeSetterBiConsumers =
-			new LinkedHashMap<String, BiConsumer<ProductField, ?>>();
 
 		attributeGetterFunctions.put(
 			"mvccVersion", ProductField::getMvccVersion);
-		attributeSetterBiConsumers.put(
-			"mvccVersion",
-			(BiConsumer<ProductField, Long>)ProductField::setMvccVersion);
 		attributeGetterFunctions.put(
 			"productFieldId", ProductField::getProductFieldId);
-		attributeSetterBiConsumers.put(
-			"productFieldId",
-			(BiConsumer<ProductField, Long>)ProductField::setProductFieldId);
 		attributeGetterFunctions.put("companyId", ProductField::getCompanyId);
-		attributeSetterBiConsumers.put(
-			"companyId",
-			(BiConsumer<ProductField, Long>)ProductField::setCompanyId);
 		attributeGetterFunctions.put("userId", ProductField::getUserId);
-		attributeSetterBiConsumers.put(
-			"userId", (BiConsumer<ProductField, Long>)ProductField::setUserId);
 		attributeGetterFunctions.put(
 			"classNameId", ProductField::getClassNameId);
-		attributeSetterBiConsumers.put(
-			"classNameId",
-			(BiConsumer<ProductField, Long>)ProductField::setClassNameId);
 		attributeGetterFunctions.put("classPK", ProductField::getClassPK);
-		attributeSetterBiConsumers.put(
-			"classPK",
-			(BiConsumer<ProductField, Long>)ProductField::setClassPK);
 		attributeGetterFunctions.put("name", ProductField::getName);
-		attributeSetterBiConsumers.put(
-			"name", (BiConsumer<ProductField, String>)ProductField::setName);
 		attributeGetterFunctions.put("value", ProductField::getValue);
-		attributeSetterBiConsumers.put(
-			"value", (BiConsumer<ProductField, String>)ProductField::setValue);
 
 		_attributeGetterFunctions = Collections.unmodifiableMap(
 			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<ProductField, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
+		Map<String, BiConsumer<ProductField, ?>> attributeSetterBiConsumers =
+			new LinkedHashMap<String, BiConsumer<ProductField, ?>>();
+
+		attributeSetterBiConsumers.put(
+			"mvccVersion",
+			(BiConsumer<ProductField, Long>)ProductField::setMvccVersion);
+		attributeSetterBiConsumers.put(
+			"productFieldId",
+			(BiConsumer<ProductField, Long>)ProductField::setProductFieldId);
+		attributeSetterBiConsumers.put(
+			"companyId",
+			(BiConsumer<ProductField, Long>)ProductField::setCompanyId);
+		attributeSetterBiConsumers.put(
+			"userId", (BiConsumer<ProductField, Long>)ProductField::setUserId);
+		attributeSetterBiConsumers.put(
+			"classNameId",
+			(BiConsumer<ProductField, Long>)ProductField::setClassNameId);
+		attributeSetterBiConsumers.put(
+			"classPK",
+			(BiConsumer<ProductField, Long>)ProductField::setClassPK);
+		attributeSetterBiConsumers.put(
+			"name", (BiConsumer<ProductField, String>)ProductField::setName);
+		attributeSetterBiConsumers.put(
+			"value", (BiConsumer<ProductField, String>)ProductField::setValue);
+
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

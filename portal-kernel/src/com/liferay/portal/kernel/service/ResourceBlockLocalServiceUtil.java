@@ -715,6 +715,10 @@ public class ResourceBlockLocalServiceUtil {
 		return _service;
 	}
 
+	public static void setService(ResourceBlockLocalService service) {
+		_service = service;
+	}
+
 	private static volatile ResourceBlockLocalService _service;
 
 }

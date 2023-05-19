@@ -307,119 +307,125 @@ public class SegmentsExperienceModelImpl
 
 	private static final Map<String, Function<SegmentsExperience, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<SegmentsExperience, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<SegmentsExperience, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<SegmentsExperience, Object>>();
+
+		attributeGetterFunctions.put(
+			"mvccVersion", SegmentsExperience::getMvccVersion);
+		attributeGetterFunctions.put("uuid", SegmentsExperience::getUuid);
+		attributeGetterFunctions.put(
+			"segmentsExperienceId",
+			SegmentsExperience::getSegmentsExperienceId);
+		attributeGetterFunctions.put("groupId", SegmentsExperience::getGroupId);
+		attributeGetterFunctions.put(
+			"companyId", SegmentsExperience::getCompanyId);
+		attributeGetterFunctions.put("userId", SegmentsExperience::getUserId);
+		attributeGetterFunctions.put(
+			"userName", SegmentsExperience::getUserName);
+		attributeGetterFunctions.put(
+			"createDate", SegmentsExperience::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", SegmentsExperience::getModifiedDate);
+		attributeGetterFunctions.put(
+			"segmentsEntryId", SegmentsExperience::getSegmentsEntryId);
+		attributeGetterFunctions.put(
+			"segmentsExperienceKey",
+			SegmentsExperience::getSegmentsExperienceKey);
+		attributeGetterFunctions.put(
+			"classNameId", SegmentsExperience::getClassNameId);
+		attributeGetterFunctions.put("classPK", SegmentsExperience::getClassPK);
+		attributeGetterFunctions.put("name", SegmentsExperience::getName);
+		attributeGetterFunctions.put(
+			"priority", SegmentsExperience::getPriority);
+		attributeGetterFunctions.put("active", SegmentsExperience::getActive);
+		attributeGetterFunctions.put(
+			"lastPublishDate", SegmentsExperience::getLastPublishDate);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<SegmentsExperience, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<SegmentsExperience, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<SegmentsExperience, ?>>();
 
-		attributeGetterFunctions.put(
-			"mvccVersion", SegmentsExperience::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<SegmentsExperience, Long>)
 				SegmentsExperience::setMvccVersion);
-		attributeGetterFunctions.put("uuid", SegmentsExperience::getUuid);
 		attributeSetterBiConsumers.put(
 			"uuid",
 			(BiConsumer<SegmentsExperience, String>)
 				SegmentsExperience::setUuid);
-		attributeGetterFunctions.put(
-			"segmentsExperienceId",
-			SegmentsExperience::getSegmentsExperienceId);
 		attributeSetterBiConsumers.put(
 			"segmentsExperienceId",
 			(BiConsumer<SegmentsExperience, Long>)
 				SegmentsExperience::setSegmentsExperienceId);
-		attributeGetterFunctions.put("groupId", SegmentsExperience::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<SegmentsExperience, Long>)
 				SegmentsExperience::setGroupId);
-		attributeGetterFunctions.put(
-			"companyId", SegmentsExperience::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<SegmentsExperience, Long>)
 				SegmentsExperience::setCompanyId);
-		attributeGetterFunctions.put("userId", SegmentsExperience::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<SegmentsExperience, Long>)
 				SegmentsExperience::setUserId);
-		attributeGetterFunctions.put(
-			"userName", SegmentsExperience::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<SegmentsExperience, String>)
 				SegmentsExperience::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", SegmentsExperience::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<SegmentsExperience, Date>)
 				SegmentsExperience::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", SegmentsExperience::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<SegmentsExperience, Date>)
 				SegmentsExperience::setModifiedDate);
-		attributeGetterFunctions.put(
-			"segmentsEntryId", SegmentsExperience::getSegmentsEntryId);
 		attributeSetterBiConsumers.put(
 			"segmentsEntryId",
 			(BiConsumer<SegmentsExperience, Long>)
 				SegmentsExperience::setSegmentsEntryId);
-		attributeGetterFunctions.put(
-			"segmentsExperienceKey",
-			SegmentsExperience::getSegmentsExperienceKey);
 		attributeSetterBiConsumers.put(
 			"segmentsExperienceKey",
 			(BiConsumer<SegmentsExperience, String>)
 				SegmentsExperience::setSegmentsExperienceKey);
-		attributeGetterFunctions.put(
-			"classNameId", SegmentsExperience::getClassNameId);
 		attributeSetterBiConsumers.put(
 			"classNameId",
 			(BiConsumer<SegmentsExperience, Long>)
 				SegmentsExperience::setClassNameId);
-		attributeGetterFunctions.put("classPK", SegmentsExperience::getClassPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<SegmentsExperience, Long>)
 				SegmentsExperience::setClassPK);
-		attributeGetterFunctions.put("name", SegmentsExperience::getName);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<SegmentsExperience, String>)
 				SegmentsExperience::setName);
-		attributeGetterFunctions.put(
-			"priority", SegmentsExperience::getPriority);
 		attributeSetterBiConsumers.put(
 			"priority",
 			(BiConsumer<SegmentsExperience, Integer>)
 				SegmentsExperience::setPriority);
-		attributeGetterFunctions.put("active", SegmentsExperience::getActive);
 		attributeSetterBiConsumers.put(
 			"active",
 			(BiConsumer<SegmentsExperience, Boolean>)
 				SegmentsExperience::setActive);
-		attributeGetterFunctions.put(
-			"lastPublishDate", SegmentsExperience::getLastPublishDate);
 		attributeSetterBiConsumers.put(
 			"lastPublishDate",
 			(BiConsumer<SegmentsExperience, Date>)
 				SegmentsExperience::setLastPublishDate);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

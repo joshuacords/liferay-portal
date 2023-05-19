@@ -31,8 +31,6 @@ import com.liferay.portal.kernel.module.framework.service.IdentifiableOSGiServic
 import com.liferay.portal.kernel.service.BaseServiceImpl;
 import com.liferay.portal.kernel.util.PortalUtil;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 /**
@@ -170,11 +168,12 @@ public abstract class AssetCategoryPropertyServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
-		_setServiceUtilService(assetCategoryPropertyService);
+		AssetCategoryPropertyServiceUtil.setService(
+			assetCategoryPropertyService);
 	}
 
 	public void destroy() {
-		_setServiceUtilService(null);
+		AssetCategoryPropertyServiceUtil.setService(null);
 	}
 
 	/**
@@ -217,23 +216,6 @@ public abstract class AssetCategoryPropertyServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setServiceUtilService(
-		AssetCategoryPropertyService assetCategoryPropertyService) {
-
-		try {
-			Field field =
-				AssetCategoryPropertyServiceUtil.class.getDeclaredField(
-					"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, assetCategoryPropertyService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

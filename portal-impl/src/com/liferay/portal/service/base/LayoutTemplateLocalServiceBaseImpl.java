@@ -30,8 +30,6 @@ import com.liferay.portal.kernel.service.persistence.PluginSettingPersistence;
 import com.liferay.portal.kernel.util.InfrastructureUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 
-import java.lang.reflect.Field;
-
 import javax.sql.DataSource;
 
 /**
@@ -142,11 +140,11 @@ public abstract class LayoutTemplateLocalServiceBaseImpl
 	}
 
 	public void afterPropertiesSet() {
-		_setLocalServiceUtilService(layoutTemplateLocalService);
+		LayoutTemplateLocalServiceUtil.setService(layoutTemplateLocalService);
 	}
 
 	public void destroy() {
-		_setLocalServiceUtilService(null);
+		LayoutTemplateLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -180,22 +178,6 @@ public abstract class LayoutTemplateLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		LayoutTemplateLocalService layoutTemplateLocalService) {
-
-		try {
-			Field field = LayoutTemplateLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, layoutTemplateLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

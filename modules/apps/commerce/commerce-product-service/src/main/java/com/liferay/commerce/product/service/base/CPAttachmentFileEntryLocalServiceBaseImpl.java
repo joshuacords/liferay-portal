@@ -92,8 +92,6 @@ import com.liferay.portal.spring.extender.service.ServiceReference;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -1955,14 +1953,15 @@ public abstract class CPAttachmentFileEntryLocalServiceBaseImpl
 			"com.liferay.commerce.product.model.CPAttachmentFileEntry",
 			cpAttachmentFileEntryLocalService);
 
-		_setLocalServiceUtilService(cpAttachmentFileEntryLocalService);
+		CPAttachmentFileEntryLocalServiceUtil.setService(
+			cpAttachmentFileEntryLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"com.liferay.commerce.product.model.CPAttachmentFileEntry");
 
-		_setLocalServiceUtilService(null);
+		CPAttachmentFileEntryLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -2005,23 +2004,6 @@ public abstract class CPAttachmentFileEntryLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		CPAttachmentFileEntryLocalService cpAttachmentFileEntryLocalService) {
-
-		try {
-			Field field =
-				CPAttachmentFileEntryLocalServiceUtil.class.getDeclaredField(
-					"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, cpAttachmentFileEntryLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

@@ -40,7 +40,6 @@ import com.liferay.portal.workflow.kaleo.forms.service.persistence.KaleoProcessL
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.List;
@@ -1549,33 +1548,17 @@ public class KaleoProcessLinkPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByKPI_WTN",
 			new String[] {Long.class.getName(), String.class.getName()});
 
-		_setKaleoProcessLinkUtilPersistence(this);
+		KaleoProcessLinkUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setKaleoProcessLinkUtilPersistence(null);
+		KaleoProcessLinkUtil.setPersistence(null);
 
 		entityCache.removeCache(KaleoProcessLinkImpl.class.getName());
 
 		finderCache.removeCache(FINDER_CLASS_NAME_ENTITY);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		finderCache.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setKaleoProcessLinkUtilPersistence(
-		KaleoProcessLinkPersistence kaleoProcessLinkPersistence) {
-
-		try {
-			Field field = KaleoProcessLinkUtil.class.getDeclaredField(
-				"_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, kaleoProcessLinkPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	@ServiceReference(type = EntityCache.class)

@@ -285,102 +285,108 @@ public class OAuthApplicationModelImpl
 
 	private static final Map<String, Function<OAuthApplication, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<OAuthApplication, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<OAuthApplication, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap<String, Function<OAuthApplication, Object>>();
+
+		attributeGetterFunctions.put(
+			"oAuthApplicationId", OAuthApplication::getOAuthApplicationId);
+		attributeGetterFunctions.put(
+			"companyId", OAuthApplication::getCompanyId);
+		attributeGetterFunctions.put("userId", OAuthApplication::getUserId);
+		attributeGetterFunctions.put("userName", OAuthApplication::getUserName);
+		attributeGetterFunctions.put(
+			"createDate", OAuthApplication::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", OAuthApplication::getModifiedDate);
+		attributeGetterFunctions.put("name", OAuthApplication::getName);
+		attributeGetterFunctions.put(
+			"description", OAuthApplication::getDescription);
+		attributeGetterFunctions.put(
+			"consumerKey", OAuthApplication::getConsumerKey);
+		attributeGetterFunctions.put(
+			"consumerSecret", OAuthApplication::getConsumerSecret);
+		attributeGetterFunctions.put(
+			"accessLevel", OAuthApplication::getAccessLevel);
+		attributeGetterFunctions.put("logoId", OAuthApplication::getLogoId);
+		attributeGetterFunctions.put(
+			"shareableAccessToken", OAuthApplication::getShareableAccessToken);
+		attributeGetterFunctions.put(
+			"callbackURI", OAuthApplication::getCallbackURI);
+		attributeGetterFunctions.put(
+			"websiteURL", OAuthApplication::getWebsiteURL);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<OAuthApplication, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<OAuthApplication, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<OAuthApplication, ?>>();
 
-		attributeGetterFunctions.put(
-			"oAuthApplicationId", OAuthApplication::getOAuthApplicationId);
 		attributeSetterBiConsumers.put(
 			"oAuthApplicationId",
 			(BiConsumer<OAuthApplication, Long>)
 				OAuthApplication::setOAuthApplicationId);
-		attributeGetterFunctions.put(
-			"companyId", OAuthApplication::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<OAuthApplication, Long>)OAuthApplication::setCompanyId);
-		attributeGetterFunctions.put("userId", OAuthApplication::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<OAuthApplication, Long>)OAuthApplication::setUserId);
-		attributeGetterFunctions.put("userName", OAuthApplication::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<OAuthApplication, String>)
 				OAuthApplication::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", OAuthApplication::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<OAuthApplication, Date>)
 				OAuthApplication::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", OAuthApplication::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<OAuthApplication, Date>)
 				OAuthApplication::setModifiedDate);
-		attributeGetterFunctions.put("name", OAuthApplication::getName);
 		attributeSetterBiConsumers.put(
 			"name",
 			(BiConsumer<OAuthApplication, String>)OAuthApplication::setName);
-		attributeGetterFunctions.put(
-			"description", OAuthApplication::getDescription);
 		attributeSetterBiConsumers.put(
 			"description",
 			(BiConsumer<OAuthApplication, String>)
 				OAuthApplication::setDescription);
-		attributeGetterFunctions.put(
-			"consumerKey", OAuthApplication::getConsumerKey);
 		attributeSetterBiConsumers.put(
 			"consumerKey",
 			(BiConsumer<OAuthApplication, String>)
 				OAuthApplication::setConsumerKey);
-		attributeGetterFunctions.put(
-			"consumerSecret", OAuthApplication::getConsumerSecret);
 		attributeSetterBiConsumers.put(
 			"consumerSecret",
 			(BiConsumer<OAuthApplication, String>)
 				OAuthApplication::setConsumerSecret);
-		attributeGetterFunctions.put(
-			"accessLevel", OAuthApplication::getAccessLevel);
 		attributeSetterBiConsumers.put(
 			"accessLevel",
 			(BiConsumer<OAuthApplication, Integer>)
 				OAuthApplication::setAccessLevel);
-		attributeGetterFunctions.put("logoId", OAuthApplication::getLogoId);
 		attributeSetterBiConsumers.put(
 			"logoId",
 			(BiConsumer<OAuthApplication, Long>)OAuthApplication::setLogoId);
-		attributeGetterFunctions.put(
-			"shareableAccessToken", OAuthApplication::getShareableAccessToken);
 		attributeSetterBiConsumers.put(
 			"shareableAccessToken",
 			(BiConsumer<OAuthApplication, Boolean>)
 				OAuthApplication::setShareableAccessToken);
-		attributeGetterFunctions.put(
-			"callbackURI", OAuthApplication::getCallbackURI);
 		attributeSetterBiConsumers.put(
 			"callbackURI",
 			(BiConsumer<OAuthApplication, String>)
 				OAuthApplication::setCallbackURI);
-		attributeGetterFunctions.put(
-			"websiteURL", OAuthApplication::getWebsiteURL);
 		attributeSetterBiConsumers.put(
 			"websiteURL",
 			(BiConsumer<OAuthApplication, String>)
 				OAuthApplication::setWebsiteURL);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

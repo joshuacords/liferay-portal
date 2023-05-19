@@ -46,7 +46,6 @@ import com.liferay.portal.model.impl.AddressModelImpl;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Date;
@@ -5639,32 +5638,17 @@ public class AddressPersistenceImpl
 				Long.class.getName(), Boolean.class.getName()
 			});
 
-		_setAddressUtilPersistence(this);
+		AddressUtil.setPersistence(this);
 	}
 
 	public void destroy() {
-		_setAddressUtilPersistence(null);
+		AddressUtil.setPersistence(null);
 
 		EntityCacheUtil.removeCache(AddressImpl.class.getName());
 
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_ENTITY);
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		FinderCacheUtil.removeCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
-	}
-
-	private void _setAddressUtilPersistence(
-		AddressPersistence addressPersistence) {
-
-		try {
-			Field field = AddressUtil.class.getDeclaredField("_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, addressPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
-		}
 	}
 
 	private static final String _SQL_SELECT_ADDRESS =

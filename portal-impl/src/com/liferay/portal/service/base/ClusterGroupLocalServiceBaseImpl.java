@@ -46,8 +46,6 @@ import com.liferay.portal.kernel.util.PortalUtil;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
-
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -423,14 +421,14 @@ public abstract class ClusterGroupLocalServiceBaseImpl
 			"com.liferay.portal.kernel.model.ClusterGroup",
 			clusterGroupLocalService);
 
-		_setLocalServiceUtilService(clusterGroupLocalService);
+		ClusterGroupLocalServiceUtil.setService(clusterGroupLocalService);
 	}
 
 	public void destroy() {
 		persistedModelLocalServiceRegistry.unregister(
 			"com.liferay.portal.kernel.model.ClusterGroup");
 
-		_setLocalServiceUtilService(null);
+		ClusterGroupLocalServiceUtil.setService(null);
 	}
 
 	/**
@@ -472,22 +470,6 @@ public abstract class ClusterGroupLocalServiceBaseImpl
 		}
 		catch (Exception exception) {
 			throw new SystemException(exception);
-		}
-	}
-
-	private void _setLocalServiceUtilService(
-		ClusterGroupLocalService clusterGroupLocalService) {
-
-		try {
-			Field field = ClusterGroupLocalServiceUtil.class.getDeclaredField(
-				"_service");
-
-			field.setAccessible(true);
-
-			field.set(null, clusterGroupLocalService);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 

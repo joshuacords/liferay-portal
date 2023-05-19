@@ -239,107 +239,113 @@ public class LayoutSetVersionModelImpl
 
 	private static final Map<String, Function<LayoutSetVersion, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<LayoutSetVersion, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<LayoutSetVersion, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap<String, Function<LayoutSetVersion, Object>>();
+
+		attributeGetterFunctions.put(
+			"layoutSetVersionId", LayoutSetVersion::getLayoutSetVersionId);
+		attributeGetterFunctions.put("version", LayoutSetVersion::getVersion);
+		attributeGetterFunctions.put(
+			"layoutSetId", LayoutSetVersion::getLayoutSetId);
+		attributeGetterFunctions.put("groupId", LayoutSetVersion::getGroupId);
+		attributeGetterFunctions.put(
+			"companyId", LayoutSetVersion::getCompanyId);
+		attributeGetterFunctions.put(
+			"createDate", LayoutSetVersion::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", LayoutSetVersion::getModifiedDate);
+		attributeGetterFunctions.put(
+			"privateLayout", LayoutSetVersion::getPrivateLayout);
+		attributeGetterFunctions.put("logoId", LayoutSetVersion::getLogoId);
+		attributeGetterFunctions.put("themeId", LayoutSetVersion::getThemeId);
+		attributeGetterFunctions.put(
+			"colorSchemeId", LayoutSetVersion::getColorSchemeId);
+		attributeGetterFunctions.put("css", LayoutSetVersion::getCss);
+		attributeGetterFunctions.put(
+			"pageCount", LayoutSetVersion::getPageCount);
+		attributeGetterFunctions.put("settings", LayoutSetVersion::getSettings);
+		attributeGetterFunctions.put(
+			"layoutSetPrototypeUuid",
+			LayoutSetVersion::getLayoutSetPrototypeUuid);
+		attributeGetterFunctions.put(
+			"layoutSetPrototypeLinkEnabled",
+			LayoutSetVersion::getLayoutSetPrototypeLinkEnabled);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<LayoutSetVersion, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<LayoutSetVersion, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap<String, BiConsumer<LayoutSetVersion, ?>>();
 
-		attributeGetterFunctions.put(
-			"layoutSetVersionId", LayoutSetVersion::getLayoutSetVersionId);
 		attributeSetterBiConsumers.put(
 			"layoutSetVersionId",
 			(BiConsumer<LayoutSetVersion, Long>)
 				LayoutSetVersion::setLayoutSetVersionId);
-		attributeGetterFunctions.put("version", LayoutSetVersion::getVersion);
 		attributeSetterBiConsumers.put(
 			"version",
 			(BiConsumer<LayoutSetVersion, Integer>)
 				LayoutSetVersion::setVersion);
-		attributeGetterFunctions.put(
-			"layoutSetId", LayoutSetVersion::getLayoutSetId);
 		attributeSetterBiConsumers.put(
 			"layoutSetId",
 			(BiConsumer<LayoutSetVersion, Long>)
 				LayoutSetVersion::setLayoutSetId);
-		attributeGetterFunctions.put("groupId", LayoutSetVersion::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<LayoutSetVersion, Long>)LayoutSetVersion::setGroupId);
-		attributeGetterFunctions.put(
-			"companyId", LayoutSetVersion::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<LayoutSetVersion, Long>)LayoutSetVersion::setCompanyId);
-		attributeGetterFunctions.put(
-			"createDate", LayoutSetVersion::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<LayoutSetVersion, Date>)
 				LayoutSetVersion::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", LayoutSetVersion::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<LayoutSetVersion, Date>)
 				LayoutSetVersion::setModifiedDate);
-		attributeGetterFunctions.put(
-			"privateLayout", LayoutSetVersion::getPrivateLayout);
 		attributeSetterBiConsumers.put(
 			"privateLayout",
 			(BiConsumer<LayoutSetVersion, Boolean>)
 				LayoutSetVersion::setPrivateLayout);
-		attributeGetterFunctions.put("logoId", LayoutSetVersion::getLogoId);
 		attributeSetterBiConsumers.put(
 			"logoId",
 			(BiConsumer<LayoutSetVersion, Long>)LayoutSetVersion::setLogoId);
-		attributeGetterFunctions.put("themeId", LayoutSetVersion::getThemeId);
 		attributeSetterBiConsumers.put(
 			"themeId",
 			(BiConsumer<LayoutSetVersion, String>)LayoutSetVersion::setThemeId);
-		attributeGetterFunctions.put(
-			"colorSchemeId", LayoutSetVersion::getColorSchemeId);
 		attributeSetterBiConsumers.put(
 			"colorSchemeId",
 			(BiConsumer<LayoutSetVersion, String>)
 				LayoutSetVersion::setColorSchemeId);
-		attributeGetterFunctions.put("css", LayoutSetVersion::getCss);
 		attributeSetterBiConsumers.put(
 			"css",
 			(BiConsumer<LayoutSetVersion, String>)LayoutSetVersion::setCss);
-		attributeGetterFunctions.put(
-			"pageCount", LayoutSetVersion::getPageCount);
 		attributeSetterBiConsumers.put(
 			"pageCount",
 			(BiConsumer<LayoutSetVersion, Integer>)
 				LayoutSetVersion::setPageCount);
-		attributeGetterFunctions.put("settings", LayoutSetVersion::getSettings);
 		attributeSetterBiConsumers.put(
 			"settings",
 			(BiConsumer<LayoutSetVersion, String>)
 				LayoutSetVersion::setSettings);
-		attributeGetterFunctions.put(
-			"layoutSetPrototypeUuid",
-			LayoutSetVersion::getLayoutSetPrototypeUuid);
 		attributeSetterBiConsumers.put(
 			"layoutSetPrototypeUuid",
 			(BiConsumer<LayoutSetVersion, String>)
 				LayoutSetVersion::setLayoutSetPrototypeUuid);
-		attributeGetterFunctions.put(
-			"layoutSetPrototypeLinkEnabled",
-			LayoutSetVersion::getLayoutSetPrototypeLinkEnabled);
 		attributeSetterBiConsumers.put(
 			"layoutSetPrototypeLinkEnabled",
 			(BiConsumer<LayoutSetVersion, Boolean>)
 				LayoutSetVersion::setLayoutSetPrototypeLinkEnabled);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}

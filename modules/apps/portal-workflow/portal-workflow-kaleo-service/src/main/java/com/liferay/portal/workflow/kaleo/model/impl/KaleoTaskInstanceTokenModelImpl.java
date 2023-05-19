@@ -240,145 +240,151 @@ public class KaleoTaskInstanceTokenModelImpl
 
 	private static final Map<String, Function<KaleoTaskInstanceToken, Object>>
 		_attributeGetterFunctions;
-	private static final Map<String, BiConsumer<KaleoTaskInstanceToken, Object>>
-		_attributeSetterBiConsumers;
 
 	static {
 		Map<String, Function<KaleoTaskInstanceToken, Object>>
 			attributeGetterFunctions =
 				new LinkedHashMap
 					<String, Function<KaleoTaskInstanceToken, Object>>();
+
+		attributeGetterFunctions.put(
+			"mvccVersion", KaleoTaskInstanceToken::getMvccVersion);
+		attributeGetterFunctions.put(
+			"kaleoTaskInstanceTokenId",
+			KaleoTaskInstanceToken::getKaleoTaskInstanceTokenId);
+		attributeGetterFunctions.put(
+			"groupId", KaleoTaskInstanceToken::getGroupId);
+		attributeGetterFunctions.put(
+			"companyId", KaleoTaskInstanceToken::getCompanyId);
+		attributeGetterFunctions.put(
+			"userId", KaleoTaskInstanceToken::getUserId);
+		attributeGetterFunctions.put(
+			"userName", KaleoTaskInstanceToken::getUserName);
+		attributeGetterFunctions.put(
+			"createDate", KaleoTaskInstanceToken::getCreateDate);
+		attributeGetterFunctions.put(
+			"modifiedDate", KaleoTaskInstanceToken::getModifiedDate);
+		attributeGetterFunctions.put(
+			"kaleoDefinitionVersionId",
+			KaleoTaskInstanceToken::getKaleoDefinitionVersionId);
+		attributeGetterFunctions.put(
+			"kaleoInstanceId", KaleoTaskInstanceToken::getKaleoInstanceId);
+		attributeGetterFunctions.put(
+			"kaleoInstanceTokenId",
+			KaleoTaskInstanceToken::getKaleoInstanceTokenId);
+		attributeGetterFunctions.put(
+			"kaleoTaskId", KaleoTaskInstanceToken::getKaleoTaskId);
+		attributeGetterFunctions.put(
+			"kaleoTaskName", KaleoTaskInstanceToken::getKaleoTaskName);
+		attributeGetterFunctions.put(
+			"className", KaleoTaskInstanceToken::getClassName);
+		attributeGetterFunctions.put(
+			"classPK", KaleoTaskInstanceToken::getClassPK);
+		attributeGetterFunctions.put(
+			"completionUserId", KaleoTaskInstanceToken::getCompletionUserId);
+		attributeGetterFunctions.put(
+			"completed", KaleoTaskInstanceToken::getCompleted);
+		attributeGetterFunctions.put(
+			"completionDate", KaleoTaskInstanceToken::getCompletionDate);
+		attributeGetterFunctions.put(
+			"dueDate", KaleoTaskInstanceToken::getDueDate);
+		attributeGetterFunctions.put(
+			"workflowContext", KaleoTaskInstanceToken::getWorkflowContext);
+
+		_attributeGetterFunctions = Collections.unmodifiableMap(
+			attributeGetterFunctions);
+	}
+
+	private static final Map<String, BiConsumer<KaleoTaskInstanceToken, Object>>
+		_attributeSetterBiConsumers;
+
+	static {
 		Map<String, BiConsumer<KaleoTaskInstanceToken, ?>>
 			attributeSetterBiConsumers =
 				new LinkedHashMap
 					<String, BiConsumer<KaleoTaskInstanceToken, ?>>();
 
-		attributeGetterFunctions.put(
-			"mvccVersion", KaleoTaskInstanceToken::getMvccVersion);
 		attributeSetterBiConsumers.put(
 			"mvccVersion",
 			(BiConsumer<KaleoTaskInstanceToken, Long>)
 				KaleoTaskInstanceToken::setMvccVersion);
-		attributeGetterFunctions.put(
-			"kaleoTaskInstanceTokenId",
-			KaleoTaskInstanceToken::getKaleoTaskInstanceTokenId);
 		attributeSetterBiConsumers.put(
 			"kaleoTaskInstanceTokenId",
 			(BiConsumer<KaleoTaskInstanceToken, Long>)
 				KaleoTaskInstanceToken::setKaleoTaskInstanceTokenId);
-		attributeGetterFunctions.put(
-			"groupId", KaleoTaskInstanceToken::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId",
 			(BiConsumer<KaleoTaskInstanceToken, Long>)
 				KaleoTaskInstanceToken::setGroupId);
-		attributeGetterFunctions.put(
-			"companyId", KaleoTaskInstanceToken::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId",
 			(BiConsumer<KaleoTaskInstanceToken, Long>)
 				KaleoTaskInstanceToken::setCompanyId);
-		attributeGetterFunctions.put(
-			"userId", KaleoTaskInstanceToken::getUserId);
 		attributeSetterBiConsumers.put(
 			"userId",
 			(BiConsumer<KaleoTaskInstanceToken, Long>)
 				KaleoTaskInstanceToken::setUserId);
-		attributeGetterFunctions.put(
-			"userName", KaleoTaskInstanceToken::getUserName);
 		attributeSetterBiConsumers.put(
 			"userName",
 			(BiConsumer<KaleoTaskInstanceToken, String>)
 				KaleoTaskInstanceToken::setUserName);
-		attributeGetterFunctions.put(
-			"createDate", KaleoTaskInstanceToken::getCreateDate);
 		attributeSetterBiConsumers.put(
 			"createDate",
 			(BiConsumer<KaleoTaskInstanceToken, Date>)
 				KaleoTaskInstanceToken::setCreateDate);
-		attributeGetterFunctions.put(
-			"modifiedDate", KaleoTaskInstanceToken::getModifiedDate);
 		attributeSetterBiConsumers.put(
 			"modifiedDate",
 			(BiConsumer<KaleoTaskInstanceToken, Date>)
 				KaleoTaskInstanceToken::setModifiedDate);
-		attributeGetterFunctions.put(
-			"kaleoDefinitionVersionId",
-			KaleoTaskInstanceToken::getKaleoDefinitionVersionId);
 		attributeSetterBiConsumers.put(
 			"kaleoDefinitionVersionId",
 			(BiConsumer<KaleoTaskInstanceToken, Long>)
 				KaleoTaskInstanceToken::setKaleoDefinitionVersionId);
-		attributeGetterFunctions.put(
-			"kaleoInstanceId", KaleoTaskInstanceToken::getKaleoInstanceId);
 		attributeSetterBiConsumers.put(
 			"kaleoInstanceId",
 			(BiConsumer<KaleoTaskInstanceToken, Long>)
 				KaleoTaskInstanceToken::setKaleoInstanceId);
-		attributeGetterFunctions.put(
-			"kaleoInstanceTokenId",
-			KaleoTaskInstanceToken::getKaleoInstanceTokenId);
 		attributeSetterBiConsumers.put(
 			"kaleoInstanceTokenId",
 			(BiConsumer<KaleoTaskInstanceToken, Long>)
 				KaleoTaskInstanceToken::setKaleoInstanceTokenId);
-		attributeGetterFunctions.put(
-			"kaleoTaskId", KaleoTaskInstanceToken::getKaleoTaskId);
 		attributeSetterBiConsumers.put(
 			"kaleoTaskId",
 			(BiConsumer<KaleoTaskInstanceToken, Long>)
 				KaleoTaskInstanceToken::setKaleoTaskId);
-		attributeGetterFunctions.put(
-			"kaleoTaskName", KaleoTaskInstanceToken::getKaleoTaskName);
 		attributeSetterBiConsumers.put(
 			"kaleoTaskName",
 			(BiConsumer<KaleoTaskInstanceToken, String>)
 				KaleoTaskInstanceToken::setKaleoTaskName);
-		attributeGetterFunctions.put(
-			"className", KaleoTaskInstanceToken::getClassName);
 		attributeSetterBiConsumers.put(
 			"className",
 			(BiConsumer<KaleoTaskInstanceToken, String>)
 				KaleoTaskInstanceToken::setClassName);
-		attributeGetterFunctions.put(
-			"classPK", KaleoTaskInstanceToken::getClassPK);
 		attributeSetterBiConsumers.put(
 			"classPK",
 			(BiConsumer<KaleoTaskInstanceToken, Long>)
 				KaleoTaskInstanceToken::setClassPK);
-		attributeGetterFunctions.put(
-			"completionUserId", KaleoTaskInstanceToken::getCompletionUserId);
 		attributeSetterBiConsumers.put(
 			"completionUserId",
 			(BiConsumer<KaleoTaskInstanceToken, Long>)
 				KaleoTaskInstanceToken::setCompletionUserId);
-		attributeGetterFunctions.put(
-			"completed", KaleoTaskInstanceToken::getCompleted);
 		attributeSetterBiConsumers.put(
 			"completed",
 			(BiConsumer<KaleoTaskInstanceToken, Boolean>)
 				KaleoTaskInstanceToken::setCompleted);
-		attributeGetterFunctions.put(
-			"completionDate", KaleoTaskInstanceToken::getCompletionDate);
 		attributeSetterBiConsumers.put(
 			"completionDate",
 			(BiConsumer<KaleoTaskInstanceToken, Date>)
 				KaleoTaskInstanceToken::setCompletionDate);
-		attributeGetterFunctions.put(
-			"dueDate", KaleoTaskInstanceToken::getDueDate);
 		attributeSetterBiConsumers.put(
 			"dueDate",
 			(BiConsumer<KaleoTaskInstanceToken, Date>)
 				KaleoTaskInstanceToken::setDueDate);
-		attributeGetterFunctions.put(
-			"workflowContext", KaleoTaskInstanceToken::getWorkflowContext);
 		attributeSetterBiConsumers.put(
 			"workflowContext",
 			(BiConsumer<KaleoTaskInstanceToken, String>)
 				KaleoTaskInstanceToken::setWorkflowContext);
 
-		_attributeGetterFunctions = Collections.unmodifiableMap(
-			attributeGetterFunctions);
 		_attributeSetterBiConsumers = Collections.unmodifiableMap(
 			(Map)attributeSetterBiConsumers);
 	}
