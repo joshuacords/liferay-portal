@@ -400,6 +400,18 @@ public class Mutation {
 	}
 
 	@GraphQLField
+	public SXPElement createSXPElementPreview(
+			@GraphQLName("string") String string)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_sxpElementResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			sxpElementResource -> sxpElementResource.postSXPElementPreview(
+				string));
+	}
+
+	@GraphQLField
 	public SXPElement createSXPElementValidate(
 			@GraphQLName("string") String string)
 		throws Exception {
