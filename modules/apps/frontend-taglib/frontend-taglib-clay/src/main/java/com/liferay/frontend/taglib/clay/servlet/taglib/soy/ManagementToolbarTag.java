@@ -27,6 +27,7 @@ import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.HtmlUtil;
 import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -92,6 +93,12 @@ public class ManagementToolbarTag extends BaseClayTag {
 				ManagementToolbarDefaults.getContentRenderer());
 
 			setContentRenderer(contentRenderer);
+		}
+
+		if (_managementToolbarDisplayContext != null) {
+			setSearchActionURL(
+				HtmlUtil.escapeAttribute(
+					_managementToolbarDisplayContext.getSearchActionURL()));
 		}
 
 		String searchValue = (String)context.get("searchValue");
@@ -321,7 +328,8 @@ public class ManagementToolbarTag extends BaseClayTag {
 
 		if (context.get("clearResultsURL") == null) {
 			setClearResultsURL(
-				managementToolbarDisplayContext.getClearResultsURL());
+				HtmlUtil.escapeAttribute(
+					managementToolbarDisplayContext.getClearResultsURL()));
 		}
 
 		if (context.get("componentId") == null) {
