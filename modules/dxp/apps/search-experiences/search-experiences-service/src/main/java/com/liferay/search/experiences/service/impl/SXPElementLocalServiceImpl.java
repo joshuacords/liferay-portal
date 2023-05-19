@@ -29,6 +29,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.search.experiences.exception.SXPElementTitleException;
 import com.liferay.search.experiences.model.SXPElement;
+import com.liferay.search.experiences.model.impl.SXPElementImpl;
 import com.liferay.search.experiences.service.base.SXPElementLocalServiceBaseImpl;
 import com.liferay.search.experiences.validator.SXPElementValidator;
 
@@ -131,6 +132,35 @@ public class SXPElementLocalServiceImpl extends SXPElementLocalServiceBaseImpl {
 	@Override
 	public List<SXPElement> getSXPElements(long companyId, boolean readOnly) {
 		return sxpElementPersistence.findByC_R(companyId, readOnly);
+	}
+
+	@Override
+	public SXPElement previewSXPElement(
+			String externalReferenceCode, Map<Locale, String> descriptionMap,
+			String elementDefinitionJSON, boolean readOnly,
+			String schemaVersion, Map<Locale, String> titleMap, int type,
+			ServiceContext serviceContext)
+		throws PortalException {
+
+		_validate(titleMap, type, serviceContext);
+
+		SXPElement sxpElement = new SXPElementImpl();
+
+		sxpElement.setExternalReferenceCode(externalReferenceCode);
+
+		sxpElement.setDescriptionMap(descriptionMap);
+		sxpElement.setElementDefinitionJSON(elementDefinitionJSON);
+		sxpElement.setHidden(false);
+		sxpElement.setReadOnly(readOnly);
+		sxpElement.setSchemaVersion(schemaVersion);
+		sxpElement.setTitleMap(titleMap);
+		sxpElement.setType(type);
+		sxpElement.setVersion(
+			String.format(
+				"%.1f",
+				GetterUtil.getFloat(sxpElement.getVersion(), 0.9F) + 0.1));
+
+		return sxpElement;
 	}
 
 	@Indexable(type = IndexableType.REINDEX)

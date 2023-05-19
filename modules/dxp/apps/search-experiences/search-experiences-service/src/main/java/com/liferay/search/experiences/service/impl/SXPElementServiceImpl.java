@@ -91,6 +91,19 @@ public class SXPElementServiceImpl extends SXPElementServiceBaseImpl {
 	}
 
 	@Override
+	public SXPElement previewSXPElement(
+			String externalReferenceCode, Map<Locale, String> descriptionMap,
+			String elementDefinitionJSON, boolean readOnly,
+			String schemaVersion, Map<Locale, String> titleMap, int type,
+			ServiceContext serviceContext)
+		throws PortalException {
+
+		return sxpElementLocalService.previewSXPElement(
+			externalReferenceCode, descriptionMap, elementDefinitionJSON,
+			readOnly, schemaVersion, titleMap, type, serviceContext);
+	}
+
+	@Override
 	public SXPElement updateSXPElement(
 			long sxpElementId, Map<Locale, String> descriptionMap,
 			String elementDefinitionJSON, String schemaVersion, boolean hidden,
