@@ -16,7 +16,9 @@ package com.liferay.osb.provisioning.rest.internal.graphql.servlet.v1_0;
 
 import com.liferay.osb.provisioning.rest.internal.graphql.mutation.v1_0.Mutation;
 import com.liferay.osb.provisioning.rest.internal.graphql.query.v1_0.Query;
+import com.liferay.osb.provisioning.rest.internal.resource.v1_0.AppLicenseKeyResourceImpl;
 import com.liferay.osb.provisioning.rest.internal.resource.v1_0.LicenseKeyResourceImpl;
+import com.liferay.osb.provisioning.rest.resource.v1_0.AppLicenseKeyResource;
 import com.liferay.osb.provisioning.rest.resource.v1_0.LicenseKeyResource;
 import com.liferay.portal.kernel.util.ObjectValuePair;
 import com.liferay.portal.vulcan.graphql.servlet.ServletData;
@@ -46,6 +48,8 @@ public class ServletDataImpl implements ServletData {
 		Mutation.setLicenseKeyResourceComponentServiceObjects(
 			_licenseKeyResourceComponentServiceObjects);
 
+		Query.setAppLicenseKeyResourceComponentServiceObjects(
+			_appLicenseKeyResourceComponentServiceObjects);
 		Query.setLicenseKeyResourceComponentServiceObjects(
 			_licenseKeyResourceComponentServiceObjects);
 	}
@@ -116,6 +120,11 @@ public class ServletDataImpl implements ServletData {
 							"putLicenseKeySubscription"));
 
 					put(
+						"query#appLicenseKeys",
+						new ObjectValuePair<>(
+							AppLicenseKeyResourceImpl.class,
+							"getAppLicenseKeysPage"));
+					put(
 						"query#accountAccountKeyLicenseKeys",
 						new ObjectValuePair<>(
 							LicenseKeyResourceImpl.class,
@@ -176,5 +185,9 @@ public class ServletDataImpl implements ServletData {
 	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
 	private ComponentServiceObjects<LicenseKeyResource>
 		_licenseKeyResourceComponentServiceObjects;
+
+	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
+	private ComponentServiceObjects<AppLicenseKeyResource>
+		_appLicenseKeyResourceComponentServiceObjects;
 
 }

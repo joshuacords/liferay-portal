@@ -14,8 +14,10 @@
 
 package com.liferay.osb.provisioning.rest.internal.graphql.query.v1_0;
 
+import com.liferay.osb.provisioning.rest.dto.v1_0.AppLicenseKey;
 import com.liferay.osb.provisioning.rest.dto.v1_0.LicenseKey;
 import com.liferay.osb.provisioning.rest.dto.v1_0.LicenseKeyGenerateForm;
+import com.liferay.osb.provisioning.rest.resource.v1_0.AppLicenseKeyResource;
 import com.liferay.osb.provisioning.rest.resource.v1_0.LicenseKeyResource;
 import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
@@ -49,12 +51,49 @@ import org.osgi.service.component.ComponentServiceObjects;
 @Generated("")
 public class Query {
 
+	public static void setAppLicenseKeyResourceComponentServiceObjects(
+		ComponentServiceObjects<AppLicenseKeyResource>
+			appLicenseKeyResourceComponentServiceObjects) {
+
+		_appLicenseKeyResourceComponentServiceObjects =
+			appLicenseKeyResourceComponentServiceObjects;
+	}
+
 	public static void setLicenseKeyResourceComponentServiceObjects(
 		ComponentServiceObjects<LicenseKeyResource>
 			licenseKeyResourceComponentServiceObjects) {
 
 		_licenseKeyResourceComponentServiceObjects =
 			licenseKeyResourceComponentServiceObjects;
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {appLicenseKeys(filter: ___, page: ___, pageSize: ___, search: ___, sorts: ___){items {__}, page, pageSize, totalCount}}"}' -u 'test@liferay.com:test'
+	 */
+	@GraphQLField(
+		description = "Retrieves the app license keys. Results can be paginated, filtered, searched, and sorted."
+	)
+	public AppLicenseKeyPage appLicenseKeys(
+			@GraphQLName("search") String search,
+			@GraphQLName("filter") String filterString,
+			@GraphQLName("pageSize") int pageSize,
+			@GraphQLName("page") int page,
+			@GraphQLName("sort") String sortsString)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_appLicenseKeyResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			appLicenseKeyResource -> new AppLicenseKeyPage(
+				appLicenseKeyResource.getAppLicenseKeysPage(
+					search,
+					_filterBiFunction.apply(
+						appLicenseKeyResource, filterString),
+					Pagination.of(page, pageSize),
+					_sortsBiFunction.apply(
+						appLicenseKeyResource, sortsString))));
 	}
 
 	/**
@@ -291,6 +330,39 @@ public class Query {
 						productGroupName, accountKey, productVersion));
 	}
 
+	@GraphQLName("AppLicenseKeyPage")
+	public class AppLicenseKeyPage {
+
+		public AppLicenseKeyPage(Page appLicenseKeyPage) {
+			actions = appLicenseKeyPage.getActions();
+
+			items = appLicenseKeyPage.getItems();
+			lastPage = appLicenseKeyPage.getLastPage();
+			page = appLicenseKeyPage.getPage();
+			pageSize = appLicenseKeyPage.getPageSize();
+			totalCount = appLicenseKeyPage.getTotalCount();
+		}
+
+		@GraphQLField
+		protected Map<String, Map<String, String>> actions;
+
+		@GraphQLField
+		protected java.util.Collection<AppLicenseKey> items;
+
+		@GraphQLField
+		protected long lastPage;
+
+		@GraphQLField
+		protected long page;
+
+		@GraphQLField
+		protected long pageSize;
+
+		@GraphQLField
+		protected long totalCount;
+
+	}
+
 	@GraphQLName("LicenseKeyPage")
 	public class LicenseKeyPage {
 
@@ -343,6 +415,21 @@ public class Query {
 		}
 	}
 
+	private void _populateResourceContext(
+			AppLicenseKeyResource appLicenseKeyResource)
+		throws Exception {
+
+		appLicenseKeyResource.setContextAcceptLanguage(_acceptLanguage);
+		appLicenseKeyResource.setContextCompany(_company);
+		appLicenseKeyResource.setContextHttpServletRequest(_httpServletRequest);
+		appLicenseKeyResource.setContextHttpServletResponse(
+			_httpServletResponse);
+		appLicenseKeyResource.setContextUriInfo(_uriInfo);
+		appLicenseKeyResource.setContextUser(_user);
+		appLicenseKeyResource.setGroupLocalService(_groupLocalService);
+		appLicenseKeyResource.setRoleLocalService(_roleLocalService);
+	}
+
 	private void _populateResourceContext(LicenseKeyResource licenseKeyResource)
 		throws Exception {
 
@@ -356,6 +443,8 @@ public class Query {
 		licenseKeyResource.setRoleLocalService(_roleLocalService);
 	}
 
+	private static ComponentServiceObjects<AppLicenseKeyResource>
+		_appLicenseKeyResourceComponentServiceObjects;
 	private static ComponentServiceObjects<LicenseKeyResource>
 		_licenseKeyResourceComponentServiceObjects;
 
