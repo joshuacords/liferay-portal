@@ -1,5 +1,108 @@
 components:
     schemas:
+        AppLicenseKey:
+            description:
+                Represents a DXP App license key.
+            properties:
+                active:
+                    description:
+                        If the license key is active or not.
+                    type: boolean
+                complimentary:
+                    description:
+                        If the license key counts towards the customer's purchase.
+                    type: boolean
+                createDate:
+                    description:
+                        The create date of the license key.
+                    format: date-time
+                    readOnly: true
+                    type: string
+                description:
+                    description:
+                        The description of the license key.
+                    type: string
+                expirationDate:
+                    description:
+                        The date the license key expires.
+                    format: date-time
+                    type: string
+                hostName:
+                    description:
+                        The host name of the license key.
+                    type: string
+                id:
+                    description:
+                        The id of the license key.
+                    format: int64
+                    type: integer
+                ipAddresses:
+                    description:
+                        The IP addresses of the license key.
+                    type: string
+                key:
+                    description:
+                        The hash key of the license key.
+                    readOnly: true
+                    type: string
+                licenseType:
+                    description:
+                        The name of the license entry of the license key.
+                    enum: ["developer", "enterprise", "oem", "production", "virtual-cluster"]
+                    type: string
+                macAddresses:
+                    description:
+                        The MAC addresses of the license key.
+                    type: string
+                modifiedDate:
+                    description:
+                        The last date the license key was modified.
+                    format: date-time
+                    type: string
+                modifiedUserName:
+                    description:
+                        The name of the user who last modified the license key.
+                    type: string
+                modifiedUserUuid:
+                    description:
+                        The uuid of the user who last modified the license key.
+                    type: string
+                orderId:
+                    description:
+                        The order Id license key belongs to.
+                    type: string
+                owner:
+                    description:
+                        The owner of the license key.
+                    type: string
+                productId:
+                    description:
+                        The id of the product of the license key.
+                    type: string
+                productName:
+                    description:
+                        The name of the product of the license key.
+                    type: string
+                productVersion:
+                    description:
+                        The version of the product of the license key.
+                    type: string
+                startDate:
+                    description:
+                        The date the license key can start being used.
+                    format: date-time
+                    type: string
+                userName:
+                    description:
+                        The name of the user who created the license key.
+                    readOnly: true
+                    type: string
+                userUuid:
+                    description:
+                        The uuid of the user who created the license key.
+                    readOnly: true
+                    type: string
+            type: object
         LicenseKey:
             description:
                 Represents a license key.
@@ -598,6 +701,46 @@ paths:
                                 format: binary
                                 type: string
             tags: ["LicenseKey"]
+    "/app-license-keys":
+        get:
+            description:
+                Retrieves the app license keys. Results can be paginated, filtered, searched, and sorted.
+            operationId: getAppLicenseKeysPage
+            parameters:
+                - in: query
+                  name: filter
+                  schema:
+                      type: string
+                - in: query
+                  name: page
+                  schema:
+                      type: integer
+                - in: query
+                  name: pageSize
+                  schema:
+                      type: integer
+                - in: query
+                  name: search
+                  schema:
+                      type: string
+                - in: query
+                  name: sort
+                  schema:
+                      type: string
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/AppLicenseKey"
+                                type: array
+                        application/xml:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/AppLicenseKey"
+                                type: array
+            tags: ["AppLicenseKey"]
     "/license-keys/activate":
         put:
             description:

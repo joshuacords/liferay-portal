@@ -127,6 +127,9 @@ public class LicenseKeyModelDocumentContributor
 		document.addDateSortable(Field.CREATE_DATE, licenseKey.getCreateDate());
 		document.addDateSortable(
 			Field.MODIFIED_DATE, licenseKey.getModifiedDate());
+		document.addTextSortable(
+			"assetReceiptLicenseUuid", licenseKey.getAssetReceiptLicenseUuid());
+		document.addTextSortable("productId", licenseKey.getProductId());
 		document.addTextSortable("productName", licenseKey.getProductName());
 
 		_contributeSubscriptions(document, licenseKey.getLicenseKeyId());
