@@ -58,6 +58,18 @@ public interface AppLicenseKeyResource {
 			String search, Filter filter, Pagination pagination, Sort[] sorts)
 		throws Exception;
 
+	public AppLicenseKey postAppLicenseKey(
+			String agentName, String agentUID, AppLicenseKey appLicenseKey)
+		throws Exception;
+
+	public void putAppLicenseKeyActivate(
+			String agentName, String agentUID, Long[] appLicenseKeyIds)
+		throws Exception;
+
+	public void putAppLicenseKeyDeactivate(
+			String agentName, String agentUID, Long[] appLicenseKeyIds)
+		throws Exception;
+
 	public default void setContextAcceptLanguage(
 		AcceptLanguage contextAcceptLanguage) {
 	}

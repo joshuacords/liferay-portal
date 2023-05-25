@@ -45,6 +45,8 @@ public class ServletDataImpl implements ServletData {
 
 	@Activate
 	public void activate(BundleContext bundleContext) {
+		Mutation.setAppLicenseKeyResourceComponentServiceObjects(
+			_appLicenseKeyResourceComponentServiceObjects);
 		Mutation.setLicenseKeyResourceComponentServiceObjects(
 			_licenseKeyResourceComponentServiceObjects);
 
@@ -88,6 +90,21 @@ public class ServletDataImpl implements ServletData {
 		_resourceMethodObjectValuePairs =
 			new HashMap<String, ObjectValuePair<Class<?>, String>>() {
 				{
+					put(
+						"mutation#createAppLicenseKey",
+						new ObjectValuePair<>(
+							AppLicenseKeyResourceImpl.class,
+							"postAppLicenseKey"));
+					put(
+						"mutation#updateAppLicenseKeyActivate",
+						new ObjectValuePair<>(
+							AppLicenseKeyResourceImpl.class,
+							"putAppLicenseKeyActivate"));
+					put(
+						"mutation#updateAppLicenseKeyDeactivate",
+						new ObjectValuePair<>(
+							AppLicenseKeyResourceImpl.class,
+							"putAppLicenseKeyDeactivate"));
 					put(
 						"mutation#createAccountAccountKeyLicenseKeysPage",
 						new ObjectValuePair<>(
@@ -183,11 +200,11 @@ public class ServletDataImpl implements ServletData {
 			};
 
 	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
-	private ComponentServiceObjects<LicenseKeyResource>
-		_licenseKeyResourceComponentServiceObjects;
-
-	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
 	private ComponentServiceObjects<AppLicenseKeyResource>
 		_appLicenseKeyResourceComponentServiceObjects;
+
+	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
+	private ComponentServiceObjects<LicenseKeyResource>
+		_licenseKeyResourceComponentServiceObjects;
 
 }

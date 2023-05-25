@@ -578,6 +578,73 @@ public abstract class BaseAppLicenseKeyResourceTestCase {
 		return testGraphQLAppLicenseKey_addAppLicenseKey();
 	}
 
+	@Test
+	public void testPostAppLicenseKey() throws Exception {
+		AppLicenseKey randomAppLicenseKey = randomAppLicenseKey();
+
+		AppLicenseKey postAppLicenseKey =
+			testPostAppLicenseKey_addAppLicenseKey(randomAppLicenseKey);
+
+		assertEquals(randomAppLicenseKey, postAppLicenseKey);
+		assertValid(postAppLicenseKey);
+	}
+
+	protected AppLicenseKey testPostAppLicenseKey_addAppLicenseKey(
+			AppLicenseKey appLicenseKey)
+		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
+	@Test
+	public void testPutAppLicenseKeyActivate() throws Exception {
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		AppLicenseKey appLicenseKey =
+			testPutAppLicenseKeyActivate_addAppLicenseKey();
+
+		assertHttpResponseStatusCode(
+			204,
+			appLicenseKeyResource.putAppLicenseKeyActivateHttpResponse(
+				null, null, null));
+
+		assertHttpResponseStatusCode(
+			404,
+			appLicenseKeyResource.putAppLicenseKeyActivateHttpResponse(
+				null, null, null));
+	}
+
+	protected AppLicenseKey testPutAppLicenseKeyActivate_addAppLicenseKey()
+		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
+	@Test
+	public void testPutAppLicenseKeyDeactivate() throws Exception {
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		AppLicenseKey appLicenseKey =
+			testPutAppLicenseKeyDeactivate_addAppLicenseKey();
+
+		assertHttpResponseStatusCode(
+			204,
+			appLicenseKeyResource.putAppLicenseKeyDeactivateHttpResponse(
+				null, null, null));
+
+		assertHttpResponseStatusCode(
+			404,
+			appLicenseKeyResource.putAppLicenseKeyDeactivateHttpResponse(
+				null, null, null));
+	}
+
+	protected AppLicenseKey testPutAppLicenseKeyDeactivate_addAppLicenseKey()
+		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
 	@Rule
 	public SearchTestRule searchTestRule = new SearchTestRule();
 

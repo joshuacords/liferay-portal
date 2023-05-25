@@ -105,7 +105,7 @@ public class LicenseKeyLocalServiceUtil {
 	}
 
 	public static LicenseKey addLicenseKey(
-			String userUuid, String assetReceiptLicenseUuid,
+			String userName, String userUuid, String assetReceiptLicenseUuid,
 			String licenseEntryType, String productName, String productId,
 			String productVersion, String owner, long maxUsers,
 			String description, String hostName, String ipAddresses,
@@ -114,9 +114,10 @@ public class LicenseKeyLocalServiceUtil {
 		throws Exception {
 
 		return getService().addLicenseKey(
-			userUuid, assetReceiptLicenseUuid, licenseEntryType, productName,
-			productId, productVersion, owner, maxUsers, description, hostName,
-			ipAddresses, macAddresses, serverId, startDate, expirationDate);
+			userName, userUuid, assetReceiptLicenseUuid, licenseEntryType,
+			productName, productId, productVersion, owner, maxUsers,
+			description, hostName, ipAddresses, macAddresses, serverId,
+			startDate, expirationDate);
 	}
 
 	public static LicenseKey addLicenseKey(
