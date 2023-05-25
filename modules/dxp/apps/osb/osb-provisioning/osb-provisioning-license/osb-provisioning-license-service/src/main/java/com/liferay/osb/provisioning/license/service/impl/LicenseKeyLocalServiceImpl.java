@@ -191,7 +191,7 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 	}
 
 	public LicenseKey addLicenseKey(
-			String userUuid, String assetReceiptLicenseUuid,
+			String userName, String userUuid, String assetReceiptLicenseUuid,
 			String licenseEntryType, String productName, String productId,
 			String productVersion, String owner, long maxUsers,
 			String description, String hostName, String ipAddresses,
@@ -201,10 +201,8 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 
 		Contact contact = _contactIdentityProvider.fetchContactByUuid(userUuid);
 
-		String contactName = StringPool.BLANK;
-
 		if (contact != null) {
-			contactName = StringBundler.concat(
+			userName = StringBundler.concat(
 				contact.getFirstName(), StringPool.SPACE,
 				contact.getLastName());
 		}
@@ -234,10 +232,10 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 		LicenseKey licenseKey = licenseKeyPersistence.create(licenseKeyId);
 
 		licenseKey.setUserUuid(userUuid);
-		licenseKey.setUserName(contactName);
+		licenseKey.setUserName(userName);
 		licenseKey.setCreateDate(now);
 		licenseKey.setModifiedUserUuid(userUuid);
-		licenseKey.setModifiedUserName(contactName);
+		licenseKey.setModifiedUserName(userName);
 		licenseKey.setModifiedDate(now);
 		licenseKey.setAssetReceiptLicenseUuid(assetReceiptLicenseUuid);
 		licenseKey.setLicenseEntryType(licenseEntryType);
@@ -294,6 +292,10 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 			String userName, String userUuid, LicenseKey licenseKey)
 		throws Exception {
 
+		if (Validator.isNull(licenseKey.getAccountKey())) {
+			return;
+		}
+
 		int count = 1;
 
 		String licenseEntryType = licenseKey.getLicenseEntryType();
@@ -338,6 +340,10 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 	public void deleteProductConsumption(
 			String userName, String userUuid, LicenseKey licenseKey)
 		throws Exception {
+
+		if (Validator.isNull(licenseKey.getAccountKey())) {
+			return;
+		}
 
 		List<ProductConsumption> productConsumptions =
 			_productConsumptionWebService.getProductConsumptions(
@@ -446,7 +452,7 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 			updateLicenseKey(userName, userUuid, licenseKeyId, false);
 
 			return addLicenseKey(
-				userUuid, licenseKey.getAssetReceiptLicenseUuid(),
+				userName, userUuid, licenseKey.getAssetReceiptLicenseUuid(),
 				licenseKey.getLicenseEntryType(), licenseKey.getProductName(),
 				licenseKey.getProductId(), licenseKey.getProductVersion(),
 				licenseKey.getOwner(), licenseKey.getMaxUsers(),

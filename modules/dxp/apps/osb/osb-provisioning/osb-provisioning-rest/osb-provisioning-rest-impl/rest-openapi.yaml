@@ -1,4 +1,21 @@
 components:
+    parameters:
+        AgentName:
+            in: query
+            description:
+                The name of the user doing the action. If it is an automated action, this can be left blank.
+            name: agentName
+            required: false
+            schema:
+                type: string
+        AgentUID:
+            in: query
+            description:
+                The UUID of the user doing the action. If it is an automated action, this can be left blank.
+            name: agentUID
+            required: false
+            schema:
+                type: string
     schemas:
         AppLicenseKey:
             description:
@@ -11,6 +28,7 @@ components:
                 complimentary:
                     description:
                         If the license key counts towards the customer's purchase.
+                    readOnly: true
                     type: boolean
                 createDate:
                     description:
@@ -58,14 +76,17 @@ components:
                     description:
                         The last date the license key was modified.
                     format: date-time
+                    readOnly: true
                     type: string
                 modifiedUserName:
                     description:
                         The name of the user who last modified the license key.
+                    readOnly: true
                     type: string
                 modifiedUserUuid:
                     description:
                         The uuid of the user who last modified the license key.
+                    readOnly: true
                     type: string
                 orderId:
                     description:
@@ -740,6 +761,76 @@ paths:
                                 items:
                                     $ref: "#/components/schemas/AppLicenseKey"
                                 type: array
+            tags: ["AppLicenseKey"]
+        post:
+            description:
+                Generates an app license key.
+            operationId: postAppLicenseKey
+            parameters:
+                - $ref: "#/components/parameters/AgentName"
+                - $ref: "#/components/parameters/AgentUID"
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/AppLicenseKey"
+                    application/xml:
+                        schema:
+                            $ref: "#/components/schemas/AppLicenseKey"
+                required: true
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/AppLicenseKey"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/AppLicenseKey"
+            tags: ["AppLicenseKey"]
+    "/app-license-keys/activate":
+        put:
+            description:
+                Activates app license keys.
+            operationId: putAppLicenseKeyActivate
+            parameters:
+                - $ref: "#/components/parameters/AgentName"
+                - $ref: "#/components/parameters/AgentUID"
+                - in: query
+                  name: appLicenseKeyIds
+                  required: true
+                  schema:
+                      items:
+                          format: int64
+                          type: integer
+                      type: array
+            responses:
+                204:
+                    content:
+                        application/json: {}
+                        application/xml: {}
+            tags: ["AppLicenseKey"]
+    "/app-license-keys/deactivate":
+        put:
+            description:
+                Deactivates app license keys.
+            operationId: putAppLicenseKeyDeactivate
+            parameters:
+                - $ref: "#/components/parameters/AgentName"
+                - $ref: "#/components/parameters/AgentUID"
+                - in: query
+                  name: appLicenseKeyIds
+                  required: true
+                  schema:
+                      items:
+                          format: int64
+                          type: integer
+                      type: array
+            responses:
+                204:
+                    content:
+                        application/json: {}
+                        application/xml: {}
             tags: ["AppLicenseKey"]
     "/license-keys/activate":
         put:

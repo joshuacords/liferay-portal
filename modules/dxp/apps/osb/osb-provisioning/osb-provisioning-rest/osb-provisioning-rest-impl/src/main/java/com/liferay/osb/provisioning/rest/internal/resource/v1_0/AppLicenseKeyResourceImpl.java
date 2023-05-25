@@ -28,6 +28,8 @@ import com.liferay.portal.kernel.search.filter.Filter;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
 import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.odata.entity.EntityModel;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
@@ -75,6 +77,58 @@ public class AppLicenseKeyResourceImpl
 	@Override
 	public EntityModel getEntityModel(MultivaluedMap multivaluedMap) {
 		return _entityModel;
+	}
+
+	@Override
+	public AppLicenseKey postAppLicenseKey(
+			String agentName, String agentUID, AppLicenseKey appLicenseKey)
+		throws Exception {
+
+		_checkPermission();
+
+		String description = appLicenseKey.getDescription();
+
+		if (Validator.isNull(description)) {
+			description = appLicenseKey.getOwner();
+		}
+
+		LicenseKey licenseKey = _licenseKeyLocalService.addLicenseKey(
+			agentName, agentUID, appLicenseKey.getOrderId(),
+			appLicenseKey.getLicenseTypeAsString(),
+			appLicenseKey.getProductName(), appLicenseKey.getProductId(),
+			appLicenseKey.getProductVersion(), appLicenseKey.getOwner(), 0,
+			description, appLicenseKey.getHostName(),
+			appLicenseKey.getIpAddresses(), appLicenseKey.getMacAddresses(),
+			StringPool.BLANK, appLicenseKey.getStartDate(),
+			appLicenseKey.getExpirationDate());
+
+		return AppLicenseKeyUtil.toAppLicenseKey(licenseKey);
+	}
+
+	@Override
+	public void putAppLicenseKeyActivate(
+			String agentName, String agentUID, Long[] appLicenseKeyIds)
+		throws Exception {
+
+		_checkPermission();
+
+		for (long appLicenseKeyId : appLicenseKeyIds) {
+			_licenseKeyLocalService.updateLicenseKey(
+				agentName, agentUID, appLicenseKeyId, true);
+		}
+	}
+
+	@Override
+	public void putAppLicenseKeyDeactivate(
+			String agentName, String agentUID, Long[] appLicenseKeyIds)
+		throws Exception {
+
+		_checkPermission();
+
+		for (long appLicenseKeyId : appLicenseKeyIds) {
+			_licenseKeyLocalService.updateLicenseKey(
+				agentName, agentUID, appLicenseKeyId, false);
+		}
 	}
 
 	private boolean _checkPermission() {

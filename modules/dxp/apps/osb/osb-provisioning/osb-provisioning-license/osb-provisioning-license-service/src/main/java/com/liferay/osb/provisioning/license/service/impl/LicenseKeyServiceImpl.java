@@ -84,10 +84,11 @@ public class LicenseKeyServiceImpl extends LicenseKeyServiceBaseImpl {
 		validateJSONWebServicePermissions();
 
 		return licenseKeyLocalService.addLicenseKey(
-			userUuid, assetReceiptLicenseUuid, licenseEntryType,
-			productEntryName, productId, String.valueOf(productVersion), owner,
-			maxUsers, description, hostName, ipAddresses, macAddresses,
-			serverId, startDate, expirationDate);
+			StringPool.BLANK, userUuid, assetReceiptLicenseUuid,
+			licenseEntryType, productEntryName, productId,
+			String.valueOf(productVersion), owner, maxUsers, description,
+			hostName, ipAddresses, macAddresses, serverId, startDate,
+			expirationDate);
 	}
 
 	public LicenseKey extendLicenseKey(
