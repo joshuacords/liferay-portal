@@ -1095,24 +1095,51 @@ definition {
 
 		Navigator.gotoPage(pageName = "Blogs Page");
 
-		for (var searchTerm : list "\"Blogs\",\"Entry\",\"Content\",\"Blogs Entry Content\"") {
-			Navigator.gotoPage(pageName = "Search Page");
+		Navigator.gotoPage(pageName = "Search Page");
 
-			SearchPortlets.searchEmbedded(searchTerm = ${searchTerm});
+		SearchPortlets.searchEmbedded(searchTerm = "\"Blogs\"");
 
-			SearchResultPortlet.viewSearchResults(
-				searchAssetTitle = "Blogs Entry Title",
-				searchAssetType = "Blogs Entry",
-				searchTerm = ${searchTerm});
-		}
+		SearchResultPortlet.viewSearchResults(
+			searchAssetTitle = "Blogs Entry Title",
+			searchAssetType = "Blogs Entry",
+			searchTerm = "\"Blogs\"");
 
-		for (var searchTerm : list "\"Blogs1\",\"Entry1\",\"Content1\",\"Blogs1 Entry1 Content1\"") {
-			Navigator.gotoPage(pageName = "Search Page");
+		SearchPortlets.searchEmbedded(searchTerm = "\"Entry\"");
 
-			SearchPortlets.searchEmbedded(searchTerm = ${searchTerm});
+		SearchResultPortlet.viewSearchResults(
+			searchAssetTitle = "Blogs Entry Title",
+			searchAssetType = "Blogs Entry",
+			searchTerm = "\"Entry\"");
 
-			SearchResultPortlet.viewNoSearchResults(searchTerm = ${searchTerm});
-		}
+		SearchPortlets.searchEmbedded(searchTerm = "\"Content\"");
+
+		SearchResultPortlet.viewSearchResults(
+			searchAssetTitle = "Blogs Entry Title",
+			searchAssetType = "Blogs Entry",
+			searchTerm = "\"Content\"");
+
+		SearchPortlets.searchEmbedded(searchTerm = "\"Blogs Entry Content\"");
+
+		SearchResultPortlet.viewSearchResults(
+			searchAssetTitle = "Blogs Entry Title",
+			searchAssetType = "Blogs Entry",
+			searchTerm = "\"Blogs Entry Content\"");
+
+		SearchPortlets.searchEmbedded(searchTerm = "\"Blogs1\"");
+
+		SearchResultPortlet.viewNoSearchResults(searchTerm = "\"Blogs1\"");
+
+		SearchPortlets.searchEmbedded(searchTerm = "\"Entry1\"");
+
+		SearchResultPortlet.viewNoSearchResults(searchTerm = "\"Entry1\"");
+
+		SearchPortlets.searchEmbedded(searchTerm = "\"Content1\"");
+
+		SearchResultPortlet.viewNoSearchResults(searchTerm = "\"Content1\"");
+
+		SearchPortlets.searchEmbedded(searchTerm = "\"Blogs1 Entry1 Content1\"");
+
+		SearchResultPortlet.viewNoSearchResults(searchTerm = "\"Blogs1 Entry1 Content1\"");
 	}
 
 	@priority = 4
@@ -1151,24 +1178,51 @@ definition {
 
 		Navigator.gotoPage(pageName = "Blogs Page");
 
-		for (var searchTerm : list "\"Blogs\",\"Entry\",\"Title\",\"Blogs Entry Title\"") {
-			Navigator.gotoPage(pageName = "Search Page");
+		Navigator.gotoPage(pageName = "Search Page");
 
-			SearchPortlets.searchEmbedded(searchTerm = ${searchTerm});
+		SearchPortlets.searchEmbedded(searchTerm = "\"Blogs\"");
 
-			SearchResultPortlet.viewSearchResults(
-				searchAssetTitle = "Blogs Entry Title",
-				searchAssetType = "Blogs Entry",
-				searchTerm = ${searchTerm});
-		}
+		SearchResultPortlet.viewSearchResults(
+			searchAssetTitle = "Blogs Entry Title",
+			searchAssetType = "Blogs Entry",
+			searchTerm = "\"Blogs\"");
 
-		for (var searchTerm : list "\"Blogs1\",\"Entry1\",\"Title1\",\"Blogs1\",\"Entry1\",\"Title1\"") {
-			Navigator.gotoPage(pageName = "Search Page");
+		SearchPortlets.searchEmbedded(searchTerm = "\"Entry\"");
 
-			SearchPortlets.searchEmbedded(searchTerm = ${searchTerm});
+		SearchResultPortlet.viewSearchResults(
+			searchAssetTitle = "Blogs Entry Title",
+			searchAssetType = "Blogs Entry",
+			searchTerm = "\"Entry\"");
 
-			SearchResultPortlet.viewNoSearchResults(searchTerm = ${searchTerm});
-		}
+		SearchPortlets.searchEmbedded(searchTerm = "\"Title\"");
+
+		SearchResultPortlet.viewSearchResults(
+			searchAssetTitle = "Blogs Entry Title",
+			searchAssetType = "Blogs Entry",
+			searchTerm = "\"Title\"");
+
+		SearchPortlets.searchEmbedded(searchTerm = "\"Blogs Entry Title\"");
+
+		SearchResultPortlet.viewSearchResults(
+			searchAssetTitle = "Blogs Entry Title",
+			searchAssetType = "Blogs Entry",
+			searchTerm = "\"Blogs Entry Title\"");
+
+		SearchPortlets.searchEmbedded(searchTerm = "\"Blogs1\"");
+
+		SearchResultPortlet.viewNoSearchResults(searchTerm = "\"Blogs1\"");
+
+		SearchPortlets.searchEmbedded(searchTerm = "\"Entry1\"");
+
+		SearchResultPortlet.viewNoSearchResults(searchTerm = "\"Entry1\"");
+
+		SearchPortlets.searchEmbedded(searchTerm = "\"Title1\"");
+
+		SearchResultPortlet.viewNoSearchResults(searchTerm = "\"Title1\"");
+
+		SearchPortlets.searchEmbedded(searchTerm = "\"Blogs1 Entry1 Title1\"");
+
+		SearchResultPortlet.viewNoSearchResults(searchTerm = "\"Blogs1 Entry1 Title1\"");
 	}
 
 	@priority = 3
