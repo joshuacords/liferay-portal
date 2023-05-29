@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-
-<suppressions>
-	<checkstyle>
-		<suppress checks="ChainingCheck" files="fragment-entry-processor/fragment-entry-processor-portlet/src/main/java/com/liferay/fragment/entry/processor/portlet/PortletFragmentEntryProcessor\.java" />
-	</checkstyle>
-</suppressions>
