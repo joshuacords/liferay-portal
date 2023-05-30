@@ -201,6 +201,11 @@
 	<td></td>
 </tr>
 <tr>
+	<td>MODEL_RESULT_VALUE</td>
+	<td>//div[contains(@class,'results-content')]//*[contains(text(),'${key_message}')]</td>
+	<td></td>
+</tr>
+<tr>
 	<td>MODEL_RESULT_2</td>
 	<td>xpath=(//div[contains(@class,'results-content')])[2]</td>
 	<td></td>
