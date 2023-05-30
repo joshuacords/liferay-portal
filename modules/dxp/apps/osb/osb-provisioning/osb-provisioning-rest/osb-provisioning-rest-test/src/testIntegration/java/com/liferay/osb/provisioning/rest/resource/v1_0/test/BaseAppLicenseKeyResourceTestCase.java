@@ -645,6 +645,82 @@ public abstract class BaseAppLicenseKeyResourceTestCase {
 			"This method needs to be implemented");
 	}
 
+	@Test
+	public void testGetAppLicenseKey() throws Exception {
+		AppLicenseKey postAppLicenseKey =
+			testGetAppLicenseKey_addAppLicenseKey();
+
+		AppLicenseKey getAppLicenseKey = appLicenseKeyResource.getAppLicenseKey(
+			postAppLicenseKey.getId());
+
+		assertEquals(postAppLicenseKey, getAppLicenseKey);
+		assertValid(getAppLicenseKey);
+	}
+
+	protected AppLicenseKey testGetAppLicenseKey_addAppLicenseKey()
+		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
+	@Test
+	public void testGraphQLGetAppLicenseKey() throws Exception {
+		AppLicenseKey appLicenseKey =
+			testGraphQLGetAppLicenseKey_addAppLicenseKey();
+
+		Assert.assertTrue(
+			equals(
+				appLicenseKey,
+				AppLicenseKeySerDes.toDTO(
+					JSONUtil.getValueAsString(
+						invokeGraphQLQuery(
+							new GraphQLField(
+								"appLicenseKey",
+								new HashMap<String, Object>() {
+									{
+										put(
+											"appLicenseKeyId",
+											appLicenseKey.getId());
+									}
+								},
+								getGraphQLFields())),
+						"JSONObject/data", "Object/appLicenseKey"))));
+	}
+
+	@Test
+	public void testGraphQLGetAppLicenseKeyNotFound() throws Exception {
+		Long irrelevantAppLicenseKeyId = RandomTestUtil.randomLong();
+
+		Assert.assertEquals(
+			"Not Found",
+			JSONUtil.getValueAsString(
+				invokeGraphQLQuery(
+					new GraphQLField(
+						"appLicenseKey",
+						new HashMap<String, Object>() {
+							{
+								put(
+									"appLicenseKeyId",
+									irrelevantAppLicenseKeyId);
+							}
+						},
+						getGraphQLFields())),
+				"JSONArray/errors", "Object/0", "JSONObject/extensions",
+				"Object/code"));
+	}
+
+	protected AppLicenseKey testGraphQLGetAppLicenseKey_addAppLicenseKey()
+		throws Exception {
+
+		return testGraphQLAppLicenseKey_addAppLicenseKey();
+	}
+
+	@Test
+	public void testGetAppLicenseKeyDownload() throws Exception {
+		Assert.assertTrue(false);
+	}
+
 	@Rule
 	public SearchTestRule searchTestRule = new SearchTestRule();
 

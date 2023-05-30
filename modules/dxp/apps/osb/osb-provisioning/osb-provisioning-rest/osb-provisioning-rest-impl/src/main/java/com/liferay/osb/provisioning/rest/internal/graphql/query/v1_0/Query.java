@@ -28,6 +28,7 @@ import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.graphql.annotation.GraphQLField;
 import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLTypeExtension;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 
@@ -94,6 +95,41 @@ public class Query {
 					Pagination.of(page, pageSize),
 					_sortsBiFunction.apply(
 						appLicenseKeyResource, sortsString))));
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {appLicenseKey(appLicenseKeyId: ___){active, complimentary, createDate, description, expirationDate, hostName, id, ipAddresses, key, licenseType, macAddresses, modifiedDate, modifiedUserName, modifiedUserUuid, orderId, owner, productId, productName, productVersion, startDate, userName, userUuid}}"}' -u 'test@liferay.com:test'
+	 */
+	@GraphQLField(description = "Retrieves the app license key.")
+	public AppLicenseKey appLicenseKey(
+			@GraphQLName("appLicenseKeyId") Long appLicenseKeyId)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_appLicenseKeyResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			appLicenseKeyResource -> appLicenseKeyResource.getAppLicenseKey(
+				appLicenseKeyId));
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {appLicenseKeyDownload(appLicenseKeyId: ___){}}"}' -u 'test@liferay.com:test'
+	 */
+	@GraphQLField(description = "Downloads an XML of the app license key.")
+	public Response appLicenseKeyDownload(
+			@GraphQLName("appLicenseKeyId") Long appLicenseKeyId)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_appLicenseKeyResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			appLicenseKeyResource ->
+				appLicenseKeyResource.getAppLicenseKeyDownload(
+					appLicenseKeyId));
 	}
 
 	/**
@@ -328,6 +364,29 @@ public class Query {
 				licenseKeyResource.
 					getProductGroupProductGroupNameDevelopmentLicenseKey(
 						productGroupName, accountKey, productVersion));
+	}
+
+	@GraphQLTypeExtension(AppLicenseKey.class)
+	public class GetAppLicenseKeyDownloadTypeExtension {
+
+		public GetAppLicenseKeyDownloadTypeExtension(
+			AppLicenseKey appLicenseKey) {
+
+			_appLicenseKey = appLicenseKey;
+		}
+
+		@GraphQLField(description = "Downloads an XML of the app license key.")
+		public Response download() throws Exception {
+			return _applyComponentServiceObjects(
+				_appLicenseKeyResourceComponentServiceObjects,
+				Query.this::_populateResourceContext,
+				appLicenseKeyResource ->
+					appLicenseKeyResource.getAppLicenseKeyDownload(
+						_appLicenseKey.getId()));
+		}
+
+		private AppLicenseKey _appLicenseKey;
+
 	}
 
 	@GraphQLName("AppLicenseKeyPage")

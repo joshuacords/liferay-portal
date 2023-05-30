@@ -142,6 +142,16 @@ public class ServletDataImpl implements ServletData {
 							AppLicenseKeyResourceImpl.class,
 							"getAppLicenseKeysPage"));
 					put(
+						"query#appLicenseKey",
+						new ObjectValuePair<>(
+							AppLicenseKeyResourceImpl.class,
+							"getAppLicenseKey"));
+					put(
+						"query#appLicenseKeyDownload",
+						new ObjectValuePair<>(
+							AppLicenseKeyResourceImpl.class,
+							"getAppLicenseKeyDownload"));
+					put(
 						"query#accountAccountKeyLicenseKeys",
 						new ObjectValuePair<>(
 							LicenseKeyResourceImpl.class,
@@ -196,6 +206,12 @@ public class ServletDataImpl implements ServletData {
 						new ObjectValuePair<>(
 							LicenseKeyResourceImpl.class,
 							"getProductGroupProductGroupNameDevelopmentLicenseKey"));
+
+					put(
+						"query#AppLicenseKey.download",
+						new ObjectValuePair<>(
+							AppLicenseKeyResourceImpl.class,
+							"getAppLicenseKeyDownload"));
 				}
 			};
 

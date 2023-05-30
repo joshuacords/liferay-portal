@@ -47,6 +47,7 @@ import javax.annotation.Generated;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 /**
@@ -246,6 +247,78 @@ public abstract class BaseAppLicenseKeyResourceImpl
 			@javax.ws.rs.QueryParam("appLicenseKeyIds")
 			Long[] appLicenseKeyIds)
 		throws Exception {
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'GET' 'http://localhost:8080/o/provisioning-rest/v1.0/app-license-keys/{appLicenseKeyId}'  -u 'test@liferay.com:test'
+	 */
+	@io.swagger.v3.oas.annotations.Operation(
+		description = "Retrieves the app license key."
+	)
+	@io.swagger.v3.oas.annotations.Parameters(
+		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
+				name = "appLicenseKeyId"
+			)
+		}
+	)
+	@io.swagger.v3.oas.annotations.tags.Tags(
+		value = {
+			@io.swagger.v3.oas.annotations.tags.Tag(name = "AppLicenseKey")
+		}
+	)
+	@javax.ws.rs.GET
+	@javax.ws.rs.Path("/app-license-keys/{appLicenseKeyId}")
+	@javax.ws.rs.Produces({"application/json", "application/xml"})
+	@Override
+	public AppLicenseKey getAppLicenseKey(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.PathParam("appLicenseKeyId")
+			Long appLicenseKeyId)
+		throws Exception {
+
+		return new AppLicenseKey();
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'GET' 'http://localhost:8080/o/provisioning-rest/v1.0/app-license-keys/{appLicenseKeyId}/download'  -u 'test@liferay.com:test'
+	 */
+	@io.swagger.v3.oas.annotations.Operation(
+		description = "Downloads an XML of the app license key."
+	)
+	@io.swagger.v3.oas.annotations.Parameters(
+		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
+				name = "appLicenseKeyId"
+			)
+		}
+	)
+	@io.swagger.v3.oas.annotations.tags.Tags(
+		value = {
+			@io.swagger.v3.oas.annotations.tags.Tag(name = "AppLicenseKey")
+		}
+	)
+	@javax.ws.rs.GET
+	@javax.ws.rs.Path("/app-license-keys/{appLicenseKeyId}/download")
+	@javax.ws.rs.Produces("application/xml")
+	@Override
+	public Response getAppLicenseKeyDownload(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.PathParam("appLicenseKeyId")
+			Long appLicenseKeyId)
+		throws Exception {
+
+		Response.ResponseBuilder responseBuilder = Response.ok();
+
+		return responseBuilder.build();
 	}
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {
