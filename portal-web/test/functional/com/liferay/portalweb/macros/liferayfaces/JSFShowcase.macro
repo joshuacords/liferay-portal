@@ -10,7 +10,7 @@ definition {
 
 			AssertElementNotPresent(
 				key_message = ${message1},
-				locator1 = "JSFShowcase#RESULT_MESSAGE");
+				locator1 = "JSFShowcase#MODEL_RESULT_VALUE");
 
 			if (${invalid} == "true") {
 				AssertElementPresent(
@@ -28,7 +28,7 @@ definition {
 
 			AssertElementNotPresent(
 				key_message = ${message2},
-				locator1 = "JSFShowcase#RESULT_MESSAGE");
+				locator1 = "JSFShowcase#MODEL_RESULT_VALUE");
 
 			if (${invalid} == "true") {
 				AssertElementPresent(
