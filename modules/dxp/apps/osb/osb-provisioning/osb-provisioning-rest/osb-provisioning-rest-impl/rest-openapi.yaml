@@ -832,6 +832,48 @@ paths:
                         application/json: {}
                         application/xml: {}
             tags: ["AppLicenseKey"]
+    "/app-license-keys/{appLicenseKeyId}":
+        get:
+            description:
+                Retrieves the app license key.
+            operationId: getAppLicenseKey
+            parameters:
+                - in: path
+                  name: appLicenseKeyId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/AppLicenseKey"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/AppLicenseKey"
+            tags: ["AppLicenseKey"]
+    "/app-license-keys/{appLicenseKeyId}/download":
+        get:
+            description:
+                Downloads an XML of the app license key.
+            operationId: getAppLicenseKeyDownload
+            parameters:
+                - in: path
+                  name: appLicenseKeyId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+            responses:
+                200:
+                    content:
+                        application/xml:
+                            schema:
+                                format: binary
+                                type: string
+            tags: ["AppLicenseKey"]
     "/license-keys/activate":
         put:
             description:
