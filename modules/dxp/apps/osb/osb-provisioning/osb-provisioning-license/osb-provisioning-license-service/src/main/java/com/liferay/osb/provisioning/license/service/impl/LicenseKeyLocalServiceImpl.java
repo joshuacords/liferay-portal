@@ -86,7 +86,6 @@ import java.io.Serializable;
 import java.text.Format;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -672,14 +671,49 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 		LicenseKey licenseKey = licenseKeyPersistence.findByPrimaryKey(
 			licenseKeyId);
 
-		String type = licenseKey.getLicenseEntryType();
+		boolean updateProductPurchaseKey = false;
+		boolean updateComplimentary = false;
+		boolean updateActive = false;
 
-		List<LicenseKey> clusterLicenseKeys = getClusterLicenseKeys(
-			licenseKey, type);
+		if (!productPurchaseKey.equals(licenseKey.getProductPurchaseKey())) {
+			updateProductPurchaseKey = true;
+		}
 
-		doUpdateLicenseKeyVersion3(
-			new Date(), licenseKey, productPurchaseKey, clusterLicenseKeys,
-			userName, userUuid, complimentary, active);
+		if (complimentary != licenseKey.isComplimentary()) {
+			updateComplimentary = true;
+		}
+
+		if (active != licenseKey.isActive()) {
+			updateActive = true;
+		}
+
+		licenseKey.setModifiedUserUuid(userUuid);
+		licenseKey.setModifiedUserName(userName);
+		licenseKey.setModifiedDate(new Date());
+		licenseKey.setProductPurchaseKey(productPurchaseKey);
+		licenseKey.setComplimentary(complimentary);
+		licenseKey.setActive(active);
+
+		licenseKey = licenseKeyPersistence.update(licenseKey);
+
+		if (updateProductPurchaseKey) {
+			deleteProductConsumption(userName, userUuid, licenseKey);
+
+			if (active && !complimentary) {
+				addProductConsumption(userName, userUuid, licenseKey);
+			}
+		}
+		else if (active) {
+			if (!complimentary && (updateComplimentary || updateActive)) {
+				addProductConsumption(userName, userUuid, licenseKey);
+			}
+			else if (complimentary && updateComplimentary) {
+				deleteProductConsumption(userName, userUuid, licenseKey);
+			}
+		}
+		else if (updateActive) {
+			deleteProductConsumption(userName, userUuid, licenseKey);
+		}
 
 		return licenseKey;
 	}
@@ -993,27 +1027,6 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 			maxHttpSessions = 0;
 		}
 
-		if (licenseEntryType.equals(LicenseType.CLUSTER)) {
-			if (clusterId <= 0) {
-				clusterId = counterLocalService.increment(
-					getCounterName(
-						accountKey, product.getKey(), productPurchaseKey));
-			}
-			else {
-				List<LicenseKey> clusterLicenseKeys =
-					licenseKeyPersistence.findByPPK_CI(
-						productPurchaseKey, clusterId);
-
-				if (!clusterLicenseKeys.isEmpty()) {
-					LicenseKey clusterLicenseKey = clusterLicenseKeys.get(0);
-
-					maxServers = clusterLicenseKey.getMaxServers();
-					startDate = clusterLicenseKey.getStartDate();
-					expirationDate = clusterLicenseKey.getExpirationDate();
-				}
-			}
-		}
-
 		startDate = DateUtils.round(startDate, Calendar.SECOND);
 		expirationDate = DateUtils.round(expirationDate, Calendar.SECOND);
 
@@ -1044,12 +1057,6 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 				serverId = serverIds[i];
 			}
 
-			if (!licenseEntryType.equals(LicenseType.CLUSTER)) {
-				clusterId = counterLocalService.increment(
-					getCounterName(
-						accountKey, product.getKey(), productPurchaseKey));
-			}
-
 			String key = _keyGenerator.generate(
 				accountName, licenseEntryName, licenseEntryType, licenseVersion,
 				productName, productId, productVersion, owner, maxClusterNodes,
@@ -1069,94 +1076,6 @@ public class LicenseKeyLocalServiceImpl extends LicenseKeyLocalServiceBaseImpl {
 		}
 
 		return licenseKey;
-	}
-
-	protected void doUpdateLicenseKeyVersion3(
-			Date now, LicenseKey licenseKey, String productPurchaseKey,
-			List<LicenseKey> clusterLicenseKeys, String userName,
-			String userUuid, boolean complimentary, boolean active)
-		throws Exception {
-
-		long clusterId = licenseKey.getClusterId();
-
-		if (!productPurchaseKey.equals(licenseKey.getProductPurchaseKey())) {
-			Product product = _productWebService.getProduct(
-				licenseKey.getProductKey());
-
-			clusterId = counterLocalService.increment(
-				getCounterName(
-					licenseKey.getAccountKey(), product.getKey(),
-					productPurchaseKey));
-		}
-
-		for (LicenseKey clusterLicenseKey : clusterLicenseKeys) {
-			boolean updateProductPurchaseKey = false;
-			boolean updateComplimentary = false;
-			boolean updateActive = false;
-
-			if (!productPurchaseKey.equals(
-					clusterLicenseKey.getProductPurchaseKey())) {
-
-				updateProductPurchaseKey = true;
-			}
-
-			if (complimentary != clusterLicenseKey.isComplimentary()) {
-				updateComplimentary = true;
-			}
-
-			if (active != clusterLicenseKey.isActive()) {
-				updateActive = true;
-			}
-
-			if (clusterLicenseKey.getLicenseKeyId() ==
-					licenseKey.getLicenseKeyId()) {
-
-				clusterLicenseKey.setActive(active);
-			}
-
-			clusterLicenseKey.setModifiedUserUuid(userUuid);
-			clusterLicenseKey.setModifiedUserName(userName);
-			clusterLicenseKey.setModifiedDate(now);
-			clusterLicenseKey.setProductPurchaseKey(productPurchaseKey);
-			clusterLicenseKey.setClusterId(clusterId);
-			clusterLicenseKey.setComplimentary(complimentary);
-
-			clusterLicenseKey = licenseKeyPersistence.update(clusterLicenseKey);
-
-			if (updateProductPurchaseKey) {
-				deleteProductConsumption(userName, userUuid, clusterLicenseKey);
-
-				if (active && !complimentary) {
-					addProductConsumption(
-						userName, userUuid, clusterLicenseKey);
-				}
-			}
-			else if (active) {
-				if (!complimentary && (updateComplimentary || updateActive)) {
-					addProductConsumption(userName, userUuid, licenseKey);
-				}
-				else if (complimentary && updateComplimentary) {
-					deleteProductConsumption(userName, userUuid, licenseKey);
-				}
-			}
-			else if (updateActive) {
-				deleteProductConsumption(userName, userUuid, licenseKey);
-			}
-		}
-	}
-
-	protected List<LicenseKey> getClusterLicenseKeys(
-		LicenseKey licenseKey, String type) {
-
-		if ((type.equals(LicenseType.CLUSTER) ||
-			 type.equals(LicenseType.DEVELOPER_CLUSTER)) &&
-			(licenseKey.getLicenseVersion() != 2)) {
-
-			return licenseKeyPersistence.findByPPK_CI(
-				licenseKey.getProductPurchaseKey(), licenseKey.getClusterId());
-		}
-
-		return Arrays.asList(licenseKey);
 	}
 
 	protected String getCounterName(String productPurchaseKey) {
