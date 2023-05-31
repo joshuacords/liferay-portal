@@ -25,6 +25,7 @@ import com.liferay.portal.vulcan.yaml.openapi.Schema;
 import java.util.List;
 import java.util.Map;
 
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
@@ -52,7 +53,7 @@ public class YAMLUtil {
 	private static final Yaml _YAML_OPEN_API;
 
 	static {
-		Representer representer = new Representer();
+		Representer representer = new Representer(new DumperOptions());
 
 		PropertyUtils propertyUtils = representer.getPropertyUtils();
 
