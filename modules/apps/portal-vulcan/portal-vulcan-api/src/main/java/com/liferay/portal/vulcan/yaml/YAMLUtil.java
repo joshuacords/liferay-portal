@@ -25,6 +25,7 @@ import com.liferay.portal.vulcan.yaml.openapi.Schema;
 import java.util.List;
 import java.util.Map;
 
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.TypeDescription;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
@@ -57,7 +58,12 @@ public class YAMLUtil {
 
 		propertyUtils.setSkipMissingProperties(true);
 
-		Constructor configYAMLConstructor = new Constructor(ConfigYAML.class);
+		LoaderOptions loaderOptions = new LoaderOptions();
+
+		loaderOptions.setAllowDuplicateKeys(false);
+
+		Constructor configYAMLConstructor = new Constructor(
+			ConfigYAML.class, loaderOptions);
 
 		TypeDescription securityTypeDescription = new TypeDescription(
 			Security.class);
@@ -69,7 +75,8 @@ public class YAMLUtil {
 
 		_YAML_CONFIG = new Yaml(configYAMLConstructor, representer);
 
-		Constructor openAPIYAMLConstructor = new Constructor(OpenAPIYAML.class);
+		Constructor openAPIYAMLConstructor = new Constructor(
+			OpenAPIYAML.class, loaderOptions);
 
 		TypeDescription itemsTypeDescription = new TypeDescription(Items.class);
 
