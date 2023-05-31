@@ -409,6 +409,11 @@ public class ServletDataImpl implements ServletData {
 						new ObjectValuePair<>(
 							PhoneResourceImpl.class,
 							"getOrganizationPhonesPage"));
+
+					put(
+						"query#Site.parentSite",
+						new ObjectValuePair<>(
+							SiteResourceImpl.class, "getSite"));
 				}
 			};
 

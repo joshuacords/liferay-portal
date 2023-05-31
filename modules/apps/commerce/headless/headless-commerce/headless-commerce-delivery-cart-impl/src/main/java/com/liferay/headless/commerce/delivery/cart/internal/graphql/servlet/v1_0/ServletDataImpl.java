@@ -233,6 +233,11 @@ public class ServletDataImpl implements ServletData {
 						"query#Cart.billingAddres",
 						new ObjectValuePair<>(
 							AddressResourceImpl.class, "getCartBillingAddres"));
+
+					put(
+						"query#CartItem.parentCartItem",
+						new ObjectValuePair<>(
+							CartItemResourceImpl.class, "getCartItem"));
 				}
 			};
 

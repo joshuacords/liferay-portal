@@ -30,6 +30,7 @@ import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.SetUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.odata.entity.EntityModel;
 import com.liferay.portal.odata.filter.ExpressionConvert;
@@ -237,6 +238,9 @@ public abstract class BaseMessageBoardSectionResourceImpl
 
 		MessageBoardSection existingMessageBoardSection =
 			getMessageBoardSection(messageBoardSectionId);
+
+		existingMessageBoardSection.setCustomFields(
+			messageBoardSection.getCustomFields());
 
 		if (messageBoardSection.getDescription() != null) {
 			existingMessageBoardSection.setDescription(
@@ -717,7 +721,7 @@ public abstract class BaseMessageBoardSectionResourceImpl
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
-		if ("INSERT".equalsIgnoreCase(createStrategy)) {
+		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("siteId")) {
 				messageBoardSectionUnsafeConsumer =
 					messageBoardSection -> postSiteMessageBoardSection(
@@ -838,7 +842,7 @@ public abstract class BaseMessageBoardSectionResourceImpl
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
-		if ("PARTIAL_UPDATE".equalsIgnoreCase(updateStrategy)) {
+		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
 			messageBoardSectionUnsafeConsumer =
 				messageBoardSection -> patchMessageBoardSection(
 					messageBoardSection.getId() != null ?
@@ -849,7 +853,7 @@ public abstract class BaseMessageBoardSectionResourceImpl
 					messageBoardSection);
 		}
 
-		if ("UPDATE".equalsIgnoreCase(updateStrategy)) {
+		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
 			messageBoardSectionUnsafeConsumer =
 				messageBoardSection -> putMessageBoardSection(
 					messageBoardSection.getId() != null ?

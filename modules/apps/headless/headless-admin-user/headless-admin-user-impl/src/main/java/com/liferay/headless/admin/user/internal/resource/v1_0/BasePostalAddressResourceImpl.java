@@ -63,6 +63,7 @@ import javax.annotation.Generated;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import javax.ws.rs.NotSupportedException;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
@@ -236,8 +237,18 @@ public abstract class BasePostalAddressResourceImpl
 			Map<String, Serializable> parameters, String search)
 		throws Exception {
 
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
+		if (parameters.containsKey("organizationId")) {
+			return getOrganizationPostalAddressesPage(
+				_parseLong((String)parameters.get("organizationId")));
+		}
+		else if (parameters.containsKey("userAccountId")) {
+			return getUserAccountPostalAddressesPage(
+				_parseLong((String)parameters.get("userAccountId")));
+		}
+		else {
+			throw new NotSupportedException(
+				"One of the following parameters must be specified: [organizationId, userAccountId]");
+		}
 	}
 
 	@Override
@@ -270,6 +281,14 @@ public abstract class BasePostalAddressResourceImpl
 
 		throw new UnsupportedOperationException(
 			"This method needs to be implemented");
+	}
+
+	private Long _parseLong(String value) {
+		if (value != null) {
+			return Long.parseLong(value);
+		}
+
+		return null;
 	}
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {

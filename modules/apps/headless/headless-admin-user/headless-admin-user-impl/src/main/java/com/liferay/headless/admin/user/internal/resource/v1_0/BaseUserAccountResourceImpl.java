@@ -30,6 +30,7 @@ import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.SetUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.odata.entity.EntityModel;
 import com.liferay.portal.odata.filter.ExpressionConvert;
@@ -483,6 +484,8 @@ public abstract class BaseUserAccountResourceImpl
 			existingUserAccount.setBirthDate(userAccount.getBirthDate());
 		}
 
+		existingUserAccount.setCustomFields(userAccount.getCustomFields());
+
 		if (userAccount.getEmailAddress() != null) {
 			existingUserAccount.setEmailAddress(userAccount.getEmailAddress());
 		}
@@ -601,7 +604,7 @@ public abstract class BaseUserAccountResourceImpl
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
-		if ("INSERT".equalsIgnoreCase(createStrategy)) {
+		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			userAccountUnsafeConsumer = userAccount -> postUserAccount(
 				userAccount);
 		}
@@ -715,14 +718,14 @@ public abstract class BaseUserAccountResourceImpl
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
-		if ("PARTIAL_UPDATE".equalsIgnoreCase(updateStrategy)) {
+		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
 			userAccountUnsafeConsumer = userAccount -> patchUserAccount(
 				userAccount.getId() != null ? userAccount.getId() :
 					_parseLong((String)parameters.get("userAccountId")),
 				userAccount);
 		}
 
-		if ("UPDATE".equalsIgnoreCase(updateStrategy)) {
+		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
 			userAccountUnsafeConsumer = userAccount -> putUserAccount(
 				userAccount.getId() != null ? userAccount.getId() :
 					_parseLong((String)parameters.get("userAccountId")),

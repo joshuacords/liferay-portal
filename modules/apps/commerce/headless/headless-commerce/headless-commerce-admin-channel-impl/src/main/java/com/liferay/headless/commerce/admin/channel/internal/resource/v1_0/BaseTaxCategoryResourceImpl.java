@@ -198,8 +198,7 @@ public abstract class BaseTaxCategoryResourceImpl
 			Map<String, Serializable> parameters, String search)
 		throws Exception {
 
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
+		return getTaxCategoriesPage(search, pagination);
 	}
 
 	@Override

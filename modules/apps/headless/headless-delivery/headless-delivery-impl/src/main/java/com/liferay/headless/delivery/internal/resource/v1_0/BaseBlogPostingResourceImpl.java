@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.SetUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.odata.entity.EntityModel;
 import com.liferay.portal.odata.filter.ExpressionConvert;
@@ -230,6 +231,8 @@ public abstract class BaseBlogPostingResourceImpl
 		if (blogPosting.getArticleBody() != null) {
 			existingBlogPosting.setArticleBody(blogPosting.getArticleBody());
 		}
+
+		existingBlogPosting.setCustomFields(blogPosting.getCustomFields());
 
 		if (blogPosting.getDatePublished() != null) {
 			existingBlogPosting.setDatePublished(
@@ -700,7 +703,7 @@ public abstract class BaseBlogPostingResourceImpl
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
-		if ("INSERT".equalsIgnoreCase(createStrategy)) {
+		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("siteId")) {
 				blogPostingUnsafeConsumer = blogPosting -> postSiteBlogPosting(
 					(Long)parameters.get("siteId"), blogPosting);
@@ -816,14 +819,14 @@ public abstract class BaseBlogPostingResourceImpl
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
-		if ("PARTIAL_UPDATE".equalsIgnoreCase(updateStrategy)) {
+		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
 			blogPostingUnsafeConsumer = blogPosting -> patchBlogPosting(
 				blogPosting.getId() != null ? blogPosting.getId() :
 					_parseLong((String)parameters.get("blogPostingId")),
 				blogPosting);
 		}
 
-		if ("UPDATE".equalsIgnoreCase(updateStrategy)) {
+		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
 			blogPostingUnsafeConsumer = blogPosting -> putBlogPosting(
 				blogPosting.getId() != null ? blogPosting.getId() :
 					_parseLong((String)parameters.get("blogPostingId")),

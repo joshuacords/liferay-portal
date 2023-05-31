@@ -30,6 +30,7 @@ import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.SetUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.odata.entity.EntityModel;
 import com.liferay.portal.odata.filter.ExpressionConvert;
@@ -237,6 +238,9 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 
 		KnowledgeBaseFolder existingKnowledgeBaseFolder =
 			getKnowledgeBaseFolder(knowledgeBaseFolderId);
+
+		existingKnowledgeBaseFolder.setCustomFields(
+			knowledgeBaseFolder.getCustomFields());
 
 		if (knowledgeBaseFolder.getDescription() != null) {
 			existingKnowledgeBaseFolder.setDescription(
@@ -594,7 +598,7 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
-		if ("INSERT".equalsIgnoreCase(createStrategy)) {
+		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("siteId")) {
 				knowledgeBaseFolderUnsafeConsumer =
 					knowledgeBaseFolder -> postSiteKnowledgeBaseFolder(
@@ -713,7 +717,7 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
-		if ("PARTIAL_UPDATE".equalsIgnoreCase(updateStrategy)) {
+		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
 			knowledgeBaseFolderUnsafeConsumer =
 				knowledgeBaseFolder -> patchKnowledgeBaseFolder(
 					knowledgeBaseFolder.getId() != null ?
@@ -724,7 +728,7 @@ public abstract class BaseKnowledgeBaseFolderResourceImpl
 					knowledgeBaseFolder);
 		}
 
-		if ("UPDATE".equalsIgnoreCase(updateStrategy)) {
+		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
 			knowledgeBaseFolderUnsafeConsumer =
 				knowledgeBaseFolder -> putKnowledgeBaseFolder(
 					knowledgeBaseFolder.getId() != null ?

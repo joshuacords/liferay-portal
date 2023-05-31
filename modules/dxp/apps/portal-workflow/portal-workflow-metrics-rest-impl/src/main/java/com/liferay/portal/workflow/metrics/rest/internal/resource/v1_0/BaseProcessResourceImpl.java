@@ -255,8 +255,8 @@ public abstract class BaseProcessResourceImpl
 			Map<String, Serializable> parameters, String search)
 		throws Exception {
 
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
+		return getProcessesPage(
+			(String)parameters.get("title"), pagination, sorts);
 	}
 
 	@Override

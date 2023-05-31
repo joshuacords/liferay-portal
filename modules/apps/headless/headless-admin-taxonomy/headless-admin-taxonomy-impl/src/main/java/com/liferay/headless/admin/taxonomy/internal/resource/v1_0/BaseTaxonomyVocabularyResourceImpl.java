@@ -30,6 +30,7 @@ import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.SetUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.odata.entity.EntityModel;
 import com.liferay.portal.odata.filter.ExpressionConvert;
@@ -508,7 +509,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
-		if ("INSERT".equalsIgnoreCase(createStrategy)) {
+		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("siteId")) {
 				taxonomyVocabularyUnsafeConsumer =
 					taxonomyVocabulary -> postSiteTaxonomyVocabulary(
@@ -581,8 +582,15 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 			Map<String, Serializable> parameters, String search)
 		throws Exception {
 
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
+		if (parameters.containsKey("siteId")) {
+			return getSiteTaxonomyVocabulariesPage(
+				(Long)parameters.get("siteId"), search, filter, pagination,
+				sorts);
+		}
+		else {
+			throw new NotSupportedException(
+				"One of the following parameters must be specified: [siteId]");
+		}
 	}
 
 	@Override
@@ -619,7 +627,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
-		if ("PARTIAL_UPDATE".equalsIgnoreCase(updateStrategy)) {
+		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
 			taxonomyVocabularyUnsafeConsumer =
 				taxonomyVocabulary -> patchTaxonomyVocabulary(
 					taxonomyVocabulary.getId() != null ?
@@ -629,7 +637,7 @@ public abstract class BaseTaxonomyVocabularyResourceImpl
 					taxonomyVocabulary);
 		}
 
-		if ("UPDATE".equalsIgnoreCase(updateStrategy)) {
+		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
 			taxonomyVocabularyUnsafeConsumer =
 				taxonomyVocabulary -> putTaxonomyVocabulary(
 					taxonomyVocabulary.getId() != null ?
