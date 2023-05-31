@@ -49,7 +49,7 @@ dependencies {
 	compileOnly project(":core:petra:petra-string")
 	compileOnly project(":core:registry-api")
 
-	testCompile group: "org.json", name: "json", version: "20180813"
+	testCompile group: "org.json", name: "json", version: "20230227"
 	testCompile group: "org.skyscreamer", name: "jsonassert", version: "1.2.3"
 	testCompile project(":apps:dynamic-data-mapping:dynamic-data-mapping-test-util")
 	testCompile project(":core:petra:petra-concurrent")
