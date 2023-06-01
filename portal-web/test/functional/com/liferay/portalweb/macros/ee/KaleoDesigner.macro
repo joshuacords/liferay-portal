@@ -1,21 +1,34 @@
 definition {
 
 	macro addConnectorAndNodeViaViewTab {
-		var key_nodeType = StringUtil.replace(${nodeType}, "-", "_");
+		if ((${nodeType} == "fork") || (${nodeType} == "condition") || (${nodeType} == "join-xor") || (${nodeType} == "join")) {
+			var offset = "28,0";
+		}
+		else if ((${nodeType} == "state") || (${nodeType} == "end") || (${nodeType} == "start")) {
+			var offset = "17,0";
+		}
+		else if (${nodeType} == "task") {
+			var offset = "27,0";
+		}
+
+		var key_nodeType = ${nodeType};
 
 		if (${down} == "true") {
-			SikuliDragAndDrop(
-				locator1 = "KaleoDesignerEditWorkflow#NODE_CORNER",
+			DragAndDrop.dragAtAndDrop(
+				locator1 = "KaleoDesignerEditWorkflow#NODE",
+				locator2 = ${offset},
 				value1 = "50,100");
 		}
 		else if (${up} == "true") {
-			SikuliDragAndDrop(
-				locator1 = "KaleoDesignerEditWorkflow#NODE_CORNER",
+			DragAndDrop.dragAtAndDrop(
+				locator1 = "KaleoDesignerEditWorkflow#NODE",
+				locator2 = ${offset},
 				value1 = "150,-250");
 		}
 		else {
-			SikuliDragAndDrop(
-				locator1 = "KaleoDesignerEditWorkflow#NODE_CORNER",
+			DragAndDrop.dragAtAndDrop(
+				locator1 = "KaleoDesignerEditWorkflow#NODE",
+				locator2 = ${offset},
 				value1 = "100,0");
 		}
 
@@ -109,8 +122,9 @@ definition {
 
 		var key_nodeType = StringUtil.replace(${nodeType}, "-", "_");
 
-		SikuliDragAndDrop(
-			locator1 = "KaleoDesignerEditWorkflow#NODE_PNG",
+		DragAndDrop.dragAndDrop(
+			key_nodeNodeLabel = ${nodeNodeLabel},
+			locator1 = "KaleoDesignerEditWorkflow#NODE_FIELD",
 			value1 = "250,0");
 
 		var key_nodeType = ${nodeType};
