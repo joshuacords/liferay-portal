@@ -111,10 +111,6 @@ public class LicenseKeyModelListener extends BaseModelListener<LicenseKey> {
 	}
 
 	private void _postAuditEntries(LicenseKey licenseKey) throws Exception {
-		if (Validator.isNull(licenseKey.getAccountKey())) {
-			return;
-		}
-
 		LicenseKey oldLicenseKey = _licenseKeyLocalService.fetchLicenseKey(
 			licenseKey.getLicenseKeyId());
 

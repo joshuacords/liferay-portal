@@ -5,9 +5,7 @@
 
 package com.liferay.osb.provisioning.rest.internal.graphql.mutation.v1_0;
 
-import com.liferay.osb.provisioning.rest.dto.v1_0.AppLicenseKey;
 import com.liferay.osb.provisioning.rest.dto.v1_0.LicenseKey;
-import com.liferay.osb.provisioning.rest.resource.v1_0.AppLicenseKeyResource;
 import com.liferay.osb.provisioning.rest.resource.v1_0.LicenseKeyResource;
 import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.function.UnsafeFunction;
@@ -37,68 +35,12 @@ import org.osgi.service.component.ComponentServiceObjects;
 @Generated("")
 public class Mutation {
 
-	public static void setAppLicenseKeyResourceComponentServiceObjects(
-		ComponentServiceObjects<AppLicenseKeyResource>
-			appLicenseKeyResourceComponentServiceObjects) {
-
-		_appLicenseKeyResourceComponentServiceObjects =
-			appLicenseKeyResourceComponentServiceObjects;
-	}
-
 	public static void setLicenseKeyResourceComponentServiceObjects(
 		ComponentServiceObjects<LicenseKeyResource>
 			licenseKeyResourceComponentServiceObjects) {
 
 		_licenseKeyResourceComponentServiceObjects =
 			licenseKeyResourceComponentServiceObjects;
-	}
-
-	@GraphQLField(description = "Generates an app license key.")
-	public AppLicenseKey createAppLicenseKey(
-			@GraphQLName("agentName") String agentName,
-			@GraphQLName("agentUID") String agentUID,
-			@GraphQLName("appLicenseKey") AppLicenseKey appLicenseKey)
-		throws Exception {
-
-		return _applyComponentServiceObjects(
-			_appLicenseKeyResourceComponentServiceObjects,
-			this::_populateResourceContext,
-			appLicenseKeyResource -> appLicenseKeyResource.postAppLicenseKey(
-				agentName, agentUID, appLicenseKey));
-	}
-
-	@GraphQLField(description = "Activates app license keys.")
-	public boolean updateAppLicenseKeyActivate(
-			@GraphQLName("agentName") String agentName,
-			@GraphQLName("agentUID") String agentUID,
-			@GraphQLName("appLicenseKeyIds") Long[] appLicenseKeyIds)
-		throws Exception {
-
-		_applyVoidComponentServiceObjects(
-			_appLicenseKeyResourceComponentServiceObjects,
-			this::_populateResourceContext,
-			appLicenseKeyResource ->
-				appLicenseKeyResource.putAppLicenseKeyActivate(
-					agentName, agentUID, appLicenseKeyIds));
-
-		return true;
-	}
-
-	@GraphQLField(description = "Deactivates app license keys.")
-	public boolean updateAppLicenseKeyDeactivate(
-			@GraphQLName("agentName") String agentName,
-			@GraphQLName("agentUID") String agentUID,
-			@GraphQLName("appLicenseKeyIds") Long[] appLicenseKeyIds)
-		throws Exception {
-
-		_applyVoidComponentServiceObjects(
-			_appLicenseKeyResourceComponentServiceObjects,
-			this::_populateResourceContext,
-			appLicenseKeyResource ->
-				appLicenseKeyResource.putAppLicenseKeyDeactivate(
-					agentName, agentUID, appLicenseKeyIds));
-
-		return true;
 	}
 
 	@GraphQLField(description = "Generates license keys for an account.")
@@ -230,21 +172,6 @@ public class Mutation {
 		}
 	}
 
-	private void _populateResourceContext(
-			AppLicenseKeyResource appLicenseKeyResource)
-		throws Exception {
-
-		appLicenseKeyResource.setContextAcceptLanguage(_acceptLanguage);
-		appLicenseKeyResource.setContextCompany(_company);
-		appLicenseKeyResource.setContextHttpServletRequest(_httpServletRequest);
-		appLicenseKeyResource.setContextHttpServletResponse(
-			_httpServletResponse);
-		appLicenseKeyResource.setContextUriInfo(_uriInfo);
-		appLicenseKeyResource.setContextUser(_user);
-		appLicenseKeyResource.setGroupLocalService(_groupLocalService);
-		appLicenseKeyResource.setRoleLocalService(_roleLocalService);
-	}
-
 	private void _populateResourceContext(LicenseKeyResource licenseKeyResource)
 		throws Exception {
 
@@ -258,8 +185,6 @@ public class Mutation {
 		licenseKeyResource.setRoleLocalService(_roleLocalService);
 	}
 
-	private static ComponentServiceObjects<AppLicenseKeyResource>
-		_appLicenseKeyResourceComponentServiceObjects;
 	private static ComponentServiceObjects<LicenseKeyResource>
 		_licenseKeyResourceComponentServiceObjects;
 

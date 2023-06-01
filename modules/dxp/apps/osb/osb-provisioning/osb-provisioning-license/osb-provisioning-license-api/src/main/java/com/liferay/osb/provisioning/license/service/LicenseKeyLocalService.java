@@ -97,7 +97,7 @@ public interface LicenseKeyLocalService
 		throws Exception;
 
 	public LicenseKey addLicenseKey(
-			String userName, String userUuid, String assetReceiptLicenseUuid,
+			String userUuid, String assetReceiptLicenseUuid,
 			String licenseEntryType, String productName, String productId,
 			String productVersion, String owner, long maxUsers,
 			String description, String hostName, String ipAddresses,

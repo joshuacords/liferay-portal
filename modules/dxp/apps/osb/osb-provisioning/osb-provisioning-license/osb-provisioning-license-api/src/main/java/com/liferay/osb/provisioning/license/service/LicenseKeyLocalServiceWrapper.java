@@ -90,7 +90,7 @@ public class LicenseKeyLocalServiceWrapper
 
 	@Override
 	public com.liferay.osb.provisioning.license.model.LicenseKey addLicenseKey(
-			String userName, String userUuid, String assetReceiptLicenseUuid,
+			String userUuid, String assetReceiptLicenseUuid,
 			String licenseEntryType, String productName, String productId,
 			String productVersion, String owner, long maxUsers,
 			String description, String hostName, String ipAddresses,
@@ -99,10 +99,9 @@ public class LicenseKeyLocalServiceWrapper
 		throws Exception {
 
 		return _licenseKeyLocalService.addLicenseKey(
-			userName, userUuid, assetReceiptLicenseUuid, licenseEntryType,
-			productName, productId, productVersion, owner, maxUsers,
-			description, hostName, ipAddresses, macAddresses, serverId,
-			startDate, expirationDate);
+			userUuid, assetReceiptLicenseUuid, licenseEntryType, productName,
+			productId, productVersion, owner, maxUsers, description, hostName,
+			ipAddresses, macAddresses, serverId, startDate, expirationDate);
 	}
 
 	@Override

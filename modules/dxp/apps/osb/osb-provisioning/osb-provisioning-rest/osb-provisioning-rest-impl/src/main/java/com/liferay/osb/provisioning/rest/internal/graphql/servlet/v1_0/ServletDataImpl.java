@@ -7,9 +7,7 @@ package com.liferay.osb.provisioning.rest.internal.graphql.servlet.v1_0;
 
 import com.liferay.osb.provisioning.rest.internal.graphql.mutation.v1_0.Mutation;
 import com.liferay.osb.provisioning.rest.internal.graphql.query.v1_0.Query;
-import com.liferay.osb.provisioning.rest.internal.resource.v1_0.AppLicenseKeyResourceImpl;
 import com.liferay.osb.provisioning.rest.internal.resource.v1_0.LicenseKeyResourceImpl;
-import com.liferay.osb.provisioning.rest.resource.v1_0.AppLicenseKeyResource;
 import com.liferay.osb.provisioning.rest.resource.v1_0.LicenseKeyResource;
 import com.liferay.portal.kernel.util.ObjectValuePair;
 import com.liferay.portal.vulcan.graphql.servlet.ServletData;
@@ -36,13 +34,9 @@ public class ServletDataImpl implements ServletData {
 
 	@Activate
 	public void activate(BundleContext bundleContext) {
-		Mutation.setAppLicenseKeyResourceComponentServiceObjects(
-			_appLicenseKeyResourceComponentServiceObjects);
 		Mutation.setLicenseKeyResourceComponentServiceObjects(
 			_licenseKeyResourceComponentServiceObjects);
 
-		Query.setAppLicenseKeyResourceComponentServiceObjects(
-			_appLicenseKeyResourceComponentServiceObjects);
 		Query.setLicenseKeyResourceComponentServiceObjects(
 			_licenseKeyResourceComponentServiceObjects);
 	}
@@ -82,21 +76,6 @@ public class ServletDataImpl implements ServletData {
 			new HashMap<String, ObjectValuePair<Class<?>, String>>() {
 				{
 					put(
-						"mutation#createAppLicenseKey",
-						new ObjectValuePair<>(
-							AppLicenseKeyResourceImpl.class,
-							"postAppLicenseKey"));
-					put(
-						"mutation#updateAppLicenseKeyActivate",
-						new ObjectValuePair<>(
-							AppLicenseKeyResourceImpl.class,
-							"putAppLicenseKeyActivate"));
-					put(
-						"mutation#updateAppLicenseKeyDeactivate",
-						new ObjectValuePair<>(
-							AppLicenseKeyResourceImpl.class,
-							"putAppLicenseKeyDeactivate"));
-					put(
 						"mutation#createAccountAccountKeyLicenseKeysPage",
 						new ObjectValuePair<>(
 							LicenseKeyResourceImpl.class,
@@ -127,21 +106,6 @@ public class ServletDataImpl implements ServletData {
 							LicenseKeyResourceImpl.class,
 							"putLicenseKeySubscription"));
 
-					put(
-						"query#appLicenseKeys",
-						new ObjectValuePair<>(
-							AppLicenseKeyResourceImpl.class,
-							"getAppLicenseKeysPage"));
-					put(
-						"query#appLicenseKey",
-						new ObjectValuePair<>(
-							AppLicenseKeyResourceImpl.class,
-							"getAppLicenseKey"));
-					put(
-						"query#appLicenseKeyDownload",
-						new ObjectValuePair<>(
-							AppLicenseKeyResourceImpl.class,
-							"getAppLicenseKeyDownload"));
 					put(
 						"query#accountAccountKeyLicenseKeys",
 						new ObjectValuePair<>(
@@ -197,18 +161,8 @@ public class ServletDataImpl implements ServletData {
 						new ObjectValuePair<>(
 							LicenseKeyResourceImpl.class,
 							"getProductGroupProductGroupNameDevelopmentLicenseKey"));
-
-					put(
-						"query#AppLicenseKey.download",
-						new ObjectValuePair<>(
-							AppLicenseKeyResourceImpl.class,
-							"getAppLicenseKeyDownload"));
 				}
 			};
-
-	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
-	private ComponentServiceObjects<AppLicenseKeyResource>
-		_appLicenseKeyResourceComponentServiceObjects;
 
 	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
 	private ComponentServiceObjects<LicenseKeyResource>
