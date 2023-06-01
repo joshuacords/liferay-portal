@@ -147,7 +147,7 @@ describe('Dates for license associated with a Subscription', () => {
 					);
 
 					expect(formatDate(dates.licenseExpirationDate)).toMatch(
-						'2020-04-16'
+						'2020-09-13'
 					);
 				});
 			});
@@ -162,7 +162,7 @@ describe('Dates for license associated with a Subscription', () => {
 				);
 
 				expect(formatDate(dates.licenseExpirationDate)).toMatch(
-					'2020-04-16'
+					'2020-09-13'
 				);
 			});
 		});
