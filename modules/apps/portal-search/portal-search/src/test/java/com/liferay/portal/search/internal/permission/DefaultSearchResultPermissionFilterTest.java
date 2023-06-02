@@ -59,17 +59,25 @@ public class DefaultSearchResultPermissionFilterTest {
 			defaultSearchResultPermissionFilter =
 				_getDefaultSearchResultPermissionFilter();
 
-		SearchContext searchContext = _getSearchContext(4);
+		int end = 4;
+
+		SearchContext searchContext = _getSearchContext(end, 0);
+
+		Mockito.when(
+			_searchFunction.apply(searchContext)
+		).thenReturn(
+			_getHits(end)
+		);
 
 		_assertPagination(
 			searchContext, defaultSearchResultPermissionFilter, 4, 10);
 
-		searchContext = _getSearchContext(8);
+		searchContext = _getSearchContext(8, 0);
 
 		_assertPagination(
 			searchContext, defaultSearchResultPermissionFilter, 8, 10);
 
-		searchContext = _getSearchContext(10);
+		searchContext = _getSearchContext(10, 0);
 
 		_assertPagination(
 			searchContext, defaultSearchResultPermissionFilter, 10, 10);
@@ -84,17 +92,25 @@ public class DefaultSearchResultPermissionFilterTest {
 			defaultSearchResultPermissionFilter =
 				_getDefaultSearchResultPermissionFilter();
 
-		SearchContext searchContext = _getSearchContext(4);
+		int end = 4;
+
+		SearchContext searchContext = _getSearchContext(end, 0);
+
+		Mockito.when(
+			_searchFunction.apply(searchContext)
+		).thenReturn(
+			_getHits(end)
+		);
 
 		_assertPagination(
 			searchContext, defaultSearchResultPermissionFilter, 4, 10);
 
-		searchContext = _getSearchContext(8);
+		searchContext = _getSearchContext(8, 0);
 
 		_assertPagination(
 			searchContext, defaultSearchResultPermissionFilter, 8, 10);
 
-		searchContext = _getSearchContext(10);
+		searchContext = _getSearchContext(10, 0);
 
 		_assertPagination(
 			searchContext, defaultSearchResultPermissionFilter, 9, 9);
@@ -109,20 +125,60 @@ public class DefaultSearchResultPermissionFilterTest {
 			defaultSearchResultPermissionFilter =
 				_getDefaultSearchResultPermissionFilter();
 
-		SearchContext searchContext = _getSearchContext(4);
+		int end = 4;
+
+		SearchContext searchContext = _getSearchContext(end, 0);
+
+		Mockito.when(
+			_searchFunction.apply(searchContext)
+		).thenReturn(
+			_getHits(end)
+		);
 
 		_assertPagination(
 			searchContext, defaultSearchResultPermissionFilter, 4, 9);
 
-		searchContext = _getSearchContext(8);
+		searchContext = _getSearchContext(8, 0);
 
 		_assertPagination(
 			searchContext, defaultSearchResultPermissionFilter, 8, 9);
 
-		searchContext = _getSearchContext(10);
+		searchContext = _getSearchContext(10, 0);
 
 		_assertPagination(
 			searchContext, defaultSearchResultPermissionFilter, 9, 9);
+	}
+
+	@Test
+	public void testSlidingWindowSearcher() {
+		_groupAdmin = false;
+		_permissionFilteredSearchResultAccurateCountThreshold = 0;
+
+		DefaultSearchResultPermissionFilter
+			defaultSearchResultPermissionFilter =
+				_getDefaultSearchResultPermissionFilter();
+
+		SearchContext searchContext = _getSearchContext(-1, 0);
+
+		Mockito.when(
+			_searchFunction.apply(searchContext)
+		).thenReturn(
+			_getHits(4)
+		).thenReturn(
+			_getHits(4)
+		).thenReturn(
+			_getHits(0)
+		);
+
+		DefaultSearchResultPermissionFilter.SlidingWindowSearcher
+			slidingWindowSearcher = defaultSearchResultPermissionFilter
+			.new SlidingWindowSearcher();
+
+		Hits hits = slidingWindowSearcher.search(0, -1, searchContext);
+
+		Document[] docs = hits.getDocs();
+
+		System.out.println(Arrays.toString(docs));
 	}
 
 	private void _assertPagination(
@@ -183,6 +239,10 @@ public class DefaultSearchResultPermissionFilterTest {
 	private Hits _getHits(int size) {
 		Hits hits = new HitsImpl();
 
+		if (size == 0) {
+			return hits;
+		}
+
 		if (_permissionFilteredSearchResultAccurateCountThreshold > size) {
 			size = _permissionFilteredSearchResultAccurateCountThreshold;
 
@@ -208,7 +268,7 @@ public class DefaultSearchResultPermissionFilterTest {
 		return Mockito.spy(hits);
 	}
 
-	private SearchContext _getSearchContext(int end) {
+	private SearchContext _getSearchContext(int end, int start) {
 		SearchContext searchContext = new SearchContext();
 
 		_mockPermission(searchContext);
@@ -216,13 +276,7 @@ public class DefaultSearchResultPermissionFilterTest {
 		_setUpDocuments();
 
 		searchContext.setEnd(end);
-		searchContext.setStart(0);
-
-		Mockito.when(
-			_searchFunction.apply(searchContext)
-		).thenReturn(
-			_getHits(end)
-		);
+		searchContext.setStart(start);
 
 		return searchContext;
 	}

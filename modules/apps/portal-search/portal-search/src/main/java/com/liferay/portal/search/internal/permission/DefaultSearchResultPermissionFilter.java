@@ -104,7 +104,18 @@ public class DefaultSearchResultPermissionFilter
 		int end = searchContext.getEnd();
 		int start = searchContext.getStart();
 
-		if ((end == QueryUtil.ALL_POS) && (start == QueryUtil.ALL_POS)) {
+		SlidingWindowSearcher slidingWindowSearcher =
+			new SlidingWindowSearcher();
+
+		if (end == QueryUtil.ALL_POS) {
+			if (start == QueryUtil.ALL_POS) {
+				start = 0;
+			}
+
+			slidingWindowSearcher.search(start, end, searchContext);
+		}
+
+		if (start == QueryUtil.ALL_POS) {
 			Hits hits = _getHits(searchContext);
 
 			if (!_isGroupAdmin(searchContext)) {
@@ -121,9 +132,6 @@ public class DefaultSearchResultPermissionFilter
 		if (_isGroupAdmin(searchContext)) {
 			return _getHits(searchContext);
 		}
-
-		SlidingWindowSearcher slidingWindowSearcher =
-			new SlidingWindowSearcher();
 
 		return slidingWindowSearcher.search(start, end, searchContext);
 	}
@@ -172,9 +180,7 @@ public class DefaultSearchResultPermissionFilter
 	}
 
 	private Hits _getHits(SearchContext searchContext) {
-		if ((searchContext != null) &&
-			(searchContext.getEnd() != QueryUtil.ALL_POS)) {
-
+		if (searchContext != null) {
 			int end = searchContext.getEnd();
 
 			int start = searchContext.getStart();
@@ -350,7 +356,7 @@ public class DefaultSearchResultPermissionFilter
 	private final int _searchQueryResultWindowLimit;
 	private final SearchRequestBuilderFactory _searchRequestBuilderFactory;
 
-	private class SlidingWindowSearcher {
+	protected class SlidingWindowSearcher {
 
 		public Hits search(int start, int end, SearchContext searchContext) {
 			int amplifiedCount =
@@ -362,62 +368,106 @@ public class DefaultSearchResultPermissionFilter
 			int offset = 0;
 			long startTime = 0;
 
-			while (true) {
-				int count = end - filteredDocsCount;
+			if (end != QueryUtil.ALL_POS) {
+				while (true) {
+					int count = end - filteredDocsCount;
 
-				if ((offset > 0) || (amplifiedCount < count)) {
-					amplifiedCount = (int)Math.ceil(
-						count * amplificationFactor);
+					if ((offset > 0) || (amplifiedCount < count)) {
+						amplifiedCount = (int)Math.ceil(
+							count * amplificationFactor);
+					}
+
+					if ((amplifiedCount > _searchQueryResultWindowLimit) &&
+						(_searchQueryResultWindowLimit > 0)) {
+
+						amplifiedCount = _searchQueryResultWindowLimit;
+					}
+
+					int amplifiedEnd = offset + amplifiedCount;
+
+					searchContext.setEnd(amplifiedEnd);
+
+					searchContext.setStart(offset);
+
+					_setSearchRequestFromAndSize(searchContext);
+
+					Hits hits = _getHits(searchContext);
+
+					if (startTime == 0) {
+						hitsSize = hits.getLength();
+						startTime = hits.getStart();
+					}
+
+					Document[] oldDocs = hits.getDocs();
+
+					_filterHits(hits, searchContext);
+
+					Document[] newDocs = hits.getDocs();
+
+					excludedDocsSize += oldDocs.length - newDocs.length;
+
+					filteredDocsCount += newDocs.length;
+
+					collectHits(hits, filteredDocsCount, start, end);
+
+					if ((newDocs.length >= count) ||
+						(oldDocs.length < amplifiedCount) ||
+						(amplifiedEnd >= hitsSize)) {
+
+						updateDocuments(filteredDocsCount, start, end);
+
+						updateHits(
+							hits, hitsSize - excludedDocsSize, startTime);
+
+						return hits;
+					}
+
+					offset = amplifiedEnd;
+
+					amplificationFactor = _getAmplificationFactor(
+						filteredDocsCount, offset);
 				}
+			}
+			else {
+				while (true) {
+					end = start + _searchQueryResultWindowLimit;
 
-				if ((amplifiedCount > _searchQueryResultWindowLimit) &&
-					(_searchQueryResultWindowLimit > 0)) {
+					searchContext.setEnd(end);
 
-					amplifiedCount = _searchQueryResultWindowLimit;
+					searchContext.setStart(start);
+
+					_setSearchRequestFromAndSize(searchContext);
+
+					Hits hits = _getHits(searchContext);
+
+					if (hits.getLength() == 0) {
+						updateDocuments(filteredDocsCount, start, end);
+
+						updateHits(
+							hits, hitsSize - excludedDocsSize, startTime);
+
+						return hits;
+					}
+
+					if (startTime == 0) {
+						hitsSize = hits.getLength();
+						startTime = hits.getStart();
+					}
+
+					Document[] oldDocs = hits.getDocs();
+
+					_filterHits(hits, searchContext);
+
+					Document[] newDocs = hits.getDocs();
+
+					excludedDocsSize += oldDocs.length - newDocs.length;
+
+					filteredDocsCount += newDocs.length;
+
+					collectHits(hits, filteredDocsCount, start, end);
+
+					start = end;
 				}
-
-				int amplifiedEnd = offset + amplifiedCount;
-
-				searchContext.setEnd(amplifiedEnd);
-
-				searchContext.setStart(offset);
-
-				_setSearchRequestFromAndSize(searchContext);
-
-				Hits hits = _getHits(searchContext);
-
-				if (startTime == 0) {
-					hitsSize = hits.getLength();
-					startTime = hits.getStart();
-				}
-
-				Document[] oldDocs = hits.getDocs();
-
-				_filterHits(hits, searchContext);
-
-				Document[] newDocs = hits.getDocs();
-
-				excludedDocsSize += oldDocs.length - newDocs.length;
-
-				filteredDocsCount += newDocs.length;
-
-				collectHits(hits, filteredDocsCount, start, end);
-
-				if ((newDocs.length >= count) ||
-					(oldDocs.length < amplifiedCount) ||
-					(amplifiedEnd >= hitsSize)) {
-
-					updateDocuments(filteredDocsCount, start, end);
-
-					updateHits(hits, hitsSize - excludedDocsSize, startTime);
-
-					return hits;
-				}
-
-				offset = amplifiedEnd;
-
-				amplificationFactor = _getAmplificationFactor(
-					filteredDocsCount, offset);
 			}
 		}
 
