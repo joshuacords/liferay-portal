@@ -117,14 +117,6 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 				throw new IllegalArgumentException("Invalid start " + start);
 			}
 
-			if (end == QueryUtil.ALL_POS) {
-				end = GetterUtil.getInteger(
-					_props.get(PropsKeys.INDEX_SEARCH_LIMIT));
-			}
-			else if (end < 0) {
-				throw new IllegalArgumentException("Invalid end " + end);
-			}
-
 			SearchResponseBuilder searchResponseBuilder =
 				_getSearchResponseBuilder(searchContext);
 
@@ -138,9 +130,22 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 					searchResponseBuilder, start);
 			}
 			else {
-				hits = _search(
-					end, query, searchContext, searchRequest,
-					searchResponseBuilder, start);
+				if (end == QueryUtil.ALL_POS || end > _elasticsearchConfigurationWrapper.indexMaxResultWindow()) {
+					end = _elasticsearchConfigurationWrapper.indexMaxResultWindow();
+				}
+				else if (end < 0) {
+					throw new IllegalArgumentException("Invalid end " + end);
+				}
+
+				if (start >= _elasticsearchConfigurationWrapper.indexMaxResultWindow()) {
+					hits = new HitsImpl();
+				} else {
+
+					hits = _search(
+						end, query, searchContext, searchRequest,
+						searchResponseBuilder, start);
+				}
+
 			}
 
 			hits.setStart(stopWatch.getStartTime());
@@ -629,10 +634,26 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 		int maxResultWindow =
 			_elasticsearchConfigurationWrapper.indexMaxResultWindow();
 
+		if (end == QueryUtil.ALL_POS) {
+			searchSearchRequest.setSize(1);
+
+			searchSearchRequest.setStart(0);
+
+			searchSearchResponse = _searchEngineAdapter.execute(
+				searchSearchRequest);
+
+			long count = searchSearchResponse.getCount();
+
+			end = (int)count;
+		}
+		else if (end < 0) {
+			throw new IllegalArgumentException("Invalid end " + end);
+		}
+
 		try {
 			if (end > maxResultWindow) {
 				SearchHit lastSearchHit = _getLastSearchHit(
-					start, searchSearchRequest, maxResultWindow);
+					maxResultWindow, searchSearchRequest, start);
 
 				if (lastSearchHit == null) {
 					return new HitsImpl();
