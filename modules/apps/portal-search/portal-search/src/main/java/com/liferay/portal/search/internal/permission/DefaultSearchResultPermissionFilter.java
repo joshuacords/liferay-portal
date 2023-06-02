@@ -112,6 +112,8 @@ public class DefaultSearchResultPermissionFilter
 				start = 0;
 			}
 
+			// Trying to get teh total count of results for deep pagination
+			// with a new logic
 			slidingWindowSearcher.search(start, end, searchContext);
 		}
 
@@ -368,7 +370,7 @@ public class DefaultSearchResultPermissionFilter
 			int offset = 0;
 			long startTime = 0;
 
-			if (end != QueryUtil.ALL_POS) {
+			if (end != QueryUtil.ALL_POS) { // Default Search
 				while (true) {
 					int count = end - filteredDocsCount;
 
@@ -428,7 +430,13 @@ public class DefaultSearchResultPermissionFilter
 						filteredDocsCount, offset);
 				}
 			}
-			else {
+			else { // Deep Pagination Search
+				// Split it from the while before to test the concept
+
+				// _searchQueryResultWindowLimit VS searchResultWindow VS INDEX_SEARCH_LIMIT
+				// We need to find a way to make clear the diference between them
+
+				// The idea here is just search until no more results are found
 				while (true) {
 					end = start + _searchQueryResultWindowLimit;
 

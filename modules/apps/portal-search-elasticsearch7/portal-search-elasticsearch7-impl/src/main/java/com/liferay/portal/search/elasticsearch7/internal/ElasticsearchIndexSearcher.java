@@ -130,6 +130,12 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 					searchResponseBuilder, start);
 			}
 			else {
+				// If the end is set to QueryUtil.ALL_POS, then we need to
+				// give it a value equals to the max result window size. If the
+				// end is greater than the max result window size, then we need
+				// to give it a value equals to the max result window size.
+				// it will avoid the search to break. (but I really think it is something
+				// that should be fixed in classes before that one)
 				if (end == QueryUtil.ALL_POS || end > _elasticsearchConfigurationWrapper.indexMaxResultWindow()) {
 					end = _elasticsearchConfigurationWrapper.indexMaxResultWindow();
 				}
@@ -137,6 +143,9 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 					throw new IllegalArgumentException("Invalid end " + end);
 				}
 
+				// if start is greater or equals to the max result window size,
+				// then we need to return an empty hits object. It will say that
+				// there is no result.
 				if (start >= _elasticsearchConfigurationWrapper.indexMaxResultWindow()) {
 					hits = new HitsImpl();
 				} else {
@@ -652,6 +661,8 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 
 		try {
 			if (end > maxResultWindow) {
+				// That change was to fix the bug LPS-185742. The parameter was
+				// in the wrong order.
 				SearchHit lastSearchHit = _getLastSearchHit(
 					maxResultWindow, searchSearchRequest, start);
 

@@ -163,11 +163,11 @@ public class DefaultSearchResultPermissionFilterTest {
 		Mockito.when(
 			_searchFunction.apply(searchContext)
 		).thenReturn(
-			_getHits(4)
+			_getHits(4) // first search
 		).thenReturn(
-			_getHits(4)
+			_getHits(4) // second search
 		).thenReturn(
-			_getHits(0)
+			_getHits(0) // last search without any result
 		);
 
 		DefaultSearchResultPermissionFilter.SlidingWindowSearcher
@@ -178,6 +178,7 @@ public class DefaultSearchResultPermissionFilterTest {
 
 		Document[] docs = hits.getDocs();
 
+		// just want to know if the while loop will stop and return all the results
 		System.out.println(Arrays.toString(docs));
 	}
 
