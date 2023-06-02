@@ -23,7 +23,7 @@ import org.osgi.annotation.versioning.ProviderType;
 /**
  * @author Gustavo Lima
  */
-@ExtendedObjectClassDefinition(category = "search", generateUI = false)
+@ExtendedObjectClassDefinition(category = "search")
 @Meta.OCD(
 	id = "com.liferay.portal.search.elasticsearch7.configuration.DeepPaginationConfiguration",
 	localization = "content/Language",
