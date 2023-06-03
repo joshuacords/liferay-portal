@@ -40,6 +40,11 @@ import java.nio.file.StandardCopyOption;
  */
 public class JarUtil {
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #downloadAndInstallJar(URL, Path, String)}
+	 */
+	@Deprecated
 	public static void downloadAndInstallJar(URL url, Path path)
 		throws Exception {
 
@@ -84,6 +89,11 @@ public class JarUtil {
 		}
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #downloadAndInstallJar(URL, Path, URLClassLoader, String)}
+	 */
+	@Deprecated
 	public static void downloadAndInstallJar(
 			URL url, Path path, URLClassLoader urlClassLoader)
 		throws Exception {
