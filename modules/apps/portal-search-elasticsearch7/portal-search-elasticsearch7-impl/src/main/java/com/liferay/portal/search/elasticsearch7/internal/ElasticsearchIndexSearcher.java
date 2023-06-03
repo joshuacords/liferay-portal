@@ -130,8 +130,7 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 
 			Hits hits = null;
 
-			if (FeatureFlagManagerUtil.isEnabled("LPS-172416") &&
-				_deepPaginationConfigurationWrapper.getEnableDeepPagination()) {
+			if (_deepPaginationConfigurationWrapper.getEnableDeepPagination()) {
 
 				hits = _searchWithDeepPagination(
 					end, query, searchContext, searchRequest,
