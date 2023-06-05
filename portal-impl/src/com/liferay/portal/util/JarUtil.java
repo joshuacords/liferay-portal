@@ -78,9 +78,8 @@ public class JarUtil {
 			if (!StringUtil.equalsIgnoreCase(sha1, digest)) {
 				throw new Exception(
 					StringBundler.concat(
-						"Failed to download ", url, " to ", path, " due to ",
-						"integrity check failure: expected ", sha1, " actual ",
-						digest));
+						"Unable to download ", url, " to ", path, " because ",
+						sha1, " does not equal ", digest));
 			}
 		}
 
