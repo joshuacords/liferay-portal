@@ -21,6 +21,12 @@ PortletURL configurationRenderURL = (PortletURL)request.getAttribute("configurat
 String eventName = "_" + HtmlUtil.escapeJS(assetPublisherDisplayContext.getPortletResource()) + "_selectAsset";
 
 List<AssetEntry> assetEntries = assetPublisherHelper.getAssetEntries(renderRequest, portletPreferences, permissionChecker, assetPublisherDisplayContext.getGroupIds(), true, assetPublisherDisplayContext.isEnablePermissions(), true, AssetRendererFactory.TYPE_LATEST);
+
+List<String> assetEntryIds = new ArrayList<String>();
+
+for (AssetEntry assetEntry : assetEntries) {
+	assetEntryIds.add(String.valueOf(assetEntry.getEntryId()));
+}
 %>
 
 <liferay-ui:search-container
@@ -130,6 +136,7 @@ for (long groupId : groupIds) {
 				curGroupId = group.getLiveGroupId();
 			}
 
+			assetBrowserURL.setParameter("selectedAssetEntryIds", StringUtil.merge(assetEntryIds, ","));
 			assetBrowserURL.setParameter("groupId", String.valueOf(curGroupId));
 			assetBrowserURL.setParameter("multipleSelection", String.valueOf(Boolean.TRUE));
 			assetBrowserURL.setParameter("selectedGroupIds", String.valueOf(curGroupId));
@@ -241,7 +248,7 @@ for (long groupId : groupIds) {
 			var assetEntryIds = [];
 
 			Array.prototype.forEach.call(assetEntryList, function(assetEntry) {
-				assetEntryIds.push(assetEntry.value);
+				assetEntryIds.push(assetEntry.entityid);
 
 				assetClassName = assetEntry.assetclassname;
 			});

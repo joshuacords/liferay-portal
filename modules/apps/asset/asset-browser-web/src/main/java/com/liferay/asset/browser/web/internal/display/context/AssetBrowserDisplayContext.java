@@ -77,7 +77,7 @@ public class AssetBrowserDisplayContext {
 		if (isMultipleSelection()) {
 			assetBrowserSearch.setRowChecker(
 				new AddAssetEntryChecker(
-					_renderResponse, getRefererAssetEntryId()));
+					_renderRequest, _renderResponse, getRefererAssetEntryId()));
 		}
 
 		assetBrowserSearch.setOrderByCol(getOrderByCol());
@@ -240,6 +240,9 @@ public class AssetBrowserDisplayContext {
 			"showScheduled", String.valueOf(_isShowScheduled()));
 		portletURL.setParameter("eventName", getEventName());
 
+		portletURL.setParameter(
+			"selectedAssetEntryIds", getSelectedAssetEntryIds());
+
 		return portletURL;
 	}
 
@@ -252,6 +255,17 @@ public class AssetBrowserDisplayContext {
 			_httpServletRequest, "refererAssetEntryId");
 
 		return _refererAssetEntryId;
+	}
+
+	public String getSelectedAssetEntryIds() {
+		if (_selectedAssetEntryIds != null) {
+			return _selectedAssetEntryIds;
+		}
+
+		_selectedAssetEntryIds = ParamUtil.getString(
+			_httpServletRequest, "selectedAssetEntryIds");
+
+		return _selectedAssetEntryIds;
 	}
 
 	public long[] getSelectedGroupIds() {
@@ -496,6 +510,7 @@ public class AssetBrowserDisplayContext {
 	private Long _refererAssetEntryId;
 	private final RenderRequest _renderRequest;
 	private final RenderResponse _renderResponse;
+	private String _selectedAssetEntryIds;
 	private Boolean _showAddButton;
 	private Boolean _showNonindexable;
 	private Boolean _showScheduled;

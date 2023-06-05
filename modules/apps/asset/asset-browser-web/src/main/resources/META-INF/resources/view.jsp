@@ -25,6 +25,7 @@
 
 	<liferay-ui:search-container
 		id="selectAssetEntries"
+		iteratorURL="<%= assetBrowserDisplayContext.getPortletURL() %>"
 		searchContainer="<%= assetBrowserDisplayContext.getAssetBrowserSearch() %>"
 		var="assetEntriesSearchContainer"
 	>
@@ -189,6 +190,7 @@
 		<liferay-ui:search-iterator
 			displayStyle="<%= assetBrowserDisplayContext.getDisplayStyle() %>"
 			markupView="lexicon"
+			paginate="<%= true %>"
 		/>
 	</liferay-ui:search-container>
 </aui:form>
@@ -202,7 +204,6 @@
 
 			searchContainer.on('rowToggled', function(event) {
 				var selectedItems = event.elements.allSelectedElements;
-
 				var arr = [];
 
 				selectedItems.each(function() {
@@ -218,7 +219,6 @@
 
 					if (domElement != null) {
 						var data = domElement.getDOM().dataset;
-
 						arr.push(data);
 					}
 				});
