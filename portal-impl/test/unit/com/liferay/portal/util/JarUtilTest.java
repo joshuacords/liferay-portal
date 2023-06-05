@@ -44,8 +44,8 @@ public class JarUtilTest {
 
 		digesterUtil.setDigester(new DigesterImpl());
 
-		_testDownloadAndInstallJar(_REAL_SHA1);
-		_testDownloadAndInstallJar(_FAKE_SHA1);
+		_testDownloadAndInstallJar(_SHA1_REAL);
+		_testDownloadAndInstallJar(_SHA1_FAKE);
 	}
 
 	private void _testDownloadAndInstallJar(String sha1) throws Exception {
@@ -57,13 +57,13 @@ public class JarUtilTest {
 		try {
 			JarUtil.downloadAndInstallJar(url, tempFilePath, sha1);
 
-			if (sha1.equals(_FAKE_SHA1)) {
+			if (sha1.equals(_SHA1_FAKE)) {
 				Assert.fail(
-					"Download should fail when invalid sha1 is provided");
+					"Download should fail when invalid SHA1 is provided");
 			}
 		}
 		catch (Exception exception) {
-			if (sha1.equals(_REAL_SHA1)) {
+			if (sha1.equals(_SHA1_REAL)) {
 				throw exception;
 			}
 
@@ -77,9 +77,9 @@ public class JarUtilTest {
 		}
 	}
 
-	private static final String _FAKE_SHA1 = "FAKE_SHA1";
+	private static final String _SHA1_FAKE = "SHA1_FAKE";
 
-	private static final String _REAL_SHA1 =
+	private static final String _SHA1_REAL =
 		"98e93e8db707aa2d31118c9c88a2d6b642d896fd";
 
 }
