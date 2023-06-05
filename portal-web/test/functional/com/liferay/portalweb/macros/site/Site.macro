@@ -751,7 +751,7 @@ definition {
 			LexiconList.viewListEntryPresent(listEntry = ${siteName});
 
 			LexiconList.viewListEntrySubtitle(
-				listEntry = "${siteName}",
+				listEntry = ${siteName},
 				listEntrySubtitle = "1 User");
 
 			LexiconList.clickEllipsisItem(
@@ -775,7 +775,7 @@ definition {
 			LexiconList.viewListEntryPresent(listEntry = ${siteName});
 
 			LexiconList.viewListEntrySubtitle(
-				listEntry = "${siteName}",
+				listEntry = ${siteName},
 				listEntrySubtitle = "1 User");
 
 			LexiconList.clickEllipsisItem(
@@ -788,7 +788,7 @@ definition {
 			LexiconList.viewListEntryPresent(listEntry = ${siteName});
 
 			LexiconList.viewListEntrySubtitle(
-				listEntry = "${siteName}",
+				listEntry = ${siteName},
 				listEntrySubtitle = "2 Users");
 
 			LexiconList.clickEllipsis(
@@ -806,7 +806,7 @@ definition {
 		LexiconList.viewListEntryPresent(listEntry = ${siteName});
 
 		LexiconList.viewListEntrySubtitle(
-			listEntry = "${siteName}",
+			listEntry = ${siteName},
 			listEntrySubtitle = "2 Users");
 
 		Navigator.gotoNavItem(navItem = "Available Sites");
@@ -814,7 +814,7 @@ definition {
 		LexiconList.viewListEntryPresent(listEntry = ${siteName});
 
 		LexiconList.viewListEntrySubtitle(
-			listEntry = "${siteName}",
+			listEntry = ${siteName},
 			listEntrySubtitle = "2 Users");
 
 		LexiconList.clickEllipsisItem(
@@ -827,7 +827,7 @@ definition {
 		LexiconList.viewListEntryPresent(listEntry = ${siteName});
 
 		LexiconList.viewListEntrySubtitle(
-			listEntry = "${siteName}",
+			listEntry = ${siteName},
 			listEntrySubtitle = "1 User");
 
 		LexiconList.clickEllipsis(
@@ -1109,7 +1109,7 @@ definition {
 		if (${siteMember} == "User") {
 			AssertTextEquals(
 				key_columnName = "members",
-				key_tableEntry = "${siteName}",
+				key_tableEntry = ${siteName},
 				locator1 = "LexiconTable#TABLE_ENTRY_INFO",
 				value1 = "1 ${siteMember}");
 		}
@@ -1255,8 +1255,8 @@ definition {
 		LexiconList.viewListEntryPresent(listEntry = ${siteName});
 
 		LexiconList.viewListEntrySubtitle(
-			listEntry = "${siteName}",
-			listEntrySubtitle = "${memberCount}");
+			listEntry = ${siteName},
+			listEntrySubtitle = ${memberCount});
 	}
 
 	macro viewNoMySitesViaMySitesPG {
