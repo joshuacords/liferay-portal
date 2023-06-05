@@ -425,44 +425,6 @@ public class StructuredContentResourceImpl
 			siteId, JournalFolderConstants.DEFAULT_PARENT_FOLDER_ID,
 			structuredContent);
 	}
-	private ServiceContext _createServiceContext(
-		Long structuredContentId, StructuredContent structuredContent,
-		Long siteId)
-		throws Exception {
-
-		ServiceContext serviceContext = null;
-
-		if (structuredContentId > 0L) {
-			JournalArticle journalArticle =
-				_journalArticleService.getLatestArticle(structuredContentId);
-
-			ClassName className = _classNameLocalService.fetchClassName(
-				JournalArticle.class.getName());
-
-			AssetEntry assetEntry = _assetEntryLocalService.fetchEntry(
-				className.getClassNameId(),
-				journalArticle.getResourcePrimKey());
-
-			serviceContext = ServiceContextUtil.createServiceContext(
-				structuredContent.getTaxonomyCategoryIds(),
-				structuredContent.getKeywords(),
-				_getExpandoBridgeAttributes(structuredContent),
-				journalArticle.getGroupId(),
-				structuredContent.getViewableByAsString());
-
-			serviceContext.setAssetPriority(assetEntry.getPriority());
-		}
-		else {
-			ServiceContextUtil.createServiceContext(
-				structuredContent.getTaxonomyCategoryIds(),
-				structuredContent.getKeywords(),
-				_getExpandoBridgeAttributes(structuredContent), siteId,
-				structuredContent.getViewableByAsString());
-		}
-
-		return serviceContext;
-	}
-
 
 	@Override
 	public StructuredContent postStructuredContentFolderStructuredContent(
@@ -639,8 +601,7 @@ public class StructuredContentResourceImpl
 				localDateTime.getDayOfMonth(), localDateTime.getYear(),
 				localDateTime.getHour(), localDateTime.getMinute(), 0, 0, 0, 0,
 				0, true, 0, 0, 0, 0, 0, true, true, false, null, null, null,
-				null,
-				_createServiceContext(0L, structuredContent, siteId)));
+				null, _createServiceContext(0L, structuredContent, siteId)));
 	}
 
 	private DDMStructure _checkDDMStructurePermission(
@@ -697,6 +658,44 @@ public class StructuredContentResourceImpl
 		finally {
 			LocaleThreadLocal.setSiteDefaultLocale(originalSiteDefaultLocale);
 		}
+	}
+
+	private ServiceContext _createServiceContext(
+			Long structuredContentId, StructuredContent structuredContent,
+			Long siteId)
+		throws Exception {
+
+		ServiceContext serviceContext = null;
+
+		if (structuredContentId > 0L) {
+			JournalArticle journalArticle =
+				_journalArticleService.getLatestArticle(structuredContentId);
+
+			ClassName className = _classNameLocalService.fetchClassName(
+				JournalArticle.class.getName());
+
+			AssetEntry assetEntry = _assetEntryLocalService.fetchEntry(
+				className.getClassNameId(),
+				journalArticle.getResourcePrimKey());
+
+			serviceContext = ServiceContextUtil.createServiceContext(
+				structuredContent.getTaxonomyCategoryIds(),
+				structuredContent.getKeywords(),
+				_getExpandoBridgeAttributes(structuredContent),
+				journalArticle.getGroupId(),
+				structuredContent.getViewableByAsString());
+
+			serviceContext.setAssetPriority(assetEntry.getPriority());
+		}
+		else {
+			ServiceContextUtil.createServiceContext(
+				structuredContent.getTaxonomyCategoryIds(),
+				structuredContent.getKeywords(),
+				_getExpandoBridgeAttributes(structuredContent), siteId,
+				structuredContent.getViewableByAsString());
+		}
+
+		return serviceContext;
 	}
 
 	private DDMFormField _getDDMFormField(
@@ -1041,6 +1040,12 @@ public class StructuredContentResourceImpl
 	private Aggregations _aggregations;
 
 	@Reference
+	private AssetEntryLocalService _assetEntryLocalService;
+
+	@Reference
+	private ClassNameLocalService _classNameLocalService;
+
+	@Reference
 	private DDM _ddm;
 
 	@Reference
@@ -1117,12 +1122,5 @@ public class StructuredContentResourceImpl
 
 	@Reference
 	private UserLocalService _userLocalService;
-
-	@Reference
-	private AssetEntryLocalService _assetEntryLocalService;
-
-	@Reference
-	private ClassNameLocalService _classNameLocalService;
-
 
 }
