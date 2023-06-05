@@ -14,6 +14,8 @@
 
 package com.liferay.headless.delivery.internal.resource.v1_0;
 
+import com.liferay.asset.kernel.model.AssetEntry;
+import com.liferay.asset.kernel.service.AssetEntryLocalService;
 import com.liferay.document.library.kernel.service.DLAppService;
 import com.liferay.dynamic.data.mapping.io.DDMFormValuesSerializer;
 import com.liferay.dynamic.data.mapping.io.DDMFormValuesSerializerSerializeRequest;
@@ -63,6 +65,7 @@ import com.liferay.journal.util.JournalConverter;
 import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.model.ClassName;
 import com.liferay.portal.kernel.search.BooleanClauseOccur;
 import com.liferay.portal.kernel.search.BooleanQuery;
 import com.liferay.portal.kernel.search.Sort;
@@ -73,6 +76,7 @@ import com.liferay.portal.kernel.security.auth.PrincipalException;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
+import com.liferay.portal.kernel.service.ClassNameLocalService;
 import com.liferay.portal.kernel.service.LayoutLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalService;
@@ -408,12 +412,8 @@ public class StructuredContentResourceImpl
 				localDateTime.getHour(), localDateTime.getMinute(), 0, 0, 0, 0,
 				0, true, 0, 0, 0, 0, 0, true, true, false, null, null, null,
 				null,
-				ServiceContextUtil.createServiceContext(
-					structuredContent.getTaxonomyCategoryIds(),
-					structuredContent.getKeywords(),
-					_getExpandoBridgeAttributes(structuredContent),
-					journalArticle.getGroupId(),
-					structuredContent.getViewableByAsString())));
+				_createServiceContext(
+					structuredContentId, structuredContent, 0L)));
 	}
 
 	@Override
@@ -425,6 +425,44 @@ public class StructuredContentResourceImpl
 			siteId, JournalFolderConstants.DEFAULT_PARENT_FOLDER_ID,
 			structuredContent);
 	}
+	private ServiceContext _createServiceContext(
+		Long structuredContentId, StructuredContent structuredContent,
+		Long siteId)
+		throws Exception {
+
+		ServiceContext serviceContext = null;
+
+		if (structuredContentId > 0L) {
+			JournalArticle journalArticle =
+				_journalArticleService.getLatestArticle(structuredContentId);
+
+			ClassName className = _classNameLocalService.fetchClassName(
+				JournalArticle.class.getName());
+
+			AssetEntry assetEntry = _assetEntryLocalService.fetchEntry(
+				className.getClassNameId(),
+				journalArticle.getResourcePrimKey());
+
+			serviceContext = ServiceContextUtil.createServiceContext(
+				structuredContent.getTaxonomyCategoryIds(),
+				structuredContent.getKeywords(),
+				_getExpandoBridgeAttributes(structuredContent),
+				journalArticle.getGroupId(),
+				structuredContent.getViewableByAsString());
+
+			serviceContext.setAssetPriority(assetEntry.getPriority());
+		}
+		else {
+			ServiceContextUtil.createServiceContext(
+				structuredContent.getTaxonomyCategoryIds(),
+				structuredContent.getKeywords(),
+				_getExpandoBridgeAttributes(structuredContent), siteId,
+				structuredContent.getViewableByAsString());
+		}
+
+		return serviceContext;
+	}
+
 
 	@Override
 	public StructuredContent postStructuredContentFolderStructuredContent(
@@ -510,12 +548,8 @@ public class StructuredContentResourceImpl
 				localDateTime.getHour(), localDateTime.getMinute(), 0, 0, 0, 0,
 				0, true, 0, 0, 0, 0, 0, true, true, false, null, null, null,
 				null,
-				ServiceContextUtil.createServiceContext(
-					structuredContent.getTaxonomyCategoryIds(),
-					structuredContent.getKeywords(),
-					_getExpandoBridgeAttributes(structuredContent),
-					journalArticle.getGroupId(),
-					structuredContent.getViewableByAsString())));
+				_createServiceContext(
+					structuredContentId, structuredContent, 0L)));
 	}
 
 	@Override
@@ -606,11 +640,7 @@ public class StructuredContentResourceImpl
 				localDateTime.getHour(), localDateTime.getMinute(), 0, 0, 0, 0,
 				0, true, 0, 0, 0, 0, 0, true, true, false, null, null, null,
 				null,
-				ServiceContextUtil.createServiceContext(
-					structuredContent.getTaxonomyCategoryIds(),
-					structuredContent.getKeywords(),
-					_getExpandoBridgeAttributes(structuredContent), siteId,
-					structuredContent.getViewableByAsString())));
+				_createServiceContext(0L, structuredContent, siteId)));
 	}
 
 	private DDMStructure _checkDDMStructurePermission(
@@ -1087,5 +1117,12 @@ public class StructuredContentResourceImpl
 
 	@Reference
 	private UserLocalService _userLocalService;
+
+	@Reference
+	private AssetEntryLocalService _assetEntryLocalService;
+
+	@Reference
+	private ClassNameLocalService _classNameLocalService;
+
 
 }
