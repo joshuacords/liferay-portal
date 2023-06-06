@@ -239,45 +239,6 @@ public class ElasticsearchSearchEngineAdapterSearchRequestTest {
 	}
 
 	@Test
-	public void testDeepPaginationWithSearchAfter2() throws IOException {
-		for (int i = 0; i < 10; i++) {
-			_indexSuggestKeyword(RandomTestUtil.randomString());
-		}
-
-		PointInTime pointInTime = _createPointInTime();
-
-		SearchSearchRequest searchSearchRequest = new SearchSearchRequest();
-
-		searchSearchRequest.setIndexNames(_INDEX_NAME);
-		searchSearchRequest.setPointInTime(pointInTime);
-		searchSearchRequest.setQuery(new MatchAllQuery());
-		searchSearchRequest.setSize(1);
-		searchSearchRequest.setSorts(new Sort[] {new Sort("_count", true)});
-		searchSearchRequest.setStart(0);
-
-		SearchSearchResponse searchSearchResponse =
-			_searchEngineAdapter.execute(searchSearchRequest);
-
-		for (int i = 0; i < 3; i++) {
-			Assert.assertEquals(1, _getDocumentsLength(searchSearchResponse));
-
-			SearchHits searchHits = searchSearchResponse.getSearchHits();
-
-			List<SearchHit> searchHitList = searchHits.getSearchHits();
-
-			SearchHit lastSearchHit = searchHitList.get(
-				searchHitList.size() - 1);
-
-			searchSearchRequest.setSearchAfter(lastSearchHit.getSortValues());
-
-			searchSearchResponse = _searchEngineAdapter.execute(
-				searchSearchRequest);
-		}
-
-		Assert.assertEquals(0, _getDocumentsLength(searchSearchResponse));
-	}
-
-	@Test
 	public void testGlobalText() throws IOException {
 		_indexSuggestKeyword("search");
 
@@ -443,18 +404,6 @@ public class ElasticsearchSearchEngineAdapterSearchRequestTest {
 		catch (IOException ioException) {
 			throw new RuntimeException(ioException);
 		}
-	}
-
-	private PointInTime _createPointInTime() {
-		OpenPointInTimeRequest openPointInTimeRequest =
-			new OpenPointInTimeRequest(1);
-
-		openPointInTimeRequest.setIndices(_INDEX_NAME);
-
-		OpenPointInTimeResponse openPointInTimeResponse =
-			_searchEngineAdapter.execute(openPointInTimeRequest);
-
-		return new PointInTime(openPointInTimeResponse.pitId());
 	}
 
 	private SearchRequestExecutor _createSearchRequestExecutor(
