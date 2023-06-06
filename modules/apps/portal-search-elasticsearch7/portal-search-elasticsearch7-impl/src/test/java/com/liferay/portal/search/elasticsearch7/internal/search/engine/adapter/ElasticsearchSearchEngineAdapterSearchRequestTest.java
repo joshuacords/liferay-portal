@@ -196,7 +196,16 @@ public class ElasticsearchSearchEngineAdapterSearchRequestTest {
 		_indexSuggestKeyword(RandomTestUtil.randomString());
 		_indexSuggestKeyword(RandomTestUtil.randomString());
 
-		PointInTime pointInTime = _createPointInTime();
+		OpenPointInTimeRequest openPointInTimeRequest =
+			new OpenPointInTimeRequest(1);
+
+		openPointInTimeRequest.setIndices(_INDEX_NAME);
+
+		OpenPointInTimeResponse openPointInTimeResponse =
+			_searchEngineAdapter.execute(openPointInTimeRequest);
+
+		PointInTime pointInTime = new PointInTime(
+			openPointInTimeResponse.pitId());
 
 		SearchSearchRequest searchSearchRequest = new SearchSearchRequest();
 
