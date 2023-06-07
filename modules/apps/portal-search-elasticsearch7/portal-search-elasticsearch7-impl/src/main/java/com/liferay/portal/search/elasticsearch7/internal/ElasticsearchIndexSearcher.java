@@ -366,7 +366,7 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 		searchSearchRequest.setPointInTime(
 			_createPointInTime(searchContext, searchRequest));
 
-		if (ArrayUtil.isEmpty(searchContext.getSorts()) ||
+		if (ArrayUtil.isEmpty(searchContext.getSorts()) || //should be &&?
 			ListUtil.isEmpty(searchRequest.getSorts())) {
 
 			ScoreSort scoreSort = _sorts.score();
