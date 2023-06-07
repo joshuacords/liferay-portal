@@ -28,6 +28,8 @@ import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.search.generic.MatchAllQuery;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
+import com.liferay.portal.kernel.util.Props;
+import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.search.constants.SearchContextAttributes;
@@ -88,8 +90,6 @@ public class ElasticsearchIndexSearcherTest {
 		_searchRequestBuilderFactory = new SearchRequestBuilderFactoryImpl();
 
 		_setUpIndexingFixture();
-		_setUpDeepPagination();
-		_setUpSorts();
 
 		PropsUtil.setProps(new PropsImpl());
 	}
@@ -120,7 +120,9 @@ public class ElasticsearchIndexSearcherTest {
 
 	@Test
 	public void testElasticsearchIndexSearcher() throws SearchException {
-		for (int i = 0; i < 5; i++) {
+		int numDocuments = 5;
+
+		for (int i = 0; i < numDocuments; i++) {
 			addDocument(Field.TITLE, "Title " + i, Field.CONTENT, "example");
 		}
 
@@ -130,6 +132,40 @@ public class ElasticsearchIndexSearcherTest {
 		searchContext.setSorts(new Sort(Field.MODIFIED_DATE, true));
 
 		Hits hits = _indexSearcher.search(searchContext, new MatchAllQuery());
+
+		Document[] documents = hits.getDocs();
+		float[] scores = hits.getScores();
+
+		Assert.assertEquals(hits.toString(), numDocuments, documents.length);
+		Assert.assertEquals(scores.toString(), numDocuments, scores.length);
+		Assert.assertEquals(hits.toString(), numDocuments, hits.getLength());
+	}
+
+	@Test
+	public void testElasticsearchIndexSearcherIndexSearchLimit()
+		throws SearchException {
+
+		int numDocuments = 5;
+
+		for (int i = 0; i < numDocuments; i++) {
+			addDocument(Field.TITLE, "Title " + i, Field.CONTENT, "example");
+		}
+
+		SearchContext searchContext = _getSearchContext();
+
+		searchContext.setEnd(5);
+		searchContext.setSorts(new Sort(Field.MODIFIED_DATE, true));
+
+		Hits hits = _indexSearcher.search(searchContext, new MatchAllQuery());
+
+		Document[] documents = hits.getDocs();
+		float[] scores = hits.getScores();
+
+		Assert.assertEquals(
+			hits.toString(), _INDEX_SEARCH_LIMIT, documents.length);
+		Assert.assertEquals(
+			scores.toString(), _INDEX_SEARCH_LIMIT, scores.length);
+		Assert.assertEquals(hits.toString(), numDocuments, hits.getLength());
 	}
 
 	@Test
@@ -269,6 +305,24 @@ public class ElasticsearchIndexSearcherTest {
 
 		_indexSearcher = _indexingFixture.getIndexSearcher();
 		_indexWriter = _indexingFixture.getIndexWriter();
+
+		_setUpIndexSearchLimit();
+		_setUpDeepPagination();
+		_setUpSorts();
+	}
+
+	private void _setUpIndexSearchLimit() {
+		Props props = Mockito.mock(Props.class);
+
+		Mockito.doReturn(
+			_INDEX_SEARCH_LIMIT
+		).when(
+			props
+		).get(
+			PropsKeys.INDEX_SEARCH_LIMIT
+		);
+
+		ReflectionTestUtil.setFieldValue(_indexSearcher, "_props", props);
 	}
 
 	private void _setUpSorts() {
@@ -290,6 +344,8 @@ public class ElasticsearchIndexSearcherTest {
 
 		ReflectionTestUtil.setFieldValue(_indexSearcher, "_sorts", sorts);
 	}
+
+	private static final String _INDEX_SEARCH_LIMIT = "3";
 
 	private static IndexingFixture _indexingFixture;
 
