@@ -17,7 +17,6 @@ package com.liferay.portal.search.elasticsearch7.internal;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.dao.search.SearchPaginationUtil;
-import com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.BaseIndexSearcher;
@@ -409,7 +408,7 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 		return new String[] {indexName};
 	}
 
-	private SearchHit _getLastSearchHit(
+	private SearchHit _skipToLastSearch(
 		int maxResultWindow, SearchSearchRequest searchSearchRequest,
 		int start) {
 
@@ -626,7 +625,7 @@ public class ElasticsearchIndexSearcher extends BaseIndexSearcher {
 
 		try {
 			if (end > maxResultWindow) {
-				SearchHit lastSearchHit = _getLastSearchHit(
+				SearchHit lastSearchHit = _skipToLastSearch(
 					maxResultWindow, searchSearchRequest, start);
 
 				if (lastSearchHit == null) {
