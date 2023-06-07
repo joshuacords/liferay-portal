@@ -169,6 +169,33 @@ public class ElasticsearchIndexSearcherTest {
 	}
 
 	@Test
+	public void testElasticsearchIndexSearcherIndexMaxResultWindow()
+		throws SearchException {
+
+		int numDocuments = 5;
+
+		for (int i = 0; i < numDocuments; i++) {
+			addDocument(Field.TITLE, "Title " + i, Field.CONTENT, "example");
+		}
+
+		SearchContext searchContext = _getSearchContext();
+
+		searchContext.setEnd(5);
+		searchContext.setSorts(new Sort(Field.MODIFIED_DATE, true));
+
+		Hits hits = _indexSearcher.search(searchContext, new MatchAllQuery());
+
+		Document[] documents = hits.getDocs();
+		float[] scores = hits.getScores();
+
+		Assert.assertEquals(
+			hits.toString(), _INDEX_SEARCH_LIMIT, documents.length);
+		Assert.assertEquals(
+			scores.toString(), _INDEX_SEARCH_LIMIT, scores.length);
+		Assert.assertEquals(hits.toString(), numDocuments, hits.getLength());
+	}
+
+	@Test
 	public void testSearchContextAttributes() {
 		SearchContext searchContext = new SearchContext();
 
