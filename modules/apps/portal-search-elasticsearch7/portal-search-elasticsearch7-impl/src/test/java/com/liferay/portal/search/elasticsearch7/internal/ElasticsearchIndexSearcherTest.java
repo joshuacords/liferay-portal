@@ -14,27 +14,50 @@
 
 package com.liferay.portal.search.elasticsearch7.internal;
 
+import com.liferay.petra.function.transform.TransformUtil;
+import com.liferay.petra.string.CharPool;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.search.IndexSearcher;
+import com.liferay.portal.kernel.search.IndexWriter;
 import com.liferay.portal.kernel.search.Query;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.SearchException;
+import com.liferay.portal.kernel.search.Sort;
+import com.liferay.portal.kernel.search.generic.MatchAllQuery;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
+import com.liferay.portal.kernel.test.util.RandomTestUtil;
+import com.liferay.portal.kernel.util.PropsUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.search.constants.SearchContextAttributes;
 import com.liferay.portal.search.elasticsearch7.constants.ElasticsearchSearchContextAttributes;
-import com.liferay.portal.search.elasticsearch7.internal.configuration.ElasticsearchConfigurationWrapper;
+import com.liferay.portal.search.elasticsearch7.internal.connection.ElasticsearchFixture;
+import com.liferay.portal.search.elasticsearch7.internal.deep.pagination.configuration.DeepPaginationConfigurationWrapper;
 import com.liferay.portal.search.engine.adapter.search.SearchSearchRequest;
-import com.liferay.portal.search.index.IndexNameBuilder;
 import com.liferay.portal.search.internal.legacy.searcher.SearchRequestBuilderFactoryImpl;
+import com.liferay.portal.search.internal.sort.FieldSortImpl;
+import com.liferay.portal.search.internal.sort.ScoreSortImpl;
 import com.liferay.portal.search.legacy.searcher.SearchRequestBuilderFactory;
 import com.liferay.portal.search.searcher.SearchRequest;
+import com.liferay.portal.search.sort.Sorts;
 import com.liferay.portal.search.test.util.indexing.DocumentFixture;
+import com.liferay.portal.search.test.util.indexing.IndexingFixture;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
+import com.liferay.portal.util.PropsImpl;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Assert;
+import org.junit.Assume;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestName;
 
 import org.mockito.Mockito;
 
@@ -48,25 +71,69 @@ public class ElasticsearchIndexSearcherTest {
 	public static final LiferayUnitTestRule liferayUnitTestRule =
 		LiferayUnitTestRule.INSTANCE;
 
+	@BeforeClass
+	public static void setUpClass() throws Exception {
+		_indexingFixture = null;
+	}
+
 	@Before
-	public void setUp() {
+	public void setUp() throws Exception {
 		_documentFixture.setUp();
 
-		SearchRequestBuilderFactory searchRequestBuilderFactory =
-			new SearchRequestBuilderFactoryImpl();
+		Class<?> clazz = getClass();
 
-		_elasticsearchIndexSearcher = _createElasticsearchIndexSearcher(
-			searchRequestBuilderFactory);
-		_searchRequestBuilderFactory = searchRequestBuilderFactory;
+		_entryClassName = StringUtil.toLowerCase(
+			clazz.getSimpleName() + CharPool.PERIOD + testName.getMethodName());
+
+		_searchRequestBuilderFactory = new SearchRequestBuilderFactoryImpl();
+
+		_setUpIndexingFixture();
+		_setUpDeepPagination();
+		_setUpSorts();
+
+		PropsUtil.setProps(new PropsImpl());
 	}
 
 	@After
-	public void tearDown() {
+	public void tearDown() throws Exception {
+		if (!_documents.isEmpty()) {
+			_indexWriter.deleteDocuments(
+				_getSearchContext(),
+				TransformUtil.transform(
+					_documents, document -> document.get(Field.UID)));
+
+			_documents.clear();
+		}
+
 		_documentFixture.tearDown();
+
+		if (_indexingFixture == null) {
+			return;
+		}
+
+		if (_indexingFixture.isSearchEngineAvailable()) {
+			_indexingFixture.tearDown();
+		}
+
+		_indexingFixture = null;
 	}
 
 	@Test
-	public void testSearchContextAttributes() throws SearchException {
+	public void testElasticsearchIndexSearcher() throws SearchException {
+		for (int i = 0; i < 5; i++) {
+			addDocument(Field.TITLE, "Title " + i, Field.CONTENT, "example");
+		}
+
+		SearchContext searchContext = _getSearchContext();
+
+		searchContext.setEnd(5);
+		searchContext.setSorts(new Sort(Field.MODIFIED_DATE, true));
+
+		Hits hits = _indexSearcher.search(searchContext, new MatchAllQuery());
+	}
+
+	@Test
+	public void testSearchContextAttributes() {
 		SearchContext searchContext = new SearchContext();
 
 		searchContext.setAttribute(
@@ -85,8 +152,11 @@ public class ElasticsearchIndexSearcherTest {
 
 		Query query = Mockito.mock(Query.class);
 
+		ElasticsearchIndexSearcher elasticsearchIndexSearcher =
+			(ElasticsearchIndexSearcher)_indexSearcher;
+
 		SearchSearchRequest searchSearchRequest =
-			_elasticsearchIndexSearcher.createSearchSearchRequest(
+			elasticsearchIndexSearcher.createSearchSearchRequest(
 				searchRequest, searchContext, query);
 
 		searchSearchRequest.setSize(0);
@@ -101,27 +171,133 @@ public class ElasticsearchIndexSearcherTest {
 		Assert.assertEquals("testValue", searchSearchRequest.getPreference());
 	}
 
-	private ElasticsearchIndexSearcher _createElasticsearchIndexSearcher(
-		SearchRequestBuilderFactory searchRequestBuilderFactory) {
+	@Rule
+	public TestName testName = new TestName();
 
-		ElasticsearchIndexSearcher elasticsearchIndexSearcher =
-			new ElasticsearchIndexSearcher();
+	protected void addDocument(
+		String fieldName1, String fieldValue1, String fieldName2,
+		String fieldValue2) {
 
-		ReflectionTestUtil.setFieldValue(
-			elasticsearchIndexSearcher, "_elasticsearchConfigurationWrapper",
-			Mockito.mock(ElasticsearchConfigurationWrapper.class));
-		ReflectionTestUtil.setFieldValue(
-			elasticsearchIndexSearcher, "_indexNameBuilder",
-			(IndexNameBuilder)String::valueOf);
-		ReflectionTestUtil.setFieldValue(
-			elasticsearchIndexSearcher, "_searchRequestBuilderFactory",
-			searchRequestBuilderFactory);
+		Document document = createDocument(
+			fieldName1, fieldValue1, fieldName2, fieldValue2);
 
-		return elasticsearchIndexSearcher;
+		try {
+			_indexWriter.addDocument(_getSearchContext(), document);
+		}
+		catch (SearchException searchException) {
+			Throwable throwable = searchException.getCause();
+
+			if (throwable instanceof RuntimeException) {
+				throw (RuntimeException)throwable;
+			}
+
+			if (throwable != null) {
+				throw new RuntimeException(throwable);
+			}
+
+			throw new RuntimeException(searchException);
+		}
+
+		_documents.add(document);
 	}
 
+	protected Document createDocument(
+		String fieldName1, String fieldValue1, String fieldName2,
+		String fieldValue2) {
+
+		Document document = DocumentFixture.newDocument(
+			_indexingFixture.getCompanyId(), GROUP_ID, _entryClassName);
+
+		document.addText(fieldName1, fieldValue1);
+		document.addText(fieldName2, fieldValue2);
+
+		return document;
+	}
+
+	protected static final long GROUP_ID = RandomTestUtil.randomLong();
+
+	private IndexingFixture _createIndexingFixture() {
+		return new ElasticsearchIndexingFixture() {
+			{
+				setElasticsearchFixture(new ElasticsearchFixture(getClass()));
+				setLiferayMappingsAddedToIndex(true);
+			}
+		};
+	}
+
+	private SearchContext _getSearchContext() {
+		SearchContext searchContext = new SearchContext();
+
+		searchContext.setCompanyId(_indexingFixture.getCompanyId());
+
+		return searchContext;
+	}
+
+	private void _setUpDeepPagination() {
+		DeepPaginationConfigurationWrapper deepPaginationConfigurationWrapper =
+			Mockito.mock(DeepPaginationConfigurationWrapper.class);
+
+		Mockito.doReturn(
+			true
+		).when(
+			deepPaginationConfigurationWrapper
+		).getEnableDeepPagination();
+
+		Mockito.doReturn(
+			60
+		).when(
+			deepPaginationConfigurationWrapper
+		).getPointInTimeKeepAliveSeconds();
+
+		ReflectionTestUtil.setFieldValue(
+			_indexSearcher, "_deepPaginationConfigurationWrapper",
+			deepPaginationConfigurationWrapper);
+	}
+
+	private void _setUpIndexingFixture() throws Exception {
+		if (_indexingFixture != null) {
+			Assume.assumeTrue(_indexingFixture.isSearchEngineAvailable());
+
+			return;
+		}
+
+		_indexingFixture = _createIndexingFixture();
+
+		Assume.assumeTrue(_indexingFixture.isSearchEngineAvailable());
+
+		_indexingFixture.setUp();
+
+		_indexSearcher = _indexingFixture.getIndexSearcher();
+		_indexWriter = _indexingFixture.getIndexWriter();
+	}
+
+	private void _setUpSorts() {
+		Sorts sorts = Mockito.mock(Sorts.class);
+
+		Mockito.doReturn(
+			new ScoreSortImpl()
+		).when(
+			sorts
+		).score();
+
+		Mockito.doReturn(
+			new FieldSortImpl("_shard_doc")
+		).when(
+			sorts
+		).field(
+			"_shard_doc"
+		);
+
+		ReflectionTestUtil.setFieldValue(_indexSearcher, "_sorts", sorts);
+	}
+
+	private static IndexingFixture _indexingFixture;
+
 	private final DocumentFixture _documentFixture = new DocumentFixture();
-	private ElasticsearchIndexSearcher _elasticsearchIndexSearcher;
+	private final List<Document> _documents = new ArrayList<>();
+	private String _entryClassName;
+	private IndexSearcher _indexSearcher;
+	private IndexWriter _indexWriter;
 	private SearchRequestBuilderFactory _searchRequestBuilderFactory;
 
 }
