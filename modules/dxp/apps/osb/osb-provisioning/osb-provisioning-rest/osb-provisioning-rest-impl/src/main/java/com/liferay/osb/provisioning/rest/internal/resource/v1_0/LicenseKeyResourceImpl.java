@@ -1831,14 +1831,29 @@ public class LicenseKeyResourceImpl
 				}
 			}
 
-			Date startDate = productPurchase.getStartDate();
-			Date originalEndDate = productPurchase.getOriginalEndDate();
+			boolean validEndDate = false;
 
-			if (!productPurchase.getPerpetual() && !allowPermanentLicenses &&
-				(!startDate.equals(licenseKey.getStartDate()) ||
-				 !originalEndDate.equals(licenseKey.getExpirationDate()))) {
+			LicenseKeyEndDate[] licenseKeyEndDates = _getLicenseKeyEndDates(
+				productPurchase.getStartDate(), productPurchase.getEndDate(),
+				productPurchase.getOriginalEndDate(), allowPermanentLicenses);
 
-				throw new PrincipalException("Invalid start or end date");
+			for (LicenseKeyEndDate licenseKeyEndDate : licenseKeyEndDates) {
+				String curLicenseEntryType =
+					licenseKeyEndDate.getLicenseEntryType();
+
+				if (curLicenseEntryType.equals(licenseEntryType.toString())) {
+					Date endDate = licenseKeyEndDate.getEndDate();
+
+					if (endDate.equals(licenseKey.getExpirationDate())) {
+						validEndDate = true;
+
+						break;
+					}
+				}
+			}
+
+			if (!validEndDate) {
+				throw new PrincipalException("Invalid end date");
 			}
 
 			int productionConsumptionsCount = _getProductConsumptionsCount(
