@@ -5,6 +5,7 @@
 
 package com.liferay.osb.provisioning.rest.client.serdes.v1_0;
 
+import com.liferay.osb.provisioning.rest.client.dto.v1_0.LicenseKeyEndDate;
 import com.liferay.osb.provisioning.rest.client.dto.v1_0.SubscriptionTerm;
 import com.liferay.osb.provisioning.rest.client.json.BaseJSONParser;
 
@@ -77,20 +78,28 @@ public class SubscriptionTermSerDes {
 			sb.append(subscriptionTerm.getInstanceSize());
 		}
 
-		if (subscriptionTerm.getLicenseKeyEndDate() != null) {
+		if (subscriptionTerm.getLicenseKeyEndDates() != null) {
 			if (sb.length() > 1) {
 				sb.append(", ");
 			}
 
-			sb.append("\"licenseKeyEndDate\": ");
+			sb.append("\"licenseKeyEndDates\": ");
 
-			sb.append("\"");
+			sb.append("[");
 
-			sb.append(
-				liferayToJSONDateFormat.format(
-					subscriptionTerm.getLicenseKeyEndDate()));
+			for (int i = 0; i < subscriptionTerm.getLicenseKeyEndDates().length;
+				 i++) {
 
-			sb.append("\"");
+				sb.append(
+					String.valueOf(
+						subscriptionTerm.getLicenseKeyEndDates()[i]));
+
+				if ((i + 1) < subscriptionTerm.getLicenseKeyEndDates().length) {
+					sb.append(", ");
+				}
+			}
+
+			sb.append("]");
 		}
 
 		if (subscriptionTerm.getPerpetual() != null) {
@@ -207,14 +216,13 @@ public class SubscriptionTermSerDes {
 				String.valueOf(subscriptionTerm.getInstanceSize()));
 		}
 
-		if (subscriptionTerm.getLicenseKeyEndDate() == null) {
-			map.put("licenseKeyEndDate", null);
+		if (subscriptionTerm.getLicenseKeyEndDates() == null) {
+			map.put("licenseKeyEndDates", null);
 		}
 		else {
 			map.put(
-				"licenseKeyEndDate",
-				liferayToJSONDateFormat.format(
-					subscriptionTerm.getLicenseKeyEndDate()));
+				"licenseKeyEndDates",
+				String.valueOf(subscriptionTerm.getLicenseKeyEndDates()));
 		}
 
 		if (subscriptionTerm.getPerpetual() == null) {
@@ -301,10 +309,24 @@ public class SubscriptionTermSerDes {
 						Integer.valueOf((String)jsonParserFieldValue));
 				}
 			}
-			else if (Objects.equals(jsonParserFieldName, "licenseKeyEndDate")) {
+			else if (Objects.equals(
+						jsonParserFieldName, "licenseKeyEndDates")) {
+
 				if (jsonParserFieldValue != null) {
-					subscriptionTerm.setLicenseKeyEndDate(
-						toDate((String)jsonParserFieldValue));
+					Object[] jsonParserFieldValues =
+						(Object[])jsonParserFieldValue;
+
+					LicenseKeyEndDate[] licenseKeyEndDatesArray =
+						new LicenseKeyEndDate[jsonParserFieldValues.length];
+
+					for (int i = 0; i < licenseKeyEndDatesArray.length; i++) {
+						licenseKeyEndDatesArray[i] =
+							LicenseKeyEndDateSerDes.toDTO(
+								(String)jsonParserFieldValues[i]);
+					}
+
+					subscriptionTerm.setLicenseKeyEndDates(
+						licenseKeyEndDatesArray);
 				}
 			}
 			else if (Objects.equals(jsonParserFieldName, "perpetual")) {

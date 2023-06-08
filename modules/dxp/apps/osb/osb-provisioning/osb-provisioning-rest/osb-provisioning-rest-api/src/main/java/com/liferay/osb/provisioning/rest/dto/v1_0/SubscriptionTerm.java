@@ -31,6 +31,8 @@ import java.util.Set;
 
 import javax.annotation.Generated;
 
+import javax.validation.Valid;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -110,23 +112,23 @@ public class SubscriptionTerm implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	protected Integer instanceSize;
 
-	@Schema(
-		description = "The date a license key attached to this subscription term ends."
-	)
-	public Date getLicenseKeyEndDate() {
-		return licenseKeyEndDate;
+	@Schema(description = "The end dates for different license key types.")
+	@Valid
+	public LicenseKeyEndDate[] getLicenseKeyEndDates() {
+		return licenseKeyEndDates;
 	}
 
-	public void setLicenseKeyEndDate(Date licenseKeyEndDate) {
-		this.licenseKeyEndDate = licenseKeyEndDate;
+	public void setLicenseKeyEndDates(LicenseKeyEndDate[] licenseKeyEndDates) {
+		this.licenseKeyEndDates = licenseKeyEndDates;
 	}
 
 	@JsonIgnore
-	public void setLicenseKeyEndDate(
-		UnsafeSupplier<Date, Exception> licenseKeyEndDateUnsafeSupplier) {
+	public void setLicenseKeyEndDates(
+		UnsafeSupplier<LicenseKeyEndDate[], Exception>
+			licenseKeyEndDatesUnsafeSupplier) {
 
 		try {
-			licenseKeyEndDate = licenseKeyEndDateUnsafeSupplier.get();
+			licenseKeyEndDates = licenseKeyEndDatesUnsafeSupplier.get();
 		}
 		catch (RuntimeException re) {
 			throw re;
@@ -137,10 +139,10 @@ public class SubscriptionTerm implements Serializable {
 	}
 
 	@GraphQLField(
-		description = "The date a license key attached to this subscription term ends."
+		description = "The end dates for different license key types."
 	)
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
-	protected Date licenseKeyEndDate;
+	protected LicenseKeyEndDate[] licenseKeyEndDates;
 
 	@Schema(description = "If the subscription is perpetual.")
 	public Boolean getPerpetual() {
@@ -372,18 +374,24 @@ public class SubscriptionTerm implements Serializable {
 			sb.append(instanceSize);
 		}
 
-		if (licenseKeyEndDate != null) {
+		if (licenseKeyEndDates != null) {
 			if (sb.length() > 1) {
 				sb.append(", ");
 			}
 
-			sb.append("\"licenseKeyEndDate\": ");
+			sb.append("\"licenseKeyEndDates\": ");
 
-			sb.append("\"");
+			sb.append("[");
 
-			sb.append(liferayToJSONDateFormat.format(licenseKeyEndDate));
+			for (int i = 0; i < licenseKeyEndDates.length; i++) {
+				sb.append(String.valueOf(licenseKeyEndDates[i]));
 
-			sb.append("\"");
+				if ((i + 1) < licenseKeyEndDates.length) {
+					sb.append(", ");
+				}
+			}
+
+			sb.append("]");
 		}
 
 		if (perpetual != null) {
