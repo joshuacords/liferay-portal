@@ -1730,26 +1730,96 @@ public class LicenseKeyResourceImpl
 		}
 	}
 
+	private void _validateComplimentary(
+			String accountKey, Map<String, String> properties,
+			LicenseKey licenseKey)
+		throws Exception {
+
+		boolean allowComplimentary = false;
+
+		if (properties != null) {
+			allowComplimentary = GetterUtil.getBoolean(
+				properties.get("allowComplimentary"));
+		}
+
+		if (!allowComplimentary) {
+			throw new PrincipalException("Invalid complimentary permissions");
+		}
+
+		Date startDate = licenseKey.getStartDate();
+		Date expirationDate = licenseKey.getExpirationDate();
+
+		long days = ChronoUnit.DAYS.between(
+			startDate.toInstant(), expirationDate.toInstant());
+
+		if (days != 30) {
+			throw new PrincipalException("Invalid start or expiration date");
+		}
+
+		FilterQuery filterQuery = new FilterQuery();
+
+		filterQuery.addEquals(true, "accountKey", accountKey);
+		filterQuery.addEquals(true, "productKey", licenseKey.getProductKey());
+		filterQuery.addEquals(true, "property_type", "primary");
+		filterQuery.addEquals(true, "state", "active");
+
+		long count = _productPurchaseViewWebService.searchCount(
+			StringPool.BLANK, filterQuery);
+
+		if (count <= 0) {
+			throw new PrincipalException("Invalid product key");
+		}
+
+		boolean validLicenseEntryType = false;
+
+		LicenseKey.LicenseEntryType licenseEntryType =
+			licenseKey.getLicenseEntryType();
+
+		List<LicenseEntry> licenseEntries =
+			_licenseEntryLocalService.getLicenseEntriesByVersion(
+				licenseKey.getProductKey(), licenseKey.getProductVersion(),
+				false);
+
+		for (LicenseEntry licenseEntry : licenseEntries) {
+			String curLicenseEntryType = licenseEntry.getType();
+
+			if (curLicenseEntryType.equals(licenseEntryType.toString())) {
+				validLicenseEntryType = true;
+
+				break;
+			}
+		}
+
+		if (!validLicenseEntryType) {
+			throw new PrincipalException("Invalid license entry type");
+		}
+	}
+
 	private void _validateLicenseKeys(
 			String accountKey, LicenseKey[] licenseKeys)
 		throws Exception {
 
 		Account account = _accountWebService.getAccount(accountKey);
 
-		boolean allowComplimentary = false;
 		boolean allowPermanentLicenses = false;
 
 		Map<String, String> properties = account.getProperties();
 
 		if (properties != null) {
-			allowComplimentary = GetterUtil.getBoolean(
-				properties.get("allowComplimentary"));
-
 			allowPermanentLicenses = GetterUtil.getBoolean(
 				properties.get("allowPermanentLicenses"), true);
 		}
 
 		for (LicenseKey licenseKey : licenseKeys) {
+			if ((licenseKey.getComplimentary() != null) &&
+				licenseKey.getComplimentary()) {
+
+				_validateComplimentary(
+					accountKey, account.getProperties(), licenseKey);
+
+				continue;
+			}
+
 			ProductPurchase productPurchase =
 				_productPurchaseWebService.getProductPurchase(
 					licenseKey.getProductPurchaseKey());
@@ -1762,27 +1832,6 @@ public class LicenseKeyResourceImpl
 
 			if (!productKey.equals(productPurchase.getProductKey())) {
 				throw new PrincipalException("Invalid product key");
-			}
-
-			if ((licenseKey.getComplimentary() != null) &&
-				licenseKey.getComplimentary()) {
-
-				if (!allowComplimentary) {
-					throw new PrincipalException(
-						"Invalid complimentary permissions");
-				}
-
-				Date licenseKeyStartDate = licenseKey.getStartDate();
-				Date licenseKeyExpirationDate = licenseKey.getExpirationDate();
-
-				long days = ChronoUnit.DAYS.between(
-					licenseKeyStartDate.toInstant(),
-					licenseKeyExpirationDate.toInstant());
-
-				if (days != 30) {
-					throw new PrincipalException(
-						"Invalid start or expiration date");
-				}
 			}
 
 			boolean validLicenseEntryType = false;
