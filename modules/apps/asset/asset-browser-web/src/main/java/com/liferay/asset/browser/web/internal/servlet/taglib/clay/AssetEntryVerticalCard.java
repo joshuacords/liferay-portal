@@ -18,7 +18,7 @@ import com.liferay.asset.browser.web.internal.display.context.AssetBrowserDispla
 import com.liferay.asset.kernel.model.AssetEntry;
 import com.liferay.asset.kernel.model.AssetRenderer;
 import com.liferay.asset.kernel.model.AssetRendererFactory;
-import com.liferay.frontend.taglib.clay.servlet.taglib.soy.VerticalCard;
+import com.liferay.frontend.taglib.clay.servlet.taglib.soy.BaseVerticalCard;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalServiceUtil;
@@ -35,12 +35,14 @@ import javax.portlet.RenderRequest;
 /**
  * @author Eudaldo Alonso
  */
-public class AssetEntryVerticalCard implements VerticalCard {
+public class AssetEntryVerticalCard extends BaseVerticalCard {
 
 	public AssetEntryVerticalCard(
 		AssetEntry assetEntry, RenderRequest renderRequest,
 		AssetBrowserDisplayContext assetBrowserDisplayContext) {
 
+		super(assetEntry, renderRequest, assetBrowserDisplayContext.getAssetBrowserSearch().getRowChecker());
+		
 		_assetEntry = assetEntry;
 		_renderRequest = renderRequest;
 		_assetBrowserDisplayContext = assetBrowserDisplayContext;
