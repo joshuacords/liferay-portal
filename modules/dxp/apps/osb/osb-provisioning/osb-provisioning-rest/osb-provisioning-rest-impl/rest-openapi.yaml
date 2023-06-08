@@ -193,12 +193,25 @@ components:
                                     The size of the instance.
                                 readOnly: true
                                 type: integer
-                            licenseKeyEndDate:
+                            licenseKeyEndDates:
                                 description:
-                                    The date a license key attached to this subscription term ends.
-                                format: date-time
+                                    The end dates for different license key types.
+                                items:
+                                    properties:
+                                        endDate:
+                                            description:
+                                                The date the license key ends.
+                                            format: date-time
+                                            readOnly: true
+                                            type: string
+                                        licenseEntryType:
+                                            description:
+                                                The type of the license entry of the license key.
+                                            readOnly: true
+                                            type: string
+                                    type: object
                                 readOnly: true
-                                type: string
+                                type: array
                             perpetual:
                                 description:
                                     If the subscription is perpetual.

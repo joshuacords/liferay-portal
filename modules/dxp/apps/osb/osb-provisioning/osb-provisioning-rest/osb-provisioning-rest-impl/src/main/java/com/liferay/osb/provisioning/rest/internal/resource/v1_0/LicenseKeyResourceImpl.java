@@ -26,6 +26,7 @@ import com.liferay.osb.provisioning.koroneiki.web.service.TeamWebService;
 import com.liferay.osb.provisioning.license.exception.LicenseKeyDateException;
 import com.liferay.osb.provisioning.license.exception.LicenseKeyProductPurchaseKeyException;
 import com.liferay.osb.provisioning.license.exporter.LicenseKeyExporter;
+import com.liferay.osb.provisioning.license.helper.constants.LicenseLifetime;
 import com.liferay.osb.provisioning.license.helper.constants.LicenseType;
 import com.liferay.osb.provisioning.license.helper.constants.ProductId;
 import com.liferay.osb.provisioning.license.helper.constants.ProductVersion;
@@ -33,6 +34,7 @@ import com.liferay.osb.provisioning.license.model.LicenseEntry;
 import com.liferay.osb.provisioning.license.service.LicenseEntryLocalService;
 import com.liferay.osb.provisioning.license.service.LicenseKeyLocalService;
 import com.liferay.osb.provisioning.rest.dto.v1_0.LicenseKey;
+import com.liferay.osb.provisioning.rest.dto.v1_0.LicenseKeyEndDate;
 import com.liferay.osb.provisioning.rest.dto.v1_0.LicenseKeyGenerateForm;
 import com.liferay.osb.provisioning.rest.dto.v1_0.ProductGroup;
 import com.liferay.osb.provisioning.rest.dto.v1_0.SubscriptionTerm;
@@ -215,7 +217,7 @@ public class LicenseKeyResourceImpl
 			allowPermanentLicenses);
 
 		SubscriptionTerm[] subscriptionTerms = _getSubscriptionTerms(
-			accountKey, productGroupName);
+			accountKey, productGroupName, allowPermanentLicenses);
 
 		licenseKeyGenerateForm.setSubscriptionTerms(subscriptionTerms);
 		licenseKeyGenerateForm.setVersions(
@@ -1068,6 +1070,62 @@ public class LicenseKeyResourceImpl
 		return _flsTeamRoleKey;
 	}
 
+	private LicenseKeyEndDate[] _getLicenseKeyEndDates(
+		Date startDate, Date endDate, Date originalEndDate,
+		boolean allowPermanentLicenses) {
+
+		List<LicenseKeyEndDate> licenseKeyEndDates = new ArrayList<>();
+
+		Date perpetualEndDate = null;
+
+		if (startDate != null) {
+			perpetualEndDate = new Date(
+				startDate.getTime() + LicenseLifetime.INDEFINITE);
+		}
+		else {
+			perpetualEndDate = new Date(
+				System.currentTimeMillis() + LicenseLifetime.INDEFINITE);
+		}
+
+		for (LicenseKey.LicenseEntryType licenseEntryType :
+				LicenseKey.LicenseEntryType.values()) {
+
+			LicenseKeyEndDate licenseKeyEndDate = new LicenseKeyEndDate();
+
+			if (allowPermanentLicenses) {
+				if (licenseEntryType.equals(
+						LicenseKey.LicenseEntryType.PRODUCTION)) {
+
+					licenseKeyEndDate.setEndDate(perpetualEndDate);
+				}
+				else {
+					if (originalEndDate != null) {
+						licenseKeyEndDate.setEndDate(
+							new Date(
+								originalEndDate.getTime() + (180 * Time.DAY)));
+					}
+					else {
+						licenseKeyEndDate.setEndDate(perpetualEndDate);
+					}
+				}
+			}
+			else {
+				if (endDate != null) {
+					licenseKeyEndDate.setEndDate(endDate);
+				}
+				else {
+					licenseKeyEndDate.setEndDate(perpetualEndDate);
+				}
+			}
+
+			licenseKeyEndDate.setLicenseEntryType(licenseEntryType.toString());
+
+			licenseKeyEndDates.add(licenseKeyEndDate);
+		}
+
+		return licenseKeyEndDates.toArray(new LicenseKeyEndDate[0]);
+	}
+
 	private Map<Integer, Integer> _getMaxConcurrentCountMap(
 		TreeMap<Date, Integer> termedCountsMap, int currentYear) {
 
@@ -1272,7 +1330,8 @@ public class LicenseKeyResourceImpl
 	}
 
 	private SubscriptionTerm[] _getSubscriptionTerms(
-			String accountKey, String productGroupName)
+			String accountKey, String productGroupName,
+			boolean allowPermanentLicenses)
 		throws Exception {
 
 		FilterQuery filterQuery = new FilterQuery();
@@ -1375,15 +1434,12 @@ public class LicenseKeyResourceImpl
 
 				subscriptionTerm.setEndDate(
 					productPurchase.getOriginalEndDate());
-
-				if (productPurchase.getOriginalEndDate() != null) {
-					Calendar calendar = Calendar.getInstance();
-
-					calendar.setTime(productPurchase.getOriginalEndDate());
-					calendar.add(Calendar.DAY_OF_YEAR, 180);
-
-					subscriptionTerm.setLicenseKeyEndDate(calendar.getTime());
-				}
+				subscriptionTerm.setLicenseKeyEndDates(
+					_getLicenseKeyEndDates(
+						productPurchase.getStartDate(),
+						productPurchase.getEndDate(),
+						productPurchase.getOriginalEndDate(),
+						allowPermanentLicenses));
 
 				if (sizing > 0) {
 					subscriptionTerm.setInstanceSize(sizing);
