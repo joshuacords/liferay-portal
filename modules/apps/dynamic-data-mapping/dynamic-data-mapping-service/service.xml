@@ -327,7 +327,7 @@
 			<finder-column name="structureId" />
 		</finder>
 		<finder name="StructureVersionId" return-type="Collection">
-			<finder-column arrayable-operator="OR" name="structureVersionId" />
+			<finder-column arrayable-operator="OR" arrayable-pagination="true" name="structureVersionId" />
 		</finder>
 
 		<!-- References -->
