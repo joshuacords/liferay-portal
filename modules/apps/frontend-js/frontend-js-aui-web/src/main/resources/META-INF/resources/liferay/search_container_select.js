@@ -25,7 +25,7 @@ AUI.add(
 
 		var STR_ACTIONS_WILDCARD = '*';
 
-		var STR_CHECKBOX_SELECTOR = 'input[type=checkbox]:enabled';
+		var STR_CHECKBOX_SELECTOR = 'input[type=checkbox]:not(.hide):enabled';
 
 		var STR_CHECKED = 'checked';
 
