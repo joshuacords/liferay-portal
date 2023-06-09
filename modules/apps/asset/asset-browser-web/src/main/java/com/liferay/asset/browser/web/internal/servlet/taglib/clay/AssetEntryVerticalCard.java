@@ -41,8 +41,10 @@ public class AssetEntryVerticalCard extends BaseVerticalCard {
 		AssetEntry assetEntry, RenderRequest renderRequest,
 		AssetBrowserDisplayContext assetBrowserDisplayContext) {
 
-		super(assetEntry, renderRequest, assetBrowserDisplayContext.getAssetBrowserSearch().getRowChecker());
-		
+		super(
+			assetEntry, renderRequest,
+			assetBrowserDisplayContext.getAssetBrowserSearch().getRowChecker());
+
 		_assetEntry = assetEntry;
 		_renderRequest = renderRequest;
 		_assetBrowserDisplayContext = assetBrowserDisplayContext;
