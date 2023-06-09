@@ -12,11 +12,12 @@
  *
  */
 
-package com.liferay.osb.provisioning.internal.upgrade.v1_0_1;
+package com.liferay.osb.provisioning.distributed.messaging.internal.upgrade;
 
 import com.liferay.osb.koroneiki.phloem.rest.client.constants.ExternalLinkDomain;
 import com.liferay.osb.koroneiki.phloem.rest.client.constants.ExternalLinkEntityName;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Account;
+import com.liferay.osb.provisioning.distributed.messaging.internal.subscribing.util.DossieraSubscriberUtil;
 import com.liferay.osb.provisioning.koroneiki.web.service.AccountWebService;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -57,6 +58,8 @@ public class UpgradeAccountGSInvolved extends UpgradeProcess {
 
 		_accountWebService.updateAccount(
 			StringPool.BLANK, StringPool.BLANK, account.getKey(), account);
+
+		_dossieraSubscriberUtil.updateTickets(account, properties);
 	}
 
 	@Override
@@ -68,5 +71,8 @@ public class UpgradeAccountGSInvolved extends UpgradeProcess {
 
 	@Reference
 	private AccountWebService _accountWebService;
+
+	@Reference
+	private DossieraSubscriberUtil _dossieraSubscriberUtil;
 
 }
