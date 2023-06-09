@@ -264,7 +264,7 @@ public class CustomerPortalReleaseImpl implements CustomerPortalRelease {
 			return;
 		}
 
-		_sendContactAccountActivationKeyEmail(contact, account, licenseKey);
+		_sendContactAccountActivationKeyEmail(contact, licenseKey);
 	}
 
 	public void sendContactAssignedWelcomeEmail(
@@ -746,7 +746,7 @@ public class CustomerPortalReleaseImpl implements CustomerPortalRelease {
 	}
 
 	private void _sendContactAccountActivationKeyEmail(
-		Contact contact, Account account, LicenseKey licenseKey) {
+		Contact contact, LicenseKey licenseKey) {
 
 		Date expirationDate = licenseKey.getExpirationDate();
 
@@ -786,7 +786,7 @@ public class CustomerPortalReleaseImpl implements CustomerPortalRelease {
 		Year year = Year.now();
 
 		subscriptionSender.setContextAttribute(
-			"[$ACCOUNT_KEY$]", account.getKey());
+			"[$ACCOUNT_KEY$]", licenseKey.getAccountKey());
 		subscriptionSender.setContextAttribute(
 			"[$CONTACT_FIRST_NAME$]", contact.getFirstName());
 		subscriptionSender.setContextAttribute(
