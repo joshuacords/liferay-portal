@@ -688,7 +688,7 @@ public class StructuredContentResourceImpl
 			serviceContext.setAssetPriority(assetEntry.getPriority());
 		}
 		else {
-			ServiceContextUtil.createServiceContext(
+			serviceContext = ServiceContextUtil.createServiceContext(
 				structuredContent.getTaxonomyCategoryIds(),
 				structuredContent.getKeywords(),
 				_getExpandoBridgeAttributes(structuredContent), siteId,
