@@ -1302,7 +1302,7 @@
 			</library>
 			<library>
 				<file-name>lib/portal/commons-codec.jar</file-name>
-				<version>1.13</version>
+				<version>1.15</version>
 				<project-name>Commons Codec</project-name>
 				<project-url>http://commons.apache.org/codec</project-url>
 				<licenses>
