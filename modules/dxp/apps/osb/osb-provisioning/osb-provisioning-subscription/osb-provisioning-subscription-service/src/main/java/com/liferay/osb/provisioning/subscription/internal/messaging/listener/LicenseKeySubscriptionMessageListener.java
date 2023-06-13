@@ -42,7 +42,6 @@ import com.liferay.portal.kernel.service.ClassNameLocalService;
 import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.util.GetterUtil;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -59,11 +58,9 @@ import org.osgi.service.component.annotations.Reference;
  * @author William Newbury
  */
 @Component(
-	immediate = true,
-	service = LicenseKeySubscriptionMessageListener.class
+	immediate = true, service = LicenseKeySubscriptionMessageListener.class
 )
-public class LicenseKeySubscriptionMessageListener
-	extends BaseMessageListener {
+public class LicenseKeySubscriptionMessageListener extends BaseMessageListener {
 
 	@Activate
 	@Modified
@@ -89,6 +86,15 @@ public class LicenseKeySubscriptionMessageListener
 
 	@Override
 	protected void doReceive(Message message) throws Exception {
+		_emailActivationKeyEmails(30, 31);
+		_emailActivationKeyEmails(14, 15);
+		_emailActivationKeyEmails(0, 1);
+	}
+
+	private void _emailActivationKeyEmails(
+			int greaterThanDays, int lessThanDays)
+		throws Exception {
+
 		try {
 			Company company = _companyLocalService.getCompanyByWebId(
 				"liferay.com");
@@ -98,12 +104,16 @@ public class LicenseKeySubscriptionMessageListener
 			Calendar calendar = Calendar.getInstance();
 
 			calendar.setTime(now);
-			calendar.add(Calendar.DATE, 30);
+			calendar.add(Calendar.DATE, greaterThanDays);
+
+			Date greaterThanDate = calendar.getTime();
+
+			calendar.add(Calendar.DATE, lessThanDays - greaterThanDays);
 
 			Hits hits = _licenseKeyLocalService.search(
 				company.getCompanyId(), null, null, null, null, null, null,
 				null, null, null, null, null, null, null, null, null, null,
-				null, null, null, null, null, null, null, now,
+				null, null, null, null, null, null, null, greaterThanDate,
 				calendar.getTime(), true, new LinkedHashMap<String, Object>(),
 				false, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 
@@ -113,6 +123,18 @@ public class LicenseKeySubscriptionMessageListener
 
 				LicenseKey licenseKey = _licenseKeyLocalService.fetchLicenseKey(
 					licenseKeyId);
+
+				if (greaterThanDays == 30) {
+					Date licenseKeyExpirationDate =
+						licenseKey.getExpirationDate();
+
+					calendar.setTime(now);
+					calendar.add(Calendar.DATE, 60);
+
+					if (licenseKeyExpirationDate.before(calendar.getTime())) {
+						return;
+					}
+				}
 
 				Account account = _accountWebService.fetchAccount(
 					licenseKey.getAccountKey());
@@ -124,18 +146,13 @@ public class LicenseKeySubscriptionMessageListener
 					_subscriptionEntryLocalService.getSubscriptionEntries(
 						classNameId, licenseKeyId);
 
-				List<Contact> contacts = new ArrayList<>();
-
 				for (SubscriptionEntry subscriptionEntry :
 						subscriptionEntries) {
 
-					contacts.add(
-						_contactWebService.fetchContactByUuid(
-							subscriptionEntry.getContactUuid()));
-				}
+					if ((account != null) && !subscriptionEntries.isEmpty()) {
+						Contact contact = _contactWebService.fetchContactByUuid(
+							subscriptionEntry.getContactUuid());
 
-				if ((account != null) && !contacts.isEmpty()) {
-					for (Contact contact : contacts) {
 						_customerPortalRelease.
 							sendContactAccountActivationKeyEmail(
 								contact, account, licenseKey);
