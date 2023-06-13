@@ -12,7 +12,7 @@
  *
  */
 
-package com.liferay.osb.provisioning.subscription.message.listener;
+package com.liferay.osb.provisioning.subscription.internal.messaging.listener;
 
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Account;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Contact;
@@ -60,9 +60,9 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(
 	immediate = true,
-	service = ActivationKeySubscriptionEmailMessageListener.class
+	service = LicenseKeySubscriptionMessageListener.class
 )
-public class ActivationKeySubscriptionEmailMessageListener
+public class LicenseKeySubscriptionMessageListener
 	extends BaseMessageListener {
 
 	@Activate
@@ -153,7 +153,7 @@ public class ActivationKeySubscriptionEmailMessageListener
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		ActivationKeySubscriptionEmailMessageListener.class);
+		LicenseKeySubscriptionMessageListener.class);
 
 	@Reference
 	private AccountWebService _accountWebService;
