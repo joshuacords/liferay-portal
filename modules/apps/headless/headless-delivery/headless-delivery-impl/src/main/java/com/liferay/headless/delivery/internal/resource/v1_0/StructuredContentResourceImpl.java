@@ -671,19 +671,19 @@ public class StructuredContentResourceImpl
 			JournalArticle journalArticle =
 				_journalArticleService.getLatestArticle(structuredContentId);
 
-			ClassName className = _classNameLocalService.fetchClassName(
-				JournalArticle.class.getName());
-
-			AssetEntry assetEntry = _assetEntryLocalService.fetchEntry(
-				className.getClassNameId(),
-				journalArticle.getResourcePrimKey());
-
 			serviceContext = ServiceContextUtil.createServiceContext(
 				structuredContent.getTaxonomyCategoryIds(),
 				structuredContent.getKeywords(),
 				_getExpandoBridgeAttributes(structuredContent),
 				journalArticle.getGroupId(),
 				structuredContent.getViewableByAsString());
+
+			ClassName className = _classNameLocalService.fetchClassName(
+				JournalArticle.class.getName());
+
+			AssetEntry assetEntry = _assetEntryLocalService.fetchEntry(
+				className.getClassNameId(),
+				journalArticle.getResourcePrimKey());
 
 			serviceContext.setAssetPriority(assetEntry.getPriority());
 		}
