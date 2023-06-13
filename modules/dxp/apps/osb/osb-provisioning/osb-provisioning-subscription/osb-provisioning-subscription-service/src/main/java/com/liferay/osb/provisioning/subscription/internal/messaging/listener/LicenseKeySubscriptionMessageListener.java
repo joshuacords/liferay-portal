@@ -134,9 +134,7 @@ public class LicenseKeySubscriptionMessageListener
 							subscriptionEntry.getContactUuid()));
 				}
 
-				if ((account != null) && !contacts.isEmpty() &&
-					(licenseKey != null)) {
-
+				if ((account != null) && !contacts.isEmpty()) {
 					for (Contact contact : contacts) {
 						_customerPortalRelease.
 							sendContactAccountActivationKeyEmail(
