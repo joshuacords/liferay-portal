@@ -114,18 +114,18 @@ public class LicenseKeySubscriptionMessageListener extends BaseMessageListener {
 				calendar.add(Calendar.DATE, 60);
 
 				if (licenseKeyExpirationDate.before(calendar.getTime())) {
-					return;
+					continue;
 				}
 
 				if (licenseKey.getAccountKey() == null) {
-					return;
+					continue;
 				}
 
 				Account account = _accountWebService.fetchAccount(
 					licenseKey.getAccountKey());
 
 				if (account == null) {
-					return;
+					continue;
 				}
 
 				long classNameId = _classNameLocalService.getClassNameId(
