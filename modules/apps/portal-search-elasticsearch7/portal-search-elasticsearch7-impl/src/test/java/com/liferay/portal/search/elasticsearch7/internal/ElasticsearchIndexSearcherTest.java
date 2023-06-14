@@ -16,6 +16,7 @@ package com.liferay.portal.search.elasticsearch7.internal;
 
 import com.liferay.petra.function.transform.TransformUtil;
 import com.liferay.petra.string.CharPool;
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Hits;
@@ -27,6 +28,7 @@ import com.liferay.portal.kernel.search.SearchException;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.search.generic.MatchAllQuery;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
+import com.liferay.portal.kernel.test.util.PropsTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Props;
@@ -94,7 +96,7 @@ public class ElasticsearchIndexSearcherTest {
 
 		_setUpIndexingFixture();
 
-		PropsUtil.setProps(new PropsImpl());
+		PropsTestUtil.setProps("feature.flag.LPS-172416", "true");
 	}
 
 	@After
