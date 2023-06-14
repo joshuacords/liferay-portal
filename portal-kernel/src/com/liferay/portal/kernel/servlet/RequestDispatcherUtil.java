@@ -87,6 +87,22 @@ public class RequestDispatcherUtil {
 		return bufferCacheServletResponse;
 	}
 
+	/**
+	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
+	 *             #getContentAndLastModifiedTimeObjectValuePair(
+	 *             RequestDispatcher, HttpServletRequest, HttpServletResponse)}
+	 */
+	@Deprecated
+	public static ObjectValuePair<String, Long> getContentAndLastModifiedTime(
+			RequestDispatcher requestDispatcher,
+			HttpServletRequest httpServletRequest,
+			HttpServletResponse httpServletResponse)
+		throws Exception {
+
+		return getContentAndLastModifiedTimeObjectValuePair(
+			requestDispatcher, httpServletRequest, httpServletResponse);
+	}
+
 	public static ObjectValuePair<String, Long>
 			getContentAndLastModifiedTimeObjectValuePair(
 				RequestDispatcher requestDispatcher,
