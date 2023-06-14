@@ -178,7 +178,7 @@ public class ElasticsearchIndexSearcherSearchAfterTest {
 	}
 
 	private void _addDocuments() {
-		for (int i = 0; i < _NUMBER_INDEXED_DOCUMENTS; i++) {
+		for (int i = 1; i <= _NUMBER_INDEXED_DOCUMENTS; i++) {
 			_addDocument(Field.TITLE, "Title " + i, Field.CONTENT, "example");
 		}
 	}
@@ -208,6 +208,8 @@ public class ElasticsearchIndexSearcherSearchAfterTest {
 					Document[] documents = hits.getDocs();
 					float[] scores = hits.getScores();
 
+					printHits(documents);
+
 					Assert.assertEquals(
 						hits.toString(), expectedHitsReturned, documents.length);
 					Assert.assertEquals(
@@ -219,6 +221,12 @@ public class ElasticsearchIndexSearcherSearchAfterTest {
 				catch (Exception exception) {
 				}
 			});
+	}
+
+	private void printHits(Document[] documents) {
+		for (Document document : documents) {
+			System.out.println("Title: " + document.get(Field.TITLE));
+		}
 	}
 
 	private Document _createDocument(
