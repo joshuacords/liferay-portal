@@ -28,6 +28,7 @@ import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.search.generic.MatchAllQuery;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Props;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.PropsUtil;
@@ -37,8 +38,6 @@ import com.liferay.portal.search.elasticsearch7.constants.ElasticsearchSearchCon
 import com.liferay.portal.search.elasticsearch7.internal.connection.ElasticsearchFixture;
 import com.liferay.portal.search.elasticsearch7.internal.deep.pagination.configuration.DeepPaginationConfigurationWrapper;
 import com.liferay.portal.search.engine.adapter.search.SearchSearchRequest;
-import com.liferay.portal.search.engine.adapter.snapshot.DeleteSnapshotRequest;
-import com.liferay.portal.search.engine.adapter.snapshot.DeleteSnapshotResponse;
 import com.liferay.portal.search.internal.legacy.searcher.SearchRequestBuilderFactoryImpl;
 import com.liferay.portal.search.internal.sort.FieldSortImpl;
 import com.liferay.portal.search.internal.sort.ScoreSortImpl;
@@ -55,7 +54,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import org.elasticsearch.snapshots.SnapshotInfo;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Assume;
@@ -125,92 +123,30 @@ public class ElasticsearchIndexSearcherTest {
 
 	@Test
 	public void testElasticsearchIndexSearcher() throws Exception {
-		int numDocuments = 5;
+		_addDocuments();
 
-		for (int i = 0; i < numDocuments; i++) {
-			addDocument(Field.TITLE, "Title " + i, Field.CONTENT, "example");
-		}
-
-		IdempotentRetryAssert.retryAssert(
-			5, TimeUnit.SECONDS,
-			() -> {
-				SearchContext searchContext = _getSearchContext();
-
-				searchContext.setEnd(5);
-				searchContext.setSorts(new Sort(Field.MODIFIED_DATE, true));
-
-				try {
-					Hits hits = _indexSearcher.search(searchContext,
-						new MatchAllQuery());
-
-					Document[] documents = hits.getDocs();
-					float[] scores = hits.getScores();
-
-					Assert.assertEquals(
-						hits.toString(), numDocuments, documents.length);
-					Assert.assertEquals(
-						scores.toString(), numDocuments, scores.length);
-					Assert.assertEquals(
-						hits.toString(), numDocuments, hits.getLength());
-				}
-				catch (Exception e)
-				{}
-			});
+		_assertHits(5, 5);
 	}
 
-//	@Test
-//	public void testElasticsearchIndexSearcherIndexSearchLimit()
-//		throws SearchException {
-//
-//		int numDocuments = 5;
-//
-//		for (int i = 0; i < numDocuments; i++) {
-//			addDocument(Field.TITLE, "Title " + i, Field.CONTENT, "example");
-//		}
-//
-//		SearchContext searchContext = _getSearchContext();
-//
-//		searchContext.setEnd(5);
-//		searchContext.setSorts(new Sort(Field.MODIFIED_DATE, true));
-//
-//		Hits hits = _indexSearcher.search(searchContext, new MatchAllQuery());
-//
-//		Document[] documents = hits.getDocs();
-//		float[] scores = hits.getScores();
-//
-//		Assert.assertEquals(
-//			hits.toString(), _INDEX_SEARCH_LIMIT, documents.length);
-//		Assert.assertEquals(
-//			scores.toString(), _INDEX_SEARCH_LIMIT, scores.length);
-//		Assert.assertEquals(hits.toString(), numDocuments, hits.getLength());
-//	}
-//
-//	@Test
-//	public void testElasticsearchIndexSearcherIndexMaxResultWindow()
-//		throws SearchException {
-//
-//		int numDocuments = 5;
-//
-//		for (int i = 0; i < numDocuments; i++) {
-//			addDocument(Field.TITLE, "Title " + i, Field.CONTENT, "example");
-//		}
-//
-//		SearchContext searchContext = _getSearchContext();
-//
-//		searchContext.setEnd(5);
-//		searchContext.setSorts(new Sort(Field.MODIFIED_DATE, true));
-//
-//		Hits hits = _indexSearcher.search(searchContext, new MatchAllQuery());
-//
-//		Document[] documents = hits.getDocs();
-//		float[] scores = hits.getScores();
-//
-//		Assert.assertEquals(
-//			hits.toString(), _INDEX_SEARCH_LIMIT, documents.length);
-//		Assert.assertEquals(
-//			scores.toString(), _INDEX_SEARCH_LIMIT, scores.length);
-//		Assert.assertEquals(hits.toString(), numDocuments, hits.getLength());
-//	}
+	@Test
+	public void testElasticsearchIndexSearcherIndexMaxResultWindow()
+		throws Exception {
+
+		_addDocuments();
+
+		_assertHits(5, 5);
+	}
+
+	@Test
+	public void testElasticsearchIndexSearcherIndexSearchLimit()
+		throws Exception {
+
+		_addDocuments();
+
+		_assertHits(
+			5, GetterUtil.getInteger(_INDEX_SEARCH_LIMIT),
+			GetterUtil.getInteger(_INDEX_SEARCH_LIMIT), _documents.size());
+	}
 
 	@Test
 	public void testSearchContextAttributes() {
@@ -254,11 +190,13 @@ public class ElasticsearchIndexSearcherTest {
 	@Rule
 	public TestName testName = new TestName();
 
-	protected void addDocument(
+	protected static final long GROUP_ID = RandomTestUtil.randomLong();
+
+	private void _addDocument(
 		String fieldName1, String fieldValue1, String fieldName2,
 		String fieldValue2) {
 
-		Document document = createDocument(
+		Document document = _createDocument(
 			fieldName1, fieldValue1, fieldName2, fieldValue2);
 
 		try {
@@ -281,7 +219,52 @@ public class ElasticsearchIndexSearcherTest {
 		_documents.add(document);
 	}
 
-	protected Document createDocument(
+	private void _addDocuments() {
+		int numDocuments = 5;
+
+		for (int i = 0; i < numDocuments; i++) {
+			_addDocument(Field.TITLE, "Title " + i, Field.CONTENT, "example");
+		}
+	}
+
+	private void _assertHits(int end, int expectedHits) throws Exception {
+		_assertHits(end, expectedHits, expectedHits, expectedHits);
+	}
+
+	private void _assertHits(
+			int end, int expectedHitCount, int expectedScoreCount,
+			int expectedHitTotal)
+		throws Exception {
+
+		IdempotentRetryAssert.retryAssert(
+			5, TimeUnit.SECONDS,
+			() -> {
+				SearchContext searchContext = _getSearchContext();
+
+				searchContext.setEnd(end);
+				searchContext.setSorts(new Sort(Field.MODIFIED_DATE, true));
+
+				try {
+					Hits hits = _indexSearcher.search(
+						searchContext, new MatchAllQuery());
+
+					Document[] documents = hits.getDocs();
+					float[] scores = hits.getScores();
+
+					Assert.assertEquals(
+						hits.toString(), expectedHitCount, documents.length);
+					Assert.assertEquals(
+						hits.toString(), expectedHitTotal, hits.getLength());
+
+					Assert.assertEquals(
+						scores.toString(), expectedScoreCount, scores.length);
+				}
+				catch (Exception exception) {
+				}
+			});
+	}
+
+	private Document _createDocument(
 		String fieldName1, String fieldValue1, String fieldName2,
 		String fieldValue2) {
 
@@ -293,8 +276,6 @@ public class ElasticsearchIndexSearcherTest {
 
 		return document;
 	}
-
-	protected static final long GROUP_ID = RandomTestUtil.randomLong();
 
 	private IndexingFixture _createIndexingFixture() {
 		return new ElasticsearchIndexingFixture() {
