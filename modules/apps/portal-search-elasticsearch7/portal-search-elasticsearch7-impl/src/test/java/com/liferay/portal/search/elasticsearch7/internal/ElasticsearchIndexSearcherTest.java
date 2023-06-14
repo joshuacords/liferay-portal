@@ -146,7 +146,7 @@ public class ElasticsearchIndexSearcherTest {
 		_addDocuments();
 
 		_assertHits(
-			5, GetterUtil.getInteger(_INDEX_SEARCH_LIMIT),
+			QueryUtil.ALL_POS, GetterUtil.getInteger(_INDEX_SEARCH_LIMIT),
 			GetterUtil.getInteger(_INDEX_SEARCH_LIMIT), _documents.size());
 	}
 
