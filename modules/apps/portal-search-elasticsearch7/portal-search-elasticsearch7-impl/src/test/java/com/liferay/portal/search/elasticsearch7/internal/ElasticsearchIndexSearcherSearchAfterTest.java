@@ -33,6 +33,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Props;
 import com.liferay.portal.kernel.util.PropsKeys;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.search.elasticsearch7.internal.connection.ElasticsearchConnectionFixture;
 import com.liferay.portal.search.elasticsearch7.internal.connection.ElasticsearchFixture;
 import com.liferay.portal.search.elasticsearch7.internal.deep.pagination.configuration.DeepPaginationConfigurationWrapper;
 import com.liferay.portal.search.internal.legacy.searcher.SearchRequestBuilderFactoryImpl;
@@ -46,6 +47,7 @@ import com.liferay.portal.search.test.util.indexing.IndexingFixture;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -126,12 +128,14 @@ public class ElasticsearchIndexSearcherSearchAfterTest {
 	@Test
 	public void testElasticsearchIndexSearcherIndexMaxResultWindow()
 		throws Exception {
+
 		_assertHits(5, 5);
 	}
 
 	@Test
 	public void testElasticsearchIndexSearcherIndexSearchLimit()
 		throws Exception {
+
 		_assertHits(
 			QueryUtil.ALL_POS, GetterUtil.getInteger(_INDEX_SEARCH_LIMIT),
 			GetterUtil.getInteger(_INDEX_SEARCH_LIMIT), _documents.size());
@@ -228,9 +232,18 @@ public class ElasticsearchIndexSearcherSearchAfterTest {
 	}
 
 	private IndexingFixture _createIndexingFixture() {
+		ElasticsearchConnectionFixture elasticsearchConnectionFixture =
+			ElasticsearchConnectionFixture.builder(
+			).clusterName(
+				ElasticsearchIndexSearcherSearchAfterTest.class.getSimpleName()
+			).elasticsearchConfigurationProperties(
+				Collections.singletonMap("indexMaxResultWindow", 5)
+			).build();
+
 		return new ElasticsearchIndexingFixture() {
 			{
-				setElasticsearchFixture(new ElasticsearchFixture(getClass()));
+				setElasticsearchFixture(
+					new ElasticsearchFixture(elasticsearchConnectionFixture));
 				setLiferayMappingsAddedToIndex(true);
 			}
 		};
