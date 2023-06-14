@@ -85,13 +85,10 @@ public class LicenseKeySubscriptionMessageListener extends BaseMessageListener {
 		_sendActivationKeyEmails(0);
 	}
 
-	private void _sendActivationKeyEmails(
-			int licenseKeyExpirationDateOffset)
+	private void _sendActivationKeyEmails(int licenseKeyExpirationDateOffset)
 		throws Exception {
 
 		try {
-			Date now = new Date();
-
 			Calendar calendar = Calendar.getInstance();
 
 			calendar.add(Calendar.DATE, licenseKeyExpirationDateOffset);
@@ -100,28 +97,24 @@ public class LicenseKeySubscriptionMessageListener extends BaseMessageListener {
 
 			calendar.add(Calendar.DATE, 1);
 
+			LinkedHashMap<String, Object> params = new LinkedHashMap<>();
+
+			params.put("active", true);
+
 			List<LicenseKey> licenseKeys = _licenseKeyLocalService.search(
 				null, null, null, null, null, null, null, null, null, null,
 				null, null, null, null, null, null, null, null, null, null,
 				null, null, null, null, expirationDateGT, calendar.getTime(),
-				new LinkedHashMap<String, Object>(), false, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null);
+				params, false, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 
 			for (LicenseKey licenseKey : licenseKeys) {
-				if (!licenseKey.isActive()) {
+				Date licenseKeyExpirationDate = licenseKey.getExpirationDate();
+
+				calendar.setTime(licenseKey.getStartDate());
+				calendar.add(Calendar.DATE, 60);
+
+				if (licenseKeyExpirationDate.before(calendar.getTime())) {
 					return;
-				}
-
-				if (greaterThanDays == 30) {
-					Date licenseKeyExpirationDate =
-						licenseKey.getExpirationDate();
-
-					calendar.setTime(now);
-					calendar.add(Calendar.DATE, 60);
-
-					if (licenseKeyExpirationDate.before(calendar.getTime())) {
-						return;
-					}
 				}
 
 				if (licenseKey.getAccountKey() == null) {
