@@ -89,6 +89,8 @@ public class ElasticsearchIndexSearcherSearchAfterTest {
 
 		_setUpIndexingFixture();
 
+		_addDocuments();
+
 		PropsTestUtil.setProps("feature.flag.LPS-172416", "true");
 	}
 
@@ -118,26 +120,18 @@ public class ElasticsearchIndexSearcherSearchAfterTest {
 
 	@Test
 	public void testElasticsearchIndexSearcher() throws Exception {
-		_addDocuments();
-
 		_assertHits(5, 5);
 	}
 
 	@Test
 	public void testElasticsearchIndexSearcherIndexMaxResultWindow()
 		throws Exception {
-
-		_addDocuments();
-
 		_assertHits(5, 5);
 	}
 
 	@Test
 	public void testElasticsearchIndexSearcherIndexSearchLimit()
 		throws Exception {
-
-		_addDocuments();
-
 		_assertHits(
 			QueryUtil.ALL_POS, GetterUtil.getInteger(_INDEX_SEARCH_LIMIT),
 			GetterUtil.getInteger(_INDEX_SEARCH_LIMIT), _documents.size());
