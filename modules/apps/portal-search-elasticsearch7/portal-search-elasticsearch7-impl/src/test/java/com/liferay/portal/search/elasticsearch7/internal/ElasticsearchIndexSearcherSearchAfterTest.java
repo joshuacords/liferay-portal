@@ -122,14 +122,18 @@ public class ElasticsearchIndexSearcherSearchAfterTest {
 
 	@Test
 	public void testElasticsearchIndexSearcher() throws Exception {
-		_assertHits(5, 5);
+		_assertHits(
+			_INDEX_MAX_RESULT_WINDOW, _INDEX_MAX_RESULT_WINDOW,
+			_NUMBER_INDEXED_DOCUMENTS,0, _INDEX_MAX_RESULT_WINDOW);
 	}
 
 	@Test
-	public void testElasticsearchIndexSearcherIndexMaxResultWindow()
+	public void testElasticsearchIndexSearcherAcrossIndexMaxResultWindow()
 		throws Exception {
 
-		_assertHits(5, 5);
+		_assertHits(
+			_INDEX_MAX_RESULT_WINDOW, _INDEX_MAX_RESULT_WINDOW,
+			_NUMBER_INDEXED_DOCUMENTS,1, _INDEX_MAX_RESULT_WINDOW + 1);
 	}
 
 	@Test
@@ -137,8 +141,8 @@ public class ElasticsearchIndexSearcherSearchAfterTest {
 		throws Exception {
 
 		_assertHits(
-			QueryUtil.ALL_POS, GetterUtil.getInteger(_INDEX_SEARCH_LIMIT),
-			GetterUtil.getInteger(_INDEX_SEARCH_LIMIT), _documents.size());
+			_INDEX_SEARCH_LIMIT, _INDEX_SEARCH_LIMIT, _NUMBER_INDEXED_DOCUMENTS,
+			QueryUtil.ALL_POS, QueryUtil.ALL_POS);
 	}
 
 	@Rule
@@ -174,20 +178,18 @@ public class ElasticsearchIndexSearcherSearchAfterTest {
 	}
 
 	private void _addDocuments() {
-		int numDocuments = 5;
-
-		for (int i = 0; i < numDocuments; i++) {
+		for (int i = 0; i < _NUMBER_INDEXED_DOCUMENTS; i++) {
 			_addDocument(Field.TITLE, "Title " + i, Field.CONTENT, "example");
 		}
 	}
 
 	private void _assertHits(int end, int expectedHits) throws Exception {
-		_assertHits(end, expectedHits, expectedHits, expectedHits);
+		_assertHits(expectedHits, expectedHits, expectedHits, 0, end);
 	}
 
 	private void _assertHits(
-			int end, int expectedHitCount, int expectedScoreCount,
-			int expectedHitTotal)
+		int expectedHitsReturned, int expectedScoresReturned, int expectedHitTotal,
+		int start, int end)
 		throws Exception {
 
 		IdempotentRetryAssert.retryAssert(
@@ -197,6 +199,7 @@ public class ElasticsearchIndexSearcherSearchAfterTest {
 
 				searchContext.setEnd(end);
 				searchContext.setSorts(new Sort(Field.MODIFIED_DATE, true));
+				searchContext.setStart(start);
 
 				try {
 					Hits hits = _indexSearcher.search(
@@ -206,12 +209,12 @@ public class ElasticsearchIndexSearcherSearchAfterTest {
 					float[] scores = hits.getScores();
 
 					Assert.assertEquals(
-						hits.toString(), expectedHitCount, documents.length);
+						hits.toString(), expectedHitsReturned, documents.length);
 					Assert.assertEquals(
 						hits.toString(), expectedHitTotal, hits.getLength());
 
 					Assert.assertEquals(
-						scores.toString(), expectedScoreCount, scores.length);
+						scores.toString(), expectedScoresReturned, scores.length);
 				}
 				catch (Exception exception) {
 				}
@@ -237,7 +240,8 @@ public class ElasticsearchIndexSearcherSearchAfterTest {
 			).clusterName(
 				ElasticsearchIndexSearcherSearchAfterTest.class.getSimpleName()
 			).elasticsearchConfigurationProperties(
-				Collections.singletonMap("indexMaxResultWindow", 5)
+				Collections.singletonMap(
+					"indexMaxResultWindow", _INDEX_MAX_RESULT_WINDOW)
 			).build();
 
 		return new ElasticsearchIndexingFixture() {
@@ -303,7 +307,7 @@ public class ElasticsearchIndexSearcherSearchAfterTest {
 		Props props = Mockito.mock(Props.class);
 
 		Mockito.doReturn(
-			_INDEX_SEARCH_LIMIT
+			Integer.toString(_INDEX_SEARCH_LIMIT)
 		).when(
 			props
 		).get(
@@ -333,9 +337,12 @@ public class ElasticsearchIndexSearcherSearchAfterTest {
 		ReflectionTestUtil.setFieldValue(_indexSearcher, "_sorts", sorts);
 	}
 
-	private static final String _INDEX_SEARCH_LIMIT = "3";
+	private static final int _INDEX_SEARCH_LIMIT = 3;
 
 	private static IndexingFixture _indexingFixture;
+	private static final int _NUMBER_INDEXED_DOCUMENTS = 5;
+
+	private static final int _INDEX_MAX_RESULT_WINDOW = 4;
 
 	private final DocumentFixture _documentFixture = new DocumentFixture();
 	private final List<Document> _documents = new ArrayList<>();
