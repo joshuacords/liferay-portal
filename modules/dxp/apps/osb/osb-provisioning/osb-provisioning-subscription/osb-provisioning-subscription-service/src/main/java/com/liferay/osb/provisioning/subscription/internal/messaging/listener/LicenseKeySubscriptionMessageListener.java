@@ -97,26 +97,22 @@ public class LicenseKeySubscriptionMessageListener extends BaseMessageListener {
 
 			calendar.add(Calendar.DATE, 1);
 
+			Date expirationDateLT = calendar.getTime();
+
+			calendar.add(Calendar.DATE, -61);
+
 			LinkedHashMap<String, Object> params = new LinkedHashMap<>();
 
 			params.put("active", true);
 
 			List<LicenseKey> licenseKeys = _licenseKeyLocalService.search(
 				null, null, null, null, null, null, null, null, null, null,
-				null, null, null, null, null, null, null, null, null, null,
-				null, null, null, null, expirationDateGT, calendar.getTime(),
-				params, false, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+				calendar.getTime(), null, null, null, null, null, null, null,
+				null, null, null, null, null, null, expirationDateGT,
+				expirationDateLT, params, false, QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS, null);
 
 			for (LicenseKey licenseKey : licenseKeys) {
-				Date licenseKeyExpirationDate = licenseKey.getExpirationDate();
-
-				calendar.setTime(licenseKey.getStartDate());
-				calendar.add(Calendar.DATE, 60);
-
-				if (licenseKeyExpirationDate.before(calendar.getTime())) {
-					continue;
-				}
-
 				if (licenseKey.getAccountKey() == null) {
 					continue;
 				}
