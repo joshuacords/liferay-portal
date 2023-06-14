@@ -24,8 +24,6 @@ import com.liferay.osb.provisioning.subscription.model.SubscriptionEntry;
 import com.liferay.osb.provisioning.subscription.service.SubscriptionEntryLocalService;
 import com.liferay.osb.provisioning.util.CustomerPortalRelease;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.messaging.BaseMessageListener;
 import com.liferay.portal.kernel.messaging.DestinationNames;
 import com.liferay.portal.kernel.messaging.Message;
@@ -35,9 +33,9 @@ import com.liferay.portal.kernel.scheduler.SchedulerEntryImpl;
 import com.liferay.portal.kernel.scheduler.Trigger;
 import com.liferay.portal.kernel.scheduler.TriggerFactory;
 import com.liferay.portal.kernel.service.ClassNameLocalService;
+import com.liferay.portal.kernel.util.Validator;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,69 +86,61 @@ public class LicenseKeySubscriptionMessageListener extends BaseMessageListener {
 	private void _sendActivationKeyEmails(int licenseKeyExpirationDateOffset)
 		throws Exception {
 
-		try {
-			Calendar calendar = Calendar.getInstance();
+		Calendar expirationDateGTCalendar = Calendar.getInstance();
 
-			calendar.add(Calendar.DATE, licenseKeyExpirationDateOffset);
+		expirationDateGTCalendar.add(
+			Calendar.DATE, licenseKeyExpirationDateOffset);
 
-			Date expirationDateGT = calendar.getTime();
+		Calendar expirationDateLTCalendar = Calendar.getInstance();
 
-			calendar.add(Calendar.DATE, 1);
+		expirationDateLTCalendar.add(
+			Calendar.DATE, licenseKeyExpirationDateOffset + 1);
 
-			Date expirationDateLT = calendar.getTime();
+		Calendar startDateLTCalendar = Calendar.getInstance();
 
-			calendar.add(Calendar.DATE, -61);
+		startDateLTCalendar.add(
+			Calendar.DATE, licenseKeyExpirationDateOffset - 60);
 
-			LinkedHashMap<String, Object> params = new LinkedHashMap<>();
+		LinkedHashMap<String, Object> params = new LinkedHashMap<>();
 
-			params.put("active", true);
+		params.put("active", true);
 
-			List<LicenseKey> licenseKeys = _licenseKeyLocalService.search(
-				null, null, null, null, null, null, null, null, null, null,
-				calendar.getTime(), null, null, null, null, null, null, null,
-				null, null, null, null, null, null, expirationDateGT,
-				expirationDateLT, params, false, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null);
+		List<LicenseKey> licenseKeys = _licenseKeyLocalService.search(
+			null, null, null, null, null, null, null, null, null, null,
+			startDateLTCalendar.getTime(), null, null, null, null, null, null,
+			null, null, null, null, null, null, null,
+			expirationDateGTCalendar.getTime(),
+			expirationDateLTCalendar.getTime(), params, false,
+			QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 
-			for (LicenseKey licenseKey : licenseKeys) {
-				if (licenseKey.getAccountKey() == null) {
-					continue;
-				}
+		for (LicenseKey licenseKey : licenseKeys) {
+			if (Validator.isNull(licenseKey.getAccountKey())) {
+				continue;
+			}
 
-				Account account = _accountWebService.fetchAccount(
-					licenseKey.getAccountKey());
+			Account account = _accountWebService.fetchAccount(
+				licenseKey.getAccountKey());
 
-				if (account == null) {
-					continue;
-				}
+			if (account == null) {
+				continue;
+			}
 
-				long classNameId = _classNameLocalService.getClassNameId(
-					LicenseKey.class);
+			long classNameId = _classNameLocalService.getClassNameId(
+				LicenseKey.class);
 
-				List<SubscriptionEntry> subscriptionEntries =
-					_subscriptionEntryLocalService.getSubscriptionEntries(
-						classNameId, licenseKey.getLicenseKeyId());
+			List<SubscriptionEntry> subscriptionEntries =
+				_subscriptionEntryLocalService.getSubscriptionEntries(
+					classNameId, licenseKey.getLicenseKeyId());
 
-				for (SubscriptionEntry subscriptionEntry :
-						subscriptionEntries) {
+			for (SubscriptionEntry subscriptionEntry : subscriptionEntries) {
+				Contact contact = _contactWebService.fetchContactByUuid(
+					subscriptionEntry.getContactUuid());
 
-					Contact contact = _contactWebService.fetchContactByUuid(
-						subscriptionEntry.getContactUuid());
-
-					_customerPortalRelease.sendContactAccountActivationKeyEmail(
-						contact, account, licenseKey);
-				}
+				_customerPortalRelease.sendContactAccountActivationKeyEmail(
+					contact, account, licenseKey);
 			}
 		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RuntimeException(e);
-		}
 	}
-
-	private static final Log _log = LogFactoryUtil.getLog(
-		LicenseKeySubscriptionMessageListener.class);
 
 	@Reference
 	private AccountWebService _accountWebService;
