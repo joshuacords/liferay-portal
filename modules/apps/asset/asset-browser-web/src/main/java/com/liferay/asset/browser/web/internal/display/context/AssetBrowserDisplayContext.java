@@ -217,6 +217,8 @@ public class AssetBrowserDisplayContext {
 
 		portletURL.setParameter(
 			"refererAssetEntryId", String.valueOf(getRefererAssetEntryId()));
+		portletURL.setParameter(
+			"selectedAssetEntryIds", getSelectedAssetEntryIds());
 		portletURL.setParameter("typeSelection", getTypeSelection());
 		portletURL.setParameter(
 			"subtypeSelectionId", String.valueOf(getSubtypeSelectionId()));
@@ -239,9 +241,6 @@ public class AssetBrowserDisplayContext {
 		portletURL.setParameter(
 			"showScheduled", String.valueOf(_isShowScheduled()));
 		portletURL.setParameter("eventName", getEventName());
-
-		portletURL.setParameter(
-			"selectedAssetEntryIds", getSelectedAssetEntryIds());
 
 		return portletURL;
 	}
