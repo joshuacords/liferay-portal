@@ -158,9 +158,11 @@ request.setAttribute("view_user.jsp-user", user2);
 						<%= user2.getJobTitle() %>
 					</div>
 
-					<div class="lfr-contact-extra">
-						<a href="mailto:<%= user2.getEmailAddress() %>"><%= user2.getEmailAddress() %></a>
-					</div>
+					<c:if test="<%= showEmailAddress %>">
+						<div class="lfr-contact-extra">
+							<a href="mailto:<%= user2.getEmailAddress() %>"><%= user2.getEmailAddress() %></a>
+						</div>
+					</c:if>
 				</div>
 
 				<div class="clear"><!-- --></div>
