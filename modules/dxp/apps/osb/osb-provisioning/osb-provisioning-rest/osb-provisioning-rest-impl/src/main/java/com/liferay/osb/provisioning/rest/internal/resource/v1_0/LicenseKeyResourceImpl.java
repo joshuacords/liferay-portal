@@ -1087,6 +1087,9 @@ public class LicenseKeyResourceImpl
 				System.currentTimeMillis() + LicenseLifetime.INDEFINITE);
 		}
 
+		Date restrictedPerpetualEndDate = new Date(
+			System.currentTimeMillis() + (545 * Time.DAY));
+
 		for (LicenseKey.LicenseEntryType licenseEntryType :
 				LicenseKey.LicenseEntryType.values()) {
 
@@ -1105,7 +1108,8 @@ public class LicenseKeyResourceImpl
 								originalEndDate.getTime() + (180 * Time.DAY)));
 					}
 					else {
-						licenseKeyEndDate.setEndDate(perpetualEndDate);
+						licenseKeyEndDate.setEndDate(
+							restrictedPerpetualEndDate);
 					}
 				}
 			}
@@ -1114,7 +1118,15 @@ public class LicenseKeyResourceImpl
 					licenseKeyEndDate.setEndDate(endDate);
 				}
 				else {
-					licenseKeyEndDate.setEndDate(perpetualEndDate);
+					if (licenseEntryType.equals(
+							LicenseKey.LicenseEntryType.PRODUCTION)) {
+
+						licenseKeyEndDate.setEndDate(perpetualEndDate);
+					}
+					else {
+						licenseKeyEndDate.setEndDate(
+							restrictedPerpetualEndDate);
+					}
 				}
 			}
 
