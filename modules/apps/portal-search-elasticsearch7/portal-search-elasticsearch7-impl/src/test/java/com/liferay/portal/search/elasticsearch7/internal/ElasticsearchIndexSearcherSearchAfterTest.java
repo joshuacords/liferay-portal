@@ -35,10 +35,8 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.search.elasticsearch7.internal.connection.ElasticsearchConnectionFixture;
 import com.liferay.portal.search.elasticsearch7.internal.connection.ElasticsearchFixture;
 import com.liferay.portal.search.elasticsearch7.internal.deep.pagination.configuration.DeepPaginationConfigurationWrapper;
-import com.liferay.portal.search.internal.legacy.searcher.SearchRequestBuilderFactoryImpl;
 import com.liferay.portal.search.internal.sort.FieldSortImpl;
 import com.liferay.portal.search.internal.sort.ScoreSortImpl;
-import com.liferay.portal.search.legacy.searcher.SearchRequestBuilderFactory;
 import com.liferay.portal.search.sort.Sorts;
 import com.liferay.portal.search.test.util.IdempotentRetryAssert;
 import com.liferay.portal.search.test.util.indexing.DocumentFixture;
@@ -51,6 +49,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.Before;
@@ -74,7 +73,25 @@ public class ElasticsearchIndexSearcherSearchAfterTest {
 
 	@BeforeClass
 	public static void setUpClass() throws Exception {
+		_setUpIndexingFixture();
+		_setUpIndexSearcherAndWriter();
+	}
+
+	@AfterClass
+	public static void tearDownClass() throws Exception {
+		_documentFixture.tearDown();
+
+		if (_indexingFixture == null) {
+			return;
+		}
+
+		if (_indexingFixture.isSearchEngineAvailable()) {
+			_indexingFixture.tearDown();
+		}
+
 		_indexingFixture = null;
+		_indexSearcher = null;
+		_indexWriter = null;
 	}
 
 	@Before
@@ -86,7 +103,9 @@ public class ElasticsearchIndexSearcherSearchAfterTest {
 		_entryClassName = StringUtil.toLowerCase(
 			clazz.getSimpleName() + CharPool.PERIOD + testName.getMethodName());
 
-		_setUpIndexingFixture();
+		_setUpIndexSearchLimit();
+		_setUpDeepPagination();
+		_setUpSorts();
 
 		_addDocuments();
 
@@ -103,18 +122,6 @@ public class ElasticsearchIndexSearcherSearchAfterTest {
 
 			_documents.clear();
 		}
-
-		_documentFixture.tearDown();
-
-		if (_indexingFixture == null) {
-			return;
-		}
-
-		if (_indexingFixture.isSearchEngineAvailable()) {
-			_indexingFixture.tearDown();
-		}
-
-		_indexingFixture = null;
 	}
 
 	@Test
@@ -184,6 +191,44 @@ public class ElasticsearchIndexSearcherSearchAfterTest {
 	public TestName testName = new TestName();
 
 	protected static final long GROUP_ID = RandomTestUtil.randomLong();
+
+	private static IndexingFixture _createIndexingFixture() {
+		ElasticsearchConnectionFixture elasticsearchConnectionFixture =
+			ElasticsearchConnectionFixture.builder(
+			).clusterName(
+				ElasticsearchIndexSearcherSearchAfterTest.class.getSimpleName()
+			).elasticsearchConfigurationProperties(
+				Collections.singletonMap(
+					"indexMaxResultWindow", _INDEX_MAX_RESULT_WINDOW)
+			).build();
+
+		return new ElasticsearchIndexingFixture() {
+			{
+				setElasticsearchFixture(
+					new ElasticsearchFixture(elasticsearchConnectionFixture));
+				setLiferayMappingsAddedToIndex(true);
+			}
+		};
+	}
+
+	private static void _setUpIndexingFixture() throws Exception {
+		if (_indexingFixture != null) {
+			Assume.assumeTrue(_indexingFixture.isSearchEngineAvailable());
+
+			return;
+		}
+
+		_indexingFixture = _createIndexingFixture();
+
+		Assume.assumeTrue(_indexingFixture.isSearchEngineAvailable());
+	}
+
+	private static void _setUpIndexSearcherAndWriter() throws Exception {
+		_indexingFixture.setUp();
+
+		_indexSearcher = _indexingFixture.getIndexSearcher();
+		_indexWriter = _indexingFixture.getIndexWriter();
+	}
 
 	private void _addDocument(
 		String fieldName1, String fieldValue1, String fieldName2,
@@ -306,25 +351,6 @@ public class ElasticsearchIndexSearcherSearchAfterTest {
 		return document;
 	}
 
-	private IndexingFixture _createIndexingFixture() {
-		ElasticsearchConnectionFixture elasticsearchConnectionFixture =
-			ElasticsearchConnectionFixture.builder(
-			).clusterName(
-				ElasticsearchIndexSearcherSearchAfterTest.class.getSimpleName()
-			).elasticsearchConfigurationProperties(
-				Collections.singletonMap(
-					"indexMaxResultWindow", _INDEX_MAX_RESULT_WINDOW)
-			).build();
-
-		return new ElasticsearchIndexingFixture() {
-			{
-				setElasticsearchFixture(
-					new ElasticsearchFixture(elasticsearchConnectionFixture));
-				setLiferayMappingsAddedToIndex(true);
-			}
-		};
-	}
-
 	private SearchContext _getSearchContext() {
 		SearchContext searchContext = new SearchContext();
 
@@ -352,27 +378,6 @@ public class ElasticsearchIndexSearcherSearchAfterTest {
 		ReflectionTestUtil.setFieldValue(
 			_indexSearcher, "_deepPaginationConfigurationWrapper",
 			deepPaginationConfigurationWrapper);
-	}
-
-	private void _setUpIndexingFixture() throws Exception {
-		if (_indexingFixture != null) {
-			Assume.assumeTrue(_indexingFixture.isSearchEngineAvailable());
-
-			return;
-		}
-
-		_indexingFixture = _createIndexingFixture();
-
-		Assume.assumeTrue(_indexingFixture.isSearchEngineAvailable());
-
-		_indexingFixture.setUp();
-
-		_indexSearcher = _indexingFixture.getIndexSearcher();
-		_indexWriter = _indexingFixture.getIndexWriter();
-
-		_setUpIndexSearchLimit();
-		_setUpDeepPagination();
-		_setUpSorts();
 	}
 
 	private void _setUpIndexSearchLimit() {
@@ -421,12 +426,13 @@ public class ElasticsearchIndexSearcherSearchAfterTest {
 
 	private static final int _NUMBER_INDEXED_DOCUMENTS = 7;
 
+	private static final DocumentFixture _documentFixture =
+		new DocumentFixture();
 	private static IndexingFixture _indexingFixture;
+	private static IndexSearcher _indexSearcher;
+	private static IndexWriter _indexWriter;
 
-	private final DocumentFixture _documentFixture = new DocumentFixture();
 	private final List<Document> _documents = new ArrayList<>();
 	private String _entryClassName;
-	private IndexSearcher _indexSearcher;
-	private IndexWriter _indexWriter;
 
 }
