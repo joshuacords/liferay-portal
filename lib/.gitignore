@@ -207,7 +207,6 @@
 /portal/mimepull.jar
 /portal/monte-cc.jar
 /portal/mp4parser.jar
-/portal/nekohtml.jar
 /portal/netcdf.jar
 /portal/netty-all.jar
 /portal/netty-buffer.jar
@@ -237,6 +236,7 @@
 /portal/serializer.jar
 /portal/simplecaptcha.jar
 /portal/slf4j-api.jar
+/portal/neko-htmlunit.jar
 /portal/soap-api.jar
 /portal/sparse-bit-set.jar
 /portal/spring-aop.jar

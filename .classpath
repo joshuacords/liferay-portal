@@ -238,7 +238,7 @@
 	<classpathentry kind="lib" path="lib/portal/mimepull.jar"/>
 	<classpathentry kind="lib" path="lib/portal/monte-cc.jar"/>
 	<classpathentry kind="lib" path="lib/portal/mp4parser.jar"/>
-	<classpathentry kind="lib" path="lib/portal/nekohtml.jar"/>
+	<classpathentry kind="lib" path="lib/portal/neko-htmlunit.jar"/>
 	<classpathentry kind="lib" path="lib/portal/netcdf.jar"/>
 	<classpathentry kind="lib" path="lib/portal/netty-all.jar"/>
 	<classpathentry kind="lib" path="lib/portal/netty-buffer.jar"/>
