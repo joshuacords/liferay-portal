@@ -86,8 +86,6 @@ public class ElasticsearchIndexSearcherSearchAfterTest {
 		_entryClassName = StringUtil.toLowerCase(
 			clazz.getSimpleName() + CharPool.PERIOD + testName.getMethodName());
 
-		_searchRequestBuilderFactory = new SearchRequestBuilderFactoryImpl();
-
 		_setUpIndexingFixture();
 
 		_addDocuments();
@@ -430,6 +428,5 @@ public class ElasticsearchIndexSearcherSearchAfterTest {
 	private String _entryClassName;
 	private IndexSearcher _indexSearcher;
 	private IndexWriter _indexWriter;
-	private SearchRequestBuilderFactory _searchRequestBuilderFactory;
 
 }
