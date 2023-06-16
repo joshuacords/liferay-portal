@@ -79,8 +79,6 @@ public class ElasticsearchIndexSearcherSearchAfterTest {
 
 	@AfterClass
 	public static void tearDownClass() throws Exception {
-		_documentFixture.tearDown();
-
 		if (_indexingFixture == null) {
 			return;
 		}
@@ -96,8 +94,6 @@ public class ElasticsearchIndexSearcherSearchAfterTest {
 
 	@Before
 	public void setUp() throws Exception {
-		_documentFixture.setUp();
-
 		Class<?> clazz = getClass();
 
 		_entryClassName = StringUtil.toLowerCase(
@@ -426,8 +422,6 @@ public class ElasticsearchIndexSearcherSearchAfterTest {
 
 	private static final int _NUMBER_INDEXED_DOCUMENTS = 7;
 
-	private static final DocumentFixture _documentFixture =
-		new DocumentFixture();
 	private static IndexingFixture _indexingFixture;
 	private static IndexSearcher _indexSearcher;
 	private static IndexWriter _indexWriter;
