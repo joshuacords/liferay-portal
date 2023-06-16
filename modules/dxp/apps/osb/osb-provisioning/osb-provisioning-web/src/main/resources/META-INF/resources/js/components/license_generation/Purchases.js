@@ -72,8 +72,7 @@ function Detached({detached}) {
 }
 
 function Purchased({purchased}) {
-	const ALLOW_PERMANENT_LICENSES = true;
-	const [{licenseEntry}] = useNewLicense();
+	const [{allowPermanentLicenses, licenseEntry}] = useNewLicense();
 
 	const processedPurchased = purchased
 		? purchased.map(item => {
@@ -82,7 +81,7 @@ function Purchased({purchased}) {
 					...deriveLicenseDates(
 						item,
 						licenseEntry.licenseEntryType,
-						!ALLOW_PERMANENT_LICENSES
+						allowPermanentLicenses
 					),
 					expired: getExpired(item)
 				};

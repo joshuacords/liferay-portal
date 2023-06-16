@@ -18,6 +18,7 @@ const ALLOW_PERMANENT_LICENSES = true;
 
 const license = {
 	endDate: '2020-04-16',
+	originalEndDate: '2020-03-16',
 	perpetual: false,
 	startDate: '2020-03-17'
 };
@@ -55,12 +56,12 @@ describe('Dates for license associated with a Subscription', () => {
 						licenseStartDate: startDate
 					} = dates;
 
-					const derivedEXpirationDate = generateNewDateByYear(
+					const derivedExpirationDate = generateNewDateByYear(
 						startDate,
 						100
 					);
 
-					expect(derivedEXpirationDate).toStrictEqual(expirationDate);
+					expect(derivedExpirationDate).toStrictEqual(expirationDate);
 				});
 			});
 
@@ -71,22 +72,20 @@ describe('Dates for license associated with a Subscription', () => {
 						'developer',
 						!ALLOW_PERMANENT_LICENSES
 					);
-					const {
-						licenseExpirationDate: expirationDate,
-						licenseStartDate: startDate
-					} = dates;
+					const {licenseExpirationDate: expirationDate} = dates;
 
-					const derivedEXpirationDate = generateNewDateByYear(
-						generateNewDateByDay(startDate)
+					const derivedExpirationDate = generateNewDateByYear(
+						CURRENT_TIME,
+						100
 					);
 
-					expect(derivedEXpirationDate).toStrictEqual(expirationDate);
+					expect(derivedExpirationDate).toStrictEqual(expirationDate);
 				});
 			});
 		});
 
 		describe('when Type is Enterpirse, Limited, OEM, or Virtual Cluster', () => {
-			it('displays the Expiration Date as 395 days (365 days + 30 days of grace period) from Today at midnight', () => {
+			it('displays the Expiration Date as 545 days (365 days + 180 days of grace period) from Today at midnight', () => {
 				const dates = deriveLicenseDates(
 					perpetualLicense,
 					'oem',
@@ -97,11 +96,12 @@ describe('Dates for license associated with a Subscription', () => {
 					licenseStartDate: startDate
 				} = dates;
 
-				const derivedEXpirationDate = generateNewDateByYear(
-					generateNewDateByDay(startDate)
+				const derivedExpirationDate = generateNewDateByDay(
+					startDate,
+					545
 				);
 
-				expect(derivedEXpirationDate).toStrictEqual(expirationDate);
+				expect(derivedExpirationDate).toStrictEqual(expirationDate);
 			});
 		});
 	});
@@ -119,7 +119,7 @@ describe('Dates for license associated with a Subscription', () => {
 
 		describe('when Type is NOT Enterpirse, Limited, OEM, or Virtual Cluster', () => {
 			describe('when Permanent Licenses are allowed', () => {
-				it('displays the Expiration Date as 100 years from the grace period end date', () => {
+				it('displays the Expiration Date as 100 years from the start date', () => {
 					const dates = deriveLicenseDates(
 						license,
 						'developer',
@@ -127,7 +127,7 @@ describe('Dates for license associated with a Subscription', () => {
 					);
 
 					expect(formatDate(dates.licenseExpirationDate)).toMatch(
-						'2120-03-23'
+						'2120-02-22'
 					);
 				});
 			});
@@ -141,14 +141,14 @@ describe('Dates for license associated with a Subscription', () => {
 					);
 
 					expect(formatDate(dates.licenseExpirationDate)).toMatch(
-						'2020-09-13'
+						'2020-04-16'
 					);
 				});
 			});
 		});
 
 		describe('when Type is Enterpirse, Limited, OEM, or Virtual Cluster', () => {
-			it('displays the Expiration Date as the grace period end date', () => {
+			it('displays the Expiration Date as 6 months from the original end date', () => {
 				const dates = deriveLicenseDates(
 					license,
 					'oem',
@@ -156,7 +156,7 @@ describe('Dates for license associated with a Subscription', () => {
 				);
 
 				expect(formatDate(dates.licenseExpirationDate)).toMatch(
-					'2020-09-13'
+					'2020-09-12'
 				);
 			});
 		});

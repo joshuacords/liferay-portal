@@ -24,18 +24,14 @@ export function deriveLicenseDates(
 	type,
 	allowPermanentLicenses = true
 ) {
-	const restricted = RESTRICTED_EXPIRATION_DATE_TYPES.find(
+	const restricted = !!RESTRICTED_EXPIRATION_DATE_TYPES.find(
 		restrictedType => restrictedType === type
 	);
-	const isUnrestrictedPermanentLicenseType =
-		!restricted && allowPermanentLicenses;
 
-	if (license.perpetual) {
-		let expirationDate = generateNewDateByDay(generateNewDateByYear());
+	let expirationDate;
 
-		if (isUnrestrictedPermanentLicenseType) {
-			expirationDate = generateNewDateByYear(CURRENT_TIME, 100);
-		}
+	if (license.perpetual && restricted) {
+		expirationDate = generateNewDateByDay(CURRENT_TIME, 545);
 
 		return {
 			licenseExpirationDate: expirationDate,
@@ -43,18 +39,31 @@ export function deriveLicenseDates(
 		};
 	}
 
-	let expirationDate = new Date(license.endDate);
-
-	if (isUnrestrictedPermanentLicenseType) {
-		expirationDate = generateNewDateByYear(expirationDate, 100);
+	if (allowPermanentLicenses) {
+		if (!restricted) {
+			expirationDate = generateNewDateByYear(license.startDate, 100);
+		}
+		else {
+			expirationDate = generateNewDateByDay(license.originalEndDate, 180);
+		}
 	}
 	else {
-		expirationDate = generateNewDateByDay(expirationDate, 150);
+		expirationDate = new Date(license.endDate);
+
+		if (license.perpetual) {
+			expirationDate = generateNewDateByYear(CURRENT_TIME, 100);
+		}
+	}
+
+	let startDate = new Date(license.startDate);
+
+	if (license.perpetual) {
+		startDate = CURRENT_TIME;
 	}
 
 	return {
 		licenseExpirationDate: expirationDate,
-		licenseStartDate: new Date(license.startDate)
+		licenseStartDate: startDate
 	};
 }
 

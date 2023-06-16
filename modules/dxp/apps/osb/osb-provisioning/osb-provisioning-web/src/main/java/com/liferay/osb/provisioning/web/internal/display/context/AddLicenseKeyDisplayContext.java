@@ -340,6 +340,10 @@ public class AddLicenseKeyDisplayContext {
 							).put(
 								"licenseKeysGenerated", provisionedCount
 							).put(
+								"originalEndDate",
+								_formatDate(
+									productPurchase.getOriginalEndDate())
+							).put(
 								"perpetual", productPurchase.getPerpetual()
 							).put(
 								"productPurchaseKey", productPurchase.getKey()
