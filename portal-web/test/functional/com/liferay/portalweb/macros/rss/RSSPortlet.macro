@@ -38,10 +38,10 @@ definition {
 
 		Panel.expandPanel(panel = "Feeds");
 
-		DragAndDrop(
+		DragAndDrop.dragAndDropPortletToObject(
 			locator1 = "RSSFeed#FEEDS_1",
 			locator2 = "RSSFeed#FEEDS_2",
-			value1 = ${rowLocation});
+			value1 = "Title URL");
 	}
 
 	macro configureFeedDisplayStyle {
