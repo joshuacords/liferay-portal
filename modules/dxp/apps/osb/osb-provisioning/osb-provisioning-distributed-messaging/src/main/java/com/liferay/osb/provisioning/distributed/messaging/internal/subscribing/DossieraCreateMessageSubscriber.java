@@ -2423,6 +2423,7 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 						  !accountKey.equals(siblingAccount.getKey())) ||
 						 prevActiveProductPurchases.contains(
 							 productPurchase)) &&
+						(productPurchase.getEndDate() != null) &&
 						newStartDate.before(productPurchase.getEndDate())) {
 
 						if (newStartDate.before(
