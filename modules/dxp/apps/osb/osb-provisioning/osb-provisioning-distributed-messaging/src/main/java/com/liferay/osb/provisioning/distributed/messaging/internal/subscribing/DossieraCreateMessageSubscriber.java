@@ -843,8 +843,7 @@ public class DossieraCreateMessageSubscriber extends BaseMessageSubscriber {
 		int maxLength = 150 - subjectSB.length();
 
 		if (accountName.length() > maxLength) {
-			subjectSB.append(
-				accountName.substring(0, maxLength - accountName.length()));
+			subjectSB.append(accountName.substring(0, maxLength));
 		}
 		else {
 			subjectSB.append(accountName);
