@@ -107,9 +107,9 @@ public class LicenseKeySubscriptionMessageListener extends BaseMessageListener {
 
 		List<LicenseKey> licenseKeys = _licenseKeyLocalService.search(
 			null, null, null, null, null, null, null, null, null, null,
-			startDateLTCalendar.getTime(), null, null, null, null, null, null,
-			null, null, null, null, null, null, null,
-			expirationDateGTCalendar.getTime(),
+			startDateLTCalendar.getTime(), new long[0], new String[0], null,
+			null, new String[0], new long[0], null, null, null, null, null,
+			null, null, expirationDateGTCalendar.getTime(),
 			expirationDateLTCalendar.getTime(), params, false,
 			QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 
