@@ -1093,7 +1093,7 @@ definition {
 		Site.viewNoMySitesViaMySitesPG(siteName = "Organization Name 1");
 
 		Site.viewMySitesViaMySitesPG(
-			memberCount = 1,
+			memberCount = "1 User",
 			siteName = "Organization Name 2");
 
 		Site.gotoSiteViaMySitesPG(siteName = "Organization Name 2");
