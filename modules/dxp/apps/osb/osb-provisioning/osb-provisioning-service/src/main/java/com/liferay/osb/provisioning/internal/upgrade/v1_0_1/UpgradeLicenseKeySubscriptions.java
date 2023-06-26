@@ -21,7 +21,6 @@ import com.liferay.osb.provisioning.koroneiki.constants.ContactRoleConstants;
 import com.liferay.osb.provisioning.koroneiki.web.service.AccountWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.ContactRoleWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.ContactWebService;
-import com.liferay.osb.provisioning.koroneiki.web.service.ProductConsumptionWebService;
 import com.liferay.osb.provisioning.license.model.LicenseKey;
 import com.liferay.osb.provisioning.license.service.LicenseKeyLocalService;
 import com.liferay.osb.provisioning.search.FilterQuery;
@@ -54,11 +53,14 @@ public class UpgradeLicenseKeySubscriptions extends UpgradeProcess {
 		List<Account> accounts = _accountWebService.search(
 			StringPool.BLANK, filterQuery, 1, 10000, null);
 
-		for (Account account : accounts) {
-			ContactRole contactRole = _contactRoleWebService.getContactRole(
-				ContactRole.Type.ACCOUNT_WORKER.toString(),
-				ContactRoleConstants.NAME_PRIMARY_CONTACT);
+		ContactRole contactRole = _contactRoleWebService.getContactRole(
+			ContactRole.Type.ACCOUNT_WORKER.toString(),
+			ContactRoleConstants.NAME_PRIMARY_CONTACT);
 
+		long classNameId = _classNameLocalService.getClassNameId(
+			LicenseKey.class);
+
+		for (Account account : accounts) {
 			filterQuery = new FilterQuery();
 
 			filterQuery.addLambdaEquals(
@@ -70,23 +72,18 @@ public class UpgradeLicenseKeySubscriptions extends UpgradeProcess {
 
 			if (contacts.isEmpty()) {
 				_log.error(
-					"Account with key: " + account.getKey() +
+					"Account with key " + account.getKey() +
 						" does not have any primary contacts");
 
 				continue;
 			}
 
-			LinkedHashMap<String, Object> params = new LinkedHashMap<>();
-
 			List<LicenseKey> licenseKeys = _licenseKeyLocalService.search(
 				null, null, null, null, null, null, account.getKey(), null,
 				null, null, null, new long[0], new String[0], null, null,
 				new String[0], new long[0], null, null, null, null, null, null,
-				null, null, null, params, false, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null);
-
-			long classNameId = _classNameLocalService.getClassNameId(
-				LicenseKey.class);
+				null, null, null, new LinkedHashMap<>(), false,
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 
 			for (Contact contact : contacts) {
 				for (LicenseKey licenseKey : licenseKeys) {
@@ -123,9 +120,6 @@ public class UpgradeLicenseKeySubscriptions extends UpgradeProcess {
 
 	@Reference
 	private LicenseKeyLocalService _licenseKeyLocalService;
-
-	@Reference
-	private ProductConsumptionWebService _productConsumptionWebService;
 
 	@Reference
 	private SubscriptionEntryLocalService _subscriptionEntryLocalService;
