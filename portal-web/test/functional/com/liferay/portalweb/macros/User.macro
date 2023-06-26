@@ -51,6 +51,9 @@ definition {
 		else if (${localization} == "ES") {
 			var localizedSignIn = "Acceder";
 		}
+		else if (${localization} == "FR") {
+			var localizedSignIn = "Ouvrir une session";
+		}
 		else {
 			var localizedSignIn = "Sign In";
 		}
@@ -86,6 +89,9 @@ definition {
 		}
 		else if (${localization} == "ES") {
 			var localizedSignIn = "Acceder";
+		}
+		else if (${localization} == "FR") {
+			var localizedSignIn = "Ouvrir une session";
 		}
 		else {
 			var localizedSignIn = "Sign In";
