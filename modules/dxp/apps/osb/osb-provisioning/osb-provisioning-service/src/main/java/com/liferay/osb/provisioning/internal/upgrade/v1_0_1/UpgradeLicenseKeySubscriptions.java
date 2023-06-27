@@ -61,14 +61,14 @@ public class UpgradeLicenseKeySubscriptions extends UpgradeProcess {
 			LicenseKey.class);
 
 		for (Account account : accounts) {
-			filterQuery = new FilterQuery();
+			FilterQuery filterQuery2 = new FilterQuery();
 
-			filterQuery.addLambdaEquals(
+			filterQuery2.addLambdaEquals(
 				true, "accountKeysContactRoleKeys",
 				account.getKey() + "_" + contactRole.getKey());
 
 			List<Contact> contacts = _contactWebService.search(
-				StringPool.BLANK, filterQuery, 1, 100, StringPool.BLANK);
+				StringPool.BLANK, filterQuery2, 1, 100, StringPool.BLANK);
 
 			if (contacts.isEmpty()) {
 				_log.error(
