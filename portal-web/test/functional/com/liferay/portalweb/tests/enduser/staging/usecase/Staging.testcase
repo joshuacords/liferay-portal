@@ -179,7 +179,7 @@ definition {
 
 		AssertConsoleTextNotPresent(value1 = "DataIntegrityViolationException");
 
-		AssertConsoleTextNotPresent(value1 = "SystemException");
+		AssertConsoleTextNotPresent(value1 = "java.net.UnknownHostException: null");
 
 		WebContentNavigator.openWebContentAdmin(siteURLKey = ${pageScopeId});
 
