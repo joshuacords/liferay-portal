@@ -733,8 +733,8 @@ definition {
 		CalendarEvent.editTitle(eventTitle = "Calendar Event Repeating Title");
 
 		CalendarEvent.setDates(
-			endDate = "02/21/2016",
-			startDate = "02/21/2016");
+			endDate = "02/21/2022",
+			startDate = "02/21/2022");
 
 		CalendarEvent.setTimes(
 			endDateTime = "02:00 AM",
@@ -742,24 +742,26 @@ definition {
 
 		CalendarEvent.setRepeatingYearly(
 			frequency = "Yearly",
-			yearlyRecurrenceSummary = "Yearly, On The Third Sunday Of February",
-			yearlyRecurrenceSummaryPreviousDay = "Yearly, On The Third Saturday Of February");
+			yearlyRecurrenceSummary = "Yearly, On The Third Monday Of February",
+			yearlyRecurrenceSummaryPreviousDay = "Yearly, On The Third Sunday Of February");
 
 		CalendarEvent.publish();
 
 		Navigator.gotoPage(pageName = "Calendar Page");
 
-		CalendarNavigator.gotoMonthViaSmallCalendar(dateMonth = "February 2016");
+		CalendarNavigator.gotoMonthViaSmallCalendar(dateMonth = "February 2022");
 
 		CalendarNavigator.gotoSpecificBusyDayViaSmallCalendar(dateNumber = 2);
 
 		CalendarEvent.viewYearly(eventTitle = "Calendar Event Repeating Title");
 
-		CalendarNavigator.gotoView(viewType = "Day");
+		CalendarNavigator.gotoView(viewType = "Week");
 
-		CalendarScheduler.selectSpecificEvent(
-			eventTitle = "Calendar Event Repeating Title",
-			eventToday = "false");
+		CalendarNavigator.gotoMonthViaSmallCalendar(dateMonth = "February 2023");
+
+		CalendarNavigator.gotoSpecificBusyDayViaSmallCalendar(dateNumber = 2);
+
+		CalendarScheduler.selectSpecificEventNoRefresh(eventTitle = "Calendar Event Repeating Title");
 
 		CalendarScheduler.gotoDetailsViaDialogBox();
 
@@ -767,7 +769,7 @@ definition {
 			eventTitle = "Calendar Event Repeating Title",
 			eventType = "Repeating",
 			frequency = "Yearly",
-			yearlyRecurrenceSummary = "Yearly, on the Third Sunday of February");
+			yearlyRecurrenceSummary = "Yearly, On The Third Monday Of February");
 	}
 
 	@priority = 4

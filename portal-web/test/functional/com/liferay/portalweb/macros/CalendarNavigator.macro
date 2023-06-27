@@ -145,11 +145,11 @@ definition {
 	macro gotoMonthViaSmallCalendar {
 		/*
 		To ensure the desired month will always be reached, click "Previous"
-		until it reaches our baseline of February 2016. Then click "Next" until
+		until it reaches our baseline of February 2022. Then click "Next" until
 		it reaches ${dateMonth}.
 		*/
 
-		while ((IsTextNotEqual(locator1 = "Calendar#SMALL_CALENDAR_DATE", value1 = "February 2016")) && (maxIterations = "100")) {
+		while ((IsTextNotEqual(locator1 = "Calendar#SMALL_CALENDAR_DATE", value1 = "February 2022")) && (maxIterations = "100")) {
 			Click(locator1 = "Calendar#SMALL_CALENDAR_PREVIOUS");
 		}
 
