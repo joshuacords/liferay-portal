@@ -233,6 +233,8 @@ currentURLObj.setParameter("historyKey", renderResponse.getNamespace() + "organi
 
 						addOrganizationIds.push(entityId);
 
+						organizationIds.push(entityId);
+
 						document.<portlet:namespace />fm.<portlet:namespace />addOrganizationIds.value = addOrganizationIds.join(
 							','
 						);
