@@ -8,11 +8,9 @@ package com.liferay.osb.provisioning.web.internal.display.context;
 import com.liferay.frontend.taglib.clay.servlet.taglib.util.CreationMenu;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Contact;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ContactRole;
-import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Product;
-import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ProductPurchase;
 import com.liferay.osb.provisioning.constants.ProvisioningWebKeys;
 import com.liferay.osb.provisioning.exception.ContactNameException;
-import com.liferay.osb.provisioning.koroneiki.constants.ProductConstants;
+import com.liferay.osb.provisioning.koroneiki.constants.ContactRoleConstants;
 import com.liferay.osb.provisioning.koroneiki.constants.ProductPurchaseConstants;
 import com.liferay.osb.provisioning.search.FilterQuery;
 import com.liferay.portal.kernel.bean.BeanParamUtil;
@@ -31,7 +29,6 @@ import com.liferay.portal.vulcan.util.TransformUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -208,50 +205,6 @@ public class ViewAccountContactsDisplayContext
 				LanguageUtil.get(httpServletRequest, title)));
 	}
 
-	private boolean _accountEligibleForCriticalIncidentContactRole()
-		throws Exception {
-
-		for (ProductPurchase productPurchase : account.getProductPurchases()) {
-			if (!_isActiveOrFuture(productPurchase)) {
-				continue;
-			}
-
-			Product curProduct = productPurchase.getProduct();
-
-			String curName = curProduct.getName();
-
-			if (curName.startsWith(ProductConstants.NAME_ANALYTICS) ||
-				curName.startsWith(ProductConstants.NAME_LXC)) {
-
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	private boolean _accountEligibleForDataBreachContactRole()
-		throws Exception {
-
-		for (ProductPurchase productPurchase : account.getProductPurchases()) {
-			if (!_isActiveOrFuture(productPurchase)) {
-				continue;
-			}
-
-			Product curProduct = productPurchase.getProduct();
-
-			String curName = curProduct.getName();
-
-			if (curName.startsWith(ProductConstants.NAME_LXC) &&
-				!curName.startsWith(ProductConstants.NAME_LXC_SM)) {
-
-				return true;
-			}
-		}
-
-		return false;
-	}
-
 	private List<JSONObject> _getContactRoleJSONObjects() throws Exception {
 		List<JSONObject> contactRoleJSONObjects = new ArrayList<>();
 
@@ -284,37 +237,29 @@ public class ViewAccountContactsDisplayContext
 	private List<ContactRole> _getContactRoles() throws Exception {
 		FilterQuery filterQuery = new FilterQuery();
 
-		if (!_accountEligibleForDataBreachContactRole()) {
-			filterQuery.addEquals(true, "name", "Data Breach Contact", true);
+		if (!accountReader.checkContactRoleEligibility(
+				account, ContactRoleConstants.NAME_DATA_BREACH_CONTACT)) {
+
 			filterQuery.addEquals(
-				true, "name", "Security Incident Contact", true);
+				true, "name", ContactRoleConstants.NAME_DATA_BREACH_CONTACT,
+				true);
+			filterQuery.addEquals(
+				true, "name",
+				ContactRoleConstants.NAME_SECURITY_INCIDENT_CONTACT, true);
 		}
 
-		if (!_accountEligibleForCriticalIncidentContactRole()) {
+		if (!accountReader.checkContactRoleEligibility(
+				account, ContactRoleConstants.NAME_CRITICAL_INCIDENT_CONTACT)) {
+
 			filterQuery.addEquals(
-				true, "name", "Critical Incident Contact", true);
+				true, "name",
+				ContactRoleConstants.NAME_CRITICAL_INCIDENT_CONTACT, true);
 		}
 
 		filterQuery.addEquals(
 			true, "type", ContactRole.Type.ACCOUNT_CUSTOMER.toString());
 
 		return contactRoleWebService.search(filterQuery, 1, 1000, "name");
-	}
-
-	private boolean _isActiveOrFuture(ProductPurchase productPurchase) {
-		if (productPurchase.getStatus() == ProductPurchase.Status.CANCELLED) {
-			return false;
-		}
-
-		Date now = new Date();
-
-		if ((productPurchase.getEndDate() != null) &&
-			now.after(productPurchase.getEndDate())) {
-
-			return false;
-		}
-
-		return true;
 	}
 
 	private Contact _contact;

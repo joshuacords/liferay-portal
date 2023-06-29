@@ -40,6 +40,40 @@ import org.osgi.service.component.annotations.Reference;
 @Component(immediate = true, service = AccountReader.class)
 public class AccountReaderImpl implements AccountReader {
 
+	public boolean checkContactRoleEligibility(Account account, String roleName)
+		throws Exception {
+
+		for (ProductPurchase productPurchase : account.getProductPurchases()) {
+			if (!_isActiveOrFuture(productPurchase, true)) {
+				continue;
+			}
+
+			Product curProduct = productPurchase.getProduct();
+
+			String curName = curProduct.getName();
+
+			if ((roleName.equals(
+					ContactRoleConstants.NAME_DATA_BREACH_CONTACT) ||
+				 roleName.equals(
+					 ContactRoleConstants.NAME_SECURITY_INCIDENT_CONTACT)) &&
+				curName.startsWith(ProductConstants.NAME_LXC) &&
+				!curName.startsWith(ProductConstants.NAME_LXC_SM)) {
+
+				return true;
+			}
+
+			if (roleName.equals(
+					ContactRoleConstants.NAME_CRITICAL_INCIDENT_CONTACT) &&
+				(curName.startsWith(ProductConstants.NAME_ANALYTICS) ||
+				 curName.startsWith(ProductConstants.NAME_LXC))) {
+
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	public List<Account> getAncestorAccounts(Account account) throws Exception {
 		List<Account> ancestorAccounts = new ArrayList<>();
 
@@ -530,6 +564,12 @@ public class AccountReaderImpl implements AccountReader {
 	}
 
 	private boolean _isActive(ProductPurchase productPurchase) {
+		return _isActiveOrFuture(productPurchase, false);
+	}
+
+	private boolean _isActiveOrFuture(
+		ProductPurchase productPurchase, boolean future) {
+
 		if (productPurchase.getStatus() == ProductPurchase.Status.CANCELLED) {
 			return false;
 		}
@@ -542,7 +582,7 @@ public class AccountReaderImpl implements AccountReader {
 			return false;
 		}
 
-		if ((productPurchase.getStartDate() != null) &&
+		if (!future && (productPurchase.getStartDate() != null) &&
 			now.before(productPurchase.getStartDate())) {
 
 			return false;

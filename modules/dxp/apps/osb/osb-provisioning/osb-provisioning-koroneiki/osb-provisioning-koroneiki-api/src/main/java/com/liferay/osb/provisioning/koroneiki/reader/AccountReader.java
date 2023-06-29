@@ -17,6 +17,9 @@ import java.util.List;
  */
 public interface AccountReader {
 
+	public boolean checkContactRoleEligibility(Account account, String roleName)
+		throws Exception;
+
 	public List<Account> getAncestorAccounts(Account account) throws Exception;
 
 	public Team getFirstLineSupportTeam(Account account) throws Exception;

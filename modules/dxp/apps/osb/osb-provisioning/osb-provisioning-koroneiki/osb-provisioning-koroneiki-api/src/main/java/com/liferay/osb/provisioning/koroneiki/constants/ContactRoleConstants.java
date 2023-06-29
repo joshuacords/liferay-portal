@@ -13,6 +13,11 @@ public class ContactRoleConstants {
 	public static final String NAME_ANALYTICS_CLOUD_OWNER =
 		"Analytics Cloud Owner";
 
+	public static final String NAME_CRITICAL_INCIDENT_CONTACT =
+		"Critical Incident Contact";
+
+	public static final String NAME_DATA_BREACH_CONTACT = "Data Breach Contact";
+
 	public static final String NAME_LIFERAY_CUSTOMER_SUCCESS =
 		"Liferay Customer Success";
 
@@ -27,6 +32,9 @@ public class ContactRoleConstants {
 	public static final String NAME_PRIMARY_CONTACT = "Primary Contact";
 
 	public static final String NAME_SECONDARY_CONTACT = "Secondary Contact";
+
+	public static final String NAME_SECURITY_INCIDENT_CONTACT =
+		"Security Incident Contact";
 
 	public static final String NAME_SUPPORT_ADMINISTRATOR =
 		"Support Administrator";
