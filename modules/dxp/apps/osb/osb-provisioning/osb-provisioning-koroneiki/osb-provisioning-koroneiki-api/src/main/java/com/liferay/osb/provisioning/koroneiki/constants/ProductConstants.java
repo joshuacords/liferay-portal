@@ -16,6 +16,8 @@ public class ProductConstants {
 
 	public static final String GROUP_NAME_PORTAL = "Portal";
 
+	public static final String NAME_ANALYTICS = "Analytics";
+
 	public static final String NAME_ANALYTICS_CLOUD_BASIC =
 		"Analytics Cloud Basic";
 
@@ -86,6 +88,8 @@ public class ProductConstants {
 	public static final String NAME_GOLD = "Gold Subscription";
 
 	public static final String NAME_LIMITED = "Limited Subscription";
+
+	public static final String NAME_LXC = "LXC";
 
 	public static final String NAME_LXC_BUSINESS_PLAN = "LXC - Business Plan";
 
