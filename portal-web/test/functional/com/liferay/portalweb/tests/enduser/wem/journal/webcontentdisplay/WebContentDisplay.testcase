@@ -806,13 +806,17 @@ ${httpUtil.URLtoString(request.getAttribute("CTX").getResource(".").toURI().crea
 			pageName = "Web Content Display Page",
 			siteName = "Test Site Name");
 
-		WebContentDisplayPortlet.configureScopePG(scopeSelection = "Global");
+		WebContentDisplayPortlet.configureScopePG(
+			portletName = "Web Content Display",
+			scopeSelection = "Global");
 
 		Navigator.gotoSitePage(
 			pageName = "Web Content Display Page",
 			siteName = "Test Site Name");
 
-		WebContentDisplayPortlet.viewConfigureScopePG(scopeSelection = "Global");
+		WebContentDisplayPortlet.viewConfigureScopePG(
+			portletName = "Web Content Display",
+			scopeSelection = "Global");
 
 		Navigator.gotoSitePage(
 			pageName = "Web Content Display Page",
