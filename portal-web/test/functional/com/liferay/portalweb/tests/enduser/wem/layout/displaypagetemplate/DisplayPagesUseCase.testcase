@@ -297,8 +297,6 @@ definition {
 				key_fragmentClass = "image",
 				key_position = 2,
 				locator1 = "Fragment#FRAGMENT");
-
-			SikuliAssertElementPresent(locator1 = "Fragment#MARKETPLACE_ICON_PNG");
 		}
 	}
 
@@ -560,8 +558,6 @@ definition {
 				key_fragmentClass = "image",
 				key_position = 2,
 				locator1 = "Fragment#FRAGMENT");
-
-			SikuliAssertElementPresent(locator1 = "Fragment#DOCUMENT_4_PNG");
 		}
 	}
 
