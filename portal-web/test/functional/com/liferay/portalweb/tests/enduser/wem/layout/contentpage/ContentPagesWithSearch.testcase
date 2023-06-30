@@ -141,6 +141,14 @@ definition {
 			PortletEntry.save();
 		}
 
+		task ("Publish the content page") {
+			ContentPagesNavigator.openEditContentPage(
+				pageName = "Test Content Page Name",
+				siteName = "Test Site Name");
+
+			PageEditor.clickPublish();
+		}
+
 		task ("Navigate to the search page") {
 			Navigator.openWithAppendToBaseURL(urlAppend = "web/test-site-name");
 		}
