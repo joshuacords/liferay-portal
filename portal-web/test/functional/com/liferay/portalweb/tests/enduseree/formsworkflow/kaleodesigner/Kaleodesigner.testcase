@@ -813,25 +813,18 @@ definition {
 		KaleoDesigner.deleteNode(nodeNodeLabel = "EndNode");
 
 		KaleoDesigner.addNodeViaViewTab(
-			nodeDescription = "Start Node Description",
-			nodeName = "Start",
-			nodeNodeLabel = "Start",
-			nodeType = "start");
+			nodeDescription = "End Node Description",
+			nodeName = "End",
+			nodeNodeLabel = "Task",
+			nodeType = "task");
 
 		KaleoDesigner.addConnectorAndNodeViaViewTab(
-			connectorName = "Approve",
-			newNode = "Task",
-			newNodeDescription = "End Node Description",
-			newNodeName = "End",
-			newNodeType = "task",
-			nodeType = "start");
-
-		KaleoDesigner.deleteConnector(connectorLabel = "Approve");
-
-		KaleoDesigner.addConnectorViaViewTab(
 			connectorName = "Reverse",
-			nodeType = "task",
-			nodeTypeDestination = "start2");
+			newNode = "Start",
+			newNodeDescription = "Start Node Description",
+			newNodeName = "Start",
+			newNodeType = "start",
+			nodeType = "task");
 
 		Workflow.publishInvalidWorkflowDefinition(errorMessage = "The Start node cannot have an incoming transition.");
 	}
