@@ -153,6 +153,26 @@ public class AccountResourceImpl extends BaseAccountResourceImpl {
 
 		Account account = _accountWebService.getAccount(accountKey);
 
+		if (ArrayUtil.contains(
+				contactRoleNames,
+				ContactRoleConstants.NAME_DATA_BREACH_CONTACT) ||
+			(ArrayUtil.contains(
+				contactRoleNames,
+				ContactRoleConstants.NAME_SECURITY_INCIDENT_CONTACT) &&
+			 !_accountReader.checkContactRoleEligibility(
+				 account, ContactRoleConstants.NAME_DATA_BREACH_CONTACT)) ||
+			(ArrayUtil.contains(
+				contactRoleNames,
+				ContactRoleConstants.NAME_CRITICAL_INCIDENT_CONTACT) &&
+			 !_accountReader.checkContactRoleEligibility(
+				 account,
+				 ContactRoleConstants.NAME_CRITICAL_INCIDENT_CONTACT))) {
+
+			throw new ValidationException(
+				"New contact role creation does not satify subscription " +
+					"pre-requisites");
+		}
+
 		Contact contact = _contactIdentityProvider.fetchContactByEmailAddress(
 			contactEmailAddress, true);
 
