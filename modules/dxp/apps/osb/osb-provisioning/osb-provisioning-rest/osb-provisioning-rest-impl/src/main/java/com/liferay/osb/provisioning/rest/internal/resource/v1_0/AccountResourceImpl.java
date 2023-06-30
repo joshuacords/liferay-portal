@@ -36,6 +36,7 @@ import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -153,24 +154,20 @@ public class AccountResourceImpl extends BaseAccountResourceImpl {
 
 		Account account = _accountWebService.getAccount(accountKey);
 
-		if (ArrayUtil.contains(
-				contactRoleNames,
-				ContactRoleConstants.NAME_DATA_BREACH_CONTACT) ||
-			(ArrayUtil.contains(
-				contactRoleNames,
-				ContactRoleConstants.NAME_SECURITY_INCIDENT_CONTACT) &&
-			 !_accountReader.checkContactRoleEligibility(
-				 account, ContactRoleConstants.NAME_DATA_BREACH_CONTACT)) ||
-			(ArrayUtil.contains(
-				contactRoleNames,
-				ContactRoleConstants.NAME_CRITICAL_INCIDENT_CONTACT) &&
-			 !_accountReader.checkContactRoleEligibility(
-				 account,
-				 ContactRoleConstants.NAME_CRITICAL_INCIDENT_CONTACT))) {
+		List<String> eligibleContactRoleKeys = new ArrayList<>();
+
+		for (ContactRole contactRole :
+				_accountReader.getEligibleContactRoles(account)) {
+
+			eligibleContactRoleKeys.add(contactRole.getKey());
+		}
+
+		if (!eligibleContactRoleKeys.containsAll(
+				Arrays.asList(contactRoleKeys))) {
 
 			throw new ValidationException(
 				"New contact role creation does not satify subscription " +
-					"pre-requisites");
+					"prerequisites");
 		}
 
 		Contact contact = _contactIdentityProvider.fetchContactByEmailAddress(

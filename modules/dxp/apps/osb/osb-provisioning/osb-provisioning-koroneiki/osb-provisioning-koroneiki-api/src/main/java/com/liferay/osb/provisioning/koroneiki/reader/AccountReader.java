@@ -6,6 +6,7 @@
 package com.liferay.osb.provisioning.koroneiki.reader;
 
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Account;
+import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ContactRole;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ProductPurchase;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Team;
 
@@ -17,10 +18,10 @@ import java.util.List;
  */
 public interface AccountReader {
 
-	public boolean checkContactRoleEligibility(Account account, String roleName)
-		throws Exception;
-
 	public List<Account> getAncestorAccounts(Account account) throws Exception;
+
+	public List<ContactRole> getEligibleContactRoles(Account account)
+		throws Exception;
 
 	public Team getFirstLineSupportTeam(Account account) throws Exception;
 

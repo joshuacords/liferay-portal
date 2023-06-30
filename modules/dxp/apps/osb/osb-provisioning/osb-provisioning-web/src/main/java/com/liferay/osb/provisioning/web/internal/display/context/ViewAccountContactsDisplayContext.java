@@ -10,7 +10,6 @@ import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Contact;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ContactRole;
 import com.liferay.osb.provisioning.constants.ProvisioningWebKeys;
 import com.liferay.osb.provisioning.exception.ContactNameException;
-import com.liferay.osb.provisioning.koroneiki.constants.ContactRoleConstants;
 import com.liferay.osb.provisioning.koroneiki.constants.ProductPurchaseConstants;
 import com.liferay.osb.provisioning.search.FilterQuery;
 import com.liferay.portal.kernel.bean.BeanParamUtil;
@@ -208,7 +207,9 @@ public class ViewAccountContactsDisplayContext
 	private List<JSONObject> _getContactRoleJSONObjects() throws Exception {
 		List<JSONObject> contactRoleJSONObjects = new ArrayList<>();
 
-		for (ContactRole contactRole : _getContactRoles()) {
+		for (ContactRole contactRole :
+				accountReader.getEligibleContactRoles(account)) {
+
 			contactRoleJSONObjects.add(
 				JSONUtil.put(
 					"key", contactRole.getKey()
@@ -232,34 +233,6 @@ public class ViewAccountContactsDisplayContext
 		}
 
 		return contactRoleKeys;
-	}
-
-	private List<ContactRole> _getContactRoles() throws Exception {
-		FilterQuery filterQuery = new FilterQuery();
-
-		if (!accountReader.checkContactRoleEligibility(
-				account, ContactRoleConstants.NAME_DATA_BREACH_CONTACT)) {
-
-			filterQuery.addEquals(
-				true, "name", ContactRoleConstants.NAME_DATA_BREACH_CONTACT,
-				true);
-			filterQuery.addEquals(
-				true, "name",
-				ContactRoleConstants.NAME_SECURITY_INCIDENT_CONTACT, true);
-		}
-
-		if (!accountReader.checkContactRoleEligibility(
-				account, ContactRoleConstants.NAME_CRITICAL_INCIDENT_CONTACT)) {
-
-			filterQuery.addEquals(
-				true, "name",
-				ContactRoleConstants.NAME_CRITICAL_INCIDENT_CONTACT, true);
-		}
-
-		filterQuery.addEquals(
-			true, "type", ContactRole.Type.ACCOUNT_CUSTOMER.toString());
-
-		return contactRoleWebService.search(filterQuery, 1, 1000, "name");
 	}
 
 	private Contact _contact;

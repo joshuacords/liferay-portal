@@ -18,7 +18,9 @@ import com.liferay.osb.provisioning.koroneiki.constants.ProductPurchaseConstants
 import com.liferay.osb.provisioning.koroneiki.constants.TeamRoleConstants;
 import com.liferay.osb.provisioning.koroneiki.reader.AccountReader;
 import com.liferay.osb.provisioning.koroneiki.web.service.AccountWebService;
+import com.liferay.osb.provisioning.koroneiki.web.service.ContactRoleWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.TeamRoleWebService;
+import com.liferay.osb.provisioning.search.FilterQuery;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
@@ -40,40 +42,6 @@ import org.osgi.service.component.annotations.Reference;
 @Component(immediate = true, service = AccountReader.class)
 public class AccountReaderImpl implements AccountReader {
 
-	public boolean checkContactRoleEligibility(Account account, String roleName)
-		throws Exception {
-
-		for (ProductPurchase productPurchase : account.getProductPurchases()) {
-			if (!_isActiveOrFuture(productPurchase, true)) {
-				continue;
-			}
-
-			Product curProduct = productPurchase.getProduct();
-
-			String curName = curProduct.getName();
-
-			if ((roleName.equals(
-					ContactRoleConstants.NAME_DATA_BREACH_CONTACT) ||
-				 roleName.equals(
-					 ContactRoleConstants.NAME_SECURITY_INCIDENT_CONTACT)) &&
-				curName.startsWith(ProductConstants.NAME_LXC) &&
-				!curName.startsWith(ProductConstants.NAME_LXC_SM)) {
-
-				return true;
-			}
-
-			if (roleName.equals(
-					ContactRoleConstants.NAME_CRITICAL_INCIDENT_CONTACT) &&
-				(curName.startsWith(ProductConstants.NAME_ANALYTICS) ||
-				 curName.startsWith(ProductConstants.NAME_LXC))) {
-
-				return true;
-			}
-		}
-
-		return false;
-	}
-
 	public List<Account> getAncestorAccounts(Account account) throws Exception {
 		List<Account> ancestorAccounts = new ArrayList<>();
 
@@ -89,6 +57,36 @@ public class AccountReaderImpl implements AccountReader {
 		}
 
 		return ancestorAccounts;
+	}
+
+	public List<ContactRole> getEligibleContactRoles(Account account)
+		throws Exception {
+
+		FilterQuery filterQuery = new FilterQuery();
+
+		if (!_checkContactRoleEligibility(
+				account, ContactRoleConstants.NAME_DATA_BREACH_CONTACT)) {
+
+			filterQuery.addEquals(
+				true, "name", ContactRoleConstants.NAME_DATA_BREACH_CONTACT,
+				true);
+			filterQuery.addEquals(
+				true, "name",
+				ContactRoleConstants.NAME_SECURITY_INCIDENT_CONTACT, true);
+		}
+
+		if (!_checkContactRoleEligibility(
+				account, ContactRoleConstants.NAME_CRITICAL_INCIDENT_CONTACT)) {
+
+			filterQuery.addEquals(
+				true, "name",
+				ContactRoleConstants.NAME_CRITICAL_INCIDENT_CONTACT, true);
+		}
+
+		filterQuery.addEquals(
+			true, "type", ContactRole.Type.ACCOUNT_CUSTOMER.toString());
+
+		return _contactRoleWebService.search(filterQuery, 1, 1000, "name");
 	}
 
 	public Team getFirstLineSupportTeam(Account account) throws Exception {
@@ -474,6 +472,41 @@ public class AccountReaderImpl implements AccountReader {
 		return false;
 	}
 
+	private boolean _checkContactRoleEligibility(
+			Account account, String roleName)
+		throws Exception {
+
+		for (ProductPurchase productPurchase : account.getProductPurchases()) {
+			if (!_isActiveOrFuture(productPurchase, true)) {
+				continue;
+			}
+
+			Product curProduct = productPurchase.getProduct();
+
+			String curName = curProduct.getName();
+
+			if ((roleName.equals(
+					ContactRoleConstants.NAME_DATA_BREACH_CONTACT) ||
+				 roleName.equals(
+					 ContactRoleConstants.NAME_SECURITY_INCIDENT_CONTACT)) &&
+				curName.startsWith(ProductConstants.NAME_LXC) &&
+				!curName.startsWith(ProductConstants.NAME_LXC_SM)) {
+
+				return true;
+			}
+
+			if (roleName.equals(
+					ContactRoleConstants.NAME_CRITICAL_INCIDENT_CONTACT) &&
+				(curName.startsWith(ProductConstants.NAME_ANALYTICS) ||
+				 curName.startsWith(ProductConstants.NAME_LXC))) {
+
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	private String _getProductPurchaseState(ProductPurchase productPurchase) {
 		if (productPurchase.getStatus() == ProductPurchase.Status.CANCELLED) {
 			return ProductPurchaseConstants.STATE_CANCELLED;
@@ -639,6 +672,9 @@ public class AccountReaderImpl implements AccountReader {
 
 	@Reference
 	private AccountWebService _accountWebService;
+
+	@Reference
+	private ContactRoleWebService _contactRoleWebService;
 
 	@Reference
 	private TeamRoleWebService _teamRoleWebService;
