@@ -66,8 +66,6 @@ public class UpgradeReportDefinition extends UpgradeProcess {
 						continue;
 					}
 
-					ps2.setString(1, updatedReportParameters);
-
 					ps2.setString(1, reportParameters);
 					ps2.setLong(2, rs.getLong("companyId"));
 					ps2.setLong(3, rs.getLong("definitionId"));
