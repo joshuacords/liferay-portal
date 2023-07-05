@@ -1,6 +1,6 @@
 Bundle-Name: Liferay Asset Taglib
 Bundle-SymbolicName: com.liferay.asset.taglib
-Bundle-Version: 4.3.4
+Bundle-Version: 4.3.5
 Export-Package:\
 	com.liferay.asset.taglib.servlet.taglib,\
 	com.liferay.asset.taglib.servlet.taglib.soy
