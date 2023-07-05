@@ -247,8 +247,12 @@ public class DDMServiceUpgrade implements UpgradeStepRegistrator {
 
 		registry.register("2.0.8", "2.0.9", new DummyUpgradeStep());
 
+		registry.register("2.0.9", "2.0.10", new DummyUpgradeStep());
+
+		registry.register("2.0.10", "2.0.11", new DummyUpgradeStep());
+
 		registry.register(
-			"2.0.9", "3.0.0",
+			"2.0.11", "3.0.0",
 			new BaseUpgradeSQLServerDatetime(
 				new Class<?>[] {
 					DDMContentTable.class, DDMDataProviderInstanceTable.class,
@@ -326,6 +330,11 @@ public class DDMServiceUpgrade implements UpgradeStepRegistrator {
 				ddmFormJSONDeserializer, ddmFormValuesDeserializer,
 				ddmFormValuesSerializer, _dlFileEntryLocalService,
 				_jsonFactory));
+
+		registry.register(
+			"3.2.8", "3.2.9",
+			new com.liferay.dynamic.data.mapping.internal.upgrade.v3_2_9.
+				UpgradeDDMFormInstance(_jsonFactory));
 	}
 
 	protected DDMFormDeserializer getDDMFormJSONDeserializer() {
