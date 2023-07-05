@@ -1,6 +1,6 @@
 Bundle-Name: Liferay Commerce Product Service
 Bundle-SymbolicName: com.liferay.commerce.product.service
-Bundle-Version: 4.0.23
+Bundle-Version: 4.0.24
 Import-Package:\
 	com.liferay.asset.kernel.model;version="[1.0.0,9999.0.0)",\
 	com.liferay.asset.kernel.service.persistence;version="[1.0.0,9999.0.0)",\
