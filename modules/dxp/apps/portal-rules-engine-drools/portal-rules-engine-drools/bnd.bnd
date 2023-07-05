@@ -1,6 +1,6 @@
 Bundle-Name: Liferay Portal Rules Engine Drools
 Bundle-SymbolicName: com.liferay.portal.rules.engine.drools
-Bundle-Version: 3.0.18
+Bundle-Version: 3.0.19
 DynamicImport-Package: *
 Import-Package:\
 	!com.bea.*,\
