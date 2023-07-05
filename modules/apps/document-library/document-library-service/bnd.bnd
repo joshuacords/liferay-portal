@@ -1,6 +1,6 @@
 Bundle-Name: Liferay Document Library Service
 Bundle-SymbolicName: com.liferay.document.library.service
-Bundle-Version: 4.0.82
+Bundle-Version: 4.0.83
 Import-Package:\
 	com.liferay.portal.kernel.search;version="[7.1.0,9999.0.0)",\
 	\
