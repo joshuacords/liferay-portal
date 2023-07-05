@@ -63,7 +63,7 @@ definition {
 		KaleoDesigner.addNodeViaViewTab(
 			nodeDescription = "TestEndNode Node Description",
 			nodeName = "TestEndNode",
-			nodeNodeLabel = "TestEndNode",
+			nodeNodeLabel = "End",
 			nodeType = "end");
 
 		KaleoDesigner.viewNodeType(
@@ -308,7 +308,7 @@ definition {
 		KaleoDesigner.addNodeViaViewTab(
 			nodeDescription = "TestStartNode Node Description",
 			nodeName = "TestStartNode",
-			nodeNodeLabel = "TestStartNode",
+			nodeNodeLabel = "Start",
 			nodeType = "start");
 
 		KaleoDesigner.selectNode(nodeNodeLabel = "TestStartNode");
@@ -1103,7 +1103,7 @@ definition {
 		KaleoDesigner.addNodeViaViewTab(
 			nodeDescription = "TestStartNode Node Description",
 			nodeName = "TestStartNode",
-			nodeNodeLabel = "TestStartNode",
+			nodeNodeLabel = "Start",
 			nodeType = "start");
 
 		Workflow.publishInvalidWorkflowDefinition(errorMessage = "The workflow has too many start nodes (state nodes StartNode and TestStartNode).");
