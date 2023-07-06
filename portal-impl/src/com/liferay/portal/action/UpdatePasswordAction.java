@@ -16,7 +16,6 @@ package com.liferay.portal.action;
 
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.exception.NoSuchUserException;
-import com.liferay.portal.kernel.exception.UserLockoutException;
 import com.liferay.portal.kernel.exception.UserPasswordException;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.CompanyConstants;
@@ -84,17 +83,8 @@ public class UpdatePasswordAction implements Action {
 			if (ticket != null) {
 				User user = UserLocalServiceUtil.getUser(ticket.getClassPK());
 
-				try {
-					UserLocalServiceUtil.checkLockout(user);
-
-					UserLocalServiceUtil.updatePasswordReset(
-						user.getUserId(), true);
-				}
-				catch (UserLockoutException userLockoutException) {
-					SessionErrors.add(
-						httpServletRequest, userLockoutException.getClass(),
-						userLockoutException);
-				}
+				UserLocalServiceUtil.updatePasswordReset(
+					user.getUserId(), true);
 			}
 
 			return actionMapping.getActionForward("portal.update_password");
@@ -268,13 +258,15 @@ public class UpdatePasswordAction implements Action {
 			PwdToolkitUtilThreadLocal.setValidate(previousValidate);
 		}
 
+		User user = UserLocalServiceUtil.getUser(userId);
+
 		if (ticket != null) {
 			TicketLocalServiceUtil.deleteTicket(ticket);
 
+			UserLocalServiceUtil.updateLockout(user, false);
+
 			UserLocalServiceUtil.updatePasswordReset(userId, false);
 		}
-
-		User user = UserLocalServiceUtil.getUser(userId);
 
 		Company company = CompanyLocalServiceUtil.getCompanyById(
 			user.getCompanyId());
