@@ -64,23 +64,28 @@ public class AccountReaderImpl implements AccountReader {
 
 		FilterQuery filterQuery = new FilterQuery();
 
-		if (!_checkContactRoleEligibility(
+		if (!_hasContactRoleEligibility(
 				account, ContactRoleConstants.NAME_DATA_BREACH_CONTACT)) {
 
 			filterQuery.addEquals(
 				true, "name", ContactRoleConstants.NAME_DATA_BREACH_CONTACT,
 				true);
-			filterQuery.addEquals(
-				true, "name",
-				ContactRoleConstants.NAME_SECURITY_INCIDENT_CONTACT, true);
 		}
 
-		if (!_checkContactRoleEligibility(
+		if (!_hasContactRoleEligibility(
 				account, ContactRoleConstants.NAME_CRITICAL_INCIDENT_CONTACT)) {
 
 			filterQuery.addEquals(
 				true, "name",
 				ContactRoleConstants.NAME_CRITICAL_INCIDENT_CONTACT, true);
+		}
+
+		if (!_hasContactRoleEligibility(
+				account, ContactRoleConstants.NAME_SECURITY_INCIDENT_CONTACT)) {
+
+			filterQuery.addEquals(
+				true, "name",
+				ContactRoleConstants.NAME_SECURITY_INCIDENT_CONTACT, true);
 		}
 
 		filterQuery.addEquals(
@@ -472,41 +477,6 @@ public class AccountReaderImpl implements AccountReader {
 		return false;
 	}
 
-	private boolean _checkContactRoleEligibility(
-			Account account, String roleName)
-		throws Exception {
-
-		for (ProductPurchase productPurchase : account.getProductPurchases()) {
-			if (!_isActiveOrFuture(productPurchase, true)) {
-				continue;
-			}
-
-			Product curProduct = productPurchase.getProduct();
-
-			String curName = curProduct.getName();
-
-			if ((roleName.equals(
-					ContactRoleConstants.NAME_DATA_BREACH_CONTACT) ||
-				 roleName.equals(
-					 ContactRoleConstants.NAME_SECURITY_INCIDENT_CONTACT)) &&
-				curName.startsWith(ProductConstants.NAME_LXC) &&
-				!curName.startsWith(ProductConstants.NAME_LXC_SM)) {
-
-				return true;
-			}
-
-			if (roleName.equals(
-					ContactRoleConstants.NAME_CRITICAL_INCIDENT_CONTACT) &&
-				(curName.startsWith(ProductConstants.NAME_ANALYTICS) ||
-				 curName.startsWith(ProductConstants.NAME_LXC))) {
-
-				return true;
-			}
-		}
-
-		return false;
-	}
-
 	private String _getProductPurchaseState(ProductPurchase productPurchase) {
 		if (productPurchase.getStatus() == ProductPurchase.Status.CANCELLED) {
 			return ProductPurchaseConstants.STATE_CANCELLED;
@@ -594,6 +564,40 @@ public class AccountReaderImpl implements AccountReader {
 		}
 
 		return null;
+	}
+
+	private boolean _hasContactRoleEligibility(Account account, String roleName)
+		throws Exception {
+
+		for (ProductPurchase productPurchase : account.getProductPurchases()) {
+			if (!_isActiveOrFuture(productPurchase, true)) {
+				continue;
+			}
+
+			Product product = productPurchase.getProduct();
+
+			String name = product.getName();
+
+			if ((roleName.equals(
+					ContactRoleConstants.NAME_DATA_BREACH_CONTACT) ||
+				 roleName.equals(
+					 ContactRoleConstants.NAME_SECURITY_INCIDENT_CONTACT)) &&
+				name.startsWith(ProductConstants.NAME_LXC) &&
+				!name.startsWith(ProductConstants.NAME_LXC_SM)) {
+
+				return true;
+			}
+
+			if (roleName.equals(
+					ContactRoleConstants.NAME_CRITICAL_INCIDENT_CONTACT) &&
+				(name.startsWith(ProductConstants.NAME_ANALYTICS) ||
+				 name.startsWith(ProductConstants.NAME_LXC))) {
+
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private boolean _isActive(ProductPurchase productPurchase) {

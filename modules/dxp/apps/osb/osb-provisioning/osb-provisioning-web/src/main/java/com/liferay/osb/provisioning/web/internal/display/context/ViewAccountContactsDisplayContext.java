@@ -207,9 +207,10 @@ public class ViewAccountContactsDisplayContext
 	private List<JSONObject> _getContactRoleJSONObjects() throws Exception {
 		List<JSONObject> contactRoleJSONObjects = new ArrayList<>();
 
-		for (ContactRole contactRole :
-				accountReader.getEligibleContactRoles(account)) {
+		List<ContactRole> contactRoles = accountReader.getEligibleContactRoles(
+			account);
 
+		for (ContactRole contactRole : contactRoles) {
 			contactRoleJSONObjects.add(
 				JSONUtil.put(
 					"key", contactRole.getKey()

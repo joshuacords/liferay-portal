@@ -156,9 +156,10 @@ public class AccountResourceImpl extends BaseAccountResourceImpl {
 
 		List<String> eligibleContactRoleKeys = new ArrayList<>();
 
-		for (ContactRole contactRole :
-				_accountReader.getEligibleContactRoles(account)) {
+		List<ContactRole> accountContactRoles =
+			_accountReader.getEligibleContactRoles(account);
 
+		for (ContactRole contactRole : accountContactRoles) {
 			eligibleContactRoleKeys.add(contactRole.getKey());
 		}
 
@@ -166,7 +167,7 @@ public class AccountResourceImpl extends BaseAccountResourceImpl {
 				Arrays.asList(contactRoleKeys))) {
 
 			throw new ValidationException(
-				"New contact role creation does not satify subscription " +
+				"New contact role creation does not satisfy subscription " +
 					"prerequisites");
 		}
 
