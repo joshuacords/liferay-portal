@@ -29,6 +29,7 @@ import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.SetUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.comparator.LayoutRevisionCreateDateComparator;
 import com.liferay.portal.kernel.util.comparator.LayoutRevisionModifiedDateComparator;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
@@ -592,6 +593,14 @@ public class LayoutRevisionLocalServiceImpl
 				serviceContext);
 		}
 		else {
+			updateStatus(
+				userId, layoutRevision.getLayoutRevisionId(),
+				WorkflowConstants.STATUS_APPROVED, serviceContext);
+		}
+
+		Layout layout = layoutLocalService.getLayout(layoutRevision.getPlid());
+
+		if (StringUtil.equals(layout.getType(), LayoutConstants.TYPE_CONTENT)) {
 			updateStatus(
 				userId, layoutRevision.getLayoutRevisionId(),
 				WorkflowConstants.STATUS_APPROVED, serviceContext);
