@@ -605,7 +605,10 @@ public class StructuredContentResourceImpl
 				localDateTime.getDayOfMonth(), localDateTime.getYear(),
 				localDateTime.getHour(), localDateTime.getMinute(), 0, 0, 0, 0,
 				0, true, 0, 0, 0, 0, 0, true, true, false, null, null, null,
-				null, _createServiceContext(structuredContent.getTaxonomyCategoryIds(),0L, structuredContent, siteId)));
+				null,
+				_createServiceContext(
+					structuredContent.getTaxonomyCategoryIds(), 0L,
+					structuredContent, siteId)));
 	}
 
 	private DDMStructure _checkDDMStructurePermission(
@@ -665,8 +668,8 @@ public class StructuredContentResourceImpl
 	}
 
 	private ServiceContext _createServiceContext(
-		Long[] assetCategoryIds, Long structuredContentId, StructuredContent structuredContent,
-			Long siteId)
+			Long[] assetCategoryIds, Long structuredContentId,
+			StructuredContent structuredContent, Long siteId)
 		throws Exception {
 
 		ServiceContext serviceContext = null;
@@ -676,8 +679,7 @@ public class StructuredContentResourceImpl
 				_journalArticleService.getLatestArticle(structuredContentId);
 
 			serviceContext = ServiceContextUtil.createServiceContext(
-				assetCategoryIds,
-				structuredContent.getKeywords(),
+				assetCategoryIds, structuredContent.getKeywords(),
 				_getExpandoBridgeAttributes(structuredContent),
 				journalArticle.getGroupId(),
 				structuredContent.getViewableByAsString());
@@ -693,16 +695,16 @@ public class StructuredContentResourceImpl
 		}
 		else {
 			serviceContext = ServiceContextUtil.createServiceContext(
-				assetCategoryIds,
-				structuredContent.getKeywords(),
+				assetCategoryIds, structuredContent.getKeywords(),
 				_getExpandoBridgeAttributes(structuredContent), siteId,
 				structuredContent.getViewableByAsString());
 		}
 
 		return serviceContext;
 	}
+
 	private Long[] _getAssetCategoryIds(
-		JournalArticle journalArticle, StructuredContent structuredContent)
+			JournalArticle journalArticle, StructuredContent structuredContent)
 		throws Exception {
 
 		if ((journalArticle == null) ||
