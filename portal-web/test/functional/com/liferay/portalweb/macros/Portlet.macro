@@ -46,7 +46,6 @@ definition {
 		AssertElementPresent(locator1 = "Home#${portletTypeKey}");
 	}
 
-	@summary = "Add a '${portletName}' portlet"
 	macro addPG {
 		if (${portletName} == "Map") {
 			var portletName = "Where are the Liferay members?";
@@ -299,7 +298,6 @@ definition {
 		AssertConfirm(value1 = "Are you sure you want to remove this component?");
 	}
 
-	@summary = "Drag and drop the '${portletName}' portlet from column ${columnNumberFrom} to column ${columnNumberTo}"
 	macro dragAndDropPortletToColumnPG {
 		var key_portletTitleName = ${portletName};
 
@@ -444,14 +442,12 @@ definition {
 			locator1 = "Treeview#NODE_SELECTED");
 	}
 
-	@summary = "Shutdown the current Liferay Portal instance."
 	macro shutdownServer {
 		AntCommand(
 			locator1 = "build-test.xml",
 			value1 = "stop-app-server");
 	}
 
-	@summary = "Start the current Liferay Portal instance."
 	macro startServer {
 		if (${deleteLiferayHome} == "false") {
 			AntCommand(
@@ -481,7 +477,6 @@ definition {
 			locator1 = "Portlet#PORTLET_BORDER_DECORATOR");
 	}
 
-	@summary = "Assert that the ${portletName} portlet body has the text '${portletBody}'"
 	macro viewBody {
 		var key_portletName = ${portletName};
 
@@ -636,7 +631,6 @@ definition {
 			value1 = ${portletName});
 	}
 
-	@summary = "Assert that the ${portletName} portlet title has the text '${portletName}'"
 	macro viewTitle {
 		var key_portletName = ${portletName};
 

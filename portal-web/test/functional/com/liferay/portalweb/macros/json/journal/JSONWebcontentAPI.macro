@@ -1,6 +1,5 @@
 definition {
 
-	@summary = "Helper function to add a WC Folder via JSON"
 	macro _addFolder {
 		Variables.assertDefined(parameterList = "${groupId},${parentFolderId},${folderName}");
 
@@ -18,7 +17,6 @@ definition {
 		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
 	}
 
-	@summary = "Helper function to add a WC Article via JSON"
 	macro _addWebContent {
 		Variables.assertDefined(parameterList = "${groupId},${folderId},${titleMap},${descriptionMap},${contentXML},${serviceContext}");
 
@@ -48,7 +46,6 @@ definition {
 		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
 	}
 
-	@summary = "Helper function to delete a WC Article via JSON"
 	macro _deleteWebContent {
 		Variables.assertDefined(parameterList = "${articleId},${groupId}");
 
@@ -87,7 +84,6 @@ definition {
 		return ${articleId};
 	}
 
-	@summary = "Helper function to get the 'folderId' for the folder '${folderName}'"
 	macro _getFolderIdByFolderName {
 		Variables.assertDefined(parameterList = "${groupId},${folderName}");
 

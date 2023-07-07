@@ -1,6 +1,5 @@
 definition {
 
-	@summary = "Add a child site to a valid site."
 	macro addChildSite {
 		Variables.assertDefined(parameterList = "${groupName},${parentGroupName}");
 
@@ -16,7 +15,6 @@ definition {
 			parentGroupId = ${parentGroupId});
 	}
 
-	@summary = "Add a basic site"
 	macro addGroup {
 		Variables.assertDefined(parameterList = ${groupName});
 
@@ -55,7 +53,6 @@ definition {
 			userId = ${userId});
 	}
 
-	@summary = "Delete a valid group using its groupName"
 	macro deleteGroupByName {
 		Variables.assertDefined(parameterList = ${groupName});
 

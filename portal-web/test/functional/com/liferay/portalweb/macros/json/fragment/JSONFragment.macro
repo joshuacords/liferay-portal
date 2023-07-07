@@ -1,6 +1,5 @@
 definition {
 
-	@summary = "Add a basic fragment collection."
 	macro addFragmentCollection {
 		Variables.assertDefined(parameterList = ${name});
 
@@ -14,7 +13,6 @@ definition {
 			name = ${name});
 	}
 
-	@summary = "Add a section to a fragment collection."
 	macro addSection {
 		Variables.assertDefined(parameterList = "${collectionName},${name}");
 
@@ -41,7 +39,6 @@ definition {
 			type = ${type});
 	}
 
-	@summary = "Assert that a fragmentCollection does not exist in a group given its collectionName and groupName"
 	macro assertFragmentCollectionInGroup {
 		Variables.assertDefined(parameterList = ${collectionName});
 
@@ -59,7 +56,6 @@ definition {
 		}
 	}
 
-	@summary = "Assert that a fragmentCollection does not exist in a group given its collectionName and groupName"
 	macro assertFragmentCollectionNotInGroup {
 		Variables.assertDefined(parameterList = ${collectionName});
 
@@ -77,7 +73,6 @@ definition {
 		}
 	}
 
-	@summary = "Assert that a fragment exists in a fragmentCollection given its collectionName, fragmentName, and groupName"
 	macro assertFragmentInGroup {
 		Variables.assertDefined(parameterList = "${collectionName},${fragmentName}");
 
@@ -100,7 +95,6 @@ definition {
 		}
 	}
 
-	@summary = "Assert that a fragment does not exist in a group given its fragmentName"
 	macro assertFragmentNotInGroup {
 		Variables.assertDefined(parameterList = "${collectionName},${fragmentName}");
 

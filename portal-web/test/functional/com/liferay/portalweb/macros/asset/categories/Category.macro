@@ -40,7 +40,6 @@ definition {
 		PortletEntry.save();
 	}
 
-	@summary = "Add a category named '${categoryName}' to the vocabulary named '${vocabularyName}'"
 	macro addCP {
 		var key_categoryName = ${categoryName};
 		var key_vocabularyName = ${vocabularyName};
@@ -345,7 +344,6 @@ definition {
 		SelectFrameTop(value1 = "relative=top");
 	}
 
-	@summary = "Assert that the category named '${categoryName}' has been added to the vocabulary named '${vocabularyName}'"
 	macro viewCP {
 		var key_categoryName = ${categoryName};
 		var key_vocabularyName = ${vocabularyName};

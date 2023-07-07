@@ -1,6 +1,5 @@
 definition {
 
-	@summary = "Helper function to get the 'DM folderId' for the folder '${folderName}'"
 	macro _getFolderIdByFolderName {
 		Variables.assertDefined(parameterList = "${groupName},${name}");
 

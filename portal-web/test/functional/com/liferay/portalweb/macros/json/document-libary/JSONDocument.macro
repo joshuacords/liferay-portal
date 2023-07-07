@@ -1,6 +1,5 @@
 definition {
 
-	@summary = "This calls the JSON WS API to add a Document entry"
 	macro addFile {
 		var portalURL = JSONCompany.getPortalURL();
 		var repositoryId = JSONGroupAPI._getGroupIdByName(groupName = ${groupName});
@@ -38,7 +37,6 @@ definition {
 		var messageId = JSONCurlUtil.post(${curl});
 	}
 
-	@summary = "This calls the JSON WS API to add a Document entry with uploaded file"
 	macro addFileWithUploadedFile {
 		Variables.assertDefined(parameterList = "${groupName},${mimeType},${sourceFileName}");
 
@@ -97,7 +95,6 @@ definition {
 		var messageId = JSONCurlUtil.post(${curl});
 	}
 
-	@summary = "This calls the JSON WS API to add a DL Folder"
 	macro addFolder {
 		var portalURL = JSONCompany.getPortalURL();
 		var repositoryId = JSONGroupAPI._getGroupIdByName(groupName = ${groupName});
@@ -124,7 +121,6 @@ definition {
 		var messageId = JSONCurlUtil.post(${curl});
 	}
 
-	@summary = "This calls the JSON WS API to delete a Document entry"
 	macro deleteFile {
 		var portalURL = JSONCompany.getPortalURL();
 		var groupId = JSONGroupAPI._getGroupIdByName(groupName = ${groupName});

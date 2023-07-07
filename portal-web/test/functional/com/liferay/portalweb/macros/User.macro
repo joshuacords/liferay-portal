@@ -1802,7 +1802,6 @@ definition {
 			locator1 = "ExportPersonalData#HEADER");
 	}
 
-	@summary = "Log into Liferay Portal as '${userEmailAddress}' using the password '${password}'; if not logged in as '${userEmailAddress}', then log out first"
 	macro firstLoginPG {
 		if (isSet(virtualHostsURL)) {
 			Navigator.openSpecificURL(url = ${virtualHostsURL});
@@ -1833,7 +1832,6 @@ definition {
 		}
 	}
 
-	@summary = "Log into Liferay using the UI"
 	macro firstLoginUI {
 		if (isSet(specificURL)) {
 			Navigator.openSpecificURL(
@@ -1953,7 +1951,6 @@ definition {
 			value1 = ${localizedSignIn});
 	}
 
-	@summary = "Log into Liferay Portal as '${userEmailAddress}' using the password '${password}'"
 	macro loginPG {
 		if (isSet(nodePort)) {
 			Navigator.openSpecificURL(url = "http://localhost:${nodePort}");

@@ -420,7 +420,6 @@ definition {
 		SelectFrame(value1 = "relative=top");
 	}
 
-	@summary = "Delete all pages except the Welcome and Search Page"
 	macro tearDownCP {
 		var siteName = TestCase.getSiteName(siteName = ${siteName});
 

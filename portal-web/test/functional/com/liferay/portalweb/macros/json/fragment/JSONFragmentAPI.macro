@@ -1,6 +1,5 @@
 definition {
 
-	@summary = "Directly calls the JSON WS API to add a fragment collection"
 	macro _addFragmentCollection {
 		Variables.assertDefined(parameterList = "${groupId},${name}");
 
@@ -17,7 +16,6 @@ definition {
 		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
 	}
 
-	@summary = "Directly calls the JSON WS API to add a fragment (default type is section)"
 	macro _addSection {
 		Variables.assertDefined(parameterList = "${groupId},${collectionId},${name},${html},${configuration},${type},${status}");
 
@@ -42,7 +40,6 @@ definition {
 		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
 	}
 
-	@summary = "Get the collectionId from a collection by using collectionName and groupId"
 	macro _getCollectionIdByName {
 		Variables.assertDefined(parameterList = "${groupId},${collectionName}");
 
@@ -71,7 +68,6 @@ definition {
 		return ${collectionId};
 	}
 
-	@summary = "Get the collectionName by using collectionName"
 	macro _getCollectionName {
 		var portalURL = JSONCompany.getPortalURL();
 
@@ -90,7 +86,6 @@ definition {
 		return ${collectionNameResult};
 	}
 
-	@summary = "Get the fragmentName from a fragmentCollection by using fragmentName "
 	macro _getFragmentName {
 		var portalURL = JSONCompany.getPortalURL();
 

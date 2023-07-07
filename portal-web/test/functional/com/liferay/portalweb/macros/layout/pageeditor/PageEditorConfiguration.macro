@@ -1,6 +1,5 @@
 definition {
 
-	@summary = "Toggles the config switch to open and close the configuration floating toolbar"
 	macro _toggleConfigurationFloatingToolbar {
 		Click.clickNoMouseOver(locator1 = "FragmentEditor#FRAGMENTS_EDITOR_FLOATING_TOOLBAR_CONFIGURATION");
 	}

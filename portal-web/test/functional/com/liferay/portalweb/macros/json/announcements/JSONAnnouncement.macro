@@ -1,6 +1,5 @@
 definition {
 
-	@summary = "Add a basic announcement"
 	macro addAnnouncement {
 		Variables.assertDefined(parameterList = "${announcementTitle},${announcementContent}");
 

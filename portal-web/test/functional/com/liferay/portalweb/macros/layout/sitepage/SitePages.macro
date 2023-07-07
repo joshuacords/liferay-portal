@@ -61,7 +61,6 @@ definition {
 		WaitForSPARefresh();
 	}
 
-	@summary = "Add newly created pages to specified navigation menus or assert that the option to add the pages to navigation menus is missing."
 	macro _addPageToNavigationMenu {
 		if (isSet(navigationMenus)) {
 			for (var navigationMenu : list ${navigationMenus}) {
@@ -360,7 +359,6 @@ definition {
 		}
 	}
 
-	@summary = "Go to the page creation form through the empty-result-message taglib"
 	macro gotoAddFirstPage {
 		var key_menuItem = ${pageType};
 
@@ -373,7 +371,6 @@ definition {
 		Click(locator1 = "MenuItem#DROPDOWN_MENU_ITEM");
 	}
 
-	@summary = "Go to the pageMenuItem of a Site Page. Parent pages hierarchy is required to navigate to child pages."
 	macro gotoPageMenuItem {
 		var browserType = PropsUtil.get("browser.type");
 

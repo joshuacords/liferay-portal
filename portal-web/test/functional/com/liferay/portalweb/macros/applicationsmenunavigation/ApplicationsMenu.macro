@@ -10,7 +10,6 @@ definition {
 		WaitForLiferayEvent.initializeLiferayEventLog();
 	}
 
-	@summary = "Navigate to Applications Menu > ${panel} > ${category} > ${portlet}"
 	macro gotoPortlet {
 		ApplicationsMenuHelper.openApplicationsMenu();
 
@@ -21,7 +20,6 @@ definition {
 			portlet = ${portlet});
 	}
 
-	@summary = "Navigate to Applications Menu > ${site}"
 	macro gotoSite {
 		ApplicationsMenuHelper.openApplicationsMenu();
 

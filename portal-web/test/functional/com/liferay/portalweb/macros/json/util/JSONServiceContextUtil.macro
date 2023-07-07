@@ -64,7 +64,6 @@ definition {
 		return ${JSON};
 	}
 
-	@summary = "See WorkflowConstants.java for available actions"
 	macro _addWorkflowAction {
 		Variables.assertDefined(parameterList = "${JSON},${workflowAction}");
 

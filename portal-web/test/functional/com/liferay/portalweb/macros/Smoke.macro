@@ -91,7 +91,6 @@ definition {
 		}
 	}
 
-	@summary = "View default welcome page while signed in as '${userFirstName} ${userLastName}'"
 	macro viewWelcomePage {
 		AssertTextEquals(
 			locator1 = "HelloWorld#PORTLET_TITLE",
