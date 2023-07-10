@@ -153,11 +153,12 @@ definition {
 			content = "Message Boards Body",
 			editor = "body");
 
-		Copy(locator1 = "TextInput#SUBJECT");
+		var subject = selenium.getElementValue("TextInput#SUBJECT");
 
-		Paste(
+		Type(
 			key_editor = "body",
-			locator1 = "AlloyEditor#EDITOR");
+			locator1 = "AlloyEditor#EDITOR",
+			value1 = ${subject});
 
 		PortletEntry.publish();
 

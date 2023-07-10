@@ -26,7 +26,9 @@ definition {
 
 		Click(locator1 = "AnalyticsCloudConnection#DXP_TOKEN_INPUT");
 
-		Paste(locator1 = "AnalyticsCloudConnection#DXP_TOKEN_INPUT");
+		Type(
+			locator1 = "AnalyticsCloudConnection#DXP_TOKEN_INPUT",
+			value1 = ${token});
 
 		Click(locator1 = "AnalyticsCloudConnection#CONNECT_ANALYTICS_CLOUD_BUTTON");
 
@@ -50,7 +52,7 @@ definition {
 
 		Click(locator1 = "AnalyticsCloudConnection#ANALYTICS_CLOUD_TOKEN_INPUT");
 
-		Copy(locator1 = "AnalyticsCloudConnection#ANALYTICS_CLOUD_TOKEN_INPUT");
+		var token = selenium.getElementValue("AnalyticsCloudConnection#ANALYTICS_CLOUD_TOKEN_INPUT");
 
 		ACUtils.launchDXP();
 
@@ -84,7 +86,9 @@ definition {
 
 		Click(locator1 = "AnalyticsCloudConnection#ANALYTICS_CLOUD_CONNECT_WITH_TOKEN_BUTTON");
 
-		Copy(locator1 = "AnalyticsCloudConnection#ANALYTICS_CLOUD_TOKEN_INPUT");
+		var token = selenium.getElementValue("AnalyticsCloudConnection#ANALYTICS_CLOUD_TOKEN_INPUT");
+
+		return ${token};
 	}
 
 	macro teardownAnalyticsCloud {

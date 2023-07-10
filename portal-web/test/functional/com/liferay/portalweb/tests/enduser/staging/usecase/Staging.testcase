@@ -1626,11 +1626,9 @@ definition {
 			panel = "Site Administration",
 			portlet = "Settings");
 
-		var siteID = "siteID";
-
-		Copy(
-			locator1 = "SitesEditSite#SITE_ID",
-			value1 = "siteID");
+		var siteID = JSONGroupAPI._getGroupIdByName(
+			groupName = "Global",
+			site = "true");
 
 		User.logoutPG(
 			nodePort = 9080,

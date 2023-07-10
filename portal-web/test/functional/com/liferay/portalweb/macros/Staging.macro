@@ -27,7 +27,7 @@ definition {
 					value1 = 8080);
 			}
 
-			Paste(
+			Type(
 				locator1 = "SiteSettingsStaging#REMOTE_STAGING_SITE_ID",
 				value1 = ${siteID});
 		}
@@ -1050,8 +1050,6 @@ definition {
 			Navigator.openURL();
 		}
 
-		var siteID = ${siteID};
-
 		ProductMenu.gotoPortlet(
 			category = "Sites",
 			panel = "Control Panel",
@@ -1064,11 +1062,7 @@ definition {
 			panel = "Site Administration",
 			portlet = "Settings");
 
-		var siteID = "siteID";
-
-		Copy(
-			locator1 = "SitesEditSite#SITE_ID",
-			value1 = "siteID");
+		var siteID = selenium.getElementValue("SitesEditSite#SITE_ID");
 
 		if (isSet(remotePort)) {
 			User.loginPG(

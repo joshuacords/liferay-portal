@@ -1470,11 +1470,9 @@ definition {
 			panel = "Site Administration",
 			portlet = "Settings");
 
-		var siteID = "siteID";
-
-		Copy(
-			locator1 = "SitesEditSite#SITE_ID",
-			value1 = "siteID");
+		var siteID = JSONGroupAPI._getGroupIdByName(
+			groupName = "Site Name",
+			site = "true");
 
 		ProductMenu.gotoPortlet(
 			category = "Users",
@@ -1485,8 +1483,7 @@ definition {
 			siteID = ${siteID},
 			userEmailAddress = "userea@liferay.com",
 			userFirstName = "userfn",
-			userLastName = "userln",
-			userScreenName = ${SiteID});
+			userLastName = "userln");
 	}
 
 	@priority = 4
