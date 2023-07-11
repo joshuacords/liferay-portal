@@ -1491,6 +1491,7 @@ public class LicenseKeyResourceImpl
 
 		if (productGroupName.equals(ProductConstants.GROUP_NAME_DXP)) {
 			filterQuery.addContains(false, "name", "DXP");
+			filterQuery.addContains(false, "name", "LXC SM");
 		}
 
 		if (productGroupName.equals(ProductConstants.GROUP_NAME_PORTAL)) {
