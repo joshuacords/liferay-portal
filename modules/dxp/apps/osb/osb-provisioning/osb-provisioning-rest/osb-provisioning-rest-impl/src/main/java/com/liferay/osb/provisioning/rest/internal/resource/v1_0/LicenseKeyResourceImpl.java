@@ -1453,7 +1453,7 @@ public class LicenseKeyResourceImpl
 						productPurchase.getOriginalEndDate(),
 						allowPermanentLicenses));
 
-				if (sizing > 0) {
+				if ((sizing != null) && (sizing > 0)) {
 					subscriptionTerm.setInstanceSize(sizing);
 				}
 
