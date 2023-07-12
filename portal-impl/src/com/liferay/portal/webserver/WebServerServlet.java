@@ -159,7 +159,7 @@ public class WebServerServlet extends HttpServlet {
 				return true;
 			}
 			else if (Validator.isNumber(pathArray[0])) {
-				_checkFileEntry(pathArray);
+				_checkFileEntry(pathArray, httpServletRequest);
 			}
 			else if (PATH_PORTLET_FILE_ENTRY.equals(pathArray[0])) {
 				FileEntry fileEntry = getPortletFileEntry(
@@ -203,7 +203,7 @@ public class WebServerServlet extends HttpServlet {
 							pathArray[i]
 						};
 
-						_checkFileEntry(pathArray);
+						_checkFileEntry(pathArray, httpServletRequest);
 					}
 				}
 			}
@@ -1349,6 +1349,35 @@ public class WebServerServlet extends HttpServlet {
 		}
 	}
 
+	private static void _checkCompanyAndGroup(
+			long groupId, HttpServletRequest httpServletRequest)
+		throws Exception {
+
+		Group group = GroupLocalServiceUtil.fetchGroup(groupId);
+
+		if (group == null) {
+			if (_log.isDebugEnabled()) {
+				_log.debug(
+					StringBundler.concat("Group not found: ", groupId, "."));
+			}
+
+			throw new NoSuchFileEntryException("No file entry found");
+		}
+
+		long companyId = PortalUtil.getCompanyId(httpServletRequest);
+
+		if (group.getCompanyId() != companyId) {
+			if (_log.isDebugEnabled()) {
+				_log.debug(
+					StringBundler.concat(
+						"Group ", groupId, " does not belong to company: ",
+						companyId, "."));
+			}
+
+			throw new NoSuchFileEntryException("No file entry found");
+		}
+	}
+
 	private static void _checkDirectoryIndexingEnabled(Group group)
 		throws Exception {
 
@@ -1363,14 +1392,20 @@ public class WebServerServlet extends HttpServlet {
 		}
 	}
 
-	private static void _checkFileEntry(String[] pathArray) throws Exception {
+	private static void _checkFileEntry(
+			String[] pathArray, HttpServletRequest httpServletRequest)
+		throws Exception {
+
 		if (pathArray.length == 1) {
 			long fileShortcutId = GetterUtil.getLong(pathArray[0]);
 
 			FileShortcut fileShortcut = DLAppLocalServiceUtil.getFileShortcut(
 				fileShortcutId);
 
-			DLAppLocalServiceUtil.getFileEntry(fileShortcut.getToFileEntryId());
+			FileEntry fileEntry = DLAppLocalServiceUtil.getFileEntry(
+				fileShortcut.getToFileEntryId());
+
+			_checkCompanyAndGroup(fileEntry.getGroupId(), httpServletRequest);
 		}
 		else if (pathArray.length == 2) {
 
@@ -1383,7 +1418,11 @@ public class WebServerServlet extends HttpServlet {
 			String fileName = pathArray[2];
 
 			try {
-				DLAppLocalServiceUtil.getFileEntry(groupId, folderId, fileName);
+				FileEntry fileEntry = DLAppLocalServiceUtil.getFileEntry(
+					groupId, folderId, fileName);
+
+				_checkCompanyAndGroup(
+					fileEntry.getGroupId(), httpServletRequest);
 			}
 			catch (RepositoryException repositoryException) {
 
@@ -1400,8 +1439,12 @@ public class WebServerServlet extends HttpServlet {
 			String uuid = pathArray[3];
 
 			try {
-				DLAppLocalServiceUtil.getFileEntryByUuidAndGroupId(
-					uuid, groupId);
+				FileEntry fileEntry =
+					DLAppLocalServiceUtil.getFileEntryByUuidAndGroupId(
+						uuid, groupId);
+
+				_checkCompanyAndGroup(
+					fileEntry.getGroupId(), httpServletRequest);
 			}
 			catch (RepositoryException repositoryException) {
 
