@@ -299,33 +299,31 @@ public abstract class BaseAccountResourceTestCase {
 
 	@Test
 	public void testGetAccountsPageWithFilterDoubleEquals() throws Exception {
-		List<EntityField> entityFields = getEntityFields(
-			EntityField.Type.DOUBLE);
+		testGetAccountsPageWithFilter("eq", EntityField.Type.DOUBLE);
+	}
 
-		if (entityFields.isEmpty()) {
-			return;
-		}
-
-		Account account1 = testGetAccountsPage_addAccount(randomAccount());
-
-		@SuppressWarnings("PMD.UnusedLocalVariable")
-		Account account2 = testGetAccountsPage_addAccount(randomAccount());
-
-		for (EntityField entityField : entityFields) {
-			Page<Account> page = accountResource.getAccountsPage(
-				null, getFilterString(entityField, "eq", account1),
-				Pagination.of(1, 2), null);
-
-			assertEquals(
-				Collections.singletonList(account1),
-				(List<Account>)page.getItems());
-		}
+	@Test
+	public void testGetAccountsPageWithFilterStringContains() throws Exception {
+		testGetAccountsPageWithFilter("contains", EntityField.Type.STRING);
 	}
 
 	@Test
 	public void testGetAccountsPageWithFilterStringEquals() throws Exception {
-		List<EntityField> entityFields = getEntityFields(
-			EntityField.Type.STRING);
+		testGetAccountsPageWithFilter("eq", EntityField.Type.STRING);
+	}
+
+	@Test
+	public void testGetAccountsPageWithFilterStringStartsWith()
+		throws Exception {
+
+		testGetAccountsPageWithFilter("startswith", EntityField.Type.STRING);
+	}
+
+	protected void testGetAccountsPageWithFilter(
+			String operator, EntityField.Type type)
+		throws Exception {
+
+		List<EntityField> entityFields = getEntityFields(type);
 
 		if (entityFields.isEmpty()) {
 			return;
@@ -338,7 +336,7 @@ public abstract class BaseAccountResourceTestCase {
 
 		for (EntityField entityField : entityFields) {
 			Page<Account> page = accountResource.getAccountsPage(
-				null, getFilterString(entityField, "eq", account1),
+				null, getFilterString(entityField, operator, account1),
 				Pagination.of(1, 2), null);
 
 			assertEquals(
@@ -1423,9 +1421,47 @@ public abstract class BaseAccountResourceTestCase {
 		}
 
 		if (entityFieldName.equals("externalReferenceCode")) {
-			sb.append("'");
-			sb.append(String.valueOf(account.getExternalReferenceCode()));
-			sb.append("'");
+			Object object = account.getExternalReferenceCode();
+
+			String value = String.valueOf(object);
+
+			if (operator.equals("contains")) {
+				sb = new StringBundler();
+
+				sb.append("contains(");
+				sb.append(entityFieldName);
+				sb.append(",'");
+
+				if ((object != null) && (value.length() > 2)) {
+					sb.append(value.substring(1, value.length() - 1));
+				}
+				else {
+					sb.append(value);
+				}
+
+				sb.append("')");
+			}
+			else if (operator.equals("startswith")) {
+				sb = new StringBundler();
+
+				sb.append("startswith(");
+				sb.append(entityFieldName);
+				sb.append(",'");
+
+				if ((object != null) && (value.length() > 1)) {
+					sb.append(value.substring(0, value.length() - 1));
+				}
+				else {
+					sb.append(value);
+				}
+
+				sb.append("')");
+			}
+			else {
+				sb.append("'");
+				sb.append(value);
+				sb.append("'");
+			}
 
 			return sb.toString();
 		}
@@ -1441,9 +1477,47 @@ public abstract class BaseAccountResourceTestCase {
 		}
 
 		if (entityFieldName.equals("name")) {
-			sb.append("'");
-			sb.append(String.valueOf(account.getName()));
-			sb.append("'");
+			Object object = account.getName();
+
+			String value = String.valueOf(object);
+
+			if (operator.equals("contains")) {
+				sb = new StringBundler();
+
+				sb.append("contains(");
+				sb.append(entityFieldName);
+				sb.append(",'");
+
+				if ((object != null) && (value.length() > 2)) {
+					sb.append(value.substring(1, value.length() - 1));
+				}
+				else {
+					sb.append(value);
+				}
+
+				sb.append("')");
+			}
+			else if (operator.equals("startswith")) {
+				sb = new StringBundler();
+
+				sb.append("startswith(");
+				sb.append(entityFieldName);
+				sb.append(",'");
+
+				if ((object != null) && (value.length() > 1)) {
+					sb.append(value.substring(0, value.length() - 1));
+				}
+				else {
+					sb.append(value);
+				}
+
+				sb.append("')");
+			}
+			else {
+				sb.append("'");
+				sb.append(value);
+				sb.append("'");
+			}
 
 			return sb.toString();
 		}
@@ -1454,9 +1528,47 @@ public abstract class BaseAccountResourceTestCase {
 		}
 
 		if (entityFieldName.equals("taxId")) {
-			sb.append("'");
-			sb.append(String.valueOf(account.getTaxId()));
-			sb.append("'");
+			Object object = account.getTaxId();
+
+			String value = String.valueOf(object);
+
+			if (operator.equals("contains")) {
+				sb = new StringBundler();
+
+				sb.append("contains(");
+				sb.append(entityFieldName);
+				sb.append(",'");
+
+				if ((object != null) && (value.length() > 2)) {
+					sb.append(value.substring(1, value.length() - 1));
+				}
+				else {
+					sb.append(value);
+				}
+
+				sb.append("')");
+			}
+			else if (operator.equals("startswith")) {
+				sb = new StringBundler();
+
+				sb.append("startswith(");
+				sb.append(entityFieldName);
+				sb.append(",'");
+
+				if ((object != null) && (value.length() > 1)) {
+					sb.append(value.substring(0, value.length() - 1));
+				}
+				else {
+					sb.append(value);
+				}
+
+				sb.append("')");
+			}
+			else {
+				sb.append("'");
+				sb.append(value);
+				sb.append("'");
+			}
 
 			return sb.toString();
 		}

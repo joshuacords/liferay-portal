@@ -316,45 +316,39 @@ public abstract class BaseTaxonomyCategoryResourceTestCase {
 	public void testGetTaxonomyCategoryTaxonomyCategoriesPageWithFilterDoubleEquals()
 		throws Exception {
 
-		List<EntityField> entityFields = getEntityFields(
-			EntityField.Type.DOUBLE);
+		testGetTaxonomyCategoryTaxonomyCategoriesPageWithFilter(
+			"eq", EntityField.Type.DOUBLE);
+	}
 
-		if (entityFields.isEmpty()) {
-			return;
-		}
+	@Test
+	public void testGetTaxonomyCategoryTaxonomyCategoriesPageWithFilterStringContains()
+		throws Exception {
 
-		Long parentTaxonomyCategoryId =
-			testGetTaxonomyCategoryTaxonomyCategoriesPage_getParentTaxonomyCategoryId();
-
-		TaxonomyCategory taxonomyCategory1 =
-			testGetTaxonomyCategoryTaxonomyCategoriesPage_addTaxonomyCategory(
-				parentTaxonomyCategoryId, randomTaxonomyCategory());
-
-		@SuppressWarnings("PMD.UnusedLocalVariable")
-		TaxonomyCategory taxonomyCategory2 =
-			testGetTaxonomyCategoryTaxonomyCategoriesPage_addTaxonomyCategory(
-				parentTaxonomyCategoryId, randomTaxonomyCategory());
-
-		for (EntityField entityField : entityFields) {
-			Page<TaxonomyCategory> page =
-				taxonomyCategoryResource.
-					getTaxonomyCategoryTaxonomyCategoriesPage(
-						parentTaxonomyCategoryId, null,
-						getFilterString(entityField, "eq", taxonomyCategory1),
-						Pagination.of(1, 2), null);
-
-			assertEquals(
-				Collections.singletonList(taxonomyCategory1),
-				(List<TaxonomyCategory>)page.getItems());
-		}
+		testGetTaxonomyCategoryTaxonomyCategoriesPageWithFilter(
+			"contains", EntityField.Type.STRING);
 	}
 
 	@Test
 	public void testGetTaxonomyCategoryTaxonomyCategoriesPageWithFilterStringEquals()
 		throws Exception {
 
-		List<EntityField> entityFields = getEntityFields(
-			EntityField.Type.STRING);
+		testGetTaxonomyCategoryTaxonomyCategoriesPageWithFilter(
+			"eq", EntityField.Type.STRING);
+	}
+
+	@Test
+	public void testGetTaxonomyCategoryTaxonomyCategoriesPageWithFilterStringStartsWith()
+		throws Exception {
+
+		testGetTaxonomyCategoryTaxonomyCategoriesPageWithFilter(
+			"startswith", EntityField.Type.STRING);
+	}
+
+	protected void testGetTaxonomyCategoryTaxonomyCategoriesPageWithFilter(
+			String operator, EntityField.Type type)
+		throws Exception {
+
+		List<EntityField> entityFields = getEntityFields(type);
 
 		if (entityFields.isEmpty()) {
 			return;
@@ -377,7 +371,8 @@ public abstract class BaseTaxonomyCategoryResourceTestCase {
 				taxonomyCategoryResource.
 					getTaxonomyCategoryTaxonomyCategoriesPage(
 						parentTaxonomyCategoryId, null,
-						getFilterString(entityField, "eq", taxonomyCategory1),
+						getFilterString(
+							entityField, operator, taxonomyCategory1),
 						Pagination.of(1, 2), null);
 
 			assertEquals(
@@ -970,45 +965,39 @@ public abstract class BaseTaxonomyCategoryResourceTestCase {
 	public void testGetTaxonomyVocabularyTaxonomyCategoriesPageWithFilterDoubleEquals()
 		throws Exception {
 
-		List<EntityField> entityFields = getEntityFields(
-			EntityField.Type.DOUBLE);
+		testGetTaxonomyVocabularyTaxonomyCategoriesPageWithFilter(
+			"eq", EntityField.Type.DOUBLE);
+	}
 
-		if (entityFields.isEmpty()) {
-			return;
-		}
+	@Test
+	public void testGetTaxonomyVocabularyTaxonomyCategoriesPageWithFilterStringContains()
+		throws Exception {
 
-		Long taxonomyVocabularyId =
-			testGetTaxonomyVocabularyTaxonomyCategoriesPage_getTaxonomyVocabularyId();
-
-		TaxonomyCategory taxonomyCategory1 =
-			testGetTaxonomyVocabularyTaxonomyCategoriesPage_addTaxonomyCategory(
-				taxonomyVocabularyId, randomTaxonomyCategory());
-
-		@SuppressWarnings("PMD.UnusedLocalVariable")
-		TaxonomyCategory taxonomyCategory2 =
-			testGetTaxonomyVocabularyTaxonomyCategoriesPage_addTaxonomyCategory(
-				taxonomyVocabularyId, randomTaxonomyCategory());
-
-		for (EntityField entityField : entityFields) {
-			Page<TaxonomyCategory> page =
-				taxonomyCategoryResource.
-					getTaxonomyVocabularyTaxonomyCategoriesPage(
-						taxonomyVocabularyId, null,
-						getFilterString(entityField, "eq", taxonomyCategory1),
-						Pagination.of(1, 2), null);
-
-			assertEquals(
-				Collections.singletonList(taxonomyCategory1),
-				(List<TaxonomyCategory>)page.getItems());
-		}
+		testGetTaxonomyVocabularyTaxonomyCategoriesPageWithFilter(
+			"contains", EntityField.Type.STRING);
 	}
 
 	@Test
 	public void testGetTaxonomyVocabularyTaxonomyCategoriesPageWithFilterStringEquals()
 		throws Exception {
 
-		List<EntityField> entityFields = getEntityFields(
-			EntityField.Type.STRING);
+		testGetTaxonomyVocabularyTaxonomyCategoriesPageWithFilter(
+			"eq", EntityField.Type.STRING);
+	}
+
+	@Test
+	public void testGetTaxonomyVocabularyTaxonomyCategoriesPageWithFilterStringStartsWith()
+		throws Exception {
+
+		testGetTaxonomyVocabularyTaxonomyCategoriesPageWithFilter(
+			"startswith", EntityField.Type.STRING);
+	}
+
+	protected void testGetTaxonomyVocabularyTaxonomyCategoriesPageWithFilter(
+			String operator, EntityField.Type type)
+		throws Exception {
+
+		List<EntityField> entityFields = getEntityFields(type);
 
 		if (entityFields.isEmpty()) {
 			return;
@@ -1031,7 +1020,8 @@ public abstract class BaseTaxonomyCategoryResourceTestCase {
 				taxonomyCategoryResource.
 					getTaxonomyVocabularyTaxonomyCategoriesPage(
 						taxonomyVocabularyId, null,
-						getFilterString(entityField, "eq", taxonomyCategory1),
+						getFilterString(
+							entityField, operator, taxonomyCategory1),
 						Pagination.of(1, 2), null);
 
 			assertEquals(
@@ -1939,9 +1929,47 @@ public abstract class BaseTaxonomyCategoryResourceTestCase {
 		}
 
 		if (entityFieldName.equals("description")) {
-			sb.append("'");
-			sb.append(String.valueOf(taxonomyCategory.getDescription()));
-			sb.append("'");
+			Object object = taxonomyCategory.getDescription();
+
+			String value = String.valueOf(object);
+
+			if (operator.equals("contains")) {
+				sb = new StringBundler();
+
+				sb.append("contains(");
+				sb.append(entityFieldName);
+				sb.append(",'");
+
+				if ((object != null) && (value.length() > 2)) {
+					sb.append(value.substring(1, value.length() - 1));
+				}
+				else {
+					sb.append(value);
+				}
+
+				sb.append("')");
+			}
+			else if (operator.equals("startswith")) {
+				sb = new StringBundler();
+
+				sb.append("startswith(");
+				sb.append(entityFieldName);
+				sb.append(",'");
+
+				if ((object != null) && (value.length() > 1)) {
+					sb.append(value.substring(0, value.length() - 1));
+				}
+				else {
+					sb.append(value);
+				}
+
+				sb.append("')");
+			}
+			else {
+				sb.append("'");
+				sb.append(value);
+				sb.append("'");
+			}
 
 			return sb.toString();
 		}
@@ -1957,9 +1985,47 @@ public abstract class BaseTaxonomyCategoryResourceTestCase {
 		}
 
 		if (entityFieldName.equals("name")) {
-			sb.append("'");
-			sb.append(String.valueOf(taxonomyCategory.getName()));
-			sb.append("'");
+			Object object = taxonomyCategory.getName();
+
+			String value = String.valueOf(object);
+
+			if (operator.equals("contains")) {
+				sb = new StringBundler();
+
+				sb.append("contains(");
+				sb.append(entityFieldName);
+				sb.append(",'");
+
+				if ((object != null) && (value.length() > 2)) {
+					sb.append(value.substring(1, value.length() - 1));
+				}
+				else {
+					sb.append(value);
+				}
+
+				sb.append("')");
+			}
+			else if (operator.equals("startswith")) {
+				sb = new StringBundler();
+
+				sb.append("startswith(");
+				sb.append(entityFieldName);
+				sb.append(",'");
+
+				if ((object != null) && (value.length() > 1)) {
+					sb.append(value.substring(0, value.length() - 1));
+				}
+				else {
+					sb.append(value);
+				}
+
+				sb.append("')");
+			}
+			else {
+				sb.append("'");
+				sb.append(value);
+				sb.append("'");
+			}
 
 			return sb.toString();
 		}
