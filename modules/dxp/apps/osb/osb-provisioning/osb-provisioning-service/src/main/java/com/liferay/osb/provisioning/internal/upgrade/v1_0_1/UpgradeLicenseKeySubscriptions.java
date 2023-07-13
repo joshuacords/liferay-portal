@@ -18,6 +18,7 @@ import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Account;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.Contact;
 import com.liferay.osb.koroneiki.phloem.rest.client.dto.v1_0.ContactRole;
 import com.liferay.osb.provisioning.koroneiki.constants.ContactRoleConstants;
+import com.liferay.osb.provisioning.koroneiki.constants.EntitlementConstants;
 import com.liferay.osb.provisioning.koroneiki.web.service.AccountWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.ContactRoleWebService;
 import com.liferay.osb.provisioning.koroneiki.web.service.ContactWebService;
@@ -49,6 +50,15 @@ public class UpgradeLicenseKeySubscriptions extends UpgradeProcess {
 		FilterQuery filterQuery = new FilterQuery();
 
 		filterQuery.addEquals(true, "status", Account.Status.ACTIVE.toString());
+
+		FilterQuery entitlementFilterQuery = new FilterQuery();
+
+		for (String entitlement : EntitlementConstants.SLAS) {
+			entitlementFilterQuery.addLambdaEquals(
+				false, "entitlements", entitlement);
+		}
+
+		filterQuery.addFilterQuery(true, entitlementFilterQuery);
 
 		List<Account> accounts = _accountWebService.search(
 			StringPool.BLANK, filterQuery, 1, 10000, null);
