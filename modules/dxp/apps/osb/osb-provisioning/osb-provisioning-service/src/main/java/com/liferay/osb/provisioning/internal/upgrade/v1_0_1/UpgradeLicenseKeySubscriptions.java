@@ -49,8 +49,6 @@ public class UpgradeLicenseKeySubscriptions extends UpgradeProcess {
 	public void upgradeLicenseKeySubscriptions() throws Exception {
 		FilterQuery filterQuery = new FilterQuery();
 
-		filterQuery.addEquals(true, "status", Account.Status.ACTIVE.toString());
-
 		FilterQuery entitlementFilterQuery = new FilterQuery();
 
 		for (String entitlement : EntitlementConstants.SLAS) {
