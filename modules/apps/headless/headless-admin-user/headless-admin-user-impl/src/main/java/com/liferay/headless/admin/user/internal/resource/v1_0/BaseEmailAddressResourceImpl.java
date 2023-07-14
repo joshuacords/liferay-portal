@@ -289,6 +289,15 @@ public abstract class BaseEmailAddressResourceImpl
 		this.contextAcceptLanguage = contextAcceptLanguage;
 	}
 
+	public void setContextBatchUnsafeBiConsumer(
+		UnsafeBiConsumer
+			<Collection<EmailAddress>,
+			 UnsafeFunction<EmailAddress, EmailAddress, Exception>, Exception>
+				contextBatchUnsafeBiConsumer) {
+
+		this.contextBatchUnsafeBiConsumer = contextBatchUnsafeBiConsumer;
+	}
+
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<EmailAddress>, UnsafeConsumer<EmailAddress, Exception>,
@@ -544,6 +553,10 @@ public abstract class BaseEmailAddressResourceImpl
 	}
 
 	protected AcceptLanguage contextAcceptLanguage;
+	protected UnsafeBiConsumer
+		<Collection<EmailAddress>,
+		 UnsafeFunction<EmailAddress, EmailAddress, Exception>, Exception>
+			contextBatchUnsafeBiConsumer;
 	protected UnsafeBiConsumer
 		<Collection<EmailAddress>, UnsafeConsumer<EmailAddress, Exception>,
 		 Exception> contextBatchUnsafeConsumer;

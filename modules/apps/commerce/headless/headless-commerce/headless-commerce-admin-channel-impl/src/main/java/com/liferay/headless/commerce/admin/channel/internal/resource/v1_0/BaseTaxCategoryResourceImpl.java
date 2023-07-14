@@ -237,6 +237,15 @@ public abstract class BaseTaxCategoryResourceImpl
 		this.contextAcceptLanguage = contextAcceptLanguage;
 	}
 
+	public void setContextBatchUnsafeBiConsumer(
+		UnsafeBiConsumer
+			<Collection<TaxCategory>,
+			 UnsafeFunction<TaxCategory, TaxCategory, Exception>, Exception>
+				contextBatchUnsafeBiConsumer) {
+
+		this.contextBatchUnsafeBiConsumer = contextBatchUnsafeBiConsumer;
+	}
+
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<TaxCategory>, UnsafeConsumer<TaxCategory, Exception>,
@@ -492,6 +501,10 @@ public abstract class BaseTaxCategoryResourceImpl
 	}
 
 	protected AcceptLanguage contextAcceptLanguage;
+	protected UnsafeBiConsumer
+		<Collection<TaxCategory>,
+		 UnsafeFunction<TaxCategory, TaxCategory, Exception>, Exception>
+			contextBatchUnsafeBiConsumer;
 	protected UnsafeBiConsumer
 		<Collection<TaxCategory>, UnsafeConsumer<TaxCategory, Exception>,
 		 Exception> contextBatchUnsafeConsumer;

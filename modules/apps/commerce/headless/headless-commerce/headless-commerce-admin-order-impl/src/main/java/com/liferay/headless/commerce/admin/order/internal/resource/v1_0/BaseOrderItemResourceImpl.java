@@ -594,31 +594,40 @@ public abstract class BaseOrderItemResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<OrderItem, Exception> orderItemUnsafeConsumer = null;
+		UnsafeFunction<OrderItem, OrderItem, Exception>
+			orderItemUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			orderItemUnsafeConsumer = orderItem -> patchOrderItem(
-				orderItem.getId() != null ? orderItem.getId() :
-					_parseLong((String)parameters.get("orderItemId")),
-				orderItem);
+			orderItemUnsafeFunction = orderItem -> {
+				patchOrderItem(
+					orderItem.getId() != null ? orderItem.getId() :
+						_parseLong((String)parameters.get("orderItemId")),
+					orderItem);
+
+				return null;
+			};
 		}
 
-		if (orderItemUnsafeConsumer == null) {
+		if (orderItemUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for OrderItem");
 		}
 
-		if (contextBatchUnsafeConsumer != null) {
+		if (contextBatchUnsafeBiConsumer != null) {
+			contextBatchUnsafeBiConsumer.accept(
+				orderItems, orderItemUnsafeFunction);
+		}
+		else if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				orderItems, orderItemUnsafeConsumer);
+				orderItems, orderItemUnsafeFunction::apply);
 		}
 		else {
 			for (OrderItem orderItem : orderItems) {
-				orderItemUnsafeConsumer.accept(orderItem);
+				orderItemUnsafeFunction.apply(orderItem);
 			}
 		}
 	}
@@ -633,6 +642,15 @@ public abstract class BaseOrderItemResourceImpl
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {
 		this.contextAcceptLanguage = contextAcceptLanguage;
+	}
+
+	public void setContextBatchUnsafeBiConsumer(
+		UnsafeBiConsumer
+			<Collection<OrderItem>,
+			 UnsafeFunction<OrderItem, OrderItem, Exception>, Exception>
+				contextBatchUnsafeBiConsumer) {
+
+		this.contextBatchUnsafeBiConsumer = contextBatchUnsafeBiConsumer;
 	}
 
 	public void setContextBatchUnsafeConsumer(
@@ -890,6 +908,9 @@ public abstract class BaseOrderItemResourceImpl
 	}
 
 	protected AcceptLanguage contextAcceptLanguage;
+	protected UnsafeBiConsumer
+		<Collection<OrderItem>, UnsafeFunction<OrderItem, OrderItem, Exception>,
+		 Exception> contextBatchUnsafeBiConsumer;
 	protected UnsafeBiConsumer
 		<Collection<OrderItem>, UnsafeConsumer<OrderItem, Exception>, Exception>
 			contextBatchUnsafeConsumer;

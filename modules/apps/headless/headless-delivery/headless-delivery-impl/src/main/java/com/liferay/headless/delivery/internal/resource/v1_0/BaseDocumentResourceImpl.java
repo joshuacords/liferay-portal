@@ -766,19 +766,20 @@ public abstract class BaseDocumentResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Document, Exception> documentUnsafeConsumer = null;
+		UnsafeFunction<Document, Document, Exception> documentUnsafeFunction =
+			null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("documentFolderId")) {
-				documentUnsafeConsumer = document -> postDocumentFolderDocument(
+				documentUnsafeFunction = document -> postDocumentFolderDocument(
 					_parseLong((String)parameters.get("documentFolderId")),
 					(MultipartBody)parameters.get("multipartBody"));
 			}
 			else if (parameters.containsKey("siteId")) {
-				documentUnsafeConsumer = document -> postSiteDocument(
+				documentUnsafeFunction = document -> postSiteDocument(
 					(Long)parameters.get("siteId"),
 					(MultipartBody)parameters.get("multipartBody"));
 			}
@@ -788,19 +789,23 @@ public abstract class BaseDocumentResourceImpl
 			}
 		}
 
-		if (documentUnsafeConsumer == null) {
+		if (documentUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for Document");
 		}
 
-		if (contextBatchUnsafeConsumer != null) {
+		if (contextBatchUnsafeBiConsumer != null) {
+			contextBatchUnsafeBiConsumer.accept(
+				documents, documentUnsafeFunction);
+		}
+		else if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				documents, documentUnsafeConsumer);
+				documents, documentUnsafeFunction::apply);
 		}
 		else {
 			for (Document document : documents) {
-				documentUnsafeConsumer.accept(document);
+				documentUnsafeFunction.apply(document);
 			}
 		}
 	}
@@ -895,38 +900,43 @@ public abstract class BaseDocumentResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Document, Exception> documentUnsafeConsumer = null;
+		UnsafeFunction<Document, Document, Exception> documentUnsafeFunction =
+			null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			documentUnsafeConsumer = document -> patchDocument(
+			documentUnsafeFunction = document -> patchDocument(
 				document.getId() != null ? document.getId() :
 					_parseLong((String)parameters.get("documentId")),
 				null);
 		}
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			documentUnsafeConsumer = document -> putDocument(
+			documentUnsafeFunction = document -> putDocument(
 				document.getId() != null ? document.getId() :
 					_parseLong((String)parameters.get("documentId")),
 				null);
 		}
 
-		if (documentUnsafeConsumer == null) {
+		if (documentUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for Document");
 		}
 
-		if (contextBatchUnsafeConsumer != null) {
+		if (contextBatchUnsafeBiConsumer != null) {
+			contextBatchUnsafeBiConsumer.accept(
+				documents, documentUnsafeFunction);
+		}
+		else if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				documents, documentUnsafeConsumer);
+				documents, documentUnsafeFunction::apply);
 		}
 		else {
 			for (Document document : documents) {
-				documentUnsafeConsumer.accept(document);
+				documentUnsafeFunction.apply(document);
 			}
 		}
 	}
@@ -949,6 +959,15 @@ public abstract class BaseDocumentResourceImpl
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {
 		this.contextAcceptLanguage = contextAcceptLanguage;
+	}
+
+	public void setContextBatchUnsafeBiConsumer(
+		UnsafeBiConsumer
+			<Collection<Document>,
+			 UnsafeFunction<Document, Document, Exception>, Exception>
+				contextBatchUnsafeBiConsumer) {
+
+		this.contextBatchUnsafeBiConsumer = contextBatchUnsafeBiConsumer;
 	}
 
 	public void setContextBatchUnsafeConsumer(
@@ -1206,6 +1225,9 @@ public abstract class BaseDocumentResourceImpl
 	}
 
 	protected AcceptLanguage contextAcceptLanguage;
+	protected UnsafeBiConsumer
+		<Collection<Document>, UnsafeFunction<Document, Document, Exception>,
+		 Exception> contextBatchUnsafeBiConsumer;
 	protected UnsafeBiConsumer
 		<Collection<Document>, UnsafeConsumer<Document, Exception>, Exception>
 			contextBatchUnsafeConsumer;

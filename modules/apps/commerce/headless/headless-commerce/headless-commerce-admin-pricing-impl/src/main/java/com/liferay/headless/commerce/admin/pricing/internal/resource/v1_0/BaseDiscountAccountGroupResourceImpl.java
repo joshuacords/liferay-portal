@@ -468,6 +468,16 @@ public abstract class BaseDiscountAccountGroupResourceImpl
 		this.contextAcceptLanguage = contextAcceptLanguage;
 	}
 
+	public void setContextBatchUnsafeBiConsumer(
+		UnsafeBiConsumer
+			<Collection<DiscountAccountGroup>,
+			 UnsafeFunction
+				 <DiscountAccountGroup, DiscountAccountGroup, Exception>,
+			 Exception> contextBatchUnsafeBiConsumer) {
+
+		this.contextBatchUnsafeBiConsumer = contextBatchUnsafeBiConsumer;
+	}
+
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<DiscountAccountGroup>,
@@ -724,6 +734,10 @@ public abstract class BaseDiscountAccountGroupResourceImpl
 	}
 
 	protected AcceptLanguage contextAcceptLanguage;
+	protected UnsafeBiConsumer
+		<Collection<DiscountAccountGroup>,
+		 UnsafeFunction<DiscountAccountGroup, DiscountAccountGroup, Exception>,
+		 Exception> contextBatchUnsafeBiConsumer;
 	protected UnsafeBiConsumer
 		<Collection<DiscountAccountGroup>,
 		 UnsafeConsumer<DiscountAccountGroup, Exception>, Exception>

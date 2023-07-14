@@ -186,6 +186,15 @@ public abstract class BaseTimeRangeResourceImpl
 		this.contextAcceptLanguage = contextAcceptLanguage;
 	}
 
+	public void setContextBatchUnsafeBiConsumer(
+		UnsafeBiConsumer
+			<Collection<TimeRange>,
+			 UnsafeFunction<TimeRange, TimeRange, Exception>, Exception>
+				contextBatchUnsafeBiConsumer) {
+
+		this.contextBatchUnsafeBiConsumer = contextBatchUnsafeBiConsumer;
+	}
+
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<TimeRange>, UnsafeConsumer<TimeRange, Exception>,
@@ -441,6 +450,9 @@ public abstract class BaseTimeRangeResourceImpl
 	}
 
 	protected AcceptLanguage contextAcceptLanguage;
+	protected UnsafeBiConsumer
+		<Collection<TimeRange>, UnsafeFunction<TimeRange, TimeRange, Exception>,
+		 Exception> contextBatchUnsafeBiConsumer;
 	protected UnsafeBiConsumer
 		<Collection<TimeRange>, UnsafeConsumer<TimeRange, Exception>, Exception>
 			contextBatchUnsafeConsumer;

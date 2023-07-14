@@ -831,23 +831,24 @@ public abstract class BaseCommentResourceImpl
 			Collection<Comment> comments, Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Comment, Exception> commentUnsafeConsumer = null;
+		UnsafeFunction<Comment, Comment, Exception> commentUnsafeFunction =
+			null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("blogPostingId")) {
-				commentUnsafeConsumer = comment -> postBlogPostingComment(
+				commentUnsafeFunction = comment -> postBlogPostingComment(
 					_parseLong((String)parameters.get("blogPostingId")),
 					comment);
 			}
 			else if (parameters.containsKey("documentId")) {
-				commentUnsafeConsumer = comment -> postDocumentComment(
+				commentUnsafeFunction = comment -> postDocumentComment(
 					_parseLong((String)parameters.get("documentId")), comment);
 			}
 			else if (parameters.containsKey("structuredContentId")) {
-				commentUnsafeConsumer = comment -> postStructuredContentComment(
+				commentUnsafeFunction = comment -> postStructuredContentComment(
 					_parseLong((String)parameters.get("structuredContentId")),
 					comment);
 			}
@@ -857,18 +858,23 @@ public abstract class BaseCommentResourceImpl
 			}
 		}
 
-		if (commentUnsafeConsumer == null) {
+		if (commentUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for Comment");
 		}
 
-		if (contextBatchUnsafeConsumer != null) {
-			contextBatchUnsafeConsumer.accept(comments, commentUnsafeConsumer);
+		if (contextBatchUnsafeBiConsumer != null) {
+			contextBatchUnsafeBiConsumer.accept(
+				comments, commentUnsafeFunction);
+		}
+		else if (contextBatchUnsafeConsumer != null) {
+			contextBatchUnsafeConsumer.accept(
+				comments, commentUnsafeFunction::apply);
 		}
 		else {
 			for (Comment comment : comments) {
-				commentUnsafeConsumer.accept(comment);
+				commentUnsafeFunction.apply(comment);
 			}
 		}
 	}
@@ -964,30 +970,36 @@ public abstract class BaseCommentResourceImpl
 			Collection<Comment> comments, Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Comment, Exception> commentUnsafeConsumer = null;
+		UnsafeFunction<Comment, Comment, Exception> commentUnsafeFunction =
+			null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			commentUnsafeConsumer = comment -> putComment(
+			commentUnsafeFunction = comment -> putComment(
 				comment.getId() != null ? comment.getId() :
 					_parseLong((String)parameters.get("commentId")),
 				comment);
 		}
 
-		if (commentUnsafeConsumer == null) {
+		if (commentUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for Comment");
 		}
 
-		if (contextBatchUnsafeConsumer != null) {
-			contextBatchUnsafeConsumer.accept(comments, commentUnsafeConsumer);
+		if (contextBatchUnsafeBiConsumer != null) {
+			contextBatchUnsafeBiConsumer.accept(
+				comments, commentUnsafeFunction);
+		}
+		else if (contextBatchUnsafeConsumer != null) {
+			contextBatchUnsafeConsumer.accept(
+				comments, commentUnsafeFunction::apply);
 		}
 		else {
 			for (Comment comment : comments) {
-				commentUnsafeConsumer.accept(comment);
+				commentUnsafeFunction.apply(comment);
 			}
 		}
 	}
@@ -1002,6 +1014,14 @@ public abstract class BaseCommentResourceImpl
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {
 		this.contextAcceptLanguage = contextAcceptLanguage;
+	}
+
+	public void setContextBatchUnsafeBiConsumer(
+		UnsafeBiConsumer
+			<Collection<Comment>, UnsafeFunction<Comment, Comment, Exception>,
+			 Exception> contextBatchUnsafeBiConsumer) {
+
+		this.contextBatchUnsafeBiConsumer = contextBatchUnsafeBiConsumer;
 	}
 
 	public void setContextBatchUnsafeConsumer(
@@ -1259,6 +1279,9 @@ public abstract class BaseCommentResourceImpl
 	}
 
 	protected AcceptLanguage contextAcceptLanguage;
+	protected UnsafeBiConsumer
+		<Collection<Comment>, UnsafeFunction<Comment, Comment, Exception>,
+		 Exception> contextBatchUnsafeBiConsumer;
 	protected UnsafeBiConsumer
 		<Collection<Comment>, UnsafeConsumer<Comment, Exception>, Exception>
 			contextBatchUnsafeConsumer;

@@ -213,6 +213,14 @@ public abstract class BaseNodeResourceImpl
 		this.contextAcceptLanguage = contextAcceptLanguage;
 	}
 
+	public void setContextBatchUnsafeBiConsumer(
+		UnsafeBiConsumer
+			<Collection<Node>, UnsafeFunction<Node, Node, Exception>, Exception>
+				contextBatchUnsafeBiConsumer) {
+
+		this.contextBatchUnsafeBiConsumer = contextBatchUnsafeBiConsumer;
+	}
+
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<Node>, UnsafeConsumer<Node, Exception>, Exception>
@@ -468,6 +476,9 @@ public abstract class BaseNodeResourceImpl
 	}
 
 	protected AcceptLanguage contextAcceptLanguage;
+	protected UnsafeBiConsumer
+		<Collection<Node>, UnsafeFunction<Node, Node, Exception>, Exception>
+			contextBatchUnsafeBiConsumer;
 	protected UnsafeBiConsumer
 		<Collection<Node>, UnsafeConsumer<Node, Exception>, Exception>
 			contextBatchUnsafeConsumer;

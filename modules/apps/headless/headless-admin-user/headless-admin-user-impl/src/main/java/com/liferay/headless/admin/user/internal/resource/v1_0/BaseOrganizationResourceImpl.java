@@ -513,30 +513,34 @@ public abstract class BaseOrganizationResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Organization, Exception> organizationUnsafeConsumer =
-			null;
+		UnsafeFunction<Organization, Organization, Exception>
+			organizationUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
-			organizationUnsafeConsumer = organization -> postOrganization(
+			organizationUnsafeFunction = organization -> postOrganization(
 				organization);
 		}
 
-		if (organizationUnsafeConsumer == null) {
+		if (organizationUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for Organization");
 		}
 
-		if (contextBatchUnsafeConsumer != null) {
+		if (contextBatchUnsafeBiConsumer != null) {
+			contextBatchUnsafeBiConsumer.accept(
+				organizations, organizationUnsafeFunction);
+		}
+		else if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				organizations, organizationUnsafeConsumer);
+				organizations, organizationUnsafeFunction::apply);
 		}
 		else {
 			for (Organization organization : organizations) {
-				organizationUnsafeConsumer.accept(organization);
+				organizationUnsafeFunction.apply(organization);
 			}
 		}
 	}
@@ -618,39 +622,43 @@ public abstract class BaseOrganizationResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<Organization, Exception> organizationUnsafeConsumer =
-			null;
+		UnsafeFunction<Organization, Organization, Exception>
+			organizationUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			organizationUnsafeConsumer = organization -> patchOrganization(
+			organizationUnsafeFunction = organization -> patchOrganization(
 				organization.getId() != null ? organization.getId() :
 					_parseLong((String)parameters.get("organizationId")),
 				organization);
 		}
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			organizationUnsafeConsumer = organization -> putOrganization(
+			organizationUnsafeFunction = organization -> putOrganization(
 				organization.getId() != null ? organization.getId() :
 					_parseLong((String)parameters.get("organizationId")),
 				organization);
 		}
 
-		if (organizationUnsafeConsumer == null) {
+		if (organizationUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for Organization");
 		}
 
-		if (contextBatchUnsafeConsumer != null) {
+		if (contextBatchUnsafeBiConsumer != null) {
+			contextBatchUnsafeBiConsumer.accept(
+				organizations, organizationUnsafeFunction);
+		}
+		else if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				organizations, organizationUnsafeConsumer);
+				organizations, organizationUnsafeFunction::apply);
 		}
 		else {
 			for (Organization organization : organizations) {
-				organizationUnsafeConsumer.accept(organization);
+				organizationUnsafeFunction.apply(organization);
 			}
 		}
 	}
@@ -673,6 +681,15 @@ public abstract class BaseOrganizationResourceImpl
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {
 		this.contextAcceptLanguage = contextAcceptLanguage;
+	}
+
+	public void setContextBatchUnsafeBiConsumer(
+		UnsafeBiConsumer
+			<Collection<Organization>,
+			 UnsafeFunction<Organization, Organization, Exception>, Exception>
+				contextBatchUnsafeBiConsumer) {
+
+		this.contextBatchUnsafeBiConsumer = contextBatchUnsafeBiConsumer;
 	}
 
 	public void setContextBatchUnsafeConsumer(
@@ -934,6 +951,10 @@ public abstract class BaseOrganizationResourceImpl
 	}
 
 	protected AcceptLanguage contextAcceptLanguage;
+	protected UnsafeBiConsumer
+		<Collection<Organization>,
+		 UnsafeFunction<Organization, Organization, Exception>, Exception>
+			contextBatchUnsafeBiConsumer;
 	protected UnsafeBiConsumer
 		<Collection<Organization>, UnsafeConsumer<Organization, Exception>,
 		 Exception> contextBatchUnsafeConsumer;

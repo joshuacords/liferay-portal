@@ -412,14 +412,14 @@ public abstract class BaseSLAResourceImpl
 			Collection<SLA> slas, Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<SLA, Exception> slaUnsafeConsumer = null;
+		UnsafeFunction<SLA, SLA, Exception> slaUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("processId")) {
-				slaUnsafeConsumer = sla -> postProcessSLA(
+				slaUnsafeFunction = sla -> postProcessSLA(
 					_parseLong((String)parameters.get("processId")), sla);
 			}
 			else {
@@ -428,18 +428,21 @@ public abstract class BaseSLAResourceImpl
 			}
 		}
 
-		if (slaUnsafeConsumer == null) {
+		if (slaUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for Sla");
 		}
 
-		if (contextBatchUnsafeConsumer != null) {
-			contextBatchUnsafeConsumer.accept(slas, slaUnsafeConsumer);
+		if (contextBatchUnsafeBiConsumer != null) {
+			contextBatchUnsafeBiConsumer.accept(slas, slaUnsafeFunction);
+		}
+		else if (contextBatchUnsafeConsumer != null) {
+			contextBatchUnsafeConsumer.accept(slas, slaUnsafeFunction::apply);
 		}
 		else {
 			for (SLA sla : slas) {
-				slaUnsafeConsumer.accept(sla);
+				slaUnsafeFunction.apply(sla);
 			}
 		}
 	}
@@ -525,30 +528,33 @@ public abstract class BaseSLAResourceImpl
 			Collection<SLA> slas, Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<SLA, Exception> slaUnsafeConsumer = null;
+		UnsafeFunction<SLA, SLA, Exception> slaUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			slaUnsafeConsumer = sla -> putSLA(
+			slaUnsafeFunction = sla -> putSLA(
 				sla.getId() != null ? sla.getId() :
 					_parseLong((String)parameters.get("slaId")),
 				sla);
 		}
 
-		if (slaUnsafeConsumer == null) {
+		if (slaUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for Sla");
 		}
 
-		if (contextBatchUnsafeConsumer != null) {
-			contextBatchUnsafeConsumer.accept(slas, slaUnsafeConsumer);
+		if (contextBatchUnsafeBiConsumer != null) {
+			contextBatchUnsafeBiConsumer.accept(slas, slaUnsafeFunction);
+		}
+		else if (contextBatchUnsafeConsumer != null) {
+			contextBatchUnsafeConsumer.accept(slas, slaUnsafeFunction::apply);
 		}
 		else {
 			for (SLA sla : slas) {
-				slaUnsafeConsumer.accept(sla);
+				slaUnsafeFunction.apply(sla);
 			}
 		}
 	}
@@ -571,6 +577,14 @@ public abstract class BaseSLAResourceImpl
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {
 		this.contextAcceptLanguage = contextAcceptLanguage;
+	}
+
+	public void setContextBatchUnsafeBiConsumer(
+		UnsafeBiConsumer
+			<Collection<SLA>, UnsafeFunction<SLA, SLA, Exception>, Exception>
+				contextBatchUnsafeBiConsumer) {
+
+		this.contextBatchUnsafeBiConsumer = contextBatchUnsafeBiConsumer;
 	}
 
 	public void setContextBatchUnsafeConsumer(
@@ -828,6 +842,9 @@ public abstract class BaseSLAResourceImpl
 	}
 
 	protected AcceptLanguage contextAcceptLanguage;
+	protected UnsafeBiConsumer
+		<Collection<SLA>, UnsafeFunction<SLA, SLA, Exception>, Exception>
+			contextBatchUnsafeBiConsumer;
 	protected UnsafeBiConsumer
 		<Collection<SLA>, UnsafeConsumer<SLA, Exception>, Exception>
 			contextBatchUnsafeConsumer;

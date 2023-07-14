@@ -330,15 +330,15 @@ public abstract class BaseWikiPageAttachmentResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<WikiPageAttachment, Exception>
-			wikiPageAttachmentUnsafeConsumer = null;
+		UnsafeFunction<WikiPageAttachment, WikiPageAttachment, Exception>
+			wikiPageAttachmentUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("wikiPageId")) {
-				wikiPageAttachmentUnsafeConsumer =
+				wikiPageAttachmentUnsafeFunction =
 					wikiPageAttachment -> postWikiPageWikiPageAttachment(
 						_parseLong((String)parameters.get("wikiPageId")),
 						(MultipartBody)parameters.get("multipartBody"));
@@ -349,19 +349,23 @@ public abstract class BaseWikiPageAttachmentResourceImpl
 			}
 		}
 
-		if (wikiPageAttachmentUnsafeConsumer == null) {
+		if (wikiPageAttachmentUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for WikiPageAttachment");
 		}
 
-		if (contextBatchUnsafeConsumer != null) {
+		if (contextBatchUnsafeBiConsumer != null) {
+			contextBatchUnsafeBiConsumer.accept(
+				wikiPageAttachments, wikiPageAttachmentUnsafeFunction);
+		}
+		else if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				wikiPageAttachments, wikiPageAttachmentUnsafeConsumer);
+				wikiPageAttachments, wikiPageAttachmentUnsafeFunction::apply);
 		}
 		else {
 			for (WikiPageAttachment wikiPageAttachment : wikiPageAttachments) {
-				wikiPageAttachmentUnsafeConsumer.accept(wikiPageAttachment);
+				wikiPageAttachmentUnsafeFunction.apply(wikiPageAttachment);
 			}
 		}
 	}
@@ -462,6 +466,15 @@ public abstract class BaseWikiPageAttachmentResourceImpl
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {
 		this.contextAcceptLanguage = contextAcceptLanguage;
+	}
+
+	public void setContextBatchUnsafeBiConsumer(
+		UnsafeBiConsumer
+			<Collection<WikiPageAttachment>,
+			 UnsafeFunction<WikiPageAttachment, WikiPageAttachment, Exception>,
+			 Exception> contextBatchUnsafeBiConsumer) {
+
+		this.contextBatchUnsafeBiConsumer = contextBatchUnsafeBiConsumer;
 	}
 
 	public void setContextBatchUnsafeConsumer(
@@ -720,6 +733,10 @@ public abstract class BaseWikiPageAttachmentResourceImpl
 	}
 
 	protected AcceptLanguage contextAcceptLanguage;
+	protected UnsafeBiConsumer
+		<Collection<WikiPageAttachment>,
+		 UnsafeFunction<WikiPageAttachment, WikiPageAttachment, Exception>,
+		 Exception> contextBatchUnsafeBiConsumer;
 	protected UnsafeBiConsumer
 		<Collection<WikiPageAttachment>,
 		 UnsafeConsumer<WikiPageAttachment, Exception>, Exception>

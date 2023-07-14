@@ -216,6 +216,15 @@ public abstract class BaseAssigneeUserResourceImpl
 		this.contextAcceptLanguage = contextAcceptLanguage;
 	}
 
+	public void setContextBatchUnsafeBiConsumer(
+		UnsafeBiConsumer
+			<Collection<AssigneeUser>,
+			 UnsafeFunction<AssigneeUser, AssigneeUser, Exception>, Exception>
+				contextBatchUnsafeBiConsumer) {
+
+		this.contextBatchUnsafeBiConsumer = contextBatchUnsafeBiConsumer;
+	}
+
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<AssigneeUser>, UnsafeConsumer<AssigneeUser, Exception>,
@@ -471,6 +480,10 @@ public abstract class BaseAssigneeUserResourceImpl
 	}
 
 	protected AcceptLanguage contextAcceptLanguage;
+	protected UnsafeBiConsumer
+		<Collection<AssigneeUser>,
+		 UnsafeFunction<AssigneeUser, AssigneeUser, Exception>, Exception>
+			contextBatchUnsafeBiConsumer;
 	protected UnsafeBiConsumer
 		<Collection<AssigneeUser>, UnsafeConsumer<AssigneeUser, Exception>,
 		 Exception> contextBatchUnsafeConsumer;

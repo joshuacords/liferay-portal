@@ -550,14 +550,15 @@ public abstract class BaseWikiPageResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<WikiPage, Exception> wikiPageUnsafeConsumer = null;
+		UnsafeFunction<WikiPage, WikiPage, Exception> wikiPageUnsafeFunction =
+			null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("wikiNodeId")) {
-				wikiPageUnsafeConsumer = wikiPage -> postWikiNodeWikiPage(
+				wikiPageUnsafeFunction = wikiPage -> postWikiNodeWikiPage(
 					_parseLong((String)parameters.get("wikiNodeId")), wikiPage);
 			}
 			else {
@@ -566,19 +567,23 @@ public abstract class BaseWikiPageResourceImpl
 			}
 		}
 
-		if (wikiPageUnsafeConsumer == null) {
+		if (wikiPageUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for WikiPage");
 		}
 
-		if (contextBatchUnsafeConsumer != null) {
+		if (contextBatchUnsafeBiConsumer != null) {
+			contextBatchUnsafeBiConsumer.accept(
+				wikiPages, wikiPageUnsafeFunction);
+		}
+		else if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				wikiPages, wikiPageUnsafeConsumer);
+				wikiPages, wikiPageUnsafeFunction::apply);
 		}
 		else {
 			for (WikiPage wikiPage : wikiPages) {
-				wikiPageUnsafeConsumer.accept(wikiPage);
+				wikiPageUnsafeFunction.apply(wikiPage);
 			}
 		}
 	}
@@ -666,31 +671,36 @@ public abstract class BaseWikiPageResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<WikiPage, Exception> wikiPageUnsafeConsumer = null;
+		UnsafeFunction<WikiPage, WikiPage, Exception> wikiPageUnsafeFunction =
+			null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			wikiPageUnsafeConsumer = wikiPage -> putWikiPage(
+			wikiPageUnsafeFunction = wikiPage -> putWikiPage(
 				wikiPage.getId() != null ? wikiPage.getId() :
 					_parseLong((String)parameters.get("wikiPageId")),
 				wikiPage);
 		}
 
-		if (wikiPageUnsafeConsumer == null) {
+		if (wikiPageUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for WikiPage");
 		}
 
-		if (contextBatchUnsafeConsumer != null) {
+		if (contextBatchUnsafeBiConsumer != null) {
+			contextBatchUnsafeBiConsumer.accept(
+				wikiPages, wikiPageUnsafeFunction);
+		}
+		else if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				wikiPages, wikiPageUnsafeConsumer);
+				wikiPages, wikiPageUnsafeFunction::apply);
 		}
 		else {
 			for (WikiPage wikiPage : wikiPages) {
-				wikiPageUnsafeConsumer.accept(wikiPage);
+				wikiPageUnsafeFunction.apply(wikiPage);
 			}
 		}
 	}
@@ -705,6 +715,15 @@ public abstract class BaseWikiPageResourceImpl
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {
 		this.contextAcceptLanguage = contextAcceptLanguage;
+	}
+
+	public void setContextBatchUnsafeBiConsumer(
+		UnsafeBiConsumer
+			<Collection<WikiPage>,
+			 UnsafeFunction<WikiPage, WikiPage, Exception>, Exception>
+				contextBatchUnsafeBiConsumer) {
+
+		this.contextBatchUnsafeBiConsumer = contextBatchUnsafeBiConsumer;
 	}
 
 	public void setContextBatchUnsafeConsumer(
@@ -962,6 +981,9 @@ public abstract class BaseWikiPageResourceImpl
 	}
 
 	protected AcceptLanguage contextAcceptLanguage;
+	protected UnsafeBiConsumer
+		<Collection<WikiPage>, UnsafeFunction<WikiPage, WikiPage, Exception>,
+		 Exception> contextBatchUnsafeBiConsumer;
 	protected UnsafeBiConsumer
 		<Collection<WikiPage>, UnsafeConsumer<WikiPage, Exception>, Exception>
 			contextBatchUnsafeConsumer;

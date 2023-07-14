@@ -253,6 +253,14 @@ public abstract class BaseSiteResourceImpl
 		this.contextAcceptLanguage = contextAcceptLanguage;
 	}
 
+	public void setContextBatchUnsafeBiConsumer(
+		UnsafeBiConsumer
+			<Collection<Site>, UnsafeFunction<Site, Site, Exception>, Exception>
+				contextBatchUnsafeBiConsumer) {
+
+		this.contextBatchUnsafeBiConsumer = contextBatchUnsafeBiConsumer;
+	}
+
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<Site>, UnsafeConsumer<Site, Exception>, Exception>
@@ -508,6 +516,9 @@ public abstract class BaseSiteResourceImpl
 	}
 
 	protected AcceptLanguage contextAcceptLanguage;
+	protected UnsafeBiConsumer
+		<Collection<Site>, UnsafeFunction<Site, Site, Exception>, Exception>
+			contextBatchUnsafeBiConsumer;
 	protected UnsafeBiConsumer
 		<Collection<Site>, UnsafeConsumer<Site, Exception>, Exception>
 			contextBatchUnsafeConsumer;

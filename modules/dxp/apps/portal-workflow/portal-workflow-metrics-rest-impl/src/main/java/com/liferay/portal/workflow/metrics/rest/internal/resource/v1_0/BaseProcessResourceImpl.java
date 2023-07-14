@@ -294,6 +294,14 @@ public abstract class BaseProcessResourceImpl
 		this.contextAcceptLanguage = contextAcceptLanguage;
 	}
 
+	public void setContextBatchUnsafeBiConsumer(
+		UnsafeBiConsumer
+			<Collection<Process>, UnsafeFunction<Process, Process, Exception>,
+			 Exception> contextBatchUnsafeBiConsumer) {
+
+		this.contextBatchUnsafeBiConsumer = contextBatchUnsafeBiConsumer;
+	}
+
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<Process>, UnsafeConsumer<Process, Exception>, Exception>
@@ -549,6 +557,9 @@ public abstract class BaseProcessResourceImpl
 	}
 
 	protected AcceptLanguage contextAcceptLanguage;
+	protected UnsafeBiConsumer
+		<Collection<Process>, UnsafeFunction<Process, Process, Exception>,
+		 Exception> contextBatchUnsafeBiConsumer;
 	protected UnsafeBiConsumer
 		<Collection<Process>, UnsafeConsumer<Process, Exception>, Exception>
 			contextBatchUnsafeConsumer;

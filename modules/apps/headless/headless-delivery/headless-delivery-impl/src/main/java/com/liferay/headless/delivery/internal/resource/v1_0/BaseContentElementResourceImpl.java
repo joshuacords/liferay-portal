@@ -243,6 +243,15 @@ public abstract class BaseContentElementResourceImpl
 		this.contextAcceptLanguage = contextAcceptLanguage;
 	}
 
+	public void setContextBatchUnsafeBiConsumer(
+		UnsafeBiConsumer
+			<Collection<ContentElement>,
+			 UnsafeFunction<ContentElement, ContentElement, Exception>,
+			 Exception> contextBatchUnsafeBiConsumer) {
+
+		this.contextBatchUnsafeBiConsumer = contextBatchUnsafeBiConsumer;
+	}
+
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<ContentElement>,
@@ -499,6 +508,10 @@ public abstract class BaseContentElementResourceImpl
 	}
 
 	protected AcceptLanguage contextAcceptLanguage;
+	protected UnsafeBiConsumer
+		<Collection<ContentElement>,
+		 UnsafeFunction<ContentElement, ContentElement, Exception>, Exception>
+			contextBatchUnsafeBiConsumer;
 	protected UnsafeBiConsumer
 		<Collection<ContentElement>, UnsafeConsumer<ContentElement, Exception>,
 		 Exception> contextBatchUnsafeConsumer;

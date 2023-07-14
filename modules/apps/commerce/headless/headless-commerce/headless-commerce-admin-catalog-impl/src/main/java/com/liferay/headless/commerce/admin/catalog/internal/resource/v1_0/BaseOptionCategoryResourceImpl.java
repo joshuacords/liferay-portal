@@ -342,30 +342,34 @@ public abstract class BaseOptionCategoryResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<OptionCategory, Exception> optionCategoryUnsafeConsumer =
-			null;
+		UnsafeFunction<OptionCategory, OptionCategory, Exception>
+			optionCategoryUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
-			optionCategoryUnsafeConsumer = optionCategory -> postOptionCategory(
+			optionCategoryUnsafeFunction = optionCategory -> postOptionCategory(
 				optionCategory);
 		}
 
-		if (optionCategoryUnsafeConsumer == null) {
+		if (optionCategoryUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for OptionCategory");
 		}
 
-		if (contextBatchUnsafeConsumer != null) {
+		if (contextBatchUnsafeBiConsumer != null) {
+			contextBatchUnsafeBiConsumer.accept(
+				optionCategories, optionCategoryUnsafeFunction);
+		}
+		else if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				optionCategories, optionCategoryUnsafeConsumer);
+				optionCategories, optionCategoryUnsafeFunction::apply);
 		}
 		else {
 			for (OptionCategory optionCategory : optionCategories) {
-				optionCategoryUnsafeConsumer.accept(optionCategory);
+				optionCategoryUnsafeFunction.apply(optionCategory);
 			}
 		}
 	}
@@ -445,33 +449,40 @@ public abstract class BaseOptionCategoryResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<OptionCategory, Exception> optionCategoryUnsafeConsumer =
-			null;
+		UnsafeFunction<OptionCategory, OptionCategory, Exception>
+			optionCategoryUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			optionCategoryUnsafeConsumer =
-				optionCategory -> patchOptionCategory(
+			optionCategoryUnsafeFunction = optionCategory -> {
+				patchOptionCategory(
 					optionCategory.getId() != null ? optionCategory.getId() :
 						_parseLong((String)parameters.get("optionCategoryId")),
 					optionCategory);
+
+				return null;
+			};
 		}
 
-		if (optionCategoryUnsafeConsumer == null) {
+		if (optionCategoryUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for OptionCategory");
 		}
 
-		if (contextBatchUnsafeConsumer != null) {
+		if (contextBatchUnsafeBiConsumer != null) {
+			contextBatchUnsafeBiConsumer.accept(
+				optionCategories, optionCategoryUnsafeFunction);
+		}
+		else if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				optionCategories, optionCategoryUnsafeConsumer);
+				optionCategories, optionCategoryUnsafeFunction::apply);
 		}
 		else {
 			for (OptionCategory optionCategory : optionCategories) {
-				optionCategoryUnsafeConsumer.accept(optionCategory);
+				optionCategoryUnsafeFunction.apply(optionCategory);
 			}
 		}
 	}
@@ -486,6 +497,15 @@ public abstract class BaseOptionCategoryResourceImpl
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {
 		this.contextAcceptLanguage = contextAcceptLanguage;
+	}
+
+	public void setContextBatchUnsafeBiConsumer(
+		UnsafeBiConsumer
+			<Collection<OptionCategory>,
+			 UnsafeFunction<OptionCategory, OptionCategory, Exception>,
+			 Exception> contextBatchUnsafeBiConsumer) {
+
+		this.contextBatchUnsafeBiConsumer = contextBatchUnsafeBiConsumer;
 	}
 
 	public void setContextBatchUnsafeConsumer(
@@ -744,6 +764,10 @@ public abstract class BaseOptionCategoryResourceImpl
 	}
 
 	protected AcceptLanguage contextAcceptLanguage;
+	protected UnsafeBiConsumer
+		<Collection<OptionCategory>,
+		 UnsafeFunction<OptionCategory, OptionCategory, Exception>, Exception>
+			contextBatchUnsafeBiConsumer;
 	protected UnsafeBiConsumer
 		<Collection<OptionCategory>, UnsafeConsumer<OptionCategory, Exception>,
 		 Exception> contextBatchUnsafeConsumer;

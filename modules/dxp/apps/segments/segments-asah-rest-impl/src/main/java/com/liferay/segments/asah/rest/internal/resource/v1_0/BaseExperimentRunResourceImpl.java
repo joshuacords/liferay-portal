@@ -175,31 +175,35 @@ public abstract class BaseExperimentRunResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<ExperimentRun, Exception> experimentRunUnsafeConsumer =
-			null;
+		UnsafeFunction<ExperimentRun, ExperimentRun, Exception>
+			experimentRunUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
-			experimentRunUnsafeConsumer = experimentRun -> postExperimentRun(
+			experimentRunUnsafeFunction = experimentRun -> postExperimentRun(
 				_parseLong((String)parameters.get("experimentId")),
 				experimentRun);
 		}
 
-		if (experimentRunUnsafeConsumer == null) {
+		if (experimentRunUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for ExperimentRun");
 		}
 
-		if (contextBatchUnsafeConsumer != null) {
+		if (contextBatchUnsafeBiConsumer != null) {
+			contextBatchUnsafeBiConsumer.accept(
+				experimentRuns, experimentRunUnsafeFunction);
+		}
+		else if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				experimentRuns, experimentRunUnsafeConsumer);
+				experimentRuns, experimentRunUnsafeFunction::apply);
 		}
 		else {
 			for (ExperimentRun experimentRun : experimentRuns) {
-				experimentRunUnsafeConsumer.accept(experimentRun);
+				experimentRunUnsafeFunction.apply(experimentRun);
 			}
 		}
 	}
@@ -293,6 +297,15 @@ public abstract class BaseExperimentRunResourceImpl
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {
 		this.contextAcceptLanguage = contextAcceptLanguage;
+	}
+
+	public void setContextBatchUnsafeBiConsumer(
+		UnsafeBiConsumer
+			<Collection<ExperimentRun>,
+			 UnsafeFunction<ExperimentRun, ExperimentRun, Exception>, Exception>
+				contextBatchUnsafeBiConsumer) {
+
+		this.contextBatchUnsafeBiConsumer = contextBatchUnsafeBiConsumer;
 	}
 
 	public void setContextBatchUnsafeConsumer(
@@ -551,6 +564,10 @@ public abstract class BaseExperimentRunResourceImpl
 	}
 
 	protected AcceptLanguage contextAcceptLanguage;
+	protected UnsafeBiConsumer
+		<Collection<ExperimentRun>,
+		 UnsafeFunction<ExperimentRun, ExperimentRun, Exception>, Exception>
+			contextBatchUnsafeBiConsumer;
 	protected UnsafeBiConsumer
 		<Collection<ExperimentRun>, UnsafeConsumer<ExperimentRun, Exception>,
 		 Exception> contextBatchUnsafeConsumer;

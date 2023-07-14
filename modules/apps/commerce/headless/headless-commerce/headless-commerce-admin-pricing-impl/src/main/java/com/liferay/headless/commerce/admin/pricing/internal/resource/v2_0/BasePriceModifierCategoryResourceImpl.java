@@ -484,6 +484,16 @@ public abstract class BasePriceModifierCategoryResourceImpl
 		this.contextAcceptLanguage = contextAcceptLanguage;
 	}
 
+	public void setContextBatchUnsafeBiConsumer(
+		UnsafeBiConsumer
+			<Collection<PriceModifierCategory>,
+			 UnsafeFunction
+				 <PriceModifierCategory, PriceModifierCategory, Exception>,
+			 Exception> contextBatchUnsafeBiConsumer) {
+
+		this.contextBatchUnsafeBiConsumer = contextBatchUnsafeBiConsumer;
+	}
+
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<PriceModifierCategory>,
@@ -740,6 +750,11 @@ public abstract class BasePriceModifierCategoryResourceImpl
 	}
 
 	protected AcceptLanguage contextAcceptLanguage;
+	protected UnsafeBiConsumer
+		<Collection<PriceModifierCategory>,
+		 UnsafeFunction
+			 <PriceModifierCategory, PriceModifierCategory, Exception>,
+		 Exception> contextBatchUnsafeBiConsumer;
 	protected UnsafeBiConsumer
 		<Collection<PriceModifierCategory>,
 		 UnsafeConsumer<PriceModifierCategory, Exception>, Exception>

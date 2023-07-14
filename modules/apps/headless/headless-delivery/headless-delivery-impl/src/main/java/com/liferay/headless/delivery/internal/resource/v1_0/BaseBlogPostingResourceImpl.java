@@ -698,14 +698,15 @@ public abstract class BaseBlogPostingResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<BlogPosting, Exception> blogPostingUnsafeConsumer = null;
+		UnsafeFunction<BlogPosting, BlogPosting, Exception>
+			blogPostingUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
 			if (parameters.containsKey("siteId")) {
-				blogPostingUnsafeConsumer = blogPosting -> postSiteBlogPosting(
+				blogPostingUnsafeFunction = blogPosting -> postSiteBlogPosting(
 					(Long)parameters.get("siteId"), blogPosting);
 			}
 			else {
@@ -714,19 +715,23 @@ public abstract class BaseBlogPostingResourceImpl
 			}
 		}
 
-		if (blogPostingUnsafeConsumer == null) {
+		if (blogPostingUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for BlogPosting");
 		}
 
-		if (contextBatchUnsafeConsumer != null) {
+		if (contextBatchUnsafeBiConsumer != null) {
+			contextBatchUnsafeBiConsumer.accept(
+				blogPostings, blogPostingUnsafeFunction);
+		}
+		else if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				blogPostings, blogPostingUnsafeConsumer);
+				blogPostings, blogPostingUnsafeFunction::apply);
 		}
 		else {
 			for (BlogPosting blogPosting : blogPostings) {
-				blogPostingUnsafeConsumer.accept(blogPosting);
+				blogPostingUnsafeFunction.apply(blogPosting);
 			}
 		}
 	}
@@ -814,38 +819,43 @@ public abstract class BaseBlogPostingResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<BlogPosting, Exception> blogPostingUnsafeConsumer = null;
+		UnsafeFunction<BlogPosting, BlogPosting, Exception>
+			blogPostingUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			blogPostingUnsafeConsumer = blogPosting -> patchBlogPosting(
+			blogPostingUnsafeFunction = blogPosting -> patchBlogPosting(
 				blogPosting.getId() != null ? blogPosting.getId() :
 					_parseLong((String)parameters.get("blogPostingId")),
 				blogPosting);
 		}
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			blogPostingUnsafeConsumer = blogPosting -> putBlogPosting(
+			blogPostingUnsafeFunction = blogPosting -> putBlogPosting(
 				blogPosting.getId() != null ? blogPosting.getId() :
 					_parseLong((String)parameters.get("blogPostingId")),
 				blogPosting);
 		}
 
-		if (blogPostingUnsafeConsumer == null) {
+		if (blogPostingUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for BlogPosting");
 		}
 
-		if (contextBatchUnsafeConsumer != null) {
+		if (contextBatchUnsafeBiConsumer != null) {
+			contextBatchUnsafeBiConsumer.accept(
+				blogPostings, blogPostingUnsafeFunction);
+		}
+		else if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				blogPostings, blogPostingUnsafeConsumer);
+				blogPostings, blogPostingUnsafeFunction::apply);
 		}
 		else {
 			for (BlogPosting blogPosting : blogPostings) {
-				blogPostingUnsafeConsumer.accept(blogPosting);
+				blogPostingUnsafeFunction.apply(blogPosting);
 			}
 		}
 	}
@@ -860,6 +870,15 @@ public abstract class BaseBlogPostingResourceImpl
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {
 		this.contextAcceptLanguage = contextAcceptLanguage;
+	}
+
+	public void setContextBatchUnsafeBiConsumer(
+		UnsafeBiConsumer
+			<Collection<BlogPosting>,
+			 UnsafeFunction<BlogPosting, BlogPosting, Exception>, Exception>
+				contextBatchUnsafeBiConsumer) {
+
+		this.contextBatchUnsafeBiConsumer = contextBatchUnsafeBiConsumer;
 	}
 
 	public void setContextBatchUnsafeConsumer(
@@ -1121,6 +1140,10 @@ public abstract class BaseBlogPostingResourceImpl
 	}
 
 	protected AcceptLanguage contextAcceptLanguage;
+	protected UnsafeBiConsumer
+		<Collection<BlogPosting>,
+		 UnsafeFunction<BlogPosting, BlogPosting, Exception>, Exception>
+			contextBatchUnsafeBiConsumer;
 	protected UnsafeBiConsumer
 		<Collection<BlogPosting>, UnsafeConsumer<BlogPosting, Exception>,
 		 Exception> contextBatchUnsafeConsumer;

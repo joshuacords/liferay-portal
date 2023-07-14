@@ -295,6 +295,15 @@ public abstract class BasePostalAddressResourceImpl
 		this.contextAcceptLanguage = contextAcceptLanguage;
 	}
 
+	public void setContextBatchUnsafeBiConsumer(
+		UnsafeBiConsumer
+			<Collection<PostalAddress>,
+			 UnsafeFunction<PostalAddress, PostalAddress, Exception>, Exception>
+				contextBatchUnsafeBiConsumer) {
+
+		this.contextBatchUnsafeBiConsumer = contextBatchUnsafeBiConsumer;
+	}
+
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<PostalAddress>,
@@ -551,6 +560,10 @@ public abstract class BasePostalAddressResourceImpl
 	}
 
 	protected AcceptLanguage contextAcceptLanguage;
+	protected UnsafeBiConsumer
+		<Collection<PostalAddress>,
+		 UnsafeFunction<PostalAddress, PostalAddress, Exception>, Exception>
+			contextBatchUnsafeBiConsumer;
 	protected UnsafeBiConsumer
 		<Collection<PostalAddress>, UnsafeConsumer<PostalAddress, Exception>,
 		 Exception> contextBatchUnsafeConsumer;

@@ -225,6 +225,14 @@ public abstract class BaseSkuResourceImpl
 		this.contextAcceptLanguage = contextAcceptLanguage;
 	}
 
+	public void setContextBatchUnsafeBiConsumer(
+		UnsafeBiConsumer
+			<Collection<Sku>, UnsafeFunction<Sku, Sku, Exception>, Exception>
+				contextBatchUnsafeBiConsumer) {
+
+		this.contextBatchUnsafeBiConsumer = contextBatchUnsafeBiConsumer;
+	}
+
 	public void setContextBatchUnsafeConsumer(
 		UnsafeBiConsumer
 			<Collection<Sku>, UnsafeConsumer<Sku, Exception>, Exception>
@@ -480,6 +488,9 @@ public abstract class BaseSkuResourceImpl
 	}
 
 	protected AcceptLanguage contextAcceptLanguage;
+	protected UnsafeBiConsumer
+		<Collection<Sku>, UnsafeFunction<Sku, Sku, Exception>, Exception>
+			contextBatchUnsafeBiConsumer;
 	protected UnsafeBiConsumer
 		<Collection<Sku>, UnsafeConsumer<Sku, Exception>, Exception>
 			contextBatchUnsafeConsumer;

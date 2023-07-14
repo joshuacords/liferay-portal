@@ -599,29 +599,34 @@ public abstract class BaseUserAccountResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<UserAccount, Exception> userAccountUnsafeConsumer = null;
+		UnsafeFunction<UserAccount, UserAccount, Exception>
+			userAccountUnsafeFunction = null;
 
 		String createStrategy = (String)parameters.getOrDefault(
 			"createStrategy", "INSERT");
 
 		if (StringUtil.equalsIgnoreCase(createStrategy, "INSERT")) {
-			userAccountUnsafeConsumer = userAccount -> postUserAccount(
+			userAccountUnsafeFunction = userAccount -> postUserAccount(
 				userAccount);
 		}
 
-		if (userAccountUnsafeConsumer == null) {
+		if (userAccountUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Create strategy \"" + createStrategy +
 					"\" is not supported for UserAccount");
 		}
 
-		if (contextBatchUnsafeConsumer != null) {
+		if (contextBatchUnsafeBiConsumer != null) {
+			contextBatchUnsafeBiConsumer.accept(
+				userAccounts, userAccountUnsafeFunction);
+		}
+		else if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				userAccounts, userAccountUnsafeConsumer);
+				userAccounts, userAccountUnsafeFunction::apply);
 		}
 		else {
 			for (UserAccount userAccount : userAccounts) {
-				userAccountUnsafeConsumer.accept(userAccount);
+				userAccountUnsafeFunction.apply(userAccount);
 			}
 		}
 	}
@@ -713,38 +718,43 @@ public abstract class BaseUserAccountResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<UserAccount, Exception> userAccountUnsafeConsumer = null;
+		UnsafeFunction<UserAccount, UserAccount, Exception>
+			userAccountUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			userAccountUnsafeConsumer = userAccount -> patchUserAccount(
+			userAccountUnsafeFunction = userAccount -> patchUserAccount(
 				userAccount.getId() != null ? userAccount.getId() :
 					_parseLong((String)parameters.get("userAccountId")),
 				userAccount);
 		}
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			userAccountUnsafeConsumer = userAccount -> putUserAccount(
+			userAccountUnsafeFunction = userAccount -> putUserAccount(
 				userAccount.getId() != null ? userAccount.getId() :
 					_parseLong((String)parameters.get("userAccountId")),
 				userAccount);
 		}
 
-		if (userAccountUnsafeConsumer == null) {
+		if (userAccountUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for UserAccount");
 		}
 
-		if (contextBatchUnsafeConsumer != null) {
+		if (contextBatchUnsafeBiConsumer != null) {
+			contextBatchUnsafeBiConsumer.accept(
+				userAccounts, userAccountUnsafeFunction);
+		}
+		else if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				userAccounts, userAccountUnsafeConsumer);
+				userAccounts, userAccountUnsafeFunction::apply);
 		}
 		else {
 			for (UserAccount userAccount : userAccounts) {
-				userAccountUnsafeConsumer.accept(userAccount);
+				userAccountUnsafeFunction.apply(userAccount);
 			}
 		}
 	}
@@ -759,6 +769,15 @@ public abstract class BaseUserAccountResourceImpl
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {
 		this.contextAcceptLanguage = contextAcceptLanguage;
+	}
+
+	public void setContextBatchUnsafeBiConsumer(
+		UnsafeBiConsumer
+			<Collection<UserAccount>,
+			 UnsafeFunction<UserAccount, UserAccount, Exception>, Exception>
+				contextBatchUnsafeBiConsumer) {
+
+		this.contextBatchUnsafeBiConsumer = contextBatchUnsafeBiConsumer;
 	}
 
 	public void setContextBatchUnsafeConsumer(
@@ -1020,6 +1039,10 @@ public abstract class BaseUserAccountResourceImpl
 	}
 
 	protected AcceptLanguage contextAcceptLanguage;
+	protected UnsafeBiConsumer
+		<Collection<UserAccount>,
+		 UnsafeFunction<UserAccount, UserAccount, Exception>, Exception>
+			contextBatchUnsafeBiConsumer;
 	protected UnsafeBiConsumer
 		<Collection<UserAccount>, UnsafeConsumer<UserAccount, Exception>,
 		 Exception> contextBatchUnsafeConsumer;

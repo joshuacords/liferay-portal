@@ -772,14 +772,14 @@ public abstract class BaseAccountAddressResourceImpl
 			Map<String, Serializable> parameters)
 		throws Exception {
 
-		UnsafeConsumer<AccountAddress, Exception> accountAddressUnsafeConsumer =
-			null;
+		UnsafeFunction<AccountAddress, AccountAddress, Exception>
+			accountAddressUnsafeFunction = null;
 
 		String updateStrategy = (String)parameters.getOrDefault(
 			"updateStrategy", "UPDATE");
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
-			accountAddressUnsafeConsumer =
+			accountAddressUnsafeFunction =
 				accountAddress -> patchAccountAddress(
 					accountAddress.getId() != null ? accountAddress.getId() :
 						_parseLong((String)parameters.get("accountAddressId")),
@@ -787,25 +787,29 @@ public abstract class BaseAccountAddressResourceImpl
 		}
 
 		if (StringUtil.equalsIgnoreCase(updateStrategy, "UPDATE")) {
-			accountAddressUnsafeConsumer = accountAddress -> putAccountAddress(
+			accountAddressUnsafeFunction = accountAddress -> putAccountAddress(
 				accountAddress.getId() != null ? accountAddress.getId() :
 					_parseLong((String)parameters.get("accountAddressId")),
 				accountAddress);
 		}
 
-		if (accountAddressUnsafeConsumer == null) {
+		if (accountAddressUnsafeFunction == null) {
 			throw new NotSupportedException(
 				"Update strategy \"" + updateStrategy +
 					"\" is not supported for AccountAddress");
 		}
 
-		if (contextBatchUnsafeConsumer != null) {
+		if (contextBatchUnsafeBiConsumer != null) {
+			contextBatchUnsafeBiConsumer.accept(
+				accountAddresses, accountAddressUnsafeFunction);
+		}
+		else if (contextBatchUnsafeConsumer != null) {
 			contextBatchUnsafeConsumer.accept(
-				accountAddresses, accountAddressUnsafeConsumer);
+				accountAddresses, accountAddressUnsafeFunction::apply);
 		}
 		else {
 			for (AccountAddress accountAddress : accountAddresses) {
-				accountAddressUnsafeConsumer.accept(accountAddress);
+				accountAddressUnsafeFunction.apply(accountAddress);
 			}
 		}
 	}
@@ -820,6 +824,15 @@ public abstract class BaseAccountAddressResourceImpl
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {
 		this.contextAcceptLanguage = contextAcceptLanguage;
+	}
+
+	public void setContextBatchUnsafeBiConsumer(
+		UnsafeBiConsumer
+			<Collection<AccountAddress>,
+			 UnsafeFunction<AccountAddress, AccountAddress, Exception>,
+			 Exception> contextBatchUnsafeBiConsumer) {
+
+		this.contextBatchUnsafeBiConsumer = contextBatchUnsafeBiConsumer;
 	}
 
 	public void setContextBatchUnsafeConsumer(
@@ -1082,6 +1095,10 @@ public abstract class BaseAccountAddressResourceImpl
 	}
 
 	protected AcceptLanguage contextAcceptLanguage;
+	protected UnsafeBiConsumer
+		<Collection<AccountAddress>,
+		 UnsafeFunction<AccountAddress, AccountAddress, Exception>, Exception>
+			contextBatchUnsafeBiConsumer;
 	protected UnsafeBiConsumer
 		<Collection<AccountAddress>, UnsafeConsumer<AccountAddress, Exception>,
 		 Exception> contextBatchUnsafeConsumer;
