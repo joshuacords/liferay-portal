@@ -53,10 +53,12 @@ public class LicenseKeyModelDocumentContributor
 		throws Exception {
 
 		document.addKeyword(Field.COMPANY_ID, licenseKey.getCompanyId());
-		document.addDate(Field.CREATE_DATE, licenseKey.getCreateDate());
+		document.addDateSortable(Field.CREATE_DATE, licenseKey.getCreateDate());
 		document.addText(Field.DESCRIPTION, licenseKey.getDescription());
-		document.addDate(Field.EXPIRATION_DATE, licenseKey.getExpirationDate());
-		document.addDate(Field.MODIFIED_DATE, licenseKey.getModifiedDate());
+		document.addDateSortable(
+			Field.EXPIRATION_DATE, licenseKey.getExpirationDate());
+		document.addDateSortable(
+			Field.MODIFIED_DATE, licenseKey.getModifiedDate());
 		document.addText(Field.NAME, licenseKey.getName());
 
 		Account account = _accountWebService.fetchAccount(
@@ -106,19 +108,14 @@ public class LicenseKeyModelDocumentContributor
 		document.addKeyword("owner", licenseKey.getOwner());
 		document.addKeyword("productId", licenseKey.getProductId());
 		document.addKeyword("productKey", licenseKey.getProductKey());
-		document.addKeyword("productName", licenseKey.getProductName());
+		document.addKeywordSortable("productName", licenseKey.getProductName());
 		document.addKeyword(
 			"productPurchaseKey", licenseKey.getProductPurchaseKey());
 		document.addKeyword("productVersion", licenseKey.getProductVersion());
 		document.addKeyword("serverId", licenseKey.getServerId());
 		document.addKeyword("sizing", licenseKey.getSizing());
-		document.addDate("startDate", licenseKey.getStartDate());
+		document.addDateSortable("startDate", licenseKey.getStartDate());
 		document.addKeyword("userUuid", licenseKey.getUserUuid());
-
-		document.addDateSortable(Field.CREATE_DATE, licenseKey.getCreateDate());
-		document.addDateSortable(
-			Field.MODIFIED_DATE, licenseKey.getModifiedDate());
-		document.addTextSortable("productName", licenseKey.getProductName());
 
 		_contributeSubscriptions(document, licenseKey.getLicenseKeyId());
 	}

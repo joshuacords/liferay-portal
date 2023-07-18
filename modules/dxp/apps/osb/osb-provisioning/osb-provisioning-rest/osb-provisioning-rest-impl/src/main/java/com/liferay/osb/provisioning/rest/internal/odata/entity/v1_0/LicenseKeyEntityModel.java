@@ -31,10 +31,15 @@ public class LicenseKeyEntityModel implements EntityModel {
 			new StringEntityField("accountKey", locale -> "accountKey"),
 			new BooleanEntityField("active", locale -> "active"),
 			new BooleanEntityField("complimentary", locale -> "complimentary"),
+			new DateTimeEntityField(
+				"createDate",
+				locale -> Field.getSortableFieldName("createDate"),
+				locale -> Field.getSortableFieldName("createDate")),
 			new StringEntityField("description", locale -> "description"),
 			new DateTimeEntityField(
-				"expirationDate", locale -> Field.EXPIRATION_DATE,
-				locale -> Field.EXPIRATION_DATE),
+				"expirationDate",
+				locale -> Field.getSortableFieldName(Field.EXPIRATION_DATE),
+				locale -> Field.getSortableFieldName(Field.EXPIRATION_DATE)),
 			new StringEntityField("hostName", locale -> "hostName"),
 			new CollectionEntityField(
 				new StringEntityField("ipAddresses", locale -> "ipAddresses")),
@@ -45,6 +50,10 @@ public class LicenseKeyEntityModel implements EntityModel {
 					"macAddresses", locale -> "macAddresses")),
 			new IntegerEntityField(
 				"maxClusterNodes", locale -> "maxClusterNodes"),
+			new DateTimeEntityField(
+				"modifiedDate",
+				locale -> Field.getSortableFieldName("modifiedDate"),
+				locale -> Field.getSortableFieldName("modifiedDate")),
 			new StringEntityField("name", locale -> "name"),
 			new StringEntityField(
 				"productName",
@@ -52,7 +61,8 @@ public class LicenseKeyEntityModel implements EntityModel {
 			new StringEntityField("productVersion", locale -> "productVersion"),
 			new StringEntityField("sizing", locale -> "sizing"),
 			new DateTimeEntityField(
-				"startDate", locale -> "startDate", locale -> "startDate"),
+				"startDate", locale -> Field.getSortableFieldName("startDate"),
+				locale -> Field.getSortableFieldName("startDate")),
 			new CollectionEntityField(
 				new StringEntityField(
 					"subscriptionContactUuids",
