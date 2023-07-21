@@ -68,12 +68,12 @@ public class CommerceAccountGroupCommerceAccountRelLocalServiceImpl
 		commerceAccountGroupCommerceAccountRel.setUserId(user.getUserId());
 		commerceAccountGroupCommerceAccountRel.setUserName(user.getFullName());
 
+		commerceAccountGroupCommerceAccountRel.setExternalReferenceCode(
+			externalReferenceCode);
 		commerceAccountGroupCommerceAccountRel.setCommerceAccountGroupId(
 			commerceAccountGroupId);
 		commerceAccountGroupCommerceAccountRel.setCommerceAccountId(
 			commerceAccountId);
-		commerceAccountGroupCommerceAccountRel.setExternalReferenceCode(
-			externalReferenceCode);
 
 		return commerceAccountGroupCommerceAccountRelPersistence.update(
 			commerceAccountGroupCommerceAccountRel);

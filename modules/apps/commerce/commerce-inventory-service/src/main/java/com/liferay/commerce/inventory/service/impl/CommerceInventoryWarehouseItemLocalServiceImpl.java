@@ -72,13 +72,13 @@ public class CommerceInventoryWarehouseItemLocalServiceImpl
 			commerceInventoryWarehouseItemPersistence.create(
 				commerceInventoryWarehouseItemId);
 
+		commerceInventoryWarehouseItem.setExternalReferenceCode(
+			externalReferenceCode);
 		commerceInventoryWarehouseItem.setCompanyId(user.getCompanyId());
 		commerceInventoryWarehouseItem.setUserId(user.getUserId());
 		commerceInventoryWarehouseItem.setUserName(user.getFullName());
 		commerceInventoryWarehouseItem.setCommerceInventoryWarehouseId(
 			commerceInventoryWarehouseId);
-		commerceInventoryWarehouseItem.setExternalReferenceCode(
-			externalReferenceCode);
 		commerceInventoryWarehouseItem.setSku(sku);
 		commerceInventoryWarehouseItem.setQuantity(quantity);
 

@@ -260,7 +260,7 @@ public class CustomerPortalReleaseImpl implements CustomerPortalRelease {
 			return;
 		}
 
-		if (!licenseKey.getActive()) {
+		if (!licenseKey.isActive()) {
 			return;
 		}
 

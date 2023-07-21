@@ -18,8 +18,8 @@ public class AppLicenseKeyUtil {
 
 		return new AppLicenseKey() {
 			{
-				active = licenseKey.getActive();
-				complimentary = licenseKey.getComplimentary();
+				active = licenseKey.isActive();
+				complimentary = licenseKey.isComplimentary();
 				createDate = licenseKey.getCreateDate();
 				description = licenseKey.getDescription();
 				expirationDate = licenseKey.getExpirationDate();
