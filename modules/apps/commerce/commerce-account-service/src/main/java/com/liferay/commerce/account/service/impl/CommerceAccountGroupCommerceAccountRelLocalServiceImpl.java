@@ -67,7 +67,6 @@ public class CommerceAccountGroupCommerceAccountRelLocalServiceImpl
 			user.getCompanyId());
 		commerceAccountGroupCommerceAccountRel.setUserId(user.getUserId());
 		commerceAccountGroupCommerceAccountRel.setUserName(user.getFullName());
-
 		commerceAccountGroupCommerceAccountRel.setExternalReferenceCode(
 			externalReferenceCode);
 		commerceAccountGroupCommerceAccountRel.setCommerceAccountGroupId(
