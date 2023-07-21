@@ -82,3 +82,8 @@ fe237b6829c25ad74e72d0bfbcae7c7c9f8646b4^..0ffce8ec7b050e82b69255d19ab97fc186b5e
 # Bundle Version 2.0.21
 #
 f368dd352e5efd03a965e9cb349eae3a8907cbb6^..c6ac60dbe5a93acde61dae2ffbb869744e977edd=LPS-178134 LRQA-51488
+
+#
+# Bundle Version 2.0.22
+#
+c6ac60dbe5a93acde61dae2ffbb869744e977edd^..1a9b7ff3b7e96d042ca903e3759cc8df9263d094=LPS-188912
