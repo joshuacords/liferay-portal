@@ -1,5 +1,5 @@
 Bundle-Name: Liferay Polls Web
 Bundle-SymbolicName: com.liferay.polls.web
-Bundle-Version: 4.0.39
+Bundle-Version: 4.0.40
 Web-ContextPath: /polls-web
 -dsannotations-options: inherit
