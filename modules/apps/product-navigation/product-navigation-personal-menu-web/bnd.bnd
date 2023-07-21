@@ -1,6 +1,6 @@
 Bundle-Name: Liferay Product Navigation Personal Menu Web
 Bundle-SymbolicName: com.liferay.product.navigation.personal.menu.web
-Bundle-Version: 1.0.28
+Bundle-Version: 1.0.29
 Provide-Capability:\
 	liferay.resource.bundle;\
 		bundle.symbolic.name=com.liferay.product.navigation.personal.menu.web;\
