@@ -1,6 +1,6 @@
 Bundle-Name: Liferay Document Library Preview Audio
 Bundle-SymbolicName: com.liferay.document.library.preview.audio
-Bundle-Version: 1.0.23
+Bundle-Version: 1.0.24
 Provide-Capability:\
 	soy;\
 		type="document-library-preview-audio";\
