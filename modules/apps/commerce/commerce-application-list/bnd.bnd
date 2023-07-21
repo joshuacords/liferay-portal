@@ -1,6 +1,6 @@
 Bundle-Name: Liferay Commerce Application List
 Bundle-SymbolicName: com.liferay.commerce.application.list
-Bundle-Version: 3.0.4
+Bundle-Version: 3.0.5
 Export-Package: com.liferay.commerce.application.list.constants
 Provide-Capability:\
 	liferay.resource.bundle;\
