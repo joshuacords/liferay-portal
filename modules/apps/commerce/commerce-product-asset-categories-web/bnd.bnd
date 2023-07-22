@@ -1,6 +1,6 @@
 Bundle-Name: Liferay Commerce Product Asset Categories Web
 Bundle-SymbolicName: com.liferay.commerce.product.asset.categories.web
-Bundle-Version: 2.0.9
+Bundle-Version: 2.0.10
 Import-Package:\
 	com.liferay.friendly.url.model;version="[1.0.0,9999.0.0)",\
 	\
