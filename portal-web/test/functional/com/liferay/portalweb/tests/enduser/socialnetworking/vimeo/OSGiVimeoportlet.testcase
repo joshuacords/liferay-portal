@@ -32,9 +32,7 @@ definition {
 
 		Portlet.addPG(portletName = "Vimeo");
 
-		AntCommand.antCommand(
-			locator1 = "build-test.xml",
-			value1 = "remove-plugin -Dplugin.name=vimeo-portlet");
+		AntCommands.runCommand("build-test.xml", "remove-plugin -Dplugin.name=vimeo-portlet");
 	}
 
 }

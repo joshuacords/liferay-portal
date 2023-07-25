@@ -15,9 +15,7 @@ definition {
 
 		var documentumVMHostName = PropsUtil.get("cmis.repository.vm.host.name");
 
-		AntCommand(
-			locator1 = "build-test-documentum.xml",
-			value1 = "clean-documentum-repository -Dssh.host=${documentumVMHostName}");
+		AntCommands.runCommand("build-test-documentum.xml", "clean-documentum-repository -Dssh.host=${documentumVMHostName}");
 
 		User.loginPG(
 			authenticationMethod = "By Screen Name",

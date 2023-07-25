@@ -32,9 +32,7 @@ definition {
 
 		Portlet.addPG(portletName = "Google AdSense");
 
-		AntCommand.antCommand(
-			locator1 = "build-test.xml",
-			value1 = "remove-plugin -Dplugin.name=google-adsense-portlet");
+		AntCommands.runCommand("build-test.xml", "remove-plugin -Dplugin.name=google-adsense-portlet");
 	}
 
 }

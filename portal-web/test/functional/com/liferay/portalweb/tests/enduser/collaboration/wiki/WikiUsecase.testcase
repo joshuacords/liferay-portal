@@ -199,9 +199,7 @@ definition {
 
 		Portlet.addPG(portletName = "Tree Menu");
 
-		AntCommand.antCommand(
-			locator1 = "build-test.xml",
-			value1 = "remove-plugin -Dplugin.name=wiki-navigation-portlet");
+		AntCommands.runCommand("build-test.xml", "remove-plugin -Dplugin.name=wiki-navigation-portlet");
 	}
 
 	@priority = 5

@@ -31,9 +31,7 @@ definition {
 
 		Portlet.addPG(portletName = "Netvibes Widget");
 
-		AntCommand.antCommand(
-			locator1 = "build-test.xml",
-			value1 = "remove-plugin -Dplugin.name=netvibes-widget-portlet");
+		AntCommands.runCommand("build-test.xml", "remove-plugin -Dplugin.name=netvibes-widget-portlet");
 	}
 
 }

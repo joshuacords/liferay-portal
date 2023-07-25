@@ -795,9 +795,7 @@ definition {
 			applicationName = "Analytics Cloud",
 			checkGlobalScope = "Everything");
 
-		AntCommand(
-			locator1 = "build-test.xml",
-			value1 = "deploy-dependency-jars -Dliferay.dependency.jars=com.liferay.oauth2.provider.sample.jar");
+		AntCommands.runCommand("build-test.xml", "deploy-dependency-jars -Dliferay.dependency.jars=com.liferay.oauth2.provider.sample.jar");
 
 		Pause(locator1 = 10000);
 

@@ -197,9 +197,7 @@ definition {
 
 		// Change schema version from 2.1.1 to 2.1.0.
 
-		AntCommand(
-			locator1 = "build-test.xml",
-			value1 = "redeploy-osgi-module -Dmodule.base.dir=modules/test/upgrade/revert-schema-version-service -Dupdate.properties=2.1.0 -Dupdate.properties.original=2.1.1");
+		AntCommands.runCommand("build-test.xml", "redeploy-osgi-module -Dmodule.base.dir=modules/test/upgrade/revert-schema-version-service -Dupdate.properties=2.1.0 -Dupdate.properties.original=2.1.1");
 
 		Pause(locator1 = 15000);
 
@@ -211,9 +209,7 @@ definition {
 
 		// Change schema version from 2.1.0 to 2.0.0.
 
-		AntCommand(
-			locator1 = "build-test.xml",
-			value1 = "redeploy-osgi-module -Dmodule.base.dir=modules/test/upgrade/revert-schema-version-service -Dupdate.properties=2.0.0 -Dupdate.properties.original=2.1.0");
+		AntCommands.runCommand("build-test.xml", "redeploy-osgi-module -Dmodule.base.dir=modules/test/upgrade/revert-schema-version-service -Dupdate.properties=2.0.0 -Dupdate.properties.original=2.1.0");
 
 		Pause(locator1 = 15000);
 
@@ -225,9 +221,7 @@ definition {
 
 		// Change schema version from 2.0.0 to 1.0.0.
 
-		AntCommand(
-			locator1 = "build-test.xml",
-			value1 = "redeploy-osgi-module -Dmodule.base.dir=modules/test/upgrade/revert-schema-version-service -Dupdate.properties=1.0.0 -Dupdate.properties.original=2.0.0");
+		AntCommands.runCommand("build-test.xml", "redeploy-osgi-module -Dmodule.base.dir=modules/test/upgrade/revert-schema-version-service -Dupdate.properties=1.0.0 -Dupdate.properties.original=2.0.0");
 
 		Pause(locator1 = 15000);
 
@@ -307,9 +301,7 @@ definition {
 		if (${output} != "Cannot decrement minor version or micro version, they are already at the minimum value") {
 			Portlet.shutdownServer();
 
-			AntCommand(
-				locator1 = "build-test.xml",
-				value1 = "upgrade-legacy-database");
+			AntCommands.runCommand("build-test.xml", "upgrade-legacy-database");
 
 			var liferayHome = PropsUtil.get("liferay.home.dir.name");
 
@@ -339,13 +331,9 @@ definition {
 
 		Portlet.shutdownServer();
 
-		AntCommand(
-			locator1 = "build-test.xml",
-			value1 = "rebuild-legacy-database -Ddata.archive.type=data-archive-form-entry -Dportal.version=7.0.4");
+		AntCommands.runCommand("build-test.xml", "rebuild-legacy-database -Ddata.archive.type=data-archive-form-entry -Dportal.version=7.0.4");
 
-		AntCommand(
-			locator1 = "build-test.xml",
-			value1 = "upgrade-legacy-database");
+		AntCommands.runCommand("build-test.xml", "upgrade-legacy-database");
 
 		Pause(locator1 = 120000);
 

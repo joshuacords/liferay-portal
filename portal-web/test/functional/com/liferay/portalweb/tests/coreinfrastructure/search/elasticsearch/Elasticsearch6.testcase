@@ -76,9 +76,7 @@ definition {
 
 		var newProperty = "index.on.startup=true";
 
-		AntCommand(
-			locator1 = "build-test.xml",
-			value1 = "portal-ext-properties-update -Dadd.new.properties=true -Dupdate.properties=${newProperty}");
+		AntCommands.runCommand("build-test.xml", "portal-ext-properties-update -Dadd.new.properties=true -Dupdate.properties=${newProperty}");
 
 		Portlet.startServer(deleteLiferayHome = "false");
 
@@ -339,9 +337,7 @@ definition {
 		property embedded.elasticsearch.only = "true";
 		property test.name.skip.portal.instance = "Elasticsearch6#SearchWithNonLiferayIndex";
 
-		AntCommand(
-			locator1 = "build-test-elasticsearch6.xml",
-			value1 = "add-boston-dataset-index -Dbackup.index=boston311 -Delasticsearch.port=9200");
+		AntCommands.runCommand("build-test-elasticsearch6.xml", "add-boston-dataset-index -Dbackup.index=boston311 -Delasticsearch.port=9200");
 
 		ProductMenu.gotoPortlet(
 			category = "Configuration",
@@ -399,9 +395,7 @@ definition {
 
 		var elasticsearchYML = "${liferayHome}/elasticsearch-${elasticsearchVersion}-1/config/elasticsearch.yml";
 
-		AntCommand.antCommand(
-			locator1 = "build-test-elasticsearch6.xml",
-			value1 = "stop-elasticsearch");
+		AntCommands.runCommand("build-test-elasticsearch6.xml", "stop-elasticsearch");
 
 		var fileContent = FileUtil.read(${elasticsearchYML});
 
@@ -409,9 +403,7 @@ definition {
 
 		FileUtil.write(${elasticsearchYML}, ${updatedContent});
 
-		AntCommand.antCommand(
-			locator1 = "build-test-elasticsearch6.xml",
-			value1 = "start-elasticsearch-node -Delasticsearch.cluster.size=1");
+		AntCommands.runCommand("build-test-elasticsearch6.xml", "start-elasticsearch-node -Delasticsearch.cluster.size=1");
 
 		Pause(locator1 = 30000);
 

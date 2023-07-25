@@ -443,31 +443,21 @@ definition {
 	}
 
 	macro shutdownServer {
-		AntCommand(
-			locator1 = "build-test.xml",
-			value1 = "stop-app-server");
+		AntCommands.runCommand("build-test.xml", "stop-app-server");
 	}
 
 	macro startServer {
 		if (${deleteLiferayHome} == "false") {
-			AntCommand(
-				locator1 = "build-test.xml",
-				value1 = "start-app-server -Ddelete.liferay.home=false");
+			AntCommands.runCommand("build-test.xml", "start-app-server -Ddelete.liferay.home=false");
 		}
 		else if (${keepCachedAppServerData} == "true") {
-			AntCommand(
-				locator1 = "build-test.xml",
-				value1 = "start-app-server -Dkeep.cached.app.server.data=true");
+			AntCommands.runCommand("build-test.xml", "start-app-server -Dkeep.cached.app.server.data=true");
 		}
 		else if (${keepOSGiState} == "true") {
-			AntCommand(
-				locator1 = "build-test.xml",
-				value1 = "start-app-server -Dkeep.osgi.state=true");
+			AntCommands.runCommand("build-test.xml", "start-app-server -Dkeep.osgi.state=true");
 		}
 		else {
-			AntCommand(
-				locator1 = "build-test.xml",
-				value1 = "start-app-server");
+			AntCommands.runCommand("build-test.xml", "start-app-server");
 		}
 	}
 

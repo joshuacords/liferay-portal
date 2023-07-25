@@ -21,9 +21,7 @@ definition {
 
 		var bundleIndex = ${leadingPortNumber} - 8;
 
-		AntCommand(
-			locator1 = "build-test.xml",
-			value1 = "deploy-dependency-jars -Dapp.server.bundle.index=${bundleIndex} -Dliferay.dependency.jars=${liferayDependencyJars}");
+		AntCommands.runCommand("build-test.xml", "deploy-dependency-jars -Dapp.server.bundle.index=${bundleIndex} -Dliferay.dependency.jars=${liferayDependencyJars}");
 
 		Pause(locator1 = 10000);
 	}
@@ -76,9 +74,7 @@ definition {
 
 		var bundleIndex = ${leadingPortNumber} - 8;
 
-		AntCommand(
-			locator1 = "build-test.xml",
-			value1 = "copy-cluster-log -Dapp.server.bundle.index=${bundleIndex}");
+		AntCommands.runCommand("build-test.xml", "copy-cluster-log -Dapp.server.bundle.index=${bundleIndex}");
 
 		var liferayHome = PropsUtil.get("liferay.home.dir.name");
 
@@ -123,9 +119,7 @@ definition {
 
 		var bundleIndex = ${leadingPortNumber} - 8;
 
-		AntCommand(
-			locator1 = "build-test.xml",
-			value1 = "copy-cluster-log -Dapp.server.bundle.index=${bundleIndex}");
+		AntCommands.runCommand("build-test.xml", "copy-cluster-log -Dapp.server.bundle.index=${bundleIndex}");
 
 		var liferayHome = PropsUtil.get("liferay.home.dir.name");
 
@@ -162,9 +156,7 @@ definition {
 
 		var bundleIndex = ${leadingPortNumber} - 8;
 
-		AntCommand(
-			locator1 = "build-test.xml",
-			value1 = "stop-app-server -Dapp.server.bundle.index=${bundleIndex}");
+		AntCommands.runCommand("build-test.xml", "stop-app-server -Dapp.server.bundle.index=${bundleIndex}");
 	}
 
 	@description = "This will start the server at a specific bundle at ${base_branch}-bundles-${bundle_index}\tomcat."
@@ -174,19 +166,13 @@ definition {
 		var bundleIndex = ${leadingPortNumber} - 8;
 
 		if (${deleteLiferayHome} == "false") {
-			AntCommand(
-				locator1 = "build-test.xml",
-				value1 = "start-app-server -Dapp.server.bundle.index=${bundleIndex} -Ddelete.liferay.home=false");
+			AntCommands.runCommand("build-test.xml", "start-app-server -Dapp.server.bundle.index=${bundleIndex} -Ddelete.liferay.home=false");
 		}
 		else if (${keepCachedAppServerData} == "true") {
-			AntCommand(
-				locator1 = "build-test.xml",
-				value1 = "start-app-server -Dapp.server.bundle.index=${bundleIndex} -Dkeep.cached.app.server.data=true");
+			AntCommands.runCommand("build-test.xml", "start-app-server -Dapp.server.bundle.index=${bundleIndex} -Dkeep.cached.app.server.data=true");
 		}
 		else {
-			AntCommand(
-				locator1 = "build-test.xml",
-				value1 = "start-app-server -Dapp.server.bundle.index=${bundleIndex}");
+			AntCommands.runCommand("build-test.xml", "start-app-server -Dapp.server.bundle.index=${bundleIndex}");
 		}
 
 		var licenseFile = PropsUtil.get("dxp.license.file");
@@ -196,9 +182,7 @@ definition {
 
 			var bundleHome = "${appServerDir}-${bundleIndex}";
 
-			AntCommand(
-				locator1 = "build-test.xml",
-				value1 = "wait-for-license-activation -Dliferay.home=${bundleHome}");
+			AntCommands.runCommand("build-test.xml", "wait-for-license-activation -Dliferay.home=${bundleHome}");
 		}
 	}
 
@@ -207,9 +191,7 @@ definition {
 
 		var bundleIndex = ${leadingPortNumber} - 8;
 
-		AntCommand(
-			locator1 = "build-test.xml",
-			value1 = "portal-ext-properties-update -Dapp.server.bundle.index=${bundleIndex} -Dupdate.properties=${propertiesUpdate} -Dupdate.properties.original=${propertiesOriginal}");
+		AntCommands.runCommand("build-test.xml", "portal-ext-properties-update -Dapp.server.bundle.index=${bundleIndex} -Dupdate.properties=${propertiesUpdate} -Dupdate.properties.original=${propertiesOriginal}");
 	}
 
 	macro viewClusterStatusInConsole {
@@ -264,9 +246,7 @@ definition {
 
 	@description = "This will wait 5 minutes for node at port ${nodePort} to shutdown"
 	macro waitForNodeShutdown {
-		AntCommand(
-			locator1 = "build-test.xml",
-			value1 = "wait-for-server-shutdown -Dapp.server.port.number=${nodePort}");
+		AntCommands.runCommand("build-test.xml", "wait-for-server-shutdown -Dapp.server.port.number=${nodePort}");
 
 		Pause(locator1 = 30000);
 	}

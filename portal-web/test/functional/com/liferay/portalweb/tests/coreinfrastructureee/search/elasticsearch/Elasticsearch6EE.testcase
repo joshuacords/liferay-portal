@@ -83,9 +83,7 @@ definition {
 		property remote.elasticsearch.enabled = "true";
 		property test.name.skip.portal.instance = "Elasticsearch6EE#LearningToRankSmoke";
 
-		AntCommand(
-			locator1 = "build-test-elasticsearch6.xml",
-			value1 = "add-ltr-linear-regression-model -Dbackup.index=.ltrstore -Delasticsearch.port=9200");
+		AntCommands.runCommand("build-test-elasticsearch6.xml", "add-ltr-linear-regression-model -Dbackup.index=.ltrstore -Delasticsearch.port=9200");
 
 		ProductMenu.gotoPortlet(
 			category = "Configuration",

@@ -3,9 +3,7 @@ definition {
 	macro deleteJarOffline {
 		var liferayHome = PropsUtil.get("liferay.home.dir.name");
 
-		AntCommand(
-			locator1 = "build-test.xml",
-			value1 = "delete-dependency-file  -Dliferay.dependency.jars=${liferayDependencyJars} -Dliferay.home=${liferayHome}");
+		AntCommands.runCommand("build-test.xml", "delete-dependency-file  -Dliferay.dependency.jars=${liferayDependencyJars} -Dliferay.home=${liferayHome}");
 
 		Pause(locator1 = 10000);
 	}
@@ -13,9 +11,7 @@ definition {
 	macro deleteWarOffline {
 		var liferayHome = PropsUtil.get("liferay.home.dir.name");
 
-		AntCommand(
-			locator1 = "build-test.xml",
-			value1 = "delete-dependency-file  -Dliferay.dependency.wars=${liferayDependencyWars} -Dliferay.home=${liferayHome}");
+		AntCommands.runCommand("build-test.xml", "delete-dependency-file  -Dliferay.dependency.wars=${liferayDependencyWars} -Dliferay.home=${liferayHome}");
 
 		Pause(locator1 = 10000);
 	}

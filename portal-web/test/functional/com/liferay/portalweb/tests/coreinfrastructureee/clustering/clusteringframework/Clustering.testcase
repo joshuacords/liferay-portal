@@ -194,9 +194,7 @@ definition {
 		}
 
 		for (var method : list "invoke-method-module,invoke-method-portal") {
-			AntCommand(
-				locator1 = "build-test.xml",
-				value1 = "cluster-invoke-method -Dcluster.invoke.method=${method}");
+			AntCommands.runCommand("build-test.xml", "cluster-invoke-method -Dcluster.invoke.method=${method}");
 
 			Pause(locator1 = 10000);
 
@@ -210,9 +208,7 @@ definition {
 		}
 
 		for (var method : list "invoke-method-module-on-master,invoke-method-portal-on-master") {
-			AntCommand(
-				locator1 = "build-test.xml",
-				value1 = "cluster-invoke-method -Dcluster.invoke.method=${method}");
+			AntCommands.runCommand("build-test.xml", "cluster-invoke-method -Dcluster.invoke.method=${method}");
 
 			Pause(locator1 = 10000);
 
