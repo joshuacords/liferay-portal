@@ -115,7 +115,14 @@ definition {
 
 		AssertElementPresent(locator1 = "SystemSettings#SECURITY_CREDENTIAL_FIELD");
 
-		SikuliAssertElementPresent(locator1 = "SystemSettings#SECURITY_CREDENTIAL_HIDDEN_IMAGE");
+		ScrollBy(value1 = "0, 500");
+
+		SetWindowSize.maximizeWindow();
+
+		OcularAssertElementImage(
+			locator1 = "SystemSettings#SECURITY_CREDENTIAL_FIELD",
+			value1 = "liferay-portal-ee-7.2.x/portal-web/test/functional/com/liferay/portalweb/dependencies/ocular/baseline/obscured_credential/ldap_server_security_credential.png",
+			value2 = 70);
 	}
 
 	macro editTextAreaSetting {
