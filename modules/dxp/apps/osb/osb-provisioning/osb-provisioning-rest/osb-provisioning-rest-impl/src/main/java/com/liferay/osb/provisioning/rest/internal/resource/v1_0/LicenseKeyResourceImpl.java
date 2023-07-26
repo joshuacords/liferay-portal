@@ -1341,6 +1341,21 @@ public class LicenseKeyResourceImpl
 		return versions.toArray(new Version[0]);
 	}
 
+	private String _getStatus(Date startDate, Date endDate) {
+		Date now = new Date();
+
+		if ((endDate == null) ||
+			(startDate.before(now) && endDate.after(now))) {
+
+			return "active";
+		}
+		else if (startDate.after(now)) {
+			return "future";
+		}
+
+		return "expired";
+	}
+
 	private SubscriptionTerm[] _getSubscriptionTerms(
 			String accountKey, String productGroupName,
 			boolean allowPermanentLicenses)
@@ -1403,11 +1418,16 @@ public class LicenseKeyResourceImpl
 						continue;
 					}
 
-					Date curEndDate = curSubscriptionTerm.getEndDate();
+					String curSubscriptionTermStatus = _getStatus(
+						curSubscriptionTerm.getStartDate(),
+						curSubscriptionTerm.getEndDate());
+					String productPurchaseStatus = _getStatus(
+						productPurchase.getStartDate(),
+						productPurchase.getEndDate());
 
-					if (curEndDate.equals(
-							productPurchase.getOriginalEndDate()) &&
-						(curSubscriptionTerm.getInstanceSize() == sizing)) {
+					if ((curSubscriptionTerm.getInstanceSize() == sizing) &&
+						curSubscriptionTermStatus.equals(
+							productPurchaseStatus)) {
 
 						int productConsumptionsCount =
 							_getProductConsumptionsCount(
@@ -1427,11 +1447,22 @@ public class LicenseKeyResourceImpl
 							curSubscriptionTerm.getQuantity() +
 								productPurchase.getQuantity());
 
-						Date startDate = curSubscriptionTerm.getStartDate();
+						Date curStartDate = curSubscriptionTerm.getStartDate();
 
-						if (startDate.after(productPurchase.getStartDate())) {
-							subscriptionTerm.setStartDate(
+						if (curStartDate.after(
+								productPurchase.getStartDate())) {
+
+							curSubscriptionTerm.setStartDate(
 								productPurchase.getStartDate());
+						}
+
+						Date curEndDate = curSubscriptionTerm.getEndDate();
+
+						if (curEndDate.before(
+								productPurchase.getOriginalEndDate())) {
+
+							curSubscriptionTerm.setEndDate(
+								productPurchase.getOriginalEndDate());
 						}
 
 						isGroup = true;
