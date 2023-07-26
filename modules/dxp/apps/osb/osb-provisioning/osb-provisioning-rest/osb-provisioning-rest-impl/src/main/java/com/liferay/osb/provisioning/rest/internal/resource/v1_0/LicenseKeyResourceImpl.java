@@ -1344,12 +1344,12 @@ public class LicenseKeyResourceImpl
 	private String _getStatus(Date startDate, Date endDate) {
 		Date now = new Date();
 
-		if ((endDate == null) ||
+		if ((startDate == null) || (endDate == null) ||
 			(startDate.before(now) && endDate.after(now))) {
 
 			return "active";
 		}
-		else if (startDate.after(now)) {
+		else if ((startDate != null) && startDate.after(now)) {
 			return "future";
 		}
 
@@ -1449,7 +1449,8 @@ public class LicenseKeyResourceImpl
 
 						Date curStartDate = curSubscriptionTerm.getStartDate();
 
-						if (curStartDate.after(
+						if ((curStartDate != null) &&
+							curStartDate.after(
 								productPurchase.getStartDate())) {
 
 							curSubscriptionTerm.setStartDate(
@@ -1458,7 +1459,8 @@ public class LicenseKeyResourceImpl
 
 						Date curEndDate = curSubscriptionTerm.getEndDate();
 
-						if (curEndDate.before(
+						if ((curEndDate != null) &&
+							curEndDate.before(
 								productPurchase.getOriginalEndDate())) {
 
 							curSubscriptionTerm.setEndDate(
