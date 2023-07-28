@@ -11,7 +11,6 @@
 String randomNamespace = StringUtil.randomId() + StringPool.UNDERLINE;
 
 String height = (String)request.getAttribute("liferay-ui:flash:height");
-String version = (String)request.getAttribute("liferay-ui:flash:version");
 String width = (String)request.getAttribute("liferay-ui:flash:width");
 %>
 
@@ -40,7 +39,7 @@ String width = (String)request.getAttribute("liferay-ui:flash:width");
 			height: '<%= height %>',
 			id: '<%= (String)request.getAttribute("liferay-ui:flash:id") %>',
 			url: '<%= (String)request.getAttribute("liferay-ui:flash:movie") %>',
-			version: <%= version %>,
+			version: <%= (String)request.getAttribute("liferay-ui:flash:version") %>,
 			width: '<%= width %>'
 		}
 	).render();
