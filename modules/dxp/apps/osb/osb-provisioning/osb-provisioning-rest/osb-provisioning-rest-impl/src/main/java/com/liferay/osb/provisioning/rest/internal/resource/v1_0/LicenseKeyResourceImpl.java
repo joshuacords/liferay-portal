@@ -1423,7 +1423,7 @@ public class LicenseKeyResourceImpl
 						curSubscriptionTerm.getEndDate());
 					String productPurchaseStatus = _getStatus(
 						productPurchase.getStartDate(),
-						productPurchase.getEndDate());
+						productPurchase.getOriginalEndDate());
 
 					if ((curSubscriptionTerm.getInstanceSize() == sizing) &&
 						curSubscriptionTermStatus.equals(
