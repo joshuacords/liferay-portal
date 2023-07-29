@@ -9,9 +9,11 @@ import com.liferay.headless.commerce.admin.catalog.dto.v1_0.Attachment;
 import com.liferay.headless.commerce.admin.catalog.dto.v1_0.AttachmentBase64;
 import com.liferay.headless.commerce.admin.catalog.dto.v1_0.AttachmentUrl;
 import com.liferay.headless.commerce.admin.catalog.internal.jaxrs.exception.MethodRequiredParameterMissingException;
+import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.HashMapBuilder;
+import com.liferay.portal.kernel.util.LocaleUtil;
 
 import java.util.Locale;
 import java.util.Map;
@@ -21,7 +23,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import org.mockito.Matchers;
+import org.mockito.Mockito;
 
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -36,14 +38,35 @@ public class AttachmentUtilTest extends PowerMockito {
 
 	@Before
 	public void setUp() {
-		mockStatic(LanguageUtil.class);
+		_setUpLanguageUtil();
+	}
 
-		when(
-			LanguageUtil.isAvailableLocale(Matchers.any(Locale.class))
+	private void _setUpLanguageUtil() {
+		LanguageUtil languageUtil = new LanguageUtil();
+
+		_whenLanguageIsAvailableLocale(new Locale("hr", "HR"));
+		_whenLanguageIsAvailableLocale(LocaleUtil.ITALY);
+		_whenLanguageIsAvailableLocale(LocaleUtil.US);
+
+		languageUtil.setLanguage(_language);
+	}
+
+	private void _whenLanguageIsAvailableLocale(Locale locale) {
+		Mockito.when(
+			_language.isAvailableLocale(Mockito.eq(locale))
 		).thenReturn(
-			Boolean.TRUE
+			true
+		);
+
+		Mockito.when(
+			_language.isAvailableLocale(
+				Mockito.eq(LocaleUtil.toLanguageId(locale)))
+		).thenReturn(
+			true
 		);
 	}
+
+	private final Language _language = Mockito.mock(Language.class);
 
 	@Test
 	public void testGetTitleMapIfCPAttachmentFileEntryIsNull()
@@ -90,7 +113,7 @@ public class AttachmentUtilTest extends PowerMockito {
 	).put(
 		"hr_HR", "Napisano na Hrvatskom"
 	).put(
-		"it", "Scritto nel Italiano"
+		"it_IT", "Scritto nel Italiano"
 	).build();
 
 }
