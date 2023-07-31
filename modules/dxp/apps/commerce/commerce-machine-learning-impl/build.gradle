@@ -37,5 +37,5 @@ dependencies {
 	compileOnly project(":dxp:apps:commerce:commerce-machine-learning-api")
 	compileOnly project(":dxp:apps:commerce:headless:headless-commerce-machine-learning-api")
 
-	testCompile group: "org.mockito", name: "mockito-core", version: "1.10.8"
+	testImplementation group: "org.mockito", name: "mockito-core", version: "1.10.8"
 }
