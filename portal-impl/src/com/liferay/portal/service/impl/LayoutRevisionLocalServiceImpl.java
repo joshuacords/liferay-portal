@@ -593,7 +593,7 @@ public class LayoutRevisionLocalServiceImpl
 				serviceContext);
 		}
 		else {
-			updateStatus(
+			layoutRevision = updateStatus(
 				userId, layoutRevision.getLayoutRevisionId(),
 				WorkflowConstants.STATUS_APPROVED, serviceContext);
 		}
@@ -601,7 +601,7 @@ public class LayoutRevisionLocalServiceImpl
 		Layout layout = layoutLocalService.getLayout(layoutRevision.getPlid());
 
 		if (StringUtil.equals(layout.getType(), LayoutConstants.TYPE_CONTENT)) {
-			updateStatus(
+			layoutRevision = updateStatus(
 				userId, layoutRevision.getLayoutRevisionId(),
 				WorkflowConstants.STATUS_APPROVED, serviceContext);
 		}
