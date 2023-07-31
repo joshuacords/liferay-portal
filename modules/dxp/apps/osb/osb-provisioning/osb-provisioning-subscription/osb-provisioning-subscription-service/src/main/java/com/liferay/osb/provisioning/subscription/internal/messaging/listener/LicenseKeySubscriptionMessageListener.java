@@ -110,7 +110,7 @@ public class LicenseKeySubscriptionMessageListener extends BaseMessageListener {
 			startDateLTCalendar.getTime(), new long[0], new String[0], null,
 			null, new String[0], new long[0], null, null, null, null, null,
 			null, null, expirationDateGTCalendar.getTime(),
-			expirationDateLTCalendar.getTime(), params, false,
+			expirationDateLTCalendar.getTime(), params, true,
 			QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 
 		for (LicenseKey licenseKey : licenseKeys) {
