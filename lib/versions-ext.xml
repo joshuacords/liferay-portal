@@ -385,7 +385,7 @@
 			</library>
 			<library>
 				<file-name>lib/development/jetty-server.jar</file-name>
-				<version>9.3.25.v20180904</version>
+				<version>9.3.30.v20211001</version>
 				<project-name>Jetty</project-name>
 				<project-url>http://www.eclipse.org/jetty</project-url>
 				<licenses>
@@ -401,7 +401,7 @@
 			</library>
 			<library>
 				<file-name>lib/development/jetty-util.jar</file-name>
-				<version>9.3.25.v20180904</version>
+				<version>9.3.30.v20211001</version>
 				<project-name>Jetty</project-name>
 				<project-url>http://www.eclipse.org/jetty</project-url>
 				<licenses>
