@@ -2481,7 +2481,7 @@
 			</library>
 			<library>
 				<file-name>lib/portal/netty-all.jar</file-name>
-				<version>4.1.72.Final</version>
+				<version>4.1.94.Final</version>
 				<project-name>Netty</project-name>
 				<project-url>http://netty.io</project-url>
 				<licenses>
@@ -2493,7 +2493,7 @@
 			</library>
 			<library>
 				<file-name>lib/portal/netty-buffer.jar</file-name>
-				<version>4.1.72.Final</version>
+				<version>4.1.94.Final</version>
 				<project-name>Netty</project-name>
 				<project-url>http://netty.io</project-url>
 				<licenses>
@@ -2505,7 +2505,7 @@
 			</library>
 			<library>
 				<file-name>lib/portal/netty-codec.jar</file-name>
-				<version>4.1.72.Final</version>
+				<version>4.1.94.Final</version>
 				<project-name>Netty</project-name>
 				<project-url>http://netty.io</project-url>
 				<licenses>
@@ -2517,7 +2517,7 @@
 			</library>
 			<library>
 				<file-name>lib/portal/netty-common.jar</file-name>
-				<version>4.1.72.Final</version>
+				<version>4.1.94.Final</version>
 				<project-name>Netty</project-name>
 				<project-url>http://netty.io</project-url>
 				<licenses>
@@ -2529,7 +2529,7 @@
 			</library>
 			<library>
 				<file-name>lib/portal/netty-handler.jar</file-name>
-				<version>4.1.72.Final</version>
+				<version>4.1.94.Final</version>
 				<project-name>Netty</project-name>
 				<project-url>http://netty.io</project-url>
 				<licenses>
@@ -2541,7 +2541,7 @@
 			</library>
 			<library>
 				<file-name>lib/portal/netty-resolver.jar</file-name>
-				<version>4.1.72.Final</version>
+				<version>4.1.94.Final</version>
 				<project-name>Netty</project-name>
 				<project-url>http://netty.io</project-url>
 				<licenses>
@@ -2553,7 +2553,7 @@
 			</library>
 			<library>
 				<file-name>lib/portal/netty-transport.jar</file-name>
-				<version>4.1.72.Final</version>
+				<version>4.1.94.Final</version>
 				<project-name>Netty</project-name>
 				<project-url>http://netty.io</project-url>
 				<licenses>
