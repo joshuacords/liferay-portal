@@ -127,7 +127,14 @@ public class UploadPortletRequestWhenGettingFilesTest {
 			Assert.assertEquals(Arrays.toString(files), 2, files.length);
 
 			for (int i = 0; i < files.length; i++) {
-				File storeLocation = fileItems[i].getStoreLocation();
+				File storeLocation;
+
+				if (fileItems[i].isInMemory()) {
+					storeLocation = fileItems[i].getTempFile();
+				}
+				else {
+					storeLocation = fileItems[i].getStoreLocation();
+				}
 
 				Assert.assertEquals(
 					storeLocation.getAbsolutePath(),
