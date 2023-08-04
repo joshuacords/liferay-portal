@@ -1,8 +1,6 @@
 dependencies {
-	testIntegrationCompile group: "com.liferay", name: "com.liferay.arquillian.extension.junit.bridge", version: "1.0.19"
-	testIntegrationCompile group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "default"
-	testIntegrationCompile project(":apps:layout:layout-test-util")
-	testIntegrationCompile project(":apps:portal-security-audit:portal-security-audit-storage-api")
-	testIntegrationCompile project(":apps:portal-security:portal-security-permission-test-util")
-	testIntegrationCompile project(":core:petra:petra-string")
+	testIntegrationImplementation group: "com.liferay", name: "com.liferay.arquillian.extension.junit.bridge", version: "1.0.19"
+	testIntegrationImplementation project(":apps:layout:layout-test-util")
+	testIntegrationImplementation project(":apps:portal-security-audit:portal-security-audit-storage-api")
+	testIntegrationImplementation project(":apps:portal-security:portal-security-permission-test-util")
 }

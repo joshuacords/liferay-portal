@@ -1,7 +1,6 @@
 dependencies {
-	testIntegrationCompile group: "com.liferay", name: "com.liferay.arquillian.extension.junit.bridge", version: "1.0.19"
-	testIntegrationCompile group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "default"
-	testIntegrationCompile project(":apps:portal-rules-engine:portal-rules-engine-api")
-	testIntegrationCompile project(":core:registry-api")
-	testIntegrationCompile project(":dxp:apps:portal-rules-engine-drools:portal-rules-engine-drools")
+	testIntegrationImplementation group: "com.liferay", name: "com.liferay.arquillian.extension.junit.bridge", version: "1.0.19"
+	testIntegrationImplementation project(":apps:portal-rules-engine:portal-rules-engine-api")
+	testIntegrationImplementation project(":core:registry-api")
+	testIntegrationImplementation project(":dxp:apps:portal-rules-engine-drools:portal-rules-engine-drools")
 }

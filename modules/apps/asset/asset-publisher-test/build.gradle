@@ -1,22 +1,19 @@
 dependencies {
-	testIntegrationCompile group: "com.liferay", name: "com.liferay.arquillian.extension.junit.bridge", version: "1.0.19"
-	testIntegrationCompile group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "default"
-	testIntegrationCompile group: "org.osgi", name: "org.osgi.service.cm", version: "1.5.0"
-	testIntegrationCompile project(":apps:asset:asset-list-api")
-	testIntegrationCompile project(":apps:asset:asset-publisher-api")
-	testIntegrationCompile project(":apps:asset:asset-test-util")
-	testIntegrationCompile project(":apps:dynamic-data-mapping:dynamic-data-mapping-api")
-	testIntegrationCompile project(":apps:dynamic-data-mapping:dynamic-data-mapping-test-util")
-	testIntegrationCompile project(":apps:export-import:export-import-api")
-	testIntegrationCompile project(":apps:export-import:export-import-test-util")
-	testIntegrationCompile project(":apps:journal:journal-api")
-	testIntegrationCompile project(":apps:journal:journal-test-util")
-	testIntegrationCompile project(":apps:layout:layout-test-util")
-	testIntegrationCompile project(":apps:portal-configuration:portal-configuration-test-util")
-	testIntegrationCompile project(":apps:portal:portal-upgrade-api")
-	testIntegrationCompile project(":apps:segments:segments-api")
-	testIntegrationCompile project(":apps:segments:segments-test-util")
-	testIntegrationCompile project(":core:petra:petra-lang")
-	testIntegrationCompile project(":core:petra:petra-string")
-	testIntegrationCompile project(":core:registry-api")
+	testIntegrationImplementation group: "com.liferay", name: "com.liferay.arquillian.extension.junit.bridge", version: "1.0.19"
+	testIntegrationImplementation group: "org.osgi", name: "org.osgi.service.cm", version: "1.5.0"
+	testIntegrationImplementation project(":apps:asset:asset-list-api")
+	testIntegrationImplementation project(":apps:asset:asset-publisher-api")
+	testIntegrationImplementation project(":apps:asset:asset-test-util")
+	testIntegrationImplementation project(":apps:dynamic-data-mapping:dynamic-data-mapping-api")
+	testIntegrationImplementation project(":apps:dynamic-data-mapping:dynamic-data-mapping-test-util")
+	testIntegrationImplementation project(":apps:export-import:export-import-api")
+	testIntegrationImplementation project(":apps:export-import:export-import-test-util")
+	testIntegrationImplementation project(":apps:journal:journal-api")
+	testIntegrationImplementation project(":apps:journal:journal-test-util")
+	testIntegrationImplementation project(":apps:layout:layout-test-util")
+	testIntegrationImplementation project(":apps:portal-configuration:portal-configuration-test-util")
+	testIntegrationImplementation project(":apps:portal:portal-upgrade-api")
+	testIntegrationImplementation project(":apps:segments:segments-api")
+	testIntegrationImplementation project(":apps:segments:segments-test-util")
+	testIntegrationImplementation project(":core:registry-api")
 }

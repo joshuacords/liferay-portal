@@ -1,11 +1,8 @@
 dependencies {
-	testIntegrationCompile group: "ch.qos.reload4j", name: "reload4j", version: "1.2.19"
-	testIntegrationCompile group: "com.liferay", name: "com.liferay.arquillian.extension.junit.bridge", version: "1.0.19"
-	testIntegrationCompile group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "default"
-	testIntegrationCompile group: "org.osgi", name: "org.osgi.service.cm", version: "1.5.0"
-	testIntegrationCompile group: "org.osgi", name: "osgi.core", version: "6.0.0"
-	testIntegrationCompile project(":apps:portal:portal-spring-extender-api")
-	testIntegrationCompile project(":apps:static:portal-configuration:portal-configuration-metatype-api")
-	testIntegrationCompile project(":core:petra:petra-reflect")
-	testIntegrationCompile project(":core:petra:petra-string")
+	testIntegrationImplementation group: "ch.qos.reload4j", name: "reload4j", version: "1.2.19"
+	testIntegrationImplementation group: "com.liferay", name: "com.liferay.arquillian.extension.junit.bridge", version: "1.0.19"
+	testIntegrationImplementation group: "org.osgi", name: "org.osgi.service.cm", version: "1.5.0"
+	testIntegrationImplementation group: "org.osgi", name: "osgi.core", version: "6.0.0"
+	testIntegrationImplementation project(":apps:portal:portal-spring-extender-api")
+	testIntegrationImplementation project(":apps:static:portal-configuration:portal-configuration-metatype-api")
 }

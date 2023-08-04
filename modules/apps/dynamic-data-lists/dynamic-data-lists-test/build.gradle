@@ -1,23 +1,22 @@
 dependencies {
-	testCompile group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "default"
-	testCompile project(":apps:dynamic-data-lists:dynamic-data-lists-api")
-	testCompile project(":apps:dynamic-data-lists:dynamic-data-lists-service")
-	testCompile project(":apps:dynamic-data-mapping:dynamic-data-mapping-api")
-	testCompile project(":apps:export-import:export-import-api")
-	testCompile project(":apps:export-import:export-import-service")
-	testCompile project(":apps:portal:portal-aop-api")
-	testCompile project(":core:petra:petra-lang")
+	testImplementation group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "default"
+	testImplementation project(":apps:dynamic-data-lists:dynamic-data-lists-api")
+	testImplementation project(":apps:dynamic-data-lists:dynamic-data-lists-service")
+	testImplementation project(":apps:dynamic-data-mapping:dynamic-data-mapping-api")
+	testImplementation project(":apps:export-import:export-import-api")
+	testImplementation project(":apps:export-import:export-import-service")
+	testImplementation project(":apps:portal:portal-aop-api")
+	testImplementation project(":core:petra:petra-lang")
 
-	testIntegrationCompile group: "com.liferay", name: "com.liferay.arquillian.extension.junit.bridge", version: "1.0.19"
-	testIntegrationCompile group: "com.liferay.portal", name: "com.liferay.portal.impl", version: "default"
-	testIntegrationCompile group: "org.apache.poi", name: "poi", version: "4.1.2"
-	testIntegrationCompile group: "org.apache.poi", name: "poi-ooxml", version: "4.1.2"
-	testIntegrationCompile group: "org.apache.poi", name: "poi-ooxml-schemas", version: "4.1.2"
-	testIntegrationCompile project(":apps:dynamic-data-mapping:dynamic-data-mapping-test-util")
-	testIntegrationCompile project(":apps:export-import:export-import-test-util")
-	testIntegrationCompile project(":apps:layout:layout-test-util")
-	testIntegrationCompile project(":apps:portal:portal-upgrade-api")
-	testIntegrationCompile project(":apps:ratings:ratings-test-util")
-	testIntegrationCompile project(":core:petra:petra-string")
-	testIntegrationCompile project(":core:registry-api")
+	testIntegrationImplementation group: "com.liferay", name: "com.liferay.arquillian.extension.junit.bridge", version: "1.0.19"
+	testIntegrationImplementation group: "com.liferay.portal", name: "com.liferay.portal.impl", version: "default"
+	testIntegrationImplementation group: "org.apache.poi", name: "poi", version: "4.1.2"
+	testIntegrationImplementation group: "org.apache.poi", name: "poi-ooxml", version: "4.1.2"
+	testIntegrationImplementation group: "org.apache.poi", name: "poi-ooxml-schemas", version: "4.1.2"
+	testIntegrationImplementation project(":apps:dynamic-data-mapping:dynamic-data-mapping-test-util")
+	testIntegrationImplementation project(":apps:export-import:export-import-test-util")
+	testIntegrationImplementation project(":apps:layout:layout-test-util")
+	testIntegrationImplementation project(":apps:portal:portal-upgrade-api")
+	testIntegrationImplementation project(":apps:ratings:ratings-test-util")
+	testIntegrationImplementation project(":core:registry-api")
 }

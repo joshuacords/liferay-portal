@@ -1,10 +1,7 @@
 dependencies {
-	testIntegrationCompile group: "com.liferay", name: "com.liferay.arquillian.extension.junit.bridge", version: "1.0.19"
-	testIntegrationCompile group: "com.liferay", name: "org.apache.felix.configadmin", version: "1.9.8.LIFERAY-PATCHED-4"
-	testIntegrationCompile group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "default"
-	testIntegrationCompile project(":apps:portal-configuration:portal-configuration-test-util")
-	testIntegrationCompile project(":apps:static:osgi:osgi-util")
-	testIntegrationCompile project(":apps:static:portal-configuration:portal-configuration-persistence-api")
-	testIntegrationCompile project(":core:petra:petra-function")
-	testIntegrationCompile project(":core:petra:petra-string")
+	testIntegrationImplementation group: "com.liferay", name: "com.liferay.arquillian.extension.junit.bridge", version: "1.0.19"
+	testIntegrationImplementation group: "com.liferay", name: "org.apache.felix.configadmin", version: "1.9.8.LIFERAY-PATCHED-4"
+	testIntegrationImplementation project(":apps:portal-configuration:portal-configuration-test-util")
+	testIntegrationImplementation project(":apps:static:osgi:osgi-util")
+	testIntegrationImplementation project(":apps:static:portal-configuration:portal-configuration-persistence-api")
 }

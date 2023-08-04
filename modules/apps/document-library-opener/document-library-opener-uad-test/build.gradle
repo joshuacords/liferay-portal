@@ -1,6 +1,6 @@
 dependencies {
-	testIntegrationCompile group: "com.liferay", name: "com.liferay.arquillian.extension.junit.bridge", version: "1.0.19"
-	testIntegrationCompile project(":apps:document-library-opener:document-library-opener-api")
-	testIntegrationCompile project(":apps:user-associated-data:user-associated-data-api")
-	testIntegrationCompile project(":apps:user-associated-data:user-associated-data-test-util")
+	testIntegrationImplementation group: "com.liferay", name: "com.liferay.arquillian.extension.junit.bridge", version: "1.0.19"
+	testIntegrationImplementation project(":apps:document-library-opener:document-library-opener-api")
+	testIntegrationImplementation project(":apps:user-associated-data:user-associated-data-api")
+	testIntegrationImplementation project(":apps:user-associated-data:user-associated-data-test-util")
 }

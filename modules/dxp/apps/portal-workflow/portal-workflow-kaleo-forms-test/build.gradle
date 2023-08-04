@@ -1,11 +1,10 @@
 dependencies {
-	testIntegrationCompile group: "com.liferay", name: "com.liferay.arquillian.extension.junit.bridge", version: "1.0.19"
-	testIntegrationCompile group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "default"
-	testIntegrationCompile project(":apps:dynamic-data-lists:dynamic-data-lists-api")
-	testIntegrationCompile project(":apps:dynamic-data-mapping:dynamic-data-mapping-api")
-	testIntegrationCompile project(":apps:dynamic-data-mapping:dynamic-data-mapping-test-util")
-	testIntegrationCompile project(":apps:portal:portal-upgrade-api")
-	testIntegrationCompile project(":core:registry-api")
-	testIntegrationCompile project(":dxp:apps:portal-workflow:portal-workflow-kaleo-forms-api")
-	testIntegrationCompile project(":dxp:apps:portal-workflow:portal-workflow-kaleo-forms-service")
+	testIntegrationImplementation group: "com.liferay", name: "com.liferay.arquillian.extension.junit.bridge", version: "1.0.19"
+	testIntegrationImplementation project(":apps:dynamic-data-lists:dynamic-data-lists-api")
+	testIntegrationImplementation project(":apps:dynamic-data-mapping:dynamic-data-mapping-api")
+	testIntegrationImplementation project(":apps:dynamic-data-mapping:dynamic-data-mapping-test-util")
+	testIntegrationImplementation project(":apps:portal:portal-upgrade-api")
+	testIntegrationImplementation project(":core:registry-api")
+	testIntegrationImplementation project(":dxp:apps:portal-workflow:portal-workflow-kaleo-forms-api")
+	testIntegrationImplementation project(":dxp:apps:portal-workflow:portal-workflow-kaleo-forms-service")
 }

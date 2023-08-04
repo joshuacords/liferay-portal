@@ -1,18 +1,17 @@
 dependencies {
-	testIntegrationCompile group: "com.liferay", name: "com.fasterxml.jackson.databind", version: "2.10.3.LIFERAY-PATCHED-1"
-	testIntegrationCompile group: "com.liferay", name: "com.liferay.arquillian.extension.junit.bridge", version: "1.0.19"
-	testIntegrationCompile group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "default"
-	testIntegrationCompile group: "javax.portlet", name: "portlet-api", version: "3.0.1"
-	testIntegrationCompile group: "org.osgi", name: "org.osgi.service.cm", version: "1.5.0"
-	testIntegrationCompile project(":apps:asset:asset-test-util")
-	testIntegrationCompile project(":apps:export-import:export-import-api")
-	testIntegrationCompile project(":apps:export-import:export-import-test-util")
-	testIntegrationCompile project(":apps:layout:layout-test-util")
-	testIntegrationCompile project(":apps:portal-configuration:portal-configuration-test-util")
-	testIntegrationCompile project(":apps:portal-odata:portal-odata-api")
-	testIntegrationCompile project(":apps:portal:portal-upgrade-api")
-	testIntegrationCompile project(":apps:segments:segments-api")
-	testIntegrationCompile project(":apps:segments:segments-service")
-	testIntegrationCompile project(":apps:segments:segments-test-util")
-	testIntegrationCompile project(":core:registry-api")
+	testIntegrationImplementation group: "com.liferay", name: "com.fasterxml.jackson.databind", version: "2.10.3.LIFERAY-PATCHED-1"
+	testIntegrationImplementation group: "com.liferay", name: "com.liferay.arquillian.extension.junit.bridge", version: "1.0.19"
+	testIntegrationImplementation group: "javax.portlet", name: "portlet-api", version: "3.0.1"
+	testIntegrationImplementation group: "org.osgi", name: "org.osgi.service.cm", version: "1.5.0"
+	testIntegrationImplementation project(":apps:asset:asset-test-util")
+	testIntegrationImplementation project(":apps:export-import:export-import-api")
+	testIntegrationImplementation project(":apps:export-import:export-import-test-util")
+	testIntegrationImplementation project(":apps:layout:layout-test-util")
+	testIntegrationImplementation project(":apps:portal-configuration:portal-configuration-test-util")
+	testIntegrationImplementation project(":apps:portal-odata:portal-odata-api")
+	testIntegrationImplementation project(":apps:portal:portal-upgrade-api")
+	testIntegrationImplementation project(":apps:segments:segments-api")
+	testIntegrationImplementation project(":apps:segments:segments-service")
+	testIntegrationImplementation project(":apps:segments:segments-test-util")
+	testIntegrationImplementation project(":core:registry-api")
 }

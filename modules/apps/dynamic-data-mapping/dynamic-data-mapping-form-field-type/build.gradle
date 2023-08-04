@@ -15,13 +15,13 @@ dependencies {
 	compileOnly project(":core:petra:petra-lang")
 	compileOnly project(":core:petra:petra-string")
 
-	testCompile group: "com.google.template", name: "soy", version: "2015-04-10"
-	testCompile group: "com.liferay.portal", name: "com.liferay.portal.impl", version: "default"
-	testCompile group: "org.skyscreamer", name: "jsonassert", version: "1.2.3"
-	testCompile project(":apps:dynamic-data-mapping:dynamic-data-mapping-service")
-	testCompile project(":apps:dynamic-data-mapping:dynamic-data-mapping-test-util")
-	testCompile project(":apps:journal:journal-api")
-	testCompile project(":apps:portal-search:portal-search-test-util")
+	testImplementation group: "com.google.template", name: "soy", version: "2015-04-10"
+	testImplementation group: "com.liferay.portal", name: "com.liferay.portal.impl", version: "default"
+	testImplementation group: "org.skyscreamer", name: "jsonassert", version: "1.2.3"
+	testImplementation project(":apps:dynamic-data-mapping:dynamic-data-mapping-service")
+	testImplementation project(":apps:dynamic-data-mapping:dynamic-data-mapping-test-util")
+	testImplementation project(":apps:journal:journal-api")
+	testImplementation project(":apps:portal-search:portal-search-test-util")
 }
 
 processResources {

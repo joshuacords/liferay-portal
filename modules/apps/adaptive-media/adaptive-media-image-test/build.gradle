@@ -1,12 +1,8 @@
 dependencies {
-	testIntegrationCompile group: "com.liferay", name: "com.liferay.arquillian.extension.junit.bridge", version: "1.0.19"
-	testIntegrationCompile group: "com.liferay.portal", name: "com.liferay.portal.impl", version: "default"
-	testIntegrationCompile group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "default"
-	testIntegrationCompile project(":apps:adaptive-media:adaptive-media-api")
-	testIntegrationCompile project(":apps:adaptive-media:adaptive-media-image-api")
-	testIntegrationCompile project(":apps:adaptive-media:adaptive-media-image-item-selector-api")
-	testIntegrationCompile project(":apps:item-selector:item-selector-api")
-	testIntegrationCompile project(":core:petra:petra-concurrent")
-	testIntegrationCompile project(":core:petra:petra-memory")
-	testIntegrationCompile project(":core:petra:petra-string")
+	testIntegrationImplementation group: "com.liferay", name: "com.liferay.arquillian.extension.junit.bridge", version: "1.0.19"
+	testIntegrationImplementation group: "com.liferay.portal", name: "com.liferay.portal.impl", version: "default"
+	testIntegrationImplementation project(":apps:adaptive-media:adaptive-media-api")
+	testIntegrationImplementation project(":apps:adaptive-media:adaptive-media-image-api")
+	testIntegrationImplementation project(":apps:adaptive-media:adaptive-media-image-item-selector-api")
+	testIntegrationImplementation project(":apps:item-selector:item-selector-api")
 }

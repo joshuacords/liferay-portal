@@ -35,5 +35,5 @@ dependencies {
 
 	picturefill group: "org.webjars.bower", name: "picturefill", transitive: false, version: pictureFillVersion
 
-	testCompile project(":core:petra:petra-lang")
+	testImplementation project(":core:petra:petra-lang")
 }

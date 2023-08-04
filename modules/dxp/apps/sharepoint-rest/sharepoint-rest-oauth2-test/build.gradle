@@ -1,4 +1,4 @@
 dependencies {
-	testIntegrationCompile group: "com.liferay", name: "com.liferay.arquillian.extension.junit.bridge", version: "1.0.19"
-	testIntegrationCompile project(":dxp:apps:sharepoint-rest:sharepoint-rest-oauth2-api");
+	testIntegrationImplementation group: "com.liferay", name: "com.liferay.arquillian.extension.junit.bridge", version: "1.0.19"
+	testIntegrationImplementation project(":dxp:apps:sharepoint-rest:sharepoint-rest-oauth2-api");
 }

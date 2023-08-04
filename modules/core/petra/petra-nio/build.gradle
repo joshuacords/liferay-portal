@@ -1,5 +1,5 @@
 dependencies {
-	testCompile project(":core:petra:petra-reflect")
+	testImplementation project(":core:petra:petra-reflect")
 }
 
 liferay {

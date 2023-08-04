@@ -47,7 +47,7 @@ dependencies {
 	compileOnly project(":core:petra:petra-function")
 	compileOnly project(":core:petra:petra-string")
 
-	testCompile project(":core:petra:petra-concurrent")
+	testImplementation project(":core:petra:petra-concurrent")
 }
 
 unrollAsmCommonsClasses {

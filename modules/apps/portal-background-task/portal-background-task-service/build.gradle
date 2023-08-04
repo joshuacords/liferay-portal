@@ -18,5 +18,5 @@ dependencies {
 	compileOnly project(":core:petra:petra-lang")
 	compileOnly project(":core:petra:petra-string")
 
-	testCompile project(":core:registry-api")
+	testImplementation project(":core:registry-api")
 }

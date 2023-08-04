@@ -1,13 +1,10 @@
 dependencies {
-	testIntegrationCompile group: "com.liferay", name: "com.liferay.arquillian.extension.junit.bridge", version: "1.0.19"
-	testIntegrationCompile group: "com.liferay.portal", name: "com.liferay.portal.impl", version: "default"
-	testIntegrationCompile group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "default"
-	testIntegrationCompile project(":apps:export-import:export-import-api")
-	testIntegrationCompile project(":apps:export-import:export-import-changeset-api")
-	testIntegrationCompile project(":apps:journal:journal-api")
-	testIntegrationCompile project(":apps:journal:journal-test-util")
-	testIntegrationCompile project(":apps:layout:layout-test-util")
-	testIntegrationCompile project(":apps:staging:staging-api")
-	testIntegrationCompile project(":core:petra:petra-reflect")
-	testIntegrationCompile project(":core:petra:petra-string")
+	testIntegrationImplementation group: "com.liferay", name: "com.liferay.arquillian.extension.junit.bridge", version: "1.0.19"
+	testIntegrationImplementation group: "com.liferay.portal", name: "com.liferay.portal.impl", version: "default"
+	testIntegrationImplementation project(":apps:export-import:export-import-api")
+	testIntegrationImplementation project(":apps:export-import:export-import-changeset-api")
+	testIntegrationImplementation project(":apps:journal:journal-api")
+	testIntegrationImplementation project(":apps:journal:journal-test-util")
+	testIntegrationImplementation project(":apps:layout:layout-test-util")
+	testIntegrationImplementation project(":apps:staging:staging-api")
 }

@@ -37,11 +37,11 @@ dependencies {
 	compileOnly project(":core:petra:petra-string")
 	compileOnly project(":core:registry-api")
 
-	testCompile group: "org.skyscreamer", name: "jsonassert", version: "1.2.3"
-	testCompile project(":apps:dynamic-data-mapping:dynamic-data-mapping-expression")
-	testCompile project(":apps:dynamic-data-mapping:dynamic-data-mapping-form-builder")
-	testCompile project(":apps:dynamic-data-mapping:dynamic-data-mapping-form-evaluator-impl")
-	testCompile project(":apps:dynamic-data-mapping:dynamic-data-mapping-test-util")
+	testImplementation group: "org.skyscreamer", name: "jsonassert", version: "1.2.3"
+	testImplementation project(":apps:dynamic-data-mapping:dynamic-data-mapping-expression")
+	testImplementation project(":apps:dynamic-data-mapping:dynamic-data-mapping-form-builder")
+	testImplementation project(":apps:dynamic-data-mapping:dynamic-data-mapping-form-evaluator-impl")
+	testImplementation project(":apps:dynamic-data-mapping:dynamic-data-mapping-test-util")
 }
 
 processResources {
