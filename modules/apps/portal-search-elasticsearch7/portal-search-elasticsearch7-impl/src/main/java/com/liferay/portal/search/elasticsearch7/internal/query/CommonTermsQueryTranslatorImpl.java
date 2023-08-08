@@ -36,6 +36,10 @@ public class CommonTermsQueryTranslatorImpl
 				commonTermsQuery.getCutoffFrequency());
 		}
 
+		if (commonTermsQuery.getBoost() != null) {
+			commonTermsQueryBuilder.boost(commonTermsQuery.getBoost());
+		}
+
 		if (commonTermsQuery.getHighFreqMinimumShouldMatch() != null) {
 			commonTermsQueryBuilder.highFreqMinimumShouldMatch(
 				commonTermsQuery.getHighFreqMinimumShouldMatch());

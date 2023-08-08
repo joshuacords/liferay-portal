@@ -76,6 +76,10 @@ public class MoreLikeThisQueryTranslatorImpl
 			moreLikeThisQueryBuilder.analyzer(moreLikeThisQuery.getAnalyzer());
 		}
 
+		if (moreLikeThisQuery.getBoost() != null) {
+			moreLikeThisQueryBuilder.boost(moreLikeThisQuery.getBoost());
+		}
+
 		if (moreLikeThisQuery.getMaxDocFrequency() != null) {
 			moreLikeThisQueryBuilder.maxDocFreq(
 				moreLikeThisQuery.getMaxDocFrequency());

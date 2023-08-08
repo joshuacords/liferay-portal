@@ -20,7 +20,13 @@ public class MatchAllQueryTranslatorImpl implements MatchAllQueryTranslator {
 
 	@Override
 	public QueryBuilder translate(MatchAllQuery matchAllQuery) {
-		return QueryBuilders.matchAllQuery();
+		QueryBuilder queryBuilder = QueryBuilders.matchAllQuery();
+
+		if (matchAllQuery.getBoost() != null) {
+			queryBuilder.boost(matchAllQuery.getBoost());
+		}
+
+		return queryBuilder;
 	}
 
 }

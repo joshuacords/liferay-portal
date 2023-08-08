@@ -24,6 +24,10 @@ public class WildcardQueryTranslatorImpl implements WildcardQueryTranslator {
 		WildcardQueryBuilder wildcardQueryBuilder = QueryBuilders.wildcardQuery(
 			wildcardQuery.getField(), wildcardQuery.getValue());
 
+		if (wildcardQuery.getBoost() != null) {
+			wildcardQueryBuilder.boost(wildcardQuery.getBoost());
+		}
+
 		if (wildcardQuery.getRewrite() != null) {
 			wildcardQueryBuilder.rewrite(wildcardQuery.getRewrite());
 		}

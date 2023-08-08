@@ -25,6 +25,10 @@ public class FuzzyQueryTranslatorImpl implements FuzzyQueryTranslator {
 		FuzzyQueryBuilder fuzzyQueryBuilder = QueryBuilders.fuzzyQuery(
 			fuzzyQuery.getField(), fuzzyQuery.getValue());
 
+		if (fuzzyQuery.getBoost() != null) {
+			fuzzyQueryBuilder.boost(fuzzyQuery.getBoost());
+		}
+
 		if (fuzzyQuery.getFuzziness() != null) {
 			fuzzyQueryBuilder.fuzziness(
 				Fuzziness.build(fuzzyQuery.getFuzziness()));

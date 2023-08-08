@@ -21,8 +21,14 @@ public class TermQueryTranslatorImpl implements TermQueryTranslator {
 
 	@Override
 	public QueryBuilder translate(TermQuery termQuery) {
-		return QueryBuilders.termQuery(
+		QueryBuilder queryBuilder = QueryBuilders.termQuery(
 			termQuery.getField(), termQuery.getValue());
+
+		if (termQuery.getBoost() != null) {
+			queryBuilder.boost(termQuery.getBoost());
+		}
+
+		return queryBuilder;
 	}
 
 }
