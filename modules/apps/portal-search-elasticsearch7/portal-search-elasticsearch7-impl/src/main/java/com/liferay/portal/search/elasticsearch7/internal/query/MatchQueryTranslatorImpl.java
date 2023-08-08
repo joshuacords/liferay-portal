@@ -67,6 +67,14 @@ public class MatchQueryTranslatorImpl
 		throw new IllegalArgumentException("Invalid match query type: " + type);
 	}
 
+	private void _translateBoost(
+		QueryBuilder queryBuilder, MatchQuery matchQuery) {
+
+		if (matchQuery.getBoost() != null) {
+			queryBuilder.boost(matchQuery.getBoost());
+		}
+	}
+
 	private QueryBuilder _translateMatchPhrasePrefixQuery(
 		String field, String value, MatchQuery matchQuery) {
 
@@ -76,6 +84,8 @@ public class MatchQueryTranslatorImpl
 		if (Validator.isNotNull(matchQuery.getAnalyzer())) {
 			matchPhrasePrefixQueryBuilder.analyzer(matchQuery.getAnalyzer());
 		}
+
+		_translateBoost(matchPhrasePrefixQueryBuilder, matchQuery);
 
 		if (matchQuery.getMaxExpansions() != null) {
 			matchPhrasePrefixQueryBuilder.maxExpansions(
@@ -99,6 +109,8 @@ public class MatchQueryTranslatorImpl
 			matchPhraseQueryBuilder.analyzer(matchQuery.getAnalyzer());
 		}
 
+		_translateBoost(matchPhraseQueryBuilder, matchQuery);
+
 		if (matchQuery.getSlop() != null) {
 			matchPhraseQueryBuilder.slop(matchQuery.getSlop());
 		}
@@ -115,6 +127,8 @@ public class MatchQueryTranslatorImpl
 		if (Validator.isNotNull(matchQuery.getAnalyzer())) {
 			matchQueryBuilder.analyzer(matchQuery.getAnalyzer());
 		}
+
+		_translateBoost(matchQueryBuilder, matchQuery);
 
 		if (matchQuery.getCutOffFrequency() != null) {
 			matchQueryBuilder.cutoffFrequency(matchQuery.getCutOffFrequency());

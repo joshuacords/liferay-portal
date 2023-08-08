@@ -48,6 +48,10 @@ public class StringQueryTranslatorImpl implements StringQueryTranslator {
 				stringQuery.getAutoGenerateSynonymsPhraseQuery());
 		}
 
+		if (stringQuery.getBoost() != null) {
+			queryStringQueryBuilder.boost(stringQuery.getBoost());
+		}
+
 		if (stringQuery.getDefaultField() != null) {
 			queryStringQueryBuilder.defaultField(stringQuery.getDefaultField());
 		}

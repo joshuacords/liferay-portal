@@ -50,6 +50,10 @@ public class BooleanQueryTranslatorImpl implements BooleanQueryTranslator {
 				booleanQuery.getAdjustPureNegative());
 		}
 
+		if (booleanQuery.getBoost() != null) {
+			boolQueryBuilder.boost(booleanQuery.getBoost());
+		}
+
 		if (booleanQuery.getMinimumShouldMatch() != null) {
 			boolQueryBuilder.minimumShouldMatch(
 				booleanQuery.getMinimumShouldMatch());

@@ -28,10 +28,16 @@ public class NestedQueryTranslatorImpl implements NestedQueryTranslator {
 
 		Query query = nestedQuery.getQuery();
 
-		QueryBuilder queryBuilder = query.accept(queryVisitor);
+		QueryBuilder nestedQueryBuilder = query.accept(queryVisitor);
 
-		return QueryBuilders.nestedQuery(
-			nestedQuery.getPath(), queryBuilder, ScoreMode.Total);
+		QueryBuilder queryBuilder = QueryBuilders.nestedQuery(
+			nestedQuery.getPath(), nestedQueryBuilder, ScoreMode.Total);
+
+		if (nestedQuery.getBoost() != null) {
+			queryBuilder.boost(nestedQuery.getBoost());
+		}
+
+		return queryBuilder;
 	}
 
 }

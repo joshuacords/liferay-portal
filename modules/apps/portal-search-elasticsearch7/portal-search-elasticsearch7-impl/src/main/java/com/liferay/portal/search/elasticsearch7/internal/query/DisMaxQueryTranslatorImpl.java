@@ -33,6 +33,10 @@ public class DisMaxQueryTranslatorImpl implements DisMaxQueryTranslator {
 			disMaxQueryBuilder.add(queryBuilder);
 		}
 
+		if (disMaxQuery.getBoost() != null) {
+			disMaxQueryBuilder.boost(disMaxQuery.getBoost());
+		}
+
 		if (disMaxQuery.getTieBreaker() != null) {
 			disMaxQueryBuilder.tieBreaker(disMaxQuery.getTieBreaker());
 		}

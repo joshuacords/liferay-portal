@@ -35,6 +35,10 @@ public class MultiMatchQueryTranslatorImpl
 			multiMatchQueryBuilder.analyzer(multiMatchQuery.getAnalyzer());
 		}
 
+		if (multiMatchQuery.getBoost() != null) {
+			multiMatchQueryBuilder.boost(multiMatchQuery.getBoost());
+		}
+
 		if (multiMatchQuery.getCutOffFrequency() != null) {
 			multiMatchQueryBuilder.cutoffFrequency(
 				multiMatchQuery.getCutOffFrequency());
