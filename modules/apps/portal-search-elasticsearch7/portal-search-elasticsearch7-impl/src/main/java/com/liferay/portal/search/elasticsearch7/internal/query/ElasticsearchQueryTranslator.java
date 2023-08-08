@@ -67,10 +67,6 @@ public class ElasticsearchQueryTranslator
 			queryBuilder = QueryBuilders.queryStringQuery(query.toString());
 		}
 
-		if (query.getBoost() != null) {
-			queryBuilder.boost(query.getBoost());
-		}
-
 		return queryBuilder;
 	}
 
