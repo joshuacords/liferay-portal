@@ -7,17 +7,25 @@ package com.liferay.portal.search.elasticsearch7.internal.query;
 
 import com.liferay.portal.search.internal.query.BooleanQueryImpl;
 import com.liferay.portal.search.internal.query.CommonTermsQueryImpl;
+import com.liferay.portal.search.internal.query.DisMaxQueryImpl;
 import com.liferay.portal.search.internal.query.FuzzyQueryImpl;
 import com.liferay.portal.search.internal.query.MatchAllQueryImpl;
+import com.liferay.portal.search.internal.query.MatchQueryImpl;
 import com.liferay.portal.search.internal.query.MoreLikeThisQueryImpl;
+import com.liferay.portal.search.internal.query.MultiMatchQueryImpl;
+import com.liferay.portal.search.internal.query.NestedQueryImpl;
+import com.liferay.portal.search.internal.query.StringQueryImpl;
 import com.liferay.portal.search.internal.query.TermQueryImpl;
 import com.liferay.portal.search.internal.query.WildcardQueryImpl;
 import com.liferay.portal.search.query.BooleanQuery;
+import com.liferay.portal.search.query.NestedQuery;
 import com.liferay.portal.search.query.Query;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
@@ -50,8 +58,18 @@ public class ElasticsearchQueryTranslatorTest {
 	}
 
 	@Test
+	public void testTranslateBoostBooleanQuery() {
+		_assertBoosts(new BooleanQueryImpl());
+	}
+
+	@Test
 	public void testTranslateBoostCommonTermsQuery() {
 		_assertBoosts(new CommonTermsQueryImpl("test", "test"));
+	}
+
+	@Test
+	public void testTranslateBoostDisMaxQuery() {
+		_assertBoosts(new DisMaxQueryImpl());
 	}
 
 	@Test
@@ -65,9 +83,38 @@ public class ElasticsearchQueryTranslatorTest {
 	}
 
 	@Test
+	public void testTranslateBoostMatchQuery() {
+		_assertBoosts(new MatchQueryImpl("test", "test"));
+		_assertBoosts(new MatchQueryImpl("test", "\"test\""));
+		_assertBoosts(new MatchQueryImpl("test", "\"test*\""));
+	}
+
+	@Test
 	public void testTranslateBoostMoreLikeThisQueryStringQuery() {
 		_assertBoosts(
 			new MoreLikeThisQueryImpl(Collections.emptyList(), "test"));
+	}
+
+	@Test
+	public void testTranslateBoostMultiMatchAllQuery() {
+		Map<String, Float> fieldsBoosts = new HashMap<>();
+
+		fieldsBoosts.put("test", null);
+
+		_assertBoosts(new MultiMatchQueryImpl("test", fieldsBoosts));
+	}
+
+	@Test
+	public void testTranslateBoostNestedQuery() {
+		NestedQuery nestedQuery = new NestedQueryImpl(
+			"test", new MatchAllQueryImpl());
+
+		_assertBoosts(new NestedQueryImpl("test", nestedQuery));
+	}
+
+	@Test
+	public void testTranslateBoostStringQuery() {
+		_assertBoosts(new StringQueryImpl("test"));
 	}
 
 	@Test
