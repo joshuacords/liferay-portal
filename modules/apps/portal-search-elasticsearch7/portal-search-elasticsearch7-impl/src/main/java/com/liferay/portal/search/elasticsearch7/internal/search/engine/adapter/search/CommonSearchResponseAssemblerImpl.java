@@ -28,16 +28,16 @@ import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.common.Strings;
-import org.elasticsearch.common.unit.TimeValue;
-import org.elasticsearch.common.xcontent.ToXContent;
-import org.elasticsearch.common.xcontent.XContentBuilder;
-import org.elasticsearch.common.xcontent.XContentFactory;
-import org.elasticsearch.common.xcontent.XContentType;
-import org.elasticsearch.index.search.MatchQuery;
+import org.elasticsearch.core.TimeValue;
+import org.elasticsearch.index.search.MatchQueryParser;
 import org.elasticsearch.search.aggregations.Aggregation;
 import org.elasticsearch.search.aggregations.Aggregations;
-import org.elasticsearch.search.profile.ProfileShardResult;
+import org.elasticsearch.search.profile.SearchProfileShardResult;
 import org.elasticsearch.search.profile.query.QueryProfileShardResult;
+import org.elasticsearch.xcontent.ToXContent;
+import org.elasticsearch.xcontent.XContentBuilder;
+import org.elasticsearch.xcontent.XContentFactory;
+import org.elasticsearch.xcontent.XContentType;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -70,14 +70,14 @@ public class CommonSearchResponseAssemblerImpl
 	}
 
 	protected String getProfileShardResultString(
-			ProfileShardResult profileShardResult)
+			SearchProfileShardResult searchProfileShardResult)
 		throws IOException {
 
 		XContentBuilder xContentBuilder = XContentFactory.contentBuilder(
 			XContentType.JSON);
 
 		List<QueryProfileShardResult> queryProfileShardResults =
-			profileShardResult.getQueryProfileResults();
+			searchProfileShardResult.getQueryProfileResults();
 
 		queryProfileShardResults.forEach(
 			queryProfileShardResult -> {
@@ -102,16 +102,16 @@ public class CommonSearchResponseAssemblerImpl
 	protected void setExecutionProfile(
 		SearchResponse searchResponse, BaseSearchResponse baseSearchResponse) {
 
-		Map<String, ProfileShardResult> profileShardResults =
+		Map<String, SearchProfileShardResult> searchProfileShardResults =
 			searchResponse.getProfileResults();
 
-		if (MapUtil.isEmpty(profileShardResults)) {
+		if (MapUtil.isEmpty(searchProfileShardResults)) {
 			return;
 		}
 
 		Map<String, String> executionProfile = new HashMap<>();
 
-		profileShardResults.forEach(
+		searchProfileShardResults.forEach(
 			(shardKey, profileShardResult) -> {
 				try {
 					executionProfile.put(
@@ -234,7 +234,7 @@ public class CommonSearchResponseAssemblerImpl
 		",\"fuzzy_transpositions\":" + FuzzyQuery.defaultTranspositions;
 
 	protected static final String LENIENT_STRING =
-		",\"lenient\":" + MatchQuery.DEFAULT_LENIENCY;
+		",\"lenient\":" + MatchQueryParser.DEFAULT_LENIENCY;
 
 	protected static final String MAX_EXPANSIONS_STRING =
 		",\"max_expansions\":" + FuzzyQuery.defaultMaxExpansions;
@@ -245,10 +245,11 @@ public class CommonSearchResponseAssemblerImpl
 		",\"prefix_length\":" + FuzzyQuery.defaultPrefixLength;
 
 	protected static final String SLOP_STRING =
-		",\"slop\":" + MatchQuery.DEFAULT_PHRASE_SLOP;
+		",\"slop\":" + MatchQueryParser.DEFAULT_PHRASE_SLOP;
 
 	protected static final String ZERO_TERMS_QUERY_STRING =
-		",\"zero_terms_query\":\"" + MatchQuery.DEFAULT_ZERO_TERMS_QUERY + "\"";
+		",\"zero_terms_query\":\"" + MatchQueryParser.DEFAULT_ZERO_TERMS_QUERY +
+			"\"";
 
 	private static final Log _log = LogFactoryUtil.getLog(
 		CommonSearchResponseAssemblerImpl.class);

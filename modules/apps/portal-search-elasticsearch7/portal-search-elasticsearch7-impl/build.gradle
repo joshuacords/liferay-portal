@@ -15,6 +15,7 @@ dependencies {
 	compileInclude group: "com.liferay", name: "org.elasticsearch.client.xpack.transport", version: elasticsearchVersion
 	compileInclude group: "com.liferay", name: "org.elasticsearch.plugin.classloader", version: elasticsearchVersion
 	compileInclude group: "com.liferay", name: "org.elasticsearch.plugin.cli", version: elasticsearchVersion
+	compileInclude group: "com.liferay", name: "org.elasticsearch.plugin.legacy.geo", version: elasticsearchVersion
 	compileInclude group: "com.liferay", name: "org.elasticsearch7.painless", version: "7.9.0.LIFERAY-PATCHED-1"
 	compileInclude group: "com.tdunning", name: "t-digest", version: "3.2"
 	compileInclude group: "com.twitter", name: "jsr166e", version: "1.1.0"

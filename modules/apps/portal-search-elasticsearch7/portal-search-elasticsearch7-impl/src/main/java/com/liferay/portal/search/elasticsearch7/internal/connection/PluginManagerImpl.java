@@ -24,8 +24,8 @@ import org.elasticsearch.Version;
 import org.elasticsearch.cli.Terminal;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.env.Environment;
-import org.elasticsearch.plugins.PluginCli;
-import org.elasticsearch.plugins.PluginInfo;
+import org.elasticsearch.plugins.PluginDescriptor;
+import org.elasticsearch.plugins.cli.PluginCli;
 
 /**
  * @author Artur Aquino
@@ -80,9 +80,10 @@ public class PluginManagerImpl implements PluginManager {
 	@Override
 	public boolean isCurrentVersion(Path path) throws IOException {
 		try {
-			PluginInfo pluginInfo = PluginInfo.readFromProperties(path);
+			PluginDescriptor pluginDescriptor =
+				PluginDescriptor.readFromProperties(path);
 
-			Version pluginVersion = pluginInfo.getElasticsearchVersion();
+			Version pluginVersion = pluginDescriptor.getElasticsearchVersion();
 
 			return pluginVersion.equals(Version.CURRENT);
 		}
