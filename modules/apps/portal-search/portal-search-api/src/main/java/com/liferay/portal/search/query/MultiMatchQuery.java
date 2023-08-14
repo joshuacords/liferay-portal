@@ -44,7 +44,7 @@ public interface MultiMatchQuery extends Query {
 
 	public Object getValue();
 
-	public MatchQuery.ZeroTermsQuery getZeroTermsQuery();
+	public MatchQuery.ZeroTermsQueryOption getZeroTermsQueryOption();
 
 	public boolean isFieldBoostsEmpty();
 
@@ -77,7 +77,8 @@ public interface MultiMatchQuery extends Query {
 
 	public void setType(Type type);
 
-	public void setZeroTermsQuery(MatchQuery.ZeroTermsQuery zeroTermsQuery);
+	public void setZeroTermsQueryOption(
+		MatchQuery.ZeroTermsQueryOption zeroTermsQueryOption);
 
 	public enum Type {
 

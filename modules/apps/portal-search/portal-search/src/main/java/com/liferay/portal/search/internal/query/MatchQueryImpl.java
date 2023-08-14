@@ -73,8 +73,8 @@ public class MatchQueryImpl extends BaseQueryImpl implements MatchQuery {
 		return _value;
 	}
 
-	public ZeroTermsQuery getZeroTermsQuery() {
-		return _zeroTermsQuery;
+	public ZeroTermsQueryOption getZeroTermsQueryOption() {
+		return _zeroTermsQueryOption;
 	}
 
 	public Boolean isFuzzyTranspositions() {
@@ -133,8 +133,10 @@ public class MatchQueryImpl extends BaseQueryImpl implements MatchQuery {
 		_type = type;
 	}
 
-	public void setZeroTermsQuery(ZeroTermsQuery zeroTermsQuery) {
-		_zeroTermsQuery = zeroTermsQuery;
+	public void setZeroTermsQueryOption(
+		ZeroTermsQueryOption zeroTermsQueryOption) {
+
+		_zeroTermsQueryOption = zeroTermsQueryOption;
 	}
 
 	@Override
@@ -194,6 +196,6 @@ public class MatchQueryImpl extends BaseQueryImpl implements MatchQuery {
 	private Integer _slop;
 	private Type _type;
 	private final Object _value;
-	private ZeroTermsQuery _zeroTermsQuery;
+	private ZeroTermsQueryOption _zeroTermsQueryOption;
 
 }

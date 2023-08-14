@@ -96,8 +96,8 @@ public class MultiMatchQueryImpl
 		return _value;
 	}
 
-	public MatchQuery.ZeroTermsQuery getZeroTermsQuery() {
-		return _zeroTermsQuery;
+	public MatchQuery.ZeroTermsQueryOption getZeroTermsQueryOption() {
+		return _zeroTermsQueryOption;
 	}
 
 	public boolean isFieldBoostsEmpty() {
@@ -162,8 +162,10 @@ public class MultiMatchQueryImpl
 		_type = type;
 	}
 
-	public void setZeroTermsQuery(MatchQuery.ZeroTermsQuery zeroTermsQuery) {
-		_zeroTermsQuery = zeroTermsQuery;
+	public void setZeroTermsQueryOption(
+		MatchQuery.ZeroTermsQueryOption zeroTermsQueryOption) {
+
+		_zeroTermsQueryOption = zeroTermsQueryOption;
 	}
 
 	@Override
@@ -224,6 +226,6 @@ public class MultiMatchQueryImpl
 	private Float _tieBreaker;
 	private Type _type;
 	private final Object _value;
-	private MatchQuery.ZeroTermsQuery _zeroTermsQuery;
+	private MatchQuery.ZeroTermsQueryOption _zeroTermsQueryOption;
 
 }

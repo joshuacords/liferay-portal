@@ -37,7 +37,7 @@ public interface MatchQuery extends Query {
 
 	public Object getValue();
 
-	public ZeroTermsQuery getZeroTermsQuery();
+	public ZeroTermsQueryOption getZeroTermsQueryOption();
 
 	public Boolean isFuzzyTranspositions();
 
@@ -67,7 +67,7 @@ public interface MatchQuery extends Query {
 
 	public void setType(Type type);
 
-	public void setZeroTermsQuery(ZeroTermsQuery zeroTermsQuery);
+	public void setZeroTermsQueryOption(ZeroTermsQueryOption zeroTermsQuery);
 
 	public enum RewriteMethod {
 
@@ -82,7 +82,7 @@ public interface MatchQuery extends Query {
 
 	}
 
-	public enum ZeroTermsQuery {
+	public enum ZeroTermsQueryOption {
 
 		ALL, NONE
 
