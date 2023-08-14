@@ -75,7 +75,7 @@ public class DateHistogramAggregationImpl
 	}
 
 	@Override
-	public void setBounds(Long minBound, Long maxBound) {
+	public void setBounds(z minBound, Long maxBound) {
 		_minBound = minBound;
 		_maxBound = maxBound;
 	}
