@@ -7,7 +7,7 @@ package com.liferay.portal.search.elasticsearch7.internal.index;
 
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
-import com.liferay.portal.search.elasticsearch7.internal.configuration.ElasticsearchConfigurationObserver;
+import com.liferay.portal.search.elasticsearch7.configuration.ElasticsearchConfigurationObserver;
 import com.liferay.portal.search.elasticsearch7.internal.configuration.ElasticsearchConfigurationWrapper;
 import com.liferay.portal.search.index.IndexNameBuilder;
 
@@ -19,7 +19,8 @@ import org.osgi.service.component.annotations.Reference;
 /**
  * @author Michael C. Han
  */
-@Component(service = IndexNameBuilder.class)
+@Component(service = {ElasticsearchConfigurationObserver.class,
+	  IndexNameBuilder.class})
 public class CompanyIdIndexNameBuilder
 	implements ElasticsearchConfigurationObserver, IndexNameBuilder {
 
@@ -48,7 +49,7 @@ public class CompanyIdIndexNameBuilder
 
 	@Activate
 	protected void activate() {
-		elasticsearchConfigurationWrapper.register(this);
+//		elasticsearchConfigurationWrapper.register(this);
 
 		setIndexNamePrefix(elasticsearchConfigurationWrapper.indexNamePrefix());
 	}

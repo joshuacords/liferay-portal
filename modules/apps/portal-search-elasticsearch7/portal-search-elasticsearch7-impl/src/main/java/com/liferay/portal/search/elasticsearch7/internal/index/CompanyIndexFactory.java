@@ -12,7 +12,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.search.elasticsearch7.internal.configuration.ElasticsearchConfigurationObserver;
+import com.liferay.portal.search.elasticsearch7.configuration.ElasticsearchConfigurationObserver;
 import com.liferay.portal.search.elasticsearch7.internal.configuration.ElasticsearchConfigurationWrapper;
 import com.liferay.portal.search.elasticsearch7.internal.connection.ElasticsearchConnectionManager;
 import com.liferay.portal.search.elasticsearch7.internal.index.util.IndexFactoryCompanyIdRegistryUtil;
@@ -33,7 +33,9 @@ import org.osgi.service.component.annotations.Reference;
 /**
  * @author Michael C. Han
  */
-@Component(service = IndexFactory.class)
+@Component(service = {
+	ElasticsearchConfigurationObserver.class,
+	IndexFactory.class})
 public class CompanyIndexFactory
 	implements ElasticsearchConfigurationObserver, IndexFactory {
 
@@ -104,7 +106,7 @@ public class CompanyIndexFactory
 
 	@Activate
 	protected void activate(BundleContext bundleContext) {
-		_elasticsearchConfigurationWrapper.register(this);
+//		_elasticsearchConfigurationWrapper.register(this);
 
 		_createCompanyIndexes();
 	}

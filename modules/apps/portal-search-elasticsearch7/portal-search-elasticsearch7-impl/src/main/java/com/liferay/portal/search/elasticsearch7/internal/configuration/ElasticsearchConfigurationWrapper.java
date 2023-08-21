@@ -5,12 +5,15 @@
 
 package com.liferay.portal.search.elasticsearch7.internal.configuration;
 
+import com.liferay.osgi.service.tracker.collections.list.ServiceTrackerList;
+import com.liferay.osgi.service.tracker.collections.list.ServiceTrackerListFactory;
 import com.liferay.petra.string.CharPool;
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.util.Props;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.search.elasticsearch7.configuration.ElasticsearchConfiguration;
+import com.liferay.portal.search.elasticsearch7.configuration.ElasticsearchConfigurationObserver;
 import com.liferay.portal.search.elasticsearch7.configuration.OperationMode;
 import com.liferay.portal.search.elasticsearch7.configuration.RESTClientLoggerLevel;
 
@@ -22,6 +25,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 
+import org.osgi.framework.BundleContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Modified;
@@ -273,7 +277,7 @@ public class ElasticsearchConfigurationWrapper
 
 	@Activate
 	@Modified
-	protected void activate(Map<String, Object> map) {
+	protected void activate(BundleContext bundleContext, Map<String, Object> map) {
 		Map<String, Object> propsMap = _getPropsMap(
 			_PROPS_KEYS, ElasticsearchConfiguration.class, _props);
 
@@ -282,10 +286,16 @@ public class ElasticsearchConfigurationWrapper
 		_propsElasticsearchConfiguration = ConfigurableUtil.createConfigurable(
 			ElasticsearchConfiguration.class, propsMap);
 		_propsMap = propsMap;
+		_serviceTrackerList = ServiceTrackerListFactory.open(
+			bundleContext, ElasticsearchConfigurationObserver.class);
 
-		_elasticsearchConfigurationObservers.forEach(
-			ElasticsearchConfigurationObserver::
-				onElasticsearchConfigurationUpdate);
+//		_elasticsearchConfigurationObservers.forEach(
+//			ElasticsearchConfigurationObserver::
+//				onElasticsearchConfigurationUpdate);
+
+		for (ElasticsearchConfigurationObserver elasticsearchConfigurationObserver : _serviceTrackerList) {
+			elasticsearchConfigurationObserver.onElasticsearchConfigurationUpdate();
+		}
 	}
 
 	protected void setElasticsearchConfiguration(
@@ -330,6 +340,9 @@ public class ElasticsearchConfigurationWrapper
 
 	@Reference
 	private Props _props;
+
+	private ServiceTrackerList<ElasticsearchConfigurationObserver>
+		_serviceTrackerList;
 
 	private volatile ElasticsearchConfiguration
 		_propsElasticsearchConfiguration;

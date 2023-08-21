@@ -12,7 +12,7 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Props;
 import com.liferay.portal.kernel.util.PropsKeys;
-import com.liferay.portal.search.elasticsearch7.internal.configuration.ElasticsearchConfigurationObserver;
+import com.liferay.portal.search.elasticsearch7.configuration.ElasticsearchConfigurationObserver;
 import com.liferay.portal.search.elasticsearch7.internal.configuration.ElasticsearchConfigurationWrapper;
 import com.liferay.portal.search.elasticsearch7.internal.configuration.OperationModeResolver;
 import com.liferay.portal.search.elasticsearch7.internal.connection.ElasticsearchConnectionBuilder;
@@ -35,7 +35,9 @@ import org.osgi.service.component.annotations.Reference;
 /**
  * @author Tina Tian
  */
-@Component(enabled = true, service = {})
+@Component(enabled = true, service = {
+	ElasticsearchConfigurationObserver.class
+})
 public class SidecarManager implements ElasticsearchConfigurationObserver {
 
 	@Override
@@ -58,7 +60,7 @@ public class SidecarManager implements ElasticsearchConfigurationObserver {
 
 	@Activate
 	protected void activate() {
-		elasticsearchConfigurationWrapper.register(this);
+//		elasticsearchConfigurationWrapper.register(this);
 
 		applyConfigurations();
 	}

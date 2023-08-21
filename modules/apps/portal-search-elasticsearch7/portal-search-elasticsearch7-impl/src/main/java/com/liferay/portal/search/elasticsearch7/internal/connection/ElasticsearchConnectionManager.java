@@ -15,7 +15,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.search.ccr.CrossClusterReplicationConfigurationHelper;
-import com.liferay.portal.search.elasticsearch7.internal.configuration.ElasticsearchConfigurationObserver;
+import com.liferay.portal.search.elasticsearch7.configuration.ElasticsearchConfigurationObserver;
 import com.liferay.portal.search.elasticsearch7.internal.configuration.ElasticsearchConfigurationWrapper;
 import com.liferay.portal.search.elasticsearch7.internal.configuration.OperationModeResolver;
 import com.liferay.portal.search.elasticsearch7.internal.connection.constants.ConnectionConstants;
@@ -40,7 +40,9 @@ import org.osgi.service.component.annotations.Reference;
  */
 @Component(
 	service = {
-		ElasticsearchClientResolver.class, ElasticsearchConnectionManager.class
+		ElasticsearchClientResolver.class,
+		ElasticsearchConfigurationObserver.class,
+		ElasticsearchConnectionManager.class
 	}
 )
 public class ElasticsearchConnectionManager
@@ -244,7 +246,7 @@ public class ElasticsearchConnectionManager
 
 	@Activate
 	protected void activate() {
-		elasticsearchConfigurationWrapper.register(this);
+//		elasticsearchConfigurationWrapper.register(this);
 
 		applyConfigurations();
 	}
