@@ -55,7 +55,7 @@ import org.osgi.service.component.annotations.Reference;
 @Component(service = CompanyIndexFactoryHelper.class)
 public class CompanyIndexFactoryHelper {
 
-	public void createIndex(String indexName, IndicesClient indicesClient) {
+	public void createIndex(long companyId, String indexName, IndicesClient indicesClient) {
 		CreateIndexRequest createIndexRequest = new CreateIndexRequest(
 			indexName);
 
@@ -79,7 +79,7 @@ public class CompanyIndexFactoryHelper {
 
 		_updateLiferayDocumentType(indexName, liferayDocumentTypeFactory);
 
-		_executeIndexContributorsAfterCreate(indexName);
+		_executeIndexContributorsAfterCreate(companyId, indexName);
 	}
 
 	public void deleteIndex(
@@ -219,10 +219,10 @@ public class CompanyIndexFactoryHelper {
 	}
 
 	private void _executeIndexContributorAfterCreate(
-		IndexContributor indexContributor, String indexName) {
+		long companyId, IndexContributor indexContributor, String indexName) {
 
 		try {
-			indexContributor.onAfterCreate(indexName);
+			indexContributor.onAfterCreate(companyId, indexName);
 		}
 		catch (Throwable throwable) {
 			_log.error(
@@ -233,11 +233,11 @@ public class CompanyIndexFactoryHelper {
 		}
 	}
 
-	private void _executeIndexContributorsAfterCreate(String indexName) {
+	private void _executeIndexContributorsAfterCreate(long companyId, String indexName) {
 		for (IndexContributor indexContributor :
 				_indexContributorServiceTrackerList) {
 
-			_executeIndexContributorAfterCreate(indexContributor, indexName);
+			_executeIndexContributorAfterCreate(companyId, indexContributor, indexName);
 		}
 	}
 

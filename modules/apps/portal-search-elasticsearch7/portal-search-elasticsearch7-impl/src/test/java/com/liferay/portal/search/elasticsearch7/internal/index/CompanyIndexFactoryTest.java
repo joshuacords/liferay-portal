@@ -309,7 +309,7 @@ public class CompanyIndexFactoryTest {
 			new IndexContributor() {
 
 				@Override
-				public void onAfterCreate(String indexName) {
+				public void onAfterCreate(long companyId, String indexName) {
 					_companyIndexFactoryFixture.createIndices();
 				}
 
@@ -335,7 +335,7 @@ public class CompanyIndexFactoryTest {
 			new IndexContributor() {
 
 				@Override
-				public void onAfterCreate(String indexName) {
+				public void onAfterCreate(long companyId, String indexName) {
 					throw new RuntimeException();
 				}
 

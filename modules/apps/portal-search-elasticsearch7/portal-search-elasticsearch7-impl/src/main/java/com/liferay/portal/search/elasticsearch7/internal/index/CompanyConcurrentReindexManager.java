@@ -75,7 +75,7 @@ public class CompanyConcurrentReindexManager
 			_log.info("Creating next index " + newIndexName);
 		}
 
-		_companyIndexFactoryHelper.createIndex(
+		_companyIndexFactoryHelper.createIndex(companyId,
 			newIndexName, restHighLevelClient.indices());
 
 		_companyLocalService.updateIndexNameNext(companyId, newIndexName);

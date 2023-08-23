@@ -10,6 +10,7 @@ import com.liferay.portal.search.engine.SearchEngineInformation;
 import com.liferay.portal.search.spi.model.index.contributor.IndexContributor;
 import com.liferay.portal.search.tuning.synonyms.index.name.SynonymSetIndexName;
 import com.liferay.portal.search.tuning.synonyms.web.internal.index.SynonymSetIndexReader;
+import com.liferay.portal.search.tuning.synonyms.web.internal.index.name.SynonymSetIndexNameBuilderImpl;
 import com.liferay.portal.search.tuning.synonyms.web.internal.synchronizer.IndexToFilterSynchronizer;
 
 import java.util.Objects;
@@ -25,7 +26,7 @@ public class SynonymSetIndexCreationIndexContributor
 	implements IndexContributor {
 
 	@Override
-	public void onAfterCreate(String companyIndexName) {
+	public void onAfterCreate(long companyId, String companyIndexName) {
 		if (Objects.equals(
 				_searchEngineInformation.getVendorString(), "Solr")) {
 

@@ -53,7 +53,7 @@ public class CompanyIndexFactory
 			return;
 		}
 
-		_companyIndexFactoryHelper.createIndex(indexName, indicesClient);
+		_companyIndexFactoryHelper.createIndex(companyId, indexName, indicesClient);
 	}
 
 	@Override

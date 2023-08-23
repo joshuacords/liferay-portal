@@ -6,6 +6,7 @@
 package com.liferay.portal.search.tuning.synonyms.web.internal.index.creation.contributor;
 
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
+import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.search.engine.SearchEngineInformation;
 import com.liferay.portal.search.tuning.synonyms.web.internal.BaseSynonymsWebTestCase;
 import com.liferay.portal.search.tuning.synonyms.web.internal.synchronizer.IndexToFilterSynchronizer;
@@ -50,7 +51,7 @@ public class SynonymSetIndexCreationIndexContributorTest
 		setUpSynonymSetIndexReader(true);
 
 		_synonymSetIndexCreationIndexContributor.onAfterCreate(
-			"companyIndexName");
+			RandomTestUtil.randomLong(),"companyIndexName");
 
 		Mockito.verify(
 			_indexToFilterSynchronizer, Mockito.times(1)
@@ -62,7 +63,7 @@ public class SynonymSetIndexCreationIndexContributorTest
 	@Test
 	public void testOnAfterCreateIndexNameNotExists() {
 		_synonymSetIndexCreationIndexContributor.onAfterCreate(
-			"companyIndexName");
+			RandomTestUtil.randomLong(),"companyIndexName");
 
 		Mockito.verify(
 			_indexToFilterSynchronizer, Mockito.never()

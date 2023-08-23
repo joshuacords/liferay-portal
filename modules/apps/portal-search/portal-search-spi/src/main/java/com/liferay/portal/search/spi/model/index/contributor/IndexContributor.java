@@ -10,7 +10,7 @@ package com.liferay.portal.search.spi.model.index.contributor;
  */
 public interface IndexContributor {
 
-	public default void onAfterCreate(String indexName) {
+	public default void onAfterCreate(long companyId, String indexName) {
 	}
 
 	public default void onBeforeRemove(String indexName) {

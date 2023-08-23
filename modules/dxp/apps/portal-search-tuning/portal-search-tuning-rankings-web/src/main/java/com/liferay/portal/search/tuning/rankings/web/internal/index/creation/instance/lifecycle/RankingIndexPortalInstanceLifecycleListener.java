@@ -5,10 +5,10 @@
 
 package com.liferay.portal.search.tuning.rankings.web.internal.index.creation.instance.lifecycle;
 
-import com.liferay.portal.instance.lifecycle.BasePortalInstanceLifecycleListener;
-import com.liferay.portal.instance.lifecycle.PortalInstanceLifecycleListener;
-import com.liferay.portal.kernel.model.Company;
+import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.model.CompanyConstants;
 import com.liferay.portal.search.capabilities.SearchCapabilities;
+import com.liferay.portal.search.spi.model.index.contributor.IndexContributor;
 import com.liferay.portal.search.tuning.rankings.web.internal.index.RankingIndexCreator;
 import com.liferay.portal.search.tuning.rankings.web.internal.index.RankingIndexReader;
 import com.liferay.portal.search.tuning.rankings.web.internal.index.name.RankingIndexName;
@@ -20,19 +20,22 @@ import org.osgi.service.component.annotations.Reference;
 /**
  * @author Petteri Karttunen
  */
-@Component(service = PortalInstanceLifecycleListener.class)
+@Component(service = IndexContributor.class)
 public class RankingIndexPortalInstanceLifecycleListener
-	extends BasePortalInstanceLifecycleListener {
+	implements IndexContributor {
 
 	@Override
-	public void portalInstanceRegistered(Company company) throws Exception {
+	public void onAfterCreate(long companyId, String companyIndexName) {
 		if (!_searchCapabilities.isResultRankingsSupported()) {
 			return;
 		}
 
+		if (companyId == CompanyConstants.SYSTEM) {
+			return;
+		}
+
 		RankingIndexName rankingIndexName =
-			_rankingIndexNameBuilder.getRankingIndexName(
-				company.getCompanyId());
+			_rankingIndexNameBuilder.getRankingIndexName(companyId);
 
 		if (_rankingIndexReader.isExists(rankingIndexName)) {
 			return;
@@ -41,22 +44,25 @@ public class RankingIndexPortalInstanceLifecycleListener
 		_rankingIndexCreator.create(rankingIndexName);
 	}
 
-	@Override
-	public void portalInstanceUnregistered(Company company) throws Exception {
-		if (!_searchCapabilities.isResultRankingsSupported()) {
-			return;
-		}
+//	@Override
+//	public void portalInstanceUnregistered(Company company) throws Exception {
+//		if (!_searchCapabilities.isResultRankingsSupported()) {
+//			return;
+//		}
+//
+//		RankingIndexName rankingIndexName =
+//			_rankingIndexNameBuilder.getRankingIndexName(
+//				company.getCompanyId());
+//
+//		if (!_rankingIndexReader.isExists(rankingIndexName)) {
+//			return;
+//		}
+//
+//		_rankingIndexCreator.delete(rankingIndexName);
+//	}
 
-		RankingIndexName rankingIndexName =
-			_rankingIndexNameBuilder.getRankingIndexName(
-				company.getCompanyId());
-
-		if (!_rankingIndexReader.isExists(rankingIndexName)) {
-			return;
-		}
-
-		_rankingIndexCreator.delete(rankingIndexName);
-	}
+	protected static final String RANKINGS_INDEX_NAME_SUFFIX =
+		"search-tuning-rankings";
 
 	@Reference
 	private RankingIndexCreator _rankingIndexCreator;
