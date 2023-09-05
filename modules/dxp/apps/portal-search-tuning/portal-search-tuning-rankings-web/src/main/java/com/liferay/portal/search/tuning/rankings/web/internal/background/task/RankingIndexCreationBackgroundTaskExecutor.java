@@ -11,9 +11,14 @@ import com.liferay.portal.kernel.backgroundtask.BackgroundTaskResult;
 import com.liferay.portal.kernel.backgroundtask.BaseBackgroundTaskExecutor;
 import com.liferay.portal.kernel.backgroundtask.constants.BackgroundTaskConstants;
 import com.liferay.portal.kernel.backgroundtask.display.BackgroundTaskDisplay;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.search.engine.SearchEngineInformation;
+import com.liferay.portal.search.tuning.rankings.web.internal.background.task.constants.RankingIndexBackgroundTaskConstants;
 import com.liferay.portal.search.tuning.rankings.web.internal.index.importer.SingleIndexToMultipleIndexImporter;
 
+import java.io.Serializable;
+
+import java.util.Map;
 import java.util.Objects;
 
 import org.osgi.service.component.annotations.Component;
@@ -45,7 +50,13 @@ public class RankingIndexCreationBackgroundTaskExecutor
 				BackgroundTaskConstants.STATUS_CANCELLED);
 		}
 
-		_singleIndexToMultipleIndexImporter.importRankings();
+		Map<String, Serializable> taskContextMap =
+			backgroundTask.getTaskContextMap();
+
+		long companyId = GetterUtil.getLong(
+			taskContextMap.get(RankingIndexBackgroundTaskConstants.COMPANY_ID));
+
+		_singleIndexToMultipleIndexImporter.importRankings(companyId);
 
 		return BackgroundTaskResult.SUCCESS;
 	}
