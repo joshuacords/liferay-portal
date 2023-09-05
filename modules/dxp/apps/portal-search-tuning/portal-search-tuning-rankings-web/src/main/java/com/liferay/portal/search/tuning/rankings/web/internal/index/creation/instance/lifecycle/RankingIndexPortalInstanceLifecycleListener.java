@@ -8,12 +8,28 @@ package com.liferay.portal.search.tuning.rankings.web.internal.index.creation.in
 import com.liferay.portal.instance.lifecycle.BasePortalInstanceLifecycleListener;
 import com.liferay.portal.instance.lifecycle.EveryNodeEveryStartup;
 import com.liferay.portal.instance.lifecycle.PortalInstanceLifecycleListener;
+import com.liferay.portal.kernel.backgroundtask.BackgroundTaskManager;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Company;
+import com.liferay.portal.kernel.model.CompanyConstants;
+import com.liferay.portal.kernel.model.UserConstants;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.util.HashMapBuilder;
+import com.liferay.portal.kernel.uuid.PortalUUID;
 import com.liferay.portal.search.capabilities.SearchCapabilities;
+import com.liferay.portal.search.tuning.rankings.web.internal.background.task.RankingIndexCreationBackgroundTaskExecutor;
+import com.liferay.portal.search.tuning.rankings.web.internal.background.task.constants.RankingIndexBackgroundTaskConstants;
 import com.liferay.portal.search.tuning.rankings.web.internal.index.RankingIndexCreator;
 import com.liferay.portal.search.tuning.rankings.web.internal.index.RankingIndexReader;
+import com.liferay.portal.search.tuning.rankings.web.internal.index.importer.SingleIndexToMultipleIndexImporter;
 import com.liferay.portal.search.tuning.rankings.web.internal.index.name.RankingIndexName;
 import com.liferay.portal.search.tuning.rankings.web.internal.index.name.RankingIndexNameBuilder;
+
+import java.io.Serializable;
+
+import java.util.Map;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -41,9 +57,7 @@ public class RankingIndexPortalInstanceLifecycleListener
 		}
 
 		if (_singleIndexToMultipleIndexImporter.needImport()) {
-			//execute in background task?
-			_singleIndexToMultipleIndexImporter.importRankings(
-				company.getCompanyId());
+			_addBackgroundTask(company.getCompanyId());
 		}
 	}
 
@@ -64,6 +78,35 @@ public class RankingIndexPortalInstanceLifecycleListener
 		_rankingIndexCreator.delete(rankingIndexName);
 	}
 
+	private void _addBackgroundTask(long companyId) {
+		Map<String, Serializable> taskContextMap =
+			HashMapBuilder.<String, Serializable>put(
+				RankingIndexBackgroundTaskConstants.COMPANY_ID, companyId
+			).build();
+
+		try {
+			_backgroundTaskManager.addBackgroundTask(
+				UserConstants.USER_ID_DEFAULT, CompanyConstants.SYSTEM,
+				"createRankingIndex-" + _portalUUID.generate(),
+				RankingIndexCreationBackgroundTaskExecutor.class.getName(),
+				taskContextMap, new ServiceContext());
+		}
+		catch (PortalException portalException) {
+			_log.error(
+				"Unable to schedule the job for RankingIndexRename",
+				portalException);
+		}
+	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		RankingIndexPortalInstanceLifecycleListener.class);
+
+	@Reference
+	private BackgroundTaskManager _backgroundTaskManager;
+
+	@Reference
+	private PortalUUID _portalUUID;
+
 	@Reference
 	private RankingIndexCreator _rankingIndexCreator;
 
@@ -75,5 +118,9 @@ public class RankingIndexPortalInstanceLifecycleListener
 
 	@Reference
 	private SearchCapabilities _searchCapabilities;
+
+	@Reference
+	private SingleIndexToMultipleIndexImporter
+		_singleIndexToMultipleIndexImporter;
 
 }
