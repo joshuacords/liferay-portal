@@ -5,8 +5,10 @@
 
 package com.liferay.portal.search.tuning.rankings.web.internal.index.creation.instance.lifecycle;
 
+import com.liferay.portal.kernel.backgroundtask.BackgroundTaskManager;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
+import com.liferay.portal.kernel.uuid.PortalUUID;
 import com.liferay.portal.search.capabilities.SearchCapabilities;
 import com.liferay.portal.search.tuning.rankings.web.internal.index.RankingIndexCreator;
 import com.liferay.portal.search.tuning.rankings.web.internal.index.RankingIndexReader;
@@ -44,6 +46,12 @@ public class RankingIndexPortalInstanceLifecycleListenerTest {
 
 		ReflectionTestUtil.setFieldValue(
 			_rankingIndexPortalInstanceLifecycleListener,
+			"_backgroundTaskManager", _backgroundTaskManager);
+		ReflectionTestUtil.setFieldValue(
+			_rankingIndexPortalInstanceLifecycleListener, "_portalUUID",
+			_portalUUID);
+		ReflectionTestUtil.setFieldValue(
+			_rankingIndexPortalInstanceLifecycleListener,
 			"_rankingIndexCreator", _rankingIndexCreator);
 		ReflectionTestUtil.setFieldValue(
 			_rankingIndexPortalInstanceLifecycleListener,
@@ -71,7 +79,13 @@ public class RankingIndexPortalInstanceLifecycleListenerTest {
 
 		Mockito.verify(
 			_singleIndexToMultipleIndexImporter, Mockito.times(1)
-		).importRankings();
+		).needImport();
+		Mockito.verify(
+			_backgroundTaskManager, Mockito.times(1)
+		).addBackgroundTask(
+			Mockito.anyLong(), Mockito.anyLong(), Mockito.anyString(),
+			Mockito.anyString(), Mockito.anyMap(), Mockito.any()
+		);
 	}
 
 	@Test
@@ -176,6 +190,9 @@ public class RankingIndexPortalInstanceLifecycleListenerTest {
 		).needImport();
 	}
 
+	private final BackgroundTaskManager _backgroundTaskManager = Mockito.mock(
+		BackgroundTaskManager.class);
+	private final PortalUUID _portalUUID = Mockito.mock(PortalUUID.class);
 	private final RankingIndexCreator _rankingIndexCreator = Mockito.mock(
 		RankingIndexCreator.class);
 	private final RankingIndexNameBuilder _rankingIndexNameBuilder =
