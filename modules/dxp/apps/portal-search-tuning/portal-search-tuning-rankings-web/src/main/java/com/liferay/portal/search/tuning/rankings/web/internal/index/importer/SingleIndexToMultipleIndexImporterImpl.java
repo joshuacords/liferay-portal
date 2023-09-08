@@ -90,7 +90,7 @@ public class SingleIndexToMultipleIndexImporterImpl
 
 		CountSearchResponse countSearchResponse = _searchEngineAdapter.execute(
 			countSearchRequest);
-
+		System.out.println("Successfully counted");
 		return countSearchResponse.getCount();
 	}
 
@@ -103,7 +103,7 @@ public class SingleIndexToMultipleIndexImporterImpl
 
 		SearchSearchResponse searchSearchResponse =
 			_searchEngineAdapter.execute(searchSearchRequest);
-
+		System.out.println("Successfully searched docs");
 		SearchHits searchHits = searchSearchResponse.getSearchHits();
 
 		return TransformUtil.transform(

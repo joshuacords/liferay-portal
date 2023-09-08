@@ -11,6 +11,12 @@ import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.search.document.Document;
 import com.liferay.portal.search.engine.adapter.document.BulkDocumentRequest;
 import com.liferay.portal.search.engine.adapter.document.BulkDocumentResponse;
+import com.liferay.portal.search.engine.adapter.document.DocumentRequest;
+import com.liferay.portal.search.engine.adapter.search.CountSearchRequest;
+import com.liferay.portal.search.engine.adapter.search.CountSearchResponse;
+import com.liferay.portal.search.engine.adapter.search.SearchRequest;
+import com.liferay.portal.search.engine.adapter.search.SearchSearchRequest;
+import com.liferay.portal.search.engine.adapter.search.SearchSearchResponse;
 import com.liferay.portal.search.hits.SearchHit;
 import com.liferay.portal.search.hits.SearchHits;
 import com.liferay.portal.search.index.IndexNameBuilder;
@@ -109,7 +115,7 @@ public class SingleIndexToMultipleIndexImporterImplTest
 		);
 
 		Mockito.doReturn(
-			document, null
+			document
 		).when(
 			searchHit
 		).getDocument();
@@ -153,6 +159,50 @@ public class SingleIndexToMultipleIndexImporterImplTest
 		).delete(
 			Mockito.any()
 		);
+	}
+
+	@Override
+	protected SearchHits setUpSearchEngineAdapter(SearchHits searchHits) {
+		CountSearchResponse countSearchResponse = Mockito.mock(
+			CountSearchResponse.class);
+
+		Mockito.doReturn(
+			0L
+		).when(
+			countSearchResponse
+		).getCount();
+
+		Mockito.doReturn(
+			countSearchResponse
+		).when(
+			searchEngineAdapter
+		).execute(
+			(CountSearchRequest)Mockito.any()
+		);
+
+		Mockito.doReturn(
+			3L
+		).when(
+			searchHits
+		).getTotalHits();
+
+		SearchSearchResponse searchSearchResponse = setUpSearchSearchResponse();
+
+		Mockito.doReturn(
+			searchHits
+		).when(
+			searchSearchResponse
+		).getSearchHits();
+
+		Mockito.doReturn(
+			searchSearchResponse
+		).when(
+			searchEngineAdapter
+		).execute(
+			(SearchSearchRequest)Mockito.any()
+		);
+
+		return searchHits;
 	}
 
 	@Test
