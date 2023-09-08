@@ -173,14 +173,6 @@ public class SingleIndexToMultipleIndexImporterImplTest
 		).getCount();
 
 		Mockito.doReturn(
-			countSearchResponse
-		).when(
-			searchEngineAdapter
-		).execute(
-			(CountSearchRequest)Mockito.any()
-		);
-
-		Mockito.doReturn(
 			3L
 		).when(
 			searchHits
@@ -195,7 +187,7 @@ public class SingleIndexToMultipleIndexImporterImplTest
 		).getSearchHits();
 
 		Mockito.doReturn(
-			searchSearchResponse
+			searchSearchResponse, countSearchResponse
 		).when(
 			searchEngineAdapter
 		).execute(
