@@ -31,7 +31,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 /**
- * @author Wade Cao
+ * @author Wade Cao, Joshua Cords
  */
 public class SingleIndexToMultipleIndexImporterImplTest
 	extends BaseRankingsWebTestCase {
