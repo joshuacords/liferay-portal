@@ -14,6 +14,7 @@ import com.liferay.portal.search.elasticsearch7.configuration.ElasticsearchConfi
 import com.liferay.portal.search.elasticsearch7.configuration.OperationMode;
 import com.liferay.portal.search.elasticsearch7.configuration.RESTClientLoggerLevel;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -277,8 +278,6 @@ public class ElasticsearchConfigurationWrapper
 	protected void activate(
 		BundleContext bundleContext, Map<String, Object> map) {
 
-		//get orig value from bundleContext?
-
 		Map<String, Object> propsMap = _getPropsMap(
 			_PROPS_KEYS, ElasticsearchConfiguration.class, _props);
 
@@ -288,12 +287,24 @@ public class ElasticsearchConfigurationWrapper
 			ElasticsearchConfiguration.class, propsMap);
 		_propsMap = propsMap;
 
+		Object object = new Object();
+
+		//get orig value from bundleContext?
+		File dataFile = bundleContext.getDataFile("elasticsearch_configuration.data");
+
+		//if dataFile doesn't exist
+		if (dataFile.exists() /*&& _elasticsearchConfiguration == dataFile*/ ) {
+			//object.setContextChanged("true");
+		}
+
+
+
 		//get new value from config?
 
 		//compare and pass result to onElasticsearchConfigurationUpdate() in
 		//some kind of container object
 
-		Object object = new Object();
+
 
 		_elasticsearchConfigurationObservers.forEach(
 			elasticsearchConfigurationObserver ->

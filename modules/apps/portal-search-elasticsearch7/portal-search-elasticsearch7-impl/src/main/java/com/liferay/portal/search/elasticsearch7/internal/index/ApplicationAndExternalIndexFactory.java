@@ -5,6 +5,8 @@
 
 package com.liferay.portal.search.elasticsearch7.internal.index;
 
+import com.liferay.osgi.service.tracker.collections.list.ServiceTrackerList;
+import com.liferay.osgi.service.tracker.collections.list.ServiceTrackerListFactory;
 import com.liferay.portal.search.elasticsearch7.internal.configuration.ElasticsearchConfigurationObserver;
 import com.liferay.portal.search.elasticsearch7.internal.configuration.ElasticsearchConfigurationWrapper;
 import com.liferay.portal.search.elasticsearch7.internal.index.util.IndexFactoryCompanyIdRegistryUtil;
@@ -38,21 +40,27 @@ public class ApplicationAndExternalIndexFactory
 
 	@Override
 	public void onElasticsearchConfigurationUpdate(Object object) {
-		if (object.isContextChanged()) {
-			_createApplicationAndExternalIndexes();
-		}
+//		if (object.isContextChanged()) {
+//			_createApplicationAndExternalIndexes();
+//		}
 	}
 
 	@Activate
 	protected void activate(BundleContext bundleContext) {
 		_elasticsearchConfigurationWrapper.register(this);
 
+		_serviceTrackerList = ServiceTrackerListFactory.open(
+			bundleContext, IndexLifecycleManager.class);
+
 		//can we compare old and new values of config here?
 
-		if (contextChanged) {
+//		if (contextChanged) {
 			_createApplicationAndExternalIndexes();
-		}
+//		}
 	}
+
+	private ServiceTrackerList<IndexLifecycleManager>
+		_serviceTrackerList;
 
 	@Deactivate
 	protected void deactivate() {
@@ -64,7 +72,7 @@ public class ApplicationAndExternalIndexFactory
 				IndexFactoryCompanyIdRegistryUtil.getCompanyIds()) {
 
 			for (IndexLifecycleManager indexLifecycleManager :
-					getIndexLifecycleManagers()) {
+				_serviceTrackerList) {
 
 				indexLifecycleManager.createIndex(companyId);
 			}
