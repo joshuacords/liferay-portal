@@ -11,6 +11,8 @@ import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClass
 
 import org.osgi.annotation.versioning.ProviderType;
 
+import java.io.Serializable;
+
 /**
  * @author Michael C. Han
  */
@@ -21,7 +23,7 @@ import org.osgi.annotation.versioning.ProviderType;
 	name = "elasticsearch7-configuration-name"
 )
 @ProviderType
-public interface ElasticsearchConfiguration {
+public interface ElasticsearchConfiguration extends Serializable {
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), replaced by {@link
