@@ -87,7 +87,6 @@ public class CompanyIndexFactory
 
 	@Override
 	public void onElasticsearchConfigurationUpdate() {
-
 		_createCompanyIndexes();
 
 		_updateMaxResultWindow();

@@ -17,6 +17,12 @@ import com.liferay.portal.search.elasticsearch7.internal.configuration.Elasticse
 import com.liferay.portal.search.elasticsearch7.internal.index.util.IndexFactoryCompanyIdRegistryUtil;
 import com.liferay.portal.search.spi.index.lifecycle.IndexLifecycleManager;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+
+import java.nio.ByteBuffer;
+
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
@@ -24,11 +30,6 @@ import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.nio.ByteBuffer;
 
 /**
  * @author Bryan Engler
@@ -53,9 +54,9 @@ public class ApplicationAndExternalIndexFactory
 	@Override
 	public void onElasticsearchConfigurationUpdate() {
 
-//		if (elasticsearchConfigurationChangeDetector.isContextChanged()) {
-//			_createApplicationAndExternalIndexes();
-//		}
+		//		if (elasticsearchConfigurationChangeDetector.isContextChanged()) {
+		//			_createApplicationAndExternalIndexes();
+		//		}
 
 		Bundle bundle = FrameworkUtil.getBundle(
 			ApplicationAndExternalIndexFactory.class);
@@ -75,7 +76,7 @@ public class ApplicationAndExternalIndexFactory
 		// can we compare old and new values of config here?
 
 		//		if (contextChanged) {
-//		_createApplicationAndExternalIndexes();
+		//		_createApplicationAndExternalIndexes();
 		//		}
 
 		_reindexOnElasticsearchConfigurationChange(bundleContext);
@@ -100,6 +101,7 @@ public class ApplicationAndExternalIndexFactory
 
 	private void _reindexOnElasticsearchConfigurationChange(
 		BundleContext bundleContext) {
+
 		File dataFile = bundleContext.getDataFile(
 			"elasticsearch_configuration_state.data");
 
@@ -109,7 +111,8 @@ public class ApplicationAndExternalIndexFactory
 					ByteBuffer.wrap(FileUtil.getBytes(dataFile)));
 
 				if (deserializer.readBoolean() !=
-					_elasticsearchConfigurationWrapper.productionModeEnabled()) {
+						_elasticsearchConfigurationWrapper.
+							productionModeEnabled()) {
 
 					_createApplicationAndExternalIndexes();
 				}
@@ -140,12 +143,12 @@ public class ApplicationAndExternalIndexFactory
 		}
 	}
 
+	private static final Log _log = LogFactoryUtil.getLog(
+		ApplicationAndExternalIndexFactory.class);
+
 	@Reference
 	private volatile ElasticsearchConfigurationWrapper
 		_elasticsearchConfigurationWrapper;
-
-	private static final Log _log = LogFactoryUtil.getLog(
-		ApplicationAndExternalIndexFactory.class);
 
 	private ServiceTrackerList<IndexLifecycleManager> _serviceTrackerList;
 

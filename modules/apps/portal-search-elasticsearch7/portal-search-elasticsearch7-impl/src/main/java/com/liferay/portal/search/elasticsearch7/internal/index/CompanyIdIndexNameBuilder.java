@@ -43,7 +43,6 @@ public class CompanyIdIndexNameBuilder
 
 	@Override
 	public void onElasticsearchConfigurationUpdate() {
-
 		setIndexNamePrefix(elasticsearchConfigurationWrapper.indexNamePrefix());
 	}
 

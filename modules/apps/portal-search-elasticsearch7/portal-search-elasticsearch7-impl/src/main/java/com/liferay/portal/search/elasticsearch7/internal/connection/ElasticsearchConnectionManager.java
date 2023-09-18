@@ -222,7 +222,6 @@ public class ElasticsearchConnectionManager
 
 	@Override
 	public void onElasticsearchConfigurationUpdate() {
-
 		applyConfigurations();
 	}
 

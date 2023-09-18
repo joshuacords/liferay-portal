@@ -7,8 +7,6 @@ package com.liferay.portal.search.elasticsearch7.internal.configuration;
 
 import com.liferay.petra.string.CharPool;
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Props;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -24,7 +22,6 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 
-import org.osgi.framework.BundleContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Modified;
@@ -276,9 +273,7 @@ public class ElasticsearchConfigurationWrapper
 
 	@Activate
 	@Modified
-	protected void activate(
-		BundleContext bundleContext, Map<String, Object> map) {
-
+	protected void activate(Map<String, Object> map) {
 		Map<String, Object> propsMap = _getPropsMap(
 			_PROPS_KEYS, ElasticsearchConfiguration.class, _props);
 
@@ -328,9 +323,6 @@ public class ElasticsearchConfigurationWrapper
 	}
 
 	private static final String[] _PROPS_KEYS = {"sidecarJVMOptions"};
-
-	private static final Log _log = LogFactoryUtil.getLog(
-		ElasticsearchConfigurationWrapper.class);
 
 	private volatile ElasticsearchConfiguration _elasticsearchConfiguration;
 	private final Set<ElasticsearchConfigurationObserver>
