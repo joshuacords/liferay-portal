@@ -5,10 +5,13 @@
 
 package com.liferay.portal.search.elasticsearch7.internal.configuration;
 
+import com.liferay.petra.io.Deserializer;
+import com.liferay.petra.io.Serializer;
 import com.liferay.petra.string.CharPool;
 import com.liferay.portal.configuration.metatype.bnd.util.ConfigurableUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.Props;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
@@ -17,11 +20,11 @@ import com.liferay.portal.search.elasticsearch7.configuration.OperationMode;
 import com.liferay.portal.search.elasticsearch7.configuration.RESTClientLoggerLevel;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+
+import java.nio.ByteBuffer;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -296,51 +299,69 @@ public class ElasticsearchConfigurationWrapper
 
 		Object object = new Object();
 
-		//get orig value from bundleContext?
-		File dataFile = bundleContext.getDataFile("elasticsearch_configuration.data");
+		// get orig value from bundleContext?
 
-		//if dataFile doesn't exist
+		File dataFile = bundleContext.getDataFile(
+			"elasticsearch_configuration.data");
+
+		// if dataFile doesn't exist
+
 		if (dataFile.exists() /*&& _elasticsearchConfiguration == dataFile*/ ) {
 			//object.setContextChanged("true");
 
-			try (FileInputStream fileInputStream = new FileInputStream(dataFile);
-				 ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
+			//			try (FileInputStream fileInputStream = new FileInputStream(dataFile);
+			//				 ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
 
-				ElasticsearchConfiguration elasticsearchConfiguration =
-					(ElasticsearchConfiguration) objectInputStream.readObject();
+			try {
+				Deserializer deserializer = new Deserializer(
+					ByteBuffer.wrap(FileUtil.getBytes(dataFile)));
 
-				boolean contextChanged = elasticsearchConfiguration == _elasticsearchConfiguration;
+				if (deserializer.readBoolean() !=
+						_elasticsearchConfiguration.productionModeEnabled()) {
+
+					//object.setContextChanged("true");
+				}
+
+				// 				ElasticsearchConfiguration elasticsearchConfiguration =
+
+				//					(ElasticsearchConfiguration) objectInputStream.readObject();
+
+				//				boolean contextChanged = elasticsearchConfiguration == _elasticsearchConfiguration;
 			}
 			catch (Exception exception) {
-					if (_log.isWarnEnabled()) {
-						_log.warn("Unable to load current Elasticsearch Configuration data", exception);
-					}
+				if (_log.isWarnEnabled()) {
+					_log.warn(
+						"Unable to load current Elasticsearch Configuration data",
+						exception);
 				}
+			}
 		}
 
-		//get new value from config?
+		// get new value from config?
 
-		//compare and pass result to onElasticsearchConfigurationUpdate() in
-		//some kind of container object
-
-
+		// compare and pass result to onElasticsearchConfigurationUpdate() in
+		// some kind of container object
 
 		_elasticsearchConfigurationObservers.forEach(
 			elasticsearchConfigurationObserver ->
 				elasticsearchConfigurationObserver.
 					onElasticsearchConfigurationUpdate(object));
 
-		//write new value to bundle context
+		// write new value to bundle context
 
-		try (OutputStream outputStream = new FileOutputStream(dataFile);
-			 ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream)) {
+		Serializer serializer = new Serializer();
 
-			objectOutputStream.writeObject(_elasticsearchConfiguration);
-			//serializer.writeTo(outputStream);
+		serializer.writeBoolean(
+			_elasticsearchConfiguration.productionModeEnabled());
+
+		try (OutputStream outputStream = new FileOutputStream(dataFile)) {
+			serializer.writeTo(outputStream);
 		}
 		catch (Exception exception) {
 			if (_log.isWarnEnabled()) {
-				_log.warn("Unable to write current Elasticsearch Configuration data", exception);
+				_log.warn(
+					"Unable to write current Elasticsearch Configuration data",
+					exception);
 			}
 		}
 	}
@@ -379,10 +400,10 @@ public class ElasticsearchConfigurationWrapper
 		return propsMap;
 	}
 
+	private static final String[] _PROPS_KEYS = {"sidecarJVMOptions"};
+
 	private static final Log _log = LogFactoryUtil.getLog(
 		ElasticsearchConfigurationWrapper.class);
-
-	private static final String[] _PROPS_KEYS = {"sidecarJVMOptions"};
 
 	private volatile ElasticsearchConfiguration _elasticsearchConfiguration;
 	private final Set<ElasticsearchConfigurationObserver>
