@@ -7,8 +7,8 @@ package com.liferay.portal.search.elasticsearch7.internal.index;
 
 import com.liferay.osgi.service.tracker.collections.list.ServiceTrackerList;
 import com.liferay.osgi.service.tracker.collections.list.ServiceTrackerListFactory;
-import com.liferay.portal.search.elasticsearch7.internal.configuration.ElasticsearchConfigurationObserver;
 import com.liferay.portal.search.elasticsearch7.internal.configuration.ElasticsearchConfigurationChangeDetector;
+import com.liferay.portal.search.elasticsearch7.internal.configuration.ElasticsearchConfigurationObserver;
 import com.liferay.portal.search.elasticsearch7.internal.configuration.ElasticsearchConfigurationWrapper;
 import com.liferay.portal.search.elasticsearch7.internal.index.util.IndexFactoryCompanyIdRegistryUtil;
 import com.liferay.portal.search.spi.index.lifecycle.IndexLifecycleManager;
@@ -41,10 +41,12 @@ public class ApplicationAndExternalIndexFactory
 
 	@Override
 	public void onElasticsearchConfigurationUpdate(
-		ElasticsearchConfigurationChangeDetector elasticsearchConfigurationChangeDetector) {
-			if (elasticsearchConfigurationChangeDetector.isContextChanged()) {
-				_createApplicationAndExternalIndexes();
-			}
+		ElasticsearchConfigurationChangeDetector
+			elasticsearchConfigurationChangeDetector) {
+
+		if (elasticsearchConfigurationChangeDetector.isContextChanged()) {
+			_createApplicationAndExternalIndexes();
+		}
 	}
 
 	@Activate

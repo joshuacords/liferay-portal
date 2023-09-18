@@ -12,8 +12,8 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Props;
 import com.liferay.portal.kernel.util.PropsKeys;
-import com.liferay.portal.search.elasticsearch7.internal.configuration.ElasticsearchConfigurationObserver;
 import com.liferay.portal.search.elasticsearch7.internal.configuration.ElasticsearchConfigurationChangeDetector;
+import com.liferay.portal.search.elasticsearch7.internal.configuration.ElasticsearchConfigurationObserver;
 import com.liferay.portal.search.elasticsearch7.internal.configuration.ElasticsearchConfigurationWrapper;
 import com.liferay.portal.search.elasticsearch7.internal.configuration.OperationModeResolver;
 import com.liferay.portal.search.elasticsearch7.internal.connection.ElasticsearchConnectionBuilder;
@@ -54,7 +54,9 @@ public class SidecarManager implements ElasticsearchConfigurationObserver {
 
 	@Override
 	public void onElasticsearchConfigurationUpdate(
-		ElasticsearchConfigurationChangeDetector elasticsearchConfigurationChangeDetector) {
+		ElasticsearchConfigurationChangeDetector
+			elasticsearchConfigurationChangeDetector) {
+
 		applyConfigurations();
 	}
 

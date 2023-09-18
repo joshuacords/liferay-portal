@@ -299,7 +299,7 @@ public class ElasticsearchConfigurationWrapper
 
 		ElasticsearchConfigurationChangeDetector
 			elasticsearchConfigurationChangeDetector =
-			new ElasticsearchConfigurationChangeDetector();
+				new ElasticsearchConfigurationChangeDetector();
 
 		File dataFile = bundleContext.getDataFile(
 			"elasticsearch_configuration.data");
@@ -312,7 +312,8 @@ public class ElasticsearchConfigurationWrapper
 				if (deserializer.readBoolean() !=
 						_elasticsearchConfiguration.productionModeEnabled()) {
 
-					elasticsearchConfigurationChangeDetector.setContextChanged(true);
+					elasticsearchConfigurationChangeDetector.setContextChanged(
+						true);
 				}
 			}
 			catch (Exception exception) {

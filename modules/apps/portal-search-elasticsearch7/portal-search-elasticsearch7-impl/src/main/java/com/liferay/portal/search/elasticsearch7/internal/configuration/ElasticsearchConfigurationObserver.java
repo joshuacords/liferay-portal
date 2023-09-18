@@ -14,6 +14,7 @@ public interface ElasticsearchConfigurationObserver
 	public int getPriority();
 
 	public void onElasticsearchConfigurationUpdate(
-		ElasticsearchConfigurationChangeDetector elasticsearchConfigurationChangeDetector);
+		ElasticsearchConfigurationChangeDetector
+			elasticsearchConfigurationChangeDetector);
 
 }
