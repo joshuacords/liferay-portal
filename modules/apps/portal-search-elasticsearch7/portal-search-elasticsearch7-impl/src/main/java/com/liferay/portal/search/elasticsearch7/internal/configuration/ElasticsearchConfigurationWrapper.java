@@ -297,21 +297,14 @@ public class ElasticsearchConfigurationWrapper
 			ElasticsearchConfiguration.class, propsMap);
 		_propsMap = propsMap;
 
-		Object object = new Object();
-
-		// get orig value from bundleContext?
+		ElasticsearchConfigurationChangeDetector
+			elasticsearchConfigurationChangeDetector =
+			new ElasticsearchConfigurationChangeDetector();
 
 		File dataFile = bundleContext.getDataFile(
 			"elasticsearch_configuration.data");
 
-		// if dataFile doesn't exist
-
-		if (dataFile.exists() /*&& _elasticsearchConfiguration == dataFile*/ ) {
-			//object.setContextChanged("true");
-
-			//			try (FileInputStream fileInputStream = new FileInputStream(dataFile);
-			//				 ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
-
+		if (dataFile.exists()) {
 			try {
 				Deserializer deserializer = new Deserializer(
 					ByteBuffer.wrap(FileUtil.getBytes(dataFile)));
@@ -319,14 +312,8 @@ public class ElasticsearchConfigurationWrapper
 				if (deserializer.readBoolean() !=
 						_elasticsearchConfiguration.productionModeEnabled()) {
 
-					//object.setContextChanged("true");
+					elasticsearchConfigurationChangeDetector.setContextChanged(true);
 				}
-
-				// 				ElasticsearchConfiguration elasticsearchConfiguration =
-
-				//					(ElasticsearchConfiguration) objectInputStream.readObject();
-
-				//				boolean contextChanged = elasticsearchConfiguration == _elasticsearchConfiguration;
 			}
 			catch (Exception exception) {
 				if (_log.isWarnEnabled()) {
@@ -345,7 +332,8 @@ public class ElasticsearchConfigurationWrapper
 		_elasticsearchConfigurationObservers.forEach(
 			elasticsearchConfigurationObserver ->
 				elasticsearchConfigurationObserver.
-					onElasticsearchConfigurationUpdate(object));
+					onElasticsearchConfigurationUpdate(
+						elasticsearchConfigurationChangeDetector));
 
 		// write new value to bundle context
 

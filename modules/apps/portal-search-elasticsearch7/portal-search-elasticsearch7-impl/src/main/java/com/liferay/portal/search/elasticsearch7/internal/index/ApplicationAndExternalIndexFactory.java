@@ -8,6 +8,7 @@ package com.liferay.portal.search.elasticsearch7.internal.index;
 import com.liferay.osgi.service.tracker.collections.list.ServiceTrackerList;
 import com.liferay.osgi.service.tracker.collections.list.ServiceTrackerListFactory;
 import com.liferay.portal.search.elasticsearch7.internal.configuration.ElasticsearchConfigurationObserver;
+import com.liferay.portal.search.elasticsearch7.internal.configuration.ElasticsearchConfigurationChangeDetector;
 import com.liferay.portal.search.elasticsearch7.internal.configuration.ElasticsearchConfigurationWrapper;
 import com.liferay.portal.search.elasticsearch7.internal.index.util.IndexFactoryCompanyIdRegistryUtil;
 import com.liferay.portal.search.spi.index.lifecycle.IndexLifecycleManager;
@@ -39,10 +40,11 @@ public class ApplicationAndExternalIndexFactory
 	}
 
 	@Override
-	public void onElasticsearchConfigurationUpdate(Object object) {
-//		if (object.isContextChanged()) {
-//			_createApplicationAndExternalIndexes();
-//		}
+	public void onElasticsearchConfigurationUpdate(
+		ElasticsearchConfigurationChangeDetector elasticsearchConfigurationChangeDetector) {
+			if (elasticsearchConfigurationChangeDetector.isContextChanged()) {
+				_createApplicationAndExternalIndexes();
+			}
 	}
 
 	@Activate
@@ -52,15 +54,12 @@ public class ApplicationAndExternalIndexFactory
 		_serviceTrackerList = ServiceTrackerListFactory.open(
 			bundleContext, IndexLifecycleManager.class);
 
-		//can we compare old and new values of config here?
+		// can we compare old and new values of config here?
 
-//		if (contextChanged) {
-			_createApplicationAndExternalIndexes();
-//		}
+		//		if (contextChanged) {
+		_createApplicationAndExternalIndexes();
+		//		}
 	}
-
-	private ServiceTrackerList<IndexLifecycleManager>
-		_serviceTrackerList;
 
 	@Deactivate
 	protected void deactivate() {
@@ -72,7 +71,7 @@ public class ApplicationAndExternalIndexFactory
 				IndexFactoryCompanyIdRegistryUtil.getCompanyIds()) {
 
 			for (IndexLifecycleManager indexLifecycleManager :
-				_serviceTrackerList) {
+					_serviceTrackerList) {
 
 				indexLifecycleManager.createIndex(companyId);
 			}
@@ -82,5 +81,7 @@ public class ApplicationAndExternalIndexFactory
 	@Reference
 	private volatile ElasticsearchConfigurationWrapper
 		_elasticsearchConfigurationWrapper;
+
+	private ServiceTrackerList<IndexLifecycleManager> _serviceTrackerList;
 
 }

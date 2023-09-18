@@ -8,13 +8,13 @@ package com.liferay.portal.search.elasticsearch7.internal.configuration;
 /**
  * @author Joshua Cords
  */
-public class ElasticsearchConfigurationState {
+public class ElasticsearchConfigurationChangeDetector {
 
-	public ElasticsearchConfigurationState(boolean contextChanged) {
-		_contextChanged = true;
-	}
 	public boolean isContextChanged() {
 		return _contextChanged;
+	}
+	public void setContextChanged(boolean contextChanged) {
+		_contextChanged = contextChanged;
 	}
 	private boolean _contextChanged = false;
 }
