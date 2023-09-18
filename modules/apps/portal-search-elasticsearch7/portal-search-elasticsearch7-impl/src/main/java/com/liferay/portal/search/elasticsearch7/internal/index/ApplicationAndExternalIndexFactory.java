@@ -53,17 +53,10 @@ public class ApplicationAndExternalIndexFactory
 
 	@Override
 	public void onElasticsearchConfigurationUpdate() {
-
-		//		if (elasticsearchConfigurationChangeDetector.isContextChanged()) {
-		//			_createApplicationAndExternalIndexes();
-		//		}
-
 		Bundle bundle = FrameworkUtil.getBundle(
 			ApplicationAndExternalIndexFactory.class);
 
-		BundleContext bundleContext = bundle.getBundleContext();
-
-		_reindexOnElasticsearchConfigurationChange(bundleContext);
+		_reindexOnElasticsearchConfigurationChange(bundle.getBundleContext());
 	}
 
 	@Activate
@@ -72,12 +65,6 @@ public class ApplicationAndExternalIndexFactory
 
 		_serviceTrackerList = ServiceTrackerListFactory.open(
 			bundleContext, IndexLifecycleManager.class);
-
-		// can we compare old and new values of config here?
-
-		//		if (contextChanged) {
-		//		_createApplicationAndExternalIndexes();
-		//		}
 
 		_reindexOnElasticsearchConfigurationChange(bundleContext);
 	}
@@ -120,7 +107,8 @@ public class ApplicationAndExternalIndexFactory
 			catch (Exception exception) {
 				if (_log.isWarnEnabled()) {
 					_log.warn(
-						"Unable to load current Elasticsearch Configuration data",
+						"Unable to load current Elasticsearch Configuration" +
+						" data",
 						exception);
 				}
 			}
