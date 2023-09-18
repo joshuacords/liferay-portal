@@ -12,7 +12,6 @@ import com.liferay.petra.io.Serializer;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.FileUtil;
-import com.liferay.portal.search.elasticsearch7.internal.configuration.ElasticsearchConfigurationChangeDetector;
 import com.liferay.portal.search.elasticsearch7.internal.configuration.ElasticsearchConfigurationObserver;
 import com.liferay.portal.search.elasticsearch7.internal.configuration.ElasticsearchConfigurationWrapper;
 import com.liferay.portal.search.elasticsearch7.internal.index.util.IndexFactoryCompanyIdRegistryUtil;
@@ -52,9 +51,7 @@ public class ApplicationAndExternalIndexFactory
 	}
 
 	@Override
-	public void onElasticsearchConfigurationUpdate(
-		ElasticsearchConfigurationChangeDetector
-			elasticsearchConfigurationChangeDetector) {
+	public void onElasticsearchConfigurationUpdate() {
 
 //		if (elasticsearchConfigurationChangeDetector.isContextChanged()) {
 //			_createApplicationAndExternalIndexes();

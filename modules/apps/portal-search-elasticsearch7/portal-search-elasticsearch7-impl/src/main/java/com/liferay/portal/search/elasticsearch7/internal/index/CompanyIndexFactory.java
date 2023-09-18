@@ -12,7 +12,6 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.service.CompanyLocalService;
 import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portal.search.elasticsearch7.internal.configuration.ElasticsearchConfigurationChangeDetector;
 import com.liferay.portal.search.elasticsearch7.internal.configuration.ElasticsearchConfigurationObserver;
 import com.liferay.portal.search.elasticsearch7.internal.configuration.ElasticsearchConfigurationWrapper;
 import com.liferay.portal.search.elasticsearch7.internal.connection.ElasticsearchConnectionManager;
@@ -87,9 +86,7 @@ public class CompanyIndexFactory
 	}
 
 	@Override
-	public void onElasticsearchConfigurationUpdate(
-		ElasticsearchConfigurationChangeDetector
-			elasticsearchConfigurationChangeDetector) {
+	public void onElasticsearchConfigurationUpdate() {
 
 		_createCompanyIndexes();
 

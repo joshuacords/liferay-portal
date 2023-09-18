@@ -15,7 +15,6 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Http;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.search.ccr.CrossClusterReplicationConfigurationHelper;
-import com.liferay.portal.search.elasticsearch7.internal.configuration.ElasticsearchConfigurationChangeDetector;
 import com.liferay.portal.search.elasticsearch7.internal.configuration.ElasticsearchConfigurationObserver;
 import com.liferay.portal.search.elasticsearch7.internal.configuration.ElasticsearchConfigurationWrapper;
 import com.liferay.portal.search.elasticsearch7.internal.configuration.OperationModeResolver;
@@ -222,9 +221,7 @@ public class ElasticsearchConnectionManager
 	}
 
 	@Override
-	public void onElasticsearchConfigurationUpdate(
-		ElasticsearchConfigurationChangeDetector
-			elasticsearchConfigurationChangeDetector) {
+	public void onElasticsearchConfigurationUpdate() {
 
 		applyConfigurations();
 	}
