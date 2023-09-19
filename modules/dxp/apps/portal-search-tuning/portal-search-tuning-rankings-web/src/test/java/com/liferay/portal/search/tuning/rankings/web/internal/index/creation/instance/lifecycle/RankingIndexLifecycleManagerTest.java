@@ -7,10 +7,13 @@ package com.liferay.portal.search.tuning.rankings.web.internal.index.creation.in
 
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.test.ReflectionTestUtil;
+import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.search.capabilities.SearchCapabilities;
 import com.liferay.portal.search.tuning.rankings.web.internal.index.RankingIndexCreator;
 import com.liferay.portal.search.tuning.rankings.web.internal.index.RankingIndexReader;
 import com.liferay.portal.search.tuning.rankings.web.internal.index.importer.SingleIndexToMultipleIndexImporter;
+import com.liferay.portal.search.tuning.rankings.web.internal.index.lifecycle.RankingIndexLifecycleManager;
+import com.liferay.portal.search.tuning.rankings.web.internal.index.name.RankingIndexName;
 import com.liferay.portal.search.tuning.rankings.web.internal.index.name.RankingIndexNameBuilder;
 import com.liferay.portal.test.rule.LiferayUnitTestRule;
 
@@ -24,7 +27,7 @@ import org.mockito.Mockito;
 /**
  * @author Wade Cao
  */
-public class RankingIndexPortalInstanceLifecycleListenerTest {
+public class RankingIndexLifecycleManagerTest {
 
 	@ClassRule
 	@Rule
@@ -33,41 +36,43 @@ public class RankingIndexPortalInstanceLifecycleListenerTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Mockito.doReturn(
-			true
-		).when(
-			_searchCapabilities
-		).isResultRankingsSupported();
+//		Mockito.doReturn(
+//			true
+//		).when(
+//			_searchCapabilities
+//		).isResultRankingsSupported();
 
-		_rankingIndexPortalInstanceLifecycleListener =
-			new RankingIndexPortalInstanceLifecycleListener();
+		_rankingIndexLifecycleManager =
+			new RankingIndexLifecycleManager();
 
 		ReflectionTestUtil.setFieldValue(
-			_rankingIndexPortalInstanceLifecycleListener,
+			_rankingIndexLifecycleManager,
 			"_rankingIndexCreator", _rankingIndexCreator);
 		ReflectionTestUtil.setFieldValue(
-			_rankingIndexPortalInstanceLifecycleListener,
+			_rankingIndexLifecycleManager,
 			"_rankingIndexNameBuilder", _rankingIndexNameBuilder);
 		ReflectionTestUtil.setFieldValue(
-			_rankingIndexPortalInstanceLifecycleListener, "_rankingIndexReader",
+			_rankingIndexLifecycleManager, "_rankingIndexReader",
 			_rankingIndexReader);
+//		ReflectionTestUtil.setFieldValue(
+//			_rankingIndexLifecycleManager, "_searchCapabilities",
+//			_searchCapabilities);
 		ReflectionTestUtil.setFieldValue(
-			_rankingIndexPortalInstanceLifecycleListener, "_searchCapabilities",
-			_searchCapabilities);
-		ReflectionTestUtil.setFieldValue(
-			_rankingIndexPortalInstanceLifecycleListener,
+			_rankingIndexLifecycleManager,
 			"_singleIndexToMultipleIndexImporter",
 			_singleIndexToMultipleIndexImporter);
+
+		_setUpRankingIndexNameBuilder();
 	}
 
 	@Test
-	public void testActivatorSingleIndexToMultipleIndexImporterTrue()
+	public void testSingleIndexExists()
 		throws Exception {
 
 		_setUpSingleIndexToMultipleIndexImporter(true);
 
-		_rankingIndexPortalInstanceLifecycleListener.portalInstanceRegistered(
-			Mockito.mock(Company.class));
+		_rankingIndexLifecycleManager.createIndex(
+			RandomTestUtil.randomLong());
 
 		Mockito.verify(
 			_singleIndexToMultipleIndexImporter, Mockito.times(1)
@@ -81,8 +86,8 @@ public class RankingIndexPortalInstanceLifecycleListenerTest {
 		_setUpRankingIndexReader(false);
 		_setUpSingleIndexToMultipleIndexImporter(false);
 
-		_rankingIndexPortalInstanceLifecycleListener.portalInstanceRegistered(
-			Mockito.mock(Company.class));
+		_rankingIndexLifecycleManager.createIndex(
+			RandomTestUtil.randomLong());
 
 		Mockito.verify(
 			_rankingIndexReader, Mockito.times(1)
@@ -102,8 +107,8 @@ public class RankingIndexPortalInstanceLifecycleListenerTest {
 		_setUpRankingIndexReader(true);
 		_setUpSingleIndexToMultipleIndexImporter(false);
 
-		_rankingIndexPortalInstanceLifecycleListener.portalInstanceRegistered(
-			Mockito.mock(Company.class));
+		_rankingIndexLifecycleManager.createIndex(
+			RandomTestUtil.randomLong());
 
 		Mockito.verify(
 			_rankingIndexReader, Mockito.times(1)
@@ -117,14 +122,14 @@ public class RankingIndexPortalInstanceLifecycleListenerTest {
 			Mockito.any()
 		);
 	}
-
+//broken
 	@Test
 	public void testPortalInstanceUnregisteredExistsFalse() throws Exception {
 		_setUpRankingIndexReader(false);
 		_setUpSingleIndexToMultipleIndexImporter(false);
 
-		_rankingIndexPortalInstanceLifecycleListener.portalInstanceUnregistered(
-			Mockito.mock(Company.class));
+		_rankingIndexLifecycleManager.createIndex(
+			RandomTestUtil.randomLong());
 
 		Mockito.verify(
 			_rankingIndexReader, Mockito.times(1)
@@ -144,8 +149,8 @@ public class RankingIndexPortalInstanceLifecycleListenerTest {
 		_setUpRankingIndexReader(true);
 		_setUpSingleIndexToMultipleIndexImporter(false);
 
-		_rankingIndexPortalInstanceLifecycleListener.portalInstanceUnregistered(
-			Mockito.mock(Company.class));
+		_rankingIndexLifecycleManager.createIndex(
+			RandomTestUtil.randomLong());
 
 		Mockito.verify(
 			_rankingIndexReader, Mockito.times(1)
@@ -157,6 +162,25 @@ public class RankingIndexPortalInstanceLifecycleListenerTest {
 			_rankingIndexCreator, Mockito.times(1)
 		).delete(
 			Mockito.any()
+		);
+	}
+
+	private void _setUpRankingIndexNameBuilder() {
+		RankingIndexName rankingIndexName =
+			Mockito.mock(RankingIndexName.class);
+
+		Mockito.doReturn(
+			RandomTestUtil.randomString()
+		).when(
+			rankingIndexName
+		).getIndexName();
+
+		Mockito.doReturn(
+			Mockito.mock(RankingIndexName.class)
+		).when(
+			_rankingIndexNameBuilder
+		).getRankingIndexName(
+			Mockito.anyLong()
 		);
 	}
 
@@ -182,8 +206,7 @@ public class RankingIndexPortalInstanceLifecycleListenerTest {
 		RankingIndexCreator.class);
 	private final RankingIndexNameBuilder _rankingIndexNameBuilder =
 		Mockito.mock(RankingIndexNameBuilder.class);
-	private RankingIndexPortalInstanceLifecycleListener
-		_rankingIndexPortalInstanceLifecycleListener;
+	private RankingIndexLifecycleManager _rankingIndexLifecycleManager;
 	private final RankingIndexReader _rankingIndexReader = Mockito.mock(
 		RankingIndexReader.class);
 	private final SearchCapabilities _searchCapabilities = Mockito.mock(
