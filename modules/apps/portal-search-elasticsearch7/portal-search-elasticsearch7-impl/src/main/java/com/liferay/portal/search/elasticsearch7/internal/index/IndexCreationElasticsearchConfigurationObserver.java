@@ -35,7 +35,7 @@ import org.osgi.service.component.annotations.Reference;
  * @author Bryan Engler
  */
 @Component(service = {})
-public class ApplicationAndExternalIndexFactory
+public class IndexCreationElasticsearchConfigurationObserver
 	implements ElasticsearchConfigurationObserver {
 
 	@Override
@@ -54,7 +54,7 @@ public class ApplicationAndExternalIndexFactory
 	@Override
 	public void onElasticsearchConfigurationUpdate() {
 		Bundle bundle = FrameworkUtil.getBundle(
-			ApplicationAndExternalIndexFactory.class);
+			IndexCreationElasticsearchConfigurationObserver.class);
 
 		_reindexOnElasticsearchConfigurationChange(bundle.getBundleContext());
 	}
@@ -108,7 +108,7 @@ public class ApplicationAndExternalIndexFactory
 				if (_log.isWarnEnabled()) {
 					_log.warn(
 						"Unable to load current Elasticsearch Configuration" +
-						" data",
+							" data",
 						exception);
 				}
 			}
@@ -132,7 +132,7 @@ public class ApplicationAndExternalIndexFactory
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
-		ApplicationAndExternalIndexFactory.class);
+		IndexCreationElasticsearchConfigurationObserver.class);
 
 	@Reference
 	private volatile ElasticsearchConfigurationWrapper
