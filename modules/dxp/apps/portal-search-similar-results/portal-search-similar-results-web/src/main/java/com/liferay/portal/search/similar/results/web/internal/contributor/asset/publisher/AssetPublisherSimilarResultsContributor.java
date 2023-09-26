@@ -12,6 +12,8 @@ import com.liferay.asset.publisher.constants.AssetPublisherPortletKeys;
 import com.liferay.blogs.model.BlogsEntry;
 import com.liferay.blogs.service.BlogsEntryLocalService;
 import com.liferay.journal.model.JournalArticle;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.ClassedModel;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.util.HttpComponentsUtil;
@@ -120,7 +122,15 @@ public class AssetPublisherSimilarResultsContributor
 
 			AssetRenderer<?> assetRenderer = assetEntry.getAssetRenderer();
 
-			return (JournalArticle)assetRenderer.getAssetObject();
+			JournalArticle journalArticle =
+				(JournalArticle)assetRenderer.getAssetObject();
+
+			try {
+				return journalArticle.getArticleResource();
+			}
+			catch (PortalException portalException) {
+				throw new SystemException(portalException);
+			}
 		}
 		else if (Objects.equals(
 					WikiPage.class.getName(), assetEntry.getClassName())) {
