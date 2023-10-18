@@ -625,7 +625,7 @@ public class SXPElementModelImpl
 
 	@Override
 	public Map<Locale, String> getDescriptionMap() {
-		return LocalizationUtil.getLocalizationMap(getDescription());
+		return _getLocalizationMap(getDescription());
 	}
 
 	@Override
@@ -824,6 +824,20 @@ public class SXPElementModelImpl
 		return LocalizationUtil.getLocalization(xml, "en_US",  useDefault);
 	}
 
+	private Map<Locale, String> _getLocalizationMap(String xml) {
+		Map<Locale, String> localizationMap =
+			LocalizationUtil.getLocalizationMap(xml);
+
+		if (!localizationMap.isEmpty()) {
+			return localizationMap;
+		}
+
+		localizationMap.put(
+			LocaleUtil.US, LocalizationUtil.getLocalization(xml,"en_US"));
+
+		return localizationMap;
+	}
+
 	@Override
 	public String getTitleCurrentLanguageId() {
 		return _titleCurrentLanguageId;
@@ -839,7 +853,7 @@ public class SXPElementModelImpl
 
 	@Override
 	public Map<Locale, String> getTitleMap() {
-		return LocalizationUtil.getLocalizationMap(getTitle());
+		return _getLocalizationMap(getTitle());
 	}
 
 	@Override
