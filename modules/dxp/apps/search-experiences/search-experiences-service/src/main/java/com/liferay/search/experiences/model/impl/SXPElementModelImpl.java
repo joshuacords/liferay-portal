@@ -602,13 +602,12 @@ public class SXPElementModelImpl
 
 	@Override
 	public String getDescription(String languageId) {
-		return LocalizationUtil.getLocalization(getDescription(), languageId);
+		return getDescription(languageId, true);
 	}
 
 	@Override
 	public String getDescription(String languageId, boolean useDefault) {
-		return LocalizationUtil.getLocalization(
-			getDescription(), languageId, useDefault);
+		return _getLocalization(getDescription(), languageId, useDefault);
 	}
 
 	@Override
@@ -806,13 +805,23 @@ public class SXPElementModelImpl
 
 	@Override
 	public String getTitle(String languageId) {
-		return LocalizationUtil.getLocalization(getTitle(), languageId);
+		return getTitle(languageId, true);
 	}
 
 	@Override
 	public String getTitle(String languageId, boolean useDefault) {
-		return LocalizationUtil.getLocalization(
-			getTitle(), languageId, useDefault);
+		return _getLocalization(getTitle(), languageId, useDefault);
+	}
+
+	private String _getLocalization(String xml, String languageId, boolean useDefault) {
+		String localizedString =
+			LocalizationUtil.getLocalization(xml, languageId, useDefault);
+
+		if (!Validator.isNull(localizedString)) {
+			return localizedString;
+		}
+
+		return LocalizationUtil.getLocalization(xml, "en_US",  useDefault);
 	}
 
 	@Override
