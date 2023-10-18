@@ -59,12 +59,14 @@ public class SXPElementDTOConverter
 			com.liferay.search.experiences.model.SXPElement sxpElement)
 		throws Exception {
 
+		String defaultLanguageId = sxpElement.getDefaultLanguageId();
+
 		return new SXPElement() {
 			{
 				createDate = sxpElement.getCreateDate();
 				description = _language.get(
 					dtoConverterContext.getLocale(),
-					sxpElement.getDescription(dtoConverterContext.getLocale()));
+					sxpElement.getDescription(defaultLanguageId));
 				description_i18n = LocalizedMapUtil.getI18nMap(
 					true, sxpElement.getDescriptionMap());
 				elementDefinition = _toElementDefinition(
@@ -77,7 +79,7 @@ public class SXPElementDTOConverter
 				schemaVersion = sxpElement.getSchemaVersion();
 				title = _language.get(
 					dtoConverterContext.getLocale(),
-					sxpElement.getTitle(dtoConverterContext.getLocale()));
+					sxpElement.getTitle(defaultLanguageId));
 				title_i18n = LocalizedMapUtil.getI18nMap(
 					true, sxpElement.getTitleMap());
 				type = sxpElement.getType();
