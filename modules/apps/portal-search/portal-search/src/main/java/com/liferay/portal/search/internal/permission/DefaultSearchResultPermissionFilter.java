@@ -514,9 +514,8 @@ public class DefaultSearchResultPermissionFilter
 				return _indexPermissionFilterSearchAmplificationFactor;
 			}
 
-			return Math.min(
-				1.0 / (totalViewable / total),
-				_indexPermissionFilterSearchAmplificationFactor);
+			return (totalViewable / total) *
+				_indexPermissionFilterSearchAmplificationFactor;
 		}
 
 		private void _setSearchRequestFromAndSize(SearchContext searchContext) {
