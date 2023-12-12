@@ -42,6 +42,7 @@ import com.liferay.portal.kernel.util.Time;
 import com.liferay.portal.kernel.util.Tuple;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.search.configuration.DefaultSearchResultPermissionFilterConfiguration;
+import com.liferay.portal.search.internal.facet.FacetBucketUtil;
 import com.liferay.portal.search.internal.facet.FacetImpl;
 import com.liferay.portal.search.internal.facet.SimpleFacetCollector;
 import com.liferay.portal.search.legacy.searcher.SearchRequestBuilderFactory;
@@ -475,7 +476,9 @@ public class DefaultSearchResultPermissionFilter
 						numberOfTotalDocsNeeded, startTime,
 						recalculatedTotalHits);
 
-					_mergeFacets(facetCountHelper, searchContext);
+					_updatedFacets(
+						facetCountHelper, hits, numberOfTotalDocsNeeded,
+						searchContext);
 
 					if (_log.isDebugEnabled()) {
 						slidingWindowStopWatch.stop();
@@ -530,6 +533,18 @@ public class DefaultSearchResultPermissionFilter
 			return facet.getFieldName();
 		}
 
+		private int _getInclusions(
+			Map<String, Integer> includedTermsMap, String term) {
+
+			Integer inclusions = includedTermsMap.get(term);
+
+			if (inclusions != null) {
+				return inclusions;
+			}
+
+			return 0;
+		}
+
 		private String _getMessage(
 			int amplificationFactor, boolean extendedToAccurateCountThreshold,
 			boolean limitedByIndexSearchLimit, int numberOfRemainingDocsNeeded,
@@ -580,45 +595,6 @@ public class DefaultSearchResultPermissionFilter
 			return sb.toString();
 		}
 
-		private void _mergeFacets(
-			FacetCountHelper facetCountHelper, SearchContext searchContext) {
-
-			Map<String, Facet> facets = searchContext.getFacets();
-
-			for (Facet facet : facets.values()) {
-				Facet helperFacet = facetCountHelper.getFacet(
-					_getAggregationName(facet));
-
-				FacetCollector helperFacetCollector =
-					helperFacet.getFacetCollector();
-
-				FacetCollector facetCollector = facet.getFacetCollector();
-
-				List<TermCollector> termCollectors =
-					facetCollector.getTermCollectors();
-
-				List<TermCollector> newTermCollectors = new ArrayList<>();
-
-				for (TermCollector termCollector : termCollectors) {
-					String term = termCollector.getTerm();
-
-					TermCollector helperTermCollector =
-						helperFacetCollector.getTermCollector(term);
-
-					int frequency = helperTermCollector.getFrequency();
-
-					if (frequency >= 0) {
-						newTermCollectors.add(
-							new DefaultTermCollector(term, frequency));
-					}
-				}
-
-				facet.setFacetCollector(
-					new SimpleFacetCollector(
-						facetCollector.getFieldName(), newTermCollectors));
-			}
-		}
-
 		private void _setSearchRequestFromAndSize(SearchContext searchContext) {
 			SearchRequestBuilder searchRequestBuilder =
 				_searchRequestBuilderFactory.builder(searchContext);
@@ -653,6 +629,98 @@ public class DefaultSearchResultPermissionFilter
 			}
 
 			return false;
+		}
+
+		private void _updatedFacets(
+			FacetCountHelper facetCountHelper, Hits hits,
+			int numberOfTotalDocsNeeded, SearchContext searchContext) {
+
+			Document[] documents = hits.getDocs();
+
+			Map<String, Facet> facets = searchContext.getFacets();
+
+			for (Facet facet : facets.values()) {
+				Facet helperFacet = facetCountHelper.getFacet(
+					_getAggregationName(facet));
+
+				FacetCollector facetCollector = facet.getFacetCollector();
+
+				if (documents.length < numberOfTotalDocsNeeded) {
+					_updateFacetUsingDocuments(documents, facet);
+				}
+				else {
+					FacetCollector helperFacetCollector =
+						helperFacet.getFacetCollector();
+
+					List<TermCollector> newTermCollectors = new ArrayList<>();
+
+					List<TermCollector> termCollectors =
+						facetCollector.getTermCollectors();
+
+					for (TermCollector termCollector : termCollectors) {
+						String term = termCollector.getTerm();
+
+						TermCollector helperTermCollector =
+							helperFacetCollector.getTermCollector(term);
+
+						int frequency = helperTermCollector.getFrequency();
+
+						if (frequency >= 0) {
+							newTermCollectors.add(
+								new DefaultTermCollector(term, frequency));
+						}
+					}
+
+					facet.setFacetCollector(
+						new SimpleFacetCollector(
+							facetCollector.getFieldName(), newTermCollectors));
+				}
+			}
+		}
+
+		private void _updateFacetUsingDocuments(
+			Document[] documents, Facet facet) {
+
+			FacetCollector facetCollector = facet.getFacetCollector();
+			Map<String, Integer> includedTermsMap = new HashMap<>();
+
+			for (Document document : documents) {
+				Field field = document.getField(facet.getFieldName());
+
+				if (field == null) {
+					continue;
+				}
+
+				for (TermCollector termCollector :
+						facetCollector.getTermCollectors()) {
+
+					String term = termCollector.getTerm();
+
+					if (FacetBucketUtil.isFieldInBucket(field, term, facet)) {
+						int inclusions = _getInclusions(includedTermsMap, term);
+
+						includedTermsMap.put(term, inclusions + 1);
+					}
+					else if (!includedTermsMap.containsKey(term)) {
+						includedTermsMap.put(term, 0);
+					}
+				}
+			}
+
+			List<TermCollector> newTermCollectors = new ArrayList<>();
+
+			for (Map.Entry<String, Integer> includedTermEntry :
+					includedTermsMap.entrySet()) {
+
+				newTermCollectors.add(
+					new DefaultTermCollector(
+						includedTermEntry.getKey(),
+						includedTermEntry.getValue()));
+			}
+
+			facet.setFacetCollector(
+				new SimpleFacetCollector(
+					facetCollector.getFieldName(), newTermCollectors));
 		}
 
 		private void _updateHits(
