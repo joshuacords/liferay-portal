@@ -477,7 +477,7 @@ public class DefaultSearchResultPermissionFilter
 
 					_updatedFacets(
 						facetCountHelper, hits, numberOfTotalDocsNeeded,
-						searchContext);
+						searchContext, slidingWindowHelper);
 
 					if (_log.isDebugEnabled()) {
 						slidingWindowStopWatch.stop();
@@ -641,7 +641,8 @@ public class DefaultSearchResultPermissionFilter
 
 		private void _updatedFacets(
 			FacetCountHelper facetCountHelper, Hits hits,
-			int numberOfTotalDocsNeeded, SearchContext searchContext) {
+			int numberOfTotalDocsNeeded, SearchContext searchContext,
+			SlidingWindowHelper slidingWindowHelper) {
 
 			Document[] documents = hits.getDocs();
 
@@ -653,8 +654,10 @@ public class DefaultSearchResultPermissionFilter
 
 				FacetCollector facetCollector = facet.getFacetCollector();
 
-				if (documents.length < numberOfTotalDocsNeeded) {
-					_updateFacetUsingDocuments(documents, facet);
+				if (slidingWindowHelper.getTotalDocs() <
+						numberOfTotalDocsNeeded) {
+
+					slidingWindowHelper.createFacetUsingDocuments(facet);
 				}
 				else {
 					FacetCollector helperFacetCollector =
@@ -684,51 +687,6 @@ public class DefaultSearchResultPermissionFilter
 							facetCollector.getFieldName(), newTermCollectors));
 				}
 			}
-		}
-
-		private void _updateFacetUsingDocuments(
-			Document[] documents, Facet facet) {
-
-			FacetCollector facetCollector = facet.getFacetCollector();
-			Map<String, Integer> includedTermsMap = new HashMap<>();
-
-			for (Document document : documents) {
-				Field field = document.getField(facet.getFieldName());
-
-				if (field == null) {
-					continue;
-				}
-
-				for (TermCollector termCollector :
-						facetCollector.getTermCollectors()) {
-
-					String term = termCollector.getTerm();
-
-					if (FacetBucketUtil.isFieldInBucket(field, term, facet)) {
-						int inclusions = _getInclusions(includedTermsMap, term);
-
-						includedTermsMap.put(term, inclusions + 1);
-					}
-					else if (!includedTermsMap.containsKey(term)) {
-						includedTermsMap.put(term, 0);
-					}
-				}
-			}
-
-			List<TermCollector> newTermCollectors = new ArrayList<>();
-
-			for (Map.Entry<String, Integer> includedTermEntry :
-					includedTermsMap.entrySet()) {
-
-				newTermCollectors.add(
-					new DefaultTermCollector(
-						includedTermEntry.getKey(),
-						includedTermEntry.getValue()));
-			}
-
-			facet.setFacetCollector(
-				new SimpleFacetCollector(
-					facetCollector.getFieldName(), newTermCollectors));
 		}
 
 		private void _updateHits(
@@ -837,6 +795,52 @@ public class DefaultSearchResultPermissionFilter
 				_totalDocs++;
 
 				return true;
+			}
+
+			public void createFacetUsingDocuments(Facet facet) {
+				FacetCollector facetCollector = facet.getFacetCollector();
+				Map<String, Integer> includedTermsMap = new HashMap<>();
+
+				for (Document document : _documents) {
+					Field field = document.getField(facet.getFieldName());
+
+					if (field == null) {
+						continue;
+					}
+
+					for (TermCollector termCollector :
+							facetCollector.getTermCollectors()) {
+
+						String term = termCollector.getTerm();
+
+						if (FacetBucketUtil.isFieldInBucket(
+								field, term, facet)) {
+
+							int inclusions = _getInclusions(
+								includedTermsMap, term);
+
+							includedTermsMap.put(term, inclusions + 1);
+						}
+						else if (!includedTermsMap.containsKey(term)) {
+							includedTermsMap.put(term, 0);
+						}
+					}
+				}
+
+				List<TermCollector> newTermCollectors = new ArrayList<>();
+
+				for (Map.Entry<String, Integer> includedTermEntry :
+						includedTermsMap.entrySet()) {
+
+					newTermCollectors.add(
+						new DefaultTermCollector(
+							includedTermEntry.getKey(),
+							includedTermEntry.getValue()));
+				}
+
+				facet.setFacetCollector(
+					new SimpleFacetCollector(
+						facetCollector.getFieldName(), newTermCollectors));
 			}
 
 			public Tuple getDocumentsAndScoresTuple() {
