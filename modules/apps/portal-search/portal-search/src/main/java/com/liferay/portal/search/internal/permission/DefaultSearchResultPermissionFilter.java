@@ -443,15 +443,13 @@ public class DefaultSearchResultPermissionFilter
 				if (searchesExecuted == 0) {
 					facetCountHelper = new FacetCountHelper(
 						searchContext.getFacets());
-					slidingWindowHelper.setupFacets(searchContext.getFacets());
 					originalTotalHits = hits.getLength();
 					recalculatedTotalHits = hits.getLength();
+					slidingWindowHelper.setupFacets(searchContext.getFacets());
 					startTime = hits.getStart();
 				}
 
 				Document[] docsBeforeFiltering = hits.getDocs();
-
-				// Where are the delays and heap problems happening
 
 				if (searchesExecuted == 0) {
 					hitFilteringStopWatch.start();
@@ -706,14 +704,14 @@ public class DefaultSearchResultPermissionFilter
 				ArrayUtil.toFloatArray(
 					(List<Float>)documentsAndScoresTuple.getObject(1)));
 
-			int updatedLength = Math.max(
-				recalculatedTotalHits, documents.size());
+			int updatedLength = slidingWindowHelper.getTotalDocs();
 
-			if (_timeLimitReached(slidingWindowStopWatch) &&
-				(slidingWindowHelper.getTotalDocs() <
+			if (!_timeLimitReached(slidingWindowStopWatch) ||
+				(slidingWindowHelper.getTotalDocs() >=
 					numberOfTotalDocsNeeded)) {
 
-				updatedLength = slidingWindowHelper.getTotalDocs();
+				updatedLength = Math.max(
+					recalculatedTotalHits, documents.size());
 			}
 
 			hits.setLength(updatedLength);
