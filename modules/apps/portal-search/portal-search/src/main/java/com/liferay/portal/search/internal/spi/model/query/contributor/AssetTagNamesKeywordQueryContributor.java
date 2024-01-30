@@ -42,9 +42,9 @@ public class AssetTagNamesKeywordQueryContributor
 		Locale locale = _getLocale(searchContext);
 
 		_queryHelper.addSearchTerm(
-			booleanQuery, searchContext,
-			_localization.getLocalizedName(
-				Field.ASSET_TAG_NAMES, LocaleUtil.toLanguageId(locale)),
+			booleanQuery, searchContext, "AssetTagNamesKeywordQueryContributor",
+//			_localization.getLocalizedName(
+//				Field.ASSET_TAG_NAMES, LocaleUtil.toLanguageId(locale)),
 			false);
 	}
 

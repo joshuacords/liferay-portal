@@ -61,9 +61,9 @@ public class DLFileEntryKeywordQueryContributor
 		_queryHelper.addSearchTerm(
 			booleanQuery, searchContext, "fileEntryTypeId", false);
 		_queryHelper.addSearchLocalizedTerm(
-			booleanQuery, searchContext, Field.CONTENT, false);
+			booleanQuery, searchContext, "DLFileEntryKeywordQueryContributor" + Field.CONTENT, false);
 		_queryHelper.addSearchLocalizedTerm(
-			booleanQuery, searchContext, Field.TITLE, false);
+			booleanQuery, searchContext, "DLFileEntryKeywordQueryContributor" +  Field.TITLE, false);
 
 		if (Validator.isNotNull(keywords)) {
 			try {

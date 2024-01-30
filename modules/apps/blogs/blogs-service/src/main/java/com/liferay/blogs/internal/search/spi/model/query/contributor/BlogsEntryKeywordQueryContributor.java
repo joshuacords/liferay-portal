@@ -36,11 +36,11 @@ public class BlogsEntryKeywordQueryContributor
 			keywordQueryContributorHelper.getSearchContext();
 
 		_queryHelper.addSearchLocalizedTerm(
-			booleanQuery, searchContext, Field.CONTENT, false);
+			booleanQuery, searchContext, "BlogsEntryKeywordQueryContributor" + Field.CONTENT, false);
 		_queryHelper.addSearchTerm(
-			booleanQuery, searchContext, Field.SUBTITLE, false);
+			booleanQuery, searchContext, "BlogsEntryKeywordQueryContributor" + Field.SUBTITLE, false);
 		_queryHelper.addSearchLocalizedTerm(
-			booleanQuery, searchContext, Field.TITLE, false);
+			booleanQuery, searchContext, "BlogsEntryKeywordQueryContributor" + Field.TITLE, false);
 
 		QueryConfig queryConfig = searchContext.getQueryConfig();
 

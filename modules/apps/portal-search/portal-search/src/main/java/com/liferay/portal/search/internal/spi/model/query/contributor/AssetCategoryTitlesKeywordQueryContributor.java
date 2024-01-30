@@ -33,10 +33,10 @@ public class AssetCategoryTitlesKeywordQueryContributor
 			keywordQueryContributorHelper.getSearchContext();
 
 		queryHelper.addSearchTerm(
-			booleanQuery, searchContext,
-			_localization.getLocalizedName(
-				Field.ASSET_CATEGORY_TITLES,
-				LocaleUtil.toLanguageId(searchContext.getLocale())),
+			booleanQuery, searchContext, "AssetCategoryTitlesKeywordQueryContributor",
+//			_localization.getLocalizedName(
+//				Field.ASSET_CATEGORY_TITLES,
+//				LocaleUtil.toLanguageId(searchContext.getLocale())),
 			false);
 	}
 

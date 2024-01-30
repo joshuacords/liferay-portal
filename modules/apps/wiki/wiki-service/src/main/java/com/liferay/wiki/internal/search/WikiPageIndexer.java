@@ -149,8 +149,8 @@ public class WikiPageIndexer extends BaseIndexer<WikiPage> {
 		throws Exception {
 
 		addSearchLocalizedTerm(
-			searchQuery, searchContext, Field.CONTENT, false);
-		addSearchLocalizedTerm(searchQuery, searchContext, Field.TITLE, false);
+			searchQuery, searchContext, "WikiPageIndexer" + Field.CONTENT, false);
+		addSearchLocalizedTerm(searchQuery, searchContext, "WikiPageIndexer" + Field.TITLE, false);
 
 		QueryConfig queryConfig = searchContext.getQueryConfig();
 

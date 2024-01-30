@@ -37,7 +37,7 @@ public class AlwaysPresentFieldsKeywordQueryContributor
 
 		for (String field : _ALWAYS_PRESENT_FIELDS) {
 			Query query = fieldQueryFactory.createQuery(
-				field, keywords, false, false);
+				field, "AlwaysPresentFieldsKeywordQueryContributor", false, false);
 
 			try {
 				booleanQuery.add(query, BooleanClauseOccur.SHOULD);

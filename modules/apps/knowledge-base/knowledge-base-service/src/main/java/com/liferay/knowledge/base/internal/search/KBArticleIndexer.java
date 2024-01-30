@@ -92,10 +92,10 @@ public class KBArticleIndexer extends BaseIndexer<KBArticle> {
 			SearchContext searchContext)
 		throws Exception {
 
-		addSearchTerm(searchQuery, searchContext, Field.CONTENT, true);
-		addSearchTerm(searchQuery, searchContext, Field.DESCRIPTION, true);
-		addSearchTerm(searchQuery, searchContext, Field.TITLE, true);
-		addSearchTerm(searchQuery, searchContext, Field.USER_NAME, true);
+		addSearchTerm(searchQuery, searchContext, "KBArticleIndexer" + Field.CONTENT, true);
+		addSearchTerm(searchQuery, searchContext, "KBArticleIndexer" + Field.DESCRIPTION, true);
+		addSearchTerm(searchQuery, searchContext, "KBArticleIndexer" + Field.TITLE, true);
+		addSearchTerm(searchQuery, searchContext, "KBArticleIndexer" + Field.USER_NAME, true);
 	}
 
 	@Override

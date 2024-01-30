@@ -50,33 +50,33 @@ public class CPDefinitionKeywordQueryContributor
 			keywordQueryContributorHelper.getSearchContext();
 
 		_queryHelper.addSearchTerm(
-			booleanQuery, searchContext, CPField.ASSET_CATEGORY_NAMES + ".text",
+			booleanQuery, searchContext, "CPDefinitionKeywordQueryContributor" + CPField.ASSET_CATEGORY_NAMES + ".text",
 			false);
 		_queryHelper.addSearchTerm(
-			booleanQuery, searchContext, CPField.EXTERNAL_REFERENCE_CODE,
+			booleanQuery, searchContext, "CPDefinitionKeywordQueryContributor" + CPField.EXTERNAL_REFERENCE_CODE,
 			false);
 		_queryHelper.addSearchLocalizedTerm(
-			booleanQuery, searchContext, CPField.SHORT_DESCRIPTION, false);
+			booleanQuery, searchContext, "CPDefinitionKeywordQueryContributor" + CPField.SHORT_DESCRIPTION, false);
 		_queryHelper.addSearchTerm(
-			booleanQuery, searchContext, CPField.SKUS, false);
+			booleanQuery, searchContext,"CPDefinitionKeywordQueryContributor" +  CPField.SKUS, false);
 		_queryHelper.addSearchTerm(
-			booleanQuery, searchContext, CPField.SPECIFICATION_VALUES_NAMES,
+			booleanQuery, searchContext, "CPDefinitionKeywordQueryContributor" + CPField.SPECIFICATION_VALUES_NAMES,
 			false);
 		_queryHelper.addSearchLocalizedTerm(
-			booleanQuery, searchContext, CPField.SPECIFICATION_VALUES_NAMES,
+			booleanQuery, searchContext, "CPDefinitionKeywordQueryContributor" + CPField.SPECIFICATION_VALUES_NAMES,
 			false);
 		_queryHelper.addSearchLocalizedTerm(
-			booleanQuery, searchContext, Field.CONTENT, false);
+			booleanQuery, searchContext, "CPDefinitionKeywordQueryContributor" + Field.CONTENT, false);
 		_queryHelper.addSearchLocalizedTerm(
-			booleanQuery, searchContext, Field.DESCRIPTION, false);
+			booleanQuery, searchContext, "CPDefinitionKeywordQueryContributor" + Field.DESCRIPTION, false);
 		_queryHelper.addSearchTerm(
-			booleanQuery, searchContext, Field.ENTRY_CLASS_PK, false);
+			booleanQuery, searchContext, "CPDefinitionKeywordQueryContributor" + Field.ENTRY_CLASS_PK, false);
 		_queryHelper.addSearchTerm(
-			booleanQuery, searchContext, Field.NAME, false);
+			booleanQuery, searchContext, "CPDefinitionKeywordQueryContributor" + Field.NAME, false);
 		_queryHelper.addSearchLocalizedTerm(
-			booleanQuery, searchContext, Field.NAME, false);
+			booleanQuery, searchContext, "CPDefinitionKeywordQueryContributor" + Field.NAME, false);
 		_queryHelper.addSearchTerm(
-			booleanQuery, searchContext, Field.USER_NAME, false);
+			booleanQuery, searchContext, "CPDefinitionKeywordQueryContributor" + Field.USER_NAME, false);
 
 		LinkedHashMap<String, Object> params =
 			(LinkedHashMap<String, Object>)searchContext.getAttribute("params");

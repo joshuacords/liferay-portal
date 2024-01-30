@@ -44,7 +44,7 @@ public class AssetCategoryKeywordQueryContributor
 		if (!Validator.isBlank(title)) {
 			BooleanQuery localizedQuery = new BooleanQueryImpl();
 
-			searchContext.setAttribute(Field.ASSET_CATEGORY_TITLE, title);
+			searchContext.setAttribute(Field.ASSET_CATEGORY_TITLE, "AssetCategoryKeywordQueryContributor");
 
 			queryHelper.addSearchLocalizedTerm(
 				localizedQuery, searchContext, Field.ASSET_CATEGORY_TITLE,

@@ -36,9 +36,9 @@ public class MBMessageKeywordQueryContributor
 			keywordQueryContributorHelper.getSearchContext();
 
 		queryHelper.addSearchLocalizedTerm(
-			booleanQuery, searchContext, Field.CONTENT, false);
+			booleanQuery, searchContext, "MBMessageKeywordQueryContributor" + Field.CONTENT, false);
 		queryHelper.addSearchLocalizedTerm(
-			booleanQuery, searchContext, Field.TITLE, false);
+			booleanQuery, searchContext, "MBMessageKeywordQueryContributor" + Field.TITLE, false);
 
 		QueryConfig queryConfig = searchContext.getQueryConfig();
 
