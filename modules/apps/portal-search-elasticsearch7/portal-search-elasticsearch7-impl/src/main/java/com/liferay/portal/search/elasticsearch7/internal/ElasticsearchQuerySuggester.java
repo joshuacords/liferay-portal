@@ -5,6 +5,7 @@
 
 package com.liferay.portal.search.elasticsearch7.internal;
 
+import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -16,6 +17,7 @@ import com.liferay.portal.kernel.search.suggest.Suggester;
 import com.liferay.portal.kernel.search.suggest.SuggesterResult;
 import com.liferay.portal.kernel.search.suggest.SuggesterResults;
 import com.liferay.portal.kernel.search.suggest.TermSuggester;
+import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.Localization;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.search.engine.adapter.SearchEngineAdapter;
@@ -47,25 +49,51 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 
 	@Override
 	public String spellCheckKeywords(SearchContext searchContext) {
-		Suggester suggester = _createSpellCheckSuggester(searchContext, 1);
+		String[] keywords = searchContext.getKeywords(
+		).split(
+			StringPool.SPACE
+		);
+		List<Suggester> suggesters = new ArrayList<>();
+
+		for (int i = 0; i < keywords.length; i++) {
+			suggesters.add(
+				_createSpellCheckSuggester(
+					searchContext, 1, keywords[i],
+					_SPELL_CHECK_REQUEST_NAME + "_term" + i));
+		}
 
 		SuggestSearchResponse suggestSearchResponse =
-			_executeSuggestSearchRequest(suggester, searchContext);
+			_executeSuggestSearchRequest(suggesters, searchContext);
 
 		if (suggestSearchResponse == null) {
 			return StringPool.BLANK;
 		}
 
-		SuggestSearchResult suggestSearchResult =
-			suggestSearchResponse.getSuggesterResult(_SPELL_CHECK_REQUEST_NAME);
+		StringBundler sb = new StringBundler((keywords.length * 2) - 1);
 
-		if (suggestSearchResult == null) {
-			return StringPool.BLANK;
+		for (int i = 0; i < keywords.length; i++) {
+			SuggestSearchResult suggestSearchResult =
+				suggestSearchResponse.getSuggesterResult(
+					_SPELL_CHECK_REQUEST_NAME + "_term" + i);
+
+			if (suggestSearchResult != null) {
+				List<String> suggestions = _getHighestRankedSuggestions(
+					suggestSearchResult);
+
+				if (!suggestions.isEmpty()) {
+					sb.append(StringUtil.merge(suggestions, StringPool.SPACE));
+					sb.append(StringPool.SPACE);
+				}
+				else {
+					sb.append(keywords[i]);
+					sb.append(StringPool.SPACE);
+				}
+			}
 		}
 
-		List<String> words = _getHighestRankedSuggestions(suggestSearchResult);
+		sb.setIndex(sb.index() - 1);
 
-		return StringUtil.merge(words, StringPool.SPACE);
+		return sb.toString();
 	}
 
 	@Override
@@ -234,11 +262,19 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 	private Suggester _createSpellCheckSuggester(
 		SearchContext searchContext, int max) {
 
+		return _createSpellCheckSuggester(
+			searchContext, max, searchContext.getKeywords(),
+			_SPELL_CHECK_REQUEST_NAME);
+	}
+
+	private Suggester _createSpellCheckSuggester(
+		SearchContext searchContext, int max, String keyword, String termName) {
+
 		String field = _localization.getLocalizedName(
 			Field.SPELL_CHECK_WORD, searchContext.getLanguageId());
 
 		TermSuggester termSuggester = new TermSuggester(
-			_SPELL_CHECK_REQUEST_NAME, field, searchContext.getKeywords());
+			termName, field, keyword);
 
 		termSuggester.setSize(max);
 
@@ -246,7 +282,7 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 	}
 
 	private SuggestSearchResponse _executeSuggestSearchRequest(
-		Suggester suggester, SearchContext searchContext) {
+		List<Suggester> suggesters, SearchContext searchContext) {
 
 		StopWatch stopWatch = new StopWatch();
 
@@ -258,7 +294,9 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 					_indexNameBuilder.getIndexName(
 						searchContext.getCompanyId()));
 
-			suggestSearchRequest.addSuggester(suggester);
+			for (Suggester suggester : suggesters) {
+				suggestSearchRequest.addSuggester(suggester);
+			}
 
 			return _searchEngineAdapter.execute(suggestSearchRequest);
 		}
@@ -291,6 +329,13 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 					"Spell checked keywords in " + stopWatch.getTime() + "ms");
 			}
 		}
+	}
+
+	private SuggestSearchResponse _executeSuggestSearchRequest(
+		Suggester suggester, SearchContext searchContext) {
+
+		return _executeSuggestSearchRequest(
+			ListUtil.fromArray(suggester), searchContext);
 	}
 
 	private List<String> _getHighestRankedSuggestions(
