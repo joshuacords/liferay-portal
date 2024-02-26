@@ -877,6 +877,16 @@
 					}
 				},
 				{
+					"template_spellCheck": {
+						"mapping": {
+							"store": true,
+							"type": "keyword"
+						},
+						"match": "spellCheckWord_*",
+						"match_mapping_type": "string"
+					}
+				},
+				{
 					"template_ar": {
 						"mapping": {
 							"analyzer": "arabic",
