@@ -73,7 +73,7 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 			return StringPool.BLANK;
 		}
 
-		StringBundler sb = new StringBundler((keywords.size() * 2) - 1);
+		StringBundler sb = new StringBundler(keywords.size() * 2);
 
 		for (int i = 0; i < keywords.size(); i++) {
 			SuggestSearchResult suggestSearchResult =
