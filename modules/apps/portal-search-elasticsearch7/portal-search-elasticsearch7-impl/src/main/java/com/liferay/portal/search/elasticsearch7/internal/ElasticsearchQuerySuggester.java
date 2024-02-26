@@ -27,6 +27,7 @@ import com.liferay.portal.search.engine.adapter.search.SuggestSearchResult;
 import com.liferay.portal.search.index.IndexNameBuilder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -49,16 +50,19 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 
 	@Override
 	public String spellCheckKeywords(SearchContext searchContext) {
-		String[] keywords = searchContext.getKeywords(
-		).split(
-			StringPool.SPACE
-		);
+		List<String> keywords = Arrays.asList(
+			searchContext.getKeywords(
+			).trim(
+			).split(
+				"\\s+"
+			));
+
 		List<Suggester> suggesters = new ArrayList<>();
 
-		for (int i = 0; i < keywords.length; i++) {
+		for (int i = 0; i < keywords.size(); i++) {
 			suggesters.add(
 				_createSpellCheckSuggester(
-					searchContext, 1, keywords[i],
+					searchContext, 1, keywords.get(i),
 					_SPELL_CHECK_REQUEST_NAME + "_term" + i));
 		}
 
@@ -69,9 +73,9 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 			return StringPool.BLANK;
 		}
 
-		StringBundler sb = new StringBundler((keywords.length * 2) - 1);
+		StringBundler sb = new StringBundler((keywords.size() * 2) - 1);
 
-		for (int i = 0; i < keywords.length; i++) {
+		for (int i = 0; i < keywords.size(); i++) {
 			SuggestSearchResult suggestSearchResult =
 				suggestSearchResponse.getSuggesterResult(
 					_SPELL_CHECK_REQUEST_NAME + "_term" + i);
@@ -85,7 +89,7 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 					sb.append(StringPool.SPACE);
 				}
 				else {
-					sb.append(keywords[i]);
+					sb.append(keywords.get(i));
 					sb.append(StringPool.SPACE);
 				}
 			}
