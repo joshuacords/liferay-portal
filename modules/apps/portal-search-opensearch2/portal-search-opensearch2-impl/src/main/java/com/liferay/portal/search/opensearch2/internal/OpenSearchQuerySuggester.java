@@ -47,25 +47,56 @@ public class OpenSearchQuerySuggester implements QuerySuggester {
 
 	@Override
 	public String spellCheckKeywords(SearchContext searchContext) {
-		Suggester suggester = _createSpellCheckSuggester(1, searchContext);
+		List<String> keywords = Arrays.asList(
+			searchContext.getKeywords(
+			).trim(
+			).split(
+				"\\s+"
+			));
+
+		List<Suggester> suggesters = new ArrayList<>();
+
+		for (int i = 0; i < keywords.size(); i++) {
+			suggesters.add(
+				_createSpellCheckSuggester(
+					keywords.get(i), 1, _SPELL_CHECK_REQUEST_NAME + "_term" + i,
+					searchContext));
+		}
 
 		SuggestSearchResponse suggestSearchResponse =
-			_executeSuggestSearchRequest(searchContext, suggester);
+			_executeSuggestSearchRequest(searchContext, suggesters);
 
 		if (suggestSearchResponse == null) {
 			return StringPool.BLANK;
 		}
 
-		SuggestSearchResult suggestSearchResult =
-			suggestSearchResponse.getSuggesterResult(_SPELL_CHECK_REQUEST_NAME);
+		StringBundler sb = new StringBundler(keywords.size() * 2);
 
-		if (suggestSearchResult == null) {
-			return StringPool.BLANK;
+		for (int i = 0; i < keywords.size(); i++) {
+			SuggestSearchResult suggestSearchResult =
+				suggestSearchResponse.getSuggesterResult(
+					_SPELL_CHECK_REQUEST_NAME + "_term" + i);
+
+			if (suggestSearchResult != null) {
+				List<String> suggestions = _getHighestRankedSuggestions(
+					suggestSearchResult);
+
+				if (!suggestions.isEmpty()) {
+					sb.append(StringUtil.merge(suggestions, StringPool.SPACE));
+					sb.append(StringPool.SPACE);
+				}
+				else {
+					sb.append(keywords.get(i));
+					sb.append(StringPool.SPACE);
+				}
+			}
 		}
 
-		return StringUtil.merge(
-			_getHighestRankedSuggestions(suggestSearchResult),
-			StringPool.SPACE);
+		if (sb.index() > 0) {
+			sb.setIndex(sb.index() - 1);
+		}
+
+		return sb.toString();
 	}
 
 	@Override
@@ -232,11 +263,19 @@ public class OpenSearchQuerySuggester implements QuerySuggester {
 	private Suggester _createSpellCheckSuggester(
 		int max, SearchContext searchContext) {
 
+		return _createSpellCheckSuggester(
+			searchContext.getKeywords(), max, _SPELL_CHECK_REQUEST_NAME,
+			searchContext);
+	}
+
+	private Suggester _createSpellCheckSuggester(
+		String keyword, int max, String termName, SearchContext searchContext) {
+
 		TermSuggester termSuggester = new TermSuggester(
-			_SPELL_CHECK_REQUEST_NAME,
+			termName,
 			_localization.getLocalizedName(
 				Field.SPELL_CHECK_WORD, searchContext.getLanguageId()),
-			searchContext.getKeywords());
+			keyword);
 
 		termSuggester.setSize(max);
 
