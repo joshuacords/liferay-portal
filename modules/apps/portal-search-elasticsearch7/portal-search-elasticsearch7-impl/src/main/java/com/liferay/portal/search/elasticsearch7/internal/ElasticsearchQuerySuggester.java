@@ -62,12 +62,12 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 		for (int i = 0; i < keywords.size(); i++) {
 			suggesters.add(
 				_createSpellCheckSuggester(
-					searchContext, 1, keywords.get(i),
-					_SPELL_CHECK_REQUEST_NAME + "_term" + i));
+					keywords.get(i), 1, _SPELL_CHECK_REQUEST_NAME + "_term" + i,
+					searchContext));
 		}
 
 		SuggestSearchResponse suggestSearchResponse =
-			_executeSuggestSearchRequest(suggesters, searchContext);
+			_executeSuggestSearchRequest(searchContext, suggesters);
 
 		if (suggestSearchResponse == null) {
 			return StringPool.BLANK;
@@ -95,7 +95,9 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 			}
 		}
 
-		sb.setIndex(sb.index() - 1);
+		if (sb.index() > 0) {
+			sb.setIndex(sb.index() - 1);
+		}
 
 		return sb.toString();
 	}
@@ -104,7 +106,7 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 	public Map<String, List<String>> spellCheckKeywords(
 		SearchContext searchContext, int max) {
 
-		Suggester suggester = _createSpellCheckSuggester(searchContext, max);
+		Suggester suggester = _createSpellCheckSuggester(max, searchContext);
 
 		SuggestSearchResponse suggestSearchResponse =
 			_executeSuggestSearchRequest(suggester, searchContext);
@@ -264,15 +266,15 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 	}
 
 	private Suggester _createSpellCheckSuggester(
-		SearchContext searchContext, int max) {
+		int max, SearchContext searchContext) {
 
 		return _createSpellCheckSuggester(
-			searchContext, max, searchContext.getKeywords(),
-			_SPELL_CHECK_REQUEST_NAME);
+			searchContext.getKeywords(), max, _SPELL_CHECK_REQUEST_NAME,
+			searchContext);
 	}
 
 	private Suggester _createSpellCheckSuggester(
-		SearchContext searchContext, int max, String keyword, String termName) {
+		String keyword, int max, String termName, SearchContext searchContext) {
 
 		String field = _localization.getLocalizedName(
 			Field.SPELL_CHECK_WORD, searchContext.getLanguageId());
@@ -286,7 +288,7 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 	}
 
 	private SuggestSearchResponse _executeSuggestSearchRequest(
-		List<Suggester> suggesters, SearchContext searchContext) {
+		SearchContext searchContext, List<Suggester> suggesters) {
 
 		StopWatch stopWatch = new StopWatch();
 
@@ -339,7 +341,7 @@ public class ElasticsearchQuerySuggester implements QuerySuggester {
 		Suggester suggester, SearchContext searchContext) {
 
 		return _executeSuggestSearchRequest(
-			ListUtil.fromArray(suggester), searchContext);
+			searchContext, ListUtil.fromArray(suggester));
 	}
 
 	private List<String> _getHighestRankedSuggestions(
