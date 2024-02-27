@@ -346,8 +346,8 @@ public class QueryConfig implements Serializable {
 		_INDEX_SEARCH_COLLATED_SPELL_CHECK_RESULT_ENABLED =
 			GetterUtil.getBoolean(
 				PropsUtil.get(
-					PropsKeys.INDEX_SEARCH_COLLATED_SPELL_CHECK_RESULT_ENABLED),
-				false);
+					PropsKeys.
+						INDEX_SEARCH_COLLATED_SPELL_CHECK_RESULT_ENABLED));
 
 	private static final int
 		_INDEX_SEARCH_COLLATED_SPELL_CHECK_RESULT_SCORES_THRESHOLD =
