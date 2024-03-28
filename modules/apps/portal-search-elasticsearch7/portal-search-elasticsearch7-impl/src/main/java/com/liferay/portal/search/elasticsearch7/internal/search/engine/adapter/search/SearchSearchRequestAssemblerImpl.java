@@ -69,7 +69,6 @@ public class SearchSearchRequestAssemblerImpl
 		_setSearchAfter(searchSourceBuilder, searchSearchRequest);
 		_setSorts(searchSourceBuilder, searchSearchRequest);
 		_setStats(searchSourceBuilder, searchSearchRequest);
-		_setStoredFields(searchSourceBuilder, searchSearchRequest);
 		_setTrackScores(searchSourceBuilder, searchSearchRequest);
 		_setVersion(searchSourceBuilder, searchSearchRequest);
 
@@ -281,22 +280,6 @@ public class SearchSearchRequestAssemblerImpl
 			statsMap.forEach(
 				(key, stats) -> _statsTranslator.populateRequest(
 					searchSourceBuilder, translate(stats)));
-		}
-	}
-
-	private void _setStoredFields(
-		SearchSourceBuilder searchSourceBuilder,
-		SearchSearchRequest searchSearchRequest) {
-
-		String[] selectedFieldNames =
-			searchSearchRequest.getSelectedFieldNames();
-
-		if (!ArrayUtil.isEmpty(selectedFieldNames)) {
-			searchSourceBuilder.storedFields(
-				ListUtil.fromArray(selectedFieldNames));
-		}
-		else {
-			searchSourceBuilder.storedField(StringPool.STAR);
 		}
 	}
 
