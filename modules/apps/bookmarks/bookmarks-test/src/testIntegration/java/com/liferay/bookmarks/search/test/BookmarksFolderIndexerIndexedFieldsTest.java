@@ -11,7 +11,6 @@ import com.liferay.asset.kernel.service.AssetEntryLocalService;
 import com.liferay.bookmarks.model.BookmarksFolder;
 import com.liferay.bookmarks.service.BookmarksEntryLocalService;
 import com.liferay.bookmarks.service.BookmarksFolderService;
-import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Field;
@@ -121,10 +120,6 @@ public class BookmarksFolderIndexerIndexedFieldsTest {
 				searchRequestBuilderFactory.builder(
 				).companyId(
 					_group.getCompanyId()
-				).fetchSourceIncludes(
-					new String[] {"*_sortable"}
-				).fields(
-					StringPool.STAR
 				).groupIds(
 					_group.getGroupId()
 				).modelIndexerClasses(
