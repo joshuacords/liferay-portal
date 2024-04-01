@@ -5,7 +5,6 @@
 
 package com.liferay.portal.search.elasticsearch7.internal.search.engine.adapter.search;
 
-import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.search.GroupBy;
 import com.liferay.portal.kernel.search.Stats;
 import com.liferay.portal.kernel.util.ArrayUtil;
@@ -69,6 +68,7 @@ public class SearchSearchRequestAssemblerImpl
 		_setSearchAfter(searchSourceBuilder, searchSearchRequest);
 		_setSorts(searchSourceBuilder, searchSearchRequest);
 		_setStats(searchSourceBuilder, searchSearchRequest);
+		_setStoredFields(searchSourceBuilder, searchSearchRequest);
 		_setTrackScores(searchSourceBuilder, searchSearchRequest);
 		_setVersion(searchSourceBuilder, searchSearchRequest);
 
@@ -280,6 +280,19 @@ public class SearchSearchRequestAssemblerImpl
 			statsMap.forEach(
 				(key, stats) -> _statsTranslator.populateRequest(
 					searchSourceBuilder, translate(stats)));
+		}
+	}
+
+	private void _setStoredFields(
+		SearchSourceBuilder searchSourceBuilder,
+		SearchSearchRequest searchSearchRequest) {
+
+		String[] selectedFieldNames =
+			searchSearchRequest.getSelectedFieldNames();
+
+		if (!ArrayUtil.isEmpty(selectedFieldNames)) {
+			searchSourceBuilder.storedFields(
+				ListUtil.fromArray(selectedFieldNames));
 		}
 	}
 
