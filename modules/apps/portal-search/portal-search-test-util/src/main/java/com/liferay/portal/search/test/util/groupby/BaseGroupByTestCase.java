@@ -88,15 +88,8 @@ public abstract class BaseGroupByTestCase extends BaseIndexingTestCase {
 		assertSearch(
 			indexingTestHelper -> {
 				indexingTestHelper.define(
-					searchContext -> {
-						searchContext.setGroupBy(new GroupBy(GROUP_FIELD));
-
-						QueryConfig queryConfig =
-							searchContext.getQueryConfig();
-
-						queryConfig.addSelectedFieldNames(
-							Field.COMPANY_ID, Field.UID);
-					});
+					searchContext -> searchContext.setGroupBy(
+						new GroupBy(GROUP_FIELD)));
 
 				indexingTestHelper.search();
 
