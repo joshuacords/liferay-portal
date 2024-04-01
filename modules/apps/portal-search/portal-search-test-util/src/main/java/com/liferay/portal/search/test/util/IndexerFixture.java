@@ -186,8 +186,6 @@ public class IndexerFixture<T> {
 
 			_searchRequestBuilderFactory.builder(
 				searchContext
-			).fetchSourceIncludes(
-				new String[] {"*_sortable"}
 			).build();
 
 			Hits hits = _indexer.search(searchContext);
