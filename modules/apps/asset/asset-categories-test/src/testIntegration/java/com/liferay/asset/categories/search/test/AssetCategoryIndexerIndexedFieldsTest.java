@@ -11,7 +11,6 @@ import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryService;
 import com.liferay.asset.kernel.service.AssetVocabularyService;
 import com.liferay.petra.string.StringBundler;
-import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.search.Field;
@@ -118,10 +117,6 @@ public class AssetCategoryIndexerIndexedFieldsTest {
 				searchRequestBuilderFactory.builder(
 				).companyId(
 					_group.getCompanyId()
-				).fetchSourceIncludes(
-					new String[] {"*_sortable"}
-				).fields(
-					StringPool.STAR
 				).groupIds(
 					_group.getGroupId()
 				).locale(
