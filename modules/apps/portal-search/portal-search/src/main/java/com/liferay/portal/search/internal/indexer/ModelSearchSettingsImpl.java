@@ -18,8 +18,8 @@ public class ModelSearchSettingsImpl implements ModelSearchSettings {
 
 		_className = modelSearchConfigurator.getClassName();
 		_companyId = modelSearchConfigurator.getCompanyId();
-		_defaultSelectedFieldNames =
-			modelSearchConfigurator.getDefaultSelectedFieldNames();
+		_defaultSelectedFieldNames = new String[0];
+//			modelSearchConfigurator.getDefaultSelectedFieldNames();
 		_defaultSelectedLocalizedFieldNames =
 			modelSearchConfigurator.getDefaultSelectedLocalizedFieldNames();
 		_permissionAware = modelSearchConfigurator.isPermissionAware();

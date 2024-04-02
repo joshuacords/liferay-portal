@@ -302,7 +302,7 @@ public class MultiLanguageSearchFieldsSharedAcrossIndexersTest {
 		QueryConfig queryConfig = searchContext.getQueryConfig();
 
 		queryConfig.setLocale(locale);
-		queryConfig.setSelectedFieldNames(StringPool.STAR);
+	//	queryConfig.setSelectedFieldNames(StringPool.STAR);
 
 		return searchContext;
 	}

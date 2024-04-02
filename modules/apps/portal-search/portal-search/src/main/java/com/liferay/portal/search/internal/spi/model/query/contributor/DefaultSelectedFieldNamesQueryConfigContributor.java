@@ -39,52 +39,54 @@ public class DefaultSelectedFieldNamesQueryConfigContributor
 		SearchContext searchContext,
 		QueryConfigContributorHelper queryConfigContributorHelper) {
 
-		QueryConfig queryConfig = searchContext.getQueryConfig();
+		return;
 
-		if (ArrayUtil.isNotEmpty(queryConfig.getSelectedFieldNames())) {
-			return;
-		}
-
-		Set<String> selectedFieldNames = null;
-
-		String[] defaultSelectedFieldNames =
-			queryConfigContributorHelper.getDefaultSelectedFieldNames();
-
-		if (!ArrayUtil.isEmpty(defaultSelectedFieldNames)) {
-			selectedFieldNames = SetUtil.fromArray(defaultSelectedFieldNames);
-
-			if (searchContext.isIncludeAttachments() ||
-				searchContext.isIncludeDiscussions()) {
-
-				selectedFieldNames.add(Field.CLASS_NAME_ID);
-				selectedFieldNames.add(Field.CLASS_PK);
-			}
-		}
-
-		if (!ArrayUtil.isEmpty(
-				queryConfigContributorHelper.
-					getDefaultSelectedLocalizedFieldNames())) {
-
-			if (selectedFieldNames == null) {
-				selectedFieldNames = new HashSet<>();
-			}
-
-			if (queryConfigContributorHelper.isSelectAllLocales()) {
-				_addSelectedLocalizedFieldNames(
-					queryConfigContributorHelper, selectedFieldNames,
-					LocaleUtil.toLanguageIds(_language.getAvailableLocales()));
-			}
-			else {
-				_addSelectedLocalizedFieldNames(
-					queryConfigContributorHelper, selectedFieldNames,
-					LocaleUtil.toLanguageId(queryConfig.getLocale()));
-			}
-		}
-
-		if ((selectedFieldNames != null) && !selectedFieldNames.isEmpty()) {
-			queryConfig.setSelectedFieldNames(
-				selectedFieldNames.toArray(new String[0]));
-		}
+//		QueryConfig queryConfig = searchContext.getQueryConfig();
+//
+//		if (ArrayUtil.isNotEmpty(queryConfig.getSelectedFieldNames())) {
+//			return;
+//		}
+//
+//		Set<String> selectedFieldNames = null;
+//
+//		String[] defaultSelectedFieldNames =
+//			queryConfigContributorHelper.getDefaultSelectedFieldNames();
+//
+//		if (!ArrayUtil.isEmpty(defaultSelectedFieldNames)) {
+//			selectedFieldNames = SetUtil.fromArray(defaultSelectedFieldNames);
+//
+//			if (searchContext.isIncludeAttachments() ||
+//				searchContext.isIncludeDiscussions()) {
+//
+//				selectedFieldNames.add(Field.CLASS_NAME_ID);
+//				selectedFieldNames.add(Field.CLASS_PK);
+//			}
+//		}
+//
+//		if (!ArrayUtil.isEmpty(
+//				queryConfigContributorHelper.
+//					getDefaultSelectedLocalizedFieldNames())) {
+//
+//			if (selectedFieldNames == null) {
+//				selectedFieldNames = new HashSet<>();
+//			}
+//
+//			if (queryConfigContributorHelper.isSelectAllLocales()) {
+//				_addSelectedLocalizedFieldNames(
+//					queryConfigContributorHelper, selectedFieldNames,
+//					LocaleUtil.toLanguageIds(_language.getAvailableLocales()));
+//			}
+//			else {
+//				_addSelectedLocalizedFieldNames(
+//					queryConfigContributorHelper, selectedFieldNames,
+//					LocaleUtil.toLanguageId(queryConfig.getLocale()));
+//			}
+//		}
+//
+//		if ((selectedFieldNames != null) && !selectedFieldNames.isEmpty()) {
+//			queryConfig.setSelectedFieldNames(
+//				selectedFieldNames.toArray(new String[0]));
+//		}
 	}
 
 	private void _addSelectedLocalizedFieldNames(

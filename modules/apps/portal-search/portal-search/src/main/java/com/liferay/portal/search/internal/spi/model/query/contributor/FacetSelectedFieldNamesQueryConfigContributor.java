@@ -49,7 +49,7 @@ public class FacetSelectedFieldNamesQueryConfigContributor
 			selectedFieldNames);
 
 		Map<String, Facet> facets = searchContext.getFacets();
-
+//remove this stuff
 		selectedFieldNameSet.addAll(facets.keySet());
 
 		selectedFieldNames = selectedFieldNameSet.toArray(new String[0]);

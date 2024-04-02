@@ -104,7 +104,7 @@ public class MBMessageSearchHighlightTest {
 		QueryConfig queryConfig = searchContext.getQueryConfig();
 
 		queryConfig.setHighlightEnabled(true);
-		queryConfig.setSelectedFieldNames(StringPool.STAR);
+	//	queryConfig.setSelectedFieldNames(StringPool.STAR);
 
 		return searchContext;
 	}

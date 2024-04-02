@@ -66,7 +66,7 @@ public class SearchContextTestUtil {
 		QueryConfig queryConfig = searchContext.getQueryConfig();
 
 		queryConfig.setHighlightEnabled(highlightEnabled);
-		queryConfig.setSelectedFieldNames(StringPool.STAR);
+	//	queryConfig.setSelectedFieldNames(StringPool.STAR);
 
 		return searchContext;
 	}

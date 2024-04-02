@@ -202,9 +202,9 @@ public class DLFileEntryIndexerLocalizedContentTest {
 		searchContext.setKeywords(searchTerm);
 		searchContext.setLocale(locale);
 
-		QueryConfig queryConfig = searchContext.getQueryConfig();
+	//	QueryConfig queryConfig = searchContext.getQueryConfig();
 
-		queryConfig.setSelectedFieldNames(StringPool.STAR);
+	//	queryConfig.setSelectedFieldNames(StringPool.STAR);
 
 		return searchContext;
 	}
