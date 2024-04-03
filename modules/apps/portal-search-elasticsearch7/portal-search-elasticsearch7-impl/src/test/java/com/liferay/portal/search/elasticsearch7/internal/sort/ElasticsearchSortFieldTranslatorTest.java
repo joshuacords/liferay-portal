@@ -7,6 +7,7 @@ package com.liferay.portal.search.elasticsearch7.internal.sort;
 
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Query;
+import com.liferay.portal.kernel.search.QueryConfig;
 import com.liferay.portal.kernel.search.generic.MatchQuery;
 import com.liferay.portal.search.elasticsearch7.internal.indexing.LiferayElasticsearchIndexingFixtureFactory;
 import com.liferay.portal.search.geolocation.GeoLocationPoint;
@@ -226,6 +227,15 @@ public class ElasticsearchSortFieldTranslatorTest
 
 		assertSearch(
 			indexingTestHelper -> {
+				indexingTestHelper.define(
+					searchContext -> {
+						QueryConfig queryConfig =
+							searchContext.getQueryConfig();
+
+						queryConfig.addSelectedFieldNames(
+							"*");
+					});
+
 				indexingTestHelper.defineRequest(
 					searchRequestBuilder -> searchRequestBuilder.sorts(sorts));
 
