@@ -76,7 +76,7 @@ public abstract class SXPBlueprintInfoCollectionProvider<T>
 		).companyId(
 			serviceContext.getCompanyId()
 		).fetchSource(
-			false
+			true
 		).fields(
 			new String[0]
 		).from(
