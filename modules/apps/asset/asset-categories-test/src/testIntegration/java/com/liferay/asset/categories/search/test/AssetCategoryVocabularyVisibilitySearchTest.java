@@ -220,11 +220,6 @@ public class AssetCategoryVocabularyVisibilitySearchTest {
 
 		searchContext.setKeywords(keyword);
 
-		QueryConfig queryConfig = searchContext.getQueryConfig();
-
-		queryConfig.addSelectedFieldNames(
-			assetCategoryIdsFieldName, Field.ASSET_CATEGORY_TITLES);
-
 		Hits hits = _indexer.search(searchContext);
 
 		DocumentsAssert.assertValuesIgnoreRelevance(
