@@ -348,7 +348,7 @@ public class UserIndexerIndexedFieldsTest {
 				List<String> roleNames = new ArrayList<>();
 
 				for (Role role : roleLocalService.getRoles(user.getRoleIds())) {
-					roleNames.add(StringUtil.toLowerCase(role.getName()));
+					roleNames.add(role.getName());
 				}
 
 				return _getStringValue(roleNames);
