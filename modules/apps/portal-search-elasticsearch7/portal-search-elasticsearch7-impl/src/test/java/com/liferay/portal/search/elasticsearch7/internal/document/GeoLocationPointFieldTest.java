@@ -7,6 +7,8 @@ package com.liferay.portal.search.elasticsearch7.internal.document;
 
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.GroupBy;
+import com.liferay.portal.kernel.search.QueryConfig;
 import com.liferay.portal.search.elasticsearch7.internal.connection.ElasticsearchClientResolver;
 import com.liferay.portal.search.elasticsearch7.internal.connection.helper.IndexCreationHelper;
 import com.liferay.portal.search.elasticsearch7.internal.indexing.ElasticsearchIndexingFixture;
@@ -81,6 +83,14 @@ public class GeoLocationPointFieldTest extends BaseIndexingTestCase {
 
 		assertSearch(
 			indexingTestHelper -> {
+				indexingTestHelper.define(
+					searchContext -> {
+						QueryConfig queryConfig =
+							searchContext.getQueryConfig();
+
+						queryConfig.addSelectedFieldNames("*_geolocation", "*.geopoint");
+					});
+
 				indexingTestHelper.search();
 
 				indexingTestHelper.verifyResponse(
