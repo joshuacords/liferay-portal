@@ -164,10 +164,6 @@ public class DocumentImpl implements Document {
 
 	@Override
 	public void addGeoLocation(String name, double latitude, double longitude) {
-		if (!name.endsWith("_geolocation")) {
-			name.concat("_geolocation");
-		}
-
 		Field field = new Field(name);
 
 		field.setGeoLocationPoint(new GeoLocationPoint(latitude, longitude));
