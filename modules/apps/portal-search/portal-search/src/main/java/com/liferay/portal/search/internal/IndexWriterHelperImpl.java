@@ -494,6 +494,10 @@ public class IndexWriterHelperImpl implements IndexWriterHelper {
 			_log.debug("Document " + document.toString());
 		}
 
+		if (_log.isInfoEnabled()) {
+			_log.info("Document type: " + document.get("entryClassName") + " SINGLE reindex");
+		}
+
 		SearchEngine searchEngine = _searchEngineHelper.getSearchEngine();
 
 		IndexWriter indexWriter = searchEngine.getIndexWriter();
@@ -530,6 +534,10 @@ public class IndexWriterHelperImpl implements IndexWriterHelper {
 		for (Document document : documents) {
 			if (_log.isDebugEnabled()) {
 				_log.debug("Document " + document.toString());
+			}
+
+			if (_log.isInfoEnabled()) {
+				_log.info("Document type: " + document.get("entryClassName") + " batch reindex");
 			}
 
 			_searchPermissionChecker.addPermissionFields(companyId, document);
