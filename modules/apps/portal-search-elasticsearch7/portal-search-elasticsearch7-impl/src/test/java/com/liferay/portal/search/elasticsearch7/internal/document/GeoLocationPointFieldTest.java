@@ -102,7 +102,7 @@ public class GeoLocationPointFieldTest extends BaseIndexingTestCase {
 			});
 	}
 
-	private static final String _CUSTOM_FIELD = "customField_geolocation";
+	private static final String _CUSTOM_FIELD = "customField";
 
 	private static class CustomFieldLiferayIndexCreationHelper
 		implements IndexCreationHelper {

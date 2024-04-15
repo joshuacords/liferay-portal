@@ -233,11 +233,14 @@ public class ElasticsearchSortFieldTranslatorTest
 							searchContext.getQueryConfig();
 
 						queryConfig.addSelectedFieldNames(
-							"*");
+							"*.geopoint");
 					});
 
 				indexingTestHelper.defineRequest(
-					searchRequestBuilder -> searchRequestBuilder.sorts(sorts));
+					searchRequestBuilder -> {
+						searchRequestBuilder.fetchSource(true);
+						searchRequestBuilder.sorts(sorts);
+					});
 
 				if (query != null) {
 					indexingTestHelper.setQuery(query);

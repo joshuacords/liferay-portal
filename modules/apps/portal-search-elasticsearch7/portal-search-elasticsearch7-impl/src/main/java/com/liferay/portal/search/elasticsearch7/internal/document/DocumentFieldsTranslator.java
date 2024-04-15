@@ -86,7 +86,7 @@ public class DocumentFieldsTranslator {
 
 	protected void translate(
 		String name, Object value, DocumentBuilder documentBuilder) {
-
+//this doesn't _translateGeoLocationPoint like the other does
 		if (name.endsWith(_GEOPOINT_SUFFIX)) {
 			documentBuilder.setGeoLocationPoint(
 				name, _geoBuilders.geoLocationPoint((String)value));
