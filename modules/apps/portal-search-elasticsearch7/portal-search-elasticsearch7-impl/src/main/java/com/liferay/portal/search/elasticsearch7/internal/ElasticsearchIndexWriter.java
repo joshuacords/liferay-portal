@@ -42,6 +42,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.lang.time.StopWatch;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -340,8 +341,14 @@ public class ElasticsearchIndexWriter extends BaseIndexWriter {
 				indexDocumentRequest);
 		}
 
+		StopWatch stopWatch = new StopWatch();
+		stopWatch.start();
+
 		BulkDocumentResponse bulkDocumentResponse =
 			_searchEngineAdapter.execute(bulkDocumentRequest);
+
+		stopWatch.stop();
+		_log.error("Single update request took " + stopWatch.getTime());
 
 		if (bulkDocumentResponse.hasErrors()) {
 			if (_elasticsearchConfigurationWrapper.logExceptionsOnly()) {
@@ -384,8 +391,14 @@ public class ElasticsearchIndexWriter extends BaseIndexWriter {
 				});
 		}
 
+		StopWatch stopWatch = new StopWatch();
+		stopWatch.start();
+
 		BulkDocumentResponse bulkDocumentResponse =
 			_searchEngineAdapter.execute(bulkDocumentRequest);
+
+		stopWatch.stop();
+		_log.error("Bulk update request took " + stopWatch.getTime());
 
 		if (bulkDocumentResponse.hasErrors()) {
 			if (_elasticsearchConfigurationWrapper.logExceptionsOnly()) {
