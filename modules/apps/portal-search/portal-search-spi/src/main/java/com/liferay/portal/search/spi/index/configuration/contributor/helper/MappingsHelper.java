@@ -10,6 +10,13 @@ package com.liferay.portal.search.spi.index.configuration.contributor.helper;
  */
 public interface MappingsHelper {
 
-	public void putMappings(String source);
+	/**
+	 * Adds mappings to the underlying search engine based on the provided JSON
+	 * source.
+	 *
+	 * @param source The JSON string representing the search engine mappings to be added.
+	 * @throws Exception if there is an error adding the mappings to the search engine.
+	 */
+	public void putMappings(String source) throws Exception;
 
 }

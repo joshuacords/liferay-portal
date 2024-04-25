@@ -9,12 +9,35 @@ import com.liferay.portal.search.spi.index.configuration.contributor.helper.Mapp
 import com.liferay.portal.search.spi.index.configuration.contributor.helper.SettingsHelper;
 
 /**
+ * This interface defines methods for contributing mappings and settings to a
+ * search engine index during its creation.
+ *
  * @author Adam Brandizzi
  */
 public interface CompanyIndexConfigurationContributor {
 
-	public void contributeMappings(MappingsHelper mappingsHelper);
+	/**
+	 * This method allows contributors to add search engine mappings to the provided {@link MappingsHelper}.
+	 *
+	 * Implementations of this method should use the {@link MappingsHelper#putMappings(String)} method to
+	 * add the desired mappings to the search engine.
+	 *
+	 * @param mappingsHelper An instance of {@link MappingsHelper} used to store search engine mappings.
+	 * @throws Exception if there is an error contributing the mappings to the search engine.
+	 */
+	public void contributeMappings(MappingsHelper mappingsHelper)
+		throws Exception;
 
-	public void contributeSettings(SettingsHelper settingsHelper);
+	/**
+	 * This method allows contributors to add search engine settings to the provided {@link SettingsHelper}.
+	 *
+	 * Implementations of this method should use the {@link SettingsHelper#putSettings(String)} method to
+	 * add the desired settings to the search engine.
+	 *
+	 * @param settingsHelper An instance of {@link SettingsHelper} used to store with search engine settings.
+	 * @throws Exception if there is an error contributing the settings to the search engine.
+	 */
+	public void contributeSettings(SettingsHelper settingsHelper)
+		throws Exception;
 
 }
