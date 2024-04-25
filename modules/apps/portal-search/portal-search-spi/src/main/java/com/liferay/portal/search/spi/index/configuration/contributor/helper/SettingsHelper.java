@@ -14,6 +14,13 @@ public interface SettingsHelper {
 
 	public void loadFromSource(String source);
 
+	/**
+	 * This method allows contributors to add a single search engine setting.
+	 *
+	 * @param key The name of the setting to be added.
+	 * @param value The value of the setting to be added.
+	 * @throws Exception if there is an error adding the setting to the search engine.
+	 */
 	public void put(String key, String value);
 
 }
