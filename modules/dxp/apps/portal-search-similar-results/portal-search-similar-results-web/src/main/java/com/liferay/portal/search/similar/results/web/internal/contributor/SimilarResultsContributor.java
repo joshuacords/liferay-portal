@@ -21,9 +21,11 @@ public interface SimilarResultsContributor {
 
 	/**
 	 * This method is used to detect the type of similar results contributor to
-	 * apply, given the URL route of the originating asset. When the URL Route
-	 * matches their type of contributor, implementations should use the
-	 * provided {@link RouteBuilder} to add attributes necessary later for
+	 * apply, given the URL route of the originating asset. Implementations
+	 * should use SearchStringUtil.requireEquals() to check if the url route
+	 * parameter is correct for the type of asset. When the URL Route matches
+	 * their type of contributor, implementations should use the provided
+	 * {@link RouteBuilder} to add attributes necessary later for
 	 * {@link #resolveCriteria} from the URL available in the
 	 * {@link RouteHelper}.
 	 *
