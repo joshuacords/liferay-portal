@@ -13,6 +13,8 @@ import com.liferay.portal.search.similar.results.web.spi.contributor.helper.Rout
 import com.liferay.portal.search.similar.results.web.spi.contributor.helper.RouteHelper;
 
 /**
+ * For more details on implementing this interface see: https://learn.liferay.com/web/guest/w/dxp/using-search/developer-guide/contributing-custom-content-to-the-similar-results-widget
+ *
  * @author André de Oliveira
  */
 public interface SimilarResultsContributor {
