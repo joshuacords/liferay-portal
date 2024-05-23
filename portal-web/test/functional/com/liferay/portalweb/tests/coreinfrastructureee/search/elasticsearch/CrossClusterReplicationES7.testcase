@@ -15,7 +15,9 @@ definition {
 	setUp {
 		TestCase.setUpPortalInstance();
 
-		User.firstLoginPG();
+		User.firstLoginPG(
+			password = PropsUtil.get("default.admin.password")
+		);
 	}
 
 	tearDown {
