@@ -86,13 +86,13 @@ CategoryFacetPortletPreferences categoryFacetPortletPreferences = new CategoryFa
 					module="{SelectVocabularies} from portal-search-web"
 					props='<%=
 						HashMapBuilder.<String, Object>put(
-							"initialSelectedVocabularyERCs", StringUtil.merge(categoryFacetPortletPreferences.getVocabularyERCs())
+							"initialSelectedVocabularyIds", StringUtil.merge(categoryFacetPortletPreferences.getVocabularyIds())
 						).put(
 							"learnResources", LearnMessageUtil.getReactDataJSONObject("portal-search-web")
 						).put(
 							"namespace", liferayPortletResponse.getNamespace()
 						).put(
-							"vocabularyERCsInputName", PortletPreferencesJspUtil.getInputName(CategoryFacetPortletPreferences.PREFERENCE_VOCABULARY_ERCS)
+							"vocabularyIdsInputName", PortletPreferencesJspUtil.getInputName(CategoryFacetPortletPreferences.PREFERENCE_VOCABULARY_IDS)
 						).build()
 					%>'
 				/>
