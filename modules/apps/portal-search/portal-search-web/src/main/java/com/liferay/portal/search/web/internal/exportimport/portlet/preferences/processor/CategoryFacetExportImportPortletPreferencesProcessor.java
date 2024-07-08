@@ -97,7 +97,7 @@ public class CategoryFacetExportImportPortletPreferencesProcessor
 			String className, long primaryKeyLong)
 		throws Exception {
 
-		String uuid = null;
+		String erc = null;
 		long groupId = 0;
 
 		if (className.equals(AssetVocabulary.class.getName())) {
@@ -106,8 +106,12 @@ public class CategoryFacetExportImportPortletPreferencesProcessor
 					primaryKeyLong);
 
 			if (assetVocabulary != null) {
-				uuid = assetVocabulary.getUuid();
+				erc = assetVocabulary.getExternalReferenceCode();
 				groupId = assetVocabulary.getGroupId();
+
+//				if (portletDataContext.getGroupId() != groupId) {
+//
+//				}
 
 				portletDataContext.addReferenceElement(
 					portlet, portletDataContext.getExportDataRootElement(),
@@ -116,11 +120,11 @@ public class CategoryFacetExportImportPortletPreferencesProcessor
 			}
 		}
 
-		if (Validator.isNull(uuid)) {
+		if (Validator.isNull(erc)) {
 			return null;
 		}
 
-		return StringUtil.merge(new Object[] {uuid, groupId}, StringPool.POUND);
+		return StringUtil.merge(new Object[] {erc, groupId}, StringPool.POUND);
 	}
 
 	@Override
@@ -130,11 +134,11 @@ public class CategoryFacetExportImportPortletPreferencesProcessor
 			String portletPreferencesOldValue)
 		throws Exception {
 
-		if (Validator.isNumber(portletPreferencesOldValue)) {
-			long oldPrimaryKey = GetterUtil.getLong(portletPreferencesOldValue);
-
-			return MapUtil.getLong(primaryKeys, oldPrimaryKey, oldPrimaryKey);
-		}
+//		if (Validator.isNumber(portletPreferencesOldValue)) {
+//			long oldPrimaryKey = GetterUtil.getLong(portletPreferencesOldValue);
+//
+//			return MapUtil.getLong(primaryKeys, oldPrimaryKey, oldPrimaryKey);
+//		}
 
 		String className = clazz.getName();
 
@@ -153,11 +157,11 @@ public class CategoryFacetExportImportPortletPreferencesProcessor
 		}
 
 		if (className.equals(AssetVocabulary.class.getName())) {
-			String uuid = oldValues[0];
+			String erc = oldValues[0];
 
 			AssetVocabulary assetVocabulary =
 				_assetVocabularyLocalService.
-					fetchAssetVocabularyByUuidAndGroupId(uuid, groupId);
+					fetchAssetVocabularyByExternalReferenceCode(erc, groupId);
 
 			if (assetVocabulary != null) {
 				return assetVocabulary.getVocabularyId();
