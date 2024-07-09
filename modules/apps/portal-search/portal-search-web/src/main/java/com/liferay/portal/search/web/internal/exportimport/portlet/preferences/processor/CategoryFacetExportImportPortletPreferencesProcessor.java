@@ -17,6 +17,7 @@ import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.Portlet;
 import com.liferay.portal.kernel.service.CompanyLocalService;
+import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.PortletLocalService;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
@@ -109,14 +110,20 @@ public class CategoryFacetExportImportPortletPreferencesProcessor
 				erc = assetVocabulary.getExternalReferenceCode();
 				groupId = assetVocabulary.getGroupId();
 
-//				if (portletDataContext.getGroupId() != groupId) {
-//
-//				}
-
 				portletDataContext.addReferenceElement(
 					portlet, portletDataContext.getExportDataRootElement(),
 					assetVocabulary,
 					PortletDataContext.REFERENCE_TYPE_DEPENDENCY, true);
+
+				if (portletDataContext.getGroupId() != groupId) {
+					Group group = _groupLocalService.getGroup(groupId);
+
+					String groupERC = group.getExternalReferenceCode();
+
+					return StringUtil.merge(
+						new Object[] {erc, groupId, groupERC},
+						StringPool.POUND);
+				}
 			}
 		}
 
@@ -134,11 +141,11 @@ public class CategoryFacetExportImportPortletPreferencesProcessor
 			String portletPreferencesOldValue)
 		throws Exception {
 
-//		if (Validator.isNumber(portletPreferencesOldValue)) {
-//			long oldPrimaryKey = GetterUtil.getLong(portletPreferencesOldValue);
-//
-//			return MapUtil.getLong(primaryKeys, oldPrimaryKey, oldPrimaryKey);
-//		}
+		if (Validator.isNumber(portletPreferencesOldValue)) {
+			long oldPrimaryKey = GetterUtil.getLong(portletPreferencesOldValue);
+
+			return MapUtil.getLong(primaryKeys, oldPrimaryKey, oldPrimaryKey);
+		}
 
 		String className = clazz.getName();
 
@@ -147,13 +154,21 @@ public class CategoryFacetExportImportPortletPreferencesProcessor
 
 		long groupId = portletDataContext.getScopeGroupId();
 
-		if (oldValues.length > 1) {
+		if ((oldValues.length > 1) && Validator.isNumber(oldValues[1])) {
 			Map<Long, Long> groupIds =
 				(Map<Long, Long>)portletDataContext.getNewPrimaryKeysMap(
 					Group.class);
 
 			groupId = MapUtil.getLong(
 				groupIds, GetterUtil.getLong(oldValues[1]));
+
+			if ((groupId == 0) && (oldValues.length > 2)) {
+				Group group =
+					_groupLocalService.fetchGroupByExternalReferenceCode(
+						oldValues[2], portletDataContext.getCompanyId());
+
+				groupId = group.getGroupId();
+			}
 		}
 
 		if (className.equals(AssetVocabulary.class.getName())) {
@@ -230,6 +245,9 @@ public class CategoryFacetExportImportPortletPreferencesProcessor
 
 	@Reference
 	private CompanyLocalService _companyLocalService;
+
+	@Reference
+	private GroupLocalService _groupLocalService;
 
 	@Reference
 	private PortletLocalService _portletLocalService;
