@@ -94,7 +94,7 @@ import org.junit.runner.RunWith;
  * @author Petteri Karttunen
  * @author Almir Ferreira
  */
-@FeatureFlags("LPS-179669")
+@FeatureFlags("LPD-11232")
 @RunWith(Arquillian.class)
 public class SearchResultResourceTest extends BaseSearchResultResourceTestCase {
 
