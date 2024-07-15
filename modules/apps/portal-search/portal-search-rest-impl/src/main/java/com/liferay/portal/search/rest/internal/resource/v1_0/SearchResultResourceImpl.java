@@ -129,7 +129,7 @@ public class SearchResultResourceImpl extends BaseSearchResultResourceImpl {
 			SearchRequestBody searchRequestBody)
 		throws Exception {
 
-		if (!FeatureFlagManagerUtil.isEnabled("LPS-179669")) {
+		if (!FeatureFlagManagerUtil.isEnabled("LPD-179669")) {
 			throw new NotFoundException();
 		}
 
