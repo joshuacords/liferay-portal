@@ -10,7 +10,11 @@ package com.liferay.portal.search.spi.index.configuration.contributor.helper;
  */
 public interface SettingsHelper {
 
-	public void loadFromSource(String source);
+	/**
+	 * This method loads the passed in settings into the Settings.Builder.
+	 *
+	 * @param source Either the JSON or YAML settings.
+	 */public void loadFromSource(String source);
 
 	/**
 	 * This method allows contributors to add a single search engine setting.
