@@ -14,6 +14,7 @@ import com.liferay.journal.service.JournalFolderServiceUtil;
 import com.liferay.journal.test.util.JournalTestUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.model.ClassedModel;
 import com.liferay.portal.kernel.model.ExternalReferenceCodeModel;
 import com.liferay.portal.kernel.model.GroupedModel;
 import com.liferay.portal.kernel.model.User;
@@ -102,16 +103,31 @@ public class ExternalReferenceCodeModelDocumentContributorTest {
 			String fieldName)
 		throws Exception {
 
+		_assertERCSearch(
+			externalReferenceCodeModel,
+			externalReferenceCodeModel.getExternalReferenceCode(), fieldName);
+	}
+
+	private void _assertERCSearch(
+			ExternalReferenceCodeModel externalReferenceCodeModel,
+			String externalReferenceCode, String fieldName)
+		throws Exception {
+
 		TermQuery companyTermQuery = _queries.term(
 			Field.COMPANY_ID, TestPropsValues.getCompanyId());
 
+		ClassedModel classedModel = (ClassedModel)externalReferenceCodeModel;
+
+		TermQuery entryClassQuery = _queries.term(
+			Field.ENTRY_CLASS_NAME, classedModel.getModelClassName());
+
 		TermQuery externalReferenceCodeQuery = _queries.term(
-			fieldName, externalReferenceCodeModel.getExternalReferenceCode());
+			fieldName, externalReferenceCode);
 
 		BooleanQuery booleanQuery = _queries.booleanQuery();
 
 		booleanQuery.addMustQueryClauses(
-			companyTermQuery, externalReferenceCodeQuery);
+			companyTermQuery, entryClassQuery, externalReferenceCodeQuery);
 
 		if (externalReferenceCodeModel instanceof GroupedModel) {
 			TermQuery groupIdTermQuery = _queries.term(
@@ -120,9 +136,7 @@ public class ExternalReferenceCodeModelDocumentContributorTest {
 			booleanQuery.addMustQueryClauses(groupIdTermQuery);
 		}
 
-		_assertSearch(
-			booleanQuery, externalReferenceCodeModel.getExternalReferenceCode(),
-			fieldName);
+		_assertSearch(booleanQuery, externalReferenceCode, fieldName);
 	}
 
 	private void _assertSearch(
