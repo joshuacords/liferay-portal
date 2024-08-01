@@ -91,22 +91,22 @@ public class ExternalReferenceCodeModelDocumentContributorTest {
 
 	@Test
 	public void testExternalReferenceCodeContributed() throws Exception {
-		_assertERCSearch(_blogsEntry);
-		_assertERCSearch(_journalArticle);
-		_assertERCSearch(_journalFolder);
-		_assertERCSearch(_user);
+		_assertERCSearch(_blogsEntry, _EXTERNAL_REFERENCE_CODE_FIELD_NAME);
+		_assertERCSearch(_journalArticle, _EXTERNAL_REFERENCE_CODE_FIELD_NAME);
+		_assertERCSearch(_journalFolder, _EXTERNAL_REFERENCE_CODE_FIELD_NAME);
+		_assertERCSearch(_user, _EXTERNAL_REFERENCE_CODE_FIELD_NAME);
 	}
 
 	private void _assertERCSearch(
-			ExternalReferenceCodeModel externalReferenceCodeModel)
+			ExternalReferenceCodeModel externalReferenceCodeModel,
+			String fieldName)
 		throws Exception {
 
 		TermQuery companyTermQuery = _queries.term(
 			Field.COMPANY_ID, TestPropsValues.getCompanyId());
 
 		TermQuery externalReferenceCodeQuery = _queries.term(
-			"externalReferenceCode",
-			externalReferenceCodeModel.getExternalReferenceCode());
+			fieldName, externalReferenceCodeModel.getExternalReferenceCode());
 
 		BooleanQuery booleanQuery = _queries.booleanQuery();
 
@@ -121,12 +121,13 @@ public class ExternalReferenceCodeModelDocumentContributorTest {
 		}
 
 		_assertSearch(
-			booleanQuery,
-			externalReferenceCodeModel.getExternalReferenceCode());
+			booleanQuery, externalReferenceCodeModel.getExternalReferenceCode(),
+			fieldName);
 	}
 
 	private void _assertSearch(
-			BooleanQuery booleanQuery, String externalReferenceCode)
+			BooleanQuery booleanQuery, String externalReferenceCode,
+			String fieldName)
 		throws Exception {
 
 		CountSearchRequest countSearchRequest = new CountSearchRequest();
@@ -146,8 +147,8 @@ public class ExternalReferenceCodeModelDocumentContributorTest {
 
 		Assert.assertTrue(
 			StringBundler.concat(
-				"Expected to find document with externalReferenceCode ",
-				externalReferenceCode, "."),
+				"Expected to find field ", fieldName, " with value ",
+				externalReferenceCode, " in document."),
 			countSearchResponse.getCount() == 1);
 	}
 
@@ -156,6 +157,9 @@ public class ExternalReferenceCodeModelDocumentContributorTest {
 
 		return Objects.equals(searchEngine.getVendor(), vendor);
 	}
+
+	private static final String _EXTERNAL_REFERENCE_CODE_FIELD_NAME =
+		"externalReferenceCode";
 
 	private BlogsEntry _blogsEntry;
 	private JournalArticle _journalArticle;
