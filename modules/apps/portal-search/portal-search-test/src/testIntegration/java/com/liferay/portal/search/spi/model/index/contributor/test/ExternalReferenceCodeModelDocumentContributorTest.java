@@ -14,6 +14,7 @@ import com.liferay.journal.service.JournalFolderServiceUtil;
 import com.liferay.journal.test.util.JournalTestUtil;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.model.ClassedModel;
 import com.liferay.portal.kernel.model.ExternalReferenceCodeModel;
 import com.liferay.portal.kernel.model.GroupedModel;
 import com.liferay.portal.kernel.model.User;
@@ -90,20 +91,35 @@ public class ExternalReferenceCodeModelDocumentContributorTest {
 
 	@Test
 	public void testContributeExternalReferenceCode() throws Exception {
-		_assertERCSearch(_blogsEntry);
-		_assertERCSearch(_journalArticle);
-		_assertERCSearch(_journalFolder);
-		_assertERCSearch(_user);
+		_assertERCSearch(_blogsEntry, _EXTERNAL_REFERENCE_CODE_FIELD_NAME);
+		_assertERCSearch(_journalArticle, _EXTERNAL_REFERENCE_CODE_FIELD_NAME);
+		_assertERCSearch(_journalFolder, _EXTERNAL_REFERENCE_CODE_FIELD_NAME);
+		_assertERCSearch(_user, _EXTERNAL_REFERENCE_CODE_FIELD_NAME);
 	}
 
 	private void _assertERCSearch(
-			ExternalReferenceCodeModel externalReferenceCodeModel)
+			ExternalReferenceCodeModel externalReferenceCodeModel,
+			String fieldName)
+		throws Exception {
+
+		_assertERCSearch(
+			externalReferenceCodeModel,
+			externalReferenceCodeModel.getExternalReferenceCode(), fieldName);
+	}
+
+	private void _assertERCSearch(
+			ExternalReferenceCodeModel externalReferenceCodeModel,
+			String externalReferenceCode, String fieldName)
 		throws Exception {
 
 		BooleanQuery booleanQuery = _queries.booleanQuery();
 
+		ClassedModel classedModel = (ClassedModel)externalReferenceCodeModel;
+
 		booleanQuery.addMustQueryClauses(
 			_queries.term(Field.COMPANY_ID, TestPropsValues.getCompanyId()),
+			_queries.term(
+				Field.ENTRY_CLASS_NAME, classedModel.getModelClassName()),
 			_queries.term(
 				"externalReferenceCode",
 				externalReferenceCodeModel.getExternalReferenceCode()));
@@ -113,13 +129,12 @@ public class ExternalReferenceCodeModelDocumentContributorTest {
 				_queries.term(Field.GROUP_ID, TestPropsValues.getGroupId()));
 		}
 
-		_assertSearch(
-			booleanQuery,
-			externalReferenceCodeModel.getExternalReferenceCode());
+		_assertSearch(booleanQuery, externalReferenceCode, fieldName);
 	}
 
 	private void _assertSearch(
-			BooleanQuery booleanQuery, String externalReferenceCode)
+			BooleanQuery booleanQuery, String externalReferenceCode,
+			String fieldName)
 		throws Exception {
 
 		CountSearchRequest countSearchRequest = new CountSearchRequest();
@@ -139,8 +154,8 @@ public class ExternalReferenceCodeModelDocumentContributorTest {
 
 		Assert.assertTrue(
 			StringBundler.concat(
-				"Expected to find document with externalReferenceCode ",
-				externalReferenceCode, "."),
+				"Expected to find field ", fieldName, " with value ",
+				externalReferenceCode, " in document."),
 			countSearchResponse.getCount() == 1);
 	}
 
@@ -149,6 +164,9 @@ public class ExternalReferenceCodeModelDocumentContributorTest {
 
 		return Objects.equals(searchEngine.getVendor(), "Solr");
 	}
+
+	private static final String _EXTERNAL_REFERENCE_CODE_FIELD_NAME =
+		"externalReferenceCode";
 
 	private BlogsEntry _blogsEntry;
 	private JournalArticle _journalArticle;
