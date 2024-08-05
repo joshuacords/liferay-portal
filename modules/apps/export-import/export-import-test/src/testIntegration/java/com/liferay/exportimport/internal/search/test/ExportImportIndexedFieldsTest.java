@@ -165,6 +165,8 @@ public class ExportImportIndexedFieldsTest {
 			Field.USER_NAME,
 			StringUtil.lowerCase(exportImportConfiguration.getUserName())
 		).put(
+			"groupExternalReferenceCode", _group.getExternalReferenceCode()
+		).put(
 			"exportImportConfigurationId",
 			String.valueOf(
 				exportImportConfiguration.getExportImportConfigurationId())
@@ -175,6 +177,8 @@ public class ExportImportIndexedFieldsTest {
 		).put(
 			"name_sortable",
 			StringUtil.lowerCase(exportImportConfiguration.getName())
+		).put(
+			"scopeGroupExternalReferenceCode", _group.getExternalReferenceCode()
 		).put(
 			"setting_locale", String.valueOf(setttingMap.get("locale"))
 		).put(
