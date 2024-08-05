@@ -16,6 +16,7 @@ import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.model.ClassedModel;
 import com.liferay.portal.kernel.model.ExternalReferenceCodeModel;
+import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.GroupedModel;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Field;
@@ -23,6 +24,7 @@ import com.liferay.portal.kernel.search.SearchEngine;
 import com.liferay.portal.kernel.search.SearchEngineHelper;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
+import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
@@ -62,17 +64,19 @@ public class BaseModelDocumentContributorTest {
 
 	@Before
 	public void setUp() throws Exception {
-		user = UserTestUtil.addUser(TestPropsValues.getGroupId());
+		group = GroupTestUtil.addGroup();
+
+		user = UserTestUtil.addUser(group.getGroupId());
 
 		_serviceContext = ServiceContextTestUtil.getServiceContext(
-			TestPropsValues.getGroupId(), user.getUserId());
+			group, user.getUserId());
 
 		blogsEntry = BlogsTestUtil.addEntryWithWorkflow(
 			user.getUserId(), RandomTestUtil.randomString(), false,
 			_serviceContext);
 
 		journalArticle = JournalTestUtil.addArticle(
-			TestPropsValues.getGroupId(), 0,
+			group.getGroupId(), 0,
 			PortalUtil.getClassNameId(JournalArticle.class),
 			HashMapBuilder.put(
 				LocaleUtil.US, RandomTestUtil.randomString()
@@ -84,7 +88,7 @@ public class BaseModelDocumentContributorTest {
 			LocaleUtil.getSiteDefault(), false, true, _serviceContext);
 
 		journalFolder = _journalFolderLocalService.addFolder(
-			null, user.getUserId(), TestPropsValues.getGroupId(), 0,
+			null, user.getUserId(), group.getGroupId(), 0,
 			RandomTestUtil.randomString(), StringPool.BLANK, _serviceContext);
 	}
 
@@ -115,13 +119,14 @@ public class BaseModelDocumentContributorTest {
 
 		if (externalReferenceCodeModel instanceof GroupedModel) {
 			booleanQuery.addMustQueryClauses(
-				_queries.term(Field.GROUP_ID, TestPropsValues.getGroupId()));
+				_queries.term(Field.GROUP_ID, group.getGroupId()));
 		}
 
 		_assertSearch(booleanQuery, externalReferenceCode, fieldName);
 	}
 
 	protected BlogsEntry blogsEntry;
+	protected Group group;
 	protected JournalArticle journalArticle;
 	protected JournalFolder journalFolder;
 	protected User user;
