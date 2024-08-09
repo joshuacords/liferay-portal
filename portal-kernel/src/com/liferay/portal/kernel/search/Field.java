@@ -106,6 +106,10 @@ public class Field implements Serializable {
 
 	public static final String GEO_LOCATION = "geoLocation";
 
+	public static final String
+		GROUP_ASSET_INTERNAL_CATEGORY_EXTERNAL_REFERENCE_CODES =
+			"groupAssetInternalCategoryExternalReferenceCodes";
+
 	public static final String GROUP_ID = "groupId";
 
 	public static final String GROUP_ROLE_ID = "groupRoleId";
