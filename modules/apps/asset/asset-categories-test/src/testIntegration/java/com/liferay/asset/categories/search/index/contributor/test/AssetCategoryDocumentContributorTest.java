@@ -121,13 +121,13 @@ public class AssetCategoryDocumentContributorTest {
 			_blogsEntry,
 			_getGroupAssetCategoryExpectedExternalReferenceCodes(
 				_internalAssetCategoryList),
-			"groupAssetInternalCategoryExternalReferenceCodes");
+			Field.GROUP_ASSET_INTERNAL_CATEGORY_EXTERNAL_REFERENCE_CODES);
 
 		_testContribute(
 			_journalArticle,
 			_getGroupAssetCategoryExpectedExternalReferenceCodes(
 				_internalAssetCategoryList),
-			"groupAssetInternalCategoryExternalReferenceCodes");
+			Field.GROUP_ASSET_INTERNAL_CATEGORY_EXTERNAL_REFERENCE_CODES);
 	}
 
 	@Test
