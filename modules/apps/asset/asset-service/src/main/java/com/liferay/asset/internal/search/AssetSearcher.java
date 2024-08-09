@@ -184,7 +184,8 @@ public class AssetSearcher extends BaseSearcher {
 
 		if (searchContext.isIncludeInternalAssetCategories()) {
 			fieldNamesArray = new String[] {
-				Field.ASSET_CATEGORY_IDS, Field.ASSET_INTERNAL_CATEGORY_IDS
+				Field.ASSET_CATEGORY_IDS, Field.ASSET_INTERNAL_CATEGORY_IDS,
+				Field.GROUP_ASSET_INTERNAL_CATEGORY_EXTERNAL_REFERENCE_CODES
 			};
 		}
 
@@ -491,7 +492,11 @@ public class AssetSearcher extends BaseSearcher {
 
 			if ((assetVocabulary.getVisibilityType() ==
 					AssetVocabularyConstants.VISIBILITY_TYPE_PUBLIC) &&
-				Objects.equals(fieldName, Field.ASSET_INTERNAL_CATEGORY_IDS)) {
+				(Objects.equals(fieldName, Field.ASSET_INTERNAL_CATEGORY_IDS) ||
+				 Objects.equals(
+					 fieldName,
+					 Field.
+						 GROUP_ASSET_INTERNAL_CATEGORY_EXTERNAL_REFERENCE_CODES))) {
 
 				continue;
 			}
