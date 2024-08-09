@@ -70,7 +70,8 @@ public class AssetCategoryDocumentContributor
 			assetVocabularyVisibilityTypeMap.get(
 				AssetVocabularyConstants.VISIBILITY_TYPE_PUBLIC));
 		_addAssetCategoriesFields(
-			document, "groupAssetInternalCategoryExternalReferenceCodes",
+			document,
+			Field.GROUP_ASSET_INTERNAL_CATEGORY_EXTERNAL_REFERENCE_CODES,
 			Field.ASSET_INTERNAL_CATEGORY_IDS,
 			Field.ASSET_INTERNAL_CATEGORY_TITLES,
 			Field.ASSET_INTERNAL_VOCABULARY_IDS,
