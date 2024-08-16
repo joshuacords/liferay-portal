@@ -51,6 +51,8 @@ public class CreateSnapshotRepositoryRequestExecutorImpl
 					createSnapshotRepositoryRequest.isCompress()
 				).location(
 					createSnapshotRepositoryRequest.getLocation()
+				).readOnly(
+					false
 				)
 			).type(
 				createSnapshotRepositoryRequest.getType()
