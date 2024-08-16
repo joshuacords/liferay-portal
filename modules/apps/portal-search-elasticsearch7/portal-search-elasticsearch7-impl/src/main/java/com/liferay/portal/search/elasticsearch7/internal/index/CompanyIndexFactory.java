@@ -5,7 +5,7 @@
 
 package com.liferay.portal.search.elasticsearch7.internal.index;
 
-import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Company;
@@ -15,14 +15,10 @@ import com.liferay.portal.search.elasticsearch7.internal.configuration.Elasticse
 import com.liferay.portal.search.elasticsearch7.internal.configuration.ElasticsearchConfigurationWrapper;
 import com.liferay.portal.search.elasticsearch7.internal.connection.ElasticsearchConnectionManager;
 import com.liferay.portal.search.elasticsearch7.internal.index.util.IndexFactoryCompanyIdRegistryUtil;
-import com.liferay.portal.search.engine.adapter.SearchEngineAdapter;
-import com.liferay.portal.search.engine.adapter.index.UpdateIndexSettingsIndexRequest;
-import com.liferay.portal.search.index.IndexNameBuilder;
 
 import org.elasticsearch.client.IndicesClient;
 import org.elasticsearch.client.RestHighLevelClient;
 
-import org.osgi.framework.BundleContext;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
@@ -44,8 +40,8 @@ public class CompanyIndexFactory
 	}
 
 	@Override
-	public boolean deleteIndex(IndicesClient indicesClient, long companyId) {
-		String indexName = _companyIndexFactoryHelper.getIndexName(companyId);
+	public boolean deleteIndex(long companyId, IndicesClient indicesClient) {
+		String indexName = _companyIndexHelper.getIndexName(companyId);
 
 		Company company = _companyLocalService.fetchCompany(companyId);
 
@@ -55,12 +51,12 @@ public class CompanyIndexFactory
 			indexName = company.getIndexNameCurrent();
 		}
 
-		if (!_companyIndexFactoryHelper.hasIndex(indicesClient, indexName)) {
+		if (!_companyIndexHelper.hasIndex(indexName, indicesClient)) {
 			return false;
 		}
 
-		_companyIndexFactoryHelper.deleteIndex(
-			indexName, indicesClient, companyId, true);
+		_companyIndexHelper.deleteIndex(
+			companyId, indexName, indicesClient, true);
 
 		return true;
 	}
@@ -72,15 +68,20 @@ public class CompanyIndexFactory
 
 	@Override
 	public boolean initializeIndex(
-		IndicesClient indicesClient, long companyId) {
+		long companyId, IndicesClient indicesClient) {
 
-		String indexName = _companyIndexFactoryHelper.getIndexName(companyId);
+		String indexName = _companyIndexHelper.getIndexName(companyId);
 
-		if (_companyIndexFactoryHelper.hasIndex(indicesClient, indexName)) {
+		if (_companyIndexHelper.hasIndex(indexName, indicesClient)) {
+			if (FeatureFlagManagerUtil.isEnabled(companyId, "LPD-7822")) {
+				_companyIndexHelper.updateIndex(
+					companyId, indexName, indicesClient);
+			}
+
 			return false;
 		}
 
-		_companyIndexFactoryHelper.createIndex(indexName, indicesClient);
+		_companyIndexHelper.createIndex(companyId, indexName, indicesClient);
 
 		return true;
 	}
@@ -88,8 +89,6 @@ public class CompanyIndexFactory
 	@Override
 	public void onElasticsearchConfigurationUpdate() {
 		_initializeCompanyIndexes();
-
-		_updateMaxResultWindow();
 	}
 
 	@Override
@@ -103,7 +102,7 @@ public class CompanyIndexFactory
 	}
 
 	@Activate
-	protected void activate(BundleContext bundleContext) {
+	protected void activate() {
 		_elasticsearchConfigurationWrapper.register(this);
 
 		_initializeCompanyIndexes();
@@ -115,47 +114,23 @@ public class CompanyIndexFactory
 	}
 
 	private synchronized void _initializeCompanyIndexes() {
-		for (Long companyId :
-				IndexFactoryCompanyIdRegistryUtil.getCompanyIds()) {
-
-			try {
-				RestHighLevelClient restHighLevelClient =
-					_elasticsearchConnectionManager.getRestHighLevelClient();
-
-				initializeIndex(restHighLevelClient.indices(), companyId);
-			}
-			catch (Exception exception) {
-				if (_log.isWarnEnabled()) {
-					_log.warn(
-						"Unable to reinitialize index for company " + companyId,
-						exception);
-				}
-			}
-		}
+		_companyLocalService.forEachCompanyId(
+			companyId -> _initializeIndex(companyId),
+			IndexFactoryCompanyIdRegistryUtil.getCompanyIds());
 	}
 
-	private void _updateMaxResultWindow() {
-		int maxResultWindow =
-			_elasticsearchConfigurationWrapper.indexMaxResultWindow();
+	private void _initializeIndex(long companyId) {
+		try {
+			RestHighLevelClient restHighLevelClient =
+				_elasticsearchConnectionManager.getRestHighLevelClient();
 
-		for (Long companyId :
-				IndexFactoryCompanyIdRegistryUtil.getCompanyIds()) {
-
-			String indexName = _indexNameBuilder.getIndexName(companyId);
-
-			UpdateIndexSettingsIndexRequest updateIndexSettingsIndexRequest =
-				new UpdateIndexSettingsIndexRequest(indexName);
-
-			updateIndexSettingsIndexRequest.setSettings(
-				"{\"index.max_result_window\": " + maxResultWindow + "}");
-
-			_searchEngineAdapter.execute(updateIndexSettingsIndexRequest);
-
-			if (_log.isInfoEnabled()) {
-				_log.info(
-					StringBundler.concat(
-						"Updated index.max_result_window to ", maxResultWindow,
-						" for index ", indexName));
+			initializeIndex(companyId, restHighLevelClient.indices());
+		}
+		catch (Exception exception) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(
+					"Unable to initialize index for company " + companyId,
+					exception);
 			}
 		}
 	}
@@ -164,7 +139,7 @@ public class CompanyIndexFactory
 		CompanyIndexFactory.class);
 
 	@Reference
-	private CompanyIndexFactoryHelper _companyIndexFactoryHelper;
+	private CompanyIndexHelper _companyIndexHelper;
 
 	@Reference
 	private CompanyLocalService _companyLocalService;
@@ -175,11 +150,5 @@ public class CompanyIndexFactory
 
 	@Reference
 	private ElasticsearchConnectionManager _elasticsearchConnectionManager;
-
-	@Reference
-	private IndexNameBuilder _indexNameBuilder;
-
-	@Reference
-	private SearchEngineAdapter _searchEngineAdapter;
 
 }
