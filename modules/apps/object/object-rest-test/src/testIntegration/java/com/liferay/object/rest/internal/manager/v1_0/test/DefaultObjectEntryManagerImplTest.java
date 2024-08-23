@@ -1127,6 +1127,27 @@ public class DefaultObjectEntryManagerImplTest
 			).put(
 				"name", listTypeEntry.getName(LocaleUtil.US)
 			).build());
+
+		// Relationship
+
+		String newExternalReferenceCode = RandomTestUtil.randomString();
+
+		_defaultObjectEntryManager.addObjectEntry(
+			dtoConverterContext, _objectDefinition2,
+			new ObjectEntry() {
+				{
+					properties = HashMapBuilder.<String, Object>put(
+						_objectRelationshipERCObjectFieldName,
+						newExternalReferenceCode
+					).build();
+				}
+			},
+			ObjectDefinitionConstants.SCOPE_COMPANY);
+
+		Assert.assertNotNull(
+			_defaultObjectEntryManager.getObjectEntry(
+				_objectDefinition1.getCompanyId(), _simpleDTOConverterContext,
+				newExternalReferenceCode, _objectDefinition1, null));
 	}
 
 	@Test
@@ -3416,6 +3437,11 @@ public class DefaultObjectEntryManagerImplTest
 			).put(
 				"richTextObjectFieldName", "<i>richTextObjectFieldNameValue</i>"
 			).build();
+		ObjectEntry parentObjectEntry1 = _addObjectEntry(
+			_objectDefinition1,
+			HashMapBuilder.<String, Object>put(
+				"textObjectFieldName", RandomTestUtil.randomString()
+			).build());
 
 		assertEquals(
 			_defaultObjectEntryManager.partialUpdateObjectEntry(
@@ -3423,7 +3449,12 @@ public class DefaultObjectEntryManagerImplTest
 				objectEntry.getId(),
 				new ObjectEntry() {
 					{
-						properties = objectEntryProperties;
+						properties = HashMapBuilder.<String, Object>putAll(
+							objectEntryProperties
+						).put(
+							_objectRelationshipFieldName,
+							parentObjectEntry1.getId()
+						).build();
 					}
 				}),
 			new ObjectEntry() {
@@ -3431,10 +3462,22 @@ public class DefaultObjectEntryManagerImplTest
 					properties = HashMapBuilder.<String, Object>putAll(
 						objectEntryProperties
 					).put(
+						_objectRelationshipERCObjectFieldName,
+						parentObjectEntry1.getExternalReferenceCode()
+					).put(
+						_objectRelationshipFieldName, parentObjectEntry1.getId()
+					).put(
 						"textObjectFieldName", "textObjectFieldValue"
 					).build();
 				}
 			});
+
+		ObjectEntry parentObjectEntry2 = _addObjectEntry(
+			_objectDefinition1,
+			HashMapBuilder.<String, Object>put(
+				"textObjectFieldName", RandomTestUtil.randomString()
+			).build());
+
 		assertEquals(
 			_defaultObjectEntryManager.partialUpdateObjectEntry(
 				_simpleDTOConverterContext, _objectDefinition2,
@@ -3442,6 +3485,9 @@ public class DefaultObjectEntryManagerImplTest
 				new ObjectEntry() {
 					{
 						properties = HashMapBuilder.<String, Object>put(
+							_objectRelationshipERCObjectFieldName,
+							parentObjectEntry2.getExternalReferenceCode()
+						).put(
 							"dateObjectFieldName", () -> null
 						).put(
 							"dateTimeObjectFieldName", () -> null
@@ -3453,9 +3499,107 @@ public class DefaultObjectEntryManagerImplTest
 					properties = HashMapBuilder.<String, Object>putAll(
 						objectEntryProperties
 					).put(
+						_objectRelationshipERCObjectFieldName,
+						parentObjectEntry2.getExternalReferenceCode()
+					).put(
+						_objectRelationshipFieldName, parentObjectEntry2.getId()
+					).put(
 						"dateObjectFieldName", () -> null
 					).put(
 						"dateTimeObjectFieldName", () -> null
+					).build();
+				}
+			});
+		assertEquals(
+			_defaultObjectEntryManager.partialUpdateObjectEntry(
+				_simpleDTOConverterContext, _objectDefinition2,
+				objectEntry.getId(),
+				new ObjectEntry() {
+					{
+						properties = HashMapBuilder.<String, Object>put(
+							_objectRelationshipERCObjectFieldName,
+							parentObjectEntry1.getExternalReferenceCode()
+						).put(
+							_objectRelationshipFieldName,
+							parentObjectEntry2.getId()
+						).build();
+					}
+				}),
+			new ObjectEntry() {
+				{
+					properties = HashMapBuilder.<String, Object>putAll(
+						objectEntryProperties
+					).put(
+						_objectRelationshipERCObjectFieldName,
+						parentObjectEntry1.getExternalReferenceCode()
+					).put(
+						_objectRelationshipFieldName, parentObjectEntry1.getId()
+					).build();
+				}
+			});
+		assertEquals(
+			_defaultObjectEntryManager.partialUpdateObjectEntry(
+				_simpleDTOConverterContext, _objectDefinition2,
+				objectEntry.getId(),
+				new ObjectEntry() {
+					{
+						properties = HashMapBuilder.<String, Object>put(
+							_objectRelationshipERCObjectFieldName,
+							parentObjectEntry2.getExternalReferenceCode()
+						).put(
+							_objectRelationshipFieldName,
+							RandomTestUtil.randomLong()
+						).build();
+					}
+				}),
+			new ObjectEntry() {
+				{
+					properties = HashMapBuilder.<String, Object>putAll(
+						objectEntryProperties
+					).put(
+						_objectRelationshipERCObjectFieldName,
+						parentObjectEntry2.getExternalReferenceCode()
+					).put(
+						_objectRelationshipFieldName, parentObjectEntry2.getId()
+					).build();
+				}
+			});
+
+		String newExternalReferenceCode = RandomTestUtil.randomString();
+
+		assertEquals(
+			_defaultObjectEntryManager.partialUpdateObjectEntry(
+				_simpleDTOConverterContext, _objectDefinition2,
+				objectEntry.getId(),
+				new ObjectEntry() {
+					{
+						properties = HashMapBuilder.<String, Object>put(
+							_objectRelationshipERCObjectFieldName,
+							newExternalReferenceCode
+						).put(
+							_objectRelationshipFieldName,
+							parentObjectEntry1.getId()
+						).build();
+					}
+				}),
+			new ObjectEntry() {
+				{
+					properties = HashMapBuilder.<String, Object>putAll(
+						objectEntryProperties
+					).put(
+						_objectRelationshipERCObjectFieldName,
+						newExternalReferenceCode
+					).put(
+						_objectRelationshipFieldName,
+						() -> {
+							ObjectEntry objectEntry =
+								_defaultObjectEntryManager.getObjectEntry(
+									companyId, dtoConverterContext,
+									newExternalReferenceCode,
+									_objectDefinition1, null);
+
+							return objectEntry.getId();
+						}
 					).build();
 				}
 			});
@@ -3651,7 +3795,8 @@ public class DefaultObjectEntryManagerImplTest
 
 		_assertLocalizedValues(
 			HashMapBuilder.<String, Object>put(
-				"localizedLongTextObjectFieldName", ""
+				"localizedLongTextObjectFieldName",
+				"en_US localizedLongTextObjectFieldValue"
 			).put(
 				"localizedRichTextObjectFieldName",
 				"ar_SA localizedRichTextObjectFieldValue"
@@ -3680,7 +3825,8 @@ public class DefaultObjectEntryManagerImplTest
 			"en_US", objectEntry.getId());
 		_assertLocalizedValues(
 			HashMapBuilder.<String, Object>put(
-				"localizedLongTextObjectFieldName", ""
+				"localizedLongTextObjectFieldName",
+				"en_US localizedLongTextObjectFieldValue"
 			).put(
 				"localizedRichTextObjectFieldName", ""
 			).put(
@@ -3729,7 +3875,8 @@ public class DefaultObjectEntryManagerImplTest
 
 		_assertLocalizedValues(
 			HashMapBuilder.<String, Object>put(
-				"localizedLongTextObjectFieldName", ""
+				"localizedLongTextObjectFieldName",
+				"en_US localizedLongTextObjectFieldValue"
 			).put(
 				"localizedRichTextObjectFieldName",
 				"ar_SA localizedRichTextObjectFieldValue"
@@ -3737,14 +3884,16 @@ public class DefaultObjectEntryManagerImplTest
 				"localizedRichTextObjectFieldNameRawText",
 				"ar_SA localizedRichTextObjectFieldValue"
 			).put(
-				"localizedTextObjectFieldName", ""
+				"localizedTextObjectFieldName",
+				"en_US localizedTextObjectFieldValue1"
 			).putAll(
 				_localizedObjectFieldI18nValues
 			).build(),
 			"ar_SA", objectEntry.getId());
 		_assertLocalizedValues(
 			HashMapBuilder.<String, Object>put(
-				"localizedLongTextObjectFieldName", ""
+				"localizedLongTextObjectFieldName",
+				"en_US localizedLongTextObjectFieldValue"
 			).put(
 				"localizedRichTextObjectFieldName",
 				"ca_ES localizedRichTextObjectFieldValue"
@@ -3752,7 +3901,8 @@ public class DefaultObjectEntryManagerImplTest
 				"localizedRichTextObjectFieldNameRawText",
 				"ca_ES localizedRichTextObjectFieldValue"
 			).put(
-				"localizedTextObjectFieldName", ""
+				"localizedTextObjectFieldName",
+				"en_US localizedTextObjectFieldValue1"
 			).putAll(
 				_localizedObjectFieldI18nValues
 			).build(),
@@ -3776,11 +3926,14 @@ public class DefaultObjectEntryManagerImplTest
 			"en_US", objectEntry.getId());
 		_assertLocalizedValues(
 			HashMapBuilder.<String, Object>put(
-				"localizedLongTextObjectFieldName", ""
+				"localizedLongTextObjectFieldName",
+				"en_US localizedLongTextObjectFieldValue"
 			).put(
-				"localizedRichTextObjectFieldName", ""
+				"localizedRichTextObjectFieldName",
+				"en_US <i>localizedRichTextObjectFieldValue</i>"
 			).put(
-				"localizedRichTextObjectFieldNameRawText", ""
+				"localizedRichTextObjectFieldNameRawText",
+				"en_US localizedRichTextObjectFieldValue"
 			).put(
 				"localizedTextObjectFieldName",
 				"pt_BR localizedTextObjectFieldValue1"

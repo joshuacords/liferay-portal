@@ -5,12 +5,18 @@
 
 import {expect, mergeTests} from '@playwright/test';
 
+import {accountSettingsPagesTest} from '../../fixtures/accountSettingsPagesTest';
 import {apiHelpersTest} from '../../fixtures/apiHelpersTest';
 import {loginTest} from '../../fixtures/loginTest';
 import {objectPagesTest} from '../../fixtures/objectPagesTest';
 import {getRandomInt} from '../../utils/getRandomInt';
 
-export const test = mergeTests(apiHelpersTest, loginTest(), objectPagesTest);
+export const test = mergeTests(
+	accountSettingsPagesTest,
+	apiHelpersTest,
+	loginTest(),
+	objectPagesTest
+);
 
 test.describe('manage object definitions through model builder', () => {
 	test('navigate between object folders on model builder page', async ({
@@ -90,6 +96,22 @@ test.describe('manage object definitions through model builder', () => {
 		// Clean up
 
 		await apiHelpers.objectAdmin.deleteObjectFolder(objectFolder.id);
+	});
+
+	test('can navigate from Model Builder to Account Settings', async ({
+		accountSettingsPage,
+		modelBuilderPage,
+		page,
+	}) => {
+		await modelBuilderPage.goto({objectFolderName: 'Default'});
+
+		await modelBuilderPage.toggleSidebarsButton.click();
+
+		await page.getByTitle('User Profile Menu').click();
+
+		await accountSettingsPage.accountSettingsMenuItem.click();
+
+		await expect(accountSettingsPage.userDisplayData).toBeVisible();
 	});
 });
 
@@ -217,53 +239,58 @@ test.describe('manage object definitions through view object definitions', () =>
 			await apiHelpers.objectAdmin.deleteObjectFolder(objectFolder.id);
 		}
 	});
-});
 
-test('object definitions from a deleted folder are moved to the default folder', async ({
-	apiHelpers,
-	viewObjectDefinitionsPage,
-}) => {
-	const objectFolder = await apiHelpers.objectAdmin.postRandomObjectFolder();
+	test('object definitions from a deleted folder are moved to the default folder', async ({
+		apiHelpers,
+		viewObjectDefinitionsPage,
+	}) => {
+		const objectFolder =
+			await apiHelpers.objectAdmin.postRandomObjectFolder();
 
-	const objectDefinition1 =
-		await apiHelpers.objectAdmin.postRandomObjectDefinition({
-			objectFolderExternalReferenceCode:
-				objectFolder.externalReferenceCode,
-			status: {code: 0},
-		});
-	const objectDefinition2 =
-		await apiHelpers.objectAdmin.postRandomObjectDefinition({
-			objectFolderExternalReferenceCode:
-				objectFolder.externalReferenceCode,
-			status: {code: 0},
-		});
+		const objectDefinition1 =
+			await apiHelpers.objectAdmin.postRandomObjectDefinition({
+				objectFolderExternalReferenceCode:
+					objectFolder.externalReferenceCode,
+				status: {code: 0},
+			});
+		const objectDefinition2 =
+			await apiHelpers.objectAdmin.postRandomObjectDefinition({
+				objectFolderExternalReferenceCode:
+					objectFolder.externalReferenceCode,
+				status: {code: 0},
+			});
 
-	await viewObjectDefinitionsPage.goto();
+		await viewObjectDefinitionsPage.goto();
 
-	await viewObjectDefinitionsPage.openObjectFolder(
-		objectFolder.externalReferenceCode
-	);
+		await viewObjectDefinitionsPage.openObjectFolder(
+			objectFolder.externalReferenceCode
+		);
 
-	await viewObjectDefinitionsPage.objectFolderActions.click();
+		await viewObjectDefinitionsPage.objectFolderActions.click();
 
-	await viewObjectDefinitionsPage.deleteObjectFolder(objectFolder.name);
+		await viewObjectDefinitionsPage.deleteObjectFolder(objectFolder.name);
 
-	await viewObjectDefinitionsPage.defaultObjectFolder.click();
+		await viewObjectDefinitionsPage.defaultObjectFolder.click();
 
-	await expect(
-		viewObjectDefinitionsPage.frontendDataSetEntries.filter({
-			hasText: objectDefinition1.label['en_US'],
-		})
-	).toBeVisible();
+		await expect(
+			viewObjectDefinitionsPage.frontendDataSetEntries.filter({
+				hasText: objectDefinition1.label['en_US'],
+			})
+		).toBeVisible();
 
-	await expect(
-		viewObjectDefinitionsPage.frontendDataSetEntries.filter({
-			hasText: objectDefinition2.label['en_US'],
-		})
-	).toBeVisible();
+		await expect(
+			viewObjectDefinitionsPage.frontendDataSetEntries.filter({
+				hasText: objectDefinition2.label['en_US'],
+			})
+		).toBeVisible();
 
-	// Clean up
+		// Clean up
 
-	await apiHelpers.objectAdmin.deleteObjectDefinition(objectDefinition1.id);
-	await apiHelpers.objectAdmin.deleteObjectDefinition(objectDefinition2.id);
+		await apiHelpers.objectAdmin.deleteObjectDefinition(
+			objectDefinition1.id
+		);
+		await apiHelpers.objectAdmin.deleteObjectDefinition(
+			objectDefinition2.id
+		);
+	});
 });

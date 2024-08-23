@@ -21,6 +21,9 @@ import java.io.Serializable;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -32,6 +35,22 @@ import org.osgi.service.component.annotations.Reference;
 	service = WorkflowHandler.class
 )
 public class UserWorkflowHandler extends BaseWorkflowHandler<User> {
+
+	@Override
+	public void contributeServiceContext(ServiceContext serviceContext) {
+		HttpServletRequest httpServletRequest = serviceContext.getRequest();
+
+		serviceContext.setAttribute(
+			"serverName", httpServletRequest.getServerName());
+		serviceContext.setAttribute(
+			"serverPort", httpServletRequest.getServerPort());
+
+		HttpSession httpSession = httpServletRequest.getSession();
+
+		serviceContext.setAttribute("sessionId", httpSession.getId());
+
+		serviceContext.setRequest(httpServletRequest);
+	}
 
 	@Override
 	public String getClassName() {

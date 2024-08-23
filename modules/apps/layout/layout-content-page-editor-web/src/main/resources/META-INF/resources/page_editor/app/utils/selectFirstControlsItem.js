@@ -8,7 +8,8 @@ import getFirstControlsId from './getFirstControlsId';
 export default function selectFirstControlsItem({
 	itemId,
 	layoutData,
-	selectItem,
+	origin = null,
+	selectItems,
 }) {
 	const item = layoutData.items[itemId];
 
@@ -17,5 +18,7 @@ export default function selectFirstControlsItem({
 		layoutData,
 	});
 
-	selectItem(controlsId);
+	selectItems(Liferay.FeatureFlags['LPD-18221'] ? [controlsId] : controlsId, {
+		origin,
+	});
 }

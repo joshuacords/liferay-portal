@@ -18,7 +18,6 @@ import com.liferay.asset.kernel.service.AssetTagLocalService;
 import com.liferay.asset.kernel.service.persistence.AssetEntryQuery;
 import com.liferay.asset.list.asset.entry.provider.AssetListAssetEntryProvider;
 import com.liferay.asset.list.model.AssetListEntry;
-import com.liferay.asset.list.service.AssetListEntryService;
 import com.liferay.asset.publisher.constants.AssetPublisherPortletKeys;
 import com.liferay.asset.publisher.util.AssetEntryResult;
 import com.liferay.asset.publisher.util.AssetPublisherHelper;
@@ -317,21 +316,14 @@ public class AssetPublisherHelperImpl implements AssetPublisherHelper {
 			boolean deleteMissingAssetEntries, boolean checkPermission)
 		throws Exception {
 
-		String selectionStyle = GetterUtil.getString(
-			portletPreferences.getValue("selectionStyle", null),
-			AssetPublisherSelectionStyleConfigurationUtil.
-				defaultSelectionStyle());
+		ThemeDisplay themeDisplay = (ThemeDisplay)portletRequest.getAttribute(
+			WebKeys.THEME_DISPLAY);
 
-		long assetListEntryId = GetterUtil.getLong(
-			portletPreferences.getValue("assetListEntryId", null));
+		AssetListEntry assetListEntry = AssetPublisherUtil.getAssetListEntry(
+			true, themeDisplay.getCompanyId(), themeDisplay.getScopeGroupId(),
+			portletPreferences);
 
-		AssetListEntry assetListEntry =
-			_assetListEntryService.fetchAssetListEntry(assetListEntryId);
-
-		if (selectionStyle.equals(
-				AssetPublisherSelectionStyleConstants.TYPE_ASSET_LIST) &&
-			(assetListEntry != null)) {
-
+		if (assetListEntry != null) {
 			long[] segmentsEntryIds = _getSegmentsEntryIds(portletRequest);
 
 			String acClientUserId = GetterUtil.getString(
@@ -1451,9 +1443,6 @@ public class AssetPublisherHelperImpl implements AssetPublisherHelper {
 
 	@Reference
 	private AssetListAssetEntryProvider _assetListAssetEntryProvider;
-
-	@Reference
-	private AssetListEntryService _assetListEntryService;
 
 	private volatile AssetPublisherWebConfiguration
 		_assetPublisherWebConfiguration;

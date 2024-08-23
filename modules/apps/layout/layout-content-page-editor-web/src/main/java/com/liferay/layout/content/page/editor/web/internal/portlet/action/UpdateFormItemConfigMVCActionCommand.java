@@ -21,6 +21,7 @@ import com.liferay.layout.util.structure.FormStyledLayoutStructureItem;
 import com.liferay.layout.util.structure.FragmentStyledLayoutStructureItem;
 import com.liferay.layout.util.structure.LayoutStructure;
 import com.liferay.layout.util.structure.LayoutStructureItem;
+import com.liferay.layout.util.structure.LayoutStructureItemUtil;
 import com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactory;
@@ -82,10 +83,18 @@ public class UpdateFormItemConfigMVCActionCommand
 		Map<String, String> inputFields = new HashMap<>();
 
 		for (String itemId :
-				formStyledLayoutStructureItem.getChildrenItemIds()) {
+				LayoutStructureItemUtil.getChildrenItemIds(
+					formStyledLayoutStructureItem.getItemId(),
+					layoutStructure)) {
 
 			LayoutStructureItem layoutStructureItem =
 				layoutStructure.getLayoutStructureItem(itemId);
+
+			if (!(layoutStructureItem instanceof
+					FragmentStyledLayoutStructureItem)) {
+
+				continue;
+			}
 
 			FragmentStyledLayoutStructureItem
 				fragmentStyledLayoutStructureItem =
@@ -146,8 +155,8 @@ public class UpdateFormItemConfigMVCActionCommand
 			previousFormStyledLayoutStructureItem.getClassNameId();
 		long previousClassTypeId =
 			previousFormStyledLayoutStructureItem.getClassTypeId();
-		boolean previousIsMultiStep =
-			previousFormStyledLayoutStructureItem.isMultiStep();
+		String previousFormType =
+			previousFormStyledLayoutStructureItem.getFormType();
 		int previousNumberOfSteps =
 			previousFormStyledLayoutStructureItem.getNumberOfSteps();
 
@@ -164,15 +173,15 @@ public class UpdateFormItemConfigMVCActionCommand
 		List<FragmentEntryLink> addedFragmentEntryLinks = new ArrayList<>();
 
 		if (!Objects.equals(
-				formStyledLayoutStructureItem.isMultiStep(),
-				previousIsMultiStep) ||
+				formStyledLayoutStructureItem.getFormType(),
+				previousFormType) ||
 			!Objects.equals(
 				formStyledLayoutStructureItem.getNumberOfSteps(),
 				previousNumberOfSteps)) {
 
-			layoutStructure.updateFormStyledLayoutStructureItemMultiStep(
+			layoutStructure.updateFormStyledLayoutStructureItemFormType(
 				formStyledLayoutStructureItem.getItemId(),
-				formStyledLayoutStructureItem.isMultiStep(),
+				formStyledLayoutStructureItem.getFormType(),
 				formStyledLayoutStructureItem.getNumberOfSteps());
 		}
 
@@ -206,7 +215,11 @@ public class UpdateFormItemConfigMVCActionCommand
 			}
 		}
 		else {
-			if (FeatureFlagManagerUtil.isEnabled("LPD-20213") &&
+			Map<String, String[]> parameterMap =
+				actionRequest.getParameterMap();
+
+			if (parameterMap.containsKey("fields") &&
+				FeatureFlagManagerUtil.isEnabled("LPD-20213") &&
 				(formStyledLayoutStructureItem.getClassNameId() > 0)) {
 
 				List<String> newUniqueInfoFieldIds = new ArrayList<>();

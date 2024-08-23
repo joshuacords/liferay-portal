@@ -41,6 +41,8 @@ type FormConfig = {
 		className: string;
 		classType: number;
 	};
+	formType: 'multistep' | 'simple';
+	numberOfSteps: number;
 };
 
 type Layout = {
@@ -63,6 +65,12 @@ type Layout = {
 	uuid: string;
 };
 
+type LayoutPageTemplateEntry = {
+	groupId: string;
+	layoutPageTemplateEntryId: string;
+	plid: string;
+};
+
 type PageDefinition = {
 	pageElement: PageElement;
 };
@@ -79,6 +87,7 @@ type PageElement = {
 		fragmentConfig?: Record<string, any>;
 		fragmentDropZoneId?: string;
 		fragmentFields?: FragmentField[];
+		fragmentStyle?: Record<string, string>;
 		gutters?: boolean;
 		layout?: {};
 		listStyle?: string;
@@ -98,6 +107,8 @@ type PageElement = {
 		| 'Column'
 		| 'DropZone'
 		| 'Form'
+		| 'FormStep'
+		| 'FormStepContainer'
 		| 'Fragment'
 		| 'FragmentDropZone'
 		| 'Root'

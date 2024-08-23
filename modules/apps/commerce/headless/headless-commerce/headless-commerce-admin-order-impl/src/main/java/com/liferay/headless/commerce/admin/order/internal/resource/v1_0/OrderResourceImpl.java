@@ -14,6 +14,7 @@ import com.liferay.commerce.context.CommerceContextFactory;
 import com.liferay.commerce.currency.model.CommerceCurrency;
 import com.liferay.commerce.currency.service.CommerceCurrencyService;
 import com.liferay.commerce.exception.NoSuchOrderException;
+import com.liferay.commerce.model.CommerceAddress;
 import com.liferay.commerce.model.CommerceOrder;
 import com.liferay.commerce.model.CommerceOrderItem;
 import com.liferay.commerce.model.CommerceOrderType;
@@ -29,6 +30,8 @@ import com.liferay.commerce.service.CommerceOrderItemService;
 import com.liferay.commerce.service.CommerceOrderService;
 import com.liferay.commerce.service.CommerceOrderTypeService;
 import com.liferay.commerce.service.CommerceShippingMethodService;
+import com.liferay.commerce.term.model.CommerceTermEntry;
+import com.liferay.commerce.term.service.CommerceTermEntryLocalService;
 import com.liferay.headless.commerce.admin.order.dto.v1_0.BillingAddress;
 import com.liferay.headless.commerce.admin.order.dto.v1_0.Order;
 import com.liferay.headless.commerce.admin.order.dto.v1_0.OrderItem;
@@ -194,16 +197,19 @@ public class OrderResourceImpl extends BaseOrderResourceImpl {
 	}
 
 	@Override
-	public Response patchOrder(Long id, Order order) throws Exception {
-		_updateOrder(_commerceOrderService.getCommerceOrder(id), order);
+	public Order patchOrder(Long id, Order order) throws Exception {
+		CommerceOrder commerceOrder = _updateOrder(
+			_commerceOrderService.getCommerceOrder(id), order);
 
-		Response.ResponseBuilder responseBuilder = Response.noContent();
-
-		return responseBuilder.build();
+		return _toOrder(
+			commerceOrder.getCommerceOrderId(),
+			contextAcceptLanguage.getPreferredLocale(),
+			contextAcceptLanguage.isAcceptAllLanguages(), contextUser,
+			contextUriInfo, _getActions(commerceOrder));
 	}
 
 	@Override
-	public Response patchOrderByExternalReferenceCode(
+	public Order patchOrderByExternalReferenceCode(
 			String externalReferenceCode, Order order)
 		throws Exception {
 
@@ -217,11 +223,13 @@ public class OrderResourceImpl extends BaseOrderResourceImpl {
 					externalReferenceCode);
 		}
 
-		_updateOrder(commerceOrder, order);
+		commerceOrder = _updateOrder(commerceOrder, order);
 
-		Response.ResponseBuilder responseBuilder = Response.noContent();
-
-		return responseBuilder.build();
+		return _toOrder(
+			commerceOrder.getCommerceOrderId(),
+			contextAcceptLanguage.getPreferredLocale(),
+			contextAcceptLanguage.isAcceptAllLanguages(), contextUser,
+			contextUriInfo, _getActions(commerceOrder));
 	}
 
 	@Override
@@ -268,15 +276,17 @@ public class OrderResourceImpl extends BaseOrderResourceImpl {
 			_commerceChannelLocalService.getCommerceChannel(
 				order.getChannelId());
 
-		long commerceShippingMethodId = 0;
+		long billingAddressId = GetterUtil.getLong(order.getBillingAddressId());
 
-		CommerceShippingMethod commerceShippingMethod =
-			_commerceShippingMethodService.fetchCommerceShippingMethod(
-				commerceChannel.getGroupId(), order.getShippingMethod());
+		if (billingAddressId == 0) {
+			CommerceAddress commerceAddress =
+				_commerceAddressService.fetchByExternalReferenceCode(
+					order.getBillingAddressExternalReferenceCode(),
+					contextCompany.getCompanyId());
 
-		if (commerceShippingMethod != null) {
-			commerceShippingMethodId =
-				commerceShippingMethod.getCommerceShippingMethodId();
+			if (commerceAddress != null) {
+				billingAddressId = commerceAddress.getCommerceAddressId();
+			}
 		}
 
 		AccountEntry accountEntry = null;
@@ -303,19 +313,42 @@ public class OrderResourceImpl extends BaseOrderResourceImpl {
 			_commerceCurrencyService.getCommerceCurrency(
 				commerceChannel.getCompanyId(), order.getCurrencyCode());
 
+		long commerceShippingMethodId = 0;
+
+		CommerceShippingMethod commerceShippingMethod =
+			_commerceShippingMethodService.fetchCommerceShippingMethod(
+				commerceChannel.getGroupId(), order.getShippingMethod());
+
+		if (commerceShippingMethod != null) {
+			commerceShippingMethodId =
+				commerceShippingMethod.getCommerceShippingMethodId();
+		}
+
+		long shippingAddressId = GetterUtil.getLong(
+			order.getShippingAddressId());
+
+		if (shippingAddressId == 0) {
+			CommerceAddress commerceAddress =
+				_commerceAddressService.fetchByExternalReferenceCode(
+					order.getShippingAddressExternalReferenceCode(),
+					contextCompany.getCompanyId());
+
+			if (commerceAddress != null) {
+				shippingAddressId = commerceAddress.getCommerceAddressId();
+			}
+		}
+
 		ServiceContext serviceContext = _serviceContextHelper.getServiceContext(
 			commerceChannel.getGroupId());
 
 		CommerceOrder commerceOrder =
 			_commerceOrderService.addOrUpdateCommerceOrder(
 				order.getExternalReferenceCode(), commerceChannel.getGroupId(),
-				GetterUtil.getLong(order.getBillingAddressId()),
-				accountEntry.getAccountEntryId(),
+				billingAddressId, accountEntry.getAccountEntryId(),
 				commerceCurrency.getCommerceCurrencyId(),
 				_getCommerceOrderTypeId(order), commerceShippingMethodId,
-				GetterUtil.getLong(order.getShippingAddressId()),
-				order.getAdvanceStatus(), order.getPaymentMethod(),
-				GetterUtil.getString(order.getName()),
+				shippingAddressId, order.getAdvanceStatus(),
+				order.getPaymentMethod(), GetterUtil.getString(order.getName()),
 				GetterUtil.getInteger(
 					order.getOrderStatus(),
 					CommerceOrderConstants.ORDER_STATUS_PENDING),
@@ -380,16 +413,40 @@ public class OrderResourceImpl extends BaseOrderResourceImpl {
 					order.getPrintedNote(), commerceOrder.getPrintedNote()));
 		}
 
-		// Terms and Conditions
+		// Terms and conditions
 
-		if ((order.getDeliveryTermId() != null) ||
-			(order.getPaymentTermId() != null)) {
+		long deliveryTermId = GetterUtil.getLong(order.getDeliveryTermId());
 
+		if (deliveryTermId == 0) {
+			CommerceTermEntry commerceTermEntry =
+				_commerceTermEntryLocalService.
+					fetchCommerceTermEntryByExternalReferenceCode(
+						order.getDeliveryTermExternalReferenceCode(),
+						contextCompany.getCompanyId());
+
+			if (commerceTermEntry != null) {
+				deliveryTermId = commerceTermEntry.getCommerceTermEntryId();
+			}
+		}
+
+		long paymentTermId = GetterUtil.getLong(order.getPaymentTermId());
+
+		if (paymentTermId == 0) {
+			CommerceTermEntry commerceTermEntry =
+				_commerceTermEntryLocalService.
+					fetchCommerceTermEntryByExternalReferenceCode(
+						order.getPaymentTermExternalReferenceCode(),
+						contextCompany.getCompanyId());
+
+			if (commerceTermEntry != null) {
+				paymentTermId = commerceTermEntry.getCommerceTermEntryId();
+			}
+		}
+
+		if ((deliveryTermId > 0) || (paymentTermId > 0)) {
 			_commerceOrderService.updateTermsAndConditions(
-				commerceOrder.getCommerceOrderId(),
-				GetterUtil.getLong(order.getDeliveryTermId()),
-				GetterUtil.getLong(order.getPaymentTermId()),
-				contextAcceptLanguage.getPreferredLanguageId());
+				commerceOrder.getCommerceOrderId(), deliveryTermId,
+				paymentTermId, contextAcceptLanguage.getPreferredLanguageId());
 		}
 
 		// Expando
@@ -658,6 +715,22 @@ public class OrderResourceImpl extends BaseOrderResourceImpl {
 	private CommerceOrder _updateOrder(CommerceOrder commerceOrder, Order order)
 		throws Exception {
 
+		long billingAddressId = GetterUtil.getLong(order.getBillingAddressId());
+
+		if (billingAddressId == 0) {
+			CommerceAddress commerceAddress =
+				_commerceAddressService.fetchByExternalReferenceCode(
+					order.getBillingAddressExternalReferenceCode(),
+					contextCompany.getCompanyId());
+
+			if (commerceAddress == null) {
+				billingAddressId = commerceOrder.getBillingAddressId();
+			}
+			else {
+				billingAddressId = commerceAddress.getCommerceAddressId();
+			}
+		}
+
 		long commerceShippingMethodId =
 			commerceOrder.getCommerceShippingMethodId();
 
@@ -670,18 +743,29 @@ public class OrderResourceImpl extends BaseOrderResourceImpl {
 				commerceShippingMethod.getCommerceShippingMethodId();
 		}
 
+		long shippingAddressId = GetterUtil.getLong(
+			order.getShippingAddressId());
+
+		if (shippingAddressId == 0) {
+			CommerceAddress commerceAddress =
+				_commerceAddressService.fetchByExternalReferenceCode(
+					order.getShippingAddressExternalReferenceCode(),
+					contextCompany.getCompanyId());
+
+			if (commerceAddress == null) {
+				shippingAddressId = commerceOrder.getShippingAddressId();
+			}
+			else {
+				shippingAddressId = commerceAddress.getCommerceAddressId();
+			}
+		}
+
 		commerceOrder = _commerceOrderEngine.updateCommerceOrder(
 			GetterUtil.getString(
 				order.getExternalReferenceCode(),
 				commerceOrder.getExternalReferenceCode()),
-			commerceOrder.getCommerceOrderId(),
-			GetterUtil.getLong(
-				order.getBillingAddressId(),
-				commerceOrder.getBillingAddressId()),
-			commerceShippingMethodId,
-			GetterUtil.getLong(
-				order.getShippingAddressId(),
-				commerceOrder.getShippingAddressId()),
+			commerceOrder.getCommerceOrderId(), billingAddressId,
+			commerceShippingMethodId, shippingAddressId,
 			GetterUtil.getString(
 				order.getAdvanceStatus(), commerceOrder.getAdvanceStatus()),
 			GetterUtil.getString(
@@ -880,6 +964,40 @@ public class OrderResourceImpl extends BaseOrderResourceImpl {
 				commerceOrder.getTransactionId(), StringPool.BLANK);
 		}
 
+		long deliveryTermId = GetterUtil.getLong(order.getDeliveryTermId());
+
+		if (deliveryTermId == 0) {
+			CommerceTermEntry commerceTermEntry =
+				_commerceTermEntryLocalService.
+					fetchCommerceTermEntryByExternalReferenceCode(
+						order.getDeliveryTermExternalReferenceCode(),
+						contextCompany.getCompanyId());
+
+			if (commerceTermEntry != null) {
+				deliveryTermId = commerceTermEntry.getCommerceTermEntryId();
+			}
+		}
+
+		long paymentTermId = GetterUtil.getLong(order.getPaymentTermId());
+
+		if (paymentTermId == 0) {
+			CommerceTermEntry commerceTermEntry =
+				_commerceTermEntryLocalService.
+					fetchCommerceTermEntryByExternalReferenceCode(
+						order.getPaymentTermExternalReferenceCode(),
+						contextCompany.getCompanyId());
+
+			if (commerceTermEntry != null) {
+				paymentTermId = commerceTermEntry.getCommerceTermEntryId();
+			}
+		}
+
+		if ((deliveryTermId > 0) || (paymentTermId > 0)) {
+			_commerceOrderService.updateTermsAndConditions(
+				commerceOrder.getCommerceOrderId(), deliveryTermId,
+				paymentTermId, contextAcceptLanguage.getPreferredLanguageId());
+		}
+
 		Map<String, ?> customFields = order.getCustomFields();
 
 		if ((customFields != null) && !customFields.isEmpty()) {
@@ -944,6 +1062,9 @@ public class OrderResourceImpl extends BaseOrderResourceImpl {
 
 	@Reference
 	private CommerceShippingMethodService _commerceShippingMethodService;
+
+	@Reference
+	private CommerceTermEntryLocalService _commerceTermEntryLocalService;
 
 	@Reference
 	private CountryService _countryService;

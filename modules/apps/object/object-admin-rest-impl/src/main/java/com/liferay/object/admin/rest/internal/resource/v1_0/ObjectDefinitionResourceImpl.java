@@ -230,6 +230,8 @@ public class ObjectDefinitionResourceImpl
 					GetterUtil.getBoolean(objectDefinition.getEnableComments()),
 					GetterUtil.getBoolean(
 						objectDefinition.getEnableIndexSearch()),
+					GetterUtil.getBoolean(
+						objectDefinition.getEnableLocalization()),
 					LocalizedMapUtil.getLocalizedMap(
 						objectDefinition.getLabel()),
 					objectDefinition.getName(),
@@ -566,8 +568,7 @@ public class ObjectDefinitionResourceImpl
 				_objectValidationRuleLocalService.getObjectValidationRules(
 					objectDefinitionId));
 
-		if (serviceBuilderObjectDefinition.isModifiable() &&
-			serviceBuilderObjectDefinition.isSystem() &&
+		if (serviceBuilderObjectDefinition.isModifiableAndSystem() &&
 			ObjectDefinitionUtil.isInvokerBundleAllowed()) {
 
 			objectActions.removeIf(

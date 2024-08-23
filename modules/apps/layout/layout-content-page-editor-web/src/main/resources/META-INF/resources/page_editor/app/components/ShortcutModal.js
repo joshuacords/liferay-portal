@@ -28,16 +28,6 @@ export default function ShortcutModal({onCloseModal}) {
 				</p>
 
 				<KeyboardShorcut
-					description={Liferay.Language.get('move-fragment-up')}
-					keyCombinations={[OPTION_KEY_LABEL, '⇧', '↑']}
-				/>
-
-				<KeyboardShorcut
-					description={Liferay.Language.get('move-fragment-down')}
-					keyCombinations={[OPTION_KEY_LABEL, '⇧', '↓']}
-				/>
-
-				<KeyboardShorcut
 					description={Liferay.Language.get('duplicate-fragment')}
 					keyCombinations={[KEY_LABEL, 'D']}
 				/>
@@ -70,7 +60,7 @@ export default function ShortcutModal({onCloseModal}) {
 
 				<KeyboardShorcut
 					description={Liferay.Language.get('select-parent')}
-					keyCombinations={['⇧', 'Enter']}
+					keyCombinations={['⇧', OPTION_KEY_LABEL, 'Enter']}
 				/>
 
 				<p className="sheet-subtitle text-secondary">

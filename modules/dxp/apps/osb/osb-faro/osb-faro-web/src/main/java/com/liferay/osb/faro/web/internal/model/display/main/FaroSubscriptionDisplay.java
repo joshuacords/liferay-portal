@@ -220,6 +220,14 @@ public class FaroSubscriptionDisplay {
 			_pageViewsCountSinceLastAnniversary, _pageViewsLimit);
 	}
 
+	public void setIndividualsCounts(String individualsCounts) {
+		_individualsCounts = individualsCounts;
+	}
+
+	public void setPageViewsCounts(String pageViewsCounts) {
+		_pageViewsCounts = pageViewsCounts;
+	}
+
 	public void setUsageCounts(
 			CerebroEngineClient cerebroEngineClient,
 			ContactsEngineClient contactsEngineClient, Date date,
@@ -270,7 +278,7 @@ public class FaroSubscriptionDisplay {
 			startDate);
 
 		_pageViewsCounts = _setCounts(
-			cerebroEngineClient.getPageViews(faroProject, endDate, startDate),
+			cerebroEngineClient.getPageViews(faroProject, startDate, endDate),
 			subscriptionJSONObject.getLong(
 				"pageViewsCountSinceLastAnniversary"),
 			endDate, faroProject,
@@ -423,7 +431,7 @@ public class FaroSubscriptionDisplay {
 			FaroProject faroProject, JSONObject jsonObject, Date startDate)
 		throws Exception {
 
-		if (jsonObject.length() == 0) {
+		if ((jsonObject.length() == 0) && (count != defaultValue)) {
 			jsonObject = JSONUtil.put(
 				"total", defaultValue
 			).put(
@@ -445,9 +453,11 @@ public class FaroSubscriptionDisplay {
 			return jsonObject.toString();
 		}
 
+		long totalSinceLastAnniversary = jsonObject.getLong(
+			"totalSinceLastAnniversary", 0L);
+
 		jsonObject.put(
-			"totalSinceLastAnniversary",
-			jsonObject.getLong("totalSinceLastAnniversary", 0L) + count);
+			"totalSinceLastAnniversary", totalSinceLastAnniversary + count);
 
 		JSONObject monthlyValuesJSONObject = jsonObject.getJSONObject(
 			"monthlyValues");
@@ -476,6 +486,9 @@ public class FaroSubscriptionDisplay {
 					previousMonthlyValueJSONObject.getLong(
 						"countSinceLastAnniversary");
 			}
+			else if (totalSinceLastAnniversary != count) {
+				countSinceLastAnniversary = totalSinceLastAnniversary;
+			}
 
 			monthlyValueJSONObject = JSONUtil.put(
 				"count", 0
@@ -485,7 +498,7 @@ public class FaroSubscriptionDisplay {
 		}
 
 		monthlyValueJSONObject.put(
-			"count", monthlyValueJSONObject.getLong("count") + 0
+			"count", monthlyValueJSONObject.getLong("count") + count
 		).put(
 			"countSinceLastAnniversary",
 			monthlyValueJSONObject.getLong("countSinceLastAnniversary") + count

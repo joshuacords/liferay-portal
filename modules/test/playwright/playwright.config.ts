@@ -11,6 +11,7 @@ import {config as analyticsWebConfig} from './tests/analytics-web/config';
 import {config as announcementsWebConfig} from './tests/announcements-web/config';
 import {config as batchPlannerConfig} from './tests/batch-planner/config';
 import {config as blogsWebConfig} from './tests/blogs-web/config';
+import {config as calendarWebConfig} from './tests/calendar-web/config';
 import {config as changeTrackingWebConfig} from './tests/change-tracking-web/config';
 import {config as clientExtensionWebConfig} from './tests/client-extension-web/config';
 import {config as commerceConfig} from './tests/commerce/config';
@@ -58,6 +59,7 @@ import {config as productNavigationUserPersonalBarWebConfig} from './tests/produ
 import {config as questionsWebConfig} from './tests/questions-web/config';
 import {config as rolesAdminWebConfig} from './tests/roles-admin-web/config';
 import {config as samlWebConfig} from './tests/saml-web/config';
+import {config as scimConfiguraitonWebConfig} from './tests/scim-configuration-web/config';
 import {config as searchExperiencesWebConfig} from './tests/search-experiences-web/config';
 import {
 	pageManagementSiteSetup,
@@ -67,6 +69,7 @@ import {config as siteAdminWebConfig} from './tests/site-admin-web/config';
 import {config as siteNavigationAdminWebConfig} from './tests/site-navigation-admin-web/config';
 import {config as stableConfig} from './tests/stable/config';
 import {config as stylebookWebConfig} from './tests/style-book-web/config';
+import {config as templateWebConfig} from './tests/template-web/config';
 import {config as usersAdminWebConfig} from './tests/users-admin-web/config';
 import {config as wikiWebConfig} from './tests/wiki-web/config';
 import {config as customerConfig} from './tests/workspaces/liferay-customer-workspace/config';
@@ -89,6 +92,7 @@ export default defineConfig({
 		announcementsWebConfig,
 		batchPlannerConfig,
 		blogsWebConfig,
+		calendarWebConfig,
 		cookiesBannerWebConfig,
 		changeTrackingWebConfig,
 		clientExtensionWebConfig,
@@ -141,11 +145,13 @@ export default defineConfig({
 		questionsWebConfig,
 		rolesAdminWebConfig,
 		samlWebConfig,
+		scimConfiguraitonWebConfig,
 		searchExperiencesWebConfig,
 		siteAdminWebConfig,
 		siteNavigationAdminWebConfig,
 		stableConfig,
 		stylebookWebConfig,
+		templateWebConfig,
 		usersAdminWebConfig,
 		wikiWebConfig,
 		...setupProjects,

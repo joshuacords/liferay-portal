@@ -7,16 +7,21 @@ import {expect, mergeTests} from '@playwright/test';
 
 import {accountsPagesTest} from '../../fixtures/accountsPagesTest';
 import {apiHelpersTest} from '../../fixtures/apiHelpersTest';
+import {applicationsMenuPageTest} from '../../fixtures/applicationsMenuPageTest';
 import {dataApiHelpersTest} from '../../fixtures/dataApiHelpersTest';
 import {loginTest} from '../../fixtures/loginTest';
+import {serverAdministrationPageTest} from '../../fixtures/serverAdministrationPageTest';
 import getRandomString from '../../utils/getRandomString';
 import performLogin, {performLogout, userData} from '../../utils/performLogin';
+import {waitForSuccessAlert} from '../../utils/waitForSuccessAlert';
 
 export const test = mergeTests(
 	accountsPagesTest,
 	apiHelpersTest,
+	applicationsMenuPageTest,
 	dataApiHelpersTest,
-	loginTest()
+	loginTest(),
+	serverAdministrationPageTest
 );
 
 test('LPD-18485 Update account contact information fields', async ({
@@ -308,4 +313,50 @@ test('LPD-32045 All account entry can be seen by admin user', async ({
 		await performLogout(page);
 		await performLogin(page, 'test');
 	}
+});
+
+test('LPD-33636 Email address is not deleted by saving in the UI', async ({
+	accountsPage,
+	apiHelpers,
+	applicationsMenuPage,
+	editAccountPage,
+	page,
+	serverAdministrationPage,
+}) => {
+	const account = await apiHelpers.headlessAdminUser.postAccount();
+
+	apiHelpers.data.push({id: account.id, type: 'account'});
+
+	await applicationsMenuPage.goToServerAdministration();
+
+	const emailAddress = getRandomString() + '@liferay.com';
+
+	const script = `
+		import com.liferay.account.model.*;
+		import com.liferay.account.service.*;
+		AccountEntry account = AccountEntryLocalServiceUtil.fetchAccountEntry(${account.id});
+		account.setEmailAddress("${emailAddress}");
+		AccountEntryLocalServiceUtil.updateAccountEntry(account);
+    `;
+
+	await serverAdministrationPage.executeScript(script);
+
+	await accountsPage.goto();
+	await (await accountsPage.accountsTableRowLink(account.name)).click();
+	await editAccountPage.saveButton.click();
+	await waitForSuccessAlert(page);
+
+	await applicationsMenuPage.goToServerAdministration();
+
+	const fetchScript = `
+		import com.liferay.account.model.*; 
+		import com.liferay.account.service.*;
+		AccountEntry account = AccountEntryLocalServiceUtil.fetchAccountEntry(${account.id});
+		out.println(account);
+	`;
+
+	await serverAdministrationPage.executeScript(fetchScript);
+	await expect(
+		page.getByText('"emailAddress": "' + emailAddress)
+	).toBeVisible();
 });

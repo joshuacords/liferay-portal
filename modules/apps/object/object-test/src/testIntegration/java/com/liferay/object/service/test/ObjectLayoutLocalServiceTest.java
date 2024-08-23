@@ -357,7 +357,7 @@ public class ObjectLayoutLocalServiceTest {
 
 		_objectDefinition =
 			ObjectDefinitionTestUtil.addModifiableSystemObjectDefinition(
-				TestPropsValues.getUserId(), null,
+				TestPropsValues.getUserId(), null, false,
 				LocalizedMapUtil.getLocalizedMap(RandomTestUtil.randomString()),
 				"Test", null, null,
 				LocalizedMapUtil.getLocalizedMap(RandomTestUtil.randomString()),
@@ -501,8 +501,9 @@ public class ObjectLayoutLocalServiceTest {
 				ObjectFieldConstants.BUSINESS_TYPE_TEXT, null, null,
 				ObjectFieldConstants.DB_TYPE_STRING, false, false, null,
 				LocalizedMapUtil.getLocalizedMap(RandomTestUtil.randomString()),
-				StringUtil.randomId(), ObjectFieldConstants.READ_ONLY_FALSE,
-				null, false, false, Collections.emptyList());
+				false, StringUtil.randomId(),
+				ObjectFieldConstants.READ_ONLY_FALSE, null, false, false,
+				Collections.emptyList());
 		}
 		else {
 			objectField = ObjectFieldUtil.addCustomObjectField(

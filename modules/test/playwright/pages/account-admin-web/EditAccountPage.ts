@@ -10,6 +10,7 @@ export class EditAccountPage {
 	readonly contactLink: Locator;
 	readonly page: Page;
 	readonly rolesLink: Locator;
+	readonly saveButton: Locator;
 	readonly usersLink: Locator;
 
 	constructor(page: Page) {
@@ -20,6 +21,7 @@ export class EditAccountPage {
 		this.contactLink = page.getByRole('link', {name: 'Contact'});
 		this.page = page;
 		this.rolesLink = page.getByRole('link', {exact: true, name: 'Roles'});
+		this.saveButton = page.getByRole('button', {name: 'Save'});
 		this.usersLink = page.getByRole('link', {exact: true, name: 'Users'});
 	}
 }

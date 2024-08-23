@@ -145,6 +145,30 @@ journalEditArticleDisplayContext.setViewAttributes();
 					<div class="c-gap-3 form-group-sm journal-article-button-row mb-0 tbar-section text-right">
 						<c:choose>
 							<c:when test='<%= FeatureFlagManagerUtil.isEnabled("LPD-11228") %>'>
+								<div class="align-items-center d-none small text-danger" id="<portlet:namespace />lockErrorIndicator">
+									<liferay-ui:message key="alert-helper-error" />
+
+									<clay:icon
+										cssClass="ml-2 mt-0"
+										symbol="exclamation-full"
+									/>
+								</div>
+
+								<div class="align-items-center d-none small" id="<portlet:namespace />savingChangesIndicator">
+									<liferay-ui:message key="saving" />
+
+									<span aria-hidden="true" class="d-inline-block loading-animation loading-animation-sm ml-2 my-0"></span>
+								</div>
+
+								<div class="align-items-center d-none small text-success" id="<portlet:namespace />changesSavedIndicator">
+									<liferay-ui:message key="saved" />
+
+									<clay:icon
+										cssClass="ml-2 mt-0"
+										symbol="check-circle"
+									/>
+								</div>
+
 								<div>
 									<react:component
 										module="{UndoRedo} from journal-web"
@@ -157,30 +181,6 @@ journalEditArticleDisplayContext.setViewAttributes();
 												"languageId", journalEditArticleDisplayContext.getSelectedLanguageId()
 											).build()
 										%>'
-									/>
-								</div>
-
-								<div class="align-items-center d-none mx-3 small text-danger" id="<portlet:namespace />lockErrorIndicator">
-									<liferay-ui:message key="alert-helper-error" />
-
-									<clay:icon
-										cssClass="ml-2 mt-0"
-										symbol="exclamation-full"
-									/>
-								</div>
-
-								<div class="align-items-center d-none mx-3 small" id="<portlet:namespace />savingChangesIndicator">
-									<liferay-ui:message key="saving" />
-
-									<span aria-hidden="true" class="d-inline-block loading-animation loading-animation-sm ml-2 my-0"></span>
-								</div>
-
-								<div class="align-items-center d-none mx-3 small text-success" id="<portlet:namespace />changesSavedIndicator">
-									<liferay-ui:message key="saved" />
-
-									<clay:icon
-										cssClass="ml-2"
-										symbol="check-circle"
 									/>
 								</div>
 							</c:when>
@@ -400,15 +400,16 @@ journalEditArticleDisplayContext.setViewAttributes();
 						</div>
 
 						<div id="<portlet:namespace />content">
-							<clay:panel
-								displayTitle='<%= LanguageUtil.get(request, "fields") %>'
-								displayType="block"
-								expanded="<%= true %>"
+							<liferay-frontend:fieldset
+								collapsed="<%= false %>"
+								collapsible="<%= true %>"
+								cssClass="edit-article-panel"
+								label="fields"
 							>
 								<div class="c-px-2 panel-body">
 									<%@ include file="/article_content.jspf" %>
 								</div>
-							</clay:panel>
+							</liferay-frontend:fieldset>
 						</div>
 
 						<div>

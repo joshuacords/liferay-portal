@@ -88,7 +88,7 @@ test('Can switch template with web content on widget page.', async ({
 		text: `${webContentText1} `,
 		uiElementsPage,
 		webContentDisplayPage,
-		webContentName: `${webContentName1} `,
+		webContentName: webContentName1,
 		widgetPagePage,
 	});
 
@@ -103,7 +103,7 @@ test('Can switch template with web content on widget page.', async ({
 		text: `${webContentText2} `,
 		uiElementsPage,
 		webContentDisplayPage,
-		webContentName: `${webContentName2} `,
+		webContentName: webContentName2,
 		widgetPagePage,
 	});
 	const layoutSetPrototypes: LayoutSetPrototype[] =
@@ -183,7 +183,7 @@ test('Can switch template with web content on content page.', async ({
 		text: `${webContentText1} `,
 		uiElementsPage,
 		webContentDisplayPage,
-		webContentName: `${webContentName1} `,
+		webContentName: webContentName1,
 	});
 
 	await createSiteTemplateWithWebContentOnContentPage({
@@ -198,7 +198,7 @@ test('Can switch template with web content on content page.', async ({
 		text: `${webContentText2} `,
 		uiElementsPage,
 		webContentDisplayPage,
-		webContentName: `${webContentName2} `,
+		webContentName: webContentName2,
 	});
 
 	const layoutSetPrototypes: LayoutSetPrototype[] =
@@ -283,7 +283,7 @@ test('Can switch template with web content on home page.', async ({
 		text: `${webContentText1} `,
 		uiElementsPage,
 		webContentDisplayPage,
-		webContentName: `${webContentName1} `,
+		webContentName: webContentName1,
 	});
 
 	await createSiteTemplateWithWebContentOnHomePage({
@@ -298,7 +298,7 @@ test('Can switch template with web content on home page.', async ({
 		text: `${webContentText2} `,
 		uiElementsPage,
 		webContentDisplayPage,
-		webContentName: `${webContentName2} `,
+		webContentName: webContentName2,
 	});
 
 	const layoutSetPrototypes: LayoutSetPrototype[] =
@@ -427,7 +427,7 @@ async function createSiteTemplateWithWebContentOnWidgetPage({
 	await productMenuPage.openProductMenuIfClosed();
 	await productMenuPage.goToWebContent();
 	await journalPage.goToCreateArticle();
-	await journalPage.fillArticleData(webContentName, text);
+	await journalPage.fillArticleDataSiteTemplate(webContentName, text);
 	await journalPage.publishArticle();
 
 	await productMenuPage.goToPages();
@@ -487,7 +487,7 @@ async function createSiteTemplateWithWebContentOnContentPage({
 	await productMenuPage.openProductMenuIfClosed();
 	await productMenuPage.goToWebContent();
 	await journalPage.goToCreateArticle();
-	await journalPage.fillArticleData(webContentName, text);
+	await journalPage.fillArticleDataSiteTemplate(webContentName, text);
 	await journalPage.publishArticle();
 
 	await productMenuPage.goToPages();
@@ -539,7 +539,7 @@ async function createSiteTemplateWithWebContentOnHomePage({
 	await productMenuPage.openProductMenuIfClosed();
 	await productMenuPage.goToWebContent();
 	await journalPage.goToCreateArticle();
-	await journalPage.fillArticleData(webContentName, text);
+	await journalPage.fillArticleDataSiteTemplate(webContentName, text);
 	await journalPage.publishArticle();
 
 	await productMenuPage.goToPages();

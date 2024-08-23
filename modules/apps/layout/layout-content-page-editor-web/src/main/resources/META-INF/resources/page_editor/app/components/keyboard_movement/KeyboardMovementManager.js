@@ -17,7 +17,10 @@ import {
 	HOME_KEY_CODE,
 } from '../../config/constants/keyboardCodes';
 import {LAYOUT_DATA_ITEM_TYPES} from '../../config/constants/layoutDataItemTypes';
-import {useSelectItem} from '../../contexts/ControlsContext';
+import {
+	useSelectItem,
+	useSelectMultipleItems,
+} from '../../contexts/ControlsContext';
 import {
 	useDisableKeyboardMovement,
 	useMovementSource,
@@ -61,7 +64,12 @@ export default function KeyboardMovementManager() {
 	const setTarget = useSetMovementTarget();
 	const setText = useSetMovementText();
 	const selectItem = useSelectItem();
+	const selectMultipleItems = useSelectMultipleItems();
 	const dispatch = useDispatch();
+
+	const selectItems = Liferay.FeatureFlags['LPD-18221']
+		? selectMultipleItems
+		: selectItem;
 
 	keymapRef.current = {
 		disableMovement: {
@@ -110,7 +118,7 @@ export default function KeyboardMovementManager() {
 								portletId: source.portletId,
 								portletItemId: source.portletItemId,
 								position,
-								selectItem,
+								selectItems,
 							});
 						}
 						else {
@@ -119,7 +127,7 @@ export default function KeyboardMovementManager() {
 								groupId: source.groupId,
 								parentItemId: dropItemId,
 								position,
-								selectItem,
+								selectItems,
 								type: source.type,
 							});
 						}
@@ -129,7 +137,7 @@ export default function KeyboardMovementManager() {
 							itemType: source.type,
 							parentItemId: dropItemId,
 							position,
-							selectItem,
+							selectItems,
 						});
 					}
 				}
@@ -335,7 +343,7 @@ export function getInitialTarget(source, layoutDataRef, fragmentEntryLinksRef) {
 				// This child is targetable
 
 				const childName = selectLayoutDataItemLabel(
-					{fragmentEntryLinks},
+					{fragmentEntryLinks, layoutData},
 					child
 				);
 
@@ -469,7 +477,7 @@ function getNextTarget(
 		}
 
 		const name = selectLayoutDataItemLabel(
-			{fragmentEntryLinks},
+			{fragmentEntryLinks, layoutData},
 			nextTargetItem
 		);
 

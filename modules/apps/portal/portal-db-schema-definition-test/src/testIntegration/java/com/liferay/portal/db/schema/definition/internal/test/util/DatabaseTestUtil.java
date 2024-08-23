@@ -23,7 +23,9 @@ import java.sql.ResultSet;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.sql.DataSource;
 
@@ -130,14 +132,41 @@ public class DatabaseTestUtil {
 		return tableColumnNames;
 	}
 
+	public static Set<String> getViewNames(DataSource dataSource)
+		throws Exception {
+
+		Set<String> viewNames = new HashSet<>();
+
+		try (Connection connection = dataSource.getConnection()) {
+			DatabaseMetaData databaseMetaData = connection.getMetaData();
+
+			try (ResultSet resultSet = databaseMetaData.getTables(
+					connection.getCatalog(), connection.getSchema(), null,
+					new String[] {"VIEW"})) {
+
+				while (resultSet.next()) {
+					viewNames.add(resultSet.getString("TABLE_NAME"));
+				}
+			}
+		}
+
+		return viewNames;
+	}
+
 	public static void importFile(File file, DataSource targetDataSource)
 		throws Exception {
 
-		DB db = DBManagerUtil.getDB(
-			DBManagerUtil.getDBType(), targetDataSource);
+		importSQL(FileUtil.read(file), targetDataSource);
+	}
+
+	public static void importSQL(String sql, DataSource targetDataSource)
+		throws Exception {
 
 		try (Connection connection = targetDataSource.getConnection()) {
-			db.runSQLTemplate(connection, FileUtil.read(file), true);
+			DB db = DBManagerUtil.getDB(
+				DBManagerUtil.getDBType(), targetDataSource);
+
+			db.runSQLTemplate(connection, sql, true);
 		}
 	}
 
@@ -164,7 +193,6 @@ public class DatabaseTestUtil {
 					StringUtil.merge(
 						new Object[] {
 							tableName, resultSet.getString("NON_UNIQUE"),
-							resultSet.getString("INDEX_NAME"),
 							resultSet.getString("COLUMN_NAME"),
 							resultSet.getShort("ORDINAL_POSITION")
 						}));

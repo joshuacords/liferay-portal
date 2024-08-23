@@ -102,9 +102,7 @@ function TopperContent({
 	const editableProcessorUniqueId = useEditableProcessorUniqueId();
 	const hoverItem = useHoverItem();
 	const {isOverTarget, targetPosition, targetRef} = useDropTarget(item);
-	const isMultiSelect = Liferay.FeatureFlags['LPD-18221']
-		? activeItemIds.length > 1
-		: false;
+	const isMultiSelect = activeItemIds.length > 1;
 	const {itemId: keyboardMovementTargetId} = useMovementTarget();
 	const keyboardMovementPosition = useMovementTargetPosition();
 	const selectItem = useSelectItem();
@@ -125,7 +123,10 @@ function TopperContent({
 			? item.children.includes(dropContainerId)
 			: isDropContainer) && isDroppable;
 
-	const canBeDragged = canUpdatePageStructure && !editableProcessorUniqueId;
+	const canBeDragged =
+		canUpdatePageStructure &&
+		!editableProcessorUniqueId &&
+		item.type !== LAYOUT_DATA_ITEM_TYPES.formStepContainer;
 
 	const name = useSelectorCallback(
 		(state) => selectLayoutDataItemLabel(state, item),

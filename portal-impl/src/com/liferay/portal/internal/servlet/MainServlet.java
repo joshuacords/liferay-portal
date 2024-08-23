@@ -215,7 +215,7 @@ public class MainServlet extends HttpServlet {
 		servletContext.setAttribute(MainServlet.class.getName(), Boolean.TRUE);
 
 		_portalRequestProcessor = new PortalRequestProcessor(
-			servletContext, _init());
+			_init(), servletContext, getServletName());
 
 		if (_log.isDebugEnabled()) {
 			_log.debug("Verify JVM configuration");
@@ -1131,29 +1131,10 @@ public class MainServlet extends HttpServlet {
 
 			_log.error(exception);
 
-			httpServletRequest.setAttribute(StrutsUtil.EXCEPTION, exception);
-
 			StrutsUtil.forward(
-				PropsValues.SERVLET_SERVICE_EVENTS_PRE_ERROR_PAGE,
-				getServletContext(), httpServletRequest, httpServletResponse);
-
-			if (exception == httpServletRequest.getAttribute(
-					StrutsUtil.EXCEPTION)) {
-
-				httpServletRequest.removeAttribute(StrutsUtil.EXCEPTION);
-				httpServletRequest.removeAttribute(
-					RequestDispatcher.ERROR_EXCEPTION);
-				httpServletRequest.removeAttribute(
-					RequestDispatcher.ERROR_EXCEPTION_TYPE);
-				httpServletRequest.removeAttribute(
-					RequestDispatcher.ERROR_MESSAGE);
-				httpServletRequest.removeAttribute(
-					RequestDispatcher.ERROR_REQUEST_URI);
-				httpServletRequest.removeAttribute(
-					RequestDispatcher.ERROR_SERVLET_NAME);
-				httpServletRequest.removeAttribute(
-					RequestDispatcher.ERROR_STATUS_CODE);
-			}
+				httpServletRequest, httpServletResponse, getServletContext(),
+				getServletName(), exception,
+				PropsValues.SERVLET_SERVICE_EVENTS_PRE_ERROR_PAGE);
 
 			return true;
 		}

@@ -22,6 +22,7 @@ import {HeadlessCommerceAdminInventoryApiHelper} from './HeadlessCommerceAdminIn
 import {HeadlessCommerceAdminOrderApiHelper} from './HeadlessCommerceAdminOrderApiHelper';
 import {HeadlessCommerceAdminPaymentApiHelper} from './HeadlessCommerceAdminPaymentApiHelper';
 import {HeadlessCommerceAdminPricingApiHelper} from './HeadlessCommerceAdminPricingApiHelper';
+import {HeadlessCommerceAdminShipmentApiHelper} from './HeadlessCommerceAdminShipmentApiHelper';
 import {HeadlessCommerceDeliveryCartApiHelper} from './HeadlessCommerceDeliveryCartApiHelper';
 import {HeadlessCommerceDeliveryCatalogApiHelper} from './HeadlessCommerceDeliveryCatalogApiHelper';
 import {HeadlessCommerceReturnApiHelper} from './HeadlessCommerceReturnApiHelper';
@@ -31,6 +32,7 @@ import {ListTypeAdminApiHelper} from './ListTypeAdminApiHelper';
 import {NotificationApiHelper} from './NotificationApiHelper';
 import {ObjectAdminApiHelper} from './ObjectAdminApiHelper';
 import {ObjectEntryApiHelper} from './ObjectEntryApiHelper';
+import {SCIMApiHelper} from './SCIMApiHelper';
 import {SearchExperiencesApiHelper} from './SearchExperiencesApiHelper';
 import {JSONWebServicesAnnouncementsEntryApiHelper} from './json-web-services/JSONWebServicesAnnouncementsEntryApiHelper';
 import {JSONWebServicesClassNameApiHelper} from './json-web-services/JSONWebServicesClassNameApiHelper';
@@ -40,6 +42,7 @@ import {JSONWebServicesDDMApiHelper} from './json-web-services/JSONWebServicesDD
 import {JSONWebServicesGroupApiHelper} from './json-web-services/JSONWebServicesGroupApiHelper';
 import {JSONWebServicesJournalApiHelper} from './json-web-services/JSONWebServicesJournalApiHelper';
 import {JSONWebServicesLayoutApiHelper} from './json-web-services/JSONWebServicesLayoutApiHelper';
+import {JSONWebServicesLayoutPageTemplateEntryApiHelper} from './json-web-services/JSONWebServicesLayoutPageTemplateEntry';
 import {JSONWebServicesLayoutSetPrototypeApiHelper} from './json-web-services/JSONWebServicesLayoutSetPrototypeApiHelper';
 import {JSONWebServicesMBApiHelper} from './json-web-services/JSONWebServicesMBApiHelper';
 import {JSONWebServicesOSBAsahApiHelper} from './json-web-services/JSONWebServicesOSBAsahApiHelper';
@@ -76,6 +79,7 @@ export class ApiHelpers {
 	readonly headlessCommerceAdminOrder: HeadlessCommerceAdminOrderApiHelper;
 	readonly headlessCommerceAdminPaymentApiHelper: HeadlessCommerceAdminPaymentApiHelper;
 	readonly headlessCommerceAdminPricing: HeadlessCommerceAdminPricingApiHelper;
+	readonly headlessCommerceAdminShipment: HeadlessCommerceAdminShipmentApiHelper;
 	readonly headlessCommerceDeliveryCatalog: HeadlessCommerceDeliveryCatalogApiHelper;
 	readonly headlessCommerceDeliveryCart: HeadlessCommerceDeliveryCartApiHelper;
 	readonly headlessCommerceReturn: HeadlessCommerceReturnApiHelper;
@@ -89,6 +93,7 @@ export class ApiHelpers {
 	readonly jsonWebServicesGroup: JSONWebServicesGroupApiHelper;
 	readonly jsonWebServicesJournal: JSONWebServicesJournalApiHelper;
 	readonly jsonWebServicesLayout: JSONWebServicesLayoutApiHelper;
+	readonly jsonWebServicesLayoutPageTemplateEntry: JSONWebServicesLayoutPageTemplateEntryApiHelper;
 	readonly jsonWebServicesLayoutSetPrototype: JSONWebServicesLayoutSetPrototypeApiHelper;
 	readonly jsonWebServicesMBApiHelper: JSONWebServicesMBApiHelper;
 	readonly jsonWebServicesOSBAsah: JSONWebServicesOSBAsahApiHelper;
@@ -99,6 +104,7 @@ export class ApiHelpers {
 	readonly objectAdmin: ObjectAdminApiHelper;
 	readonly objectEntry: ObjectEntryApiHelper;
 	readonly page: Page;
+	readonly scim: SCIMApiHelper;
 	readonly searchExperiences: SearchExperiencesApiHelper;
 
 	private static readonly _authorization = `Basic ${btoa(
@@ -130,6 +136,8 @@ export class ApiHelpers {
 			new HeadlessCommerceAdminPaymentApiHelper(this);
 		this.headlessCommerceAdminPricing =
 			new HeadlessCommerceAdminPricingApiHelper(this);
+		this.headlessCommerceAdminShipment =
+			new HeadlessCommerceAdminShipmentApiHelper(this);
 		this.headlessCommerceDeliveryCatalog =
 			new HeadlessCommerceDeliveryCatalogApiHelper(this);
 		this.headlessCommerceDeliveryCart =
@@ -149,6 +157,8 @@ export class ApiHelpers {
 		this.jsonWebServicesGroup = new JSONWebServicesGroupApiHelper(this);
 		this.jsonWebServicesJournal = new JSONWebServicesJournalApiHelper(this);
 		this.jsonWebServicesLayout = new JSONWebServicesLayoutApiHelper(this);
+		this.jsonWebServicesLayoutPageTemplateEntry =
+			new JSONWebServicesLayoutPageTemplateEntryApiHelper(this);
 		this.jsonWebServicesLayoutSetPrototype =
 			new JSONWebServicesLayoutSetPrototypeApiHelper(this);
 		this.jsonWebServicesMBApiHelper = new JSONWebServicesMBApiHelper(this);
@@ -160,6 +170,7 @@ export class ApiHelpers {
 		this.objectAdmin = new ObjectAdminApiHelper(this);
 		this.objectEntry = new ObjectEntryApiHelper(this);
 		this.page = page;
+		this.scim = new SCIMApiHelper(this);
 		this.searchExperiences = new SearchExperiencesApiHelper(this);
 	}
 
@@ -414,6 +425,12 @@ export class DataApiHelpers extends ApiHelpers {
 					break;
 				case 'skuUnitOfMeasure':
 					await this.headlessCommerceAdminCatalog.deleteSkuUnitOfMeasure(
+						item.id
+					);
+
+					break;
+				case 'shipment':
+					await this.headlessCommerceAdminShipment.deleteShipment(
 						item.id
 					);
 

@@ -25,6 +25,7 @@ import {
 	LEMON_BASKET_OBJECT_ERC,
 	LEMON_OBJECT_ERC,
 } from '../setup/page-management-site/constants';
+import getContainerDefinition from './utils/getContainerDefinition';
 import getFormContainerDefinition from './utils/getFormContainerDefinition';
 import getFragmentDefinition from './utils/getFragmentDefinition';
 import getPageDefinition from './utils/getPageDefinition';
@@ -167,6 +168,124 @@ test.describe('Content Display Fragment', () => {
 });
 
 test.describe('Dropdown Fragment', () => {
+	test('Check the functionality of the Dropdown fragment', async ({
+		apiHelpers,
+		page,
+		pageEditorPage,
+		site,
+	}) => {
+
+		// Create content page with a Dropdown fragment inside a Container
+
+		const dropdownId = getRandomString();
+
+		const dropdownDefinition = getFragmentDefinition({
+			id: dropdownId,
+			key: 'BASIC_COMPONENT-dropdown',
+		});
+
+		const containerWidth = '300px';
+
+		const containerDefinition = getContainerDefinition({
+			fragmentStyle: {width: containerWidth},
+			id: getRandomString(),
+			pageElements: [dropdownDefinition],
+		});
+
+		const layout = await apiHelpers.headlessDelivery.createSitePage({
+			pageDefinition: getPageDefinition([containerDefinition]),
+			siteId: site.id,
+			title: getRandomString(),
+		});
+
+		await pageEditorPage.goto(layout, site.friendlyUrlPath);
+
+		// Change the dropdown button text
+
+		await pageEditorPage.selectFragment(dropdownId);
+
+		await pageEditorPage.editTextEditable(
+			dropdownId,
+			'dropdown-text',
+			'My Dropdown'
+		);
+
+		const dropdownButton = page
+			.locator('button')
+			.filter({hasText: 'My Dropdown'});
+
+		const dropdownMenu = page.locator('.dropdown-fragment-menu');
+
+		// Check that the dropdown menu opens when hovering over the fragment
+
+		await pageEditorPage.changeFragmentConfiguration({
+			fieldLabel: 'Display on Hover',
+			fragmentId: dropdownId,
+			tab: 'General',
+			value: true,
+		});
+
+		await dropdownButton.hover();
+
+		await expect(dropdownButton).toHaveAttribute('aria-expanded', 'true');
+		await expect(dropdownMenu).toBeVisible();
+
+		await page.locator('#banner.page-editor__disabled-area').hover();
+
+		await expect(dropdownButton).toHaveAttribute('aria-expanded', 'false');
+		await expect(dropdownMenu).not.toBeVisible();
+
+		// Check that the dropdown menu always keeps open in edit mode
+
+		await pageEditorPage.changeFragmentConfiguration({
+			fieldLabel: 'Keep Panel Open in Edit Mode',
+			fragmentId: dropdownId,
+			tab: 'General',
+			value: true,
+		});
+
+		await pageEditorPage.publishPage();
+
+		await pageEditorPage.goto(layout, site.friendlyUrlPath);
+
+		await expect(dropdownButton).toHaveAttribute('aria-expanded', 'true');
+		await expect(dropdownMenu).toBeVisible();
+
+		// Change the Panel Type config and check that it works correctly
+
+		await pageEditorPage.changeFragmentConfiguration({
+			fieldLabel: 'Panel Type',
+			fragmentId: dropdownId,
+			tab: 'General',
+			value: 'Full Width',
+		});
+
+		await expect(dropdownMenu).toHaveCSS('width', containerWidth);
+
+		await pageEditorPage.changeFragmentConfiguration({
+			fieldLabel: 'Panel Type',
+			fragmentId: dropdownId,
+			tab: 'General',
+			value: 'Mega Menu',
+		});
+
+		const layoutWidth = await page
+			.locator('.page-editor__layout-viewport')
+			.evaluate((element) => element.getBoundingClientRect().width);
+
+		await expect(dropdownMenu).toHaveCSS('width', `${layoutWidth}px`);
+
+		// Check that a fragment can be added to the dropzone
+
+		await pageEditorPage.addFragment(
+			'Basic Components',
+			'Heading',
+			page.getByText('Place fragments or widgets here.', {exact: true})
+		);
+
+		await expect(page.getByText('Heading Example')).toBeVisible();
+	});
+
 	test('Check dropdown menu is displayed correctly in all resolutions', async ({
 		apiHelpers,
 		page,

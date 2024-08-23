@@ -93,6 +93,14 @@ const translationTest = mergeTests(
 	})
 );
 
+const translationAndAutosaveTest = mergeTests(
+	translationTest,
+	featureFlagsTest({
+		'LPD-11228': true,
+		'LPD-15596': true,
+	})
+);
+
 const privateContentIconTest = mergeTests(baseTest);
 
 autoSaveAsDraftTest(
@@ -1459,6 +1467,57 @@ autoSaveAsDraftTest(
 	}
 );
 
+autoSaveAsDraftTest(
+	'Web Content version, status and ID are shown and updated after auto save',
+	{
+		tag: '@LPD-32874',
+	},
+	async ({journalEditArticlePage, page, site}) => {
+		await journalEditArticlePage.goto({siteUrl: site.friendlyUrlPath});
+
+		const title = getRandomString();
+
+		await journalEditArticlePage.fillTitle(title);
+
+		await expect(
+			journalEditArticlePage.changesSavedIndicator
+		).toBeVisible();
+
+		await expect(page.getByText('1.0')).toBeVisible();
+
+		await expect(page.getByText('Draft', {exact: true})).toBeVisible();
+
+		await expect(page.getByText('ID', {exact: true})).toBeVisible();
+
+		await journalEditArticlePage.publishArticle();
+
+		await page.getByLabel(`Actions for ${title}`).waitFor();
+
+		await clickAndExpectToBeVisible({
+			autoClick: true,
+			target: page.getByRole('menuitem', {
+				exact: true,
+				name: 'Edit',
+			}),
+			trigger: page.getByLabel(`Actions for ${title}`, {
+				exact: true,
+			}),
+		});
+
+		await expect(async () => {
+			await journalEditArticlePage.fillTitle(getRandomString());
+
+			await expect(
+				journalEditArticlePage.changesSavedIndicator
+			).toBeVisible();
+		}).toPass();
+
+		await expect(page.getByText('1.1')).toBeVisible();
+
+		await expect(page.getByText('Draft', {exact: true})).toBeVisible();
+	}
+);
+
 scheduleTest(
 	'Change permission of a web content in edition mode',
 	async ({journalEditArticlePage, journalPage, page, site}) => {
@@ -1736,5 +1795,27 @@ scheduleTest(
 			articleDate,
 			{workflow: true}
 		);
+	}
+);
+
+translationAndAutosaveTest(
+	'Web Content is published when Feature Flags LPS-114700, LPD-11228 and LPD-15596 are active',
+	{
+		tag: '@LPD-33570',
+	},
+	async ({journalEditArticlePage, page, site}) => {
+		await journalEditArticlePage.goto({siteUrl: site.friendlyUrlPath});
+
+		const articleTitle = 'Web Content Title';
+
+		journalEditArticlePage.createAndPublishBasicArticle(articleTitle);
+
+		await expect(page.getByTitle(articleTitle)).toBeVisible();
+
+		await expect(
+			page.locator(
+				'[id="_com_liferay_journal_web_portlet_JournalPortlet_articles_1"] span.label-item'
+			)
+		).toHaveText('Approved');
 	}
 );

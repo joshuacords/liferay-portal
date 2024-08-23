@@ -1054,7 +1054,7 @@ public class ObjectFieldLocalServiceTest {
 	public void testAddOrUpdateSystemObjectField() throws Exception {
 		ObjectDefinition modifiableSystemObjectDefinition =
 			ObjectDefinitionTestUtil.addModifiableSystemObjectDefinition(
-				TestPropsValues.getUserId(), null,
+				TestPropsValues.getUserId(), null, true,
 				LocalizedMapUtil.getLocalizedMap(RandomTestUtil.randomString()),
 				"Test", null, null,
 				LocalizedMapUtil.getLocalizedMap(RandomTestUtil.randomString()),
@@ -1064,10 +1064,10 @@ public class ObjectFieldLocalServiceTest {
 		ObjectField systemObjectField = _addOrUpdateSystemObjectField(
 			null, modifiableSystemObjectDefinition.getObjectDefinitionId(),
 			null, null, false, false, LocalizedMapUtil.getLocalizedMap("Able"),
-			"able", false);
+			false, "able", false);
 
 		_assertSystemObjectField(
-			"able", false, false, LocalizedMapUtil.getLocalizedMap("Able"),
+			"able_", false, false, LocalizedMapUtil.getLocalizedMap("Able"),
 			false, systemObjectField);
 		_assertSystemObjectField(
 			"able_", true, true, LocalizedMapUtil.getLocalizedMap("Baker"),
@@ -1076,8 +1076,20 @@ public class ObjectFieldLocalServiceTest {
 				systemObjectField.getExternalReferenceCode(),
 				modifiableSystemObjectDefinition.getObjectDefinitionId(),
 				RandomTestUtil.randomString(), RandomTestUtil.randomString(),
-				true, true, LocalizedMapUtil.getLocalizedMap("Baker"), "able",
-				true));
+				true, true, LocalizedMapUtil.getLocalizedMap("Baker"), false,
+				"able", true));
+
+		ObjectField localizedSystemObjectField = _addOrUpdateSystemObjectField(
+			null, modifiableSystemObjectDefinition.getObjectDefinitionId(),
+			RandomTestUtil.randomString(), RandomTestUtil.randomString(), false,
+			false, LocalizedMapUtil.getLocalizedMap("Charlie"), true, "charlie",
+			false);
+
+		Assert.assertTrue(localizedSystemObjectField.isLocalized());
+
+		_objectDefinitionLocalService.publishSystemObjectDefinition(
+			TestPropsValues.getUserId(),
+			modifiableSystemObjectDefinition.getObjectDefinitionId());
 
 		// Requests from forbidden bundles can only update the label
 
@@ -1087,14 +1099,14 @@ public class ObjectFieldLocalServiceTest {
 
 		try {
 			_assertSystemObjectField(
-				"able_", true, true,
-				LocalizedMapUtil.getLocalizedMap("Charlie"), true,
+				"able_", true, true, LocalizedMapUtil.getLocalizedMap("Dog"),
+				true,
 				_addOrUpdateSystemObjectField(
 					systemObjectField.getExternalReferenceCode(),
 					modifiableSystemObjectDefinition.getObjectDefinitionId(),
 					RandomTestUtil.randomString(),
 					RandomTestUtil.randomString(), false, false,
-					LocalizedMapUtil.getLocalizedMap("Charlie"), "able",
+					LocalizedMapUtil.getLocalizedMap("Dog"), false, "able",
 					false));
 		}
 		finally {
@@ -1102,7 +1114,7 @@ public class ObjectFieldLocalServiceTest {
 		}
 
 		_objectDefinitionLocalService.deleteObjectDefinition(
-			modifiableSystemObjectDefinition);
+			modifiableSystemObjectDefinition.getObjectDefinitionId());
 	}
 
 	@Test
@@ -1271,7 +1283,7 @@ public class ObjectFieldLocalServiceTest {
 
 		ObjectDefinition modifiableSystemObjectDefinition =
 			ObjectDefinitionTestUtil.addModifiableSystemObjectDefinition(
-				TestPropsValues.getUserId(), null,
+				TestPropsValues.getUserId(), null, false,
 				LocalizedMapUtil.getLocalizedMap(RandomTestUtil.randomString()),
 				"Test", null, null,
 				LocalizedMapUtil.getLocalizedMap(RandomTestUtil.randomString()),
@@ -1514,7 +1526,7 @@ public class ObjectFieldLocalServiceTest {
 
 		ObjectDefinition modifiableSystemObjectDefinition =
 			ObjectDefinitionTestUtil.addModifiableSystemObjectDefinition(
-				TestPropsValues.getUserId(), null,
+				TestPropsValues.getUserId(), null, false,
 				LocalizedMapUtil.getLocalizedMap(RandomTestUtil.randomString()),
 				"Test", null, null,
 				LocalizedMapUtil.getLocalizedMap(RandomTestUtil.randomString()),
@@ -2191,15 +2203,15 @@ public class ObjectFieldLocalServiceTest {
 	private ObjectField _addOrUpdateSystemObjectField(
 			String externalReferenceCode, long objectDefinitionId,
 			String dbColumnName, String dbTableName, boolean indexed,
-			boolean indexedAsKeyword, Map<Locale, String> labelMap, String name,
-			boolean required)
+			boolean indexedAsKeyword, Map<Locale, String> labelMap,
+			boolean localized, String name, boolean required)
 		throws Exception {
 
 		return _objectFieldLocalService.addOrUpdateSystemObjectField(
 			externalReferenceCode, TestPropsValues.getUserId(), 0L,
 			objectDefinitionId, ObjectFieldConstants.BUSINESS_TYPE_TEXT,
 			dbColumnName, dbTableName, ObjectFieldConstants.DB_TYPE_STRING,
-			indexed, indexedAsKeyword, "", labelMap, name,
+			indexed, indexedAsKeyword, "", labelMap, localized, name,
 			ObjectFieldConstants.READ_ONLY_FALSE, null, required, false,
 			Collections.emptyList());
 	}
@@ -2323,7 +2335,7 @@ public class ObjectFieldLocalServiceTest {
 			null, TestPropsValues.getUserId(), 0L, objectDefinitionId,
 			ObjectFieldConstants.BUSINESS_TYPE_TEXT, null, null,
 			ObjectFieldConstants.DB_TYPE_STRING, false, true, "",
-			LocalizedMapUtil.getLocalizedMap(name), name,
+			LocalizedMapUtil.getLocalizedMap(name), false, name,
 			ObjectFieldConstants.READ_ONLY_FALSE, null, false, false,
 			objectFieldSettings);
 	}

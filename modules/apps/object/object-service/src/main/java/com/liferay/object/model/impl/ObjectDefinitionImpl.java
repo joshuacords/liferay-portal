@@ -123,7 +123,7 @@ public class ObjectDefinitionImpl extends ObjectDefinitionBaseImpl {
 		}
 
 		if (!isRootDescendantNode()) {
-			if (isModifiable() && isSystem()) {
+			if (isModifiableAndSystem()) {
 				return ObjectDefinitionUtil.
 					getModifiableSystemObjectDefinitionRESTContextPath(
 						getName());
@@ -138,7 +138,7 @@ public class ObjectDefinitionImpl extends ObjectDefinitionBaseImpl {
 			ObjectDefinitionLocalServiceUtil.fetchObjectDefinition(
 				getRootObjectDefinitionId());
 
-		if (isModifiable() && isSystem()) {
+		if (isModifiableAndSystem()) {
 			String rootRESTContextPath =
 				ObjectDefinitionUtil.
 					getModifiableSystemObjectDefinitionRESTContextPath(
@@ -209,6 +209,15 @@ public class ObjectDefinitionImpl extends ObjectDefinitionBaseImpl {
 		}
 
 		return true;
+	}
+
+	@Override
+	public boolean isModifiableAndSystem() {
+		if (isModifiable() && isSystem()) {
+			return true;
+		}
+
+		return false;
 	}
 
 	@Override

@@ -6,6 +6,7 @@
 import {expect} from '@playwright/test';
 
 import {liferayConfig} from '../../liferay.config';
+import getRandomString from '../../utils/getRandomString';
 import {ApiHelpers} from '../ApiHelpers';
 
 export class JSONWebServicesLayoutApiHelper {
@@ -34,12 +35,14 @@ export class JSONWebServicesLayoutApiHelper {
 	async addLayout({
 		externalReferenceCode = '',
 		groupId,
+		masterLayoutPlid = '0',
 		options = {type: 'portlet'},
 		parentLayoutId = '0',
 		title,
 	}: {
 		externalReferenceCode?: string;
 		groupId: string;
+		masterLayoutPlid?: string;
 		options?: {publish?: boolean; type: string};
 		parentLayoutId?: string;
 		title: string;
@@ -58,12 +61,26 @@ export class JSONWebServicesLayoutApiHelper {
 		urlSearchParams.append('groupId', groupId);
 		urlSearchParams.append('privateLayout', 'false');
 		urlSearchParams.append('parentLayoutId', parentLayoutId);
-		urlSearchParams.append('name', name);
-		urlSearchParams.append('title', title);
-		urlSearchParams.append('description', '');
+		urlSearchParams.append('localeNamesMap', JSON.stringify({en_US: name}));
+		urlSearchParams.append(
+			'localeTitlesMap',
+			JSON.stringify({en_US: title})
+		);
+		urlSearchParams.append(
+			'descriptionMap',
+			JSON.stringify({en_US: getRandomString()})
+		);
+		urlSearchParams.append('keywordsMap', JSON.stringify({en_US: ''}));
+		urlSearchParams.append('robotsMap', JSON.stringify({en_US: ''}));
 		urlSearchParams.append('type', options.type);
+		urlSearchParams.append('typeSettings', '');
 		urlSearchParams.append('hidden', 'false');
-		urlSearchParams.append('friendlyURL', `/${title}`);
+		urlSearchParams.append(
+			'friendlyURLMap',
+			JSON.stringify({en_US: `/${title}`})
+		);
+		urlSearchParams.append('masterLayoutPlid', masterLayoutPlid);
+		urlSearchParams.append('serviceContext', JSON.stringify({}));
 
 		const layout = await this.apiHelpers.post(
 			`${liferayConfig.environment.baseUrl}${this.basePath}/add-layout`,

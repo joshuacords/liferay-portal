@@ -64,6 +64,8 @@ export class FiltersPage {
 	private readonly newFilterModal: NewFilterModal;
 	private readonly newSelectionFilterModal: NewSelectionFilterModal;
 	readonly page: Page;
+	readonly searchButton: Locator;
+	readonly searchInput: Locator;
 
 	constructor(page: Page) {
 		this.dataSetPage = new DataSetPage(page);
@@ -143,15 +145,11 @@ export class FiltersPage {
 				.filter({hasText: 'SourceRequired'}),
 		};
 		this.page = page;
+		this.searchButton = page.getByLabel('Search');
+		this.searchInput = page.getByPlaceholder('Search');
 	}
 
-	async goto({dataSetLabel}: {dataSetLabel: string}) {
-		await this.dataSetPage.goto({
-			dataSetLabel,
-		});
 
-		await this.dataSetPage.selectTab('Filters');
-	}
 
 	async assertFiltersTableRowCount(rowCount: number) {
 		await expect(
@@ -319,12 +317,18 @@ export class FiltersPage {
 		if (preselectedValues.length) {
 			await this.page
 				.getByRole('option', {name: preselectedValues[0]})
+				.waitFor();
+
+			await this.page
+				.getByRole('option', {name: preselectedValues[0]})
 				.click();
+
 			await this.page
 				.locator('label')
 				.filter({hasText: filterMode})
 				.click();
 		}
+
 		await this.page.getByText(selectionType).click();
 	}
 
@@ -335,6 +339,14 @@ export class FiltersPage {
 			.filter({
 				has: this.page.getByText(text, {exact: true}).first(),
 			});
+	}
+
+	async goto({dataSetLabel}: {dataSetLabel: string}) {
+		await this.dataSetPage.goto({
+			dataSetLabel,
+		});
+
+		await this.dataSetPage.selectTab('Filters');
 	}
 
 	async openNewFilterModal({

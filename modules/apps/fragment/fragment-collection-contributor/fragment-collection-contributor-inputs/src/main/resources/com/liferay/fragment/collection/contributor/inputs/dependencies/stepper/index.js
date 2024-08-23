@@ -1,24 +1,25 @@
-const ACTIVE_STEP_ID_SESSION_KEY = `stepperFragment-${fragmentNamespace}-activeStepId`;
+const ACTIVE_INDEX_SESSION_KEY = `${fragmentNamespace}-activeIndex`;
 
-function getStepIdFromSession() {
-	return Liferay.Util.SessionStorage.getItem(
-		ACTIVE_STEP_ID_SESSION_KEY,
-		Liferay.Util.SessionStorage.TYPES.PERSONALIZATION
+const steps = fragmentElement.querySelectorAll('li');
+
+function getActiveIndexFromSession() {
+	return Number(
+		Liferay.Util.SessionStorage.getItem(
+			ACTIVE_INDEX_SESSION_KEY,
+			Liferay.Util.SessionStorage.TYPES.PERSONALIZATION
+		)
 	);
 }
 
-function saveStepIdInSession(stepId) {
+function saveActiveIndexInSession(index) {
 	Liferay.Util.SessionStorage.setItem(
-		ACTIVE_STEP_ID_SESSION_KEY,
-		stepId,
+		ACTIVE_INDEX_SESSION_KEY,
+		index,
 		Liferay.Util.SessionStorage.TYPES.PERSONALIZATION
 	);
 }
 
-function setActiveStep(step) {
-	if (step.classList.contains('active')) {
-		return;
-	}
+function setActiveStep(index) {
 
 	// Deactivate current active step if it exists
 
@@ -26,37 +27,38 @@ function setActiveStep(step) {
 
 	activeStep?.classList.remove('active');
 
-	// Set new active step, save id in session if it's edit mode
+	// Set new active step, save index in session if it's edit mode
+
+	const step = steps[index];
 
 	step.classList.add('active');
 
 	if (layoutMode === 'edit') {
-		saveStepIdInSession(step.id);
+		saveActiveIndexInSession(index);
 	}
+
+	Liferay.fire('formFragment:changeStep', {
+		emitter: fragmentElement,
+		step: index,
+	});
 }
 
 function main() {
 
 	// Set initial active step, get it from session if it's edit mode
 
-	let activeStep = fragmentElement.querySelector('li');
-
-	const sessionStepId = getStepIdFromSession();
-
-	if (layoutMode === 'edit' && sessionStepId) {
-		activeStep = document.getElementById(sessionStepId);
-	}
-
-	setActiveStep(activeStep);
+	setActiveStep(layoutMode === 'edit' ? getActiveIndexFromSession() || 0 : 0);
 
 	// Change active step on button click
 
-	const steps = fragmentElement.querySelectorAll('li');
+	for (const [index, step] of steps.entries()) {
+		step.querySelector('button').addEventListener('click', () => {
+			if (step.classList.contains('active')) {
+				return;
+			}
 
-	for (const step of steps) {
-		step.querySelector('button').addEventListener('click', () =>
-			setActiveStep(step)
-		);
+			setActiveStep(index);
+		});
 	}
 }
 

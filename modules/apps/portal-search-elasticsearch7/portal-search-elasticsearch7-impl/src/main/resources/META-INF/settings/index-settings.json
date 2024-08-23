@@ -105,6 +105,18 @@
 				],
 				"tokenizer": "standard"
 			},
+			"liferay_analyzer_ja": {
+				"filter": [
+					"kuromoji_baseform",
+					"kuromoji_part_of_speech",
+					"cjk_width",
+					"lowercase",
+					"ja_stop",
+					"liferay_filter_synonym_ja",
+					"kuromoji_stemmer"
+				],
+				"tokenizer": "kuromoji_tokenizer"
+			},
 			"liferay_analyzer_nl": {
 				"filter": [
 					"lowercase",
@@ -141,6 +153,14 @@
 					"swedish_stemmer"
 				],
 				"tokenizer": "standard"
+			},
+			"liferay_analyzer_zh": {
+				"filter": [
+					"lowercase",
+					"cjk_width",
+					"liferay_filter_synonym_zh"
+				],
+				"tokenizer": "smartcn_tokenizer"
 			},
 			"reverse_keyword_lowercase": {
 				"filter": [
@@ -195,6 +215,10 @@
 			},
 			"catalan_stop": {
 				"stopwords": "_catalan_",
+				"type": "stop"
+			},
+			"chinese_stop": {
+				"stopwords": "_smartcn_",
 				"type": "stop"
 			},
 			"dutch_override": {
@@ -366,6 +390,12 @@
 				],
 				"type": "synonym_graph"
 			},
+			"liferay_filter_synonym_ja": {
+				"lenient": true,
+				"synonyms": [
+				],
+				"type": "synonym_graph"
+			},
 			"liferay_filter_synonym_nl": {
 				"lenient": true,
 				"synonyms": [
@@ -385,6 +415,12 @@
 				"type": "synonym_graph"
 			},
 			"liferay_filter_synonym_sv": {
+				"lenient": true,
+				"synonyms": [
+				],
+				"type": "synonym_graph"
+			},
+			"liferay_filter_synonym_zh": {
 				"lenient": true,
 				"synonyms": [
 				],
@@ -417,6 +453,13 @@
 		}
 	},
 	"index": {
+		"auto_expand_replicas": "0-all",
+		"default_pipeline": "timestamp",
+		"mapping": {
+			"total_fields": {
+				"limit": "7500"
+			}
+		},
 		"max_ngram_diff": 9
 	}
 }

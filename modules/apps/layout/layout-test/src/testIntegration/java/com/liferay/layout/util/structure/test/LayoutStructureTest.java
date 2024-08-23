@@ -96,11 +96,11 @@ public class LayoutStructureTest {
 	}
 
 	@Test
-	public void testChangeFormTypeMultiStep() throws IOException {
+	public void testChangeFormType() throws IOException {
 		LayoutStructure layoutStructure = LayoutStructure.of(_readLayoutData());
 
-		layoutStructure.updateFormStyledLayoutStructureItemMultiStep(
-			"formId", true, 3);
+		layoutStructure.updateFormStyledLayoutStructureItemFormType(
+			"formId", "multistep", 3);
 
 		FormStyledLayoutStructureItem formStyledLayoutStructureItem =
 			(FormStyledLayoutStructureItem)
@@ -134,14 +134,14 @@ public class LayoutStructureTest {
 	}
 
 	@Test
-	public void testChangeFormTypeNoMultiStep() throws IOException {
+	public void testChangeFormTypeToSimple() throws IOException {
 		LayoutStructure layoutStructure = LayoutStructure.of(_readLayoutData());
 
-		layoutStructure.updateFormStyledLayoutStructureItemMultiStep(
-			"formId", true, 3);
+		layoutStructure.updateFormStyledLayoutStructureItemFormType(
+			"formId", "multistep", 3);
 
-		layoutStructure.updateFormStyledLayoutStructureItemMultiStep(
-			"formId", false, 3);
+		layoutStructure.updateFormStyledLayoutStructureItemFormType(
+			"formId", "simple", 3);
 
 		FormStyledLayoutStructureItem formStyledLayoutStructureItem =
 			(FormStyledLayoutStructureItem)
@@ -187,7 +187,8 @@ public class LayoutStructureTest {
 				columnLayoutStructureItem.getItemId(), 0);
 
 		layoutStructure.markLayoutStructureItemForDeletion(
-			fragmentStyledLayoutStructureItem.getItemId(),
+			Collections.singletonList(
+				fragmentStyledLayoutStructureItem.getItemId()),
 			Collections.emptyList());
 
 		Assert.assertEquals(
@@ -230,7 +231,8 @@ public class LayoutStructureTest {
 			columnLayoutStructureItem.getItemId(), 0);
 
 		layoutStructure.markLayoutStructureItemForDeletion(
-			columnLayoutStructureItem.getItemId(), Collections.emptyList());
+			Collections.singletonList(columnLayoutStructureItem.getItemId()),
+			Collections.emptyList());
 
 		Assert.assertEquals(
 			0,
@@ -272,7 +274,8 @@ public class LayoutStructureTest {
 			columnLayoutStructureItem.getItemId(), 0);
 
 		layoutStructure.markLayoutStructureItemForDeletion(
-			rowStyledLayoutStructureItem.getItemId(), Collections.emptyList());
+			Collections.singletonList(rowStyledLayoutStructureItem.getItemId()),
+			Collections.emptyList());
 
 		Assert.assertEquals(
 			0,
@@ -314,7 +317,8 @@ public class LayoutStructureTest {
 			columnLayoutStructureItem.getItemId(), 0);
 
 		layoutStructure.markLayoutStructureItemForDeletion(
-			containerStyledLayoutStructureItem.getItemId(),
+			Collections.singletonList(
+				containerStyledLayoutStructureItem.getItemId()),
 			Collections.emptyList());
 
 		Assert.assertEquals(

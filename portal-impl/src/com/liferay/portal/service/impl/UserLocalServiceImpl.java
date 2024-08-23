@@ -67,6 +67,7 @@ import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.GroupConstants;
 import com.liferay.portal.kernel.model.GroupModel;
 import com.liferay.portal.kernel.model.Layout;
+import com.liferay.portal.kernel.model.ModelHintsUtil;
 import com.liferay.portal.kernel.model.Organization;
 import com.liferay.portal.kernel.model.PasswordPolicy;
 import com.liferay.portal.kernel.model.PortalPreferences;
@@ -7092,14 +7093,23 @@ public class UserLocalServiceImpl extends UserLocalServiceBaseImpl {
 			String lastName, Locale locale)
 		throws PortalException {
 
-		FullNameDefinition fullNameDefinition =
-			FullNameDefinitionFactory.getInstance(locale);
-
 		if (Validator.isNull(firstName)) {
 			throw new ContactNameException.MustHaveFirstName();
 		}
-		else if (Validator.isNull(middleName) &&
-				 fullNameDefinition.isFieldRequired("middle-name")) {
+
+		int firstNameMaxLength = ModelHintsUtil.getMaxLength(
+			User.class.getName(), "firstName");
+
+		if (firstName.length() > firstNameMaxLength) {
+			throw new ContactNameException.MustNotExceedMaximumLength(
+				firstNameMaxLength);
+		}
+
+		FullNameDefinition fullNameDefinition =
+			FullNameDefinitionFactory.getInstance(locale);
+
+		if (Validator.isNull(middleName) &&
+			fullNameDefinition.isFieldRequired("middle-name")) {
 
 			throw new ContactNameException.MustHaveMiddleName();
 		}

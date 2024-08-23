@@ -32,6 +32,7 @@ import com.liferay.item.selector.criteria.UUIDItemSelectorReturnType;
 import com.liferay.item.selector.criteria.image.criterion.ImageItemSelectorCriterion;
 import com.liferay.journal.constants.JournalArticleConstants;
 import com.liferay.journal.constants.JournalFolderConstants;
+import com.liferay.journal.constants.JournalPortletKeys;
 import com.liferay.journal.model.JournalArticle;
 import com.liferay.journal.model.JournalFolder;
 import com.liferay.journal.service.JournalArticleLocalServiceUtil;
@@ -64,6 +65,7 @@ import com.liferay.portal.kernel.portlet.LiferayWindowState;
 import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactory;
 import com.liferay.portal.kernel.portlet.RequestBackedPortletURLFactoryUtil;
 import com.liferay.portal.kernel.portlet.url.builder.PortletURLBuilder;
+import com.liferay.portal.kernel.portlet.url.builder.ResourceURLBuilder;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.service.GroupServiceUtil;
@@ -103,6 +105,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TimeZone;
 
+import javax.portlet.MimeResponse;
+import javax.portlet.PortletRequest;
 import javax.portlet.RenderResponse;
 
 import javax.servlet.http.HttpServletRequest;
@@ -396,6 +400,15 @@ public class JournalEditArticleDisplayContext {
 		).put(
 			"autoSaveDraftEnabled",
 			FeatureFlagManagerUtil.isEnabled("LPD-11228")
+		).put(
+			"autoSaveDraftURL",
+			ResourceURLBuilder.createResourceURL(
+				_liferayPortletResponse.createLiferayPortletURL(
+					JournalPortletKeys.JOURNAL, PortletRequest.RESOURCE_PHASE,
+					MimeResponse.Copy.PUBLIC)
+			).setResourceID(
+				"/journal/auto_save_article"
+			).buildString()
 		).put(
 			"availableLocales", _getAvailableLanguageIds()
 		).put(

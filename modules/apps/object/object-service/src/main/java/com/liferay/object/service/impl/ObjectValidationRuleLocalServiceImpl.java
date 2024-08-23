@@ -46,6 +46,7 @@ import com.liferay.petra.sql.dsl.Column;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.log.Log;
@@ -106,10 +107,12 @@ public class ObjectValidationRuleLocalServiceImpl
 			system);
 
 		User user = _userLocalService.getUser(userId);
+		ObjectDefinition objectDefinition =
+			_objectDefinitionPersistence.findByPrimaryKey(objectDefinitionId);
 
 		_validate(
-			externalReferenceCode, 0, user.getCompanyId(), objectDefinitionId,
-			active, engine, nameMap, outputType, script,
+			externalReferenceCode, 0, user.getCompanyId(), objectDefinition,
+			active, engine, nameMap, outputType, script, system,
 			objectValidationRuleSettings);
 
 		ObjectValidationRule objectValidationRule =
@@ -321,9 +324,9 @@ public class ObjectValidationRuleLocalServiceImpl
 			objectValidationRulePersistence.findByPrimaryKey(
 				objectValidationRuleId);
 
-		_validateInvokerBundle(
-			"Only allowed bundles can edit system object validation rules",
-			objectValidationRule.isSystem());
+		ObjectDefinition objectDefinition =
+			_objectDefinitionPersistence.findByPrimaryKey(
+				objectValidationRule.getObjectDefinitionId());
 
 		if (StringUtil.equals(
 				engine,
@@ -335,9 +338,39 @@ public class ObjectValidationRuleLocalServiceImpl
 		_validate(
 			externalReferenceCode,
 			objectValidationRule.getObjectValidationRuleId(),
-			objectValidationRule.getCompanyId(),
-			objectValidationRule.getObjectDefinitionId(), active, engine,
-			nameMap, outputType, script, objectValidationRuleSettings);
+			objectValidationRule.getCompanyId(), objectDefinition, active,
+			engine, nameMap, outputType, script,
+			objectValidationRule.isSystem(), objectValidationRuleSettings);
+
+		ObjectValidationRuleSetting objectValidationRuleSetting =
+			_objectValidationRuleSettingPersistence.fetchByOVRI_N_V(
+				objectValidationRuleId,
+				ObjectValidationRuleSettingConstants.
+					NAME_ALLOW_ACTIVE_STATUS_UPDATE,
+				"true");
+
+		if (objectDefinition.isModifiable() && objectDefinition.isSystem() &&
+			!ObjectDefinitionUtil.isInvokerBundleAllowed() &&
+			objectValidationRule.isSystem() &&
+			(objectValidationRuleSetting != null) &&
+			GetterUtil.getBoolean(objectValidationRuleSetting.getValue())) {
+
+			objectValidationRule.setActive(active);
+
+			objectValidationRule = objectValidationRulePersistence.update(
+				objectValidationRule);
+
+			objectValidationRule.setObjectValidationRuleSettings(
+				_objectValidationRuleSettingPersistence.
+					findByObjectValidationRuleId(
+						objectValidationRule.getObjectValidationRuleId()));
+
+			return objectValidationRule;
+		}
+
+		_validateInvokerBundle(
+			"Only allowed bundles can edit system object validation rules",
+			objectValidationRule.isSystem());
 
 		objectValidationRule.setExternalReferenceCode(externalReferenceCode);
 		objectValidationRule.setActive(active);
@@ -595,16 +628,17 @@ public class ObjectValidationRuleLocalServiceImpl
 
 	private void _validate(
 			String externalReferenceCode, long objectValidationRuleId,
-			long companyId, long objectDefinitionId, boolean active,
+			long companyId, ObjectDefinition objectDefinition, boolean active,
 			String engine, Map<Locale, String> nameMap, String outputType,
-			String script,
+			String script, boolean system,
 			List<ObjectValidationRuleSetting> objectValidationRuleSettings)
 		throws PortalException {
 
 		if (Validator.isNotNull(externalReferenceCode)) {
 			ObjectValidationRule objectValidationRule =
 				objectValidationRulePersistence.fetchByERC_C_ODI(
-					externalReferenceCode, companyId, objectDefinitionId);
+					externalReferenceCode, companyId,
+					objectDefinition.getObjectDefinitionId());
 
 			if ((objectValidationRule != null) &&
 				(objectValidationRule.getObjectValidationRuleId() !=
@@ -722,6 +756,12 @@ public class ObjectValidationRuleLocalServiceImpl
 			ObjectValidationRuleSettingConstants.
 				NAME_COMPOSITE_KEY_OBJECT_FIELD_ID);
 
+		if (FeatureFlagManagerUtil.isEnabled("LPD-29637")) {
+			allowedObjectValidationRuleSettingNames.add(
+				ObjectValidationRuleSettingConstants.
+					NAME_ALLOW_ACTIVE_STATUS_UPDATE);
+		}
+
 		int count = 0;
 
 		for (ObjectValidationRuleSetting objectValidationRuleSetting :
@@ -729,6 +769,11 @@ public class ObjectValidationRuleLocalServiceImpl
 
 			if (!allowedObjectValidationRuleSettingNames.contains(
 					objectValidationRuleSetting.getName()) ||
+				((objectDefinition.isUnmodifiableSystemObject() ||
+				  !objectDefinition.isSystem() || !system) &&
+				 objectValidationRuleSetting.compareName(
+					 ObjectValidationRuleSettingConstants.
+						 NAME_ALLOW_ACTIVE_STATUS_UPDATE)) ||
 				(objectValidationRuleSetting.compareName(
 					ObjectValidationRuleSettingConstants.
 						NAME_OUTPUT_OBJECT_FIELD_ID) &&
@@ -739,6 +784,22 @@ public class ObjectValidationRuleLocalServiceImpl
 
 				throw new ObjectValidationRuleSettingNameException.
 					NotAllowedName(objectValidationRuleSetting.getName());
+			}
+
+			if (objectValidationRuleSetting.compareName(
+					ObjectValidationRuleSettingConstants.
+						NAME_ALLOW_ACTIVE_STATUS_UPDATE)) {
+
+				if (Validator.isBoolean(
+						objectValidationRuleSetting.getValue())) {
+
+					continue;
+				}
+
+				throw new ObjectValidationRuleSettingValueException.
+					InvalidValue(
+						objectValidationRuleSetting.getName(),
+						objectValidationRuleSetting.getValue());
 			}
 
 			ObjectField objectField = _objectFieldPersistence.fetchByPrimaryKey(
@@ -764,9 +825,6 @@ public class ObjectValidationRuleLocalServiceImpl
 				continue;
 			}
 
-			ObjectDefinition objectDefinition =
-				_objectDefinitionPersistence.findByPrimaryKey(
-					objectDefinitionId);
 			ObjectValidationRuleSetting oldObjectValidationRuleSetting =
 				_objectValidationRuleSettingPersistence.fetchByOVRI_N_V(
 					objectValidationRuleId,

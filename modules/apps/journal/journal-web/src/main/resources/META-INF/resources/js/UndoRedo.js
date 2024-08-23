@@ -13,6 +13,13 @@ const META_FIELD_NAMES = {
 	title: 'titleMapAsXML',
 };
 
+const METADATA_FIELD_NAME_HISTORY = {
+	[`${META_FIELD_NAMES.description}Editor`]:
+		Liferay.Language.get('description'),
+	[META_FIELD_NAMES.friendlyURL]: Liferay.Language.get('friendly-url'),
+	[META_FIELD_NAMES.title]: Liferay.Language.get('title'),
+};
+
 export default function UndoRedo({
 	initialDefaultLanguageId,
 	initialFields,
@@ -137,8 +144,7 @@ export default function UndoRedo({
 		updateMetadataFields(nextStep, newStep);
 	};
 
-	const handleRedo = () => {
-		const newStep = step + 1;
+	const handleRedo = (newStep) => {
 		const nextStep = history[newStep];
 
 		if (nextStep.selectedLanguageId !== selectedLanguageId) {
@@ -432,7 +438,7 @@ export default function UndoRedo({
 				displayType="secondary"
 				onClick={() => {
 					Liferay.fire('journal:redo');
-					handleRedo();
+					handleRedo(step + 1);
 				}}
 				size="sm"
 				symbol="redo"
@@ -457,12 +463,52 @@ export default function UndoRedo({
 				}
 			>
 				<ClayDropDown.ItemList>
+					{history
+						.map((item, index) => {
+							return (
+								index > 0 && (
+									<ClayDropDown.Item
+										disabled={step === index}
+										key={index}
+										onClick={() => {
+											if (index < step) {
+												handleUndo(index);
+											}
+											else {
+												handleRedo(index);
+											}
+
+											Liferay.fire('journal:goto', {
+												step: index,
+											});
+
+											setActive(false);
+										}}
+										symbolRight={
+											step === index ? 'check' : ''
+										}
+									>
+										{Liferay.Language.get('edit')}{' '}
+
+										{METADATA_FIELD_NAME_HISTORY[
+											item.name
+										] || item.name}
+									</ClayDropDown.Item>
+								)
+							);
+						})
+						.reverse()}
+
 					<ClayDropDown.Divider />
 
 					<ClayDropDown.Item
 						disabled={step <= 0}
 						onClick={() => {
 							handleUndo(0);
+							Liferay.fire('journal:goto', {
+								step: 0,
+							});
+							setActive(false);
 						}}
 					>
 						{Liferay.Language.get('undo-all')}

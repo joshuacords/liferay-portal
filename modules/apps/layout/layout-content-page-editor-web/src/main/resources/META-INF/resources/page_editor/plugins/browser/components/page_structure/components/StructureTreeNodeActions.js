@@ -14,10 +14,12 @@ import {flushSync} from 'react-dom';
 
 import SaveFragmentCompositionModal from '../../../../../app/components/SaveFragmentCompositionModal';
 import hasDropZoneChild from '../../../../../app/components/layout_data_items/hasDropZoneChild';
-import {FRAGMENT_ENTRY_TYPES} from '../../../../../app/config/constants/fragmentEntryTypes';
 import {ITEM_ACTIVATION_ORIGINS} from '../../../../../app/config/constants/itemActivationOrigins';
 import {LAYOUT_DATA_ITEM_TYPES} from '../../../../../app/config/constants/layoutDataItemTypes';
-import {useSelectItem} from '../../../../../app/contexts/ControlsContext';
+import {
+	useSelectItem,
+	useSelectMultipleItems,
+} from '../../../../../app/contexts/ControlsContext';
 import {useSetMovementText} from '../../../../../app/contexts/KeyboardMovementContext';
 import {useSetEditedNodeId} from '../../../../../app/contexts/ShortcutContext';
 import {
@@ -34,6 +36,7 @@ import {
 	FORM_ERROR_TYPES,
 	getFormErrorDescription,
 } from '../../../../../app/utils/getFormErrorDescription';
+import isInputFragment from '../../../../../app/utils/isInputFragment';
 import updateItemStyle from '../../../../../app/utils/updateItemStyle';
 import useHasRequiredChild from '../../../../../app/utils/useHasRequiredChild';
 
@@ -121,18 +124,18 @@ const ActionList = ({item, setActive, setOpenSaveModal}) => {
 	const dispatch = useDispatch();
 	const hasRequiredChild = useHasRequiredChild(item.id);
 	const selectItem = useSelectItem();
+	const selectMultipleItems = useSelectMultipleItems();
 	const setEditedNodeId = useSetEditedNodeId();
 	const setText = useSetMovementText();
 	const widgets = useSelector((state) => state.widgets);
 
+	const selectItems = Liferay.FeatureFlags['LPD-18221']
+		? selectMultipleItems
+		: selectItem;
+
 	const {fragmentEntryLinks, layoutData, selectedViewportSize} = useSelector(
 		(state) => state
 	);
-
-	const isInputFragment =
-		item.type === LAYOUT_DATA_ITEM_TYPES.fragment &&
-		fragmentEntryLinks[item.config.fragmentEntryLinkId]
-			.fragmentEntryType === FRAGMENT_ENTRY_TYPES.input;
 
 	const isHidden = item.config.styles.display === 'none';
 
@@ -142,13 +145,13 @@ const ActionList = ({item, setActive, setOpenSaveModal}) => {
 		if (
 			item.type !== LAYOUT_DATA_ITEM_TYPES.dropZone &&
 			!hasDropZoneChild(item, layoutData) &&
-			!isInputFragment
+			!isInputFragment(item, fragmentEntryLinks)
 		) {
 			items.push({
 				action: () => {
 					updateItemStyle({
 						dispatch,
-						itemId: item.id,
+						itemIds: [item.id],
 						selectedViewportSize,
 						styleName: 'display',
 						styleValue: isHidden ? 'block' : 'none',
@@ -201,8 +204,8 @@ const ActionList = ({item, setActive, setOpenSaveModal}) => {
 				action: () => {
 					dispatch(
 						duplicateItem({
-							itemId: item.id,
-							selectItem,
+							itemIds: [item.id],
+							selectItems,
 						})
 					);
 
@@ -231,8 +234,8 @@ const ActionList = ({item, setActive, setOpenSaveModal}) => {
 				action: () => {
 					dispatch(
 						deleteItem({
-							itemId: item.id,
-							selectItem,
+							itemIds: [item.id],
+							selectItems,
 						})
 					);
 
@@ -248,7 +251,6 @@ const ActionList = ({item, setActive, setOpenSaveModal}) => {
 		dispatch,
 		fragmentEntryLinks,
 		hasRequiredChild,
-		isInputFragment,
 		item,
 		layoutData,
 		selectedViewportSize,
@@ -258,6 +260,7 @@ const ActionList = ({item, setActive, setOpenSaveModal}) => {
 		setOpenSaveModal,
 		setText,
 		isHidden,
+		selectItems,
 	]);
 
 	return (
