@@ -66,7 +66,8 @@ public class OpenSearchSnapshotRequestExecutor
 	public GetSnapshotsResponse executeSnapshotRequest(
 		GetSnapshotsRequest getSnapshotsRequest) {
 
-		return getSnapshotsRequestExecutor.execute(getSnapshotsRequest);
+		throw new UnsupportedOperationException(
+			"Opensearch's java-client does not support GetSnapshotRequest");
 	}
 
 	@Override
