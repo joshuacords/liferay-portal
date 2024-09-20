@@ -47,6 +47,17 @@ public class SXPElementUpgradeProcessTest {
 			_sxpElementLocalService.fetchSXPElementByExternalReferenceCode(
 				"LIMIT_SEARCH_TO_THESE_SITES", TestPropsValues.getCompanyId());
 
+		if (sxpElement == null) {
+			_sxpElementLocalService.fetchSXPElementByExternalReferenceCode(
+				"LIMIT-SEARCH-TO-THESE-SITES", TestPropsValues.getCompanyId());
+
+			if (sxpElement != null) {
+				Assert.assertEquals("LIMIT-SEARCH-TO-THESE-SITES found element, but LIMIT_SEARCH_TO_THESE_SITES didn't", 1, 0);
+			} else {
+				Assert.assertEquals("LIMIT-SEARCH-TO-THESE-SITES nor LIMIT_SEARCH_TO_THESE_SITES found element", 1, 0);
+			}
+		}
+
 		sxpElement.setElementDefinitionJSON("{old value");
 
 		_sxpElementLocalService.updateSXPElement(sxpElement);
