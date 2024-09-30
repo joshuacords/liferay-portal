@@ -66,6 +66,7 @@ public class SXPElementLocalServiceImpl extends SXPElementLocalServiceBaseImpl {
 			counterLocalService.increment(SXPElement.class.getName()));
 
 		sxpElement.setExternalReferenceCode(externalReferenceCode);
+		System.out.println(externalReferenceCode);
 
 		User user = _userLocalService.getUser(userId);
 
@@ -167,6 +168,7 @@ public class SXPElementLocalServiceImpl extends SXPElementLocalServiceBaseImpl {
 		_validate(titleMap, sxpElement.getType(), serviceContext);
 
 		sxpElement.setExternalReferenceCode(externalReferenceCode);
+		System.out.println(externalReferenceCode);
 		sxpElement.setDescriptionMap(descriptionMap);
 		sxpElement.setElementDefinitionJSON(elementDefinitionJSON);
 		sxpElement.setHidden(hidden);
