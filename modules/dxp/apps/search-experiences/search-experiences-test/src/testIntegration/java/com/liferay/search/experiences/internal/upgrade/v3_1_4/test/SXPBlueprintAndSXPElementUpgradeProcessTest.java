@@ -38,7 +38,7 @@ import org.skyscreamer.jsonassert.JSONAssert;
  * @author Joshua Cords
  */
 @RunWith(Arquillian.class)
-public class SXPElementUpgradeProcessTest {
+public class SXPBlueprintAndSXPElementUpgradeProcessTest {
 
 	@ClassRule
 	@Rule
@@ -62,6 +62,13 @@ public class SXPElementUpgradeProcessTest {
 
 			_assertElementUpgraded(elementExternalReferenceCode);
 		}
+	}
+
+	@Test
+	public void testSXPBlueprintUpgradeProcess() throws Exception {
+
+		_runUpgrade("v3_1_4.SXPBlueprintAndSXPElementUpgradeProcess");
+
 	}
 
 	@Rule
