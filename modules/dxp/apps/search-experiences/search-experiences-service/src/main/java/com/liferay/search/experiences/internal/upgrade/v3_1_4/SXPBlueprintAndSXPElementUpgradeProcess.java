@@ -9,6 +9,7 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.service.AssetCategoryLocalService;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.jdbc.AutoBatchPreparedStatementUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactory;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
@@ -89,24 +90,33 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 						}
 					}
 
-//					_fixElementInstancesJSON(elementInstancesJSON);
-
 					JSONArray elementInstancesJSONArray = _jsonFactory.createJSONArray(
 						elementInstancesJSON);
+
 
 					for (int i = 0; i < elementInstancesJSONArray.length(); i++) {
 						JSONObject elementInstanceJSON = elementInstancesJSONArray.getJSONObject(i);
 
+						JSONObject sxpElementJSON = elementInstanceJSON.getJSONObject("sxpElement");
+
+						String elemnentExternalReferenceCode = sxpElementJSON.getString("externalReferenceCode");
+
 						if (elementInstanceJSON.has("configurationEntry")) {
-							_upgradeConfigurationEntry(elementInstanceJSON.getJSONObject("configurationEntry"));
+							_upgradeConfigurationEntry(
+								elemnentExternalReferenceCode,
+								elementInstanceJSON.getJSONObject("configurationEntry"));
 						}
 
 						if (elementInstanceJSON.has("sxpElement")) {
-							_upgradeSXPElement(elementInstanceJSON.getJSONObject("sxpElement"));
+							_upgradeSXPElement(
+								elemnentExternalReferenceCode,
+								elementInstanceJSON.getJSONObject("sxpElement"));
 						}
 
 						if (elementInstanceJSON.has("uiConfigurationValues")) {
-							_upgradeUIConfigurationValues(elementInstanceJSON.getJSONObject("uiConfigurationValues"));
+							_upgradeUIConfigurationValues(
+								elemnentExternalReferenceCode,
+								elementInstanceJSON.getJSONObject("uiConfigurationValues"));
 						}
 					}
 
@@ -124,7 +134,19 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 		}
 	}
 
-	private void _upgradeUIConfigurationValues(JSONObject uiConfigurationValuesJSON) throws Exception {
+	private void _upgradeUIConfigurationValues(String externalReferenceCode, JSONObject uiConfigurationValuesJSON) {
+
+		try {
+			if(externalReferenceCode.startsWith("HIDE_CONTENTS_IN_A_CATEGORY")) {
+				_upgradeUIConfigurationValuesForHideElements(uiConfigurationValuesJSON);
+			}
+
+		} catch (Exception exception) {
+		}
+
+	}
+
+	private void _upgradeUIConfigurationValuesForHideElements(JSONObject uiConfigurationValuesJSON) throws Exception {
 		JSONObject assetCategoryIdsJSON = uiConfigurationValuesJSON.getJSONObject("asset_category_id");
 
 		long assetCategoryId = assetCategoryIdsJSON.getLong("value");
@@ -139,7 +161,6 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 
 		uiConfigurationValuesJSON.put("group_asset_category_external_reference_codes", groupAssetCategoryExternalReferenceCodesJSONArray);
 		uiConfigurationValuesJSON.remove("asset_category_id");
-
 	}
 
 	private String _getLabel(long assetCategoryId) throws Exception {
@@ -155,7 +176,7 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 		}
 	}
 
-	private String _getExternalReferenceCode(long assetCategoryId) throws Exception {
+	private String _getExternalReferenceCode(long assetCategoryId) throws PortalException {
 		try {
 			AssetCategory assetCategory =
 				_assetCategoryLocalService.getAssetCategory(assetCategoryId);
@@ -163,15 +184,22 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 			Group group = _groupLocalService.getGroup(assetCategory.getGroupId());
 
 			return group.getExternalReferenceCode() + "&&" + assetCategory.getExternalReferenceCode();
-		} catch (Exception exception) {
-			_log.error("Unable to find assetCategory associated with " + assetCategoryId);
-
-			throw exception;
+		} catch (PortalException portalException) {
+			_log.error("Unable to find assetCategory with id " + assetCategoryId);
+			throw portalException;
 		}
 	}
 
-	private void _upgradeSXPElement(JSONObject sxpElementJSON) throws Exception {
+	private void _upgradeSXPElement(String externalReferenceCode, JSONObject sxpElementJSON) throws Exception {
 
+		if(externalReferenceCode.startsWith("HIDE_CONTENTS_IN_A_CATEGORY")) {
+			_upgradeSXPElementForHideElements(sxpElementJSON);
+		}
+
+
+	}
+
+	private void _upgradeSXPElementForHideElements(JSONObject sxpElementJSON) throws Exception {
 		String elementDefinition = sxpElementJSON.getString("elementDefinition");
 
 		for (int i = 0; i < _HIDE_CONTENTS_IN_A_CATEGORY_OLD.length; i++) {
@@ -196,16 +224,30 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 		"\"multiselect\""
 	};
 
-	private void _upgradeConfigurationEntry(JSONObject configurationEntryJSON) throws Exception {
+	private void _upgradeConfigurationEntry(String externalReferenceCode, JSONObject configurationEntryJSON) {
 
-		JSONObject queryConfigurationEntryJSON = configurationEntryJSON.getJSONObject("queryConfiguration");
+		try {
+			if(externalReferenceCode.startsWith("HIDE_CONTENTS_IN_A_CATEGORY")) {
+				_upgradeConfigurationEntryForHideElements(configurationEntryJSON);
+			}
 
-		JSONArray queryEntriesJSONArray = queryConfigurationEntryJSON.getJSONArray("queryEntries");
+		} catch (Exception exception) {
+		}
+	}
+
+	private void _upgradeConfigurationEntryForHideElements(JSONObject configurationEntryJSON) throws Exception {
+		JSONObject queryConfigurationEntryJSON =
+			configurationEntryJSON.getJSONObject("queryConfiguration");
+
+		JSONArray queryEntriesJSONArray =
+			queryConfigurationEntryJSON.getJSONArray("queryEntries");
 
 		for (int i = 0; i < queryEntriesJSONArray.length(); i++) {
-			JSONObject queryEntryJSON = queryEntriesJSONArray.getJSONObject(i);
+			JSONObject queryEntryJSON =
+				queryEntriesJSONArray.getJSONObject(i);
 
-			JSONArray clausesJSONArray = queryEntryJSON.getJSONArray("clauses");
+			JSONArray clausesJSONArray =
+				queryEntryJSON.getJSONArray("clauses");
 
 			for (int k = 0; k < clausesJSONArray.length(); k++) {
 				JSONObject clauseJSON = clausesJSONArray.getJSONObject(i);
@@ -214,30 +256,39 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 
 				JSONObject boolJSON = queryJSON.getJSONObject("bool");
 
-				JSONArray mustNotJSONArray = boolJSON.getJSONArray("must_not");
+				JSONArray mustNotJSONArray =
+					boolJSON.getJSONArray("must_not");
 
 				for (int j = 0; j < mustNotJSONArray.length(); j++) {
-					JSONObject mustNotJSON = mustNotJSONArray.getJSONObject(j);
+					JSONObject mustNotJSON =
+						mustNotJSONArray.getJSONObject(j);
 
 					JSONObject termJSON = mustNotJSON.getJSONObject("term");
 
-					long[] assetCategoryIds = _extractAssetCategoryIds(termJSON);
+					long[] assetCategoryIds =
+						_extractAssetCategoryIds(termJSON);
 
 					mustNotJSON.remove("term");
 
-					JSONObject groupAssetCategoryExternalReferenceCodesJSON =
+					JSONObject
+						groupAssetCategoryExternalReferenceCodesJSON =
 						_jsonFactory.createJSONObject();
 
-					groupAssetCategoryExternalReferenceCodesJSON.put("groupAssetCategoryExternalReferenceCodes", _translateIdsToExternalReferencesCodes(assetCategoryIds));
+					groupAssetCategoryExternalReferenceCodesJSON.put(
+						"groupAssetCategoryExternalReferenceCodes",
+						_translateIdsToExternalReferencesCodes(
+							assetCategoryIds));
 
-					mustNotJSON.put("terms", groupAssetCategoryExternalReferenceCodesJSON);
+					mustNotJSON.put(
+						"terms",
+						groupAssetCategoryExternalReferenceCodesJSON);
 				}
 			}
 
 		}
 	}
 
-	private JSONArray _translateIdsToExternalReferencesCodes(long[] assetCategoryIds) throws Exception {
+	private JSONArray _translateIdsToExternalReferencesCodes(long[] assetCategoryIds) throws PortalException {
 
 		JSONArray jsonArray = _jsonFactory.createJSONArray();
 
