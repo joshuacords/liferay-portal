@@ -12,7 +12,6 @@ import com.liferay.portal.kernel.dao.jdbc.AutoBatchPreparedStatementUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactory;
-import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -21,9 +20,7 @@ import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.upgrade.UpgradeProcess;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.search.experiences.rest.dto.v1_0.ElementInstance;
-import com.liferay.search.experiences.rest.dto.v1_0.SXPBlueprint;
 import com.liferay.search.experiences.rest.dto.v1_0.util.ElementInstanceUtil;
-import com.liferay.search.experiences.rest.dto.v1_0.util.SXPBlueprintUtil;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -139,11 +136,29 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 		try {
 			if(externalReferenceCode.startsWith("HIDE_CONTENTS_IN_A_CATEGORY")) {
 				_upgradeUIConfigurationValuesForHideElements(uiConfigurationValuesJSON);
+			} else if(externalReferenceCode.startsWith("BOOST_CONTENTS_IN_A_CATEGORY_")) {
+				_upgradeUIConfigurationValuesForBoostElements(uiConfigurationValuesJSON);
 			}
-
 		} catch (Exception exception) {
 		}
 
+	}
+
+	private void _upgradeUIConfigurationValuesForBoostElements(JSONObject uiConfigurationValuesJSON) throws Exception {
+		JSONObject assetCategoryIdsJSON = uiConfigurationValuesJSON.getJSONObject("asset_category_id");
+
+		long assetCategoryId = assetCategoryIdsJSON.getLong("value");
+
+		JSONObject groupAssetCategoryExternalReferenceCodesJSON = _jsonFactory.createJSONObject();
+
+		groupAssetCategoryExternalReferenceCodesJSON.put("label", _getLabel(assetCategoryId));
+		groupAssetCategoryExternalReferenceCodesJSON.put("value", _getExternalReferenceCode(assetCategoryId));
+
+		JSONArray groupAssetCategoryExternalReferenceCodesJSONArray = _jsonFactory.createJSONArray();
+		groupAssetCategoryExternalReferenceCodesJSONArray.put(groupAssetCategoryExternalReferenceCodesJSON);
+
+		uiConfigurationValuesJSON.put("group_asset_category_external_reference_codes", groupAssetCategoryExternalReferenceCodesJSONArray);
+		uiConfigurationValuesJSON.remove("asset_category_id");
 	}
 
 	private void _upgradeUIConfigurationValuesForHideElements(JSONObject uiConfigurationValuesJSON) throws Exception {
@@ -192,12 +207,17 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 
 	private void _upgradeSXPElement(String externalReferenceCode, JSONObject sxpElementJSON) throws Exception {
 
-		if(externalReferenceCode.startsWith("HIDE_CONTENTS_IN_A_CATEGORY")) {
-			_upgradeSXPElementForHideElements(sxpElementJSON);
-		} else if(externalReferenceCode.startsWith("BOOST_CONTENTS_IN_A_CATEGORY_")) {
-			_upgradeSXPElementForBoostElements(sxpElementJSON);
+		try {
+			if (externalReferenceCode.startsWith(
+				"HIDE_CONTENTS_IN_A_CATEGORY")) {
+				_upgradeSXPElementForHideElements(sxpElementJSON);
+			}
+			else if (externalReferenceCode.startsWith(
+				"BOOST_CONTENTS_IN_A_CATEGORY_")) {
+				_upgradeSXPElementForBoostElements(sxpElementJSON);
+			}
+		} catch (Exception exception) {
 		}
-
 
 	}
 
@@ -214,17 +234,78 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 		sxpElementJSON.put("elementDefinition", _jsonFactory.createJSONObject(elementDefinition));
 	}
 
-	private void _upgradeSXPElementForBoostElements(JSONObject sxpElementJSON) throws Exception {
-		String elementDefinition = sxpElementJSON.getString("elementDefinition");
+	private void _upgradeSXPElementForBoostElements(JSONObject sxpElementJSON) {
+		JSONObject elementDefinitionJSON = sxpElementJSON.getJSONObject("elementDefinition");
 
-		for (int i = 0; i < _HIDE_CONTENTS_IN_A_CATEGORY_OLD.length; i++) {
-			elementDefinition = StringUtil.replace(elementDefinition,
-				_HIDE_CONTENTS_IN_A_CATEGORY_OLD[i],
-				_HIDE_CONTENTS_IN_A_CATEGORY_NEW[i]);
+		_upgradeConfiguration(elementDefinitionJSON.getJSONObject("configuration"));
+		_upgradeUIConfiguration(elementDefinitionJSON.getJSONObject("uiConfiguration"));
+		
+	}
+
+	private void _upgradeUIConfiguration(JSONObject uiConfigurationJSON) {
+		try {
+			JSONArray fieldSetsJSONArray = uiConfigurationJSON.getJSONArray("fieldSets");
+
+			for (int i = 0; i < fieldSetsJSONArray.length(); i++) {
+				JSONObject fieldSetJSON = fieldSetsJSONArray.getJSONObject(i);
+
+				JSONArray fieldsJSONArray = fieldSetJSON.getJSONArray("fields");
+
+				for (int j = 0; j < fieldsJSONArray.length(); j++) {
+					JSONObject fieldJSON = fieldsJSONArray.getJSONObject(i);
+
+					String fieldName = fieldJSON.getString("name");
+
+					if (!fieldName.equals("asset_category_id")) {
+						continue;
+					}
+
+					fieldJSON.put("label", "asset-category-external-reference-codes");
+					fieldJSON.put("name", "group_asset_category_external_reference_codes");
+					fieldJSON.put("type", "multiselect");
+
+					break;
+				}
+			}
+		} catch (Exception exception) {
 		}
+	}
 
-		sxpElementJSON.remove("elementDefinition");
-		sxpElementJSON.put("elementDefinition", _jsonFactory.createJSONObject(elementDefinition));
+	private void _upgradeConfiguration(JSONObject configurationJSON) {
+
+		try {
+			JSONObject queryConfigurationJSON =
+				configurationJSON.getJSONObject("queryConfiguration");
+
+			JSONArray queryEntriesJSONArray =
+				queryConfigurationJSON.getJSONArray("queryEntries");
+
+			for (int i = 0; i < queryEntriesJSONArray.length(); i++) {
+				JSONObject queryEntryJSON =
+					queryEntriesJSONArray.getJSONObject(i);
+
+				JSONArray clausesJSONArray =
+					queryEntryJSON.getJSONArray("clauses");
+
+				for (int j = 0; j < clausesJSONArray.length(); j++) {
+					JSONObject clauseJSON = clausesJSONArray.getJSONObject(i);
+
+					JSONObject queryJSON = clauseJSON.getJSONObject("query");
+
+					queryJSON.remove("term");
+
+					JSONObject termsJSON = _jsonFactory.createJSONObject();
+
+					termsJSON.put("boost", "${configuration.boost}");
+					termsJSON.put(
+						"groupAssetCategoryExternalReferenceCodes",
+						"${configuration.group_asset_category_external_reference_codes}");
+
+					queryJSON.put("terms", termsJSON);
+				}
+			}
+		} catch (Exception exception) {
+		}
 	}
 
 	private static String[] _HIDE_CONTENTS_IN_A_CATEGORY_OLD = new String[]{
@@ -245,14 +326,14 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 			if(externalReferenceCode.startsWith("HIDE_CONTENTS_IN_A_CATEGORY")) {
 				_upgradeConfigurationEntryForHideElements(configurationEntryJSON);
 			} else if(externalReferenceCode.startsWith("BOOST_CONTENTS_IN_A_CATEGORY_")) {
-				_upgradeConfigurationEntryForBoostContentInACategoryELements(configurationEntryJSON);
+				_upgradeConfigurationEntryForBoostContentInACategoryElements(configurationEntryJSON);
 			}
 
 		} catch (Exception exception) {
 		}
 	}
 
-	private void _upgradeConfigurationEntryForBoostContentInACategoryELements(JSONObject configurationEntryJSON) throws Exception {
+	private void _upgradeConfigurationEntryForBoostContentInACategoryElements(JSONObject configurationEntryJSON) throws Exception {
 		JSONObject queryConfigurationEntryJSON =
 			configurationEntryJSON.getJSONObject("queryConfiguration");
 
@@ -273,7 +354,7 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 
 				JSONObject termJSON = queryJSON.getJSONObject("term");
 
-				JSONObject boostJSON = termJSON.getJSONObject("boost");
+				JSONObject assetCategoryIdsJSON = termJSON.getJSONObject("assetCategoryIds");
 
 				JSONObject
 					groupAssetCategoryExternalReferenceCodesJSON =
@@ -284,7 +365,7 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 					_translateIdsToExternalReferencesCodes(
 						_extractAssetCategoryIds(termJSON)));
 
-				queryJSON.put("boost", boostJSON.getDouble("boost"));
+				queryJSON.put("boost", assetCategoryIdsJSON.getDouble("boost"));
 
 				queryJSON.remove("term");
 
