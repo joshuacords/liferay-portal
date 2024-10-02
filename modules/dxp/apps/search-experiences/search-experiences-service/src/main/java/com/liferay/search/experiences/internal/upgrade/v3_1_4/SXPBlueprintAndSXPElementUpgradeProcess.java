@@ -263,6 +263,10 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 			JSONObject queryEntryJSON =
 				queryEntriesJSONArray.getJSONObject(i);
 
+			if (queryEntryJSON == null) {
+				continue;
+			}
+
 			JSONArray clausesJSONArray =
 				queryEntryJSON.getJSONArray("clauses");
 
