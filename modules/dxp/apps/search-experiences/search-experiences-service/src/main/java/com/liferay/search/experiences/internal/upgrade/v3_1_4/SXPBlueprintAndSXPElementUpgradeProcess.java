@@ -194,12 +194,27 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 
 		if(externalReferenceCode.startsWith("HIDE_CONTENTS_IN_A_CATEGORY")) {
 			_upgradeSXPElementForHideElements(sxpElementJSON);
+		} else if(externalReferenceCode.startsWith("BOOST_CONTENTS_IN_A_CATEGORY_")) {
+			_upgradeSXPElementForBoostElements(sxpElementJSON);
 		}
 
 
 	}
 
 	private void _upgradeSXPElementForHideElements(JSONObject sxpElementJSON) throws Exception {
+		String elementDefinition = sxpElementJSON.getString("elementDefinition");
+
+		for (int i = 0; i < _HIDE_CONTENTS_IN_A_CATEGORY_OLD.length; i++) {
+			elementDefinition = StringUtil.replace(elementDefinition,
+				_HIDE_CONTENTS_IN_A_CATEGORY_OLD[i],
+				_HIDE_CONTENTS_IN_A_CATEGORY_NEW[i]);
+		}
+
+		sxpElementJSON.remove("elementDefinition");
+		sxpElementJSON.put("elementDefinition", _jsonFactory.createJSONObject(elementDefinition));
+	}
+
+	private void _upgradeSXPElementForBoostElements(JSONObject sxpElementJSON) throws Exception {
 		String elementDefinition = sxpElementJSON.getString("elementDefinition");
 
 		for (int i = 0; i < _HIDE_CONTENTS_IN_A_CATEGORY_OLD.length; i++) {
@@ -229,9 +244,55 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 		try {
 			if(externalReferenceCode.startsWith("HIDE_CONTENTS_IN_A_CATEGORY")) {
 				_upgradeConfigurationEntryForHideElements(configurationEntryJSON);
+			} else if(externalReferenceCode.startsWith("BOOST_CONTENTS_IN_A_CATEGORY_")) {
+				_upgradeConfigurationEntryForBoostContentInACategoryELements(configurationEntryJSON);
 			}
 
 		} catch (Exception exception) {
+		}
+	}
+
+	private void _upgradeConfigurationEntryForBoostContentInACategoryELements(JSONObject configurationEntryJSON) throws Exception {
+		JSONObject queryConfigurationEntryJSON =
+			configurationEntryJSON.getJSONObject("queryConfiguration");
+
+		JSONArray queryEntriesJSONArray =
+			queryConfigurationEntryJSON.getJSONArray("queryEntries");
+
+		for (int i = 0; i < queryEntriesJSONArray.length(); i++) {
+			JSONObject queryEntryJSON =
+				queryEntriesJSONArray.getJSONObject(i);
+
+			JSONArray clausesJSONArray =
+				queryEntryJSON.getJSONArray("clauses");
+
+			for (int k = 0; k < clausesJSONArray.length(); k++) {
+				JSONObject clauseJSON = clausesJSONArray.getJSONObject(i);
+
+				JSONObject queryJSON = clauseJSON.getJSONObject("query");
+
+				JSONObject termJSON = queryJSON.getJSONObject("term");
+
+				JSONObject boostJSON = termJSON.getJSONObject("boost");
+
+				JSONObject
+					groupAssetCategoryExternalReferenceCodesJSON =
+					_jsonFactory.createJSONObject();
+
+				groupAssetCategoryExternalReferenceCodesJSON.put(
+					"groupAssetCategoryExternalReferenceCodes",
+					_translateIdsToExternalReferencesCodes(
+						_extractAssetCategoryIds(termJSON)));
+
+				queryJSON.put("boost", boostJSON.getDouble("boost"));
+
+				queryJSON.remove("term");
+
+				queryJSON.put(
+					"terms",
+					groupAssetCategoryExternalReferenceCodesJSON);
+			}
+
 		}
 	}
 
@@ -318,6 +379,12 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 		}
 
 		return assetCategoryIds;
+	}
+
+	private double _extractBoost(JSONObject termJSON) {
+		JSONObject boostJSON = termJSON.getJSONObject("boost");
+
+		return boostJSON.getDouble("boost");
 	}
 
 	private JSONObject _upgradeCategoryIdToCategoryExternalReferenceCode(
