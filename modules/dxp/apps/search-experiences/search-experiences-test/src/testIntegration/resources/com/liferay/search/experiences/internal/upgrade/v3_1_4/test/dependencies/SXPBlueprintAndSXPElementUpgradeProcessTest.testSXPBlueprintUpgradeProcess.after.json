@@ -12,7 +12,7 @@
 									"boost": 15,
 									"terms": {
 										"groupAssetCategoryExternalReferenceCodes": [
-											"L_GUEST&&418647d7-0e57-bb39-cd40-aebabb27acdf"
+											"$ASSET_CATEGORY_EXTERNAL_REFERENCE_CODE_2$"
 										]
 									}
 								}
@@ -95,8 +95,8 @@
 			"boost": 15,
 			"group_asset_category_external_reference_codes": [
 				{
-					"label": "Cat 2 (ERC: 418647d7-0e57-bb39-cd40-aebabb27acdf)",
-					"value": "L_GUEST&&418647d7-0e57-bb39-cd40-aebabb27acdf"
+					"label": "$ASSET_CATEGORY_LABEL_2$",
+					"value": "$ASSET_CATEGORY_EXTERNAL_REFERENCE_CODE_2$"
 				}
 			]
 		}
@@ -116,7 +116,7 @@
 											{
 												"terms": {
 													"groupAssetCategoryExternalReferenceCodes": [
-														"L_GUEST&&f7c0b71e-d20f-039f-6544-431c70a9c621"
+														"$ASSET_CATEGORY_EXTERNAL_REFERENCE_CODE_1$"
 													]
 												}
 											}
@@ -196,8 +196,8 @@
 		"uiConfigurationValues": {
 			"group_asset_category_external_reference_codes": [
 				{
-					"label": "Cat 1 (ERC: f7c0b71e-d20f-039f-6544-431c70a9c621)",
-					"value": "L_GUEST&&f7c0b71e-d20f-039f-6544-431c70a9c621"
+					"label": "$ASSET_CATEGORY_LABEL_1$",
+					"value": "$ASSET_CATEGORY_EXTERNAL_REFERENCE_CODE_1$"
 				}
 			]
 		}
@@ -215,7 +215,7 @@
 									"boost": 15,
 									"terms": {
 										"groupAssetCategoryExternalReferenceCodes": [
-											"L_GUEST&&f7c0b71e-d20f-039f-6544-431c70a9c621"
+											"$ASSET_CATEGORY_EXTERNAL_REFERENCE_CODE_1$"
 										]
 									}
 								}
@@ -318,8 +318,8 @@
 			"boost": 15,
 			"group_asset_category_external_reference_codes": [
 				{
-					"label": "Cat 1 (ERC: f7c0b71e-d20f-039f-6544-431c70a9c621)",
-					"value": "L_GUEST&&f7c0b71e-d20f-039f-6544-431c70a9c621"
+					"label": "$ASSET_CATEGORY_LABEL_1$",
+					"value": "$ASSET_CATEGORY_EXTERNAL_REFERENCE_CODE_1$"
 				}
 			],
 			"keywords": [
@@ -343,7 +343,7 @@
 									"boost": 15,
 									"terms": {
 										"groupAssetCategoryExternalReferenceCodes": [
-											"L_GUEST&&f7c0b71e-d20f-039f-6544-431c70a9c621"
+											"$ASSET_CATEGORY_EXTERNAL_REFERENCE_CODE_1$"
 										]
 									}
 								}
@@ -461,8 +461,8 @@
 			"end_date": 1728457200,
 			"group_asset_category_external_reference_codes": [
 				{
-					"label": "Cat 1 (ERC: f7c0b71e-d20f-039f-6544-431c70a9c621)",
-					"value": "L_GUEST&&f7c0b71e-d20f-039f-6544-431c70a9c621"
+					"label": "$ASSET_CATEGORY_LABEL_1$",
+					"value": "$ASSET_CATEGORY_EXTERNAL_REFERENCE_CODE_1$"
 				}
 			],
 			"start_date": 1727766000
@@ -481,7 +481,7 @@
 									"boost": 25,
 									"terms": {
 										"groupAssetCategoryExternalReferenceCodes": [
-											"L_GUEST&&418647d7-0e57-bb39-cd40-aebabb27acdf"
+											"$ASSET_CATEGORY_EXTERNAL_REFERENCE_CODE_2$"
 										]
 									}
 								}
@@ -584,8 +584,8 @@
 			"boost": 25,
 			"group_asset_category_external_reference_codes": [
 				{
-					"label": "Cat 2 (ERC: 418647d7-0e57-bb39-cd40-aebabb27acdf)",
-					"value": "L_GUEST&&418647d7-0e57-bb39-cd40-aebabb27acdf"
+					"label": "$ASSET_CATEGORY_LABEL_2$",
+					"value": "$ASSET_CATEGORY_EXTERNAL_REFERENCE_CODE_2$"
 				}
 			],
 			"user_segment_ids": [
@@ -609,7 +609,7 @@
 									"boost": 25,
 									"terms": {
 										"groupAssetCategoryExternalReferenceCodes": [
-											"L_GUEST&&f7c0b71e-d20f-039f-6544-431c70a9c621"
+											"$ASSET_CATEGORY_EXTERNAL_REFERENCE_CODE_1$"
 										]
 									}
 								}
@@ -704,8 +704,8 @@
 			"boost": 25,
 			"group_asset_category_external_reference_codes": [
 				{
-					"label": "Cat 1 (ERC: f7c0b71e-d20f-039f-6544-431c70a9c621)",
-					"value": "L_GUEST&&f7c0b71e-d20f-039f-6544-431c70a9c621"
+					"label": "$ASSET_CATEGORY_LABEL_1$",
+					"value": "$ASSET_CATEGORY_EXTERNAL_REFERENCE_CODE_1$"
 				}
 			]
 		}
@@ -723,7 +723,7 @@
 									"boost": 25,
 									"terms": {
 										"groupAssetCategoryExternalReferenceCodes": [
-											"L_GUEST&&f7c0b71e-d20f-039f-6544-431c70a9c621"
+											"$ASSET_CATEGORY_EXTERNAL_REFERENCE_CODE_1$"
 										]
 									}
 								}
@@ -833,8 +833,8 @@
 			"boost": 25,
 			"group_asset_category_external_reference_codes": [
 				{
-					"label": "Cat 1 (ERC: f7c0b71e-d20f-039f-6544-431c70a9c621)",
-					"value": "L_GUEST&&f7c0b71e-d20f-039f-6544-431c70a9c621"
+					"label": "$ASSET_CATEGORY_LABEL_1$",
+					"value": "$ASSET_CATEGORY_EXTERNAL_REFERENCE_CODE_1$"
 				}
 			],
 			"time_range": 30
@@ -853,7 +853,7 @@
 									"boost": 25,
 									"terms": {
 										"groupAssetCategoryExternalReferenceCodes": [
-											"L_GUEST&&418647d7-0e57-bb39-cd40-aebabb27acdf"
+											"$ASSET_CATEGORY_EXTERNAL_REFERENCE_CODE_2$"
 										]
 									}
 								}
@@ -974,8 +974,8 @@
 			"boost": 25,
 			"group_asset_category_external_reference_codes": [
 				{
-					"label": "Cat 2 (ERC: 418647d7-0e57-bb39-cd40-aebabb27acdf)",
-					"value": "L_GUEST&&418647d7-0e57-bb39-cd40-aebabb27acdf"
+					"label": "$ASSET_CATEGORY_LABEL_2$",
+					"value": "$ASSET_CATEGORY_EXTERNAL_REFERENCE_CODE_2$"
 				}
 			],
 			"time_of_day": "night"
@@ -996,7 +996,7 @@
 											{
 												"terms": {
 													"groupAssetCategoryExternalReferenceCodes": [
-														"L_GUEST&&f7c0b71e-d20f-039f-6544-431c70a9c621"
+														"$ASSET_CATEGORY_EXTERNAL_REFERENCE_CODE_1$"
 													]
 												}
 											}
@@ -1088,8 +1088,8 @@
 		"uiConfigurationValues": {
 			"group_asset_category_external_reference_codes": [
 				{
-					"label": "Cat 1 (ERC: f7c0b71e-d20f-039f-6544-431c70a9c621)",
-					"value": "L_GUEST&&f7c0b71e-d20f-039f-6544-431c70a9c621"
+					"label": "$ASSET_CATEGORY_LABEL_1$",
+					"value": "$ASSET_CATEGORY_EXTERNAL_REFERENCE_CODE_1$"
 				}
 			]
 		}
@@ -1107,8 +1107,8 @@
 									"boost": 15,
 									"terms": {
 										"groupAssetCategoryExternalReferenceCodes": [
-											"L_GUEST&&f7c0b71e-d20f-039f-6544-431c70a9c621",
-											"L_GUEST&&418647d7-0e57-bb39-cd40-aebabb27acdf"
+											"$ASSET_CATEGORY_EXTERNAL_REFERENCE_CODE_1$",
+											"$ASSET_CATEGORY_EXTERNAL_REFERENCE_CODE_2$"
 										]
 									}
 								}
@@ -1191,12 +1191,12 @@
 			"boost": 15,
 			"group_asset_category_external_reference_codes": [
 				{
-					"label": "Cat 1 (ERC: f7c0b71e-d20f-039f-6544-431c70a9c621)",
-					"value": "L_GUEST&&f7c0b71e-d20f-039f-6544-431c70a9c621"
+					"label": "$ASSET_CATEGORY_LABEL_1$",
+					"value": "$ASSET_CATEGORY_EXTERNAL_REFERENCE_CODE_1$"
 				},
 				{
-					"label": "Cat 2 (ERC: 418647d7-0e57-bb39-cd40-aebabb27acdf)",
-					"value": "L_GUEST&&418647d7-0e57-bb39-cd40-aebabb27acdf"
+					"label": "$ASSET_CATEGORY_LABEL_2$",
+					"value": "$ASSET_CATEGORY_EXTERNAL_REFERENCE_CODE_2$"
 				}
 			]
 		}
