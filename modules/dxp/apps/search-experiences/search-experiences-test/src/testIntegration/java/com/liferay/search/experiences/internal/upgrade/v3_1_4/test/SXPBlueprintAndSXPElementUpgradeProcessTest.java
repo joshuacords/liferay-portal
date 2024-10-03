@@ -9,7 +9,12 @@ import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.cache.MultiVMPool;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.test.rule.AggregateTestRule;
+import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
+import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
 import com.liferay.portal.kernel.test.util.TestPropsValues;
@@ -21,11 +26,15 @@ import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.test.rule.PermissionCheckerMethodTestRule;
 import com.liferay.portal.upgrade.registry.UpgradeStepRegistrator;
 import com.liferay.portal.upgrade.test.util.UpgradeTestUtil;
+import com.liferay.search.experiences.model.SXPBlueprint;
 import com.liferay.search.experiences.model.SXPElement;
+import com.liferay.search.experiences.service.SXPBlueprintLocalService;
 import com.liferay.search.experiences.service.SXPElementLocalService;
 
 import java.util.Collections;
 
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
@@ -33,6 +42,7 @@ import org.junit.rules.TestName;
 import org.junit.runner.RunWith;
 
 import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 
 /**
  * @author Joshua Cords
@@ -46,6 +56,24 @@ public class SXPBlueprintAndSXPElementUpgradeProcessTest {
 		new AggregateTestRule(
 			new LiferayIntegrationTestRule(),
 			PermissionCheckerMethodTestRule.INSTANCE);
+
+	@Before
+	public void setUp() throws Exception {
+		_group = GroupTestUtil.addGroup();
+		_user = TestPropsValues.getUser();
+
+		_serviceContext = ServiceContextTestUtil.getServiceContext(
+			_group, _user.getUserId());
+	}
+
+	@Test
+	public void testSXPBlueprintUpgradeProcess() throws Exception {
+		SXPBlueprint sxpBlueprint = _addSXPBlueprint("1.1");
+
+		_runUpgrade("v3_1_4.SXPBlueprintAndSXPElementUpgradeProcess");
+
+		_assertSXPBlueprint(sxpBlueprint.getSXPBlueprintId());
+	}
 
 	@Test
 	public void testSXPElementUpgradeProcess() throws Exception {
@@ -64,15 +92,28 @@ public class SXPBlueprintAndSXPElementUpgradeProcessTest {
 		}
 	}
 
-	@Test
-	public void testSXPBlueprintUpgradeProcess() throws Exception {
-
-		_runUpgrade("v3_1_4.SXPBlueprintAndSXPElementUpgradeProcess");
-
-	}
-
 	@Rule
 	public TestName testName = new TestName();
+
+	private SXPBlueprint _addSXPBlueprint(String schemaVersion)
+		throws Exception {
+
+		Class<?> clazz = getClass();
+
+		return _sxpBlueprintLocalService.addSXPBlueprint(
+			null, TestPropsValues.getUserId(), _configurationJSON,
+			Collections.singletonMap(
+				LocaleUtil.US, RandomTestUtil.randomString()),
+			StringUtil.read(
+				clazz,
+				StringBundler.concat(
+					"dependencies/", clazz.getSimpleName(), StringPool.PERIOD,
+					testName.getMethodName(), ".original.json")),
+			schemaVersion,
+			Collections.singletonMap(
+				LocaleUtil.US, RandomTestUtil.randomString()),
+			_serviceContext);
+	}
 
 	private void _assertElementUpgraded(String externalReferenceCode)
 		throws Exception {
@@ -83,7 +124,25 @@ public class SXPBlueprintAndSXPElementUpgradeProcessTest {
 
 		JSONAssert.assertEquals(
 			sxpElement.getElementDefinitionJSON(),
-			_getExpectedElementDefinitionJSON(externalReferenceCode), true);
+			_getExpectedElementDefinitionJSON(externalReferenceCode),
+			JSONCompareMode.LENIENT);
+	}
+
+	private void _assertSXPBlueprint(long sxpBlueprintId) throws Exception {
+		SXPBlueprint sxpBlueprint = _sxpBlueprintLocalService.fetchSXPBlueprint(
+			sxpBlueprintId);
+
+		Assert.assertNotNull(sxpBlueprint);
+
+		Class<?> clazz = getClass();
+
+		JSONAssert.assertEquals(
+			StringUtil.read(
+				clazz,
+				StringBundler.concat(
+					"dependencies/", clazz.getSimpleName(), StringPool.PERIOD,
+					testName.getMethodName(), ".expected.json")),
+			sxpBlueprint.getElementInstancesJSON(), JSONCompareMode.STRICT);
 	}
 
 	private void _createOldElement(String externalReferenceCode)
@@ -148,15 +207,28 @@ public class SXPBlueprintAndSXPElementUpgradeProcessTest {
 		"HIDE_CONTENTS_IN_A_CATEGORY_FOR_GUEST_USERS"
 	};
 
+	private static final String _configurationJSON =
+		"{\"advancedConfiguration\": {}, \"aggregationConfiguration\": {}, \"generalConfiguration\": {\"clauseContributorsExcludes\": [], \"clauseContributorsIncludes\": [\"*\"], \"searchableAssetTypes\": []}, \"highlightConfiguration\": {}, \"parameterConfiguration\": {}, \"queryConfiguration\": {\"applyIndexerClauses\": true}, \"sortConfiguration\": {}}";
+
 	@Inject(
 		filter = "(&(component.name=com.liferay.search.experiences.internal.upgrade.registry.SXPServiceUpgradeStepRegistrator))"
 	)
 	private static UpgradeStepRegistrator _upgradeStepRegistrator;
 
+	@DeleteAfterTestRun
+	private Group _group;
+
 	@Inject
 	private MultiVMPool _multiVMPool;
 
+	private ServiceContext _serviceContext;
+
+	@Inject
+	private SXPBlueprintLocalService _sxpBlueprintLocalService;
+
 	@Inject
 	private SXPElementLocalService _sxpElementLocalService;
+
+	private User _user;
 
 }
