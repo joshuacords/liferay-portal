@@ -259,14 +259,13 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 					"query");
 
 				if (externalReferenceCode.startsWith(
-						"HIDE_CONTENTS_IN_A_CATEGORY")) {
-
-					_upgradeConfigurationEntryForHideElements(queryJSONObject);
-				}
-				else if (externalReferenceCode.startsWith(
 							"BOOST_CONTENTS_IN_A_CATEGORY")) {
 
 					_upgradeConfigurationEntryForBoostElements(queryJSONObject);
+				} else if (externalReferenceCode.startsWith(
+					"HIDE_CONTENTS_IN_A_CATEGORY")) {
+
+					_upgradeConfigurationEntryForHideElements(queryJSONObject);
 				}
 			}
 		}
@@ -400,7 +399,6 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 									"sxpElement"));
 
 							_upgradeUIConfigurationValues(
-								externalReferenceCode,
 								elementInstanceJSONObject.getJSONObject(
 									"uiConfigurationValues"));
 						}
@@ -492,101 +490,40 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 	}
 
 	private void _upgradeUIConfigurationValues(
-			String externalReferenceCode,
 			JSONObject uiConfigurationValuesJSONObject)
 		throws Exception {
-
-		if (externalReferenceCode.startsWith("HIDE_CONTENTS_IN_A_CATEGORY")) {
-			_upgradeUIConfigurationValuesForHideElements(
-				uiConfigurationValuesJSONObject);
-		}
-		else if (externalReferenceCode.startsWith(
-					"BOOST_CONTENTS_IN_A_CATEGORY_")) {
-
-			_upgradeUIConfigurationValuesForBoostElements(
-				uiConfigurationValuesJSONObject);
-		}
-		else if (externalReferenceCode.startsWith(
-					"BOOST_CONTENTS_IN_A_CATEGORY")) {
-
-			_upgradeUIConfigurationValuesForBoostElement(
-				uiConfigurationValuesJSONObject);
-		}
-	}
-
-	private void _upgradeUIConfigurationValuesForBoostElement(
-			JSONObject uiConfigurationValuesJSONObject)
-		throws Exception {
-
-		JSONArray assetCategoryIdsJSONArray =
-			uiConfigurationValuesJSONObject.getJSONArray("asset_category_ids");
 
 		JSONArray groupAssetCategoryExternalReferenceCodesJSONArray =
 			_jsonFactory.createJSONArray();
 
-		for (int i = 0; i < assetCategoryIdsJSONArray.length(); i++) {
+		if (uiConfigurationValuesJSONObject.has("asset_category_id")) {
+			JSONObject assetCategoryIdsJSONObject =
+				uiConfigurationValuesJSONObject.getJSONObject(
+					"asset_category_id");
+
 			groupAssetCategoryExternalReferenceCodesJSONArray.put(
 				_createGroupAssetCategoryExternalReferenceCodesJSONObject(
-					assetCategoryIdsJSONArray.getJSONObject(i)));
+					assetCategoryIdsJSONObject));
+
+			uiConfigurationValuesJSONObject.remove("asset_category_id");
+		}
+		else {
+			JSONArray assetCategoryIdsJSONArray =
+				uiConfigurationValuesJSONObject.getJSONArray(
+					"asset_category_ids");
+
+			for (int i = 0; i < assetCategoryIdsJSONArray.length(); i++) {
+				groupAssetCategoryExternalReferenceCodesJSONArray.put(
+					_createGroupAssetCategoryExternalReferenceCodesJSONObject(
+						assetCategoryIdsJSONArray.getJSONObject(i)));
+			}
+
+			uiConfigurationValuesJSONObject.remove("asset_category_ids");
 		}
 
 		uiConfigurationValuesJSONObject.put(
 			"group_asset_category_external_reference_codes",
 			groupAssetCategoryExternalReferenceCodesJSONArray);
-		uiConfigurationValuesJSONObject.remove("asset_category_ids");
-	}
-
-	private void _upgradeUIConfigurationValuesForBoostElements(
-			JSONObject uiConfigurationValuesJSONObject)
-		throws Exception {
-
-		JSONObject assetCategoryIdsJSONObject =
-			uiConfigurationValuesJSONObject.getJSONObject("asset_category_id");
-
-		JSONArray groupAssetCategoryExternalReferenceCodesJSONArray =
-			_jsonFactory.createJSONArray();
-
-		groupAssetCategoryExternalReferenceCodesJSONArray.put(
-			_createGroupAssetCategoryExternalReferenceCodesJSONObject(
-				assetCategoryIdsJSONObject));
-
-		uiConfigurationValuesJSONObject.put(
-			"group_asset_category_external_reference_codes",
-			groupAssetCategoryExternalReferenceCodesJSONArray);
-
-		uiConfigurationValuesJSONObject.remove("asset_category_id");
-	}
-
-	private void _upgradeUIConfigurationValuesForHideElements(
-			JSONObject uiConfigurationValuesJSONObject)
-		throws Exception {
-
-		JSONObject assetCategoryIdsJSONObject =
-			uiConfigurationValuesJSONObject.getJSONObject("asset_category_id");
-
-		long assetCategoryId = assetCategoryIdsJSONObject.getLong("value");
-
-		JSONObject groupAssetCategoryExternalReferenceCodesJSONObject =
-			_jsonFactory.createJSONObject();
-
-		groupAssetCategoryExternalReferenceCodesJSONObject.put(
-			"label", _getLabel(assetCategoryId)
-		).put(
-			"value", _getExternalReferenceCode(assetCategoryId)
-		);
-
-		JSONArray groupAssetCategoryExternalReferenceCodesJSONArray =
-			_jsonFactory.createJSONArray();
-
-		groupAssetCategoryExternalReferenceCodesJSONArray.put(
-			groupAssetCategoryExternalReferenceCodesJSONObject);
-
-		uiConfigurationValuesJSONObject.put(
-			"group_asset_category_external_reference_codes",
-			groupAssetCategoryExternalReferenceCodesJSONArray
-		).remove(
-			"asset_category_id"
-		);
 	}
 
 	private static final String[] _EXTERNAL_REFERENCE_CODES = {
