@@ -462,30 +462,20 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 								continue;
 							}
 
-							if (elementInstanceJSONObject.has(
-									"configurationEntry")) {
+							_upgradeConfigurationEntry(
+								externalReferenceCode,
+								elementInstanceJSONObject.getJSONObject(
+									"configurationEntry"));
 
-								_upgradeConfigurationEntry(
-									externalReferenceCode,
-									elementInstanceJSONObject.getJSONObject(
-										"configurationEntry"));
-							}
+							_upgradeSXPElement(
+								externalReferenceCode,
+								elementInstanceJSONObject.getJSONObject(
+									"sxpElement"));
 
-							if (elementInstanceJSONObject.has("sxpElement")) {
-								_upgradeSXPElement(
-									externalReferenceCode,
-									elementInstanceJSONObject.getJSONObject(
-										"sxpElement"));
-							}
-
-							if (elementInstanceJSONObject.has(
-									"uiConfigurationValues")) {
-
-								_upgradeUIConfigurationValues(
-									externalReferenceCode,
-									elementInstanceJSONObject.getJSONObject(
-										"uiConfigurationValues"));
-							}
+							_upgradeUIConfigurationValues(
+								externalReferenceCode,
+								elementInstanceJSONObject.getJSONObject(
+									"uiConfigurationValues"));
 						}
 
 						preparedStatement2.setString(
