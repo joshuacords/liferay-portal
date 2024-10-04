@@ -152,26 +152,6 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 			JSONObject configurationEntryJSONObject)
 		throws Exception {
 
-		if (externalReferenceCode.startsWith("HIDE_CONTENTS_IN_A_CATEGORY")) {
-			_upgradeConfigurationEntryForHideElements(
-				configurationEntryJSONObject);
-		}
-		else if (externalReferenceCode.startsWith(
-					"BOOST_CONTENTS_IN_A_CATEGORY_")) {
-
-			_upgradeConfigurationEntryForBoostContentInACategoryElements(
-				configurationEntryJSONObject);
-		}
-		else if (externalReferenceCode.equals("BOOST_CONTENTS_IN_A_CATEGORY")) {
-			_upgradeConfigurationEntryForBoostContentInACategoryElement(
-				configurationEntryJSONObject);
-		}
-	}
-
-	private void _upgradeConfigurationEntryForBoostContentInACategoryElement(
-			JSONObject configurationEntryJSONObject)
-		throws Exception {
-
 		JSONObject queryConfigurationEntryJSONObject =
 			configurationEntryJSONObject.getJSONObject("queryConfiguration");
 
@@ -191,131 +171,85 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 				JSONObject queryJSONObject = clauseJSONObject.getJSONObject(
 					"query");
 
-				JSONObject termsJSONObject = queryJSONObject.getJSONObject(
-					"terms");
+				if (externalReferenceCode.startsWith(
+						"HIDE_CONTENTS_IN_A_CATEGORY")) {
 
-				JSONObject groupAssetCategoryExternalReferenceCodesJSONObject =
-					_jsonFactory.createJSONObject();
+					_upgradeConfigurationEntryForHideElements(queryJSONObject);
+				}
+				else if (externalReferenceCode.startsWith(
+							"BOOST_CONTENTS_IN_A_CATEGORY")) {
 
-				groupAssetCategoryExternalReferenceCodesJSONObject.put(
-					"boost", termsJSONObject.getDouble("boost")
-				).put(
-					"groupAssetCategoryExternalReferenceCodes",
-					_translateIdsToExternalReferencesCodes(
-						_extractAssetCategoryIds(termsJSONObject))
-				);
-
-				queryJSONObject.put(
-					"terms",
-					groupAssetCategoryExternalReferenceCodesJSONObject);
+					_upgradeConfigurationEntryForBoostElements(queryJSONObject);
+				}
 			}
 		}
 	}
 
-	private void _upgradeConfigurationEntryForBoostContentInACategoryElements(
-			JSONObject configurationEntryJSONObject)
+	private void _upgradeConfigurationEntryForBoostElements(
+			JSONObject queryJSONObject)
 		throws Exception {
 
-		JSONObject queryConfigurationEntryJSONObject =
-			configurationEntryJSONObject.getJSONObject("queryConfiguration");
+		JSONObject groupAssetCategoryExternalReferenceCodesJSONObject =
+			_jsonFactory.createJSONObject();
 
-		JSONArray queryEntriesJSONArray =
-			queryConfigurationEntryJSONObject.getJSONArray("queryEntries");
+		long[] assetCategoryIds;
+		double boost;
 
-		for (int i = 0; i < queryEntriesJSONArray.length(); i++) {
-			JSONObject queryEntryJSONObject =
-				queryEntriesJSONArray.getJSONObject(i);
+		if (queryJSONObject.has("term")) {
+			JSONObject termJSONObject = queryJSONObject.getJSONObject("term");
 
-			JSONArray clausesJSONArray = queryEntryJSONObject.getJSONArray(
-				"clauses");
+			queryJSONObject.remove("term");
 
-			for (int k = 0; k < clausesJSONArray.length(); k++) {
-				JSONObject clauseJSONObject = clausesJSONArray.getJSONObject(i);
+			JSONObject assetCategoryIdsJSONObject =
+				termJSONObject.getJSONObject("assetCategoryIds");
 
-				JSONObject queryJSONObject = clauseJSONObject.getJSONObject(
-					"query");
-
-				JSONObject termJSONObject = queryJSONObject.getJSONObject(
-					"term");
-
-				JSONObject assetCategoryIdsJSONObject =
-					termJSONObject.getJSONObject("assetCategoryIds");
-
-				JSONObject groupAssetCategoryExternalReferenceCodesJSONObject =
-					_jsonFactory.createJSONObject();
-
-				groupAssetCategoryExternalReferenceCodesJSONObject.put(
-					"boost", assetCategoryIdsJSONObject.getDouble("boost")
-				).put(
-					"groupAssetCategoryExternalReferenceCodes",
-					_translateIdsToExternalReferencesCodes(
-						_extractAssetCategoryIds(termJSONObject))
-				);
-
-				queryJSONObject.remove("term");
-
-				queryJSONObject.put(
-					"terms",
-					groupAssetCategoryExternalReferenceCodesJSONObject);
-			}
+			assetCategoryIds = _extractAssetCategoryIds(termJSONObject);
+			boost = assetCategoryIdsJSONObject.getDouble("boost");
 		}
+		else {
+			JSONObject termsJSONObject = queryJSONObject.getJSONObject("terms");
+
+			assetCategoryIds = _extractAssetCategoryIds(termsJSONObject);
+			boost = termsJSONObject.getDouble("boost");
+		}
+
+		groupAssetCategoryExternalReferenceCodesJSONObject.put(
+			"boost", boost
+		).put(
+			"groupAssetCategoryExternalReferenceCodes",
+			_translateIdsToExternalReferencesCodes(assetCategoryIds)
+		);
+
+		queryJSONObject.put(
+			"terms", groupAssetCategoryExternalReferenceCodesJSONObject);
 	}
 
 	private void _upgradeConfigurationEntryForHideElements(
-			JSONObject configurationEntryJSONObject)
+			JSONObject queryJSONObject)
 		throws Exception {
 
-		JSONObject queryConfigurationEntryJSONObject =
-			configurationEntryJSONObject.getJSONObject("queryConfiguration");
+		JSONObject boolJSONObject = queryJSONObject.getJSONObject("bool");
 
-		JSONArray queryEntriesJSONArray =
-			queryConfigurationEntryJSONObject.getJSONArray("queryEntries");
+		JSONArray mustNotJSONArray = boolJSONObject.getJSONArray("must_not");
 
-		for (int i = 0; i < queryEntriesJSONArray.length(); i++) {
-			JSONObject queryEntryJSONObject =
-				queryEntriesJSONArray.getJSONObject(i);
+		for (int i = 0; i < mustNotJSONArray.length(); i++) {
+			JSONObject mustNotJSONObject = mustNotJSONArray.getJSONObject(i);
 
-			JSONArray clausesJSONArray = queryEntryJSONObject.getJSONArray(
-				"clauses");
+			JSONObject termJSONObject = mustNotJSONObject.getJSONObject("term");
 
-			for (int k = 0; k < clausesJSONArray.length(); k++) {
-				JSONObject clauseJSONObject = clausesJSONArray.getJSONObject(i);
+			long[] assetCategoryIds = _extractAssetCategoryIds(termJSONObject);
 
-				JSONObject queryJSONObject = clauseJSONObject.getJSONObject(
-					"query");
+			mustNotJSONObject.remove("term");
 
-				JSONObject boolJSONObject = queryJSONObject.getJSONObject(
-					"bool");
+			JSONObject groupAssetCategoryExternalReferenceCodesJSONObject =
+				_jsonFactory.createJSONObject();
 
-				JSONArray mustNotJSONArray = boolJSONObject.getJSONArray(
-					"must_not");
+			groupAssetCategoryExternalReferenceCodesJSONObject.put(
+				"groupAssetCategoryExternalReferenceCodes",
+				_translateIdsToExternalReferencesCodes(assetCategoryIds));
 
-				for (int j = 0; j < mustNotJSONArray.length(); j++) {
-					JSONObject mustNotJSONObject =
-						mustNotJSONArray.getJSONObject(j);
-
-					JSONObject termJSONObject = mustNotJSONObject.getJSONObject(
-						"term");
-
-					long[] assetCategoryIds = _extractAssetCategoryIds(
-						termJSONObject);
-
-					mustNotJSONObject.remove("term");
-
-					JSONObject
-						groupAssetCategoryExternalReferenceCodesJSONObject =
-							_jsonFactory.createJSONObject();
-
-					groupAssetCategoryExternalReferenceCodesJSONObject.put(
-						"groupAssetCategoryExternalReferenceCodes",
-						_translateIdsToExternalReferencesCodes(
-							assetCategoryIds));
-
-					mustNotJSONObject.put(
-						"terms",
-						groupAssetCategoryExternalReferenceCodesJSONObject);
-				}
-			}
+			mustNotJSONObject.put(
+				"terms", groupAssetCategoryExternalReferenceCodesJSONObject);
 		}
 	}
 
