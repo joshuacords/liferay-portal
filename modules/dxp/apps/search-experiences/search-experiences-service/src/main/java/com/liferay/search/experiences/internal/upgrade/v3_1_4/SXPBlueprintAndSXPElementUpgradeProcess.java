@@ -18,8 +18,10 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.upgrade.UpgradeProcess;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.search.experiences.rest.dto.v1_0.ElementInstance;
+import com.liferay.search.experiences.rest.dto.v1_0.SXPElement;
 import com.liferay.search.experiences.rest.dto.v1_0.util.ElementInstanceUtil;
 
 import java.sql.PreparedStatement;
@@ -65,26 +67,15 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 					String elementInstancesJSON = resultSet.getString(
 						"elementInstancesJSON");
 
-//					SXPBlueprint sxpBlueprint = SXPBlueprintUtil.toSXPBlueprint(elementInstancesJSON);
-
 					try {
 						ElementInstance[] elementInstances = ElementInstanceUtil.toElementInstances(
 							elementInstancesJSON);
 
-//						if((elementInstances.length == 0) || !_containsCategoryElement(elementInstances)) {
-//							continue;
-//						}
+						if((elementInstances == null) || !_containsCategoryElement(elementInstances)) {
+							continue;
+						}
 					}
 					catch (RuntimeException runtimeException) {
-						if (_log.isWarnEnabled()) {
-							_log.warn(
-								StringBundler.concat(
-									"Search experiences blueprint with ID ",
-									resultSet.getLong("sxpBlueprintId"),
-									" contains corrupted element instances ",
-									"JSON"),
-								runtimeException);
-						}
 					}
 
 					JSONArray elementInstancesJSONArray = _jsonFactory.createJSONArray(
@@ -97,7 +88,11 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 						JSONObject sxpElementJSON = elementInstanceJSON.getJSONObject("sxpElement");
 
 						String elementExternalReferenceCode = sxpElementJSON.getString("externalReferenceCode");
-//continue if not Category Limit
+
+						if (!ArrayUtil.contains(_ELEMENT_EXTERNAL_REFERENCE_CODES, elementExternalReferenceCode)) {
+							continue;
+						}
+
 						if (elementInstanceJSON.has("configurationEntry")) {
 							_upgradeConfigurationEntry(
 								elementExternalReferenceCode,
@@ -130,6 +125,22 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 			}
 		}
 	}
+
+	private boolean _containsCategoryElement(ElementInstance[] elementInstances) {
+
+		for (ElementInstance elementInstance : elementInstances) {
+			SXPElement sxpElement = elementInstance.getSxpElement();
+
+			String externalReferenceCode = sxpElement.getExternalReferenceCode();
+
+			if (ArrayUtil.contains(_ELEMENT_EXTERNAL_REFERENCE_CODES, externalReferenceCode)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 
 	private void _upgradeUIConfigurationValues(String externalReferenceCode, JSONObject uiConfigurationValuesJSON) {
 
@@ -246,19 +257,6 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 
 	}
 
-//	private void _upgradeSXPElementForHideElements(JSONObject sxpElementJSON) throws Exception {
-//		String elementDefinition = sxpElementJSON.getString("elementDefinition");
-//
-//		for (int i = 0; i < _HIDE_CONTENTS_IN_A_CATEGORY_OLD.length; i++) {
-//			elementDefinition = StringUtil.replace(elementDefinition,
-//				_HIDE_CONTENTS_IN_A_CATEGORY_OLD[i],
-//				_HIDE_CONTENTS_IN_A_CATEGORY_NEW[i]);
-//		}
-//
-//		sxpElementJSON.remove("elementDefinition");
-//		sxpElementJSON.put("elementDefinition", _jsonFactory.createJSONObject(elementDefinition));
-//	}
-
 	private void _upgradeSXPElementForBoostElements(JSONObject sxpElementJSON) {
 		JSONObject elementDefinitionJSON = sxpElementJSON.getJSONObject("elementDefinition");
 
@@ -273,36 +271,6 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 		_upgradeConfigurationForHideElements(elementDefinitionJSON.getJSONObject("configuration"));
 		_upgradeUIConfigurationForBoostElements(elementDefinitionJSON.getJSONObject("uiConfiguration"));
 
-	}
-
-	private void _upgradeUIConfigurationForHideElements(JSONObject uiConfigurationJSON) {
-		try {
-			JSONArray fieldSetsJSONArray = uiConfigurationJSON.getJSONArray("fieldSets");
-
-			for (int i = 0; i < fieldSetsJSONArray.length(); i++) {
-				JSONObject fieldSetJSON = fieldSetsJSONArray.getJSONObject(i);
-
-				JSONArray fieldsJSONArray = fieldSetJSON.getJSONArray("fields");
-
-				for (int j = 0; j < fieldsJSONArray.length(); j++) {
-					JSONObject fieldJSON = fieldsJSONArray.getJSONObject(i);
-
-					String fieldName = fieldJSON.getString("name");
-
-					if (!fieldName.startsWith("asset_category_id")) {
-						continue;
-					}
-
-					fieldJSON.put("label", "asset-category-external-reference-codes");
-					fieldJSON.put("name", "group_asset_category_external_reference_codes");
-					fieldJSON.put("type", "multiselect");
-					fieldJSON.remove("labelLocalized");
-
-					break;
-				}
-			}
-		} catch (Exception exception) {
-		}
 	}
 
 	private void _upgradeConfigurationForHideElements(JSONObject configurationJSON) {
@@ -415,18 +383,6 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 		} catch (Exception exception) {
 		}
 	}
-
-	private static String[] _HIDE_CONTENTS_IN_A_CATEGORY_OLD = new String[]{
-		"{\"term\":{\"assetCategoryIds\":{\"value\":\"${configuration.asset_category_id}\"}}}",
-		"\"asset-category-name-id\"", "\"asset_category_id\"", "\"number\""
-	};
-
-	private static String[] _HIDE_CONTENTS_IN_A_CATEGORY_NEW = new String[]{
-		"{\"terms\":{\"groupAssetCategoryExternalReferenceCodes\":\"${configuration.group_asset_category_external_reference_codes}\"}}",
-		"\"asset-category-external-reference-codes\"",
-		"\"group_asset_category_external_reference_codes\"",
-		"\"multiselect\""
-	};
 
 	private void _upgradeConfigurationEntry(String externalReferenceCode, JSONObject configurationEntryJSON) {
 
@@ -610,59 +566,6 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 		}
 
 		return assetCategoryIds;
-	}
-
-	private double _extractBoost(JSONObject termJSON) {
-		JSONObject boostJSON = termJSON.getJSONObject("boost");
-
-		return boostJSON.getDouble("boost");
-	}
-
-	private JSONObject _upgradeCategoryIdToCategoryExternalReferenceCode(
-		JSONObject sxpElementJSONObject) throws Exception {
-
-		String elementDefinitionJSON = sxpElementJSONObject.getString(
-			"elementDefinition");
-
-		JSONArray clausesArray = sxpElementJSONObject.getJSONObject("elementDefinition").getJSONObject("configuration").getJSONObject("queryConfiguration").getJSONArray("queryEntries").getJSONObject(0).getJSONArray("clauses");
-
-		for (int i = 0; i < clausesArray.length(); i++) {
-			JSONObject jsonObject = clausesArray.getJSONObject(i);
-
-			JSONObject termsObject = jsonObject.getJSONObject("query").getJSONObject("terms");
-
-			if (termsObject == null) {
-				continue;
-			}
-
-			termsObject.put("groupAssetCategoryExternalReferenceCodes", "${configuration.group_asset_category_external_reference_codes}");
-			termsObject.remove("assetCategoryIds");
-		}
-
-//		for (int i = 0; i < clausesArray.length(); i++) {
-//			JSONObject jsonObject = clausesArray.getJSONObject(i);
-//
-//			jsonObject.getJSONObject("query").getJSONObject("terms").put("groupAssetCategoryExternalReferenceCodes", "${configuration.group_asset_category_external_reference_codes}");
-//
-//			long[] assetCategoryIds;
-//
-//			if (jsonObject.has("assetCategoryIds")) {
-//				JSONArray assetCategoriesArray = jsonObject.getJSONArray("assetCategoryIds");
-//
-//				assetCategoryIds = new long[assetCategoriesArray.length()];
-//
-//				for (int j = 0; j < assetCategoriesArray.length(); j++) {
-//					assetCategoryIds[j] = assetCategoriesArray.getLong(j);
-//				}
-//
-//			}
-//		}
-
-//		elementDefinitionJSON = StringUtil.replace(
-//			elementDefinitionJSON, "\"defaultValue\":[]",
-//			_defaultValues.get(externalReferenceCode));
-
-		return _jsonFactory.createJSONObject(elementDefinitionJSON);
 	}
 
 	private void _upgradeSXPElements() throws Exception {
