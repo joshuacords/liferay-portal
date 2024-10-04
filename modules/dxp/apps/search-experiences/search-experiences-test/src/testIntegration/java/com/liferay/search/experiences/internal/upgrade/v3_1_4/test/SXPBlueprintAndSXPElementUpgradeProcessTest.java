@@ -75,9 +75,9 @@ public class SXPBlueprintAndSXPElementUpgradeProcessTest {
 	public void testSXPBlueprintUpgradeProcess() throws Exception {
 		_addAssetCategories();
 
-		SXPBlueprint sxpBlueprint = _addSXPBlueprint("1.1");
+		SXPBlueprint sxpBlueprint = _addSXPBlueprint();
 
-		_runUpgrade("v3_1_4.SXPBlueprintAndSXPElementUpgradeProcess");
+		_runUpgrade();
 
 		_assertSXPBlueprint(sxpBlueprint.getSXPBlueprintId());
 	}
@@ -90,7 +90,7 @@ public class SXPBlueprintAndSXPElementUpgradeProcessTest {
 			_createOldElement(elementExternalReferenceCode);
 		}
 
-		_runUpgrade("v3_1_4.SXPElementUpgradeProcess");
+		_runUpgrade();
 
 		for (String elementExternalReferenceCode :
 				_ELEMENT_EXTERNAL_REFERENCE_CODES) {
@@ -118,9 +118,7 @@ public class SXPBlueprintAndSXPElementUpgradeProcessTest {
 			_globalGroup.getGroupId(), assetVocabulary.getVocabularyId());
 	}
 
-	private SXPBlueprint _addSXPBlueprint(String schemaVersion)
-		throws Exception {
-
+	private SXPBlueprint _addSXPBlueprint() throws Exception {
 		Class<?> clazz = getClass();
 
 		String configurationJSON = StringUtil.read(
@@ -152,7 +150,7 @@ public class SXPBlueprintAndSXPElementUpgradeProcessTest {
 			null, TestPropsValues.getUserId(), configurationJSON,
 			Collections.singletonMap(
 				LocaleUtil.US, RandomTestUtil.randomString()),
-			elementInstancesJSON, schemaVersion,
+			elementInstancesJSON, "1.1",
 			Collections.singletonMap(
 				LocaleUtil.US, RandomTestUtil.randomString()),
 			_serviceContext);
@@ -168,7 +166,7 @@ public class SXPBlueprintAndSXPElementUpgradeProcessTest {
 		JSONAssert.assertEquals(
 			sxpElement.getElementDefinitionJSON(),
 			_getExpectedElementDefinitionJSON(externalReferenceCode),
-			JSONCompareMode.LENIENT);
+			JSONCompareMode.STRICT);
 	}
 
 	private void _assertSXPBlueprint(long sxpBlueprintId) throws Exception {
@@ -177,31 +175,8 @@ public class SXPBlueprintAndSXPElementUpgradeProcessTest {
 
 		Assert.assertNotNull(sxpBlueprint);
 
-		Class<?> clazz = getClass();
-
-		String elementInstancesJSON = StringUtil.read(
-			clazz,
-			StringBundler.concat(
-				"dependencies/", clazz.getSimpleName(), StringPool.PERIOD,
-				testName.getMethodName(), ".after.json"));
-
-		elementInstancesJSON = StringUtil.replace(
-			elementInstancesJSON, "$ASSET_CATEGORY_EXTERNAL_REFERENCE_CODE_1$",
-			_globalGroup.getExternalReferenceCode() + "&&" +
-				_assetCategory1.getExternalReferenceCode());
-		elementInstancesJSON = StringUtil.replace(
-			elementInstancesJSON, "$ASSET_CATEGORY_EXTERNAL_REFERENCE_CODE_2$",
-			_globalGroup.getExternalReferenceCode() + "&&" +
-				_assetCategory2.getExternalReferenceCode());
-		elementInstancesJSON = StringUtil.replace(
-			elementInstancesJSON, "$ASSET_CATEGORY_LABEL_1$",
-			_createAssetCategoryExternalReferenceCodeLabel(_assetCategory1));
-		elementInstancesJSON = StringUtil.replace(
-			elementInstancesJSON, "$ASSET_CATEGORY_LABEL_2$",
-			_createAssetCategoryExternalReferenceCodeLabel(_assetCategory2));
-
 		JSONAssert.assertEquals(
-			elementInstancesJSON, sxpBlueprint.getElementInstancesJSON(),
+			_getExpectedInstancesJSON(), sxpBlueprint.getElementInstancesJSON(),
 			JSONCompareMode.STRICT);
 	}
 
@@ -259,10 +234,37 @@ public class SXPBlueprintAndSXPElementUpgradeProcessTest {
 				StringUtil.toLowerCase(externalReferenceCode), ".json"));
 	}
 
-	private void _runUpgrade(String name) throws Exception {
+	private String _getExpectedInstancesJSON() {
+		Class<?> clazz = getClass();
+
+		String elementInstancesJSON = StringUtil.read(
+			clazz,
+			StringBundler.concat(
+				"dependencies/", clazz.getSimpleName(), StringPool.PERIOD,
+				testName.getMethodName(), ".after.json"));
+
+		elementInstancesJSON = StringUtil.replace(
+			elementInstancesJSON, "$ASSET_CATEGORY_EXTERNAL_REFERENCE_CODE_1$",
+			_globalGroup.getExternalReferenceCode() + "&&" +
+				_assetCategory1.getExternalReferenceCode());
+		elementInstancesJSON = StringUtil.replace(
+			elementInstancesJSON, "$ASSET_CATEGORY_EXTERNAL_REFERENCE_CODE_2$",
+			_globalGroup.getExternalReferenceCode() + "&&" +
+				_assetCategory2.getExternalReferenceCode());
+		elementInstancesJSON = StringUtil.replace(
+			elementInstancesJSON, "$ASSET_CATEGORY_LABEL_1$",
+			_createAssetCategoryExternalReferenceCodeLabel(_assetCategory1));
+
+		return StringUtil.replace(
+			elementInstancesJSON, "$ASSET_CATEGORY_LABEL_2$",
+			_createAssetCategoryExternalReferenceCodeLabel(_assetCategory2));
+	}
+
+	private void _runUpgrade() throws Exception {
 		UpgradeProcess upgradeProcess = UpgradeTestUtil.getUpgradeStep(
 			_upgradeStepRegistrator,
-			"com.liferay.search.experiences.internal.upgrade." + name);
+			"com.liferay.search.experiences.internal.upgrade.v3_1_4." +
+				"SXPBlueprintAndSXPElementUpgradeProcess");
 
 		upgradeProcess.upgrade();
 
