@@ -9,7 +9,6 @@ import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.service.AssetCategoryLocalService;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.portal.kernel.dao.jdbc.AutoBatchPreparedStatementUtil;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactory;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -97,7 +96,7 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 	}
 
 	private String _getExternalReferenceCode(long assetCategoryId)
-		throws PortalException {
+		throws Exception {
 
 		try {
 			AssetCategory assetCategory =
@@ -109,11 +108,11 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 			return group.getExternalReferenceCode() + "&&" +
 				assetCategory.getExternalReferenceCode();
 		}
-		catch (PortalException portalException) {
+		catch (Exception exception) {
 			_log.error(
 				"Unable to find assetCategory with id " + assetCategoryId);
 
-			throw portalException;
+			throw exception;
 		}
 	}
 
@@ -137,12 +136,12 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 
 	private JSONArray _translateIdsToExternalReferencesCodes(
 			long[] assetCategoryIds)
-		throws PortalException {
+		throws Exception {
 
 		JSONArray jsonArray = _jsonFactory.createJSONArray();
 
-		for (int i = 0; i < assetCategoryIds.length; i++) {
-			jsonArray.put(_getExternalReferenceCode(assetCategoryIds[i]));
+		for (long assetCategoryId : assetCategoryIds) {
+			jsonArray.put(_getExternalReferenceCode(assetCategoryId));
 		}
 
 		return jsonArray;
@@ -498,10 +497,12 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 						preparedStatement2.addBatch();
 					}
 					catch (Exception exception) {
-						_log.info(
-							"Unable to upgrade SXPBlueprint " +
-								resultSet.getLong("sxpBlueprintId"),
-							exception);
+						if (_log.isInfoEnabled()) {
+							_log.info(
+								"Unable to upgrade SXPBlueprint " +
+									resultSet.getLong("sxpBlueprintId"),
+								exception);
+						}
 					}
 				}
 
