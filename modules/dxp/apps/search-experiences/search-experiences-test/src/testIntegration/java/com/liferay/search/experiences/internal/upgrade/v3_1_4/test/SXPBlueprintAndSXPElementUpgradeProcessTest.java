@@ -123,6 +123,12 @@ public class SXPBlueprintAndSXPElementUpgradeProcessTest {
 
 		Class<?> clazz = getClass();
 
+		String configurationJSON = StringUtil.read(
+			clazz,
+			StringBundler.concat(
+				"dependencies/", clazz.getSimpleName(), StringPool.PERIOD,
+				testName.getMethodName(), ".configurationJSON.json"));
+
 		String elementInstancesJSON = StringUtil.read(
 			clazz,
 			StringBundler.concat(
@@ -143,7 +149,7 @@ public class SXPBlueprintAndSXPElementUpgradeProcessTest {
 			_createAssetCategoryIDLabel(_assetCategory2));
 
 		return _sxpBlueprintLocalService.addSXPBlueprint(
-			null, TestPropsValues.getUserId(), _configurationJSON,
+			null, TestPropsValues.getUserId(), configurationJSON,
 			Collections.singletonMap(
 				LocaleUtil.US, RandomTestUtil.randomString()),
 			elementInstancesJSON, schemaVersion,
@@ -274,9 +280,6 @@ public class SXPBlueprintAndSXPElementUpgradeProcessTest {
 		"HIDE_CONTENTS_IN_A_CATEGORY",
 		"HIDE_CONTENTS_IN_A_CATEGORY_FOR_GUEST_USERS"
 	};
-
-	private static final String _configurationJSON =
-		"{\"advancedConfiguration\": {}, \"aggregationConfiguration\": {}, \"generalConfiguration\": {\"clauseContributorsExcludes\": [], \"clauseContributorsIncludes\": [\"*\"], \"searchableAssetTypes\": []}, \"highlightConfiguration\": {}, \"parameterConfiguration\": {}, \"queryConfiguration\": {\"applyIndexerClauses\": true}, \"sortConfiguration\": {}}";
 
 	@Inject(
 		filter = "(&(component.name=com.liferay.search.experiences.internal.upgrade.registry.SXPServiceUpgradeStepRegistrator))"
