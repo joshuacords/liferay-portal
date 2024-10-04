@@ -147,6 +147,76 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 		return jsonArray;
 	}
 
+	private void _upgradeConfiguration(JSONObject configurationJSONObject) {
+		JSONObject queryConfigurationJSONObject =
+			configurationJSONObject.getJSONObject("queryConfiguration");
+
+		JSONArray queryEntriesJSONArray =
+			queryConfigurationJSONObject.getJSONArray("queryEntries");
+
+		for (int i = 0; i < queryEntriesJSONArray.length(); i++) {
+			JSONObject queryEntryJSONObject =
+				queryEntriesJSONArray.getJSONObject(i);
+
+			JSONArray clausesJSONArray = queryEntryJSONObject.getJSONArray(
+				"clauses");
+
+			for (int j = 0; j < clausesJSONArray.length(); j++) {
+				JSONObject clauseJSONObject = clausesJSONArray.getJSONObject(i);
+
+				JSONObject queryJSONObject = clauseJSONObject.getJSONObject(
+					"query");
+
+				if (queryJSONObject.has("bool")) {
+					JSONObject boolJSONObject = queryJSONObject.getJSONObject(
+						"bool");
+
+					JSONArray mustNotJSONArray = boolJSONObject.getJSONArray(
+						"must_not");
+
+					for (int k = 0; k < mustNotJSONArray.length(); k++) {
+						JSONObject mustNotJSONObject =
+							mustNotJSONArray.getJSONObject(k);
+
+						if (!mustNotJSONObject.has("term")) {
+							continue;
+						}
+
+						mustNotJSONObject.remove("term");
+
+						JSONObject termsJSONObject =
+							_jsonFactory.createJSONObject();
+
+						termsJSONObject.put(
+							"groupAssetCategoryExternalReferenceCodes",
+							"${configuration.group_asset_category_external_" +
+								"reference_codes}");
+
+						mustNotJSONObject.put("terms", termsJSONObject);
+
+						break;
+					}
+				}
+				else {
+					queryJSONObject.remove("term");
+
+					JSONObject termsJSONObject =
+						_jsonFactory.createJSONObject();
+
+					termsJSONObject.put(
+						"boost", "${configuration.boost}"
+					).put(
+						"groupAssetCategoryExternalReferenceCodes",
+						"${configuration." +
+							"group_asset_category_external_reference_codes}"
+					);
+
+					queryJSONObject.put("terms", termsJSONObject);
+				}
+			}
+		}
+	}
+
 	private void _upgradeConfigurationEntry(
 			String externalReferenceCode,
 			JSONObject configurationEntryJSONObject)
@@ -253,99 +323,6 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 		}
 	}
 
-	private void _upgradeConfigurationForBoostElements(
-		JSONObject configurationJSONObject) {
-
-		JSONObject queryConfigurationJSONObject =
-			configurationJSONObject.getJSONObject("queryConfiguration");
-
-		JSONArray queryEntriesJSONArray =
-			queryConfigurationJSONObject.getJSONArray("queryEntries");
-
-		for (int i = 0; i < queryEntriesJSONArray.length(); i++) {
-			JSONObject queryEntryJSONObject =
-				queryEntriesJSONArray.getJSONObject(i);
-
-			JSONArray clausesJSONArray = queryEntryJSONObject.getJSONArray(
-				"clauses");
-
-			for (int j = 0; j < clausesJSONArray.length(); j++) {
-				JSONObject clauseJSONObject = clausesJSONArray.getJSONObject(i);
-
-				JSONObject queryJSONObject = clauseJSONObject.getJSONObject(
-					"query");
-
-				queryJSONObject.remove("term");
-
-				JSONObject termsJSONObject = _jsonFactory.createJSONObject();
-
-				termsJSONObject.put(
-					"boost", "${configuration.boost}"
-				).put(
-					"groupAssetCategoryExternalReferenceCodes",
-					"${configuration." +
-						"group_asset_category_external_reference_codes}"
-				);
-
-				queryJSONObject.put("terms", termsJSONObject);
-			}
-		}
-	}
-
-	private void _upgradeConfigurationForHideElements(
-		JSONObject configurationJSONObject) {
-
-		JSONObject queryConfigurationJSONObject =
-			configurationJSONObject.getJSONObject("queryConfiguration");
-
-		JSONArray queryEntriesJSONArray =
-			queryConfigurationJSONObject.getJSONArray("queryEntries");
-
-		for (int i = 0; i < queryEntriesJSONArray.length(); i++) {
-			JSONObject queryEntryJSONObject =
-				queryEntriesJSONArray.getJSONObject(i);
-
-			JSONArray clausesJSONArray = queryEntryJSONObject.getJSONArray(
-				"clauses");
-
-			for (int j = 0; j < clausesJSONArray.length(); j++) {
-				JSONObject clauseJSONObject = clausesJSONArray.getJSONObject(i);
-
-				JSONObject queryJSONObject = clauseJSONObject.getJSONObject(
-					"query");
-
-				JSONObject boolJSONObject = queryJSONObject.getJSONObject(
-					"bool");
-
-				JSONArray mustNotJSONArray = boolJSONObject.getJSONArray(
-					"must_not");
-
-				for (int k = 0; k < mustNotJSONArray.length(); k++) {
-					JSONObject mustNotJSONObject =
-						mustNotJSONArray.getJSONObject(k);
-
-					if (!mustNotJSONObject.has("term")) {
-						continue;
-					}
-
-					mustNotJSONObject.remove("term");
-
-					JSONObject termsJSONObject =
-						_jsonFactory.createJSONObject();
-
-					termsJSONObject.put(
-						"groupAssetCategoryExternalReferenceCodes",
-						"${configuration.group_asset_category_external_" +
-							"reference_codes}");
-
-					mustNotJSONObject.put("terms", termsJSONObject);
-
-					break;
-				}
-			}
-		}
-	}
-
 	private void _upgradeSXPBlueprints() throws Exception {
 		try (PreparedStatement preparedStatement1 = connection.prepareStatement(
 				"select sxpBlueprintId, elementInstancesJSON from " +
@@ -402,7 +379,6 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 									"configurationEntry"));
 
 							_upgradeSXPElement(
-								externalReferenceCode,
 								elementInstanceJSONObject.getJSONObject(
 									"sxpElement"));
 
@@ -435,40 +411,13 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 		}
 	}
 
-	private void _upgradeSXPElement(
-		String externalReferenceCode, JSONObject sxpElementJSONObject) {
-
-		if (externalReferenceCode.startsWith("HIDE_CONTENTS_IN_A_CATEGORY")) {
-			_upgradeSXPElementForHideElements(sxpElementJSONObject);
-		}
-		else if (externalReferenceCode.startsWith(
-					"BOOST_CONTENTS_IN_A_CATEGORY")) {
-
-			_upgradeSXPElementForBoostElements(sxpElementJSONObject);
-		}
-	}
-
-	private void _upgradeSXPElementForBoostElements(
-		JSONObject sxpElementJSONObject) {
-
+	private void _upgradeSXPElement(JSONObject sxpElementJSONObject) {
 		JSONObject elementDefinitionJSONObject =
 			sxpElementJSONObject.getJSONObject("elementDefinition");
 
-		_upgradeConfigurationForBoostElements(
+		_upgradeConfiguration(
 			elementDefinitionJSONObject.getJSONObject("configuration"));
-		_upgradeUIConfigurationForBoostElements(
-			elementDefinitionJSONObject.getJSONObject("uiConfiguration"));
-	}
-
-	private void _upgradeSXPElementForHideElements(
-		JSONObject sxpElementJSONObject) {
-
-		JSONObject elementDefinitionJSONObject =
-			sxpElementJSONObject.getJSONObject("elementDefinition");
-
-		_upgradeConfigurationForHideElements(
-			elementDefinitionJSONObject.getJSONObject("configuration"));
-		_upgradeUIConfigurationForBoostElements(
+		_upgradeUIConfiguration(
 			elementDefinitionJSONObject.getJSONObject("uiConfiguration"));
 	}
 
@@ -491,9 +440,7 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 		}
 	}
 
-	private void _upgradeUIConfigurationForBoostElements(
-		JSONObject uiConfigurationJSONObject) {
-
+	private void _upgradeUIConfiguration(JSONObject uiConfigurationJSONObject) {
 		JSONArray fieldSetsJSONArray = uiConfigurationJSONObject.getJSONArray(
 			"fieldSets");
 
