@@ -475,7 +475,7 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 					_translateIdsToExternalReferencesCodes(
 						_extractAssetCategoryIds(termJSON)));
 
-				queryJSON.put("boost", assetCategoryIdsJSON.getDouble("boost"));
+				groupAssetCategoryExternalReferenceCodesJSON.put("boost", assetCategoryIdsJSON.getDouble("boost"));
 
 				queryJSON.remove("term");
 
@@ -517,7 +517,7 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 					_translateIdsToExternalReferencesCodes(
 						_extractAssetCategoryIds(termsJSON)));
 
-				queryJSON.put("boost", termsJSON.getDouble("boost"));
+				groupAssetCategoryExternalReferenceCodesJSON.put("boost", termsJSON.getDouble("boost"));
 
 				queryJSON.put(
 					"terms",
