@@ -63,6 +63,23 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 		return false;
 	}
 
+	private JSONObject
+			_createGroupAssetCategoryExternalReferenceCodesJSONObject(
+				JSONObject assetCategoryIdJSONObject)
+		throws Exception {
+
+		long assetCategoryId = assetCategoryIdJSONObject.getLong("value");
+
+		JSONObject groupAssetCategoryExternalReferenceCodesJSONObject =
+			_jsonFactory.createJSONObject();
+
+		return groupAssetCategoryExternalReferenceCodesJSONObject.put(
+			"label", _getLabel(assetCategoryId)
+		).put(
+			"value", _getExternalReferenceCode(assetCategoryId)
+		);
+	}
+
 	private long[] _extractAssetCategoryIds(JSONObject termJSONObject) {
 		long[] assetCategoryIds;
 
@@ -508,22 +525,9 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 			_jsonFactory.createJSONArray();
 
 		for (int i = 0; i < assetCategoryIdsJSONArray.length(); i++) {
-			JSONObject assetCategoryIdJSONObject =
-				assetCategoryIdsJSONArray.getJSONObject(i);
-
-			long assetCategoryId = assetCategoryIdJSONObject.getLong("value");
-
-			JSONObject groupAssetCategoryExternalReferenceCodesJSONObject =
-				_jsonFactory.createJSONObject();
-
-			groupAssetCategoryExternalReferenceCodesJSONObject.put(
-				"label", _getLabel(assetCategoryId)
-			).put(
-				"value", _getExternalReferenceCode(assetCategoryId)
-			);
-
 			groupAssetCategoryExternalReferenceCodesJSONArray.put(
-				groupAssetCategoryExternalReferenceCodesJSONObject);
+				_createGroupAssetCategoryExternalReferenceCodesJSONObject(
+					assetCategoryIdsJSONArray.getJSONObject(i)));
 		}
 
 		uiConfigurationValuesJSONObject.put(
@@ -539,22 +543,12 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 		JSONObject assetCategoryIdsJSONObject =
 			uiConfigurationValuesJSONObject.getJSONObject("asset_category_id");
 
-		long assetCategoryId = assetCategoryIdsJSONObject.getLong("value");
-
-		JSONObject groupAssetCategoryExternalReferenceCodesJSONObject =
-			_jsonFactory.createJSONObject();
-
-		groupAssetCategoryExternalReferenceCodesJSONObject.put(
-			"label", _getLabel(assetCategoryId)
-		).put(
-			"value", _getExternalReferenceCode(assetCategoryId)
-		);
-
 		JSONArray groupAssetCategoryExternalReferenceCodesJSONArray =
 			_jsonFactory.createJSONArray();
 
 		groupAssetCategoryExternalReferenceCodesJSONArray.put(
-			groupAssetCategoryExternalReferenceCodesJSONObject);
+			_createGroupAssetCategoryExternalReferenceCodesJSONObject(
+				assetCategoryIdsJSONObject));
 
 		uiConfigurationValuesJSONObject.put(
 			"group_asset_category_external_reference_codes",
