@@ -288,6 +288,7 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 					fieldJSON.put("label", "asset-category-external-reference-codes");
 					fieldJSON.put("name", "group_asset_category_external_reference_codes");
 					fieldJSON.put("type", "multiselect");
+					fieldJSON.remove("labelLocalized");
 
 					break;
 				}
