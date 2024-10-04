@@ -87,27 +87,27 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 
 						JSONObject sxpElementJSON = elementInstanceJSON.getJSONObject("sxpElement");
 
-						String elementExternalReferenceCode = sxpElementJSON.getString("externalReferenceCode");
+						String externalReferenceCode = sxpElementJSON.getString("externalReferenceCode");
 
-						if (!ArrayUtil.contains(_ELEMENT_EXTERNAL_REFERENCE_CODES, elementExternalReferenceCode)) {
+						if (!ArrayUtil.contains(_EXTERNAL_REFERENCE_CODES, externalReferenceCode)) {
 							continue;
 						}
 
 						if (elementInstanceJSON.has("configurationEntry")) {
 							_upgradeConfigurationEntry(
-								elementExternalReferenceCode,
+								externalReferenceCode,
 								elementInstanceJSON.getJSONObject("configurationEntry"));
 						}
 
 						if (elementInstanceJSON.has("sxpElement")) {
 							_upgradeSXPElement(
-								elementExternalReferenceCode,
+								externalReferenceCode,
 								elementInstanceJSON.getJSONObject("sxpElement"));
 						}
 
 						if (elementInstanceJSON.has("uiConfigurationValues")) {
 							_upgradeUIConfigurationValues(
-								elementExternalReferenceCode,
+								externalReferenceCode,
 								elementInstanceJSON.getJSONObject("uiConfigurationValues"));
 						}
 					}
@@ -133,7 +133,7 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 
 			String externalReferenceCode = sxpElement.getExternalReferenceCode();
 
-			if (ArrayUtil.contains(_ELEMENT_EXTERNAL_REFERENCE_CODES, externalReferenceCode)) {
+			if (ArrayUtil.contains(_EXTERNAL_REFERENCE_CODES, externalReferenceCode)) {
 				return true;
 			}
 		}
@@ -590,8 +590,8 @@ public class SXPBlueprintAndSXPElementUpgradeProcess extends UpgradeProcess {
 	private String _getElementDefinitionJSON(String externalReferenceCode) {
 		return StringUtil.read(
 			getClass(),
-			"dependencies/" + StringUtil.toLowerCase(externalReferenceCode) +
-				".json");
+			"dependencies/" +
+				StringUtil.toLowerCase(externalReferenceCode) + ".json");
 	}
 
 	private static final String[] _EXTERNAL_REFERENCE_CODES = {
