@@ -116,7 +116,7 @@
 											{
 												"term": {
 													"assetCategoryIds": {
-														"value": $ASSET_CATEGORY_ID_1$
+														"value": "$ASSET_CATEGORY_ID_1$"
 													}
 												}
 											}
@@ -215,7 +215,7 @@
 									"term": {
 										"assetCategoryIds": {
 											"boost": 15,
-											"value": $ASSET_CATEGORY_ID_1$
+											"value": "$ASSET_CATEGORY_ID_1$"
 										}
 									}
 								}
@@ -343,7 +343,7 @@
 									"term": {
 										"assetCategoryIds": {
 											"boost": 15,
-											"value": $ASSET_CATEGORY_ID_1$
+											"value": "$ASSET_CATEGORY_ID_1$"
 										}
 									}
 								}
@@ -481,7 +481,7 @@
 									"term": {
 										"assetCategoryIds": {
 											"boost": 25,
-											"value": $ASSET_CATEGORY_ID_2$
+											"value": "$ASSET_CATEGORY_ID_2$"
 										}
 									}
 								}
@@ -609,7 +609,7 @@
 									"term": {
 										"assetCategoryIds": {
 											"boost": 25,
-											"value": $ASSET_CATEGORY_ID_1$
+											"value": "$ASSET_CATEGORY_ID_1$"
 										}
 									}
 								}
@@ -723,7 +723,7 @@
 									"term": {
 										"assetCategoryIds": {
 											"boost": 25,
-											"value": $ASSET_CATEGORY_ID_1$
+											"value": "$ASSET_CATEGORY_ID_1$"
 										}
 									}
 								}
@@ -853,7 +853,7 @@
 									"term": {
 										"assetCategoryIds": {
 											"boost": 25,
-											"value": $ASSET_CATEGORY_ID_2$
+											"value": "$ASSET_CATEGORY_ID_2$"
 										}
 									}
 								}
@@ -996,7 +996,7 @@
 											{
 												"term": {
 													"assetCategoryIds": {
-														"value": $ASSET_CATEGORY_ID_1$
+														"value": "$ASSET_CATEGORY_ID_1$"
 													}
 												}
 											}
@@ -1106,8 +1106,8 @@
 								"query": {
 									"terms": {
 										"assetCategoryIds": [
-											$ASSET_CATEGORY_ID_1$,
-											$ASSET_CATEGORY_ID_2$
+											"$ASSET_CATEGORY_ID_1$",
+											"$ASSET_CATEGORY_ID_2$"
 										],
 										"boost": 15
 									}
