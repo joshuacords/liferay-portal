@@ -9,8 +9,8 @@
 								"context": "query",
 								"occur": "should",
 								"query": {
-									"boost": 15,
 									"terms": {
+										"boost": 15,
 										"groupAssetCategoryExternalReferenceCodes": [
 											"$ASSET_CATEGORY_EXTERNAL_REFERENCE_CODE_2$"
 										]
@@ -210,8 +210,8 @@
 								"context": "query",
 								"occur": "should",
 								"query": {
-									"boost": 15,
 									"terms": {
+										"boost": 15,
 										"groupAssetCategoryExternalReferenceCodes": [
 											"$ASSET_CATEGORY_EXTERNAL_REFERENCE_CODE_1$"
 										]
@@ -337,8 +337,8 @@
 								"context": "query",
 								"occur": "should",
 								"query": {
-									"boost": 15,
 									"terms": {
+										"boost": 15,
 										"groupAssetCategoryExternalReferenceCodes": [
 											"$ASSET_CATEGORY_EXTERNAL_REFERENCE_CODE_1$"
 										]
@@ -474,8 +474,8 @@
 								"context": "query",
 								"occur": "should",
 								"query": {
-									"boost": 25,
 									"terms": {
+										"boost": 25,
 										"groupAssetCategoryExternalReferenceCodes": [
 											"$ASSET_CATEGORY_EXTERNAL_REFERENCE_CODE_2$"
 										]
@@ -601,8 +601,8 @@
 								"context": "query",
 								"occur": "should",
 								"query": {
-									"boost": 25,
 									"terms": {
+										"boost": 25,
 										"groupAssetCategoryExternalReferenceCodes": [
 											"$ASSET_CATEGORY_EXTERNAL_REFERENCE_CODE_1$"
 										]
@@ -714,8 +714,8 @@
 								"context": "query",
 								"occur": "should",
 								"query": {
-									"boost": 25,
 									"terms": {
+										"boost": 25,
 										"groupAssetCategoryExternalReferenceCodes": [
 											"$ASSET_CATEGORY_EXTERNAL_REFERENCE_CODE_1$"
 										]
@@ -843,8 +843,8 @@
 								"context": "query",
 								"occur": "should",
 								"query": {
-									"boost": 25,
 									"terms": {
+										"boost": 25,
 										"groupAssetCategoryExternalReferenceCodes": [
 											"$ASSET_CATEGORY_EXTERNAL_REFERENCE_CODE_2$"
 										]
@@ -1095,8 +1095,8 @@
 								"context": "query",
 								"occur": "should",
 								"query": {
-									"boost": 15,
 									"terms": {
+										"boost": 15,
 										"groupAssetCategoryExternalReferenceCodes": [
 											"$ASSET_CATEGORY_EXTERNAL_REFERENCE_CODE_1$",
 											"$ASSET_CATEGORY_EXTERNAL_REFERENCE_CODE_2$"
