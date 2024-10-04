@@ -170,7 +170,6 @@
 							"fields": [
 								{
 									"label": "asset-category-external-reference-codes",
-									"labelLocalized": "Asset Category Name (ID)",
 									"name": "group_asset_category_external_reference_codes",
 									"type": "multiselect"
 								}
@@ -1056,7 +1055,6 @@
 							"fields": [
 								{
 									"label": "asset-category-external-reference-codes",
-									"labelLocalized": "Asset Category Name (ID)",
 									"name": "group_asset_category_external_reference_codes",
 									"type": "multiselect"
 								}
