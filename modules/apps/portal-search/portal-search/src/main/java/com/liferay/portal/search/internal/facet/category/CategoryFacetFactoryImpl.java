@@ -20,12 +20,14 @@ public class CategoryFacetFactoryImpl implements CategoryFacetFactory {
 
 	@Override
 	public String getFacetClassName() {
-		return "assetVocabularyCategoryIds";
+		return "groupAssetVocabularyCategoryExternalReferenceCodes";
 	}
 
 	@Override
 	public Facet newInstance(SearchContext searchContext) {
-		return new FacetImpl("assetVocabularyCategoryIds", searchContext);
+		return new FacetImpl(
+			"groupAssetVocabularyCategoryExternalReferenceCodes",
+			searchContext);
 	}
 
 }

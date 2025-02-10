@@ -7,12 +7,17 @@ package com.liferay.portal.search.internal.facet.category;
 
 import com.liferay.asset.kernel.model.AssetCategory;
 import com.liferay.asset.kernel.service.AssetCategoryLocalService;
+import com.liferay.petra.string.CharPool;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.facet.config.FacetConfiguration;
+import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
+import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.util.ArrayUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.search.facet.Facet;
 import com.liferay.portal.search.facet.category.CategoryFacetFactory;
 import com.liferay.portal.search.facet.category.CategoryFacetSearchContributor;
@@ -57,6 +62,9 @@ public class CategoryFacetSearchContributorImpl
 	@Reference
 	private CategoryFacetFactory _categoryFacetFactory;
 
+	@Reference
+	private GroupLocalService _groupLocalService;
+
 	private class CategoryFacetBuilderImpl implements CategoryFacetBuilder {
 
 		public CategoryFacetBuilderImpl(SearchContext searchContext) {
@@ -77,14 +85,20 @@ public class CategoryFacetSearchContributorImpl
 			facet.setFacetConfiguration(
 				buildFacetConfiguration(facet.getFieldName()));
 
-			if (_selectedCategoryIds != null) {
+			if (_selectedGroupCategoryExternalReferenceCodes != null) {
 				String fieldName = facet.getFieldName();
 
-				if (fieldName.equals("assetVocabularyCategoryIds")) {
-					facet.select(_getSelections(_selectedCategoryIds));
+				if (fieldName.equals(
+						"groupAssetVocabularyCategoryExternalReferenceCodes")) {
+
+					facet.select(
+						_getSelections(
+							_selectedGroupCategoryExternalReferenceCodes));
 				}
 				else {
-					facet.select(ArrayUtil.toStringArray(_selectedCategoryIds));
+					facet.select(
+						ArrayUtil.toStringArray(
+							_selectedGroupCategoryExternalReferenceCodes));
 				}
 			}
 
@@ -99,6 +113,16 @@ public class CategoryFacetSearchContributorImpl
 		}
 
 		@Override
+		public CategoryFacetBuilder groupVocabularyExternalReferenceCodes(
+			String[] groupVocabularyExternalReferenceCodes) {
+
+			_groupVocabularyExternalReferenceCodes =
+				groupVocabularyExternalReferenceCodes;
+
+			return this;
+		}
+
+		@Override
 		public CategoryFacetBuilder maxTerms(int maxTerms) {
 			_maxTerms = maxTerms;
 
@@ -106,17 +130,11 @@ public class CategoryFacetSearchContributorImpl
 		}
 
 		@Override
-		public CategoryFacetBuilder selectedCategoryIds(
-			long... selectedCategoryIds) {
+		public CategoryFacetBuilder selectedGroupCategoryExternalReferenceCodes(
+			String... selectedGroupCategoryExternalReferenceCodes) {
 
-			_selectedCategoryIds = selectedCategoryIds;
-
-			return this;
-		}
-
-		@Override
-		public CategoryFacetBuilder vocabularyIds(String[] vocabularyIds) {
-			_vocabularyIds = vocabularyIds;
+			_selectedGroupCategoryExternalReferenceCodes =
+				selectedGroupCategoryExternalReferenceCodes;
 
 			return this;
 		}
@@ -144,17 +162,27 @@ public class CategoryFacetSearchContributorImpl
 		}
 
 		private String _getIncludeRegexString(String fieldName) {
-			if (ArrayUtil.isEmpty(_vocabularyIds) ||
+			if (ArrayUtil.isEmpty(_groupVocabularyExternalReferenceCodes) ||
 				fieldName.equals("assetCategoryIds")) {
 
 				return null;
 			}
 
-			StringBundler sb = new StringBundler(_vocabularyIds.length * 5);
+			StringBundler sb = new StringBundler(
+				_groupVocabularyExternalReferenceCodes.length * 8);
 
-			for (String vocabularyId : _vocabularyIds) {
-				sb.append(vocabularyId);
-				sb.append(StringPool.DASH);
+			for (String groupVocabularyExternalReferenceCode :
+					_groupVocabularyExternalReferenceCodes) {
+
+				sb.append(
+					StringUtil.replace(
+						groupVocabularyExternalReferenceCode,
+						CharPool.AMPERSAND,
+						StringPool.BACK_SLASH + StringPool.AMPERSAND));
+				sb.append(StringPool.BACK_SLASH);
+				sb.append(StringPool.AMPERSAND);
+				sb.append(StringPool.BACK_SLASH);
+				sb.append(StringPool.AMPERSAND);
 				sb.append(StringPool.PERIOD);
 				sb.append(StringPool.STAR);
 				sb.append(StringPool.PIPE);
@@ -190,12 +218,49 @@ public class CategoryFacetSearchContributorImpl
 			return ArrayUtil.toStringArray(selections);
 		}
 
+		private String[] _getSelections(
+			String[] selectedGroupCategoryExternalReferenceCodes) {
+
+			List<String> selections = new ArrayList<>();
+
+			for (String selectedGroupCategoryExternalReferenceCode :
+					selectedGroupCategoryExternalReferenceCodes) {
+
+				String[] groupCategoryExternalReferenceCodes = StringUtil.split(
+					selectedGroupCategoryExternalReferenceCode,
+					StringPool.AMPERSAND + StringPool.AMPERSAND);
+
+				Group group =
+					_groupLocalService.fetchGroupByExternalReferenceCode(
+						groupCategoryExternalReferenceCodes[0],
+						CompanyThreadLocal.getCompanyId());
+
+				AssetCategory assetCategory =
+					_assetCategoryLocalService.
+						fetchAssetCategoryByExternalReferenceCode(
+							groupCategoryExternalReferenceCodes[2],
+							group.getGroupId());
+
+				// do we even need all this logic??
+
+				if (assetCategory != null) {
+					selections.add(selectedGroupCategoryExternalReferenceCode);
+				}
+				//				else {
+				//					selections.add(
+				//					String.valueOf(selectedCategoryId));
+				//				}
+			}
+
+			return ArrayUtil.toStringArray(selections);
+		}
+
 		private String _aggregationName;
 		private int _frequencyThreshold;
+		private String[] _groupVocabularyExternalReferenceCodes;
 		private int _maxTerms;
 		private final SearchContext _searchContext;
-		private long[] _selectedCategoryIds;
-		private String[] _vocabularyIds;
+		private String[] _selectedGroupCategoryExternalReferenceCodes;
 
 	}
 

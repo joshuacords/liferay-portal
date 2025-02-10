@@ -26,6 +26,8 @@ public class AssetCategoryIdsQueryPreFilterContributor
 	public void contribute(
 		BooleanFilter fullQueryBooleanFilter, SearchContext searchContext) {
 
+		// deprecate?
+
 		long[] assetCategoryIds = searchContext.getAssetCategoryIds();
 
 		if (ArrayUtil.isEmpty(assetCategoryIds)) {
