@@ -28,12 +28,13 @@ public interface CategoryFacetSearchContributor {
 
 		public CategoryFacetBuilder frequencyThreshold(int frequencyThreshold);
 
+		public CategoryFacetBuilder groupVocabularyExternalReferenceCodes(
+			String[] groupVocabularyExternalReferenceCodes);
+
 		public CategoryFacetBuilder maxTerms(int maxTerms);
 
-		public CategoryFacetBuilder selectedCategoryIds(
-			long... selectedCategoryIds);
-
-		public CategoryFacetBuilder vocabularyIds(String[] vocabularyIds);
+		public CategoryFacetBuilder selectedGroupCategoryExternalReferenceCodes(
+			String... selectedGroupCategoryExternalReferenceCodes);
 
 	}
 
