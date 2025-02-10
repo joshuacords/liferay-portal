@@ -416,7 +416,8 @@ public class FacetResponseProcessor {
 
 			if (StringUtil.equals("vocabulary", facetConfiguration.getName()) &&
 				StringUtil.equals(
-					facet.getFieldName(), "assetVocabularyCategoryIds")) {
+					facet.getFieldName(),
+					"groupAssetVocabularyCategoryExternalReferenceCodes")) {
 
 				Collection<AssetCategoryTree> assetCategoryTrees =
 					_toAssetCategoryTrees(

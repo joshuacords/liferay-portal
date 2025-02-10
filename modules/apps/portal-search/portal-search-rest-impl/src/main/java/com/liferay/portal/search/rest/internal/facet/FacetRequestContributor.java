@@ -119,9 +119,9 @@ public class FacetRequestContributor {
 				facetConfiguration.getFrequencyThreshold()
 			).maxTerms(
 				facetConfiguration.getMaxTerms()
-			).selectedCategoryIds(
-				_toLongArray(facetConfiguration.getValues())
-			).vocabularyIds(
+			).selectedGroupCategoryExternalReferenceCodes(
+				(String[])facetConfiguration.getValues()
+			).groupVocabularyExternalReferenceCodes(
 				_getVocabularyIdsAttribute(facetConfiguration)
 			));
 	}
