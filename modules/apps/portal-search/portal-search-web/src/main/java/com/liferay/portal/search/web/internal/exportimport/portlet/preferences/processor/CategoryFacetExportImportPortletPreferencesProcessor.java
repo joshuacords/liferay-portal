@@ -242,7 +242,7 @@ public class CategoryFacetExportImportPortletPreferencesProcessor
 
 			if (name.equals(
 					CategoryFacetPortletPreferences.
-						PREFERENCE_VOCABULARY_IDS)) {
+						PREFERENCE_VOCABULARY_EXTERNAL_REFERENCE_CODES)) {
 
 				updateExportPortletPreferencesClassPKs(
 					portletDataContext, portlet, portletPreferences, name,
@@ -270,7 +270,7 @@ public class CategoryFacetExportImportPortletPreferencesProcessor
 
 			if (name.equals(
 					CategoryFacetPortletPreferences.
-						PREFERENCE_VOCABULARY_IDS)) {
+						PREFERENCE_VOCABULARY_EXTERNAL_REFERENCE_CODES)) {
 
 				updateImportPortletPreferencesClassPKs(
 					portletDataContext, portletPreferences, name,

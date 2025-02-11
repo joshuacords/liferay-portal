@@ -37,6 +37,16 @@ public class CategoryFacetPortletPreferencesImpl
 	}
 
 	@Override
+	public String[] getGroupVocabularyExternalReferenceCodes() {
+		String groupVocabularyExternalReferenceCodes = getString(
+			CategoryFacetPortletPreferences.
+				PREFERENCE_VOCABULARY_EXTERNAL_REFERENCE_CODES,
+			null);
+
+		return StringUtil.split(groupVocabularyExternalReferenceCodes);
+	}
+
+	@Override
 	public int getMaxTerms() {
 		return getInteger(
 			CategoryFacetPortletPreferences.PREFERENCE_KEY_MAX_TERMS, 10);
@@ -53,14 +63,6 @@ public class CategoryFacetPortletPreferencesImpl
 		return getString(
 			CategoryFacetPortletPreferences.PREFERENCE_KEY_PARAMETER_NAME,
 			"category");
-	}
-
-	@Override
-	public String[] getVocabularyIds() {
-		String vocabularyIds = getString(
-			CategoryFacetPortletPreferences.PREFERENCE_VOCABULARY_IDS, null);
-
-		return StringUtil.split(vocabularyIds);
 	}
 
 	@Override

@@ -10,10 +10,15 @@ import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalService;
 import com.liferay.asset.kernel.service.AssetVocabularyLocalService;
 import com.liferay.petra.function.transform.TransformUtil;
+import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.search.facet.Facet;
 import com.liferay.portal.kernel.search.facet.collector.FacetCollector;
+import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
+import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.Portal;
@@ -127,6 +132,10 @@ public class AssetCategoriesSearchFacetDisplayContextBuilder
 		_frequencyThreshold = frequencyThreshold;
 	}
 
+	public void setGroupLocalService(GroupLocalService groupLocalService) {
+		_groupLocalService = groupLocalService;
+	}
+
 	public void setLocale(Locale locale) {
 		_locale = locale;
 	}
@@ -154,14 +163,14 @@ public class AssetCategoriesSearchFacetDisplayContextBuilder
 	}
 
 	public void setParameterValues(String... parameterValues) {
-		_selectedCategoryIds = TransformUtil.transformToList(
+		_selectedCategoryExternalReferenceCodes = TransformUtil.transformToList(
 			parameterValues,
 			parameterValue -> {
 				if (parameterValue.equals(StringPool.BLANK)) {
 					return null;
 				}
 
-				return GetterUtil.getLong(parameterValue);
+				return parameterValue;
 			});
 	}
 
@@ -176,8 +185,7 @@ public class AssetCategoriesSearchFacetDisplayContextBuilder
 		BucketDisplayContext bucketDisplayContext = new BucketDisplayContext();
 
 		bucketDisplayContext.setBucketText(assetCategory.getTitle(_locale));
-		bucketDisplayContext.setFilterValue(
-			String.valueOf(assetCategory.getCategoryId()));
+		bucketDisplayContext.setFilterValue(_getFilterValue(assetCategory));
 		bucketDisplayContext.setFrequency(frequency);
 		bucketDisplayContext.setFrequencyVisible(_frequenciesVisible);
 		bucketDisplayContext.setLocale(_locale);
@@ -189,19 +197,21 @@ public class AssetCategoriesSearchFacetDisplayContextBuilder
 
 	protected List<BucketDisplayContext> getEmptyBucketDisplayContexts() {
 		return TransformUtil.transform(
-			_selectedCategoryIds, this::_getEmptyBucketDisplayContext);
+			_selectedCategoryExternalReferenceCodes,
+			this::_getEmptyBucketDisplayContext);
 	}
 
 	protected String getFirstParameterValueString() {
-		if (_selectedCategoryIds.isEmpty()) {
+		if (_selectedCategoryExternalReferenceCodes.isEmpty()) {
 			return StringPool.BLANK;
 		}
 
-		return String.valueOf(_selectedCategoryIds.get(0));
+		return String.valueOf(_selectedCategoryExternalReferenceCodes.get(0));
 	}
 
 	protected List<String> getParameterValueStrings() {
-		return TransformUtil.transform(_selectedCategoryIds, String::valueOf);
+		return TransformUtil.transform(
+			_selectedCategoryExternalReferenceCodes, String::valueOf);
 	}
 
 	protected double getPopularity(
@@ -213,7 +223,7 @@ public class AssetCategoriesSearchFacetDisplayContextBuilder
 	}
 
 	protected boolean isNothingSelected() {
-		if (_selectedCategoryIds.isEmpty()) {
+		if (_selectedCategoryExternalReferenceCodes.isEmpty()) {
 			return true;
 		}
 
@@ -228,8 +238,10 @@ public class AssetCategoriesSearchFacetDisplayContextBuilder
 		return false;
 	}
 
-	protected boolean isSelected(long categoryId) {
-		if (_selectedCategoryIds.contains(categoryId)) {
+	protected boolean isSelected(String categoryExternalReferenceCodes) {
+		if (_selectedCategoryExternalReferenceCodes.contains(
+				categoryExternalReferenceCodes)) {
+
 			return true;
 		}
 
@@ -246,29 +258,41 @@ public class AssetCategoriesSearchFacetDisplayContextBuilder
 		return TransformUtil.transform(
 			facetCollector.getTermCollectors(),
 			termCollector -> {
-				long assetCategoryId = 0;
+				AssetCategory assetCategory;
 
 				String fieldName = facet.getFieldName();
 
 				if ((fieldName != null) &&
-					fieldName.equals("assetVocabularyCategoryIds")) {
+					fieldName.equals(
+						"groupAssetVocabularyCategoryExternalReferenceCodes")) {
 
-					String[] parts = StringUtil.split(
-						termCollector.getTerm(), StringPool.DASH);
+					String[] externalReferenceCodes = StringUtil.split(
+						termCollector.getTerm(),
+						StringPool.AMPERSAND + StringPool.AMPERSAND);
 
-					assetCategoryId = GetterUtil.getLong(parts[1]);
+					// rework to GroupERC / ERC
+
+					try {
+						Group group =
+							_groupLocalService.getGroupByExternalReferenceCode(
+								externalReferenceCodes[0],
+								CompanyThreadLocal.getCompanyId());
+
+						assetCategory =
+							_fetchAssetCategoryByExternalReferenceCode(
+								externalReferenceCodes[2], group.getGroupId());
+					}
+					catch (PortalException portalException) {
+						return null;//log?
+					}
 				}
 				else {
-					assetCategoryId = GetterUtil.getLong(
-						termCollector.getTerm());
-				}
+					//					assetCategoryId = GetterUtil.getLong(
+					//						termCollector.getTerm());//what does this do??
 
-				if (assetCategoryId <= 0) {
-					return null;
+					assetCategory = _fetchAssetCategory(
+						GetterUtil.getLong(termCollector.getTerm()));
 				}
-
-				AssetCategory assetCategory = _fetchAssetCategory(
-					assetCategoryId);
 
 				if (assetCategory == null) {
 					return null;
@@ -293,6 +317,23 @@ public class AssetCategoriesSearchFacetDisplayContextBuilder
 	private AssetCategory _fetchAssetCategory(long assetCategoryId) {
 		AssetCategory assetCategory =
 			_assetCategoryLocalService.fetchAssetCategory(assetCategoryId);
+
+		if ((assetCategory != null) &&
+			_assetCategoryPermissionChecker.hasPermission(assetCategory)) {
+
+			return assetCategory;
+		}
+
+		return null;
+	}
+
+	private AssetCategory _fetchAssetCategoryByExternalReferenceCode(
+		String assetCategoryExternalReferenceCode, long groupId) {
+
+		AssetCategory assetCategory =
+			_assetCategoryLocalService.
+				fetchAssetCategoryByExternalReferenceCode(
+					assetCategoryExternalReferenceCode, groupId);
 
 		if ((assetCategory != null) &&
 			_assetCategoryPermissionChecker.hasPermission(assetCategory)) {
@@ -390,10 +431,27 @@ public class AssetCategoriesSearchFacetDisplayContextBuilder
 
 			AssetCategory assetCategory = (AssetCategory)tuple.getObject(0);
 
+			Group group = _groupLocalService.fetchGroup(
+				assetCategory.getGroupId());
+
+			AssetVocabulary assetVocabulary =
+				_assetVocabularyLocalService.fetchAssetVocabulary(
+					assetCategory.getVocabularyId());
+
+			StringBundler sb = new StringBundler(7);
+
+			sb.append(group.getExternalReferenceCode());
+			sb.append(StringPool.AMPERSAND);
+			sb.append(StringPool.AMPERSAND);
+			sb.append(assetVocabulary.getExternalReferenceCode());
+			sb.append(StringPool.AMPERSAND);
+			sb.append(StringPool.AMPERSAND);
+			sb.append(assetCategory.getExternalReferenceCode());
+
 			BucketDisplayContext bucketDisplayContext =
 				buildBucketDisplayContext(
-					assetCategory, frequency,
-					isSelected(assetCategory.getCategoryId()), popularity);
+					assetCategory, frequency, isSelected(sb.toString()),
+					popularity);
 
 			bucketDisplayContexts.add(bucketDisplayContext);
 
@@ -417,13 +475,17 @@ public class AssetCategoriesSearchFacetDisplayContextBuilder
 		for (BucketDisplayContext bucketDisplayContext :
 				bucketDisplayContexts) {
 
-			AssetCategory assetCategory =
-				_assetCategoryLocalService.fetchAssetCategory(
-					Long.valueOf(bucketDisplayContext.getFilterValue()));
+			String[] categoryExternalReferenceCodes = StringUtil.split(
+				bucketDisplayContext.getFilterValue(), "&&");
+
+			Group group = _groupLocalService.fetchGroupByExternalReferenceCode(
+				categoryExternalReferenceCodes[0],
+				CompanyThreadLocal.getCompanyId());
 
 			AssetVocabulary assetVocabulary =
-				_assetVocabularyLocalService.fetchAssetVocabulary(
-					assetCategory.getVocabularyId());
+				_assetVocabularyLocalService.
+					fetchAssetVocabularyByExternalReferenceCode(
+						categoryExternalReferenceCodes[1], group.getGroupId());
 
 			String title = assetVocabulary.getTitle(_locale);
 
@@ -449,15 +511,58 @@ public class AssetCategoriesSearchFacetDisplayContextBuilder
 	}
 
 	private BucketDisplayContext _getEmptyBucketDisplayContext(
-		long assetCategoryId) {
+		String assetCategoryExternalReferenceCodes) {
 
-		AssetCategory assetCategory = _fetchAssetCategory(assetCategoryId);
+		String[] externalReferenceCodes = StringUtil.split(
+			assetCategoryExternalReferenceCodes,
+			StringPool.AMPERSAND + StringPool.AMPERSAND);
 
-		if (assetCategory == null) {
-			return null;
+		try {
+			Group group = _groupLocalService.getGroupByExternalReferenceCode(
+				externalReferenceCodes[0], CompanyThreadLocal.getCompanyId());
+
+			AssetCategory assetCategory =
+				_fetchAssetCategoryByExternalReferenceCode(
+					externalReferenceCodes[2], group.getGroupId());
+
+			if (assetCategory != null) {
+				return buildBucketDisplayContext(assetCategory, 0, true, 1);
+			}
+		}
+		catch (PortalException portalException) {
+
+			// log?
+
 		}
 
-		return buildBucketDisplayContext(assetCategory, 0, true, 1);
+		return null;
+	}
+
+	private String _getFilterValue(AssetCategory assetCategory) {
+		try {
+			Group group = _groupLocalService.getGroup(
+				assetCategory.getGroupId());
+
+			AssetVocabulary assetVocabulary =
+				_assetVocabularyLocalService.getAssetVocabulary(
+					assetCategory.getVocabularyId());
+
+			StringBundler sb = new StringBundler(7);
+
+			sb.append(group.getExternalReferenceCode());
+			sb.append(StringPool.AMPERSAND);
+			sb.append(StringPool.AMPERSAND);
+			sb.append(assetVocabulary.getExternalReferenceCode());
+			sb.append(StringPool.AMPERSAND);
+			sb.append(StringPool.AMPERSAND);
+			sb.append(assetCategory.getExternalReferenceCode());
+
+			return sb.toString();
+		}
+		catch (PortalException portalException) {
+		}
+
+		return StringPool.BLANK;
 	}
 
 	private boolean _isCloud() {
@@ -486,6 +591,7 @@ public class AssetCategoriesSearchFacetDisplayContextBuilder
 	private Facet _facet;
 	private boolean _frequenciesVisible;
 	private int _frequencyThreshold;
+	private GroupLocalService _groupLocalService;
 	private Locale _locale;
 	private int _maxTerms;
 	private String _order;
@@ -493,6 +599,7 @@ public class AssetCategoriesSearchFacetDisplayContextBuilder
 	private String _parameterName;
 	private Portal _portal;
 	private final RenderRequest _renderRequest;
-	private List<Long> _selectedCategoryIds = Collections.emptyList();
+	private List<String> _selectedCategoryExternalReferenceCodes =
+		Collections.emptyList();
 
 }

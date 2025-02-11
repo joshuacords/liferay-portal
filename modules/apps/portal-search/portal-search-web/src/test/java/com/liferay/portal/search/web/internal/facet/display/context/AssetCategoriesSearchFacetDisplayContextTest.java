@@ -395,7 +395,7 @@ public class AssetCategoriesSearchFacetDisplayContextTest
 	}
 
 	protected String getFacetFieldName() {
-		return "assetVocabularyCategoryIds";
+		return "groupAssetVocabularyCategoryExternalReferenceCodes";
 	}
 
 	@Override

@@ -5,17 +5,12 @@
 
 package com.liferay.portal.search.web.internal.category.facet.portlet.shared.search;
 
-import com.liferay.portal.kernel.util.ArrayUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.search.facet.category.CategoryFacetSearchContributor;
 import com.liferay.portal.search.web.internal.category.facet.constants.CategoryFacetPortletKeys;
 import com.liferay.portal.search.web.internal.category.facet.portlet.CategoryFacetPortletPreferences;
 import com.liferay.portal.search.web.internal.category.facet.portlet.CategoryFacetPortletPreferencesImpl;
 import com.liferay.portal.search.web.portlet.shared.search.PortletSharedSearchContributor;
 import com.liferay.portal.search.web.portlet.shared.search.PortletSharedSearchSettings;
-
-import java.util.Arrays;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -46,25 +41,16 @@ public class CategoryFacetPortletSharedSearchContributor
 				categoryFacetPortletPreferences.getFrequencyThreshold()
 			).maxTerms(
 				categoryFacetPortletPreferences.getMaxTerms()
-			).selectedCategoryIds(
-				_toLongArray(
-					portletSharedSearchSettings.getParameterValues(
-						categoryFacetPortletPreferences.getParameterName()))
-			).vocabularyIds(
-				categoryFacetPortletPreferences.getVocabularyIds()
+			).selectedGroupCategoryExternalReferenceCodes(
+				portletSharedSearchSettings.getParameterValues(
+					categoryFacetPortletPreferences.getParameterName())
+			).groupVocabularyExternalReferenceCodes(
+				categoryFacetPortletPreferences.
+					getGroupVocabularyExternalReferenceCodes()
 			));
 	}
 
 	@Reference
 	protected CategoryFacetSearchContributor categoryFacetSearchContributor;
-
-	private long[] _toLongArray(String[] parameterValues) {
-		if (ArrayUtil.isNotEmpty(parameterValues)) {
-			return ListUtil.toLongArray(
-				Arrays.asList(parameterValues), GetterUtil::getLong);
-		}
-
-		return new long[0];
-	}
 
 }
