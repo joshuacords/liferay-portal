@@ -186,6 +186,8 @@ public class SXPBlueprintResourceImpl extends BaseSXPBlueprintResourceImpl {
 						contextUriInfo, contextUser),
 					_sxpBlueprintService.getSXPBlueprint(sxpBlueprintId));
 
+				boolean collectionProvider = true;
+
 				String permissionName =
 					com.liferay.search.experiences.model.SXPBlueprint.class.
 						getName();
@@ -202,6 +204,28 @@ public class SXPBlueprintResourceImpl extends BaseSXPBlueprintResourceImpl {
 						() -> addAction(
 							ActionKeys.DELETE, "deleteSXPBlueprint",
 							permissionName, sxpBlueprintId)
+					).put(
+							"disable",
+						() -> {
+							if (collectionProvider) {
+								return null;
+							}
+
+							return addAction(
+								"DISABLE", "disableCollectionProvider",
+								permissionName, sxpBlueprintId);
+						}
+					).put(
+						"enable",
+						() -> {
+							if (!collectionProvider) {
+								return null;
+							}
+
+							return addAction(
+								"ENABLE", "enableCollectionProvider",
+								permissionName, sxpBlueprintId);
+						}
 					).put(
 						"get",
 						() -> addAction(
