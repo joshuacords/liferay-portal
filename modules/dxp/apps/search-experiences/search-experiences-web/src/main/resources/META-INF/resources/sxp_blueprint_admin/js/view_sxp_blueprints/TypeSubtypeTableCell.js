@@ -42,7 +42,7 @@ const TypeSubtypeTableCell = ({itemData, initialSearchableTypesArray = []}) => {
 			return DEFAULT_TYPE;
 		}
 
-		const firstType = searchableAssetTypes[0].split('#');
+		const firstType = searchableAssetTypes[0].split("&&");
 
 		const firstTypeDisplayName = searchableTypesArray.find(
 			(type) => type.className === firstType[0]
@@ -67,7 +67,7 @@ const TypeSubtypeTableCell = ({itemData, initialSearchableTypesArray = []}) => {
 
 		if (
 			searchableAssetTypes.every(
-				(type) => type.split('#')[0] === firstType[0]
+				(type) => type.split("&&")[0] === firstType[0]
 			)
 		) {
 			return firstTypeDisplayName;
