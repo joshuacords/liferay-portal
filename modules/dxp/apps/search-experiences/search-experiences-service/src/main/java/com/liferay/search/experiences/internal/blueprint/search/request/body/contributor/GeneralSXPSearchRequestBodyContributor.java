@@ -89,7 +89,7 @@ public class GeneralSXPSearchRequestBodyContributor
 
 			for (String searchableAssetType : searchableAssetTypes) {
 				String[] assetTypeIdentifier = StringUtil.split(
-					searchableAssetType, StringPool.POUND);
+					searchableAssetType, "&&");
 
 				assetTypeNameSet.add(assetTypeIdentifier[0]);
 			}
@@ -104,7 +104,7 @@ public class GeneralSXPSearchRequestBodyContributor
 
 			for (String searchableAssetType : searchableAssetTypes) {
 				String[] assetTypeIdentifier = StringUtil.split(
-					searchableAssetType, StringPool.POUND);
+					searchableAssetType, "&&");
 
 				if (assetTypeIdentifier.length <= 1) {
 					continue;
