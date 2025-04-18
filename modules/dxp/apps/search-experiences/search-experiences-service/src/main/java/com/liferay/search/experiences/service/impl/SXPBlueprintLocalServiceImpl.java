@@ -228,13 +228,13 @@ public class SXPBlueprintLocalServiceImpl
 			}
 
 			String[] searchableAssetTypeWithSubtype = StringUtil.split(
-				searchableAssetTypesArray[0], StringPool.POUND);
+				searchableAssetTypesArray[0], "&&");
 
 			String className = searchableAssetTypeWithSubtype[0];
 
 			for (int i = 1; i < searchableAssetTypesArray.length; i++) {
 				searchableAssetTypeWithSubtype = StringUtil.split(
-					searchableAssetTypesArray[i], StringPool.POUND);
+					searchableAssetTypesArray[i], "&&");
 
 				if (!className.equals(searchableAssetTypeWithSubtype[0])) {
 					return _setCollectionProviderType(
