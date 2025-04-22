@@ -212,7 +212,7 @@ public class SXPBlueprintResourceImpl extends BaseSXPBlueprintResourceImpl {
 							}
 
 							return addAction(
-								"DISABLE", "disableCollectionProvider",
+								ActionKeys.UPDATE, "postSXPBlueprintSetAsCollectionProvider",
 								permissionName, sxpBlueprintId);
 						}
 					).put(
@@ -223,7 +223,7 @@ public class SXPBlueprintResourceImpl extends BaseSXPBlueprintResourceImpl {
 							}
 
 							return addAction(
-								"ENABLE", "enableCollectionProvider",
+								ActionKeys.UPDATE, "postSXPBlueprintSetAsCollectionProvider",
 								permissionName, sxpBlueprintId);
 						}
 					).put(
