@@ -10,8 +10,10 @@ import com.liferay.portal.kernel.json.JSONFactory;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.upgrade.BaseExternalReferenceCodeUpgradeProcess;
 import com.liferay.portal.kernel.upgrade.UpgradeProcessFactory;
+import com.liferay.portal.search.asset.AssetSubtypeIdentifierBuilder;
 import com.liferay.portal.upgrade.registry.UpgradeStepRegistrator;
 import com.liferay.search.experiences.internal.upgrade.v3_1_4.SXPBlueprintAndSXPElementUpgradeProcess;
+import com.liferay.search.experiences.internal.upgrade.v3_2_0.SXPBlueprintCollectionProviderUpgradeProcess;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -118,10 +120,18 @@ public class SXPServiceUpgradeStepRegistrator
 			"3.1.3", "3.1.4",
 			new SXPBlueprintAndSXPElementUpgradeProcess(
 				_assetCategoryLocalService, _groupLocalService, _jsonFactory));
+
+		registry.register(
+			"3.1.4", "3.2.0",
+			new SXPBlueprintCollectionProviderUpgradeProcess(
+				_assetSubtypeIdentifierBuilder));
 	}
 
 	@Reference
 	private AssetCategoryLocalService _assetCategoryLocalService;
+
+	@Reference
+	private AssetSubtypeIdentifierBuilder _assetSubtypeIdentifierBuilder;
 
 	@Reference
 	private GroupLocalService _groupLocalService;
