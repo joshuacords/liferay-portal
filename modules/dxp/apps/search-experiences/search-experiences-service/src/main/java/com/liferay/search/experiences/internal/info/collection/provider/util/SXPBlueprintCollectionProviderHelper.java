@@ -12,7 +12,6 @@ import com.liferay.journal.model.JournalArticle;
 import com.liferay.knowledge.base.model.KBArticle;
 import com.liferay.object.constants.ObjectDefinitionConstants;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -38,10 +37,6 @@ public class SXPBlueprintCollectionProviderHelper {
 
 	public String enhanceConfiguration(String configuration)
 		throws PortalException {
-
-		if (!FeatureFlagManagerUtil.isEnabled("LPS-129412")) {
-			return configuration;
-		}
 
 		try {
 			JSONObject configurationJSONObject =

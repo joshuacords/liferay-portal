@@ -8,6 +8,7 @@ package com.liferay.search.experiences.service.impl;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.SystemEventConstants;
 import com.liferay.portal.kernel.model.User;
@@ -198,6 +199,10 @@ public class SXPBlueprintLocalServiceImpl
 
 	private String _enhanceConfiguration(String configuration)
 		throws PortalException {
+
+		if (!FeatureFlagManagerUtil.isEnabled("LPS-129412")) {
+			return configuration;
+		}
 
 		if (_sxpBlueprintCollectionProviderHelper == null) {
 			_sxpBlueprintCollectionProviderHelper =
