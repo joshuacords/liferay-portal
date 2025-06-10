@@ -1,0 +1,146 @@
+definition {
+
+	@summary = "Default summary"
+	macro _addFragmentCollection(groupId = null, name = null) {
+		Variables.assertDefined(parameterList = "${groupId},${name}");
+
+		var portalURL = JSONCompany.getPortalURL();
+
+		if (isSet(description)) {
+			var description = ${description};
+		}
+		else {
+			var description = "";
+		}
+
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/fragment.fragmentcollection/add-fragment-collection \
+				-u ${userLoginInfo} \
+				-d externalReferenceCode='' \
+				-d groupId=${groupId} \
+				-d name=${name} \
+				-d description=${description} \
+				-d marketplace=false
+		''';
+
+		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
+	}
+
+	@summary = "Default summary"
+	macro _addSection(configuration = null, groupId = null, name = null, html = null, type = null, collectionId = null, status = null) {
+		Variables.assertDefined(parameterList = "${groupId},${collectionId},${name},${html},${configuration},${type},${status}");
+
+		var portalURL = JSONCompany.getPortalURL();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/fragment.fragmententry/add-fragment-entry \
+				-u ${userLoginInfo} \
+				-d externalReferenceCode='' \
+				-d groupId=${groupId} \
+				-d fragmentCollectionId=${collectionId} \
+				-d fragmentEntryKey= \
+				-d <CURL_DATA[name=${name}]CURL_DATA> \
+				-d css= \
+				-d <CURL_DATA[html=${html}]CURL_DATA> \
+				-d js= \
+				-d cacheable=false \
+				-d configuration=${configuration} \
+				-d icon= \
+				-d previewFileEntryId=0 \
+				-d marketplace=false \
+				-d readOnly=false \
+				-d type=${type} \
+				-d typeOptions= \
+				-d status=${status}
+		''';
+
+		var fragmentEntryId = JSONCurlUtil.post(${curl}, "$..fragmentEntryId");
+
+		return ${fragmentEntryId};
+	}
+
+	@summary = "Default summary"
+	macro _deleteCollection(collectionId = null) {
+		Variables.assertDefined(parameterList = ${collectionId});
+
+		var portalURL = JSONCompany.getPortalURL();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/fragment.fragmentcollection/delete-fragment-collection \
+				-u ${userLoginInfo} \
+				-d fragmentCollectionId=${collectionId}
+		''';
+
+		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
+	}
+
+	@summary = "Default summary"
+	macro _getCollectionIdByName(groupId = null, collectionName = null) {
+		Variables.assertDefined(parameterList = "${groupId},${collectionName}");
+
+		var portalURL = JSONCompany.getPortalURL();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/fragment.fragmentcollection/get-fragment-collections \
+				-u ${userLoginInfo} \
+				-d groupId=${groupId} \
+				-d name=${collectionName} \
+				-d <CURL_DATA[start=-1]CURL_DATA> \
+				-d <CURL_DATA[end=-1]CURL_DATA> \
+				-d -orderByComparator=
+		''';
+
+		var collectionId = JSONCurlUtil.post(${curl}, "$.[?(@['name'] == '${collectionName}')]['fragmentCollectionId']");
+
+		if (${collectionId} == "") {
+			fail("FAIL. Cannot find collection.");
+		}
+
+		return ${collectionId};
+	}
+
+	@summary = "Default summary"
+	macro _getCollectionName(groupId = null, collectionName = null) {
+		var portalURL = JSONCompany.getPortalURL();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/fragment.fragmentcollection/get-fragment-collections \
+				-u ${userLoginInfo} \
+				-d groupId=${groupId} \
+				-d name=${collectionName} \
+				-d <CURL_DATA[start=-1]CURL_DATA> \
+				-d <CURL_DATA[end=-1]CURL_DATA> \
+				-d -orderByComparator=
+		''';
+
+		var collectionNameResult = JSONCurlUtil.post(${curl}, "$..[?(@['name'] == '${collectionName}')]");
+
+		return ${collectionNameResult};
+	}
+
+	@summary = "Default summary"
+	macro _getFragmentName(fragmentName = null, groupId = null, fragmentCollectionId = null) {
+		var portalURL = JSONCompany.getPortalURL();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/fragment.fragmententry/get-fragment-entries \
+				-u ${userLoginInfo} \
+				-d groupId=${groupId} \
+				-d fragmentCollectionId=${fragmentCollectionId} \
+				-d <CURL_DATA[start=-1]CURL_DATA> \
+				-d <CURL_DATA[end=-1]CURL_DATA>
+		''';
+
+		var fragmentNameResult = JSONCurlUtil.post(${curl}, "$..[?(@['name'] == '${fragmentName}')]");
+
+		return ${fragmentNameResult};
+	}
+
+}

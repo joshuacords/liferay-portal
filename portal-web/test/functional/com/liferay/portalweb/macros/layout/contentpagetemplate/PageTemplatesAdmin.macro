@@ -1,0 +1,126 @@
+definition {
+
+	@summary = "Default summary"
+	macro _addPageTemplate(siteTemplate = null, pageTemplateName = null, menuItem = null, masterLayoutName = null) {
+		if (!(isSet(pageTemplateType))) {
+			var pageTemplateType = "Content Page Template";
+		}
+
+		if (${siteTemplate} == "true") {
+			LexiconEntry.gotoAdd();
+
+			LexiconCard.clickCard(card = "Blank");
+		}
+		else {
+			LexiconEntry.gotoAddMenuItem(menuItem = ${pageTemplateType});
+		}
+
+		if (${pageTemplateType} == "Content Page Template") {
+			if (isSet(masterLayoutName)) {
+				WaitForPageLoad();
+
+				LexiconCard.clickCard(card = ${masterLayoutName});
+			}
+			else if (${siteTemplate} != "true") {
+				WaitForPageLoad();
+
+				LexiconCard.clickCard(card = "Blank");
+			}
+		}
+
+		if (${menuItem} == "Content Page Template") {
+			LexiconCard.clickCard(card = "Blank");
+		}
+
+		PortletEntry.inputName(name = ${pageTemplateName});
+
+		Button.clickSave();
+
+		if ((${pageTemplateType} == "Content Page Template") && !(isSet(duplicatePageTemplate))) {
+			PageEditor.assertFragmentSidebarLoaded();
+		}
+	}
+
+	@summary = "Default summary"
+	macro _gotoAddCollection() {
+		if (IsElementPresent(locator1 = "NavNested#NAV_NESTED_PLUS")) {
+			Click(locator1 = "NavNested#NAV_NESTED_PLUS");
+		}
+		else {
+			Button.click(button = "New");
+		}
+	}
+
+	@summary = "Default summary"
+	macro addCollection(collectionDescription = null, collectionName = null) {
+		PageTemplatesAdmin._gotoAddCollection();
+
+		Collection.editCollection(
+			collectionDescription = ${collectionDescription},
+			collectionName = ${collectionName});
+
+		Button.clickSave();
+	}
+
+	@summary = "Default summary"
+	macro addDuplicatePageTemplate(pageTemplateType = null, duplicatePageTemplate = null, siteTemplate = null, pageTemplateName = null, menuItem = null) {
+		PageTemplatesAdmin._addPageTemplate(
+			duplicatePageTemplate = ${duplicatePageTemplate},
+			menuItem = ${menuItem},
+			pageTemplateName = ${pageTemplateName},
+			pageTemplateType = ${pageTemplateType},
+			siteTemplate = ${siteTemplate});
+
+		AssertTextEquals(
+			locator1 = "Message#ERROR_MODAL_CONTENT",
+			value1 = "A page template entry with that name already exists.");
+	}
+
+	@summary = "Default summary"
+	macro addPageTemplate(pageTemplateType = null, siteTemplate = null, pageTemplateName = null, menuItem = null, masterLayoutName = null) {
+		PageTemplatesAdmin._addPageTemplate(
+			masterLayoutName = ${masterLayoutName},
+			menuItem = ${menuItem},
+			pageTemplateName = ${pageTemplateName},
+			pageTemplateType = ${pageTemplateType},
+			siteTemplate = ${siteTemplate});
+	}
+
+	@summary = "Default summary"
+	macro configureWidgetPageTemplateLayout(columnName = null) {
+		WaitForPageLoad();
+
+		Click(locator1 = "ControlMenu#EDIT_COG");
+
+		Click(
+			key_card = ${columnName},
+			locator1 = "Card#CARD");
+
+		PortletEntry.save();
+	}
+
+	@summary = "Default summary"
+	macro gotoPageTemplate(pageTemplateName = null) {
+		LexiconCard.clickCardTitleLink(card = ${pageTemplateName});
+	}
+
+	@summary = "Default summary"
+	macro gotoPageTemplateEllipsisItem(item = null, pageTemplateName = null) {
+		Click.waitForMenuToggleJSClick(
+			key_card = ${pageTemplateName},
+			locator1 = "Card#CARD_ELLIPSIS");
+
+		MenuItem.click(menuItem = ${item});
+	}
+
+	@summary = "Default summary"
+	macro openPageTemplatesAdmin(siteURLKey = null) {
+		Navigator.openWithAppendToBaseURL(urlAppend = "group/${siteURLKey}/~/control_panel/manage?p_p_id=com_liferay_layout_page_template_admin_web_portlet_LayoutPageTemplatesPortlet&_com_liferay_layout_page_template_admin_web_portlet_LayoutPageTemplatesPortlet_tabs1=page-templates");
+	}
+
+	@summary = "Default summary"
+	macro openPageTemplatesMenuAdmin(siteURLKey = null) {
+		Navigator.openWithAppendToBaseURL(urlAppend = "group/${siteURLKey}/~/control_panel/manage?p_p_id=com_liferay_layout_page_template_admin_web_portlet_LayoutPageTemplatesPortlet");
+	}
+
+}

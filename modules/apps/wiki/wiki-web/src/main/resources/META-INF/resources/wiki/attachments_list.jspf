@@ -1,0 +1,52 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<liferay-ui:search-container
+	emptyResultsMessage="<%= emptyResultsMessage %>"
+	headerNames="file-name,size,action"
+	id="pageAttachments"
+	iteratorURL="<%= currentURLObj %>"
+	total="<%= attachmentsFileEntriesCount %>"
+>
+	<liferay-ui:search-container-results
+		results="<%= paginate ? ListUtil.subList(attachmentsFileEntries, searchContainer.getStart(), searchContainer.getEnd()) : attachmentsFileEntries %>"
+	/>
+
+	<liferay-ui:search-container-row
+		className="com.liferay.portal.kernel.repository.model.FileEntry"
+		escapedModel="<%= true %>"
+		keyProperty="fileEntryId"
+		modelVar="fileEntry"
+		rowVar="row"
+	>
+		<liferay-ui:search-container-column-text
+			cssClass="table-cell-expand table-cell-minw-200 table-title"
+			href='<%= PortletFileRepositoryUtil.getDownloadPortletFileEntryURL(themeDisplay, fileEntry, "status=" + status) %>'
+			name="file-name"
+			value="<%= fileEntry.isInTrash() ? trashHelper.getOriginalTitle(fileEntry.getTitle()) : fileEntry.getTitle() %>"
+		/>
+
+		<liferay-ui:search-container-column-text
+			cssClass="table-cell-expand table-cell-minw-100"
+			name="size"
+			value="<%= LanguageUtil.formatStorageSize(fileEntry.getSize(), locale) %>"
+		/>
+
+		<c:if test="<%= showPageAttachmentAction %>">
+			<liferay-ui:search-container-column-jsp
+				cssClass="entry-action table-cell-expand table-column-text-center"
+				name="action"
+				path="/wiki/page_attachment_action.jsp"
+			/>
+		</c:if>
+	</liferay-ui:search-container-row>
+
+	<liferay-ui:search-iterator
+		markupView="lexicon"
+		paginate="<%= paginate %>"
+	/>
+</liferay-ui:search-container>

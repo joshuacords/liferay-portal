@@ -1,0 +1,6 @@
+dependencies {
+	compileOnly project(":core:petra:petra-lang")
+	compileOnly project(":core:petra:petra-nio")
+	compileOnly project(":core:petra:petra-string")
+	testImplementation project(":core:petra:petra-reflect")
+}

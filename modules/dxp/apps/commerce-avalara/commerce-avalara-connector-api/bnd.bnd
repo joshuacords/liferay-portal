@@ -1,0 +1,10 @@
+Bundle-Name: Liferay Commerce Avalara Connector API
+Bundle-SymbolicName: com.liferay.commerce.avalara.connector.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.liferay.commerce.avalara.connector,\
+	com.liferay.commerce.avalara.connector.configuration,\
+	com.liferay.commerce.avalara.connector.constants,\
+	com.liferay.commerce.avalara.connector.dispatch,\
+	com.liferay.commerce.avalara.connector.engine,\
+	com.liferay.commerce.avalara.connector.exception

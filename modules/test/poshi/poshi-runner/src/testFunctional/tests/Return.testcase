@@ -1,0 +1,37 @@
+@component-name = "portal-ci-infrastructure"
+definition {
+
+	property poshi.runner.acceptance = "true";
+	property testray.main.component.name = "Poshi Runner";
+
+	@disable-webdriver = "true"
+	@priority = 5
+	test ReturnInMacro {
+		Return.returnInMacro();
+	}
+
+	@disable-webdriver = "true"
+	@priority = 5
+	test ReturnInTestCase {
+		var actual = Return.returnValue();
+		var expected = "Return Value";
+
+		if (${actual} == ${expected}) {
+			echo("The value returned from 'Return#return' was a match to the expected value.");
+
+			echo("action: '${actual}'");
+
+			echo("expected: '${expected}'");
+		}
+		else {
+			echo("The value returned from 'Return#return' was NOT a match to the expected value!");
+
+			echo("action: '${actual}'");
+
+			echo("expected: '${expected}'");
+
+			fail("Found the wrong value!");
+		}
+	}
+
+}

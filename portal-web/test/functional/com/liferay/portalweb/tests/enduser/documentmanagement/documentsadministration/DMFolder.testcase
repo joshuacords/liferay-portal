@@ -1,0 +1,654 @@
+@component-name = "portal-content-management"
+definition {
+
+	property portal.release = "true";
+	property portal.upstream = "true";
+	property testray.main.component.name = "Documents and Media";
+
+	setUp {
+		TestCase.setUpPortalInstance();
+
+		User.firstLoginPG();
+
+		JSONLayout.addPublicLayout(
+			groupName = "Guest",
+			layoutName = "Documents and Media Page");
+
+		JSONLayout.addWidgetToPublicLayout(
+			column = 1,
+			groupName = "Guest",
+			layoutName = "Documents and Media Page",
+			widgetName = "Documents and Media");
+	}
+
+	tearDown {
+		var testLiferayVirtualInstance = PropsUtil.get("test.liferay.virtual.instance");
+
+		if (${testLiferayVirtualInstance} == "true") {
+			PortalInstances.tearDownCP();
+		}
+		else {
+			DMDocument.tearDownCP();
+
+			DMFolder.tearDownCP();
+
+			Site.tearDownCP();
+
+			User.logoutPG();
+		}
+	}
+
+	@priority = 5
+	@refactordone
+	test CanAddDocumentInFolder {
+		property custom.properties = "dl.actions.visible=true";
+		property portal.acceptance = "true";
+
+		JSONFolder.addFolder(
+			dmFolderDescription = "DM Folder Description",
+			dmFolderName = "DM Folder Name",
+			groupName = "Guest");
+
+		Navigator.gotoPage(pageName = "Documents and Media Page");
+
+		LexiconEntry.changeDisplayStyle(displayStyle = "list");
+
+		DMNavigator.gotoFolder(dmFolderName = "DM Folder Name");
+
+		DMDocument.addPG(
+			dmDocumentFile = "Document_1.doc",
+			dmDocumentTitle = "Document_1.doc");
+
+		DMDocument.viewPG(dmDocumentTitle = "Document_1.doc");
+	}
+
+	@priority = 4
+	@refactordone
+	test CanAddImageInFolder {
+		property custom.properties = "dl.actions.visible=true";
+		property portal.acceptance = "true";
+
+		JSONFolder.addFolder(
+			dmFolderDescription = "DM Folder Description",
+			dmFolderName = "DM Folder Name",
+			groupName = "Guest");
+
+		Navigator.gotoPage(pageName = "Documents and Media Page");
+
+		LexiconEntry.changeDisplayStyle(displayStyle = "list");
+
+		DMNavigator.gotoFolder(dmFolderName = "DM Folder Name");
+
+		DMDocument.addPG(
+			dmDocumentDescription = "DM Image Description",
+			dmDocumentFile = "Document_1.jpg",
+			dmDocumentTitle = "DM Image Title");
+
+		DMDocument.viewPG(
+			dmDocumentDescription = "DM Image Description",
+			dmDocumentTitle = "DM Image Title");
+	}
+
+	@description = "We only need one test to cover performing actions in a subfolder. The rest of the subfolder cases will be covered at the folder level."
+	@priority = 4
+	@refactordone
+	test CanAddImageInSubFolder {
+		property custom.properties = "dl.actions.visible=true";
+
+		JSONFolder.addFolder(
+			dmFolderDescription = "DM Folder Description",
+			dmFolderName = "DM Folder Name",
+			groupName = "Guest");
+
+		JSONFolder.addFolder(
+			dmFolderDescription = "DM SubFolder Description",
+			dmFolderName = "DM SubFolder Name",
+			groupName = "Guest",
+			parentFolderName = "DM Folder Name");
+
+		Navigator.gotoPage(pageName = "Documents and Media Page");
+
+		LexiconEntry.changeDisplayStyle(displayStyle = "list");
+
+		DMNavigator.gotoFolder(dmFolderName = "DM Folder Name");
+
+		DMNavigator.gotoFolder(dmFolderName = "DM SubFolder Name");
+
+		DMDocument.addPG(
+			dmDocumentDescription = "DM Image Description",
+			dmDocumentFile = "Document_1.jpg",
+			dmDocumentTitle = "DM Image Title");
+
+		DMDocument.viewPG(
+			dmDocumentDescription = "DM Image Description",
+			dmDocumentTitle = "DM Image Title");
+	}
+
+	@priority = 4
+	@refactordone
+	test CanAddMultipleSubFolders {
+		property custom.properties = "dl.actions.visible=true";
+		property portal.acceptance = "true";
+
+		JSONFolder.addFolder(
+			dmFolderDescription = "DM Folder Description",
+			dmFolderName = "DM Folder Name",
+			groupName = "Guest");
+
+		JSONFolder.addFolder(
+			dmFolderDescription = "DM SubFolder1 Description",
+			dmFolderName = "DM SubFolder1 Name",
+			groupName = "Guest",
+			parentFolderName = "DM Folder Name");
+
+		JSONFolder.addFolder(
+			dmFolderDescription = "DM SubFolder2 Description",
+			dmFolderName = "DM SubFolder2 Name",
+			groupName = "Guest",
+			parentFolderName = "DM Folder Name");
+
+		Navigator.gotoPage(pageName = "Documents and Media Page");
+
+		DMNavigator.gotoFolder(dmFolderName = "DM Folder Name");
+
+		DMFolder.viewEntryPresent(dmFolderName = "DM SubFolder1 Name");
+
+		DMFolder.viewEntryPresent(dmFolderName = "DM SubFolder2 Name");
+	}
+
+	@description = "This test ensures that Users can copy multiple folders with documents at the same time."
+	@priority = 5
+	test CanBulkCopyFoldersWithFiles {
+		HeadlessSite.addSite(siteName = "Site Name");
+
+		for (var entryCount : list "1,2,3") {
+			JSONFolder.addFolder(
+				dmFolderDescription = "DM Folder Description",
+				dmFolderName = "DM Folder Name ${entryCount}",
+				groupName = "Guest");
+		}
+
+		for (var entryCount : list "1,2,3") {
+			JSONDocument.addFileWithUploadedFile(
+				dmDocumentDescription = "DM Document Description",
+				dmDocumentTitle = "DM Document Title",
+				folderName = "DM Folder Name ${entryCount}",
+				groupName = "Guest",
+				mimeType = "application/msword",
+				sourceFileName = "Document_1.doc");
+		}
+
+		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
+
+		DMFolder.deleteCP(dmFolderName = "Provided by Liferay");
+
+		PortletEntry.selectAll();
+
+		DMNavigator.gotoItemViaManagementBar(
+			item = "dropdownMenu",
+			menuItem = "Copy To");
+
+		DMFolder.copy(
+			bulkCopy = "true",
+			homeFolder = "true",
+			siteName = "Site Name");
+
+		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "site-name");
+
+		for (var entryCount : list "1,2,3") {
+			DMNavigator.gotoFolder(dmFolderName = "DM Folder Name ${entryCount}");
+
+			LexiconEntry.viewEntryName(rowEntry = "DM Document Title");
+
+			DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "site-name");
+		}
+	}
+
+	@priority = 3
+	test CanChangeRatingTypeForFolder {
+		var responseFromFolder = DocumentFolderAPI.addDocumentFolder(
+			groupName = "Guest",
+			name = "DM Folder Name");
+
+		Ratings.configureRatingType(
+			applications = "document",
+			portlet = "Ratings",
+			ratingType = "Like",
+			siteURLKey = "guest");
+
+		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
+
+		DMNavigator.gotoFolder(dmFolderName = "DM Folder Name");
+
+		DMDocument.expandInfo();
+
+		Ratings.rateLike();
+
+		Ratings.viewRateLike(ratingLikeCount = 1);
+	}
+
+	@description = "This test ensures that a folder can be copied to the global site folder."
+	@priority = 5
+	test CanCopyFolderToGlobalSite {
+		JSONFolder.addFolder(
+			dmFolderDescription = "DM Folder Description",
+			dmFolderName = "DM Folder Name",
+			groupName = "Guest");
+
+		JSONDocument.addFileWithUploadedFile(
+			dmDocumentDescription = "DM Document Description",
+			dmDocumentTitle = "DM Document Title",
+			folderName = "DM Folder Name",
+			groupName = "Guest",
+			mimeType = "application/msword",
+			sourceFileName = "Document_1.doc");
+
+		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
+
+		DMFolder.copy(
+			dmFolderName = "DM Folder Name",
+			homeFolder = "true",
+			siteName = "Global");
+
+		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
+
+		LexiconEntry.viewEntryName(rowEntry = "DM Folder Name");
+
+		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "global");
+
+		DMNavigator.gotoFolder(dmFolderName = "DM Folder Name");
+
+		LexiconEntry.viewEntryName(rowEntry = "DM Document Title");
+	}
+
+	@priority = 5
+	@refactordone
+	test CanDeleteDocumentInFolder {
+		property custom.properties = "dl.actions.visible=true";
+		property portal.acceptance = "true";
+
+		Navigator.gotoPage(pageName = "Documents and Media Page");
+
+		LexiconEntry.changeDisplayStyle(displayStyle = "list");
+
+		DMFolder.addPG(
+			dmFolderDescription = "DM Folder Description",
+			dmFolderName = "DM Folder Name");
+
+		JSONDocument.addFileWithUploadedFile(
+			dmDocumentDescription = "DM Document Description",
+			dmDocumentTitle = "DM Document Title",
+			folderName = "DM Folder Name",
+			groupName = "Guest",
+			mimeType = "application/msword",
+			sourceFileName = "Document_1.doc");
+
+		DMNavigator.gotoFolder(dmFolderName = "DM Folder Name");
+
+		DMDocument.deletePG(dmDocumentTitle = "DM Document Title");
+	}
+
+	@priority = 5
+	@refactordone
+	test CanDeleteFolderWithDocument {
+		property custom.properties = "dl.actions.visible=true";
+		property portal.acceptance = "true";
+
+		JSONFolder.addFolder(
+			dmFolderDescription = "DM Folder Description",
+			dmFolderName = "DM Folder Name",
+			groupName = "Guest");
+
+		JSONDocument.addFileWithUploadedFile(
+			dmDocumentDescription = "DM Document Description 1",
+			dmDocumentTitle = "DM Document Title 1",
+			folderName = "DM Folder Name",
+			groupName = "Guest",
+			mimeType = "application/msword",
+			sourceFileName = "Document_1.doc");
+
+		Navigator.openURL();
+
+		Navigator.gotoPage(pageName = "Documents and Media Page");
+
+		LexiconEntry.changeDisplayStyle(displayStyle = "list");
+
+		DMFolder.deletePG(dmFolderName = "DM Folder Name");
+	}
+
+	@priority = 3
+	test CanDeleteRatingForFolder {
+		var responseFromFolder = DocumentFolderAPI.addDocumentFolder(
+			groupName = "Guest",
+			name = "DM Folder Name");
+
+		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
+
+		DMNavigator.gotoFolder(dmFolderName = "DM Folder Name");
+
+		DMDocument.expandInfo();
+
+		Ratings.rateStar(ratingStarCount = 5);
+
+		Ratings.revokeStarsRating();
+	}
+
+	@priority = 4
+	@refactordone
+	test CanDeleteSubFolderInSite {
+		property custom.properties = "dl.actions.visible=true";
+
+		JSONFolder.addFolder(
+			dmFolderDescription = "DM Folder Description",
+			dmFolderName = "DM Folder Name",
+			groupName = "Guest");
+
+		JSONFolder.addFolder(
+			dmFolderDescription = "DM SubFolder Description",
+			dmFolderName = "DM SubFolder Name",
+			groupName = "Guest",
+			parentFolderName = "DM Folder Name");
+
+		Navigator.gotoPage(pageName = "Documents and Media Page");
+
+		LexiconEntry.changeDisplayStyle(displayStyle = "list");
+
+		DMNavigator.gotoFolder(dmFolderName = "DM Folder Name");
+
+		Refresh();
+
+		DMFolder.deletePG(dmFolderName = "DM SubFolder Name");
+	}
+
+	@priority = 5
+	@refactordone
+	test CanEditFolder {
+		property portal.acceptance = "true";
+
+		JSONFolder.addFolder(
+			dmFolderDescription = "DM Folder Description",
+			dmFolderName = "DM Folder Name",
+			groupName = "Guest");
+
+		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
+
+		DMFolder.editCP(
+			dmFolderDescription = "DM Folder Description",
+			dmFolderDescriptionEdit = "DM Folder Description Edit",
+			dmFolderName = "DM Folder Name",
+			dmFolderNameEdit = "DM Folder Name Name");
+
+		DMFolder.viewCP(dmFolderName = "DM Folder Name Name");
+	}
+
+	@priority = 3
+	test CanEditRatingForFolder {
+		var responseFromFolder = DocumentFolderAPI.addDocumentFolder(
+			groupName = "Guest",
+			name = "DM Folder Name");
+
+		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
+
+		DMNavigator.gotoFolder(dmFolderName = "DM Folder Name");
+
+		DMDocument.expandInfo();
+
+		Ratings.rateStar(ratingStarCount = 5);
+
+		Ratings.viewRateStar(
+			averageRatingStarCount = "5.0",
+			ratingStarCount = 5);
+
+		Ratings.rateStar(ratingStarCount = 3);
+
+		Ratings.viewRateStar(
+			averageRatingStarCount = "3.0",
+			ratingStarCount = 3);
+	}
+
+	@priority = 5
+	@refactordone
+	test CanEditSubFolder {
+		property custom.properties = "dl.actions.visible=true";
+		property portal.acceptance = "true";
+
+		JSONFolder.addFolder(
+			dmFolderDescription = "DM Folder Description",
+			dmFolderName = "DM Folder Name",
+			groupName = "Guest");
+
+		JSONFolder.addFolder(
+			dmFolderDescription = "DM SubFolder Description",
+			dmFolderName = "DM SubFolder Name",
+			groupName = "Guest",
+			parentFolderName = "DM Folder Name");
+
+		Navigator.gotoPage(pageName = "Documents and Media Page");
+
+		LexiconEntry.changeDisplayStyle(displayStyle = "list");
+
+		DMNavigator.gotoFolder(dmFolderName = "DM Folder Name");
+
+		DMFolder.editPG(
+			dmFolderDescriptionEdit = "DM SubFolder Description Edit",
+			dmFolderName = "DM SubFolder Name",
+			dmFolderNameEdit = "DM SubFolder Name Edit");
+	}
+
+	@description = "This case ensures that a document can be viewed after being moved into a folder."
+	@priority = 5
+	@refactordone
+	test CanMoveDocumentToFolder {
+		property portal.acceptance = "true";
+
+		JSONDocument.addFileWithUploadedFile(
+			dmDocumentDescription = "DM Document Description",
+			dmDocumentTitle = "DM Document Title",
+			groupName = "Guest",
+			mimeType = "text/plain",
+			sourceFileName = "Document_1.txt");
+
+		JSONFolder.addFolder(
+			dmFolderDescription = "DM Folder Description",
+			dmFolderName = "DM Folder Name",
+			groupName = "Guest");
+
+		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
+
+		DMDocument.moveToFolderCP(
+			dmDocumentTitle = "DM Document Title",
+			dmFolderName = "DM Folder Name");
+
+		DMDocument.viewMovedToFolderCP(
+			dmDocumentTitle = "DM Document Title",
+			dmFolderName = "DM Folder Name");
+
+		DMNavigator.gotoDocumentCP(dmDocumentTitle = "DM Document Title");
+
+		DMDocument.viewCP(
+			dmDocumentSize = "259 B",
+			dmDocumentTitle = "DM Document Title",
+			dmFolderName = "DM Folder Name",
+			locationFieldName = "true");
+	}
+
+	@priority = 4
+	@refactordone
+	test CanMoveDocumentWithSlashesInTitle {
+		property custom.properties = "dl.actions.visible=true";
+		property portal.acceptance = "true";
+
+		JSONDocument.addFileWithUploadedFile(
+			dmDocumentTitle = "/D/M/Document Title",
+			groupName = "Guest",
+			mimeType = "application/msword",
+			sourceFileName = "Document_1.doc");
+
+		JSONFolder.addFolder(
+			dmFolderDescription = "DM Folder Description",
+			dmFolderName = "DM Folder Name",
+			groupName = "Guest");
+
+		Navigator.gotoPage(pageName = "Documents and Media Page");
+
+		LexiconEntry.changeDisplayStyle(displayStyle = "list");
+
+		DMDocument.moveToFolderPG(
+			dmDocumentTitle = "/D/M/Document Title",
+			dmFolderName = "DM Folder Name");
+
+		DMNavigator.gotoFolder(dmFolderName = "DM Folder Name");
+
+		DMDocument.viewPG(dmDocumentTitle = "/D/M/Document Title");
+	}
+
+	@priority = 4
+	@refactordone
+	test CanMoveFolderToFolder {
+		property portal.acceptance = "true";
+
+		JSONFolder.addFolder(
+			dmFolderDescription = "DM Folder1 Description",
+			dmFolderName = "DM Folder1 Name",
+			groupName = "Guest");
+
+		JSONFolder.addFolder(
+			dmFolderDescription = "DM Folder2 Description",
+			dmFolderName = "DM Folder2 Name",
+			groupName = "Guest");
+
+		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
+
+		DMFolder.moveToFolderCP(
+			dmFolderName = "DM Folder2 Name",
+			dmFolderName1 = "DM Folder1 Name",
+			dmFolderName2 = "DM Folder2 Name");
+	}
+
+	@description = "This ensures that a folder can be moved to another folder via drag and drop."
+	@priority = 4
+	test CanMoveFolderToFolderViaDragAndDrop {
+		JSONFolder.addFolder(
+			dmFolderDescription = "DM Folder Description1",
+			dmFolderName = "DM Folder Name1",
+			groupName = "Guest");
+
+		JSONFolder.addFolder(
+			dmFolderDescription = "DM Folder Description2",
+			dmFolderName = "DM Folder Name2",
+			groupName = "Guest");
+
+		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
+
+		LexiconEntry.changeDisplayStyle(displayStyle = "list");
+
+		DragAndDrop.dragAndDropToObject(
+			key_listEntry = "DM Folder Name1",
+			key_rowEntry = "DM Folder Name2",
+			locator1 = "LexiconList#ANY_LIST",
+			locator2 = "ContentRow#ENTRY_CONTENT_ENTRY_NAME",
+			value1 = "DM Folder Name1");
+
+		Alert.viewSuccessMessage();
+
+		DMNavigator.openToFolderInAdmin(
+			dmFolderName = "DM Folder Name2",
+			groupName = "Guest",
+			siteURLKey = "guest");
+
+		DMFolder.viewCP(dmFolderName = "DM Folder Name1");
+	}
+
+	@description = "This case covers LPS-127681. It ensures that a subfolder cannot be moved to parent folder when they are using same name."
+	@priority = 3
+	@refactordone
+	test CanMoveFolderToParentWithSameName {
+		JSONFolder.addFolder(
+			dmFolderDescription = "DM Folder Description",
+			dmFolderName = "DM Folder Name",
+			groupName = "Guest");
+
+		JSONFolder.addFolder(
+			dmFolderDescription = "DM Folder Description",
+			dmFolderName = "DM Folder Name",
+			groupName = "Guest",
+			parentFolderName = "DM Folder Name");
+
+		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
+
+		DMNavigator.gotoFolder(dmFolderName = "DM Folder Name");
+
+		DMFolder.moveToFolderCP(
+			dmFolderName = "DM Folder Name",
+			dmFolderName2 = "DM Folder Name",
+			moveFailure = "true",
+			moveSubfolder = "true");
+	}
+
+	@priority = 5
+	@refactordone
+	test CanMoveFolderToRecycleBin {
+		property portal.acceptance = "true";
+
+		HeadlessSite.addSite(siteName = "Site Name");
+
+		JSONFolder.addFolder(
+			dmFolderDescription = "DM Folder Description",
+			dmFolderName = "DM Folder Name",
+			groupName = "Site Name");
+
+		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "site-name");
+
+		DMFolder.moveToRecycleBinCP(
+			assetType = "Documents Folder",
+			dmFolderName = "DM Folder Name");
+	}
+
+	@description = "This test ensures that an error is displayed when copying a duplicated folder."
+	@priority = 4
+	test CannotCopyDuplicatedDocument {
+		HeadlessSite.addSite(siteName = "Site Name");
+
+		JSONFolder.addFolder(
+			dmFolderDescription = "DM Folder Description",
+			dmFolderName = "DM Folder Name",
+			groupName = "Guest");
+
+		JSONFolder.addFolder(
+			dmFolderDescription = "DM Folder Description",
+			dmFolderName = "DM Folder Name",
+			groupName = "Site Name");
+
+		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
+
+		DMFolder.copy(
+			copyDuplicatedDocument = "true",
+			dmFolderName = "DM Folder Name",
+			homeFolder = "true",
+			siteName = "Site Name");
+	}
+
+	@priority = 3
+	test ViewRatingForFolderAfterPostByAPI {
+		var responseFromFolder = DocumentFolderAPI.addDocumentFolder(
+			groupName = "Guest",
+			name = "DM Folder Name");
+
+		var documentFolderId = JSONPathUtil.getIdValue(response = ${responseFromFolder});
+
+		var response = DocumentFolderAPI.postRatingWithFolderID(
+			folderId = ${documentFolderId},
+			ratingValue = 1);
+
+		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
+
+		DMNavigator.gotoFolder(dmFolderName = "DM Folder Name");
+
+		DMDocument.expandInfo();
+
+		Ratings.viewRateStar(
+			averageRatingStarCount = "5.0",
+			ratingStarCount = 5);
+	}
+
+}

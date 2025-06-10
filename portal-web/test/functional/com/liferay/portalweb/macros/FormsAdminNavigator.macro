@@ -1,0 +1,243 @@
+definition {
+
+	var formName = "Created Form Name";
+	var rowIndexNumber = 1;
+
+	@summary = "Default summary"
+	macro closePublishedFormWindow() {
+		Navigator.openURL();
+
+		ProductMenu.gotoPortlet(
+			category = "Content & Data",
+			portlet = "Forms");
+	}
+
+	@summary = "Default summary"
+	macro gotoAddElementSet() {
+		LexiconEntry.gotoAdd();
+	}
+
+	@summary = "Default summary"
+	macro gotoAddForm() {
+		LexiconEntry.gotoAdd();
+	}
+
+	@summary = "Default summary"
+	macro gotoBack() {
+		Navigator.gotoBack();
+
+		if (IsElementPresent(locator1 = "Button#LEAVE")) {
+			Click(locator1 = "Button#LEAVE");
+		}
+	}
+
+	@summary = "Default summary"
+	macro gotoDeleteField(fieldName = null) {
+		FormsAdminNavigator.gotoEditField(fieldName = ${fieldName});
+
+		var key_fieldName = ${fieldName};
+
+		ScrollBy(value1 = "0, 230");
+
+		Click(locator1 = "Icon#SELECTED_FORM_FIELD_VERTICAL_ELLIPSIS");
+
+		DropdownMenuItem.click(menuItem = "Delete");
+	}
+
+	@summary = "Default summary"
+	macro gotoEditField(fieldPositionNumber = null, fieldName = null, formPageNumber = null) {
+		WaitForElementPresent(locator1 = "Form#SIDEBAR_CONTENT_OPEN");
+
+		Form.gotoFieldsTab();
+
+		var key_fieldName = ${fieldName};
+		var key_fieldPositionNumber = ${fieldPositionNumber};
+
+		if (isSet(formPageNumber)) {
+			var key_formPageNumber = ${formPageNumber};
+		}
+		else {
+			var key_formPageNumber = 0;
+		}
+
+		if (isSet(key_fieldPositionNumber)) {
+			ScrollWebElementIntoView(locator1 = "Form#FIELD_BODY_IN_SPECIFIC_POSITION");
+
+			Click(locator1 = "Form#FIELD_BODY_IN_SPECIFIC_POSITION");
+		}
+		else {
+			ScrollWebElementIntoView(locator1 = "Form#FIELD_BODY");
+
+			Click(locator1 = "Form#FIELD_BODY");
+		}
+
+		AssertElementPresent(locator1 = "Form#SIDEBAR_BASIC_TAB");
+	}
+
+	@summary = "Default summary"
+	macro gotoEditFormByName(formName = null) {
+		AssertClick(
+			key_formName = ${formName},
+			locator1 = "FormsAdmin#FORMS_TABLE_NAME",
+			value1 = ${formName});
+	}
+
+	@summary = "Default summary"
+	macro gotoEntries() {
+		var key_navigationBarItem = "Entries";
+
+		WaitForElementPresent(
+			locator1 = "FormsAdmin#FORMS_NAVIGATION_BAR_ITEM",
+			value1 = "Entries");
+
+		AssertClick(
+			locator1 = "FormsAdmin#FORMS_NAVIGATION_BAR_ITEM",
+			value1 = "Entries");
+	}
+
+	@summary = "Default summary"
+	macro gotoEntriesLabel(key_value = null, key_key_type = null) {
+		Click(
+			key_fieldName = ${key_value},
+			locator1 = "FormFields#TEXT_FIELD_LABEL_REPORT_CARD");
+
+		AssertVisible(
+			key_type = ${key_key_type},
+			key_value = ${key_value},
+			locator1 = "FormFields#ENTRY_ANY_LABEL");
+	}
+
+	@summary = "Default summary"
+	macro gotoFormBuilder() {
+		var key_navigationBarItem = "Form";
+
+		WaitForElementPresent(
+			locator1 = "FormsAdmin#FORMS_NAVIGATION_BAR_ITEM",
+			value1 = "Form");
+
+		AssertClick(
+			locator1 = "FormsAdmin#FORMS_NAVIGATION_BAR_ITEM",
+			value1 = "Form");
+	}
+
+	@summary = "Default summary"
+	macro gotoNewForm() {
+		if (!(isSet(groupName))) {
+			var groupName = "Guest";
+		}
+
+		var lowerCaseGroupName = StringUtil.lowerCase(${groupName});
+
+		FormsAdminNavigator.openFormsAdmin(siteURLKey = ${lowerCaseGroupName});
+
+		LexiconEntry.gotoAdd();
+	}
+
+	@summary = "Default summary"
+	macro gotoPermissions(formName = null) {
+		LexiconEntry.gotoEntryMenuItem(
+			menuItem = "Permissions",
+			rowEntry = ${formName});
+
+		SelectFrame(locator1 = "IFrame#MODAL_BODY");
+	}
+
+	@summary = "Default summary"
+	macro gotoPreviewForm() {
+		WaitForElementPresent(
+			locator1 = "Form#PREVIEW_FORM_BUTTON",
+			value1 = "Preview");
+
+		AssertClick(
+			locator1 = "Form#PREVIEW_FORM_BUTTON",
+			value1 = "Preview");
+	}
+
+	@summary = "Default summary"
+	macro gotoPublishCopyURLLink() {
+		WaitForElementPresent(locator1 = "Form#PUBLISH_ICON");
+
+		Click(locator1 = "Form#PUBLISH_ICON");
+	}
+
+	@summary = "Default summary"
+	macro gotoPublishedForm() {
+		FormsAdminNavigator.gotoPublishCopyURLLink();
+
+		var publishedFormPublicURL = Form.getPublishedFormPublicURL(publishedFormPublicURL = ${publishedFormPublicURL});
+
+		Navigator.openSpecificURL(url = ${publishedFormPublicURL});
+	}
+
+	@summary = "Default summary"
+	macro gotoRESTDataProvider() {
+		if (!(isSet(groupName))) {
+			var groupName = "Guest";
+		}
+
+		var lowerCaseGroupName = StringUtil.lowerCase(${groupName});
+
+		FormsAdminNavigator.openFormsAdmin(siteURLKey = ${lowerCaseGroupName});
+
+		Navigator.gotoNavItem(navItem = "Data Providers");
+
+		LexiconEntry.gotoAdd();
+	}
+
+	@summary = "Default summary"
+	macro gotoRules() {
+		var key_navigationBarItem = "Rules";
+
+		WaitForElementPresent(
+			locator1 = "FormsAdmin#FORMS_NAVIGATION_BAR_ITEM",
+			value1 = "Rules");
+
+		AssertClick(
+			locator1 = "FormsAdmin#FORMS_NAVIGATION_BAR_ITEM",
+			value1 = "Rules");
+	}
+
+	@summary = "Default summary"
+	macro gotoSettings() {
+		AssertElementPresent(locator1 = "Form#NAME_FIELD");
+
+		Click(locator1 = "Form#SETTINGS_FORM_BUTTON");
+	}
+
+	@summary = "Default summary"
+	macro gotoView(rowIndexNumber = null) {
+		var key_rowIndexNumber = ${rowIndexNumber};
+
+		AssertElementPresent(locator1 = "Icon#ROW_VERTICAL_ELLIPSIS_N");
+
+		Click.waitForMenuToggleJSClick(locator1 = "LexiconList#LIST_ENTRY_ELLIPSIS_GENERIC");
+
+		WaitForLiferayEvent.initializeLiferayEventLog();
+
+		MenuItem.click(menuItem = "View");
+	}
+
+	@summary = "Default summary"
+	macro gotoViewEntries() {
+		AssertElementPresent(locator1 = "Icon#VERTICAL_ELLIPSIS_BUTTON");
+
+		LexiconEntry.gotoVerticalEllipsisMenuItemNoError(menuItem = "View Entries");
+	}
+
+	@summary = "Default summary"
+	macro openFormsAdmin(baseURL = null, siteURLKey = null) {
+		Navigator.openWithAppendToBaseURL(
+			baseURL = ${baseURL},
+			urlAppend = "group/${siteURLKey}/~/control_panel/manage?p_p_id=com_liferay_dynamic_data_mapping_form_web_portlet_DDMFormAdminPortlet");
+	}
+
+	@summary = "Default summary"
+	macro openPublishURL() {
+		FormsAdminNavigator.gotoPublishCopyURLLink();
+
+		var publishFormURL = Form.getPublishedFormPublicURL();
+
+		Navigator.openSpecificURL(url = ${publishFormURL});
+	}
+
+}

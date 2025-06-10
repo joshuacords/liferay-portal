@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="com.liferay.portal.security.sso.openid.connect.persistence.model.OpenIdConnectSession">
+		<field name="mvccVersion" type="long" />
+		<field name="openIdConnectSessionId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="modifiedDate" type="Date" />
+		<field name="accessToken" type="String">
+			<hint-collection name="CLOB" />
+		</field>
+		<field name="accessTokenExpirationDate" type="Date" />
+		<field name="authServerWellKnownURI" type="String">
+			<hint name="max-length">256</hint>
+		</field>
+		<field name="clientId" type="String">
+			<hint name="max-length">256</hint>
+		</field>
+		<field name="idToken" type="String">
+			<hint-collection name="CLOB" />
+		</field>
+		<field name="refreshToken" type="String">
+			<hint name="max-length">2000</hint>
+		</field>
+	</model>
+</model-hints>

@@ -1,0 +1,19 @@
+definition {
+
+	@summary = "Default summary"
+	macro editText(fieldLabel = null, text = null) {
+		Type(
+			key_text = ${fieldLabel},
+			locator1 = "TextInput#ANY",
+			value1 = ${text});
+	}
+
+	@summary = "Default summary"
+	macro viewText(fieldLabel = null, text = null) {
+		AssertTextEquals(
+			key_text = ${fieldLabel},
+			locator1 = "TextInput#ANY",
+			value1 = ${text});
+	}
+
+}

@@ -1,0 +1,175 @@
+definition {
+
+	@summary = "Default summary"
+	macro addFileWithWorkflow(dmDocumentTitle = null, dmDocumentTypeName = null, dmDocumentDescription = null, workflowPngFile = null) {
+		DMNavigator.gotoAddDocumentTypeCP(dmDocumentTypeName = ${dmDocumentTypeName});
+
+		WorkflowDocumentsAndMedia.editImageFileDocument(
+			dmDocumentDescription = ${dmDocumentDescription},
+			dmDocumentTitle = ${dmDocumentTitle},
+			workflowPngFile = ${workflowPngFile});
+
+		ScrollWebElementIntoView(locator1 = "Button#SUBMIT_FOR_WORKFLOW");
+
+		Button.clickSubmitForWorkflow();
+
+		var key_dmDocumentTitle = ${dmDocumentTitle};
+
+		DMDocument.viewCardTitle(dmDocumentTitle = ${dmDocumentTitle});
+	}
+
+	@summary = "Default summary"
+	macro addMultipleCP(dateValue = null, documentType = null, dmDocumentFileList = null, currentDocumentType = null, uploadTempFile = null) {
+		DMNavigator.gotoAddDocumentTypeCP(dmDocumentTypeName = "Multiple Files Upload");
+
+		if (isSet(dmDocumentFileList)) {
+			for (var dmDocumentFile : list ${dmDocumentFileList}) {
+				var key_dmDocumentFile = ${dmDocumentFile};
+
+				AssertElementPresent(locator1 = "Button#SELECT_FILES");
+
+				if (${uploadTempFile} == "true") {
+					UploadTempFile.uploadTempFileHiddenNoMouseOver(
+						locator1 = "TextInput#FILE",
+						value1 = ${dmDocumentFile});
+				}
+				else {
+					UploadCommonFile.uploadCommonFileHiddenNoMouseOver(
+						locator1 = "TextInput#FILE",
+						value1 = ${dmDocumentFile});
+				}
+
+				AssertChecked(locator1 = "DynamicUploader#SELECT_ALL_CHECKBOX");
+
+				AssertElementPresent(
+					key_documentName = ${dmDocumentFile},
+					locator1 = "DynamicUploader#ALL_FILES_READY_TO_BE_SAVED_DOCUMENT_TITLE");
+			}
+		}
+
+		if (isSet(documentType)) {
+			Panel.expandPanel(panel = "Document Type");
+
+			if (isSet(currentDocumentType)) {
+				Click(
+					key_toggleButtonName = ${currentDocumentType},
+					locator1 = "Dropdown#DROPDOWN_TOGGLE_BUTTON");
+			}
+			else {
+				Click(
+					key_toggleButtonName = "Basic Document",
+					locator1 = "Dropdown#DROPDOWN_TOGGLE_BUTTON");
+			}
+
+			Click(
+				key_menuItem = ${documentType},
+				locator1 = "MenuItem#DROPDOWN_MENU_ITEM");
+
+			Panel.expandPanel(panel = "Document Type");
+
+			AssertTextEquals.assertPartialText(
+				key_toggleButtonName = ${documentType},
+				locator1 = "Dropdown#DROPDOWN_TOGGLE_BUTTON",
+				value1 = ${documentType});
+
+			if (isSet(dateValue)) {
+				if (!(isSet(dateFieldLabel))) {
+					var dateFieldLabel = "Date";
+				}
+
+				Type(
+					key_fieldFieldLabel = ${dateFieldLabel},
+					locator1 = "WCEditWebContent#DATE_INPUT",
+					value1 = ${dateValue});
+			}
+		}
+
+		AssertClick(
+			locator1 = "Button#SUBMIT_FOR_WORKFLOW",
+			value1 = "Submit for Workflow");
+	}
+
+	@summary = "Default summary"
+	macro editImageFileDocument(dmDocumentTitle = null, dmDocumentDescription = null, workflowPngFile = null) {
+		var projectDir = PropsUtil.get("project.dir");
+
+		UploadDependencyFile.uploadFile(fileName = ${workflowPngFile});
+
+		if (isSet(useCurrentTitle)) {
+			echo("Use the title automatically added after uploading a file.");
+		}
+		else {
+			PortletEntry.inputTitle(title = ${dmDocumentTitle});
+		}
+
+		if (isSet(dmDocumentDescription)) {
+			PortletEntry.inputDescription(description = ${dmDocumentDescription});
+		}
+	}
+
+	@summary = "Default summary"
+	macro videoShortcutAddCP(videoShortcutTitle = null, videoURL = null, extractedVideoShortcutTitle = null, vocabularyName = null, tagNameList = null, videoShortcutPreview = null, videoShortcutDescription = null, categoryName = null) {
+		if (!(isSet(skipNavigation))) {
+			DMNavigator.gotoAddDocumentTypeCP(dmDocumentTypeName = "External Video Shortcut");
+		}
+
+		Type(
+			key_text = "Video URL",
+			locator1 = "TextInput#ANY",
+			value1 = ${videoURL});
+
+		if (isSet(videoShortcutPreview)) {
+			AssertVisible(
+				key_videoShortcutPreview = ${videoShortcutPreview},
+				locator1 = "DocumentsAndMediaDocument#VIDEO_SHORTCUT_PREVIEW");
+		}
+
+		if (isSet(extractedVideoShortcutTitle)) {
+			var titleText = selenium.getElementValue("TextInput#TITLE");
+
+			if (${extractedVideoShortcutTitle} == ${titleText}) {
+				echo("This is a correct title.");
+			}
+			else {
+				fail("FAIL!");
+			}
+		}
+
+		if (isSet(videoShortcutTitle)) {
+			PortletEntry.inputTitle(title = ${videoShortcutTitle});
+		}
+
+		if (isSet(videoShortcutDescription)) {
+			PortletEntry.inputDescription(description = ${videoShortcutDescription});
+		}
+
+		if (isSet(categoryName)) {
+			var key_categoryName = ${categoryName};
+
+			Panel.expandPanel(panel = "Categorization");
+
+			AssetCategorization.addCategory(
+				categoryName = ${categoryName},
+				vocabularyName = ${vocabularyName});
+		}
+
+		if (isSet(tagNameList)) {
+			Panel.expandPanel(panel = "Categorization");
+
+			for (var tagName : list ${tagNameList}) {
+				AssetCategorization.addTag(tagName = ${tagName});
+			}
+		}
+
+		Button.clickSubmitForWorkflow();
+	}
+
+	@summary = "Default summary"
+	macro viewWorkflowInProcessMessage(errorMessage = null) {
+		AssertTextEquals(
+			key_errorMessage = ${errorMessage},
+			locator1 = "WorkflowMetricsSLA#SLA_ERROR_MESSAGE",
+			value1 = ${errorMessage});
+	}
+
+}

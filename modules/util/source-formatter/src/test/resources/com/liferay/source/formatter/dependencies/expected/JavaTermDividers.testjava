@@ -1,0 +1,183 @@
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+
+package com.liferay.source.formatter.dependencies;
+
+/**
+ * @author Hugo Huijser
+ */
+public class JavaTermDividers {
+
+	public static final String VAR_PUBLIC_STATIC_FINAL_1;
+
+	public static final String VAR_PUBLIC_STATIC_FINAL_2;
+
+	public static String varPublicStatic1;
+	public static String varPublicStatic2;
+
+	public static void methodPublicStatic1() {
+	}
+
+	public static void methodPublicStatic2() {
+	}
+
+	public JavaTermDividers() {
+	}
+
+	public JavaTermDividers(String s) {
+	}
+
+	public void methodPublic1() {
+	}
+
+	public void methodPublic2() {
+	}
+
+	public String varPublic1;
+	public String varPublic2;
+
+	public static class ClassPublicStatic1 {
+
+		public ClassPublicStatic1() {
+		}
+
+	}
+
+	public static class ClassPublicStatic2 {
+
+		public ClassPublicStatic3() {
+		}
+
+	}
+
+	public class ClassPublic1 {
+
+		public ClassPublic1() {
+		}
+
+	}
+
+	public class ClassPublic2 {
+
+		public ClassPublic2() {
+		}
+
+	}
+
+	protected static void methodProtectedStatic1() {
+	}
+
+	protected static void methodProtectedStatic2() {
+	}
+
+	protected JavaTermDividers() {
+	}
+
+	protected JavaTermDividers(String s) {
+	}
+
+	protected void methodProtected1() {
+	}
+
+	protected void methodProtected2() {
+	}
+
+	protected static final String VAR_PROTECTED_STATIC_FINAL_1;
+
+	protected static final String VAR_PROTECTED_STATIC_FINAL_2;
+
+	protected static String varProtectedStatic1;
+	protected static String varProtectedStatic2;
+
+	protected String varProtected1;
+	protected String varProtected2;
+
+	protected static class ClassProtectedStatic1 {
+
+		public ClassProtectedStatic1() {
+		}
+
+	}
+
+	protected static class ClassProtectedStatic2 {
+
+		public ClassProtectedStatic2() {
+		}
+
+	}
+
+	protected class ClassProtected1 {
+
+		public ClassProtected1() {
+		}
+
+	}
+
+	protected class ClassProtected2 {
+
+		public ClassProtected2() {
+		}
+
+	}
+
+	@SuppressWarnings("unused")
+	private static void _methodPrivateStatic1() {
+	}
+
+	@SuppressWarnings("unused")
+	private static void _methodPrivateStatic2() {
+	}
+
+	private JavaTermDividers() {
+	}
+
+	private JavaTermDividers(String s) {
+		String test = s;
+	}
+
+	@SuppressWarnings("unused")
+	private void _methodPrivate1() {
+	}
+
+	@SuppressWarnings("unused")
+	private void _methodPrivate2() {
+	}
+
+	private static final String _VAR_PRIVATE_STATIC_FINAL_1;
+
+	private static final String _VAR_PRIVATE_STATIC_FINAL_2;
+
+	private String _varPrivate1;
+	private String _varPrivate2;
+
+	private static class ClassPrivateStatic1 {
+
+		public ClassPrivateStatic1() {
+		}
+
+	}
+
+	private static class ClassPrivateStatic2 {
+
+		public ClassPrivateStatic2() {
+		}
+
+	}
+
+	private class ClassPrivate1 {
+
+		public ClassPrivate1() {
+		}
+
+	}
+
+	private class ClassPrivate2 {
+
+		public ClassPrivate2() {
+		}
+
+	}
+
+}

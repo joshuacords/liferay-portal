@@ -1,0 +1,85 @@
+<html>
+<head>
+<title>StyleBookEditor</title>
+</head>
+
+<body>
+<table border="1" cellpadding="1" cellspacing="1">
+<thead>
+<tr><td rowspan="1" colspan="3">StyleBookEditor</td></tr>
+</thead>
+
+<tbody>
+
+<!--PAGE_DESIGN_OPTIONS-->
+
+<tr>
+	<td>STYLE_BOOK_CARD_SELECTED</td>
+	<td>//li[contains(@class,'active')]//div[contains(@class,'card')][contains(.,'${key_card}')] | //div[contains(@class,'card')][contains(@class,'active')][contains(.,'${key_styleBookName}')]</td>
+	<td></td>
+</tr>
+
+<!--PAGE_PREVIEW-->
+
+<tr>
+	<td>CONTRIBUTED_FRAGMENT_INLINE_CONTENT</td>
+	<td>//${key_element}[contains(@data-lfr-editable-id,'${key_id}') and contains(@data-lfr-editable-type,'${key_type}')][normalize-space(text())='${key_content}']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CURSOR_NOT_ALLOWED</td>
+	<td>//body/div[contains(@style,'cursor: not-allowed')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>EMPTY_MESSAGE</td>
+	<td>//div[contains(@class,'empty-state-text')][normalize-space(text())='You cannot preview the style book because your site is empty.']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PAGE_PREVIEW_IFRAME</td>
+	<td>//iframe[contains(@class,'page-preview')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PREVIEW_SELECTOR</td>
+	<td>xpath=(//button[contains(@class,'style-book-editor__preview-selector')])[${index}]</td>
+	<td></td>
+</tr>
+
+<!--SIDEBAR-->
+
+<tr>
+	<td>DRAFT_SAVED_MESSAGE</td>
+	<td>//div[contains(@class,'toolbar')]//span[contains(@class,'editor__status')][normalize-space(text())='Saved']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>DRAFT_SAVING_MESSAGE</td>
+	<td>//div[contains(@class,'toolbar')]//span[contains(@class,'editor__status')][normalize-space(text())='Saving...']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>FORM_CONTROL_SELECT_BUTTON</td>
+	<td>//div[contains(@class,'sidebar')]//button[contains(@class,'form-control-select')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>MANAGEMENT_BAR</td>
+	<td>//div[contains(@class,'style-book-editor')]//div[contains(@class,'management-bar')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>STYLE_BOOK_EDITOR_SIDEBAR_COLLAPSED</td>
+	<td>//button[@aria-expanded='false']//*[contains(@class,'panel-title') and contains(.,'${key_sectionName}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>STYLE_BOOK_EDITOR_SIDEBAR_EXPANDED</td>
+	<td>//button[@aria-expanded='true']//*[contains(@class,'panel-title') and contains(.,'${key_sectionName}')]</td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

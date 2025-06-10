@@ -1,0 +1,99 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<liferay-ui:icon-menu
+	direction="left-side"
+	icon="<%= StringPool.BLANK %>"
+	markupView="lexicon"
+	message="<%= StringPool.BLANK %>"
+	showWhenSingleIcon="<%= true %>"
+	triggerCssClass="component-action"
+>
+	<c:if test="<%= uadEntity.getViewURL() != null %>">
+		<liferay-ui:icon
+			message="view"
+			url="<%= uadEntity.getViewURL() %>"
+		/>
+	</c:if>
+
+	<c:if test="<%= uadEntity.getEditURL() == StringPool.BLANK %>">
+		<liferay-ui:icon
+			cssClass="disabled dropdown-item"
+			message="edit"
+		/>
+	</c:if>
+
+	<c:if test="<%= Validator.isNotNull(uadEntity.getEditURL()) %>">
+		<liferay-ui:icon
+			message="edit"
+			url="<%= uadEntity.getEditURL() %>"
+		/>
+	</c:if>
+
+	<%
+	String applicationKey = StringPool.BLANK;
+
+	ViewUADEntitiesDisplay viewUADEntitiesDisplay = (ViewUADEntitiesDisplay)request.getAttribute(UADWebKeys.VIEW_UAD_ENTITIES_DISPLAY);
+
+	if (viewUADEntitiesDisplay != null) {
+		applicationKey = viewUADEntitiesDisplay.getApplicationKey();
+	}
+
+	PortletURL autoAnonymizeURL = liferayPortletResponse.createActionURL();
+	PortletURL deleteURL = liferayPortletResponse.createActionURL();
+
+	if (applicationKey.equals(UADConstants.ALL_APPLICATIONS)) {
+		autoAnonymizeURL.setParameter(ActionRequest.ACTION_NAME, "/user_associated_data/anonymize_uad_applications");
+		autoAnonymizeURL.setParameter("applicationKey", String.valueOf(uadEntity.getPrimaryKey()));
+
+		deleteURL.setParameter(ActionRequest.ACTION_NAME, "/user_associated_data/delete_uad_applications");
+		deleteURL.setParameter("applicationKey", String.valueOf(uadEntity.getPrimaryKey()));
+	}
+	else {
+		autoAnonymizeURL.setParameter(ActionRequest.ACTION_NAME, "/user_associated_data/anonymize_uad_entities");
+
+		String typeKey = AUIUtil.normalizeId(uadEntity.getTypeKey());
+
+		autoAnonymizeURL.setParameter("primaryKey__" + typeKey, String.valueOf(uadEntity.getPrimaryKey()));
+
+		deleteURL.setParameter(ActionRequest.ACTION_NAME, "/user_associated_data/delete_uad_entities");
+		deleteURL.setParameter("primaryKey__" + typeKey, String.valueOf(uadEntity.getPrimaryKey()));
+	}
+
+	String anonymizeSingleMessage = "are-you-sure-you-want-to-anonymize-this-entity";
+
+	if (applicationKey.equals(UADConstants.ALL_APPLICATIONS)) {
+		anonymizeSingleMessage = "are-you-sure-you-want-to-anonymize-the-entities-of-this-application";
+	}
+	else if (!uadEntity.isUserOwned()) {
+		anonymizeSingleMessage = "only-items-belonging-to-the-user-will-be-anonymized";
+	}
+	%>
+
+	<liferay-ui:icon
+		message="anonymize"
+		onClick='<%= liferayPortletResponse.getNamespace() + "confirmAction('viewUADEntitiesFm', '" + autoAnonymizeURL.toString() + "', '" + UnicodeLanguageUtil.get(request, anonymizeSingleMessage) + "')" %>'
+		url="javascript:void(0);"
+	/>
+
+	<%
+	String deleteSingleMessage = "are-you-sure-you-want-to-delete-this-entity";
+
+	if (applicationKey.equals(UADConstants.ALL_APPLICATIONS)) {
+		deleteSingleMessage = "are-you-sure-you-want-to-delete-the-entities-of-this-application";
+	}
+	else if (!uadEntity.isUserOwned()) {
+		deleteSingleMessage = "only-items-belonging-to-the-user-will-be-deleted";
+	}
+	%>
+
+	<liferay-ui:icon
+		message="delete"
+		onClick='<%= liferayPortletResponse.getNamespace() + "confirmAction('viewUADEntitiesFm', '" + deleteURL.toString() + "', '" + UnicodeLanguageUtil.get(request, deleteSingleMessage) + "')" %>'
+		url="javascript:void(0);"
+	/>
+</liferay-ui:icon-menu>

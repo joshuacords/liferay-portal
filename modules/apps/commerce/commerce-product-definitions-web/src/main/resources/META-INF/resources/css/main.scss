@@ -1,0 +1,191 @@
+.discount-label-wrapper {
+	display: grid;
+	grid-template-columns: min-content auto;
+	grid-template-rows: min-content auto;
+	grid-template-areas:
+		'label input'
+		'message message';
+	grid-gap: 4px;
+	margin-right: 8px;
+
+	&:last-of-type {
+		margin-right: 0;
+	}
+
+	input {
+		grid-area: input;
+		padding-left: 6px;
+		padding-right: 6px;
+	}
+
+	label {
+		align-self: center;
+		grid-area: label;
+	}
+
+	.help-block {
+		font-size: 10px;
+		grid-area: message;
+	}
+}
+
+.portlet-commerce-product-definitions {
+	textarea.form-control {
+		height: 70px;
+	}
+
+	.main-content-nav > li.active {
+		font-weight: bold;
+	}
+
+	.commerce-product-option-editor {
+		margin-top: 20px;
+
+		.section-header {
+			font-size: 1.2rem;
+
+			.btn-primary {
+				float: right;
+			}
+		}
+	}
+
+	.product-definition-option-rel-button-row {
+		.btn {
+			margin-right: 5px;
+		}
+	}
+
+	.sku-options-panel {
+		.panel-title {
+			padding: 0.75rem 1.25rem;
+		}
+	}
+
+	.product-detail-header {
+		background-color: #fff;
+	}
+
+	.product-options-wrapper {
+		.ddm-field-container {
+			padding: 0;
+		}
+
+		.ddm-row:first-child {
+			margin-top: 0;
+		}
+	}
+}
+
+.definition-toolbar-filter {
+	background-color: #fff;
+	margin-top: -1.25rem;
+
+	.label {
+		display: inline;
+		margin-right: 10px;
+	}
+
+	.filter-selector {
+		padding-bottom: 1rem;
+		padding-top: 1rem;
+
+		&.form-inline {
+			margin-bottom: 0;
+		}
+
+		label {
+			font-weight: normal;
+		}
+
+		select {
+			margin-left: 1rem;
+		}
+
+		.filter-selector-select {
+			margin-right: 1rem;
+		}
+
+		.filter-select {
+			margin-right: 1rem;
+		}
+
+		.categoriesselector {
+			display: inline-block;
+			vertical-align: middle;
+
+			.categoriesselector-content {
+				ul {
+					margin-bottom: 0;
+				}
+			}
+		}
+	}
+
+	.filter-list {
+		border-color: #f1f2f5;
+		border-style: solid;
+		border-width: 1px 0 0;
+		padding-bottom: 1rem;
+		padding-top: 1rem;
+
+		p {
+			margin-bottom: 0;
+		}
+	}
+}
+
+.price-entry-price-settings {
+	margin-top: 20px;
+
+	&.disabled {
+		cursor: not-allowed;
+		opacity: 0.4;
+		pointer-events: none;
+	}
+
+	.discount-label-wrapper {
+		label {
+			padding-right: 10px;
+		}
+	}
+
+	.fieldset-legend {
+		border-bottom: 1px solid #cdced9;
+		font-size: 1rem;
+		text-transform: uppercase;
+	}
+
+	.management-bar {
+		.container-fluid {
+			padding: 0;
+		}
+	}
+
+	.panel-body {
+		padding-left: 0;
+		padding-right: 0;
+	}
+}
+
+.product-configuration {
+	a.sheet-subtitle {
+		margin-bottom: 0.3rem;
+	}
+}
+
+.product-configuration-value {
+	.icon {
+		background-color: var(--primary);
+		height: 0.5rem;
+		rotate: 45deg;
+		width: 0.5rem;
+	}
+}
+
+#termsOfUseContent {
+	.input-localized-content[role='menu'],
+	.text-default {
+		padding-top: 44px;
+	}
+}

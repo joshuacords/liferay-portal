@@ -1,0 +1,40 @@
+import com.liferay.gradle.plugins.patcher.PatchTask
+
+apply plugin: "com.liferay.patcher"
+
+task deployJar(type: Copy)
+task patch(type: PatchTask)
+
+dependencies {
+	compileOnly group: "commons-configuration", name: "commons-configuration", version: "1.10"
+}
+
+deploy {
+	finalizedBy deployJar
+}
+
+deployJar {
+	ext {
+		autoClean = false
+	}
+
+	from jar
+	into "../../../lib/portal"
+
+	rename {
+		"commons-configuration.jar"
+	}
+}
+
+jarSources {
+	mustRunAfter patch
+}
+
+patch {
+	ext {
+		autoClean = false
+	}
+
+	fileNames "org/apache/commons/configuration/PropertiesConfiguration.java"
+	originalLibModuleName = "commons-configuration"
+}

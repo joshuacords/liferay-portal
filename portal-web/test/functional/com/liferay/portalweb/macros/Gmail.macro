@@ -1,0 +1,83 @@
+definition {
+
+	@summary = "Default summary"
+	macro deleteSpecificMail(gmailMessageTitleList = null) {
+		Navigator.openSpecificURL(url = "http://www.gmail.com");
+
+		for (var gmailMessageTitle : list ${gmailMessageTitleList}) {
+			var key_gmailMessageTitle = ${gmailMessageTitle};
+
+			while (IsElementPresent(locator1 = "Gmail#EMAIL_MESSAGE_TITLE")) {
+				Click(locator1 = "Gmail#EMAIL_MESSAGE_TITLE");
+
+				MouseOver(locator1 = "Gmail#EMAIL_TOOLBAR");
+
+				Click(locator1 = "Gmail#EMAIL_DELETE");
+
+				Navigator.openSpecificURL(url = "http://www.gmail.com");
+			}
+		}
+	}
+
+	@summary = "Default summary"
+	macro gotoMail(gmailMessageTitle = null) {
+		Click(
+			key_gmailMessageTitle = ${gmailMessageTitle},
+			locator1 = "Gmail#EMAIL_MESSAGE_TITLE");
+
+		WaitForElementPresent.waitForLastScript();
+	}
+
+	@summary = "Default summary"
+	macro login(userPassword = null, userEmailAddress = null) {
+		Navigator.openSpecificURL(url = "http://www.gmail.com");
+
+		var key_userEmailAddress = ${userEmailAddress};
+
+		if (IsElementNotPresent(locator1 = "Gmail#SCREENNAME")) {
+			if (IsElementPresent(locator1 = "Gmail#LOGIN_EMAIL_FIELD")) {
+				Type(
+					locator1 = "Gmail#LOGIN_EMAIL_FIELD",
+					value1 = ${userEmailAddress});
+
+				Click(locator1 = "Gmail#LOGIN_NEXT_BUTTON");
+			}
+
+			Type(
+				locator1 = "Gmail#LOGIN_PASSWORD_FIELD",
+				value1 = ${userPassword});
+
+			if (IsElementPresent(locator1 = "Gmail#LOGIN_SIGN_IN_BUTTON")) {
+				Check(locator1 = "Gmail#LOGIN_STAY_SIGNED_IN_CHECKBOX");
+
+				Click(locator1 = "Gmail#LOGIN_SIGN_IN_BUTTON");
+			}
+			else {
+				Click(locator1 = "Gmail#LOGIN_NEXT_BUTTON");
+			}
+
+			if (IsElementPresent(locator1 = "Gmail#MAIL_NAVIGATION")) {
+				Click(locator1 = "Gmail#MAIL_NAVIGATION");
+			}
+
+			WaitForPageLoad();
+		}
+		else {
+			AssertElementPresent(locator1 = "Gmail#SCREENNAME");
+		}
+	}
+
+	@summary = "Default summary"
+	macro replyMail(gmailReplyMessage = null) {
+		if (!(IsElementPresent(locator1 = "Gmail#EMAIL_REPLY_TEXTBOX"))) {
+			Click(locator1 = "Gmail#EMAIL_REPLY");
+		}
+
+		Type(
+			locator1 = "Gmail#EMAIL_REPLY_TEXTBOX",
+			value1 = ${gmailReplyMessage});
+
+		Click(locator1 = "Gmail#EMAIL_SEND");
+	}
+
+}

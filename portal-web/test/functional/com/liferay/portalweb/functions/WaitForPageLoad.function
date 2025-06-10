@@ -1,0 +1,24 @@
+@default = "waitForPageLoad"
+definition {
+
+	function waitForPageLoad() {
+		if (!(isSet(locator1))) {
+			var locator1 = 0;
+		}
+
+		var javascript = '''
+			window.addEventListener(
+				'load',
+				() => {
+					setTimeout(() => {
+						console.log("Page is fully loaded");
+					}, "${locator1}");
+				},
+				{once: true}
+			);
+		''';
+
+		ExecuteJavaScript(value1 = ${javascript});
+	}
+
+}

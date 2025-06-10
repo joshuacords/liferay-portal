@@ -1,0 +1,30 @@
+definition {
+
+	@summary = "Default summary"
+	macro setCTCollectionId(publicationName = null) {
+		Variables.assertDefined(parameterList = ${publicationName});
+
+		var ctCollectionId = JSONPublicationsAPI._getCTCollectionId(publicationName = ${publicationName});
+
+		return ${ctCollectionId};
+	}
+
+	@summary = "Default summary"
+	macro setPublicationDescription() {
+		if (!(isSet(publicationDescription))) {
+			var publicationDescription = "";
+		}
+
+		return ${publicationDescription};
+	}
+
+	@summary = "Default summary"
+	macro setPublicationName() {
+		Variables.assertDefined(parameterList = ${publicationName});
+
+		var publicationName = URLUtil.encodeUTF8(${publicationName});
+
+		return ${publicationName};
+	}
+
+}

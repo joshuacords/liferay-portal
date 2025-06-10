@@ -1,0 +1,139 @@
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+
+package com.liferay.oauth2.provider.client.test;
+
+import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.document.library.kernel.service.DLAppLocalService;
+import com.liferay.document.library.util.DLURLHelper;
+import com.liferay.oauth2.provider.constants.GrantType;
+import com.liferay.oauth2.provider.internal.test.TestPreviewURLApplication;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.repository.model.FileEntry;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.test.rule.AggregateTestRule;
+import com.liferay.portal.kernel.test.util.UserTestUtil;
+import com.liferay.portal.kernel.util.HashMapDictionaryBuilder;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.test.rule.Inject;
+import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
+
+import java.util.Arrays;
+import java.util.Collections;
+
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.ext.RuntimeDelegate;
+
+import org.apache.cxf.jaxrs.client.spec.ClientBuilderImpl;
+import org.apache.cxf.jaxrs.impl.RuntimeDelegateImpl;
+
+import org.junit.Assert;
+import org.junit.ClassRule;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import org.osgi.framework.BundleActivator;
+
+/**
+ * @author Víctor Galán
+ */
+@RunWith(Arquillian.class)
+public class OAuth2WebServerServletTest extends BaseClientTestCase {
+
+	@ClassRule
+	@Rule
+	public static final AggregateTestRule aggregateTestRule =
+		new LiferayIntegrationTestRule();
+
+	@Test
+	public void test() throws Exception {
+		String tokenString = getToken("oauthTestApplication");
+
+		WebTarget webTarget = getWebTarget("/preview-url");
+
+		Invocation.Builder builder = authorize(
+			webTarget.request(), tokenString);
+
+		String previewURL = builder.get(String.class);
+
+		WebTarget previewURLWebTarget = _getRootWebTarget(previewURL);
+
+		Invocation.Builder unauthorizedBuilder = previewURLWebTarget.request();
+
+		Response unauthorizedResponse = unauthorizedBuilder.get();
+
+		Assert.assertNotEquals(200, unauthorizedResponse.getStatus());
+
+		Invocation.Builder authorizedBuilder = authorize(
+			unauthorizedBuilder, tokenString);
+
+		String fileContent = authorizedBuilder.get(String.class);
+
+		Assert.assertEquals(_TEST_FILE_CONTENT, fileContent);
+	}
+
+	public static class OAuth2WebServerServletTestPreparator
+		extends BaseTestPreparatorBundleActivator {
+
+		@Override
+		protected void prepareTest() throws Exception {
+			User user = UserTestUtil.getAdminUser(
+				PortalUtil.getDefaultCompanyId());
+
+			FileEntry fileEntry = _dlAppLocalService.addFileEntry(
+				null, user.getUserId(), user.getGroupId(), 0, "test-file.txt",
+				"text/plain", _TEST_FILE_CONTENT.getBytes(), null, null, null,
+				new ServiceContext());
+
+			registerJaxRsApplication(
+				new TestPreviewURLApplication(
+					_dlURLHelper.getPreviewURL(
+						fileEntry, fileEntry.getFileVersion(), null, "", false,
+						false)),
+				"preview-url",
+				HashMapDictionaryBuilder.<String, Object>put(
+					"osgi.jaxrs.name", TestPreviewURLApplication.class.getName()
+				).build());
+
+			createOAuth2Application(
+				PortalUtil.getDefaultCompanyId(), user, "oauthTestApplication",
+				Collections.singletonList(GrantType.CLIENT_CREDENTIALS),
+				Arrays.asList("GET", "everything.read.documents.download"));
+		}
+
+	}
+
+	@Override
+	protected BundleActivator getBundleActivator() {
+		return new OAuth2WebServerServletTestPreparator();
+	}
+
+	private WebTarget _getRootWebTarget(String path) {
+		ClientBuilder clientBuilder = new ClientBuilderImpl();
+
+		Client client = clientBuilder.build();
+
+		RuntimeDelegate runtimeDelegate = new RuntimeDelegateImpl();
+
+		UriBuilder uriBuilder = runtimeDelegate.createUriBuilder();
+
+		return client.target(uriBuilder.uri("http://localhost:8080" + path));
+	}
+
+	private static final String _TEST_FILE_CONTENT = "Test File Content";
+
+	@Inject
+	private static DLAppLocalService _dlAppLocalService;
+
+	@Inject
+	private static DLURLHelper _dlURLHelper;
+
+}

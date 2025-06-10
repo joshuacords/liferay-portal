@@ -1,0 +1,164 @@
+@default = "assertClick"
+@summary = "Click on '${locator1}' that should have a value of '${value1}'"
+definition {
+
+	function assertClick(locator1) {
+		WaitForSPARefresh();
+
+		if (contains(${locator1}, "/input")) {
+			AssertClick.assertValueClickAt();
+		}
+		else {
+			AssertClick.assertTextClickAt();
+		}
+	}
+
+	function assertPartialTextClickAt(locator1, value1) {
+		WaitForSPARefresh();
+
+		AssertTextEquals.assertPartialText();
+
+		selenium.mouseOver(${locator1});
+
+		selenium.clickAt(${locator1}, ${value1});
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+	function assertPartialTextClickAtNoMouseOver(locator1, value1) {
+		WaitForSPARefresh();
+
+		AssertTextEquals.assertPartialText();
+
+		selenium.clickAt(${locator1}, ${value1});
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+	function assertTextClickAt(locator1, value1) {
+		WaitForSPARefresh();
+
+		AssertTextEquals.assertText();
+
+		selenium.mouseOver(${locator1});
+
+		selenium.clickAt(${locator1}, ${value1});
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+	function assertTextClickAtAndPause(locator1, value1) {
+		WaitForSPARefresh();
+
+		AssertTextEquals.assertText();
+
+		selenium.mouseOver(${locator1});
+
+		selenium.clickAt(${locator1}, ${value1});
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+
+		selenium.pause(1000);
+	}
+
+	function assertTextClickAtNoJavaScript(locator1, value1) {
+		WaitForSPARefresh();
+
+		AssertTextEquals.assertText();
+
+		selenium.mouseOver(${locator1});
+
+		selenium.clickAt(${locator1}, ${value1});
+
+		selenium.assertLiferayErrors();
+	}
+
+	function assertTextClickAtWaitForLastScript(locator1) {
+		WaitForSPARefresh();
+
+		selenium.waitForVisible(${locator1}, "false");
+
+		AssertClick.assertTextClickAt();
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+
+		selenium.waitForElementPresent(${locator1}, "false");
+	}
+
+	function assertTextClickCaseSensitive(locator1) {
+		WaitForSPARefresh();
+
+		AssertTextEquals.assertTextCaseSensitive();
+
+		selenium.mouseOver(${locator1});
+
+		selenium.click(${locator1});
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+	function assertTextClickNoMouseOver(locator1) {
+		WaitForSPARefresh();
+
+		AssertTextEquals.assertText();
+
+		selenium.click(${locator1});
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+	function assertValueClickAt(locator1, value1) {
+		WaitForSPARefresh();
+
+		AssertTextEquals.assertValue();
+
+		selenium.mouseOver(${locator1});
+
+		selenium.clickAt(${locator1}, ${value1});
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+	function pauseAssertTextClickAt() {
+		WaitForSPARefresh();
+
+		selenium.pause(1000);
+
+		AssertClick.assertTextClickAt();
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+	function waitForDMHomeAssertTextEqualsClick(locator1) {
+		WaitForSPARefresh();
+
+		selenium.waitForElementPresent(${locator1}, "false");
+
+		selenium.pause(1500);
+
+		AssertClick.assertTextClickAt();
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+}

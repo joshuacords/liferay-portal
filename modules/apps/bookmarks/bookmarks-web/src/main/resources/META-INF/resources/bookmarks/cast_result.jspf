@@ -1,0 +1,28 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<%
+BookmarksEntry entry = null;
+BookmarksFolder curFolder = null;
+
+if (result instanceof AssetEntry) {
+	AssetEntry assetEntry = (AssetEntry)result;
+
+	if (Objects.equals(assetEntry.getClassName(), BookmarksFolder.class.getName())) {
+		curFolder = BookmarksFolderServiceUtil.getFolder(assetEntry.getClassPK());
+	}
+	else {
+		entry = BookmarksEntryServiceUtil.getEntry(assetEntry.getClassPK());
+	}
+}
+else if (result instanceof BookmarksFolder) {
+	curFolder = (BookmarksFolder)result;
+}
+else {
+	entry = (BookmarksEntry)result;
+}
+%>

@@ -1,0 +1,13 @@
+{
+	"dependencies": {
+		"item-selector-taglib": "*"
+	},
+	"main": "js/ItemSelectorRepositoryEntryBrowser.js",
+	"name": "item-selector-upload-web",
+	"scripts": {
+		"build": "node-scripts build",
+		"checkFormat": "node-scripts format --check",
+		"format": "node-scripts format"
+	},
+	"version": "6.0.30"
+}

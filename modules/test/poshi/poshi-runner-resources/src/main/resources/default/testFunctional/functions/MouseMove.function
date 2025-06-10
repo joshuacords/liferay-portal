@@ -1,0 +1,10 @@
+@default = "mouseMoveAt"
+definition {
+
+	function mouseMoveAt(locator1, value1) {
+		selenium.waitForVisible(${locator1}, "true");
+
+		selenium.mouseMoveAt(${locator1}, ${value1});
+	}
+
+}

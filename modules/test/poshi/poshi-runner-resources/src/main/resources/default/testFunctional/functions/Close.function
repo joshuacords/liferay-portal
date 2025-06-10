@@ -1,0 +1,30 @@
+@default = "close"
+definition {
+
+	function close() {
+		selenium.selectWindow("null");
+
+		selenium.selectFrame("relative=top");
+	}
+
+	function closeAndSelectWindow(value1) {
+		selenium.pause(1000);
+
+		selenium.close();
+
+		selenium.pause(3000);
+
+		selenium.selectWindow(${value1});
+	}
+
+	function closeWindow() {
+		selenium.pause(1000);
+
+		selenium.close();
+
+		selenium.selectWindow("null");
+
+		selenium.selectFrame("relative=top");
+	}
+
+}

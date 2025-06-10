@@ -1,0 +1,78 @@
+definition {
+
+	@summary = "Default summary"
+	macro _deleteCommerceAvailableEstimates() {
+		var baseURL = ${baseURL};
+
+		if (!(isSet(baseURL))) {
+			var baseURL = JSONCompany.getPortalURL();
+		}
+
+		var commerceAvailabilityEstimateIds = CommerceJSONAvailableEstimatesAPI._getCommerceAvailableEstimates();
+
+		if (${commerceAvailabilityEstimateIds} != "") {
+			for (var commerceAvailabilityEstimateId : list ${commerceAvailabilityEstimateIds}) {
+				echo("Deleting Commerce commerceAvailabilityEstimate with id: ${commerceAvailabilityEstimateId}");
+
+				var userLoginInfo = JSONUtil2.formatJSONUser();
+
+				var curl = '''
+					${baseURL}/api/jsonws/commerce.commerceavailabilityestimate/delete-commerce-availability-estimate \
+						-u ${userLoginInfo} \
+						-d commerceAvailabilityEstimateId=${commerceAvailabilityEstimateId}
+				''';
+
+				JSONCurlUtil.post(${curl});
+			}
+		}
+		else {
+			echo("No Commerce Availability Estimate to be deleted");
+		}
+	}
+
+	@summary = "Default summary"
+	macro _getAvailableEstimatesCount() {
+		var availableEstimatesCount = 0;
+		var commerceAvailabilityEstimateIds = CommerceJSONAvailableEstimatesAPI._getCommerceAvailableEstimates();
+
+		for (var commerceAvailabilityEstimateId : list ${commerceAvailabilityEstimateIds}) {
+			if (${commerceAvailabilityEstimateId} != "") {
+				var availableEstimatesCount = ${availableEstimatesCount} + 1;
+			}
+		}
+
+		echo("The Commerce available estimates count is: ${availableEstimatesCount}");
+
+		return ${availableEstimatesCount};
+	}
+
+	@summary = "Default summary"
+	macro _getCommerceAvailableEstimates() {
+		var baseURL = ${baseURL};
+
+		if (!(isSet(baseURL))) {
+			var baseURL = JSONCompany.getPortalURL();
+		}
+
+		var companyId = JSONCompany.getCompanyId();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${baseURL}/api/jsonws/commerce.commerceavailabilityestimate/get-commerce-availability-estimates/ \
+				-u ${userLoginInfo} \
+				-d companyId=${companyId} \
+				-d "start=-1" \
+				-d "end=-1" \
+				-d -orderByComparator=''
+		''';
+
+		echo("curl: ${curl}");
+
+		var availableEstimates = JSONCurlUtil.post(${curl}, "$..['commerceAvailabilityEstimateId']");
+
+		echo("availableEstimates: ${availableEstimates}");
+
+		return ${availableEstimates};
+	}
+
+}

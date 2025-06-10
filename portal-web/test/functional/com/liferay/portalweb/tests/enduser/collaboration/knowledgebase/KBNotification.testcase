@@ -1,0 +1,286 @@
+@component-name = "portal-content-management"
+definition {
+
+	property custom.properties = "default.layout.template.id=1_column";
+	property portal.release = "true";
+	property portal.upstream = "true";
+	property testray.main.component.name = "Knowledge Base";
+
+	setUp {
+		TestCase.setUpPortalInstance();
+
+		User.firstLoginPG();
+	}
+
+	tearDown {
+		var testLiferayVirtualInstance = PropsUtil.get("test.liferay.virtual.instance");
+
+		if (${testLiferayVirtualInstance} == "true") {
+			PortalInstances.tearDownCP();
+		}
+		else {
+			Workflow.tearDownSiteWorkflow();
+
+			KBFolder.tearDownCP();
+
+			KBArticle.tearDownCP();
+
+			JSONUser.tearDownNonAdminUsers();
+
+			PagesAdmin.tearDownCP();
+		}
+	}
+
+	@description = "This test checks that a user can subscribe and unsubscribe from an article."
+	@priority = 4
+	test CanSubscribeToArticleViaToolbar {
+		property custom.properties = "jsonws.web.service.paths.excludes=";
+
+		JSONKnowledgeBase.addkBArticle(
+			groupName = "Guest",
+			kbArticleContent = "Knowledge Base Article Content",
+			kbArticleTitle = "Knowledge Base Article Title");
+
+		JSONUser.addUser(
+			userEmailAddress = "userea@liferay.com",
+			userFirstName = "userfn",
+			userLastName = "userln",
+			userScreenName = "usersn");
+
+		JSONUser.setFirstPassword(
+			agreeToTermsAndAnswerReminderQuery = "true",
+			requireReset = "false",
+			userEmailAddress = "userea@liferay.com");
+
+		JSONRole.assignRoleToUser(
+			roleTitle = "Administrator",
+			userEmailAddress = "userea@liferay.com");
+
+		User.logoutAndLoginPG(
+			userLoginEmailAddress = "userea@liferay.com",
+			userLoginFullName = "userfn userln");
+
+		KBAdmin.openKBAdmin(siteURLKey = "guest");
+
+		KBArticle.subscribeCP(
+			kbArticleTitle = "Knowledge Base Article Title",
+			subscribeActionToolbar = "true");
+
+		User.logoutAndLoginPG(
+			userLoginEmailAddress = "test@liferay.com",
+			userLoginFullName = "test test");
+
+		KBArticle.openToEditKBArticleInSite(
+			groupName = "Guest",
+			kbArticleTitle = "Knowledge Base Article Title",
+			siteURLKey = "guest");
+
+		KBArticle.editCP(
+			kbArticleTitleEdit = "Knowledge Base Article Title Edit",
+			skipNavigation = "true");
+
+		User.logoutAndLoginPG(
+			userLoginEmailAddress = "userea@liferay.com",
+			userLoginFullName = "userfn userln");
+
+		Notifications.viewBadgeCount(notificationCount = 1);
+
+		Notifications.gotoNotifications();
+
+		Notifications.navigateToContent(contentBody = "Knowledge Base Article Title Edit");
+	}
+
+	@description = "This test ensures that users can subscribe to the KB home folder from the navigation pane."
+	@priority = 4
+	test CanSubscribeToHomeFolderViaNavigationPane {
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
+
+		JSONUser.addUser(
+			userEmailAddress = "userea@liferay.com",
+			userFirstName = "Test",
+			userLastName = 2,
+			userScreenName = "usersn");
+
+		JSONUser.setFirstPassword(
+			agreeToTermsAndAnswerReminderQuery = "true",
+			requireReset = "false",
+			userEmailAddress = "userea@liferay.com");
+
+		Site.openSiteSettingsAdmin(siteURLKey = "guest");
+
+		Site.manageMembershipOptions(allowManualMembershipManagement = "true");
+
+		User.openUsersAdmin();
+
+		User.editUserSiteCP(
+			siteName = ${siteName},
+			userScreenName = "usersn");
+
+		User.openUsersAdmin();
+
+		User.assignSiteRoleCP(
+			siteRoleName = "Site Administrator",
+			userScreenName = "usersn");
+
+		User.logoutPG();
+
+		User.loginUserPG(
+			password = PropsUtil.get("default.admin.password"),
+			userEmailAddress = "userea@liferay.com");
+
+		KBAdmin.openKBAdmin(siteURLKey = "guest");
+
+		KBArticle.openPageTreePanel(section = "Folders and Articles");
+
+		KBFolder.gotoMenuItemViaNavigationPane(
+			kbFolderName = "Home",
+			menuItem = "Subscribe");
+
+		User.logoutPG();
+
+		User.loginUserPG(
+			password = PropsUtil.get("default.admin.password"),
+			userEmailAddress = "test@liferay.com");
+
+		KBAdmin.openKBAdmin(siteURLKey = "guest");
+
+		KBArticle.addCP(
+			kbArticleContent = "Knowledge Base Article Content",
+			kbArticleTitle = "Knowledge Base Article Title");
+
+		User.logoutPG();
+
+		User.loginUserPG(
+			password = PropsUtil.get("default.admin.password"),
+			userEmailAddress = "userea@liferay.com");
+
+		Notifications.viewBadgeCount(notificationCount = 1);
+
+		Notifications.gotoNotifications();
+
+		Notifications.navigateToContent(contentBody = "Knowledge Base Article Title");
+	}
+
+	@priority = 3
+	@refactorneeded
+	test ViewKBArticleSuggestionsWorkflowNotificationEmail {
+		property custom.properties = "jsonws.web.service.paths.excludes=";
+		property test.smtp.server.enabled = "true";
+
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
+
+		JSONLayout.addPublicLayout(
+			groupName = "Guest",
+			layoutName = "Knowledge Base Display Page");
+
+		User.openUsersAdmin();
+
+		JSONUser.addUser(
+			userEmailAddress = "userea@liferay.com",
+			userFirstName = "Test",
+			userLastName = 2,
+			userScreenName = "usersn");
+
+		JSONUser.setFirstPassword(
+			agreeToTermsAndAnswerReminderQuery = "true",
+			requireReset = "false",
+			userEmailAddress = "userea@liferay.com");
+
+		Site.openSiteSettingsAdmin(siteURLKey = "guest");
+
+		Site.manageMembershipOptions(allowManualMembershipManagement = "true");
+
+		User.openUsersAdmin();
+
+		User.editUserSiteCP(
+			siteName = ${siteName},
+			userScreenName = "usersn");
+
+		User.openUsersAdmin();
+
+		User.assignSiteRoleCP(
+			siteRoleName = "Site Administrator",
+			userScreenName = "usersn");
+
+		KBAdmin.openKBAdmin(siteURLKey = "guest");
+
+		KBArticle.configureEmailCP(
+			emailFrom = "true",
+			suggestionInProgress = "true",
+			suggestionReceived = "true",
+			suggestionResolved = "true",
+			userEmailAddress = "test@liferay.com",
+			userName = "Test Test");
+
+		User.logoutPG();
+
+		User.loginUserPG(
+			password = PropsUtil.get("default.admin.password"),
+			userEmailAddress = "userea@liferay.com");
+
+		KBAdmin.openKBAdmin(siteURLKey = "guest");
+
+		KBArticle.subscribeCP();
+
+		User.logoutPG();
+
+		User.loginUserPG(
+			password = PropsUtil.get("default.admin.password"),
+			userEmailAddress = "test@liferay.com");
+
+		JSONKnowledgeBase.addkBArticle(
+			groupName = "Guest",
+			kbArticleContent = "KB Article Content",
+			kbArticleTitle = "KB Article Title");
+
+		User.logoutPG();
+
+		User.loginUserPG(
+			password = PropsUtil.get("default.admin.password"),
+			userEmailAddress = "userea@liferay.com");
+
+		Navigator.gotoPage(pageName = "Knowledge Base Display Page");
+
+		Portlet.addPG(portletName = "Knowledge Base Display");
+
+		KBArticleSuggestion.addPG(
+			kbArticleTitle = "KB Article Title",
+			kbSuggestionBody = "KB Article Suggestion Content");
+
+		User.logoutPG();
+
+		User.loginUserPG(
+			password = PropsUtil.get("default.admin.password"),
+			userEmailAddress = "test@liferay.com");
+
+		Navigator.gotoPage(pageName = "Knowledge Base Display Page");
+
+		KBArticleSuggestion.viewSuggestionStatus(
+			kbSuggestionBody = "KB Article Suggestion Content",
+			status = "New");
+
+		KBArticleSuggestion.moveToInProgressStatus(
+			kbArticleTitle = "KB Article Title",
+			kbSuggestionBody = "KB Article Suggestion Content");
+
+		KBArticleSuggestion.viewSuggestionStatus(
+			kbSuggestionBody = "KB Article Suggestion Content",
+			status = "In Progress");
+
+		KBArticleSuggestion.moveToResolvedStatus(
+			kbArticleTitle = "KB Article Title",
+			kbSuggestionBody = "KB Article Suggestion Content");
+
+		KBArticleSuggestion.viewSuggestionStatus(
+			kbSuggestionBody = "KB Article Suggestion Content",
+			status = "Resolved");
+
+		MockMock.viewMail(
+			asset = "suggestion",
+			content = "View your resolved suggestion here",
+			recipient = "Test 2",
+			sender = "Test Test",
+			subject = "We have resolved your suggestion for article KB Article Title");
+	}
+
+}

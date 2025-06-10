@@ -1,0 +1,117 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<%
+boolean hasDistributionScope = false;
+%>
+
+<aui:select changesContext="<%= submitOnChange %>" name="distributionScope" onChange='<%= submitOnChange ? liferayPortletResponse.getNamespace() + "selectDistributionScope(this.value);" : "" %>'>
+	<c:if test="<%= PortalPermissionUtil.contains(permissionChecker, ActionKeys.ADD_GENERAL_ANNOUNCEMENTS) %>">
+
+		<%
+		hasDistributionScope = true;
+		%>
+
+		<aui:option label="general" selected="<%= (classNameId == 0) && (classPK == 0) %>" value="0,0" />
+	</c:if>
+
+	<%
+	List<Group> groups = announcementsDisplayContext.getGroups();
+	%>
+
+	<c:if test="<%= !groups.isEmpty() %>">
+		<optgroup label="<liferay-ui:message key="sites" />">
+
+			<%
+			hasDistributionScope = true;
+
+			for (Group group : groups) {
+			%>
+
+				<aui:option label="<%= HtmlUtil.escape(group.getDescriptiveName(locale)) %>" localizeLabel="<%= false %>" selected="<%= classPK == group.getGroupId() %>" value="<%= PortalUtil.getClassNameId(Group.class) + StringPool.COMMA + group.getGroupId() %>" />
+
+			<%
+			}
+			%>
+
+		</optgroup>
+	</c:if>
+
+	<%
+	List<Organization> organizations = announcementsDisplayContext.getOrganizations();
+	%>
+
+	<c:if test="<%= !organizations.isEmpty() %>">
+		<optgroup label="<liferay-ui:message key="organizations" />">
+
+			<%
+			hasDistributionScope = true;
+
+			for (Organization organization : organizations) {
+			%>
+
+				<aui:option label="<%= HtmlUtil.escape(organization.getName()) %>" localizeLabel="<%= false %>" selected="<%= classPK == organization.getOrganizationId() %>" value="<%= PortalUtil.getClassNameId(Organization.class) + StringPool.COMMA + organization.getOrganizationId() %>" />
+
+			<%
+			}
+			%>
+
+		</optgroup>
+	</c:if>
+
+	<%
+	List<Role> roles = announcementsDisplayContext.getRoles();
+	%>
+
+	<c:if test="<%= !roles.isEmpty() %>">
+		<optgroup label="<liferay-ui:message key="roles" />">
+
+			<%
+			hasDistributionScope = true;
+
+			for (Role role : roles) {
+			%>
+
+				<aui:option label="<%= HtmlUtil.escape(role.getTitle(locale)) %>" selected="<%= classPK == role.getRoleId() %>" value="<%= PortalUtil.getClassNameId(Role.class) + StringPool.COMMA + role.getRoleId() %>" />
+
+			<%
+			}
+			%>
+
+		</optgroup>
+	</c:if>
+
+	<%
+	List<UserGroup> userGroups = announcementsDisplayContext.getUserGroups();
+	%>
+
+	<c:if test="<%= !userGroups.isEmpty() %>">
+		<optgroup label="<liferay-ui:message key="user-groups" />">
+
+			<%
+			hasDistributionScope = true;
+
+			for (UserGroup userGroup : userGroups) {
+			%>
+
+				<aui:option label="<%= HtmlUtil.escape(userGroup.getName()) %>" selected="<%= classPK == userGroup.getUserGroupId() %>" value="<%= PortalUtil.getClassNameId(UserGroup.class) + StringPool.COMMA + userGroup.getUserGroupId() %>" />
+
+			<%
+			}
+			%>
+
+		</optgroup>
+	</c:if>
+</aui:select>
+
+<c:if test="<%= !hasDistributionScope %>">
+	<aui:script>
+		var fieldSet = document.getElementById('#<portlet:namespace />fieldSet');
+
+		fieldSet.classList.add('hide');
+	</aui:script>
+</c:if>

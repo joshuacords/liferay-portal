@@ -1,0 +1,327 @@
+@component-name = "portal-publications"
+definition {
+
+	property osgi.module.configuration.file.names = "com.liferay.change.tracking.configuration.CTSettingsConfiguration.config";
+	property osgi.module.configurations = "enabled=B\"true\"";
+	property portal.release = "true";
+	property portal.upstream = "true";
+	property testray.main.component.name = "Publications";
+
+	setUp {
+		TestCase.setUpPortalInstance();
+
+		User.firstLoginPG();
+	}
+
+	tearDown {
+		var testLiferayVirtualInstance = PropsUtil.get("test.liferay.virtual.instance");
+
+		if (${testLiferayVirtualInstance} == "true") {
+			PortalInstances.tearDownCP();
+		}
+		else {
+			Publications.disablePublications();
+		}
+	}
+
+	@description = "Assert comments created outside of a publication will not result in changes within the publication."
+	@priority = 4
+	test AddPublicationWithUnrelatedComments {
+		JSONMBMessage.addMessage(
+			groupName = "Guest",
+			threadBody = "MB Thread Message Body",
+			threadSubject = "MB Thread Message Subject");
+
+		JSONMBMessage.addMessageReply(
+			groupName = "Guest",
+			replyBody = "MB Comment",
+			threadSubject = "MB Thread Message Subject");
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
+		MessageBoardsAdmin.openMessageBoardsAdmin(siteURLKey = "guest");
+
+		MessageboardsThread.viewCP(
+			replyCount = 1,
+			threadBody = "MB Thread Message Body",
+			threadSubject = "MB Thread Message Subject");
+
+		PublicationsNavigator.gotoReviewChanges();
+
+		// Workaround LPS-163263
+
+		/*AssertElementPresent(locator1 = "PublicationsChanges#MESSAGE_NO_CHANGES");*/
+	}
+
+	@description = "Assert we can publish the publication with category with Message Board Thread."
+	@priority = 4
+	test PublishCategoryWithMessageBoardThread {
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
+		HeadlessSite.addSite(siteName = "Site Name");
+
+		JSONMBMessage.addCategory(
+			categoryDescription = "MB Category Description",
+			categoryName = "MB Category Name",
+			groupName = "Site Name",
+			userEmailAddress = "test@liferay.com");
+
+		MessageBoardsAdmin.openMessageBoardsAdmin(siteURLKey = "site-name");
+
+		MessageboardsCategory.gotoCP(categoryName = "MB Category Name");
+
+		MessageboardsThread.addCP(
+			threadBody = "MB Thread Message Body",
+			threadSubject = "MB Thread Message Subject");
+
+		PublicationsNavigator.gotoReviewChanges();
+
+		PublicationsChanges.viewChanges(
+			changeCategory = "Message Boards Category",
+			changeSite = "Site Name",
+			changeTitle = "Message Boards Category",
+			changeType = "Added",
+			changeUser = "Test Test",
+			showSystemChanges = "true");
+
+		Publications.publishPublication(publicationName = "Publication Name");
+
+		MessageBoardsAdmin.openMessageBoardsAdmin(siteURLKey = "site-name");
+
+		MessageboardsCategory.gotoCP(categoryName = "MB Category Name");
+
+		MessageboardsThread.viewCP(
+			replyCount = 0,
+			threadBody = "MB Thread Message Body",
+			threadSubject = "MB Thread Message Subject",
+			userName = "Test Test");
+	}
+
+	@description = "Assert we can publish the publication with edited message board thread."
+	@priority = 4
+	test PublishEditedMessageBoardThread {
+		task ("Enable dynamic and manual selection") {
+			AssetPublisherPortlet.enableDynamicAndManualSelection();
+		}
+
+		HeadlessSite.addSite(siteName = "Site Name");
+
+		JSONLayout.addPublicLayout(
+			groupName = "Site Name",
+			layoutName = "Asset Publisher Page");
+
+		JSONLayout.addWidgetToPublicLayout(
+			groupName = "Site Name",
+			layoutName = "Asset Publisher Page",
+			widgetName = "Asset Publisher");
+
+		JSONMBMessage.addMessage(
+			groupName = "Site Name",
+			threadBody = "MB Thread Message Body",
+			threadSubject = "MB Thread Message Subject");
+
+		JSONMBMessage.addMessageReply(
+			groupName = "Site Name",
+			replyBody = "MB Thread Reply Body",
+			threadSubject = "MB Thread Message Subject");
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
+		Navigator.gotoSitePage(
+			pageName = "Asset Publisher Page",
+			siteName = "Site Name");
+
+		MessageboardsThread.editReplyViaAP(
+			mbAttachmentFile = "Document_1.jpeg",
+			threadBody = "MB Thread Reply Body Edit",
+			threadReplySubject = "RE: MB Thread Message Subject",
+			threadSubject = "RE: MB Thread Message Subject Edit");
+
+		AssetPublisherPortlet.viewPG(
+			assetContent = "MB Thread Reply Body Edit",
+			assetTitle = "RE: MB Thread Message Subject Edit");
+
+		PublicationsNavigator.gotoReviewChanges(
+			gotoPublicationsAdmin = "true",
+			publicationName = "Publication Name");
+
+		PublicationsChanges.viewChanges(
+			changeCategory = "Message Boards Message",
+			changeSite = "Site Name",
+			changeTitle = "RE: MB Thread Message Subject Edit",
+			changeType = "Modified",
+			changeUser = "Test Test");
+
+		Publications.publishPublication(publicationName = "Publication Name");
+
+		Navigator.gotoSitePage(
+			pageName = "Asset Publisher Page",
+			siteName = "Site Name");
+
+		AssetPublisherPortlet.viewPG(
+			assetContent = "MB Thread Reply Body Edit",
+			assetTitle = "RE: MB Thread Message Subject Edit");
+	}
+
+	@description = "Assert we can publish the publication with message board thread and reiview the changes."
+	@priority = 4
+	test PublishNewMessageBoardThreadAndMessage {
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
+		HeadlessSite.addSite(siteName = "Site Name");
+
+		JSONMBMessage.addMessage(
+			groupName = "Site Name",
+			threadBody = "MB Thread Message Body",
+			threadSubject = "MB Thread Message Subject");
+
+		JSONMBMessage.addMessageReply(
+			groupName = "Site Name",
+			replyBody = "MB Thread Reply Body",
+			threadSubject = "MB Thread Message Subject");
+
+		PublicationsNavigator.gotoReviewChanges(
+			gotoPublicationsAdmin = "true",
+			publicationName = "Publication Name");
+
+		PublicationsChanges.viewChanges(
+			changeCategory = "Message Boards Message",
+			changeSite = "Site Name",
+			changeTitle = "MB Thread Message Subject",
+			changeType = "Added",
+			changeUser = "Test Test");
+
+		PublicationsChanges.viewChanges(
+			changeCategory = "Message Boards Message",
+			changeSite = "Site Name",
+			changeTitle = "RE: MB Thread Message Subject",
+			changeType = "Added",
+			changeUser = "Test Test");
+
+		PublicationsChanges.viewChanges(
+			changeCategory = "Message Boards Thread",
+			changeSite = "Site Name",
+			changeTitle = "MB Thread Message Subject",
+			changeType = "Added",
+			changeUser = "Test Test");
+
+		Publications.publishPublication(publicationName = "Publication Name");
+
+		MessageBoardsAdmin.openMessageBoardsAdmin(siteURLKey = "site-name");
+
+		MessageboardsThread.viewCP(
+			replyCount = 1,
+			threadBody = "MB Thread Message Body",
+			threadSubject = "MB Thread Message Subject",
+			userName = "Test Test");
+
+		MessageboardsThread.viewReplyCP(
+			threadBody = "MB Thread Reply Body",
+			threadSubject = "MB Thread Message Subject",
+			userName = "Test Test");
+	}
+
+	@description = "Assert we can publish the publication with split message board threads."
+	@priority = 4
+	test PublishSplitMessageBoardThreads {
+		property test.liferay.virtual.instance = "false";
+
+		HeadlessSite.addSite(siteName = "Site Name");
+
+		JSONLayout.addPublicLayout(
+			groupName = "Site Name",
+			layoutName = "Message Boards Page");
+
+		JSONLayout.addWidgetToPublicLayout(
+			column = 2,
+			groupName = "Site Name",
+			layoutName = "Message Boards Page",
+			widgetName = "Message Boards");
+
+		JSONMBMessage.addMessage(
+			groupName = "Site Name",
+			threadBody = "MB Thread Message Body",
+			threadSubject = "MB Thread Message Subject");
+
+		JSONMBMessage.addMessageReply(
+			groupName = "Site Name",
+			replyBody = "MB Thread Reply Body",
+			threadSubject = "MB Thread Message Subject");
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
+		Navigator.gotoSitePage(
+			pageName = "Message Boards Page",
+			siteName = "Site Name");
+
+		MessageboardsThread.gotoPG(
+			lastPostUserName = "Test Test",
+			replyCount = 1,
+			threadSubject = "MB Thread Message Subject");
+
+		MessageboardsThread.splitThreadPG(
+			threadBody = "MB Thread Message Body",
+			threadReplyBody = "MB Thread Reply Body",
+			threadSplitReplyBody = "Split Reply Thread Body",
+			threadSplitReplySubject = "Split Reply Thread Subject",
+			threadSplitSubject = "MB Thread Split Subject",
+			threadSubject = "MB Thread Message Subject");
+
+		PublicationsNavigator.gotoReviewChanges();
+
+		PublicationsChanges.viewChanges(
+			changeCategory = "Message Boards Message",
+			changeSite = "Site Name",
+			changeTitle = "MB Thread Split Subject",
+			changeType = "Modified",
+			changeUser = "Test Test");
+
+		PublicationsChanges.viewChanges(
+			changeCategory = "Message Boards Message",
+			changeSite = "Site Name",
+			changeTitle = "Split Reply Thread Subject",
+			changeType = "Added",
+			changeUser = "Test Test");
+
+		PublicationsChanges.viewChanges(
+			changeCategory = "Message Boards Thread",
+			changeSite = "Site Name",
+			changeTitle = "MB Thread Message Subject",
+			changeType = "Modified",
+			changeUser = "Test Test");
+
+		PublicationsChanges.viewChanges(
+			changeCategory = "Message Boards Thread",
+			changeSite = "Site Name",
+			changeTitle = "MB Thread Split Subject",
+			changeType = "Added",
+			changeUser = "Test Test");
+
+		Publications.publishPublication(publicationName = "Publication Name");
+
+		Navigator.gotoSitePage(
+			pageName = "Message Boards Page",
+			siteName = "Site Name");
+
+		MessageboardsThread.viewSplitThreadPG(
+			pageName = "Message Boards Page",
+			siteName = "Site Name",
+			threadBody = "MB Thread Message Body",
+			threadReplyBody = "MB Thread Reply Body",
+			threadSplitReplyBody = "Split Reply Thread Body",
+			threadSplitReplySubject = "Split Reply Thread Subject",
+			threadSplitSubject = "MB Thread Split Subject",
+			threadSubject = "MB Thread Message Subject");
+	}
+
+}

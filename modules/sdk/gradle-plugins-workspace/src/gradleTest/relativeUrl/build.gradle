@@ -1,0 +1,16 @@
+task runGradleTest
+
+gradle.liferayWorkspace {
+	bundleUrl = "file:bundle.zip"
+	product = "dxp-2023.q4.6"
+}
+
+runGradleTest {
+	dependsOn initBundle
+
+	doLast {
+		File generatedFile = new File(gradle.liferayWorkspace.homeDir, "file.txt")
+
+		assert generatedFile.exists()
+	}
+}

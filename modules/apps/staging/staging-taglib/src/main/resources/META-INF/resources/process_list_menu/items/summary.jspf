@@ -1,0 +1,28 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<%
+String processCmd = null;
+
+if (exportImportConfigurationId > 0) {
+	ExportImportConfiguration exportImportConfiguration = ExportImportConfigurationLocalServiceUtil.getExportImportConfiguration(exportImportConfigurationId);
+
+	contextMap = exportImportConfiguration.getSettingsMap();
+}
+
+Map<String, String[]> parameterMap = (Map<String, String[]>)contextMap.get("parameterMap");
+
+if (parameterMap != null) {
+	processCmd = MapUtil.getString(parameterMap, "cmd");
+}
+%>
+
+<c:if test="<%= backgroundTask.isCompleted() && Validator.isNotNull(processCmd) %>">
+	<liferay-staging:process-summary-link
+		backgroundTaskId="<%= backgroundTask.getBackgroundTaskId() %>"
+	/>
+</c:if>

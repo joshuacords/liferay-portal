@@ -1,0 +1,34 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<%
+long resourcePrimKey = 0;
+
+String attachmentURLPrefix = StringPool.BLANK;
+
+if (wikiPage != null) {
+	resourcePrimKey = wikiPage.getResourcePrimKey();
+
+	attachmentURLPrefix = themeDisplay.getPortalURL() + themeDisplay.getPathMain() + "/wiki/get_page_attachment?p_l_id=" + themeDisplay.getPlid() + "&nodeId=" + wikiPage.getNodeId() + "&title=" + URLCodec.encodeURL(wikiPage.getTitle()) + "&fileName=";
+}
+
+Map<String, String> configParams = HashMapBuilder.put(
+	"attachmentURLPrefix", attachmentURLPrefix
+).put(
+	"nodeId", String.valueOf(node.getNodeId())
+).put(
+	"wikiPageResourcePrimKey", String.valueOf(resourcePrimKey)
+).build();
+
+Map<String, String> fileBrowserParams = HashMapBuilder.put(
+	"attachmentURLPrefix", attachmentURLPrefix
+).put(
+	"nodeId", String.valueOf(node.getNodeId())
+).put(
+	"wikiPageResourcePrimKey", String.valueOf(resourcePrimKey)
+).build();
+%>

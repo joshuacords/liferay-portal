@@ -1,0 +1,22 @@
+definition {
+
+	@summary = "Default summary"
+	macro gotoMenuBarInformation() {
+		MenuBar.gotoInformation();
+	}
+
+	@summary = "Default summary"
+	macro gotoMenuBarOrganizationSite() {
+		MenuBar.gotoOrganizationSite();
+	}
+
+	@summary = "Default summary"
+	macro gotoOrganizations() {
+		if (IsElementPresent(locator1 = "NavBar#ORGANIZATIONS")) {
+			AssertClick(
+				locator1 = "NavBar#ORGANIZATIONS",
+				value1 = "Organizations");
+		}
+	}
+
+}

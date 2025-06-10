@@ -1,0 +1,8 @@
+@default = "isVisible"
+definition {
+
+	function isVisible(locator1) {
+		selenium.isVisible(${locator1});
+	}
+
+}

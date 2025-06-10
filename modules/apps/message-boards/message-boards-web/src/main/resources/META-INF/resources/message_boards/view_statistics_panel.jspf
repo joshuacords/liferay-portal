@@ -1,0 +1,133 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<div class="statistics-panel">
+	<h3><liferay-ui:message key="overview" /></h3>
+
+	<clay:row>
+		<clay:col
+			md="4"
+		>
+			<div class="overview-container statistics-panel">
+				<clay:sticker
+					cssClass="sticker-categories sticker-user-icon"
+					icon="categories"
+				/>
+
+				<small class="text-uppercase"><liferay-ui:message key="categories" /></small>
+
+				<p class="statistics-number"><%= numberFormat.format(categoryDisplay.getAllCategoriesCount()) %></p>
+			</div>
+		</clay:col>
+
+		<clay:col
+			md="4"
+		>
+			<div class="overview-container statistics-panel">
+				<clay:sticker
+					cssClass="sticker-posts sticker-user-icon"
+					icon="message-boards"
+				/>
+
+				<small class="text-uppercase"><liferay-ui:message key="posts" /></small>
+
+				<p class="statistics-number"><%= numberFormat.format(MBStatsUserLocalServiceUtil.getMessageCountByGroupId(scopeGroupId)) %></p>
+			</div>
+		</clay:col>
+
+		<clay:col
+			md="4"
+		>
+			<div class="overview-container statistics-panel">
+				<clay:sticker
+					cssClass="sticker-participants sticker-user-icon"
+					icon="users"
+				/>
+
+				<small class="text-uppercase"><liferay-ui:message key="participants" /></small>
+
+				<p class="statistics-number"><%= numberFormat.format(MBStatsUserLocalServiceUtil.getStatsUsersByGroupIdCount(scopeGroupId)) %></p>
+			</div>
+		</clay:col>
+	</clay:row>
+</div>
+
+<div class="statistics-panel">
+	<h3><liferay-ui:message key="top-posters" /></h3>
+
+	<liferay-ui:search-container
+		emptyResultsMessage="there-are-no-top-posters"
+		iteratorURL="<%= portletURL %>"
+		total="<%= MBStatsUserLocalServiceUtil.getStatsUsersByGroupIdCount(scopeGroupId) %>"
+	>
+		<liferay-ui:search-container-results
+			results="<%= MBStatsUserLocalServiceUtil.getStatsUsersByGroupId(scopeGroupId, searchContainer.getStart(), searchContainer.getEnd()) %>"
+		/>
+
+		<liferay-ui:search-container-row
+			className="com.liferay.message.boards.model.MBStatsUser"
+			modelVar="mbStatsUser"
+		>
+
+			<%
+			long userId = mbStatsUser.getUserId();
+			int messageCount = mbStatsUser.getMessageCount();
+			Date lastPostDate = mbStatsUser.getLastPostDate();
+
+			User topUser = UserLocalServiceUtil.fetchUserById(userId);
+			%>
+
+			<c:if test="<%= topUser != null %>">
+				<liferay-ui:search-container-column-text>
+					<liferay-user:user-portrait
+						userId="<%= userId %>"
+					/>
+				</liferay-ui:search-container-column-text>
+
+				<%
+				String[] ranks = MBStatsUserLocalServiceUtil.getUserRank(themeDisplay.getSiteGroupId(), themeDisplay.getLanguageId(), userId);
+				%>
+
+				<liferay-ui:search-container-column-text
+					colspan="<%= 2 %>"
+				>
+					<p class="list-group-title">
+						<%= HtmlUtil.escape(topUser.getFullName()) %>
+					</p>
+
+					<c:if test="<%= Validator.isNotNull(ranks[0]) %>">
+						<p class="list-group-subtitle"><liferay-ui:message key="rank" />: <%= HtmlUtil.escape(ranks[0]) %></p>
+					</c:if>
+
+					<p class="list-group-subtitle">
+						<c:choose>
+							<c:when test="<%= messageCount == 1 %>">
+								<liferay-ui:message key="post" />: <%= messageCount %>
+							</c:when>
+							<c:otherwise>
+								<liferay-ui:message key="posts" />: <%= messageCount %>
+							</c:otherwise>
+						</c:choose>
+					</p>
+
+					<p class="list-group-subtitle">
+						<liferay-ui:message key="join-date" />: <%= dateFormat.format(topUser.getCreateDate()) %>
+					</p>
+
+					<p class="list-group-subtitle">
+						<liferay-ui:message key="last-post-date" />: <%= dateFormat.format(lastPostDate) %>
+					</p>
+				</liferay-ui:search-container-column-text>
+			</c:if>
+		</liferay-ui:search-container-row>
+
+		<liferay-ui:search-iterator
+			displayStyle="descriptive"
+			markupView="lexicon"
+		/>
+	</liferay-ui:search-container>
+</div>

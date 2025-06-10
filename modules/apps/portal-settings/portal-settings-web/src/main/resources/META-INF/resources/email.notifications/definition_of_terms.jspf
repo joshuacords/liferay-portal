@@ -1,0 +1,94 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<dl>
+	<c:if test='<%= sectionName.equals("email-verification-notification") %>'>
+		<dt>
+			[$EMAIL_VERIFICATION_CODE$]
+		</dt>
+		<dd>
+			<liferay-ui:message key="the-email-verification-code" />
+		</dd>
+		<dt>
+			[$EMAIL_VERIFICATION_URL$]
+		</dt>
+		<dd>
+			<liferay-ui:message key="the-email-verification-url" />
+		</dd>
+	</c:if>
+
+	<dt>
+		[$FROM_ADDRESS$]
+	</dt>
+	<dd>
+		<%= HtmlUtil.escape(adminEmailFromAddress) %>
+	</dd>
+	<dt>
+		[$FROM_NAME$]
+	</dt>
+	<dd>
+		<%= HtmlUtil.escape(adminEmailFromName) %>
+	</dd>
+
+	<c:if test='<%= sectionName.equals("password-reset-notification") %>'>
+		<dt>
+			[$PASSWORD_RESET_URL$]
+		</dt>
+		<dd>
+			<liferay-ui:message key="the-password-reset-url" />
+		</dd>
+	</c:if>
+
+	<dt>
+		[$PORTAL_URL$]
+	</dt>
+	<dd>
+		<%= company.getPortalURL(GroupConstants.DEFAULT_PARENT_GROUP_ID) %>
+	</dd>
+	<dt class="password-changed-notification">
+		[$REMOTE_ADDRESS$]
+	</dt>
+	<dd class="password-changed-notification">
+		<liferay-ui:message key="the-browser's-remote-address" />
+	</dd>
+	<dt class="password-changed-notification">
+		[$REMOTE_HOST$]
+	</dt>
+	<dd class="password-changed-notification">
+		<liferay-ui:message key="the-browser's-remote-host" />
+	</dd>
+	<dt>
+		[$TO_ADDRESS$]
+	</dt>
+	<dd>
+		<liferay-ui:message key="the-address-of-the-email-recipient" />
+	</dd>
+	<dt>
+		[$TO_FIRST_NAME$]
+	</dt>
+	<dd>
+		<liferay-ui:message key="the-first-name-of-the-email-recipient" />
+	</dd>
+	<dt>
+		[$TO_NAME$]
+	</dt>
+	<dd>
+		<liferay-ui:message key="the-name-of-the-email-recipient" />
+	</dd>
+	<dt>
+		[$USER_ID$]
+	</dt>
+	<dd>
+		<liferay-ui:message key="the-user-id" />
+	</dd>
+	<dt>
+		[$USER_SCREENNAME$]
+	</dt>
+	<dd>
+		<liferay-ui:message key="the-user-screen-name" />
+	</dd>
+</dl>

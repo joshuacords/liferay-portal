@@ -1,0 +1,22 @@
+Bundle-Name: Liferay Portal Spring Extender Implementation
+Bundle-SymbolicName: com.liferay.portal.spring.extender.impl
+Bundle-Version: 4.0.59
+Import-Package:\
+	org.springframework.aop.config,\
+	org.springframework.beans.factory.xml,\
+	org.springframework.cache.config,\
+	org.springframework.context.config,\
+	org.springframework.ejb.config,\
+	org.springframework.jdbc.config,\
+	org.springframework.scheduling.config,\
+	org.springframework.scripting.config,\
+	org.springframework.transaction.config,\
+	\
+	*
+Provide-Capability:\
+	liferay.extender;\
+		liferay.extender="spring.extender";\
+		version:Version="${springExtenderApiVersion}",\
+	liferay.extender;\
+		liferay.extender="spring.extender";\
+		version:Version="2.0.0"

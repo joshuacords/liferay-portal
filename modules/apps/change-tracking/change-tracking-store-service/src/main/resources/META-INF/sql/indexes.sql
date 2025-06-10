@@ -1,0 +1,1 @@
+create unique index IX_8948D363 on CTSContent (companyId, repositoryId, storeType[$COLUMN_LENGTH:75$], path_[$COLUMN_LENGTH:75$], version[$COLUMN_LENGTH:75$], ctCollectionId);

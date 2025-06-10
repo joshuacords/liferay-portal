@@ -1,0 +1,76 @@
+<html>
+<head>
+<title>PagesFinder</title>
+</head>
+
+<body>
+<table border="1" cellpadding="1" cellspacing="1">
+<thead>
+<tr><td rowspan="1" colspan="3">PagesFinder</td></tr>
+</thead>
+
+<tbody>
+<tr>
+	<td>ADD_NEW_PAGE</td>
+	<td>//div[contains(@class,'taglib-empty-result-message')]//a[@class='btn btn-secondary' and contains(text(),'Page')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CHILD_PAGE_NAME</td>
+	<td>//li[contains(@class,'treeview-item') and div[normalize-space()='${key_parentPageName}']]//ul[contains(@class,'treeview-group')]//div[contains(@role,'treeitem')]//a[normalize-space()='${key_childPageName}']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>INPUT_FIELD</td>
+	<td>//div[contains(@class,'layout-finder')]//input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PAGE_ELLIPSIS_ICON</td>
+	<td>//div[contains(@class,'pages-tree')]//div[contains(@role,'treeitem')][normalize-space()='${key_pageName}']//button[contains(@class,'dropdown')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PAGE_HREF_BLANK</td>
+	<td>//div[contains(@class,'pages-tree')]//div[contains(@role,'treeitem')]//a[normalize-space()='${key_pageName}'][@href='${key_href}'][@target='_blank']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PAGE_ICON</td>
+	<td>//div[contains(@class,'pages-tree')]//div[contains(@role,'treeitem')][normalize-space()='${key_pageName}']//div[contains(@class,'component-icon')]//*[name()='svg'][contains(@class,'lexicon-icon-${key_text}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PAGE_NAME</td>
+	<td>//div[contains(@class,'pages-tree')]//div[contains(@role,'treeitem')]//a[normalize-space()='${key_pageName}']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PAGE_SEARCH_RESULT</td>
+	<td>//a[contains(@class,'mb-2')][normalize-space(text())='${key_pageName}']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PAGE_TYPE_SELECTOR</td>
+	<td>//div[contains(@class,'page-type-selector')]//button[contains(@class,'form-control-select')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PAGE_TYPE_SELECTOR_ELLIPSIS_ICON</td>
+	<td>//div[contains(@class,'page-type-selector')]//button[*[name()='svg'][contains(@class,'icon-plus')]]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>TREE_NODE_ITEM</td>
+	<td>xpath=(//ul[contains(@class,'treeview-group')]//div[contains(@role,'treeitem')])[${key_index}][normalize-space()='${key_pageName}']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>VIEW_IN_PAGE_ADMINISTRATION</td>
+	<td>//div[contains(@class,'layout-finder')]//a[contains(.,"View in Page Administration")]</td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

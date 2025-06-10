@@ -1,0 +1,15 @@
+definition {
+
+	macro echoFourVars {
+		echo("null");
+	}
+
+	macro echoThreeVars {
+		echo("null");
+	}
+
+	macro echoTwoVars {
+		echo("null");
+	}
+
+}

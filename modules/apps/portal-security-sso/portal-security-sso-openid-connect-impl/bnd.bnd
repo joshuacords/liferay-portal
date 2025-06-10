@@ -1,0 +1,16 @@
+Bundle-Name: Liferay Portal Security SSO OpenID Connect Implementation
+Bundle-SymbolicName: com.liferay.portal.security.sso.openid.connect.impl
+Bundle-Version: 7.0.42
+Import-Package:\
+	!net.shibboleth.utilities.*,\
+	\
+	!org.bouncycastle.*,\
+	\
+	!org.cryptomator.siv.*,\
+	\
+	!org.joda.time.*,\
+	\
+	!org.opensaml.*,\
+	\
+	*
+-fixupmessages: Classes found in the wrong directory: ...;is:=ignore

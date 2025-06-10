@@ -1,0 +1,344 @@
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+
+package com.liferay.portal.workflow.metrics.service.util;
+
+import com.liferay.petra.string.StringBundler;
+import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.test.rule.AggregateTestRule;
+import com.liferay.portal.kernel.test.util.TestPropsValues;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.workflow.WorkflowDefinition;
+import com.liferay.portal.search.engine.adapter.SearchEngineAdapter;
+import com.liferay.portal.search.engine.adapter.search.CountSearchRequest;
+import com.liferay.portal.search.engine.adapter.search.CountSearchResponse;
+import com.liferay.portal.search.query.BooleanQuery;
+import com.liferay.portal.search.query.Queries;
+import com.liferay.portal.search.test.rule.SearchTestRule;
+import com.liferay.portal.search.test.util.IdempotentRetryAssert;
+import com.liferay.portal.security.script.management.test.rule.ScriptManagementConfigurationTestRule;
+import com.liferay.portal.test.rule.Inject;
+import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
+import com.liferay.portal.test.rule.PermissionCheckerMethodTestRule;
+import com.liferay.portal.test.rule.SynchronousMailTestRule;
+import com.liferay.portal.workflow.kaleo.model.KaleoDefinitionVersion;
+import com.liferay.portal.workflow.kaleo.model.KaleoNode;
+import com.liferay.portal.workflow.kaleo.model.KaleoTask;
+import com.liferay.portal.workflow.kaleo.service.KaleoDefinitionVersionLocalService;
+import com.liferay.portal.workflow.kaleo.service.KaleoNodeLocalService;
+import com.liferay.portal.workflow.kaleo.service.KaleoTaskLocalService;
+import com.liferay.portal.workflow.manager.WorkflowDefinitionManager;
+
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
+
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.ClassRule;
+import org.junit.Rule;
+
+/**
+ * @author Rafael Praxedes
+ */
+public abstract class BaseWorkflowMetricsTestCase {
+
+	@ClassRule
+	@Rule
+	public static final AggregateTestRule aggregateTestRule =
+		new AggregateTestRule(
+			new LiferayIntegrationTestRule(),
+			PermissionCheckerMethodTestRule.INSTANCE,
+			ScriptManagementConfigurationTestRule.INSTANCE,
+			SynchronousMailTestRule.INSTANCE);
+
+	@Before
+	public void setUp() throws Exception {
+		_deployWorkflowDefinition();
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		undeployWorkflowDefinition();
+	}
+
+	@Rule
+	public SearchTestRule searchTestRule = new SearchTestRule();
+
+	protected void assertCount(
+			Consumer<BooleanQuery> booleanQueryConsumer, long expectedCount,
+			String indexName, String indexType, Object... parameters)
+		throws Exception {
+
+		if ((searchEngineAdapter == null) || (parameters == null)) {
+			return;
+		}
+
+		if ((parameters.length % 2) != 0) {
+			throw new IllegalArgumentException(
+				"Parameters length is not an even number");
+		}
+
+		CountSearchRequest countSearchRequest = new CountSearchRequest();
+
+		countSearchRequest.setIndexNames(indexName);
+
+		BooleanQuery booleanQuery = queries.booleanQuery();
+
+		BooleanQuery filterQuery = queries.booleanQuery();
+
+		for (int i = 0; i < parameters.length; i = i + 2) {
+			filterQuery.addMustQueryClauses(
+				queries.term(String.valueOf(parameters[i]), parameters[i + 1]));
+		}
+
+		booleanQueryConsumer.accept(filterQuery);
+
+		countSearchRequest.setQuery(
+			booleanQuery.addFilterQueryClauses(filterQuery));
+
+		CountSearchResponse countSearchResponse = searchEngineAdapter.execute(
+			countSearchRequest);
+
+		Assert.assertEquals(
+			StringBundler.concat(
+				indexName, " ", indexType, " ",
+				countSearchResponse.getSearchRequestString()),
+			expectedCount, countSearchResponse.getCount());
+	}
+
+	protected void assertCount(
+			long expectedCount, String indexName, String indexType,
+			Object... parameters)
+		throws Exception {
+
+		if ((searchEngineAdapter == null) || (parameters == null)) {
+			return;
+		}
+
+		if ((parameters.length % 2) != 0) {
+			throw new IllegalArgumentException(
+				"Parameters length is not an even number");
+		}
+
+		CountSearchRequest countSearchRequest = new CountSearchRequest();
+
+		countSearchRequest.setIndexNames(indexName);
+
+		BooleanQuery booleanQuery = queries.booleanQuery();
+
+		for (int i = 0; i < parameters.length; i = i + 2) {
+			booleanQuery.addMustQueryClauses(
+				queries.term(String.valueOf(parameters[i]), parameters[i + 1]));
+		}
+
+		countSearchRequest.setQuery(booleanQuery);
+
+		CountSearchResponse countSearchResponse = searchEngineAdapter.execute(
+			countSearchRequest);
+
+		Assert.assertEquals(
+			StringBundler.concat(
+				indexName, " ", indexType, " ",
+				countSearchResponse.getSearchRequestString()),
+			expectedCount, countSearchResponse.getCount());
+	}
+
+	protected void assertCount(
+			String indexName, String indexType, Object... parameters)
+		throws Exception {
+
+		assertCount(1, indexName, indexType, parameters);
+	}
+
+	protected String getInitialNodeKey(WorkflowDefinition workflowDefinition)
+		throws Exception {
+
+		return _getInitialNodeKey(
+			_kaleoDefinitionVersionLocalService.getLatestKaleoDefinitionVersion(
+				workflowDefinition.getCompanyId(),
+				workflowDefinition.getName()));
+	}
+
+	protected String getInitialNodeKey(
+			WorkflowDefinition workflowDefinition, String version)
+		throws Exception {
+
+		return _getInitialNodeKey(
+			_kaleoDefinitionVersionLocalService.getKaleoDefinitionVersion(
+				workflowDefinition.getCompanyId(), workflowDefinition.getName(),
+				version));
+	}
+
+	protected String getTaskName(
+			WorkflowDefinition workflowDefinition, String taskName)
+		throws PortalException {
+
+		KaleoDefinitionVersion latestKaleoDefinitionVersion =
+			_kaleoDefinitionVersionLocalService.getLatestKaleoDefinitionVersion(
+				workflowDefinition.getCompanyId(),
+				workflowDefinition.getName());
+
+		for (KaleoNode kaleoNode :
+				_kaleoNodeLocalService.getKaleoDefinitionVersionKaleoNodes(
+					latestKaleoDefinitionVersion.
+						getKaleoDefinitionVersionId())) {
+
+			if (!Objects.equals(kaleoNode.getName(), taskName)) {
+				continue;
+			}
+
+			try {
+				KaleoTask kaleoTask =
+					_kaleoTaskLocalService.getKaleoNodeKaleoTask(
+						kaleoNode.getKaleoNodeId());
+
+				if (kaleoTask == null) {
+					continue;
+				}
+
+				return String.valueOf(kaleoTask.getKaleoTaskId());
+			}
+			catch (PortalException portalException) {
+				if (_log.isDebugEnabled()) {
+					_log.debug(portalException);
+				}
+			}
+		}
+
+		return StringPool.BLANK;
+	}
+
+	protected String getTerminalNodeKey(WorkflowDefinition workflowDefinition)
+		throws PortalException {
+
+		return _getTerminalNodeKey(
+			_kaleoDefinitionVersionLocalService.getLatestKaleoDefinitionVersion(
+				workflowDefinition.getCompanyId(),
+				workflowDefinition.getName()));
+	}
+
+	protected String getTerminalNodeKey(
+			WorkflowDefinition workflowDefinition, String version)
+		throws PortalException {
+
+		return _getTerminalNodeKey(
+			_kaleoDefinitionVersionLocalService.getKaleoDefinitionVersion(
+				workflowDefinition.getCompanyId(), workflowDefinition.getName(),
+				version));
+	}
+
+	protected void retryAssertCount(
+			Consumer<BooleanQuery> booleanQueryConsumer, long expectedCount,
+			String indexName, String indexType, Object... parameters)
+		throws Exception {
+
+		IdempotentRetryAssert.retryAssert(
+			3, TimeUnit.SECONDS,
+			() -> {
+				assertCount(
+					booleanQueryConsumer, expectedCount, indexName, indexType,
+					parameters);
+
+				return null;
+			});
+	}
+
+	protected void undeployWorkflowDefinition() throws Exception {
+		if (workflowDefinition != null) {
+			workflowDefinitionManager.updateActive(
+				TestPropsValues.getCompanyId(), TestPropsValues.getUserId(),
+				workflowDefinition.getName(), workflowDefinition.getVersion(),
+				false);
+
+			workflowDefinitionManager.undeployWorkflowDefinition(
+				TestPropsValues.getCompanyId(), TestPropsValues.getUserId(),
+				workflowDefinition.getName(), workflowDefinition.getVersion());
+
+			workflowDefinition = null;
+		}
+	}
+
+	protected void updateWorkflowDefinition() throws Exception {
+		updateWorkflowDefinition(WorkflowDefinitionUtil.getBytes());
+	}
+
+	protected void updateWorkflowDefinition(byte[] bytes) throws Exception {
+		workflowDefinition = workflowDefinitionManager.deployWorkflowDefinition(
+			null, TestPropsValues.getCompanyId(), TestPropsValues.getUserId(),
+			workflowDefinition.getTitle(), workflowDefinition.getName(), bytes);
+	}
+
+	@Inject
+	protected Queries queries;
+
+	@Inject(
+		blocking = false,
+		filter = "|(search.engine.impl=Elasticsearch)(search.engine.impl=OpenSearch)"
+	)
+	protected SearchEngineAdapter searchEngineAdapter;
+
+	protected WorkflowDefinition workflowDefinition;
+
+	@Inject
+	protected WorkflowDefinitionManager workflowDefinitionManager;
+
+	private void _deployWorkflowDefinition() throws Exception {
+		workflowDefinition = workflowDefinitionManager.deployWorkflowDefinition(
+			null, TestPropsValues.getCompanyId(), TestPropsValues.getUserId(),
+			StringUtil.randomId(), StringUtil.randomId(),
+			WorkflowDefinitionUtil.getBytes());
+	}
+
+	private String _getInitialNodeKey(
+			KaleoDefinitionVersion kaleoDefinitionVersion)
+		throws Exception {
+
+		for (KaleoNode kaleoNode :
+				_kaleoNodeLocalService.getKaleoDefinitionVersionKaleoNodes(
+					kaleoDefinitionVersion.getKaleoDefinitionVersionId())) {
+
+			if (kaleoNode.isInitial()) {
+				return String.valueOf(kaleoNode.getKaleoNodeId());
+			}
+		}
+
+		return StringPool.BLANK;
+	}
+
+	private String _getTerminalNodeKey(
+			KaleoDefinitionVersion kaleoDefinitionVersion)
+		throws PortalException {
+
+		for (KaleoNode kaleoNode :
+				_kaleoNodeLocalService.getKaleoDefinitionVersionKaleoNodes(
+					kaleoDefinitionVersion.getKaleoDefinitionVersionId())) {
+
+			if (kaleoNode.isTerminal()) {
+				return String.valueOf(kaleoNode.getKaleoNodeId());
+			}
+		}
+
+		return StringPool.BLANK;
+	}
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		BaseWorkflowMetricsTestCase.class);
+
+	@Inject
+	private KaleoDefinitionVersionLocalService
+		_kaleoDefinitionVersionLocalService;
+
+	@Inject
+	private KaleoNodeLocalService _kaleoNodeLocalService;
+
+	@Inject
+	private KaleoTaskLocalService _kaleoTaskLocalService;
+
+}

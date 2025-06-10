@@ -1,0 +1,34 @@
+.product-compare-checkbox {
+	border-radius: 50%;
+	cursor: pointer;
+	margin-left: -10px;
+	margin-top: -10px;
+	min-height: 35px;
+	min-width: 35px;
+	padding: 10px;
+	position: relative;
+	transition: background $micro-transition;
+
+	&__disabled {
+		opacity: 0.5;
+
+		.product-compare-checkbox__input {
+			&::before,
+			&::after {
+				display: none;
+			}
+		}
+	}
+
+	&__input {
+		position: relative;
+		vertical-align: middle;
+	}
+
+	&__label {
+		color: inherit;
+		font-size: 14px;
+		font-weight: normal;
+		margin-left: 10px;
+	}
+}

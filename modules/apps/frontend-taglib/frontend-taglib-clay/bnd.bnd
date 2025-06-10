@@ -1,0 +1,14 @@
+Bundle-Name: Liferay Frontend Taglib Clay
+Bundle-SymbolicName: com.liferay.frontend.taglib.clay
+Bundle-Version: 15.2.1
+Export-Package:\
+	com.liferay.frontend.taglib.clay.servlet.taglib,\
+	com.liferay.frontend.taglib.clay.servlet.taglib.contributor,\
+	com.liferay.frontend.taglib.clay.servlet.taglib.display.context,\
+	com.liferay.frontend.taglib.clay.servlet.taglib.util
+Provide-Capability:\
+	osgi.extender;\
+		osgi.extender="jsp.taglib";\
+		uri="http://liferay.com/tld/clay";\
+		version:Version="${Bundle-Version}"
+Web-ContextPath: /frontend-taglib-clay

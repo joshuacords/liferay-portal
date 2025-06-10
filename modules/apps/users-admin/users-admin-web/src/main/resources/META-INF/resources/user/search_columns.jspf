@@ -1,0 +1,118 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<c:choose>
+	<c:when test='<%= displayStyle.equals("descriptive") %>'>
+		<liferay-ui:search-container-column-text>
+			<liferay-user:user-portrait
+				userId="<%= user2.getUserId() %>"
+			/>
+		</liferay-ui:search-container-column-text>
+
+		<liferay-ui:search-container-column-text
+			colspan="<%= 2 %>"
+		>
+			<div class="h5">
+				<aui:a href="<%= String.valueOf(rowURL) %>"><%= user2.getFullName() %></aui:a>
+			</div>
+
+			<div class="h6 text-default">
+				<%= user2.getScreenName() %>
+			</div>
+		</liferay-ui:search-container-column-text>
+
+		<%
+		UserActionDropdownItems userActionDropdownItems = new UserActionDropdownItems(renderRequest, renderResponse, user2);
+		%>
+
+		<liferay-ui:search-container-column-text>
+			<clay:dropdown-actions
+				aria-label='<%= LanguageUtil.get(request, "show-actions") %>'
+				dropdownItems="<%= userActionDropdownItems.getActionDropdownItems() %>"
+				propsTransformer="{OrganizationAndUserDropdownDefaultPropsTransformer} from users-admin-web"
+			/>
+		</liferay-ui:search-container-column-text>
+	</c:when>
+	<c:when test='<%= displayStyle.equals("icon") %>'>
+		<liferay-ui:search-container-column-text>
+			<clay:user-card
+				propsTransformer="{OrganizationAndUserDropdownDefaultPropsTransformer} from users-admin-web"
+				userCard="<%= new UserVerticalCard(renderRequest, renderResponse, userSearchContainer.getRowChecker(), true, user2) %>"
+			/>
+		</liferay-ui:search-container-column-text>
+	</c:when>
+	<c:otherwise>
+		<liferay-ui:search-container-column-text
+			cssClass="table-cell-expand-small table-cell-minw-150 table-title"
+			href="<%= rowURL %>"
+			name="name"
+			orderable="<%= true %>"
+			value="<%= user2.getFullName() %>"
+		/>
+
+		<liferay-ui:search-container-column-text
+			cssClass="table-cell-expand-small table-cell-minw-150"
+			href="<%= rowURL %>"
+			name="screen-name"
+			orderable="<%= true %>"
+			property="screenName"
+		/>
+
+		<liferay-ui:search-container-column-date
+			cssClass="table-cell-expand-small table-cell-minw-150"
+			name="last-login-date"
+			orderable="<%= true %>"
+			value="<%= user2.getLastLoginDate() %>"
+		/>
+
+		<c:if test="<%= !portletName.equals(UsersAdminPortletKeys.SERVICE_ACCOUNTS) %>">
+			<liferay-ui:search-container-column-text
+				cssClass="table-cell-expand-small table-cell-minw-150"
+				href="<%= rowURL %>"
+				name="job-title"
+				orderable="<%= true %>"
+				value="<%= user2.getJobTitle() %>"
+			/>
+
+			<%
+			List<Organization> userOrganizations = OrganizationLocalServiceUtil.getUserOrganizations(user2.getUserId(), 0, PropsValues.USERS_ADMIN_ORGANIZATION_COLUMN_LIMIT);
+			int userOrganizationsCount = OrganizationLocalServiceUtil.getUserOrganizationsCount(user2.getUserId());
+			%>
+
+			<liferay-ui:search-container-column-text
+				cssClass="table-cell-expand table-cell-minw-200"
+				href="<%= rowURL %>"
+				name="organizations"
+				value="<%= HtmlUtil.escape(UsersAdminUtil.getUserColumnText(locale, userOrganizations, Organization.NAME_ACCESSOR, userOrganizationsCount)) %>"
+			/>
+
+			<%
+			List<UserGroup> userUserGroups = UserGroupLocalServiceUtil.getUserUserGroups(user2.getUserId(), 0, PropsValues.USERS_ADMIN_USER_GROUP_COLUMN_LIMIT);
+			int userUserGroupsCount = UserGroupLocalServiceUtil.getUserUserGroupsCount(user2.getUserId());
+			%>
+
+			<liferay-ui:search-container-column-text
+				cssClass="table-cell-expand table-cell-minw-200"
+				href="<%= rowURL %>"
+				name="user-groups"
+				value="<%= HtmlUtil.escape(UsersAdminUtil.getUserColumnText(locale, userUserGroups, UserGroup.NAME_ACCESSOR, userUserGroupsCount)) %>"
+			/>
+		</c:if>
+
+		<%
+		UserActionDropdownItems userActionDropdownItems = new UserActionDropdownItems(renderRequest, renderResponse, user2);
+		%>
+
+		<liferay-ui:search-container-column-text>
+			<clay:dropdown-actions
+				aria-label='<%= LanguageUtil.get(request, "show-actions") %>'
+				dropdownItems="<%= userActionDropdownItems.getActionDropdownItems() %>"
+				propsTransformer="{OrganizationAndUserDropdownDefaultPropsTransformer} from users-admin-web"
+			/>
+		</liferay-ui:search-container-column-text>
+	</c:otherwise>
+</c:choose>

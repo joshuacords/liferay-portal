@@ -1,0 +1,291 @@
+<html>
+<head>
+<title>Publications</title>
+</head>
+
+<body>
+<table border="1" cellpadding="1" cellspacing="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Publications</td></tr>
+</thead>
+
+<tbody>
+<tr>
+	<td>AUTOMATICALLY_RESOLVED_TABLE</td>
+	<td>//div[contains(@class,'publications-conflicts-container')]//span[contains(.,'Automatically Resolved')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ADD_FILTER_BUTTON</td>
+	<td>//button[contains(.,'Add Filter')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CLIENT_ID</td>
+	<td>//input[contains(@id,'PublicationsPortlet_clientId')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CLIENT_SECRET</td>
+	<td>//input[contains(@id,'PublicationsPortlet_clientSecret')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CONFLICTING_CHANGES_SUCCESS_CONTENT</td>
+	<td>//div[contains(.,'${key_entryTitle}')]//following-sibling::div[contains(.,'${key_successMessage}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CONFLICTING_CHANGES_WARNING_CONTENT</td>
+	<td>//p[contains(.,'${key_entryTitle}')]//following-sibling::p[contains(text(),'${key_warningMessage}')] | //p[contains(.,'${key_entryTitle}')]//following-sibling::p/strong[contains(text(),'${key_warningMessage}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>DELETE_THE_ENTERED_TIME_BUTTON</td>
+	<td>//button[contains(@aria-label,'Delete the entered time')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>DISABLED_PUBLISH_BUTTON</td>
+	<td>//*[contains(@class,'btn')][normalize-space(text())='Publish']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ENABLE_ALLOW_UNAPPROVED_CHANGES</td>
+	<td>//input[contains(@id,'enableUnapprovedChanges')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ENABLE_MANAGE_REMOTELY</td>
+	<td>//input[contains(@id,'enableManageRemotely')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ENABLE_PUBLICATIONS_TOGGLE_SWITCH</td>
+	<td>//input[contains(@id,'enablePublications')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ENABLE_SANDBOX_ONLY_TOGGLE_SWITCH</td>
+	<td>//input[contains(@id,'enableSandboxOnly')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>EXCLUDE_TOGGLE_SWITCH</td>
+	<td>//input[contains(@class,'toggle-switch-check') and contains(@id,'autocomplete-exclude-status')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>FILTER_STATUS_BUTTON</td>
+	<td>//button[contains(.,'Status') and contains(@class,'dropdown-item')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>FILTER_PUBLICATION_STATUS</td>
+	<td>//input[@class='custom-control-input' and contains(@aria-label, '${key_statusType}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>INVITED_USER</td>
+	<td>//td[contains(.,'${key_userInvite}')]//following-sibling::td//button[contains(.,'${key_publicationRole}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>IN_PROGRESS_STATUS</td>
+	<td>//div[contains(.,'${key_publicationName}')]//td[(@class="cell-status") and contains(.,'In Progress')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>KEYWORD_TEXTFIELD</td>
+	<td>//*[@class='form-control-inset']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>MANAGE_PUBLICATIONS_PAGE_TITLE</td>
+	<td>//h1[contains(@data-qa-id,'headerTitle')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>MANAGE_PUBLICATIONS_NAVBAR_TITLE</td>
+	<td>//li[contains(@class,'nav-item')]/a[contains(.,'${key_navBarTitle}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>NEEDS_MANUAL_RESOLUTION_TABLE</td>
+	<td>//div[contains(@class,'publications-conflicts-container')]//span[contains(.,'Needs Manual Resolution')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>OUT_OF_DATE_STATUS</td>
+	<td>//div[contains(.,'${key_publicationName}')]//td[(@class="cell-status") and contains(.,'Out of Date')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PUBLICATION_DESCRIPTION</td>
+	<td>//textarea[contains(@placeholder,'Enter the description of the publication.')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PUBLICATION_ELLIPSIS</td>
+	<td>//td[contains(.,'${key_publicationName}')]//following-sibling::td//*[contains(@class,'lexicon-icon lexicon-icon-ellipsis-v')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PUBLICATION_NAME</td>
+	<td>//input[contains(@placeholder,'Enter the name of the publication (e.g.')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PUBLICATION_NAME_IN_DIFF</td>
+	<td>//td[contains(@class,'publications-diff-td') and contains(.,'${key_publicationName}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PUBLICATION_NAME_VIEW</td>
+	<td>//div[contains(@class,'table-list-title')]/a[ contains(.,'${key_publicationName}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PUBLICATION_ORDER_IN_HISTORY</td>
+	<td>//tbody/tr[${resultOrder}]/td[1]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PUBLICATION_ROLE_BUTTON</td>
+	<td>//button[strong[contains(.,'${key_publicationRole}')]]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PUBLICATION_ROLE_BUTTON_BODY</td>
+	<td>xpath=(//div[@style]//button[strong[contains(.,'${key_publicationRole}')]])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PUBLICATION_ROLE_BUTTON_BODY_TITLE</td>
+	<td>//tbody//button[@title='${key_title}']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PUBLICATION_ROLE_BUTTON_HELP_TEXT</td>
+	<td>//button[strong[contains(.,'${key_publicationRole}')]//following-sibling::div[contains(.,'${key_publicationRoleHelpText}')]]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PUBLICATIONS_ELLIPSIS</td>
+	<td>//div[contains(@class,'control-menu-nav-category')]//span[*[contains(@class,'lexicon-icon-ellipsis-v')]]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PUBLICATIONS_INDICATOR_BUTTON</td>
+	<td>//button[contains(@class,'dropdown-toggle change-tracking-indicator-button')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PUBLICATIONS_INDICATOR_TITLE</td>
+	<td>//span[contains(@class,'change-tracking-indicator-title') and contains(.,'${key_publicationName}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PUBLICATION_CONFLICT_BUTTON</td>
+	<td>//div[contains(@title,'New changes to this content have been published to production.')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PUBLICATION_TABLE_ITEM</td>
+	<td>//div[contains(.,'${key_tableItem}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PUBLICATION_TIMELINE_BUTTON</td>
+	<td>//button[contains(@class,'change-tracking-timeline-button')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PUBLICATION_TIMELINE_EMPTY</td>
+	<td>//div[contains(@class,'publication-timeline') and normalize-space(text())='No publications were found.']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PUBLICATION_TIMELINE_PANEL</td>
+	<td>//div[contains(@class,'publication-timeline')]//span[normalize-space(text())='${key_publicationName}']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PUBLISH_BUTTON</td>
+	<td>//button[contains(.,'Publish')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PUBLISH_DATE</td>
+	<td>//div[@class='date-picker']//input[contains(@class,'input-group-inset') and @type='text']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PUBLISH_NAV_BAR</td>
+	<td>//li[contains(@class,'tbar-item')]/a[contains(.,'Publish')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PUBLISH_TIME</td>
+	<td>//input[@class='form-control' and @type='time']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PUBLISHED_STATUS</td>
+	<td>//div[contains(.,'${key_publicationName}')]//td[(@class="cell-status") and contains(.,'Published')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>RESCHEDULE_BUTTON</td>
+	<td>//*[contains(@class,'btn')][normalize-space(text())='Reschedule']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>REVERT_BUTTON</td>
+	<td>//div[contains(.,'${ke_publicationName}')]//following-sibling::div//a[contains(.,'Revert')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>REVERT_SCREEN_RADIO_HELP</td>
+	<td>//div[contains(@class,'publications-radio-help') and contains(.,'${key_radioHelpMessage}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>REVERT_SCREEN_RADIO_OPTION</td>
+	<td>//div[contains(@class,'publications-radio-label') and contains(.,'${key_radioName}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>REVIEW_CHANGES_BUTTON</td>
+	<td>//td[contains(@class,'item-actions')]/a[contains(@title,'Review Changes')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SCHEDULE_BUTTON</td>
+	<td>//*[contains(@class,'btn')][normalize-space(text())='Schedule']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SCHEDULE_NAV_BAR</td>
+	<td>//li[contains(@class,'tbar-item')]/a[contains(.,'Schedule')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SELECT_PUBLICATION_NAME</td>
+	<td>//p[contains(.,'${key_publicationName}') and contains(@class, 'list-group-title')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>TEMPLATE_OPTION</td>
+	<td>//div[label[contains(.,'Template')]]/select</td>
+	<td></td>
+</tr>
+<tr>
+	<td>TEMPLATE_SELECTOR</td>
+	<td>//select[contains(@id,'templateSelector')]</td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

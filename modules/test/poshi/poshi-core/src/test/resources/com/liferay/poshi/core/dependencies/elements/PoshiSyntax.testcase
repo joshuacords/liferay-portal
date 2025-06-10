@@ -1,0 +1,403 @@
+<definition component-name="portal-acceptance" ignore="true">
+	<property name="app.server.bundles.size" value="12890"/>
+	<property name="portal.release" value="true" />
+	<property name="portal.upstream" value="true" />
+	<property name="testray.main.component.name" value="Poshi Core" />
+	<property name="testray.main.component.name"><![CDATA[
+	Order Management]]></property>
+
+	<!-- This is a comment-->
+
+	<!--This is a multiline
+		comment.-->
+
+	<var static="true" name="userPassword" value="password"/>
+	<var name="userScreenName" value="joeblogs" />
+	<var static="true" name="integer" method="MathUtil#difference('${endYear}', '${numberOfYears}')"/>
+	<var name="newInteger" value="13"/>
+    <var name="testRef" value="test"/>
+    <echo message="${test}"/>
+    <var name="reference" value="${testRef}"/>
+    <var name="test" method="StringUtil#replace('${test}', '${test}', '${test} ${test2}')"/>
+
+	<set-up>
+		<execute macro="TestCase#setUpPortalInstance" />
+
+		<execute macro="SignIn#signIn" />
+	</set-up>
+
+	<tear-down>
+		<execute macro="PortalInstances#tearDownCP">
+			<var name="testPortalInstance" method="PropsUtil#get('test.portal.instance')"/>
+		</execute>
+	</tear-down>
+
+	<command priority="4" annotations="simple-annotation" name="AddBlogsEntries">
+		<description message="Ensure that a user can add multiple Blogs Entries." />
+
+		<task summary="Add a blogs entry called 'Blogs Entry1 Title' with content 'Blogs Entry1 Content'">
+			<execute macro="Navigator#openURL" />
+
+			<execute class="ListUtil" method="add">
+				<arg value="${orderID}"/>
+				<arg value="${orderIDs}"/>
+			</execute>
+
+			<var name="pages" method="selenium#getElementValue('//tr[td[contains(@class,\'line-content\')][contains(.,\'textAlign = &quot;right&quot;\')]]/td[contains(@class,\'line-number\')]')"/>
+			<var name="camelCase" method="StringUtil#replace('${camelCase}', ' ', '')"/>
+			<var name="payload" method="StringUtil#replace('${payload}', '${payload}', '${payload}}')"/>
+
+			<execute macro="ProductMenu#gotoPortlet">
+				<var name="category" value="Content" />
+				<var name="panel" value="Site Administration" />
+				<var name="portlet" value="Blogs" />
+			</execute>
+
+			<execute macro="Blogs#addEntry">
+				<var name="entryContent" value="Blogs Entry1 Content" />
+				<var name="entryTitle" value="Blogs Entry1 Title" />
+			</execute>
+		</task>
+
+		<task summary="Add a blogs entry called 'Blogs Entry2 Title' with content 'Blogs Entry2 Content'">
+			<execute macro="Navigator#openURL" />
+
+			<execute macro="ProductMenu#gotoPortlet">
+				<var name="category" value="Content" />
+				<var name="panel" value="Site Administration" />
+				<var name="portlet" value="Blogs" />
+			</execute>
+
+			<execute macro="Blogs#addEntry">
+				<var name="entryContent" value="Blogs Entry2 Content" />
+				<var name="entryTitle" value="Blogs Entry2 Title" />
+			</execute>
+		</task>
+
+		<var name="portalInstanceIds" method="StringUtil#regexReplaceAll('${portalInstanceIds}', '[\[\]&quot;]', '')"/>
+
+		<execute class="StringUtil" method="assertEquals">
+			<arg value="&quot;Row 1&quot;: &quot;Column 1&quot;"/>
+			<arg value="${data}"/>
+		</execute>
+	</command>
+
+	<command priority="5" name="AddUser">
+		<!-- This is a comment-->
+
+		<!--This is a multiline
+			comment.-->
+
+		<!-- End with a ;-->
+
+		<!-- End with a }-->
+
+		<property name="portal.release" value="false" />
+
+		<var name="specialCharacters" value="&quot;\&quot;" />
+		<var name="userEmailAddress" value="userea@liferay.com" />
+		<var name="userFirstName" value="userfn" />
+		<var name="userLastName" value="${userFirstName} userln"/>
+
+		<execute macro="FormFields#editText">
+			<var name="fieldName" value="label" />
+			<var name="fieldValue" value=",-+!@#$%^*()=_.?/;:{}[]\|" />
+		</execute>
+
+		<execute macro="ProductMenu#gotoControlPanelUsers">
+			<var name="portlet" value="Users and Organizations" />
+		</execute>
+
+		<echo message="This is a message." />
+
+		<for param="breadcrumbName" list="${breadcrumbListVisible}">
+			<var name="key_breadcrumbName" value="${breadcrumbName}" />
+
+            <var name="breadcrumbNameUppercase" method="StringUtil#upperCase('${breadcrumbName}')"/>
+
+			<var name="historyVersion" method="selenium#getText('Staging#HISTORY_VERSION')"/>
+
+			<execute function="AssertTextEquals" locator1="Breadcrumb#BREADCRUMB_ENTRY" value1="${breadcrumbNameUppercase}" />
+
+			<for param="breadcrumbName" list="${breadcrumbListVisible}">
+				<execute function="AssertTextEquals" locator1="Breadcrumb#BREADCRUMB_ENTRY" value1="${breadcrumbNameUppercase}" />
+			</for>
+
+			<execute function="AssertTextEquals" locator1="Breadcrumb#BREADCRUMB_ENTRY" value1="&quot;double quoted&quot;" />
+
+			<if>
+				<isset var="duplicate" />
+				<then>
+					<execute macro="Alert#viewErrorMessage">
+						<var name="errorMessage" value="A configuration with this ID already exists. Please enter a unique ID." />
+					</execute>
+
+					<echo message="Please enter a unique ID." />
+
+					<!-- This is a comment-->
+				</then>
+				<elseif>
+					<isset var="duplicate" />
+					<then>
+						<echo message="Please enter a unique ID." />
+					</then>
+				</elseif>
+				<else>
+					<execute macro="Alert#viewSuccessMessage" />
+
+					<!-- This is a comment-->
+				</else>
+			</if>
+
+			<!-- This is a comment-->
+		</for>
+
+		<for param="breadcrumbName" list="Breadcrumb: 1, Breadcrumb: 2">
+			<execute function="AssertTextEquals" locator1="Breadcrumb#BREADCRUMB_ENTRY" value1="${breadcrumbNameUppercase}" />
+		</for>
+
+		<execute macro="User#addCP">
+			<var name="userEmailAddress" value="${userEmailAddress}" />
+			<var name="userFirstName" value="${userFirstName}" />
+			<var name="userLastName" value="${userLastName}" />
+			<var name="userScreenName" value="${userScreenName}" />
+			<var name="userScreenName" value="" />
+		</execute>
+	</command>
+
+	<command ignore="true" name="GotoLinkToPageChildPages">
+		<var name="key_pageName" value="${parentPage}" />
+
+		<if>
+			<not>
+				<or>
+					<equals arg1="true" arg2="true"/>
+					<equals arg1="true" arg2="false"/>
+				</or>
+			</not>
+			<then>
+				<fail message="Allowed values are 'true' or 'false'."/>
+			</then>
+		</if>
+	</command>
+
+	<command priority="5" name="Smoke">
+		<description message="Ensure that the super admin can add pages, add portlets, navigate to the product menu, use the WYSIWYG editor, and view alert messages." />
+
+		<property name="portal.smoke" value="true" />
+		<property name="test.assert.warning.exceptions" value="true" />
+
+		<if>
+			<isset var="duplicate" />
+			<then>
+				<execute macro="Alert#viewErrorMessage">
+					<var name="errorMessage" value="A configuration with this ID already exists. Please enter a unique ID." />
+				</execute>
+
+				<if>
+					<not>
+						<isset var="duplicate" />
+					</not>
+					<then>
+						<execute macro="Alert#viewErrorMessage">
+							<var name="errorMessage" value="A configuration with this ID already exists. Please enter a unique ID." />
+						</execute>
+					</then>
+					<else>
+						<execute macro="Alert#viewSuccessMessage" />
+					</else>
+				</if>
+			</then>
+			<else>
+				<execute macro="Alert#viewSuccessMessage" />
+
+				<if>
+					<isset var="duplicate" />
+					<then>
+						<execute macro="Alert#viewErrorMessage">
+							<var name="errorMessage" value="A configuration with this ID already exists. Please enter a unique ID." />
+						</execute>
+
+						<execute macro="AlloyEditor#addSourceContent">
+							<var name="content"><![CDATA[
+<h2 class="text-center">Space Program 大学生涯教育</h2>
+
+<p class="text-center">地球から、宇宙の果てへ</p>
+]]></var>
+						</execute>
+					</then>
+					<else>
+						<execute macro="Alert#viewSuccessMessage" />
+					</else>
+				</if>
+			</else>
+		</if>
+
+		<if>
+			<equals arg1="${check}" arg2="true" />
+			<then>
+				<execute macro="Alert#viewSuccessMessage" />
+			</then>
+		</if>
+
+		<if>
+			<condition function="IsElementPresent" locator1="Blogs#ADD_BLOGS_ENTRY" />
+			<then>
+				<execute macro="Alert#viewSuccessMessage" />
+			</then>
+		</if>
+
+		<if>
+			<condition function="IsElementPresent" locator1="Blogs#ADD_BLOGS_ENTRY" />
+			<then>
+				<execute macro="Alert#viewSuccessMessage" />
+			</then>
+			<else>
+				<fail message="Element not present" />
+			</else>
+		</if>
+
+		<if>
+			<and>
+				<condition function="IsElementPresent" locator1="Blogs#ADD_BLOGS_ENTRY" />
+				<equals arg1="${check}" arg2="true" />
+				<isset var="duplicate" />
+			</and>
+			<then>
+				<execute macro="Alert#viewSuccessMessage" />
+			</then>
+		</if>
+
+		<if>
+			<or>
+				<condition function="IsElementPresent" locator1="Blogs#ADD_BLOGS_ENTRY" />
+				<equals arg1="${check}" arg2="true" />
+				<isset var="duplicate" />
+			</or>
+			<then>
+				<execute macro="Alert#viewSuccessMessage" />
+			</then>
+		</if>
+
+		<if>
+			<condition function="IsElementPresent" locator1="Blogs#ADD_BLOGS_ENTRY" />
+			<then>
+				<execute macro="Alert#viewSuccessMessage" />
+			</then>
+			<elseif>
+				<equals arg1="${check}" arg2="true" />
+				<then>
+					<execute macro="Alert#viewErrorMessage" />
+				</then>
+			</elseif>
+		</if>
+
+		<if>
+			<contains string="testing" substring="test" />
+			<then>
+				<echo message="String contains substring" />
+			</then>
+		</if>
+
+		<if>
+			<or>
+				<and>
+					<isset var="A" />
+					<isset var="B" />
+				</and>
+				<and>
+					<not>
+						<isset var="B" />
+					</not>
+					<not>
+						<isset var="A" />
+					</not>
+				</and>
+			</or>
+			<then>
+				<fail message="${failMessage}" />
+			</then>
+		</if>
+
+		<execute macro="TestCase#getSiteName">
+			<return name="siteName" />
+			<var name="siteName" value="${siteName}" />
+		</execute>
+
+		<var name="testCDATA"><![CDATA['alert(0)'"alert(0)"><img src=x onerror=alert(0)><script>alert(0)</script>]]></var>
+
+		<var name="testNestedCDATA1"><![CDATA[<root available-locales="en_US" default-locale="en_US">%0A%09%09<dynamic-content language-id="en_US">%0A%09%09%09<![CDATA[${content}]]]]><![CDATA[>%0A%09%09</dynamic-content>%0A</root>]]></var>
+
+		<var name="testNestedCDATA2"><![CDATA[<![CDATA[Test Script]]]]><![CDATA[>]]></var>
+
+		<var name="wikiPageContent"><![CDATA[<p id='demo'>PASS</p>
+
+<script type='text/javascript'>
+	document.getElementById('demo').innerHTML = 'FAIL';
+</script>]]></var>
+
+		<execute macro="AlloyEditor#addSourceContent">
+			<var name="content"><![CDATA[
+<h2 class="text-center">Space Program 大学生涯教育</h2>
+
+<p class="text-center">地球から、宇宙の果てへ</p>
+]]></var>
+		</execute>
+
+		<execute macro="KaleoDesigner#viewSourceXMLLine">
+			<var name="kdSourceXML"><![CDATA[<name>Timer Name</name>]]></var>
+			<var name="line" value="21" />
+		</execute>
+
+		<execute macro="User#editDetailsViaMyAccount">
+			<var name="userFirstNameEdit"><![CDATA['alert(0)'"alert(0)"><img src=x onerror=alert(0)><script>alert(0)</script>]]></var>
+			<var name="userLastNameEdit"><![CDATA[<script>document.write("XSS"); window.stop();</script>]]></var>
+			<var name="userMiddleNameEdit"><![CDATA[<script>document.write("XSS"); window.stop();</script>]]></var>
+		</execute>
+
+		<execute macro="Smoke#viewWelcomePage" />
+
+		<take-screenshot />
+
+		<while>
+			<condition function="IsElementPresent" locator1="AssetCategorization#TAGS_REMOVE_ICON_GENERIC">
+				<var name="key_userScreenName" value="ldapusercn" />
+			</condition>
+			<then>
+				<execute function="Click" locator1="AssetCategorization#TAGS_REMOVE_ICON_GENERIC" />
+			</then>
+		</while>
+
+		<while max-iterations="16">
+		    <and>
+			    <condition function="IsElementPresent" locator1="AssetCategorization#TAGS_REMOVE_ICON_GENERIC" />
+			</and>
+			<then>
+				<execute function="Click" locator1="AssetCategorization#TAGS_REMOVE_ICON_GENERIC" />
+			</then>
+		</while>
+
+		<execute macro="Smoke#runSmoke" />
+
+		<execute function="AssertElementPresent" locator1="Home#PAGE" value1="Welcome" />
+
+		<execute function="Type" locator1="DDMField#INTEGER" value1="5">
+			<var name="key_fieldName" value="Integer" />
+		</execute>
+
+		<execute function="Click" locator1="Home#PAGE" />
+
+		<execute function="Refresh" />
+
+		<execute function="Refresh#refresh" />
+
+		<execute function="Type" value1="Welcome" />
+
+		<execute function="AssertElementPresent#assertElementPresent" locator1="Home#PAGE" value1="Welcome" />
+
+		<execute class="com.liferay.poshi.core.util.StringUtil" method="count">
+			<arg value="one,two,three" />
+			<arg value="," />
+		</execute>
+	</command>
+</definition>

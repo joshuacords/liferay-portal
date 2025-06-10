@@ -1,0 +1,46 @@
+definition {
+
+	@summary = "Default summary"
+	macro _getRecordId(recordSetId = null) {
+		var portalURL = JSONCompany.getPortalURL();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/ddl.ddlrecord/get-records \
+				-u ${userLoginInfo} \
+				-d recordSetId=${recordSetId}
+		''';
+
+		var recordId = JSONCurlUtil.post(${curl}, "$.[?(@['recordSetId'] == '${recordSetId}')]['recordId']");
+
+		if (${recordId} == "") {
+			fail("FAIL. Cannot find recordId.");
+		}
+
+		return ${recordId};
+	}
+
+	@summary = "Default summary"
+	macro _getRecordSetId(groupName = null, ddlListName = null) {
+		Variables.assertDefined(parameterList = "${groupName},${ddlListName}");
+
+		var portalURL = JSONCompany.getPortalURL();
+		var groupId = JSONDDLSetter.setGroupId(groupName = ${groupName});
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/ddl.ddlrecordset/get-record-sets \
+				-u ${userLoginInfo} \
+				-d groupIds=${groupId}
+		''';
+
+		var recordSetId = JSONCurlUtil.post(${curl}, "$.[?(@['nameCurrentValue'] == '${ddlListName}')]['recordSetId']");
+
+		if (${recordSetId} == "") {
+			fail("FAIL. Cannot find recordSetId.");
+		}
+
+		return ${recordSetId};
+	}
+
+}

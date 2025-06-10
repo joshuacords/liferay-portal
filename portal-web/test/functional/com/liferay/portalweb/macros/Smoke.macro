@@ -1,0 +1,151 @@
+definition {
+
+	var userFirstName = "Test";
+	var userLastName = "Test";
+
+	@summary = "Run a Smoke test to assert the main portal functionalities are working correctly"
+	macro runSmoke(i = null) {
+		task ("Ensure that the super admin can add a Blank Site") {
+			ApplicationsMenu.gotoPortlet(
+				category = "Sites",
+				panel = "Control Panel",
+				portlet = "Sites");
+
+			Site.addBlankCP(siteName = "Site Name");
+
+			ApplicationsMenu.gotoPortlet(
+				category = "Sites",
+				panel = "Control Panel",
+				portlet = "Sites");
+
+			Site.viewCP(siteName = "Site Name");
+		}
+
+		ProductMenu.gotoPortlet(
+			category = "Site Builder",
+			portlet = "Pages",
+			site = "Site Name");
+
+		WaitForPageLoad();
+
+		Click.waitForMenuToggleJSClick(locator1 = "Icon#HEADER_VERTICAL_ELLIPSIS");
+
+		if (IsElementPresent(key_menuItem = "Configuration", locator1 = "MenuItem#DROPDOWN_MENU_ITEM")) {
+			PagesAdmin.addPage(pageName = "Test Page1");
+
+			PagesAdmin.addPage(
+				pageName = "Test Page2",
+				sitePageType = "Widget Page");
+
+			PagesAdmin.addPage(pageName = "Test Page3");
+		}
+		else {
+			PagesAdmin.addPublicPage(pageName = "Test Page1");
+
+			PagesAdmin.addPublicPage(
+				pageName = "Test Page2",
+				sitePageType = "Widget Page");
+
+			PagesAdmin.addPublicPage(pageName = "Test Page3");
+		}
+
+		var pageName = "Test Page1";
+		var portletBody = "Test Page1";
+		var portletName = "Menu Display";
+		var siteName = "Site Name";
+
+		task ("Add a '${portletName}' portlet to the page named '${pageName}'") {
+			Navigator.gotoSitePage(
+				pageName = ${pageName},
+				siteName = ${siteName});
+
+			Portlet.addPG(
+				i = ${i},
+				portletName = ${portletName});
+
+			Portlet.viewTitle(portletName = ${portletName});
+
+			Portlet.viewBody(
+				portletBody = ${portletBody},
+				portletName = ${portletName});
+
+			Navigator.gotoSitePage(
+				pageName = ${pageName},
+				siteName = ${siteName});
+
+			Portlet.viewTitle(portletName = ${portletName});
+
+			Portlet.viewBody(
+				portletBody = ${portletBody},
+				portletName = ${portletName});
+		}
+
+		var collectionName = "Basic Components";
+		var contentPageName = "Test Content Page";
+		var fragmentId = "Heading";
+		var fragmentName = "Heading";
+
+		task ("Add a '${fragmentName}' fragment to the content page named '${contentPageName}'") {
+			task ("Create a Content Page") {
+				PagesAdmin.openPagesAdmin(siteURLKey = ${siteName});
+
+				WaitForPageLoad();
+
+				Click.waitForMenuToggleJSClick(locator1 = "Icon#HEADER_VERTICAL_ELLIPSIS");
+
+				if (IsElementPresent(key_menuItem = "Configuration", locator1 = "MenuItem#DROPDOWN_MENU_ITEM")) {
+					ContentPages.addPage(pageName = ${contentPageName});
+				}
+				else {
+					ContentPages.addPublicPage(pageName = ${contentPageName});
+				}
+			}
+
+			task ("Add a basic '${fragmentName}' component") {
+				PageEditor.addFragment(
+					collectionName = ${collectionName},
+					fragmentName = ${fragmentName});
+			}
+
+			task ("Publish Content Page") {
+				PageEditor.publish();
+			}
+
+			task ("Navigate to the content page") {
+				Navigator.gotoSitePage(
+					pageName = ${contentPageName},
+					siteName = ${siteName});
+			}
+
+			task ("Assert the '${fragmentName}' fragment is present") {
+				AssertElementPresent(locator1 = "//h1[contains(.,'Heading Example')]");
+			}
+		}
+
+		var portlet = "Web Content";
+
+		task ("Navigate to Product Menu > Sites > Content > ${portlet}") {
+			Navigator.openSiteURL(siteName = "Site Name");
+
+			ProductMenu.gotoPortlet(
+				category = "Content & Data",
+				portlet = ${portlet});
+
+			SiteAdmin.viewPortletTitle(portletTitle = ${portlet});
+		}
+	}
+
+	@summary = "Assert the Welcome Page elements"
+	macro viewWelcomeContentPage() {
+		ContentPages.viewFragmentText(
+			fragmentName = "paragraph",
+			id = "element-text",
+			text = "Welcome to Liferay");
+
+		ContentPages.viewFragmentImage(
+			fragmentName = "image",
+			id = "image-square",
+			image = "tree.png");
+	}
+
+}

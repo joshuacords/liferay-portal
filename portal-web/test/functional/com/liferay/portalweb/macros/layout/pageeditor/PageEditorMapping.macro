@@ -1,0 +1,206 @@
+definition {
+
+	@summary = "Default summary"
+	macro assertAssetTypeUnselectable() {
+		PageEditor.gotoTab(tabName = "Mapping");
+
+		AssertElementNotPresent(
+			key_fieldLabel = "Item",
+			key_text = "plus",
+			locator1 = "Icon#ANY_ITEM_SELECTOR");
+	}
+
+	@summary = "Default summary"
+	macro gotoEditableFieldMapping(fragmentName = null, className = null, id = null, contributed = null) {
+		if (!(isSet(index))) {
+			var index = 1;
+		}
+
+		PageEditor.clickEditableField(
+			className = ${className},
+			contributed = ${contributed},
+			fragmentName = ${fragmentName},
+			id = ${id},
+			index = ${index});
+
+		if (IsElementPresent(key_sidebarButton = "Comments", locator1 = "PageEditor#FRAGMENT_SIDEBAR_TITLE")) {
+			PageEditor.gotoTab(tabName = "Browser");
+		}
+
+		if (contains(${id}, "image") || contains(${id}, "img")) {
+			Navigator.gotoNavTab(navTab = "Image Source");
+
+			if (!(IsSelectedLabel(key_fieldLabel = "Source Selection", locator1 = "Select#GENERIC_SELECT_FIELD", value1 = "Mapping"))) {
+				Select(
+					key_fieldLabel = "Source Selection",
+					locator1 = "Select#GENERIC_SELECT_FIELD",
+					value1 = "Mapping");
+
+				AssertSelectedLabel(
+					key_fieldLabel = "Source Selection",
+					locator1 = "Select#GENERIC_SELECT_FIELD",
+					value1 = "Mapping");
+			}
+		}
+		else {
+			Navigator.gotoNavTab(navTab = "Mapping");
+		}
+	}
+
+	@summary = "Default summary"
+	macro mapEditableFieldToAsset(uploadFileName = null, navItem = null, contentItem = null, entryTitle = null, rowItem = null) {
+		if (IsTextEqual(key_fieldLabel = "Item", locator1 = "PageEditor#ITEM_SELECTOR_CONTENT_INPUT", value1 = "")) {
+			Click(
+				key_fieldLabel = "Item",
+				key_text = "plus",
+				locator1 = "Icon#ANY_ITEM_SELECTOR");
+		}
+		else {
+			Click(
+				key_fieldLabel = "Item",
+				key_text = "change",
+				locator1 = "Icon#ANY_ITEM_SELECTOR");
+		}
+
+		if (IsElementPresent(key_menuItem = "Select Item...", locator1 = "MenuItem#ANY_MENU_ITEM")) {
+			if (isSet(contentItem)) {
+				MenuItem.click(menuItem = ${contentItem});
+			}
+			else {
+				MenuItem.click(menuItem = "Select Item...");
+			}
+		}
+
+		SelectFrame(locator1 = "IFrame#MODAL_BODY");
+
+		if (IsElementPresent(locator1 = "MenuBar#MENU_BAR")) {
+			MenuBar.click(menuBar = ${navItem});
+		}
+		else {
+			Navigator.gotoNavTab(navTab = ${navItem});
+		}
+
+		if (isSet(uploadFileName)) {
+			WaitForEditable(locator1 = "TextInput#FILE");
+
+			UploadCommonFile.uploadCommonFileHiddenNoMouseOver(
+				locator1 = "TextInput#FILE",
+				value1 = ${uploadFileName});
+
+			WaitForElementPresent(
+				key_text = "Add",
+				locator1 = "Button#ANY_ENABLED");
+
+			AssertClick(
+				locator1 = "ItemSelector#ADD_BUTTON",
+				value1 = "Add");
+		}
+		else if (${navItem} == "Web Content") {
+			LexiconEntry.changeDisplayStyle(displayStyle = "cards");
+
+			Click(
+				key_card = ${entryTitle},
+				locator1 = "Card#CARD_TITLE");
+		}
+		else if (${navItem} == "Knowledge Base Articles") {
+			AssertClick.assertPartialTextClickAt(
+				key_listEntry = ${entryTitle},
+				locator1 = "LexiconList#LIST_ENTRY",
+				value1 = ${entryTitle});
+		}
+		else if (isSet(rowItem)) {
+			Click(locator1 = ${rowItem});
+		}
+		else {
+			Click(
+				key_card = ${entryTitle},
+				locator1 = "Card#CARD_TITLE");
+		}
+
+		SelectFrameTop();
+
+		AssertTextEquals(
+			key_fieldLabel = "Item",
+			locator1 = "PageEditor#ITEM_SELECTOR_CONTENT_INPUT",
+			value1 = ${entryTitle});
+	}
+
+	@summary = "Default summary"
+	macro mapEditableFieldToCollectionItems(field = null, fragmentName = null, id = null) {
+		Click(locator1 = "PageEditor#CONTENT_PAGE_DISABLED_HEADER");
+
+		Click.clickNoWaitForVisible(
+			key_colPosition = 1,
+			key_element = "//div[@data-name='${fragmentName}']",
+			key_fragmentName = "Collection Display",
+			key_rowPosition = 1,
+			locator1 = "PageEditor#COLLECTION_CELL_NESTED_ELEMENT");
+
+		Click(
+			key_colPosition = 1,
+			key_element = "//div[@data-name='${fragmentName}']//div[contains(@class,'page-editor__topper__content')]//*[contains(@data-lfr-editable-id,'${id}')]",
+			key_fragmentName = "Collection Display",
+			key_rowPosition = 1,
+			locator1 = "PageEditor#COLLECTION_CELL_NESTED_ELEMENT");
+
+		if (contains(${id}, "image") || contains(${id}, "img")) {
+			Navigator.gotoNavTab(navTab = "Image Source");
+
+			if (!(IsSelectedLabel(key_fieldLabel = "Source Selection", locator1 = "Select#GENERIC_SELECT_FIELD", value1 = "Mapping"))) {
+				Select(
+					key_fieldLabel = "Source Selection",
+					locator1 = "Select#GENERIC_SELECT_FIELD",
+					value1 = "Mapping");
+
+				AssertSelectedLabel(
+					key_fieldLabel = "Source Selection",
+					locator1 = "Select#GENERIC_SELECT_FIELD",
+					value1 = "Mapping");
+			}
+		}
+		else {
+			Navigator.gotoNavTab(navTab = "Mapping");
+		}
+
+		Select(
+			key_fieldLabel = "Field",
+			locator1 = "Select#GENERIC_SELECT_FIELD",
+			value1 = ${field});
+
+		PageEditor.waitForAutoSave();
+
+		AssertSelectedLabel(
+			key_fieldLabel = "Field",
+			locator1 = "Select#GENERIC_SELECT_FIELD",
+			value1 = ${field});
+	}
+
+	@summary = "Default summary"
+	macro mapEditableTextToField(field = null, fragmentName = null, index = null, className = null, id = null, source = null, contributed = null) {
+		PageEditorMapping.gotoEditableFieldMapping(
+			className = ${className},
+			contributed = ${contributed},
+			fragmentName = ${fragmentName},
+			id = ${id},
+			index = ${index});
+
+		if (isSet(source)) {
+			Select(
+				key_fieldLabel = "Source",
+				locator1 = "Select#GENERIC_SELECT_FIELD",
+				value1 = ${source});
+		}
+
+		WaitForEditable(
+			key_fieldLabel = "Field",
+			locator1 = "Select#GENERIC_SELECT_FIELD");
+
+		Select(
+			key_fieldLabel = "Field",
+			locator1 = "Select#GENERIC_SELECT_FIELD",
+			value1 = ${field});
+
+		PageEditor.waitForAutoSave();
+	}
+
+}

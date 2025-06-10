@@ -1,0 +1,103 @@
+@component-name = "portal-ci-infrastructure"
+definition {
+
+	property poshi.runner.acceptance = "true";
+	property testray.main.component.name = "Poshi Runner";
+
+	@disable-webdriver = "true"
+	@priority = 5
+	test AvailablePhysicalMemory {
+		var testBaseDirName = PropsUtil.get("test.base.dir.name");
+		var testDependenciesDirName = PropsUtil.get("test.dependencies.dir.name");
+
+		var jsonFilePath = FileUtil.getCanonicalPath("${testBaseDirName}/${testDependenciesDirName}/sample.json");
+
+		var curl = "file://${jsonFilePath}";
+		var jsonPath = "$.computer[0].monitorData.['hudson.node_monitors.SwapSpaceMonitor'].availablePhysicalMemory";
+
+		var actual = JSONCurlUtil.get(${curl}, ${jsonPath});
+		var expected = 2054144000;
+
+		if (${actual} == ${expected}) {
+			echo("The value found from '${jsonPath}' was a match to the expected value.");
+
+			echo("action: '${actual}'");
+
+			echo("expected: '${expected}'");
+		}
+		else {
+			echo("The value found from '${jsonPath}' was NOT a match to the expected value!");
+
+			echo("action: '${actual}'");
+
+			echo("expected: '${expected}'");
+
+			fail("Found the wrong value!");
+		}
+	}
+
+	@disable-webdriver = "true"
+	@priority = 5
+	test BusyExecutors {
+		var testBaseDirName = PropsUtil.get("test.base.dir.name");
+		var testDependenciesDirName = PropsUtil.get("test.dependencies.dir.name");
+
+		var jsonFilePath = FileUtil.getCanonicalPath("${testBaseDirName}/${testDependenciesDirName}/sample.json");
+
+		var curl = "file://${jsonFilePath}";
+		var jsonPath = "$.busyExecutors";
+
+		var actual = JSONCurlUtil.get(${curl}, ${jsonPath});
+		var expected = 25;
+
+		if (${actual} == ${expected}) {
+			echo("The value found from '${jsonPath}' was a match to the expected value.");
+
+			echo("action: '${actual}'");
+
+			echo("expected: '${expected}'");
+		}
+		else {
+			echo("The value found from '${jsonPath}' was NOT a match to the expected value!");
+
+			echo("action: '${actual}'");
+
+			echo("expected: '${expected}'");
+
+			fail("Found the wrong value!");
+		}
+	}
+
+	@disable-webdriver = "true"
+	@priority = 5
+	test DisplayName {
+		var testBaseDirName = PropsUtil.get("test.base.dir.name");
+		var testDependenciesDirName = PropsUtil.get("test.dependencies.dir.name");
+
+		var jsonFilePath = FileUtil.getCanonicalPath("${testBaseDirName}/${testDependenciesDirName}/sample.json");
+
+		var curl = "file://${jsonFilePath}";
+		var jsonPath = "$.computer[2].displayName";
+
+		var actual = JSONCurlUtil.get(${curl}, ${jsonPath});
+		var expected = "cloud-10-0-12-172";
+
+		if (${actual} == ${expected}) {
+			echo("The value found from '${jsonPath}' was a match to the expected value.");
+
+			echo("action: '${actual}'");
+
+			echo("expected: '${expected}'");
+		}
+		else {
+			echo("The value found from '${jsonPath}' was NOT a match to the expected value!");
+
+			echo("action: '${actual}'");
+
+			echo("expected: '${expected}'");
+
+			fail("Found the wrong value!");
+		}
+	}
+
+}

@@ -1,0 +1,34 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<liferay-ui:error exception="<%= LayoutPrototypeException.class %>">
+
+	<%
+	LayoutPrototypeException lpe = (LayoutPrototypeException)errorException;
+	%>
+
+	<liferay-ui:message key="the-pages-could-not-be-published-because-one-or-more-required-page-templates-could-not-be-found-on-the-remote-system.-please-import-the-following-templates-manually" />
+
+	<ul>
+
+		<%
+		for (Tuple missingLayoutPrototype : lpe.getMissingLayoutPrototypes()) {
+			String layoutPrototypeClassName = (String)missingLayoutPrototype.getObject(0);
+			String layoutPrototypeUuid = (String)missingLayoutPrototype.getObject(1);
+			String layoutPrototypeName = (String)missingLayoutPrototype.getObject(2);
+		%>
+
+			<li>
+				<%= ResourceActionsUtil.getModelResource(locale, layoutPrototypeClassName) %>: <strong><%= HtmlUtil.escape(layoutPrototypeName) %></strong> (<%= HtmlUtil.escape(layoutPrototypeUuid) %>)
+			</li>
+
+		<%
+		}
+		%>
+
+	</ul>
+</liferay-ui:error>

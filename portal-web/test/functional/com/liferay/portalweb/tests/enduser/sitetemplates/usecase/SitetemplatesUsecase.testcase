@@ -1,0 +1,1660 @@
+@component-name = "portal-headless"
+definition {
+
+	property ci.retries.disabled = "true";
+	property portal.release = "true";
+	property portal.upstream = "true";
+	property testray.main.component.name = "Site Templates";
+
+	setUp {
+		TestCase.setUpPortalInstance();
+
+		User.firstLoginPG();
+	}
+
+	tearDown {
+		var testLiferayVirtualInstance = PropsUtil.get("test.liferay.virtual.instance");
+
+		if (${testLiferayVirtualInstance} == "true") {
+			PortalInstances.tearDownCP();
+		}
+		else {
+			Navigator.openURL();
+
+			User.logoutAndLoginPG(
+				password = PropsUtil.get("default.admin.password"),
+				userLoginEmailAddress = "test@liferay.com",
+				userLoginFullName = "Test Test");
+
+			JSONUser.tearDownNonAdminUsers();
+
+			UserGroup.tearDownCP();
+
+			Site.tearDownCP();
+
+			SiteTemplates.tearDownCP();
+
+			DMDocument.tearDownCP();
+		}
+	}
+
+	@description = "This is a use case for LPS-87055. Adding a page template with an already used name fails with a clear error message."
+	@priority = 3
+	test AddPageTemplatesWithDuplicateNameViaSiteTemplate {
+		task ("Given: User add a new Site template") {
+			SiteTemplates.addCP(
+				siteTemplateActive = "Yes",
+				siteTemplateName = "Site Template Name");
+		}
+
+		task ("And: Add a new Page template collection with a page on the Site Template") {
+			LexiconEntry.gotoEntryMenuItem(
+				menuItem = "Manage",
+				rowEntry = "Site Template Name");
+
+			ProductMenu.gotoPortlet(
+				category = "Design",
+				portlet = "Page Templates");
+
+			NavItem.gotoPageTemplates();
+
+			PageTemplatesAdmin.addCollection(collectionName = "Page Template Collection");
+
+			Navigator.gotoNavNested(navNested = "Page Template Collection");
+
+			PageTemplatesAdmin.addPageTemplate(
+				pageTemplateName = "Test",
+				siteTemplate = "true");
+		}
+
+		task ("When: User add a new page template with the same name as the existing one") {
+			Navigator.openURL();
+
+			SiteTemplatesNavigator.openSiteTemplatesAdmin();
+
+			LexiconEntry.gotoEntryMenuItem(
+				menuItem = "Manage",
+				rowEntry = "Site Template Name");
+
+			ProductMenu.gotoPortlet(
+				category = "Site Builder",
+				portlet = "Pages");
+
+			ProductMenu.gotoPortlet(
+				category = "Design",
+				portlet = "Page Templates");
+
+			NavItem.gotoPageTemplates();
+
+			Navigator.gotoNavNested(navNested = "Page Template Collection");
+		}
+
+		task ("Then: The process will fail with a clear error message") {
+			PageTemplatesAdmin.addDuplicatePageTemplate(
+				duplicatePageTemplate = "true",
+				pageTemplateName = "Test",
+				siteTemplate = "true");
+		}
+	}
+
+	@description = "This is a use case for LPS-51432 and LPS-95113. Pages associated with a site template cannot be deleted and removing a parent page on a site template will delete the same page and the child page also on the connected sites, if propagation is enabled."
+	@priority = 3
+	test AdminCanNotAddASubpageOfAChildPageLinkedToSiteTemplatePage {
+		property portal.acceptance = "true";
+		property test.liferay.virtual.instance = "false";
+		property test.run.type = "single";
+
+		task ("Given: User add a new Site template with a page") {
+			SiteTemplates.addCP(siteTemplateName = "Site Template Name");
+
+			SiteTemplates.addSitePageViaSiteTemplateCP(
+				pageName = "Site Page Name",
+				siteTemplateName = "Site Template Name");
+		}
+
+		task ("And: Add a child page to the Site template page") {
+			SiteTemplates.addChildPageViaSiteTemplateCP(
+				childPageName = "Site Child Page Name",
+				parentPageName = "Site Page Name",
+				siteTemplateName = "Site Template Name");
+		}
+
+		task ("When: User add a new Site based on the Site template") {
+			Site.openSitesAdmin();
+
+			Site.addSiteTemplateCP(
+				siteName = "Site Name",
+				siteTemplateName = "Site Template Name",
+				siteTemplateTab = "Custom Site Templates");
+		}
+
+		task ("And: Is not able to delete the child page on the Site which is connected to the Site template") {
+			Navigator.gotoSitePage(
+				pageName = "Home",
+				siteName = "Site Name");
+
+			ProductMenu.gotoPortlet(
+				category = "Site Builder",
+				portlet = "Pages");
+
+			PagesAdmin.cannotDeletePagesAssociatedWithSiteTemplate(
+				page = "Site Child Page Name",
+				pageName = "Site Page Name");
+		}
+
+		task ("And: User delete the page on the Site template") {
+			SiteTemplatesNavigator.openSiteTemplatesAdmin();
+
+			SiteTemplates.deletePage(
+				hasChildren = "true",
+				pageName = "Site Page Name",
+				siteTemplateName = "Site Template Name");
+		}
+
+		task ("Then: The page and the connected child page will be deleted also on the Site created from the template") {
+			Navigator.openSiteURL(siteName = "Site Name");
+
+			Refresh();
+
+			Page.viewNoPG(pageName = "Site Page Name");
+
+			Page.viewNoPG(pageName = "Site Child Page Name");
+
+			PagesAdmin.viewPageItemNotPresent(pageName = "Site Page Name");
+
+			PagesAdmin.viewPageItemNotPresent(pageName = "Site Child Page Name");
+
+			AssertConsoleTextNotPresent(value1 = "java.lang.NullPointerException");
+		}
+	}
+
+	@description = "This is a use case for LPS-81629. Newly created pages are visible next to the home page on site template and on the site created from that template."
+	@priority = 3
+	test AllPageIsVisibleAfterAddingNewPages {
+		property test.liferay.virtual.instance = "false";
+		property test.run.type = "single";
+
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
+
+		task ("Given: User add a new Site template with 2 page") {
+			SiteTemplates.addCP(siteTemplateName = "Site Template Name");
+
+			SiteTemplates.addSitePageViaSiteTemplateCP(
+				pageName = "Page1 Name",
+				siteTemplateName = "Site Template Name");
+
+			SiteTemplatesNavigator.gotoSiteTemplatesPage(
+				pageName = "Home",
+				siteTemplateName = "Site Template Name");
+
+			SiteTemplates.addSitePageViaSiteTemplateCP(
+				pageName = "Page2 Name",
+				siteTemplateName = "Site Template Name");
+		}
+
+		task ("When: Pages are visible on the Site template") {
+			SiteTemplatesNavigator.gotoSiteTemplatesPage(
+				pageName = "Page1 Name",
+				siteTemplateName = "Site Template Name");
+		}
+
+		task ("And: User create a new Site based on the Site Template") {
+			Site.openSitesAdmin();
+
+			Site.addSiteTemplateCP(
+				siteName = "Site Name",
+				siteTemplateName = "Site Template Name",
+				siteTemplateTab = "Custom Site Templates");
+		}
+
+		task ("Then: The previously created site pages are visible both on the site and on the site template") {
+			Navigator.gotoSitePage(
+				pageName = "Home",
+				siteName = "Site Name");
+
+			Navigator.gotoSitePage(
+				pageName = "Page1 Name",
+				siteName = "Site Name");
+		}
+	}
+
+	@description = "This is a use case for LPS-180299. Change localization after Site Template is added in virtual instance."
+	@priority = 3
+	test ChangeLocalizationAfterSiteTemplateIsAddedInVirtualInstance {
+		property test.liferay.virtual.instance = "false";
+		property test.run.type = "single";
+
+		task ("Given: Add virtual instance able.com") {
+			HeadlessPortalInstanceAPI.addPortalInstance(
+				domain = "www.able.com",
+				portalInstanceId = "www.able.com",
+				virtualHost = "www.able.com");
+
+			User.firstLoginPG(
+				password = PropsUtil.get("default.admin.password"),
+				userEmailAddress = "test@www.able.com",
+				virtualHostsURL = "http://www.able.com:8080");
+		}
+
+		task ("And: Remove all the locales for the virtual instance except the default locale") {
+			PortalSettings.gotoConfiguration(
+				baseURL = "http://www.able.com:8080",
+				configurationCategory = "Localization",
+				configurationName = "Language",
+				configurationScope = "Virtual Instance Scope");
+
+			PortalSettings.configureCurrentLanguagesCP(currentPortalLanguages = "English (United States)");
+		}
+
+		task ("When: Create a site template") {
+			SiteTemplates.addCP(
+				baseURL = "http://www.able.com:8080",
+				siteTemplateName = "Site Template Name");
+		}
+
+		task ("Then: User is able to add new locale in virtual instance") {
+			PortalSettings.gotoConfiguration(
+				baseURL = "http://www.able.com:8080",
+				configurationCategory = "Localization",
+				configurationName = "Language",
+				configurationScope = "Virtual Instance Scope");
+
+			PortalSettings.configureCurrentLanguagesCP(currentPortalLanguages = "English (United States),Spanish (Spain)");
+		}
+	}
+
+	@description = "User can edit the permission of a page on site templates in the page admin menu."
+	@priority = 3
+	test EditSiteTemplateGuestPermissions {
+		task ("Given: User add a new Site template and a site based on the template") {
+			SiteTemplates.addCP(siteTemplateName = "Site Template Name");
+
+			Site.openSitesAdmin();
+
+			Site.addSiteTemplateCP(
+				siteName = "Site Name",
+				siteTemplateName = "Site Template Name",
+				siteTemplateTab = "Custom Site Templates");
+		}
+
+		task ("When: User navigate to the Permissions of the created site") {
+			ProductMenu.gotoPortlet(
+				category = "Site Builder",
+				portlet = "Pages");
+
+			PagesAdmin.gotoPageEllipsisMenuItem(
+				menuItem = "Permissions",
+				pageName = "Home");
+		}
+
+		task ("And: Edit the permission of the page to remove the VIEW permission of the Guest role") {
+			Role.removePermissionPG(
+				permissionDefinitionKey = "CONTENT_PERMISSIONS_VIEW_CHECKBOX",
+				roleTitle = "Guest");
+
+			Navigator.gotoSitePage(
+				pageName = "Home",
+				siteName = "Site Name");
+		}
+
+		task ("And: User navigate to the home page of the Site Template") {
+			PermissionsInline.gotoSiteTemplateCP(
+				page = "Home",
+				site = "Site Name");
+		}
+
+		task ("Then: User can define new permission for the site template page") {
+			Role.definePermissionPG(
+				permissionDefinitionKey = "CONTENT_PERMISSIONS_VIEW_CHECKBOX",
+				roleTitle = "Guest");
+		}
+	}
+
+	@description = "Site templates with older versions can be imported."
+	@priority = 3
+	test ImportOldSchemaVersion {
+		property test.liferay.virtual.instance = "false";
+		property test.run.type = "single";
+
+		task ("When: User navigate to Site template admin page") {
+			SiteTemplatesNavigator.openSiteTemplatesAdmin();
+		}
+
+		task ("Then: User can import site template from older versions") {
+			LAR.importPortlet(
+				importSchemaVersionMismatching = "true",
+				larFileName = "class-site-template-7.0.lar",
+				uploadFrom = "dependencies");
+		}
+	}
+
+	@description = "This is a use case for LPS-42067. Portlet preferences are configurable and stay unchanged when the same portlet with the same name is created on different pages."
+	@priority = 3
+	test PortletPreferencesPersistWithSiteTemplateWhenSamePortletAddedOnSecondPage {
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
+
+		task ("Given: User add a new Site Template with a page") {
+			SiteTemplates.addCP(siteTemplateName = "Site Template Name");
+
+			SiteTemplates.addSitePageViaSiteTemplateCP(
+				pageName = "Page1 Name",
+				siteTemplateName = "Site Template Name");
+		}
+
+		task ("And: Add a portlet on the created page") {
+			SiteTemplatesNavigator.gotoSiteTemplatesPage(
+				pageName = "Page1 Name",
+				siteTemplateName = "Site Template Name");
+
+			Portlet.addPG(
+				defaultURL = "false",
+				portletName = "IFrame");
+		}
+
+		task ("And: Add a second page to the Site Template") {
+			SiteTemplates.addSitePageViaSiteTemplateCP(
+				pageName = "Page2 Name",
+				siteTemplateName = "Site Template Name");
+		}
+
+		task ("When: User add a new Site based on the Site Template") {
+			Site.openSitesAdmin();
+
+			Site.addSiteTemplateCP(
+				siteName = "Site Name",
+				siteTemplateName = "Site Template Name",
+				siteTemplateTab = "Custom Site Templates");
+		}
+
+		task ("And: Remove the VIEW permission of Guest role on the created portlet on the site's page") {
+			Navigator.gotoSitePage(
+				pageName = "Page1 Name",
+				siteName = "Site Name");
+
+			PermissionsInline.gotoConfigurationPG(portletName = "IFrame");
+
+			Role.removePermissionPG(
+				permissionDefinitionKey = "CONTENT_PERMISSIONS_VIEW_CHECKBOX",
+				roleTitle = "Guest");
+
+			Refresh();
+		}
+
+		task ("And: Add a portlet with the same name on the second page of the Site Template") {
+			SiteTemplatesNavigator.openSiteTemplatesAdmin();
+
+			SiteTemplates.gotoViewPages(
+				siteName = ${siteName},
+				siteTemplateName = "Site Template Name");
+
+			AssertClick(
+				locator1 = "Home#PAGE_TEMPLATE_3",
+				value1 = "Page2 Name");
+
+			Portlet.addPG(
+				defaultURL = "false",
+				portletName = "IFrame");
+		}
+
+		task ("Then: The new portlet on the second template page will inherit the settings of the similar portlet from the first page") {
+			Navigator.gotoSitePage(
+				pageName = "Page1 Name",
+				siteName = "Site Name");
+
+			PermissionsInline.gotoConfigurationPG(portletName = "IFrame");
+
+			Role.viewPermissionPG(
+				permissionDefinitionKey = "CONTENT_PERMISSIONS_VIEW_CHECKBOX",
+				permissionFlagged = "false",
+				roleTitle = "Guest");
+		}
+	}
+
+	@description = "Site admin should not be able to delete pages that were created from site templates."
+	@priority = 3
+	test SiteAdminCannotDeletePagesThatWereCreatedBySiteTemplates {
+		task ("Given: User add a new Site Template and add it to a new User group") {
+			SiteTemplates.addCP(siteTemplateName = "Site Template Name");
+
+			UserGroup.openUserGroupsAdmin();
+
+			UserGroup.addCP(
+				selectSiteTemplate = "true",
+				siteTemplateName = "Site Template Name",
+				userGroupName = "UG UserGroup Name");
+		}
+
+		task ("When: User navigate to the Page admin menu on the Site of the User group") {
+			UserGroup.openUserGroupsAdmin();
+
+			LexiconEntry.gotoEllipsisMenuItem(menuItem = "Manage Pages");
+
+			ProductMenu.gotoPortlet(
+				category = "Site Builder",
+				portlet = "Pages");
+		}
+
+		task ("Then: User as a Site admin is not able to delete page which is created from Site template") {
+			PagesAdmin.cannotDeletePagesAssociatedWithSiteTemplate(page = "Home");
+		}
+	}
+
+	@description = "LRQA-73456. Site template preferences and contents are inherited on User group sites."
+	@priority = 3
+	test SitesDynamicTemplateInheritance {
+		property custom.properties = "jsonws.web.service.paths.excludes=";
+		property portal.acceptance = "true";
+
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
+
+		task ("Given: User add a new Site Template") {
+			SiteTemplates.addCP(siteTemplateName = "Site Template Name");
+		}
+
+		task ("And: Add a Message Boards widget to the Home page of the Site Template then publish it") {
+			SiteTemplatesNavigator.openSiteTemplatesAdmin();
+
+			SiteTemplates.gotoViewPages(
+				siteName = ${siteName},
+				siteTemplateName = "Site Template Name");
+
+			ContentPages.gotoPageEditor();
+
+			PageEditor.addWidget(portletName = "Message Boards");
+
+			PageEditor.publish();
+		}
+
+		task ("And: Add a thread to the Message Boards widget") {
+			MessageboardsThread.addPG(
+				threadBody = "Message Boards Body",
+				threadSubject = "Message Boards Subject");
+		}
+
+		task ("And: Add a new user and give Guest and Administrator role to it") {
+			JSONUser.addUser(
+				userEmailAddress = "userea@liferay.com",
+				userFirstName = "userfn",
+				userLastName = "userln",
+				userScreenName = "usersn");
+
+			JSONUser.setFirstPassword(
+				agreeToTermsAndAnswerReminderQuery = "true",
+				requireReset = "false",
+				userEmailAddress = "userea@liferay.com");
+
+			JSONUser.addUserToSite(
+				groupName = "Guest",
+				userEmailAddress = "userea@liferay.com");
+
+			JSONRole.assignRoleToUser(
+				roleTitle = "Administrator",
+				userEmailAddress = "userea@liferay.com");
+		}
+
+		task ("When: When the new user adds a new User group and add the Site template to it") {
+			User.firstLoginPG(
+				password = PropsUtil.get("default.admin.password"),
+				userEmailAddress = "userea@liferay.com");
+
+			UserGroup.openUserGroupsAdmin();
+
+			UserGroup.addCP(
+				selectSiteTemplate = "true",
+				siteTemplateName = "Site Template Name",
+				userGroupName = "User Group Test");
+		}
+
+		task ("Then: The settings and contens are inherited from the Site template to the Site of the User group") {
+			UserGroup.gotoProfilePages(
+				siteName = ${siteName},
+				userGroupName = "User Group Test");
+
+			MessageboardsThread.gotoPG(
+				lastPostUserName = "Test Test",
+				replyCount = 0,
+				threadBody = "Message Boards Body",
+				threadSubject = "Message Boards Subject");
+
+			MessageboardsThread.viewPG(
+				threadBody = "Message Boards Body",
+				threadSubject = "Message Boards Subject");
+		}
+	}
+
+	@description = "This is a use case for LRQA-73458. The preferences and contents of a personal site will inherit from site templates."
+	@priority = 3
+	test SitesTemplateResourceInheritance {
+		property portal.release = "false";
+
+		task ("Given: User add a new Site Template and a page to it") {
+			SiteTemplates.addCP(siteTemplateName = "Site Template Name");
+
+			SiteTemplates.addSitePageViaSiteTemplateCP(
+				pageName = "Test Page Name",
+				siteTemplateName = "Site Template Name");
+		}
+
+		task ("And: Add a DM portlet on the new template page and configure it to enable actions") {
+			SiteTemplatesNavigator.gotoSiteTemplatesPage(
+				pageName = "Test Page Name",
+				siteTemplateName = "Site Template Name");
+
+			Portlet.addPG(portletName = "Documents and Media");
+
+			SiteTemplates.enableActionsOnDMInSiteTemplate();
+		}
+
+		task ("When: User add a new document to the DM portlet") {
+			SiteTemplatesNavigator.gotoSiteTemplatesPage(
+				pageName = "Test Page Name",
+				siteTemplateName = "Site Template Name");
+
+			DMDocument.addPG(
+				dmDocumentDescription = "DM Document Description",
+				dmDocumentFile = "Document_1.png",
+				dmDocumentTitle = "Document_1.png");
+		}
+
+		task ("And: Add a new user to the site with a personal site based on the site template") {
+			JSONUser.addUser(
+				userEmailAddress = "userea@liferay.com",
+				userFirstName = "userfn",
+				userLastName = "userln",
+				userScreenName = "usersn");
+
+			User.openUsersAdmin();
+
+			User.addPersonalSiteCP(
+				siteTemplateName = "Site Template Name",
+				userScreenName = "usersn");
+
+			User.openUsersAdmin();
+
+			UserNavigator.gotoUser(userScreenName = "usersn");
+
+			User.editPassword(newPassword = PropsUtil.get("default.admin.password"));
+
+			User.logoutPG();
+		}
+
+		task ("Then: The content and settings is inherited on the new personal site from the Site Template") {
+			User.firstLoginPG(
+				password = PropsUtil.get("default.admin.password"),
+				userEmailAddress = "userea@liferay.com");
+
+			UserBar.gotoDropdownItem(dropdownItem = "My Dashboard");
+
+			Navigator._gotoPage(pageName = "Test Page Name");
+
+			DMDocument.viewPG(
+				dmDocumentDescription = "DM Document Description",
+				dmDocumentFile = "Document_1.png",
+				dmDocumentTitle = "Document_1.png");
+		}
+	}
+
+	@description = "This is a use case for LPS-86487. Page links on sites which were created in site templates should redirect correctly to other pages."
+	@priority = 3
+	test SiteTemplatePageLinkInWebContentRedirectCorrectly {
+		property portal.acceptance = "quarantine";
+		property test.liferay.virtual.instance = "false";
+		property test.run.type = "single";
+
+		var portalURL = PropsUtil.get("portal.url");
+
+		task ("Given: User add a new Site Template and 2 page to it") {
+			SiteTemplates.addCP(siteTemplateName = "Site Template Name");
+
+			SiteTemplates.addSitePageViaSiteTemplateCP(
+				pageName = "Page1 Name",
+				siteTemplateName = "Site Template Name");
+
+			SiteTemplates.addSitePageViaSiteTemplateCP(
+				pageName = "Page2 Name",
+				siteTemplateName = "Site Template Name");
+		}
+
+		task ("And: Copies the URL of the second site template page as external URL") {
+			ProductMenu.gotoHomePage();
+
+			Navigator._gotoPage(pageName = "Page2 Name");
+
+			var entryExternalURL = Navigator.getCurrentURL();
+
+			var webContentAdminURL = StringUtil.replace(${entryExternalURL}, "page2-name", "");
+		}
+
+		task ("And: Create WC on the Site template and use the copied URL as external URL") {
+			Navigator.openSpecificURL(url = "${webContentAdminURL}~/control_panel/manage?p_p_id=com_liferay_journal_web_portlet_JournalPortlet");
+
+			WebContentNavigator.gotoAddCP();
+
+			PortletEntry.inputTitle(title = "Web Content Title");
+
+			WaitForVisible(locator1 = "CKEditor#TOOLBAR_LINK_BUTTON");
+
+			var cleanEntryExternalURL = StringUtil.replace(${entryExternalURL}, "http://", "");
+
+			CKEditor.addEntryExternalURL(
+				displayText = ${entryExternalURL},
+				entryExternalURL = ${cleanEntryExternalURL},
+				fieldLabel = "Content");
+
+			WebContent.publishWithPermissions();
+		}
+
+		task ("When: User add a new Site based on the Site Template") {
+			Site.openSitesAdmin();
+
+			Site.addCP(
+				siteName = "Site Name",
+				siteTemplateName = "Site Template Name",
+				siteTemplateTab = "Custom Site Templates",
+				siteType = "Template");
+		}
+
+		task ("And: Add a WCD portlet to the first page then use the created Web Content in it") {
+			PagesAdmin.openPagesAdmin(siteURLKey = "site-name");
+
+			PagesAdmin.viewPageItemPresent(pageName = "Page1 Name");
+
+			JSONLayout.addWidgetToPublicLayout(
+				groupName = "Site Name",
+				layoutName = "Page1 Name",
+				widgetName = "Web Content Display");
+
+			Navigator.gotoSitePage(
+				pageName = "Page1 Name",
+				siteName = "Site Name");
+
+			WebContentDisplayPortlet.selectWebContent(
+				portletName = "Web Content Display",
+				webContentTitle = "Web Content Title");
+		}
+
+		task ("Then: The page link in the WCD portlet is be present") {
+			WaitForPageLoad();
+
+			Navigator.gotoSitePage(
+				pageName = "Page1 Name",
+				siteName = "Site Name");
+
+			WaitForPageLoad();
+
+			WebContentDisplayPortlet.viewContent(
+				displayText = ${entryExternalURL},
+				url = "${portalURL}/web/site-name/page2-name",
+				webContentTitle = "Web Content Title");
+		}
+	}
+
+	@description = "This is a use case for LPS-174471. TC-5: An exclamation mark and tooltip with warning can be seen for multiple collisions pages."
+	@priority = 3
+	test VerifyMultipleExclamationMarksWhenSiteContainsMultipleCollisionFriendlyURL {
+		property custom.properties = "feature.flag.LPS-174417=true";
+
+		task ("Given: Add new site template and new site based on this site template") {
+			SiteTemplates.addCP(
+				disablePropagation = "true",
+				siteTemplateName = "Site Template Name");
+
+			Site.openSitesAdmin();
+
+			Site.addCP(
+				siteName = "Site Name",
+				siteTemplateName = "Site Template Name",
+				siteTemplateTab = "Custom Site Templates",
+				siteType = "Site Template");
+		}
+
+		task ("When: Add site page in previous site template and site with the same page names") {
+			for (var number : list "1,2") {
+				SiteTemplates.addSitePageViaSiteTemplateCP(
+					pageName = "Page${number}",
+					siteTemplateName = "Site Template Name");
+
+				PagesAdmin.openPagesAdmin(siteURLKey = "Site Name");
+
+				PagesAdmin.addPageWithConfirm(pageName = "Page${number}");
+			}
+		}
+
+		task ("And: Navigate to page admin of the site") {
+			PagesAdmin.openPagesAdmin(siteURLKey = "Site Name");
+		}
+
+		task ("Then: Verify a warning with an exclamation mark next to the name of the collision site page") {
+			SiteTemplates.viewTooltipOfExclamationMark(pageName = "Page1");
+
+			SiteTemplates.viewTooltipOfExclamationMark(pageName = "Page2");
+		}
+
+		task ("When: Navigate to page tree of the site") {
+			Navigator.gotoSitePage(
+				pageName = "Home",
+				siteName = "Site Name");
+
+			PagesFinder.goToPagesFinder();
+		}
+
+		task ("Then: Verify a warning with an exclamation mark next to the name of the collision site page") {
+			SiteTemplates.viewTooltipOfExclamationMark(pageName = "Page1");
+
+			SiteTemplates.viewTooltipOfExclamationMark(pageName = "Page2");
+		}
+	}
+
+	@description = "This is a use case for LPS-174465. TC-4: Verify multiple exclamation marks could be displayed when Sites template contains multiple collision-friendly URLs across Sites."
+	@priority = 3
+	test VerifyMultipleExclamationMarksWhenSiteTemplateContainsMultipleCollisionFriendlyURL {
+		property custom.properties = "feature.flag.LPS-174417=true";
+
+		task ("Given: Add new site template and two new sites based on this site template") {
+			SiteTemplates.addCP(siteTemplateName = "Site Template Name");
+
+			for (var number : list "1,2") {
+				Site.openSitesAdmin();
+
+				Site.addCP(
+					siteName = "Site Name ${number}",
+					siteTemplateName = "Site Template Name",
+					siteTemplateTab = "Custom Site Templates",
+					siteType = "Site Template");
+			}
+		}
+
+		task ("When: Add site page in previous sites and site template with the same page names") {
+			for (var number : list "1,2") {
+				PagesAdmin.openPagesAdmin(siteURLKey = "Site Name ${number}");
+
+				PagesAdmin.addPage(
+					pageName = "Page${number}",
+					sitePageType = "Widget Page");
+
+				SiteTemplates.addSitePageViaSiteTemplateCP(
+					conflictPage = "true",
+					pageName = "Page${number}",
+					siteTemplateName = "Site Template Name");
+			}
+		}
+
+		task ("And: Navigate to page admin of the Site template") {
+			SiteTemplatesNavigator.openPagesAdmin(siteTemplateName = "Site Template Name");
+		}
+
+		task ("Then: Verify a warning with an exclamation mark next to the name of the collision site page") {
+			SiteTemplates.viewTooltipOfExclamationMark(pageName = "Page1");
+
+			SiteTemplates.viewTooltipOfExclamationMark(pageName = "Page2");
+		}
+
+		task ("When: Navigate to page tree of the Site template") {
+			SiteTemplatesNavigator.gotoSiteTemplatesPage(
+				pageName = "Home",
+				siteTemplateName = "Site Template Name");
+
+			PagesFinder.goToPagesFinder();
+		}
+
+		task ("Then: Verify a warning with an exclamation mark next to the name of the collision site page") {
+			SiteTemplates.viewTooltipOfExclamationMark(pageName = "Page1");
+
+			SiteTemplates.viewTooltipOfExclamationMark(pageName = "Page2");
+		}
+	}
+
+	@description = "This is a use case for LPS-174465. TC-5: Verify that the friendly URL collision is detected with child pages too."
+	@priority = 3
+	test ViewExclamationMarkWhenAddingChildPageInSiteTemplateWithFriendlyURLCollision {
+		property custom.properties = "feature.flag.LPS-174417=true";
+
+		task ("Given: Add new site template and new site based on this site template") {
+			SiteTemplates.addCP(siteTemplateName = "Site Template Name");
+
+			Site.openSitesAdmin();
+
+			Site.addCP(
+				siteName = "Site Name",
+				siteTemplateName = "Site Template Name",
+				siteTemplateTab = "Custom Site Templates",
+				siteType = "Site Template");
+		}
+
+		task ("When: Add site page in previous site and site template with the same page name") {
+			PagesAdmin.openPagesAdmin(siteURLKey = "Site Name");
+
+			PagesAdmin.addPage(
+				pageName = "Page1",
+				sitePageType = "Widget Page");
+
+			SiteTemplates.addSitePageViaSiteTemplateCP(
+				pageName = "PageX",
+				siteTemplateName = "Site Template Name");
+
+			SiteTemplates.addChildPageViaSiteTemplateCP(
+				childPageName = "Page1",
+				conflictPage = "true",
+				parentPageName = "PageX",
+				siteTemplateName = "Site Template Name");
+		}
+
+		task ("And: Navigate to page admin of the Site template") {
+			SiteTemplatesNavigator.openPagesAdmin(siteTemplateName = "Site Template Name");
+
+			Click(
+				key_itemName = "PageX",
+				locator1 = "PagesAdmin#LIST_GROUP_ITEM");
+		}
+
+		task ("Then: Verify a warning with an exclamation mark next to the name of the collision site page") {
+			SiteTemplates.viewTooltipOfExclamationMark(pageName = "Page1");
+		}
+
+		task ("When: Navigate to page tree of the Site template") {
+			SiteTemplatesNavigator.gotoSiteTemplatesPage(
+				pageName = "Home",
+				siteTemplateName = "Site Template Name");
+
+			PagesFinder.goToPagesFinder();
+
+			Portlet.expandTree();
+		}
+
+		task ("Then: Verify a warning with an exclamation mark next to the name of the collision site page") {
+			SiteTemplates.viewTooltipOfExclamationMark(pageName = "Page1");
+		}
+	}
+
+	@description = "This is a use case for LPS-174471 TC-4: An exclamation mark and tooltip with warning can be seen for child collisions pages."
+	@priority = 3
+	test ViewExclamationMarkWhenAddingChildPageInSiteWithFriendlyURLCollision {
+		property custom.properties = "feature.flag.LPS-174417=true";
+
+		task ("Given: Add new site base on template") {
+			SiteTemplates.addCP(
+				disablePropagation = "true",
+				siteTemplateName = "Site Template Name");
+
+			Site.openSitesAdmin();
+
+			Site.addSiteTemplateCP(
+				siteName = "Site Name",
+				siteTemplateName = "Site Template Name",
+				siteTemplateTab = "Custom Site Templates");
+
+			SiteTemplates.addSitePageViaSiteTemplateCP(
+				pageName = "Page1",
+				siteTemplateName = "Site Template Name");
+		}
+
+		task ("When: Add child page with Friendly URL conflicts in site") {
+			PagesAdmin.openPagesAdmin(siteURLKey = "Site Name");
+
+			PagesAdmin.addPage(pageName = "PageX");
+
+			PagesAdmin.addChildPageWithConfirm(
+				childPageName = "Page1",
+				parentPageName = "PageX");
+		}
+
+		task ("And: Navigate to page admin of the site") {
+			PagesAdmin.openPagesAdmin(siteURLKey = "Site Name");
+
+			Click(
+				key_itemName = "PageX",
+				locator1 = "PagesAdmin#LIST_GROUP_ITEM");
+		}
+
+		task ("Then: Verify a warning with an exclamation mark next to the name of the collision site page") {
+			SiteTemplates.viewTooltipOfExclamationMark(pageName = "Page1");
+		}
+
+		task ("When: Navigate to page tree of the site") {
+			Navigator.gotoSitePage(
+				pageName = "Home",
+				siteName = "Site Name");
+
+			PagesFinder.goToPagesFinder();
+
+			Portlet.expandTree();
+		}
+
+		task ("Then: Verify a warning with an exclamation mark next to the name of the collision site page") {
+			SiteTemplates.viewTooltipOfExclamationMark(pageName = "Page1");
+		}
+	}
+
+	@description = "This is a use case for LPS-174471. TC-3: An exclamation mark and tooltip with warning next to the specific page's name and draft label diplay well  when add page as draft."
+	@priority = 3
+	test ViewExclamationMarkWhenAddingDraftPageWithFriendlyURLCollision {
+		property custom.properties = "feature.flag.LPS-174417=true";
+
+		task ("Given: Add new site based on the new site template and disable poropagation") {
+			SiteTemplates.addCP(
+				disablePropagation = "true",
+				siteTemplateName = "Site Template Name");
+
+			Site.openSitesAdmin();
+
+			Site.addCP(
+				siteName = "Site Name",
+				siteTemplateName = "Site Template Name",
+				siteTemplateTab = "Custom Site Templates",
+				siteType = "Site Template");
+		}
+
+		task ("When: Add site page in previous site templates and add content page in the previous site with the same page name") {
+			SiteTemplates.addSitePageViaSiteTemplateCP(
+				pageName = "Page1",
+				siteTemplateName = "Site Template Name");
+
+			PagesAdmin.openPagesAdmin(siteURLKey = "Site Name");
+
+			PagesAdmin.addPageWithConfirm(
+				pageName = "Page1",
+				sitePageType = "Blank");
+		}
+
+		task ("And: Navigate to page admin of the site") {
+			PagesAdmin.openPagesAdmin(siteURLKey = "Site Name");
+		}
+
+		task ("Then: Verify a warning with an exclamation mark next to the name of the collision site page") {
+			SiteTemplates.viewTooltipOfExclamationMark(pageName = "Page1");
+		}
+
+		task ("When: Navigate to page tree of the site") {
+			Navigator.gotoSitePage(
+				pageName = "Home",
+				siteName = "Site Name");
+
+			PagesFinder.goToPagesFinder();
+		}
+
+		task ("Then: Verify a warning with an exclamation mark next to the name of the collision site page") {
+			SiteTemplates.viewTooltipOfExclamationMark(pageName = "Page1");
+		}
+	}
+
+	@description = "This is a use case for LPS-174465. TC-1: Verify there's an exclamation mark when a friendly URL collision exists and Administrator tries to add a new Site Template page."
+	@priority = 3
+	test ViewExclamationMarkWhenAddingNewSiteTemplatePageWithFriendlyURLCollision {
+		property custom.properties = "feature.flag.LPS-174417=true";
+
+		task ("Given: Add new site template and new site based on this site template") {
+			SiteTemplates.addCP(siteTemplateName = "Site Template Name");
+
+			Site.openSitesAdmin();
+
+			Site.addCP(
+				siteName = "Site Name",
+				siteTemplateName = "Site Template Name",
+				siteTemplateTab = "Custom Site Templates",
+				siteType = "Site Template");
+		}
+
+		task ("When: Add site page in previous site and site template with the same page name") {
+			PagesAdmin.openPagesAdmin(siteURLKey = "Site Name");
+
+			PagesAdmin.addPage(
+				pageName = "Page1",
+				sitePageType = "Widget Page");
+
+			SiteTemplates.addSitePageViaSiteTemplateCP(
+				conflictPage = "true",
+				pageName = "Page1",
+				siteTemplateName = "Site Template Name");
+		}
+
+		task ("And: Navigate to page admin of the Site template") {
+			SiteTemplatesNavigator.openPagesAdmin(siteTemplateName = "Site Template Name");
+		}
+
+		task ("Then: Verify a warning with an exclamation mark next to the name of the collision site page") {
+			SiteTemplates.viewTooltipOfExclamationMark(pageName = "Page1");
+		}
+
+		task ("When: Navigate to page tree of the Site template") {
+			SiteTemplatesNavigator.gotoSiteTemplatesPage(
+				pageName = "Home",
+				siteTemplateName = "Site Template Name");
+
+			PagesFinder.goToPagesFinder();
+		}
+
+		task ("Then: Verify a warning with an exclamation mark next to the name of the collision site page") {
+			SiteTemplates.viewTooltipOfExclamationMark(pageName = "Page1");
+		}
+	}
+
+	@description = "This is a use case for LPS-174471. TC-1 and TC-2: Verify there's an exclamation mark when a friendly URL collision exists and Administrator tries to add a new site page."
+	@priority = 3
+	test ViewExclamationMarkWhenAddingSitePageWithFriendlyURLCollision {
+		property custom.properties = "feature.flag.LPS-174417=true";
+
+		task ("Given: Add new site based on the new site template and disable poropagation") {
+			SiteTemplates.addCP(
+				disablePropagation = "true",
+				siteTemplateName = "Site Template Name");
+
+			Site.openSitesAdmin();
+
+			Site.addCP(
+				siteName = "Site Name",
+				siteTemplateName = "Site Template Name",
+				siteTemplateTab = "Custom Site Templates",
+				siteType = "Site Template");
+		}
+
+		task ("When: Add site page in previous site and site template with the same page name") {
+			SiteTemplates.addSitePageViaSiteTemplateCP(
+				pageName = "Page1",
+				siteTemplateName = "Site Template Name");
+
+			PagesAdmin.openPagesAdmin(siteURLKey = "Site Name");
+
+			PagesAdmin.addPageWithConfirm(pageName = "Page1");
+		}
+
+		task ("And: Navigate to page admin of the site") {
+			PagesAdmin.openPagesAdmin(siteURLKey = "Site Name");
+		}
+
+		task ("Then: Verify a warning with an exclamation mark next to the name of the collision site page") {
+			SiteTemplates.viewTooltipOfExclamationMark(pageName = "Page1");
+		}
+
+		task ("When: Navigate to page tree of the site") {
+			Navigator.gotoSitePage(
+				pageName = "Home",
+				siteName = "Site Name");
+
+			PagesFinder.goToPagesFinder();
+		}
+
+		task ("Then: Verify a warning with an exclamation mark next to the name of the collision site page") {
+			SiteTemplates.viewTooltipOfExclamationMark(pageName = "Page1");
+		}
+	}
+
+	@description = "This is a use case for LPS-174465. TC-2: Verify there's an exclamation mark when a friendly URL collision exists and Administrator tries to edit an existing Site Template page."
+	@priority = 3
+	test ViewExclamationMarkWhenEditingExistingSiteTemplatePageWithFriendlyURLCollision {
+		property custom.properties = "feature.flag.LPS-174417=true";
+
+		task ("Given: Add new site template and new site based on this site template") {
+			SiteTemplates.addCP(siteTemplateName = "Site Template Name");
+
+			Site.openSitesAdmin();
+
+			Site.addCP(
+				siteName = "Site Name",
+				siteTemplateName = "Site Template Name",
+				siteTemplateTab = "Custom Site Templates",
+				siteType = "Site Template");
+		}
+
+		task ("When: Add site page in previous site and edit site template page with the same page name") {
+			PagesAdmin.openPagesAdmin(siteURLKey = "Site Name");
+
+			PagesAdmin.addPage(
+				pageName = "Page1",
+				sitePageType = "Widget Page");
+
+			SiteTemplates.addSitePageViaSiteTemplateCP(
+				pageName = "PageX",
+				siteTemplateName = "Site Template Name");
+
+			SiteTemplates.editSitePageViaSiteTemplateCP(
+				conflictPage = "true",
+				friendlyURLEdit = "/page1",
+				layoutName = "PageX",
+				siteTemplateName = "Site Template Name");
+		}
+
+		task ("And: Navigate to page admin of the Site template") {
+			SiteTemplatesNavigator.openPagesAdmin(siteTemplateName = "Site Template Name");
+		}
+
+		task ("Then: Verify a warning with an exclamation mark next to the name of the collision site page") {
+			SiteTemplates.viewTooltipOfExclamationMark(pageName = "PageX");
+		}
+
+		task ("When: Navigate to page tree of the Site template") {
+			SiteTemplatesNavigator.gotoSiteTemplatesPage(
+				pageName = "Home",
+				siteTemplateName = "Site Template Name");
+
+			PagesFinder.goToPagesFinder();
+		}
+
+		task ("Then: Verify a warning with an exclamation mark next to the name of the collision site page") {
+			SiteTemplates.viewTooltipOfExclamationMark(pageName = "PageX");
+		}
+	}
+
+	@description = "This is a use case for LPS-174465. TC-3: Verify there's an exclamation mark when the Site Template's Page has a friendly URL that matches with a non-connecting Site's page friendly URL."
+	@priority = 3
+	test ViewExclamationMarkWhenSiteTemplatePageHavingFriendlyURLCollisionWithNonConnectingSite {
+		property custom.properties = "feature.flag.LPS-174417=true";
+
+		task ("Given: Add new site template and new site based on this site template") {
+			SiteTemplates.addCP(
+				disablePropagation = "true",
+				siteTemplateName = "Site Template Name");
+
+			Site.openSitesAdmin();
+
+			Site.addCP(
+				siteName = "Site Name",
+				siteTemplateName = "Site Template Name",
+				siteTemplateTab = "Custom Site Templates",
+				siteType = "Site Template");
+		}
+
+		task ("When: Add site page in previous site and site template with the same page name") {
+			PagesAdmin.openPagesAdmin(siteURLKey = "Site Name");
+
+			PagesAdmin.addPage(
+				pageName = "Page1",
+				sitePageType = "Widget Page");
+
+			SiteTemplates.addSitePageViaSiteTemplateCP(
+				conflictPage = "true",
+				pageName = "Page1",
+				siteTemplateName = "Site Template Name");
+		}
+
+		task ("And: Navigate to page admin of the Site template") {
+			SiteTemplatesNavigator.openPagesAdmin(siteTemplateName = "Site Template Name");
+		}
+
+		task ("Then: Verify a warning with an exclamation mark next to the name of the collision site page") {
+			SiteTemplates.viewTooltipOfExclamationMark(pageName = "Page1");
+		}
+
+		task ("When: Navigate to page tree of the Site template") {
+			SiteTemplatesNavigator.gotoSiteTemplatesPage(
+				pageName = "Home",
+				siteTemplateName = "Site Template Name");
+
+			PagesFinder.goToPagesFinder();
+		}
+
+		task ("Then: Verify a warning with an exclamation mark next to the name of the collision site page") {
+			SiteTemplates.viewTooltipOfExclamationMark(pageName = "Page1");
+		}
+	}
+
+	@description = "This is a use case for LPS-74081. Site pages with numeric friendly URL's can be imported from LAR files."
+	@priority = 3
+	test ViewImportedSitePageWithNumericFriendlyURL {
+		property test.liferay.virtual.instance = "false";
+		property test.run.type = "single";
+
+		var portalURL = PropsUtil.get("portal.url");
+
+		task ("Given: User add a new Site and 1 page to it, then verify that it has correct friendly URL") {
+			Site.openSitesAdmin();
+
+			HeadlessSite.addSite(siteName = "Export");
+
+			JSONLayout.addPublicLayout(
+				groupName = "Export",
+				layoutName = 1);
+
+			PagesAdmin.openPagesAdmin(siteURLKey = "export");
+
+			PagesAdmin.gotoPageEllipsisMenuItem(
+				menuItem = "Configure",
+				pageName = 1);
+
+			var layoutId1 = JSONLayout.getLayoutIdByName(
+				groupName = "Export",
+				layoutName = 1);
+
+			AssertTextEquals(
+				inputFieldId = "friendlyURL",
+				locator1 = "TextInput#TEXT_INPUT_ID",
+				value1 = "/${layoutId1}");
+		}
+
+		task ("And: Add a second page to the new site then verify that it has correct friendly URL") {
+			JSONLayout.addPublicLayout(
+				groupName = "Export",
+				layoutName = 2);
+
+			PagesAdmin.openPagesAdmin(siteURLKey = "export");
+
+			PagesAdmin.gotoPageEllipsisMenuItem(
+				menuItem = "Configure",
+				pageName = 2);
+
+			var layoutId2 = JSONLayout.getLayoutIdByName(
+				groupName = "Export",
+				layoutName = 2);
+
+			AssertTextEquals(
+				inputFieldId = "friendlyURL",
+				locator1 = "TextInput#TEXT_INPUT_ID",
+				value1 = "/${layoutId2}");
+		}
+
+		task ("And: Add a third page to the new site then verify that it has correct friendly URL") {
+			JSONLayout.addPublicLayout(
+				groupName = "Export",
+				layoutName = "Hello");
+
+			PagesAdmin.openPagesAdmin(siteURLKey = "export");
+
+			PagesAdmin.gotoPageEllipsisMenuItem(
+				menuItem = "Configure",
+				pageName = "Hello");
+
+			AssertTextEquals(
+				inputFieldId = "friendlyURL",
+				locator1 = "TextInput#TEXT_INPUT_ID",
+				value1 = "/hello");
+		}
+
+		task ("When: User export the site as a LAR file and download it") {
+			LAR.exportSiteCP(
+				larFileName = "Export",
+				siteScopeName = "Export");
+
+			var larFileName = LAR.getLarFileName();
+
+			LAR.downloadLar();
+		}
+
+		task ("And: Import the LAR file on a new site") {
+			SiteTemplates.addCP(siteTemplateName = "New Site Template");
+
+			Site.openSitesAdmin();
+
+			Site.addCP(
+				siteName = "New Site",
+				siteTemplateName = "New Site Template",
+				siteTemplateTab = "Custom Site Templates");
+
+			LAR.importSiteCP(
+				larFileName = ${larFileName},
+				siteName = "New Site");
+		}
+
+		task ("Then: The import is successful and all page is present in the expected order") {
+			PagesAdmin.openPagesAdmin(siteURLKey = "new-site");
+
+			PagesAdmin.viewPagesOrder(
+				depth = 1,
+				pageNameList = "Home,1,2,Hello");
+		}
+
+		task ("And: The friendly URLs are correct") {
+			PagesAdmin.gotoPageEllipsisMenuItem(
+				menuItem = "Configure",
+				pageName = 1);
+
+			AssertTextEquals(
+				inputFieldId = "friendlyURL",
+				locator1 = "TextInput#TEXT_INPUT_ID",
+				value1 = "/${layoutId1}");
+
+			PagesAdmin.openPagesAdmin(siteURLKey = "new-site");
+
+			PagesAdmin.gotoPageEllipsisMenuItem(
+				menuItem = "Configure",
+				pageName = 2);
+
+			AssertTextEquals(
+				inputFieldId = "friendlyURL",
+				locator1 = "TextInput#TEXT_INPUT_ID",
+				value1 = "/${layoutId2}");
+
+			PagesAdmin.openPagesAdmin(siteURLKey = "new-site");
+
+			PagesAdmin.gotoPageEllipsisMenuItem(
+				menuItem = "Configure",
+				pageName = "Hello");
+
+			AssertTextEquals(
+				inputFieldId = "friendlyURL",
+				locator1 = "TextInput#TEXT_INPUT_ID",
+				value1 = "/hello");
+		}
+	}
+
+	@description = "This is a use case for LPS-107677. Additional info button should not be present on a newly imported site when it has no difference compared to the site template it was created from."
+	@priority = 3
+	test ViewImportedSitePageWithoutInfoMessage {
+		task ("Given: User add a new Site Template") {
+			SiteTemplates.addCP(
+				siteTemplateActive = "Yes",
+				siteTemplateName = "Site Template Name");
+		}
+
+		task ("And: Create a Site based on the template then check that there is no info message on it") {
+			Site.openSitesAdmin();
+
+			Site.addSiteTemplateCP(
+				siteName = "Site A",
+				siteTemplateName = "Site Template Name",
+				siteTemplateTab = "Custom Site Templates");
+
+			Navigator.gotoSitePage(
+				pageName = "Home",
+				siteName = "Site A");
+
+			SiteTemplates.viewNoInfoMessage();
+		}
+
+		task ("When: User export the Site Template and the Site then download them") {
+			SiteTemplatesNavigator.openSiteTemplatesAdmin();
+
+			LAR.exportPortlet(
+				larFileName = "site-template-name.lar",
+				portletName = "Site Templates");
+
+			LAR.exportSiteCP(siteScopeName = "Site A");
+
+			var key_larFileName = ${larFileName};
+			var larFileName = LAR.getLarFileName();
+
+			LAR.downloadLar();
+		}
+
+		task ("And: Delete the created site template and site") {
+			JSONGroup.deleteGroupByName(groupName = "Site A");
+
+			SiteTemplatesNavigator.openSiteTemplatesAdmin();
+
+			SiteTemplates.deleteCP(siteTemplateName = "Site Template Name");
+		}
+
+		task ("Then: User import the Site Template and the Site") {
+			SiteTemplatesNavigator.openSiteTemplatesAdmin();
+
+			LAR.importPortlet(larFileName = "site-template-name.lar");
+
+			SiteTemplates.viewCP(siteTemplateName = "Site Template Name");
+
+			HeadlessSite.addSite(siteName = "Site B");
+
+			LAR.importSiteCP(
+				larFileName = ${larFileName},
+				siteName = "Site B");
+		}
+
+		task ("And: The Site has no Info message button as there is no difference between the Site and the Site Template") {
+			Navigator.gotoSitePage(
+				pageName = "Home",
+				siteName = "Site B");
+
+			SiteTemplates.viewNoInfoMessage();
+		}
+	}
+
+	@description = "Portlets on the site templates should give guests view permission by default."
+	@priority = 3
+	test ViewInlineGuestPermissionsInSiteTemplatesViaWCD {
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
+
+		task ("Given: User add a new Site Template and a page to it") {
+			SiteTemplates.addCP(siteTemplateName = "Site Template Name");
+
+			SiteTemplates.addSitePageViaSiteTemplateCP(
+				pageName = "Test Page Name",
+				siteTemplateName = "Site Template Name");
+		}
+
+		task ("When: User add a WCD portlet to the page") {
+			SiteTemplatesNavigator.gotoSiteTemplatesPage(
+				pageName = "Test Page Name",
+				siteTemplateName = "Site Template Name");
+
+			Portlet.addPG(
+				defaultURL = "false",
+				portletName = "Web Content Display");
+		}
+
+		task ("Then: The portlet have view permission for guests by default") {
+			SiteTemplatesNavigator.gotoSiteTemplatesPage(
+				pageName = "Test Page Name",
+				siteTemplateName = "Site Template Name");
+
+			PermissionsInline.gotoConfigurationPG(
+				portletName = "Web Content Display",
+				siteTemplate = "true");
+
+			Role.viewPermissionPG(
+				permissionDefinitionKey = "CONTENT_PERMISSIONS_VIEW_CHECKBOX",
+				permissionFlagged = "true",
+				roleTitle = "Guest");
+		}
+	}
+
+	@description = "This is a use case for LPS-92663. Navigation menus are copied when a site is created from a site template."
+	@priority = 3
+	test ViewNavigationMenuCopyFromSitesTemplate {
+		task ("Enable private pages") {
+			PagesAdmin.enablePrivatePages();
+		}
+
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
+
+		task ("Given: User add a new Site Template and 2 page to it") {
+			SiteTemplates.addCP(
+				siteTemplateActive = "Yes",
+				siteTemplateName = "Site Template Name");
+
+			var siteTemplateId = JSONSiteTemplate.getSiteTemplateIdByName(siteTemplateName = "Site Template Name");
+
+			SiteTemplates.addSitePageViaSiteTemplateCP(
+				pageName = "Page1 Name",
+				siteTemplateName = "Site Template Name");
+
+			SiteTemplates.addSitePageViaSiteTemplateCP(
+				pageName = "Page2 Name",
+				siteTemplateName = "Site Template Name");
+		}
+
+		task ("And: Create new page navigation menu item for both template page then verify that they are visible") {
+			NavigationMenusAdmin.openNavigationMenusAdmin(siteURLKey = ${siteTemplateId});
+
+			NavigationMenusAdmin.addMenu(menuName = "Test Navigation Menu Name");
+
+			NavigationMenusAdmin.addItem(
+				item = "Page",
+				pageNameList = "Page1 Name,Page2 Name",
+				privacy = "Private Pages");
+
+			NavigationMenusAdmin.viewItem(itemName = "Page1 Name");
+
+			NavigationMenusAdmin.viewItem(itemName = "Page2 Name");
+		}
+
+		task ("And: Add new navigation menu item for URL of Liferay and Google then verify that they are visible") {
+			NavigationMenusAdmin.addItem(
+				item = "URL",
+				url = "https://www.liferay.com/",
+				urlName = "Liferay");
+
+			NavigationMenusAdmin.viewItem(itemName = "Liferay");
+
+			NavigationMenusAdmin.addItem(
+				item = "URL",
+				url = "https://www.google.com/",
+				urlName = "Google");
+
+			NavigationMenusAdmin.viewItem(itemName = "Google");
+		}
+
+		task ("And: After saving the navigation menu items on the template, they are visible in on the navigation menu") {
+			Navigator.openWithAppendToBaseURL(urlAppend = "group/${siteTemplateId}");
+
+			NavigationMenusWidget.gotoNavigationMenuWidgetConfig();
+
+			NavigationMenusWidget.chooseMenu(menuName = "Test Navigation Menu Name");
+
+			Portlet.saveAndCloseConfig();
+
+			AssertVisible(
+				key_pageName = "Page1 Name",
+				locator1 = "Home#PAGE");
+
+			AssertVisible(
+				key_pageName = "Page2 Name",
+				locator1 = "Home#PAGE");
+
+			AssertVisible(
+				key_pageName = "Liferay",
+				locator1 = "Home#PAGE");
+
+			AssertVisible(
+				key_pageName = "Google",
+				locator1 = "Home#PAGE");
+		}
+
+		task ("When: User create a new Site from the Site Template") {
+			Site.openSitesAdmin();
+
+			Site.addSiteTemplateCP(
+				siteName = "Site Name",
+				siteTemplateName = "Site Template Name",
+				siteTemplateTab = "Custom Site Templates");
+		}
+
+		task ("Then: Navigation menus are inherited from the Site Template") {
+			Navigator.openSiteURL(siteName = "Site Name");
+
+			AssertVisible(
+				key_pageName = "Page1 Name",
+				locator1 = "Home#PAGE");
+
+			AssertVisible(
+				key_pageName = "Page2 Name",
+				locator1 = "Home#PAGE");
+
+			AssertVisible(
+				key_pageName = "Liferay",
+				locator1 = "Home#PAGE");
+
+			AssertVisible(
+				key_pageName = "Google",
+				locator1 = "Home#PAGE");
+		}
+	}
+
+	@description = "This is a use case for LPS-174471. TC-6: An exclamation mark and tooltip with warning disappear next to the specific page's name when edit the friendly URL not to the same."
+	@priority = 3
+	test ViewNoExclamationMarkAfterRemovedFriendlyURLCollision {
+		property custom.properties = "feature.flag.LPS-174417=true";
+
+		task ("Given: Add new site based on the new site template and disable poropagation") {
+			SiteTemplates.addCP(
+				disablePropagation = "true",
+				siteTemplateName = "Site Template Name");
+
+			Site.openSitesAdmin();
+
+			Site.addCP(
+				siteName = "Site Name",
+				siteTemplateName = "Site Template Name",
+				siteTemplateTab = "Custom Site Templates",
+				siteType = "Site Template");
+		}
+
+		task ("And: Add site page in previous site and site template with the same page name") {
+			SiteTemplates.addSitePageViaSiteTemplateCP(
+				pageName = "Page1",
+				siteTemplateName = "Site Template Name");
+
+			PagesAdmin.openPagesAdmin(siteURLKey = "Site Name");
+
+			PagesAdmin.addPageWithConfirm(pageName = "Page1");
+		}
+
+		task ("When: Remove the friendly URL collision") {
+			PagesAdmin.openPagesAdmin(siteURLKey = "Site Name");
+
+			PagesAdmin.gotoPageEllipsisMenuItem(
+				menuItem = "Configure",
+				pageName = "Page1");
+
+			PagesAdmin.editFriendlyURL(friendlyURLEdit = "/pagex");
+		}
+
+		task ("Then: Verify no exclamation mark will display next to the name of the site page") {
+			PagesAdmin.openPagesAdmin(siteURLKey = "Site Name");
+
+			SiteTemplates.viewNoExclamationMark(pageName = "Page1");
+		}
+
+		task ("And: Verify no exclamation mark will display next to the name of the site page") {
+			Navigator.gotoSitePage(
+				pageName = "Home",
+				siteName = "Site Name");
+
+			PagesFinder.goToPagesFinder();
+
+			SiteTemplates.viewNoExclamationMark(pageName = "Page1");
+		}
+	}
+
+	@description = "This is a use case for LPS-113145. Portlet configuration is copied when a site is created from a site template."
+	@priority = 3
+	test ViewPortletConfigurationOfGlobalTemplatesPageCopyFromSitesTemplate {
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
+
+		task ("Enable dynamic and manual selection") {
+			AssetPublisherPortlet.enableDynamicAndManualSelection();
+		}
+
+		task ("Given: User add a new Site Template") {
+			SiteTemplates.addCP(
+				siteTemplateActive = "Yes",
+				siteTemplateName = "Site Template Name");
+		}
+
+		var siteTemplateId = JSONSiteTemplate.getSiteTemplateIdByName(siteTemplateName = "Site Template Name");
+
+		task ("And: Add a page based on Search page template and the created Site Template, disabling change inheritance") {
+			SiteTemplates.addSitePageViaSiteTemplateCP(
+				inheritChanges = "disable",
+				pageName = "Page Name",
+				pageTemplateName = "Search",
+				siteTemplateName = "Site Template Name");
+		}
+
+		task ("When: User add a new AP portlet on the new template page and configure it to manual asset selection") {
+			Navigator.openWithAppendToBaseURL(urlAppend = "group/${siteTemplateId}/page-name");
+
+			Portlet.addPG(portletName = "Asset Publisher");
+
+			AssetPublisherPortlet.configureManualAssetSelectionPG();
+
+			Navigator.openWithAppendToBaseURL(urlAppend = "group/${siteTemplateId}/page-name");
+
+			AssetPublisherPortlet.viewManualAssetSelectionConfigurationPG(portletName = "Asset Publisher");
+		}
+
+		task ("And: Create a new Site fom the Site Template") {
+			Site.openSitesAdmin();
+
+			Site.addSiteTemplateCP(
+				siteName = "Site Name",
+				siteTemplateName = "Site Template Name",
+				siteTemplateTab = "Custom Site Templates");
+		}
+
+		task ("Then: The portlet inherit the configuration from the Site template") {
+			Navigator.gotoSitePage(
+				pageName = "Page Name",
+				siteName = "Site Name");
+
+			AssetPublisherPortlet.viewManualAssetSelectionConfigurationPG(portletName = "Asset Publisher");
+		}
+	}
+
+}

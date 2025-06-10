@@ -1,0 +1,31 @@
+definition {
+
+	@summary = "Default summary"
+	macro viewActiveEntry(breadcrumbName = null) {
+		AssertTextEquals(
+			locator1 = "Breadcrumb#BREADCRUMB_ENTRY_ACTIVE_ENTRY",
+			value1 = ${breadcrumbName});
+	}
+
+	@summary = "Default summary"
+	macro viewPG(breadcrumbListVisible = null, breadcrumbListNotVisible = null) {
+		if (isSet(breadcrumbListVisible)) {
+			for (var breadcrumbName : list ${breadcrumbListVisible}) {
+				var key_breadcrumbName = ${breadcrumbName};
+
+				AssertTextEquals(
+					locator1 = "BreadcrumbPortlet#BREADCRUMB_SPECIFIC_ENTRY",
+					value1 = ${breadcrumbName});
+			}
+		}
+
+		if (isSet(breadcrumbListNotVisible)) {
+			for (var breadcrumbName : list ${breadcrumbListNotVisible}) {
+				AssertElementNotPresent(
+					key_breadcrumbName = ${breadcrumbName},
+					locator1 = "BreadcrumbPortlet#BREADCRUMB_SPECIFIC_ENTRY");
+			}
+		}
+	}
+
+}

@@ -1,0 +1,154 @@
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+
+import ClayForm, {ClayInput} from '@clayui/form';
+import ClayIcon from '@clayui/icon';
+import ClayMultiSelect from '@clayui/multi-select';
+import getCN from 'classnames';
+import PropTypes from 'prop-types';
+import React, {Component} from 'react';
+
+import {PORTAL_TOOLTIP_TRIGGER_CLASS} from '../../utils/constants.es';
+
+/**
+ * Filters out empty items and duplicate items. Compares both label and value
+ * properties.
+ * @param {Array} list A list of label-value objects.
+ */
+function filterDuplicates(list) {
+	const cleanedList = filterEmptyStrings(trimListItems(list));
+
+	return cleanedList.filter(
+		(item, index) =>
+			cleanedList.findIndex(
+				(newVal) =>
+					newVal.label === item.label && newVal.value === item.value
+			) === index
+	);
+}
+
+/**
+ * Filters out empty strings from the passed in array.
+ * @param {Array} list The list of strings to filter.
+ * @returns {Array} The filtered list.
+ */
+function filterEmptyStrings(list) {
+	return list.filter(({label, value}) => label && value);
+}
+
+/**
+ * Transforms a list of strings to label-value objects to pass into
+ * ClayMultiSelect.
+ * @param {Array} list A list of strings.
+ * @returns {Array} A list of label-value objects.
+ */
+function transformListOfStringsToObjects(list) {
+	return list.map((string) => ({label: string, value: string}));
+}
+
+/**
+ * Trims whitespace in list items for ClayMultiSelect.
+ * @param {Array} list A list of label-value objects.
+ */
+function trimListItems(list) {
+	return list.map(({label, value}) => ({
+		label: label.trim(),
+		value: value.trim(),
+	}));
+}
+
+class Alias extends Component {
+	static propTypes = {
+		disabled: PropTypes.bool,
+		keywords: PropTypes.arrayOf(String),
+		onChange: PropTypes.func.isRequired,
+	};
+
+	static defaultProps = {
+		disabled: false,
+	};
+
+	state = {
+		inputValue: '',
+	};
+
+	/*
+	 * Any time the input is blurred, adds the current input value to the
+	 * list of aliases. This ensures that the user does not lose the value
+	 * if they save the Result Ranking without hitting enter or comma.
+	 */
+	_handleBlur = () => {
+		if (this.state.inputValue.trim()) {
+			this.props.onChange(
+				filterDuplicates(
+					transformListOfStringsToObjects([
+						...this.props.keywords,
+						this.state.inputValue,
+					])
+				)
+			);
+		}
+
+		this.setState({inputValue: ''});
+	};
+
+	_handleInputChange = (value) => {
+		this.setState({inputValue: value});
+	};
+
+	_handleItemsChange = (values) => {
+		this.props.onChange(filterDuplicates(values));
+	};
+
+	render() {
+		const {disabled, keywords} = this.props;
+
+		const {inputValue} = this.state;
+
+		return (
+			<ClayForm.Group>
+				<label htmlFor="aliases-input">
+					{Liferay.Language.get('aliases')}
+
+					<span
+						className={getCN(
+							'input-label-help-icon',
+							PORTAL_TOOLTIP_TRIGGER_CLASS
+						)}
+						data-title={Liferay.Language.get('add-an-alias-help')}
+					>
+						<ClayIcon symbol="question-circle-full" />
+					</span>
+				</label>
+
+				<ClayInput.Group>
+					<ClayInput.GroupItem>
+						<ClayMultiSelect
+							disabled={disabled}
+							id="aliases-input"
+							items={transformListOfStringsToObjects(keywords)}
+							onBlur={this._handleBlur}
+							onChange={this._handleInputChange}
+							onItemsChange={this._handleItemsChange}
+							value={inputValue}
+						/>
+
+						{!disabled && (
+							<ClayForm.FeedbackGroup>
+								<ClayForm.Text>
+									{Liferay.Language.get(
+										'add-an-alias-instruction'
+									)}
+								</ClayForm.Text>
+							</ClayForm.FeedbackGroup>
+						)}
+					</ClayInput.GroupItem>
+				</ClayInput.Group>
+			</ClayForm.Group>
+		);
+	}
+}
+
+export default Alias;

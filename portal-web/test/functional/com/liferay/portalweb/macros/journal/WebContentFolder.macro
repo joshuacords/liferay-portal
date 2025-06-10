@@ -1,0 +1,211 @@
+definition {
+
+	@summary = "Default summary"
+	macro addCP(folderDescription = null, folderName = null) {
+		var key_webContentTitle = ${folderName};
+
+		LexiconEntry.gotoAdd();
+
+		if (IsElementPresent(key_menuItem = "Folder", locator1 = "MenuItem#ANY_MENU_ITEM")) {
+			MenuItem.click(menuItem = "Folder");
+		}
+
+		PortletEntry.inputName(name = ${folderName});
+
+		PortletEntry.inputDescription(description = ${folderDescription});
+
+		PortletEntry.save();
+
+		LexiconEntry.changeDisplayStyle(displayStyle = "list");
+
+		LexiconEntry.viewActiveDisplayStyle(displayStyle = "list");
+
+		AssertElementPresent(locator1 = "WC#ENTRY_LIST_THUMBNAIL");
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "WC#ENTRY_LIST_TITLE",
+			value1 = ${folderName});
+	}
+
+	@summary = "Default summary"
+	macro addSubfolderCP(subfolderName = null, subfolderDescription = null, folderName = null) {
+		var key_webContentTitle = ${folderName};
+
+		LexiconEntry.changeDisplayStyle(displayStyle = "list");
+
+		Click(
+			locator1 = "WC#ENTRY_LIST_TITLE",
+			value1 = ${folderName});
+
+		AssertTextEquals(
+			locator1 = "Portlet#HEADER",
+			value1 = "Web Content");
+
+		LexiconEntry.gotoAdd();
+
+		if (IsElementPresent(key_menuItem = "Subfolder", locator1 = "MenuItem#ANY_MENU_ITEM")) {
+			MenuItem.click(menuItem = "Subfolder");
+		}
+
+		PortletEntry.inputName(name = ${subfolderName});
+
+		PortletEntry.inputDescription(description = ${subfolderDescription});
+
+		Button.clickSave();
+
+		var key_webContentTitle = ${subfolderName};
+
+		Alert.viewSuccessMessage();
+
+		AssertElementPresent(locator1 = "WC#ENTRY_LIST_THUMBNAIL");
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "WC#ENTRY_LIST_TITLE",
+			value1 = ${subfolderName});
+	}
+
+	@summary = "Default summary"
+	macro checkSubfolderPermissions(subfolder = null, folderName = null) {
+		var key_webContentTitle = ${folderName};
+
+		LexiconEntry.changeDisplayStyle(displayStyle = "list");
+
+		Click(
+			locator1 = "WC#ENTRY_LIST_TITLE",
+			value1 = ${folderName});
+
+		AssertTextEquals(
+			locator1 = "Portlet#HEADER",
+			value1 = "Web Content");
+
+		MouseOver(locator1 = "Button#PLUS");
+
+		if (${subfolder} == "false") {
+			MenuItem.viewNotPresent(menuItem = "Subfolder");
+		}
+		else {
+			MenuItem.viewPresent(menuItem = "Subfolder");
+		}
+	}
+
+	@summary = "Default summary"
+	macro configureWorkflowCP(workflowRestriction = null, workflowDefinition = null, structureName = null, folderName = null) {
+		WebContentFolder.gotoEditCP(
+			folderName = ${folderName},
+			webContentTitle = ${folderName});
+
+		if (IsElementNotPresent.isNotVisible(locator1 = "Radio#WORKFLOW_PARENT_FOLDER")) {
+			Click(locator1 = "WCEditFolder#WORKFLOW_STRUCTURE_RESTRICTIONS_TOGGLE");
+		}
+
+		if (${workflowRestriction} == "Parent Folder") {
+			Click(locator1 = "Radio#WORKFLOW_PARENT_FOLDER");
+		}
+		else if (${workflowRestriction} == "Specific Restrictions") {
+			Click(locator1 = "Radio#WORKFLOW_SPECIFIC_RESTRICTIONS");
+
+			AssertClick(
+				locator1 = "WCEditFolder#WORKFLOW_SPECIFIC_RESTRICTIONS_CHOOSE_STRUCTURE_BUTTON",
+				value1 = "Choose Structure");
+
+			SelectFrame(value1 = "relative=top");
+
+			SelectFrame(locator1 = "IFrame#MODAL_BODY");
+
+			AssertClickNoError(
+				key_tableEntry = ${structureName},
+				locator1 = "LexiconTable#TABLE_ENTRY_TITLE",
+				value1 = ${structureName});
+
+			SelectFrame(value1 = "relative=top");
+
+			Select(
+				key_ddlDataDefinitionName = ${structureName},
+				locator1 = "WCEditFolder#WORKFLOW_SPECIFIC_RESTRICTIONS_STRUCTURE_WORKFLOW_SELECT",
+				value1 = ${workflowDefinition});
+		}
+		else if (${workflowRestriction} == "Default Workflow") {
+			Click(locator1 = "Radio#WORKFLOW_DEFAULT_WORKFLOW");
+
+			Select(
+				locator1 = "Select#WORKFLOW_DEFAULT",
+				value1 = ${workflowDefinition});
+		}
+
+		PortletEntry.save();
+	}
+
+	@summary = "Default summary"
+	macro gotoCP(webContentTitle = null, folderName = null) {
+		LexiconEntry.changeDisplayStyle(displayStyle = "list");
+
+		var key_webContentTitle = ${webContentTitle};
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "WC#ENTRY_LIST_TITLE",
+			value1 = ${folderName});
+
+		AssertClick(
+			locator1 = "WC#ENTRY_LIST_TITLE",
+			value1 = ${folderName});
+
+		AssertTextEquals(
+			locator1 = "Portlet#HEADER",
+			value1 = "Web Content");
+	}
+
+	@summary = "Default summary"
+	macro gotoEditCP(webContentTitle = null, folderName = null) {
+		var key_webContentTitle = ${folderName};
+
+		LexiconEntry.changeDisplayStyle(displayStyle = "list");
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "WC#ENTRY_LIST_TITLE",
+			value1 = ${webContentTitle});
+
+		Click(locator1 = "WC#ENTRY_LIST_MENULIST_ICON");
+
+		MenuItem.click(menuItem = "Edit");
+	}
+
+	@summary = "Default summary"
+	macro moveToRecycleBinCP(folderName = null) {
+		LexiconEntry.changeDisplayStyle(displayStyle = "list");
+
+		var key_webContentTitle = ${folderName};
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "WC#ENTRY_LIST_TITLE",
+			value1 = ${folderName});
+
+		WebContentNavigator.gotoEntryMenuItem(
+			entry = ${folderName},
+			menuItem = "Delete");
+
+		VerifyElementPresent(locator1 = "Message#SUCCESS");
+	}
+
+	@summary = "Default summary"
+	macro selectFolderTreeNode(nodeName = null) {
+		Portlet.expandTree();
+
+		Click(
+			key_nodeName = ${nodeName},
+			locator1 = "Treeview#NODE_ITEM");
+	}
+
+	@summary = "Default summary"
+	macro viewFolderWorkflow(workflowResourceValue = null, folderName = null) {
+		WebContentFolder.gotoEditCP(
+			folderName = ${folderName},
+			webContentTitle = ${folderName});
+
+		var key_workflowResourceValue = ${workflowResourceValue};
+
+		AssertTextEquals(
+			locator1 = "WCEditFolder#WORKFLOW_FOLDER_WORKFLOW",
+			value1 = ${workflowResourceValue});
+	}
+
+}

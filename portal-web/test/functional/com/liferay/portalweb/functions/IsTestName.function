@@ -1,0 +1,11 @@
+@default = "isTestName"
+@summary = "Evaluate the current test name."
+definition {
+
+	function isTestName(value1) {
+		WaitForSPARefresh();
+
+		selenium.isTestName(${value1});
+	}
+
+}

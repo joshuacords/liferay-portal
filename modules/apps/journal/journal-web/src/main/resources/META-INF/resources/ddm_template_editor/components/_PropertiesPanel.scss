@@ -1,0 +1,23 @@
+@import 'atlas-variables';
+
+.journal-ddm-template-properties {
+	.article-structure,
+	.collapse-icon,
+	.control-label,
+	.form-group .icon-help {
+		font-size: 0.75rem;
+	}
+
+	.form-group .icon-help {
+		cursor: pointer;
+	}
+
+	.input-localized-trigger {
+		height: 2rem;
+		padding-bottom: 0.1875rem;
+		padding-left: 0;
+		padding-right: 0;
+		padding-top: 0.1875rem;
+		width: 2rem;
+	}
+}

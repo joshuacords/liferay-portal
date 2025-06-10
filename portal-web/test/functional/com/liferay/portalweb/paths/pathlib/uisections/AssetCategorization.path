@@ -1,0 +1,86 @@
+<html>
+<head>
+<title>AssetCategorization</title>
+</head>
+
+<body>
+<table border="1" cellpadding="1" cellspacing="1">
+<thead>
+<tr><td rowspan="1" colspan="3">AssetCategorization</td></tr>
+</thead>
+
+<tbody>
+<tr>
+	<td>CATEGORIES_FIELD</td>
+	<td>//div[@class='field-content'][contains(.,'${key_vocabularyName}')]//input[@class='form-control-inset']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CATEGORY</td>
+	<td>//div[contains(@id,'assetCategoriesSelector') or contains(@class,'field-content')]//span[contains(.,'${key_categoryName}')]/parent::span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CATEGORY_BY_INDEX</td>
+	<td>xpath=(//label[normalize-space()='${key_vocabularyName}']//following-sibling::div//span[contains(@class,'label') and contains(@role,'row')])[${index}][normalize-space()='${key_categoryName}']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CATEGORY_SELECT</td>
+	<td>//div[@class='field-content'][contains(.,'${key_vocabularyName}')]//button[contains(.,'Select')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CATEGORY_AUTOCOMPLETE_SPECIFIC</td>
+	<td>//div[contains(@class,'dropdown-menu')]//ul/li//button[.='${key_categoryName}']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ITEM_REMOVE</td>
+	<td>//span[(contains(@class,'label-secondary'))][contains(.,'${key_itemName}')]//button[contains(@class,'close')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>VOCABULARY</td>
+	<td>//span[@class='field-content']/label</td>
+	<td></td>
+</tr>
+<tr>
+	<td>VOCABULARY_LIST_ITEM</td>
+	<td>//*[@class='field-content']//label[normalize-space(text())='${key_fieldLabel}']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>TAG</td>
+	<td>//div[contains(@id,'assetTagsSelector')]//span[(contains(@class,'label-item'))][contains(.,'${key_tagName}')] | //label[normalize-space(text())='Tags']//following-sibling::div[contains(@class,'input-group')]//span[(contains(@class,'label-item'))][contains(.,'${key_tagName}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>TAGS_FIELD</td>
+	<td>//div[contains(@id,'assetTagsSelector')]//input[@class='form-control-inset']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>TAG_AUTOCOMPLETE_CONTAINER</td>
+	<td>//div[contains(@class,'dropdown-menu')][contains(@class,'show')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>TAG_AUTOCOMPLETE_SPECIFIC</td>
+	<td>//div[contains(@class,'dropdown-menu')]/ul[contains(@class,'list-unstyled')]//button[.='${key_tagName}']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>TAGS_REMOVE_ICON_GENERIC</td>
+	<td>//span[(contains(@class,'label-item'))]//button[contains(@class,'close')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>TAGS_FRAGMENT_BY_ROW</td>
+	<td>//form//div[contains(@class,"tagsinputfragmentrenderer")][${key_tagRow}]//button</td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

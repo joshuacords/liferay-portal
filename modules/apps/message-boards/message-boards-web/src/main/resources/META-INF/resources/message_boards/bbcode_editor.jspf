@@ -1,0 +1,38 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<%
+if (Validator.isNull(body)) {
+	if (quote && (curParentMessage != null)) {
+		body = MBUtil.getBBCodeQuoteBody(request, curParentMessage);
+	}
+	else if (splitThread) {
+		body = MBUtil.getBBCodeSplitThreadBody(request);
+	}
+}
+
+Editor editor = InputEditorTag.getEditor(request, "ckeditor_bbcode");
+%>
+
+<liferay-editor:editor
+	allowBrowseDocuments="<%= false %>"
+	contents="<%= body %>"
+	editorName="<%= editor.getName() %>"
+	fileBrowserParams='<%=
+		HashMapBuilder.put(
+			"categoryId", String.valueOf(categoryId)
+		).build()
+	%>'
+	name="bodyEditor"
+	placeholder="body"
+/>
+
+<aui:script>
+	function <portlet:namespace />getHTML() {
+		return window.<portlet:namespace />bodyEditor.getHTML();
+	}
+</aui:script>

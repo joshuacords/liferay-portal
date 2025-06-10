@@ -1,0 +1,33 @@
+#
+# SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+# SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+#
+
+from pyspark import SparkConf
+
+from abc import ABCMeta, abstractmethod
+from pyspark.sql.functions import udf
+from pyspark.sql.types import DoubleType
+from pyspark.sql.types import StringType
+from liferay.common.pubsub import PubSubBridge
+from liferay.common.spark import SparkJobPipeline, \
+	BaseSparkApplication
+from liferay.content_recommendation.job import GenerateUserItemInteractionsSparkJob, \
+	WriteRecommendedItemsSparkJob, \
+	ReadAnalyticsEventsSparkJob, \
+	PublishJobRunSparkJob, \
+	ReadRecommendedItemsSparkJob, \
+	WriteUserItemInteractionsSparkJob, \
+	GenerateItemsSparkJob
+from pyspark.ml.linalg import DenseVector, VectorUDT
+import sys
+import os
+
+import logging
+import argparse
+
+def test():
+	from liferay.common.configuration import Configuration2, Configuration1
+	from liferay.common.spark import BaseSparkApplication2, BaseSparkApplication1
+
+	return

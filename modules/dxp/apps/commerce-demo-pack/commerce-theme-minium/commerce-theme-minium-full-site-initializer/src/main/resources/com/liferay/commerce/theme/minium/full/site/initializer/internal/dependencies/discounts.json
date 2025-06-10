@@ -1,0 +1,15 @@
+[
+	{
+		"active": true,
+		"categories": [
+			"Brake System"
+		],
+		"level": "L1",
+		"level1": 20,
+		"maximumDiscountAmount": 100,
+		"neverExpire": true,
+		"title": "Summer Savings",
+		"useCouponCode": false,
+		"usePercentage": true
+	}
+]

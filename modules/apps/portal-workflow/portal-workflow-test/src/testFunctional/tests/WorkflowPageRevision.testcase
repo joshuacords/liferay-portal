@@ -1,0 +1,465 @@
+@component-name = "portal-bpm"
+definition {
+
+	property portal.release = "true";
+	property portal.upstream = "true";
+	property testray.main.component.name = "Workflow";
+
+	var page = "Public Pages";
+	var pageName = "Site Page Name";
+	var siteName = "Site Name";
+	var workflowAssetType = "Page Revision";
+
+	setUp {
+		TestCase.setUpPortalInstance();
+
+		User.firstLoginPG();
+
+		HeadlessSite.addSite(siteName = "Site Name");
+
+		JSONLayout.addPublicLayout(
+			groupName = "Site Name",
+			layoutName = "Site Page Name");
+
+		JSONStaging.enableLocalStaging(
+			branchingPrivate = "true",
+			branchingPublic = "true",
+			groupName = "Site Name");
+
+		PagesAdmin.openPagesAdmin(siteURLKey = "Site Name");
+
+		ProductMenu.gotoPortlet(
+			category = "Configuration",
+			panel = "Site Administration",
+			portlet = "Workflow");
+
+		Workflow.configureWorkflow(
+			workflowDefinition = "Single Approver",
+			workflowResourceValue = "Page Revision");
+	}
+
+	tearDown {
+		var testLiferayVirtualInstance = PropsUtil.get("test.liferay.virtual.instance");
+
+		if (${testLiferayVirtualInstance} == "true") {
+			PortalInstances.tearDownCP();
+		}
+		else {
+			Site.tearDownCP();
+
+			Workflow.tearDownPortalWorkflow();
+
+			Workflow.tearDownSiteWorkflow();
+		}
+	}
+
+	@description = "Verify that the Submit for Workflow button is not available after the Page is submitted for publication"
+	@priority = 3
+	test ButtonNotAvailableAfterSubmitForWorkflow {
+		Navigator.gotoStagedSitePage(
+			pageName = "Site Page Name",
+			siteName = "Site Name");
+
+		Portlet.addPG(
+			pageName = "Site Page Name",
+			portletName = "Blogs");
+
+		Page.viewWithWorkflowPG(
+			pageName = "Site Page Name",
+			workflowStatus = "Draft");
+
+		Staging.submitForWorkflowPageRevision();
+
+		AssertElementNotPresent(locator1 = "Staging#STAGING_MENU_SUBMIT_FOR_WORKFLOW");
+	}
+
+	@description = "Verify that, after approval, the Page status is Ready for Publish"
+	@priority = 4
+	test PageIsReadyForPublishAfterApproval {
+		property test.liferay.virtual.instance = "false";
+		property test.run.type = "single";
+
+		Navigator.gotoStagedSitePage(
+			pageName = "Site Page Name",
+			siteName = "Site Name");
+
+		Portlet.addPG(
+			pageName = "Site Page Name",
+			portletName = "Blogs");
+
+		Staging.submitForWorkflowPageRevision();
+
+		UserBar.gotoDropdownItem(dropdownItem = "My Workflow Tasks");
+
+		Workflow.assignToMeTaskByActions(
+			workflowAssetTitle = "Site Page Name",
+			workflowAssetType = "Page Revision",
+			workflowTask = "Review");
+
+		Workflow.approveTaskByActions(
+			workflowAssetTitle = "Site Page Name",
+			workflowAssetType = "Page Revision",
+			workflowTask = "Review");
+
+		Navigator.gotoStagedSitePage(
+			pageName = "Site Page Name",
+			siteName = "Site Name");
+
+		Workflow.viewWorkflowStatus(status = "Ready for Publish Process");
+	}
+
+	@priority = 4
+	test RejectPageRevisionPG {
+		property test.liferay.virtual.instance = "false";
+		property test.run.type = "single";
+
+		var pageName = "Page Revision Page";
+
+		Navigator.gotoStagedSitePage(
+			pageName = "Site Page Name",
+			siteName = "Site Name");
+
+		ProductMenu.gotoPortlet(
+			category = "Site Builder",
+			panel = "Site Administration",
+			portlet = "Pages");
+
+		PagesAdmin.addPage(pageName = ${pageName});
+
+		Navigator.gotoStagedSitePage(
+			pageName = ${pageName},
+			siteName = ${siteName});
+
+		Staging.submitForWorkflowPageRevision();
+
+		Navigator.gotoStagedSitePage(
+			pageName = ${pageName},
+			siteName = ${siteName});
+
+		Page.viewWithWorkflowPG(
+			livePage = "true",
+			pageName = ${pageName},
+			workflowStatus = "Pending (Review)");
+
+		UserBar.gotoDropdownItem(dropdownItem = "My Workflow Tasks");
+
+		Workflow.assignToMeTaskByActions(
+			workflowAssetTitle = ${pageName},
+			workflowAssetType = ${workflowAssetType},
+			workflowTask = "Review");
+
+		Navigator.gotoStagedSitePage(
+			pageName = ${pageName},
+			siteName = ${siteName});
+
+		Page.viewWithWorkflowPG(
+			livePage = "true",
+			pageName = ${pageName},
+			workflowStatus = "Pending (Review)");
+
+		UserBar.gotoDropdownItem(dropdownItem = "My Workflow Tasks");
+
+		Workflow.rejectTaskByActions(
+			workflowAssetTitle = ${pageName},
+			workflowAssetType = ${workflowAssetType},
+			workflowTask = "Review");
+
+		UserBar.gotoDropdownItem(dropdownItem = "My Workflow Tasks");
+
+		Workflow.viewRejectedTask(
+			workflowAssetTitle = ${pageName},
+			workflowAssetType = ${workflowAssetType});
+
+		Navigator.gotoStagedSitePage(
+			pageName = ${pageName},
+			siteName = ${siteName});
+
+		Page.viewWithWorkflowPG(
+			livePage = "true",
+			pageName = ${pageName},
+			workflowStatus = "Pending (Update)");
+
+		Navigator.gotoStagedSitePage(
+			pageName = ${pageName},
+			siteName = ${siteName});
+
+		Staging.gotoPublishToLive();
+
+		Staging.publishToLive();
+
+		Navigator.gotoStagedSitePage(
+			pageName = ${pageName},
+			siteName = ${siteName});
+
+		Page.viewWithWorkflowPG(
+			livePage = "true",
+			pageName = ${pageName},
+			workflowStatus = "Pending (Update)");
+	}
+
+	@description = "Verify that when the Approved page is edited it's status comes to Draft"
+	@priority = 3
+	test StatusComesToDraftWhenPageIsEdited {
+		property test.liferay.virtual.instance = "false";
+		property test.run.type = "single";
+
+		Navigator.gotoStagedSitePage(
+			pageName = "Site Page Name",
+			siteName = "Site Name");
+
+		Portlet.addPG(
+			pageName = "Site Page Name",
+			portletName = "Blogs");
+
+		Staging.submitForWorkflowPageRevision();
+
+		UserBar.gotoDropdownItem(dropdownItem = "My Workflow Tasks");
+
+		Workflow.assignToMeTaskByActions(
+			workflowAssetTitle = "Site Page Name",
+			workflowAssetType = "Page Revision",
+			workflowTask = "Review");
+
+		Workflow.approveTaskByActions(
+			workflowAssetTitle = "Site Page Name",
+			workflowAssetType = "Page Revision",
+			workflowTask = "Review");
+
+		Navigator.gotoStagedSitePage(
+			pageName = "Site Page Name",
+			siteName = "Site Name");
+
+		Portlet.deletePG(portletName = "Blogs");
+
+		Workflow.viewWorkflowStatus(status = "Draft");
+	}
+
+	@description = "Verify that a Staging Area Page is Pending after it is submitted for publication"
+	@priority = 5
+	test StatusIsPendingAfterSubmitForWorkflow {
+		property test.liferay.virtual.instance = "false";
+		property test.run.type = "single";
+
+		SearchAdministration.executeReindex();
+
+		Navigator.gotoStagedSitePage(
+			pageName = ${pageName},
+			siteName = ${siteName});
+
+		Portlet.addPG(
+			pageName = ${pageName},
+			portletName = "Blogs");
+
+		Page.viewWithWorkflowPG(
+			pageName = ${pageName},
+			workflowStatus = "Draft");
+
+		Staging.submitForWorkflowPageRevision();
+	}
+
+	@description = "Verify that when the Approved page is edited the button Submit for Workflow is displayed"
+	@priority = 3
+	test SubmitForWorkflowButtonIsDisplayedWhenPageIsEdited {
+		property test.liferay.virtual.instance = "false";
+		property test.run.type = "single";
+
+		Navigator.gotoStagedSitePage(
+			pageName = ${pageName},
+			siteName = ${siteName});
+
+		Portlet.addPG(
+			pageName = ${pageName},
+			portletName = "Blogs");
+
+		Staging.submitForWorkflowPageRevision();
+
+		AssertElementNotPresent(locator1 = "Staging#STAGING_MENU_SUBMIT_FOR_WORKFLOW");
+
+		UserBar.gotoDropdownItem(dropdownItem = "My Workflow Tasks");
+
+		Workflow.assignToMeTaskByActions(
+			workflowAssetTitle = ${pageName},
+			workflowAssetType = "Page Revision",
+			workflowTask = "Review");
+
+		Workflow.approveTaskByActions(
+			workflowAssetTitle = ${pageName},
+			workflowAssetType = "Page Revision",
+			workflowTask = "Review");
+
+		Navigator.gotoStagedSitePage(
+			pageName = ${pageName},
+			siteName = ${siteName});
+
+		Portlet.addPG(
+			pageName = ${pageName},
+			portletName = "Message Boards");
+
+		AssertElementPresent(locator1 = "Staging#STAGING_MENU_SUBMIT_FOR_WORKFLOW");
+	}
+
+	@description = "This is a use case for LPS-65319."
+	@priority = 5
+	test ViewApprovedPageAfterStagingDeactivated {
+		property portal.acceptance = "true";
+		property test.liferay.virtual.instance = "false";
+		property test.run.type = "single";
+
+		var pageName = "New Site Page Name";
+
+		Navigator.gotoStagedSitePage(
+			pageName = "Site Page Name",
+			siteName = ${siteName});
+
+		ProductMenu.gotoPortlet(
+			category = "Site Builder",
+			panel = "Site Administration",
+			portlet = "Pages");
+
+		PagesAdmin.addPage(pageName = ${pageName});
+
+		Navigator.gotoStagedSitePage(
+			pageName = ${pageName},
+			siteName = ${siteName});
+
+		Staging.submitForWorkflowPageRevision();
+
+		Navigator.gotoStagedSitePage(
+			pageName = ${pageName},
+			siteName = ${siteName});
+
+		Page.viewWithWorkflowPG(
+			livePage = "true",
+			pageName = ${pageName},
+			workflowStatus = "Pending (Review)");
+
+		UserBar.gotoDropdownItem(dropdownItem = "My Workflow Tasks");
+
+		Workflow.assignToMeTaskByActions(
+			workflowAssetTitle = ${pageName},
+			workflowAssetType = ${workflowAssetType},
+			workflowTask = "Review");
+
+		Workflow.approveTaskByActions(
+			workflowAssetTitle = ${pageName},
+			workflowAssetType = ${workflowAssetType},
+			workflowTask = "Review");
+
+		Navigator.gotoStagedSitePage(
+			pageName = ${pageName},
+			siteName = ${siteName});
+
+		Page.viewWithWorkflowPG(
+			livePage = "true",
+			pageName = ${pageName},
+			workflowStatus = "Ready for Publication");
+
+		Navigator.gotoStagedSitePage(
+			pageName = ${pageName},
+			siteName = ${siteName});
+
+		Staging.gotoPublishToLive();
+
+		Staging.publishToLive();
+
+		ProductMenu.gotoStagingSite(site = ${siteName});
+
+		ProductMenu.gotoPortlet(
+			category = "Publishing",
+			panel = "Site Administration",
+			portlet = "Staging");
+
+		Staging.deactivateStagingCP(siteName = ${siteName});
+
+		UserBar.gotoDropdownItem(dropdownItem = "My Workflow Tasks");
+
+		Navigator.gotoNavTab(navTab = "Assigned to Me");
+
+		Workflow.viewCompletedTasksTaskNotPresentCP(workflowAssetTitle = ${pageName});
+
+		Navigator.openSiteURL(siteName = ${siteName});
+
+		ProductMenu.gotoPortlet(
+			category = "Site Builder",
+			panel = "Site Administration",
+			portlet = "Pages");
+
+		PagesAdmin.deletePage(pageName = ${pageName});
+	}
+
+	@description = "This is a use case for LPS-58754"
+	@priority = 3
+	test WithdrawWorkflowSubmissionFromRemovedUser {
+		property custom.properties = "jsonws.web.service.paths.excludes=";
+
+		JSONUser.addUser(
+			userEmailAddress = "user@liferay.com",
+			userFirstName = "userfn",
+			userLastName = "userln",
+			userScreenName = "usersn");
+
+		JSONUser.setFirstPassword(
+			agreeToTermsAndAnswerReminderQuery = "true",
+			requireReset = "false",
+			userEmailAddress = "user@liferay.com");
+
+		JSONUser.addUserToSite(
+			groupName = "Site Name",
+			userEmailAddress = "user@liferay.com");
+
+		JSONRole.assignSiteRoleToUser(
+			groupName = "Site Name",
+			roleTitle = "Site Administrator",
+			userEmailAddress = "user@liferay.com");
+
+		User.logoutAndLoginPG(
+			userLoginEmailAddress = "user@liferay.com",
+			userScreenName = "usersn");
+
+		Navigator.gotoStagedSitePage(
+			pageName = "Site Page Name",
+			siteName = "Site Name");
+
+		Portlet.addPG(portletName = "Web Content Display");
+
+		Staging.submitForWorkflowPageRevision();
+
+		User.logoutAndLoginPG(
+			userLoginEmailAddress = "test@liferay.com",
+			userScreenName = "Test Test");
+
+		UserBar.gotoDropdownItem(dropdownItem = "My Workflow Tasks");
+
+		Workflow.assignToMeTaskByActions(
+			workflowAssetTitle = "Site Page Name",
+			workflowAssetType = "Page Revision",
+			workflowTask = "Review");
+
+		Workflow.rejectTaskByActions(
+			workflowAssetTitle = "Site Page Name",
+			workflowAssetType = "Page Revision",
+			workflowTask = "Review");
+
+		Navigator.openSiteURL(siteName = "Site Name");
+
+		ProductMenu.gotoPortlet(
+			category = "Configuration",
+			panel = "Site Administration",
+			portlet = "Workflow");
+
+		Workflow.configureWorkflow(
+			workflowDefinition = "No Workflow",
+			workflowResourceValue = "Page Revision");
+
+		User.openUsersAdmin();
+
+		User.deactivateCP(userFirstName = "userfn");
+
+		User.deleteCP();
+
+		ObjectAdmin.openSubmissions();
+
+		Workflow.viewDefaultWorkflowSubmissions();
+	}
+
+}

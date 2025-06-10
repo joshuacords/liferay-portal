@@ -1,0 +1,10 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<aui:input cssClass="lfr-input-text-container" label="first-name-attribute" name='<%= PortalSettingsOpenSSOConstants.FORM_PARAMETER_NAMESPACE + "firstNameAttr" %>' type="text" value="<%= firstNameAttr %>" />
+
+<aui:input cssClass="lfr-input-text-container" label="last-name-attribute" name='<%= PortalSettingsOpenSSOConstants.FORM_PARAMETER_NAMESPACE + "lastNameAttr" %>' type="text" value="<%= lastNameAttr %>" />

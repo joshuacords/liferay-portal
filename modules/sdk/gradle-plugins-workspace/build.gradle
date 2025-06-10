@@ -1,0 +1,88 @@
+import de.undercouch.gradle.tasks.download.Download
+
+apply plugin: "de.undercouch.download"
+
+task downloadNodeInfo(type: Download)
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+
+String gradleVersion = "8.5"
+
+if (Boolean.getBoolean("gradle.test.enabled")) {
+	apply from: "test.gradle"
+}
+
+tasks.eclipse {
+	ext.gradleVersion = gradleVersion
+}
+
+cleanCopyLibs {
+	enabled = false
+}
+
+configurations {
+	portalTestSnapshot {
+		exclude group: "com.liferay.portal", module: "com.liferay.portal.impl"
+		exclude group: "com.liferay.portal", module: "com.liferay.portal.kernel"
+	}
+
+	runtimeClasspath {
+		exclude group: "biz.aQute.bnd", module: "biz.aQute.bnd"
+	}
+}
+
+dependencies {
+	compileOnly fileTree(builtBy: [rootProject.tasks.getByName("extractGradleApi" + gradleVersion.replace(".", ""))], dir: new File(rootProject.buildDir, "gradle-${gradleVersion}"))
+
+	implementation group: "biz.aQute.bnd", name: "biz.aQute.bndlib", version: "6.4.0"
+	implementation group: "com.bmuschko", name: "gradle-docker-plugin", version: "6.7.0"
+	implementation group: "com.fasterxml.jackson.dataformat", name: "jackson-dataformat-yaml", version: "2.18.1"
+	implementation group: "com.liferay", name: "com.liferay.gradle.plugins", version: "16.0.73"
+	implementation group: "com.liferay", name: "com.liferay.gradle.plugins.poshi.runner", version: "4.0.22"
+	implementation group: "com.liferay", name: "com.liferay.gradle.plugins.target.platform", version: "4.0.1"
+	implementation group: "com.liferay", name: "com.liferay.gradle.plugins.theme.builder", version: "2.0.28"
+	implementation group: "com.liferay", name: "com.liferay.portal.tools.bundle.support", version: "3.7.7"
+	implementation(group: "com.liferay", name: "com.liferay.portal.tools.soy.builder", version: "3.0.7") {
+		exclude group: "com.google.template", module: "soy"
+		exclude group: "org.codehaus.plexus"
+		exclude group: "org.sonatype.plexus"
+	}
+	implementation group: "com.liferay", name: "com.liferay.release.util", version: "1.0.0"
+	implementation group: "de.undercouch", name: "gradle-download-task", version: "5.4.0"
+	implementation group: "net.saliman", name: "gradle-properties-plugin", version: "1.4.6"
+
+	runtimeOnly group: "com.liferay", name: "com.liferay.ant.bnd", version: "3.2.14"
+	runtimeOnly group: "net.java.dev.jna", name: "jna", version: "5.8.0"
+	runtimeOnly group: "org.ow2.asm", name: "asm", version: "9.7"
+}
+
+downloadNodeInfo {
+	dest new File(buildDir, ".node_info.json")
+	onlyIfNewer true
+	src "https://nodejs.org/dist/index.json"
+}
+
+eclipse.classpath.file {
+	whenMerged {
+		classpath ->
+
+		classpath.entries.removeAll {
+			entry -> (entry.kind == "src") && (entry.path == "build/gradleTest/src/groovy")
+		}
+	}
+}
+
+liferayOSGi {
+	expandCompileInclude = true
+}
+
+processResources {
+	from downloadNodeInfo
+}
+
+updateFileVersions {
+	match(/name: "com\.liferay\.gradle\.plugins\.workspace", version: "(\d.+)"/, "../../../modules/sdk/project-templates/project-templates-workspace/src/main/resources/archetype-resources/settings.gradle")
+	match(/name: "com\.liferay\.gradle\.plugins\.workspace", version: "(\d.+)"/, "../../../workspaces/liferay-sample-workspace/settings.gradle")
+	match(/name: "com\.liferay\.gradle\.plugins\.workspace", version: "(\d.+)"/, "../../../workspaces/refresh_liferay_sample_workspace.sh")
+}

@@ -1,0 +1,85 @@
+definition {
+
+	@summary = "Preview page on ${deviceType}"
+	macro previewPG(deviceType = null, applyCustomSize = null, width = null, height = null) {
+		Click.waitForMenuToggleJSClick(locator1 = "ControlMenu#SIMULATION");
+
+		AssertElementNotPresent(locator1 = "IFrame#LOADING_MESSAGE");
+
+		var key_deviceType = ${deviceType};
+
+		if (${deviceType} == "smartphone") {
+			takeScreenshot();
+
+			Click(
+				key_deviceType = "Mobile",
+				locator1 = "ControlMenuPreviewPanel#PREVIEW_DATA_DEVICE_BUTTON");
+
+			AssertElementPresent(locator1 = "ControlMenuPreviewPanel#PREVIEW_DEVICE_IFRAME");
+
+			takeScreenshot();
+		}
+		else if (${deviceType} == "tablet") {
+			Click(
+				key_deviceType = "Tablet",
+				locator1 = "ControlMenuPreviewPanel#PREVIEW_DATA_DEVICE_BUTTON");
+
+			takeScreenshot();
+
+			Click(
+				key_deviceType = "Tablet",
+				locator1 = "ControlMenuPreviewPanel#PREVIEW_DATA_DEVICE_BUTTON");
+
+			AssertElementPresent(locator1 = "ControlMenuPreviewPanel#PREVIEW_DEVICE_IFRAME");
+
+			takeScreenshot();
+		}
+		else if (${deviceType} == "desktop") {
+			Click(
+				key_deviceType = "Desktop",
+				locator1 = "ControlMenuPreviewPanel#PREVIEW_DATA_DEVICE_BUTTON");
+
+			AssertElementPresent(locator1 = "ControlMenuPreviewPanel#PREVIEW_DEVICE_GENERAL_IFRAME");
+
+			takeScreenshot();
+		}
+		else if (${deviceType} == "custom") {
+			Click(
+				key_deviceType = "Custom",
+				locator1 = "ControlMenuPreviewPanel#PREVIEW_DATA_DEVICE_BUTTON");
+
+			AssertElementPresent(locator1 = "ControlMenuPreviewPanel#PREVIEW_DEVICE_GENERAL_IFRAME");
+
+			takeScreenshot();
+
+			if (isSet(height)) {
+				WaitForEditable(locator1 = "ControlMenuPreviewPanel#PREVIEW_CUSTOM_HEIGHT_FIELD");
+
+				TripleClick(locator1 = "ControlMenuPreviewPanel#PREVIEW_CUSTOM_HEIGHT_FIELD");
+
+				Type.sendKeys(
+					locator1 = "ControlMenuPreviewPanel#PREVIEW_CUSTOM_HEIGHT_FIELD",
+					value1 = ${height});
+			}
+
+			if (isSet(width)) {
+				WaitForEditable(locator1 = "ControlMenuPreviewPanel#PREVIEW_CUSTOM_HEIGHT_FIELD");
+
+				TripleClick(locator1 = "ControlMenuPreviewPanel#PREVIEW_CUSTOM_WIDTH_FIELD");
+
+				Type.sendKeys(
+					locator1 = "ControlMenuPreviewPanel#PREVIEW_CUSTOM_WIDTH_FIELD",
+					value1 = ${width});
+			}
+
+			if (${applyCustomSize} == "true") {
+				Button.click(button = "Apply Custom Size");
+			}
+
+			takeScreenshot();
+		}
+
+		SelectFrame.selectFrameNoLoading(locator1 = "ControlMenuPreviewPanel#PREVIEW_DEVICE_GENERAL_IFRAME");
+	}
+
+}

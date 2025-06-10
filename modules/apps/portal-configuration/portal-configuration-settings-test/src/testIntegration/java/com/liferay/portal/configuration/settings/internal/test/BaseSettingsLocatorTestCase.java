@@ -1,0 +1,249 @@
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+
+package com.liferay.portal.configuration.settings.internal.test;
+
+import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.petra.lang.SafeCloseable;
+import com.liferay.petra.string.StringBundler;
+import com.liferay.petra.string.StringPool;
+import com.liferay.portal.configuration.metatype.annotations.ExtendedObjectClassDefinition;
+import com.liferay.portal.configuration.settings.internal.samples.TestConfiguration;
+import com.liferay.portal.configuration.test.util.ConfigurationTestUtil;
+import com.liferay.portal.kernel.model.PortletPreferences;
+import com.liferay.portal.kernel.module.configuration.ConfigurationException;
+import com.liferay.portal.kernel.service.PortletPreferencesLocalService;
+import com.liferay.portal.kernel.settings.Settings;
+import com.liferay.portal.kernel.settings.SettingsLocator;
+import com.liferay.portal.kernel.settings.SettingsLocatorHelper;
+import com.liferay.portal.kernel.test.ReflectionTestUtil;
+import com.liferay.portal.kernel.test.rule.AggregateTestRule;
+import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
+import com.liferay.portal.kernel.test.util.RandomTestUtil;
+import com.liferay.portal.kernel.test.util.TestPropsValues;
+import com.liferay.portal.kernel.util.HashMapDictionaryBuilder;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.test.rule.Inject;
+import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
+
+import java.io.IOException;
+import java.io.Serializable;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
+import org.junit.ClassRule;
+import org.junit.Rule;
+import org.junit.runner.RunWith;
+
+import org.osgi.framework.InvalidSyntaxException;
+import org.osgi.service.cm.Configuration;
+import org.osgi.service.cm.ConfigurationAdmin;
+
+/**
+ * @author Drew Brokke
+ */
+@RunWith(Arquillian.class)
+public abstract class BaseSettingsLocatorTestCase {
+
+	@ClassRule
+	@Rule
+	public static final AggregateTestRule aggregateTestRule =
+		new LiferayIntegrationTestRule();
+
+	@BeforeClass
+	public static void setUpClass() throws Exception {
+		companyId = TestPropsValues.getCompanyId();
+		groupId = TestPropsValues.getGroupId();
+
+		_safeCloseable = ReflectionTestUtil.invoke(
+			_settingsLocatorHelper, "_registerConfigurationBeanClass",
+			new Class<?>[] {Class.class}, TestConfiguration.class);
+	}
+
+	@AfterClass
+	public static void tearDownClass() throws Exception {
+		if (_safeCloseable != null) {
+			_safeCloseable.close();
+		}
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		for (String configurationPid : _configurationPids) {
+			ConfigurationTestUtil.deleteConfiguration(configurationPid);
+		}
+
+		_configurationPids.clear();
+
+		for (Map.Entry<String, String> entry :
+				_factoryConfigurationPids.entrySet()) {
+
+			ConfigurationTestUtil.deleteFactoryConfiguration(
+				entry.getKey(), entry.getValue());
+		}
+
+		_factoryConfigurationPids.clear();
+	}
+
+	protected void deleteFactoryConfiguration(
+			String factoryPid, ExtendedObjectClassDefinition.Scope scope,
+			Serializable scopePK, String propertyKey,
+			Serializable propertyValue)
+		throws Exception {
+
+		Configuration configuration = _getFactoryConfiguration(
+			factoryPid, scope, scopePK, propertyKey, propertyValue);
+
+		if (configuration != null) {
+			ConfigurationTestUtil.deleteConfiguration(configuration);
+		}
+	}
+
+	protected String getSettingsValue(String key) throws Exception {
+		if (settingsLocator == null) {
+			return null;
+		}
+
+		Settings settings = settingsLocator.getSettings();
+
+		return settings.getValue(key, null);
+	}
+
+	protected String saveConfiguration(
+			String configurationPid, String key, String value)
+		throws Exception {
+
+		ConfigurationTestUtil.saveConfiguration(
+			configurationPid,
+			HashMapDictionaryBuilder.<String, Object>put(
+				key, value
+			).build());
+
+		_configurationPids.add(configurationPid);
+
+		return value;
+	}
+
+	protected String saveFactoryConfiguration(
+			String factoryPid, ExtendedObjectClassDefinition.Scope scope,
+			Serializable scopePK, String propertyKey,
+			Serializable propertyValue, String key, String value)
+		throws Exception {
+
+		String pid = ConfigurationTestUtil.createFactoryConfiguration(
+			factoryPid + ".scoped",
+			HashMapDictionaryBuilder.<String, Object>put(
+				scope.getPropertyKey(), scopePK
+			).put(
+				key, value
+			).put(
+				propertyKey,
+				() -> {
+					if (Validator.isNotNull(propertyKey) &&
+						Validator.isNotNull(propertyValue)) {
+
+						return propertyValue;
+					}
+
+					return null;
+				}
+			).build());
+
+		_factoryConfigurationPids.put(pid, factoryPid + ".scoped");
+
+		return value;
+	}
+
+	protected String savePortletPreferences(
+			long ownerId, int ownerType, String portletId, long plid,
+			String key, String value)
+		throws Exception {
+
+		_portletPreferencesList.add(
+			_portletPreferencesLocalService.addPortletPreferences(
+				companyId, ownerId, ownerType, plid, portletId, null,
+				StringBundler.concat(
+					"<portlet-preferences><preference><name>", key,
+					"</name><value>", value, "</value></preference>",
+					"</portlet-preferences>")));
+
+		return value;
+	}
+
+	protected static long companyId;
+	protected static long groupId;
+
+	protected final String portletId = RandomTestUtil.randomString();
+	protected SettingsLocator settingsLocator;
+
+	private Configuration _getFactoryConfiguration(
+			String factoryPid, ExtendedObjectClassDefinition.Scope scope,
+			Serializable scopePK, String propertyKey,
+			Serializable propertyValue)
+		throws Exception {
+
+		try {
+			String filterString = StringBundler.concat(
+				"(&",
+				_getPropertyFilterString(
+					"service.factoryPid", factoryPid + ".scoped"),
+				_getPropertyFilterString(scope.getPropertyKey(), scopePK),
+				_getPropertyFilterString(propertyKey, propertyValue), ")");
+
+			Configuration[] configurations =
+				_configurationAdmin.listConfigurations(filterString);
+
+			if (configurations != null) {
+				return configurations[0];
+			}
+
+			return null;
+		}
+		catch (InvalidSyntaxException | IOException exception) {
+			throw new ConfigurationException(
+				"Unable to retrieve factory configuration " + factoryPid,
+				exception);
+		}
+	}
+
+	private String _getPropertyFilterString(String key, Serializable value) {
+		if (Validator.isNull(key) || Validator.isNull(value)) {
+			return StringPool.BLANK;
+		}
+
+		return StringBundler.concat(
+			StringPool.OPEN_PARENTHESIS, key, StringPool.EQUAL, value,
+			StringPool.CLOSE_PARENTHESIS);
+	}
+
+	private static final Set<String> _configurationPids = new HashSet<>();
+	private static final Map<String, String> _factoryConfigurationPids =
+		new HashMap<>();
+
+	@Inject
+	private static PortletPreferencesLocalService
+		_portletPreferencesLocalService;
+
+	private static SafeCloseable _safeCloseable;
+
+	@Inject
+	private static SettingsLocatorHelper _settingsLocatorHelper;
+
+	@Inject
+	private ConfigurationAdmin _configurationAdmin;
+
+	@DeleteAfterTestRun
+	private final List<PortletPreferences> _portletPreferencesList =
+		new ArrayList<>();
+
+}

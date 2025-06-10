@@ -1,0 +1,46 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<aui:script use="aui-autosize-iframe">
+	var iframe = A.one('#embeddedIframe');
+
+	if (iframe) {
+		iframe.plug(A.Plugin.AutosizeIframe);
+
+		iframe.on('load', () => {
+			var height = A.Plugin.AutosizeIframe.getContentHeight(iframe);
+			var normalHeight = 600;
+
+			if (height == null) {
+				if (themeDisplay.isStateMaximized()) {
+					height = A.getDoc().get('docHeight');
+				}
+				else {
+					height = normalHeight;
+
+					iframe.autosizeiframe.set('monitorHeight', false);
+				}
+			}
+
+			if (height < normalHeight) {
+				height = normalHeight;
+			}
+
+			iframe.setStyle('height', height);
+		});
+
+		iframe.set(
+			'src',
+
+			<%
+			UnicodeProperties typeSettingsUnicodeProperties = layout.getTypeSettingsProperties();
+			%>
+
+			'<%= HtmlUtil.escapeJS(typeSettingsUnicodeProperties.getProperty("embeddedLayoutURL")) %>'
+		);
+	}
+</aui:script>

@@ -1,0 +1,38 @@
+definition {
+
+	@summary = "Default summary"
+	macro emptyRecycleBin(grandParentGroupName = null, parentGroupName = null) {
+		var portalURL = JSONCompany.getPortalURL();
+
+		if (!(isSet(groupName))) {
+			var groupName = "Guest";
+		}
+
+		if (!(isSet(site))) {
+			var site = "true";
+		}
+
+		if (!(isSet(userEmailAddress))) {
+			var userEmailAddress = "test@liferay.com";
+		}
+
+		if (!(isSet(userPassword))) {
+			var userPassword = PropsUtil.get("default.admin.password");
+		}
+
+		var groupId = JSONGroupAPI._getGroupIdByName(
+			grandParentGroupName = ${grandParentGroupName},
+			groupName = ${groupName},
+			parentGroupName = ${parentGroupName},
+			site = ${site});
+
+		var curl = '''
+			${portalURL}/api/jsonws/trash.trashentry/delete-entries \
+				-u ${userEmailAddress}:${userPassword} \
+				-d groupId=${groupId}
+		''';
+
+		JSONCurlUtil.post(${curl});
+	}
+
+}

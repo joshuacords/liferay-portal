@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<Configuration strict="true">
+	<Loggers>
+		<Logger level="ERROR" name="com.liferay.portal.vulcan.internal.jaxrs.container.request.filter.LogContainerRequestFilter" />
+		<Logger level="ERROR" name="com.liferay.portal.vulcan.internal.jaxrs.context.provider.FilterContextProvider" />
+		<Logger level="ERROR" name="com.liferay.portal.vulcan.internal.jaxrs.context.provider.SortContextProvider" />
+	</Loggers>
+</Configuration>

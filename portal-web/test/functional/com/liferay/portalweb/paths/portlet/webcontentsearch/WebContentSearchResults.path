@@ -1,0 +1,31 @@
+<html>
+<head>
+<title>WebContentSearchResults</title>
+</head>
+
+<body>
+<table border="1" cellpadding="1" cellspacing="1">
+<thead>
+<tr><td rowspan="1" colspan="3">WebContentSearchResults</td></tr>
+</thead>
+
+<tbody>
+<tr>
+	<td>TITLE</td>
+	<td>//*[@data-qa-id='row' and contains(.,'${key_webContentTitle}')]//div[contains(@class,'h5')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>STATUS</td>
+	<td>//*[@data-qa-id='row' and contains(.,'${key_webContentTitle}')]//span[contains(@class,'label-secondary')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>COMMENT</td>
+	<td>//*[@data-qa-id='row']//div[contains(@class, 'h6')][contains(.,'${key_webContentComment}')]</td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

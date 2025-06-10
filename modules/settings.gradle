@@ -1,0 +1,49 @@
+buildscript {
+	apply from: "build-buildscript.gradle", to: buildscript
+	apply from: "build-develocity-buildscript.gradle", to: buildscript
+
+	File buildFile = gradle.startParameter.buildFile
+
+	if ((buildFile != null) && buildFile.name.startsWith("releng")) {
+		dependencies {
+			classpath group: "org.apache.maven", name: "maven-model", version: "3.0.4"
+		}
+	}
+}
+
+apply plugin: "com.liferay.settings.plugin"
+
+apply from: "build-develocity.gradle"
+
+File privateYarnLockFile = new File(rootDir, "private/yarn.lock")
+
+if (privateYarnLockFile.exists()) {
+	include "private"
+
+	ProjectDescriptor projectDescriptor = project(":private")
+
+	projectDescriptor.projectDir = privateYarnLockFile.parentFile
+}
+
+String testClassGroupIndex = System.getProperty("test.class.group.index")
+
+if (testClassGroupIndex) {
+	Properties properties = new Properties()
+
+	File file = new File(rootDir, "../test.class.file.names.properties")
+
+	properties.load(new StringReader(file.text.replace("\\", "/")))
+
+	List<String> testClasses = []
+
+	String testClassGroup = properties["TEST_CLASS_GROUP_" + testClassGroupIndex]
+
+	if (testClassGroup != null) {
+		testClasses = testClassGroup.tokenize(",")
+	}
+
+	gradle.ext.testClasses = testClasses
+
+	gradle.ext.testClassGroupIndex = testClassGroupIndex
+	gradle.ext.testClassGroups = properties["TEST_CLASS_GROUPS"]
+}

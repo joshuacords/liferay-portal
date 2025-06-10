@@ -1,0 +1,323 @@
+definition {
+
+	@summary = "Default summary"
+	macro bulkRestoreCP(assetList = null) {
+		WaitForPageLoad();
+
+		for (var assetName : list ${assetList}) {
+			LexiconTable.viewTableEntryTitle(tableEntry = ${assetName});
+
+			Check(
+				key_assetName = ${assetName},
+				locator1 = "RecycleBin#RECYCLE_BIN_ASSET_CHECKBOX");
+		}
+
+		Click(
+			key_text = "restore",
+			locator1 = "ManagementBar#ANY_ICON");
+
+		Alert.viewSuccessMessage();
+	}
+
+	@summary = "Default summary"
+	macro clickEllipsisItem(item = null, assetName = null) {
+		LexiconTable.clickEllipsisItem(
+			item = ${item},
+			tableEntry = ${assetName});
+	}
+
+	@summary = "Default summary"
+	macro deleteCP(assetName = null, multipleAssets = null, assetType = null) {
+		LexiconTable.viewTableEntryTitle(tableEntry = ${assetName});
+
+		LexiconTable.viewTableEntryText(
+			tableEntry = ${assetName},
+			tableEntryText = ${assetType});
+
+		LexiconTable.clickEllipsisItem(
+			item = "Delete",
+			tableEntry = ${assetName});
+
+		AssertTextEquals(
+			locator1 = "Modal#BODY",
+			value1 = "Are you sure you want to delete this? It will be deleted immediately.");
+
+		Click(
+			key_text = "Delete",
+			locator1 = "Modal#MODAL_FOOTER_BUTTON");
+
+		Alert.viewSuccessMessage();
+
+		if (${multipleAssets} == "true") {
+			AssertNotVisible(locator1 = "Message#EMPTY_INFO");
+		}
+		else {
+			AssertTextEquals.assertPartialText(
+				locator1 = "Message#EMPTY_INFO",
+				value1 = "The Recycle Bin is empty.");
+		}
+
+		LexiconTable.viewTableEntryNotPresent(tableEntry = ${assetName});
+	}
+
+	@summary = "Default summary"
+	macro disableRecycleBinViaSiteSettings() {
+		Click(
+			key_itemName = "Recycle Bin",
+			locator1 = "ListGroupItem#ITEM_TEXT");
+
+		Uncheck.uncheckToggleSwitchNoErrorNoAssert(locator1 = "Checkbox#ENABLE_RECYCLE_BIN");
+
+		AssertConfirm(value1 = "Disabling the Recycle Bin prevents the restoring of content that has been moved to the Recycle Bin.");
+
+		AssertNotChecked.assertNotCheckedNotVisible(locator1 = "Checkbox#ENABLE_RECYCLE_BIN");
+
+		PortletEntry.save();
+	}
+
+	@summary = "Default summary"
+	macro emptyCP() {
+		Click(locator1 = "Icon#HEADER_VERTICAL_ELLIPSIS");
+
+		MenuItem.clickNoError(menuItem = "Empty Trash");
+
+		AssertConfirm.waitForConfirmation(value1 = "Are you sure you want to empty the Recycle Bin?");
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "Message#EMPTY_INFO",
+			value1 = "The Recycle Bin is empty.");
+	}
+
+	@summary = "Default summary"
+	macro gotoEntryViaSuccessMessage(assetName = null) {
+		var key_assetName = ${assetName};
+
+		AssertClick(
+			locator1 = "RecycleBin#SUCCESS_MESSAGE_CONTENT_LINK",
+			value1 = "Recycle Bin");
+
+		SiteAdmin.viewPortletTitle(portletTitle = "Recycle Bin");
+	}
+
+	@summary = "Default summary"
+	macro openRecycleBinAdmin(siteURLKey = null) {
+		Navigator.openWithAppendToBaseURL(urlAppend = "group/${siteURLKey}/~/control_panel/manage/-/recycle_bin/entries");
+	}
+
+	@summary = "Default summary"
+	macro restoreContentFromFolderCP(breadcrumbName = null, assetType2 = null, assetName = null, documentName = null, assetType = null, assetRestoreLocation = null) {
+		var key_assetName = ${assetName};
+
+		LexiconTable.viewTableEntryTitle(tableEntry = ${assetName});
+
+		LexiconTable.viewTableEntryText(
+			tableEntry = ${assetName},
+			tableEntryText = ${assetType});
+
+		LexiconTable.clickTableEntryTitle(tableEntry = ${assetName});
+
+		AssertTextEquals(
+			key_assetName = ${documentName},
+			locator1 = "RecycleBin#RECYCLE_BIN_FOLDER_DOCUMENT_NAME",
+			value1 = ${documentName});
+
+		RecycleBin.clickEllipsisItem(
+			assetName = ${documentName},
+			item = "Restore");
+
+		SelectFrame(locator1 = "RecycleBin#RECYCLE_BIN_FOLDER_WARNING_IFRAME");
+
+		AssertTextEquals(
+			locator1 = "RecycleBin#RECYCLE_BIN_WARNING_SELECT_RESTORE_FOLDER",
+			value1 = "The original Folder of this file does not exist anymore. Choose a different Folder to restore ${documentName}.");
+
+		Breadcrumb.viewActiveEntry(breadcrumbName = ${breadcrumbName});
+
+		if (${assetRestoreLocation} == "Home") {
+			Button.click(button = "Select Home");
+
+			SelectFrameTop(value1 = "relative=top");
+
+			AssertTextEquals.assertPartialText(
+				locator1 = "Message#RECYCLE_BIN_RESTORE_SUCCESS",
+				value1 = "The ${assetType2} ${documentName} was restored to Home.");
+		}
+		else {
+			Click(
+				key_tableEntry = ${assetRestoreLocation},
+				key_text = "Select",
+				locator1 = "LexiconTable#TABLE_ENTRY_BUTTON");
+
+			SelectFrameTop(value1 = "relative=top");
+
+			AssertTextEquals.assertPartialText(
+				locator1 = "Message#RECYCLE_BIN_RESTORE_SUCCESS",
+				value1 = "The ${assetType2} ${documentName} was restored to Home » ${assetRestoreLocation}.");
+		}
+	}
+
+	@summary = "Default summary"
+	macro restoreContentWithoutOriginalFolder(assetName = null, assetType = null, assetRestoreLocation = null) {
+		LexiconTable.viewTableEntryTitle(tableEntry = ${assetName});
+
+		RecycleBin.clickEllipsisItem(
+			assetName = ${assetName},
+			item = "Restore");
+
+		SelectFrame(locator1 = "RecycleBin#RECYCLE_BIN_FOLDER_WARNING_IFRAME");
+
+		AssertTextEquals(
+			locator1 = "RecycleBin#RECYCLE_BIN_WARNING_SELECT_RESTORE_FOLDER",
+			value1 = "The original Folder of this file does not exist anymore. Choose a different Folder to restore ${assetName}.");
+
+		Button.click(button = "Select Home");
+
+		SelectFrameTop();
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "Message#RECYCLE_BIN_RESTORE_SUCCESS",
+			value1 = "The ${assetType} ${assetName} was restored to ${assetRestoreLocation}.");
+	}
+
+	@summary = "Default summary"
+	macro restoreCP(assetName = null, multipleAssets = null, assetType = null, assetRestoreLocation = null) {
+		var key_assetName = ${assetName};
+
+		LexiconTable.viewTableEntryTitle(tableEntry = ${assetName});
+
+		RecycleBin.clickEllipsisItem(
+			assetName = ${assetName},
+			item = "Restore");
+
+		if (isSet(assetType)) {
+			AssertTextEquals.assertPartialText(
+				locator1 = "Message#RECYCLE_BIN_RESTORE_SUCCESS",
+				value1 = ${assetType});
+		}
+		else {
+			AssertTextEquals.assertPartialText(
+				locator1 = "Message#RECYCLE_BIN_RESTORE_SUCCESS",
+				value1 = "The item was restored.");
+		}
+
+		if (isSet(assetRestoreLocation)) {
+			AssertTextEquals.assertPartialText(
+				locator1 = "Message#RECYCLE_BIN_RESTORE_SUCCESS",
+				value1 = ${assetRestoreLocation});
+		}
+
+		if (${multipleAssets} == "true") {
+			AssertNotVisible(locator1 = "Message#EMPTY_INFO");
+		}
+		else {
+			AssertTextEquals.assertPartialText(
+				locator1 = "Message#EMPTY_INFO",
+				value1 = "The Recycle Bin is empty.");
+		}
+
+		LexiconTable.viewTableEntryNotPresent(tableEntry = ${assetName});
+	}
+
+	@summary = "Default summary"
+	macro restoreOverwriteCP(assetName = null) {
+		RecycleBin.clickEllipsisItem(
+			assetName = ${assetName},
+			item = "Restore");
+
+		Alert.viewErrorMessage(errorMessage = "An entry with name ${assetName} already exists.");
+
+		Click(locator1 = "RecycleBin#RECYCLE_BIN_WARNING_OVERWRITE_RADIO");
+
+		PortletEntry.save();
+	}
+
+	@summary = "Default summary"
+	macro restoreRenameCP(newName = null, assetName = null) {
+		RecycleBin.clickEllipsisItem(
+			assetName = ${assetName},
+			item = "Restore");
+
+		Alert.viewErrorMessage(errorMessage = "Error:An entry with name ${assetName} already exists.");
+
+		Check(locator1 = "RecycleBin#RECYCLE_BIN_WARNING_RENAME_RADIO");
+
+		if (isSet(newName)) {
+			Type(
+				locator1 = "TextInput#NEW_NAME",
+				value1 = ${newName});
+		}
+
+		PortletEntry.save();
+	}
+
+	@summary = "Default summary"
+	macro undoMoveToRecycleBin() {
+		AssertClick(
+			locator1 = "Button#UNDO",
+			value1 = "Undo");
+	}
+
+	@summary = "Default summary"
+	macro viewCP(deleteUser = null, assetName = null, assetType = null) {
+		var key_assetName = ${assetName};
+
+		LexiconTable.viewTableEntryTitleLink(tableEntry = ${assetName});
+
+		LexiconTable.viewTableEntryText(
+			tableEntry = ${assetName},
+			tableEntryText = ${assetType});
+
+		LexiconTable.viewTableEntryPartialText(
+			tableEntry = ${assetName},
+			tableEntryPartialText = "Ago");
+
+		LexiconTable.viewTableEntryText(
+			tableEntry = ${assetName},
+			tableEntryText = ${deleteUser});
+
+		AssertVisible(
+			key_tableEntry = ${assetName},
+			locator1 = "LexiconTable#TABLE_ENTRY_ELLIPSIS");
+	}
+
+	@summary = "Default summary"
+	macro viewDefaultCP(assetName = null) {
+		AssertTextEquals.assertPartialText(
+			locator1 = "Message#EMPTY_INFO",
+			value1 = "The Recycle Bin is empty.");
+
+		LexiconTable.viewTableEntryNotPresent(tableEntry = ${assetName});
+	}
+
+	@summary = "Default summary"
+	macro viewDuplicateNames(assetName = null) {
+		var key_assetName = ${assetName};
+		var key_rowNumber = 1;
+
+		AssertTextEquals(
+			locator1 = "ContentRow#ENTRY_CONTENT_ROW_NUMBER_TD_2",
+			value1 = ${assetName});
+
+		var key_rowNumber = 2;
+
+		AssertTextEquals(
+			locator1 = "ContentRow#ENTRY_CONTENT_ROW_NUMBER_TD_2",
+			value1 = ${assetName});
+	}
+
+	@summary = "Default summary"
+	macro viewEntry(assetName = null) {
+		var key_assetName = ${assetName};
+
+		LexiconTable.viewTableEntryTitle(tableEntry = ${assetName});
+
+		Click(
+			key_tableEntry = ${assetName},
+			locator1 = "LexiconTable#TABLE_ENTRY_ELLIPSIS");
+
+		MenuItem.viewPresent(menuItem = "Restore");
+
+		MenuItem.viewPresent(menuItem = "Delete");
+	}
+
+}

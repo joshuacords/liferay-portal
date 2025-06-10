@@ -1,0 +1,13 @@
+{
+	"com.liferay.fragment.entry.processor.editable.EditableFragmentEntryProcessor": {
+		"element-text": {
+			"classNameId": "28701",
+			"classPK": "36426",
+			"config": {
+				"alt": ""
+			},
+			"defaultValue": "Heading Example",
+			"fieldId": "title"
+		}
+	}
+}

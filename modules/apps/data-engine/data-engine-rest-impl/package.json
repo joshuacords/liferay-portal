@@ -1,0 +1,11 @@
+{
+	"main": "js/index.js",
+	"name": "data-engine-rest-impl",
+	"private": true,
+	"scripts": {
+		"build": "node-scripts build",
+		"checkFormat": "node-scripts format --check",
+		"format": "node-scripts format"
+	},
+	"version": "3.0.124"
+}

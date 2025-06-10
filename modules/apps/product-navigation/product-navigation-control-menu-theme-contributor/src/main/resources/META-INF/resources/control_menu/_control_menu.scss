@@ -1,0 +1,304 @@
+html#{$cadmin-selector} {
+	.sidenav-transition {
+		.cadmin {
+			&.affix,
+			&.control-menu-container {
+				@media (prefers-reduced-motion: no-preference) {
+					@include transition($control-menu-css-transition);
+				}
+			}
+		}
+	}
+
+	.cadmin {
+		&.affix,
+		&.control-menu-container {
+			top: 0;
+			z-index: $control-menu-zindex;
+
+			@include media-breakpoint-up(sm) {
+				position: sticky;
+			}
+		}
+
+		.control-menu-level-1 {
+			> .container-fluid {
+				padding: 8px;
+
+				@include media-breakpoint-up(sm, $cadmin-grid-breakpoints) {
+					padding: 12px;
+				}
+			}
+
+			.personal-menu-dropdown .dropdown-toggle {
+				margin-bottom: -2px;
+				margin-top: -2px;
+				padding: 2px;
+			}
+
+			#impersonate-user-sticker {
+				bottom: -6.4px;
+				color: $cadmin-gray-900;
+				font-size: 9.6px;
+				height: 19.2px;
+				right: -6.4px;
+				width: 19.2px;
+			}
+
+			.control-menu-nav-link {
+				&:focus,
+				&:hover {
+					text-decoration: none;
+				}
+			}
+		}
+
+		.control-menu-level-1-heading {
+			font-size: 16px;
+			font-weight: 600;
+			overflow-wrap: break-word;
+
+			h1 {
+				display: block;
+			}
+		}
+
+		.control-menu-level-1-dark {
+			background-color: $control-menu-level-1-bg;
+			color: $control-menu-level-1-color;
+
+			.control-menu-nav-link {
+				color: $control-menu-level-1-link-color;
+
+				&:focus,
+				&:hover {
+					background-color: $control-menu-level-1-link-background-color;
+					color: $control-menu-level-1-link-hover-color;
+				}
+			}
+
+			.control-menu-level-1-heading {
+				color: $cadmin-white;
+			}
+		}
+
+		.control-menu-level-1-light {
+			background-color: $control-menu-level-1-light-bg;
+			border-bottom: $control-menu-level-1-light-border;
+			color: $control-menu-level-1-light-color;
+
+			.control-menu-nav-link {
+				color: $control-menu-level-1-light-link-color;
+
+				&:focus,
+				&:hover {
+					background-color: $control-menu-level-1-light-link-background-color;
+					color: $control-menu-level-1-light-link-hover-color;
+				}
+			}
+
+			> .container-fluid {
+				padding-bottom: $control-menu-level-1-padding - 1px;
+
+				@include media-breakpoint-up(sm, $cadmin-grid-breakpoints) {
+					padding-bottom: $control-menu-level-1-padding-desktop - 1px;
+				}
+			}
+
+			.control-menu-level-1-heading {
+				color: $cadmin-gray-900;
+			}
+		}
+
+		.control-menu-level-1-nav {
+			display: flex;
+			flex-wrap: nowrap;
+
+			@include media-breakpoint-down(xs, $cadmin-grid-breakpoints) {
+				flex-wrap: wrap;
+			}
+
+			> div,
+			> li {
+				> .control-menu-nav > .control-menu-nav-item {
+					margin-left: 4px;
+					margin-right: 4px;
+				}
+			}
+
+			.control-menu-nav {
+				flex-wrap: wrap;
+			}
+
+			> .control-menu-nav-item {
+				align-self: center;
+			}
+		}
+
+		.control-menu-level-2 {
+			background-color: $control-menu-level-2-bg;
+			border-bottom: 1px solid $cadmin-secondary-l3;
+			color: $control-menu-level-2-color;
+			padding-bottom: 7px;
+			padding-top: 6px;
+
+			a,
+			a:focus,
+			a:hover {
+				color: $control-menu-level-2-link-color;
+			}
+
+			.container-fluid-max-xl {
+				padding-left: 20px;
+			}
+
+			.text-info {
+				font-size: 14px;
+			}
+
+			.toggle-switch-bar .toggle-switch-handle {
+				font-size: 14px;
+				text-transform: none;
+			}
+
+			.control-menu-label {
+				@include media-breakpoint-up(sm, $cadmin-grid-breakpoints) {
+					color: $control-menu-level-2-label-color;
+				}
+			}
+
+			@include media-breakpoint-down(sm, $cadmin-grid-breakpoints) {
+				bottom: 0;
+				display: none;
+				left: 0;
+				position: fixed;
+				right: 0;
+				top: 0;
+				z-index: 1;
+			}
+
+			&.open {
+				@include media-breakpoint-down(sm, $cadmin-grid-breakpoints) {
+					display: block;
+					overflow: auto;
+				}
+			}
+		}
+
+		.control-menu-level-2-heading {
+			font-size: 18px;
+			font-weight: 500;
+			padding: 20px 0;
+			text-align: center;
+
+			button.close {
+				color: $control-menu-level-2-color;
+				opacity: 1;
+			}
+		}
+
+		.control-menu-level-2-nav {
+			display: flex;
+			flex-wrap: nowrap;
+			justify-content: space-between;
+
+			@include media-breakpoint-down(sm, $cadmin-grid-breakpoints) {
+				> .control-menu-nav-item {
+					margin-bottom: 55px;
+				}
+
+				.control-menu-nav-item,
+				.dropdown {
+					width: 100%;
+				}
+			}
+		}
+
+		.control-menu-nav {
+			align-items: center;
+			display: flex;
+			font-size: 16px;
+			list-style: none;
+			margin-bottom: 0;
+			padding-left: 0;
+		}
+
+		.control-menu-nav-category:not(.tools-control-group) {
+			display: flex;
+			flex-direction: column;
+			flex-shrink: 0;
+			max-width: 100%;
+			min-height: 0;
+			position: relative;
+		}
+
+		.control-menu-nav-item {
+			display: inline-flex;
+		}
+
+		.control-menu-nav-item-content:last-child:not(:first-child) {
+			display: flex;
+			flex-basis: 0;
+			flex-grow: 1;
+			flex-shrink: 1;
+			min-width: 48px;
+			width: 0;
+
+			.clamp-container {
+				overflow: hidden;
+				text-overflow: ellipsis;
+				top: 50%;
+				transform: translateY(-50%);
+				white-space: nowrap;
+			}
+
+			span.text-muted {
+				font-size: 14px;
+			}
+		}
+
+		.control-menu-nav-item-separator:not(:first-child):before {
+			background-color: $cadmin-gray-600;
+			content: '';
+			height: 16px;
+			margin-right: 16px;
+			position: relative;
+			top: 8px;
+			width: 1px;
+		}
+
+		.control-menu-nav-item-field {
+			flex: 0 1 auto;
+		}
+
+		.exp-control-group {
+			margin-right: auto;
+		}
+
+		.tools-control-group {
+			flex-shrink: 1;
+			max-width: calc(100% - 80px);
+			word-wrap: break-word;
+
+			.taglib-icon-help {
+				margin-top: 1px;
+				min-width: 32px;
+				text-align: center;
+			}
+		}
+
+		.user-control-group {
+			.portlet-options {
+				margin-right: -1px;
+			}
+		}
+	}
+}
+
+.has-control-menu {
+	--control-menu-height: 56px;
+
+	@include media-breakpoint-down(xs, $cadmin-grid-breakpoints) {
+		--control-menu-height: 48px;
+	}
+}

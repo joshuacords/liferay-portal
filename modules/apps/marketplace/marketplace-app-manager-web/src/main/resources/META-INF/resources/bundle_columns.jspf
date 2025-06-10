@@ -1,0 +1,71 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<liferay-ui:search-container-column-text>
+	<liferay-util:include page="/icon.jsp" servletContext="<%= application %>">
+		<liferay-util:param name="iconURL" value='<%= themeDisplay.getPathThemeSpritemap() + "#modules" %>' />
+	</liferay-util:include>
+</liferay-ui:search-container-column-text>
+
+<liferay-ui:search-container-column-text
+	colspan="<%= 2 %>"
+>
+
+	<%
+	Dictionary<String, String> headers = bundle.getHeaders(StringPool.BLANK);
+	%>
+
+	<h2 class="list-group-title">
+		<c:choose>
+			<c:when test="<%= bundle.getState() == BundleStateConstants.RESOLVED %>">
+				<%= MarketplaceAppManagerUtil.getSearchContainerFieldText(headers.get(Constants.BUNDLE_NAME)) %>
+			</c:when>
+			<c:otherwise>
+				<portlet:renderURL var="rowURL">
+					<portlet:param name="mvcPath" value="/view_module.jsp" />
+					<portlet:param name="app" value="<%= app %>" />
+					<portlet:param name="symbolicName" value="<%= bundle.getSymbolicName() %>" />
+					<portlet:param name="version" value="<%= String.valueOf(bundle.getVersion()) %>" />
+				</portlet:renderURL>
+
+				<a href="<%= HtmlUtil.escapeHREF(rowURL) %>">
+					<%= MarketplaceAppManagerUtil.getSearchContainerFieldText(headers.get(Constants.BUNDLE_NAME)) %>
+				</a>
+			</c:otherwise>
+		</c:choose>
+	</h2>
+
+	<p class="list-group-text">
+		<%= MarketplaceAppManagerUtil.getSearchContainerFieldText(headers.get(Constants.BUNDLE_DESCRIPTION)) %>
+	</p>
+
+	<p class="list-group-text">
+		<%= bundle.getSymbolicName() %>
+	</p>
+
+	<div class="additional-info list-group-subtext">
+		<div class="additional-info-item">
+			<strong>
+				<liferay-ui:message key="version" />:
+			</strong>
+
+			<%= bundle.getVersion() %>
+		</div>
+
+		<div class="additional-info-item">
+			<strong>
+				<liferay-ui:message key="status" />:
+			</strong>
+
+			<liferay-ui:message key="<%= BundleStateConstants.getLabel(bundle.getState()) %>" />
+		</div>
+	</div>
+</liferay-ui:search-container-column-text>
+
+<liferay-ui:search-container-column-jsp
+	path="/bundle_action.jsp"
+/>

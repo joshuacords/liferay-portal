@@ -1,0 +1,14 @@
+{
+	"dependencies": {
+		"@liferay/map-common": "*",
+		"frontend-js-web": "*"
+	},
+	"main": "js/index.js",
+	"name": "expando-web",
+	"scripts": {
+		"build": "node-scripts build",
+		"checkFormat": "node-scripts format --check",
+		"format": "node-scripts format"
+	},
+	"version": "5.0.58"
+}

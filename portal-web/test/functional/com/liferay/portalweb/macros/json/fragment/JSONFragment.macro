@@ -1,0 +1,144 @@
+definition {
+
+	@summary = "Default summary"
+	macro addFragmentCollection(groupName = null, site = null, name = null, description = null, groupKey = null) {
+		Variables.assertDefined(parameterList = ${name});
+
+		var groupId = JSONFragmentSetter.setGroupId(
+			groupKey = ${groupKey},
+			groupName = ${groupName},
+			site = ${site});
+
+		JSONFragmentAPI._addFragmentCollection(
+			description = ${description},
+			groupId = ${groupId},
+			name = ${name});
+	}
+
+	@summary = "Default summary"
+	macro addSection(groupKey = null, collectionName = null, groupName = null, site = null, fragmentStatus = null, name = null) {
+		Variables.assertDefined(parameterList = "${collectionName},${name}");
+
+		var groupId = JSONFragmentSetter.setGroupId(
+			groupKey = ${groupKey},
+			groupName = ${groupName},
+			site = ${site});
+
+		var collectionId = JSONFragmentSetter.setCollectionId(
+			collectionName = ${collectionName},
+			groupId = ${groupId});
+		var configuration = JSONFragmentSetter.setConfiguration(configuration = ${configuration});
+		var html = JSONFragmentSetter.setHTML(html = ${html});
+		var status = JSONFragmentSetter.setStatus(fragmentStatus = ${fragmentStatus});
+		var type = JSONFragmentSetter.setType(type = ${type});
+
+		var fragmentEntryId = JSONFragmentAPI._addSection(
+			collectionId = ${collectionId},
+			configuration = ${configuration},
+			groupId = ${groupId},
+			html = ${html},
+			name = ${name},
+			status = ${status},
+			type = ${type});
+
+		return ${fragmentEntryId};
+	}
+
+	@summary = "Default summary"
+	macro assertFragmentCollectionInGroup(groupName = null, site = null, groupKey = null, collectionName = null) {
+		Variables.assertDefined(parameterList = ${collectionName});
+
+		var groupId = JSONFragmentSetter.setGroupId(
+			groupKey = ${groupKey},
+			groupName = ${groupName},
+			site = ${site});
+
+		var collectionNameResult = JSONFragmentAPI._getCollectionName(
+			collectionName = ${collectionName},
+			groupId = ${groupId});
+
+		if (${collectionNameResult} == "") {
+			fail("The collection ${collectionName} was not found.");
+		}
+	}
+
+	@summary = "Default summary"
+	macro assertFragmentCollectionNotInGroup(groupName = null, site = null, groupKey = null, collectionName = null) {
+		Variables.assertDefined(parameterList = ${collectionName});
+
+		var groupId = JSONFragmentSetter.setGroupId(
+			groupKey = ${groupKey},
+			groupName = ${groupName},
+			site = ${site});
+
+		var collectionNameResult = JSONFragmentAPI._getCollectionName(
+			collectionName = ${collectionName},
+			groupId = ${groupId});
+
+		if (${collectionNameResult} != "") {
+			fail("The collection ${collectionName} was found.");
+		}
+	}
+
+	@summary = "Default summary"
+	macro assertFragmentInGroup(groupName = null, site = null, fragmentName = null, groupKey = null, collectionName = null) {
+		Variables.assertDefined(parameterList = "${collectionName},${fragmentName}");
+
+		var groupId = JSONFragmentSetter.setGroupId(
+			groupKey = ${groupKey},
+			groupName = ${groupName},
+			site = ${site});
+
+		var fragmentCollectionId = JSONFragmentSetter.setCollectionId(
+			collectionName = ${collectionName},
+			groupId = ${groupId});
+
+		var fragmentNameResult = JSONFragmentAPI._getFragmentName(
+			fragmentCollectionId = ${fragmentCollectionId},
+			fragmentName = ${fragmentName},
+			groupId = ${groupId});
+
+		if (${fragmentNameResult} == "") {
+			fail("The fragment ${fragmentName} was not found.");
+		}
+	}
+
+	@summary = "Default summary"
+	macro assertFragmentNotInGroup(groupName = null, site = null, fragmentName = null, groupKey = null, collectionName = null) {
+		Variables.assertDefined(parameterList = "${collectionName},${fragmentName}");
+
+		var groupId = JSONFragmentSetter.setGroupId(
+			groupKey = ${groupKey},
+			groupName = ${groupName},
+			site = ${site});
+
+		var fragmentCollectionId = JSONFragmentSetter.setCollectionId(
+			collectionName = ${collectionName},
+			groupId = ${groupId});
+
+		var fragmentNameResult = JSONFragmentAPI._getFragmentName(
+			fragmentCollectionId = ${fragmentCollectionId},
+			fragmentName = ${fragmentName},
+			groupId = ${groupId});
+
+		if (${fragmentNameResult} != "") {
+			fail("The fragment ${fragmentName} was found.");
+		}
+	}
+
+	@summary = "Default summary"
+	macro deleteFragmentCollection(groupName = null, site = null, name = null) {
+		Variables.assertDefined(parameterList = "${groupName},${name}");
+
+		var groupId = JSONFragmentSetter.setGroupId(
+			groupName = ${groupName},
+			site = ${site});
+
+		var collectionId = JSONFragmentSetter.setCollectionId(
+			collectionName = ${name},
+			groupId = ${groupId});
+
+		JSONFragmentAPI._deleteCollection(collectionId = ${collectionId});
+	}
+
+}

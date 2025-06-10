@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+
+<suppressions>
+	<source-check>
+		<suppress checks="JSPLanguageKeysCheck" files="commerce-machine-learning-forecast-alert-web/src/main/resources/META-INF/resources/forecast_alert_action\.jsp" />
+	</source-check>
+</suppressions>

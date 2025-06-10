@@ -1,0 +1,58 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<%
+Date date = new Date();
+%>
+
+<c:if test="<%= date.after(x509Certificate.getNotAfter()) %>">
+	<div class="portlet-msg-alert"><liferay-ui:message arguments="<%= x509Certificate.getNotAfter() %>" key="certificate-expired-on-x" /></div>
+</c:if>
+
+<dl class="property-list">
+	<dt>
+		<liferay-ui:message key="subject-dn" />
+	</dt>
+	<dd>
+		<%= HtmlUtil.escape(String.valueOf(certificateTool.getSubjectName(x509Certificate))) %>
+	</dd>
+	<dt>
+		<liferay-ui:message key="serial-number" />
+	</dt>
+	<dd>
+		<%= HtmlUtil.escape(certificateTool.getSerialNumber(x509Certificate)) %>
+
+		<div class="portlet-msg-info-label">
+			<liferay-ui:message arguments="<%= new Object[] {x509Certificate.getNotBefore(), x509Certificate.getNotAfter()} %>" key="valid-from-x-until-x" />
+		</div>
+	</dd>
+	<dt>
+		<liferay-ui:message key="certificate-fingerprints" />
+	</dt>
+	<dd class="property-list">
+		<dl>
+			<dt>
+				MD5
+			</dt>
+			<dd>
+				<%= HtmlUtil.escape(certificateTool.getFingerprint("MD5", x509Certificate)) %>
+			</dd>
+			<dt>
+				SHA1
+			</dt>
+			<dd>
+				<%= HtmlUtil.escape(certificateTool.getFingerprint("SHA1", x509Certificate)) %>
+			</dd>
+		</dl>
+	</dd>
+	<dt>
+		<liferay-ui:message key="signature-algorithm" />
+	</dt>
+	<dd>
+		<%= HtmlUtil.escape(x509Certificate.getSigAlgName()) %>
+	</dd>
+</dl>

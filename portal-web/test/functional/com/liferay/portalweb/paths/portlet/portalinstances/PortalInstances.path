@@ -1,0 +1,34 @@
+<html>
+<head>
+<title>PortalInstances</title>
+</head>
+
+<body>
+<table border="1" cellpadding="1" cellspacing="1">
+<thead>
+<tr><td rowspan="1" colspan="3">PortalInstances</td></tr>
+</thead>
+
+<tbody>
+
+<!--INSTANCE_TABLE-->
+
+<tr>
+	<td>INSTANCE_TABLE_WEB_ID</td>
+	<td>//tr/td[2]//a[contains(.,'${key_virtualHost}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>INSTANCE_TABLE_VIRTUAL_HOST</td>
+	<td>//tr/td[3]//a[contains(.,'${key_virtualHost}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>INSTANCE_TABLE_MAIL_DOMAIN</td>
+	<td>//tr/td[4]//a[contains(.,'${key_virtualHost}')]</td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

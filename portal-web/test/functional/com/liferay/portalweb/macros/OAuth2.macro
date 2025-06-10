@@ -1,0 +1,1315 @@
+definition {
+
+	@summary = "Default summary"
+	macro addAndEditExternalApplication(baseURL = null, clientId = null, clientProfile = null, websiteURL = null, callbackUri = null, checkboxCheckList = null, checkboxUncheckList = null, clientSecret = null, clientAuthenticationMethod = null, applicationName = null) {
+		var portalURL = JSONCompany.getPortalURL();
+
+		if (isSet(baseURL)) {
+			var portalURL = ${baseURL};
+		}
+
+		OAuth2.openOAuth2Admin(baseURL = ${baseURL});
+
+		OAuth2.addApplication(
+			applicationName = ${applicationName},
+			callbackUri = ${callbackUri},
+			checkboxUncheckList = ${checkboxUncheckList},
+			clientAuthenticationMethod = ${clientAuthenticationMethod},
+			clientProfile = ${clientProfile});
+
+		if (isSet(checkboxCheckList)) {
+			Check(
+				key_checkboxName = ${checkboxCheckList},
+				locator1 = "OAuth2#ADMIN_INPUT_FORM_CHECKBOX");
+		}
+
+		if (isSet(websiteURL)) {
+			PortletEntry.inputText(
+				fieldLabel = "Website URL",
+				text = ${websiteURL});
+		}
+
+		OAuth2.inputApplicationValues(
+			clientAuthenticationMethod = ${clientAuthenticationMethod},
+			clientId = ${clientId},
+			clientSecret = ${clientSecret});
+
+		Navigator.gotoBack();
+
+		OAuth2.editScopes(
+			applicationName = ${applicationName},
+			resourceCheckList = "Liferay.Headless.Admin.User.everything.read",
+			resourcePanels = "Liferay.Headless.Admin.User");
+	}
+
+	@summary = "Default summary"
+	macro addApplication(jwks = null, clientProfile = null, websiteURL = null, callbackUri = null, checkboxCheckList = null, checkboxUncheckList = null, description = null, clientAuthenticationMethod = null, privacyPolicyURL = null, applicationName = null) {
+		LexiconEntry.gotoAdd();
+
+		OAuth2.inputApplicationValues(
+			applicationName = ${applicationName},
+			callbackUri = ${callbackUri},
+			checkboxCheckList = ${checkboxCheckList},
+			checkboxUncheckList = ${checkboxUncheckList},
+			clientAuthenticationMethod = ${clientAuthenticationMethod},
+			clientProfile = ${clientProfile},
+			description = ${description},
+			jwks = ${jwks},
+			privacyPolicyURL = ${privacyPolicyURL},
+			websiteURL = ${websiteURL});
+
+		AssertTextEquals(
+			locator1 = "Portlet#HEADER",
+			value1 = ${applicationName});
+	}
+
+	@summary = "Default summary"
+	macro addApplicationPermissionToRole(userRole = null, applicationName = null) {
+		LexiconEntry.gotoEntryMenuItem(
+			menuItem = "Permissions",
+			rowEntry = ${applicationName});
+
+		IFrame.selectPermissionsFrame();
+
+		Check.checkToggleSwitch(
+			key_roleTitle = ${userRole},
+			locator1 = "Permissions#INLINE_PERMISSIONS_VIEW_CHECKBOX");
+
+		Check.checkToggleSwitch(
+			key_actionName = "CREATE_TOKEN",
+			key_roleTitle = ${userRole},
+			locator1 = "Permissions#PERMISSIONS_MODAL_CHECKBOX");
+
+		AssertClick(
+			locator1 = "Permissions#SAVE_BUTTON",
+			value1 = "Save");
+	}
+
+	@summary = "Default summary"
+	macro addOAuth2AppCreatorRole() {
+		JSONRole.addRegularRole(
+			roleKey = "OAuth2 App Creator",
+			roleTitle = "OAuth2 App Creator");
+
+		Permissions.definePermissionViaJSONAPI(
+			resourceAction = "ACCESS_IN_CONTROL_PANEL",
+			resourceName = "com_liferay_oauth2_provider_web_internal_portlet_OAuth2AdminPortlet",
+			roleTitle = "OAuth2 App Creator");
+
+		Permissions.definePermissionViaJSONAPI(
+			resourceAction = "CREATE_TOKEN",
+			resourceName = "com.liferay.oauth2.provider.model.OAuth2Application",
+			roleTitle = "OAuth2 App Creator");
+	}
+
+	@summary = "Default summary"
+	macro addPrefixHandlerInSystemSettings(excludedScopesName = null, symbolicName = null, separator = null, serviceProperties = null, osgiJaxrsName = null) {
+		ApplicationsMenu.gotoPortlet(
+			category = "Configuration",
+			panel = "Control Panel",
+			portlet = "System Settings");
+
+		SystemSettings.gotoConfiguration(
+			configurationCategory = "OAuth 2",
+			configurationName = "Bundle PrefixHandlerFactory",
+			configurationScope = "System Scope");
+
+		Button.clickAdd();
+
+		FormFields.editTextMultiline(
+			fieldName = "osgiJaxrsName",
+			fieldValue = ${osgiJaxrsName});
+
+		if (${symbolicName} == "false") {
+			FormFields.disableCheckbox(fieldName = "Include Bundle Symbolic Name");
+		}
+
+		FormFields.editTextMultiline(
+			fieldName = "excludedScopes",
+			fieldValue = ${excludedScopesName});
+
+		FormFields.editTextMultiline(
+			fieldName = "serviceProperties",
+			fieldValue = ${serviceProperties});
+
+		FormFields.editTextMultiline(
+			fieldName = "separator",
+			fieldValue = ${separator});
+
+		PortletEntry.save();
+	}
+
+	@summary = "Default summary"
+	macro assertAbleToDeleteJournalArticle(msg = null, deleteOutput = null) {
+		if (contains(${deleteOutput}, ${msg})) {
+			fail("Unable to delete journal article");
+		}
+	}
+
+	@summary = "Default summary"
+	macro assertApplicationHasNoAuthorization(applicationName = null) {
+		LexiconEntry.gotoEntryMenuItem(
+			menuItem = "Edit",
+			rowEntry = ${applicationName});
+
+		AssertClick(
+			key_navItem = "Authorizations",
+			locator1 = "NavBar#NAV_ITEM_LINK",
+			value1 = "Authorizations");
+
+		AssertElementNotPresent(locator1 = "ContentRow#ENTRY_CONTENT_ROW_1");
+	}
+
+	@summary = "Default summary"
+	macro assertOAuthAuthorizationIsWorkingInCluster(authorizationCode = null) {
+		var curl = '''
+			http://localhost:9080/o/oauth2/token \
+				--data client_id=abc123&client_secret=abc123&grant_type=authorization_code&code=${authorizationCode}
+		''';
+
+		var response = JSONCurlUtil.post(${curl});
+
+		if (contains(${response}, "access_token")) {
+			echo("OAuth2 Authorization Code is working in cluster.");
+		}
+		else {
+			fail("OAuth2 Authorization Code is not working in cluster.");
+		}
+	}
+
+	@summary = "Default summary"
+	macro assertPermissionsDenied(msg = null, deleteOutput = null) {
+		if (!(contains(${deleteOutput}, ${msg}))) {
+			fail("Could not find message for denied permissions.");
+		}
+	}
+
+	@summary = "Default summary"
+	macro assertPortletHeader(header = null) {
+		AssertTextEquals(
+			locator1 = "Portlet#HEADER",
+			value1 = ${header});
+	}
+
+	@summary = "Default summary"
+	macro assertScopeChecked() {
+		AssertChecked(
+			key_panel = "sample-app",
+			key_scopeName = "everything.read",
+			locator1 = "OAuth2#ADMIN_GLOBAL_RESOURCE_SCOPE_CHECKBOX");
+	}
+
+	@summary = "Default summary"
+	macro authorizeMyApplication(clientId = null, portalURL = null, clientSecret = null, noAuthorize = null, newTab = null) {
+		var oauth2URL = PropsUtil.get("oauth2.url");
+
+		if (${newTab} == "true") {
+			Open.openInTheNewTab(value1 = "${oauth2URL}/grant-type-authorization-code");
+		}
+		else {
+			Navigator.openSpecificURL(url = "${oauth2URL}/grant-type-authorization-code");
+		}
+
+		if (isSet(portalURL)) {
+			Type(
+				locator1 = "OAuth2#OAUTH2_TESTER_PORTAL_URL",
+				value1 = ${portalURL});
+		}
+		else {
+			Type(
+				locator1 = "OAuth2#OAUTH2_TESTER_PORTAL_URL",
+				value1 = "http://localhost:8080/o/oauth2/authorize");
+		}
+
+		Type(
+			locator1 = "OAuth2#OAUTH2_TESTER_CLIENT_ID",
+			value1 = ${clientId});
+
+		Click(locator1 = "OAuth2#OAUTH2_TESTER_BTN_AUTHORIZE");
+
+		if (IsElementPresent(locator1 = "Button#SIGN_IN")) {
+			Type(
+				locator1 = "TextInput#EMAIL_ADDRESS",
+				value1 = "test@liferay.com");
+
+			Type(
+				locator1 = "TextInput#PASSWORD",
+				value1 = "test");
+
+			Click(locator1 = "Button#SIGN_IN");
+		}
+
+		if (isSet(rememberDevice)) {
+			Check(
+				key_checkboxName = "Remember Device",
+				locator1 = "OAuth2#ADMIN_INPUT_FORM_CHECKBOX");
+		}
+
+		if (${noAuthorize} == "true") {
+			WaitForElementPresent(locator1 = "OAuth2#OAUTH2_TESTER_CLIENT_SECRET");
+		}
+		else {
+			Click(locator1 = "OAuth2#OAUTH2_TESTER_BTN_AUTHORIZE");
+		}
+
+		Type(
+			locator1 = "OAuth2#OAUTH2_TESTER_CLIENT_ID_2",
+			value1 = ${clientId});
+
+		Type(
+			locator1 = "OAuth2#OAUTH2_TESTER_CLIENT_SECRET",
+			value1 = ${clientSecret});
+
+		if (isSet(tokenURL)) {
+			Type(
+				locator1 = "OAuth2#OAUTH2_TESTER_TOKEN_URL",
+				value1 = ${tokenURL});
+		}
+		else {
+			Type(
+				locator1 = "OAuth2#OAUTH2_TESTER_TOKEN_URL",
+				value1 = "http://localhost:8080/o/oauth2/token");
+		}
+
+		Click(locator1 = "OAuth2#OAUTH2_TESTER_BTN_GET_TOKEN");
+	}
+
+	@summary = "Default summary"
+	macro authorizePKCEApplication(clientId = null, portalURL = null) {
+		Navigator.openSpecificURL(url = "https://localhost:8443/oauth2-tester/pkce/");
+
+		if (isSet(portalURL)) {
+			Type(
+				locator1 = "OAuth2#OAUTH2_TESTER_PORTAL_URL",
+				value1 = ${portalURL});
+		}
+		else {
+			Type(
+				locator1 = "OAuth2#OAUTH2_TESTER_PORTAL_URL",
+				value1 = "https://localhost:8443");
+		}
+
+		Type(
+			locator1 = "OAuth2#OAUTH2_TESTER_CLIENT_ID",
+			value1 = ${clientId});
+
+		Button.click(button = "Generate a Code Challenge");
+
+		var codeChallenge = selenium.getElementValue("OAuth2#OAUTH2_TESTER_CODE_CHALLENGE");
+
+		Button.click(button = "Authorize My Application (PKCE)");
+
+		Click(locator1 = "OAuth2#OAUTH2_TESTER_BTN_AUTHORIZE");
+
+		Type(
+			locator1 = "OAuth2#OAUTH2_TESTER_EXCHANGE_CODE",
+			value1 = ${codeChallenge});
+
+		Button.click(button = "Obtain Access Token");
+	}
+
+	@summary = "Default summary"
+	macro deleteApplication(applicationName = null) {
+		LexiconEntry.gotoEntryMenuItemNoError(
+			menuItem = "Delete",
+			rowEntry = ${applicationName});
+
+		AssertConfirm.assertPartialConfirmation(value1 = "Are you sure you want to delete the application?");
+
+		AssertElementNotPresent(
+			key_tableName = ${applicationName},
+			locator1 = "OAuth2#ADMIN_TABLE_APP_NAME");
+	}
+
+	@summary = "Default summary"
+	macro deployInstanceConfigFile(osgiConfigFileName = null) {
+		var portalURL = ${portalURL};
+
+		var companyId = JSONCompany.getCompanyId(portalURL = ${portalURL});
+		var bundleId = ${bundleId};
+
+		if (isSet(bundleId)) {
+			AntCommands.runCommand("build-test-oauth2.xml", "prepare-oauth2-osgi-configuration -Dbundle.id=${bundleId} -DcompanyId=${companyId} -Dosgi.config.file.name=${osgiConfigFileName}");
+		}
+		else {
+			AntCommands.runCommand("build-test-oauth2.xml", "prepare-oauth2-osgi-configuration -DcompanyId=${companyId} -Dosgi.config.file.name=${osgiConfigFileName}");
+		}
+	}
+
+	@summary = "Default summary"
+	macro editApplication(newApplicationName = null, clientId = null, clientProfile = null, checkboxUncheckList = null, description = null, privacyPolicyURL = null, websiteURL = null, callbackUri = null, checkboxCheckList = null, clientSecret = null, generateNewSecret = null, applicationName = null) {
+		LexiconEntry.gotoEntryMenuItem(
+			menuItem = "Edit",
+			rowEntry = ${applicationName});
+
+		var newGeneratedClientSecret = OAuth2.inputApplicationValues(
+			applicationName = ${newApplicationName},
+			callbackUri = ${callbackUri},
+			checkboxCheckList = ${checkboxCheckList},
+			checkboxUncheckList = ${checkboxUncheckList},
+			clientId = ${clientId},
+			clientProfile = ${clientProfile},
+			clientSecret = ${clientSecret},
+			description = ${description},
+			generateNewSecret = ${generateNewSecret},
+			privacyPolicyURL = ${privacyPolicyURL},
+			websiteURL = ${websiteURL});
+
+		if (isSet(newApplicationName)) {
+			AssertTextEquals(
+				locator1 = "Portlet#HEADER",
+				value1 = ${newApplicationName});
+		}
+
+		return ${newGeneratedClientSecret};
+	}
+
+	@summary = "Default summary"
+	macro editScopes(uncheckGlobalScope = null, checkGlobalScope = null, resourcePanels = null, modalLinkScope = null, checkGlobalScopesViaModal = null, resourceUncheckList = null, uncheckAllResourceScopes = null, resourceCheckList = null, applicationName = null) {
+		LexiconEntry.gotoEntryMenuItem(
+			menuItem = "Edit",
+			rowEntry = ${applicationName});
+
+		AssertClick(
+			key_navItem = "Scopes",
+			locator1 = "NavBar#NAV_ITEM_LINK",
+			value1 = "Scopes");
+
+		AssertElementPresent(
+			key_navItem = "Scopes",
+			locator1 = "NavBar#ACTIVE_NAV_ITEM_LINK");
+
+		if (isSet(checkGlobalScope) || isSet(uncheckGlobalScope)) {
+			Navigator.gotoNavUnderline(navUnderline = "Global scopes");
+
+			if (isSet(checkGlobalScope)) {
+				Check(
+					key_scopeName = ${checkGlobalScope},
+					locator1 = "OAuth2#ADMIN_GLOBAL_SCOPE_CHECKBOX");
+			}
+
+			if (isSet(uncheckGlobalScope)) {
+				Uncheck(
+					key_scopeName = ${uncheckGlobalScope},
+					locator1 = "OAuth2#ADMIN_GLOBAL_SCOPE_CHECKBOX");
+			}
+		}
+
+		if (isSet(checkGlobalScopesViaModal) || isSet(resourceCheckList) || isSet(resourceUncheckList) || isSet(uncheckAllResourceScopes)) {
+			if (IsElementPresent(key_navUnderline = "Global scopes", locator1 = "NavUnderline#ACTIVE_NAV_UNDERLINE_LINK")) {
+				Navigator.gotoNavUnderline(navUnderline = "Resource scopes");
+			}
+
+			for (var resourcePanel : list ${resourcePanels}) {
+				if (IsElementPresent(key_panel = ${resourcePanel}, locator1 = "OAuth2#ADMIN_RESOURCE_PANEL_COLLAPSED")) {
+					ScrollWebElementIntoView(
+						key_panel = ${resourcePanel},
+						locator1 = "OAuth2#ADMIN_RESOURCE_PANEL_COLLAPSED");
+				}
+
+				if (IsElementPresent(key_panel = ${resourcePanel}, locator1 = "OAuth2#ADMIN_RESOURCE_PANEL_COLLAPSED")) {
+					OAuth2.expandResourcePanel(resourcePanel = ${resourcePanel});
+				}
+			}
+
+			if (isSet(checkGlobalScopesViaModal)) {
+				AssertClick.assertPartialTextClickAt(
+					key_scopeText = ${modalLinkScope},
+					locator1 = "OAuth2#ADMIN_MODAL_GLOBAL_SCOPE_LINK",
+					value1 = "assigned via a global scope");
+
+				for (var scopeName : list ${checkGlobalScopesViaModal}) {
+					Check(
+						key_scopeName = ${scopeName},
+						locator1 = "OAuth2#ADMIN_MODAL_GLOBAL_SCOPE_CHECKBOX");
+				}
+
+				Click(locator1 = "Button#CLOSE_IFRAME");
+			}
+
+			if (isSet(resourceCheckList)) {
+				for (var scopeName : list ${resourceCheckList}) {
+					ScrollWebElementIntoView(
+						key_scopeName = ${scopeName},
+						locator1 = "OAuth2#ADMIN_RESOURCE_SCOPE_CHECKBOX");
+
+					Check(
+						key_scopeName = ${scopeName},
+						locator1 = "OAuth2#ADMIN_RESOURCE_SCOPE_CHECKBOX");
+				}
+			}
+
+			if (isSet(resourceUncheckList)) {
+				for (var scopeName : list ${resourceUncheckList}) {
+					Uncheck(
+						key_scopeName = ${scopeName},
+						locator1 = "OAuth2#ADMIN_RESOURCE_SCOPE_CHECKBOX");
+				}
+			}
+
+			if (${uncheckAllResourceScopes} == "true") {
+				var count = 1;
+
+				while (IsElementPresent(key_matchCount = ${count}, locator1 = "OAuth2#ADMIN_RESOURCE_SCOPE_CHECKED")) {
+					Uncheck(
+						key_matchCount = ${count},
+						locator1 = "OAuth2#ADMIN_RESOURCE_SCOPE_CHECKED");
+
+					var count = ${count} + 1;
+				}
+			}
+		}
+
+		PortletEntry.save();
+
+		Navigator.gotoBack();
+	}
+
+	@summary = "Default summary"
+	macro expandGlobalPanel(globalPanel = null) {
+		var key_panel = ${globalPanel};
+
+		if ((IsElementPresent(locator1 = "OAuth2#ADMIN_GLOBAL_PANEL_COLLAPSED")) && (IsVisible(locator1 = "OAuth2#ADMIN_GLOBAL_PANEL_COLLAPSED"))) {
+			Click(locator1 = "OAuth2#ADMIN_GLOBAL_PANEL_COLLAPSED");
+		}
+
+		AssertElementPresent(locator1 = "OAuth2#ADMIN_GLOBAL_PANEL_EXPANDED");
+	}
+
+	@summary = "Default summary"
+	macro expandResourcePanel(resourcePanel = null) {
+		var key_panel = ${resourcePanel};
+
+		if ((IsElementPresent(locator1 = "OAuth2#ADMIN_RESOURCE_PANEL_COLLAPSED")) && (IsVisible(locator1 = "OAuth2#ADMIN_RESOURCE_PANEL_COLLAPSED"))) {
+			Click(locator1 = "OAuth2#ADMIN_RESOURCE_PANEL_COLLAPSED");
+		}
+
+		AssertElementPresent(locator1 = "OAuth2#ADMIN_RESOURCE_PANEL_EXPANDED");
+	}
+
+	@summary = "Default summary"
+	macro getAccessToken(client_secret = null, grantFlow = null, client_id = null) {
+		if (!(isSet(portalURL))) {
+			var portalURL = JSONCompany.getPortalURL();
+		}
+
+		if (${grantFlow} == "clientCredentials") {
+			var tokenCurl = '''
+				${portalURL}/o/oauth2/token \
+					-d client_id=${client_id} \
+					-d client_secret=${client_secret} \
+					-d grant_type=client_credentials
+			''';
+		}
+
+		var response = JSONCurlUtil.post(${tokenCurl});
+
+		var partialResponse = StringUtil.extractFirst(${response}, "\",\"token_type");
+
+		var accessToken = StringUtil.extractLast(${partialResponse}, "access_token\":\"");
+
+		echo("## * Access Token: ${accessToken}");
+
+		return ${accessToken};
+	}
+
+	@summary = "Default summary"
+	macro getAuthorizationCode() {
+		var generatedClientId = selenium.getElementValue("OAuth2#ADMIN_INPUT_FORM_CLIENT_ID");
+
+		if (!(isSet(portalURL))) {
+			var portalURL = JSONCompany.getPortalURL();
+		}
+
+		Navigator.openSpecificURL(url = "${portalURL}/o/oauth2/authorize?client_id=${generatedClientId}&response_type=code");
+
+		Click(locator1 = "OAuth2#OAUTH2_TESTER_BTN_AUTHORIZE");
+
+		WaitForSPARefresh();
+
+		var currentURL = selenium.getCurrentUrl();
+
+		echo("## * Current URL: ${currentURL}");
+
+		return ${currentURL};
+
+		var authorizationCode = StringUtil.extractLast(${currentURL}, "code=");
+
+		echo("## * Authorization Code: ${authorizationCode}");
+
+		return ${authorizationCode};
+	}
+
+	@summary = "Default summary"
+	macro getDeleteOutput(accessToken = null) {
+		var portalURL = JSONCompany.getPortalURL();
+		var articleId = JSONWebcontentSetter.setArticleId(
+			groupName = "Guest",
+			title = "WC Title");
+		var groupId = JSONGroupAPI._getGroupIdByName(
+			groupName = "Guest",
+			site = "true");
+
+		var deleteCurl = '''
+			${portalURL}/api/jsonws/journal.journalarticle/delete-article -H 'Authorization: Bearer ${accessToken}' \
+				-d groupId=${groupId} \
+				-d articleId=${articleId} \
+				-d articleURL='wc-title'
+		''';
+
+		var deleteOutput = JSONCurlUtil.post(${deleteCurl});
+
+		return ${deleteOutput};
+	}
+
+	@summary = "Default summary"
+	macro inputApplicationValues(clientId = null, clientProfile = null, description = null, checkboxUncheckList = null, privacyPolicyURL = null, websiteURL = null, callbackUri = null, checkboxCheckList = null, clientCredentialsUser = null, clientSecret = null, clientAuthenticationMethod = null, generateNewSecret = null, applicationName = null) {
+		if (isSet(clientId)) {
+			Click(locator1 = "OAuth2#ADMIN_INPUT_FORM_CLIENT_ID_EDIT_BUTTON");
+
+			Click(locator1 = "OAuth2#ADMIN_INPUT_FORM_CLIENT_ID_EDIT_FIELD");
+
+			Type(
+				locator1 = "OAuth2#ADMIN_INPUT_FORM_CLIENT_ID_EDIT_FIELD",
+				value1 = ${clientId});
+
+			Button.clickApply();
+		}
+
+		if (isSet(clientSecret) || isSet(generateNewSecret)) {
+			Click(locator1 = "OAuth2#ADMIN_INPUT_FORM_CLIENT_SECRET_EDIT_BUTTON");
+
+			if (${generateNewSecret} == "true") {
+				Click(locator1 = "OAuth2#ADMIN_INPUT_FORM_GENERATE_NEW_SECRET");
+
+				var newGeneratedClientSecret = selenium.getElementValue("OAuth2#ADMIN_INPUT_FORM_CLIENT_SECRET_EDIT_FIELD");
+			}
+			else {
+				Click(locator1 = "OAuth2#ADMIN_INPUT_FORM_CLIENT_SECRET_EDIT_FIELD");
+
+				Type(
+					locator1 = "OAuth2#ADMIN_INPUT_FORM_CLIENT_SECRET_EDIT_FIELD",
+					value1 = ${clientSecret});
+			}
+
+			Button.clickApply();
+		}
+
+		// All macros that require return must have return statement that's called.
+
+		return ${newGeneratedClientSecret};
+
+		if (isSet(applicationName)) {
+			PortletEntry.inputName(name = ${applicationName});
+		}
+
+		if (isSet(websiteURL)) {
+			PortletEntry.inputText(
+				fieldLabel = "Website URL",
+				text = ${websiteURL});
+		}
+
+		if (isSet(description)) {
+			PortletEntry.inputDescription(description = ${description});
+		}
+
+		if (isSet(callbackUri)) {
+			PortletEntry.inputTextArea(
+				fieldId = "redirectURIs",
+				text = ${callbackUri});
+		}
+
+		if (isSet(privacyPolicyURL)) {
+			PortletEntry.inputText(
+				fieldLabel = "Privacy Policy URL",
+				text = ${privacyPolicyURL});
+		}
+
+		if (${clientAuthenticationMethod} == "Client Secret JWT") {
+			Select(
+				key_fieldLabel = "Client Authentication Method",
+				locator1 = "Select#GENERIC_SELECT_FIELD",
+				value1 = "Client Secret JWT");
+		}
+		else if (${clientAuthenticationMethod} == "Private Key JWT") {
+			var jwks = FileUtil.read("test/functional/com/liferay/portalweb/tests/coreinfrastructure/security/oauth2/dependencies/jwks.txt");
+
+			Select(
+				key_fieldLabel = "Client Authentication Method",
+				locator1 = "Select#GENERIC_SELECT_FIELD",
+				value1 = "Private Key JWT");
+
+			PortletEntry.inputTextArea(
+				fieldId = "jwks",
+				text = ${jwks});
+		}
+		else if (${clientAuthenticationMethod} == "Client Secret Basic") {
+			Select(
+				key_fieldLabel = "Client Authentication Method",
+				locator1 = "Select#GENERIC_SELECT_FIELD",
+				value1 = "Client Secret Basic");
+		}
+		else if (${clientAuthenticationMethod} == "None") {
+			Select(
+				key_fieldLabel = "Client Authentication Method",
+				locator1 = "Select#GENERIC_SELECT_FIELD",
+				value1 = "None");
+		}
+		else {
+			Select(
+				key_fieldLabel = "Client Authentication Method",
+				locator1 = "Select#GENERIC_SELECT_FIELD",
+				value1 = "Client Secret Basic or Post");
+		}
+
+		if (isSet(clientProfile)) {
+			Select(
+				key_fieldLabel = "Client Profile",
+				locator1 = "Select#GENERIC_SELECT_FIELD",
+				value1 = ${clientProfile});
+		}
+
+		if (isSet(checkboxCheckList)) {
+			for (var checkboxName : list ${checkboxCheckList}) {
+				Check(
+					key_checkboxName = ${checkboxName},
+					locator1 = "OAuth2#ADMIN_INPUT_FORM_CHECKBOX");
+			}
+		}
+
+		if (isSet(checkboxUncheckList)) {
+			for (var checkboxName : list ${checkboxUncheckList}) {
+				Uncheck(
+					key_checkboxName = ${checkboxName},
+					locator1 = "OAuth2#ADMIN_INPUT_FORM_CHECKBOX");
+			}
+		}
+
+		if (isSet(clientCredentialsUser)) {
+			AssertClick(
+				locator1 = "Button#SELECT",
+				value1 = "Select");
+
+			SelectFrame(locator1 = "IFrame#MODAL_BODY");
+
+			WaitForElementPresent(
+				key_clientCredentialsUser = ${clientCredentialsUser},
+				locator1 = "OAuth2#ADMIN_CLIENT_CREDENTIALS_USER_SELECTED",
+				value1 = ${clientCredentialsUser});
+
+			Click(
+				key_clientCredentialsUser = ${clientCredentialsUser},
+				locator1 = "OAuth2#ADMIN_CLIENT_CREDENTIALS_USER_SELECTED",
+				value1 = ${clientCredentialsUser});
+
+			SelectFrame(value1 = "relative=top");
+		}
+
+		PortletEntry.save();
+	}
+
+	@summary = "Default summary"
+	macro introspectAccessToken(requestResult = null) {
+		AssertElementPresent(locator1 = "OAuth2#OAUTH2_TESTER_REQUEST_URL");
+
+		Button.click(button = "Introspect Access Token");
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "OAuth2#OAUTH2_TESTER_REQUEST_RESULTS",
+			value1 = ${requestResult});
+	}
+
+	@summary = "Default summary"
+	macro launchRequest(requestURL = null) {
+		if (isSet(requestURL)) {
+			Type(
+				locator1 = "OAuth2#OAUTH2_TESTER_REQUEST_URL",
+				value1 = ${requestURL});
+		}
+		else {
+			Type(
+				locator1 = "OAuth2#OAUTH2_TESTER_REQUEST_URL",
+				value1 = "http://localhost:8080/o/headless-admin-user/v1.0/user-accounts");
+		}
+
+		Click(locator1 = "OAuth2#OAUTH2_TESTER_BTN_GET_USER");
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "OAuth2#OAUTH2_TESTER_REQUEST_RESULTS",
+			value1 = "test@liferay.com");
+	}
+
+	@summary = "Default summary"
+	macro launchRequestNotAuthorized() {
+		Pause(value1 = 8000);
+
+		Click(locator1 = "OAuth2#OAUTH2_TESTER_BTN_GET_USER");
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "OAuth2#OAUTH2_TESTER_REQUEST_RESULTS",
+			value1 = "[]");
+	}
+
+	@summary = "Default summary"
+	macro obtainOAuth2AccessNotAuthorized() {
+		AssertTextEquals.assertPartialText(
+			locator1 = "OAuth2#OAUTH2_TESTER_REQUEST_RESULTS",
+			value1 = "[]");
+	}
+
+	@summary = "Default summary"
+	macro openOAuth2Admin(baseURL = null) {
+		Navigator.openWithAppendToBaseURL(
+			baseURL = ${baseURL},
+			urlAppend = "group/guest/~/control_panel/manage?p_p_id=com_liferay_oauth2_provider_web_internal_portlet_OAuth2AdminPortlet");
+
+		WaitForVisible(locator1 = "Button#PLUS");
+	}
+
+	@summary = "Default summary"
+	macro openSSLPage() {
+		Navigator.openSpecificURL(url = "https://localhost:8443");
+
+		Alert.confirmSecurity();
+	}
+
+	@description = "Get ClientId and ClientSecret from the page then post client credential token via curl."
+	@summary = "Default summary"
+	macro postClientCredentialTokenViaCurl() {
+		var generatedClientId = selenium.getElementValue("OAuth2#ADMIN_INPUT_FORM_CLIENT_ID");
+		var generatedClientSecret = selenium.getElementValue("OAuth2#ADMIN_INPUT_FORM_CLIENT_SECRET");
+		var portalURL = JSONCompany.getPortalURL();
+
+		var curl = '''
+			${portalURL}/o/oauth2/token \
+				-d client_id=${generatedClientId} \
+				-d client_secret=${generatedClientSecret} \
+				-d grant_type=client_credentials
+		''';
+
+		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
+	}
+
+	@description = "Request the liferay access token for OAuth2 application with the JWT via curl."
+	@summary = "Default summary"
+	macro requestAccessTokenWithJWTViaCurl(clientId = null, jwtFileBaseDir = null, jwtFileName = null, clientSecret = null, scopes = null) {
+		var portalURL = JSONCompany.getPortalURL();
+		var jwt = FileUtil.read("${jwtFileBaseDir}/${jwtFileName}");
+
+		var curl = '''
+			${portalURL}/o/oauth2/token \
+				-H 'Content-Type: application/x-www-form-urlencoded' \
+				--data-urlencode 'client_id=${clientId}' \
+				--data-urlencode 'client_secret=${clientSecret}' \
+				--data-urlencode 'grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer' \
+				--data-urlencode 'scope=${scopes}'
+				--data-urlencode 'assertion=${jwt}'
+		''';
+
+		if (!(isSet(noResponse))) {
+			var scopeList = JSONCurlUtil.post(${curl}, "$['scope']");
+
+			echo("## * Scope list: ${scopeList}");
+
+			return ${scopeList};
+		}
+		else {
+			var errorType = JSONCurlUtil.post(${curl}, "$['error']");
+
+			echo("## * No access token is returned due to ${errorType}");
+		}
+	}
+
+	@summary = "Default summary"
+	macro revokeApplicationAuthorization(applicationName = null) {
+		LexiconEntry.viewEntryMenuItem(
+			menuItem = "Revoke Authorizations",
+			rowEntry = ${applicationName});
+
+		MenuItem.clickNoError(menuItem = "Revoke Authorizations");
+
+		AssertConfirm.assertPartialConfirmation(value1 = "Are you sure you want to revoke all authorizations? This actions revokes 1 authorization and associated tokens.");
+
+		AssertTextEquals(
+			key_columnName = "lfr-authorizations",
+			key_tableEntry = ${applicationName},
+			locator1 = "LexiconTable#TABLE_ENTRY_INFO",
+			value1 = 0);
+	}
+
+	@summary = "Default summary"
+	macro revokeGrantedAuthViaAdmin(userName = null, applicationName = null) {
+		LexiconEntry.gotoEntryMenuItem(
+			menuItem = "Edit",
+			rowEntry = ${applicationName});
+
+		AssertClick(
+			key_navItem = "Authorizations",
+			locator1 = "NavBar#NAV_ITEM_LINK",
+			value1 = "Authorizations");
+
+		AssertElementPresent(
+			key_navItem = "Authorizations",
+			locator1 = "NavBar#ACTIVE_NAV_ITEM_LINK");
+
+		AssertClickNoError(
+			key_rowEntry = ${userName},
+			locator1 = "OAuth2#ADMIN_AUTHORIZATIONS_REVOKE_BUTTON",
+			value1 = "Revoke");
+
+		var browserType = PropsUtil.get("browser.type");
+
+		if (${browserType} != "safari") {
+			AssertConfirm.waitForConfirmation(value1 = "Are you sure you want to revoke the authorization?");
+		}
+
+		Alert.viewSuccessMessage();
+
+		AssertElementNotPresent(
+			key_userName = ${userName},
+			locator1 = "OAuth2#ADMIN_AUTHORIZATIONS_USER_NAME");
+
+		Navigator.gotoBack();
+	}
+
+	@summary = "Default summary"
+	macro revokeGrantedAuthViaUser(applicationName = null) {
+		UserBar.gotoDropdownItem(dropdownItem = "My Connected Applications");
+
+		LexiconEntry.gotoEntryMenuItem(
+			menuItem = "View",
+			rowEntry = ${applicationName});
+
+		AssertClickNoError(
+			locator1 = "OAuth2#USER_CONNECTED_APP_REMOVE_ACCESS_BUTTON",
+			value1 = "Remove Access");
+
+		AssertConfirm.waitForConfirmation(value1 = "${applicationName} will no longer have access to your account. Removed access cannot be recovered.");
+
+		Alert.viewSuccessMessage();
+	}
+
+	@summary = "Default summary"
+	macro viewApplication(clientId = null, jwks = null, websiteURL = null, clientProfile = null, callbackUri = null, checkboxCheckList = null, description = null, clientSecret = null, clientAuthenticationMethod = null, privacyPolicyURL = null, applicationName = null) {
+		LexiconEntry.gotoEntryMenuItem(
+			menuItem = "Edit",
+			rowEntry = ${applicationName});
+
+		if (isSet(clientId)) {
+			AssertTextEquals(
+				locator1 = "OAuth2#ADMIN_INPUT_FORM_CLIENT_ID",
+				value1 = ${clientId});
+		}
+
+		if (isSet(clientSecret)) {
+			AssertTextEquals(
+				locator1 = "OAuth2#ADMIN_INPUT_FORM_CLIENT_SECRET",
+				value1 = ${clientSecret});
+		}
+
+		if (isSet(applicationName)) {
+			AssertTextEquals(
+				locator1 = "TextInput#NAME",
+				value1 = ${applicationName});
+		}
+
+		if (isSet(websiteURL)) {
+			AssertTextEquals(
+				key_fieldLabel = "Website URL",
+				locator1 = "TextInput#GENERIC_TEXT_INPUT",
+				value1 = ${websiteURL});
+		}
+
+		if (isSet(description)) {
+			AssertTextEquals(
+				locator1 = "TextArea#DESCRIPTION",
+				value1 = ${description});
+		}
+
+		if (isSet(privacyPolicyURL)) {
+			AssertTextEquals(
+				key_fieldLabel = "Privacy Policy URL",
+				locator1 = "TextInput#GENERIC_TEXT_INPUT",
+				value1 = ${privacyPolicyURL});
+		}
+
+		if (isSet(callbackUri)) {
+			AssertTextEquals.assertPartialText(
+				key_text = "redirectURIs",
+				locator1 = "TextArea#ANY",
+				value1 = ${callbackUri});
+		}
+
+		if (isSet(clientAuthenticationMethod)) {
+			AssertSelectedLabel(
+				key_fieldLabel = "Client Authentication Method",
+				locator1 = "Select#GENERIC_SELECT_FIELD",
+				value1 = ${clientAuthenticationMethod});
+		}
+
+		if (isSet(jwks)) {
+			AssertTextEquals.assertPartialText(
+				key_text = "jwks",
+				locator1 = "TextArea#ANY",
+				value1 = ${jwks});
+		}
+
+		if (isSet(clientProfile)) {
+			AssertSelectedLabel(
+				key_fieldLabel = "Client Profile",
+				locator1 = "Select#GENERIC_SELECT_FIELD",
+				value1 = ${clientProfile});
+		}
+
+		if (isSet(checkboxCheckList)) {
+			for (var checkboxName : list ${checkboxCheckList}) {
+				AssertChecked(
+					key_checkboxName = ${checkboxName},
+					locator1 = "OAuth2#ADMIN_INPUT_FORM_CHECKBOX");
+			}
+		}
+
+		Navigator.gotoBack();
+	}
+
+	@summary = "Default summary"
+	macro viewApplicationInAuthorizationsTable(entryIndex = null, tableEntry = null) {
+		AssertTextEquals(
+			key_columnName = "lfr-authorizations",
+			key_tableEntry = ${tableEntry},
+			locator1 = "LexiconTable#TABLE_ENTRY_INFO",
+			value1 = ${entryIndex});
+	}
+
+	@summary = "Default summary"
+	macro viewApplicationInTable(clientId = null, description = null, applicationName = null) {
+		AssertElementPresent(
+			key_tableName = ${applicationName},
+			locator1 = "OAuth2#ADMIN_TABLE_APP_NAME");
+
+		AssertTextEquals(
+			key_tableName = ${applicationName},
+			locator1 = "OAuth2#ADMIN_TABLE_APP_DESCRIPTION",
+			value1 = ${description});
+
+		if (isSet(clientId)) {
+			AssertTextEquals(
+				key_tableName = ${applicationName},
+				locator1 = "OAuth2#ADMIN_TABLE_APP_CLIENT_ID",
+				value1 = ${clientId});
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewApplicationNameInUserConnectedAppTable() {
+		AssertElementNotPresent(
+			key_appName = "Test Expired Application",
+			locator1 = "OAuth2#USER_CONNECTED_APP_TABLE_NAME");
+	}
+
+	@summary = "Default summary"
+	macro viewAuthorizationRequestAppName(appName = null) {
+		AssertElementPresent(
+			key_applicationName = ${appName},
+			locator1 = "OAuth2#AUTHORIZATION_REQUEST_APPLICATION_NAME");
+	}
+
+	@summary = "Default summary"
+	macro viewAuthorizationRequestResourceName(resourceName = null) {
+		AssertElementPresent(
+			key_resourceName = ${resourceName},
+			locator1 = "OAuth2#AUTHORIZATION_REQUEST_RESOURCE_NAME");
+	}
+
+	@summary = "Default summary"
+	macro viewGlobalScopesPresent() {
+		AssertElementPresent(
+			key_navUnderline = "Global scopes",
+			locator1 = "NavUnderline#NAV_UNDERLINE_LINK");
+	}
+
+	@summary = "Default summary"
+	macro viewGrantedAuthViaAdmin(noAuthorizations = null, userName = null, applicationName = null) {
+		LexiconEntry.gotoEntryMenuItem(
+			menuItem = "Edit",
+			rowEntry = ${applicationName});
+
+		AssertClick(
+			key_navItem = "Authorizations",
+			locator1 = "NavBar#NAV_ITEM_LINK",
+			value1 = "Authorizations");
+
+		AssertElementPresent(
+			key_navItem = "Authorizations",
+			locator1 = "NavBar#ACTIVE_NAV_ITEM_LINK");
+
+		if (${noAuthorizations} == "true") {
+			AssertTextEquals.assertPartialText(
+				locator1 = "Message#EMPTY_INFO",
+				value1 = "No authorizations were found.");
+		}
+		else if (isSet(expiration)) {
+			AssertElementPresent(
+				key_expiration = ${expiration},
+				locator1 = "OAuth2#ADMIN_AUTHORIZATIONS_EXPIRATION");
+		}
+		else {
+			AssertElementPresent(
+				key_userName = ${userName},
+				locator1 = "OAuth2#ADMIN_AUTHORIZATIONS_USER_NAME");
+		}
+
+		Navigator.gotoBack();
+	}
+
+	@summary = "Default summary"
+	macro viewGrantedAuthViaUser(noAuthorizations = null, applicationName = null) {
+		Navigator.openURL();
+
+		UserBar.gotoDropdownItem(dropdownItem = "My Connected Applications");
+
+		if (${noAuthorizations} == "true") {
+			AssertTextEquals.assertPartialText(
+				locator1 = "Message#EMPTY_INFO",
+				value1 = "No connected applications were found.");
+		}
+		else {
+			AssertElementPresent(
+				key_appName = ${applicationName},
+				locator1 = "OAuth2#USER_CONNECTED_APP_TABLE_NAME");
+
+			LexiconEntry.gotoEntryMenuItem(
+				menuItem = "View",
+				rowEntry = ${applicationName});
+
+			AssertTextEquals(
+				locator1 = "OAuth2#USER_CONNECTED_APP_VIEW_NAME",
+				value1 = ${applicationName});
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewPropertyInLiferayExtraProperties(propertyName = null, propertyValue = null) {
+		AssertTextEquals(
+			key_columnName = "lfr-extra-properties",
+			key_tableEntry = ${propertyName},
+			locator1 = "LexiconTable#TABLE_ENTRY_INFO",
+			value1 = ${propertyValue});
+	}
+
+	@summary = "Default summary"
+	macro viewResourcePanelCollapsed(scopeList = null) {
+		for (var resourcePanel : list ${scopeList}) {
+			var key_panel = ${resourcePanel};
+
+			AssertElementPresent(locator1 = "OAuth2#ADMIN_RESOURCE_PANEL_COLLAPSED");
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewResourcePanelNotCollapsed(panel = null) {
+		AssertElementNotPresent(
+			key_panel = ${panel},
+			locator1 = "OAuth2#ADMIN_RESOURCE_PANEL_COLLAPSED");
+	}
+
+	@summary = "Default summary"
+	macro viewResourceScopesPresent() {
+		AssertElementNotPresent(
+			key_navUnderline = "Resource scopes",
+			locator1 = "NavUnderline#NAV_UNDERLINE_LINK");
+	}
+
+	@summary = "Default summary"
+	macro viewScopeAliases(resourcePanels = null, scopeAliasList = null, applicationName = null) {
+		LexiconEntry.gotoEntryMenuItem(
+			menuItem = "Edit",
+			rowEntry = ${applicationName});
+
+		Navigator.gotoNavItem(navItem = "Scopes");
+
+		for (var resourcePanel : list ${resourcePanels}) {
+			OAuth2.expandResourcePanel(resourcePanel = ${resourcePanel});
+		}
+
+		for (var scopeAlias : list ${scopeAliasList}) {
+			AssertElementPresent(
+				key_scopeAlias = ${scopeAlias},
+				locator1 = "OAuth2#ADMIN_RESOURCE_SCOPE_ALIAS");
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewScopeMappings(resourcePanels = null, scopeTranslation = null, applicationName = null, globalScopeLinkValue = null) {
+		LexiconEntry.gotoEntryMenuItem(
+			menuItem = "Edit",
+			rowEntry = ${applicationName});
+
+		Navigator.gotoNavItem(navItem = "Scopes");
+
+		for (var resourcePanel : list ${resourcePanels}) {
+			OAuth2.expandResourcePanel(resourcePanel = ${resourcePanel});
+		}
+
+		if (isSet(scopeTranslation)) {
+			AssertTextEquals(
+				key_resourcePanel = ${resourcePanel},
+				locator1 = "OAuth2#ADMIN_RESOURCE_SCOPE_TRANSLATION",
+				value1 = ${scopeTranslation});
+		}
+
+		if (isSet(globalScopeLinkValue)) {
+			if (contains(${scopeTranslation}, "+")) {
+				var partialScopeTranslation = StringUtil.extractFirst(${scopeTranslation}, "+");
+
+				var partialScopeTranslation = StringUtil.trim(${partialScopeTranslation});
+
+				var key_scopeText = ${partialScopeTranslation};
+			}
+			else {
+				var key_scopeText = ${scopeTranslation};
+			}
+
+			AssertTextEquals(
+				key_scopeText = ${key_scopeText},
+				locator1 = "OAuth2#ADMIN_MODAL_GLOBAL_SCOPE_LINK",
+				value1 = ${globalScopeLinkValue});
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewScopes(resourceCheckedList = null, resourceUncheckedList = null, resourcePanels = null, checkedGlobalScope = null, removedScope = null, uncheckedGlobalScope = null, modalLinkScope = null, allResourceScopesUnchecked = null, checkedGlobalScopesViaModal = null, applicationName = null) {
+		LexiconEntry.gotoEntryMenuItem(
+			menuItem = "Edit",
+			rowEntry = ${applicationName});
+
+		AssertClick(
+			key_navItem = "Scopes",
+			locator1 = "NavBar#NAV_ITEM_LINK",
+			value1 = "Scopes");
+
+		AssertElementPresent(
+			key_navItem = "Scopes",
+			locator1 = "NavBar#ACTIVE_NAV_ITEM_LINK");
+
+		if (isSet(checkedGlobalScope) || isSet(uncheckedGlobalScope)) {
+			Navigator.gotoNavUnderline(navUnderline = "Global scopes");
+
+			if (isSet(checkedGlobalScope)) {
+				AssertChecked(
+					key_scopeName = ${checkedGlobalScope},
+					locator1 = "OAuth2#ADMIN_GLOBAL_SCOPE_CHECKBOX");
+			}
+
+			if (isSet(uncheckedGlobalScope)) {
+				AssertNotChecked(
+					key_scopeName = ${uncheckedGlobalScope},
+					locator1 = "OAuth2#ADMIN_GLOBAL_SCOPE_CHECKBOX");
+			}
+		}
+
+		if (isSet(allResourceScopesUnchecked) || isSet(checkedGlobalScopesViaModal) || isSet(removedScope) || isSet(resourceCheckedList) || isSet(resourceUncheckedList)) {
+			if (IsElementPresent(key_navUnderline = "Global scopes", locator1 = "NavUnderline#ACTIVE_NAV_UNDERLINE_LINK")) {
+				Navigator.gotoNavUnderline(navUnderline = "Resource scopes");
+			}
+
+			for (var resourcePanel : list ${resourcePanels}) {
+				OAuth2.expandResourcePanel(resourcePanel = ${resourcePanel});
+			}
+
+			if (isSet(resourceCheckedList)) {
+				for (var scopeName : list ${resourceCheckedList}) {
+					AssertChecked(
+						key_scopeName = ${scopeName},
+						locator1 = "OAuth2#ADMIN_RESOURCE_SCOPE_CHECKBOX");
+				}
+			}
+
+			if (isSet(resourceUncheckedList)) {
+				for (var scopeName : list ${resourceUncheckedList}) {
+					AssertNotChecked(
+						key_scopeName = ${scopeName},
+						locator1 = "OAuth2#ADMIN_RESOURCE_SCOPE_CHECKBOX");
+				}
+			}
+
+			if (${allResourceScopesUnchecked} == "true") {
+				AssertElementNotPresent(
+					key_matchCount = 1,
+					locator1 = "OAuth2#ADMIN_RESOURCE_SCOPE_CHECKED");
+			}
+
+			if (isSet(checkedGlobalScopesViaModal)) {
+				AssertClick.assertPartialTextClickAt(
+					key_scopeText = ${modalLinkScope},
+					locator1 = "OAuth2#ADMIN_MODAL_GLOBAL_SCOPE_LINK",
+					value1 = "assigned via a global scope");
+
+				for (var scopeName : list ${checkedGlobalScopesViaModal}) {
+					AssertChecked(
+						key_scopeName = ${scopeName},
+						locator1 = "OAuth2#ADMIN_MODAL_GLOBAL_SCOPE_CHECKBOX");
+				}
+
+				Click(locator1 = "Button#CLOSE_IFRAME");
+			}
+
+			if (isSet(removedScope)) {
+				AssertElementPresent(
+					key_scopeName = ${removedScope},
+					locator1 = "OAuth2#ADMIN_RESOURCE_SCOPE_REMOVED");
+			}
+		}
+
+		Navigator.gotoBack();
+	}
+
+	@summary = "Default summary"
+	macro viewSimpleQAAppInScopeMappings() {
+		AssertElementNotPresent(locator1 = "xpath=(//a[contains(.,'Sample QA app')]//following-sibling::div//li)[2]");
+	}
+
+	@summary = "Default summary"
+	macro viewUserConnectedExpirationValue(expirationValue = null) {
+		AssertTextEquals.assertPartialText(
+			locator1 = "OAuth2#USER_CONNECTED_APP_EXPIRATION_VALUE",
+			value1 = ${expirationValue});
+	}
+
+	@summary = "Default summary"
+	macro viewUserConnectedLastAccess() {
+		AssertElementPresent(
+			key_activity = "Last Access",
+			locator1 = "OAuth2#USER_CONNECTED_APP_ACTIVITY");
+	}
+
+	@summary = "Default summary"
+	macro viewValidOAuth2LaunchRequest(clientId = null, clientSecret = null) {
+		Type(
+			locator1 = "OAuth2#OAUTH2_TESTER_CLIENT_ID_2",
+			value1 = ${clientId});
+
+		Type(
+			locator1 = "OAuth2#OAUTH2_TESTER_CLIENT_SECRET",
+			value1 = ${clientSecret});
+
+		SelectFrameTop();
+
+		Type(
+			locator1 = "OAuth2#OAUTH2_TESTER_TOKEN_URL",
+			value1 = "http://localhost:8080/o/oauth2/token");
+
+		Click(locator1 = "OAuth2#OAUTH2_TESTER_BTN_GET_TOKEN");
+
+		Type(
+			locator1 = "OAuth2#OAUTH2_TESTER_REQUEST_URL",
+			value1 = "http://localhost:8080/o/headless-admin-user/v1.0/user-accounts");
+
+		Click(locator1 = "OAuth2#OAUTH2_TESTER_BTN_GET_USER");
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "OAuth2#OAUTH2_TESTER_REQUEST_RESULTS",
+			value1 = "@liferay.com");
+	}
+
+}

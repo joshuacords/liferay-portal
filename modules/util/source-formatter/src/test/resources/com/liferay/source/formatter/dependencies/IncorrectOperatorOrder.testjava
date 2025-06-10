@@ -1,0 +1,317 @@
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+
+package com.liferay.source.formatter.dependencies;
+
+/**
+ * @author Alan Huang
+ */
+public class IncorrectOperatorOrder {
+
+	public void testTokenTypesEqueal() {
+		int a = 3;
+
+		if (a == a) {
+			System.out.println("OK");
+		}
+
+		if (3 == 3) {
+			System.out.println("OK");
+		}
+
+		if (-3 == -3) {
+			System.out.println("OK");
+		}
+
+		if (+3 == +3) {
+			System.out.println("OK");
+		}
+
+		if (a == 3) {
+			System.out.println("OK");
+		}
+
+		if (a == +3) {
+			System.out.println("OK");
+		}
+
+		if (a == -3) {
+			System.out.println("OK");
+		}
+
+		if (3 == a) {
+			System.out.println("NG");
+		}
+
+		if (+3 == a) {
+			System.out.println("NG");
+		}
+
+		if (-3 == a) {
+			System.out.println("NG");
+		}
+	}
+
+	public void testTokenTypesGe() {
+		int a = 3;
+
+		if (a >= a) {
+			System.out.println("OK");
+		}
+
+		if (3 >= 3) {
+			System.out.println("OK");
+		}
+
+		if (-3 >= -3) {
+			System.out.println("OK");
+		}
+
+		if (+3 >= +3) {
+			System.out.println("OK");
+		}
+
+		if (a >= 3) {
+			System.out.println("OK");
+		}
+
+		if (a >= +3) {
+			System.out.println("OK");
+		}
+
+		if (a >= -3) {
+			System.out.println("OK");
+		}
+
+		if (3 >= a) {
+			System.out.println("NG");
+		}
+
+		if (+3 >= a) {
+			System.out.println("NG");
+		}
+
+		if (-3 >= a) {
+			System.out.println("NG");
+		}
+	}
+
+	public void testTokenTypesGt() {
+		int a = 3;
+
+		if (a > a) {
+			System.out.println("OK");
+		}
+
+		if (3 > 3) {
+			System.out.println("OK");
+		}
+
+		if (-3 > -3) {
+			System.out.println("OK");
+		}
+
+		if (+3 > +3) {
+			System.out.println("OK");
+		}
+
+		if (a > 3) {
+			System.out.println("OK");
+		}
+
+		if (a > +3) {
+			System.out.println("OK");
+		}
+
+		if (a > -3) {
+			System.out.println("OK");
+		}
+
+		if (3 > a) {
+			System.out.println("NG");
+		}
+
+		if (+3 > a) {
+			System.out.println("NG");
+		}
+
+		if (-3 > a) {
+			System.out.println("NG");
+		}
+	}
+
+	public void testTokenTypesLe() {
+		int a = 3;
+
+		if (a <= a) {
+			System.out.println("OK");
+		}
+
+		if (3 <= 3) {
+			System.out.println("OK");
+		}
+
+		if (-3 <= -3) {
+			System.out.println("OK");
+		}
+
+		if (+3 <= +3) {
+			System.out.println("OK");
+		}
+
+		if (a <= 3) {
+			System.out.println("OK");
+		}
+
+		if (a <= +3) {
+			System.out.println("OK");
+		}
+
+		if (a <= -3) {
+			System.out.println("OK");
+		}
+
+		if (3 <= a) {
+			System.out.println("NG");
+		}
+
+		if (+3 <= a) {
+			System.out.println("NG");
+		}
+
+		if (-3 <= a) {
+			System.out.println("NG");
+		}
+	}
+
+	public void testTokenTypesLt() {
+		int a = 3;
+
+		if (a < a) {
+			System.out.println("OK");
+		}
+
+		if (3 < 3) {
+			System.out.println("OK");
+		}
+
+		if (-3 < -3) {
+			System.out.println("OK");
+		}
+
+		if (+3 < +3) {
+			System.out.println("OK");
+		}
+
+		if (a < 3) {
+			System.out.println("OK");
+		}
+
+		if (a < +3) {
+			System.out.println("OK");
+		}
+
+		if (a < -3) {
+			System.out.println("OK");
+		}
+
+		if (3 < a) {
+			System.out.println("NG");
+		}
+
+		if (+3 < a) {
+			System.out.println("NG");
+		}
+
+		if (-3 < a) {
+			System.out.println("NG");
+		}
+	}
+
+	public void testTokenTypesNotEqual() {
+		int a = 3;
+
+		if (a != a) {
+			System.out.println("OK");
+		}
+
+		if (3 != 3) {
+			System.out.println("OK");
+		}
+
+		if (-3 != -3) {
+			System.out.println("OK");
+		}
+
+		if (+3 != +3) {
+			System.out.println("OK");
+		}
+
+		if (a != 3) {
+			System.out.println("OK");
+		}
+
+		if (a != +3) {
+			System.out.println("OK");
+		}
+
+		if (a != -3) {
+			System.out.println("OK");
+		}
+
+		if (3 != a) {
+			System.out.println("NG");
+		}
+
+		if (+3 != a) {
+			System.out.println("NG");
+		}
+
+		if (-3 != a) {
+			System.out.println("NG");
+		}
+	}
+
+	public void testVariableWithUnaryOperator() {
+		int a = 3;
+
+		if (a == a) {
+			System.out.println("OK");
+		}
+
+		if (a == -a) {
+			System.out.println("OK");
+		}
+
+		if (-a == -a) {
+			System.out.println("OK");
+		}
+
+		if (-a == a) {
+			System.out.println("OK");
+		}
+
+		if (a == +a) {
+			System.out.println("OK");
+		}
+
+		if (+a == +a) {
+			System.out.println("OK");
+		}
+
+		if (+a == a) {
+			System.out.println("OK");
+		}
+
+		if (+a == -a) {
+			System.out.println("OK");
+		}
+
+		if (-a == +a) {
+			System.out.println("OK");
+		}
+	}
+
+}

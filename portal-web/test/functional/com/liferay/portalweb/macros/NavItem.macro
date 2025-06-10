@@ -1,0 +1,83 @@
+definition {
+
+	@summary = "Default summary"
+	macro click(navItem = null) {
+		var key_navItem = ${navItem};
+
+		if (IsElementNotPresent(locator1 = "NavBar#ACTIVE_NAV_ITEM_LINK")) {
+			AssertClick(
+				locator1 = "NavBar#NAV_ITEM_LINK",
+				value1 = ${navItem});
+		}
+
+		NavItem.viewActive(navItem = ${navItem});
+	}
+
+	@summary = "Default summary"
+	macro gotoAvailableSites() {
+		NavItem.click(navItem = "Available Sites");
+	}
+
+	@summary = "Default summary"
+	macro gotoConfiguration() {
+		NavItem.click(navItem = "Configuration");
+	}
+
+	@summary = "Default summary"
+	macro gotoDisplayPages() {
+		NavItem.click(navItem = "Display Page Templates");
+	}
+
+	@summary = "Default summary"
+	macro gotoFeeds() {
+		NavItem.click(navItem = "Feeds");
+	}
+
+	@summary = "Default summary"
+	macro gotoOrganizations() {
+		NavItem.click(navItem = "Organizations");
+	}
+
+	@summary = "Default summary"
+	macro gotoPages() {
+		NavItem.click(navItem = "Pages");
+	}
+
+	@summary = "Default summary"
+	macro gotoPageTemplates() {
+		NavItem.click(navItem = "Page Templates");
+	}
+
+	@summary = "Default summary"
+	macro gotoStructures() {
+		NavItem.click(navItem = "Structures");
+	}
+
+	@summary = "Default summary"
+	macro gotoTemplates() {
+		NavItem.click(navItem = "Templates");
+	}
+
+	@summary = "Default summary"
+	macro gotoUserGroups() {
+		NavItem.click(navItem = "User Groups");
+	}
+
+	@summary = "Default summary"
+	macro gotoUsers() {
+		NavItem.click(navItem = "Users");
+	}
+
+	@summary = "Default summary"
+	macro gotoWebContent() {
+		NavItem.click(navItem = "Web Content");
+	}
+
+	@summary = "Default summary"
+	macro viewActive(navItem = null) {
+		AssertElementPresent(
+			key_navItem = ${navItem},
+			locator1 = "NavBar#ACTIVE_NAV_ITEM_LINK");
+	}
+
+}

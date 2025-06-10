@@ -1,0 +1,50 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<%
+MBThreadsDisplayContext mbThreadsDisplayContext = new MBThreadsDisplayContext(request, portletURL, renderRequest);
+%>
+
+<liferay-ui:search-container
+	searchContainer="<%= mbThreadsDisplayContext.getSearchContainer() %>"
+>
+	<liferay-ui:search-container-row
+		className="com.liferay.portal.kernel.model.BaseModel"
+		keyProperty="primaryKeyObj"
+		modelVar="result"
+	>
+		<%@ include file="/message_boards/thread_cast_result.jspf" %>
+
+		<%
+		MBMessage message = MBMessageLocalServiceUtil.fetchMBMessage(thread.getRootMessageId());
+
+		if (message == null) {
+			_log.error("Thread requires missing root message id " + thread.getRootMessageId());
+
+			row.setSkip(true);
+		}
+
+		if (message != null) {
+			message = message.toEscapedModel();
+
+			row.setBold(!MBThreadFlagLocalServiceUtil.hasThreadFlag(themeDisplay.getUserId(), thread));
+			row.setRestricted(!MBMessagePermission.contains(permissionChecker, message, ActionKeys.VIEW));
+		}
+		%>
+
+		<liferay-portlet:renderURL varImpl="rowURL">
+			<portlet:param name="mvcRenderCommandName" value="/message_boards/view_message" />
+			<portlet:param name="messageId" value="<%= (message != null) ? String.valueOf(message.getMessageId()) : String.valueOf(MBMessageConstants.DEFAULT_PARENT_MESSAGE_ID) %>" />
+		</liferay-portlet:renderURL>
+
+		<%@ include file="/message_boards/user_thread_columns.jspf" %>
+	</liferay-ui:search-container-row>
+
+	<liferay-ui:search-iterator
+		markupView="lexicon"
+	/>
+</liferay-ui:search-container>

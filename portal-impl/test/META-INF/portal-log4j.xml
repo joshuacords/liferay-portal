@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<Configuration strict="true">
+	<Appenders>
+		<Appender name="CONSOLE" type="Console">
+			<Layout pattern="%d{ABSOLUTE} %-5p [%t][%c{1}:%L] %m%n" type="PatternLayout" />
+		</Appender>
+	</Appenders>
+
+	<Loggers>
+		<Logger level="INFO" name="com.liferay.portal.kernel.test.performance.PerformanceTimer" />
+		<Logger level="INFO" name="com.liferay.portal.spring.hibernate.DialectDetector" />
+
+		<Root level="ERROR">
+			<AppenderRef ref="CONSOLE" />
+		</Root>
+	</Loggers>
+</Configuration>

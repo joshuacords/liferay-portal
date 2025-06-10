@@ -1,0 +1,17 @@
+{
+	"dependencies": {
+		"@clayui/alert": "3.129.1",
+		"@clayui/button": "3.128.0",
+		"frontend-js-components-web": "*",
+		"frontend-js-web": "*",
+		"react": "18.2.0"
+	},
+	"main": "js/App.js",
+	"name": "frontend-taglib-clay-test-alert-toast-sample-web",
+	"scripts": {
+		"build": "node-scripts build",
+		"checkFormat": "node-scripts format --check",
+		"format": "node-scripts format"
+	},
+	"version": "1.0.0"
+}

@@ -1,0 +1,24 @@
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+
+package com.liferay.source.formatter.dependencies;
+
+/**
+ * @author Hugo Huijser
+ */
+public class DuplicateConstructors {
+
+	public DuplicateConstructors(String s1) {
+		_s1 = s1;
+	}
+
+	public DuplicateConstructors(String s2) {
+		_s2 = s2;
+	}
+
+	private final String _s1;
+	private final String _s2;
+
+}

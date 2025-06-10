@@ -1,0 +1,50 @@
+@default = "refresh"
+definition {
+
+	function pauseRefresh() {
+		WaitForSPARefresh();
+
+		selenium.pause(5000);
+
+		selenium.refresh();
+
+		WaitForLiferayEvent.initializeLiferayEventLog();
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+	function refresh() {
+		WaitForSPARefresh();
+
+		selenium.refresh();
+
+		WaitForLiferayEvent.initializeLiferayEventLog();
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+	function refreshNoLiferayLog() {
+		WaitForSPARefresh();
+
+		selenium.refresh();
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+	function refreshNoSPARefresh() {
+		selenium.refresh();
+
+		WaitForLiferayEvent.initializeLiferayEventLog();
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+}

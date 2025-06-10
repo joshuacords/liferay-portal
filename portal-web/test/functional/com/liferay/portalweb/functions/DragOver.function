@@ -1,0 +1,98 @@
+@default = "dragOver"
+definition {
+
+	function dragOver(locator2, locator1) {
+		WaitForSPARefresh();
+
+		if (contains(${ratio}, "ratio")) {
+			var ratio = 2;
+		}
+
+		var javaScript = '''
+Simulate = {
+	dragOver: async function(source, target, ratio) {
+		const dataTransfer = new DataTransfer();
+
+		const dispatchEvent = async(type, element) => {
+			const rect = element.getBoundingClientRect();
+
+			const event = new DragEvent(
+				type,
+				{
+					bubbles: true,
+					clientX: rect.left + (rect.width / 2),
+					clientY: rect.top + (rect.height / (ratio)),
+					dataTransfer: dataTransfer,
+					relatedTarget: element
+				});
+
+			element.dispatchEvent(event);
+		};
+
+		await dispatchEvent('dragstart', source);
+
+		await dispatchEvent('dragover', target);
+
+		await dispatchEvent('dragover', target);
+	}
+};
+
+Simulate.dragOver(arguments[0], arguments[1], ${ratio});
+		''';
+
+		ExecuteJavaScript(
+			value1 = ${javaScript},
+			value2 = ${locator1},
+			value3 = ${locator2});
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+	function dragOverAtBottom(locator2, locator1) {
+		WaitForSPARefresh();
+
+		var javaScript = '''
+Simulate = {
+	dragOver: async function(source, target) {
+		const dataTransfer = new DataTransfer();
+
+		const dispatchEvent = async(type, element) => {
+			const rect = element.getBoundingClientRect();
+
+			const event = new DragEvent(
+				type,
+				{
+					bubbles: true,
+					clientX: rect.left + (rect.width / 2),
+					clientY: rect.top + (rect.height * 3 / 4),
+					dataTransfer: dataTransfer,
+					relatedTarget: element
+				});
+
+			element.dispatchEvent(event);
+		};
+
+		await dispatchEvent('dragstart', source);
+
+		await dispatchEvent('dragover', target);
+
+		await dispatchEvent('dragover', target);
+	}
+};
+
+Simulate.dragOver(arguments[0], arguments[1]);
+		''';
+
+		ExecuteJavaScript(
+			value1 = ${javaScript},
+			value2 = ${locator1},
+			value3 = ${locator2});
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+}

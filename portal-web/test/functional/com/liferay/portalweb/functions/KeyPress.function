@@ -1,0 +1,66 @@
+@default = "keyPress"
+definition {
+
+	function keyDown(locator1, value1) {
+		WaitForSPARefresh();
+
+		selenium.mouseOver(${locator1});
+
+		selenium.keyDown(${locator1}, ${value1});
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+	function keyPress(locator1, value1) {
+		WaitForSPARefresh();
+
+		selenium.mouseOver(${locator1});
+
+		selenium.keyPress(${locator1}, ${value1});
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+	function keyPressCKEditorWaitForCKEditor(locator1, value1) {
+		WaitForSPARefresh();
+
+		selenium.waitForVisible(${locator1}, "false");
+
+		selenium.pause(1000);
+
+		selenium.waitForEditable(${locator1});
+
+		selenium.mouseOver(${locator1});
+
+		selenium.keyPress(${locator1}, ${value1});
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+	function keyPressNoError(locator1, value1) {
+		WaitForSPARefresh();
+
+		selenium.mouseOver(${locator1});
+
+		selenium.keyPress(${locator1}, ${value1});
+	}
+
+	function keyUp(locator1, value1) {
+		WaitForSPARefresh();
+
+		selenium.mouseOver(${locator1});
+
+		selenium.keyUp(${locator1}, ${value1});
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+}

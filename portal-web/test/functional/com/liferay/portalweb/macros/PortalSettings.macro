@@ -1,0 +1,1204 @@
+definition {
+
+	@summary = "Default summary"
+	macro _saveDisplaySettings() {
+		PortletEntry.save();
+	}
+
+	@summary = "Default summary"
+	macro addLDAPServer(baseURL = null) {
+		PortalSettings.gotoConfiguration(
+			baseURL = ${baseURL},
+			configurationCategory = "LDAP",
+			configurationName = "Servers",
+			configurationScope = "Virtual Instance Scope");
+
+		AssertClick(
+			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_LDAP_ADD_BUTTON",
+			value1 = "Add");
+
+		if (!(isSet(ldapServerName))) {
+			var ldapServerName = "ApacheDS Server";
+		}
+
+		Type(
+			locator1 = "PortalSettingsAuthentication#LDAP_SERVER_SERVER_NAME",
+			value1 = ${ldapServerName});
+
+		Click(locator1 = "PortalSettingsAuthentication#LDAP_SERVER_DEFAULT_VALUES_APACHE_DIRECTORY_SERVER_RADIO");
+
+		if (isSet(userCustomMappings)) {
+			Type(
+				locator1 = "PortalSettingsAuthentication#LDAP_SERVER_USER_CUSTOM_MAPPINGS_FIELD",
+				value1 = ${userCustomMappings});
+		}
+
+		Button.clickSave();
+	}
+
+	@summary = "Default summary"
+	macro changeGroupImportMethod(groupImportMethod = null) {
+		Variables.assertDefined(parameterList = ${groupImportMethod});
+
+		PortalSettings.gotoConfiguration(
+			configurationCategory = "LDAP",
+			configurationName = "Import",
+			configurationScope = "Virtual Instance Scope");
+
+		Select(
+			locator1 = "Select#SELECT_ID",
+			selectFieldId = "importMethod",
+			value1 = ${groupImportMethod});
+
+		PortletEntry.save();
+	}
+
+	@summary = "Default summary"
+	macro configureAudienceTargetingAnalytics(enableAnalyticsList = null, disableAnalyticsList = null) {
+		if (isSet(enableAnalyticsList)) {
+			for (var enableAnalytics : list ${enableAnalyticsList}) {
+				Check.checkToggleSwitch(
+					key_toggleSwitchLabel = ${enableAnalytics},
+					locator1 = "ToggleSwitch#ANY_TOGGLE_SWITCH");
+			}
+		}
+
+		if (isSet(disableAnalyticsList)) {
+			for (var disableAnalytics : list ${disableAnalyticsList}) {
+				Uncheck.uncheckToggleSwitch(
+					key_toggleSwitchLabel = ${disableAnalytics},
+					locator1 = "ToggleSwitch#ANY_TOGGLE_SWITCH");
+			}
+		}
+
+		PortletEntry.save();
+	}
+
+	@summary = "Default summary"
+	macro configureContentSharingAcrossSitesCP(enableAcrossSite = null) {
+		PortalSettings.gotoConfiguration(
+			configurationCategory = "Sharing",
+			configurationName = "Content Sharing",
+			configurationScope = "Virtual Instance Scope");
+
+		if (${enableAcrossSite} == "true") {
+			Check(locator1 = "PortalSettingsContentSharing#CONTENT_SHARING_CHECKBOX");
+
+			PortletEntry.save();
+
+			AssertChecked(locator1 = "PortalSettingsContentSharing#CONTENT_SHARING_CHECKBOX");
+		}
+		else if (${enableAcrossSite} == "false") {
+			Uncheck(locator1 = "PortalSettingsContentSharing#CONTENT_SHARING_CHECKBOX");
+
+			PortletEntry.save();
+
+			AssertNotChecked(locator1 = "PortalSettingsContentSharing#CONTENT_SHARING_CHECKBOX");
+		}
+	}
+
+	@summary = "Default summary"
+	macro configureContentSharingSubSitesCP(subSites = null) {
+		if (${subSites} == "enabledByDefault") {
+			Select(
+				locator1 = "PortalSettingsContentSharing#CONTENT_SHARING_SELECTOR",
+				value1 = "Enabled by Default");
+
+			PortletEntry.save();
+
+			AssertSelectedLabel(
+				locator1 = "PortalSettingsContentSharing#CONTENT_SHARING_SELECTOR",
+				value1 = "Enabled by Default");
+		}
+		else if (${subSites} == "disabledByDefault") {
+			Select(
+				locator1 = "PortalSettingsContentSharing#CONTENT_SHARING_SELECTOR",
+				value1 = "Disabled by Default");
+
+			PortletEntry.save();
+
+			AssertSelectedLabel(
+				locator1 = "PortalSettingsContentSharing#CONTENT_SHARING_SELECTOR",
+				value1 = "Disabled by Default");
+		}
+		else if (${subSites} == "disabled") {
+			Select(
+				locator1 = "PortalSettingsContentSharing#CONTENT_SHARING_SELECTOR",
+				value1 = "Disabled");
+
+			PortletEntry.save();
+
+			AssertSelectedLabel(
+				locator1 = "PortalSettingsContentSharing#CONTENT_SHARING_SELECTOR",
+				value1 = "Disabled");
+		}
+	}
+
+	@summary = "Default summary"
+	macro configureCurrentLanguagesCP(failExpected = null, errorMessage = null, currentPortalLanguages = null, useLanguageKey = null) {
+		if (isSet(currentPortalLanguages)) {
+			while (IsElementPresent(locator1 = "LanguageConfiguration#LANGUAGES_CURRENT_SELECT")) {
+				AddSelection(
+					locator1 = "LanguageConfiguration#LANGUAGES_CURRENT",
+					value1 = "index=0");
+
+				Click(locator1 = "Button#MOVE_CURRENT_TO_AVAILABLE");
+			}
+
+			for (var currentPortalLanguage : list ${currentPortalLanguages}) {
+				var currentPortalLanguage = ${currentPortalLanguage};
+
+				if (${useLanguageKey} == "true") {
+					Click.clickNoMouseOver(locator1 = "//select[contains(@id,'availableLanguageIds')]/option[@value='${currentPortalLanguage}']");
+				}
+				else {
+					AddSelection(
+						locator1 = "LanguageConfiguration#LANGUAGES_AVAILABLE",
+						value1 = ${currentPortalLanguage});
+				}
+
+				Click(locator1 = "Button#MOVE_AVAILABLE_TO_CURRENT");
+
+				if (${useLanguageKey} == "true") {
+					AssertElementPresent(locator1 = "//select[contains(@id,'currentLanguageIds')]/option[@value='${currentPortalLanguage}']");
+				}
+				else {
+					AssertTextEquals.assertPartialText(
+						locator1 = "LanguageConfiguration#LANGUAGES_CURRENT",
+						value1 = ${currentPortalLanguage});
+				}
+			}
+		}
+
+		if (isSet(defaultPortalLanguage)) {
+			var defaultPortalLanguage = ${defaultPortalLanguage};
+
+			Select(
+				locator1 = "Select#DEFAULT_LANGUAGE",
+				value1 = ${defaultPortalLanguage});
+
+			AssertTextEquals.assertPartialText(
+				locator1 = "Message#ERROR_3",
+				value1 = "This change will only affect the newly created localized content.");
+		}
+
+		if (${failExpected} == "true") {
+			Button.clickSave();
+
+			Alert.viewErrorMessage(errorMessage = ${errorMessage});
+		}
+		else {
+			PortletEntry.save();
+		}
+	}
+
+	@summary = "Default summary"
+	macro configureEmailSender(emailAddress = null, emailSenderName = null) {
+		Type(
+			locator1 = "PortalSettingsEmailNotifications#EMAIL_NOTIFICATIONS_SENDER_NAME_FIELD",
+			value1 = ${emailSenderName});
+
+		Type(
+			locator1 = "PortalSettingsEmailNotifications#EMAIL_NOTIFICATIONS_SENDER_ADDRESS_FIELD",
+			value1 = ${emailAddress});
+
+		PortalSettings._saveDisplaySettings();
+	}
+
+	@summary = "Default summary"
+	macro configureGoogleDrive(googleClientSecret = null, googlePickerApiKey = null, googleClientId = null) {
+		Type(
+			key_text = "clientId",
+			locator1 = "TextArea#ANY",
+			value1 = ${googleClientId});
+
+		Type(
+			key_text = "clientSecret",
+			locator1 = "TextArea#ANY",
+			value1 = ${googleClientSecret});
+
+		if (isSet(googlePickerApiKey)) {
+			Type(
+				key_text = "pickerAPIKey",
+				locator1 = "TextArea#ANY",
+				value1 = ${googlePickerApiKey});
+		}
+
+		AssertClick(
+			locator1 = "Button#SAVE",
+			value1 = "Save");
+
+		VerifyElementPresent(locator1 = "Message#SUCCESS");
+	}
+
+	@summary = "Default summary"
+	macro configureLDAPSetting(baseURL = null, enableSettingList = null) {
+		for (var enableSetting : list ${enableSettingList}) {
+			if (${enableSetting} == "enabled") {
+				PortalSettings.gotoConfiguration(
+					baseURL = ${baseURL},
+					configurationCategory = "LDAP",
+					configurationName = "General",
+					configurationScope = "Virtual Instance Scope");
+			}
+
+			if (${enableSetting} == "ldapImportEnabled") {
+				PortalSettings.gotoConfiguration(
+					baseURL = ${baseURL},
+					configurationCategory = "LDAP",
+					configurationName = "Import",
+					configurationScope = "Virtual Instance Scope");
+			}
+
+			if (${enableSetting} == "importOnStartup") {
+				PortalSettings.gotoConfiguration(
+					baseURL = ${baseURL},
+					configurationCategory = "LDAP",
+					configurationName = "Import",
+					configurationScope = "Virtual Instance Scope");
+			}
+
+			if (${enableSetting} == "ldapExportEnabled") {
+				PortalSettings.gotoConfiguration(
+					baseURL = ${baseURL},
+					configurationCategory = "LDAP",
+					configurationName = "Export",
+					configurationScope = "Virtual Instance Scope");
+			}
+
+			FormFields.enableCheckbox(fieldName = "InstanceSettingsPortlet_${enableSetting}");
+
+			PortletEntry.save();
+		}
+	}
+
+	@summary = "Default summary"
+	macro configureRatingType(ratingType = null, configureBlogsRatingType = null, configureKbRatingType = null) {
+		if (${configureBlogsRatingType} == "true") {
+			Select(
+				locator1 = "Select#BLOGS_RATING",
+				value1 = ${ratingType});
+		}
+
+		if (${configureKbRatingType} == "true") {
+			Select(
+				locator1 = "Select#KNOWLEDGE_BASE_RATING",
+				value1 = ${ratingType});
+		}
+
+		AssertClickNoError(
+			locator1 = "Button#SAVE",
+			value1 = "Save");
+
+		AssertConfirm(value1 = "Existing ratings data values will be adapted to match the new ratings type even though it may not be accurate. Do you want to continue?");
+	}
+
+	@summary = "Default summary"
+	macro configureTimeZone(timeZone = null) {
+		Select(
+			locator1 = "Select#TIME_ZONE",
+			value1 = ${timeZone});
+
+		PortalSettings._saveDisplaySettings();
+	}
+
+	@summary = "Default summary"
+	macro configureWikiService(editor = null, counter = null) {
+		var key_counter = ${counter};
+
+		Type(
+			locator1 = "TextArea#CONFIGURATION",
+			value1 = ${editor});
+	}
+
+	@summary = "Default summary"
+	macro disableApplicationsMenu() {
+		PortalSettings.gotoConfiguration(
+			configurationCategory = "Navigation",
+			configurationName = "Applications Menu",
+			configurationScope = "Virtual Instance Scope");
+
+		AssertElementNotPresent(locator1 = "ProductMenu#TOGGLE");
+
+		AssertElementPresent(locator1 = "ApplicationsMenu#TOGGLE");
+
+		FormFields.disableCheckbox(fieldName = "enableApplicationsMenu");
+
+		if (IsElementPresent(locator1 = "Button#SAVE")) {
+			AssertClick(
+				locator1 = "Button#SAVE",
+				value1 = "Save");
+		}
+		else if (IsElementPresent(locator1 = "Button#UPDATE")) {
+			AssertClick(
+				locator1 = "Button#UPDATE",
+				value1 = "Update");
+		}
+
+		Alert.viewSuccessMessage();
+
+		AssertElementPresent(locator1 = "ProductMenu#TOGGLE");
+
+		AssertElementNotPresent(locator1 = "ApplicationsMenu#TOGGLE");
+	}
+
+	@summary = "Default summary"
+	macro editConfigurationAuthenticationFacebook(facebookApplicationSecret = null, facebookApplicationId = null) {
+		Check(locator1 = "PortalSettingsAuthentication#AUTHENTICATION_FACEBOOK_ENABLED_CHECKBOX");
+
+		Type(
+			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_FACEBOOK_APPLICATION_ID",
+			value1 = ${facebookApplicationId});
+
+		Type(
+			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_FACEBOOK_APPLICATION_SECRET",
+			value1 = ${facebookApplicationSecret});
+
+		Type(
+			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_FACEBOOK_GRAPH_URL",
+			value1 = "https://graph.facebook.com");
+
+		Type(
+			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_FACEBOOK_OAUTH_AUTHENTICATION_URL",
+			value1 = "https://graph.facebook.com/oauth/authorize");
+
+		Type(
+			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_FACEBOOK_OAUTH_TOKEN_URL",
+			value1 = "https://graph.facebook.com/oauth/access_token");
+
+		Type(
+			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_FACEBOOK_REDIRECT_URL",
+			value1 = "https://localhost:8443/c/portal/facebook_connect_oauth");
+
+		PortletEntry.save();
+	}
+
+	@summary = "Default summary"
+	macro editConfigurationAuthenticationGeneral(enableRequireStrangers = null, authenticationMethod = null) {
+		if (${enableRequireStrangers} == "true") {
+			Check(locator1 = "PortalSettingsAuthentication#AUTHENTICATION_GENERAL_REQUIRE_STRANGERS_TO_VERIFY_THEIR_EMAIL_ADDRESS_CHECKBOX");
+		}
+		else {
+			Select(
+				locator1 = "PortalSettingsAuthentication#AUTHENTICATION_GENERAL_HOW_DO_USERS_AUTHENTICATE_SELECT",
+				value1 = ${authenticationMethod});
+		}
+
+		PortletEntry.save();
+	}
+
+	@summary = "Default summary"
+	macro editConfigurationUsersDefaultUserAssociationsCP(orgName = null, roleTitle = null, userGroupName = null, siteName = null) {
+		PortalSettings.gotoConfiguration(
+			configurationCategory = "Users",
+			configurationName = "Default User Associations",
+			configurationScope = "Virtual Instance Scope");
+
+		if (isSet(orgName)) {
+			AssertTextEquals.assertPartialText(
+				key_fieldLabel = "Organization Sites",
+				locator1 = "SystemSettings#LABEL",
+				value1 = "Organization Sites");
+
+			Type(
+				key_text = "organization.group.names",
+				locator1 = "TextArea#ANY",
+				value1 = ${orgName});
+
+			PortletEntry.save();
+
+			AssertTextEquals(
+				key_text = "organization.group.names",
+				locator1 = "TextArea#ANY",
+				value1 = ${orgName});
+		}
+
+		if (isSet(roleTitle)) {
+			AssertTextEquals.assertPartialText(
+				key_fieldLabel = "Roles",
+				locator1 = "SystemSettings#LABEL",
+				value1 = "Roles");
+
+			Type(
+				key_text = "role.names",
+				locator1 = "TextArea#ANY",
+				value1 = ${roleTitle});
+
+			PortletEntry.save();
+
+			AssertTextEquals(
+				key_text = "role.names",
+				locator1 = "TextArea#ANY",
+				value1 = ${roleTitle});
+		}
+
+		if (isSet(userGroupName)) {
+			AssertTextEquals.assertPartialText(
+				key_fieldLabel = "User Groups",
+				locator1 = "SystemSettings#LABEL",
+				value1 = "User Groups");
+
+			Type(
+				key_text = "user.group.names",
+				locator1 = "TextArea#ANY",
+				value1 = ${userGroupName});
+
+			PortletEntry.save();
+
+			AssertTextEquals(
+				key_text = "user.group.names",
+				locator1 = "TextArea#ANY",
+				value1 = ${userGroupName});
+		}
+
+		if (isSet(siteName)) {
+			AssertTextEquals.assertPartialText(
+				key_fieldLabel = "Organization Sites",
+				locator1 = "SystemSettings#LABEL",
+				value1 = "Organization Sites");
+
+			Type(
+				key_text = "group.names",
+				locator1 = "TextArea#ANY",
+				value1 = ${siteName});
+
+			PortletEntry.save();
+
+			AssertTextEquals(
+				key_text = "group.names",
+				locator1 = "TextArea#ANY",
+				value1 = ${siteName});
+		}
+	}
+
+	@summary = "Default summary"
+	macro editConfigurationUsersEmailNotificationsCP(configurationName = null, notificationsSubject = null, notificationsBody = null) {
+		PortalSettings.gotoConfiguration(
+			configurationCategory = "Email",
+			configurationName = ${configurationName},
+			configurationScope = "Virtual Instance Scope");
+
+		if (isSet(notificationsSubject)) {
+			FormFields.editText(
+				fieldName = "Subject",
+				fieldValue = ${notificationsSubject});
+		}
+
+		if (isSet(notificationsBody)) {
+			if (${configurationName} == "Account Created Notification") {
+				Type.typeEditor(
+					locator1 = "CKEditor#BODY_FIELD_2",
+					value1 = ${notificationsBody});
+			}
+			else {
+				Type.typeEditor(
+					locator1 = "CKEditor#BODY_FIELD",
+					value1 = ${notificationsBody});
+			}
+		}
+
+		PortletEntry.save();
+	}
+
+	@summary = "Default summary"
+	macro editConfigurationUsersPersonalMenuPersonalApplicationLookAndFeel(selectOption = null) {
+		SystemSettings.selectOptionSetting(
+			fieldName = "Personal Applications Look and Feel",
+			selectOption = ${selectOption});
+
+		if (IsElementPresent(locator1 = "Button#UPDATE")) {
+			PortletEntry.update();
+		}
+		else if (IsElementPresent(locator1 = "Button#SAVE")) {
+			PortletEntry.save();
+		}
+	}
+
+	@summary = "Default summary"
+	macro editConfigurationUsersPersonalMenuShowInControlMenu(toggleSwitchLabel = null) {
+		Check.checkToggleSwitch(
+			key_toggleSwitchLabel = ${toggleSwitchLabel},
+			locator1 = "ToggleSwitch#ANY_TOGGLE_SWITCH");
+
+		if (IsElementPresent(locator1 = "Button#UPDATE")) {
+			PortletEntry.update();
+		}
+		else if (IsElementPresent(locator1 = "Button#SAVE")) {
+			PortletEntry.save();
+		}
+	}
+
+	@summary = "Default summary"
+	macro editDefaultLandingPageCP(defaultLandingPage = null) {
+		Type(
+			locator1 = "PortalSettings#DEFAULT_LANDING_PAGE_FIELD",
+			value1 = ${defaultLandingPage});
+
+		PortletEntry.save();
+	}
+
+	@summary = "Default summary"
+	macro editLDAPServer(baseURL = null) {
+		PortalSettings.gotoConfiguration(
+			baseURL = ${baseURL},
+			configurationCategory = "LDAP",
+			configurationName = "Servers",
+			configurationScope = "Virtual Instance Scope");
+
+		if (!(isSet(ldapServerName))) {
+			var ldapServerName = "ApacheDS Server";
+		}
+
+		var key_ldapServerName = ${ldapServerName};
+
+		Click(locator1 = "PortalSettingsAuthentication#LDAP_SERVERS_TABLE_EDIT");
+	}
+
+	@summary = "Default summary"
+	macro editVirtualHostCP(virtualHostName = null) {
+		Type(
+			locator1 = "PortalSettings#VIRTUAL_HOST_FIELD",
+			value1 = ${virtualHostName});
+
+		PortletEntry.save();
+
+		AssertTextEquals(
+			locator1 = "PortalSettings#VIRTUAL_HOST_FIELD",
+			value1 = ${virtualHostName});
+	}
+
+	@summary = "Default summary"
+	macro enableApplicationsMenu() {
+		ProductMenu.gotoPortletWhenDisableApplicationsMenu(
+			category = "Configuration",
+			panel = "Control Panel",
+			portlet = "Instance Settings");
+
+		SystemSettings.gotoConfiguration(
+			configurationCategory = "Navigation",
+			configurationName = "Applications Menu",
+			configurationScope = "Virtual Instance Scope");
+
+		AssertElementPresent(locator1 = "ProductMenu#TOGGLE");
+
+		AssertElementNotPresent(locator1 = "ApplicationsMenu#TOGGLE");
+
+		FormFields.enableCheckbox(fieldName = "enableApplicationsMenu");
+
+		if (IsElementPresent(locator1 = "Button#SAVE")) {
+			AssertClick(
+				locator1 = "Button#SAVE",
+				value1 = "Save");
+		}
+		else if (IsElementPresent(locator1 = "Button#UPDATE")) {
+			AssertClick(
+				locator1 = "Button#UPDATE",
+				value1 = "Update");
+		}
+
+		Alert.viewSuccessMessage();
+
+		AssertElementNotPresent(locator1 = "ProductMenu#TOGGLE");
+
+		AssertElementPresent(locator1 = "ApplicationsMenu#TOGGLE");
+	}
+
+	@summary = "Default summary"
+	macro enableGoogleSSOCP(googleClientSecret = null, googleClientId = null) {
+		Check(locator1 = "PortalSettingsAuthentication#AUTHENTICATION_GOOGLE_ENABLED_CHECKBOX");
+
+		FormFields.editText(
+			fieldName = "clientId",
+			fieldValue = ${googleClientId});
+
+		FormFields.editText(
+			fieldName = "clientSecret",
+			fieldValue = ${googleClientSecret});
+
+		PortletEntry.save();
+	}
+
+	@summary = "Default summary"
+	macro enableOpenIDConnectCP() {
+		if (isSet(systemLevel)) {
+			Click.clickAtNotVisible(locator1 = "PortalSettingsAuthentication#AUTHENTICATION_OPEN_ID_CONNECT_ENABLED_CHECKBOX_SYSTEM_LEVEL");
+
+			PortletEntry.save();
+
+			AssertChecked.assertCheckedNotVisible(locator1 = "PortalSettingsAuthentication#AUTHENTICATION_OPEN_ID_CONNECT_ENABLED_CHECKBOX_SYSTEM_LEVEL");
+		}
+		else {
+			Click.clickAtNotVisible(locator1 = "PortalSettingsAuthentication#AUTHENTICATION_OPEN_ID_CONNECT_ENABLED_CHECKBOX");
+
+			PortletEntry.save();
+
+			AssertChecked.assertCheckedNotVisible(locator1 = "PortalSettingsAuthentication#AUTHENTICATION_OPEN_ID_CONNECT_ENABLED_CHECKBOX");
+		}
+	}
+
+	@summary = "Default summary"
+	macro enterReservedEmailAddressCP(userEmailAddress = null) {
+		PortalSettings.gotoConfiguration(
+			configurationCategory = "User Authentication",
+			configurationName = "Reserved Credentials",
+			configurationScope = "Virtual Instance Scope");
+
+		AssertTextEquals.assertPartialText(
+			key_fieldLabel = "Email Addresses",
+			locator1 = "SystemSettings#LABEL",
+			value1 = "Email Addresses");
+
+		Type(
+			key_text = "admin.reserved.email.addresses",
+			locator1 = "TextArea#ANY",
+			value1 = ${userEmailAddress});
+
+		PortletEntry.save();
+
+		PortalSettings.gotoConfiguration(
+			configurationCategory = "User Authentication",
+			configurationName = "Reserved Credentials",
+			configurationScope = "Virtual Instance Scope");
+
+		AssertTextEquals(
+			key_text = "admin.reserved.email.addresses",
+			locator1 = "TextArea#ANY",
+			value1 = ${userEmailAddress});
+	}
+
+	@summary = "Default summary"
+	macro enterReservedScreenNameCP(userScreenName = null) {
+		PortalSettings.gotoConfiguration(
+			configurationCategory = "User Authentication",
+			configurationName = "Reserved Credentials",
+			configurationScope = "Virtual Instance Scope");
+
+		AssertTextEquals.assertPartialText(
+			key_fieldLabel = "Screen Names",
+			locator1 = "SystemSettings#LABEL",
+			value1 = "Screen Names");
+
+		Type(
+			key_text = "admin.reserved.screen.names",
+			locator1 = "TextArea#ANY",
+			value1 = ${userScreenName});
+
+		PortletEntry.save();
+
+		PortalSettings.gotoConfiguration(
+			configurationCategory = "User Authentication",
+			configurationName = "Reserved Credentials",
+			configurationScope = "Virtual Instance Scope");
+
+		AssertTextEquals(
+			key_text = "admin.reserved.screen.names",
+			locator1 = "TextArea#ANY",
+			value1 = ${userScreenName});
+	}
+
+	@summary = "Default summary"
+	macro gotoConfiguration(baseURL = null, configurationScope = null, configurationName = null, configurationCategory = null) {
+		PortalSettings.openInstanceSettingsAdmin(baseURL = ${baseURL});
+
+		SystemSettings.gotoConfiguration(
+			configurationCategory = ${configurationCategory},
+			configurationName = ${configurationName},
+			configurationScope = ${configurationScope});
+	}
+
+	@summary = "Default summary"
+	macro gotoPortalSettings() {
+		ApplicationsMenu.gotoPortlet(
+			category = "Configuration",
+			panel = "Control Panel",
+			portlet = "Instance Settings");
+
+		SystemSettings.gotoConfiguration(
+			configurationCategory = "Portal Settings",
+			configurationName = "Portal Settings",
+			configurationScope = "Virtual Instance Scope");
+	}
+
+	@summary = "Default summary"
+	macro openInstanceSettingsAdmin(baseURL = null) {
+		Navigator.openWithAppendToBaseURL(
+			baseURL = ${baseURL},
+			urlAppend = "group/control_panel/manage?p_p_id=com_liferay_configuration_admin_web_portlet_InstanceSettingsPortlet");
+	}
+
+	@summary = "Default summary"
+	macro openToConfigInInstanceSettings(portletKey = null, portletId = null) {
+		if (!(isSet(baseURL))) {
+			var baseURL = JSONCompany.getPortalURL();
+		}
+
+		if (isSet(portletId)) {
+			Open(value1 = "${baseURL}/group/control_panel/manage?p_p_id=com_liferay_configuration_admin_web_portlet_InstanceSettingsPortlet&_com_liferay_configuration_admin_web_portlet_InstanceSettingsPortlet_mvcRenderCommandName=%2Fconfiguration_admin%2Fedit_configuration&_com_liferay_configuration_admin_web_portlet_InstanceSettingsPortlet_factoryPid=${portletId}");
+		}
+		else if (isSet(portletKey)) {
+			Open(value1 = "${baseURL}/group/control_panel/manage?p_p_id=com_liferay_configuration_admin_web_portlet_InstanceSettingsPortlet&_com_liferay_configuration_admin_web_portlet_InstanceSettingsPortlet_mvcRenderCommandName=%2Fconfiguration_admin%2Fview_configuration_screen&_com_liferay_configuration_admin_web_portlet_InstanceSettingsPortlet_configurationScreenKey=${portletKey}");
+		}
+	}
+
+	@summary = "Default summary"
+	macro setCurrentInstanceLanguageCP(newLanguage = null) {
+		PortalSettings.gotoConfiguration(
+			configurationCategory = "Localization",
+			configurationName = "Language",
+			configurationScope = "Virtual Instance Scope");
+
+		PortalSettings.configureCurrentLanguagesCP(defaultPortalLanguage = ${newLanguage});
+	}
+
+	@summary = "Default summary"
+	macro setImportIntervalTime(importIntervalTime = null) {
+		Variables.assertDefined(parameterList = ${importIntervalTime});
+
+		PortalSettings.gotoConfiguration(
+			configurationCategory = "LDAP",
+			configurationName = "Import",
+			configurationScope = "Virtual Instance Scope");
+
+		Type(
+			locator1 = "PortalSettingsAuthentication#LDAP_IMPORT_INTERVAL",
+			value1 = ${importIntervalTime});
+
+		PortletEntry.save();
+	}
+
+	@summary = "Default summary"
+	macro tearDownAuthenticationCP() {
+		PortalSettings.gotoConfiguration(
+			configurationCategory = "User Authentication",
+			configurationName = "General",
+			configurationScope = "Virtual Instance Scope");
+
+		Select(
+			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_GENERAL_HOW_DO_USERS_AUTHENTICATE_SELECT",
+			value1 = "By Email Address");
+
+		PortletEntry.save();
+	}
+
+	@summary = "Default summary"
+	macro tearDownCP() {
+		PortalSettings.gotoConfiguration(
+			configurationCategory = "Users",
+			configurationName = "Default User Associations",
+			configurationScope = "Virtual Instance Scope");
+
+		Type(
+			key_text = "organization.group.names",
+			locator1 = "TextArea#ANY",
+			value1 = "");
+
+		Type(
+			key_text = "role.names",
+			locator1 = "TextArea#ANY",
+			value1 = "Power User\nUser");
+
+		Type(
+			key_text = "group.names",
+			locator1 = "TextArea#ANY",
+			value1 = "");
+
+		Type(
+			key_text = "user.group.names",
+			locator1 = "TextArea#ANY",
+			value1 = "");
+
+		PortalSettings.gotoConfiguration(
+			configurationCategory = "User Authentication",
+			configurationName = "Reserved Credentials",
+			configurationScope = "Virtual Instance Scope");
+
+		Type(
+			key_text = "admin.reserved.email.addresses",
+			locator1 = "TextArea#ANY",
+			value1 = "");
+
+		Type(
+			key_text = "admin.reserved.screen.names",
+			locator1 = "TextArea#ANY",
+			value1 = "");
+
+		PortletEntry.save();
+
+		PortalSettings.configureContentSharingAcrossSitesCP(enableAcrossSite = "true");
+	}
+
+	@summary = "Default summary"
+	macro testLDAPConnection() {
+		AssertClick(
+			locator1 = "PortalSettingsAuthentication#LDAP_SERVER_TEST_LDAP_CONNECTION_BUTTON",
+			value1 = "Test LDAP Connection");
+
+		AssertTextEquals(
+			locator1 = "Modal#BODY",
+			value1 = "Liferay has successfully connected to the LDAP server.");
+
+		var key_modalTitle = "LDAP";
+
+		Click(locator1 = "Button#CLOSE_MODAL");
+
+		AssertClick(
+			locator1 = "PortalSettingsAuthentication#LDAP_SERVER_TEST_LDAP_USERS_BUTTON",
+			value1 = "Test LDAP Users");
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "Modal#BODY",
+			value1 = "A subset of users has been displayed for you to review.");
+
+		Click(locator1 = "Button#CLOSE_MODAL");
+
+		AssertClick(
+			locator1 = "PortalSettingsAuthentication#LDAP_SERVER_TEST_LDAP_GROUPS_BUTTON",
+			value1 = "Test LDAP Groups");
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "Modal#BODY",
+			value1 = "A subset of groups has been displayed for you to review.");
+
+		Click(locator1 = "Button#CLOSE_MODAL");
+	}
+
+	@summary = "Default summary"
+	macro uncheckStrangersVerifyEmailCheckbox() {
+		Uncheck(locator1 = "PortalSettingsAuthentication#AUTHENTICATION_GENERAL_REQUIRE_STRANGERS_TO_VERIFY_THEIR_EMAIL_ADDRESS_CHECKBOX");
+
+		PortletEntry.save();
+	}
+
+	@summary = "Default summary"
+	macro viewAuthenticationGeneralCP() {
+		PortalSettings.gotoConfiguration(
+			configurationCategory = "User Authentication",
+			configurationName = "General",
+			configurationScope = "Virtual Instance Scope");
+
+		AssertSelectedLabel(
+			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_GENERAL_HOW_DO_USERS_AUTHENTICATE_SELECT",
+			value1 = "By Email Address");
+
+		AssertElementPresent(locator1 = "PortalSettingsAuthentication#AUTHENTICATION_GENERAL_ALLOW_USERS_TO_AUTOMATICALLY_LOGIN_CHECKBOX");
+
+		AssertElementPresent(locator1 = "PortalSettingsAuthentication#AUTHENTICATION_GENERAL_ALLOW_USERS_TO_REQUEST_FORGOTTEN_PASSWORDS_CHECKBOX");
+
+		AssertElementPresent(locator1 = "PortalSettingsAuthentication#AUTHENTICATION_GENERAL_ALLOW_USERS_TO_REQUEST_PASSWORD_RESET_LINKS_CHECKBOX");
+
+		AssertElementPresent(locator1 = "PortalSettingsAuthentication#AUTHENTICATION_GENERAL_ALLOW_STRANGERS_TO_CREATE_ACCOUNTS_CHECKBOX");
+
+		AssertElementPresent(locator1 = "PortalSettingsAuthentication#AUTHENTICATION_GENERAL_ALLOW_STRANGERS_TO_CREATE_ACCOUNTS_WITH_A_COMPANY_EMAIL_ADDRESS_CHECKBOX");
+
+		AssertElementPresent(locator1 = "PortalSettingsAuthentication#AUTHENTICATION_GENERAL_REQUIRE_STRANGERS_TO_VERIFY_THEIR_EMAIL_ADDRESS_CHECKBOX");
+	}
+
+	@summary = "Default summary"
+	macro viewAuthenticationLDAPCP() {
+		PortalSettings.gotoConfiguration(
+			configurationCategory = "LDAP",
+			configurationName = "Export",
+			configurationScope = "Virtual Instance Scope");
+
+		FormFields.viewCheckboxNotChecked(fieldName = "ldapExportEnabled");
+
+		PortalSettings.gotoConfiguration(
+			configurationCategory = "LDAP",
+			configurationName = "General",
+			configurationScope = "Virtual Instance Scope");
+
+		for (var fieldName : list "enabled,required,passwordPolicyEnabled") {
+			var fieldName = "InstanceSettingsPortlet_${fieldName}";
+
+			FormFields.viewCheckboxNotChecked(fieldName = ${fieldName});
+		}
+
+		PortalSettings.gotoConfiguration(
+			configurationCategory = "LDAP",
+			configurationName = "Import",
+			configurationScope = "Virtual Instance Scope");
+
+		FormFields.viewCheckboxNotChecked(fieldName = "ldapImportEnabled");
+
+		PortalSettings.gotoConfiguration(
+			configurationCategory = "LDAP",
+			configurationName = "Servers",
+			configurationScope = "Virtual Instance Scope");
+
+		AssertClick(
+			locator1 = "PortalSettingsAuthentication#AUTHENTICATION_LDAP_ADD_BUTTON",
+			value1 = "Add");
+
+		Click(locator1 = "PortalSettingsAuthentication#LDAP_SERVER_DEFAULT_VALUES_MICROSOFT_ACTIVE_DIRECTORY_SERVER_RADIO");
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "PortalSettingsAuthentication#LDAP_SERVER_CONNECTION_BASE_PROVIDER_URL_HEADER",
+			value1 = "Base Provider URL");
+
+		AssertTextEquals(
+			locator1 = "PortalSettingsAuthentication#LDAP_SERVER_CONNECTION_BASE_PROVIDER_URL_FIELD",
+			value1 = "ldap://localhost:389");
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "PortalSettingsAuthentication#LDAP_SERVER_CONNECTION_BASE_DN_HEADER",
+			value1 = "Base DN");
+
+		AssertTextEquals(
+			locator1 = "PortalSettingsAuthentication#LDAP_SERVER_CONNECTION_BASE_DN_FIELD",
+			value1 = "dc=example,dc=com");
+
+		AssertTextEquals(
+			locator1 = "PortalSettingsAuthentication#LDAP_SERVER_CONNECTION_PRINCIPAL_HEADER",
+			value1 = "Principal");
+
+		AssertTextEquals(
+			locator1 = "PortalSettingsAuthentication#LDAP_SERVER_CONNECTION_PRINCIPAL_FIELD",
+			value1 = "admin");
+
+		AssertTextEquals(
+			locator1 = "PortalSettingsAuthentication#LDAP_SERVER_CONNECTION_CREDENTIALS_HEADER",
+			value1 = "Credentials");
+
+		AssertTextEquals(
+			locator1 = "PortalSettingsAuthentication#LDAP_SERVER_CONNECTION_CREDENTIALS_FIELD",
+			value1 = "secret");
+
+		AssertElementPresent(locator1 = "PortalSettingsAuthentication#LDAP_SERVER_TEST_LDAP_CONNECTION_BUTTON");
+
+		AssertElementPresent(locator1 = "PortalSettingsAuthentication#LDAP_SERVER_TEST_LDAP_USERS_BUTTON");
+
+		AssertElementPresent(locator1 = "PortalSettingsAuthentication#LDAP_SERVER_TEST_LDAP_GROUPS_BUTTON");
+	}
+
+	@summary = "Default summary"
+	macro viewCurrentDefaultPortalLanguageCP(defaultPortalLanguage = null, localizationTranslation = null) {
+		var configuration = "Localization";
+
+		if (isSet(localizationTranslation)) {
+			var configuration = ${localizationTranslation};
+		}
+
+		Click(
+			key_itemName = ${configuration},
+			locator1 = "ListGroupItem#ITEM_TEXT");
+
+		AssertSelectedLabel(
+			locator1 = "Select#DEFAULT_LANGUAGE",
+			value1 = ${defaultPortalLanguage});
+	}
+
+	@summary = "Default summary"
+	macro viewDefaultLanguageCP(defaultPortalLanguage = null) {
+		AssertSelectedLabel(
+			locator1 = "Select#DEFAULT_LANGUAGE",
+			value1 = ${defaultPortalLanguage});
+	}
+
+	@summary = "Default summary"
+	macro viewDefaultUserAssociationsCP() {
+		PortalSettings.gotoConfiguration(
+			configurationCategory = "Users",
+			configurationName = "Default User Associations",
+			configurationScope = "Virtual Instance Scope");
+
+		AssertElementPresent(
+			checkboxName = "Apply to Existing Users",
+			locator1 = "Checkbox#ANY_CHECKBOX");
+
+		AssertTextEquals.assertPartialText(
+			key_fieldLabel = "Sites",
+			locator1 = "SystemSettings#LABEL",
+			value1 = "Sites");
+
+		AssertTextEquals(
+			key_text = "group.names",
+			locator1 = "TextArea#ANY",
+			value1 = "");
+
+		AssertTextEquals.assertPartialText(
+			key_fieldLabel = "Organization Sites",
+			locator1 = "SystemSettings#LABEL",
+			value1 = "Organization Sites");
+
+		AssertTextEquals(
+			key_text = "organization.group.names",
+			locator1 = "TextArea#ANY",
+			value1 = "");
+
+		AssertTextEquals.assertPartialText(
+			key_fieldLabel = "Roles",
+			locator1 = "SystemSettings#LABEL",
+			value1 = "Roles");
+
+		Type.clickAtType(
+			key_text = "role.names",
+			locator1 = "TextArea#ANY",
+			value1 = "Power User\nUser");
+
+		AssertTextEquals.assertPartialText(
+			key_fieldLabel = "User Groups",
+			locator1 = "SystemSettings#LABEL",
+			value1 = "User Groups");
+
+		AssertTextEquals(
+			key_text = "user.group.names",
+			locator1 = "TextArea#ANY",
+			value1 = "");
+	}
+
+	@summary = "Default summary"
+	macro viewEmailNotificationsAccountCreatedNotificationCP() {
+		PortalSettings.gotoConfiguration(
+			configurationCategory = "Email",
+			configurationName = "Account Created Notification",
+			configurationScope = "Virtual Instance Scope");
+
+		AssertElementPresent(locator1 = "PortalSettingsEmailNotifications#EMAIL_NOTIFICATIONS_ACCOUNT_CREATED_NOTIFICATION_ENABLED_CHECKBOX");
+
+		AssertTextEquals(
+			locator1 = "PortalSettingsEmailNotifications#EMAIL_NOTIFICATIONS_ACCOUNT_CREATED_NOTIFICATION_SUBJECT_HEADER",
+			value1 = "Subject");
+
+		AssertTextEquals(
+			locator1 = "PortalSettingsEmailNotifications#EMAIL_NOTIFICATIONS_ACCOUNT_CREATED_NOTIFICATION_SUBJECT_FIELD",
+			value1 = "[$PORTAL_URL$]: Your New Account");
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "PortalSettingsEmailNotifications#EMAIL_NOTIFICATIONS_ACCOUNT_CREATED_NOTIFICATION_BODY_WITH_PASSWORD_LINK_HEADER",
+			value1 = "Body with Password Link");
+
+		AssertElementPresent(locator1 = "PortalSettingsEmailNotifications#EMAIL_NOTIFICATIONS_ACCOUNT_CREATED_NOTIFICATION_BODY_WITH_PASSWORD_LINK_FIELD");
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "PortalSettingsEmailNotifications#EMAIL_NOTIFICATIONS_ACCOUNT_CREATED_NOTIFICATION_BODY_WITHOUT_PASSWORD_HEADER",
+			value1 = "Body without Password");
+
+		AssertElementPresent(locator1 = "PortalSettingsEmailNotifications#EMAIL_NOTIFICATIONS_ACCOUNT_CREATED_NOTIFICATION_BODY_WITHOUT_PASSWORD_FIELD");
+	}
+
+	@summary = "Default summary"
+	macro viewEmailNotificationsPasswordChangedNotificationCP() {
+		PortalSettings.gotoConfiguration(
+			configurationCategory = "Email",
+			configurationName = "Password Changed Notification",
+			configurationScope = "Virtual Instance Scope");
+
+		AssertElementPresent(locator1 = "PortalSettingsEmailNotifications#EMAIL_NOTIFICATIONS_PASSWORD_CHANGED_NOTIFICATION_SUBJECT_HEADER");
+
+		AssertTextEquals(
+			locator1 = "PortalSettingsEmailNotifications#EMAIL_NOTIFICATIONS_PASSWORD_CHANGED_NOTIFICATION_SUBJECT_FIELD",
+			value1 = "[$PORTAL_URL$]: Your Password Has Been Changed");
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "PortalSettingsEmailNotifications#EMAIL_NOTIFICATIONS_PASSWORD_CHANGED_NOTIFICATION_BODY_HEADER",
+			value1 = "Body");
+
+		AssertElementPresent(locator1 = "PortalSettingsEmailNotifications#EMAIL_NOTIFICATIONS_PASSWORD_CHANGED_NOTIFICATION_BODY_FIELD");
+	}
+
+	@summary = "Default summary"
+	macro viewEmailNotificationsSenderCP() {
+		PortalSettings.gotoConfiguration(
+			configurationCategory = "Email",
+			configurationName = "Email Sender",
+			configurationScope = "Virtual Instance Scope");
+
+		AssertTextEquals(
+			locator1 = "PortalSettingsEmailNotifications#EMAIL_NOTIFICATIONS_SENDER_NAME_HEADER",
+			value1 = "Name");
+
+		AssertTextEquals(
+			locator1 = "PortalSettingsEmailNotifications#EMAIL_NOTIFICATIONS_SENDER_NAME_FIELD",
+			value1 = "Joe Bloggs");
+
+		AssertTextEquals(
+			locator1 = "PortalSettingsEmailNotifications#EMAIL_NOTIFICATIONS_SENDER_ADDRESS_HEADER",
+			value1 = "Address");
+
+		AssertTextEquals(
+			locator1 = "PortalSettingsEmailNotifications#EMAIL_NOTIFICATIONS_SENDER_ADDRESS_FIELD",
+			value1 = "test@liferay.com");
+	}
+
+	@summary = "Default summary"
+	macro viewEnabledLDAPSetting(baseURL = null, enableSettingList = null) {
+		for (var enableSetting : list ${enableSettingList}) {
+			if (${enableSetting} == "enabled") {
+				PortalSettings.gotoConfiguration(
+					baseURL = ${baseURL},
+					configurationCategory = "LDAP",
+					configurationName = "General",
+					configurationScope = "Virtual Instance Scope");
+			}
+
+			if (${enableSetting} == "ldapImportEnabled") {
+				PortalSettings.gotoConfiguration(
+					baseURL = ${baseURL},
+					configurationCategory = "LDAP",
+					configurationName = "Import",
+					configurationScope = "Virtual Instance Scope");
+			}
+
+			if (${enableSetting} == "importOnStartup") {
+				PortalSettings.gotoConfiguration(
+					baseURL = ${baseURL},
+					configurationCategory = "LDAP",
+					configurationName = "Import",
+					configurationScope = "Virtual Instance Scope");
+			}
+
+			if (${enableSetting} == "ldapExportEnabled") {
+				PortalSettings.gotoConfiguration(
+					baseURL = ${baseURL},
+					configurationCategory = "LDAP",
+					configurationName = "Export",
+					configurationScope = "Virtual Instance Scope");
+			}
+
+			FormFields.viewCheckboxChecked(fieldName = "InstanceSettingsPortlet_${enableSetting}");
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewReservedCredentialsScreenNamesCP() {
+		PortalSettings.gotoConfiguration(
+			configurationCategory = "User Authentication",
+			configurationName = "Reserved Credentials",
+			configurationScope = "Virtual Instance Scope");
+
+		AssertTextEquals.assertPartialText(
+			key_fieldLabel = "Screen Names",
+			locator1 = "SystemSettings#LABEL",
+			value1 = "Screen Names");
+
+		AssertTextEquals(
+			key_text = "admin.reserved.screen.names",
+			locator1 = "TextArea#ANY",
+			value1 = "");
+
+		AssertTextEquals.assertPartialText(
+			key_fieldLabel = "Email Addresses",
+			locator1 = "SystemSettings#LABEL",
+			value1 = "Email Addresses");
+
+		AssertTextEquals(
+			key_text = "admin.reserved.email.addresses",
+			locator1 = "TextArea#ANY",
+			value1 = "");
+	}
+
+	@summary = "Default summary"
+	macro viewToggleSwitchChecked(portalSetting = null) {
+		AssertChecked.assertCheckedNotVisible(
+			key_toggleSwitchLabel = ${portalSetting},
+			locator1 = "ToggleSwitch#ANY_TOGGLE_SWITCH");
+	}
+
+	@summary = "Default summary"
+	macro viewToggleSwitchNotChecked(portalSetting = null) {
+		AssertNotChecked.assertNotCheckedNotVisible(
+			key_toggleSwitchLabel = ${portalSetting},
+			locator1 = "ToggleSwitch#ANY_TOGGLE_SWITCH");
+	}
+
+}

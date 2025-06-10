@@ -1,0 +1,26 @@
+Bundle-Name: Liferay TLD Formatter
+Bundle-SymbolicName: com.liferay.tld.formatter
+Bundle-Version: 1.0.9
+Import-Package:\
+	!org.apache.maven.plugin.*,\
+	!org.apache.tools.ant.*,\
+	\
+	*
+Main-Class: com.liferay.tld.formatter.TLDFormatter
+-includeresource:\
+	@com.liferay.petra.io-*.jar!/com/liferay/petra/io/unsync/BoundaryCheckerUtil.class,\
+	@com.liferay.petra.io-*.jar!/com/liferay/petra/io/unsync/UnsyncByteArrayOutputStream.class,\
+	@com.liferay.petra.io-*.jar!/com/liferay/petra/io/unsync/UnsyncStringReader.class,\
+	@com.liferay.petra.string-*.jar!/com/liferay/petra/string/StringPool.class,\
+	@com.liferay.portal.impl-*.jar!/com/liferay/portal/tools/ArgumentsMap.class,\
+	@com.liferay.portal.impl-*.jar!/com/liferay/portal/tools/ArgumentsUtil.class,\
+	@com.liferay.portal.impl-*.jar!/com/liferay/portal/util/EntityResolver.class,\
+	@com.liferay.portal.impl-*.jar!/com/liferay/portal/xml/SAXReaderFactory.class,\
+	@com.liferay.portal.kernel-*.jar!/com/liferay/portal/kernel/io/unsync/UnsyncBufferedReader.class,\
+	@com.liferay.portal.kernel-*.jar!/com/liferay/portal/kernel/io/unsync/UnsyncByteArrayInputStream.class,\
+	@com.liferay.portal.kernel-*.jar!/com/liferay/portal/kernel/io/unsync/UnsyncByteArrayOutputStream.class,\
+	@com.liferay.portal.kernel-*.jar!/com/liferay/portal/kernel/io/unsync/UnsyncStringReader.class,\
+	@com.liferay.portal.kernel-*.jar!/com/liferay/portal/kernel/log/*,\
+	@com.liferay.portal.kernel-*.jar!/com/liferay/portal/kernel/memory/SoftReferenceThreadLocal.class,\
+	@com.liferay.portal.kernel-*.jar!/com/liferay/portal/kernel/util/*,\
+	@xercesImpl-[0-9.]*.jar!/org/apache/xerces/xni/XNIException.class

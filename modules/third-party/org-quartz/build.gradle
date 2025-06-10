@@ -1,0 +1,22 @@
+import com.liferay.gradle.plugins.patcher.PatchTask
+
+apply plugin: "com.liferay.patcher"
+
+task patch(type: PatchTask)
+
+dependencies {
+	api group: "org.quartz-scheduler", name: "quartz", version: "2.1.7"
+}
+
+jarSources {
+	mustRunAfter patch
+}
+
+patch {
+	ext {
+		autoClean = false
+	}
+
+	fileNames "org/quartz/xml/XMLSchedulingDataProcessor.java"
+	originalLibModuleName = "quartz"
+}

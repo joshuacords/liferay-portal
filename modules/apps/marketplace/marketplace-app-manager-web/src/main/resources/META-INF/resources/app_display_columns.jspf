@@ -1,0 +1,58 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<liferay-ui:search-container-column-text>
+	<liferay-util:include page="/icon.jsp" servletContext="<%= application %>">
+		<liferay-util:param name="iconURL" value="<%= appDisplay.getIconURL(request) %>" />
+	</liferay-util:include>
+</liferay-ui:search-container-column-text>
+
+<liferay-ui:search-container-column-text
+	colspan="<%= 2 %>"
+>
+	<h2 class="list-group-title">
+		<a href="<%= HtmlUtil.escapeHREF(appDisplay.getDisplayURL(renderResponse)) %>">
+			<%= MarketplaceAppManagerUtil.getSearchContainerFieldText(appDisplay.getDisplayTitle()) %>
+		</a>
+	</h2>
+
+	<p class="list-group-text">
+		<%= MarketplaceAppManagerUtil.getSearchContainerFieldText(appDisplay.getDescription()) %>
+	</p>
+
+	<div class="additional-info list-group-subtext">
+		<c:if test="<%= Validator.isNotNull(appDisplay.getDisplaySuiteTitle()) %>">
+			<div class="additional-info-item">
+				<strong>
+					<liferay-ui:message key="suite" />:
+				</strong>
+
+				<%= appDisplay.getDisplaySuiteTitle() %>
+			</div>
+		</c:if>
+
+		<div class="additional-info-item">
+			<strong>
+				<liferay-ui:message key="version" />:
+			</strong>
+
+			<%= appDisplay.getVersion() %>
+		</div>
+
+		<div class="additional-info-item">
+			<strong>
+				<liferay-ui:message key="status" />:
+			</strong>
+
+			<liferay-ui:message key="<%= BundleStateConstants.getLabel(appDisplay.getState()) %>" />
+		</div>
+	</div>
+</liferay-ui:search-container-column-text>
+
+<liferay-ui:search-container-column-jsp
+	path="/app_display_action.jsp"
+/>

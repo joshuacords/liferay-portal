@@ -1,0 +1,44 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<aui:script>
+	if (!window.<portlet:namespace />openCompareVersionsPopup) {
+		window.<portlet:namespace />openCompareVersionsPopup = function (
+			compareVersionUrl
+		) {
+			var currentTarget = event.delegateTarget;
+
+			Liferay.Util.openSelectionModal({
+				onSelect: function (event) {
+					<portlet:renderURL var="compareVersionURL">
+						<portlet:param name="mvcRenderCommandName" value="/wiki/compare_versions" />
+						<portlet:param name="backURL" value="<%= currentURL %>" />
+						<portlet:param name="nodeId" value="<%= String.valueOf(wikiPage.getNodeId()) %>" />
+						<portlet:param name="title" value="<%= wikiPage.getTitle() %>" />
+						<portlet:param name="type" value="html" />
+					</portlet:renderURL>
+
+					var uri = '<%= compareVersionURL %>';
+
+					uri = Liferay.Util.addParams(
+						'<portlet:namespace />sourceVersion=' + event.sourceversion,
+						uri
+					);
+					uri = Liferay.Util.addParams(
+						'<portlet:namespace />targetVersion=' + event.targetversion,
+						uri
+					);
+
+					location.href = uri;
+				},
+				selectEventName: '<portlet:namespace />selectVersionFm',
+				title: '<liferay-ui:message key="compare-versions" />',
+				url: compareVersionUrl,
+			});
+		};
+	}
+</aui:script>

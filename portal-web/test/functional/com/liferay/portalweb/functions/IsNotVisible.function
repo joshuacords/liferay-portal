@@ -1,0 +1,12 @@
+@default = "isNotVisible"
+definition {
+
+	function isNotVisible(locator1) {
+		WaitForSPARefresh();
+
+		selenium.waitForElementPresent(${locator1}, "false");
+
+		selenium.isNotVisible(${locator1});
+	}
+
+}

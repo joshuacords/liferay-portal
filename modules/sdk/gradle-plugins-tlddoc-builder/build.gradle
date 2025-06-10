@@ -1,0 +1,34 @@
+apply plugin: "com.gradle.plugin-publish"
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+
+String gradleVersion = "8.5"
+
+if (Boolean.getBoolean("gradle.test.enabled")) {
+	apply from: "test.gradle"
+}
+
+tasks.eclipse {
+	ext.gradleVersion = gradleVersion
+}
+
+dependencies {
+	api group: "com.liferay", name: "com.liferay.gradle.util", version: "1.0.49"
+	compileOnly fileTree(builtBy: [rootProject.tasks.getByName("extractGradleApi" + gradleVersion.replace(".", ""))], dir: new File(rootProject.buildDir, "gradle-${gradleVersion}"))
+}
+
+pluginBundle {
+	plugins {
+		appTLDDocBuilderPlugin {
+			description = "The App TLDDoc Builder lets you generate the tag library documentation as a single, combined HTML document for an application that spans different subprojects, each one representing a different component of the same application."
+			displayName = "Liferay Gradle Plugins App TLDDoc Builder"
+		}
+
+		tLDDocBuilderPlugin {
+			displayName = "Liferay Gradle Plugins TLDDoc Builder"
+		}
+	}
+
+	tags = ["java", "tld"]
+}

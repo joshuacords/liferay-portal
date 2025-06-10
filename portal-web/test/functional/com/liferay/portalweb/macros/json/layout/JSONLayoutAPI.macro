@@ -1,0 +1,201 @@
+definition {
+
+	@summary = "Default summary"
+	macro _addLayout(groupId = null, parentLayoutId = null, friendlyURL = null, privateLayout = null, serviceContext = null, type = null, layoutName = null) {
+		Variables.assertDefined(parameterList = "${friendlyURL},${groupId},${privateLayout},${parentLayoutId},${layoutName},${serviceContext}");
+
+		var portalURL = JSONCompany.getPortalURL();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/layout/add-layout \
+				-u ${userLoginInfo} \
+				-d externalReferenceCode='' \
+				-d groupId=${groupId} \
+				-d privateLayout=${privateLayout} \
+				-d parentLayoutId=${parentLayoutId} \
+				-d name=${layoutName} \
+				-d title= \
+				-d description= \
+				-d type=${type} \
+				-d hidden=false \
+				-d friendlyURL=${friendlyURL} \
+				-d serviceContext=${serviceContext}
+		''';
+
+		var plid = JSONCurlUtil.post(${curl}, "$['plid']");
+
+		return ${plid};
+	}
+
+	@summary = "Default summary"
+	macro _deleteLayout(groupId = null, privateLayout = null, serviceContext = null, layoutId = null) {
+		Variables.assertDefined(parameterList = "${groupId},${layoutId},${privateLayout},${serviceContext}");
+
+		var portalURL = JSONCompany.getPortalURL();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/layout/delete-layout \
+				-u ${userLoginInfo} \
+				-d groupId=${groupId} \
+				-d privateLayout=${privateLayout} \
+				-d layoutId=${layoutId} \
+				-d serviceContext=${serviceContext}
+		''';
+
+		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
+	}
+
+	@summary = "Default summary"
+	macro _getDefaultPlidByGroupId(groupId = null, privateLayout = null) {
+		Variables.assertDefined(parameterList = "${groupId},${privateLayout}");
+
+		var portalURL = JSONCompany.getPortalURL();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/layout/get-default-plid \
+				-u ${userLoginInfo} \
+				-d groupId=${groupId} \
+				-d privateLayout=${privateLayout}
+		''';
+
+		var defaultPlid = JSONCurlUtil.post(${curl});
+
+		var defaultPlid = StringUtil.extractDigits(${defaultPlid});
+
+		if (${defaultPlid} == "") {
+			fail("FAIL. Cannot find defaultPlid.");
+		}
+
+		return ${defaultPlid};
+	}
+
+	@summary = "Default summary"
+	macro _getLayoutIdByName(groupId = null, privateLayout = null, layoutName = null) {
+		Variables.assertDefined(parameterList = "${groupId},${layoutName},${privateLayout}");
+
+		var portalURL = JSONCompany.getPortalURL();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/layout/get-layouts \
+				-u ${userLoginInfo} \
+				-d groupId=${groupId} \
+				-d privateLayout=${privateLayout}
+		''';
+
+		var layoutId = JSONCurlUtil.post(${curl}, "$.[?(@['nameCurrentValue'] == '${layoutName}')]['layoutId']");
+
+		if (${layoutId} == "") {
+			fail("FAIL. Cannot find layout.");
+		}
+
+		return ${layoutId};
+	}
+
+	@summary = "Default summary"
+	macro _getPlidByName(groupId = null, privateLayout = null, layoutName = null) {
+		Variables.assertDefined(parameterList = "${groupId},${layoutName},${privateLayout}");
+
+		if (!(isSet(portalURL))) {
+			var portalURL = JSONCompany.getPortalURL();
+		}
+
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/layout/get-layouts \
+				-u ${userLoginInfo} \
+				-d groupId=${groupId} \
+				-d privateLayout=${privateLayout}
+		''';
+
+		var plid = JSONCurlUtil.post(${curl}, "$.[?(@['nameCurrentValue'] == '${layoutName}')]['plid']");
+
+		if (${plid} == "") {
+			fail("FAIL. Cannot find layout.");
+		}
+
+		return ${plid};
+	}
+
+	@summary = "Default summary"
+	macro _getTypeSettingsByName(groupId = null, privateLayout = null, layoutName = null) {
+		Variables.assertDefined(parameterList = "${groupId},${layoutName},${privateLayout}");
+
+		var portalURL = JSONCompany.getPortalURL();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/layout/get-layouts \
+				-u ${userLoginInfo} \
+				-d groupId=${groupId} \
+				-d privateLayout=${privateLayout}
+		''';
+
+		var typeSettings = JSONCurlUtil.post(${curl}, "$.[?(@['nameCurrentValue'] == '${layoutName}')]['typeSettings']");
+
+		return ${typeSettings};
+	}
+
+	@summary = "Default summary"
+	macro _getUuidByName(groupId = null, privateLayout = null, layoutName = null) {
+		Variables.assertDefined(parameterList = "${groupId},${layoutName},${privateLayout}");
+
+		var portalURL = JSONCompany.getPortalURL();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/layout/get-layouts \
+				-u ${userLoginInfo} \
+				-d groupId=${groupId} \
+				-d privateLayout=${privateLayout}
+		''';
+
+		var uuid = JSONCurlUtil.post(${curl}, "$.[?(@['nameCurrentValue'] == '${layoutName}')]['uuid']");
+
+		if (${uuid} == "") {
+			fail("FAIL. Cannot find layout.");
+		}
+
+		return ${uuid};
+	}
+
+	@summary = "Default summary"
+	macro _publishLayoutByPlid(plid = null) {
+		Variables.assertDefined(parameterList = ${plid});
+
+		var portalURL = JSONCompany.getPortalURL();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/layout/publish-layout \
+				-u ${userLoginInfo} \
+				-d plid=${plid}
+		''';
+
+		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
+	}
+
+	@summary = "Default summary"
+	macro _updateTypeSettings(groupId = null, typeSettings = null, privateLayout = null, layoutId = null) {
+		Variables.assertDefined(parameterList = "${groupId},${privateLayout},${layoutId},${typeSettings}");
+
+		var portalURL = JSONCompany.getPortalURL();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/layout/update-layout \
+				-u ${userLoginInfo} \
+				-d groupId=${groupId} \
+				-d privateLayout=${privateLayout} \
+				-d layoutId=${layoutId} \
+				-d typeSettings=${typeSettings}
+		''';
+
+		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
+	}
+
+}

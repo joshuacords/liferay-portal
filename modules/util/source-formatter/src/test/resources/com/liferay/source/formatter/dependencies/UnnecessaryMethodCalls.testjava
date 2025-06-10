@@ -1,0 +1,77 @@
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+
+package com.liferay.source.formatter.dependencies;
+
+import com.liferay.portal.kernel.webcache.WebCachePool;
+
+/**
+ * @author Alan Huang
+ */
+public class UnnecessaryMethodCalls {
+
+	public static String getValue() {
+		return value;
+	}
+
+	public static int getValueLegth() {
+		String value = getValue();
+
+		return value.length();
+	}
+
+	public void clear() {
+		_getWebCachePool().clear();
+	}
+
+	public void clear_1() {
+		_webCachePoolUtil_1.clear();
+	}
+
+	public Object get(String key, WebCacheItem webCacheItem) {
+		return _getWebCachePool().get(key, webCacheItem);
+	}
+
+	public int getNameLegth() {
+		String name = _getName();
+
+		return name.length();
+	}
+
+	public void remove(String key) {
+		_getWebCachePool().remove(key);
+	}
+
+	private String _getName() {
+		return name;
+	}
+
+	private WebCachePool _getWebCachePool() {
+		return webCachePool;
+	}
+
+	protected static String value = "";
+	protected static WebCachePool webCachePool;
+
+	protected String name = "";
+
+	private static final WebCachePoolUtil_1 _webCachePoolUtil_1 =
+		new WebCachePoolUtil_1();
+
+	private static class WebCachePoolUtil_1 {
+
+		public static WebCachePool getWebCachePool() {
+			return webCachePool_1;
+		}
+
+		public void clear() {
+			getWebCachePool().clear();
+		}
+
+		protected static WebCachePool webCachePool_1;
+
+	}
+
+}

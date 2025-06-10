@@ -1,0 +1,26 @@
+@import 'atlas-variables';
+
+@import 'LayoutPageTemplateEntryCard';
+
+@import 'miller_columns/MillerColumns';
+
+@import '../js/layout/look_and_feel/GlobalCSSCETsConfiguration';
+@import '../js/layout/look_and_feel/GlobalJSCETsConfiguration';
+
+.portlet-layouts-admin {
+	.card-page-item-directory {
+		@include media-breakpoint-up(lg) {
+			flex-basis: 33.33333%;
+			max-width: 33.33333%;
+		}
+	}
+
+	.customization-settings #main-content .portlet-column {
+		border: 1px solid $primary;
+		text-align: center;
+	}
+
+	.add-layout-form .sheet-footer {
+		position: absolute;
+	}
+}

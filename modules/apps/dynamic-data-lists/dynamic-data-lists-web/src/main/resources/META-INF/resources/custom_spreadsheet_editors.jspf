@@ -1,0 +1,33 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<aui:script use="liferay-portlet-dynamic-data-lists">
+	var DEFAULTS_FORM_VALIDATOR = A.config.FormValidator;
+
+	DEFAULTS_FORM_VALIDATOR.RULES.requiredFields = function (value) {
+		var spreadSheet = window.<portlet:namespace />spreadSheet;
+
+		var activeCell = spreadSheet.get('activeCell');
+
+		var activeColumn = spreadSheet.getColumn(activeCell);
+		var activeRecord = spreadSheet.getRecord(activeCell);
+
+		return !window.<portlet:namespace />structure.some((item, index) => {
+			var fieldName = item.name;
+			var fieldValue = activeRecord.get(fieldName);
+
+			return (
+				!fieldValue &&
+				activeColumn.key !== fieldName &&
+				item.required === 'true'
+			);
+		});
+	};
+
+	DEFAULTS_FORM_VALIDATOR.STRINGS.requiredFields =
+		'<%= UnicodeLanguageUtil.get(request, "please-fill-out-all-required-fields") %>';
+</aui:script>

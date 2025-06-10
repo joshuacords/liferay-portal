@@ -1,0 +1,28 @@
+import com.liferay.gradle.plugins.patcher.PatchTask
+
+apply plugin: "com.liferay.patcher"
+
+task patch(type: PatchTask)
+
+sourceCompatibility = "1.6"
+targetCompatibility = "1.6"
+
+dependencies {
+	compileOnly group: "rome", name: "rome", version: "1.0"
+}
+
+jarSources {
+	mustRunAfter patch
+}
+
+patch {
+	ext {
+		autoClean = false
+	}
+
+	fileNames "com/sun/syndication/io/WireFeedInput.java"
+	fileNames "com/sun/syndication/io/WireFeedOutput.java"
+	fileNames "com/sun/syndication/io/impl/PluginManager.java"
+	fileNames "com/sun/syndication/io/impl/PropertiesLoader.java"
+	originalLibModuleName = "rome"
+}

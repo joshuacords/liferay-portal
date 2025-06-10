@@ -1,0 +1,54 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<%
+UnicodeProperties unicodeProperties = commerceDiscountRule.getSettingsProperties();
+
+String typeSettings = unicodeProperties.getProperty(commerceDiscountRule.getType());
+%>
+
+<div class="col-12">
+	<div id="item-finder-root"></div>
+
+	<aui:input id="typeSettings" name="typeSettings" type="hidden" value="<%= (typeSettings == null) ? StringPool.BLANK : typeSettings %>" />
+
+	<liferay-frontend:component
+		context='<%=
+			HashMapBuilder.<String, Object>put(
+				"commerceDiscountRuleId", commerceDiscountRule.getCommerceDiscountRuleId()
+			).put(
+				"namespace", liferayPortletResponse.getNamespace()
+			).put(
+				"portletId", portletDisplay.getRootPortletId()
+			).put(
+				"pricingFDSName", CommercePricingFDSNames.DISCOUNT_RULE_PRODUCT_DEFINITIONS
+			).put(
+				"spritemap", themeDisplay.getPathThemeSpritemap()
+			).build()
+		%>'
+		module="{products} from commerce-pricing-web"
+	/>
+</div>
+
+<div class="col-12">
+	<commerce-ui:panel
+		bodyClasses="p-0"
+		title='<%= LanguageUtil.get(request, "products") %>'
+	>
+		<frontend-data-set:classic-display
+			contextParams='<%=
+				HashMapBuilder.<String, String>put(
+					"commerceDiscountRuleId", String.valueOf(commerceDiscountRule.getCommerceDiscountRuleId())
+				).build()
+			%>'
+			dataProviderKey="<%= CommercePricingFDSNames.DISCOUNT_RULE_PRODUCT_DEFINITIONS %>"
+			formName="fm"
+			id="<%= CommercePricingFDSNames.DISCOUNT_RULE_PRODUCT_DEFINITIONS %>"
+			itemsPerPage="<%= 10 %>"
+		/>
+	</commerce-ui:panel>
+</div>

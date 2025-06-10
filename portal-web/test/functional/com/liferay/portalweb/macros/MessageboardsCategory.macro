@@ -1,0 +1,437 @@
+definition {
+
+	var assetType = "Message Boards Category";
+
+	@summary = "Default summary"
+	macro addCP(categoryName = null, categoryDescriptionEnabled = null, categoryDescription = null) {
+		LexiconEntry.gotoAdd();
+
+		MenuItem.click(menuItem = "Category");
+
+		PortletEntry.inputName(name = ${categoryName});
+
+		if (${categoryDescriptionEnabled} == "true") {
+			PortletEntry.inputDescription(description = ${categoryDescription});
+		}
+
+		PortletEntry.save();
+	}
+
+	@summary = "Default summary"
+	macro addPG(displayStyle = null, siteURLKey = null, categoryName = null, categoryWithoutName = null, categoryDescriptionEnabled = null, layoutName = null, categoryDescription = null) {
+		if (isSet(siteURLKey)) {
+			MessageboardsCategory.openToAddCategory(
+				layoutName = ${layoutName},
+				siteURLKey = ${siteURLKey});
+		}
+		else {
+			AssertClick(
+				locator1 = "Button#ADD_CATEGORY",
+				value1 = "Add Category");
+		}
+
+		PortletEntry.inputName(name = ${categoryName});
+
+		if (${categoryDescriptionEnabled} == "true") {
+			PortletEntry.inputDescription(description = ${categoryDescription});
+		}
+
+		if (${displayStyle} == "Question") {
+			Select(
+				locator1 = "MessageBoardsEditCategory#DISPLAY_STYLE_SELECT",
+				value1 = "Question");
+		}
+		else if (${displayStyle} == "Default") {
+			Select(
+				locator1 = "MessageBoardsEditCategory#DISPLAY_STYLE_SELECT",
+				value1 = "Default");
+		}
+
+		Click(
+			locator1 = "Button#SAVE",
+			value1 = "Save");
+
+		if (${categoryWithoutName} == "true") {
+			AssertTextEquals.assertPartialText(
+				locator1 = "TextInput#REQUIRED_ALERT",
+				value1 = "The Name field is required.");
+		}
+		else {
+			Alert.viewSuccessMessage();
+		}
+	}
+
+	@summary = "Default summary"
+	macro deleteCP() {
+		if (IsElementPresent(locator1 = "Checkbox#LEXICON_SELECT_ALL_CONTAINER")) {
+			PortletEntry.selectAll();
+
+			Click(
+				key_text = "trash",
+				locator1 = "ManagementBar#ANY_ICON");
+
+			VerifyElementPresent(locator1 = "Message#SUCCESS");
+		}
+	}
+
+	@summary = "Default summary"
+	macro deletePG(categoryName = null) {
+		var key_categoryName = ${categoryName};
+
+		AssertTextEquals(
+			locator1 = "MessageBoards#CATEGORY_LIST_CATEGORY",
+			value1 = ${categoryName});
+
+		LexiconEntry.openEntryMenu(rowEntry = ${categoryName});
+
+		PortletEntry.clickMoveToRecycleBin();
+
+		VerifyElementPresent(locator1 = "Message#SUCCESS");
+
+		AssertElementNotPresent(locator1 = "MessageBoards#CATEGORY_LIST_CATEGORY");
+	}
+
+	@summary = "Default summary"
+	macro editPG(groupName = null, categoryNameEdit = null, siteURLKey = null, categoryName = null, layoutName = null) {
+		if (isSet(siteURLKey)) {
+			MessageboardsCategory.openToEditCategory(
+				categoryName = ${categoryName},
+				groupName = ${groupName},
+				layoutName = ${layoutName},
+				siteURLKey = ${siteURLKey});
+		}
+		else {
+			LexiconEntry.openEntryMenu(rowEntry = ${categoryName});
+
+			MenuItem.click(menuItem = "Edit");
+		}
+
+		PortletEntry.inputName(name = ${categoryNameEdit});
+
+		Click(
+			locator1 = "Button#SAVE",
+			value1 = "Save");
+
+		Alert.viewSuccessMessage();
+	}
+
+	@summary = "Default summary"
+	macro gotoCP(categoryName = null) {
+		var key_rowEntry = ${categoryName};
+
+		AssertTextEquals(
+			locator1 = "ContentRow#ENTRY_CONTENT_ENTRY_NAME_LINK",
+			value1 = ${categoryName});
+
+		AssertClick(
+			locator1 = "ContentRow#ENTRY_CONTENT_ENTRY_NAME_LINK",
+			value1 = ${categoryName});
+
+		AssertTextEquals(
+			locator1 = "Portlet#HEADER",
+			value1 = "Message Boards");
+	}
+
+	@summary = "Default summary"
+	macro gotoPG(subCategoryEnabled = null, categoryName = null, categoryDescriptionEnabled = null, categoryDescription = null, subCategoryName = null) {
+		if (${categoryDescriptionEnabled} == "true") {
+			var key_categoryDescription = ${categoryDescription};
+			var key_categoryName = ${categoryName};
+
+			AssertClick(
+				locator1 = "MessageBoards#CATEGORY_LIST_CATEGORY_DESCRIPTION",
+				value1 = ${categoryDescription});
+		}
+		else {
+			var key_categoryName = ${categoryName};
+
+			AssertClick(
+				locator1 = "MessageBoards#CATEGORY_LIST_CATEGORY",
+				value1 = ${categoryName});
+		}
+
+		if (${subCategoryEnabled} == "true") {
+			var key_categoryName = ${subCategoryName};
+
+			Click(
+				locator1 = "MessageBoards#CATEGORY_LIST_CATEGORY",
+				value1 = ${subCategoryName});
+		}
+	}
+
+	@summary = "Default summary"
+	macro openToAddCategory(siteURLKey = null, layoutName = null) {
+		var baseURL = ${baseURL};
+
+		if (!(isSet(baseURL))) {
+			var baseURL = JSONCompany.getPortalURL();
+		}
+
+		Open(value1 = "${baseURL}/web/${siteURLKey}/${layoutName}?p_p_id=com_liferay_message_boards_web_portlet_MBPortlet&p_p_lifecycle=0&p_p_state=normal&p_p_mode=view&_com_liferay_message_boards_web_portlet_MBPortlet_javax.portlet.action=%2Fmessage_boards%2Fedit_category&_com_liferay_message_boards_web_portlet_MBPortlet_mvcRenderCommandName=%2Fmessage_boards%2Fedit_category");
+	}
+
+	@summary = "Default summary"
+	macro openToCategory(groupName = null, siteURLKey = null, categoryName = null, layoutName = null) {
+		var categoryId = JSONMBMessage.getCategoryIdByName(
+			categoryName = ${categoryName},
+			groupName = ${groupName});
+		var baseURL = ${baseURL};
+
+		if (!(isSet(baseURL))) {
+			var baseURL = JSONCompany.getPortalURL();
+		}
+
+		if (isSet(layoutName)) {
+			Open(value1 = "${baseURL}/web/${siteURLKey}/${layoutName}/-/message_boards/category/${categoryId}");
+		}
+		else {
+			Open(value1 = "${baseURL}/group/${siteURLKey}/~/control_panel/manage?p_p_id=com_liferay_message_boards_web_portlet_MBAdminPortlet&_com_liferay_message_boards_web_portlet_MBAdminPortlet_mvcRenderCommandName=%2Fmessage_boards%2Fview_category&_com_liferay_message_boards_web_portlet_MBAdminPortlet_mbCategoryId=${categoryId}");
+		}
+	}
+
+	@summary = "Default summary"
+	macro openToEditCategory(groupName = null, siteURLKey = null, categoryName = null, layoutName = null) {
+		var categoryId = JSONMBMessage.getCategoryIdByName(
+			categoryName = ${categoryName},
+			groupName = ${groupName});
+		var baseURL = ${baseURL};
+
+		if (!(isSet(baseURL))) {
+			var baseURL = JSONCompany.getPortalURL();
+		}
+
+		if (isSet(layoutName)) {
+			Open(value1 = "${baseURL}/web/${siteURLKey}/${layoutName}?p_p_id=com_liferay_message_boards_web_portlet_MBPortlet&_com_liferay_message_boards_web_portlet_MBPortlet_mvcRenderCommandName=%2Fmessage_boards%2Fedit_category&_com_liferay_message_boards_web_portlet_MBPortlet_mbCategoryId=${categoryId}");
+		}
+		else {
+			Open(value1 = "${baseURL}/group/${siteURLKey}/~/control_panel/manage?p_p_id=com_liferay_message_boards_web_portlet_MBAdminPortlet&p_p_lifecycle=0&p_p_state=maximized&p_p_mode=view&_com_liferay_message_boards_web_portlet_MBAdminPortlet_mvcRenderCommandName=%2Fmessage_boards%2Fedit_category&_com_liferay_message_boards_web_portlet_MBAdminPortlet_mbCategoryId=${categoryId}");
+		}
+	}
+
+	@summary = "Default summary"
+	macro subscribePG(categoryName = null) {
+		var key_categoryName = ${categoryName};
+
+		AssertTextEquals(
+			locator1 = "MessageBoards#CATEGORY_LIST_CATEGORY",
+			value1 = ${categoryName});
+
+		LexiconEntry.openEntryMenu(rowEntry = ${categoryName});
+
+		MenuItem.click(menuItem = "Subscribe");
+
+		Alert.viewSuccessMessage();
+	}
+
+	@summary = "Default summary"
+	macro tearDownCP() {
+		Navigator.openURL();
+
+		ProductMenu.gotoPortlet(
+			category = "Content & Data",
+			portlet = "Message Boards");
+
+		IsElementPresent(locator1 = "Checkbox#SELECT_ALL");
+
+		PortletEntry.selectAll();
+
+		Click(locator1 = "Icon#MOVE_TO_RECYCLE_BIN");
+
+		VerifyElementPresent(locator1 = "Message#SUCCESS");
+
+		JSONRecycleBin.emptyRecycleBin();
+	}
+
+	@summary = "Default summary"
+	macro viewCategoryDefaultPG(categoryCount = null, threadCount = null, categoryName = null) {
+		var key_categoryName = ${categoryName};
+
+		AssertTextEquals(
+			locator1 = "MessageBoards#CATEGORY_LIST_CATEGORY",
+			value1 = ${categoryName});
+
+		AssertElementNotPresent(locator1 = "MessageBoards#CATEGORY_TABLE_CATEGORY_GENERIC");
+
+		var key_categoryCount = ${categoryCount};
+		var key_threadCount = ${threadCount};
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "MessageBoards#CATEGORY_LIST_CATEGORY_COUNT",
+			value1 = "0 Categories");
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "MessageBoards#CATEGORY_LIST_THREAD_COUNT",
+			value1 = "0 Threads");
+
+		Click(locator1 = "MessageBoards#CATEGORY_LIST_CATEGORY");
+
+		AssertTextEquals(
+			locator1 = "MessageBoards#CATEGORIES_NAME_HEADER",
+			value1 = ${categoryName});
+
+		AssertElementNotPresent(locator1 = "MessageBoards#CATEGORY_TABLE_PANEL");
+
+		AssertElementNotPresent(locator1 = "MessageBoards#CATEGORY_TABLE_CATEGORY_GENERIC");
+	}
+
+	@summary = "Default summary"
+	macro viewCategorySubscribeLink(categoryName = null) {
+		var key_categoryName = ${categoryName};
+
+		if (isSet(disabledEmailConfiguration)) {
+			Click(locator1 = "MessageBoards#CATEGORY_LIST_ACTIONS");
+
+			MenuItem.viewNotPresent(menuItem = "Subscribe");
+
+			AssertClick(
+				locator1 = "MessageBoards#CATEGORY_LIST_CATEGORY",
+				value1 = ${categoryName});
+
+			Click(locator1 = "Icon#BODY_VERTICAL_ELLIPSIS");
+
+			AssertElementNotPresent(locator1 = "Link#SUBSCRIBE");
+		}
+		else {
+			Click(locator1 = "MessageBoards#CATEGORY_LIST_ACTIONS");
+
+			MenuItem.viewPresent(menuItem = "Subscribe");
+
+			AssertClick(
+				locator1 = "MessageBoards#CATEGORY_LIST_CATEGORY",
+				value1 = ${categoryName});
+
+			Click(locator1 = "Icon#BODY_VERTICAL_ELLIPSIS");
+
+			AssertTextEquals(
+				locator1 = "Link#SUBSCRIBE",
+				value1 = "Subscribe");
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewCP(localizedHeader = null, categoryCount = null, threadCount = null, categoryName = null) {
+		var key_categoryName = ${categoryName};
+
+		AssertElementPresent(locator1 = "MessageBoards#CATEGORY_LIST_CHECKBOX");
+
+		AssertTextEquals(
+			locator1 = "MessageBoards#CATEGORY_LIST_CATEGORY",
+			value1 = ${categoryName});
+
+		var key_categoryCount = ${categoryCount};
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "MessageBoards#CATEGORY_LIST_CATEGORY_COUNT",
+			value1 = ${categoryCount});
+
+		var key_threadCount = ${threadCount};
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "MessageBoards#CATEGORY_LIST_THREAD_COUNT",
+			value1 = ${threadCount});
+
+		AssertElementPresent(locator1 = "MessageBoards#CATEGORY_LIST_ACTIONS");
+
+		AssertClick(
+			locator1 = "MessageBoards#CATEGORY_LIST_CATEGORY",
+			value1 = ${categoryName});
+
+		if (isSet(localizedHeader)) {
+			AssertTextEquals(
+				locator1 = "Portlet#HEADER",
+				value1 = ${localizedHeader});
+		}
+		else {
+			AssertTextEquals(
+				locator1 = "Portlet#HEADER",
+				value1 = "Message Boards");
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewDefault() {
+		AssertTextEquals.assertPartialText(
+			locator1 = "Message#EMPTY_INFO",
+			value1 = "There are no threads or categories.");
+	}
+
+	@summary = "Default summary"
+	macro viewMySubscriptionsPG(parentcategory2 = null, subscribedThread = null, parentcategory1 = null) {
+		AssertClick(
+			locator1 = "MessageBoards#NAVIGATION_MY_SUBSCRIPTIONS",
+			value1 = "My Subscriptions");
+
+		AssertTextEquals(
+			key_parentcategory1 = ${parentcategory1},
+			locator1 = "MessageBoardsMySubscriptions#CATEGORY_TABLE_CATEGORY_BREADCRUMB_1",
+			value1 = ${parentcategory1});
+
+		AssertTextEquals(
+			key_parentcategory2 = ${parentcategory2},
+			locator1 = "MessageBoardsMySubscriptions#CATEGORY_TABLE_CATEGORY_BREADCRUMB_2",
+			value1 = ${parentcategory2});
+
+		AssertTextEquals.assertPartialText(
+			key_subscribedThread = ${subscribedThread},
+			locator1 = "MessageBoardsMySubscriptions#CATEGORY_TABLE_CATEGORY_BREADCRUMB_3",
+			value1 = ${subscribedThread});
+	}
+
+	@summary = "Default summary"
+	macro viewNoPG(categoryName = null) {
+		var key_categoryName = ${categoryName};
+
+		AssertTextNotPresent(value1 = ${categoryName});
+
+		AssertElementNotPresent(locator1 = "MessageBoards#CATEGORY_LIST_CATEGORY");
+
+		AssertElementNotPresent(locator1 = "MessageBoards#CATEGORY_TABLE_CATEGORIES");
+
+		AssertElementNotPresent(locator1 = "MessageBoards#CATEGORY_TABLE_THREADS");
+
+		AssertElementNotPresent(locator1 = "MessageBoards#CATEGORY_TABLE_POSTS");
+
+		AssertElementNotPresent(locator1 = "MessageBoards#CATEGORY_TABLE_ACTIONS");
+	}
+
+	@summary = "Default summary"
+	macro viewPG(threadPostCount = null, threadCount = null, categoryName = null, categoryDescription = null) {
+		var key_categoryName = ${categoryName};
+		var key_threadCount = ${threadCount};
+
+		AssertTextEquals(
+			locator1 = "MessageBoards#CATEGORY_LIST_CATEGORY",
+			value1 = ${categoryName});
+
+		if (isSet(threadCount)) {
+			var key_threadCount = ${threadCount};
+
+			AssertTextEquals(
+				locator1 = "MessageBoards#CATEGORY_LIST_THREAD_COUNT",
+				value1 = "${threadCount} Threads");
+		}
+		else if (${threadPostCount} == 1) {
+			AssertTextEquals(
+				locator1 = "MessageBoards#CATEGORY_LIST_THREAD_COUNT",
+				value1 = "1 Thread");
+		}
+
+		if ("categoryDescriptionEnabled" == "true") {
+			var key_categoryDescription = ${categoryDescription};
+
+			AssertTextEquals(
+				locator1 = "MessageBoards#CATEGORY_LIST_CATEGORY_DESCRIPTION",
+				value1 = ${categoryDescription});
+		}
+		else {
+			AssertClick(
+				locator1 = "MessageBoards#CATEGORY_LIST_CATEGORY",
+				value1 = ${categoryName});
+		}
+
+		AssertTextEquals(
+			locator1 = "MessageBoards#CATEGORIES_NAME_HEADER",
+			value1 = ${categoryName});
+	}
+
+}

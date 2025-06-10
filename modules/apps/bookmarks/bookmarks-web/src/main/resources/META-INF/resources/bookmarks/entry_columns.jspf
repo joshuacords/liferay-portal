@@ -1,0 +1,52 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<%
+for (int j = 0; j < entryColumns.length; j++) {
+	String curEntryColumn = entryColumns[j];
+%>
+
+	<c:choose>
+		<c:when test='<%= curEntryColumn.equals("action") %>'>
+			<liferay-ui:search-container-column-jsp
+				path="/bookmarks/entry_action.jsp"
+			/>
+		</c:when>
+		<c:when test='<%= curEntryColumn.equals("modified-date") %>'>
+			<liferay-ui:search-container-column-date
+				cssClass="table-cell-ws-nowrap"
+				name="<%= curEntryColumn %>"
+				value="<%= entry.getModifiedDate() %>"
+			/>
+		</c:when>
+		<c:when test='<%= curEntryColumn.equals("name") %>'>
+			<liferay-ui:search-container-column-text
+				cssClass="table-cell-expand table-cell-minw-200 table-title"
+				href="<%= entryHREF %>"
+				name="<%= curEntryColumn %>"
+				value="<%= HtmlUtil.escape(entry.getName()) %>"
+			/>
+		</c:when>
+		<c:when test='<%= curEntryColumn.equals("url") %>'>
+			<liferay-ui:search-container-column-text
+				cssClass="table-cell-expand table-cell-minw-200"
+				name="<%= curEntryColumn %>"
+				value="<%= HtmlUtil.escape(entry.getUrl()) %>"
+			/>
+		</c:when>
+		<c:when test='<%= curEntryColumn.equals("visits") %>'>
+			<liferay-ui:search-container-column-text
+				cssClass="table-cell-expand-smallest"
+				name="<%= curEntryColumn %>"
+				value="<%= String.valueOf(entry.getVisits()) %>"
+			/>
+		</c:when>
+	</c:choose>
+
+<%
+}
+%>

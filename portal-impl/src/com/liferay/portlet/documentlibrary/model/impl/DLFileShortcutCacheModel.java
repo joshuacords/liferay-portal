@@ -1,0 +1,335 @@
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+
+package com.liferay.portlet.documentlibrary.model.impl;
+
+import com.liferay.document.library.kernel.model.DLFileShortcut;
+import com.liferay.petra.lang.HashUtil;
+import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.MVCCModel;
+
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+
+import java.util.Date;
+
+/**
+ * The cache model class for representing DLFileShortcut in entity cache.
+ *
+ * @author Brian Wing Shun Chan
+ * @generated
+ */
+public class DLFileShortcutCacheModel
+	implements CacheModel<DLFileShortcut>, Externalizable, MVCCModel {
+
+	@Override
+	public boolean equals(Object object) {
+		if (this == object) {
+			return true;
+		}
+
+		if (!(object instanceof DLFileShortcutCacheModel)) {
+			return false;
+		}
+
+		DLFileShortcutCacheModel dlFileShortcutCacheModel =
+			(DLFileShortcutCacheModel)object;
+
+		if ((fileShortcutId == dlFileShortcutCacheModel.fileShortcutId) &&
+			(mvccVersion == dlFileShortcutCacheModel.mvccVersion)) {
+
+			return true;
+		}
+
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		int hashCode = HashUtil.hash(0, fileShortcutId);
+
+		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	@Override
+	public long getMvccVersion() {
+		return mvccVersion;
+	}
+
+	@Override
+	public void setMvccVersion(long mvccVersion) {
+		this.mvccVersion = mvccVersion;
+	}
+
+	@Override
+	public String toString() {
+		StringBundler sb = new StringBundler(43);
+
+		sb.append("{mvccVersion=");
+		sb.append(mvccVersion);
+		sb.append(", ctCollectionId=");
+		sb.append(ctCollectionId);
+		sb.append(", uuid=");
+		sb.append(uuid);
+		sb.append(", externalReferenceCode=");
+		sb.append(externalReferenceCode);
+		sb.append(", fileShortcutId=");
+		sb.append(fileShortcutId);
+		sb.append(", groupId=");
+		sb.append(groupId);
+		sb.append(", companyId=");
+		sb.append(companyId);
+		sb.append(", userId=");
+		sb.append(userId);
+		sb.append(", userName=");
+		sb.append(userName);
+		sb.append(", createDate=");
+		sb.append(createDate);
+		sb.append(", modifiedDate=");
+		sb.append(modifiedDate);
+		sb.append(", repositoryId=");
+		sb.append(repositoryId);
+		sb.append(", folderId=");
+		sb.append(folderId);
+		sb.append(", toFileEntryId=");
+		sb.append(toFileEntryId);
+		sb.append(", treePath=");
+		sb.append(treePath);
+		sb.append(", active=");
+		sb.append(active);
+		sb.append(", lastPublishDate=");
+		sb.append(lastPublishDate);
+		sb.append(", status=");
+		sb.append(status);
+		sb.append(", statusByUserId=");
+		sb.append(statusByUserId);
+		sb.append(", statusByUserName=");
+		sb.append(statusByUserName);
+		sb.append(", statusDate=");
+		sb.append(statusDate);
+		sb.append("}");
+
+		return sb.toString();
+	}
+
+	@Override
+	public DLFileShortcut toEntityModel() {
+		DLFileShortcutImpl dlFileShortcutImpl = new DLFileShortcutImpl();
+
+		dlFileShortcutImpl.setMvccVersion(mvccVersion);
+		dlFileShortcutImpl.setCtCollectionId(ctCollectionId);
+
+		if (uuid == null) {
+			dlFileShortcutImpl.setUuid("");
+		}
+		else {
+			dlFileShortcutImpl.setUuid(uuid);
+		}
+
+		if (externalReferenceCode == null) {
+			dlFileShortcutImpl.setExternalReferenceCode("");
+		}
+		else {
+			dlFileShortcutImpl.setExternalReferenceCode(externalReferenceCode);
+		}
+
+		dlFileShortcutImpl.setFileShortcutId(fileShortcutId);
+		dlFileShortcutImpl.setGroupId(groupId);
+		dlFileShortcutImpl.setCompanyId(companyId);
+		dlFileShortcutImpl.setUserId(userId);
+
+		if (userName == null) {
+			dlFileShortcutImpl.setUserName("");
+		}
+		else {
+			dlFileShortcutImpl.setUserName(userName);
+		}
+
+		if (createDate == Long.MIN_VALUE) {
+			dlFileShortcutImpl.setCreateDate(null);
+		}
+		else {
+			dlFileShortcutImpl.setCreateDate(new Date(createDate));
+		}
+
+		if (modifiedDate == Long.MIN_VALUE) {
+			dlFileShortcutImpl.setModifiedDate(null);
+		}
+		else {
+			dlFileShortcutImpl.setModifiedDate(new Date(modifiedDate));
+		}
+
+		dlFileShortcutImpl.setRepositoryId(repositoryId);
+		dlFileShortcutImpl.setFolderId(folderId);
+		dlFileShortcutImpl.setToFileEntryId(toFileEntryId);
+
+		if (treePath == null) {
+			dlFileShortcutImpl.setTreePath("");
+		}
+		else {
+			dlFileShortcutImpl.setTreePath(treePath);
+		}
+
+		dlFileShortcutImpl.setActive(active);
+
+		if (lastPublishDate == Long.MIN_VALUE) {
+			dlFileShortcutImpl.setLastPublishDate(null);
+		}
+		else {
+			dlFileShortcutImpl.setLastPublishDate(new Date(lastPublishDate));
+		}
+
+		dlFileShortcutImpl.setStatus(status);
+		dlFileShortcutImpl.setStatusByUserId(statusByUserId);
+
+		if (statusByUserName == null) {
+			dlFileShortcutImpl.setStatusByUserName("");
+		}
+		else {
+			dlFileShortcutImpl.setStatusByUserName(statusByUserName);
+		}
+
+		if (statusDate == Long.MIN_VALUE) {
+			dlFileShortcutImpl.setStatusDate(null);
+		}
+		else {
+			dlFileShortcutImpl.setStatusDate(new Date(statusDate));
+		}
+
+		dlFileShortcutImpl.resetOriginalValues();
+
+		return dlFileShortcutImpl;
+	}
+
+	@Override
+	public void readExternal(ObjectInput objectInput) throws IOException {
+		mvccVersion = objectInput.readLong();
+
+		ctCollectionId = objectInput.readLong();
+		uuid = objectInput.readUTF();
+		externalReferenceCode = objectInput.readUTF();
+
+		fileShortcutId = objectInput.readLong();
+
+		groupId = objectInput.readLong();
+
+		companyId = objectInput.readLong();
+
+		userId = objectInput.readLong();
+		userName = objectInput.readUTF();
+		createDate = objectInput.readLong();
+		modifiedDate = objectInput.readLong();
+
+		repositoryId = objectInput.readLong();
+
+		folderId = objectInput.readLong();
+
+		toFileEntryId = objectInput.readLong();
+		treePath = objectInput.readUTF();
+
+		active = objectInput.readBoolean();
+		lastPublishDate = objectInput.readLong();
+
+		status = objectInput.readInt();
+
+		statusByUserId = objectInput.readLong();
+		statusByUserName = objectInput.readUTF();
+		statusDate = objectInput.readLong();
+	}
+
+	@Override
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
+		objectOutput.writeLong(mvccVersion);
+
+		objectOutput.writeLong(ctCollectionId);
+
+		if (uuid == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(uuid);
+		}
+
+		if (externalReferenceCode == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(externalReferenceCode);
+		}
+
+		objectOutput.writeLong(fileShortcutId);
+
+		objectOutput.writeLong(groupId);
+
+		objectOutput.writeLong(companyId);
+
+		objectOutput.writeLong(userId);
+
+		if (userName == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(userName);
+		}
+
+		objectOutput.writeLong(createDate);
+		objectOutput.writeLong(modifiedDate);
+
+		objectOutput.writeLong(repositoryId);
+
+		objectOutput.writeLong(folderId);
+
+		objectOutput.writeLong(toFileEntryId);
+
+		if (treePath == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(treePath);
+		}
+
+		objectOutput.writeBoolean(active);
+		objectOutput.writeLong(lastPublishDate);
+
+		objectOutput.writeInt(status);
+
+		objectOutput.writeLong(statusByUserId);
+
+		if (statusByUserName == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(statusByUserName);
+		}
+
+		objectOutput.writeLong(statusDate);
+	}
+
+	public long mvccVersion;
+	public long ctCollectionId;
+	public String uuid;
+	public String externalReferenceCode;
+	public long fileShortcutId;
+	public long groupId;
+	public long companyId;
+	public long userId;
+	public String userName;
+	public long createDate;
+	public long modifiedDate;
+	public long repositoryId;
+	public long folderId;
+	public long toFileEntryId;
+	public String treePath;
+	public boolean active;
+	public long lastPublishDate;
+	public int status;
+	public long statusByUserId;
+	public String statusByUserName;
+	public long statusDate;
+
+}

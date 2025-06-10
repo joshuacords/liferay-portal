@@ -1,0 +1,25 @@
+definition {
+
+	@summary = "Default summary"
+	macro viewContentPG(droolsContent = null,welcomeMessage = null) {
+		AssertTextEquals.assertPartialText(
+			locator1 = "Drools#DROOLS_CONTENT",
+			value1 = ${welcomeMessage});
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "Drools#DROOLS_CONTENT",
+			value1 = ${droolsContent});
+	}
+
+	@summary = "Default summary"
+	macro viewDefaultPG(welcomeMessage = null) {
+		AssertTextEquals.assertPartialText(
+			locator1 = "Drools#DROOLS_CONTENT",
+			value1 = ${welcomeMessage});
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "Drools#DROOLS_CONTENT",
+			value1 = "There are no results.");
+	}
+
+}

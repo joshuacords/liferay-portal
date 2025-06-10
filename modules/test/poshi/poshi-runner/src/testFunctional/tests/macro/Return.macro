@@ -1,0 +1,31 @@
+definition {
+
+	@summary = "Default summary"
+	macro returnInMacro() {
+		var actual = Return.returnValue();
+		var expected = "Return Value";
+
+		if (${actual} == ${expected}) {
+			echo("The value returned from 'Return#return' was a match to the expected value.");
+
+			echo("action: '${actual}'");
+
+			echo("expected: '${expected}'");
+		}
+		else {
+			echo("The value returned from 'Return#return' was NOT a match to the expected value!");
+
+			echo("action: '${actual}'");
+
+			echo("expected: '${expected}'");
+
+			fail("Found the wrong value!");
+		}
+	}
+
+	@summary = "Default summary"
+	macro returnValue() {
+		return "Return Value";
+	}
+
+}

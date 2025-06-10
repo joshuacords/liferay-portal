@@ -1,0 +1,69 @@
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+
+package com.liferay.source.formatter.dependencies;
+
+/**
+ * @author Hugo Huijser
+ */
+public class ConstructorParameterOrder {
+
+	public ConstructorParameterOrder(String value, String attribute) {
+		_value = value;
+		_attribute = attribute;
+
+		_name = "Hello World";
+		_type = -1;
+	}
+
+	public ConstructorParameterOrder(String value, String attribute, int type) {
+		_value = value;
+		_attribute = attribute;
+		_type = type;
+	}
+
+	public ConstructorParameterOrder(
+		String stringWithARatherUnnecessaryLongName1,
+		String stringWithARatherUnnecessaryLongName2,
+		String stringWithARatherUnnecessaryLongName3) {
+
+		_stringWithARatherUnnecessaryLongName1 =
+			stringWithARatherUnnecessaryLongName1;
+		_stringWithARatherUnnecessaryLongName2 =
+			stringWithARatherUnnecessaryLongName2;
+		_stringWithARatherUnnecessaryLongName3 =
+			stringWithARatherUnnecessaryLongName3;
+	}
+
+	public ConstructorParameterOrder(
+		String stringWithARatherUnnecessaryLongName1,
+		String stringWithARatherUnnecessaryLongName2,
+		String stringWithARatherUnnecessaryLongName3,
+		String stringWithARatherUnnecessaryLongName4) {
+
+		_stringWithARatherUnnecessaryLongName1 =
+			stringWithARatherUnnecessaryLongName1;
+		_stringWithARatherUnnecessaryLongName2 =
+			stringWithARatherUnnecessaryLongName2;
+		_stringWithARatherUnnecessaryLongName3 =
+			stringWithARatherUnnecessaryLongName3;
+		_stringWithARatherUnnecessaryLongName4 =
+			stringWithARatherUnnecessaryLongName4;
+
+		if (stringWithARatherUnnecessaryLongName4 == null) {
+			_value = null;
+		}
+	}
+
+	private String _attribute;
+	private String _name;
+	private String _stringWithARatherUnnecessaryLongName1;
+	private String _stringWithARatherUnnecessaryLongName2;
+	private String _stringWithARatherUnnecessaryLongName3;
+	private String _stringWithARatherUnnecessaryLongName4;
+	private int _type;
+	private String _value;
+
+}

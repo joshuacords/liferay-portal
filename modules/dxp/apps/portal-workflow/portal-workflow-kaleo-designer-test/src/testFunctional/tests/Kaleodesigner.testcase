@@ -1,0 +1,94 @@
+@component-name = "portal-bpm"
+@ignore = "true"
+definition {
+
+	property portal.release = "true";
+	property portal.upstream = "true";
+	property test.run.environment = "EE";
+	property testray.main.component.name = "Kaleo Designer";
+
+	setUp {
+		TestCase.setUpPortalInstance();
+
+		User.firstLoginPG();
+	}
+
+	tearDown {
+		var testLiferayVirtualInstance = PropsUtil.get("test.liferay.virtual.instance");
+
+		if (${testLiferayVirtualInstance} == "true") {
+			PortalInstances.tearDownCP();
+		}
+		else {
+			Workflow.tearDownSpecificWorkflowDefinition(workflowDefinitionTitle = "Edited Workflow Definition");
+
+			Workflow.tearDownWorkflowDefinitions();
+		}
+	}
+
+	@description = "This is a use case for LPS-71924."
+	@priority = 5
+	test PublishDefaultWorkflowDefinition {
+		property environment.acceptance = "true";
+		property operating.system.types = "alpine,amazonlinux,centos,debian,fedora,orcllinux,osx,redhat,rockylinux,solaris,suse,ubuntu,windows";
+		property portal.acceptance = "true";
+		property test.liferay.virtual.instance = "false";
+		property test.run.type = "single";
+
+		Workflow.openWorkflowListView();
+
+		Workflow.addNewDefinition(workflowDefinitionTitle = "New Workflow Definition Title");
+
+		for (var iterator : list "1,2,3,4,5,6,7,8,9,10,11,12,13,14") {
+			var isLessThan10 = MathUtil.isLessThanOrEqualTo(${iterator}, 10);
+
+			if (${isLessThan10} == "true") {
+				KaleoDesigner.editSourceXML(
+					kdSourceXml = " ",
+					line = 11);
+			}
+			else {
+				KaleoDesigner.editSourceXML(
+					kdSourceXml = " ",
+					line = 26);
+			}
+		}
+
+		KaleoDesigner.viewSourceXMLLine(
+			kdSourceXml = '''<script-language>groovy</script-language>''',
+			line = 36);
+
+		PortletEntry.publish();
+	}
+
+	@description = "This is a use case for LPS-48590."
+	@priority = 4
+	test ViewSourceXMLNotErasedWhenInvalid {
+		property portal.acceptance = "true";
+		property test.liferay.virtual.instance = "false";
+		property test.run.type = "single";
+
+		Workflow.openWorkflowListView();
+
+		Workflow.addNewDefinition(workflowDefinitionTitle = "New Workflow Definition Title");
+
+		KaleoDesigner.editSourceXML(
+			kdSourceXml = " ",
+			line = 27);
+
+		KaleoDesigner.viewViewTab();
+
+		KaleoDesigner.viewNodeNotPresent(nodeNodeLabel = "EndNode");
+
+		KaleoDesigner.editSourceXML(
+			kdSourceXml = '''</transition></transitions>''',
+			line = 27);
+
+		KaleoDesigner.viewViewTab();
+
+		KaleoDesigner.viewNodePresent(nodeNodeLabel = "EndNode");
+
+		PortletEntry.publish();
+	}
+
+}

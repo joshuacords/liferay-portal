@@ -1,0 +1,20 @@
+dependencies {
+	compileInclude group: "com.vladsch.flexmark", name: "flexmark", version: "0.62.2"
+	compileInclude group: "com.vladsch.flexmark", name: "flexmark-ext-attributes", version: "0.62.2"
+	compileInclude group: "com.vladsch.flexmark", name: "flexmark-util-ast", version: "0.62.2"
+	compileInclude group: "com.vladsch.flexmark", name: "flexmark-util-builder", version: "0.62.2"
+	compileInclude group: "com.vladsch.flexmark", name: "flexmark-util-collection", version: "0.62.2"
+	compileInclude group: "com.vladsch.flexmark", name: "flexmark-util-data", version: "0.62.2"
+	compileInclude group: "com.vladsch.flexmark", name: "flexmark-util-dependency", version: "0.62.2"
+	compileInclude group: "com.vladsch.flexmark", name: "flexmark-util-format", version: "0.62.2"
+	compileInclude group: "com.vladsch.flexmark", name: "flexmark-util-html", version: "0.62.2"
+	compileInclude group: "com.vladsch.flexmark", name: "flexmark-util-misc", version: "0.62.2"
+	compileInclude group: "com.vladsch.flexmark", name: "flexmark-util-options", version: "0.62.2"
+	compileInclude group: "com.vladsch.flexmark", name: "flexmark-util-sequence", version: "0.62.2"
+	compileInclude group: "com.vladsch.flexmark", name: "flexmark-util-visitor", version: "0.62.2"
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "default"
+	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations", version: "1.4.0"
+	compileOnly project(":apps:knowledge-base:knowledge-base-markdown-converter-api")
+	compileOnly project(":core:petra:petra-string")
+	testImplementation project(":core:petra:petra-lang")
+}

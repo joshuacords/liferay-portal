@@ -1,0 +1,108 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<%
+ProcessSummaryDisplayContext processSummaryDisplayContext = new ProcessSummaryDisplayContext();
+
+boolean settingsMapPrivateLayout = MapUtil.getBoolean(exportImportConfigurationSettingsMap, "privateLayout");
+
+LayoutSetBranch layoutSetBranch = LayoutSetBranchLocalServiceUtil.fetchLayoutSetBranch(MapUtil.getLong(parameterMap, "layoutSetBranchId"));
+
+List<String> pageNames = processSummaryDisplayContext.getPageNames(groupId, settingsMapPrivateLayout, processSummaryDisplayContext.getSelectedLayoutIds(exportImportConfigurationSettingsMap), themeDisplay.getLanguageId());
+
+boolean deleteMissingLayouts = MapUtil.getBoolean(parameterMap, PortletDataHandlerKeys.DELETE_MISSING_LAYOUTS);
+boolean layoutSetSettings = MapUtil.getBoolean(parameterMap, PortletDataHandlerKeys.LAYOUT_SET_SETTINGS);
+boolean layoutSetPrototypeSettings = MapUtil.getBoolean(parameterMap, PortletDataHandlerKeys.LAYOUT_SET_PROTOTYPE_SETTINGS);
+boolean logo = MapUtil.getBoolean(parameterMap, PortletDataHandlerKeys.LOGO);
+boolean themeSettings = MapUtil.getBoolean(parameterMap, PortletDataHandlerKeys.THEME_REFERENCE);
+
+long pageDeletions = 0;
+
+if ((modelDeletionCounters != null) && modelDeletionCounters.containsKey(Layout.class.getName())) {
+	LongWrapper pageDeletionsLongWrapper = modelDeletionCounters.get(Layout.class.getName());
+
+	pageDeletions = pageDeletionsLongWrapper.getValue();
+}
+%>
+
+<div class="process-summary-section">
+	<div class="sheet-subtitle"><liferay-ui:message key="pages" /></div>
+
+	<div class="process-summary-subsection">
+		<label class="process-summary-label">
+			<liferay-ui:message key="pages-option" />:
+		</label>
+
+		<span><%= processSummaryDisplayContext.getPagesDescription(groupId, locale, settingsMapPrivateLayout) %></span>
+	</div>
+
+	<c:if test="<%= layoutSetBranch != null %>">
+		<div class="process-summary-subsection">
+			<label class="process-summary-label">
+				<liferay-ui:message key="site-pages-variation" />:
+			</label>
+
+			<span><%= HtmlUtil.escape(LanguageUtil.get(request, layoutSetBranch.getName())) %></span>
+		</div>
+	</c:if>
+
+	<c:if test="<%= !pageNames.isEmpty() %>">
+		<div class="process-summary-subsection">
+			<div>
+				<label class="process-summary-label">
+					<liferay-ui:message key="pages-to-publish" />:
+				</label>
+			</div>
+
+			<c:forEach items="<%= pageNames %>" var="pageName">
+				<div>${pageName}</div>
+			</c:forEach>
+		</div>
+	</c:if>
+
+	<c:if test="<%= themeSettings || logo || layoutSetSettings || layoutSetPrototypeSettings || deleteMissingLayouts %>">
+		<div class="process-summary-subsection">
+			<div>
+				<label class="process-summary-label">
+					<liferay-ui:message key="look-and-feel" />:
+				</label>
+			</div>
+
+			<c:if test="<%= themeSettings %>">
+				<div>- <liferay-ui:message key="theme-settings" /></div>
+			</c:if>
+
+			<c:if test="<%= logo %>">
+				<div>- <liferay-ui:message key="logo" /></div>
+			</c:if>
+
+			<c:if test="<%= layoutSetSettings %>">
+				<div>- <liferay-ui:message key="site-pages-settings" /></div>
+			</c:if>
+
+			<c:if test="<%= layoutSetPrototypeSettings %>">
+				<div>- <liferay-ui:message key="site-template-settings" /></div>
+			</c:if>
+
+			<c:if test="<%= deleteMissingLayouts %>">
+				<div>- <liferay-ui:message key="delete-missing-layouts" /></div>
+			</c:if>
+		</div>
+	</c:if>
+
+	<c:if test="<%= pageDeletions > 0 %>">
+		<div class="process-summary-subsection">
+			<label class="process-summary-label">
+				<liferay-ui:message key="page-deletions" />:
+			</label>
+		</div>
+
+		<div>
+			<%= LanguageUtil.format(resourceBundle, "x-items-deleted", pageDeletions) %>
+		</div>
+	</c:if>
+</div>

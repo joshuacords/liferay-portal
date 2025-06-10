@@ -1,0 +1,202 @@
+<html>
+<head>
+<title>Segmentation</title>
+</head>
+
+<body>
+<table border="1" cellpadding="1" cellspacing="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Segmentation</td></tr>
+</thead>
+
+<tbody>
+
+<tr>
+	<td>ADD_FIELD_POSITION</td>
+	<td>//*[contains(@class, 'criteria-group-item-root')]/div[1] | //*[contains(@class, 'edit-container')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ADD_FIELD_POSITION_N</td>
+	<td>xpath=(//*[contains(@class, 'criteria-group-item-root')]/div[1])[${indexNumber}]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ADD_FIELD_POSITION_EDIT</td>
+	<td>//*[contains(@class, 'edit-container')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ADD_FIELD_POSITION_EMPTY</td>
+	<td>//div[contains(@class, 'empty-drop-zone--dashed')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ADD_FIELD_TYPE</td>
+	<td>//li[contains(@class, 'criteria-sidebar-item-root')][normalize-space()='${key_propertyOption}']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ADD_FIELD_TYPE_VISIBLE</td>
+	<td>//button[contains(@class,'panel-header')][contains(@class,'show')]//following-sibling::div//*[contains(@class, 'criteria-sidebar-item-root')][normalize-space()='${key_propertyOption}']//div[@draggable='true']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ASSERTIVE</td>
+	<td>//span[@aria-live='assertive'][contains(@class,'sr-only')]/p[normalize-space(text())='${key_assertive}']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ASSIGN_SITE_ROLES_DISABLED_WARNING</td>
+	<td>//*[contains(@class,'autofit-section') and contains(text(), '${textValue}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CARD_HEADING</td>
+	<td>//*[contains(@class,'panel')]//button[contains(@class,'collapse')][not(contains(@data-qa-id,'app'))] //h2[normalize-space()='${panelHeader}']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CLICKABLE_SEGMENT_NAME</td>
+	<td>//table[contains(@class, 'table-list')]//tr//a[contains(href,'') and contains(text(),'${key_segmentName}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CONDITIONS_PROPERTY_NAME</td>
+	<td>//div[contains(@class,'criterion')]//span[contains(.,'${propertyName}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CONDITIONS_PROPERTY_NAME_BY_INDEX</td>
+	<td>xpath=(//div[contains(@class,'criterion-row')]//span[contains(@class,'criterion')])[${index}][normalize-space()='${propertyName}']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CRITERION_CONJUNCTION</td>
+	<td>//div[contains(@class,'criteria')]//button[contains(@class,'dropdown-toggle')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CRITERION_INPUT_ANY</td>
+	<td>//*[contains(@class,'edit-container')] //*[contains(@class,'form-control') and not(@type='hidden') and not(contains(@class,'operator-input')) and not(@placeholder='Key')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CRITERION_INPUT_INDEX</td>
+	<td>xpath=(//*[contains(@class,'edit-container')] //*[contains(@class,'form-control') and not(contains(@class,'operator-input')) and not(@placeholder='Key')])[${indexNumber}]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CRITERION_KEY_ANY</td>
+	<td>//*[contains(@class,'edit-container')] //*[contains(@class,'form-control') and not(contains(@class,'operator-input')) and (@placeholder='Key')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CRITERION_OPERATOR</td>
+	<td>//*[contains(@class,'edit-container')] //*[(contains(@class,'operator-input'))]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CRITERION_DRAG_ICON</td>
+	<td>//div[contains(@class,'criterion-row')][.//span[contains(@class,'criterion')][normalize-space()='${propertyName}']]//button[(contains(@class,'drag-icon'))]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CRITERION_VIEW_MODE</td>
+	<td>//span[contains(@class, 'criterion-string')] //b[contains(text(), '${propertyValue}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>DELETE_SEGMENT_PROPERTY_BUTTON</td>
+	<td>//*[contains(@class,'btn-outline-danger') and contains(text(),'Delete Segment Property')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>DUPLICATE_BUTTON</td>
+	<td>//button//*[contains(@class,'lexicon-icon lexicon-icon-paste')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>EMPTY_DROP_ZONE_DASHED</td>
+	<td>//div[contains(@class,'empty-drop-zone--dashed')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>EMPTY_DROP_ZONE_TARGET</td>
+	<td>//div[contains(@class,'empty-drop-zone--target')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ENABLE_ASSIGN_ROLES_SEGMENTS_CHECKBOX</td>
+	<td>//input[contains(@class, 'custom-control-input') and contains(@name, 'roleSegmentation')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ENABLE_SEGMENTS_INSTANCE_SETTINGS</td>
+	<td>//div[@role='alert']//a[text()='To enable, go to Instance Settings.']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>KEYBOARD_MOVEMENT_PREVIEW</td>
+	<td>//div[contains(@class,'keyboard-movement-preview')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>MEMBERS_MATCHED</td>
+	<td>//b[contains(@class,'c-ml-2 font-weight-bold text-dark')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>MESSAGE_NO_SEGMENTS</td>
+	<td>//div[contains(@class, 'taglib-empty-result-message')]/div[contains(.,'There are no segments')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PROPERTIES_SEARCH</td>
+	<td>//input[@data-testid='search-input']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SEARCH_FIELD</td>
+	<td>//input[contains(@class,'form-control') and contains(@placeholder,'Search')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SCOPE_CARD_MESSAGE</td>
+	<td>//*[contains(@role,'tablist')]//div[@role='tabpanel']//p[contains(.,'Select the scope of your segment to specify where it can be used. It will not be possible to modify the scope after the segment is saved.')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SCOPE_CARD_SITE</td>
+	<td>//*[contains(@role,'tablist')]//div[@role='tabpanel']//p[contains(.,'${siteName}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SCOPE_TABLE_SITE</td>
+	<td>//*[contains(@class,'lfr-name-column')]//*[contains(.,'${segmentName}')]/../../*[contains(@class,'lfr-scope-column') and normalize-space(text())='${siteScope}']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>TITLE_FIELD</td>
+	<td>//input[@data-testid='localized-input-button']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>TITLE_FIELD_READ_ONLY</td>
+	<td>//input[@data-testid='localized-input-button' and @readonly]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>TRANSLATION_BUTTON</td>
+	<td>//button[@*='Open Localizations']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>TRANSLATION_STATUS_TITLE</td>
+	<td>//div[contains(@class, 'dropdown-menu')]//li[contains(@role, 'presentation')]//div[contains(text(), '${key_locale}')]</td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

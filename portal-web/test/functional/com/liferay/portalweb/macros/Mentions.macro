@@ -1,0 +1,276 @@
+definition {
+
+	@summary = "Default summary"
+	macro addMentionViaBlogsEntry(mentionsUserScreenName = null, siteURLKey = null, entryTitle = null, entryContent = null, layoutName = null) {
+		var key_entryContent = ${entryContent};
+		var key_mentionsUserScreenName = ${mentionsUserScreenName};
+
+		if (isSet(siteURLKey)) {
+			BlogsNavigator.openToAddEntry(
+				layoutName = ${layoutName},
+				siteURLKey = ${siteURLKey});
+		}
+		else {
+			BlogsNavigator.gotoAddEntry();
+		}
+
+		BlogsEntry.addTitle(entryTitle = ${entryTitle});
+
+		Type.sendKeys(
+			key_editor = "content",
+			locator1 = "AlloyEditor#EDITOR",
+			value1 = "${entryContent} @${mentionsUserScreenName}");
+
+		Click.clickNoMouseOver(locator1 = "Mentions#MENTIONS_USER_DISPLAY_OPTION");
+
+		PortletEntry.publish();
+	}
+
+	@summary = "Default summary"
+	macro addMentionViaComments(entryComment = null, mentionsUserScreenName = null, userLastName = null, parentComment = null, userEmailAddress = null, userFirstName = null) {
+		if (isSet(parentComment)) {
+			AssertClick(
+				key_entryComment = ${parentComment},
+				key_text = "Reply",
+				locator1 = "Comments#ANY_BUTTON_IN_COMMENT",
+				value1 = "Reply");
+
+			AssertVisible(locator1 = "CKEditor#BODY_FIELD_IFRAME_2");
+
+			SelectFrame.selectFrameNoLoading(locator1 = "CKEditor#BODY_FIELD_IFRAME_2");
+		}
+		else {
+			SelectFrame.selectFrameNoLoading(locator1 = "CKEditor#BODY_FIELD_IFRAME");
+		}
+
+		var key_entryComment = ${entryComment};
+		var key_mentionsUserScreenName = ${mentionsUserScreenName};
+
+		Type.sendKeys(
+			locator1 = "CKEditor#BODY",
+			value1 = "${entryComment} @${mentionsUserScreenName}");
+
+		SelectFrame(value1 = "relative=top");
+
+		Click.clickNoMouseOver(locator1 = "Mentions#MENTIONS_USER_DISPLAY_OPTION");
+
+		if (isSet(guest)) {
+			SelectFrame.selectFrameNoLoading(locator1 = "CKEditor#BODY_FIELD_IFRAME");
+
+			AssertElementPresent(
+				key_mentionsUserScreenName = ${mentionsUserScreenName},
+				locator1 = "Mentions#MENTIONS_TAG_LINK");
+
+			SelectFrame(value1 = "relative=top");
+
+			AssertClick(
+				locator1 = "Button#REPLY_AS",
+				value1 = "Reply as...");
+
+			SelectFrame(locator1 = "IFrame#MODAL_BODY");
+
+			AssertClick(
+				locator1 = "Link#GUEST",
+				value1 = "Guest");
+
+			Type(
+				locator1 = "TextInput#FIRST_NAME",
+				value1 = ${userFirstName});
+
+			Type(
+				locator1 = "TextInput#LAST_NAME",
+				value1 = ${userLastName});
+
+			Type(
+				locator1 = "TextInput#EMAIL_ADDRESS",
+				value1 = ${userEmailAddress});
+
+			AssertClick(
+				locator1 = "Button#SAVE",
+				value1 = "Save");
+
+			var uniqueSuccess = "Your comment has already been posted. Would you like to create an account with the provided information?";
+
+			var key_uniqueSuccess = ${uniqueSuccess};
+
+			WaitForElementPresent(locator1 = "Message#UNIQUE_SUCCESS");
+
+			AssertTextEquals(
+				locator1 = "Message#UNIQUE_SUCCESS",
+				value1 = ${uniqueSuccess});
+
+			AssertClick(
+				locator1 = "Button#CANCEL",
+				value1 = "Cancel");
+
+			SelectFrame(value1 = "relative=top");
+
+			Alert.viewSuccessMessage();
+		}
+		else if (isSet(parentComment)) {
+			AssertClick(
+				locator1 = "Button#REPLY_LAST",
+				value1 = "Reply");
+
+			Alert.viewSuccessMessage();
+		}
+		else {
+			AssertClick(
+				locator1 = "Button#REPLY",
+				value1 = "Reply");
+
+			Alert.viewSuccessMessage();
+		}
+	}
+
+	@summary = "Default summary"
+	macro addMentionViaMessageBoardsReply(groupName = null, threadSubject = null, mentionsUserScreenName = null, siteURLKey = null, threadBody = null, layoutName = null) {
+		var key_mentionsUserScreenName = ${mentionsUserScreenName};
+		var key_threadSubject = ${threadSubject};
+
+		if (isSet(siteURLKey)) {
+			MessageboardsThread.openToThread(
+				groupName = ${groupName},
+				layoutName = ${layoutName},
+				siteURLKey = ${siteURLKey},
+				threadSubject = ${threadSubject});
+		}
+		else {
+			AssertClick(
+				locator1 = "MessageBoards#THREAD_LIST_THREAD",
+				value1 = ${threadSubject});
+
+			AssertElementPresent(locator1 = "MessageBoardsThread#THREAD_REPLY_BUTTON");
+		}
+
+		AssertClick(
+			locator1 = "MessageBoardsThread#THREAD_REPLY_BUTTON",
+			value1 = "Reply");
+
+		SelectFrame.selectFrameNoLoading(locator1 = "CKEditor#BODY_FIELD_IFRAME");
+
+		Type.sendKeys(
+			locator1 = "CKEditor#BODY",
+			value1 = "${threadBody} @${mentionsUserScreenName}");
+
+		SelectFrame.selectFrameTop();
+
+		Click.clickNoMouseOver(locator1 = "Mentions#MENTIONS_USER_DISPLAY_OPTION");
+
+		PortletEntry.publish();
+	}
+
+	@summary = "Default summary"
+	macro addMentionViaMessageBoardThread(threadSubject = null, siteURLKey = null, mentionsUserScreenNameList = null) {
+		if (isSet(siteURLKey)) {
+			MessageboardsThread.openToAddThread(siteURLKey = ${siteURLKey});
+		}
+		else {
+			LexiconEntry.gotoAdd();
+
+			MenuItem.click(menuItem = "Thread");
+		}
+
+		var key_mentionsUserScreenName = ${mentionsUserScreenName};
+
+		Type.typeWaitForCKEditorScript(
+			locator1 = "TextInput#SUBJECT",
+			value1 = ${threadSubject});
+
+		if (isSet(multipleMentions)) {
+			for (var mentionsUserScreenName : list ${mentionsUserScreenNameList}) {
+				SelectFrame.selectFrameNoLoading(locator1 = "CKEditor#BODY_FIELD_IFRAME");
+
+				Type.sendKeys(
+					locator1 = "CKEditor#BODY",
+					value1 = " @${mentionsUserScreenName}");
+
+				SelectFrame.selectFrameTop();
+
+				Click.clickNoMouseOver(
+					key_mentionsUserScreenName = ${mentionsUserScreenName},
+					locator1 = "Mentions#MENTIONS_USER_DISPLAY_OPTION");
+			}
+		}
+		else {
+			SelectFrame.selectFrameNoLoading(locator1 = "CKEditor#BODY_FIELD_IFRAME");
+
+			Type.sendKeys(
+				locator1 = "CKEditor#BODY",
+				value1 = "@${mentionsUserScreenName}");
+
+			SelectFrame.selectFrameTop();
+
+			Click.clickNoMouseOver(locator1 = "Mentions#MENTIONS_USER_DISPLAY_OPTION");
+		}
+
+		PortletEntry.publish();
+	}
+
+	@summary = "Default summary"
+	macro addMentionViaMessageBoardThreadEdit(groupName = null, threadSubject = null, mentionsUserScreenName = null, siteURLKey = null, threadBody = null) {
+		if (isSet(siteURLKey)) {
+			MessageboardsThread.openToEditThread(
+				groupName = ${groupName},
+				siteURLKey = ${siteURLKey},
+				threadSubject = ${threadSubject});
+		}
+		else {
+			Click(locator1 = "Icon#BODY_VERTICAL_ELLIPSIS");
+
+			MenuItem.click(menuItem = "Edit");
+		}
+
+		SelectFrame.selectFrameNoLoading(locator1 = "CKEditor#BODY_FIELD_IFRAME");
+
+		Type(
+			locator1 = "CKEditor#BODY",
+			value1 = "${threadBody} @${mentionsUserScreenName}");
+
+		SelectFrame(value1 = "relative=top");
+
+		var key_mentionsUserScreenName = ${mentionsUserScreenName};
+
+		Click.clickNoMouseOver(locator1 = "Mentions#MENTIONS_USER_DISPLAY_OPTION");
+
+		PortletEntry.publish();
+	}
+
+	@summary = "Default summary"
+	macro viewCommentMentionTagLink(mentionsUserScreenName = null, mentionsUserFullName = null) {
+		var key_mentionsUserFullName = ${mentionsUserFullName};
+		var key_mentionsUserScreenName = ${mentionsUserScreenName};
+		var key_siteName = ${mentionsUserFullName};
+
+		AssertClick(
+			locator1 = "Mentions#MENTIONS_COMMENT_TAG_LINK",
+			value1 = "@${mentionsUserScreenName}");
+
+		ProductMenuHelper.openProductMenu();
+
+		// Disabling assertion for Test Test until LPS-108776 is fixed.
+
+		if (${mentionsUserFullName} != "Test Test") {
+			AssertTextEquals.assertPartialText(
+				locator1 = "ProductMenu#PRODUCT_MENU_PANEL_SITE_ADMINISTRATION_SITE_NAME",
+				value1 = ${mentionsUserFullName});
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewMentionTagLink(mentionsUserScreenName = null, mentionsUserFullName = null) {
+		var key_mentionsUserScreenName = ${mentionsUserScreenName};
+		var key_siteName = ${mentionsUserFullName};
+
+		AssertClick(
+			locator1 = "Mentions#MENTIONS_TAG_LINK",
+			value1 = "@${mentionsUserScreenName}");
+
+		ProductMenuHelper.openProductMenu();
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "ProductMenu#PRODUCT_MENU_PANEL_SITE_ADMINISTRATION_SITE_NAME",
+			value1 = ${mentionsUserFullName});
+	}
+
+}

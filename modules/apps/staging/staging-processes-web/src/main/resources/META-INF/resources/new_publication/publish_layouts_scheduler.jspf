@@ -1,0 +1,97 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<ul class="lfr-tree list-unstyled">
+	<li class="tree-item">
+		<liferay-staging:radio
+			checked="<%= true %>"
+			id="publishingEventNow"
+			label="now"
+			name="schedule"
+			value="false"
+		/>
+
+		<liferay-staging:radio
+			id="publishingEventSchedule"
+			label="schedule"
+			name="schedule"
+			value="true"
+		/>
+
+		<liferay-staging:input-scheduler />
+	</li>
+</ul>
+
+<aui:script>
+	function <portlet:namespace />schedulePublishEvent() {
+
+		<%
+		String scheduleCMD = StringPool.BLANK;
+
+		if (cmd.equals(Constants.PUBLISH_TO_LIVE)) {
+			scheduleCMD = "schedule_publish_to_live";
+		}
+		else if (cmd.equals(Constants.PUBLISH_TO_REMOTE)) {
+			scheduleCMD = "schedule_publish_to_remote";
+		}
+		else if (cmd.equals("copy_from_live")) {
+			scheduleCMD = "schedule_copy_from_live";
+		}
+		else {
+			scheduleCMD = cmd;
+		}
+		%>
+
+		var deletePortletDataBeforeImportingCheckbox = document.getElementById(
+			'<portlet:namespace /><%= PortletDataHandlerKeys.DELETE_PORTLET_DATA %>'
+		);
+
+		if (
+			deletePortletDataBeforeImportingCheckbox &&
+			deletePortletDataBeforeImportingCheckbox.checked
+		) {
+			Liferay.Util.openConfirmModal({
+				message:
+					'<%= UnicodeLanguageUtil.get(request, "delete-application-data-before-importing-confirmation") %>',
+				onConfirm: (isConfirmed) => {
+					if (isConfirmed) {
+						Liferay.Util.postForm(
+							document.<portlet:namespace />exportPagesFm,
+							{
+								data: {
+									<%= Constants.CMD %>: '<%= scheduleCMD %>',
+
+									<portlet:renderURL var="scheduledPublicationRedirectURL">
+									<portlet:param name="mvcPath" value="/view.jsp" />
+									<portlet:param name="tabs1" value="scheduled" />
+									</portlet:renderURL>
+
+									redirect:
+										'<%= scheduledPublicationRedirectURL %>',
+								},
+							}
+						);
+					}
+				},
+			});
+		}
+		else {
+			Liferay.Util.postForm(document.<portlet:namespace />exportPagesFm, {
+				data: {
+					<%= Constants.CMD %>: '<%= scheduleCMD %>',
+
+					<portlet:renderURL var="scheduledPublicationRedirectURL">
+					<portlet:param name="mvcPath" value="/view.jsp" />
+					<portlet:param name="tabs1" value="scheduled" />
+					</portlet:renderURL>
+
+					redirect: '<%= scheduledPublicationRedirectURL %>',
+				},
+			});
+		}
+	}
+</aui:script>

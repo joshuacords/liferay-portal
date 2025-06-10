@@ -1,0 +1,102 @@
+<html>
+<head>
+<title>AssetLists</title>
+</head>
+
+<body>
+<table border="1" cellpadding="1" cellspacing="1">
+<thead>
+<tr><td rowspan="1" colspan="3">AssetLists</td></tr>
+</thead>
+
+<tbody>
+<tr>
+	<td>ADD_VARIATION_ICON</td>
+	<td>//div[contains(@class, 'justify-content-between')]//button[contains(@class, 'btn-unstyled')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ASSET_LIST_ENTRY_TITLE</td>
+	<td>//*[contains(@class,'name-column')]//a[contains(.,'${key_title}')] | //*[contains(@class,'list-group-item')]//p[contains(.,'${key_title}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ASSET_LIST_ENTRY_TITLE_CARD</td>
+	<td>//div[contains(@class,'card-row')]//div[contains(.,'${key_title}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ASSET_LIST_ENTRY_TYPE</td>
+	<td>//*[contains(@class,'list-group-item')]//div[contains(.,'${key_type}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ASSET_LIST_ENTRY_TYPE_SELECTED</td>
+	<td>//select[contains(@class,'left-selector')]/option[contains(.,'${key_type}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ASSET_LIST_REMOVE_SCOPE</td>
+	<td>//tr[contains(@data-qa-id,'row')][contains(.,'${key_scopeName}')]//span/*[name()='svg'][contains(@class,'lexicon-icon-times-circle')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ASSET_LIST_SCOPE_ITEM</td>
+	<td>//div[contains(@class,'dropdown-menu')]//button[contains(.,'${key_menuItem}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ASSET_LIST_SCOPE_NAME</td>
+	<td>//tr[contains(@data-qa-id,'row')][contains(.,'${key_scopeName}')]//td[contains(@class,'lfr-name-column')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>VARIATION_ELLIPSIS</td>
+	<td>//div[contains(., '${key_variation}')]/following-sibling::div[contains(@class, 'more-icon')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>VARIATION_INDEX</td>
+	<td>xpath=(//nav[contains(@role, 'navigation')]//p[contains(@class, 'list-group-title')]/a)[${key_index}]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>VARIATION_TITLE</td>
+	<td>//nav[@role='navigation']//a[normalize-space()='${key_variation}']</td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+
+<!--VIEW_CONTENT-->
+
+<tr>
+	<td>ASSET_TITLE_ROW</td>
+	<td>//tr[contains(@data-qa-id,'row')][contains(.,'${key_assetTitle}')]//td[contains(@class,'lfr-title-column')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ASSET_TYPE_ROW</td>
+	<td>//tr[contains(@data-qa-id,'row')][contains(.,'${key_assetTitle}')]//td[contains(@class,'lfr-type-column')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+
+<!--VIEW_USAGES-->
+
+<tr>
+	<td>ASSET_LIST_USAGES</td>
+	<td>//li[contains(@class,'nav-item')][contains(.,'${usageType} (${usageAmount})')]</td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

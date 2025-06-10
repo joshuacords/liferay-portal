@@ -1,0 +1,58 @@
+definition {
+
+	@summary = "Default summary"
+	macro _deleteCommerceSites() {
+		var baseURL = ${baseURL};
+
+		if (!(isSet(baseURL))) {
+			var baseURL = JSONCompany.getPortalURL();
+		}
+
+		var commerceSitesIds = CommerceJSONSitesAPI._getCommerceSites();
+
+		if (${commerceSitesIds} != "") {
+			for (var commerceSitesId : list ${commerceSitesIds}) {
+				echo("Deleting Commerce Sites with id: ${commerceSitesId}");
+
+				var userLoginInfo = JSONUtil2.formatJSONUser();
+
+				var curl = '''
+					${baseURL}/api/jsonws/group/delete-group \
+						-u ${userLoginInfo} \
+						-d groupId=${commerceSitesId}
+				''';
+
+				JSONCurlUtil.post(${curl});
+			}
+		}
+		else {
+			echo("No Commerce Sites to be deleted");
+		}
+	}
+
+	@summary = "Default summary"
+	macro _getCommerceSites() {
+		var baseURL = ${baseURL};
+
+		if (!(isSet(baseURL))) {
+			var baseURL = JSONCompany.getPortalURL();
+		}
+
+		var companyId = JSONCompany.getCompanyId();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${baseURL}/api/jsonws/group/get-user-sites-groups \
+				-u ${userLoginInfo} \
+		''';
+
+		echo("curl: ${curl}");
+
+		var commerceSites = JSONCurlUtil.post(${curl}, "$.[?((@['friendlyURL'] != '/global' && @['friendlyURL'] != '/guest') && (@['site'] == true))].['groupId']");
+
+		echo("commerceSites: ${commerceSites}");
+
+		return ${commerceSites};
+	}
+
+}

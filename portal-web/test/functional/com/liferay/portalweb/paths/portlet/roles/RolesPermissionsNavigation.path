@@ -1,0 +1,56 @@
+<html>
+<head>
+<title>RolesPermissionsNavigation</title>
+</head>
+
+<body>
+<table border="1" cellpadding="1" cellspacing="1">
+<thead>
+<tr><td rowspan="1" colspan="3">RolesPermissionsNavigation</td></tr>
+</thead>
+
+<tbody>
+<tr>
+	<td>PERMISSIONS_NAVITEM</td>
+	<td>//*[contains(@data-qa-id,'editRolePermissionsNavigation')]//button[contains(@role,'menuitem') and contains(.,'${key_navItem}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PERMISSIONS_NAVIGATION</td>
+	<td>//*[contains(.,'${key_permissionNavHeader}') and contains(@data-qa-id,'editRolePermissionsNavigation')]//button[contains(.,'${key_permissionNavItem}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PERMISSIONS_NAVIGATION_N</td>
+	<td>xpath=(//*[contains(.,'${key_permissionNavHeader}') and contains(@data-qa-id,'editRolePermissionsNavigation')]//button[contains(.,'${key_permissionNavItem}')])[${key_indexNumber}]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PERMISSIONS_NAVITEM_COLLAPSED</td>
+	<td>//*[contains(@data-qa-id,'editRolePermissionsNavigation')]//button[contains(.,'${key_navItem}') and contains(@class,'collapsed')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PERMISSIONS_NAVITEM_SUBITEM</td>
+	<td>//*[contains(@data-qa-id,'editRolePermissionsNavigation')]//button[contains(.,'${key_navItem}') and contains(@role,'menuitem')]/following-sibling::*//button[contains(.,'${key_subItem}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PERMISSIONS_NAVITEM_SUBITEM_COLLAPSED</td>
+	<td>//*[contains(@data-qa-id,'editRolePermissionsNavigation')]//button[contains(.,'${key_navItem}') and contains(@role,'menuitem')]/following-sibling::*//button[contains(.,'${key_subItem}') and contains(@class,'collapsed')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SEARCH_FIELD</td>
+	<td>//*[contains(@data-qa-id,'editRolePermissionsNavigation')]//input</td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

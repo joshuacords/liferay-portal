@@ -1,0 +1,95 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<liferay-ui:search-container-column-text
+	name="category"
+>
+
+	<%
+	StringBundler sb = new StringBundler();
+
+	_buildCategoryBreadcrumb(request, themeDisplay, curCategory, sb);
+	%>
+
+	<%= sb.toString() %>
+</liferay-ui:search-container-column-text>
+
+<liferay-ui:search-container-column-text
+	href="<%= rowURL %>"
+	name="categories"
+	value="<%= String.valueOf(categoryDisplay.getSubcategoriesCount(curCategory)) %>"
+/>
+
+<liferay-ui:search-container-column-text
+	href="<%= rowURL %>"
+	name="threads"
+	value="<%= String.valueOf(categoryDisplay.getSubcategoriesThreadsCount(curCategory)) %>"
+/>
+
+<liferay-ui:search-container-column-text
+	href="<%= rowURL %>"
+	name="posts"
+	value="<%= String.valueOf(categoryDisplay.getSubcategoriesMessagesCount(curCategory)) %>"
+/>
+
+<%@ include file="/message_boards/subscribed_category_columns_action.jspf" %>
+
+<%!
+private void _buildCategoryBreadcrumb(HttpServletRequest request, ThemeDisplay themeDisplay, MBCategory category, StringBundler sb) throws Exception {
+	List<MBCategory> ancestorCategories = category.getAncestors();
+
+	Collections.reverse(ancestorCategories);
+
+	sb.append("<ul class=\"breadcrumb\">");
+
+	for (int i = 0; i < ancestorCategories.size(); i++) {
+		MBCategory ancestorCategory = ancestorCategories.get(i);
+
+		PortletURL portletURL = PortletURLFactoryUtil.create(request, MBPortletKeys.MESSAGE_BOARDS, PortletRequest.RENDER_PHASE);
+
+		portletURL.setParameter("mvcRenderCommandName", "/message_boards/view_category");
+		portletURL.setParameter("mbCategoryId", String.valueOf(ancestorCategory.getCategoryId()));
+
+		String cssClass = StringPool.BLANK;
+
+		if (i == 0) {
+			cssClass = "first";
+		}
+
+		sb.append("<li class=\"");
+		sb.append(cssClass);
+		sb.append("\"><a href=\"");
+		sb.append(portletURL.toString());
+		sb.append("\">");
+		sb.append(HtmlUtil.escape(ancestorCategory.getName()));
+		sb.append("</a></li>");
+	}
+
+	PortletURL portletURL = PortletURLFactoryUtil.create(request, MBPortletKeys.MESSAGE_BOARDS, PortletRequest.RENDER_PHASE);
+
+	portletURL.setParameter("mvcRenderCommandName", "/message_boards/view_category");
+	portletURL.setParameter("mbCategoryId", String.valueOf(category.getCategoryId()));
+
+	sb.append("<li class=\"active last\">");
+	sb.append("<strong>");
+	sb.append("<a href=\"");
+	sb.append(portletURL.toString());
+	sb.append("\">");
+	sb.append(category.getName());
+	sb.append("</strong>");
+	sb.append("</a>");
+
+	if (Validator.isNotNull(category.getDescription())) {
+		sb.append("<p>");
+		sb.append(category.getDescription());
+		sb.append("</p>");
+	}
+
+	sb.append("</li>");
+	sb.append("</ul>");
+}
+%>

@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+
+<taglib
+	version="2.1"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
+>
+	<description>Provides the Liferay Application List component tags, prefixed with <![CDATA[<code>liferay-application-list:</code>]]>. These tags are used for displaying categorized application links, mainly for the Product Menu and Simulation Menu.</description>
+	<tlib-version>1.0</tlib-version>
+	<short-name>liferay-application-list</short-name>
+	<uri>http://liferay.com/tld/application-list</uri>
+	<tag>
+		<description>Creates a component that renders a portlet.</description>
+		<name>application-content</name>
+		<tag-class>com.liferay.application.list.taglib.servlet.taglib.ApplicationContentTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<description>The ID of the portlet to be rendered.</description>
+			<name>portletId</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<description>Creates a component that displays the child panel categories of a panel category.</description>
+		<name>panel</name>
+		<tag-class>com.liferay.application.list.taglib.servlet.taglib.PanelTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<description>The panel category of the child categories to display.</description>
+			<name>panelCategory</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>com.liferay.application.list.PanelCategory</type>
+		</attribute>
+	</tag>
+	<tag>
+		<description>Creates a component that displays the child panel categories and child panel apps of a panel category.</description>
+		<name>panel-category-body</name>
+		<tag-class>com.liferay.application.list.taglib.servlet.taglib.PanelCategoryBodyTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<description>The panel apps to be displayed. By default, they are automatically obtained from the attribute <![CDATA[<code>panelCategory</code>]]>.</description>
+			<name>panelApps</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.util.List</type>
+		</attribute>
+		<attribute>
+			<description>The panel category to display.</description>
+			<name>panelCategory</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>com.liferay.application.list.PanelCategory</type>
+		</attribute>
+	</tag>
+</taglib>

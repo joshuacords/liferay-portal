@@ -1,0 +1,10 @@
+{
+	"dependencies": {
+	},
+	"name": "liferay-frontend-theme-unstyled",
+	"scripts": {
+		"checkFormat": "node-scripts format --check",
+		"format": "node-scripts format"
+	},
+	"version": "6.0.76"
+}

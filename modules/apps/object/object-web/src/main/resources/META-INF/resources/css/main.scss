@@ -1,0 +1,27 @@
+@import 'atlas-variables';
+
+@import 'management-toolbar';
+
+.lfr-objects__side-panel-content {
+	.nav-tabs + .tab-content .tab-pane {
+		padding: 0;
+	}
+}
+
+.side-panel-content {
+	background-color: $light;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	overflow: auto;
+
+	&__body,
+	&__footer {
+		padding: 1.5rem;
+	}
+}
+
+.text-small {
+	color: $secondary-l1 !important;
+	font-size: 0.75rem;
+}

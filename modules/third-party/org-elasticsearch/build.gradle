@@ -1,0 +1,22 @@
+import com.liferay.gradle.plugins.patcher.PatchTask
+
+apply plugin: "com.liferay.patcher"
+
+task patch(type: PatchTask)
+
+dependencies {
+	compileOnly group: "org.elasticsearch", name: "elasticsearch", transitive: false, version: "2.4.0"
+}
+
+jarSources {
+	mustRunAfter patch
+}
+
+patch {
+	ext {
+		autoClean = false
+	}
+
+	fileNames "org/elasticsearch/bootstrap/JarHell.java"
+	originalLibModuleName = "elasticsearch"
+}

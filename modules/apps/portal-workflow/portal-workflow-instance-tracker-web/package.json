@@ -1,0 +1,29 @@
+{
+	"dependencies": {
+		"@clayui/alert": "3.129.1",
+		"@clayui/drop-down": "3.134.0",
+		"@clayui/icon": "3.128.0",
+		"@clayui/tooltip": "3.132.0",
+		"classnames": "2.3.1",
+		"dagre": "0.8.2",
+		"frontend-js-web": "*",
+		"react": "18.2.0",
+		"react-flow-renderer": "9.7.0"
+	},
+	"jest": {
+		"collectCoverageFrom": [
+			"src/main/resources/META-INF/resources/js/**/*.js"
+		],
+		"timers": "fake"
+	},
+	"main": "js/index.js",
+	"name": "@liferay/portal-workflow-instance-tracker-web",
+	"private": true,
+	"scripts": {
+		"build": "node-scripts build",
+		"checkFormat": "node-scripts format --check",
+		"format": "node-scripts format",
+		"test": "node-scripts test"
+	},
+	"version": "1.0.52"
+}

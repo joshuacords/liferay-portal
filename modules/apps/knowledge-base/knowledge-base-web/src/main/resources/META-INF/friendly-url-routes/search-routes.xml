@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE routes PUBLIC "-//Liferay//DTD Friendly URL Routes 7.4.0//EN" "http://www.liferay.com/dtd/liferay-friendly-url-routes_7_4_0.dtd">
+
+<routes>
+	<route>
+		<pattern></pattern>
+		<implicit-parameter name="mvcRenderCommandName">/knowledge_base/view</implicit-parameter>
+	</route>
+	<route>
+		<pattern>/rss</pattern>
+		<ignored-parameter name="mvcPath" />
+		<ignored-parameter name="p_p_state" />
+		<implicit-parameter name="p_p_cacheability">cacheLevelPage</implicit-parameter>
+		<implicit-parameter name="p_p_lifecycle">2</implicit-parameter>
+		<implicit-parameter name="p_p_resource_id">rss</implicit-parameter>
+	</route>
+	<route>
+		<pattern>/{resourcePrimKey:\d+}</pattern>
+		<implicit-parameter name="mvcRenderCommand">/knowledge_base/view_kb_article</implicit-parameter>
+		<implicit-parameter name="p_p_state">normal</implicit-parameter>
+	</route>
+	<route>
+		<pattern>/{resourcePrimKey:\d+}/{p_p_state}</pattern>
+		<implicit-parameter name="mvcRenderCommand">/knowledge_base/view_kb_article</implicit-parameter>
+	</route>
+	<route>
+		<pattern>/{resourcePrimKey:\d+}/{status:-?\d+}/history</pattern>
+		<implicit-parameter name="mvcPath">/admin/common/kb_history.jsp</implicit-parameter>
+		<implicit-parameter name="p_p_state">normal</implicit-parameter>
+	</route>
+	<route>
+		<pattern>/{resourcePrimKey:\d+}/{status:-?\d+}/history/{p_p_state}</pattern>
+		<implicit-parameter name="mvcPath">/admin/common/kb_history</implicit-parameter>
+	</route>
+</routes>

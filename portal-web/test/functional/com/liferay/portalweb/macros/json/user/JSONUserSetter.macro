@@ -1,0 +1,135 @@
+definition {
+
+	@summary = "Default summary"
+	macro setGroupId(groupName = null, parentGroupName = null) {
+		Variables.assertDefined(parameterList = ${groupName});
+
+		if (!(isSet(site))) {
+			var site = "true";
+		}
+
+		var groupId = JSONGroupAPI._getGroupIdByName(
+			groupName = ${groupName},
+			parentGroupName = ${parentGroupName},
+			site = ${site});
+
+		return ${groupId};
+	}
+
+	@summary = "Default summary"
+	macro setLocale() {
+		if (!(isSet(locale))) {
+			var locale = "";
+		}
+		else {
+			Object.assertValidLocale(locale = ${locale});
+		}
+
+		return ${locale};
+	}
+
+	@summary = "Default summary"
+	macro setNewPassword() {
+		if (!(isSet(newPassword))) {
+			var newPassword = PropsUtil.get("default.admin.password");
+		}
+
+		return ${newPassword};
+	}
+
+	@summary = "Default summary"
+	macro setPortalInstanceName(portalURL = null) {
+		if (isSet(portalURL)) {
+			var portalInstanceName = JSONCompany.parsePortalInstanceURL(portalURL = ${portalURL});
+		}
+
+		return ${portalInstanceName};
+	}
+
+	@summary = "Default summary"
+	macro setRequireReset() {
+		if (!(isSet(requireReset))) {
+			var requireReset = "true";
+		}
+
+		return ${requireReset};
+	}
+
+	@summary = "Default summary"
+	macro setServiceContext(assetCategoryIds = null, assetTagNames = null, workflowAction = null) {
+		if (!(isSet(serviceContext))) {
+			var serviceContext = JSONServiceContextUtil.setServiceContext(
+				addGroupPermissions = "true",
+				addGuestPermissions = "true",
+				assetCategoryIds = ${assetCategoryIds},
+				assetTagNames = ${assetTagNames},
+				workflowAction = ${workflowAction});
+		}
+
+		return ${serviceContext};
+	}
+
+	@summary = "Default summary"
+	macro setStatus() {
+		if (!(isSet(userStatus))) {
+			var userStatus = "Active";
+		}
+
+		if (${userStatus} == "Active") {
+			var status = 0;
+		}
+		else if (${userStatus} == "Inactive") {
+			var status = 5;
+		}
+		else {
+			fail("'userStatus' is either invalid or not yet set.");
+		}
+
+		return ${status};
+	}
+
+	@summary = "Default summary"
+	macro setUserFirstName() {
+		Variables.assertDefined(parameterList = ${userFirstName});
+
+		var userFirstName = URLUtil.encodeUTF8(${userFirstName});
+
+		return ${userFirstName};
+	}
+
+	@summary = "Default summary"
+	macro setUserId(creatorPassword = null, portalInstanceName = null, userEmailAddress = null, specificURL = null, creatorEmailAddress = null) {
+		Variables.assertDefined(parameterList = ${userEmailAddress});
+
+		var userId = JSONUserAPI._getUserIdByEmailAddress(
+			creatorEmailAddress = ${creatorEmailAddress},
+			creatorPassword = ${creatorPassword},
+			portalInstanceName = ${portalInstanceName},
+			specificURL = ${specificURL},
+			userEmailAddress = ${userEmailAddress});
+
+		return ${userId};
+	}
+
+	@summary = "Default summary"
+	macro setUserIdByScreenName(creatorPassword = null, userScreenName = null, portalInstanceName = null) {
+		Variables.assertDefined(parameterList = ${userScreenName});
+
+		var userId = JSONUserAPI._getUserIdByScreenName(
+			creatorPassword = ${creatorPassword},
+			portalInstanceName = ${portalInstanceName},
+			userScreenName = ${userScreenName});
+
+		return ${userId};
+	}
+
+	@summary = "Default summary"
+	macro setUserLastName() {
+		Variables.assertDefined(parameterList = ${userLastName});
+
+		var userLastName = URLUtil.encodeUTF8(${userLastName});
+
+		return ${userLastName};
+	}
+
+}

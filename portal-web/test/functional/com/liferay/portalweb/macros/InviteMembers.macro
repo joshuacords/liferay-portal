@@ -1,0 +1,25 @@
+definition {
+
+	@summary = "Default summary"
+	macro _selectUser(inviteUserFullName = null) {
+		var key_inviteUserFullName = ${inviteUserFullName};
+
+		Click(locator1 = "InviteMembers#INVITE_USER_ADD_BUTTON");
+	}
+
+	@summary = "Default summary"
+	macro inviteMembers(inviteUserFullName = null) {
+		AssertClick(
+			locator1 = "Button#INVITE_MEMBERS",
+			value1 = "Invite Members");
+
+		InviteMembers._selectUser(inviteUserFullName = ${inviteUserFullName});
+
+		AssertClick(
+			locator1 = "Button#SEND_INVITATIONS",
+			value1 = "Send Invitations");
+
+		Alert.viewSuccessMessage();
+	}
+
+}

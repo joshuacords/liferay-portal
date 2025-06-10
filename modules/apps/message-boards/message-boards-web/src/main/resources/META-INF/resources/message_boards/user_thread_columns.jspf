@@ -1,0 +1,83 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<liferay-ui:search-container-column-text
+	href="<%= rowURL %>"
+	name="thread"
+>
+
+	<%
+	String[] threadPriority = MBUtil.getThreadPriority(mbGroupServiceSettings, themeDisplay.getLanguageId(), thread.getPriority());
+	%>
+
+	<c:if test="<%= (threadPriority != null) && (thread.getPriority() > 0) %>">
+		<span class="lfr-portal-tooltip" title="<%= HtmlUtil.escapeAttribute(threadPriority[0]) %>">
+			<clay:icon
+				aria-label="<%= HtmlUtil.escapeAttribute(threadPriority[0]) %>"
+				symbol="<%= threadPriority[1] %>"
+			/>
+		</span>
+	</c:if>
+
+	<c:if test="<%= thread.isLocked() %>">
+		<clay:icon
+			aria-label='<%= LanguageUtil.get(request, "thread-locked") %>'
+			symbol="lock"
+		/>
+
+		<liferay-ui:message key="thread-locked" />
+	</c:if>
+
+	<c:if test="<%= message != null %>">
+		<%= message.getSubject() %>
+	</c:if>
+</liferay-ui:search-container-column-text>
+
+<liferay-ui:search-container-column-text
+	href="<%= rowURL %>"
+	name="started-by"
+	value='<%= ((message == null) || message.isAnonymous()) ? LanguageUtil.get(request, "anonymous") : PortalUtil.getUserName(message) %>'
+/>
+
+<liferay-ui:search-container-column-text
+	href="<%= rowURL %>"
+	name="replies"
+	value="<%= String.valueOf(Math.max(thread.getMessageCount() - 1, 0)) %>"
+/>
+
+<liferay-ui:search-container-column-text
+	href="<%= rowURL %>"
+	name="views"
+	value="<%= String.valueOf(thread.getViewCount()) %>"
+/>
+
+<liferay-ui:search-container-column-user
+	date="<%= thread.getLastPostDate() %>"
+	name="last-post"
+	property="lastPostByUserId"
+	userId="<%= thread.getLastPostByUserId() %>"
+/>
+
+<c:if test='<%= mvcRenderCommandName.equals("/message_boards/view_my_posts") %>'>
+	<liferay-ui:search-container-column-status
+		href="<%= rowURL %>"
+		name="status"
+		status="<%= thread.getStatus() %>"
+	/>
+</c:if>
+
+<%
+row.setObject(new Object[] {message, threadSubscriptionClassPKs});
+%>
+
+<c:if test="<%= message != null %>">
+	<liferay-ui:search-container-column-jsp
+		align="right"
+		cssClass="entry-action"
+		path="/message_boards/message_action.jsp"
+	/>
+</c:if>

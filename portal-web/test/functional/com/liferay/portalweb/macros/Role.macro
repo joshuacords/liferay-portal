@@ -1,0 +1,483 @@
+definition {
+
+	@summary = "Default summary"
+	macro _changePermisionScope(permissionValue = null, assetLibrariesScope = null, siteNameScope = null, permissionSheetSubtitle = null, removeSiteScope = null) {
+		if (isSet(siteNameScope)) {
+			AssertClick(
+				key_permissionSheetSubtitle = ${permissionSheetSubtitle},
+				key_permissionValue = ${permissionValue},
+				locator1 = "RolesPermissions#PERMISSION_CHANGE_SCOPE",
+				value1 = "Change");
+
+			SelectFrame(locator1 = "RolesPermissionsSelectSite#SELECT_SITE_IFRAME");
+
+			AssertClick(
+				locator1 = "NavBar#RECENT",
+				value1 = "Recent");
+
+			if (${assetLibrariesScope} == "true") {
+				AssertClick(
+					locator1 = "NavBar#ASSET_LIBRARIES",
+					value1 = "Asset Libraries");
+			}
+			else {
+				AssertClick(
+					locator1 = "NavBar#MY_SITES",
+					value1 = "My Sites");
+			}
+
+			Click(
+				key_card = ${siteNameScope},
+				locator1 = "Card#CARD_TITLE");
+
+			SelectFrame(value1 = "relative=top");
+
+			AssertTextEquals.assertPartialText(
+				key_permissionSheetSubtitle = ${permissionSheetSubtitle},
+				key_permissionValue = ${permissionValue},
+				key_siteNameScope = ${siteNameScope},
+				locator1 = "RolesPermissions#PERMISSION_SITE_SCOPE",
+				value1 = ${siteNameScope});
+		}
+		else if (isSet(removeSiteScope)) {
+			Click(
+				key_permissionSheetSubtitle = ${permissionSheetSubtitle},
+				key_permissionValue = ${permissionValue},
+				key_siteNameScope = ${removeSiteScope},
+				locator1 = "RolesPermissions#PERMISSION_SITE_SCOPE_REMOVE");
+		}
+	}
+
+	@summary = "Default summary"
+	macro _goToRoleAssigneeType(roleTitle = null, assigneeType = null) {
+		LexiconEntry.gotoEntry(rowEntry = ${roleTitle});
+
+		Navigator.gotoNavItem(navItem = "Assignees");
+
+		Navigator.gotoNavItem(navItem = ${assigneeType});
+	}
+
+	@summary = "Default summary"
+	macro add(roleTitle = null, roleKey = null, roleDescription = null) {
+		if (!(isSet(roleKey)) && !(isSet(roleTitle))) {
+			fail("Please declear the roleKey or roleTitle when refering this macro.");
+		}
+
+		LexiconEntry.gotoAdd();
+
+		AssertTextEquals(
+			locator1 = "Portlet#HEADER",
+			value1 = "New Role");
+
+		if (isSet(roleTitle)) {
+			PortletEntry.inputTitle(title = ${roleTitle});
+		}
+
+		if (isSet(roleDescription)) {
+			PortletEntry.inputDescription(description = ${roleDescription});
+		}
+
+		if (isSet(roleKey)) {
+			Type(
+				locator1 = "TextInput#KEY",
+				value1 = ${roleKey});
+		}
+
+		AssertClick(
+			locator1 = "Button#SUBMIT",
+			value1 = "Save");
+
+		Alert.viewSuccessMessage();
+	}
+
+	@summary = "Default summary"
+	macro addAssignee(roleTitle = null, assigneeName = null, assigneeType = null) {
+		Role._goToRoleAssigneeType(
+			assigneeType = ${assigneeType},
+			roleTitle = ${roleTitle});
+
+		LexiconEntry.gotoAdd();
+
+		WaitForLiferayEvent.initializeLiferayEventLog();
+
+		SelectFrame(locator1 = "IFrame#SELECT_ASSIGNEES");
+
+		var key_assigneeName = ${assigneeName};
+
+		AssertTextEquals(
+			locator1 = "RolesAssignMembers#ADD_ASSIGNEE_TABLE_NAME",
+			value1 = ${assigneeName});
+
+		Check(locator1 = "RolesAssignMembers#ADD_ASSIGNEE_TABLE_CHECKBOX");
+
+		SelectFrameTop(value1 = "relative=top");
+
+		Button.clickAdd();
+
+		Alert.viewSuccessMessage();
+	}
+
+	@summary = "Default summary"
+	macro addAssigneeInKaleoForms(roleTitle = null, assigneeName = null, assigneeType = null) {
+		Role._goToRoleAssigneeType(
+			assigneeType = ${assigneeType},
+			roleTitle = ${roleTitle});
+
+		LexiconEntry.gotoAdd();
+
+		WaitForLiferayEvent.initializeLiferayEventLog();
+
+		SelectFrame(locator1 = "IFrame#SELECT_ASSIGNEES");
+
+		var key_userScreenName = ${assigneeName};
+		var key_assigneeName = ${assigneeName};
+
+		AssertTextEquals(
+			locator1 = "RolesAssignMembers#USER_TABLE_SCREEN_NAME",
+			value1 = ${assigneeName});
+
+		Check(locator1 = "RolesAssignMembers#ADD_ASSIGNEE_TABLE_CHECKBOX");
+
+		SelectFrameTop(value1 = "relative=top");
+
+		Button.clickAdd();
+
+		Alert.viewSuccessMessage();
+	}
+
+	@summary = "Default summary"
+	macro definePermissionPG(permissionsList = null, roleTitle = null) {
+		var key_roleTitle = StringUtil.replace(${roleTitle}, " ", "-");
+
+		var key_roleTitle = StringUtil.lowerCase(${key_roleTitle});
+
+		SelectFrameTop(value1 = "relative=top");
+
+		SelectFrame(locator1 = "IFrame#MODAL_BODY");
+
+		if (isSet(permissionsList)) {
+			for (var permissionDefinitionKey : list ${permissionsList}) {
+				ScrollWebElementIntoView(locator1 = "Permissions#${permissionDefinitionKey}");
+
+				Check.checkNotVisible(locator1 = "Permissions#${permissionDefinitionKey}");
+			}
+		}
+		else {
+			ScrollWebElementIntoView(locator1 = "Permissions#${permissionDefinitionKey}");
+
+			Check.checkNotVisible(locator1 = "Permissions#${permissionDefinitionKey}");
+		}
+
+		Button.clickSave();
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "Message#SUCCESS",
+			value1 = "Your request completed successfully.");
+
+		AssertChecked.assertCheckedNotVisible(locator1 = "Permissions#${permissionDefinitionKey}");
+	}
+
+	@summary = "Default summary"
+	macro editPermissionCP(assetLibrariesScope = null, siteNameScope = null, permissionNavItem = null, permissionSheetSubtitle = null, define = null, removeSiteScope = null, permissionNavHeader = null, remove = null) {
+		if (!(isSet(navItem))) {
+			var navItem = "Define Permissions";
+		}
+
+		Navigator.gotoNavItem(navItem = ${navItem});
+
+		task ("Navigate to the item in the right header via search bar") {
+			Type(
+				locator1 = "RolesPermissionsNavigation#SEARCH_FIELD",
+				value1 = ${permissionNavItem});
+
+			if (isSet(accountsPermission)) {
+				AssertClick(
+					key_indexNumber = 2,
+					key_permissionNavHeader = ${permissionNavHeader},
+					key_permissionNavItem = ${permissionNavItem},
+					locator1 = "RolesPermissionsNavigation#PERMISSIONS_NAVIGATION_N",
+					value1 = ${permissionNavItem});
+			}
+			else {
+				AssertClick(
+					key_permissionNavHeader = ${permissionNavHeader},
+					key_permissionNavItem = ${permissionNavItem},
+					locator1 = "RolesPermissionsNavigation#PERMISSIONS_NAVIGATION",
+					value1 = ${permissionNavItem});
+			}
+
+			AssertTextEquals(
+				locator1 = "RolesPermissions#PERMISSION_ITEM_HEADER",
+				value1 = ${permissionNavItem});
+		}
+
+		if (!(isSet(permissionValues))) {
+			var permissionValues = ${permissionValue};
+		}
+
+		task ("Define/remove the given permissions") {
+			for (var permissionValue : list ${permissionValues}) {
+				if (${define} == "true") {
+					Check(
+						key_permissionSheetSubtitle = ${permissionSheetSubtitle},
+						key_permissionValue = ${permissionValue},
+						locator1 = "RolesPermissions#PERMISSION_CHECKBOX");
+				}
+				else if (${remove} == "true") {
+					Uncheck(
+						key_permissionSheetSubtitle = ${permissionSheetSubtitle},
+						key_permissionValue = ${permissionValue},
+						locator1 = "RolesPermissions#PERMISSION_CHECKBOX");
+				}
+
+				Role._changePermisionScope(
+					assetLibrariesScope = ${assetLibrariesScope},
+					permissionSheetSubtitle = ${permissionSheetSubtitle},
+					permissionValue = ${permissionValue},
+					removeSiteScope = ${removeSiteScope},
+					siteNameScope = ${siteNameScope});
+			}
+		}
+
+		ScrollWebElementIntoView(locator1 = "RolesPermissions#SAVE_BUTTON");
+
+		PortletEntry.save();
+	}
+
+	@summary = "Default summary"
+	macro editRole(roleDescriptionEdit = null, roleKeyEdit = null, roleTitleEdit = null) {
+		if (isSet(roleTitleEdit)) {
+			PortletEntry.inputTitle(title = ${roleTitleEdit});
+		}
+
+		if (isSet(roleDescriptionEdit)) {
+			PortletEntry.inputDescriptionTextInput(description = ${roleDescriptionEdit});
+		}
+
+		if (isSet(roleKeyEdit)) {
+			Type(
+				locator1 = "TextInput#KEY",
+				value1 = ${roleKeyEdit});
+		}
+
+		AssertClick(
+			locator1 = "Button#SUBMIT",
+			value1 = "Save");
+
+		Alert.viewSuccessMessage();
+	}
+
+	@summary = "Default summary"
+	macro openRolesAdmin(baseURL = null) {
+		Navigator.openWithAppendToBaseURL(
+			baseURL = ${baseURL},
+			urlAppend = "group/control_panel/manage?p_p_id=com_liferay_roles_admin_web_portlet_RolesAdminPortlet");
+	}
+
+	@summary = "Default summary"
+	macro removeAssignee(roleTitle = null, assigneeName = null, assigneeType = null) {
+		Role.openRolesAdmin();
+
+		Role._goToRoleAssigneeType(
+			assigneeType = ${assigneeType},
+			roleTitle = ${roleTitle});
+
+		LexiconEntry.selectEntry(key_rowEntry = ${assigneeName});
+
+		ClickNoError(
+			key_text = "times-circle",
+			locator1 = "ManagementBar#ANY_ICON");
+	}
+
+	@summary = "Default summary"
+	macro removePermissionPG(permissionDefinitionKey = null, roleTitle = null) {
+		var key_roleTitle = StringUtil.replace(${roleTitle}, " ", "-");
+
+		var key_roleTitle = StringUtil.lowerCase(${key_roleTitle});
+
+		SelectFrameTop(value1 = "relative=top");
+
+		SetWindowSize.maximizeWindow();
+
+		SelectFrame(locator1 = "IFrame#MODAL_BODY");
+
+		if ((IsElementNotPresent(key_tableEntry = ${roleTitle}, locator1 = "LexiconTable#TABLE_ENTRY_EXACT_MATCH")) && (IsEditable(locator1 = "Pagination#NEXT_LINK"))) {
+			Type.typeKeys(
+				locator1 = "//body",
+				value1 = "keys=CONTROL,END");
+
+			Pagination.changePaginationViaKeyboard(itemsPerPage = 60);
+		}
+
+		ScrollWebElementIntoView(locator1 = "Permissions#${permissionDefinitionKey}");
+
+		takeScreenshot();
+
+		Uncheck.uncheckNotVisible(locator1 = "Permissions#${permissionDefinitionKey}");
+
+		Button.clickSave();
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "Message#SUCCESS",
+			value1 = "Your request completed successfully.");
+
+		AssertNotChecked.assertNotCheckedNotVisible(locator1 = "Permissions#${permissionDefinitionKey}");
+	}
+
+	@summary = "Default summary"
+	macro tearDownCP() {
+		Role.openRolesAdmin();
+
+		Search.searchCP(searchTerm = "Name");
+
+		WaitForVisible(locator1 = "Search#SEARCH_INFO");
+
+		while (IsElementPresent(locator1 = "Icon#VERTICAL_ELLIPSIS")) {
+			Click(locator1 = "Icon#VERTICAL_ELLIPSIS");
+
+			MenuItem.clickNoError(menuItem = "Delete");
+
+			AssertConfirm(value1 = "Are you sure you want to delete this role? It will be deleted immediately. If it is a reviewer role, its task assignments will be deleted along with it.");
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewAssignee(roleTitle = null, assigneeName = null, assigneeType = null) {
+		Role._goToRoleAssigneeType(
+			assigneeType = ${assigneeType},
+			roleTitle = ${roleTitle});
+
+		LexiconEntry.viewEntryName(rowEntry = ${assigneeName});
+	}
+
+	@summary = "Default summary"
+	macro viewCP(toolTip = null, roleType = null, roleDescription = null) {
+		if (contains("Asset Library,Organization,Site", ${roleType})) {
+			Navigator.gotoNavItem(navItem = "${roleType} Roles");
+		}
+		else {
+			Navigator.gotoNavItem(navItem = "Regular Roles");
+		}
+
+		if (isSet(roleKey) && !(isSet(roleTitle))) {
+			var rowEntry = ${roleKey};
+			var roleTitle = "";
+		}
+		else {
+			var rowEntry = ${roleTitle};
+		}
+
+		if (!(isSet(roleKey))) {
+			var roleKey = ${roleTitle};
+		}
+
+		AssertClick(
+			key_itemName = ${rowEntry},
+			locator1 = "ListGroupItem#ITEM_NAME_LINK",
+			value1 = ${rowEntry});
+
+		SiteAdmin.viewPortletTitle(portletTitle = ${rowEntry});
+
+		if (isSet(toolTip)) {
+			MouseOver(locator1 = "Icon#TOOLTIP");
+
+			AssertTextEquals.assertPartialText(
+				locator1 = "Message#TOOLTIP",
+				value1 = ${toolTip});
+		}
+
+		AssertTextEquals(
+			locator1 = "TextInput#TITLE",
+			value1 = ${roleTitle});
+
+		if (isSet(roleDescription)) {
+			AssertTextEquals(
+				locator1 = "TextInput#DESCRIPTION",
+				value1 = ${roleDescription});
+		}
+
+		AssertTextEquals(
+			locator1 = "TextInput#KEY",
+			value1 = ${roleKey});
+	}
+
+	@summary = "Default summary"
+	macro viewDefaultCP() {
+		Search.searchCP(searchTerm = "Name");
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "Message#EMPTY_INFO",
+			value1 = "No roles were found.");
+	}
+
+	@summary = "Default summary"
+	macro viewNoPermissionCP(siteNameScope = null, permissionDefinitionValue = null, permissionNavigationValue = null) {
+		var key_permissionDefinitionValue = ${permissionDefinitionValue};
+		var key_permissionNavigationValue = ${permissionNavigationValue};
+
+		AssertElementNotPresent(locator1 = "RolesPermissionsSummary#PERMISSION_TABLE_PERMISSIONS");
+
+		if (isSet(siteNameScope)) {
+			AssertElementNotPresent(
+				key_siteNameScope = ${siteNameScope},
+				locator1 = "RolesPermissionsSummary#PERMISSION_TABLE_SCOPE");
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewPermissionCP(siteNameScope = null, permissionDefinitionValue = null, permissionNavigationValue = null) {
+		var key_permissionDefinitionValue = ${permissionDefinitionValue};
+		var key_permissionNavigationValue = ${permissionNavigationValue};
+
+		while (IsElementNotPresent(locator1 = "RolesPermissionsSummary#PERMISSION_TABLE_PERMISSIONS")) {
+			Click(locator1 = "Pagination#NEXT_LINK");
+		}
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "RolesPermissionsSummary#PERMISSION_TABLE_PERMISSIONS",
+			value1 = ${permissionNavigationValue});
+
+		if (isSet(siteNameScope)) {
+			AssertTextEquals(
+				key_siteNameScope = ${siteNameScope},
+				locator1 = "RolesPermissionsSummary#PERMISSION_TABLE_SCOPE",
+				value1 = ${siteNameScope});
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewPermissionPG(permissionDefinitionKey = null, roleTitle = null, permissionFlagged = null) {
+		var key_roleTitle = StringUtil.replace(${roleTitle}, " ", "-");
+
+		var key_roleTitle = StringUtil.lowerCase(${key_roleTitle});
+
+		if (${permissionFlagged} == "true") {
+			AssertChecked.assertCheckedNotVisible(locator1 = "Permissions#${permissionDefinitionKey}");
+		}
+		else if (${permissionFlagged} == "false") {
+			AssertNotChecked.assertNotCheckedNotVisible(locator1 = "Permissions#${permissionDefinitionKey}");
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewPermissionSubdirectory(navItem = null, subItemList = null) {
+		var key_navItem = ${navItem};
+
+		if (IsElementPresent(locator1 = "RolesPermissionsNavigation#PERMISSIONS_NAVITEM_COLLAPSED")) {
+			Click.clickAt(locator1 = "RolesPermissionsNavigation#PERMISSIONS_NAVITEM_COLLAPSED");
+
+			AssertElementNotPresent(locator1 = "RolesPermissionsNavigation#PERMISSIONS_NAVITEM_COLLAPSED");
+		}
+
+		for (var subItem : list ${subItemList}) {
+			var key_subItem = ${subItem};
+
+			AssertElementPresent(locator1 = "RolesPermissionsNavigation#PERMISSIONS_NAVITEM_SUBITEM");
+
+			if (IsElementPresent(locator1 = "RolesPermissionsNavigation#PERMISSIONS_NAVITEM_SUBITEM_COLLAPSED")) {
+				Click.clickAt(locator1 = "RolesPermissionsNavigation#PERMISSIONS_NAVITEM_SUBITEM_COLLAPSED");
+			}
+		}
+	}
+
+}

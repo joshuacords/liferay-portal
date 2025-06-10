@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="com.liferay.commerce.inventory.model.CommerceInventoryAudit">
+		<field name="mvccVersion" type="long" />
+		<field name="commerceInventoryAuditId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="logType" type="String" />
+		<field name="logTypeSettings" type="String">
+			<hint-collection name="CLOB" />
+		</field>
+		<field name="quantity" type="BigDecimal" />
+		<field name="sku" type="String" />
+		<field name="unitOfMeasureKey" type="String" />
+	</model>
+	<model name="com.liferay.commerce.inventory.model.CommerceInventoryBookedQuantity">
+		<field name="mvccVersion" type="long" />
+		<field name="commerceInventoryBookedQuantityId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="bookedNote" type="String" />
+		<field name="expirationDate" type="Date" />
+		<field name="quantity" type="BigDecimal" />
+		<field name="sku" type="String" />
+		<field name="unitOfMeasureKey" type="String" />
+	</model>
+	<model name="com.liferay.commerce.inventory.model.CommerceInventoryReplenishmentItem">
+		<field name="mvccVersion" type="long" />
+		<field name="uuid" type="String" />
+		<field name="externalReferenceCode" type="String" />
+		<field name="commerceInventoryReplenishmentItemId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="commerceInventoryWarehouseId" type="long" />
+		<field name="availabilityDate" type="Date" />
+		<field name="quantity" type="BigDecimal" />
+		<field name="sku" type="String" />
+		<field name="unitOfMeasureKey" type="String" />
+	</model>
+	<model name="com.liferay.commerce.inventory.model.CommerceInventoryWarehouse">
+		<field name="mvccVersion" type="long" />
+		<field name="uuid" type="String" />
+		<field name="externalReferenceCode" type="String" />
+		<field name="commerceInventoryWarehouseId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field localized="true" name="name" type="String" />
+		<field localized="true" name="description" type="String" />
+		<field name="active" type="boolean" />
+		<field name="street1" type="String" />
+		<field name="street2" type="String" />
+		<field name="street3" type="String" />
+		<field name="city" type="String" />
+		<field name="zip" type="String" />
+		<field name="commerceRegionCode" type="String" />
+		<field name="countryTwoLettersISOCode" type="String" />
+		<field name="latitude" type="double" />
+		<field name="longitude" type="double" />
+		<field name="type" type="String" />
+	</model>
+	<model name="com.liferay.commerce.inventory.model.CommerceInventoryWarehouseItem">
+		<field name="mvccVersion" type="long" />
+		<field name="uuid" type="String" />
+		<field name="externalReferenceCode" type="String" />
+		<field name="commerceInventoryWarehouseItemId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="commerceInventoryWarehouseId" type="long" />
+		<field name="quantity" type="BigDecimal" />
+		<field name="reservedQuantity" type="BigDecimal" />
+		<field name="sku" type="String" />
+		<field name="unitOfMeasureKey" type="String" />
+	</model>
+	<model name="com.liferay.commerce.inventory.model.CommerceInventoryWarehouseRel">
+		<field name="mvccVersion" type="long" />
+		<field name="commerceInventoryWarehouseRelId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="classNameId" type="long" />
+		<field name="classPK" type="long" />
+		<field name="commerceInventoryWarehouseId" type="long" />
+	</model>
+</model-hints>

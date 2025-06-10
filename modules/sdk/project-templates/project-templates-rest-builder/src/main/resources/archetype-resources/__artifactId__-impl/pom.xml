@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>${artifactId}-impl</artifactId>
+	<version>${version}</version>
+	<parent>
+		<groupId>${groupId}</groupId>
+		<artifactId>${artifactId}</artifactId>
+		<version>${version}</version>
+	</parent>
+	<dependencies>
+		<dependency>
+			<groupId>com.liferay.portal</groupId>
+			<artifactId>release.${liferayProduct}.api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+#if (${liferayVersion.startsWith("20")} || ${liferayVersion.startsWith("7.3")} || ${liferayVersion.startsWith("7.4")}))
+		<dependency>
+			<groupId>javax.annotation</groupId>
+			<artifactId>javax.annotation-api</artifactId>
+			<version>1.3.2</version>
+			<scope>provided</scope>
+		</dependency>
+#end
+		<dependency>
+			<groupId>${groupId}</groupId>
+			<artifactId>${artifactId}-api</artifactId>
+			<version>${version}</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.liferay</groupId>
+				<artifactId>com.liferay.portal.tools.rest.builder</artifactId>
+#if (${liferayVersion.startsWith("7.1")} || ${liferayVersion.startsWith("7.2")})
+				<version>1.0.93</version>
+#elseif(${liferayVersion.startsWith("7.3")})
+				<version>1.0.212</version>
+#else
+				<version>@com.liferay.portal.tools.rest.builder.version@</version>
+#end
+			</plugin>
+		</plugins>
+	</build>
+</project>

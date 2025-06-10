@@ -1,0 +1,25 @@
+definition {
+
+	@summary = "Default summary"
+	macro selectReassignTasksCardFilterValueAssignee(workflowAssignee = null) {
+		var key_workflowAssignee = ${workflowAssignee};
+
+		Click(locator1 = "WorkflowMetricsAllItemsListReassignTasks#METRICS_REASSIGN_TASKS_CARD_FILTER_ASSIGNEE");
+
+		Click(locator1 = "WorkflowMetricsAllItemsListReassignTasks#METRICS_REASSIGN_TASKS_CARD_FILTER_OPTION_ASSIGNEE");
+
+		Click(locator1 = "WorkflowMetricsAllItemsListReassignTasks#METRICS_REASSIGN_TASKS_CARD_FILTER_ASSIGNEE");
+	}
+
+	@summary = "Default summary"
+	macro selectReassignTasksCardFilterValueProcessStep(workflowStep = null) {
+		var key_workflowStep = ${workflowStep};
+
+		Click(locator1 = "WorkflowMetricsAllItemsListReassignTasks#METRICS_REASSIGN_TASKS_CARD_FILTER_PROCESS_STEP");
+
+		Click(locator1 = "WorkflowMetricsAllItemsListReassignTasks#METRICS_REASSIGN_TASKS_CARD_FILTER_OPTION_PROCESS_STEP");
+
+		Click(locator1 = "WorkflowMetricsAllItemsListReassignTasks#METRICS_REASSIGN_TASKS_CARD_FILTER_PROCESS_STEP");
+	}
+
+}

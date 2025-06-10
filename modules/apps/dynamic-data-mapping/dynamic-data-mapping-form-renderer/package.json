@@ -1,0 +1,13 @@
+{
+	"dependencies": {
+		"data-engine-js-components-web": "*"
+	},
+	"name": "dynamic-data-mapping-form-renderer",
+	"private": true,
+	"scripts": {
+		"build": "node-scripts build",
+		"checkFormat": "node-scripts format --check",
+		"format": "node-scripts format"
+	},
+	"version": "6.0.77"
+}

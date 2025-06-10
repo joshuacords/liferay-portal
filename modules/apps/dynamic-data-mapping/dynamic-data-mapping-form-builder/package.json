@@ -1,0 +1,9 @@
+{
+	"name": "dynamic-data-mapping-form-builder",
+	"scripts": {
+		"build": "node-scripts build",
+		"checkFormat": "node-scripts format --check",
+		"format": "USE_REACT_16=true node-scripts format"
+	},
+	"version": "4.0.68"
+}

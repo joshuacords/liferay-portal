@@ -1,0 +1,15 @@
+@import 'cadmin-variables';
+
+html#{$cadmin-selector} {
+	.cadmin {
+		.page-editor__editor {
+			p {
+				margin-bottom: 0;
+			}
+
+			&-placeholder {
+				color: $cadmin-secondary;
+			}
+		}
+	}
+}

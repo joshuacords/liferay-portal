@@ -1,0 +1,8 @@
+{
+	"name": "click-to-chat-web",
+	"scripts": {
+		"checkFormat": "node-scripts format --check",
+		"format": "node-scripts format"
+	},
+	"version": "1.0.49"
+}

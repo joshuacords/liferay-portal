@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+
+<taglib
+	version="2.1"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
+>
+	<tlib-version>1.0</tlib-version>
+	<short-name>liferay-export-import-changeset</short-name>
+	<uri>http://liferay.com/tld/export-import-changeset</uri>
+	<tag>
+		<description>Renders a menu item for the entity publication process. This menu item is only visible when staging is enabled.</description>
+		<name>publish-entity-menu-item</name>
+		<tag-class>com.liferay.exportimport.changeset.taglib.servlet.taglib.PublishEntityMenuItemTag</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<description>The class name of the entity to publish. The class name or class name ID should be passed.</description>
+			<name>className</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<description>The class name ID of the entity to publish. The class name or class name ID should be passed.</description>
+			<name>classNameId</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>long</type>
+		</attribute>
+		<attribute>
+			<description>The group ID of the entity to publish.</description>
+			<name>groupId</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>long</type>
+		</attribute>
+		<attribute>
+			<description>The UUID of the entity to publish.</description>
+			<name>uuid</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+</taglib>

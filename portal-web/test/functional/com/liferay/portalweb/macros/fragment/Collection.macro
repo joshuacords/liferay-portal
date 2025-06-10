@@ -1,0 +1,12 @@
+definition {
+
+	@summary = "Default summary"
+	macro editCollection(collectionDescription = null, collectionName = null) {
+		PortletEntry.inputName(name = ${collectionName});
+
+		if (isSet(collectionDescription)) {
+			PortletEntry.inputDescription(description = ${collectionDescription});
+		}
+	}
+
+}

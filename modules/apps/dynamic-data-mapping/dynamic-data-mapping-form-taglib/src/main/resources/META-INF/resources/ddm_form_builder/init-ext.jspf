@@ -1,0 +1,25 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %>
+
+<%@ page import="com.liferay.portal.kernel.json.JSONArray" %><%@
+page import="com.liferay.portal.kernel.util.HtmlUtil" %>
+
+<%
+String dataProviderInstanceParameterSettingsURL = (String)request.getAttribute("liferay-form:ddm-form-builder:dataProviderInstanceParameterSettingsURL");
+String dataProviderInstancesURL = (String)request.getAttribute("liferay-form:ddm-form-builder:dataProviderInstancesURL");
+String evaluatorURL = (String)request.getAttribute("liferay-form:ddm-form-builder:evaluatorURL");
+String fieldSetDefinitionURL = (String)request.getAttribute("liferay-form:ddm-form-builder:fieldSetDefinitionURL");
+JSONArray fieldSetsJSONArray = (JSONArray)request.getAttribute("liferay-form:ddm-form-builder:fieldSets");
+String fieldSettingsDDMFormContextURL = (String)request.getAttribute("liferay-form:ddm-form-builder:fieldSettingsDDMFormContextURL");
+String formBuilderContext = (String)request.getAttribute("liferay-form:ddm-form-builder:formBuilderContext");
+String functionsMetadata = (String)request.getAttribute("liferay-form:ddm-form-builder:functionsMetadata");
+String functionsURL = (String)request.getAttribute("liferay-form:ddm-form-builder:functionsURL");
+String rolesURL = (String)request.getAttribute("liferay-form:ddm-form-builder:rolesURL");
+String serializedDDMFormRules = (String)request.getAttribute("liferay-form:ddm-form-builder:serializedDDMFormRules");
+%>

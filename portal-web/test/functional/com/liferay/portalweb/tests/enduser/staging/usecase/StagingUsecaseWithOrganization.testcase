@@ -1,0 +1,110 @@
+@component-name = "portal-headless"
+definition {
+
+	property ci.retries.disabled = "true";
+	property portal.release = "true";
+	property portal.upstream = "true";
+	property testray.main.component.name = "Staging";
+
+	setUp {
+		TestCase.setUpPortalInstance();
+
+		User.firstLoginPG();
+	}
+
+	tearDown {
+		var testLiferayVirtualInstance = PropsUtil.get("test.liferay.virtual.instance");
+
+		if (${testLiferayVirtualInstance} == "true") {
+			PortalInstances.tearDownCP();
+		}
+		else {
+			User.logoutAndLoginPG(
+				userLoginEmailAddress = "test@liferay.com",
+				userLoginFullName = "Test Test");
+
+			JSONUser.tearDownNonAdminUsers();
+
+			JSONOrganization.deleteOrganizationByName(organizationName = "Staging Organization Name");
+		}
+	}
+
+	@description = "Verify that administrator of staging organization can add two types of variations."
+	@priority = 3
+	test StagingOrganizations {
+		property custom.properties = "jsonws.web.service.paths.excludes=";
+		property portal.acceptance = "true";
+		property test.liferay.virtual.instance = "false";
+		property test.run.type = "single";
+
+		task ("Given: An administrator of staging organization is added") {
+			JSONOrganization.addOrganization(organizationName = "Staging Organization Name");
+
+			Organization.openOrganizationsAdmin();
+
+			Organization.addSiteCP(orgName = "Staging Organization Name");
+
+			PagesAdmin.openPagesAdmin(siteURLKey = "Staging Organization Name");
+
+			PagesAdmin.addPage(pageName = "Site Page Name");
+
+			JSONUser.addUser(
+				allowManualMembershipManagement = "true",
+				userEmailAddress = "userea@liferay.com",
+				userFirstName = "userfn",
+				userLastName = "userln",
+				userScreenName = "usersn");
+
+			JSONUser.setFirstPassword(
+				agreeToTermsAndAnswerReminderQuery = "true",
+				requireReset = "false",
+				userEmailAddress = "userea@liferay.com");
+
+			JSONRole.assignRoleToUser(
+				roleTitle = "Administrator",
+				userEmailAddress = "userea@liferay.com");
+
+			JSONOrganization.assignUserToOrganization(
+				organizationName = "Staging Organization Name",
+				userEmailAddress = "userea@liferay.com");
+		}
+
+		task ("When: Log in as administrator and add two types of page variations") {
+			User.logoutPG();
+
+			User.loginUserPG(
+				password = PropsUtil.get("default.admin.password"),
+				userEmailAddress = "userea@liferay.com");
+
+			JSONStaging.enableLocalStaging(
+				branchingPrivate = "true",
+				branchingPublic = "true",
+				groupName = "Staging Organization Name");
+
+			Navigator.gotoStagedSitePage(
+				pageName = "Site Page Name",
+				siteName = "Staging Organization Name");
+
+			Staging.addSitePagesVariationPG(
+				copySitePagesVariationName = "All Site Pages Variations",
+				sitePagesVariationName = "Site Pages Variation Name");
+
+			Navigator.gotoStagedSitePage(
+				pageName = "Site Page Name",
+				siteName = "Staging Organization Name");
+
+			Staging.addPageVariationPG(pageVariationName = "Page Variation Name");
+		}
+
+		task ("Then: Verify if it's possible to see two types of page variations") {
+			Navigator.gotoStagedSitePage(
+				pageName = "Site Page Name",
+				siteName = "Staging Organization Name");
+
+			Staging.viewSitePagesVariationPG(sitePagesVariationName = "Site Pages Variation Name");
+
+			Staging.viewPageVariationPG(pageVariationName = "Page Variation Name");
+		}
+	}
+
+}

@@ -1,0 +1,101 @@
+<html>
+<head>
+<title>ToggleSwitch</title>
+</head>
+
+<body>
+<table border="1" cellpadding="1" cellspacing="1">
+<thead>
+<tr><td rowspan="1" colspan="3">ToggleSwitch</td></tr>
+</thead>
+
+<tbody>
+<tr>
+	<td>ACCOUNT_STATUS</td>
+	<td>//label[contains(@for,'AccountEntriesAdminPortlet')]//input[contains(@class,'toggle-switch')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ACTIVE</td>
+	<td>//label[contains(.,'Active')]//span[contains(@class,'toggle-switch-handle')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ALLOW_SITE_ADMIN_MODIFY_PAGES</td>
+	<td>//label[contains(.,'Allow site administrators to modify')]//span[contains(@class,'toggle-switch-handle')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ANY_TOGGLE_SWITCH</td>
+	<td>//label[(contains(.,'${key_toggleSwitchLabel}')) or (contains(@for,'${key_toggleSwitchLabel}'))]//input[not(@disabled)]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ANY_TOGGLE_SWITCH_DISABLED</td>
+	<td>//label[(contains(.,'${key_toggleSwitchLabel}')) or (contains(@for,'${key_toggleSwitchLabel}'))]//input[(@disabled)]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ANY_TOGGLE_SWITCH_INDEX</td>
+	<td>xpath=(//label[(contains(.,'${key_toggleSwitchLabel}')) or (contains(@for,'${key_toggleSwitchLabel}'))]//input[not(@disabled)])[${key_index}]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ANY_TOGGLE_SWITCH_IN_FIELDSET</td>
+	<td>//legend[normalize-space()='${key_fieldsetLabel}']//following-sibling::div//label[contains(.,'${key_fieldLabel}')]//input[contains(@type,'checkbox')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>DELETE_PORTLET_DATA</td>
+	<td>//label[contains(@for,'DELETE_PORTLET_DATA')]//input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>EDIT_TOGGLE</td>
+	<td>//label[contains(@class,'toggle-switch toggle-editing')]//input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ENABLE_SOCIAL_BOOKMARKS</td>
+	<td>//label[contains(@for,'enableSocialBookmarks')]/input/../span/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ENABLE_TOGGLE_SWITCH_VIA_SPAN</td>
+	<td>//*[contains(text(),"${key_toggleSwitch}")]//span[contains(@class,'toggle-switch')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>REQUIRED</td>
+	<td>xpath=(//div[contains(@class,'form-row')])[${key_rowNumber}]//input[@type='checkbox']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>READY_FOR_PROPAGATION</td>
+	<td>//label[contains(.,'Ready for Propagation')]//span[contains(@class,'toggle-switch-handle')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SHOW_SPECIFIC_TOGGLE_SWITCH</td>
+	<td>//label[contains(.,'${key_checkSetupName}')]//input[contains(@class,'field') and contains(@class,'toggle-switch')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ENABLE_SPECIFIC_TOGGLE_SWITCH</td>
+	<td>//div[contains(@class,'h4') and contains(.,"${key_name}")]//span[contains(@id,'toggle-switch')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ENABLE_BETA_TOGGLE_SWITCH</td>
+	<td>//*[@id="${key_featureFlag}"]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>TOGGLE_SWITCH_BY_LABEL</td>
+	<td>//span[text()='${key_toggleSwitchLabel}']/preceding-sibling::input[contains(@class, 'toggle-switch')]</td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

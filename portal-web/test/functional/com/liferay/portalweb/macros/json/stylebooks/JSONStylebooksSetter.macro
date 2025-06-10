@@ -1,0 +1,18 @@
+definition {
+
+	@summary = "Default summary"
+	macro setGroupId(groupName = null) {
+		Variables.assertDefined(parameterList = ${groupName});
+
+		if (!(isSet(site))) {
+			var site = "true";
+		}
+
+		var groupId = JSONGroupAPI._getGroupIdByName(
+			groupName = ${groupName},
+			site = ${site});
+
+		return ${groupId};
+	}
+
+}

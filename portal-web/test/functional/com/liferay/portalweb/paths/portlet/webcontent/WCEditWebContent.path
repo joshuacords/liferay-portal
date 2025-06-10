@@ -1,0 +1,316 @@
+<html>
+<head>
+<title>WCEditWebContent</title>
+</head>
+
+<body>
+<table border="1" cellpadding="1" cellspacing="1">
+<thead>
+<tr><td rowspan="1" colspan="3">WCEditWebContent</td></tr>
+</thead>
+
+<tbody>
+<tr>
+	<td>ANY_TEXT_INPUT</td>
+	<td>xpath=(//label[normalize-space(text())='${key_fieldFieldLabel}']//..//input[not(contains(@type,'hidden'))])[${index}]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ARTICLE_ID</td>
+	<td>//table[contains(@data-searchcontainerid,'articleVersions')]//td[contains(@class,'lfr-id-column')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>AUTOGENERATEID</td>
+	<td>//input[contains(@id,'autoArticleId')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>COLOR_PICKER</td>
+	<td>//label[normalize-space(text())='${key_fieldFieldLabel}']/following-sibling::div[contains(@class,'color-picker')]//button[contains(@class,'clay-color-btn')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CONTENT_CONTAINER</td>
+	<td>//div[contains(@class,'contextual-sidebar-content')]//div[contains(@class,'container-view')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>DATE_INPUT</td>
+	<td>//label[normalize-space(text())='${key_fieldFieldLabel}']//following-sibling::div//input[@type='text']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ENTRY_LIST_AUTHOR</td>
+	<td>//dd[contains(.,'${key_entryTitle}')]//span[contains(.,'${key_entryAuthor}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>HELP_TEXT</td>
+	<td>//div[contains(@class,'form-group')]//div[contains(@class,'form-feedback-group') and contains(.,'${value1}')] | //div[contains(@data-field-name,'${key_fieldName}')]//p[@class='liferay-ddm-form-field-tip'] | //div[contains(@data-field-name,'${key_fieldName}')]//div[contains(@class,'form-feedback-group')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>FIELD_REQUIRED_ALERT</td>
+	<td>//label[normalize-space(text())='${key_fieldFieldLabel}']/following-sibling::div[contains(@class,'form-feedback-group')]//div[contains(@class,'form-feedback-item')] | //fieldset[legend[normalize-space(text())='${key_fieldFieldLabel}']]/following-sibling::span[contains(@class,'form-feedback-group')]//div[contains(@class,'form-feedback-item')] | //div[text()='This field is required.']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>GRID_OPTION</td>
+	<td>//label[normalize-space(text())='${key_fieldFieldLabel}']//following-sibling::div//tbody/tr[${key_row}]/td[${key_column}]//input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>IMAGE_PICKER_PREVIEW</td>
+	<td>//label[normalize-space(text())='${key_fieldFieldLabel}']//following-sibling::div[contains(@class,'image-picker-preview')]//img[contains(@src,'${key_image}')]</td>
+	<td></td>
+</tr>
+
+<!--SIDEBAR-->
+
+<tr>
+	<td>DEFAULT_LANGUAGE</td>
+	<td>//div[contains(@class,'article-default-language')]//p[normalize-space()='Default Language: ${defaultLanguage}']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SIDEBAR</td>
+	<td>//div[contains(@class,'contextual-sidebar-visible')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>EDIT_TEMPLATE</td>
+	<td>//a[contains(@id,'editDDMTemplate')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>FEATURED_IMAGE_URL_INPUT</td>
+	<td>//input[contains(@id,'smallImageURL')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>IMAGE_DESCRIPTION</td>
+	<td>//label[normalize-space(text())='${key_fieldFieldLabel}']/following-sibling::div[contains(@class,'form-group')]//input[contains(@name,'description')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>MARKER</td>
+	<td>//img[contains(@class,'marker-icon')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>MARKER_POSITION</td>
+	<td>//img[contains(@class,'marker-icon')][contains(@style,'translate3d("${position}")')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PUBLISH_BUTTON</td>
+	<td>//button[contains(@class, 'dropdown-item') and contains(text(), 'Publish')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>DROPDOWN_BUTTON</td>
+	<td>//button[contains(@class, 'dropdown-item') and contains(text(), '${key_text}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PUBLISH_WITH_PERMISSIONS_BUTTON</td>
+	<td>//button[contains(@class, 'dropdown-item') and contains(text(), 'Publish With Permissions')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PUBLISH_IN_MODAL</td>
+	<td>//div[contains(@class,'modal-content')]//button[contains(text(),'Publish')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>BUTTON_IN_MODAL</td>
+	<td>//div[contains(@class,'modal-content')]//button[contains(text(),'${key_text}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SAVE_AS_DRAFT_IN_MODAL</td>
+	<td>//div[contains(@class,'modal-content')]//button[contains(text(),'Save as Draft')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SCHEDULE_IN_MODAL</td>
+	<td>//div[contains(@class,'modal-content')]//button[contains(text(),'Schedule')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SCHEDULE_DATE</td>
+	<td>//input[contains(@id,'displayDatePicker')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SCHEDULE_PUBLICATION_BUTTON</td>
+	<td>//button[contains(@class, 'dropdown-item') and contains(text(), 'Schedule Publication')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SELECT_BUTTON_2</td>
+	<td>xpath=(//label[normalize-space(text())='${key_fieldFieldLabel}']//following-sibling::div[contains(@class,'form')]//button[normalize-space()='Select'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SELECT_FEATURED_IMAGE_TYPE</td>
+	<td>//select[contains(@id,'smallImageSource')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SELECT_FEATURED_IMAGE_INPUT</td>
+	<td>//div[contains(@id,'featuredImageContent')]//input[contains(@id,'smallFile')] | //input[contains(@id,'smallImageId')][contains(@type,'text')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SELECT_FIELD_TRIGGER</td>
+	<td>//label[normalize-space(text())='${key_fieldFieldLabel}']//following-sibling::div/button[contains(@class, 'select')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SELECT_FIELD_TRIGGER_2</td>
+	<td>xpath=(//div[contains(@class,'ddm-field')][.//label[normalize-space(text())='${key_fieldFieldLabel}']]//button[@role='combobox'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SUBMIT_FOR_WORKFLOW</td>
+	<td>//button[contains(@class, 'dropdown-item') and contains(text(), 'Submit for Workflow')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SUBMIT_FOR_WORKFLOW_IN_MODAL</td>
+	<td>//div[contains(@class,'modal-content')]//button[contains(text(),'Submit for Workflow')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SUBMIT_FOR_WORKFLOW_WITH_PERMISSIONS_BUTTON</td>
+	<td>//button[contains(@class, 'dropdown-item') and contains(text(), 'Submit for Workflow With Permissions')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>TRANSLATION_MANAGER_BUTTON</td>
+	<td>//button[@role='combobox' and contains(@aria-label, 'Select a language')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SELECTED_IMAGE</td>
+	<td>//input[contains(@id,'JournalPortlet_Image')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SELECTED_STRUCTURE</td>
+	<td>//p[@class='article-structure']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SELECTION_OPTION</td>
+	<td>//label[normalize-space(text())='${key_fieldFieldLabel}']//following-sibling::div//input//following-sibling::span[normalize-space()='${key_optionValue}']//preceding-sibling::input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SOURCE_BUTTON</td>
+	<td>//label[normalize-space(text())='${key_fieldFieldLabel}']//following-sibling::div//a[contains(@class,'cke_button') and contains(@class,'source')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>TEXT_INPUT</td>
+	<td>//div[@class='ddm-field']//label[normalize-space(text())='${key_fieldFieldLabel}']//..//input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>TEXT_INPUT_2</td>
+	<td>xpath=(//div[@class='ddm-field']//label[normalize-space(text())='${key_fieldFieldLabel}']//..//input[@type='text'])[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>USER_SEGMENT_DETAIL_TITLE</td>
+	<td>//label[contains(.,'${key_userSegmentDetailTitle}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>VERSION</td>
+	<td>//p[contains(@class,'article-version')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>VIDEO_BUTTON</td>
+	<td>//a[contains(@class,'videoselector')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>WEB_CONTENT_ID</td>
+	<td>//input[contains(@id,'JournalPortlet_newArticleId')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>WORKFLOW_STATUS</td>
+	<td>//*[contains(@class,'status')]/span[contains(.,'${key_status}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+
+<!--VIEW_HISTORY-->
+
+<tr>
+	<td>VIEW_HISTORY_VERSION_CHECKBOX</td>
+	<td>//tr[contains(.,'${key_webContentTitle}')]/td//input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>VIEW_HISTORY_VERSION_TITLE</td>
+	<td>//tr[contains(.,'${key_webContentTitle}')]/td[3]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>VIEW_HISTORY_VERSION_STATUS</td>
+	<td>//tr[contains(.,'${key_webContentTitle}')]/td[5]</td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+
+<!--REPEATED FIELD ON WEB CONTENT-->
+
+<tr>
+	<td>REPEATED_FIELD</td>
+	<td>xpath=(//div[contains(@class,'ddm')]//label[contains(text(),'${key_fieldName}')])[${key_index}]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>REPEATED_FIELD_IN_FIELDS_GROUP</td>
+	<td>xpath=(//div[contains(@data-field-name, '${key_fieldName}')]/div[contains(@class,'repeatable')][@draggable='true'])[${key_index}]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>REPEATED_DATE_FIELD</td>
+	<td>xpath=(//label[normalize-space(text())='${key_fieldFieldLabel}']//following-sibling::div[contains(@class,'date-picker')]//input[@type='text'])[${index}]</td>
+	<td></td>
+</tr>
+
+<!--REPEATED FIELD BY INDEX-->
+
+<tr>
+	<td>REPEATED_FIELD_BY_INDEX</td>
+	<td>xpath=//div[contains(@class,'ddm-field') and contains(@data-field-name,'${key_fieldReference}')][${key_index}]</td>
+	<td></td>
+</tr>
+
+<!--CHECKBOX_WEB_CONTENT_ENTRY-->
+
+<tr>
+	<td>SELECT_CHECKBOX_WC</td>
+	<td>//dd[contains(@class,'list-group-item list-group-item-flex') and contains(.,'${key_title}')]//div[@class="checkbox"]</td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<aui:input name="<%= Constants.CMD %>" type="hidden" value="<%= (commerceInventoryReplenishmentItem == null) ? Constants.ADD : Constants.UPDATE %>" />
+<aui:input name="redirect" type="hidden" value="<%= currentURL %>" />
+<aui:input name="commerceInventoryReplenishmentItemId" type="hidden" value="<%= commerceInventoryDisplayContext.getCommerceInventoryReplenishmentItemId() %>" />
+<aui:input name="sku" type="hidden" value="<%= commerceInventoryDisplayContext.getSku() %>" />
+<aui:input name="unitOfMeasureKey" type="hidden" value="<%= commerceInventoryDisplayContext.getUnitOfMeasureKey() %>" />
+<aui:input name="mvccVersion" type="hidden" value="<%= (commerceInventoryReplenishmentItem == null) ? 0 : commerceInventoryReplenishmentItem.getMvccVersion() %>" />
+
+<liferay-ui:error exception="<%= CommerceInventoryReplenishmentQuantityException.class %>" message="please-enter-a-valid-quantity" />
+<liferay-ui:error exception="<%= PrincipalException.MustHavePermission.class %>" message="you-do-not-have-the-required-permissions" />
+
+<aui:model-context bean="<%= commerceInventoryReplenishmentItem %>" model="<%= CommerceInventoryReplenishmentItem.class %>" />
+
+<aui:input name="quantity" required="<%= true %>" type="quantity" value="<%= (commerceInventoryReplenishmentItem == null) ? 0 : commerceInventoryDisplayContext.getQuantity(commerceInventoryReplenishmentItem.getQuantity()) %>">
+	<aui:validator name="min">1</aui:validator>
+	<aui:validator name="number" />
+</aui:input>
+
+<c:if test="<%= commerceInventoryReplenishmentItem == null %>">
+	<aui:select label="destination" name="commerceInventoryWarehouseId" required="<%= true %>">
+
+		<%
+		for (CommerceInventoryWarehouse commerceInventoryWarehouse : commerceInventoryDisplayContext.getCommerceInventoryWarehouses()) {
+		%>
+
+			<aui:option label="<%= HtmlUtil.escape(commerceInventoryWarehouse.getName(locale)) %>" value="<%= commerceInventoryWarehouse.getCommerceInventoryWarehouseId() %>" />
+
+		<%
+		}
+		%>
+
+	</aui:select>
+</c:if>
+
+<%
+Calendar startCalendar;
+
+if (commerceInventoryReplenishmentItem == null) {
+	startCalendar = Calendar.getInstance();
+}
+else {
+	Date availabilityDate = commerceInventoryReplenishmentItem.getAvailabilityDate();
+
+	startCalendar = CalendarFactoryUtil.getCalendar(availabilityDate.getTime(), user.getTimeZone());
+}
+%>
+
+<label><liferay-ui:message key="expected-delivery-date" /></label>
+<liferay-ui:input-date
+	dayParam="dateDay"
+	dayValue="<%= startCalendar.get(Calendar.DATE) %>"
+	disabled="<%= false %>"
+	firstDayOfWeek="<%= startCalendar.getFirstDayOfWeek() - 1 %>"
+	monthParam="dateMonth"
+	monthValue="<%= startCalendar.get(Calendar.MONTH) %>"
+	name="date"
+	required="<%= true %>"
+	yearParam="dateYear"
+	yearValue="<%= startCalendar.get(Calendar.YEAR) %>"
+/>

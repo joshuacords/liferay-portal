@@ -1,0 +1,29 @@
+import com.liferay.gradle.plugins.patcher.PatchTask
+
+apply plugin: "com.liferay.patcher"
+
+task patch(type: PatchTask)
+
+dependencies {
+	compileOnly group: "com.github.spotbugs", name: "spotbugs", version: "4.5.3"
+	compileOnly group: "com.h3xstream.findsecbugs", name: "findsecbugs-plugin", version: "1.13.0"
+	compileOnly group: "org.apache.bcel", name: "bcel", version: "6.5.0"
+}
+
+jarSources {
+	mustRunAfter patch
+}
+
+patch {
+	ext {
+		autoClean = false
+	}
+
+	fileNames "**/com/h3xstream/findsecbugs/taintanalysis/TaintConfigLoader.java"
+	fileNames "**/com/h3xstream/findsecbugs/taintanalysis/TaintFrameModelingVisitor.java"
+	originalLibModuleName = "findsecbugs-plugin"
+}
+
+updateFileVersions {
+	match(/private static final String _VERSION = "(\d.+)";/, "../../sdk/gradle-plugins-defaults/src/main/java/com/liferay/gradle/plugins/defaults/internal/FindSecurityBugsPlugin.java")
+}

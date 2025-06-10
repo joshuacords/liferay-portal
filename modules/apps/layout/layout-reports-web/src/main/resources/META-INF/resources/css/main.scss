@@ -1,0 +1,36 @@
+@import 'cadmin-variables';
+
+html#{$cadmin-selector} {
+	.cadmin {
+		&.lfr-layout-reports-panel {
+			.failing-element {
+				&:not(:first-child) {
+					margin-top: 8px;
+				}
+
+				&:not(:last-child) {
+					border-width: 0 0 1px;
+				}
+			}
+
+			.section-label {
+				user-select: none;
+			}
+
+			.sidebar {
+				border-left: 1px solid $cadmin-gray-300;
+				box-shadow: none;
+			}
+
+			.sidebar-header {
+				.sidenav-back {
+					width: 24px;
+				}
+			}
+
+			.text-truncate-reverse {
+				direction: rtl;
+			}
+		}
+	}
+}

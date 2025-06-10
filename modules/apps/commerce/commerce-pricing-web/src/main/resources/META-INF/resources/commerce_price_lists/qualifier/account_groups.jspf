@@ -1,0 +1,48 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<c:if test="<%= hasPermission %>">
+	<div class="row">
+		<div class="col-12">
+			<div id="item-finder-root"></div>
+
+			<liferay-frontend:component
+				context='<%=
+					HashMapBuilder.<String, Object>put(
+						"commercePriceListId", commercePriceListId
+					).put(
+						"namespace", liferayPortletResponse.getNamespace()
+					).put(
+						"portletId", portletDisplay.getRootPortletId()
+					).put(
+						"priceListExternalReferenceCode", commercePriceList.getExternalReferenceCode()
+					).put(
+						"pricingFDSName", CommercePricingFDSNames.PRICE_LIST_QUALIFIER_ACCOUNT_GROUPS
+					).put(
+						"spritemap", themeDisplay.getPathThemeSpritemap()
+					).build()
+				%>'
+				module="{qualifierAccountGroups} from commerce-pricing-web"
+			/>
+		</div>
+
+		<div class="col-12">
+			<commerce-ui:panel
+				bodyClasses="p-0"
+				title='<%= LanguageUtil.get(request, "account-groups") %>'
+			>
+				<frontend-data-set:headless-display
+					apiURL="<%= commercePriceListQualifiersDisplayContext.getPriceListAccountGroupsApiURL() %>"
+					fdsActionDropdownItems="<%= commercePriceListQualifiersDisplayContext.getPriceListAccountGroupFDSActionDropdownItems() %>"
+					formName="fm"
+					id="<%= CommercePricingFDSNames.PRICE_LIST_QUALIFIER_ACCOUNT_GROUPS %>"
+					itemsPerPage="<%= 10 %>"
+				/>
+			</commerce-ui:panel>
+		</div>
+	</div>
+</c:if>

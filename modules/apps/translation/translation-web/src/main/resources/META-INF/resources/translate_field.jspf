@@ -1,0 +1,46 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<clay:row>
+	<clay:col
+		md="6"
+	>
+		<c:choose>
+			<c:when test="<%= html %>">
+				<label class="control-label">
+					<%= label %>
+				</label>
+
+				<div class="translation-editor-preview" dir="<%= sourceContentDir %>">
+					<%= sourceContent %>
+				</div>
+			</c:when>
+			<c:otherwise>
+				<aui:input dir="<%= sourceContentDir %>" label="<%= label %>" name="<%= infoField.getUniqueId() %>" readonly="true" tabIndex="-1" type='<%= multiline ? "textarea" : "text" %>' value="<%= sourceContent %>" />
+			</c:otherwise>
+		</c:choose>
+	</clay:col>
+
+	<clay:col
+		md="6"
+	>
+		<c:choose>
+			<c:when test="<%= html %>">
+				<label class="control-label">
+					<%= label %>
+				</label>
+
+				<div class="translation-editor-preview" dir="<%= LanguageUtil.get(translateDisplayContext.getTargetLocale(), "lang.dir") %>">
+					<%= targetContent %>
+				</div>
+			</c:when>
+			<c:otherwise>
+				<aui:input dir='<%= LanguageUtil.get(translateDisplayContext.getTargetLocale(), "lang.dir") %>' disabled="<%= true %>" label="<%= label %>" name='<%= "infoField--" + infoField.getUniqueId() + "--" %>' type='<%= multiline ? "textarea" : "text" %>' value="<%= targetContent %>" />
+			</c:otherwise>
+		</c:choose>
+	</clay:col>
+</clay:row>

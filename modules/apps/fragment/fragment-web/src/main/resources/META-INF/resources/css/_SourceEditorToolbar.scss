@@ -1,0 +1,11 @@
+.source-editor-toolbar {
+	background-color: $toolbarBackgroundColor;
+	border-bottom: solid $toolbarBorderWidth $toolbarBorderColor;
+	box-sizing: border-box;
+	height: $toolbarHeight;
+	min-height: $toolbarHeight;
+}
+
+.source-editor-toolbar__syntax {
+	opacity: 0.5;
+}

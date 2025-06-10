@@ -1,0 +1,62 @@
+@default = "assertTextNotEquals"
+@summary = "Assert that '${locator1}' does not equal the value '${value1}'"
+definition {
+
+	function assertNotPartialMatch(locator1, value1) {
+		WaitForSPARefresh();
+
+		selenium.waitForVisible(${locator1}, "false");
+
+		var value = GetterUtil.getString(${value1});
+
+		var regex = RegexUtil.escapeRegexChars(${value});
+
+		selenium.waitForTextMatches(${locator1}, "^((?!${regex}).)*$");
+
+		selenium.assertTextMatches(${locator1}, "^((?!${regex}).)*$");
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+	function assertNotText(locator1, value1) {
+		WaitForSPARefresh();
+
+		selenium.waitForVisible(${locator1}, "false");
+
+		selenium.waitForNotText(${locator1}, ${value1});
+
+		selenium.assertNotText(${locator1}, ${value1});
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+	function assertNotValue(locator1, value1) {
+		WaitForSPARefresh();
+
+		selenium.waitForVisible(${locator1}, "false");
+
+		selenium.waitForNotValue(${locator1}, ${value1});
+
+		selenium.assertNotValue(${locator1}, ${value1});
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+	function assertTextNotEquals(locator1) {
+		WaitForSPARefresh();
+
+		if (contains(${locator1}, "/input")) {
+			AssertTextNotEquals.assertNotValue();
+		}
+		else {
+			AssertTextNotEquals.assertNotText();
+		}
+	}
+
+}

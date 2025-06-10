@@ -1,0 +1,85 @@
+definition {
+
+	@summary = "Default summary"
+	macro assertMenuButtonIsNotPresent() {
+		AssertElementNotPresent(locator1 = "ApplicationsMenu#TOGGLE");
+	}
+
+	@summary = "Default summary"
+	macro gotoLocalizedSite(site = null) {
+		ApplicationsMenuHelper.openApplicationsMenu();
+
+		Click(
+			key_site = ${site},
+			locator1 = "ApplicationsMenu#SITE_LINK");
+	}
+
+	@summary = "Default summary"
+	macro gotoPanel(panel = null) {
+		var key_panel = ${panel};
+
+		Click(locator1 = "ApplicationsMenu#PANEL");
+
+		AssertElementPresent(locator1 = "ApplicationsMenu#ACTIVE_PANEL");
+
+		WaitForLiferayEvent.initializeLiferayEventLog();
+	}
+
+	@summary = "Default summary"
+	macro gotoPortlet(portlet = null, panel = null, category = null) {
+		ApplicationsMenuHelper.openApplicationsMenu();
+
+		ApplicationsMenu.gotoPanel(panel = ${panel});
+
+		ApplicationsMenuHelper.gotoPortlet(
+			category = ${category},
+			portlet = ${portlet});
+	}
+
+	@summary = "Default summary"
+	macro gotoSite(site = null) {
+		ApplicationsMenuHelper.openApplicationsMenu();
+
+		if (IsElementPresent(locator1 = "ApplicationsMenu#VIEW_ALL_LINK")) {
+			Click(locator1 = "ApplicationsMenu#VIEW_ALL_LINK");
+
+			SelectFrame(locator1 = "IFrame#MODAL_BODY");
+
+			Navigator.gotoNavItem(navItem = "All Sites");
+
+			SiteSelector.selectSite(site = ${site});
+		}
+		else {
+			Click(
+				key_site = ${site},
+				locator1 = "ApplicationsMenu#SITE_LINK");
+		}
+	}
+
+	@summary = "Default summary"
+	macro gotoSiteViaViewAll(depotName = null, site = null) {
+		ApplicationsMenuHelper.openApplicationsMenu();
+
+		ApplicationsMenuHelper.openWorkspace();
+
+		SelectFrame(locator1 = "IFrame#MODAL_BODY");
+
+		if (isSet(depotName)) {
+			Navigator.gotoNavItem(navItem = "Asset Libraries");
+
+			LexiconCard.clickCard(card = ${depotName});
+		}
+		else {
+			Navigator.gotoNavItem(navItem = "All Sites");
+
+			SiteSelector.selectSite(site = ${site});
+
+			ProductMenuHelper.openProductMenu();
+
+			AssertTextEquals.assertPartialText(
+				locator1 = "ProductMenu#PRODUCT_MENU_PANEL_SITE_ADMINISTRATION_SITE_NAME",
+				value1 = ${site});
+		}
+	}
+
+}

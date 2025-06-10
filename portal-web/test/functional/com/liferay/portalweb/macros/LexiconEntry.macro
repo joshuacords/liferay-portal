@@ -1,0 +1,310 @@
+definition {
+
+	@summary = "Default summary"
+	macro changeDisplayStyle(displayStyle = null) {
+		Click.mouseOverClick(locator1 = "Icon#CURRENT_DISPLAY_STYLE");
+
+		if (IsElementNotPresent(key_menuItem = StringUtil.upperCaseFirstLetter(${displayStyle}), locator1 = "MenuItem#ANY_MENU_ITEM")) {
+			Refresh();
+
+			WaitForPageLoad();
+
+			Click.mouseOverClick(locator1 = "Icon#CURRENT_DISPLAY_STYLE");
+		}
+
+		MenuItem.click(menuItem = StringUtil.upperCaseFirstLetter(${displayStyle}));
+	}
+
+	@summary = "Default summary"
+	macro changeExportDisplayStyle(displayStyle = null) {
+		Click.clickNoMouseOverNoWaitForVisible(locator1 = "Icon#CURRENT_DISPLAY_STYLE");
+
+		Click.clickNoMouseOverNoWaitForVisible(
+			key_menuItem = StringUtil.upperCaseFirstLetter(${displayStyle}),
+			locator1 = "MenuItem#ANY_MENU_ITEM");
+	}
+
+	@summary = "Default summary"
+	macro delete(rowEntry = null, failure = null, confirmationText = null) {
+		LexiconEntry.gotoEntryMenuItemNoError(
+			menuItem = "Delete",
+			rowEntry = ${rowEntry});
+
+		if (isSet(confirmationText)) {
+			AssertConfirm(value1 = ${confirmationText});
+		}
+		else {
+			Confirm(value1 = "null");
+		}
+
+		if (isSet(failure)) {
+			if (IsElementPresent(locator1 = "Message#ERROR_2")) {
+				Alert.viewRequestFailedToComplete();
+
+				AssertTextEquals(
+					locator1 = "Message#ERROR_2",
+					value1 = ${failure});
+			}
+			else {
+				AssertTextEquals(
+					locator1 = "Message#ERROR",
+					value1 = ${failure});
+			}
+		}
+		else {
+			Alert.viewSuccessMessage();
+		}
+	}
+
+	@summary = "Default summary"
+	macro gotoAdd() {
+		WaitForPageLoad();
+
+		Click.waitForMenuToggleJSClick(locator1 = "Button#PLUS");
+
+		SelectFrameTop();
+	}
+
+	@summary = "Default summary"
+	macro gotoAddDropdownMenuItem(menuItem = null) {
+		LexiconEntry.gotoAddNoSelectFrame();
+
+		DropdownMenuItem.click(menuItem = ${menuItem});
+	}
+
+	@summary = "Default summary"
+	macro gotoAddMenuItem(menuItem = null) {
+		LexiconEntry.gotoAdd();
+
+		if (IsElementNotPresent(key_menuItem = ${menuItem}, locator1 = "MenuItem#ANY_MENU_ITEM")) {
+			Refresh();
+
+			WaitForPageLoad();
+
+			LexiconEntry.gotoAdd();
+		}
+
+		MenuItem.click(menuItem = ${menuItem});
+	}
+
+	@summary = "Default summary"
+	macro gotoAddNoSelectFrame() {
+		WaitForPageLoad();
+
+		Click(locator1 = "Button#PLUS");
+	}
+
+	@summary = "Default summary"
+	macro gotoAddReport() {
+		WaitForPageLoad();
+
+		Click(locator1 = "Button#PLUS");
+	}
+
+	@summary = "Default summary"
+	macro gotoEllipsisMenuItem(menuItem = null) {
+		Click.waitForMenuToggleJSClick(locator1 = "Icon#BODY_VERTICAL_ELLIPSIS");
+
+		WaitForLiferayEvent.initializeLiferayEventLog();
+
+		MenuItem.click(menuItem = ${menuItem});
+	}
+
+	@summary = "Default summary"
+	macro gotoEllipsisMenuItemNoError(menuItem = null) {
+		Click.waitForMenuToggleJSClick(locator1 = "Icon#BODY_VERTICAL_ELLIPSIS");
+
+		MenuItem.clickNoError(menuItem = ${menuItem});
+	}
+
+	@summary = "Default summary"
+	macro gotoEntry(rowEntry = null) {
+		if (IsElementPresent(key_displayStyle = "cards", locator1 = "Icon#DISPLAY_STYLE_ACTIVE")) {
+			AssertClick(
+				key_card = ${rowEntry},
+				locator1 = "Card#CARD_TITLE_LINK",
+				value1 = ${rowEntry});
+		}
+		else {
+			AssertClick(
+				key_rowEntry = ${rowEntry},
+				locator1 = "ContentRow#ENTRY_CONTENT_ENTRY_NAME",
+				value1 = ${rowEntry});
+		}
+	}
+
+	@summary = "Default summary"
+	macro gotoEntryMenuItem(rowEntry = null, menuItem = null) {
+		LexiconEntry.openEntryMenu(rowEntry = ${rowEntry});
+
+		MenuItem.click(menuItem = ${menuItem});
+	}
+
+	@summary = "Default summary"
+	macro gotoEntryMenuItemNoError(rowEntry = null, menuItem = null) {
+		LexiconEntry.openEntryMenu(rowEntry = ${rowEntry});
+
+		MenuItem.clickNoError(menuItem = ${menuItem});
+	}
+
+	@summary = "Default summary"
+	macro gotoEntryMenuItemNoWait(rowEntry = null, menuItem = null) {
+		LexiconEntry.openEntryMenu(rowEntry = ${rowEntry});
+
+		MenuItem.click(menuItem = ${menuItem});
+	}
+
+	@summary = "Default summary"
+	macro gotoEntryMenuItemNoWaitNoError(rowEntry = null, menuItem = null) {
+		LexiconEntry.openEntryMenu(rowEntry = ${rowEntry});
+
+		MenuItem.clickNoError(menuItem = ${menuItem});
+	}
+
+	@summary = "Default summary"
+	macro gotoFragmentPageContentEllipsisMenuItem(rowEntry = null, menuItem = null) {
+		Click.clickAtNotVisible(
+			key_rowEntry = ${rowEntry},
+			locator1 = "Icon#FRAGMENT_PAGE_CONTENT_VERTICAL_ELLIPSIS");
+
+		Click(
+			key_menuItem = ${menuItem},
+			locator1 = "MenuItem#DROPDOWN_MENU_ITEM");
+	}
+
+	@summary = "Default summary"
+	macro gotoHeaderMenuItem(menuItem = null) {
+		Click(locator1 = "Icon#HEADER_VERTICAL_ELLIPSIS");
+
+		MenuItem.click(menuItem = ${menuItem});
+	}
+
+	@summary = "Default summary"
+	macro gotoVerticalEllipsisMenuItemNoError(menuItem = null) {
+		Click.waitForMenuToggleJSClick(locator1 = "Icon#VERTICAL_ELLIPSIS_BUTTON");
+
+		MenuItem.clickNoError(menuItem = ${menuItem});
+	}
+
+	@summary = "Default summary"
+	macro openEntryMenu(rowEntry = null) {
+		var browserType = PropsUtil.get("browser.type");
+
+		if (${browserType} == "safari") {
+			Click.waitForMenuToggleJSClick(
+				key_rowEntry = ${rowEntry},
+				locator1 = "Icon#ROW_VERTICAL_ELLIPSIS_SAFARI");
+		}
+		else {
+			Click.waitForMenuToggleJSClick(
+				key_rowEntry = ${rowEntry},
+				locator1 = "Icon#ROW_VERTICAL_ELLIPSIS");
+		}
+	}
+
+	@summary = "Default summary"
+	macro selectEntry(rowEntry = null) {
+		Check(
+			key_rowEntry = ${rowEntry},
+			locator1 = "ContentRow#ENTRY_CONTENT_ENTRY_CHECKBOX");
+	}
+
+	@summary = "Default summary"
+	macro viewActiveDisplayStyle(displayStyle = null) {
+		AssertElementPresent(
+			key_displayStyle = ${displayStyle},
+			locator1 = "Icon#CURRENT_DISPLAY_STYLE_ACTIVE");
+	}
+
+	@summary = "Default summary"
+	macro viewAddMenuItem(menuItem = null) {
+		LexiconEntry.gotoAdd();
+
+		AssertElementPresent(
+			key_menuItem = ${menuItem},
+			locator1 = "MenuItem#ANY_MENU_ITEM");
+	}
+
+	@summary = "Default summary"
+	macro viewEntryContent(rowEntry = null, rowAny = null) {
+		AssertElementPresent(
+			key_rowAny = ${rowAny},
+			key_rowEntry = ${rowEntry},
+			locator1 = "ContentRow#ENTRY_CONTENT_ENTRY_ANY");
+	}
+
+	@summary = "Default summary"
+	macro viewEntryMenu(rowEntry = null) {
+		var browserType = PropsUtil.get("browser.type");
+
+		if (${browserType} == "safari") {
+			AssertElementPresent(
+				key_rowEntry = ${rowEntry},
+				locator1 = "Icon#ROW_VERTICAL_ELLIPSIS_SAFARI");
+		}
+		else {
+			AssertElementPresent(
+				key_rowEntry = ${rowEntry},
+				locator1 = "Icon#ROW_VERTICAL_ELLIPSIS");
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewEntryMenuItem(rowEntry = null, menuItem = null) {
+		LexiconEntry.openEntryMenu(rowEntry = ${rowEntry});
+
+		AssertElementPresent(
+			key_menuItem = ${menuItem},
+			locator1 = "MenuItem#ANY_MENU_ITEM");
+	}
+
+	@summary = "Default summary"
+	macro viewEntryName(rowEntry = null) {
+		var browserType = PropsUtil.get("browser.type");
+
+		if (${browserType} == "chrome") {
+			AssertTextEquals.assertPartialText(
+				key_rowEntry = ${rowEntry},
+				locator1 = "ContentRow#ENTRY_CONTENT_ENTRY_NAME",
+				value1 = ${rowEntry});
+		}
+		else {
+			AssertTextEquals(
+				key_rowEntry = ${rowEntry},
+				locator1 = "ContentRow#ENTRY_CONTENT_ENTRY_NAME",
+				value1 = ${rowEntry});
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewEntryStatus(rowEntry = null, rowStatus = null) {
+		AssertElementPresent(
+			key_rowEntry = ${rowEntry},
+			key_rowStatus = ${rowStatus},
+			locator1 = "ContentRow#ENTRY_CONTENT_ENTRY_STATUS");
+	}
+
+	@summary = "Default summary"
+	macro viewNoEntry(rowEntry = null) {
+		AssertElementNotPresent(
+			key_rowEntry = ${rowEntry},
+			locator1 = "ContentRow#ENTRY_CONTENT_ENTRY_NAME");
+	}
+
+	@summary = "Default summary"
+	macro viewNoEntryMenu(rowEntry = null) {
+		AssertElementNotPresent(
+			key_rowEntry = ${rowEntry},
+			locator1 = "Icon#ROW_VERTICAL_ELLIPSIS");
+	}
+
+	@summary = "Default summary"
+	macro viewNoEntryMenuItem(rowEntry = null, menuItem = null) {
+		LexiconEntry.openEntryMenu(rowEntry = ${rowEntry});
+
+		AssertElementNotPresent(
+			key_menuItem = ${menuItem},
+			locator1 = "MenuItem#ANY_MENU_ITEM");
+	}
+
+}

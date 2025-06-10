@@ -1,0 +1,47 @@
+definition {
+
+	@summary = "Default summary"
+	macro setFolderId(groupId = null, folderName = null) {
+		if (isSet(folderName)) {
+			Variables.assertDefined(parameterList = ${groupId});
+
+			var folderId = JSONBookmarksAPI._getFolderIdByFolderName(
+				folderName = ${folderName},
+				groupId = ${groupId});
+		}
+		else {
+			var folderId = 0;
+		}
+
+		return ${folderId};
+	}
+
+	@summary = "Default summary"
+	macro setGroupId(groupName = null) {
+		Variables.assertDefined(parameterList = ${groupName});
+
+		if (!(isSet(site))) {
+			var site = "true";
+		}
+
+		var groupId = JSONGroupAPI._getGroupIdByName(
+			groupName = ${groupName},
+			site = ${site});
+
+		return ${groupId};
+	}
+
+	@summary = "Default summary"
+	macro setServiceContext(groupName = null, site = null, assetCategoryIds = null, assetTagNames = null, workflowAction = null) {
+		var serviceContext = JSONServiceContextUtil.setServiceContext(
+			addGuestPermissions = "true",
+			assetCategoryIds = ${assetCategoryIds},
+			assetTagNames = ${assetTagNames},
+			groupName = ${groupName},
+			site = ${site},
+			workflowAction = ${workflowAction});
+
+		return ${serviceContext};
+	}
+
+}

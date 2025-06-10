@@ -1,0 +1,523 @@
+definition {
+
+	@summary = "Default summary"
+	macro _getChildKBResourcePrimKey(groupName = null, kbChildArticleTitle = null, folderName = null, kbArticleTitle = null) {
+		if (!(isSet(site))) {
+			var site = "true";
+		}
+
+		var groupId = JSONGroupAPI._getGroupIdByName(
+			groupName = ${groupName},
+			site = ${site});
+		var portalURL = JSONCompany.getPortalURL();
+
+		if (isSet(folderName)) {
+			var parentResourcePrimKey = JSONKnowledgeBase._getKBResourcePrimKey(
+				folderName = ${folderName},
+				groupName = ${groupName},
+				kbArticleTitle = ${kbArticleTitle});
+		}
+		else {
+			var parentResourcePrimKey = JSONKnowledgeBase._getKBResourcePrimKey(
+				groupName = ${groupName},
+				kbArticleTitle = ${kbArticleTitle});
+		}
+
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/kb.kbarticle/get-kb-articles \
+				-u ${userLoginInfo} \
+				-d groupId=${groupId} \
+				-d parentResourcePrimKey=${parentResourcePrimKey} \
+				-d status=0 \
+				-d "start=-1" \
+				-d "end=-1" \
+				-d -orderByComparator=
+		''';
+
+		var resourcePrimKey = JSONCurlUtil.post(${curl}, "$.[?(@['title'] == '${kbChildArticleTitle}')]['resourcePrimKey']");
+
+		if (${resourcePrimKey} == "") {
+			fail("FAIL. Cannot find resourcePrimKey.");
+		}
+		else {
+			return ${resourcePrimKey};
+		}
+	}
+
+	@summary = "Default summary"
+	macro _getKBResourcePrimKey(groupName = null, folderName = null, kbArticleTitle = null) {
+		if (!(isSet(site))) {
+			var site = "true";
+		}
+
+		if (isSet(folderName)) {
+			var folderId = JSONKnowledgeBase.getFolderIdByFolderName(
+				folderName = ${folderName},
+				groupName = ${groupName});
+		}
+		else {
+			var folderId = 0;
+		}
+
+		var groupId = JSONGroupAPI._getGroupIdByName(
+			groupName = ${groupName},
+			site = ${site});
+		var portalURL = JSONCompany.getPortalURL();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/kb.kbarticle/get-kb-articles \
+				-u ${userLoginInfo} \
+				-d groupId=${groupId} \
+				-d parentResourcePrimKey=${folderId} \
+				-d "status=-1" \
+				-d "start=-1" \
+				-d "end=-1" \
+				-d -orderByComparator=
+		''';
+
+		var resourcePrimKey = JSONCurlUtil.post(${curl}, "$.[?(@['title'] == '${kbArticleTitle}')]['resourcePrimKey']");
+
+		if (${resourcePrimKey} == "") {
+			fail("FAIL. Cannot find resourcePrimKey.");
+		}
+		else {
+			return ${resourcePrimKey};
+		}
+	}
+
+	@summary = "Default summary"
+	macro addkBArticle(kbArticleContent = null, parentFolderName = null, groupName = null, assetCategoryIds = null, addGuestPermissions = null, assetTagNames = null, folderName = null, kbArticleTitle = null) {
+		var portalURL = JSONCompany.getPortalURL();
+
+		if (isSet(folderName)) {
+			Variables.assertDefined(parameterList = "${folderName},${groupName}");
+
+			if (isSet(parentFolderName)) {
+				var parentFolderId = JSONKnowledgeBase.getFolderIdByFolderName(
+					folderName = ${parentFolderName},
+					groupName = ${groupName});
+			}
+			else {
+				var parentFolderId = 0;
+			}
+
+			var folderId = JSONKnowledgeBase.getFolderIdByFolderName(
+				folderName = ${folderName},
+				groupName = ${groupName},
+				parentFolderId = ${parentFolderId});
+		}
+		else {
+			var folderId = 0;
+		}
+
+		if (isSet(groupName)) {
+			var serviceContext = JSONServiceContextUtil.setServiceContext(
+				addGuestPermissions = ${addGuestPermissions},
+				assetCategoryIds = ${assetCategoryIds},
+				assetTagNames = ${assetTagNames},
+				groupName = ${groupName},
+				workflowAction = ${workflowAction});
+		}
+
+		if (!(isSet(urlTitle))) {
+			var urlTitle = "";
+		}
+
+		if (!(isSet(kbDescription))) {
+			var kbDescription = "";
+		}
+
+		if (!(isSet(expirationDate)) || !(isSet(reviewDate))) {
+			var reviewDate = "2099-01-01T01:01:00Z";
+			var expirationDate = "2099-01-01T01:01:00Z";
+		}
+
+		if (!(isSet(displayDate))) {
+			var displayDate = "2020-01-01T01:01:00Z";
+		}
+		else {
+			var increaseMinutes = StringUtil.replace(480, 0, ${increaseMinutes});
+
+			var displayDate = DateUtil.getDateOffsetByMinutes(${increaseMinutes}, "yyyy-MM-dd HH:mm");
+
+			echo("## * displayDate: ${displayDate}");
+		}
+
+		var parentResourceClassNameId = JSONClassname._getClassNameId(value = "com.liferay.knowledge.base.model.KBFolder");
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/kb.kbarticle/add-kb-article \
+				-u ${userLoginInfo} \
+				-d externalReferenceCode= \
+				-d portletId=0 \
+				-d parentResourceClassNameId=${parentResourceClassNameId} \
+				-d parentResourcePrimKey=${folderId} \
+				-d title=${kbArticleTitle} \
+				-d urlTitle=${urlTitle} \
+				-d content=<p>${kbArticleContent}</p> \
+				-d description=${kbDescription} \
+				-d sections= \
+				-d sourceURL= \
+				-d <CURL_DATA[displayDate=${displayDate}]CURL_DATA> \
+				-d <CURL_DATA[expirationDate=${expirationDate}]CURL_DATA> \
+				-d <CURL_DATA[reviewDate=${reviewDate}]CURL_DATA> \
+				-d selectedFileNames= \
+				-d serviceContext=${serviceContext}
+		''';
+
+		echo("## Adding a 'KBArticle' with the following info using JSONWS:");
+
+		echo("## * Name: ${kbArticleTitle}");
+
+		echo("## * Description: ${kbArticleContent}");
+
+		var messageId = JSONCurlUtil.post(${curl});
+	}
+
+	@summary = "Default summary"
+	macro addkBChildArticle(kbChildArticleContent = null, groupName = null, kbChildArticleTitle = null, folderName = null, kbArticleTitle = null) {
+		var portalURL = JSONCompany.getPortalURL();
+		var parentResourceClassNameId = JSONClassname._getClassNameId(value = "com.liferay.knowledge.base.model.KBArticle");
+
+		if (isSet(folderName)) {
+			var parentResourcePrimKey = JSONKnowledgeBase._getKBResourcePrimKey(
+				folderName = ${folderName},
+				groupName = ${groupName},
+				kbArticleTitle = ${kbArticleTitle});
+		}
+		else {
+			var parentResourcePrimKey = JSONKnowledgeBase._getKBResourcePrimKey(
+				groupName = ${groupName},
+				kbArticleTitle = ${kbArticleTitle});
+		}
+
+		if (!(isSet(expirationDate)) || !(isSet(reviewDate))) {
+			var reviewDate = "2099-01-01T01:01:00Z";
+			var expirationDate = "2099-01-01T01:01:00Z";
+		}
+
+		if (!(isSet(displayDate))) {
+			var displayDate = "2020-01-01T01:01:00Z";
+		}
+		else {
+			var increaseMinutes = StringUtil.replace(480, 0, ${increaseMinutes});
+
+			var displayDate = DateUtil.getDateOffsetByMinutes(${increaseMinutes}, "yyyy-MM-dd HH:mm");
+
+			echo("## * displayDate: ${displayDate}");
+		}
+
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/kb.kbarticle/add-kb-article \
+				-u ${userLoginInfo} \
+				-d externalReferenceCode= \
+				-d portletId=0 \
+				-d parentResourceClassNameId=${parentResourceClassNameId} \
+				-d parentResourcePrimKey=${parentResourcePrimKey} \
+				-d title=${kbChildArticleTitle} \
+				-d urlTitle= \
+				-d content=<p>${kbChildArticleContent}</p> \
+				-d description= \
+				-d sections= \
+				-d sourceURL= \
+				-d <CURL_DATA[displayDate=${displayDate}]CURL_DATA> \
+				-d <CURL_DATA[expirationDate=${expirationDate}]CURL_DATA> \
+				-d <CURL_DATA[reviewDate=${reviewDate}]CURL_DATA>
+				-d selectedFileNames= \
+		''';
+
+		echo("## Adding a 'KBChildArticle' with the following info using JSONWS:");
+
+		echo("## * Name: ${kbChildArticleTitle}");
+
+		echo("## * Description: ${kbChildArticleContent}");
+
+		var messageId = JSONCurlUtil.post(${curl});
+	}
+
+	@summary = "Default summary"
+	macro addkBFolder(parentFolderName = null, kbFolderName = null, groupName = null) {
+		var portalURL = JSONCompany.getPortalURL();
+		var userPassword = PropsUtil.get("default.admin.password");
+
+		if (isSet(parentFolderName)) {
+			Variables.assertDefined(parameterList = "${parentFolderName},${groupName}");
+
+			var folderId = JSONKnowledgeBase.getFolderIdByFolderName(
+				folderName = ${parentFolderName},
+				groupName = ${groupName});
+		}
+		else {
+			var folderId = 0;
+		}
+
+		if (!(isSet(site))) {
+			var site = "true";
+		}
+
+		if (!(isSet(kbFolderDescription))) {
+			var kbFolderDescription = "";
+		}
+
+		var groupId = JSONGroupAPI._getGroupIdByName(
+			groupName = ${groupName},
+			site = ${site});
+		var parentResourceClassNameId = JSONClassname._getClassNameId(value = "com.liferay.knowledge.base.model.KBFolder");
+
+		var curl = '''
+			${portalURL}/api/jsonws/kb.kbfolder/add-kb-folder \
+				-d externalReferenceCode= \
+				-u test@liferay.com:${userPassword} \
+				-d groupId=${groupId} \
+				-d parentResourceClassNameId=${parentResourceClassNameId} \
+				-d parentResourcePrimKey=${folderId} \
+				-d name=${kbFolderName} \
+				-d description=${kbFolderDescription}
+		''';
+
+		echo("## Adding a 'KBFolder' with the following info using JSONWS:");
+
+		echo("## * Name: ${kbFolderName}");
+
+		echo("## * Description: ${kbFolderDescription}");
+
+		var messageId = JSONCurlUtil.post(${curl});
+	}
+
+	@summary = "Default summary"
+	macro addkBGrandchildArticle(kbGrandchildArticleContent = null, kbGrandchildArticleTitle = null, groupName = null, kbChildArticleTitle = null, folderName = null, kbArticleTitle = null) {
+		var portalURL = JSONCompany.getPortalURL();
+		var parentResourceClassNameId = JSONClassname._getClassNameId(value = "com.liferay.knowledge.base.model.KBArticle");
+
+		if (isSet(folderName)) {
+			var parentResourcePrimKey = JSONKnowledgeBase._getChildKBResourcePrimKey(
+				folderName = ${folderName},
+				groupName = ${groupName},
+				kbArticleTitle = ${kbArticleTitle},
+				kbChildArticleTitle = ${kbChildArticleTitle});
+		}
+		else {
+			var parentResourcePrimKey = JSONKnowledgeBase._getChildKBResourcePrimKey(
+				groupName = ${groupName},
+				kbArticleTitle = ${kbArticleTitle},
+				kbChildArticleTitle = ${kbChildArticleTitle});
+		}
+
+		if (!(isSet(expirationDate)) || !(isSet(reviewDate))) {
+			var reviewDate = "2099-01-01T01:01:00Z";
+			var expirationDate = "2099-01-01T01:01:00Z";
+		}
+
+		if (!(isSet(displayDate))) {
+			var displayDate = "2020-01-01T01:01:00Z";
+		}
+
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/kb.kbarticle/add-kb-article \
+				-u ${userLoginInfo} \
+				-d externalReferenceCode= \
+				-d portletId=0 \
+				-d parentResourceClassNameId=${parentResourceClassNameId} \
+				-d parentResourcePrimKey=${parentResourcePrimKey} \
+				-d title=${kbGrandchildArticleTitle} \
+				-d urlTitle= \
+				-d content=<p>${kbGrandchildArticleContent}</p> \
+				-d description= \
+				-d sections= \
+				-d sourceURL= \
+				-d displayDate=${displayDate} \
+				-d expirationDate=${expirationDate} \
+				-d reviewDate=${reviewDate}
+				-d selectedFileNames= \
+		''';
+
+		echo("## Adding a 'KBGrandchildArticle' with the following info using JSONWS:");
+
+		echo("## * Name: ${kbGrandchildArticleTitle}");
+
+		echo("## * Description: ${kbGrandchildArticleContent}");
+
+		var messageId = JSONCurlUtil.post(${curl});
+	}
+
+	@summary = "Default summary"
+	macro addkBTemplate(kbTemplateTitle = null, kbTemplateContent = null) {
+		var portalURL = JSONCompany.getPortalURL();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/kb.kbtemplate/add-kb-template \
+				-u ${userLoginInfo} \
+				-d portletId=0 \
+				-d title=${kbTemplateTitle} \
+				-d content=${kbTemplateContent}
+		''';
+
+		echo("## Adding a 'KBArticle' with the following info using JSONWS:");
+
+		echo("## * Name: ${kbTemplateTitle}");
+
+		echo("## * Description: ${kbTemplateContent}");
+
+		var messageId = JSONCurlUtil.post(${curl});
+	}
+
+	@summary = "Default summary"
+	macro getFolderIdByFolderName(groupName = null, folderName = null) {
+		if (!(isSet(site))) {
+			var site = "true";
+		}
+
+		if (!(isSet(parentFolderId))) {
+			var parentFolderId = 0;
+		}
+
+		var groupId = JSONGroupAPI._getGroupIdByName(
+			groupName = ${groupName},
+			site = ${site});
+		var portalURL = JSONCompany.getPortalURL();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/kb.kbfolder/get-kb-folders \
+				-u ${userLoginInfo} \
+				-d groupId=${groupId} \
+				-d parentKBFolderId=${parentFolderId} \
+				-d "start=-1" \
+				-d "end=-1"
+		''';
+
+		var kbFolderId = JSONCurlUtil.post(${curl}, "$.[?(@['name'] == '${folderName}')]['kbFolderId']");
+
+		if (${kbFolderId} == "") {
+			fail("FAIL. Cannot find folder.");
+		}
+		else {
+			return ${kbFolderId};
+		}
+	}
+
+	@summary = "Default summary"
+	macro removeKBArticle(groupName = null, folderName = null, kbArticleTitle = null) {
+		var portalURL = JSONCompany.getPortalURL();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		if (isSet(folderName)) {
+			var resourcePrimKey = JSONKnowledgeBase._getKBResourcePrimKey(
+				folderName = ${folderName},
+				groupName = ${groupName},
+				kbArticleTitle = ${kbArticleTitle});
+		}
+		else {
+			var resourcePrimKey = JSONKnowledgeBase._getKBResourcePrimKey(
+				groupName = ${groupName},
+				kbArticleTitle = ${kbArticleTitle});
+		}
+
+		var curl = '''
+			${portalURL}/api/jsonws/kb.kbarticle/delete-kb-article \
+				-u ${userLoginInfo} \
+				-d resourcePrimKey=${resourcePrimKey}
+		''';
+
+		JSONCurlUtil.post(${curl});
+	}
+
+	@summary = "Default summary"
+	macro updateKBArticle(newKbArticleContent = null, newKbArticleTitle = null, groupName = null, assetCategoryIds = null, addGuestPermissions = null, assetTagNames = null, folderName = null, kbArticleTitle = null) {
+		var portalURL = JSONCompany.getPortalURL();
+
+		if (isSet(folderName)) {
+			var resourcePrimKey = JSONKnowledgeBase._getKBResourcePrimKey(
+				folderName = ${folderName},
+				groupName = ${groupName},
+				kbArticleTitle = ${kbArticleTitle});
+		}
+		else {
+			var resourcePrimKey = JSONKnowledgeBase._getKBResourcePrimKey(
+				groupName = ${groupName},
+				kbArticleTitle = ${kbArticleTitle});
+		}
+
+		if (isSet(groupName)) {
+			var serviceContext = JSONServiceContextUtil.setServiceContext(
+				addGuestPermissions = ${addGuestPermissions},
+				assetCategoryIds = ${assetCategoryIds},
+				assetTagNames = ${assetTagNames},
+				groupName = ${groupName});
+		}
+
+		if (!(isSet(expirationDate)) || !(isSet(reviewDate))) {
+			var reviewDate = "2099-01-01T01:01:00Z";
+			var expirationDate = "2099-01-01T01:01:00Z";
+		}
+
+		if (!(isSet(displayDate))) {
+			var displayDate = "2020-01-01T01:01:00Z";
+		}
+
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/kb.kbarticle/update-kb-article \
+				-u ${userLoginInfo} \
+				-d resourcePrimKey=${resourcePrimKey} \
+				-d title=${newKbArticleTitle} \
+				-d content=<p>${newKbArticleContent}</p> \
+				-d description= \
+				-d sections= \
+				-d sourceURL= \
+				-d displayDate=${displayDate} \
+				-d expirationDate=${expirationDate} \
+				-d reviewDate=${reviewDate} \
+				-d selectedFileNames= \
+				-d removeFileEntryIds= \
+				-d serviceContext=${serviceContext}
+		''';
+
+		echo("## Editing a 'KBArticle' with the following info using JSONWS:");
+
+		echo("## * Name: ${newKbArticleTitle}");
+
+		echo("## * Content: ${newKbArticleContent}");
+
+		var messageId = JSONCurlUtil.post(${curl});
+	}
+
+	@summary = "Default summary"
+	macro uploadAttachmentToArticle(groupName = null, sourceFileName = null, kbArticleTitle = null) {
+		var portalURL = JSONCompany.getPortalURL();
+		var userPassword = PropsUtil.get("default.admin.password");
+		var resourcePrimKey = JSONKnowledgeBase._getKBResourcePrimKey(
+			groupName = ${groupName},
+			kbArticleTitle = ${kbArticleTitle});
+		var baseDir = PropsUtil.get("test.base.dir.name");
+		var dependenciesDir = PropsUtil.get("test.dependencies.dir.name");
+
+		var filePath = "${baseDir}${dependenciesDir}/${sourceFileName}";
+
+		if (!(isSet(externalReferenceCode))) {
+			var externalReferenceCode = "";
+		}
+
+		var curl = '''
+			${portalURL}/o/headless-delivery/v1.0/knowledge-base-articles/${resourcePrimKey}/knowledge-base-attachments \
+				-H accept: application/json \
+				-H Content-Type: multipart/form-data \
+				-F knowledgeBaseAttachment={"externalReferenceCode": "${externalReferenceCode}"} \
+				-u test@liferay.com:${userPassword} \
+				-F file=@${filePath}
+		''';
+
+		JSONCurlUtil.post(${curl});
+	}
+
+}

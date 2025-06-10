@@ -1,0 +1,21 @@
+@import 'app';
+@import 'clay_chart';
+@import 'dropdown';
+@import 'global_colors';
+@import 'multi_select';
+@import 'process_tabs';
+@import 'table';
+@import 'velocity_chart';
+
+body {
+	margin: 0;
+	padding: 0;
+}
+
+.text-semi-bold {
+	font-weight: normal;
+}
+
+.font-weight-medium {
+	font-weight: 500;
+}

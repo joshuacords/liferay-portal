@@ -1,0 +1,60 @@
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+
+package com.liferay.announcements.web.internal.portlet.action;
+
+import com.liferay.announcements.constants.AnnouncementsPortletKeys;
+import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
+import com.liferay.portal.kernel.theme.PortletDisplay;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.WebKeys;
+
+import java.util.Objects;
+
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+
+import org.osgi.service.component.annotations.Component;
+
+/**
+ * @author Thiago Moreira
+ * @author Raymond Augé
+ */
+@Component(
+	property = {
+		"javax.portlet.name=" + AnnouncementsPortletKeys.ALERTS,
+		"javax.portlet.name=" + AnnouncementsPortletKeys.ANNOUNCEMENTS,
+		"javax.portlet.name=" + AnnouncementsPortletKeys.ANNOUNCEMENTS_ADMIN,
+		"mvc.command.name=/", "mvc.command.name=/alerts/view",
+		"mvc.command.name=/announcements/view"
+	},
+	service = MVCRenderCommand.class
+)
+public class ViewMVCRenderCommand implements MVCRenderCommand {
+
+	@Override
+	public String render(
+		RenderRequest renderRequest, RenderResponse renderResponse) {
+
+		if (Objects.equals(
+				_getPortletId(renderRequest),
+				AnnouncementsPortletKeys.ANNOUNCEMENTS_ADMIN)) {
+
+			return "/announcements_admin/view.jsp";
+		}
+
+		return "/announcements/view.jsp";
+	}
+
+	private String _getPortletId(RenderRequest renderRequest) {
+		ThemeDisplay themeDisplay = (ThemeDisplay)renderRequest.getAttribute(
+			WebKeys.THEME_DISPLAY);
+
+		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
+
+		return portletDisplay.getPortletName();
+	}
+
+}

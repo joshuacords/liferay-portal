@@ -1,0 +1,21 @@
+@default = "confirm"
+@summary = "Execute the confirmation of a confirmation window"
+definition {
+
+	function acceptAlert() {
+		selenium.acceptAlert();
+	}
+
+	function confirm(value1) {
+		selenium.getConfirmation(${value1});
+	}
+
+	function dismissAlert() {
+		selenium.dismissAlert();
+	}
+
+	function typeAlert(value1) {
+		selenium.typeAlert(${value1});
+	}
+
+}

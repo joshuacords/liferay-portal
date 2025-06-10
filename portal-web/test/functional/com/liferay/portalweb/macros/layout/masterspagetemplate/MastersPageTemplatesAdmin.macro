@@ -1,0 +1,28 @@
+definition {
+
+	@summary = "Default summary"
+	macro addMasters(masterLayoutName = null) {
+		LexiconEntry.gotoAdd();
+
+		PortletEntry.inputName(name = ${masterLayoutName});
+
+		Button.clickSave();
+
+		PageEditor.assertFragmentSidebarLoaded();
+	}
+
+	@summary = "Default summary"
+	macro gotoMasters(masterLayoutName = null) {
+		LexiconCard.clickCardTitleLink(card = ${masterLayoutName});
+
+		PageEditor.assertFragmentSidebarLoaded();
+
+		WaitForVisible(locator1 = "Sidebar#PANEL_OPEN");
+	}
+
+	@summary = "Default summary"
+	macro openMastersAdmin(siteURLKey = null) {
+		Navigator.openWithAppendToBaseURL(urlAppend = "group/${siteURLKey}/~/control_panel/manage?p_p_id=com_liferay_layout_page_template_admin_web_portlet_LayoutPageTemplatesPortlet&_com_liferay_layout_page_template_admin_web_portlet_LayoutPageTemplatesPortlet_tabs1=master-layouts");
+	}
+
+}

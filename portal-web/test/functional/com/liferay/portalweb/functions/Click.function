@@ -1,0 +1,208 @@
+@default = "click"
+@summary = "Click on '${locator1}'"
+definition {
+
+	function click(locator1) {
+		WaitForSPARefresh();
+
+		selenium.waitForVisible(${locator1}, "false");
+
+		selenium.mouseOver(${locator1});
+
+		selenium.click(${locator1});
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+	function clickAt(locator1, value1) {
+		WaitForSPARefresh();
+
+		selenium.waitForVisible(${locator1}, "false");
+
+		selenium.mouseOver(${locator1});
+
+		selenium.clickAt(${locator1}, ${value1});
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+	function clickAtNotVisible(locator1, value1) {
+		WaitForSPARefresh();
+
+		selenium.waitForElementPresent(${locator1}, "false");
+
+		selenium.mouseOver(${locator1});
+
+		selenium.clickAt(${locator1}, ${value1});
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+	function clickAtSidebarClickAtWaitForScript(locator1) {
+		WaitForSPARefresh();
+
+		selenium.pause(1000);
+
+		selenium.waitForElementPresent(${locator1}, "false");
+
+		selenium.mouseOver(${locator1});
+
+		selenium.waitForElementPresent(${locator1}, "false");
+
+		selenium.pause(1000);
+
+		Click.clickAt();
+
+		selenium.waitForElementPresent(${locator1}, "false");
+	}
+
+	function clickNoMouseOver(locator1) {
+		WaitForSPARefresh();
+
+		selenium.waitForVisible(${locator1}, "false");
+
+		selenium.click(${locator1});
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+	function clickNoMouseOverNoWaitForVisible(locator1) {
+		WaitForSPARefresh();
+
+		selenium.click(${locator1});
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+	function clickNoSPARefresh(locator1) {
+		selenium.waitForVisible(${locator1}, "false");
+
+		selenium.mouseOver(${locator1});
+
+		selenium.click(${locator1});
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+	function clickNoWaitForVisible(locator1) {
+		WaitForSPARefresh();
+
+		selenium.mouseOver(${locator1});
+
+		selenium.click(${locator1});
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+	function javaScriptClick(locator1) {
+		WaitForSPARefresh();
+
+		selenium.javaScriptClick(${locator1});
+	}
+
+	function mouseDownMouseUp(locator1) {
+		WaitForSPARefresh();
+
+		selenium.waitForElementPresent(${locator1}, "false");
+
+		selenium.waitForVisible(${locator1}, "false");
+
+		selenium.mouseDown(${locator1});
+
+		selenium.mouseUp(${locator1});
+	}
+
+	function mouseOverClick(locator1) {
+		WaitForSPARefresh();
+
+		selenium.waitForElementPresent(${locator1}, "false");
+
+		selenium.mouseOver(${locator1});
+
+		selenium.waitForVisible(${locator1}, "false");
+
+		selenium.click(${locator1});
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+	function pauseClickAt(locator1) {
+		WaitForSPARefresh();
+
+		selenium.pause(1000);
+
+		selenium.mouseOver(${locator1});
+
+		Click.clickAt();
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+	function waitForMenuToggleJSClick(locator1) {
+		if (selenium.isElementPresent("//html[contains(@class,'lfr-spa-loading')]")) {
+			WaitForSPARefresh();
+
+			selenium.selectFrame("relative=top");
+
+			if (selenium.isElementPresent("//*[contains(@class,'modal-body')]/iframe[not(contains(@class,'hidden'))]")) {
+				selenium.selectFrame("//*[contains(@class,'modal-body')]/iframe[not(contains(@class,'hidden'))]");
+			}
+
+			selenium.waitForEditable(${locator1});
+
+			selenium.pause(2000);
+		}
+		else {
+			selenium.selectFrame("relative=top");
+
+			if (selenium.isElementPresent("//*[contains(@class,'modal-body')]/iframe[not(contains(@class,'hidden'))]")) {
+				selenium.selectFrame("//*[contains(@class,'modal-body')]/iframe[not(contains(@class,'hidden'))]");
+			}
+
+			selenium.waitForEditable(${locator1});
+
+			selenium.pause(3000);
+		}
+
+		selenium.click(${locator1});
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+	function waitForPersonalMenuJSClick(locator1) {
+		WaitForSPARefresh();
+
+		selenium.waitForElementPresent(${locator1}, "false");
+
+		selenium.waitForEditable();
+
+		selenium.pause(1000);
+
+		Click();
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+}

@@ -1,0 +1,112 @@
+{
+	"pageElement": {
+		"id": "item1",
+		"pageElements": [
+			{
+				"definition": {
+					"fragmentStyle": {
+						"backgroundColor": "",
+						"borderRadius": "rounded-0",
+						"borderWidth": "0",
+						"fontFamily": "sans-serif",
+						"fontSize": "medium",
+						"fontWeight": "font-weight-normal",
+						"height": "h-auto",
+						"maxHeight": "none",
+						"maxWidth": "none",
+						"minHeight": "auto",
+						"minWidth": "auto",
+						"overflow": "visible",
+						"shadow": "shadow-none",
+						"textAlign": "none",
+						"width": "w-auto"
+					},
+					"indexed": true,
+					"layout": {
+						"shadow": "None"
+					}
+				},
+				"id": "item2",
+				"pageElements": [
+					{
+						"definition": {
+							"fragmentStyle": {
+								"backgroundColor": "",
+								"backgroundFragmentImage": {
+									"url": {
+										"value": "https://upload.wikimedia.org/wikipedia/commons/b/b2/Liferay-logo-full-color-2x.png"
+									}
+								},
+								"borderRadius": "rounded-0",
+								"borderWidth": "0",
+								"fontFamily": "sans-serif",
+								"fontSize": "medium",
+								"fontWeight": "font-weight-normal",
+								"height": "h-auto",
+								"maxHeight": "none",
+								"maxWidth": "none",
+								"minHeight": "auto",
+								"minWidth": "auto",
+								"overflow": "visible",
+								"shadow": "shadow-none",
+								"textAlign": "none",
+								"width": "w-auto"
+							},
+							"indexed": true,
+							"layout": {
+								"shadow": "None"
+							}
+						},
+						"id": "item3",
+						"type": "Section"
+					},
+					{
+						"definition": {
+							"fragmentStyle": {
+								"backgroundColor": "",
+								"backgroundFragmentImage": {
+									"url": {
+										"mapping": {
+											"fieldKey": "smallImage",
+											"itemReference": {
+												"className": "com.liferay.journal.model.JournalArticle",
+												"classPK": "${CLASS_PK}"
+											}
+										}
+									}
+								},
+								"borderRadius": "rounded-0",
+								"borderWidth": "0",
+								"fontFamily": "sans-serif",
+								"fontSize": "medium",
+								"fontWeight": "font-weight-normal",
+								"height": "h-auto",
+								"maxHeight": "none",
+								"maxWidth": "none",
+								"minHeight": "auto",
+								"minWidth": "auto",
+								"overflow": "visible",
+								"shadow": "shadow-none",
+								"textAlign": "none",
+								"width": "w-auto"
+							},
+							"indexed": true,
+							"layout": {
+								"shadow": "None"
+							}
+						},
+						"id": "item4",
+						"type": "Section"
+					}
+				],
+				"type": "Section"
+			}
+		],
+		"type": "Root"
+	},
+	"settings": {
+		"colorSchemeName": "01",
+		"themeName": "Classic"
+	},
+	"version": 1.1
+}

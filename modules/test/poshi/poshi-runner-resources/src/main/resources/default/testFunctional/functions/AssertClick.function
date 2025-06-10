@@ -1,0 +1,92 @@
+@default = "assertClick"
+@summary = "Click on '${locator1}' that should have a value of '${value1}'"
+definition {
+
+	function assertClick(locator1) {
+		if (contains(${locator1}, "/input")) {
+			AssertClick.assertValueClickAt();
+		}
+		else {
+			AssertClick.assertTextClickAt();
+		}
+	}
+
+	function assertPartialTextClickAt(locator1, value1) {
+		AssertTextEquals.assertPartialText();
+
+		selenium.mouseOver(${locator1});
+
+		selenium.clickAt(${locator1}, ${value1});
+	}
+
+	function assertPartialTextClickAtNoMouseOver(locator1, value1) {
+		AssertTextEquals.assertPartialText();
+
+		selenium.clickAt(${locator1}, ${value1});
+	}
+
+	function assertTextClickAt(locator1, value1) {
+		AssertTextEquals.assertText();
+
+		selenium.mouseOver(${locator1});
+
+		selenium.clickAt(${locator1}, ${value1});
+	}
+
+	function assertTextClickAtAndPause(locator1, value1) {
+		AssertTextEquals.assertText();
+
+		selenium.mouseOver(${locator1});
+
+		selenium.clickAt(${locator1}, ${value1});
+
+		selenium.pause(1000);
+	}
+
+	function assertTextClickAtNoJavaScript(locator1, value1) {
+		AssertTextEquals.assertText();
+
+		selenium.mouseOver(${locator1});
+
+		selenium.clickAt(${locator1}, ${value1});
+
+		selenium.assertLiferayErrors();
+	}
+
+	function assertTextClickAtWaitForLastScript(locator1) {
+		selenium.waitForVisible(${locator1}, "true");
+
+		AssertClick.assertTextClickAt();
+
+		selenium.waitForElementPresent(${locator1}, "true");
+	}
+
+	function assertTextClickCaseSensitive(locator1) {
+		AssertTextEquals.assertTextCaseSensitive();
+
+		selenium.mouseOver(${locator1});
+
+		selenium.click(${locator1});
+	}
+
+	function assertTextClickNoMouseOver(locator1) {
+		AssertTextEquals.assertText();
+
+		selenium.click(${locator1});
+	}
+
+	function assertValueClickAt(locator1, value1) {
+		AssertTextEquals.assertValue();
+
+		selenium.mouseOver(${locator1});
+
+		selenium.clickAt(${locator1}, ${value1});
+	}
+
+	function pauseAssertTextClickAt() {
+		selenium.pause(1000);
+
+		AssertClick.assertTextClickAt();
+	}
+
+}

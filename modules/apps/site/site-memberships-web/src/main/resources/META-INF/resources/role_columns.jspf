@@ -1,0 +1,55 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<c:choose>
+	<c:when test='<%= displayStyle.equals("icon") %>'>
+		<liferay-ui:search-container-column-text>
+			<clay:vertical-card
+				verticalCard="<%= new RoleVerticalCard(role, renderRequest, searchContainer.getRowChecker()) %>"
+			/>
+		</liferay-ui:search-container-column-text>
+	</c:when>
+	<c:when test='<%= displayStyle.equals("descriptive") %>'>
+		<liferay-ui:search-container-column-icon
+			icon="users"
+			toggleRowChecker="<%= true %>"
+		/>
+
+		<liferay-ui:search-container-column-text
+			colspan="<%= 2 %>"
+		>
+			<div class="h5"><%= HtmlUtil.escape(role.getTitle(locale)) %></div>
+
+			<div class="h6 text-default">
+				<span><%= HtmlUtil.escape(role.getDescription(locale)) %></span>
+			</div>
+
+			<div class="h6 text-default">
+				<liferay-ui:message key="<%= role.getTypeLabel() %>" />
+			</div>
+		</liferay-ui:search-container-column-text>
+	</c:when>
+	<c:when test='<%= displayStyle.equals("list") %>'>
+		<liferay-ui:search-container-column-text
+			cssClass="table-cell-expand-small table-cell-minw-200 table-title"
+			name="title"
+			value="<%= HtmlUtil.escape(role.getTitle(locale)) %>"
+		/>
+
+		<liferay-ui:search-container-column-text
+			cssClass="table-cell-expand table-cell-minw-300"
+			name="description"
+			value="<%= HtmlUtil.escape(role.getDescription(locale)) %>"
+		/>
+
+		<liferay-ui:search-container-column-text
+			cssClass="table-cell-expand-smallest"
+			name="type"
+			value="<%= LanguageUtil.get(request, role.getTypeLabel()) %>"
+		/>
+	</c:when>
+</c:choose>

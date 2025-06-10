@@ -1,0 +1,27 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<%@ include file="/init.jsp" %>
+
+<%
+PortalUtil.addPortletBreadcrumbEntry(request, PortalUtil.getPortletTitle(renderResponse), null);
+PortalUtil.addPortletBreadcrumbEntry(request, LanguageUtil.get(request, "configuration"), null);
+
+PortletConfigurationDisplayContext portletConfigurationDisplayContext = new PortletConfigurationDisplayContext(request, renderResponse);
+
+PortalUtil.addPortletBreadcrumbEntry(request, LanguageUtil.get(request, portletConfigurationDisplayContext.getTabs1()), currentURL);
+
+List<NavigationItem> navigationItems = portletConfigurationDisplayContext.getNavigationItems();
+%>
+
+<c:if test="<%= navigationItems.size() > 1 %>">
+	<div class="cadmin">
+		<clay:navigation-bar
+			navigationItems="<%= navigationItems %>"
+		/>
+	</div>
+</c:if>

@@ -1,0 +1,60 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<aui:select label="scope" name="preferences--searchScope--" value="<%= searchDisplayContext.getSearchScopePreferenceString() %>">
+	<aui:option label="this-site" value="this-site" />
+	<aui:option label="everything" value="everything" />
+	<aui:option label="let-the-user-choose" value="let-the-user-choose" />
+</aui:select>
+
+<span class="h3"><liferay-ui:message key="facets" /></span>
+
+<%
+List<SearchFacet> searchFacets = ListUtil.copy(searchDisplayContext.getSearchFacets());
+
+for (SearchFacet searchFacet : searchFacets) {
+	searchFacet.init(company.getCompanyId(), searchDisplayContext.getSearchConfiguration());
+}
+
+searchFacets = ListUtil.sort(searchFacets, SearchFacetComparator.INSTANCE);
+
+for (SearchFacet searchFacet : searchFacets) {
+%>
+
+	<liferay-frontend:fieldset
+		collapsible="<%= true %>"
+		id='<%= AUIUtil.normalizeId(searchFacet.getClassName()) + "FacetConfigurationPanel" %>'
+		label="<%= searchFacet.getTitle() %>"
+	>
+		<aui:input label="enabled" name='<%= "preferences--" + searchFacet.getClassName() + "--" %>' type="checkbox" value="<%= searchDisplayContext.isDisplayFacet(searchFacet.getClassName()) %>" />
+
+		<div class="c-ml-5 facet-configuration" id="<portlet:namespace /><%= AUIUtil.normalizeId(searchFacet.getClassName()) %>FacetConfiguration">
+			<div id="<%= StringUtil.replace(searchFacet.getClassName(), CharPool.PERIOD, CharPool.UNDERLINE) %>">
+
+				<%
+				request.setAttribute("facet_configuration.jsp-searchFacet", searchFacet);
+				%>
+
+				<div class="advance-configuration">
+					<liferay-util:include page="/facets/facet_configuration.jsp" servletContext="<%= application %>" />
+				</div>
+			</div>
+		</div>
+
+		<hr />
+
+		<aui:script>
+			Liferay.Util.toggleBoxes(
+				'<portlet:namespace /><%= AUIUtil.normalizeId(searchFacet.getClassName()) %>',
+				'<portlet:namespace /><%= AUIUtil.normalizeId(searchFacet.getClassName()) %>FacetConfiguration'
+			);
+		</aui:script>
+	</liferay-frontend:fieldset>
+
+<%
+}
+%>

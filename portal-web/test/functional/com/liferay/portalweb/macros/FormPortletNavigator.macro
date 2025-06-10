@@ -1,0 +1,19 @@
+definition {
+
+	@summary = "Default summary"
+	macro exitWidgetModal() {
+		SelectFrameTop();
+
+		Click(locator1 = "FormPortlet#WIDGET_MODAL_CLOSE_BUTTON");
+	}
+
+	@summary = "Default summary"
+	macro gotoSelectForm() {
+		AssertClick(
+			locator1 = "FormPortlet#SELECT_FORM",
+			value1 = "Select Form");
+
+		SelectFrame(locator1 = "IFrame#MODAL_BODY");
+	}
+
+}

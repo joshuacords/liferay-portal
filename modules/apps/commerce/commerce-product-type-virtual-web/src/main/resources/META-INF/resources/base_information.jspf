@@ -1,0 +1,35 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<liferay-ui:error-marker
+	key="<%= WebKeys.ERROR_SECTION %>"
+	value="base-information"
+/>
+
+<aui:model-context bean="<%= cpDefinitionVirtualSetting %>" model="<%= CPDefinitionVirtualSetting.class %>" />
+
+<aui:fieldset>
+	<aui:select name="activationStatus">
+
+		<%
+		for (int activationStatus : cpDefinitionVirtualSettingDisplayContext.getActivationStatuses()) {
+		%>
+
+			<aui:option label="<%= cpDefinitionVirtualSettingDisplayContext.getActivationStatusLabel(activationStatus) %>" selected="<%= (cpDefinitionVirtualSetting != null) && (activationStatus == cpDefinitionVirtualSetting.getActivationStatus()) %>" value="<%= activationStatus %>" />
+
+		<%
+		}
+		%>
+
+	</aui:select>
+
+	<aui:input disabled="<%= durationDisabled %>" helpMessage="duration-help" label="duration" name="durationDays" suffix="days" type="long" value="<%= durationDays %>">
+		<aui:validator name="digits" />
+	</aui:input>
+
+	<aui:input label="max-number-of-downloads" name="maxUsages" />
+</aui:fieldset>

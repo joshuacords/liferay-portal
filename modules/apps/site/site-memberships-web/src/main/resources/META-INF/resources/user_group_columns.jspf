@@ -1,0 +1,94 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<%
+int usersCount = UserLocalServiceUtil.searchCount(
+	company.getCompanyId(), StringPool.BLANK, WorkflowConstants.STATUS_ANY,
+	LinkedHashMapBuilder.<String, Object>put(
+		"usersUserGroups", Long.valueOf(userGroup.getUserGroupId())
+	).build());
+
+String userGroupGroupRolesString = ListUtil.toString(UserGroupGroupRoleLocalServiceUtil.getUserGroupGroupRoles(userGroup.getUserGroupId(), siteMembershipsDisplayContext.getGroupId()), UsersAdminUtil.USER_GROUP_GROUP_ROLE_TITLE_ACCESSOR, StringPool.COMMA_AND_SPACE);
+%>
+
+<c:choose>
+	<c:when test='<%= displayStyle.equals("descriptive") %>'>
+		<liferay-ui:search-container-column-icon
+			icon="users"
+			toggleRowChecker="<%= true %>"
+		/>
+
+		<liferay-ui:search-container-column-text
+			colspan="<%= 2 %>"
+		>
+			<div class="h5"><%= userGroup.getName() %></div>
+
+			<div class="h6 text-default">
+				<span><%= userGroup.getDescription() %></span>
+			</div>
+
+			<div class="h6 text-default">
+				<span><liferay-ui:message arguments="<%= usersCount %>" key="x-users" /></span>
+			</div>
+		</liferay-ui:search-container-column-text>
+
+		<c:if test="<%= !selectUserGroup %>">
+			<div class="h6">
+				<%= HtmlUtil.escape(userGroupGroupRolesString) %>
+			</div>
+
+			<liferay-ui:search-container-column-text>
+
+				<%
+				UserGroupActionDropdownItemsProvider userGroupActionDropdownItemsProvider = new UserGroupActionDropdownItemsProvider(liferayPortletRequest, liferayPortletResponse, siteMembershipsDisplayContext, userGroup);
+				%>
+
+				<clay:dropdown-actions
+					aria-label='<%= LanguageUtil.get(request, "show-actions") %>'
+					dropdownItems="<%= userGroupActionDropdownItemsProvider.getActionDropdownItems() %>"
+					propsTransformer="{UserGroupsDefaultPropsTransformer} from site-memberships-web"
+				/>
+			</liferay-ui:search-container-column-text>
+		</c:if>
+	</c:when>
+	<c:otherwise>
+		<liferay-ui:search-container-column-text
+			cssClass="table-cell-expand table-cell-minw-200 table-title"
+			name="name"
+			orderable="<%= true %>"
+			property="name"
+		/>
+
+		<liferay-ui:search-container-column-text
+			cssClass="table-cell-expand table-cell-minw-300"
+			name="description"
+			orderable="<%= true %>"
+			property="description"
+		/>
+
+		<c:if test="<%= !selectUserGroup %>">
+			<liferay-ui:search-container-column-text
+				cssClass="table-cell-expand table-cell-minw-200"
+				name="roles"
+				value="<%= HtmlUtil.escape(userGroupGroupRolesString) %>"
+			/>
+
+			<liferay-ui:search-container-column-text>
+
+				<%
+				UserGroupActionDropdownItemsProvider userGroupActionDropdownItemsProvider = new UserGroupActionDropdownItemsProvider(liferayPortletRequest, liferayPortletResponse, siteMembershipsDisplayContext, userGroup);
+				%>
+
+				<clay:dropdown-actions
+					aria-label='<%= LanguageUtil.get(request, "show-actions") %>'
+					dropdownItems="<%= userGroupActionDropdownItemsProvider.getActionDropdownItems() %>"
+					propsTransformer="{UserGroupsDefaultPropsTransformer} from site-memberships-web"
+				/>
+			</liferay-ui:search-container-column-text>
+		</c:if>
+	</c:otherwise>
+</c:choose>

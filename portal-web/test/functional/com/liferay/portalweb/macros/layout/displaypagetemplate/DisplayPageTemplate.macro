@@ -1,0 +1,99 @@
+definition {
+
+	@summary = "Default summary"
+	macro addFragment(fragmentName = null, siteURLKey = null, displayPageName = null, publish = null, collectionName = null) {
+		DisplayPageTemplatesAdmin.openDisplayPagesAdmin(siteURLKey = ${siteURLKey});
+
+		DisplayPageTemplatesAdmin.gotoDisplayPage(displayPageName = ${displayPageName});
+
+		PageEditor.addFragment(
+			collectionName = ${collectionName},
+			fragmentName = ${fragmentName});
+
+		if (${publish} != "false") {
+			Button.clickPublish();
+		}
+	}
+
+	@summary = "Default summary"
+	macro selectDisplayPageTemplateForAsset(groupName = null, siteURLKey = null, kbChildArticleTitle = null, entryTitle = null, pageName = null, assetType = null) {
+		if (${assetType} == "Blogs Entry") {
+			BlogsNavigator.openToEditEntryInSite(
+				entryTitle = ${entryTitle},
+				groupName = ${groupName},
+				siteURLKey = ${siteURLKey});
+		}
+		else if (${assetType} == "Document") {
+			DMNavigator.openToEditEntryInSite(
+				dmDocumentTitle = ${entryTitle},
+				groupName = ${groupName},
+				siteURLKey = ${siteURLKey});
+		}
+		else if (${assetType} == "Web Content") {
+			WebContentNavigator.openToEditWCInSite(
+				groupName = ${groupName},
+				siteURLKey = ${siteURLKey},
+				webContentTitle = ${entryTitle});
+		}
+
+		WebContent.editDisplayPage(
+			assetType = ${assetType},
+			pageName = ${pageName});
+
+		if (${assetType} == "Web Content") {
+			WebContent.publishExistingWCArticleWithPermissions();
+		}
+		else {
+			PortletEntry.publish();
+		}
+	}
+
+	@summary = "Default summary"
+	macro selectPreviewItem(item = null, searchTerm = null, assetTitle = null, assetType = null) {
+		WaitForLiferayEvent.initializeLiferayEventLog();
+
+		Click(locator1 = "ControlMenu#DISPLAY_PAGE_PREVIEW_ITEM_SELECTOR");
+
+		if (isSet(item)) {
+			DropdownMenuItem.click(menuItem = ${item});
+		}
+		else {
+			DropdownMenuItem.click(menuItem = "Select Other Item");
+
+			SelectFrame(locator1 = "IFrame#MODAL_BODY");
+
+			if (${assetType} == "Web Content Article") {
+				if (isSet(searchTerm)) {
+					Search.searchCP(
+						modal = "true",
+						searchTerm = ${searchTerm});
+
+					AssertTextEquals(
+						locator1 = "Search#SEARCH_INFO",
+						value1 = "1 Result Found for \"${searchTerm}\"");
+				}
+
+				Click(
+					key_listEntry = ${assetTitle},
+					locator1 = "LexiconList#LIST_ENTRY_TITLE");
+			}
+			else if ((${assetType} == "Blogs Entry") || (${assetType} == "Document")) {
+				LexiconCard.clickCardTitle(card = ${assetTitle});
+			}
+			else if (${assetType} == "Category") {
+				Portlet.expandTree();
+
+				Click(
+					key_nodeName = ${assetTitle},
+					locator1 = "Treeview#NODE_UNSELECTED");
+			}
+
+			SelectFrameTop();
+		}
+
+		AssertTextEquals(
+			locator1 = "ControlMenu#DISPLAY_PAGE_PREVIEW_ITEM_SELECTOR",
+			value1 = ${assetTitle});
+	}
+
+}

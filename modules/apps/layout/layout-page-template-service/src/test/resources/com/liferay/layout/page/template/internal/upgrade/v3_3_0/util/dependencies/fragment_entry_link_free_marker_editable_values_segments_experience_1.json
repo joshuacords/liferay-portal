@@ -1,0 +1,12 @@
+{
+	"com.liferay.fragment.entry.processor.freemarker.FreeMarkerFragmentEntryProcessor": {
+		"headingLevel": "h1",
+		"marginBottom": "0",
+		"textAlign": "center",
+		"textColor": {
+			"color": "primary",
+			"cssClass": "primary",
+			"rgbValue": "rgb(0, 74, 215)"
+		}
+	}
+}

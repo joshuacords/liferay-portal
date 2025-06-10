@@ -1,0 +1,45 @@
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+
+package com.liferay.source.formatter.dependencies;
+
+import java.util.List;
+
+/**
+ * @author Alan Huang
+ */
+public class NullAssertionInIfStatement {
+
+	public boolean method1(List<String> list) {
+		if (list.isEmpty() || (list == null)) {
+			return false;
+		}
+
+		return true;
+	}
+
+	public boolean method2(List<String> list) {
+		if ((list.size() == 3) && (list != null)) {
+			return false;
+		}
+
+		return true;
+	}
+
+	public boolean method3(
+		List<String> nameList1, List<String> nameList2, String name) {
+
+		if (((nameList1 != null) && (nameList2 != null) &&
+			 (nameList1.size() > nameList2.size)) ||
+			((nameList1.size() > 5) && name.equals("Liferay") &&
+			 (nameList1 != null))) {
+
+			return false;
+		}
+
+		return true;
+	}
+
+}

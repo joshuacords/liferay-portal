@@ -1,0 +1,158 @@
+definition {
+
+	var validationErrorMessage = "This field is required.";
+
+	@summary = "Default summary"
+	macro changeLocale(locale = null) {
+		Click(locator1 = "FormPortlet#LOCALIZATION_BUTTON");
+
+		Click(
+			key_locale = ${locale},
+			locator1 = "FormPortlet#LOCALIZATION_OPTION");
+	}
+
+	@summary = "Default summary"
+	macro clickNextPage() {
+		AssertClick(
+			locator1 = "Button#NEXT",
+			value1 = "Next");
+	}
+
+	@summary = "Default summary"
+	macro clickSubmit() {
+		AssertClick(
+			locator1 = "FormPortlet#SUBMIT_BUTTON",
+			value1 = "Submit");
+	}
+
+	@summary = "Default summary"
+	macro nextPage(formPageCurrent = null, formPageNext = null) {
+		AssertClick(
+			locator1 = "Button#NEXT",
+			value1 = "Next");
+
+		var key_formPageName = ${formPageCurrent};
+
+		AssertTextEquals(
+			locator1 = "FormPortlet#FORM_PAGE_INACTIVE",
+			value1 = ${formPageCurrent});
+
+		var key_formPageName = ${formPageNext};
+
+		AssertTextEquals(
+			locator1 = "FormPortlet#FORM_PAGE_ACTIVE",
+			value1 = ${formPageNext});
+	}
+
+	@summary = "Default summary"
+	macro previousPage() {
+		Click(locator1 = "Button#PREVIOUS");
+	}
+
+	@summary = "Default summary"
+	macro submit() {
+		if (IsElementPresent(locator1 = "FormPortlet#PORTLET_CONTENT")) {
+			Click(locator1 = "FormPortlet#PORTLET_CONTENT");
+		}
+
+		WaitForElementPresent(locator1 = "FormPortlet#SUBMIT_BUTTON");
+
+		FormPortlet.clickSubmit();
+	}
+
+	@summary = "Default summary"
+	macro submitLocalizedSuccessfully(buttonName = null) {
+		AssertClick(
+			locator1 = "Button#MAIN_CONTENT_SUBMIT",
+			value1 = ${buttonName});
+
+		WaitForElementPresent(locator1 = "Message#SUCCESS_DISMISSIBLE");
+
+		Alert.viewSuccessMessage();
+	}
+
+	@summary = "Default summary"
+	macro submitSuccessfully() {
+		FormPortlet.submit();
+
+		WaitForElementPresent(locator1 = "Message#SUCCESS_DISMISSIBLE");
+
+		Alert.viewSuccessMessage();
+	}
+
+	@summary = "Default summary"
+	macro submitSuccessfullyAndViewSuccessPage() {
+		FormPortlet.submitSuccessfully();
+
+		if (!(isSet(successPageDescription))) {
+			var successPageDescription = "Your information was successfully received. Thank you for filling out the form.";
+		}
+
+		if (!(isSet(successPageTitle))) {
+			var successPageTitle = "Thank you.";
+		}
+
+		FormPortlet.viewSuccessPage(
+			successPageDescription = ${successPageDescription},
+			successPageTitle = ${successPageTitle});
+	}
+
+	@summary = "Default summary"
+	macro submitWithError(errorMessage = null) {
+		FormPortlet.submit();
+
+		WaitForElementPresent(
+			locator1 = "Message#ERROR",
+			value1 = ${errorMessage});
+
+		Alert.viewErrorMessage(errorMessage = ${errorMessage});
+	}
+
+	@summary = "Default summary"
+	macro submitWithValidationError(validationErrorMessage = null) {
+		FormPortlet.submit();
+
+		FormPortlet.viewValidationErrorMessage(validationErrorMessage = ${validationErrorMessage});
+	}
+
+	@summary = "Default summary"
+	macro viewSuccessPage(successPageDescription = null, successPageTitle = null) {
+		var key_successPageTitle = ${successPageTitle};
+
+		AssertTextEquals(
+			locator1 = "FormPortlet#SUCCESS_PAGE_TITLE",
+			value1 = ${successPageTitle});
+
+		var key_successPageDescription = ${successPageDescription};
+
+		AssertTextEquals(
+			locator1 = "FormPortlet#SUCCESS_PAGE_DESCRIPTION",
+			value1 = ${successPageDescription});
+	}
+
+	@summary = "Default summary"
+	macro viewValidationErrorMessage(validationErrorMessage = null) {
+		WaitForElementPresent(
+			locator1 = "Message#ERROR_FORM_FIELD_REQUIRED",
+			value1 = ${validationErrorMessage});
+
+		AssertTextEquals(
+			locator1 = "Message#ERROR_FORM_FIELD_REQUIRED",
+			value1 = ${validationErrorMessage});
+	}
+
+	@summary = "Default summary"
+	macro waitFormRenderer(text = null) {
+		var key_text = ${text};
+
+		WaitForElementPresent(locator1 = "Button#ANY_ENABLED");
+	}
+
+	@summary = "Default summary"
+	macro waitForValidationErrorNotPresent(validationErrorMessage = null) {
+		WaitForElementNotPresent(
+			locator1 = "Message#ERROR_FORM_FIELD_REQUIRED",
+			value1 = ${validationErrorMessage});
+	}
+
+}

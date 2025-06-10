@@ -1,0 +1,38 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<liferay-portlet:renderURL portletName="<%= CPPortletKeys.CP_DEFINITIONS %>" varImpl="viewProductDefinitionsCatalogURL">
+	<portlet:param name="catalogNavigationItem" value="view-all-product-definitions" />
+</liferay-portlet:renderURL>
+
+<liferay-portlet:renderURL portletName="<%= CPPortletKeys.CP_DEFINITIONS %>" varImpl="viewProductInstancesCatalogURL">
+	<portlet:param name="mvcRenderCommandName" value="/cp_definitions/view_cp_instances" />
+	<portlet:param name="catalogNavigationItem" value="view-all-instances" />
+</liferay-portlet:renderURL>
+
+<%
+List<NavigationItem> catalogNavigationItems = new ArrayList<>();
+
+NavigationItem cpDefinitionsCatalogNavigationItem = new NavigationItem();
+NavigationItem cpInstancesCatalogNavigationItem = new NavigationItem();
+
+cpDefinitionsCatalogNavigationItem.setActive(catalogNavigationItem.equals("view-all-product-definitions"));
+cpDefinitionsCatalogNavigationItem.setHref(viewProductDefinitionsCatalogURL.toString());
+cpDefinitionsCatalogNavigationItem.setLabel(LanguageUtil.get(request, "all"));
+
+cpInstancesCatalogNavigationItem.setActive(catalogNavigationItem.equals("view-all-instances"));
+cpInstancesCatalogNavigationItem.setHref(viewProductInstancesCatalogURL.toString());
+cpInstancesCatalogNavigationItem.setLabel(LanguageUtil.get(request, "skus"));
+
+catalogNavigationItems.add(cpDefinitionsCatalogNavigationItem);
+catalogNavigationItems.add(cpInstancesCatalogNavigationItem);
+%>
+
+<clay:navigation-bar
+	inverted="<%= false %>"
+	navigationItems="<%= catalogNavigationItems %>"
+/>

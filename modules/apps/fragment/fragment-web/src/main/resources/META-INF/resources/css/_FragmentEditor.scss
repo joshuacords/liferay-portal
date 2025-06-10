@@ -1,0 +1,61 @@
+.fragment-editor {
+	border-left: solid $editorBorderWidth $editorBorderColor;
+	box-sizing: border-box;
+
+	&__configuration {
+		margin-top: 24px;
+
+		.CodeMirror {
+			&-scroll {
+				border: 1px solid $gray-200;
+				border-radius: 3px;
+				margin: 0 0 50px;
+				max-width: 100%;
+				min-height: 344px;
+			}
+
+			&-hscrollbar {
+				overflow-x: hidden;
+			}
+		}
+	}
+
+	&__toolbar {
+		border-bottom: solid $editorBorderWidth $editorBorderColor;
+		color: $secondary;
+
+		.navbar {
+			height: 56px;
+
+			.nav-link {
+				height: 100%;
+			}
+		}
+	}
+
+	@at-root {
+		html body.has-control-menu {
+			padding-bottom: 0;
+		}
+
+		#wrapper #content .portlet-layout,
+		#wrapper #content .portlet {
+			margin-bottom: 0;
+		}
+	}
+}
+
+@include media-breakpoint-up(sm) {
+	$fragmentEditorMargin: $managementBarHeight + $editorBorderWidth +
+		$toolbarBorderWidth * 2;
+
+	.fragment-editor {
+		height: calc(100vh - #{$fragmentEditorMargin});
+	}
+
+	.has-control-menu .fragment-editor {
+		height: calc(
+			100vh - #{$fragmentEditorMargin + $controlMenuDesktopHeight}
+		);
+	}
+}

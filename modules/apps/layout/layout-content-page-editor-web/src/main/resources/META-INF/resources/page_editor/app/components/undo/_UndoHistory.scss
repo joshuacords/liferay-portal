@@ -1,0 +1,32 @@
+@import 'atlas-variables';
+
+html#{$cadmin-selector} {
+	.cadmin {
+		.page-editor__undo-history {
+			&.dropdown-menu {
+				max-height: 320px;
+				max-width: 280px;
+				width: 280px;
+			}
+
+			.dropdown-item {
+				padding-right: 2.25rem;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+
+				span {
+					font-size: 0.75rem;
+				}
+			}
+
+			&__overlay {
+				height: calc(100vh - var(--control-menu-container-height));
+				left: 0;
+				position: fixed;
+				top: var(--control-menu-container-height);
+				width: 100vw;
+				z-index: $undoHistoryOverlayZIndex;
+			}
+		}
+	}
+}

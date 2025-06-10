@@ -1,0 +1,107 @@
+definition {
+
+	var userEmailAddress = "test@liferay.com";
+	var userPassword = PropsUtil.get("default.admin.password");
+	var userPasswordReminderAnswer = "test";
+
+	@summary = "Default summary"
+	macro _signIn(virtualHostsURL = null, userEmailAddress = null) {
+		var appServerType = PropsUtil.get("app.server.type");
+
+		if (${appServerType} == "weblogic") {
+
+			// Pausing 2 seconds due to LPS-159595
+
+			Pause(value1 = 2000);
+		}
+
+		if (isSet(virtualHostsURL)) {
+			Navigator.openSpecificURL(url = "${virtualHostsURL}/web/guest?SM_USER=${userEmailAddress}");
+		}
+		else {
+			var baseURL = JSONCompany.getPortalURL();
+
+			Navigator.openSpecificURL(url = "${baseURL}/web/guest?SM_USER=${userEmailAddress}");
+		}
+
+		if (isSet(licenseExpired)) {
+			Navigator.openURL();
+		}
+		else {
+			AssertElementPresent(locator1 = "UserBar#USER_AVATAR_IMAGE");
+		}
+
+		WaitForLiferayEvent.initializeLiferayEventLog();
+	}
+
+	@summary = "Default summary"
+	macro agreeToTermsOfUse() {
+		AssertClick(
+			locator1 = "Button#I_AGREE",
+			value1 = "I Agree");
+
+		AssertElementNotPresent(locator1 = "Button#I_AGREE");
+	}
+
+	@summary = "Default summary"
+	macro setPasswordReminder(userPasswordReminderAnswer = null) {
+		Type(
+			locator1 = "TextInput#ANSWER",
+			value1 = ${userPasswordReminderAnswer});
+
+		Button.clickSave();
+	}
+
+	@summary = "Default summary"
+	macro signIn(userPassword = null, userEmailAddress = null) {
+		SignIn._signIn(
+			userEmailAddress = ${userEmailAddress},
+			userPassword = ${userPassword});
+	}
+
+	@summary = "Default summary"
+	macro signInPortalInstanceSetUp(authenticationMethod = null) {
+		var portalURL = JSONCompany.getPortalURL();
+
+		var portalURL = Regex.removeHTTP(url = ${portalURL});
+
+		var portalURL = Regex.removePortNumber(url = ${portalURL});
+		var domain = JSONCompany.getDomain();
+
+		HeadlessPortalInstanceAPI.addPortalInstance(
+			authenticationMethod = ${authenticationMethod},
+			domain = ${domain},
+			portalInstanceId = ${portalURL},
+			virtualHost = ${portalURL});
+
+		var isLXC = JSONUtil2.getLXCEnvironment();
+
+		if (${isLXC} == "true") {
+
+			// Workaround for LXC server performance issues LRQA-81713
+
+			Pause(value1 = 190000);
+		}
+	}
+
+	@summary = "Default summary"
+	macro signInSpecificURL(userPassword = null, userEmailAddress = null, url = null) {
+		SignIn._signIn(
+			userEmailAddress = ${userEmailAddress},
+			userPassword = ${userPassword},
+			virtualHostsURL = ${url});
+	}
+
+	@summary = "Default summary"
+	macro signInTestSetup(userPassword = null, licenseExpired = null) {
+		var userEmailAddress = JSONUtil2.getDefaultUserEmail();
+
+		JSONUser.agreeToTermsAndAnswerReminderQuery(userEmailAddress = ${userEmailAddress});
+
+		SignIn._signIn(
+			licenseExpired = ${licenseExpired},
+			userEmailAddress = ${userEmailAddress},
+			userPassword = ${userPassword});
+	}
+
+}

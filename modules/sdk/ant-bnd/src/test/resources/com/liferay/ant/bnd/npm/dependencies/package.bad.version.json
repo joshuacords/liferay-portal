@@ -1,0 +1,10 @@
+{
+	"dependencies": {
+		"lodash": "~4.17.21"
+	},
+	"name": "liferay",
+	"runtime": {
+		"liferay": "1.x"
+	},
+	"version": "1.word-cha_rs$#"
+}

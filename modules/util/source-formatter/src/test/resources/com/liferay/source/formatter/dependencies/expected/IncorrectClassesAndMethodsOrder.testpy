@@ -1,0 +1,81 @@
+# SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+# SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+
+import os
+import sys
+
+def a(
+	a,
+	b
+):
+	print "aaa"
+
+def b(a, b
+):
+	print "bbb"
+
+def main():
+	print(content)
+	sys.exit()
+
+def method_a():
+
+	print("method_a")
+
+def method_b():
+
+	print("method_b")
+
+def method_c():
+
+	print("method_c")
+
+class B:
+
+	def _method_a_in_class_b(name):
+
+		print("_method_a_in_class_b")
+
+	def _method_b_in_class_b(name):
+
+		print("_method_b_in_class_b")
+
+	class Ba:
+
+		def _method_a_in_class_ba(name):
+
+			print("_method_a_in_class_ba")
+
+	class Bb:
+
+		def _method_b_in_class_bb(name):
+
+			print("_method_b_in_class_bb")
+
+class A(B):
+
+	class Bb:
+
+		def _method_a_in_class_bb(name):
+
+			print("_method_a_in_class_bb")
+
+	# This is comments
+	#
+	# Don't sort the comments
+	@staticmethod
+	def _method_a_in_class_a(name):
+
+		print("_method_a_in_class_a")
+
+	def _method_b_in_class_a(name):
+		print("_method_b_in_class_a")
+
+def method_d():
+
+	print("method_d")
+
+content = "Hello, world!"
+
+if __name__ == "__main__":
+	main()

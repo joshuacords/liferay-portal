@@ -1,0 +1,95 @@
+@default = "mouseOver"
+@summary = "Mouse over '${locator1}'"
+definition {
+
+	function javaScriptFocus(locator1) {
+		WaitForSPARefresh();
+
+		var javascript = '''
+var event = document.createEvent('FocusEvent');
+
+event.initEvent('focus', true, false);
+
+arguments[0].dispatchEvent(event);
+		''';
+
+		ExecuteJavaScript(
+			value1 = ${javascript},
+			value2 = ${locator1},
+			value3 = "null");
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+	function javaScriptMouseOver(locator1) {
+		WaitForSPARefresh();
+
+		selenium.javaScriptMouseOver(${locator1});
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+	function mouseOver(locator1) {
+		WaitForSPARefresh();
+
+		selenium.waitForVisible(${locator1}, "false");
+
+		selenium.mouseOver(${locator1});
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+	function mouseOverInvisible(locator1) {
+		WaitForSPARefresh();
+
+		selenium.waitForElementPresent(${locator1}, "false");
+
+		selenium.mouseOver(${locator1});
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+	function mouseOverNotVisible(locator1) {
+		WaitForSPARefresh();
+
+		selenium.waitForElementPresent(${locator1}, "false");
+
+		selenium.mouseOver(${locator1});
+
+		selenium.waitForVisible(${locator1}, "false");
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+	function waitForMenuToggleJSMouseOver(locator1) {
+		if (selenium.isElementPresent("//html[contains(@class,'lfr-spa-loading')]")) {
+			WaitForSPARefresh();
+
+			selenium.waitForElementPresent(${locator1});
+
+			selenium.pause(2000);
+		}
+		else {
+			selenium.waitForElementPresent(${locator1});
+
+			selenium.pause(3000);
+		}
+
+		selenium.mouseOver(${locator1});
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+}

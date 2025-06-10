@@ -1,0 +1,174 @@
+definition {
+
+	@summary = "Default summary"
+	macro _selectContent(navItem = null, entryTitle = null) {
+		if (IsTextEqual(key_fieldLabel = "Item", locator1 = "PageEditor#ITEM_SELECTOR_CONTENT_INPUT", value1 = "")) {
+			Click(
+				key_fieldLabel = "Item",
+				key_text = "plus",
+				locator1 = "Icon#ANY_ITEM_SELECTOR");
+		}
+		else {
+			Click(
+				key_fieldLabel = "Item",
+				key_text = "change",
+				locator1 = "Icon#ANY_ITEM_SELECTOR");
+		}
+
+		if (IsElementPresent(key_menuItem = "Select Item...", locator1 = "MenuItem#ANY_MENU_ITEM")) {
+			MenuItem.click(menuItem = "Select Item...");
+		}
+
+		SelectFrame(locator1 = "IFrame#MODAL_BODY");
+
+		MenuBar.click(menuBar = ${navItem});
+
+		if (${navItem} == "Categories") {
+			Portlet.expandTree();
+
+			AssertVisible(
+				key_nodeName = ${entryTitle},
+				locator1 = "Treeview#NODE_ITEM");
+
+			Click(
+				key_nodeName = ${entryTitle},
+				locator1 = "Treeview#NODE_UNSELECTED");
+		}
+		else {
+			LexiconEntry.changeDisplayStyle(displayStyle = "cards");
+
+			Click(
+				key_card = ${entryTitle},
+				locator1 = "Card#CARD_TITLE");
+		}
+
+		SelectFrameTop();
+	}
+
+	@summary = "Default summary"
+	macro _selectField(field = null) {
+		WaitForEditable(locator1 = "PageEditorEditableLink#FIELD");
+
+		Select(
+			locator1 = "PageEditorEditableLink#FIELD",
+			value1 = ${field});
+	}
+
+	@summary = "Default summary"
+	macro gotoEditableFieldLink(fragmentName = null, id = null, contributed = null) {
+		PageEditor.clickEditableField(
+			contributed = ${contributed},
+			fragmentName = ${fragmentName},
+			id = ${id});
+
+		Navigator.gotoNavTab(navTab = "Link");
+	}
+
+	@summary = "Default summary"
+	macro mapEditableFieldToPage(navItem = null, keywords = null, fragmentName = null, id = null, pageName = null) {
+		PageEditorEditableLink.gotoEditableFieldLink(
+			fragmentName = ${fragmentName},
+			id = ${id});
+
+		Select(
+			key_fieldLabel = "Link",
+			locator1 = "Select#GENERIC_SELECT_FIELD",
+			value1 = "Page");
+
+		if (IsTextEqual(key_fieldLabel = "Page", locator1 = "PageEditor#ITEM_SELECTOR_CONTENT_INPUT", value1 = "")) {
+			Click(
+				key_fieldLabel = "Page",
+				key_text = "plus",
+				locator1 = "Icon#ANY_ITEM_SELECTOR");
+		}
+		else {
+			Click(
+				key_fieldLabel = "Page",
+				key_text = "change",
+				locator1 = "Icon#ANY_ITEM_SELECTOR");
+		}
+
+		SelectFrame(locator1 = "IFrame#MODAL_BODY");
+
+		if (isSet(navItem)) {
+			Navigator.gotoNavItem(navItem = ${navItem});
+		}
+
+		if (isSet(keywords)) {
+			Type(
+				locator1 = "TextInput#SEARCH",
+				value1 = ${keywords});
+
+			Click(
+				key_nodeName = ${pageName},
+				locator1 = "Treeview#SEARCH_RESULT_ITEM");
+		}
+		else {
+			Portlet.expandTree();
+
+			AssertClick.assertPartialTextClickAt(
+				key_nodeName = ${pageName},
+				locator1 = "Treeview#NODE_UNSELECTED",
+				value1 = ${pageName});
+		}
+
+		SelectFrameTop();
+
+		PageEditor.waitForAutoSave();
+	}
+
+	@summary = "Default summary"
+	macro mapURLToAsset(navItem = null, field = null, source = null, entryTitle = null) {
+		Select(
+			key_fieldLabel = "Link",
+			locator1 = "Select#GENERIC_SELECT_FIELD",
+			value1 = "Mapped URL");
+
+		if (isSet(entryTitle)) {
+			PageEditorEditableLink._selectContent(
+				entryTitle = ${entryTitle},
+				navItem = ${navItem});
+		}
+
+		if (isSet(source)) {
+			WaitForEditable(
+				key_fieldLabel = "Source",
+				locator1 = "Select#GENERIC_SELECT_FIELD");
+
+			Select(
+				key_fieldLabel = "Source",
+				locator1 = "Select#GENERIC_SELECT_FIELD",
+				value1 = ${source});
+		}
+
+		PageEditorEditableLink._selectField(field = ${field});
+	}
+
+	@summary = "Default summary"
+	macro updateURL(url = null, target = null) {
+		Variables.assertDefined(parameterList = ${url});
+
+		Type(
+			key_text = "URL",
+			locator1 = "TextInput#ANY",
+			value1 = ${url});
+
+		Click(
+			key_sidebarButton = "Browser",
+			locator1 = "PageEditor#FRAGMENT_SIDEBAR_TITLE");
+
+		if (${target} == "Blank") {
+			Check.checkToggleSwitch(
+				checkboxName = "Open in a new tab.",
+				locator1 = "Checkbox#ANY_CHECKBOX");
+		}
+		else if (${target} == "Self") {
+			Uncheck.uncheckToggleSwitch(
+				checkboxName = "Open in a new tab.",
+				locator1 = "Checkbox#ANY_CHECKBOX");
+		}
+
+		PageEditor.waitForAutoSave();
+	}
+
+}

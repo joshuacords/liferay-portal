@@ -1,0 +1,41 @@
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+
+package com.liferay.source.formatter.dependencies;
+
+import com.liferay.portal.kernel.util.Validator;
+
+/**
+ * @author Hugo Huijser
+ */
+public class FormatBooleanStatements {
+
+	public boolean validate(String s1, String s2, String s3) {
+		boolean b1 = false;
+
+		if (string1 == null) {
+			b1 = true;
+		}
+
+		boolean b2 = false;
+
+		if (Validator.isEmailAddress(s2) || Validator.isPhoneNumber(s2)) {
+			b2 = true;
+		}
+
+		boolean b3 = false;
+
+		if (Validator.isPassword(s3)) {
+			b3 = true;
+		}
+
+		if (b1 || b2 || b3) {
+			return true;
+		}
+
+		return false;
+	}
+
+}

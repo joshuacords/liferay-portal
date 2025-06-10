@@ -1,0 +1,56 @@
+<html>
+<head>
+<title>RolesPermissions</title>
+</head>
+
+<body>
+<table border="1" cellpadding="1" cellspacing="1">
+<thead>
+<tr><td rowspan="1" colspan="3">RolesPermissions</td></tr>
+</thead>
+
+<tbody>
+<tr>
+	<td>PERMISSION_ITEM_HEADER</td>
+	<td>//form//h3[contains(.,'${permissionNavItem}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PERMISSION_CHECKBOX</td>
+	<td>//*[normalize-space(text())='${key_permissionSheetSubtitle}']//following-sibling::div[2]//tr[contains(.,'${key_permissionValue}')]//input[@type='checkbox']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PERMISSION_CHANGE_SCOPE</td>
+	<td>//*[normalize-space(text())='${key_permissionSheetSubtitle}']//following-sibling::div[2]//tr[contains(.,'${key_permissionValue}')]//button[contains(.,'Change')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PERMISSION_SITE_SCOPE</td>
+	<td>//*[normalize-space(text())='${key_permissionSheetSubtitle}']//following-sibling::div[2]//tr[contains(.,'${key_permissionValue}')]//span[normalize-space(text())='${key_siteNameScope}']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PERMISSION_SITE_SCOPE_REMOVE</td>
+	<td>//*[normalize-space(text())='${key_permissionSheetSubtitle}']//following-sibling::div[2]//tr[contains(.,'${key_permissionValue}')]//span[normalize-space(text())='${key_siteNameScope}']/..//button[*[name()='svg'][contains(@class,'times-small')]]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SEARCH_FIELD</td>
+	<td>//input[contains(@id,'permissionNavigationSearch')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SAVE_BUTTON</td>
+	<td>//button[@type='button']/span[contains(.,'Save')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

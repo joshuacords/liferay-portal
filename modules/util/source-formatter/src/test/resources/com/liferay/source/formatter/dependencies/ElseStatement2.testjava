@@ -1,0 +1,34 @@
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+
+package com.liferay.source.formatter.dependencies;
+
+/**
+ * @author Hugo Huijser
+ */
+public class ElseStatement2 {
+
+	public String getFileExtension(String fileName) {
+		int x = fileName.indexOf(".");
+
+		if (x != -1) {
+			return fileName.substring(x + 1);
+		}
+		else {
+			String extension = fileName;
+
+			System.out.println(extension);
+		}
+
+		String extension = fileName;
+
+		if (extension != null) {
+			return extension;
+		}
+
+		return null;
+	}
+
+}

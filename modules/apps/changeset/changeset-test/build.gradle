@@ -1,0 +1,4 @@
+dependencies {
+	testIntegrationImplementation project(":apps:changeset:changeset-api")
+	testIntegrationImplementation project(":test:arquillian-extension-junit-bridge")
+}

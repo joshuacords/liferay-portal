@@ -1,0 +1,16 @@
+Bundle-Name: Liferay Calendar Service
+Bundle-SymbolicName: com.liferay.calendar.service
+Bundle-Version: 6.0.84
+Import-Package:\
+	!edu.emory.*,\
+	\
+	!groovy.*,\
+	\
+	!net.fortuna.*,\
+	\
+	!org.codehaus.*,\
+	\
+	*
+Liferay-Require-SchemaVersion: 4.3.0
+Liferay-Service: true
+-dsannotations-options: inherit

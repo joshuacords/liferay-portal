@@ -1,0 +1,10 @@
+buildService {
+	apiDir = "../foo-api/src/main/java"
+	testDir = "../foo-test/src/testIntegration/java"
+}
+
+dependencies {
+	compileOnly group: "com.liferay.portal", name: "release.portal.api"
+}
+
+group = "foo"

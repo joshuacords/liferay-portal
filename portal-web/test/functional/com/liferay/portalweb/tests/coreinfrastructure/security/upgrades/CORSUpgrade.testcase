@@ -1,0 +1,60 @@
+@component-name = "portal-application-security"
+definition {
+
+	property ci.retries.disabled = "true";
+	property database.types = "db2,mariadb,mysql,oracle,postgresql,sqlserver";
+	property portal.release = "true";
+	property portal.upstream = "true";
+	property test.liferay.virtual.instance = "false";
+	property test.run.type = "single";
+	property testray.main.component.name = "Upgrades Security";
+
+	setUp {
+		SignIn.signIn();
+
+		SearchAdministration.executeReindex();
+	}
+
+	@description = "This is a use case for LRQA-61573. Edit Portal CORS configuration and check if CORS keep working after an upgrade."
+	@priority = 4
+	test ViewPortalCORSConfigurationAfterUpgrade72101 {
+		property data.archive.type = "data-archive-portal-cors";
+		property portal.version = "7.2.10.1";
+
+		task ("Go to configuration and view portal CORS") {
+			SystemSettings.openSystemSettingsAdmin();
+
+			SystemSettings.gotoConfiguration(
+				configurationCategory = "Security Tools",
+				configurationName = "Portal Cross-Origin Resource Sharing (CORS)",
+				configurationScope = "Virtual Instance Scope");
+
+			ValidateCORSUpgrade.viewPortalCORS(
+				header = "Test-Header",
+				name = "Test",
+				urlPattern = "/api/*/test");
+		}
+	}
+
+	@description = "This is a use case for LRQA-61573. Add and Edit Web Contexts CORS configuration and check if CORS keep working after an upgrade."
+	@priority = 4
+	test ViewWebContextsCORSConfigurationAfterUpgrade72101 {
+		property data.archive.type = "data-archive-web-contexts-cors";
+		property database.types = "db2,mariadb,mysql,oracle,postgresql";
+		property portal.version = "7.2.10.1";
+
+		task ("Go to configuration and view web content CORS") {
+			SystemSettings.openSystemSettingsAdmin();
+
+			SystemSettings.gotoConfiguration(
+				configurationCategory = "Security Tools",
+				configurationName = "Web Contexts Cross-Origin Resource Sharing (CORS)",
+				configurationScope = "System Scope");
+
+			ValidateCORSUpgrade.viewWebContextsCORS(
+				filter = "(&(!(liferay.cors=false))(osgi.jaxrs.name=test-cors))",
+				urlPattern = "/api/*/test");
+		}
+	}
+
+}

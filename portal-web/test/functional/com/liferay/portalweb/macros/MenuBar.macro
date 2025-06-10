@@ -1,0 +1,65 @@
+definition {
+
+	@summary = "Default summary"
+	macro click(menuBar = null) {
+		var key_menuBar = ${menuBar};
+
+		if (IsElementNotPresent(locator1 = "MenuBar#ACTIVE_NAV_LINK")) {
+			AssertClick(
+				locator1 = "MenuBar#NAV_LINK",
+				value1 = ${menuBar});
+		}
+
+		MenuBar.viewActive(menuBar = ${menuBar});
+	}
+
+	@summary = "Default summary"
+	macro clickInStack(menuBar = null, stackName = null) {
+		var key_menuBar = ${menuBar};
+		var key_stackName = ${stackName};
+
+		if (IsElementNotPresent(locator1 = "MenuBar#ACTIVE_NAV_LINK_IN_STACK")) {
+			Click(locator1 = "MenuBar#NAV_LINK_IN_STACK");
+		}
+
+		AssertElementPresent(locator1 = "MenuBar#ACTIVE_NAV_LINK_IN_STACK");
+	}
+
+	@summary = "Default summary"
+	macro gotoAddresses() {
+		MenuBar.click(menuBar = "Addresses");
+	}
+
+	@summary = "Default summary"
+	macro gotoContactInformation() {
+		MenuBar.click(menuBar = "Contact Information");
+	}
+
+	@summary = "Default summary"
+	macro gotoInformation() {
+		MenuBar.click(menuBar = "Information");
+	}
+
+	@summary = "Default summary"
+	macro gotoOpeningHours() {
+		MenuBar.click(menuBar = "Opening Hours");
+	}
+
+	@summary = "Default summary"
+	macro gotoOrganizationSite() {
+		MenuBar.click(menuBar = "Organization Site");
+	}
+
+	@summary = "Default summary"
+	macro gotoSecurityQuestions() {
+		MenuBar.click(menuBar = "Security Questions");
+	}
+
+	@summary = "Default summary"
+	macro viewActive(menuBar = null) {
+		AssertElementPresent(
+			key_menuBar = ${menuBar},
+			locator1 = "MenuBar#ACTIVE_NAV_LINK");
+	}
+
+}

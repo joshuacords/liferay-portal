@@ -1,0 +1,236 @@
+definition {
+
+	@summary = "Default summary"
+	macro addCP(kbFolderName = null, kbFolderDescription = null, customField = null) {
+		if (isSet(centerPaneButton)) {
+			Button.click(button = "New");
+
+			MenuItem.click(menuItem = "Folder");
+		}
+		else {
+			LexiconEntry.gotoAddMenuItem(menuItem = "Folder");
+		}
+
+		PortletEntry.inputName(name = ${kbFolderName});
+
+		PortletEntry.inputDescription(description = ${kbFolderDescription});
+
+		if (isSet(customField)) {
+			Panel.expandPanel(panel = "Custom Fields");
+
+			Type(
+				locator1 = "TextInput#CUSTOM_FIELD",
+				value1 = ${customField});
+		}
+
+		Button.clickSave();
+
+		if (isSet(kbAddDuplicate)) {
+			Alert.viewRequestFailedToComplete();
+
+			AssertTextEquals.assertPartialText(
+				locator1 = "Message#ERROR_ENTER_A_UNIQUE_FOLDER",
+				value1 = "Please enter a unique folder name.");
+		}
+		else {
+			Alert.viewSuccessMessage();
+		}
+	}
+
+	@summary = "Default summary"
+	macro deleteCP(kbFolderName = null) {
+
+		// We need to update this macro after removing the feature.flag.LPS-188058
+
+		if (isSet(navigationPane)) {
+			KBFolder.gotoMenuItemViaNavigationPane(
+				kbFolderName = ${kbFolderName},
+				menuItem = "Delete");
+		}
+		else {
+			LexiconEntry.gotoEntryMenuItemNoError(
+				menuItem = "Delete",
+				rowEntry = ${kbFolderName});
+		}
+
+		Alert.viewSuccessMessageText(successMessage = "Success: The element ${kbFolderName} was moved to the Recycle Bin.");
+	}
+
+	@summary = "Default summary"
+	macro editCP(kbFolderName = null, kbFolderEditedName = null, kbFolderDescription = null) {
+		if (isSet(navigationPane)) {
+			KBFolder.gotoMenuItemViaNavigationPane(
+				kbFolderName = ${kbFolderName},
+				menuItem = "Edit");
+		}
+		else {
+			LexiconEntry.gotoEntryMenuItem(
+				menuItem = "Edit",
+				rowEntry = ${kbFolderName});
+		}
+
+		PortletEntry.inputName(name = ${kbFolderEditedName});
+
+		PortletEntry.inputDescription(description = ${kbFolderDescription});
+
+		PortletEntry.save();
+	}
+
+	@summary = "Default summary"
+	macro gotoCP(kbFolderName = null) {
+		var key_kbFolderName = ${kbFolderName};
+
+		if (isSet(pageTreePanel)) {
+			Click(
+				key_itemName = ${kbFolderName},
+				locator1 = "KnowledgeBase#PAGE_TREE_ITEM_NAME");
+
+			AssertVisible(
+				key_itemName = ${kbFolderName},
+				locator1 = "KnowledgeBase#PAGE_TREE_ITEM_HIGHLIGHT");
+		}
+		else {
+			AssertClick(
+				locator1 = "KnowledgeBase#FOLDER_DESCRIPTIVE_FOLDER_NAME",
+				value1 = ${kbFolderName});
+
+			if (isSet(highlight)) {
+				AssertVisible(
+					key_itemName = ${kbFolderName},
+					locator1 = "KnowledgeBase#PAGE_TREE_ITEM_HIGHLIGHT");
+			}
+		}
+
+		AssertTextEquals(
+			key_breadcrumbName = ${kbFolderName},
+			locator1 = "Breadcrumb#BREADCRUMB_ENTRY",
+			value1 = ${kbFolderName});
+	}
+
+	@summary = "Default summary"
+	macro gotoMenuItemViaNavigationPane(kbFolderName = null, menuItem = null) {
+		MouseOver(
+			key_itemName = ${kbFolderName},
+			locator1 = "KnowledgeBase#PAGE_TREE_ITEM_NAME");
+
+		Click.waitForMenuToggleJSClick(
+			key_itemName = ${kbFolderName},
+			locator1 = "KnowledgeBase#PAGE_TREE_ITEM_ELLIPSIS");
+
+		WaitForLiferayEvent.initializeLiferayEventLog();
+
+		if (${menuItem} == "Delete") {
+			MenuItem.clickNoError(menuItem = ${menuItem});
+		}
+		else {
+			MenuItem.click(menuItem = ${menuItem});
+		}
+	}
+
+	@summary = "Default summary"
+	macro gotoViaKBDisplayPG(kbFolderName = null) {
+		var key_kbFolderName = ${kbFolderName};
+
+		Select(
+			locator1 = "KnowledgeBase#FOLDER_SELECT_DROPDOWN",
+			value1 = ${kbFolderName});
+	}
+
+	@summary = "Default summary"
+	macro moveFolder(kbFolderName = null, destinationItem = null) {
+		if (isSet(navigationPane)) {
+			KBFolder.gotoMenuItemViaNavigationPane(
+				kbFolderName = ${kbFolderName},
+				menuItem = "Move");
+		}
+		else {
+			Click(
+				key_rowEntry = ${kbFolderName},
+				locator1 = "Icon#ROW_VERTICAL_ELLIPSIS");
+
+			MenuItem.click(menuItem = "Move");
+		}
+
+		SelectFrame(locator1 = "IFrame#MODAL_BODY");
+
+		Click(
+			key_nodeName = ${destinationItem},
+			locator1 = "Treeview#NODE_ITEM");
+
+		SelectFrameTop();
+
+		Button.clickSave();
+	}
+
+	@summary = "Default summary"
+	macro tearDownCP() {
+		KBAdmin.openKBAdmin(siteURLKey = "guest");
+
+		while (IsElementPresent(locator1 = "KnowledgeBase#FOLDER_TABLE_HEADER")) {
+			Check.checkAll(locator1 = "KnowledgeBase#ARTICLE_TABLE_SELECT_ALL_CHECKBOX");
+
+			ClickNoError(
+				key_text = "trash",
+				locator1 = "ManagementBar#ANY_ICON");
+
+			AssertConfirm(value1 = "Are you sure you want to delete the selected entries? They will be deleted immediately.");
+
+			Alert.viewSuccessMessage();
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewFolderInfo(kbFolderName = null, entryDefaultInfo = null, foldersQuantity = null, folderQuantity = null, articleQuantity = null) {
+		VerifyElementPresent(
+			key_entryTitle = ${kbFolderName},
+			key_infoText = ${entryDefaultInfo},
+			locator1 = "KnowledgeBase#DESCRIPTIVE_VIEW_ENTRY_INFO");
+
+		VerifyElementNotPresent(
+			key_entryTitle = ${kbFolderName},
+			key_infoText = "${folderQuantity} Folders",
+			locator1 = "KnowledgeBase#DESCRIPTIVE_VIEW_ENTRY_INFO");
+
+		VerifyElementNotPresent(
+			key_entryTitle = ${kbFolderName},
+			key_infoText = "${articleQuantity} Articles",
+			locator1 = "KnowledgeBase#DESCRIPTIVE_VIEW_ENTRY_INFO");
+
+		if (isSet(infoPanel)) {
+			LexiconEntry.selectEntry(rowEntry = ${kbFolderName});
+
+			ManagementBar.clickInfo();
+
+			if (isSet(foldersQuantity)) {
+				AssertVisible(
+					key_sectionContent = ${foldersQuantity},
+					key_sectionTitle = "of Folders",
+					locator1 = "KnowledgeBase#SIDE_PANEL_INFO");
+			}
+
+			if (isSet(articlesQuantity)) {
+				AssertVisible(
+					key_sectionContent = ${foldersQuantity},
+					key_sectionTitle = "of Articles",
+					locator1 = "KnowledgeBase#SIDE_PANEL_INFO");
+			}
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewFolderNameCP(kbFolderName = null) {
+		var key_kbFolderName = ${kbFolderName};
+
+		AssertTextEquals(
+			locator1 = "KnowledgeBase#FOLDER_DESCRIPTIVE_FOLDER_NAME",
+			value1 = ${kbFolderName});
+	}
+
+	@summary = "Default summary"
+	macro viewFolderThroughPageTreePanel(kbFolderName = null) {
+		AssertVisible(
+			key_itemName = ${kbFolderName},
+			locator1 = "KnowledgeBase#PAGE_TREE_ITEM_NAME");
+	}
+
+}

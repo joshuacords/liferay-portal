@@ -1,0 +1,189 @@
+@component-name = "portal-bpm"
+definition {
+
+	property custom.properties = "company.default.time.zone=America/Los_Angeles${line.separator}default.layout.template.id=1_column";
+	property portal.release = "true";
+	property portal.upstream = "true";
+	property testray.main.component.name = "Calendar";
+
+	var pageName = "Calendar Page";
+	var portletName = "Calendar";
+
+	setUp {
+		var portalURL = PropsUtil.get("portal.url");
+
+		TestCase.setUpPortalInstance();
+
+		User.firstLoginPG();
+
+		JSONLayout.addPublicLayout(
+			groupName = "Guest",
+			layoutName = "Calendar Page");
+
+		JSONLayout.updateLayoutTemplateOfPublicLayout(
+			groupName = "Guest",
+			layoutName = "Calendar Page",
+			layoutTemplate = "1 Column");
+
+		JSONLayout.addWidgetToPublicLayout(
+			groupName = "Guest",
+			layoutName = "Calendar Page",
+			widgetName = "Calendar");
+
+		Navigator.openSpecificURL(url = "${portalURL}/web/guest/calendar-page");
+	}
+
+	tearDown {
+		var testLiferayVirtualInstance = PropsUtil.get("test.liferay.virtual.instance");
+
+		if (${testLiferayVirtualInstance} == "true") {
+			PortalInstances.tearDownCP();
+		}
+		else {
+			Navigator.gotoPage(pageName = "Calendar Page");
+
+			JSONCalendar.tearDown();
+
+			CalendarConfiguration.tearDown();
+
+			PagesAdmin.tearDownCP();
+		}
+	}
+
+	@description = "This is a use case for LPS-52517."
+	@priority = 3
+	test ViewCorrectNumberOfWeeksMonthView {
+		Calendar.viewMonth(dateMonth = "April 2016");
+
+		Calendar.viewWeekCountViaMonthView(weekNumber = 5);
+
+		Calendar.viewMonth(dateMonth = "July 2016");
+
+		Calendar.viewWeekCountViaMonthView(weekNumber = 6);
+	}
+
+	@description = "This is a use case for LPS-67400."
+	@priority = 3
+	test ViewCreatedEventVisibleOnScheduler {
+		CalendarNavigator.gotoAddEvent();
+
+		var endDateTime = CalendarEvent.getCalendarTimeHour(status = "End");
+		var startDateTime = CalendarEvent.getCalendarTimeHour(status = "Start");
+
+		var startDateTime = CalendarEvent.format12To24Hours(time12Hours = ${startDateTime});
+		var endDateTime = CalendarEvent.format12To24Hours(time12Hours = ${endDateTime});
+
+		CalendarEvent.viewTimes(
+			endDateTime = ${endDateTime},
+			startDateTime = ${startDateTime});
+
+		CalendarEvent.editTitle(eventTitle = "Calendar Event");
+
+		CalendarEvent.publish();
+
+		IFrame.closeFrame();
+
+		CalendarScheduler.selectSpecificEvent(eventTitle = "Calendar Event");
+	}
+
+	@priority = 3
+	test ViewDefaultDurationsViaScheduler {
+		for (var minutes : list "15,30,60,120") {
+			Navigator.gotoPage(pageName = "Calendar Page");
+
+			CalendarNavigator.gotoConfiguration();
+
+			CalendarConfiguration.selectDefaultDuration(defaultDuration = "${minutes} Minutes");
+
+			CalendarConfiguration.save();
+
+			Navigator.gotoPage(pageName = "Calendar Page");
+
+			CalendarNavigator.gotoView(viewType = "Day");
+
+			CalendarEvent.addViaDayView(eventTitle = "Calendar Event ${minutes} Minutes Title");
+
+			CalendarScheduler.viewEventDuration(
+				eventTitle = "Calendar Event ${minutes} Minutes Title",
+				minutes = ${minutes});
+
+			CalendarEvent.tearDownNoCloseMessage();
+		}
+	}
+
+	@description = "This is a use case for LPS-59251."
+	@priority = 3
+	test ViewDisplayedSiteCalendarEventsAsGuest {
+		property test.liferay.virtual.instance = "false";
+		property test.run.type = "single";
+
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
+
+		CalendarNavigator.gotoAddEvent();
+
+		CalendarEvent.editTitle(eventTitle = "Liferay Calendar Event Title");
+
+		CalendarEvent.setTimes(
+			endDateTime = " 4:00 AM",
+			startDateTime = " 3:00 AM");
+
+		CalendarEvent.selectCalendar(calendarName = ${siteName});
+
+		CalendarEvent.publish();
+
+		Navigator.gotoPage(pageName = "Calendar Page");
+
+		CalendarNavigator.gotoAddEvent();
+
+		CalendarEvent.editTitle(eventTitle = "Test Test Calendar Event Title");
+
+		CalendarEvent.setTimes(
+			endDateTime = " 9:00 PM",
+			startDateTime = " 8:00 PM");
+
+		CalendarEvent.selectCalendar(calendarName = "Test Test");
+
+		CalendarEvent.publish();
+
+		Navigator.gotoPage(pageName = "Calendar Page");
+
+		CalendarScheduler.viewWeek(eventTitle = "Liferay Calendar Event Title");
+
+		CalendarScheduler.viewWeek(eventTitle = "Test Test Calendar Event Title");
+
+		Navigator.gotoPersonalSite();
+
+		Portlet.addPG(portletName = "Calendar");
+
+		User.logoutPG();
+
+		Navigator.gotoPage(pageName = "Calendar Page");
+
+		CalendarEvent.viewSiteCalendarEventWithDefaultPermissions(
+			calendarName = ${siteName},
+			endDateTime = "4:00 AM",
+			eventTitle = "Liferay Calendar Event Title",
+			siteName = ${siteName},
+			startDateTime = "3:00 AM");
+
+		CalendarEvent.viewSiteCalendarEventNotPresent(
+			endDateTime = " 9:00 PM",
+			siteName = "Test Test",
+			startDateTime = " 8:00 PM");
+
+		Navigator.gotoSitePage(
+			pageName = "My Profile",
+			siteName = "Test");
+
+		CalendarEvent.viewSiteCalendarEventNotPresent(
+			endDateTime = " 9:00 PM",
+			siteName = ${siteName},
+			startDateTime = " 8:00 PM");
+
+		CalendarEvent.viewSiteCalendarEventNotPresent(
+			endDateTime = " 4:00 PM",
+			siteName = ${siteName},
+			startDateTime = " 3:00 PM");
+	}
+
+}

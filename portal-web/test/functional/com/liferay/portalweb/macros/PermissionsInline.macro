@@ -1,0 +1,450 @@
+definition {
+
+	@summary = "Default summary"
+	macro addOrRemoveAccessPermissionFromAllRoles(addOrRemoveViewPermission = null, roleList = null) {
+		for (var roleTitle : list ${roleList}) {
+			var roleTitle = ${roleTitle};
+
+			var key_roleTitle = StringUtil.replace(${roleTitle}, " ", "-");
+
+			var key_roleTitle = StringUtil.lowerCase(${key_roleTitle});
+
+			ScrollWebElementIntoView(locator1 = "Permissions#CONFIGURATION_PERMISSIONS_ACCESS_CHECKBOX");
+
+			takeScreenshot();
+
+			if (${addOrRemoveViewPermission} == "Add") {
+				Check.checkNotVisible(locator1 = "Permissions#CONFIGURATION_PERMISSIONS_ACCESS_CHECKBOX");
+			}
+			else if (${addOrRemoveViewPermission} == "Remove") {
+				Uncheck.uncheckNotVisible(locator1 = "Permissions#CONFIGURATION_PERMISSIONS_ACCESS_CHECKBOX");
+			}
+		}
+
+		Button.clickSave();
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "Message#SUCCESS",
+			value1 = "successfully.");
+	}
+
+	@summary = "Default summary"
+	macro addOrRemoveAnyPermissionsFromSpecificRole(addOrRemoveViewPermission = null, roleTitle = null, permissionsKeyList = null) {
+		var key_roleTitle = StringUtil.replace(${roleTitle}, " ", "-");
+
+		var key_roleTitle = StringUtil.lowerCase(${key_roleTitle});
+
+		SelectFrameTop(value1 = "relative=top");
+
+		SelectFrame(locator1 = "IFrame#MODAL_BODY");
+
+		if (${addOrRemoveViewPermission} == "Add") {
+			if (isSet(permissionsBulkEditing)) {
+				for (var permissionDefinitionKey : list ${permissionsKeyList}) {
+					if (IsElementPresent(locator1 = "Permissions#${permissionDefinitionKey}_INDETERMINATE")) {
+						Click.clickNoWaitForVisible(locator1 = "Permissions#${permissionDefinitionKey}_INDETERMINATE");
+					}
+
+					Check.checkNotVisible(locator1 = "Permissions#${permissionDefinitionKey}");
+				}
+			}
+			else {
+				for (var permissionDefinitionKey : list ${permissionsKeyList}) {
+					Check.checkNotVisible(locator1 = "Permissions#${permissionDefinitionKey}");
+				}
+			}
+		}
+		else if (${addOrRemoveViewPermission} == "Remove") {
+			if (isSet(permissionsBulkEditing)) {
+				for (var permissionDefinitionKey : list ${permissionsKeyList}) {
+					if (IsElementPresent(locator1 = "Permissions#${permissionDefinitionKey}_INDETERMINATE")) {
+						Click.clickNoWaitForVisible(locator1 = "Permissions#${permissionDefinitionKey}_INDETERMINATE");
+					}
+					else {
+						Uncheck.uncheckNotVisible(locator1 = "Permissions#${permissionDefinitionKey}");
+					}
+				}
+			}
+			else {
+				for (var permissionDefinitionKey : list ${permissionsKeyList}) {
+					Uncheck.uncheckNotVisible(locator1 = "Permissions#${permissionDefinitionKey}");
+				}
+			}
+		}
+
+		Button.clickSave();
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "Message#SUCCESS",
+			value1 = "successfully.");
+	}
+
+	@summary = "Default summary"
+	macro addOrRemoveEntryPermissionsFromAllRoles(addOrRemoveViewPermission = null, roleTitle = null, permissionDefinitionKeyList = null) {
+		if (${addOrRemoveViewPermission} == "Remove") {
+			for (var permissionDefinitionKey : list ${permissionDefinitionKeyList}) {
+				var key_permissionDefinitionKey = ${permissionDefinitionKey};
+				var key_roleTitle = ${roleTitle};
+
+				Uncheck.uncheckNotVisible(locator1 = "AssetPermissions#PERMISSIONS_CHECKBOX");
+			}
+		}
+		else {
+			for (var permissionDefinitionKey : list ${permissionDefinitionKeyList}) {
+				var key_permissionDefinitionKey = ${permissionDefinitionKey};
+				var key_roleTitle = ${roleTitle};
+
+				Check.checkNotVisible(locator1 = "AssetPermissions#PERMISSIONS_CHECKBOX");
+			}
+		}
+	}
+
+	@summary = "Default summary"
+	macro addOrRemoveManagePagesPermissionFromAllRoles(addOrRemoveViewPermission = null, roleList = null) {
+		for (var roleTitle : list ${roleList}) {
+			var roleTitle = ${roleTitle};
+
+			var key_roleTitle = StringUtil.replace(${roleTitle}, " ", "-");
+
+			var key_roleTitle = StringUtil.lowerCase(${key_roleTitle});
+
+			if (${addOrRemoveViewPermission} == "Add") {
+				Check.checkNotVisible(locator1 = "Permissions#CONTENT_PERMISSIONS_MANAGE_PAGES_CHECKBOX");
+			}
+			else if (${addOrRemoveViewPermission} == "Remove") {
+				Uncheck.uncheckNotVisible(locator1 = "Permissions#CONTENT_PERMISSIONS_MANAGE_PAGES_CHECKBOX");
+			}
+		}
+
+		Button.clickSave();
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "Message#SUCCESS",
+			value1 = "successfully.");
+	}
+
+	@summary = "Default summary"
+	macro addOrRemoveSubscribePermissionFromAllRoles(addOrRemoveViewPermission = null, roleList = null) {
+		for (var roleTitle : list ${roleList}) {
+			var roleTitle = ${roleTitle};
+
+			var key_roleTitle = StringUtil.replace(${roleTitle}, " ", "-");
+
+			var key_roleTitle = StringUtil.lowerCase(${key_roleTitle});
+
+			if (${addOrRemoveViewPermission} == "Add") {
+				Check.checkNotVisible(locator1 = "Permissions#CONFIGURATION_PERMISSIONS_SUBSCRIBE_CHECKBOX");
+			}
+			else if (${addOrRemoveViewPermission} == "Remove") {
+				Uncheck.uncheckNotVisible(locator1 = "Permissions#CONFIGURATION_PERMISSIONS_SUBSCRIBE_CHECKBOX");
+			}
+		}
+
+		Button.clickSave();
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "Message#SUCCESS",
+			value1 = "successfully.");
+	}
+
+	@summary = "Default summary"
+	macro addOrRemoveViewPermissionFromAllRoles(addOrRemoveViewPermission = null, roleList = null) {
+		for (var roleTitle : list ${roleList}) {
+			var roleTitle = ${roleTitle};
+
+			var key_roleTitle = StringUtil.replace(${roleTitle}, " ", "-");
+
+			var key_roleTitle = StringUtil.lowerCase(${key_roleTitle});
+
+			ScrollWebElementIntoView(locator1 = "Permissions#CONFIGURATION_PERMISSIONS_VIEW_CHECKBOX");
+
+			takeScreenshot();
+
+			if (${addOrRemoveViewPermission} == "Add") {
+				Check.checkNotVisible(locator1 = "Permissions#CONFIGURATION_PERMISSIONS_VIEW_CHECKBOX");
+			}
+			else if (${addOrRemoveViewPermission} == "Remove") {
+				Uncheck.uncheckNotVisible(locator1 = "Permissions#CONFIGURATION_PERMISSIONS_VIEW_CHECKBOX");
+			}
+		}
+
+		Button.clickSave();
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "Message#SUCCESS",
+			value1 = "successfully.");
+	}
+
+	@summary = "Default summary"
+	macro assertDefaultPG(roleList = null) {
+		for (var roleTitle : list ${roleList}) {
+			var roleTitle = ${roleTitle};
+
+			var key_roleTitle = StringUtil.replace(${roleTitle}, " ", "-");
+
+			var key_roleTitle = StringUtil.lowerCase(${key_roleTitle});
+
+			if ((${roleTitle} == "Guest") || (${roleTitle} == "Site Member")) {
+				AssertNotChecked.assertNotCheckedNotVisible(locator1 = "Permissions#CONFIGURATION_PERMISSIONS_ADD_TO_PAGE_CHECKBOX");
+			}
+			else {
+				AssertChecked.assertCheckedNotVisible(locator1 = "Permissions#CONFIGURATION_PERMISSIONS_ADD_TO_PAGE_CHECKBOX");
+			}
+
+			if ((${roleTitle} == "Guest") || (${roleTitle} == "Power User") || (${roleTitle} == "Site Member") || (${roleTitle} == "User")) {
+				AssertNotChecked.assertNotCheckedNotVisible(locator1 = "Permissions#CONFIGURATION_PERMISSIONS_CONFIGURATION_CHECKBOX");
+
+				AssertNotChecked.assertNotCheckedNotVisible(locator1 = "Permissions#CONFIGURATION_PERMISSIONS_PERMISSIONS_CHECKBOX");
+			}
+			else {
+				AssertChecked.assertCheckedNotVisible(locator1 = "Permissions#CONFIGURATION_PERMISSIONS_CONFIGURATION_CHECKBOX");
+
+				AssertChecked.assertCheckedNotVisible(locator1 = "Permissions#CONFIGURATION_PERMISSIONS_PERMISSIONS_CHECKBOX");
+			}
+
+			if ((${roleTitle} == "Power User") || (${roleTitle} == "User")) {
+				AssertNotChecked.assertNotCheckedNotVisible(locator1 = "Permissions#CONFIGURATION_PERMISSIONS_VIEW_CHECKBOX");
+			}
+			else {
+				AssertChecked.assertCheckedNotVisible(locator1 = "Permissions#CONFIGURATION_PERMISSIONS_VIEW_CHECKBOX");
+			}
+		}
+	}
+
+	@summary = "Default summary"
+	macro gotoConfigurationPG(siteTemplate = null, portletOption = null, portletName = null) {
+		if (isSet(portletOption)) {
+			var optionName = ${portletOption};
+		}
+		else {
+			var optionName = "Permissions";
+		}
+
+		Portlet.gotoPortletOptions(
+			portletName = ${portletName},
+			portletOption = ${optionName},
+			siteTemplate = ${siteTemplate});
+
+		SelectFrame(locator1 = "IFrame#MODAL_BODY");
+	}
+
+	@summary = "Default summary"
+	macro gotoDepotEntry(depotName = null) {
+		WaitForLiferayEvent.initializeLiferayEventLog();
+
+		LexiconEntry.gotoEntryMenuItem(
+			menuItem = "Permissions",
+			rowEntry = ${depotName});
+	}
+
+	@summary = "Default summary"
+	macro gotoDocumentsAndMediaDocumentPG(dmDocumentTitle = null) {
+		WaitForLiferayEvent.initializeLiferayEventLog();
+
+		LexiconEntry.gotoEntryMenuItem(
+			menuItem = "Permissions",
+			rowEntry = ${dmDocumentTitle});
+
+		if (IsElementPresent(key_title = "Permissions", locator1 = "IFrame#MODAL_ANY")) {
+			IFrame.selectPermissionsFrame();
+		}
+	}
+
+	@summary = "Default summary"
+	macro gotoDocumentsAndMediaHomeFolderPG(siteName = null, pageName = null) {
+		Navigator.gotoSitePage(
+			pageName = ${pageName},
+			siteName = ${siteName});
+
+		DMDocument.enableActionsMenuOnPortlet();
+
+		Navigator.gotoSitePage(
+			pageName = ${pageName},
+			siteName = ${siteName});
+
+		Click(locator1 = "Icon#INFO_DM");
+
+		Click.waitForMenuToggleJSClick(locator1 = "Icon#VERTICAL_ELLIPSIS_BUTTON");
+
+		WaitForLiferayEvent.initializeLiferayEventLog();
+
+		MenuItem.click(menuItem = "Permissions");
+
+		SelectFrame(locator1 = "IFrame#MODAL_BODY");
+	}
+
+	@summary = "Default summary"
+	macro gotoMessageBoardsCategoryPG(categoryName = null) {
+		AssertClick(
+			key_categoryName = ${categoryName},
+			locator1 = "MessageBoards#CATEGORY_LIST_CATEGORY",
+			value1 = ${categoryName});
+
+		Click(locator1 = "Icon#BODY_VERTICAL_ELLIPSIS");
+
+		MenuItem.click(menuItem = "Permissions");
+
+		SelectFrame(locator1 = "IFrame#MODAL_BODY");
+	}
+
+	@summary = "Default summary"
+	macro gotoMessageBoardsPG(pageName = null) {
+		Navigator.gotoPage(pageName = ${pageName});
+
+		Click(locator1 = "Icon#BODY_VERTICAL_ELLIPSIS");
+
+		MenuItem.click(menuItem = "Permissions");
+
+		SelectFrame(locator1 = "IFrame#MODAL_BODY");
+	}
+
+	@summary = "Default summary"
+	macro gotoMessageBoardsThreadPG(threadSubject = null) {
+		WaitForLiferayEvent.initializeLiferayEventLog();
+
+		LexiconEntry.gotoEntryMenuItem(
+			menuItem = "Permissions",
+			rowEntry = ${threadSubject});
+
+		SelectFrame(locator1 = "IFrame#MODAL_BODY");
+	}
+
+	@summary = "Default summary"
+	macro gotoMessageBoardsThreadReplyPG(threadSubject = null, siteName = null, pageName = null, threadReplyBody = null) {
+		Navigator.gotoSitePage(
+			pageName = ${pageName},
+			siteName = ${siteName});
+
+		AssertClick.assertPartialTextClickAt(
+			key_threadSubject = ${threadSubject},
+			locator1 = "MessageBoards#THREAD_LIST_THREAD",
+			value1 = ${threadSubject});
+
+		Click.waitForMenuToggleJSClick(
+			key_threadReplyBody = ${threadReplyBody},
+			locator1 = "MessageBoards#THREAD_REPLY_ACTIONS");
+
+		MenuItem.click(menuItem = "Permissions");
+
+		SelectFrame(locator1 = "IFrame#MODAL_BODY");
+	}
+
+	@summary = "Default summary"
+	macro gotoPagePG(site = null, pageName = null) {
+		ProductMenu.gotoPortlet(
+			category = "Site Builder",
+			portlet = "Pages",
+			site = ${site});
+
+		PagesAdmin.gotoPageEllipsisMenuItem(
+			menuItem = "Permissions",
+			pageName = ${pageName});
+
+		IFrame.selectPermissionsFrame();
+	}
+
+	@summary = "Default summary"
+	macro gotoPollPermissionsCP(pollsQuestionTitle = null) {
+		LexiconEntry.gotoEntryMenuItem(
+			menuItem = "Permissions",
+			rowEntry = ${pollsQuestionTitle});
+
+		SelectFrame(locator1 = "IFrame#MODAL_BODY");
+	}
+
+	@summary = "Default summary"
+	macro gotoRolePermissions(roleName = null) {
+		WaitForLiferayEvent.initializeLiferayEventLog();
+
+		LexiconEntry.gotoEntryMenuItem(
+			menuItem = "Permissions",
+			rowEntry = ${roleName});
+
+		SelectFrame(locator1 = "IFrame#MODAL_BODY");
+	}
+
+	@summary = "Default summary"
+	macro gotoSitePageCP(privacy = null, pageName = null) {
+		if (isSet(privacy)) {
+			PagesAdmin.togglePrivacy(privacy = ${privacy});
+		}
+
+		WaitForLiferayEvent.initializeLiferayEventLog();
+
+		PagesAdmin.gotoPageEllipsisMenuItem(
+			menuItem = "Permissions",
+			pageName = ${pageName});
+
+		IFrame.selectPermissionsFrame();
+	}
+
+	@summary = "Default summary"
+	macro gotoSiteTeamsCP(teamName = null, siteScopeName = null, portletName = null) {
+		Navigator.openSiteURL(siteName = ${siteScopeName});
+
+		ProductMenu.gotoPortlet(
+			category = "People",
+			portlet = ${portletName});
+
+		LexiconEntry.gotoEntryMenuItem(
+			menuItem = "Permissions",
+			rowEntry = ${teamName});
+
+		SelectFrame(locator1 = "IFrame#MODAL_BODY");
+	}
+
+	@summary = "Default summary"
+	macro gotoSiteTemplateCP(site = null, page = null) {
+		ProductMenu.gotoPortlet(
+			category = "Site Builder",
+			portlet = "Pages",
+			site = ${site});
+
+		PagesAdmin.gotoPageEllipsisMenuItem(
+			menuItem = "Permissions",
+			pageName = ${page});
+	}
+
+	@summary = "Default summary"
+	macro gotoUserGroupSitePermissionsCP(userGroupName = null) {
+		UserGroup.openUserGroupsAdmin();
+
+		LexiconEntry.openEntryMenu(rowEntry = ${userGroupName});
+
+		MenuItem.click(menuItem = "User Group Pages Permissions");
+
+		SelectFrame(locator1 = "IFrame#MODAL_BODY");
+	}
+
+	@summary = "Default summary"
+	macro gotoWCArticle(webContentTitle = null) {
+		LexiconList.clickEllipsisItem(
+			item = "Permissions",
+			listEntry = ${webContentTitle});
+
+		IFrame.selectPermissionsFrame();
+	}
+
+	@summary = "Default summary"
+	macro viewPermissionsChecked(permissionDefinitionKey = null, roleTitle = null) {
+		var key_roleTitle = StringUtil.replace(${roleTitle}, " ", "-");
+
+		var key_roleTitle = StringUtil.lowerCase(${key_roleTitle});
+
+		ScrollWebElementIntoView(locator1 = "Permissions#${permissionDefinitionKey}");
+
+		AssertChecked.assertCheckedNotVisible(locator1 = "Permissions#${permissionDefinitionKey}");
+	}
+
+	@summary = "Default summary"
+	macro viewPermissionsRemoved(permissionDefinitionKey = null, roleTitle = null) {
+		var key_roleTitle = StringUtil.replace(${roleTitle}, " ", "-");
+
+		var key_roleTitle = StringUtil.lowerCase(${key_roleTitle});
+
+		ScrollWebElementIntoView(locator1 = "Permissions#${permissionDefinitionKey}");
+
+		AssertNotChecked.assertNotCheckedNotVisible(locator1 = "Permissions#${permissionDefinitionKey}");
+	}
+
+}

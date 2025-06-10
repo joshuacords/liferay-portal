@@ -1,0 +1,16 @@
+task runGradleTest
+
+gradle.liferayWorkspace {
+	bundleUrl = uri("bundle.zip")
+	product = "dxp-2023.q4.6"
+}
+
+runGradleTest {
+	dependsOn initBundle
+
+	doLast {
+		File bundleFile = file("cacheDir/bundle.zip")
+
+		assert bundleFile.exists()
+	}
+}

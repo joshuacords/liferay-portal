@@ -1,0 +1,95 @@
+definition {
+
+	@summary = "Default summary"
+	macro _addCP(tagName = null) {
+		LexiconEntry.gotoAdd();
+
+		AssertElementPresent(locator1 = "TextInput#NAME");
+
+		PortletEntry.inputName(name = ${tagName});
+	}
+
+	@summary = "Default summary"
+	macro addCP(tagName = null) {
+		Tag._addCP(tagName = ${tagName});
+
+		PortletEntry.save();
+	}
+
+	@summary = "Default summary"
+	macro addViaSiteCP(tagNameList = null) {
+		Click(
+			key_itemName = "Assets",
+			locator1 = "ListGroupItem#ITEM_TEXT");
+
+		Navigator.gotoNavTab(navTab = "Categorization");
+
+		for (var tagName : list ${tagNameList}) {
+			AssetCategorization.addTag(tagName = ${tagName});
+		}
+
+		PortletEntry.save();
+
+		Navigator.gotoBack();
+	}
+
+	@summary = "Default summary"
+	macro editCP(tagNameEdit = null, tagMenuName = null) {
+		LexiconEntry.gotoEntryMenuItem(
+			menuItem = "Edit",
+			rowEntry = ${tagMenuName});
+
+		PortletEntry.inputName(name = ${tagNameEdit});
+
+		PortletEntry.save();
+	}
+
+	@summary = "Default summary"
+	macro openTagsAdmin(baseURL = null, siteURLKey = null) {
+		Navigator.openWithAppendToBaseURL(
+			baseURL = ${baseURL},
+			urlAppend = "group/${siteURLKey}/~/control_panel/manage/-/tags_admin/");
+	}
+
+	@summary = "Default summary"
+	macro tearDownCP(stagingSite = null, site = null) {
+		if (${stagingSite} == "true") {
+			ProductMenu.gotoStagingSite(site = ${site});
+		}
+		else {
+			Navigator.openURL();
+		}
+
+		ProductMenu.gotoPortlet(
+			category = "Categorization",
+			portlet = "Tags");
+
+		while (IsElementNotPresent(locator1 = "Message#EMPTY_INFO")) {
+			PortletEntry.selectAll();
+
+			Click(
+				key_text = "trash",
+				locator1 = "ManagementBar#ANY_ICON");
+
+			AssertTextEquals(
+				locator1 = "Modal#BODY",
+				value1 = "Are you sure you want to delete this? It will be deleted immediately.");
+
+			Click(
+				key_text = "Delete",
+				locator1 = "Modal#MODAL_FOOTER_BUTTON");
+		}
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "Message#EMPTY_INFO",
+			value1 = "There are no tags.");
+	}
+
+	@summary = "Default summary"
+	macro viewCP(tagNameList = null) {
+		for (var tagName : list ${tagNameList}) {
+			LexiconEntry.viewEntryName(rowEntry = ${tagName});
+		}
+	}
+
+}

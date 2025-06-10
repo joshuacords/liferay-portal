@@ -1,0 +1,33 @@
+[
+	{
+		"actions": [
+			{
+				"actionIds": [
+					"MANAGE_AVAILABLE_ACCOUNTS"
+				],
+				"resource": "com.liferay.portal.kernel.model.Organization"
+			},
+			{
+				"actionIds": [
+					"MANAGE_ORGANIZATIONS"
+				],
+				"resource": "com.liferay.account.model.AccountEntry"
+			},
+			{
+				"actionIds": [
+					"MANAGE_USERS"
+				],
+				"resource": "com.liferay.account.model.AccountEntry"
+			},
+			{
+				"actionIds": [
+					"VIEW"
+				],
+				"resource": "com.liferay.account.model.AccountRole"
+			}
+		],
+		"name": "Sales Agent",
+		"scope": 1,
+		"type": 1
+	}
+]

@@ -1,0 +1,240 @@
+@component-name = "portal-headless"
+definition {
+
+	property ci.retries.disabled = "true";
+	property portal.release = "true";
+	property portal.upstream = "true";
+	property testray.main.component.name = "Staging";
+
+	setUp {
+		TestCase.setUpPortalInstance();
+
+		User.firstLoginPG();
+	}
+
+	tearDown {
+		var testLiferayVirtualInstance = PropsUtil.get("test.liferay.virtual.instance");
+
+		if (${testLiferayVirtualInstance} == "true") {
+			PortalInstances.tearDownCP();
+		}
+		else {
+			JSONUser.tearDownNonAdminUsers();
+
+			JSONOrganization.deleteOrganizationByName(organizationName = "Staging Organization Name");
+		}
+	}
+
+	@description = "Check the actions of organizational users with different identities in the workflow of publishing Blogs in local staging."
+	@priority = 3
+	test BlogsOrganizationWorkflowStaging {
+		property test.liferay.virtual.instance = "false";
+		property test.run.type = "single";
+
+		Permissions.definePermissionViaJSONAPI(
+			resourceAction = "ADD_ENTRY",
+			resourceName = "com.liferay.blogs",
+			roleTitle = "Organization User",
+			roleType = "organization");
+
+		Permissions.definePermissionViaJSONAPI(
+			resourceAction = "MANAGE_LAYOUTS",
+			resourceName = "com.liferay.portal.kernel.model.Group",
+			roleTitle = "Organization User",
+			roleType = "organization");
+
+		JSONOrganization.addOrganization(
+			organizationName = "Staging Organization Name",
+			organizationSite = "true");
+
+		PagesAdmin.openPagesAdmin(siteURLKey = "Staging Organization Name");
+
+		PagesAdmin.addPage(pageName = "Staging Test Page");
+
+		JSONUser.addUser(
+			userEmailAddress = "userea@liferay.com",
+			userFirstName = "userfn",
+			userLastName = "userln",
+			userScreenName = "usersn");
+
+		User.openUsersAdmin();
+
+		User.editPasswordCP(
+			password = "password",
+			userEmailAddress = "userea@liferay.com",
+			userScreenName = "usersn");
+
+		JSONOrganization.assignUserToOrganization(
+			organizationName = "Staging Organization Name",
+			userEmailAddress = "userea@liferay.com");
+
+		JSONUser.addUser(
+			userEmailAddress = "usereacr@liferay.com",
+			userFirstName = "userfncr",
+			userLastName = "userlncr",
+			userName = "userfncr userlncr",
+			userScreenName = "usersncr");
+
+		User.openUsersAdmin();
+
+		User.editPasswordCP(
+			password = "password",
+			userEmailAddress = "usereacr@liferay.com",
+			userScreenName = "usersncr");
+
+		JSONOrganization.assignUserToOrganization(
+			organizationName = "Staging Organization Name",
+			userEmailAddress = "usereacr@liferay.com");
+
+		JSONGroup.assignGroupRoleToUser(
+			groupName = "Staging Organization Name",
+			roleTitle = "Organization Content Reviewer",
+			userEmailAddress = "usereacr@liferay.com");
+
+		JSONUser.addUser(
+			userEmailAddress = "usereaoa@liferay.com",
+			userFirstName = "userfnoa",
+			userLastName = "userlnoa",
+			userScreenName = "usersnoa");
+
+		User.openUsersAdmin();
+
+		User.editPasswordCP(
+			password = "password",
+			userEmailAddress = "usereaoa@liferay.com",
+			userScreenName = "usersnoa");
+
+		JSONOrganization.assignUserToOrganization(
+			organizationName = "Staging Organization Name",
+			userEmailAddress = "usereaoa@liferay.com");
+
+		JSONGroup.assignGroupRoleToUser(
+			groupName = "Staging Organization Name",
+			roleTitle = "Organization Administrator",
+			userEmailAddress = "usereaoa@liferay.com");
+
+		JSONStaging.enableLocalStaging(groupName = "Staging Organization Name");
+
+		Workflow.openWorkflowAdmin(siteURLKey = "staging-organization-name-staging");
+
+		Workflow.configureWorkflow(
+			workflowDefinition = "Single Approver",
+			workflowResourceValue = "Blogs Entry");
+
+		User.logoutAndLoginPG(
+			userLoginEmailAddress = "userea@liferay.com",
+			userLoginFullName = "userfn userln");
+
+		Navigator.openStagingSiteURL(siteName = "Staging Organization Name");
+
+		Portlet.addPG(
+			pageName = "Staging Test Page",
+			portletName = "Blogs");
+
+		User.logoutPG();
+
+		PagesAdmin.openPagesAdmin(siteURLKey = "Staging Organization Name");
+
+		AssertElementNotPresent(
+			key_portletName = "Blogs",
+			locator1 = "Portlet#TITLE");
+
+		User.loginPG(
+			password = PropsUtil.get("default.admin.password"),
+			userEmailAddress = "usereaoa@liferay.com");
+
+		Navigator.openStagingSiteURL(siteName = "Staging Organization Name");
+
+		Staging.gotoPublishToLive();
+
+		Staging.publishToLive();
+
+		User.logoutPG();
+
+		Navigator.openSiteURL(siteName = "Staging Organization Name");
+
+		AssertElementPresent(
+			key_portletName = "Blogs",
+			locator1 = "Portlet#TITLE");
+
+		User.loginPG(
+			password = PropsUtil.get("default.admin.password"),
+			userEmailAddress = "userea@liferay.com");
+
+		Navigator.openStagingSiteURL(siteName = "Staging Organization Name");
+
+		BlogsEntry.addWithWorkflowPG(
+			entryContent = "Blogs Entry Content",
+			entryTitle = "Blogs Entry Title");
+
+		User.logoutPG();
+
+		PagesAdmin.openPagesAdmin(siteURLKey = "Staging Organization Name");
+
+		AssertElementNotPresent(
+			key_entryTitle = "Blogs Entry Title",
+			locator1 = "BlogsEntry#TITLE");
+
+		User.loginPG(
+			password = PropsUtil.get("default.admin.password"),
+			userEmailAddress = "usereacr@liferay.com");
+
+		UserBar.gotoDropdownItem(dropdownItem = "My Workflow Tasks");
+
+		Workflow.assignToMeTaskByActions(
+			workflowAssetTitle = "Blogs Entry Title",
+			workflowAssetType = "Blogs Entry",
+			workflowTask = "Review");
+
+		Workflow.approveTaskByActions(
+			workflowAssetTitle = "Blogs Entry Title",
+			workflowAssetType = "Blogs Entry",
+			workflowTask = "Review");
+
+		User.logoutPG();
+
+		PagesAdmin.openPagesAdmin(siteURLKey = "Staging Organization Name");
+
+		AssertElementNotPresent(
+			key_entryTitle = "Blogs Entry Title",
+			locator1 = "BlogsEntry#TITLE");
+
+		User.loginPG(
+			password = PropsUtil.get("default.admin.password"),
+			userEmailAddress = "usereaoa@liferay.com");
+
+		Navigator.openStagingSiteURL(siteName = "Staging Organization Name");
+
+		Staging.gotoPublishToLive();
+
+		Staging.publishToLive();
+
+		User.logoutPG();
+
+		Navigator.openSiteURL(siteName = "Staging Organization Name");
+
+		AssertElementPresent(
+			key_entryTitle = "Blogs Entry Title",
+			locator1 = "BlogsEntry#TITLE");
+
+		User.loginPG(
+			password = PropsUtil.get("default.admin.password"),
+			userEmailAddress = "test@liferay.com");
+
+		Role.openRolesAdmin();
+
+		Permissions.removePermissionViaAPI(
+			resourceAction = "ADD_ENTRY",
+			resourceName = "com.liferay.blogs",
+			roleTitle = "Organization User",
+			roleType = "organization");
+
+		var key_permissionDefinitionValue = "Add Entry";
+		var key_permissionNavigationValue = "Blogs";
+
+		AssertElementNotPresent(locator1 = "RolesPermissionsSummary#PERMISSION_TABLE_PERMISSIONS");
+
+		AssertElementNotPresent(locator1 = "RolesPermissionsSummary#PERMISSION_TABLE_REMOVE");
+	}
+
+}

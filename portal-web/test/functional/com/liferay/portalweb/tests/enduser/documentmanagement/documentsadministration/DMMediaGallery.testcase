@@ -1,0 +1,403 @@
+@component-name = "portal-content-management"
+definition {
+
+	property portal.release = "true";
+	property portal.upstream = "true";
+	property testray.main.component.name = "Documents and Media";
+
+	var pageName = "Media Gallery Page";
+	var portletName = "Media Gallery";
+
+	setUp {
+		TestCase.setUpPortalInstance();
+
+		User.firstLoginPG();
+
+		JSONLayout.addPublicLayout(
+			groupName = "Guest",
+			layoutName = "Media Gallery Page");
+
+		JSONLayout.addWidgetToPublicLayout(
+			column = 2,
+			groupName = "Guest",
+			layoutName = "Media Gallery Page",
+			widgetName = "Media Gallery");
+
+		Navigator.gotoPage(pageName = "Media Gallery Page");
+
+		MGPortlet.configureShowAllPG(pageName = "Media Gallery Page");
+	}
+
+	tearDown {
+		var testLiferayVirtualInstance = PropsUtil.get("test.liferay.virtual.instance");
+
+		if (${testLiferayVirtualInstance} == "true") {
+			PortalInstances.tearDownCP();
+		}
+		else {
+			DMFolder.tearDownPGViaMG(pageName = "Media Gallery Page");
+
+			PagesAdmin.tearDownCP(pageName = "Media Gallery Page");
+		}
+	}
+
+	@priority = 4
+	@refactordone
+	test CanAddDocumentInFolder {
+		JSONFolder.addFolder(
+			dmFolderDescription = "DM Folder Description",
+			dmFolderName = "DM Folder Name",
+			groupName = "Guest");
+
+		Navigator.gotoPage(pageName = "Media Gallery Page");
+
+		DMFolder.gotoPGViaMG(mgFolderName = "DM Folder Name");
+
+		DMDocument.addPGViaMG(
+			mgDocumentDescription = "DM Document Description",
+			mgDocumentFile = "Document_1.jpg",
+			mgDocumentTitle = "DM Document Title");
+
+		Navigator.gotoPage(pageName = "Media Gallery Page");
+
+		DMFolder.gotoPGViaMG(mgFolderName = "DM Folder Name");
+
+		DMDocument.viewPGViaMG(mgDocumentTitle = "DM Document Title");
+	}
+
+	@priority = 3
+	@refactordone
+	test CanAddMGWidgetTemplate {
+		JSONFolder.addFolder(
+			dmFolderDescription = "DM Folder Description",
+			dmFolderName = "DM Folder Name",
+			groupName = "Guest");
+
+		JSONDocument.addFileWithUploadedFile(
+			dmDocumentDescription = "DM Document Description",
+			dmDocumentTitle = "DM Document Title",
+			folderName = "DM Folder Name",
+			groupName = "Guest",
+			mimeType = "image/jpeg",
+			sourceFileName = "Document_1.jpg");
+
+		JSONDocument.addFileWithUploadedFile(
+			dmDocumentDescription = "DM Document Description 2",
+			dmDocumentTitle = "DM Document Title 2",
+			folderName = "DM Folder Name",
+			groupName = "Guest",
+			mimeType = "image/jpeg",
+			sourceFileName = "Document_2.jpeg");
+
+		WidgetTemplates.openWidgetTemplatesAdmin(siteURLKey = "guest");
+
+		WidgetTemplates.addCP(
+			adtFile = "adt_media_gallery_carousel.ftl",
+			adtType = "Media Gallery");
+
+		Navigator.gotoPage(pageName = "Media Gallery Page");
+
+		MGPortlet.viewFolderItemsPG(mgFolderName = "DM Folder Name");
+
+		WidgetTemplates.selectPortletADT(templateName = "Media Gallery Test ADT");
+
+		Navigator.gotoPage(pageName = "Media Gallery Page");
+
+		MGPortlet.viewCustomADTCarouselPG();
+	}
+
+	@e2etest
+	@priority = 4
+	@refactordone
+	test CanAddMultipleFolders {
+		Navigator.gotoPage(pageName = "Media Gallery Page");
+
+		DMFolder.addPGViaMG(
+			mgFolderDescription = "DM Folder1 Description",
+			mgFolderName = "DM Folder1 Name");
+
+		DMFolder.viewPGViaMG(mgFolderName = "DM Folder1 Name");
+
+		Navigator.gotoPage(pageName = "Media Gallery Page");
+
+		DMFolder.addPGViaMG(
+			mgFolderDescription = "DM Folder2 Description",
+			mgFolderName = "DM Folder2 Name");
+
+		DMFolder.viewPGViaMG(mgFolderName = "DM Folder2 Name");
+	}
+
+	@priority = 5
+	@refactordone
+	test CanDeleteDocument {
+		property portal.acceptance = "true";
+
+		JSONDocument.addFileWithUploadedFile(
+			dmDocumentDescription = "DM Document Description",
+			dmDocumentTitle = "DM Document Title",
+			groupName = "Guest",
+			mimeType = "image/jpeg",
+			sourceFileName = "Document_1.jpg");
+
+		Navigator.gotoPage(pageName = "Media Gallery Page");
+
+		DMDocument.deletePGViaMG(mgDocumentTitle = "DM Document Title");
+	}
+
+	@priority = 5
+	@refactordone
+	test CanEditDocument {
+		JSONDocument.addFileWithUploadedFile(
+			dmDocumentDescription = "DM Document Description",
+			dmDocumentTitle = "DM Document Title",
+			groupName = "Guest",
+			mimeType = "image/jpeg",
+			sourceFileName = "Document_1.jpg");
+
+		Navigator.gotoPage(pageName = "Media Gallery Page");
+
+		DMDocument.editPGViaMG(
+			mgDocumentDescription = "DM Document Description",
+			mgDocumentDescriptionEdit = "DM Document Description Edit",
+			mgDocumentTitle = "DM Document Title",
+			mgDocumentTitleEdit = "DM Document Title Edit");
+	}
+
+	@priority = 4
+	@refactordone
+	test CanEditSubfolder {
+		JSONFolder.addFolder(
+			dmFolderDescription = "DM Folder Description",
+			dmFolderName = "DM Folder Name",
+			groupName = "Guest");
+
+		JSONFolder.addFolder(
+			dmFolderDescription = "DM Subfolder Description",
+			dmFolderName = "DM Subfolder Name",
+			groupName = "Guest",
+			parentFolderName = "DM Folder Name");
+
+		Navigator.gotoPage(pageName = "Media Gallery Page");
+
+		DMFolder.gotoPGViaMG(mgFolderName = "DM Folder Name");
+
+		DMFolder.editPGViaMG(
+			mgFolderDescription = "DM Subfolder Description",
+			mgFolderDescriptionEdit = "DM Subfolder Description Edit",
+			mgFolderName = "DM Subfolder Name",
+			mgFolderNameEdit = "DM Subfolder Name Edit");
+
+		Navigator.gotoPage(pageName = "Media Gallery Page");
+
+		DMFolder.gotoPGViaMG(mgFolderName = "DM Folder Name");
+
+		DMFolder.viewPGViaMG(mgFolderName = "DM Subfolder Name Edit");
+	}
+
+	@description = "This test ensures that the restricted file extension cannot be uploaded via Media Gallery."
+	@priority = 3
+	test CanLimitUploadedFileExtension {
+		property test.liferay.virtual.instance = "false";
+		property test.run.type = "single";
+
+		DMDocument.updateFileExtensions(fieldValue = ".jpg");
+
+		JSONDocument.addFileWithUploadedFile(
+			dmDocumentDescription = "DM Document Description",
+			dmDocumentTitle = "Document_1.jpg",
+			groupName = "Guest",
+			mimeType = "image/jpeg",
+			sourceFileName = "Document_1.jpg");
+
+		DMDocument.addPGViaMG(
+			groupName = "Guest",
+			layoutName = "media-gallery-page",
+			mediaGallery = "true",
+			mgDocumentDescription = "DM Document Description",
+			mgDocumentFile = "Document_1.jpeg",
+			mgDocumentTitle = "Document_1.jpeg",
+			siteURLKey = "guest",
+			validationError = "Please enter a file with a valid extension (.jpg).");
+
+		Navigator.gotoPage(pageName = "Media Gallery Page");
+
+		DMDocument.viewPGViaMG(mgDocumentTitle = "Document_1.jpg");
+
+		DMDocument.viewNoFilesViaMG(mgDocumentTitle = "Document_1.jpeg");
+	}
+
+	@priority = 4
+	@refactordone
+	test CanSearchForDocumentInFolder {
+		JSONFolder.addFolder(
+			dmFolderDescription = "DM Folder Description",
+			dmFolderName = "DM Folder Name",
+			groupName = "Guest");
+
+		JSONDocument.addFileWithUploadedFile(
+			dmDocumentDescription = "DM Document Description",
+			dmDocumentTitle = "DM Document Title",
+			folderName = "DM Folder Name",
+			groupName = "Guest",
+			mimeType = "image/jpeg",
+			sourceFileName = "Document_1.jpg");
+
+		Navigator.gotoPage(pageName = "Media Gallery Page");
+
+		SearchPage.searchEmbedded(searchTerm = "DM Document Title");
+
+		SearchResults.viewSearchResults(
+			searchAssetTitle = "DM Document Title",
+			searchAssetType = "Document");
+
+		Navigator.gotoPage(pageName = "Media Gallery Page");
+
+		SearchPage.searchEmbedded(searchTerm = '''"DM Document Title"''');
+
+		SearchResults.viewSearchResults(
+			searchAssetTitle = "DM Document Title",
+			searchAssetType = "Document");
+	}
+
+	@description = "This test covers LPS-153892. It ensures that the external video shortcuts can be rendered."
+	@priority = 4
+	test CanViewExternalVideoShortcut {
+		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
+
+		VideoShortcut.addCP(
+			videoShortcutTitle = "Test YouTube Video Name",
+			videoURL = "https://www.youtube.com/watch?v=HOdbzGCI5ME");
+
+		Navigator.gotoPage(pageName = "Media Gallery Page");
+
+		DMDocument.viewPGViaMG(mgDocumentTitle = "Test YouTube Video Name");
+	}
+
+	@description = "This test ensures that a users can view file after configuring a new root folder."
+	@priority = 3
+	test CanViewFileAfterConfiguringRootFolder {
+		JSONFolder.addFolder(
+			dmFolderDescription = "DM Folder Description",
+			dmFolderName = "DM Folder Name",
+			groupName = "Guest");
+
+		JSONFolder.addFolder(
+			dmFolderDescription = "DM Folder Description",
+			dmFolderName = "DM SubFolder Name",
+			groupName = "Guest",
+			parentFolderName = "DM Folder Name");
+
+		JSONDocument.addFileWithUploadedFile(
+			dmDocumentDescription = "DM Document Description1",
+			dmDocumentTitle = "Document_1.jpg",
+			folderName = "DM Folder Name",
+			groupName = "Guest",
+			mimeType = "image/jpeg",
+			sourceFileName = "Document_1.jpg");
+
+		Navigator.gotoPage(pageName = "Media Gallery Page");
+
+		MGPortlet.setRootFolder(
+			dmFolderName = "DM Folder Name",
+			dmRootFolderName = "DM SubFolder Name",
+			selectSubfolder = "true");
+
+		MGPortlet.viewDefault();
+
+		MGPortlet.setRootFolder(
+			dmRootFolderName = "DM Folder Name",
+			selectHomeFolder = "true");
+
+		DMDocument.viewPGViaMG(mgDocumentTitle = "Document_1.jpg");
+	}
+
+	@description = "This ensures that an image in MG widget can be rendered correctly after moving it to a folder."
+	@priority = 4
+	test CanViewImageViaMGAfterMovingToFolder {
+		JSONDocument.addFileWithUploadedFile(
+			dmDocumentDescription = "DM Document Description",
+			dmDocumentTitle = "Document_1",
+			groupName = "Guest",
+			mimeType = "image/jpeg",
+			sourceFileName = "Document_1.jpg");
+
+		JSONFolder.addFolder(
+			dmFolderDescription = "DM Folder Description",
+			dmFolderName = "DM Folder Name",
+			groupName = "Guest");
+
+		JSONDocument.moveFileEntryToFolder(
+			dmDocumentTitle = "Document_1",
+			folderName = "DM Folder Name",
+			groupName = "Guest");
+
+		Navigator.gotoPage(pageName = "Media Gallery Page");
+
+		MGPortlet.setRootFolder(dmRootFolderName = "DM Folder Name");
+
+		DMDocument.viewPGViaMG(mgDocumentTitle = "Document_1");
+	}
+
+	@description = "This test covers LPS-107521. It ensures that the SVG file can be viewed."
+	@priority = 4
+	@refactordone
+	test CanViewSVGImage {
+		Navigator.gotoPage(pageName = "Media Gallery Page");
+
+		JSONDocument.addFileWithUploadedFile(
+			dmDocumentTitle = "Document_1.svg",
+			groupName = "Guest",
+			mimeType = "image/svg+xml",
+			sourceFileName = "Document_1.svg");
+
+		Navigator.gotoPage(pageName = "Media Gallery Page");
+
+		DMDocument.viewPGViaMG(mgDocumentTitle = "Document_1.svg");
+	}
+
+	@description = "This test covers LPS-89361. It ensures that video can be played via media gallery."
+	@priority = 4
+	@refactordone
+	test CanViewVideoViaMediaGallery {
+		property test.assert.warning.exceptions = "false";
+		property test.liferay.virtual.instance = "false";
+		property test.run.type = "single";
+
+		JSONDocument.addFileWithUploadedFile(
+			dmDocumentDescription = "DM Document Description",
+			dmDocumentTitle = "DM Document Title",
+			groupName = "Guest",
+			mimeType = "video/mp4",
+			sourceFileName = "Document_1.mp4");
+
+		DMNavigator.openToConfigInSystemSettings(portlet = "FFMPEG Video Converter");
+
+		FormFields.enableCheckbox(fieldName = "enabled");
+
+		SystemSettings.saveConfiguration();
+
+		Navigator.gotoPage(pageName = "Media Gallery Page");
+
+		DMDocument.viewPGViaMG(
+			mgDocumentTitle = "DM Document Title",
+			mgVideoPreview = "true");
+	}
+
+	@priority = 3
+	@refactordone
+	test DocumentWillNotAppearIfSearchQueryIsIrrelevant {
+		JSONDocument.addFileWithUploadedFile(
+			dmDocumentDescription = "DM Document Description",
+			dmDocumentTitle = "DM Document Title",
+			groupName = "Guest",
+			mimeType = "image/jpeg",
+			sourceFileName = "Document_1.jpg");
+
+		Navigator.gotoPage(pageName = "Media Gallery Page");
+
+		SearchPage.searchEmbedded(searchTerm = "asdf");
+
+		SearchResults.viewNoSearchResults(searchTerm = "asdf");
+	}
+
+}

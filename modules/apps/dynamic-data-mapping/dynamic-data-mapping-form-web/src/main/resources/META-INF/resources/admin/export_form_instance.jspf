@@ -1,0 +1,21 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<div id="<portlet:namespace />exportForm">
+	<react:component
+		module="{ExportForm} from dynamic-data-mapping-form-web"
+		props='<%=
+			HashMapBuilder.<String, Object>put(
+				"csvExport", ddmFormAdminDisplayContext.getCSVExport()
+			).put(
+				"fileExtensions", ddmFormAdminDisplayContext.getAvailableExportTypes()
+			).put(
+				"portletNamespace", liferayPortletResponse.getNamespace()
+			).build()
+		%>'
+	/>
+</div>

@@ -1,0 +1,28 @@
+{
+	"author": "Nathan Cavanaugh <nathan.cavanaugh@liferay.com> (https://github.com/natecavanaugh)",
+	"bugs": {
+		"url": "https://issues.liferay.com/"
+	},
+	"keywords": [
+		"liferay-theme"
+	],
+	"license": "LGPL",
+	"liferayTheme": {
+		"baseTheme": "styled",
+		"distName": "admin-theme",
+		"rubySass": false,
+		"sassOptions": {
+			"dartSass": true
+		},
+		"version": "7.1"
+	},
+	"main": "package.json",
+	"name": "liferay-admin-theme",
+	"repository": "liferay/liferay-portal",
+	"scripts": {
+		"build": "node-scripts build:theme",
+		"checkFormat": "node-scripts format --check",
+		"format": "node-scripts format"
+	},
+	"version": "5.0.93"
+}

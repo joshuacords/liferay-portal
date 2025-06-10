@@ -1,0 +1,47 @@
+task upgradeTestResources(type: Zip)
+
+String jasperVersion = "5.2.0"
+
+File jasperFile = file("jasperreports-${jasperVersion}-project.zip")
+FileTree jasperZipTree = zipTree(jasperFile)
+
+dependencies {
+	testIntegrationImplementation group: "commons-io", name: "commons-io", version: "2.15.1"
+	testIntegrationImplementation group: "org.apache.pdfbox", name: "fontbox", version: "2.0.24"
+	testIntegrationImplementation group: "org.apache.pdfbox", name: "pdfbox", version: "2.0.24"
+	testIntegrationImplementation project(":apps:portal-reports-engine:portal-reports-engine-api")
+	testIntegrationImplementation project(":test:arquillian-extension-junit-bridge")
+}
+
+processTestIntegrationResources {
+	from jasperZipTree.files
+}
+
+upgradeTestResources {
+	archiveFileName = "test-resources.zip"
+	destinationDirectory = temporaryDir
+
+	doLast {
+		delete jasperFile
+
+		boolean success = archivePath.renameTo(jasperFile)
+
+		if (!success) {
+			throw new GradleException("Unable to rename ${archivePath} to ${jasperFile}")
+		}
+	}
+
+	include "**/csvdatasource/data/"
+	include "**/csvdatasource/reports/"
+	include "**/xlsdatasource/data/"
+	include "**/xlsdatasource/reports/"
+	include "**/xmldatasource/data/"
+	include "**/xmldatasource/reports/"
+
+	includeEmptyDirs = false
+	from jasperZipTree
+
+	outputs.upToDateWhen {
+		false
+	}
+}

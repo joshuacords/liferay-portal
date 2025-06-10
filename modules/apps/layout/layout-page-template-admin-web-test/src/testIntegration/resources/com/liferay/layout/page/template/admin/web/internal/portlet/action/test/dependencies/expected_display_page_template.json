@@ -1,0 +1,10 @@
+{
+	"contentSubtype": {
+		"subtypeId": "${CONTENT_SUBTYPE_SUBTYPE_ID}",
+		"subtypeKey": "${CONTENT_SUBTYPE_SUBTYPE_KEY}"
+	},
+	"contentType": {
+		"className": "com.liferay.journal.model.JournalArticle"
+	},
+	"name": "${DISPLAY_PAGE_TEMPLATE_NAME}"
+}

@@ -1,0 +1,56 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<%
+String range = MapUtil.getString(parameterMap, "range");
+%>
+
+<div class="process-summary-section">
+	<div class="sheet-subtitle"><liferay-ui:message key="content" /></div>
+
+	<div><label class="process-summary-label"><liferay-ui:message key="date-restriction-options" /></label></div>
+
+	<c:choose>
+		<c:when test="<%= range.equals(ExportImportDateUtil.RANGE_ALL) %>">
+			<div><liferay-ui:message key="without-restriction" /></div>
+		</c:when>
+		<c:when test="<%= range.equals(ExportImportDateUtil.RANGE_FROM_LAST_PUBLISH_DATE) %>">
+			<div><liferay-ui:message key="from-last-publish-date" /></div>
+		</c:when>
+		<c:when test="<%= range.equals(ExportImportDateUtil.RANGE_LAST) %>">
+
+			<%
+			String last = MapUtil.getString(parameterMap, "last");
+			String languageKey = "x-hours";
+
+			if (Integer.valueOf(last, 10) == 168) {
+				last = "7";
+				languageKey = "x-days";
+			}
+			%>
+
+			<div><liferay-ui:message key="last" /><%= StringPool.SPACE + LanguageUtil.format(request, languageKey, last, false) %></div>
+		</c:when>
+		<c:when test="<%= range.equals(ExportImportDateUtil.RANGE_DATE_RANGE) %>">
+
+			<%
+			Format displayDateTimeFormat = FastDateFormatFactoryUtil.getDateTime(FastDateFormatConstants.FULL, FastDateFormatConstants.SHORT, locale, timeZone);
+
+			DateRange dateRange = ExportImportDateUtil.getDateRange(exportImportConfigurationId);
+
+			String startDateString = displayDateTimeFormat.format(dateRange.getStartDate());
+			%>
+
+			<div><liferay-ui:message key="modified-or-created-between" />:</div>
+
+			<div>
+				<%= startDateString + StringPool.SPACE + LanguageUtil.get(request, "and") %><br />
+				<%= displayDateTimeFormat.format(dateRange.getEndDate()) %>
+			</div>
+		</c:when>
+	</c:choose>
+</div>

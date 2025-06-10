@@ -1,0 +1,20 @@
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+
+package com.liferay.portal.kernel.dao.orm;
+
+/**
+ * @author Brian Wing Shun Chan
+ */
+public enum Type {
+
+	BIG_DECIMAL, BIG_INTEGER, BINARY, BLOB, BOOLEAN, BYTE, CALENDAR,
+	CALENDAR_DATE, CHAR_ARRAY, CHARACTER, CHARACTER_ARRAY, CLASS, CLOB,
+	CURRENCY, DATE, DOUBLE, FLOAT, IMAGE, INTEGER, LOCALE, LONG,
+	MATERIALIZED_BLOB, MATERIALIZED_CLOB, NUMERIC_BOOLEAN, SERIALIZABLE, SHORT,
+	STRING, TEXT, TIME, TIMESTAMP, TIMEZONE, TRUE_FALSE, URL, UUID_BINARY,
+	UUID_CHAR, WRAPPER_BINARY, YES_NO
+
+}

@@ -1,0 +1,120 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<c:choose>
+	<c:when test="<%= !searchResultSummaryDisplayContext.isTemporarilyUnavailable() %>">
+		<c:if test="<%= searchResultSummaryDisplayContext.getAssetEntryUserId() > 0 %>">
+			<liferay-ui:search-container-column-text>
+				<liferay-user:user-portrait
+					userId="<%= searchResultSummaryDisplayContext.getAssetEntryUserId() %>"
+				/>
+			</liferay-ui:search-container-column-text>
+		</c:if>
+
+		<liferay-ui:search-container-column-text
+			colspan="<%= 2 %>"
+		>
+			<div>
+				<a href="<%= searchResultSummaryDisplayContext.getViewURL() %>">
+					<strong><%= searchResultSummaryDisplayContext.getHighlightedTitle() %></strong>
+				</a>
+
+				<c:if test="<%= searchResultSummaryDisplayContext.isAssetRendererURLDownloadVisible() %>">
+					<aui:a href="<%= searchResultSummaryDisplayContext.getAssetRendererURLDownload() %>">
+						<liferay-ui:message arguments="<%= HtmlUtil.escape(searchResultSummaryDisplayContext.getTitle()) %>" key="download-x" />
+					</aui:a>
+				</c:if>
+			</div>
+
+			<span class="text-default">
+				<%= searchResultSummaryDisplayContext.getModelResource() %>
+
+				<c:if test="<%= searchResultSummaryDisplayContext.isLocaleReminderVisible() %>">
+					<liferay-ui:icon
+						image='<%= "../language/" + searchResultSummaryDisplayContext.getLocaleLanguageId() %>'
+						message="<%= searchResultSummaryDisplayContext.getLocaleReminder() %>"
+					/>
+				</c:if>
+			</span>
+
+			<c:if test="<%= searchResultSummaryDisplayContext.isContentVisible() %>">
+				<span class="text-default">
+					<%= searchResultSummaryDisplayContext.getContent() %>
+				</span>
+			</c:if>
+
+			<c:if test="<%= searchResultSummaryDisplayContext.isAssetCategoriesOrTagsVisible() %>">
+				<div class="text-default">
+					<liferay-asset:asset-tags-summary
+						className="<%= searchResultSummaryDisplayContext.getClassName() %>"
+						classPK="<%= searchResultSummaryDisplayContext.getClassPK() %>"
+						paramName="<%= searchResultSummaryDisplayContext.getFieldAssetTagNames() %>"
+						portletURL="<%= searchResultSummaryDisplayContext.getPortletURL() %>"
+					/>
+
+					<liferay-asset:asset-categories-summary
+						className="<%= searchResultSummaryDisplayContext.getClassName() %>"
+						classPK="<%= searchResultSummaryDisplayContext.getClassPK() %>"
+						paramName="<%= searchResultSummaryDisplayContext.getFieldAssetCategoryIds() %>"
+						portletURL="<%= searchResultSummaryDisplayContext.getPortletURL() %>"
+					/>
+				</div>
+			</c:if>
+
+			<c:if test="<%= searchResultSummaryDisplayContext.isDocumentFormVisible() %>">
+				<div class="expand-details text-default"><a href="javascript:void(0);"><liferay-ui:message key="details" />...</a></div>
+
+				<div class="hide table-details table-responsive">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>
+									<liferay-ui:message key="key" />
+								</th>
+								<th>
+									<liferay-ui:message key="value" />
+								</th>
+							</tr>
+						</thead>
+
+						<tbody>
+
+							<%
+							for (SearchResultFieldDisplayContext searchResultFieldDisplayContext : searchResultSummaryDisplayContext.getDocumentFormFieldDisplayContexts()) {
+							%>
+
+								<tr>
+									<td>
+										<strong><%= HtmlUtil.escape(searchResultFieldDisplayContext.getName()) %></strong>
+									</td>
+									<td>
+										<code>
+											<%= searchResultFieldDisplayContext.getValuesToString() %>
+										</code>
+									</td>
+								</tr>
+
+							<%
+							}
+							%>
+
+						</tbody>
+					</table>
+				</div>
+			</c:if>
+		</liferay-ui:search-container-column-text>
+	</c:when>
+	<c:otherwise>
+		<liferay-ui:search-container-column-text
+			colspan="<%= 3 %>"
+		>
+			<div class="alert alert-danger">
+				<liferay-ui:message arguments="result" key="is-temporarily-unavailable" translateArguments="<%= true %>" />
+			</div>
+		</liferay-ui:search-container-column-text>
+	</c:otherwise>
+</c:choose>

@@ -1,0 +1,133 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<c:choose>
+	<c:when test='<%= displayStyle.equals("descriptive") %>'>
+		<liferay-ui:search-container-column-user
+			showDetails="<%= false %>"
+			userId="<%= entry.getUserId() %>"
+		/>
+
+		<liferay-ui:search-container-column-text
+			colspan="<%= 2 %>"
+		>
+
+			<%
+			Date modifiedDate = entry.getModifiedDate();
+
+			String modifiedDateDescription = LanguageUtil.getTimeDescription(request, System.currentTimeMillis() - modifiedDate.getTime(), true);
+			%>
+
+			<span class="text-default">
+				<liferay-ui:message arguments="<%= new String[] {entry.getStatusByUserName(), modifiedDateDescription} %>" key="x-modified-x-ago" />
+			</span>
+
+			<p class="font-weight-bold h5">
+				<c:choose>
+					<c:when test="<%= BlogsEntryPermission.contains(permissionChecker, entry, ActionKeys.UPDATE) %>">
+						<aui:a href="<%= rowURL.toString() %>">
+							<%= BlogsEntryUtil.getDisplayTitle(resourceBundle, entry) %>
+						</aui:a>
+					</c:when>
+					<c:otherwise>
+						<%= BlogsEntryUtil.getDisplayTitle(resourceBundle, entry) %>
+					</c:otherwise>
+				</c:choose>
+			</p>
+
+			<span class="text-default">
+				<aui:workflow-status markupView="lexicon" showIcon="<%= false %>" showLabel="<%= false %>" status="<%= entry.getStatus() %>" />
+			</span>
+		</liferay-ui:search-container-column-text>
+
+		<liferay-ui:search-container-column-text>
+
+			<%
+			BlogsEntryActionDropdownItemsProvider blogsEntryActionDropdownItemsProvider = new BlogsEntryActionDropdownItemsProvider(renderRequest, renderResponse, permissionChecker, resourceBundle, trashHelper);
+			%>
+
+			<clay:dropdown-actions
+				additionalProps='<%=
+					HashMapBuilder.<String, Object>put(
+						"trashEnabled", trashHelper.isTrashEnabled(themeDisplay.getScopeGroupId())
+					).build()
+				%>'
+				dropdownItems="<%= blogsEntryActionDropdownItemsProvider.getActionDropdownItems(entry) %>"
+				propsTransformer="{ElementsPropsTransformer} from blogs-web"
+			/>
+		</liferay-ui:search-container-column-text>
+	</c:when>
+	<c:when test='<%= displayStyle.equals("icon") %>'>
+		<liferay-ui:search-container-column-text>
+			<clay:vertical-card
+				verticalCard="<%= blogsViewEntriesDisplayContext.getBlogsEntryVerticalCard(entry, searchContainer.getRowChecker(), rowURL.toString(), resourceBundle) %>"
+			/>
+		</liferay-ui:search-container-column-text>
+	</c:when>
+	<c:otherwise>
+		<liferay-ui:search-container-column-text
+			cssClass="table-cell-expand table-cell-minw-200 table-title"
+			href="<%= BlogsEntryPermission.contains(permissionChecker, entry, ActionKeys.UPDATE) ? rowURL : null %>"
+			name="title"
+			orderable="<%= false %>"
+			value="<%= BlogsEntryUtil.getDisplayTitle(resourceBundle, entry) %>"
+		/>
+
+		<liferay-ui:search-container-column-text
+			cssClass="table-cell-expand-smallest table-cell-minw-150"
+			name="modified"
+			orderable="<%= false %>"
+			property="statusByUserName"
+		/>
+
+		<liferay-ui:search-container-column-date
+			cssClass="table-cell-expand-smallest table-cell-ws-nowrap"
+			name="create-date"
+			orderable="<%= false %>"
+			property="createDate"
+		/>
+
+		<liferay-ui:search-container-column-date
+			cssClass="table-cell-expand-smallest table-cell-ws-nowrap"
+			name="display-date"
+			orderable="<%= false %>"
+			property="displayDate"
+		/>
+
+		<%
+		AssetEntry assetEntry = AssetEntryLocalServiceUtil.getEntry(BlogsEntry.class.getName(), entry.getEntryId());
+		%>
+
+		<liferay-ui:search-container-column-text
+			cssClass="table-column-text-end"
+			name="views"
+			orderable="<%= false %>"
+			value="<%= String.valueOf(assetEntry.getViewCount()) %>"
+		/>
+
+		<liferay-ui:search-container-column-status
+			name="status"
+		/>
+
+		<liferay-ui:search-container-column-text>
+
+			<%
+			BlogsEntryActionDropdownItemsProvider blogsEntryActionDropdownItemsProvider = new BlogsEntryActionDropdownItemsProvider(renderRequest, renderResponse, permissionChecker, resourceBundle, trashHelper);
+			%>
+
+			<clay:dropdown-actions
+				additionalProps='<%=
+					HashMapBuilder.<String, Object>put(
+						"trashEnabled", trashHelper.isTrashEnabled(themeDisplay.getScopeGroupId())
+					).build()
+				%>'
+				dropdownItems="<%= blogsEntryActionDropdownItemsProvider.getActionDropdownItems(entry) %>"
+				propsTransformer="{ElementsPropsTransformer} from blogs-web"
+			/>
+		</liferay-ui:search-container-column-text>
+	</c:otherwise>
+</c:choose>

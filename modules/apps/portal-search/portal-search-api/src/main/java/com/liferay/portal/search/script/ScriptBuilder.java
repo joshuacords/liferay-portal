@@ -1,0 +1,36 @@
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+
+package com.liferay.portal.search.script;
+
+import java.util.Map;
+
+import org.osgi.annotation.versioning.ProviderType;
+
+/**
+ * @author Wade Cao
+ * @author André de Oliveira
+ */
+@ProviderType
+public interface ScriptBuilder {
+
+	public Script build();
+
+	public ScriptBuilder idOrCode(String idOrCode);
+
+	public ScriptBuilder language(String language);
+
+	public ScriptBuilder options(Map<String, String> optionsMap);
+
+	public ScriptBuilder parameters(Map<String, Object> parametersMap);
+
+	public ScriptBuilder putOption(String optionName, String optionValue);
+
+	public ScriptBuilder putParameter(
+		String parameterName, Object parameterValue);
+
+	public ScriptBuilder scriptType(ScriptType scriptType);
+
+}

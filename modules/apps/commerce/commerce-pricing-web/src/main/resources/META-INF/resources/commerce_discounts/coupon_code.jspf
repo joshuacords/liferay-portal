@@ -1,0 +1,42 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<div class="row">
+	<div class="col-12">
+		<liferay-ui:error exception="<%= CommerceDiscountCouponCodeException.class %>" message="please-enter-a-valid-coupon-code" />
+		<liferay-ui:error exception="<%= DuplicateCommerceDiscountException.class %>" message="there-is-another-discount-with-the-same-coupon-code" />
+
+		<commerce-ui:panel
+			bodyClasses="flex-fill"
+			collapsed="<%= !commerceDiscount.isUseCouponCode() %>"
+			collapseLabel='<%= LanguageUtil.get(request, "enabled") %>'
+			collapseSwitchName='<%= liferayPortletResponse.getNamespace() + "useCouponCode" %>'
+			title='<%= LanguageUtil.get(request, "coupon-code") %>'
+		>
+			<div class="row">
+				<div class="col-4">
+					<aui:input label="coupon-code" name="couponCode" type="text" value="<%= commerceDiscount.getCouponCode() %>">
+					</aui:input>
+				</div>
+
+				<div class="col-4">
+					<aui:input helpMessage="define-the-total-number-of-times-this-coupon-code-can-be-used" label="maximum-total-uses" name="limitationTimes" type="text" value="<%= commerceDiscount.getLimitationTimes() %>">
+						<aui:validator name="min">0</aui:validator>
+						<aui:validator name="number" />
+					</aui:input>
+				</div>
+
+				<div class="col-4">
+					<aui:input helpMessage="define-the-maximum-number-of-times-this-coupon-code-can-be-used-by-an-account" label="maximum-uses-per-account" name="limitationTimesPerAccount" type="text" value="<%= commerceDiscount.getLimitationTimesPerAccount() %>">
+						<aui:validator name="min">0</aui:validator>
+						<aui:validator name="number" />
+					</aui:input>
+				</div>
+			</div>
+		</commerce-ui:panel>
+	</div>
+</div>

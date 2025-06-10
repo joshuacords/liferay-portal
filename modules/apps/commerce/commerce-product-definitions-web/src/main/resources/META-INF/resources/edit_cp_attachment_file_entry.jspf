@@ -1,0 +1,135 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<liferay-frontend:side-panel-content
+	title="<%= title %>"
+>
+	<portlet:actionURL name="/cp_definitions/edit_cp_attachment_file_entry" var="editCPAttachmentFileEntryActionURL" />
+
+	<aui:form action="<%= editCPAttachmentFileEntryActionURL %>" method="post" name="fm" onSubmit='<%= "event.preventDefault(); " + liferayPortletResponse.getNamespace() + "saveAttachmentFileEntry();" %>'>
+		<aui:input name="<%= Constants.CMD %>" type="hidden" value="<%= (cpAttachmentFileEntry == null) ? Constants.ADD : Constants.UPDATE %>" />
+		<aui:input name="redirect" type="hidden" value="<%= currentURL %>" />
+		<aui:input name="cpDefinitionId" type="hidden" value="<%= cpDefinitionId %>" />
+		<aui:input name="cpAttachmentFileEntryId" type="hidden" value="<%= cpAttachmentFileEntryId %>" />
+		<aui:input name="type" type="hidden" value="<%= type %>" />
+		<aui:input name="workflowAction" type="hidden" value="<%= String.valueOf(WorkflowConstants.ACTION_SAVE_DRAFT) %>" />
+
+		<commerce-ui:panel>
+			<%@ include file="/attachment_file_entry/image_selector.jspf" %>
+		</commerce-ui:panel>
+
+		<commerce-ui:panel
+			title='<%= LanguageUtil.get(request, "details") %>'
+		>
+			<%@ include file="/attachment_file_entry/details.jspf" %>
+		</commerce-ui:panel>
+
+		<commerce-ui:panel
+			title='<%= LanguageUtil.get(request, "options") %>'
+		>
+			<%@ include file="/attachment_file_entry/options.jspf" %>
+		</commerce-ui:panel>
+
+		<commerce-ui:panel
+			title='<%= LanguageUtil.get(request, "schedule") %>'
+		>
+			<%@ include file="/attachment_file_entry/schedule.jspf" %>
+		</commerce-ui:panel>
+
+		<c:if test="<%= cpAttachmentFileEntriesDisplayContext.hasCustomAttributes() %>">
+			<commerce-ui:panel
+				title='<%= LanguageUtil.get(request, "custom-attribute") %>'
+			>
+				<%@ include file="/attachment_file_entry/custom_fields.jspf" %>
+			</commerce-ui:panel>
+		</c:if>
+
+		<%
+		boolean pending = false;
+
+		if (cpAttachmentFileEntry != null) {
+			pending = cpAttachmentFileEntry.isPending();
+		}
+		%>
+
+		<c:if test="<%= pending %>">
+			<div class="alert alert-info">
+				<liferay-ui:message key="there-is-a-publication-workflow-in-process" />
+			</div>
+		</c:if>
+
+		<aui:button-row cssClass="product-definition-button-row">
+
+			<%
+			String saveButtonLabel = "save";
+
+			if ((cpAttachmentFileEntry == null) || cpAttachmentFileEntry.isDraft() || cpAttachmentFileEntry.isApproved() || cpAttachmentFileEntry.isExpired() || cpAttachmentFileEntry.isScheduled()) {
+				saveButtonLabel = "save-as-draft";
+			}
+
+			String publishButtonLabel = "publish";
+
+			if (WorkflowDefinitionLinkLocalServiceUtil.hasWorkflowDefinitionLink(themeDisplay.getCompanyId(), scopeGroupId, CPAttachmentFileEntry.class.getName())) {
+				publishButtonLabel = "submit-for-workflow";
+			}
+			%>
+
+			<aui:button cssClass="btn-lg" disabled="<%= pending %>" name="publishButton" type="submit" value="<%= publishButtonLabel %>" />
+
+			<aui:button cssClass="btn-lg" name="saveButton" primary="<%= false %>" type="submit" value="<%= saveButtonLabel %>" />
+
+			<aui:button cssClass="btn-lg" type="cancel" />
+		</aui:button-row>
+	</aui:form>
+</liferay-frontend:side-panel-content>
+
+<aui:script>
+	Liferay.provide(window, '<portlet:namespace />saveAttachmentFileEntry', () => {
+		var form = window.document['<portlet:namespace />fm'];
+		var optionsContainer = window.document.getElementById(
+			'<portlet:namespace />optionsContainer'
+		);
+
+		if (!optionsContainer) {
+			return submitForm(form);
+		}
+
+		var skuContributorInputs = optionsContainer.querySelectorAll(
+			'[data-sku-contributor=true]'
+		);
+
+		form['<portlet:namespace />cpInstanceOptions'].value = JSON.stringify(
+			Array.from(skuContributorInputs).map((skuContributorInput) => {
+				var name =
+					skuContributorInput.name ||
+					skuContributorInput.querySelector('input:checked').name;
+
+				var value = skuContributorInput.value
+					? skuContributorInput.value.split('[$SEPARATOR$]')[1]
+					: skuContributorInput
+							.querySelector('input:checked')
+							.value.split('[$SEPARATOR$]')[1];
+
+				return {key: name, value: [value]};
+			})
+		);
+
+		submitForm(form);
+	});
+</aui:script>
+
+<aui:script use="aui-base,event-input">
+	var publishButton = A.one('#<portlet:namespace />publishButton');
+
+	publishButton.on('click', () => {
+		var workflowActionInput = A.one('#<portlet:namespace />workflowAction');
+
+		if (workflowActionInput) {
+			workflowActionInput.val('<%= WorkflowConstants.ACTION_PUBLISH %>');
+		}
+	});
+</aui:script>

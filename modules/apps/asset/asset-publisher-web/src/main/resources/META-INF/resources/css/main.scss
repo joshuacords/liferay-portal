@@ -1,0 +1,78 @@
+@import 'atlas-variables';
+
+.portlet-asset-publisher {
+	.asset-content,
+	.asset-full-content {
+		word-wrap: break-word;
+
+		img {
+			max-width: 100%;
+		}
+	}
+
+	.asset-links .list-group-item:last-child {
+		border-bottom-width: 0;
+	}
+
+	.asset-title {
+		font-size: 1.5rem;
+		font-weight: 700;
+	}
+
+	.portlet {
+		&:focus-within,
+		&:hover,
+		&.open,
+		&.focus {
+			a,
+			button {
+				&.visible-interaction {
+					display: inline-flex;
+				}
+			}
+		}
+	}
+
+	.preview-asset-entry {
+		border: 1px solid $primary;
+		border-radius: 0;
+	}
+
+	.timeline-item {
+		&:hover .container-trash.btn {
+			opacity: 1;
+		}
+
+		& + .timeline-item > .panel {
+			border-top: none;
+		}
+
+		.form-group {
+			display: inline-block;
+			margin: 0 8px 8px 0;
+		}
+
+		.container-trash {
+			&.btn {
+				opacity: 0;
+
+				&:focus {
+					opacity: 1;
+				}
+			}
+		}
+	}
+}
+
+.lfr-asset-anchor {
+	display: block;
+	height: 10px;
+	margin-top: -10px;
+	position: relative;
+	z-index: -1;
+
+	.has-control-menu & {
+		height: 74px;
+		margin-top: -74px;
+	}
+}

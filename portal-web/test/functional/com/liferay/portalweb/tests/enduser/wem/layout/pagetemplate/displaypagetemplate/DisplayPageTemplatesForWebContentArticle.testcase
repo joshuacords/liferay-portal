@@ -1,0 +1,924 @@
+@component-name = "portal-content-management"
+definition {
+
+	property ci.retries.disabled = "true";
+	property portal.release = "true";
+	property portal.upstream = "true";
+	property testray.main.component.name = "Web Content";
+
+	setUp {
+		task ("Set up instance and sign in") {
+			TestCase.setUpPortalInstance();
+
+			User.firstLoginPG();
+
+			task ("Enable dynamic and manual selection") {
+				AssetPublisherPortlet.enableDynamicAndManualSelection();
+			}
+		}
+
+		task ("Add a site via JSON") {
+			HeadlessSite.addSite(siteName = "Test Site Name");
+		}
+
+		task ("Add a display page template for Web Content Article and Basic Web Content") {
+			JSONLayoutpagetemplate.addDisplayPageTemplateEntry(
+				contentType = "Web Content Article",
+				displayPageTemplateEntryName = "Display Page Name",
+				groupName = "Test Site Name",
+				subType = "Basic Web Content");
+		}
+	}
+
+	@description = "Display page template can be viewed through the Asset Publisher widget."
+	@priority = 5
+	test NavigateToDisplayPageTemplateViaAssetPublisher {
+		property portal.acceptance = "true";
+
+		task ("Add a Heading fragment to display page template") {
+			DisplayPageTemplatesAdmin.openDisplayPagesAdmin(siteURLKey = "test-site-name");
+
+			DisplayPageTemplatesAdmin.gotoDisplayPage(displayPageName = "Display Page Name");
+
+			PageEditor.addFragment(
+				collectionName = "Basic Components",
+				fragmentName = "Heading");
+		}
+
+		task ("Map the Title field to editable field") {
+			PageEditorMapping.mapEditableTextToField(
+				field = "Title",
+				fragmentName = "Heading",
+				id = "element-text");
+
+			PageEditor.publish();
+		}
+
+		task ("Add a web content") {
+			JSONWebcontent.addWebContent(
+				content = "Webcontent Content",
+				groupName = "Test Site Name",
+				title = "Webcontent Title");
+		}
+
+		task ("Select the display page template in web content") {
+			WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
+
+			WebContentNavigator.gotoEditCP(webContentTitle = "Webcontent Title");
+
+			WebContent.editDisplayPage(
+				pageName = "Display Page Name",
+				pageType = "Display Page Templates");
+
+			WebContent.publishExistingWCArticleWithPermissions();
+		}
+
+		task ("Add a widget page") {
+			JSONLayout.addPublicLayout(
+				groupName = "Test Site Name",
+				layoutName = "Site Page Name");
+		}
+
+		task ("Add an Asset Publisher widget to page") {
+			JSONLayout.addWidgetToPublicLayout(
+				groupName = "Test Site Name",
+				layoutName = "Site Page Name",
+				widgetName = "Asset Publisher");
+		}
+
+		task ("Navigate to display page template via Asset Publisher") {
+			Navigator.gotoSitePage(
+				pageName = "Site Page Name",
+				siteName = "Test Site Name");
+
+			AssetPublisherPortlet.clickAssetTitle(assetTitle = "Webcontent Title");
+
+			ContentPages.viewFragmentText(
+				fragmentName = "heading",
+				id = "element-text",
+				text = "Webcontent Title");
+		}
+	}
+
+	@description = "This is a test for LPS-86221. A user can preview a draft web content within its display page."
+	@priority = 5
+	test PreviewDraftWebContent {
+		property portal.acceptance = "true";
+
+		task ("Add a Heading fragment to display page template") {
+			DisplayPageTemplatesAdmin.openDisplayPagesAdmin(siteURLKey = "test-site-name");
+
+			DisplayPageTemplatesAdmin.gotoDisplayPage(displayPageName = "Display Page Name");
+
+			PageEditor.addFragment(
+				collectionName = "Basic Components",
+				fragmentName = "Heading");
+		}
+
+		task ("Map the Title field to editable field") {
+			PageEditorMapping.mapEditableTextToField(
+				field = "Title",
+				fragmentName = "Heading",
+				id = "element-text");
+
+			PageEditor.publish();
+		}
+
+		task ("Add a draft web content") {
+			WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
+
+			WebContentNavigator.gotoAddCP();
+
+			WebContent.addCP(
+				webContentContent = "Webcontent Content",
+				webContentTitle = "Webcontent Title");
+
+			WebContent.editDisplayPage(
+				pageName = "Display Page Name",
+				pageType = "Display Page Templates");
+
+			WebContent.saveAsDraftWithPermissions();
+
+			AssertTextEquals(
+				key_status = "Draft",
+				locator1 = "WCEditWebContent#WORKFLOW_STATUS",
+				value1 = "Draft");
+		}
+
+		task ("Preview the draft web content") {
+			WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
+
+			WaitForLiferayEvent.initializeLiferayEventLog();
+
+			WebContentNavigator.gotoEntryMenuItem(
+				entry = "Webcontent Title",
+				menuItem = "Preview Draft");
+		}
+
+		task ("View the draft web content shown in modal") {
+			SelectFrame(
+				key_title = "Webcontent Title",
+				locator1 = "IFrame#MODAL_ANY");
+
+			ContentPages.viewFragmentText(
+				fragmentName = "heading",
+				id = "element-text",
+				text = "Webcontent Title");
+		}
+	}
+
+	@description = "This is a test for LPS-86221 and LPS-112994. A user can preview a pending web content within its display page."
+	@priority = 5
+	test PreviewPendingWebContent {
+		property portal.acceptance = "true";
+
+		task ("Add a Heading fragment to display page template") {
+			DisplayPageTemplatesAdmin.openDisplayPagesAdmin(siteURLKey = "test-site-name");
+
+			DisplayPageTemplatesAdmin.gotoDisplayPage(displayPageName = "Display Page Name");
+
+			PageEditor.addFragment(
+				collectionName = "Basic Components",
+				fragmentName = "Heading");
+		}
+
+		task ("Map the Title field to editable field") {
+			PageEditorMapping.mapEditableTextToField(
+				field = "Title",
+				fragmentName = "Heading",
+				id = "element-text");
+
+			PageEditor.publish();
+		}
+
+		task ("Enable Single Approver for Web Content Article") {
+			ProductMenu.gotoPortlet(
+				category = "Configuration",
+				portlet = "Workflow");
+
+			Workflow.configureWorkflow(
+				workflowDefinition = "Single Approver",
+				workflowResourceValue = "Web Content Article");
+		}
+
+		task ("Add a web content and submit for publication") {
+			WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
+
+			WebContentNavigator.gotoAddCP();
+
+			WebContent.addCP(
+				webContentContent = "Webcontent Content",
+				webContentTitle = "Webcontent Title");
+
+			WebContent.editDisplayPage(
+				pageName = "Display Page Name",
+				pageType = "Display Page Templates");
+
+			WebContent.submitForWorkflowWithPermission();
+		}
+
+		task ("Preview the pending web content") {
+			WaitForLiferayEvent.initializeLiferayEventLog();
+
+			WebContentNavigator.gotoEntryMenuItem(
+				entry = "Webcontent Title",
+				menuItem = "Preview");
+		}
+
+		task ("View the pending web content shown in modal") {
+			SelectFrame(
+				key_title = "Webcontent Title",
+				locator1 = "IFrame#MODAL_ANY");
+
+			ContentPages.viewFragmentText(
+				fragmentName = "heading",
+				id = "element-text",
+				text = "Webcontent Title");
+		}
+	}
+
+	@description = "This is a test for LPS-163800. Can preview web content with predefined values in structure in Asset Libraries through site' s display page template."
+	@priority = 3
+	test PreviewPredefinedValuesThroughTheDisplayPageOfSpecificSiteInAssetLibrary {
+		task ("Given a site designer has display page templates for web content") {
+			DisplayPageTemplatesAdmin.openDisplayPagesAdmin(siteURLKey = "test-site-name");
+
+			DisplayPageTemplatesAdmin.gotoDisplayPage(displayPageName = "Display Page Name");
+
+			PageEditor.addFragment(
+				collectionName = "Basic Components",
+				fragmentName = "Button");
+
+			PageEditorMapping.mapEditableTextToField(
+				field = "Content",
+				fragmentName = "Button",
+				id = "link");
+
+			PageEditor.publish();
+
+			JSONDepot.connectSite(
+				depotName = "Test Depot Name",
+				groupName = "Test Site Name");
+
+			WebContentNavigator.openWebContentAdmin(siteURLKey = "global");
+
+			NavItem.gotoStructures();
+
+			WebContentStructures.editStructureDefaultValuesCP(structureName = "Basic Web Content");
+
+			WebContent.addCP(webContentContent = "Web Content Content");
+
+			PortletEntry.save();
+		}
+
+		task ("When the site designer creates a web content in an Asset Library") {
+			JSONDepot.addDepot(depotName = "Test Depot Name");
+
+			DepotNavigator.openDepotWebContentAdmin(depotName = "Test Depot Name");
+
+			WebContentNavigator.gotoAddCP();
+		}
+
+		task ("Then the site designer could preview the web content through display page") {
+			WebContent.addCP(webContentTitle = "Web Content Title");
+
+			Panel.expandPanel(panel = "Display Page Preview");
+
+			WebContent.selectPreviewSite(siteName = "Test Site Name");
+
+			WebContent.selectPreviewDisplayPage(displayPageName = "Display Page Name");
+
+			Click(
+				key_text = "Preview",
+				locator1 = "Button#ANY");
+
+			SelectFrame(locator1 = "IFrame#MODAL_BODY");
+
+			ContentPages.viewFragmentText(
+				fragmentName = "button",
+				id = "link",
+				text = "Web Content Content");
+
+			IFrame.closeFrame();
+
+			JSONDepot.deleteDepot(depotName = "Test Depot Name");
+		}
+	}
+
+	@description = "This is a test for LPS-86221. A user can preview a published web content within its display page."
+	@priority = 5
+	test PreviewPublishedWebContent {
+		property portal.acceptance = "true";
+
+		task ("Add a Heading fragment to display page template") {
+			DisplayPageTemplatesAdmin.openDisplayPagesAdmin(siteURLKey = "test-site-name");
+
+			DisplayPageTemplatesAdmin.gotoDisplayPage(displayPageName = "Display Page Name");
+
+			PageEditor.addFragment(
+				collectionName = "Basic Components",
+				fragmentName = "Heading");
+		}
+
+		task ("Map the Title field to editable field") {
+			PageEditorMapping.mapEditableTextToField(
+				field = "Title",
+				fragmentName = "Heading",
+				id = "element-text");
+
+			PageEditor.publish();
+		}
+
+		task ("Add a web content article") {
+			JSONWebcontent.addWebContent(
+				content = "Webcontent Content",
+				groupName = "Test Site Name",
+				title = "Webcontent Title");
+		}
+
+		task ("Select the display page template in web content") {
+			WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
+
+			WebContentNavigator.gotoEditCP(webContentTitle = "Webcontent Title");
+
+			WebContent.editDisplayPage(
+				pageName = "Display Page Name",
+				pageType = "Display Page Templates");
+
+			WebContent.publishExistingWCArticleWithPermissions();
+		}
+
+		task ("Preview the web content article") {
+			WaitForLiferayEvent.initializeLiferayEventLog();
+
+			WebContentNavigator.gotoEntryMenuItem(
+				entry = "Webcontent Title",
+				menuItem = "Preview");
+		}
+
+		task ("View the published web content shown in modal") {
+			SelectFrame(
+				key_title = "Webcontent Title",
+				locator1 = "IFrame#MODAL_ANY");
+
+			ContentPages.viewFragmentText(
+				fragmentName = "heading",
+				id = "element-text",
+				text = "Webcontent Title");
+		}
+	}
+
+	@description = "This is a test for LPS-130607 and LPS-163074. The site designer could preview current version of web content through display page template in site."
+	@priority = 5
+	test PreviewWebContentThroughTheDisplayPageOfCurrentSite {
+		property portal.acceptance = "true";
+
+		task ("Given a site designer has display page templates for web content") {
+			JSONLayoutpagetemplate.addDisplayPageTemplateEntry(
+				contentType = "Web Content Article",
+				displayPageTemplateEntryName = "Default Display Page Name",
+				groupName = "Test Site Name",
+				subType = "Basic Web Content");
+
+			DisplayPageTemplatesAdmin.openDisplayPagesAdmin(siteURLKey = "test-site-name");
+
+			DisplayPageTemplatesAdmin.gotoDisplayPage(displayPageName = "Default Display Page Name");
+
+			PageEditor.addFragment(
+				collectionName = "Content Display",
+				fragmentName = "Display Page Content");
+
+			PageEditor.publish();
+
+			DisplayPageTemplatesAdmin.markDisplayPageAsDefault(displayPageName = "Default Display Page Name");
+
+			DisplayPageTemplatesAdmin.gotoDisplayPage(displayPageName = "Display Page Name");
+
+			PageEditor.addFragment(
+				collectionName = "Basic Components",
+				fragmentName = "Heading");
+
+			PageEditorMapping.mapEditableTextToField(
+				field = "Title",
+				fragmentName = "Heading",
+				id = "element-text");
+
+			PageEditor.publish();
+		}
+
+		task ("When the site designer creates a web content") {
+			WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
+
+			WebContentNavigator.gotoAddCP();
+
+			WebContent.addCP(
+				webContentContent = "Web Content Content",
+				webContentTitle = "Web Content Title");
+		}
+
+		task ("Then the site designer could preview the web content on the default display page") {
+			Panel.expandPanel(panel = "Display Page");
+
+			WebContent.viewSelectedDisplayPageTemplateCP(
+				displayPageTemplateName = "Default Display Page Name",
+				displayPageTemplateType = "Default");
+
+			MouseOver(
+				key_text = "Preview",
+				locator1 = "Button#ANY");
+
+			AssertVisible(
+				key_content = "A draft will be saved before displaying the preview.",
+				locator1 = "Tooltip#FLOATING_TOOLTIP_CONTENT");
+
+			WebContent.previewDisplayPageTemplate(webContentContent = "Web Content Content");
+		}
+
+		task ("When the site designer navigates to the Web Content admin") {
+			Navigator.gotoBack();
+		}
+
+		task ("Then the site designer sees the draft web content") {
+			WebContentAdmin.viewEntryWorkflowStatus(
+				entry = "Web Content Title",
+				workflowStatus = "Draft");
+		}
+
+		task ("When the site designer mades some changes and selects the non-default display page") {
+			WebContentNavigator.gotoEditCP(webContentTitle = "Web Content Title");
+
+			PortletEntry.inputTitle(title = "Web Content Title Edit");
+
+			WebContent.editDisplayPage(
+				pageName = "Display Page Name",
+				pageType = "Display Page Templates");
+		}
+
+		task ("Then the site designer could preview the latest draft on associated display page") {
+			Click(
+				key_text = "Preview",
+				locator1 = "Button#ANY");
+
+			SelectFrame(locator1 = "IFrame#MODAL_BODY");
+
+			ContentPages.viewFragmentText(
+				fragmentName = "heading",
+				id = "element-text",
+				text = "Web Content Title Edit");
+
+			IFrame.closeFrame();
+		}
+	}
+
+	@description = "This is a test for LPS-163800. Preview web content in Asset Libraries through sites' display page templates."
+	@priority = 4
+	test PreviewWebContentThroughTheDisplayPageOfSpecificSiteInAssetLibrary {
+		task ("Given a site designer has display page templates for web content") {
+			var i = 1;
+
+			while (${i} != 7) {
+				HeadlessSite.addSite(siteName = "Test Site Name ${i}");
+
+				var i = ${i} + 1;
+			}
+
+			JSONLayoutpagetemplate.addDisplayPageTemplateEntry(
+				contentType = "Web Content Article",
+				displayPageTemplateEntryName = "Default Display Page Name",
+				groupName = "Test Site Name",
+				subType = "Basic Web Content");
+
+			DisplayPageTemplatesAdmin.openDisplayPagesAdmin(siteURLKey = "test-site-name");
+
+			DisplayPageTemplatesAdmin.gotoDisplayPage(displayPageName = "Default Display Page Name");
+
+			PageEditor.addFragment(
+				collectionName = "Basic Components",
+				fragmentName = "Heading");
+
+			PageEditorMapping.mapEditableTextToField(
+				field = "Title",
+				fragmentName = "Heading",
+				id = "element-text");
+
+			PageEditor.publish();
+
+			DisplayPageTemplatesAdmin.markDisplayPageAsDefault(displayPageName = "Default Display Page Name");
+
+			DisplayPageTemplatesAdmin.gotoDisplayPage(displayPageName = "Display Page Name");
+
+			PageEditor.addFragment(
+				collectionName = "Basic Components",
+				fragmentName = "Button");
+
+			PageEditorMapping.mapEditableTextToField(
+				field = "Content",
+				fragmentName = "Button",
+				id = "link");
+
+			PageEditor.publish();
+		}
+
+		task ("When the site designer creates a web content in an Asset Library") {
+			JSONDepot.addDepot(depotName = "Test Depot Name");
+
+			JSONDepot.connectSite(
+				depotName = "Test Depot Name",
+				groupName = "Test Site Name");
+
+			DepotNavigator.openDepotWebContentAdmin(depotName = "Test Depot Name");
+
+			WebContentNavigator.gotoAddCP();
+
+			WebContent.addCP(
+				webContentContent = "Web Content Content",
+				webContentTitle = "Web Content Title");
+		}
+
+		task ("Then the site designer can see the Display Page Preview section") {
+			Panel.expandPanel(panel = "Display Page Preview");
+
+			AssertTextEquals(
+				key_fieldLabel = "Site",
+				locator1 = "Dropdown#DROPDOWN_TOGGLE_BUTTON_WITH_LABEL",
+				value1 = "- Not Selected -");
+
+			AssertNotEditable(
+				key_text = "Display Page",
+				locator1 = "TextInput#ANY");
+
+			AssertAttributeValue(
+				key_text = "Preview",
+				locator1 = "Button#ANY",
+				value1 = "disabled",
+				value2 = "true");
+		}
+
+		task ("When the site designer selects the default display page") {
+			WebContent.selectPreviewSite(siteName = "Test Site Name");
+
+			WebContent.selectPreviewDisplayPage(displayPageName = "Default Display Page Name");
+		}
+
+		task ("Then the site designer could preview the web content") {
+			AssertTextEquals(
+				key_fieldLabel = "Site",
+				locator1 = "Dropdown#DROPDOWN_TOGGLE_BUTTON_WITH_LABEL",
+				value1 = "Test Site Name");
+
+			AssertTextEquals(
+				key_text = "Display Page",
+				locator1 = "TextInput#ANY",
+				value1 = "Default Display Page Name");
+
+			MouseOver.javaScriptFocus(
+				key_text = "Preview",
+				locator1 = "Button#ANY_SECONDARY");
+
+			AssertVisible(
+				key_content = "A draft will be saved before displaying the preview.",
+				locator1 = "Tooltip#FLOATING_TOOLTIP_CONTENT");
+
+			Click(
+				key_text = "Preview",
+				locator1 = "Button#ANY");
+
+			SelectFrame(locator1 = "IFrame#MODAL_BODY");
+
+			ContentPages.viewFragmentText(
+				fragmentName = "heading",
+				id = "element-text",
+				text = "Web Content Title");
+
+			IFrame.closeFrame();
+		}
+
+		task ("When the site designer selects the non-default display page") {
+			WebContent.selectPreviewDisplayPage(displayPageName = "Display Page Name");
+		}
+
+		task ("Then the site designer could preview the web content") {
+			AssertTextEquals(
+				key_text = "Display Page",
+				locator1 = "TextInput#ANY",
+				value1 = "Display Page Name");
+
+			Click(
+				key_text = "Preview",
+				locator1 = "Button#ANY");
+
+			SelectFrame(locator1 = "IFrame#MODAL_BODY");
+
+			ContentPages.viewFragmentText(
+				fragmentName = "button",
+				id = "link",
+				text = "Web Content Content");
+
+			IFrame.closeFrame();
+
+			JSONDepot.deleteDepot(depotName = "Test Depot Name");
+		}
+	}
+
+	@description = "This is a test for LPS-163800. Preview web content in global site through site's display page templates."
+	@priority = 3
+	test PreviewWebContentThroughTheDisplayPageOfSpecificSiteInGlobalSite {
+		task ("Given a site designer has display page templates for web content") {
+			var i = 1;
+
+			while (${i} != 7) {
+				HeadlessSite.addSite(siteName = "Test Site Name ${i}");
+
+				var i = ${i} + 1;
+			}
+
+			JSONLayoutpagetemplate.addDisplayPageTemplateEntry(
+				contentType = "Web Content Article",
+				displayPageTemplateEntryName = "Default Display Page Name",
+				groupName = "Test Site Name",
+				subType = "Basic Web Content");
+
+			DisplayPageTemplatesAdmin.openDisplayPagesAdmin(siteURLKey = "test-site-name");
+
+			DisplayPageTemplatesAdmin.gotoDisplayPage(displayPageName = "Default Display Page Name");
+
+			PageEditor.addFragment(
+				collectionName = "Basic Components",
+				fragmentName = "Heading");
+
+			PageEditorMapping.mapEditableTextToField(
+				field = "Title",
+				fragmentName = "Heading",
+				id = "element-text");
+
+			PageEditor.publish();
+
+			DisplayPageTemplatesAdmin.markDisplayPageAsDefault(displayPageName = "Default Display Page Name");
+
+			DisplayPageTemplatesAdmin.gotoDisplayPage(displayPageName = "Display Page Name");
+
+			PageEditor.addFragment(
+				collectionName = "Basic Components",
+				fragmentName = "Button");
+
+			PageEditorMapping.mapEditableTextToField(
+				field = "Content",
+				fragmentName = "Button",
+				id = "link");
+
+			PageEditor.publish();
+		}
+
+		task ("When the site designer creates a web content in the Global site") {
+			WebContentNavigator.openWebContentAdmin(siteURLKey = "global");
+
+			WebContentNavigator.gotoAddCP();
+
+			WebContent.addCP(
+				webContentContent = "Web Content Content",
+				webContentTitle = "Web Content Title");
+		}
+
+		task ("Then the site designer can see the Display Page Preview section") {
+			Panel.expandPanel(panel = "Display Page Preview");
+
+			AssertTextEquals(
+				key_fieldLabel = "Site",
+				locator1 = "Dropdown#DROPDOWN_TOGGLE_BUTTON_WITH_LABEL",
+				value1 = "- Not Selected -");
+
+			AssertNotEditable(
+				key_text = "Display Page",
+				locator1 = "TextInput#ANY");
+
+			AssertAttributeValue(
+				key_text = "Preview",
+				locator1 = "Button#ANY",
+				value1 = "disabled",
+				value2 = "true");
+		}
+
+		task ("When the site designer selects the default display page") {
+			WebContent.selectPreviewSite(siteName = "Test Site Name");
+
+			WebContent.selectPreviewDisplayPage(displayPageName = "Default Display Page Name");
+		}
+
+		task ("Then the site designer could preview the web content") {
+			AssertTextEquals(
+				key_fieldLabel = "Site",
+				locator1 = "Dropdown#DROPDOWN_TOGGLE_BUTTON_WITH_LABEL",
+				value1 = "Test Site Name");
+
+			AssertTextEquals(
+				key_text = "Display Page",
+				locator1 = "TextInput#ANY",
+				value1 = "Default Display Page Name");
+
+			MouseOver.javaScriptFocus(
+				key_text = "Preview",
+				locator1 = "Button#ANY_SECONDARY");
+
+			AssertVisible(
+				key_content = "A draft will be saved before displaying the preview.",
+				locator1 = "Tooltip#FLOATING_TOOLTIP_CONTENT");
+
+			Click(
+				key_text = "Preview",
+				locator1 = "Button#ANY");
+
+			SelectFrame(locator1 = "IFrame#MODAL_BODY");
+
+			ContentPages.viewFragmentText(
+				fragmentName = "heading",
+				id = "element-text",
+				text = "Web Content Title");
+
+			IFrame.closeFrame();
+		}
+
+		task ("When the site designer selects the non-default display page") {
+			WebContent.selectPreviewDisplayPage(displayPageName = "Display Page Name");
+		}
+
+		task ("Then the site designer could preview the web content") {
+			AssertTextEquals(
+				key_text = "Display Page",
+				locator1 = "TextInput#ANY",
+				value1 = "Display Page Name");
+
+			Click(
+				key_text = "Preview",
+				locator1 = "Button#ANY");
+
+			SelectFrame(locator1 = "IFrame#MODAL_BODY");
+
+			ContentPages.viewFragmentText(
+				fragmentName = "button",
+				id = "link",
+				text = "Web Content Content");
+
+			IFrame.closeFrame();
+
+			JSONWebcontent.deleteWebContent(
+				groupName = "Global",
+				title = "Web Content Title");
+		}
+	}
+
+	@description = "When no display page template is selected, assets should not be displayed through the default display page."
+	@priority = 4
+	test ViewNoDisplayPageTemplate {
+		task ("Add a Heading fragment to display page template") {
+			DisplayPageTemplatesAdmin.openDisplayPagesAdmin(siteURLKey = "test-site-name");
+
+			DisplayPageTemplatesAdmin.gotoDisplayPage(displayPageName = "Display Page Name");
+
+			PageEditor.addFragment(
+				collectionName = "Basic Components",
+				fragmentName = "Heading");
+		}
+
+		task ("Map the Title field to editable field") {
+			PageEditorMapping.mapEditableTextToField(
+				field = "Title",
+				fragmentName = "Heading",
+				id = "element-text");
+
+			PageEditor.publish();
+		}
+
+		task ("Mark the display page as default") {
+			DisplayPageTemplatesAdmin.markDisplayPageAsDefault(displayPageName = "Display Page Name");
+		}
+
+		task ("Add a web content article") {
+			JSONWebcontent.addWebContent(
+				content = "Webcontent Content",
+				groupName = "Test Site Name",
+				title = "Webcontent Title");
+		}
+
+		task ("Select the second display page template in web content") {
+			WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
+
+			WebContentNavigator.gotoEditCP(webContentTitle = "Webcontent Title");
+
+			WebContent.editDisplayPage(
+				displayPageTemplateType = "None",
+				pageType = "Display Page Templates");
+
+			WebContent.publishExistingWCArticleWithPermissions();
+		}
+
+		task ("Navigate to the display page template via friendly URL") {
+			Navigator.openWithAppendToBaseURL(urlAppend = "web/test-site-name/w/webcontent-title");
+		}
+
+		task ("View requested resource could not be found") {
+			AssertTextPresent(value1 = "The requested resource could not be found.");
+		}
+
+		task ("Add a widget page") {
+			JSONLayout.addPublicLayout(
+				groupName = "Test Site Name",
+				layoutName = "Site Page Name");
+		}
+
+		task ("Add an Asset Publisher widget to the page") {
+			JSONLayout.addWidgetToPublicLayout(
+				groupName = "Test Site Name",
+				layoutName = "Site Page Name",
+				widgetName = "Asset Publisher");
+		}
+
+		task ("Click the web content title in Asset Publisher") {
+			Navigator.gotoSitePage(
+				pageName = "Site Page Name",
+				siteName = "Test Site Name");
+
+			AssetPublisherPortlet.clickAssetTitle(assetTitle = "Webcontent Title");
+		}
+
+		task ("View the details of web content shown in Asset Publisher") {
+			AssertTextEquals.assertPartialText(
+				locator1 = "AP#ASSET_ABSTRACT_DETAIL_CONTENT",
+				value1 = "Webcontent Content");
+
+			ControlMenu.viewHeaderTitle(headerTitle = "Site Page Name");
+		}
+	}
+
+	@description = "This is a test for LPS-91552. View content displayed in Asset Publisher with pagination on associated display page."
+	@priority = 5
+	test ViewPaginationContentViaAP {
+		property portal.acceptance = "true";
+
+		task ("Add 3 basic web content articles") {
+			for (var count : list "1,2,3") {
+				JSONWebcontent.addWebContent(
+					content = "WC Content ${count}",
+					groupName = "Test Site Name",
+					title = "WC Title ${count}");
+			}
+		}
+
+		task ("Add Display Page and mark it as default") {
+			DisplayPageTemplatesAdmin.openDisplayPagesAdmin(siteURLKey = "test-site-name");
+
+			DisplayPageTemplatesAdmin.gotoDisplayPage(displayPageName = "Display Page Name");
+
+			PageEditor.addWidget(portletName = "Asset Publisher");
+
+			AssetPublisherPortlet.configurePaginationPG(
+				paginationNumber = 2,
+				paginationType = "Regular");
+
+			Portlet.saveAndCloseConfig();
+
+			PageEditor.publish();
+
+			DisplayPageTemplatesAdmin.markDisplayPageAsDefault(displayPageName = "Display Page Name");
+		}
+
+		task ("Select Display Page Name as Specific Display Page Template") {
+			WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
+
+			for (var count : list "1,2,3") {
+				WebContentNavigator.gotoEditCP(webContentTitle = "WC Title ${count}");
+
+				WebContent.editDisplayPage(
+					pageName = "Display Page Name",
+					pageType = "Display Page Templates");
+
+				WebContent.publishExistingWCArticleWithPermissions();
+			}
+		}
+
+		task ("Add widget pages with Asset Publisher") {
+			JSONLayout.addPublicLayout(
+				groupName = "Test Site Name",
+				layoutName = "Test Page Name");
+
+			JSONLayout.addWidgetToPublicLayout(
+				groupName = "Test Site Name",
+				layoutName = "Test Page Name",
+				widgetName = "Asset Publisher");
+		}
+
+		task ("View paginated web content via Asset Publisher") {
+			Navigator.gotoSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			AssetPublisherPortlet.clickAssetTitle(assetTitle = "WC Title 1");
+
+			AssetPublisherPortlet.changePagination(pageNumber = 2);
+
+			AssetPublisherPortlet.viewAssetPG(
+				assetContent = "WC Content 1",
+				assetTitle = "WC Title 1");
+		}
+	}
+
+}

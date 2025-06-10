@@ -1,0 +1,210 @@
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+
+package com.liferay.calendar.web.internal.upgrade.v1_1_1;
+
+import com.liferay.calendar.constants.CalendarPortletKeys;
+import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.dao.orm.ActionableDynamicQuery;
+import com.liferay.portal.kernel.dao.orm.Junction;
+import com.liferay.portal.kernel.dao.orm.Property;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.model.PortletPreferences;
+import com.liferay.portal.kernel.model.ResourcePermission;
+import com.liferay.portal.kernel.service.PortletPreferencesLocalService;
+import com.liferay.portal.kernel.service.ResourcePermissionLocalService;
+import com.liferay.portal.kernel.upgrade.BasePortletIdUpgradeProcess;
+import com.liferay.portal.kernel.util.StringUtil;
+
+/**
+ * @author Marcellus Tavares
+ */
+public class UpgradeEventsDisplayPortletId extends BasePortletIdUpgradeProcess {
+
+	public UpgradeEventsDisplayPortletId(
+		PortletPreferencesLocalService portletPreferencesLocalService,
+		ResourcePermissionLocalService resourcePermissionLocalService) {
+
+		_portletPreferencesLocalService = portletPreferencesLocalService;
+		_resourcePermissionLocalService = resourcePermissionLocalService;
+	}
+
+	@Override
+	protected String[][] getRenamePortletIdsArray() {
+		return new String[][] {
+			{"1_WAR_eventsdisplayportlet", CalendarPortletKeys.CALENDAR}
+		};
+	}
+
+	@Override
+	protected void updateInstanceablePortletPreferences(
+			String oldRootPortletId, String newRootPortletId)
+		throws Exception {
+
+		ActionableDynamicQuery actionableDynamicQuery =
+			_portletPreferencesLocalService.getActionableDynamicQuery();
+
+		actionableDynamicQuery.setAddCriteriaMethod(
+			dynamicQuery -> {
+				Junction junction = RestrictionsFactoryUtil.disjunction();
+
+				Property property = PropertyFactoryUtil.forName("portletId");
+
+				junction.add(property.eq(oldRootPortletId));
+				junction.add(property.like(oldRootPortletId + "_INSTANCE_%"));
+				junction.add(
+					property.like(oldRootPortletId + "_USER_%_INSTANCE_%"));
+
+				dynamicQuery.add(junction);
+			});
+		actionableDynamicQuery.setPerformActionMethod(
+			(PortletPreferences portletPreferences) ->
+				_updatePortletPreferences(
+					portletPreferences, oldRootPortletId, newRootPortletId));
+
+		actionableDynamicQuery.performActions();
+	}
+
+	@Override
+	protected void updatePortlet(
+			String oldRootPortletId, String newRootPortletId)
+		throws Exception {
+
+		try {
+			updateResourcePermission(oldRootPortletId, newRootPortletId, true);
+
+			updateInstanceablePortletPreferences(
+				oldRootPortletId, newRootPortletId);
+
+			updateLayouts(oldRootPortletId, newRootPortletId, false);
+		}
+		catch (Exception exception) {
+			if (_log.isWarnEnabled()) {
+				_log.warn(exception);
+			}
+		}
+	}
+
+	@Override
+	protected void updateResourcePermission(
+			String oldRootPortletId, String newRootPortletId,
+			boolean updateName)
+		throws Exception {
+
+		_deleteResourcePermissions(oldRootPortletId, newRootPortletId);
+
+		super.updateResourcePermission(
+			oldRootPortletId, newRootPortletId, updateName);
+	}
+
+	private void _deleteResourcePermissions(
+			String oldRootPortletId, String newRootPortletId)
+		throws Exception {
+
+		ActionableDynamicQuery actionableDynamicQuery =
+			_resourcePermissionLocalService.getActionableDynamicQuery();
+
+		actionableDynamicQuery.setAddCriteriaMethod(
+			dynamicQuery -> {
+				Property nameProperty = PropertyFactoryUtil.forName("name");
+
+				dynamicQuery.add(nameProperty.eq(new String(oldRootPortletId)));
+			});
+		actionableDynamicQuery.setPerformActionMethod(
+			(ResourcePermission resourcePermission) -> {
+				long total = _getResourcePermissionsCount(
+					resourcePermission.getCompanyId(), newRootPortletId,
+					resourcePermission.getScope(),
+					resourcePermission.getRoleId());
+
+				if (total > 0) {
+					_resourcePermissionLocalService.deleteResourcePermission(
+						resourcePermission);
+				}
+			});
+
+		actionableDynamicQuery.performActions();
+	}
+
+	private long _getResourcePermissionsCount(
+			long companyId, String name, int scope, long roleId)
+		throws PortalException {
+
+		ActionableDynamicQuery actionableDynamicQuery =
+			_resourcePermissionLocalService.getActionableDynamicQuery();
+
+		actionableDynamicQuery.setAddCriteriaMethod(
+			dynamicQuery -> {
+				Property companyIdProperty = PropertyFactoryUtil.forName(
+					"companyId");
+
+				dynamicQuery.add(companyIdProperty.eq(companyId));
+
+				Property nameProperty = PropertyFactoryUtil.forName("name");
+
+				dynamicQuery.add(nameProperty.eq(name));
+
+				Property scopeProperty = PropertyFactoryUtil.forName("scope");
+
+				dynamicQuery.add(scopeProperty.eq(scope));
+
+				Property roleIdProperty = PropertyFactoryUtil.forName("roleId");
+
+				dynamicQuery.add(roleIdProperty.eq(roleId));
+			});
+
+		return actionableDynamicQuery.performCount();
+	}
+
+	private void _updatePortletPreferences(
+		PortletPreferences portletPreferences, String oldRootPortletId,
+		String newRootPortletId) {
+
+		String newPortletId = StringUtil.replace(
+			portletPreferences.getPortletId(), oldRootPortletId,
+			newRootPortletId);
+
+		portletPreferences.setPortletId(newPortletId);
+
+		portletPreferences =
+			_portletPreferencesLocalService.updatePortletPreferences(
+				portletPreferences);
+
+		_portletPreferencesLocalService.updatePreferences(
+			portletPreferences.getOwnerId(), portletPreferences.getOwnerType(),
+			portletPreferences.getPlid(), portletPreferences.getPortletId(),
+			StringBundler.concat(
+				"<portlet-preferences>",
+				String.format(_PREFERENCE_FORMAT, "defaultView", "agenda"),
+				String.format(
+					_PREFERENCE_FORMAT, "displaySchedulerHeader", "false"),
+				String.format(
+					_PREFERENCE_FORMAT, "displaySchedulerOnly", "true"),
+				String.format(_PREFERENCE_FORMAT, "eventsPerPage", "10"),
+				String.format(_PREFERENCE_FORMAT, "maxDaysDisplayed", "1"),
+				String.format(_PREFERENCE_FORMAT, "showAgendaView", "true"),
+				String.format(_PREFERENCE_FORMAT, "showDayView", "false"),
+				String.format(_PREFERENCE_FORMAT, "showMonthView", "false"),
+				String.format(_PREFERENCE_FORMAT, "showWeekView", "false"),
+				String.format(_PREFERENCE_FORMAT, "showUserEvents", "false"),
+				"</portlet-preferences>"));
+	}
+
+	private static final String _PREFERENCE_FORMAT =
+		"<preference><name>%s</name><value>%s</value></preference>";
+
+	private static final Log _log = LogFactoryUtil.getLog(
+		UpgradeEventsDisplayPortletId.class);
+
+	private final PortletPreferencesLocalService
+		_portletPreferencesLocalService;
+	private final ResourcePermissionLocalService
+		_resourcePermissionLocalService;
+
+}

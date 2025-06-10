@@ -1,0 +1,54 @@
+definition {
+
+	@summary = "Default summary"
+	macro executeMethodInMacro() {
+		var expected = "test,string,";
+		var actual = ExternalMethod.stringUtilAdd();
+
+		ExternalMethod.validateMatch(
+			actual = ${actual},
+			expected = ${expected});
+
+		var expected = "TestString";
+		var actual = ExternalMethod.stringUtilExtractChars();
+
+		ExternalMethod.validateMatch(
+			actual = ${actual},
+			expected = ${expected});
+	}
+
+	@summary = "Default summary"
+	macro stringUtilAdd() {
+		var stringUtilReturn = StringUtil.add("test", "string");
+
+		return ${stringUtilReturn};
+	}
+
+	@summary = "Default summary"
+	macro stringUtilExtractChars() {
+		var stringUtilReturn = StringUtil.extractChars("Test String");
+
+		return ${stringUtilReturn};
+	}
+
+	@summary = "Default summary"
+	macro validateMatch(actual = null,expected = null) {
+		if (${actual} == ${expected}) {
+			echo("The actual value matched the expected value.");
+
+			echo("action: '${actual}'");
+
+			echo("expected: '${expected}'");
+		}
+		else {
+			echo("The actual value did NOT match the expected value!");
+
+			echo("action: '${actual}'");
+
+			echo("expected: '${expected}'");
+
+			fail("Execute method failed!");
+		}
+	}
+
+}

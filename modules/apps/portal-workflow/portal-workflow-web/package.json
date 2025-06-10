@@ -1,0 +1,10 @@
+{
+	"main": "js/index.js",
+	"name": "portal-workflow-web",
+	"scripts": {
+		"build": "node-scripts build",
+		"checkFormat": "node-scripts format --check",
+		"format": "node-scripts format"
+	},
+	"version": "4.0.92"
+}

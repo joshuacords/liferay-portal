@@ -1,0 +1,106 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<%@ include file="/init.jsp" %>
+
+<liferay-ui:error exception="<%= RequiredCompanyException.class %>" message="the-default-company-is-required" />
+
+<liferay-ui:search-container
+	iteratorURL="<%= portletURL %>"
+	total="<%= CompanyLocalServiceUtil.getCompaniesCount() %>"
+>
+	<liferay-ui:search-container-results
+		results="<%= CompanyLocalServiceUtil.getCompanies(searchContainer.getStart(), searchContainer.getEnd()) %>"
+	/>
+
+	<liferay-ui:search-container-row
+		className="com.liferay.portal.kernel.model.Company"
+		modelVar="curCompany"
+	>
+
+		<%
+		PortletURL rowURL = PortletURLBuilder.createRenderURL(
+			renderResponse
+		).setMVCRenderCommandName(
+			"/portal_instances/edit_instance"
+		).setRedirect(
+			currentURL
+		).setParameter(
+			"companyId", curCompany.getCompanyId()
+		).buildPortletURL();
+		%>
+
+		<liferay-ui:search-container-column-text
+			href="<%= rowURL %>"
+			name="instance-id"
+			property="companyId"
+		/>
+
+		<liferay-ui:search-container-column-text
+			cssClass="table-cell-expand table-cell-minw-200 table-title"
+			href="<%= rowURL %>"
+			name="web-id"
+			value="<%= HtmlUtil.escape(curCompany.getWebId()) %>"
+		/>
+
+		<liferay-ui:search-container-column-text
+			cssClass="table-cell-expand table-cell-minw-200"
+			href="<%= rowURL %>"
+			name="virtual-host"
+			value="<%= curCompany.getVirtualHostname() %>"
+		/>
+
+		<liferay-ui:search-container-column-text
+			cssClass="table-cell-expand table-cell-minw-200"
+			href="<%= rowURL %>"
+			name="mail-domain"
+			property="mx"
+		/>
+
+		<liferay-ui:search-container-column-text
+			cssClass="table-cell-ws-nowrap table-column-text-center"
+			href="<%= rowURL %>"
+			name="num-of-users"
+			value="<%= String.valueOf(UserLocalServiceUtil.searchCount(curCompany.getCompanyId(), null, WorkflowConstants.STATUS_APPROVED, null)) %>"
+		/>
+
+		<%
+		int maxUsers = curCompany.getMaxUsers();
+		%>
+
+		<liferay-ui:search-container-column-text
+			cssClass="table-cell-ws-nowrap table-column-text-center"
+			href="<%= rowURL %>"
+			name="max-num-of-users"
+			value='<%= (maxUsers > 0) ? String.valueOf(maxUsers) : LanguageUtil.get(request, "unlimited") %>'
+		/>
+
+		<liferay-ui:search-container-column-text
+			cssClass="table-cell-ws-nowrap table-column-text-center"
+			href="<%= rowURL %>"
+			name="active"
+			value='<%= LanguageUtil.get(request, curCompany.isActive() ? "yes" : "no") %>'
+		/>
+
+		<%
+		CompanyActionDropdownItems companyActionDropdownItems = new CompanyActionDropdownItems(curCompany, request, liferayPortletResponse);
+		%>
+
+		<liferay-ui:search-container-column-text>
+			<clay:dropdown-actions
+				aria-label='<%= LanguageUtil.get(request, "show-actions") %>'
+				dropdownItems="<%= companyActionDropdownItems.getActionDropdownItems() %>"
+				propsTransformer="{CompanyDropdownDefaultPropsTransformer} from portal-instances-web"
+			/>
+		</liferay-ui:search-container-column-text>
+	</liferay-ui:search-container-row>
+
+	<liferay-ui:search-iterator
+		markupView="lexicon"
+		searchContainer="<%= searchContainer %>"
+	/>
+</liferay-ui:search-container>

@@ -1,0 +1,46 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<c:choose>
+	<c:when test='<%= displayStyle.equals("descriptive") %>'>
+		<liferay-ui:search-container-column-text>
+			<liferay-user:user-portrait
+				userId="<%= user2.getUserId() %>"
+			/>
+		</liferay-ui:search-container-column-text>
+
+		<liferay-ui:search-container-column-text
+			colspan="<%= 2 %>"
+		>
+			<div class="h5"><%= user2.getFullName() %></div>
+
+			<div class="h6 text-default">
+				<span><%= user2.getScreenName() %></span>
+			</div>
+		</liferay-ui:search-container-column-text>
+	</c:when>
+	<c:when test='<%= displayStyle.equals("icon") %>'>
+		<liferay-ui:search-container-column-text>
+			<clay:user-card
+				userCard="<%= new UserVerticalCard(renderRequest, userSearchContainer.getRowChecker(), user2) %>"
+			/>
+		</liferay-ui:search-container-column-text>
+	</c:when>
+	<c:otherwise>
+		<liferay-ui:search-container-column-text
+			name="name"
+			property="fullName"
+			truncate="<%= true %>"
+		/>
+
+		<liferay-ui:search-container-column-text
+			name="screen-name"
+			property="screenName"
+			truncate="<%= true %>"
+		/>
+	</c:otherwise>
+</c:choose>

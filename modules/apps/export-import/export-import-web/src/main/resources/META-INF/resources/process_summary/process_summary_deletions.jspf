@@ -1,0 +1,48 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<%
+boolean deletePortletData = MapUtil.getBoolean(parameterMap, PortletDataHandlerKeys.DELETE_PORTLET_DATA);
+boolean exportIndividualDeletions = MapUtil.getBoolean(parameterMap, PortletDataHandlerKeys.DELETIONS);
+%>
+
+<c:if test="<%= deletePortletData || exportIndividualDeletions %>">
+	<div class="process-summary-section">
+		<div class="sheet-subtitle"><liferay-ui:message key="deletions" /></div>
+
+		<c:if test="<%= deletePortletData %>">
+			<div class="process-summary-subsection">
+				<label class="process-summary-label"><liferay-ui:message key="delete-application-data-before-importing" />:</label>
+
+				<liferay-ui:message key="delete-content-before-importing-warning" />
+				<liferay-ui:message key="delete-content-before-importing-suggestion" />
+			</div>
+		</c:if>
+
+		<c:if test="<%= exportIndividualDeletions %>">
+
+			<%
+			String individualDeletionsTitle = null;
+			String individualDeletionsDescription = null;
+
+			if (processCmd.equals(Constants.EXPORT)) {
+				individualDeletionsTitle = LanguageUtil.get(request, "export-individual-deletions");
+				individualDeletionsDescription = LanguageUtil.get(request, "deletions-help-export");
+			}
+			else {
+				individualDeletionsTitle = LanguageUtil.get(request, "replicate-individual-deletions");
+				individualDeletionsDescription = LanguageUtil.get(request, "deletions-help");
+			}
+			%>
+
+			<div class="process-summary-subsection">
+				<label class="process-summary-label"><%= individualDeletionsTitle %>:</label>
+				<%= individualDeletionsDescription %>
+			</div>
+		</c:if>
+	</div>
+</c:if>

@@ -1,0 +1,17 @@
+Bundle-Name: Liferay Commerce Inventory API
+Bundle-SymbolicName: com.liferay.commerce.inventory.api
+Bundle-Version: 33.0.2
+Export-Package:\
+	com.liferay.commerce.inventory.configuration,\
+	com.liferay.commerce.inventory.constants,\
+	com.liferay.commerce.inventory.engine,\
+	com.liferay.commerce.inventory.engine.contributor,\
+	com.liferay.commerce.inventory.exception,\
+	com.liferay.commerce.inventory.method,\
+	com.liferay.commerce.inventory.model,\
+	com.liferay.commerce.inventory.permission,\
+	com.liferay.commerce.inventory.service,\
+	com.liferay.commerce.inventory.service.persistence,\
+	com.liferay.commerce.inventory.type,\
+	com.liferay.commerce.inventory.type.constants,\
+	com.liferay.commerce.inventory.util.comparator

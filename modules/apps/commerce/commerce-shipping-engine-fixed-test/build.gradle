@@ -1,0 +1,4 @@
+dependencies {
+	testIntegrationImplementation project(":apps:commerce:commerce-shipping-engine-fixed-api")
+	testIntegrationImplementation project(":test:arquillian-extension-junit-bridge")
+}

@@ -1,0 +1,193 @@
+definition {
+
+	@summary = "Default summary"
+	macro disableGlobalTimeZone() {
+		Uncheck(locator1 = "CalendarConfiguration#USER_SETTINGS_GLOBAL_TIME_ZONE_CHECKBOX");
+	}
+
+	@summary = "Default summary"
+	macro editNumberOfDaysDisplayedOnAgenda(maxNumberOfDays = null) {
+		CalendarNavigator.gotoConfiguration();
+
+		CalendarConfiguration.gotoDisplaySettings();
+
+		Select(
+			locator1 = "CalendarConfiguration#DAYS_DISPLAYED_MAX",
+			value1 = ${maxNumberOfDays});
+
+		CalendarConfiguration.save();
+
+		IFrame.closeFrame();
+	}
+
+	@summary = "Default summary"
+	macro editNumberOfEventsDisplayed(maxNumberOfEvents = null) {
+		CalendarConfiguration.gotoDisplaySettings();
+
+		Select(
+			locator1 = "CalendarConfiguration#EVENTS_DISPLAYED_MAX_DAYS",
+			value1 = ${maxNumberOfEvents});
+	}
+
+	@summary = "Default summary"
+	macro editTimeZonePacific() {
+		CalendarConfiguration.disableGlobalTimeZone();
+
+		if (IsTextNotEqual(locator1 = "Select#LOS_ANGELES_TIME_ZONE", value1 = "(UTC -07:00) Pacific Daylight Time")) {
+			Select(
+				locator1 = "Select#TIME_ZONE",
+				value1 = "(UTC -08:00) Pacific Standard Time");
+		}
+		else {
+			Select(
+				locator1 = "Select#TIME_ZONE",
+				value1 = "(UTC -07:00) Pacific Daylight Time");
+		}
+	}
+
+	@summary = "Default summary"
+	macro editTimeZoneUTC() {
+		CalendarConfiguration.disableGlobalTimeZone();
+
+		Select(
+			locator1 = "Select#TIME_ZONE",
+			value1 = "(UTC) Coordinated Universal Time");
+	}
+
+	@summary = "Default summary"
+	macro enableGlobalTimeZone() {
+		Check(locator1 = "CalendarConfiguration#USER_SETTINGS_GLOBAL_TIME_ZONE_CHECKBOX");
+	}
+
+	@summary = "Default summary"
+	macro enableRSS() {
+		CalendarConfiguration.gotoRSS();
+
+		Click(locator1 = "CalendarConfiguration#RSS_ENABLE_RSS_SUBSCRIPTION_SWITCHER");
+	}
+
+	@summary = "Default summary"
+	macro gotoDisplaySettings() {
+		AssertClick(
+			locator1 = "CalendarConfiguration#NAVIGATION_DISPLAY_SETTINGS",
+			value1 = "Display Settings");
+	}
+
+	@summary = "Default summary"
+	macro gotoRSS() {
+		AssertClick(
+			locator1 = "CalendarConfiguration#NAVIGATION_USER_RSS",
+			value1 = "RSS");
+	}
+
+	@summary = "Default summary"
+	macro save() {
+		PortletEntry.save();
+	}
+
+	@summary = "Default summary"
+	macro selectDefaultDuration(defaultDuration = null) {
+		Select(
+			locator1 = "CalendarConfiguration#USER_SETTINGS_DEFAULT_DURATION_SELECT",
+			value1 = ${defaultDuration});
+	}
+
+	@summary = "Default summary"
+	macro selectDefaultView(defaultView = null) {
+		Select(
+			locator1 = "CalendarConfiguration#USER_SETTINGS_DEFAULT_VIEW_SELECT",
+			value1 = ${defaultView});
+	}
+
+	@summary = "Default summary"
+	macro selectTimeFormat(timeFormat = null) {
+		Select(
+			locator1 = "CalendarConfiguration#USER_SETTINGS_TIME_FORMAT_SELECT",
+			value1 = ${timeFormat});
+	}
+
+	@summary = "Default summary"
+	macro selectWeekStartsOn(weekStartDay = null) {
+		Select(
+			locator1 = "CalendarConfiguration#USER_SETTINGS_WEEK_STARTS_ON_SELECT",
+			value1 = ${weekStartDay});
+	}
+
+	@summary = "Default summary"
+	macro tearDown() {
+		CalendarNavigator.gotoConfiguration();
+
+		CalendarConfiguration.selectDefaultDuration(defaultDuration = "60 Minutes");
+
+		CalendarConfiguration.selectDefaultView(defaultView = "Week");
+
+		CalendarConfiguration.selectWeekStartsOn(weekStartDay = "Sunday");
+
+		CalendarConfiguration.save();
+
+		CalendarConfiguration.enableRSS();
+
+		CalendarConfiguration.save();
+	}
+
+	@summary = "Default summary"
+	macro viewDefaultViewConfiguration(defaultView = null) {
+		if (${defaultView} == "Day") {
+			AssertSelectedLabel(
+				locator1 = "CalendarConfiguration#USER_SETTINGS_DEFAULT_VIEW_SELECT",
+				value1 = "Day");
+		}
+
+		if (${defaultView} == "Month") {
+			AssertSelectedLabel(
+				locator1 = "CalendarConfiguration#USER_SETTINGS_DEFAULT_VIEW_SELECT",
+				value1 = "Month");
+		}
+
+		if (${defaultView} == "Week") {
+			AssertSelectedLabel(
+				locator1 = "CalendarConfiguration#USER_SETTINGS_DEFAULT_VIEW_SELECT",
+				value1 = "Week");
+		}
+
+		if (${defaultView} == "Agenda") {
+			AssertSelectedLabel(
+				locator1 = "CalendarConfiguration#USER_SETTINGS_DEFAULT_VIEW_SELECT",
+				value1 = "Agenda");
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewRSSOptionsDisabled() {
+		AssertElementNotPresent(locator1 = "CalendarConfiguration#RSS_SETTING_OPTIONS");
+	}
+
+	@summary = "Default summary"
+	macro viewSelectDefaultDuration(defaultDuration = null) {
+		AssertSelectedLabel(
+			locator1 = "CalendarConfiguration#USER_SETTINGS_DEFAULT_DURATION_SELECT",
+			value1 = ${defaultDuration});
+	}
+
+	@summary = "Default summary"
+	macro viewSelectDefaultView(defaultView = null) {
+		AssertSelectedLabel(
+			locator1 = "CalendarConfiguration#USER_SETTINGS_DEFAULT_VIEW_SELECT",
+			value1 = ${defaultView});
+	}
+
+	@summary = "Default summary"
+	macro viewSelectTimeFormat(timeFormat = null) {
+		AssertSelectedLabel(
+			locator1 = "CalendarConfiguration#USER_SETTINGS_TIME_FORMAT_SELECT",
+			value1 = ${timeFormat});
+	}
+
+	@summary = "Default summary"
+	macro viewSelectWeekStartsOn(weekStartDay = null) {
+		AssertSelectedLabel(
+			locator1 = "CalendarConfiguration#USER_SETTINGS_WEEK_STARTS_ON_SELECT",
+			value1 = ${weekStartDay});
+	}
+
+}

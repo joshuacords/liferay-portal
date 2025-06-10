@@ -1,0 +1,107 @@
+<html>
+<head>
+<title>Gmail</title>
+</head>
+
+<body>
+<table border="1" cellpadding="1" cellspacing="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Gmail</td></tr>
+</thead>
+
+<tbody>
+<tr>
+	<td>INBOX</td>
+	<td>//body[contains(.,'Inbox')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>MAIL_NAVIGATION</td>
+	<td>//div[contains(@role,'navigation')]//a[contains(@aria-label,'Mail')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SCREENNAME</td>
+	<td>//div/a[contains(@title,'${key_userEmailAddress}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+
+<!--EMAIL-->
+
+<tr>
+	<td>EMAIL_DELETE</td>
+	<td>//div[not(contains(@style,'none'))]/div[@role='button' and @aria-label='Delete']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>EMAIL_MESSAGE_TITLE</td>
+	<td>//span[@class='bog']/span[contains(.,'${key_gmailMessageTitle}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>EMAIL_REPLY</td>
+	<td>//span[@role='link' and contains(text(),'Reply')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>EMAIL_REPLY_TEXTBOX</td>
+	<td>//div[@role='textbox' and @contenteditable='true']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>EMAIL_SEND</td>
+	<td>//div[@role='button' and contains(text(),'Send')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>EMAIL_TOOLBAR</td>
+	<td>//div[@gh='mtb']</td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+
+<!--LOGIN-->
+
+<tr>
+	<td>LOGIN_EMAIL_FIELD</td>
+	<td>//input[contains(@type,'email')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>LOGIN_PASSWORD_FIELD</td>
+	<td>//input[contains(@type,'password')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>LOGIN_STAY_SIGNED_IN_CHECKBOX</td>
+	<td>//label[@class='remember']/input</td>
+	<td></td>
+</tr>
+<tr>
+	<td>LOGIN_NEXT_BUTTON</td>
+	<td>//input[@id='next'] | //div[contains(@id,'Next')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>LOGIN_SIGN_IN_BUTTON</td>
+	<td>//input[@id='signIn']</td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

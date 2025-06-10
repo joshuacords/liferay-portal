@@ -1,0 +1,206 @@
+definition {
+
+	@summary = "Default summary"
+	macro click(button = null) {
+		Click.mouseDownMouseUp(
+			key_text = ${button},
+			locator1 = "Button#ANY");
+	}
+
+	@summary = "Default summary"
+	macro clickAdd() {
+		Button.click(button = "Add");
+
+		SelectFrameTop();
+
+		if (IsElementPresent(locator1 = "Modal#MODAL_SHOW")) {
+			SelectFrame(locator1 = "IFrame#MODAL_BODY");
+		}
+	}
+
+	@summary = "Default summary"
+	macro clickAddRow() {
+		Click(locator1 = "Button#ADD_ROW");
+	}
+
+	@summary = "Default summary"
+	macro clickApply() {
+		Button.click(button = "Apply");
+	}
+
+	@summary = "Default summary"
+	macro clickAssign() {
+		Button.click(button = "Assign");
+	}
+
+	@summary = "Default summary"
+	macro clickCancel() {
+		Button.click(button = "Cancel");
+
+		SelectFrameTop();
+	}
+
+	@summary = "Default summary"
+	macro clickCheckOut() {
+		Click(locator1 = "Button#CHECKOUT");
+	}
+
+	@summary = "Default summary"
+	macro clickCollapse(label = null) {
+		Click(
+			key_label = ${label},
+			locator1 = "DDMEditStructure#FORM_COLLAPSE_BUTTON");
+	}
+
+	@summary = "Default summary"
+	macro clickComment() {
+		Click(locator1 = "Button#COMMENT");
+	}
+
+	@summary = "Default summary"
+	macro clickConfirm() {
+		Click(locator1 = "Button#CONFIRM");
+	}
+
+	@summary = "Default summary"
+	macro clickCreate() {
+		Button.click(button = "Create");
+	}
+
+	@summary = "Default summary"
+	macro clickDelete() {
+		Button.click(button = "Delete");
+	}
+
+	@summary = "Default summary"
+	macro clickDone() {
+		Button.click(button = "Done");
+	}
+
+	@summary = "Default summary"
+	macro clickEdit() {
+		Button.click(button = "Edit");
+	}
+
+	@summary = "Default summary"
+	macro clickImport() {
+		Button.click(button = "Import");
+	}
+
+	@summary = "Default summary"
+	macro clickInstall() {
+		Button.click(button = "Install");
+	}
+
+	@summary = "Default summary"
+	macro clickMap() {
+		Button.click(button = "Map");
+	}
+
+	@summary = "Default summary"
+	macro clickMore() {
+		Button.click(button = "More");
+	}
+
+	@summary = "Default summary"
+	macro clickNext() {
+		Button.click(button = "Next");
+	}
+
+	@summary = "Default summary"
+	macro clickNoError(button = null) {
+		ClickNoError.mouseDownMouseUp(
+			key_text = ${button},
+			locator1 = "Button#ANY");
+	}
+
+	@summary = "Default summary"
+	macro clickPublish() {
+		ScrollWebElementIntoView(
+			key_text = "Publish",
+			locator1 = "Button#ANY");
+
+		Button.click(button = "Publish");
+	}
+
+	@summary = "Default summary"
+	macro clickRemove() {
+		Click.javaScriptClick(
+			key_text = "Remove",
+			locator1 = "Button#ANY");
+	}
+
+	@summary = "Default summary"
+	macro clickSave() {
+		Button.click(button = "Save");
+
+		WaitForLiferayEvent.initializeLiferayEventLog();
+	}
+
+	@summary = "Default summary"
+	macro clickSaveAsDraft() {
+		Button.click(button = "Save as Draft");
+	}
+
+	@summary = "Default summary"
+	macro clickSelect() {
+		Click.javaScriptClick(
+			key_text = "Select",
+			locator1 = "Button#ANY");
+	}
+
+	@summary = "Default summary"
+	macro clickShare() {
+		Button.click(button = "Share");
+	}
+
+	@summary = "Default summary"
+	macro clickSubmitButton() {
+		Click(locator1 = "Button#SUBMIT");
+
+		SelectFrameTop();
+	}
+
+	@summary = "Default summary"
+	macro clickSubmitForWorkflow() {
+		Button.click(button = "Submit for Workflow");
+	}
+
+	@summary = "Default summary"
+	macro clickTrash() {
+		ScrollWebElementIntoView(locator1 = "Button#TRASH_ENABLED");
+
+		Click(locator1 = "Button#TRASH_ENABLED");
+	}
+
+	@summary = "Default summary"
+	macro clickUpdate() {
+		ScrollWebElementIntoView(
+			key_text = "Update",
+			locator1 = "Button#ANY");
+
+		Button.click(button = "Update");
+
+		WaitForLiferayEvent.initializeLiferayEventLog();
+	}
+
+	@summary = "Default summary"
+	macro clickVerifyButton() {
+		Click(locator1 = "Button#VERIFY");
+	}
+
+	@summary = "Default summary"
+	macro viewNotPresent(button = null) {
+		AssertElementNotPresent(
+			key_text = ${button},
+			locator1 = "Button#ANY");
+	}
+
+	@summary = "Default summary"
+	macro viewPresent(button = null) {
+		AssertElementPresent(
+			key_text = ${button},
+			locator1 = "Button#ANY");
+	}
+
+}

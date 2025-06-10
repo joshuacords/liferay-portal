@@ -1,0 +1,107 @@
+import com.bmuschko.gradle.docker.tasks.image.DockerListImages
+import com.bmuschko.gradle.docker.tasks.image.DockerRemoveImage
+import com.bmuschko.gradle.docker.tasks.image.DockerTagImage
+
+import com.github.dockerjava.api.model.Image
+
+apply plugin: "com.liferay.app.docker"
+
+task removeUbuntuDockerImage(type: DockerRemoveImage)
+task runGradleTest(type: DockerListImages)
+
+List<DockerRemoveImage> removeAppDockerImageTasks = (0 .. 3).collect {
+	tasks.create name: "removeAppDockerImage${it}", type: DockerRemoveImage
+}
+
+allprojects {
+	group = "com.example.sample"
+	version = "1.0.0"
+
+	repositories {
+		File dir = rootProject.projectDir
+
+		while (dir != null) {
+			File tmpMavenRepositoryDir = new File(dir, ".m2-tmp")
+
+			if (tmpMavenRepositoryDir.exists()) {
+				maven {
+					url tmpMavenRepositoryDir
+				}
+			}
+
+			dir = dir.getParentFile();
+		}
+
+		maven {
+			url "https://repository-cdn.liferay.com/nexus/content/groups/public"
+		}
+	}
+}
+
+appDocker {
+	imageTags "foo"
+	imageUser = "example"
+
+	onlyIf {
+		!it.name.endsWith("-test")
+	}
+}
+
+removeUbuntuDockerImage {
+	imageId = "ubuntu"
+}
+
+runGradleTest {
+	dependsOn tasks.withType(DockerTagImage)
+
+	doLast {
+		File inputDir = new File(buildDir, "docker")
+
+		String[] inputDirFileNames = inputDir.list()
+
+		assert inputDirFileNames.length == 4
+
+		assert inputDirFileNames.contains("Dockerfile")
+		assert inputDirFileNames.contains("sample-api-1.0.0.jar")
+		assert inputDirFileNames.contains("sample-service-1.0.0.jar")
+		assert inputDirFileNames.contains("sample-war-1.0.0.war")
+	}
+
+	finalizedBy removeAppDockerImageTasks
+	finalizedBy removeUbuntuDockerImage
+
+	onNext {
+		Image image ->
+
+		if (image.repoTags.contains("example/sample:foo")) {
+			assert image.repoTags.length == removeAppDockerImageTasks.size()
+
+			for (i in 0 .. (image.repoTags.length - 1)) {
+				DockerRemoveImage dockerRemoveImage = tasks["removeAppDockerImage${i}"]
+
+				dockerRemoveImage.imageId = image.repoTags[i]
+			}
+		}
+	}
+}
+
+subprojects {
+	apply plugin: "java-library"
+}
+
+project(":sample-service") {
+	dependencies {
+		api project(":sample-api")
+	}
+}
+
+project(":sample-test") {
+	dependencies {
+		testImplementation group: "junit", name: "junit", version: "4.13.1"
+		testImplementation project(":sample-service")
+	}
+}
+
+project(":sample-war") {
+	apply plugin: "war"
+}

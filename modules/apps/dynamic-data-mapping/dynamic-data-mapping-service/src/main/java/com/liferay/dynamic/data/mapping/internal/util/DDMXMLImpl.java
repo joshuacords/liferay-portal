@@ -1,0 +1,317 @@
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+
+package com.liferay.dynamic.data.mapping.internal.util;
+
+import com.liferay.dynamic.data.mapping.constants.DDMStructureConstants;
+import com.liferay.dynamic.data.mapping.exception.StructureDefinitionException;
+import com.liferay.dynamic.data.mapping.exception.StructureDuplicateElementException;
+import com.liferay.dynamic.data.mapping.model.DDMStructure;
+import com.liferay.dynamic.data.mapping.storage.Field;
+import com.liferay.dynamic.data.mapping.storage.Fields;
+import com.liferay.dynamic.data.mapping.storage.constants.FieldConstants;
+import com.liferay.dynamic.data.mapping.util.DDMXML;
+import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.LocaleUtil;
+import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.kernel.xml.Document;
+import com.liferay.portal.kernel.xml.DocumentException;
+import com.liferay.portal.kernel.xml.Element;
+import com.liferay.portal.kernel.xml.Node;
+import com.liferay.portal.kernel.xml.SAXReader;
+import com.liferay.portal.kernel.xml.XMLSchema;
+import com.liferay.portal.kernel.xml.XPath;
+import com.liferay.portal.xml.XMLSchemaImpl;
+
+import java.io.IOException;
+import java.io.Serializable;
+
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
+/**
+ * @author Bruno Basto
+ * @author Brian Wing Shun Chan
+ */
+@Component(service = DDMXML.class)
+public class DDMXMLImpl implements DDMXML {
+
+	@Override
+	public Fields getFields(DDMStructure structure, String xml)
+		throws PortalException {
+
+		return getFields(structure, null, xml, null);
+	}
+
+	@Override
+	public Fields getFields(
+			DDMStructure structure, XPath xPath, String xml,
+			List<String> fieldNames)
+		throws PortalException {
+
+		Document document = null;
+
+		try {
+			document = _saxReader.read(xml);
+		}
+		catch (DocumentException documentException) {
+			if (_log.isDebugEnabled()) {
+				_log.debug(documentException);
+			}
+
+			return null;
+		}
+
+		if ((xPath != null) && !xPath.booleanValueOf(document)) {
+			return null;
+		}
+
+		Fields fields = new Fields();
+
+		Element rootElement = document.getRootElement();
+
+		List<Element> dynamicElementElements = rootElement.elements(
+			"dynamic-element");
+
+		for (Element dynamicElementElement : dynamicElementElements) {
+			String fieldName = dynamicElementElement.attributeValue("name");
+
+			if (!structure.hasField(fieldName) ||
+				((fieldNames != null) && !fieldNames.contains(fieldName))) {
+
+				continue;
+			}
+
+			String fieldDataType = structure.getFieldDataType(fieldName);
+
+			List<Element> dynamicContentElements =
+				dynamicElementElement.elements("dynamic-content");
+
+			for (Element dynamicContentElement : dynamicContentElements) {
+				String fieldValue = dynamicContentElement.getText();
+
+				String languageId = dynamicContentElement.attributeValue(
+					"language-id");
+
+				Locale locale = LocaleUtil.fromLanguageId(languageId);
+
+				Serializable fieldValueSerializable =
+					FieldConstants.getSerializable(fieldDataType, fieldValue);
+
+				Field field = fields.get(fieldName);
+
+				if (field == null) {
+					field = new Field();
+
+					String defaultLanguageId =
+						dynamicElementElement.attributeValue(
+							"default-language-id");
+
+					if (Validator.isNull(defaultLanguageId)) {
+						defaultLanguageId = rootElement.attributeValue(
+							"default-locale");
+					}
+
+					field.setDefaultLocale(
+						LocaleUtil.fromLanguageId(defaultLanguageId));
+					field.setDDMStructureId(structure.getStructureId());
+					field.setName(fieldName);
+					field.setValue(locale, fieldValueSerializable);
+
+					fields.put(field);
+				}
+				else {
+					field.addValue(locale, fieldValueSerializable);
+				}
+			}
+		}
+
+		return fields;
+	}
+
+	@Override
+	public String getXML(Document document, Fields fields) {
+		Element rootElement = null;
+
+		try {
+			if (document != null) {
+				rootElement = document.getRootElement();
+			}
+			else {
+				document = _saxReader.createDocument();
+
+				rootElement = document.addElement("root");
+			}
+
+			Iterator<Field> iterator = fields.iterator(true);
+
+			while (iterator.hasNext()) {
+				Field field = iterator.next();
+
+				List<Node> nodes = _getElementsByName(
+					document, field.getName());
+
+				for (Node node : nodes) {
+					document.remove(node);
+				}
+
+				_appendField(rootElement, field);
+			}
+
+			return document.formattedString();
+		}
+		catch (IOException ioException) {
+			throw new SystemException(ioException);
+		}
+	}
+
+	@Override
+	public String getXML(Fields fields) {
+		return getXML(null, fields);
+	}
+
+	public XMLSchema getXMLSchema() {
+		if (_xmlSchema == null) {
+			XMLSchemaImpl xmlSchemaImpl = new XMLSchemaImpl();
+
+			xmlSchemaImpl.setSchemaLanguage("http://www.w3.org/2001/XMLSchema");
+			xmlSchemaImpl.setSystemId(
+				"http://www.liferay.com/dtd/liferay-ddm-structure_6_2_0.xsd");
+
+			_xmlSchema = xmlSchemaImpl;
+		}
+
+		return _xmlSchema;
+	}
+
+	@Override
+	public String validateXML(String xml) throws PortalException {
+		try {
+			Document document = _saxReader.read(xml, getXMLSchema());
+
+			_validate(document);
+
+			return document.asXML();
+		}
+		catch (StructureDefinitionException structureDefinitionException) {
+			throw structureDefinitionException;
+		}
+		catch (StructureDuplicateElementException
+					structureDuplicateElementException) {
+
+			throw structureDuplicateElementException;
+		}
+		catch (Exception exception) {
+			if (_log.isDebugEnabled()) {
+				_log.debug(
+					"Invalid XML content " + exception.getMessage(), exception);
+			}
+
+			throw new StructureDefinitionException(exception);
+		}
+	}
+
+	private void _appendField(Element element, Field field) {
+		Element dynamicElementElement = element.addElement("dynamic-element");
+
+		dynamicElementElement.addAttribute(
+			"default-language-id",
+			LocaleUtil.toLanguageId(field.getDefaultLocale()));
+		dynamicElementElement.addAttribute("name", field.getName());
+
+		for (Locale locale : field.getAvailableLocales()) {
+			List<Serializable> values = field.getValues(locale);
+
+			for (Serializable value : values) {
+				Element dynamicContentElement =
+					dynamicElementElement.addElement("dynamic-content");
+
+				dynamicContentElement.addAttribute(
+					"language-id", LocaleUtil.toLanguageId(locale));
+
+				_updateField(dynamicContentElement, value);
+			}
+		}
+	}
+
+	private List<Node> _getElementsByName(Document document, String name) {
+		name = HtmlUtil.escapeXPathAttribute(name);
+
+		XPath xPathSelector = _saxReader.createXPath(
+			StringBundler.concat("//dynamic-element[@name=", name, "]"));
+
+		return xPathSelector.selectNodes(document);
+	}
+
+	private void _updateField(
+		Element dynamicContentElement, Serializable fieldValue) {
+
+		dynamicContentElement.clearContent();
+
+		if (fieldValue instanceof Date) {
+			Date valueDate = (Date)fieldValue;
+
+			fieldValue = valueDate.getTime();
+		}
+
+		String valueString = String.valueOf(fieldValue);
+
+		dynamicContentElement.addCDATA(valueString.trim());
+	}
+
+	private void _validate(Document document) throws Exception {
+		XPath xPathSelector = _saxReader.createXPath("//dynamic-element");
+
+		List<Node> nodes = xPathSelector.selectNodes(document);
+
+		Set<String> elementNames = new HashSet<>();
+
+		for (Node node : nodes) {
+			Element element = (Element)node;
+
+			String name = StringUtil.toLowerCase(
+				element.attributeValue("name"));
+
+			if (Validator.isNull(name)) {
+				throw new StructureDefinitionException(
+					"Element must have a name attribute " +
+						element.formattedString());
+			}
+
+			if (name.startsWith(DDMStructureConstants.XSD_NAME_RESERVED)) {
+				throw new StructureDefinitionException(
+					"Element name " + name + " is reserved");
+			}
+
+			if (elementNames.contains(name)) {
+				throw new StructureDuplicateElementException(
+					"Element with name " + name + " already exists");
+			}
+
+			elementNames.add(name);
+		}
+	}
+
+	private static final Log _log = LogFactoryUtil.getLog(DDMXMLImpl.class);
+
+	@Reference
+	private SAXReader _saxReader;
+
+	private XMLSchema _xmlSchema;
+
+}

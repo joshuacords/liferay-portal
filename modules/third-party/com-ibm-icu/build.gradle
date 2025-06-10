@@ -1,0 +1,25 @@
+configurations {
+	jarjar
+}
+
+dependencies {
+	compileOnly group: "com.ibm.icu", name: "icu4j", version: "54.1.1"
+	jarjar group: "com.googlecode.jarjar", name: "jarjar", version: "1.3"
+}
+
+jar {
+	doLast {
+		Set<File> jarFiles = configurations.compileClasspath.files {
+			it.name == "icu4j"
+		}
+
+		ant.taskdef classname: "com.tonicsystems.jarjar.JarJarTask", classpath: configurations.jarjar.asPath, name: "jarjar"
+
+		ant.jarjar(jarfile: archivePath) {
+			rule pattern: "com.**", result: "com.liferay.@1"
+			zipfileset src: jarFiles.find()
+		}
+	}
+
+	setActions([])
+}

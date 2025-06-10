@@ -1,0 +1,45 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<liferay-portlet:renderURL portletName="<%= CPPortletKeys.CP_SPECIFICATION_OPTIONS %>" varImpl="viewProductSpecificationOptionsURL">
+	<portlet:param name="mvcPath" value="/view_cp_specification_options.jsp" />
+	<portlet:param name="specificationNavbarItemKey" value="specification-labels" />
+</liferay-portlet:renderURL>
+
+<liferay-portlet:renderURL portletName="<%= CPPortletKeys.CP_SPECIFICATION_OPTIONS %>" varImpl="viewProductOptionCategoriesURL">
+	<portlet:param name="mvcRenderCommandName" value="/cp_specification_options/view_cp_option_categories" />
+	<portlet:param name="specificationNavbarItemKey" value="specification-groups" />
+</liferay-portlet:renderURL>
+
+<%
+List<NavigationItem> navigationItems = new ArrayList<>();
+
+if (PortletPermissionUtil.contains(permissionChecker, CPPortletKeys.CP_SPECIFICATION_OPTIONS, ActionKeys.VIEW)) {
+	NavigationItem cpSpecificationOptionsNavigationItem = new NavigationItem();
+
+	cpSpecificationOptionsNavigationItem.setActive(specificationNavbarItemKey.equals("specification-labels"));
+	cpSpecificationOptionsNavigationItem.setHref(viewProductSpecificationOptionsURL.toString());
+	cpSpecificationOptionsNavigationItem.setLabel(LanguageUtil.get(request, "specification-labels"));
+
+	navigationItems.add(cpSpecificationOptionsNavigationItem);
+}
+
+if (PortletPermissionUtil.contains(permissionChecker, CPPortletKeys.CP_OPTIONS, ActionKeys.VIEW)) {
+	NavigationItem cpOptionCategoriesNavigationItem = new NavigationItem();
+
+	cpOptionCategoriesNavigationItem.setActive(specificationNavbarItemKey.equals("specification-groups"));
+	cpOptionCategoriesNavigationItem.setHref(viewProductOptionCategoriesURL.toString());
+	cpOptionCategoriesNavigationItem.setLabel(LanguageUtil.get(request, "specification-groups"));
+
+	navigationItems.add(cpOptionCategoriesNavigationItem);
+}
+%>
+
+<clay:navigation-bar
+	inverted="<%= false %>"
+	navigationItems="<%= navigationItems %>"
+/>

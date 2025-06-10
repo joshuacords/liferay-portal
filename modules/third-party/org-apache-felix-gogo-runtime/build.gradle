@@ -1,0 +1,28 @@
+import com.liferay.gradle.plugins.patcher.PatchTask
+
+apply plugin: "com.liferay.patcher"
+
+task patch(type: PatchTask)
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+
+dependencies {
+	compileOnly group: "org.apache.felix", name: "org.apache.felix.gogo.runtime", transitive: false, version: "1.1.2"
+	compileOnly group: "org.osgi", name: "org.osgi.annotation.bundle", transitive: false, version: "1.1.0"
+	compileOnly group: "org.osgi", name: "org.osgi.namespace.service", transitive: false, version: "1.0.0"
+	compileOnly group: "org.osgi", name: "osgi.core", transitive: false, version: "6.0.0"
+}
+
+jarSources {
+	mustRunAfter patch
+}
+
+patch {
+	ext {
+		autoClean = false
+	}
+
+	fileNames "org/apache/felix/gogo/runtime/threadio/ThreadIOImpl.java"
+	originalLibModuleName = "org.apache.felix.gogo.runtime"
+}

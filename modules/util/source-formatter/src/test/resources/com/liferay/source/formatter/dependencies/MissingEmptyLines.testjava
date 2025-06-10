@@ -1,0 +1,49 @@
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+
+package com.liferay.source.formatter.dependencies;
+
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.StringUtil;
+
+import java.util.concurrent.Callable;
+
+/**
+ * @author Hugo Huijser
+ */
+public class MissingEmptyLines {
+
+	public void method1() {
+		Callable<Void> callable = new Callable<Void>() {
+			@Override
+			public Void call() {
+				return null;
+			}
+		};
+	}
+
+	public String method2() {
+		ThemeDisplay themeDisplay = new ThemeDisplay();
+		themeDisplay.setSignedIn(true);
+	}
+
+	public String method3() {
+		String s1 = "Hello World";
+		String s2 = "World Hello";
+
+		if ((StringUtil.toLowerCase(s1) == null) ||
+			(StringUtil.toLowerCase(s2) == null)) {
+			return s1;
+		}
+		return s2;
+	}
+
+	public String method4() {
+		String s1 = "Hello";
+
+		s1 = StringUtil.toLowerCase(s1);
+		return s1 + "World";
+	}
+}

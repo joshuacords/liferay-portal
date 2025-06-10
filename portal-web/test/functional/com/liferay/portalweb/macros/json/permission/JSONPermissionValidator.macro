@@ -1,0 +1,12 @@
+definition {
+
+	@summary = "Default summary"
+	macro validateRoleType(roleType = null) {
+		Variables.assertDefined(parameterList = ${roleType});
+
+		if (!(contains("account,asset library,regular,site,organization", ${roleType}))) {
+			fail("Invalid 'roleType', '${roleType}' must be 'asset library/regular/site/organization'.");
+		}
+	}
+
+}

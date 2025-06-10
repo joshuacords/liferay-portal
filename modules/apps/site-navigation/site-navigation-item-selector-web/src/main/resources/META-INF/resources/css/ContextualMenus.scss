@@ -1,0 +1,15 @@
+@import 'atlas-variables';
+
+.contextual-menu-selector {
+	.contextual-menu-option {
+		box-shadow: 0 0 0 1px $gray-300;
+
+		height: 150px;
+		width: 250px;
+
+		&:hover {
+			border-color: none;
+			box-shadow: 0 0 0 2px $primary-l1;
+		}
+	}
+}

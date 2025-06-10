@@ -1,0 +1,9 @@
+@default = "pause"
+definition {
+
+	@summary-ignore = "true"
+	function pause(value1) {
+		selenium.pause(${value1});
+	}
+
+}

@@ -1,0 +1,86 @@
+definition {
+
+	@summary = "Default summary"
+	macro addSiteNavigationMenu(groupName = null, site = null, siteNavigationMenuName = null, grandParentGroupName = null, parentGroupName = null) {
+		Variables.assertDefined(parameterList = ${siteNavigationMenuName});
+
+		if (!(isSet(groupId))) {
+			var groupId = JSONSitenavigationSetter.setGroupId(
+				grandParentGroupName = ${grandParentGroupName},
+				groupName = ${groupName},
+				parentGroupName = ${parentGroupName},
+				site = ${site});
+		}
+
+		if (!(isSet(auto))) {
+			var auto = "true";
+		}
+
+		JSONSitenavigationAPI._addSiteNavigationMenu(
+			auto = ${auto},
+			groupId = ${groupId},
+			siteNavigationMenuName = ${siteNavigationMenuName});
+	}
+
+	@summary = "Default summary"
+	macro addSiteNavigationMenuItem(grandParentGroupName = null, type = null, parentSiteNavigationMenuItem = null, privateLayout = null, parentGroupName = null, url = null, groupName = null, site = null, siteNavigationMenuName = null, layoutUuid = null, siteNavigationMenuItemName = null, useNewTab = null) {
+		Variables.assertDefined(parameterList = "${siteNavigationMenuItemName},${siteNavigationMenuName},${type}");
+
+		if (!(isSet(groupId))) {
+			var groupId = JSONSitenavigationSetter.setGroupId(
+				grandParentGroupName = ${grandParentGroupName},
+				groupName = ${groupName},
+				parentGroupName = ${parentGroupName},
+				site = ${site});
+		}
+
+		var siteNavigationMenuId = JSONSitenavigationSetter.setSiteNavigationMenuId(
+			grandParentGroupName = ${grandParentGroupName},
+			groupId = ${groupId},
+			groupName = ${groupName},
+			parentGroupName = ${parentGroupName},
+			site = ${site},
+			siteNavigationMenuName = ${siteNavigationMenuName});
+
+		if (isSet(parentSiteNavigationMenuItem)) {
+			var parentSiteNavigationMenuItemId = JSONSitenavigationSetter.setSiteNavigationMenuItemId(
+				grandParentGroupName = ${grandParentGroupName},
+				groupName = ${groupName},
+				parentGroupName = ${parentGroupName},
+				siteNavigationMenuItemName = ${parentSiteNavigationMenuItem},
+				siteNavigationMenuName = ${siteNavigationMenuName});
+		}
+		else {
+			var parentSiteNavigationMenuItemId = 0;
+		}
+
+		var typeSettings = JSONSitenavigationSetter.setTypeSettings(
+			groupId = ${groupId},
+			layoutUuid = ${layoutUuid},
+			privateLayout = ${privateLayout},
+			siteNavigationMenuItemName = ${siteNavigationMenuItemName},
+			type = ${type},
+			url = ${url},
+			useNewTab = ${useNewTab});
+
+		JSONSitenavigationAPI._addSiteNavigationMenuItem(
+			groupId = ${groupId},
+			parentSiteNavigationMenuItemId = ${parentSiteNavigationMenuItemId},
+			siteNavigationMenuId = ${siteNavigationMenuId},
+			type = ${type},
+			typeSettings = ${typeSettings});
+	}
+
+	@summary = "Default summary"
+	macro deleteSiteNavigationMenu(groupName = null, site = null, siteNavigationMenuName = null) {
+		Variables.assertDefined(parameterList = "${groupName},${siteNavigationMenuName}");
+
+		var siteNavigationMenuId = JSONSitenavigationSetter.setSiteNavigationMenuId(
+			groupName = ${groupName},
+			site = ${site},
+			siteNavigationMenuName = ${siteNavigationMenuName});
+
+		JSONSitenavigationAPI._deleteSiteNavigationMenu(siteNavigationMenuId = ${siteNavigationMenuId});
+	}
+
+}

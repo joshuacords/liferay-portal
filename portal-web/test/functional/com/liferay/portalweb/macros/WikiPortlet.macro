@@ -1,0 +1,149 @@
+definition {
+
+	@summary = "Default summary"
+	macro configureDisplaySettings(uncheckSetting = null) {
+		SelectFrame(locator1 = "IFrame#MODAL_BODY");
+
+		for (var settingName : list ${uncheckSetting}) {
+			Uncheck(locator1 = "Checkbox#${settingName}");
+		}
+
+		Click(locator1 = "Button#SAVE");
+
+		Alert.viewSuccessMessage();
+
+		SelectFrame(value1 = "relative=top");
+	}
+
+	@summary = "Default summary"
+	macro configureEmailCP(bodyContent = null) {
+		Portlet.gotoPortletOptions(portletOption = "Configuration");
+
+		if (isSet(pageAddedEmail)) {
+			AssertClick(
+				locator1 = "Configuration#NAVIGATION_PAGE_ADDED_EMAIL",
+				value1 = "Page Added Email");
+
+			SelectFrame.selectFrameNoLoading(locator1 = "CKEditor#BODY_FIELD_IFRAME");
+
+			Type(
+				locator1 = "CKEditor#BODY",
+				value1 = ${bodyContent});
+
+			SelectFrame(value1 = "relative=top");
+
+			PortletEntry.save();
+		}
+	}
+
+	@summary = "Default summary"
+	macro enableWiki() {
+		ApplicationsMenu.gotoPortlet(
+			category = "Configuration",
+			panel = "Control Panel",
+			portlet = "Instance Settings");
+
+		SystemSettings.gotoConfiguration(
+			configurationCategory = "Feature Flags",
+			configurationName = "Deprecation",
+			configurationScope = "Virtual Instance Scope");
+
+		if (IsElementPresent(locator1 = "FeatureFlag#TOGGLE_ROW", title_row = "Wiki", toggle_state = "Disabled")) {
+			Check.checkToggleSwitch(
+				locator1 = "FeatureFlag#TOGGLE_ROW",
+				title_row = "Wiki",
+				toggle_state = "Disabled");
+		}
+
+		Navigator.openURL();
+	}
+
+	@summary = "Default summary"
+	macro subscribeToNodeCP(wikiNodeName = null) {
+		var key_wikiNodeName = ${wikiNodeName};
+
+		Click.waitForMenuToggleJSClick(locator1 = "Wiki#NODE_TABLE_ACTIONS_DROPDOWN");
+
+		WaitForLiferayEvent.initializeLiferayEventLog();
+
+		MenuItem.click(menuItem = "Subscribe");
+
+		Alert.viewSuccessMessage();
+
+		Click.waitForMenuToggleJSClick(locator1 = "Wiki#NODE_TABLE_ACTIONS_DROPDOWN");
+
+		MenuItem.viewPresent(menuItem = "Unsubscribe");
+	}
+
+	@summary = "Default summary"
+	macro tearDownCP() {
+		Navigator.openURL();
+
+		ProductMenu.gotoPortlet(
+			category = "Content & Data",
+			portlet = "Wiki");
+
+		LexiconEntry.openEntryMenu(rowEntry = "Main");
+
+		MenuItem.click(menuItem = "Unsubscribe");
+
+		Alert.viewSuccessMessage();
+
+		LexiconEntry.openEntryMenu(rowEntry = "Main");
+
+		MenuItem.viewPresent(menuItem = "Subscribe");
+	}
+
+	@summary = "Default summary"
+	macro viewConfigurationTabs() {
+		SelectFrame(locator1 = "IFrame#MODAL_BODY");
+
+		for (var isPresent : list ${isPresent}) {
+			AssertElementPresent(locator1 = "Configuration#${isPresent}");
+		}
+
+		for (var isNotPresent : list ${isNotPresent}) {
+			AssertElementNotPresent(locator1 = "Configuration#${isNotPresent}");
+		}
+
+		SelectFrame(value1 = "relative=top");
+	}
+
+	@summary = "Default summary"
+	macro viewDisplaySettings(uncheckedSetting = null) {
+		SelectFrame(locator1 = "IFrame#MODAL_BODY");
+
+		for (var settingName : list ${uncheckedSetting}) {
+			AssertNotChecked(locator1 = "Checkbox#${settingName}");
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewEmailCP(bodyContent = null) {
+		Portlet.gotoPortletOptions(portletOption = "Configuration");
+
+		if (isSet(pageAddedEmail)) {
+			AssertClick(
+				locator1 = "Configuration#NAVIGATION_PAGE_ADDED_EMAIL",
+				value1 = "Page Added Email");
+
+			SelectFrame.selectFrameNoLoading(locator1 = "CKEditor#BODY_FIELD_IFRAME");
+
+			AssertTextEquals.assertPartialText(
+				locator1 = "CKEditor#BODY",
+				value1 = ${bodyContent});
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewNoPermissionCP() {
+		SiteAdmin.viewPortletTitle(portletTitle = "Wiki");
+
+		AssertElementNotPresent(locator1 = "Button#ADD_WIKI");
+
+		LexiconEntry.openEntryMenu(rowEntry = "Main");
+
+		MenuItem.viewNotPresent(menuItem = "Permissions");
+	}
+
+}

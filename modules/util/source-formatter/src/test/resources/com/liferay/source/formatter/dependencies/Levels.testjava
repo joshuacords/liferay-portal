@@ -1,0 +1,70 @@
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+
+package com.liferay.source.formatter.dependencies;
+
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+
+/**
+ * @author Hugo Huijser
+ */
+public class Levels {
+
+	public void method1() {
+		if (_log.isErrorEnabled()) {
+			_log.error("error");
+		}
+	}
+
+	public void method2() {
+		_log.error("error");
+	}
+
+	public void method3() {
+		_log.debug("debug");
+	}
+
+	public void method4() {
+		if (_log.isInfoEnabled()) {
+			_log.debug("debug");
+		}
+	}
+
+	public void method5() {
+		if (_log.isDebugEnabled()) {
+			_log.debug("debug");
+		}
+	}
+
+	public void method6() {
+		if (_log.isDebugEnabled()) {
+			_log.info("info");
+		}
+	}
+
+	public void method7() {
+		_log.trace("trace");
+	}
+
+	public void method8() {
+		if (_log.isTraceEnabled()) {
+			_log.trace("trace");
+		}
+	}
+
+	public void method9() {
+		_log.warn("warn");
+	}
+
+	public void method10() {
+		if (_log.isWarnEnabled()) {
+			_log.warn("warn");
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(Levels.class);
+
+}

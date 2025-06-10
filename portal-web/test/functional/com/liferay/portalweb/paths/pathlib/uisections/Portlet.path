@@ -1,0 +1,205 @@
+<html>
+<head>
+<title>Portlet</title>
+</head>
+
+<body>
+<table border="1" cellpadding="1" cellspacing="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Portlet</td></tr>
+</thead>
+
+<tbody>
+<tr>
+	<td>BODY</td>
+	<td>//div[@id='main-content']//section[contains(.,'${key_portletName}')]//div[@class='portlet-body']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CONFIGURATION_CHECKBOX</td>
+	<td>//label[text()[normalize-space()='${key_fieldName}']]/input[contains(@id,'PortletConfiguration')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ERROR</td>
+	<td>//div[contains(@class,'alert-error') or contains(@class,'alert-danger')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>H1_HEADER</td>
+	<td>//h1[@class='header-title']/span | //h1[@class='header-title']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>H2_HEADER</td>
+	<td>//div[contains(@class,'portlet-header')]//h2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>H2_HEADER_VERTICAL_ELLIPSIS</td>
+	<td>//h2[contains(.,'${key_headerName}')]//*[contains(@class,'dropdown-toggle')][.//*[name()='svg'][contains(@class,'icon-ellipsis')]]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>H2_HEADER_2</td>
+	<td>xpath=(//div[contains(@class,'portlet-header')]//h2)[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>H3_HEADER</td>
+	<td>//h3[@class='header-title']/span | //span[contains(@class,'title')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>H3_HEADER_2</td>
+	<td>xpath=(//h3[@class='header-title']/span)[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>H4_COMPONENT_TITLE</td>
+	<td>//div[contains(@class,'component-title') and contains(@class,'h4')]/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>HEADER</td>
+	<td>//*[@data-qa-id='headerTitle']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>HEADER_DUPLICATE</td>
+	<td>//*[@data-qa-id='headerTitle'][2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>HEADER_INSIDE_PAGE_COLUMN</td>
+	<td>//div[@id='main-content']//div[contains(@id,'column-${key_pageColumnNumber}')]//header[contains(@class,'portlet-topper')]//span[.='${key_portletName}']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ICON_PLUS_SIGN</td>
+	<td>//header[div/span[.='${key_portletName}']]//*[@data-qa-id='addButton']//a/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>LOADED</td>
+	<td>//div[@data-qa-id='app-loaded']//span[contains(.,'${key_portletName}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>MESSAGE_INFO</td>
+	<td>//div[contains(@class,'portlet-msg-info')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>MODAL_TITLE</td>
+	<td>//div[contains(@class,'modal-header')][not(contains(@class,'sr-only'))]//*[@class='modal-title']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>NESTED_APPLICATION_COLUMN</td>
+	<td>//div[contains(@id,'NestedPortletsPortlet')]//div[contains(@class,'portlet-dropzone') and contains(@id,'column-${key_nestedColumnNumber}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>OPTIONS_ICON</td>
+	<td>//*[contains(@class,'portlet-layout')]//button[*//*[name()='svg'][contains(@class,'icon-ellipsis-v')]]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>OPTIONS_MENULIST_PERMISSIONS</td>
+	<td>//a[contains(@id,'_menu_permissions')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PORTLET_BORDER_DECORATOR</td>
+	<td>//div[@id='main-content']//div[contains(@class,'portlet-${key_decorator}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PORTLET_CONTENT</td>
+	<td>//div[@id='content']//div[contains(@class,'portlet-content')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PORTLET_SELECTOR</td>
+	<td>//section[contains(.,'${key_portletName}')]//div[@class='portlet-body']//*[self::a or self::button][contains(@onclick,'portletSelector')][normalize-space(text())='${key_text}']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PORTLET_TITLE_INSIDE_NESTED_APPLICATION_COLUMN</td>
+	<td>//section[contains(@id,'NestedPortlets')]//div[contains(@id,'column-${key_nestedColumnNumber}')]//h2[contains(@class,'portlet-title') and contains(.,'${key_portletName}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>PORTLET_TITLE_INSIDE_PAGE_COLUMN</td>
+	<td>//div[@id='main-content']//div[contains(@id,'column-${key_pageColumnNumber}')]//h2[contains(@class,'portlet-title') and (.='${key_portletName}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SEARCH_FIELD</td>
+	<td>//div[*[normalize-space()='${key_portletName}']]//input[contains(@name,'keywords')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SPECIFIC_BORDERLESS_BAR</td>
+	<td>//div[contains(@class,'portlet-title-default')]/span[contains(.,'${key_portletName}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SPECIFIC_BORDERLESS_ELLIPSIS_ICON</td>
+	<td>//header[contains(@class,'portlet-topper') and contains(.,'${key_portletName}')]//button[*//*[name()='svg'][contains(@class,'icon-ellipsis-v')]]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SPECIFIC_BORDERLESS_ELLIPSIS_ICON_INDEX</td>
+	<td>xpath=(//header[contains(@class,'portlet-topper') and contains(.,'${key_portletName}')])[${portletIndex}]//button[*//*[name()='svg'][contains(@class,'icon-ellipsis-v')]]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SPECIFIC_ELLIPSIS_ICON</td>
+	<td>//*[contains(@class,'portlet-layout')]//header[contains(.,'${key_portletName}')]//button[*//*[name()='svg'][contains(@class,'icon-ellipsis-v')]]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SPECIFIC_FRAGMENTS_AND_WIDGETS</td>
+	<td>//div[contains(@id,'fragment')]//section[contains(@id,'${key_portletName}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SPECIFIC_PORTLET_BORDER_DECORATOR</td>
+	<td>//div[@id='main-content']//div[contains(@class,'portlet-${key_decorator}')]//h2[contains(@class,'portlet-title') and (.='${key_portletTitleName}')] | //div[@id='main-content']//div[contains(@class,'portlet-${key_decorator}')]//section[contains(@id,'${key_portletTitleName}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SPECIFIC_DEFAULT_TITLE</td>
+	<td>//div[@id='main-content']//div[contains(@class,'portlet-title-default')][normalize-space()='${key_portletName}']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SPECIFIC_TITLE</td>
+	<td>//div[@id='main-content']//h2[contains(@class,'portlet-title') and (.='${key_portletTitleName}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>TITLE</td>
+	<td>//h2[contains(@class,'portlet-title') and contains(.,'${key_portletName}')]</td>
+	<td></td>
+</tr>
+
+<!--PORTLET_SECTION-->
+
+<tr>
+	<td>PORTLET_SECTION</td>
+	<td>//*[contains(@class,'portlet-layout')]//section[contains(@id,'portlet')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SPECIFIC_PORTLET_SECTION</td>
+	<td>//section[contains(@id,'portlet')][*//div[contains(@class,'portlet-title')][contains(.,'${key_portletName}')]]</td>
+	<td></td>
+</tr>
+
+</tbody>
+</table>
+</body>
+</html>

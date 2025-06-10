@@ -1,0 +1,20 @@
+.upper-tbar {
+	.tbar-nav {
+		padding: 0 calc(1.25rem - 12px);
+	}
+
+	.tbar-item {
+		padding-left: 0.5rem;
+		padding-right: 0.5rem;
+
+		&:last-child {
+			padding-right: 0;
+		}
+	}
+}
+
+.upper-tbar-title {
+	color: #272833;
+	font-size: 1.125rem;
+	margin: 0;
+}

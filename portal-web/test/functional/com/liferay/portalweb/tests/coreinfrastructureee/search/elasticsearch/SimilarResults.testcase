@@ -1,0 +1,1057 @@
+@component-name = "portal-search"
+definition {
+
+	property custom.properties = "feature.flag.LPD-35013=false";
+	property osgi.modules.includes = "wiki";
+	property portal.release = "false";
+	property portal.suite.search.engine = "elasticsearch7,opensearch2";
+	property portal.upstream = "true";
+	property test.run.environment = "EE";
+	property testray.main.component.name = "Search Infrastructure > Elasticsearch Connector";
+
+	setUp {
+		TestCase.setUpPortalInstance();
+
+		User.firstLoginPG();
+
+		WikiPortlet.enableWiki();
+
+		task ("Enable dynamic and manual selection") {
+			AssetPublisherPortlet.enableDynamicAndManualSelection();
+		}
+
+		Navigator.openURL();
+	}
+
+	tearDown {
+		var testLiferayVirtualInstance = PropsUtil.get("test.liferay.virtual.instance");
+
+		if (${testLiferayVirtualInstance} == "true") {
+			PortalInstances.tearDownCP();
+		}
+	}
+
+	@priority = 4
+	test AssertDisplayTemplate {
+		for (var count : list "1,2,3") {
+			JSONWebcontent.addWebContent(
+				content = "WC Content",
+				groupName = "Guest",
+				title = "WC Title ${count}");
+		}
+
+		SearchPage.setupSimilarResultsPage();
+
+		SearchPage.configureSimilarResults(
+			displayTemplate = "Compact Layout",
+			fields = "localized_title_en_US",
+			minimumDocumentFrequency = 1,
+			minimumTermFrequency = 1);
+
+		AssetPublisherPortlet.clickAssetTitle(assetTitle = "WC Title 1");
+
+		AssertElementPresent(
+			key_linkResultTitle = "WC Title 2",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementPresent(
+			key_linkResultTitle = "WC Title 3",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		SearchPage.configureSimilarResults(displayTemplate = "List Layout");
+
+		AssertElementPresent(
+			key_listResultTitle = "WC Title 2",
+			locator1 = "Search#SIMILAR_RESULTS_LIST_TITLE");
+
+		AssertElementPresent(
+			key_listResultTitle = "WC Title 3",
+			locator1 = "Search#SIMILAR_RESULTS_LIST_TITLE");
+
+		SearchPage.configureSimilarResults(displayTemplate = "Card Layout");
+
+		AssertElementPresent(
+			key_cardResultTitle = "WC Title 2",
+			locator1 = "Search#SIMILAR_RESULTS_CARD_TITLE");
+
+		AssertElementPresent(
+			key_cardResultTitle = "WC Title 3",
+			locator1 = "Search#SIMILAR_RESULTS_CARD_TITLE");
+	}
+
+	@priority = 4
+	test AssertDisplayWithBlogsWidget {
+		for (var count : list "1,2,3") {
+			JSONBlog.addEntry(
+				entryContent = "Blogs Entry Content",
+				entryTitle = "Blogs Entry Title ${count}");
+		}
+
+		JSONLayout.addPublicLayout(
+			groupName = "Guest",
+			layoutName = "Similar Results Page");
+
+		SearchPage.addWidgets(
+			layoutName = "Similar Results Page",
+			searchPortletList = "Similar Results");
+
+		JSONLayout.addWidgetToPublicLayout(
+			column = 2,
+			groupName = "Guest",
+			layoutName = "Similar Results Page",
+			widgetName = "Blogs");
+
+		Navigator.gotoPage(pageName = "Similar Results Page");
+
+		SearchPage.configureSimilarResults(
+			displayTemplate = "Compact Layout",
+			fields = "localized_title_en_US",
+			minimumDocumentFrequency = 1,
+			minimumTermFrequency = 1);
+
+		AssertClick(
+			key_entryTitle = "Blogs Entry Title 1",
+			locator1 = "BlogsEntry#TITLE_LINK",
+			value1 = "Blogs Entry Title 1");
+
+		AssertElementPresent(
+			key_linkResultTitle = "Blogs Entry Title 2",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementPresent(
+			key_linkResultTitle = "Blogs Entry Title 3",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+	}
+
+	@priority = 4
+	test AssertDisplayWithMBMessages {
+		for (var count : list "1,2,3") {
+			JSONMBMessage.addMessage(
+				groupName = "Guest",
+				threadBody = "Thread Body",
+				threadSubject = "Thread Subject ${count}");
+		}
+
+		JSONLayout.addPublicLayout(
+			groupName = "Guest",
+			layoutName = "Similar Results Page");
+
+		SearchPage.addWidgets(
+			layoutName = "Similar Results Page",
+			searchPortletList = "Similar Results");
+
+		JSONLayout.addWidgetToPublicLayout(
+			column = 2,
+			groupName = "Guest",
+			layoutName = "Similar Results Page",
+			widgetName = "Message Boards");
+
+		Navigator.gotoPage(pageName = "Similar Results Page");
+
+		SearchPage.configureSimilarResults(
+			displayTemplate = "Compact Layout",
+			fields = "localized_title_en_US",
+			minimumDocumentFrequency = 1,
+			minimumTermFrequency = 1);
+
+		MessageboardsThread.gotoCP(threadSubject = "Thread Subject 1");
+
+		AssertElementPresent(
+			key_linkResultTitle = "Thread Subject 2",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementPresent(
+			key_linkResultTitle = "Thread Subject 3",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+	}
+
+	@priority = 4
+	test AssertMatchesAssetType {
+		for (var count : list "1,2,3") {
+			JSONBlog.addEntry(
+				entryContent = "Blogs Content",
+				entryTitle = "Similar Results Blogs Title ${count}");
+
+			JSONDocument.addFile(
+				dmDocumentDescription = "DM Content",
+				dmDocumentTitle = "Similar Results DM Title ${count}",
+				groupName = "Guest");
+
+			JSONMBMessage.addMessage(
+				groupName = "Guest",
+				threadBody = "MB Content",
+				threadSubject = "Similar Results MB Title ${count}");
+
+			JSONWebcontent.addWebContent(
+				content = "WC Content",
+				groupName = "Guest",
+				title = "Similar Results WC Title ${count}");
+		}
+
+		WikiNavigator.openWikiAdmin(siteURLKey = "guest");
+
+		WikiNavigator.gotoNode(wikiNodeName = "Main");
+
+		for (var count : list "1,2,3") {
+			WikiPage.addCP(
+				wikiPageContent = "Wiki Content",
+				wikiPageTitle = "Similar Results Wiki Title ${count}");
+		}
+
+		SearchPage.setupSimilarResultsPage();
+
+		SearchPage.configureSimilarResults(
+			displayTemplate = "Compact Layout",
+			fields = "localized_title_en_US",
+			minimumDocumentFrequency = 1,
+			minimumTermFrequency = 1);
+
+		AssetPublisherPortlet.clickAssetTitle(assetTitle = "Similar Results Blogs Title 1");
+
+		AssertElementPresent(
+			key_linkResultTitle = "Similar Results Blogs Title 2",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementPresent(
+			key_linkResultTitle = "Similar Results Blogs Title 3",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementNotPresent(
+			key_linkResultTitle = "Similar Results DM Title",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementNotPresent(
+			key_linkResultTitle = "Similar Results MB Title",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementNotPresent(
+			key_linkResultTitle = "Similar Results WC Title",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementNotPresent(
+			key_linkResultTitle = "Similar Results Wiki Title",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		Click(locator1 = "Icon#ANGLE_LEFT_BACK");
+
+		AssetPublisherPortlet.clickAssetTitle(assetTitle = "Similar Results DM Title 1");
+
+		AssertElementPresent(
+			key_linkResultTitle = "Similar Results DM Title 2",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementPresent(
+			key_linkResultTitle = "Similar Results DM Title 3",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementNotPresent(
+			key_linkResultTitle = "Similar Results Blogs Title",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementNotPresent(
+			key_linkResultTitle = "Similar Results MB Title",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementNotPresent(
+			key_linkResultTitle = "Similar Results WC Title",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementNotPresent(
+			key_linkResultTitle = "Similar Results Wiki Title",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		Click(locator1 = "Icon#ANGLE_LEFT_BACK");
+
+		AssetPublisherPortlet.clickAssetTitle(assetTitle = "Similar Results MB Title 1");
+
+		AssertElementPresent(
+			key_linkResultTitle = "Similar Results MB Title 2",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementPresent(
+			key_linkResultTitle = "Similar Results MB Title 3",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementNotPresent(
+			key_linkResultTitle = "Similar Results Blogs Title",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementNotPresent(
+			key_linkResultTitle = "Similar Results DM Title",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementNotPresent(
+			key_linkResultTitle = "Similar Results WC Title",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementNotPresent(
+			key_linkResultTitle = "Similar Results Wiki Title",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		Click(locator1 = "Icon#ANGLE_LEFT_BACK");
+
+		AssetPublisherPortlet.clickAssetTitle(assetTitle = "Similar Results WC Title 1");
+
+		AssertElementPresent(
+			key_linkResultTitle = "Similar Results WC Title 2",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementPresent(
+			key_linkResultTitle = "Similar Results WC Title 3",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementNotPresent(
+			key_linkResultTitle = "Similar Results Blogs Title",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementNotPresent(
+			key_linkResultTitle = "Similar Results DM Title",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementNotPresent(
+			key_linkResultTitle = "Similar Results MB Title",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementNotPresent(
+			key_linkResultTitle = "Similar Results Wiki Title",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		Click(locator1 = "Icon#ANGLE_LEFT_BACK");
+
+		AssetPublisherPortlet.clickAssetTitle(assetTitle = "Similar Results Wiki Title 1");
+
+		AssertElementPresent(
+			key_linkResultTitle = "Similar Results Wiki Title 2",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementPresent(
+			key_linkResultTitle = "Similar Results Wiki Title 3",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementNotPresent(
+			key_linkResultTitle = "Similar Results Blogs Title",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementNotPresent(
+			key_linkResultTitle = "Similar Results DM Title",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementNotPresent(
+			key_linkResultTitle = "Similar Results MB Title",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementNotPresent(
+			key_linkResultTitle = "Similar Results WC Title",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+	}
+
+	@priority = 4
+	test CanViewFromOtherSitesWithDocumentsWidget {
+		for (var siteName : list "Site Name 1,Site Name 2,Site Name 3") {
+			HeadlessSite.addSite(siteName = ${siteName});
+		}
+
+		var count = 0;
+
+		for (var siteName : list "Guest,Site Name 1,Site Name 2,Site Name 3") {
+			JSONDocument.addFile(
+				dmDocumentDescription = "DM Document Description ${count}",
+				dmDocumentTitle = "DM Document Title ${count}",
+				groupName = ${siteName});
+
+			var count = ${count} + 1;
+		}
+
+		JSONLayout.addPublicLayout(
+			groupName = "Guest",
+			layoutName = "Similar Results Page");
+
+		SearchPage.addWidgets(
+			layoutName = "Similar Results Page",
+			searchPortletList = "Similar Results");
+
+		JSONLayout.addWidgetToPublicLayout(
+			column = 2,
+			groupName = "Guest",
+			layoutName = "Similar Results Page",
+			widgetName = "Documents and Media");
+
+		Navigator.gotoPage(pageName = "Similar Results Page");
+
+		SearchPage.configureSimilarResults(
+			displayTemplate = "Compact Layout",
+			fields = "localized_title_en_US",
+			minimumDocumentFrequency = 1,
+			minimumTermFrequency = 1,
+			searchScope = "Everything");
+
+		DMDocument.viewPG(dmDocumentTitle = "DM Document Title 0");
+
+		for (var count : list "1,2,3") {
+			AssertElementPresent(
+				key_linkResultTitle = "DM Document Title ${count}",
+				locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+		}
+	}
+
+	@priority = 4
+	test CanViewFromSearchResults {
+		for (var count : list "1,2,3") {
+			JSONDocument.addFile(
+				dmDocumentDescription = "DM Content",
+				dmDocumentTitle = "DM Document Title ${count}",
+				groupName = "Guest");
+		}
+
+		JSONLayout.addPublicLayout(
+			groupName = "Guest",
+			layoutName = "Similar Results Page");
+
+		SearchPage.addWidgets(
+			layoutName = "Similar Results Page",
+			searchPortletList = "Similar Results");
+
+		JSONLayout.addWidgetToPublicLayout(
+			column = 2,
+			groupName = "Guest",
+			layoutName = "Similar Results Page",
+			widgetName = "Documents and Media");
+
+		Navigator.gotoPage(pageName = "Similar Results Page");
+
+		SearchPage.configureSimilarResults(
+			displayTemplate = "Compact Layout",
+			fields = "localized_title_en_US",
+			minimumDocumentFrequency = 1,
+			minimumTermFrequency = 1);
+
+		SearchPage.searchEmbedded(searchTerm = "DM Document Title");
+
+		SearchPage.gotoResultDetails(searchAssetTitle = "DM Document Title 1");
+
+		for (var count : list "2,3") {
+			AssertElementPresent(
+				key_linkResultTitle = "DM Document Title ${count}",
+				locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+		}
+	}
+
+	@priority = 4
+	test ConfigureDocumentFrequency {
+		property test.liferay.virtual.instance = "false";
+		property test.run.type = "single";
+
+		JSONWebcontent.addWebContent(
+			content = "WC Content",
+			groupName = "Guest",
+			title = "Alpha Bravo");
+
+		JSONWebcontent.addWebContent(
+			content = "WC Content",
+			groupName = "Guest",
+			title = "Alpha Delta");
+
+		JSONWebcontent.addWebContent(
+			content = "WC Content",
+			groupName = "Guest",
+			title = "Alpha Bravo Charlie");
+
+		JSONWebcontent.addWebContent(
+			content = "WC Content",
+			groupName = "Guest",
+			title = "Charlie");
+
+		SearchAdministration.executeReindex();
+
+		Navigator.openURL();
+
+		SearchPage.setupSimilarResultsPage();
+
+		SearchPage.configureSimilarResults(
+			displayTemplate = "Compact Layout",
+			fields = "localized_title_en_US",
+			minimumDocumentFrequency = 3,
+			minimumTermFrequency = 1);
+
+		AssetPublisherPortlet.clickAssetTitle(assetTitle = "Alpha Bravo Charlie");
+
+		AssertElementPresent(
+			key_linkResultTitle = "Alpha Bravo",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementPresent(
+			key_linkResultTitle = "Alpha Delta",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementNotPresent(
+			key_linkResultTitle = "Charlie",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		SearchPage.configureSimilarResults(
+			maximumDocumentFrequency = 2,
+			minimumDocumentFrequency = 1);
+
+		AssertElementPresent(
+			key_linkResultTitle = "Alpha Bravo",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementPresent(
+			key_linkResultTitle = "Charlie",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementNotPresent(
+			key_linkResultTitle = "Alpha Delta",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+	}
+
+	@priority = 4
+	test ConfigureFields {
+		JSONBlog.addEntry(
+			entryContent = "Content",
+			entryTitle = "No Match Content");
+
+		ProductMenu.gotoPortlet(
+			category = "Content & Data",
+			portlet = "Blogs");
+
+		Blogs.addEntryWithTag(
+			entryContent = "No Match",
+			entryTitle = "No Match Tag",
+			tagName = "Apple");
+
+		Blogs.addEntryWithTag(
+			entryContent = "Content",
+			entryTitle = "Similar Results Blogs Title",
+			tagName = "Apple");
+
+		SearchPage.setupSimilarResultsPage();
+
+		SearchPage.configureSimilarResults(
+			displayTemplate = "Compact Layout",
+			fields = "content_en_US",
+			minimumDocumentFrequency = 1,
+			minimumTermFrequency = 1);
+
+		AssetPublisherPortlet.clickAssetTitle(assetTitle = "Similar Results Blogs Title");
+
+		AssertElementPresent(
+			key_linkResultTitle = "No Match Content",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementNotPresent(
+			key_linkResultTitle = "No Match Tag",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		SearchPage.configureSimilarResults(fields = "assetTagNames,content_en_US");
+
+		AssertElementPresent(
+			key_linkResultTitle = "No Match Content",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementPresent(
+			key_linkResultTitle = "No Match Tag",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+	}
+
+	@priority = 4
+	test ConfigureMaximumItemDisplay {
+		for (var titleName : list "Alpha,Bravo,Charlie,Delta,Echo,Foxtrot") {
+			JSONWebcontent.addWebContent(
+				content = ${titleName},
+				groupName = "Guest",
+				title = ${titleName});
+		}
+
+		JSONWebcontent.addWebContent(
+			content = "Content",
+			groupName = "Guest",
+			title = "Alpha Bravo Charlie Delta Echo Foxtrot");
+
+		SearchPage.setupSimilarResultsPage();
+
+		SearchPage.configureSimilarResults(
+			displayTemplate = "Compact Layout",
+			fields = "localized_title_en_US",
+			maximumItemDisplay = 0,
+			minimumDocumentFrequency = 1,
+			minimumTermFrequency = 1);
+
+		AssetPublisherPortlet.clickAssetTitle(assetTitle = "Alpha Bravo Charlie Delta Echo Foxtrot");
+
+		AssertTextEquals.assertPartialText(
+			key_widgetName = "Similar Results",
+			locator1 = "Message#INFO_SPECIFIC_WIDGET",
+			value1 = "no similar results available");
+
+		SearchPage.configureSimilarResults(maximumItemDisplay = 5);
+
+		AssertElementPresent(
+			key_resultPosition = 5,
+			locator1 = "Search#SIMILAR_RESULTS_SPECIFIC_POSITION");
+
+		AssertElementNotPresent(
+			key_resultPosition = 6,
+			locator1 = "Search#SIMILAR_RESULTS_SPECIFIC_POSITION");
+	}
+
+	@priority = 4
+	test ConfigureMaximumQueryTerms {
+		for (var count : list "One, Two, Three") {
+			JSONWebcontent.addWebContent(
+				content = "WC Content",
+				groupName = "Guest",
+				title = ${count});
+		}
+
+		JSONWebcontent.addWebContent(
+			content = "WC Content",
+			groupName = "Guest",
+			title = "One Two Three");
+
+		SearchPage.setupSimilarResultsPage();
+
+		SearchPage.configureSimilarResults(
+			displayTemplate = "Compact Layout",
+			fields = "localized_title_en_US",
+			maximumQueryTerms = 2,
+			minimumDocumentFrequency = 1,
+			minimumTermFrequency = 1);
+
+		AssetPublisherPortlet.clickAssetTitle(assetTitle = "One Two Three");
+
+		AssertElementPresent(
+			key_resultPosition = 2,
+			locator1 = "Search#SIMILAR_RESULTS_SPECIFIC_POSITION");
+
+		AssertElementNotPresent(
+			key_resultPosition = 3,
+			locator1 = "Search#SIMILAR_RESULTS_SPECIFIC_POSITION");
+	}
+
+	@priority = 4
+	test ConfigureMinimumShouldMatch {
+		JSONWebcontent.addWebContent(
+			content = "WC Content",
+			groupName = "Guest",
+			title = "Similar 1");
+
+		JSONWebcontent.addWebContent(
+			content = "WC Content",
+			groupName = "Guest",
+			title = "Similar Results 1");
+
+		JSONWebcontent.addWebContent(
+			content = "WC Content",
+			groupName = "Guest",
+			title = "Similar Results Web 1");
+
+		JSONWebcontent.addWebContent(
+			content = "WC Content",
+			groupName = "Guest",
+			title = "Similar Results Web Content");
+
+		SearchPage.setupSimilarResultsPage();
+
+		SearchPage.configureSimilarResults(
+			displayTemplate = "Compact Layout",
+			fields = "localized_title_en_US",
+			minimumDocumentFrequency = 1,
+			minimumShouldMatch = "25%",
+			minimumTermFrequency = 1);
+
+		AssetPublisherPortlet.clickAssetTitle(assetTitle = "Similar Results Web Content");
+
+		AssertElementPresent(
+			key_linkResultTitle = "Similar 1",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementPresent(
+			key_linkResultTitle = "Similar Results 1",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementPresent(
+			key_linkResultTitle = "Similar Results Web 1",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		SearchPage.configureSimilarResults(minimumShouldMatch = "75%");
+
+		AssertElementPresent(
+			key_linkResultTitle = "Similar Results Web 1",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementNotPresent(
+			key_linkResultTitle = "Similar 1",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementNotPresent(
+			key_linkResultTitle = "Similar Results 1",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+	}
+
+	@priority = 4
+	test ConfigureStopWords {
+		JSONWebcontent.addWebContent(
+			content = "No Match",
+			groupName = "Guest",
+			title = "Alpha");
+
+		JSONWebcontent.addWebContent(
+			content = "Alpha Bravo Charlie",
+			groupName = "Guest",
+			title = "Alpha Bravo Charlie");
+
+		JSONWebcontent.addWebContent(
+			content = "No Match",
+			groupName = "Guest",
+			title = "Charlie");
+
+		JSONWebcontent.addWebContent(
+			content = "Bravo",
+			groupName = "Guest",
+			title = "No Match");
+
+		SearchPage.setupSimilarResultsPage();
+
+		SearchPage.configureSimilarResults(
+			displayTemplate = "Compact Layout",
+			fields = "content_en_US,localized_title_en_US",
+			minimumDocumentFrequency = 1,
+			minimumTermFrequency = 1,
+			stopWords = "Alpha");
+
+		AssetPublisherPortlet.clickAssetTitle(assetTitle = "Alpha Bravo Charlie");
+
+		AssertElementPresent(
+			key_linkResultTitle = "Charlie",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementPresent(
+			key_linkResultTitle = "No Match",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementNotPresent(
+			key_linkResultTitle = "Alpha",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		SearchPage.configureSimilarResults(stopWords = "Alpha,Bravo");
+
+		AssertElementPresent(
+			key_linkResultTitle = "Charlie",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementNotPresent(
+			key_linkResultTitle = "Alpha",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementNotPresent(
+			key_linkResultTitle = "No Match",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+	}
+
+	@priority = 4
+	test ConfigureTermFrequency {
+		for (var count : list "One, Two, Three") {
+			JSONWebcontent.addWebContent(
+				content = "WC Content",
+				groupName = "Guest",
+				title = ${count});
+		}
+
+		JSONWebcontent.addWebContent(
+			content = "WC Content",
+			groupName = "Guest",
+			title = "One Two Two Three Three Three");
+
+		SearchPage.setupSimilarResultsPage();
+
+		SearchPage.configureSimilarResults(
+			displayTemplate = "Compact Layout",
+			fields = "localized_title_en_US",
+			minimumDocumentFrequency = 1,
+			minimumTermFrequency = 1);
+
+		AssetPublisherPortlet.clickAssetTitle(assetTitle = "One Two Two Three Three Three");
+
+		for (var count : list "One, Two, Three") {
+			AssertElementPresent(
+				key_linkResultTitle = ${count},
+				locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+		}
+
+		SearchPage.configureSimilarResults(minimumTermFrequency = 3);
+
+		AssertElementPresent(
+			key_linkResultTitle = "Three",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementNotPresent(
+			key_linkResultTitle = "One",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementNotPresent(
+			key_linkResultTitle = "Two",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		SearchPage.configureSimilarResults(minimumTermFrequency = 4);
+
+		AssertElementNotPresent(
+			key_linkResultTitle = "One",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementNotPresent(
+			key_linkResultTitle = "Two",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementNotPresent(
+			key_linkResultTitle = "Three",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+	}
+
+	@priority = 3
+	test ConfigureViewInContextLinkBehavior {
+		property test.liferay.virtual.instance = "false";
+		property test.run.type = "single";
+
+		DisplayPageTemplatesAdmin.openDisplayPagesAdmin(siteURLKey = "guest");
+
+		DisplayPageTemplatesAdmin.addDisplayPage(
+			contentType = "Blogs Entry",
+			displayPageName = "Blogs Display Page");
+
+		Button.clickPublish();
+
+		JSONBlog.addEntry(
+			entryContent = "Blogs Entry Content",
+			entryTitle = "Similar Results Blog 1",
+			groupName = "Guest");
+
+		BlogsNavigator.openToAddEntry(siteURLKey = "guest");
+
+		BlogsEntry.addEntryContent(
+			entryContent = "Blogs Entry Content",
+			entryTitle = "Similar Results Blog 2");
+
+		WebContent.editDisplayPage(pageName = "Blogs Display Page");
+
+		PortletEntry.publish();
+
+		PagesAdmin.openPagesAdmin(siteURLKey = "guest");
+
+		ContentPages.addPage(pageName = "Similar Results Page");
+
+		PageEditor.addWidget(portletName = "Similar Results");
+
+		SearchPage.configureSimilarResults(linkBehavior = "View in Context");
+
+		Refresh();
+
+		PageEditor.addWidget(
+			portletName = "Blogs",
+			targetFragmentName = "Similar Results");
+
+		PageEditor.publish();
+
+		Navigator.openWithAppendToBaseURL(urlAppend = "web/guest/similar-results-page");
+
+		Click(
+			key_entryTitle = "Similar Results Blog 1",
+			locator1 = "BlogsEntry#TITLE_LINK");
+
+		if (IsElementNotPresent(key_linkResultTitle = "Similar Results Blog 2", locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE")) {
+			SearchAdministration.executeReindex();
+
+			Navigator.openWithAppendToBaseURL(urlAppend = "web/guest/similar-results-page");
+
+			Click(
+				key_entryTitle = "Similar Results Blog 1",
+				locator1 = "BlogsEntry#TITLE_LINK");
+		}
+
+		WaitForElementPresent(
+			key_linkResultTitle = "Similar Results Blog 2",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		Click(
+			key_linkResultTitle = "Similar Results Blog 2",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		ControlMenu.viewHeaderTitle(headerTitle = "Similar Results Blog 2");
+	}
+
+	@priority = 4
+	test ConfigureWordLength {
+		JSONWebcontent.addWebContent(
+			content = "WC Content",
+			groupName = "Guest",
+			title = "Alpha Bravo");
+
+		JSONWebcontent.addWebContent(
+			content = "WC Content",
+			groupName = "Guest",
+			title = "Alpha Bravo Charlie");
+
+		JSONWebcontent.addWebContent(
+			content = "WC Content",
+			groupName = "Guest",
+			title = "Charlie");
+
+		SearchPage.setupSimilarResultsPage();
+
+		SearchPage.configureSimilarResults(
+			displayTemplate = "Compact Layout",
+			fields = "localized_title_en_US",
+			minimumDocumentFrequency = 1,
+			minimumTermFrequency = 1,
+			minimumWordLength = 6);
+
+		AssetPublisherPortlet.clickAssetTitle(assetTitle = "Alpha Bravo Charlie");
+
+		AssertElementPresent(
+			key_linkResultTitle = "Charlie",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementNotPresent(
+			key_linkResultTitle = "Alpha Bravo",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		SearchPage.configureSimilarResults(minimumWordLength = 8);
+
+		AssertElementNotPresent(
+			key_linkResultTitle = "Alpha Bravo",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementNotPresent(
+			key_linkResultTitle = "Charlie",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		SearchPage.configureSimilarResults(
+			maximumWordLength = 5,
+			minimumWordLength = 5);
+
+		AssertElementPresent(
+			key_linkResultTitle = "Alpha Bravo",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+
+		AssertElementNotPresent(
+			key_linkResultTitle = "Charlie",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+	}
+
+	@priority = 4
+	test ViewOnContentPages {
+		task ("Enable dynamic and manual selection") {
+			AssetPublisherPortlet.enableDynamicAndManualSelection();
+		}
+
+		JSONWebcontent.addWebContent(
+			content = "WC Content",
+			groupName = "Guest",
+			title = "Similar Results WC Title 1");
+
+		JSONWebcontent.addWebContent(
+			content = "WC Content",
+			groupName = "Guest",
+			title = "Similar Results WC Title 2");
+
+		PagesAdmin.openPagesAdmin(siteURLKey = "guest");
+
+		ContentPages.addPage(pageName = "Similar Results Page");
+
+		PageEditor.addWidget(portletName = "Asset Publisher");
+
+		PageEditor.publish();
+
+		Navigator.openWithAppendToBaseURL(urlAppend = "web/guest/similar-results-page");
+
+		ContentPages.gotoPageEditor();
+
+		PageEditor.addWidget(
+			portletName = "Similar Results",
+			targetFragmentName = "Asset Publisher");
+
+		SearchPage.configureSimilarResults(
+			displayTemplate = "Compact Layout",
+			fields = "localized_title_en_US",
+			minimumDocumentFrequency = 1,
+			minimumTermFrequency = 1);
+
+		PageEditor.publish();
+
+		Navigator.openWithAppendToBaseURL(urlAppend = "web/guest/similar-results-page");
+
+		AssetPublisherPortlet.clickAssetTitle(assetTitle = "Similar Results WC Title 1");
+
+		AssertTextEquals.assertPartialText(
+			key_assetTitle = "Similar Results WC Title 1",
+			locator1 = "AP#ASSET_ABSTRACT_TITLE",
+			value1 = "Similar Results WC Title 1");
+
+		AssertClick.assertPartialTextClickAt(
+			key_linkResultTitle = "Similar Results WC Title 2",
+			locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE",
+			value1 = "Similar Results WC Title 2");
+
+		AssertTextEquals.assertPartialText(
+			key_assetTitle = "Similar Results WC Title 2",
+			locator1 = "AP#ASSET_ABSTRACT_TITLE",
+			value1 = "Similar Results WC Title 2");
+	}
+
+	@priority = 4
+	test ViewWithDifferentScope {
+		for (var siteName : list "Site Name 1,Site Name 2,Site Name 3") {
+			HeadlessSite.addSite(siteName = ${siteName});
+		}
+
+		var count = 0;
+
+		for (var siteName : list "Guest,Site Name 1,Site Name 2,Site Name 3") {
+			JSONBlog.addEntry(
+				entryContent = "Blogs Entry Content",
+				entryTitle = "Blogs Entry Title ${count}",
+				groupName = ${siteName});
+
+			JSONDocument.addFile(
+				dmDocumentDescription = "DM Document Description ${count}",
+				dmDocumentTitle = "DM Document Title ${count}",
+				groupName = ${siteName});
+
+			JSONWebcontent.addWebContent(
+				content = "WC Content",
+				groupName = ${siteName},
+				title = "WC Title ${count}");
+
+			JSONWiki.addWikiPage(
+				groupName = ${siteName},
+				wikiNodeName = "Main",
+				wikiPageContent = "Wiki Page Content",
+				wikiPageName = "Wiki Page Title ${count}");
+
+			var count = ${count} + 1;
+		}
+
+		SearchPage.setupSimilarResultsPage();
+
+		SearchPage.configureSimilarResults(
+			displayTemplate = "Compact Layout",
+			fields = "localized_title_en_US",
+			minimumDocumentFrequency = 1,
+			minimumTermFrequency = 1,
+			searchScope = "Everything");
+
+		AssetPublisherPortlet.configureAssetLinkBehaviorPG(assetLinkBehavior = "Show Full Content");
+
+		for (var assetTitle : list "WC Title,DM Document Title,Blogs Entry Title,Wiki Page Title") {
+			AssetPublisherPortlet.clickAssetTitle(assetTitle = "${assetTitle} 0");
+
+			for (var count : list "1,2,3") {
+				AssertElementPresent(
+					key_linkResultTitle = "${assetTitle} ${count}",
+					locator1 = "Search#SIMILAR_RESULTS_LINK_TITLE");
+			}
+
+			Click(locator1 = "Icon#ANGLE_LEFT_BACK");
+		}
+	}
+
+}

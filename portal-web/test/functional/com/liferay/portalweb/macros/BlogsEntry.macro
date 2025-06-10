@@ -1,0 +1,1938 @@
+definition {
+
+	var entryAuthorFullName = "Test Test";
+
+	@summary = "Default summary"
+	macro addContent(entryContent = null) {
+		if (isSet(javascript)) {
+			Type(
+				key_editor = "content",
+				locator1 = "AlloyEditor#EDITOR",
+				value1 = ${entryContent});
+		}
+		else {
+			AlloyEditor.addContent(content = ${entryContent});
+		}
+	}
+
+	@summary = "Default summary"
+	macro addContentWithInlineImage(navTab = null, depotName = null, uploadFileName = null, currentSiteImage = null, imageFileName = null, entryContent = null, entryInlineImageURL = null) {
+		AlloyEditor.addContent(content = ${entryContent});
+
+		ItemSelector.gotoItemSelectorViaAlloyEditor();
+
+		if (isSet(depotName)) {
+			ItemSelector.selectRepositoryImage(
+				depotName = ${depotName},
+				imageFileName = ${imageFileName},
+				navTab = ${navTab});
+		}
+		else if (isSet(currentSiteImage)) {
+			ItemSelector.selectDMImage(
+				imageFileName = ${currentSiteImage},
+				navTab = ${navTab});
+		}
+		else {
+			ItemSelector.uploadFile(
+				navTab = ${navTab},
+				uploadFileName = ${uploadFileName});
+		}
+
+		if (isSet(entryInlineImageURL)) {
+			var key_uploadFileName = StringUtil.replace(${uploadFileName}, ".jpg", "");
+
+			Click(
+				locator1 = "BlogsEntry#CONTENT_INLINE_IMAGE",
+				value1 = ${uploadFileName});
+
+			Click(locator1 = "AlloyEditor#TEXT_FORMATTING_LINK");
+
+			Type(
+				locator1 = "AlloyEditor#TEXT_FORMATTING_LINK_INPUT",
+				value1 = ${entryInlineImageURL});
+
+			Click(locator1 = "AlloyEditor#TEXT_FORMATTING_LINK_INPUT_CONFIRM");
+
+			Click(
+				locator1 = "BlogsEntry#CONTENT_INLINE_IMAGE",
+				value1 = ${uploadFileName});
+
+			AssertVisible(locator1 = "AlloyEditor#IMAGE_TOOLBAR");
+		}
+	}
+
+	@summary = "Default summary"
+	macro addCustomAbstract(entryAbstractDescription = null) {
+		Click(locator1 = "Radio#CUSTOM_ABSTRACT");
+
+		PortletEntry.inputDescriptionTextInput(description = ${entryAbstractDescription});
+	}
+
+	@summary = "Default summary"
+	macro addCustomURL(customURL = null) {
+		Click(locator1 = "Radio#CUSTOM_URL");
+
+		if (isSet(viewHistory)) {
+			AssertVisible(locator1 = "Icon#FRIENDLY_URL_HISTORY");
+		}
+
+		Type(
+			locator1 = "TextInput#BLOGS_ENTRY_URL",
+			value1 = ${customURL});
+	}
+
+	@summary = "Default summary"
+	macro addEntryContent(navTab = null, videoShortcutTitle = null, depotName = null, entrySubtitle = null, extractedVideoShortcutTitle = null, videoURL = null, embedVideo = null, videoName = null, videoShortcutPreview = null, videoShortcutDescription = null, entryTitle = null, entryContent = null) {
+		BlogsEntry.addTitle(entryTitle = ${entryTitle});
+
+		if (isSet(entrySubtitle)) {
+			BlogsEntry.addSubtitle(entrySubtitle = ${entrySubtitle});
+		}
+
+		AlloyEditor.addContent(content = ${entryContent});
+
+		if (isSet(embedVideo)) {
+			AlloyEditor.clickContentField();
+
+			Click(locator1 = "AlloyEditor#CONTENT_ADD_BUTTON");
+
+			Click(locator1 = "AlloyEditor#CONTENT_ADD_MENUBAR_VIDEO");
+
+			if (${navTab} == "Documents and Media") {
+				ItemSelector.addVideoFromDM(
+					depotName = ${depotName},
+					navTab = ${navTab},
+					videoShortcutPreview = ${videoShortcutPreview},
+					videoShortcutTitle = ${videoShortcutTitle});
+
+				if (isSet(viewInternalVideoPreview)) {
+					WaitForElementPresent(locator1 = "IFrame#EMBEDDED_VIDEO_IFRAME");
+
+					DMDocument.viewInternalVideoPreview(videoName = ${videoName});
+				}
+			}
+			else if (isSet(videoURL)) {
+				ItemSelector.addVideo(
+					extractedVideoShortcutTitle = ${extractedVideoShortcutTitle},
+					videoShortcutDescription = ${videoShortcutDescription},
+					videoShortcutPreview = ${videoShortcutPreview},
+					videoShortcutTitle = ${videoShortcutTitle},
+					videoURL = ${videoURL});
+			}
+			else {
+				ItemSelector.addVideoFromURL(
+					navTab = ${navTab},
+					videoSourceURL = ${embedVideo});
+			}
+		}
+	}
+
+	@summary = "Default summary"
+	macro addEntryContentViaCodeView(viewMode = null, entryContent = null) {
+		AlloyEditor.clickContentField();
+
+		Click(locator1 = "Button#EDITOR_SWITCH");
+
+		if (${viewMode} == "Dark Theme") {
+			Click(
+				key_text = "moon",
+				locator1 = "Icon#ANY");
+		}
+
+		if (${viewMode} == "Fullscreen") {
+			Click(
+				key_text = "expand",
+				locator1 = "Icon#ANY");
+		}
+
+		Type.typeAceEditor(
+			locator1 = "TextArea#ACE_EDITOR",
+			value1 = ${entryContent});
+
+		if (${viewMode} == "Fullscreen") {
+			Button.clickDone();
+		}
+	}
+
+	@summary = "Default summary"
+	macro addEntryExternalLinkViaBrowseButton(navTab = null, uploadFileName = null, imageFileName = null, entryContent = null) {
+		if (isSet(entryContent)) {
+			DoubleClick(
+				key_entryContent = ${entryContent},
+				locator1 = "BlogsEntry#CONTENT_LINK");
+		}
+		else {
+			SelectFieldText(
+				key_editor = "content",
+				locator1 = "AlloyEditor#EDITOR");
+		}
+
+		Click(locator1 = "AlloyEditor#TEXT_FORMATTING_LINK");
+
+		Click(locator1 = "AlloyEditor#TEXT_FORMATTING_LINK_BROWSE_BUTTON");
+
+		if (isSet(imageFileName)) {
+			ItemSelector.selectDMImage(
+				imageFileName = ${imageFileName},
+				navTab = ${navTab});
+		}
+		else {
+			ItemSelector.uploadFile(
+				navTab = ${navTab},
+				uploadFileName = ${uploadFileName});
+		}
+
+		PortletEntry.publish();
+	}
+
+	@summary = "Default summary"
+	macro addRelatedAsset(depotName = null, assetTitle = null, assetType = null) {
+		Blogs.expandPanel(panel = "Related Assets");
+
+		AssertClick(
+			locator1 = "AssetRelatedAssets#RELATED_ASSETS_SELECT",
+			value1 = "Select");
+
+		var key_assetType = ${assetType};
+
+		MenuItem.click(menuItem = ${assetType});
+
+		var key_assetTitle = ${assetTitle};
+
+		SelectFrame(value1 = "relative=top");
+
+		SelectFrame(locator1 = "IFrame#MODAL_BODY");
+
+		if (isSet(depotName)) {
+			AssertClick(
+				key_breadcrumbName = "Sites and Libraries",
+				locator1 = "Breadcrumb#BREADCRUMB_ENTRY",
+				value1 = "Sites and Libraries");
+
+			AssertClick(
+				key_groupTab = "Asset Library",
+				locator1 = "ItemSelector#NAVIGATION_GROUP_TAB",
+				value1 = "Asset Library");
+
+			LexiconCard.clickCard(card = ${depotName});
+		}
+
+		LexiconEntry.changeDisplayStyle(displayStyle = "table");
+
+		Click(
+			key_assetTitle = ${assetTitle},
+			locator1 = "AssetRelatedAssets#ASSET_TABLE_CHECKBOX");
+
+		SelectFrame(value1 = "relative=top");
+
+		Button.clickDone();
+	}
+
+	@summary = "Default summary"
+	macro addSmallImage(navTab = null, depotName = null, uploadFileName = null, imageFileName = null) {
+		Blogs.expandPanel(panel = "Configuration");
+
+		if (isSet(browseImage)) {
+			Click(locator1 = "BlogsEntry#SMALL_IMAGE_BROWSE_IMAGE");
+		}
+		else {
+			Click(locator1 = "Button#SELECT_FILE_SMALL_IMAGE");
+		}
+
+		if (${navTab} == "Documents and Media") {
+			if (isSet(depotName)) {
+				ItemSelector.selectRepositoryImage(
+					depotName = ${depotName},
+					imageFileName = ${imageFileName},
+					navTab = ${navTab});
+			}
+			else if (isSet(currentSiteImage)) {
+				ItemSelector.selectDMImage(
+					imageFileName = ${imageFileName},
+					navTab = ${navTab});
+			}
+			else {
+				ItemSelector.uploadFile(
+					navTab = ${navTab},
+					uploadFileName = ${uploadFileName});
+			}
+		}
+		else {
+			ItemSelector.uploadFile(
+				navTab = ${navTab},
+				uploadFileName = ${uploadFileName});
+		}
+	}
+
+	@summary = "Default summary"
+	macro addSubtitle(entrySubtitle = null) {
+		Type(
+			key_text = "Subtitle",
+			locator1 = "TextArea#ANY",
+			value1 = ${entrySubtitle});
+	}
+
+	@summary = "Default summary"
+	macro addTitle(entryTitle = null) {
+		Type(
+			key_text = "Title",
+			locator1 = "TextArea#ANY",
+			value1 = ${entryTitle});
+	}
+
+	@summary = "Default summary"
+	macro addWithTrackbackURLPG(virtualHosts = null, entryTitle2 = null, entryContent2 = null, virtualHostsURL = null, entryTitle = null, entryContent = null) {
+		BlogsNavigator.gotoEntryPG(
+			entryContent = ${entryContent},
+			entryTitle = ${entryTitle});
+
+		WaitForSPARefresh();
+
+		MouseOver(locator1 = "BlogsEntry#COMMENTS_TRACKBACK_URL");
+
+		var backtrackURL = selenium.getElementValue("BlogsEntry#COMMENTS_TRACKBACK_URL");
+
+		if (${virtualHosts} == "true") {
+			Navigator.gotoSpecificURLPage(
+				pageName = "Blogs Page",
+				url = ${virtualHostsURL});
+		}
+		else {
+			Navigator.gotoPage(pageName = "Blogs Page");
+		}
+
+		BlogsNavigator.gotoAddEntry();
+
+		BlogsEntry.addEntryContent(
+			entryContent = ${entryContent2},
+			entryTitle = ${entryTitle2});
+
+		Blogs.expandPanel(panel = "Configuration");
+
+		Type(
+			locator1 = "TextInput#TRACKBACKS",
+			value1 = ${backtrackURL});
+
+		AssertClick(
+			locator1 = "Button#PUBLISH",
+			value1 = "Publish");
+
+		Alert.viewSuccessMessage();
+	}
+
+	@summary = "Default summary"
+	macro addWithWorkflowPG(entryTitle = null, entryContent = null) {
+		BlogsNavigator.gotoAddEntry();
+
+		BlogsEntry.addEntryContent(
+			entryContent = ${entryContent},
+			entryTitle = ${entryTitle});
+
+		AssertClick(
+			locator1 = "Button#SUBMIT_FOR_WORKFLOW",
+			value1 = "Submit for Workflow");
+
+		Alert.viewSuccessMessage();
+	}
+
+	@summary = "Default summary"
+	macro autoSaveDraft() {
+		WaitForElementPresent(locator1 = "Message#DRAFT_AUTO_SAVE");
+	}
+
+	@summary = "Default summary"
+	macro editContent(navTab = null, depotName = null, entryContentEdit = null, embedVideo = null, dmImage = null, folderName = null, entryContent = null) {
+		AssertTextEquals(
+			key_editor = "content",
+			locator1 = "AlloyEditor#EDITOR",
+			value1 = ${entryContent});
+
+		AlloyEditor.addContent(content = ${entryContentEdit});
+
+		if (isSet(embedVideo)) {
+			AlloyEditor.clickContentField();
+
+			Click(locator1 = "AlloyEditor#CONTENT_ADD_BUTTON");
+
+			Click(locator1 = "AlloyEditor#CONTENT_ADD_MENUBAR_VIDEO");
+
+			if (${navTab} == "Documents and Media") {
+				ItemSelector.addVideoFromDM(
+					depotName = ${depotName},
+					navTab = ${navTab},
+					videoShortcutTitle = ${embedVideo});
+			}
+			else {
+				ItemSelector.addVideoFromURL(
+					navTab = "URL",
+					videoSourceURL = ${embedVideo});
+			}
+		}
+
+		if (isSet(dmImage)) {
+			ItemSelector.gotoItemSelectorViaAlloyEditor();
+
+			if (${navTab} == "Documents and Media") {
+				if (isSet(depotName)) {
+					ItemSelector.selectRepositoryImage(
+						depotName = ${depotName},
+						folderName = ${folderName},
+						imageFileName = ${dmImage},
+						navTab = ${navTab});
+				}
+				else if (isSet(uploadFileName)) {
+					ItemSelector.uploadFile(
+						navTab = ${navTab},
+						uploadFileName = ${dmImage});
+				}
+				else {
+					ItemSelector.selectDMImage(
+						imageFileName = ${dmImage},
+						navTab = ${navTab});
+				}
+			}
+		}
+	}
+
+	@summary = "Default summary"
+	macro editContentViaCardViewPG(entryContentEdit = null, entryTitle = null, entryContent = null) {
+		MouseOver(locator1 = "Portlet#PORTLET_CONTENT");
+
+		Click(
+			key_entryTitle = ${entryTitle},
+			locator1 = "Blogs#WIDGET_VIEW_ENTRY_ELLIPSIS");
+
+		MenuItem.clickNoError(menuItem = "Edit");
+
+		BlogsEntry.editContent(
+			entryContent = ${entryContent},
+			entryContentEdit = ${entryContentEdit});
+	}
+
+	@summary = "Default summary"
+	macro editCoverImage(navTab = null, uploadFileName = null, coverImageName = null, uploadedDmImage = null, uploadedBlogImage = null) {
+		BlogsNavigator.gotoBrowseImage();
+
+		if (isSet(uploadedBlogImage)) {
+			ItemSelector.selectBlogImage(
+				imageFileName = ${uploadedBlogImage},
+				navTab = ${navTab});
+		}
+		else if (isSet(uploadedDmImage)) {
+			ItemSelector.selectDMImage(
+				imageFileName = ${uploadedDmImage},
+				navTab = ${navTab});
+		}
+		else {
+			ItemSelector.uploadFile(
+				navTab = ${navTab},
+				uploadFileName = ${uploadFileName});
+		}
+
+		SelectFrameTop(value1 = "relative=top");
+
+		AssertVisible(
+			key_coverImageName = ${coverImageName},
+			locator1 = "BlogsEntry#ENTRY_COVER_IMAGE_UNPUBLISHED");
+	}
+
+	@summary = "Default summary"
+	macro editCoverImageCaption(captionField = null) {
+		Type(
+			key_editor = "coverImageCaption",
+			locator1 = "AlloyEditor#EDITOR",
+			value1 = ${captionField});
+	}
+
+	@summary = "Default summary"
+	macro editCustomURL(customURL = null) {
+		if (isSet(automatic)) {
+			Click(locator1 = "Radio#AUTOMATIC_URL");
+		}
+		else {
+			Type(
+				locator1 = "TextInput#BLOGS_ENTRY_URL",
+				value1 = ${customURL});
+		}
+	}
+
+	@summary = "Default summary"
+	macro editDisplayDate(minutesAdjustmentValue = null) {
+		var displayDateDay = DateUtil.getCurrentDate();
+		var displayDateMonth = DateUtil.getCurrentMonth();
+		var displayDateYear = DateUtil.getCurrentYear();
+
+		var displayDate = "${displayDateMonth}/${displayDateDay}/${displayDateYear}";
+
+		Type(
+			locator1 = "TextInput#DISPLAY_DATE",
+			value1 = ${displayDate});
+
+		var displayTime = DateUtil.getDateOffsetByMinutes(${minutesAdjustmentValue}, "hh:mm a");
+
+		echo("display Time: ${displayTime}");
+
+		var displayTime = StringUtil.removeSpaces(${displayTime});
+
+		Type.sendKeys(
+			locator1 = "TextInput#DISPLAY_DATE_TIME",
+			value1 = ${displayTime});
+	}
+
+	@summary = "Default summary"
+	macro editDisplayDateYear() {
+		var displayDateDay = selenium.getElementValue("TextInput#DISPLAY_DATE_DAY");
+		var displayDateMonth = selenium.getElementValue("TextInput#DISPLAY_DATE_MONTH");
+		var displayDateYear = DateUtil.getCurrentYear();
+
+		var displayDateYear = ${displayDateYear} + 1;
+
+		var displayDate = "${displayDateMonth}/${displayDateDay}/${displayDateYear}";
+
+		Type(
+			locator1 = "TextInput#DISPLAY_DATE",
+			value1 = ${displayDate});
+	}
+
+	@summary = "Default summary"
+	macro editEntryContent(entrySubtitleEdit = null, entrySubtitle = null, embedVideo = null, entryContentEdit = null, entryTitleEdit = null, entryTitle = null, entryContent = null) {
+		BlogsEntry.editTitle(
+			entryTitle = ${entryTitle},
+			entryTitleEdit = ${entryTitleEdit});
+
+		if (isSet(entrySubtitleEdit)) {
+			BlogsEntry.editSubtitle(
+				entrySubtitle = ${entrySubtitle},
+				entrySubtitleEdit = ${entrySubtitleEdit});
+		}
+
+		BlogsEntry.editContent(
+			embedVideo = ${embedVideo},
+			entryContent = ${entryContent},
+			entryContentEdit = ${entryContentEdit});
+	}
+
+	@summary = "Default summary"
+	macro editNoPermissionPG(entryTitle = null, entryContent = null) {
+		var key_entryTitle = ${entryTitle};
+
+		AssertTextEquals(
+			locator1 = "BlogsEntry#TITLE",
+			value1 = ${entryTitle});
+
+		var key_entryContent = ${entryContent};
+
+		AssertTextEquals(
+			locator1 = "BlogsEntry#CONTENT",
+			value1 = ${entryContent});
+
+		Portlet.mouseOverPortletTitle(portletTitleName = "Blogs");
+
+		Click(
+			key_entryTitle = ${entryTitle},
+			locator1 = "Blogs#WIDGET_VIEW_ENTRY_ELLIPSIS");
+
+		MenuItem.viewNotPresent(menuItem = "Edit");
+	}
+
+	@summary = "Default summary"
+	macro editSubtitle(entrySubtitleEdit = null, entrySubtitle = null) {
+		AssertTextEquals(
+			key_text = "Subtitle",
+			locator1 = "TextArea#ANY",
+			value1 = ${entrySubtitle});
+
+		BlogsEntry.addSubtitle(entrySubtitle = ${entrySubtitleEdit});
+	}
+
+	@summary = "Default summary"
+	macro editTitle(entryTitleEdit = null, entryTitle = null) {
+		AssertTextEquals(
+			key_text = "Title",
+			locator1 = "TextArea#ANY",
+			value1 = ${entryTitle});
+
+		BlogsEntry.addTitle(entryTitle = ${entryTitleEdit});
+	}
+
+	@summary = "Default summary"
+	macro entryAddPermissions(permissionDefinitionKey = null, viewableBy = null, addOrRemoveViewPermission = null, roleTitle = null) {
+		if (isSet(viewableBy)) {
+			Select(
+				locator1 = "AssetPermissions#VIEWABLE_AS_SELECT",
+				value1 = ${viewableBy});
+		}
+
+		if (isSet(permissionDefinitionKey)) {
+			PermissionsInline.addOrRemoveEntryPermissionsFromAllRoles(
+				addOrRemoveViewPermission = ${addOrRemoveViewPermission},
+				key_roleTitle = ${roleTitle},
+				permissionDefinitionKeyList = ${permissionDefinitionKey});
+		}
+	}
+
+	@summary = "Default summary"
+	macro executePingbackViacURL(entryTitle = null) {
+		var ip = ${ip};
+		var portalURL = ${portalURL};
+		var userPassword = PropsUtil.get("default.admin.password");
+
+		var curl = '''
+			${portalURL}/xmlrpc/pingback \
+				-H 'Content-Type: text/xml' \
+				-u test@liferay.com:${userPassword} \
+				-d '
+				<?xml version="1.0" encoding="iso-8859-1"?>
+				<methodCall>
+				<methodName>pingback.ping</methodName>
+				<params>
+				<param><value><string>http://${ip}</string></value></param>
+				<param><value><string>${portalURL}/web/guest/home/-/blogs/${entryTitle}</string></value></param>
+				</params>
+				</methodCall>'
+		''';
+
+		echo(${curl});
+
+		var returnValue = JSONCurlUtil.post(${curl});
+
+		if (contains(${returnValue}, "Access Denied")) {
+			echo("The return value is Access Denied");
+		}
+		else {
+			fail("FAIL!");
+		}
+	}
+
+	@summary = "Default summary"
+	macro flagPG(flagReason = null, siteName = null, entryTitle = null) {
+		var key_entryTitle = ${entryTitle};
+
+		AssertElementPresent(locator1 = "BlogsEntry#FLAG_LINK");
+
+		Click(locator1 = "BlogsEntry#FLAG_LINK");
+
+		AssertElementPresent.assertVisible(locator1 = "BlogsEntry#FLAG_MODAL");
+
+		AssertTextEquals(
+			locator1 = "ReportContent#WARNING",
+			value1 = "You are about to report a violation of our Terms of Use. All reports are strictly confidential.");
+
+		AssertTextEquals(
+			locator1 = "ReportContent#WARNING_TERMS_OF_USE_LINK",
+			value1 = "Terms of Use");
+
+		Select(
+			locator1 = "ReportContent#REASON_SELECT",
+			value1 = ${flagReason});
+
+		SelectFrame(locator1 = "ItemSelector#ITEM_SELECTOR_MODAL_FOOTER");
+
+		AssertClick(
+			locator1 = "ReportContent#REPORT_BUTTON",
+			value1 = "Report");
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "ReportContent#SUCCESS_MESSAGE",
+			value1 = "Although we cannot disclose our final decision, we do review every report and appreciate your effort to make sure ${siteName} is a safe environment for everyone.");
+
+		Click(locator1 = "Button#CLOSE");
+	}
+
+	@summary = "Default summary"
+	macro moveToRecycleBinCP(entryTitle = null) {
+		var key_entryTitle = ${entryTitle};
+
+		Blogs.viewEntryTitle(entryTitle = ${entryTitle});
+
+		Click(
+			key_listEntry = ${entryTitle},
+			locator1 = "LexiconList#LIST_ENTRY_ELLIPSIS");
+
+		ClickNoError(
+			key_menuItem = "Delete",
+			locator1 = "MenuItem#DROPDOWN_MENU_ITEM");
+
+		Alert.viewSuccessMessage();
+	}
+
+	@summary = "Default summary"
+	macro moveToRecycleBinDraftCP(entryTitle = null) {
+		var key_entryTitle = ${entryTitle};
+
+		Blogs.viewEntryTitle(entryTitle = ${entryTitle});
+
+		AssertTextEquals(
+			locator1 = "Blogs#DESCRIPTIVE_VIEW_ENTRY_STATUS",
+			value1 = "Draft");
+
+		Click(
+			key_listEntry = ${entryTitle},
+			locator1 = "LexiconList#LIST_ENTRY_ELLIPSIS");
+
+		ClickNoError(
+			key_menuItem = "Delete",
+			locator1 = "MenuItem#DROPDOWN_MENU_ITEM");
+
+		Alert.viewSuccessMessage();
+	}
+
+	@summary = "Default summary"
+	macro moveToRecycleBinNoPermissionPG() {
+		AssertElementNotPresent(locator1 = "Link#MOVE_TO_RECYCLING_BIN");
+	}
+
+	@summary = "Default summary"
+	macro moveToRecycleBinPG(entryTitle = null, entryContent = null) {
+		var key_entryContent = ${entryContent};
+		var key_entryTitle = ${entryTitle};
+
+		AssertTextEquals(
+			locator1 = "BlogsEntry#TITLE",
+			value1 = ${entryTitle});
+
+		AssertTextEquals(
+			locator1 = "BlogsEntry#CONTENT",
+			value1 = ${entryContent});
+
+		Portlet.mouseOverPortletTitle(portletTitleName = "Blogs");
+
+		Blogs.clickEllipsisItemPG(
+			entryTitle = ${entryTitle},
+			item = "Delete");
+
+		VerifyElementPresent(locator1 = "Message#SUCCESS");
+
+		AssertElementNotPresent(locator1 = "BlogsEntry#TITLE");
+
+		AssertElementNotPresent(locator1 = "BlogsEntry#CONTENT");
+	}
+
+	@summary = "Default summary"
+	macro publishWithInvalidContent() {
+		AssertClick(
+			locator1 = "Button#PUBLISH",
+			value1 = "Publish");
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "TextInput#REQUIRED_ALERT",
+			value1 = "The Content field is required.");
+
+		AssertElementNotPresent(locator1 = "Message#SUCCESS");
+	}
+
+	@summary = "Default summary"
+	macro publishWithInvalidTitle() {
+		AssertClick(
+			locator1 = "Button#PUBLISH",
+			value1 = "Publish");
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "TextInput#REQUIRED_ALERT",
+			value1 = "field is required.");
+
+		AssertElementNotPresent(locator1 = "Message#SUCCESS");
+	}
+
+	@summary = "Default summary"
+	macro publishWithInvalidTitleLength() {
+		AssertClick(
+			locator1 = "Button#PUBLISH",
+			value1 = "Publish");
+
+		Alert.viewSuccessMessage();
+	}
+
+	@summary = "Default summary"
+	macro publishWithWorkflow(entryTitle = null) {
+		var key_entryTitle = ${entryTitle};
+
+		AssertClick(
+			locator1 = "Button#SUBMIT_FOR_WORKFLOW",
+			value1 = "Submit for Workflow");
+
+		Alert.viewSuccessMessage();
+	}
+
+	@summary = "Default summary"
+	macro removeCoverImage(coverImageName = null) {
+		Click(locator1 = "Button#REMOVE_IMAGE");
+
+		AssertElementNotPresent(
+			key_coverImageName = ${coverImageName},
+			locator1 = "BlogsEntry#ENTRY_COVER_IMAGE_UNPUBLISHED");
+	}
+
+	@summary = "Default summary"
+	macro removeExternalLink(entryContent = null) {
+		Click(
+			key_entryContent = ${entryContent},
+			locator1 = "BlogsEntry#CONTENT_LINK");
+
+		Click(locator1 = "AlloyEditor#TEXT_FORMATTING_REMOVE_LINK_BUTTON");
+	}
+
+	@summary = "Default summary"
+	macro removeOldFriendlyURL(oldFriendlyURL = null) {
+		MouseOver(
+			key_oldFriendlyURL = ${oldFriendlyURL},
+			locator1 = "BlogsEntry#FRIENDLY_URL_HISTORY_ITEM");
+
+		Click(
+			key_oldFriendlyURL = ${oldFriendlyURL},
+			locator1 = "Icon#FRIENDLY_URL_HISTORY_ITEM_DELETE");
+
+		AssertElementNotPresent(
+			key_oldFriendlyURL = ${oldFriendlyURL},
+			locator1 = "BlogsEntry#FRIENDLY_URL_HISTORY_ITEM");
+
+		Click(locator1 = "Modal#CLOSE_BUTTON");
+	}
+
+	@summary = "Default summary"
+	macro removeSmallImage(uploadFileName = null) {
+		Blogs.expandPanel(panel = "Configuration");
+
+		if (isSet(images)) {
+			Click(locator1 = "Button#REMOVE_IMAGE_LAST");
+		}
+		else {
+			Click(locator1 = "Button#REMOVE_IMAGE");
+		}
+
+		AssertElementNotPresent(
+			key_smallImage = ${uploadFileName},
+			locator1 = "BlogsEntry#SMALL_IMAGE");
+	}
+
+	@summary = "Default summary"
+	macro removeViewPermissionsPG(roleTitle = null, entryTitle = null) {
+		var key_roleTitle = StringUtil.replace(${roleTitle}, " ", "-");
+
+		var key_roleTitle = StringUtil.lowerCase(${key_roleTitle});
+
+		Portlet.mouseOverPortletTitle(portletTitleName = "Blogs");
+
+		var key_entryTitle = ${entryTitle};
+
+		Blogs.clickEllipsisItemPG(
+			entryTitle = ${entryTitle},
+			item = "Permissions");
+
+		IFrame.selectPermissionsFrame();
+
+		Uncheck(
+			locator1 = "Permissions#CONTENT_PERMISSIONS_VIEW_CHECKBOX",
+			value1 = ${roleTitle});
+
+		Button.clickSave();
+
+		SelectFrame(value1 = "relative=top");
+	}
+
+	@summary = "Default summary"
+	macro restoreOldFriendlyURL(restoredURL = null, activeURL = null, oldFriendlyURL = null) {
+		MouseOver(
+			key_oldFriendlyURL = ${oldFriendlyURL},
+			locator1 = "BlogsEntry#FRIENDLY_URL_HISTORY_ITEM");
+
+		Click(locator1 = "Icon#FRIENDLY_URL_HISTORY_ITEM_RESTORE");
+
+		AssertVisible(
+			key_activeURL = ${restoredURL},
+			locator1 = "BlogsEntry#FRIENDLY_URL_ACTIVE_URL");
+
+		AssertVisible(
+			key_oldFriendlyURL = ${activeURL},
+			locator1 = "BlogsEntry#FRIENDLY_URL_HISTORY_ITEM");
+
+		Click(locator1 = "Modal#CLOSE_BUTTON");
+
+		AssertVisible(
+			locator1 = "TextInput#BLOGS_ENTRY_URL",
+			value1 = ${restoredURL});
+	}
+
+	@summary = "Default summary"
+	macro saveAsDraft() {
+		Click(locator1 = "Button#SAVE_AS_DRAFT");
+
+		Alert.viewSuccessMessage();
+	}
+
+	@summary = "Default summary"
+	macro scheduleBlogEntry() {
+		Blogs.expandPanel(panel = "Configuration");
+
+		var displayDate = DateUtil.getFormattedCurrentDate("MM/dd/yyyy");
+
+		echo("## * displayDate: ${displayDate}");
+
+		Type(
+			locator1 = "TextInput#DISPLAY_DATE",
+			value1 = ${displayDate});
+
+		var displayTime = DateUtil.getDateOffsetByMinutes(2, "hh:mm a");
+
+		var displayTime = StringUtil.removeSpaces(${displayTime});
+
+		Type.sendKeys(
+			locator1 = "TextInput#DISPLAY_DATE_TIME",
+			value1 = ${displayTime});
+	}
+
+	@summary = "Default summary"
+	macro searchCP(position = null, entryTitle = null, entryContent = null, entrySearchTerm = null) {
+		var key_entryContent = ${entryContent};
+		var key_entryTitle = ${entryTitle};
+
+		AssertElementPresent(locator1 = "Blogs#SEARCH_KEYWORDS");
+
+		Type(
+			locator1 = "Blogs#SEARCH_KEYWORDS",
+			value1 = ${entrySearchTerm});
+
+		KeyPress(
+			locator1 = "Blogs#SEARCH_KEYWORDS",
+			value1 = "\RETURN");
+
+		WaitForLiferayEvent.initializeLiferayEventLog();
+
+		Blogs.viewEntryTitle(
+			entryTitle = ${entryTitle},
+			position = ${position});
+
+		if (isSet(relevance)) {
+			ManagementBar.viewFilterAndOrderSelectedItem(menuItem = "Relevance");
+		}
+	}
+
+	@summary = "Default summary"
+	macro searchNoCP(entryTitle = null, entryContent = null, entrySearchTerm = null) {
+		var key_entryContent = ${entryContent};
+		var key_entryTitle = ${entryTitle};
+
+		AssertElementPresent(locator1 = "Blogs#SEARCH_KEYWORDS");
+
+		Type(
+			locator1 = "Blogs#SEARCH_KEYWORDS",
+			value1 = ${entrySearchTerm});
+
+		KeyPress(
+			locator1 = "Blogs#SEARCH_KEYWORDS",
+			value1 = "\RETURN");
+
+		WaitForLiferayEvent.initializeLiferayEventLog();
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "Message#EMPTY_INFO",
+			value1 = "No entries were found.");
+
+		Blogs.viewEntryNotPresent(entryTitle = ${entryTitle});
+	}
+
+	@summary = "Default summary"
+	macro selectFormattingStyle(styleFormat = null) {
+		SelectFieldText(
+			key_editor = "content",
+			locator1 = "AlloyEditor#EDITOR");
+
+		Click(locator1 = "AlloyEditor#TEXT_FORMATTING_STYLE");
+
+		Click(
+			key_styleFormat = ${styleFormat},
+			locator1 = "AlloyEditor#TEXT_FORMATTING_STYLE_DROPDOWN");
+	}
+
+	@summary = "Default summary"
+	macro tearDownCP() {
+		Navigator.openURL();
+
+		ProductMenu.gotoPortlet(
+			category = "Content & Data",
+			portlet = "Blogs");
+
+		if (IsVisible(locator1 = "Message#EMPTY_INFO", value1 = "No entries were found.")) {
+			Blogs.viewNoEntryCP();
+		}
+		else {
+			PortletEntry.selectAll();
+
+			Click(locator1 = "Icon#MOVE_TO_RECYCLE_BIN");
+
+			VerifyElementPresent(locator1 = "Message#SUCCESS");
+		}
+
+		JSONRecycleBin.emptyRecycleBin();
+	}
+
+	@summary = "Default summary"
+	macro viewAbstractDisplay(entryAbstractDescription = null, entryTitle = null, entryContent = null) {
+		var key_entryAbstractDescription = ${entryAbstractDescription};
+		var key_entryTitle = ${entryTitle};
+
+		AssertTextEquals(
+			locator1 = "BlogsEntry#TITLE",
+			value1 = ${entryTitle});
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "BlogsEntry#CONTENT_ABSTRACT",
+			value1 = ${entryAbstractDescription});
+
+		AssertTextNotEquals(
+			locator1 = "BlogsEntry#CONTENT_GENERIC",
+			value1 = ${entryContent});
+	}
+
+	@summary = "Default summary"
+	macro viewActiveURL(activeURL = null) {
+		AssertVisible(
+			key_activeURL = ${activeURL},
+			locator1 = "BlogsEntry#FRIENDLY_URL_ACTIVE_URL");
+	}
+
+	@summary = "Default summary"
+	macro viewAsRelatedAssetPG(relatedAssetTitle = null, entryTitle = null, entryContent = null) {
+		AssertTextEquals(
+			key_entryTitle = ${entryTitle},
+			locator1 = "BlogsEntry#TITLE",
+			value1 = ${entryTitle});
+
+		AssertTextEquals(
+			key_entryContent = ${entryContent},
+			locator1 = "BlogsEntry#CONTENT",
+			value1 = ${entryContent});
+
+		AssertTextEquals(
+			locator1 = "AssetRelatedAssets#HEADER",
+			value1 = "Related Assets");
+
+		AssertTextEquals(
+			key_relatedAssetTitle = ${relatedAssetTitle},
+			locator1 = "AssetRelatedAssets#ASSET_TITLE",
+			value1 = ${relatedAssetTitle});
+	}
+
+	@summary = "Default summary"
+	macro viewAutoTag(entryTitle = null) {
+		var key_entryTitle = ${entryTitle};
+		var key_tagName = ${tagName};
+
+		if (IsElementNotPresent(locator1 = "BlogsEntry#TAG")) {
+			Refresh();
+		}
+
+		AssertTextEquals(
+			locator1 = "BlogsEntry#TAG",
+			value1 = ${tagName});
+	}
+
+	@summary = "Default summary"
+	macro viewContent(entryTitle = null) {
+		var key_entryTitle = ${entryTitle};
+
+		AssertTextEquals(
+			locator1 = "Blogs#ICON_VIEW_ENTRY_TITLE",
+			value1 = ${entryTitle});
+	}
+
+	@summary = "Default summary"
+	macro viewCoverImage(uploadFileName = null) {
+		AssertVisible(
+			key_uploadFileName = ${uploadFileName},
+			locator1 = "BlogsEntry#ENTRY_COVER_IMAGE");
+	}
+
+	@summary = "Default summary"
+	macro viewDefaultCP() {
+		AssertTextEquals.assertPartialText(
+			locator1 = "Message#EMPTY_INFO",
+			value1 = "No entries were found.");
+
+		AssertElementNotPresent(locator1 = "Blogs#ENTRY_TABLE_TITLE");
+	}
+
+	@summary = "Default summary"
+	macro viewEntryAsWorkflowAsset(entryTitle = null, entryContent = null) {
+		SiteAdmin.viewPortletTitle(portletTitle = ${entryTitle});
+
+		var key_entryContent = ${entryContent};
+
+		AssertTextEquals(
+			locator1 = "BlogsEntry#CONTENT",
+			value1 = ${entryContent});
+	}
+
+	@summary = "Default summary"
+	macro viewEntryAuthorCP(entryTitle = null) {
+		var entryAuthorFullName = ${entryAuthorFullName};
+		var key_entryTitle = ${entryTitle};
+
+		AssertTextEquals(
+			locator1 = "Blogs#ENTRY_TABLE_AUTHOR",
+			value1 = ${entryAuthorFullName});
+	}
+
+	@summary = "Default summary"
+	macro viewEntryCP(entryExternalURL = null, internalVideo = null, entryCaption = null, captionFieldLink = null, uploadFileName = null, entryInlineImage = null, entrySubtitle = null, entryContentItalics = null, videoName = null, entryTitle = null, entryContent = null, entryContentBold = null, entrySmallImage = null) {
+		var key_entryContent = ${entryContent};
+		var key_entrySubtitle = ${entrySubtitle};
+		var key_entryTitle = ${entryTitle};
+		var browserType = PropsUtil.get("browser.type");
+
+		if (${browserType} == "safari") {
+			AssertTextEquals.assertValue(
+				key_text = "Title",
+				locator1 = "TextArea#ANY",
+				value1 = ${entryTitle});
+		}
+		else {
+			AssertTextEquals(
+				key_text = "Title",
+				locator1 = "TextArea#ANY",
+				value1 = ${entryTitle});
+		}
+
+		if (isSet(entrySubtitle)) {
+			AssertTextEquals(
+				key_text = "Subtitle",
+				locator1 = "TextArea#ANY",
+				value1 = ${entrySubtitle});
+		}
+
+		if (isSet(uploadFileName)) {
+			AssertElementPresent(
+				key_uploadFileName = ${uploadFileName},
+				locator1 = "BlogsEntry#ENTRY_COVER_IMAGE");
+		}
+
+		if (isSet(embedVideo)) {
+			if (${internalVideo} == "true") {
+				DMDocument.viewInternalVideoPreview(videoName = ${videoName});
+			}
+			else {
+				AssertElementPresent(
+					key_service = "youtube",
+					locator1 = "BlogsEntry#CONTENT_VIDEO");
+			}
+		}
+
+		if (isSet(captionField)) {
+			if (isSet(captionFieldLink)) {
+				AssertTextEquals(
+					locator1 = "BlogsEntry#ENTRY_COVER_IMAGE_CAPTION_LINK",
+					value1 = ${captionFieldLink});
+			}
+			else {
+				AssertTextEquals(
+					locator1 = "BlogsEntry#ENTRY_COVER_IMAGE_CAPTION",
+					value1 = ${entryCaption});
+			}
+		}
+
+		if (isSet(entryContent)) {
+			AssertTextEquals(
+				locator1 = "BlogsEntry#CONTENT",
+				value1 = ${entryContent});
+		}
+
+		if (isSet(entryContentBold)) {
+			AssertTextEquals.assertPartialText(
+				locator1 = "BlogsEntry#CONTENT_HTML_BOLD",
+				value1 = ${entryContentBold});
+		}
+
+		if (isSet(entryContentItalics)) {
+			AssertTextEquals.assertPartialText(
+				locator1 = "BlogsEntry#CONTENT_HTML_ITALICS",
+				value1 = ${entryContentItalics});
+		}
+
+		if (isSet(entryExternalURL)) {
+			AssertClick(
+				locator1 = "BlogsEntry#CONTENT_LINK",
+				value1 = ${entryContent});
+
+			AssertLocation(value1 = "${entryExternalURL}/");
+		}
+
+		if (isSet(entryInlineImage)) {
+			BlogsEntry.viewInlineImage(uploadFileName = ${entryInlineImage});
+		}
+
+		if (isSet(entrySmallImage)) {
+			Blogs.expandPanel(panel = "Configuration");
+
+			AssertVisible(
+				key_smallImage = ${entrySmallImage},
+				locator1 = "BlogsEntry#SMALL_IMAGE");
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewEntryEmbeddedImage(imageSourceURL = null, entryContent = null) {
+		Click.clickAt(
+			key_entryContent = ${entryContent},
+			locator1 = "BlogsEntry#CONTENT_LINK");
+
+		WaitForVisible(
+			key_imageSourceURL = ${imageSourceURL},
+			locator1 = "DocumentsAndMediaDocument#DOCUMENT_VIEWPORT_PREVIEW");
+	}
+
+	@summary = "Default summary"
+	macro viewEntryExternalURL(entryExternalURL = null, entryTitle = null, entryContent = null) {
+		BlogsNavigator.gotoEditCP(entryTitle = ${entryTitle});
+
+		DoubleClick(
+			key_entryContent = ${entryContent},
+			locator1 = "BlogsEntry#CONTENT_LINK_IN_EDIT");
+
+		Click(locator1 = "AlloyEditor#TEXT_FORMATTING_LINK");
+
+		AssertTextEquals(
+			locator1 = "AlloyEditor#TEXT_FORMATTING_LINK_INPUT",
+			value1 = ${entryExternalURL});
+	}
+
+	@summary = "Default summary"
+	macro viewEntryPG(entryExternalURL = null, internalVideo = null, entryContentHtml = null, entryCaption = null, entryContentCite = null, uploadFileName = null, entryInlineImage = null, entrySubtitle = null, entryContentItalics = null, embedVideo = null, videoName = null, entryTitle = null, entryContent = null, entryContentBold = null) {
+		var key_entryTitle = ${entryTitle};
+
+		AssertElementPresent(locator1 = "BlogsEntry#TITLE");
+
+		AssertTextEquals(
+			locator1 = "BlogsEntry#TITLE",
+			value1 = ${entryTitle});
+
+		if (isSet(entrySubtitle)) {
+			var key_entrySubtitle = ${entrySubtitle};
+
+			AssertTextEquals(
+				locator1 = "BlogsEntry#SUBTITLE",
+				value1 = ${entrySubtitle});
+		}
+
+		if (isSet(uploadFileName)) {
+			AssertElementPresent(
+				key_uploadFileName = ${uploadFileName},
+				locator1 = "BlogsEntry#ENTRY_COVER_IMAGE");
+		}
+
+		if (isSet(embedVideo)) {
+			if (${embedVideo} == "twitch") {
+				AssertElementPresent(
+					key_service = "twitch",
+					locator1 = "BlogsEntry#CONTENT_VIDEO");
+			}
+			else if (${embedVideo} == "vimeo") {
+				AssertVisible(
+					key_service = "vimeo",
+					locator1 = "BlogsEntry#CONTENT_VIDEO");
+			}
+			else if (${internalVideo} == "true") {
+				DMDocument.viewInternalVideoPreview(videoName = ${videoName});
+			}
+			else {
+				AssertElementPresent(
+					key_service = "youtube",
+					locator1 = "BlogsEntry#CONTENT_VIDEO");
+			}
+		}
+
+		if (isSet(entryCaption)) {
+			AssertTextEquals(
+				locator1 = "BlogsEntry#ENTRY_COVER_IMAGE_CAPTION",
+				value1 = ${entryCaption});
+		}
+
+		if (isSet(entryContent)) {
+			var key_entryContent = ${entryContent};
+
+			AssertTextEquals(
+				locator1 = "BlogsEntry#CONTENT",
+				value1 = ${entryContent});
+		}
+
+		if (isSet(entryContentBold)) {
+			AssertTextEquals.assertPartialText(
+				locator1 = "BlogsEntry#CONTENT_HTML_BOLD",
+				value1 = ${entryContentBold});
+		}
+
+		if (isSet(entryContentCite)) {
+			AssertTextEquals.assertPartialText(
+				locator1 = "BlogsEntry#CONTENT_HTML_CITE",
+				value1 = ${entryContentCite});
+		}
+
+		if (isSet(entryContentHtml)) {
+			AssertTextEquals.assertPartialText(
+				locator1 = "BlogsEntry#CONTENT_HTML_H2",
+				value1 = ${entryContentHtml});
+		}
+
+		if (isSet(entryContentItalics)) {
+			AssertTextEquals.assertPartialText(
+				locator1 = "BlogsEntry#CONTENT_HTML_ITALICS",
+				value1 = ${entryContentItalics});
+		}
+
+		if (isSet(entryExternalURL)) {
+			AssertClick(
+				locator1 = "BlogsEntry#CONTENT_LINK",
+				value1 = ${entryContent});
+
+			AssertLocation.assertPartialLocation(value1 = ${entryExternalURL});
+		}
+
+		if (isSet(entryInlineImage)) {
+			BlogsEntry.viewInlineImage(uploadFileName = ${entryInlineImage});
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewEntryTable(entryTitle = null) {
+		var key_entryTitle = ${entryTitle};
+
+		LexiconEntry.changeDisplayStyle(displayStyle = "table");
+
+		AssertElementPresent(locator1 = "Blogs#ENTRY_TABLE_CHECKBOX");
+
+		AssertTextEquals(
+			locator1 = "Blogs#ENTRY_TABLE_TITLE",
+			value1 = ${entryTitle});
+
+		AssertElementPresent(locator1 = "Blogs#ENTRY_TABLE_CREATE_DATE");
+
+		AssertTextEquals(
+			locator1 = "Blogs#ENTRY_TABLE_STATUS",
+			value1 = "APPROVED");
+	}
+
+	@summary = "Default summary"
+	macro viewEntryViaAPPG(assetTitle = null, entryTitle = null, entryContent = null) {
+		var key_assetContent = ${entryContent};
+		var key_assetTitle = ${assetTitle};
+
+		AssetPublisherPortlet.clickAssetTitle(assetTitle = ${entryTitle});
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "AP#ASSET_ABSTRACT_TITLE",
+			value1 = ${entryTitle});
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "APAsset#ASSET_CONTENT",
+			value1 = ${entryContent});
+	}
+
+	@summary = "Default summary"
+	macro viewInlineImage(uploadFileName = null, entryContent = null) {
+		var key_uploadFileName = ${uploadFileName};
+
+		if (isSet(entryContent)) {
+			WaitForElementPresent(
+				locator1 = "BlogsEntry#CONTENT_INLINE_IMAGE_SPECIFIC",
+				value1 = ${uploadFileName});
+
+			AssertVisible(
+				key_entryContent = ${entryContent},
+				locator1 = "BlogsEntry#CONTENT_INLINE_IMAGE_SPECIFIC");
+		}
+		else {
+			WaitForElementPresent(
+				locator1 = "BlogsEntry#CONTENT_INLINE_IMAGE",
+				value1 = ${uploadFileName});
+
+			AssertVisible(locator1 = "BlogsEntry#CONTENT_INLINE_IMAGE");
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewNoAddPermissions() {
+		var key_text = "New Entry";
+
+		AssertElementNotPresent(locator1 = "Button#ANY");
+	}
+
+	@summary = "Default summary"
+	macro viewNoCP(entryTitle = null) {
+		AssertElementNotPresent(
+			key_entryTitle = ${entryTitle},
+			locator1 = "Blogs#ENTRY_TABLE_TITLE");
+	}
+
+	@summary = "Default summary"
+	macro viewNoEntryAsGuestPG(entryTitle = null) {
+		AssertElementNotPresent(
+			key_entryTitle = ${entryTitle},
+			locator1 = "BlogsEntry#TITLE");
+	}
+
+	@summary = "Default summary"
+	macro viewNoEntryViaAPPG(assetTitle = null, entryTitle = null, entryContent = null) {
+		var key_assetTitle = ${assetTitle};
+
+		AssertTextNotPresent(
+			locator1 = "AP#ASSET_ABSTRACT_TITLE",
+			value1 = ${entryTitle});
+
+		AssertTextNotPresent(
+			locator1 = "AP#ASSET_ABSTRACT_DESCRIPTION",
+			value1 = ${entryContent});
+	}
+
+	@summary = "Default summary"
+	macro viewNoEntryViaBlogsAggregatorPG() {
+		AssertElementPresent(locator1 = "BlogsAggregator#NO_ENTRY_MESSAGE");
+	}
+
+	@summary = "Default summary"
+	macro viewNoInlineImage(inlineImageName = null) {
+		AssertElementNotPresent(
+			key_uploadFileName = ${inlineImageName},
+			locator1 = "BlogsEntry#CONTENT_INLINE_IMAGE");
+	}
+
+	@summary = "Default summary"
+	macro viewNoPG(entryTitle = null) {
+		AssertElementNotPresent(
+			key_entryTitle = ${entryTitle},
+			locator1 = "BlogsEntry#TITLE");
+	}
+
+	@summary = "Default summary"
+	macro viewNoRelatedAssetPG(assetTitle = null) {
+		var key_assetTitle = ${assetTitle};
+
+		AssertElementNotPresent(locator1 = "AssetRelatedAssets#RELATED_ASSETS_TABLE_TITLE");
+
+		AssertElementNotPresent(locator1 = "AssetRelatedAssets#RELATED_ASSETS_TABLE_REMOVE_LINK");
+	}
+
+	@summary = "Default summary"
+	macro viewNoSmallImage(uploadFileName = null) {
+		AssertElementNotPresent(
+			key_imageFileName = ${uploadFileName},
+			locator1 = "BlogsEntry#CONTENT_SMALL_IMAGE");
+	}
+
+	@summary = "Default summary"
+	macro viewNoTag(tagName = null, entryTitle = null) {
+		var key_entryTitle = ${entryTitle};
+		var key_tagName = ${tagName};
+
+		if (isSet(duplicate)) {
+			AssertElementNotPresent(
+				locator1 = "BlogsEntry#TAG_2",
+				tagName = ${tagName});
+		}
+		else {
+			AssertElementNotPresent(
+				locator1 = "BlogsEntry#TAG",
+				tagName = ${tagName});
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewOldFriendlyURL(lastOldFriendlyURL = null, oldFriendlyURL = null) {
+		if (isSet(lastOldFriendlyURL)) {
+			AssertVisible(
+				key_oldFriendlyURL = ${lastOldFriendlyURL},
+				locator1 = "BlogsEntry#FRIENDLY_URL_HISTORY_ITEM_LAST");
+		}
+
+		AssertVisible(
+			key_oldFriendlyURL = ${oldFriendlyURL},
+			locator1 = "BlogsEntry#FRIENDLY_URL_HISTORY_ITEM");
+	}
+
+	@summary = "Default summary"
+	macro viewPermissionsNoPermission() {
+		AssertElementNotPresent(locator1 = "Link#PERMISSIONS");
+	}
+
+	@summary = "Default summary"
+	macro viewPermissionsNoPermissionPG(entryTitle = null) {
+		var key_entryTitle = ${entryTitle};
+
+		MenuItem.viewNotPresent(menuItem = "Permissions");
+	}
+
+	@summary = "Default summary"
+	macro viewPermissionsPG(entryTitle = null) {
+		Portlet.mouseOverPortletTitle(portletTitleName = "Blogs");
+
+		Click(
+			key_entryTitle = ${entryTitle},
+			locator1 = "Blogs#WIDGET_VIEW_ENTRY_ELLIPSIS");
+
+		MenuItem.clickNoError(menuItem = "Permissions");
+
+		IFrame.selectPermissionsFrame();
+
+		SelectFrame(value1 = "relative=top");
+	}
+
+	@summary = "Default summary"
+	macro viewPG(readingTime = null, entrySubtitle = null, entryCardTitle = null, entryTitle = null, entryContent = null) {
+		var key_entryContent = ${entryContent};
+		var key_entryTitle = ${entryTitle};
+
+		if (isSet(entryCardTitle)) {
+			AssertTextEquals(
+				key_entryTitle = ${entryCardTitle},
+				locator1 = "BlogsEntry#TITLE_CARD",
+				value1 = ${entryCardTitle});
+		}
+		else {
+			AssertTextEquals(
+				locator1 = "BlogsEntry#TITLE",
+				value1 = ${entryTitle});
+		}
+
+		if (isSet(entrySubtitle)) {
+			AssertTextEquals(
+				locator1 = "BlogsEntry#SUBTITLE",
+				value1 = ${entrySubtitle});
+		}
+
+		if (isSet(readingTime)) {
+			var key_readingTime = ${readingTime};
+
+			AssertTextEquals(
+				locator1 = "BlogsEntry#READING_TIME",
+				value1 = ${readingTime});
+		}
+
+		var key_entryContent = ${entryContent};
+
+		AssertTextEquals(
+			locator1 = "BlogsEntry#CONTENT",
+			value1 = ${entryContent});
+	}
+
+	@summary = "Default summary"
+	macro viewPGViaAP(entryTitle = null, entryContent = null) {
+		var key_assetContent = ${entryContent};
+		var key_assetTitle = ${entryTitle};
+
+		AssertTextEquals(
+			locator1 = "AP#ASSET_ABSTRACT_TITLE",
+			value1 = ${entryTitle});
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "AP#ASSET_ABSTRACT_DESCRIPTION",
+			value1 = ${entryContent});
+
+		AssetPublisherPortlet.clickAssetTitle(assetTitle = ${entryTitle});
+
+		AssertClick(
+			locator1 = "AP#ASSET_ABSTRACT_TITLE",
+			value1 = ${entryTitle});
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "AP#ASSET_ABSTRACT_TITLE",
+			value1 = ${entryTitle});
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "APAsset#ASSET_CONTENT",
+			value1 = ${entryContent});
+	}
+
+	@summary = "Default summary"
+	macro viewRelatedAssetPG(assetTitle = null, entryTitle = null, assetType = null) {
+		var key_assetTitle = ${assetTitle};
+		var key_assetType = ${assetType};
+		var key_entryTitle = ${entryTitle};
+
+		AssertTextEquals(
+			locator1 = "BlogsEntry#TITLE",
+			value1 = ${entryTitle});
+
+		AssertTextEquals(
+			locator1 = "AssetRelatedAssets#HEADER",
+			value1 = "RELATED ASSETS");
+
+		AssertTextEquals(
+			locator1 = "BlogsEntry#RELATED_ASSETS_TITLE",
+			value1 = ${assetTitle});
+	}
+
+	@summary = "Default summary"
+	macro viewSharedAsset(contentSharingPermission = null, entryTitle = null, entryContent = null) {
+		AssertTextEquals(
+			locator1 = "Portlet#HEADER",
+			value1 = "Shared Content");
+
+		if (${contentSharingPermission} == "View") {
+			AssertElementNotPresent(locator1 = "CKEditor#BODY_FIELD_IFRAME");
+
+			if (!(isSet(shareable))) {
+				AssertElementNotPresent(locator1 = "Notifications#NOTIFICATIONS_PORTLET_VERTICAL_ELLIPSIS");
+			}
+			else {
+				MouseOver.mouseOverNotVisible(locator1 = "Notifications#NOTIFICATIONS_PORTLET_VERTICAL_ELLIPSIS");
+
+				Click(locator1 = "Notifications#NOTIFICATIONS_PORTLET_VERTICAL_ELLIPSIS");
+
+				MenuItem.viewNotPresent(menuItem = "Edit");
+
+				MenuItem.viewPresent(menuItem = "Share");
+			}
+		}
+		else if (${contentSharingPermission} == "Comment") {
+			SelectFrame.selectFrameNoLoading(locator1 = "CKEditor#BODY_FIELD_IFRAME");
+
+			AssertElementPresent(locator1 = "CKEditor#BODY");
+
+			SelectFrame(value1 = "relative=top");
+
+			if (!(isSet(shareable))) {
+				AssertElementNotPresent(locator1 = "Notifications#NOTIFICATIONS_PORTLET_VERTICAL_ELLIPSIS");
+			}
+			else {
+				MouseOver.mouseOverNotVisible(locator1 = "Notifications#NOTIFICATIONS_PORTLET_VERTICAL_ELLIPSIS");
+
+				Click(locator1 = "Notifications#NOTIFICATIONS_PORTLET_VERTICAL_ELLIPSIS");
+
+				MenuItem.viewNotPresent(menuItem = "Edit");
+
+				MenuItem.viewPresent(menuItem = "Share");
+			}
+		}
+		else if (${contentSharingPermission} == "Update") {
+			SelectFrame.selectFrameNoLoading(locator1 = "CKEditor#BODY_FIELD_IFRAME");
+
+			AssertElementPresent(locator1 = "CKEditor#BODY");
+
+			SelectFrame(value1 = "relative=top");
+
+			MouseOver.mouseOverNotVisible(locator1 = "Notifications#NOTIFICATIONS_PORTLET_VERTICAL_ELLIPSIS");
+
+			Click(locator1 = "Notifications#NOTIFICATIONS_PORTLET_VERTICAL_ELLIPSIS");
+
+			MenuItem.viewPresent(menuItem = "Edit");
+
+			if (isSet(shareable)) {
+				MenuItem.viewPresent(menuItem = "Share");
+			}
+		}
+
+		AssertTextEquals(
+			locator1 = "Sharing#BLOGS_CONTENT",
+			value1 = ${entryContent});
+
+		AssertTextEquals(
+			key_entryTitle = ${entryTitle},
+			locator1 = "Sharing#BLOGS_TITLE",
+			value1 = ${entryTitle});
+	}
+
+	@summary = "Default summary"
+	macro viewSmallImage(uploadFileName = null) {
+		AssertVisible(
+			key_imageFileName = ${uploadFileName},
+			locator1 = "BlogsEntry#CONTENT_SMALL_IMAGE");
+	}
+
+	@summary = "Default summary"
+	macro viewStatus(entryStatus = null) {
+		AssertTextEquals(
+			locator1 = "AssetWorkflow#WORKFLOW_STATUS",
+			value1 = ${entryStatus});
+	}
+
+	@summary = "Default summary"
+	macro viewTag(tagNameList = null, entryTitle = null) {
+		var key_entryTitle = ${entryTitle};
+
+		if (isSet(tagNameList)) {
+			for (var tagName : list ${tagNameList}) {
+				var key_tagName = "tagName";
+
+				AssertTextEquals(
+					locator1 = "BlogsEntry#TAG",
+					value1 = ${tagName});
+
+				AssertClick(
+					locator1 = "BlogsEntry#TAG",
+					value1 = ${tagName});
+
+				AssertTextEquals.assertPartialText(
+					locator1 = "BlogsEntry#TAG_FILTER_TITLE",
+					value1 = "Entries with tag ${tagName}");
+
+				AssertTextEquals(
+					locator1 = "BlogsEntry#TITLE",
+					value1 = ${entryTitle});
+			}
+		}
+		else {
+			var key_tagName = "tagName";
+
+			AssertTextEquals(
+				locator1 = "BlogsEntry#TAG",
+				value1 = ${tagName});
+
+			AssertClick(
+				locator1 = "BlogsEntry#TAG",
+				value1 = ${tagName});
+
+			AssertTextEquals.assertPartialText(
+				locator1 = "BlogsEntry#TAG_FILTER_TITLE",
+				value1 = "Entries with tag ${tagName}");
+
+			AssertTextEquals(
+				key_text = "Title",
+				locator1 = "TextArea#ANY",
+				value1 = ${entryTitle});
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewTagNotPresentPG(tagNameList = null, entryTitle = null) {
+		for (var tagName : list ${tagNameList}) {
+			AssertElementNotPresent(
+				key_entryTitle = ${entryTitle},
+				key_tagName = ${tagName},
+				locator1 = "BlogsEntry#TAG");
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewTagPG(tagNameList = null, entryTitle = null, entryContent = null) {
+		var key_entryTitle = ${entryTitle};
+
+		if (isSet(tagNameList)) {
+			for (var tagName : list ${tagNameList}) {
+				var key_tagName = ${tagName};
+
+				BlogsNavigator.gotoEntryPG(
+					entryContent = ${entryContent},
+					entryTitle = ${entryTitle});
+
+				AssertClick(
+					locator1 = "BlogsEntry#TAG",
+					value1 = ${tagName});
+
+				AssertTextEquals.assertPartialText(
+					locator1 = "BlogsEntry#TAG_FILTER_TITLE",
+					value1 = "Entries with tag ${tagName}");
+
+				AssertTextEquals(
+					locator1 = "BlogsEntry#TITLE",
+					value1 = ${entryTitle});
+			}
+		}
+		else {
+			var key_tagName = ${tagName};
+
+			AssertClick(
+				locator1 = "BlogsEntry#TAG",
+				value1 = ${tagName});
+
+			AssertTextEquals.assertPartialText(
+				locator1 = "BlogsEntry#TAG_FILTER_TITLE",
+				value1 = ${tagName});
+
+			AssertTextEquals(
+				locator1 = "BlogsEntry#TITLE",
+				value1 = ${entryTitle});
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewTitle(entryTitle = null) {
+		var key_entryTitle = ${entryTitle};
+
+		AssertTextEquals(
+			key_text = "Title",
+			locator1 = "TextArea#ANY",
+			value1 = ${entryTitle});
+	}
+
+	@summary = "Default summary"
+	macro viewViewCountPG(pageName = null, entryTitle = null) {
+		Navigator.gotoPage(pageName = ${pageName});
+
+		var key_entryTitle = ${entryTitle};
+
+		AssertClick(
+			locator1 = "BlogsEntry#TITLE_LINK",
+			value1 = ${entryTitle});
+
+		AssertTextEquals(
+			locator1 = "BlogsEntry#TITLE",
+			value1 = ${entryTitle});
+
+		Navigator.gotoPage(pageName = ${pageName});
+
+		var entryViewCount = selenium.getText("BlogsEntry#ENTRY_VIEW_COUNT");
+
+		var entryViewCount = StringUtil.extractLast(${entryViewCount}, "-");
+
+		var entryViewCount = StringUtil.extractDigits(${entryViewCount});
+
+		if (${entryViewCount} == 1) {
+			AssertTextEquals.assertPartialText(
+				locator1 = "BlogsEntry#ENTRY_VIEW_COUNT",
+				value1 = "${entryViewCount} View");
+		}
+		else {
+			AssertTextEquals.assertPartialText(
+				locator1 = "BlogsEntry#ENTRY_VIEW_COUNT",
+				value1 = "${entryViewCount} Views");
+		}
+
+		Navigator.gotoPage(pageName = ${pageName});
+
+		AssertClick(
+			locator1 = "BlogsEntry#TITLE_LINK",
+			value1 = ${entryTitle});
+
+		WaitForVisible(locator1 = "BlogsEntry#TITLE");
+
+		AssertTextEquals(
+			locator1 = "BlogsEntry#TITLE",
+			value1 = ${entryTitle});
+
+		var entryViewCount = selenium.getText("BlogsEntry#ENTRY_VIEW_COUNT");
+
+		var entryViewCount = StringUtil.extractLast(${entryViewCount}, "-");
+
+		var entryViewCount = StringUtil.extractDigits(${entryViewCount});
+
+		if (${entryViewCount} == 1) {
+			AssertTextEquals.assertPartialText(
+				locator1 = "BlogsEntry#ENTRY_VIEW_COUNT",
+				value1 = "${entryViewCount} View");
+		}
+		else {
+			AssertTextEquals.assertPartialText(
+				locator1 = "BlogsEntry#ENTRY_VIEW_COUNT",
+				value1 = "${entryViewCount} Views");
+		}
+
+		Navigator.gotoPage(pageName = ${pageName});
+
+		if (${entryViewCount} == 1) {
+			var entryViewCount = ${entryViewCount} + 1;
+
+			AssertTextEquals.assertPartialText(
+				locator1 = "BlogsEntry#ENTRY_VIEW_COUNT",
+				value1 = "${entryViewCount} View");
+		}
+		else {
+			AssertTextEquals.assertPartialText(
+				locator1 = "BlogsEntry#ENTRY_VIEW_COUNT",
+				value1 = "${entryViewCount} Views");
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewWithAbstractDisplayTemplatePG(entryAbstractDescription = null, entryTitle = null) {
+		var key_entryAbstractDescription = ${entryAbstractDescription};
+		var key_entryTitle = ${entryTitle};
+
+		AssertTextEquals(
+			locator1 = "BlogsEntry#TITLE",
+			value1 = ${entryTitle});
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "BlogsEntry#CONTENT_ABSTRACT",
+			value1 = ${entryAbstractDescription});
+	}
+
+	@summary = "Default summary"
+	macro viewWithTitleDisplayTemplatePG(entryTitle = null, entryContent = null) {
+		var key_entryTitle = ${entryTitle};
+
+		AssertTextEquals(
+			locator1 = "BlogsEntry#TITLE",
+			value1 = ${entryTitle});
+
+		AssertTextNotPresent(
+			locator1 = "BlogsEntry#CONTENT",
+			value1 = ${entryContent});
+	}
+
+	@summary = "Default summary"
+	macro viewWithTrackbackURLPG(entryTitle2 = null, entryContent2 = null, entryTitle = null, entryContent = null) {
+		BlogsEntry.viewPG(
+			entryContent = ${entryContent},
+			entryTitle = ${entryTitle});
+
+		var key_entryContent = ${entryContent};
+		var key_entryTitle = ${entryTitle};
+
+		if (IsTextEqual.isPartialText(locator1 = "Blogs#ENTRY_COMMENTS_COUNT", value1 = 2)) {
+			AssertTextEquals.assertPartialText(
+				locator1 = "Blogs#ENTRY_COMMENTS_COUNT",
+				value1 = 2);
+		}
+		else {
+			AssertTextEquals.assertPartialText(
+				locator1 = "Blogs#ENTRY_COMMENTS_COUNT",
+				value1 = 1);
+		}
+
+		AssertClick(
+			locator1 = "BlogsEntry#TITLE_LINK",
+			value1 = ${entryTitle});
+
+		AssertTextEquals(
+			locator1 = "BlogsEntry#TITLE",
+			value1 = ${entryTitle});
+
+		AssertTextEquals(
+			locator1 = "BlogsEntry#CONTENT",
+			value1 = ${entryContent});
+
+		AssertTextEquals(
+			locator1 = "Comments#ENTRY_COUNT_PANEL",
+			value1 = "1 COMMENT");
+
+		AssertTextEquals(
+			locator1 = "Comments#COMMENT_BODY",
+			value1 = "[...] ${entryContent2} [...] Read More");
+
+		AssertClick(
+			locator1 = "Link#READ_MORE",
+			value1 = "Read More");
+
+		var key_entryContent = ${entryContent2};
+		var key_entryTitle = ${entryTitle2};
+
+		AssertTextEquals(
+			locator1 = "BlogsEntry#TITLE",
+			value1 = ${entryTitle2});
+
+		AssertTextEquals(
+			locator1 = "BlogsEntry#CONTENT",
+			value1 = ${entryContent2});
+	}
+
+	@summary = "Default summary"
+	macro viewWithWorkflowCP(entryTitle = null) {
+		var key_entryTitle = ${entryTitle};
+
+		LexiconEntry.changeDisplayStyle(displayStyle = "table");
+
+		AssertTextEquals(
+			locator1 = "Blogs#ENTRY_TABLE_TITLE",
+			value1 = ${entryTitle});
+
+		AssertTextEquals(
+			locator1 = "Blogs#ENTRY_TABLE_STATUS",
+			value1 = "PENDING");
+	}
+
+	@summary = "Default summary"
+	macro viewWithWorkflowPGViaAP(entryTitle = null) {
+		var key_assetTitle = ${entryTitle};
+
+		AssertElementNotPresent(locator1 = "AP#ASSET_ABSTRACT_TITLE");
+	}
+
+}

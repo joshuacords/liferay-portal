@@ -1,0 +1,16 @@
+.portlet-commerce-warehouses {
+	.commerce-admin-icon-check .lexicon-icon-check {
+		fill: #75bd4a;
+	}
+
+	.commerce-admin-icon-times .lexicon-icon-times {
+		fill: #f00;
+	}
+}
+
+.card-full-height {
+	max-height: -moz-available;
+	max-height: -webkit-fill-available;
+	max-height: fill-available;
+	max-height: -webkit-fill-available;
+}

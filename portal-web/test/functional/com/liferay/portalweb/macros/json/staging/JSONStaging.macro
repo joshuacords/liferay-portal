@@ -1,0 +1,90 @@
+definition {
+
+	@summary = "Default summary"
+	macro assignUserToStagingGroup(site = null, userEmailAddress = null, groupKey = null) {
+		Variables.assertDefined(parameterList = "${groupKey},${userEmailAddress}");
+
+		var groupId = JSONStagingSetter.setGroupId(
+			groupKey = ${groupKey},
+			site = ${site});
+		var userId = JSONUserAPI._getUserIdByEmailAddress(userEmailAddress = ${userEmailAddress});
+
+		JSONGroupAPI._assignUserToGroup(
+			groupId = ${groupId},
+			userId = ${userId});
+	}
+
+	@summary = "Default summary"
+	macro enableLocalStaging(groupName = null, grandParentGroupName = null, unCheckedContent = null, parentGroupName = null) {
+		Variables.assertDefined(parameterList = ${groupName});
+
+		if (!(isSet(site))) {
+			var site = "true";
+		}
+
+		var groupId = JSONGroupAPI._getGroupIdByName(
+			grandParentGroupName = ${grandParentGroupName},
+			groupName = ${groupName},
+			parentGroupName = ${parentGroupName},
+			site = ${site});
+
+		if (!(isSet(branchingPrivate))) {
+			var branchingPrivate = "false";
+		}
+
+		if (!(isSet(branchingPublic))) {
+			var branchingPublic = "false";
+		}
+
+		JSONStagingAPI._enableLocalStaging(
+			branchingPrivate = ${branchingPrivate},
+			branchingPublic = ${branchingPublic},
+			groupId = ${groupId},
+			unCheckedContent = ${unCheckedContent});
+
+		var groupId = JSONGroupAPI._getGroupIdByNameNoError(
+			grandParentGroupName = ${grandParentGroupName},
+			groupName = "${groupName} (Staging)",
+			parentGroupName = ${parentGroupName},
+			site = "false");
+
+		while (("" == "")) {
+			var groupId = JSONGroupAPI._getGroupIdByNameNoError(
+				grandParentGroupName = ${grandParentGroupName},
+				groupName = "${groupName} (Staging)",
+				parentGroupName = ${parentGroupName},
+				site = "false");
+		}
+	}
+
+	@summary = "Default summary"
+	macro enableRemoteStaging(groupName = null, remoteGroupId = null, grandParentGroupName = null, remotePort = null, parentGroupName = null) {
+		Variables.assertDefined(parameterList = "${groupName},${remoteGroupId}");
+
+		if (!(isSet(site))) {
+			var site = "true";
+		}
+
+		var groupId = JSONGroupAPI._getGroupIdByName(
+			grandParentGroupName = ${grandParentGroupName},
+			groupName = ${groupName},
+			parentGroupName = ${parentGroupName},
+			site = ${site});
+
+		if (!(isSet(branchingPrivate))) {
+			var branchingPrivate = "false";
+		}
+
+		if (!(isSet(branchingPublic))) {
+			var branchingPublic = "false";
+		}
+
+		JSONStagingAPI._enableRemoteStaging(
+			branchingPrivate = ${branchingPrivate},
+			branchingPublic = ${branchingPublic},
+			groupId = ${groupId},
+			remoteGroupId = ${remoteGroupId},
+			remotePort = ${remotePort});
+	}
+
+}

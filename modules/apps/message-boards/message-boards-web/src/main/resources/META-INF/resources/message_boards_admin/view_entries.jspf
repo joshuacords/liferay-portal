@@ -1,0 +1,269 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<%
+MBCategoryDisplay categoryDisplay = new MBCategoryDisplay(scopeGroupId, categoryId);
+%>
+
+<div class="container-fluid container-fluid-max-xl container-view view-entries-container">
+
+	<%
+	MBBreadcrumbUtil.addPortletBreadcrumbEntries(categoryId, request, renderResponse);
+	%>
+
+	<liferay-site-navigation:breadcrumb
+		breadcrumbEntries="<%= BreadcrumbEntriesUtil.getBreadcrumbEntries(request, false, false, false, false, true) %>"
+	/>
+
+	<aui:form method="get" name="fm">
+		<aui:input name="<%= Constants.CMD %>" type="hidden" />
+
+		<liferay-ui:search-container
+			searchContainer="<%= entriesSearchContainer %>"
+		>
+			<liferay-ui:search-container-row
+				className="Object"
+				escapedModel="<%= true %>"
+				keyProperty="categoryId"
+				modelVar="result"
+			>
+				<%@ include file="/message_boards/cast_result.jspf" %>
+
+				<c:choose>
+					<c:when test="<%= curCategory != null %>">
+
+						<%
+						row.setData(
+							HashMapBuilder.<String, Object>put(
+								"actions", StringUtil.merge(mbEntriesManagementToolbarDisplayContext.getAvailableActions(curCategory))
+							).build());
+
+						row.setPrimaryKey(String.valueOf(curCategory.getCategoryId()));
+						%>
+
+						<liferay-portlet:renderURL varImpl="rowURL">
+							<portlet:param name="mvcRenderCommandName" value="/message_boards/view_category" />
+							<portlet:param name="mbCategoryId" value="<%= String.valueOf(curCategory.getCategoryId()) %>" />
+						</liferay-portlet:renderURL>
+
+						<liferay-ui:search-container-column-icon
+							icon="folder"
+							toggleRowChecker="<%= true %>"
+						/>
+
+						<liferay-ui:search-container-column-text
+							colspan="<%= 2 %>"
+						>
+							<h2 class="h5">
+								<aui:a href="<%= rowURL.toString() %>">
+									<%= curCategory.getName() %>
+								</aui:a>
+
+								<c:if test='<%= Objects.equals(curCategory.getDisplayStyle(), "question") %>'>
+									<span class="lfr-portal-tooltip" title="<%= LanguageUtil.get(request, "question") %>">
+										<clay:icon
+											aria-label='<%= LanguageUtil.get(request, "question") %>'
+											symbol="question-circle"
+										/>
+									</span>
+								</c:if>
+							</h2>
+
+							<div>
+								<%= curCategory.getDescription() %>
+							</div>
+
+							<%
+							int subcategoriesCount = categoryDisplay.getSubcategoriesCount(curCategory);
+							int threadsCount = categoryDisplay.getSubcategoriesThreadsCount(curCategory);
+							%>
+
+							<div>
+								<liferay-ui:message arguments="<%= subcategoriesCount %>" key='<%= (subcategoriesCount == 1) ? "x-category" : "x-categories" %>' />
+							</div>
+
+							<div>
+								<liferay-ui:message arguments="<%= threadsCount %>" key='<%= (threadsCount == 1) ? "x-thread" : "x-threads" %>' />
+							</div>
+						</liferay-ui:search-container-column-text>
+
+						<liferay-ui:search-container-column-jsp
+							path="/message_boards/category_action.jsp"
+						/>
+					</c:when>
+					<c:otherwise>
+
+						<%
+						MBMessage message = MBMessageLocalServiceUtil.fetchMBMessage(thread.getRootMessageId());
+
+						if (message == null) {
+							_log.error("Thread requires missing root message id " + thread.getRootMessageId());
+
+							row.setSkip(true);
+						}
+
+						if (message != null) {
+							message = message.toEscapedModel();
+
+							row.setPrimaryKey(String.valueOf(thread.getThreadId()));
+							row.setRestricted(!MBMessagePermission.contains(permissionChecker, message, ActionKeys.VIEW));
+						}
+
+						row.setData(
+							HashMapBuilder.<String, Object>put(
+								"actions", StringUtil.merge(mbEntriesManagementToolbarDisplayContext.getAvailableActions(message))
+							).build());
+						%>
+
+						<liferay-portlet:renderURL varImpl="rowURL">
+							<portlet:param name="mvcRenderCommandName" value="/message_boards/view_message" />
+							<portlet:param name="messageId" value="<%= (message != null) ? String.valueOf(message.getMessageId()) : String.valueOf(MBMessageConstants.DEFAULT_PARENT_MESSAGE_ID) %>" />
+						</liferay-portlet:renderURL>
+
+						<liferay-ui:search-container-column-text>
+							<liferay-user:user-portrait
+								userId="<%= thread.getLastPostByUserId() %>"
+							/>
+						</liferay-ui:search-container-column-text>
+
+						<liferay-ui:search-container-column-text
+							colspan="<%= 2 %>"
+						>
+							<h2 class="h5">
+								<aui:a href="<%= rowURL.toString() %>">
+									<c:if test="<%= message != null %>">
+										<c:choose>
+											<c:when test="<%= !MBThreadFlagLocalServiceUtil.hasThreadFlag(themeDisplay.getUserId(), thread) %>">
+												<strong><%= message.getSubject() %></strong>
+											</c:when>
+											<c:otherwise>
+												<%= message.getSubject() %>
+											</c:otherwise>
+										</c:choose>
+									</c:if>
+								</aui:a>
+
+								<%
+								String[] threadPriority = MBUtil.getThreadPriority(mbGroupServiceSettings, themeDisplay.getLanguageId(), thread.getPriority());
+								%>
+
+								<c:if test="<%= (threadPriority != null) && (thread.getPriority() > 0) %>">
+									<span class="lfr-portal-tooltip" title="<%= HtmlUtil.escapeAttribute(threadPriority[0]) %>">
+										<clay:icon
+											aria-label="<%= HtmlUtil.escapeAttribute(threadPriority[0]) %>"
+											symbol="<%= threadPriority[1] %>"
+										/>
+									</span>
+								</c:if>
+
+								<c:if test="<%= thread.isQuestion() %>">
+									<span class="lfr-portal-tooltip" title="<%= LanguageUtil.get(request, "question") %>">
+										<clay:icon
+											aria-label='<%= LanguageUtil.get(request, "question") %>'
+											symbol="question-circle"
+										/>
+									</span>
+								</c:if>
+							</h2>
+
+							<c:choose>
+								<c:when test="<%= (message != null) && (thread.getMessageCount() == 1) %>">
+									<div>
+										<%= HtmlUtil.escape(mbDisplayContext.getModifiedLabel(message)) %>
+									</div>
+								</c:when>
+								<c:otherwise>
+
+									<%
+									String messageUserName = "anonymous";
+
+									if (thread.getLastPostByUserId() != 0) {
+										messageUserName = HtmlUtil.escape(PortalUtil.getUserName(thread.getLastPostByUserId(), StringPool.BLANK));
+
+										if (Validator.isNull(messageUserName)) {
+											MBMessage lastThreadMessage = MBMessageLocalServiceUtil.getLastThreadMessage(thread.getThreadId(), thread.getStatus());
+
+											messageUserName = HtmlUtil.escape(PortalUtil.getUserName(lastThreadMessage.getUserId(), lastThreadMessage.getUserName()));
+										}
+									}
+
+									Date lastPostDate = thread.getLastPostDate();
+
+									String lastPostDateDescription = LanguageUtil.getTimeDescription(request, System.currentTimeMillis() - lastPostDate.getTime(), true);
+									%>
+
+									<div>
+										<liferay-ui:message arguments="<%= new String[] {messageUserName, lastPostDateDescription} %>" key="x-replied-x-ago" />
+									</div>
+								</c:otherwise>
+							</c:choose>
+
+							<%
+							int repliesCount = Math.max(thread.getMessageCount() - 1, 0);
+							long viewCount = thread.getViewCount();
+							%>
+
+							<div>
+								<liferay-ui:message arguments="<%= repliesCount %>" key='<%= (repliesCount == 1) ? "x-reply" : "x-replies" %>' />
+							</div>
+
+							<div>
+								<liferay-ui:message arguments="<%= viewCount %>" key='<%= (viewCount == 1) ? "x-view" : "x-views" %>' />
+							</div>
+
+							<c:if test="<%= thread.isQuestion() %>">
+
+								<%
+								int threadAnswersCount = MBMessageServiceUtil.getThreadAnswersCount(thread.getGroupId(), thread.getCategoryId(), thread.getThreadId());
+								%>
+
+								<div>
+									<%= threadAnswersCount %>
+
+									<liferay-ui:message key='<%= (threadAnswersCount == 1) ? "answer[noun]" : "answers" %>' />
+								</div>
+							</c:if>
+
+							<div>
+								<aui:workflow-status markupView="lexicon" showIcon="<%= false %>" showLabel="<%= false %>" status="<%= message.getStatus() %>" />
+
+								<c:if test="<%= thread.isLocked() %>">
+									<clay:icon
+										aria-label='<%= LanguageUtil.get(request, "locked") %>'
+										symbol="lock"
+									/>
+
+									<liferay-ui:message key="locked" />
+								</c:if>
+							</div>
+						</liferay-ui:search-container-column-text>
+
+						<%
+						row.setObject(new Object[] {message});
+						%>
+
+						<c:if test="<%= message != null %>">
+							<liferay-ui:search-container-column-jsp
+								path="/message_boards/message_action.jsp"
+							/>
+						</c:if>
+					</c:otherwise>
+				</c:choose>
+			</liferay-ui:search-container-row>
+
+			<liferay-ui:search-iterator
+				displayStyle="descriptive"
+				markupView="lexicon"
+				resultRowSplitter="<%= new MBResultRowSplitter() %>"
+			/>
+		</liferay-ui:search-container>
+	</aui:form>
+</div>
+
+<%!
+private static final Log _log = LogFactoryUtil.getLog("com_liferay_message_boards_web.message_boards_admin.view_entries_jspf");
+%>

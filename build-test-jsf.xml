@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+
+<project basedir="./" name="portal-test-batch" xmlns:antelope="antlib:ise.antelope.tasks" xmlns:if="ant:if" xmlns:unless="ant:unless">
+	<import file="./build-test-batch.xml" />
+
+	<target name="run-jsf-tests">
+		<property name="max.metaspace.size" value="-XX:MaxMetaspaceSize=1024m" />
+
+		<propertycopy from="app.server.${app.server.type}.bin.dir" name="test.app.server.bin.dir" />
+
+		<replaceregexp
+			file="${test.app.server.bin.dir}/setenv.sh"
+			flags="gi"
+			match="-XX:MaxMetaspaceSize=[0-9]+[a-zA-Z]+"
+			replace="${max.metaspace.size}"
+		/>
+
+		<replaceregexp
+			file="${test.app.server.bin.dir}/setenv.bat"
+			flags="gi"
+			match="-XX:MaxMetaspaceSize=[0-9]+[a-zA-Z]+"
+			replace="${max.metaspace.size}"
+		/>
+
+		<if>
+			<not>
+				<or>
+					<resourcecontains
+						resource="${test.app.server.bin.dir}/setenv.sh"
+						substring="${max.metaspace.size}"
+					/>
+					<resourcecontains
+						resource="${test.app.server.bin.dir}/setenv.bat"
+						substring="${max.metaspace.size}"
+					/>
+				</or>
+			</not>
+			<then>
+				<fail message="Unable to set custom max metaspace of &quot;${max.metaspace.size}&quot; for ${test.app.server.bin.dir}/setenv.sh and setenv.bat." />
+			</then>
+		</if>
+
+		<propertycopy from="app.server.${app.server.type}.classes.portal.dir" name="app.server.classes.portal.dir" override="true" />
+
+		<echo append="true" file="${app.server.classes.portal.dir}/portal-ext.properties"><![CDATA[
+			terms.of.use.required=false
+			users.reminder.queries.enabled=false
+			users.reminder.queries.custom.question.enabled=false]]></echo>
+
+		<local name="portal.ext.properties" />
+
+		<loadfile
+			property="portal.ext.properties"
+			srcFile="${app.server.classes.portal.dir}/portal-ext.properties"
+		>
+			<filterchain>
+				<tokenfilter>
+					<replacestring from="captcha.max.challenges=-1" to="" />
+				</tokenfilter>
+				<trim />
+				<ignoreblank />
+			</filterchain>
+		</loadfile>
+
+		<echo file="${app.server.classes.portal.dir}/portal-ext.properties">${portal.ext.properties}</echo>
+
+		<propertycopy from="browser.firefox.bin.file[${liferay.faces.test.browser.version}]" name="browser.firefox.bin.file" silent="true" />
+
+		<!--
+		LRQA-73302 Temporary workaround until Bridge-Impl 4.3.1 is available
+		-->
+
+		<exec dir="${liferay.faces.bridge.impl.dir}" executable="git">
+			<arg line="cherry-pick" />
+			<arg line="27b3fc29f9c2143451751083110a4f6722f212c8" />
+			<arg line="--strategy-option " />
+			<arg line="theirs " />
+		</exec>
+
+		<execute dir="${liferay.faces.bridge.impl.dir}/demo">
+			mvn clean package -P liferay,liferay73,mojarra,tomcat
+		</execute>
+
+		<execute dir="${liferay.faces.bridge.impl.dir}/issue">
+			mvn clean package -P liferay,liferay73,mojarra,tomcat
+		</execute>
+
+		<!--<execute dir="${liferay.faces.bridge.impl.dir}/tck">
+			mvn clean package -P liferay,liferay73,mojarra,tomcat
+		</execute>-->
+
+		<execute dir="${liferay.faces.portal.dir}/demo">
+			mvn clean package -P liferay,liferay73,mojarra,tomcat,validateCaptchaForTest
+		</execute>
+
+		<!--<execute dir="${liferay.faces.portal.dir}/test/test-setup-hook">
+			mvn clean package -P liferay,liferay73,mojarra,tomcat
+		</execute>-->
+
+		<copy
+			flatten="true"
+			todir="${liferay.home}/deploy/"
+		>
+			<fileset
+				dir="${liferay.faces.bridge.impl.dir}"
+				includes="**/target/*.war"
+			/>
+			<fileset
+				dir="${liferay.faces.portal.dir}"
+				excludes="**/target/com.liferay.faces.test.setup.hook*.war"
+				includes="**/target/*.war"
+			/>
+		</copy>
+
+		<copy
+			flatten="true"
+			todir="${liferay.home}/osgi/configs"
+		>
+			<fileset
+				dir="${liferay.faces.portal.dir}"
+				includes="**/configs/*.config"
+			/>
+		</copy>
+	</target>
+</project>

@@ -1,0 +1,199 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<liferay-ui:error-marker
+	key="<%= WebKeys.ERROR_SECTION %>"
+	value="sample"
+/>
+
+<aui:model-context bean="<%= cpDefinitionVirtualSetting %>" model="<%= CPDefinitionVirtualSetting.class %>" />
+
+<liferay-ui:error exception="<%= CPDefinitionVirtualSettingSampleException.class %>" message="please-enter-a-valid-sample-url-or-select-an-existing-sample-file" />
+<liferay-ui:error exception="<%= CPDefinitionVirtualSettingSampleFileEntryIdException.class %>" message="please-select-an-existing-sample-file" />
+<liferay-ui:error exception="<%= CPDefinitionVirtualSettingSampleURLException.class %>" message="please-enter-a-valid-sample-url" />
+
+<aui:fieldset>
+	<aui:input label="enable-sample" name="useSample" />
+</aui:fieldset>
+
+<div class="col-md-3">
+	<div class="h4 text-default"><liferay-ui:message key="select-existing-content-or-add-the-url-below" /></div>
+</div>
+
+<div class="col-md-9">
+	<aui:fieldset>
+		<p class="text-default">
+			<span class="<%= (sampleFileEntryId > 0) ? StringPool.BLANK : "hide" %>" id="<portlet:namespace />sampleFileEntryRemove" role="button">
+				<clay:button
+					aria-label='<%= LanguageUtil.format(locale, "remove-x", "file") %>'
+					cssClass="lfr-portal-tooltip"
+					displayType="unstyled"
+					icon="times"
+					title="remove"
+				/>
+			</span>
+			<span id="<portlet:namespace />sampleFileEntryNameInput">
+				<c:choose>
+					<c:when test="<%= sampleFileEntry != null %>">
+						<a href="<%= cpDefinitionVirtualSettingDisplayContext.getDownloadSampleFileEntryURL() %>">
+							<%= HtmlUtil.escape(sampleFileEntry.getFileName()) %>
+						</a>
+					</c:when>
+					<c:otherwise>
+						<span class="text-muted"><liferay-ui:message key="none" /></span>
+					</c:otherwise>
+				</c:choose>
+			</span>
+		</p>
+
+		<aui:button name="selectSampleFile" value="select" />
+
+		<div class="h4 <%= textCssClass %>" id="lfr-definition-virtual-sample-button-row-message"><liferay-ui:message key="or" /></div>
+
+		<aui:input label="sample-file-url" name="sampleURL" />
+	</aui:fieldset>
+</div>
+
+<aui:script sandbox="<%= true %>">
+	const sampleFileEntryNameInput = document.getElementById(
+		'<portlet:namespace />sampleFileEntryNameInput'
+	);
+
+	const sampleFileEntryRemove = document.getElementById(
+		'<portlet:namespace />sampleFileEntryRemove'
+	);
+
+	const selectSampleFile = document.getElementById(
+		'<portlet:namespace />selectSampleFile'
+	);
+
+	if (sampleFileEntryNameInput && sampleFileEntryRemove && selectSampleFile) {
+		selectSampleFile.addEventListener('click', (event) => {
+			event.preventDefault();
+
+			Liferay.Util.openSelectionModal({
+				onSelect: (selectedItem) => {
+					if (!selectedItem) {
+						return;
+					}
+
+					const value = JSON.parse(selectedItem.value);
+
+					const sampleFileEntryId = document.getElementById(
+						'<portlet:namespace />sampleFileEntryId'
+					);
+
+					if (sampleFileEntryId) {
+						sampleFileEntryId.value = value.fileEntryId;
+					}
+
+					const sampleURLInput = document.getElementById(
+						'<portlet:namespace />sampleURL'
+					);
+
+					if (sampleURLInput) {
+						sampleURLInput.setAttribute('disabled', '');
+					}
+
+					const message = document.getElementById(
+						'lfr-definition-virtual-sample-button-row-message'
+					);
+
+					if (message) {
+						message.classList.add('hide');
+					}
+
+					sampleFileEntryRemove.classList.remove('hide');
+
+					sampleFileEntryNameInput.innerHTML =
+						'<a>' + Liferay.Util.escape(value.title) + '</a>';
+				},
+				selectEventName: 'uploadCPDefinitionVirtualSetting',
+				title: '<liferay-ui:message key="select-file" />',
+				url: '<%= cpDefinitionVirtualSettingDisplayContext.getSampleItemSelctorURL() %>',
+			});
+		});
+
+		sampleFileEntryRemove.addEventListener('click', (event) => {
+			event.preventDefault();
+
+			const useSample = document.getElementById(
+				'<portlet:namespace />useSample'
+			);
+
+			if (useSample.checked) {
+				const sampleURLInput = document.getElementById(
+					'<portlet:namespace />sampleURL'
+				);
+
+				if (sampleURLInput) {
+					sampleURLInput.removeAttribute('disabled');
+				}
+			}
+
+			const sampleFileEntryId = document.getElementById(
+				'<portlet:namespace />sampleFileEntryId'
+			);
+
+			if (sampleFileEntryId) {
+				sampleFileEntryId.value = 0;
+			}
+
+			const message = document.getElementById(
+				'lfr-definition-virtual-sample-button-row-message'
+			);
+
+			if (message) {
+				message.classList.remove('hide');
+			}
+
+			sampleFileEntryNameInput.innerText =
+				'<liferay-ui:message key="none" />';
+
+			sampleFileEntryRemove.classList.add('hide');
+		});
+	}
+</aui:script>
+
+<aui:script sandbox="<%= true %>">
+	function selectSampleFileType() {
+		const sampleFile = document.getElementById(
+			'lfr-definition-virtual-sample-button-row-message'
+		);
+
+		const isSampleFileSelected = sampleFile.classList.contains('hide');
+
+		const sampleURLInput = document.getElementById(
+			'<portlet:namespace />sampleURL'
+		);
+		const selectSampleFile = document.getElementById(
+			'<portlet:namespace />selectSampleFile'
+		);
+
+		if (useSampleCheckbox.checked) {
+			if (isSampleFileSelected) {
+				sampleURLInput.setAttribute('disabled', '');
+			}
+			else {
+				sampleURLInput.removeAttribute('disabled');
+			}
+			selectSampleFile.removeAttribute('disabled');
+		}
+		else {
+			sampleURLInput.setAttribute('disabled', '');
+			selectSampleFile.setAttribute('disabled', '');
+		}
+	}
+
+	const useSampleCheckbox = document.getElementById(
+		'<portlet:namespace />useSample'
+	);
+
+	selectSampleFileType();
+
+	useSampleCheckbox.addEventListener('click', selectSampleFileType);
+</aui:script>

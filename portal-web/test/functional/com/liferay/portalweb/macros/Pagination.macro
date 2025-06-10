@@ -1,0 +1,41 @@
+definition {
+
+	@summary = "Default summary"
+	macro changePagination(itemsPerPage = null) {
+		Click(locator1 = "Pagination#ITEMS_PER_PAGE_SELECT");
+
+		var key_itemsPerPage = ${itemsPerPage};
+
+		MenuItem.click(menuItem = ${itemsPerPage});
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "Pagination#ITEMS_PER_PAGE_SELECT",
+			value1 = ${itemsPerPage});
+	}
+
+	@summary = "Default summary"
+	macro changePaginationViaKeyboard(itemsPerPage = null) {
+		KeyPress(
+			locator1 = "Pagination#ITEMS_PER_PAGE_SELECT",
+			value1 = "\ENTER");
+
+		var key_itemsPerPage = ${itemsPerPage};
+
+		KeyPress(
+			key_menuItem = ${itemsPerPage},
+			locator1 = "MenuItem#ANY_MENU_ITEM",
+			value1 = "\ENTER");
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "Pagination#ITEMS_PER_PAGE_SELECT",
+			value1 = ${itemsPerPage});
+	}
+
+	@summary = "Default summary"
+	macro viewResults(results = null) {
+		AssertTextEquals(
+			locator1 = "Pagination#RESULTS",
+			value1 = ${results});
+	}
+
+}

@@ -1,0 +1,21 @@
+<html>
+<head>
+<title>Tags</title>
+</head>
+
+<body>
+<table border="1" cellpadding="1" cellspacing="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Tags</td></tr>
+</thead>
+
+<tbody>
+<tr>
+	<td>VIEW_TAGS_VIA_MY_SITES</td>
+	<td>//*[@data-qa-id='row']//span[contains(@class,'asset-tag')]/span[contains(.,'${key_tagName}')]</td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

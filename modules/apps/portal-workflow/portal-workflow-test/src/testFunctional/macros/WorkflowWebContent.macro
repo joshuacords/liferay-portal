@@ -1,0 +1,21 @@
+definition {
+
+	@summary = "Default summary"
+	macro selectSingleApprover() {
+		Click.clickAt(locator1 = "Icon#INFO");
+
+		Click.waitForMenuToggleJSClick(
+			ariaLabel = "Show Actions",
+			locator1 = "Button#ANY_WITH_ARIA_LABEL");
+
+		MenuItem.clickNoError(menuItem = "Edit");
+
+		Select(
+			key_fieldLabel = "Default Workflow for All Structures",
+			locator1 = "Select#GENERIC_SELECT_FIELD",
+			value1 = "Single Approver");
+
+		Button.clickSave();
+	}
+
+}

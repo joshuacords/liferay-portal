@@ -1,0 +1,20 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<c:if test="<%= !localPublishing || (backgroundTask.getGroupId() != liveGroupId) %>">
+	<portlet:actionURL name="/staging_processes/edit_publish_configuration" var="relaunchURL">
+		<portlet:param name="mvcRenderCommandName" value="editPublishConfiguration" />
+		<portlet:param name="<%= Constants.CMD %>" value="<%= Constants.RELAUNCH %>" />
+		<portlet:param name="redirect" value="<%= currentURL.toString() %>" />
+		<portlet:param name="backgroundTaskId" value="<%= String.valueOf(backgroundTask.getBackgroundTaskId()) %>" />
+	</portlet:actionURL>
+
+	<liferay-ui:icon
+		message="relaunch"
+		url="<%= relaunchURL %>"
+	/>
+</c:if>

@@ -1,0 +1,127 @@
+@component-name = "portal-bpm"
+definition {
+
+	property custom.properties = "company.default.time.zone=America/Los_Angeles${line.separator}default.layout.template.id=1_column";
+	property portal.release = "true";
+	property portal.upstream = "true";
+	property testray.main.component.name = "Calendar";
+
+	var pageName = "Calendar Page";
+	var portletName = "Calendar";
+
+	setUp {
+		var portalURL = PropsUtil.get("portal.url");
+
+		TestCase.setUpPortalInstance();
+
+		User.firstLoginPG();
+
+		JSONLayout.addPublicLayout(
+			groupName = "Guest",
+			layoutName = "Calendar Page");
+
+		JSONLayout.updateLayoutTemplateOfPublicLayout(
+			groupName = "Guest",
+			layoutName = "Calendar Page",
+			layoutTemplate = "1 Column");
+
+		JSONLayout.addWidgetToPublicLayout(
+			groupName = "Guest",
+			layoutName = "Calendar Page",
+			widgetName = "Calendar");
+
+		Navigator.openSpecificURL(url = "${portalURL}/web/guest/calendar-page");
+	}
+
+	tearDown {
+		var testLiferayVirtualInstance = PropsUtil.get("test.liferay.virtual.instance");
+
+		if (${testLiferayVirtualInstance} == "true") {
+			PortalInstances.tearDownCP();
+		}
+		else {
+			Navigator.gotoPage(pageName = "Calendar Page");
+
+			JSONCalendar.tearDown();
+
+			CalendarConfiguration.tearDown();
+
+			PagesAdmin.tearDownCP();
+		}
+	}
+
+	@description = "This is a use case for LPS-58649."
+	@priority = 3
+	test EditLanguageSelectorAndViewEvent {
+		property test.liferay.virtual.instance = "false";
+		property test.run.type = "single";
+
+		Navigator.gotoPage(pageName = "Calendar Page");
+
+		Portlet.addPG(
+			pageName = "Calendar Page",
+			portletName = "Language Selector");
+
+		LanguagePortlet.selectLanguagePG(
+			locale = "es_ES",
+			textIcon = "español-España");
+
+		CalendarNavigator.gotoView(viewType = "Week");
+
+		CalendarScheduler.addLocalizedEvent(
+			eventTitle = "Calendar Event Title",
+			saveButton = "Guardar",
+			viewType = "Week");
+
+		CalendarScheduler.viewLocalizedEvent(
+			eventTitle = "Calendar Event Title",
+			viewTypeLocalized = "Semana");
+
+		LanguagePortlet.selectLanguagePG(
+			locale = "en_US",
+			textIcon = "english-United States");
+
+		CalendarScheduler.viewDay(eventTitle = "Calendar Event Title");
+	}
+
+	@description = "This is a use case for LPS-54786."
+	@priority = 3
+	test ViewShowMoreLocalization {
+		for (var eventNumber : list "1,2,3,4,5,6") {
+			CalendarNavigator.gotoAddEvent();
+
+			CalendarEvent.add(
+				eventTitle = "Calendar Event ${eventNumber}",
+				eventType = "All Day",
+				pageName = "Calendar Page");
+		}
+
+		MyAccount.configureDisplaySettingsLanguage(languageName = "español (España)");
+
+		Navigator.gotoPage(pageName = "Calendar Page");
+
+		CalendarScheduler.viewShowMoreLocalizedViaDayView(
+			messageLocalized = "Mostrar 1 más",
+			viewTypeLocalized = "Día");
+
+		CalendarScheduler.viewShowMoreLocalizedViaWeekView(
+			messageLocalized = "Mostrar 1 más",
+			viewTypeLocalized = "Semana");
+
+		CalendarScheduler.viewShowMoreLocalizedViaMonthView(
+			messageLocalized = "Mostrar 4 más",
+			viewTypeLocalized = "Mes");
+
+		Click(locator1 = "UserBar#USER_AVATAR_IMAGE");
+
+		Click(
+			key_dropdownItem = "Mi cuenta",
+			locator1 = "UserBar#USER_AVATAR_DROPDOWN_ITEM");
+
+		MyAccount.changeUserLanguage(
+			languageName = "English (United States)",
+			saveButton = "Guardar",
+			successMessage = "Your request completed successfully.");
+	}
+
+}

@@ -1,0 +1,19 @@
+@default = "isElementNotPresent"
+definition {
+
+	function isElementNotPresent(locator1) {
+		if (selenium.isElementPresent(${locator1})) {
+			selenium.isNotVisible(${locator1});
+		}
+		else {
+			selenium.isElementNotPresent(${locator1});
+		}
+	}
+
+	function isNotVisible(locator1) {
+		selenium.waitForElementPresent(${locator1}, "true");
+
+		selenium.isNotVisible(${locator1});
+	}
+
+}

@@ -1,0 +1,5 @@
+dependencies {
+	testIntegrationImplementation group: "org.osgi", name: "org.osgi.service.component.annotations", version: "1.4.0"
+	testIntegrationImplementation project(":apps:bulk:bulk-selection-api")
+	testIntegrationImplementation project(":test:arquillian-extension-junit-bridge")
+}

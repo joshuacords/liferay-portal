@@ -1,0 +1,366 @@
+@component-name = "portal-publications"
+definition {
+
+	property osgi.module.configuration.file.names = "com.liferay.change.tracking.configuration.CTSettingsConfiguration.config";
+	property osgi.module.configurations = "enabled=B\"true\"";
+	property portal.release = "true";
+	property portal.upstream = "true";
+	property testray.main.component.name = "Publications";
+
+	setUp {
+		TestCase.setUpPortalInstance();
+
+		User.firstLoginPG();
+
+		task ("Enable dynamic and manual selection") {
+			AssetPublisherPortlet.enableDynamicAndManualSelection();
+		}
+	}
+
+	tearDown {
+		var testLiferayVirtualInstance = PropsUtil.get("test.liferay.virtual.instance");
+
+		if (${testLiferayVirtualInstance} == "true") {
+			PortalInstances.tearDownCP();
+		}
+		else {
+			Publications.disablePublications();
+		}
+	}
+
+	@description = "This is a use case for LPS-172496. Deleting a portlet with a modified configuration from a Publication incorrectly leads to a Deletion Modification Conflict"
+	@priority = 3
+	test CanDeletePortletModifiedConfigurationWithoutDeletionModificationConflict {
+		task ("Add a Widget Page with Asset Publisher") {
+			JSONLayout.addPublicLayout(
+				groupName = "Guest",
+				layoutName = "Test Page");
+
+			JSONLayout.addWidgetToPublicLayout(
+				groupName = "Guest",
+				layoutName = "Test Page",
+				widgetName = "Asset Publisher");
+		}
+
+		JSONPublications.addPublication(publicationName = "Test Publication");
+
+		JSONPublications.selectPublication(publicationName = "Test Publication");
+
+		task ("Go to the Widget Page and edit Asset Publisher") {
+			Navigator.gotoPage(pageName = "Test Page");
+
+			AssetPublisherPortlet.gotoConfigurationPG();
+
+			Click(locator1 = "APConfiguration#ASSET_SELECTION_MANUAL");
+
+			Alert.viewSuccessMessage();
+		}
+
+		task ("Remove Asset Publisher from the Page and publish the Publication") {
+			Navigator.gotoPage(pageName = "Test Page");
+
+			Portlet.deletePG(portletName = "Asset Publisher");
+
+			Publications.publishPublication(
+				gotoPublicationsAdmin = "true",
+				publicationName = "Test Publication");
+		}
+	}
+
+	@description = "This is a use case for LPS-187009 - Can not publish a publication when there is a duplicate mapping conflict in a mapping table."
+	@priority = 3
+	test CanPublishWithDuplicateMappingConflictInMappingTable {
+		task ("Create a Web Content and a Tag in Production mode") {
+			JSONWebcontent.addWebContent(
+				content = "Web Content content",
+				groupName = "Guest",
+				title = "Web Content Title");
+
+			JSONAssettag.addTag(
+				groupName = "Guest",
+				tagName = "test tag");
+		}
+
+		task ("Create new Publication and edit web content adding the Tag created") {
+			JSONPublications.addPublication(publicationName = "Test Publication");
+
+			JSONPublications.selectPublication(publicationName = "Test Publication");
+
+			WebContentNavigator.openWebContentAdmin(siteURLKey = "guest");
+
+			WebContentNavigator.gotoEditCP(webContentTitle = "Web Content Title");
+
+			Panel.expandPanel(panel = "Categorization");
+
+			AssetCategorization.addTag(tagName = "test tag");
+
+			WebContent.publishExistingWCArticleWithPermissions();
+		}
+
+		task ("Switch to Production and edit web content adding the Tag created") {
+			Publications.workOnProduction();
+
+			WebContentNavigator.gotoEditCP(webContentTitle = "Web Content Title");
+
+			Panel.expandPanel(panel = "Categorization");
+
+			AssetCategorization.addTag(tagName = "test tag");
+
+			WebContent.publishExistingWCArticleWithPermissions();
+		}
+
+		task ("Publish Publication and assert that the Tag show up in production") {
+			PublicationsNavigator.gotoPublish(
+				gotoPublicationsAdmin = "true",
+				publicationName = "Test Publication");
+
+			Publications.publishPublication(publicationName = "Test Publication");
+
+			WebContentNavigator.openWebContentAdmin(siteURLKey = "guest");
+
+			WebContentNavigator.gotoEditCP(webContentTitle = "Web Content Title");
+
+			Panel.expandPanel(panel = "Categorization");
+
+			AssertElementPresent(
+				key_tagName = "test tag",
+				locator1 = "AssetCategorization#TAG");
+		}
+	}
+
+	@priority = 5
+	test ConflictingPublicationsAutomaticallyResolved {
+		JSONWebcontent.addWebContent(
+			content = "WC WebContent Content",
+			groupName = "Guest",
+			title = "WC WebContent Title");
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
+		WebContentNavigator.openWebContentAdmin(siteURLKey = "guest");
+
+		WebContentNavigator.gotoEditCP(webContentTitle = "WC WebContent Title");
+
+		WebContent.editCP(
+			webContentContentEdit = "WC WebContent Content 1 Edit",
+			webContentTitle = "WC WebContent Title",
+			webContentTitleEdit = "WC WebContent Title");
+
+		JSONPublications.addPublication(publicationName = "Publication 2 Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication 2 Name");
+
+		WebContentNavigator.openWebContentAdmin(siteURLKey = "guest");
+
+		WebContentNavigator.gotoEditCP(webContentTitle = "WC WebContent Title");
+
+		WebContent.editCP(
+			webContentContentEdit = "WC WebContent Content 2 Edit",
+			webContentTitle = "WC WebContent Title",
+			webContentTitleEdit = "WC WebContent Title");
+
+		PublicationsNavigator.openPublicationsAdmin();
+
+		Publications.assertDiscardIsUnavailableForInactivePublication(
+			changeCategory = "Web Content Article",
+			changeTitle = "WC WebContent Title",
+			publicationName = "Publication Name");
+
+		Publications.publishPublication(
+			gotoPublicationsAdmin = "true",
+			publicationName = "Publication 2 Name");
+
+		PublicationsNavigator.gotoPublish(
+			gotoPublicationsAdmin = "true",
+			publicationName = "Publication Name");
+
+		Publications.viewAutomaticallyResolved(
+			entryTitle = "Test Test added a Web Content Article",
+			successMessage = "The article version was updated to latest.");
+
+		Publications.viewAutomaticallyResolved(
+			entryTitle = "Test Test modified a Asset",
+			successMessage = "The conflict was automatically resolved.");
+
+		AssertElementNotPresent(locator1 = "Publications#NEEDS_MANUAL_RESOLUTION_TABLE");
+
+		AssertElementNotPresent(
+			key_warningMessage = "The conflict cannot be automatically resolved.",
+			locator1 = "Message#WARNING_SPECIFIC");
+
+		Publications.publishPublication(publicationName = "Publication Name");
+	}
+
+	@description = "Assert explanation of duplicate conflict displays"
+	@priority = 4
+	test ExplainDuplicationConflict {
+		HeadlessSite.addSite(siteName = "Site Name");
+
+		JSONPublications.addPublication(publicationName = "Publication 1 Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication 1 Name");
+
+		JSONWebcontent.addFolder(
+			folderName = "WC Folder Name",
+			groupName = "Site Name");
+
+		JSONPublications.addPublication(publicationName = "Publication 2 Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication 2 Name");
+
+		JSONWebcontent.addFolder(
+			folderName = "WC Folder Name",
+			groupName = "Site Name");
+
+		PublicationsNavigator.gotoReviewChanges(
+			gotoPublicationsAdmin = "true",
+			publicationName = "Publication 1 Name");
+
+		PublicationsChanges.viewChanges(
+			changeCategory = "Web Content Folder",
+			changeSite = "Site Name",
+			changeTitle = "WC Folder Name",
+			changeType = "Added",
+			changeUser = "Test Test");
+
+		Publications.publishPublication(
+			gotoPublicationsAdmin = "true",
+			publicationName = "Publication 1 Name");
+
+		PublicationsNavigator.gotoReviewChanges(
+			gotoPublicationsAdmin = "true",
+			publicationName = "Publication 2 Name");
+
+		PublicationsChanges.viewChanges(
+			changeCategory = "Web Content Folder",
+			changeSite = "Site Name",
+			changeTitle = "WC Folder Name",
+			changeType = "Added",
+			changeUser = "Test Test");
+
+		PublicationsNavigator.gotoPublish(publicationName = "Publication 2 Name");
+
+		Publications.viewConflictingChangesWarning(warningMessage = "This publication contains conflicting changes that must be manually resolved before publishing.");
+
+		Publications.viewNeedsManualResolution(
+			entryTitle = "WC Folder Name",
+			warningMessage = "Duplicate Folder Name");
+	}
+
+	@description = "Assert explanation of missing requirements conflict displays"
+	@priority = 4
+	test ExplainMissingRequirementConflict {
+		HeadlessSite.addSite(siteName = "Site Name");
+
+		JSONWebcontent.addFolder(
+			folderName = "WC Folder Name",
+			groupName = "Site Name");
+
+		JSONPublications.addPublication(publicationName = "Publication Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
+		JSONWebcontent.addFolder(
+			folderDescription = "WC SubFolder Description",
+			folderName = "WC SubFolder Name",
+			groupName = "Site Name",
+			parentFolderName = "WC Folder Name");
+
+		WebContentNavigator.openWebContentAdmin(siteURLKey = "site-name");
+
+		Publications.workOnProduction();
+
+		WebContentFolder.moveToRecycleBinCP(
+			assetType = "Web Content Folder",
+			folderName = "WC Folder Name");
+
+		RecycleBin.openRecycleBinAdmin(siteURLKey = "site-name");
+
+		RecycleBin.emptyCP();
+
+		JSONPublications.selectPublication(publicationName = "Publication Name");
+
+		PublicationsNavigator.gotoReviewChanges(
+			gotoPublicationsAdmin = "true",
+			publicationName = "Publication Name");
+
+		PublicationsChanges.viewChanges(
+			changeCategory = "Web Content Folder",
+			changeSite = "Site Name",
+			changeTitle = "WC SubFolder Name",
+			changeType = "Added",
+			changeUser = "Test Test");
+
+		PublicationsNavigator.gotoPublish(publicationName = "Publication Name");
+
+		Publications.viewConflictingChangesWarning(warningMessage = "This publication contains conflicting changes that must be manually resolved before publishing.");
+
+		Publications.viewNeedsManualResolution(
+			entryTitle = "WC SubFolder Name",
+			warningMessage = "Missing Requirement Conflict");
+	}
+
+	@description = "Assert the conflict changes disply when adding the same folder Name in two Publications and resolve by editing"
+	@priority = 5
+	test ResolveDuplicateNameConflictPublicationsByEditing {
+		property portal.acceptance = "true";
+
+		HeadlessSite.addSite(siteName = "Site Name");
+
+		JSONPublications.addPublication(publicationName = "Publication Name 1");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name 1");
+
+		JSONFolder.addFolder(
+			dmFolderDescription = "DM Folder Description",
+			dmFolderName = "DM Folder Name ",
+			groupName = "Site Name");
+
+		JSONPublications.addPublication(publicationName = "Publication Name 2");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name 2");
+
+		JSONFolder.addFolder(
+			dmFolderDescription = "DM Folder Description",
+			dmFolderName = "DM Folder Name",
+			groupName = "Site Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name 1");
+
+		Publications.publishPublication(
+			gotoPublicationsAdmin = "true",
+			publicationName = "Publication Name 1");
+
+		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "site-name");
+
+		DMFolder.viewCP(dmFolderName = "DM Folder Name");
+
+		JSONPublications.selectPublication(publicationName = "Publication Name 2");
+
+		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "site-name");
+
+		DMFolder.viewCP(dmFolderName = "DM Folder Name");
+
+		PublicationsNavigator.gotoPublish(publicationName = "Publication Name 2");
+
+		Publications.viewNeedsManualResolution(
+			entryTitle = "DM Folder Name",
+			warningMessage = "Duplicate Folder Name");
+
+		PublicationsChanges.gotoEditChanges(
+			changeCategory = "Documents Folder",
+			changeTitle = "DM Folder Name",
+			editInLocation = "Publication Name 2");
+
+		PortletEntry.inputName(name = "DM Folder Name Edit");
+
+		PortletEntry.inputDescription(description = "DM Folder Description Edit");
+
+		Button.clickSave();
+
+		Publications.publishPublication(publicationName = "Publication Name 2");
+	}
+
+}

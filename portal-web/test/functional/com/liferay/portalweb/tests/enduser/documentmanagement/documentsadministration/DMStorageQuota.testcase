@@ -1,0 +1,108 @@
+@component-name = "portal-content-management"
+definition {
+
+	property portal.acceptance = "true";
+	property portal.release = "true";
+	property portal.upstream = "true";
+	property testray.main.component.name = "Documents and Media";
+
+	setUp {
+		TestCase.setUpPortalInstance();
+
+		User.firstLoginPG();
+	}
+
+	tearDown {
+		var testLiferayVirtualInstance = PropsUtil.get("test.liferay.virtual.instance");
+
+		if (${testLiferayVirtualInstance} == "true") {
+			PortalInstances.tearDownCP();
+		}
+		else {
+			DMDocument.tearDownCP();
+
+			DMFolder.tearDownCP();
+
+			User.logoutPG();
+		}
+	}
+
+	@description = "This ensures that users can not upload files that exceed the storage quota through the multiple upload."
+	@priority = 5
+	@refactordone
+	test CannotExceedStorageQuotaWhenUsingMultipleUpload {
+		property custom.properties = "data.limit.dl.storage.max.size=1048576${line.separator}dl.actions.visible=true";
+
+		JSONLayout.addPublicLayout(
+			groupName = "Guest",
+			layoutName = "Documents and Media Page");
+
+		JSONLayout.addWidgetToPublicLayout(
+			column = 1,
+			groupName = "Guest",
+			layoutName = "Documents and Media Page",
+			widgetName = "Documents and Media");
+
+		DocumentFolderAPI.deleteDocumentFolderByName(
+			documentFolderName = "Provided%20by%20Liferay",
+			groupName = "Guest");
+
+		Navigator.gotoPage(pageName = "Documents and Media Page");
+
+		DMDocument.addMultiplePG(dmDocumentFileList = "Document_1.doc");
+
+		Navigator.gotoPage(pageName = "Documents and Media Page");
+
+		LexiconEntry.viewEntryName(rowEntry = "Document_1");
+
+		Navigator.gotoPage(pageName = "Documents and Media Page");
+
+		DMDocument.addMultiplePG(
+			dmDocumentFileList = "Document_2.txt,high_resolution_photo.jpg",
+			storageQuota = "1 MB",
+			validateStorageQuota = "true");
+
+		Navigator.gotoPage(pageName = "Documents and Media Page");
+
+		LexiconEntry.viewEntryName(rowEntry = "Document_2");
+
+		LexiconEntry.viewNoEntry(rowEntry = "high_resolution_photo");
+	}
+
+	@description = "This ensures that users can not upload a file that exceed the storage quota through the single upload."
+	@priority = 5
+	@refactordone
+	test CannotExceedStorageQuotaWhenUsingSingleUpload {
+		property custom.properties = "data.limit.dl.storage.max.size=1048576";
+
+		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "guest");
+
+		DocumentFolderAPI.deleteDocumentFolderByName(
+			documentFolderName = "Provided%20by%20Liferay",
+			groupName = "Guest");
+
+		DMDocument.addCP(
+			dmDocumentDescription = "DM Document Description",
+			dmDocumentFile = "Document_1.txt",
+			dmDocumentTitle = "DM Document Title");
+
+		DMNavigator.openToEntryInAdmin(
+			dmDocumentTitle = "DM Document Title",
+			groupName = "Guest",
+			siteURLKey = "guest");
+
+		DMDocument.viewCP(
+			dmDocumentSize = "259 B",
+			dmDocumentTitle = "DM Document Title");
+
+		DMDocument.addCP(
+			dmDocumentDescription = "DM Document Description",
+			dmDocumentFile = "high_resolution_photo.jpg",
+			dmDocumentTitle = "DM Document Title2",
+			groupName = "Guest",
+			siteURLKey = "guest",
+			storageQuota = "1 MB",
+			validateStorageQuota = "true");
+	}
+
+}

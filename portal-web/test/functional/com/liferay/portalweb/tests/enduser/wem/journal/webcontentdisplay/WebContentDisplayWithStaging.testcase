@@ -1,0 +1,422 @@
+@component-name = "portal-content-management"
+definition {
+
+	property ci.retries.disabled = "true";
+	property portal.release = "true";
+	property portal.upstream = "true";
+	property testray.main.component.name = "Web Content Display";
+
+	setUp {
+		task ("Set up instance and sign in") {
+			TestCase.setUpPortalInstance();
+
+			User.firstLoginPG();
+		}
+
+		task ("Add a site") {
+			HeadlessSite.addSite(siteName = "Test Site Name");
+		}
+
+		task ("Add a widget page") {
+			JSONLayout.addPublicLayout(
+				groupName = "Test Site Name",
+				layoutName = "Test Page Name");
+		}
+
+		task ("Add a Web Content Display widget to page") {
+			JSONLayout.addWidgetToPublicLayout(
+				groupName = "Test Site Name",
+				layoutName = "Test Page Name",
+				widgetName = "Web Content Display");
+		}
+
+		task ("Activate local live staging") {
+			Staging.openStagingAdmin(siteURLKey = "test-site-name");
+
+			Staging.activateStagingCP(siteName = "Test Site Name");
+		}
+	}
+
+	tearDown {
+		var testLiferayVirtualInstance = PropsUtil.get("test.liferay.virtual.instance");
+
+		if (${testLiferayVirtualInstance} == "true") {
+			PortalInstances.tearDownCP();
+		}
+		else {
+			JSONGroup.deleteGroupByName(groupName = "Test Site Name");
+		}
+	}
+
+	@description = "Publish an expired web content to live."
+	@priority = 4
+	test PublishExpiredWebContentToLive {
+		task ("Add a web content") {
+			JSONWebcontent.addWebContent(
+				content = "Web Content Content",
+				groupName = "Test Site Name (Staging)",
+				site = "false",
+				title = "Web Content Title");
+		}
+
+		task ("Select the web content in Web Content Display") {
+			Navigator.gotoStagedSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			WebContentDisplayPortlet.selectWebContent(webContentTitle = "Web Content Title");
+
+			IFrame.closeFrame();
+		}
+
+		task ("View web content is shown in staging") {
+			WebContentDisplayPortlet.viewContent(
+				webContentContent = "Web Content Content",
+				webContentTitle = "Web Content Title");
+		}
+
+		task ("Expire the web content") {
+			WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name-staging");
+
+			WebContent.expireSpecificVersionCP(webContentTitle = "Web Content Title");
+		}
+
+		task ("View expired web content is shown in staging") {
+			Navigator.gotoStagedSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			WebContentDisplayPortlet.viewMessage(expiredWebContentTitle = "Web Content Title");
+		}
+
+		task ("Publish to live") {
+			Staging.viewStagingLocalLivePG();
+
+			Staging.gotoPublishToLive();
+
+			Staging.publishToLive();
+		}
+
+		task ("View expired web content is shown in live") {
+			Navigator.gotoSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			WebContentDisplayPortlet.viewMessage(expiredWebContentTitle = "Web Content Title");
+		}
+
+		task ("View web content status in web content admin") {
+			WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name-staging");
+
+			WebContentNavigator.gotoEditCP(webContentTitle = "Web Content Title");
+
+			WebContent.viewCP(
+				webContentContent = "Web Content Content",
+				webContentTitle = "Web Content Title");
+
+			WebContent.viewStatus(
+				webContentContent = "Web Content Content",
+				webContentStatus = "Expired",
+				webContentTitle = "Web Content Title");
+		}
+	}
+
+	@description = "This is a test for LPS-153676.The Asset Publisher should display the site scope web content after publish global scoped Web Content Display to live."
+	@priority = 4
+	test PublishGlobalScopedWebContentDisplayToLive {
+		task ("Enable dynamic and manual selection") {
+			AssetPublisherPortlet.enableDynamicAndManualSelection();
+		}
+
+		task ("Given a user displays the global web content on Web Content Display and the site web content on Asset Publisher in staging site") {
+			HeadlessWebcontent.addBasicWebContent(
+				content = "Global Web Content Content",
+				groupName = "Global",
+				title = "Global Web Content Title");
+
+			HeadlessWebcontent.addBasicWebContent(
+				content = "Site Web Content Content",
+				groupName = "Test Site Name (Staging)",
+				site = "false",
+				title = "Site Web Content Title");
+
+			JSONLayout.addPublicLayout(
+				groupName = "Test Site Name (Staging)",
+				layoutName = "Test Content Page Name",
+				site = "false",
+				type = "content");
+
+			ContentPagesNavigator.openEditContentPage(
+				pageName = "Test Content Page Name",
+				siteName = "Test Site Name Staging");
+
+			PageEditor.addWidget(portletName = "Web Content Display");
+
+			PageEditor.addWidget(
+				portletName = "Asset Publisher",
+				targetFragmentName = "Web Content Display");
+
+			WebContentDisplayPortlet.configureScope(scopeSelection = "Global");
+
+			IFrame.closeFrame();
+
+			WebContentDisplayPortlet.selectWebContent(webContentTitle = "Global Web Content Title");
+
+			IFrame.closeFrame();
+
+			AssetPublisherPortlet.configureScope(globalSite = "true");
+
+			IFrame.closeFrame();
+
+			AssetPublisherPortlet.configureManualAssetSelectionPG(
+				assetTitle = "Site Web Content Title",
+				assetType = "Basic Web Content",
+				siteName = "Test Site Name");
+
+			IFrame.closeFrame();
+
+			PageEditor.publish();
+		}
+
+		task ("When the user publishes the global scoped Web Content Display to live") {
+			Staging.openStagingAdmin(siteURLKey = "test-site-name-staging");
+
+			Staging.publishCustomPublication();
+		}
+
+		task ("Then the user should see the site web content shown on Asset Publisher in live site") {
+			ContentPagesNavigator.openViewContentPage(
+				pageName = "Test Content Page Name",
+				siteName = "Test Site Name");
+
+			AssetPublisherPortlet.viewAssetPG(assetTitle = "Site Web Content Title");
+		}
+	}
+
+	@description = "This is a use case for LPS-101289. View comment is shown after edited in a staging site."
+	@priority = 4
+	test ViewCommentAfterEditingInStaging {
+		task ("Change the layout of page to 1 Column") {
+			JSONLayout.updateLayoutTemplateOfPublicLayout(
+				groupName = "Test Site Name (Staging)",
+				layoutName = "Test Page Name",
+				layoutTemplate = "1 Column",
+				site = "false");
+		}
+
+		task ("Add a web content") {
+			JSONWebcontent.addWebContent(
+				content = "Web Content Content",
+				groupName = "Test Site Name (Staging)",
+				site = "false",
+				title = "Web Content Title");
+		}
+
+		task ("Select the web content in Web Content Display") {
+			Navigator.gotoStagedSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			WebContentDisplayPortlet.selectWebContent(webContentTitle = "Web Content Title");
+		}
+
+		task ("Enable comments in Web Content Display") {
+			WebContentDisplayPortlet.configureSetup(
+				enableViewCountIncrement = "true",
+				metadataNameList = "Comments");
+
+			IFrame.closeFrame();
+		}
+
+		task ("View comments are unavailable in staging") {
+			AssertTextEquals.assertPartialText(
+				key_portletName = "Web Content Display",
+				locator1 = "Portlet#BODY",
+				value1 = "Comments are unavailable in staged sites.");
+		}
+
+		task ("Publish to live") {
+			Navigator.gotoStagedSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			Staging.gotoPublishToLive();
+
+			Staging.publishToLive();
+		}
+
+		task ("View web content is shown in live") {
+			Navigator.gotoSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			WebContentDisplayPortlet.viewContent(
+				webContentContent = "Web Content Content",
+				webContentTitle = "Web Content Title");
+		}
+
+		task ("Add a comment") {
+			Comments.addPG(entryComment = "Web Content Comment");
+
+			Comments.viewPG(
+				commentCount = 1,
+				entryComment = "Web Content Comment",
+				userFullName = "Test Test (You)");
+		}
+
+		task ("Move the web content to recycle bin in live") {
+			WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
+
+			WebContent.moveToRecycleBinViaDeleteIconCP();
+		}
+
+		task ("Edit the web content in staging") {
+			WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name-staging");
+
+			WebContentNavigator.gotoEditCP(webContentTitle = "Web Content Title");
+
+			WebContent.editCP(
+				webContentContentEdit = "Web Content Content Edit",
+				webContentTitle = "Web Content Title",
+				webContentTitleEdit = "Web Content Title Edit");
+		}
+
+		task ("View edited web content title is shown") {
+			WebContent.viewTitle(webContentTitle = "Web Content Title Edit");
+		}
+
+		task ("Publish to live") {
+			Navigator.gotoStagedSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			Staging.gotoPublishToLive();
+
+			Staging.publishToLive();
+		}
+
+		task ("View comment is shown after edit web content") {
+			Navigator.gotoSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			Comments.viewPG(
+				commentCount = 1,
+				entryComment = "Web Content Comment",
+				userFullName = "Test Test (You)");
+		}
+	}
+
+	@description = "This is a use case for LPS-77769. View a web content with an edited image field in live."
+	@priority = 5
+	test ViewWebContentWithEditedImageField {
+		property portal.acceptance = "true";
+
+		task ("Add an image field to web content structure") {
+			WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name-staging");
+
+			NavItem.gotoStructures();
+
+			WebContentStructures.addCP(
+				structureDescription = "WC Structure Description",
+				structureName = "WC Structure Name");
+
+			DataEngine.addField(
+				fieldFieldLabel = "Image",
+				fieldName = "Image");
+
+			WebContentStructures.saveCP();
+		}
+
+		task ("Add a web content template based in the newly structure") {
+			NavItem.gotoTemplates();
+
+			WebContentTemplates.addCP(
+				structureName = "WC Structure Name",
+				templateDescription = "WC Template Description",
+				templateFieldNames = "Image",
+				templateName = "WC Template Name");
+		}
+
+		task ("Add a web content based in the newly structure") {
+			NavItem.gotoWebContent();
+
+			WebContentNavigator.gotoAddWithStructureCP(structureName = "WC Structure Name");
+
+			WebContent.addWithStructureCP(
+				navTab = "Web Content Images",
+				structureName = "WC Structure Name",
+				templateName = "WC Template Name",
+				webContentImage = "Document_2.jpeg",
+				webContentTitle = "Web Content Title");
+
+			WebContent.publishWithPermissions();
+		}
+
+		task ("Select the web content in Web Content Display") {
+			Navigator.gotoStagedSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			WebContentDisplayPortlet.selectWebContent(webContentTitle = "Web Content Title");
+
+			IFrame.closeFrame();
+		}
+
+		task ("View web content is shown in staging") {
+			WebContentDisplayPortlet.viewContent(
+				imageFileName = "Document_2.jpeg",
+				webContentTitle = "Web Content Title");
+		}
+
+		task ("Publish to live") {
+			Staging.gotoPublishToLive();
+
+			Staging.publishToLive();
+		}
+
+		task ("View web content is shown in live") {
+			Navigator.gotoSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			WebContentDisplayPortlet.viewContent(
+				imageFileName = "Document_2.jpeg",
+				webContentTitle = "Web Content Title");
+		}
+
+		task ("Add an image description to web content") {
+			WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name-staging");
+
+			WebContentNavigator.gotoEditCP(webContentTitle = "Web Content Title");
+
+			Type(
+				key_fieldFieldLabel = "Image",
+				locator1 = "WCEditWebContent#IMAGE_DESCRIPTION",
+				value1 = "Web Content Image Description");
+
+			WebContent.publishExistingWCArticleWithPermissions();
+		}
+
+		task ("Publish to live") {
+			Navigator.gotoStagedSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			Staging.gotoPublishToLive();
+
+			Staging.publishToLive();
+		}
+
+		task ("View image description is shown in live") {
+			Navigator.gotoSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			AssertHTMLSourceTextPresent(value1 = "Web Content Image Description");
+
+			AssertConsoleTextNotPresent(value1 = "DuplicateFileEntryException");
+		}
+	}
+
+}

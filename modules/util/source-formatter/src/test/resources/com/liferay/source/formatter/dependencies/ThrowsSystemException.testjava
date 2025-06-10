@@ -1,0 +1,90 @@
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+
+package com.liferay.source.formatter.dependencies;
+
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.upload.UploadException;
+
+/**
+ * @author Hugo Huijser
+ */
+public class ThrowsSystemException {
+
+	public void method1() throws SystemException {
+	}
+
+	public void method2(
+			String string1, String string2, String string3, String string4,
+			String string5)
+		throws SystemException {
+	}
+
+	public void method3(
+			String string1, String string2, String string3)
+		throws SystemException {
+	}
+
+	public void method4() throws PortalException, SystemException {
+	}
+
+	public void method5(
+			String string1, String string2, String string3, String string4,
+			String string5)
+		throws PortalException, SystemException {
+	}
+
+	public void method6() throws SystemException, UploadException {
+	}
+
+	public void method7(
+			String string1, String string2, String string3, String string4,
+			String string5)
+		throws SystemException, UploadException {
+	}
+
+	public void method8() throws SystemException;
+
+	public void method9(
+			String string1, String string2, String string3, String string4,
+			String string5)
+		throws SystemException;
+
+	public void method10(
+			String string1, String string2, String string3)
+		throws SystemException;
+
+	public void method11() throws PortalException, SystemException;
+
+	public void method12(
+			String string1, String string2, String string3, String string4,
+			String string5)
+		throws PortalException, SystemException;
+
+	public void method13() throws SystemException, UploadException;
+
+	public void method14(
+			String string1, String string2, String string3, String string4,
+			String string5)
+		throws SystemException, UploadException;
+
+	public void n1() throws PortalException, SystemException, UploadException {
+	}
+
+	public void n2(
+			String string1, String string2, String string3, String string4,
+			String string5)
+		throws PortalException, SystemException, UploadException {
+	}
+
+	public void n3() throws PortalException, SystemException, UploadException;
+
+	public void n4(
+			String string1, String string2, String string3, String string4,
+			String string5)
+		throws PortalException, SystemException, UploadException;
+
+}

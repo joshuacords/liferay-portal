@@ -1,0 +1,35 @@
+html#{$cadmin-selector} {
+	.page-editor__disabled-area {
+		cursor: not-allowed;
+		position: relative;
+
+		&::after {
+			background-color: rgba(255, 255, 255, 0);
+			content: '';
+			display: block;
+			height: 100%;
+			left: 0;
+			position: absolute;
+			top: 0;
+			transition: background-color ease 0.3s;
+			width: 100%;
+			z-index: 10;
+		}
+
+		&:hover:after {
+			background-color: rgba(255, 255, 255, 0.4);
+		}
+	}
+}
+
+.ae-ui .ae-toolbars {
+	.ae-toolbar,
+	.ae-toolbar-add,
+	.ae-toolbar-styles {
+		z-index: $alloyEditorZIndex;
+	}
+}
+
+.cke_dialog_contents_body {
+	min-width: 20rem;
+}

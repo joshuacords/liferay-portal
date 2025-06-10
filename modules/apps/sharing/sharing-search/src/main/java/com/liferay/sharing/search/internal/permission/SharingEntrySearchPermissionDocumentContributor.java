@@ -1,0 +1,87 @@
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+
+package com.liferay.sharing.search.internal.permission;
+
+import com.liferay.petra.function.transform.TransformUtil;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
+import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.search.spi.model.permission.contributor.SearchPermissionFieldContributor;
+import com.liferay.sharing.model.SharingEntry;
+import com.liferay.sharing.service.SharingEntryLocalService;
+
+import java.util.List;
+
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+
+/**
+ * Indexes a new field in the search document to include all users the resource
+ * has been shared with. This information is used to do permission checks when
+ * returning search results via {@link
+ * SharingEntrySearchPermissionFilterContributor}.
+ *
+ * <p>
+ * Each time a resource is shared, the associated search document is reindexed
+ * and this {@code SearchPermissionFieldContributor} ensures that the user the
+ * resource is shared with is added to the search field.
+ * </p>
+ *
+ * @author Sergio González
+ */
+@Component(service = SearchPermissionFieldContributor.class)
+public class SharingEntrySearchPermissionDocumentContributor
+	implements SearchPermissionFieldContributor {
+
+	@Override
+	public void contribute(Document document, String className, long classPK) {
+		ServiceContext serviceContext =
+			ServiceContextThreadLocal.getServiceContext();
+
+		if ((serviceContext != null) && serviceContext.isStrictAdd()) {
+			return;
+		}
+
+		List<SharingEntry> sharingEntries =
+			_sharingEntryLocalService.getSharingEntries(
+				_portal.getClassNameId(className), classPK);
+
+		if (sharingEntries.isEmpty()) {
+			return;
+		}
+
+		document.addKeyword(
+			"sharedToUserGroupId",
+			TransformUtil.transformToLongArray(
+				sharingEntries,
+				sharingEntry -> {
+					if (sharingEntry.getToUserGroupId() == 0) {
+						return null;
+					}
+
+					return sharingEntry.getToUserGroupId();
+				}));
+		document.addKeyword(
+			"sharedToUserId",
+			TransformUtil.transformToLongArray(
+				sharingEntries,
+				sharingEntry -> {
+					if (sharingEntry.getToUserId() == 0) {
+						return null;
+					}
+
+					return sharingEntry.getToUserId();
+				}));
+	}
+
+	@Reference
+	private Portal _portal;
+
+	@Reference
+	private SharingEntryLocalService _sharingEntryLocalService;
+
+}

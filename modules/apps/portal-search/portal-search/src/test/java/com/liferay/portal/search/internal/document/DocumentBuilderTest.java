@@ -1,0 +1,136 @@
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+
+package com.liferay.portal.search.internal.document;
+
+import com.liferay.portal.search.document.DocumentBuilder;
+import com.liferay.portal.test.rule.LiferayUnitTestRule;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import org.junit.Assert;
+import org.junit.ClassRule;
+import org.junit.Rule;
+import org.junit.Test;
+
+/**
+ * @author André de Oliveira
+ */
+public class DocumentBuilderTest {
+
+	@ClassRule
+	@Rule
+	public static final LiferayUnitTestRule liferayUnitTestRule =
+		LiferayUnitTestRule.INSTANCE;
+
+	@Test
+	public void testDefaults() {
+		_assertDocument(
+			"{double=3.1415, doubles=[3.1415, 142857.0], string=a, " +
+				"strings=[a, b], value=x, values=[2147483647, " +
+					"9223372036854775807, {foo=bar}]}",
+			documentBuilder.setDouble(
+				"double", 3.1415
+			).setDoubles(
+				"doubles", 3.1415, Double.valueOf(142857)
+			).setString(
+				"string", "a"
+			).setStrings(
+				"strings", "a", "b"
+			).setValue(
+				"value", "x"
+			).setValues(
+				"values",
+				Arrays.asList(
+					Integer.MAX_VALUE, Long.MAX_VALUE,
+					Collections.singletonMap("foo", "bar"))
+			));
+	}
+
+	@Test
+	public void testEmpty() {
+		_assertDocument(
+			"{}",
+			documentBuilder.setStrings(
+				"strings1"
+			).setStrings(
+				"strings2", new String[0]
+			).setValue(
+				"value", Collections.emptyList()
+			).setValues(
+				"values", Collections.emptyList()
+			));
+	}
+
+	@Test
+	public void testFieldOrderIsStable() {
+		_assertDocument(
+			"{z=26, y=25, x=24, b=2, a=1}",
+			documentBuilder.setInteger(
+				"z", 26
+			).setInteger(
+				"y", 25
+			).setInteger(
+				"x", 24
+			).setInteger(
+				"b", 2
+			).setInteger(
+				"a", 1
+			));
+	}
+
+	@Test
+	public void testFieldValueOrderIsStable() {
+		_assertDocument(
+			"{longs=[1, 10, 2, 20, 3, 30]}",
+			documentBuilder.setLongs("longs", 1L, 10L, 2L, 20L, 3L, 30L));
+	}
+
+	@Test
+	public void testNull() {
+		List<String> nulls = Arrays.asList(null, null);
+
+		_assertDocument(
+			"{}",
+			documentBuilder.setString(
+				"string", null
+			).setStrings(
+				"strings1", nulls.get(0)
+			).setStrings(
+				"strings2", new String[1]
+			).setValue(
+				"value", null
+			).setValues(
+				"values", null
+			));
+	}
+
+	@Test
+	public void testNullValues() {
+		_assertDocument(
+			"{strings1=[null, null], strings2=[null, null], values1=null, " +
+				"values2=[null, null]}",
+			documentBuilder.setStrings(
+				"strings1", null, null
+			).setStrings(
+				"strings2", new String[2]
+			).setValues(
+				"values1", Collections.singleton(null)
+			).setValues(
+				"values2", Arrays.asList(null, null)
+			));
+	}
+
+	protected DocumentBuilder documentBuilder = new DocumentBuilderImpl();
+
+	private void _assertDocument(
+		String expected, DocumentBuilder documentBuilder) {
+
+		Assert.assertEquals(expected, String.valueOf(documentBuilder.build()));
+	}
+
+}

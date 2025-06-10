@@ -1,0 +1,39 @@
+@import 'atlas-variables';
+
+.portlet-navigation {
+	.nav-link .layout-logo {
+		max-height: 1rem;
+		max-width: 2rem;
+	}
+
+	.navigation-menu__submenu {
+		cursor: default;
+
+		&.dropdown-item:hover {
+			background-color: transparent;
+			color: $gray-600;
+		}
+	}
+
+	.nav-pills {
+		> li {
+			> a {
+				margin-bottom: 2px;
+			}
+
+			> .dropdown-menu {
+				margin-top: 0;
+			}
+		}
+		> li.active > a {
+			background-color: $nav-pills-link-active-bg;
+			color: $nav-pills-link-active-color;
+		}
+	}
+}
+
+.split-button-dropdowns > li {
+	display: inline-block;
+	padding-left: 2px;
+	padding-right: 2px;
+}

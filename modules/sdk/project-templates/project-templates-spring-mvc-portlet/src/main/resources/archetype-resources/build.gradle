@@ -1,0 +1,175 @@
+buildscript {
+	repositories {
+		maven {
+			url "https://repository-cdn.liferay.com/nexus/content/groups/public"
+		}
+	}
+
+	dependencies {
+		classpath group: "com.liferay", name: "com.liferay.gradle.plugins.css.builder", version: "@com.liferay.gradle.plugins.css.builder.version@"
+	}
+}
+
+apply plugin: "com.liferay.css.builder"
+
+dependencies {
+#if (${framework.equals("portletmvc4spring")} && ${frameworkDependencies.equals("embedded")})
+	implementation group: "com.liferay.portletmvc4spring", name: "com.liferay.portletmvc4spring.framework", version: "5.3.2"
+#end
+#if (${framework.equals("portletmvc4spring")})
+	implementation group: "com.liferay.portletmvc4spring", name: "com.liferay.portletmvc4spring.security", version: "5.3.2"
+#end
+#if (${framework.equals("portletmvc4spring")} && ${frameworkDependencies.equals("provided")})
+	implementation group: "com.liferay.portletmvc4spring", name: "com.liferay.portletmvc4spring.thin", version: "5.2.2", transitive: false
+	compileOnly group: "com.liferay.portletmvc4spring", name: "com.liferay.portletmvc4spring.framework", version: "5.3.2"
+#end
+#if (${framework.equals("springportletmvc")} && ${frameworkDependencies.equals("provided")})
+	implementation group: "com.liferay.portletmvc4spring", name: "com.liferay.portletmvc4spring.thin", version: "4.1.9", transitive: false
+#end
+#if ((${liferayVersion.startsWith("20")} || ${liferayVersion.startsWith("7.4")}) && ${framework.equals("springportletmvc")})
+	implementation(group: "com.rometools", name: "rome", version: "1.16.0") {
+		exclude group: "org.slf4j", module: "slf4j-api"
+	}
+#end
+#if (${liferayVersion.startsWith("7.0")} || ${liferayVersion.startsWith("7.1")})
+	implementation group: "javax.validation", name: "validation-api", version: "2.0.1.Final"
+#end
+	implementation(group: "org.hibernate.validator", name: "hibernate-validator", version: "6.2.5.Final") {
+		exclude group: "javax.validation", module: "validation-api"
+	}
+#if (${framework.equals("portletmvc4spring")})
+	implementation (group: "org.springframework", name: "spring-aop") {
+		version {
+			strictly "5.3.27"
+		}
+	}
+	implementation (group: "org.springframework", name: "spring-beans") {
+		version {
+			strictly "5.3.27"
+		}
+	}
+	implementation (group: "org.springframework", name: "spring-context") {
+		version {
+			strictly "5.3.27"
+		}
+	}
+	implementation (group: "org.springframework", name: "spring-core") {
+		version {
+			strictly "5.3.27"
+		}
+	}
+	implementation (group: "org.springframework", name: "spring-expression") {
+		version {
+			strictly "5.3.27"
+		}
+	}
+	implementation (group: "org.springframework", name: "spring-jcl") {
+		version {
+			strictly "5.3.27"
+		}
+	}
+	implementation (group: "org.springframework", name: "spring-web") {
+		version {
+			strictly "5.3.27"
+		}
+	}
+	implementation (group: "org.springframework", name: "spring-webmvc") {
+		version {
+			strictly "5.3.27"
+		}
+	}
+#elseif (${framework.equals("springportletmvc")})
+	implementation (group: "org.springframework", name: "spring-aop") {
+		version {
+			strictly "4.1.9.RELEASE"
+		}
+	}
+	implementation (group: "org.springframework", name: "spring-beans") {
+		version {
+			strictly "4.1.9.RELEASE"
+		}
+	}
+	implementation (group: "org.springframework", name: "spring-context") {
+		version {
+			strictly "4.1.9.RELEASE"
+		}
+	}
+	implementation (group: "org.springframework", name: "spring-core") {
+		version {
+			strictly "4.1.9.RELEASE"
+		}
+	}
+	implementation (group: "org.springframework", name: "spring-expression") {
+		version {
+			strictly "4.1.9.RELEASE"
+		}
+	}
+	implementation (group: "org.springframework", name: "spring-web") {
+		version {
+			strictly "4.1.9.RELEASE"
+		}
+	}
+	implementation (group: "org.springframework", name: "spring-webmvc") {
+		version {
+			strictly "4.1.9.RELEASE"
+		}
+	}
+	implementation (group: "org.springframework", name: "spring-webmvc-portlet") {
+		version {
+			strictly "4.1.9.RELEASE"
+		}
+	}
+#end
+#if (${framework.equals("portletmvc4spring")})
+	implementation (group: "org.springframework.security", name: "spring-security-config") {
+		version {
+			strictly "5.5.1"
+		}
+	}
+	implementation (group: "org.springframework.security", name: "spring-security-core") {
+		version {
+			strictly "5.5.1"
+		}
+	}
+	implementation (group: "org.springframework.security", name: "spring-security-web") {
+		version {
+			strictly "5.5.1"
+		}
+	}
+#end
+#if (${viewType.equals("thymeleaf")})
+	implementation(group: "org.thymeleaf", name: "thymeleaf", version: "3.0.15.RELEASE") {
+		exclude group: "ognl", module: "ognl"
+		exclude group: "org.slf4j", module: "slf4j-api"
+	}
+#end
+#if (${viewType.equals("thymeleaf")} && ${framework.equals("portletmvc4spring")})
+	implementation(group: "org.thymeleaf", name: "thymeleaf-spring5", version: "3.0.15.RELEASE") {
+		exclude group: "org.slf4j", module: "slf4j-api"
+	}
+#elseif (${viewType.equals("thymeleaf")} && ${framework.equals("springportletmvc")})
+	implementation(group: "org.thymeleaf", name: "thymeleaf-spring4", version: "3.0.15.RELEASE") {
+		exclude group: "org.slf4j", module: "slf4j-api"
+	}
+#end
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
+#if (${liferayVersion.startsWith("7.0")} || ${framework.equals("springportletmvc")})
+	compileOnly (group: "javax.portlet", name: "portlet-api") {
+		version {
+			strictly "2.0"
+		}
+	}
+#else
+	compileOnly group: "javax.portlet", name: "portlet-api"
+#end
+	compileOnly group: "javax.servlet", name: "javax.servlet-api"
+#if (!${liferayVersion.startsWith("7.0")} && !${liferayVersion.startsWith("7.1")})
+	compileOnly group: "javax.validation", name: "validation-api", version: "2.0.1.Final"
+#end
+	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
+	compileOnly group: "org.slf4j", name: "slf4j-api"
+
+	cssBuilder group: "com.liferay", name: "com.liferay.css.builder", version: "@com.liferay.css.builder.version@"
+
+	portalCommonCSS group: "com.liferay", name: "com.liferay.frontend.css.common"
+}

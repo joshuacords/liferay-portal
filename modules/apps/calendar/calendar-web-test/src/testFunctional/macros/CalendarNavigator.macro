@@ -1,0 +1,297 @@
+definition {
+
+	var siteName = "Liferay";
+
+	@summary = "Default summary"
+	macro _selectCalendarSettingsIframe() {
+		SelectFrame(locator1 = "IFrame#MODAL_BODY");
+	}
+
+	@summary = "Default summary"
+	macro _selectPermissionsIframe() {
+		AssertTextEquals(
+			locator1 = "CalendarPermissions#PERMISSIONS_TITLE",
+			value1 = "Permissions");
+
+		SelectFrame(locator1 = "IFrame#MODAL_BODY");
+	}
+
+	@summary = "Default summary"
+	macro closeModal(modalTitle = null) {
+		SelectFrameTop();
+
+		var key_modalTitle = ${modalTitle};
+
+		Click(locator1 = "Button#CLOSE_MODAL");
+	}
+
+	@summary = "Default summary"
+	macro gotoAddCurrentSiteCalendars() {
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
+
+		Click(
+			key_siteName = ${siteName},
+			locator1 = "Calendar#CURRENT_SITE_CALENDARS_MENULIST_ARROW");
+
+		AssertClick(
+			locator1 = "Calendar#MY_CALENDARS_MENULIST_ADD_CALENDAR",
+			value1 = "Add Calendar");
+
+		CalendarNavigator._selectCalendarSettingsIframe();
+	}
+
+	@summary = "Default summary"
+	macro gotoAddEvent() {
+		CalendarNavigator.gotoView(viewType = "Week");
+
+		AssertClick(
+			locator1 = "Calendar#ADD_EVENT_BUTTON",
+			value1 = "Add Event");
+
+		CalendarEvent.selectEventIframe();
+
+		CalendarEvent._viewNewEventIframe();
+	}
+
+	@summary = "Default summary"
+	macro gotoAddEventMonth() {
+		CalendarNavigator.gotoView(viewType = "Month");
+
+		AssertClick(
+			locator1 = "Calendar#ADD_EVENT_BUTTON",
+			value1 = "Add Event");
+
+		CalendarEvent.selectEventIframe();
+
+		CalendarEvent._viewNewEventIframe();
+	}
+
+	@summary = "Default summary"
+	macro gotoAddEventToday(viewType = null) {
+		var viewTypeUppercase = StringUtil.upperCase(${viewType});
+
+		Click(locator1 = "Calendar#SCHEDULER_VIEW_${viewTypeUppercase}_CURRENT_DAY");
+	}
+
+	@summary = "Default summary"
+	macro gotoAddEventViaCurrentSite(site = null) {
+		Click(
+			key_site = ${site},
+			locator1 = "Calendar#CURRENT_SITE_CALENDARS_CALENDAR_PRIMARY_MENULIST_ARROW");
+
+		AssertClick(
+			locator1 = "Calendar#OTHER_CALENDARS_CALENDAR_MENULIST_ADD_EVENT",
+			value1 = "Add Event");
+
+		CalendarEvent.selectEventIframe();
+
+		CalendarEvent._viewNewEventIframe();
+	}
+
+	@summary = "Default summary"
+	macro gotoAddEventViaMyCalendars(user = null) {
+		Click(
+			key_user = ${user},
+			locator1 = "Calendar#MY_CALENDARS_CALENDAR_PRIMARY_MENULIST_ARROW");
+
+		AssertClick(
+			locator1 = "Calendar#OTHER_CALENDARS_CALENDAR_MENULIST_ADD_EVENT",
+			value1 = "Add Event");
+
+		CalendarEvent.selectEventIframe();
+
+		CalendarEvent._viewNewEventIframe();
+	}
+
+	@summary = "Default summary"
+	macro gotoAddMyCalendars() {
+		Click(locator1 = "Calendar#MY_CALENDARS_MENULIST_ARROW");
+
+		AssertClick(
+			locator1 = "Calendar#MY_CALENDARS_MENULIST_ADD_CALENDAR",
+			value1 = "Add Calendar");
+
+		CalendarNavigator._selectCalendarSettingsIframe();
+	}
+
+	@summary = "Default summary"
+	macro gotoAddResource() {
+		CalendarNavigator.gotoResources();
+
+		LexiconEntry.gotoAdd();
+
+		AssertTextEquals(
+			locator1 = "Portlet#H3_HEADER",
+			value1 = "New Resource");
+	}
+
+	@summary = "Default summary"
+	macro gotoConfiguration() {
+		Portlet.gotoPortletOptions(
+			portletName = "Calendar",
+			portletOption = "Configuration");
+
+		SelectFrame(locator1 = "IFrame#MODAL_BODY");
+	}
+
+	@summary = "Default summary"
+	macro gotoCurrentSiteCalendarsManage() {
+		var siteName = TestCase.getSiteName(siteName = ${siteName});
+
+		Click(
+			key_siteName = ${siteName},
+			locator1 = "Calendar#CURRENT_SITE_CALENDARS_MENULIST_ARROW");
+
+		AssertClick(
+			locator1 = "Calendar#MY_CALENDARS_MENULIST_MANAGE_CALENDAR",
+			value1 = "Manage Calendars");
+	}
+
+	@summary = "Default summary"
+	macro gotoEditEvent(eventTitle = null) {
+		CalendarNavigator.gotoView(viewType = "Week");
+
+		CalendarScheduler.selectSpecificEvent(eventTitle = ${eventTitle});
+
+		CalendarScheduler.viewEventTitleViaDialogBox(eventTitle = ${eventTitle});
+
+		CalendarScheduler.gotoEditViaDialogBox();
+	}
+
+	@summary = "Default summary"
+	macro gotoEditResourceCalendar(calendarResourceName = null) {
+		var key_calendarResourceName = ${calendarResourceName};
+
+		AssertTextEquals(
+			locator1 = "CalendarResources#RESOURCE_TABLE_NAME",
+			value1 = ${calendarResourceName});
+
+		LexiconEntry.gotoEntryMenuItem(
+			menuItem = "Edit",
+			rowEntry = ${calendarResourceName});
+
+		AssertTextEquals(
+			locator1 = "Portlet#H3_HEADER",
+			value1 = ${calendarResourceName});
+	}
+
+	@summary = "Default summary"
+	macro gotoEventDetails(eventTitle = null) {
+		CalendarNavigator.gotoView(viewType = "Week");
+
+		CalendarScheduler.selectSpecificEvent(eventTitle = ${eventTitle});
+
+		CalendarScheduler.gotoDetailsViaDialogBox();
+	}
+
+	@summary = "Default summary"
+	macro gotoMonthViaSmallCalendar(dateMonth = null) {
+		/*
+		To ensure the desired month will always be reached, click "Previous"
+		until it reaches our baseline of February 2016. Then click "Next" until
+		it reaches ${dateMonth}.
+		*/
+
+		while ((IsTextNotEqual(locator1 = "Calendar#SMALL_CALENDAR_DATE", value1 = "February 2016")) && (maxIterations = "100")) {
+			Click(locator1 = "Calendar#SMALL_CALENDAR_PREVIOUS");
+		}
+
+		while ((IsTextNotEqual(locator1 = "Calendar#SMALL_CALENDAR_DATE", value1 = ${dateMonth})) && (maxIterations = "100")) {
+			Click(locator1 = "Calendar#SMALL_CALENDAR_NEXT");
+		}
+	}
+
+	@summary = "Default summary"
+	macro gotoMyCalendarsManage() {
+		Click(locator1 = "Calendar#MY_CALENDARS_MENULIST_ARROW");
+
+		AssertClick(
+			locator1 = "Calendar#MY_CALENDARS_MENULIST_MANAGE_CALENDAR",
+			value1 = "Manage Calendars");
+	}
+
+	@summary = "Default summary"
+	macro gotoNextDay() {
+		CalendarNavigator.gotoView(viewType = "Day");
+
+		Click(locator1 = "Calendar#VIEW_NEXT_BUTTON");
+	}
+
+	@summary = "Default summary"
+	macro gotoPreviousDay() {
+		CalendarNavigator.gotoView(viewType = "Day");
+
+		Click(locator1 = "Calendar#VIEW_PREVIOUS_BUTTON");
+	}
+
+	@summary = "Default summary"
+	macro gotoResourceCalendars(calendarResourceName = null) {
+		CalendarNavigator.gotoResources();
+
+		LexiconEntry.gotoEntryMenuItem(
+			menuItem = "View Calendars",
+			rowEntry = ${calendarResourceName});
+	}
+
+	@summary = "Default summary"
+	macro gotoResources() {
+		Navigator.gotoNavItem(navItem = "Resources");
+	}
+
+	@summary = "Default summary"
+	macro gotoSpecificBusyDayViaSmallCalendar(dateNumber = null) {
+		var key_dateNumber = ${dateNumber};
+
+		AssertElementPresent(locator1 = "Calendar#SMALL_CALENDAR_SPECIFIC_BUSY_DAY");
+
+		Click(locator1 = "Calendar#SMALL_CALENDAR_SPECIFIC_BUSY_DAY");
+	}
+
+	@summary = "Default summary"
+	macro gotoToday() {
+		AssertClick(
+			locator1 = "Calendar#VIEW_TODAY_BUTTON",
+			value1 = "Today");
+	}
+
+	@summary = "Default summary"
+	macro gotoView(viewType = null) {
+		if (${viewType} == "Day") {
+			if (IsElementNotPresent(locator1 = "Calendar#VIEW_DAY_BUTTON_ACTIVE")) {
+				AssertClick(
+					locator1 = "Calendar#VIEW_DAY_BUTTON",
+					value1 = ${viewType});
+			}
+
+			AssertElementPresent(locator1 = "CalendarDayView#SCHEDULER_VIEW_DAY");
+		}
+		else if (${viewType} == "Week") {
+			if (IsElementNotPresent(locator1 = "Calendar#VIEW_WEEK_BUTTON_ACTIVE")) {
+				AssertClick(
+					locator1 = "Calendar#VIEW_WEEK_BUTTON",
+					value1 = ${viewType});
+			}
+
+			AssertElementPresent(locator1 = "Calendar#SCHEDULER_VIEW_WEEK");
+		}
+		else if (${viewType} == "Month") {
+			if (IsElementNotPresent(locator1 = "Calendar#VIEW_MONTH_BUTTON_ACTIVE")) {
+				AssertClick(
+					locator1 = "Calendar#VIEW_MONTH_BUTTON",
+					value1 = ${viewType});
+			}
+
+			AssertElementPresent(locator1 = "CalendarMonthView#SCHEDULER_VIEW_MONTH");
+		}
+		else if (${viewType} == "Agenda") {
+			if (IsElementNotPresent(locator1 = "Calendar#VIEW_AGENDA_BUTTON_ACTIVE")) {
+				AssertClick(
+					locator1 = "Calendar#VIEW_AGENDA_BUTTON",
+					value1 = ${viewType});
+			}
+
+			AssertElementPresent(locator1 = "CalendarAgendaView#SCHEDULER_VIEW_AGENDA");
+		}
+	}
+
+}

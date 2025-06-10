@@ -1,0 +1,115 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<%
+User membershipRequestUser = UserLocalServiceUtil.fetchUserById(membershipRequest.getUserId());
+
+User membershipRequestReplierUser = UserLocalServiceUtil.fetchUserById(membershipRequest.getReplierUserId());
+
+String replier = StringPool.BLANK;
+
+if (membershipRequestReplierUser != null) {
+	if (membershipRequestReplierUser.isGuestUser()) {
+		Company membershipRequestReplierCompany = CompanyLocalServiceUtil.getCompanyById(membershipRequestReplierUser.getCompanyId());
+
+		replier = HtmlUtil.escape(membershipRequestReplierCompany.getName());
+	}
+	else {
+		replier = HtmlUtil.escape(membershipRequestReplierUser.getFullName());
+	}
+}
+
+PortletURL previewURL = PortletURLBuilder.createRenderURL(
+	renderResponse
+).setMVCPath(
+	"/preview_membership_request.jsp"
+).setRedirect(
+	currentURL
+).setParameter(
+	"membershipRequestId", membershipRequest.getMembershipRequestId()
+).buildPortletURL();
+%>
+
+<c:choose>
+	<c:when test='<%= displayStyle.equals("descriptive") %>'>
+		<liferay-ui:search-container-column-text>
+			<liferay-user:user-portrait
+				userId="<%= membershipRequest.getUserId() %>"
+			/>
+		</liferay-ui:search-container-column-text>
+
+		<liferay-ui:search-container-column-text
+			colspan="<%= 2 %>"
+		>
+
+			<%
+			Date replyDate = membershipRequest.getReplyDate();
+
+			String modifiedDateDescription = LanguageUtil.getTimeDescription(request, System.currentTimeMillis() - replyDate.getTime(), true);
+			%>
+
+			<c:choose>
+				<c:when test="<%= Validator.isNotNull(replier) %>">
+					<div class="h5 text-default">
+						<liferay-ui:message arguments="<%= new String[] {replier, modifiedDateDescription} %>" key="replied-by-x-x-ago" />
+					</div>
+				</c:when>
+				<c:otherwise>
+					<div class="h5 text-default">
+						<liferay-ui:message arguments="<%= modifiedDateDescription %>" key="replied-x-ago" />
+					</div>
+				</c:otherwise>
+			</c:choose>
+
+			<div class="h5">
+				<aui:a href="<%= previewURL.toString() %>">
+					<%= HtmlUtil.escape(membershipRequestUser.getFullName()) %>
+				</aui:a>
+			</div>
+
+			<div class="h6 text-default">
+				<span><%= membershipRequestUser.getEmailAddress() %></span>
+			</div>
+		</liferay-ui:search-container-column-text>
+	</c:when>
+	<c:when test='<%= displayStyle.equals("icon") %>'>
+		<liferay-ui:search-container-column-text>
+			<clay:user-card
+				userCard="<%= new ViewMembershipRequestsUserCard(membershipRequest, membershipRequestUser, renderRequest, renderResponse) %>"
+			/>
+		</liferay-ui:search-container-column-text>
+	</c:when>
+	<c:when test='<%= displayStyle.equals("list") %>'>
+		<liferay-ui:search-container-column-text
+			name="user"
+		>
+			<aui:a href="<%= previewURL.toString() %>">
+				<%= HtmlUtil.escape(membershipRequestUser.getFullName()) %>
+			</aui:a>
+		</liferay-ui:search-container-column-text>
+
+		<liferay-ui:search-container-column-text
+			name="email-address"
+			value="<%= membershipRequestUser.getEmailAddress() %>"
+		/>
+
+		<liferay-ui:search-container-column-date
+			name="date"
+			value="<%= membershipRequest.getCreateDate() %>"
+		/>
+
+		<liferay-ui:search-container-column-text
+			name="replier"
+			value="<%= replier %>"
+		/>
+
+		<liferay-ui:search-container-column-date
+			name="reply-date"
+			value="<%= membershipRequest.getReplyDate() %>"
+		/>
+	</c:when>
+</c:choose>

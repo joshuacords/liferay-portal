@@ -1,0 +1,22 @@
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+
+clean {
+	ext {
+		cleanDeployed = false
+	}
+}
+
+dependencies {
+	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel", version: "default"
+	compileOnly group: "org.apache.ant", name: "ant", transitive: false, version: "1.10.14"
+	compileOnly project(":core:petra:petra-process")
+}
+
+liferay {
+	deployDir = "../../../tools/sdk/dependencies/com.liferay.ant.heap.dump/lib"
+}
+
+updateFileVersions {
+	match(/\t\t<dependency name="com.liferay.ant.heap.dump" org="com.liferay" rev="(\d.+)" \/>/, "../../../tools/sdk/dependencies/com.liferay.ant.heap.dump/ivy.xml")
+}

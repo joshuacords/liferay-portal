@@ -1,0 +1,43 @@
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+
+package com.liferay.source.formatter.dependencies;
+
+/**
+ * @author Cristina González
+ */
+public class SortMethodsWithAnnotatedParameters {
+
+	public static void method(
+		@Annotation(parameter = 1) String parameter1, int parameter2) {
+	}
+
+	public static void method(@Annotation(parameter = 1) Object parameter) {
+	}
+
+	public static void method(
+		int parameter1, @Annotation(parameter = 1) String parameter) {
+	}
+
+	@SuppressWarnings("unused")
+	private static void _method4(@Annotation(parameter = 1) String parameter) {
+		String test = parameter;
+	}
+
+	protected static void method2(@Annotation(parameter = 1) String parameter) {
+	}
+
+	protected void method3(@Annotation(parameter = 1) String parameter) {
+	}
+
+	public void method1(@Annotation(parameter = 1) String parameter) {
+	}
+
+	@SuppressWarnings("unused")
+	private void _method5(@Annotation(parameter = 1) String parameter) {
+		String test = parameter;
+	}
+
+}

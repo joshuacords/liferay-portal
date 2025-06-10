@@ -1,0 +1,145 @@
+definition {
+
+	@summary = "Default summary"
+	macro _selectAssetType(assetType = null) {
+		var key_assetType = ${assetType};
+
+		AssertClick(
+			locator1 = "AssetRelatedAssets#RELATED_ASSETS_SELECT",
+			value1 = "Select");
+
+		var assetTypeLocator = StringUtil.replace(${assetType}, " ", "_");
+
+		var assetTypeLocator = StringUtil.upperCase(${assetTypeLocator});
+
+		MenuItem.click(menuItem = ${assetType});
+	}
+
+	@summary = "Default summary"
+	macro gotoBookmarksSelectionPG(assetType = null) {
+		Portlet.clickPortletPlusIconPG(portletName = "Bookmarks");
+
+		MenuItem.click(menuItem = "Bookmark");
+
+		Panel.expandPanel(panel = "Related Assets");
+
+		AssertClick(
+			locator1 = "AssetRelatedAssets#RELATED_ASSETS_SELECT",
+			value1 = "Select");
+
+		var key_assetType = ${assetType};
+
+		MenuItem.click(menuItem = ${assetType});
+	}
+
+	@summary = "Default summary"
+	macro removeAsset() {
+		Panel.expandPanel(panel = "Related Assets");
+
+		for (var removeAssetTitle : list ${removeAssetTitle}) {
+			var key_assetTitle = ${removeAssetTitle};
+
+			Click(locator1 = "AssetRelatedAssets#RELATED_ASSETS_TABLE_REMOVE_LINK");
+
+			AssertElementNotPresent(locator1 = "AssetRelatedAssets#RELATED_ASSETS_TABLE_REMOVE_LINK");
+		}
+	}
+
+	@summary = "Default summary"
+	macro selectAsset(scopeSite = null, depotName = null, otherSite = null, assetTitle = null, assetType = null, scopeAssetType = null) {
+		if (isSet(scopeAssetType) && (${scopeAssetType} == "Blogs Entry")) {
+			Blogs.expandPanel(panel = "Related Assets");
+		}
+		else {
+			Panel.expandPanel(panel = "Related Assets");
+		}
+
+		RelatedAssets._selectAssetType(assetType = ${assetType});
+
+		SelectFrame(value1 = "relative=top");
+
+		SelectFrame(
+			key_title = "Select ${assetType}",
+			locator1 = "IFrame#MODAL_ANY");
+
+		if (isSet(scopeSite)) {
+			ManagementBar.setFilterAndOrder(filterBy = ${scopeSite});
+		}
+
+		if (isSet(assetAll)) {
+			PortletEntry.selectAll();
+		}
+		else {
+			if (isSet(depotName)) {
+				AssertClick(
+					key_breadcrumbName = "Sites and Libraries",
+					locator1 = "Breadcrumb#BREADCRUMB_ENTRY",
+					value1 = "Sites and Libraries");
+
+				AssertClick(
+					key_groupTab = "Asset Library",
+					locator1 = "ItemSelector#NAVIGATION_GROUP_TAB",
+					value1 = "Asset Library");
+
+				LexiconCard.clickCard(card = ${depotName});
+			}
+			else if (isSet(otherSite)) {
+				Click(
+					key_breadcrumbName = "Sites and Libraries",
+					locator1 = "Breadcrumb#BREADCRUMB_ENTRY");
+
+				LexiconCard.clickCard(card = ${otherSite});
+			}
+
+			LexiconEntry.changeDisplayStyle(displayStyle = "table");
+
+			Click(
+				key_assetTitle = ${assetTitle},
+				locator1 = "AssetRelatedAssets#ASSET_TABLE_CHECKBOX");
+		}
+
+		SelectFrame(value1 = "relative=top");
+
+		Button.clickDone();
+	}
+
+	@summary = "Default summary"
+	macro viewDefaultPG() {
+		var key_portletName = "Related Assets";
+
+		AssertTextEquals(
+			locator1 = "Portlet#TITLE",
+			value1 = "Related Assets");
+
+		AssertTextEquals(
+			key_widgetName = "Related Assets",
+			locator1 = "Message#INFO_SPECIFIC_WIDGET",
+			value1 = "Info: There are no related assets available. This application will show all assets related to the main asset of the current page.");
+	}
+
+	@summary = "Default summary"
+	macro viewNoPG(assetTitleList = null) {
+		for (var assetTitle : list ${assetTitleList}) {
+			var key_assetTitle = ${assetTitle};
+
+			AssertElementNotPresent(locator1 = "Relatedassets#ASSET_TITLE");
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewPG(relatedAssetTitle = null) {
+		if (!(isSet(rowNumber))) {
+			var rowNumber = 1;
+		}
+
+		if (IsElementPresent(locator1 = "Relatedassets#ASSET_ENTRY_STICKER")) {
+			AssertVisible(locator1 = "Relatedassets#ASSET_ENTRY_STICKER");
+		}
+
+		AssertTextEquals(
+			key_assetTitle = ${relatedAssetTitle},
+			locator1 = "Relatedassets#ASSET_TITLE",
+			value1 = ${relatedAssetTitle});
+	}
+
+}

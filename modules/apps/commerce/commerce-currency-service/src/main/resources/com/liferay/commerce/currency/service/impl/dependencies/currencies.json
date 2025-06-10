@@ -1,0 +1,82 @@
+[
+	{
+		"code": "USD",
+		"name": "US Dollar",
+		"primary": true,
+		"priority": 1,
+		"rate": 1,
+		"symbol": "$"
+	},
+	{
+		"code": "AUD",
+		"name": "Australian Dollar",
+		"primary": false,
+		"priority": 2,
+		"rate": 1.48,
+		"symbol": "$"
+	},
+	{
+		"code": "GBP",
+		"name": "British Pound",
+		"primary": false,
+		"priority": 3,
+		"rate": 0.80,
+		"symbol": "£"
+	},
+	{
+		"code": "CAD",
+		"name": "Canadian Dollar",
+		"primary": false,
+		"priority": 4,
+		"rate": 1.34,
+		"symbol": "$"
+	},
+	{
+		"code": "CNY",
+		"name": "Chinese Yuan Renminbi",
+		"primary": false,
+		"priority": 5,
+		"rate": 6.88,
+		"symbol": "¥"
+	},
+	{
+		"code": "EUR",
+		"name": "Euro",
+		"primary": false,
+		"priority": 6,
+		"rate": 0.91,
+		"symbol": "€"
+	},
+	{
+		"code": "HKD",
+		"name": "Hong Kong Dollar",
+		"primary": false,
+		"priority": 7,
+		"rate": 7.85,
+		"symbol": "$"
+	},
+	{
+		"code": "JPY",
+		"name": "Japanese Yen",
+		"primary": false,
+		"priority": 8,
+		"rate": 133.28,
+		"symbol": "¥"
+	},
+	{
+		"code": "INR",
+		"name": "Indian Rupee",
+		"primary": false,
+		"priority": 9,
+		"rate": 81.86,
+		"symbol": "₹"
+	},
+	{
+		"code": "BRL",
+		"name": "Brazilian Real",
+		"primary": false,
+		"priority": 10,
+		"rate": 4.91,
+		"symbol": "R$"
+	}
+]

@@ -1,0 +1,31 @@
+task zipPortlet(type: Zip)
+task zipTheme(type: Zip)
+
+dependencies {
+	testIntegrationImplementation group: "org.osgi", name: "osgi.core", version: "6.0.0"
+	testIntegrationImplementation project(":test:arquillian-extension-junit-bridge")
+}
+
+testIntegrationClasses {
+	dependsOn zipPortlet, zipTheme
+}
+
+zipPortlet {
+	mustRunAfter compileTestIntegrationJava
+	mustRunAfter processTestIntegrationResources
+
+	archiveFileName = "exploded-test-portlet.zip"
+	destinationDirectory = project.file("test-classes/integration")
+	from "test-classes/integration/exploded-test-portlet"
+	include '**/*'
+}
+
+zipTheme {
+	mustRunAfter compileTestIntegrationJava
+	mustRunAfter processTestIntegrationResources
+
+	archiveFileName = "exploded-test-theme.zip"
+	destinationDirectory = project.file("test-classes/integration")
+	from "test-classes/integration/exploded-test-theme"
+	include '**/*'
+}

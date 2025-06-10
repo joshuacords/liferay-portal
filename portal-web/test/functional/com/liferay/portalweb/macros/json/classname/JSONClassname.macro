@@ -1,0 +1,25 @@
+definition {
+
+	@summary = "Default summary"
+	macro _getClassNameId(value = null) {
+		Variables.assertDefined(parameterList = ${value});
+
+		var portalURL = JSONCompany.getPortalURL();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/classname/fetch-class-name \
+				-u ${userLoginInfo} \
+				-d value=${value}
+		''';
+
+		var classNameId = JSONCurlUtil.post(${curl}, "$.[?(@['value'] == '${value}')]['classNameId']");
+
+		if (${classNameId} == "") {
+			echo("The ${value} doesn't exist.");
+		}
+
+		return ${classNameId};
+	}
+
+}

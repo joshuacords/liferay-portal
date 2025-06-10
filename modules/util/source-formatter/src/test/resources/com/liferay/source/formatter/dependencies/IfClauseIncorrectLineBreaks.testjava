@@ -1,0 +1,64 @@
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+
+package com.liferay.source.formatter.dependencies;
+
+import com.liferay.portal.kernel.util.StringUtil;
+
+/**
+ * @author Hugo Huijser
+ */
+public class IfClauseIncorrectLineBreaks {
+
+	public void method() {
+		String test1 = "hello world";
+
+		if (test1.equals("hello world1") ||
+			test1.equals("hello world2") ||
+			test1.equals("hello world3") ||
+			test1.equals("hello world4") ||
+			test1.equals("hello world5") ||
+			test1.equals("hello world6")) {
+
+			return;
+		}
+
+		String test2 = "test";
+
+		if ((StringUtil.isLowerCase(test1) &&
+			 test1.equals(test2)) ||
+			StringUtil.isUpperCase(test2)) {
+
+			return;
+		}
+
+		if (StringUtil.isLowerCase(test1) &&
+			(test1.equals(test2) ||
+			 StringUtil.isUpperCase(test2))) {
+
+			return;
+		}
+
+		if ((test1 == null) || (test1.equals("hello world") &&
+			test2.equals("hello world"))) {
+
+			return;
+		}
+
+		if (test1.equals("hello world") ||
+			test1.equals("HELLO WORLD") || test1.equals("HeLlO WoRlD")) {
+
+			return;
+		}
+
+		int thisIsAnIntegerWithARatherLongName1 = 0;
+		int thisIsAnIntegerWithARatherLongName2 = 0;
+
+		if ((thisIsAnIntegerWithARatherLongName1 ==
+				thisIsAnIntegerWithARatherLongName2) && test1.equals(test2)) {
+		}
+	}
+
+}

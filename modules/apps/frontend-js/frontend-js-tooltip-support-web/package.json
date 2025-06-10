@@ -1,0 +1,15 @@
+{
+	"dependencies": {
+		"@clayui/tooltip": "3.132.0",
+		"@liferay/frontend-js-react-web": "*"
+	},
+	"main": "index.tsx",
+	"name": "frontend-js-tooltip-support-web",
+	"private": true,
+	"scripts": {
+		"build": "node-scripts build",
+		"checkFormat": "node-scripts format --check",
+		"format": "node-scripts format"
+	},
+	"version": "4.0.43"
+}

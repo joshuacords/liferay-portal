@@ -1,0 +1,61 @@
+definition {
+
+	@summary = "Default summary"
+	macro _addUserGroup(userGroupName = null, userGroupDescription = null) {
+		Variables.assertDefined(parameterList = ${userGroupName});
+
+		var portalURL = JSONCompany.getPortalURL();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/usergroup/add-user-group \
+				-u ${userLoginInfo} \
+				-d externalReferenceCode='' \
+				-d name=${userGroupName} \
+				-d description=${userGroupDescription}
+		''';
+
+		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
+	}
+
+	@summary = "Default summary"
+	macro _assignGroupRoleToUserGroup(userGroupId = null, roleId = null, groupId = null) {
+		Variables.assertDefined(parameterList = "${groupId},${roleId},${userGroupId}");
+
+		var portalURL = JSONCompany.getPortalURL();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/usergroupgrouprole/add-user-group-group-roles \
+				-u ${userLoginInfo} \
+				-d roleId=${roleId} \
+				-d groupId=${groupId} \
+				-d userGroupIds=${userGroupId}
+		''';
+
+		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
+	}
+
+	@summary = "Default summary"
+	macro _getUserGroupIdByName(userGroupName = null, groupId = null) {
+		Variables.assertDefined(parameterList = ${userGroupName});
+
+		var portalURL = JSONCompany.getPortalURL();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/usergroup/get-user-group \
+				-u ${userLoginInfo} \
+				-d name=${userGroupName}
+		''';
+
+		var userGroupId = JSONCurlUtil.post(${curl}, "$.userGroupId");
+
+		if (${groupId} == "") {
+			fail("FAIL. Cannot find user group.");
+		}
+
+		return ${userGroupId};
+	}
+
+}

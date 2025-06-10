@@ -1,0 +1,1 @@
+create unique index IX_8E223106 on DLContent (companyId, repositoryId, path_[$COLUMN_LENGTH:255$], version[$COLUMN_LENGTH:75$], ctCollectionId);

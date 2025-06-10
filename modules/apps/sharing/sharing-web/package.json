@@ -1,0 +1,28 @@
+{
+	"dependencies": {
+		"@clayui/alert": "3.129.1",
+		"@clayui/button": "3.128.0",
+		"@clayui/data-provider": "3.132.0",
+		"@clayui/form": "3.132.0",
+		"@clayui/icon": "3.128.0",
+		"@clayui/layout": "3.128.0",
+		"@clayui/loading-indicator": "3.128.0",
+		"@clayui/modal": "3.134.0",
+		"@clayui/multi-select": "3.134.0",
+		"@clayui/sticker": "3.129.0",
+		"@liferay/frontend-js-react-web": "*",
+		"classnames": "2.3.1",
+		"frontend-js-components-web": "*",
+		"frontend-js-web": "*",
+		"prop-types": "15.7.2",
+		"react": "18.2.0"
+	},
+	"main": "js/index.js",
+	"name": "sharing-web",
+	"scripts": {
+		"build": "node-scripts build",
+		"checkFormat": "node-scripts format --check",
+		"format": "node-scripts format"
+	},
+	"version": "3.0.80"
+}

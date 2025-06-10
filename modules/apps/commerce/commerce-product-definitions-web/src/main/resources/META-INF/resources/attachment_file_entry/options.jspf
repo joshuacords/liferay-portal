@@ -1,0 +1,28 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<c:choose>
+	<c:when test="<%= !cpAttachmentFileEntriesDisplayContext.hasOptions() %>">
+		<div class="alert alert-info">
+			<liferay-ui:message key="there-are-no-options-set-as-sku-contributor" />
+		</div>
+	</c:when>
+	<c:otherwise>
+		<div id="<portlet:namespace />optionsContainer">
+
+			<%
+			cpAttachmentFileEntriesDisplayContext.renderOptions(request, PipingServletResponseFactory.createPipingServletResponse(pageContext));
+			%>
+
+			<aui:input name="cpInstanceOptions" type="hidden" value="<%= (cpAttachmentFileEntry == null) ? StringPool.BLANK : cpAttachmentFileEntry.getJson() %>" />
+		</div>
+	</c:otherwise>
+</c:choose>
+
+<c:if test="<%= type == CPAttachmentFileEntryConstants.TYPE_IMAGE %>">
+	<aui:input label="use-in-shopping-experience-image-gallery" name="galleryEnabled" type="toggle-switch" value="<%= (cpAttachmentFileEntry == null) ? true : cpAttachmentFileEntry.isGalleryEnabled() %>" />
+</c:if>

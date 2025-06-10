@@ -1,0 +1,532 @@
+@component-name = "portal-content-management"
+definition {
+
+	property ci.retries.disabled = "true";
+	property portal.release = "true";
+	property portal.upstream = "true";
+	property testray.main.component.name = "Web Content";
+
+	setUp {
+		TestCase.setUpPortalInstance();
+
+		User.firstLoginPG();
+
+		HeadlessSite.addSite(siteName = "Test Site Name");
+	}
+
+	@priority = 5
+	test AddAndViewStructureAndTemplateWithPermissions {
+		property custom.properties = "jsonws.web.service.paths.excludes=";
+		property portal.acceptance = "true";
+
+		JSONLayout.addPublicLayout(
+			groupName = "Test Site Name",
+			layoutName = "Home");
+
+		JSONRole.addRegularRole(
+			roleKey = "Regular Role Name",
+			roleTitle = "Regular Role Name");
+
+		Permissions.definePermissionsViaJSONAPI(
+			resourceNameActionList = "com.liferay.portal.kernel.model.Group,VIEW_SITE_ADMINISTRATION:com_liferay_journal_web_portlet_JournalPortlet,ACCESS_IN_CONTROL_PANEL,VIEW:com.liferay.journal,ADD_ARTICLE,VIEW",
+			roleTitle = "Regular Role Name",
+			roleType = "regular");
+
+		Permissions.definePermissionsViaJSONAPI(
+			resourceNameActionList = "com.liferay.portal.kernel.model.Group,VIEW_SITE_ADMINISTRATION:com_liferay_journal_web_portlet_JournalPortlet,ACCESS_IN_CONTROL_PANEL,VIEW:com.liferay.journal,ADD_ARTICLE,VIEW",
+			roleTitle = "Site Member",
+			roleType = "site");
+
+		WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
+
+		NavItem.gotoStructures();
+
+		WebContentStructures.addCP(structureName = "WC Structure Name");
+
+		DataEngine.addField(fieldName = "Text");
+
+		WebContentStructures.saveCP(
+			addRoleViewPermissions = "Regular Role Name",
+			structureName = "WC Structure Name");
+
+		SelectFrame(locator1 = "IFrame#MODAL_BODY");
+
+		PermissionsInline.addOrRemoveViewPermissionFromAllRoles(
+			addOrRemoveViewPermission = "Remove",
+			roleList = "Guest,Site Member");
+
+		IFrame.closeFrame();
+
+		WebContentNavigator.gotoManageTemplatesViaStructures(structureName = "WC Structure Name");
+
+		WebContentTemplates.addCP(
+			templateFieldNames = "Text",
+			templateName = "WC Template Name");
+
+		WebContentTemplates.gotoTemplateEllipsisItem(
+			item = "Permissions",
+			templateName = "WC Template Name");
+
+		SelectFrame(locator1 = "IFrame#MODAL_BODY");
+
+		PermissionsInline.addOrRemoveViewPermissionFromAllRoles(
+			addOrRemoveViewPermission = "Add",
+			roleList = "Regular Role Name");
+
+		PermissionsInline.addOrRemoveViewPermissionFromAllRoles(
+			addOrRemoveViewPermission = "Remove",
+			roleList = "Guest,Site Member");
+
+		IFrame.closeFrame();
+
+		for (var number : list "1,2") {
+			JSONUser.addUser(
+				userEmailAddress = "user${number}@liferay.com",
+				userFirstName = "userfn${number}",
+				userLastName = "userln${number}",
+				userScreenName = "usersn${number}");
+
+			JSONUser.setFirstPassword(
+				agreeToTermsAndAnswerReminderQuery = "true",
+				requireReset = "false",
+				userEmailAddress = "user${number}@liferay.com");
+
+			JSONUser.addUserToSite(
+				groupName = "Test Site Name",
+				userEmailAddress = "user${number}@liferay.com");
+		}
+
+		JSONRole.assignRoleToUser(
+			roleTitle = "Regular Role Name",
+			userEmailAddress = "user1@liferay.com");
+
+		User.logoutAndLoginPG(userLoginEmailAddress = "user1@liferay.com");
+
+		WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
+
+		NavItem.gotoStructures();
+
+		WebContentStructures.viewCP(structureName = "WC Structure Name");
+
+		Navigator.gotoNavItem(navItem = "Templates");
+
+		WebContentTemplates.viewCP(
+			templateName = "WC Template Name",
+			userEditPermission = "noEditPermission");
+
+		User.logoutAndLoginPG(userLoginEmailAddress = "user2@liferay.com");
+
+		WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
+
+		NavItem.gotoStructures();
+
+		AssertTextNotPresent(value1 = "WC Structure Name");
+
+		NavItem.gotoTemplates();
+
+		AssertTextNotPresent(value1 = "WC Template Name");
+
+		User.logoutAndLoginPG(
+			userLoginEmailAddress = "test@liferay.com",
+			userLoginFullName = "Test Test");
+
+		Permissions.definePermissionsViaJSONAPI(
+			resourceNameActionList = "com.liferay.journal.model.JournalFolder,ADD_SUBFOLDER,ADD_ARTICLE,VIEW:com.liferay.journal.model.JournalArticle,UPDATE",
+			roleTitle = "Regular Role Name",
+			roleType = "regular");
+
+		WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
+
+		WebContentNavigator.gotoAddWithStructureCP(structureName = "WC Structure Name");
+
+		WebContent.addWithStructureCP(
+			webContentText = "WC WebContent Text",
+			webContentTitle = "WC WebContent Title");
+
+		WebContent.publishWithPermissions();
+
+		WebContent.viewTitle(webContentTitle = "WC WebContent Title");
+
+		WebContent.viewWithStructureCP(
+			webContentText = "WC WebContent Text",
+			webContentTitle = "WC WebContent Title");
+
+		JSONWebcontent.addFolder(
+			folderName = "WC Folder Name",
+			groupName = "Test Site Name");
+
+		User.logoutAndLoginPG(userLoginEmailAddress = "user1@liferay.com");
+
+		WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
+
+		WebContentNavigator.gotoEditCP(webContentTitle = "WC WebContent Title");
+
+		WebContent.editCP(
+			webContentTitle = "WC WebContent Title",
+			webContentTitleEdit = "WC WebContent Title Edit");
+
+		WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
+
+		WebContentFolder.addSubfolderCP(
+			folderName = "WC Folder Name",
+			subfolderDescription = "WC SubFolder Description",
+			subfolderName = "WC SubFolder Name");
+	}
+
+	@description = "A new user with power user role can add a web content based on global structure with edited default values."
+	@priority = 3
+	test AddWebContentBasedOnGlobalStructureAndEditedDefaultValues {
+		property custom.properties = "jsonws.web.service.paths.excludes=";
+
+		task ("Add a web content structure with a Text field in global site") {
+			WebContentNavigator.openWebContentStructuresAdmin(siteURLKey = "global");
+
+			WebContentStructures.addCP(
+				structureDescription = "Structure Description",
+				structureName = "Global Structure Name");
+
+			DataEngine.addField(
+				fieldFieldLabel = "Text",
+				fieldName = "Text");
+
+			WebContentStructures.saveCP(
+				addRoleViewPermissions = "Power User",
+				structureName = "Global Structure Name");
+		}
+
+		task ("Add a web content template associated with new structure in global site") {
+			WebContentNavigator.openWebContentTemplatesAdmin(siteURLKey = "global");
+
+			WebContentTemplates.addCP(
+				structureName = "Global Structure Name",
+				templateDescription = "Global Template Description",
+				templateName = "Global Template Name");
+		}
+
+		task ("Add permissions to Power User role") {
+			WebContentTemplates.addRoleViewPermissions(
+				roles = "Power User",
+				templateName = "Template Name");
+
+			IFrame.closeFrame();
+		}
+
+		task ("Edit the default values of new structure") {
+			NavItem.gotoStructures();
+
+			WebContentStructures.editStructureDefaultValuesCP(structureName = "Global Structure Name");
+
+			WebContent.addWithStructureCP(webContentText = "Edited Text Field");
+
+			PortletEntry.save();
+		}
+
+		task ("Add a new user") {
+			JSONUser.addUser(
+				userEmailAddress = "userea@liferay.com",
+				userFirstName = "Userfn",
+				userLastName = "Userln",
+				userScreenName = "usersn");
+
+			JSONUser.setFirstPassword(
+				agreeToTermsAndAnswerReminderQuery = "true",
+				requireReset = "false",
+				userEmailAddress = "userea@liferay.com");
+		}
+
+		task ("Assign the user to Power User role") {
+			JSONRole.assignRoleToUser(
+				roleTitle = "Power User",
+				userEmailAddress = "userea@liferay.com");
+		}
+
+		task ("Assign the user to site") {
+			JSONUser.addUserToSite(
+				groupName = "Test Site Name",
+				userEmailAddress = "userea@liferay.com");
+		}
+
+		task ("Assign the administrator role to new user") {
+			JSONRole.assignSiteRoleToUser(
+				groupName = "Test Site Name",
+				roleTitle = "Site Administrator",
+				userEmailAddress = "userea@liferay.com");
+		}
+
+		task ("Sign in as new user") {
+			User.logoutAndLoginPG(userLoginEmailAddress = "userea@liferay.com");
+		}
+
+		task ("Add a draft web content based on global structure") {
+			WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
+
+			WebContentNavigator.gotoAddWithStructureCP(structureName = "Global Structure Name");
+
+			WebContent.addWithStructureCP(
+				saveAsDraft = "true",
+				structureName = "Global Structure",
+				webContentText = "Web Content Text",
+				webContentTitle = "Web Content Title");
+		}
+
+		task ("View web content is shown in web content admin after published") {
+			WebContent.publishExistingWCArticleWithPermissions();
+
+			WebContent.viewTitle(webContentTitle = "Web Content Title");
+		}
+	}
+
+	@priority = 4
+	test AddWebContentRemoveGuestViewPermission {
+		property test.liferay.virtual.instance = "false";
+		property test.run.type = "single";
+
+		SystemSettings.openSystemSettingsAdmin();
+
+		SystemSettings.gotoConfiguration(
+			configurationCategory = "Web Content",
+			configurationName = "Web Content",
+			configurationScope = "Virtual Instance Scope");
+
+		SystemSettings.saveConfiguration();
+
+		JSONWebcontent.addWebContent(
+			content = "WC WebContent Content",
+			groupName = "Test Site Name",
+			title = "WC WebContent Title");
+
+		WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
+
+		WebContent.viewTitle(webContentTitle = "WC WebContent Title");
+
+		PermissionsInline.gotoWCArticle(webContentTitle = "WC WebContent Title");
+
+		Role.removePermissionPG(
+			permissionDefinitionKey = "CONFIGURATION_PERMISSIONS_VIEW_CHECKBOX",
+			roleTitle = "Guest");
+
+		JSONLayout.addPublicLayout(
+			groupName = "Test Site Name",
+			layoutName = "WCD Page");
+
+		JSONLayout.addWidgetToPublicLayout(
+			groupName = "Test Site Name",
+			layoutName = "WCD Page",
+			widgetName = "Web Content Display");
+
+		Navigator.gotoSitePage(
+			pageName = "WCD Page",
+			siteName = "Test Site Name");
+
+		WebContentDisplayPortlet.selectWebContent(webContentTitle = "WC WebContent Title");
+
+		Navigator.gotoSitePage(
+			pageName = "WCD Page",
+			siteName = "Test Site Name");
+
+		PermissionsInline.gotoConfigurationPG();
+
+		AssertChecked.assertCheckedNotVisible(
+			key_roleTitle = "guest",
+			locator1 = "Permissions#CONFIGURATION_PERMISSIONS_VIEW_CHECKBOX");
+
+		SelectFrame(value1 = "relative=top");
+
+		WebContentDisplayPortlet.viewContent(
+			webContentContent = "WC WebContent Content",
+			webContentTitle = "WC WebContent Title");
+
+		User.logoutPG();
+
+		Navigator.gotoSitePage(
+			pageName = "WCD Page",
+			siteName = "Test Site Name");
+
+		AssertTextNotPresent(value1 = "Web Content Display");
+
+		AssertTextNotPresent(value1 = "WC WebContent Content");
+	}
+
+	@description = "This is a test for LPS-145308. The site administrator could add a web content with image based on structure from parent site."
+	@priority = 4
+	test AddWebContentWithImageBasedOnStructureFromParentSite {
+		property custom.properties = "jsonws.web.service.paths.excludes=";
+
+		task ("Given a web content creator has web content structure with image field on parent site") {
+			task ("Add a child site") {
+				HeadlessSite.addSite(
+					parentSiteName = "Test Site Name",
+					siteName = "Child Site Name");
+			}
+
+			task ("Add a widget page to child site") {
+				JSONLayout.addPublicLayout(
+					groupName = "Test Site Name",
+					layoutName = "Test Page Name");
+			}
+
+			task ("Add a new user") {
+				JSONUser.addUser(
+					userEmailAddress = "userea@liferay.com",
+					userFirstName = "userfn",
+					userLastName = "userln",
+					userScreenName = "usersn");
+
+				JSONUser.setFirstPassword(
+					agreeToTermsAndAnswerReminderQuery = "true",
+					requireReset = "false",
+					userEmailAddress = "userea@liferay.com");
+			}
+
+			task ("Assign the user to child site") {
+				JSONUser.addUserToSite(
+					groupName = "Child Site Name",
+					parentGroupName = "Test Site Name",
+					userEmailAddress = "userea@liferay.com");
+			}
+
+			task ("Assign the Site Administrator to new user") {
+				JSONRole.assignSiteRoleToUser(
+					groupName = "Child Site Name",
+					parentGroupName = "Test Site Name",
+					roleTitle = "Site Administrator",
+					userEmailAddress = "userea@liferay.com");
+			}
+
+			task ("Add a web content structure with image field on parent site") {
+				WebContentStructures.openWebContentStructuresAdmin(siteURLKey = "test-site-name");
+
+				WebContentStructures.addCP(structureName = "WC Structure Name");
+
+				DataEngine.addField(
+					fieldFieldLabel = "Image",
+					fieldName = "Image");
+
+				WebContentStructures.saveCP();
+			}
+
+			task ("Edit the default values of new structure") {
+				WebContentStructures.editStructureDefaultValuesCP(structureName = "WC Structure Name");
+
+				WebContent.addWithStructureCP(description = "New description for structure name");
+
+				PortletEntry.save();
+			}
+
+			task ("Grant view permission to User") {
+				LexiconEntry.gotoEntryMenuItem(
+					menuItem = "Permissions",
+					rowEntry = "WC Structure Name");
+
+				PermissionsInline.addOrRemoveAnyPermissionsFromSpecificRole(
+					addOrRemoveViewPermission = "Add",
+					permissionsKeyList = "INLINE_PERMISSIONS_VIEW_CHECKBOX",
+					roleTitle = "user");
+			}
+		}
+
+		task ("When the new user adds a web content on child site based on structure from parent site") {
+			User.logoutAndLoginPG(userLoginEmailAddress = "userea@liferay.com");
+
+			WebContentNavigator.openWebContentAdmin(siteURLKey = "child-site-name");
+
+			WebContentNavigator.gotoAddWithStructureCP(structureName = "WC Structure Name");
+		}
+
+		task ("Then the new user can upload a picture on image field") {
+			WebContent.addWithStructureCP(
+				navTab = "Web Content Images",
+				structureName = "WC Structure Name",
+				webContentImage = "Document_2.jpeg",
+				webContentTitle = "Web Content Title");
+
+			WebContent.publishWithPermissions();
+
+			WebContent.viewWithStructureCP(
+				webContentImage = "Document_2.jpeg",
+				webContentTitle = "Web Content Title");
+		}
+	}
+
+	@description = "A new user with web content administration role can edit a web content."
+	@priority = 4
+	test EditWebContentAsUserWithPermissions {
+		property custom.properties = "jsonws.web.service.paths.excludes=";
+
+		task ("Add a web content") {
+			JSONWebcontent.addWebContent(
+				content = "Web Content Content",
+				groupName = "Test Site Name",
+				title = "Web Content Title");
+		}
+
+		task ("View web content is shown as Test Test") {
+			WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
+
+			WebContent.viewTitle(webContentTitle = "Web Content Title");
+		}
+
+		task ("Add a new regular role") {
+			JSONRole.addRegularRole(
+				roleKey = "Web Content Administrator Role",
+				roleTitle = "Web Content Administrator Role");
+		}
+
+		task ("Define the permissions of regular role") {
+			Permissions.definePermissionsViaJSONAPI(
+				resourceNameActionList = "com.liferay.journal,ADD_STRUCTURE,ADD_FOLDER,ADD_FEED,ADD_ARTICLE,VIEW,UPDATE,SUBSCRIBE,PERMISSIONS,ADD_TEMPLATE:com.liferay.journal.model.JournalArticle,ADD_DISCUSSION,VIEW,UPDATE_DISCUSSION,UPDATE,SUBSCRIBE,PERMISSIONS,EXPIRE,DELETE_DISCUSSION,DELETE:com.liferay.journal.model.JournalFolder,VIEW,UPDATE,SUBSCRIBE,PERMISSIONS,DELETE,ADD_SUBFOLDER,ADD_ARTICLE,ACCESS:com_liferay_journal_web_portlet_JournalPortlet,VIEW,ACCESS_IN_CONTROL_PANEL:com.liferay.portal.kernel.model.Group,VIEW_SITE_ADMINISTRATION",
+				roleTitle = "Web Content Administrator Role",
+				roleType = "regular");
+		}
+
+		task ("Add a new user") {
+			JSONUser.addUser(
+				userEmailAddress = "userea@liferay.com",
+				userFirstName = "userfn",
+				userLastName = "userln",
+				userScreenName = "usersn");
+
+			JSONUser.setFirstPassword(
+				agreeToTermsAndAnswerReminderQuery = "true",
+				requireReset = "false",
+				userEmailAddress = "userea@liferay.com");
+		}
+
+		task ("Assign the user to role") {
+			JSONRole.assignRoleToUser(
+				roleTitle = "Web Content Administrator Role",
+				userEmailAddress = "userea@liferay.com");
+		}
+
+		task ("Assign the user to site") {
+			JSONUser.addUserToSite(
+				groupName = "Test Site Name",
+				userEmailAddress = "userea@liferay.com");
+		}
+
+		task ("Sign in as new user") {
+			User.logoutAndLoginPG(userLoginEmailAddress = "userea@liferay.com");
+		}
+
+		task ("Edit the web content as new user") {
+			WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
+
+			WebContentNavigator.gotoEditCP(webContentTitle = "Web Content Title");
+
+			WebContent.editCP(
+				webContentContentEdit = "Web Content Content Edit",
+				webContentTitle = "Web Content Title",
+				webContentTitleEdit = "Web Content Title Edit");
+
+			WebContent.viewTitle(webContentTitle = "Web Content Title Edit");
+		}
+
+		task ("View new user as last editor") {
+			WebContent.viewUserEditCP(
+				userFirstLast = "userfn userln",
+				webContentContent = "Web Content Content Edit",
+				webContentTitle = "Web Content Title Edit");
+		}
+	}
+
+}

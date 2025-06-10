@@ -1,0 +1,463 @@
+definition {
+
+	@summary = "Default summary"
+	macro addAttachmentToMessage(groupName = null, fileName = null, threadSubject = null, mimeType = null, categoryName = null) {
+		var messageId = JSONMBMessage.getMessageIdByName(
+			categoryName = ${categoryName},
+			groupName = ${groupName},
+			threadSubject = ${threadSubject});
+		var portalURL = JSONCompany.getPortalURL();
+		var baseDir = PropsUtil.get("test.base.dir.name");
+		var dependenciesDir = PropsUtil.get("test.dependencies.dir.name");
+
+		var filePath = "${baseDir}${dependenciesDir}/${fileName}";
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/mb.mbmessage/add-message-attachment \
+				-u ${userLoginInfo} \
+				-F messageId=${messageId} \
+				-F fileName=${fileName} \
+				-F mimeType=${mimeType} \
+				-F file=@${filePath}
+		''';
+
+		echo("## Adding a 'File' with the following info using JSONWS:");
+
+		echo("## * File Name: ${fileName}");
+
+		var messageId = JSONCurlUtil.post(${curl});
+	}
+
+	@summary = "Default summary"
+	macro addCategory(userEmailAddress = null, workflowAction = null, categoryName = null, groupName = null, site = null, assetCategoryIds = null, assetTagNames = null) {
+		var portalURL = JSONCompany.getPortalURL();
+		var userId = JSONUserAPI._getUserIdByEmailAddress(userEmailAddress = ${userEmailAddress});
+
+		if (!(isSet(externalReferenceCode))) {
+			var externalReferenceCode = "";
+		}
+
+		if (!(isSet(parentCategoryId))) {
+			var parentCategoryId = 0;
+		}
+
+		if (!(isSet(categoryDescription))) {
+			var categoryDescription = "";
+		}
+
+		if (isSet(groupName)) {
+			var serviceContext = JSONServiceContextUtil.setServiceContext(
+				addGroupPermissions = "true",
+				addGuestPermissions = "true",
+				assetCategoryIds = ${assetCategoryIds},
+				assetTagNames = ${assetTagNames},
+				groupName = ${groupName},
+				site = ${site},
+				workflowAction = ${workflowAction});
+		}
+		else {
+			var serviceContext = JSONServiceContextUtil.setServiceContext(
+				addGroupPermissions = "true",
+				addGuestPermissions = "true",
+				groupName = "Guest");
+		}
+
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/mb.mbcategory/add-category \
+				-u ${userLoginInfo} \
+				-d externalReferenceCode=${externalReferenceCode}
+				-d userId=${userId} \
+				-d parentCategoryId=${parentCategoryId} \
+				-d name=${categoryName} \
+				-d description=${categoryDescription} \
+				-d serviceContext=${serviceContext}
+		''';
+
+		echo("## Adding a 'Category' with the following info using JSONWS:");
+
+		echo("## * Name: ${categoryName}");
+
+		echo("## * Description: ${categoryDescription}");
+
+		var messageId = JSONCurlUtil.post(${curl});
+	}
+
+	@summary = "Default summary"
+	macro addMessage(threadSubject = null, workflowAction = null, categoryName = null, groupName = null, assetCategoryIds = null, assetTagNames = null, threadBody = null) {
+		if (!(isSet(site))) {
+			var site = "true";
+		}
+
+		var groupId = JSONGroupAPI._getGroupIdByName(
+			groupName = ${groupName},
+			site = ${site});
+		var portalURL = JSONCompany.getPortalURL();
+
+		if (!(isSet(addGuestPermissions))) {
+			var addGuestPermissions = "true";
+		}
+
+		if (!(isSet(addGroupPermissions))) {
+			var addGroupPermissions = "true";
+		}
+
+		var serviceContext = JSONServiceContextUtil.setServiceContext(
+			addGroupPermissions = ${addGroupPermissions},
+			addGuestPermissions = ${addGuestPermissions},
+			assetCategoryIds = ${assetCategoryIds},
+			assetTagNames = ${assetTagNames},
+			workflowAction = ${workflowAction});
+
+		if (isSet(categoryName)) {
+			var categoryId = JSONMBMessage.getCategoryIdByName(
+				categoryName = ${categoryName},
+				groupName = ${groupName});
+		}
+		else {
+			var categoryId = 0;
+		}
+
+		if (!(isSet(userEmailAddress))) {
+			var userEmailAddress = "test@liferay.com";
+		}
+
+		if (!(isSet(userPassword))) {
+			var userPassword = PropsUtil.get("default.admin.password");
+		}
+
+		var curl = '''
+			${portalURL}/api/jsonws/mb.mbmessage/add-message \
+				-u ${userEmailAddress}:${userPassword} \
+				-d groupId=${groupId} \
+				-d categoryId=${categoryId} \
+				-d subject=${threadSubject} \
+				-d body=${threadBody} \
+				-d format='bbcode' \
+				-d inputStreamOVPs= \
+				-d anonymous=false \
+				-d priority=0 \
+				-d allowPingbacks=true \
+				-d serviceContext=${serviceContext}
+		''';
+
+		echo("## Adding a 'Message' with the following info using JSONWS:");
+
+		echo("## * Subject: ${threadSubject}");
+
+		echo("## * Body: ${threadBody}");
+
+		var messageId = JSONCurlUtil.post(${curl}, "$['messageId']");
+	}
+
+	@summary = "Default summary"
+	macro addMessageReply(groupName = null, replyBody = null, threadSubject = null, threadBody = null, categoryName = null) {
+		if (isSet(groupName)) {
+			var messageId = JSONMBMessage.getMessageIdByName(
+				categoryName = ${categoryName},
+				groupName = ${groupName},
+				threadSubject = ${threadSubject});
+		}
+		else {
+			var messageId = JSONMBMessage.getmessageId();
+		}
+
+		if (isSet(anonymous)) {
+			var anonymous = "true";
+		}
+		else {
+			var anonymous = "false";
+		}
+
+		if (!(isSet(addGuestPermissions))) {
+			var addGuestPermissions = "true";
+		}
+
+		var portalURL = JSONCompany.getPortalURL();
+		var serviceContext = JSONServiceContextUtil.setServiceContext(
+			addGroupPermissions = "true",
+			addGuestPermissions = ${addGuestPermissions});
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/mb.mbmessage/add-message \
+				-u ${userLoginInfo} \
+				-d parentMessageId=${messageId} \
+				-d subject=RE: ${threadSubject} \
+				-d body=${replyBody} \
+				-d format=bbcode \
+				-d inputStreamOVPs=[] \
+				-d anonymous=${anonymous} \
+				-d priority=0 \
+				-d allowPingbacks=true \
+				-d serviceContext=${serviceContext}
+		''';
+
+		echo("## Adding a 'Message' with the following info using JSONWS:");
+
+		echo("## * Parent messageId: ${messageId}");
+
+		echo("## * Subject: ${threadSubject}");
+
+		echo("## * Body: ${threadBody}");
+
+		var messageId = JSONCurlUtil.post(${curl}, "$['messageId']");
+	}
+
+	@summary = "Default summary"
+	macro deleteCategory(groupName = null, categoryName = null) {
+		Variables.assertDefined(parameterList = "${categoryName},${groupName}");
+
+		var categoryId = JSONMBMessage.getCategoryIdByName(
+			categoryName = ${categoryName},
+			groupName = ${groupName});
+		var portalURL = JSONCompany.getPortalURL();
+		var groupId = JSONGroupSetter.setGroupId(groupName = ${groupName});
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/mb.mbcategory/delete-category \
+				-u ${userLoginInfo} \
+				-d categoryId=${categoryId} \
+				-d groupId=${groupId}
+		''';
+
+		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
+	}
+
+	@summary = "Default summary"
+	macro deleteMessage(groupName = null, threadSubject = null, categoryName = null) {
+		var messageId = JSONMBMessage.getMessageIdByName(
+			categoryName = ${categoryName},
+			groupName = ${groupName},
+			threadSubject = ${threadSubject});
+		var portalURL = JSONCompany.getPortalURL();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/mb.mbmessage/delete-message \
+				-u ${userLoginInfo} \
+				-d messageId=${messageId} \
+		''';
+
+		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
+	}
+
+	@summary = "Default summary"
+	macro getCategoryId() {
+		var messageBoardsCategoryURL = selenium.getLocation();
+		var portalURL = JSONCompany.getPortalURL();
+
+		var categoryId = StringUtil.replace(${messageBoardsCategoryURL}, "${portalURL}/web/guest/message-boards-page/-/message_boards/category/", "");
+
+		return ${categoryId};
+	}
+
+	@summary = "Default summary"
+	macro getCategoryIdByName(groupName = null, categoryName = null) {
+		Variables.assertDefined(parameterList = "${categoryName},${groupName}");
+
+		var portalURL = JSONCompany.getPortalURL();
+		var groupId = JSONGroupSetter.setGroupId(groupName = ${groupName});
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/mb.mbcategory/get-categories \
+				-u ${userLoginInfo} \
+				-d groupId=${groupId}
+		''';
+
+		var categoryId = JSONCurlUtil.post(${curl}, "$.[?(@['name'] == '${categoryName}')]['categoryId']");
+
+		if (${categoryId} == "") {
+			fail("FAIL. Cannot find category.");
+		}
+
+		return ${categoryId};
+	}
+
+	@summary = "Default summary"
+	macro getmessageId() {
+		var messageBoardsThreadURL = selenium.getLocation();
+		var portalURL = JSONCompany.getPortalURL();
+
+		var messageId = StringUtil.replace(${messageBoardsThreadURL}, "${portalURL}/web/guest/message-boards-page/-/message_boards/message/", "");
+
+		return ${messageId};
+	}
+
+	@summary = "Default summary"
+	macro getMessageIdByName(groupName = null, threadSubject = null, categoryName = null) {
+		if (isSet(categoryName)) {
+			var categoryId = JSONMBMessage.getCategoryIdByName(
+				categoryName = ${categoryName},
+				groupName = ${groupName});
+		}
+		else {
+			var categoryId = 0;
+		}
+
+		var portalURL = JSONCompany.getPortalURL();
+		var groupId = JSONGroupSetter.setGroupId(groupName = ${groupName});
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/mb.mbthread/get-threads \
+				-u ${userLoginInfo} \
+				-d groupId=${groupId} \
+				-d categoryId=${categoryId} \
+				-d status=0 \
+				-d "start=-1" \
+				-d "end=-1"
+		''';
+
+		var messageId = JSONCurlUtil.post(${curl}, "$.[?(@['title'] == '${threadSubject}')]['rootMessageId']");
+
+		if (${messageId} == "") {
+			fail("FAIL. Cannot find category.");
+		}
+
+		return ${messageId};
+	}
+
+	@summary = "Default summary"
+	macro getThreadIdByName(groupName = null, threadSubject = null, categoryName = null) {
+		if (isSet(categoryName)) {
+			var categoryId = JSONMBMessage.getCategoryIdByName(
+				categoryName = ${categoryName},
+				groupName = ${groupName});
+		}
+		else {
+			var categoryId = 0;
+		}
+
+		var portalURL = JSONCompany.getPortalURL();
+		var groupId = JSONGroupSetter.setGroupId(groupName = ${groupName});
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/mb.mbthread/get-threads \
+				-u ${userLoginInfo} \
+				-d groupId=${groupId} \
+				-d categoryId=${categoryId} \
+				-d status=0 \
+				-d "start=-1" \
+				-d "end=-1"
+		''';
+
+		var threadId = JSONCurlUtil.post(${curl}, "$.[?(@['title'] == '${threadSubject}')]['threadId']");
+
+		if (${threadId} == "") {
+			fail("FAIL. Cannot find category.");
+		}
+
+		return ${threadId};
+	}
+
+	@summary = "Default summary"
+	macro moveCategoryToTrash(groupName = null, categoryName = null) {
+		var categoryId = JSONMBMessage.getCategoryIdByName(
+			categoryName = ${categoryName},
+			groupName = ${groupName});
+		var portalURL = JSONCompany.getPortalURL();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/mb.mbcategory/move-category-to-trash \
+				-u ${userLoginInfo} \
+				-d categoryId=${categoryId} \
+		''';
+
+		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
+	}
+
+	@summary = "Default summary"
+	macro moveThreadToTrash(groupName = null, threadSubject = null, categoryName = null) {
+		var threadId = JSONMBMessage.getThreadIdByName(
+			categoryName = ${categoryName},
+			groupName = ${groupName},
+			threadSubject = ${threadSubject});
+		var portalURL = JSONCompany.getPortalURL();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/mb.mbthread/move-thread-to-trash \
+				-u ${userLoginInfo} \
+				-d threadId=${threadId} \
+		''';
+
+		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
+	}
+
+	@summary = "Default summary"
+	macro splitThread(groupName = null, threadSubject = null, threadSplitSubject = null, categoryName = null) {
+		var messageId = JSONMBMessage.getMessageIdByName(
+			categoryName = ${categoryName},
+			groupName = ${groupName},
+			threadSubject = ${threadSubject});
+		var portalURL = JSONCompany.getPortalURL();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/mb.mbthread/split-thread \
+				-u ${userLoginInfo} \
+				-d messageId=${messageId} \
+				-d subject=${threadSplitSubject}
+		''';
+
+		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
+	}
+
+	@summary = "Default summary"
+	macro subscribeToMessage(groupName = null, threadSubject = null, categoryName = null) {
+		Variables.assertDefined(parameterList = "${threadSubject},${groupName}");
+
+		var messageId = JSONMBMessage.getMessageIdByName(
+			categoryName = ${categoryName},
+			groupName = ${groupName},
+			threadSubject = ${threadSubject});
+		var portalURL = JSONCompany.getPortalURL();
+
+		if (!(isSet(userEmailAddress))) {
+			var userEmailAddress = "test@liferay.com";
+		}
+
+		if (!(isSet(userPassword))) {
+			var userPassword = PropsUtil.get("default.admin.password");
+		}
+
+		var curl = '''
+			${portalURL}/api/jsonws/mb.mbmessage/subscribe-message \
+				-u ${userEmailAddress}:${userPassword} \
+				-d messageId=${messageId} \
+		''';
+
+		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
+	}
+
+	@summary = "Default summary"
+	macro updateMessage(groupName = null, threadSubject = null, threadSubjectEdit = null, threadBodyEdit = null, categoryName = null) {
+		var messageId = JSONMBMessage.getMessageIdByName(
+			categoryName = ${categoryName},
+			groupName = ${groupName},
+			threadSubject = ${threadSubject});
+		var portalURL = JSONCompany.getPortalURL();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/mb.mbmessage/update-message \
+				-u ${userLoginInfo} \
+				-d messageId=${messageId} \
+				-d subject=${threadSubjectEdit} \
+				-d body=${threadBodyEdit} \
+				-d inputStreamOVPs= \
+				-d priority=0 \
+				-d allowPingbacks=false
+		''';
+
+		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
+	}
+
+}

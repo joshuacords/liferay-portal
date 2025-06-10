@@ -1,0 +1,46 @@
+<html>
+<head>
+<title>ExportPersonalData</title>
+</head>
+
+<body>
+<table border="1" cellpadding="1" cellspacing="1">
+<thead>
+<tr><td rowspan="1" colspan="3">ExportPersonalData</td></tr>
+</thead>
+
+<tbody>
+<tr>
+	<td>HEADER</td>
+	<td>//div[contains(@class,'control-menu-nav')]//h1[contains(@data-qa-id,'headerTitle') and contains(.,'${key_firstName} ${key_lastName} - Export Personal Data')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ADD_PROCESS_HEADER</td>
+	<td>//div[contains(@class,'control-menu-nav')]//h1[contains(@data-qa-id,'headerTitle') and contains(.,'${key_firstName} ${key_lastName} - New Data Export')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>APPLICATION_CHECKBOX</td>
+	<td>//table//tr[contains(.,'${key_application}')]//input[@type='checkbox']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>EXPORT_PROCESS_APPLICATION_STATUS</td>
+	<td>//div[contains(.,'${key_application}')]/span[contains(.,'${key_status}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>EXPORT_PROCESS_STATUS</td>
+	<td>//tr[contains(@class,'table-divider')]//td[contains(.,'${key_status}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,78 @@
+definition {
+
+	@summary = "Default summary"
+	macro _deleteCommerceMeasurementUnits() {
+		var baseURL = ${baseURL};
+
+		if (!(isSet(baseURL))) {
+			var baseURL = JSONCompany.getPortalURL();
+		}
+
+		var commerceMeasurementUnitsIds = CommerceJSONMeasurementUnitsAPI._getCommerceMeasurementUnits();
+
+		if (${commerceMeasurementUnitsIds} != "") {
+			for (var commerceMeasurementUnitsId : list ${commerceMeasurementUnitsIds}) {
+				echo("Deleting Commerce Measurement Units with id: ${commerceMeasurementUnitsId}");
+
+				var userLoginInfo = JSONUtil2.formatJSONUser();
+
+				var curl = '''
+					${baseURL}/api/jsonws/commerce.cpmeasurementunit/delete-cp-measurement-unit \
+						-u ${userLoginInfo} \
+						-d cpMeasurementUnitId=${commerceMeasurementUnitsId}
+				''';
+
+				JSONCurlUtil.post(${curl});
+			}
+		}
+		else {
+			echo("No Commerce Measurement Units to be deleted");
+		}
+	}
+
+	@summary = "Default summary"
+	macro _getCommerceAvailableMeasurementUnitsCount() {
+		var availableMeasurementUnits = 0;
+		var commerceMeasurementUnitsIds = CommerceJSONMeasurementUnitsAPI._getCommerceMeasurementUnits();
+
+		for (var commerceMeasurementUnitsId : list ${commerceMeasurementUnitsIds}) {
+			if (${commerceMeasurementUnitsId} != "") {
+				var availableMeasurementUnits = ${availableMeasurementUnits} + 1;
+			}
+		}
+
+		echo("The Commerce available measurement units count is: ${availableMeasurementUnits}");
+
+		return ${availableMeasurementUnits};
+	}
+
+	@summary = "Default summary"
+	macro _getCommerceMeasurementUnits() {
+		var baseURL = ${baseURL};
+
+		if (!(isSet(baseURL))) {
+			var baseURL = JSONCompany.getPortalURL();
+		}
+
+		var companyId = JSONCompany.getCompanyId();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${baseURL}/api/jsonws/commerce.cpmeasurementunit/get-cp-measurement-units \
+				-u ${userLoginInfo} \
+				-d companyId=${companyId} \
+				-d "start=-1" \
+				-d "end=-1" \
+				-d -orderByComparator=''
+		''';
+
+		echo("curl: ${curl}");
+
+		var commerceMeasurementUnits = JSONCurlUtil.post(${curl}, "$..['CPMeasurementUnitId']");
+
+		echo("commerceMeasurementUnits: ${commerceMeasurementUnits}");
+
+		return ${commerceMeasurementUnits};
+	}
+
+}

@@ -1,0 +1,50 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<liferay-ui:search-container-column-text
+	href="<%= rowURL %>"
+	name="user-id"
+	property="userId"
+/>
+
+<liferay-ui:search-container-column-text
+	href="<%= rowURL %>"
+	name="user-name"
+	property="userName"
+/>
+
+<liferay-ui:search-container-column-text
+	href="<%= rowURL %>"
+	name="resource-id"
+	property="classPK"
+/>
+
+<liferay-ui:search-container-column-text
+	href="<%= rowURL %>"
+	name="resource-name"
+	title='<%= (String)PortalClassInvoker.invoke(new MethodKey(ClassResolverUtil.resolve("com.liferay.portal.kernel.security.permission.ResourceActionsUtil", PortalClassLoaderUtil.getClassLoader()), "getModelResource", HttpServletRequest.class, String.class), request, event.getClassName()) %>'
+	value="<%= event.getClassName() %>"
+/>
+
+<liferay-ui:search-container-column-text
+	href="<%= rowURL %>"
+	name="resource-action"
+	title='<%= (String)PortalClassInvoker.invoke(new MethodKey(ClassResolverUtil.resolve("com.liferay.portal.kernel.security.permission.ResourceActionsUtil", PortalClassLoaderUtil.getClassLoader()), "getAction", HttpServletRequest.class, String.class), request, event.getEventType()) %>'
+	value="<%= event.getEventType() %>"
+/>
+
+<liferay-ui:search-container-column-text
+	href="<%= rowURL %>"
+	name="client-ip"
+	value="<%= Validator.isNotNull(event.getClientIP()) ? event.getClientIP() : StringPool.BLANK %>"
+/>
+
+<liferay-ui:search-container-column-date
+	href="<%= rowURL %>"
+	name="create-date"
+	value="<%= event.getCreateDate() %>"
+/>

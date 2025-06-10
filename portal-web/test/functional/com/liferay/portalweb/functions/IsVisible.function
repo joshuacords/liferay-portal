@@ -1,0 +1,10 @@
+@default = "isVisible"
+definition {
+
+	function isVisible(locator1) {
+		WaitForSPARefresh();
+
+		selenium.isVisible(${locator1});
+	}
+
+}

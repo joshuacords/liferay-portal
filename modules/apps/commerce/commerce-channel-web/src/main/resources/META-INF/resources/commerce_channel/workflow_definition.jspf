@@ -1,0 +1,28 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<aui:select label='<%= typePrefix + "-workflow" %>' name='<%= typePrefix + "WorkflowDefinition" %>'>
+	<aui:option label="no-workflow" value="" />
+
+	<%
+	WorkflowDefinitionLink workflowDefinitionLink = commerceChannelDisplayContext.getWorkflowDefinitionLink(typePK);
+
+	for (WorkflowDefinition workflowDefinition : workflowDefinitions) {
+		boolean selected = false;
+
+		if ((workflowDefinitionLink != null) && Objects.equals(workflowDefinitionLink.getWorkflowDefinitionName(), workflowDefinition.getName()) && (workflowDefinitionLink.getWorkflowDefinitionVersion() == workflowDefinition.getVersion())) {
+			selected = true;
+		}
+	%>
+
+		<aui:option label='<%= HtmlUtil.escapeAttribute(workflowDefinition.getTitle(themeDisplay.getLanguageId())) + " (" + LanguageUtil.format(locale, "version-x", workflowDefinition.getVersion(), false) + StringPool.CLOSE_PARENTHESIS %>' selected="<%= selected %>" value="<%= HtmlUtil.escapeAttribute(workflowDefinition.getName()) + StringPool.AT + workflowDefinition.getVersion() %>" />
+
+	<%
+	}
+	%>
+
+</aui:select>

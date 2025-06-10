@@ -1,0 +1,28 @@
+definition {
+
+	@summary = "Default summary"
+	macro runSmoke(groupName = null) {
+		Variables.assertDefined(parameterList = ${groupName});
+
+		// Manual
+
+		JSONAssetlist.addManualAssetListEntry(
+			groupName = ${groupName},
+			title = "Asset List Manual");
+
+		JSONAssetlist.addManualAssetListEntry(
+			groupName = ${groupName},
+			title = "Asset List Manual 2");
+
+		// Dynamic
+
+		JSONAssetlist.addDynamicAssetListEntry(
+			groupName = ${groupName},
+			title = "Asset List Dynamic");
+
+		JSONAssetlist.addDynamicAssetListEntry(
+			groupName = ${groupName},
+			title = "Asset List Dynamic 2");
+	}
+
+}

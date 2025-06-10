@@ -1,0 +1,12 @@
+{
+	"com.liferay.fragment.entry.processor.editable.EditableFragmentEntryProcessor": {
+		"link": {
+			"config": {
+			},
+			"defaultValue": "Go Somewhere"
+		}
+	},
+	"com.liferay.fragment.entry.processor.freemarker.FreeMarkerFragmentEntryProcessor": {
+		"buttonType": "secondary"
+	}
+}

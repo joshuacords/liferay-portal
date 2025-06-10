@@ -1,0 +1,6 @@
+dependencies {
+	testIntegrationImplementation project(":apps:comment:comment-page-comments-web")
+	testIntegrationImplementation project(":apps:export-import:export-import-test-util")
+	testIntegrationImplementation project(":apps:message-boards:message-boards-api")
+	testIntegrationImplementation project(":test:arquillian-extension-junit-bridge")
+}

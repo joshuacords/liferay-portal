@@ -1,0 +1,45 @@
+definition {
+
+	@summary = "Default summary"
+	macro confirmLogLevelOptionSetCorrectly() {
+		var logLevel = AMDLoader.getAMDLoaderLogLevel();
+		var selectOption = StringUtil.lowerCase(${selectOption});
+
+		if (${logLevel} != ${selectOption}) {
+			takeScreenshot();
+
+			fail("AMD log level isn't set to "+"${selectOption}"+" in JS console.");
+		}
+	}
+
+	@summary = "Default summary"
+	macro getAMDLoaderLogLevel() {
+		WaitForSPARefresh();
+
+		var javaScript = '''
+		var logLevel = Liferay.Loader._config.logLevel;
+
+		return logLevel;
+		''';
+
+		var logLevel = selenium.getEval(${javaScript});
+
+		return ${logLevel};
+	}
+
+	@summary = "Default summary"
+	macro setLogLevelOption(selectOption = null) {
+		SystemSettings.selectOptionSetting(
+			fieldName = "Log Level",
+			selectOption = ${selectOption});
+
+		SystemSettings.saveConfiguration();
+
+		Refresh();
+
+		FormFields.viewSelectOption(
+			fieldName = "Log Level",
+			selectOption = ${selectOption});
+	}
+
+}

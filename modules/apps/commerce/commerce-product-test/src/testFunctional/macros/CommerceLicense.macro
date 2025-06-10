@@ -1,0 +1,48 @@
+definition {
+
+	@summary = "Default summary"
+	macro executeSmoke() {
+		CommerceAccelerators.initializeNewSiteViaAccelerator(siteName = "Speedwell");
+
+		CommerceNavigator.gotoPortlet(
+			category = "Store Management",
+			portlet = "Channels");
+
+		CommerceNavigator.gotoEntry(entryName = "Speedwell Portal");
+
+		CommerceChannels.activatePaymentMethod(paymentMethod = "Money Order");
+
+		Navigator.openWithAppendToBaseURL(urlAppend = "web/speedwell");
+
+		Refresh();
+
+		CommerceNavigator.gotoSpeedwellTopbarItem(menuItem = "Catalog");
+	}
+
+	@summary = "Default summary"
+	macro viewCommerceAvailable() {
+		ApplicationsMenuHelper.openApplicationsMenu();
+
+		AssertElementPresent(
+			key_panel = "Applications",
+			locator1 = "ApplicationsMenu#PANEL");
+
+		AssertElementPresent(
+			key_panel = "Commerce",
+			locator1 = "ApplicationsMenu#PANEL");
+	}
+
+	@summary = "Default summary"
+	macro viewCommerceMissing() {
+		ApplicationsMenuHelper.openApplicationsMenu();
+
+		AssertElementPresent(
+			key_panel = "Applications",
+			locator1 = "ApplicationsMenu#PANEL");
+
+		AssertElementNotPresent(
+			key_panel = "Commerce",
+			locator1 = "ApplicationsMenu#PANEL");
+	}
+
+}

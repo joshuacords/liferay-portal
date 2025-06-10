@@ -1,0 +1,27 @@
+{
+	"dependencies": {
+		"@liferay/accessibility-settings-state-web": "*",
+		"@liferay/frontend-js-state-web": "*",
+		"@liferay/js-api": "0.6.0",
+		"react": "18.2.0",
+		"react-dom": "18.2.0",
+		"uuid": "9.0.0"
+	},
+	"jest": {
+		"setupFiles": [
+			"<rootDir>/test/liferay/portlet/mock/setup.es.js"
+		],
+		"testPathIgnorePatterns": [
+			"<rootDir>/test/liferay/portlet/mock/setup.es.js"
+		]
+	},
+	"main": "index.es.js",
+	"name": "frontend-js-web",
+	"scripts": {
+		"build": "node-scripts build && node-scripts build:custom",
+		"checkFormat": "node-scripts format --check",
+		"format": "node-scripts format",
+		"test": "node-scripts test"
+	},
+	"version": "5.0.126"
+}

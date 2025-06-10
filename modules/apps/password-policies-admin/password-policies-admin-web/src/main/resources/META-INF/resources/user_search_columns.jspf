@@ -1,0 +1,83 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<liferay-ui:search-container-row
+	className="com.liferay.portal.kernel.model.User"
+	escapedModel="<%= true %>"
+	keyProperty="userId"
+	modelVar="user2"
+	rowIdProperty="screenName"
+>
+
+	<%
+	PasswordPolicyRel passwordPolicyRel = PasswordPolicyRelLocalServiceUtil.fetchPasswordPolicyRel(User.class.getName(), user2.getUserId());
+	%>
+
+	<liferay-util:buffer
+		var="name"
+	>
+		<%= user2.getFullName() %>
+
+		<c:if test="<%= (passwordPolicyRel != null) && (passwordPolicyRel.getPasswordPolicyId() != passwordPolicy.getPasswordPolicyId()) %>">
+
+			<%
+			PasswordPolicy curPasswordPolicy = PasswordPolicyLocalServiceUtil.getPasswordPolicy(passwordPolicyRel.getPasswordPolicyId());
+			%>
+
+			<portlet:renderURL var="assignMembersURL">
+				<portlet:param name="mvcPath" value="/edit_password_policy_assignments.jsp" />
+				<portlet:param name="tabs1" value="<%= tabs1 %>" />
+				<portlet:param name="tabs2" value="users" />
+				<portlet:param name="redirect" value="<%= currentURL %>" />
+				<portlet:param name="passwordPolicyId" value="<%= String.valueOf(curPasswordPolicy.getPasswordPolicyId()) %>" />
+			</portlet:renderURL>
+
+			<liferay-ui:icon-help message='<%= LanguageUtil.format(request, "this-user-is-already-assigned-to-password-policy-x", new Object[] {assignMembersURL, curPasswordPolicy.getName()}, false) %>' />
+		</c:if>
+	</liferay-util:buffer>
+
+	<c:choose>
+		<c:when test='<%= displayStyle.equals("icon") %>'>
+			<liferay-ui:search-container-column-text>
+				<clay:user-card
+					userCard="<%= new UserVerticalCard(renderRequest, memberSearchContainer.getRowChecker(), user2) %>"
+				/>
+			</liferay-ui:search-container-column-text>
+		</c:when>
+		<c:when test='<%= displayStyle.equals("descriptive") %>'>
+			<liferay-ui:search-container-column-text>
+				<liferay-user:user-portrait
+					userId="<%= user2.getUserId() %>"
+				/>
+			</liferay-ui:search-container-column-text>
+
+			<liferay-ui:search-container-column-text
+				colspan="<%= 2 %>"
+			>
+				<div class="h5"><%= name %></div>
+
+				<div class="h6 text-default">
+					<span><%= user2.getScreenName() %></span>
+				</div>
+			</liferay-ui:search-container-column-text>
+		</c:when>
+		<c:otherwise>
+			<liferay-ui:search-container-column-text
+				cssClass="table-cell-expand table-cell-minw-200 table-title"
+				name="name"
+				value="<%= name %>"
+			/>
+
+			<liferay-ui:search-container-column-text
+				cssClass="table-cell-expand table-cell-minw-200"
+				name="screen-name"
+				orderable="<%= true %>"
+				property="screenName"
+			/>
+		</c:otherwise>
+	</c:choose>
+</liferay-ui:search-container-row>

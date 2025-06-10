@@ -1,0 +1,23 @@
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+
+package com.liferay.source.formatter.dependencies;
+
+import com.liferay.dynamic.data.mapping.annotations.DDMForm;
+import com.liferay.dynamic.data.mapping.annotations.DDMFormLayout;
+import com.liferay.dynamic.data.mapping.annotations.DDMFormLayoutColumn;
+import com.liferay.dynamic.data.mapping.annotations.DDMFormLayoutPage;
+import com.liferay.dynamic.data.mapping.annotations.DDMFormLayoutRow;
+import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.util.Constants;
+
+import org.osgi.service.component.annotations.Component;
+
+/**
+ * @author Hugo Huijser
+ */
+@Component(property = StringPool.UNDERLINE + Constants.SUBSCRIBE_TO_COMMENTS, service = {}) @DDMForm @DDMFormLayout({@DDMFormLayoutPage({@DDMFormLayoutRow({@DDMFormLayoutColumn(size = 12, value = {"prop1", "prop2", "prop3"})})})})
+public class JavaAnnotation {
+}

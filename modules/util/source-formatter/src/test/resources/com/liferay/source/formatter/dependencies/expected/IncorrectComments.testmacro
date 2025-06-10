@@ -1,0 +1,64 @@
+definition {
+
+	@summary = "Default summary"
+	macro _addPage(assertCheckboxMissing = null, inheritChanges = null, sitePageType = null, customDescription = null, pageTemplateName = null, vocabularyName = null, customTitle = null, navigationMenus = null, pageName = null, categoryName = null, collectionName = null) {
+		SitePages._selectPageType(
+			collectionName = ${collectionName},
+			pageTemplateName = ${pageTemplateName},
+			sitePageType = ${sitePageType});
+
+		//Button.clickAdd();
+
+		// This is a comment that ends with COMMA,
+		// add the comment for better readability.
+
+		//SelectFrame(locator1 = "IFrame#MODAL_BODY");
+
+		SitePages._addPageToNavigationMenu(
+			assertCheckboxMissing = ${assertCheckboxMissing},
+			navigationMenus = ${navigationMenus});
+
+		PortletEntry.inputName(name = ${pageName});
+
+		//if (isSet(categoryName)) {
+		//	AssetCategorization.addCategory(
+		//		categoryName = ${categoryName},
+		//		vocabularyName = ${vocabularyName});
+		//}
+		//Button.clickAdd();
+
+		// Ignore...
+
+		SelectFrame.selectFrameTop();
+
+		// Quarantine...
+
+		if (${sitePageType} == "Embedded") {
+			Page.togglePageTemplateInheritChanges(toggleValue = ${inheritChanges});
+		}
+
+		// Workaround...
+
+		if (${sitePageType} == "Embedded") {
+			Page.togglePageTemplateInheritChanges(toggleValue = ${inheritChanges});
+		}
+
+		// This is a commit
+
+		if (isSet(openGraph)) {
+			SitePages._configureOpenGraph(
+				customDescription = ${customDescription},
+				customTitle = ${customTitle});
+		}
+
+		// TODO find a better fix as we should not be navigating like this for every test. Workaround caused by LPS-104246
+
+		//ProductMenu.gotoPortlet(
+		//	category = "Site Builder",
+		//	panel = "Site Administration",
+		//	portlet = "Pages");
+
+		Button.click(button = "Save");
+	}
+
+}

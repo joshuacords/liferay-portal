@@ -1,0 +1,37 @@
+<html>
+<head>
+<title>DDMSelectFeed</title>
+</head>
+
+<body>
+<table border="1" cellpadding="1" cellspacing="1">
+<thead>
+<tr><td rowspan="1" colspan="3">DDMSelectFeed</td></tr>
+</thead>
+
+<tbody>
+
+<!--FEED_TABLE-->
+
+<tr>
+	<td>FEED_TABLE_NAME</td>
+	<td>//div[contains(@id,'feedsSearchContainer')]//tr[contains(.,'${key_feedName}')]/td[count(//th[contains(.,'Name')]//preceding-sibling::th) + 1][1]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>FEED_TABLE_NAME_LINK</td>
+	<td>//div[contains(@id,'feedsSearchContainer')]//tr[contains(.,'${key_feedName}')]/td[count(//th[contains(.,'Name')]//preceding-sibling::th) + 1]//a[1]</td>
+	<td></td>
+</tr>
+
+<!--FEED_STRUCTURE_TABLE-->
+
+<tr>
+	<td>FEED_STRUCTURE_TABLE_NAME</td>
+	<td>//a[@class='entry' and contains(text(),'${structureName}')]</td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

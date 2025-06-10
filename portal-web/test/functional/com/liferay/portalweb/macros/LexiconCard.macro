@@ -1,0 +1,178 @@
+definition {
+
+	@summary = "Default summary"
+	macro checkCardCheckbox(card = null) {
+		Click.clickNoWaitForVisible(
+			key_card = ${card},
+			locator1 = "Card#CARD_CHECKBOX");
+
+		AssertChecked.assertCheckedNotVisible(
+			key_card = ${card},
+			locator1 = "Card#CARD_CHECKBOX");
+	}
+
+	@summary = "Default summary"
+	macro clickCard(card = null) {
+		if (IsElementNotPresent(locator1 = "//body[contains(@class,'dialog-iframe-popup')]")) {
+			WaitForLiferayEvent.initializeLiferayEventLog();
+
+			WaitForPageLoad();
+		}
+
+		Click(
+			key_card = ${card},
+			locator1 = "Card#CARD");
+	}
+
+	@summary = "Default summary"
+	macro clickCardTitle(card = null) {
+		Click.waitForMenuToggleJSClick(
+			key_card = ${card},
+			locator1 = "Card#CARD_TITLE");
+	}
+
+	@summary = "Default summary"
+	macro clickCardTitleLink(card = null) {
+		Click.waitForMenuToggleJSClick(
+			key_card = ${card},
+			locator1 = "Card#CARD_TITLE_LINK");
+	}
+
+	@summary = "Default summary"
+	macro clickCardWithConfirmation(card = null) {
+		ClickNoError(
+			key_card = ${card},
+			locator1 = "Card#CARD");
+
+		Confirm(value1 = "null");
+	}
+
+	@summary = "Default summary"
+	macro clickEllipsisItem(item = null, card = null) {
+		if (!(isSet(specificFormFragment))) {
+			Click.waitForMenuToggleJSClick(
+				key_card = ${card},
+				locator1 = "Card#CARD_ELLIPSIS");
+		}
+		else {
+			Click.waitForMenuToggleJSClick(
+				key_card = ${card},
+				locator1 = "Card#SPECIFIC_CARD_ELLIPSIS");
+		}
+
+		MenuItem.clickNoError(menuItem = ${item});
+	}
+
+	@summary = "Default summary"
+	macro delete(card = null) {
+		LexiconCard.clickEllipsisItem(
+			card = ${card},
+			item = "Delete");
+
+		Confirm(value1 = "null");
+	}
+
+	@summary = "Default summary"
+	macro viewCardLabel(cardLabel = null, card = null) {
+		if (!(isSet(index))) {
+			var index = 1;
+		}
+
+		AssertTextEquals(
+			index = ${index},
+			key_card = ${card},
+			locator1 = "Card#CARD_LABEL",
+			value1 = ${cardLabel});
+	}
+
+	@summary = "Default summary"
+	macro viewCardNotPresent(card = null) {
+		AssertElementNotPresent(
+			key_card = ${card},
+			locator1 = "Card#CARD");
+	}
+
+	@summary = "Default summary"
+	macro viewCardOrder(index = null, card = null) {
+		AssertElementPresent(
+			key_card = ${card},
+			key_index = ${index},
+			locator1 = "Card#CARD_PAGE_ITEM");
+	}
+
+	@summary = "Default summary"
+	macro viewCardPresent(card = null) {
+		AssertVisible(
+			key_card = ${card},
+			locator1 = "Card#CARD");
+	}
+
+	@summary = "Default summary"
+	macro viewCardSticker(icon = null, card = null) {
+		AssertVisible(
+			key_card = ${card},
+			key_icon = ${icon},
+			locator1 = "Card#CARD_STICKER");
+	}
+
+	@summary = "Default summary"
+	macro viewCardSubtitle(cardSubtitle = null, card = null) {
+		AssertTextEquals(
+			key_card = ${card},
+			locator1 = "Card#CARD_SUBTITLE",
+			value1 = ${cardSubtitle});
+	}
+
+	@summary = "Default summary"
+	macro viewCardThumbnail(card = null) {
+		AssertVisible(
+			key_card = ${card},
+			locator1 = "Card#CARD_THUMBNAIL");
+	}
+
+	@summary = "Default summary"
+	macro viewCardTitle(card = null) {
+		AssertTextEquals(
+			key_card = ${card},
+			locator1 = "Card#CARD_TITLE",
+			value1 = ${card});
+	}
+
+	@summary = "Default summary"
+	macro viewMenuItemDisabled(item = null, card = null) {
+		Click(
+			key_card = ${card},
+			locator1 = "Card#CARD_ELLIPSIS");
+
+		AssertElementPresent(
+			key_menuItem = ${item},
+			locator1 = "MenuItem#DISABLED_MENU_ITEM");
+	}
+
+	@summary = "Default summary"
+	macro viewMenuItemNotPresent(item = null, card = null) {
+		Click(
+			key_card = ${card},
+			locator1 = "Card#CARD_ELLIPSIS");
+
+		AssertElementNotPresent(
+			key_menuItem = ${item},
+			locator1 = "MenuItem#ANY_MENU_ITEM");
+	}
+
+	@summary = "Default summary"
+	macro viewNoCardThumbnail(card = null) {
+		AssertElementNotPresent(
+			key_card = ${card},
+			locator1 = "Card#CARD_THUMBNAIL");
+	}
+
+	@summary = "Default summary"
+	macro viewSpecificCardThumbnail(imageFileName = null, card = null) {
+		AssertVisible(
+			key_card = ${card},
+			key_imageFileName = ${imageFileName},
+			locator1 = "Card#CARD_THUMBNAIL");
+	}
+
+}

@@ -1,0 +1,25 @@
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+
+package com.liferay.source.formatter.dependencies;
+
+/**
+ * @author Hugo Huijser
+ */
+public class InefficientStringMethods {
+
+	public void method() {
+		String test1 = "test";
+		String test2 = "test";
+
+		if (test1.equalsIgnoreCase(test2)) {
+			return;
+		}
+
+		String test3 = test1.toLowerCase();
+		String test4 = test2.toUpperCase();
+	}
+
+}

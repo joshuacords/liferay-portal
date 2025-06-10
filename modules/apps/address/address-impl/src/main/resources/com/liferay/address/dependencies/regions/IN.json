@@ -1,0 +1,146 @@
+[
+	{
+		"name": "Andaman and Nicobar Islands",
+		"regionCode": "AN"
+	},
+	{
+		"name": "Andhra Pradesh",
+		"regionCode": "AP"
+	},
+	{
+		"name": "Arunāchal Pradesh",
+		"regionCode": "AR"
+	},
+	{
+		"name": "Assam",
+		"regionCode": "AS"
+	},
+	{
+		"name": "Bihār",
+		"regionCode": "BR"
+	},
+	{
+		"name": "Chandīgarh",
+		"regionCode": "CH"
+	},
+	{
+		"name": "Chhattīsgarh",
+		"regionCode": "CT"
+	},
+	{
+		"name": "Dādra and Nagar Haveli and Damān and Diu",
+		"regionCode": "DH"
+	},
+	{
+		"name": "Delhi",
+		"regionCode": "DL"
+	},
+	{
+		"name": "Goa",
+		"regionCode": "GA"
+	},
+	{
+		"name": "Gujarāt",
+		"regionCode": "GJ"
+	},
+	{
+		"name": "Haryāna",
+		"regionCode": "HR"
+	},
+	{
+		"name": "Himāchal Pradesh",
+		"regionCode": "HP"
+	},
+	{
+		"name": "Jammu and Kashmīr",
+		"regionCode": "JK"
+	},
+	{
+		"name": "Jhārkhand",
+		"regionCode": "JH"
+	},
+	{
+		"name": "Karnātaka",
+		"regionCode": "KA"
+	},
+	{
+		"name": "Kerala",
+		"regionCode": "KL"
+	},
+	{
+		"name": "Ladākh",
+		"regionCode": "LA"
+	},
+	{
+		"name": "Lakshadweep",
+		"regionCode": "LD"
+	},
+	{
+		"name": "Madhya Pradesh",
+		"regionCode": "MP"
+	},
+	{
+		"name": "Mahārāshtra",
+		"regionCode": "MH"
+	},
+	{
+		"name": "Manipur",
+		"regionCode": "MN"
+	},
+	{
+		"name": "Meghālaya",
+		"regionCode": "ML"
+	},
+	{
+		"name": "Mizoram",
+		"regionCode": "MZ"
+	},
+	{
+		"name": "Nāgāland",
+		"regionCode": "NL"
+	},
+	{
+		"name": "Odisha",
+		"regionCode": "OR"
+	},
+	{
+		"name": "Puducherry",
+		"regionCode": "PY"
+	},
+	{
+		"name": "Punjab",
+		"regionCode": "PB"
+	},
+	{
+		"name": "Rājasthān",
+		"regionCode": "RJ"
+	},
+	{
+		"name": "Sikkim",
+		"regionCode": "SK"
+	},
+	{
+		"name": "Tamil Nādu",
+		"regionCode": "TN"
+	},
+	{
+		"name": "Telangāna",
+		"regionCode": "TG"
+	},
+	{
+		"name": "Tripura",
+		"regionCode": "TR"
+	},
+	{
+		"name": "Uttar Pradesh",
+		"regionCode": "UP"
+	},
+	{
+		"name": "Uttarākhand",
+		"regionCode": "UT"
+	},
+	{
+		"name": "West Bengal",
+		"regionCode": "WB"
+	}
+]

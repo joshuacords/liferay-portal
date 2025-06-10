@@ -1,0 +1,35 @@
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+
+package com.liferay.source.formatter.dependencies;
+
+import aQute.bnd.annotation.metatype.Meta;
+
+import com.liferay.util.bridges.mvc.MVCActionCommand;
+
+import org.osgi.service.component.annotations.Component;
+
+/**
+ * @author Hugo Huijser
+ */
+@Component(
+	property = {
+		"javax.portlet.name=com_liferay_social_activities_portlet_SocialActivitiesPortlet",
+		"mvc.command.name=rss"
+	},
+	service = MVCActionCommand.class
+)
+public class ExceedMaxLineLength {
+
+	public static final String TEST =
+		"This is very long line and therefore it will exceed the maximum allowed line length";
+
+	@Meta.AD(
+		deflt = "java.lang.Class|java.lang.ClassLoader|java.lang.ClassValue|java.lang.Thread",
+		required = false
+	)
+	public String[] restrictedClasses();
+
+}

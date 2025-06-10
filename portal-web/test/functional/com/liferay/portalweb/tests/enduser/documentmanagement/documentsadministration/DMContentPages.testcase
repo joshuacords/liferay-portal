@@ -1,0 +1,265 @@
+@component-name = "portal-content-management"
+definition {
+
+	property portal.release = "true";
+	property portal.upstream = "true";
+	property testray.main.component.name = "Documents and Media";
+
+	setUp {
+		TestCase.setUpPortalInstance();
+
+		User.firstLoginPG();
+	}
+
+	tearDown {
+		var testLiferayVirtualInstance = PropsUtil.get("test.liferay.virtual.instance");
+
+		if (${testLiferayVirtualInstance} == "true") {
+			PortalInstances.tearDownCP();
+		}
+		else {
+			DMDocument.tearDownCP();
+
+			DMFolder.tearDownCP();
+
+			JSONGroup.deleteGroupByName(groupName = "Site Name");
+
+			User.logoutPG();
+		}
+	}
+
+	@description = "This test covers LPS-129430. It ensures that documents can be uploaded via Multiple File Uploads in a content page."
+	@priority = 5
+	@refactordone
+	test CanAddMultipleDocuments {
+		property custom.properties = "dl.actions.visible=true";
+		property portal.acceptance = "true";
+
+		JSONLayout.addPublicLayout(
+			groupName = "Guest",
+			layoutName = "Test Content Page Name",
+			type = "content");
+
+		ContentPagesNavigator.openEditContentPage(
+			pageName = "Test Content Page Name",
+			siteName = "Guest");
+
+		PageEditor.addWidget(portletName = "Documents and Media");
+
+		PageEditor.publish();
+
+		ContentPagesNavigator.openViewContentPage(
+			pageName = "Test Content Page Name",
+			siteName = "Guest");
+
+		LexiconEntry.changeDisplayStyle(displayStyle = "list");
+
+		DMDocument.addMultiplePG(
+			contentPage = "true",
+			dmDocumentFileList = "Document_1.doc,Document_2.docx");
+
+		DMDocument.viewPG(dmDocumentTitle = "Document_1");
+
+		ContentPagesNavigator.openViewContentPage(
+			pageName = "Test Content Page Name",
+			siteName = "Guest");
+
+		DMDocument.viewPG(dmDocumentTitle = "Document_2");
+	}
+
+	@description = "This test covers LPS-94508. It ensures that a tag can be created when selecting an item from autocomplete on a content page."
+	@e2etest
+	@priority = 4
+	@refactordone
+	test CanCreateTagUsingAutocomplete {
+		property custom.properties = "dl.actions.visible=true";
+
+		JSONLayout.addPublicLayout(
+			groupName = "Guest",
+			layoutName = "Test Content Page Name",
+			type = "content");
+
+		ContentPagesNavigator.openEditContentPage(
+			pageName = "Test Content Page Name",
+			siteName = "Guest");
+
+		PageEditor.addWidget(portletName = "Documents and Media");
+
+		PageEditor.publish();
+
+		ContentPagesNavigator.openViewContentPage(
+			pageName = "Test Content Page Name",
+			siteName = "Guest");
+
+		LexiconEntry.changeDisplayStyle(displayStyle = "list");
+
+		DMDocument.addMultiplePG(
+			contentPage = "true",
+			dmDocumentFileList = "Document_1.doc,Document_2.docx");
+
+		DMDocument.selectDocuments(dmDocumentTitle = "Document_1");
+
+		Click(
+			key_text = "Edit Tags",
+			locator1 = "Button#ANY");
+
+		DMDocument.editTags(tagName = "tagone");
+
+		DMDocument.unselectDocuments(dmDocumentTitle = "Document_1");
+
+		DMDocument.selectDocuments(dmDocumentTitle = "Document_2");
+
+		Click(
+			key_text = "Edit Tags",
+			locator1 = "Button#ANY");
+
+		DMDocument.editTags(autocomplete = "true");
+
+		DMNavigator.gotoDocumentPG(dmDocumentTitle = "Document_2");
+
+		DMDocument.viewTagInfo(tagName = "tagone");
+	}
+
+	@description = "This test ensures that user can edit document in folder via a content page."
+	@e2etest
+	@priority = 5
+	@refactordone
+	test CanEditDocumentInFolder {
+		property custom.properties = "dl.actions.visible=true";
+		property portal.acceptance = "true";
+
+		JSONLayout.addPublicLayout(
+			groupName = "Guest",
+			layoutName = "Test Content Page Name",
+			type = "content");
+
+		ContentPagesNavigator.openEditContentPage(
+			pageName = "Test Content Page Name",
+			siteName = "Guest");
+
+		PageEditor.addWidget(portletName = "Documents and Media");
+
+		PageEditor.publish();
+
+		ContentPagesNavigator.openViewContentPage(
+			pageName = "Test Content Page Name",
+			siteName = "Guest");
+
+		LexiconEntry.changeDisplayStyle(displayStyle = "list");
+
+		DMFolder.addPG(
+			contentPage = "true",
+			dmFolderDescription = "DM Folder Description",
+			dmFolderName = "DM Folder Name");
+
+		JSONDocument.addFileWithUploadedFile(
+			dmDocumentDescription = "DM Document Description",
+			dmDocumentTitle = "DM Document Title",
+			folderName = "DM Folder Name",
+			groupName = "Guest",
+			mimeType = "application/msword",
+			sourceFileName = "Document_1.doc");
+
+		DMNavigator.gotoFolder(dmFolderName = "DM Folder Name");
+
+		DMDocument.editPG(
+			dmDocumentTitle = "DM Document Title",
+			dmDocumentTitleEdit = "DM Document Title Edit");
+
+		Navigator.gotoPage(pageName = "Test Content Page Name");
+
+		DMNavigator.gotoFolder(dmFolderName = "DM Folder Name");
+
+		DMDocument.viewAllPG(
+			dmDocumentDescription = "DM Document Description",
+			dmDocumentTitle = "DM Document Title Edit",
+			dmDocumentVersionNumber = "1.1");
+	}
+
+	@description = "This test covers LPS-127683. It ensures that the shortcut cannot be restored before the shortcut target is restored."
+	@priority = 3
+	@refactordone
+	test CanRestoreShortcutAfterDeletingTarget {
+		property custom.properties = "dl.actions.visible=true";
+
+		HeadlessSite.addSite(siteName = "Site Name");
+
+		HeadlessSite.addSite(siteName = "Test Site Name");
+
+		JSONLayout.addPublicLayout(
+			groupName = "Test Site Name",
+			layoutName = "Test Content Page Name",
+			type = "content");
+
+		ContentPagesNavigator.openEditContentPage(
+			pageName = "Test Content Page Name",
+			siteName = "Test Site Name");
+
+		PageEditor.addWidget(portletName = "Documents and Media");
+
+		PageEditor.publish();
+
+		ContentPagesNavigator.openViewContentPage(
+			pageName = "Test Content Page Name",
+			siteName = "Test Site Name");
+
+		LexiconEntry.changeDisplayStyle(displayStyle = "list");
+
+		JSONDocument.addFileWithUploadedFile(
+			dmDocumentDescription = "DM Document Description",
+			dmDocumentTitle = "Document_1.jpg",
+			groupName = "Site Name",
+			mimeType = "image/jpeg",
+			sourceFileName = "Document_1.jpg");
+
+		ContentPagesNavigator.openViewContentPage(
+			pageName = "Test Content Page Name",
+			siteName = "Test Site Name");
+
+		DMDocument.addDMShortcutPG(
+			contentPage = "Test Content Page Name",
+			dmDocumentTitle = "Document_1.jpg",
+			siteName = "Site Name");
+
+		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "test-site-name");
+
+		DMDocument.deleteCP(dmDocumentTitle = "Document_1.jpg");
+
+		DMDocument.viewDefault();
+
+		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "site-name");
+
+		DMDocument.deleteCP(dmDocumentTitle = "Document_1.jpg");
+
+		DMDocument.viewDefault();
+
+		RecycleBin.openRecycleBinAdmin(siteURLKey = "test-site-name");
+
+		LexiconEntry.openEntryMenu(rowEntry = "Document_1.jpg");
+
+		MenuItem.viewNotPresent(menuItem = "Restore");
+
+		RecycleBin.openRecycleBinAdmin(siteURLKey = "site-name");
+
+		RecycleBin.restoreCP(
+			assetName = "Document_1.jpg",
+			assetType = "Document");
+
+		RecycleBin.viewDefaultCP(assetName = "Document_1.jpg");
+
+		RecycleBin.openRecycleBinAdmin(siteURLKey = "test-site-name");
+
+		RecycleBin.restoreCP(
+			assetName = "Document_1.jpg",
+			assetType = "Shortcut");
+
+		RecycleBin.viewDefaultCP(assetName = "Document_1.jpg");
+
+		DMNavigator.openDocumentsAndMediaAdmin(siteURLKey = "test-site-name");
+
+		AssertElementPresent(
+			key_text = "shortcut",
+			locator1 = "Icon#ANY_LAST");
+	}
+
+}

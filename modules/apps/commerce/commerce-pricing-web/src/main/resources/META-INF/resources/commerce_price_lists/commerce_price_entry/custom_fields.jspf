@@ -1,0 +1,19 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<c:if test="<%= CustomAttributesUtil.hasCustomAttributes(company.getCompanyId(), CommercePriceEntry.class.getName(), commercePriceEntryId, null) %>">
+	<commerce-ui:panel
+		title='<%= LanguageUtil.get(request, "custom-attributes") %>'
+	>
+		<liferay-expando:custom-attribute-list
+			className="<%= CommercePriceEntry.class.getName() %>"
+			classPK="<%= (commercePriceEntry != null) ? commercePriceEntry.getCommercePriceEntryId() : 0 %>"
+			editable="<%= true %>"
+			label="<%= true %>"
+		/>
+	</commerce-ui:panel>
+</c:if>

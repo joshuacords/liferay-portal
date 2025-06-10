@@ -1,0 +1,177 @@
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+
+package com.liferay.dynamic.data.mapping.internal.security.permission.resource.test;
+
+import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.dynamic.data.mapping.model.DDMFormInstance;
+import com.liferay.dynamic.data.mapping.model.DDMFormInstanceRecord;
+import com.liferay.dynamic.data.mapping.model.DDMStructure;
+import com.liferay.dynamic.data.mapping.service.DDMFormInstanceLocalServiceUtil;
+import com.liferay.dynamic.data.mapping.service.DDMFormInstanceRecordLocalServiceUtil;
+import com.liferay.dynamic.data.mapping.service.test.BaseDDMServiceTestCase;
+import com.liferay.dynamic.data.mapping.storage.DDMFormValues;
+import com.liferay.dynamic.data.mapping.test.util.DDMFormInstanceTestUtil;
+import com.liferay.dynamic.data.mapping.test.util.DDMFormValuesTestUtil;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.security.permission.PermissionChecker;
+import com.liferay.portal.kernel.security.permission.PermissionCheckerFactoryUtil;
+import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
+import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.test.rule.AggregateTestRule;
+import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
+import com.liferay.portal.kernel.test.util.ServiceContextTestUtil;
+import com.liferay.portal.kernel.test.util.TestPropsValues;
+import com.liferay.portal.kernel.test.util.UserTestUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import com.liferay.portal.test.rule.Inject;
+import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
+
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.ClassRule;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+/**
+ * @author Rafael Praxedes
+ */
+@RunWith(Arquillian.class)
+public class DDMFormInstanceRecordModelResourcePermissionTest
+	extends BaseDDMServiceTestCase {
+
+	@ClassRule
+	@Rule
+	public static final AggregateTestRule aggregateTestRule =
+		new LiferayIntegrationTestRule();
+
+	@Before
+	@Override
+	public void setUp() throws Exception {
+		super.setUp();
+
+		Class<?> formInstanceClass = DDMFormInstance.class;
+
+		_classNameId = PortalUtil.getClassNameId(formInstanceClass.getName());
+
+		_siteUser = UserTestUtil.addUser(group.getGroupId());
+
+		_setUpPermissionThreadLocal();
+		_setUpPrincipalThreadLocal();
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		PermissionThreadLocal.setPermissionChecker(_originalPermissionChecker);
+
+		PrincipalThreadLocal.setName(_originalName);
+	}
+
+	@Test
+	public void testUpdateApprovedFormInstanceRecordByOwnerShouldBeFalse()
+		throws Exception {
+
+		DDMFormInstance formInstance = _createFormInstance();
+
+		DDMStructure structure = formInstance.getStructure();
+
+		DDMFormValues ddmFormValues = DDMFormValuesTestUtil.createDDMFormValues(
+			structure.getDDMForm());
+
+		ServiceContext serviceContext =
+			ServiceContextTestUtil.getServiceContext(
+				group, _siteUser.getUserId());
+
+		DDMFormInstanceRecord formInstanceRecord =
+			DDMFormInstanceRecordLocalServiceUtil.addFormInstanceRecord(
+				_siteUser.getUserId(), group.getGroupId(),
+				formInstance.getFormInstanceId(), ddmFormValues,
+				serviceContext);
+
+		Assert.assertFalse(
+			_ddmFormInstanceRecordModelResourcePermission.contains(
+				PermissionThreadLocal.getPermissionChecker(),
+				formInstanceRecord, ActionKeys.UPDATE));
+	}
+
+	@Test
+	public void testUpdateDraftFormInstanceRecordByOwnerShouldBeTrue()
+		throws Exception {
+
+		DDMFormInstance formInstance = _createFormInstance();
+
+		DDMStructure structure = formInstance.getStructure();
+
+		DDMFormValues ddmFormValues = DDMFormValuesTestUtil.createDDMFormValues(
+			structure.getDDMForm());
+
+		ServiceContext serviceContext =
+			ServiceContextTestUtil.getServiceContext(
+				group, _siteUser.getUserId());
+
+		serviceContext.setAttribute("status", WorkflowConstants.STATUS_DRAFT);
+		serviceContext.setAttribute("validateDDMFormValues", Boolean.FALSE);
+		serviceContext.setWorkflowAction(WorkflowConstants.ACTION_SAVE_DRAFT);
+
+		DDMFormInstanceRecord formInstanceRecord =
+			DDMFormInstanceRecordLocalServiceUtil.addFormInstanceRecord(
+				_siteUser.getUserId(), group.getGroupId(),
+				formInstance.getFormInstanceId(), ddmFormValues,
+				serviceContext);
+
+		Assert.assertTrue(
+			_ddmFormInstanceRecordModelResourcePermission.contains(
+				PermissionThreadLocal.getPermissionChecker(),
+				formInstanceRecord, ActionKeys.UPDATE));
+	}
+
+	private DDMFormInstance _createFormInstance() throws Exception {
+		DDMStructure structure = addStructure(_classNameId, "Test Structure");
+
+		return DDMFormInstanceLocalServiceUtil.addFormInstance(
+			structure.getUserId(), structure.getGroupId(),
+			structure.getStructureId(), structure.getNameMap(),
+			structure.getNameMap(),
+			DDMFormInstanceTestUtil.createSettingsDDMFormValues(),
+			ServiceContextTestUtil.getServiceContext(
+				group, TestPropsValues.getUserId()));
+	}
+
+	private void _setUpPermissionThreadLocal() throws Exception {
+		_originalPermissionChecker =
+			PermissionThreadLocal.getPermissionChecker();
+
+		PermissionThreadLocal.setPermissionChecker(
+			PermissionCheckerFactoryUtil.create(_siteUser));
+	}
+
+	private void _setUpPrincipalThreadLocal() throws Exception {
+		_originalName = PrincipalThreadLocal.getName();
+
+		PrincipalThreadLocal.setName(_siteUser.getUserId());
+	}
+
+	private static long _classNameId;
+
+	@Inject(
+		filter = "model.class.name=com.liferay.dynamic.data.mapping.model.DDMFormInstanceRecord",
+		type = ModelResourcePermission.class
+	)
+	private ModelResourcePermission<DDMFormInstanceRecord>
+		_ddmFormInstanceRecordModelResourcePermission;
+
+	private String _originalName;
+	private PermissionChecker _originalPermissionChecker;
+
+	@DeleteAfterTestRun
+	private User _siteUser;
+
+}

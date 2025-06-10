@@ -1,0 +1,99 @@
+definition {
+
+	@summary = "Default summary"
+	macro gotoDropdown() {
+		if (IsElementPresent(locator1 = "UserBar#USER_AVATAR_PORTRAIT")) {
+			Click.waitForPersonalMenuJSClick(locator1 = "UserBar#USER_AVATAR_PORTRAIT");
+		}
+		else if (IsElementPresent(locator1 = "UserBar#USER_AVATAR_TOGGLE")) {
+			Click.waitForMenuToggleJSClick(locator1 = "UserBar#USER_AVATAR_TOGGLE");
+		}
+		else {
+			Click.waitForPersonalMenuJSClick(locator1 = "UserBar#USER_AVATAR_ICON");
+		}
+
+		AssertVisible(locator1 = "UserBar#USER_AVATAR_DROPDOWN_PORTAL_OPEN");
+	}
+
+	@description = "Navigate to a dropdown item in the User Personal Bar."
+	@summary = "Default summary"
+	macro gotoDropdownItem(dropdownItem = null) {
+		UserBar.gotoDropdown();
+
+		AssertClick(
+			key_dropdownItem = ${dropdownItem},
+			locator1 = "UserBar#USER_AVATAR_DROPDOWN_ITEM",
+			value1 = ${dropdownItem});
+	}
+
+	@summary = "Default summary"
+	macro gotoMySite(siteName = null) {
+		Click(
+			key_dropdownItem = "My Sites",
+			locator1 = "UserBar#USER_AVATAR_DROPDOWN_ITEM");
+
+		SelectFrame(locator1 = "IFrame#MODAL_BODY");
+
+		Navigator.gotoNavItem(navItem = "My Sites");
+
+		LexiconCard.clickCardTitle(card = ${siteName});
+
+		SelectFrameTop();
+	}
+
+	@summary = "Default summary"
+	macro openUserOrganizations() {
+		UserBar.gotoDropdown();
+
+		Click(locator1 = "UserBar#USER_ORGANIZATIONS");
+	}
+
+	@summary = "Default summary"
+	macro signOut(signOutLocalizationName = null) {
+		if (IsElementNotPresent(locator1 = "UserBar#USER_SIGN_IN")) {
+			UserBar.gotoDropdown();
+
+			ScrollWebElementIntoView(
+				key_signOutLocalizationName = ${signOutLocalizationName},
+				locator1 = "UserBar#USER_AVATAR_DROPDOWN_SIGNOUT");
+
+			Click(
+				key_signOutLocalizationName = ${signOutLocalizationName},
+				locator1 = "UserBar#USER_AVATAR_DROPDOWN_SIGNOUT");
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewFullName(userName = null) {
+		AssertTextEquals(
+			locator1 = "UserBar#USER_FULL_NAME",
+			value1 = ${userName});
+	}
+
+	@summary = "Default summary"
+	macro viewNoDropdownItem(dropdownItem = null) {
+		AssertElementNotPresent(
+			key_dropdownItem = ${dropdownItem},
+			locator1 = "UserBar#USER_AVATAR_DROPDOWN_ITEM");
+	}
+
+	@summary = "Default summary"
+	macro viewUserDefaultIcon() {
+		AssertElementPresent(locator1 = "UserBar#USER_AVATAR_ICON");
+	}
+
+	@summary = "Default summary"
+	macro viewUserPortraitMatchConfiguration() {
+		AssertElementPresent(locator1 = "UserBar#USER_AVATAR_PORTRAIT");
+
+		AssertElementPresent(locator1 = "UsersAndOrganizationsEditUser#DETAILS_PORTRAIT");
+
+		var accountDetailImage = selenium.getAttribute("//div//img[contains(@src,'user_portrait')]@src");
+		var accountImage = selenium.getAttribute("//button//img[contains(@src,'user_portrait')]@src");
+
+		if (${accountImage} != ${accountDetailImage}) {
+			fail("User portrait not match configuration!");
+		}
+	}
+
+}

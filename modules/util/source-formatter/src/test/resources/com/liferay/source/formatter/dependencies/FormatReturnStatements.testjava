@@ -1,0 +1,55 @@
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+
+package com.liferay.source.formatter.dependencies;
+
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.service.permission.RolePermissionUtil;
+import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.StringUtil;
+
+/**
+ * @author Hugo Huijser
+ */
+public class FormatReturnStatements {
+
+	protected boolean compare(
+		int integerThatHasARidiculouslyLongName1,
+		int integerThatHasARidiculouslyLongName2) {
+
+		return integerThatHasARidiculouslyLongName1 >
+			integerThatHasARidiculouslyLongName2;
+	}
+
+	protected String getGender(User user) {
+		return user.isMale() ? "male" : "female";
+	}
+
+	protected boolean hasPermission(
+		ThemeDisplay themeDisplay, long roleId, boolean checkPermission) {
+
+		return checkPermission &&
+			RolePermissionUtil(
+				themeDisplay.getPermissionChecker(),
+				themeDisplay.getScopeGroupId(), roleId, ActionKeys.PERMISSIONS);
+	}
+
+	protected boolean isHelloWorld(String stringThatHasARidiculouslyLongName) {
+		return StringUtil.startsWith(
+			stringThatHasARidiculouslyLongName, "Hello World") ||
+			StringUtil.endsWith(
+				stringThatHasARidiculouslyLongName, "Hello World");
+	}
+
+	protected boolean isBelowZero(int i) {
+		return i < 0;
+	}
+
+	protected boolean isNull(String s) {
+		return s == null;
+	}
+
+}

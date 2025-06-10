@@ -1,0 +1,75 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<div class="entries">
+
+	<%
+	SearchContainer<AnnouncementsEntry> searchContainer = announcementsDisplayContext.getSearchContainer();
+
+	for (AnnouncementsEntry entry : searchContainer.getResults()) {
+		request.setAttribute(AnnouncementsWebKeys.ANNOUNCEMENTS_ENTRY, entry);
+		request.setAttribute(AnnouncementsWebKeys.VIEW_ENTRY_FLAG_VALUE, announcementsDisplayContext.isShowReadEntries() ? AnnouncementsFlagConstants.HIDDEN : AnnouncementsFlagConstants.NOT_HIDDEN);
+	%>
+
+		<liferay-util:include page="/announcements/view_entry.jsp" servletContext="<%= application %>" />
+
+	<%
+	}
+	%>
+
+</div>
+
+<liferay-ui:search-paginator
+	id="pageIteratorTop"
+	markupView="lexicon"
+	searchContainer="<%= searchContainer %>"
+	type="article"
+/>
+
+<%
+if ((searchContainer.getTotal() == 0) && portletName.equals(AnnouncementsPortletKeys.ALERTS) && !AnnouncementsEntryPermission.contains(permissionChecker, layout, AnnouncementsPortletKeys.ANNOUNCEMENTS_ADMIN, ActionKeys.VIEW)) {
+	renderRequest.setAttribute(WebKeys.PORTLET_CONFIGURATOR_VISIBILITY, Boolean.TRUE);
+}
+%>
+
+<aui:script>
+	function <portlet:namespace />markEntry(entryId) {
+		Liferay.Service(
+			'/announcementsflag/add-flag',
+			{
+				entryId: entryId,
+				value: <%= AnnouncementsFlagConstants.HIDDEN %>,
+			},
+			Liferay.Portlet.refresh.bind(
+				Liferay.Portlet,
+				'#p_p_id<portlet:namespace />'
+			)
+		);
+	}
+
+	function <portlet:namespace />unmarkEntry(entryId) {
+		Liferay.Service(
+			'/announcementsflag/get-flag',
+			{
+				entryId: entryId,
+				value: <%= AnnouncementsFlagConstants.HIDDEN %>,
+			},
+			(response) => {
+				Liferay.Service(
+					'/announcementsflag/delete-flag',
+					{
+						flagId: response.flagId,
+					},
+					Liferay.Portlet.refresh.bind(
+						Liferay.Portlet,
+						'#p_p_id<portlet:namespace />'
+					)
+				);
+			}
+		);
+	}
+</aui:script>

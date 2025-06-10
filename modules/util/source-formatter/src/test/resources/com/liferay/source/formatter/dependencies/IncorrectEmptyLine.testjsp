@@ -1,0 +1,48 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<%@ include file="/init.jsp" %>
+
+<div>
+
+	<h1>This is header 1</h1>
+	<h1>This is header 2 </h1>
+</div>
+
+<%
+String s = "";
+
+AnnouncementsRequestHelper announcementsRequestHelper = new AnnouncementsRequestHelper(request);
+AnnouncementsDisplayContext announcementsDisplayContext = new DefaultAnnouncementsDisplayContext(announcementsRequestHelper);
+
+if ((announcementsRequestHelper == null) || (announcementsDisplayContext == null)) {
+	s = "test";
+}
+
+String redirect = ParamUtil.getString(request, "redirect");
+
+String modelResource = ParamUtil.getString(request, "modelResource");
+String modelResourceName = ResourceActionsUtil.getModelResource(request, modelResource);
+
+if (redirect != null) {
+	s = modelResource + modelResourceName;
+}
+
+LayoutSet privateLayoutSet = null;
+LayoutSetPrototype privateLayoutSetPrototype = null;
+
+if ((privateLayoutSet == null) || (privateLayoutSetPrototype == null)) {
+	s = "test";
+}
+
+Map<String, Serializable> taskContextMap = optimizeImageSingleBackgroundTask.getTaskContextMap();
+String configurationEntryUuid = (String)taskContextMap.get("configurationEntryUuid");
+
+if (!taskContextMap.isEmpty() && (configurationEntryUuid.length > 0)) {
+	s = "test";
+}
+%>

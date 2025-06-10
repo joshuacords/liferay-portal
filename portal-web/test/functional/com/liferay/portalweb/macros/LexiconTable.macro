@@ -1,0 +1,110 @@
+definition {
+
+	@summary = "Default summary"
+	macro checkTableCheckbox(tableEntry = null) {
+		Check(
+			key_tableEntry = ${tableEntry},
+			locator1 = "LexiconTable#TABLE_ENTRY_CHECKBOX");
+	}
+
+	@summary = "Default summary"
+	macro clickEllipsisItem(item = null, tableEntry = null) {
+		Click.waitForMenuToggleJSClick(
+			key_tableEntry = ${tableEntry},
+			locator1 = "LexiconTable#TABLE_ENTRY_ELLIPSIS");
+
+		MenuItem.clickNoError(menuItem = ${item});
+	}
+
+	@summary = "Default summary"
+	macro clickTableEntryColumnLink(tableEntry = null, columnName = null) {
+		Click(
+			key_columnName = ${columnName},
+			key_tableEntry = ${tableEntry},
+			locator1 = "LexiconTable#TABLE_ENTRY_COLUMN_LINK");
+	}
+
+	@summary = "Default summary"
+	macro clickTableEntryTitle(tableEntry = null) {
+		Click(
+			key_tableEntry = ${tableEntry},
+			locator1 = "LexiconTable#TABLE_ENTRY_TITLE_LINK");
+	}
+
+	@summary = "Default summary"
+	macro delete(tableEntry = null) {
+		LexiconTable.clickEllipsisItem(
+			item = "Delete",
+			tableEntry = ${tableEntry});
+
+		Confirm(value1 = "null");
+	}
+
+	@summary = "Default summary"
+	macro viewTableEntryFormFragment(tableEntryInfo = null, fieldType = null) {
+		AssertTextEquals.assertValue(
+			key_tableEntry = ${fieldType},
+			locator1 = "TextInput#FRAGMENT_CONFIGURATION_FORM_FRAGMENT",
+			value1 = ${tableEntryInfo});
+	}
+
+	@summary = "Default summary"
+	macro viewTableEntryInfo(tableEntry = null, tableEntryInfo = null, index = null, columnName = null) {
+		if (isSet(index)) {
+			AssertTextEquals(
+				index = ${index},
+				key_tableEntry = ${tableEntry},
+				locator1 = "LexiconTable#TABLE_ENTRY_INFO_BY_INDEX",
+				value1 = ${tableEntryInfo});
+		}
+		else {
+			AssertTextEquals(
+				key_columnName = ${columnName},
+				key_tableEntry = ${tableEntry},
+				locator1 = "LexiconTable#TABLE_ENTRY_INFO",
+				value1 = ${tableEntryInfo});
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewTableEntryNotPresent(tableEntry = null) {
+		AssertElementNotPresent(
+			key_tableEntry = ${tableEntry},
+			locator1 = "LexiconTable#TABLE_ENTRY");
+	}
+
+	@summary = "Default summary"
+	macro viewTableEntryPartialText(tableEntryPartialText = null, tableEntry = null) {
+		AssertTextEquals.assertPartialText(
+			key_tableEntry = ${tableEntry},
+			key_tableEntryPartialText = ${tableEntryPartialText},
+			locator1 = "LexiconTable#TABLE_ENTRY_PARTIAL_TEXT",
+			value1 = ${tableEntryPartialText});
+	}
+
+	@summary = "Default summary"
+	macro viewTableEntryText(tableEntry = null, tableEntryText = null) {
+		AssertTextEquals(
+			key_tableEntry = ${tableEntry},
+			key_tableEntryText = ${tableEntryText},
+			locator1 = "LexiconTable#TABLE_ENTRY_TEXT",
+			value1 = ${tableEntryText});
+	}
+
+	@summary = "Default summary"
+	macro viewTableEntryTitle(tableEntry = null) {
+		AssertTextEquals(
+			key_tableEntry = ${tableEntry},
+			locator1 = "LexiconTable#TABLE_ENTRY_TITLE",
+			value1 = ${tableEntry});
+	}
+
+	@summary = "Default summary"
+	macro viewTableEntryTitleLink(tableEntry = null) {
+		AssertTextEquals(
+			key_tableEntry = ${tableEntry},
+			locator1 = "LexiconTable#TABLE_ENTRY_TITLE_LINK",
+			value1 = ${tableEntry});
+	}
+
+}

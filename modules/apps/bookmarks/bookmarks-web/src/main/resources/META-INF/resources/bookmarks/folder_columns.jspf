@@ -1,0 +1,60 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<%
+List<Long> subfolderIds = new ArrayList<>();
+
+subfolderIds.add(Long.valueOf(curFolder.getFolderId()));
+
+if (ArrayUtil.contains(entryColumns, "num-of-entries") || ArrayUtil.contains(entryColumns, "num-of-folders")) {
+	BookmarksFolderServiceUtil.getSubfolderIds(subfolderIds, scopeGroupId, curFolder.getFolderId(), true);
+}
+
+for (int j = 0; j < entryColumns.length; j++) {
+	String curEntryColumn = entryColumns[j];
+%>
+
+	<c:choose>
+		<c:when test='<%= curEntryColumn.equals("action") %>'>
+			<liferay-ui:search-container-column-jsp
+				path="/bookmarks/folder_action.jsp"
+			/>
+		</c:when>
+		<c:when test='<%= curEntryColumn.equals("modified-date") %>'>
+			<liferay-ui:search-container-column-date
+				cssClass="table-cell-ws-nowrap"
+				name="<%= curEntryColumn %>"
+				value="<%= curFolder.getModifiedDate() %>"
+			/>
+		</c:when>
+		<c:when test='<%= curEntryColumn.equals("name") %>'>
+			<liferay-ui:search-container-column-text
+				cssClass="table-cell-expand table-cell-minw-200 table-title"
+				href="<%= rowURL.toString() %>"
+				name="<%= curEntryColumn %>"
+				value="<%= HtmlUtil.escape(curFolder.getName()) %>"
+			/>
+		</c:when>
+		<c:when test='<%= curEntryColumn.equals("url") %>'>
+			<liferay-ui:search-container-column-text
+				cssClass="table-cell-expand table-cell-minw-200"
+				name="<%= curEntryColumn %>"
+				value="--"
+			/>
+		</c:when>
+		<c:when test='<%= curEntryColumn.equals("visits") %>'>
+			<liferay-ui:search-container-column-text
+				cssClass="table-cell-expand-smallest"
+				name="<%= curEntryColumn %>"
+				value="--"
+			/>
+		</c:when>
+	</c:choose>
+
+<%
+}
+%>

@@ -1,0 +1,83 @@
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+
+package com.liferay.source.formatter.dependencies;
+
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.upload.UploadException;
+
+/**
+ * @author Hugo Huijser
+ */
+public class ThrowsSystemException {
+
+	public void method1() {
+	}
+
+	public void method2(
+		String string1, String string2, String string3, String string4,
+		String string5) {
+	}
+
+	public void method3(String string1, String string2, String string3) {
+	}
+
+	public void method4() throws PortalException {
+	}
+
+	public void method5(
+			String string1, String string2, String string3, String string4,
+			String string5)
+		throws PortalException {
+	}
+
+	public void method6() throws UploadException {
+	}
+
+	public void method7(
+			String string1, String string2, String string3, String string4,
+			String string5)
+		throws UploadException {
+	}
+
+	public void method8();
+
+	public void method9(
+		String string1, String string2, String string3, String string4,
+		String string5);
+
+	public void method10(String string1, String string2, String string3);
+
+	public void method11() throws PortalException;
+
+	public void method12(
+			String string1, String string2, String string3, String string4,
+			String string5)
+		throws PortalException;
+
+	public void method13() throws UploadException;
+
+	public void method14(
+			String string1, String string2, String string3, String string4,
+			String string5)
+		throws UploadException;
+
+	public void n1() throws PortalException, UploadException {
+	}
+
+	public void n2(
+			String string1, String string2, String string3, String string4,
+			String string5)
+		throws PortalException, UploadException {
+	}
+
+	public void n3() throws PortalException, UploadException;
+
+	public void n4(
+			String string1, String string2, String string3, String string4,
+			String string5)
+		throws PortalException, UploadException;
+
+}

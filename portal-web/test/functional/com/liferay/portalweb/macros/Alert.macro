@@ -1,0 +1,196 @@
+definition {
+
+	@summary = "Default summary"
+	macro closeMessage(messageType = null) {
+		if ((IsElementPresent(locator1 = "Message#${messageType}")) && (IsVisible(locator1 = "Message#${messageType}")) && (IsVisible(locator1 = "Icon#CLOSE_ALERT"))) {
+			Click(locator1 = "Icon#CLOSE_ALERT");
+		}
+	}
+
+	@summary = "Default summary"
+	macro closePortalLocalizationWarning() {
+		Alert.closeMessage(messageType = "PORTAL_LOCALIZATION");
+
+		Pause(value1 = 2000);
+	}
+
+	@summary = "Default summary"
+	macro closeToastMessage() {
+		if ((IsElementPresent(locator1 = "ClayAlertToast#ALERT_TOAST_CONTAINER")) && (IsVisible(locator1 = "ClayAlertToast#ALERT_TOAST_CONTAINER")) && (IsVisible(locator1 = "ClayAlertToast#ALERT_TOAST_CLOSE_BUTTON"))) {
+			Click(locator1 = "ClayAlertToast#ALERT_TOAST_CLOSE_BUTTON");
+		}
+	}
+
+	@summary = "Default summary"
+	macro confirmSecurity(domain = null) {
+		if (IsElementPresent(key_title = "Your connection is not private", locator1 = "Header#H1_TITLE")) {
+			Click(locator1 = "Button#ADVANCED");
+
+			if (isSet(domain)) {
+				AssertElementPresent(
+					key_text = "Proceed to ${domain}",
+					locator1 = "Link#ANY");
+
+				Click(
+					key_text = "Proceed to ${domain} (unsafe)",
+					locator1 = "Link#ANY");
+			}
+			else {
+				AssertElementPresent(
+					key_text = "Proceed to localhost",
+					locator1 = "Link#ANY");
+
+				Click(
+					key_text = "Proceed to localhost (unsafe)",
+					locator1 = "Link#ANY");
+			}
+		}
+	}
+
+	@summary = "Default summary"
+	macro reloadPageAfterSuccessMessage(successMessage = null) {
+		Alert.viewSuccessMessageText(successMessage = ${successMessage});
+
+		Button.click(button = "Reload");
+	}
+
+	@summary = "Default summary"
+	macro viewConversionMessage(alertMessage = null, alertType = null) {
+		AssertVisible(
+			key_alertMessage = ${alertMessage},
+			key_type = ${alertType},
+			locator1 = "Message#CONVERSION_ALERT_MESSAGE");
+	}
+
+	@summary = "Default summary"
+	macro viewDuplicateErrorMessage() {
+		AssertTextEquals.assertPartialText(
+			locator1 = "Message#ERROR_1",
+			value1 = "Please enter a unique name.");
+	}
+
+	@summary = "Default summary"
+	macro viewErrorMessage(errorMessage = null) {
+		AssertTextEquals.assertPartialText(
+			locator1 = "Message#ERROR",
+			value1 = ${errorMessage});
+	}
+
+	@summary = "Default summary"
+	macro viewExpireContentFailedMessage() {
+		AssertTextEquals.assertPartialText(
+			key_alertMessage = "Please enter a valid expiration date.",
+			locator1 = "Message#ERROR_ENTER_A_VALID_VALUE",
+			value1 = "Please enter a valid expiration date.");
+	}
+
+	@summary = "Default summary"
+	macro viewFieldErrorMessage(fieldLabel = null, errorMessage = null) {
+		AssertTextEquals(
+			fieldLabel = ${fieldLabel},
+			locator1 = "Message#ERROR_FIELD",
+			value1 = ${errorMessage});
+	}
+
+	@summary = "Default summary"
+	macro viewInfoMessage(infoMessage = null) {
+		AssertTextEquals(
+			locator1 = "Message#INFO_2",
+			value1 = ${infoMessage});
+	}
+
+	@summary = "Default summary"
+	macro viewInfoMessageSpecific(infoMessage = null) {
+		AssertElementPresent(
+			key_infoMessage = ${infoMessage},
+			locator1 = "Message#INFO_SPECIFIC");
+	}
+
+	@summary = "Default summary"
+	macro viewLengthValidationField() {
+		AssertTextEquals.assertPartialText(
+			locator1 = "TextInput#REQUIRED_ALERT",
+			value1 = "Please enter no more than");
+	}
+
+	@summary = "Default summary"
+	macro viewLocalizationMessage(defaultLanguageLocalizationMessage = null, translationLanguageLocalizationMessage = null, preferredLanguageLocalizationMessage = null) {
+		WaitForElementPresent(locator1 = "Home#PORTAL_LOCALIZATION_TRANSLATION_LANGUAGE_MESSAGE");
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "Home#PORTAL_LOCALIZATION_TRANSLATION_LANGUAGE_MESSAGE",
+			value1 = ${translationLanguageLocalizationMessage});
+
+		AssertTextEquals(
+			locator1 = "Home#PORTAL_LOCALIZATION_PREFERRED_LANGUAGE_MESSAGE",
+			value1 = ${preferredLanguageLocalizationMessage});
+
+		if (isSet(defaultLanguageLocalizationMessage)) {
+			Refresh();
+
+			AssertTextEquals(
+				key_pageLocale = ${defaultLanguageLocalizationMessage},
+				locator1 = "Home#PORTAL_LOCALIZATION_DEFAULT_LANGUAGE_MESSAGE",
+				value1 = ${defaultLanguageLocalizationMessage});
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewMutedMessage(muteMessage = null) {
+		AssertTextEquals.assertPartialText(
+			locator1 = "Message#SUBTITLE",
+			value1 = ${muteMessage});
+	}
+
+	@summary = "Default summary"
+	macro viewRequestFailedToComplete() {
+		AssertElementPresent(locator1 = "Message#ERROR_REQUEST_FAILED");
+
+		if (IsElementPresent(locator1 = "Button#CLOSE_MESSAGE_FLOAT")) {
+			Click(locator1 = "Button#CLOSE_MESSAGE_FLOAT");
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewRequiredField() {
+		AssertTextEquals.assertPartialText(
+			locator1 = "TextInput#REQUIRED_ALERT",
+			value1 = "This field is required.");
+	}
+
+	@summary = "Default summary"
+	macro viewSpecificRequiredField(fieldFieldLabel = null) {
+		AssertElementPresent(
+			key_fieldFieldLabel = ${fieldFieldLabel},
+			locator1 = "Message#ERROR_FIELD_REQUIRED");
+	}
+
+	@summary = "Default summary"
+	macro viewSuccessMessage() {
+		VerifyElementPresent(locator1 = "Message#SUCCESS_DISMISSIBLE");
+	}
+
+	@summary = "Default summary"
+	macro viewSuccessMessageText(successMessage = null) {
+		AssertTextEquals.assertPartialText(
+			locator1 = "Message#SUCCESS",
+			value1 = ${successMessage});
+
+		VerifyVisible(locator1 = "Message#SUCCESS");
+	}
+
+	@summary = "Default summary"
+	macro viewWarningSpecific(warningMessage = null) {
+		AssertElementPresent(
+			key_warningMessage = ${warningMessage},
+			locator1 = "Message#WARNING_SPECIFIC");
+	}
+
+	@summary = "Default summary"
+	macro viewWarningSpecificNotPresent(warningMessage = null) {
+		AssertElementNotPresent(
+			key_warningMessage = ${warningMessage},
+			locator1 = "Message#WARNING_SPECIFIC");
+	}
+
+}

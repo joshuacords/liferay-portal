@@ -1,0 +1,7 @@
+buildscript {
+	dependencies {
+		classpath fileTree(dir: pluginClasspathDir, exclude: ["org.osgi.compendium-5.0.0.jar", "org.osgi.core-5.0.0.jar"], include: "*.jar")
+	}
+}
+
+apply plugin: "com.liferay.workspace"

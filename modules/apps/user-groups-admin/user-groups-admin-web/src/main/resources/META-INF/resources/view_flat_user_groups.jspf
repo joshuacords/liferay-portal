@@ -1,0 +1,40 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<liferay-ui:search-container
+	id="userGroups"
+	searchContainer="<%= searchContainer %>"
+	var="userGroupSearchContainer"
+>
+	<liferay-ui:search-container-row
+		className="com.liferay.portal.kernel.model.UserGroup"
+		escapedModel="<%= true %>"
+		keyProperty="userGroupId"
+		modelVar="userGroup"
+	>
+		<portlet:renderURL var="rowURL">
+			<portlet:param name="mvcPath" value="/edit_user_group_assignments.jsp" />
+			<portlet:param name="redirect" value="<%= userGroupSearchContainer.getIteratorURL().toString() %>" />
+			<portlet:param name="userGroupId" value="<%= String.valueOf(userGroup.getUserGroupId()) %>" />
+		</portlet:renderURL>
+
+		<%
+		if (!UserGroupPermissionUtil.contains(permissionChecker, userGroup.getUserGroupId(), ActionKeys.ASSIGN_MEMBERS)) {
+			rowURL = null;
+		}
+
+		int usersCount = UserLocalServiceUtil.getUserGroupUsersCount(userGroup.getUserGroupId(), WorkflowConstants.STATUS_APPROVED);
+		%>
+
+		<%@ include file="/search_columns.jspf" %>
+	</liferay-ui:search-container-row>
+
+	<liferay-ui:search-iterator
+		displayStyle="<%= displayStyle %>"
+		markupView="lexicon"
+	/>
+</liferay-ui:search-container>

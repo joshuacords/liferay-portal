@@ -1,0 +1,27 @@
+import com.liferay.gradle.plugins.patcher.PatchTask
+
+apply plugin: "com.liferay.patcher"
+
+task patch(type: PatchTask)
+
+dependencies {
+	compileOnly group: "com.liferay", name: "biz.aQute.bndlib", transitive: false, version: "4.2.0-20190219.175746-114-LIFERAY-CACHED"
+	compileOnly group: "org.osgi", name: "osgi.core", transitive: false, version: "6.0.0"
+	compileOnly group: "org.slf4j", name: "slf4j-api", transitive: false, version: "1.7.25"
+}
+
+jarSources {
+	mustRunAfter patch
+}
+
+patch {
+	ext {
+		autoClean = false
+	}
+
+	fileNames "aQute/bnd/classfile/ConstantPool.java"
+	fileNames "aQute/bnd/osgi/Analyzer.java"
+	fileNames "aQute/bnd/osgi/Jar.java"
+	originalLibModuleName = "biz.aQute.bndlib"
+	originalLibSrcBaseUrl = "https://repository-cdn.liferay.com/nexus/content/groups/public/com/liferay/"
+}

@@ -1,0 +1,37 @@
+definition {
+
+	var rootVar = "A global variable in the macro file.";
+
+	macro assertCommandVar {
+		if ("${referenceExecuteVar}" != "A command var that will not be overridden by an execute var.") {
+			fail("'referenceExecuteVar' does not match the value set by the previous command var in VariableScope.testcase");
+		}
+	}
+
+	macro assertExecuteVar {
+		if ("${referenceExecuteVar}" != "An execute var that will referenced by another execute var.") {
+			fail("'referenceExecuteVar' does not match the value set by the previous execute var in VariableScope.testcase");
+		}
+	}
+
+	macro assertRootVar {
+		if ("${rootVar}" != "A global variable in the macro file.") {
+			fail("'rootVar' does not match the global value set in RootVar.macro");
+		}
+	}
+
+	macro assertRootVarInNestedMacro {
+		RootVar.assertRootVar();
+	}
+
+	macro overrideRootVar {
+		if ("${rootVar}" != "An execute variable passed into a macro.") {
+			fail("'rootVar' does not match the overridden value set in VariableScope.testcase");
+		}
+	}
+
+	macro overrideRootVarInNestedMacro {
+		RootVar.overrideRootVar(rootVar = "${rootVar}");
+	}
+
+}

@@ -1,0 +1,256 @@
+@component-name = "portal-ci-infrastructure"
+definition {
+
+	property poshi.runner.acceptance = "true";
+	property testray.main.component.name = "Poshi Runner";
+
+	var nonStaticVariable = "OLD - Non-Static Value";
+	static var staticVariable = "OLD - Static Value";
+
+	setUp {
+		echo("");
+
+		echo("#");
+
+		echo("# set-up:");
+
+		echo("#");
+
+		echo("");
+
+		var actual = ${staticVariable};
+		var expected = "OLD - Static Value";
+
+		if (${actual} == ${expected}) {
+			echo("The value set to the static variable was a match to the expected value.");
+
+			echo("actual: '${actual}'");
+
+			echo("expected: '${expected}'");
+		}
+		else {
+			echo("The value set to the static variable was NOT a match to the expected value.");
+
+			echo("actual: '${actual}'");
+
+			echo("expected: '${expected}'");
+
+			fail("Found the wrong value!");
+		}
+
+		echo("");
+
+		var staticVariable = "NEW - Static Value";
+
+		var actual = ${staticVariable};
+		var expected = "NEW - Static Value";
+
+		if (${actual} == ${expected}) {
+			echo("The value set to the static variable was a match to the expected value.");
+
+			echo("actual: '${actual}'");
+
+			echo("expected: '${expected}'");
+		}
+		else {
+			echo("The value set to the static variable was NOT a match to the expected value.");
+
+			echo("actual: '${actual}'");
+
+			echo("expected: '${expected}'");
+
+			fail("Found the wrong value!");
+		}
+
+		echo("");
+
+		var nonStaticVariable = "NEW - Non-Static Value";
+
+		var actual = ${nonStaticVariable};
+		var expected = "NEW - Non-Static Value";
+
+		if (${actual} == ${expected}) {
+			echo("The value set to the non-static variable was a match to the expected value.");
+
+			echo("actual: '${actual}'");
+
+			echo("expected: '${expected}'");
+		}
+		else {
+			echo("The value set to the non-static variable was NOT a match to the expected value.");
+
+			echo("actual: '${actual}'");
+
+			echo("expected: '${expected}'");
+
+			fail("Found the wrong value!");
+		}
+	}
+
+	tearDown {
+		echo("");
+
+		echo("#");
+
+		echo("# tear-down:");
+
+		echo("#");
+
+		echo("");
+
+		var actual = ${staticVariable};
+		var expected = "NEW - Static Value";
+
+		if (${actual} == ${expected}) {
+			echo("The value set to the static variable was a match to the expected value.");
+
+			echo("actual: '${actual}'");
+
+			echo("expected: '${expected}'");
+		}
+		else {
+			echo("The value set to the static variable was NOT a match to the expected value.");
+
+			echo("actual: '${actual}'");
+
+			echo("expected: '${expected}'");
+
+			fail("Found the wrong value!");
+		}
+
+		echo("");
+
+		var actual = ${nonStaticVariable};
+		var expected = "OLD - Non-Static Value";
+
+		if (${actual} == ${expected}) {
+			echo("The value set to the non-static variable was a match to the expected value.");
+
+			echo("actual: '${actual}'");
+
+			echo("expected: '${expected}'");
+		}
+		else {
+			echo("The value set to the non-static variable was NOT a match to the expected value.");
+
+			echo("actual: '${actual}'");
+
+			echo("expected: '${expected}'");
+
+			fail("Found the wrong value!");
+		}
+	}
+
+	@disable-webdriver = "true"
+	@priority = 5
+	test StaticVariables1 {
+		echo("");
+
+		echo("#");
+
+		echo("# command:");
+
+		echo("#");
+
+		echo("");
+
+		var actual = ${staticVariable};
+		var expected = "NEW - Static Value";
+
+		if (${actual} == ${expected}) {
+			echo("The value set to the static variable was a match to the expected value.");
+
+			echo("actual: '${actual}'");
+
+			echo("expected: '${expected}'");
+		}
+		else {
+			echo("The value set to the static variable was NOT a match to the expected value.");
+
+			echo("actual: '${actual}'");
+
+			echo("expected: '${expected}'");
+
+			fail("Found the wrong value!");
+		}
+
+		echo("");
+
+		var actual = ${nonStaticVariable};
+		var expected = "OLD - Non-Static Value";
+
+		if (${actual} == ${expected}) {
+			echo("The value set to the non-static variable was a match to the expected value.");
+
+			echo("actual: '${actual}'");
+
+			echo("expected: '${expected}'");
+		}
+		else {
+			echo("The value set to the non-static variable was NOT a match to the expected value.");
+
+			echo("actual: '${actual}'");
+
+			echo("expected: '${expected}'");
+
+			fail("Found the wrong value!");
+		}
+	}
+
+	@disable-webdriver = "true"
+	@priority = 5
+	test StaticVariables2 {
+		echo("");
+
+		echo("#");
+
+		echo("# command:");
+
+		echo("#");
+
+		echo("");
+
+		var actual = ${staticVariable};
+		var expected = "NEW - Static Value";
+
+		if (${actual} == ${expected}) {
+			echo("The value set to the static variable was a match to the expected value.");
+
+			echo("actual: '${actual}'");
+
+			echo("expected: '${expected}'");
+		}
+		else {
+			echo("The value set to the static variable was NOT a match to the expected value.");
+
+			echo("actual: '${actual}'");
+
+			echo("expected: '${expected}'");
+
+			fail("Found the wrong value!");
+		}
+
+		echo("");
+
+		var actual = ${nonStaticVariable};
+		var expected = "OLD - Non-Static Value";
+
+		if (${actual} == ${expected}) {
+			echo("The value set to the non-static variable was a match to the expected value.");
+
+			echo("actual: '${actual}'");
+
+			echo("expected: '${expected}'");
+		}
+		else {
+			echo("The value set to the non-static variable was NOT a match to the expected value.");
+
+			echo("actual: '${actual}'");
+
+			echo("expected: '${expected}'");
+
+			fail("Found the wrong value!");
+		}
+	}
+
+}

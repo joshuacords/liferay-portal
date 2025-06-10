@@ -1,0 +1,186 @@
+definition {
+
+	@summary = "Default summary"
+	macro configureScope(searchScope = null) {
+		ClassicSearch.gotoOptions(portletOption = "Configuration");
+
+		if ((${searchScope} == "Everything") || (${searchScope} == "Let the User Choose") || (${searchScope} == "This Site")) {
+			SelectFrame(locator1 = "IFrame#CONFIGURATION");
+
+			Select(
+				locator1 = "Select#SCOPE_CONFIGURATION",
+				value1 = ${searchScope});
+		}
+		else {
+			fail("Invalid search scope. Must be (Everything|Let the User Choose|This Site).");
+		}
+
+		PortletEntry.save();
+
+		IFrame.closeFrame();
+	}
+
+	@summary = "Default summary"
+	macro gotoModifiedRangeFacetPG(searchModifiedRange = null) {
+		var key_searchModifiedRange = ${searchModifiedRange};
+
+		AssertClick.assertPartialTextClickAt(
+			locator1 = "ClassicSearch#MODIFIED_RANGE_FACET_TIME_RANGE",
+			value1 = ${searchModifiedRange});
+	}
+
+	@summary = "Default summary"
+	macro gotoOptions(portletOption = null) {
+		MouseOver.mouseOverNotVisible(locator1 = "Search#EMBEDDED_SEARCH_BAR_ELLIPSIS_ICON");
+
+		Click(locator1 = "Search#EMBEDDED_SEARCH_BAR_ELLIPSIS_ICON");
+
+		if (isSet(portletOption)) {
+			MenuItem.click(menuItem = ${portletOption});
+		}
+	}
+
+	@summary = "Default summary"
+	macro gotoSearchResultPG(searchAssetTitle = null) {
+		var key_searchAssetTitle = ${searchAssetTitle};
+
+		AssertClick(
+			locator1 = "ClassicSearch#CLASSIC_ASSET_ENTRY_TABLE_TITLE",
+			value1 = ${searchAssetTitle});
+	}
+
+	@summary = "Default summary"
+	macro removeUserFacetDisplayPG() {
+		SearchPage.gotoEmbeddedOptions(portletOption = "Configuration");
+
+		SelectFrame(locator1 = "IFrame#CONFIGURATION");
+
+		Uncheck(locator1 = "ClassicSearch#SEARCH_BAR_CONFIG_BASIC_DISPLAY_USER_FACET_CHECKBOX");
+
+		Button.clickSave();
+
+		SelectFrame(value1 = "relative=top");
+
+		IFrame.closeFrame();
+	}
+
+	@summary = "Default summary"
+	macro search(searchTerm = null) {
+		AssertElementPresent(locator1 = "ClassicSearch#CLASSIC_SEARCH_BAR");
+
+		Type(
+			locator1 = "ClassicSearch#CLASSIC_SEARCH_BAR",
+			value1 = ${searchTerm});
+
+		KeyPress(
+			locator1 = "ClassicSearch#CLASSIC_SEARCH_BAR",
+			value1 = "\RETURN");
+	}
+
+	@summary = "Default summary"
+	macro selectScopeInput(searchScope = null) {
+		if ((${searchScope} == "Everything") || (${searchScope} == "This Site")) {
+			Click.clickNoMouseOver(
+				locator1 = "ClassicSearch#EMBEDDED_SEARCH_BAR_SCOPE_SELECT_OPTION",
+				searchScope = ${searchScope});
+		}
+		else {
+			fail("Invalid search scope. Must be (Everything|This Site).");
+		}
+	}
+
+	@summary = "Default summary"
+	macro unscopeAssetFacetPG() {
+		Click(locator1 = "ClassicSearch#ASSET_TYPE_FACET_ANY_ASSET");
+	}
+
+	@summary = "Default summary"
+	macro viewAssetTypeFacetPG(searchAssetType = null, searchAssetTitle = null, facetFrequency = null, searchAssetSummary = null) {
+		var key_searchAssetType = ${searchAssetType};
+
+		AssertTextEquals(
+			locator1 = "ClassicSearch#ASSET_TYPE_FACET_ANY_ASSET",
+			value1 = "Any Asset");
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "ClassicSearch#ASSET_TYPE_FACET_FREQUENCY",
+			value1 = ${facetFrequency});
+
+		AssertClick.assertPartialTextClickAt(
+			locator1 = "ClassicSearch#ASSET_TYPE_FACET_ASSET",
+			value1 = ${searchAssetType});
+
+		ClassicSearch.viewSearchResultPG(
+			searchAssetSummary = ${searchAssetSummary},
+			searchAssetTitle = ${searchAssetTitle},
+			searchAssetType = ${searchAssetType});
+	}
+
+	@summary = "Default summary"
+	macro viewSearchAssetDetailPage(searchAssetTitle = null) {
+		AssertTextEquals(
+			locator1 = "ClassicSearch#CLASSIC_ASSET_DETAILS_TITLE",
+			value1 = ${searchAssetTitle});
+	}
+
+	@summary = "Default summary"
+	macro viewSearchNoPG(searchTerm = null, searchNoResults = null, searchAssetTitle = null) {
+		var key_searchAssetTitle = ${searchAssetTitle};
+
+		AssertElementNotPresent(locator1 = "ClassicSearch#CLASSIC_ASSET_ENTRY_TABLE_TITLE");
+
+		AssertElementNotPresent(locator1 = "ClassicSearch#CLASSIC_ASSET_ENTRY_TABLE_TYPE");
+
+		if (isSet(searchAssetSummary)) {
+			AssertElementNotPresent(locator1 = "ClassicSearch#CLASSIC_ASSET_ENTRY_TABLE_SUMMARY");
+		}
+
+		if (${searchNoResults} == "true") {
+			AssertTextEquals.assertPartialText(
+				locator1 = "Message#EMPTY_INFO",
+				value1 = "No results were found that matched the keywords: ${searchTerm}.");
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewSearchResultPG(searchAssetType = null, searchAssetTitle = null, searchAssetSummary = null) {
+		var key_searchAssetTitle = ${searchAssetTitle};
+		var key_searchAssetType = ${searchAssetType};
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "ClassicSearch#CLASSIC_ASSET_ENTRY_TABLE_TITLE_SPECIFIC",
+			value1 = ${searchAssetTitle});
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "ClassicSearch#CLASSIC_ASSET_ENTRY_TABLE_TYPE_SPECIFIC",
+			value1 = ${searchAssetType});
+
+		if (isSet(searchAssetSummary)) {
+			AssertTextEquals.assertPartialText(
+				locator1 = "ClassicSearch#CLASSIC_ASSET_ENTRY_TABLE_SUMMARY_SPECIFIC",
+				value1 = ${searchAssetSummary});
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewUserFacetPG(searchAssetType = null, searchAssetTitle = null, userLoginFullName = null, facetFrequency = null, searchAssetSummary = null) {
+		AssertElementPresent(
+			key_term = "Any User",
+			locator1 = "SearchPage#USER_FACET_TERM");
+
+		AssertTextEquals.assertPartialText(
+			key_term = ${userLoginFullName},
+			locator1 = "ClassicSearch#USER_FACET_TERM_FREQUENCY",
+			value1 = ${facetFrequency});
+
+		Click(
+			key_term = ${userLoginFullName},
+			locator1 = "SearchPage#USER_FACET_TERM");
+
+		ClassicSearch.viewSearchResultPG(
+			searchAssetSummary = ${searchAssetSummary},
+			searchAssetTitle = ${searchAssetTitle},
+			searchAssetType = ${searchAssetType});
+	}
+
+}

@@ -1,0 +1,12 @@
+{
+	"dependencies": {
+		"lodash": "4.17.21"
+	},
+	"name": "frontend-js-lodash-web",
+	"scripts": {
+		"build": "node-scripts build",
+		"checkFormat": "node-scripts format --check",
+		"format": "node-scripts format"
+	},
+	"version": "4.0.31"
+}

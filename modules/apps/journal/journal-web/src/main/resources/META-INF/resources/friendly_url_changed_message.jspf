@@ -1,0 +1,36 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<%
+String friendlyURLChangedMessage = GetterUtil.getString(SessionMessages.get(request, "friendlyURLChanged_requestProcessedWarning"));
+%>
+
+<c:if test="<%= Validator.isNotNull(friendlyURLChangedMessage) %>">
+	<liferay-frontend:component
+		context='<%=
+			HashMapBuilder.<String, Object>put(
+				"message", friendlyURLChangedMessage
+			).build()
+		%>'
+		module="{showWarningAlert} from journal-web"
+	/>
+</c:if>
+
+<%
+String friendlyURLDuplicatedMessage = GetterUtil.getString(SessionMessages.get(request, "friendlyURLDuplicated_requestProcessedWarning"));
+%>
+
+<c:if test="<%= Validator.isNotNull(friendlyURLDuplicatedMessage) %>">
+	<liferay-frontend:component
+		context='<%=
+			HashMapBuilder.<String, Object>put(
+				"message", friendlyURLDuplicatedMessage
+			).build()
+		%>'
+		module="{showWarningAlert} from journal-web"
+	/>
+</c:if>

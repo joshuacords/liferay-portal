@@ -1,0 +1,334 @@
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+
+package com.liferay.commerce.product.model.impl;
+
+import com.liferay.commerce.product.model.CPDefinitionSpecificationOptionValue;
+import com.liferay.petra.lang.HashUtil;
+import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.model.CacheModel;
+import com.liferay.portal.kernel.model.MVCCModel;
+
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+
+import java.util.Date;
+
+/**
+ * The cache model class for representing CPDefinitionSpecificationOptionValue in entity cache.
+ *
+ * @author Marco Leo
+ * @generated
+ */
+public class CPDefinitionSpecificationOptionValueCacheModel
+	implements CacheModel<CPDefinitionSpecificationOptionValue>, Externalizable,
+			   MVCCModel {
+
+	@Override
+	public boolean equals(Object object) {
+		if (this == object) {
+			return true;
+		}
+
+		if (!(object instanceof
+				CPDefinitionSpecificationOptionValueCacheModel)) {
+
+			return false;
+		}
+
+		CPDefinitionSpecificationOptionValueCacheModel
+			cpDefinitionSpecificationOptionValueCacheModel =
+				(CPDefinitionSpecificationOptionValueCacheModel)object;
+
+		if ((CPDefinitionSpecificationOptionValueId ==
+				cpDefinitionSpecificationOptionValueCacheModel.
+					CPDefinitionSpecificationOptionValueId) &&
+			(mvccVersion ==
+				cpDefinitionSpecificationOptionValueCacheModel.mvccVersion)) {
+
+			return true;
+		}
+
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		int hashCode = HashUtil.hash(0, CPDefinitionSpecificationOptionValueId);
+
+		return HashUtil.hash(hashCode, mvccVersion);
+	}
+
+	@Override
+	public long getMvccVersion() {
+		return mvccVersion;
+	}
+
+	@Override
+	public void setMvccVersion(long mvccVersion) {
+		this.mvccVersion = mvccVersion;
+	}
+
+	@Override
+	public String toString() {
+		StringBundler sb = new StringBundler(39);
+
+		sb.append("{mvccVersion=");
+		sb.append(mvccVersion);
+		sb.append(", ctCollectionId=");
+		sb.append(ctCollectionId);
+		sb.append(", uuid=");
+		sb.append(uuid);
+		sb.append(", externalReferenceCode=");
+		sb.append(externalReferenceCode);
+		sb.append(", CPDefinitionSpecificationOptionValueId=");
+		sb.append(CPDefinitionSpecificationOptionValueId);
+		sb.append(", groupId=");
+		sb.append(groupId);
+		sb.append(", companyId=");
+		sb.append(companyId);
+		sb.append(", userId=");
+		sb.append(userId);
+		sb.append(", userName=");
+		sb.append(userName);
+		sb.append(", createDate=");
+		sb.append(createDate);
+		sb.append(", modifiedDate=");
+		sb.append(modifiedDate);
+		sb.append(", CPDefinitionId=");
+		sb.append(CPDefinitionId);
+		sb.append(", CPSpecificationOptionId=");
+		sb.append(CPSpecificationOptionId);
+		sb.append(", CPOptionCategoryId=");
+		sb.append(CPOptionCategoryId);
+		sb.append(", key=");
+		sb.append(key);
+		sb.append(", priority=");
+		sb.append(priority);
+		sb.append(", value=");
+		sb.append(value);
+		sb.append(", visible=");
+		sb.append(visible);
+		sb.append(", lastPublishDate=");
+		sb.append(lastPublishDate);
+		sb.append("}");
+
+		return sb.toString();
+	}
+
+	@Override
+	public CPDefinitionSpecificationOptionValue toEntityModel() {
+		CPDefinitionSpecificationOptionValueImpl
+			cpDefinitionSpecificationOptionValueImpl =
+				new CPDefinitionSpecificationOptionValueImpl();
+
+		cpDefinitionSpecificationOptionValueImpl.setMvccVersion(mvccVersion);
+		cpDefinitionSpecificationOptionValueImpl.setCtCollectionId(
+			ctCollectionId);
+
+		if (uuid == null) {
+			cpDefinitionSpecificationOptionValueImpl.setUuid("");
+		}
+		else {
+			cpDefinitionSpecificationOptionValueImpl.setUuid(uuid);
+		}
+
+		if (externalReferenceCode == null) {
+			cpDefinitionSpecificationOptionValueImpl.setExternalReferenceCode(
+				"");
+		}
+		else {
+			cpDefinitionSpecificationOptionValueImpl.setExternalReferenceCode(
+				externalReferenceCode);
+		}
+
+		cpDefinitionSpecificationOptionValueImpl.
+			setCPDefinitionSpecificationOptionValueId(
+				CPDefinitionSpecificationOptionValueId);
+		cpDefinitionSpecificationOptionValueImpl.setGroupId(groupId);
+		cpDefinitionSpecificationOptionValueImpl.setCompanyId(companyId);
+		cpDefinitionSpecificationOptionValueImpl.setUserId(userId);
+
+		if (userName == null) {
+			cpDefinitionSpecificationOptionValueImpl.setUserName("");
+		}
+		else {
+			cpDefinitionSpecificationOptionValueImpl.setUserName(userName);
+		}
+
+		if (createDate == Long.MIN_VALUE) {
+			cpDefinitionSpecificationOptionValueImpl.setCreateDate(null);
+		}
+		else {
+			cpDefinitionSpecificationOptionValueImpl.setCreateDate(
+				new Date(createDate));
+		}
+
+		if (modifiedDate == Long.MIN_VALUE) {
+			cpDefinitionSpecificationOptionValueImpl.setModifiedDate(null);
+		}
+		else {
+			cpDefinitionSpecificationOptionValueImpl.setModifiedDate(
+				new Date(modifiedDate));
+		}
+
+		cpDefinitionSpecificationOptionValueImpl.setCPDefinitionId(
+			CPDefinitionId);
+		cpDefinitionSpecificationOptionValueImpl.setCPSpecificationOptionId(
+			CPSpecificationOptionId);
+		cpDefinitionSpecificationOptionValueImpl.setCPOptionCategoryId(
+			CPOptionCategoryId);
+
+		if (key == null) {
+			cpDefinitionSpecificationOptionValueImpl.setKey("");
+		}
+		else {
+			cpDefinitionSpecificationOptionValueImpl.setKey(key);
+		}
+
+		cpDefinitionSpecificationOptionValueImpl.setPriority(priority);
+
+		if (value == null) {
+			cpDefinitionSpecificationOptionValueImpl.setValue("");
+		}
+		else {
+			cpDefinitionSpecificationOptionValueImpl.setValue(value);
+		}
+
+		cpDefinitionSpecificationOptionValueImpl.setVisible(visible);
+
+		if (lastPublishDate == Long.MIN_VALUE) {
+			cpDefinitionSpecificationOptionValueImpl.setLastPublishDate(null);
+		}
+		else {
+			cpDefinitionSpecificationOptionValueImpl.setLastPublishDate(
+				new Date(lastPublishDate));
+		}
+
+		cpDefinitionSpecificationOptionValueImpl.resetOriginalValues();
+
+		return cpDefinitionSpecificationOptionValueImpl;
+	}
+
+	@Override
+	public void readExternal(ObjectInput objectInput) throws IOException {
+		mvccVersion = objectInput.readLong();
+
+		ctCollectionId = objectInput.readLong();
+		uuid = objectInput.readUTF();
+		externalReferenceCode = objectInput.readUTF();
+
+		CPDefinitionSpecificationOptionValueId = objectInput.readLong();
+
+		groupId = objectInput.readLong();
+
+		companyId = objectInput.readLong();
+
+		userId = objectInput.readLong();
+		userName = objectInput.readUTF();
+		createDate = objectInput.readLong();
+		modifiedDate = objectInput.readLong();
+
+		CPDefinitionId = objectInput.readLong();
+
+		CPSpecificationOptionId = objectInput.readLong();
+
+		CPOptionCategoryId = objectInput.readLong();
+		key = objectInput.readUTF();
+
+		priority = objectInput.readDouble();
+		value = objectInput.readUTF();
+
+		visible = objectInput.readBoolean();
+		lastPublishDate = objectInput.readLong();
+	}
+
+	@Override
+	public void writeExternal(ObjectOutput objectOutput) throws IOException {
+		objectOutput.writeLong(mvccVersion);
+
+		objectOutput.writeLong(ctCollectionId);
+
+		if (uuid == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(uuid);
+		}
+
+		if (externalReferenceCode == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(externalReferenceCode);
+		}
+
+		objectOutput.writeLong(CPDefinitionSpecificationOptionValueId);
+
+		objectOutput.writeLong(groupId);
+
+		objectOutput.writeLong(companyId);
+
+		objectOutput.writeLong(userId);
+
+		if (userName == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(userName);
+		}
+
+		objectOutput.writeLong(createDate);
+		objectOutput.writeLong(modifiedDate);
+
+		objectOutput.writeLong(CPDefinitionId);
+
+		objectOutput.writeLong(CPSpecificationOptionId);
+
+		objectOutput.writeLong(CPOptionCategoryId);
+
+		if (key == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(key);
+		}
+
+		objectOutput.writeDouble(priority);
+
+		if (value == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(value);
+		}
+
+		objectOutput.writeBoolean(visible);
+		objectOutput.writeLong(lastPublishDate);
+	}
+
+	public long mvccVersion;
+	public long ctCollectionId;
+	public String uuid;
+	public String externalReferenceCode;
+	public long CPDefinitionSpecificationOptionValueId;
+	public long groupId;
+	public long companyId;
+	public long userId;
+	public String userName;
+	public long createDate;
+	public long modifiedDate;
+	public long CPDefinitionId;
+	public long CPSpecificationOptionId;
+	public long CPOptionCategoryId;
+	public String key;
+	public double priority;
+	public String value;
+	public boolean visible;
+	public long lastPublishDate;
+
+}

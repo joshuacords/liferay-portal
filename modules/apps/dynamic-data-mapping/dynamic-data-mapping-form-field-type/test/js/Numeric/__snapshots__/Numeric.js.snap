@@ -1,0 +1,92 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Field Numeric Integer Input Mask toggle has an inputMaskFormat 1`] = `
+<div>
+  <div
+    aria-labelledby="numericField_fieldDetails"
+    class="form-group hide"
+    data-field-name="numericField"
+  >
+    <div
+      class="input-group"
+    >
+      <div
+        class="input-group-item"
+        data-tooltip-align="top"
+        title="+12 (34) 5678-9012"
+      >
+        <input
+          aria-invalid="true"
+          class="form-control ddm-form-field-type__numeric--rtl"
+          id="numericField"
+          name="numericField_masked"
+          placeholder="+__ (__) ____-____"
+          type="text"
+          value="+12 (34) 5678-9012"
+        />
+      </div>
+      <input
+        name="numericField"
+        type="hidden"
+        value="123456789012"
+      />
+    </div>
+    <input
+      name="numericField_edited"
+      type="hidden"
+      value="false"
+    />
+    <div
+      aria-hidden="true"
+      class="form-feedback-group lfr-de__field-feedback"
+    >
+      <div
+        aria-live="assertive"
+        class="form-feedback-item"
+        id="numericField_fieldError"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Field Numeric renders the default markup 1`] = `
+<div>
+  <div
+    aria-labelledby="undefined_fieldDetails"
+    class="form-group hide"
+  >
+    <div
+      class="input-group"
+    >
+      <div
+        class="input-group-item"
+        data-tooltip-align="top"
+      >
+        <input
+          aria-invalid="true"
+          class="form-control ddm-form-field-type__numeric--rtl"
+          name="undefined"
+          type="text"
+          value=""
+        />
+      </div>
+    </div>
+    <input
+      name="undefined_edited"
+      type="hidden"
+      value="false"
+    />
+    <div
+      aria-hidden="true"
+      class="form-feedback-group lfr-de__field-feedback"
+    >
+      <div
+        aria-live="assertive"
+        class="form-feedback-item"
+        id="undefined_fieldError"
+      />
+    </div>
+  </div>
+</div>
+`;

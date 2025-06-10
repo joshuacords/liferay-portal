@@ -1,0 +1,32 @@
+@default = "assertNotEditable"
+definition {
+
+	function assertNotEditable(locator1) {
+		WaitForSPARefresh();
+
+		selenium.waitForVisible(${locator1}, "false");
+
+		selenium.waitForNotEditable(${locator1});
+
+		selenium.assertNotEditable(${locator1});
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+	function assertNotEditableNotVisible(locator1) {
+		WaitForSPARefresh();
+
+		selenium.waitForElementPresent(${locator1}, "false");
+
+		selenium.waitForNotEditable(${locator1});
+
+		selenium.assertNotEditable(${locator1});
+
+		selenium.assertJavaScriptErrors("true");
+
+		selenium.assertLiferayErrors();
+	}
+
+}

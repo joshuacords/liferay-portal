@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<Configuration strict="true">
+	<Loggers>
+		<Logger level="ERROR" name="com.liferay.exportimport" />
+		<Logger level="WARN" name="com.liferay.exportimport.controller" />
+		<Logger level="INFO" name="com.liferay.exportimport.internal.background.task" />
+		<Logger level="ERROR" name="com.liferay.exportimport.internal.background.task.display" />
+		<Logger level="INFO" name="com.liferay.exportimport.lar" />
+		<Logger level="ERROR" name="com.liferay.exportimport.lifecycle" />
+		<Logger level="WARN" name="com.liferay.exportimport.portlet.preferences.processor.base" />
+	</Loggers>
+</Configuration>

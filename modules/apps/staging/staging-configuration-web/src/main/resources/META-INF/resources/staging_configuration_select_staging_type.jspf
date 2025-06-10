@@ -1,0 +1,50 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<div class="sheet-section">
+	<div class="sheet-text">
+		<liferay-ui:message key="select-one-of-the-options" />
+	</div>
+
+	<div class="form-group" id="<portlet:namespace />stagingTypes">
+		<div class="custom-distance">
+			<liferay-staging:radio
+				checked="<%= !liveGroup.isStaged() %>"
+				id="none"
+				label="none"
+				name="stagingType"
+				value="<%= String.valueOf(StagingConstants.TYPE_NOT_STAGED) %>"
+			/>
+		</div>
+
+		<c:if test="<%= !liveGroupRemoteStaging && !stagedRemotely %>">
+			<div class="custom-distance">
+				<liferay-staging:radio
+					checked="<%= stagedLocally %>"
+					description='<%= LanguageUtil.format(request, "staging-type-local" + (GroupCapabilityUtil.isSupportsPages(liveGroup) ? "-pages" : StringPool.BLANK), StringUtil.toLowerCase(liveGroup.getScopeSimpleName(themeDisplay)), false) %>'
+					id="local"
+					label="local-live"
+					name="stagingType"
+					value="<%= String.valueOf(StagingConstants.TYPE_LOCAL_STAGING) %>"
+				/>
+			</div>
+		</c:if>
+
+		<c:if test="<%= !stagedLocally %>">
+			<div class="custom-distance">
+				<liferay-staging:radio
+					checked="<%= stagedRemotely %>"
+					description='<%= LanguageUtil.format(request, "staging-type-remote", StringUtil.toLowerCase(liveGroup.getScopeSimpleName(themeDisplay)), false) %>'
+					id="remote"
+					label="remote-live"
+					name="stagingType"
+					value="<%= String.valueOf(StagingConstants.TYPE_REMOTE_STAGING) %>"
+				/>
+			</div>
+		</c:if>
+	</div>
+</div>

@@ -1,0 +1,719 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Field Checkbox has a helptext 1`] = `
+<div>
+  <div
+    aria-labelledby="ID_fieldDetails"
+    class="form-group hide"
+  >
+    <div
+      class="input-group"
+    >
+      <div
+        class="input-group-item"
+      >
+        <label
+          class="toggle-switch"
+        >
+          <label
+            class="toggle-switch simple-toggle-switch"
+          >
+            <span
+              class="toggle-switch-check-bar"
+            >
+              <input
+                aria-describedby="ID_fieldHelp"
+                aria-required="false"
+                class="toggle-switch-check"
+                role="switch"
+                type="checkbox"
+                value="false"
+              />
+              <span
+                aria-hidden="true"
+                class="toggle-switch-bar"
+              >
+                <span
+                  class="toggle-switch-handle"
+                />
+              </span>
+            </span>
+          </label>
+        </label>
+        <input
+          class="form-control"
+          type="hidden"
+          value="false"
+        />
+      </div>
+    </div>
+    <input
+      name="undefined_edited"
+      type="hidden"
+      value="false"
+    />
+    <div
+      aria-hidden="true"
+      class="form-feedback-group lfr-de__field-feedback"
+    >
+      <div
+        aria-live="assertive"
+        class="form-feedback-item"
+        id="ID_fieldError"
+      />
+      <div
+        id="ID_fieldHelp"
+      >
+        Type something
+      </div>
+    </div>
+    <span
+      class="sr-only"
+      id="ID_fieldDetails"
+    >
+      Type something
+    </span>
+  </div>
+</div>
+`;
+
+exports[`Field Checkbox has a key 1`] = `
+<div>
+  <div
+    aria-labelledby="undefined_fieldDetails"
+    class="form-group hide"
+  >
+    <div
+      class="input-group"
+    >
+      <div
+        class="input-group-item"
+      >
+        <label
+          class="toggle-switch"
+        >
+          <label
+            class="toggle-switch simple-toggle-switch"
+          >
+            <span
+              class="toggle-switch-check-bar"
+            >
+              <input
+                aria-required="false"
+                checked=""
+                class="toggle-switch-check"
+                role="switch"
+                type="checkbox"
+                value="true"
+              />
+              <span
+                aria-hidden="true"
+                class="toggle-switch-bar"
+              >
+                <span
+                  class="toggle-switch-handle"
+                />
+              </span>
+            </span>
+          </label>
+        </label>
+        <input
+          class="form-control"
+          type="hidden"
+          value="true"
+        />
+      </div>
+    </div>
+    <input
+      name="undefined_edited"
+      type="hidden"
+      value="false"
+    />
+    <div
+      aria-hidden="true"
+      class="form-feedback-group lfr-de__field-feedback"
+    >
+      <div
+        aria-live="assertive"
+        class="form-feedback-item"
+        id="undefined_fieldError"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Field Checkbox has a label 1`] = `
+<div>
+  <div
+    aria-labelledby="undefined_fieldDetails"
+    class="form-group hide"
+  >
+    <div
+      class="input-group"
+    >
+      <div
+        class="input-group-item"
+      >
+        <label
+          class="toggle-switch"
+        >
+          <label
+            class="toggle-switch simple-toggle-switch"
+          >
+            <span
+              class="toggle-switch-check-bar"
+            >
+              <input
+                aria-required="false"
+                class="toggle-switch-check"
+                role="switch"
+                type="checkbox"
+                value="false"
+              />
+              <span
+                aria-hidden="true"
+                class="toggle-switch-bar"
+              >
+                <span
+                  class="toggle-switch-handle"
+                />
+              </span>
+            </span>
+          </label>
+          label
+        </label>
+        <input
+          class="form-control"
+          type="hidden"
+          value="false"
+        />
+      </div>
+    </div>
+    <input
+      name="undefined_edited"
+      type="hidden"
+      value="false"
+    />
+    <div
+      aria-hidden="true"
+      class="form-feedback-group lfr-de__field-feedback"
+    >
+      <div
+        aria-live="assertive"
+        class="form-feedback-item"
+        id="undefined_fieldError"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Field Checkbox has a predefined Value 1`] = `
+<div>
+  <div
+    aria-labelledby="undefined_fieldDetails"
+    class="form-group hide"
+  >
+    <div
+      class="input-group"
+    >
+      <div
+        class="input-group-item"
+      >
+        <label
+          class="toggle-switch"
+        >
+          <label
+            class="toggle-switch simple-toggle-switch"
+          >
+            <span
+              class="toggle-switch-check-bar"
+            >
+              <input
+                aria-required="false"
+                class="toggle-switch-check"
+                role="switch"
+                type="checkbox"
+                value="false"
+              />
+              <span
+                aria-hidden="true"
+                class="toggle-switch-bar"
+              >
+                <span
+                  class="toggle-switch-handle"
+                />
+              </span>
+            </span>
+          </label>
+        </label>
+        <input
+          class="form-control"
+          type="hidden"
+          value="false"
+        />
+      </div>
+    </div>
+    <input
+      name="undefined_edited"
+      type="hidden"
+      value="false"
+    />
+    <div
+      aria-hidden="true"
+      class="form-feedback-group lfr-de__field-feedback"
+    >
+      <div
+        aria-live="assertive"
+        class="form-feedback-item"
+        id="undefined_fieldError"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Field Checkbox has a value 1`] = `
+<div>
+  <div
+    aria-labelledby="undefined_fieldDetails"
+    class="form-group hide"
+  >
+    <div
+      class="input-group"
+    >
+      <div
+        class="input-group-item"
+      >
+        <label
+          class="toggle-switch"
+        >
+          <label
+            class="toggle-switch simple-toggle-switch"
+          >
+            <span
+              class="toggle-switch-check-bar"
+            >
+              <input
+                aria-required="false"
+                checked=""
+                class="toggle-switch-check"
+                role="switch"
+                type="checkbox"
+                value="true"
+              />
+              <span
+                aria-hidden="true"
+                class="toggle-switch-bar"
+              >
+                <span
+                  class="toggle-switch-handle"
+                />
+              </span>
+            </span>
+          </label>
+        </label>
+        <input
+          class="form-control"
+          type="hidden"
+          value="true"
+        />
+      </div>
+    </div>
+    <input
+      name="undefined_edited"
+      type="hidden"
+      value="false"
+    />
+    <div
+      aria-hidden="true"
+      class="form-feedback-group lfr-de__field-feedback"
+    >
+      <div
+        aria-live="assertive"
+        class="form-feedback-item"
+        id="undefined_fieldError"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Field Checkbox has an id 1`] = `
+<div>
+  <div
+    aria-labelledby="ID_fieldDetails"
+    class="form-group hide"
+  >
+    <div
+      class="input-group"
+    >
+      <div
+        class="input-group-item"
+      >
+        <label
+          class="toggle-switch"
+        >
+          <label
+            class="toggle-switch simple-toggle-switch"
+          >
+            <span
+              class="toggle-switch-check-bar"
+            >
+              <input
+                aria-required="false"
+                class="toggle-switch-check"
+                role="switch"
+                type="checkbox"
+                value="false"
+              />
+              <span
+                aria-hidden="true"
+                class="toggle-switch-bar"
+              >
+                <span
+                  class="toggle-switch-handle"
+                />
+              </span>
+            </span>
+          </label>
+        </label>
+        <input
+          class="form-control"
+          type="hidden"
+          value="false"
+        />
+      </div>
+    </div>
+    <input
+      name="undefined_edited"
+      type="hidden"
+      value="false"
+    />
+    <div
+      aria-hidden="true"
+      class="form-feedback-group lfr-de__field-feedback"
+    >
+      <div
+        aria-live="assertive"
+        class="form-feedback-item"
+        id="ID_fieldError"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Field Checkbox is not editable 1`] = `
+<div>
+  <div
+    aria-labelledby="undefined_fieldDetails"
+    class="form-group hide"
+  >
+    <div
+      class="input-group"
+    >
+      <div
+        class="input-group-item"
+      >
+        <label
+          class="toggle-switch"
+        >
+          <label
+            class="toggle-switch simple-toggle-switch disabled"
+          >
+            <span
+              class="toggle-switch-check-bar"
+            >
+              <input
+                aria-required="false"
+                class="toggle-switch-check"
+                disabled=""
+                role="switch"
+                type="checkbox"
+                value="false"
+              />
+              <span
+                aria-hidden="true"
+                class="toggle-switch-bar"
+              >
+                <span
+                  class="toggle-switch-handle"
+                />
+              </span>
+            </span>
+          </label>
+        </label>
+        <input
+          class="form-control"
+          type="hidden"
+          value="false"
+        />
+      </div>
+    </div>
+    <input
+      name="undefined_edited"
+      type="hidden"
+      value="false"
+    />
+    <div
+      aria-hidden="true"
+      class="form-feedback-group lfr-de__field-feedback"
+    >
+      <div
+        aria-live="assertive"
+        class="form-feedback-item"
+        id="undefined_fieldError"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Field Checkbox is not required 1`] = `
+<div>
+  <div
+    aria-labelledby="undefined_fieldDetails"
+    class="form-group hide"
+  >
+    <div
+      class="input-group"
+    >
+      <div
+        class="input-group-item"
+      >
+        <label
+          class="toggle-switch"
+        >
+          <label
+            class="toggle-switch simple-toggle-switch"
+          >
+            <span
+              class="toggle-switch-check-bar"
+            >
+              <input
+                aria-required="false"
+                class="toggle-switch-check"
+                role="switch"
+                type="checkbox"
+                value="false"
+              />
+              <span
+                aria-hidden="true"
+                class="toggle-switch-bar"
+              >
+                <span
+                  class="toggle-switch-handle"
+                />
+              </span>
+            </span>
+          </label>
+        </label>
+        <input
+          class="form-control"
+          type="hidden"
+          value="false"
+        />
+      </div>
+    </div>
+    <input
+      name="undefined_edited"
+      type="hidden"
+      value="false"
+    />
+    <div
+      aria-hidden="true"
+      class="form-feedback-group lfr-de__field-feedback"
+    >
+      <div
+        aria-live="assertive"
+        class="form-feedback-item"
+        id="undefined_fieldError"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Field Checkbox is shown as a switcher 1`] = `
+<div>
+  <div
+    aria-labelledby="undefined_fieldDetails"
+    class="form-group hide"
+  >
+    <div
+      class="input-group"
+    >
+      <div
+        class="input-group-item"
+      >
+        <label
+          class="toggle-switch"
+        >
+          <label
+            class="toggle-switch simple-toggle-switch"
+          >
+            <span
+              class="toggle-switch-check-bar"
+            >
+              <input
+                aria-required="false"
+                class="toggle-switch-check"
+                role="switch"
+                type="checkbox"
+                value="false"
+              />
+              <span
+                aria-hidden="true"
+                class="toggle-switch-bar"
+              >
+                <span
+                  class="toggle-switch-handle"
+                />
+              </span>
+            </span>
+          </label>
+        </label>
+        <input
+          class="form-control"
+          type="hidden"
+          value="false"
+        />
+      </div>
+    </div>
+    <input
+      name="undefined_edited"
+      type="hidden"
+      value="false"
+    />
+    <div
+      aria-hidden="true"
+      class="form-feedback-group lfr-de__field-feedback"
+    >
+      <div
+        aria-live="assertive"
+        class="form-feedback-item"
+        id="undefined_fieldError"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Field Checkbox is shown as checkbox 1`] = `
+<div>
+  <div
+    aria-labelledby="undefined_fieldDetails"
+    class="form-group hide"
+  >
+    <div
+      class="input-group"
+    >
+      <div
+        class="input-group-item"
+      >
+        <div
+          class="custom-control custom-checkbox"
+        >
+          <label>
+            <input
+              aria-required="false"
+              class="custom-control-input"
+              type="checkbox"
+            />
+            <span
+              class="custom-control-label"
+            />
+          </label>
+        </div>
+        <input
+          class="form-control"
+          type="hidden"
+          value="false"
+        />
+      </div>
+    </div>
+    <input
+      name="undefined_edited"
+      type="hidden"
+      value="false"
+    />
+    <div
+      aria-hidden="true"
+      class="form-feedback-group lfr-de__field-feedback"
+    >
+      <div
+        aria-live="assertive"
+        class="form-feedback-item"
+        id="undefined_fieldError"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Field Checkbox renders Label if showLabel is true 1`] = `
+<div>
+  <div
+    aria-labelledby="undefined_fieldDetails"
+    class="form-group hide"
+  >
+    <div
+      class="input-group"
+    >
+      <div
+        class="input-group-item"
+      >
+        <label
+          class="toggle-switch"
+        >
+          <label
+            class="toggle-switch simple-toggle-switch"
+          >
+            <span
+              class="toggle-switch-check-bar"
+            >
+              <input
+                aria-required="false"
+                class="toggle-switch-check"
+                role="switch"
+                type="checkbox"
+                value="false"
+              />
+              <span
+                aria-hidden="true"
+                class="toggle-switch-bar"
+              >
+                <span
+                  class="toggle-switch-handle"
+                />
+              </span>
+            </span>
+          </label>
+        </label>
+        <input
+          class="form-control"
+          type="hidden"
+          value="false"
+        />
+      </div>
+    </div>
+    <input
+      name="undefined_edited"
+      type="hidden"
+      value="false"
+    />
+    <div
+      aria-hidden="true"
+      class="form-feedback-group lfr-de__field-feedback"
+    >
+      <div
+        aria-live="assertive"
+        class="form-feedback-item"
+        id="undefined_fieldError"
+      />
+    </div>
+  </div>
+</div>
+`;

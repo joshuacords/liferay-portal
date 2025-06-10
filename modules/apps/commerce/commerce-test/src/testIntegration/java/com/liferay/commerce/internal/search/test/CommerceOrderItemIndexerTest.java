@@ -1,0 +1,302 @@
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+
+package com.liferay.commerce.internal.search.test;
+
+import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.commerce.currency.model.CommerceCurrency;
+import com.liferay.commerce.currency.test.util.CommerceCurrencyTestUtil;
+import com.liferay.commerce.internal.search.CommerceOrderItemIndexer;
+import com.liferay.commerce.model.CommerceOrder;
+import com.liferay.commerce.model.CommerceOrderItem;
+import com.liferay.commerce.product.model.CPInstance;
+import com.liferay.commerce.product.model.CommerceChannel;
+import com.liferay.commerce.product.service.CPInstanceLocalService;
+import com.liferay.commerce.product.test.util.CPTestUtil;
+import com.liferay.commerce.service.CommerceOrderItemLocalService;
+import com.liferay.commerce.service.CommerceOrderLocalService;
+import com.liferay.commerce.test.util.CommerceTestUtil;
+import com.liferay.petra.string.StringPool;
+import com.liferay.portal.kernel.model.Group;
+import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.search.Document;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.Hits;
+import com.liferay.portal.kernel.search.Indexer;
+import com.liferay.portal.kernel.search.IndexerRegistry;
+import com.liferay.portal.kernel.search.SearchContext;
+import com.liferay.portal.kernel.search.SortFactoryUtil;
+import com.liferay.portal.kernel.test.rule.AggregateTestRule;
+import com.liferay.portal.kernel.test.rule.DeleteAfterTestRun;
+import com.liferay.portal.kernel.test.rule.Sync;
+import com.liferay.portal.kernel.test.rule.SynchronousDestinationTestRule;
+import com.liferay.portal.kernel.test.util.GroupTestUtil;
+import com.liferay.portal.kernel.test.util.RandomTestUtil;
+import com.liferay.portal.kernel.test.util.UserTestUtil;
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.portal.test.rule.Inject;
+import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
+import com.liferay.portal.test.rule.PermissionCheckerMethodTestRule;
+
+import java.math.BigDecimal;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.frutilla.FrutillaRule;
+
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.ClassRule;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+/**
+ * @author Andrea Di Giorgi
+ * @author Alessio Antonio Rendina
+ */
+@RunWith(Arquillian.class)
+@Sync
+public class CommerceOrderItemIndexerTest {
+
+	@ClassRule
+	@Rule
+	public static final AggregateTestRule aggregateTestRule =
+		new AggregateTestRule(
+			new LiferayIntegrationTestRule(),
+			PermissionCheckerMethodTestRule.INSTANCE,
+			SynchronousDestinationTestRule.INSTANCE);
+
+	@Before
+	public void setUp() throws Exception {
+		_group = GroupTestUtil.addGroup();
+
+		_user = UserTestUtil.addUser();
+
+		_commerceCurrency = CommerceCurrencyTestUtil.addCommerceCurrency(
+			_group.getCompanyId());
+
+		_indexer = _indexerRegistry.getIndexer(CommerceOrderItem.class);
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		_commerceOrderLocalService.deleteCommerceOrders(_group.getGroupId());
+	}
+
+	@Test
+	public void testEmptyQuery() throws Exception {
+		_addCommerceOrderItems(1);
+		_addCommerceOrderItems(2);
+
+		CommerceOrderItem[] commerceOrderItems = _addCommerceOrderItems(3);
+
+		_assertSearch(StringPool.BLANK, commerceOrderItems);
+	}
+
+	@Test
+	public void testSkuPrefix() throws Exception {
+		CommerceChannel commerceChannel = CommerceTestUtil.addCommerceChannel(
+			_group.getGroupId(), _commerceCurrency.getCode());
+
+		CommerceOrder commerceOrder = CommerceTestUtil.addB2CCommerceOrder(
+			_user.getUserId(), commerceChannel.getGroupId(),
+			_commerceCurrency.getCommerceCurrencyId());
+
+		CPInstance cpInstance = CPTestUtil.addCPInstance(
+			commerceOrder.getGroupId());
+
+		cpInstance.setPurchasable(true);
+
+		String sku = "Open4Life" + RandomTestUtil.randomString();
+
+		cpInstance.setSku(sku);
+
+		cpInstance = _cpInstanceLocalService.updateCPInstance(cpInstance);
+
+		CommerceTestUtil.updateBackOrderCPDefinitionInventory(
+			cpInstance.getCPDefinition());
+
+		CommerceOrderItem commerceOrderItem =
+			CommerceTestUtil.addCommerceOrderItem(
+				commerceOrder.getCommerceOrderId(),
+				cpInstance.getCPInstanceId(), BigDecimal.ONE);
+
+		_assertSearch(
+			"open", commerceOrder.getCommerceOrderId(), commerceOrderItem);
+		_assertSearch(
+			"open4life", commerceOrder.getCommerceOrderId(), commerceOrderItem);
+		_assertSearch(
+			"OPE", commerceOrder.getCommerceOrderId(), commerceOrderItem);
+
+		_assertSearch("4lif", commerceOrder.getCommerceOrderId());
+	}
+
+	@Rule
+	public FrutillaRule frutillaRule = new FrutillaRule();
+
+	private CommerceOrderItem[] _addCommerceOrderItems(int count)
+		throws Exception {
+
+		User user = UserTestUtil.addUser();
+
+		CommerceOrderItem[] commerceOrderItems = new CommerceOrderItem[count];
+
+		CommerceChannel commerceChannel = CommerceTestUtil.addCommerceChannel(
+			_group.getGroupId(), _commerceCurrency.getCode());
+
+		CommerceOrder commerceOrder = CommerceTestUtil.addB2CCommerceOrder(
+			user.getUserId(), commerceChannel.getGroupId(),
+			_commerceCurrency.getCommerceCurrencyId());
+
+		for (int i = 0; i < count; i++) {
+			CPInstance cpInstance = CPTestUtil.addCPInstance(
+				commerceOrder.getGroupId());
+
+			cpInstance.setPurchasable(true);
+
+			cpInstance = _cpInstanceLocalService.updateCPInstance(cpInstance);
+
+			CommerceTestUtil.updateBackOrderCPDefinitionInventory(
+				cpInstance.getCPDefinition());
+
+			commerceOrderItems[i] = CommerceTestUtil.addCommerceOrderItem(
+				commerceOrder.getCommerceOrderId(),
+				cpInstance.getCPInstanceId(), BigDecimal.ONE);
+		}
+
+		return commerceOrderItems;
+	}
+
+	private void _assertSearch(
+			Hits hits, CommerceOrderItem... expectedCommerceOrderItems)
+		throws Exception {
+
+		List<CommerceOrderItem> actualCommerceOrderItems =
+			_getCommerceOrderItems(hits);
+
+		long[] actualCommerceOrderItemIds = _getCommerceOrderItemIds(
+			actualCommerceOrderItems);
+
+		long[] expectedCommerceOrderItemIds = _getCommerceOrderItemIds(
+			Arrays.asList(expectedCommerceOrderItems));
+
+		Assert.assertArrayEquals(
+			expectedCommerceOrderItemIds, actualCommerceOrderItemIds);
+	}
+
+	private void _assertSearch(
+			String keywords, CommerceOrderItem... expectedCommerceOrderItems)
+		throws Exception {
+
+		CommerceOrderItem commerceOrderItem = expectedCommerceOrderItems[0];
+
+		SearchContext searchContext = _getSearchContext(
+			commerceOrderItem.getCommerceOrderId());
+
+		searchContext.setKeywords(keywords);
+
+		Hits hits = _indexer.search(searchContext);
+
+		_assertSearch(hits, expectedCommerceOrderItems);
+	}
+
+	private void _assertSearch(
+			String keywords, long commerceOrderId,
+			CommerceOrderItem... expectedCommerceOrderItems)
+		throws Exception {
+
+		Hits hits = _search(keywords, commerceOrderId);
+
+		_assertSearch(hits, expectedCommerceOrderItems);
+	}
+
+	private CommerceOrderItem _getCommerceOrderItem(Document document)
+		throws Exception {
+
+		long commerceOrderItemId = GetterUtil.getLong(
+			document.get(Field.ENTRY_CLASS_PK));
+
+		return _commerceOrderItemLocalService.getCommerceOrderItem(
+			commerceOrderItemId);
+	}
+
+	private long[] _getCommerceOrderItemIds(
+		List<CommerceOrderItem> commerceOrderItems) {
+
+		long[] commerceOrderItemIds = new long[commerceOrderItems.size()];
+
+		for (int i = 0; i < commerceOrderItems.size(); i++) {
+			CommerceOrderItem commerceOrderItem = commerceOrderItems.get(i);
+
+			commerceOrderItemIds[i] =
+				commerceOrderItem.getCommerceOrderItemId();
+		}
+
+		Arrays.sort(commerceOrderItemIds);
+
+		return commerceOrderItemIds;
+	}
+
+	private List<CommerceOrderItem> _getCommerceOrderItems(Hits hits)
+		throws Exception {
+
+		Document[] documents = hits.getDocs();
+
+		List<CommerceOrderItem> commerceOrderItems = new ArrayList<>(
+			documents.length);
+
+		for (Document document : documents) {
+			commerceOrderItems.add(_getCommerceOrderItem(document));
+		}
+
+		return commerceOrderItems;
+	}
+
+	private SearchContext _getSearchContext(long commerceOrderId) {
+		SearchContext searchContext = new SearchContext();
+
+		searchContext.setAttribute(
+			CommerceOrderItemIndexer.FIELD_COMMERCE_ORDER_ID, commerceOrderId);
+		searchContext.setCompanyId(_group.getCompanyId());
+		searchContext.setSorts(SortFactoryUtil.getDefaultSorts());
+
+		return searchContext;
+	}
+
+	private Hits _search(String keywords, long commerceOrderId)
+		throws Exception {
+
+		SearchContext searchContext = _getSearchContext(commerceOrderId);
+
+		searchContext.setKeywords(keywords);
+
+		return _indexer.search(searchContext);
+	}
+
+	@Inject
+	private static CommerceOrderItemLocalService _commerceOrderItemLocalService;
+
+	@Inject
+	private static IndexerRegistry _indexerRegistry;
+
+	private static User _user;
+
+	@DeleteAfterTestRun
+	private CommerceCurrency _commerceCurrency;
+
+	@Inject
+	private CommerceOrderLocalService _commerceOrderLocalService;
+
+	@Inject
+	private CPInstanceLocalService _cpInstanceLocalService;
+
+	private Group _group;
+	private Indexer<CommerceOrderItem> _indexer;
+
+}

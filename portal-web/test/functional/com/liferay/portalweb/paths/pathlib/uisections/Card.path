@@ -1,0 +1,106 @@
+<html>
+<head>
+<title>Card</title>
+</head>
+
+<body>
+<table border="1" cellpadding="1" cellspacing="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Card</td></tr>
+</thead>
+
+<tbody>
+<tr>
+	<td>CARD</td>
+	<td>//*[contains(@class,'card-body')][contains(.,concat('${key_card}',''))]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CARD_PAGE_ITEM</td>
+	<td>xpath=(//dd[contains(@class,'card-page-item')])[${key_index}]//*[contains(@class,'card-title')][contains(.,'${key_card}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CARD_TITLE</td>
+	<td>//*[contains(@class,'card-title')][.//*[normalize-space(text())='${key_card}']] | //*[contains(@class,'card-title')][normalize-space(text())='${key_card}']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CARD_TITLE_LINK</td>
+	<td>//div[contains(@class,'card')][contains(.,'${key_card}')]//*[contains(@class,'card-title')]//a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CARD_SUBTITLE</td>
+	<td>//div[contains(@class,'card')][contains(.,'${key_card}')]//*[contains(@class,'card-subtitle')] | //div[contains(@class,'card')][contains(.,'${key_card}')]//*[contains(@class,'card-detail')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CARD_LABEL</td>
+	<td>xpath=(//div[contains(@class,'card')][contains(.,concat('${key_card}',''))]//span[contains(@class,'label-item')])[${index}]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CARD_CHECKBOX</td>
+	<td>//div[contains(@class,'card')][contains(.,'${key_card}')]//input[@type='checkbox']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CARD_ELLIPSIS</td>
+	<td>//div[contains(@class,'card')][contains(.,'${key_card}')]//*[contains(@class,'dropdown-toggle')][..//*[name()='svg'][contains(@class,'lexicon-icon-ellipsis')]]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SPECIFIC_CARD_ELLIPSIS</td>
+	<td>//div[contains(@class,'card')]//p[@title='${key_card}']//..//..//*[contains(@class,'dropdown-toggle')][..//*[name()='svg'][contains(@class,'lexicon-icon-ellipsis')]]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CARD_SELECTED</td>
+	<td>//li[contains(@class,'active')]//div[contains(@class,'card')][contains(.,'${key_card}')] | //div[contains(@class,'card')][contains(@class,'active')][.//*[starts-with(.,'${key_card}')]]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CARD_DRAG_ICON</td>
+	<td>//div[contains(@class,'card-body')][.//*[normalize-space()='${key_card}']]//button[.//*[name()='svg'][contains(@class,'lexicon-icon-drag')]]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CARD_STICKER</td>
+	<td>//div[contains(@class,'card')][contains(.,'${key_card}')]//span[contains(@class,'sticker-overlay')]//*[name()='svg'][contains(@class,'lexicon-icon-${key_icon}')] | //div[contains(@class,'card')][contains(.,'${key_card}')]//p[contains(@class,'card-title')]//*[name()='svg'][contains(@class,'lexicon-icon-${key_icon}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CARD_THUMBNAIL</td>
+	<td>//div[contains(@class,'card')][contains(.,'${key_card}')]//img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SPECIFIC_CARD_THUMBNAIL</td>
+	<td>//div[contains(@class,'card')][contains(.,'${key_card}')]//img[contains(@src,'${key_imageFileName}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CARD_TYPE_ASSET</td>
+	<td>//div[contains(@aria-label,'${key_card}') and contains(@class,'card-type-asset')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CARD_CUSTOM_LOGO</td>
+	<td>//div[contains(@class,'card')][contains(.,'${key_card}')]//span[contains(@class,'sticker')]/img</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CARD_RADIO</td>
+	<td>//div[contains(@class,'card')][contains(.,'${key_card}')]//input[@type='radio']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>CARD_RADIO_WITH_LABEL</td>
+	<td>//div[contains(@class,'card')]//input[@type='radio'][contains(@aria-label,'${key_card}')]</td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,454 @@
+@component-name = "portal-content-management"
+definition {
+
+	property ci.retries.disabled = "true";
+	property portal.release = "true";
+	property portal.upstream = "true";
+	property testray.main.component.name = "Asset Publisher Widget";
+
+	setUp {
+		TestCase.setUpPortalInstance();
+
+		User.firstLoginPG();
+
+		task ("Enable dynamic and manual selection") {
+			AssetPublisherPortlet.enableDynamicAndManualSelection();
+		}
+
+		HeadlessSite.addSite(siteName = "Test Site Name");
+
+		JSONLayout.addPublicLayout(
+			groupName = "Test Site Name",
+			layoutName = "Test Page Name");
+
+		JSONLayout.addWidgetToPublicLayout(
+			groupName = "Test Site Name",
+			layoutName = "Test Page Name",
+			widgetName = "Asset Publisher");
+	}
+
+	@description = "This is a use case for LPS-47619. Add assets via Asset Publisher then add associated widgets to page."
+	@priority = 5
+	@uitest
+	test AddBlogsEntryViaAssetPublisherThenAddAssociatedWidgetToPage {
+		property portal.acceptance = "true";
+
+		task ("Add a blogs entry via Asset Publisher") {
+			Navigator.gotoSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			Blogs.addViaAP(
+				entryContent = "Blogs Entry Content",
+				entryTitle = "Blogs Entry Title");
+
+			BlogsEntry.viewEntryViaAPPG(
+				assetTitle = "Blogs Entry Title",
+				entryContent = "Blogs Entry Content",
+				entryTitle = "Blogs Entry Title");
+		}
+
+		task ("Add associated widget to page") {
+			Navigator.gotoSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			Portlet.addPG(portletName = "Blogs");
+		}
+	}
+
+	@description = "LPS-96038 - Global Categories do not appear as filters in Asset Publisher Configuration."
+	@priority = 4
+	test ConfigureAPPortletDisplaysGlobalCategoriesAsFilters {
+		Category.openCategoriesAdmin(siteURLKey = "global");
+
+		Category.addCP(
+			categoryName = "Category Name",
+			vocabularyName = "Topic");
+
+		Navigator.gotoSitePage(
+			pageName = "Test Page Name",
+			siteName = "Test Site Name");
+
+		AssetPublisherPortlet.configureCategoriesFilterPG(
+			categoryName = "Category Name",
+			portletName = "Asset Publisher");
+	}
+
+	@description = "Configure scope of Asset Publisher with multiple sites."
+	@priority = 5
+	@uitest
+	test ConfigureScopeWithMultipleSites {
+		property portal.acceptance = "true";
+
+		task ("Add a new site") {
+			HeadlessSite.addSite(siteName = "Site Name");
+		}
+
+		task ("Add the new site to scope") {
+			Navigator.gotoSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			AssetPublisherPortlet.configureScope(otherSite = "Site Name");
+		}
+
+		task ("View both sites in scope") {
+			Navigator.gotoSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			AssetPublisherPortlet.viewMultipleSiteScopesAddDropdowns(
+				siteName1 = "Test Site Name",
+				siteName2 = "Site Name");
+		}
+	}
+
+	@description = "Configure the Select More Than One asset types."
+	@priority = 4
+	test ConfigureSelectMoreThanOneAssetTypes {
+		task ("Add a web content") {
+			JSONWebcontent.addWebContent(
+				content = "Web Content Content",
+				groupName = "Test Site Name",
+				title = "Web Content Title");
+		}
+
+		task ("Remove Web Content Article from Asset Type") {
+			Navigator.gotoSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			AssetPublisherPortlet.configureAPSelectMoreThanOnePG(selectContent = "Web Content Article");
+		}
+
+		task ("View the web content not shown in Asset Publisher") {
+			Navigator.gotoSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			AssetPublisherPortlet.viewConfigureAPMoveToAvailablePG(assetTitle = "Web Content Title");
+		}
+
+		task ("Add Web Content Article back to Asset Type") {
+			AssetPublisherPortlet.configureAPSelectMoreThanOnePG(
+				moveSelected = "true",
+				selectContent = "Web Content Article");
+		}
+
+		task ("View the web content shown in Asset Publisher") {
+			Navigator.gotoSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			AssetPublisherPortlet.viewConfigureAPMoveToSelectedPG(assetTitle = "Web Content Title");
+		}
+	}
+
+	@description = "Enable Ratings in Asset Publisher."
+	@priority = 4
+	@uitest
+	test EnableRatings {
+		task ("Add a web content") {
+			JSONWebcontent.addWebContent(
+				content = "WC WebContent Content",
+				groupName = "Test Site Name",
+				title = "WC WebContent Title");
+		}
+
+		task ("Enable Ratings in Asset Publisher") {
+			Navigator.gotoSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			AssetPublisherPortlet.configureDisplaySettings(displaySettings = "Ratings");
+
+			Navigator.gotoSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			AssetPublisherPortlet.viewDisplaySettings(displaySettings = "Ratings");
+		}
+
+		task ("Change the display template to Full Content") {
+			Navigator.gotoSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			Portlet.gotoPortletOptions(
+				portletName = "Asset Publisher",
+				portletOption = "Configuration");
+
+			AssetPublisherPortlet.configureDisplayTemplatePG(displayTemplate = "Full Content");
+		}
+
+		task ("Rate the web content as 4") {
+			Navigator.gotoSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			Ratings.rateStar(ratingStarCount = 4);
+		}
+
+		task ("View the rate of web content") {
+			Ratings.viewRateStar(
+				averageRatingStarCount = "4.0",
+				ratingStarCount = 4);
+		}
+	}
+
+	@description = "This is a test for LPS-93357. The subscribe button can be enabled/disabled."
+	@priority = 3
+	@uitest
+	test EnableSubscribeButton {
+		task ("Assert the subscribe button is disabled by default") {
+			Navigator.gotoSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			AssertElementNotPresent(locator1 = "Button#SUBSCRIBE");
+		}
+
+		task ("Enable the subscribe button") {
+			AssetPublisherPortlet.configureDisplaySettings(displaySettings = "Subscribe");
+		}
+
+		task ("Assert the subscribe button displays") {
+			Navigator.gotoSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			AssertElementPresent(locator1 = "Button#SUBSCRIBE");
+		}
+	}
+
+	@description = "Order web contents by priority in Asset Publisher."
+	@priority = 4
+	test OrderWebContentsByPriority {
+		task ("Add three web contents with different priority") {
+			for (var i : list "1,5,3") {
+				WebContentNavigator.openWebContentAdmin(siteURLKey = "test-site-name");
+
+				WebContentNavigator.gotoAddCP();
+
+				WebContent.addCP(
+					webContentContent = "WC WebContent Content",
+					webContentTitle = "WC Priority ${i} Title");
+
+				WebContent.addPriority(priority = ${i});
+
+				WebContent.publishWithPermissions();
+			}
+		}
+
+		task ("View the order of web contents in Asset Publisher") {
+			Navigator.gotoSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			var n = 1;
+
+			for (var title : list "WC Priority 3 Title,WC Priority 5 Title,WC Priority 1 Title") {
+				AssetPublisherPortlet.viewDisplayOrderPG(
+					assetTitle = ${title},
+					rowNumber = ${n});
+
+				var n = ${n} + 1;
+			}
+		}
+
+		task ("Select the Web Content Article as Asset Type") {
+			AssetPublisherPortlet.configureAssetTypePG(
+				assetSubtype = "Any",
+				selectedAsset = "Web Content Article");
+		}
+
+		task ("Configure order by priority with ascending direction") {
+			Navigator.gotoSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			AssetPublisherPortlet.configureAssetDisplayOrderPG(
+				fieldNameOrder = "Priority",
+				sortOrder = "Ascending");
+		}
+
+		task ("View the order of web contents in Asset Publisher") {
+			Navigator.gotoSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			var n = 1;
+
+			for (var title : list "WC Priority 1 Title,WC Priority 3 Title,WC Priority 5 Title") {
+				AssetPublisherPortlet.viewDisplayOrderPG(
+					assetTitle = ${title},
+					rowNumber = ${n});
+
+				var n = ${n} + 1;
+			}
+		}
+
+		task ("Configure order by priority with descending direction") {
+			AssetPublisherPortlet.configureAssetDisplayOrderPG(
+				fieldNameOrder = "Priority",
+				sortOrder = "Descending");
+		}
+
+		task ("View the order of web contents in Asset Publisher") {
+			Navigator.gotoSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			var n = 1;
+
+			for (var title : list "WC Priority 5 Title,WC Priority 3 Title,WC Priority 1 Title") {
+				AssetPublisherPortlet.viewDisplayOrderPG(
+					assetTitle = ${title},
+					rowNumber = ${n});
+
+				var n = ${n} + 1;
+			}
+		}
+	}
+
+	@description = "Restore configuration template in Asset Publisher."
+	@priority = 5
+	test RestoreConfigurationTemplate {
+		property portal.acceptance = "true";
+
+		task ("Add a web content") {
+			JSONWebcontent.addWebContent(
+				content = "WC WebContent Content",
+				groupName = "Test Site Name",
+				title = "WC WebContent Title");
+		}
+
+		task ("Select the web content as manual selection") {
+			Navigator.gotoSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			AssetPublisherPortlet.configureManualAssetSelectionPG();
+		}
+
+		task ("Save Current Configuration as Template") {
+			Navigator.gotoSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			AssetPublisherPortlet.saveConfigurationTemplatePG(configurationName = "AP Manual Display");
+		}
+
+		task ("Remove the Asset Publisher from page") {
+			Navigator.gotoSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			Portlet.deletePG(portletName = "Asset Publisher");
+		}
+
+		task ("Add an Asset Publisher to page") {
+			Portlet.addPG(portletName = "Asset Publisher");
+		}
+
+		task ("Restore the configuration template") {
+			AssetPublisherPortlet.restoreConfigurationTemplatePG(configurationName = "AP Manual Display");
+		}
+
+		task ("View the configuration template is retored") {
+			Navigator.gotoSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			AssetPublisherPortlet.viewManualNoAssetsMessagePG();
+
+			AssetPublisherPortlet.viewRestoredSetupPG();
+		}
+	}
+
+	@description = "Search site in scope selector."
+	@priority = 4
+	@uitest
+	test SearchSiteInScopeSelector {
+		task ("Add a new site") {
+			HeadlessSite.addSite(siteName = "Site Name");
+		}
+
+		task ("Search site in scope selector") {
+			Navigator.gotoSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			AssetPublisherPortlet.assertSiteScopeSearch(siteName = "Site Name");
+		}
+	}
+
+	@description = "Select the Web Content Article as asset type."
+	@priority = 5
+	test SelectWebContentArticleAsAssetType {
+		property portal.acceptance = "true";
+
+		task ("Select the Web Content Article in Asset Publisher") {
+			Navigator.gotoSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			AssetPublisherPortlet.configureAssetTypePG(
+				assetSubtype = "Basic Web Content",
+				selectedAsset = "Web Content Article");
+		}
+
+		task ("View the asset type is Web Content Article") {
+			Navigator.gotoSitePage(
+				pageName = "Test Page Name",
+				siteName = "Test Site Name");
+
+			AssetPublisherPortlet.viewSelectedPG(
+				assetSubtypeConfiguration = "Basic Web Content",
+				selectedAsset = "Basic Web Content",
+				selectedAssetConfiguration = "Web Content Article");
+		}
+	}
+
+	@description = "LPS-135554 This test asserts that the Web Content Article Structures should appear after uncheck Search With Index configuration."
+	@priority = 4
+	test WebContentArticleStructuresCanAppearAfterUncheckingSearchWithIndexConfiguration {
+		property test.liferay.virtual.instance = "false";
+		property test.run.type = "single";
+
+		task ("Uncheck Search with Index Configuration") {
+			APNavigator.openToConfigInSystemSettings(portlet = "Asset Publisher");
+
+			FormFields.disableCheckbox(fieldName = "searchWithIndex");
+
+			SystemSettings.saveConfiguration();
+		}
+
+		task ("Assert the Web Content Article Structures selector appear.") {
+			ApplicationsMenu.gotoSite(site = "Test Site Name");
+
+			PagesAdmin.addPage(pageName = "Test AP Page");
+
+			Navigator.gotoSitePage(
+				pageName = "Test AP Page",
+				siteName = "Test Site Name");
+
+			Portlet.addPG(portletName = "Asset Publisher");
+
+			AssetPublisherPortlet.configureAssetTypePG(
+				assetSubtype = "Any",
+				selectedAsset = "Web Content Article");
+
+			Navigator.gotoSitePage(
+				pageName = "Test AP Page",
+				siteName = "Test Site Name");
+
+			AssetPublisherPortlet.viewSelectedPG(
+				assetSubtypeConfiguration = "Any",
+				selectedAsset = "Basic Web Content",
+				selectedAssetConfiguration = "Web Content Article");
+		}
+	}
+
+}

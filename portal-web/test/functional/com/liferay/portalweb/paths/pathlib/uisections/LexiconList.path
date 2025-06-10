@@ -1,0 +1,111 @@
+<html>
+<head>
+<title>LexiconList</title>
+</head>
+
+<body>
+<table border="1" cellpadding="1" cellspacing="1">
+<thead>
+<tr><td rowspan="1" colspan="3">LexiconList</td></tr>
+</thead>
+
+<tbody>
+<tr>
+	<td>ANY_ICON</td>
+	<td>//*[@data-qa-id='row'][contains(@class,'list')][contains(.,'${key_listEntry}')]//*[*[name()='svg'][contains(@class,'lexicon-icon-${key_text}')]]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>ANY_LIST</td>
+	<td>//*[@data-qa-id='row'][contains(@class,'list') and contains(.,'${key_listEntry}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>AVATAR_ICON</td>
+	<td>//*[@data-qa-id='row'][contains(.,'${key_listEntry}')]//span[contains(@class,'user-icon')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>LIST_ENTRY</td>
+	<td>//*[@data-qa-id='row'][contains(.,'${key_listEntry}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>LIST_ENTRY_X</td>
+	<td>xpath=(//*[@data-qa-id='row'][contains(@class,'list')])[${key_position}]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>LIST_ENTRY_BREADCRUMB_ITEM</td>
+	<td>//*[@data-qa-id='row'][contains(.,'${key_listEntry}')]//ol[contains(@class,'breadcrumb')]//li//a[contains(.,'${key_breadcrumbName}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>LIST_ENTRY_CHECKBOX</td>
+	<td>//*[@data-qa-id='row'][contains(.,'${key_listEntry}')]//input[@type='checkbox']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>LIST_ENTRY_ICON_TOOLTIP</td>
+	<td>//*[@data-qa-id='row'][contains(.,'${key_listEntry}')]//div[contains(@class,'tooltip')][*[name()='svg'][contains(@class,'lexicon-icon-${key_text}')]]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>LIST_ENTRY_SPECIFIC</td>
+	<td>//*[@data-qa-id='row'][${key_position}][contains(.,'${key_listEntry}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>LIST_ENTRY_TITLE</td>
+	<td>//*[@data-qa-id='row'][contains(.,'${key_listEntry}')]//div[contains(@class,'h5')] | //*[@data-qa-id='row'][contains(.,'${key_listEntry}')]//h2 | //*[@data-qa-id='row'][contains(.,'${key_listEntry}')]//p[contains(@class,'h5')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>LIST_ENTRY_TITLE_LINK</td>
+	<td>//*[@data-qa-id='row'][contains(.,'${key_listEntry}')]//a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>LIST_ENTRY_TITLE_LINK_SPECIFIC</td>
+	<td>//*[@data-qa-id='row'][${key_position}][contains(.,'${key_listEntry}')]//a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>LIST_ENTRY_SUBTITLE</td>
+	<td>//*[@data-qa-id='row'][contains(.,'${key_listEntry}')]//div[contains(@class, 'h6')][contains(.,'${key_listEntrySubtitle}')] | //*[@data-qa-id='row'][contains(.,'${key_listEntry}')]//div[contains(@class,'text-default')][contains(.,'${key_listEntrySubtitle}')] | //*[@data-qa-id='row'][contains(.,'${key_listEntry}')]//div/span[contains(.,'${key_listEntrySubtitle}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>LIST_ENTRY_LABEL</td>
+	<td>//*[@data-qa-id='row'][contains(.,'${key_listEntry}')]//span[contains(@class,'label')][contains(.,'${key_listEntryLabel}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>LIST_ENTRY_INFO</td>
+	<td>//li[contains(.,'${key_listEntry}')]//*[contains(@class,'label')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>LIST_ENTRY_STATUS</td>
+	<td>//li[contains(.,'${key_listEntry}')]//*[contains(@class,'label-secondary')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>LIST_ENTRY_ELLIPSIS</td>
+	<td>//*[@data-qa-id='row'][contains(.,'${key_listEntry}')]//button[contains(@class,'dropdown-toggle')] | //*[@data-qa-id='row'][contains(.,'${key_listEntry}')]//a[contains(@class,'dropdown-toggle')] | //li[contains(.,'${key_listEntry}')]//button[contains(@class,'dropdown-toggle')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>LIST_ENTRY_ELLIPSIS_GENERIC</td>
+	<td>//*[@data-qa-id='row'][1]//button[contains(@class,'dropdown-toggle')] | //*[@data-qa-id='row'][1]//a[contains(@class,'dropdown-toggle')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>LIST_CUSTOM_LOGO</td>
+	<td>//*[@data-qa-id='row'][contains(.,'${key_listEntry}')]//div[contains(@class,'bg-cover')]</td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

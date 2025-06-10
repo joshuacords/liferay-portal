@@ -1,0 +1,44 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<div class="alert alert-info">
+	<liferay-ui:message key="use-the-form-below-to-rename-a-page,-moving-all-of-its-history-to-the-new-name" />
+</div>
+
+<aui:form action="<%= movePageURL %>" method="post" name="renameFm" onSubmit='<%= liferayPortletResponse.getNamespace() + "renamePage();" %>'>
+	<aui:input name="<%= Constants.CMD %>" type="hidden" />
+	<aui:input name="nodeId" type="hidden" value="<%= node.getNodeId() %>" />
+	<aui:input name="title" type="hidden" value="<%= title %>" />
+	<aui:input name="workflowAction" type="hidden" value="<%= WorkflowConstants.ACTION_PUBLISH %>" />
+
+	<aui:input name="redirect" type="hidden" value="<%= redirect %>" />
+
+	<aui:input name="currentTitle" type="resource" value="<%= wikiPage.getTitle() %>" />
+
+	<aui:input name="newTitle" value="<%= newTitle %>" />
+
+	<c:if test="<%= pending %>">
+		<div class="alert alert-info">
+			<liferay-ui:message key="there-is-a-publication-workflow-in-process" />
+		</div>
+	</c:if>
+
+	<div class="sheet-footer">
+		<aui:button disabled="<%= pending %>" type="submit" value='<%= hasWorkflowDefinitionLink ? "submit-for-workflow" : "rename" %>' />
+
+		<aui:button href="<%= redirect %>" type="cancel" />
+	</div>
+</aui:form>
+
+<aui:script>
+	function <portlet:namespace />renamePage() {
+		document.<portlet:namespace />renameFm.<portlet:namespace /><%= Constants.CMD %>.value =
+			'<%= Constants.RENAME %>';
+
+		submitForm(document.<portlet:namespace />renameFm);
+	}
+</aui:script>

@@ -1,0 +1,16 @@
+#set ($versionPolicy = '${replacestring;${range;[==,==]};.*,(.*)];$1}')
+Bundle-Name: ${artifactId}-api
+Bundle-SymbolicName: ${package}.api
+Bundle-Version: ${version}
+Export-Package:\
+	${package}.exception,\
+	${package}.model,\
+	${package}.service,\
+	${package}.service.persistence
+-check: EXPORTS
+#if (${buildType} != "gradle")
+-consumer-policy: ${versionPolicy}
+#end
+-includeresource: META-INF/service.xml=../${artifactId}-service/service.xml
+#if (${buildType} != "gradle")
+-provider-policy: ${versionPolicy}#end

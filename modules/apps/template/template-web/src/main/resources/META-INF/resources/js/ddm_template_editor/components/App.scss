@@ -1,0 +1,143 @@
+@import 'atlas-variables';
+
+@import 'CodeMirrorEditor';
+@import 'PropertiesPanel';
+
+$desktopToolbarHeight: 4rem;
+$toolbarHeight: 6.875rem;
+
+.ddm_template_editor__App {
+	display: flex;
+	height: calc(
+		100vh - (var(--control-menu-container-height) + var(--toolbar-height))
+	);
+	left: 0;
+	overflow: hidden;
+	position: absolute;
+	top: var(--toolbar-height);
+	width: 100%;
+
+	.alert:first-of-type {
+		margin-top: 1rem;
+	}
+
+	.ddm_template_editor__App-content {
+		background: $white;
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+		overflow-y: auto;
+		padding-right: 42px;
+		transition: padding ease 0.5s;
+
+		&--sidebar-open {
+			padding-right: 320px;
+		}
+	}
+
+	&-sidebar {
+		display: flex;
+		height: calc(
+			100vh -
+				(var(--control-menu-container-height) + var(--toolbar-height))
+		);
+		position: fixed;
+		right: 0;
+
+		&-buttons {
+			align-items: center;
+			background-color: $light;
+			border-left: 1px solid $gray-300;
+			display: flex;
+			flex-direction: column;
+			height: 100%;
+			width: 42px;
+			z-index: 1;
+
+			.btn {
+				height: 32px;
+				width: 32px;
+
+				&:hover,
+				&.active {
+					background-color: $light-d1;
+				}
+			}
+
+			.lexicon-icon {
+				margin-top: 0;
+			}
+		}
+
+		&-content {
+			background-color: $white;
+			border-left: 1px solid $gray-300;
+			height: calc(
+				100vh -
+					(
+						var(--control-menu-container-height) +
+							var(--toolbar-height)
+					)
+			);
+			overflow-y: auto;
+			position: fixed;
+			right: 42px;
+			transform: translateX(100%);
+			transition: transform ease 0.5s;
+			width: 278px;
+			z-index: 0;
+
+			.rtl & {
+				transform: translateX(-100%);
+			}
+
+			&.open {
+				transform: translateX(0);
+			}
+
+			.search-icon {
+				margin-right: 12px;
+				margin-top: 0;
+			}
+		}
+
+		&-title {
+			font-size: 0.875rem;
+		}
+
+		&-button {
+			align-items: center;
+			display: flex;
+			font-size: 0.75rem;
+			font-weight: 600;
+			height: 32px;
+			justify-content: space-between;
+
+			.preview-icon {
+				color: $secondary;
+				opacity: 0;
+
+				&:focus {
+					opacity: 1;
+				}
+			}
+
+			&:hover,
+			&:focus {
+				background-color: $light-l1;
+
+				.preview-icon {
+					opacity: 1;
+				}
+			}
+		}
+	}
+}
+
+body {
+	--toolbar-height: #{$toolbarHeight};
+
+	@include media-breakpoint-up(xl) {
+		--toolbar-height: #{$desktopToolbarHeight};
+	}
+}

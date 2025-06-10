@@ -1,0 +1,38 @@
+@component-name = "portal-bpm"
+definition {
+
+	property portal.release = "true";
+	property portal.upstream = "true";
+	property test.run.environment = "CE";
+	property testray.main.component.name = "Workflow Metrics";
+
+	setUp {
+		TestCase.setUpPortalInstance();
+
+		User.firstLoginPG();
+	}
+
+	tearDown {
+		var testLiferayVirtualInstance = PropsUtil.get("test.liferay.virtual.instance");
+
+		if (${testLiferayVirtualInstance} == "true") {
+			PortalInstances.tearDownCP();
+		}
+	}
+
+	@description = "LRQA-53649 Automate LPS-87560: Verify metrics available or not for CE and DXP customers"
+	@priority = 5
+	test MetricsUnavailableForCECustomers {
+		property portal.acceptance = "false";
+
+		ApplicationsMenuHelper.openApplicationsMenu();
+
+		ApplicationsMenu.gotoPanel(panel = "Applications");
+
+		AssertElementNotPresent(
+			key_category = "Workflow",
+			key_portlet = "Metrics",
+			locator1 = "ApplicationsMenu#PORTLET");
+	}
+
+}

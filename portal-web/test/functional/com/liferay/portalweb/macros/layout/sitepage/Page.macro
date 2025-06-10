@@ -1,0 +1,359 @@
+definition {
+
+	@summary = "Default summary"
+	macro assertCanonicalURL(customCanonicalURL = null, locale = null) {
+		var html = '''<link data-senna-track="temporary" href="''';
+		var html2 = '''" rel="canonical">''';
+
+		if (isSet(customCanonicalURL)) {
+			var portalURL = ${customCanonicalURL};
+		}
+		else if (isSet(locale)) {
+			var portalURL = "${portalURL}/${locale}/web/guest";
+		}
+		else {
+			var portalURL = "${portalURL}/web/guest";
+		}
+
+		if (isSet(pageName)) {
+			var pageName = StringUtil.lowerCase(${pageName});
+
+			var pageNameURL = StringUtil.replace(${pageName}, " ", "-");
+
+			var pageSource = StringUtil.add(${html}, "${portalURL}/${pageNameURL}${html2}", "");
+		}
+		else {
+			var pageSource = StringUtil.add(${html}, "${portalURL}${html2}", "");
+		}
+
+		AssertHTMLSourceTextPresent(value1 = ${pageSource});
+	}
+
+	@summary = "Default summary"
+	macro assertDefaultAlternateURL(portalURL = null) {
+		var html = '''<link data-senna-track="temporary" href="''';
+		var html2 = '''" hreflang="x-default" rel="alternate">''';
+
+		var pageSource = StringUtil.add(${html}, "${portalURL}${html2}", "");
+
+		AssertHTMLSourceTextPresent(value1 = ${pageSource});
+	}
+
+	@summary = "Default summary"
+	macro assertNodePortPG(nodePort = null) {
+		var key_nodePort = ${nodePort};
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "Home#NODE_NAME",
+			value1 = ${nodePort});
+	}
+
+	@summary = "Default summary"
+	macro changeSinglePageTheme(themeName = null) {
+		ContentPages.gotoPageEditor();
+
+		PageEditor.gotoTab(tabName = "Page Design Options");
+
+		Click(locator1 = "PageEditor#MORE_LINK");
+
+		Theme.configureLookAndFeelSpecificLook();
+
+		Click(
+			key_text = "Change Current Theme",
+			locator1 = "Button#ANY_ENABLED");
+
+		SelectFrame(locator1 = "IFrame#MODAL_BODY");
+
+		LexiconCard.viewCardTitle(card = ${themeName});
+
+		LexiconCard.clickCardTitle(card = ${themeName});
+
+		SelectFrameTop(value1 = "relative=top");
+
+		PortletEntry.save();
+	}
+
+	@summary = "Default summary"
+	macro getAuthTokenFromHtmlSource() {
+		var javaScript = '''
+		var authToken = Liferay.authToken;
+
+		return authToken;
+		''';
+
+		var authToken = selenium.getEval(${javaScript});
+
+		echo("## * Auth Token: ${authToken}");
+
+		return ${authToken};
+	}
+
+	@summary = "Default summary"
+	macro getPlidFromHtmlSource() {
+		var javaScript = '''
+		var plid = Liferay.ThemeDisplay.getPlid();
+
+		return plid;
+		''';
+
+		var plid = selenium.getEval(${javaScript});
+
+		echo("## * p_l_id: ${plid}");
+
+		return ${plid};
+	}
+
+	@summary = "Default summary"
+	macro getTextCountFromHtmlSource(text = null) {
+		var pageSource = selenium.getHtmlSource();
+
+		echo("## * Page Source: ${pageSource}");
+
+		return ${pageSource};
+
+		var count = StringUtil.count(${pageSource}, ${text});
+
+		echo("## * Count: ${count}");
+
+		return ${count};
+	}
+
+	@summary = "Default summary"
+	macro gotoChildPagePG(childPageName = null, pageName = null) {
+		MouseOver.javaScriptMouseOver(
+			key_pageName = ${pageName},
+			locator1 = "NavigationMenusWidget#CHILD_TOGGLE");
+
+		Click(
+			key_childPageName = ${childPageName},
+			locator1 = "Home#PAGE_CHILD_PAGE");
+	}
+
+	@summary = "Default summary"
+	macro openURLLocale(localizationPageURL = null) {
+		Navigator.openSpecificURL(url = ${localizationPageURL});
+
+		AssertLocation(value1 = ${localizationPageURL});
+	}
+
+	@summary = "Default summary"
+	macro searchInCollectionFilter(searchTerm = null) {
+		if (!(isSet(index))) {
+			var index = 1;
+		}
+
+		Type(
+			index = ${index},
+			locator1 = "PageEditor#COLLECTION_FILTER_SEARCH_FIELD",
+			value1 = ${searchTerm});
+
+		KeyPress(
+			index = ${index},
+			locator1 = "PageEditor#COLLECTION_FILTER_SEARCH_FIELD",
+			value1 = "\RETURN");
+	}
+
+	@summary = "Default summary"
+	macro viewChildPageDropdown(viewChildPageDropdown = null, childPageName = null, javaScriptPage = null) {
+		ClickNoError(locator1 = "Home#${viewChildPageDropdown}");
+
+		if (isSet(javaScriptPage)) {
+			AssertConfirm.waitForConfirmation(value1 = ${javaScriptPage});
+		}
+
+		Click.clickAtNotVisible(locator1 = "//div[@id='navigationCollapse']");
+
+		WaitForElementPresent(locator1 = "//script[contains(@src,'/o/frontend-js-loader-modules-extender/loader.js')]");
+
+		MouseOver.javaScriptMouseOver(locator1 = "Home#PAGE_2");
+
+		var key_childPageName = ${childPageName};
+
+		AssertTextEquals(
+			locator1 = "Home#PAGE_CHILD_PAGE",
+			value1 = ${childPageName});
+	}
+
+	@summary = "Default summary"
+	macro viewCurrentPage(pageName = null) {
+		AssertVisible(
+			key_pageName = ${pageName},
+			locator1 = "Home#PAGE_ACTIVE");
+	}
+
+	@summary = "Default summary"
+	macro viewCustomLogoPG() {
+		AssertElementPresent(locator1 = "Home#CUSTOM_LOGO");
+
+		AssertElementNotPresent(locator1 = "Home#DEFAULT_LOGO");
+	}
+
+	@summary = "Default summary"
+	macro viewDefaultLogoPG() {
+		AssertElementPresent(locator1 = "Home#DEFAULT_LOGO");
+
+		AssertElementNotPresent(locator1 = "Home#CUSTOM_LOGO");
+	}
+
+	@summary = "Default summary"
+	macro viewDefaultSiteTemplatePagesPG(siteName = null, pageName = null) {
+		Click(locator1 = "Home#PAGE_NAVIGATION_BAR");
+
+		var key_pageName = ${pageName};
+
+		AssertTextEquals(
+			locator1 = "Home#PAGE_TEMPLATE_1",
+			value1 = ${pageName});
+
+		AssertVisible(
+			key_siteName = ${siteName},
+			locator1 = "NavBar#GO_TO_HOME_PAGE_LINK");
+	}
+
+	@summary = "Default summary"
+	macro viewInactiveRequestMessage(resource = null) {
+		AssertTextEquals(
+			key_resource = ${resource},
+			locator1 = "Home#STATUS_MESSAGE",
+			value1 = "This ${resource} is inactive. Please contact the administrator.");
+	}
+
+	@summary = "Default summary"
+	macro viewLayoutLogoPG(assertLayoutLogoPresent = null) {
+		if (${assertLayoutLogoPresent} == "true") {
+			AssertElementPresent(locator1 = "Home#LAYOUT_LOGO");
+		}
+		else {
+			AssertElementNotPresent(locator1 = "Home#LAYOUT_LOGO");
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewNoPG(pageName = null) {
+		var key_pageName = ${pageName};
+
+		AssertElementNotPresent(locator1 = "Home#PAGE");
+	}
+
+	@summary = "Default summary"
+	macro viewPageLockCheck() {
+		Click(locator1 = "ControlMenu#INFO");
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "Message#CUSTOMIZED_PAGE_INFO",
+			value1 = "This page is linked to a site template which does not allow modifications to it.");
+	}
+
+	@summary = "Default summary"
+	macro viewRTLLayout() {
+		AssertCssValue(
+			locator1 = "Home#SITE_NAME",
+			locator2 = "direction",
+			value1 = "rtl");
+
+		AssertCssValue(
+			locator1 = "ProductMenu#PRODUCT_MENU_OPENED",
+			locator2 = "text-align",
+			value1 = "right");
+
+		AssertCssValue(
+			locator1 = "ProductMenu#PRODUCT_MENU_OPENED",
+			locator2 = "right",
+			value1 = "0px");
+
+		var sideNavWidth = Css.getCssValue(
+			attribute = "width",
+			element = "//nav[contains(@class,'product-menu-open')]");
+
+		AssertCssValue(
+			locator1 = "Home#SITE_WRAPPER",
+			locator2 = "padding-right",
+			value1 = ${sideNavWidth});
+	}
+
+	@summary = "Default summary"
+	macro viewSiteNameTranslationsPG(textIconList = null, siteNameList = null, localeList = null) {
+		var list1 = ListUtil.newListFromString(${localeList});
+		var list2 = ListUtil.newListFromString(${siteNameList});
+		var list3 = ListUtil.newListFromString(${textIconList});
+		var size = ListUtil.size(${list1});
+		var i = 0;
+
+		while (${i} != ${size}) {
+			var locale = ListUtil.get(${list1}, ${i});
+			var siteName = ListUtil.get(${list2}, ${i});
+			var textIcon = ListUtil.get(${list3}, ${i});
+
+			LanguagePortlet.selectLanguagePG(
+				locale = ${locale},
+				textIcon = ${textIcon});
+
+			AssertTextEquals(
+				locator1 = "Home#SITE_NAME",
+				value1 = ${siteName});
+
+			var i = ${i} + 1;
+
+			var i = StringUtil.valueOf(${i});
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewSpecificPG(pageNameList = null) {
+		for (var pageName : list ${pageNameList}) {
+			var key_pageName = ${pageName};
+
+			AssertTextEquals(
+				locator1 = "Home#PAGE",
+				value1 = ${pageName});
+		}
+	}
+
+	@summary = "Default summary"
+	macro viewTranslationsPG(defaultLanguageLocalizationMessage = null, translationLanguageLocalizationMessage = null, sitePageURL = null, preferredLanguageLocalizationMessage = null) {
+		Navigator.openSpecificURL(url = ${sitePageURL});
+
+		AssertLocation(value1 = ${sitePageURL});
+
+		Alert.viewLocalizationMessage(
+			defaultLanguageLocalizationMessage = ${defaultLanguageLocalizationMessage},
+			key_pageLocale = ${defaultLanguageLocalizationMessage},
+			preferredLanguageLocalizationMessage = ${preferredLanguageLocalizationMessage},
+			translationLanguageLocalizationMessage = ${translationLanguageLocalizationMessage});
+	}
+
+	@summary = "Default summary"
+	macro viewURLLocale(localizationPageURL = null, localizationOption = null) {
+		if (isSet(localizationOption)) {
+			AssertClick(
+				key_pageLocale = ${localizationOption},
+				locator1 = "Home#PORTAL_LOCALIZATION_DEFAULT_LANGUAGE_MESSAGE",
+				value1 = ${localizationOption});
+		}
+
+		AssertLocation(value1 = ${localizationPageURL});
+	}
+
+	@summary = "Default summary"
+	macro viewWithWorkflowPG(livePage = null, workflowStatus = null, pageName = null) {
+		if (${workflowStatus} == "Ready for Publication") {
+			AssertElementPresent(locator1 = "Staging#STAGING_MENU_READY_FOR_PUBLICATION");
+		}
+		else {
+			AssertTextEquals.assertPartialText(
+				locator1 = "Message#WORKFLOW_STATUS",
+				value1 = ${workflowStatus});
+		}
+
+		if (${livePage} == "true") {
+			AssertClick.assertPartialTextClickAt(
+				locator1 = "Staging#LIVE_BUTTON",
+				value1 = "Live");
+
+			var key_pageName = ${pageName};
+
+			AssertElementNotPresent(locator1 = "Home#PAGE");
+		}
+	}
+
+}

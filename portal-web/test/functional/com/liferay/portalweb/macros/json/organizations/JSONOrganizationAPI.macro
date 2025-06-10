@@ -1,0 +1,196 @@
+definition {
+
+	@summary = "Default summary"
+	macro _addOrganization(organizationName = null, organizationRegion = null, organizationCountry = null) {
+		Variables.assertDefined(parameterList = ${organizationName});
+
+		var organizationNameEncoded = URLUtil.encodeUTF8(${organizationName});
+
+		if (!(isSet(organizationSite))) {
+			var organizationSite = "false";
+		}
+
+		if (!(isSet(externalReferenceCode))) {
+			var externalReferenceCode = "";
+		}
+
+		if (isSet(parentOrganizationId)) {
+			var parentOrganizationId = ${parentOrganizationId};
+		}
+		else {
+			var parentOrganizationId = 0;
+		}
+
+		if (isSet(organizationType)) {
+			var organizationType = ${organizationType};
+		}
+		else {
+			var organizationType = "organization";
+		}
+
+		if (isSet(organizationCountry)) {
+			var countryId = JSONCountry.getCountryId(countryName = ${organizationCountry});
+		}
+		else {
+			var countryId = 0;
+		}
+
+		if (isSet(organizationRegion)) {
+			var regionId = JSONCountry.getRegionId(
+				countryName = ${organizationCountry},
+				regionName = ${organizationRegion});
+		}
+		else {
+			var regionId = 0;
+		}
+
+		var portalURL = JSONCompany.getPortalURL();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+		var statusListTypeId = JSONOrganizationAPI._getOrganizationStatusListTypeId();
+
+		var curl = '''
+			${portalURL}/api/jsonws/organization/add-organization \
+				-u ${userLoginInfo} \
+				-d externalReferenceCode=${externalReferenceCode} \
+				-d parentOrganizationId=${parentOrganizationId} \
+				-d name=${organizationNameEncoded} \
+				-d type=${organizationType} \
+				-d regionId=${regionId} \
+				-d countryId=${countryId} \
+				-d statusListTypeId=${statusListTypeId} \
+				-d comments= \
+				-d site=${organizationSite}
+		''';
+
+		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
+	}
+
+	@summary = "Default summary"
+	macro _addOrganizationToSite(organizationId = null, groupId = null) {
+		Variables.assertDefined(parameterList = "${groupId},${organizationId}");
+
+		var portalURL = JSONCompany.getPortalURL();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/organization/add-group-organizations/group-id/${groupId}/organization-ids/${organizationId} \
+				-u ${userLoginInfo}
+		''';
+
+		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
+	}
+
+	@summary = "Default summary"
+	macro _assignPasswordPolicyToOrganization(organizationId = null, passwordPolicyId = null) {
+		Variables.assertDefined(parameterList = "${organizationId},${passwordPolicyId}");
+
+		var portalURL = JSONCompany.getPortalURL();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/organization/add-password-policy-organizations \
+				-u ${userLoginInfo} \
+				-d organizationIds=${organizationId} \
+				-d passwordPolicyId=${passwordPolicyId}
+		''';
+
+		JSONCurlUtil.post(${curl});
+	}
+
+	@summary = "Default summary"
+	macro _assignUserToOrganization(organizationId = null, userId = null) {
+		Variables.assertDefined(parameterList = "${organizationId},${userId}");
+
+		var portalURL = JSONCompany.getPortalURL();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/user/add-organization-users \
+				-u ${userLoginInfo} \
+				-d organizationId=${organizationId} \
+				-d userIds=${userId}
+		''';
+
+		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
+	}
+
+	@summary = "Default summary"
+	macro _deleteOrganization(organizationId = null) {
+		Variables.assertDefined(parameterList = ${organizationId});
+
+		var portalURL = JSONCompany.getPortalURL();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/organization/delete-organization \
+				-u ${userLoginInfo} \
+				-d organizationId=${organizationId}
+		''';
+
+		com.liferay.poshi.runner.util.JSONCurlUtil.post(${curl});
+	}
+
+	@summary = "Default summary"
+	macro _getChildOrganizationCount(parentOrganizationId = null) {
+		Variables.assertDefined(parameterList = ${parentOrganizationId});
+
+		var portalURL = JSONCompany.getPortalURL();
+		var companyId = JSONCompany.getCompanyId();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/organization/get-organizations-count \
+				-u ${userLoginInfo} \
+				-d companyId=${companyId} \
+				-d parentOrganizationId=${parentOrganizationId}
+		''';
+
+		var numberOfChildren = JSONCurlUtil.post(${curl});
+
+		var numberOfChildren = StringUtil.extractDigits(${numberOfChildren});
+
+		return ${numberOfChildren};
+	}
+
+	@summary = "Default summary"
+	macro _getOrganization(parentOrganizationId = null) {
+		Variables.assertDefined(parameterList = ${parentOrganizationId});
+
+		var portalURL = JSONCompany.getPortalURL();
+		var companyId = JSONCompany.getCompanyId();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/organization/get-organizations \
+				-u ${userLoginInfo} \
+				-d companyId=${companyId} \
+				-d parentOrganizationId=${parentOrganizationId}
+		''';
+
+		var organizationIds = JSONCurlUtil.post(${curl}, "$..['organizationId']");
+
+		return ${organizationIds};
+	}
+
+	@summary = "Default summary"
+	macro _getOrganizationStatusListTypeId() {
+		var portalURL = JSONCompany.getPortalURL();
+		var companyId = JSONCompany.getCompanyId();
+		var userLoginInfo = JSONUtil2.formatJSONUser();
+
+		var curl = '''
+			${portalURL}/api/jsonws/listtype/get-list-type \
+				-u ${userLoginInfo} \
+				-d companyId=${companyId} \
+				-d name=full-member \
+				-d type=com.liferay.portal.kernel.model.Organization.status
+		''';
+
+		var listType = JSONCurlUtil.post(${curl});
+
+		var listTypeId = JSONUtil.getWithJSONPath(${listType}, "$..listTypeId");
+
+		return ${listTypeId};
+	}
+
+}

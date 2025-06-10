@@ -1,0 +1,38 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<%@ page import="com.liferay.dynamic.data.mapping.model.DDMForm" %><%@
+page import="com.liferay.dynamic.data.mapping.model.DDMFormField" %><%@
+page import="com.liferay.dynamic.data.mapping.model.DDMTemplate" %><%@
+page import="com.liferay.dynamic.data.mapping.render.DDMFormFieldRenderer" %><%@
+page import="com.liferay.dynamic.data.mapping.render.DDMFormFieldRendererRegistryUtil" %><%@
+page import="com.liferay.dynamic.data.mapping.render.DDMFormFieldRenderingContext" %><%@
+page import="com.liferay.dynamic.data.mapping.service.DDMTemplateLocalServiceUtil" %><%@
+page import="com.liferay.dynamic.data.mapping.util.DDMUtil" %><%@
+page import="com.liferay.portal.kernel.util.PortalUtil" %>
+
+<portlet:defineObjects />
+
+<%
+String randomNamespace = PortalUtil.generateRandomKey(request, "taglib_ddm_init-ext");
+
+String ddmFormValuesInputName = fieldsNamespace + "ddmFormValues";
+
+String mode = null;
+
+if (classNameId == PortalUtil.getClassNameId(DDMTemplate.class)) {
+	DDMTemplate ddmTemplate = DDMTemplateLocalServiceUtil.getTemplate(classPK);
+
+	mode = ddmTemplate.getMode();
+}
+
+DDMForm ddmForm = DDMUtil.getDDMForm(classNameId, classPK);
+
+if (requestedLocale == null) {
+	requestedLocale = locale;
+}
+%>

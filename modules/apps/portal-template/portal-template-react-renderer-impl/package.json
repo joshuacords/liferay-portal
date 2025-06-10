@@ -1,0 +1,13 @@
+{
+	"dependencies": {
+		"@liferay/frontend-js-react-web": "*"
+	},
+	"main": "index.js",
+	"name": "portal-template-react-renderer-impl",
+	"scripts": {
+		"build": "node-scripts build",
+		"checkFormat": "node-scripts format --check",
+		"format": "node-scripts format"
+	},
+	"version": "5.0.25"
+}

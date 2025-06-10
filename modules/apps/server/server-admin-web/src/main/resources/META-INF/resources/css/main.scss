@@ -1,0 +1,42 @@
+.portlet-admin {
+	.server-admin-tabs {
+		margin-top: 20px;
+	}
+
+	.meter-wrapper img {
+		margin: 0 70px;
+	}
+
+	.memory-status-table {
+		margin: auto;
+	}
+
+	.panel-body .loading-animation {
+		margin-bottom: 12px;
+		margin-top: 12px;
+	}
+
+	.progress-percentage {
+		color: black;
+		display: block;
+		position: absolute;
+		width: 100%;
+	}
+
+	.server-admin-actions-panel .panel-body {
+		padding: 0;
+	}
+
+	.server-status-container {
+		padding: 20px;
+	}
+
+	.system-action-group {
+		margin-bottom: 0;
+
+		li {
+			padding-left: 15px;
+			padding-right: 15px;
+		}
+	}
+}

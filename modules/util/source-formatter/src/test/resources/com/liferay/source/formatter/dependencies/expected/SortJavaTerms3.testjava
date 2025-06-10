@@ -1,0 +1,40 @@
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+
+package com.liferay.source.formatter.dependencies;
+
+/**
+ * @author Hugo Huijser
+ */
+public class SortJavaTerms3 {
+
+	public SortJavaTerms3() {
+	}
+
+	public SortJavaTerms3(boolean s1, String s2) {
+	}
+
+	public SortJavaTerms3(String s1) {
+	}
+
+	public SortJavaTerms3(String s1, String s2) {
+	}
+
+	public void method() {
+	}
+
+	public void method(boolean b1, String s1) {
+	}
+
+	public void method(String s1, String s2) {
+	}
+
+	public void method(String s1, String[] s2) {
+	}
+
+	public void method(String[] s1, String[] s2) {
+	}
+
+}

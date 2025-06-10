@@ -1,0 +1,23 @@
+{
+	"keywords": [
+		"liferay-theme"
+	],
+	"liferayTheme": {
+		"baseTheme": "styled",
+		"rubySass": false,
+		"sassOptions": {
+			"dartSass": true
+		},
+		"screenshot": "",
+		"templateLanguage": "ftl",
+		"version": "7.1"
+	},
+	"main": "package.json",
+	"name": "minium-theme",
+	"scripts": {
+		"build": "node-scripts build:theme",
+		"checkFormat": "node-scripts format --check",
+		"format": "node-scripts format"
+	},
+	"version": "5.0.100"
+}

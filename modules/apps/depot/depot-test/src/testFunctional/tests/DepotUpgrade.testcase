@@ -1,0 +1,52 @@
+@component-name = "portal-content-management"
+definition {
+
+	property database.types = "db2,mariadb,mysql,oracle,postgresql,sqlserver";
+	property portal.release = "true";
+	property portal.upstream = "true";
+	property test.assert.warning.exceptions = "true";
+	property test.liferay.virtual.instance = "false";
+	property test.run.type = "single";
+	property testray.main.component.name = "Upgrades Content Management";
+
+	setUp {
+		SignIn.signIn();
+
+		var portalURL = PropsUtil.get("portal.url");
+
+		AssertLocation.assertPartialLocation(value1 = "${portalURL}/web/guest");
+
+		SearchAdministration.executeReindex();
+	}
+
+	@priority = 5
+	@refactordone
+	test ViewDepotArchive73101 {
+		property data.archive.type = "data-archive-depot";
+		property portal.version = "7.3.10.1";
+
+		ValidateDepotUpgrade.validateDepotWCAndStructure();
+
+		ValidateDepotUpgrade.validateDepotDMAndType();
+
+		ValidateDepotUpgrade.validateCollections();
+
+		ValidateDepotUpgrade.validateDepotSettings();
+
+		ValidateDepotUpgrade.validateDepotEntries();
+	}
+
+	@priority = 5
+	@refactordone
+	test ViewDepotSharingArchive73101 {
+		property data.archive.type = "data-archive-depot";
+		property portal.version = "7.3.10.1";
+
+		ValidateAssetSharingUpgrade.viewSharedDocument(dmDocumentTitle = "DM Document Title Sharing");
+
+		ValidateAssetSharingUpgrade.revokeAndUpdateSharedEntry(
+			dmDocumentTitleUpdate = "DM Document Title Can Update",
+			dmDocumentTitleView = "DM Document Title Sharing");
+	}
+
+}

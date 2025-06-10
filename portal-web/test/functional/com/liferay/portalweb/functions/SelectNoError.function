@@ -1,0 +1,18 @@
+@default = "select"
+definition {
+
+	function select(locator1, value1) {
+		WaitForSPARefresh();
+
+		selenium.pause(5000);
+
+		WaitForSPARefresh();
+
+		selenium.waitForVisible(${locator1}, "false");
+
+		selenium.mouseOver(${locator1});
+
+		selenium.select(${locator1}, ${value1});
+	}
+
+}

@@ -1,0 +1,10 @@
+@default = "assertTextPresent"
+definition {
+
+	function assertTextPresent(value1) {
+		selenium.waitForTextPresent(${value1});
+
+		selenium.assertTextPresent(${value1});
+	}
+
+}

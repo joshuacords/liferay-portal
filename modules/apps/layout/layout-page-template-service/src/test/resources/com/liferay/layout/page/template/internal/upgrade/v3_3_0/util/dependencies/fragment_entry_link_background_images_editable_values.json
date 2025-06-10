@@ -1,0 +1,9 @@
+{
+	"com.liferay.fragment.entry.processor.background.image.BackgroundImageFragmentEntryProcessor": {
+		"banner-center": {
+			"segments-experience-id-0": {
+				"en_US": "http://myexample.com/myexample.png"
+			}
+		}
+	}
+}

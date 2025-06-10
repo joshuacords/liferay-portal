@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+
+<project>
+	<taskdef
+		classname="com.liferay.ant.mirrors.get.MirrorsGetTask"
+		classpath="classes"
+		name="mirrors-get"
+	/>
+
+	<property name="mirrors.hostname" value="mirrors.lax.liferay.com" />
+
+	<target name="test-1">
+		<mirrors-get
+			dest="test"
+			force="true"
+			src="http://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/owaspantisamy/antisamy-ebay-1.3.xml"
+			trylocalnetwork="true"
+			verbose="true"
+		/>
+	</target>
+
+	<target name="test-2">
+		<mirrors-get
+			dest="test"
+			force="true"
+			src="abc"
+			verbose="true"
+		/>
+	</target>
+
+	<target name="test-3">
+		<mirrors-get
+			dest="mysql-connector-j-8.3.0.jar"
+			force="false"
+			src="https://repo1.maven.org/maven2/com/mysql/mysql-connector-j/8.3.0/mysql-connector-j-8.3.0.jar"
+			trylocalnetwork="false"
+			verbose="true"
+		/>
+	</target>
+
+	<target name="test-4">
+		<mirrors-get
+			dest="liferay-portal-tomcat-master-private.tar.gz"
+			force="true"
+			src="https://username:password@files.liferay.com/private/ee/portal/snapshot-master-private/latest/liferay-portal-tomcat-master-private.tar.gz"
+			trylocalnetwork="true"
+			verbose="true"
+		/>
+	</target>
+</project>

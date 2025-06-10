@@ -1,0 +1,47 @@
+<html>
+<head>
+<title>Language</title>
+</head>
+
+<body>
+<table border="1" cellpadding="1" cellspacing="1">
+<thead>
+<tr><td rowspan="1" colspan="3">Language</td></tr>
+</thead>
+
+<tbody>
+
+<!--LANGUAGE_MENU-->
+
+<tr>
+	<td>DROPDOWN</td>
+	<td>//button[contains(@id,'${key_portletName}') and contains(@id,'_menu')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>DROPDOWN_CURRENT_LANGUAGE</td>
+	<td>//button[contains(@id,'${key_portletName}') and contains(@id,'_menu')]//span[contains(@class,'btn-section') and contains(.,'${key_locale}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>LONG_TEXT_LINK</td>
+	<td>//a[contains(@class,'long-text') and contains(.,'${key_language}')]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>SHORT_TEXT_LINK</td>
+	<td>//a[contains(@class,'short-text') and contains(.,'${key_language}')]</td>
+	<td></td>
+</tr>
+
+<!--EXPORT_TRANSLATION-->
+
+<tr>
+	<td>EXPORT_TRANSLATION_DEFAULT_ORIGINAL_LANGUAGE</td>
+	<td>//div[contains(@class,'form-group')]//input[@readonly and @value='${key_defaultLanguage}'] | //div[contains(@class,'form-group')]//select[contains(@name,'sourceLanguageId')]//option[contains(.,'${key_defaultLanguage}')]</td>
+	<td></td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

@@ -1,0 +1,84 @@
+definition {
+
+	@summary = "Default summary"
+	macro addCP(informationTemplateName = null, itemType = null, itemSubtype = null) {
+		LexiconEntry.gotoAdd();
+
+		PortletEntry.inputName(name = ${informationTemplateName});
+
+		if (isSet(itemType)) {
+			Select(
+				key_fieldLabel = "Item Type",
+				locator1 = "Select#GENERIC_SELECT_FIELD",
+				value1 = ${itemType});
+		}
+
+		if (isSet(itemSubtype)) {
+			Select(
+				key_fieldLabel = "Item Subtype",
+				locator1 = "Select#GENERIC_SELECT_FIELD",
+				value1 = ${itemSubtype});
+		}
+
+		PortletEntry.save();
+	}
+
+	@summary = "Default summary"
+	macro addField(fieldName = null, panelTitle = null) {
+		WaitForVisible(locator1 = "Sidebar#PANEL_OPEN");
+
+		Navigator.gotoSidebarTab(tabName = "Elements");
+
+		Click(
+			key_panelTitle = ${panelTitle},
+			key_variableName = ${fieldName},
+			locator1 = "DDMEditTemplate#WEB_CONTENT_SCRIPT_VARIABLE");
+	}
+
+	@summary = "Default summary"
+	macro gotoInformationTemplateEllipsisItem(informationTemplateName = null, item = null) {
+		Click(
+			key_tableEntry = ${informationTemplateName},
+			locator1 = "LexiconTable#TABLE_ENTRY_ELLIPSIS");
+
+		MenuItem.click(menuItem = ${item});
+	}
+
+	@summary = "Default summary"
+	macro inputScript(scriptContent = null) {
+		Type.typeCodeMirrorEditorNoError(
+			locator1 = "DDMEditTemplate#CODE_MIRROR_EDITOR",
+			value1 = ${scriptContent});
+	}
+
+	@summary = "Default summary"
+	macro openInformationTemplatesAdmin(siteURLKey = null) {
+		Navigator.openWithAppendToBaseURL(urlAppend = "group/${siteURLKey}/~/control_panel/manage?p_p_id=com_liferay_template_web_internal_portlet_TemplatePortlet&p_p_lifecycle=0&p_p_state=maximized");
+	}
+
+	@summary = "Default summary"
+	macro viewTemplate(informationTemplateName = null, itemType = null, itemSubtype = null) {
+		AssertTextEquals(
+			key_columnName = "name",
+			key_tableEntry = ${informationTemplateName},
+			locator1 = "LexiconTable#TABLE_ENTRY_INFO",
+			value1 = ${informationTemplateName});
+
+		if (isSet(itemType)) {
+			AssertTextEquals(
+				key_columnName = "item-type",
+				key_tableEntry = ${informationTemplateName},
+				locator1 = "LexiconTable#TABLE_ENTRY_INFO",
+				value1 = ${itemType});
+		}
+
+		if (isSet(itemSubtype)) {
+			AssertTextEquals(
+				key_columnName = "item-subtype",
+				key_tableEntry = ${informationTemplateName},
+				locator1 = "LexiconTable#TABLE_ENTRY_INFO",
+				value1 = ${itemSubtype});
+		}
+	}
+
+}

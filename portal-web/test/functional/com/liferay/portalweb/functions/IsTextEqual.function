@@ -1,0 +1,45 @@
+@default = "isTextEqual"
+definition {
+
+	function isPartialText(locator1, value1) {
+		WaitForSPARefresh();
+
+		selenium.waitForElementPresent(${locator1}, "false");
+
+		selenium.waitForVisible(${locator1}, "false");
+
+		selenium.isPartialTextCaseInsensitive(${locator1}, ${value1});
+	}
+
+	function isText(locator1, value1) {
+		WaitForSPARefresh();
+
+		selenium.waitForElementPresent(${locator1}, "false");
+
+		selenium.waitForVisible(${locator1}, "false");
+
+		selenium.isTextCaseInsensitive(${locator1}, ${value1});
+	}
+
+	function isTextEqual(locator1) {
+		WaitForSPARefresh();
+
+		if (contains(${locator1}, "/input")) {
+			IsTextEqual.isValue();
+		}
+		else {
+			IsTextEqual.isText();
+		}
+	}
+
+	function isValue(locator1, value1) {
+		WaitForSPARefresh();
+
+		selenium.waitForElementPresent(${locator1}, "false");
+
+		selenium.waitForVisible(${locator1}, "false");
+
+		selenium.isValue(${locator1}, ${value1});
+	}
+
+}

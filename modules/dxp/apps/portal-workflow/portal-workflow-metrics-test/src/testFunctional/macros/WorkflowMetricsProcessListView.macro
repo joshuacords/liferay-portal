@@ -1,0 +1,79 @@
+definition {
+
+	@summary = "Default summary"
+	macro assertPaginationBar() {
+		AssertElementPresent(locator1 = "WorkflowMetricsProcessListView#PAGINATION_BAR");
+	}
+
+	@summary = "Default summary"
+	macro assertPaginationComponentPresent(pageNumberList = null) {
+		AssertElementPresent(locator1 = "WorkflowMetricsProcessListView#METRICS_WORKFLOW_PAGINATION_PREVIOUS_BUTTON");
+
+		for (var pageNumber : list ${pageNumberList}) {
+			var key_pageNumber = ${pageNumber};
+
+			AssertElementPresent(locator1 = "WorkflowMetricsProcessListView#METRICS_WORKFLOW_PAGINATION_NUMBER_BUTTON");
+		}
+
+		AssertElementPresent(locator1 = "WorkflowMetricsProcessListView#METRICS_WORKFLOW_PAGINATION_NEXT_BUTTON");
+	}
+
+	@summary = "Default summary"
+	macro assertTooltipMessage(sectionName = null,tooltipMessage = null) {
+		AssertElementPresent(
+			key_sectionName = ${sectionName},
+			key_tooltipMessage = ${tooltipMessage},
+			locator1 = "WorkflowMetricsProcessListView#METRICS_WORKFLOW_TOOLTIP_MESSAGE");
+	}
+
+	@summary = "Default summary"
+	macro changePagination(itemsPerPage = null) {
+		Click(locator1 = "WorkflowMetricsProcessListView#ITEMS_PER_PAGE_SELECT");
+
+		var key_itemsPerPage = ${itemsPerPage};
+
+		MenuItem.click(menuItem = ${itemsPerPage});
+
+		AssertTextEquals.assertPartialText(
+			locator1 = "WorkflowMetricsProcessListView#ITEMS_PER_PAGE_SELECT",
+			value1 = ${itemsPerPage});
+	}
+
+	@summary = "Default summary"
+	macro metricsWorkflowSearch(workflowSearchName = null) {
+		var key_workflowSearchName = ${workflowSearchName};
+
+		Type(
+			locator1 = "WorkflowMetricsProcessListView#METRICS_WORKFLOW_SEARCH_BAR",
+			value1 = ${workflowSearchName});
+
+		Click(locator1 = "WorkflowMetricsProcessListView#METRICS_WORKFLOW_SEARCH_BAR_BUTTON");
+
+		AssertElementPresent(
+			key_workflowProcessName = ${key_workflowSearchName},
+			locator1 = "WorkflowMetrics#METRICS_WORKFLOW_PROCESS_NAME");
+	}
+
+	@summary = "Default summary"
+	macro metricsWorkflowSearchClearAll(workflowSearchName = null) {
+		var key_workflowSearchName = ${workflowSearchName};
+
+		Type(
+			locator1 = "WorkflowMetricsProcessListView#METRICS_WORKFLOW_SEARCH_BAR",
+			value1 = ${workflowSearchName});
+
+		Click(locator1 = "WorkflowMetricsProcessListView#METRICS_WORKFLOW_SEARCH_BAR_BUTTON");
+
+		ManagementBar.clearFilter();
+
+		AssertElementNotPresent(locator1 = "ManagementBar#CLEAR_FILTER");
+	}
+
+	@summary = "Default summary"
+	macro viewResults(results = null) {
+		AssertTextEquals(
+			locator1 = "WorkflowMetricsProcessListView#PAGINATION_RESULTS",
+			value1 = ${results});
+	}
+
+}

@@ -1,0 +1,24 @@
+<%--
+/**
+ * SPDX-FileCopyrightText: (c) 2000 Liferay, Inc. https://liferay.com
+ * SPDX-License-Identifier: LGPL-2.1-or-later OR LicenseRef-Liferay-DXP-EULA-2.0.0-2023-06
+ */
+--%>
+
+<%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
+
+<liferay-ui:panel-container
+	extended="<%= true %>"
+	id='<%= liferayPortletResponse.getNamespace() + "facetAssetEntriesPanelContainer" %>'
+	markupView="lexicon"
+	persistState="<%= true %>"
+>
+	<liferay-ui:panel
+		collapsible="<%= true %>"
+		cssClass="search-facet"
+		id='<%= liferayPortletResponse.getNamespace() + "facetAssetEntriesPanel" %>'
+		markupView="lexicon"
+		persistState="<%= true %>"
+		title="type"
+	/>
+</liferay-ui:panel-container>

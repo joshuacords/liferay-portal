@@ -1,0 +1,17 @@
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+
+clean {
+	ext {
+		cleanDeployed = false
+	}
+}
+
+dependencies {
+	api group: "org.apache-extras.beanshell", name: "bsh", version: "2.0b6"
+	compileOnly group: "org.apache.ant", name: "ant", transitive: false, version: "1.10.14"
+}
+
+liferay {
+	deployDir = file("../../../lib/development")
+}

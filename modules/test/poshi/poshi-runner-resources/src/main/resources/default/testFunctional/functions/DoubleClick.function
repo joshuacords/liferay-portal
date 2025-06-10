@@ -1,0 +1,28 @@
+@default = "doubleClick"
+definition {
+
+	function doubleClick(locator1) {
+		selenium.waitForVisible(${locator1}, "true");
+
+		selenium.mouseOver(${locator1});
+
+		selenium.doubleClick(${locator1});
+	}
+
+	function doubleClickAt(locator1, value1) {
+		selenium.waitForVisible(${locator1}, "true");
+
+		selenium.mouseOver(${locator1});
+
+		selenium.doubleClickAt(${locator1}, ${value1});
+	}
+
+	function javaScriptDoubleClick(locator1) {
+		selenium.waitForVisible(${locator1}, "true");
+
+		selenium.mouseOver(${locator1});
+
+		selenium.javaScriptDoubleClick(${locator1});
+	}
+
+}
