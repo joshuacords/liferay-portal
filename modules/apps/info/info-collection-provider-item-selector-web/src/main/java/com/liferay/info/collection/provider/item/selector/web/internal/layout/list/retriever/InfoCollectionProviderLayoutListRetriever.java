@@ -30,6 +30,7 @@ import com.liferay.layout.list.retriever.LayoutListRetrieverContext;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.kernel.model.ClassedModel;
 import com.liferay.portal.kernel.repository.model.FileEntry;
+import com.liferay.portal.kernel.util.StringUtil;
 
 import java.util.Collections;
 import java.util.List;
@@ -69,7 +70,11 @@ public class InfoCollectionProviderLayoutListRetriever
 					keyListObjectReference.getItemType());
 		}
 
-		if (infoCollectionProvider == null) {
+		if ((infoCollectionProvider == null) ||
+			!StringUtil.equals(
+				infoCollectionProvider.getCollectionItemClassName(),
+				keyListObjectReference.getItemType())) {
+
 			return InfoPage.of(
 				Collections.emptyList(),
 				layoutListRetrieverContext.getPagination(), 0);
