@@ -156,7 +156,10 @@ public class LayoutListRetrieverTest {
 		KeyListObjectReference keyListObjectReference =
 			new KeyListObjectReference(
 				JSONUtil.put(
-					"key", TestInfoCollectionProvider.class.getName()));
+					"itemType", String.class.getName()
+				).put(
+					"key", TestInfoCollectionProvider.class.getName()
+				));
 
 		InfoPage<?> infoPage = layoutListRetriever.getInfoPage(
 			keyListObjectReference, new DefaultLayoutListRetrieverContext());
@@ -166,6 +169,41 @@ public class LayoutListRetrieverTest {
 		Assert.assertEquals(list.toString(), 1, list.size());
 		Assert.assertEquals(
 			TestInfoCollectionProvider.class.getName(), list.get(0));
+
+		serviceRegistration.unregister();
+	}
+
+	@Test
+	public void testInfoCollectionProviderLayoutListRetrieverWithDifferentItemTypes() {
+		Bundle bundle = FrameworkUtil.getBundle(LayoutListRetrieverTest.class);
+
+		BundleContext bundleContext = bundle.getBundleContext();
+
+		ServiceRegistration<InfoCollectionProvider<?>> serviceRegistration =
+			bundleContext.registerService(
+				(Class<InfoCollectionProvider<?>>)
+					(Class<?>)InfoCollectionProvider.class,
+				new TestInfoCollectionProvider(), null);
+
+		LayoutListRetriever<?, KeyListObjectReference> layoutListRetriever =
+			(LayoutListRetriever<?, KeyListObjectReference>)
+				_layoutListRetrieverRegistry.getLayoutListRetriever(
+					InfoListProviderItemSelectorReturnType.class.getName());
+
+		KeyListObjectReference keyListObjectReference =
+			new KeyListObjectReference(
+				JSONUtil.put(
+					"itemType", AssetEntry.class.getName()
+				).put(
+					"key", TestInfoCollectionProvider.class.getName()
+				));
+
+		InfoPage<?> infoPage = layoutListRetriever.getInfoPage(
+			keyListObjectReference, new DefaultLayoutListRetrieverContext());
+
+		List<Object> list = (List<Object>)infoPage.getPageItems();
+
+		Assert.assertEquals(list.toString(), 0, list.size());
 
 		serviceRegistration.unregister();
 	}
