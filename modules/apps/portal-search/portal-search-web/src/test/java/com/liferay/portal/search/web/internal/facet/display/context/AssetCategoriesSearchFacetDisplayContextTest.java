@@ -14,6 +14,7 @@ import com.liferay.portal.configuration.module.configuration.ConfigurationProvid
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.module.configuration.ConfigurationException;
 import com.liferay.portal.kernel.search.facet.collector.TermCollector;
+import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
@@ -55,7 +56,7 @@ public class AssetCategoriesSearchFacetDisplayContextTest
 
 	@Override
 	public FacetDisplayContext createFacetDisplayContext(String parameterValue)
-		throws ConfigurationException {
+		throws Exception {
 
 		return createFacetDisplayContext(parameterValue, "count:desc");
 	}
@@ -65,12 +66,14 @@ public class AssetCategoriesSearchFacetDisplayContextTest
 			String parameterValue, String order)
 		throws ConfigurationException {
 
+		GroupLocalService groupLocalService = Mockito.mock(
+			GroupLocalService.class);
 		RenderRequest renderRequest = Mockito.mock(RenderRequest.class);
 
 		AssetCategoriesSearchFacetDisplayContextBuilder
 			assetCategoriesSearchFacetDisplayContextBuilder =
 				new AssetCategoriesSearchFacetDisplayContextBuilder(
-					renderRequest);
+					groupLocalService, renderRequest);
 
 		assetCategoriesSearchFacetDisplayContextBuilder.
 			setAssetCategoryLocalService(_assetCategoryLocalService);
@@ -404,10 +407,13 @@ public class AssetCategoriesSearchFacetDisplayContextTest
 	protected FacetDisplayContext getFacetDisplayContext(Group group)
 		throws Exception {
 
+		GroupLocalService groupLocalService = Mockito.mock(
+			GroupLocalService.class);
+
 		AssetCategoriesSearchFacetDisplayContextBuilder
 			assetCategoriesSearchFacetDisplayContextBuilder =
 				new AssetCategoriesSearchFacetDisplayContextBuilder(
-					getRenderRequest(group));
+					groupLocalService, getRenderRequest(group));
 
 		assetCategoriesSearchFacetDisplayContextBuilder.setPortal(
 			_getPortal(group));
