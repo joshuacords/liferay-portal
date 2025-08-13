@@ -13,6 +13,7 @@ import com.liferay.asset.kernel.model.AssetVocabulary;
 import com.liferay.asset.kernel.service.AssetCategoryLocalService;
 import com.liferay.asset.kernel.service.AssetCategoryService;
 import com.liferay.asset.kernel.service.AssetVocabularyService;
+import com.liferay.exportimport.vulcan.batch.engine.ExportImportVulcanBatchEngineTaskItemDelegate;
 import com.liferay.headless.admin.taxonomy.dto.v1_0.ParentTaxonomyCategory;
 import com.liferay.headless.admin.taxonomy.dto.v1_0.ParentTaxonomyVocabulary;
 import com.liferay.headless.admin.taxonomy.dto.v1_0.TaxonomyCategory;
@@ -30,6 +31,7 @@ import com.liferay.portal.kernel.dao.orm.ProjectionList;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.Type;
 import com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil;
+import com.liferay.portal.kernel.model.CompanyConstants;
 import com.liferay.portal.kernel.search.BooleanClauseOccur;
 import com.liferay.portal.kernel.search.BooleanQuery;
 import com.liferay.portal.kernel.search.Field;
@@ -81,7 +83,8 @@ import org.osgi.service.component.annotations.ServiceScope;
 	scope = ServiceScope.PROTOTYPE, service = TaxonomyCategoryResource.class
 )
 public class TaxonomyCategoryResourceImpl
-	extends BaseTaxonomyCategoryResourceImpl {
+	extends BaseTaxonomyCategoryResourceImpl
+	implements ExportImportVulcanBatchEngineTaskItemDelegate<TaxonomyCategory> {
 
 	@Override
 	public void deleteAssetLibraryTaxonomyCategoryByExternalReferenceCode(
@@ -138,6 +141,23 @@ public class TaxonomyCategoryResourceImpl
 	@Override
 	public EntityModel getEntityModel(MultivaluedMap multivaluedMap) {
 		return _entityModel;
+	}
+
+	@Override
+	public String getPortletId() {
+		if (FeatureFlagManagerUtil.isEnabled(
+				CompanyConstants.SYSTEM, "LPD-35914")) {
+
+			return "com_liferay_asset_categories_admin_web_portlet_" +
+				"AssetCategoriesAdminPortlet";
+		}
+
+		return null;
+	}
+
+	@Override
+	public Scope getScope() {
+		return Scope.SITE;
 	}
 
 	@Override
