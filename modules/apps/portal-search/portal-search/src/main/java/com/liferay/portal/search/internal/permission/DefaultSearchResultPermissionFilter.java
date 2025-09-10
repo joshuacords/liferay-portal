@@ -821,10 +821,15 @@ public class DefaultSearchResultPermissionFilter
 		private class SlidingWindowHelper {
 
 			public SlidingWindowHelper(int start, int end) {
-				_start = start;
-				_end = end;
+				if (start == 0 && end == 0) {
+					_start = 0;
+					_end = 1;
+				} else {
+					_start = start;
+					_end = end;
+				}
 
-				_delta = end - start;
+				_delta = _end - _start;
 
 				_documents = new CircularFifoQueue<>(_delta);
 				_scores = new CircularFifoQueue<>(_delta);
