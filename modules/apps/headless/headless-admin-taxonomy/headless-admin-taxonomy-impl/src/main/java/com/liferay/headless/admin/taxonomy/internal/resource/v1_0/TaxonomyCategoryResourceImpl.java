@@ -153,6 +153,11 @@ public class TaxonomyCategoryResourceImpl
 			}
 
 			@Override
+			public String getLabel() {
+				return "categories";
+			}
+
+			@Override
 			public String getPortletId() {
 				return AssetCategoriesAdminPortletKeys.ASSET_CATEGORIES_ADMIN;
 			}
