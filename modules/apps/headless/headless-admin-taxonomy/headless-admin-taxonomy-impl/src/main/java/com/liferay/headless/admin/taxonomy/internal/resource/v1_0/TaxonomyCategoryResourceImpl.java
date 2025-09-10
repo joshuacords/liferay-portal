@@ -83,8 +83,8 @@ import org.osgi.service.component.annotations.ServiceScope;
 	scope = ServiceScope.PROTOTYPE, service = TaxonomyCategoryResource.class
 )
 public class TaxonomyCategoryResourceImpl
-	extends BaseTaxonomyCategoryResourceImpl
-	implements ExportImportVulcanBatchEngineTaskItemDelegate<TaxonomyCategory> {
+	extends BaseTaxonomyCategoryResourceImpl {
+//	implements ExportImportVulcanBatchEngineTaskItemDelegate<TaxonomyCategory> {
 
 	@Override
 	public void deleteAssetLibraryTaxonomyCategoryByExternalReferenceCode(
@@ -143,22 +143,22 @@ public class TaxonomyCategoryResourceImpl
 		return _entityModel;
 	}
 
-	@Override
-	public ExportImportDescriptor getExportImportDescriptor() {
-		return new ExportImportDescriptor() {
-
-			@Override
-			public String getPortletId() {
-				return AssetCategoriesAdminPortletKeys.ASSET_CATEGORIES_ADMIN;
-			}
-
-			@Override
-			public Scope getScope() {
-				return Scope.SITE;
-			}
-
-		};
-	}
+//	@Override
+//	public ExportImportDescriptor getExportImportDescriptor() {
+//		return new ExportImportDescriptor() {
+//
+//			@Override
+//			public String getPortletId() {
+//				return AssetCategoriesAdminPortletKeys.ASSET_CATEGORIES_ADMIN;
+//			}
+//
+//			@Override
+//			public Scope getScope() {
+//				return Scope.SITE;
+//			}
+//
+//		};
+//	}
 
 	@Override
 	public Page<TaxonomyCategory> getTaxonomyCategoriesRankedPage(
