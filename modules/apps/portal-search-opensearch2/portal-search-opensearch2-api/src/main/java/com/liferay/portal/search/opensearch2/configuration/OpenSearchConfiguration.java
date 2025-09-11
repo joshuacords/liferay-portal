@@ -89,4 +89,10 @@ public interface OpenSearchConfiguration {
 	)
 	public boolean trackTotalHits();
 
+	@Meta.AD(
+		deflt = "2147483647", description = "track-total-hits-up-to-help",
+		max = "2147483647", name = "track-total-hits-up-to", required = false
+	)
+	public int trackTotalHitsUpTo();
+
 }
