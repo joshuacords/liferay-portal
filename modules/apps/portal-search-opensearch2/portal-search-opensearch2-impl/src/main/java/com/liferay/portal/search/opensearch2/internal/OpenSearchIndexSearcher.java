@@ -563,6 +563,7 @@ public class OpenSearchIndexSearcher extends BaseIndexSearcher {
 		_setLegacyPostFilter(baseSearchRequest, query);
 		_setPipelineAggregations(baseSearchRequest, searchRequest);
 		setQuery(baseSearchRequest, searchRequest);
+		_setTrackTotalHitsLimit(baseSearchRequest);
 	}
 
 	private Hits _search(
@@ -711,6 +712,17 @@ public class OpenSearchIndexSearcher extends BaseIndexSearcher {
 
 		for (PipelineAggregation aggregation : pipelineAggregations.values()) {
 			baseSearchRequest.addPipelineAggregation(aggregation);
+		}
+	}
+
+	private void _setTrackTotalHitsLimit(BaseSearchRequest baseSearchRequest) {
+		if (_openSearchConfigurationWrapper.trackTotalHits()) {
+			baseSearchRequest.setTrackTotalHitsUpTo(
+				_openSearchConfigurationWrapper.trackTotalHitsUpTo());
+		}
+		else {
+			baseSearchRequest.setTrackTotalHitsUpTo(
+				_openSearchConfigurationWrapper.indexMaxResultWindow());
 		}
 	}
 

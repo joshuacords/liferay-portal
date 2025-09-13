@@ -538,11 +538,24 @@ public class CommonSearchRequestBuilderAssemblerImpl
 		BaseSearchRequest baseSearchRequest,
 		SearchRequest.Builder searchRequestBuilder) {
 
-		if (baseSearchRequest.getTrackTotalHits() != null) {
+		if (baseSearchRequest.getTrackTotalHitsLimit() != null) {
+			searchRequestBuilder.trackTotalHits(
+				TrackHits.of(
+					trackHits -> trackHits.count(
+						baseSearchRequest.getTrackTotalHitsLimit())));
+		}
+		else if (baseSearchRequest.getTrackTotalHits() != null) {
 			searchRequestBuilder.trackTotalHits(
 				TrackHits.of(
 					trackHits -> trackHits.enabled(
 						baseSearchRequest.getTrackTotalHits())));
+		}
+
+		if (baseSearchRequest.getTrackTotalHitsUpTo() != null) {
+			searchRequestBuilder.trackTotalHits(
+				TrackHits.of(
+					trackHits -> trackHits.count(
+						baseSearchRequest.getTrackTotalHitsUpTo())));
 		}
 	}
 
