@@ -544,6 +544,13 @@ public class CommonSearchRequestBuilderAssemblerImpl
 					trackHits -> trackHits.enabled(
 						baseSearchRequest.getTrackTotalHits())));
 		}
+
+		if (baseSearchRequest.getTrackTotalHitsUpTo() != null) {
+			searchRequestBuilder.trackTotalHits(
+				TrackHits.of(
+					trackHits -> trackHits.count(
+						baseSearchRequest.getTrackTotalHitsUpTo())));
+		}
 	}
 
 	private void _transfer(

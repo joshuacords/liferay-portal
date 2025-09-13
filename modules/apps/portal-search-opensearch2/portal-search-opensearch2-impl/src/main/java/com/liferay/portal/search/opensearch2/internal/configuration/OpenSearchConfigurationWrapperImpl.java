@@ -109,6 +109,11 @@ public class OpenSearchConfigurationWrapperImpl
 	}
 
 	@Override
+	public int trackTotalHitsUpTo() {
+		return _openSearchConfiguration.trackTotalHitsUpTo();
+	}
+
+	@Override
 	public void unregister(
 		OpenSearchConfigurationObserver openSearchConfigurationObserver) {
 
