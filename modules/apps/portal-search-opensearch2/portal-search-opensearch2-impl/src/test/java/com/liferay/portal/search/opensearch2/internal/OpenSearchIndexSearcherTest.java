@@ -15,6 +15,7 @@ import com.liferay.portal.search.index.IndexNameBuilder;
 import com.liferay.portal.search.internal.legacy.searcher.SearchRequestBuilderFactoryImpl;
 import com.liferay.portal.search.legacy.searcher.SearchRequestBuilderFactory;
 import com.liferay.portal.search.opensearch2.constants.OpenSearchSearchContextAttributes;
+import com.liferay.portal.search.opensearch2.internal.configuration.OpenSearchConfigurationWrapper;
 import com.liferay.portal.search.opensearch2.internal.configuration.OpenSearchConfigurationWrapperImpl;
 import com.liferay.portal.search.searcher.SearchRequest;
 import com.liferay.portal.search.test.util.indexing.DocumentFixture;
@@ -97,6 +98,16 @@ public class OpenSearchIndexSearcherTest {
 		Assert.assertEquals("testValue", searchSearchRequest.getPreference());
 	}
 
+	@Test
+	public void testTrackTotalHitsUpToWithTrackTotalHitsFalse() {
+		_testTrackTotalHitsUpTo(10000, false, 11000);
+	}
+
+	@Test
+	public void testTrackTotalHitsUpToWithTrackTotalHitsTrue() {
+		_testTrackTotalHitsUpTo(11000, true, 11000);
+	}
+
 	private IndexNameBuilder _createIndexNameBuilder() {
 		IndexNameBuilder indexNameBuilder = Mockito.mock(
 			IndexNameBuilder.class);
@@ -121,7 +132,7 @@ public class OpenSearchIndexSearcherTest {
 			openSearchIndexSearcher, "_indexNameBuilder", indexNameBuilder);
 		ReflectionTestUtil.setFieldValue(
 			openSearchIndexSearcher, "_openSearchConfigurationWrapper",
-			Mockito.mock(OpenSearchConfigurationWrapperImpl.class));
+			_openSearchConfigurationWrapper);
 		ReflectionTestUtil.setFieldValue(
 			openSearchIndexSearcher, "_searchRequestBuilderFactory",
 			searchRequestBuilderFactory);
@@ -129,8 +140,48 @@ public class OpenSearchIndexSearcherTest {
 		return openSearchIndexSearcher;
 	}
 
+	private void _testTrackTotalHitsUpTo(
+		Integer expectedTrackTotalHitsUpTo, boolean trackTotalHits,
+		int trackTotalHitsUpTo) {
+
+		Mockito.when(
+			_openSearchConfigurationWrapper.indexMaxResultWindow()
+		).thenReturn(
+			10000
+		);
+
+		Mockito.when(
+			_openSearchConfigurationWrapper.trackTotalHits()
+		).thenReturn(
+			trackTotalHits
+		);
+
+		Mockito.when(
+			_openSearchConfigurationWrapper.trackTotalHitsUpTo()
+		).thenReturn(
+			trackTotalHitsUpTo
+		);
+
+		SearchContext searchContext = new SearchContext();
+
+		SearchRequest searchRequest = _searchRequestBuilderFactory.builder(
+			searchContext
+		).build();
+
+		SearchSearchRequest searchSearchRequest =
+			_openSearchIndexSearcher.createSearchSearchRequest(
+				Mockito.mock(Query.class), searchContext, searchRequest);
+
+		Assert.assertEquals(
+			expectedTrackTotalHitsUpTo,
+			searchSearchRequest.getTrackTotalHitsUpTo());
+	}
+
 	private final DocumentFixture _documentFixture = new DocumentFixture();
 	private IndexNameBuilder _indexNameBuilder;
+	private final OpenSearchConfigurationWrapper
+		_openSearchConfigurationWrapper = Mockito.mock(
+			OpenSearchConfigurationWrapperImpl.class);
 	private OpenSearchIndexSearcher _openSearchIndexSearcher;
 	private SearchRequestBuilderFactory _searchRequestBuilderFactory;
 
