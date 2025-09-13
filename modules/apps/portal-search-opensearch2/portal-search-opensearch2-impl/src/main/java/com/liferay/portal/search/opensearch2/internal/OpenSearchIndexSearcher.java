@@ -715,15 +715,11 @@ public class OpenSearchIndexSearcher extends BaseIndexSearcher {
 		}
 	}
 
-	private void _setTrackTotalHitsLimit(BaseSearchRequest baseSearchRequest) {
-		if (_openSearchConfigurationWrapper.trackTotalHits()) {
-			baseSearchRequest.setTrackTotalHitsUpTo(
-				_openSearchConfigurationWrapper.trackTotalHitsUpTo());
-		}
-		else {
-			baseSearchRequest.setTrackTotalHitsUpTo(
-				_openSearchConfigurationWrapper.indexMaxResultWindow());
-		}
+	private void _setTrackTotalHitsLimit(
+		BaseSearchRequest baseSearchRequest) {
+
+		baseSearchRequest.setTrackTotalHitsLimit(
+			_openSearchConfigurationWrapper.trackTotalHitsLimit());
 	}
 
 	private SearchHit _skipToLastSearchHit(
