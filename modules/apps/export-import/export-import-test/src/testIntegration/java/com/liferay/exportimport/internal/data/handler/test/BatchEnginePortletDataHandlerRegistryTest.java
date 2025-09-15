@@ -6,6 +6,10 @@
 package com.liferay.exportimport.internal.data.handler.test;
 
 import com.liferay.arquillian.extension.junit.bridge.junit.Arquillian;
+import com.liferay.exportimport.kernel.lar.PortletDataHandler;
+import com.liferay.exportimport.kernel.lar.PortletDataHandlerBoolean;
+import com.liferay.exportimport.kernel.lar.PortletDataHandlerControl;
+import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.exportimport.portlet.data.handler.provider.PortletDataHandlerProvider;
 import com.liferay.exportimport.vulcan.batch.engine.ExportImportVulcanBatchEngineTaskItemDelegate;
 import com.liferay.petra.function.UnsafeBiConsumer;
@@ -46,6 +50,7 @@ import java.util.Collection;
 import java.util.Dictionary;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.hamcrest.CoreMatchers;
 
@@ -87,13 +92,16 @@ public class BatchEnginePortletDataHandlerRegistryTest {
 	}
 
 	@Test
-	@TestInfo("LPD-56301")
+	@TestInfo({"LPD-56301", "LPD-65119"})
 	public void test() throws Exception {
 		String portletId = RandomTestUtil.randomString();
 
 		Assert.assertNull(
 			_portletDataHandlerProvider.provide(
 				TestPropsValues.getCompanyId(), portletId));
+
+		String className1 = RandomTestUtil.randomString();
+		String className2 = RandomTestUtil.randomString();
 
 		try (SafeCloseable safeCloseable1 = _registerServiceWithSafeCloseable(
 				Portlet.class,
@@ -108,16 +116,25 @@ public class BatchEnginePortletDataHandlerRegistryTest {
 			SafeCloseable safeCloseable2 = _registerServiceWithSafeCloseable(
 				VulcanBatchEngineTaskItemDelegate.class,
 				new TestExportImportVulcanBatchEngineTaskItemDelegate(
-					portletId),
+					className1, portletId),
 				HashMapDictionaryBuilder.put(
 					"batch.engine.task.item.delegate", "true"
 				).put(
-					"batch.engine.task.item.delegate.class.name",
-					RandomTestUtil.randomString()
+					"batch.engine.task.item.delegate.class.name", className1
 				).build());
 			SafeCloseable safeCloseable3 = _registerServiceWithSafeCloseable(
 				VulcanBatchEngineTaskItemDelegate.class,
-				new TestExportImportVulcanBatchEngineTaskItemDelegate(null),
+				new TestExportImportVulcanBatchEngineTaskItemDelegate(
+					className2, portletId),
+				HashMapDictionaryBuilder.put(
+					"batch.engine.task.item.delegate", "true"
+				).put(
+					"batch.engine.task.item.delegate.class.name", className2
+				).build());
+			SafeCloseable safeCloseable4 = _registerServiceWithSafeCloseable(
+				VulcanBatchEngineTaskItemDelegate.class,
+				new TestExportImportVulcanBatchEngineTaskItemDelegate(
+					null, null),
 				HashMapDictionaryBuilder.put(
 					"batch.engine.task.item.delegate", "true"
 				).put(
@@ -127,11 +144,78 @@ public class BatchEnginePortletDataHandlerRegistryTest {
 
 			Thread.sleep(1000);
 
+			PortletDataHandler portletDataHandler =
+				_portletDataHandlerProvider.provide(
+					TestPropsValues.getCompanyId(), portletId);
+
 			Assert.assertThat(
-				ClassUtil.getClassName(
-					_portletDataHandlerProvider.provide(
-						TestPropsValues.getCompanyId(), portletId)),
+				ClassUtil.getClassName(portletDataHandler),
 				CoreMatchers.containsString("BatchEnginePortletDataHandler"));
+
+			Assert.assertArrayEquals(
+				new String[] {className1, className2},
+				portletDataHandler.getClassNames());
+
+			_assertControls(
+				new PortletDataHandlerControl[] {
+					new PortletDataHandlerBoolean(
+						portletId, className1, null, true, false, null,
+						className1, StagedModelType.REFERRER_CLASS_NAME_ALL),
+					new PortletDataHandlerBoolean(
+						portletId, className2, null, true, false, null,
+						className2, StagedModelType.REFERRER_CLASS_NAME_ALL)
+				},
+				portletDataHandler.getExportControls());
+
+			safeCloseable2.close();
+			Thread.sleep(1000);
+
+			portletDataHandler = _portletDataHandlerProvider.provide(
+				TestPropsValues.getCompanyId(), portletId);
+
+			Assert.assertArrayEquals(
+				new String[] {className2}, portletDataHandler.getClassNames());
+
+			Assert.assertEquals(
+				new PortletDataHandlerControl[0],
+				portletDataHandler.getExportControls());
+
+			safeCloseable3.close();
+			Thread.sleep(1000);
+
+			PortletDataHandler provide = _portletDataHandlerProvider.provide(
+				TestPropsValues.getCompanyId(), portletId);
+
+			Assert.assertThat(
+				ClassUtil.getClassName(provide),
+				CoreMatchers.containsString("DefaultPortletDataHandler"));
+		}
+	}
+
+	private void _assertControls(
+		PortletDataHandlerControl[] expectedControls,
+		PortletDataHandlerControl[] actualControls) {
+
+		for (PortletDataHandlerControl expectedControl : expectedControls) {
+			boolean contains = false;
+
+			for (PortletDataHandlerControl actualControl : actualControls) {
+				if (Objects.equals(
+						expectedControl.getControlName(),
+						actualControl.getControlName()) &&
+					Objects.equals(
+						expectedControl.getControlLabel(),
+						actualControl.getControlLabel()) &&
+					(expectedControl.isDisabled() ==
+						actualControl.isDisabled())) {
+
+					contains = true;
+
+					break;
+				}
+			}
+
+			Assert.assertTrue(contains);
 		}
 	}
 
@@ -157,8 +241,9 @@ public class BatchEnginePortletDataHandlerRegistryTest {
 				   VulcanBatchEngineTaskItemDelegate<Object> {
 
 		public TestExportImportVulcanBatchEngineTaskItemDelegate(
-			String portletId) {
+			String itemClassName, String portletId) {
 
+			_itemClassName = itemClassName;
 			_portletId = portletId;
 		}
 
@@ -255,8 +340,7 @@ public class BatchEnginePortletDataHandlerRegistryTest {
 			Collection<Object> items, Map<String, Serializable> parameters) {
 		}
 
-		private static String _itemClassName = RandomTestUtil.randomString();
-
+		private final String _itemClassName;
 		private final String _portletId;
 
 	}
