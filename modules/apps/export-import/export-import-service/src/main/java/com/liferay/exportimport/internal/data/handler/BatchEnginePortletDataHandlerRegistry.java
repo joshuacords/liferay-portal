@@ -189,21 +189,26 @@ public class BatchEnginePortletDataHandlerRegistry {
 						"batch.engine.task.item.delegate.name"));
 
 			if (previousBatchEnginePortletDataHandler != null) {
-				return null;
+				return _serviceRegistrations.get(portletId);
 			}
 
-			return _bundleContext.registerService(
-				PortletDataHandler.class, batchEnginePortletDataHandler,
-				HashMapDictionaryBuilder.<String, Object>put(
-					"batch.engine.task.item.delegate.item.class.name",
-					exportImportDescriptor.getItemClassName()
-				).put(
-					"company.id", () -> _companyId
-				).put(
-					"jakarta.portlet.name", portletId
-				).put(
-					"service.ranking", Integer.MAX_VALUE
-				).build());
+			ServiceRegistration<PortletDataHandler> serviceRegistration =
+				_bundleContext.registerService(
+					PortletDataHandler.class, batchEnginePortletDataHandler,
+					HashMapDictionaryBuilder.<String, Object>put(
+						"batch.engine.task.item.delegate.item.class.name",
+						exportImportDescriptor.getItemClassName()
+					).put(
+						"company.id", () -> _companyId
+					).put(
+						"jakarta.portlet.name", portletId
+					).put(
+						"service.ranking", Integer.MAX_VALUE
+					).build());
+
+			_serviceRegistrations.put(portletId, serviceRegistration);
+
+			return serviceRegistration;
 		}
 
 		@Override
@@ -223,24 +228,58 @@ public class BatchEnginePortletDataHandlerRegistry {
 				serviceReference,
 			ServiceRegistration<PortletDataHandler> serviceRegistration) {
 
-			PortletDataHandler portletDataHandler = _bundleContext.getService(
-				serviceRegistration.getReference());
+			VulcanBatchEngineTaskItemDelegate<?>
+				vulcanBatchEngineTaskItemDelegate = _bundleContext.getService(
+					serviceReference);
 
-			if (portletDataHandler instanceof
-					BatchEnginePortletDataHandler
-						batchEnginePortletDataHandler) {
+			if (!(vulcanBatchEngineTaskItemDelegate instanceof
+					ExportImportVulcanBatchEngineTaskItemDelegate<?>
+						exportImportVulcanBatchEngineTaskItemDelegate)) {
 
-				// TODO remove only if empty
-
-				_batchEnginePortletDataHandlers.remove(
-					batchEnginePortletDataHandler.getPortletId());
+				return;
 			}
 
-			serviceRegistration.unregister();
+			ExportImportVulcanBatchEngineTaskItemDelegate.ExportImportDescriptor
+				exportImportDescriptor =
+					exportImportVulcanBatchEngineTaskItemDelegate.
+						getExportImportDescriptor();
+
+			String portletId = exportImportDescriptor.getPortletId();
+
+			if (Validator.isNull(portletId)) {
+				return;
+			}
+
+			BatchEnginePortletDataHandler batchEnginePortletDataHandler =
+				_batchEnginePortletDataHandlers.get(portletId);
+
+			if (batchEnginePortletDataHandler == null) {
+				return;
+			}
+
+			String className = GetterUtil.getObject(
+				(String)serviceReference.getProperty(
+					"batch.engine.task.item.delegate.class.name"),
+				() -> (String)serviceReference.getProperty(
+					"batch.engine.entity.class.name"));
+
+			String taskItemDelegateName = (String)serviceReference.getProperty(
+				"batch.engine.task.item.delegate.name");
+
+			batchEnginePortletDataHandler.
+				unregisterExportImportVulcanBatchEngineTaskItemDelegate(
+					className, taskItemDelegateName);
+
+			if (batchEnginePortletDataHandler.getClassNames().length == 0) {
+				serviceRegistration.unregister();
+				_batchEnginePortletDataHandlers.remove(portletId);
+			}
 		}
 
 		private final BundleContext _bundleContext;
 		private final long _companyId;
+		private final Map<String, ServiceRegistration<PortletDataHandler>>
+			_serviceRegistrations = new HashMap<>();
 
 	}
 
