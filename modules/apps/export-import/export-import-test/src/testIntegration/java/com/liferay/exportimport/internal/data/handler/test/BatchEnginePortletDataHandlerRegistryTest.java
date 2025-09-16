@@ -230,7 +230,13 @@ public class BatchEnginePortletDataHandlerRegistryTest {
 		ServiceRegistration<S> serviceRegistration =
 			bundleContext.registerService(clazz, service, properties);
 
-		return serviceRegistration::unregister;
+		return () -> {
+			try {
+				serviceRegistration.unregister();
+			}
+			catch (IllegalStateException illegalStateException) {
+			}
+		};
 	}
 
 	@Inject
