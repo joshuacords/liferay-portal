@@ -95,9 +95,6 @@ public class BatchEnginePortletDataHandlerRegistry {
 	@Reference
 	private BatchEngineImportTaskService _batchEngineImportTaskService;
 
-	private final Map<String, BatchEnginePortletDataHandler>
-		_batchEnginePortletDataHandlers = new HashMap<>();
-
 	@Reference
 	private BatchEngineTaskItemDelegateRegistry
 		_batchEngineTaskItemDelegateRegistry;
@@ -276,6 +273,8 @@ public class BatchEnginePortletDataHandlerRegistry {
 			}
 		}
 
+		private final Map<String, BatchEnginePortletDataHandler>
+			_batchEnginePortletDataHandlers = new HashMap<>();
 		private final BundleContext _bundleContext;
 		private final long _companyId;
 		private final Map<String, ServiceRegistration<PortletDataHandler>>
