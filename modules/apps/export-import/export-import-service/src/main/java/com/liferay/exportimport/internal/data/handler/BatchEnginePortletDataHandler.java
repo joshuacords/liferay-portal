@@ -131,12 +131,6 @@ public class BatchEnginePortletDataHandler extends BasePortletDataHandler {
 	}
 
 	@Override
-	public StagedModelType[] getDeletionSystemEventStagedModelTypes() {
-		return TransformUtil.transformToArray(
-			_registrations, this::_getStagedModelType, StagedModelType.class);
-	}
-
-	@Override
 	public String getName() {
 		return _portletId;
 	}
@@ -215,6 +209,7 @@ public class BatchEnginePortletDataHandler extends BasePortletDataHandler {
 			setDataLevel(DataLevel.SITE);
 		}
 
+		_updateDeletionSystemEventStagedModelTypes();
 		_updateExportControls();
 	}
 
@@ -233,6 +228,7 @@ public class BatchEnginePortletDataHandler extends BasePortletDataHandler {
 
 				iterator.remove();
 
+				_updateDeletionSystemEventStagedModelTypes();
 				_updateExportControls();
 
 				return;
@@ -558,6 +554,13 @@ public class BatchEnginePortletDataHandler extends BasePortletDataHandler {
 			StringPool.FORWARD_SLASH, ExportImportPathUtil.PATH_PREFIX_GROUP,
 			StringPool.FORWARD_SLASH, groupId, StringPool.FORWARD_SLASH,
 			fileName);
+	}
+
+	private void _updateDeletionSystemEventStagedModelTypes() {
+		setDeletionSystemEventStagedModelTypes(
+			TransformUtil.transformToArray(
+				_registrations, this::_getStagedModelType,
+				StagedModelType.class));
 	}
 
 	private void _updateExportControls() {
