@@ -13,8 +13,12 @@ import com.liferay.batch.engine.pagination.Pagination;
 import com.liferay.batch.engine.strategy.BatchEngineImportStrategy;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.search.BooleanClauseOccur;
+import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Sort;
+import com.liferay.portal.kernel.search.filter.BooleanFilter;
 import com.liferay.portal.kernel.search.filter.Filter;
+import com.liferay.portal.kernel.search.filter.TermsFilter;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.odata.entity.EntityModel;
@@ -87,18 +91,30 @@ public class BatchEngineTaskItemDelegateExecutor {
 	}
 
 	private Filter _getFilter() throws Exception {
+		TermsFilter siteFilter = null;
+
+		if (_parameters.containsKey("siteId")) {
+			siteFilter = new TermsFilter(Field.GROUP_ID);
+
+			siteFilter.addValue(String.valueOf(_parameters.get("siteId")));
+		}
+
 		String filterString = (String)_parameters.get("filter");
 
 		if (Validator.isNull(filterString)) {
-			return null;
+			return siteFilter;
 		}
 
 		EntityModel entityModel = _batchEngineTaskItemDelegate.getEntityModel(
 			_toMultivaluedMap(_parameters));
 
 		if (entityModel == null) {
-			return null;
+			return siteFilter;
 		}
+
+		BooleanFilter booleanFilter = new BooleanFilter();
+
+		booleanFilter.add(siteFilter, BooleanClauseOccur.MUST);
 
 		FilterParser filterParser = _filterParserProvider.provide(entityModel);
 
@@ -106,9 +122,11 @@ public class BatchEngineTaskItemDelegateExecutor {
 			new com.liferay.portal.odata.filter.Filter(
 				filterParser.parse(filterString));
 
-		return _expressionConvert.convert(
+		Filter filter = _expressionConvert.convert(
 			oDataFilter.getExpression(),
 			LocaleUtil.fromLanguageId(_user.getLanguageId()), entityModel);
+
+		return booleanFilter.add(filter, BooleanClauseOccur.MUST);
 	}
 
 	private Map<String, Serializable> _getFilteredParameters() {
