@@ -41,6 +41,8 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.filter.TermsFilter;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.security.permission.PermissionThreadLocal;
 import com.liferay.portal.kernel.service.CompanyLocalService;
@@ -471,8 +473,16 @@ public class BatchEnginePortletDataHandler extends BasePortletDataHandler {
 			batchEngineTaskItemDelegate.setContextUser(user);
 			batchEngineTaskItemDelegate.setLanguageId(user.getLanguageId());
 
+			TermsFilter siteFilter = null;
+
+			if (parameters.containsKey("siteId")) {
+				siteFilter = new TermsFilter(Field.GROUP_ID);
+
+				siteFilter.addValue(String.valueOf(parameters.get("siteId")));
+			}
+
 			Page<?> page = batchEngineTaskItemDelegate.read(
-				null, Pagination.of(1, 1), null, parameters, null);
+				siteFilter, Pagination.of(1, 1), null, parameters, null);
 
 			ManifestSummary manifestSummary =
 				portletDataContext.getManifestSummary();
