@@ -8,6 +8,8 @@ package com.liferay.portal.search.web.internal.configuration.admin.display;
 import com.liferay.configuration.admin.constants.ConfigurationAdminPortletKeys;
 import com.liferay.configuration.admin.display.ConfigurationFormRenderer;
 import com.liferay.frontend.taglib.servlet.taglib.util.JSPRenderer;
+import com.liferay.object.model.ObjectDefinition;
+import com.liferay.object.service.ObjectDefinitionLocalService;
 import com.liferay.petra.string.CharPool;
 import com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil;
 import com.liferay.portal.kernel.language.Language;
@@ -22,6 +24,7 @@ import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.search.configuration.SemanticSearchConfiguration;
 import com.liferay.portal.search.configuration.SemanticSearchConfigurationProvider;
 import com.liferay.portal.search.engine.SearchEngineInformation;
@@ -170,8 +173,8 @@ public class SemanticSearchConfigurationFormRenderer
 	private Map<String, String> _getAvailableModelClassNames(
 		HttpServletRequest httpServletRequest) {
 
-		return _sortByValue(
-			HashMapBuilder.put(
+		Map<String, String> availableModelClassNames =
+			HashMapBuilder.<String, String>put(
 				"com.liferay.blogs.model.BlogsEntry",
 				_language.get(
 					httpServletRequest,
@@ -202,7 +205,28 @@ public class SemanticSearchConfigurationFormRenderer
 				_language.get(
 					httpServletRequest,
 					"model.resource.com.liferay.wiki.model.WikiPage")
-			).build());
+			).build();
+
+		ThemeDisplay themeDisplay =
+			(ThemeDisplay)httpServletRequest.getAttribute(WebKeys.THEME_DISPLAY);
+
+		if (themeDisplay != null) {
+			for (ObjectDefinition objectDefinition :
+					_objectDefinitionLocalService.getObjectDefinitions(
+						themeDisplay.getCompanyId(), true,
+						WorkflowConstants.STATUS_APPROVED)) {
+//is active?
+				if (!objectDefinition.isEnableIndexSearch()) {
+					continue;
+				}
+
+				availableModelClassNames.putIfAbsent(
+					objectDefinition.getClassName(),
+					objectDefinition.getLabel(themeDisplay.getLocale(), true));
+			}
+		}
+
+		return _sortByValue(availableModelClassNames);
 	}
 
 	private Map<String, String> _getAvailableTextEmbeddingProviders(
@@ -265,6 +289,9 @@ public class SemanticSearchConfigurationFormRenderer
 
 	@Reference
 	private Language _language;
+
+	@Reference
+	private ObjectDefinitionLocalService _objectDefinitionLocalService;
 
 	@Reference
 	private Portal _portal;
