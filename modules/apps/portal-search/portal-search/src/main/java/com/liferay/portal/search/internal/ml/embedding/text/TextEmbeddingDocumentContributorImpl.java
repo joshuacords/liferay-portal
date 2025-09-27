@@ -5,6 +5,7 @@
 
 package com.liferay.portal.search.internal.ml.embedding.text;
 
+import com.liferay.object.model.ObjectEntry;
 import com.liferay.petra.string.StringBundler;
 import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.feature.flag.FeatureFlagManagerUtil;
@@ -141,6 +142,18 @@ public class TextEmbeddingDocumentContributorImpl
 
 		Class<?> clazz = model.getModelClass();
 
+		String modelClassName = clazz.getName();
+
+		if (model instanceof ObjectEntry) {
+			ObjectEntry objectEntry = (ObjectEntry)model;
+
+			modelClassName = objectEntry.getModelClassName();
+
+			if (Validator.isNull(modelClassName)) {
+				modelClassName = clazz.getName();
+			}
+		}
+
 		try {
 			for (String textEmbeddingProviderConfigurationJSON :
 					semanticSearchConfiguration.
@@ -152,7 +165,7 @@ public class TextEmbeddingDocumentContributorImpl
 
 				if (!ArrayUtil.contains(
 						embeddingProviderConfiguration.getModelClassNames(),
-						clazz.getName())) {
+						modelClassName)) {
 
 					continue;
 				}
