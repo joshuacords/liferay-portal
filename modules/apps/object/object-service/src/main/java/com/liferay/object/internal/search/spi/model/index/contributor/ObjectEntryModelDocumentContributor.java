@@ -40,6 +40,7 @@ import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portal.search.ml.embedding.text.TextEmbeddingDocumentContributor;
 import com.liferay.portal.search.spi.model.index.contributor.ModelDocumentContributor;
 
 import java.io.Serializable;
@@ -72,7 +73,8 @@ public class ObjectEntryModelDocumentContributor
 		ObjectEntryFolderLocalService objectEntryFolderLocalService,
 		ObjectEntryLocalService objectEntryLocalService,
 		ObjectFieldLocalService objectFieldLocalService,
-		ObjectFolderLocalService objectFolderLocalService) {
+		ObjectFolderLocalService objectFolderLocalService,
+		TextEmbeddingDocumentContributor textEmbeddingDocumentContributor) {
 
 		_accountEntryOrganizationRelLocalService =
 			accountEntryOrganizationRelLocalService;
@@ -82,6 +84,7 @@ public class ObjectEntryModelDocumentContributor
 		_objectEntryLocalService = objectEntryLocalService;
 		_objectFieldLocalService = objectFieldLocalService;
 		_objectFolderLocalService = objectFolderLocalService;
+		_textEmbeddingDocumentContributor = textEmbeddingDocumentContributor;
 	}
 
 	@Override
@@ -479,6 +482,9 @@ public class ObjectEntryModelDocumentContributor
 		document.add(
 			new Field("objectEntryTitle", objectEntry.getTitleValue()));
 
+		_contributeTextEmbedding(
+			objectEntryContents, document, objectEntry, defaultLanguageId);
+
 		ObjectFolder objectFolder = _objectFolderLocalService.getObjectFolder(
 			objectDefinition.getObjectFolderId());
 
@@ -527,6 +533,40 @@ public class ObjectEntryModelDocumentContributor
 			rootObjectEntryFolder.getObjectEntryFolderId() ==
 				objectEntryFolderId);
 		document.addKeyword("cms_section", cmsSection);
+	}
+
+	private void _contributeTextEmbedding(
+			Map<String, String> objectEntryContents, Document document,
+			ObjectEntry objectEntry, String defaultLanguageId)
+		throws Exception {
+
+		if (objectEntryContents.isEmpty()) {
+			if (Validator.isNull(defaultLanguageId)) {
+				return;
+			}
+
+			_textEmbeddingDocumentContributor.contribute(
+				document, defaultLanguageId, objectEntry,
+				objectEntry.getTitleValue(defaultLanguageId, true));
+
+			return;
+		}
+
+		for (Map.Entry<String, String> entry : objectEntryContents.entrySet()) {
+			String languageId = GetterUtil.getString(
+				entry.getKey(), defaultLanguageId);
+
+			if (Validator.isNull(languageId)) {
+				continue;
+			}
+
+			_textEmbeddingDocumentContributor.contribute(
+				document, languageId, objectEntry,
+				StringBundler.concat(
+					objectEntry.getTitleValue(languageId, true),
+					StringPool.PERIOD, StringPool.SPACE,
+					GetterUtil.getString(entry.getValue())));
+		}
 	}
 
 	private String _getCMSSection(String externalReferenceCode) {
@@ -607,5 +647,7 @@ public class ObjectEntryModelDocumentContributor
 	private final ObjectEntryLocalService _objectEntryLocalService;
 	private final ObjectFieldLocalService _objectFieldLocalService;
 	private final ObjectFolderLocalService _objectFolderLocalService;
+	private final TextEmbeddingDocumentContributor
+		_textEmbeddingDocumentContributor;
 
 }
