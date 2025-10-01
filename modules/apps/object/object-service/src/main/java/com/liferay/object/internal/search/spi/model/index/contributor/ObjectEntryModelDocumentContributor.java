@@ -31,6 +31,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.FieldArray;
+import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.Base64;
 import com.liferay.portal.kernel.util.BigDecimalUtil;
 import com.liferay.portal.kernel.util.FastDateFormatFactoryUtil;
@@ -49,11 +50,13 @@ import java.math.BigDecimal;
 
 import java.text.Format;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.TreeMap;
 
 /**
@@ -114,8 +117,8 @@ public class ObjectEntryModelDocumentContributor
 	}
 
 	private void _appendToContent(
-		ObjectContentHelper objectContentHelper, String locale,
-		String objectFieldName, String valueString) {
+		ObjectContentHelper objectContentHelper, String objectFieldName,
+		String valueString, String... languageIds) {
 
 		StringBundler sb = new StringBundler(4);
 
@@ -124,20 +127,21 @@ public class ObjectEntryModelDocumentContributor
 		sb.append(valueString);
 		sb.append(StringPool.COMMA_AND_SPACE);
 
-		if (locale != null) {
-			objectContentHelper.contributeToLocale(locale, sb);
-		}
-		else {
+		if (languageIds == null) {
 			objectContentHelper.contributeToAll(sb);
+
+			return;
 		}
+
+		objectContentHelper.contributeToLocale(sb, languageIds);
 	}
 
 	private void _contribute(
 		Document document, FieldArray fieldArray, String fieldName,
-		Object fieldValue, String locale,
-		ObjectContentHelper objectContentHelper,
+		Object fieldValue, ObjectContentHelper objectContentHelper,
 		ObjectDefinition objectDefinition, ObjectEntry objectEntry,
-		ObjectField objectField, Map<String, Serializable> values) {
+		ObjectField objectField, Map<String, Serializable> values,
+		String... languageIds) {
 
 		if (!objectField.isIndexed()) {
 			return;
@@ -215,13 +219,13 @@ public class ObjectEntryModelDocumentContributor
 				StringUtil.lowerCase(valueString));
 
 			_appendToContent(
-				objectContentHelper, locale, fieldName, valueString);
+				objectContentHelper, fieldName, valueString, languageIds);
 		}
 		else if (fieldValue instanceof BigDecimal) {
 			_addField(fieldArray, fieldName, "value_double", valueString);
 
 			_appendToContent(
-				objectContentHelper, locale, fieldName, valueString);
+				objectContentHelper, fieldName, valueString, languageIds);
 		}
 		else if (fieldValue instanceof Boolean) {
 			_addField(fieldArray, fieldName, "value_boolean", valueString);
@@ -230,7 +234,7 @@ public class ObjectEntryModelDocumentContributor
 				_translate((Boolean)fieldValue));
 
 			_appendToContent(
-				objectContentHelper, locale, fieldName, valueString);
+				objectContentHelper, fieldName, valueString, languageIds);
 		}
 		else if (fieldValue instanceof Date) {
 			_addField(
@@ -238,26 +242,26 @@ public class ObjectEntryModelDocumentContributor
 				_getDateString(fieldValue));
 
 			_appendToContent(
-				objectContentHelper, locale, fieldName,
-				_getDateString(fieldValue));
+				objectContentHelper, fieldName, _getDateString(fieldValue),
+				languageIds);
 		}
 		else if (fieldValue instanceof Double) {
 			_addField(fieldArray, fieldName, "value_double", valueString);
 
 			_appendToContent(
-				objectContentHelper, locale, fieldName, valueString);
+				objectContentHelper, fieldName, valueString, languageIds);
 		}
 		else if (fieldValue instanceof Integer) {
 			_addField(fieldArray, fieldName, "value_integer", valueString);
 
 			_appendToContent(
-				objectContentHelper, locale, fieldName, valueString);
+				objectContentHelper, fieldName, valueString, languageIds);
 		}
 		else if (fieldValue instanceof Long) {
 			_addField(fieldArray, fieldName, "value_long", valueString);
 
 			_appendToContent(
-				objectContentHelper, locale, fieldName, valueString);
+				objectContentHelper, fieldName, valueString, languageIds);
 		}
 		else if (fieldValue instanceof String) {
 			if (Validator.isBlank(objectField.getIndexedLanguageId())) {
@@ -265,7 +269,8 @@ public class ObjectEntryModelDocumentContributor
 			}
 			else if (objectField.isLocalized()) {
 				_addField(
-					fieldArray, fieldName, "value_" + locale, valueString);
+					fieldArray, fieldName, "value_" + languageIds[0],
+					valueString);
 			}
 			else {
 				_addField(
@@ -278,7 +283,7 @@ public class ObjectEntryModelDocumentContributor
 				_getSortableValue(valueString));
 
 			_appendToContent(
-				objectContentHelper, locale, fieldName, valueString);
+				objectContentHelper, fieldName, valueString, languageIds);
 		}
 		else if (fieldValue instanceof byte[]) {
 			_addField(
@@ -347,25 +352,23 @@ public class ObjectEntryModelDocumentContributor
 					continue;
 				}
 
-				for (Map.Entry<String, Object> localeMap :
-						localizedValues.entrySet()) {
+				Set<String> objectFieldLanguageIds = localizedValues.keySet();
 
+				for (String languageId : objectFieldLanguageIds) {
 					_contribute(
 						document, fieldArray, objectField.getName(),
-						localizedValues.get(localeMap.getKey()),
-						LocaleUtil.fromLanguageId(
-							localeMap.getKey(), true, false
-						).toString(),
-						objectContentHelper, objectDefinition, objectEntry,
-						objectField, values);
+						localizedValues.get(languageId), objectContentHelper,
+						objectDefinition, objectEntry, objectField, values,
+						_getLanguageIds(
+							languageId, objectContentHelper, objectEntry,
+							objectFieldLanguageIds));
 				}
 			}
 			else {
 				_contribute(
 					document, fieldArray, objectField.getName(),
-					values.get(objectField.getName()), null,
-					objectContentHelper, objectDefinition, objectEntry,
-					objectField, values);
+					values.get(objectField.getName()), objectContentHelper,
+					objectDefinition, objectEntry, objectField, values, null);
 			}
 		}
 
@@ -374,8 +377,6 @@ public class ObjectEntryModelDocumentContributor
 		document.add(
 			new Field(
 				"objectEntryContent", objectContentHelper.getBaseContent()));
-
-		objectContentHelper.getLocalizedContentMap();
 
 		document.addKeyword("objectEntryId", objectEntry.getObjectEntryId());
 		document.add(
@@ -451,6 +452,31 @@ public class ObjectEntryModelDocumentContributor
 		return _format.format(value);
 	}
 
+	private String[] _getLanguageIds(
+		String languageId, ObjectContentHelper objectContentHelper,
+		ObjectEntry objectEntry, Set<String> objectFieldLanguageIds) {
+
+		if (!languageId.equals(objectEntry.getDefaultLanguageId())) {
+			return new String[] {
+				LocaleUtil.fromLanguageId(
+					languageId, true, false
+				).toString()
+			};
+		}
+
+		List<String> languageIds = new ArrayList<>();
+
+		languageIds.add(languageId);
+
+		for (String missingLanguageId : objectContentHelper.getLanguageIds()) {
+			if (!objectFieldLanguageIds.contains(missingLanguageId)) {
+				languageIds.add(missingLanguageId);
+			}
+		}
+
+		return ArrayUtil.toStringArray(languageIds);
+	}
+
 	private ObjectEntryFolder _getRootObjectEntryFolder(
 		ObjectEntryFolder objectEntryFolder) {
 
@@ -524,18 +550,27 @@ public class ObjectEntryModelDocumentContributor
 			}
 		}
 
-		public void contributeToLocale(String locale, StringBundler sb) {
+		public void contributeToLocale(
+			StringBundler sb, String... languageIds) {
+
 			_baseSB.append(sb);
 
-			StringBundler localizedSB = _localizedStringBundlers.get(locale);
+			for (String languageId : languageIds) {
+				StringBundler localizedSB = _localizedStringBundlers.get(
+					languageId);
 
-			if (localizedSB != null) {
-				localizedSB.append(sb);
+				if (localizedSB != null) {
+					localizedSB.append(sb);
+				}
 			}
 		}
 
 		public String getBaseContent() {
 			return _baseSB.toString();
+		}
+
+		public Set<String> getLanguageIds() {
+			return _localizedStringBundlers.keySet();
 		}
 
 		public Map<String, String> getLocalizedContentMap() {
