@@ -56,52 +56,15 @@ public class ObjectEntryModelDocumentContributorTest {
 
 	@Before
 	public void setUp() throws Exception {
-		_originalFastDateFormatFactory = ReflectionTestUtil.getFieldValue(
-			FastDateFormatFactoryUtil.class, "_fastDateFormatFactory");
-
-		FastDateFormatFactory fastDateFormatFactory = Mockito.mock(
-			FastDateFormatFactory.class);
-
-		Mockito.when(
-			fastDateFormatFactory.getSimpleDateFormat("yyyyMMddHHmmss")
-		).thenReturn(
-			new SimpleDateFormat("yyyyMMddHHmmss")
-		);
-
-		ReflectionTestUtil.setFieldValue(
-			FastDateFormatFactoryUtil.class, "_fastDateFormatFactory",
-			fastDateFormatFactory);
-
-		_accountEntryOrganizationRelLocalService = Mockito.mock(
-			AccountEntryOrganizationRelLocalService.class);
-		_objectDefinitionLocalService = Mockito.mock(
-			ObjectDefinitionLocalService.class);
-		_objectEntryFolderLocalService = Mockito.mock(
-			ObjectEntryFolderLocalService.class);
-		_objectEntryLocalService = Mockito.mock(ObjectEntryLocalService.class);
-		_objectFieldLocalService = Mockito.mock(ObjectFieldLocalService.class);
-		_objectFolderLocalService = Mockito.mock(
-			ObjectFolderLocalService.class);
-		_textEmbeddingDocumentContributor = Mockito.mock(
-			TextEmbeddingDocumentContributor.class);
-
-		_objectEntryModelDocumentContributor =
-			new ObjectEntryModelDocumentContributor(
-				_accountEntryOrganizationRelLocalService,
-				ObjectEntry.class.getName(), _objectDefinitionLocalService,
-				_objectEntryFolderLocalService, _objectEntryLocalService,
-				_objectFieldLocalService, _objectFolderLocalService,
-				_textEmbeddingDocumentContributor);
-
-		_objectDefinitionId = RandomTestUtil.randomLong();
-		_objectEntryId = RandomTestUtil.randomLong();
-		_companyId = RandomTestUtil.randomLong();
-
-		_setUpObjectDefinition();
-		_setUpObjectField();
-		_setUpObjectFolder();
-		_setUpObjectEntry();
-		_setUpDocument();
+		_mockFastDateFormatFactory();
+		_mockServices();
+		_seedIdentifiers();
+		_initializeContributor();
+		_mockObjectDefinition();
+		_mockObjectField();
+		_mockObjectFolder();
+		_mockObjectEntry();
+		_document = _createDocument();
 	}
 
 	@After
@@ -112,12 +75,12 @@ public class ObjectEntryModelDocumentContributorTest {
 	}
 
 	@Test
-	public void testObjectEntryNonlocalizedTextEmbeddings() throws Exception {
+	public void testObjectEntryNonlocalizedTextEmbeddings() {
 		_objectEntryModelDocumentContributor.contribute(
 			_document, _objectEntry);
 
 		String expectedContent = String.format(
-			"textField: %s", _values.get("textField"));
+			"textField: %s", _textFieldValue);
 
 		Mockito.verify(
 			_textEmbeddingDocumentContributor
@@ -134,14 +97,44 @@ public class ObjectEntryModelDocumentContributorTest {
 		);
 	}
 
-	private void _setUpDocument() {
-		_document = new DocumentImpl();
+	private Document _createDocument() {
+		Document document = new DocumentImpl();
 
-		_document.addKeyword(
+		document.addKeyword(
 			Field.ENTRY_CLASS_PK, String.valueOf(_objectEntryId));
+
+		return document;
 	}
 
-	private void _setUpObjectDefinition() throws Exception {
+	private void _initializeContributor() {
+		_objectEntryModelDocumentContributor =
+			new ObjectEntryModelDocumentContributor(
+				_accountEntryOrganizationRelLocalService,
+				ObjectEntry.class.getName(), _objectDefinitionLocalService,
+				_objectEntryFolderLocalService, _objectEntryLocalService,
+				_objectFieldLocalService, _objectFolderLocalService,
+				_textEmbeddingDocumentContributor);
+	}
+
+	private void _mockFastDateFormatFactory() {
+		_originalFastDateFormatFactory = ReflectionTestUtil.getFieldValue(
+			FastDateFormatFactoryUtil.class, "_fastDateFormatFactory");
+
+		FastDateFormatFactory fastDateFormatFactory = Mockito.mock(
+			FastDateFormatFactory.class);
+
+		Mockito.when(
+			fastDateFormatFactory.getSimpleDateFormat("yyyyMMddHHmmss")
+		).thenReturn(
+			new SimpleDateFormat("yyyyMMddHHmmss")
+		);
+
+		ReflectionTestUtil.setFieldValue(
+			FastDateFormatFactoryUtil.class, "_fastDateFormatFactory",
+			fastDateFormatFactory);
+	}
+
+	private void _mockObjectDefinition() throws Exception {
 		_objectDefinition = Mockito.mock(ObjectDefinition.class);
 
 		Mockito.when(
@@ -176,9 +169,9 @@ public class ObjectEntryModelDocumentContributorTest {
 		);
 	}
 
-	private void _setUpObjectEntry() throws Exception {
+	private void _mockObjectEntry() throws Exception {
 		_values = HashMapBuilder.<String, Serializable>put(
-			"textField", RandomTestUtil.randomString()
+			"textField", _textFieldValue
 		).build();
 
 		_objectEntry = Mockito.mock(ObjectEntry.class);
@@ -220,7 +213,7 @@ public class ObjectEntryModelDocumentContributorTest {
 		);
 	}
 
-	private void _setUpObjectField() throws Exception {
+	private void _mockObjectField() {
 		_objectField = Mockito.mock(ObjectField.class);
 
 		Mockito.when(
@@ -260,7 +253,7 @@ public class ObjectEntryModelDocumentContributorTest {
 		);
 	}
 
-	private void _setUpObjectFolder() throws Exception {
+	private void _mockObjectFolder() throws Exception {
 		_objectFolder = Mockito.mock(ObjectFolder.class);
 
 		Mockito.when(
@@ -284,6 +277,28 @@ public class ObjectEntryModelDocumentContributorTest {
 		);
 	}
 
+	private void _mockServices() {
+		_accountEntryOrganizationRelLocalService = Mockito.mock(
+			AccountEntryOrganizationRelLocalService.class);
+		_objectDefinitionLocalService = Mockito.mock(
+			ObjectDefinitionLocalService.class);
+		_objectEntryFolderLocalService = Mockito.mock(
+			ObjectEntryFolderLocalService.class);
+		_objectEntryLocalService = Mockito.mock(ObjectEntryLocalService.class);
+		_objectFieldLocalService = Mockito.mock(ObjectFieldLocalService.class);
+		_objectFolderLocalService = Mockito.mock(
+			ObjectFolderLocalService.class);
+		_textEmbeddingDocumentContributor = Mockito.mock(
+			TextEmbeddingDocumentContributor.class);
+	}
+
+	private void _seedIdentifiers() {
+		_companyId = RandomTestUtil.randomLong();
+		_objectDefinitionId = RandomTestUtil.randomLong();
+		_objectEntryId = RandomTestUtil.randomLong();
+		_textFieldValue = RandomTestUtil.randomString();
+	}
+
 	private AccountEntryOrganizationRelLocalService
 		_accountEntryOrganizationRelLocalService;
 	private long _companyId;
@@ -303,6 +318,7 @@ public class ObjectEntryModelDocumentContributorTest {
 	private ObjectFolderLocalService _objectFolderLocalService;
 	private FastDateFormatFactory _originalFastDateFormatFactory;
 	private TextEmbeddingDocumentContributor _textEmbeddingDocumentContributor;
+	private String _textFieldValue;
 	private Map<String, Serializable> _values;
 
 }
