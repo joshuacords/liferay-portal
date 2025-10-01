@@ -54,9 +54,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 /**
  * @author Marco Leo
@@ -337,7 +335,7 @@ public class ObjectEntryModelDocumentContributor
 				objectEntry.getObjectDefinitionId(), false);
 
 		ObjectContentHelper objectContentHelper = new ObjectContentHelper(
-			objectEntry, objectDefinition, objectFields);
+			objectEntry, objectFields, _textEmbeddingDocumentContributor);
 
 		for (ObjectField objectField : objectFields) {
 			if (objectField.isLocalized()) {
@@ -531,7 +529,9 @@ public class ObjectEntryModelDocumentContributor
 
 			StringBundler localizedSB = _localizedStringBundlers.get(locale);
 
-			localizedSB.append(sb);
+			if (localizedSB != null) {
+				localizedSB.append(sb);
+			}
 		}
 
 		public String getBaseContent() {
@@ -573,68 +573,23 @@ public class ObjectEntryModelDocumentContributor
 		}
 
 		private ObjectContentHelper(
-			ObjectEntry objectEntry, ObjectDefinition objectDefinition,
-			List<ObjectField> objectFields) {
+			ObjectEntry objectEntry, List<ObjectField> objectFields,
+			TextEmbeddingDocumentContributor textEmbeddingDocumentContributor) {
 
 			_baseSB = new StringBundler(objectFields.size());
 
-			_localizedStringBundlers = _getContentStringBundlerMap(
-				objectEntry, objectDefinition, objectFields);
-		}
+			for (String languageId :
+					textEmbeddingDocumentContributor.getLanguageIds(
+						objectEntry)) {
 
-		private Map<String, StringBundler> _getContentStringBundlerMap(
-			ObjectEntry objectEntry, ObjectDefinition objectDefinition,
-			List<ObjectField> objectFields) {
-
-			String defaultLanguageId = GetterUtil.getString(
-				objectEntry.getDefaultLanguageId(),
-				objectDefinition.getDefaultLanguageId());
-
-			if (Validator.isNull(defaultLanguageId)) {
-				defaultLanguageId = LocaleUtil.toLanguageId(
-					LocaleUtil.getDefault());
-			}
-
-			Set<String> availableLanguageIds = new TreeSet<>();
-
-			if (Validator.isNotNull(defaultLanguageId)) {
-				availableLanguageIds.add(defaultLanguageId);
-			}
-
-			for (ObjectField objectField : objectFields) {
-				if (!objectField.isLocalized()) {
-					continue;
-				}
-
-				Map<String, Object> localizedValues =
-					(Map<String, Object>)objectEntry.getValues(
-					).get(
-						objectField.getI18nObjectFieldName()
-					);
-
-				if (MapUtil.isEmpty(localizedValues)) {
-					continue;
-				}
-
-				availableLanguageIds.addAll(localizedValues.keySet());
-			}
-
-			if (availableLanguageIds.isEmpty()) {
-				availableLanguageIds.add(defaultLanguageId);
-			}
-
-			Map<String, StringBundler> contentStringBundlers = new TreeMap<>();
-
-			for (String languageId : availableLanguageIds) {
-				contentStringBundlers.put(
+				_localizedStringBundlers.put(
 					languageId, new StringBundler(objectFields.size() * 4));
 			}
-
-			return contentStringBundlers;
 		}
 
 		private final StringBundler _baseSB;
-		private final Map<String, StringBundler> _localizedStringBundlers;
+		private final Map<String, StringBundler> _localizedStringBundlers =
+			new TreeMap<>();
 
 	}
 
